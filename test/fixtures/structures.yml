@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  structure_type: MyString
+  name: MyString
+  street: MyText
+  zip_code: MyString
+  adress_info: MyString
+  annual_price_child: 1
+  annual_price_adult: 1
+
+two:
+  structure_type: MyString
+  name: MyString
+  street: MyText
+  zip_code: MyString
+  adress_info: MyString
+  annual_price_child: 1
+  annual_price_adult: 1

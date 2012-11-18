@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  surface: 1
+  cloakroomVestiaire: MyString
+  info: MyText
+  regular_renting_price: 1
+  minimum_price: 1
+  maximum_price: 1
+  price_info: MyText
+  contact: MyText
+
+two:
+  name: MyString
+  surface: 1
+  cloakroomVestiaire: MyString
+  info: MyText
+  regular_renting_price: 1
+  minimum_price: 1
+  maximum_price: 1
+  price_info: MyText
+  contact: MyText

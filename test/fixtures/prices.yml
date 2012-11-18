@@ -1,0 +1,63 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  individual_course_prce: 1
+  annual_price: 1
+  trimester_price: 1
+  month_price: 1
+  week_price: 1
+  5_lessons_price: 1
+  5_lessons_validity: 1
+  10_lessons_price: 1
+  10_lessons_validity: 1
+  20_lessons_price: 1
+  20_lessons_validity: 1
+  30_lessons_price: 1
+  30_lessons_validity: 1
+  40_lessons_price: 1
+  40_lessons_validity: 1
+  50_lessons_price: 1
+  50_lessons_validity: 1
+  1_lesson_per_week_package_price: 1
+  1_lesson_per_week_package_validity: 1
+  2_lesson_per_week_package_price: 1
+  2_lesson_per_week_package_validity: 1
+  unlimited_access_price: 1
+  unlimited_access_validity: 1
+  excluded_lesson_from_unlimited_access_card: MyText
+  price_info_1: MyText
+  price_info_2: MyText
+  exceptional_offer: MyText
+  détails_1: MyText
+  détails_2: MyText
+
+two:
+  individual_course_prce: 1
+  annual_price: 1
+  trimester_price: 1
+  month_price: 1
+  week_price: 1
+  5_lessons_price: 1
+  5_lessons_validity: 1
+  10_lessons_price: 1
+  10_lessons_validity: 1
+  20_lessons_price: 1
+  20_lessons_validity: 1
+  30_lessons_price: 1
+  30_lessons_validity: 1
+  40_lessons_price: 1
+  40_lessons_validity: 1
+  50_lessons_price: 1
+  50_lessons_validity: 1
+  1_lesson_per_week_package_price: 1
+  1_lesson_per_week_package_validity: 1
+  2_lesson_per_week_package_price: 1
+  2_lesson_per_week_package_validity: 1
+  unlimited_access_price: 1
+  unlimited_access_validity: 1
+  excluded_lesson_from_unlimited_access_card: MyText
+  price_info_1: MyText
+  price_info_2: MyText
+  exceptional_offer: MyText
+  détails_1: MyText
+  détails_2: MyText
