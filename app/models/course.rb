@@ -1,10 +1,11 @@
 class Course < ActiveRecord::Base
-  belongs_to :structures
+  belongs_to :structure
 
   has_and_belongs_to_many :audiences
   has_and_belongs_to_many :levels
 
-  has_one :discipline
+  belongs_to :discipline
+
   has_one :price
   has_one :planning
 

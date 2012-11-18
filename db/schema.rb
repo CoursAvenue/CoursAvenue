@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20121118170643) do
     t.integer  "min_age_for_kid"
     t.boolean  "is_individual"
     t.integer  "structure_id"
+    t.integer  "discipline_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end

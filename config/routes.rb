@@ -1,5 +1,9 @@
 LeBonCours::Application.routes.draw do
-  resources :courses, :only => [:index]
+
+  #get 'courses/:discipline' => 'course#index', :as => :search_for_courses
+  resources :courses         , :only => [:index, :show], :controller => 'courses', :type => Course.name
+  resources :course_lessons  , :only => [:show]        , :controller => 'courses', :type => Course::Lesson.name
+  resources :course_trainings, :only => [:show]        , :controller => 'courses', :type => Course::Training.name
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

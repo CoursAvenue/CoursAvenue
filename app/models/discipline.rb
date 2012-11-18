@@ -1,7 +1,7 @@
 class Discipline < ActiveRecord::Base
   has_ancestry
 
-  belongs_to :discipline
+  has_many :course
 
   attr_accessible :name
 

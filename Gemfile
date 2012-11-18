@@ -32,7 +32,8 @@ group :test do
 end
 
 group :development, :test do
-  gem 'ruby-debug19'
+  #gem 'ruby-debug19'
+  gem 'debugger'
   gem 'thin'
 end
 

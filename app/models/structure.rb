@@ -12,11 +12,11 @@ class Structure < ActiveRecord::Base
   validates :name, :uniqueness => true
 
   attr_accessible :adress_info,
+                  :structure_type,
                   :name,
                   :annual_price_adult,
                   :annual_price_child,
                   :street,
-                  :structure_type,
                   :zip_code,
                   :annual_membership_mandatory,
                   :closed_days,

@@ -1,3 +1,8 @@
-%ul
-- @courses.each do |course|
-  %li= course
+= render 'search_form'
+
+.gw
+  %section.g.three-quarter
+    %ul
+    - @courses.each do |course|
+      %li
+        =link_to course.discipline.name, course
