@@ -9,7 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require_tree /partials/base/*
- *= require_tree /partials/generic/*
- *= require_tree /partials/objects/*
+ *= require /partials/base/*
+ *= require /partials/generic/*
+ *= require /partials/objects/*
  */
