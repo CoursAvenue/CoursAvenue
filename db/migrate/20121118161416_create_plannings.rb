@@ -23,7 +23,7 @@ class CreatePlannings < ActiveRecord::Migration
       t.time    :start_time
       t.time    :end_time
       t.time    :duration
-      t.boolean :class_during_holidays?
+      t.boolean :class_during_holidays
 
       t.references :course
 

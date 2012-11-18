@@ -30,7 +30,7 @@ class CreatePrices < ActiveRecord::Migration
       t.text    :exceptional_offer
       t.text    :details_1
       t.text    :details_2
-      t.boolean :is_free?, :default => false
+      t.boolean :is_free, :default => false
 
       t.references :course
       t.timestamps

@@ -32,7 +32,8 @@ ActiveRecord::Schema.define(:version => 20121118162928) do
     t.text     "lesson_info_2"
     t.integer  "max_age_for_kid"
     t.integer  "min_age_for_kid"
-    t.boolean  "is_individual?"
+    t.boolean  "is_individual"
+    t.integer  "structure_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
@@ -73,10 +74,10 @@ ActiveRecord::Schema.define(:version => 20121118162928) do
     t.time     "start_time"
     t.time     "end_time"
     t.time     "duration"
-    t.boolean  "class_during_holidays?"
+    t.boolean  "class_during_holidays"
     t.integer  "course_id"
-    t.datetime "created_at",             :null => false
-    t.datetime "updated_at",             :null => false
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
   end
 
   create_table "prices", :force => true do |t|
@@ -109,7 +110,7 @@ ActiveRecord::Schema.define(:version => 20121118162928) do
     t.text     "exceptional_offer"
     t.text     "details_1"
     t.text     "details_2"
-    t.boolean  "is_free?",                                   :default => false
+    t.boolean  "is_free",                                    :default => false
     t.integer  "course_id"
     t.datetime "created_at",                                                    :null => false
     t.datetime "updated_at",                                                    :null => false
@@ -125,12 +126,12 @@ ActiveRecord::Schema.define(:version => 20121118162928) do
     t.integer  "maximum_price"
     t.text     "price_info"
     t.text     "contact"
-    t.boolean  "has_bars?"
-    t.boolean  "has_mirrors?"
-    t.boolean  "has_sound?"
-    t.boolean  "has_carpets?"
-    t.boolean  "has_parquet?"
-    t.boolean  "has_piano?"
+    t.boolean  "has_bars"
+    t.boolean  "has_mirrors"
+    t.boolean  "has_sound"
+    t.boolean  "has_carpets"
+    t.boolean  "has_parquet"
+    t.boolean  "has_piano"
     t.integer  "structure_id"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
@@ -144,35 +145,36 @@ ActiveRecord::Schema.define(:version => 20121118162928) do
     t.string   "adress_info"
     t.integer  "annual_price_child"
     t.integer  "annual_price_adult"
-    t.boolean  "annual_membership_mandatory?"
+    t.boolean  "annual_membership_mandatory"
     t.string   "closed_days"
     t.boolean  "has_handicap_access"
-    t.boolean  "is_professional?"
+    t.boolean  "is_professional"
     t.integer  "room_number"
     t.integer  "location_room_number"
     t.string   "website"
     t.string   "newsletter_address"
-    t.boolean  "online_reservation?"
-    t.boolean  "onlne_reservation_mandatory?"
-    t.boolean  "has_trial_lesson?"
+    t.boolean  "online_reservation"
+    t.boolean  "onlne_reservation_mandatory"
+    t.boolean  "has_trial_lesson"
     t.text     "trial_lesson_info"
     t.string   "trial_lesson_price"
     t.text     "trial_lesson_info_2"
     t.text     "registration_info"
-    t.boolean  "canceleable_without_fee?"
+    t.boolean  "canceleable_without_fee"
     t.integer  "nb_days_before_cancelation"
     t.string   "phone_number"
     t.string   "mobile_phone_number"
     t.string   "email_address"
     t.string   "email_address_2"
     t.string   "contact_name"
-    t.boolean  "accepts_holiday_vouchers?"
-    t.boolean  "accepts_ancv_sports_coupon?"
-    t.boolean  "accepts_leisure_tickets?"
-    t.boolean  "accepts_afdas_funding?"
-    t.boolean  "accepts_dif_funding?"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
+    t.boolean  "accepts_holiday_vouchers"
+    t.boolean  "accepts_ancv_sports_coupon"
+    t.boolean  "accepts_leisure_tickets"
+    t.boolean  "accepts_afdas_funding"
+    t.boolean  "accepts_dif_funding"
+    t.boolean  "has_multiple_place"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
   end
 
 end

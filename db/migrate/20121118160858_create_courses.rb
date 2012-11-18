@@ -6,7 +6,7 @@ class CreateCourses < ActiveRecord::Migration
       t.text :lesson_info_2
       t.integer :max_age_for_kid
       t.integer :min_age_for_kid
-      t.boolean :is_individual?
+      t.boolean :is_individual
 
       t.references :structure
       t.timestamps

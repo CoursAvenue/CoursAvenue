@@ -10,12 +10,12 @@ class CreateRentingRooms < ActiveRecord::Migration
       t.integer :maximum_price
       t.text    :price_info
       t.text    :contact
-      t.boolean :has_bars?
-      t.boolean :has_mirrors?
-      t.boolean :has_sound?
-      t.boolean :has_carpets?
-      t.boolean :has_parquet?
-      t.boolean :has_piano?
+      t.boolean :has_bars
+      t.boolean :has_mirrors
+      t.boolean :has_sound
+      t.boolean :has_carpets
+      t.boolean :has_parquet
+      t.boolean :has_piano
 
       t.references :structure
 
