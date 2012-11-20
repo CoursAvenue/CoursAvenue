@@ -7,7 +7,7 @@ require 'debugger'
 
 namespace :import do
   def course_and_price_hash_from_row(row)
-  course_and_price_hash_from_row =  {
+    {
       structure_name:                                 row[0],
 
       discipline_name:                                row[2],
@@ -23,8 +23,8 @@ namespace :import do
       },
 
       # Course
+      course_class:                                   (row[1] == 'Cours' ? Course::Lesson : Course::Training),
       course: {
-        course_class:                                 (row[1] == 'Cours' ? Course::Lesson : Course::Training),
         min_age_for_kid:                              row[15],
         max_age_for_kid:                              row[16],
         is_individual:                                (row[3] == 'X' ? true : false),
@@ -34,36 +34,36 @@ namespace :import do
 
       # Price
       price: {
-        individual_course_prce:                       row[],
-        annual_price:                                 row[],
-        trimester_price:                              row[],
-        month_price:                                  row[],
-        week_price:                                   row[],
-        five_lessons_price:                           row[],
-        five_lessons_validity:                        row[],
-        ten_lessons_price:                            row[],
-        ten_lessons_validity:                         row[],
-        twenty_lessons_price:                         row[],
-        twenty_lessons_validity:                      row[],
-        thirty_lessons_price:                         row[],
-        thirty_lessons_validity:                      row[],
-        fourty_lessons_price:                         row[],
-        fourty_lessons_validity:                      row[],
-        fifty_lessons_price:                          row[],
-        fifty_lessons_validity:                       row[],
-        one_lesson_per_week_package_price:            row[],
-        one_lesson_per_week_package_validity:         row[],
-        two_lesson_per_week_package_price:            row[],
-        two_lesson_per_week_package_validity:         row[],
-        unlimited_access_price:                       row[],
-        unlimited_access_validity:                    row[],
-        excluded_lesson_from_unlimited_access_car:    row[],
-        price_info_1:                                 row[],
-        price_info_2:                                 row[],
-        exceptional_offer:                            row[],
-        details_1:                                    row[],
-        details_2:                                    row[],
-        is_free:                                      row[]
+        individual_course_prce:                       row[0],
+        annual_price:                                 row[0],
+        trimester_price:                              row[0],
+        month_price:                                  row[0],
+        week_price:                                   row[0],
+        five_lessons_price:                           row[0],
+        five_lessons_validity:                        row[0],
+        ten_lessons_price:                            row[0],
+        ten_lessons_validity:                         row[0],
+        twenty_lessons_price:                         row[0],
+        twenty_lessons_validity:                      row[0],
+        thirty_lessons_price:                         row[0],
+        thirty_lessons_validity:                      row[0],
+        fourty_lessons_price:                         row[0],
+        fourty_lessons_validity:                      row[0],
+        fifty_lessons_price:                          row[0],
+        fifty_lessons_validity:                       row[0],
+        one_lesson_per_week_package_price:            row[0],
+        one_lesson_per_week_package_validity:         row[0],
+        two_lesson_per_week_package_price:            row[0],
+        two_lesson_per_week_package_validity:         row[0],
+        unlimited_access_price:                       row[0],
+        unlimited_access_validity:                    row[0],
+        excluded_lesson_from_unlimited_access_car:    row[0],
+        price_info_1:                                 row[0],
+        price_info_2:                                 row[0],
+        exceptional_offer:                            row[0],
+        details_1:                                    row[0],
+        details_2:                                    row[0],
+        is_free:                                      row[0]
       },
 
       # Planning
@@ -83,28 +83,36 @@ namespace :import do
     csv = CSV.parse(csv_text)
 
     csv.each_with_index do |row, i|
-      next if i == 0
-      row = renting_rooms_hash_from_row(row)
+      next if i == 0 # Skipping headers
+      row = course_and_price_hash_from_row(row)
       structure = Structure.where{name == row[:structure_name]}.first
-
       next if structure.blank?
-
+      if row[:discipline_name].blank?
+        puts "No discipline, check line #{i}"
+      end
+      #################################################################### Discipline
       discipline = Discipline.where{name == row[:discipline_name]}.first
-
       discipline = Discipline.create(name: row[:discipline_name]) if discipline.blank?
+
       course = row[:course_class].create(row[:course])
       course.discipline = discipline
-      row[:audiences].each do |audience_name|
+
+      #################################################################### Associating audiences
+      row[:audiences].each do |key, audience_name|
         audience = Audience.where{name == audience_name}.first
         audience = Audience.create(:name => audience_name) if audience.blank?
         course.audiences << audience
       end
-      row[:levels].each do |level_name|
+
+      #################################################################### Associating levels
+      row[:levels].each do |key, level_name|
         level = Level.where{name == level_name}.first
         level = Level.create(:name => level_name) if level.blank?
         course.levels << level
       end
-
+      structure.courses << course
+      structure.save
+      course.save
     end
   end
 end
