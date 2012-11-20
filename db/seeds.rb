@@ -1,18 +1,36 @@
 # encoding: utf-8
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
 
 ## Discipline
 Discipline.delete_all
-dance = Discipline.create(:name => 'Danse')
-zumba = Discipline.create(:name => 'Zumba')
-zumba.parent = dance
-zumba.save!
+Discipline.create(:name => "Party")
+Discipline.create(:name => "Afro Tonic")
+Discipline.create(:name => "Boxe Tonic")
+Discipline.create(:name => "Housedance")
+Discipline.create(:name => "Hip Hop")
+Discipline.create(:name => "Dancehall")
+Discipline.create(:name => "Jazz")
+Discipline.create(:name => "Afro Tonic")
+Discipline.create(:name => "Barre au sol contemporaine")
+Discipline.create(:name => "Classique")
+Discipline.create(:name => "Barre au sol")
+Discipline.create(:name => "Méthode Feldenkrais")
+Discipline.create(:name => "Contemporain")
+Discipline.create(:name => "Cunningham")
+Discipline.create(:name => "Pilates")
+Discipline.create(:name => "Moderne")
+Discipline.create(:name => "Modern' Jazz")
+Discipline.create(:name => "Contemporain")
+Discipline.create(:name => "Modern' Jazz")
+Discipline.create(:name => "Break")
+Discipline.create(:name => "Barre au sol Jazz")
+Discipline.create(:name => "Contemporain")
+Discipline.create(:name => "Hip Hop")
+Discipline.create(:name => "Hip Hop New Style")
+Discipline.create(:name => "Cabaret Talons")
+Discipline.create(:name => "Lyrical Jazz")
+Discipline.create(:name => "Yoga Vinyasa")
+Discipline.create(:name => "Barre au sol classique")
+zumba = Discipline.create(:name => "Zumba")
 
 ## Audiences
 Audience.delete_all

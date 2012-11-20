@@ -22,7 +22,7 @@ class Structure < ActiveRecord::Base
                   :closed_days,
                   :has_handicap_access,
                   :is_professional,
-                  :room_number,
+                  :nb_room,
                   :location_room_number,
                   :website,
                   :newsletter_address,

@@ -12,7 +12,7 @@ class CreateStructures < ActiveRecord::Migration
       t.string  :closed_days
       t.boolean :has_handicap_access
       t.boolean :is_professional
-      t.integer :room_number
+      t.integer :nb_room
       t.integer :location_room_number
       t.string  :website
       t.string  :newsletter_address

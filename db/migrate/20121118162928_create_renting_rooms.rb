@@ -3,13 +3,13 @@ class CreateRentingRooms < ActiveRecord::Migration
     create_table :renting_rooms do |t|
       t.string  :name
       t.integer :surface
-      t.string  :cloakroomVestiaire
       t.text    :info
       t.integer :regular_renting_price
       t.integer :minimum_price
       t.integer :maximum_price
       t.text    :price_info
       t.text    :contact
+      t.boolean :has_cloakroom
       t.boolean :has_bars
       t.boolean :has_mirrors
       t.boolean :has_sound
