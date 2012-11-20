@@ -8,9 +8,13 @@ require 'debugger'
 namespace :import do
   desc 'Cleaning all the tables'
   task :clean => :environment do |t, args|
-    Structure.delete_all
-    Discipline.delete_all
     Audience.delete_all
     Course.delete_all
+    Discipline.delete_all
+    Level.delete_all
+    Planning.delete_all
+    Price.delete_all
+    RentingRoom.delete_all
+    Structure.delete_all
   end
 end

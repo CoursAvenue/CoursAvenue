@@ -1,8 +1,9 @@
 class CreatePrices < ActiveRecord::Migration
   def change
     create_table :prices do |t|
-      t.integer :individual_course_prce
+      t.integer :individual_course_price
       t.integer :annual_price
+      t.integer :semester_price
       t.integer :trimester_price
       t.integer :month_price
       t.integer :week_price

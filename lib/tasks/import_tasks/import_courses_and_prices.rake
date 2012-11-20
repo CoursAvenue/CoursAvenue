@@ -34,9 +34,10 @@ namespace :import do
 
       # Price
       price: {
-        individual_course_prce:                       row[0],
-        annual_price:                                 row[0],
-        trimester_price:                              row[0],
+        individual_course_price:                      row[45],
+        annual_price:                                 row[46],
+        semester_price:                               row[48],
+        trimester_price:                              row[49],
         month_price:                                  row[0],
         week_price:                                   row[0],
         five_lessons_price:                           row[0],
@@ -51,13 +52,13 @@ namespace :import do
         fourty_lessons_validity:                      row[0],
         fifty_lessons_price:                          row[0],
         fifty_lessons_validity:                       row[0],
-        one_lesson_per_week_package_price:            row[0],
+        one_lesson_per_week_package_price:            row[48],
         one_lesson_per_week_package_validity:         row[0],
-        two_lesson_per_week_package_price:            row[0],
+        two_lesson_per_week_package_price:            row[47],
         two_lesson_per_week_package_validity:         row[0],
         unlimited_access_price:                       row[0],
         unlimited_access_validity:                    row[0],
-        excluded_lesson_from_unlimited_access_car:    row[0],
+        excluded_lesson_from_unlimited_access_card:   row[0],
         price_info_1:                                 row[0],
         price_info_2:                                 row[0],
         exceptional_offer:                            row[0],
@@ -68,7 +69,29 @@ namespace :import do
 
       # Planning
       planning: {
-
+        start_date:                                   row[23],
+        start_time:                                   row[22],
+        week_day:                                     row[21]#,
+        # day_one:                                      row[0],
+        # day_one_duration:                             row[0],
+        # day_one_start_time:                           row[0],
+        # day_two:                                      row[0],
+        # day_two_duration:                             row[0],
+        # day_two_start_time:                           row[0],
+        # day_three:                                    row[0],
+        # day_three_duration:                           row[0],
+        # day_three_start_time:                         row[0],
+        # day_four:                                     row[0],
+        # day_four_duration:                            row[0],
+        # day_four_start_time:                          row[0],
+        # day_five:                                     row[0],
+        # day_five_duration:                            row[0],
+        # day_five_start_time:                          row[0],
+        # duration:                                     row[0],
+        # end_date:                                     row[0],
+        # end_time:                                     row[0],
+        # recurrence:                                   row[0],
+        # class_during_holidays:                        row[0]
       }
     }
   end
@@ -110,6 +133,13 @@ namespace :import do
         level = Level.create(:name => level_name) if level.blank?
         course.levels << level
       end
+      #################################################################### Creating Planning
+      planning = Planning.create(row[:planning])
+      course.planning = planning
+      #################################################################### Creating Price
+      price = Price.create(row[:price])
+      course.price = price
+
       structure.courses << course
       structure.save
       course.save

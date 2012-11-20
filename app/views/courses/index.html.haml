@@ -43,6 +43,16 @@
           = join_audiences(course)
           = join_levels(course)
           = course.type
+          %div
+            %h2 À partir de
+            - if course.price.individual_course_price
+              %span
+                = course.price.individual_course_price
+                € / cours
+            - if course.price.annual_price
+              %span
+                = course.price.annual_price
+                € / an
           %footer
             = course.structure.name
   %footer.g.one-whole
