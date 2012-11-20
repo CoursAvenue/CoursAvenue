@@ -1,8 +1,49 @@
 = render 'search_form'
+- params[:search][:audiences] ||= []
+- params[:search][:levels]    ||= []
+
+%section.gw
+  = form_tag courses_path, class: 'g one-whole', method: :get, authenticity_token: false do
+    %input.one-half{placeholder: 'Quelle discipline recherchez-vous ?', type: 'search', name: 'search[discipline]', value: params[:search][:discipline]}
+    %div
+      %h3 Type d'activité
+      %label{for: 'search_lesson_course_type'} Cours
+      %input#search_lesson_course_type{type: 'radio', name: 'search[type]', value: 'lesson', checked: params[:search][:type] == 'lesson'}
+      %label{for: 'search_training_course_type'} Stage
+      %input#search_training_course_type{type: 'radio', name: 'search[type]', value: 'training', checked: params[:search][:type] == 'training'}
+    %div
+      %h3 Public
+      - @audiences.each_with_index do |audience, i|
+        %label{for: "search_audience_#{audience.name}"}= audience.name
+        = check_box_tag 'search[audiences][]', audience.name, params[:search][:audiences].include?(audience.name), id: "search_audience_#{audience.name}"
+    %div
+      %h3 Niveaux
+      - @levels.each_with_index do |level, i|
+        %label{for: "search_level_#{level.name}"}= level.name
+        = check_box_tag 'search[levels][]', level.name, params[:search][:levels].include?(level.name), id: "search_level_#{level.name}"
+
+    %input{type: 'submit'} Chercher
 
 .gw
-  %section.g.three-quarter
+  %section.g.one-quarter
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  %section.g.three-quarters
     %ul
     - @courses.each do |course|
       %li
-        =link_to course.discipline.name, course
+        = link_to course do
+          %h1
+            Cours de
+            = course.discipline.name
+          = join_audiences(course)
+          = join_levels(course)
+          = course.type
+          %footer
+            = course.structure.name
+  %footer.g.one-whole
+    = will_paginate @courses

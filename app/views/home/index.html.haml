@@ -1,5 +1,5 @@
 %section.gw
-  = form_tag courses_path, :class => 'g one-whole', :method => :get do
+  = form_tag courses_path, :class => 'g one-whole', :method => :get, :authenticity_token => false do
     %input.one-half{:placeholder => 'Quelle discipline recherchez-vous ?', :type => 'search', :name => 'search[discipline]'}
 %section
   %article.gw
