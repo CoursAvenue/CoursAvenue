@@ -1,4 +1,5 @@
 = render 'search_form'
+- params[:search][:types]     ||= ['lesson', 'training']
 - params[:search][:audiences] ||= []
 - params[:search][:levels]    ||= []
 
@@ -8,9 +9,9 @@
     %div
       %h3 Type d'activité
       %label{for: 'search_lesson_course_type'} Cours
-      %input#search_lesson_course_type{type: 'radio', name: 'search[type]', value: 'lesson', checked: params[:search][:type] == 'lesson'}
+      = check_box_tag 'search[types][]', 'lesson', params[:search][:types].include?('lesson'), id: "search_lesson_course_type"
       %label{for: 'search_training_course_type'} Stage
-      %input#search_training_course_type{type: 'radio', name: 'search[type]', value: 'training', checked: params[:search][:type] == 'training'}
+      = check_box_tag 'search[types][]', 'training', params[:search][:types].include?('training'), id: "search_training_course_type"
     %div
       %h3 Public
       - @audiences.each_with_index do |audience, i|
