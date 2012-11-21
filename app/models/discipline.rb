@@ -1,6 +1,4 @@
 class Discipline < ActiveRecord::Base
-  has_ancestry
-
   has_many :course
 
   attr_accessible :name

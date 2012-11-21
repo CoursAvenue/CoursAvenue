@@ -1,11 +1,17 @@
 module CoursesHelper
   def join_audiences(course)
-    audiences = course.audiences.collect{|audience| content_tag(:li, audience.name) }
-    content_tag(:ul, audiences.join('').html_safe)
+    content_tag :ul do
+      course.audiences.collect do |audience|
+        content_tag(:li, audience.name)
+      end
+    end
   end
 
   def join_levels(course)
-    levels = course.levels.collect{|level| content_tag(:li, level.name) }
-    content_tag(:ul, levels.join('').html_safe)
+    content_tag :ul do
+      course.levels.collect do |level|
+        content_tag(:li, level.name)
+      end
+    end
   end
 end
