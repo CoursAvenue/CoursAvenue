@@ -1,0 +1,42 @@
+- params[:search][:types]       ||= ['lesson', 'training']
+- params[:search][:audiences]   ||= []
+- params[:search][:levels]      ||= []
+- params[:search][:week_days]   ||= []
+- params[:search][:time_slots]  ||= []
+
+%section.gw
+  = form_tag courses_path, class: 'g one-whole', method: :get, authenticity_token: false do
+    %input.one-half{placeholder: 'Quelle discipline recherchez-vous ?', type: 'search', name: 'search[discipline]', value: params[:search][:discipline]}
+    %div
+      %h3 Type d'activité
+      %label{for: 'search_lesson_course_type'} Cours
+      = check_box_tag 'search[types][]', 'lesson', params[:search][:types].include?('lesson'), id: "search_lesson_course_type"
+      %label{for: 'search_training_course_type'} Stage
+      = check_box_tag 'search[types][]', 'training', params[:search][:types].include?('training'), id: "search_training_course_type"
+
+    %div
+      %h3 Public
+      - @audiences.each_with_index do |audience, i|
+        %label{for: "search_audience_#{audience.name}"}= audience.name
+        = check_box_tag 'search[audiences][]', audience.name, params[:search][:audiences].include?(audience.name), id: "search_audience_#{audience.name}"
+
+    %div
+      %h3 Niveaux
+      - @levels.each_with_index do |level, i|
+        %label{for: "search_level_#{level.name}"}= level.name
+        = check_box_tag 'search[levels][]', level.name, params[:search][:levels].include?(level.name), id: "search_level_#{level.name}"
+
+    %div
+      %h3 Jours
+      - LeBonCours::Application::WEEK_DAYS.each_with_index do |week_day, i|
+        %label{for: "search_week_day_#{week_day.downcase}"}= week_day
+        = check_box_tag 'search[week_days][]', week_day, params[:search][:week_days].include?(week_day), id: "search_week_day_#{week_day.downcase}"
+
+    %div
+      %h3 Créneaux horaire
+      - LeBonCours::Application::TIME_SLOTS.each do |slot_symbole, slot|
+        %label{for: "search_time_slot_#{slot_symbole.to_s}"}= slot[:name]
+        = check_box_tag 'search[time_slots][]', slot_symbole, params[:search][:time_slots].include?(slot_symbole.to_s), id: "search_time_slot_#{slot_symbole.to_s}"
+
+    %input{type: 'submit', value: 'Chercher'}
+

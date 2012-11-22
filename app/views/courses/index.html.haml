@@ -1,29 +1,4 @@
 = render 'search_form'
-- params[:search][:types]     ||= ['lesson', 'training']
-- params[:search][:audiences] ||= []
-- params[:search][:levels]    ||= []
-
-%section.gw
-  = form_tag courses_path, class: 'g one-whole', method: :get, authenticity_token: false do
-    %input.one-half{placeholder: 'Quelle discipline recherchez-vous ?', type: 'search', name: 'search[discipline]', value: params[:search][:discipline]}
-    %div
-      %h3 Type d'activité
-      %label{for: 'search_lesson_course_type'} Cours
-      = check_box_tag 'search[types][]', 'lesson', params[:search][:types].include?('lesson'), id: "search_lesson_course_type"
-      %label{for: 'search_training_course_type'} Stage
-      = check_box_tag 'search[types][]', 'training', params[:search][:types].include?('training'), id: "search_training_course_type"
-    %div
-      %h3 Public
-      - @audiences.each_with_index do |audience, i|
-        %label{for: "search_audience_#{audience.name}"}= audience.name
-        = check_box_tag 'search[audiences][]', audience.name, params[:search][:audiences].include?(audience.name), id: "search_audience_#{audience.name}"
-    %div
-      %h3 Niveaux
-      - @levels.each_with_index do |level, i|
-        %label{for: "search_level_#{level.name}"}= level.name
-        = check_box_tag 'search[levels][]', level.name, params[:search][:levels].include?(level.name), id: "search_level_#{level.name}"
-
-    %input{type: 'submit'} Chercher
 
 .gw
   %section.g.one-quarter
@@ -54,6 +29,10 @@
                 = course.price.annual_price
                 € / an
           %footer
-            = course.structure.name
+            %p= course.structure.name
+            %p
+              = course.planning.week_day
+              -
+              = l course.planning.start_time, format: :short
   %footer.g.one-whole
     = will_paginate @courses

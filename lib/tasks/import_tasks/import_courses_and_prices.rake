@@ -70,7 +70,7 @@ namespace :import do
       # Planning
       planning: {
         start_date:                                   row[23],
-        start_time:                                   row[22],
+        start_time:                                   Time.parse("2000-01-01 #{row[22]} UTC"),
         week_day:                                     row[21]#,
         # day_one:                                      row[0],
         # day_one_duration:                             row[0],
