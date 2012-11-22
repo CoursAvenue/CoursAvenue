@@ -1,16 +1,44 @@
+# encoding: UTF-8
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test)))
+  Bundler.require(*Rails.groups(assets: %w(development test)))
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
 
 module LeBonCours
   class Application < Rails::Application
+
+    # Global variables
+    WEEK_DAYS  = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
+
+    TIME_SLOTS = {
+          morning: {
+            name:       'Matin (9h-12h)',
+            start_time: '9:00 AM',
+            end_time:   '12:00 PM',
+          },
+          noon: {
+            name:       'Midi (12h-14h)',
+            start_time: '12:00 PM',
+            end_time:   '2:00 PM'
+          },
+          afternoon: {
+            name:       'Après-midi (14h-18h)',
+            start_time: '2:00 PM',
+            end_time:   '6:00 PM'
+          },
+          evening: {
+            name:       'Soirée (18h-23h)',
+            start_time: '6:00 PM',
+            end_time:   '11:00 PM'
+          }
+    }
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -31,7 +59,7 @@ module LeBonCours
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    config.i18n.default_locale = :fr
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
