@@ -26,7 +26,6 @@ class CoursesController < ApplicationController
           @courses = @courses.joins{levels}.where{levels.name.like_any value}
         when 'week_days'
           @courses = @courses.joins{planning}.where{planning.week_day.like_any value}
-
         when 'time_slots'
           time_slots = []
           value.each do |slot|
@@ -36,6 +35,10 @@ class CoursesController < ApplicationController
           end
           @courses = @courses.joins{planning}.where do
             time_slots.map { |start_time, end_time| (plannings.start_time >= start_time) & (plannings.start_time <= end_time) }.reduce(&:|)
+          end
+        when 'price_range'
+          @courses = @courses.joins{price}.where do
+            (price.individual_course_price >= value[:min]) & (price.individual_course_price <= value[:max])
           end
         end
       end

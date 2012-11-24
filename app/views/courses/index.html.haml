@@ -10,29 +10,7 @@
     proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   %section.g.three-quarters
     %ul
-    - @courses.each do |course|
-      %li{:class => (course.is_training? ? 'training' : 'lesson')}
-        = link_to course do
-          %h1
-            Cours de
-            = course.discipline.name
-          = join_audiences(course)
-          = join_levels(course)
-          %div
-            %h2 À partir de
-            - if course.price.individual_course_price
-              %span
-                = course.price.individual_course_price
-                € / cours
-            - if course.price.annual_price
-              %span
-                = course.price.annual_price
-                € / an
-          %footer
-            %p= course.structure.name
-            %p
-              = course.planning.week_day
-              -
-              = l course.planning.start_time, format: :short
+      = render :partial => 'course', :collection => @courses
+
   %footer.g.one-whole
     = will_paginate @courses
