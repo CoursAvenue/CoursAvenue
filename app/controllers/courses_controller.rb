@@ -28,15 +28,14 @@ class CoursesController < ApplicationController
           @courses = @courses.joins{planning}.where{planning.week_day.like_any value}
 
         when 'time_slots'
-          # Say there is two ranges:
-          # 9h-12h and 18h-23h
-          # > 9 and < 12 or > 18 < 23
+          time_slots = []
           value.each do |slot|
             start_time = parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:start_time]
             end_time   = parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:end_time]
-
-            @courses = @courses.joins{planning}.where{(planning.start_time >= start_time) & (planning.start_time <= end_time)}
-
+            time_slots << [start_time, end_time]
+          end
+          @courses = @courses.joins{planning}.where do
+            time_slots.map { |start_time, end_time| (plannings.start_time >= start_time) & (plannings.start_time <= end_time) }.reduce(&:|)
           end
         end
       end
