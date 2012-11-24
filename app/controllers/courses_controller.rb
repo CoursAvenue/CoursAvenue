@@ -15,9 +15,8 @@ class CoursesController < ApplicationController
           discipline_name  = value + '%'
           @courses         = @courses.joins{discipline}.where{discipline.name =~ discipline_name}
         when 'types'
-          #type_name = (value == 'training' ? 'Course::Training' : 'Course::Lesson')
           types = []
-          types << 'Course::Lesson' if value.include? 'lesson'
+          types << 'Course::Lesson'   if value.include? 'lesson'
           types << 'Course::Training' if value.include? 'training'
           @courses         = @courses.where{type.like_any types}
         when 'audiences'

@@ -9,9 +9,9 @@
   %body
     = render 'shared/header'
 
-    = render 'shared/menu'
-
-    = yield
+    .main-container
+      = render 'shared/menu'
+      = yield
 
     = render 'shared/footer'
 

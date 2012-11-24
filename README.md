@@ -3,4 +3,5 @@
 Paperclip: https://github.com/thoughtbot/paperclip
 => imagemagick
 
-Ancestry
+# For Will_paginate
+A custom renderer has been created in lib/

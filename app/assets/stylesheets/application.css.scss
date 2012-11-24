@@ -1,4 +1,40 @@
+//*= require 'font-awesome'
+
 @import "vars";
+
 @import "/partials/generic/*";
 @import "/partials/base/*";
-@import "/partials/objects/*";
+
+// Object import
+@import "partials/objects/grids";
+// @import "partials/objects/flexbox";
+// @import "partials/objects/columns";
+@import "partials/objects/nav";
+// @import "partials/objects/options";
+@import "partials/objects/pagination";
+// @import "partials/objects/breadcrumb";
+// @import "partials/objects/media";
+@import "partials/objects/island";
+@import "partials/objects/block-list";
+@import "partials/objects/matrix";
+@import "partials/objects/split";
+// @import "example/unnecessary/file";
+@import "partials/objects/this-or-this";
+@import "partials/objects/complex-link";
+@import "partials/objects/flyout";
+@import "partials/objects/sprite";
+@import "partials/objects/icon-text";
+@import "partials/objects/buttons";
+@import "partials/objects/lozenges";
+@import "partials/objects/rules";
+@import "partials/objects/stats";
+@import "partials/objects/greybox";
+
+// Created objects
+@import "partials/objects/main-header";
+@import "partials/objects/main-container";
+@import "partials/objects/course-list";
+@import "partials/objects/menu";
+
+@import "partials/theme";
+

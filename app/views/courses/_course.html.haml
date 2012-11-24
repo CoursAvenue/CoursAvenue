@@ -1,12 +1,12 @@
-%li{:class => (course.is_training? ? 'training' : 'lesson')}
+%li{:class => (course.is_training? ? 'training-element' : 'lesson-element')}
   = link_to course do
-    %h1
-      Cours de
-      = course.discipline.name
-    = join_audiences(course)
-    = join_levels(course)
-    %div
+    %div.three-twelfths
+      %img{src: 'http://www.placehold.it/150'}
+    %div.course-content.nine-twelfths
       %h2
+        Cours de
+        = course.discipline.name
+      %h3
         À partir de
         - if course.price.individual_course_price
           %span
@@ -16,9 +16,17 @@
           %span
             = course.price.annual_price
             € / an
-    %footer
-      %p= course.structure.name
-      %p
-        = course.planning.week_day
-        -
-        = l course.planning.start_time, format: :short unless course.planning.start_time.blank?
+      %footer.gw
+        .one-third.g
+          %ul.nav
+            %li= join_audiences(course)
+            %li -
+            %li= join_levels(course)
+        .two-thirds.g
+          %p
+            %i.icon-map-marker
+            = course.structure.name
+          %p
+            = course.planning.week_day
+            -
+            = l course.planning.start_time, format: :short unless course.planning.start_time.blank?

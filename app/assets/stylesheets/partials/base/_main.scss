@@ -3,6 +3,7 @@
 \*------------------------------------*/
 html{
     font:($base-font-size / 16 +em)/($line-height-ratio) serif;
+    font-family: $brand-face;
     overflow-y:scroll;
     min-height:100%;
 }

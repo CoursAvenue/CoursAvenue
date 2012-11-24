@@ -1,0 +1,14 @@
+.lesson-element, .training-element {
+    a:hover {
+        text-decoration: none;
+    }
+    a {
+        display: table;
+        div {
+            display: table-cell;
+            vertical-align: top;
+            @include vendor(box-sizing, border-box);
+            margin: 0;
+        }
+    }
+}

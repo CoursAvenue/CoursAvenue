@@ -6,13 +6,19 @@
 - params[:search][:price_range] ||= {min: 0, max: 1000}
 %section.gw
   = form_tag courses_path, class: 'g one-whole', method: :get, authenticity_token: false do
-    %input.one-half{placeholder: 'Quelle discipline recherchez-vous ?', type: 'search', name: 'search[discipline]', value: params[:search][:discipline]}
-    %div
-      %h3 Type d'activité
-      = label_tag 'search_lesson_course_type', 'Cours'
-      = check_box_tag 'search[types][]', 'lesson', params[:search][:types].include?('lesson'), id: "search_lesson_course_type"
-      = label_tag 'search_training_course_type', 'Stage'
-      = check_box_tag 'search[types][]', 'training', params[:search][:types].include?('training'), id: "search_training_course_type"
+    .one-whole
+      %input.two-sixths.g{placeholder: 'Quelle discipline recherchez-vous ?', type: 'search', name: 'search[discipline]', value: params[:search][:discipline]}
+      .four-sixths.g
+        %div
+          = label_tag 'search_lesson_course_type', 'Cours'
+          = check_box_tag 'search[types][]', 'lesson', params[:search][:types].include?('lesson'), id: "search_lesson_course_type"
+          = label_tag 'search_training_course_type', 'Stage'
+          = check_box_tag 'search[types][]', 'training', params[:search][:types].include?('training'), id: "search_training_course_type"
+
+        %div
+          - LeBonCours::Application::WEEK_DAYS.each_with_index do |week_day, i|
+            = label_tag "search_week_day_#{week_day.downcase}", week_day
+            = check_box_tag 'search[week_days][]', week_day, params[:search][:week_days].include?(week_day), id: "search_week_day_#{week_day.downcase}"
 
     %div
       %h3 Public
@@ -25,12 +31,6 @@
       - @levels.each_with_index do |level, i|
         = label_tag "search_level_#{level.name}", level.name
         = check_box_tag 'search[levels][]', level.name, params[:search][:levels].include?(level.name), id: "search_level_#{level.name}"
-
-    %div
-      %h3 Jours
-      - LeBonCours::Application::WEEK_DAYS.each_with_index do |week_day, i|
-        = label_tag "search_week_day_#{week_day.downcase}", week_day
-        = check_box_tag 'search[week_days][]', week_day, params[:search][:week_days].include?(week_day), id: "search_week_day_#{week_day.downcase}"
 
     %div
       %h3 Créneaux horaire
