@@ -22,6 +22,16 @@
             = label_tag "search_week_day_#{week_day.downcase}", week_day
             = check_box_tag 'search[week_days][]', week_day, params[:search][:week_days].include?(week_day), id: "search_week_day_#{week_day.downcase}"
       .two-twelfths
-        %button.btn{type: 'submit'}
+        %button.btn{type: 'submit', id: 'submit_search_form'}
           %i.icon-search
           Chercher
+
+    .accessibility
+      - @audiences.each_with_index do |audience, i|
+        = check_box_tag 'search[audiences][]', audience.name, params[:search][:audiences].include?(audience.name), id: "hidden_search_audience_#{i}"
+      - @levels.each_with_index do |level, i|
+        = check_box_tag 'search[levels][]', level.name, params[:search][:levels].include?(level.name), id: "hidden_search_level_#{level.name}"
+      - LeBonCours::Application::TIME_SLOTS.each do |slot_symbole, slot|
+        = check_box_tag 'search[time_slots][]', slot_symbole, params[:search][:time_slots].include?(slot_symbole.to_s), id: "hidden_search_time_slot_#{slot_symbole.to_s}"
+      = number_field_tag 'search[price_range][min]', params[:search][:price_range][:min], min: 0, step: 1, id: 'hidden_search_price_range_min'
+      = number_field_tag 'search[price_range][max]', params[:search][:price_range][:max], min: 0, step: 1, id: 'hidden_search_price_range_max'

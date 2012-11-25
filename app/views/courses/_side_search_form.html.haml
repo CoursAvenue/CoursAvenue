@@ -5,7 +5,7 @@
       %ul.search-list
         - @audiences.each_with_index do |audience, i|
           %li
-            = check_box_tag 'search[audiences][]', audience.name, params[:search][:audiences].include?(audience.name), id: "search_audience_#{i}", data: {behavior: 'input-update', update: ''}
+            = check_box_tag 'search[audiences][]', audience.name, params[:search][:audiences].include?(audience.name), id: "search_audience_#{i}", data: {behavior: 'input-update', element: "hidden_search_audience_#{i}"}
             = label_tag "search_audience_#{i}", audience.name
 
   .search-panel
@@ -14,7 +14,7 @@
       %ul.search-list
         - @levels.each_with_index do |level, i|
           %li
-            = check_box_tag 'search[levels][]', level.name, params[:search][:levels].include?(level.name), id: "search_level_#{level.name}", data: {behavior: 'input-update', update: ''}
+            = check_box_tag 'search[levels][]', level.name, params[:search][:levels].include?(level.name), id: "search_level_#{level.name}", data: {behavior: 'input-update', element: "hidden_search_level_#{level.name}"}
             = label_tag "search_level_#{level.name}", level.name
 
   .search-panel
@@ -23,7 +23,7 @@
       %ul.search-list
         - LeBonCours::Application::TIME_SLOTS.each do |slot_symbole, slot|
           %li
-            = check_box_tag 'search[time_slots][]', slot_symbole, params[:search][:time_slots].include?(slot_symbole.to_s), id: "search_time_slot_#{slot_symbole.to_s}", data: {behavior: 'input-update', update: ''}
+            = check_box_tag 'search[time_slots][]', slot_symbole, params[:search][:time_slots].include?(slot_symbole.to_s), id: "search_time_slot_#{slot_symbole.to_s}", data: {behavior: 'input-update', element: "hidden_search_time_slot_#{slot_symbole.to_s}"}
             = label_tag "search_time_slot_#{slot_symbole.to_s}", slot[:name]
   .search-panel
     %h5.search-panel-header Prix
@@ -31,14 +31,14 @@
       .input-range
         %div
           = label_tag 'search_price_range_min_price', 'De'
-          = number_field_tag 'search[price_range][min]', params[:search][:price_range][:min], min: 0, step: 1, data: {behavior: 'input-update', update: ''}
+          = number_field_tag 'search[price_range][min]', params[:search][:price_range][:min], min: 0, step: 1, data: {behavior: 'input-update', element: 'hidden_search_price_range_min'}
           €
         %div
           = label_tag 'search_price_range_max_price', 'À'
-          = number_field_tag 'search[price_range][max]', params[:search][:price_range][:max], min: 0, step: 1, data: {behavior: 'input-update', update: ''}
+          = number_field_tag 'search[price_range][max]', params[:search][:price_range][:max], min: 0, step: 1, data: {behavior: 'input-update', element: 'hidden_search_price_range_max'}
           €
 
   .search-panel-footer
-    %button.btn{type: 'submit'}
+    %button.btn{type: 'submit', data: {behavior: 'input-update', element: 'submit_search_form'}}
       %i.icon-search
       Actualiser
