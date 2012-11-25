@@ -17,9 +17,9 @@
           %li -
           %li= join_levels(course)
         - if course.is_training?
-          .fl.lbl Cours
-        - else
           .fl.lbl Stage
+        - else
+          .fl.lbl Cours
           / %p
           /   = course.planning.week_day
           /   -
