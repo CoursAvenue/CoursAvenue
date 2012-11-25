@@ -1,32 +1,39 @@
 %li{:class => (course.is_training? ? 'training-element' : 'lesson-element')}
-  = link_to course do
-    %div.three-twelfths
-      %img{src: 'http://www.placehold.it/150'}
-    %div.course-content.nine-twelfths
-      %h2
-        Cours de
-        = course.discipline.name
-      %h3
-        À partir de
-        - if course.price.individual_course_price
-          %span
-            = course.price.individual_course_price
-            € / cours
-        - if course.price.annual_price
-          %span
-            = course.price.annual_price
-            € / an
-      %footer.gw
-        .one-third.g
-          %ul.nav
-            %li= join_audiences(course)
-            %li -
-            %li= join_levels(course)
-        .two-thirds.g
-          %p
-            %i.icon-map-marker
-            = course.structure.name
-          %p
-            = course.planning.week_day
-            -
-            = l course.planning.start_time, format: :short unless course.planning.start_time.blank?
+  = link_to course, class: 'one-whole' do
+    %div.two-twelfths
+      %img.media__img.course-image{src: 'http://www.placehold.it/100'}
+
+    %div.eight-twelfths.course-content
+      %hgroup
+        %h3.hN
+          Cours de
+          = course.discipline.name
+        %h5.hN
+          %i.icon-map-marker
+          = course.structure.name
+      %footer
+        %ul.nav
+          %li= join_audiences(course)
+          %li -
+          %li= join_levels(course)
+        - if course.is_training?
+          .fl.lbl Cours
+        - else
+          .fl.lbl Stage
+          / %p
+          /   = course.planning.week_day
+          /   -
+          /   = l course.planning.start_time, format: :short unless course.planning.start_time.blank?
+
+    %div.course-price.two-twelfths
+      À partir de
+      - if course.price.individual_course_price
+        .alpha
+          = course.price.individual_course_price
+          €
+        par cours
+      - if course.price.annual_price
+        %em
+          = course.price.annual_price
+          €
+        par an

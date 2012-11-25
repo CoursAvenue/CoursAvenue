@@ -1,0 +1,47 @@
+/*------------------------------------*\
+    $Search
+\*------------------------------------*/
+
+.header-search-bar {
+    border          : 1px solid #CCC;
+    background-color: #e5e5e5;
+    display         : table;
+    padding         : 0.5em;
+    @include box-sizing(border-box);
+    @include background-image(linear-gradient(top, #f6f6f6 0%,#e5e5e5 100%));
+    > div {
+        display       : table-cell;
+        vertical-align: middle;
+        padding       : 0 0.5em;
+    }
+}
+
+
+.side-search-panel {
+    margin-top  : 1em;
+    border      : 1px solid $grey;
+    @include border-radius(2px);
+}
+    .search-panel {
+
+    }
+        .search-panel-header {
+            padding         : 0.5em 1em;
+            background-color: $dark-white;
+            border-bottom   : 1px solid $grey;
+            margin-bottom   : 0;
+            @include box-shadow(0 2px 2px -2px rgba(0,0,0,0.2),0 0 0 #000);
+        }
+        .search-panel-content {
+            padding         : 1em 0.5em;
+            border-bottom   : 1px solid $grey;
+            @include font-size(14);
+        }
+            .search-list {
+                list-style  : none;
+                margin      : 0;
+            }
+        .search-panel-footer {
+            text-align: center;
+            padding   : 1em;
+        }

@@ -1,4 +1,7 @@
 class Course < ActiveRecord::Base
+  # For pagination
+  self.per_page = 20
+
   belongs_to :structure
 
   has_and_belongs_to_many :audiences

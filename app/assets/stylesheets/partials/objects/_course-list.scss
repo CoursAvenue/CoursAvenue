@@ -1,14 +1,31 @@
 .lesson-element, .training-element {
+    img {
+        @include box-sizing(border-box);
+    }
     a:hover {
         text-decoration: none;
+        background-color: $light-grey;
     }
     a {
+        padding: 0.5em;
         display: table;
-        div {
+        > div {
             display: table-cell;
             vertical-align: top;
             @include vendor(box-sizing, border-box);
             margin: 0;
         }
     }
+}
+.course-price {
+    text-align: right;
+    @include font-size(12);
+}
+
+.course-content {
+    padding-left: 1em;
+}
+
+.course-image {
+    padding: 0.3em;
 }

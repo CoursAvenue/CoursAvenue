@@ -9,7 +9,9 @@ group :assets do
   gem 'coffee-rails'      , '~> 3.2.1'
   gem 'haml'              , '~> 3.1.7'
   gem 'uglifier'          , '>= 1.0.3'
-  gem 'font-awesome-rails'
+  gem 'font-awesome-rails', '~> 0.4.1'
+  gem 'mootools-rails'    , '~> 1.0.1'
+  gem 'compass-rails'     , '~> 1.0.3'
 end
 
 gem 'jquery-rails'

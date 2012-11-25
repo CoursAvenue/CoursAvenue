@@ -1,0 +1,35 @@
+/*------------------------------------*\
+    $Input range
+\*------------------------------------*/
+/**
+ * Input range
+ * E.g.:
+ *
+   <div class=input-range>
+       <div>
+            <label><From/label>
+            <input type="number">
+       </div>
+       <div>
+            <label><To/label>
+            <input type="number">
+       </div>
+   </div>
+ *
+ * Demo: jsfiddle.net/inuitcss/u8pV3
+ *
+ */
+.input-range {
+    display: table;
+    > div {
+        display : table-cell;
+        width   : 50%;
+        label {
+            width   : 100%;
+            display : block;
+        }
+        input {
+            width: 70%;
+        }
+    }
+}

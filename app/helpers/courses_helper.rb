@@ -3,7 +3,7 @@ module CoursesHelper
     content_tag :ul, class: 'nav' do
       course.audiences.collect do |audience|
         content_tag(:li, audience.name)
-      end.reduce('')
+      end.join('').html_safe
     end
   end
 
@@ -11,7 +11,7 @@ module CoursesHelper
     content_tag :ul, class: 'nav' do
       course.levels.collect do |level|
         content_tag(:li, level.name)
-      end.reduce('')
+      end.join('').html_safe
     end
   end
 end

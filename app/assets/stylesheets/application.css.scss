@@ -1,6 +1,14 @@
 //*= require 'font-awesome'
 
+// Compass mixins
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "compass/css3/images";
+@import "compass/css3/box-sizing";
+@import "compass/css3/transition";
+
 @import "vars";
+@import "colors";
 
 @import "/partials/generic/*";
 @import "/partials/base/*";
@@ -35,6 +43,8 @@
 @import "partials/objects/main-container";
 @import "partials/objects/course-list";
 @import "partials/objects/menu";
+@import "partials/objects/search";
+@import "partials/objects/input-range";
 
-@import "partials/theme";
+@import "partials/theme/*";
 
