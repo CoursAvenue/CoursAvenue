@@ -3,12 +3,10 @@ class CreateStructures < ActiveRecord::Migration
     create_table :structures do |t|
       t.string  :structure_type
       t.string  :name
+      t.string  :name_2
       t.text    :street
       t.string  :zip_code
       t.string  :adress_info
-      t.integer :annual_price_child
-      t.integer :annual_price_adult
-      t.boolean :annual_membership_mandatory
       t.string  :closed_days
       t.boolean :has_handicap_access
       t.boolean :is_professional
@@ -16,13 +14,12 @@ class CreateStructures < ActiveRecord::Migration
       t.integer :location_room_number
       t.string  :website
       t.string  :newsletter_address
-      t.boolean :online_reservation
+      t.boolean :online_reservation_website
       t.boolean :onlne_reservation_mandatory
       t.boolean :has_trial_lesson
       t.text    :trial_lesson_info
       t.string  :trial_lesson_price
       t.text    :trial_lesson_info_2
-      t.boolean :annual_membership_mandatory
       t.text    :registration_info
       t.boolean :canceleable_without_fee
       t.integer :nb_days_before_cancelation

@@ -9,22 +9,30 @@ namespace :import do
   def structure_hash_from_row(row)
     {
       name:                          row[0],
+      name_2:                        row[5],
       structure_type:                row[3],
+
+      has_multiple_place:           (row[4] == 'X' ? true : false),
+
       street:                        row[6],
       zip_code:                      row[7],
       adress_info:                   row[8],
-      closed_days:                   row[11],
-      has_handicap_access:           row[12],
-      nb_room:                       row[14],
-      website:                       row[16],
-      newsletter_address:            row[17],
-      online_reservation:            row[18]
-      # annual_membership_mandatory:   row[],
-      # location_room_number:          row[],
-      # is_professional:               row[],
+
+      closed_days:                   row[9],
+      has_handicap_access:           row[10],
+      is_professional:              (row[11] == 'X' ? true : false),
+      nb_room:                       row[12],
+      website:                       row[14],
+      newsletter_address:            row[15],
+
+      online_reservation_website:    row[16],
+      onlne_reservation_mandatory:  (row[18] == 'X' ? true : false),
+      # annual_membership_mandatory:   row[]
+
+      # location_room_number:          row[]
+
       # annual_price_adult:            row[],
       # annual_price_child:            row[],
-      # onlne_reservation_mandatory:   row[],
       # has_trial_lesson:              row[],
       # trial_lesson_info:             row[],
       # trial_lesson_price:            row[],
@@ -43,7 +51,6 @@ namespace :import do
       # accepts_leisure_tickets:       row[],
       # accepts_afdas_funding:         row[],
       # accepts_dif_funding:           row[],
-      # has_multiple_plac:             row[],
     }
   end
 

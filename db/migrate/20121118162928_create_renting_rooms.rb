@@ -8,7 +8,10 @@ class CreateRentingRooms < ActiveRecord::Migration
       t.integer :minimum_price
       t.integer :maximum_price
       t.text    :price_info
-      t.text    :contact
+      t.text    :contact_mail
+      t.text    :contact_phone
+      t.boolean :is_duty_free
+      t.boolean :has_recording_studio
       t.boolean :has_cloakroom
       t.boolean :has_bars
       t.boolean :has_mirrors

@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
 
   create_table "audiences", :force => true do |t|
     t.string   "name"
+    t.integer  "order"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -48,8 +49,11 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
     t.integer  "max_age_for_kid"
     t.integer  "min_age_for_kid"
     t.boolean  "is_individual"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.integer  "annual_price_child"
+    t.integer  "annual_price_adult"
+    t.boolean  "annual_membership_mandatory"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
   end
 
   create_table "disciplines", :force => true do |t|
@@ -61,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
 
   create_table "levels", :force => true do |t|
     t.string   "name"
+    t.integer  "order"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -139,7 +144,10 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
     t.integer  "minimum_price"
     t.integer  "maximum_price"
     t.text     "price_info"
-    t.text     "contact"
+    t.text     "contact_mail"
+    t.text     "contact_phone"
+    t.boolean  "is_duty_free"
+    t.boolean  "has_recording_studio"
     t.boolean  "has_cloakroom"
     t.boolean  "has_bars"
     t.boolean  "has_mirrors"
@@ -155,12 +163,10 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
   create_table "structures", :force => true do |t|
     t.string   "structure_type"
     t.string   "name"
+    t.string   "name_2"
     t.text     "street"
     t.string   "zip_code"
     t.string   "adress_info"
-    t.integer  "annual_price_child"
-    t.integer  "annual_price_adult"
-    t.boolean  "annual_membership_mandatory"
     t.string   "closed_days"
     t.boolean  "has_handicap_access"
     t.boolean  "is_professional"
@@ -168,7 +174,7 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
     t.integer  "location_room_number"
     t.string   "website"
     t.string   "newsletter_address"
-    t.boolean  "online_reservation"
+    t.boolean  "online_reservation_website"
     t.boolean  "onlne_reservation_mandatory"
     t.boolean  "has_trial_lesson"
     t.text     "trial_lesson_info"

@@ -11,20 +11,23 @@ namespace :import do
       structure_name:             row[0],
       renting_room: {
         name:                     row[2],
-        contact:                  row[16],
-        info:                     row[11],
-        minimum_price:            row[13],
-        maximum_price:            row[14],
-        price_info:               row[15],
-        regular_renting_price:    row[12],
+        contact_phone:            row[18],
+        contact_mail:             row[19],
+        info:                     row[12],
+        minimum_price:            row[14],
+        maximum_price:            row[15],
+        price_info:               row[17],
+        is_duty_free:            (row[16] == 'HT' ? true : false),
+        regular_renting_price:    row[13],
         surface:                  row[3],
-        has_bars:                 (row[4] == 'Oui' ? true : false),
-        has_mirrors:              (row[5] == 'Oui' ? true : false),
-        has_sound:                (row[6] == 'Oui' ? true : false),
-        has_carpets:              (row[7] == 'Oui' ? true : false),
-        has_parquet:              (row[8] == 'Oui' ? true : false),
-        has_piano:                (row[9] == 'Oui' ? true : false),
-        has_cloakroom:            (row[10] == 'Oui' ? true : false)
+        has_bars:                 (row[4]  == 'X' ? true : false),
+        has_mirrors:              (row[5]  == 'X' ? true : false),
+        has_sound:                (row[6]  == 'X' ? true : false),
+        has_carpets:              (row[7]  == 'X' ? true : false),
+        has_parquet:              (row[8]  == 'X' ? true : false),
+        has_piano:                (row[9]  == 'X' ? true : false),
+        has_recording_studio:     (row[10] == 'X' ? true : false),
+        has_cloakroom:            (row[11] == 'X' ? true : false)
       }
     }
   end

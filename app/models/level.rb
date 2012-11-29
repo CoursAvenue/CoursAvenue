@@ -1,7 +1,7 @@
 class Level < ActiveRecord::Base
   has_and_belongs_to_many :course_groups
 
-  attr_accessible :name
+  attr_accessible :name, :order
 
   validates :name, :presence   => true
   validates :name, :uniqueness => true
