@@ -1,5 +1,6 @@
 class Discipline < ActiveRecord::Base
-  has_many :course
+
+  has_many :course_groups
 
   attr_accessible :name
 

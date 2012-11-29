@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121118170358) do
+ActiveRecord::Schema.define(:version => 20121129181553) do
 
   create_table "audiences", :force => true do |t|
     t.string   "name"
@@ -19,32 +19,38 @@ ActiveRecord::Schema.define(:version => 20121118170358) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "audiences_courses", :id => false, :force => true do |t|
+  create_table "audiences_course_groups", :id => false, :force => true do |t|
     t.integer "audience_id"
-    t.integer "course_id"
+    t.integer "course_group_id"
   end
 
-  add_index "audiences_courses", ["audience_id", "course_id"], :name => "index_audiences_courses_on_audience_id_and_course_id"
+  add_index "audiences_course_groups", ["audience_id", "course_group_id"], :name => "audience_course_group_index"
+
+  create_table "course_groups", :force => true do |t|
+    t.string   "type"
+    t.string   "name"
+    t.integer  "structure_id"
+    t.integer  "discipline_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "course_groups_levels", :id => false, :force => true do |t|
+    t.integer "course_group_id"
+    t.integer "level_id"
+  end
+
+  add_index "course_groups_levels", ["level_id", "course_group_id"], :name => "index_course_groups_levels_on_level_id_and_course_group_id"
 
   create_table "courses", :force => true do |t|
-    t.string   "type"
     t.text     "lesson_info_1"
     t.text     "lesson_info_2"
     t.integer  "max_age_for_kid"
     t.integer  "min_age_for_kid"
     t.boolean  "is_individual"
-    t.integer  "structure_id"
-    t.integer  "discipline_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
-
-  create_table "courses_levels", :id => false, :force => true do |t|
-    t.integer "course_id"
-    t.integer "level_id"
-  end
-
-  add_index "courses_levels", ["level_id", "course_id"], :name => "index_courses_levels_on_level_id_and_course_id"
 
   create_table "disciplines", :force => true do |t|
     t.string   "name"

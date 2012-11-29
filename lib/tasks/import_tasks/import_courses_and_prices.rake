@@ -108,8 +108,8 @@ namespace :import do
     csv.each_with_index do |row, i|
       next if i == 0 # Skipping headers
       row = course_and_price_hash_from_row(row)
-      structure = Structure.where{name == row[:structure_name]}.first
-      next if structure.blank?
+      structure_ = Structure.where{name == row[:structure_name]}.first
+      next if structure_.blank?
       if row[:discipline_name].blank?
         puts "No discipline, check line #{i}"
       end
@@ -117,7 +117,15 @@ namespace :import do
       discipline = Discipline.where{name == row[:discipline_name]}.first
       discipline = Discipline.create(name: row[:discipline_name]) if discipline.blank?
 
-      course = row[:course_class].create(row[:course])
+      # First search if the given structure already have a course with this discipline
+
+      course_ = Course.joins{structure}.where{(structure.name == structure_.name) & (discipline_id == discipline.id)}.first
+      if !course_.blank?
+        course = Course.find(course_.id)
+      else
+        course = row[:course_class].create(row[:course])
+      end
+
       course.discipline = discipline
 
       #################################################################### Associating audiences
@@ -135,13 +143,14 @@ namespace :import do
       end
       #################################################################### Creating Planning
       planning = Planning.create(row[:planning])
-      course.planning = planning
+      course.plannings << planning
       #################################################################### Creating Price
       price = Price.create(row[:price])
       course.price = price
 
-      structure.courses << course
-      structure.save
+      course.structure = structure_
+      structure_.courses << course
+      structure_.save
       course.save
     end
   end
