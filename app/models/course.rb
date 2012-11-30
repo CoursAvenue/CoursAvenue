@@ -8,19 +8,8 @@ class Course < ActiveRecord::Base
                   :max_age_for_kid,
                   :min_age_for_kid,
                   :is_individual,
-                  :annual_price_adult,
-                  :annual_price_child,
-                  :annual_membership_mandatory,
                   :annual_membership_mandatory,
                   :is_for_handicaped,
                   :registration_date
-
-  def is_lesson?
-    false
-  end
-
-  def is_training?
-    false
-  end
 
 end

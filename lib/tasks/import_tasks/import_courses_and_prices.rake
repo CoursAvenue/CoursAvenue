@@ -63,10 +63,7 @@ namespace :import do
       course_group: {
         name:                                         row[2],
         # TODO
-        # annual_price_adult:                           row[x],
-        # annual_price_child:                           row[x],
         # annual_membership_mandatory:                  row[x],
-        # annual_membership_mandatory:                  row[x]
       },
       audiences: {
         audience_1:                                   audience_name(row[7]),
@@ -137,6 +134,8 @@ namespace :import do
         has_exceptional_offer:                       (row[84] == 'X' ? true : false),
         trial_lesson_price:                           row[85],
         details:                                      row[86],
+        # annual_price_adult:                           row[x],
+        # annual_price_child:                           row[x],
 
       },
 

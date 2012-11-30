@@ -46,5 +46,7 @@ class Price < ActiveRecord::Base
                   :couple_price,
                   :has_other_preferential_price,
                   :has_exceptional_offer,
-                  :trial_lesson_price
+                  :trial_lesson_price,
+                  :annual_price_adult,
+                  :annual_price_child
 end

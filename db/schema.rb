@@ -50,8 +50,6 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
     t.integer  "max_age_for_kid"
     t.integer  "min_age_for_kid"
     t.boolean  "is_individual"
-    t.integer  "annual_price_child"
-    t.integer  "annual_price_adult"
     t.boolean  "annual_membership_mandatory"
     t.boolean  "is_for_handicaped"
     t.datetime "created_at",                  :null => false
@@ -137,6 +135,8 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
     t.decimal  "low_income_price"
     t.decimal  "large_family_price"
     t.decimal  "couple_price"
+    t.decimal  "annual_price_child"
+    t.decimal  "annual_price_adult"
     t.text     "excluded_lesson_from_unlimited_access_card"
     t.text     "price_info_1"
     t.text     "price_info_2"
