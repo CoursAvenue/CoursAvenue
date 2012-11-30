@@ -1,0 +1,44 @@
+.side-search-panel
+  .search-panel
+    %h5.search-panel-header Public
+    .search-panel-content
+      %ul.search-list
+        - @audiences.each_with_index do |audience, i|
+          %li
+            = check_box_tag 'audiences[]', audience.id, params[:audiences].include?(audience.id.to_s), id: "search_audience_#{i}", data: {behavior: 'input-update', element: "hidden_search_audience_#{i}"}
+            = label_tag "search_audience_#{i}", t(audience.name)
+
+  .search-panel
+    %h5.search-panel-header Niveaux
+    .search-panel-content
+      %ul.search-list
+        - @levels.each_with_index do |level, i|
+          %li
+            = check_box_tag 'levels[]', level.id, params[:levels].include?(level.id.to_s), id: "search_level_#{level.name}", data: {behavior: 'input-update', element: "hidden_search_level_#{level.name}"}
+            = label_tag "search_level_#{level.name}", t(level.name)
+
+  .search-panel
+    %h5.search-panel-header Créneaux horaire
+    .search-panel-content
+      %ul.search-list
+        - LeBonCours::Application::TIME_SLOTS.each do |slot_symbole, slot|
+          %li
+            = check_box_tag 'time_slots[]', slot_symbole, params[:time_slots].include?(slot_symbole.to_s), id: "search_time_slot_#{slot_symbole.to_s}", data: {behavior: 'input-update', element: "hidden_search_time_slot_#{slot_symbole.to_s}"}
+            = label_tag "search_time_slot_#{slot_symbole.to_s}", slot[:name]
+  .search-panel
+    %h5.search-panel-header Prix
+    .search-panel-content
+      .input-range
+        %div
+          = label_tag 'search_price_range_min_price', 'De'
+          = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, data: {behavior: 'input-update', element: 'hidden_search_price_range_min'}
+          €
+        %div
+          = label_tag 'search_price_range_max_price', 'À'
+          = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, data: {behavior: 'input-update', element: 'hidden_search_price_range_max'}
+          €
+
+  .search-panel-footer
+    %button.btn{type: 'submit', data: {behavior: 'input-update', element: 'submit_search_form'}}
+      %i.icon-search
+      Actualiser

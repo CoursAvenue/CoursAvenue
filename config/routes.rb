@@ -4,6 +4,7 @@ LeBonCours::Application.routes.draw do
   resources :course_groups         , :only => [:index, :show], :controller => 'course_groups', :type => CourseGroup.name
   resources :course_group_lessons  , :only => [:show]        , :controller => 'course_groups', :type => CourseGroup::Lesson.name
   resources :course_group_trainings, :only => [:show]        , :controller => 'course_groups', :type => CourseGroup::Training.name
+  resources :course_group_workshop , :only => [:show]        , :controller => 'course_groups', :type => CourseGroup::Workshop.name
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

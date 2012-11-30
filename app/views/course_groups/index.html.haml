@@ -4,11 +4,11 @@
     = render 'side_search_form'
   %section.g.three-quarters
     %ul.block-list
-      - if @courses.empty?
+      - if @course_groups.empty?
         %p.island
           Il n'y a pas de cours correspondant à votre recherche.
       - else
-        = render :partial => 'course', :collection => @courses
+        = render :partial => 'course_group', :collection => @course_groups
 
     %footer.g.one-whole
-      = will_paginate @courses, renderer: PaginationListLinkRenderer, class: 'nav pagination', inner_window: 2
+      = will_paginate @course_groups, renderer: PaginationListLinkRenderer, class: 'nav pagination', inner_window: 2

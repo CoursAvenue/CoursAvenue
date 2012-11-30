@@ -1,37 +1,52 @@
 class CreatePrices < ActiveRecord::Migration
   def change
     create_table :prices do |t|
-      t.integer :individual_course_price
-      t.integer :annual_price
-      t.integer :semester_price
-      t.integer :trimester_price
-      t.integer :month_price
-      t.integer :week_price
-      t.integer :five_lessons_price
-      t.integer :five_lessons_validity
-      t.integer :ten_lessons_price
-      t.integer :ten_lessons_validity
-      t.integer :twenty_lessons_price
-      t.integer :twenty_lessons_validity
-      t.integer :thirty_lessons_price
-      t.integer :thirty_lessons_validity
-      t.integer :fourty_lessons_price
-      t.integer :fourty_lessons_validity
-      t.integer :fifty_lessons_price
-      t.integer :fifty_lessons_validity
-      t.integer :one_lesson_per_week_package_price
-      t.integer :one_lesson_per_week_package_validity
-      t.integer :two_lesson_per_week_package_price
-      t.integer :two_lesson_per_week_package_validity
-      t.integer :unlimited_access_price
-      t.integer :unlimited_access_validity
+      t.decimal :individual_course_price
+      t.decimal :annual_price
+      t.decimal :semester_price
+      t.decimal :trimester_price
+      t.decimal :month_price
+      t.decimal :five_lessons_price
+      t.decimal :five_lessons_validity
+      t.decimal :ten_lessons_price
+      t.decimal :ten_lessons_validity
+      t.decimal :twenty_lessons_price
+      t.decimal :twenty_lessons_validity
+      t.decimal :thirty_lessons_price
+      t.decimal :thirty_lessons_validity
+      t.decimal :fourty_lessons_price
+      t.decimal :fourty_lessons_validity
+      t.decimal :fifty_lessons_price
+      t.decimal :fifty_lessons_validity
+      t.decimal :book_tickets_a_nb
+      t.decimal :book_tickets_a_price
+      t.decimal :book_tickets_a_validity
+      t.decimal :book_tickets_b_nb
+      t.decimal :book_tickets_b_price
+      t.decimal :book_tickets_b_validity
+      t.decimal :book_tickets_c_nb
+      t.decimal :book_tickets_c_price
+      t.decimal :book_tickets_c_validity
+      t.decimal :two_lesson_per_week_package_price
+      t.decimal :unlimited_access_price
+      t.decimal :unlimited_access_validity
+      t.decimal :student_price
+      t.decimal :young_and_senior_price
+      t.decimal :job_seeker_price
+      t.decimal :low_income_price
+      t.decimal :large_family_price
+      t.decimal :couple_price
       t.text    :excluded_lesson_from_unlimited_access_card
       t.text    :price_info_1
       t.text    :price_info_2
-      t.text    :exceptional_offer
-      t.text    :details_1
-      t.text    :details_2
+      t.boolean :has_exceptional_offer
+      t.text    :details
+      t.text    :promotion
       t.boolean :is_free, :default => false
+
+      t.decimal :degressive_price_from_two_lesson
+      t.boolean :has_other_preferential_price
+      t.decimal :trial_lesson_price
 
       t.references :course
       t.timestamps

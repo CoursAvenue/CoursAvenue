@@ -2,51 +2,49 @@ class CourseGroupsController < ApplicationController
 
   def index
     params[:page] ||= 1
-    @courses = Course
+    @course_groups = CourseGroup
 
     @audiences = Audience.all
     @levels    = Level.all
 
 
-    unless params[:search].blank?
-      params[:search].each do |key, value|
-        case key
-        when 'discipline'
-          discipline_name  = value + '%'
-          @courses         = @courses.joins{discipline}.where{discipline.name =~ discipline_name}
-        when 'types'
-          types = []
-          types << 'Course::Lesson'   if value.include? 'lesson'
-          types << 'Course::Training' if value.include? 'training'
-          @courses         = @courses.where{type.like_any types}
-        when 'audiences'
-          @courses = @courses.joins{audiences}.where{audiences.name.like_any value}
-        when 'levels'
-          @courses = @courses.joins{levels}.where{levels.name.like_any value}
-        when 'week_days'
-          @courses = @courses.joins{plannings}.where{plannings.week_day.like_any value}
-        when 'time_slots'
-          time_slots = []
-          value.each do |slot|
-            start_time = parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:start_time]
-            end_time   = parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:end_time]
-            time_slots << [start_time, end_time]
-          end
-          @courses = @courses.joins{plannings}.where do
-            time_slots.map { |start_time, end_time| (plannings.start_time >= start_time) & (plannings.start_time <= end_time) }.reduce(&:|)
-          end
-        when 'price_range'
-          @courses = @courses.joins{price}.where do
-            (price.individual_course_price >= value[:min]) & (price.individual_course_price <= value[:max])
-          end
+    params.each do |key, value|
+      case key
+      when 'name'
+        course_name  = value + '%'
+        @course_groups         = @course_groups.where{name =~ course_name}
+      #when 'types'
+        # types = []
+        # types << 'Course::Lesson'   if value.include? 'lesson'
+        # types << 'Course::Training' if value.include? 'training'
+        # @course_groups         = @course_groups.where{type.like_any types}
+      when 'audiences'
+        @course_groups = @course_groups.joins{audiences}.where{audiences.id.eq_all value.map(&:to_i)}
+      when 'levels'
+        @course_groups = @course_groups.joins{levels}.where{levels.id.eq_all value.map(&:to_i)}
+      when 'week_days'
+        #@course_groups = @course_groups.joins{plannings}.where{plannings.week_day.like_any value}
+      when 'time_slots'
+        time_slots = []
+        value.each do |slot|
+          start_time = parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:start_time]
+          end_time   = parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:end_time]
+          time_slots << [start_time, end_time]
         end
+        @course_groups = @course_groups.joins{plannings}.where do
+          time_slots.map { |start_time, end_time| (plannings.start_time >= start_time) & (plannings.start_time <= end_time) }.reduce(&:|)
+        end
+      #when 'price_range'
+        # @course_groups = @course_groups.joins{price}.where do
+        #   (price.individual_course_price >= value[:min]) & (price.individual_course_price <= value[:max])
+        # end
       end
     end
 
-    @courses = @courses.paginate(page: params[:page]).all
+    @course_groups = @course_groups.paginate(page: params[:page]).all
 
     respond_to do |format|
-      format.html { @courses }
+      format.html { @course_groups }
     end
   end
 

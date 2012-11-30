@@ -1,6 +1,6 @@
 class Structure < ActiveRecord::Base
 
-  has_many :courses
+  has_many :course_groups
   has_many :renting_rooms
 
   # attr_accessible :logo

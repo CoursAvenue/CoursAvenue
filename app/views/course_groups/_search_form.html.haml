@@ -1,0 +1,36 @@
+- params[:types]       ||= ['lesson', 'training']
+- params[:audiences]   ||= []
+- params[:levels]      ||= []
+- params[:week_days]   ||= []
+- params[:time_slots]  ||= []
+- params[:price_range] ||= {min: 0, max: 1000}
+%section.gw
+  = form_tag course_groups_path, class: 'g one-whole', method: :get, authenticity_token: false do
+    .one-whole.header-search-bar
+      .two-twelfths
+        %input.search-input{placeholder: 'Danse, Cuisine, ...', type: 'search', name: 'name', value: params[:name]}
+      .eight-twelfths
+        %div
+          = label_tag 'search_lesson_course_type', 'Cours'
+          = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "search_lesson_course_type"
+          = label_tag 'search_training_course_type', 'Stage'
+          = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "search_training_course_type"
+
+        %div
+          - LeBonCours::Application::WEEK_DAYS.each_with_index do |week_day, i|
+            = label_tag "search_week_day_#{week_day.downcase}", week_day
+            = check_box_tag 'week_days[]', week_day, params[:week_days].include?(week_day), id: "search_week_day_#{week_day.downcase}"
+      .two-twelfths
+        %button.btn{type: 'submit', id: 'submit_search_form'}
+          %i.icon-search
+          Chercher
+
+    .accessibility
+      - @audiences.each_with_index do |audience, i|
+        = check_box_tag 'audiences[]', audience.id, params[:audiences].include?(audience.id.to_s), id: "hidden_search_audience_#{i}"
+      - @levels.each_with_index do |level, i|
+        = check_box_tag 'levels[]', level.id, params[:levels].include?(level.id.to_s), id: "hidden_search_level_#{level.name}"
+      - LeBonCours::Application::TIME_SLOTS.each do |slot_symbole, slot|
+        = check_box_tag 'time_slots[]', slot_symbole, params[:time_slots].include?(slot_symbole.to_s), id: "hidden_search_time_slot_#{slot_symbole.to_s}"
+      = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, id: 'hidden_search_price_range_min'
+      = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, id: 'hidden_search_price_range_max'
