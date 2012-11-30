@@ -23,7 +23,7 @@ class CourseGroupsController < ApplicationController
       when 'levels'
         @course_groups = @course_groups.joins{levels}.where{levels.id.eq_any value.map(&:to_i)}
       when 'week_days'
-        #@course_groups = @course_groups.joins{plannings}.where{plannings.week_day.like_any value}
+        @course_groups = @course_groups.joins{plannings}.where{plannings.week_day.like_any value}
       when 'time_slots'
         time_slots = []
         value.each do |slot|
@@ -49,7 +49,7 @@ class CourseGroupsController < ApplicationController
   end
 
   def show
-    @course = Course.find(params[:id])
+    @course_group         = CourseGroup.find(params[:id])
   end
 
   private

@@ -6,6 +6,7 @@ class CourseGroup < ActiveRecord::Base
   belongs_to :structure
 
   has_many :courses
+  has_many :plannings, through: :courses
 
   has_and_belongs_to_many :audiences
   has_and_belongs_to_many :levels

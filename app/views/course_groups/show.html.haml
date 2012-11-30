@@ -1,1 +1,6 @@
-= debug @course
+%ul
+  - @course_group.courses.each do |course|
+    %li
+      = course.planning.week_day
+      à
+      = l course.planning.start_time, format: :short
