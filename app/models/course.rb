@@ -10,6 +10,7 @@ class Course < ActiveRecord::Base
                   :is_individual,
                   :annual_membership_mandatory,
                   :is_for_handicaped,
-                  :registration_date
+                  :registration_date,
+                  :teacher_name
 
 end
