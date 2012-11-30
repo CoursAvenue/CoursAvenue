@@ -18,6 +18,7 @@ class Structure < ActiveRecord::Base
                   :info,
                   :registration_info,
                   :street,
+                  :nb_days_before_cancelation,
                   :zip_code,
                   :closed_days,
                   :has_handicap_access,

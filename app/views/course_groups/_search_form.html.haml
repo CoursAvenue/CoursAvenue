@@ -1,8 +1,8 @@
-- params[:types]       ||= ['lesson', 'training']
-- params[:audiences]   ||= []
-- params[:levels]      ||= []
-- params[:week_days]   ||= []
-- params[:time_slots]  ||= []
+- params[:types]       ||= ['lesson', 'training', 'workshop']
+- params[:audiences]   ||= Audience.all.collect(&:id).map(&:to_s)
+- params[:levels]      ||= Level.all.collect(&:id).map(&:to_s)
+- params[:week_days]   ||= LeBonCours::Application::WEEK_DAYS
+- params[:time_slots]  ||= LeBonCours::Application::TIME_SLOTS
 - params[:price_range] ||= {min: 0, max: 1000}
 %section.gw
   = form_tag course_groups_path, class: 'g one-whole', method: :get, authenticity_token: false do
@@ -15,6 +15,8 @@
           = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "search_lesson_course_type"
           = label_tag 'search_training_course_type', 'Stage'
           = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "search_training_course_type"
+          = label_tag 'search_workshop_course_type', 'Atelier'
+          = check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "search_workshop_course_type"
 
         %div
           - LeBonCours::Application::WEEK_DAYS.each_with_index do |week_day, i|

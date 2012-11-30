@@ -19,37 +19,37 @@ namespace :import do
       nil
     end
   end
-  def level_name(name)
+  def level(name)
     case name
     when 'TN'
-      'level.all'
+      Level.all_levels
     when 'Ini'
-      'level.initiation'
+      Level.initiation
     when 'D'
-      'level.beginner'
+      Level.beginner
     when 'I'
-      'level.intermediate'
+      Level.intermediate
     when 'M'
-      'level.average'
+      Level.average
     when 'A'
-      'level.advanced'
+      Level.advanced
     when 'C'
-      'level.confirmed'
+      Level.confirmed
     else
       nil
     end
   end
 
-  def audience_name(name)
+  def audience(name)
     case name
     when 'Enfant'
-      'audience.kid'
+      Audience.kid
     when 'Ado'
-      'audience.teenage'
+      Audience.teenage
     when 'Adulte'
-      'audience.adult'
+      Audience.adult
     when 'Senior'
-      'audience.senior'
+      Audience.senior
     else
       nil
     end
@@ -61,34 +61,36 @@ namespace :import do
       course_type:                                    course_group_class(row[1]),
 
       course_group: {
-        name:                                         row[2],
-        # TODO
-        # annual_membership_mandatory:                  row[x],
+        name:                                         row[2]
       },
       audiences: {
-        audience_1:                                   audience_name(row[7]),
-        audience_2:                                   audience_name(row[8]),
-        audience_3:                                   audience_name(row[9])
+        audience_1:                                   audience(row[7]),
+        audience_2:                                   audience(row[8]),
+        audience_3:                                   audience(row[9])
       },
 
       levels: {
-        level_2:                                      level_name(row[12]),
-        level_1:                                      level_name(row[13])
+        level_1:                                      level(row[13]),
+        level_2:                                      level(row[14])
       },
 
       # Course
       course: {
-        max_age_for_kid:                              row[14],
-        min_age_for_kid:                              row[15],
-        is_individual:                               (row[16] == 'X' ? true : false),
-        course_info_1:                                row[10],
-        course_info_2:                                row[11],
-        is_for_handicaped:                           (row[17] == 'X' ? true : false),
-        registration_date:                            row[20]
+        teacher_name:                                 row[10],
+        max_age_for_kid:                              row[15],
+        min_age_for_kid:                              row[16],
+        is_individual:                               (row[17] == 'X' ? true : false),
+        course_info_1:                                row[11],
+        course_info_2:                                row[12],
+        is_for_handicaped:                           (row[18] == 'X' ? true : false),
+        registration_date:                            row[20],
+        annual_membership_mandatory:                  row[38]
       },
 
       # Price
       price: {
+        annual_price_adult:                           row[39],
+        annual_price_child:                           row[40],
         is_free:                                     (row[42] == 'X' ? true : false),
         individual_course_price:                      row[43],
         annual_price:                                 row[44],
@@ -134,8 +136,7 @@ namespace :import do
         has_exceptional_offer:                       (row[84] == 'X' ? true : false),
         trial_lesson_price:                           row[85],
         details:                                      row[86],
-        # annual_price_adult:                           row[x],
-        # annual_price_child:                           row[x],
+        key_price:                                    row[87]
 
       },
 
@@ -145,8 +146,8 @@ namespace :import do
         start_time:                                   Time.parse("2000-01-01 #{row[4]} UTC"),
         end_time:                                     Time.parse("2000-01-01 #{row[5]} UTC"),
         duration:                                     row[6],
-        recurrence:                                   row[18],
-        class_during_holidays:                       (row[19] == 'X' ? false : true),
+        recurrence:                                   row[19],
+        class_during_holidays:                       (row[20] == 'X' ? false : true),
 
         start_date:                                  (row[21].nil? ? nil : Date.parse(row[21])),
         end_date:                                    (row[22].nil? ? nil : Date.parse(row[22])),
@@ -185,45 +186,43 @@ namespace :import do
       row = course_and_price_hash_from_row(row)
       #################################################################### First, finding the structure to associate with
       structure = Structure.where{name == row[:structure_name]}.first
-      next if structure.nil?
-      # Search if the given structure already have a course group with this course name
-      # course_group = structure.course_groups.where(name: row[:course_group][:name]).first
-
-      # CourseGroup.joins{audiences.outer}.joins{levels.outer}.where{(structure_id == structure.id) & (audiences.id == ado.id)}.first
-      course_group = CourseGroup.joins{audiences.outer}.joins{levels.outer}.where do
-        (name == row[:course_group][:name])
-      end.where do
-        (structure_id == structure.id)
-      end.where do
-        row[:audiences].values.compact.map { |audience_name| (audiences.name == audience_name) }.reduce(&:&)
-      end.where do
-        row[:levels].values.compact.map { |level_name| (levels.name == level_name) }.reduce(&:&)
-      end.first
-
-      if course_group.nil?
-        # Create course group
-        course_group = row[:course_type].create(row[:course_group])
-
-        #################################################################### Associating audiences
-        if row[:audiences].values.compact.empty?
-
-        else
-          row[:audiences].values.compact.each do |audience_name|
-            audience = Audience.where{name == audience_name}.first
-            course_group.audiences << audience
-          end
-        end
-
-        #################################################################### Associating levels
-        row[:levels].values.compact.each do |level_name|
-          level = Level.where{name == level_name}.first
-          course_group.levels << level
-        end
-        course_group.structure = structure
-      else
-        course_group = CourseGroup.find(course_group.id)
+      if structure.nil?
+        puts "Haven't found '#{row[:structure_name]}' - Check CSV file."
+        next
       end
 
+      #################################################################### Checking if have to create a new course group
+      # CourseGroups are grouped by same name, audiences and levels
+      course_groups = CourseGroup.where{ (name == row[:course_group][:name]) & (structure_id == structure.id)}.all
+
+      # If no audience specified, add trhee basics audiecne
+      # Normally never happens
+      if row[:audiences].values.compact.empty?
+        row[:audiences] = [Audience.kid, Audience.teenage, Audience.adult]
+      else
+        row[:audiences] = row[:audiences].values.compact
+      end
+      row[:audiences].each do |audience|
+        course_groups = course_groups.reject do |course_group|
+          !course_group.audiences.include? audience
+        end
+      end
+
+      row[:levels] = row[:levels].values.compact
+      row[:levels].each do |level|
+        course_groups = course_groups.reject do |course_group|
+          !course_group.levels.include? level
+        end
+      end
+
+      if course_groups.empty?
+        # Create course group
+        course_group = row[:course_type].create(row[:course_group])
+        course_group.audiences = row[:audiences]
+        course_group.levels    = row[:levels]
+      else
+        course_group = course_groups.first
+      end
 
       course = Course.create(row[:course])
       #################################################################### Creating Planning
@@ -232,8 +231,12 @@ namespace :import do
       #################################################################### Creating Price
       price = Price.create(row[:price])
       course.price = price
-      course.save
+
+      course_group.structure = structure
+      course_group.courses << course
+
       course_group.save
+      course.save
     end
   end
 end

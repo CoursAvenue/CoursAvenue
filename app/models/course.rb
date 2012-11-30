@@ -2,6 +2,7 @@ class Course < ActiveRecord::Base
 
   has_one :planning
   has_one :price
+  belongs_to :course_group
 
   attr_accessible :course_info_1,
                   :course_info_2,

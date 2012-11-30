@@ -47,11 +47,13 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
     t.text     "course_info_1"
     t.text     "course_info_2"
     t.text     "registration_date"
+    t.text     "teacher_name"
     t.integer  "max_age_for_kid"
     t.integer  "min_age_for_kid"
     t.boolean  "is_individual"
     t.boolean  "annual_membership_mandatory"
     t.boolean  "is_for_handicaped"
+    t.integer  "course_group_id"
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
   end
@@ -137,6 +139,7 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
     t.decimal  "couple_price"
     t.decimal  "annual_price_child"
     t.decimal  "annual_price_adult"
+    t.decimal  "key_price"
     t.text     "excluded_lesson_from_unlimited_access_card"
     t.text     "price_info_1"
     t.text     "price_info_2"
@@ -180,6 +183,8 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
     t.string   "structure_type"
     t.string   "name"
     t.string   "name_2"
+    t.text     "info"
+    t.text     "registration_info"
     t.text     "street"
     t.string   "zip_code"
     t.string   "adress_info"
@@ -187,18 +192,14 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
     t.boolean  "has_handicap_access"
     t.boolean  "is_professional"
     t.integer  "nb_room"
-    t.integer  "location_room_number"
+    t.integer  "nb_days_before_cancelation"
     t.string   "website"
     t.string   "newsletter_address"
-    t.boolean  "online_reservation_website"
+    t.boolean  "has_online_reservation"
+    t.string   "online_reservation_website"
     t.boolean  "onlne_reservation_mandatory"
-    t.boolean  "has_trial_lesson"
-    t.text     "trial_lesson_info"
-    t.string   "trial_lesson_price"
-    t.text     "trial_lesson_info_2"
-    t.text     "registration_info"
-    t.boolean  "canceleable_without_fee"
-    t.integer  "nb_days_before_cancelation"
+    t.boolean  "has_online_membership"
+    t.string   "online_membership_website"
     t.string   "phone_number"
     t.string   "mobile_phone_number"
     t.string   "email_address"
@@ -209,9 +210,17 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
     t.boolean  "accepts_leisure_tickets"
     t.boolean  "accepts_afdas_funding"
     t.boolean  "accepts_dif_funding"
+    t.boolean  "accepts_cif_funding"
     t.boolean  "has_multiple_place"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+    t.boolean  "has_annual_course_only"
+    t.boolean  "has_registration_form"
+    t.boolean  "needs_photo_id_for_registration"
+    t.boolean  "needs_id_copy_for_registration"
+    t.boolean  "needs_payment_on_place_for_registration"
+    t.boolean  "needs_medical_certificate_for_registration"
+    t.boolean  "needs_insurance_attestation_for_registration"
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
   end
 
 end

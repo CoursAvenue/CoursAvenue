@@ -13,13 +13,14 @@ class CreateStructures < ActiveRecord::Migration
       t.boolean :has_handicap_access
       t.boolean :is_professional
       t.integer :nb_room
+      t.integer :nb_days_before_cancelation
       t.string  :website
       t.string  :newsletter_address
       t.boolean :has_online_reservation
       t.string  :online_reservation_website
       t.boolean :onlne_reservation_mandatory
-      t.boolean :has_online_membership,
-      t.string  :online_membership_website,
+      t.boolean :has_online_membership
+      t.string  :online_membership_website
       t.string  :phone_number
       t.string  :mobile_phone_number
       t.string  :email_address

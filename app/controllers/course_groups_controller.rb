@@ -11,17 +11,17 @@ class CourseGroupsController < ApplicationController
     params.each do |key, value|
       case key
       when 'name'
-        course_name  = value + '%'
-        @course_groups         = @course_groups.where{name =~ course_name}
+        course_name    = value + '%'
+        @course_groups = @course_groups.where{name =~ course_name}
       #when 'types'
         # types = []
         # types << 'Course::Lesson'   if value.include? 'lesson'
         # types << 'Course::Training' if value.include? 'training'
         # @course_groups         = @course_groups.where{type.like_any types}
       when 'audiences'
-        @course_groups = @course_groups.joins{audiences}.where{audiences.id.eq_all value.map(&:to_i)}
+        @course_groups = @course_groups.joins{audiences}.where{audiences.id.eq_any value.map(&:to_i)}
       when 'levels'
-        @course_groups = @course_groups.joins{levels}.where{levels.id.eq_all value.map(&:to_i)}
+        @course_groups = @course_groups.joins{levels}.where{levels.id.eq_any value.map(&:to_i)}
       when 'week_days'
         #@course_groups = @course_groups.joins{plannings}.where{plannings.week_day.like_any value}
       when 'time_slots'

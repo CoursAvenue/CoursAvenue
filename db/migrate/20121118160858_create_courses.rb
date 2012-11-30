@@ -12,6 +12,7 @@ class CreateCourses < ActiveRecord::Migration
       t.boolean :annual_membership_mandatory
       t.boolean :is_for_handicaped
 
+      t.references :course_group
       t.timestamps
     end
   end
