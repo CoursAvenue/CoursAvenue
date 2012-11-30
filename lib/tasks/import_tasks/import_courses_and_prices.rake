@@ -84,8 +84,8 @@ namespace :import do
         max_age_for_kid:                              row[14],
         min_age_for_kid:                              row[15],
         is_individual:                               (row[16] == 'X' ? true : false),
-        course_info_2:                                row[10],
-        course_info_1:                                row[11],
+        course_info_1:                                row[10],
+        course_info_2:                                row[11],
         is_for_handicaped:                           (row[17] == 'X' ? true : false),
         registration_date:                            row[20]
       },
@@ -186,8 +186,7 @@ namespace :import do
       row = course_and_price_hash_from_row(row)
       #################################################################### First, finding the structure to associate with
       structure = Structure.where{name == row[:structure_name]}.first
-      next if structure.blank?
-
+      next if structure.nil?
       # Search if the given structure already have a course group with this course name
       # course_group = structure.course_groups.where(name: row[:course_group][:name]).first
 
@@ -207,9 +206,13 @@ namespace :import do
         course_group = row[:course_type].create(row[:course_group])
 
         #################################################################### Associating audiences
-        row[:audiences].values.compact.each do |audience_name|
-          audience = Audience.where{name == audience_name}.first
-          course_group.audiences << audience
+        if row[:audiences].values.compact.empty?
+
+        else
+          row[:audiences].values.compact.each do |audience_name|
+            audience = Audience.where{name == audience_name}.first
+            course_group.audiences << audience
+          end
         end
 
         #################################################################### Associating levels
@@ -218,6 +221,8 @@ namespace :import do
           course_group.levels << level
         end
         course_group.structure = structure
+      else
+        course_group = CourseGroup.find(course_group.id)
       end
 
 
@@ -229,6 +234,7 @@ namespace :import do
       price = Price.create(row[:price])
       course.price = price
       course.save
+      course_group.save
     end
   end
 end

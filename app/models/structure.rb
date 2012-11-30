@@ -15,24 +15,21 @@ class Structure < ActiveRecord::Base
                   :structure_type,
                   :name,
                   :name_2,
+                  :info,
+                  :registration_info,
                   :street,
                   :zip_code,
                   :closed_days,
                   :has_handicap_access,
                   :is_professional,
                   :nb_room,
-                  :location_room_number,
                   :website,
                   :newsletter_address,
+                  :has_online_reservation,
                   :online_reservation_website,
                   :onlne_reservation_mandatory,
-                  :has_trial_lesson,
-                  :trial_lesson_info,
-                  :trial_lesson_price,
-                  :trial_lesson_info_2,
-                  :registration_info,
-                  :canceleable_without_fee,
-                  :nb_days_before_cancelation,
+                  :has_online_membership,
+                  :online_membership_website,
                   :phone_number,
                   :mobile_phone_number,
                   :email_address,
@@ -43,6 +40,16 @@ class Structure < ActiveRecord::Base
                   :accepts_leisure_tickets,
                   :accepts_afdas_funding,
                   :accepts_dif_funding,
-                  :has_multiple_place
+                  :accepts_cif_funding,
+                  :has_multiple_place,
+                  :has_annual_course_only,
+
+                  # For registration info
+                  :has_registration_form,
+                  :needs_photo_id_for_registration,
+                  :needs_id_copy_for_registration,
+                  :needs_payment_on_place_for_registration, # règlement sur place
+                  :needs_medical_certificate_for_registration, # certificat médical de moins de 3 mois
+                  :needs_insurance_attestation_for_registration # attestation d'assurance
 
 end

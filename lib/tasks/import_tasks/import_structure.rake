@@ -8,49 +8,53 @@ require 'debugger'
 namespace :import do
   def structure_hash_from_row(row)
     {
-      name:                          row[0],
-      name_2:                        row[5],
-      structure_type:                row[3],
+      name:                                          row[0],
+      name_2:                                        row[5],
+      structure_type:                                row[3],
 
-      has_multiple_place:           (row[4] == 'X' ? true : false),
+      has_multiple_place:                           (row[4] == 'X' ? true : false),
 
-      street:                        row[6],
-      zip_code:                      row[7],
-      adress_info:                   row[8],
+      street:                                        row[6],
+      zip_code:                                      row[7],
+      adress_info:                                   row[8],
 
-      closed_days:                   row[9],
-      has_handicap_access:           row[10],
-      is_professional:              (row[11] == 'X' ? true : false),
-      nb_room:                       row[12],
-      website:                       row[14],
-      newsletter_address:            row[15],
+      closed_days:                                   row[9],
+      has_handicap_access:                          (row[10] == 'X' ? true : false),
+      is_professional:                              (row[11] == 'X' ? true : false),
+      nb_room:                                       row[12],
+      website:                                       row[14],
+      newsletter_address:                            row[15],
 
-      online_reservation_website:    row[16],
-      onlne_reservation_mandatory:  (row[18] == 'X' ? true : false),
-      # annual_membership_mandatory:   row[]
+      has_online_reservation:                       (row[16] == 'X' ? true : false),
+      online_reservation_website:                    row[17],
+      onlne_reservation_mandatory:                  (row[18] == 'X' ? true : false),
 
-      # location_room_number:          row[]
+      has_online_membership:                        (row[19] == 'X' ? true : false),
+      online_membership_website:                     row[20],
 
-      # annual_price_adult:            row[],
-      # annual_price_child:            row[],
-      # has_trial_lesson:              row[],
-      # trial_lesson_info:             row[],
-      # trial_lesson_price:            row[],
-      # trial_lesson_info_2:           row[],
-      # annual_membership_mandatory:   row[],
-      # registration_info:             row[],
-      # canceleable_without_fee:       row[],
-      # nb_days_before_cancelation:    row[],
-      # phone_number:                  row[],
-      # mobile_phone_number:           row[],
-      # email_address:                 row[],
-      # email_address_2:               row[],
-      # contact_name:                  row[],
-      # accepts_holiday_vouchers:      row[],
-      # accepts_ancv_sports_coupon:    row[],
-      # accepts_leisure_tickets:       row[],
-      # accepts_afdas_funding:         row[],
-      # accepts_dif_funding:           row[],
+      registration_info:                             row[21],
+
+      has_registration_form:                        (row[22] == 'X' ? true : false),
+      needs_photo_id_for_registration:              (row[23] == 'X' ? true : false),
+      needs_id_copy_for_registration:               (row[24] == 'X' ? true : false),
+      needs_payment_on_place_for_registration:      (row[25] == 'X' ? true : false),
+      needs_medical_certificate_for_registration:   (row[26] == 'X' ? true : false),
+      needs_insurance_attestation_for_registration: (row[27] == 'X' ? true : false),
+
+      nb_days_before_cancelation:                    row[28],
+      phone_number:                                  row[29],
+      mobile_phone_number:                           row[30],
+      email_address:                                 row[31],
+      email_address_2:                               row[32],
+      contact_name:                                  row[33],
+      accepts_holiday_vouchers:                      row[34],
+      accepts_ancv_sports_coupon:                   (row[35] == 'X' ? true : false),
+      accepts_leisure_tickets:                      (row[36] == 'X' ? true : false),
+      accepts_afdas_funding:                        (row[37] == 'X' ? true : false),
+      accepts_dif_funding:                          (row[38] == 'X' ? true : false),
+      accepts_cif_funding:                          (row[39] == 'X' ? true : false),
+      info:                                          row[40],
+      has_annual_course_only:                       (row[41] == 'X' ? true : false)
     }
   end
 
