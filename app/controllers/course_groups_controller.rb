@@ -40,10 +40,10 @@ class CourseGroupsController < ApplicationController
         @course_groups = @course_groups.joins{plannings}.where do
           time_slots.map { |start_time, end_time| (plannings.start_time >= start_time) & (plannings.start_time <= end_time) }.reduce(&:|)
         end
-      #when 'price_range'
-        # @course_groups = @course_groups.joins{price}.where do
-        #   (price.individual_course_price >= value[:min]) & (price.individual_course_price <= value[:max])
-        # end
+      when 'price_range'
+        @course_groups = @course_groups.joins{prices}.where do
+          (prices.individual_course_price >= value[:min]) & (prices.individual_course_price <= value[:max])
+        end
       end
     end
 

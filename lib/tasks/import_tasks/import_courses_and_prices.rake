@@ -193,7 +193,7 @@ namespace :import do
 
       #################################################################### Checking if have to create a new course group
       # CourseGroups are grouped by same name, audiences and levels
-      course_groups = CourseGroup.where{ (name == row[:course_group][:name]) & (structure_id == structure.id) & (type == row[:course_type].class)}.all
+      course_groups = CourseGroup.where{ (name == row[:course_group][:name]) & (structure_id == structure.id) & (type == row[:course_type].name)}.all
 
       # If no audience specified, add trhee basics audiecne
       # Normally never happens
@@ -222,6 +222,7 @@ namespace :import do
         course_group.levels    = row[:levels]
       else
         course_group = course_groups.first
+        puts "Adding course to #{course_group.name}"
       end
 
       course = Course.create(row[:course])
