@@ -21,10 +21,15 @@
     %h5.search-panel-header Créneaux horaire
     .search-panel-content
       %ul.search-list
-        - LeBonCours::Application::TIME_SLOTS.each do |slot_symbole, slot|
-          %li
-            = check_box_tag 'time_slots[]', slot_symbole, params[:time_slots].include?(slot_symbole.to_s), id: "search_time_slot_#{slot_symbole.to_s}", data: {behavior: 'input-update', element: "hidden_search_time_slot_#{slot_symbole.to_s}"}
-            = label_tag "search_time_slot_#{slot_symbole.to_s}", slot[:name]
+        %li
+          = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "search_lesson_course_type", data: {behavior: 'input-update', element: "hidden_search_lesson_course_type"}
+          = label_tag 'search_lesson_course_type', 'Cours'
+        %li
+          = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "search_training_course_type", data: {behavior: 'input-update', element: "hidden_search_training_course_type"}
+          = label_tag 'search_training_course_type', 'Stage'
+        %li
+          = check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "search_workshop_course_type", data: {behavior: 'input-update', element: "hidden_search_workshop_course_type"}
+          = label_tag 'search_workshop_course_type', 'Atelier'
   .search-panel
     %h5.search-panel-header Prix
     .search-panel-content

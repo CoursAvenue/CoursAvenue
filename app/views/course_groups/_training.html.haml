@@ -1,0 +1,28 @@
+%li{class: 'training-element'}
+  = link_to training, class: 'one-whole' do
+    %div.two-twelfths
+      %img.media__img.training-image{src: 'http://www.placehold.it/100'}
+
+    %article.eight-twelfths.training-content
+      %header
+        %h3.hN
+          = training.name
+      %p
+        Stage de
+        = pluralize training.length, 'jour'
+      %ul.nav
+        %li= join_audiences(training)
+        %li -
+        %li= join_levels(training)
+      %p
+        .lbl Stage
+
+      %footer
+        %h5.hN
+          %i.icon-map-marker
+          = training.structure.name
+
+    %div.training-price.two-twelfths
+      À partir de
+      .alpha
+        = "#{training.minimum_price}&nbsp;€".html_safe

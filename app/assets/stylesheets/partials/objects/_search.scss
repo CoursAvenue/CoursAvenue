@@ -13,8 +13,13 @@
         display       : table-cell;
         vertical-align: middle;
         padding       : 0 0.5em;
+        ul {
+            margin-bottom: 0;
+        }
     }
 }
+
+
 
 
 .side-search-panel {

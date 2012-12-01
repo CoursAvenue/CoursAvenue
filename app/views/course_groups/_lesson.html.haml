@@ -1,0 +1,31 @@
+%li{class: 'lesson-element'}
+  = link_to lesson, class: 'one-whole' do
+    %div.two-twelfths
+      %img.media__img.lesson-image{src: 'http://www.placehold.it/100'}
+
+    %article.eight-twelfths.lesson-content
+      %header
+        %h3.hN
+          = lesson.name
+      %p Cours récurrent avec une progression dans l'année
+      %ul.nav
+        %li= join_audiences(lesson)
+        %li -
+        %li= join_levels(lesson)
+      .fl.lbl Cours
+      %footer
+        %h5.hN
+          %i.icon-map-marker
+          = lesson.structure.name
+
+    %div.lesson-price.two-twelfths
+      À partir de
+      - if lesson.minimum_price_per_course
+        .alpha
+          = "#{lesson.minimum_price_per_course}&nbsp;€".html_safe
+        \/ séance
+      - if lesson.minimum_price_per_year
+        %div
+          %em
+            = "#{lesson.minimum_price_per_year}&nbsp;€".html_safe
+          \/ an

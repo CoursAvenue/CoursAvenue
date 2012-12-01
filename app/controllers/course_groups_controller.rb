@@ -11,19 +11,25 @@ class CourseGroupsController < ApplicationController
     params.each do |key, value|
       case key
       when 'name'
-        course_name    = value + '%'
-        @course_groups = @course_groups.where{name =~ course_name}
-      #when 'types'
-        # types = []
-        # types << 'Course::Lesson'   if value.include? 'lesson'
-        # types << 'Course::Training' if value.include? 'training'
-        # @course_groups         = @course_groups.where{type.like_any types}
+        name_string    = value + '%'
+        @course_groups = @course_groups.joins{structure}.where{(name =~ name_string) | (structure.name =~ name_string)}
+      when 'types'
+        types = []
+        types << 'CourseGroup::Lesson'   if value.include? 'lesson'
+        types << 'CourseGroup::Training' if value.include? 'training'
+        types << 'CourseGroup::Workshop' if value.include? 'workshop'
+        @course_groups         = @course_groups.where{type.like_any types}
       when 'audiences'
         @course_groups = @course_groups.joins{audiences}.where{audiences.id.eq_any value.map(&:to_i)}
       when 'levels'
         @course_groups = @course_groups.joins{levels}.where{levels.id.eq_any value.map(&:to_i)}
       when 'week_days'
-        @course_groups = @course_groups.joins{plannings}.where{plannings.week_day.like_any value}
+        if params[:types] == 'training'
+          value << nil
+        end
+        @course_groups.joins{plannings}.where do
+          value.map{ planning.week_day == value }.reduce(&:|)
+        end
       when 'time_slots'
         time_slots = []
         value.each do |slot|

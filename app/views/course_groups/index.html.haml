@@ -3,12 +3,16 @@
   %section.g.one-quarter
     = render 'side_search_form'
   %section.g.three-quarters
+    %p.island
+      = page_entries_info html: false
     %ul.block-list
-      - if @course_groups.empty?
-        %p.island
-          Il n'y a pas de cours correspondant à votre recherche.
-      - else
-        = render :partial => 'course_group', :collection => @course_groups
+      - @course_groups.each do |course_group|
+        - if course_group.is_lesson?
+          = render partial: 'lesson',   locals: { lesson: course_group }
+        - elsif course_group.is_training?
+          = render partial: 'training', locals: { training: course_group }
+        - elsif course_group.is_workshop?
+          = render partial: 'workshop', locals: { workshop: course_group}
 
     %footer.g.one-whole
       = will_paginate @course_groups, renderer: PaginationListLinkRenderer, class: 'nav pagination', inner_window: 2

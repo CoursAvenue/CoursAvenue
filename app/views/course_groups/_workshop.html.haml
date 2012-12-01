@@ -1,0 +1,24 @@
+%li{class: 'workshop-element'}
+  = link_to workshop, class: 'one-whole' do
+    %div.two-twelfths
+      %img.media__img.workshop-image{src: 'http://www.placehold.it/100'}
+
+    %article.eight-twelfths.workshop-content
+      %header
+        %h3.hN
+          = workshop.name
+      %p Cours ponctuel (atelier d'un jour)
+      %ul.nav
+        %li= join_audiences(workshop)
+        %li -
+        %li= join_levels(workshop)
+      .fl.lbl Atelier
+      %footer
+        %h5.hN
+          %i.icon-map-marker
+          = workshop.structure.name
+
+    %div.workshop-price.two-twelfths
+      À partir de
+      .alpha
+        = "#{workshop.minimum_price}&nbsp;€".html_safe
