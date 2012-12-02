@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121129183251) do
+ActiveRecord::Schema.define(:version => 20121201153104) do
 
   create_table "audiences", :force => true do |t|
     t.string   "name"
@@ -137,8 +137,8 @@ ActiveRecord::Schema.define(:version => 20121129183251) do
     t.decimal  "low_income_price"
     t.decimal  "large_family_price"
     t.decimal  "couple_price"
-    t.decimal  "annual_price_child"
-    t.decimal  "annual_price_adult"
+    t.decimal  "annual_registration_adult_fee"
+    t.decimal  "annual_registration_child_fee"
     t.decimal  "key_price"
     t.text     "excluded_lesson_from_unlimited_access_card"
     t.text     "price_info_1"
