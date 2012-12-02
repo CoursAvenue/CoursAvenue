@@ -12,5 +12,19 @@
 //
 //= require global
 //= require mootools
+//= require mootools-more
 //= require mootools_ujs
 //= require_tree ./objects/
+//= require libs/datepicker/Locale.fr-FR.DatePicker
+//= require libs/datepicker/Picker
+//= require libs/datepicker/Picker.Attach
+//= require libs/datepicker/Picker.Date
+//= require libs/datepicker/Picker.Date.Range
+
+window.addEvent('domready', function() {
+    Locale.use('fr-FR');
+    new Picker.Date($$('[data-behavior=datepicker]'),
+    {
+        pickerClass: 'datepicker_dashboard'
+    });
+});

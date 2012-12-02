@@ -38,6 +38,10 @@ class CourseGroupsController < ApplicationController
         @course_groups = @course_groups.joins{structure}.where do
           value.map{ |zip_code| structure.zip_code == zip_code }.reduce(&:|)
         end
+      when 'start_date'
+        @course_groups = @course_groups.joins{plannings}.where{plannings.end_date >= Date.parse(value)}
+      when 'end_date'
+        @course_groups = @course_groups.joins{plannings}.where{plannings.start_date <= Date.parse(value)}
       when 'price_range'
         # value[:min] = 0     if value[:min].blank?
         # value[:max] = 10000 if value[:max].blank?

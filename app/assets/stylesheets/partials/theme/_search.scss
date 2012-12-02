@@ -14,7 +14,7 @@
         vertical-align: middle;
         padding       : 0 0.5em;
         ul {
-            margin-bottom: 0;
+            margin-bottom: 1rem;
         }
     }
 }
@@ -50,3 +50,9 @@
             text-align: center;
             padding   : 1em;
         }
+
+.inline-checkboxes {
+    label {
+        margin-right: 1.5em;
+    }
+}

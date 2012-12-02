@@ -15,7 +15,7 @@
 
 // Object import
 @import "partials/objects/grids";
-// @import "partials/objects/flexbox";
+@import "partials/objects/flexbox";
 // @import "partials/objects/columns";
 @import "partials/objects/nav";
 // @import "partials/objects/options";
@@ -39,12 +39,6 @@
 @import "partials/objects/greybox";
 
 // Created objects
-@import "partials/objects/main-header";
-@import "partials/objects/main-container";
-@import "partials/objects/course-list";
-@import "partials/objects/menu";
-@import "partials/objects/search";
-@import "partials/objects/input-range";
-
 @import "partials/theme/*";
 
+@import "partials/theme/datepicker/*";
