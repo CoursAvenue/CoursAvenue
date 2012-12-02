@@ -42,7 +42,21 @@
           = label_tag 'search_price_range_max_price', 'À'
           = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, data: {behavior: 'input-update', element: 'hidden_search_price_range_max'}
           €
-
+  .search-panel
+    %h5.search-panel-header Arrondissement
+    .search-panel-content
+      %ul.search-list
+        - (75001..75020).to_a.map(&:to_s).each do |zip_code|
+          %li
+            = check_box_tag 'zip_code[]', zip_code, params[:zip_codes].include?(zip_code), id: "search_arrondissement_#{zip_code}", data: {behavior: 'input-update', element: "hidden_search_arrondissement_#{zip_code}"}
+            = label_tag "search_arrondissement_#{zip_code}", "Paris #{zip_code.to_s[3..4]}ème"
+  / .search-panel
+  /   %h5.search-panel-header Autres
+  /   .search-panel-content
+  /     %ul.search-list
+  /       %li
+  /         = check_box_tag 'arrondissement[]', arrondissement_number, params[:arrondissement_numbers].include?(arrondissement_number), id: "search_arrondissement_#{arrondissement_number}", data: {behavior: 'input-update', element: "hidden_search_arrondissement_#{arrondissement_number}"}
+  /         = label_tag "search_arrondissement_#{arrondissement_number}", "Paris #{arrondissement_number}ème"
   .search-panel-footer
     %button.btn{type: 'submit', data: {behavior: 'input-update', element: 'submit_search_form'}}
       %i.icon-search

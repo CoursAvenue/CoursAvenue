@@ -3,7 +3,7 @@
     %div.two-twelfths
       %img.media__img.workshop-image{src: 'http://www.placehold.it/100'}
 
-    %article.eight-twelfths.workshop-content
+    %article.workshop-content
       %header
         %h3.hN
           = workshop.name
@@ -12,7 +12,8 @@
         %li= join_audiences(workshop)
         %li -
         %li= join_levels(workshop)
-      .fl.lbl Atelier
+      %p
+        %span.lbl Atelier
       %footer
         %h5.hN
           %i.icon-map-marker

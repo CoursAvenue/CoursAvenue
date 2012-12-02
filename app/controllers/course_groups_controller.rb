@@ -7,7 +7,6 @@ class CourseGroupsController < ApplicationController
     @audiences = Audience.all
     @levels    = Level.all
 
-
     params.each do |key, value|
       case key
       when 'name'
@@ -24,12 +23,7 @@ class CourseGroupsController < ApplicationController
       when 'levels'
         @course_groups = @course_groups.joins{levels}.where{levels.id.eq_any value.map(&:to_i)}
       when 'week_days'
-        if params[:types] == 'training'
-          value << nil
-        end
-        @course_groups.joins{plannings}.where do
-          value.map{ planning.week_day == value }.reduce(&:|)
-        end
+        @course_groups = @course_groups.joins{plannings}.where{plannings.week_day.like_any value}
       when 'time_slots'
         time_slots = []
         value.each do |slot|
@@ -38,14 +32,28 @@ class CourseGroupsController < ApplicationController
           time_slots << [start_time, end_time]
         end
         @course_groups = @course_groups.joins{plannings}.where do
-          time_slots.map { |start_time, end_time| (plannings.start_time >= start_time) & (plannings.start_time <= end_time) }.reduce(&:|)
+          time_slots.map { |start_time, end_time| ((plannings.start_time >= start_time) & (plannings.start_time <= end_time)) }.reduce(&:|)
+        end
+      when 'zip_codes'
+        @course_groups = @course_groups.joins{structure}.where do
+          value.map{ |zip_code| structure.zip_code == zip_code }.reduce(&:|)
         end
       when 'price_range'
-        @course_groups = @course_groups.joins{prices}.where do
-          (prices.individual_course_price >= value[:min]) & (prices.individual_course_price <= value[:max])
-        end
+        value[:min] = 0     if value[:min].blank?
+        value[:max] = 10000 if value[:max].blank?
+        @course_groups = @course_groups.joins{prices}
+        @course_groups = @course_groups.where(['(prices.individual_course_price != 0 AND prices.individual_course_price >= ? AND prices.individual_course_price <= ?)
+                                                OR
+                                                (prices.annual_price != 0 AND prices.annual_price >= ? AND prices.annual_price <= ?)
+                                                OR
+                                                (prices.trimester_price != 0 AND prices.trimester_price >= ? AND prices.trimester_price <= ?)
+                                                OR
+                                                (prices.month_price != 0 AND prices.month_price >= ? AND prices.month_price <= ?)
+                                                ', *[value[:min], value[:max]]*6])
       end
     end
+    # Eliminate all duplicates
+    @course_groups = @course_groups.group{id}
 
     @course_groups = @course_groups.paginate(page: params[:page]).all
 

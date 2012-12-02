@@ -3,7 +3,7 @@
     %div.two-twelfths
       %img.media__img.lesson-image{src: 'http://www.placehold.it/100'}
 
-    %article.eight-twelfths.lesson-content
+    %article.lesson-content
       %header
         %h3.hN
           = lesson.name
@@ -12,11 +12,12 @@
         %li= join_audiences(lesson)
         %li -
         %li= join_levels(lesson)
-      .fl.lbl Cours
       %footer
         %h5.hN
           %i.icon-map-marker
           = lesson.structure.name
+          = "- Paris&nbsp;#{lesson.structure.zip_code[3..4]}".html_safe
+        %span.lbl Cours
 
     %div.lesson-price.two-twelfths
       À partir de

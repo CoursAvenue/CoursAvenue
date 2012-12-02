@@ -15,7 +15,7 @@ namespace :import do
       has_multiple_place:                           (row[4] == 'X' ? true : false),
 
       street:                                        row[6],
-      zip_code:                                      row[7],
+      zip_code:                                      row[7] || 75000,
       adress_info:                                   row[8],
 
       closed_days:                                   row[9],

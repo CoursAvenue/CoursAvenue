@@ -229,11 +229,11 @@ fr:
       single_page:
         zero:  "Aucun résultat ne correspondant à votre recherche."
         one:   "Résultat : 1"
-        other: "Résultat : %{count} %{model}"
+        other: "Résultat : %{count}"
       single_page_html:
         zero:  "Aucun résultat ne correspondant à votre recherche."
         one:   "Résultat : 1"
-        other: "Résultat : %{count} %{model}"
+        other: "Résultat : %{count}"
 
       multi_page_html: "Résultat : %{from} à %{to} sur %{count}"
       multi_page: "Résultat : %{from} à %{to} sur %{count}"

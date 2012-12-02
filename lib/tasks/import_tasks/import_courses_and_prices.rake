@@ -89,8 +89,8 @@ namespace :import do
 
       # Price
       price: {
-        annual_price_adult:                           row[39],
-        annual_price_child:                           row[40],
+        annual_registration_adult_fee:                row[39],
+        annual_registration_child_fee:                row[40],
         is_free:                                     (row[42] == 'X' ? true : false),
         individual_course_price:                      row[43],
         annual_price:                                 row[44],
@@ -186,6 +186,7 @@ namespace :import do
       row = course_and_price_hash_from_row(row)
       #################################################################### First, finding the structure to associate with
       structure = Structure.where{name == row[:structure_name]}.first
+
       if structure.nil?
         puts "Haven't found '#{row[:structure_name]}' - Check CSV file."
         next
@@ -214,15 +215,14 @@ namespace :import do
           !course_group.levels.include? level
         end
       end
-
       if course_groups.empty?
         # Create course group
-        course_group = row[:course_type].create(row[:course_group])
+        course_group           = row[:course_type].create(row[:course_group])
         course_group.audiences = row[:audiences]
         course_group.levels    = row[:levels]
+        course_group.structure = structure
       else
         course_group = course_groups.first
-        puts "Adding course to #{course_group.name}"
       end
 
       course = Course.create(row[:course])
@@ -232,12 +232,11 @@ namespace :import do
       #################################################################### Creating Price
       price = Price.create(row[:price])
       course.price = price
-
-      course_group.structure = structure
-      course_group.courses << course
-
-      course_group.save
       course.save
+      course_group.courses << course
+      course_group.save
     end
+    puts "#{CourseGroup.count} Groupe de cours importés"
+    puts "#{Course.count} Cours importés"
   end
 end

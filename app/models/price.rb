@@ -6,7 +6,6 @@ class Price < ActiveRecord::Base
                   :semester_price,
                   :trimester_price,
                   :month_price,
-                  :week_price,
                   :five_lessons_price,
                   :five_lessons_validity, # In month
                   :ten_lessons_price,
@@ -47,7 +46,7 @@ class Price < ActiveRecord::Base
                   :has_other_preferential_price,
                   :has_exceptional_offer,
                   :trial_lesson_price,
-                  :annual_price_adult,
-                  :annual_price_child,
+                  :annual_registration_adult_fee,
+                  :annual_registration_child_fee,
                   :key_price
 end
