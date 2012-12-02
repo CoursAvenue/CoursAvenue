@@ -25,7 +25,11 @@ window.addEvent('domready', function() {
     Locale.use('fr-FR');
     new Picker.Date($$('[data-behavior=datepicker]'),
     {
-        pickerClass: 'datepicker_dashboard'
+        pickerClass: 'datepicker_dashboard',
+        months_abbr: Locale.get('Date.months'),
+        days_title: function(date, options){
+            return date.format('%B %Y');
+        }
     });
 
     new Picker.Date($$('[data-behavior=timepicker]'), {

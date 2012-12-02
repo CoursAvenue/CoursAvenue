@@ -195,7 +195,7 @@ this.DatePicker = Picker.Date = new Class({
 
 		// start neatly at interval (eg. 1980 instead of 1987)
 		date = date.clone().decrement('year', date.get('year') % perPage);
-	
+
 		var iterateDate = date.clone().decrement('year', Math.floor((pages - 1) / 2) * perPage);
 
 		for (var i = pages; i--;){
@@ -451,7 +451,6 @@ var renderers = {
 			container = new Element('div.months'),
 			monthsAbbr = options.months_abbr || Locale.get('Date.months_abbr'),
 			element, classes;
-
 		months.each(function(_month, i){
 			var date = new Date(_month), year = date.get('year');
 
