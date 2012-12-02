@@ -149,8 +149,8 @@ namespace :import do
         recurrence:                                   row[19],
         class_during_holidays:                       (row[20] == 'X' ? false : true),
 
-        start_date:                                  (row[21].nil? ? nil : Date.parse(row[21])),
-        end_date:                                    (row[22].nil? ? nil : Date.parse(row[22])),
+        start_date:                                  (row[21].blank? ? Date.parse('01/09/2012') : Date.parse(row[21])),
+        end_date:                                    (row[22].blank? ? Date.parse('15/07/2013') : Date.parse(row[22])),
 
         # For Trainings
         day_one:                                      row[23],

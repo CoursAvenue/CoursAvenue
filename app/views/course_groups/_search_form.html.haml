@@ -1,4 +1,4 @@
-- params[:types]       ||= [] # ['lesson', 'training', 'workshop']
+- params[:types]       ||= ['lesson', 'training', 'workshop']
 - params[:audiences]   ||= [] # Audience.all.collect(&:id).map(&:to_s)
 - params[:levels]      ||= [] # Level.all.collect(&:id).map(&:to_s)
 - params[:week_days]   ||= [] # LeBonCours::Application::WEEK_DAYS
@@ -11,16 +11,27 @@
     .one-whole.header-search-bar
       .two-twelfths
         %input.search-input{placeholder: 'Danse, Cuisine, ...', type: 'search', name: 'name', value: params[:name]}
-      .eight-twelfths
+        %ul.search-list.milli
+          %li
+            = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "search_lesson_course_type"
+            = label_tag 'search_lesson_course_type', 'Cours récurrent'
+          %li
+            = check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "search_workshop_course_type"
+            = label_tag 'search_workshop_course_type', 'Atelier ponctuel'
+          %li
+            = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "search_training_course_type"
+            = label_tag 'search_training_course_type', 'Stage'
+      .eight-twelfths.milli
         %ul.nav
           - LeBonCours::Application::WEEK_DAYS.each_with_index do |week_day, i|
             %li
-              = label_tag "search_week_day_#{week_day.downcase}", week_day
               = check_box_tag 'week_days[]', week_day, params[:week_days].include?(week_day), id: "search_week_day_#{week_day.downcase}"
+              = label_tag "search_week_day_#{week_day.downcase}", week_day
+              |
         %ul.nav
           - LeBonCours::Application::TIME_SLOTS.each do |slot_symbole, slot|
             %li
-              = check_box_tag 'time_slots[]', slot_symbole, params[:time_slots].include?(slot_symbole.to_s), id: "search_time_slot_#{slot_symbole.to_s}", data: {behavior: 'input-update', element: "hidden_search_time_slot_#{slot_symbole.to_s}"}
+              = check_box_tag 'time_slots[]', slot_symbole, params[:time_slots].include?(slot_symbole.to_s), id: "search_time_slot_#{slot_symbole.to_s}"
               = label_tag "search_time_slot_#{slot_symbole.to_s}", slot[:name]
 
       .two-twelfths
@@ -36,8 +47,8 @@
       = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, id: 'hidden_search_price_range_min'
       = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, id: 'hidden_search_price_range_max'
 
-      = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "hidden_search_lesson_course_type"
-      = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "hidden_search_training_course_type"
-      = check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "hidden_search_workshop_course_type"
+      - check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "hidden_search_lesson_course_type"
+      - check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "hidden_search_training_course_type"
+      - check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "hidden_search_workshop_course_type"
       - (75001..75020).to_a.map(&:to_s).each do |zip_code|
         = check_box_tag 'zip_codes[]', zip_code, params[:zip_codes].include?(zip_code), id: "hidden_search_arrondissement_#{zip_code}"

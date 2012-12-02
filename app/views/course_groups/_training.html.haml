@@ -21,6 +21,7 @@
         %h5.hN
           %i.icon-map-marker
           = training.structure.name
+          = "- Paris&nbsp;#{training.structure.zip_code[3..4]}".html_safe
 
     %div.training-price.two-twelfths
       À partir de

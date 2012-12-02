@@ -11,6 +11,9 @@
             this.to_update = $(el.get('data-element'));
             this.el = el;
             this.type = this.el.get('type');
+            this.associated_form = this.to_update.getParent('form');
+
+            this.submitOnKeyPress();
 
             if (this.type === 'submit') {
                 this.el.addEvent('click', function(event) {
@@ -28,8 +31,16 @@
                     }
                 }.bind(this));
             }
-        }
+        },
 
+        submitOnKeyPress: function() {
+            this.el.addEvent('keypress', function(event) {
+                debugger
+                if (event.key === 'enter') {
+                    this.associated_form.submit();
+                }
+            }.bind(this));
+        }
     });
 })();
 

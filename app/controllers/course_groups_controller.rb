@@ -39,17 +39,21 @@ class CourseGroupsController < ApplicationController
           value.map{ |zip_code| structure.zip_code == zip_code }.reduce(&:|)
         end
       when 'price_range'
-        value[:min] = 0     if value[:min].blank?
-        value[:max] = 10000 if value[:max].blank?
-        @course_groups = @course_groups.joins{prices}
-        @course_groups = @course_groups.where(['(prices.individual_course_price != 0 AND prices.individual_course_price >= ? AND prices.individual_course_price <= ?)
-                                                OR
-                                                (prices.annual_price != 0 AND prices.annual_price >= ? AND prices.annual_price <= ?)
-                                                OR
-                                                (prices.trimester_price != 0 AND prices.trimester_price >= ? AND prices.trimester_price <= ?)
-                                                OR
-                                                (prices.month_price != 0 AND prices.month_price >= ? AND prices.month_price <= ?)
-                                                ', *[value[:min], value[:max]]*6])
+        # value[:min] = 0     if value[:min].blank?
+        # value[:max] = 10000 if value[:max].blank?
+        unless value[:min].blank? or value[:max].blank?
+          @course_groups = @course_groups.joins{prices}
+          @course_groups = @course_groups.where(['(prices.individual_course_price != 0 AND prices.individual_course_price >= ? AND prices.individual_course_price <= ?)
+                                                  OR
+                                                  (prices.annual_price != 0 AND prices.annual_price >= ? AND prices.annual_price <= ?)
+                                                  OR
+                                                  (prices.semester_price != 0 AND prices.semester_price >= ? AND prices.semester_price <= ?)
+                                                  OR
+                                                  (prices.trimester_price != 0 AND prices.trimester_price >= ? AND prices.trimester_price <= ?)
+                                                  OR
+                                                  (prices.month_price != 0 AND prices.month_price >= ? AND prices.month_price <= ?)
+                                                  ', *[value[:min], value[:max]]*5])
+        end
       end
     end
     # Eliminate all duplicates
