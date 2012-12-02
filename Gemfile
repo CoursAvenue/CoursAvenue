@@ -40,9 +40,7 @@ group :development, :test do
   gem 'thin'
 end
 
+gem 'heroku'
 
 # Deploy with Capistrano
 # gem 'capistrano'
-
-# To use debugger
-# gem 'debugger'
