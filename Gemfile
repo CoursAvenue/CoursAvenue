@@ -37,9 +37,9 @@ end
 group :development, :test do
   #gem 'ruby-debug19'
   gem 'debugger'
-  gem 'thin'
 end
 
+gem 'thin'
 gem 'heroku'
 
 # Deploy with Capistrano
