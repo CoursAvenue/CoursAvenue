@@ -3,7 +3,7 @@
 # Import all renting room and associate it to appropriate structure
 require 'rake/clean'
 require 'csv'
-require 'debugger'
+# require 'debugger'
 
 namespace :import do
   desc 'Cleaning all the tables'
