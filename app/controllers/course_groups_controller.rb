@@ -38,10 +38,24 @@ class CourseGroupsController < ApplicationController
         @course_groups = @course_groups.joins{structure}.where do
           value.map{ |zip_code| structure.zip_code == zip_code }.reduce(&:|)
         end
+
       when 'start_date'
         @course_groups = @course_groups.joins{plannings}.where{plannings.end_date >= Date.parse(value)}
       when 'end_date'
         @course_groups = @course_groups.joins{plannings}.where{plannings.start_date <= Date.parse(value)}
+
+      when 'time_range'
+        if value[:min].blank?
+          start_time = parse_time_string('00:00')
+        else
+          start_time = parse_time_string(value[:min])
+        end
+        if value[:max].blank?
+          end_time = parse_time_string('23:59')
+        else
+          end_time = parse_time_string(value[:max])
+        end
+        @course_groups = @course_groups.joins{plannings}.where{(plannings.start_time >= start_time) & (plannings.end_time <= end_time)}
       when 'price_range'
         # value[:min] = 0     if value[:min].blank?
         # value[:max] = 10000 if value[:max].blank?
@@ -75,7 +89,10 @@ class CourseGroupsController < ApplicationController
   end
 
   private
-  def parse_time_string time
-    Time.parse("2000-01-01 #{time} UTC")
+  def parse_time_string time_string
+    if time_string.length <= 2
+      time_string += ':00'
+    end
+    Time.parse("2000-01-01 #{time_string} UTC")
   end
 end

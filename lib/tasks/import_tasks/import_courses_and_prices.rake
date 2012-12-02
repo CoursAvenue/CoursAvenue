@@ -144,7 +144,7 @@ namespace :import do
       planning: {
         week_day:                                     row[3],
         start_time:                                   Time.parse("2000-01-01 #{row[4]} UTC"),
-        end_time:                                     Time.parse("2000-01-01 #{row[5]} UTC"),
+        end_time:                                     Time.parse("2000-01-01 00:00 UTC"),
         duration:                                     row[6],
         recurrence:                                   row[19],
         class_during_holidays:                       (row[20] == 'X' ? false : true),
@@ -228,6 +228,7 @@ namespace :import do
       course = Course.create(row[:course])
       #################################################################### Creating Planning
       planning = Planning.create(row[:planning])
+      planning.end_time = planning.start_time + planning.duration.hour.hour + planning.duration.min.minutes if planning.duration
       course.planning = planning
       #################################################################### Creating Price
       price = Price.create(row[:price])

@@ -4,6 +4,7 @@
 - params[:week_days]   ||= [] # LeBonCours::Application::WEEK_DAYS
 - params[:time_slots]  ||= [] # LeBonCours::Application::TIME_SLOTS
 - params[:price_range] ||= {} # {min: 0, max: 1000}
+- params[:time_range]  ||= {}
 - params[:zip_codes]   ||= [] # (75001..75020).to_a.map(&:to_s)
 
 %section.gw
@@ -42,9 +43,9 @@
               = label_tag "search_time_slot_all", 'Tous'
           %div.flexbox__item
             Du
-            %input.milli.datepicker-input{data: {behavior: 'datepicker'}, value: l(Date.today), name: 'start_date'}
+            %input.milli.datepicker-input{value: l(Date.today), name: 'start_date', data: {behavior: 'datepicker'}}
             au
-            %input.milli.datepicker-input{data: {behavior: 'datepicker'}, value: l(Date.today + 6.months), name: 'end_date'}
+            %input.milli.datepicker-input{value: l(Date.today + 6.months), name: 'end_date', data: {behavior: 'datepicker'}}
       %div
         %button.btn{type: 'submit', id: 'submit_search_form'}
           %i.icon-search
@@ -58,8 +59,11 @@
       = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, id: 'hidden_search_price_range_min'
       = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, id: 'hidden_search_price_range_max'
 
-      - check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "hidden_search_lesson_course_type"
-      - check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "hidden_search_training_course_type"
-      - check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "hidden_search_workshop_course_type"
       - (75001..75020).to_a.map(&:to_s).each do |zip_code|
         = check_box_tag 'zip_codes[]', zip_code, params[:zip_codes].include?(zip_code), id: "hidden_search_arrondissement_#{zip_code}"
+      %input{name: 'time_range[min]', value: params[:time_range][:min], id: 'hidden_start_time'}
+      %input{name: 'time_range[max]', value: params[:time_range][:max], id: 'hidden_end_time'}}
+
+      / = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "hidden_search_lesson_course_type"
+      / = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "hidden_search_training_course_type"
+      / = check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "hidden_search_workshop_course_type"

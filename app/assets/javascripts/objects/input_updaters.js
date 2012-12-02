@@ -35,7 +35,7 @@
 
         submitOnKeyPress: function() {
             this.el.addEvent('keypress', function(event) {
-                debugger
+                this.el.fireEvent('change'); // In case the input haven't been focused out
                 if (event.key === 'enter') {
                     this.associated_form.submit();
                 }

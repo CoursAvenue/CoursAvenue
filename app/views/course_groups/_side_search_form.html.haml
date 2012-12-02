@@ -33,16 +33,21 @@
   .search-panel
     %h5.search-panel-header Prix
     .search-panel-content
-      .input-range
-        %div
-          = label_tag 'search_price_range_min_price', 'De'
-          = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, data: {behavior: 'input-update', element: 'hidden_search_price_range_min'}
-          €
-        %div
-          = label_tag 'search_price_range_max_price', 'À'
-          = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, data: {behavior: 'input-update', element: 'hidden_search_price_range_max'}
-          €
+      = label_tag 'search_price_range_min_price', 'De'
+      = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, placeholder: '35', class: 'timepicker-input', data: {behavior: 'input-update', element: 'hidden_search_price_range_min'}
+      €
+      = label_tag 'search_price_range_max_price', 'à'
+      = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, placeholder: '100', class: 'timepicker-input', data: {behavior: 'input-update', element: 'hidden_search_price_range_max'}
+      €
   .search-panel
+    %h5.search-panel-header Créneau horaire précis
+    .search-panel-content
+      = label_tag 'search_time_range_min_time', 'De'
+      %input.timepicker-input{name: 'time_range[min]', value: params[:time_range][:min], placeholder: '19:30', data: {behavior: 'input-update', element: 'hidden_start_time'}}
+      h
+      = label_tag 'search_time_range_max_time', 'à'
+      %input.timepicker-input{name: 'time_range[max]', value: params[:time_range][:max], placeholder: '20:30', data: {behavior: 'input-update', element: 'hidden_end_time'}}
+      h
     %h5.search-panel-header Arrondissement
     .search-panel-content
       %ul.search-list

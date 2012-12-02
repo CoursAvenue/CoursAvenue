@@ -27,4 +27,10 @@ window.addEvent('domready', function() {
     {
         pickerClass: 'datepicker_dashboard'
     });
+
+    new Picker.Date($$('[data-behavior=timepicker]'), {
+        pickOnly: 'time',
+        timeWheelStep: 5,
+        pickerClass: 'datepicker_dashboard'
+    });
 });

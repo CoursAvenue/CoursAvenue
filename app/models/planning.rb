@@ -18,10 +18,10 @@ class Planning < ActiveRecord::Base
                   :day_two_start_time,
                   :duration,
                   :end_date,
-                  :end_time,
                   :recurrence,
                   :start_date,
-                  :start_time,
+                  :start_time, # Format: Time.parse("2000-01-01 #{value} UTC")
+                  :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
                   :week_day,
                   :class_during_holidays
 end
