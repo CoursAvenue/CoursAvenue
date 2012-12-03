@@ -1,7 +1,7 @@
 # CourseGroups are grouped by same name, audiences and levels
 class CourseGroup < ActiveRecord::Base
   # For pagination
-  self.per_page = 20
+  self.per_page = 15
 
   belongs_to :structure
 
@@ -17,10 +17,6 @@ class CourseGroup < ActiveRecord::Base
   attr_accessible :name
 
   def is_lesson?
-    false
-  end
-
-  def is_workshop?
     false
   end
 

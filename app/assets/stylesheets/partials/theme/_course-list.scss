@@ -1,4 +1,4 @@
-.lesson-element, .training-element, .workshop-element {
+.lesson-element, .training-element {
     img {
         @include box-sizing(border-box);
     }
@@ -29,8 +29,9 @@
     padding-left: 1em;
 }
 
-.course-image {
-    padding: 0.3em;
+.lesson-image, .training-image {
+    padding       : 0.3em;
+    vertical-align: middle;
 }
 
 .search-list-info {

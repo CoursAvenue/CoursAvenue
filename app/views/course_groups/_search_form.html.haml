@@ -1,4 +1,4 @@
-- params[:types]       ||= ['lesson', 'training', 'workshop']
+- params[:types]       ||= ['lesson', 'training']
 - params[:audiences]   ||= [] # Audience.all.collect(&:id).map(&:to_s)
 - params[:levels]      ||= [] # Level.all.collect(&:id).map(&:to_s)
 - params[:week_days]   ||= [] # LeBonCours::Application::WEEK_DAYS
@@ -12,16 +12,6 @@
     .one-whole.header-search-bar
       %div
         %input.search-input{placeholder: 'Danse, Cuisine, ...', type: 'search', name: 'name', value: params[:name]}
-        %ul.search-list.milli
-          %li
-            = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "search_lesson_course_type"
-            = label_tag 'search_lesson_course_type', 'Cours récurrent'
-          %li
-            = check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "search_workshop_course_type"
-            = label_tag 'search_workshop_course_type', 'Atelier ponctuel'
-          %li
-            = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "search_training_course_type"
-            = label_tag 'search_training_course_type', 'Stage'
       .milli
         .one-whole
           %ul.nav.inline-checkboxes
@@ -64,6 +54,5 @@
       %input{name: 'time_range[min]', value: params[:time_range][:min], id: 'hidden_start_time'}
       %input{name: 'time_range[max]', value: params[:time_range][:max], id: 'hidden_end_time'}}
 
-      / = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "hidden_search_lesson_course_type"
-      / = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "hidden_search_training_course_type"
-      / = check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "hidden_search_workshop_course_type"
+      = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "hidden_search_lesson_course_type"
+      = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "hidden_search_training_course_type"

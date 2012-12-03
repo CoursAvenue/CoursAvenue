@@ -16,7 +16,6 @@ class CourseGroupsController < ApplicationController
         types = []
         types << 'CourseGroup::Lesson'   if value.include? 'lesson'
         types << 'CourseGroup::Training' if value.include? 'training'
-        types << 'CourseGroup::Workshop' if value.include? 'workshop'
         @course_groups         = @course_groups.where{type.like_any types}
       when 'audiences'
         @course_groups = @course_groups.joins{audiences}.where{audiences.id.eq_any value.map(&:to_i)}

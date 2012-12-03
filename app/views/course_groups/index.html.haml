@@ -11,8 +11,6 @@
           = render partial: 'lesson',   locals: { lesson: course_group }
         - elsif course_group.is_training?
           = render partial: 'training', locals: { training: course_group }
-        - elsif course_group.is_workshop?
-          = render partial: 'workshop', locals: { workshop: course_group}
 
     %footer.g.one-whole
       = will_paginate @course_groups, renderer: PaginationListLinkRenderer, class: 'nav pagination', inner_window: 2

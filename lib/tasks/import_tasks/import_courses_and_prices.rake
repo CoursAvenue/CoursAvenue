@@ -13,8 +13,6 @@ namespace :import do
       class_name = CourseGroup::Lesson
     when 'Stage'
       class_name = CourseGroup::Training
-    when 'Cours-atelier'
-      class_name = CourseGroup::Workshop
     else
       nil
     end
