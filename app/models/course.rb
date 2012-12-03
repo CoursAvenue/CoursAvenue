@@ -1,7 +1,7 @@
 class Course < ActiveRecord::Base
 
-  has_one :planning
-  has_one :price
+  has_one :planning, dependent: :destroy
+  has_one :price   , dependent: :destroy
   belongs_to :course_group
 
   attr_accessible :course_info_1,

@@ -5,7 +5,8 @@ class CourseGroup < ActiveRecord::Base
 
   belongs_to :structure
 
-  has_many :courses
+  has_many :courses  , dependent: :destroy
+
   has_many :plannings, through: :courses
   has_many :prices   , through: :courses
 
