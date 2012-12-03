@@ -5,7 +5,13 @@ class CourseGroupsController < ApplicationController
     @course_groups = CourseGroup
 
     @audiences = Audience.all
-    @levels    = Level.all
+    @levels    = [
+                    {name: Level.all_levels.name, id: Level.all_levels.id},
+                    {name: Level.initiation.name, id: Level.initiation.id},
+                    {name: Level.beginner.name, id: Level.beginner.id},
+                    {name: 'level.average_intermediate', id: Level.intermediate.id},
+                    {name: 'level.advanced_confirmed', id: Level.advanced.id},
+                  ]
 
     params.each do |key, value|
       case key
@@ -20,7 +26,10 @@ class CourseGroupsController < ApplicationController
       when 'audiences'
         @course_groups = @course_groups.joins{audiences}.where{audiences.id.eq_any value.map(&:to_i)}
       when 'levels'
-        @course_groups = @course_groups.joins{levels}.where{levels.id.eq_any value.map(&:to_i)}
+        value = value.map(&:to_i)
+        value << Level.intermediate.id if value.include? Level.average.id
+        value << Level.confirmed.id    if value.include? Level.advanced.id
+        @course_groups = @course_groups.joins{levels}.where{levels.id.eq_any value}
       when 'week_days'
         @course_groups = @course_groups.joins{plannings}.where{plannings.week_day.like_any value}
       when 'time_slots'

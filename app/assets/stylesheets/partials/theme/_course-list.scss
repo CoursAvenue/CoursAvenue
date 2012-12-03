@@ -19,6 +19,9 @@
     ul, p, .hN {
         margin-bottom: 0;
     }
+    .hN span {
+        vertical-align: middle;
+    }
 }
 .course-price {
     text-align: right;
@@ -36,4 +39,8 @@
 
 .search-list-info {
     margin-bottom: 0;
+}
+
+.discipline {
+    display: inline;
 }

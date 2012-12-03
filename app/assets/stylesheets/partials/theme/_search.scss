@@ -13,12 +13,21 @@
         display       : table-cell;
         vertical-align: middle;
         padding       : 0 0.5em;
-        ul {
-            margin-bottom: 1rem;
-        }
     }
 }
-
+    .days-options {
+        border-bottom   : 1px solid #CCC;
+        padding-bottom  : 0.5em;
+        margin-bottom   : 0.5em;
+    }
+    .search-input-wrapper {
+        width        : 15em;
+        padding-left : 0;
+        padding-right: 0;
+    }
+        .search-input {
+            width: 100%;
+        }
 
 
 
@@ -29,7 +38,6 @@
 }
     .side-search-panel-header {
         padding         : 0.5em 1em;
-        border-bottom   : 1px solid $grey;
         margin-bottom   : 0;
         @include font-size(16);
     }
@@ -39,12 +47,12 @@
             padding         : 0.3em 1em;
             background-color: $dark-white;
             border-bottom   : 1px solid $grey;
+            border-top   : 1px solid $grey;
             margin-bottom   : 0;
             @include box-shadow(0 2px 2px -2px rgba(0,0,0,0.2),0 0 0 #000);
         }
         .search-panel-content {
-            padding         : 0.5em 0.5em;
-            border-bottom   : 1px solid $grey;
+            padding         : 1em 0.5em;
             @include font-size(14);
         }
             .search-list {
@@ -52,6 +60,7 @@
                 margin      : 0;
             }
         .search-panel-footer {
+            border-top: 1px solid $grey;
             text-align: center;
             padding   : 1em;
         }

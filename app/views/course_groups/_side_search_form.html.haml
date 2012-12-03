@@ -1,5 +1,9 @@
 .side-search-panel
   %h4.side-search-panel-header Affinez votre recherche :
+  .search-panel-footer
+    %button.btn{type: 'submit', data: {behavior: 'input-update', element: 'submit_search_form'}}
+      %i.icon-search
+      Actualiser
   .search-panel
     %h5.search-panel-header Public
     .search-panel-content
@@ -25,11 +29,11 @@
       %ul.search-list
         - @levels.each_with_index do |level, i|
           %li
-            = check_box_tag 'levels[]', level.id, params[:levels].include?(level.id.to_s), id: "search_level_#{level.name}", data: {behavior: 'input-update', element: "hidden_search_level_#{level.name}"}
-            = label_tag "search_level_#{level.name}", t(level.name)
+            = check_box_tag 'levels[]', level[:id], params[:levels].include?(level[:id].to_s), id: "search_level_#{level[:name]}", data: {behavior: 'input-update', element: "hidden_search_level_#{level[:name]}"}
+            = label_tag "search_level_#{level[:name]}", t(level[:name])
 
   .search-panel
-    %h5.search-panel-header Prix
+    %h5.search-panel-header Prix par cours
     .search-panel-content
       = label_tag 'search_price_range_min_price', 'De'
       = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, placeholder: '35', class: 'timepicker-input', data: {behavior: 'input-update', element: 'hidden_search_price_range_min'}
@@ -53,13 +57,7 @@
           %li
             = check_box_tag 'zip_code[]', zip_code, params[:zip_codes].include?(zip_code), id: "search_arrondissement_#{zip_code}", data: {behavior: 'input-update', element: "hidden_search_arrondissement_#{zip_code}"}
             = label_tag "search_arrondissement_#{zip_code}", "Paris #{zip_code.to_s[3..4]}ème"
-  / .search-panel
-  /   %h5.search-panel-header Autres
-  /   .search-panel-content
-  /     %ul.search-list
-  /       %li
-  /         = check_box_tag 'arrondissement[]', arrondissement_number, params[:arrondissement_numbers].include?(arrondissement_number), id: "search_arrondissement_#{arrondissement_number}", data: {behavior: 'input-update', element: "hidden_search_arrondissement_#{arrondissement_number}"}
-  /         = label_tag "search_arrondissement_#{arrondissement_number}", "Paris #{arrondissement_number}ème"
+
   .search-panel-footer
     %button.btn{type: 'submit', data: {behavior: 'input-update', element: 'submit_search_form'}}
       %i.icon-search

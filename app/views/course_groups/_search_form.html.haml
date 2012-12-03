@@ -10,11 +10,11 @@
 %section.gw
   = form_tag course_groups_path, class: 'g one-whole', method: :get, authenticity_token: false do
     .one-whole.header-search-bar
-      %div
+      %div.search-input-wrapper
         %input.search-input{placeholder: 'Danse, Cuisine, ...', type: 'search', name: 'name', value: params[:name]}
       .milli
         .one-whole
-          %ul.nav.inline-checkboxes
+          %ul.nav.inline-checkboxes.days-options
             - LeBonCours::Application::WEEK_DAYS.each_with_index do |week_day, i|
               %li
                 = check_box_tag 'week_days[]', week_day, params[:week_days].include?(week_day), id: "search_week_day_#{week_day.downcase}"
@@ -45,7 +45,7 @@
       - @audiences.each_with_index do |audience, i|
         = check_box_tag 'audiences[]', audience.id, params[:audiences].include?(audience.id.to_s), id: "hidden_search_audience_#{i}"
       - @levels.each_with_index do |level, i|
-        = check_box_tag 'levels[]', level.id, params[:levels].include?(level.id.to_s), id: "hidden_search_level_#{level.name}"
+        = check_box_tag 'levels[]', level[:id], params[:levels].include?(level[:id].to_s), id: "hidden_search_level_#{level[:name]}"
       = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, id: 'hidden_search_price_range_min'
       = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, id: 'hidden_search_price_range_max'
 

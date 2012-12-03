@@ -6,8 +6,9 @@
     %article.lesson-content
       %header
         %h3.hN
-          = lesson.name
-      %p Cours récurrent avec une progression dans l'année
+          %span= lesson.name
+          %span.lbl.milli Cours
+      %p &nbsp;
       %ul.nav
         %li= join_audiences(lesson)
         %li -
@@ -18,7 +19,9 @@
           %i.icon-map-marker
           = lesson.structure.name
           = "- Paris&nbsp;#{lesson.structure.zip_code[3..4]}".html_safe
-        %span.lbl Cours
+        %p
+          .lbl.discipline.milli Flute
+          .lbl.discipline.milli Portugais
 
     %div.lesson-price.two-twelfths
       À partir de
