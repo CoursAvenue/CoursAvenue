@@ -14,7 +14,7 @@ namespace :import do
     when 'Stage'
       class_name = CourseGroup::Training
     else
-      nil
+      class_name = CourseGroup::Lesson
     end
   end
   def level(name)
