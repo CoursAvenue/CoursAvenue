@@ -5,15 +5,6 @@
       %i.icon-search
       Actualiser
   .search-panel
-    %h5.search-panel-header Public
-    .search-panel-content
-      %ul.search-list
-        - @audiences.each_with_index do |audience, i|
-          %li
-            = check_box_tag 'audiences[]', audience.id, params[:audiences].include?(audience.id.to_s), id: "search_audience_#{i}", data: {behavior: 'input-update', element: "hidden_search_audience_#{i}"}
-            = label_tag "search_audience_#{i}", t(audience.name)
-
-  .search-panel
     %h5.search-panel-header Type de cours
     .search-panel-content
       %ul.search-list
@@ -23,6 +14,15 @@
         %li
           = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "search_training_course_type", data: {behavior: 'input-update', element: "hidden_search_training_course_type"}
           = label_tag 'search_training_course_type', 'Stage'
+  .search-panel
+    %h5.search-panel-header Public
+    .search-panel-content
+      %ul.search-list
+        - @audiences.each_with_index do |audience, i|
+          %li
+            = check_box_tag 'audiences[]', audience.id, params[:audiences].include?(audience.id.to_s), id: "search_audience_#{i}", data: {behavior: 'input-update', element: "hidden_search_audience_#{i}"}
+            = label_tag "search_audience_#{i}", t(audience.name)
+
   .search-panel
     %h5.search-panel-header Niveaux
     .search-panel-content

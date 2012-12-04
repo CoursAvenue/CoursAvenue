@@ -5,23 +5,20 @@
 
     %article.lesson-content
       %header
-        %h3.hN
+        %h4.hN
           %span= lesson.name
           %span.lbl.milli Cours
-      %p &nbsp;
       %ul.nav
         %li= join_audiences(lesson)
         %li -
         %li= join_levels(lesson)
 
       %footer
-        %h5.hN
-          %i.icon-map-marker
-          = lesson.structure.name
-          = "- Paris&nbsp;#{lesson.structure.zip_code[3..4]}".html_safe
         %p
-          .lbl.discipline.milli Flute
-          .lbl.discipline.milli Portugais
+          %i.icon-map-marker
+          %strong= lesson.structure.name
+          = "- Paris&nbsp;#{lesson.structure.zip_code[3..4]}".html_safe
+
 
     %div.lesson-price.two-twelfths
       À partir de

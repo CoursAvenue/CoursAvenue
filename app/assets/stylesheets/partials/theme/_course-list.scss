@@ -1,4 +1,6 @@
 .lesson-element, .training-element {
+    font-weight: 200;
+    @include font-size(14);
     img {
         @include box-sizing(border-box);
     }

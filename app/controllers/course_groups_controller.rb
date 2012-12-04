@@ -16,7 +16,7 @@ class CourseGroupsController < ApplicationController
     params.each do |key, value|
       case key
       when 'name'
-        name_string    = value + '%'
+        name_string    = '%' + value + '%'
         @course_groups = @course_groups.joins{structure}.where{(name =~ name_string) | (structure.name =~ name_string)}
       when 'types'
         types = []
@@ -31,7 +31,7 @@ class CourseGroupsController < ApplicationController
         value << Level.confirmed.id    if value.include? Level.advanced.id
         @course_groups = @course_groups.joins{levels}.where{levels.id.eq_any value}
       when 'week_days'
-        @course_groups = @course_groups.joins{plannings}.where{plannings.week_day.like_any value}
+        @course_groups = @course_groups.joins{plannings}.where{(type == 'CourseGroup::Training') | (plannings.week_day.like_any value)}
       when 'time_slots'
         time_slots = []
         value.each do |slot|
