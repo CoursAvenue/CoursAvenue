@@ -12,4 +12,8 @@ class CourseGroup::Lesson < CourseGroup
     prices.order('annual_price ASC').first.annual_price
   end
 
+  def type_name
+    'Cours'
+  end
+
 end

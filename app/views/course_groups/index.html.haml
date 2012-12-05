@@ -6,11 +6,7 @@
     %p.island.search-list-info
       = page_entries_info html: false
     %ul.block-list
-      - @course_groups.each do |course_group|
-        - if course_group.is_lesson?
-          = render partial: 'lesson',   locals: { lesson: course_group }
-        - elsif course_group.is_training?
-          = render partial: 'training', locals: { training: course_group }
+      = render partial: 'course_group', :collection => @course_groups
 
     %footer.g.one-whole
       = will_paginate @course_groups, renderer: PaginationListLinkRenderer, class: 'nav pagination', inner_window: 2

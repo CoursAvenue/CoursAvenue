@@ -1,5 +1,16 @@
-.lesson-element, .training-element {
+.course-element{
     font-weight: 200;
+    padding: 0.5em;
+    display: table;
+    &:hover {
+        text-decoration : none !important;
+        background-color: $light-grey;
+    }
+    > div, article {
+        display: table-cell;
+        @include vendor(box-sizing, border-box);
+        margin: 0;
+    }
     p, ul {
         color: $grayDarker;
     }
@@ -7,20 +18,8 @@
     img {
         @include box-sizing(border-box);
     }
-    a:hover {
-        text-decoration: none;
-        background-color: $light-grey;
-    }
-    a {
-        padding: 0.5em;
-        display: table;
-        > div {
-            display: table-cell;
-            vertical-align: top;
-            @include vendor(box-sizing, border-box);
-            margin: 0;
-        }
-    }
+
+
     ul, p, .hN {
         margin-bottom: 0;
     }
@@ -28,14 +27,18 @@
         vertical-align: middle;
     }
 }
-.lesson-price, .training-price {
-    text-align: right;
-    color: $grayDarker;
-    @include font-size(12);
+.course-price{
+    text-align      : right;
+    color           : $grayDarker;
+    vertical-align  : middle;
+    line-height     : 1;
+    font-size       : 0.75rem;
+}
+.course-content{
+    vertical-align: top;
 }
 
-
-.lesson-image, .training-image {
+.course-image{
     padding       : 0.3em;
     vertical-align: middle;
 }

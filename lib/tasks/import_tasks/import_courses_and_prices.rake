@@ -134,11 +134,11 @@ namespace :import do
         has_exceptional_offer:                       (row[84] == 'X' ? true : false),
         trial_lesson_price:                           row[85],
         details:                                      row[86],
-        price_1:                                      row[87],
+        price_1:                                      row[87].to_i,
         price_1_libelle:                              row[88],
-        price_2:                                      row[89],
+        price_2:                                      (row[89].blank? ? nil : row[89].to_i),
         price_2_libelle:                              row[90],
-        approximate_price_per_course:                 row[91]
+        approximate_price_per_course:                 (row[91].blank? ? nil : row[91].to_i)
 
       },
 
