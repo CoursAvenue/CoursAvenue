@@ -134,7 +134,11 @@ namespace :import do
         has_exceptional_offer:                       (row[84] == 'X' ? true : false),
         trial_lesson_price:                           row[85],
         details:                                      row[86],
-        key_price:                                    row[87]
+        price_1:                                      row[87],
+        price_1_libelle:                              row[88],
+        price_2:                                      row[89],
+        price_2_libelle:                              row[90],
+        approximate_price_per_course:                 row[91]
 
       },
 

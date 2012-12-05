@@ -48,5 +48,9 @@ class Price < ActiveRecord::Base
                   :trial_lesson_price,
                   :annual_registration_adult_fee,
                   :annual_registration_child_fee,
-                  :key_price
+                  :price_1,
+                  :price_1_libelle,
+                  :price_2,
+                  :price_2_libelle,
+                  :approximate_price_per_course
 end

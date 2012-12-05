@@ -38,7 +38,11 @@ class CreatePrices < ActiveRecord::Migration
       t.decimal :couple_price
       t.decimal :annual_registration_adult_fee
       t.decimal :annual_registration_child_fee
-      t.decimal :key_price
+      t.decimal :price_1
+      t.decimal :price_1_libelle
+      t.decimal :price_2
+      t.decimal :price_2_libelle
+      t.decimal :approximate_price_per_course
 
       t.text    :excluded_lesson_from_unlimited_access_card
       t.text    :price_info_1
