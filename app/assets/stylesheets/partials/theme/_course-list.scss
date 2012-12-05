@@ -1,5 +1,8 @@
 .lesson-element, .training-element {
     font-weight: 200;
+    p, ul {
+        color: $grayDarker;
+    }
     @include font-size(14);
     img {
         @include box-sizing(border-box);
@@ -25,14 +28,12 @@
         vertical-align: middle;
     }
 }
-.course-price {
+.lesson-price, .training-price {
     text-align: right;
+    color: $grayDarker;
     @include font-size(12);
 }
 
-.course-content {
-    padding-left: 1em;
-}
 
 .lesson-image, .training-image {
     padding       : 0.3em;
