@@ -24,6 +24,9 @@ class CourseGroupsController < ApplicationController
       when 'audiences'
         @course_groups = @course_groups.is_for_audience(value)
 
+      when 'age'
+        @course_groups = @course_groups.is_for_age(value) unless value.blank?
+
       when 'levels'
         level_ids = value.map(&:to_i)
         level_ids << Level.intermediate.id if level_ids.include? Level.average.id

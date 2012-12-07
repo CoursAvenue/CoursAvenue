@@ -35,6 +35,10 @@ class CourseGroup < ActiveRecord::Base
     self.joins{audiences}.where{audiences.id.eq_any audience_ids.map(&:to_i)}
   end
 
+  def self.is_for_age(age)
+    self.joins{courses}.where{(courses.min_age_for_kid < age) & (courses.max_age_for_kid > age)}
+  end
+
   def self.is_for_level(level_ids)
     self.joins{levels}.where{levels.id.eq_any level_ids}
   end

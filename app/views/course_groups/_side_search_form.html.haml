@@ -22,7 +22,12 @@
           %li
             = check_box_tag 'audiences[]', audience.id, params[:audiences].include?(audience.id.to_s), id: "search_audience_#{i}", data: {behavior: 'input-update', element: "hidden_search_audience_#{i}"}
             = label_tag "search_audience_#{i}", t(audience.name)
-
+  .search-panel
+    %h5.search-panel-header Enfant ou adolescent
+    .search-panel-content
+      = label_tag 'Âge précis :'
+      = number_field_tag 'age', params[:age], min: 0, max: 18, step: 1, placeholder: '12', data: {behavior: 'input-update', element: 'hidden_search_age'}
+      ans
   .search-panel
     %h5.search-panel-header Niveaux
     .search-panel-content
@@ -50,6 +55,7 @@
       = label_tag 'search_time_range_max_time', 'à'
       %input.timepicker-input{name: 'time_range[max]', value: params[:time_range][:max], placeholder: '20:30', data: {behavior: 'input-update', element: 'hidden_end_time'}}
       h
+  .search-panel
     %h5.search-panel-header Arrondissement
     .search-panel-content
       %ul.search-list
