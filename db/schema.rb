@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121201153104) do
+ActiveRecord::Schema.define(:version => 20121207192951) do
 
   create_table "audiences", :force => true do |t|
     t.string   "name"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(:version => 20121201153104) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "audiences", ["name"], :name => "index_audiences_on_name"
 
   create_table "audiences_course_groups", :id => false, :force => true do |t|
     t.integer "audience_id"
@@ -72,6 +74,8 @@ ActiveRecord::Schema.define(:version => 20121201153104) do
     t.datetime "updated_at", :null => false
   end
 
+  add_index "levels", ["name"], :name => "index_levels_on_name"
+
   create_table "plannings", :force => true do |t|
     t.date     "start_date"
     t.date     "end_date"
@@ -100,6 +104,8 @@ ActiveRecord::Schema.define(:version => 20121201153104) do
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
   end
+
+  add_index "plannings", ["week_day"], :name => "index_plannings_on_week_day"
 
   create_table "prices", :force => true do |t|
     t.decimal  "individual_course_price"
@@ -158,6 +164,8 @@ ActiveRecord::Schema.define(:version => 20121201153104) do
     t.datetime "created_at",                                                    :null => false
     t.datetime "updated_at",                                                    :null => false
   end
+
+  add_index "prices", ["approximate_price_per_course"], :name => "index_prices_on_approximate_price_per_course"
 
   create_table "renting_rooms", :force => true do |t|
     t.string   "name"
