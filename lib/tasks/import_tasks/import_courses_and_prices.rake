@@ -75,8 +75,8 @@ namespace :import do
       # Course
       course: {
         teacher_name:                                 row[10],
-        max_age_for_kid:                              row[15],
-        min_age_for_kid:                              row[16],
+        min_age_for_kid:                              row[15],
+        max_age_for_kid:                              row[16],
         is_individual:                               (row[17] == 'X' ? true : false),
         course_info_1:                                row[11],
         course_info_2:                                row[12],
