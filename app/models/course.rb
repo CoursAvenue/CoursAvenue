@@ -6,8 +6,8 @@ class Course < ActiveRecord::Base
 
   attr_accessible :course_info_1,
                   :course_info_2,
-                  :max_age_for_kid,
                   :min_age_for_kid,
+                  :max_age_for_kid,
                   :is_individual,
                   :annual_membership_mandatory,
                   :is_for_handicaped,

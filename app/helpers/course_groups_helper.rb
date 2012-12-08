@@ -22,8 +22,8 @@ module CourseGroupsHelper
     end.compact.uniq
 
     content_tag :ul, class: 'nav week_days' do
-      week_days.map do |week_day|
-        content_tag(:li, t('date.day_names')[week_day])
+      week_days.collect do |week_day|
+        content_tag(:li, t('date.day_names')[week_day - 1])
       end.join(', ').html_safe
     end
   end

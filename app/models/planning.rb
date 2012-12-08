@@ -24,4 +24,5 @@ class Planning < ActiveRecord::Base
                   :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
                   :week_day,
                   :class_during_holidays
+
 end

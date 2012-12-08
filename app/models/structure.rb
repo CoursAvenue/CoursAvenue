@@ -74,4 +74,9 @@ class Structure < ActiveRecord::Base
   def is_geolocalized?
     !self.gmaps.nil? and self.gmaps
   end
+
+  def geolocalize
+    self.touch
+    self.save
+  end
 end

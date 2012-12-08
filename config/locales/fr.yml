@@ -64,7 +64,7 @@ fr:
   time:
     formats:
       default: "%d %B %Y %H:%M:%S"
-      short: "%H:%M"
+      short: "%Hh%M"
       long: "%A %d %B %Y %H:%M"
     am: 'am'
     pm: 'pm'

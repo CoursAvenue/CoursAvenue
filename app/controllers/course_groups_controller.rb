@@ -63,12 +63,9 @@ class CourseGroupsController < ApplicationController
 
     @course_group_structures = @course_groups.collect{|course_group| course_group.structure}.uniq
     @course_group_structures.each do |structure|
-      unless structure.is_geolocalized?
-        structure.touch
-        structure.save
-      end
+      structure.geolocalize unless structure.is_geolocalized?
     end
-    @json_structure_address = @course_group_structures.to_gmaps4rails do |structure, marker|
+    @json_structure_addresses = @course_group_structures.to_gmaps4rails do |structure, marker|
       # marker.infowindow render_to_string(:partial => "/structures/my_template", :locals => { :object => structure})
       # marker.picture({
       #                 :picture => "http://www.placehold.it/32",
@@ -85,7 +82,20 @@ class CourseGroupsController < ApplicationController
   end
 
   def show
-    @course_group         = CourseGroup.find(params[:id])
+    @course_group = CourseGroup.find(params[:id])
+    @structure    = @course_group.structure
+    @plannings    = @course_group.courses.collect{ |course| course.planning }
+
+    @json_structure_address = @structure.to_gmaps4rails do |structure, marker|
+      # marker.infowindow render_to_string(:partial => "/structures/my_template", :locals => { :object => structure})
+      # marker.picture({
+      #                 :picture => "http://www.placehold.it/32",
+      #                 :width   => 32,
+      #                 :height  => 32
+      #                })
+      marker.title   structure.name
+      marker.json({ id: structure.id })
+    end
   end
 
 end

@@ -23,6 +23,7 @@
 //= require libs/datepicker/Picker.Date.Range
 
 window.addEvent('domready', function() {
+    var global = GLOBAL.namespace('GLOBAL');
     Locale.use('fr-FR');
     new Picker.Date($$('[data-behavior=datepicker]'),
     {
@@ -38,24 +39,9 @@ window.addEvent('domready', function() {
         timeWheelStep: 5,
         pickerClass: 'datepicker_dashboard'
     });
-    var global = GLOBAL.namespace('GLOBAL');
     global.Scroller = new Fx.Scroll($(document.body), {
         wait: false,
         duration: 500,
         transition: Fx.Transitions.Quad.easeInOut
     });
-
-    Gmaps.map.callback = function() {
-        for (var i = 0; i <  this.markers.length; ++i) {
-            google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
-                var course_element = $$('.course-element[data-structure_id=' + this.id + ']')[0];
-                global.Scroller.toElement(course_element);
-
-                // Unselect courses if there already are that are selected
-                $$('.course-element').removeClass('selected');
-                course_element.addClass('selected');
-            }.bind(Gmaps.map.markers[i]));
-        }
-    };
-
 });

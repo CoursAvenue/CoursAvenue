@@ -1,0 +1,4 @@
+.flip {
+    @include vendor(transform, scaleX(-1));
+    filter: FlipH; /* IE 6/7/8 */
+}
