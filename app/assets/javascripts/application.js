@@ -38,12 +38,13 @@ window.addEvent('domready', function() {
         timeWheelStep: 5,
         pickerClass: 'datepicker_dashboard'
     });
-    var global = GLOBAL.namespace();
+    var global = GLOBAL.namespace('GLOBAL');
     global.Scroller = new Fx.Scroll($(document.body), {
         wait: false,
-        duration: 250,
+        duration: 500,
         transition: Fx.Transitions.Quad.easeInOut
     });
+
     Gmaps.map.callback = function() {
         for (var i = 0; i <  this.markers.length; ++i) {
             google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {

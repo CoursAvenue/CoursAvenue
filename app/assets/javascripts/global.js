@@ -6,6 +6,7 @@ var GLOBAL = GLOBAL || {};
  */
 
 GLOBAL.namespace = function (ns_string) {
+    if (typeof ns_string === 'undefined') { ns_string = 'GLOBAL' }
     var parts = ns_string.split('.'), parent = GLOBAL, i;
     // strip redundant leading global
     if (parts[0] === "GLOBAL") {
