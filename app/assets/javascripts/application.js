@@ -38,8 +38,8 @@ window.addEvent('domready', function() {
         timeWheelStep: 5,
         pickerClass: 'datepicker_dashboard'
     });
-
-    var scroll = new Fx.Scroll($(document.body), {
+    var global = GLOBAL.namespace();
+    global.Scroller = new Fx.Scroll($(document.body), {
         wait: false,
         duration: 250,
         transition: Fx.Transitions.Quad.easeInOut
@@ -48,7 +48,9 @@ window.addEvent('domready', function() {
         for (var i = 0; i <  this.markers.length; ++i) {
             google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
                 var course_element = $$('.course-element[data-structure_id=' + this.id + ']')[0];
-                scroll.toElement(course_element);
+                global.Scroller.toElement(course_element);
+
+                // Unselect courses if there already are that are selected
                 $$('.course-element').removeClass('selected');
                 course_element.addClass('selected');
             }.bind(Gmaps.map.markers[i]));

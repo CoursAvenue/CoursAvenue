@@ -1,6 +1,7 @@
 class Structure < ActiveRecord::Base
   acts_as_gmappable validation: false,
                     language: 'fr' # :msg => "Désolé, même Google n'a pas trouvé où l'établissement se trouve."
+  before_save :retrieve_address
 
   has_many :course_groups
   has_many :renting_rooms
@@ -59,5 +60,18 @@ class Structure < ActiveRecord::Base
   # describe how to retrieve the address from your model, if you use directly a db column, you can dry your code, see wiki
   def gmaps4rails_address
     "#{self.street}, #{self.zip_code}, France"
+  end
+
+  def retrieve_address
+    if self.latitude == nil
+      geolocation    = Gmaps4rails.geocode self.gmaps4rails_address[0]
+      self.latitude  = geolocation[:lat]
+      self.longitude = geolocation[:lng]
+      self.save
+    end
+  end
+
+  def is_geolocalized?
+    !self.gmaps.nil? and self.gmaps
   end
 end

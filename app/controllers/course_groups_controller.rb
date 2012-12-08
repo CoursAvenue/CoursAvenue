@@ -62,7 +62,12 @@ class CourseGroupsController < ApplicationController
     @course_groups = @course_groups.paginate(page: params[:page]).all
 
     @course_group_structures = @course_groups.collect{|course_group| course_group.structure}.uniq
-
+    @course_group_structures.each do |structure|
+      unless structure.is_geolocalized?
+        structure.touch
+        structure.save
+      end
+    end
     @json_structure_address = @course_group_structures.to_gmaps4rails do |structure, marker|
       # marker.infowindow render_to_string(:partial => "/structures/my_template", :locals => { :object => structure})
       # marker.picture({
