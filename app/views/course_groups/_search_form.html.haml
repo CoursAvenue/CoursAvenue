@@ -15,22 +15,22 @@
       .milli
         .one-whole
           %ul.nav.inline-checkboxes.days-options{data: {behavior: 'checkbox-list'}}
+            %li
+              = check_box_tag '', '', params[:week_days].empty?, id: "search_week_days_all", data: {value: 'all'}
+              = label_tag "search_week_days_all", 'Tous'
             - LeBonCours::Application::WEEK_DAYS.each_with_index do |week_day, i|
               %li
                 = check_box_tag 'week_days[]', week_day, params[:week_days].include?(week_day), id: "search_week_day_#{week_day.downcase}"
                 = label_tag "search_week_day_#{week_day.downcase}", week_day
-            %li
-              = check_box_tag '', '', params[:week_days].empty?, id: "search_week_days_all", data: {value: 'all'}
-              = label_tag "search_week_days_all", 'Tous'
         %div.flexbox
           %ul.nav.inline-checkboxes.flexbox__item{data: {behavior: 'checkbox-list'}}
+            %li.time-slot
+              = check_box_tag '', '', params[:time_slots].empty?, id: "search_time_slot_all", data: {value: 'all'}
+              = label_tag "search_time_slot_all", 'Tous'
             - LeBonCours::Application::TIME_SLOTS.each do |slot_symbole, slot|
               %li.time-slot
                 = check_box_tag 'time_slots[]', slot_symbole, params[:time_slots].include?(slot_symbole.to_s), id: "search_time_slot_#{slot_symbole.to_s}"
                 = label_tag "search_time_slot_#{slot_symbole.to_s}", slot[:name].html_safe
-            %li.time-slot
-              = check_box_tag '', '', params[:time_slots].empty?, id: "search_time_slot_all", data: {value: 'all'}
-              = label_tag "search_time_slot_all", 'Tous'
           %div.flexbox__item
             Du
             %input.milli.datepicker-input{value: l(Date.today), name: 'start_date', data: {behavior: 'datepicker'}}

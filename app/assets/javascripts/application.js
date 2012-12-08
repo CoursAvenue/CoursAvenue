@@ -15,6 +15,7 @@
 //= require mootools-more
 //= require mootools_ujs
 //= require_tree ./objects/
+//= require_tree ./gmaps4rails/
 //= require libs/datepicker/Locale.fr-FR.DatePicker
 //= require libs/datepicker/Picker
 //= require libs/datepicker/Picker.Attach

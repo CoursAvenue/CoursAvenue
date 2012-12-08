@@ -14,4 +14,17 @@ module CourseGroupsHelper
       end.join(', ').html_safe
     end
   end
+
+  def join_week_days(course)
+    week_days = []
+    week_days = course.plannings.order(:week_day).collect do |planning|
+      planning.week_day
+    end.compact.uniq
+
+    content_tag :ul, class: 'nav week_days' do
+      week_days.map do |week_day|
+        content_tag(:li, t('date.day_names')[week_day])
+      end.join(', ').html_safe
+    end
+  end
 end

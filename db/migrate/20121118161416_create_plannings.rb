@@ -19,7 +19,7 @@ class CreatePlannings < ActiveRecord::Migration
       t.date    :day_five
       t.time    :day_five_start_time
       t.time    :day_five_duration
-      t.string  :week_day
+      t.integer :week_day # 1 = monday
       t.time    :start_time
       t.time    :end_time
       t.time    :duration

@@ -68,8 +68,9 @@ namespace :import do
     csv = CSV.parse(csv_text)
     csv.each_with_index do |row, i|
       next if i == 0
-      row = structure_hash_from_row(row)
-      Structure.create(row)
+      structure_info = structure_hash_from_row(row)
+      Structure.create(structure_info)
     end
+    puts "#{Structure.count} structures importés"
   end
 end

@@ -13,13 +13,13 @@ fr:
       short: "%e %b"
       long: "%e %B %Y"
     day_names:
-      - dimanche
       - lundi
       - mardi
       - mercredi
       - jeudi
       - vendredi
       - samedi
+      - dimanche
     abbr_day_names:
       - dim
       - lun

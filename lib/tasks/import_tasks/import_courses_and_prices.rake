@@ -7,6 +7,26 @@ require 'csv'
 
 namespace :import do
 
+  def week_day_number(week_day_name)
+    return nil if week_day_name.blank?
+    case week_day_name.downcase
+    when 'lundi'
+      1
+    when 'mardi'
+      2
+    when 'mercredi'
+      3
+    when 'jeudi'
+      4
+    when 'vendredi'
+      5
+    when 'samedi'
+      6
+    when 'dimanche'
+      7
+    end
+  end
+
   def course_group_class(name)
     case name
     when 'Cours'
@@ -144,7 +164,7 @@ namespace :import do
 
       # Planning
       planning: {
-        week_day:                                     row[3],
+        week_day:                                     week_day_number(row[3]),
         start_time:                                   Time.parse("2000-01-01 #{row[4]} UTC"),
         end_time:                                     Time.parse("2000-01-01 00:00 UTC"),
         duration:                                     row[6],

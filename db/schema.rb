@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121207192951) do
+ActiveRecord::Schema.define(:version => 20121207200541) do
 
   create_table "audiences", :force => true do |t|
     t.string   "name"
@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(:version => 20121207192951) do
     t.date     "day_five"
     t.time     "day_five_start_time"
     t.time     "day_five_duration"
-    t.string   "week_day"
+    t.integer  "week_day"
     t.time     "start_time"
     t.time     "end_time"
     t.time     "duration"
@@ -233,6 +233,9 @@ ActiveRecord::Schema.define(:version => 20121207192951) do
     t.boolean  "needs_insurance_attestation_for_registration"
     t.datetime "created_at",                                   :null => false
     t.datetime "updated_at",                                   :null => false
+    t.float    "latitude"
+    t.float    "longitude"
+    t.boolean  "gmaps"
   end
 
 end

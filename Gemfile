@@ -7,7 +7,7 @@ gem 'rails', '3.2.8'
 
 
 # group :assets do
-  # gem 'coffee-rails'      , '~> 3.2.1'
+  gem 'coffee-rails'      , '~> 3.2.1'
   gem 'haml'              , '~> 3.1.7'
   gem 'sass-rails'        , '~> 3.2.3'
   gem 'uglifier'          , '>= 1.0.3'
@@ -24,7 +24,9 @@ gem 'will_paginate'       , '~>3.0.2'
 gem 'ancestry'            , '~>1.3.0'
 gem 'paperclip'           , '~>3.3.1'
 gem 'squeel'              , '~>1.0.13'
-gem 'ancestry'            , '~> 1.3.0'
+gem 'ancestry'            , '~>1.3.0'
+
+gem 'gmaps4rails'         , '~>1.5.6'
 
 group :production do
   # gem 'therubyracer'
@@ -42,7 +44,6 @@ group :development, :test do
 end
 
 # gem 'thin'
-gem 'heroku'
 
 # Deploy with Capistrano
 # gem 'capistrano'

@@ -18,7 +18,6 @@ class CourseGroup < ActiveRecord::Base
 
   attr_accessible :name
 
-
   def self.with_name_like(name_string)
     name_string    = '%' + name_string + '%'
     self.joins{structure}.where{(name =~ name_string) | (structure.name =~ name_string)}

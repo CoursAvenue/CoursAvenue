@@ -51,3 +51,9 @@
 .discipline {
     display: inline;
 }
+
+.week_days {
+    li:first-child {
+        text-transform: capitalize;
+    }
+}

@@ -6,7 +6,6 @@
     %header
       %h4.hN
         %span= link_to course_group.name, course_group
-        /= course_group.name
         %span.lbl.milli= course_group.type_name
 
     - if course_group.is_training?
@@ -17,12 +16,11 @@
       %li= join_audiences(course_group)
       %li -
       %li= join_levels(course_group)
-    %footer
-      %p
-        %i.icon-map-marker
-        %strong= course_group.structure.name
-        = "- Paris&nbsp;#{course_group.structure.zip_code[3..4]}".html_safe
-      %p Place disponible :
+    %p
+      %i.icon-map-marker
+      %strong= course_group.structure.name
+      = "- Paris&nbsp;#{course_group.structure.zip_code[3..4]}".html_safe
+    = join_week_days(course_group)
 
 
   %div.course-price.two-twelfths
