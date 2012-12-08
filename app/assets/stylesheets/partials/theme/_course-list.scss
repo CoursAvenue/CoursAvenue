@@ -1,8 +1,15 @@
+.course-element.selected {
+    background-color: $grayLighter;
+}
+
 .course-element {
     font-weight: 200;
     padding: 1em 0.5em;
     display: table;
+    background-color: $white;
+
     @include box-sizing(border-box);
+    @include transition(background-color 500ms linear);
     &:hover {
         text-decoration : none !important;
         background-color: #F6F6F6;

@@ -71,7 +71,7 @@ class CourseGroupsController < ApplicationController
       #                 :height  => 32
       #                })
       marker.title   structure.name
-      marker.json({ :id => "structure_#{structure.id}", :foo => "bar" })
+      marker.json({ id: structure.id })
     end
 
     respond_to do |format|

@@ -1,5 +1,6 @@
 class Structure < ActiveRecord::Base
-  acts_as_gmappable validation: false # :msg => "Désolé, même Google n'a pas trouvé où l'établissement se trouve."
+  acts_as_gmappable validation: false,
+                    language: 'fr' # :msg => "Désolé, même Google n'a pas trouvé où l'établissement se trouve."
 
   has_many :course_groups
   has_many :renting_rooms
