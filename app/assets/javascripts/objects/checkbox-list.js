@@ -20,7 +20,17 @@
             this.inputs_except_all.addEvent('change', function(event) {
                 if (this.input_all.checked) {
                     this.input_all.checked = false;
+                } else {
+
+                    // If all inputs are unchecked, check the 'all' input
+                    var filtered_checkboxes = this.inputs_except_all.filter(function(checkbox) {
+                        return checkbox.checked != false
+                    });
+                    if (filtered_checkboxes.length === 0) {
+                        this.input_all.checked = true;
+                    }
                 }
+
             }.bind(this));
         },
 

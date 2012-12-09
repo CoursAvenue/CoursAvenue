@@ -20,7 +20,8 @@
       %i.icon-map-marker
       %strong= course_group.structure.name
       = "- Paris&nbsp;#{course_group.structure.zip_code[3..4]}".html_safe
-    = join_week_days(course_group)
+    = join_week_days(course_group) if course_group.is_lesson?
+    = training_dates(course_group) if course_group.is_training?
 
 
   %div.course-price.two-twelfths

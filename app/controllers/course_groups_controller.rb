@@ -16,28 +16,28 @@ class CourseGroupsController < ApplicationController
     params.each do |key, value|
       case key
       when 'name'
-        @course_groups = @course_groups.with_name_like(value)
+        @course_groups = @course_groups.name_and_structure_name_contains(value, @course_groups) unless value.blank?
 
       when 'types'
-        @course_groups = @course_groups.is_of_type(value)
+        @course_groups = @course_groups.is_of_type(value, @course_groups)
 
       when 'audiences'
-        @course_groups = @course_groups.is_for_audience(value)
+        @course_groups = @course_groups.is_for_audience(value, @course_groups)
 
       when 'age'
-        @course_groups = @course_groups.is_for_age(value) unless value.blank?
+        @course_groups = @course_groups.is_for_age(value, @course_groups) unless value.blank?
 
       when 'levels'
         level_ids = value.map(&:to_i)
         level_ids << Level.intermediate.id if level_ids.include? Level.average.id
         level_ids << Level.confirmed.id    if level_ids.include? Level.advanced.id
-        @course_groups = @course_groups.is_for_level(level_ids)
+        @course_groups = @course_groups.is_for_level(level_ids, @course_groups)
 
       when 'week_days'
-        @course_groups = @course_groups.that_happens(value)
+        @course_groups = @course_groups.that_happens(value, @course_groups)
 
       when 'time_slots'
-        @course_groups = @course_groups.in_these_time_slots(value)
+        @course_groups = @course_groups.in_these_time_slots(value, @course_groups)
 
       when 'zip_codes'
         @course_groups = @course_groups.joins{structure}.where do
@@ -50,10 +50,10 @@ class CourseGroupsController < ApplicationController
         @course_groups = @course_groups.joins{plannings}.where{plannings.start_date <= Date.parse(value)}
 
       when 'time_range'
-        @course_groups = @course_groups.in_time_range(value[:min], value[:max])
+        @course_groups = @course_groups.in_time_range(value[:min], value[:max], @course_groups)
 
       when 'price_range'
-        @course_groups = @course_groups.in_price_range(value[:min], value[:max])
+        @course_groups = @course_groups.in_price_range(value[:min], value[:max], @course_groups)
       end
     end
     # Eliminate all duplicates

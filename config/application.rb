@@ -14,7 +14,36 @@ module LeBonCours
   class Application < Rails::Application
 
     # Global variables
-    WEEK_DAYS  = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche']
+    WEEK_DAYS  = [
+      {
+        index: 1,
+        name: 'Lundi'
+      },
+      {
+        index: 2,
+        name: 'Mardi'
+      },
+      {
+        index: 3,
+        name: 'Mercredi'
+      },
+      {
+        index: 4,
+        name: 'Jeudi'
+      },
+      {
+        index: 5,
+        name: 'Vendredi'
+      },
+      {
+        index: 6,
+        name: 'Samedi'
+      },
+      {
+        index: 7,
+        name: 'Dimanche'
+      }
+    ]
 
     TIME_SLOTS = {
           morning: {

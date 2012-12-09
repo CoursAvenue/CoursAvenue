@@ -18,60 +18,72 @@ class CourseGroup < ActiveRecord::Base
 
   attr_accessible :name
 
-  def self.with_name_like(name_string)
+  def self.name_and_structure_name_contains(name_string, scope)
     name_string    = '%' + name_string + '%'
-    self.joins{structure}.where{(name =~ name_string) | (structure.name =~ name_string)}
+    scope.joins{structure}.where{(name =~ name_string) | (structure.name =~ name_string)}
   end
 
-  def self.is_of_type(types_array)
-    types = []
-    types << 'CourseGroup::Lesson'   if types_array.include? 'lesson'
-    types << 'CourseGroup::Training' if types_array.include? 'training'
-    self.where{type.like_any types}
+  def self.is_of_type(types_array, scope)
+    if types_array.length == 2 # Prevent from search if all types are here
+      scope
+    else
+      types = []
+      types << 'CourseGroup::Lesson'   if types_array.include? 'lesson'
+      types << 'CourseGroup::Training' if types_array.include? 'training'
+      scope.where{type.like_any types}
+    end
   end
 
-  def self.is_for_audience(audience_ids)
-    self.joins{audiences}.where{audiences.id.eq_any audience_ids.map(&:to_i)}
+  def self.is_for_audience(audience_ids, scope)
+    scope.joins{audiences}.where{audiences.id.eq_any audience_ids.map(&:to_i)}
   end
 
-  def self.is_for_age(age)
-    self.joins{courses}.where{(courses.min_age_for_kid < age) & (courses.max_age_for_kid > age)}
+  def self.is_for_age(age, scope)
+    scope.joins{courses}.where{(courses.min_age_for_kid < age) & (courses.max_age_for_kid > age)}
   end
 
-  def self.is_for_level(level_ids)
-    self.joins{levels}.where{levels.id.eq_any level_ids}
+  def self.is_for_level(level_ids, scope)
+    scope.joins{levels}.where{levels.id.eq_any level_ids}
   end
 
-  def self.that_happens(week_days)
-    self.joins{plannings}.where{(type == 'CourseGroup::Training') | (plannings.week_day.like_any week_days)}
+  def self.that_happens(week_day_indexes, scope)
+    scope.joins{plannings}.where{(type == 'CourseGroup::Training') | ((type == 'CourseGroup::Lesson') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i)))}
+    #scope.joins{plannings}.where{(type == 'CourseGroup::Lesson') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i))}
   end
 
-  def self.in_these_time_slots(values)
+  def self.in_these_time_slots(values, scope)
     time_slots = []
     values.each do |slot|
       start_time = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:start_time]
       end_time   = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:end_time]
       time_slots << [start_time, end_time]
     end
-    self.joins{plannings}.where do
+    scope.joins{plannings}.where do
       time_slots.map { |start_time, end_time| ((plannings.start_time >= start_time) & (plannings.start_time <= end_time)) }.reduce(&:|)
     end
   end
 
-  def self.in_time_range(start_time, end_time)
-    start_time = TimeParser.parse_time_string( start_time.blank? ? '00:00' : start_time )
-    end_time   = TimeParser.parse_time_string( end_time.blank?   ? '23:59' : end_time )
+  def self.in_time_range(start_time, end_time, scope)
+    if start_time.blank? and end_time.blank?
+      scope
+    else
+      start_time = TimeParser.parse_time_string( start_time.blank? ? '00:00' : start_time )
+      end_time   = TimeParser.parse_time_string( end_time.blank?   ? '23:59' : end_time )
 
-    self.joins{plannings}.where{(plannings.start_time >= start_time) & (plannings.end_time <= end_time)}
+      scope.joins{plannings}.where{(plannings.start_time >= start_time) & (plannings.end_time <= end_time)}
+    end
   end
 
-  def self.in_price_range(min_price, max_price)
-    min_price = 0     if min_price.blank? and !max_price.blank?
-    max_price = 10000 if max_price.blank? and !min_price.blank?
-    if !min_price.blank? and !max_price.blank? and max_price.to_i > 0
-      return self.joins{prices}.where{(prices.approximate_price_per_course >= min_price) & (prices.approximate_price_per_course <= max_price)}
+  def self.in_price_range(min_price, max_price, scope)
+    if min_price.blank? and max_price.blank?
+      scope
+    else
+      min_price = 0     if min_price.blank? and !max_price.blank?
+      max_price = 10000 if max_price.blank? and !min_price.blank?
+      if !min_price.blank? and !max_price.blank? and max_price.to_i > 0
+        scope.joins{prices}.where{(prices.approximate_price_per_course >= min_price) & (prices.approximate_price_per_course <= max_price)}
+      end
     end
-    self
   end
 
   def is_lesson?

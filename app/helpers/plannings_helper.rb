@@ -23,4 +23,12 @@ module PlanningsHelper
     "#{I18n.l(planning.start_time, format: :short)} - #{I18n.l(planning.end_time, format: :short)}"
   end
 
+  def training_dates(course_group)
+    planning = course_group.courses.first.planning
+    if planning.start_date == planning.end_date
+      "Le #{I18n.l(planning.start_date)} au #{I18n.l(planning.end_date)}"
+    else
+      "Du #{I18n.l(planning.start_date)} au #{I18n.l(planning.end_date)}"
+    end
+  end
 end

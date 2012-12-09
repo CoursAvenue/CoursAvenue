@@ -23,7 +23,7 @@ gem 'pg'
 gem 'will_paginate'       , '~>3.0.2'
 gem 'ancestry'            , '~>1.3.0'
 gem 'paperclip'           , '~>3.3.1'
-gem 'squeel'              , '~>1.0.13'
+gem 'squeel'              , '~>1.0.14'
 gem 'ancestry'            , '~>1.3.0'
 
 gem 'gmaps4rails'         , '~>1.5.6'

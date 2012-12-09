@@ -18,10 +18,10 @@
             %li
               = check_box_tag '', '', params[:week_days].empty?, id: "search_week_days_all", data: {value: 'all'}
               = label_tag "search_week_days_all", 'Tous'
-            - LeBonCours::Application::WEEK_DAYS.each_with_index do |week_day, i|
+            - LeBonCours::Application::WEEK_DAYS.each do |week_day|
               %li
-                = check_box_tag 'week_days[]', week_day, params[:week_days].include?(week_day), id: "search_week_day_#{week_day.downcase}"
-                = label_tag "search_week_day_#{week_day.downcase}", week_day
+                = check_box_tag 'week_days[]', week_day[:index], params[:week_days].include?(week_day[:index].to_s), id: "search_week_day_#{week_day[:name].downcase}"
+                = label_tag "search_week_day_#{week_day[:name].downcase}", week_day[:name]
         %div.flexbox
           %ul.nav.inline-checkboxes.flexbox__item{data: {behavior: 'checkbox-list'}}
             %li.time-slot
@@ -53,7 +53,7 @@
       - (75001..75020).to_a.map(&:to_s).each do |zip_code|
         = check_box_tag 'zip_codes[]', zip_code, params[:zip_codes].include?(zip_code), id: "hidden_search_arrondissement_#{zip_code}"
       %input{name: 'time_range[min]', value: params[:time_range][:min], id: 'hidden_start_time'}
-      %input{name: 'time_range[max]', value: params[:time_range][:max], id: 'hidden_end_time'}}
+      %input{name: 'time_range[max]', value: params[:time_range][:max], id: 'hidden_end_time'}
 
       = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "hidden_search_lesson_course_type"
       = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "hidden_search_training_course_type"
