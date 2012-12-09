@@ -1,0 +1,20 @@
+%table
+  %thead
+    %tr
+      %th Dates
+      %th.text-center Durée
+      %th.text-center Âge min.
+      %th.text-center Âge max.
+      %th Professeur
+      %th Nb de places
+  %tbody
+    - @plannings.each do |planning|
+      %tr
+        %td= training_dates planning
+        %td.text-center= "#{pluralize(planning.length, 'jour')}"
+        %td.text-center= planning.course.min_age_for_kid
+        %td.text-center= planning.course.max_age_for_kid
+        %td -
+        %td -
+
+%h4 Informations complémentaires

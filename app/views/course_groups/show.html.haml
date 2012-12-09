@@ -7,26 +7,7 @@
   = "#{@course_group.best_price.price_1}€ #{@course_group.best_price.price_1_libelle}"
 = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15}} )
 
+- if @course_group.is_training?
+  = render 'training_schedule'
 - if @course_group.is_lesson?
-  %table
-    %thead
-      %tr
-        %th Jour
-        %th.text-center Créneau horaire
-        %th.text-center Durée
-        %th.text-center Âge min.
-        %th.text-center Âge max.
-        %th Professeur
-        %th Nb de places
-    %tbody
-      - @plannings.each do |planning|
-        %tr
-          %td= week_day_for planning
-          %td.text-center= readable_time_slot planning
-          %td.text-center= readable_duration planning
-          %td.text-center= planning.course.min_age_for_kid
-          %td.text-center= planning.course.max_age_for_kid
-          %td -
-          %td -
-
-  %h4 Informations complémentaires
+  = render 'lesson_schedule'

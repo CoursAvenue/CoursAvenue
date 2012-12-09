@@ -12,20 +12,3 @@
 
     %footer.g.one-whole
       = will_paginate @course_groups, renderer: PaginationListLinkRenderer, class: 'nav pagination', inner_window: 2
-
-- content_for :scripts do
-  :javascript
-    window.addEvent('domready', function() {
-        Gmaps.map.callback = function() {
-            for (var i = 0; i <  this.markers.length; ++i) {
-                google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
-                    var course_element = $$('.course-element[data-structure_id=' + this.id + ']')[0];
-                    GLOBAL.Scroller.toElement(course_element);
-
-                    // Unselect courses if there already are that are selected
-                    $$('.course-element').removeClass('selected');
-                    course_element.addClass('selected');
-                }.bind(Gmaps.map.markers[i]));
-            }
-        };
-    });

@@ -48,7 +48,6 @@ class CourseGroup < ActiveRecord::Base
 
   def self.that_happens(week_day_indexes, scope)
     scope.joins{plannings}.where{(type == 'CourseGroup::Training') | ((type == 'CourseGroup::Lesson') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i)))}
-    #scope.joins{plannings}.where{(type == 'CourseGroup::Lesson') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i))}
   end
 
   def self.in_these_time_slots(values, scope)
