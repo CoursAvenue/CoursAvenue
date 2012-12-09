@@ -3,11 +3,19 @@
 = join_levels @course_group
 = join_audiences @course_group
 
-%p
-  = "#{@course_group.best_price.price_1}€ #{@course_group.best_price.price_1_libelle}"
-= gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15}} )
+.gw
+  %section.g.seven-tenths
+    .g.one-third
+      %img{src: 'http://placehold.it/250'}
+      %p
+        = "#{@course_group.best_price.price_1}€ #{@course_group.best_price.price_1_libelle}"
+    .g.one-third= gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15}} )
 
-- if @course_group.is_training?
-  = render 'training_schedule'
-- if @course_group.is_lesson?
-  = render 'lesson_schedule'
+    - if @course_group.is_training?
+      = render 'training_schedule'
+    - if @course_group.is_lesson?
+      = render 'lesson_schedule'
+  %section.g.three-tenths
+    %article
+      %h4 Récapitulatif
+      Dimanche
