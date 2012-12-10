@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(:version => 20121207200541) do
     t.datetime "updated_at",    :null => false
   end
 
+  add_index "course_groups", ["type"], :name => "index_course_groups_on_type"
+
   create_table "course_groups_levels", :id => false, :force => true do |t|
     t.integer "course_group_id"
     t.integer "level_id"

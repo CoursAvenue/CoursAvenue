@@ -57,6 +57,7 @@ class CourseGroupsController < ApplicationController
       end
     end
     # Eliminate all duplicates
+    #@course_groups = @course_groups.joins{prices}.group{id}.order('min(prices.approximate_price_per_course)')
     @course_groups = @course_groups.group{id}
 
     @course_groups = @course_groups.paginate(page: params[:page]).all

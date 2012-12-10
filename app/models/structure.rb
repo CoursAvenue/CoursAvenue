@@ -63,7 +63,7 @@ class Structure < ActiveRecord::Base
   end
 
   def retrieve_address
-    if self.latitude == nil
+    if !self.new_record? and self.latitude == nil
       geolocation    = Gmaps4rails.geocode self.gmaps4rails_address[0]
       self.latitude  = geolocation[:lat]
       self.longitude = geolocation[:lng]
