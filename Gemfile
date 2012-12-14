@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.9'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -15,8 +15,6 @@ gem 'rails', '3.2.8'
   gem 'mootools-rails'    , '~> 1.0.1'
   gem 'compass-rails'     , '~> 1.0.3'
 # end
-
-gem 'jquery-rails'
 
 gem 'pg'
 
