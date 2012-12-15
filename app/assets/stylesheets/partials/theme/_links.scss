@@ -5,3 +5,7 @@
 a:link, a:visited {
     color: $blue;
 }
+
+.current a{
+    text-decoration: none;
+}

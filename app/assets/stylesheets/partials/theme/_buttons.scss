@@ -1,6 +1,9 @@
 /*------------------------------------*\
     $Buttons
 \*------------------------------------*/
+.btn a:hover{
+    text-decoration:none;
+}
 
 .btn {
     background-color: $light-grey;
@@ -19,7 +22,7 @@
 }
 
 .btn.disabled, .btn:disabled{
-    opacity: 0.65;
+    opacity: 0.55;
 }
 
 .btn__blue {

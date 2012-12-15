@@ -1,8 +1,8 @@
 .course-header-badge {
     position: relative;
-    .map_container, .map { 
-        height: 15em;
+    .map, .map_container {
         width : 15em;
+        height: 15em;
     }
 }
 // .course-header-badge-image {
@@ -11,8 +11,8 @@
 
 .course-header-title {
     position        : absolute;
-    left            : 0
-    top             : 1em
+    left            : 0;
+    top             : 1em;
     background-color: $blue;
     padding         : 0.5rem;
     color           : white;

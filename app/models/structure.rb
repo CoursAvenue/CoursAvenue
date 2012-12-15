@@ -64,10 +64,14 @@ class Structure < ActiveRecord::Base
 
   def retrieve_address
     if !self.new_record? and self.latitude == nil
-      geolocation    = Gmaps4rails.geocode self.gmaps4rails_address[0]
-      self.latitude  = geolocation[:lat]
-      self.longitude = geolocation[:lng]
-      self.save
+      begin
+        geolocation    = Gmaps4rails.geocode self.gmaps4rails_address
+        self.latitude  = geolocation[:lat]
+        self.longitude = geolocation[:lng]
+        self.save
+      rescue Exception => e
+        puts "Address not found: #{e}"
+      end
     end
   end
 

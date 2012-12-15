@@ -32,10 +32,11 @@ ActiveRecord::Schema.define(:version => 20121207200541) do
   create_table "course_groups", :force => true do |t|
     t.string   "type"
     t.string   "name"
+    t.boolean  "has_online_payment", :default => false
     t.integer  "structure_id"
     t.integer  "discipline_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
   end
 
   add_index "course_groups", ["type"], :name => "index_course_groups_on_type"
@@ -57,9 +58,21 @@ ActiveRecord::Schema.define(:version => 20121207200541) do
     t.boolean  "is_individual"
     t.boolean  "annual_membership_mandatory"
     t.boolean  "is_for_handicaped"
+    t.boolean  "has_online_payment",          :default => false
+    t.text     "formule_1"
+    t.text     "formule_2"
+    t.text     "formule_3"
+    t.text     "formule_4"
+    t.text     "conditions"
+    t.integer  "nb_place_available"
+    t.text     "partner_rib_info"
+    t.boolean  "audition_mandatory"
+    t.text     "refund_condition"
+    t.decimal  "promotion"
+    t.boolean  "cant_be_joined_during_year"
     t.integer  "course_group_id"
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
   end
 
   create_table "disciplines", :force => true do |t|
@@ -201,7 +214,7 @@ ActiveRecord::Schema.define(:version => 20121207200541) do
     t.text     "registration_info"
     t.text     "street"
     t.string   "zip_code"
-    t.string   "adress_info"
+    t.text     "adress_info"
     t.string   "closed_days"
     t.boolean  "has_handicap_access"
     t.boolean  "is_professional"

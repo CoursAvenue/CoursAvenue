@@ -8,7 +8,7 @@ class CreateStructures < ActiveRecord::Migration
       t.text    :registration_info
       t.text    :street
       t.string  :zip_code
-      t.string  :adress_info
+      t.text    :adress_info
       t.string  :closed_days
       t.boolean :has_handicap_access
       t.boolean :is_professional

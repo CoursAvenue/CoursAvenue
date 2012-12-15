@@ -9,7 +9,7 @@ namespace :import do
 
   def week_day_number(week_day_name)
     return nil           if week_day_name.blank?
-    return week_day_name if week_day_name.integer?
+    return week_day_name if week_day_name.is_a? Integer
 
     case week_day_name.downcase
     when 'lundi'
@@ -106,7 +106,19 @@ namespace :import do
         course_info_2:                                row[12],
         is_for_handicaped:                           (row[18] == 'X' ? true : false),
         registration_date:                            row[20],
-        annual_membership_mandatory:                  row[38]
+        annual_membership_mandatory:                  row[38],
+        has_online_payment:                          (row[93] == 'X' ? true : false),
+        formule_1:                                    row[94],
+        formule_2:                                    row[95],
+        formule_3:                                    row[96],
+        formule_4:                                    row[97],
+        conditions:                                   row[98],
+        nb_place_available:                           row[99],
+        partner_rib_info:                             row[100],
+        audition_mandatory:                          (row[101] == 'X' ? true : false),
+        refund_condition:                             row[102],
+        promotion:                                    row[103],
+        cant_be_joined_during_year:                  (row[41] == 'X' ? true : false)
       },
 
       # Price
@@ -260,6 +272,7 @@ namespace :import do
       price = Price.create(row[:price])
       course.price = price
       course.save
+      course_group.has_online_payment = course.has_online_payment?
       course_group.courses << course
       course_group.save
     end

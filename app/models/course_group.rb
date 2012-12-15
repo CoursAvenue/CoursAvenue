@@ -16,7 +16,7 @@ class CourseGroup < ActiveRecord::Base
 
   belongs_to :discipline
 
-  attr_accessible :name
+  attr_accessible :name, :has_online_payment
 
   def self.name_and_structure_name_contains(name_string, scope)
     name_string    = '%' + name_string + '%'

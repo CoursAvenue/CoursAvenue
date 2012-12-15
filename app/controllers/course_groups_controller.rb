@@ -56,9 +56,8 @@ class CourseGroupsController < ApplicationController
         @course_groups = @course_groups.in_price_range(value[:min], value[:max], @course_groups)
       end
     end
-    # Eliminate all duplicates
-    #@course_groups = @course_groups.joins{prices}.group{id}.order('min(prices.approximate_price_per_course)')
-    @course_groups = @course_groups.group{id}
+    # Group by id and order by first day in week
+    @course_groups = @course_groups.joins{plannings}.group{id}.order('min(plannings.week_day)')
 
     @course_groups = @course_groups.paginate(page: params[:page]).all
 

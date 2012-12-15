@@ -12,6 +12,18 @@ class Course < ActiveRecord::Base
                   :annual_membership_mandatory,
                   :is_for_handicaped,
                   :registration_date,
-                  :teacher_name
+                  :teacher_name,
+                  :has_online_payment,
+                  :formule_1,
+                  :formule_2,
+                  :formule_3,
+                  :formule_4,
+                  :conditions,
+                  :nb_place_available,
+                  :partner_rib_info,
+                  :audition_mandatory,
+                  :refund_condition,
+                  :promotion,
+                  :cant_be_joined_during_year
 
 end
