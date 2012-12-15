@@ -10,7 +10,7 @@
       .course-header-badge
         .course-header-image
           %img{src: 'http://placehold.it/250', class: 'course-header-badge-image'}
-          %h5.course-header-price-badge
+          %h5.price-badge
             = readable_price @course_group.best_price
         = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
 

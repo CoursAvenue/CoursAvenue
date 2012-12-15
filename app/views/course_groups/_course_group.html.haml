@@ -1,6 +1,9 @@
 %li.one-whole.course-element{data: {structure_id: course_group.structure_id}}
   %div.two-twelfths
-    %img.media__img.course-image{src: 'http://www.placehold.it/100'}
+    .course-image.media__img
+      %img{src: 'http://www.placehold.it/100'}
+      - if course_group.has_promotion
+        .course-promo.price-badge= readable_promotion course_group.promotion
 
   %article.course-content
     %header

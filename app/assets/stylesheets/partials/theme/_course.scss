@@ -9,14 +9,5 @@
 }
 
 .course-header-image {
-    position: relative;
+    position    : relative;
 }
-    .course-header-price-badge {
-        margin          : 0;
-        position        : absolute;
-        left            : 0;
-        top             : 1em;
-        background-color: $blue;
-        padding         : 0.5em 1em 0.5em 0.5em;
-        color           : white;
-    }

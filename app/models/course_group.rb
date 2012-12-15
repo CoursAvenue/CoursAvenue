@@ -91,8 +91,12 @@ class CourseGroup < ActiveRecord::Base
    # Will set has_promotion to true if one of the courses has a promotion higher than 0
    self.has_promotion = !self.courses.index do |course|
       !course.promotion.nil? and course.promotion > 0
-    end.blank?
+    end.nil?
     self.save
+  end
+
+  def promotion
+    self.courses.order('promotion ASC').first.promotion
   end
 
   def is_workshop?
