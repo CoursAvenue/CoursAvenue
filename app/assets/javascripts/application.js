@@ -11,6 +11,7 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require global
+//= require libs/handlebars
 //= require mootools
 //= require mootools-more
 //= require mootools_ujs

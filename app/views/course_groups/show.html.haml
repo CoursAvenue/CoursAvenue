@@ -2,20 +2,38 @@
   %span= @course_group.name
 = join_levels @course_group
 = join_audiences @course_group
-
+= readable_address @course_group.structure
 .gw
   %section.g.seven-tenths
-    .g.one-third
-      %img{src: 'http://placehold.it/250'}
-      %p
-        = "#{@course_group.best_price.price_1}€ #{@course_group.best_price.price_1_libelle}"
-    .g.one-third= gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15}} )
+    .g.one-whole
+      .course-header-badge
+        %img{src: 'http://placehold.it/250', class: 'course-header-badge-image'}
+        %h4.course-header-title
+          = "#{@course_group.best_price.price_1}€ #{@course_group.best_price.price_1_libelle}"
+        = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
 
-    - if @course_group.is_training?
-      = render 'training_schedule'
-    - if @course_group.is_lesson?
-      = render 'lesson_schedule'
+    .g.one-whole
+      %h3 Séléctionnez la séance
+      - if @course_group.is_training?
+        = render 'training_schedule'
+      - if @course_group.is_lesson?
+        = render 'lesson_schedule'
+
+      %h3 Choissez la formule
+
   %section.g.three-tenths
     %article
       %h4 Récapitulatif
       Dimanche
+    %article
+      %h4 Cours similaires
+
+- content_for :scripts do
+  :javascript
+      window.addEvent('domready', function() {
+          var courses = #{@json_courses};
+          //var course_objects = []
+          courses.each(function(course){
+              new GLOBAL.Objects.Course(course);
+          });
+      });

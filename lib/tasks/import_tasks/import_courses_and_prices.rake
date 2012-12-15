@@ -8,7 +8,9 @@ require 'csv'
 namespace :import do
 
   def week_day_number(week_day_name)
-    return nil if week_day_name.blank?
+    return nil           if week_day_name.blank?
+    return week_day_name if week_day_name.integer?
+
     case week_day_name.downcase
     when 'lundi'
       1
@@ -24,6 +26,8 @@ namespace :import do
       6
     when 'dimanche'
       7
+    else
+      week_day_name.to_i
     end
   end
 

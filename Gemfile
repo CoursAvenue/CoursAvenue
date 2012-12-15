@@ -1,3 +1,4 @@
+# encoding: utf-8
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.9'
@@ -23,7 +24,8 @@ gem 'paperclip'           , '~>3.3.1'
 gem 'squeel'              , '~>1.0.14'
 gem 'ancestry'            , '~>1.3.0'
 
-gem 'gmaps4rails'         , '~>1.5.6'
+gem 'gmaps4rails'             , '~>1.5.6'
+gem 'active_model_serializers', '~>0.6.0'
 
 group :production do
   # gem 'therubyracer'
@@ -38,6 +40,9 @@ end
 group :development, :test do
   #gem 'ruby-debug19'
   gem 'debugger'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'awesome_print'
 end
 
 # gem 'thin'

@@ -10,7 +10,7 @@
       %th Nb de places
   %tbody
     - @plannings.each do |planning|
-      %tr
+      %tr{data: {course_id: planning.course_id}}
         %td= week_day_for planning
         %td.text-center= readable_time_slot planning
         %td.text-center= readable_duration planning
@@ -20,3 +20,5 @@
         %td -
 
 %h4 Informations complémentaires
+%script#planning-info-template{type: "text/x-handlebars-template"}
+  lala

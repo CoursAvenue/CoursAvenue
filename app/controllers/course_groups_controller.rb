@@ -87,6 +87,10 @@ class CourseGroupsController < ApplicationController
     @structure    = @course_group.structure
     @plannings    = @course_group.courses.collect{ |course| course.planning }
 
+    # @similar_courses = CourseGroup.where{} # With same discipline
+
+    @json_courses = @course_group.courses.map{ |course| CourseSerializer.new(course, root: false) }.to_json
+
     @json_structure_address = @structure.to_gmaps4rails do |structure, marker|
       # marker.infowindow render_to_string(:partial => "/structures/my_template", :locals => { :object => structure})
       # marker.picture({
@@ -97,6 +101,11 @@ class CourseGroupsController < ApplicationController
       marker.title   structure.name
       marker.json({ id: structure.id })
     end
+    respond_to do |format|
+      format.html
+      format.json {render json: @course_group, serializer: CourseGroupSerializer}
+    end
+
   end
 
 end
