@@ -53,4 +53,5 @@ class Price < ActiveRecord::Base
                   :price_2,
                   :price_2_libelle,
                   :approximate_price_per_course
+
 end

@@ -1,5 +1,6 @@
 class CourseGroupsController < ApplicationController
   include TimeParser
+
   def index
     params[:page] ||= 1
     @course_groups = CourseGroup

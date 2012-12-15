@@ -85,6 +85,10 @@ class CourseGroup < ActiveRecord::Base
     end
   end
 
+  def is_workshop?
+    false
+  end
+
   def is_lesson?
     false
   end

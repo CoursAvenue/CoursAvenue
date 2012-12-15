@@ -8,7 +8,9 @@ module PlanningsHelper
   end
 
   def readable_duration(planning)
-    if planning.duration.hour > 0
+    if planning.duration.blank?
+      t('planning.no_duration')
+    elsif planning.duration.hour > 0
       if planning.duration.min == 0
         "#{planning.duration.hour}h"
       else

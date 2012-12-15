@@ -32,13 +32,13 @@ namespace :import do
   end
 
   def course_group_class(name)
-    case name
-    when 'Cours'
+    case name.downcase
+    when 'cours'
       class_name = CourseGroup::Lesson
-    when 'Stage'
+    when 'stage'
       class_name = CourseGroup::Training
-    else
-      class_name = CourseGroup::Lesson
+    when 'cours-atelier'
+      class_name = CourseGroup::Workshop
     end
   end
   def level(name)

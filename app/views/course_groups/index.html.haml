@@ -3,9 +3,8 @@
   %section.g.three-tenths
     = render 'side_search_form'
   %section.g.seven-tenths
-    %p.island.search-list-info.
+    %p.island.search-list-info
       = page_entries_info html: false
-      = will_paginate @course_groups, renderer: PaginationListLinkRenderer, class: 'nav pagination', inner_window: 2
     %ul.block-list.course-list
       = render partial: 'course_group', :collection => @course_groups
 

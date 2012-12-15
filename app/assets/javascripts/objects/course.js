@@ -1,4 +1,5 @@
 (function() {
+    'use strict';
     var objects = GLOBAL.namespace('GLOBAL.Objects');
 
     /*
@@ -6,10 +7,13 @@
      */
 
     objects.Course = new Class({
-
-        planning_info_template: Handlebars.compile($('planning-info-template').get('html')),
+        loadTemplates: function() {
+            this.planning_info_template = Handlebars.compile($('planning-info-template').get('html'));
+        },
 
         initialize: function(course_hash) {
+            this.loadTemplates();
+
             this.course   = course_hash;
             this.planning = course_hash.planning;
             this.price    = course_hash.price;
@@ -20,7 +24,6 @@
         },
 
         show_planning_info: function() {
-            debugger
             planning_info_template(this.planning);
         }
 

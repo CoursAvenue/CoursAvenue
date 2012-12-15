@@ -1,3 +1,4 @@
+= link_to t('.back_to_search'), course_groups_path
 %h1
   %span= @course_group.name
 = join_levels @course_group
@@ -7,9 +8,10 @@
   %section.g.seven-tenths
     .g.one-whole
       .course-header-badge
-        %img{src: 'http://placehold.it/250', class: 'course-header-badge-image'}
-        %h4.course-header-title
-          = "#{@course_group.best_price.price_1}€ #{@course_group.best_price.price_1_libelle}"
+        .course-header-image
+          %img{src: 'http://placehold.it/250', class: 'course-header-badge-image'}
+          %h5.course-header-price-badge
+            = readable_price @course_group.best_price
         = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
 
     .g.one-whole

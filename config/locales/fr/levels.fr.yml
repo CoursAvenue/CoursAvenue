@@ -1,0 +1,11 @@
+fr:
+  level:
+    all: Tous niveaux
+    initiation: Initiation
+    beginner: Débutant
+    average_intermediate: Moyen / Intermédiaire
+    intermediate: Intermédiaire
+    average: Moyen
+    advanced_confirmed: Avancé / Confirmé
+    advanced: Avancé
+    confirmed: Confirmé
