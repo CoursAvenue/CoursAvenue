@@ -4,6 +4,7 @@ class CreateCourseGroups < ActiveRecord::Migration
       t.string  :type
       t.string  :name
       t.boolean :has_online_payment, default: false
+      t.boolean :has_promotion     , default: false
 
       t.references :structure
       t.references :discipline

@@ -272,7 +272,6 @@ namespace :import do
       price = Price.create(row[:price])
       course.price = price
       course.save
-      course_group.has_online_payment = course.has_online_payment?
       course_group.courses << course
       course_group.save
     end

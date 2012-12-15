@@ -30,6 +30,7 @@ class CourseGroup < ActiveRecord::Base
       types = []
       types << 'CourseGroup::Lesson'   if types_array.include? 'lesson'
       types << 'CourseGroup::Training' if types_array.include? 'training'
+      types << 'CourseGroup::Workshop' if types_array.include? 'workshop'
       scope.where{type.like_any types}
     end
   end
@@ -47,7 +48,7 @@ class CourseGroup < ActiveRecord::Base
   end
 
   def self.that_happens(week_day_indexes, scope)
-    scope.joins{plannings}.where{(type == 'CourseGroup::Training') | ((type == 'CourseGroup::Lesson') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i)))}
+    scope.joins{plannings}.where{(type == 'CourseGroup::Training') | ((type == 'CourseGroup::Lesson') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i))) | ((type == 'CourseGroup::Workshop') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i)))}
   end
 
   def self.in_these_time_slots(values, scope)
@@ -83,6 +84,15 @@ class CourseGroup < ActiveRecord::Base
         scope.joins{prices}.where{(prices.approximate_price_per_course >= min_price) & (prices.approximate_price_per_course <= max_price)}
       end
     end
+  end
+
+  # Called afer a course has been saved
+  def update_has_promotion
+   # Will set has_promotion to true if one of the courses has a promotion higher than 0
+   self.has_promotion = !self.courses.index do |course|
+      !course.promotion.nil? and course.promotion > 0
+    end.blank?
+    self.save
   end
 
   def is_workshop?

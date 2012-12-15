@@ -58,7 +58,7 @@ class CourseGroupsController < ApplicationController
       end
     end
     # Group by id and order by first day in week
-    @course_groups = @course_groups.joins{plannings}.group{id}.order('min(plannings.week_day)')
+    @course_groups = @course_groups.joins{plannings}.group{id}.order('has_promotion DESC, has_online_payment DESC, min(plannings.week_day)')
 
     @course_groups = @course_groups.paginate(page: params[:page]).all
 

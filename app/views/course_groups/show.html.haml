@@ -34,7 +34,6 @@
   :javascript
       window.addEvent('domready', function() {
           var courses = #{@json_courses};
-          //var course_objects = []
           courses.each(function(course){
               new GLOBAL.Objects.Course(course);
           });

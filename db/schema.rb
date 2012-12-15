@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20121207200541) do
     t.string   "type"
     t.string   "name"
     t.boolean  "has_online_payment", :default => false
+    t.boolean  "has_promotion",      :default => false
     t.integer  "structure_id"
     t.integer  "discipline_id"
     t.datetime "created_at",                            :null => false
