@@ -2,10 +2,10 @@ fr:
   course_groups:
     show:
       back_to_search: Retour à la recherche
-      opinions: Avis
+    structure_info_tabs:
       description: Description
       structure: Établissement
-    structure_info_tabs:
+      opinions: Avis
       last_students_opinion: Avis des élèves précédents
       course_description: "Description du cours :"
       more_information: "Informations complémentaires :"

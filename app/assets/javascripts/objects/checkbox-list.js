@@ -50,7 +50,6 @@
     });
 })();
 
-
 // Initialize all input-update objects
 window.addEvent('domready', function() {
     $$('[data-behavior=checkbox-list]').each(function(el) {

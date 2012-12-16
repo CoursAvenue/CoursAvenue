@@ -1,0 +1,34 @@
+.tab-titles {
+    @extend .nav;
+    border-bottom: 1px solid $graySmooth;
+
+    li {
+        padding     : 0.4em 1em;
+        margin-right: 0.2em;
+        color        : $brand-color;
+        border       : 1px solid white; // To prevent size to change on hover
+        border-bottom: none;
+        @include border-top-radius(3px);
+        &:hover {
+            background-color: $grayLighter;
+            cursor          : pointer;
+            border       : 1px solid darken($grayLighter, 5%);
+        }
+        &.active:hover {
+            background   : none;
+            cursor       : default;
+        }
+        &.active {
+            color        : black;
+            border       : 1px solid $graySmooth;
+            border-bottom-color: white;
+        }
+    }
+}
+
+.tab-pane {
+    display: none;
+    &.active{
+        display: block;
+    }
+}
