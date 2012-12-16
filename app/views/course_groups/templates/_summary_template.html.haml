@@ -1,7 +1,31 @@
-%article
-  %h4 Récapitulatif
-  Dimanche
-%article
-  %h4 Cours similaires
+%article.summary
+  %h4.summary-title Récapitulatif
+  #summary-content
+    %ul.block-list.summary-list
+      %li
+        .icon-calendar
+        20 décembre
+      %li
+        .icon-user
+        1 Adulte
+      %li
+        Formule :
+        Trimestre
+      %li.proceed
+        Total:
+        40€
 
 %script#summary-template{type: "text/x-handlebars-template"}
+  %ul.block-list.summary-list
+    %li
+      .icon-calendar
+      {{date}}
+    %li
+      .icon-user
+      {{audience}}
+    %li
+      Formule :
+      {{formule}}
+    %li.proceed
+      Total:
+      {{price}}

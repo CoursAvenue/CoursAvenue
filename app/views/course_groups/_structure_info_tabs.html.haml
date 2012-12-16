@@ -15,9 +15,9 @@
     %h4= t('.more_information')
     %ul
       - unless @course_group.courses.first.course_info_1.blank?
-        %li= @course_group.courses.first.course_info_1.blank?
+        %li= @course_group.courses.first.course_info_1
       - unless @course_group.courses.first.course_info_2.blank?
-        %li= @course_group.courses.first.course_info_2.blank?
+        %li= @course_group.courses.first.course_info_2
       - unless @structure.registration_info.blank?
         %li= @structure.registration_info
 

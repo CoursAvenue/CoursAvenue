@@ -23,6 +23,7 @@
             // Add active only on selected content (tab-pane)
             this.tab_panes.removeClass('active');
             $(event.target.get('data-el')).addClass('active');
+            GLOBAL.Scroller.toElement(event.target);
         }
 
     });
