@@ -27,20 +27,9 @@
         @include box-sizing(border-box);
     }
 
-
     ul, p, .hN {
         margin-bottom: 0;
     }
-    .hN span {
-        vertical-align: middle;
-    }
-}
-.course-price{
-    text-align      : right;
-    color           : $grayDarker;
-    vertical-align  : middle;
-    line-height     : 1;
-    font-size       : 0.75rem;
 }
 .course-content{
     vertical-align: top;

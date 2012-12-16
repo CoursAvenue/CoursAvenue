@@ -10,12 +10,4 @@ module PricesHelper
       "#{price.price_1} € #{price.price_1_libelle}"
     end
   end
-
-  def readable_promotion promotion
-    if promotion.blank?
-      ""
-    else
-      "#{(promotion * 100).to_i} %"
-    end
-  end
 end

@@ -2,3 +2,23 @@ fr:
   course_groups:
     show:
       back_to_search: Retour à la recherche
+      opinions: Avis
+      description: Description
+      structure: Établissement
+    structure_info_tabs:
+      last_students_opinion: Avis des élèves précédents
+      course_description: "Description du cours :"
+      more_information: "Informations complémentaires :"
+      website: "Site internet :"
+      required_documents_for_registration: "Pièces demandées pour l’inscription :"
+      has_registration_form: L'établissement a un formulaire d'inscription
+      photo_id: Une photo d'identité
+      id_copy: Une photocopie d'une pièce d'identité
+      medical_certificate: 1 certificat médical de moins de 3 mois
+      insurance_attestation: Une attestation d'assurance
+      payment_on_place: Le paiement se fait sur place
+      other_info: "Autres infos :"
+      number_of_room:
+        zero: "Aucune salle de cours"
+        one: "Une salle de cours"
+        other: "%{count} salles de cours"

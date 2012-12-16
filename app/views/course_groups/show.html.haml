@@ -1,34 +1,36 @@
 = link_to t('.back_to_search'), course_groups_path
-%h1
+%h1.course-title
   %span= @course_group.name
-= join_levels @course_group
-= join_audiences @course_group
-= readable_address @course_group.structure
+  %span.lbl.milli= @course_group.type_name
+
+%ul.nav
+  %li= join_levels @course_group
+  %li -
+  %li= join_audiences @course_group
 .gw
   %section.g.seven-tenths
-    .g.one-whole
-      .course-header-badge
-        .course-header-image
-          %img{src: 'http://placehold.it/250', class: 'course-header-badge-image'}
-          %h5.price-badge
-            = readable_price @course_group.best_price
-        = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
+    .course-header-badge
+      .course-header-image
+        %img{src: 'http://placehold.it/250', class: 'course-header-badge-image'}
+        %h5.price-badge
+          = readable_price @course_group.best_price
+      = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
 
-    .g.one-whole
-      %h3 Séléctionnez la séance
-      - if @course_group.is_training?
-        = render 'training_schedule'
-      - if @course_group.is_lesson?
-        = render 'lesson_schedule'
+    %h3 Séléctionnez la séance
+    - if @course_group.is_training?
+      = render 'training_schedule'
+    - if @course_group.is_lesson?
+      = render 'lesson_schedule'
 
-      %h3 Choissez la formule
+    #prices
+    = render 'course_groups/templates/price_template'
 
-  %section.g.three-tenths
-    %article
-      %h4 Récapitulatif
-      Dimanche
-    %article
-      %h4 Cours similaires
+    = render 'structure_info_tabs'
+
+
+
+  %section.g.three-tenths#summary
+    = render 'course_groups/templates/summary_template'
 
 - content_for :scripts do
   :javascript

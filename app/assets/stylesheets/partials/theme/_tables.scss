@@ -1,2 +1,23 @@
-.table{
+/**
+ * Striped tables
+ */
+.table--striped{
+    tbody {
+        tr:nth-of-type(odd){
+            background-color: $grayLighter;
+        }
+        tr.selectable:nth-of-type(odd){
+            @extend .selectable;
+        }
+    }
+}
+
+/**
+ * Data table
+ */
+.table--data{
+    @include font-size(13);
+    td {
+        padding: 0.8em;
+    }
 }

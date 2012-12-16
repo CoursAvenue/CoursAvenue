@@ -1,4 +1,4 @@
-%li.one-whole.course-element{data: {structure_id: course_group.structure_id}}
+%li.one-whole.course-element{data: {"structure-id" => course_group.structure_id}}
   %div.two-twelfths
     .course-image.media__img
       %img{src: 'http://www.placehold.it/100'}
@@ -7,7 +7,7 @@
 
   %article.course-content
     %header
-      %h4.hN
+      %h4.hN.course-title
         %span= link_to course_group.name, course_group
         %span.lbl.milli= course_group.type_name
 

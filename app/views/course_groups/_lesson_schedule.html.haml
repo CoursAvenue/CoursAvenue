@@ -1,4 +1,4 @@
-%table
+%table.table--striped.table--data
   %thead
     %tr
       %th Jour
@@ -8,9 +8,10 @@
       %th.text-center Âge max.
       %th Professeur
       %th Nb de places
+      %th Promo
   %tbody
     - @plannings.each do |planning|
-      %tr{data: {course_id: planning.course_id}}
+      %tr.selectable{data: {'course-id' => planning.course_id}}
         %td= week_day_for planning
         %td.text-center= readable_time_slot planning
         %td.text-center= readable_duration planning
@@ -18,7 +19,16 @@
         %td.text-center= planning.course.max_age_for_kid
         %td -
         %td -
+        %td
+          %b.red= readable_promotion planning.course.promotion
 
-%h4 Informations complémentaires
-%script#planning-info-template{type: "text/x-handlebars-template"}
-  lala
+#course-info
+%script#course-info-template{type: "text/x-handlebars-template"}
+  %h4 Informations complémentaires
+  %ul
+    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
