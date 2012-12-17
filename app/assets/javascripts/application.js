@@ -11,35 +11,42 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require global
-//= require libs/handlebars
+
+// ---------------------------------- Core include
 //= require mootools
 //= require mootools-more
 //= require mootools_ujs
-//= require_tree ./objects/
-//= require_tree ./gmaps4rails/
+
+// ---------------------------------- Lib includes
+//= require libs/handlebars
+//= require libs/picture-slider
 //= require libs/datepicker/Locale.fr-FR.DatePicker
 //= require libs/datepicker/Picker
 //= require libs/datepicker/Picker.Attach
 //= require libs/datepicker/Picker.Date
 //= require libs/datepicker/Picker.Date.Range
 
+// ---------------------------------- Mootols Objects
+//= require_tree ./objects/
+//= require_tree ./gmaps4rails/
+
 window.addEvent('domready', function() {
     var global = GLOBAL.namespace('GLOBAL');
     Locale.use('fr-FR');
     new Picker.Date($$('[data-behavior=datepicker]'),
-    {
-        pickerClass: 'datepicker_dashboard',
+        {
+        pickerClass: 'datepicker_bootstrap',
         months_abbr: Locale.get('Date.months'),
         days_title: function(date, options){
             return date.format('%B %Y');
         }
     });
 
-    new Picker.Date($$('[data-behavior=timepicker]'), {
-        pickOnly: 'time',
-        timeWheelStep: 5,
-        pickerClass: 'datepicker_dashboard'
-    });
+    // new Picker.Date($$('[data-behavior=timepicker]'), {
+    //     pickOnly: 'time',
+    //     timeWheelStep: 5,
+    //     pickerClass: 'datepicker_bootstrap'
+    // });
     global.Scroller = new Fx.Scroll($(document.body), {
         wait: false,
         duration: 500,

@@ -8,8 +8,8 @@
   %body
     = render 'shared/header'
 
+    = yield :above_container
     .main-container
-      = render 'shared/menu'
       = yield
 
     = render 'shared/footer'

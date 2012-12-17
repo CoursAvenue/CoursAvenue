@@ -1,5 +1,23 @@
-%header.main-header
-  %h1
-    LeBonCours (Paris)
-  %h2
-    Réservez les meilleurs cours aux meilleurs prix
+%header.header
+  .main-container.flexbox
+    %h1.accessibility
+      LeBonCours (Paris)
+    = link_to root_path, class: 'flexbox__item' do
+      = image_tag 'logo.png'
+
+    %nav.flexbox__item
+      %ul.nav.proceed
+        %li
+          %a.btn Référencez vos cours et stage
+        %li
+          %a.btn Louez vos espaces
+        %li
+          %a.btn Une salle pour votre cours ?
+    %nav.flexbox__item
+      %ul.nav.nav--fit
+        %li
+          %a.header-link{href: '#'} Le blog
+        %li
+          %a.header-link{href: '#'} À propos
+        %li
+          %a.header-link{href: '#'} Contact

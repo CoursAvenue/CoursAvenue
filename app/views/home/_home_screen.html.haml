@@ -1,0 +1,23 @@
+.home-screen#picture-slider
+  .home-screen-content
+    %h1.text-center.home-screen-title
+      Pour vous, votre enfant ou pour offrir<br>
+      réservez les meilleurs cours aux meilleurs prix
+    = render 'shared/home_page_search_form'
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        var PictureSlider = new GLOBAL.Objects.PictureSlider($('picture-slider'), [
+            {
+              src: "#{asset_path('home-page/painter.jpg')}"
+              //content: '<h1>This is frame 1</h1>',
+              //caption: '<h1>Caption of frame 1</h1><b><p>lala</p>'
+            },
+            {
+              src: "#{asset_path('home-page/mime.jpg')}"
+              //content: 'This is frame 2',
+              //caption: 'Caption of frame 2'
+            }
+        ]);
+    });

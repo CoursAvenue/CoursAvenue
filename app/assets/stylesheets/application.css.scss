@@ -1,7 +1,6 @@
 //*= require 'font-awesome'
 //*= require_tree './libs'
 
-
 // Compass mixins
 @import "compass/css3/border-radius";
 @import "compass/css3/box-shadow";
@@ -10,6 +9,7 @@
 @import "compass/css3/transition";
 
 @import "vars";
+@import "widths";
 @import "theme_vars";
 @import "colors";
 
@@ -43,6 +43,6 @@
 
 // Created objects
 @import "partials/theme/*";
-@import "partials/theme/summary";
+@import "partials/theme/home-screen";
 
 @import "gmaps4rails";

@@ -1,5 +1,5 @@
 .main-container {
-    max-width: 1100px;
-    min-width: 1100px;
+    max-width: $siteMaxWidth;
+    min-width: $siteMinWidth;
     margin   : auto;
 }

@@ -451,6 +451,7 @@ var renderers = {
 			container = new Element('div.months'),
 			monthsAbbr = options.months_abbr || Locale.get('Date.months_abbr'),
 			element, classes;
+
 		months.each(function(_month, i){
 			var date = new Date(_month), year = date.get('year');
 
@@ -549,6 +550,8 @@ var renderers = {
 			maxlength: 2
 		}).inject(container);
 
+		new Element('div.separator[text=:]').inject(container);
+
 		var minutesInput = new Element('input.minutes[type=text]', {
 			title: Locale.get('DatePicker.use_mouse_wheel'),
 			value: date.format('%M'),
@@ -571,10 +574,9 @@ var renderers = {
 			maxlength: 2
 		}).inject(container);
 
-		new Element('div.separator[text=:]').inject(container);
 
 		new Element('input.ok', {
-			'type': 'input',
+			'type': 'submit',
 			value: Locale.get('DatePicker.time_confirm_button'),
 			events: {click: function(event){
 				event.stop();

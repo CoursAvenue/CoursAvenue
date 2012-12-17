@@ -59,7 +59,7 @@ var Picker = new Class({
 		}
 
 		// Build the header
-		var header = this.header = new Element('div.header').inject(picker);
+		var header = this.header = new Element('div.datepicker-header').inject(picker);
 
 		var title = this.title = new Element('div.title').inject(header);
 		var titleID = this.titleID = 'pickertitle-' + String.uniqueID();
@@ -76,7 +76,7 @@ var Picker = new Class({
 			.inject(header);
 
 		// Build the body of the picker
-		var body = this.body = new Element('div.body').inject(picker);
+		var body = this.body = new Element('div.datepicker-body').inject(picker);
 
 		if (options.footer){
 			this.footer = new Element('div.footer').inject(picker);
