@@ -1,5 +1,4 @@
 //*= require 'font-awesome'
-//*= require_tree './libs'
 
 // Compass mixins
 @import "compass/css3/border-radius";
@@ -43,6 +42,8 @@
 
 // Created objects
 @import "partials/theme/*";
-@import "partials/theme/home-screen";
+@import "libs/datepicker/datepicker_bootstrap";
 
 @import "gmaps4rails";
+
+//*= require libs/picture-slider
