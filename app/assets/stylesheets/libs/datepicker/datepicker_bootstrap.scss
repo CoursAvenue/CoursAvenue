@@ -6,7 +6,7 @@
 
 .selected-button {
     // If you have a specific selected-button style, you can do @extend .my-btn--selected
-    background-color: $selectedColor;
+    background-color: $brand-color;
     color           : white;
 }
 
@@ -32,8 +32,9 @@
 }
 
 .datepicker_bootstrap {
+    z-index         : 20;
     position        : absolute;
-    font-size       : 1em;
+    @include font-size(13);
     color           : #000;
     line-height     : normal;
     width           : $datepicker-width;
