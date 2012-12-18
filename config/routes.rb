@@ -1,10 +1,10 @@
 LeBonCours::Application.routes.draw do
 
   #get 'courses/:discipline' => 'course#index', :as => :search_for_courses
-  resources :course_groups         , :only => [:index, :show], :controller => 'course_groups', :type => CourseGroup.name
-  resources :course_group_lessons  , :only => [:show]        , :controller => 'course_groups', :type => CourseGroup::Lesson.name
-  resources :course_group_trainings, :only => [:show]        , :controller => 'course_groups', :type => CourseGroup::Training.name
-  resources :course_group_workshops, :only => [:show]        , :controller => 'course_groups', :type => CourseGroup::Workshop.name
+  resources :course_groups         , only: [:index, :show], controller: 'course_groups', type: CourseGroup.name           , path: 'cours'
+  resources :course_group_lessons  , only: [:show]        , controller: 'course_groups', type: CourseGroup::Lesson.name   , path: 'stage'
+  resources :course_group_trainings, only: [:show]        , controller: 'course_groups', type: CourseGroup::Training.name , path: 'cours'
+  resources :course_group_workshops, only: [:show]        , controller: 'course_groups', type: CourseGroup::Workshop.name , path: 'cours-atelier'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

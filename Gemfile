@@ -19,13 +19,16 @@ gem 'rails', '3.2.9'
 
 gem 'pg'
 
-gem 'will_paginate'       , '~>3.0.2'
-gem 'paperclip'           , '~>3.3.1'
-gem 'squeel'              , '~>1.0.14'
-gem 'ancestry'            , '~>1.3.0'
+gem 'will_paginate'             , '~>3.0.2'
+gem 'paperclip'                 , '~>3.3.1'
+gem 'squeel'                    , '~>1.0.14'
+gem 'ancestry'                  , '~>1.3.0'
 
-gem 'gmaps4rails'             , '~>1.5.6'
-gem 'active_model_serializers', '~>0.6.0'
+gem 'gmaps4rails'               , '~>1.5.6'
+gem 'active_model_serializers'  , '~>0.6.0'
+
+gem 'friendly_id'               , '~> 4.0.1'
+
 
 group :production do
   # gem 'therubyracer'

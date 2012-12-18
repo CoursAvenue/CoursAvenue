@@ -1,5 +1,7 @@
 # CourseGroups are grouped by same name, audiences and levels
 class CourseGroup < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :name, use: :slugged
 
   # For pagination
   self.per_page = 15
