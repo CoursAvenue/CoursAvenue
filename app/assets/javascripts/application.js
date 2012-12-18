@@ -19,7 +19,6 @@
 
 // ---------------------------------- Lib includes
 //= require libs/handlebars
-//= require libs/picture-slider
 //= require libs/datepicker/Locale.fr-FR.DatePicker
 //= require libs/datepicker/Picker
 //= require libs/datepicker/Picker.Attach
@@ -41,12 +40,6 @@ window.addEvent('domready', function() {
             return date.format('%B %Y');
         }
     });
-
-    // new Picker.Date($$('[data-behavior=timepicker]'), {
-    //     pickOnly: 'time',
-    //     timeWheelStep: 5,
-    //     pickerClass: 'datepicker_bootstrap'
-    // });
     global.Scroller = new Fx.Scroll($(document.body), {
         wait: false,
         duration: 500,
