@@ -18,8 +18,7 @@ $green:                 #46a546 !default;
 $red:                   #9d261d !default;
 $redLight:              #EC1706 !default;
 $yellow:                #ffc40d !default;
-$orange:                #cb462a !default;
-$orange:                #f89406 !default;
+$orange:                #e9683d !default;
 $pink:                  #c3325f !default;
 $purple:                #7a43b6 !default;
 
@@ -39,8 +38,8 @@ $btnBackground:                     $white !default;
 $btnBackgroundHighlight:            darken($white, 10%) !default;
 $btnBorder:                         #bbb !default;
 
-$btnPrimaryBackground:              $brand-color !default;
-$btnPrimaryBackgroundHighlight:     lighten($btnPrimaryBackground, 10%) !default;
+$btnPrimaryBackground:              #e65e34 !default;
+$btnPrimaryBackgroundHighlight:     #eb7045 !default;
 
 $btnInfoBackground:                 #5bc0de !default;
 $btnInfoBackgroundHighlight:        #2f96b4 !default;
