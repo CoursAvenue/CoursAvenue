@@ -1,4 +1,7 @@
 //*= require 'font-awesome'
+//*= require 'font'
+
+$brand-face: "Gotham-Book", sans-serif!default;
 
 // Compass mixins
 @import "compass/css3/border-radius";
@@ -45,3 +48,4 @@
 @import "libs/datepicker/datepicker_bootstrap";
 
 @import "gmaps4rails";
+
