@@ -6,4 +6,5 @@ html{
     font-family: $brand-face;
     overflow-y:scroll;
     min-height:100%;
+    min-width: $siteMinWidth;
 }
