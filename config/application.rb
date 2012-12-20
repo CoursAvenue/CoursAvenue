@@ -47,22 +47,22 @@ module LeBonCours
 
     TIME_SLOTS = {
           morning: {
-            name:       'Matin<br>(9h-12h)',
+            name:       'Matin (9h-12h)',
             start_time: '9:00 AM',
             end_time:   '12:00 PM',
           },
           noon: {
-            name:       'Midi<br>(12h-14h)',
+            name:       'Midi (12h-14h)',
             start_time: '12:00 PM',
             end_time:   '2:00 PM'
           },
           afternoon: {
-            name:       'Après-midi<br>(14h-18h)',
+            name:       'Après-midi (14h-18h)',
             start_time: '2:00 PM',
             end_time:   '6:00 PM'
           },
           evening: {
-            name:       'Soirée<br>(18h-23h)',
+            name:       'Soirée (18h-23h)',
             start_time: '6:00 PM',
             end_time:   '11:00 PM'
           }

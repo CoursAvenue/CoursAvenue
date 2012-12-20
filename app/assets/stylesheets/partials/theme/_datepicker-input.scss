@@ -2,6 +2,13 @@
     width     : 7em;
     text-align: center;
 }
+    .datepicker-input--dark {
+        color           : $grayLight;
+        background-color: $grayDarkerer;
+        border          : 1px solid $black;
+        @include border-radius(3px);
+        @include box-shadow(inset 0 2px 2px -2px black);
+    }
 
 .timepicker-input {
     width     : 5em;
