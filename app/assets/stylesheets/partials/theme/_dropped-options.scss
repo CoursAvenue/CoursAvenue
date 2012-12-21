@@ -1,25 +1,13 @@
-.dropped-options{
-    position: relative;
-    > ul, > div {
-        width: 15em;
-        @include box-sizing(border-box);
+.dropped-options.dropped-options--dark {
+    .dropped-options-title {
+        color           : $grayLight;
+        background-color: $grayDarkerer;
+        border-color    : 1px solid $black;
     }
     ul {
-        position    : absolute;
-        list-style  : none;
-        margin      : 0;
         border      : 1px solid $grayDarker;
-        border-top  : none;
-        @include border-bottom-radius(3px);
         li {
-            cursor          : pointer;
-            padding         : 0.5em;
             background-color: $grayDark;
-            > input { width: 15%; }
-            > label { width: 75%; }
-            > label, > input {
-                display: inline-block;
-            }
         }
         li:nth-of-type(odd) {
             background-color: $grayDarker;
@@ -27,21 +15,68 @@
         li:hover {
             background-color: $gray;
         }
-        // display: none;
+    }
+}
+.dropped-options{
+    position: relative;
+    > ul, > div {
+        width: 15em;
+        @include box-sizing(border-box);
+    }
+    ul {
+        z-index     : 15;
+        position    : absolute;
+        list-style  : none;
+        margin      : 0;
+        border      : 1px solid $grayLighter;
+        border-top  : none;
+        display     : none;
+        @include border-bottom-radius(3px);
+        li {
+            cursor          : pointer;
+            background-color: $white;
+            padding         : 0;
+            > input {
+                margin-left: 0.5em;
+                width: 15%;
+            }
+            > label { width: 75%; }
+            > label, > input {
+                display: inline-block;
+                padding         : 0.5em 0;
+            }
+        }
+        li:nth-of-type(odd) {
+            background-color: $grayLighter;
+        }
+        li:hover {
+            background-color: $grayLight;
+        }
     }
 }
     .dropped-options-title:after {
         @extend  .icon-caret-down;
     }
     .dropped-options-title {
-        i {
-            margin: 0 0.5em;
-        }
+        overflow        : hidden;
+        text-overflow   : ellipsis;
+        white-space     : nowrap;
         cursor          : pointer;
-        padding         : 0.8em 1em;
-        color           : $grayLight;
-        background-color: $grayDarkerer;
-        border-color    : 1px solid $black;
+        background-color: $white;
+        padding         : 0.6em 2em 0.6em 1em;
         @include border-radius(3px);
-        @include box-shadow(inset 0 2px 2px -2px black);
+        @include box-shadow(inset 0 2px 2px -2px $gray);
+        i {
+            position: absolute;
+            margin  : 0 0.5em;
+        }
+        i:last-child {
+            right: 1em;
+        }
+        i:first-child {
+            left: 1em;
+        }
+        span {
+            padding: 0 1.5em;
+        }
     }

@@ -1,3 +1,5 @@
+- painter_course = CourseGroup.where{name.like 'peinture'}.first
+- mime_course    = CourseGroup.where{name.like 'comédie'}.first
 .home-screen
   %h1.text-center.home-screen-title
     Pour vous, votre enfant ou pour offrir<br>
@@ -6,11 +8,13 @@
     = "Réservez ou offrez l'un des #{CourseGroup.count} cours parmis #{Discipline.count} disciplines"
   = render 'shared/home_page_search_form'
   %ul#slideshow.slideshow.home-slideshow
+    // ---------------------------------------------- Painter course
     %li
-      .caption lala
+      = render 'slideshow_course_info', course: painter_course
       = image_tag asset_path('home-page/painter.jpg')
+    // ---------------------------------------------- Mime course
     %li
-      .caption lili
+      = render 'slideshow_course_info', course: mime_course
       = image_tag asset_path('home-page/mime.jpg')
 
 

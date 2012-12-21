@@ -13,7 +13,19 @@
             z-index         : 4;
             width           : 100%;
             padding         : 1em;
-            color           : $grayLighter;
+            font-family     : Gotham-Light;
+            &, a {
+                color: $graySmooth;
+                b {
+                    color: $grayLighter;
+                }
+            }
+            a:hover {
+                text-decoration: none;
+            }
+            span {
+                margin: 0 0.5em;
+            }
             @include background-image(linear-gradient(top, rgba(0,0,0,0.6), rgba(0,0,0,0.7)));
         }
     }

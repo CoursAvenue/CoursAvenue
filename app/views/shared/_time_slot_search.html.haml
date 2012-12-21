@@ -1,0 +1,15 @@
+- is_dark = false if local_assigns[:is_dark].nil?
+
+%div{class: is_dark ? 'dropped-options dropped-options--dark' : 'dropped-options', data: {behavior: 'dropped-options'}}
+  .dropped-options-title
+    %i.icon-time
+    %span Toute la journée
+    %i.icon-caret-down
+  %ul{data: {behavior: 'checkbox-list'}}
+    %li
+      = check_box_tag '', '', params[:time_slots].empty?, id: "search_time_slot_all", data: {value: 'all'}
+      = label_tag "search_time_slot_all", 'Toute la journée'
+    - LeBonCours::Application::TIME_SLOTS.each do |slot_symbole, slot|
+      %li
+        = check_box_tag 'time_slots[]', slot_symbole, params[:time_slots].include?(slot_symbole.to_s), id: "search_time_slot_#{slot_symbole.to_s}"
+        = label_tag "search_time_slot_#{slot_symbole.to_s}", slot[:name].html_safe

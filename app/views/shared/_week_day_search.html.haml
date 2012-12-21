@@ -1,0 +1,15 @@
+- is_dark = false if local_assigns[:is_dark].nil?
+
+%div{class: is_dark ? 'dropped-options dropped-options--dark' : 'dropped-options', data: {behavior: 'dropped-options'}}
+  .dropped-options-title
+    %i.icon-calendar
+    %span Tous les jours
+    %i.icon-caret-down
+  %ul{data: {behavior: 'checkbox-list'}}
+    %li
+      = check_box_tag '', '', params[:week_days].empty?, id: "search_week_days_all", data: {value: 'all'}
+      = label_tag "search_week_days_all", 'Tous les jours'
+    - LeBonCours::Application::WEEK_DAYS.each do |week_day|
+      %li
+        = check_box_tag 'week_days[]', week_day[:index], params[:week_days].include?(week_day[:index].to_s), id: "search_week_day_#{week_day[:name].downcase}"
+        = label_tag "search_week_day_#{week_day[:name].downcase}", week_day[:name]

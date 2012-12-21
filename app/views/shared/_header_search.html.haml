@@ -1,0 +1,19 @@
+- is_dark = false if local_assigns[:is_dark].nil?
+
+.header-search-bar
+  %div.search-input-wrapper
+    %input{class: is_dark ? 'search-input search-input--dark' : 'search-input', placeholder: 'Danse, Cuisine, ...', type: 'search', name: 'name', value: params[:name]}
+  = render 'shared/week_day_search', is_dark: is_dark
+
+  = render 'shared/time_slot_search', is_dark: is_dark
+
+  %div
+    Du
+    %input{class: is_dark ? 'milli datepicker-input datepicker-input--dark' : 'milli datepicker-input', value: l(Date.today), name: 'start_date', data: {behavior: 'datepicker'}}
+    au
+    %input{class: is_dark ? 'milli datepicker-input datepicker-input--dark' : 'milli datepicker-input', value: l(Date.today + 6.months), name: 'end_date', data: {behavior: 'datepicker'}}
+
+  %div
+    %button.btn.btn__primary{type: 'submit', id: 'submit_search_form'}
+      %i.icon-search
+      Rechercher
