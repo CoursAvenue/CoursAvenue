@@ -7,6 +7,9 @@
   %h5.text-center.home-screen-subtitle
     = "Réservez ou offrez l'un des #{CourseGroup.count} cours parmis #{Discipline.count} disciplines"
   = render 'shared/home_page_search_form'
+  %ul.slideshow-controller
+    %li.active
+    %li
   %ul#slideshow.slideshow.home-slideshow
     // ---------------------------------------------- Painter course
     %li
@@ -22,10 +25,23 @@
   :javascript
     var slideshow;
     window.addEvent('domready', function() {
+        var slideshow_navs = $$('.slideshow-controller li');
         slideshow = new SlideShow('slideshow', {
             transition: 'crossFade',
             delay: 5000,
             duration: 500,
             autoplay: true
+        });
+        slideshow.addEvent('show', function(event) {
+            slideshow_navs.removeClass('active');
+            slideshow_navs[event.next.index].addClass('active');
+        });
+        slideshow_navs.each(function(item, index){
+            item.addEvent('click', function(event){
+                event.stop();
+                slideshow_navs.removeClass('active');
+                item.addClass('active');
+                slideshow.show(index);
+            });
         });
     });

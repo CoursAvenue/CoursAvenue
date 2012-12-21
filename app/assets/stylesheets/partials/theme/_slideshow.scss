@@ -30,3 +30,23 @@
         }
     }
 }
+
+.slideshow-controller {
+    position: absolute;
+    bottom  : 1em;
+    right   : 2em;
+    margin  : 0;
+    z-index: 15;
+    li.active {
+        background-color: $graySmooth;
+    }
+    li {
+        margin-left     : 0.3em;
+        cursor          : pointer;
+        display         : inline-block;
+        width           : 0.75em;
+        height          : 0.75em;
+        background-color: $gray;
+        @include border-radius(2px);
+    }
+}
