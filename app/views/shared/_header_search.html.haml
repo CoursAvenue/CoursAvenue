@@ -7,11 +7,15 @@
       %i.icon-caret-down
     %select
       %option Paris
-      %option Nice
+      %option Bordeaux
+      %option Lille
       %option Lyon
       %option Marseille
+      %option Montpellier
+      %option Nantes
+      %option Nice
+      %option Strasbourg
       %option Toulouse
-      %option Lille
   %div.search-input-wrapper
     %input{class: is_dark ? 'search-input search-input--dark' : 'search-input', placeholder: 'Danse, Cuisine, ...', type: 'search', name: 'name', value: params[:name]}
   = render 'shared/week_day_search', is_dark: is_dark
