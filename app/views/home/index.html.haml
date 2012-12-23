@@ -1,39 +1,50 @@
 = content_for :above_container do
   = render 'home_screen'
 
-%section
-  %article.gw
-    %h1.g.one-whole Les bons cours et stages que nous vous suggérons :
+  .home-screen-promotion-wrapper
+    %section.main-container.home-screen-promotion
+      %div
+        %h3 Paris
+        = image_tag 'home-page/map-paris.png'
+      %div
+        %h3 A découvrir ce mois-ci :
+        %div
+          = link_to 'stage/tango-argentin--11', class: 'course-block' do
+            .course-block-image
+              = image_tag 'home-page/tango.jpg'
+            %h5.course-block-title
+              Cours et stage pour adultes
+            %p.course-block-caption
+              Détendez-vous après votre journée
 
-    %p.g.one-quarter
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          = link_to 'stage/tango-argentin--11', class: 'course-block' do
+            .course-block-image
+              = image_tag 'home-page/tango.jpg'
+            %h5.course-block-title
+              Cours de tango argentin
+            %p.course-block-caption
+              Cours d'essai gratuit
 
-    %p.g.one-quarter
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          = link_to course_groups_path(audiences: [Audience.kid.order]), class: 'course-block' do
+            .course-block-image
+              = image_tag 'home-page/tango.jpg'
+            %h5.course-block-title
+              Éveillons nos tout petits
+            %p.course-block-caption
+              Cours pour les 1 à 5 ans
 
-    %p.g.one-quarter
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          = link_to 'stage/tango-argentin--11', class: 'course-block' do
+            .course-block-image
+              = image_tag 'home-page/tango.jpg'
+            %h5.course-block-title
+              Essayez sans compter
+            %p.course-block-caption
+              Cours d'essai gratuit
 
-    %p.g.one-quarter
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+.main-container
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

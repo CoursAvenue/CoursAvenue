@@ -23,7 +23,8 @@
         position        : relative;
         z-index         : 5;
         .header-search-bar {
-            margin: auto;
+            margin-left : auto;
+            margin-right: auto;
         }
     }
     .home-slideshow {
@@ -41,4 +42,40 @@
                 max-width   : 1600px;
             }
         }
+    }
+
+.home-screen-promotion-wrapper {
+    background-color: $homescreen-background;
+    padding         : 2em 0;
+}
+    .home-screen-promotion {
+        > div {
+            display         : inline-block;
+            width           : 49%;
+            vertical-align  : top;
+        }
+        .course-block {
+            width: 49%;
+        }
+    }
+    .course-block {
+        background-color: white;
+        padding         : 0.5em;
+        display         : inline-block;
+        @include box-sizing(border-box);
+        &:hover {
+            .course-block-caption, .course-block-title {
+                text-decoration: none;
+            }
+        }
+    }
+    .course-block-title {
+        color: $green;
+        margin-bottom: 0;
+    }
+    .course-block-caption {
+        margin-bottom: 0;
+        color        : $grayLight;
+        @extend .milli;
+
     }
