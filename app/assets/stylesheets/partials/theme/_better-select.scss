@@ -1,0 +1,12 @@
+.better-select {
+    select {
+        display     : none;
+        margin-top  : 0.5em;
+    }
+}
+.chooser-title-wrapper {
+    cursor: pointer;
+    .icon-caret-down {
+        margin-left: 0.5em;
+    }
+}

@@ -1,6 +1,17 @@
 - is_dark = false if local_assigns[:is_dark].nil?
 
 .header-search-bar
+  .town-chooser.better-select{data: {behavior: 'better-select' }}
+    %span.chooser-title-wrapper
+      %span.chooser-title Paris
+      %i.icon-caret-down
+    %select
+      %option Paris
+      %option Nice
+      %option Lyon
+      %option Marseille
+      %option Toulouse
+      %option Lille
   %div.search-input-wrapper
     %input{class: is_dark ? 'search-input search-input--dark' : 'search-input', placeholder: 'Danse, Cuisine, ...', type: 'search', name: 'name', value: params[:name]}
   = render 'shared/week_day_search', is_dark: is_dark

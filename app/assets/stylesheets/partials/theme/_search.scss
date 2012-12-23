@@ -1,22 +1,28 @@
 /*------------------------------------*\
     $Search
 \*------------------------------------*/
+$searchRadius: 4px;
 .header-search-bar--dark {
     .header-search-bar {
         width           : auto;
-        border-color    : transparentize($black, 0.25);
-        background-color: transparentize($black, 0.3);
+        //border-color    : transparentize($black, 0.25);
         color           : $grayLight;
-        @include border-radius(4px);
+        @include border-radius($searchRadius);
+        @include border-top-left-radius(0);
         @include background-image(none);
+        &, .town-chooser {
+            background-color: transparentize($black, 0.3);
+        }
     }
 }
 .header-search-bar {
     width           : 100%;
-    border          : 1px solid #CCC;
+    //border          : 1px solid #CCC;
     background-color: #e5e5e5;
     display         : table;
     padding         : 1em;
+    position        : relative;
+    margin-top      : 4em; // Because of town-chooser;
     @include font-size(12);
     @include box-sizing(border-box);
     @include background-image(linear-gradient(top, #f6f6f6 0%,#e5e5e5 100%));
@@ -24,11 +30,23 @@
         display       : table-cell;
         vertical-align: middle;
         padding       : 0 0.5em;
+        &.town-chooser {
+            padding: 0.5em 1em;
+        }
     }
     input {
-        padding: 0.6em 1em;
+        padding: 0.5em 1em;
     }
 }
+    .town-chooser {
+        position        : absolute;
+        left            : 0;//-1px; // Because of the border on header-search-bar
+        top             : -3em;
+        height          : 2em;
+        font-size       : 1.2em;
+        background-color: #f6f6f6;
+        @include border-top-radius($searchRadius);
+    }
     .days-options {
         border-bottom   : 1px solid #CCC;
         padding-bottom  : 0.5em;
@@ -46,7 +64,7 @@
             width           : 100%;
             padding         : 0.6em 0.3em;
             @include font-size(12);
-            @include box-shadow(inset 0 2px 2px -2px $gray);
+            //@include box-shadow(inset 0 2px 2px -2px $gray);
         }
 
 

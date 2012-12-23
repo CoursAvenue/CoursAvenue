@@ -20,6 +20,7 @@
 }
 .dropped-options{
     position: relative;
+    width: 15em;
     > ul, > div {
         width: 15em;
         @include box-sizing(border-box);
@@ -51,7 +52,7 @@
             background-color: $grayLighter;
         }
         li:hover {
-            background-color: $grayLight;
+            background-color: $graySmooth;
         }
     }
 }
@@ -59,6 +60,7 @@
         @extend  .icon-caret-down;
     }
     .dropped-options-title {
+        position        : relative;
         overflow        : hidden;
         text-overflow   : ellipsis;
         white-space     : nowrap;

@@ -26,6 +26,9 @@
             span {
                 margin: 0 0.5em;
             }
+            span:last-child {
+                margin-right: 4em;
+            }
             @include background-image(linear-gradient(top, rgba(0,0,0,0.6), rgba(0,0,0,0.7)));
         }
     }
