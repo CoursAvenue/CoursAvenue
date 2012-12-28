@@ -31,7 +31,8 @@
       = training_dates(course_group.courses.first.planning)
       - if course_group.courses.length > 1
         = "et #{course_group.courses.length - 1} autres dates."
-
+    - unless course_group.discipline.blank?
+      %span.lbl.lbl--orange= course_group.discipline.name
 
   %div.course-price.two-twelfths
     - case course_group.best_price.price_1

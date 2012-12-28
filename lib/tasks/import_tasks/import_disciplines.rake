@@ -44,7 +44,7 @@ namespace :import do
 
       course_groups = CourseGroup.where{name == row[:course_group_name]}
       next if course_groups.blank?
-      course_groups.update_all("discipline_id = #{discipline.id}")
+      course_groups.update_all(discipline_id: discipline.id, description: row[:course_group_description])
     end
   end
 end
