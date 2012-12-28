@@ -39,11 +39,11 @@
     - when -1
       %p.epsilon Contacter l'établissement
     - when 0
-      %p.alpha Gratuit
+      %p.beta Gratuit
     - else
       %p
         À partir de
-      %p.alpha= "#{course_group.best_price.price_1}&nbsp;€".html_safe
+      %p.beta= "#{course_group.best_price.price_1}&nbsp;€".html_safe
       %p= course_group.best_price.price_1_libelle
       %br
       - unless course_group.best_price.price_2.blank?
