@@ -18,7 +18,8 @@
 
             // Initializing the title to be a toggler of the list of inputs
             new GLOBAL.Objects.Toggler(this.title, '+ul');
-            this.inputs.addEvent('change', this.updateTitle.bind(this))
+            this.inputs.addEvent('change', this.updateTitle.bind(this));
+            this.updateTitle();
         },
 
         updateTitle: function() {
