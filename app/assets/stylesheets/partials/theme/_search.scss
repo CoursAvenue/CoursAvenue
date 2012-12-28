@@ -96,6 +96,9 @@ $searchRadius: 4px;
             .search-list {
                 list-style  : none;
                 margin      : 0;
+                .search-list {
+                    margin-left: 1em;
+                }
             }
         .search-panel-footer {
             border-top: 1px solid $grey;

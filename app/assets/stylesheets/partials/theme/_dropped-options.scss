@@ -20,7 +20,8 @@
 }
 .dropped-options{
     position: relative;
-    width: 15em;
+    width   : 15em;
+    color   : $grayDarker;
     > ul, > div {
         width: 15em;
         @include box-sizing(border-box);

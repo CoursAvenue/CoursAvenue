@@ -2,4 +2,6 @@
     background-color: $homescreen-background;
     padding-top     : 1em;
     padding-bottom  : 2em;
+    color           : $grayLight;
+    @extend .milli;
 }

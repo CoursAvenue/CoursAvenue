@@ -1,3 +1,4 @@
+# encoding: utf-8
 # CourseGroups are grouped by same name, audiences and levels
 class CourseGroup < ActiveRecord::Base
   extend FriendlyId
@@ -18,7 +19,7 @@ class CourseGroup < ActiveRecord::Base
 
   belongs_to :discipline
 
-  attr_accessible :name, :has_online_payment
+  attr_accessible :name, :has_online_payment, :description
 
   def self.name_and_structure_name_contains(name_string, scope)
     name_string    = '%' + name_string + '%'
@@ -26,15 +27,35 @@ class CourseGroup < ActiveRecord::Base
   end
 
   def self.is_of_type(types_array, scope)
-    if types_array.length == 2 # Prevent from search if all types are here
-      scope
-    else
-      types = []
-      types << 'CourseGroup::Lesson'   if types_array.include? 'lesson'
-      types << 'CourseGroup::Training' if types_array.include? 'training'
-      types << 'CourseGroup::Workshop' if types_array.include? 'workshop'
-      scope.where{type.like_any types}
+    types = []
+    types << 'CourseGroup::Lesson'   if types_array.include? 'lesson'
+    types << 'CourseGroup::Training' if types_array.include? 'training'
+    types << 'CourseGroup::Workshop' if types_array.include? 'workshop'
+    scope.where{type.like_any types}
+  end
+
+  def self.has_price_specificities(price_specificities, scope)
+    return scope if price_specificities.length == 3 # Doesn't search if all options are checked
+    scope = scope.joins{prices}.where do
+      query = nil
+      price_specificities.each_with_index do |price_specificity|
+        case price_specificity
+        when 'has_unit_course_price'
+          if query then query |= (prices.individual_course_price != nil) else query = (prices.individual_course_price != nil) end
+        when 'has_package_price'
+          if query
+            query |= (prices.annual_price != nil) | (prices.semester_price != nil) | (prices.trimester_price != nil) | (prices.month_price != nil)
+          else
+            query =  (prices.annual_price != nil) | (prices.semester_price != nil) | (prices.trimester_price != nil) | (prices.month_price != nil)
+          end
+        when 'has_test_course'
+          if query then query |= (prices.trial_lesson_price != nil) else query = (prices.trial_lesson_price != nil) end
+        end
+      end
+      query
     end
+
+    scope
   end
 
   def self.is_for_audience(audience_ids, scope)

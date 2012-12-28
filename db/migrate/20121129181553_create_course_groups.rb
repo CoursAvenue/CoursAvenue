@@ -3,6 +3,7 @@ class CreateCourseGroups < ActiveRecord::Migration
     create_table :course_groups do |t|
       t.string  :type
       t.string  :name
+      t.text    :description
       t.boolean :has_online_payment, default: false
       t.boolean :has_promotion     , default: false
 

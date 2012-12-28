@@ -22,6 +22,9 @@ class CourseGroupsController < ApplicationController
       when 'types'
         @course_groups = @course_groups.is_of_type(value, @course_groups)
 
+      when 'price_specificities'
+        @course_groups = @course_groups.has_price_specificities(value, @course_groups)
+
       when 'audiences'
         @course_groups = @course_groups.is_for_audience(value, @course_groups)
 

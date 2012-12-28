@@ -12,6 +12,19 @@
         %li
           = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "search_lesson_course_type", data: {behavior: 'input-update', element: "hidden_search_lesson_course_type"}
           = label_tag 'search_lesson_course_type', 'Cours'
+          %ul.search-list{data: {behavior: 'depend-on-parent', element: "search_lesson_course_type"}}
+            %li
+              = check_box_tag 'price_specificities[]', 'has_unit_course_price', params[:price_specificities].include?('has_unit_course_price'), id: "price_specificity_unit_course", data: {behavior: 'input-update', element: "hidden_price_specificity_unit_course"}
+              = label_tag 'price_specificity_unit_course', "À l'unité / au carnet"
+            %li
+              = check_box_tag 'price_specificities[]', 'has_package_price', params[:price_specificities].include?('has_package_price'), id: "price_specificity_package", data: {behavior: 'input-update', element: "hidden_price_specificity_package"}
+              = label_tag 'price_specificity_package', 'Au forfait (annuel, trimestriel, etc.)'
+            %li
+              = check_box_tag 'price_specificities[]', 'has_test_course', params[:price_specificities].include?('has_test_course'), id: "price_specificity_test_course", data: {behavior: 'input-update', element: "hidden_price_specificity_test_course"}
+              = label_tag 'price_specificity_test_course', "Cours d'essai possible"
+        %li
+          = check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "search_workshop_course_type", data: {behavior: 'input-update', element: "hidden_search_workshop_course_type"}
+          = label_tag 'search_workshop_course_type', 'Cours-atelier ponctuel'
         %li
           = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "search_training_course_type", data: {behavior: 'input-update', element: "hidden_search_training_course_type"}
           = label_tag 'search_training_course_type', 'Stage'

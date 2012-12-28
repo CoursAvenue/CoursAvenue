@@ -1,11 +1,16 @@
-- params[:types]       ||= ['lesson', 'training']
-- params[:audiences]   ||= [] # Audience.all.collect(&:id).map(&:to_s)
-- params[:levels]      ||= [] # Level.all.collect(&:id).map(&:to_s)
-- params[:week_days]   ||= [] # LeBonCours::Application::WEEK_DAYS
-- params[:time_slots]  ||= [] # LeBonCours::Application::TIME_SLOTS
-- params[:price_range] ||= {} # {min: 0, max: 1000}
-- params[:time_range]  ||= {}
-- params[:zip_codes]   ||= [] # (75001..75020).to_a.map(&:to_s)
+- params[:types]            ||= ['lesson', 'training', 'workshop']
+- if params[:types].include?('lesson')
+  - params[:price_specificities]  ||= ['unit_course', 'package', 'test_course']
+- else
+  - params[:price_specificities] = []
+
+- params[:audiences]        ||= [] # Audience.all.collect(&:id).map(&:to_s)
+- params[:levels]           ||= [] # Level.all.collect(&:id).map(&:to_s)
+- params[:week_days]        ||= [] # LeBonCours::Application::WEEK_DAYS
+- params[:time_slots]       ||= [] # LeBonCours::Application::TIME_SLOTS
+- params[:price_range]      ||= {} # {min: 0, max: 1000}
+- params[:time_range]       ||= {}
+- params[:zip_codes]        ||= [] # (75001..75020).to_a.map(&:to_s)
 
 %section.gw
   = form_tag course_groups_path, method: :get, authenticity_token: false, class: 'g one-whole' do
@@ -25,5 +30,10 @@
       %input{name: 'time_range[min]', value: params[:time_range][:min], id: 'hidden_start_time'}
       %input{name: 'time_range[max]', value: params[:time_range][:max], id: 'hidden_end_time'}
 
-      = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "hidden_search_lesson_course_type"
+      = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson')    , id: "hidden_search_lesson_course_type"
       = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "hidden_search_training_course_type"
+      = check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "hidden_search_workshop_course_type"
+
+      = check_box_tag 'price_specificities[]', 'has_unit_course_price', params[:price_specificities].include?('has_unit_course_price')  , id: "hidden_price_specificity_unit_course"
+      = check_box_tag 'price_specificities[]', 'has_package_price', params[:price_specificities].include?('has_package_price')          , id: "hidden_price_specificity_package"
+      = check_box_tag 'price_specificities[]', 'has_test_course', params[:price_specificities].include?('has_test_course')              , id: "hidden_price_specificity_test_course"
