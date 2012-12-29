@@ -8,7 +8,7 @@
   %article.course-content
     %header
       %h4.hN.course-title
-        %span= link_to course_group.name, course_group
+        %span= link_to course_group.name, course_group_path(course_group, city: course_group.structure.city, discipline: (course_group.discipline ? course_group.discipline.name : t('all_discipline_route_name')))
         %span.lbl.milli= course_group.type_name
 
     - if course_group.is_training?
@@ -32,7 +32,7 @@
       - if course_group.courses.length > 1
         = "et #{course_group.courses.length - 1} autres dates."
     - unless course_group.discipline.blank?
-      = link_to course_group.discipline.name, course_groups_with_old_params_path({city: params[:city], discipline: course_group.discipline.name}), class: 'lbl lbl--orange'
+      = link_to course_group.discipline.name, course_groups_with_old_params_path({city: params[:city], discipline: u(course_group.discipline.name)}), class: 'lbl lbl--orange'
 
   %div.course-price.two-twelfths
     - case course_group.best_price.price_1

@@ -21,6 +21,24 @@ class CourseGroup < ActiveRecord::Base
 
   attr_accessible :name, :has_online_payment, :description
 
+  def self.from_city(city, scope)
+    scope.joins{structure}.where{structure.city == city}
+  end
+
+  def self.of_discipline(discipline_name, scope)
+    if discipline_name == I18n.t('all_discipline_route_name')
+      return scope
+    else
+      discipline_object = Discipline.where{name == discipline_name}.first
+      if discipline_object.parent_id.nil?
+        discipline_ids = discipline_object.children.map(&:id)
+      else
+        discipline_ids = [discipline_object.id]
+      end
+      return scope.where{discipline_id.eq_any discipline_ids}
+    end
+  end
+
   def self.name_and_structure_name_contains(name_string, scope)
     name_string    = '%' + name_string + '%'
     scope.joins{structure}.where{(name =~ name_string) | (structure.name =~ name_string)}

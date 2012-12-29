@@ -9,6 +9,7 @@ namespace :import do
   def structure_hash_from_row(row)
     {
       name:                                          row[0],
+      city:                                         'paris',
       name_2:                                        row[5],
       structure_type:                                row[3],
 

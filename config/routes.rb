@@ -1,10 +1,7 @@
 LeBonCours::Application.routes.draw do
 
   #get 'courses/:discipline' => 'course#index', :as => :search_for_courses
-  resources :course_groups         , only: [:index], controller: 'course_groups', type: CourseGroup.name           , path: 'cours/:city/:discipline', defaults: {city: 'Paris', discipline: 'tout-discipline'}
-  resources :course_group_lessons  , only: [:show] , controller: 'course_groups', type: CourseGroup::Lesson.name   , path: 'stage/:city/:discipline', defaults: {city: 'Paris', discipline: 'tout-discipline'}
-  resources :course_group_trainings, only: [:show] , controller: 'course_groups', type: CourseGroup::Training.name , path: 'cours/:city/:discipline', defaults: {city: 'Paris', discipline: 'tout-discipline'}
-  resources :course_group_workshops, only: [:show] , controller: 'course_groups', type: CourseGroup::Workshop.name , path: 'cours-atelier/:city/:discipline', defaults: {city: 'Paris', discipline: 'tout-discipline'}
+  resources :course_groups, only: [:index, :show], controller: 'course_groups', type: CourseGroup.name           , path: 'cours/:city/:discipline', defaults: {city: 'paris', discipline: I18n.t('all_discipline_route_name')}
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

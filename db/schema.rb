@@ -212,6 +212,7 @@ ActiveRecord::Schema.define(:version => 20121218105330) do
 
   create_table "structures", :force => true do |t|
     t.string   "structure_type"
+    t.string   "city"
     t.string   "name"
     t.string   "name_2"
     t.text     "info"
@@ -256,5 +257,7 @@ ActiveRecord::Schema.define(:version => 20121218105330) do
     t.float    "longitude"
     t.boolean  "gmaps"
   end
+
+  add_index "structures", ["city"], :name => "index_structures_on_city"
 
 end

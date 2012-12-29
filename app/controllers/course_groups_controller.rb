@@ -16,6 +16,12 @@ class CourseGroupsController < ApplicationController
 
     params.each do |key, value|
       case key
+      when 'city'
+        @course_groups = @course_groups.from_city(value, @course_groups)
+
+      when 'discipline'
+        @course_groups = @course_groups.of_discipline(value, @course_groups)
+
       when 'name'
         @course_groups = @course_groups.name_and_structure_name_contains(value, @course_groups) unless value.blank?
 
@@ -86,9 +92,10 @@ class CourseGroupsController < ApplicationController
   end
 
   def show
-    @course_group = CourseGroup.find(params[:id])
-    @structure    = @course_group.structure
-    @plannings    = @course_group.courses.collect{ |course| course.planning }
+    @course_group    = CourseGroup.find(params[:id])
+    @structure       = @course_group.structure
+    @plannings       = @course_group.courses.collect{ |course| course.planning }
+    @discipline_name = (@course_group.discipline ? @course_group.discipline.name : t('all_discipline_route_name'))
 
     # @similar_courses = CourseGroup.where{} # With same discipline
 

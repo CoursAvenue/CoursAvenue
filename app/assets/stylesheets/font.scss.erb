@@ -21,6 +21,16 @@
         normal);
 
 @include font-face(
+    'Gotham-Book',
+    font-files(
+        font-path('gothambold/gothambold.woff'), woff,
+        font-path('gothambold/gothambold.ttf'), truetype,
+        font-path('gothambold/gothambold.svg') + '#GothamBold', svg),
+        font-path('gothambold/gothambold.eot'),
+        bold,
+        bold);
+
+@include font-face(
     'Gotham-Light',
     font-files(
         font-path('gothamlight/gothamlight.woff'), woff,

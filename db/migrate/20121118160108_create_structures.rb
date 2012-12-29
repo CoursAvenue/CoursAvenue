@@ -2,6 +2,7 @@ class CreateStructures < ActiveRecord::Migration
   def change
     create_table :structures do |t|
       t.string  :structure_type
+      t.string  :city
       t.string  :name
       t.string  :name_2
       t.text    :info

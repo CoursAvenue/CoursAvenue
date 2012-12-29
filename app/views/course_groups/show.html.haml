@@ -1,4 +1,5 @@
-= link_to t('.back_to_search'), course_groups_path
+= link_to course_groups_path(city: @structure.city, discipline: @discipline_name) do
+  = "#{@structure.city.capitalize} > #{@discipline_name}"
 %h1.course-title
   %span= @course_group.name
   %span.lbl.milli= @course_group.type_name

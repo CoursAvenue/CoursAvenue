@@ -15,6 +15,7 @@ class Structure < ActiveRecord::Base
   validates :name, :uniqueness => true
 
   attr_accessible :adress_info,
+                  :city,
                   :structure_type,
                   :name,
                   :name_2,

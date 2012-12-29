@@ -1,4 +1,6 @@
 fr:
+  all_discipline_route_name: 'toutes-disciplines'
+  all_discipline: 'Toutes les disciplines'
   course_groups:
     show:
       back_to_search: Retour à la recherche

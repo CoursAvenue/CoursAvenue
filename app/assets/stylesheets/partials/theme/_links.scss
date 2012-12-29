@@ -9,3 +9,7 @@ a:link, a:visited {
 .current a{
     text-decoration: none;
 }
+
+a.selected {
+    font-weight: bold;
+}

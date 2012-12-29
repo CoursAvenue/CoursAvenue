@@ -13,8 +13,10 @@ end
 module LeBonCours
   class Application < Rails::Application
 
+    ALL_DISCIPLINE_NAME = 'toutes-disciplines'
+
     # Global variables
-    WEEK_DAYS  = [
+    WEEK_DAYS = [
       {
         index: 1,
         name: 'Lundi'
