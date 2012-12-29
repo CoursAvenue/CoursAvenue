@@ -10,11 +10,12 @@ gem 'rails', '3.2.9'
 # group :assets do
   gem 'coffee-rails'      , '~> 3.2.1'
   gem 'haml'              , '~> 3.1.7'
-  gem 'sass-rails'        , '~> 3.2.3'
+  gem 'sass-rails'        , '~> 3.2.4'
   gem 'uglifier'          , '>= 1.0.3'
   gem 'font-awesome-rails', '~> 0.4.1'
   gem 'mootools-rails'    , '~> 1.0.1'
   gem 'compass-rails'     , '~> 1.0.3'
+  gem 'compass-inuit'     , '~> 4.3.6'
 # end
 
 gem 'pg'

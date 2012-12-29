@@ -28,7 +28,7 @@
     au
     %input{type: 'text', class: is_dark ? 'datepicker-input datepicker-input--dark' : 'datepicker-input', value: l(Date.today + 6.months), name: 'end_date', data: {behavior: 'datepicker'}}
 
-  %div
+  %div.button-wrapper
     %button.btn.btn__primary{type: 'submit', id: 'submit_search_form'}
       %i.icon-search
       Rechercher

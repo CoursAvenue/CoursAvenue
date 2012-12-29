@@ -16,7 +16,7 @@
  * Data table
  */
 .table--data{
-    @include font-size(13);
+    @include font-size(13px);
     td {
         padding: 0.8em;
     }

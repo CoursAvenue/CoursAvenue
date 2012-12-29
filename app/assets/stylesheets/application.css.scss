@@ -1,52 +1,61 @@
 //*= require 'font-awesome'
 //*= require 'font'
 
-$brand-face: "Gotham-Book", sans-serif!default;
-
 // Compass mixins
-@import "compass/css3/border-radius";
-@import "compass/css3/box-shadow";
-@import "compass/css3/images";
-@import "compass/css3/box-sizing";
-@import "compass/css3/transition";
+  @import "compass/css3/border-radius";
+  @import "compass/css3/box-shadow";
+  @import "compass/css3/images";
+  @import "compass/css3/box-sizing";
+  @import "compass/css3/transition";
 
-@import "vars";
-@import "widths";
-@import "theme_vars";
-@import "colors";
 
-@import "/partials/generic/*";
-@import "/partials/base/*";
+  @import "vars";
+  @import "theme_vars";
+  @import "partials/inuit";
 
-// Object import
-@import "partials/objects/grids";
-@import "partials/objects/flexbox";
-// @import "partials/objects/columns";
-@import "partials/objects/nav";
-// @import "partials/objects/options";
-@import "partials/objects/pagination";
-// @import "partials/objects/breadcrumb";
-// @import "partials/objects/media";
-@import "partials/objects/island";
-@import "partials/objects/block-list";
-@import "partials/objects/matrix";
-@import "partials/objects/split";
-// @import "example/unnecessary/file";
-@import "partials/objects/this-or-this";
-@import "partials/objects/complex-link";
-@import "partials/objects/flyout";
-@import "partials/objects/sprite";
-@import "partials/objects/icon-text";
-@import "partials/objects/buttons";
-@import "partials/objects/lozenges";
-@import "partials/objects/rules";
-@import "partials/objects/stats";
-@import "partials/objects/greybox";
+  @import "widths";
+  @import "colors";
 
-// Created objects
-@import "partials/theme/*";
-@import "partials/theme/footer";
-@import "libs/datepicker/datepicker_bootstrap";
+/**
+ * Theme objects
+ */
 
-@import "gmaps4rails";
+  @import "partials/theme_mixins";
 
+  @import "partials/theme/badges";
+  @import "partials/theme/better-select";
+  @import "partials/theme/block-list";
+  @import "partials/theme/buttons";
+  @import "partials/theme/course-list";
+  @import "partials/theme/course";
+  @import "partials/theme/datepicker-input";
+  @import "partials/theme/dropped-options";
+  @import "partials/theme/emphasis";
+  @import "partials/theme/footer";
+  @import "partials/theme/header";
+  @import "partials/theme/home-screen";
+  @import "partials/theme/input-range";
+  @import "partials/theme/inputs";
+  @import "partials/theme/labels";
+  @import "partials/theme/links";
+  @import "partials/theme/main-container";
+  @import "partials/theme/media";
+  @import "partials/theme/menu";
+  @import "partials/theme/pagination";
+  @import "partials/theme/search";
+  @import "partials/theme/selectable";
+  @import "partials/theme/slideshow";
+  @import "partials/theme/summary";
+  @import "partials/theme/tables";
+  @import "partials/theme/tabs";
+  @import "partials/theme/theme_helpers";
+  @import "partials/theme/time-slots";
+  @import "partials/theme/footer";
+
+  @import "libs/datepicker/datepicker_bootstrap";
+
+  @import "gmaps4rails";
+
+html {
+  font-family: $brand-face;
+}

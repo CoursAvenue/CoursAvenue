@@ -8,11 +8,11 @@
   .search-panel
     %h5.search-panel-header Type de cours
     .search-panel-content
-      %ul.search-list
+      %ul.check-list
         %li
           = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "search_lesson_course_type", data: {behavior: 'input-update', element: "hidden_search_lesson_course_type"}
           = label_tag 'search_lesson_course_type', 'Cours'
-          %ul.search-list{data: {behavior: 'depend-on-parent', element: "search_lesson_course_type"}}
+          %ul.check-list{data: {behavior: 'depend-on-parent', element: "search_lesson_course_type"}}
             %li
               = check_box_tag 'price_specificities[]', 'has_unit_course_price', params[:price_specificities].include?('has_unit_course_price'), id: "price_specificity_unit_course", data: {behavior: 'input-update', element: "hidden_price_specificity_unit_course"}
               = label_tag 'price_specificity_unit_course', "À l'unité / au carnet"
@@ -31,7 +31,7 @@
   .search-panel
     %h5.search-panel-header Disciplines
     .search-panel-content
-      %ul.search-list
+      %ul.check-list
         - Discipline.roots.each do |discipline|
           %li= discipline.name
 
@@ -39,7 +39,7 @@
   .search-panel
     %h5.search-panel-header Public
     .search-panel-content
-      %ul.search-list
+      %ul.check-list
         - @audiences.each_with_index do |audience, i|
           %li
             = check_box_tag 'audiences[]', audience.id, params[:audiences].include?(audience.id.to_s), id: "search_audience_#{i}", data: {behavior: 'input-update', element: "hidden_search_audience_#{i}"}
@@ -53,7 +53,7 @@
   .search-panel
     %h5.search-panel-header Niveaux
     .search-panel-content
-      %ul.search-list
+      %ul.check-list
         - @levels.each_with_index do |level, i|
           %li
             = check_box_tag 'levels[]', level[:id], params[:levels].include?(level[:id].to_s), id: "search_level_#{level[:name]}", data: {behavior: 'input-update', element: "hidden_search_level_#{level[:name]}"}
@@ -80,7 +80,7 @@
   .search-panel
     %h5.search-panel-header Arrondissement
     .search-panel-content
-      %ul.search-list
+      %ul.check-list
         - (75001..75020).to_a.map(&:to_s).each do |zip_code|
           %li
             = check_box_tag 'zip_code[]', zip_code, params[:zip_codes].include?(zip_code), id: "search_arrondissement_#{zip_code}", data: {behavior: 'input-update', element: "hidden_search_arrondissement_#{zip_code}"}

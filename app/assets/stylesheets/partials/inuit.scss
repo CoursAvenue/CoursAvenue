@@ -1,0 +1,70 @@
+/*------------------------------------*\
+    $IMPORTS
+\*------------------------------------*/
+/**
+ * Generic utility styles etc.
+ */
+   @import "partials/generic/mixins";
+   @import "partials/generic/normalize";
+   @import "partials/generic/reset";
+   @import "partials/generic/clearfix";
+   @import "partials/generic/shared";
+
+
+/**
+ * Base styles; unclassed HTML elements etc.
+ */
+   @import "partials/base/main";
+   @import "partials/base/headings";
+   @import "partials/base/paragraphs";
+   @import "partials/base/smallprint";
+   @import "partials/base/quotes";
+// @import "partials/base/code";
+   @import "partials/base/links";
+   @import "partials/base/images";
+   @import "partials/base/lists";
+   @import "partials/base/tables";
+   @import "partials/base/forms";
+
+
+/**
+ * Objects and abstractions
+ *
+ * Single-line comment (//) out any objects you do not need in your project.
+ */
+   @import "partials/objects/grids";
+   @import "partials/objects/flexbox";
+// @import "partials/objects/columns";
+   @import "partials/objects/nav";
+// @import "partials/objects/options";
+   @import "partials/objects/pagination";
+// @import "partials/objects/breadcrumb";
+// @import "partials/objects/media";
+   @import "partials/objects/marginalia";
+   @import "partials/objects/island";
+   @import "partials/objects/block-list";
+// @import "partials/objects/matrix";
+   @import "partials/objects/split";
+// @import "example/unnecessary/file";
+   @import "partials/objects/this-or-this";
+   @import "partials/objects/link-complex";
+   @import "partials/objects/flyout";
+   @import "partials/objects/arrows";
+   @import "partials/objects/sprite";
+   @import "partials/objects/icon-text";
+   @import "partials/objects/buttons";
+   @import "partials/objects/lozenges";
+   @import "partials/objects/rules";
+   @import "partials/objects/stats";
+   @import "partials/objects/greybox";
+
+
+/**
+ * Style trumps; helper and brand classes
+ */
+   @import "partials/generic/widths";
+   @import "partials/generic/push";
+   @import "partials/generic/pull";
+   @import "partials/generic/brand";
+   @import "partials/generic/helper";
+   @import "partials/generic/debug";

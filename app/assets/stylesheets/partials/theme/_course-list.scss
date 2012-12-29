@@ -22,7 +22,7 @@
     p, ul {
         color: $grayDarker;
     }
-    @include font-size(14);
+    @include font-size(14px);
     img {
         @include box-sizing(border-box);
     }

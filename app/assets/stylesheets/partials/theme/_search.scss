@@ -1,13 +1,12 @@
 /*------------------------------------*\
     $Search
 \*------------------------------------*/
-$searchRadius: 4px;
 .header-search-bar--dark {
     .header-search-bar {
         width           : auto;
         //border-color    : transparentize($black, 0.25);
         color           : $grayLight;
-        @include border-radius($searchRadius);
+        @include border-radius($brand-round);
         @include border-top-left-radius(0);
         @include background-image(none);
         &, .town-chooser {
@@ -20,13 +19,16 @@ $searchRadius: 4px;
     //border          : 1px solid #CCC;
     background-color: #e5e5e5;
     display         : table;
-    padding         : 5px;
+    padding         : 5px 0;
     position        : relative;
     margin-top      : 4em; // Because of town-chooser;
-    @include font-size(12);
+    @include font-size(12px);
     @include box-sizing(border-box);
     // @include background-image(linear-gradient(top, #f6f6f6 0%,#e5e5e5 100%));
     @include background-image(linear-gradient(top, #eee 0%,#e5e5e5 100%));
+    .button-wrapper {
+        text-align: right;
+    }
     > div {
         display       : table-cell;
         vertical-align: middle;
@@ -50,7 +52,8 @@ $searchRadius: 4px;
         height          : 2em;
         font-size       : 1.2em;
         background-color: #eee;
-        @include border-top-radius($searchRadius);
+        @include box-sizing(content-box);
+        @include border-top-radius($brand-round);
     }
     .days-options {
         border-bottom   : 1px solid #CCC;
@@ -69,7 +72,7 @@ $searchRadius: 4px;
             width           : 100%;
             //padding         : 0.6em 0.3em;
             padding         : 5px 3px;
-            @include font-size(12);
+            @include font-size(12px);
             //@include box-shadow(inset 0 2px 2px -2px $gray);
         }
 
@@ -83,7 +86,7 @@ $searchRadius: 4px;
     .side-search-panel-header {
         padding         : 0.5em 1em;
         margin-bottom   : 0;
-        @include font-size(16);
+        @include font-size(16px);
     }
     .search-panel {
     }
@@ -97,12 +100,10 @@ $searchRadius: 4px;
         }
         .search-panel-content {
             padding         : 1em 0.5em;
-            @include font-size(14);
+            @include font-size(14px);
         }
-            .search-list {
-                list-style  : none;
-                margin      : 0;
-                .search-list {
+            .check-list {
+                .check-list {
                     margin-left: 1em;
                 }
             }

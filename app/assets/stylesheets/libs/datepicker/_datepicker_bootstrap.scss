@@ -39,7 +39,7 @@ $hoveredColor               : lighten($brand-color, 30%);
 .datepicker_bootstrap {
     z-index         : 10;
     position        : absolute;
-    @include font-size(12);
+    @include font-size(12px);
     color           : #000;
     line-height     : normal;
     width           : $datepicker-width;
