@@ -4,7 +4,6 @@ class CreateCourseGroups < ActiveRecord::Migration
       t.string  :type
       t.string  :name
       t.text    :description
-      t.text    :trial_lesson_info
       t.boolean :has_online_payment, default: false
       t.boolean :has_promotion     , default: false
 

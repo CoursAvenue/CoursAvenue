@@ -23,6 +23,7 @@ class CreateCourses < ActiveRecord::Migration
       t.text        :refund_condition
       t.decimal     :promotion
       t.boolean     :cant_be_joined_during_year
+      t.text        :trial_lesson_info
 
       t.references  :course_group
 

@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20121218105330) do
     t.string   "type"
     t.string   "name"
     t.text     "description"
+    t.text     "trial_lesson_info"
     t.boolean  "has_online_payment", :default => false
     t.boolean  "has_promotion",      :default => false
     t.integer  "structure_id"
