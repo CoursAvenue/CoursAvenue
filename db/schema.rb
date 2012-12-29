@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(:version => 20121218105330) do
     t.string   "type"
     t.string   "name"
     t.text     "description"
-    t.text     "trial_lesson_info"
     t.boolean  "has_online_payment", :default => false
     t.boolean  "has_promotion",      :default => false
     t.integer  "structure_id"
@@ -75,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20121218105330) do
     t.text     "refund_condition"
     t.decimal  "promotion"
     t.boolean  "cant_be_joined_during_year"
+    t.text     "trial_lesson_info"
     t.integer  "course_group_id"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false

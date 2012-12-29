@@ -101,6 +101,9 @@
         .search-panel-content {
             padding         : 1em 0.5em;
             @include font-size(14px);
+            label {
+                display: inline-block;
+            }
         }
             .check-list {
                 .check-list {

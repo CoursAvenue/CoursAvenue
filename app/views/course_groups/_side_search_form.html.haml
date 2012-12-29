@@ -59,8 +59,8 @@
   .search-panel
     %h5.search-panel-header Enfant ou adolescent
     .search-panel-content
-      = label_tag 'Âge précis :'
-      = number_field_tag 'age', params[:age], min: 0, max: 18, step: 1, placeholder: '12', data: {behavior: 'input-update', element: 'hidden_search_age'}
+      = label_tag 'for_age', 'Âge précis :'
+      = number_field_tag 'age', params[:age], min: 0, max: 18, step: 1, placeholder: '12', data: {behavior: 'input-update', element: 'hidden_search_age'}, id: 'for_age'
       ans
   .search-panel
     %h5.search-panel-header Niveaux
