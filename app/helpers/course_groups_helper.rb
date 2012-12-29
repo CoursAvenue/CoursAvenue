@@ -1,4 +1,10 @@
 module CourseGroupsHelper
+
+  def course_groups_with_old_params_path(new_params)
+    p = params.reject{|key, value| value.blank? } # Get rid of the useless blank params
+    course_groups_path(p.merge(new_params))
+  end
+
   def join_audiences(course)
     content_tag :ul, class: 'nav' do
       course.audiences.order(:order).collect do |audience|

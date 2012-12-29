@@ -32,7 +32,7 @@
       - if course_group.courses.length > 1
         = "et #{course_group.courses.length - 1} autres dates."
     - unless course_group.discipline.blank?
-      %span.lbl.lbl--orange= course_group.discipline.name
+      = link_to course_group.discipline.name, course_groups_with_old_params_path({city: params[:city], discipline: course_group.discipline.name}), class: 'lbl lbl--orange'
 
   %div.course-price.two-twelfths
     - case course_group.best_price.price_1

@@ -5,17 +5,17 @@
     %span.chooser-title-wrapper
       %span.chooser-title Paris
       %i.icon-caret-down
-    %select
-      %option Paris
-      %option Bordeaux
-      %option Lille
-      %option Lyon
-      %option Marseille
-      %option Montpellier
-      %option Nantes
-      %option Nice
-      %option Strasbourg
-      %option Toulouse
+    %select{name: 'city'}
+      %option{value: 'paris'} Paris
+      %option{value: 'bordeaux'} Bordeaux
+      %option{value: 'lille'} Lille
+      %option{value: 'lyon'} Lyon
+      %option{value: 'marseille'} Marseille
+      %option{value: 'montpellier'} Montpellier
+      %option{value: 'nantes'} Nantes
+      %option{value: 'nice'} Nice
+      %option{value: 'strasbourg'} Strasbourg
+      %option{value: 'toulouse'} Toulouse
   %div.search-input-wrapper
     %input{class: is_dark ? 'search-input search-input--dark' : 'search-input', placeholder: 'Danse, Cuisine, ...', type: 'search', name: 'name', value: params[:name], autofocus: true}
   = render 'shared/week_day_search', is_dark: is_dark

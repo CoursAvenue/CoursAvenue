@@ -32,8 +32,8 @@
     %h5.search-panel-header Disciplines
     .search-panel-content
       %ul.check-list
-        - Discipline.roots.each do |discipline|
-          %li= discipline.name
+        - Discipline.roots.order(:name).each do |discipline|
+          %li= link_to discipline.name, course_groups_with_old_params_path({city: params[:city], discipline: discipline.name})
 
 
   .search-panel
