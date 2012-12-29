@@ -8,7 +8,7 @@
   %article.course-content
     %header
       %h4.hN.course-title
-        %span= link_to course_group.name, course_group_path(course_group, city: course_group.structure.city, discipline: (course_group.discipline ? course_group.discipline.name : t('all_discipline_route_name')))
+        %span= link_to course_group.name, course_path(course_group)
         %span.lbl.milli= course_group.type_name
 
     - if course_group.is_training?

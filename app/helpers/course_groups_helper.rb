@@ -1,5 +1,8 @@
 module CourseGroupsHelper
 
+  def course_path(course_group)
+    course_group_path(id: course_group.slug, city: course_group.structure.city, discipline: (course_group.discipline ? course_group.discipline.name : t('all_discipline_route_name')))
+  end
   def course_groups_with_old_params_path(new_params)
     p = params.reject{|key, value| value.blank? } # Get rid of the useless blank params
     course_groups_path(p.merge(new_params))
