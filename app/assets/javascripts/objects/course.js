@@ -36,7 +36,9 @@
             this.planning_el.addEvent('click', this.show_course_info_and_price.bind(this));
         },
 
-        show_course_info_and_price: function() {
+        show_course_info_and_price: function(event) {
+            $$('#planning-schedule tr').removeClass('selected');
+            event.event.currentTarget.addClass('selected');
             this.course_info_el.set('html', this.course_info_template(this.planning));
             GLOBAL.Scroller.toElement(this.course_info_el);
             this.price.render();

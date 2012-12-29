@@ -1,5 +1,9 @@
-= link_to course_groups_path(city: @structure.city, discipline: @discipline_name) do
-  = "#{@structure.city.capitalize} > #{@discipline_name}"
+%ol.nav
+  %li= link_to "#{@structure.city.capitalize} >", course_groups_path(city: @structure.city, discipline: t('all_discipline_route_name'))
+  - unless @discipline.parent.nil?
+    %li= link_to "#{@discipline.parent.name.capitalize} >", course_groups_path(city: @structure.city, discipline: u(@discipline.parent.name))
+  %li= link_to @discipline_name.capitalize, course_groups_path(city: @structure.city, discipline: u(@discipline_name))
+
 %h1.course-title
   %span= @course_group.name
   %span.lbl.milli= @course_group.type_name

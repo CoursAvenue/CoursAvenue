@@ -95,6 +95,7 @@ class CourseGroupsController < ApplicationController
     @course_group    = CourseGroup.find(params[:id])
     @structure       = @course_group.structure
     @plannings       = @course_group.courses.collect{ |course| course.planning }
+    @discipline      = @course_group.discipline
     @discipline_name = (@course_group.discipline ? @course_group.discipline.name : t('all_discipline_route_name'))
 
     # @similar_courses = CourseGroup.where{} # With same discipline
