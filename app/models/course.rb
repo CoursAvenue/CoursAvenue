@@ -27,7 +27,8 @@ class Course < ActiveRecord::Base
                   :audition_mandatory,
                   :refund_condition,
                   :promotion,
-                  :cant_be_joined_during_year
+                  :cant_be_joined_during_year,
+                  :trial_lesson_info
 
   def update_course_group
     self.course_group.update_has_promotion

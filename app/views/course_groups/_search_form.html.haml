@@ -1,6 +1,6 @@
 - params[:types]            ||= ['lesson', 'training', 'workshop']
 - if params[:types].include?('lesson')
-  - params[:price_specificities]  ||= ['unit_course', 'package', 'test_course']
+  - params[:price_specificities] ||= ['has_unit_course_price', 'has_package_price', 'has_test_course']
 - else
   - params[:price_specificities] = []
 
