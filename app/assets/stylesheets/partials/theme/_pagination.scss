@@ -1,3 +1,7 @@
 /*------------------------------------*\
     $PAGINATION override
 \*------------------------------------*/
+.page-entries {
+    text-align: center;
+    @include font-size(14px);
+}

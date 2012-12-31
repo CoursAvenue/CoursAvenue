@@ -111,6 +111,7 @@
                 }
             }
         .search-panel-footer {
+            @include font-size(14px);
             border-top: 1px solid $grey;
             text-align: center;
             padding   : 1em;
