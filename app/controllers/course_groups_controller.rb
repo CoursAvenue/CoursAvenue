@@ -98,7 +98,7 @@ class CourseGroupsController < ApplicationController
     @discipline      = @course_group.discipline
     @discipline_name = (@course_group.discipline ? @course_group.discipline.name : t('all_discipline_route_name'))
 
-    # @similar_courses = CourseGroup.where{} # With same discipline
+    @similar_courses = @course_group.similar_courses
 
     @json_courses = @course_group.courses.map{ |course| CourseSerializer.new(course, root: false) }.to_json
 

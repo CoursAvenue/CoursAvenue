@@ -13,7 +13,7 @@
     padding         : 0.8em 0.9em;
     color           : #555;
     @include border-radius(3px);
-    @include box-shadow(inset 0 0 4px #fff ,0 1px 1px rgba(0,0,0,0.12));
+    //@include box-shadow(inset 0 0 4px #fff ,0 1px 1px rgba(0,0,0,0.12));
     @include background-image(linear-gradient(top, #fefefe,#f2f2f2));
 }
 
@@ -33,13 +33,13 @@
   text-shadow : -1px -1px 0 #a34c30;
   border-color: darken($btnPrimaryBackground, 3%);
   @include background-image(linear-gradient(top, $btnPrimaryBackgroundHighlight, $btnPrimaryBackground));
-  @include box-shadow(inset 0 0 4px $btnPrimaryBackgroundHighlight ,0 1px 1px transparentize($btnPrimaryBackground, 0.12));
+  //@include box-shadow(inset 0 0 4px $btnPrimaryBackgroundHighlight ,0 1px 1px transparentize($btnPrimaryBackground, 0.12));
   &:active, &.btn--active {
     background-color: $btnPrimaryBackgroundHighlight;
     border-color: darken($btnPrimaryBackground, 25%);
     border-bottom: none;
     @include background-image(linear-gradient(top, darken($btnPrimaryBackgroundHighlight, 5%), lighten($btnPrimaryBackgroundHighlight, 5%)));
-    @include box-shadow(inset 0 1px 5px rgba(0,0,0,0.5),0 1px 0 transparentize($btnPrimaryBackgroundHighlight, 0.6));
+    //@include box-shadow(inset 0 1px 5px rgba(0,0,0,0.5),0 1px 0 transparentize($btnPrimaryBackgroundHighlight, 0.6));
   }
 }
 // Warning appears are orange

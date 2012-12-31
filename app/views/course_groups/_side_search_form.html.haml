@@ -1,4 +1,4 @@
-= gmaps( {markers: {data: @json_structure_addresses}, map_options: {maxZoom: 15, mapTypeControl: false}} )
+= gmaps( {markers: {data: @json_structure_addresses}, map_options: {maxZoom: 15, mapTypeControl: false, streetViewControl: true}} )
 .side-search-panel
   %h4.side-search-panel-header Affinez votre recherche :
   .search-panel-footer
@@ -99,10 +99,13 @@
     %h5.search-panel-header Arrondissement
     .search-panel-content
       %ul.check-list
-        - (75001..75020).to_a.map(&:to_s).each do |zip_code|
+        - (75001..75020).to_a.map(&:to_s).each_with_index do |zip_code, i|
           %li
             = check_box_tag 'zip_code[]', zip_code, params[:zip_codes].include?(zip_code), id: "search_arrondissement_#{zip_code}", data: {behavior: 'input-update', element: "hidden_search_arrondissement_#{zip_code}"}
-            = label_tag "search_arrondissement_#{zip_code}", "Paris #{zip_code.to_s[3..4]}ème"
+            - if i < 9
+              = label_tag "search_arrondissement_#{zip_code}", "Paris #{zip_code.to_s[4]}e"
+            - else
+              = label_tag "search_arrondissement_#{zip_code}", "Paris #{zip_code.to_s[3..4]}e"
 
   .search-panel-footer
     %button.btn{type: 'submit', data: {behavior: 'input-update', element: 'submit_search_form'}}

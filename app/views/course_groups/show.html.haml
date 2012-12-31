@@ -1,6 +1,6 @@
 %ol.nav
   %li= link_to "#{@structure.city.capitalize} >", course_groups_path(city: @structure.city, discipline: t('all_discipline_route_name'))
-  - unless @discipline.parent.nil?
+  - unless @discipline.nil? || @discipline.parent.nil?
     %li= link_to "#{@discipline.parent.name.capitalize} >", course_groups_path(city: @structure.city, discipline: u(@discipline.parent.name))
   %li= link_to @discipline_name.capitalize, course_groups_path(city: @structure.city, discipline: u(@discipline_name))
 
@@ -36,7 +36,14 @@
   %section.g.three-tenths#summary
     = render 'course_groups/templates/summary_template'
     %article
-      %h4 Cours similaires
+      %h4 À voir aussi
+      %ul.block-list
+        - @similar_courses.each do |course|
+          %li
+            = link_to course_path(course), class: 'flexbox' do
+              .flexbox__item.one-fifth
+                %img{src: 'http://placehold.it/50'}
+              .flexbox__item= course.name
 
 - content_for :scripts do
   :javascript

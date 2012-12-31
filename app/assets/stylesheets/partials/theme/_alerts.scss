@@ -1,0 +1,11 @@
+.alert {
+    padding      : 0.6em ;
+    margin       : 0.75em;
+    border-radius: $brand-round;
+    border       : 1px solid #ccc;
+}
+
+.alert.alert--info {
+    background-color: transparentize($orange, 0.25);
+    border-color: transparentize($orange, 0.25);
+}

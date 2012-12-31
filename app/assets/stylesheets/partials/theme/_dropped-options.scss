@@ -2,7 +2,7 @@
     .dropped-options-title {
         color           : $grayLight;
         background-color: $grayDarkerer;
-        border-color    : 1px solid $black;
+        border          : 1px solid $gray;
         @include box-shadow(inset 0 2px 2px -2px black);
     }
     ul {
@@ -68,8 +68,9 @@
         cursor          : pointer;
         background-color: $white;
         padding         : 5px 2em 5px 1em;
+        border          : 1px solid $graySmooth;
         @include border-radius(3px);
-        @include box-shadow(inset 0 2px 2px -2px $gray);
+        //@include box-shadow(inset 0 2px 2px -2px $gray);
         i {
             position: absolute;
             margin  : 0 0.5em;

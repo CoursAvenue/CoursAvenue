@@ -51,6 +51,7 @@
   @import "partials/theme/theme_helpers";
   @import "partials/theme/time-slots";
   @import "partials/theme/footer";
+  @import "partials/theme/alerts";
 
   @import "libs/datepicker/datepicker_bootstrap";
 
@@ -58,4 +59,5 @@
 
 html {
   font-family: $brand-face;
+  overflow-x : hidden;
 }

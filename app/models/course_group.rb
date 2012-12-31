@@ -1,6 +1,8 @@
 # encoding: utf-8
 # CourseGroups are grouped by same name, audiences and levels
 class CourseGroup < ActiveRecord::Base
+
+  # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
   friendly_id :name, use: :slugged
 
@@ -20,6 +22,9 @@ class CourseGroup < ActiveRecord::Base
   belongs_to :discipline
 
   attr_accessible :name, :has_online_payment, :description
+
+
+  # ------------------------------------------------------------------------------------ Self methods
 
   def self.from_city(city, scope)
     scope.joins{structure}.where{structure.city == city}
@@ -131,6 +136,8 @@ class CourseGroup < ActiveRecord::Base
     end
   end
 
+  # ------------------------------------------------------------------------------------ Callbacks
+
   # Called afer a course has been saved
   def update_has_promotion
    # Will set has_promotion to true if one of the courses has a promotion higher than 0
@@ -138,6 +145,12 @@ class CourseGroup < ActiveRecord::Base
       !course.promotion.nil? and course.promotion > 0
     end.nil?
     self.save
+  end
+
+  # TODO: To be improved
+  def similar_courses(limit = 5)
+    similar_courses = CourseGroup.where{discipline_id == self.discipline_id}.limit(limit) # With same discipline
+    similar_courses
   end
 
   def promotion
