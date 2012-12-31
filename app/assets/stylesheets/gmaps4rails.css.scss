@@ -7,6 +7,9 @@
   width         : 100%;
   @include border-radius(2px);
   @include box-sizing(border-box);
+  img {
+    max-width: none;
+  }
 }
 
 .gmaps4rails_map {
