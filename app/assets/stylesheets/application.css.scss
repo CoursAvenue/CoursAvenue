@@ -61,3 +61,10 @@ html {
   font-family: $brand-face;
   overflow-x : hidden;
 }
+
+// ::selection {
+//   background: transparentize($orange, .25); /* Safari */
+//   }
+// ::-moz-selection {
+//   background: $orange; /* Firefox */
+// }

@@ -1,10 +1,9 @@
 %header.header
   .main-container.flexbox
     %h1.accessibility
-      LeBonCours (Paris)
-    = link_to root_path, class: 'flexbox__item' do
       LeBonCours
-      /- image_tag 'logo.png'
+    = link_to root_path, class: 'flexbox__item logo' do
+      = image_tag 'logo.png'
 
     %nav.flexbox__item
       %ul.nav.proceed

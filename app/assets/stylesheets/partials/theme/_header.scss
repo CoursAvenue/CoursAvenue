@@ -1,11 +1,14 @@
 .header {
     background-color: #efeff1;
     @include background-image(linear-gradient(top, #fefefe,#efeff1));
-    padding         : 1em 0.5em;
+    padding         : 0;
     @include font-size(12px);
     .nav {
         margin-bottom: 0;
         margin-left  : 1em;
+    }
+    .logo img {
+        height: 6em;
     }
 }
 
