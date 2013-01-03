@@ -1,4 +1,4 @@
-%table.table--striped.table--data#planning-schedule
+%table.table--striped.table--data.table--selectable#planning-schedule
   %thead
     %tr
       %th Jour
@@ -6,19 +6,17 @@
       %th.text-center Durée
       %th.text-center Âge min.
       %th.text-center Âge max.
-      %th Professeur
       %th Nb de places
       %th Promo
   %tbody
     - @plannings.each do |planning|
-      %tr.selectable{data: {'course-id' => planning.course_id}}
+      %tr{data: {'course-id' => planning.course_id}}
         %td= week_day_for planning
         %td.text-center= readable_time_slot planning
         %td.text-center= readable_duration planning
-        %td.text-center= planning.course.min_age_for_kid
-        %td.text-center= planning.course.max_age_for_kid
-        %td -
-        %td -
+        %td.text-center= planning.course.min_age_for_kid || 'NC'
+        %td.text-center= planning.course.max_age_for_kid || 'NC'
+        %td= planning.course.nb_place_available || 'NC'
         %td
           %b.red= readable_promotion planning.course.promotion
 
@@ -26,9 +24,35 @@
 %script#course-info-template{type: "text/x-handlebars-template"}
   %h4 Informations complémentaires
   %ul
-    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    {{#if is_individual}}
+    %li Cours Individuel
+    {{else}}
+    %li Cours collectif
+    {{/if}}
+
+    {{#if teacher_name}}
+    %li Professeur : {{teacher_name}}
+    {{/if}}
+
+    {{#if cant_be_joined_during_year}}
+    %li Ne peut être rejoint en cours d’année
+    {{else}}
+    %li Peut être rejoint en cours d’année
+    {{/if}}
+
+    {{#if planning.recurrence}}
+    %li {{planning.recurrence}}
+    {{/if}}
+
+    %li Du {{planning.start_date}} au {{planning.end_date}} // TODO: I18n
+
+    {{#if class_during_holidays}}
+    %li Séance de cours pendant les vacances
+    {{else}}
+    %li Pas de cours pendant les vacances
+    {{/if}}
+
+    {{#if is_for_handicaped}}
+    %li Cours pour handicapé
+    {{/if}}
+

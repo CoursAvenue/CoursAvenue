@@ -28,7 +28,8 @@ $purple:                #7a43b6 !default;
 $beige:                 #f7f5f3 !default;
 
 $brand-color:           $orange !default;
-$homescreen-background:           $beige !default;
+$alternativeBackground: lighten($brand-color, 35%) !default;
+$homescreenBackground:  $beige !default;
 
 
 // Links

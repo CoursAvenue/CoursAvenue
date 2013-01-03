@@ -1,10 +1,17 @@
 /**
+ * Selectable table
+ */
+ table.table--selectable tbody tr {
+    @extend .selectable;
+}
+
+/**
  * Striped tables
  */
 .table--striped{
     tbody {
         tr:nth-of-type(odd){
-            background-color: $grayLighter;
+            background-color: $alternativeBackground;
         }
         tr.selectable:nth-of-type(odd){
             @extend .selectable;

@@ -50,10 +50,11 @@
             }
         }
         li:nth-of-type(odd) {
-            background-color: $grayLighter;
+            background-color: $alternativeBackground;
         }
         li:hover {
-            background-color: $graySmooth;
+            background-color: $brand-color;
+            color           : white;
         }
     }
 }

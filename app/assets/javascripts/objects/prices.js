@@ -11,7 +11,7 @@
         Implements: Options,
 
         options: {
-            el: 'prices',
+            el               : 'prices',
             price_template_el: 'price-template'
         },
 
@@ -23,15 +23,15 @@
             this.el = $(this.options.el);
         },
 
-        initialize: function(price, options) {
+        initialize: function(course_hash, options) {
             this.setOptions(options);
             this.loadTemplatesAndElements();
 
-            this.price = price;
+            this.course = course_hash;
         },
 
         render: function() {
-            this.el.set('html', this.price_template());
+            this.el.set('html', this.price_template(this.course));
         }
     });
 })();

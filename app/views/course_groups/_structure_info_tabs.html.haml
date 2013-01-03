@@ -11,7 +11,8 @@
 
   %article#tab-description.tab-pane
     %h4= t('.course_description')
-    // Description de la discipline
+    %p= @course_group.description
+
     %h4= t('.more_information')
     %ul
       - unless @course_group.courses.first.course_info_1.blank?

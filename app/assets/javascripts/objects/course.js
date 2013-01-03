@@ -29,17 +29,25 @@
 
             this.course   = course_hash;
             this.planning = course_hash.planning;
-            this.price    = new GLOBAL.Objects.Price(course_hash.price);
+            this.price    = new GLOBAL.Objects.Price(course_hash);
 
             this.planning_el = $$('tr[data-course-id=' + this.course.id + ']')[0];
 
-            this.planning_el.addEvent('click', this.show_course_info_and_price.bind(this));
+            this.attachEvents();
+        },
+        attachEvents: function() {
+            // When a date is selected,
+            // - Handle selected classes
+            // - show course info
+            this.planning_el.addEvent('click', function(event) {
+                $$('#planning-schedule tr').removeClass('selected');
+                event.event.currentTarget.addClass('selected');
+                this.show_course_info_and_price();
+            }.bind(this));
         },
 
         show_course_info_and_price: function(event) {
-            $$('#planning-schedule tr').removeClass('selected');
-            event.event.currentTarget.addClass('selected');
-            this.course_info_el.set('html', this.course_info_template(this.planning));
+            this.course_info_el.set('html', this.course_info_template(this.course));
             GLOBAL.Scroller.toElement(this.course_info_el);
             this.price.render();
         }

@@ -1,9 +1,64 @@
 %script#price-template{type: "text/x-handlebars-template"}
   %h3 Choissez la formule
+  %div
+    %input#already_have_annual{type: 'checkbox'}
+    %label.check-label{for: 'already_have_annual'} Pas besoin d’adhésion annuelle : je l’ai déjà !
+
+  %table.table--striped.table--data.table--selectable#planning-schedule
+    %thead
+      %tr
+        %th
+        %th.text-center Sans promo
+        %th.text-center Avec promo
+    %tbody
+      %tr
+        %td Prix pour 1 cours
+        %td lala
+        %td lala
+
+      %tr
+        %td Prix pour l'année (1 cours / semaine)
+        %td lala
+        %td lala
+
+      %tr
+        %td Prix pour l'année (2 cours / semaine)
+        %td lala
+        %td lala
+
+      %tr
+        %td Prix par trimestre
+        %td lala
+        %td lala
+      %tr
+        %td Prix pour un carnet de 16 cours (valable 3 mois)
+        %td lala
+        %td lala
+      %tr
+        %td Prix pour un cours d'essai
+        %td lala
+        %td lala
+
+  %h3 Informations complémentaires
   %ul
-    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-    %li Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+    {{#if price.price_info_1}}
+    %li {{price.price_info_1}}
+    {{/if}}
+
+    {{#if price.price_info_2}}
+    %li {{price.price_info_2}}
+    {{/if}}
+
+    {{#if trial_lesson_info}}
+    %li {{trial_lesson_info}}
+    {{/if}}
+
+  %p
+    %b Politique de remboursement ou d’annulation :
+    %br
+    Pour modifier ou annuler une classe, nous prévenir 24 heures avant le début de la session.
+
+  %p
+    %b Avertissement :
+    %br
+    les prix listés et toutes autres informations ne sont pas contractuels et sont susceptibles d’être modifiés.

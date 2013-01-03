@@ -22,9 +22,14 @@
       = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
 
     %h3 Séléctionnez la séance
+    %p
+      Pour un
+      = select_tag 'audience', Audience.all
     - if @course_group.is_training?
       = render 'training_schedule'
     - if @course_group.is_lesson?
+      = render 'lesson_schedule'
+    - if @course_group.is_workshop?
       = render 'lesson_schedule'
 
     #prices
@@ -44,6 +49,7 @@
               .flexbox__item.one-fifth
                 %img{src: 'http://placehold.it/50'}
               .flexbox__item= course.name
+
 
 - content_for :scripts do
   :javascript
