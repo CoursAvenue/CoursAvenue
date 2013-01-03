@@ -32,22 +32,22 @@
       %li
         = t('.website')
         = link_to @structure.website, @structure.website, target: '_blank'
-      - unless @structure.has_registration_form.blank?
-        %li= t('.has_registration_form')
       - if @structure.needs_payment_on_place_for_registration
         %li= t('.payment_on_place')
-      %li
-        = t('.required_documents_for_registration')
-        %ul
-          - if @structure.needs_photo_id_for_registration
-            %li= t('.photo_id')
-          - if @structure.needs_id_copy_for_registration
-            %li= t('.id_copy')
-          - if @structure.needs_medical_certificate_for_registration
-            %li= t('.medical_certificate')
-          - if @structure.needs_insurance_attestation_for_registration
-            %li= t('.insurance_attestation_')
-      - unless @structure.info.blank?
+      - unless @structure.has_registration_form.blank?
+        %li= t('.has_registration_form')
         %li
-          = t('.other_info')
-          = @structure.info
+          = t('.required_documents_for_registration')
+          %ul
+            - if @structure.needs_photo_id_for_registration
+              %li= t('.photo_id')
+            - if @structure.needs_id_copy_for_registration
+              %li= t('.id_copy')
+            - if @structure.needs_medical_certificate_for_registration
+              %li= t('.medical_certificate')
+            - if @structure.needs_insurance_attestation_for_registration
+              %li= t('.insurance_attestation_')
+        - unless @structure.info.blank?
+          %li
+            = t('.other_info')
+            = @structure.info

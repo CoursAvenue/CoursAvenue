@@ -31,6 +31,7 @@
         },
 
         render: function() {
+            debugger
             this.el.set('html', this.price_template(this.course));
         }
     });

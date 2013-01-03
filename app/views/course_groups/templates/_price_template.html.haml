@@ -11,25 +11,36 @@
         %th.text-center Sans promo
         %th.text-center Avec promo
     %tbody
+      {{#if individual_course_price}}
       %tr
         %td Prix pour 1 cours
+        %td {{individual_course_price}}
         %td lala
-        %td lala
+      {{/if}}
 
+      {{#if annual_price}}
       %tr
         %td Prix pour l'année (1 cours / semaine)
         %td lala
         %td lala
+      {{/if}}
 
+        :semester_price,
+        :trimester_price,
+        :month_price,
       %tr
         %td Prix pour l'année (2 cours / semaine)
         %td lala
         %td lala
 
+      {{#if trimester_price}}
       %tr
         %td Prix par trimestre
         %td lala
         %td lala
+      {{/if}}
+
+      {{#if trimester_price}}
       %tr
         %td Prix pour un carnet de 16 cours (valable 3 mois)
         %td lala

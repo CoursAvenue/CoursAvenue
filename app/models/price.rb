@@ -1,11 +1,19 @@
 class Price < ActiveRecord::Base
   belongs_to :course
 
+  # attr_accessible :libelle,
+  #                 :price
+
   attr_accessible :individual_course_price,
                   :annual_price,
                   :semester_price,
                   :trimester_price,
                   :month_price,
+                  ## Book_ticket
+                  # number
+                  # price
+                  # validity
+
                   :five_lessons_price,
                   :five_lessons_validity, # In month
                   :ten_lessons_price,
@@ -18,6 +26,7 @@ class Price < ActiveRecord::Base
                   :fourty_lessons_validity,
                   :fifty_lessons_price,
                   :fifty_lessons_validity,
+
                   :book_tickets_a_nb,
                   :book_tickets_a_price,
                   :book_tickets_a_validity,
