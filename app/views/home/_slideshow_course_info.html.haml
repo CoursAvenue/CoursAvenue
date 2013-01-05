@@ -15,4 +15,4 @@
       %i.icon-user
       = course.audiences.map{|a| t(a.name)}.join(', ')
     %span
-      = readable_price course.prices.first
+      - # readable_price course.prices.first

@@ -9,9 +9,14 @@ class CourseSerializer < ActiveModel::Serializer
              :annual_membership_mandatory,
              :is_for_handicaped,
              :registration_date,
-             :teacher_name
+             :teacher_name,
+             :trial_lesson_info,
+             :price_details,
+             :price_info_1,
+             :price_info_2
 
   has_one :planning
-  has_one :price
+  has_many :prices
+  has_many :book_tickets
 
 end

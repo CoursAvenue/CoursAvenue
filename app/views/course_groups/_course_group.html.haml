@@ -35,22 +35,41 @@
       = link_to course_group.discipline.name, course_groups_with_old_params_path({city: params[:city], discipline: u(course_group.discipline.name)}), class: 'lbl lbl--orange'
 
   %div.course-price.two-twelfths
-    - case course_group.best_price.price_1
-    - when -1
+    - if course_group.best_price.nil?
       %p.epsilon Contacter l'établissement
-    - when 0
+    - elsif course_group.best_price.amount == 0
       %p.beta Gratuit
     - else
       %p
         À partir de
-      %p.beta= "#{course_group.best_price.price_1}&nbsp;€".html_safe
-      %p= course_group.best_price.price_1_libelle
-      %br
-      - unless course_group.best_price.price_2.blank?
-        %p
-          = course_group.best_price.price_2
-          €
-          = course_group.best_price.price_2_libelle
-      - else
-        = "environ #{course_group.best_price.approximate_price_per_course} € / cours"
+      %p.beta= "#{course_group.best_price.amount.round}&nbsp;€".html_safe
+      %p= t(course_group.best_price.libelle)
+      / %br
+      / - unless course_group.best_price.price_2.blank?
+      /   %p
+      /     = course_group.best_price.price_2
+      /     €
+      /     = course_group.best_price.price_2_libelle
+      / - else
+      /   = "environ #{course_group.best_price.approximate_price_per_course} € / cours"
+
+
+    / - case course_group.best_price.price_1
+    / - when -1
+    /   %p.epsilon Contacter l'établissement
+    / - when 0
+    /   %p.beta Gratuit
+    / - else
+    /   %p
+    /     À partir de
+    /   %p.beta= "#{course_group.best_price.price_1}&nbsp;€".html_safe
+    /   %p= course_group.best_price.price_1_libelle
+    /   %br
+    /   - unless course_group.best_price.price_2.blank?
+    /     %p
+    /       = course_group.best_price.price_2
+    /       €
+    /       = course_group.best_price.price_2_libelle
+    /   - else
+    /     = "environ #{course_group.best_price.approximate_price_per_course} € / cours"
 

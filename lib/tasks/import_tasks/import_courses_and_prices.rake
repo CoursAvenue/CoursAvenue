@@ -78,7 +78,7 @@ namespace :import do
   end
 
   def course_and_price_hash_from_row(row)
-    {
+    hash = {
       structure_name:                                 row[0],
       course_type:                                    course_group_class(row[1]),
 
@@ -119,63 +119,10 @@ namespace :import do
         audition_mandatory:                          (row[102] == 'X' ? true : false),
         refund_condition:                             row[103],
         promotion:                                    row[104],
-        cant_be_joined_during_year:                  (row[41] == 'X' ? true : false)
-      },
-
-      # Price
-      price: {
-        annual_registration_adult_fee:                row[39],
-        annual_registration_child_fee:                row[40],
-        is_free:                                     (row[42] == 'X' ? true : false),
-        individual_course_price:                      row[43],
-        annual_price:                                 row[44],
-        two_lesson_per_week_package_price:            row[45],
-        semester_price:                               row[46],
-        trimester_price:                              row[47],
-        month_price:                                  row[48],
-        five_lessons_price:                           row[49],
-        five_lessons_validity:                        row[50],
-        ten_lessons_price:                            row[51],
-        ten_lessons_validity:                         row[52],
-        twenty_lessons_price:                         row[53],
-        twenty_lessons_validity:                      row[54],
-        thirty_lessons_price:                         row[55],
-        thirty_lessons_validity:                      row[56],
-        fourty_lessons_price:                         row[57],
-        fourty_lessons_validity:                      row[58],
-        fifty_lessons_price:                          row[59],
-        fifty_lessons_validity:                       row[60],
-        book_tickets_a_nb:                            row[61],
-        book_tickets_a_price:                         row[62],
-        book_tickets_a_validity:                      row[63],
-        book_tickets_b_nb:                            row[64],
-        book_tickets_b_price:                         row[65],
-        book_tickets_b_validity:                      row[66],
-        book_tickets_c_nb:                            row[67],
-        book_tickets_c_price:                         row[68],
-        book_tickets_c_validity:                      row[69],
-        unlimited_access_price:                       row[70],
-        unlimited_access_validity:                    row[71],
-        excluded_lesson_from_unlimited_access_card:   row[72],
+        cant_be_joined_during_year:                  (row[41] == 'X' ? true : false),
         price_info_1:                                 row[73],
         price_info_2:                                 row[74],
-        promotion:                                    row[75],
-        student_price:                                row[76],
-        young_and_senior_price:                       row[77],
-        job_seeker_price:                             row[78],
-        low_income_price:                             row[79],
-        large_family_price:                           row[80],
-        degressive_price_from_two_lesson:             row[81],
-        couple_price:                                 row[82],
-        has_other_preferential_price:                (row[83] == 'X' ? true : false),
-        has_exceptional_offer:                       (row[84] == 'X' ? true : false),
-        trial_lesson_price:                           row[85],
-        details:                                      row[87],
-        price_1:                                      row[88].to_i,
-        price_1_libelle:                              row[89],
-        price_2:                                      (row[90].blank? ? nil : row[90].to_i),
-        price_2_libelle:                              row[91],
-        approximate_price_per_course:                 (row[92].blank? ? nil : row[92].to_i)
+        price_details:                                row[87]
 
       },
 
@@ -207,8 +154,111 @@ namespace :import do
         day_five:                                     row[35],
         day_five_start_time:                          row[36],
         day_five_duration:                            row[37]
+      },
+      # Prices
+      prices: {
+        'price.free' =>                              (row[42] == 'X' ? 0 : nil),
+        'price.individual_course' =>                  row[43],
+        'price.annual' =>                             row[44],
+        'price.two_lesson_per_week_package' =>        row[45],
+        'price.semester' =>                           row[46],
+        'price.trimester' =>                          row[47],
+        'price.month' =>                              row[48],
+        'price.student' =>                            row[76],
+        'price.young_and_senior' =>                   row[77],
+        'price.job_seeker' =>                         row[78],
+        'price.low_income' =>                         row[79],
+        'price.large_family' =>                       row[80],
+        'price.couple' =>                             row[82],
+        'price.trial_lesson' =>                       row[85]
+        #'price.approximate_price_per_course' =>       row[85]
       }
     }
+    # -------------------------------------------------------------------- Registration fees
+    hash[:registration_fees] = []
+    hash[:registration_fees] << {
+      price:    row[39],
+      for_kid:  false
+    } unless row[39].blank?
+
+    hash[:registration_fees] << {
+      price:    row[40],
+      for_kid:  true
+    } unless row[39].blank?
+
+    # -------------------------------------------------------------------- Book Ticket
+    # -------------------------------------------------------------------- Prices
+    hash[:book_tickets] = []
+    hash[:book_tickets] << {
+      number:   5,
+      price:    row[49],
+      validity: row[50]
+    } unless row[49].blank?
+
+    hash[:book_tickets] << {
+      number:   10,
+      price:    row[51],
+      validity: row[52]
+    } unless row[51].blank?
+
+    hash[:book_tickets] << {
+      number:   20,
+      price:    row[53],
+      validity: row[54]
+    } unless row[53].blank?
+
+    hash[:book_tickets] << {
+      number:   30,
+      price:    row[55],
+      validity: row[56]
+    } unless row[55].blank?
+
+    hash[:book_tickets] << {
+      number:   40,
+      price:    row[57],
+      validity: row[58]
+    } unless row[57].blank?
+
+    hash[:book_tickets] << {
+      number:   50,
+      price:    row[59],
+      validity: row[60]
+    } unless row[59].blank?
+
+    hash[:book_tickets] << {
+      number:   row[61],
+      price:    row[62],
+      validity: row[63]
+    } unless row[61].blank?
+
+    hash[:book_tickets] << {
+      number:   row[64],
+      price:    row[65],
+      validity: row[66]
+    } unless row[64].blank?
+
+    hash[:book_tickets] << {
+      number:   row[67],
+      price:    row[68],
+      validity: row[69]
+    } unless row[67].blank?
+
+    # book_tickets: {
+    #   unlimited_access_price:                       row[70],
+    #   unlimited_access_validity:                    row[71],
+    #   excluded_lesson_from_unlimited_access_card:   row[72],
+    #   has_other_preferential_price:                (row[83] == 'X' ? true : false),
+    #   degressive_price_from_two_lesson:             row[81],
+    #   has_exceptional_offer:                       (row[84] == 'X' ? true : false),
+    # }
+    ## TODO
+    # price_1:                                      row[88].to_i,
+    # price_1_libelle:                              row[89],
+    # price_2:                                      (row[90].blank? ? nil : row[90].to_i),
+    # price_2_libelle:                              row[91],
+    # approximate_price_per_course:                 (row[92].blank? ? nil : row[92].to_i)
+
+    hash
   end
 
   # Use rake "import:renting_rooms[Path to CSV]"
@@ -269,9 +319,21 @@ namespace :import do
       planning = Planning.create(row[:planning])
       planning.end_time = planning.start_time + planning.duration.hour.hour + planning.duration.min.minutes if planning.duration
       course.planning = planning
-      #################################################################### Creating Price
-      price = Price.create(row[:price])
-      course.price = price
+      #################################################################### Registration fees
+      row[:registration_fees].each do |registration_fee|
+        course.registration_fees << RegistrationFee.create(registration_fee)
+      end
+      #################################################################### Creating Book tickets
+      row[:book_tickets].each do |book_ticket|
+        course.book_tickets << BookTicket.create(book_ticket)
+      end
+
+      #################################################################### Creating Prices
+      row[:prices].each do |key, value|
+        course.prices << Price.create(libelle: key, amount: value) unless value.blank?
+      end
+      #price = Price.create(row[:price])
+      #course.price = price
       course.save
       course_group.courses << course
       course_group.save

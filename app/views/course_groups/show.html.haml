@@ -17,14 +17,16 @@
     .course-header-badge
       .course-header-image
         %img{src: 'http://placehold.it/250', class: 'course-header-badge-image'}
-        %h5.price-badge
-          = readable_price @course_group.best_price
+        / %h5.price-badge
+        /   = readable_price @course_group.best_price
       = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
 
     %h3 Séléctionnez la séance
     %p
       Pour un
-      = select_tag 'audience', Audience.all
+      %select
+        = Audience.all.each do |audience|
+          %option= t(audience.name)
     - if @course_group.is_training?
       = render 'training_schedule'
     - if @course_group.is_lesson?

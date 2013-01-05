@@ -24,6 +24,9 @@ class CreateCourses < ActiveRecord::Migration
       t.decimal     :promotion
       t.boolean     :cant_be_joined_during_year
       t.text        :trial_lesson_info
+      t.text        :price_details
+      t.text        :price_info_1
+      t.text        :price_info_2
 
       t.references  :course_group
 

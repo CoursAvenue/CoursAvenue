@@ -4,6 +4,9 @@ class CreateBookTickets < ActiveRecord::Migration
       t.integer :number
       t.decimal :price
       t.string :validity
+      t.string :validity
+
+      t.references :course
 
       t.timestamps
     end

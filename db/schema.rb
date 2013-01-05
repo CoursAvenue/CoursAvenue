@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121218105330) do
+ActiveRecord::Schema.define(:version => 20130103192457) do
 
   create_table "audiences", :force => true do |t|
     t.string   "name"
@@ -28,6 +28,15 @@ ActiveRecord::Schema.define(:version => 20121218105330) do
   end
 
   add_index "audiences_course_groups", ["audience_id", "course_group_id"], :name => "audience_course_group_index"
+
+  create_table "book_tickets", :force => true do |t|
+    t.integer  "number"
+    t.decimal  "price"
+    t.string   "validity"
+    t.integer  "course_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "course_groups", :force => true do |t|
     t.string   "type"
@@ -75,6 +84,9 @@ ActiveRecord::Schema.define(:version => 20121218105330) do
     t.decimal  "promotion"
     t.boolean  "cant_be_joined_during_year"
     t.text     "trial_lesson_info"
+    t.text     "price_details"
+    t.text     "price_info_1"
+    t.text     "price_info_2"
     t.integer  "course_group_id"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
@@ -128,64 +140,20 @@ ActiveRecord::Schema.define(:version => 20121218105330) do
   add_index "plannings", ["week_day"], :name => "index_plannings_on_week_day"
 
   create_table "prices", :force => true do |t|
-    t.decimal  "individual_course_price"
-    t.decimal  "annual_price"
-    t.decimal  "semester_price"
-    t.decimal  "trimester_price"
-    t.decimal  "month_price"
-    t.decimal  "five_lessons_price"
-    t.decimal  "five_lessons_validity"
-    t.decimal  "ten_lessons_price"
-    t.decimal  "ten_lessons_validity"
-    t.decimal  "twenty_lessons_price"
-    t.decimal  "twenty_lessons_validity"
-    t.decimal  "thirty_lessons_price"
-    t.decimal  "thirty_lessons_validity"
-    t.decimal  "fourty_lessons_price"
-    t.decimal  "fourty_lessons_validity"
-    t.decimal  "fifty_lessons_price"
-    t.decimal  "fifty_lessons_validity"
-    t.decimal  "book_tickets_a_nb"
-    t.decimal  "book_tickets_a_price"
-    t.decimal  "book_tickets_a_validity"
-    t.decimal  "book_tickets_b_nb"
-    t.decimal  "book_tickets_b_price"
-    t.decimal  "book_tickets_b_validity"
-    t.decimal  "book_tickets_c_nb"
-    t.decimal  "book_tickets_c_price"
-    t.decimal  "book_tickets_c_validity"
-    t.decimal  "two_lesson_per_week_package_price"
-    t.decimal  "unlimited_access_price"
-    t.decimal  "unlimited_access_validity"
-    t.decimal  "student_price"
-    t.decimal  "young_and_senior_price"
-    t.decimal  "job_seeker_price"
-    t.decimal  "low_income_price"
-    t.decimal  "large_family_price"
-    t.decimal  "couple_price"
-    t.decimal  "annual_registration_adult_fee"
-    t.decimal  "annual_registration_child_fee"
-    t.integer  "price_1"
-    t.string   "price_1_libelle"
-    t.integer  "price_2"
-    t.string   "price_2_libelle"
-    t.integer  "approximate_price_per_course"
-    t.text     "excluded_lesson_from_unlimited_access_card"
-    t.text     "price_info_1"
-    t.text     "price_info_2"
-    t.boolean  "has_exceptional_offer"
-    t.text     "details"
-    t.text     "promotion"
-    t.boolean  "is_free",                                    :default => false
-    t.decimal  "degressive_price_from_two_lesson"
-    t.boolean  "has_other_preferential_price"
-    t.decimal  "trial_lesson_price"
+    t.string   "libelle"
+    t.decimal  "amount"
     t.integer  "course_id"
-    t.datetime "created_at",                                                    :null => false
-    t.datetime "updated_at",                                                    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  add_index "prices", ["approximate_price_per_course"], :name => "index_prices_on_approximate_price_per_course"
+  create_table "registration_fees", :force => true do |t|
+    t.decimal  "price"
+    t.boolean  "for_kid"
+    t.integer  "course_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "renting_rooms", :force => true do |t|
     t.string   "name"

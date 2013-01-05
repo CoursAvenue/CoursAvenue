@@ -1,7 +1,11 @@
 class Course < ActiveRecord::Base
 
-  has_one :planning, dependent: :destroy
-  has_one :price   , dependent: :destroy
+  has_one   :planning         , dependent: :destroy
+
+  has_many  :registration_fees, dependent: :destroy
+  has_many  :prices           , dependent: :destroy
+  has_many  :book_tickets     , dependent: :destroy
+
   belongs_to :course_group
 
   after_commit   :update_course_group
@@ -28,7 +32,10 @@ class Course < ActiveRecord::Base
                   :refund_condition,
                   :promotion,
                   :cant_be_joined_during_year,
-                  :trial_lesson_info
+                  :trial_lesson_info,
+                  :price_details,
+                  :price_info_1,
+                  :price_info_2
 
   def update_course_group
     self.course_group.update_has_promotion

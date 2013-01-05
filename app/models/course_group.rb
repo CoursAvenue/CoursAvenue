@@ -170,7 +170,7 @@ class CourseGroup < ActiveRecord::Base
   end
 
   def best_price
-    prices.order('approximate_price_per_course ASC').first
+    prices.order('amount ASC').first
   end
 
   def type_name
