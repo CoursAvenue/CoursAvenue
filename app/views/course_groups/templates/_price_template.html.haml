@@ -1,20 +1,25 @@
 %script#price-template{type: "text/x-handlebars-template"}
   %h3 Choissez la formule
+  {{#if is_lesson}}
   %div
     %input#already_have_annual{type: 'checkbox'}
     %label.check-label{for: 'already_have_annual'} Pas besoin d’adhésion annuelle : je l’ai déjà !
-
+  {{/if}}
   %table.table--striped.table--data.table--selectable#planning-schedule
     %thead
       %tr
-        %th
+        %th Type de formule
         %th.text-center Sans promo
         %th.text-center Avec promo
     %tbody
       {{#each prices}}
       %tr
         %td {{libelle}}
+        {{#if_eq amount compare=0}}
+        %td.text-center Gratuit
+        {{else}}
         %td.text-center {{amount}} €
+        {{/if_eq}}
         %td.text-center -
       {{/each}}
 

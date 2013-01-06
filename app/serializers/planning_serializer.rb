@@ -23,4 +23,13 @@ class PlanningSerializer < ActiveModel::Serializer
              :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
              :week_day,
              :class_during_holidays
+
+
+  def start_date
+    I18n.l object.start_date, format: :long
+  end
+
+  def end_date
+    I18n.l object.end_date, format: :long
+  end
 end

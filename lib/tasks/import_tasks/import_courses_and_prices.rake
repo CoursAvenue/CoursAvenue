@@ -34,11 +34,11 @@ namespace :import do
   def course_group_class(name)
     case name.downcase
     when 'cours'
-      class_name = CourseGroup::Lesson
+      CourseGroup::Lesson
     when 'stage'
-      class_name = CourseGroup::Training
+      CourseGroup::Training
     when 'cours-atelier'
-      class_name = CourseGroup::Workshop
+      CourseGroup::Workshop
     end
   end
   def level(name)
@@ -155,10 +155,10 @@ namespace :import do
         day_five_start_time:                          row[36],
         day_five_duration:                            row[37]
       },
+
       # Prices
       prices: {
         'price.free' =>                              (row[42] == 'X' ? 0 : nil),
-        'price.individual_course' =>                  row[43],
         'price.annual' =>                             row[44],
         'price.two_lesson_per_week_package' =>        row[45],
         'price.semester' =>                           row[46],
@@ -174,6 +174,12 @@ namespace :import do
         #'price.approximate_price_per_course' =>       row[85]
       }
     }
+    if hash[:course_type] == CourseGroup::Training
+      hash[:prices] << {'price.training' => row[43]}
+    else
+      hash[:prices] << {'price.individual_course' => row[43]}
+    end
+
     # -------------------------------------------------------------------- Registration fees
     hash[:registration_fees] = []
     hash[:registration_fees] << {

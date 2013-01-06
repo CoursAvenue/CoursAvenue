@@ -19,6 +19,7 @@
 
 // ---------------------------------- Lib includes
 //= require libs/handlebars
+//= require libs/handlebars-helpers
 //= require libs/datepicker/Locale.fr-FR.DatePicker
 //= require libs/datepicker/Picker
 //= require libs/datepicker/Picker.Attach

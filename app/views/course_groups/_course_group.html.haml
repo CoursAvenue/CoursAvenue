@@ -42,7 +42,7 @@
     - else
       %p
         À partir de
-      %p.beta= "#{course_group.best_price.amount.round}&nbsp;€".html_safe
+      %p.gamma= "#{course_group.best_price.amount}&nbsp;€".html_safe
       %p= t(course_group.best_price.libelle)
       / %br
       / - unless course_group.best_price.price_2.blank?

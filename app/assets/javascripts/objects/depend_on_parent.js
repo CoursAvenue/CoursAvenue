@@ -16,10 +16,16 @@
         },
 
         attachEvents: function() {
-            this.inputs.addEvent('change', function() {
-                if (!this.parent_input.checked) {
+            this.inputs.addEvent('change', function(event) {
+                if (!this.parent_input.checked && event.target.checked) {
                     this.parent_input.checked = true;
                     this.parent_input.fireEvent('change'); // To be sure callbacks are triggered
+                }
+            }.bind(this));
+
+            this.parent_input.addEvent('change', function() {
+                if (!this.parent_input.checked) {
+                    this.inputs.map(function(input){ input.checked = false; input.fireEvent('change', {target:input} )});
                 }
             }.bind(this));
         }

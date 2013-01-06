@@ -8,4 +8,8 @@ class Price < ActiveRecord::Base
     I18n.t read_attribute(:libelle)
   end
 
+  def amount
+    '%.2f' % read_attribute(:amount)
+  end
+
 end

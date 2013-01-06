@@ -48,6 +48,7 @@
 
         show_course_info_and_price: function(event) {
             this.course_info_el.set('html', this.course_info_template(this.course));
+            GLOBAL.Scroller.toElement(this.course_info_el);
             this.price.render();
         }
 

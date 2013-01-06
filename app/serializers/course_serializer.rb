@@ -13,10 +13,15 @@ class CourseSerializer < ActiveModel::Serializer
              :trial_lesson_info,
              :price_details,
              :price_info_1,
-             :price_info_2
+             :price_info_2,
+             :is_lesson
 
   has_one :planning
   has_many :prices
   has_many :book_tickets
+
+  def is_lesson
+    object.course_group.is_lesson?
+  end
 
 end

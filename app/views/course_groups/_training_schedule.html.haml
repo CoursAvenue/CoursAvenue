@@ -1,4 +1,4 @@
-%table#planning-schedule
+%table.table--striped.table--data.table--selectable#planning-schedule
   %thead
     %tr
       %th Dates
@@ -9,7 +9,7 @@
       %th Nb de places
   %tbody
     - @plannings.each do |planning|
-      %tr
+      %tr{data: {'course-id' => planning.course_id}}
         %td= training_dates planning
         %td.text-center= "#{pluralize(planning.length, 'jour')}"
         %td.text-center= planning.course.min_age_for_kid

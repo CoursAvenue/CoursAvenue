@@ -25,7 +25,7 @@
     %p
       Pour un
       %select
-        = Audience.all.each do |audience|
+        = @course_group.audiences.each do |audience|
           %option= t(audience.name)
     - if @course_group.is_training?
       = render 'training_schedule'
@@ -33,6 +33,9 @@
       = render 'lesson_schedule'
     - if @course_group.is_workshop?
       = render 'lesson_schedule'
+
+    #course-info
+    = render 'course_groups/templates/course_info_template'
 
     #prices
     = render 'course_groups/templates/price_template'
