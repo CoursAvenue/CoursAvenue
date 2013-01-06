@@ -45,21 +45,25 @@
 
 .home-screen-promotion-wrapper {
     background-color: $homescreenBackground;
-    padding         : 2em 0;
+    padding         : 0 0 2em 0;
 }
     .home-screen-promotion {
+        @include media-query(palm) { text-align: center; }
+        @include media-query(lap)  { text-align: center; }
         > div {
-            display         : inline-block;
-            width           : 49%;
-            vertical-align  : top;
+            margin          : 1em 0;
+            @include media-query(palm) { width: 100%; }
+            @include media-query(lap)  { width: 100%; }
         }
         .course-block {
-            width: 49%;
+            margin-bottom: 1em;
+            @include media-query(palm) { width: 100%; }
         }
     }
     .course-block {
         background-color: white;
         padding         : 0.5em;
+        margin-right    : 10px;
         display         : inline-block;
         @include box-sizing(border-box);
         &:hover {
@@ -77,3 +81,17 @@
         color        : $grayLight;
         @extend .milli;
     }
+
+.newsletter-form {
+    position        : relative;
+    display         : inline-block;
+    background-color: #ebe8e6;
+    padding         : 1em;
+    top             : -2.5em;
+    margin-bottom   : -2.5em;
+    @include border-radius($brand-round);
+    p {
+        font-size   : 0.9em;
+        margin-right: 1em;
+    }
+}

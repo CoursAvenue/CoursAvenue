@@ -1,7 +1,8 @@
 .header {
     background-color: #efeff1;
-    @include background-image(linear-gradient(top, #fefefe,#efeff1));
     padding         : 0;
+    border-bottom   : 1px solid $graySmooth;
+    @include background-image(linear-gradient(top, #fefefe,#efeff1));
     @include font-size(12px);
     .nav {
         margin-bottom: 0;

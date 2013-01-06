@@ -21,6 +21,7 @@
     left            : 50%;
     margin-left     : -5px;
 }
+
 .map-marker {
     display         : inline-block;
     padding         : 2px 5px;
@@ -30,15 +31,17 @@
     min-width       : 1.3em;
     text-shadow     : -1px -1px 0 #a34c30;
     font-size       : 12px;
+    &, a {color: white;}
     @include border-radius($brand-round);
     @include background-image(linear-gradient(top, $btnPrimaryBackgroundHighlight, $btnPrimaryBackground));
-    &, a {color: white;}
 }
 .map-paris {
     position        : relative;
     max-width       : 485px;
     max-height      : 408px;
     display         : block;
+    @include media-query(palm) { margin: auto; }
+    @include media-query(lap)  { margin: auto; }
     .map-marker {
         position: absolute;
     }

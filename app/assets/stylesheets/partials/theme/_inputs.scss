@@ -6,8 +6,9 @@ input[type=search] {
     -webkit-appearance: none;
 }
 input {
-    border            : 1px solid #ccc;
-    padding: 2px;
+    border        : 1px solid #ccc;
+    padding       : 5px;
+    vertical-align: middle;
     @include vendor(border-box, box-sizing);
     @include border-radius(3px);
     @include font-size(16px);

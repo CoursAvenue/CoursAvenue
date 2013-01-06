@@ -2,3 +2,32 @@
     @include vendor(transform, scaleX(-1));
     filter: FlipH; /* IE 6/7/8 */
 }
+
+.ilb-wrapper {
+    font-size: 0;
+    > * {
+        font-size     : $base-font-size;
+        display       : inline-block;
+        vertical-align: top;
+    }
+    &.align-middle {
+        > * {
+            vertical-align: middle;
+        }
+    }
+}
+
+.green {
+    color: $green;
+}
+
+.small-margin-bottom {
+    margin-bottom: 0.5em;
+}
+.no-margin-bottom {
+    margin-bottom: 0;
+}
+
+.smaller-print {
+    font-size: 0.8em;
+}
