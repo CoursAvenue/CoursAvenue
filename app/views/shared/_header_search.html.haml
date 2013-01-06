@@ -17,7 +17,25 @@
       %option{value: 'strasbourg'} Strasbourg
       %option{value: 'toulouse'} Toulouse
   %div.search-input-wrapper
-    %input{class: is_dark ? 'search-input search-input--dark' : 'search-input', placeholder: 'Danse, Cuisine, ...', type: 'search', name: 'name', value: params[:name], autofocus: true}
+    %input#search-input{class: is_dark ? 'search-input search-input--dark' : 'search-input', placeholder: 'Danse, Cuisine, ...', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'discipline-list'}
+    .aListCon
+      %datalist#discipline-list
+      <!--[if IE 9]><select disabled><![endif]-->
+      - Discipline.all.each do |discipline|
+        %option{value: discipline.name}
+      <!--[if IE 9]></select><![endif]-->
+    = content_for :scripts do
+      :javascript
+        (function(window, document, undefined) {
+          "use strict";
+
+          var myAutocomplete = new Autocomplete("search-input", {
+            useNativeInterface : false,
+            srcType : "dom"
+          });
+
+        })(this, this.document);
+
   = render 'shared/week_day_search', is_dark: is_dark
 
   = render 'shared/time_slot_search', is_dark: is_dark
