@@ -4,4 +4,10 @@
     padding-bottom  : 2em;
     color           : $grayLight;
     @extend .milli;
+    .flexbox__item {
+        vertical-align: top;
+    }
+    .nav li {
+        margin-right: 3em;
+    }
 }

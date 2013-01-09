@@ -49,6 +49,8 @@ group :development, :test do
   gem 'awesome_print'
 end
 
+gem 'google-analytics-rails'
+
 # gem 'thin'
 
 # Deploy with Capistrano

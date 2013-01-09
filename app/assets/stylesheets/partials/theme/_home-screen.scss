@@ -51,7 +51,7 @@
         @include media-query(palm) { text-align: center; }
         @include media-query(lap)  { text-align: center; }
         > div {
-            margin          : 1em 0;
+            margin          : 15px 0;
             @include media-query(palm) { width: 100%; }
             @include media-query(lap)  { width: 100%; }
         }
@@ -60,28 +60,6 @@
             @include media-query(palm) { width: 100%; }
         }
     }
-    .course-block {
-        background-color: white;
-        padding         : 0.5em;
-        margin-right    : 10px;
-        display         : inline-block;
-        @include box-sizing(border-box);
-        &:hover {
-            .course-block-caption, .course-block-title {
-                text-decoration: none;
-            }
-        }
-    }
-    .course-block-title {
-        color: $green;
-        margin-bottom: 0;
-    }
-    .course-block-caption {
-        margin-bottom: 0;
-        color        : $grayLight;
-        @extend .milli;
-    }
-
 .newsletter-form {
     position        : relative;
     display         : inline-block;

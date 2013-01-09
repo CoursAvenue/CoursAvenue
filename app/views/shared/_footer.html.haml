@@ -1,41 +1,56 @@
-:javascript
-  var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-  g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-  s.parentNode.insertBefore(g,s)}(document,'script'));
-
 %footer.main-footer
   .main-container
     .flexbox
-      %p.flexbox__item <b>LeBonCours</b> vous permet de sélectionner, comparer et réserver le cours ou le stage de votre choix au meilleur prix. Exemple : vous recherchez un cours de yoga pour adultes débutants, le mercredi soir entre 20h et 22h, dans Paris 11ème, à moins de 100€ l'année ? 3 clics suffiront pour le réserver.
+      .flexbox__item
+        = image_tag 'logo-2.png', class: 'ten-twelfths'
+        %p <b>LeBonCours</b> vous permet de sélectionner, comparer et réserver le cours ou le stage de votre choix au meilleur prix. Exemple : vous recherchez un cours de yoga pour adultes débutants, le mercredi soir entre 20h et 22h, dans Paris 11ème, à moins de 100€ l'année ? 3 clics suffiront pour le réserver.
       .flexbox__item.nine-twelfths
-        %ul.nav
-          %li
-            %a{href: '#'} <b>Pourquoi LeBonCours ?</b>
-          %li
-            %a{href: '#'} <b>Comment ça marche ?</b>
-          %li
-            %a{href: '#'} <b>Presse</b>
-          %li
-            %a{href: '#'} <b>Jobs</b>
-          %li
-            %a{href: '#'} <b>CGU - CGV</b>
-          %li
-            %a{href: '#'} <b>À propos</b>
-          %li
-            %a{href: '#'} <b>Contact</b>
+        %nav
+          %ul.nav
+            %li
+              %a{href: '#'} <b>Pourquoi LeBonCours ?</b>
+            %li
+              %a{href: '#'} <b>Comment ça marche ?</b>
+            %li
+              %a{href: '#'} <b>Presse</b>
+            %li
+              %a{href: '#'} <b>Jobs</b>
+            %li
+              %a{href: '#'} <b>CGU - CGV</b>
+            %li
+              %a{href: '#'} <b>À propos</b>
+            %li
+              %a{href: '#'} <b>Contact</b>
 
-        %h5 Villes
-        %ul
-          %li Paris
-          %li Bordeaux
-          %li Lille
-          %li Lyon
-          %li Marseille
-          %li Montpellier
-          %li Nantes
-          %li Nice
-          %li Strasbourg
-          %li Toulouse
-          %li + Plus
+        .flexbox
+          .flexbox__item.one-quarter
+            %h5 Villes
+            %ul
+              %li Paris
+              %li Bordeaux
+              %li Lille
+              %li Lyon
+              %li Marseille
+              %li Montpellier
+              %li Nantes
+              %li Nice
+              %li Strasbourg
+              %li Toulouse
+              %li + Plus
 
+          .flexbox__item.one-quarter
+            %h5 Disciplines
+            %ul
+              - Discipline.limit(10).each do |discipline|
+                %li= link_to discipline.name, course_groups_path(discipline: u(discipline.name.downcase))
+          .flexbox__item.one-quarter
+            %h5 Niveaux
+            %ul
+              - Level.all.each do |level|
+                %li= link_to t(level.name), course_groups_path(levels: [level.id])
+
+          .flexbox__item.one-quarter
+            %h5 Publiques
+            %ul
+              - Audience.all.each do |audience|
+                %li= link_to t(audience.name), course_groups_path(audiences: [audience.id])

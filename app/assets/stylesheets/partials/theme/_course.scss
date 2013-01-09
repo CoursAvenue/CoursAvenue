@@ -27,3 +27,37 @@
         margin-bottom: 10px;
     }
 }
+
+.course-block:after {
+    content             : '';
+    position            : absolute;
+    bottom              : -1em;
+    left                : 0;
+    width               : 100%;
+    height              : 1em;
+    background          : url(image-path('home-page/course-bottom.png'));
+    background-position : top;
+    background-repeat   : no-repeat;
+    background-size     : 100%;
+}
+.course-block {
+    position        : relative;
+    background-color: white;
+    padding         : 0.5em;
+    margin          : 1em 1em 1em 0;
+    display         : inline-block;
+    @include box-shadow(0 -1px 3px $grayLighter);
+    @include box-sizing(border-box);
+    &:hover {
+        text-decoration: none;
+    }
+}
+.course-block-title {
+    color: $green;
+    margin-bottom: 0;
+}
+.course-block-caption {
+    margin-bottom: 0;
+    color        : $grayLight;
+    @extend .milli;
+}
