@@ -1,7 +1,7 @@
 %footer.main-footer
   .main-container
     .flexbox
-      .flexbox__item
+      .flexbox__item.islet
         = image_tag 'logo-2.png', class: 'ten-twelfths'
         %p <b>LeBonCours</b> vous permet de sélectionner, comparer et réserver le cours ou le stage de votre choix au meilleur prix. Exemple : vous recherchez un cours de yoga pour adultes débutants, le mercredi soir entre 20h et 22h, dans Paris 11ème, à moins de 100€ l'année ? 3 clics suffiront pour le réserver.
       .flexbox__item.nine-twelfths
@@ -25,32 +25,31 @@
         .flexbox
           .flexbox__item.one-quarter
             %h5 Villes
-            %ul
-              %li Paris
-              %li Bordeaux
-              %li Lille
-              %li Lyon
-              %li Marseille
-              %li Montpellier
-              %li Nantes
-              %li Nice
-              %li Strasbourg
-              %li Toulouse
-              %li + Plus
+            %ul.discrete-list
+              %li= link_to 'Paris',       course_groups_path(city: 'paris')
+              %li= link_to 'Bordeaux',    course_groups_path(city: 'paris')
+              %li= link_to 'Lille',       course_groups_path(city: 'paris')
+              %li= link_to 'Lyon',        course_groups_path(city: 'paris')
+              %li= link_to 'Marseille',   course_groups_path(city: 'paris')
+              %li= link_to 'Montpellier', course_groups_path(city: 'paris')
+              %li= link_to 'Nantes',      course_groups_path(city: 'paris')
+              %li= link_to 'Nice',        course_groups_path(city: 'paris')
+              %li= link_to 'Strasbourg',  course_groups_path(city: 'paris')
+              %li= link_to 'Toulouse',    course_groups_path(city: 'paris')
 
           .flexbox__item.one-quarter
             %h5 Disciplines
-            %ul
+            %ul.discrete-list
               - Discipline.limit(10).each do |discipline|
                 %li= link_to discipline.name, course_groups_path(discipline: u(discipline.name.downcase))
           .flexbox__item.one-quarter
             %h5 Niveaux
-            %ul
+            %ul.discrete-list
               - Level.all.each do |level|
                 %li= link_to t(level.name), course_groups_path(levels: [level.id])
 
           .flexbox__item.one-quarter
             %h5 Publiques
-            %ul
+            %ul.discrete-list
               - Audience.all.each do |audience|
                 %li= link_to t(audience.name), course_groups_path(audiences: [audience.id])

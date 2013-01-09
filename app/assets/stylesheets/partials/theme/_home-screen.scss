@@ -52,8 +52,10 @@
         @include media-query(lap)  { text-align: center; }
         > div {
             margin          : 15px 0;
-            @include media-query(palm) { width: 100%; }
-            @include media-query(lap)  { width: 100%; }
+            > div {
+                @include media-query(palm) { width: 100%; }
+                @include media-query(lap)  { width: 100%; }
+            }
         }
         .course-block {
             margin-bottom: 1em;

@@ -10,4 +10,8 @@
     .nav li {
         margin-right: 3em;
     }
+    @include media-query(palm) {
+        .flexbox, .flexbox .flexbox { display: block; }
+        .flexbox__item , .flexbox__item .flexbox__item { display: inline-block; }
+    }
 }
