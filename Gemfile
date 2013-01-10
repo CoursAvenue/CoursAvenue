@@ -16,6 +16,7 @@ gem 'rails', '3.2.9'
   gem 'mootools-rails'    , '~> 1.0.1'
   gem 'compass-rails'     , '~> 1.0.3'
   gem 'compass-inuit'     , '~> 4.3.6'
+  gem 'modernizr-rails'
 # end
 
 gem 'pg'

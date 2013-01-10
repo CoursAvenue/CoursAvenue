@@ -7,6 +7,11 @@
     /%link{ href: 'http://fonts.googleapis.com/css?family=Raleway:400,500,700', rel:'stylesheet', type: 'text/css'}
     = stylesheet_link_tag "application", :media => "all"
     = csrf_meta_tags
+    /[if lt IE 9]
+      = javascript_include_tag 'ie8'
+      %noscript
+        <strong>Attention !</strong>
+        Le JavaScript est desactivé et votre navigateur est trop vieux. Veuillez mettre à jour votre navigateur.
 
   %body
     = render 'shared/header'
