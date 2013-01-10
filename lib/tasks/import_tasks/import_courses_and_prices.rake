@@ -175,9 +175,9 @@ namespace :import do
       }
     }
     if hash[:course_type] == CourseGroup::Training
-      hash[:prices] << {'price.training' => row[43]}
+      hash[:prices]['price.training'] = row[43]
     else
-      hash[:prices] << {'price.individual_course' => row[43]}
+      hash[:prices]['price.individual_course'] = row[43]
     end
 
     # -------------------------------------------------------------------- Registration fees

@@ -50,7 +50,7 @@ group :development, :test do
 end
 
 gem 'google-analytics-rails'
-
+gem 'newrelic_rpm'
 # gem 'thin'
 
 # Deploy with Capistrano
