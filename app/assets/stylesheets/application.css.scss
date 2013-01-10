@@ -63,7 +63,7 @@
 
 html {
   font-family: $brand-face;
-  overflow-x : hidden;
+  &, body { overflow-x : hidden; }
 }
 
 // ::selection {

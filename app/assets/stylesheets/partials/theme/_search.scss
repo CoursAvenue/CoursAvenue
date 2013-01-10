@@ -20,6 +20,7 @@
     background-color: #e5e5e5;
     display         : table;
     padding         : 5px 0;
+    @include media-query(palm) { display: block; };
     position        : relative;
     margin-top      : 4em; // Because of town-chooser;
     @include font-size(12px);
@@ -28,11 +29,17 @@
     @include background-image(linear-gradient(top, #eee 0%,#e5e5e5 100%));
     .button-wrapper {
         text-align: right;
+        @include media-query(palm) {text-align: center;}
     }
     > div {
         display       : table-cell;
         vertical-align: middle;
         padding       : 0 5px;
+        @include media-query(palm) {
+            display     : block;
+            margin      : 1em auto;
+            text-align  : center;
+        };
         &.town-chooser {
             padding: 0.5em 1em;
         }
@@ -52,6 +59,9 @@
         height          : 2em;
         font-size       : 1.2em;
         background-color: #eee;
+        @include media-query(palm) {
+            top: -4em; // Because of the margin of the child divs
+        }
         @include box-sizing(content-box);
         @include border-top-radius($brand-round);
     }

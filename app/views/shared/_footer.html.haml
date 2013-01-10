@@ -23,7 +23,7 @@
               %a{href: '#'} <b>Contact</b>
 
         .flexbox
-          .flexbox__item.one-quarter
+          .flexbox__item.one-quarter.palm-one-half
             %h5 Villes
             %ul.discrete-list
               %li= link_to 'Paris',       course_groups_path(city: 'paris')
@@ -37,18 +37,18 @@
               %li= link_to 'Strasbourg',  course_groups_path(city: 'paris')
               %li= link_to 'Toulouse',    course_groups_path(city: 'paris')
 
-          .flexbox__item.one-quarter
+          .flexbox__item.one-quarter.palm-one-half
             %h5 Disciplines
             %ul.discrete-list
               - Discipline.limit(10).each do |discipline|
                 %li= link_to discipline.name, course_groups_path(discipline: u(discipline.name.downcase))
-          .flexbox__item.one-quarter
+          .flexbox__item.one-quarter.palm-one-half
             %h5 Niveaux
             %ul.discrete-list
               - Level.all.each do |level|
                 %li= link_to t(level.name), course_groups_path(levels: [level.id])
 
-          .flexbox__item.one-quarter
+          .flexbox__item.one-quarter.palm-one-half
             %h5 Publiques
             %ul.discrete-list
               - Audience.all.each do |audience|

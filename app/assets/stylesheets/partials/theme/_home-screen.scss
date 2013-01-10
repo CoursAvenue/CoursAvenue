@@ -16,6 +16,7 @@
         font-weight : 200;
     }
     .home-screen-title {
+        @include media-query(palm) { margin: 0; font-size: 20px;}
         margin      : 3em 0 0 0;
     }
     .home-page-search {
@@ -31,6 +32,9 @@
             width   : 100%;
             height  : 100%;
             position: absolute;
+            > div {
+                @include media-query(palm) { display: none; }
+            }
             img {
                 position    : absolute;
                 top         : 0;
@@ -52,14 +56,9 @@
         @include media-query(lap)  { text-align: center; }
         > div {
             margin          : 15px 0;
-            > div {
-                @include media-query(palm) { width: 100%; }
-                @include media-query(lap)  { width: 100%; }
-            }
         }
         .course-block {
             margin-bottom: 1em;
-            @include media-query(palm) { width: 100%; }
         }
     }
 .newsletter-form {

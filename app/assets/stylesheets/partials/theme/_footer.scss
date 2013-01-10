@@ -11,7 +11,19 @@
         margin-right: 3em;
     }
     @include media-query(palm) {
-        .flexbox, .flexbox .flexbox { display: block; padding: 0 1em;}
-        .flexbox__item , .flexbox__item .flexbox__item { display: inline-block; }
+        .nav {
+            text-align: center;
+        }
+        .flexbox, .flexbox__item {
+            padding: 0 1em;
+            @include box-sizing(border-box);
+        }
+        .flexbox__item .flexbox__item {
+            padding: 0;
+        }
+        .flexbox, .flexbox .flexbox {
+            display: block;
+        }
+        .flexbox__item, .flexbox__item .flexbox__item { display: inline-block; }
     }
 }
