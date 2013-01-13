@@ -1,0 +1,6 @@
+fr:
+  newsletter_users:
+    email: E-mail
+    city: Ville
+    wrong_email: Votre email n'est pas valide
+    creation_success_notice: 'Merci de nous avoir laisser votre email, nous vous recontacterons au plus vite !'

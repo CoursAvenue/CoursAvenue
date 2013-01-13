@@ -1,0 +1,21 @@
+.flash {
+    position    : absolute;
+    top         : 0;
+    left        : 50%;
+    width       : 20em;
+    margin-left : -10em;
+    text-align  : center;
+    color       : white;
+    padding     : 0.5em 1em;
+    font-weight : bold;
+    border      : 1px solid black;
+    @include border-bottom-radius($brand-round);
+    &.notice {
+        background-color: $brand-color;
+        border-color    : darken($brand-color, 10%);
+    }
+    &.error {
+        background-color: lighten($redLight, 10%);
+        border-color    : $redLight;
+    }
+}

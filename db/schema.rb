@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130103192457) do
+ActiveRecord::Schema.define(:version => 20130113114220) do
 
   create_table "audiences", :force => true do |t|
     t.string   "name"
@@ -107,6 +107,13 @@ ActiveRecord::Schema.define(:version => 20130103192457) do
   end
 
   add_index "levels", ["name"], :name => "index_levels_on_name"
+
+  create_table "newsletter_users", :force => true do |t|
+    t.string   "city"
+    t.string   "email"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "plannings", :force => true do |t|
     t.date     "start_date"

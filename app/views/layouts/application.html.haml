@@ -9,6 +9,9 @@
     = csrf_meta_tags
 
   %body
+    - flash.each do |key, msg|
+      .flash{class: key, data: {behavior: 'flash', type: key}}
+        = msg
     = render 'shared/header'
 
     = yield :above_container

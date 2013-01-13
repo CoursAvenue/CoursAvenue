@@ -55,6 +55,8 @@
   @import "partials/theme/alerts";
   @import "partials/theme/paragraphs";
   @import "partials/theme/lists";
+  @import "partials/theme/flashs";
+  @import "partials/theme/forms";
 
   @import "libs/datepicker/datepicker_bootstrap";
   @import "libs/autocomplete";
@@ -67,9 +69,9 @@ html {
   &, body { overflow-x : hidden; }
 }
 
-// ::selection {
-//   background: transparentize($orange, .25); /* Safari */
-//   }
-// ::-moz-selection {
-//   background: $orange; /* Firefox */
-// }
+::selection {
+  background: transparentize($orange, .25); /* Safari */
+  }
+::-moz-selection {
+  background: $orange; /* Firefox */
+}

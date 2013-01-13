@@ -1,0 +1,2 @@
+module NewsletterUsersControllerHelper
+end

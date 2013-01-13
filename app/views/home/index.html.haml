@@ -44,9 +44,10 @@
     .newsletter-form
       %p.inline-paragraph
         <b>Inscrivez vous</b> à la newsletter et découvrez des classes uniques dans votre ville
-      %input{type: 'text', placeholder: 'Email'}
-      %input{type: 'text', placeholder: 'Ville'}
-      %button.btn.btn__primary Valider
+      = simple_form_for NewsletterUser.new, html: {class: 'inline-form'} do |f|
+        = f.email_field :email, placeholder: t('newsletter_users.email'), size: 25
+        = f.text_field  :city , placeholder: t('newsletter_users.city') , size: 17
+        = f.button :submit, t('.validate'), class: 'btn btn__primary'
 
 .main-container
   %h3 Les avantages LeBonCours
