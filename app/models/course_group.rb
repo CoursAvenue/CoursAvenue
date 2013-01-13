@@ -131,7 +131,7 @@ class CourseGroup < ActiveRecord::Base
       min_price = 0     if min_price.blank? and !max_price.blank?
       max_price = 10000 if max_price.blank? and !min_price.blank?
       if !min_price.blank? and !max_price.blank? and max_price.to_i > 0
-        scope.joins{prices}.where{(prices.approximate_price_per_course >= min_price) & (prices.approximate_price_per_course <= max_price)}
+        scope.joins{prices}.where{(prices.amount >= min_price.to_i) & (prices.amount <= max_price.to_f)}
       end
     end
   end
@@ -170,7 +170,7 @@ class CourseGroup < ActiveRecord::Base
   end
 
   def best_price
-    prices.order('amount ASC').first
+    prices.where{amount > 0}.order('amount ASC').first
   end
 
   def type_name

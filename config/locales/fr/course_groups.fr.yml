@@ -4,6 +4,8 @@ fr:
   course_groups:
     show:
       back_to_search: Retour à la recherche
+    course_group:
+      from: À partir de
     structure_info_tabs:
       description: Description
       structure: Établissement

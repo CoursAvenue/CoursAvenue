@@ -74,7 +74,7 @@
 
   //-------------------------------------------------------------------------------------------------------- Price
   .search-panel
-    %h5.search-panel-header Prix par cours
+    %h5.search-panel-header Prix
     .search-panel-content
       = label_tag 'search_price_range_min_price', 'De'
       = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, placeholder: '35', class: 'timepicker-input', data: {behavior: 'input-update', element: 'hidden_search_price_range_min'}
