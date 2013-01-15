@@ -3,9 +3,6 @@ class Course < ActiveRecord::Base
   has_one   :planning         , dependent: :destroy
 
   has_many  :registration_fees, dependent: :destroy
-  has_many  :prices           , dependent: :destroy
-  has_many  :book_tickets     , dependent: :destroy
-
   belongs_to :course_group
 
   after_commit   :update_course_group

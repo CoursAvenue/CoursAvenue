@@ -33,9 +33,9 @@ ActiveRecord::Schema.define(:version => 20130113114220) do
     t.integer  "number"
     t.decimal  "price"
     t.string   "validity"
-    t.integer  "course_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "course_group_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "course_groups", :force => true do |t|
@@ -149,9 +149,9 @@ ActiveRecord::Schema.define(:version => 20130113114220) do
   create_table "prices", :force => true do |t|
     t.string   "libelle"
     t.decimal  "amount"
-    t.integer  "course_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "course_group_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "registration_fees", :force => true do |t|

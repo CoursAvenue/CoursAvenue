@@ -14,7 +14,8 @@ class CourseGroup < ActiveRecord::Base
   has_many :courses  , dependent: :destroy
 
   has_many :plannings, through: :courses
-  has_many :prices   , through: :courses
+  has_many :prices           , dependent: :destroy
+  has_many :book_tickets     , dependent: :destroy
 
   has_and_belongs_to_many :audiences
   has_and_belongs_to_many :levels

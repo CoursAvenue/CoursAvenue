@@ -3,7 +3,7 @@ class CreatePrices < ActiveRecord::Migration
     create_table :prices do |t|
       t.string     :libelle
       t.decimal    :amount
-      t.references :course
+      t.references :course_group
       t.timestamps
     end
   end

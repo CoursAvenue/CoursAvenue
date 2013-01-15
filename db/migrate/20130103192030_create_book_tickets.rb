@@ -6,7 +6,7 @@ class CreateBookTickets < ActiveRecord::Migration
       t.string :validity
       t.string :validity
 
-      t.references :course
+      t.references :course_group
 
       t.timestamps
     end

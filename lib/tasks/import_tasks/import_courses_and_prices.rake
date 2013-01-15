@@ -164,16 +164,17 @@ namespace :import do
         'price.semester' =>                           row[46],
         'price.trimester' =>                          row[47],
         'price.month' =>                              row[48],
-        'price.student' =>                            row[76],
-        'price.young_and_senior' =>                   row[77],
-        'price.job_seeker' =>                         row[78],
-        'price.low_income' =>                         row[79],
-        'price.large_family' =>                       row[80],
-        'price.couple' =>                             row[82],
-        'price.trial_lesson' =>                       row[85]
         #'price.approximate_price_per_course' =>       row[85]
       }
     }
+
+    # IF X => Contact structure
+    if row[85] == 'X'
+      hash[:prices]['price.trial_lesson'] = nil
+    else
+      hash[:prices]['price.trial_lesson'] = row[85]
+    end
+
     if hash[:course_type] == CourseGroup::Training
       hash[:prices]['price.training'] = row[43]
     else
@@ -331,12 +332,12 @@ namespace :import do
       end
       #################################################################### Creating Book tickets
       row[:book_tickets].each do |book_ticket|
-        course.book_tickets << BookTicket.create(book_ticket)
+        course_group.book_tickets << BookTicket.create(book_ticket) unless course_group.book_tickets.any?{|b| b.number == book_ticket[:number]}
       end
 
       #################################################################### Creating Prices
       row[:prices].each do |key, value|
-        course.prices << Price.create(libelle: key, amount: value) unless value.blank?
+        course_group.prices << Price.create(libelle: key, amount: value) unless value.blank? or course_group.prices.any?{|p| p.libelle == key}
       end
       #price = Price.create(row[:price])
       #course.price = price
