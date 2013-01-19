@@ -86,7 +86,10 @@ class CourseGroup < ActiveRecord::Base
     scope.joins{audiences}.where{audiences.id.eq_any audience_ids.map(&:to_i)}
   end
 
-  def self.is_for_age(age, scope)
+  def self.is_for_ages(age, scope)
+    # TODO
+    # age[:min]
+    # age[:max]
     if age.to_i > 18
       scope
     else

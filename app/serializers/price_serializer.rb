@@ -3,5 +3,4 @@ class PriceSerializer < ActiveModel::Serializer
               :libelle,
               :amount
 
-  validates :libelle, :uniqueness => true
 end

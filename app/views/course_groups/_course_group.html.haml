@@ -36,7 +36,7 @@
 
   %div.course-price.two-twelfths
     - if course_group.best_price.nil?
-      %p.epsilon Contacter l'établissement
+      %p.epsilon= link_to "Contacter l'établissement", course_path(course_group)
     - else
       %p
         = t('.from')

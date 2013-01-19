@@ -60,9 +60,9 @@
     %h5.search-panel-header Enfant ou adolescent
     .search-panel-content
       = label_tag 'for_min_age', 'De '
-      = number_field_tag 'min_age', params[:min_age], min: 0, max: 18, step: 1, placeholder: '6', data: {behavior: 'input-update', element: 'hidden_search_age'}, id: 'for_min_age'
+      = number_field_tag 'age[min]', params[:min_age], min: 0, max: 18, step: 1, placeholder: '6', data: {behavior: 'input-update', element: 'hidden_search_age'}, id: 'for_min_age'
       = label_tag 'for_max_age', ' à '
-      = number_field_tag 'max_age', params[:max_age], min: 0, max: 18, step: 1, placeholder: '10', data: {behavior: 'input-update', element: 'hidden_search_age'}, id: 'for_max_age'
+      = number_field_tag 'age[max]', params[:max_age], min: 0, max: 18, step: 1, placeholder: '10', data: {behavior: 'input-update', element: 'hidden_search_age'}, id: 'for_max_age'
       ans
   .search-panel
     %h5.search-panel-header Niveaux

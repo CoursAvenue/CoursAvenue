@@ -35,7 +35,7 @@ class CourseGroupsController < ApplicationController
         @course_groups = @course_groups.is_for_audience(value, @course_groups)
 
       when 'age'
-        @course_groups = @course_groups.is_for_age(value, @course_groups) unless value.blank?
+        @course_groups = @course_groups.is_for_ages(value, @course_groups) unless value.blank?
 
       when 'levels'
         level_ids = value.map(&:to_i)
