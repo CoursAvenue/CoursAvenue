@@ -17,9 +17,6 @@ class CourseSerializer < ActiveModel::Serializer
              :is_lesson
 
   has_one :planning
-  has_many :prices
-  has_many :book_tickets
-
   def is_lesson
     object.course_group.is_lesson?
   end

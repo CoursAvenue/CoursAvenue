@@ -4,5 +4,6 @@ class CourseGroupSerializer < ActiveModel::Serializer
   has_many :courses
   has_many :plannings
   has_many :prices
+  has_many :book_tickets
 
 end
