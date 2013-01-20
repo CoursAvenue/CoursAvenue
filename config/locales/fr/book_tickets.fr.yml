@@ -1,0 +1,11 @@
+fr:
+  book_tickets:
+    book_ticket:
+      libelle:
+        zero: Carnet de zero ticket
+        one: Carnet de un ticket
+        other: Carnet de %{count} tickets
+      validity:
+        zero: Non valide
+        one: Valide une semaine
+        other: Valide %{count} semaines

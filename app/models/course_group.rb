@@ -87,9 +87,8 @@ class CourseGroup < ActiveRecord::Base
   end
 
   def self.is_for_ages(age, scope)
-    # TODO
-    age[:min] ||= 0
-    age[:max] ||= 18
+    age[:min] = 0  if age[:min].blank?
+    age[:max] = 18 if age[:max].blank?
     if age[:min].to_i > 18
       scope
     else

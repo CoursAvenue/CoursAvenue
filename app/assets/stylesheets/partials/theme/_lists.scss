@@ -2,3 +2,9 @@
     margin-left: 0;
     list-style: none;
 }
+
+ul.alternate-color {
+    li:nth-of-type(odd){
+        background-color: $grayLighter;
+    }
+}

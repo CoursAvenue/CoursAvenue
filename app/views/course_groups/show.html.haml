@@ -21,24 +21,65 @@
         /   = readable_price @course_group.best_price
       = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
 
-    %h3 Séléctionnez la séance
-    %p
-      Pour un
-      %select
-        = @course_group.audiences.each do |audience|
-          %option= t(audience.name)
-    - if @course_group.is_training?
-      = render 'training_schedule'
-    - if @course_group.is_lesson?
-      = render 'lesson_schedule'
-    - if @course_group.is_workshop?
-      = render 'lesson_schedule'
+    %ul.tab-titles{data: {behavior: 'tabs'}}
+      %li.active{data: { el: 'tab-planning' }}= t('.planning')
+      %li{data: { el: 'tab-prices' }}= t('.prices')
 
-    #course-info
-    = render 'course_groups/templates/course_info_template'
+    .tab-content
+      %article#tab-planning.tab-pane.active
+        .gw
+          .g.five-eighths
+            - if @course_group.is_training?
+              = render 'training_schedule'
+            - if @course_group.is_lesson?
+              = render 'lesson_schedule'
+            - if @course_group.is_workshop?
+              = render 'lesson_schedule'
+          .g.three-eighths
+            %h4= t('.infos')
+            %ul.block-list.alternate-color.spoken-form.milli
+              %li
+                %label= t('.audience')
+                %strong.fr
+                  - @course_group.audiences.each do |audience|
+                    = t(audience.name)
 
-    #prices
-    = render 'course_groups/templates/price_template'
+              %li
+                %label= t('.course')
+                - if @course_group.courses.first.is_individual
+                  %strong.fr= t('.individual')
+                - else
+                  %strong.fr= t('.collective')
+              - if @course_group.courses.first.teacher_name.present?
+                %li
+                  %label= t('.teacher')
+                  %strong.fr= @course_group.courses.first.teacher_name
+
+              %li
+                %label= t('.recurrence')
+                %strong.fr= @course_group.plannings.first.recurrence
+
+              %li
+                %label= t('.can_be_joined_during_year')
+                %strong.fr= (@course_group.courses.first.cant_be_joined_during_year ? t('.no') : t('.yes'))
+
+              %li
+                %label= t('.class_during_holidays')
+                %strong.fr= (@course_group.plannings.first.class_during_holidays ? t('.yes') : t('.no'))
+
+              %li
+                %label= t('.for_handicaped')
+                %strong.fr= (@course_group.courses.first.is_for_handicaped ? t('.yes') : t('.no'))
+      %article#tab-prices.tab-pane
+        %table.table--striped.table--data.table--selectable#planning-schedule
+          %thead
+            %tr
+              %th Type de formule
+              %th.text-center Sans promo
+              %th.text-center Avec promo
+          %tbody
+            = render @course_group.prices
+            = render @course_group.book_tickets
 
     = render 'structure_info_tabs'
 

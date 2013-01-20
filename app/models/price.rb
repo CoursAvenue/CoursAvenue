@@ -1,5 +1,6 @@
 class Price < ActiveRecord::Base
   belongs_to :course_group
+
   attr_accessible :libelle,
                   :amount
 

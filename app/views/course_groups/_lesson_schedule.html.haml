@@ -1,21 +1,12 @@
-%table.table--striped.table--data.table--selectable#planning-schedule
+%table.table--striped.table--data.table--selectable
   %thead
     %tr
       %th Jour
       %th.text-center Créneau horaire
       %th.text-center Durée
-      %th.text-center Âge min.
-      %th.text-center Âge max.
-      %th Nb de places
-      %th Promo
   %tbody
     - @plannings.each do |planning|
       %tr{data: {'course-id' => planning.course_id}}
         %td= week_day_for planning
         %td.text-center= readable_time_slot planning
         %td.text-center= readable_duration planning
-        %td.text-center= planning.course.min_age_for_kid || 'NC'
-        %td.text-center= planning.course.max_age_for_kid || 'NC'
-        %td= planning.course.nb_place_available || 'NC'
-        %td
-          %b.red= readable_promotion planning.course.promotion

@@ -24,8 +24,8 @@
         = check_box_tag 'levels[]', level[:id], params[:levels].include?(level[:id].to_s), id: "hidden_search_level_#{level[:name]}"
       = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, id: 'hidden_search_price_range_min'
       = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, id: 'hidden_search_price_range_max'
-      = number_field_tag 'age[min]', params[:age][:max], min: 0, max: 18, step: 1, id: 'hidden_search_age'
-      = number_field_tag 'age[max]', params[:age][:min], min: 0, max: 18, step: 1, id: 'hidden_search_age'
+      = number_field_tag 'age[min]', params[:age][:max], min: 0, max: 18, step: 1, id: 'hidden_search_age_min'
+      = number_field_tag 'age[max]', params[:age][:min], min: 0, max: 18, step: 1, id: 'hidden_search_age_max'
 
       - (75001..75020).to_a.map(&:to_s).each do |zip_code|
         = check_box_tag 'zip_codes[]', zip_code, params[:zip_codes].include?(zip_code), id: "hidden_search_arrondissement_#{zip_code}"

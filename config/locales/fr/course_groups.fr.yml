@@ -4,6 +4,22 @@ fr:
   course_groups:
     show:
       back_to_search: Retour à la recherche
+      planning: Planning
+      prices: Tarifs
+      infos: Infos
+      audience: Public
+      course: Cours
+      individual: Individuel
+      collective: Collectif
+      teacher: Professeur
+      cant_be_joined_during_year: Ne peut être rejoint en cours d’année
+      can_be_joined_during_year: Peut être rejoint en cours d’année
+      recurrence: Récurrence
+      class_during_holidays: Cours pendant les vacances
+      for_handicaped: Pour handicapé
+      yes: Oui
+      no: Non
+
     course_group:
       from: À partir de
     structure_info_tabs:

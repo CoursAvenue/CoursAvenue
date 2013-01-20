@@ -3,8 +3,10 @@
   %section.g.three-tenths
     = render 'side_search_form'
   %section.g.seven-tenths
-    %p.alert.alert--info.page-entries
-      = page_entries_info html: false
+    .flexbox.page-entries-wrapper
+      %p.page-entries.flexbox__item
+        = page_entries_info html: false
+      .flexbox__item= will_paginate @course_groups, renderer: PaginationListLinkRenderer, class: 'nav pagination proceed', inner_window: 2
     %ul.block-list.course-list
       = render partial: 'course_group', :collection => @course_groups
 

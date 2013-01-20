@@ -1,0 +1,7 @@
+%tr
+  %td= price.libelle
+  - if price.amount == 0
+    %td.text-center Gratuit
+  - else
+    %td.text-center= "#{price.amount} €"
+  %td.text-center -

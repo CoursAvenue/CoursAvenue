@@ -1,7 +1,14 @@
 /*------------------------------------*\
     $PAGINATION override
 \*------------------------------------*/
+.page-entries-wrapper {
+    margin: 1em 0;
+}
 .page-entries {
     text-align: center;
     @include font-size(14px);
+}
+
+.pagination {
+    margin-bottom: 0;
 }
