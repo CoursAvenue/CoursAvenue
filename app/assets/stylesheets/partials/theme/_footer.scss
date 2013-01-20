@@ -4,6 +4,9 @@
     padding-bottom  : 2em;
     color           : $grayLight;
     @extend .milli;
+    h5 {
+        margin-bottom: 0;
+    }
     .flexbox__item {
         vertical-align: top;
     }
