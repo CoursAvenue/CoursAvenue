@@ -76,12 +76,10 @@ class CourseGroupsController < ApplicationController
       structure.geolocalize unless structure.is_geolocalized?
     end
     @json_structure_addresses = @course_group_structures.to_gmaps4rails do |structure, marker|
-      # marker.infowindow render_to_string(:partial => "/structures/my_template", :locals => { :object => structure})
-      # marker.picture({
-      #                 :picture => "http://www.placehold.it/32",
-      #                 :width   => 32,
-      #                 :height  => 32
-      #                })
+      marker.picture({
+                      :marker_anchor => [10, true],
+                      :rich_marker   => "<img width='25' src='#{ActionController::Base.helpers.image_path('icons/bulle.png')}'/>"
+                     })
       marker.title   structure.name
       marker.json({ id: structure.id })
     end

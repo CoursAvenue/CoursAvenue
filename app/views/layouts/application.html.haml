@@ -8,7 +8,6 @@
     = stylesheet_link_tag "application", :media => "all"
     = javascript_include_tag "modernizr" # MUST BE In the Head and after CSS
     = csrf_meta_tags
-
   %body
     - flash.each do |key, msg|
       .flash{class: key, data: {behavior: 'flash', type: key}}
@@ -23,4 +22,5 @@
 
     = javascript_include_tag "application"
     = yield :scripts # Do not change name, needed for gmaps4rails
+    = javascript_include_tag 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/richmarker/src/richmarker-compiled.js'
     = analytics_init if Rails.env.production?
