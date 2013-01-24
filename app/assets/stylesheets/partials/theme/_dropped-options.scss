@@ -1,23 +1,3 @@
-.dropped-options.dropped-options--dark {
-    .dropped-options-title {
-        color           : $grayLight;
-        background-color: $grayDarkerer;
-        border          : 1px solid $gray;
-        @include box-shadow(inset 0 2px 2px -2px black);
-    }
-    ul {
-        border      : 1px solid $grayDarker;
-        li {
-            background-color: $grayDark;
-        }
-        li:nth-of-type(odd) {
-            background-color: $grayDarker;
-        }
-        li:hover {
-            background-color: $gray;
-        }
-    }
-}
 .dropped-options{
     position: relative;
     width   : 15em;
@@ -71,18 +51,11 @@
         padding         : 5px 2em 5px 1em;
         border          : 1px solid $graySmooth;
         @include border-radius(3px);
-        //@include box-shadow(inset 0 2px 2px -2px $gray);
-        i {
-            position: absolute;
-            margin  : 0 0.5em;
-        }
-        i:last-child {
-            right: 1em;
-        }
-        i:first-child {
-            left: 1em;
-        }
-        span {
-            padding: 0 1.5em;
-        }
+    }
+    .dropped-options-icon {
+        margin-right: 5px;
+    }
+    .dropped-options-caret-icon {
+        right   : 10px;
+        position: absolute;
     }

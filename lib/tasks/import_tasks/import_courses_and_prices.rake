@@ -10,25 +10,7 @@ namespace :import do
   def week_day_number(week_day_name)
     return nil           if week_day_name.blank?
     return week_day_name if week_day_name.is_a? Integer
-
-    case week_day_name.downcase
-    when 'lundi'
-      1
-    when 'mardi'
-      2
-    when 'mercredi'
-      3
-    when 'jeudi'
-      4
-    when 'vendredi'
-      5
-    when 'samedi'
-      6
-    when 'dimanche'
-      7
-    else
-      week_day_name.to_i
-    end
+    return I18n.t('date.day_names').index(week_day_name.downcase)
   end
 
   def course_group_class(name)

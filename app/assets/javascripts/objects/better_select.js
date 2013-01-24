@@ -24,10 +24,6 @@
             }.bind(this));
 
             this.select_input.addEvent('change', function(event) {
-                // if (event.target.getSelected()[0].get('text') !== 'Paris') {
-                //     alert("Nous n'avons pas encore de cours pour cette ville.\nSi toutefois vous voulez faire référencer votre cours, contactez-nous !");
-                //     this.select_input.getElement('option').selected = true; // Because Paris is the first option
-                // }
                 this.title.set('text', event.target.getSelected()[0].get('text'));
                 this.title_wrapper.show();
                 this.select_input.hide();

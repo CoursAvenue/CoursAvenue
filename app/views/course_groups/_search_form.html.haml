@@ -6,7 +6,7 @@
 
 - params[:audiences]        ||= [] # Audience.all.collect(&:id).map(&:to_s)
 - params[:levels]           ||= [] # Level.all.collect(&:id).map(&:to_s)
-- params[:week_days]        ||= [] # LeBonCours::Application::WEEK_DAYS
+- params[:week_days]        ||= [] # I18n.t('date.day_names')
 - params[:time_slots]       ||= [] # LeBonCours::Application::TIME_SLOTS
 - params[:price_range]      ||= {} # {min: 0, max: 1000}
 - params[:time_range]       ||= {}

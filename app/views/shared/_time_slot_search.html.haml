@@ -1,10 +1,8 @@
-- is_dark = false if local_assigns[:is_dark].nil?
-
-%div{class: is_dark ? 'dropped-options dropped-options--dark' : 'dropped-options', data: {behavior: 'dropped-options'}}
+%div{class: 'dropped-options', data: {behavior: 'dropped-options'}}
   .dropped-options-title
-    %i.icon-time
+    %i.lbc-icon-clock.dropped-options-icon
     %span Toute la journée
-    %i.icon-caret-down
+    %i.icon-caret-down.dropped-options-caret-icon
   %ul{data: {behavior: 'checkbox-list'}}
     %li
       = check_box_tag '', '', params[:time_slots].empty?, id: "search_time_slot_all", data: {value: 'all'}

@@ -16,44 +16,6 @@ module LeBonCours
     ALL_DISCIPLINE_NAME = 'toutes-disciplines'
 
     # Global variables
-    CITY_COORDINATES = {
-      'paris' => {
-        lat: '124',
-        long: '123132',
-        zoom: 12
-      },
-    }
-    WEEK_DAYS = [
-      {
-        index: 1,
-        name: 'Lundi'
-      },
-      {
-        index: 2,
-        name: 'Mardi'
-      },
-      {
-        index: 3,
-        name: 'Mercredi'
-      },
-      {
-        index: 4,
-        name: 'Jeudi'
-      },
-      {
-        index: 5,
-        name: 'Vendredi'
-      },
-      {
-        index: 6,
-        name: 'Samedi'
-      },
-      {
-        index: 7,
-        name: 'Dimanche'
-      }
-    ]
-
     TIME_SLOTS = {
           morning: {
             name:       'Matin (9h-12h)',

@@ -1,5 +1,5 @@
 - if @course_groups.blank?
-  = gmaps( {markers: {data: Gmaps4rails.geocode(params[:city]).to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
+  = gmaps( {markers: {data: Gmaps4rails.geocode("#{params[:city]}, France").to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
 - else
   = gmaps( {markers: {data: @json_structure_addresses}, map_options: {maxZoom: 15, mapTypeControl: false}})
 
