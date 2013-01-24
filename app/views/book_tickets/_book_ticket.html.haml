@@ -1,6 +1,6 @@
 %tr
   %td
     = t('.libelle', count: book_ticket.number)
-    = "(#{t('.validity', count: book_ticket.validity).downcase})"
+    = "(#{t('.validity', count: book_ticket.validity).downcase})" unless book_ticket.validity.blank?
   %td.text-center= "#{book_ticket.price} €"
   %td.text-center -
