@@ -86,6 +86,8 @@ GEM
       has_scope (~> 0.5.0)
       responders (~> 0.6)
     journey (1.0.4)
+    js-routes (0.8.6)
+      rails (>= 3.2)
     json (1.7.6)
     mail (2.4.4)
       i18n (>= 0.4.0)
@@ -194,6 +196,7 @@ DEPENDENCIES
   google-analytics-rails
   haml (~> 3.1.7)
   inherited_resources (~> 1.3.1)
+  js-routes (~> 0.8.6)
   modernizr-rails
   mootools-rails (~> 1.0.1)
   newrelic_rpm

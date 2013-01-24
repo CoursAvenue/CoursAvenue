@@ -14,7 +14,7 @@
 - params[:age]              ||= {}
 
 %section.gw
-  = form_tag course_groups_path, method: :get, authenticity_token: false, class: 'g one-whole' do
+  = form_tag course_groups_path, method: :get, authenticity_token: false, class: 'g one-whole', 'data-behavior' => 'course-search-form' do
     = render 'shared/header_search'
 
     .accessibility

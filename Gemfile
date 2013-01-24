@@ -17,6 +17,7 @@ gem 'rails', '3.2.11'
   gem 'compass-rails'     , '~> 1.0.3'
   gem 'compass-inuit'     , '~> 4.3.6'
   gem 'modernizr-rails'
+  gem 'js-routes'         , '~> 0.8.6'
 # end
 
 gem 'pg'

@@ -16,6 +16,13 @@ module LeBonCours
     ALL_DISCIPLINE_NAME = 'toutes-disciplines'
 
     # Global variables
+    CITY_COORDINATES = {
+      'paris' => {
+        lat: '124',
+        long: '123132',
+        zoom: 12
+      },
+    }
     WEEK_DAYS = [
       {
         index: 1,
