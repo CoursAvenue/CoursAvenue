@@ -25,6 +25,7 @@
       - if course_group.structure.zip_code == 75000
         Paris
       - else
+        = course_group.structure.gmaps4rails_address
         = "- Paris&nbsp;#{course_group.structure.zip_code[3..4]}".html_safe
     = join_week_days(course_group)                        if course_group.is_lesson?
     - if course_group.is_training?
@@ -42,32 +43,3 @@
         = t('.from')
       %p.gamma= "#{course_group.best_price.amount}&nbsp;€".html_safe
       %p= "(#{t(course_group.best_price.libelle).downcase})".html_safe
-      / %br
-      / - unless course_group.best_price.price_2.blank?
-      /   %p
-      /     = course_group.best_price.price_2
-      /     €
-      /     = course_group.best_price.price_2_libelle
-      / - else
-      /   = "environ #{course_group.best_price.approximate_price_per_course} € / cours"
-
-
-    / - case course_group.best_price.price_1
-    / - when -1
-    /   %p.epsilon Contacter l'établissement
-    / - when 0
-    /   %p.beta Gratuit
-    / - else
-    /   %p
-    /     À partir de
-    /   %p.beta= "#{course_group.best_price.price_1}&nbsp;€".html_safe
-    /   %p= course_group.best_price.price_1_libelle
-    /   %br
-    /   - unless course_group.best_price.price_2.blank?
-    /     %p
-    /       = course_group.best_price.price_2
-    /       €
-    /       = course_group.best_price.price_2_libelle
-    /   - else
-    /     = "environ #{course_group.best_price.approximate_price_per_course} € / cours"
-
