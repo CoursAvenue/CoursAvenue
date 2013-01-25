@@ -17,8 +17,8 @@ fr:
       recurrence: Récurrence
       class_during_holidays: Cours pendant les vacances
       for_handicaped: Pour handicapé
-      yes: Oui
-      no: Non
+      course_description: "Description du cours :"
+      more_information: "Informations complémentaires :"
 
     course_group:
       from: À partir de
@@ -27,8 +27,6 @@ fr:
       structure: Établissement
       opinions: Avis
       last_students_opinion: Avis des élèves précédents
-      course_description: "Description du cours :"
-      more_information: "Informations complémentaires :"
       website: "Site internet :"
       required_documents_for_registration: "Pièces demandées pour l’inscription :"
       has_registration_form: L'établissement a un formulaire d'inscription
