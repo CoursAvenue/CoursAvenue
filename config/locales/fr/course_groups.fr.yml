@@ -19,11 +19,11 @@ fr:
       for_handicaped: Pour handicapé
       course_description: "Description du cours :"
       more_information: "Informations complémentaires :"
+      description: Description
 
     course_group:
       from: À partir de
     structure_info_tabs:
-      description: Description
       structure: Établissement
       opinions: Avis
       last_students_opinion: Avis des élèves précédents
