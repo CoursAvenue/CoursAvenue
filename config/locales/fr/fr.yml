@@ -7,6 +7,8 @@
 # Emended by Benjamin des Gachons and Patrick Chew : <http://www.fitima.org/docs/fiche.pdf>
 
 fr:
+  'yes': Oui
+  'no': Non
   date:
     formats:
       default: "%d/%m/%Y"

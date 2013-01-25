@@ -1,13 +1,13 @@
 .tab-titles {
     @extend .nav;
     border-bottom: 1px solid $graySmooth;
-
+    margin-top   : 1em;
     li {
         padding     : 0.4em 1em;
         margin-right: 0.2em;
         color        : $brand-color;
         border       : 1px solid white; // To prevent size to change on hover
-        border-bottom: none;
+        border-bottom-color: $graySmooth;
         @include border-top-radius(3px);
         &:hover {
             background-color: $grayLighter;

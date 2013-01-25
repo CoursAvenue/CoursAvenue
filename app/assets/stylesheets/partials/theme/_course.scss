@@ -1,10 +1,12 @@
 .course-header-badge {
+    font-size: 0;
     > div {
-        display: inline-block;
-        width   : 15em;
-        height  : 15em;
-        overflow: hidden;
-        margin  : 0;
+        display  : inline-block;
+        overflow : hidden;
+        margin   : 0;
+        width    : 50%;
+        height   : 215px;
+        font-size: 12px;
     }
 }
 
@@ -18,18 +20,17 @@
     }
 }
 .course-price {
-    text-align      : right;
     color           : $grayDarker;
     vertical-align  : middle;
-    line-height     : 1;
+    text-align      : right;
     font-size       : 0.75em;
+    line-height     : 1;
     p {
         margin-bottom: 10px;
     }
 }
 
 .course-block:after {
-    content             : '';
     position            : absolute;
     bottom              : -1em;
     left                : 0;
@@ -37,27 +38,28 @@
     height              : 1em;
     background          : url(image-path('home-page/course-bottom.png'));
     background-position : top;
-    background-repeat   : no-repeat;
     background-size     : 100%;
+    background-repeat   : no-repeat;
+    content             : '';
 }
 .course-block {
-    position        : relative;
-    background-color: white;
-    padding         : 0.5em;
-    margin          : 1em 1em 1em 0;
-    display         : inline-block;
     @include box-shadow(0 -1px 3px $grayLighter);
     @include box-sizing(border-box);
+    position        : relative;
+    display         : inline-block;
+    margin          : 1em 1em 1em 0;
+    padding         : 0.5em;
+    background-color: white;
     &:hover {
         text-decoration: none;
     }
 }
 .course-block-title {
-    color: $blue-green;
     margin-bottom: 0;
+    color: $blue-green;
 }
 .course-block-caption {
+    @extend .milli;
     margin-bottom: 0;
     color        : $grayLight;
-    @extend .milli;
 }
