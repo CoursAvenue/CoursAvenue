@@ -3,10 +3,14 @@ class BookTicket < ActiveRecord::Base
 
   attr_accessible :number, :price, :validity # in months
 
-  validates :number, :price, :validity, presence: true
+  validates :number, presence: true
 
   def price
-    ('%.2f' % read_attribute(:price)).gsub('.00', '')
+    if read_attribute(:price).nil?
+      ''
+    else
+      ('%.2f' % read_attribute(:price)).gsub('.00', '')
+    end
   end
 
 end

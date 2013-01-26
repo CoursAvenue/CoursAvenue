@@ -37,7 +37,6 @@ namespace :import do
       course.disciplines << discipline_1
       course.disciplines << discipline_2 unless discipline_2.nil?
       course.save
-      puts "Associating #{course.name}"
     end
   end
 end
