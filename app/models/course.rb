@@ -21,6 +21,9 @@ class Course < ActiveRecord::Base
 
   has_and_belongs_to_many :disciplines, :uniq => true
 
+  # ---------------------- Validations
+  validates :structure, presence: true
+
   attr_accessible :name,
                   :has_online_payment,
                   :description,

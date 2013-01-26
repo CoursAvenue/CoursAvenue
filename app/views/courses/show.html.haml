@@ -22,7 +22,11 @@
         %img{src: 'http://placehold.it/400x240', class: 'course-header-badge-image'}
       .course-header-map
         = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
-        .course-header-structure-name= @structure.name
+        .course-header-structure-name
+          %b= @structure.name
+          %br
+          %i.icon-map-marker
+          = readable_address @structure
 
     %ul.tab-titles{data: {behavior: 'tabs'}}
       %li.active{data: { el: 'tab-planning' }}= t('.planning')
