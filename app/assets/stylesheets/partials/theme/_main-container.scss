@@ -2,4 +2,7 @@
     max-width: $siteMaxWidth;
     margin   : auto;
     padding  : 1em 0;
+    @include media-query(lap-and-up) {
+        min-width: $siteMaxWidth;
+    }
 }
