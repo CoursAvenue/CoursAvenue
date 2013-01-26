@@ -6,6 +6,10 @@
   - unless @discipline.nil? || @discipline.parent.nil?
     %li= link_to "#{@discipline.parent.name.capitalize} >", courses_path(city: @structure.city, discipline: u(@discipline.parent.name))
   %li= link_to @discipline_name.capitalize, courses_path(city: @structure.city, discipline: u(@discipline_name))
+%ul.nav
+  - @disciplines.each do |discipline|
+    %li
+      .lbl.lbl--orange= discipline.name
 .gw
   %section.g.seven-tenths
 

@@ -160,7 +160,8 @@ class Course < ActiveRecord::Base
 
   # TODO: To be improved
   def similar_courses(limit = 5)
-    similar_courses = Course.where{discipline_id == self.discipline_id}.limit(limit) # With same discipline
+    discipline_ids = self.discipline_ids.map(&:to_i)
+    similar_courses = Course.joins{disciplines}.where{disciplines.id.eq_any discipline_ids}.limit(limit) # With same discipline
     similar_courses
   end
 

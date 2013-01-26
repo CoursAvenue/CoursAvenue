@@ -93,8 +93,8 @@ class CoursesController < ApplicationController
     @course    = Course.find(params[:id])
     @structure       = @course.structure
     @plannings       = @course.plannings
-    @discipline      = @course.discipline
-    @discipline_name = (@course.discipline ? @course.discipline.name : t('all_discipline_route_name'))
+    @disciplines     = @course.disciplines
+    @discipline_name = (@course.disciplines.empty? ? t('all_discipline_route_name') : @course.disciplines.first.name)
 
     @similar_courses = @course.similar_courses
 
