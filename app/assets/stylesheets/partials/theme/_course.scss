@@ -47,7 +47,7 @@
     @include box-sizing(border-box);
     position        : relative;
     display         : inline-block;
-    margin          : 1em 1em 1em 0;
+    margin          : 0 1em 1em 0;
     padding         : 0.5em;
     background-color: white;
     &:hover {

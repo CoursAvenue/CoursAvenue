@@ -6,7 +6,7 @@
     .flexbox.page-entries-wrapper
       %p.page-entries.flexbox__item
         = page_entries_info html: false
-      .flexbox__item= will_paginate @course_groups, renderer: PaginationListLinkRenderer, class: 'nav pagination proceed', inner_window: 2
+      .flexbox__item= will_paginate @course_groups, renderer: PaginationListLinkRenderer, class: 'nav pagination proceed', inner_window: 1, outer_window: 0
     %ul.block-list.course-list
       = render partial: 'course_group', :collection => @course_groups
 

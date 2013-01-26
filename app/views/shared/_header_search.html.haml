@@ -15,7 +15,7 @@
       %option{value: 'strasbourg'} Strasbourg
       %option{value: 'toulouse'} Toulouse
   %div.search-input-wrapper
-    %input#search-input{class: 'search-input', placeholder: 'Danse, Cuisine, ...', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'discipline-list'}
+    %input#search-input{class: 'search-input', placeholder: 'Zumba, Cuisine, Impro, ...', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'discipline-list', autocomplete: 'off'}
     .aListCon
       %datalist#discipline-list
       <!--[if IE 9]><select disabled><![endif]-->

@@ -7,5 +7,5 @@ fr:
         other: Carnet de %{count} tickets
       validity:
         zero: Non valide
-        one: Valide une semaine
-        other: Valide %{count} semaines
+        one: Valide un mois
+        other: Valide %{count} mois

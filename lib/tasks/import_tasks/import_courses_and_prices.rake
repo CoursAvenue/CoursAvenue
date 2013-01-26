@@ -151,10 +151,12 @@ namespace :import do
     }
 
     # IF X => Contact structure
-    if row[85] == 'X'
-      hash[:prices]['price.trial_lesson'] = nil
-    else
-      hash[:prices]['price.trial_lesson'] = row[85]
+    unless row[85].blank?
+      if row[85] == 'X'
+        hash[:prices]['price.trial_lesson'] = nil
+      else
+        hash[:prices]['price.trial_lesson'] = row[85]
+      end
     end
 
     if hash[:course_type] == CourseGroup::Training
@@ -238,14 +240,7 @@ namespace :import do
     #   excluded_lesson_from_unlimited_access_card:   row[72],
     #   has_other_preferential_price:                (row[83] == 'X' ? true : false),
     #   degressive_price_from_two_lesson:             row[81],
-    #   has_exceptional_offer:                       (row[84] == 'X' ? true : false),
     # }
-    ## TODO
-    # price_1:                                      row[88].to_i,
-    # price_1_libelle:                              row[89],
-    # price_2:                                      (row[90].blank? ? nil : row[90].to_i),
-    # price_2_libelle:                              row[91],
-    # approximate_price_per_course:                 (row[92].blank? ? nil : row[92].to_i)
 
     hash
   end

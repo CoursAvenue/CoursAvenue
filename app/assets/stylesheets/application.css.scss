@@ -49,7 +49,6 @@
   @import "partials/theme/summary";
   @import "partials/theme/tables";
   @import "partials/theme/tabs";
-  @import "partials/theme/theme_helpers";
   @import "partials/theme/time-slots";
   @import "partials/theme/footer";
   @import "partials/theme/map-paris";
@@ -60,6 +59,7 @@
   @import "partials/theme/forms";
   @import "partials/theme/helpers";
   @import "partials/theme/share_buttons";
+  @import "partials/theme/banner";
 
   @import "libs/datepicker/datepicker_bootstrap";
   @import "libs/autocomplete";
@@ -74,7 +74,9 @@ html {
 
 ::selection {
   background: transparentize($orange, .25); /* Safari */
+  color     : white;
   }
 ::-moz-selection {
   background: $orange; /* Firefox */
+  color     : white;
 }

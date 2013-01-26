@@ -21,11 +21,13 @@
       %li= join_levels(course_group)
     %p
       %i.icon-map-marker
-      %strong= course_group.structure.name
+      - if course_group.structure.name.length > 50
+        %strong= "#{course_group.structure.name[0..50]}..."
+      - else
+        %strong= course_group.structure.name
       - if course_group.structure.zip_code == 75000
         Paris
       - else
-        = course_group.structure.gmaps4rails_address
         = "- Paris&nbsp;#{course_group.structure.zip_code[3..4]}".html_safe
     = join_week_days(course_group)                        if course_group.is_lesson?
     - if course_group.is_training?

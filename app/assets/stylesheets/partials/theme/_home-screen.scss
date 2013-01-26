@@ -1,7 +1,7 @@
 .home-screen {
     background-color: black;
     width           : 100%;
-    height          : 40em;
+    height          : 30em;
     position        : relative;
     overflow        : hidden;
 }
@@ -17,7 +17,7 @@
     }
     .home-screen-title {
         @include media-query(palm) { margin: 0; font-size: 20px;}
-        margin      : 3em 0 0 0;
+        margin      : 2.7em 0 0 0;
     }
     .home-page-search {
         position        : relative;
@@ -54,9 +54,6 @@
     .home-screen-promotion {
         @include media-query(palm) { text-align: center; }
         @include media-query(lap)  { text-align: center; }
-        > div {
-            margin          : 15px 0;
-        }
         .course-block {
             margin-bottom: 1em;
         }
