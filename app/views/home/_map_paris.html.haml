@@ -1,6 +1,6 @@
 %div
-  %h3 Paris
   .map-paris
+    %span.epsilon.map-paris-title Paris
     .map-marker-image.paris-1
       = link_to course_groups_path(city: 'paris', discipline: t('all_discipline_route_name'), zip_codes: ['75001']) do
         %span= CourseGroup.joins{structure}.where{structure.zip_code == '75001'}.count
