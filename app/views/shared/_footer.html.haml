@@ -26,30 +26,30 @@
           .flexbox__item.one-quarter.palm-one-half
             %h5 Villes
             %ul.discrete-list
-              %li= link_to 'Paris',       course_groups_path(city: 'paris')
-              %li= link_to 'Bordeaux',    course_groups_path(city: 'paris')
-              %li= link_to 'Lille',       course_groups_path(city: 'paris')
-              %li= link_to 'Lyon',        course_groups_path(city: 'paris')
-              %li= link_to 'Marseille',   course_groups_path(city: 'paris')
-              %li= link_to 'Montpellier', course_groups_path(city: 'paris')
-              %li= link_to 'Nantes',      course_groups_path(city: 'paris')
-              %li= link_to 'Nice',        course_groups_path(city: 'paris')
-              %li= link_to 'Strasbourg',  course_groups_path(city: 'paris')
-              %li= link_to 'Toulouse',    course_groups_path(city: 'paris')
+              %li= link_to 'Paris',       courses_path(city: 'paris')
+              %li= link_to 'Bordeaux',    courses_path(city: 'paris')
+              %li= link_to 'Lille',       courses_path(city: 'paris')
+              %li= link_to 'Lyon',        courses_path(city: 'paris')
+              %li= link_to 'Marseille',   courses_path(city: 'paris')
+              %li= link_to 'Montpellier', courses_path(city: 'paris')
+              %li= link_to 'Nantes',      courses_path(city: 'paris')
+              %li= link_to 'Nice',        courses_path(city: 'paris')
+              %li= link_to 'Strasbourg',  courses_path(city: 'paris')
+              %li= link_to 'Toulouse',    courses_path(city: 'paris')
 
           .flexbox__item.one-quarter.palm-one-half
             %h5 Disciplines
             %ul.discrete-list
               - Discipline.limit(10).each do |discipline|
-                %li= link_to discipline.name, course_groups_path(discipline: u(discipline.name.downcase))
+                %li= link_to discipline.name, courses_path(discipline: u(discipline.name.downcase))
           .flexbox__item.one-quarter.palm-one-half
             %h5 Niveaux
             %ul.discrete-list
               - Level.all.each do |level|
-                %li= link_to t(level.name), course_groups_path(levels: [level.id])
+                %li= link_to t(level.name), courses_path(levels: [level.id])
 
           .flexbox__item.one-quarter.palm-one-half
             %h5 Publiques
             %ul.discrete-list
               - Audience.all.each do |audience|
-                %li= link_to t(audience.name), course_groups_path(audiences: [audience.id])
+                %li= link_to t(audience.name), courses_path(audiences: [audience.id])

@@ -1,7 +1,7 @@
 fr:
   all_discipline_route_name: 'toutes-disciplines'
   all_discipline: 'Toutes les disciplines'
-  course_groups:
+  courses:
     show:
       back_to_search: Retour à la recherche
       planning: Planning
@@ -20,10 +20,6 @@ fr:
       course_description: "Description du cours :"
       more_information: "Informations complémentaires :"
       description: Description
-
-    course_group:
-      from: À partir de
-    structure_info_tabs:
       structure: Établissement
       opinions: Avis
       last_students_opinion: Avis des élèves précédents
@@ -40,3 +36,6 @@ fr:
         zero: "Aucune salle de cours"
         one: "Une salle de cours"
         other: "%{count} salles de cours"
+
+    course:
+      from: À partir de

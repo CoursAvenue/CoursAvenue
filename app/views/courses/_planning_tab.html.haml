@@ -1,0 +1,44 @@
+%article#tab-planning.tab-pane.active
+  .gw
+    .g.five-eighths
+      - if @course.is_training?
+        = render 'training_schedule'
+      - if @course.is_lesson?
+        = render 'lesson_schedule'
+      - if @course.is_workshop?
+        = render 'lesson_schedule'
+    .g.three-eighths
+      %h4= t('.infos')
+      %ul.block-list.alternate-color.spoken-form.milli
+        %li
+          %label= t('.audience')
+          %strong.fr
+            = @course.audiences.map{|course| t(course.name)}.join(', ')
+
+        %li
+          %label= t('.course')
+          - if @course.is_individual
+            %strong.fr= t('.individual')
+          - else
+            %strong.fr= t('.collective')
+        - if @course.teacher_name.present?
+          %li
+            %label= t('.teacher')
+            %strong.fr= @course.teacher_name
+
+        - unless @course.plannings.first.recurrence.blank?
+          %li
+            %label= t('.recurrence')
+            %strong.fr= @course.plannings.first.recurrence
+
+        %li
+          %label= t('.can_be_joined_during_year')
+          %strong.fr= (@course.cant_be_joined_during_year ? t('no') : t('yes'))
+
+        %li
+          %label= t('.class_during_holidays')
+          %strong.fr= (@course.plannings.first.class_during_holidays ? t('yes') : t('no'))
+
+        %li
+          %label= t('.for_handicaped')
+          %strong.fr= (@course.is_for_handicaped ? t('yes') : t('no'))

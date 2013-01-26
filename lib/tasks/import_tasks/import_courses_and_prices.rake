@@ -13,14 +13,14 @@ namespace :import do
     return I18n.t('date.day_names').index(week_day_name.downcase)
   end
 
-  def course_group_class(name)
+  def course_class(name)
     case name.downcase
     when 'cours'
-      CourseGroup::Lesson
+      Course::Lesson
     when 'stage'
-      CourseGroup::Training
+      Course::Training
     when 'cours-atelier'
-      CourseGroup::Workshop
+      Course::Workshop
     end
   end
   def level(name)
@@ -62,10 +62,29 @@ namespace :import do
   def course_and_price_hash_from_row(row)
     hash = {
       structure_name:                                 row[0],
-      course_type:                                    course_group_class(row[1]),
+      course_type:                                    course_class(row[1]),
 
-      course_group: {
-        name:                                         row[2]
+      course: {
+        name:                                         row[2],
+        teacher_name:                                 row[10],
+        min_age_for_kid:                              row[15],
+        max_age_for_kid:                              row[16],
+        is_individual:                               (row[17] == 'X' ? true : false),
+        course_info_1:                                row[11],
+        course_info_2:                                row[12],
+        is_for_handicaped:                           (row[18] == 'X' ? true : false),
+        registration_date:                            row[20],
+        annual_membership_mandatory:                  row[38],
+        trial_lesson_info:                            row[86],
+        has_online_payment:                          (row[94] == 'X' ? true : false),
+        conditions:                                   row[99],
+        partner_rib_info:                             row[101],
+        audition_mandatory:                          (row[102] == 'X' ? true : false),
+        refund_condition:                             row[103],
+        cant_be_joined_during_year:                  (row[41] == 'X' ? true : false),
+        price_info_1:                                 row[73],
+        price_info_2:                                 row[74],
+        price_details:                                row[87]
       },
       audiences: {
         audience_1:                                   audience(row[7]),
@@ -78,38 +97,10 @@ namespace :import do
         level_2:                                      level(row[14])
       },
 
-      # Course
-      course: {
-        teacher_name:                                 row[10],
-        min_age_for_kid:                              row[15],
-        max_age_for_kid:                              row[16],
-        is_individual:                               (row[17] == 'X' ? true : false),
-        course_info_1:                                row[11],
-        course_info_2:                                row[12],
-        is_for_handicaped:                           (row[18] == 'X' ? true : false),
-        registration_date:                            row[20],
-        annual_membership_mandatory:                  row[38],
-        trial_lesson_info:                            row[86],
-        has_online_payment:                          (row[94] == 'X' ? true : false),
-        formule_1:                                    row[95],
-        formule_2:                                    row[96],
-        formule_3:                                    row[97],
-        formule_4:                                    row[98],
-        conditions:                                   row[99],
-        nb_place_available:                           row[100],
-        partner_rib_info:                             row[101],
-        audition_mandatory:                          (row[102] == 'X' ? true : false),
-        refund_condition:                             row[103],
-        promotion:                                    row[104],
-        cant_be_joined_during_year:                  (row[41] == 'X' ? true : false),
-        price_info_1:                                 row[73],
-        price_info_2:                                 row[74],
-        price_details:                                row[87]
-
-      },
-
       # Planning
       planning: {
+        nb_place_available:                           row[100],
+        promotion:                                    row[104],
         week_day:                                     week_day_number(row[3]),
         start_time:                                   Time.parse("2000-01-01 #{row[4]} UTC"),
         end_time:                                     Time.parse("2000-01-01 00:00 UTC"),
@@ -159,7 +150,7 @@ namespace :import do
       end
     end
 
-    if hash[:course_type] == CourseGroup::Training
+    if hash[:course_type] == Course::Training
       hash[:prices]['price.training'] = row[43]
     else
       hash[:prices]['price.individual_course'] = row[43]
@@ -266,63 +257,58 @@ namespace :import do
       end
 
       #################################################################### Checking if have to create a new course group
-      # CourseGroups are grouped by same name, audiences and levels
-      course_groups = CourseGroup.where{ (name == row[:course_group][:name]) & (structure_id == structure.id) & (type == row[:course_type].name)}.all
+      # Courses are grouped by same name, audiences and levels
+      courses = Course.where{ (name == row[:course][:name]) & (structure_id == structure.id) & (type == row[:course_type].name) & (teacher_name == row[:course][:teacher_name])}.all
 
-      # If no audience specified, add trhee basics audiecne
+      # If no audience specified, add three basics audiecne
       # Normally never happens
-      if row[:audiences].values.compact.empty?
+      row[:audiences] = row[:audiences].values.compact
+      if row[:audiences].empty?
         row[:audiences] = [Audience.kid, Audience.teenage, Audience.adult]
-      else
-        row[:audiences] = row[:audiences].values.compact
       end
+
       row[:audiences].each do |audience|
-        course_groups = course_groups.reject do |course_group|
-          !course_group.audiences.include? audience
+        courses = courses.reject do |course|
+          !course.audiences.include? audience
         end
       end
 
       row[:levels] = row[:levels].values.compact
       row[:levels].each do |level|
-        course_groups = course_groups.reject do |course_group|
-          !course_group.levels.include? level
+        courses = courses.reject do |course|
+          !course.levels.include? level
         end
       end
-      if course_groups.empty?
+
+      if courses.empty?
         # Create course group
-        course_group           = row[:course_type].create(row[:course_group])
-        course_group.audiences = row[:audiences]
-        course_group.levels    = row[:levels]
-        course_group.structure = structure
+        course           = row[:course_type].create(row[:course])
+        course.audiences = row[:audiences]
+        course.levels    = row[:levels]
+        course.structure = structure
       else
-        course_group = course_groups.first
+        course = courses.first
       end
 
-      course = Course.create(row[:course])
       #################################################################### Creating Planning
       planning = Planning.create(row[:planning])
       planning.end_time = planning.start_time + planning.duration.hour.hour + planning.duration.min.minutes if planning.duration
-      course.planning = planning
+      course.plannings << planning
       #################################################################### Registration fees
       row[:registration_fees].each do |registration_fee|
         course.registration_fees << RegistrationFee.create(registration_fee)
       end
       #################################################################### Creating Book tickets
       row[:book_tickets].each do |book_ticket|
-        course_group.book_tickets << BookTicket.create(book_ticket) unless course_group.book_tickets.any?{|b| b.number == book_ticket[:number]}
+        course.book_tickets << BookTicket.create(book_ticket) unless course.book_tickets.any?{|b| b.number == book_ticket[:number]}
       end
 
       #################################################################### Creating Prices
       row[:prices].each do |key, value|
-        course_group.prices << Price.create(libelle: key, amount: value) unless value.blank? or course_group.prices.any?{|p| p.libelle == key}
+        course.prices << Price.create(libelle: key, amount: value) unless value.blank? or course.prices.any?{|p| p.libelle == key}
       end
-      #price = Price.create(row[:price])
-      #course.price = price
       course.save
-      course_group.courses << course
-      course_group.save
     end
-    puts "#{CourseGroup.count} Groupe de cours importés"
     puts "#{Course.count} Cours importés"
   end
 end

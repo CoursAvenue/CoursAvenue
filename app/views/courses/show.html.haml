@@ -1,0 +1,54 @@
+= content_for :meta_description do
+  @course.description
+
+%ol.nav
+  %li= link_to "#{@structure.city.capitalize} >", courses_path(city: @structure.city, discipline: t('all_discipline_route_name'))
+  - unless @discipline.nil? || @discipline.parent.nil?
+    %li= link_to "#{@discipline.parent.name.capitalize} >", courses_path(city: @structure.city, discipline: u(@discipline.parent.name))
+  %li= link_to @discipline_name.capitalize, courses_path(city: @structure.city, discipline: u(@discipline_name))
+.gw
+  %section.g.seven-tenths
+
+    %h1.course-title
+      %span= @course.name
+      %span.lbl.milli= @course.type_name
+
+    .course-header-badge
+      .course-header-image
+        %img{src: 'http://placehold.it/400x250', class: 'course-header-badge-image'}
+        / %h5.price-badge
+        /   = readable_price @course.best_price
+      = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
+
+    %ul.tab-titles{data: {behavior: 'tabs'}}
+      %li.active{data: { el: 'tab-planning' }}= t('.planning')
+      %li{data: { el: 'tab-prices' }}= t('.prices')
+      %li{data: { el: 'tab-description' }}= t('.description')
+      %li{data: { el: 'tab-structure-info' }}= t('.structure')
+
+    .tab-content
+      = render 'planning_tab'
+      = render 'price_tab'
+      = render 'description_tab'
+      = render 'structure_tab'
+
+    %hr
+    %article
+      %header
+        %h4= t('.last_students_opinion')
+        %h5 Espace en cours de lancement
+
+
+
+  %section.g.three-tenths#summary
+    /= render 'courses/templates/summary_template'
+    %article
+      %h4 À voir aussi
+      %ul.block-list
+        - @similar_courses.each do |course|
+          %li
+            = link_to full_course_path(course), class: 'flexbox' do
+              .flexbox__item.one-fifth
+                %img{src: 'http://placehold.it/50'}
+              .flexbox__item= course.name
+

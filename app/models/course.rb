@@ -1,46 +1,190 @@
+# encoding: utf-8
+# Courses are grouped by same name, audiences and levels
 class Course < ActiveRecord::Base
 
-  has_one   :planning         , dependent: :destroy
+  # ------------------------------------------------------------------------------------ Model attributes and settings
+  extend FriendlyId
+  friendly_id :name, use: :slugged
 
-  has_many  :registration_fees, dependent: :destroy
-  belongs_to :course_group
+  # For pagination
+  self.per_page = 15
 
-  after_commit   :update_course_group
-  before_destroy :update_course_group_before_destroy
+  belongs_to :structure
 
-  attr_accessible :course_info_1,
+  has_many :plannings
+  has_many :prices           , dependent: :destroy
+  has_many :book_tickets     , dependent: :destroy
+  has_many :registration_fees, dependent: :destroy
+
+  has_and_belongs_to_many :audiences
+  has_and_belongs_to_many :levels
+
+  belongs_to :discipline
+
+  attr_accessible :name,
+                  :has_online_payment,
+                  :description,
+                  :has_promotion,
+                  :course_info_1,
                   :course_info_2,
-                  :min_age_for_kid,
+                  :registration_date,
+                  :teacher_name,
                   :max_age_for_kid,
+                  :min_age_for_kid,
                   :is_individual,
                   :annual_membership_mandatory,
                   :is_for_handicaped,
-                  :registration_date,
-                  :teacher_name,
-                  :has_online_payment,
-                  :formule_1,
-                  :formule_2,
-                  :formule_3,
-                  :formule_4,
-                  :conditions,
-                  :nb_place_available,
-                  :partner_rib_info,
-                  :audition_mandatory,
-                  :refund_condition,
-                  :promotion,
-                  :cant_be_joined_during_year,
                   :trial_lesson_info,
                   :price_details,
                   :price_info_1,
-                  :price_info_2
+                  :price_info_2,
+                  :conditions,
+                  :partner_rib_info,
+                  :audition_mandatory,
+                  :refund_condition,
+                  :cant_be_joined_during_year
 
-  def update_course_group
-    self.course_group.update_has_promotion
-    self.course_group.has_online_payment = true if self.has_online_payment?
-    self.course_group.save
+  # ------------------------------------------------------------------------------------ Self methods
+
+  def self.from_city(city, scope)
+    scope.joins{structure}.where{structure.city == city}
   end
 
-  def update_course_group_before_destroy
-    self.course_group.update_has_promotion
+  def self.of_discipline(discipline_name, scope)
+    if discipline_name == I18n.t('all_discipline_route_name')
+      return scope
+    else
+      discipline_object = Discipline.where{name == discipline_name}.first
+      if discipline_object.parent_id.nil?
+        discipline_ids = discipline_object.children.map(&:id)
+      else
+        discipline_ids = [discipline_object.id]
+      end
+      return scope.where{discipline_id.eq_any discipline_ids}
+    end
+  end
+
+  def self.name_and_structure_name_contains(name_string, scope)
+    name_string    = '%' + name_string + '%'
+    scope.joins{structure}.where{(name =~ name_string) | (structure.name =~ name_string)}
+  end
+
+  def self.is_of_type(types_array, scope)
+    types = []
+    types << 'Course::Lesson'   if types_array.include? 'lesson'
+    types << 'Course::Training' if types_array.include? 'training'
+    types << 'Course::Workshop' if types_array.include? 'workshop'
+    scope.where{type.like_any types}
+  end
+
+  def self.has_price_specificities(price_specificities, scope)
+    return scope if price_specificities.length == 3 # Doesn't search if all options are checked
+    scope = scope.joins{prices}.where do
+      query = nil
+      price_specificities.each_with_index do |price_specificity|
+        case price_specificity
+        when 'has_unit_course_price'
+          if query then query |= (prices.individual_course_price != nil) else query = (prices.individual_course_price != nil) end
+        when 'has_package_price'
+          if query
+            query |= (prices.annual_price != nil) | (prices.semester_price != nil) | (prices.trimester_price != nil) | (prices.month_price != nil)
+          else
+            query =  (prices.annual_price != nil) | (prices.semester_price != nil) | (prices.trimester_price != nil) | (prices.month_price != nil)
+          end
+        when 'has_test_course'
+          if query then query |= (prices.trial_lesson_price != nil) else query = (prices.trial_lesson_price != nil) end
+        end
+      end
+      query
+    end
+
+    scope
+  end
+
+  def self.is_for_audience(audience_ids, scope)
+    scope.joins{audiences}.where{audiences.id.eq_any audience_ids.map(&:to_i)}
+  end
+
+  def self.is_for_ages(age, scope)
+    age[:min] = 0  if age[:min].blank?
+    age[:max] = 18 if age[:max].blank?
+    if age[:min].to_i > 18
+      scope
+    else
+      scope.joins{courses}.where{(courses.min_age_for_kid < age[:max]) & (courses.max_age_for_kid > age[:min])}
+    end
+  end
+
+  def self.is_for_level(level_ids, scope)
+    scope.joins{levels}.where{levels.id.eq_any level_ids}
+  end
+
+  def self.that_happens(week_day_indexes, scope)
+    scope.joins{plannings}.where{(type == 'Course::Training') | ((type == 'Course::Lesson') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i))) | ((type == 'Course::Workshop') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i)))}
+  end
+
+  def self.in_these_time_slots(values, scope)
+    time_slots = []
+    values.each do |slot|
+      start_time = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:start_time]
+      end_time   = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:end_time]
+      time_slots << [start_time, end_time]
+    end
+    scope.joins{plannings}.where do
+      time_slots.map { |start_time, end_time| ((plannings.start_time >= start_time) & (plannings.start_time <= end_time)) }.reduce(&:|)
+    end
+  end
+
+  def self.in_time_range(start_time, end_time, scope)
+    if start_time.blank? and end_time.blank?
+      scope
+    else
+      start_time = TimeParser.parse_time_string( start_time.blank? ? '00:00' : start_time )
+      end_time   = TimeParser.parse_time_string( end_time.blank?   ? '23:59' : end_time )
+
+      scope.joins{plannings}.where{(plannings.start_time >= start_time) & (plannings.end_time <= end_time)}
+    end
+  end
+
+  def self.in_price_range(min_price, max_price, scope)
+    if min_price.blank? and max_price.blank?
+      scope
+    else
+      min_price = 0     if min_price.blank? and !max_price.blank?
+      max_price = 10000 if max_price.blank? and !min_price.blank?
+      if !min_price.blank? and !max_price.blank? and max_price.to_i > 0
+        scope.joins{prices}.where{(prices.amount >= min_price.to_i) & (prices.amount <= max_price.to_f)}
+      end
+    end
+  end
+
+  # TODO: To be improved
+  def similar_courses(limit = 5)
+    similar_courses = Course.where{discipline_id == self.discipline_id}.limit(limit) # With same discipline
+    similar_courses
+  end
+
+  def promotion
+    self.courses.order('promotion ASC').first.promotion
+  end
+
+  def is_workshop?
+    false
+  end
+
+  def is_lesson?
+    false
+  end
+
+  def is_training?
+    false
+  end
+
+  def best_price
+    prices.where{amount > 0}.order('amount ASC').first
+  end
+
+  def type_name
+    'Cours'
   end
 end

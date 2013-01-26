@@ -11,7 +11,9 @@
         initialize: function(el) {
             this.el = el;
             this.tabs = el.getElements('li');
-            this.tab_panes = el.getSiblings('.tab-content .tab-pane')
+            this.tab_panes = $$(el.getChildren('li').map(function(li) {
+                return '#' + li.get('data-el');
+            }).join(','));
             this.tabs.addEvent('click', this.changeTab.bind(this))
         },
 

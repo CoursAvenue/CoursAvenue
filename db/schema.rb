@@ -22,46 +22,28 @@ ActiveRecord::Schema.define(:version => 20130126102349) do
 
   add_index "audiences", ["name"], :name => "index_audiences_on_name"
 
-  create_table "audiences_course_groups", :id => false, :force => true do |t|
+  create_table "audiences_courses", :id => false, :force => true do |t|
     t.integer "audience_id"
-    t.integer "course_group_id"
+    t.integer "course_id"
   end
 
-  add_index "audiences_course_groups", ["audience_id", "course_group_id"], :name => "audience_course_group_index"
+  add_index "audiences_courses", ["audience_id", "course_id"], :name => "audience_course_index"
 
   create_table "book_tickets", :force => true do |t|
     t.integer  "number"
     t.decimal  "price"
     t.string   "validity"
-    t.integer  "course_group_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.integer  "course_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  create_table "course_groups", :force => true do |t|
+  create_table "courses", :force => true do |t|
     t.string   "type"
     t.string   "name"
     t.text     "description"
-    t.boolean  "has_online_payment", :default => false
-    t.boolean  "has_promotion",      :default => false
-    t.integer  "structure_id"
-    t.integer  "discipline_id"
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
-    t.string   "slug"
-  end
-
-  add_index "course_groups", ["slug"], :name => "index_course_groups_on_slug", :unique => true
-  add_index "course_groups", ["type"], :name => "index_course_groups_on_type"
-
-  create_table "course_groups_levels", :id => false, :force => true do |t|
-    t.integer "course_group_id"
-    t.integer "level_id"
-  end
-
-  add_index "course_groups_levels", ["level_id", "course_group_id"], :name => "index_course_groups_levels_on_level_id_and_course_group_id"
-
-  create_table "courses", :force => true do |t|
+    t.boolean  "has_online_payment",          :default => false
+    t.boolean  "has_promotion",               :default => false
     t.text     "course_info_1"
     t.text     "course_info_2"
     t.text     "registration_date"
@@ -71,26 +53,31 @@ ActiveRecord::Schema.define(:version => 20130126102349) do
     t.boolean  "is_individual"
     t.boolean  "annual_membership_mandatory"
     t.boolean  "is_for_handicaped"
-    t.boolean  "has_online_payment",          :default => false
-    t.text     "formule_1"
-    t.text     "formule_2"
-    t.text     "formule_3"
-    t.text     "formule_4"
-    t.text     "conditions"
-    t.integer  "nb_place_available"
-    t.text     "partner_rib_info"
-    t.boolean  "audition_mandatory"
-    t.text     "refund_condition"
-    t.decimal  "promotion"
-    t.boolean  "cant_be_joined_during_year"
     t.text     "trial_lesson_info"
     t.text     "price_details"
     t.text     "price_info_1"
     t.text     "price_info_2"
-    t.integer  "course_group_id"
+    t.text     "conditions"
+    t.text     "partner_rib_info"
+    t.boolean  "audition_mandatory"
+    t.text     "refund_condition"
+    t.boolean  "cant_be_joined_during_year"
+    t.integer  "structure_id"
+    t.integer  "discipline_id"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
+    t.string   "slug"
   end
+
+  add_index "courses", ["slug"], :name => "index_courses_on_slug", :unique => true
+  add_index "courses", ["type"], :name => "index_courses_on_type"
+
+  create_table "courses_levels", :id => false, :force => true do |t|
+    t.integer "course_id"
+    t.integer "level_id"
+  end
+
+  add_index "courses_levels", ["level_id", "course_id"], :name => "index_courses_levels_on_level_id_and_course_id"
 
   create_table "disciplines", :force => true do |t|
     t.string   "name"
@@ -139,6 +126,8 @@ ActiveRecord::Schema.define(:version => 20130126102349) do
     t.time     "end_time"
     t.time     "duration"
     t.boolean  "class_during_holidays"
+    t.decimal  "promotion"
+    t.integer  "nb_place_available"
     t.integer  "course_id"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
@@ -149,9 +138,9 @@ ActiveRecord::Schema.define(:version => 20130126102349) do
   create_table "prices", :force => true do |t|
     t.string   "libelle"
     t.decimal  "amount"
-    t.integer  "course_group_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.integer  "course_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "registration_fees", :force => true do |t|

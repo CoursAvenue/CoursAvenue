@@ -9,10 +9,10 @@ namespace :import do
 
   def disciplines_hash_from_row(row)
     {
-      course_group_name:          row[0],
+      course_name:          row[0],
       mother_discipline_name:     row[1],
       discipline_name:            row[2],
-      course_group_description:   row[3],
+      course_description:   row[3],
     }
   end
   # Use rake "import:renting_rooms[Path to CSV]"
@@ -42,9 +42,9 @@ namespace :import do
         end
       end
 
-      course_groups = CourseGroup.where{name == row[:course_group_name]}
-      next if course_groups.blank?
-      course_groups.update_all(discipline_id: discipline.id, description: row[:course_group_description])
+      courses = Course.where{name == row[:course_name]}
+      next if courses.blank?
+      courses.update_all(discipline_id: discipline.id, description: row[:course_description])
     end
   end
 end

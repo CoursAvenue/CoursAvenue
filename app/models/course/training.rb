@@ -1,7 +1,11 @@
-class CourseGroup::Workshop < CourseGroup
+class Course::Training < Course
 
-  def is_workshop?
+  def is_training?
     true
+  end
+
+  def length
+    plannings.first.length
   end
 
   def minimum_price
@@ -9,7 +13,7 @@ class CourseGroup::Workshop < CourseGroup
   end
 
   def type_name
-    'Cours-atelier'
+    'Stage'
   end
 
 end

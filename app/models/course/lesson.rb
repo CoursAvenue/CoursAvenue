@@ -1,4 +1,4 @@
-class CourseGroup::Lesson < CourseGroup
+class Course::Lesson < Course
 
   def is_lesson?
     true

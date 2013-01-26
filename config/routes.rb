@@ -3,7 +3,7 @@ LeBonCours::Application.routes.draw do
   resources :newsletter_users, only: [:create]
 
   # get 'courses/:discipline' => 'course#index', :as => :search_for_courses
-  resources :course_groups, only: [:index, :show], controller: 'course_groups', type: CourseGroup.name, path: 'cours/:city/:discipline', defaults: {city: 'paris', discipline: I18n.t('all_discipline_route_name')}
+  resources :courses, only: [:index, :show], controller: 'courses', type: Course.name, path: 'cours/:city/:discipline', defaults: {city: 'paris', discipline: I18n.t('all_discipline_route_name')}
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

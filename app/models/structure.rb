@@ -3,7 +3,7 @@ class Structure < ActiveRecord::Base
                     language: 'fr' # :msg => "Désolé, même Google n'a pas trouvé où l'établissement se trouve."
   before_save :retrieve_address
 
-  has_many :course_groups
+  has_many :courses
   has_many :renting_rooms
 
   # attr_accessible :logo

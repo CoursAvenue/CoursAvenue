@@ -9,7 +9,7 @@ namespace :import do
   desc 'Cleaning all the tables'
   task :clean => :environment do |t, args|
     puts 'Cleaning DB'
-    CourseGroup.delete_all
+    Course.delete_all
     Course.delete_all
     Discipline.delete_all
     Planning.delete_all

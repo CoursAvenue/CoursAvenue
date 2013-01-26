@@ -1,0 +1,47 @@
+%li.one-whole.course-element{data: {"structure-id" => course.structure_id}}
+  %div.two-twelfths
+    .course-image.media__img
+      %img{src: 'http://www.placehold.it/100'}
+      - if course.has_promotion
+        .course-promo.price-badge= readable_promotion course.promotion
+
+  %article.course-content
+    %header
+      %h4.hN.course-title
+        %span= link_to course.name, full_course_path(course)
+        %span.lbl.milli= course.type_name
+
+    - if course.is_training?
+      %p
+        Stage de
+        = pluralize course.length, 'jour'
+    %ul.nav
+      %li= join_audiences(course)
+      %li -
+      %li= join_levels(course)
+    %p
+      %i.icon-map-marker
+      - if course.structure.name.length > 50
+        %strong= "#{course.structure.name[0..50]}..."
+      - else
+        %strong= course.structure.name
+      - if course.structure.zip_code == 75000
+        Paris
+      - else
+        = "- Paris&nbsp;#{course.structure.zip_code[3..4]}".html_safe
+    = join_week_days(course)                        if course.is_lesson?
+    - if course.is_training?
+      = training_dates(course.courses.first.planning)
+      - if course.courses.length > 1
+        = "et #{course.courses.length - 1} autres dates."
+    - unless course.discipline.blank?
+      = link_to course.discipline.name, courses_with_old_params_path({city: params[:city], discipline: u(course.discipline.name)}), class: 'lbl lbl--orange'
+
+  %div.course-price.two-twelfths
+    - if course.best_price.nil?
+      %p.epsilon= link_to "Contacter l'établissement", full_course_path(course)
+    - else
+      %p
+        = t('.from')
+      %p.gamma= "#{course.best_price.amount}&nbsp;€".html_safe
+      %p= "(#{t(course.best_price.libelle).downcase})".html_safe

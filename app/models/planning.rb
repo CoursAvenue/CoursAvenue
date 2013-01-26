@@ -1,6 +1,7 @@
 class Planning < ActiveRecord::Base
   belongs_to :course
   has_many   :prices, through: :course
+
   attr_accessible :day_one,
                   :day_one_duration,
                   :day_one_start_time,
@@ -23,7 +24,9 @@ class Planning < ActiveRecord::Base
                   :start_time, # Format: Time.parse("2000-01-01 #{value} UTC")
                   :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
                   :week_day,
-                  :class_during_holidays
+                  :class_during_holidays,
+                  :nb_place_available,
+                  :promotion
 
   def length
     if day_one.blank?

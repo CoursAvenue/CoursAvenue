@@ -1,0 +1,15 @@
+%article#tab-prices.tab-pane
+  %table.table--striped.table--data#planning-schedule
+    %thead
+      %tr
+        %th Type de formule
+        %th.text-center Sans promo
+        %th.text-center Avec promo
+    %tbody
+      = render @course.prices
+      = render @course.book_tickets
+  %footer
+    %h4 Infos
+    %p= @course.price_details unless @course.price_details.blank?
+    %p= @course.price_info_1  unless @course.price_info_1.blank?
+    %p= @course.price_info_2  unless @course.price_info_2.blank?

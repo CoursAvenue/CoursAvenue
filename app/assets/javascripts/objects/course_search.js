@@ -28,7 +28,7 @@
         },
 
         updateFormUrl: function() {
-            var url = Routes.course_groups_path(this.getCity(), this.getDiscipline());
+            var url = Routes.courses_path(this.getCity(), this.getDiscipline());
             this.form.set('action', url);
         }
     });
