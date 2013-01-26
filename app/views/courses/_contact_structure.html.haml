@@ -1,0 +1,7 @@
+%article
+  %h4 À partir de
+  %h4 Contacter l'établissement
+  %p
+    = link_to @structure.phone_number, "tel:#{@structure.phone_number.gsub(/\s+/, '')}", :class => 'btn'
+  %p
+    = link_to 'Réservez en ligne', '#', :disabled => true, :class => 'btn disabled'

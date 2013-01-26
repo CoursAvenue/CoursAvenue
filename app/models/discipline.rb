@@ -1,7 +1,8 @@
 class Discipline < ActiveRecord::Base
   has_ancestry
 
-  has_many :courses
+  has_and_belongs_to_many :courses
+
   attr_accessible :name
 
   validates :name, :presence   => true

@@ -27,8 +27,6 @@ class CreateCourses < ActiveRecord::Migration
 
 
       t.references :structure
-      t.references :discipline
-
       t.timestamps
     end
   end

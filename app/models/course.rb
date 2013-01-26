@@ -19,7 +19,7 @@ class Course < ActiveRecord::Base
   has_and_belongs_to_many :audiences
   has_and_belongs_to_many :levels
 
-  belongs_to :discipline
+  has_and_belongs_to_many :disciplines, :uniq => true
 
   attr_accessible :name,
                   :has_online_payment,
@@ -60,7 +60,7 @@ class Course < ActiveRecord::Base
       else
         discipline_ids = [discipline_object.id]
       end
-      return scope.where{discipline_id.eq_any discipline_ids}
+      return scope.joins{disciplines}.where{disciplines.id.eq_any discipline_ids}
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130126102349) do
+ActiveRecord::Schema.define(:version => 20130126190705) do
 
   create_table "audiences", :force => true do |t|
     t.string   "name"
@@ -63,7 +63,6 @@ ActiveRecord::Schema.define(:version => 20130126102349) do
     t.text     "refund_condition"
     t.boolean  "cant_be_joined_during_year"
     t.integer  "structure_id"
-    t.integer  "discipline_id"
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
     t.string   "slug"
@@ -71,6 +70,13 @@ ActiveRecord::Schema.define(:version => 20130126102349) do
 
   add_index "courses", ["slug"], :name => "index_courses_on_slug", :unique => true
   add_index "courses", ["type"], :name => "index_courses_on_type"
+
+  create_table "courses_disciplines", :id => false, :force => true do |t|
+    t.integer "course_id"
+    t.integer "discipline_id"
+  end
+
+  add_index "courses_disciplines", ["course_id", "discipline_id"], :name => "index_courses_disciplines_on_course_id_and_discipline_id"
 
   create_table "courses_levels", :id => false, :force => true do |t|
     t.integer "course_id"

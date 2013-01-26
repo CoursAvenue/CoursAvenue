@@ -9,10 +9,9 @@ namespace :import do
 
   def disciplines_hash_from_row(row)
     {
-      course_name:          row[0],
-      mother_discipline_name:     row[1],
-      discipline_name:            row[2],
-      course_description:   row[3],
+      course_name:              row[0],
+      discipline_name_1:        row[2],
+      discipline_name_2:        row[4],
     }
   end
   # Use rake "import:renting_rooms[Path to CSV]"
@@ -26,25 +25,19 @@ namespace :import do
       next if i == 0
       row = disciplines_hash_from_row(row)
 
-      # Create mother discipline if doesn't exists
-      mother_discipline = Discipline.where{name == row[:mother_discipline_name]}.first
-      mother_discipline = Discipline.create(name: row[:mother_discipline_name]) if mother_discipline.blank?
-
-      if row[:discipline_name].blank?
-        discipline = mother_discipline
-      else
-        discipline = Discipline.where{name == row[:discipline_name]}.first
-        # If the discipline doesn't exists, creates it and associate the parent
-        if discipline.blank?
-          discipline = Discipline.create(name: row[:discipline_name])
-          discipline.parent = mother_discipline
-          discipline.save
-        end
+      next if row[:discipline_name_1].blank?
+      course = Course.where{name == row[:course_name]}.first
+      next if course.blank?
+      discipline_1 = Discipline.where{name == row[:discipline_name_1]}.first
+      discipline_2 = Discipline.where{name == row[:discipline_name_2]}.first
+      if discipline_1.nil?
+        puts "Couldn't find #{row[:discipline_name_1]}"
+        next
       end
-
-      courses = Course.where{name == row[:course_name]}
-      next if courses.blank?
-      courses.update_all(discipline_id: discipline.id, description: row[:course_description])
+      course.disciplines << discipline_1
+      course.disciplines << discipline_2 unless discipline_2.nil?
+      course.save
+      puts "Associating #{course.name}"
     end
   end
 end

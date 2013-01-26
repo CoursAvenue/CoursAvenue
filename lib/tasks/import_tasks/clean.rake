@@ -11,7 +11,6 @@ namespace :import do
     puts 'Cleaning DB'
     Course.delete_all
     Course.delete_all
-    Discipline.delete_all
     Planning.delete_all
     Price.delete_all
     RentingRoom.delete_all

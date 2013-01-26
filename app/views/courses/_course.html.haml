@@ -34,8 +34,8 @@
       = training_dates(course.courses.first.planning)
       - if course.courses.length > 1
         = "et #{course.courses.length - 1} autres dates."
-    - unless course.discipline.blank?
-      = link_to course.discipline.name, courses_with_old_params_path({city: params[:city], discipline: u(course.discipline.name)}), class: 'lbl lbl--orange'
+    - course.disciplines.each do |discipline|
+      = link_to discipline.name, courses_with_old_params_path({city: params[:city], discipline: u(discipline.name)}), class: 'lbl lbl--orange'
 
   %div.course-price.two-twelfths
     - if course.best_price.nil?
