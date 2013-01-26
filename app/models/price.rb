@@ -11,7 +11,7 @@ class Price < ActiveRecord::Base
   end
 
   def amount
-    '%.2f' % read_attribute(:amount)
+    ('%.2f' % read_attribute(:amount)).gsub('.00', '')
   end
 
 end

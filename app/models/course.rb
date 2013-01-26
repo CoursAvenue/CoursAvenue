@@ -29,8 +29,8 @@ class Course < ActiveRecord::Base
                   :course_info_2,
                   :registration_date,
                   :teacher_name,
-                  :max_age_for_kid,
                   :min_age_for_kid,
+                  :max_age_for_kid,
                   :is_individual,
                   :annual_membership_mandatory,
                   :is_for_handicaped,
@@ -111,7 +111,7 @@ class Course < ActiveRecord::Base
     if age[:min].to_i > 18
       scope
     else
-      scope.joins{courses}.where{(courses.min_age_for_kid < age[:max]) & (courses.max_age_for_kid > age[:min])}
+      scope.where{(min_age_for_kid < age[:max]) & (max_age_for_kid > age[:min])}
     end
   end
 
@@ -162,6 +162,13 @@ class Course < ActiveRecord::Base
   def similar_courses(limit = 5)
     discipline_ids = self.discipline_ids.map(&:to_i)
     similar_courses = Course.joins{disciplines}.where{disciplines.id.eq_any discipline_ids}.limit(limit) # With same discipline
+    if similar_courses.length < 5
+      max_id    = Course.maximum("id")
+      min_id    = Course.minimum("id")
+      id_range  = max_id - min_id + 1
+      random_id = min_id + rand(id_range).to_i
+      similar_courses = Course.limit(limit).offset(random_id)
+    end
     similar_courses
   end
 

@@ -1,7 +1,7 @@
 module CoursesHelper
 
   def full_course_path(course)
-    course_path(id: course.slug, city: course.structure.city, discipline: (course.disciplines.first ? course.disciplines.first.name : t('all_discipline_route_name')))
+    course_path(id: course.slug, city: course.structure.city, discipline: (course.disciplines.first ? u(course.disciplines.first.name) : t('all_discipline_route_name')))
   end
 
   def courses_with_old_params_path(new_params)

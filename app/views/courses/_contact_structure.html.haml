@@ -1,5 +1,8 @@
 %article
-  %h4 À partir de
+  %h4
+    À partir de
+    = @course.best_price.amount
+    €
   %h4 Contacter l'établissement
   %p
     = link_to @structure.phone_number, "tel:#{@structure.phone_number.gsub(/\s+/, '')}", :class => 'btn'

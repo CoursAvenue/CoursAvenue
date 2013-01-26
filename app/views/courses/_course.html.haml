@@ -31,9 +31,9 @@
         = "- Paris&nbsp;#{course.structure.zip_code[3..4]}".html_safe
     = join_week_days(course)                        if course.is_lesson?
     - if course.is_training?
-      = training_dates(course.courses.first.planning)
-      - if course.courses.length > 1
-        = "et #{course.courses.length - 1} autres dates."
+      = training_dates(course.plannings.first)
+      - if course.plannings.length > 1
+        = "et #{course.plannings.length - 1} autres dates."
     - course.disciplines.each do |discipline|
       = link_to discipline.name, courses_with_old_params_path({city: params[:city], discipline: u(discipline.name)}), class: 'lbl lbl--orange'
 

@@ -4,9 +4,11 @@
       %th Jour
       %th.text-center Créneau horaire
       %th.text-center Durée
+      %th.text-center Promo
   %tbody
     - @plannings.each do |planning|
       %tr{data: {'course-id' => planning.course_id}}
         %td= week_day_for planning
         %td.text-center= readable_time_slot planning
         %td.text-center= readable_duration planning
+        %td.text-center -

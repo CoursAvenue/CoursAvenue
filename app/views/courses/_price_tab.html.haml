@@ -13,3 +13,12 @@
     %p= @course.price_details unless @course.price_details.blank?
     %p= @course.price_info_1  unless @course.price_info_1.blank?
     %p= @course.price_info_2  unless @course.price_info_2.blank?
+    %ul
+      - @course.registration_fees.each do |registration_fee|
+        %li
+          - if registration_fee.for_kid
+            Prix d'adhésion pour enfants :
+          - else
+            Prix d'adhésion :
+          = registration_fee.price
+          €

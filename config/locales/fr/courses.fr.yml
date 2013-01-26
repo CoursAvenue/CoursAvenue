@@ -7,16 +7,9 @@ fr:
       planning: Planning
       prices: Tarifs
       infos: Infos
-      audience: Public
-      course: Cours
       individual: Individuel
       collective: Collectif
       teacher: Professeur
-      cant_be_joined_during_year: Ne peut être rejoint en cours d’année
-      can_be_joined_during_year: Peut être rejoint en cours d’année
-      recurrence: Récurrence
-      class_during_holidays: Cours pendant les vacances
-      for_handicaped: Pour handicapé
       course_description: "Description du cours :"
       more_information: "Informations complémentaires :"
       description: Description
@@ -36,6 +29,16 @@ fr:
         zero: "Aucune salle de cours"
         one: "Une salle de cours"
         other: "%{count} salles de cours"
+    planning_tab:
+      course: Cours
+      min_age_for_kid: Age min
+      max_age_for_kid: Age max
+      for_handicaped: Pour handicapé
+      class_during_holidays: Cours pendant les vacances
+      audience: Public
+      cant_be_joined_during_year: Ne peut être rejoint en cours d’année
+      can_be_joined_during_year: Peut être rejoint en cours d’année
+      recurrence: Récurrence
 
     course:
       from: À partir de

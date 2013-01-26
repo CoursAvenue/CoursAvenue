@@ -5,4 +5,8 @@ class BookTicket < ActiveRecord::Base
 
   validates :number, :price, :validity, presence: true
 
+  def price
+    ('%.2f' % read_attribute(:price)).gsub('.00', '')
+  end
+
 end
