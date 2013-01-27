@@ -1,6 +1,7 @@
 = content_for :meta_description do
   @course.description
 
+= debug @course.prices
 %ol.nav
   %li= link_to "#{@structure.city.capitalize} >", courses_path(city: @structure.city, discipline: t('all_discipline_route_name'))
   - unless @discipline.nil? || @discipline.parent.nil?

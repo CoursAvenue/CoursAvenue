@@ -4,8 +4,6 @@ class Price < ActiveRecord::Base
   attr_accessible :libelle,
                   :amount
 
-  validates :libelle, :uniqueness => true
-
   def libelle
     I18n.t read_attribute(:libelle)
   end
