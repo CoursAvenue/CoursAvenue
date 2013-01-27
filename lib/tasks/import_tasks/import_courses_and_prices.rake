@@ -296,7 +296,7 @@ namespace :import do
       course.plannings << planning
       #################################################################### Registration fees
       row[:registration_fees].each do |registration_fee|
-        course.registration_fees << RegistrationFee.create(registration_fee)
+        course.registration_fees << RegistrationFee.create(registration_fee) unless course.registration_fees.any?{|reg_fee| reg_fee.price == registration_fee[:price]}
       end
       #################################################################### Creating Book tickets
       row[:book_tickets].each do |book_ticket|
