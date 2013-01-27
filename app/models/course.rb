@@ -109,12 +109,16 @@ class Course < ActiveRecord::Base
   end
 
   def self.is_for_ages(age, scope)
-    age[:min] = 0  if age[:min].blank?
-    age[:max] = 18 if age[:max].blank?
-    if age[:min].to_i > 18
+    if age[:min].blank? and age[:max].blank?
       scope
     else
-      scope.where{(min_age_for_kid < age[:max]) & (max_age_for_kid > age[:min])}
+      age[:min] = 0  if age[:min].blank?
+      age[:max] = 18 if age[:max].blank?
+      if age[:min].to_i > 18
+        scope
+      else
+        scope.where{(min_age_for_kid < age[:max]) & (max_age_for_kid > age[:min])}
+      end
     end
   end
 

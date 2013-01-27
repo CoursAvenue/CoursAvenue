@@ -1,5 +1,6 @@
-= content_for :meta_description do
-  @course.description
+- unless @course.description.blank?
+  = content_for :meta_description do
+    = @course.description
 
 %ol.nav
   %li= link_to "#{@structure.city.capitalize} >", courses_path(city: @structure.city, discipline: t('all_discipline_route_name'))
