@@ -305,7 +305,7 @@ namespace :import do
 
       #################################################################### Creating Prices
       row[:prices].each do |key, value|
-        course.prices << Price.create(libelle: key, amount: value) if value.present? and !course.prices.any?{|p| p.read_attribute == key}
+        course.prices << Price.create(libelle: key, amount: value) if value.present? and !course.prices.any?{|p| p.read_attribute(:libelle) == key}
       end
       course.save
     end
