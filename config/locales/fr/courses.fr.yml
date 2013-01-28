@@ -9,7 +9,6 @@ fr:
       infos: Infos
       individual: Individuel
       collective: Collectif
-      teacher: Professeur
       course_description: "Description du cours :"
       more_information: "Informations complémentaires :"
       description: Description
@@ -30,6 +29,7 @@ fr:
         one: "Une salle de cours"
         other: "%{count} salles de cours"
     planning_tab:
+      teacher: Professeur
       course: Cours
       min_age_for_kid: Age min
       max_age_for_kid: Age max

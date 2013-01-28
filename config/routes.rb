@@ -1,5 +1,9 @@
 LeBonCours::Application.routes.draw do
 
+  ActiveAdmin.routes(self)
+
+  devise_for :admin_users, ActiveAdmin::Devise.config
+
   match "sitemap.xml", :to => "sitemap#index", :defaults => {:format => :xml}
 
   resources :newsletter_users, only: [:create]

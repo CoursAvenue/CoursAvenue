@@ -22,8 +22,9 @@ gem 'rails', '3.2.11'
 
 gem 'pg'
 
-gem 'will_paginate'             , '~>3.0.2'
+gem 'kaminari'                  , '~>0.14.1'
 gem 'paperclip'                 , '~>3.3.1'
+gem 'aws-sdk'                   , '~>1.8.0'
 gem 'squeel'                    , '~>1.0.14'
 gem 'ancestry'                  , '~>1.3.0'
 
@@ -33,6 +34,9 @@ gem 'active_model_serializers'  , '~>0.6.0'
 gem 'friendly_id'               , '~> 4.0.1'
 gem 'simple_form'               , '~> 2.0.4'
 gem 'inherited_resources'       , '~> 1.3.1'
+
+gem 'activeadmin'               , '~> 0.5.1'
+
 group :production do
   # gem 'therubyracer'
   # gem 'execjs'

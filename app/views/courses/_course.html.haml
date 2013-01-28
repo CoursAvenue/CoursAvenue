@@ -1,7 +1,10 @@
 %li.one-whole.course-element{data: {"structure-id" => course.structure_id}}
   %div.two-twelfths
     .course-image.media__img
-      %img{src: 'http://www.placehold.it/100'}
+      - if !course.disciplines.empty? and course.disciplines.first.image.present?
+        = image_tag course.disciplines.first.image.url(:thumb)
+      - else
+        %img{src: 'http://www.placehold.it/100'}
       - if course.has_promotion
         .course-promo.price-badge= readable_promotion course.promotion
 

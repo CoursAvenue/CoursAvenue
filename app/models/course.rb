@@ -6,9 +6,6 @@ class Course < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  # For pagination
-  self.per_page = 15
-
   belongs_to :structure
 
   has_many :plannings
