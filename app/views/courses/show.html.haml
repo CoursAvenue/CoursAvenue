@@ -21,7 +21,7 @@
     .course-header-badge
       .course-header-image
         - if !@course.disciplines.empty? and @course.disciplines.first.image.present?
-          = image_tag @course.disciplines.first.image.url(:thumb), class: 'course-header-badge-image'}
+          = image_tag @course.disciplines.first.image.url(:thumb), class: 'course-header-badge-image'
         - else
           %img{src: 'http://placehold.it/400x240', class: 'course-header-badge-image'}
 
