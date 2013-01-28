@@ -20,7 +20,11 @@
 
     .course-header-badge
       .course-header-image
-        %img{src: 'http://placehold.it/400x240', class: 'course-header-badge-image'}
+        - if !@course.disciplines.empty? and @course.disciplines.first.image.present?
+          = image_tag @course.disciplines.first.image.url(:thumb), class: 'course-header-badge-image'}
+        - else
+          %img{src: 'http://placehold.it/400x240', class: 'course-header-badge-image'}
+
       .course-header-map
         = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
         .course-header-structure-name
