@@ -1,3 +1,4 @@
+- painter_course = Course.where{name.like 'tango'}.first
 - painter_course = Course.where{name.like 'peinture'}.first
 - mime_course    = Course.where{name.like 'comédie'}.first
 .home-screen
@@ -10,16 +11,11 @@
     %li.active
     %li
     %li
-    %li
   %ul#slideshow.slideshow.home-slideshow
-
+    // ---------------------------------------------- Tango course
     %li
       = render 'slideshow_course_info', course: mime_course
       = image_tag asset_path('home-page/dance.jpg')
-
-    %li
-      = render 'slideshow_course_info', course: mime_course
-      = image_tag asset_path('home-page/dance_2.jpg')
     // ---------------------------------------------- Painter course
     %li
       = render 'slideshow_course_info', course: painter_course
