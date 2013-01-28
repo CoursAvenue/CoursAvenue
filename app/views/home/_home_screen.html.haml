@@ -9,7 +9,17 @@
   %ul.slideshow-controller
     %li.active
     %li
+    %li
+    %li
   %ul#slideshow.slideshow.home-slideshow
+
+    %li
+      = render 'slideshow_course_info', course: mime_course
+      = image_tag asset_path('home-page/dance.jpg')
+
+    %li
+      = render 'slideshow_course_info', course: mime_course
+      = image_tag asset_path('home-page/dance_2.jpg')
     // ---------------------------------------------- Painter course
     %li
       = render 'slideshow_course_info', course: painter_course
