@@ -103,6 +103,7 @@ GEM
     fastercsv (1.5.5)
     font-awesome-rails (0.4.1)
       railties (~> 3.1)
+    forgery (0.5.0)
     formtastic (2.2.1)
       actionpack (>= 3.0)
     friendly_id (4.0.9)
@@ -243,6 +244,7 @@ DEPENDENCIES
   debugger
   factory_girl (~> 4.1.0)
   font-awesome-rails (~> 0.4.1)
+  forgery (~> 0.5.0)
   friendly_id (~> 4.0.1)
   gmaps4rails (~> 1.5.6)
   google-analytics-rails
