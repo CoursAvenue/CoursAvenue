@@ -13,6 +13,8 @@ end
 module LeBonCours
   class Application < Rails::Application
 
+    CITIES = [['Paris','paris'], ['Bordeaux','bordeaux'], ['Lille','lille'], ['Lyon','lyon'], ['Marseille','marseille'], ['Montpellier','montpellier'], ['Nantes','nantes'], ['Nice','nice'], ['Strasbourg','strasbourg'], ['Toulouse', 'toulouse']]
+
     ALL_DISCIPLINE_NAME = 'toutes-disciplines'
 
     # Global variables
