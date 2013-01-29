@@ -15,7 +15,7 @@
         border      : 1px solid $grayLighter;
         border-top  : none;
         display     : none;
-        @include border-bottom-radius($brand-round);
+        @include border-bottom-radius($brand-round + 1);
         li:last-child {
             @include border-bottom-radius($brand-round);
         }
