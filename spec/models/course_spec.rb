@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Course do
 
   it 'should be true' do
-    true
+    FactoryGirl.build(:course)
   end
 
 

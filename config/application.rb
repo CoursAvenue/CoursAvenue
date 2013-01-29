@@ -93,5 +93,11 @@ module LeBonCours
     # Will not load the environment when compile the assets
     # See: http://www.simonecarletti.com/blog/2012/02/heroku-and-rails-3-2-assetprecompile-error/
     config.initialize_on_precompile = false
+
+    config.generators do |g|
+      g.test_framework      :rspec, :fixtures => true, :views => false
+      g.fixture_replacement :factory_girl, :dir => 'spec/factories'
+    end
+
   end
 end

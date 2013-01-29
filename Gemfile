@@ -43,9 +43,9 @@ group :production do
 end
 
 group :test do
-  gem 'factory_girl', '~> 4.1.0'
-  gem 'rspec-rails' , '~> 2.6'
-  gem 'forgery'     , '~> 0.5.0'
+  gem 'factory_girl_rails', '~> 4.2.0'
+  gem 'rspec-rails'       , '~> 2.6'
+  gem 'forgery'           , '~> 0.5.0'
 end
 
 group :development, :test do
