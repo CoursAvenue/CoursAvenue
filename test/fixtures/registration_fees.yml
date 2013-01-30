@@ -1,9 +1,0 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-one:
-  price: 9.99
-  audience_id: 1
-
-two:
-  price: 9.99
-  audience_id: 1
