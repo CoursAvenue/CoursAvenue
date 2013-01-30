@@ -2,14 +2,14 @@
   %table.table--striped.table--data#planning-schedule
     %thead
       %tr
-        %th Type de formule
-        %th.text-center Sans promo
-        %th.text-center Avec promo
+        %th= t('formule_type')
+        %th.text-center= t('without_promo')
+        %th.text-center= t('with_promo')
     %tbody
       = render @course.prices
       = render @course.book_tickets
   %footer
-    %h4 Infos
+    %h4= t('infos')
     %p= @course.price_details unless @course.price_details.blank?
     %p= @course.price_info_1  unless @course.price_info_1.blank?
     %p= @course.price_info_2  unless @course.price_info_2.blank?
@@ -17,8 +17,8 @@
       - @course.registration_fees.each do |registration_fee|
         %li
           - if registration_fee.for_kid
-            Prix d'adhésion pour enfants :
+            = t('kid_registration_fee')
           - else
-            Prix d'adhésion :
+            = t('registration_fee')
           = registration_fee.price
           €
