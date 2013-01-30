@@ -1,0 +1,10 @@
+fr:
+  activerecord:
+    models:
+      structure: Structure
+    attributes:
+      structure:
+        nb_room: Nombre de salles
+        website: "Site internet :"
+
+  #structures:

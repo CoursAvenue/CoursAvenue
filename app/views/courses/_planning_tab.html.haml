@@ -11,19 +11,19 @@
       %h4= t('.infos')
       %ul.block-list.alternate-color.spoken-form.milli
         %li
-          %label= t('.audience')
+          %label= Audience.model_name.human
           %strong.fr
             = @course.audiences.map{|course| t(course.name)}.join(', ')
 
         %li
-          %label= t('.course')
+          %label= Course.model_name.human
           - if @course.is_individual
-            %strong.fr= t('.individual')
+            %strong.fr= Course.human_attribute_name(:is_individual)
           - else
             %strong.fr= t('.collective')
         - if @course.teacher_name.present?
           %li
-            %label= t('.teacher')
+            %label= Course.human_attribute_name(:teacher_name)
             %strong.fr= @course.teacher_name
 
         - unless @course.plannings.first.recurrence.blank?
@@ -40,14 +40,14 @@
           %strong.fr= (@course.plannings.first.class_during_holidays ? t('yes') : t('no'))
 
         %li
-          %label= t('.for_handicaped')
+          %label= Course.human_attribute_name(:is_for_handicaped)
           %strong.fr= (@course.is_for_handicaped ? t('yes') : t('no'))
 
         - if @course.min_age_for_kid
           %li
-            %label= t('.min_age_for_kid')
+            %label= Course.human_attribute_name(:min_age_for_kid)
             %strong.fr= "#{@course.min_age_for_kid} €"
         - if @course.max_age_for_kid
           %li
-            %label= t('.max_age_for_kid')
+            %label= Course.human_attribute_name(:min_age_for_kid)
             %strong.fr= "#{@course.min_age_for_kid} €"

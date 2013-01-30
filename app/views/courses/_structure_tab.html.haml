@@ -6,7 +6,7 @@
       %li= @structure.adress_info
     %li= t('.number_of_room', count: @structure.nb_room)
     %li
-      = t('.website')
+      = Structure.human_attribute_name(:website)
       = link_to @structure.website, @structure.website, target: '_blank'
     - if @structure.needs_payment_on_place_for_registration
       %li= t('.payment_on_place')
@@ -22,8 +22,9 @@
           - if @structure.needs_medical_certificate_for_registration
             %li= t('.medical_certificate')
           - if @structure.needs_insurance_attestation_for_registration
-            %li= t('.insurance_attestation_')
+            %li= t('.insurance_attestation')
       - unless @structure.info.blank?
         %li
           = t('.other_info')
           = @structure.info
+

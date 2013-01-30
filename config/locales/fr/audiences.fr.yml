@@ -4,3 +4,6 @@ fr:
     teenage: Ado
     adult: Adulte
     senior: Sénior
+  activerecord:
+    models:
+      audience: Public

@@ -11,8 +11,7 @@
   %footer
     %h4= t('infos')
     %p= @course.price_details unless @course.price_details.blank?
-    %p= @course.price_info_1  unless @course.price_info_1.blank?
-    %p= @course.price_info_2  unless @course.price_info_2.blank?
+    %p= @course.price_info    unless @course.price_info.blank?
     %ul
       - @course.registration_fees.each do |registration_fee|
         %li

@@ -26,7 +26,7 @@ class CreatePlannings < ActiveRecord::Migration
       t.boolean :class_during_holidays
       t.decimal :promotion
       t.integer :nb_place_available
-
+      t.text    :info
       t.references :course
 
       t.timestamps

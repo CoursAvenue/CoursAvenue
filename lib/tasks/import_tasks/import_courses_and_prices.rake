@@ -70,8 +70,6 @@ namespace :import do
         min_age_for_kid:                              row[15],
         max_age_for_kid:                              row[16],
         is_individual:                               (row[17] == 'X' ? true : false),
-        course_info_1:                                row[11],
-        course_info_2:                                row[12],
         is_for_handicaped:                           (row[18] == 'X' ? true : false),
         registration_date:                            row[20],
         annual_membership_mandatory:                  row[38],
@@ -82,8 +80,6 @@ namespace :import do
         audition_mandatory:                          (row[102] == 'X' ? true : false),
         refund_condition:                             row[103],
         cant_be_joined_during_year:                  (row[41] == 'X' ? true : false),
-        price_info_1:                                 row[73],
-        price_info_2:                                 row[74],
         price_details:                                row[87]
       },
       audiences: {
@@ -140,6 +136,16 @@ namespace :import do
         #'price.approximate_price_per_course' =>       row[85]
       }
     }
+    hash[:course][:course_info] = row[11]
+    if !row[11].blank? and !row[12].blank?
+      hash[:course][:course_info] += '\n'
+      hash[:course][:course_info] += row[12]
+    end
+    hash[:course][:price_info] = row[73] unless row[73].blank?
+    if !row[73].blank? and !row[74].blank?
+      hash[:course][:price_info] += '\n'
+      hash[:course][:price_info] += row[74]
+    end
 
     # IF X => Contact structure
     unless row[85].blank?
@@ -161,12 +167,12 @@ namespace :import do
     hash[:registration_fees] << {
       price:    row[39],
       for_kid:  false
-    } unless row[39].blank?
+    } unless row[39].nil?
 
     hash[:registration_fees] << {
       price:    row[40],
       for_kid:  true
-    } unless row[39].blank?
+    } unless row[40].nil?
 
     # -------------------------------------------------------------------- Book Ticket
     # -------------------------------------------------------------------- Prices
@@ -224,14 +230,6 @@ namespace :import do
       price:    row[68],
       validity: row[69]
     } unless row[67].blank?
-
-    # book_tickets: {
-    #   unlimited_access_price:                       row[70],
-    #   unlimited_access_validity:                    row[71],
-    #   excluded_lesson_from_unlimited_access_card:   row[72],
-    #   has_other_preferential_price:                (row[83] == 'X' ? true : false),
-    #   degressive_price_from_two_lesson:             row[81],
-    # }
 
     hash
   end

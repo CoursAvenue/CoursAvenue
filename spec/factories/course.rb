@@ -4,11 +4,9 @@ FactoryGirl.define do
   factory :course do
     name               { Forgery(:lorem_ipsum).words(4) }
     description        'Lorem ipsum dolor bla bla bla'
-    course_info_1      'Lorem ipsum dolor bla bla bla'
-    course_info_2      'Lorem ipsum dolor bla bla bla'
+    course_info        'Lorem ipsum dolor bla bla bla'
     price_details      'Lorem ipsum dolor bla bla bla'
-    price_info_1       'Lorem ipsum dolor bla bla bla'
-    price_info_2       'Lorem ipsum dolor bla bla bla'
+    price_info         'Lorem ipsum dolor bla bla bla'
     teacher_name       'Tea Cher'
     trial_lesson_info  'Lorem ipsum dolor bla bla bla'
     annual_membership_mandatory true

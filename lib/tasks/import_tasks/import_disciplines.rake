@@ -9,9 +9,10 @@ namespace :import do
 
   def disciplines_hash_from_row(row)
     {
-      course_name:              row[0],
-      discipline_name_1:        row[2],
-      discipline_name_2:        row[4],
+      course_name:        row[0],
+      discipline_name_1:  row[1],
+      discipline_name_2:  row[2],
+      description:        row[3],
     }
   end
   # Use rake "import:renting_rooms[Path to CSV]"
@@ -36,6 +37,7 @@ namespace :import do
       end
       course.disciplines << discipline_1
       course.disciplines << discipline_2 unless discipline_2.nil?
+      course.description = row[:description] unless row[:description].blank?
       course.save
     end
   end

@@ -26,7 +26,8 @@ class Planning < ActiveRecord::Base
                   :week_day,
                   :class_during_holidays,
                   :nb_place_available,
-                  :promotion
+                  :promotion,
+                  :info
 
   def length
     if day_one.blank?

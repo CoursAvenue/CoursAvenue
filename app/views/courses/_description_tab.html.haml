@@ -1,13 +1,11 @@
 %article#tab-description.tab-pane
   - unless @course.description.nil?
-    %h4= t('.course_description')
+    %h4= Course.human_attribute_name(:description)
     %p= @course.description
 
   %h4= t('.more_information')
   %ul
-    - unless @course.course_info_1.blank?
-      %li= @course.course_info_1
-    - unless @course.course_info_2.blank?
-      %li= @course.course_info_2
+    - unless @course.course_info.blank?
+      %li= @course.course_info
     - unless @structure.registration_info.blank?
       %li= @structure.registration_info

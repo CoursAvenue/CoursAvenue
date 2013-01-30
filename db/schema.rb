@@ -77,8 +77,7 @@ ActiveRecord::Schema.define(:version => 20130127215535) do
     t.text     "description"
     t.boolean  "has_online_payment",          :default => false
     t.boolean  "has_promotion",               :default => false
-    t.text     "course_info_1"
-    t.text     "course_info_2"
+    t.text     "course_info"
     t.text     "registration_date"
     t.text     "teacher_name"
     t.integer  "max_age_for_kid"
@@ -88,8 +87,7 @@ ActiveRecord::Schema.define(:version => 20130127215535) do
     t.boolean  "is_for_handicaped"
     t.text     "trial_lesson_info"
     t.text     "price_details"
-    t.text     "price_info_1"
-    t.text     "price_info_2"
+    t.text     "price_info"
     t.text     "conditions"
     t.text     "partner_rib_info"
     t.boolean  "audition_mandatory"
@@ -120,6 +118,7 @@ ActiveRecord::Schema.define(:version => 20130127215535) do
 
   create_table "disciplines", :force => true do |t|
     t.string   "name"
+    t.text     "info"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
     t.string   "ancestry"
@@ -171,6 +170,7 @@ ActiveRecord::Schema.define(:version => 20130127215535) do
     t.boolean  "class_during_holidays"
     t.decimal  "promotion"
     t.integer  "nb_place_available"
+    t.text     "info"
     t.integer  "course_id"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false

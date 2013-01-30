@@ -6,8 +6,7 @@ class CreateCourses < ActiveRecord::Migration
       t.text    :description
       t.boolean :has_online_payment, default: false
       t.boolean :has_promotion     , default: false
-      t.text    :course_info_1
-      t.text    :course_info_2
+      t.text    :course_info
       t.text    :registration_date
       t.text    :teacher_name
       t.integer :max_age_for_kid
@@ -17,8 +16,7 @@ class CreateCourses < ActiveRecord::Migration
       t.boolean :is_for_handicaped
       t.text    :trial_lesson_info
       t.text    :price_details
-      t.text    :price_info_1
-      t.text    :price_info_2
+      t.text    :price_info
       t.text    :conditions
       t.text    :partner_rib_info
       t.boolean :audition_mandatory
