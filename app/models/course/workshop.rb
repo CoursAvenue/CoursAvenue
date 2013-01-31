@@ -9,7 +9,7 @@ class Course::Workshop < Course
   end
 
   def type_name
-    'Cours-atelier'
+    'Cours&#8209;atelier'.html_safe
   end
 
 end
