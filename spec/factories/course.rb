@@ -2,6 +2,9 @@
 
 FactoryGirl.define do
   factory :course do
+
+    structure
+
     name                        { Forgery(:lorem_ipsum).words(4) }
     description                 'Lorem ipsum dolor bla bla bla'
     course_info                 'Lorem ipsum dolor bla bla bla'

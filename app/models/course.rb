@@ -18,8 +18,12 @@ class Course < ActiveRecord::Base
 
   has_and_belongs_to_many :disciplines, :uniq => true
 
-  # ---------------------- Validations
+  # ------------------------------------------------------------------------------------ Validations
   validates :structure, presence: true
+
+  # ------------------------------------------------------------------------------------ Callbacks
+  before_save :rollback_slug_change
+
 
   attr_accessible :name,
                   :has_online_payment,
@@ -196,5 +200,10 @@ class Course < ActiveRecord::Base
 
   def type_name
     'Cours'
+  end
+
+  protected
+  def rollback_slug_change
+    self.slug = slug_was if slug_changed?
   end
 end

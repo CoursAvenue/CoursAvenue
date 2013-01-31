@@ -8,9 +8,9 @@ describe Course do
   # end
 
   it 'should not change the slug when the name change' do
-    course = FactoryGirl.build(:course)
+    course = FactoryGirl.create(:course)
     initial_slug = course.slug
-    course.name += ' lala'
+    course.name += ' new slug'
     course.save
     expect(initial_slug).to eq(course.slug)
   end
