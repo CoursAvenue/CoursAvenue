@@ -12,8 +12,8 @@ describe Course do
     initial_slug = course.slug
     course.name += ' new slug'
     course.save
+    expect(initial_slug).not_to eq(nil)
     expect(initial_slug).to eq(course.slug)
   end
-
 
 end
