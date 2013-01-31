@@ -80,8 +80,7 @@ namespace :import do
         audition_mandatory:                          (row[102] == 'X' ? true : false),
         refund_condition:                             row[103],
         cant_be_joined_during_year:                  (row[41] == 'X' ? true : false),
-        price_details:                                row[87]#,
-        #course_info:                                  row[106]
+        price_details:                                row[87]
       },
       audiences: {
         audience_1:                                   audience(row[7]),
@@ -124,7 +123,7 @@ namespace :import do
         day_five:                                     row[35],
         day_five_start_time:                          row[36],
         day_five_duration:                            row[37],
-        #info:                                         row[107]
+        info:                                         row[105]
       },
 
       # Prices
@@ -135,18 +134,17 @@ namespace :import do
         'price.semester' =>                           row[46],
         'price.trimester' =>                          row[47],
         'price.month' =>                              row[48],
-        #'price.approximate_price_per_course' =>       row[85]
       }
     }
-    hash[:course][:course_info] = row[11].gsub('\n', '<br>') unless row[11].blank?
+    hash[:course][:course_info] = row[11].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>') unless row[11].blank?
     if !row[11].blank? and !row[12].blank?
       hash[:course][:course_info] += '<br>'
-      hash[:course][:course_info] += row[12].gsub('\n', '<br>')
+      hash[:course][:course_info] += row[12].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>')
     end
-    hash[:course][:price_info] = row[73].gsub('\n', '<br>') unless row[73].blank?
+    hash[:course][:price_info] = row[73].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>') unless row[73].blank?
     if !row[73].blank? and !row[74].blank?
       hash[:course][:price_info] += '<br>'
-      hash[:course][:price_info] += row[74].gsub('\n', '<br>')
+      hash[:course][:price_info] += row[74].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>')
     end
 
     # IF X => Contact structure

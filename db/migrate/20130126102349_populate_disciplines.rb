@@ -111,7 +111,7 @@ class PopulateDisciplines < ActiveRecord::Migration
 
     #--------------------------------------------------------------- Atelier petite enfance / parents-nourrisson
     parent_kids        = Discipline.create name: 'Ateliers enfants / duo parent-enfant'
-    parent_kids_childs = ['Atelier couleur', 'Atelier création', 'Atelier expression', 'Atelier gourmand', 'Danse éveil', 'Expression artistique', 'Musique éveil', 'Sport éveil', 'Théâtre éveil']
+    parent_kids_childs = ['Atelier couleur', 'Atelier création / Découverte', 'Atelier expression', 'Atelier gourmand', 'Danse éveil', 'Expression artistique', 'Musique éveil', 'Sport éveil', 'Théâtre éveil']
     parent_kids_childs.each do |parent_kids_child_name|
       parent_kids_child        = Discipline.create name: parent_kids_child_name
       parent_kids_child.parent = parent_kids
