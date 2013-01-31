@@ -138,15 +138,15 @@ namespace :import do
         #'price.approximate_price_per_course' =>       row[85]
       }
     }
-    hash[:course][:course_info] = row[11]
+    hash[:course][:course_info] = row[11].gsub('\n', '<br>') unless row[11].blank?
     if !row[11].blank? and !row[12].blank?
       hash[:course][:course_info] += '<br>'
-      hash[:course][:course_info] += row[12]
+      hash[:course][:course_info] += row[12].gsub('\n', '<br>')
     end
-    hash[:course][:price_info] = row[73] unless row[73].blank?
+    hash[:course][:price_info] = row[73].gsub('\n', '<br>') unless row[73].blank?
     if !row[73].blank? and !row[74].blank?
       hash[:course][:price_info] += '<br>'
-      hash[:course][:price_info] += row[74]
+      hash[:course][:price_info] += row[74].gsub('\n', '<br>')
     end
 
     # IF X => Contact structure
