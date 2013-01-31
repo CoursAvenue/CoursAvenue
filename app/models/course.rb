@@ -22,7 +22,7 @@ class Course < ActiveRecord::Base
   validates :structure, presence: true
 
   # ------------------------------------------------------------------------------------ Callbacks
-  before_save :rollback_slug_change
+  before_update :rollback_slug_change
 
 
   attr_accessible :name,
