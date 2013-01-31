@@ -5,7 +5,7 @@
   %section.g.seven-tenths
     .flexbox.page-entries-wrapper
       .flexbox__item
-        .proceed= paginate @courses, window: 1, outer_window: 1
+        .proceed= paginate @courses, window: 2, outer_window: 1
     %ul.block-list.course-list
       = render partial: 'course', :collection => @courses
 
