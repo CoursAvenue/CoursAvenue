@@ -2,18 +2,18 @@
 
 FactoryGirl.define do
   factory :course do
-    name               { Forgery(:lorem_ipsum).words(4) }
-    description        'Lorem ipsum dolor bla bla bla'
-    course_info        'Lorem ipsum dolor bla bla bla'
-    price_details      'Lorem ipsum dolor bla bla bla'
-    price_info         'Lorem ipsum dolor bla bla bla'
-    teacher_name       'Tea Cher'
-    trial_lesson_info  'Lorem ipsum dolor bla bla bla'
+    name                        { Forgery(:lorem_ipsum).words(4) }
+    description                 'Lorem ipsum dolor bla bla bla'
+    course_info                 'Lorem ipsum dolor bla bla bla'
+    price_details               'Lorem ipsum dolor bla bla bla'
+    price_info                  'Lorem ipsum dolor bla bla bla'
+    teacher_name                'Tea Cher'
+    trial_lesson_info           'Lorem ipsum dolor bla bla bla'
     annual_membership_mandatory true
-    conditions         ''
-    partner_rib_info   ''
-    audition_mandatory ''
-    refund_condition   ''
+    conditions                  ''
+    partner_rib_info            ''
+    audition_mandatory          ''
+    refund_condition            ''
     cant_be_joined_during_year  {}
 
     factory :course_for_kid do
