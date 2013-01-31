@@ -2,9 +2,10 @@
   %h4= @structure.name
   %ul
     %li= readable_address @structure
-    - unless @structure.adress_info.blank?
+    - if @structure.adress_info
       %li= @structure.adress_info
-    %li= t('.number_of_room', count: @structure.nb_room)
+    - if @structure.nb_room
+      %li= t('.number_of_room', count: @structure.nb_room)
     %li
       = Structure.human_attribute_name(:website)
       = link_to @structure.website, @structure.website, target: '_blank'
