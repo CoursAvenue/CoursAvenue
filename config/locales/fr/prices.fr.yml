@@ -1,4 +1,7 @@
 fr:
+  activerecord:
+    models:
+      price: Tarif
   price:
     free: Gratuit
     contact_structure: Contacter l'établissement

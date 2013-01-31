@@ -27,18 +27,20 @@ namespace :import do
       row = disciplines_hash_from_row(row)
 
       next if row[:discipline_name_1].blank?
-      course = Course.where{name == row[:course_name]}.first
-      next if course.blank?
+      courses = Course.where{name == row[:course_name]}
+      next if courses.empty?
       discipline_1 = Discipline.where{name == row[:discipline_name_1]}.first
       discipline_2 = Discipline.where{name == row[:discipline_name_2]}.first
       if discipline_1.nil?
         puts "Couldn't find #{row[:discipline_name_1]}"
         next
       end
-      course.disciplines << discipline_1
-      course.disciplines << discipline_2 unless discipline_2.nil?
-      course.description = row[:description] unless row[:description].blank?
-      course.save
+      courses.each do |course|
+        course.disciplines << discipline_1
+        course.disciplines << discipline_2 unless discipline_2.nil?
+        course.description = row[:description] unless row[:description].blank?
+        course.save
+      end
     end
   end
 end

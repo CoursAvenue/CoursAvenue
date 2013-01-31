@@ -36,7 +36,7 @@
     %ul.tab-titles{data: {behavior: 'tabs'}}
       %li.active{data: { el: 'tab-planning' }}= t('.planning')
       %li{data: { el: 'tab-prices' }}= t('.prices')
-      %li{data: { el: 'tab-description' }}= t('.description')
+      %li{data: { el: 'tab-description' }}= Course.human_attribute_name(:description)
       %li{data: { el: 'tab-structure-info' }}= t('.structure')
 
     .tab-content

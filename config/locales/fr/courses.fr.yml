@@ -9,7 +9,6 @@ fr:
         description: Description
         name:
         has_online_payment:
-        description:
         has_promotion:
         course_info:
         registration_date:
@@ -41,8 +40,6 @@ fr:
       without_promo: Sans promo
       with_promo: Avec promo
       infos: Infos
-      kid_registration_fee: "Prix d'adhésion pour enfants :"
-      registration_fee: "Prix d'adhésion :"
     description_tab:
       course_description: "Description du cours :"
       more_information: "Informations complémentaires :"

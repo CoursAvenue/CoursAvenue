@@ -80,7 +80,8 @@ namespace :import do
         audition_mandatory:                          (row[102] == 'X' ? true : false),
         refund_condition:                             row[103],
         cant_be_joined_during_year:                  (row[41] == 'X' ? true : false),
-        price_details:                                row[87]
+        price_details:                                row[87]#,
+        #course_info:                                  row[106]
       },
       audiences: {
         audience_1:                                   audience(row[7]),
@@ -122,7 +123,8 @@ namespace :import do
         day_four_duration:                            row[34],
         day_five:                                     row[35],
         day_five_start_time:                          row[36],
-        day_five_duration:                            row[37]
+        day_five_duration:                            row[37],
+        #info:                                         row[107]
       },
 
       # Prices
@@ -138,12 +140,12 @@ namespace :import do
     }
     hash[:course][:course_info] = row[11]
     if !row[11].blank? and !row[12].blank?
-      hash[:course][:course_info] += '\n'
+      hash[:course][:course_info] += '<br>'
       hash[:course][:course_info] += row[12]
     end
     hash[:course][:price_info] = row[73] unless row[73].blank?
     if !row[73].blank? and !row[74].blank?
-      hash[:course][:price_info] += '\n'
+      hash[:course][:price_info] += '<br>'
       hash[:course][:price_info] += row[74]
     end
 
@@ -278,7 +280,18 @@ namespace :import do
         end
       end
 
-      if courses.empty?
+      # Duplicate course if it has a prices with same libelle but different amount
+      duplicate = false
+      unless courses.empty?
+        row[:prices].each do |key, value|
+          if value.present? and courses.first.prices.any?{|p| p.read_attribute(:libelle) == key and p.amount != value}
+            duplicate = true
+            break
+          end
+        end
+      end
+
+      if courses.empty? or duplicate
         # Create course group
         course           = row[:course_type].create(row[:course])
         course.audiences = row[:audiences]
@@ -288,23 +301,26 @@ namespace :import do
         course = courses.first
       end
 
+      #################################################################### Creating Prices
+      row[:prices].each do |key, value|
+        course.prices << Price.create(libelle: key, amount: value) if value.present? and !course.prices.any?{|p| p.read_attribute(:libelle) == key}
+      end
+
       #################################################################### Creating Planning
       planning = Planning.create(row[:planning])
       planning.end_time = planning.start_time + planning.duration.hour.hour + planning.duration.min.minutes if planning.duration
       course.plannings << planning
+
       #################################################################### Registration fees
       row[:registration_fees].each do |registration_fee|
         course.registration_fees << RegistrationFee.create(registration_fee) unless course.registration_fees.any?{|reg_fee| reg_fee.price == registration_fee[:price]}
       end
+
       #################################################################### Creating Book tickets
       row[:book_tickets].each do |book_ticket|
         course.book_tickets << BookTicket.create(book_ticket) unless course.book_tickets.any?{|b| b.number == book_ticket[:number]}
       end
 
-      #################################################################### Creating Prices
-      row[:prices].each do |key, value|
-        course.prices << Price.create(libelle: key, amount: value) if value.present? and !course.prices.any?{|p| p.read_attribute(:libelle) == key}
-      end
       course.save
     end
     puts "#{Course.count} Cours importés"

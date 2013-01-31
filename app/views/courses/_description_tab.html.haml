@@ -6,6 +6,6 @@
   %h4= t('.more_information')
   %ul
     - unless @course.course_info.blank?
-      %li= @course.course_info
+      %li= @course.course_info.html_safe
     - unless @structure.registration_info.blank?
       %li= @structure.registration_info

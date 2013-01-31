@@ -10,14 +10,14 @@
       = render @course.book_tickets
   %footer
     %h4= t('infos')
-    %p= @course.price_details unless @course.price_details.blank?
-    %p= @course.price_info    unless @course.price_info.blank?
+    %p= @course.price_details        unless @course.price_details.blank?
+    %p= @course.price_info.html_safe unless @course.price_info.blank?
     %ul
       - @course.registration_fees.each do |registration_fee|
         %li
           - if registration_fee.for_kid
-            = t('kid_registration_fee')
+            = RegistrationFee.human_attribute_name(:kid_registration_fee)
           - else
-            = t('registration_fee')
+            = RegistrationFee.human_attribute_name(:registration_fee)
           = registration_fee.price
           €
