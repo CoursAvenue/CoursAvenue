@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130201191818) do
+ActiveRecord::Schema.define(:version => 20130201211101) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(:version => 20130201191818) do
     t.string   "type"
     t.string   "name"
     t.text     "description"
+    t.boolean  "is_promoted",                 :default => false
     t.boolean  "has_online_payment",          :default => false
     t.boolean  "has_promotion",               :default => false
     t.text     "course_info"
@@ -106,6 +107,10 @@ ActiveRecord::Schema.define(:version => 20130201191818) do
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
     t.string   "slug"
+    t.string   "homepage_image_file_name"
+    t.string   "homepage_image_content_type"
+    t.integer  "homepage_image_file_size"
+    t.datetime "homepage_image_updated_at"
   end
 
   add_index "courses", ["slug"], :name => "index_courses_on_slug", :unique => true

@@ -1,29 +1,18 @@
-- painter_course = Course.where{name.like 'tango'}.first || Course.first
-- painter_course = Course.where{name.like 'peinture'}.first || Course.first
-- mime_course    = Course.where{name.like 'comédie'}.first || Course.first
 .home-screen
   %h1.text-center.home-screen-title
     Réservez le bon cours au meilleur prix.
   %h5.text-center.home-screen-subtitle
     = "Parmi #{Discipline.count} disciplines et #{Planning.count} séances, pour tous les âges."
   = render 'shared/home_page_search_form'
-  %ul.slideshow-controller
-    %li.active
-    %li
-    %li
-  %ul#slideshow.slideshow.home-slideshow
-    // ---------------------------------------------- Tango course
-    %li
-      = render 'slideshow_course_info', course: mime_course
-      = image_tag asset_path('home-page/dance.jpg')
-    // ---------------------------------------------- Painter course
-    %li
-      = render 'slideshow_course_info', course: painter_course
-      = image_tag asset_path('home-page/painter.jpg')
-    // ---------------------------------------------- Mime course
-    %li
-      = render 'slideshow_course_info', course: mime_course
-      = image_tag asset_path('home-page/mime.jpg')
+  - unless @promoted_courses.nil?
+    %ul.slideshow-controller
+      - @promoted_courses.count.times do |index|
+        %li{class: (index == 1 ? 'active' : '')}
+    %ul#slideshow.slideshow.home-slideshow
+      - @promoted_courses.each do |promoted_course|
+        %li
+          = render 'slideshow_course_info', course: promoted_course
+          = image_tag promoted_course.homepage_image
 
 = content_for :scripts do
   :javascript

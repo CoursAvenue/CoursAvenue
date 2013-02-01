@@ -12,10 +12,10 @@ ActiveAdmin.register Discipline do
   end
 
   form :html => { :enctype => "multipart/form-data" } do |f|
-   f.inputs "Details" do
-    f.input :name
-    f.input :image, :as => :file
+    f.inputs "Details" do
+      f.input :name
+      f.input :image, :as => :file
+    end
+    f.buttons
   end
-  f.buttons
- end
 end

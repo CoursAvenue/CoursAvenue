@@ -6,6 +6,8 @@ class Course < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  has_attached_file :homepage_image, :styles => {default: '1600×500#'}
+
   belongs_to :structure
 
   has_many :plannings
@@ -27,6 +29,8 @@ class Course < ActiveRecord::Base
 
   attr_accessible :name,
                   :has_online_payment,
+                  :homepage_image,
+                  :is_promoted,
                   :description,
                   :has_promotion,
                   :course_info,

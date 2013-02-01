@@ -4,6 +4,7 @@ class CreateCourses < ActiveRecord::Migration
       t.string  :type
       t.string  :name
       t.text    :description
+      t.boolean :is_promoted, default: false
       t.boolean :has_online_payment, default: false
       t.boolean :has_promotion     , default: false
       t.text    :course_info
