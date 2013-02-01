@@ -49,7 +49,8 @@ class Course < ActiveRecord::Base
   # ------------------------------------------------------------------------------------ Self methods
 
   def self.from_city(city, scope)
-    scope.joins{structure}.where{structure.city == city}
+    city_id = City.where{short_name == city}.first.id
+    scope.joins{structure}.where{structure.city_id == city_id}
   end
 
   def self.of_discipline(discipline_name, scope)

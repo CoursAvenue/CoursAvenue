@@ -9,7 +9,6 @@ namespace :import do
   def structure_hash_from_row(row)
     {
       name:                                          row[0],
-      city:                                         'paris',
       name_2:                                        row[5],
       structure_type:                                row[3],
 
@@ -66,11 +65,14 @@ namespace :import do
 
     puts "Importing: #{file_name}"
     csv_text = File.read(file_name)
-    csv = CSV.parse(csv_text)
+    csv      = CSV.parse(csv_text)
+    paris    = City.where{name == 'Paris'}.first
     csv.each_with_index do |row, i|
       next if i == 0
       structure_info = structure_hash_from_row(row)
-      Structure.create(structure_info)
+      structure      = Structure.new(structure_info)
+      structure.city = paris
+      structure.save
     end
     puts "#{Structure.count} structures importés"
   end

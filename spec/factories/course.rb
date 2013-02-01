@@ -19,6 +19,9 @@ FactoryGirl.define do
     refund_condition            ''
     cant_be_joined_during_year  {}
 
+    factory :course_at_paris do
+      structure_at_paris
+    end
     factory :course_for_kid do
       min_age_for_kid  10
       max_age_for_kid  14

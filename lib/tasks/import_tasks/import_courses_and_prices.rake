@@ -238,7 +238,6 @@ namespace :import do
   desc 'Import Renting rooms from CSV'
   task :courses_prices_and_plannings, [:filename] => :environment do |t, args|
     file_name = args.filename
-
     puts "Importing: #{file_name}"
     csv_text = File.read(file_name)
     csv = CSV.parse(csv_text)
@@ -318,7 +317,6 @@ namespace :import do
       row[:book_tickets].each do |book_ticket|
         course.book_tickets << BookTicket.create(book_ticket) unless course.book_tickets.any?{|b| b.number == book_ticket[:number]}
       end
-
       course.save
     end
     puts "#{Course.count} Cours importés"

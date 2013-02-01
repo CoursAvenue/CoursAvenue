@@ -1,8 +1,9 @@
 class Structure < ActiveRecord::Base
-  acts_as_gmappable validation: false,
-                    language: 'fr' # :msg => "Désolé, même Google n'a pas trouvé où l'établissement se trouve."
+  # acts_as_gmappable validation: false,
+  #                   language: 'fr' # :msg => "Désolé, même Google n'a pas trouvé où l'établissement se trouve."
   before_save :retrieve_address
 
+  belongs_to :city
   has_many :courses
   has_many :renting_rooms
 

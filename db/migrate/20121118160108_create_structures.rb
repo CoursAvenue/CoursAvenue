@@ -2,7 +2,6 @@ class CreateStructures < ActiveRecord::Migration
   def change
     create_table :structures do |t|
       t.string  :structure_type
-      t.string  :city
       t.string  :name
       t.string  :name_2
       t.text    :info
@@ -44,7 +43,9 @@ class CreateStructures < ActiveRecord::Migration
       t.boolean :needs_medical_certificate_for_registration # certificat médical de moins de 3 mois
       t.boolean :needs_insurance_attestation_for_registration # attestation d'assurance
 
+      t.references :city
       t.timestamps
     end
+    add_index :structures, :city_id
   end
 end

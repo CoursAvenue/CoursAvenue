@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130127215535) do
+ActiveRecord::Schema.define(:version => 20130201191818) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -70,6 +70,15 @@ ActiveRecord::Schema.define(:version => 20130127215535) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "cities", :force => true do |t|
+    t.string   "name"
+    t.string   "short_name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "cities", ["short_name"], :name => "index_cities_on_short_name"
 
   create_table "courses", :force => true do |t|
     t.string   "type"
@@ -220,7 +229,6 @@ ActiveRecord::Schema.define(:version => 20130127215535) do
 
   create_table "structures", :force => true do |t|
     t.string   "structure_type"
-    t.string   "city"
     t.string   "name"
     t.string   "name_2"
     t.text     "info"
@@ -259,6 +267,7 @@ ActiveRecord::Schema.define(:version => 20130127215535) do
     t.boolean  "needs_payment_on_place_for_registration"
     t.boolean  "needs_medical_certificate_for_registration"
     t.boolean  "needs_insurance_attestation_for_registration"
+    t.integer  "city_id"
     t.datetime "created_at",                                   :null => false
     t.datetime "updated_at",                                   :null => false
     t.float    "latitude"
@@ -266,6 +275,6 @@ ActiveRecord::Schema.define(:version => 20130127215535) do
     t.boolean  "gmaps"
   end
 
-  add_index "structures", ["city"], :name => "index_structures_on_city"
+  add_index "structures", ["city_id"], :name => "index_structures_on_city_id"
 
 end
