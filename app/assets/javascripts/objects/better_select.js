@@ -18,7 +18,7 @@
         },
 
         attachEvents: function() {
-            this.el.addEvent('click', function() {
+            this.title_wrapper.addEvent('click', function() {
                 this.title_wrapper.hide();
                 this.select_input.show();
             }.bind(this));
