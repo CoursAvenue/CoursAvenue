@@ -31,13 +31,14 @@
 
 .course-title {
     > span {
-        position: relative;
         vertical-align: middle;
+        font-weight   : normal;
     }
     .map-marker-image {
-        font-size: 12px;
-        top: 0;
-        right: 0;
+        position       : static;
+        font-size      : 12px;
+        display        : inline-block;
+        vertical-align : middle;
     }
 }
 .course-price {

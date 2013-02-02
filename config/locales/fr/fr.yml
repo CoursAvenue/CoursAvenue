@@ -227,8 +227,8 @@ fr:
     pagination:
       truncate: '...'
       first: "Début"
-      previous: "<i class='icon-arrow-left'></i> Précedent"
-      next: "Suivant <i class='icon-arrow-right'></i>"
+      previous: "<i class='icon-arrow-left'></i>"
+      next: "<i class='icon-arrow-right'></i>"
       last: Fin
       page_entries_info: "Résultat : %{from} à %{to} sur %{count} cours"
 
