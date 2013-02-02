@@ -31,10 +31,17 @@
 
 .course-title {
     > span {
+        position: relative;
         vertical-align: middle;
+    }
+    .map-marker-image {
+        font-size: 12px;
+        top: 0;
+        right: 0;
     }
 }
 .course-price {
+    position        : relative;
     color           : $grayDarker;
     vertical-align  : middle;
     text-align      : right;
@@ -42,6 +49,10 @@
     line-height     : 1;
     p {
         margin-bottom: 10px;
+    }
+    .map-marker-image {
+        top  : 0;
+        right: 0;
     }
 }
 

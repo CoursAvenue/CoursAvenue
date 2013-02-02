@@ -7,11 +7,6 @@ class Structure < ActiveRecord::Base
   has_many :courses
   has_many :renting_rooms
 
-  # attr_accessible :logo
-  # attr_accessible :photo
-  # has_attached_file :logo
-  # has_attached_file :photo
-
   validates :name, :presence   => true
   validates :name, :uniqueness => true
 

@@ -72,13 +72,18 @@ class CoursesController < ApplicationController
     @courses = @courses.page(params[:page]).per(15)
 
     @course_structures = @courses.collect{|course| course.structure}.uniq
+
+    # To remove
     @course_structures.each do |structure|
       structure.geolocalize unless structure.is_geolocalized?
     end
+    structure_index = 0
     @json_structure_addresses = @course_structures.to_gmaps4rails do |structure, marker|
+      structure_index += 1
       marker.picture({
                       :marker_anchor => [10, true],
-                      :rich_marker   => "<img width='25' src='#{ActionController::Base.helpers.image_path('icons/bulle.png')}'/>"
+                      #:rich_marker   => "<img width='25' src='#{ActionController::Base.helpers.image_path('icons/bulle.png')}'/>"
+                      :rich_marker   => "<div class='map-marker-image'><a href='#'><span>#{structure_index}</span></a></div>"
                      })
       marker.title   structure.name
       marker.json({ id: structure.id })
@@ -88,6 +93,7 @@ class CoursesController < ApplicationController
       format.html { @courses }
     end
   end
+
 
   def show
     @course          = Course.find(params[:id])

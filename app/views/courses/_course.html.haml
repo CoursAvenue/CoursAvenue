@@ -1,6 +1,10 @@
 %li.one-whole.course-element{data: {"structure-id" => course.structure_id}}
   %div.two-twelfths
     .course-image.media__img
+      / .map-marker-image
+      /   = link_to full_course_path(course) do
+      /     %span= @course_structures.index(course.structure) + 1
+
       - if !course.disciplines.empty? and course.disciplines.first.image.present?
         = image_tag course.disciplines.first.image.url(:thumb)
       - else
@@ -11,8 +15,12 @@
   %article.course-content
     %header
       %h4.hN.course-title
+        .map-marker-image{style: 'position:static; font-size: 12px; vertical-align: middle; display: inline-block;'}
+          = link_to full_course_path(course) do
+            %span= @course_structures.index(course.structure) + 1
         %span= link_to course.name, full_course_path(course)
-        %span.lbl.milli= course.type_name
+        %span.lbl.milli
+          = course.type_name
 
     - if course.is_training?
       %p
@@ -38,9 +46,12 @@
       - if course.plannings.length > 1
         = "et #{course.plannings.length - 1} autres dates."
     - course.disciplines.each do |discipline|
-      = link_to discipline.name, courses_with_old_params_path({city: params[:city], discipline: u(discipline.name)}), class: 'lbl lbl--orange'
+      = link_to discipline.name, courses_with_old_params_path({city: params[:city], discipline: u(discipline.name)}), class: 'lbl lbl--orange milli'
 
   %div.course-price.two-twelfths
+    / .map-marker-image
+    /   = link_to full_course_path(course) do
+    /     %span= @course_structures.index(course.structure) + 1
     - if course.best_price.nil?
       %p.epsilon= link_to "Contacter l'établissement", full_course_path(course)
     - else
