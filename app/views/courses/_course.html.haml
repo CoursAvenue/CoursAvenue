@@ -44,7 +44,7 @@
     %footer
       %span.lbl.milli= course.type_name
       - course.disciplines.each do |discipline|
-        = link_to discipline.name, courses_path({city: params[:city], discipline: u(discipline.name)}), class: 'lbl lbl--orange milli inline'
+        = link_to discipline.name, courses_path({city: params[:city], discipline: u(discipline.name)}), class: 'lbl lbl--blue milli inline'
 
   %div.course-price.two-twelfths
     - if course.best_price.nil?

@@ -19,7 +19,7 @@ $white:                 #fff !default;
 $blue:                  #049cdb !default;
 $blueDark:              #0064cd !default;
 $green:                 #39aa82 !default;
-$blue-green:            #2AADA3 !default;
+$blueGreen:            #2AADA3 !default;
 $greenLight:            #62BC62 !default;
 $red:                   #9d261d !default;
 $redLight:              #EC1706 !default;
@@ -29,8 +29,9 @@ $pink:                  #c3325f !default;
 $purple:                #7a43b6 !default;
 $beige:                 #f7f5f3 !default;
 
-$brand-color:           $orange !default;
-$alternativeBackground: lighten($brand-color, 35%) !default;
+$brandColor:           $orange !default;
+$brand-color:          $orange !default;
+$alternativeBackground: lighten($brandColor, 35%) !default;
 $homescreenBackground:  $beige !default;
 
 

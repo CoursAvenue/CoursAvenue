@@ -3,13 +3,15 @@ require 'spec_helper'
 
 describe Course do
 
-  it 'should not change the slug when the name change' do
-    course = FactoryGirl.create(:course)
-    initial_slug = course.slug
-    course.name += ' new slug'
-    course.save
-    expect(initial_slug).not_to eq(nil)
-    expect(initial_slug).to eq(course.slug)
+  context 'friendly_id' do
+    it 'should not change the slug when the name change' do
+      course = FactoryGirl.create(:course)
+      initial_slug = course.slug
+      course.name += ' new slug'
+      course.save
+      expect(initial_slug).not_to eq(nil)
+      expect(initial_slug).to eq(course.slug)
+    end
   end
 
   # ------------- Search tests

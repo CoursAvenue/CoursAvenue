@@ -11,8 +11,8 @@
     border      : 1px solid black;
     @include border-bottom-radius($brand-round);
     &.notice {
-        background-color: $blue-green;
-        border-color    : darken($blue-green, 10%);
+        background-color: $blueGreen;
+        border-color    : darken($blueGreen, 10%);
     }
     &.error {
         background-color: lighten($redLight, 10%);

@@ -7,6 +7,7 @@ class Course < ActiveRecord::Base
   friendly_id :name, use: :slugged
 
   has_attached_file :homepage_image, :styles => {default: '1600×500#'}
+  has_attached_file :image, :styles => { wide: "600x375#", thumb: "200x200#" }
 
   belongs_to :structure
 

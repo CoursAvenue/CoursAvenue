@@ -7,11 +7,11 @@ $datepicker-width           : 18em;
 $datepicker-height          : 18em;
 $datepicker-header-height   : 2.5em;
 
-$hoveredColor               : lighten($brand-color, 30%);
+$hoveredColor               : lighten($brandColor, 30%);
 
 .selected-button {
     // If you have a specific selected-button style, you can do @extend .my-btn--selected
-    background-color: $brand-color;
+    background-color: $brandColor;
     color           : white;
 }
 

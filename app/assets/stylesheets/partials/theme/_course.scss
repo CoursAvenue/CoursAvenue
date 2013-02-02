@@ -9,7 +9,7 @@
         bottom          : 0;
         width           : 100%;
         padding         : 0.3em;
-        background-color: $brand-color;
+        background-color: $brandColor;
         color           : white;
     }
 
@@ -83,7 +83,7 @@
 }
 .course-block-title {
     margin-bottom: 0;
-    color: $blue-green;
+    color: $blueGreen;
 }
 .course-block-caption {
     @extend .milli;

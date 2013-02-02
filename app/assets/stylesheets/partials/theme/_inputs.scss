@@ -17,7 +17,7 @@ input {
 
 }
 input:focus {
-    border-color: opacify($brand-color, 0.8);
+    border-color: opacify($brandColor, 0.8);
     outline     : 0;
-    @include box-shadow(0 0 4px opacify($brand-color, 0.8),0 0 0 #000);
+    @include box-shadow(0 0 4px opacify($brandColor, 0.8),0 0 0 #000);
 }

@@ -3,14 +3,15 @@
     = @course.description
 
 %ol.nav
-  %li= link_to "#{@structure.city.capitalize} >", courses_path(city: @structure.city, discipline: t('all_discipline_route_name'))
+  %li= link_to "#{@structure.city.name} >", courses_path(city: @structure.city, discipline: t('all_discipline_route_name'))
   - unless @discipline.nil? || @discipline.parent.nil?
     %li= link_to "#{@discipline.parent.name.capitalize} >", courses_path(city: @structure.city, discipline: u(@discipline.parent.name))
   %li= link_to @discipline_name.capitalize, courses_path(city: @structure.city, discipline: u(@discipline_name))
-%ul.nav
-  - @disciplines.each do |discipline|
-    %li
-      .lbl.lbl--orange= discipline.name
+  %li
+    %ul.nav
+      - @disciplines.each do |discipline|
+        %li
+          %span.milli.lbl.lbl--orange= discipline.name
 .gw
   %section.g.seven-tenths
 

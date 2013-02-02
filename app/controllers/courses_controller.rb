@@ -83,7 +83,7 @@ class CoursesController < ApplicationController
       marker.picture({
                       :marker_anchor => [10, true],
                       #:rich_marker   => "<img width='25' src='#{ActionController::Base.helpers.image_path('icons/bulle.png')}'/>"
-                      :rich_marker   => "<div class='map-marker-image'><a href='#'><span>#{structure_index}</span></a></div>"
+                      :rich_marker   => "<div class='map-marker-image' style='font-size: 13px;'><a href='#'><span>#{structure_index}</span></a></div>"
                      })
       marker.title   structure.name
       marker.json({ id: structure.id })
