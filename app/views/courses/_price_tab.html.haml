@@ -2,9 +2,9 @@
   %table.table--striped.table--data#planning-schedule
     %thead
       %tr
-        %th= t('formule_type')
-        %th.text-center= t('without_promo')
-        %th.text-center= t('with_promo')
+        %th= t('.formule_type')
+        %th.text-center= t('.without_promo')
+        %th.text-center= t('.with_promo')
     %tbody
       = render @course.prices
       = render @course.book_tickets
