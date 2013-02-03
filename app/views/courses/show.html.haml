@@ -3,10 +3,10 @@
     = @course.description
 
 %ol.nav
-  %li= link_to "#{@structure.city.name} >", courses_path(city: @structure.city, discipline: t('all_discipline_route_name'))
+  %li= link_to "#{@structure.city.name} >", courses_path(city: params[:city], discipline: t('all_discipline_route_name'))
   - unless @discipline.nil? || @discipline.parent.nil?
-    %li= link_to "#{@discipline.parent.name.capitalize} >", courses_path(city: @structure.city, discipline: u(@discipline.parent.name))
-  %li= link_to @discipline_name.capitalize, courses_path(city: @structure.city, discipline: u(@discipline_name))
+    %li= link_to "#{@discipline.parent.name.capitalize} >", courses_path(city: params[:city], discipline: u(@discipline.parent.name))
+  %li= link_to @discipline_name.capitalize, courses_path(city: params[:city], discipline: u(@discipline_name))
   %li
     %ul.nav
       - @disciplines.each do |discipline|
@@ -28,7 +28,7 @@
 
       .course-header-map
         = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
-        .course-header-structure-name
+        %p.course-header-structure-name
           %b= @structure.name
           %br
           %i.icon-map-marker

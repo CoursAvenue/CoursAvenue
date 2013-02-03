@@ -8,9 +8,10 @@ require 'csv'
 namespace :import do
 
   def week_day_number(week_day_name)
-    return nil           if week_day_name.blank?
-    return week_day_name if week_day_name.is_a? Integer
-    return I18n.t('date.day_names').index(week_day_name.downcase)
+    return nil                if week_day_name.blank?
+    return week_day_name      if week_day_name.is_a? Integer
+    return week_day_name.to_i if week_day_name.to_i > 0
+    return I18n.t('date.day_names').index(week_day_name.downcase) + 1
   end
 
   def course_class(name)

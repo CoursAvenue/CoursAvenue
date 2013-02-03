@@ -9,5 +9,5 @@
       = label_tag "search_week_days_all", 'Tous les jours'
     - t('date.day_names').each_with_index do |week_day, index|
       %li
-        = check_box_tag 'week_days[]', index, params[:week_days].include?(index.to_s), id: "search_week_day_#{week_day}"
+        = check_box_tag 'week_days[]', (index + 1), params[:week_days].include?((index + 1).to_s), id: "search_week_day_#{week_day}"
         = label_tag "search_week_day_#{week_day}", week_day.capitalize

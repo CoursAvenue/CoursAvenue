@@ -46,8 +46,8 @@
         - if @course.min_age_for_kid
           %li
             %label= Course.human_attribute_name(:min_age_for_kid)
-            %strong.fr= "#{@course.min_age_for_kid} €"
+            %strong.fr= "#{@course.min_age_for_kid} ans"
         - if @course.max_age_for_kid
           %li
-            %label= Course.human_attribute_name(:min_age_for_kid)
-            %strong.fr= "#{@course.min_age_for_kid} €"
+            %label= Course.human_attribute_name(:max_age_for_kid)
+            %strong.fr= "#{@course.max_age_for_kid} ans"

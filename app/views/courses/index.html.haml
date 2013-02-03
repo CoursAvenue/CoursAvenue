@@ -6,8 +6,11 @@
     .flexbox.page-entries-wrapper
       .flexbox__item
         .proceed= paginate @courses, window: 2, outer_window: 1
-    %ul.block-list.course-list
-      = render partial: 'course', :collection => @courses
+    - if @courses.empty?
+      = image_tag City.where{short_name == params[:city]}.first.no_result_image
+    - else
+      %ul.block-list.course-list
+        = render partial: 'course', :collection => @courses
 
     %footer.g.one-whole
       = paginate @courses, window: 2, outer_window: 1

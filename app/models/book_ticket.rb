@@ -9,7 +9,7 @@ class BookTicket < ActiveRecord::Base
     if read_attribute(:price).nil?
       ''
     else
-      ('%.2f' % read_attribute(:price)).gsub('.00', '')
+      ('%.2f' % read_attribute(:price)).gsub('.', ',').gsub(',00', '')
     end
   end
 
