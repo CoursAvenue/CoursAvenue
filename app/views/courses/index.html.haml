@@ -7,7 +7,7 @@
       .flexbox__item
         .proceed= paginate @courses, window: 2, outer_window: 1
     - if @courses.empty?
-      = image_tag City.where{short_name == params[:city]}.first.no_result_image
+      = render 'no_results'
     - else
       %ul.block-list.course-list
         = render partial: 'course', :collection => @courses

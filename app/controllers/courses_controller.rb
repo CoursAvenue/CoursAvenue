@@ -3,7 +3,9 @@ class CoursesController < ApplicationController
 
   def index
     params[:page] ||= 1
-    @courses = Course
+    city_name = params[:city]
+    @city     = City.where{short_name == city_name}.first
+    @courses  = Course
 
     @audiences = Audience.all
     @levels    = [

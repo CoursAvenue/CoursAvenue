@@ -7,7 +7,7 @@
     text-align  : center;
     color       : white;
     padding     : 0.5em 1em;
-    //font-weight : bold;
+    z-index     : 10000;
     border      : 1px solid black;
     @include border-bottom-radius($brand-round);
     &.notice {
