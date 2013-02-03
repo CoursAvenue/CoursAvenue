@@ -1,0 +1,10 @@
+.popover {
+    display         : none;
+    position        : absolute;
+    border          : 1px solid darken($gray, 5%);
+    padding         : 0.3em 0.6em;
+    margin          : 0;
+    background-color: $gray;
+    color           : $grayLighter;
+    @include border-radius($brand-round);
+}

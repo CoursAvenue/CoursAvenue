@@ -54,6 +54,7 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'awesome_print'
+  gem 'meta_request', '0.2.1'
 end
 
 gem 'google-analytics-rails'

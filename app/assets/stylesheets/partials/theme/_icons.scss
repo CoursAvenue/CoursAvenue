@@ -1,0 +1,32 @@
+.lbc-icon-calendar, .lbc-icon-clock, .lbc-brand-icon {
+    display          : inline-block;
+    background-size  : 100%;
+    background-repeat: no-repeat;
+    width            : 14px;
+    height           : 14px;
+    vertical-align   : middle;
+    position         : relative;
+    top              : -1px;
+}
+
+.lbc-icon-calendar {
+    background-image : image-url('icons/calendar.png');
+    height           : 16px;
+}
+.lbc-icon-clock {
+    background-image : image-url('icons/clock.png');
+}
+
+.lbc-icon-info {
+    font-size  : 1.1em;
+    font-style : italic;
+    font-family: Baskerville, Time New Roman;
+    font-weight: bold;
+}
+
+.lbc-brand-icon {
+    cursor           : pointer;
+    background-image : image-url('icons/bulle.png');
+    height           : 16px;
+    width            : 16px;
+}

@@ -17,8 +17,10 @@ describe Course do
   # ------------- Search tests
 
   it 'should return courses from given city' do
-    course         = FactoryGirl.create(:course_at_paris)
-    courses_result = Course.from_city(FactoryGirl.build(:city_paris).short_name)
+    city_paris     = FactoryGirl.build(:city_paris)
+    structure      = Structure(name: 'Lorem', city: city_paris)
+    course         = Course.new(name: 'lorem', structure_id: structure.id)
+    courses_result = Course.from_city(city_paris.short_name)
     expect(courses_result).to include(course)
 
     # structure      = course.structure

@@ -32,7 +32,7 @@
         line-height         : 2em;
         position            : relative;
         display             : block;
-        background-image    : url(image_path('icons/bulle.png'));
+        background-image    : image-url('icons/bulle.png');
         background-repeat   : no-repeat;
         background-position : center center;
         background-size     : 100%;

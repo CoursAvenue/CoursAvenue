@@ -74,8 +74,12 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
   create_table "cities", :force => true do |t|
     t.string   "name"
     t.string   "short_name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "no_result_image_file_name"
+    t.string   "no_result_image_content_type"
+    t.integer  "no_result_image_file_size"
+    t.datetime "no_result_image_updated_at"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
   add_index "cities", ["short_name"], :name => "index_cities_on_short_name"
@@ -111,6 +115,10 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
     t.string   "homepage_image_content_type"
     t.integer  "homepage_image_file_size"
     t.datetime "homepage_image_updated_at"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   add_index "courses", ["slug"], :name => "index_courses_on_slug", :unique => true

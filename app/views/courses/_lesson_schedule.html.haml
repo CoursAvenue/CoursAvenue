@@ -5,6 +5,8 @@
       %th.text-center Créneau horaire
       %th.text-center Durée
       %th.text-center Promo
+      %th.text-center
+        %i.lbc-icon-info i
   %tbody
     - @plannings.each do |planning|
       %tr{data: {'course-id' => planning.course_id}}
@@ -12,3 +14,6 @@
         %td.text-center= readable_time_slot planning
         %td.text-center= readable_duration planning
         %td.text-center -
+        %td.text-center
+          - if planning.info.present?
+            .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}

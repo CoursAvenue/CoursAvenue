@@ -23,7 +23,7 @@ a.header-link:link {
     position: relative;
 }
 .espace-pro {
-    background-image    : url(image_path('header/espace-pro.png'));
+    background-image    : image-url('header/espace-pro.png');
     background-repeat   : no-repeat;
     background-position : center center;
     background-size     : 100%;
