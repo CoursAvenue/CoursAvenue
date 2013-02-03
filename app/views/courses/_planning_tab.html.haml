@@ -39,9 +39,10 @@
           %label= t('.class_during_holidays')
           %strong.fr= (@course.plannings.first.class_during_holidays ? t('yes') : t('no'))
 
-        %li
-          %label= Course.human_attribute_name(:is_for_handicaped)
-          %strong.fr= (@course.is_for_handicaped ? t('yes') : t('no'))
+        - if @course.is_for_handicaped
+          %li
+            %label= Course.human_attribute_name(:is_for_handicaped)
+            %strong.fr= t('yes')
 
         - if @course.min_age_for_kid
           %li

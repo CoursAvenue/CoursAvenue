@@ -23,7 +23,6 @@
     position        : relative;
     margin-top      : 4em; // Because of town-chooser;
     @include font-size(12px);
-    @include box-sizing(border-box);
     // @include background-image(linear-gradient(top, #f6f6f6 0%,#e5e5e5 100%));
     @include background-image(linear-gradient(top, #eee 0%,#e5e5e5 100%));
     @include media-query(palm) { display: block; };

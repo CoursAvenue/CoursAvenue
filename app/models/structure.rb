@@ -1,7 +1,9 @@
 class Structure < ActiveRecord::Base
-  acts_as_gmappable validation: false,
-                    language: 'fr' # :msg => "Désolé, même Google n'a pas trouvé où l'établissement se trouve."
-  before_save :retrieve_address
+  unless Rails.env.test?
+    acts_as_gmappable validation: false,
+                      language: 'fr' # :msg => "Désolé, même Google n'a pas trouvé où l'établissement se trouve."
+    before_save :retrieve_address
+  end
 
   belongs_to :city
   has_many :courses
@@ -60,7 +62,7 @@ class Structure < ActiveRecord::Base
   end
 
   def retrieve_address
-    if !self.new_record? and self.latitude == nil
+    if !self.new_record? and !self.is_geolocalized?
       begin
         geolocation    = Gmaps4rails.geocode self.gmaps4rails_address
         self.latitude  = geolocation[:lat]

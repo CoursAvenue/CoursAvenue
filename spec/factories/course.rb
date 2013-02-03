@@ -19,7 +19,7 @@ FactoryGirl.define do
     refund_condition            ''
     cant_be_joined_during_year  {}
 
-    factory :course_at_paris do
+    factory :course_at_paris, class: Course do
       structure_at_paris
     end
     factory :course_for_kid do

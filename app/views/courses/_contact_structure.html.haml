@@ -1,10 +1,19 @@
-%article
-  %h4
+%article.course-info
+  .course-info-header.text-center
     À partir de
     = @course.best_price.amount
     €
-  %h4 Contacter l'établissement
-  %p
-    = link_to @structure.phone_number, "tel:#{@structure.phone_number.gsub(/\s+/, '')}", :class => 'btn' if @structure.phone_number
-  %p
+  - if @course.teacher_name.present?
+    %h3.course-info-header.text-center.islet= "Contacter #{@course.teacher_name}"
+  - else
+    .course-info-header.text-center.islet Contacter l'établissement
+  - if @structure.phone_number
+    .spoken-form
+      %label Tél
+      = link_to @structure.phone_number, "tel:#{@structure.phone_number.gsub(/\s+/, '')}", :class => 'fr'
+  - if @structure.website
+    .spoken-form
+      %label Site web
+      = link_to @structure.name, @structure.website, class: 'fr'
+  .course-info-booking-button.text-center
     = link_to 'Réservez en ligne', '#', :disabled => true, :class => 'btn disabled'

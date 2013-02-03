@@ -19,7 +19,11 @@ describe Course do
   it 'should return courses from given city' do
     city_paris     = FactoryGirl.build(:city_paris)
     structure      = Structure(name: 'Lorem', city: city_paris)
-    course         = Course.new(name: 'lorem', structure_id: structure.id)
+
+    course = FactoryGirl.build(:course) do |course|
+
+    end
+
     courses_result = Course.from_city(city_paris.short_name)
     expect(courses_result).to include(course)
 

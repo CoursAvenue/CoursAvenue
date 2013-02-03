@@ -1,0 +1,15 @@
+.course-info {
+    border       : #CCC 1px solid;
+    margin-bottom: 1em;
+    padding      : 0.5em 1em 1em 1em;
+}
+    .course-info-header {
+        font-weight  : bold;
+        margin-top   : 0.5em;
+        border-top   : 1px solid #CCC;
+        padding-top  : 0.5em;
+        @extend .delta;
+    }
+    .course-info-booking-button {
+        margin-top: 1em;
+    }
