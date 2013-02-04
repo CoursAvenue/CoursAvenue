@@ -137,10 +137,13 @@ namespace :import do
         'price.month' =>                              row[48],
       }
     }
-    hash[:course][:course_info] = row[11].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>') unless row[11].blank?
-    if !row[11].blank? and !row[12].blank?
-      hash[:course][:course_info] += '<br>'
-      hash[:course][:course_info] += row[12].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>')
+    # Has course info only if planning info is blank
+    if row[105].blank?
+      hash[:course][:course_info] = row[11].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>') unless row[11].blank?
+      if !row[11].blank? and !row[12].blank?
+        hash[:course][:course_info] += '<br>'
+        hash[:course][:course_info] += row[12].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>')
+      end
     end
     hash[:course][:price_info] = row[73].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>') unless row[73].blank?
     if !row[73].blank? and !row[74].blank?
