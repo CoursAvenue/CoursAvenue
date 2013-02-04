@@ -17,9 +17,17 @@
         },
 
         createPopoverDiv: function() {
+            var width;
             this.popover_element = new Element('p.popover');
             this.popover_element.set('text', this.content)
-            this.el.parentElement.appendChild(this.popover_element);
+            this.el.appendChild(this.popover_element);
+            width = (this.content.length / 2);
+            if (width < 30) {
+                this.popover_element.setStyle('width', width + 'em');
+                this.popover_element.setStyle('margin-left', '-' + (width / 2) + 'em');
+            }
+            // Must set top property after setting width
+            this.popover_element.setStyle('top', '-' + this.popover_element.getComputedSize().totalHeight + 'px');
         },
 
         attachEvents: function() {

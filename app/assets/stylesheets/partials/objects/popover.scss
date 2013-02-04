@@ -1,6 +1,10 @@
 .popover {
     display         : none;
     position        : absolute;
+    left            : 50%;
+    margin-left     : -15em !important;
+    width           : 30em;
+    max-width       : 30em;
     border          : 1px solid darken($gray, 5%);
     padding         : 0.3em 0.6em;
     margin          : 0;
