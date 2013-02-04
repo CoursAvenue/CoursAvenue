@@ -40,8 +40,8 @@
           .flexbox__item.one-quarter.palm-one-half
             %h5 Disciplines
             %ul.discrete-list
-              - Discipline.limit(10).each do |discipline|
-                %li= link_to discipline.name, courses_path(discipline: u(discipline.name.downcase))
+              - Subject.limit(10).each do |subject|
+                %li= link_to subject.name, courses_path(subject: u(subject.name.downcase))
           .flexbox__item.one-quarter.palm-one-half
             %h5 Niveaux
             %ul.discrete-list

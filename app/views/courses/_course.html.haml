@@ -4,7 +4,7 @@
       - if course.image.present?
         = image_tag course.image.image.url(:thumb)
       - else
-        = image_tag course.disciplines.first.image.url(:thumb)
+        = image_tag course.subjects.first.image.url(:thumb)
       - if course.has_promotion
         .course-promo.price-badge= readable_promotion course.promotion
 
@@ -41,8 +41,8 @@
         = "et #{course.plannings.length - 1} autres dates."
     %footer
       %span.lbl.milli= course.type_name
-      - course.disciplines.each do |discipline|
-        = link_to discipline.name, courses_path({city: params[:city], discipline: discipline.short_name}), class: 'lbl milli inline blue'
+      - course.subjects.each do |subject|
+        = link_to subject.name, courses_path({city: params[:city], subject: subject.short_name}), class: 'lbl milli inline blue'
 
   %div.course-price.two-twelfths
     - if course.best_price.nil?

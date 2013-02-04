@@ -1,5 +1,6 @@
 class CoursesController < ApplicationController
   include TimeParser
+  # default_url_options
   def index
     params[:page] ||= 1
     @courses  = Course
@@ -18,8 +19,8 @@ class CoursesController < ApplicationController
       when 'city'
         @courses = @courses.from_city(value, @courses)
 
-      when 'discipline'
-        @courses = @courses.of_discipline(value, @courses)
+      when 'subject'
+        @courses = @courses.of_subject(value, @courses)
 
       when 'name'
         @courses = @courses.name_and_structure_name_contains(value, @courses) unless value.blank?
@@ -66,7 +67,8 @@ class CoursesController < ApplicationController
       end
     end
     # Group by id and order by first day in week
-    @courses = @courses.joins{plannings}.group{id}.order('has_promotion DESC, has_online_payment DESC, min(plannings.week_day)')
+    # @courses = @courses.joins{plannings}.group{id}.order('has_promotion DESC, has_online_payment DESC, min(plannings.week_day)')
+    @courses = @courses.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(plannings.week_day)')
 
     @courses = @courses.page(params[:page]).per(15)
 
@@ -97,7 +99,7 @@ class CoursesController < ApplicationController
     @course                = Course.find(params[:id])
     @structure             = @course.structure
     @plannings             = @course.plannings
-    @disciplines           = @course.disciplines
+    @subjects           = @course.subjects
 
     @similar_courses = @course.similar_courses
 

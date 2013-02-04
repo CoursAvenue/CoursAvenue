@@ -1,4 +1,4 @@
-class Discipline < ActiveRecord::Base
+class Subject < ActiveRecord::Base
   has_ancestry
   has_attached_file :image, :styles => { wide: "600x375#", thumb: "200x200#" }
 

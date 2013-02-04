@@ -2,7 +2,7 @@
   %h1.text-center.home-screen-title
     Réservez le bon cours au meilleur prix.
   %h5.text-center.home-screen-subtitle
-    = "Parmi #{Discipline.count} disciplines et #{Planning.count} séances, pour tous les âges."
+    = "Parmi #{Subject.count} disciplines et #{Planning.count} séances, pour tous les âges."
   = render 'shared/home_page_search_form'
   - unless @promoted_courses.nil?
     %ul.slideshow-controller

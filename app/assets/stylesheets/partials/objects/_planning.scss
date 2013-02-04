@@ -3,3 +3,15 @@
    margin-bottom: 0;
    line-height  : 2;
 }
+
+.promo-marker {
+    width               : 3em;
+    height              : 3em;
+    line-height         : 2.9em;
+    display             : block;
+    background-image    : image-url('icons/bulle.png');
+    background-repeat   : no-repeat;
+    background-position : center center;
+    background-size     : 100%;
+    color               : white;
+}

@@ -1,12 +1,12 @@
 # -*- encoding : utf-8 -*-
 FactoryGirl.define do
-  factory :structure_at_paris, class: Structure do
-    name { Forgery::Name.full_name + ' institute' }
-    association :city, factory: :city_paris
-  end
 
-  factory :structure_at_nice, class: Structure do
+  factory :structure do
     name { Forgery::Name.full_name + ' institute' }
-    association :city, factory: :city_nice
+    association :city
+
+    factory :structure_at_paris do
+      association :nice
+    end
   end
 end

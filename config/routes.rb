@@ -8,9 +8,21 @@ LeBonCours::Application.routes.draw do
 
   resources :newsletter_users, only: [:create]
 
-  resources :courses, only: [:index], controller: 'courses', type: Course.name, path: 'cours/:city/:discipline', defaults: {city: 'paris', discipline: I18n.t('all_discipline_route_name')}
-  resources :courses, only: [:show] , controller: 'courses', type: Course.name, path: ':type/:city/:discipline', defaults: {city: 'paris', discipline: I18n.t('all_discipline_route_name')}
+
+  # resources :city do
+  #   resources :subject
+  # end
+
+  scope '/cours' do
+    resources :city do
+      resources :courses, only: 'show'
+      resources :subjects, only: 'show'
+    end
+  end
+  # resources :courses, only: [:index], controller: 'courses', type: Course.name, path: 'cours/:city/:subject', defaults: {city: 'paris', subject: I18n.t('all_subject_route_name')}
+  resources :courses, only: [:show] , controller: 'courses', type: Course.name, path: ':type/:city/:subject', defaults: {city: 'paris', subject: I18n.t('all_subject_route_name')}
 
   root :to => 'home#index'
-
 end
+
+

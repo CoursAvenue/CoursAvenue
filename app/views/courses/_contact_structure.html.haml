@@ -20,6 +20,6 @@
     %b Réservation en ligne
     %p.course-info-heading-caption En attendant le lancement, restons en contact ! (promis, pas de spam, que des bons plans !)
   .text-center
-    = link_to 'Réservez en ligne', '#', :disabled => true, :class => 'btn btn__primary'
     = simple_form_for NewsletterUser.new do |f|
       = f.email_field :email, placeholder: t('newsletter_users.email'), size: 25
+    = link_to 'Réservez en ligne', '#', :disabled => true, :class => 'btn btn__primary'

@@ -63,3 +63,5 @@ gem 'newrelic_rpm'
 
 # Deploy with Capistrano
 # gem 'capistrano'
+
+# sunspot-rails

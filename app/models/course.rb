@@ -19,11 +19,11 @@ class Course < ActiveRecord::Base
   has_and_belongs_to_many :audiences
   has_and_belongs_to_many :levels
 
-  has_and_belongs_to_many :disciplines, :uniq => true
+  has_and_belongs_to_many :subjects, :uniq => true
 
   # ------------------------------------------------------------------------------------ Validations
   validates :structure  , presence: true
-  # validates :disciplines, presence: true
+  # validates :subjects, presence: true
 
   # ------------------------------------------------------------------------------------ Callbacks
   before_update :rollback_slug_change
@@ -59,17 +59,17 @@ class Course < ActiveRecord::Base
     scope.joins{structure}.where{structure.city_id == city_id}
   end
 
-  def self.of_discipline(discipline_name, scope)
-    if discipline_name == I18n.t('all_discipline_route_name')
+  def self.of_subject(subject_name, scope)
+    if subject_name == I18n.t('all_subject_route_name')
       return scope
     else
-      discipline_object = Discipline.where{short_name == discipline_name}.first
-      if discipline_object.parent_id.nil?
-        discipline_ids = discipline_object.children.map(&:id)
+      subject_object = Subject.where{short_name == subject_name}.first
+      if subject_object.parent_id.nil?
+        subject_ids = subject_object.children.map(&:id)
       else
-        discipline_ids = [discipline_object.id]
+        subject_ids = [subject_object.id]
       end
-      return scope.joins{disciplines}.where{disciplines.id.eq_any discipline_ids}
+      return scope.joins{subjects}.where{subjects.id.eq_any subject_ids}
     end
   end
 
@@ -173,8 +173,8 @@ class Course < ActiveRecord::Base
 
   # TODO: To be improved
   def similar_courses(limit = 5)
-    discipline_ids = self.discipline_ids.map(&:to_i)
-    similar_courses = Course.joins{disciplines}.where{disciplines.id.eq_any discipline_ids}.limit(limit) # With same discipline
+    subject_ids = self.subject_ids.map(&:to_i)
+    similar_courses = Course.joins{subjects}.where{subjects.id.eq_any subject_ids}.limit(limit) # With same subject
     if similar_courses.length < 5
       max_id          = Course.maximum('id')
       min_id          = Course.minimum('id')

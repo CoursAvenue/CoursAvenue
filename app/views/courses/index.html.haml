@@ -1,5 +1,5 @@
 = content_for :head do
-  %link{rel: 'canonical', href: courses_url(city: params[:city], discipline: t('all_discipline_route_name'))}
+  %link{rel: 'canonical', href: courses_url(city: params[:city], subject: t('all_subject_route_name'))}
 .gw
   = render 'search_form'
   %section.g.three-tenths

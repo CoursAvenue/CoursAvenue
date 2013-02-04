@@ -7,6 +7,14 @@ module PlanningsHelper
     end
   end
 
+  def readable_promotion(planning)
+    if planning.promotion.blank?
+      return '-'
+    else
+      return "#{planning.promotion.round}%"
+    end
+  end
+
   def readable_duration(planning)
     if planning.duration.blank?
       t('planning.no_duration')

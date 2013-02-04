@@ -16,7 +16,7 @@ namespace :import do
     }
   end
   # Use rake "import:renting_rooms[Path to CSV]"
-  desc 'Import Disciplines rooms from CSV'
+  desc 'Import Subjects rooms from CSV'
   task :disciplines, [:filename] => :environment do |t, args|
     file_name = args.filename
 
@@ -27,10 +27,13 @@ namespace :import do
       row = disciplines_hash_from_row(row)
 
       next if row[:discipline_name_1].blank?
-      courses = Course.where{name == row[:course_name]}
-      next if courses.empty?
-      discipline_1 = Discipline.where{name == row[:discipline_name_1]}.first
-      discipline_2 = Discipline.where{name == row[:discipline_name_2]}.first
+      courses = Course.where{name =~ row[:course_name]}
+      if courses.empty?
+        puts "Can't find #{row[:course_name]}"
+        next
+      end
+      discipline_1 = Subject.where{name == row[:discipline_name_1]}.first
+      discipline_2 = Subject.where{name == row[:discipline_name_2]}.first
       if discipline_1.nil?
         puts "Couldn't find #{row[:discipline_name_1]}"
         next

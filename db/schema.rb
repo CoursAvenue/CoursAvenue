@@ -124,13 +124,6 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
   add_index "courses", ["slug"], :name => "index_courses_on_slug", :unique => true
   add_index "courses", ["type"], :name => "index_courses_on_type"
 
-  create_table "courses_disciplines", :id => false, :force => true do |t|
-    t.integer "course_id"
-    t.integer "discipline_id"
-  end
-
-  add_index "courses_disciplines", ["course_id", "discipline_id"], :name => "index_courses_disciplines_on_course_id_and_discipline_id"
-
   create_table "courses_levels", :id => false, :force => true do |t|
     t.integer "course_id"
     t.integer "level_id"
@@ -138,18 +131,12 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
 
   add_index "courses_levels", ["level_id", "course_id"], :name => "index_courses_levels_on_level_id_and_course_id"
 
-  create_table "disciplines", :force => true do |t|
-    t.string   "name"
-    t.string   "short_name"
-    t.text     "info"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
-    t.string   "ancestry"
-    t.string   "image_file_name"
-    t.string   "image_content_type"
-    t.integer  "image_file_size"
-    t.datetime "image_updated_at"
+  create_table "courses_subjects", :id => false, :force => true do |t|
+    t.integer "course_id"
+    t.integer "subject_id"
   end
+
+  add_index "courses_subjects", ["course_id", "subject_id"], :name => "index_courses_subjects_on_course_id_and_subject_id"
 
   create_table "levels", :force => true do |t|
     t.string   "name"
@@ -290,5 +277,18 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
   end
 
   add_index "structures", ["city_id"], :name => "index_structures_on_city_id"
+
+  create_table "subjects", :force => true do |t|
+    t.string   "name"
+    t.string   "short_name"
+    t.text     "info"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "ancestry"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+  end
 
 end

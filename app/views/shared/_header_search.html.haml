@@ -7,12 +7,12 @@
     = select_tag(:city, options_for_select(City.all.map{|c| [c.name, c.short_name]}, params[:city]))
 
   %div.search-input-wrapper
-    %input#search-input{class: 'search-input', placeholder: 'Zumba, Cuisine, Impro, ...', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'discipline-list', autocomplete: 'off'}
+    %input#search-input{class: 'search-input', placeholder: 'Zumba, Cuisine, Impro, ...', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'subject-list', autocomplete: 'off'}
     .aListCon
-      %datalist#discipline-list
+      %datalist#subject-list
       <!--[if IE 9]><select disabled><![endif]-->
-      - Discipline.all.each do |discipline|
-        %option{value: discipline.name}
+      - Subject.all.each do |subject|
+        %option{value: subject.name}
       <!--[if IE 9]></select><![endif]-->
     = content_for :scripts do
       :javascript

@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :course do
 
-    structure
+    association :structure
 
     name                        { Forgery(:lorem_ipsum).words(4) }
     description                 'Lorem ipsum dolor bla bla bla'
@@ -19,9 +19,9 @@ FactoryGirl.define do
     refund_condition            ''
     cant_be_joined_during_year  {}
 
-    factory :course_at_paris, class: Course do
-      structure_at_paris
-    end
+    # factory :course_at_nice, class: Course do
+    #   association :structure_at_nice
+    # end
     factory :course_for_kid do
       min_age_for_kid  10
       max_age_for_kid  14

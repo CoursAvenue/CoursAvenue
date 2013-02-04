@@ -4,6 +4,7 @@
       %th Jour
       %th.text-center Créneau horaire
       %th.text-center Durée
+      %th.text-center Places dispo
       %th.text-center Promo
       %th.text-center
         %i.lbc-icon-info i
@@ -13,7 +14,10 @@
         %td= week_day_for planning
         %td.text-center= readable_time_slot planning
         %td.text-center= readable_duration planning
-        %td.text-center -
+        %td.text-center= planning.nb_place_available || '-'
+        %td.text-center
+          - if planning.promotion
+            .promo-marker= readable_promotion planning
         %td.text-center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}

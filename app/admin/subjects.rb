@@ -1,12 +1,12 @@
-ActiveAdmin.register Discipline do
+ActiveAdmin.register Subject do
   index do
-    column "Image" do |discipline|
-      if discipline.image.present?
+    column "Image" do |subject|
+      if subject.image.present?
         "<i class='icon-ok'></i>".html_safe
       end
     end
-    column "Nom" do |discipline|
-      link_to discipline.name, edit_admin_discipline_path(discipline)
+    column "Nom" do |subject|
+      link_to subject.name, edit_admin_subject_path(subject)
     end
     default_actions
   end
