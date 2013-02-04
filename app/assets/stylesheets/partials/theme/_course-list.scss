@@ -31,30 +31,36 @@
         margin-bottom: 0;
     }
 }
-.course-content{
-    vertical-align: top;
-}
-
-.course-image{
-    padding       : 0.3em;
-    vertical-align: middle;
-    position      : relative;
-    margin-right  : 1em;
-    img {
-        display: block;
+    .course-content{
+        vertical-align: top;
     }
-}
 
-.search-list-info {
-    margin-bottom: 0;
-}
-
-.discipline {
-    display: inline;
-}
-
-.week_days {
-    li:first-child {
-        text-transform: capitalize;
+    .course-image{
+        padding       : 0.3em;
+        vertical-align: middle;
+        position      : relative;
+        margin-right  : 1em;
+        img {
+            display: block;
+        }
     }
-}
+
+    .search-list-info {
+        margin-bottom: 0;
+    }
+
+    .discipline {
+        display: inline;
+    }
+
+    .week_days {
+        li:first-child {
+            text-transform: capitalize;
+        }
+    }
+
+    .course-element-structure-name {
+        margin-bottom: 0;
+        display      : inline;
+        font-size    : 13px;
+    }

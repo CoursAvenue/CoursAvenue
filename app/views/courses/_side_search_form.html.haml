@@ -18,11 +18,11 @@
         %li= link_to t('all_discipline'), courses_with_old_params_path({city: params[:city], discipline: t('all_discipline_route_name')}), class: (params[:discipline] == t('all_discipline_route_name') ? 'selected blue' : 'blue')
         / ----------------- If the current discipline is this one or has this one as a parent
         - Discipline.roots.order(:name).each do |discipline|
-          - if params[:discipline] == discipline.name || !discipline.children.select{|d| d.name == params[:discipline]}.blank?
+          - if params[:discipline] == discipline.short_name || !discipline.children.select{|d| d.short_name == params[:discipline]}.blank?
             %li= link_to discipline.name, courses_with_old_params_path({city: params[:city], discipline: discipline.short_name}), class: 'selected blue'
             %ul.check-list
               - discipline.children.each do |child_discipline|
-                %li= link_to child_discipline.name, courses_with_old_params_path({city: params[:city], discipline: child_discipline.short_name}), class: (params[:discipline] == child_discipline.name ? 'selected blue' : 'blue')
+                %li= link_to child_discipline.name, courses_with_old_params_path({city: params[:city], discipline: child_discipline.short_name}), class: (params[:discipline] == child_discipline.short_name ? 'selected blue' : 'blue')
           - else
             %li= link_to discipline.name, courses_with_old_params_path({city: params[:city], discipline: discipline.short_name}), class: 'blue'
 

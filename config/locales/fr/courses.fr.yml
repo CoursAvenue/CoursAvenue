@@ -43,6 +43,7 @@ fr:
     description_tab:
       course_description: "Description du cours :"
       more_information: "Informations complémentaires :"
+      no_information: Pas d'information pour ce cours
     structure_tab:
       has_registration_form: "L'établissement a un formulaire d'inscription"
       payment_on_place: Le paiement se fait sur place

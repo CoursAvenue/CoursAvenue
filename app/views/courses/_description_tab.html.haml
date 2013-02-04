@@ -3,8 +3,11 @@
     %h4= Course.human_attribute_name(:description)
     %p= @course.description
 
-  %h4= t('.more_information')
-  - unless @course.course_info.blank?
-    %p= @course.course_info.html_safe
-  - unless @structure.registration_info.blank?
-    %p= @structure.registration_info
+  - if @course.course_info.present? or @structure.registration_info.present?
+    %h4= t('.more_information')
+    - unless @course.course_info.blank?
+      %p= @course.course_info.html_safe
+    - unless @structure.registration_info.blank?
+      %p= @structure.registration_info
+  - else
+    %p= t('.no_information')

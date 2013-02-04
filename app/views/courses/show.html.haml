@@ -3,29 +3,30 @@
     = @course.description
 
 %ol.nav
-  %li= link_to "#{@structure.city.name} >", courses_path(city: params[:city], discipline: t('all_discipline_route_name'))
-  %li= link_to "#{@disciplines.first.parent.name} >", courses_path(city: params[:city], discipline: @disciplines.first.parent.short_name)
+  %li= link_to @structure.city.name, courses_path(city: params[:city], discipline: t('all_discipline_route_name'))
+  %i.icon-angle-right.orange
+  %li= link_to @disciplines.first.parent.name, courses_path(city: params[:city], discipline: @disciplines.first.parent.short_name)
+  %i.icon-angle-right.orange
   %li= link_to @disciplines.first.name, courses_path(city: params[:city], discipline: @disciplines.first.short_name)
-  %li
-    &nbsp;
+
+.gw
+  %section.g.seven-tenths
+
+    %h1.course-title
+      %span= @course.name
     %ul.nav
       %li
         %span.lbl.milli= @course.type_name
       - @disciplines.each do |discipline|
         %li
           %span.milli.lbl.blue= discipline.name
-.gw
-  %section.g.seven-tenths
-
-    %h1.course-title
-      %span= @course.name
 
     .course-header-badge
       .course-header-image
-        - if !@course.disciplines.empty? and @course.disciplines.first.image.present?
-          = image_tag @course.disciplines.first.image.url(:wide), class: 'course-header-badge-image'
+        - if @course.image.present?
+          = image_tag @course.image.url(:wide), class: 'course-header-badge-image'
         - else
-          %img{src: 'http://placehold.it/400x240', class: 'course-header-badge-image'}
+          = image_tag @course.disciplines.first.image.url(:wide), class: 'course-header-badge-image'
 
       .course-header-map
         = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
@@ -58,12 +59,19 @@
   %section.g.three-tenths#summary
     = render 'contact_structure'
     %article
-      %h4 À voir aussi
+      %h4 D'autres cours pour vous !
       %ul.block-list
         - @similar_courses.each do |course|
           %li
             = link_to full_course_path(course), class: 'flexbox' do
               .flexbox__item.one-fifth
-                %img{src: 'http://placehold.it/50'}
-              .flexbox__item= course.name
+                - if course.image.present?
+                  = image_tag course.image.url(:thumb), class: 'similar-course--image'
+                - else
+                  = image_tag course.disciplines.first.image.url(:thumb), class: 'similar-course--image'
+              .flexbox__item
+                %h2.similar-course--course-name= course.name
+                %h3.similar-course--structure-name
+                  %i.icon-map-marker
+                  = course.structure.name
 

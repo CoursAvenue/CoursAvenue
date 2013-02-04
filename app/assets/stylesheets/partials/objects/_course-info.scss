@@ -1,6 +1,6 @@
 .course-info {
     border       : $graySmooth 1px solid;
-    margin-bottom: 1em;
+    margin-bottom: 2em;
     padding      : 0 1em 0.5em 1em;
     @include border-radius($brand-round);
     form {
@@ -11,10 +11,9 @@
     }
 }
     .course-info-price {
-        border-top   : 1px solid $graySmooth;
         border-bottom: 1px solid $graySmooth;
         padding      : 0.5em 0;
-        margin       : 1em 0;
+        margin       : 0 1em 0 0;
         text-align   : right;
         h2 {
             margin-bottom: 0;
@@ -24,6 +23,7 @@
     .course-info-heading-caption {
         margin-bottom: 0.5em;
         font-size    : 12px;
+        font-weight: normal;
     }
     .course-info-heading {
         font-weight  : bold;

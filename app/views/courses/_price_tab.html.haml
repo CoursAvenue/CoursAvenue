@@ -19,5 +19,4 @@
             = RegistrationFee.human_attribute_name(:kid_registration_fee)
           - else
             = RegistrationFee.human_attribute_name(:registration_fee)
-          = registration_fee.price
-          €
+          = "#{registration_fee.price}€"

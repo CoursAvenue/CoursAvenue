@@ -1,8 +1,8 @@
 %article.course-info
   - if @course.best_price
     .course-info-price.text-center
-      <small>À partir de</small>
-      %h2.blue= "#{@course.best_price.amount} €"
+      %small À partir de
+      %h2.blue= "#{@course.best_price.amount}€"
 
   .text-center.course-info-heading
     %b En attendant la réservation en ligne
@@ -13,7 +13,7 @@
         %i.icon-phone
         = @structure.phone_number
   - if @structure.website
-    .text-center= link_to @structure.name, @structure.website, class: 'blue'
+    .text-center= link_to @structure.name, @structure.website, class: 'blue', target: '_blank'
 
   %hr.course-info-delimiter
   .text-center.course-info-heading
@@ -23,5 +23,3 @@
     = link_to 'Réservez en ligne', '#', :disabled => true, :class => 'btn btn__primary'
     = simple_form_for NewsletterUser.new do |f|
       = f.email_field :email, placeholder: t('newsletter_users.email'), size: 25
-      /= f.text_field  :city , placeholder: t('newsletter_users.city') , size: 17
-      /= f.button :submit, t('.validate'), class: 'btn btn__primary'

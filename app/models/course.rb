@@ -7,7 +7,7 @@ class Course < ActiveRecord::Base
   friendly_id :name, use: :slugged
 
   has_attached_file :homepage_image, :styles => {default: '1600×500#'}
-  has_attached_file :image, :styles => { wide: "600x375#", thumb: "200x200#" }
+  has_attached_file :image, :styles => { wide: "800x480#", thumb: "200x200#" }
 
   belongs_to :structure
 
@@ -176,10 +176,10 @@ class Course < ActiveRecord::Base
     discipline_ids = self.discipline_ids.map(&:to_i)
     similar_courses = Course.joins{disciplines}.where{disciplines.id.eq_any discipline_ids}.limit(limit) # With same discipline
     if similar_courses.length < 5
-      max_id    = Course.maximum("id")
-      min_id    = Course.minimum("id")
-      id_range  = max_id - min_id + 1
-      random_id = min_id + rand(id_range).to_i
+      max_id          = Course.maximum('id')
+      min_id          = Course.minimum('id')
+      id_range        = max_id - min_id + 1
+      random_id       = min_id + rand(id_range).to_i
       similar_courses = Course.limit(limit).offset(random_id)
     end
     similar_courses

@@ -1,10 +1,10 @@
 %li.one-whole.course-element{data: {"structure-id" => course.structure_id}}
   %div.two-twelfths
     .course-image.media__img
-      - if !course.disciplines.empty? and course.disciplines.first.image.present?
-        = image_tag course.disciplines.first.image.url(:thumb)
+      - if course.image.present?
+        = image_tag course.image.image.url(:thumb)
       - else
-        %img{src: 'http://www.placehold.it/100'}
+        = image_tag course.disciplines.first.image.url(:thumb)
       - if course.has_promotion
         .course-promo.price-badge= readable_promotion course.promotion
 
@@ -24,12 +24,12 @@
       %li= join_audiences(course)
       %li -
       %li= join_levels(course)
-    %p
+    %div
       %i.icon-map-marker
       - if course.structure.name.length > 50
-        %strong= "#{course.structure.name[0..50]}..."
+        %h3.course-element-structure-name= "#{course.structure.name[0..50]}..."
       - else
-        %strong= course.structure.name
+        %h3.course-element-structure-name= course.structure.name
       - if course.structure.zip_code == 75000
         Paris
       - else
@@ -50,5 +50,5 @@
     - else
       %p
         = t('.from')
-      %p.gamma= "#{course.best_price.amount}&nbsp;€".html_safe
+      %p.gamma= "#{course.best_price.amount}€".html_safe
       %p= "(#{t(course.best_price.libelle).downcase})".html_safe
