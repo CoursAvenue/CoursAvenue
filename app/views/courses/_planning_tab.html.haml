@@ -24,7 +24,7 @@
         - if @course.teacher_name.present?
           %li
             %label= Course.human_attribute_name(:teacher_name)
-            %strong.fr= @course.teacher_name
+            %h2.teacher-name.fr= @course.teacher_name
 
         - unless @course.plannings.first.recurrence.blank?
           %li

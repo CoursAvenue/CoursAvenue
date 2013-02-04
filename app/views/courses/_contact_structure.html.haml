@@ -1,19 +1,27 @@
 %article.course-info
-  .course-info-header.text-center
-    À partir de
-    = @course.best_price.amount
-    €
-  - if @course.teacher_name.present?
-    %h3.course-info-header.text-center.islet= "Contacter #{@course.teacher_name}"
-  - else
-    .course-info-header.text-center.islet Contacter l'établissement
+  - if @course.best_price
+    .course-info-price.text-center
+      <small>À partir de</small>
+      %h2.blue= "#{@course.best_price.amount} €"
+
+  .text-center.course-info-heading
+    %b En attendant la réservation en ligne
+    %p.course-info-heading-caption Dites que LeBonCours vous a guidé !
   - if @structure.phone_number
-    .spoken-form
-      %label Tél
-      = link_to @structure.phone_number, "tel:#{@structure.phone_number.gsub(/\s+/, '')}", :class => 'fr'
+    .text-center
+      = link_to "tel:#{@structure.phone_number.gsub(/\s+/, '')}", class: 'blue' do
+        %i.icon-phone
+        = @structure.phone_number
   - if @structure.website
-    .spoken-form
-      %label Site web
-      = link_to @structure.name, @structure.website, class: 'fr'
-  .course-info-booking-button.text-center
-    = link_to 'Réservez en ligne', '#', :disabled => true, :class => 'btn disabled'
+    .text-center= link_to @structure.name, @structure.website, class: 'blue'
+
+  %hr.course-info-delimiter
+  .text-center.course-info-heading
+    %b Réservation en ligne
+    %p.course-info-heading-caption En attendant le lancement, restons en contact ! (promis, pas de spam, que des bons plans !)
+  .text-center
+    = link_to 'Réservez en ligne', '#', :disabled => true, :class => 'btn btn__primary'
+    = simple_form_for NewsletterUser.new do |f|
+      = f.email_field :email, placeholder: t('newsletter_users.email'), size: 25
+      /= f.text_field  :city , placeholder: t('newsletter_users.city') , size: 17
+      /= f.button :submit, t('.validate'), class: 'btn btn__primary'

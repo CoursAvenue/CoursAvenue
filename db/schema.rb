@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
 
   create_table "disciplines", :force => true do |t|
     t.string   "name"
+    t.string   "short_name"
     t.text     "info"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false

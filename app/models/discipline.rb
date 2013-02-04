@@ -4,7 +4,7 @@ class Discipline < ActiveRecord::Base
 
   has_and_belongs_to_many :courses
 
-  attr_accessible :name, :image, :info
+  attr_accessible :name, :short_name, :image, :info
 
   validates :name, :presence   => true
   validates :name, :uniqueness => true

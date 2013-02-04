@@ -1,11 +1,15 @@
+= content_for :head do
+  %link{rel: 'canonical', href: courses_url(city: params[:city], discipline: t('all_discipline_route_name'))}
 .gw
   = render 'search_form'
   %section.g.three-tenths
     = render 'side_search_form'
   %section.g.seven-tenths
     .flexbox.page-entries-wrapper
+      %p.flexbox__item
+        = page_entries_info @courses
       .flexbox__item
-        .proceed= paginate @courses, window: 2, outer_window: 1
+        .text--right= paginate @courses, window: 1, outer_window: 1
     - if @courses.empty?
       = render 'no_results'
     - else

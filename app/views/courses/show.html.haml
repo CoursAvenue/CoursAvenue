@@ -4,20 +4,21 @@
 
 %ol.nav
   %li= link_to "#{@structure.city.name} >", courses_path(city: params[:city], discipline: t('all_discipline_route_name'))
-  - unless @discipline.nil? || @discipline.parent.nil?
-    %li= link_to "#{@discipline.parent.name.capitalize} >", courses_path(city: params[:city], discipline: u(@discipline.parent.name))
-  %li= link_to @discipline_name.capitalize, courses_path(city: params[:city], discipline: u(@discipline_name))
+  %li= link_to "#{@disciplines.first.parent.name} >", courses_path(city: params[:city], discipline: @disciplines.first.parent.short_name)
+  %li= link_to @disciplines.first.name, courses_path(city: params[:city], discipline: @disciplines.first.short_name)
   %li
+    &nbsp;
     %ul.nav
+      %li
+        %span.lbl.milli= @course.type_name
       - @disciplines.each do |discipline|
         %li
-          %span.milli.lbl.lbl--orange= discipline.name
+          %span.milli.lbl.blue= discipline.name
 .gw
   %section.g.seven-tenths
 
     %h1.course-title
       %span= @course.name
-      %span.lbl.milli= @course.type_name
 
     .course-header-badge
       .course-header-image
@@ -28,7 +29,7 @@
 
       .course-header-map
         = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
-        %p.course-header-structure-name
+        %h2.course-header-structure-name
           %b= @structure.name
           %br
           %i.icon-map-marker

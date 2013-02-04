@@ -1,10 +1,7 @@
 class CoursesController < ApplicationController
   include TimeParser
-
   def index
     params[:page] ||= 1
-    city_name = params[:city]
-    @city     = City.where{short_name == city_name}.first
     @courses  = Course
 
     @audiences = Audience.all
@@ -84,7 +81,6 @@ class CoursesController < ApplicationController
       structure_index += 1
       marker.picture({
                       :marker_anchor => [10, true],
-                      #:rich_marker   => "<img width='25' src='#{ActionController::Base.helpers.image_path('icons/bulle.png')}'/>"
                       :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='#'><span>#{structure_index}</span></a></div>"
                      })
       marker.title   structure.name
@@ -98,21 +94,14 @@ class CoursesController < ApplicationController
 
 
   def show
-    @course          = Course.find(params[:id])
-    @structure       = @course.structure
-    @plannings       = @course.plannings
-    @disciplines     = @course.disciplines
-    @discipline_name = (@course.disciplines.empty? ? t('all_discipline_route_name') : @course.disciplines.first.name)
+    @course                = Course.find(params[:id])
+    @structure             = @course.structure
+    @plannings             = @course.plannings
+    @disciplines           = @course.disciplines
 
     @similar_courses = @course.similar_courses
 
     @json_structure_address = @structure.to_gmaps4rails do |structure, marker|
-      # marker.infowindow render_to_string(:partial => "/structures/my_template", :locals => { :object => structure})
-      # marker.picture({
-      #                 :picture => "http://www.placehold.it/32",
-      #                 :width   => 32,
-      #                 :height  => 32
-      #                })
       marker.title   structure.name
       marker.json({ id: structure.id })
     end
@@ -122,5 +111,4 @@ class CoursesController < ApplicationController
     end
 
   end
-
 end

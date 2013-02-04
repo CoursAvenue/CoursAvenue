@@ -19,12 +19,12 @@
         / ----------------- If the current discipline is this one or has this one as a parent
         - Discipline.roots.order(:name).each do |discipline|
           - if params[:discipline] == discipline.name || !discipline.children.select{|d| d.name == params[:discipline]}.blank?
-            %li= link_to discipline.name, courses_with_old_params_path({city: params[:city], discipline: u(discipline.name)}), class: 'selected blue'
+            %li= link_to discipline.name, courses_with_old_params_path({city: params[:city], discipline: discipline.short_name}), class: 'selected blue'
             %ul.check-list
               - discipline.children.each do |child_discipline|
-                %li= link_to child_discipline.name, courses_with_old_params_path({city: params[:city], discipline: u(child_discipline.name)}), class: (params[:discipline] == child_discipline.name ? 'selected blue' : 'blue')
+                %li= link_to child_discipline.name, courses_with_old_params_path({city: params[:city], discipline: child_discipline.short_name}), class: (params[:discipline] == child_discipline.name ? 'selected blue' : 'blue')
           - else
-            %li= link_to discipline.name, courses_with_old_params_path({city: params[:city], discipline: u(discipline.name)}), class: 'blue'
+            %li= link_to discipline.name, courses_with_old_params_path({city: params[:city], discipline: discipline.short_name}), class: 'blue'
 
   //-------------------------------------------------------------------------------------------------------- Type de cours
   .search-panel

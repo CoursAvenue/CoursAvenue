@@ -1,11 +1,11 @@
 module CoursesHelper
 
   def full_course_path(course)
-    course_path(id: course.slug, type: course.type_name.downcase, city: course.structure.city.short_name, discipline: (course.disciplines.first ? u(course.disciplines.first.name) : t('all_discipline_route_name')))
+    course_path(id: course.slug, type: course.type_name.downcase, city: course.structure.city.short_name, discipline: (course.disciplines.first ? course.disciplines.first.short_name : t('all_discipline_route_name')))
   end
 
   def full_course_url(course)
-    course_url(id: course.slug, type: course.type_name.downcase, city: course.structure.city.short_name, discipline: (course.disciplines.first ? u(course.disciplines.first.name) : t('all_discipline_route_name')))
+    course_url(id: course.slug, type: course.type_name.downcase, city: course.structure.city.short_name, discipline: (course.disciplines.first ? course.disciplines.first.short_name : t('all_discipline_route_name')))
   end
 
   def courses_with_old_params_path(new_params)

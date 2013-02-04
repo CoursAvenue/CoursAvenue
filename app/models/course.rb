@@ -22,7 +22,8 @@ class Course < ActiveRecord::Base
   has_and_belongs_to_many :disciplines, :uniq => true
 
   # ------------------------------------------------------------------------------------ Validations
-  validates :structure, presence: true
+  validates :structure  , presence: true
+  # validates :disciplines, presence: true
 
   # ------------------------------------------------------------------------------------ Callbacks
   before_update :rollback_slug_change
@@ -62,7 +63,7 @@ class Course < ActiveRecord::Base
     if discipline_name == I18n.t('all_discipline_route_name')
       return scope
     else
-      discipline_object = Discipline.where{name == discipline_name}.first
+      discipline_object = Discipline.where{short_name == discipline_name}.first
       if discipline_object.parent_id.nil?
         discipline_ids = discipline_object.children.map(&:id)
       else

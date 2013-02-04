@@ -230,7 +230,15 @@ fr:
       previous: "<i class='icon-arrow-left'></i>"
       next: "<i class='icon-arrow-right'></i>"
       last: Fin
-      page_entries_info: "Résultat : %{from} à %{to} sur %{count} cours"
+  helpers:
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "Pas de résultat."
+          one: "<b>1</b> %{entry_name} trouvé"
+          other: "<b>%{count}</b> %{entry_name} trouvés"
+      more_pages:
+        display_entries: "Résultat : %{first}&nbsp;-&nbsp;%{last} sur <b>%{total}</b> %{entry_name}"
 
   will_paginate:
     page_gap: '...'
