@@ -3,11 +3,11 @@
     = @course.description
 
 %ol.nav
-  %li= link_to @structure.city.name, courses_path(city: params[:city], subject: t('all_subject_route_name'))
+  %li= link_to @structure.city.name, city_subjects_path(@city)
   %i.icon-angle-right.orange
-  %li= link_to @subjects.first.parent.name, courses_path(city: params[:city], subject: @subjects.first.parent.short_name)
+  %li= link_to @subjects.first.parent.name, city_subject_path(@city, @subjects.first.parent)
   %i.icon-angle-right.orange
-  %li= link_to @subjects.first.name, courses_path(city: params[:city], subject: @subjects.first.short_name)
+  %li= link_to @subjects.first.name, city_subject_path(@city, @subjects.first)
 
 .gw
   %section.g.seven-tenths
@@ -63,7 +63,7 @@
       %ul.block-list
         - @similar_courses.each do |course|
           %li
-            = link_to full_course_path(course), class: 'flexbox' do
+            = link_to city_course_path(@city, course), class: 'flexbox' do
               .flexbox__item.one-fifth
                 - if course.image.present?
                   = image_tag course.image.url(:thumb), class: 'similar-course--image'

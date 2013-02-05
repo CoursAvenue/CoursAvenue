@@ -1,5 +1,6 @@
 = content_for :head do
-  %link{rel: 'canonical', href: courses_url(city: params[:city], subject: t('all_subject_route_name'))}
+  /%link{rel: 'canonical', href: city_subject_url(city: params[:city], id: params[:id])}
+  %link{rel: 'canonical', href: city_subjects_url(city: params[:city])}
 .gw
   = render 'search_form'
   %section.g.three-tenths
@@ -14,7 +15,7 @@
       = render 'no_results'
     - else
       %ul.block-list.course-list
-        = render partial: 'course', :collection => @courses
+        = render partial: 'courses/course', :collection => @courses
 
     %footer.g.one-whole
       = paginate @courses, window: 2, outer_window: 1

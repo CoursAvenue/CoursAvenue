@@ -1,6 +1,5 @@
 fr:
-  all_discipline_route_name: 'toutes-disciplines'
-  all_discipline: 'Toutes les disciplines'
+  all_subject: 'Toutes les disciplines'
   activerecord:
     models:
       course: Cours

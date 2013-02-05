@@ -23,12 +23,12 @@
             return this.city_select_input.get('value');
         },
 
-        getSubject: function() {
-            return 'toutes-disciplines'
-        },
+        // getSubject: function() {
+        //     return 'toutes-disciplines'
+        // },
 
         updateFormUrl: function() {
-            var url = Routes.courses_path(this.getCity(), this.getSubject());
+            var url = Routes.city_subjects_path(this.getCity());//, this.getSubject());
             this.form.set('action', url);
         }
     });

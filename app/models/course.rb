@@ -5,11 +5,13 @@ class Course < ActiveRecord::Base
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
   friendly_id :name, use: :slugged
+  # friendly_id :name, use: :scoped, scope: [:city, :subject]
 
   has_attached_file :homepage_image, :styles => {default: '1600×500#'}
   has_attached_file :image, :styles => { wide: "800x480#", thumb: "200x200#" }
 
   belongs_to :structure
+  has_one :city, through: :structure
 
   has_many :plannings
   has_many :prices           , dependent: :destroy
@@ -54,23 +56,9 @@ class Course < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Self methods
 
-  def self.from_city(city, scope)
-    city_id = City.where{short_name == city}.first.id
+  def self.from_city(city, scope = Course)
+    city_id = City.find(city).id
     scope.joins{structure}.where{structure.city_id == city_id}
-  end
-
-  def self.of_subject(subject_name, scope)
-    if subject_name == I18n.t('all_subject_route_name')
-      return scope
-    else
-      subject_object = Subject.where{short_name == subject_name}.first
-      if subject_object.parent_id.nil?
-        subject_ids = subject_object.children.map(&:id)
-      else
-        subject_ids = [subject_object.id]
-      end
-      return scope.joins{subjects}.where{subjects.id.eq_any subject_ids}
-    end
   end
 
   def self.name_and_structure_name_contains(name_string, scope)

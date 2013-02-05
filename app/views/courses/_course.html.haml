@@ -12,9 +12,9 @@
     %header
       %h4.hN.course-title
         .map-marker-image
-          = link_to full_course_path(course) do
+          = link_to city_course_path(@city, course) do
             %span= @course_structures.index(course.structure) + 1
-        %span= link_to course.name, full_course_path(course)
+        %span= link_to course.name, city_course_path(@city, course)
 
     - if course.is_training?
       %p
@@ -42,11 +42,11 @@
     %footer
       %span.lbl.milli= course.type_name
       - course.subjects.each do |subject|
-        = link_to subject.name, courses_path({city: params[:city], subject: subject.short_name}), class: 'lbl milli inline blue'
+        = link_to subject.name, city_subject_path(@city, subject), class: 'lbl milli inline blue'
 
   %div.course-price.two-twelfths
     - if course.best_price.nil?
-      %p.epsilon= link_to "Contacter l'établissement", full_course_path(course)
+      %p.epsilon= link_to "Contacter l'établissement", city_course_path(@city, course)
     - else
       %p
         = t('.from')

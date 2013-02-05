@@ -125,34 +125,6 @@ class PopulateSubjects < ActiveRecord::Migration
       personal_development_child.parent = personal_development
       personal_development_child.save
     end
-
-    # Generating short_names
-    Subject.all.each do |subject|
-      short_name = String.new subject.name
-      characters = { ['á','à','â','ä','ã','Ã','Ä','Â','À'] => 'a',
-         ['é','è','ê','ë','Ë','É','È','Ê'] => 'e',
-         ['í','ì','î','ï','I','Î','Ì'] => 'i',
-         ['ó','ò','ô','ö','õ','Õ','Ö','Ô','Ò'] => 'o',
-         ['œ'] => 'oe',
-         ['ú','ù','û','ü','U','Û','Ù'] => 'u',
-         ['ç','Ç'] => 'c',
-         [' '] => '-',
-         ['/', '!'] => '-'
-         }
-
-      characters.each do |char,rep|
-        char.each do |s|
-          short_name.gsub!(s, rep)
-        end
-      end
-      short_name.gsub!(/-+/, '-')
-      short_name.gsub!(/-$/,'')
-      short_name.gsub!(/^-/,'')
-      short_name = short_name.downcase
-
-      subject.short_name = short_name
-      subject.save
-    end
   end
 
   def down

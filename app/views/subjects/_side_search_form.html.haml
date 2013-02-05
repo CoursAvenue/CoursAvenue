@@ -15,16 +15,16 @@
     %h5.search-panel-header Disciplines
     .search-panel-content
       %ul.check-list
-        %li= link_to t('all_subject'), courses_with_old_params_path({city: params[:city], subject: t('all_subject_route_name')}), class: (params[:subject] == t('all_subject_route_name') ? 'selected blue' : 'blue')
+        %li= link_to t('all_subject'), city_subjects_path(@city), class: 'blue'
         / ----------------- If the current subject is this one or has this one as a parent
         - Subject.roots.order(:name).each do |subject|
-          - if params[:subject] == subject.short_name || !subject.children.select{|d| d.short_name == params[:subject]}.blank?
-            %li= link_to subject.name, courses_with_old_params_path({city: params[:city], subject: subject.short_name}), class: 'selected blue'
+          - if params[:id] == subject.slug || !subject.children.select{|d| d.slug == params[:id]}.blank?
+            %li= link_to subject.name, city_subject_path(@city, subject), class: 'selected blue'
             %ul.check-list
               - subject.children.each do |child_subject|
-                %li= link_to child_subject.name, courses_with_old_params_path({city: params[:city], subject: child_subject.short_name}), class: (params[:subject] == child_subject.short_name ? 'selected blue' : 'blue')
+                %li= link_to child_subject.name, city_subject_path(@city, child_subject), class: (params[:id] == child_subject.slug ? 'selected blue' : 'blue')
           - else
-            %li= link_to subject.name, courses_with_old_params_path({city: params[:city], subject: subject.short_name}), class: 'blue'
+            %li= link_to subject.name, city_subject_path(@city, subject), class: 'blue'
 
   //-------------------------------------------------------------------------------------------------------- Type de cours
   .search-panel

@@ -1,13 +1,5 @@
 module CoursesHelper
 
-  def full_course_path(course)
-    course_path(id: course.slug, type: course.type_name.downcase, city: course.structure.city.short_name, subject: (course.subjects.first ? course.subjects.first.short_name : t('all_subject_route_name')))
-  end
-
-  def full_course_url(course)
-    course_url(id: course.slug, type: course.type_name.downcase, city: course.structure.city.short_name, subject: (course.subjects.first ? course.subjects.first.short_name : t('all_subject_route_name')))
-  end
-
   def courses_with_old_params_path(new_params)
     p = params.reject{|key, value| value.blank? } # Get rid of the useless blank params
     courses_path(p.merge(new_params))

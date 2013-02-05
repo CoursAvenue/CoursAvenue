@@ -73,16 +73,16 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
 
   create_table "cities", :force => true do |t|
     t.string   "name"
-    t.string   "short_name"
     t.string   "no_result_image_file_name"
     t.string   "no_result_image_content_type"
     t.integer  "no_result_image_file_size"
     t.datetime "no_result_image_updated_at"
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
+    t.string   "slug"
   end
 
-  add_index "cities", ["short_name"], :name => "index_cities_on_short_name"
+  add_index "cities", ["slug"], :name => "index_cities_on_slug", :unique => true
 
   create_table "courses", :force => true do |t|
     t.string   "type"
@@ -280,15 +280,17 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
 
   create_table "subjects", :force => true do |t|
     t.string   "name"
-    t.string   "short_name"
     t.text     "info"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.string   "slug"
     t.string   "ancestry"
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
   end
+
+  add_index "subjects", ["slug"], :name => "index_subjects_on_slug", :unique => true
 
 end

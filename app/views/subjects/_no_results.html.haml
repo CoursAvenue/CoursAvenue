@@ -13,6 +13,6 @@
       %p Laissez-nous votre e-mail, nous vous contacterons dès que nous aurons des cours !
       = simple_form_for NewsletterUser.new, html: {class: 'inline-form'} do |f|
         = f.email_field :email, placeholder: t('newsletter_users.email'), size: 25
-        = f.hidden_field  :city, value: @city.short_name
+        = f.hidden_field  :city, value: @city.slug
     .this-or-this__this.one-half
       = link_to 'Contactez-nous', 'mailto:referencement@leboncours.com', class: 'btn'

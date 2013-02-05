@@ -25,7 +25,8 @@
               %p.course-block-caption
                 Cours d'essai gratuit
 
-            = link_to courses_path(audiences: [Audience.kid.order]), class: 'course-block five-twelfths palm-one-whole' do
+            /= link_to courses_path(audiences: [Audience.kid.order]), class: 'course-block five-twelfths palm-one-whole' do
+            = link_to 'stage/tango-argentin--11', class: 'course-block five-twelfths palm-one-whole' do
               .course-block-image
                 = image_tag 'home-page/tango.jpg'
               %h6.course-block-title

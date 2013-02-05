@@ -4,7 +4,7 @@
     %span.chooser-title-wrapper
       %span.chooser-title= params[:city].capitalize
       %i.icon-caret-down
-    = select_tag(:city, options_for_select(City.all.map{|c| [c.name, c.short_name]}, params[:city]))
+    = select_tag(:city, options_for_select(City.all.map{|c| [c.name, c.slug]}, params[:city]))
 
   %div.search-input-wrapper
     %input#search-input{class: 'search-input', placeholder: 'Zumba, Cuisine, Impro, ...', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'subject-list', autocomplete: 'off'}
