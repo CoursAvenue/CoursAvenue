@@ -300,6 +300,11 @@ namespace :import do
         course.structure = structure
       else
         course = courses.first
+        if course.teacher_name.blank? and !row[:course][:teacher_name].blank?
+          course.teacher_name = row[:course][:teacher_name]
+        elsif !course.teacher_name.blank? and !row[:course][:teacher_name].blank?
+          course.teacher_name += ", #{row[:course][:teacher_name]}"
+        end
       end
 
       #################################################################### Creating Prices

@@ -1,5 +1,5 @@
 .slideshow-caption
-  = link_to full_course_path(course) do
+  = link_to city_course_path(course.city, course) do
     %span
       %b= "Cours de #{course.name}"
     %span

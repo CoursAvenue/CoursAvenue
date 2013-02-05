@@ -19,7 +19,7 @@ $white:                 #fff !default;
 $blue:                  #049cdb !default;
 $blueDark:              #0064cd !default;
 $green:                 #39aa82 !default;
-$blueGreen:            #2AADA3 !default;
+$blueGreen:             #2AADA3 !default;
 $greenLight:            #62BC62 !default;
 $red:                   #9d261d !default;
 $redLight:              #EC1706 !default;
@@ -47,7 +47,7 @@ $btnBackground:                     $white !default;
 $btnBackgroundHighlight:            darken($white, 10%) !default;
 $btnBorder:                         #bbb !default;
 
-$btnPrimaryBackground:              #e65e34 !default;
+$btnPrimaryBackground:              $orange !default;
 $btnPrimaryBackgroundHighlight:     #eb7045 !default;
 
 $btnInfoBackground:                 #5bc0de !default;
