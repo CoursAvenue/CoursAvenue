@@ -9,7 +9,6 @@ class CreateCourses < ActiveRecord::Migration
       t.boolean :has_promotion     , default: false
       t.text    :course_info
       t.text    :registration_date
-      t.text    :teacher_name
       t.integer :max_age_for_kid
       t.integer :min_age_for_kid
       t.boolean :is_individual

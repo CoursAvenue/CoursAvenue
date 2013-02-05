@@ -67,7 +67,6 @@ namespace :import do
 
       course: {
         name:                                         row[2],
-        teacher_name:                                 row[10],
         min_age_for_kid:                              row[15],
         max_age_for_kid:                              row[16],
         is_individual:                               (row[17] == 'X' ? true : false),
@@ -124,7 +123,7 @@ namespace :import do
         day_five:                                     row[35],
         day_five_start_time:                          row[36],
         day_five_duration:                            row[37],
-        info:                                         row[105]
+        teacher_name:                                 row[10]
       },
 
       # Prices
@@ -300,11 +299,6 @@ namespace :import do
         course.structure = structure
       else
         course = courses.first
-        if course.teacher_name.blank? and !row[:course][:teacher_name].blank?
-          course.teacher_name = row[:course][:teacher_name]
-        elsif !course.teacher_name.blank? and !row[:course][:teacher_name].blank?
-          course.teacher_name += ", #{row[:course][:teacher_name]}"
-        end
       end
 
       #################################################################### Creating Prices

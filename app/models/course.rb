@@ -39,7 +39,6 @@ class Course < ActiveRecord::Base
                   :has_promotion,
                   :course_info,
                   :registration_date,
-                  :teacher_name,
                   :min_age_for_kid,
                   :max_age_for_kid,
                   :is_individual,
