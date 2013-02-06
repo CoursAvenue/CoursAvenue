@@ -27,7 +27,7 @@ class SubjectsController < ApplicationController
 
       when 'levels'
         level_ids = value.map(&:to_i)
-        if level_ids.include? Level.all_levels
+        if level_ids.include? Level.all_levels.id
           level_ids = Level.all.map(&:id)
         else
           level_ids << Level.intermediate.id if level_ids.include? Level.average.id

@@ -1,4 +1,5 @@
 module PlanningsHelper
+
   def week_day_for(planning)
     unless planning.week_day.blank?
       I18n.t('date.day_names')[planning.week_day - 1].capitalize

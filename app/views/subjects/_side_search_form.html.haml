@@ -51,6 +51,26 @@
           = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "search_training_course_type", data: {behavior: 'input-update', element: "hidden_search_training_course_type"}
           = label_tag 'search_training_course_type', 'Stage'
 
+  //-------------------------------------------------------------------------------------------------------- Price
+  .search-panel
+    %h5.search-panel-header Prix
+    .search-panel-content
+      = label_tag 'search_price_range_min_price', 'De'
+      = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, placeholder: '35', class: 'timepicker-input', data: {behavior: 'input-update', element: 'hidden_search_price_range_min'}
+      €
+      = label_tag 'search_price_range_max_price', 'à'
+      = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, placeholder: '100', class: 'timepicker-input', data: {behavior: 'input-update', element: 'hidden_search_price_range_max'}
+      €
+
+  .search-panel
+    %h5.search-panel-header Niveaux
+    .search-panel-content
+      %ul.check-list
+        - @levels.each_with_index do |level, i|
+          %li
+            = check_box_tag 'levels[]', level[:id], params[:levels].include?(level[:id].to_s), id: "search_level_#{level[:name]}", data: {behavior: 'input-update', element: "hidden_search_level_#{level[:name]}"}
+            = label_tag "search_level_#{level[:name]}", t(level[:name])
+
 
   //-------------------------------------------------------------------------------------------------------- Audience
   .search-panel
@@ -69,26 +89,6 @@
       = label_tag 'for_max_age', ' à '
       = number_field_tag 'age[max]', params[:max_age], min: 0, max: 18, step: 1, placeholder: '10', data: {behavior: 'input-update', element: 'hidden_search_age_max'}, id: 'for_max_age'
       ans
-  .search-panel
-    %h5.search-panel-header Niveaux
-    .search-panel-content
-      %ul.check-list
-        - @levels.each_with_index do |level, i|
-          %li
-            = check_box_tag 'levels[]', level[:id], params[:levels].include?(level[:id].to_s), id: "search_level_#{level[:name]}", data: {behavior: 'input-update', element: "hidden_search_level_#{level[:name]}"}
-            = label_tag "search_level_#{level[:name]}", t(level[:name])
-
-
-  //-------------------------------------------------------------------------------------------------------- Price
-  .search-panel
-    %h5.search-panel-header Prix
-    .search-panel-content
-      = label_tag 'search_price_range_min_price', 'De'
-      = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, placeholder: '35', class: 'timepicker-input', data: {behavior: 'input-update', element: 'hidden_search_price_range_min'}
-      €
-      = label_tag 'search_price_range_max_price', 'à'
-      = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, placeholder: '100', class: 'timepicker-input', data: {behavior: 'input-update', element: 'hidden_search_price_range_max'}
-      €
 
   //-------------------------------------------------------------------------------------------------------- Time slot
   .search-panel

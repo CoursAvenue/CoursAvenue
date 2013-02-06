@@ -74,17 +74,19 @@ class Course < ActiveRecord::Base
       query = nil
       price_specificities.each_with_index do |price_specificity|
         case price_specificity
-        when 'has_unit_course_price'
-          if query then query |= (prices.individual_course_price != nil) else query = (prices.individual_course_price != nil) end
         when 'has_package_price'
           if query
-            query |= (prices.annual_price != nil) | (prices.semester_price != nil) | (prices.trimester_price != nil) | (prices.month_price != nil)
+            query |= (prices.libelle.in_any ['annual', 'semester', 'trimester', 'month'])
           else
-            query =  (prices.annual_price != nil) | (prices.semester_price != nil) | (prices.trimester_price != nil) | (prices.month_price != nil)
+            query =  (prices.libelle.in_any ['annual', 'semester', 'trimester', 'month'])
           end
         when 'has_test_course'
-          if query then query |= (prices.trial_lesson_price != nil) else query = (prices.trial_lesson_price != nil) end
+          if query then query |= (prices.libelle.in 'trial_lesson') else query = (prices.libelle.in 'trial_lesson') end
         end
+      end
+
+      if price_specificities.include? 'has_unit_course_price'
+        scope = scope.joins{book_tickets}.where{prices.libelle.in 'individual_course'}
       end
       query
     end
