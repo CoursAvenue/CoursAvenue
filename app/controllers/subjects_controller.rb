@@ -27,13 +27,11 @@ class SubjectsController < ApplicationController
 
       when 'levels'
         level_ids = value.map(&:to_i)
-        if level_ids.include? Level.all_levels.id
-          level_ids = Level.all.map(&:id)
-        else
+        if !level_ids.include? Level.all_levels.id
           level_ids << Level.intermediate.id if level_ids.include? Level.average.id
           level_ids << Level.confirmed.id    if level_ids.include? Level.advanced.id
+          @courses  = @courses.is_for_level(level_ids, @courses)
         end
-        @courses = @courses.is_for_level(level_ids, @courses)
 
       when 'week_days'
         @courses = @courses.that_happens(value, @courses)
