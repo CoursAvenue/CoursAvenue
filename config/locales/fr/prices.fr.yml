@@ -2,7 +2,7 @@ fr:
   activerecord:
     models:
       price: Tarif
-  price:
+  prices:
     free: Gratuit
     contact_structure: Contacter l'établissement
     individual_course: Cours seul

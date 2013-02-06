@@ -130,11 +130,11 @@ namespace :import do
       # Prices
       prices: {}
     }
-    hash[:prices]['price.annual']                      = row[44] unless row[44].blank?
-    hash[:prices]['price.two_lesson_per_week_package'] = row[45] unless row[45].blank?
-    hash[:prices]['price.semester']                    = row[46] unless row[46].blank?
-    hash[:prices]['price.trimester']                   = row[47] unless row[47].blank?
-    hash[:prices]['price.month']                       = row[48] unless row[48].blank?
+    hash[:prices]['prices.annual']                      = row[44] unless row[44].blank?
+    hash[:prices]['prices.two_lesson_per_week_package'] = row[45] unless row[45].blank?
+    hash[:prices]['prices.semester']                    = row[46] unless row[46].blank?
+    hash[:prices]['prices.trimester']                   = row[47] unless row[47].blank?
+    hash[:prices]['prices.month']                       = row[48] unless row[48].blank?
 
     # Has course info only if planning info is blank
     if row[110].blank? # Don't take course info if info planning is present
@@ -155,16 +155,16 @@ namespace :import do
     # IF X => Contact structure
     unless row[85].blank?
       if row[85] == 'X'
-        hash[:prices]['price.trial_lesson'] = nil
+        hash[:prices]['prices.trial_lesson'] = nil
       else
-        hash[:prices]['price.trial_lesson'] = row[85]
+        hash[:prices]['prices.trial_lesson'] = row[85]
       end
     end
 
     if hash[:course_type] == Course::Training
-      hash[:prices]['price.training'] = row[43]
+      hash[:prices]['prices.training'] = row[43]
     else
-      hash[:prices]['price.individual_course'] = row[43]
+      hash[:prices]['prices.individual_course'] = row[43]
     end
 
     # -------------------------------------------------------------------- Registration fees

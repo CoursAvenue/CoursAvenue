@@ -70,24 +70,27 @@ class Course < ActiveRecord::Base
 
   def self.has_price_specificities(price_specificities, scope)
     return scope if price_specificities.length == 3 # Doesn't search if all options are checked
-    scope = scope.joins{prices}.where do
+    scope = scope.joins{book_tickets.outer}.joins{prices}.where do
       query = nil
       price_specificities.each_with_index do |price_specificity|
         case price_specificity
         when 'has_package_price'
           if query
-            query |= (prices.libelle.in_any ['annual', 'semester', 'trimester', 'month'])
+            query |= (prices.libelle.eq_any ['prices.annual', 'prices.semester', 'prices.trimester', 'prices.month', 'prices.two_lesson_per_week_package'])
           else
-            query =  (prices.libelle.in_any ['annual', 'semester', 'trimester', 'month'])
+            query =  (prices.libelle.eq_any ['prices.annual', 'prices.semester', 'prices.trimester', 'prices.month', 'prices.two_lesson_per_week_package'])
           end
         when 'has_test_course'
-          if query then query |= (prices.libelle.in 'trial_lesson') else query = (prices.libelle.in 'trial_lesson') end
+          if query then query |= (prices.libelle.eq 'prices.trial_lesson') else query = (prices.libelle.eq 'prices.trial_lesson') end
+        when 'has_unit_course_price'
+          if query then query |= (prices.libelle.eq 'prices.individual_course') else query = (prices.libelle.eq 'prices.individual_course') end
         end
       end
 
-      if price_specificities.include? 'has_unit_course_price'
-        scope = scope.joins{book_tickets}.where{prices.libelle.in 'individual_course'}
-      end
+      # if price_specificities.include? 'has_unit_course_price'
+      #   #scope = scope.joins{book_tickets}.where{prices.libelle.eq 'prices.individual_course'}
+      #   scope = scope.joins{book_tickets.outer}.where{() | (prices.libelle.eq 'prices.individual_course')}
+      # end
       query
     end
 

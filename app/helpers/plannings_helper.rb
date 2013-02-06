@@ -18,7 +18,7 @@ module PlanningsHelper
 
   def readable_duration(planning)
     if planning.duration.blank?
-      t('planning.no_duration')
+      '-'
     elsif planning.duration.hour > 0
       if planning.duration.min == 0
         "#{planning.duration.hour}h"
@@ -31,7 +31,11 @@ module PlanningsHelper
   end
 
   def readable_time_slot(planning)
-    "#{I18n.l(planning.start_time, format: :short)} - #{I18n.l(planning.end_time, format: :short)}"
+    if planning.end_time
+      "#{I18n.l(planning.start_time, format: :short)} - #{I18n.l(planning.end_time, format: :short)}"
+    else
+      '-'
+    end
   end
 
   def training_dates(planning)
