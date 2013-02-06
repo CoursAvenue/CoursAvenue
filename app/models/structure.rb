@@ -15,20 +15,19 @@ class Structure < ActiveRecord::Base
   attr_accessible :city,
                   :structure_type,
                   :name,
-                  :place_name,                  # To use
+                  :place_name,
                   :info,
                   :street,
                   :adress_info,
                   :registration_info,
                   :zip_code,
                   :has_handicap_access,
-                  :is_professional,             # To use
+                  :gives_professional_courses,
                   :nb_room,
                   :website,
                   :phone_number,
                   :mobile_phone_number,
-                  :email_address,               # To do Info structure
-                  # Mettre un lien pour CIF, DIF etc.
+                  :email_address,
                   # Moyen de financements possible :
                   :accepts_holiday_vouchers,    # To use Info prix Chèques Vacances
                   :accepts_ancv_sports_coupon,  # To use Info prix Coupons Sports ANCV

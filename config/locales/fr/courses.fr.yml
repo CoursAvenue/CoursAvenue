@@ -39,6 +39,13 @@ fr:
       opinions: Avis
       last_students_opinion: Avis des élèves précédents
     price_tab:
+      holiday_vouchers: Chèques Vacances
+      sport_coupons: Coupons Sports ANCV
+      leisure_coupons: Tickets Loisirs C.A.F. (y compris les "Tickets Temps Libres")
+      afdas: AFDAS
+      dif: DIF
+      cif: CIF
+      possible_funding: 'Moyen de financements possible :'
       formule_type: Type de formule
       without_promo: Sans promo
       with_promo: Avec promo
@@ -48,6 +55,8 @@ fr:
       more_information: "Informations complémentaires :"
       no_information: Pas d'information pour ce cours
     structure_tab:
+      contact: "Contact :"
+      give_professional_courses: L'établissement donne également des formations qualifiantes pour devenir professionel.
       has_registration_form: "L'établissement a un formulaire d'inscription"
       payment_on_place: Le paiement se fait sur place
       required_documents_for_registration: "Pièces demandées pour l’inscription :"

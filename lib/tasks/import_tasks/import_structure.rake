@@ -9,7 +9,7 @@ namespace :import do
   def structure_hash_from_row(row)
     {
       name:                                          row[0],
-      place_name:                                        row[5],
+      place_name:                                    row[5],
       structure_type:                                row[3],
 
       street:                                        row[6],
@@ -17,7 +17,7 @@ namespace :import do
       adress_info:                                   row[8],
 
       has_handicap_access:                          (row[10] == 'X' ? true : false),
-      is_professional:                              (row[11] == 'X' ? true : false),
+      gives_professional_courses:                   (row[11] == 'X' ? true : false),
       nb_room:                                       row[12],
       website:                                       row[14],
 

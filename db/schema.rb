@@ -237,7 +237,7 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
     t.string   "zip_code"
     t.text     "adress_info"
     t.boolean  "has_handicap_access"
-    t.boolean  "is_professional"
+    t.boolean  "gives_professional_courses"
     t.integer  "nb_room"
     t.string   "website"
     t.string   "phone_number"

@@ -1,7 +1,17 @@
 %article#tab-structure-info.tab-pane
   %h4= @structure.name
   %ul
+    - if @structure.email_address
+      %li
+        = t('.contact')
+        = @structure.email_address
+    %li= @structure.structure_type
+    - if @structure.gives_professional_courses
+      %li= t('.give_professional_courses')
     %li= readable_address @structure
+    - if @structure.place_name
+      %li
+        = @structure.place_name
     - if @structure.adress_info
       %li= @structure.adress_info
     - if @structure.nb_room
@@ -9,7 +19,7 @@
     %li
       = Structure.human_attribute_name(:website)
       = link_to @structure.website, @structure.website, target: '_blank'
-    - unless @structure.info.blank?
+    - if @structure.info
       %li
         = t('.other_info')
         = @structure.info

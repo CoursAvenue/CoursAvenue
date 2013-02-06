@@ -1,8 +1,13 @@
 %article.course-info
-  - if @course.best_price
+  - if @course.best_price #TODO: Remove this
     .course-info-price.text-center
-      %small À partir de
-      %h2.blue= "#{@course.best_price.readable_amount}€"
+      - if @course.promotion_planning
+        %div
+          %span.muted.delta.line-through= "#{@course.best_price.readable_amount}€".html_safe
+          %b.gamma.blue= "#{@course.promotion_price}€".html_safe
+      - else
+        %small À partir de
+        %h2.blue= "#{@course.best_price.readable_amount}€"
 
   .text-center.course-info-heading
     %b En attendant la réservation en ligne
@@ -12,7 +17,7 @@
     - if @structure.phone_number
       = link_to "tel:#{@structure.phone_number.gsub(/\s+/, '')}", class: 'blue' do
         = @structure.phone_number
-    - if @structure.phone_number
+    - if @structure.phone_number and @structure.mobile_phone_number
       %span.blue /
     - if @structure.mobile_phone_number
       = link_to "tel:#{@structure.mobile_phone_number.gsub(/\s+/, '')}", class: 'blue' do

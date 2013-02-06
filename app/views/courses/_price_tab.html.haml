@@ -22,3 +22,18 @@
           = "#{registration_fee.price}€"
         - if @structure.registration_info
           %li= @structure.registration_info
+    / # Mettre un lien pour CIF, DIF etc.
+    %p= t('.possible_funding')
+    %ul
+      - if @structure.accepts_holiday_vouchers
+        %li= t('.holiday_vouchers')
+      - if @structure.accepts_ancv_sports_coupon
+        %li= t('.sport_coupons')
+      - if @structure.accepts_leisure_tickets
+        %li= t('.leisure_coupons')
+      - if @structure.accepts_afdas_funding
+        %li= t('.afdas')
+      - if @structure.accepts_dif_funding
+        %li= t('.dif')
+      - if @structure.accepts_cif_funding
+        %li= t('.cif')
