@@ -29,12 +29,12 @@ class Structure < ActiveRecord::Base
                   :mobile_phone_number,
                   :email_address,
                   # Moyen de financements possible :
-                  :accepts_holiday_vouchers,    # To use Info prix Chèques Vacances
-                  :accepts_ancv_sports_coupon,  # To use Info prix Coupons Sports ANCV
-                  :accepts_leisure_tickets,     # To use Info prix Tickets Loisirs C.A.F. (y compris les "Tickets Temps Libres")
-                  :accepts_afdas_funding,       # To use Info prix AFDAS
-                  :accepts_dif_funding,         # To use Info prix DIF
-                  :accepts_cif_funding,         # To use Info prix CIF
+                  :accepts_holiday_vouchers,
+                  :accepts_ancv_sports_coupon,
+                  :accepts_leisure_tickets,
+                  :accepts_afdas_funding,
+                  :accepts_dif_funding,
+                  :accepts_cif_funding,
 
                   # For registration info
                   :has_registration_form,

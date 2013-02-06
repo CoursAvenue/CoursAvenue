@@ -10,20 +10,23 @@
       = render @course.book_tickets
   %footer
     %h4= t('infos')
-    %p= @course.price_details        unless @course.price_details.blank?
-    %p= @course.price_info.html_safe unless @course.price_info.blank?
     %ul
-      - @course.registration_fees.each do |registration_fee|
-        %li
-          - if registration_fee.for_kid
-            = RegistrationFee.human_attribute_name(:kid_registration_fee)
-          - else
-            = RegistrationFee.human_attribute_name(:registration_fee)
-          = "#{registration_fee.price}€"
-        - if @structure.registration_info
-          %li= @structure.registration_info
+      - if @course.price_details
+        %li= @course.price_details
+      - if @course.price_info
+        %li= @course.price_info.html_safe
+      - if @structure.registration_info
+        %li= @structure.registration_info
+      - unless @course.registration_fees.empty?
+        - @course.registration_fees.each do |registration_fee|
+          %li
+            - if registration_fee.for_kid
+              = RegistrationFee.human_attribute_name(:kid_registration_fee)
+            - else
+              = RegistrationFee.human_attribute_name(:registration_fee)
+            = "#{registration_fee.price}€"
     / # Mettre un lien pour CIF, DIF etc.
-    %p= t('.possible_funding')
+    %p.no-bottom-margin= t('.possible_funding')
     %ul
       - if @structure.accepts_holiday_vouchers
         %li= t('.holiday_vouchers')
