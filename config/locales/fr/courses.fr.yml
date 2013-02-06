@@ -29,7 +29,7 @@ fr:
   courses:
     frequencies:
       every_week: Toutes les semaines
-      every_two_weeks: Toutes les deux semaines
+      every_two_weeks: Toutes les 15 jours
       every_month: Tous les mois
     show:
       back_to_search: Retour à la recherche
