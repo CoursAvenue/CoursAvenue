@@ -20,3 +20,5 @@
           - else
             = RegistrationFee.human_attribute_name(:registration_fee)
           = "#{registration_fee.price}€"
+        - if @structure.registration_info
+          %li= @structure.registration_info

@@ -2,18 +2,25 @@
   - if @course.best_price
     .course-info-price.text-center
       %small À partir de
-      %h2.blue= "#{@course.best_price.amount}€"
+      %h2.blue= "#{@course.best_price.readable_amount}€"
 
   .text-center.course-info-heading
     %b En attendant la réservation en ligne
     %p.course-info-heading-caption Dites que LeBonCours vous a guidé !
-  - if @structure.phone_number
-    .text-center
+  .text-center
+    %i.icon-phone.blue
+    - if @structure.phone_number
       = link_to "tel:#{@structure.phone_number.gsub(/\s+/, '')}", class: 'blue' do
-        %i.icon-phone
         = @structure.phone_number
+    - if @structure.phone_number
+      %span.blue /
+    - if @structure.mobile_phone_number
+      = link_to "tel:#{@structure.mobile_phone_number.gsub(/\s+/, '')}", class: 'blue' do
+        = @structure.mobile_phone_number
   - if @structure.website
-    .text-center= link_to @structure.name, @structure.website, class: 'blue', target: '_blank'
+    .text-center
+      %i.icon-external-link.blue
+      = link_to @structure.name, @structure.website, class: 'blue', target: '_blank'
 
   %hr.course-info-delimiter
   .text-center.course-info-heading

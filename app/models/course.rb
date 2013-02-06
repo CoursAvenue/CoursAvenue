@@ -28,30 +28,24 @@ class Course < ActiveRecord::Base
   # validates :subjects, presence: true
 
   # ------------------------------------------------------------------------------------ Callbacks
-  before_update :rollback_slug_change
-
 
   attr_accessible :name,
                   :has_online_payment,
                   :homepage_image,
                   :is_promoted,
                   :description,
-                  :has_promotion,
                   :course_info,
                   :registration_date,
-                  :min_age_for_kid,
-                  :max_age_for_kid,
                   :is_individual,
-                  :annual_membership_mandatory,
                   :is_for_handicaped,
-                  :trial_lesson_info,
+                  :trial_lesson_info, # Info prix
                   :price_details,
                   :price_info,
                   :conditions,
                   :partner_rib_info,
                   :audition_mandatory,
                   :refund_condition,
-                  :cant_be_joined_during_year
+                  :can_be_joined_during_year
 
   # ------------------------------------------------------------------------------------ Self methods
 
@@ -172,8 +166,17 @@ class Course < ActiveRecord::Base
     similar_courses
   end
 
+  def promotion_planning
+    self.plannings.where{promotion != nil}.order('promotion ASC').first
+  end
+
   def promotion
-    self.courses.order('promotion ASC').first.promotion
+    self.plannings.order('promotion ASC').first.promotion
+  end
+
+  def promotion_price
+    new_price = best_price.amount + (best_price.amount * (promotion / 100))
+    ('%.2f' % new_price).gsub('.', ',').gsub(',00', '')
   end
 
   def is_workshop?
@@ -196,8 +199,7 @@ class Course < ActiveRecord::Base
     'Cours'
   end
 
-  protected
-  def rollback_slug_change
-    self.slug = slug_was if slug_changed?
+  def should_generate_new_friendly_id?
+    new_record?
   end
 end

@@ -6,5 +6,6 @@ fr:
       structure:
         nb_room: Nombre de salles
         website: "Site internet :"
+        has_handicap_access: Accès handicapé
 
   #structures:

@@ -12,12 +12,11 @@ FactoryGirl.define do
     price_info                  'Lorem ipsum dolor bla bla bla'
     teacher_name                'Tea Cher'
     trial_lesson_info           'Lorem ipsum dolor bla bla bla'
-    annual_membership_mandatory true
     conditions                  ''
     partner_rib_info            ''
     audition_mandatory          ''
     refund_condition            ''
-    cant_be_joined_during_year  {}
+    can_be_joined_during_year   false
 
     # factory :course_at_nice, class: Course do
     #   association :structure_at_nice

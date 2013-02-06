@@ -12,46 +12,35 @@ class Structure < ActiveRecord::Base
   validates :name, :presence   => true
   validates :name, :uniqueness => true
 
-  attr_accessible :adress_info,
-                  :city,
+  attr_accessible :city,
                   :structure_type,
                   :name,
-                  :name_2,
+                  :place_name,                  # To use
                   :info,
-                  :registration_info,
                   :street,
-                  :nb_days_before_cancelation,
+                  :adress_info,
+                  :registration_info,
                   :zip_code,
-                  :closed_days,
                   :has_handicap_access,
-                  :is_professional,
+                  :is_professional,             # To use
                   :nb_room,
                   :website,
-                  :newsletter_address,
-                  :has_online_reservation,
-                  :online_reservation_website,
-                  :onlne_reservation_mandatory,
-                  :has_online_membership,
-                  :online_membership_website,
                   :phone_number,
                   :mobile_phone_number,
-                  :email_address,
-                  :email_address_2,
-                  :contact_name,
-                  :accepts_holiday_vouchers,
-                  :accepts_ancv_sports_coupon,
-                  :accepts_leisure_tickets,
-                  :accepts_afdas_funding,
-                  :accepts_dif_funding,
-                  :accepts_cif_funding,
-                  :has_multiple_place,
-                  :has_annual_course_only,
+                  :email_address,               # To do Info structure
+                  # Mettre un lien pour CIF, DIF etc.
+                  # Moyen de financements possible :
+                  :accepts_holiday_vouchers,    # To use Info prix Chèques Vacances
+                  :accepts_ancv_sports_coupon,  # To use Info prix Coupons Sports ANCV
+                  :accepts_leisure_tickets,     # To use Info prix Tickets Loisirs C.A.F. (y compris les "Tickets Temps Libres")
+                  :accepts_afdas_funding,       # To use Info prix AFDAS
+                  :accepts_dif_funding,         # To use Info prix DIF
+                  :accepts_cif_funding,         # To use Info prix CIF
 
                   # For registration info
                   :has_registration_form,
                   :needs_photo_id_for_registration,
                   :needs_id_copy_for_registration,
-                  :needs_payment_on_place_for_registration, # règlement sur place
                   :needs_medical_certificate_for_registration, # certificat médical de moins de 3 mois
                   :needs_insurance_attestation_for_registration # attestation d'assurance
 

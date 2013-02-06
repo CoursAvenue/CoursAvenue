@@ -28,6 +28,8 @@ class CreatePlannings < ActiveRecord::Migration
       t.integer :nb_place_available
       t.text    :info
       t.string  :teacher_name
+      t.integer :max_age_for_kid
+      t.integer :min_age_for_kid
 
       t.references :course
 

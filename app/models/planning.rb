@@ -28,7 +28,10 @@ class Planning < ActiveRecord::Base
                   :nb_place_available,
                   :promotion,
                   :info,
-                  :teacher_name
+                  :teacher_name,
+                  :min_age_for_kid,
+                  :max_age_for_kid
+
 
   def length
     if day_one.blank?

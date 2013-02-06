@@ -8,8 +8,12 @@ class Price < ActiveRecord::Base
     I18n.t read_attribute(:libelle)
   end
 
-  def amount
-    ('%.2f' % read_attribute(:amount)).gsub('.', ',').gsub(',00', '')
+  def readable_amount
+    if read_attribute(:amount).nil?
+      nil
+    else
+      ('%.2f' % read_attribute(:amount)).gsub('.', ',').gsub(',00', '')
+    end
   end
 
 end

@@ -67,19 +67,16 @@ namespace :import do
 
       course: {
         name:                                         row[2],
-        min_age_for_kid:                              row[15],
-        max_age_for_kid:                              row[16],
         is_individual:                               (row[17] == 'X' ? true : false),
         is_for_handicaped:                           (row[18] == 'X' ? true : false),
         registration_date:                            row[20],
-        annual_membership_mandatory:                  row[38],
         trial_lesson_info:                            row[86],
         has_online_payment:                          (row[94] == 'X' ? true : false),
         conditions:                                   row[99],
         partner_rib_info:                             row[101],
         audition_mandatory:                          (row[102] == 'X' ? true : false),
         refund_condition:                             row[103],
-        cant_be_joined_during_year:                  (row[41] == 'X' ? true : false),
+        can_be_joined_during_year:                   (row[41] == 'X' ? false : true),
         price_details:                                row[87]
       },
       audiences: {
@@ -125,25 +122,29 @@ namespace :import do
         day_four_duration:                            row[34],
         day_five:                                     row[35],
         day_five_start_time:                          row[36],
-        day_five_duration:                            row[37]
+        day_five_duration:                            row[37],
+        min_age_for_kid:                              row[15],
+        max_age_for_kid:                              row[16]
+
       },
 
       # Prices
-      prices: {
-        'price.free' =>                              (row[42] == 'X' ? 0 : nil),
-        'price.annual' =>                             row[44],
-        'price.two_lesson_per_week_package' =>        row[45],
-        'price.semester' =>                           row[46],
-        'price.trimester' =>                          row[47],
-        'price.month' =>                              row[48],
-      }
+      prices: {}
     }
+    hash[:prices]['price.annual']                      = row[44] unless row[44].blank?
+    hash[:prices]['price.two_lesson_per_week_package'] = row[45] unless row[45].blank?
+    hash[:prices]['price.semester']                    = row[46] unless row[46].blank?
+    hash[:prices]['price.trimester']                   = row[47] unless row[47].blank?
+    hash[:prices]['price.month']                       = row[48] unless row[48].blank?
+
     # Has course info only if planning info is blank
-    if row[105].blank?
-      hash[:course][:course_info] = row[11].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>') unless row[11].blank?
-      if !row[11].blank? and !row[12].blank?
-        hash[:course][:course_info] += '<br>'
-        hash[:course][:course_info] += row[12].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>')
+    unless row[110].blank? # Don't take course info if info planning is present
+      if row[105].blank?
+        hash[:course][:course_info] = row[11].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>') unless row[11].blank?
+        if !row[11].blank? and !row[12].blank?
+          hash[:course][:course_info] += '<br>'
+          hash[:course][:course_info] += row[12].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>')
+        end
       end
     end
     hash[:course][:price_info] = row[73].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>') unless row[73].blank?
@@ -286,7 +287,7 @@ namespace :import do
       duplicate = false
       unless courses.empty?
         row[:prices].each do |key, value|
-          if value.present? and courses.first.prices.any?{|p| p.read_attribute(:libelle) == key and p.amount != value}
+          if courses.first.prices.any?{|p| p.read_attribute(:libelle) == key and (!p.amount.nil? and p.amount != value)}
             duplicate = true
             break
           end
@@ -305,7 +306,7 @@ namespace :import do
 
       #################################################################### Creating Prices
       row[:prices].each do |key, value|
-        course.prices << Price.create(libelle: key, amount: value) if value.present? and !course.prices.any?{|p| p.read_attribute(:libelle) == key}
+        course.prices << Price.create(libelle: key, amount: value) if !course.prices.any?{|p| p.read_attribute(:libelle) == key}
       end
 
       #################################################################### Creating Planning

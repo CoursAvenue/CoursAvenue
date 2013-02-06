@@ -11,4 +11,8 @@ class City < ActiveRecord::Base
   attr_accessible :name, :no_result_image
 
   validates :name, uniqueness: true
+
+  def should_generate_new_friendly_id?
+    new_record?
+  end
 end

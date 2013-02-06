@@ -32,22 +32,24 @@
 
         %li.flexbox
           %label.flexbox__item= t('.can_be_joined_during_year')
-          %strong.flexbox__item.v-middle.proceed= (@course.cant_be_joined_during_year ? t('no') : t('yes'))
+          %strong.flexbox__item.v-middle.proceed= (@course.can_be_joined_during_year ? t('yes') : t('no'))
 
         %li.flexbox
           %label.flexbox__item= t('.class_during_holidays')
           %strong.flexbox__item.v-middle.proceed= (@course.plannings.first.class_during_holidays ? t('yes') : t('no'))
 
+        / Durée du cours
+
+        / - if @course.min_age_for_kid
+        /   %li.flexbox
+        /     %label.flexbox__item= Course.human_attribute_name(:min_age_for_kid)
+        /     %strong.flexbox__item.v-middle.proceed= "#{@course.min_age_for_kid} ans"
+        / - if @course.max_age_for_kid
+        /   %li.flexbox
+        /     %label.flexbox__item= Course.human_attribute_name(:max_age_for_kid)
+        /     %strong.flexbox__item.v-middle.proceed= "#{@course.max_age_for_kid} ans"
+
         - if @course.is_for_handicaped
           %li.flexbox
             %label.flexbox__item= Course.human_attribute_name(:is_for_handicaped)
             %strong.flexbox__item.v-middle.proceed= t('yes')
-
-        - if @course.min_age_for_kid
-          %li.flexbox
-            %label.flexbox__item= Course.human_attribute_name(:min_age_for_kid)
-            %strong.flexbox__item.v-middle.proceed= "#{@course.min_age_for_kid} ans"
-        - if @course.max_age_for_kid
-          %li.flexbox
-            %label.flexbox__item= Course.human_attribute_name(:max_age_for_kid)
-            %strong.flexbox__item.v-middle.proceed= "#{@course.max_age_for_kid} ans"

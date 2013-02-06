@@ -3,5 +3,8 @@
   - if price.amount == 0
     %td.text-center Gratuit
   - else
-    %td.text-center= "#{price.amount} €"
+    - if price.amount.nil?
+      %td.text-center Se renseigner
+    - else
+      %td.text-center= "#{price.readable_amount}€"
   %td.text-center -

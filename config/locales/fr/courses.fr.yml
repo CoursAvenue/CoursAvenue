@@ -15,7 +15,6 @@ fr:
         max_age_for_kid: Age max
         min_age_for_kid: Age min
         is_individual: Individuel
-        annual_membership_mandatory:
         is_for_handicaped: Pour handicapé
         trial_lesson_info:
         price_details:
@@ -24,7 +23,7 @@ fr:
         partner_rib_info:
         audition_mandatory:
         refund_condition:
-        cant_be_joined_during_year:
+        can_be_joined_during_year:
 
   courses:
     show:
