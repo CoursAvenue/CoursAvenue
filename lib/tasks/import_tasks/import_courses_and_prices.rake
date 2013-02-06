@@ -77,7 +77,8 @@ namespace :import do
         audition_mandatory:                          (row[102] == 'X' ? true : false),
         refund_condition:                             row[103],
         can_be_joined_during_year:                   (row[41] == 'X' ? false : true),
-        price_details:                                row[87]
+        price_details:                                row[87],
+        frequency:                                    row[19]
       },
       audiences: {
         audience_1:                                   audience(row[7]),
@@ -96,9 +97,7 @@ namespace :import do
         promotion:                                    row[104],
         week_day:                                     week_day_number(row[3]),
         start_time:                                   Time.parse("2000-01-01 #{row[4]} UTC"),
-        end_time:                                     Time.parse("2000-01-01 00:00 UTC"),
         duration:                                     row[6],
-        recurrence:                                   row[19],
         class_during_holidays:                       (row[20] == 'X' ? false : true),
 
         start_date:                                  (row[21].blank? ? Date.parse('01/09/2012') : Date.parse(row[21])),
@@ -138,12 +137,12 @@ namespace :import do
     hash[:prices]['price.month']                       = row[48] unless row[48].blank?
 
     # Has course info only if planning info is blank
-    unless row[110].blank? # Don't take course info if info planning is present
+    if row[110].blank? # Don't take course info if info planning is present
       if row[105].blank?
-        hash[:course][:course_info] = row[11].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>') unless row[11].blank?
+        hash[:course][:info] = row[11].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>') unless row[11].blank?
         if !row[11].blank? and !row[12].blank?
-          hash[:course][:course_info] += '<br>'
-          hash[:course][:course_info] += row[12].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>')
+          hash[:course][:info] += '<br>'
+          hash[:course][:info] += row[12].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>')
         end
       end
     end
@@ -287,7 +286,7 @@ namespace :import do
       duplicate = false
       unless courses.empty?
         row[:prices].each do |key, value|
-          if courses.first.prices.any?{|p| p.read_attribute(:libelle) == key and (!p.amount.nil? and p.amount != value)}
+          if !value.nil? and courses.first.prices.any?{|p| p.read_attribute(:libelle) == key and p.amount == value}
             duplicate = true
             break
           end
@@ -321,7 +320,7 @@ namespace :import do
 
       #################################################################### Creating Book tickets
       row[:book_tickets].each do |book_ticket|
-        course.book_tickets << BookTicket.create(book_ticket) unless course.book_tickets.any?{|b| b.number == book_ticket[:number]}
+        course.book_tickets << BookTicket.create(book_ticket) unless course.book_tickets.any?{|b| b.number == book_ticket[:number].to_i}
       end
       course.save
     end

@@ -24,8 +24,13 @@ fr:
         audition_mandatory:
         refund_condition:
         can_be_joined_during_year:
+        frequency: Fréquence
 
   courses:
+    frequencies:
+      every_week: Toutes les semaines
+      every_two_weeks: Toutes les deux semaines
+      every_month: Tous les mois
     show:
       back_to_search: Retour à la recherche
       planning: Planning
@@ -66,6 +71,5 @@ fr:
       audience: Public
       cant_be_joined_during_year: Ne peut être rejoint en cours d’année
       can_be_joined_during_year: Peut être rejoint en cours d’année
-      recurrence: Récurrence
     course:
       from: À partir de

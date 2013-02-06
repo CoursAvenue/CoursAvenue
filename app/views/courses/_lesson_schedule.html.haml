@@ -4,7 +4,9 @@
       %th Jour
       %th.text-center Créneau horaire
       %th.text-center Durée
-      %th.text-center Places dispo
+      %th.text-center Places
+      - if @course.is_for_kid
+        %th.text-center Âge
       %th.text-center Promo
       %th.text-center
         %i.lbc-icon-info i
@@ -15,6 +17,12 @@
         %td.text-center= readable_time_slot planning
         %td.text-center= readable_duration planning
         %td.text-center= planning.nb_place_available || '-'
+        - if @course.is_for_kid
+          %td.text-center
+            = planning.min_age_for_kid || '-'
+            - if planning.max_age_for_kid
+              à
+              = planning.max_age_for_kid || '-'
         %td.text-center
           - if planning.promotion
             .promo-marker= readable_promotion planning

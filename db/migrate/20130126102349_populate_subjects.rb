@@ -57,7 +57,7 @@ class PopulateSubjects < ActiveRecord::Migration
 
     #--------------------------------------------------------------- Arts du spectacle
     spectacle        = Subject.create name: 'Arts du spectacle'
-    spectacle_childs = ['Cirque', 'Comédie / Humour', 'Création (composition, écriture)', 'Expression scénique', 'Impro', 'Lecture / Contes', 'Magie', 'Spectacle petite enfance', 'Texte / Interprétation', 'Théâtre']
+    spectacle_childs = ['Cirque', 'Comédie / Humour', 'Création (composition, écriture)', 'Expression scénique', 'Impro', 'Lecture / Contes', 'Magie', 'Spectacle petite enfance', 'Texte / Interprétation', 'Théâtre', 'Mime']
     spectacle_childs.each do |spectacle_child_name|
       spectacle_child        = Subject.create name: spectacle_child_name
       spectacle_child.parent = spectacle

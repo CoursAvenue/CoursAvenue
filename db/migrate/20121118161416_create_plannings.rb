@@ -3,7 +3,6 @@ class CreatePlannings < ActiveRecord::Migration
     create_table :plannings do |t|
       t.date    :start_date
       t.date    :end_date
-      t.string  :recurrence
       t.date    :day_one
       t.time    :day_one_start_time
       t.time    :day_one_duration

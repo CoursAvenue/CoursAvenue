@@ -17,7 +17,6 @@ class PlanningSerializer < ActiveModel::Serializer
              :day_five_start_time,
              :duration,
              :end_date,
-             :recurrence,
              :start_date,
              :start_time, # Format: Time.parse("2000-01-01 #{value} UTC")
              :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")

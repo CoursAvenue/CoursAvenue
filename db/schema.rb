@@ -87,11 +87,12 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
   create_table "courses", :force => true do |t|
     t.string   "type"
     t.string   "name"
+    t.string   "frequency"
     t.text     "description"
     t.boolean  "is_promoted",                 :default => false
     t.boolean  "has_online_payment",          :default => false
     t.boolean  "has_promotion",               :default => false
-    t.text     "course_info"
+    t.text     "info"
     t.text     "registration_date"
     t.boolean  "is_individual"
     t.boolean  "is_for_handicaped"
@@ -153,7 +154,6 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
   create_table "plannings", :force => true do |t|
     t.date     "start_date"
     t.date     "end_date"
-    t.string   "recurrence"
     t.date     "day_one"
     t.time     "day_one_start_time"
     t.time     "day_one_duration"

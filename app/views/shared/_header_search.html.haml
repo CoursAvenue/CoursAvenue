@@ -1,4 +1,7 @@
-- params[:city] ||= 'paris'
+- params[:city]       ||= 'paris'
+- params[:start_date] ||= l(Date.today)
+- params[:end_date]   ||= l(Date.today) + 6.months
+
 .header-search-bar.main-container
   .town-chooser.better-select{data: {behavior: 'better-select' }}
     %span.chooser-title-wrapper
@@ -32,9 +35,9 @@
 
   %div
     Du
-    %input{type: 'text', class: 'datepicker-input', value: l(Date.today), name: 'start_date', data: {behavior: 'datepicker'}}
+    %input{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
     au
-    %input{type: 'text', class: 'datepicker-input', value: l(Date.today + 6.months), name: 'end_date', data: {behavior: 'datepicker'}}
+    %input{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker'}}
 
   %div.button-wrapper
     %button.btn.btn__primary{type: 'submit', id: 'submit_search_form'}

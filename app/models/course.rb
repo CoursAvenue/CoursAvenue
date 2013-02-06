@@ -32,9 +32,10 @@ class Course < ActiveRecord::Base
   attr_accessible :name,
                   :has_online_payment,
                   :homepage_image,
+                  :frequency,
                   :is_promoted,
                   :description,
-                  :course_info,
+                  :info,
                   :registration_date,
                   :is_individual,
                   :is_for_handicaped,
@@ -104,7 +105,7 @@ class Course < ActiveRecord::Base
       if age[:min].to_i > 18
         scope
       else
-        scope.where{(min_age_for_kid < age[:max]) & (max_age_for_kid > age[:min])}
+        scope.joins{plannings}.where{(plannings.min_age_for_kid < age[:max]) & (plannings.max_age_for_kid > age[:min])}
       end
     end
   end
@@ -168,6 +169,14 @@ class Course < ActiveRecord::Base
 
   def promotion_planning
     self.plannings.where{promotion != nil}.order('promotion ASC').first
+  end
+
+  def is_for_kid
+    self.plannings.where{min_age_for_kid != nil}.length > 0
+  end
+
+  def has_teacher
+    self.plannings.where{teacher_name != nil}.length > 0
   end
 
   def promotion

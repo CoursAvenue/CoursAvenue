@@ -11,45 +11,35 @@
       %h4= t('.infos')
       %ul.block-list.alternate-color.milli
         %li.flexbox
-          %label.flexbox__item.v-middle= Audience.model_name.human
-          %strong.flexbox__item.v-middle.proceed
+          %label.flexbox__item= Audience.model_name.human
+          %strong.flexbox__item.proceed
             = @course.audiences.map{|course| t(course.name)}.join(', ')
 
         %li.flexbox
-          %label.flexbox__item.v-middle= Course.model_name.human
+          %label.flexbox__item= Course.model_name.human
           - if @course.is_individual
-            %strong.flexbox__item.v-middle.proceed= Course.human_attribute_name(:is_individual)
+            %strong.flexbox__item.proceed= Course.human_attribute_name(:is_individual)
           - else
-            %strong.flexbox__item.v-middle.proceed= t('.collective')
-        %li.flexbox
-          %label.flexbox__item.v-middle= Course.human_attribute_name(:teacher_name)
-          %h2.teacher-name.flexbox__item.v-middle.proceed= join_teachers @course
-
-        - unless @course.plannings.first.recurrence.blank?
+            %strong.flexbox__item.proceed= t('.collective')
+        - if @course.has_teacher
           %li.flexbox
-            %label.flexbox__item= t('.recurrence')
-            %strong.flexbox__item.v-middle.proceed= @course.plannings.first.recurrence
+            %label.flexbox__item= Course.human_attribute_name(:teacher_name)
+            %h2.teacher-name.flexbox__item.proceed= join_teachers @course
+
+        - unless @course.frequency.nil?
+          %li.flexbox
+            %label.flexbox__item= Course.human_attribute_name(:frequency)
+            %strong.flexbox__item.proceed= t(@course.frequency)
 
         %li.flexbox
           %label.flexbox__item= t('.can_be_joined_during_year')
-          %strong.flexbox__item.v-middle.proceed= (@course.can_be_joined_during_year ? t('yes') : t('no'))
+          %strong.flexbox__item.proceed= (@course.can_be_joined_during_year ? t('yes') : t('no'))
 
         %li.flexbox
           %label.flexbox__item= t('.class_during_holidays')
-          %strong.flexbox__item.v-middle.proceed= (@course.plannings.first.class_during_holidays ? t('yes') : t('no'))
-
-        / Durée du cours
-
-        / - if @course.min_age_for_kid
-        /   %li.flexbox
-        /     %label.flexbox__item= Course.human_attribute_name(:min_age_for_kid)
-        /     %strong.flexbox__item.v-middle.proceed= "#{@course.min_age_for_kid} ans"
-        / - if @course.max_age_for_kid
-        /   %li.flexbox
-        /     %label.flexbox__item= Course.human_attribute_name(:max_age_for_kid)
-        /     %strong.flexbox__item.v-middle.proceed= "#{@course.max_age_for_kid} ans"
+          %strong.flexbox__item.proceed= (@course.plannings.first.class_during_holidays ? t('yes') : t('no'))
 
         - if @course.is_for_handicaped
           %li.flexbox
             %label.flexbox__item= Course.human_attribute_name(:is_for_handicaped)
-            %strong.flexbox__item.v-middle.proceed= t('yes')
+            %strong.flexbox__item.proceed= t('yes')
