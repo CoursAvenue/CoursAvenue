@@ -175,7 +175,11 @@ class Course < ActiveRecord::Base
     self.plannings.where{min_age_for_kid != nil}.length > 0
   end
 
-  def has_teacher
+  def has_multiple_teacher?
+    self.plannings.where{teacher_name != nil}.length > 1
+  end
+
+  def has_teacher?
     self.plannings.where{teacher_name != nil}.length > 0
   end
 

@@ -21,7 +21,7 @@
             %strong.flexbox__item.proceed= Course.human_attribute_name(:is_individual)
           - else
             %strong.flexbox__item.proceed= t('.collective')
-        - if @course.has_teacher
+        - if @course.has_teacher?
           %li.flexbox
             %label.flexbox__item= Course.human_attribute_name(:teacher_name)
             %h2.teacher-name.flexbox__item.proceed= join_teachers @course

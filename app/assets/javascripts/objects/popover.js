@@ -19,9 +19,9 @@
         createPopoverDiv: function() {
             var width;
             this.popover_element = new Element('p.popover');
-            this.popover_element.set('text', this.content)
+            this.popover_element.set('html', this.content)
             this.el.appendChild(this.popover_element);
-            width = (this.content.length / 2);
+            width = (this.content.length / 1.5);
             if (width < 30) {
                 this.popover_element.setStyle('width', width + 'em');
                 this.popover_element.setStyle('margin-left', '-' + (width / 2) + 'em');
