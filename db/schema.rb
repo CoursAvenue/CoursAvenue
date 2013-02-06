@@ -93,7 +93,6 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
     t.boolean  "has_promotion",               :default => false
     t.text     "course_info"
     t.text     "registration_date"
-    t.text     "teacher_name"
     t.integer  "max_age_for_kid"
     t.integer  "min_age_for_kid"
     t.boolean  "is_individual"
@@ -181,6 +180,7 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
     t.decimal  "promotion"
     t.integer  "nb_place_available"
     t.text     "info"
+    t.string   "teacher_name"
     t.integer  "course_id"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false

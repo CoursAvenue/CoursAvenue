@@ -1,8 +1,7 @@
 module CoursesHelper
 
-  def courses_with_old_params_path(new_params)
-    p = params.reject{|key, value| value.blank? } # Get rid of the useless blank params
-    courses_path(p.merge(new_params))
+  def join_teachers(course)
+    course.plannings.map(&:teacher_name).compact.uniq.join(' ,')
   end
 
   def join_audiences(course)

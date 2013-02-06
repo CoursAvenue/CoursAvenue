@@ -107,6 +107,9 @@ namespace :import do
         start_date:                                  (row[21].blank? ? Date.parse('01/09/2012') : Date.parse(row[21])),
         end_date:                                    (row[22].blank? ? Date.parse('15/07/2013') : Date.parse(row[22])),
 
+        teacher_name:                                 row[10],
+        info:                                         row[110],
+
         # For Trainings
         day_one:                                      row[23],
         day_one_start_time:                           row[24],
@@ -122,8 +125,7 @@ namespace :import do
         day_four_duration:                            row[34],
         day_five:                                     row[35],
         day_five_start_time:                          row[36],
-        day_five_duration:                            row[37],
-        teacher_name:                                 row[10]
+        day_five_duration:                            row[37]
       },
 
       # Prices
@@ -258,7 +260,7 @@ namespace :import do
 
       #################################################################### Checking if have to create a new course group
       # Courses are grouped by same name, audiences and levels
-      courses = Course.where{ (name == row[:course][:name]) & (structure_id == structure.id) & (type == row[:course_type].name) & (teacher_name == row[:course][:teacher_name])}.all
+      courses = Course.where{ (name == row[:course][:name]) & (structure_id == structure.id) & (type == row[:course_type].name)}.all
 
       # If no audience specified, add three basics audiecne
       # Normally never happens

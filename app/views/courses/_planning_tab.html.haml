@@ -9,46 +9,45 @@
         = render 'training_schedule'
     .g.three-eighths
       %h4= t('.infos')
-      %ul.block-list.alternate-color.spoken-form.milli
-        %li
-          %label= Audience.model_name.human
-          %strong.fr
+      %ul.block-list.alternate-color.milli
+        %li.flexbox
+          %label.flexbox__item.v-middle= Audience.model_name.human
+          %strong.flexbox__item.v-middle.proceed
             = @course.audiences.map{|course| t(course.name)}.join(', ')
 
-        %li
-          %label= Course.model_name.human
+        %li.flexbox
+          %label.flexbox__item.v-middle= Course.model_name.human
           - if @course.is_individual
-            %strong.fr= Course.human_attribute_name(:is_individual)
+            %strong.flexbox__item.v-middle.proceed= Course.human_attribute_name(:is_individual)
           - else
-            %strong.fr= t('.collective')
-        - if @course.teacher_name.present?
-          %li
-            %label= Course.human_attribute_name(:teacher_name)
-            %h2.teacher-name.fr= @course.teacher_name
+            %strong.flexbox__item.v-middle.proceed= t('.collective')
+        %li.flexbox
+          %label.flexbox__item.v-middle= Course.human_attribute_name(:teacher_name)
+          %h2.teacher-name.flexbox__item.v-middle.proceed= join_teachers @course
 
         - unless @course.plannings.first.recurrence.blank?
-          %li
-            %label= t('.recurrence')
-            %strong.fr= @course.plannings.first.recurrence
+          %li.flexbox
+            %label.flexbox__item= t('.recurrence')
+            %strong.flexbox__item.v-middle.proceed= @course.plannings.first.recurrence
 
-        %li
-          %label= t('.can_be_joined_during_year')
-          %strong.fr= (@course.cant_be_joined_during_year ? t('no') : t('yes'))
+        %li.flexbox
+          %label.flexbox__item= t('.can_be_joined_during_year')
+          %strong.flexbox__item.v-middle.proceed= (@course.cant_be_joined_during_year ? t('no') : t('yes'))
 
-        %li
-          %label= t('.class_during_holidays')
-          %strong.fr= (@course.plannings.first.class_during_holidays ? t('yes') : t('no'))
+        %li.flexbox
+          %label.flexbox__item= t('.class_during_holidays')
+          %strong.flexbox__item.v-middle.proceed= (@course.plannings.first.class_during_holidays ? t('yes') : t('no'))
 
         - if @course.is_for_handicaped
-          %li
-            %label= Course.human_attribute_name(:is_for_handicaped)
-            %strong.fr= t('yes')
+          %li.flexbox
+            %label.flexbox__item= Course.human_attribute_name(:is_for_handicaped)
+            %strong.flexbox__item.v-middle.proceed= t('yes')
 
         - if @course.min_age_for_kid
-          %li
-            %label= Course.human_attribute_name(:min_age_for_kid)
-            %strong.fr= "#{@course.min_age_for_kid} ans"
+          %li.flexbox
+            %label.flexbox__item= Course.human_attribute_name(:min_age_for_kid)
+            %strong.flexbox__item.v-middle.proceed= "#{@course.min_age_for_kid} ans"
         - if @course.max_age_for_kid
-          %li
-            %label= Course.human_attribute_name(:max_age_for_kid)
-            %strong.fr= "#{@course.max_age_for_kid} ans"
+          %li.flexbox
+            %label.flexbox__item= Course.human_attribute_name(:max_age_for_kid)
+            %strong.flexbox__item.v-middle.proceed= "#{@course.max_age_for_kid} ans"

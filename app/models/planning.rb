@@ -27,6 +27,7 @@ class Planning < ActiveRecord::Base
                   :class_during_holidays,
                   :nb_place_available,
                   :promotion,
+                  :info,
                   :teacher_name
 
   def length

@@ -3,9 +3,13 @@
     filter: FlipH; /* IE 6/7/8 */
 }
 
+.v-middle {
+    vertical-align: middle;
+}
+
 .ilb-wrapper {
     font-size: 0;
-    > i, > p, > div, > ul, > span, > a, > img {
+    > label, > h2, > i, > p, > div, > ul, > span, > a, > img {
         font-size     : $base-font-size;
         display       : inline-block;
         vertical-align: top;

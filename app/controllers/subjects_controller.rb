@@ -2,15 +2,6 @@ class SubjectsController < ApplicationController
 
   before_filter :prepare_search
 
-  def show
-    @subject   = Subject.find(params[:id])
-    city_id    = @city.id
-    @courses   = @subject.courses.joins{structure}.where{structure.city_id == city_id}
-    paginate
-    init_geoloc
-    render action: 'index'
-  end
-
   def index
     @courses   = @city.courses
 
@@ -71,6 +62,23 @@ class SubjectsController < ApplicationController
     end
   end
 
+
+  def show
+    @subject   = Subject.find(params[:id])
+    city_id    = @city.id
+    if @subject.is_root?
+      @courses
+      subject_ids = @subject.children.map(&:id)
+      @courses    = Course.joins{subjects}.joins{structure}.where{(structure.city_id == city_id) & (subjects.id.eq_any subject_ids)}
+    else
+      @courses = @subject.courses.joins{structure}.where{structure.city_id == city_id}
+    end
+    paginate
+    init_geoloc
+    render action: 'index'
+  end
+
+
   private
 
   def init_geoloc
@@ -91,6 +99,7 @@ class SubjectsController < ApplicationController
       marker.json({ id: structure.id })
     end
   end
+
   def paginate
     # Group by id and order by first day in week
     @courses = @courses.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(plannings.week_day)')
