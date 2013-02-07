@@ -16,25 +16,25 @@ module PlanningsHelper
     end
   end
 
-  def readable_duration(planning)
-    if planning.duration.blank?
+  def readable_duration(duration)
+    if duration.blank?
       '-'
-    elsif planning.duration.hour > 0
-      if planning.duration.min == 0
-        "#{planning.duration.hour}h"
+    elsif duration.hour > 0
+      if duration.min == 0
+        "#{duration.hour}h"
       else
-        "#{planning.duration.hour}h#{planning.duration.min}"
+        "#{duration.hour}h#{duration.min}"
       end
     else
-      "#{planning.duration.min}min"
+      "#{duration.min}min"
     end
   end
 
-  def readable_time_slot(planning)
-    if planning.end_time
-      "#{I18n.l(planning.start_time, format: :short)} - #{I18n.l(planning.end_time, format: :short)}"
-    else
+  def readable_time_slot(start_time, end_time=nil)
+    if end_time.nil?
       '-'
+    else
+      "#{I18n.l(start_time, format: :short)} - #{I18n.l(end_time, format: :short)}"
     end
   end
 

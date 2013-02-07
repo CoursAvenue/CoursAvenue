@@ -1,6 +1,9 @@
 .discrete-list {
     margin-left: 0;
     list-style: none;
+    a {
+        color: $grayLight;
+    }
 }
 
 ul.alternate-color {

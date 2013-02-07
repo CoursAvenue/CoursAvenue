@@ -73,8 +73,12 @@
   @import "gmaps4rails";
 
 html {
-  font-family: $brand-face;
-  font-weight: 300;
+  font-family    : $brand-face;
+  font-weight    : 300;
+  // background     : image-url('backgrounds/satinweave.png');
+  // background-size: 24px;
+  // background     : image-url('backgrounds/debut_light.png');
+  // background-size: 200px;
   &, body { overflow-x : hidden; }
 }
 

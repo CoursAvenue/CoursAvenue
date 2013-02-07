@@ -45,7 +45,7 @@
           %span.lbl.milli
             = course.type_name
             - if course.plannings.first.duration
-              = "de #{readable_duration course.plannings.first}"
+              = "de #{readable_duration course.plannings.first.duration}"
         - course.subjects.each do |subject|
           %li
             %span= link_to subject.name, city_subject_path(@city, subject), class: 'lbl milli inline subject-link'

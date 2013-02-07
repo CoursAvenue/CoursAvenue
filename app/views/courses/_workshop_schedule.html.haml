@@ -16,8 +16,8 @@
             = l planning.day_one
           - else
             = week_day_for planning
-        %td.text-center= readable_time_slot planning
-        %td.text-center= readable_duration planning
+        %td.text-center= readable_time_slot planning.start_time, planning.end_time
+        %td.text-center= readable_duration planning.day_one_duration
         %td.text-center= planning.nb_place_available || '-'
         %td.text-center= readable_promotion planning
         %td.text-center

@@ -1,55 +1,46 @@
 %footer.main-footer
   .main-container
     .flexbox
-      .flexbox__item.islet
+      .flexbox__item
         = image_tag 'logo.png', class: 'ten-twelfths', alt: 'Le Bon Cours'
-        %p <b>LeBonCours</b> vous permet de sélectionner, comparer et réserver le cours ou le stage de votre choix au meilleur prix. Exemple : vous recherchez un cours de yoga pour adultes débutants, le mercredi soir entre 20h et 22h, dans Paris 11ème, à moins de 100€ l'année ? 3 clics suffiront pour le réserver.
-      .flexbox__item.nine-twelfths
-        %nav
-          %ul.nav
-            %li
-              %a{href: '#'} <b>Pourquoi LeBonCours ?</b>
-            %li
-              %a{href: '#'} <b>Comment ça marche ?</b>
-            %li
-              %a{href: '#'} <b>Presse</b>
-            %li
-              %a{href: '#'} <b>Jobs</b>
-            %li
-              %a{href: '#'} <b>CGU - CGV</b>
-            %li
-              %a{href: '#'} <b>À propos</b>
-            %li
-              %a{href: 'mailto:contact@leboncours.com'} <b>Contact</b>
+        %h5.orange À propos
+        %p <b class="blue">LeBonCours</b> est la première plateforme de réservation en temps réel des cours et stages aux meilleurs prix. Pour tout public, tout âge, toute discipline, pour des activités de loisirs, mais aussi des formations professionnelles, qualifiantes et diplômantes.
 
+      .flexbox__item.nine-twelfths
         .flexbox
           .flexbox__item.one-quarter.palm-one-half
-            %h5 Villes
+            %h5.blue Utilisateurs pratiquants
             %ul.discrete-list
-              %li= link_to 'Paris',       city_subjects_path(city_id: 'paris')
-              %li= link_to 'Bordeaux',    city_subjects_path(city_id: 'paris')
-              %li= link_to 'Lille',       city_subjects_path(city_id: 'paris')
-              %li= link_to 'Lyon',        city_subjects_path(city_id: 'paris')
-              %li= link_to 'Marseille',   city_subjects_path(city_id: 'paris')
-              %li= link_to 'Montpellier', city_subjects_path(city_id: 'paris')
-              %li= link_to 'Nantes',      city_subjects_path(city_id: 'paris')
-              %li= link_to 'Nice',        city_subjects_path(city_id: 'paris')
-              %li= link_to 'Strasbourg',  city_subjects_path(city_id: 'paris')
-              %li= link_to 'Toulouse',    city_subjects_path(city_id: 'paris')
+              %li= link_to 'Pourquoi LeBonCours ?',            pages_why_path
+              %li= link_to 'Comment ça marche ?',              pages_how_it_works_path
+              %li= link_to 'Foire aux questions Utilisateurs', pages_faq_path
+              %li= link_to 'Mentions légales Utilisateurs',    pages_mentions_path
 
           .flexbox__item.one-quarter.palm-one-half
-            %h5 Disciplines
+            %h5.blue Partenaires
             %ul.discrete-list
-              - Subject.limit(10).each do |subject|
-                %li= link_to subject.name, city_subject_path(city_id: 'paris', id: u(subject.name.downcase))
-          .flexbox__item.one-quarter.palm-one-half
-            %h5 Niveaux
-            %ul.discrete-list
-              - Level.all.each do |level|
-                %li= link_to t(level.name), city_subjects_path(city_id: 'paris', levels: [level.id])
+              %li= link_to 'Référencez vos cours !', root_path
+              %li= link_to 'Louez vos salles', root_path
+              %li= link_to 'Trouvez une salle', root_path
+              %li= link_to 'Foire aux questions Partenaires', root_path
+              %li= link_to 'Mentions légales Partenaires', root_path
 
           .flexbox__item.one-quarter.palm-one-half
-            %h5 Publiques
+            %h5.blue LeBonCours
             %ul.discrete-list
-              - Audience.all.each do |audience|
-                %li= link_to t(audience.name), city_subjects_path(city_id: 'paris', audiences: [audience.id])
+              %li= link_to 'Qui sommes-nous ?', pages_who_are_we_path
+              %li= link_to 'Contact',           pages_contact_path
+              %li= link_to 'Service client',    pages_customer_service_path
+              %li= link_to 'Presse',            pages_press_path
+              %li= link_to 'Blog',              root_path
+              %li= link_to 'Jobs',              pages_jobs_path
+
+          .flexbox__item.one-quarter.palm-one-half
+            %h5.blue= Subject.model_name.human
+            %ul.discrete-list
+              %li= link_to 'Danse'  , city_subject_path(city_id: 'paris', id: 'danse')
+              %li= link_to 'Théâtre', city_subject_path(city_id: 'paris', id: 'theatre')
+              %li= link_to 'Cuisine', city_subject_path(city_id: 'paris', id: 'cuisine')
+              %li= link_to 'Zumba'  , city_subject_path(city_id: 'paris', id: 'zumba')
+              %li= link_to 'Yoga'   , city_subject_path(city_id: 'paris', id: 'yoga')
+              %li= link_to 'Musique', city_subject_path(city_id: 'paris', id: 'musique')
