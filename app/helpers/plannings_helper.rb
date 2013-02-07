@@ -23,7 +23,7 @@ module PlanningsHelper
       if planning.duration.min == 0
         "#{planning.duration.hour}h"
       else
-        I18n.l(planning.duration, format: :short)
+        "#{planning.duration.hour}h#{planning.duration.min}"
       end
     else
       "#{planning.duration.min}min"

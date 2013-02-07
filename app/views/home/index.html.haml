@@ -9,7 +9,6 @@
         .palm-one-whole.one-half= render 'map_paris'
         .palm-one-whole.one-half
           .ilb-wrapper
-            /= link_to courses_path(audiences: [Audience.kid.order]), class: 'course-block five-twelfths palm-one-whole' do
             = link_to city_subjects_path(@city, audiences: [Audience.kid]), class: 'course-block five-twelfths palm-one-whole' do
               .course-block-image
                 = image_tag 'home-page/child-courses.png', height: 150

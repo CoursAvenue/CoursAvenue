@@ -40,9 +40,15 @@
       - if course.plannings.length > 1
         = "et #{course.plannings.length - 1} autres dates."
     %footer
-      %span.lbl.milli= course.type_name
-      - course.subjects.each do |subject|
-        = link_to subject.name, city_subject_path(@city, subject), class: 'lbl milli inline subject-link'
+      %ul.nav
+        %li
+          %span.lbl.milli
+            = course.type_name
+            - if course.plannings.first.duration
+              = "de #{readable_duration course.plannings.first}"
+        - course.subjects.each do |subject|
+          %li
+            %span= link_to subject.name, city_subject_path(@city, subject), class: 'lbl milli inline subject-link'
 
   %div.course-price.two-twelfths
     - if course.best_price.nil?

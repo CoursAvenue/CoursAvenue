@@ -88,11 +88,6 @@ class Course < ActiveRecord::Base
           if query then query |= (prices.libelle.eq 'prices.individual_course') else query = (prices.libelle.eq 'prices.individual_course') end
         end
       end
-
-      # if price_specificities.include? 'has_unit_course_price'
-      #   #scope = scope.joins{book_tickets}.where{prices.libelle.eq 'prices.individual_course'}
-      #   scope = scope.joins{book_tickets.outer}.where{() | (prices.libelle.eq 'prices.individual_course')}
-      # end
       query
     end
 
