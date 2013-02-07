@@ -27,13 +27,16 @@ $yellow:                #ffc40d !default;
 $orange:                #e9683d !default;
 $pink:                  #c3325f !default;
 $purple:                #7a43b6 !default;
-$beige:                 #f7f5f3 !default;
+$beigeDarker:           #e3dcd4 !default;
+$beigeDark:             #f7f5f3 !default;
+$beige:                 #f1eeec !default;
 
 $brandColor:           $orange !default;
 $brand-color:          $orange !default;
-$alternativeBackground: lighten($brandColor, 35%) !default;
+//$alternativeBackground: lighten($brandColor, 35%) !default;
+$alternativeBackground: $beige;
 $homescreenBackground:  $beige !default;
-
+$siteBackgroundColor:   $beigeDark;
 
 // Links
 // -------------------------

@@ -32,7 +32,7 @@
     = render 'shared/header'
 
     = yield :above_container
-    .main-container
+    .main-container{class: controller_path}
       = yield
 
     = render 'shared/footer'

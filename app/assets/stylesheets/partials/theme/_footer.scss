@@ -2,6 +2,7 @@
     background-color: $homescreenBackground;
     padding-top     : 2em;
     padding-bottom  : 2em;
+    border-top      : 1px solid darken($homescreenBackground, 10%);
     color           : $grayLight;
     @extend .milli;
     h5 {

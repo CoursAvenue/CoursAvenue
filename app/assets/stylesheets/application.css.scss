@@ -66,6 +66,7 @@
   @import "partials/objects/planning";
   @import "partials/objects/similar-course";
   @import "partials/objects/subject-link";
+  @import "partials/objects/pages";
 
   @import "libs/datepicker/datepicker_bootstrap";
   @import "libs/autocomplete";
@@ -73,12 +74,9 @@
   @import "gmaps4rails";
 
 html {
-  font-family    : $brand-face;
-  font-weight    : 300;
-  // background     : image-url('backgrounds/satinweave.png');
-  // background-size: 24px;
-  // background     : image-url('backgrounds/debut_light.png');
-  // background-size: 200px;
+  font-family : $brand-face;
+  font-weight : 300;
+  background  : $siteBackgroundColor;
   &, body { overflow-x : hidden; }
 }
 

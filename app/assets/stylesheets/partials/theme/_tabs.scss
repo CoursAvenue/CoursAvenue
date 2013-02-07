@@ -2,32 +2,34 @@
     @extend .nav;
     border-bottom: 1px solid $graySmooth;
     margin-top   : 1em;
+    margin-bottom: 0em;
     li {
         padding     : 0.4em 1em;
         margin-right: 0.2em;
         color        : $brandColor;
-        border       : 1px solid white; // To prevent size to change on hover
+        border       : 1px solid $beigeDark; // To prevent size to change on hover
         border-bottom-color: $graySmooth;
         @include border-top-radius(3px);
         &:hover {
-            background-color: $grayLighter;
+            background-color: $beige;
             cursor          : pointer;
-            border       : 1px solid darken($grayLighter, 5%);
+            border          : 1px solid darken($grayLighter, 5%);
         }
         &.active:hover {
-            background   : none;
+            background-color: $siteBackgroundColor;
             cursor       : default;
         }
         &.active {
             color        : black;
             border       : 1px solid $graySmooth;
-            border-bottom-color: white;
+            border-bottom-color: $siteBackgroundColor;
         }
     }
 }
 
 .tab-pane {
-    display: none;
+    display    : none;
+    padding-top: 1em;
     &.active{
         display: block;
     }

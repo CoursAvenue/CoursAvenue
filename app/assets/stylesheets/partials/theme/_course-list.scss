@@ -3,16 +3,17 @@
 }
 
 .course-element {
-    font-weight: 200;
-    padding: 1em 0.5em;
-    display: table;
+    font-weight     : 200;
+    padding         : 1em 0.5em;
+    display         : table;
     background-color: $white;
-
+    margin-bottom   : 1em;
+    @include box-shadow(1px 1px 3px $graySmooth);
     @include box-sizing(border-box);
     @include transition(background-color 250ms linear);
     &:hover {
         text-decoration : none !important;
-        background-color: #F6F6F6;
+        background-color: $beigeDark;
     }
     > div, article {
         display: table-cell;

@@ -4,27 +4,35 @@
 .header-search-bar--dark {
     .header-search-bar {
         width           : auto;
-        //border-color    : transparentize($black, 0.25);
         color           : $grayLight;
+        padding-bottom  : 5px;
         @include border-radius($brand-round);
         @include border-top-left-radius(0);
         @include background-image(none);
         &, .town-chooser {
             background-color: transparentize($black, 0.3);
+            border-color    : transparentize($black, 0.25);
+        }
+        &.search-input-wrapper {
+            padding-left: 5px;
         }
     }
 }
+
 .header-search-bar {
     width           : 100%;
     //border          : 1px solid #CCC;
-    background-color: #e5e5e5;
+    //background-color: #e5e5e5;
     display         : table;
     padding         : 5px 0;
+    padding-bottom  : 1em;
     position        : relative;
     margin-top      : 4em; // Because of town-chooser;
+    border-bottom   : 1px solid #e3dcd4;
     @include font-size(12px);
     // @include background-image(linear-gradient(top, #f6f6f6 0%,#e5e5e5 100%));
-    @include background-image(linear-gradient(top, #eee 0%,#e5e5e5 100%));
+    //@include background-image(linear-gradient(top, #eee 0%,#e5e5e5 100%));
+    //@include background-image(linear-gradient(top, $beige 0%,$beigeDark 100%));
     @include media-query(palm) { display: block; };
     .button-wrapper {
         text-align: right;
@@ -34,6 +42,9 @@
         display       : table-cell;
         vertical-align: middle;
         padding       : 0 5px;
+        &.search-input-wrapper {
+            padding-left: 0;
+        }
         @include media-query(palm) {
             display     : block;
             margin      : 1em auto;
@@ -57,7 +68,8 @@
         top             : -3em;
         height          : 2em;
         font-size       : 1.2em;
-        background-color: #eee;
+        border          : 1px solid $beigeDarker;
+        border-bottom   : none;
         @include media-query(palm) {
             top: -4em; // Because of the margin of the child divs
         }
@@ -90,16 +102,18 @@
 .side-search-panel {
     margin-top  : 1em;
     border      : 1px solid $grey;
+    background  : white;
     @include border-radius(2px);
 }
     .side-search-panel-header {
         padding         : 0.5em 1em;
         margin-bottom   : 0;
+        background-color: $beige;
         @include font-size(16px);
     }
         .search-panel-header {
             padding         : 0.3em 1em;
-            background-color: $dark-white;
+            background-color: $beige;
             border-bottom   : 1px solid $grey;
             border-top   : 1px solid $grey;
             margin-bottom   : 0;
@@ -118,10 +132,11 @@
                 }
             }
         .search-panel-footer {
-            @include font-size(14px);
             border-top: 1px solid $grey;
             text-align: center;
             padding   : 1em;
+            background: darken($beigeDark, 5%);
+            @include font-size(14px);
         }
 
 .inline-checkboxes {

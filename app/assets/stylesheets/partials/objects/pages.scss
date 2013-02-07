@@ -1,0 +1,10 @@
+.pages {
+    background   : white;
+    padding      : 2em;
+    max-width    : 1000px;
+    margin       : auto;
+    border       : 1px solid $grayLighter;
+    border-bottom: none;
+    margin-top   : 1em;
+    @include border-top-radius($brand-round);
+}
