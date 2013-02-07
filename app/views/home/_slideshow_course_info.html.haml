@@ -1,7 +1,7 @@
 .slideshow-caption
   = link_to city_course_path(course.city, course) do
     %span
-      %b= "Cours de #{course.name}"
+      %b= course.name
     %span
       %i.icon-map-marker
       = short_address course.structure
@@ -10,9 +10,12 @@
       = week_day_for course.plannings.first
     %span
       %i.icon-time
-      = readable_time_slot course.plannings.first
+      - if course.is_lesson?
+        = readable_time_slot course.plannings.first
+      - else
+        = training_dates course.plannings.first
     %span
       %i.icon-user
       = course.audiences.map{|a| t(a.name)}.join(', ')
     %span
-      - # readable_price course.prices.first
+      = "#{course.best_price.readable_amount}€"

@@ -9,34 +9,35 @@
         .palm-one-whole.one-half= render 'map_paris'
         .palm-one-whole.one-half
           .ilb-wrapper
-            = link_to 'stage/tango-argentin--11', class: 'course-block five-twelfths palm-one-whole' do
-              .course-block-image
-                = image_tag 'home-page/tango.jpg'
-              %h6.course-block-title
-                Cours et stage pour adultes
-              %p.course-block-caption
-                Détendez-vous après votre journée
-
-            = link_to 'stage/tango-argentin--11', class: 'course-block five-twelfths palm-one-whole' do
-              .course-block-image
-                = image_tag 'home-page/tango.jpg'
-              %h6.course-block-title
-                Cours de tango argentin
-              %p.course-block-caption
-                Cours d'essai gratuit
-
             /= link_to courses_path(audiences: [Audience.kid.order]), class: 'course-block five-twelfths palm-one-whole' do
-            = link_to 'stage/tango-argentin--11', class: 'course-block five-twelfths palm-one-whole' do
+            = link_to city_subjects_path(@city, audiences: [Audience.kid]), class: 'course-block five-twelfths palm-one-whole' do
               .course-block-image
-                = image_tag 'home-page/tango.jpg'
+                = image_tag 'home-page/child-courses.png', height: 150
               %h6.course-block-title
                 Éveillons nos tout petits
               %p.course-block-caption
                 Cours pour les 1 à 5 ans
 
-            = link_to 'stage/tango-argentin--11', class: 'course-block five-twelfths palm-one-whole' do
+            = link_to '/ville/paris/cours/tango', class: 'course-block five-twelfths palm-one-whole' do
               .course-block-image
-                = image_tag 'home-page/tango.jpg'
+                = image_tag 'home-page/tango.jpg', height: 150
+              %h6.course-block-title
+                Cours de tango argentin
+              %p.course-block-caption
+                Cours d'essai gratuit
+
+            = link_to city_subjects_path(@city, time_slots: ['evening'], audiences: [Audience.adult]), class: 'course-block five-twelfths palm-one-whole' do
+              .course-block-image
+                = image_tag 'home-page/adult-courses.jpeg', height: 150
+              %h6.course-block-title
+                Cours et stage pour adultes
+              %p.course-block-caption
+                Détendez-vous après votre journée
+
+
+            = link_to city_subjects_path(@city, :'price_specificities[]' => 'has_test_course'), class: 'course-block five-twelfths palm-one-whole' do
+              .course-block-image
+                = image_tag 'home-page/try.jpeg', height: 150
               %h6.course-block-title
                 Essayez sans compter
               %p.course-block-caption

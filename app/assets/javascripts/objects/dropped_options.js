@@ -24,9 +24,9 @@
 
         attachEvents: function() {
             this.inputs.addEvent('change', this.updateTitle.bind(this));
-            this.titleText.addEvent('keydown', function(){
-                debugger
-            });
+            // this.titleText.addEvent('focusin', function(){
+            //     debugger
+            // });
 
         },
         updateTitle: function() {

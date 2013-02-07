@@ -46,7 +46,8 @@ class Course < ActiveRecord::Base
                   :partner_rib_info,
                   :audition_mandatory,
                   :refund_condition,
-                  :can_be_joined_during_year
+                  :can_be_joined_during_year,
+                  :subject_ids
 
   # ------------------------------------------------------------------------------------ Self methods
 
