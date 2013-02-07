@@ -35,8 +35,5 @@ FactoryGirl.define do
     factory :handicaped_course do
       is_for_handicaped true
     end
-    factory :course_with_promotion do
-      has_promotion true
-    end
   end
 end

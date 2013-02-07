@@ -8,7 +8,6 @@ fr:
         description: Description
         name:
         has_online_payment:
-        has_promotion:
         course_info:
         registration_date:
         teacher_name: Professeur
