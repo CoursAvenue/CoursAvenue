@@ -18,10 +18,17 @@
 
             // Initializing the title to be a toggler of the list of inputs
             new GLOBAL.Objects.Toggler(this.title, '+ul');
-            this.inputs.addEvent('change', this.updateTitle.bind(this));
+            this.attachEvents();
             this.updateTitle();
         },
 
+        attachEvents: function() {
+            this.inputs.addEvent('change', this.updateTitle.bind(this));
+            this.titleText.addEvent('keydown', function(){
+                debugger
+            });
+
+        },
         updateTitle: function() {
             var titles = [];
             var checked_inputs = this.inputs.filter(function(input) { return input.checked === true});

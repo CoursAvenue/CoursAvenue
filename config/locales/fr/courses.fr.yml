@@ -42,9 +42,9 @@ fr:
       holiday_vouchers: Chèques Vacances
       sport_coupons: Coupons Sports ANCV
       leisure_coupons: Tickets Loisirs C.A.F. (y compris les "Tickets Temps Libres")
-      afdas: AFDAS
-      dif: DIF
-      cif: CIF
+      afdas_html: AFDAS (<a href='https://www.afdas.com/'>plus d'infos</a>)"
+      dif_html: "DIF (<a href='http://travail-emploi.gouv.fr/le-droit-individuel-a-la-formation,1071.html'>plus d'infos</a>)"
+      cif_html: "CIF (<a href='http://travail-emploi.gouv.fr/informations-pratiques,89/fiches-pratiques,91/formation-professionnelle,118/le-conge-individuel-de-formation,1070.html'>plus d'infos</a>)"
       possible_funding: 'Moyen de financements possible :'
       formule_type: Type de formule
       without_promo: Sans promo
