@@ -29,6 +29,7 @@
   :javascript
     window.addEvent('domready', function() {
       $('filter-select').addEvent('change', function() {
+            $('hidden-sort-input').set('value', this.value);
             $('submit_search_form').click();
         });
     });

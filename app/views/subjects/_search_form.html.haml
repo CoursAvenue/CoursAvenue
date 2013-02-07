@@ -45,3 +45,4 @@
       = check_box_tag 'price_specificities[]', 'has_unit_course_price', params[:price_specificities].include?('has_unit_course_price')  , id: "hidden_price_specificity_unit_course"
       = check_box_tag 'price_specificities[]', 'has_package_price', params[:price_specificities].include?('has_package_price')          , id: "hidden_price_specificity_package"
       = check_box_tag 'price_specificities[]', 'has_test_course', params[:price_specificities].include?('has_test_course')              , id: "hidden_price_specificity_test_course"
+      %input#hidden-sort-input{type: 'hidden', name: 'sort', value: params[:sort]}
