@@ -4,6 +4,7 @@
 - else
   - params[:price_specificities] = []
 
+- params[:sort]             ||= 'date'
 - params[:audiences]        ||= [] # Audience.all.collect(&:id).map(&:to_s)
 - params[:levels]           ||= [] # Level.all.collect(&:id).map(&:to_s)
 - params[:week_days]        ||= [] # I18n.t('date.day_names')

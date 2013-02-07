@@ -106,7 +106,7 @@
             @include box-shadow(0 2px 2px -2px rgba(0,0,0,0.2),0 0 0 #000);
         }
         .search-panel-content {
-            padding         : 1em 0.5em;
+            padding         : 1em 0.5em 1em 2em;
             @include font-size(14px);
             label {
                 display: inline-block;

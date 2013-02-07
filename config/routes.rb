@@ -13,6 +13,7 @@ LeBonCours::Application.routes.draw do
     resources :subjects, only: [:show, :index], defaults: {city_id: 'paris'}, path: 'disciplines'
   end
 
+  # match ''
   root :to => 'home#index'
 end
 

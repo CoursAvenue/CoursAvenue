@@ -7,8 +7,14 @@
     = render 'side_search_form'
   %section.g.seven-tenths
     .flexbox.page-entries-wrapper
-      %p.flexbox__item
-        = page_entries_info @courses
+      .flexbox__item
+        %p.no-bottom-margin= page_entries_info @courses
+        .spoken-form
+          %label Trier par :
+          %select#filter-select{name: 'sort'}
+            %option{value: 'date', selected: (params[:sort] == 'date') } Date
+            %option{value: 'price_asc', selected: (params[:sort] == 'price_asc') } Prix : du plus bas au plus élevé
+            %option{value: 'price_desc', selected: (params[:sort] == 'price_desc')} Prix : du plus élevé au plus bas
       .flexbox__item
         .text--right= paginate @courses, window: 1, outer_window: 1
     - if @courses.empty?
@@ -19,3 +25,10 @@
 
     %footer.g.one-whole
       = paginate @courses, window: 2, outer_window: 1
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+      $('filter-select').addEvent('change', function() {
+            $('submit_search_form').click();
+        });
+    });

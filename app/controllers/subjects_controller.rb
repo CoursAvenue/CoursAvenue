@@ -104,7 +104,15 @@ class SubjectsController < ApplicationController
 
   def paginate
     # Group by id and order by first day in week
-    @courses = @courses.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(plannings.week_day)')
+    case params[:sort]
+    # min promotion because promotions are negative
+    when 'date'
+      @courses = @courses.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(plannings.week_day)')
+    when 'price_asc'
+      @courses = @courses.joins{prices}.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(prices.amount) ASC')
+    when 'price_desc'
+      @courses = @courses.joins{prices}.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(prices.amount) DESC')
+    end
     @courses = @courses.page(params[:page]).per(15)
 
   end
