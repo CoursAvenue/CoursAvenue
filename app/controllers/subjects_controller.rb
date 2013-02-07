@@ -11,7 +11,7 @@ class SubjectsController < ApplicationController
         @courses = @courses.from_city(value, @courses)
 
       when 'name'
-        @courses = @courses.name_and_structure_name_contains(value, @courses) unless value.blank?
+        @courses = @courses.name_subjects_and_structure_name_contains(value, @courses) unless value.blank?
 
       when 'types'
         @courses = @courses.is_of_type(value, @courses)

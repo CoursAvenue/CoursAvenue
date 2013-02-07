@@ -3,8 +3,8 @@
     .course-image.media__img
       - if course.image.present?
         = image_tag course.image.image.url(:thumb)
-      / - else
-      /   = image_tag course.subjects.first.image.url(:thumb)
+      - else
+        = image_tag course.subjects.first.image.url(:thumb)
       - unless course.promotion_planning.nil?
         .course-promo.price-badge= readable_promotion course.promotion_planning
 
@@ -12,9 +12,9 @@
     %header
       %h4.hN.course-title
         .map-marker-image
-          = link_to city_course_path(@city, course) do
+          = link_to city_course_path(@city, course, path: request.fullpath) do
             %span= @course_structures.index(course.structure) + 1
-        %span= link_to course.name, city_course_path(@city, course)
+        %span= link_to course.name, city_course_path(@city, course, path: request.fullpath)
 
     - if course.is_training?
       %p
@@ -42,7 +42,7 @@
     %footer
       %span.lbl.milli= course.type_name
       - course.subjects.each do |subject|
-        = link_to subject.name, city_subject_path(@city, subject), class: 'lbl milli inline blue'
+        = link_to subject.name, city_subject_path(@city, subject), class: 'lbl milli inline subject-link'
 
   %div.course-price.two-twelfths
     - if course.best_price.nil?

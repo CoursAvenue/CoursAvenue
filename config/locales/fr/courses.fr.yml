@@ -37,6 +37,8 @@ fr:
       structure: Établissement
       opinions: Avis
       last_students_opinion: Avis des élèves précédents
+      back_to_results: Retour aux résultats
+      see_arrounding_courses: Voir les cours à proximité
     price_tab:
       holiday_vouchers: Chèques Vacances
       sport_coupons: Coupons Sports ANCV

@@ -56,8 +56,10 @@ class Course < ActiveRecord::Base
     scope.joins{structure}.where{structure.city_id == city_id}
   end
 
-  def self.name_and_structure_name_contains(name_string, scope)
+  def self.name_subjects_and_structure_name_contains(name_string, scope)
     name_string    = '%' + name_string + '%'
+    #subject_ids = Subject.where{name =~ name_string}.map(&:id)
+    #scope.joins{subjects}.joins{structure}.where{(name =~ name_string) | (structure.name =~ name_string) | (subjects.id.eq_any subject_ids)}
     scope.joins{structure}.where{(name =~ name_string) | (structure.name =~ name_string)}
   end
 

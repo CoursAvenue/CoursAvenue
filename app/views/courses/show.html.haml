@@ -2,12 +2,14 @@
   = content_for :meta_description do
     = @course.description
 
-%ol.nav
-  %li= link_to @structure.city.name, city_subjects_path(@city)
-  %i.icon-angle-right.orange
-  %li= link_to @subjects.first.parent.name, city_subject_path(@city, @subjects.first.parent)
-  %i.icon-angle-right.orange
-  %li= link_to @subjects.first.name, city_subject_path(@city, @subjects.first)
+- if params[:path]
+  = link_to params[:path] do
+    %i.orange ←
+    = t('.back_to_results')
+- else
+  = link_to city_subjects_path(@city) do
+    %i.orange ←
+    = t('.see_arrounding_courses')
 
 .gw
   %section.g.seven-tenths
@@ -19,7 +21,7 @@
         %span.lbl.milli= @course.type_name
       - @subjects.each do |subject|
         %li
-          %span.milli.lbl.blue= subject.name
+          %span.milli.lbl.blue= link_to subject.name, city_subject_path(@city, subject), class: 'subject-link'
 
     .course-header-badge
       .course-header-image

@@ -5,4 +5,7 @@
     @include media-query(lap-and-up) {
         min-width: $siteMaxWidth;
     }
+    @media screen and (min-width: 1200px) {
+        max-width: 1185px;
+    }
 }
