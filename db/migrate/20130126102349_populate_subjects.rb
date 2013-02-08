@@ -12,7 +12,7 @@ class PopulateSubjects < ActiveRecord::Migration
 
     #--------------------------------------------------------------- Sport
     sport        = Subject.create name: 'Sport'
-    sport_childs = ['Art martial', 'Autres sports', 'Combat / Arts martiaux', 'Escrime', 'Etirements', 'Gym', 'Natation', 'Plongée', 'Renforcement musculaire', 'Tennis de table', "Tir à l'arc"]
+    sport_childs = ['Autres sports', 'Combat / Arts martiaux', 'Escrime', 'Etirements', 'Gym', 'Natation', 'Renforcement musculaire', 'Tennis de table', "Tir à l'arc"]
     sport_childs.each do |sport_child_name|
       sport_child        = Subject.create name: sport_child_name
       sport_child.parent = sport
@@ -111,7 +111,7 @@ class PopulateSubjects < ActiveRecord::Migration
 
     #--------------------------------------------------------------- Atelier petite enfance / parents-nourrisson
     parent_kids        = Subject.create name: 'Ateliers enfants / duo parent-enfant'
-    parent_kids_childs = ['Atelier couleur', 'Atelier création / Découverte', 'Atelier expression', 'Atelier gourmand', 'Danse éveil', 'Expression artistique', 'Musique éveil', 'Sport éveil', 'Théâtre éveil']
+    parent_kids_childs = ['Atelier couleur', 'Atelier création / Découverte', 'Atelier expression', 'Atelier gourmand', 'Danse éveil', 'Musique éveil', 'Sport éveil', 'Théâtre éveil']
     parent_kids_childs.each do |parent_kids_child_name|
       parent_kids_child        = Subject.create name: parent_kids_child_name
       parent_kids_child.parent = parent_kids

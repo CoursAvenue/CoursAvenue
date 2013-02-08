@@ -18,7 +18,6 @@ class SubjectsController < ApplicationController
     @subject   = Subject.find(params[:id])
     city_id    = @city.id
     if @subject.is_root?
-      @courses
       subject_ids = @subject.children.map(&:id)
       @courses    = Course.joins{subjects}.joins{structure}.where{(structure.city_id == city_id) & (subjects.id.eq_any subject_ids)}
     else

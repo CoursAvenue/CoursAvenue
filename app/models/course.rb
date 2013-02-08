@@ -58,9 +58,9 @@ class Course < ActiveRecord::Base
 
   def self.name_subjects_and_structure_name_contains(name_string, scope)
     name_string    = '%' + name_string + '%'
-    subjects       = Subject.where{name =~ name_string}
-    if subjects.size == 1 and subjects.first.is_root?
-      subject_ids = subjects.first.children.map(&:id)
+    subject_models = Subject.where{name =~ name_string}
+    if subject_models.size == 1 and subject_models.first.is_root?
+      subject_ids = subject_models.first.children.map(&:id)
     else
       subject_ids = Subject.where{name =~ name_string}.map(&:id)
     end
