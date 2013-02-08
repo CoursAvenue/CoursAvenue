@@ -11,7 +11,7 @@
     %span
       %i.icon-time
       - if course.is_lesson?
-        = readable_time_slot course.plannings.first
+        = readable_time_slot course.plannings.first.start_time, course.plannings.first.end_time
       - else
         = training_dates course.plannings.first
     %span
