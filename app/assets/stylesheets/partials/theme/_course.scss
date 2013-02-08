@@ -60,36 +60,39 @@
     }
 }
 
-.course-block:after {
-    position            : absolute;
-    bottom              : -1em;
-    left                : 0;
-    width               : 100%;
-    height              : 1em;
-    background          : url(image-path('home-page/course-bottom.png'));
-    background-position : top;
-    background-size     : 100%;
-    background-repeat   : no-repeat;
-    content             : '';
+.course-block-wrapper {
+    margin-bottom: 1em;
 }
-.course-block {
-    @include box-shadow(0 -1px 3px $grayLighter);
-    @include box-sizing(border-box);
-    position        : relative;
-    display         : inline-block;
-    margin          : 0 1em 1em 0;
-    padding         : 0.5em;
-    background-color: white;
-    &:hover {
-        text-decoration: none;
+    .course-block:after {
+        position            : absolute;
+        bottom              : -1em;
+        left                : 0;
+        width               : 100%;
+        height              : 1em;
+        background          : url(image-path('home-page/course-bottom.png'));
+        background-position : top;
+        background-size     : 100%;
+        background-repeat   : no-repeat;
+        content             : '';
     }
-}
-.course-block-title {
-    margin-bottom: 0;
-    color: $blueGreen;
-}
-.course-block-caption {
-    @extend .milli;
-    margin-bottom: 0;
-    color        : $grayLight;
-}
+    .course-block {
+        @include box-shadow(0 -1px 3px $grayLighter);
+        @include box-sizing(border-box);
+        position        : relative;
+        display         : inline-block;
+        margin          : 0 1em 1em 0;
+        padding         : 0.5em;
+        background-color: white;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+    .course-block-title {
+        margin-bottom: 0;
+        color: $blueGreen;
+    }
+    .course-block-caption {
+        @extend .milli;
+        margin-bottom: 0;
+        color        : $grayLight;
+    }
