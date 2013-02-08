@@ -3,19 +3,29 @@ module CoursesHelper
   def day_by_day_schedule(planning)
     schedule_string = ''
     if planning.day_one
-      schedule_string = I18n.t('courses.training.day_schedule', day: l(planning.day_one, format: :semi_short), start_time: l(planning.day_one_start_time, format: :short), duration: readable_duration(planning.day_one_duration))
+      if planning.day_one_start_time and planning.day_one_duration
+        schedule_string = I18n.t('courses.training.day_schedule', day: l(planning.day_one, format: :semi_short), start_time: l(planning.day_one_start_time, format: :short), duration: readable_duration(planning.day_one_duration))
+      end
     end
     if planning.day_two
-      schedule_string += '<br>' + I18n.t('courses.training.day_schedule', day: l(planning.day_two, format: :semi_short), start_time: l(planning.day_two_start_time, format: :short), duration: readable_duration(planning.day_two_duration))
+      if planning.day_two_start_time and planning.day_twe_duration
+        schedule_string += '<br>' + I18n.t('courses.training.day_schedule', day: l(planning.day_two, format: :semi_short), start_time: l(planning.day_two_start_time, format: :short), duration: readable_duration(planning.day_two_duration))
+      end
     end
     if planning.day_three
-      schedule_string += '<br>' + I18n.t('courses.training.day_schedule', day: l(planning.day_three, format: :semi_short), start_time: l(planning.day_three_start_time, format: :short), duration: readable_duration(planning.day_three_duration))
+      if planning.day_three_start_time and planning.day_three_duration
+        schedule_string += '<br>' + I18n.t('courses.training.day_schedule', day: l(planning.day_three, format: :semi_short), start_time: l(planning.day_three_start_time, format: :short), duration: readable_duration(planning.day_three_duration))
+      end
     end
     if planning.day_four
-      schedule_string += '<br>' + I18n.t('courses.training.day_schedule', day: l(planning.day_four, format: :semi_short), start_time: l(planning.day_four_start_time, format: :short), duration: readable_duration(planning.day_four_duration))
+      if planning.day_four_start_time and planning.day_foue_duration
+        schedule_string += '<br>' + I18n.t('courses.training.day_schedule', day: l(planning.day_four, format: :semi_short), start_time: l(planning.day_four_start_time, format: :short), duration: readable_duration(planning.day_four_duration))
+      end
     end
     if planning.day_five
-      schedule_string += '<br>' + I18n.t('courses.training.day_schedule', day: l(planning.day_five, format: :semi_short), start_time: l(planning.day_five_start_time, format: :short), duration: readable_duration(planning.day_five_duration))
+      if planning.day_five_start_time and planning.day_five_duration
+        schedule_string += '<br>' + I18n.t('courses.training.day_schedule', day: l(planning.day_five, format: :semi_short), start_time: l(planning.day_five_start_time, format: :short), duration: readable_duration(planning.day_five_duration))
+      end
     end
     return schedule_string
   end
