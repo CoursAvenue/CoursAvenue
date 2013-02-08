@@ -10,13 +10,13 @@
         .palm-one-whole.one-half
           .ilb-wrapper
             .course-block-wrapper.one-half
-              = link_to city_subjects_path(@city, audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block palm-one-whole' do
+              = link_to city_subject_path(id: 'cuisine-oenologie'), class: 'course-block palm-one-whole' do
                 .course-block-image
-                  = image_tag 'home-page/child-courses.jpg', height: 150
+                  = image_tag 'home-page/cooking.jpg', height: 150
                 %h6.course-block-title
-                  Eveillons nos tout petits
+                  Réveillez vos papilles
                 %p.course-block-caption
-                  Cours & stages pour les 0 à 5 ans
+                  Cours de cuisine et d’œnologie pour tous
 
             .course-block-wrapper.one-half
               = link_to city_subject_path(@city, id: 'relaxation-fitness', time_slots: ['evening']), class: 'course-block palm-one-whole' do
@@ -36,15 +36,14 @@
                 %p.course-block-caption
                   Laissez-vous surprendre !
 
-
             .course-block-wrapper.one-half
-              = link_to city_subject_path(id: 'cuisine-oenologie'), class: 'course-block palm-one-whole' do
+              = link_to city_subjects_path(@city, audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block palm-one-whole' do
                 .course-block-image
-                  = image_tag 'home-page/cooking.jpg', height: 150
+                  = image_tag 'home-page/child-courses.jpg', height: 150
                 %h6.course-block-title
-                  Réveillez vos papilles
+                  Eveillons nos tout petits
                 %p.course-block-caption
-                  Cours de cuisine et d’œnologie pour tous
+                  Cours & stages pour les 0 à 5 ans
 
   .text-center
     .newsletter-form

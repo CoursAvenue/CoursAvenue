@@ -1,4 +1,7 @@
 fr:
+  activerecord:
+    models:
+      level: Niveau
   level:
     all: Tous niveaux
     initiation: Initiation
