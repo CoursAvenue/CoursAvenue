@@ -6,7 +6,7 @@ class City < ActiveRecord::Base
   has_many :structures
   has_many :courses, through: :structures
 
-  has_attached_file :no_result_image, :styles => {default: '1200×600#'}
+  has_attached_file :no_result_image, :styles => {default: '900×600#'}
 
   attr_accessible :name, :no_result_image
 
