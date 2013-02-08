@@ -178,11 +178,11 @@ class Course < ActiveRecord::Base
   end
 
   def has_multiple_teacher?
-    self.plannings.where{teacher_name != nil}.length > 1
+    self.plannings.map(&:teacher_name).uniq.compact.length > 1
   end
 
   def has_teacher?
-    self.plannings.where{teacher_name != nil}.length > 0
+    self.plannings.map(&:teacher_name).uniq.compact.length > 0
   end
 
   def promotion

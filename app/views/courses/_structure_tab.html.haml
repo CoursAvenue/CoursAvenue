@@ -1,11 +1,12 @@
 %article#tab-structure-info.tab-pane
-  %h4= @structure.name
+  %h3.no-bottom-margin.islet= @structure.name
   %ul
     - if @structure.email_address
       %li
         = t('.contact')
         = @structure.email_address
-    %li= @structure.structure_type
+    %li
+      %h4.base-font-size.no-bottom-margin= @structure.structure_type
     - if @structure.gives_professional_courses
       %li= t('.give_professional_courses')
     %li= readable_address @structure

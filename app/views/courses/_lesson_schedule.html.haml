@@ -1,3 +1,4 @@
+- has_multiple_teacher = @course.has_multiple_teacher?
 %table.table--striped.table--data
   %thead
     %tr
@@ -26,7 +27,7 @@
         %td.text-center
           - if planning.promotion
             .promo-marker= readable_promotion planning
-        - if @course.has_multiple_teacher?
+        - if has_multiple_teacher
           %td.text-center
             - planning_info_text = "#{Course.human_attribute_name(:teacher_name)} : #{planning.teacher_name}"
             - if planning.info

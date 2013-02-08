@@ -18,10 +18,12 @@
       %span= @course.name
     %ul.nav
       %li
-        %span.lbl.milli= @course.type_name
+        %h4.no-bottom-margin
+          %span.lbl.milli= @course.type_name
       - @subjects.each do |subject|
         %li
-          %span.milli.lbl.blue= link_to subject.name, city_subject_path(@city, subject), class: 'subject-link'
+          %h3.no-bottom-margin
+            %span.milli.lbl.blue= link_to subject.name, city_subject_path(@city, subject), class: 'subject-link'
 
     .course-header-badge
       .course-header-image
@@ -54,9 +56,7 @@
     %article
       %header
         %h4= t('.last_students_opinion')
-        %h5 Espace en cours de lancement
-
-
+        = render 'comments'
 
   %section.g.three-tenths#summary
     = render 'contact_structure'
