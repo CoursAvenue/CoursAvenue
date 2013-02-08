@@ -16,17 +16,17 @@ module PlanningsHelper
     end
   end
 
-  def readable_duration(duration)
-    if duration.blank?
+  def readable_duration time
+    if time.blank?
       '-'
-    elsif duration.hour > 0
-      if duration.min == 0
-        "#{duration.hour}h"
+    elsif time.hour > 0
+      if time.min == 0
+        "#{time.hour}h"
       else
-        "#{duration.hour}h#{duration.min}"
+        "#{time.hour}h#{time.min}"
       end
     else
-      "#{duration.min}min"
+      "#{time.min}min"
     end
   end
 
@@ -42,9 +42,9 @@ module PlanningsHelper
     start_date = planning.first_day_of_training
     end_date   = planning.last_day_of_training
     if start_date == end_date
-      "Le #{I18n.l(start_date)}"
+      "Le #{I18n.l(start_date, format: :semi_short)}"
     else
-      "Du #{I18n.l(start_date)} au #{I18n.l(end_date)}"
+      "Du #{I18n.l(start_date, format: :semi_short)} au #{I18n.l(end_date, format: :semi_short)}"
     end
   end
 end

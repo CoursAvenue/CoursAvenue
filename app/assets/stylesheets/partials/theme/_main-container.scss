@@ -2,9 +2,9 @@
     max-width: $siteMaxWidth;
     margin   : auto;
     padding  : 1em 0;
-    @include media-query(lap-and-up) {
-        min-width: $siteMaxWidth;
-    }
+    min-width: $siteMaxWidth;
+    //@include media-query(lap-and-up) {
+    //}
     @media screen and (min-width: 1200px) {
         max-width: 1185px;
     }

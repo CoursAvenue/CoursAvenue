@@ -1,10 +1,9 @@
 .map_container {
   padding       : 0;
   margin        : 1em 0;
-  border-width  : 1px;
-  border-style  : solid;
-  border-color  : #ccc #ccc #999 #ccc;
+  border        : 1px solid #ccc;
   width         : 100%;
+  box-shadow    : 1px 1px 3px #CCC;
   @include border-radius(2px);
   @include box-sizing(border-box);
   img {

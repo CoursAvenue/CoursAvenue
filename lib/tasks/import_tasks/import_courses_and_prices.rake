@@ -96,7 +96,7 @@ namespace :import do
         nb_place_available:                           row[100],
         promotion:                                    row[104],
         week_day:                                     week_day_number(row[3]),
-        start_time:                                   Time.parse("2000-01-01 #{row[4]} UTC"),
+        start_time:                                   (row[4].blank? ? nil : Time.parse("2000-01-01 #{row[4]} UTC")),
         duration:                                     row[6],
         class_during_holidays:                       (row[20] == 'X' ? false : true),
 
@@ -310,7 +310,7 @@ namespace :import do
 
       #################################################################### Creating Planning
       planning = Planning.create(row[:planning])
-      planning.end_time = planning.start_time + planning.duration.hour.hour + planning.duration.min.minutes if planning.duration
+      planning.end_time = planning.start_time + planning.duration.hour.hour + planning.duration.min.minutes if planning.duration and planning.start_time
       course.plannings << planning
 
       #################################################################### Registration fees

@@ -2,7 +2,6 @@
     background-color: #efeff1;
     padding         : 0;
     border-bottom   : 1px solid darken($beigeDark, 10%);
-    //@include background-image(linear-gradient(top, #fefefe,#efeff1));
     @include background-image(linear-gradient(top, $beige, darken($beigeDark, 7%)));
     @include font-size(12px);
     .nav {
@@ -15,7 +14,7 @@
     }
 }
 
-a.header-link:link {
+a.header-link {
     color       : $grayLight;
     font-weight: bold;
 }

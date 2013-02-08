@@ -16,13 +16,15 @@ LeBonCours::Application.routes.draw do
   # Pages
   match 'pages/why'               => 'pages#why'
   match 'pages/comment-ca-marche' => 'pages#how_it_works',      as: 'pages_how_it_works'
-  match 'pages/faq'               => 'pages#faq'
+  match 'pages/faq-utilisateurs'  => 'pages#faq_user',          as: 'pages_faq_users'
+  match 'pages/faq-utilisateurs'  => 'pages#faq_partners',      as: 'pages_faq_partners'
   match 'pages/mentions'          => 'pages#mentions'
   match 'pages/qui-sommes-nous'   => 'pages#who_are_we',        as: 'pages_who_are_we'
   match 'pages/contact'           => 'pages#contact'
   match 'pages/service-client'    => 'pages#customer_service',  as: 'pages_customer_service'
   match 'pages/presse'            => 'pages#press',             as: 'pages_press'
   match 'pages/jobs'              => 'pages#jobs'
+  match 'pages/trouver-un-espace' => 'pages#find_a_place',      as: 'pages_find_a_place'
 
   root :to => 'home#index'
 end

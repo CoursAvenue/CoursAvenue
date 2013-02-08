@@ -13,16 +13,16 @@
             %ul.discrete-list
               %li= link_to 'Pourquoi LeBonCours ?',            pages_why_path
               %li= link_to 'Comment ça marche ?',              pages_how_it_works_path
-              %li= link_to 'Foire aux questions Utilisateurs', pages_faq_path
+              %li= link_to 'Foire aux questions Utilisateurs', pages_faq_users_path
               %li= link_to 'Mentions légales Utilisateurs',    pages_mentions_path
 
           .flexbox__item.one-quarter.palm-one-half
             %h5.blue Partenaires
             %ul.discrete-list
-              %li= link_to 'Référencez vos cours !', root_path
-              %li= link_to 'Louez vos salles', root_path
-              %li= link_to 'Trouvez une salle', root_path
-              %li= link_to 'Foire aux questions Partenaires', root_path
+              %li= link_to 'Référencez vos cours !', 'mailto:referencement@leboncours.com?subject=Référencement de mes cours'
+              %li= link_to 'Louez vos salles', 'mailto:referencement@leboncours.com?subject=Location de mes espaces'
+              %li= link_to 'Trouvez une salle', pages_find_a_place_path
+              %li= link_to 'Foire aux questions Partenaires', pages_faq_partners_path
               %li= link_to 'Mentions légales Partenaires', root_path
 
           .flexbox__item.one-quarter.palm-one-half

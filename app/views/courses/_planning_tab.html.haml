@@ -11,9 +11,14 @@
       %h4.islet.proceed.no-bottom-margin= t('.infos')
       %ul.block-list.alternate-color.milli
         %li.flexbox
+          %label.flexbox__item= Level.model_name.human
+          %strong.flexbox__item.proceed
+            = @course.levels.map{|level| t(level.name)}.join(', ')
+
+        %li.flexbox
           %label.flexbox__item= Audience.model_name.human
           %strong.flexbox__item.proceed
-            = @course.audiences.map{|course| t(course.name)}.join(', ')
+            = @course.audiences.map{|audience| t(audience.name)}.join(', ')
 
         %li.flexbox
           %label.flexbox__item= Course.model_name.human

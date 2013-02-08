@@ -13,7 +13,7 @@
     @include transition(background-color 250ms linear);
     &:hover {
         text-decoration : none !important;
-        background-color: $beigeDark;
+        background-color: $beige;
     }
     > div, article {
         display: table-cell;

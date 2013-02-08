@@ -67,7 +67,7 @@ class Course < ActiveRecord::Base
     types << 'Course::Lesson'   if types_array.include? 'lesson'
     types << 'Course::Training' if types_array.include? 'training'
     types << 'Course::Workshop' if types_array.include? 'workshop'
-    scope.where{type.like_any types}
+    scope.where{type.eq_any types}
   end
 
   def self.has_price_specificities(price_specificities, scope)

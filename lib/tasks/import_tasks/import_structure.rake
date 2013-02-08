@@ -38,7 +38,7 @@ namespace :import do
       accepts_afdas_funding:                        (row[37] == 'X' ? true : false),
       accepts_dif_funding:                          (row[38] == 'X' ? true : false),
       accepts_cif_funding:                          (row[39] == 'X' ? true : false),
-      info:                                          row[40],
+      info:                                         (row[40].blank? ? nil : row[40].gsub(/\r\n/, '<br>').gsub(/\n/, '<br>'))
     }
   end
 

@@ -4,7 +4,84 @@ class SubjectsController < ApplicationController
 
   def index
     @courses   = @city.courses
+    search
+    paginate
+    init_geoloc
 
+    respond_to do |format|
+      format.html { @courses }
+    end
+  end
+
+
+  def show
+    @subject   = Subject.find(params[:id])
+    city_id    = @city.id
+    if @subject.is_root?
+      @courses
+      subject_ids = @subject.children.map(&:id)
+      @courses    = Course.joins{subjects}.joins{structure}.where{(structure.city_id == city_id) & (subjects.id.eq_any subject_ids)}
+    else
+      @courses = @subject.courses.joins{structure}.where{structure.city_id == city_id}
+    end
+    search
+    paginate
+    init_geoloc
+    render action: 'index'
+  end
+
+
+  private
+
+  def init_geoloc
+    @course_structures = @courses.collect{|course| course.structure}.uniq
+
+    # To remove
+    @course_structures.each do |structure|
+      structure.geolocalize unless structure.is_geolocalized?
+    end
+    structure_index = 0
+    @json_structure_addresses = @course_structures.to_gmaps4rails do |structure, marker|
+      structure_index += 1
+      marker.picture({
+                      :marker_anchor => [10, true],
+                      :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='#'><span>#{structure_index}</span></a></div>"
+                     })
+      marker.title   structure.name
+      marker.json({ id: structure.id })
+    end
+  end
+
+  def paginate
+    # Group by id and order by first day in week
+    case params[:sort]
+    # min promotion because promotions are negative
+    when 'price_asc'
+      @courses = @courses.joins{prices}.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(prices.amount) ASC')
+    when 'price_desc'
+      @courses = @courses.joins{prices}.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(prices.amount) DESC')
+    when 'date'
+      @courses = @courses.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(plannings.week_day)')
+    else
+      @courses = @courses.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(plannings.week_day)')
+    end
+    @courses = @courses.page(params[:page]).per(15)
+
+  end
+
+  def prepare_search
+    @city      = City.find(params[:city_id])
+    @audiences = Audience.all
+    @levels    = [
+                    {name: Level.all_levels.name, id: Level.all_levels.id},
+                    {name: Level.initiation.name, id: Level.initiation.id},
+                    {name: Level.beginner.name, id: Level.beginner.id},
+                    {name: 'level.average_intermediate', id: Level.intermediate.id},
+                    {name: 'level.advanced_confirmed', id: Level.advanced.id},
+                  ]
+  end
+
+  def search
     params.each do |key, value|
       case key
       when 'city'
@@ -56,77 +133,6 @@ class SubjectsController < ApplicationController
         @courses = @courses.in_price_range(value[:min], value[:max], @courses)
       end
     end
-    paginate
-    init_geoloc
-
-    respond_to do |format|
-      format.html { @courses }
-    end
   end
 
-
-  def show
-    @subject   = Subject.find(params[:id])
-    city_id    = @city.id
-    if @subject.is_root?
-      @courses
-      subject_ids = @subject.children.map(&:id)
-      @courses    = Course.joins{subjects}.joins{structure}.where{(structure.city_id == city_id) & (subjects.id.eq_any subject_ids)}
-    else
-      @courses = @subject.courses.joins{structure}.where{structure.city_id == city_id}
-    end
-    paginate
-    init_geoloc
-    render action: 'index'
-  end
-
-
-  private
-
-  def init_geoloc
-    @course_structures = @courses.collect{|course| course.structure}.uniq
-
-    # To remove
-    @course_structures.each do |structure|
-      structure.geolocalize unless structure.is_geolocalized?
-    end
-    structure_index = 0
-    @json_structure_addresses = @course_structures.to_gmaps4rails do |structure, marker|
-      structure_index += 1
-      marker.picture({
-                      :marker_anchor => [10, true],
-                      :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='#'><span>#{structure_index}</span></a></div>"
-                     })
-      marker.title   structure.name
-      marker.json({ id: structure.id })
-    end
-  end
-
-  def paginate
-    # Group by id and order by first day in week
-    case params[:sort]
-    # min promotion because promotions are negative
-    when 'price_asc'
-      @courses = @courses.joins{prices}.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(prices.amount) ASC')
-    when 'price_desc'
-      @courses = @courses.joins{prices}.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(prices.amount) DESC')
-    when 'date'
-      @courses = @courses.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(plannings.week_day)')
-    else
-      @courses = @courses.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(plannings.week_day)')
-    end
-    @courses = @courses.page(params[:page]).per(15)
-
-  end
-  def prepare_search
-    @city      = City.find(params[:city_id])
-    @audiences = Audience.all
-    @levels    = [
-                    {name: Level.all_levels.name, id: Level.all_levels.id},
-                    {name: Level.initiation.name, id: Level.initiation.id},
-                    {name: Level.beginner.name, id: Level.beginner.id},
-                    {name: 'level.average_intermediate', id: Level.intermediate.id},
-                    {name: 'level.advanced_confirmed', id: Level.advanced.id},
-                  ]
-  end
 end

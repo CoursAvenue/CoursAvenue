@@ -26,6 +26,8 @@ fr:
         frequency: Fréquence
 
   courses:
+    training:
+      day_schedule: "%{day} à %{start_time} (%{duration})"
     frequencies:
       every_week: Toutes les semaines
       every_two_weeks: Toutes les 15 jours

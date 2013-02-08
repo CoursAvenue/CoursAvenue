@@ -15,5 +15,8 @@
         %td.text-center= planning.nb_place_available || '-'
         %td.text-center= readable_promotion planning
         %td.text-center
+          - planning_info = day_by_day_schedule planning
           - if planning.info.present?
-            .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
+            - planning_info += '<br>' + planning.info
+          - if planning_info != ''
+            .lbc-brand-icon{data: {behavior: 'popover', content: planning_info}}
