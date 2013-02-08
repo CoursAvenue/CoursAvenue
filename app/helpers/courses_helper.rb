@@ -8,7 +8,7 @@ module CoursesHelper
       end
     end
     if planning.day_two
-      if planning.day_two_start_time and planning.day_twe_duration
+      if planning.day_two_start_time and planning.day_two_duration
         schedule_string += '<br>' + I18n.t('courses.training.day_schedule', day: l(planning.day_two, format: :semi_short), start_time: l(planning.day_two_start_time, format: :short), duration: readable_duration(planning.day_two_duration))
       end
     end
@@ -18,7 +18,7 @@ module CoursesHelper
       end
     end
     if planning.day_four
-      if planning.day_four_start_time and planning.day_foue_duration
+      if planning.day_four_start_time and planning.day_four_duration
         schedule_string += '<br>' + I18n.t('courses.training.day_schedule', day: l(planning.day_four, format: :semi_short), start_time: l(planning.day_four_start_time, format: :short), duration: readable_duration(planning.day_four_duration))
       end
     end
