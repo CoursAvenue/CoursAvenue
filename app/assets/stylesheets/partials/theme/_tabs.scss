@@ -8,7 +8,8 @@
         margin-right: 0.2em;
         color        : $brandColor;
         border       : 1px solid $beigeDark; // To prevent size to change on hover
-        border-bottom-color: $graySmooth;
+        //border-bottom-color: $graySmooth;
+        border-bottom: none;
         @include border-top-radius(3px);
         &:hover {
             background-color: $beige;
@@ -20,9 +21,11 @@
             cursor       : default;
         }
         &.active {
-            color        : black;
-            border       : 1px solid $graySmooth;
-            border-bottom-color: $siteBackgroundColor;
+            color               : black;
+            border              : 1px solid $graySmooth;
+            position            : relative;
+            top                 : 1px;
+            border-bottom-color : $siteBackgroundColor;
         }
     }
 }

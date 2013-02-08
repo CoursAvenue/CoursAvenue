@@ -91,7 +91,6 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
     t.text     "description"
     t.boolean  "is_promoted",                 :default => false
     t.boolean  "has_online_payment",          :default => false
-    t.boolean  "has_promotion",               :default => false
     t.text     "info"
     t.text     "registration_date"
     t.boolean  "is_individual"
@@ -243,21 +242,20 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
     t.string   "phone_number"
     t.string   "mobile_phone_number"
     t.string   "email_address"
-    t.boolean  "accepts_holiday_vouchers"
-    t.boolean  "accepts_ancv_sports_coupon"
-    t.boolean  "accepts_leisure_tickets"
-    t.boolean  "accepts_afdas_funding"
-    t.boolean  "accepts_dif_funding"
-    t.boolean  "accepts_cif_funding"
-    t.boolean  "has_annual_course_only"
+    t.boolean  "accepts_holiday_vouchers",                     :default => false
+    t.boolean  "accepts_ancv_sports_coupon",                   :default => false
+    t.boolean  "accepts_leisure_tickets",                      :default => false
+    t.boolean  "accepts_afdas_funding",                        :default => false
+    t.boolean  "accepts_dif_funding",                          :default => false
+    t.boolean  "accepts_cif_funding",                          :default => false
     t.boolean  "has_registration_form"
     t.boolean  "needs_photo_id_for_registration"
     t.boolean  "needs_id_copy_for_registration"
     t.boolean  "needs_medical_certificate_for_registration"
     t.boolean  "needs_insurance_attestation_for_registration"
     t.integer  "city_id"
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
+    t.datetime "created_at",                                                      :null => false
+    t.datetime "updated_at",                                                      :null => false
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"

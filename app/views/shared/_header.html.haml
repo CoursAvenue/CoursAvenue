@@ -5,8 +5,8 @@
     = link_to root_path, class: 'flexbox__item logo' do
       = image_tag 'logo.png', width: 200
 
-    %nav.flexbox__item
-      %ul.nav.proceed
+    %nav.flexbox__item.text-center
+      %ul.nav
         %li.espace-pro-wrapper
           .espace-pro
           = link_to 'Référencer mes cours et stages', 'mailto:referencement@leboncours.com?subject=Référencement de mes cours', class: 'btn'
@@ -19,6 +19,4 @@
         %li
           %a.header-link{href: '#'} Le blog
         %li
-          %a.header-link{href: '#'} À propos
-        %li
-          %a.header-link{href: '#'} Contact
+          = link_to 'Contact', pages_contact_path, class: 'header-link'
