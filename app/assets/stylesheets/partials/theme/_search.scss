@@ -76,11 +76,11 @@
         border          : 1px solid $beigeDarker;
         border-bottom   : none;
         @include media-query(palm) {
-            top        : -4.1em; // Because of the margin of the child divs
+            top        : -3em; // Because of the margin of the child divs
             left       : 50%;
             width      : 8em;
             text-align : center;
-            margin-left: -4em!important;
+            margin-left: -4.5em!important;
         }
         @include box-sizing(content-box);
         @include border-top-radius($brand-round);
