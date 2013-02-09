@@ -33,6 +33,6 @@
     %p.course-info-heading-caption En attendant le lancement, restons en contact ! (promis, pas de spam, que des bons plans !)
   .text--center
     = simple_form_for NewsletterUser.new do |f|
-      = f.email_field :email, placeholder: t('newsletter_users.email'), size: 25, style: 'margin-bottom: 10px;'
+      = f.email_field :email, placeholder: t('newsletter_users.email'), size: 20, style: 'margin-bottom: 10px;'
       = f.hidden_field :url, value: "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
       = f.submit 'Réservez en ligne', :class => 'btn btn__primary'

@@ -13,28 +13,47 @@
     %i.orange ←
     = t('.see_arrounding_courses')
 
+%h1.course-title
+  %span= @course.name
+%ul.nav
+  %li
+    %h4.flush--bottom
+      %span.lbl.milli= @course.type_name
+  - @subjects.each do |subject|
+    %li
+      %h3.flush--bottom
+        %span.milli.lbl.blue= link_to subject.name, city_subject_path(@city, subject), class: 'subject-link'
+
 .gw
-  %section.g.seven-tenths
+  %section.g.three-tenths#summary.palm-one-whole.float--right
+    = render 'contact_structure'
+    %article.hide--palm
+      %h4 D'autres cours pour vous !
+      %ul.block-list
+        - @similar_courses.each do |course|
+          %li
+            = link_to city_course_path(@city, course), class: 'flexbox' do
+              .flexbox__item.one-fifth
+                - if course.image.present?
+                  = image_tag course.image.url(:thumb), class: 'similar-course--image'
+                - else
+                  = image_tag course.subjects.first.image.url(:thumb), class: 'similar-course--image'
+              .flexbox__item.similar-course
+                %h2.similar-course--course-name= course.name
+                %h3.similar-course--structure-name
+                  %i.icon-map-marker
+                  = course.structure.name
 
-    %h1.course-title
-      %span= @course.name
-    %ul.nav
-      %li
-        %h4.flush--bottom
-          %span.lbl.milli= @course.type_name
-      - @subjects.each do |subject|
-        %li
-          %h3.flush--bottom
-            %span.milli.lbl.blue= link_to subject.name, city_subject_path(@city, subject), class: 'subject-link'
 
+  %section.g.seven-tenths.palm-one-whole
     .course-header-badge
-      .course-header-image
+      .course-header-image.one-half.palm-one-whole
         - if @course.image.present?
           = image_tag @course.image.url(:wide), class: 'course-header-badge-image'
         - else
           = image_tag @course.subjects.first.image.url(:wide), class: 'course-header-badge-image'
 
-      .course-header-map
+      .course-header-map.one-half.palm-one-whole
         = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
         %h2.course-header-structure-name
           %b= @structure.name
@@ -59,23 +78,3 @@
       %header
         %h4= t('.last_students_opinion')
         = render 'comments'
-
-  %section.g.three-tenths#summary
-    = render 'contact_structure'
-    %article
-      %h4 D'autres cours pour vous !
-      %ul.block-list
-        - @similar_courses.each do |course|
-          %li
-            = link_to city_course_path(@city, course), class: 'flexbox' do
-              .flexbox__item.one-fifth
-                - if course.image.present?
-                  = image_tag course.image.url(:thumb), class: 'similar-course--image'
-                - else
-                  = image_tag course.subjects.first.image.url(:thumb), class: 'similar-course--image'
-              .flexbox__item.similar-course
-                %h2.similar-course--course-name= course.name
-                %h3.similar-course--structure-name
-                  %i.icon-map-marker
-                  = course.structure.name
-
