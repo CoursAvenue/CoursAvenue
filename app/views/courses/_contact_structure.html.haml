@@ -12,7 +12,7 @@
   .text-center.course-info-heading
     %b En attendant la réservation en ligne
     %p.course-info-heading-caption Dites que LeBonCours vous a guidé !
-  .text-center
+  .text-center.delta
     %i.icon-phone.blue
     - if @structure.phone_number
       = link_to "tel:#{@structure.phone_number.gsub(/\s+/, '')}", class: 'blue' do

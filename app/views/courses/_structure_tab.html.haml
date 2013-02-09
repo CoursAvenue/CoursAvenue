@@ -1,12 +1,12 @@
 %article#tab-structure-info.tab-pane
   %h3.no-bottom-margin.islet= @structure.name
   %ul
+    %li
+      %h4.base-font-style.no-bottom-margin= @structure.structure_type
     - if @structure.email_address
       %li
         = t('.contact')
-        = @structure.email_address
-    %li
-      %h4.base-font-size.no-bottom-margin= @structure.structure_type
+        = link_to @structure.email_address, "mailto:#{@structure.email_address}"
     - if @structure.gives_professional_courses
       %li= t('.give_professional_courses')
     %li= readable_address @structure
@@ -17,9 +17,10 @@
       %li= @structure.adress_info
     - if @structure.nb_room
       %li= t('.number_of_room', count: @structure.nb_room)
-    %li
-      = Structure.human_attribute_name(:website)
-      = link_to @structure.website, @structure.website, target: '_blank'
+    - if @structure.website
+      %li
+        = Structure.human_attribute_name(:website)
+        = link_to @structure.website, @structure.website, target: '_blank'
     - if @structure.info
       %li
         = t('.other_info')
