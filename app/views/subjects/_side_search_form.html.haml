@@ -12,7 +12,9 @@
 
   //-------------------------------------------------------------------------------------------------------- Subject
   .search-panel
-    %h5.search-panel-header Disciplines
+    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+      Disciplines
+      %i.icon-caret-down
     .search-panel-content
       %ul.check-list
         %li= link_to t('all_subject'), city_subjects_path(@city), class: 'subject-link'
@@ -28,7 +30,9 @@
 
   //-------------------------------------------------------------------------------------------------------- Type de cours
   .search-panel
-    %h5.search-panel-header Type de cours
+    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+      Type de cours
+      %i.icon-caret-down
     .search-panel-content
       %ul.check-list
         %li
@@ -53,7 +57,9 @@
 
   //-------------------------------------------------------------------------------------------------------- Price
   .search-panel
-    %h5.search-panel-header Prix
+    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+      Prix
+      %i.icon-caret-down
     .search-panel-content
       = label_tag 'search_price_range_min_price', 'De'
       = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, placeholder: '35', class: 'timepicker-input', data: {behavior: 'input-update', element: 'hidden_search_price_range_min'}
@@ -63,7 +69,9 @@
       €
 
   .search-panel
-    %h5.search-panel-header Niveaux
+    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+      Niveaux
+      %i.icon-caret-down
     .search-panel-content
       %ul.check-list
         - @levels.each_with_index do |level, i|
@@ -74,7 +82,9 @@
 
   //-------------------------------------------------------------------------------------------------------- Audience
   .search-panel
-    %h5.search-panel-header Public
+    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+      Public
+      %i.icon-caret-down
     .search-panel-content
       %ul.check-list
         - @audiences.each_with_index do |audience, i|
@@ -82,7 +92,9 @@
             = check_box_tag 'audiences[]', audience.id, params[:audiences].include?(audience.id.to_s), id: "search_audience_#{i}", data: {behavior: 'input-update', element: "hidden_search_audience_#{i}"}
             = label_tag "search_audience_#{i}", t(audience.name)
   .search-panel
-    %h5.search-panel-header Enfant ou adolescent
+    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+      Enfant ou adolescent
+      %i.icon-caret-down
     .search-panel-content
       = label_tag 'for_min_age', 'De '
       = number_field_tag 'age[min]', params[:age][:min], min: 0, max: 18, step: 1, placeholder: '6', data: {behavior: 'input-update', element: 'hidden_search_age_min'}, id: 'for_min_age'
@@ -92,7 +104,9 @@
 
   //-------------------------------------------------------------------------------------------------------- Time slot
   .search-panel
-    %h5.search-panel-header Créneau horaire précis
+    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+      Créneau horaire précis
+      %i.icon-caret-down
     .search-panel-content
       = label_tag 'search_time_range_min_time', 'De'
       %input.timepicker-input{name: 'time_range[min]', value: params[:time_range][:min], placeholder: '19:30', data: {behavior: 'input-update', element: 'hidden_start_time'}}
@@ -103,7 +117,9 @@
 
   //-------------------------------------------------------------------------------------------------------- Places
   .search-panel
-    %h5.search-panel-header Arrondissement
+    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+      Arrondissement
+      %i.icon-caret-down
     .search-panel-content
       %ul.check-list
         - (75001..75020).to_a.map(&:to_s).each_with_index do |zip_code, i|

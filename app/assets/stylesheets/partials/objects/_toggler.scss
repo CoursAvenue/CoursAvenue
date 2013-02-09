@@ -1,0 +1,16 @@
+.toggleable-header {
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: relative;
+    i {
+        position: absolute;
+        right     : 1em;
+        top       : 50%;
+        margin-top: -11px;
+    }
+}

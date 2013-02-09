@@ -13,21 +13,28 @@
         initialize: function(el) {
             this.el         = el;
             this.title      = el.getElement('.dropped-options-title');
+            this.list       = this.title.getElement('+ul');
             this.titleText  = this.title.getElement('span');
             this.inputs     = el.getElements('input');
 
-            // Initializing the title to be a toggler of the list of inputs
-            new GLOBAL.Objects.Toggler(this.title, '+ul');
             this.attachEvents();
             this.updateTitle();
         },
 
         attachEvents: function() {
             this.inputs.addEvent('change', this.updateTitle.bind(this));
-            // this.titleText.addEvent('focusin', function(){
-            //     debugger
-            // });
-
+            this.title.addEvent('click', function() {
+                this.list.toggle();
+            }.bind(this));
+            document.body.addEvent('click', function(event) {
+                // Check if event.target is not contained in the associated elements to toggle
+                // If the clicked element is not part of the toggled elements, we can hide them
+                if (this.title.getElement(event.target) === null && this.list.getElement(event.target) === null) {
+                    if (this.list.isDisplayed()) {
+                        this.list.hide();
+                    }
+                }
+            }.bind(this));
         },
         updateTitle: function() {
             var titles = [];
