@@ -57,8 +57,7 @@ group :development, :test do
   gem 'meta_request', '0.2.1'
 end
 
-gem 'google-analytics-rails'
-gem 'newrelic_rpm'
+# gem 'newrelic_rpm'
 # gem 'thin'
 
 # Deploy with Capistrano
