@@ -1,3 +1,5 @@
+= content_for :title do
+  = @course.name
 - unless @course.description.blank?
   = content_for :meta_description do
     = @course.description

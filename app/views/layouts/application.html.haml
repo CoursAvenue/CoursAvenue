@@ -1,10 +1,13 @@
 !!!
 %html{lang: 'fr' }
   %head
-    - if @city
-      %title= "Tous les cours et stages à #{@city.name} - LeBonCours"
+    - if (yield :title).empty?
+      - if @city
+        %title= "Tous les cours et stages à #{@city.name} - LeBonCours.com"
+      - else
+        %title Tous les cours et stages autour de vous - LeBonCours.com
     - else
-      %title Tous les cours et stages autour de vous - LeBonCours
+      %title= "#{yield :title} - LeBonCours.com"
     %meta{'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8'}/
     /%meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
     - if (yield :meta_description).empty?
