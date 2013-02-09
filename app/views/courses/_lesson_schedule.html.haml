@@ -3,37 +3,37 @@
   %thead
     %tr
       %th Jour
-      %th.text-center Créneau horaire
-      %th.text-center Durée
-      %th.text-center Places
+      %th.text--center Créneau horaire
+      %th.text--center Durée
+      %th.text--center Places
       - if @course.is_for_kid
-        %th.text-center Âge
-      %th.text-center Promo
-      %th.text-center
+        %th.text--center Âge
+      %th.text--center Promo
+      %th.text--center
         %i.lbc-icon-info i
   %tbody
     - @plannings.each do |planning|
       %tr{data: {'course-id' => planning.course_id}}
         %td= week_day_for planning
-        %td.text-center= readable_time_slot planning.start_time, planning.end_time
-        %td.text-center= readable_duration planning.duration
-        %td.text-center= planning.nb_place_available || '-'
+        %td.text--center= readable_time_slot planning.start_time, planning.end_time
+        %td.text--center= readable_duration planning.duration
+        %td.text--center= planning.nb_place_available || '-'
         - if @course.is_for_kid
-          %td.text-center
+          %td.text--center
             = planning.min_age_for_kid || '-'
             - if planning.max_age_for_kid
               à
               = planning.max_age_for_kid || '-'
-        %td.text-center
+        %td.text--center
           - if planning.promotion
             .promo-marker= readable_promotion planning
         - if has_multiple_teacher
-          %td.text-center
+          %td.text--center
             - planning_info_text = "#{Course.human_attribute_name(:teacher_name)} : #{planning.teacher_name}"
             - if planning.info
               - planning_info_text += '<br>' + planning.info
             .lbc-brand-icon{data: {behavior: 'popover', content: planning_info_text}}
         - else
-          %td.text-center
+          %td.text--center
             - if planning.info
               .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}

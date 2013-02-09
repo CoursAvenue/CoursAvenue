@@ -24,30 +24,36 @@
 
 .header-search-bar {
     width           : 100%;
-    //border          : 1px solid #CCC;
-    //background-color: #e5e5e5;
-    display         : table;
     padding         : 5px 0;
     padding-bottom  : 1em;
     position        : relative;
     margin-top      : 4em; // Because of town-chooser;
     border-bottom   : 1px solid #e3dcd4;
+    display         : table;
     @include font-size(12px);
     @include media-query(palm) { display: block; };
+    .hide--lap {
+        @include media-query(lap) { display: none; };
+    }
     .button-wrapper {
         text-align: right;
-        @include media-query(palm) {text-align: center;}
+        @include media-query(palm) {
+            text-align: center;
+            float: none!important;
+        }
     }
     > div {
+        //display       : inline-block;
         display       : table-cell;
         vertical-align: middle;
-        padding       : 0 5px;
+        padding       : 5px;
         &.search-input-wrapper {
             padding-left: 0;
         }
         @include media-query(palm) {
             display     : block;
-            margin      : 1em auto;
+            margin      : 6px auto;
+            padding     : 0;
             text-align  : center;
         };
         &.town-chooser {
@@ -70,7 +76,11 @@
         border          : 1px solid $beigeDarker;
         border-bottom   : none;
         @include media-query(palm) {
-            top: -4.1em; // Because of the margin of the child divs
+            top        : -4.1em; // Because of the margin of the child divs
+            left       : 50%;
+            width      : 8em;
+            text-align : center;
+            margin-left: -4em!important;
         }
         @include box-sizing(content-box);
         @include border-top-radius($brand-round);

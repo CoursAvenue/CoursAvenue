@@ -1,6 +1,6 @@
 %article.course-info
   - if @course.best_price #TODO: Remove this
-    .course-info-price.text-center
+    .course-info-price.text--right
       %small À partir de
       - if @course.promotion_planning
         %div
@@ -9,10 +9,10 @@
       - else
         %h2.blue= "#{@course.best_price.readable_amount}€"
 
-  .text-center.course-info-heading
+  .text--center.course-info-heading
     %b En attendant la réservation en ligne
     %p.course-info-heading-caption Dites que LeBonCours vous a guidé !
-  .text-center.delta
+  .text--center.delta
     %i.icon-phone.blue
     - if @structure.phone_number
       = link_to "tel:#{@structure.phone_number.gsub(/\s+/, '')}", class: 'blue' do
@@ -23,15 +23,15 @@
       = link_to "tel:#{@structure.mobile_phone_number.gsub(/\s+/, '')}", class: 'blue' do
         = @structure.mobile_phone_number
   - if @structure.website
-    .text-center
+    .text--center
       %i.icon-external-link.blue
       = link_to @structure.name, @structure.website, class: 'blue', target: '_blank'
 
   %hr.course-info-delimiter
-  .text-center.course-info-heading
+  .text--center.course-info-heading
     %b Réservation en ligne
     %p.course-info-heading-caption En attendant le lancement, restons en contact ! (promis, pas de spam, que des bons plans !)
-  .text-center
+  .text--center
     = simple_form_for NewsletterUser.new do |f|
       = f.email_field :email, placeholder: t('newsletter_users.email'), size: 25, style: 'margin-bottom: 10px;'
       = f.hidden_field :url, value: "#{request.protocol}#{request.host_with_port}#{request.fullpath}"

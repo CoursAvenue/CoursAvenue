@@ -1,5 +1,5 @@
 %li.one-whole.course-element{data: {"structure-id" => course.structure_id}}
-  %div.two-twelfths
+  %div.two-twelfths.hide--palm
     .course-image.media__img
       - if course.image.present?
         = image_tag course.image.image.url(:thumb)

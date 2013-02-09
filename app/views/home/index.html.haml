@@ -12,7 +12,7 @@
             .course-block-wrapper.one-half.palm-one-whole
               = link_to city_subject_path(id: 'cuisine-oenologie'), class: 'course-block' do
                 .course-block-image
-                  = image_tag 'home-page/cooking.jpg', height: 150
+                  = image_tag 'home-page/cooking.jpg'
                 %h6.course-block-title
                   Réveillez vos papilles
                 %p.course-block-caption
@@ -21,7 +21,7 @@
             .course-block-wrapper.one-half.palm-one-whole
               = link_to city_subject_path(@city, id: 'relaxation-fitness', time_slots: ['evening']), class: 'course-block' do
                 .course-block-image
-                  = image_tag 'home-page/after_work.jpg', height: 150
+                  = image_tag 'home-page/after_work.jpg'
                 %h6.course-block-title
                   Détendez-vous après le boulot
                 %p.course-block-caption
@@ -30,7 +30,7 @@
             .course-block-wrapper.one-half.palm-one-whole
               = link_to city_subject_path(id: 'insolite'), class: 'course-block' do
                 .course-block-image
-                  = image_tag 'home-page/insolite.jpg', height: 150
+                  = image_tag 'home-page/insolite.jpg'
                 %h6.course-block-title
                   Cours insolites
                 %p.course-block-caption
@@ -39,13 +39,13 @@
             .course-block-wrapper.one-half.palm-one-whole
               = link_to city_subjects_path(@city, audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block' do
                 .course-block-image
-                  = image_tag 'home-page/child-courses.jpg', height: 150
+                  = image_tag 'home-page/child-courses.jpg'
                 %h6.course-block-title
                   Eveillons nos tout petits
                 %p.course-block-caption
                   Cours & stages pour les 0 à 5 ans
 
-  .text-center
+  .text--center
     .newsletter-form
       %p.inline-paragraph
         <b>Inscrivez vous</b> à la newsletter et découvrez des classes uniques dans votre ville
@@ -58,21 +58,21 @@
   .ilb-wrapper
     .one-third.palm-one-whole
       .ilb-wrapper.align-middle
-        .one-fifth.text-center= image_tag 'icons/ico_piggy_bank.png'
+        .one-fifth.text--center= image_tag 'icons/ico_piggy_bank.png'
         .four-fifths
-          %h4.no-bottom-margin.no-bottom-padding.islet.green Des prix attractifs
+          %h4.flush--bottom.no-bottom-padding.islet.green Des prix attractifs
           %p.islet LeBonCours vous garantit les prix les plus bas et la réservation est gratuite. Bénéficiez également des tarifs promotionnels négociés directement auprès de nos Partenaires.
 
     .one-third.palm-one-whole
       .ilb-wrapper.align-middle
-        .one-fifth.text-center= image_tag 'icons/ico_qualitee.png'
+        .one-fifth.text--center= image_tag 'icons/ico_qualitee.png'
         .four-fifths
-          %h4.no-bottom-margin.no-bottom-padding.islet.green Une qualité assurée
+          %h4.flush--bottom.no-bottom-padding.islet.green Une qualité assurée
           %p.islet Chaque élève a la possibilité de s’exprimer sur la qualité du cours suivi et de vous partager son expérience. Plus de mauvaises surprises, le meilleur bouche-à-oreille !
 
     .one-third.palm-one-whole
       .ilb-wrapper.align-middle
-        .one-fifth.text-center= image_tag 'icons/ico_geoloc.png', style: 'height: 75px;'
+        .one-fifth.text--center= image_tag 'icons/ico_geoloc.png', style: 'height: 75px;'
         .four-fifths
-          %h4.no-bottom-margin.no-bottom-padding.islet.green Votre passion autour de vous
+          %h4.flush--bottom.no-bottom-padding.islet.green Votre passion autour de vous
           %p.islet Notre moteur de recherche avancé, qui inclut la géolocalisation, permettra de réveiller votre passion à deux pas de chez vous. Exprimez votre talent dans votre quartier !

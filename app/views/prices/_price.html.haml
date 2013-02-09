@@ -1,10 +1,10 @@
 %tr
   %td= price.libelle
   - if price.amount == 0
-    %td.text-center Gratuit
+    %td.text--center Gratuit
   - else
     - if price.amount.nil?
-      %td.text-center Se renseigner
+      %td.text--center Se renseigner
     - else
-      %td.text-center= "#{price.readable_amount}€"
-  %td.text-center -
+      %td.text--center= "#{price.readable_amount}€"
+  %td.text--center -

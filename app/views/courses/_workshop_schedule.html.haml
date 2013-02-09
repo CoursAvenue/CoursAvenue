@@ -2,11 +2,11 @@
   %thead
     %tr
       %th Date
-      %th.text-center Créneau horaire
+      %th.text--center Créneau horaire
       %th Durée
       %th Places dispo
-      %th.text-center Promo
-      %th.text-center
+      %th.text--center Promo
+      %th.text--center
         %i.lbc-icon-info i
   %tbody
     - @plannings.each do |planning|
@@ -16,12 +16,12 @@
             = l planning.day_one
           - else
             = week_day_for planning
-        %td.text-center= readable_time_slot planning.start_time, planning.end_time
-        %td.text-center= readable_duration planning.day_one_duration
-        %td.text-center= planning.nb_place_available || '-'
-        %td.text-center
+        %td.text--center= readable_time_slot planning.start_time, planning.end_time
+        %td.text--center= readable_duration planning.day_one_duration
+        %td.text--center= planning.nb_place_available || '-'
+        %td.text--center
           - if planning.promotion
             .promo-marker= readable_promotion planning
-        %td.text-center
+        %td.text--center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}

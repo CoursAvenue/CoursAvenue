@@ -3,7 +3,7 @@
 - params[:end_date]   ||= l(Date.today + 6.months)
 
 .header-search-bar.main-container
-  .town-chooser.better-select{data: {behavior: 'better-select' }}
+  .town-chooser.better-select.flush{data: {behavior: 'better-select' }}
     %span.chooser-title-wrapper
       %span.chooser-title= params[:city].capitalize
       %i.icon-caret-down
@@ -33,13 +33,13 @@
 
   = render 'shared/time_slot_search'
 
-  %div
+  .hide--lap
     Du
-  %div
+  .hide--lap
     %input{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
-  %div
+  .hide--lap
     au
-  %div
+  .hide--lap
     %input{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker'}}
 
   %div.button-wrapper

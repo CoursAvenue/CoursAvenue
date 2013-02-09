@@ -1,8 +1,12 @@
 .header {
+    @include media-query(palm) { text-align: center; };
+    @include media-query(lap) { text-align: center; };
     background-color: #efeff1;
     padding         : 0;
     border-bottom   : 1px solid darken($beigeDark, 10%);
     overflow        : hidden;
+    display         : table;
+    width           : 100%;
     &, .main-container {
         line-height: 60px;
         height     : 60px;
@@ -28,14 +32,19 @@ a.header-link {
     font-size   : 0.9em;
     margin-left : 0.5em;
 }
-
+.nav-links-wrapper {
+    @include media-query(palm) { display: none!important; };
+    @include media-query(lap) { display: none!important; };
+}
 .espace-pro-nav {
     padding-left: 100px;
+    @include media-query(palm) { padding-left: 0; };
 }
     .espace-pro-wrapper {
         position: relative;
     }
         .espace-pro {
+            @include media-query(palm) { background-image: none; };
             background-image    : image-url('header/espace-pro.png');
             background-repeat   : no-repeat;
             background-position : center center;

@@ -1,7 +1,14 @@
 .main-container {
     max-width: $siteMaxWidth;
+    min-width: 1000px;
     margin   : auto;
     padding  : 1em 0;
+    @include media-query(lap) {
+        min-width: 0;
+    }
+    @include media-query(palm) {
+        min-width: 0;
+    }
     @media screen and (min-width: 1200px) {
         max-width: 1185px;
     }

@@ -22,6 +22,12 @@ $debug-mode:        false;
 $global-border-box: true;
 
 /**
+ * Would you like to use Adam Whitcroft’s Batch icon font, as per:
+ * adamwhitcroft.com/batch ?
+ */
+$batch:             false!default;
+
+/**
  * Base stuff
  */
 $base-font-size:    14px!default;
@@ -38,6 +44,19 @@ $brand-round:        4px!default;
  * Tell inuit.css when breakpoints start, in pixels.
  */
 $responsive:        true!default;
+$responsive-extra:  false!default;
+$flexible-media:    true!default;
+
+/**
+ * Responsive push and pull produce a LOT of code, only turn them on if you
+ * definitely need them.
+ */
+$responsive-push:   false!default;
+$responsive-pull:   false!default;
+
+/**
+ * Tell inuit.css when breakpoints start.
+ */
 $lap-start:         481px!default;
 $desk-start:        1024px!default;
 
@@ -61,9 +80,32 @@ $micro-size:        10px!default;
 
 
 /**
+ * English quote marks?
+ */
+$english-quotes:    true!default;
+
+/**
+ * If you want English quotes then please do not edit these; they’re only here
+ * because Sass needs them.
+ */
+$open-quote:    null;
+$close-quote:   null;
+
+/**
+ * If you need non-English quotes, please alter the following values accordingly:
+ */
+@if $english-quotes != true{
+    $open-quote:    «;
+    $close-quote:   »;
+}
+
+
+/**
  * Brand stuff
  */
-// See in Theme vars
+$brand-color:       #4a8ec2!default;
+$brand-face:        "Helvetica Neue", sans-serif!default;
+
 
 /**
  * inuit.css will work these next ones out for you.

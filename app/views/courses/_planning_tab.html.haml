@@ -8,7 +8,7 @@
       - if @course.is_workshop?
         = render 'workshop_schedule'
     .g.three-eighths
-      %h4.islet.proceed.no-bottom-margin= t('.infos')
+      %h4.islet.proceed.flush--bottom= t('.infos')
       %ul.block-list.alternate-color.milli
         %li.flexbox
           %label.flexbox__item= Level.model_name.human
