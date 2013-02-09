@@ -6,11 +6,14 @@
         width           : auto;
         color           : $grayLight;
         padding-bottom  : 5px;
+        border-bottom   : none;
         @include border-radius($brand-round);
         @include border-top-left-radius(0);
         @include background-image(none);
         &, .town-chooser {
+            background-color: black;
             background-color: transparentize($black, 0.3);
+            border-color    : black;
             border-color    : transparentize($black, 0.25);
         }
         > div.search-input-wrapper {
@@ -52,9 +55,8 @@
         }
     }
     input[type=text], input[type=search], input[type=date] {
-        //padding: 0.5em 1em;
-        padding   : 5px 1em;
-        min-height: 33px;
+        padding: 5px 1em;
+        height : 35px;
         @extend .milli;
         @include box-sizing(border-box);
     }
@@ -68,7 +70,7 @@
         border          : 1px solid $beigeDarker;
         border-bottom   : none;
         @include media-query(palm) {
-            top: -4em; // Because of the margin of the child divs
+            top: -4.1em; // Because of the margin of the child divs
         }
         @include box-sizing(content-box);
         @include border-top-radius($brand-round);
@@ -79,6 +81,7 @@
         margin-bottom   : 0.5em;
     }
     .search-input-wrapper {
+        min-width    : 20em;
         width        : 29%;
         padding-left : 0;
         padding-right: 0;

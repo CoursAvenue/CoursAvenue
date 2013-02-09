@@ -2,34 +2,47 @@
     background-color: #efeff1;
     padding         : 0;
     border-bottom   : 1px solid darken($beigeDark, 10%);
+    overflow        : hidden;
+    &, .main-container {
+        line-height: 60px;
+        height     : 60px;
+    }
     @include background-image(linear-gradient(top, $beige, darken($beigeDark, 7%)));
     @include font-size(12px);
     .nav {
         margin-bottom: 0;
         margin-left  : 1em;
     }
-    .logo img {
-        max-height    : 3.5em;
-        vertical-align: middle;
+    .logo {
+        height: 40px;
+        width : 200px;
+        img {
+            width         : 100%;
+        }
     }
 }
 
 a.header-link {
     color       : $grayLight;
-    font-weight: bold;
+    font-weight : bold;
+    font-size   : 0.9em;
+    margin-left : 0.5em;
 }
 
-.espace-pro-wrapper {
-    position: relative;
+.espace-pro-nav {
+    padding-left: 100px;
 }
-.espace-pro {
-    background-image    : image-url('header/espace-pro.png');
-    background-repeat   : no-repeat;
-    background-position : center center;
-    background-size     : 100%;
-    position            : absolute;
-    top                 : -10px;
-    left                : -90px;
-    width               : 75px;
-    height              : 40px;
-}
+    .espace-pro-wrapper {
+        position: relative;
+    }
+        .espace-pro {
+            background-image    : image-url('header/espace-pro.png');
+            background-repeat   : no-repeat;
+            background-position : center center;
+            background-size     : 100%;
+            position            : absolute;
+            top                 : 3px;
+            left                : -90px;
+            width               : 75px;
+            height              : 40px;
+        }

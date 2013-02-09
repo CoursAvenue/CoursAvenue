@@ -9,13 +9,13 @@
 
 .ilb-wrapper {
     font-size: 0;
-    > label, > h2, > i, > p, > div, > ul, > span, > a, > img {
+    > nav, > label, > h2, > i, > p, > div, > ul, > span, > a, > img {
         font-size     : $base-font-size;
         display       : inline-block;
         vertical-align: top;
     }
     &.align-middle {
-        > p, > div, > ul, > span, > a, > img {
+        > nav, > label, > h2, > i, > p, > div, > ul, > span, > a, > img {
             vertical-align: middle;
         }
     }

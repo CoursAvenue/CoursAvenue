@@ -62,7 +62,13 @@
 
 .course-block-wrapper {
     margin-bottom: 1em;
+    padding      : 0 5px;
 }
+    .course-block-image {
+        img {
+            max-width: 100%;
+        }
+    }
     .course-block:after {
         position            : absolute;
         bottom              : -1em;
@@ -77,11 +83,11 @@
     }
     .course-block {
         @include box-shadow(0 -1px 3px $grayLighter);
-        @include box-sizing(border-box);
         position        : relative;
         display         : inline-block;
         margin          : 0 1em 1em 0;
         padding         : 0.5em;
+        width           : 100%;
         background-color: white;
         &:hover {
             text-decoration: none;

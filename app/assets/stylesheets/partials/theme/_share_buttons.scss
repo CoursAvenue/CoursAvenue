@@ -1,14 +1,15 @@
-.twitter-button {
-    iframe {
-        margin-top: 3px;
-    }
-}
-
-.facebook-button {
-    text-align: left;
-}
-
 .share-wrapper {
     background: $beigeDark;
     font-size : 10px;
+    overflow  : hidden;
 }
+    .twitter-button {
+        iframe {
+            margin-top: 3px;
+        }
+    }
+
+    .facebook-button {
+        text-align: left;
+    }
+

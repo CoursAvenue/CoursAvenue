@@ -2,8 +2,8 @@
     position    : absolute;
     top         : 0;
     left        : 50%;
-    width       : 20em;
-    margin-left : -10em;
+    width       : 40em;
+    margin-left : -20em;
     text-align  : center;
     color       : white;
     padding     : 0.5em 1em;
@@ -11,11 +11,11 @@
     border      : 1px solid black;
     @include border-bottom-radius($brand-round);
     &.notice {
-        background-color: $blueGreen;
-        border-color    : darken($blueGreen, 10%);
+        background-color: $greenSuccess;
+        border-color    : darken($greenSuccess, 5%);
     }
     &.error {
-        background-color: lighten($redLight, 10%);
-        border-color    : $redLight;
+        background-color: $red;
+        border-color    : darken($red, 5%);
     }
 }

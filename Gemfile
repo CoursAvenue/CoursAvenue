@@ -16,7 +16,6 @@ gem 'rails', '3.2.11'
   gem 'mootools-rails'          , '~> 1.0.1'
   gem 'compass-rails'           , '~> 1.0.3'
   gem 'compass-inuit'           , '~> 4.3.6'
-  gem 'modernizr-rails'         , '~> 2.6.1'
   gem 'js-routes'               , '~> 0.8.6'
 # end
 

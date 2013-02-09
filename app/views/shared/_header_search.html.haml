@@ -1,4 +1,4 @@
-- params[:city]       ||= 'paris'
+- params[:city]       ||= @city.slug
 - params[:start_date] ||= l(Date.today)
 - params[:end_date]   ||= l(Date.today + 6.months)
 
@@ -35,8 +35,11 @@
 
   %div
     Du
+  %div
     %input{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
+  %div
     au
+  %div
     %input{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker'}}
 
   %div.button-wrapper

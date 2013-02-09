@@ -14,6 +14,12 @@
     .nav li {
         margin-right: 3em;
     }
+    .column-links {
+        padding-left: 10px;
+    }
+    .footer-link {
+        font-size: 12px;
+    }
     @include media-query(palm) {
         .nav {
             text-align: center;

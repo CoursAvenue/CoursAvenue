@@ -1,11 +1,11 @@
 %header.header
-  .main-container.flexbox
+  .main-container.ilb-wrapper.align-middle
     %h1.accessibility
       LeBonCours
-    = link_to root_path, class: 'flexbox__item logo' do
+    = link_to root_path, class: 'logo' do
       = image_tag 'logo.png', width: 200
 
-    %nav.flexbox__item.text-center
+    %nav.text-center.espace-pro-nav
       %ul.nav
         %li.espace-pro-wrapper
           .espace-pro
@@ -14,8 +14,8 @@
           = link_to 'Louer mes espaces', 'mailto:referencement@leboncours.com?subject=Location de mes espaces', class: 'btn'
         %li
           = link_to 'Trouver une salle pour mes cours ?', 'mailto:referencement@leboncours.com?subject=Recherche de salle à louer', class: 'btn'
-    %nav.flexbox__item
-      %ul.nav.nav--fit
+    %nav.fr
+      %ul.nav
         %li
           = link_to 'Blog', 'http://www.facebook.com/Leboncours', class: 'header-link'
         %li

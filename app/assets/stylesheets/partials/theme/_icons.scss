@@ -1,20 +1,30 @@
+// @mixins background-icon($path) {
+//     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{$path}', sizingMethod='scale');
+//     -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{$path}',sizingMethod='scale')";
+// }
+
 .lbc-icon-calendar, .lbc-icon-clock, .lbc-brand-icon {
     display          : inline-block;
-    background-size  : 100%;
+    background-size  : 14px;
     background-repeat: no-repeat;
     width            : 14px;
     height           : 14px;
     vertical-align   : middle;
     position         : relative;
     top              : -1px;
+    @include background-size(100%);
 }
 
 .lbc-icon-calendar {
-    background-image : image-url('icons/calendar.png');
     height           : 16px;
+    background-image : image-url('icons/calendar.png');
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=image-url('icons/calendar.png'), sizingMethod='scale');
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-url('icons/calendar.png')}',sizingMethod='scale')";
 }
 .lbc-icon-clock {
     background-image : image-url('icons/clock.png');
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src=image-url('icons/clock.png'), sizingMethod='scale');
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-url('icons/clock.png')}',sizingMethod='scale')";
 }
 
 .lbc-icon-info {
@@ -26,7 +36,7 @@
 
 .lbc-brand-icon {
     cursor           : pointer;
-    background-image : image-url('icons/bulle.png');
     height           : 16px;
     width            : 16px;
+    background-image : image-url('icons/bulle.png');
 }

@@ -1,5 +1,5 @@
 !!!
-%html{lang: 'fr' }
+%html.no-js{lang: 'fr' }
   %head
     - if (yield :title).empty?
       - if @city
@@ -22,11 +22,11 @@
     %meta{property: "og:site_name", content: "LeBonCours"}
     %meta{property: "fb:admins", content: "100000023494269"}
 
-    = javascript_include_tag "modernizr" # MUST BE In the Head and after CSS
     = yield :head
 
     = favicon_link_tag 'favicon.png'
     = stylesheet_link_tag "application", :media => "all"
+    = javascript_include_tag "modernizr" # MUST BE In the Head and after CSS
     = csrf_meta_tags
   %body
     - flash.each do |key, msg|
