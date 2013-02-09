@@ -71,7 +71,7 @@
                   = image_tag course.image.url(:thumb), class: 'similar-course--image'
                 - else
                   = image_tag course.subjects.first.image.url(:thumb), class: 'similar-course--image'
-              .flexbox__item
+              .flexbox__item.similar-course
                 %h2.similar-course--course-name= course.name
                 %h3.similar-course--structure-name
                   %i.icon-map-marker

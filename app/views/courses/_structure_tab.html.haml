@@ -23,7 +23,7 @@
     - if @structure.info
       %li
         = t('.other_info')
-        = @structure.info
+        = @structure.info.html_safe
     - if @structure.has_handicap_access
       %li= Structure.human_attribute_name(:has_handicap_access)
     - unless @structure.has_registration_form.blank?

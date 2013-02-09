@@ -13,7 +13,9 @@
         %td= training_dates planning
         %td.text-center= "#{pluralize(planning.length, 'jour')}"
         %td.text-center= planning.nb_place_available || '-'
-        %td.text-center= readable_promotion planning
+        %td.text-center
+          - if planning.promotion
+            .promo-marker= readable_promotion planning
         %td.text-center
           - planning_info = day_by_day_schedule planning
           - if planning.info.present?

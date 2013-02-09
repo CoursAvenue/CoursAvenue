@@ -44,7 +44,7 @@ module PlanningsHelper
     if start_date == end_date
       "Le #{I18n.l(start_date, format: :semi_short)}"
     else
-      "Du #{I18n.l(start_date, format: :semi_short)} au #{I18n.l(end_date, format: :semi_short)}"
+      "Du #{I18n.l(start_date, format: :semi_long)} au #{I18n.l(end_date, format: :semi_short)}"
     end
   end
 end

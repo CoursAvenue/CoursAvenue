@@ -19,7 +19,9 @@
         %td.text-center= readable_time_slot planning.start_time, planning.end_time
         %td.text-center= readable_duration planning.day_one_duration
         %td.text-center= planning.nb_place_available || '-'
-        %td.text-center= readable_promotion planning
+        %td.text-center
+          - if planning.promotion
+            .promo-marker= readable_promotion planning
         %td.text-center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
