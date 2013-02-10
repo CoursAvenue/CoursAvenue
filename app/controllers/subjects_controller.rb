@@ -85,32 +85,32 @@ class SubjectsController < ApplicationController
     level_ids = []
     if params[:levels].present?
       level_ids = params[:levels].map(&:to_i)
-      if !level_ids.include? Level.all_levels.id
-        level_ids << Level.intermediate.id if level_ids.include? Level.average.id
-        level_ids << Level.confirmed.id    if level_ids.include? Level.advanced.id
-      end
+      #unless level_ids.include? Level.all_levels.id
+      level_ids << Level.intermediate.id if level_ids.include? Level.average.id
+      level_ids << Level.confirmed.id    if level_ids.include? Level.advanced.id
+      #end
     end
     @search = Sunspot.search(Course) do
-      fulltext            params[:name]                         if params[:name].present?
-      with :city,         params[:city_id]
-      with(:type).any_of  params[:types]                        if params[:types].present?
-      with :audience_ids, params[:audiences]                    if params[:audiences].present?
-      with :level_ids,    level_ids                             unless level_ids.empty?
-      with :week_days,    params[:week_days]                    if params[:week_days].present?
+      fulltext                              params[:name]                       if params[:name].present?
+      with :city,                           params[:city_id]
+      with(:type).any_of                    params[:types]                      if params[:types].present?
+      with(:audience_ids).any_of            params[:audiences]                  if params[:audiences].present?
+      with(:level_ids).any_of               level_ids                           unless level_ids.empty?
+      with :week_days,                      params[:week_days]                  if params[:week_days].present?
 
-      with(:min_age_for_kids).less_than                         if params[:age].present? and params[:age][:max].present?
-      with(:max_age_for_kids).greater_than                      if params[:age].present? and params[:age][:min].present?
+      with(:min_age_for_kid).less_than      params[:age][:max]                  if params[:age].present? and params[:age][:max].present?
+      with(:max_age_for_kid).greater_than   params[:age][:min]                  if params[:age].present? and params[:age][:min].present?
 
-      with(:end_date).greater_than params[:start_date]          if params[:start_date].present?
-      with(:start_date).less_than params[:end_date]             if params[:end_date].present?
+      with(:end_date).greater_than          params[:start_date]                 if params[:start_date].present?
+      with(:start_date).less_than           params[:end_date]                   if params[:end_date].present?
 
-      with(:start_time).greater_than params[:time_range][:min]  if params[:time_range].present? and params[:time_range][:min].present?
-      with(:end_time).less_thanparams[:time_range][:max]        if params[:time_range].present? and params[:time_range][:max].present?
+      with(:start_time).greater_than        params[:time_range][:min]           if params[:time_range].present? and params[:time_range][:min].present?
+      with(:end_time).less_than             params[:time_range][:max]           if params[:time_range].present? and params[:time_range][:max].present?
 
-      with :time_slots, params[:time_slots]                     if params[:time_slots].present?
+      with(:time_slots).any_of              params[:time_slots]                 if params[:time_slots].present?
 
-      with :min_price, params[:price_range][:min]               if params[:price_range].present? and params[:price_range][:min].present?
-      with :min_price, params[:price_range][:max]               if params[:price_range].present? and params[:price_range][:max].present?
+      with(:min_price).greater_than         params[:price_range][:min].to_i     if params[:price_range].present? and params[:price_range][:min].present?
+      with(:max_price).less_than            params[:price_range][:max].to_i     if params[:price_range].present? and params[:price_range][:max].present?
 
       paginate :page => (params[:page] || 1), :per_page => 15
     end
