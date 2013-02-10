@@ -13,7 +13,7 @@
       %tr{data: {'course-id' => planning.course_id}}
         %td
           - if planning.day_one
-            = l planning.day_one
+            = l(planning.day_one, format: :semi_long).capitalize
           - else
             = week_day_for planning
         %td.text--center= readable_time_slot planning.start_time, planning.end_time
