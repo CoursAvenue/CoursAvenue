@@ -1,0 +1,42 @@
+body:{ font-family:Verdana, Arial, Helvetica, sans-serif;}
+.clearfix {clear:both;}
+.floatl {float:left;} .floatr {float:right;} .inline{display:inline;}
+.fontbold{font-weight:bold;}  .fontwhite {color:#ffffff !important;} .fontblack {color:#333333 !important;} .fontgreen {color:#1ABE07 !important;} .fontblue {color:#0198D1 !important;} .fontgrey {color:#9d9d9d !important;} .fontred {color:#A30004 !important;}
+
+/* Slider Style */
+
+.slider_outer{margin: 10px; border:1px solid #e6e6e6; padding:5px;}
+.slider_gutter {float: left;width: 100%;display: block;position: relative; }
+.slider_gutter_item{position: relative;	float: left; left: 100%;}
+#slider_minmax_gutter_l, .slider_gutter_l{width: 10px;margin-left:-100%; height:20px;background:url(../images/slider_l.gif) no-repeat; }
+#slider_minmax_gutter_m{width: 360px;margin-left:-370px;	height:20px; background:url(../images/slider_rptr.gif) repeat-x;}
+#slider_minmax_gutter_r,.slider_gutter_r{width: 10px;margin-left:-15px;height:20px; 	background:url(../images/slider_r.gif) no-repeat; border:1px }
+#minmax_slider{ width:380px; margin:0px 10px;}
+
+.slider_gutter{width:150px; margin:10px 0px 0px 0px; }
+.slider_gutter_m{width:140px;margin-left:-150px;	height:20px; background:url(../images/slider_rptr.gif) repeat-x;}
+
+/*.slider_gutter_bkg{ position: absolute; background:url(../images/bkg_slider.gif) repeat-x; height:8px; margin:6px 0px 0px -10px; width:374px; clip:rect(0, 20px, 0, 20px)}
+*/
+.knob {	position: absolute;	height: 20px;width: 20px;background: url(../images/slider_knob.gif) no-repeat;cursor: pointer;}
+
+/* For Clip */
+
+#slider_bkg_img{position: absolute; height:8px; margin:6px 0px 0px -10px; width:374px;}
+#slider_bkg_img_1{position: absolute; height:8px; margin:6px 0px 0px 0px; width:200px;}
+
+
+
+/* for Slider C */
+.slide_container .slider {float:left; display: block;position: relative; }
+.slide_container #slider_C{width:270px; margin:0px 0px 0px 10px; border:0px solid red; }
+.slide_container  .slider_gutter_C{width:250px;margin-left:-260px;	height:20px; background:url(../images/slider_rptr.gif) repeat-x;}
+.slide_container  #slider_bkg_img_C{position: absolute; height:8px; margin:6px 0px 0px 0px; width:430px;}
+.slide_container  .slider_gutter_r{width: 10px;margin-left:-10px;height:20px; 	background:url(../images/slider_r.gif) no-repeat; border:1px }
+
+
+
+
+
+
+

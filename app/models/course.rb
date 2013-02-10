@@ -27,7 +27,6 @@ class Course < ActiveRecord::Base
   validates :structure  , presence: true
   # validates :subjects, presence: true
 
-  # ------------------------------------------------------------------------------------ Callbacks
 
   attr_accessible :name,
                   :has_online_payment,
@@ -48,32 +47,65 @@ class Course < ActiveRecord::Base
                   :refund_condition,
                   :can_be_joined_during_year,
                   :subject_ids
+  # ------------------------------------------------------------------------------------ Search methods
+  searchable do
+    text    :name, :boost => 5
+    string  :type do
+      case type
+      when 'Course::Lesson'
+        'lesson'
+      when 'Course::Training'
+        'training'
+      when 'Course::Workshop'
+        'workshop'
+      end
+    end
+
+    integer :city do
+      city.slug
+    end
+
+    text :structure_name do
+      structure.name
+    end
+
+    text :subjects do
+      subjects.map(&:name).join(' ')
+    end
+
+    integer :audience_ids, :multiple => true
+    integer :level_ids   , :multiple => true
+
+    string :week_days, :multiple => true do
+      plannings.map(&:week_day).compact
+    end
+  end
 
   # ------------------------------------------------------------------------------------ Self methods
 
-  def self.from_city(city, scope = Course)
-    city_id = City.find(city).id
-    scope.joins{structure}.where{structure.city_id == city_id}
-  end
+  # def self.from_city(city, scope = Course)
+  #   city_id = City.find(city).id
+  #   scope.joins{structure}.where{structure.city_id == city_id}
+  # end
 
-  def self.name_subjects_and_structure_name_contains(name_string, scope)
-    name_string    = '%' + name_string + '%'
-    subject_models = Subject.where{name =~ name_string}
-    if subject_models.size == 1 and subject_models.first.is_root?
-      subject_ids = subject_models.first.children.map(&:id)
-    else
-      subject_ids = Subject.where{name =~ name_string}.map(&:id)
-    end
-    scope.joins{subjects}.joins{structure}.where{(name =~ name_string) | (structure.name =~ name_string) | (subjects.id.eq_any subject_ids)}
-  end
+  # def self.name_subjects_and_structure_name_contains(name_string, scope)
+  #   name_string    = '%' + name_string + '%'
+  #   subject_models = Subject.where{name =~ name_string}
+  #   if subject_models.size == 1 and subject_models.first.is_root?
+  #     subject_ids = subject_models.first.children.map(&:id)
+  #   else
+  #     subject_ids = Subject.where{name =~ name_string}.map(&:id)
+  #   end
+  #   scope.joins{subjects}.joins{structure}.where{(name =~ name_string) | (structure.name =~ name_string) | (subjects.id.eq_any subject_ids)}
+  # end
 
-  def self.is_of_type(types_array, scope)
-    types = []
-    types << 'Course::Lesson'   if types_array.include? 'lesson'
-    types << 'Course::Training' if types_array.include? 'training'
-    types << 'Course::Workshop' if types_array.include? 'workshop'
-    scope.where{type.eq_any types}
-  end
+  # def self.is_of_type(types_array, scope)
+  #   types = []
+  #   types << 'Course::Lesson'   if types_array.include? 'lesson'
+  #   types << 'Course::Training' if types_array.include? 'training'
+  #   types << 'Course::Workshop' if types_array.include? 'workshop'
+  #   scope.where{type.eq_any types}
+  # end
 
   def self.has_price_specificities(price_specificities, scope)
     return scope if price_specificities.length == 3 # Doesn't search if all options are checked
@@ -99,9 +131,9 @@ class Course < ActiveRecord::Base
     scope
   end
 
-  def self.is_for_audience(audience_ids, scope)
-    scope.joins{audiences}.where{audiences.id.eq_any audience_ids.map(&:to_i)}
-  end
+  # def self.is_for_audience(audience_ids, scope)
+  #   scope.joins{audiences}.where{audiences.id.eq_any audience_ids.map(&:to_i)}
+  # end
 
   def self.is_for_ages(age, scope)
     if age[:min].blank? and age[:max].blank?
@@ -117,9 +149,9 @@ class Course < ActiveRecord::Base
     end
   end
 
-  def self.is_for_level(level_ids, scope)
-    scope.joins{levels}.where{levels.id.eq_any level_ids}
-  end
+  # def self.is_for_level(level_ids, scope)
+  #   scope.joins{levels}.where{levels.id.eq_any level_ids}
+  # end
 
   def self.that_happens(week_day_indexes, scope)
     scope.joins{plannings}.where{(type == 'Course::Training') | ((type == 'Course::Lesson') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i))) | ((type == 'Course::Workshop') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i)))}
