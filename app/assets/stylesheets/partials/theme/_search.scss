@@ -70,13 +70,13 @@
     .town-chooser {
         position        : absolute;
         left            : 0;//-1px; // Because of the border on header-search-bar
-        top             : -3em;
+        top             : -44px;
         height          : 2em;
         font-size       : 1.2em;
         border          : 1px solid $beigeDarker;
         border-bottom   : none;
         @include media-query(palm) {
-            top        : -3em; // Because of the margin of the child divs
+            top        : -44px; // Because of the margin of the child divs
             left       : 50%;
             width      : 8em;
             text-align : center;
