@@ -114,6 +114,16 @@ class SubjectsController < ApplicationController
 
       with(:zip_code).any_of                params[:zip_codes]                  if params[:zip_codes].present?
 
+      order_by :has_promotion, :desc
+      order_by :is_promoted, :desc
+      order_by :has_online_payment, :desc
+      case params[:sort]
+      # min promotion because promotions are negative
+      when 'price_asc'
+        order_by :min_price, :asc
+      when 'price_desc'
+        order_by :min_price, :desc
+      end
       paginate :page => (params[:page] || 1), :per_page => 15
     end
     @courses = @search.results

@@ -14,7 +14,7 @@
         .spoken-form
           %label Trier par :
           %select#filter-select{name: 'sort'}
-            %option{value: 'date', selected: (params[:sort] == 'date') } Date
+            %option{value: 'relevancy', selected: (params[:sort] == 'relevancy') } Pertinance
             %option{value: 'price_asc', selected: (params[:sort] == 'price_asc') } Prix : du plus bas au plus élevé
             %option{value: 'price_desc', selected: (params[:sort] == 'price_desc')} Prix : du plus élevé au plus bas
       .flexbox__item.hide--palm

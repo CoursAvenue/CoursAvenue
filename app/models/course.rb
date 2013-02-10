@@ -118,22 +118,19 @@ class Course < ActiveRecord::Base
     integer :min_price
     integer :max_price
 
+    boolean :is_promoted
+    boolean :has_online_payment
+    boolean :has_promotion do
+      plannings.order('promotion ASC').first.promotion != nil
+    end
   end
 
   def min_price
-    _price = 9999999
-    prices.each do |price|
-      _price = price.amount.to_i if !price.amount.nil? and price.amount < _price
-    end
-    _price
+    Course.last.prices.order('amount DESC').first.amount
   end
 
   def max_price
-    _price = 0
-    prices.each do |price|
-      _price = price.amount.to_i if !price.amount.nil? and price.amount > _price
-    end
-    _price
+    Course.last.prices.order('amount ASC').first.amount
   end
 
   def self.in_these_time_slots(values, scope)
