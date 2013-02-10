@@ -123,26 +123,30 @@ class Course < ActiveRecord::Base
     boolean :has_promotion do
       plannings.order('promotion ASC').first.promotion != nil
     end
+
+    boolean :has_package_price
+    boolean :has_trial_lesson
+    boolean :has_unit_course_price
+  end
+
+  def has_package_price
+    return prices.where{libelle.eq_any ['prices.annual', 'prices.semester', 'prices.trimester', 'prices.month', 'prices.two_lesson_per_week_package']}.any?
+  end
+
+  def has_trial_lesson
+    return prices.where(libelle: 'prices.trial_lesson').any?
+  end
+
+  def has_unit_course_price
+    return (book_tickets.any? or prices.where(libelle: 'prices.individual_course').any?)
   end
 
   def min_price
-    Course.last.prices.order('amount DESC').first.amount
+    prices.map(&:amount).compact.sort.first
   end
 
   def max_price
-    Course.last.prices.order('amount ASC').first.amount
-  end
-
-  def self.in_these_time_slots(values, scope)
-    time_slots = []
-    values.each do |slot|
-      start_time = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:start_time]
-      end_time   = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:end_time]
-      time_slots << [start_time, end_time]
-    end
-    scope.joins{plannings}.where do
-      time_slots.map { |start_time, end_time| ((plannings.start_time >= start_time) & (plannings.start_time <= end_time)) }.reduce(&:|)
-    end
+    prices.map(&:amount).compact.sort.last
   end
 
   def time_slots
@@ -187,29 +191,28 @@ class Course < ActiveRecord::Base
   #   scope.where{type.eq_any types}
   # end
 
-  def self.has_price_specificities(price_specificities, scope)
-    return scope if price_specificities.length == 3 # Doesn't search if all options are checked
-    scope = scope.joins{book_tickets.outer}.joins{prices}.where do
-      query = nil
-      price_specificities.each_with_index do |price_specificity|
-        case price_specificity
-        when 'has_package_price'
-          if query
-            query |= (prices.libelle.eq_any ['prices.annual', 'prices.semester', 'prices.trimester', 'prices.month', 'prices.two_lesson_per_week_package'])
-          else
-            query =  (prices.libelle.eq_any ['prices.annual', 'prices.semester', 'prices.trimester', 'prices.month', 'prices.two_lesson_per_week_package'])
-          end
-        when 'has_test_course'
-          if query then query |= (prices.libelle.eq 'prices.trial_lesson') else query = (prices.libelle.eq 'prices.trial_lesson') end
-        when 'has_unit_course_price'
-          if query then query |= (prices.libelle.eq 'prices.individual_course') else query = (prices.libelle.eq 'prices.individual_course') end
-        end
-      end
-      query
-    end
-
-    scope
-  end
+  # def self.has_price_specificities(price_specificities, scope)
+  #   return scope if price_specificities.length == 3 # Doesn't search if all options are checked
+  #   scope = scope.joins{book_tickets.outer}.joins{prices}.where do
+  #     query = nil
+  #     price_specificities.each_with_index do |price_specificity|
+  #       case price_specificity
+  #       when 'has_package_price'
+  #         if query
+  #           query |= (prices.libelle.eq_any ['prices.annual', 'prices.semester', 'prices.trimester', 'prices.month', 'prices.two_lesson_per_week_package'])
+  #         else
+  #           query =  (prices.libelle.eq_any ['prices.annual', 'prices.semester', 'prices.trimester', 'prices.month', 'prices.two_lesson_per_week_package'])
+  #         end
+  #       when 'has_trial_lesson'
+  #         if query then query |= (prices.libelle.eq 'prices.trial_lesson') else query = (prices.libelle.eq 'prices.trial_lesson') end
+  #       when 'has_unit_course_price'
+  #         if query then query |= (prices.libelle.eq 'prices.individual_course') else query = (prices.libelle.eq 'prices.individual_course') end
+  #       end
+  #     end
+  #     query
+  #   end
+  #   scope
+  # end
 
   # def self.is_for_audience(audience_ids, scope)
   #   scope.joins{audiences}.where{audiences.id.eq_any audience_ids.map(&:to_i)}
