@@ -35,11 +35,13 @@
         - @similar_courses.each do |course|
           %li
             = link_to city_course_path(@city, course), class: 'flexbox' do
-              .flexbox__item.one-fifth
+              .flexbox__item.one-fifth.similar-course--image
+                - unless course.promotion_planning.nil?
+                  .milli.course-promo.price-badge= readable_promotion course.promotion_planning
                 - if course.image.present?
-                  = image_tag course.image.url(:thumb), class: 'similar-course--image'
+                  = image_tag course.image.url(:thumb)
                 - else
-                  = image_tag course.subjects.first.image.url(:thumb), class: 'similar-course--image'
+                  = image_tag course.subjects.first.image.url(:thumb)
               .flexbox__item.similar-course
                 %h2.similar-course--course-name= course.name
                 %h3.similar-course--structure-name
