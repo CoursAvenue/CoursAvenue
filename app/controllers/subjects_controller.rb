@@ -112,6 +112,8 @@ class SubjectsController < ApplicationController
       with(:min_price).greater_than         params[:price_range][:min].to_i     if params[:price_range].present? and params[:price_range][:min].present?
       with(:max_price).less_than            params[:price_range][:max].to_i     if params[:price_range].present? and params[:price_range][:max].present?
 
+      with(:zip_code).any_of                params[:zip_codes]                  if params[:zip_codes].present?
+
       paginate :page => (params[:page] || 1), :per_page => 15
     end
     @courses = @search.results
@@ -152,21 +154,22 @@ class SubjectsController < ApplicationController
       # when 'time_slots'
       #   @courses = @courses.in_these_time_slots(value, @courses)
 
-      when 'zip_codes'
-        @courses = @courses.joins{structure}.where do
-          value.map{ |zip_code| structure.zip_code == zip_code }.reduce(&:|)
-        end
+      # when 'zip_codes'
+      #   @courses = @courses.joins{structure}.where do
+      #     value.map{ |zip_code| structure.zip_code == zip_code }.reduce(&:|)
+      #   end
 
-      when 'start_date'
-        @courses = @courses.joins{plannings}.where{plannings.end_date >= Date.parse(value)}
-      when 'end_date'
-        @courses = @courses.joins{plannings}.where{plannings.start_date <= Date.parse(value)}
+      # when 'start_date'
+      #   @courses = @courses.joins{plannings}.where{plannings.end_date >= Date.parse(value)}
+      # when 'end_date'
+      #   @courses = @courses.joins{plannings}.where{plannings.start_date <= Date.parse(value)}
 
-      when 'time_range'
-        @courses = @courses.in_time_range(value[:min], value[:max], @courses)
+      # when 'time_range'
+      #   @courses = @courses.in_time_range(value[:min], value[:max], @courses)
 
-      when 'price_range'
-        @courses = @courses.in_price_range(value[:min], value[:max], @courses)
+      # when 'price_range'
+      #   @courses = @courses.in_price_range(value[:min], value[:max], @courses)
+      # end
       end
     end
   end

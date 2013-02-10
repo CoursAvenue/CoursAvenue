@@ -49,13 +49,22 @@ class Course < ActiveRecord::Base
                   :subject_ids
   # ------------------------------------------------------------------------------------ Search methods
   searchable do
-    text    :name, :boost => 5
+    text :name, :boost => 2
     text :structure_name do
       structure.name
     end
 
+    text :teachers do
+      plannings.map(&:teacher_name).uniq.compact
+    end
+
     text :subjects do
-      subjects.map(&:name).join(' ')
+      subject_array = []
+      subjects.each do |subject|
+        subject_array << subject
+        subject_array << subject.parent
+      end
+      subject_array.uniq.map(&:name)
     end
     string  :type do
       case type
@@ -98,10 +107,14 @@ class Course < ActiveRecord::Base
     date :start_date, multiple: true do
       plannings.map(&:start_date).uniq.compact
     end
+
     date :end_date, multiple: true do
       plannings.map(&:end_date).uniq.compact
     end
 
+    integer :zip_code do
+      structure.zip_code
+    end
     integer :min_price
     integer :max_price
 
