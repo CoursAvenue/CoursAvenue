@@ -3,9 +3,10 @@ class SubjectsController < ApplicationController
   before_filter :prepare_search
 
   def index
-    @courses   = @city.courses
-    search
-    paginate
+    # @courses   = @city.courses
+    # search
+    # paginate
+    search_solr
     init_geoloc
 
     respond_to do |format|
@@ -78,6 +79,18 @@ class SubjectsController < ApplicationController
                     {name: 'level.average_intermediate', id: Level.intermediate.id},
                     {name: 'level.advanced_confirmed', id: Level.advanced.id},
                   ]
+  end
+
+  def search_solr
+    @courses = Sunspot.search(Course) do
+      fulltext            params[:name]
+      with :city,         params[:city]
+      with :audience_ids, params[:audiences]      if params[:audiences].present?
+      with :level_ids,    params[:audiences]      if params[:levels].present?
+      with :week_days,    params[:week_days]      if params[:week_days]
+
+      paginate :page => params[:page], :per_page => 15
+    end.results
   end
 
   def search

@@ -36,6 +36,9 @@ gem 'inherited_resources'       , '~> 1.3.1'
 
 gem 'activeadmin'               , '~> 0.5.1'
 
+gem 'sunspot_rails'
+gem 'sunspot_solr'
+
 group :production do
   # gem 'therubyracer'
   # gem 'execjs'
@@ -62,4 +65,3 @@ end
 # Deploy with Capistrano
 # gem 'capistrano'
 
-# sunspot-rails
