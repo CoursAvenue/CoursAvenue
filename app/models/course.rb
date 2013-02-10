@@ -50,6 +50,13 @@ class Course < ActiveRecord::Base
   # ------------------------------------------------------------------------------------ Search methods
   searchable do
     text    :name, :boost => 5
+    text :structure_name do
+      structure.name
+    end
+
+    text :subjects do
+      subjects.map(&:name).join(' ')
+    end
     string  :type do
       case type
       when 'Course::Lesson'
@@ -61,25 +68,88 @@ class Course < ActiveRecord::Base
       end
     end
 
-    integer :city do
+    string :city do
       city.slug
     end
 
-    text :structure_name do
-      structure.name
+    integer :audience_ids, multiple: true
+    integer :level_ids   , multiple: true
+
+    string :week_days, multiple: true do
+      plannings.map(&:week_day).uniq.compact
     end
 
-    text :subjects do
-      subjects.map(&:name).join(' ')
+    integer :min_age_for_kid, multiple: true do
+      plannings.map(&:min_age_for_kid).uniq.compact
+    end
+    integer :max_age_for_kid, multiple: true do
+      plannings.map(&:max_age_for_kid).uniq.compact
     end
 
-    integer :audience_ids, :multiple => true
-    integer :level_ids   , :multiple => true
+    string :time_slots, multiple: true
 
-    string :week_days, :multiple => true do
-      plannings.map(&:week_day).compact
+    time :start_time, multiple: true do
+      plannings.map(&:start_time).uniq.compact
+    end
+    time :end_time, multiple: true do
+      plannings.map(&:end_time).uniq.compact
+    end
+
+    date :start_date, multiple: true do
+      plannings.map(&:start_date).uniq.compact
+    end
+    date :end_date, multiple: true do
+      plannings.map(&:end_date).uniq.compact
+    end
+
+    integer :min_price
+    integer :max_price
+
+  end
+
+  def min_price
+    _price = 9999999
+    prices.each do |price|
+      _price = price.amount.to_i if !price.amount.nil? and price.amount < _price
+    end
+    _price
+  end
+
+  def max_price
+    _price = 0
+    prices.each do |price|
+      _price = price.amount.to_i if !price.amount.nil? and price.amount > _price
+    end
+    _price
+  end
+
+  def self.in_these_time_slots(values, scope)
+    time_slots = []
+    values.each do |slot|
+      start_time = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:start_time]
+      end_time   = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:end_time]
+      time_slots << [start_time, end_time]
+    end
+    scope.joins{plannings}.where do
+      time_slots.map { |start_time, end_time| ((plannings.start_time >= start_time) & (plannings.start_time <= end_time)) }.reduce(&:|)
     end
   end
+
+  def time_slots
+    time_slots = []
+    plannings.each do |planning|
+      if planning.start_time and planning.end_time
+        LeBonCours::Application::TIME_SLOTS.each do |time_slot_name, time_slot|
+          if (planning.start_time >= TimeParser.parse_time_string(time_slot[:start_time])) & (planning.start_time <= TimeParser.parse_time_string(time_slot[:end_time]))
+            time_slots << time_slot_name.to_s
+          end
+        end
+      end
+    end
+    time_slots.uniq
+  end
+
+
 
   # ------------------------------------------------------------------------------------ Self methods
 
@@ -135,62 +205,62 @@ class Course < ActiveRecord::Base
   #   scope.joins{audiences}.where{audiences.id.eq_any audience_ids.map(&:to_i)}
   # end
 
-  def self.is_for_ages(age, scope)
-    if age[:min].blank? and age[:max].blank?
-      scope
-    else
-      age[:min] = 0  if age[:min].blank?
-      age[:max] = 18 if age[:max].blank?
-      if age[:min].to_i > 18
-        scope
-      else
-        scope.joins{plannings}.where{(plannings.min_age_for_kid < age[:max]) & (plannings.max_age_for_kid > age[:min])}
-      end
-    end
-  end
+  # def self.is_for_ages(age, scope)
+  #   if age[:min].blank? and age[:max].blank?
+  #     scope
+  #   else
+  #     age[:min] = 0  if age[:min].blank?
+  #     age[:max] = 18 if age[:max].blank?
+  #     if age[:min].to_i > 18
+  #       scope
+  #     else
+  #       scope.joins{plannings}.where{(plannings.min_age_for_kid < age[:max]) & (plannings.max_age_for_kid > age[:min])}
+  #     end
+  #   end
+  # end
 
   # def self.is_for_level(level_ids, scope)
   #   scope.joins{levels}.where{levels.id.eq_any level_ids}
   # end
 
-  def self.that_happens(week_day_indexes, scope)
-    scope.joins{plannings}.where{(type == 'Course::Training') | ((type == 'Course::Lesson') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i))) | ((type == 'Course::Workshop') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i)))}
-  end
+  # def self.that_happens(week_day_indexes, scope)
+  #   scope.joins{plannings}.where{(type == 'Course::Training') | ((type == 'Course::Lesson') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i))) | ((type == 'Course::Workshop') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i)))}
+  # end
 
-  def self.in_these_time_slots(values, scope)
-    time_slots = []
-    values.each do |slot|
-      start_time = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:start_time]
-      end_time   = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:end_time]
-      time_slots << [start_time, end_time]
-    end
-    scope.joins{plannings}.where do
-      time_slots.map { |start_time, end_time| ((plannings.start_time >= start_time) & (plannings.start_time <= end_time)) }.reduce(&:|)
-    end
-  end
+  # def self.in_these_time_slots(values, scope)
+  #   time_slots = []
+  #   values.each do |slot|
+  #     start_time = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:start_time]
+  #     end_time   = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:end_time]
+  #     time_slots << [start_time, end_time]
+  #   end
+  #   scope.joins{plannings}.where do
+  #     time_slots.map { |start_time, end_time| ((plannings.start_time >= start_time) & (plannings.start_time <= end_time)) }.reduce(&:|)
+  #   end
+  # end
 
-  def self.in_time_range(start_time, end_time, scope)
-    if start_time.blank? and end_time.blank?
-      scope
-    else
-      start_time = TimeParser.parse_time_string( start_time.blank? ? '00:00' : start_time )
-      end_time   = TimeParser.parse_time_string( end_time.blank?   ? '23:59' : end_time )
+  # def self.in_time_range(start_time, end_time, scope)
+  #   if start_time.blank? and end_time.blank?
+  #     scope
+  #   else
+  #     start_time = TimeParser.parse_time_string( start_time.blank? ? '00:00' : start_time )
+  #     end_time   = TimeParser.parse_time_string( end_time.blank?   ? '23:59' : end_time )
 
-      scope.joins{plannings}.where{(plannings.start_time >= start_time) & (plannings.end_time <= end_time)}
-    end
-  end
+  #     scope.joins{plannings}.where{(plannings.start_time >= start_time) & (plannings.end_time <= end_time)}
+  #   end
+  # end
 
-  def self.in_price_range(min_price, max_price, scope)
-    if min_price.blank? and max_price.blank?
-      scope
-    else
-      min_price = 0     if min_price.blank? and !max_price.blank?
-      max_price = 10000 if max_price.blank? and !min_price.blank?
-      if !min_price.blank? and !max_price.blank? and max_price.to_i > 0
-        scope.joins{prices}.where{(prices.amount >= min_price.to_i) & (prices.amount <= max_price.to_f)}
-      end
-    end
-  end
+  # def self.in_price_range(min_price, max_price, scope)
+  #   if min_price.blank? and max_price.blank?
+  #     scope
+  #   else
+  #     min_price = 0     if min_price.blank? and !max_price.blank?
+  #     max_price = 10000 if max_price.blank? and !min_price.blank?
+  #     if !min_price.blank? and !max_price.blank? and max_price.to_i > 0
+  #       scope.joins{prices}.where{(prices.amount >= min_price.to_i) & (prices.amount <= max_price.to_f)}
+  #     end
+  #   end
+  # end
 
   # TODO: To be improved
   def similar_courses(limit = 5)
