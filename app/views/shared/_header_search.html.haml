@@ -36,13 +36,21 @@
   .hide--lap
     Du
   .hide--lap
-    %input{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
+    %input#start_date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
   .hide--lap
     au
   .hide--lap
-    %input{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker'}}
+    %input#end_date{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker'}}
 
   %div.button-wrapper
     %button.btn.btn__primary{type: 'submit', id: 'submit_search_form'}
       %i.icon-search
       Rechercher
+
+- content_for :scripts do
+  :javascript
+      window.addEvent('domready', function() {
+          $('start_date').addEvent('close', function() {
+              debugger
+          });
+      });

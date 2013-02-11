@@ -1,3 +1,5 @@
+- days = t('date.day_names').collect{|day| [day, t('date.day_names').index(day)] }.rotate
+
 %div{class: 'dropped-options', data: {behavior: 'dropped-options'}}
   .dropped-options-title{tabindex: '0'}
     %i.lbc-icon-calendar.dropped-options-icon
@@ -7,7 +9,7 @@
     %li
       = check_box_tag '', '', params[:week_days].empty?, id: "search_week_days_all", data: {value: 'all'}
       = label_tag "search_week_days_all", 'Tous les jours'
-    - t('date.day_names').each_with_index do |week_day, index|
+    - days.each do |week_day, index|
       %li
         = check_box_tag 'week_days[]', (index), params[:week_days].include?((index).to_s), id: "search_week_day_#{week_day}"
         = label_tag "search_week_day_#{week_day}", week_day.capitalize
