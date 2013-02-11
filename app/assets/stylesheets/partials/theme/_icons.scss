@@ -1,4 +1,4 @@
-.lbc-icon-calendar, .lbc-icon-clock, .lbc-brand-icon {
+.lbc-icon-calendar, .lbc-icon-clock, .lbc-brand-icon, .lbc-subject-icon {
     display          : inline-block;
     background-size  : 14px;
     background-repeat: no-repeat;
@@ -43,6 +43,16 @@
      @media \0screen {
         background: none;
         filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/bulle.png')}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/bulle.png')}',sizingMethod='scale')";
+    }
+}
+.lbc-subject-icon {
+    width            : 24px;
+    height           : 16px;
+    background-image : image-url('icons/subject.png');
+     @media \0screen {
+        background: none;
+        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subject.png')}', sizingMethod='scale');
         -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/bulle.png')}',sizingMethod='scale')";
     }
 }

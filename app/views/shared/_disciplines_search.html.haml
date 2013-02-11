@@ -1,0 +1,22 @@
+/ %div{class: 'dropped-options', data: {behavior: 'dropped-options'}}
+/   .dropped-options-title
+/     %i.lbc-icon-clock.dropped-options-icon
+/     %span Disciplines
+/     %i.icon-caret-down.dropped-options-caret-icon
+/   %div
+/     %select
+/       - Subject.roots.each do |subject|
+/         %option{value: subject.slug}
+.dropped-options.flush{data: {behavior: 'dropped-options' }}
+  .dropped-options-title.chooser-title-wrapper
+    %i.lbc-subject-icon.dropped-options-icon
+    %span.chooser-title
+      - if @subject
+        = @subject.name
+      - else
+        Toutes disciplines
+    %i.icon-caret-down.dropped-options-caret-icon
+  %ul
+    - Subject.roots.order('name ASC').each do |subject|
+      %li{date: {value: subject.slug}}
+        %label= subject.name

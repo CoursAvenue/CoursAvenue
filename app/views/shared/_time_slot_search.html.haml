@@ -4,10 +4,10 @@
     %span Toute la journée
     %i.icon-caret-down.dropped-options-caret-icon
   %ul{data: {behavior: 'checkbox-list'}}
-    %li
-      = check_box_tag '', '', params[:time_slots].empty?, id: "search_time_slot_all", data: {value: 'all'}
-      = label_tag "search_time_slot_all", 'Toute la journée'
+    %li.ilb-wrapper.align-middle
+      %span.one-sixth.text--center= check_box_tag '', '', params[:time_slots].empty?, id: "search_time_slot_all", data: {value: 'all'}
+      = label_tag "search_time_slot_all", 'Toute la journée', class: 'five-sixths'
     - LeBonCours::Application::TIME_SLOTS.each do |slot_symbole, slot|
-      %li
-        = check_box_tag 'time_slots[]', slot_symbole, params[:time_slots].include?(slot_symbole.to_s), id: "search_time_slot_#{slot_symbole.to_s}"
-        = label_tag "search_time_slot_#{slot_symbole.to_s}", slot[:name].html_safe
+      %li.ilb-wrapper.align-middle
+        %span.one-sixth.text--center= check_box_tag 'time_slots[]', slot_symbole, params[:time_slots].include?(slot_symbole.to_s), id: "search_time_slot_#{slot_symbole.to_s}"
+        = label_tag "search_time_slot_#{slot_symbole.to_s}", slot[:name].html_safe, class: 'five-sixths'

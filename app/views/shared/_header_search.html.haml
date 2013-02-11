@@ -2,7 +2,8 @@
 - params[:start_date] ||= l(Date.today)
 - params[:end_date]   ||= l(Date.today + 6.months)
 
-.header-search-bar.main-container
+/.header-search-bar.main-container
+.header-search-bar
   .town-chooser.better-select.flush{data: {behavior: 'better-select' }}
     %span.chooser-title-wrapper
       %span.chooser-title= params[:city].capitalize
@@ -28,6 +29,8 @@
           });
 
         })(this, this.document);
+
+  = render 'shared/disciplines_search'
 
   = render 'shared/week_day_search'
 

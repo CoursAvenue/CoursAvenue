@@ -1,10 +1,10 @@
-.dropped-options{
+.dropped-options {
     position: relative;
-    width   : 15em;
+    // width   : 15em;
     height  : 34px;
     color   : $grayDarker;
     > ul, > div {
-        width: 15em;
+        // width: 15em;
         @include box-sizing(border-box);
     }
     ul {
@@ -24,12 +24,11 @@
             cursor          : pointer;
             background-color: $white;
             padding         : 0;
-            > input {
-                margin-left: 0.5em;
-                width: 15%;
+            > input:first-child, > label:first-child {
+                padding-left: 0.5em;
             }
-            > label { width: 75%; }
             > label, > input {
+                font-size       : 12px;
                 display: inline-block;
                 padding         : 0.5em 0;
             }
