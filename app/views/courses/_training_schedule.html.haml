@@ -4,7 +4,8 @@
       %th Dates
       %th.text--center Durée
       %th Places dispo
-      %th.text--center Promo
+      - if @has_promotion
+        %th.text--center Promo
       %th.text--center
         %i.lbc-icon-info i
   %tbody
@@ -13,9 +14,10 @@
         %td= training_dates planning
         %td.text--center= "#{pluralize(planning.length, 'jour')}"
         %td.text--center= planning.nb_place_available || '-'
-        %td.text--center
-          - if planning.promotion
-            .promo-marker= readable_promotion planning
+        - if @has_promotion
+          %td.text--center
+            - if planning.promotion
+              .promo-marker= readable_promotion planning
         %td.text--center
           - planning_info = day_by_day_schedule planning
           - if planning.info.present?

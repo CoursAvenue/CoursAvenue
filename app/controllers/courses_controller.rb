@@ -6,6 +6,7 @@ class CoursesController < ApplicationController
     @structure          = @course.structure
     @plannings          = @course.plannings
     @subjects           = @course.subjects
+    @has_promotion      = @course.has_promotion
 
     @similar_courses = @course.similar_courses
 

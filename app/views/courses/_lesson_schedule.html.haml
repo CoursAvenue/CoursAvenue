@@ -8,7 +8,8 @@
       %th.text--center Places
       - if @course.is_for_kid
         %th.text--center Âge
-      %th.text--center Promo
+      - if @has_promotion
+        %th.text--center Promo
       %th.text--center
         %i.lbc-icon-info i
   %tbody
@@ -24,9 +25,10 @@
             - if planning.max_age_for_kid
               à
               = planning.max_age_for_kid || '-'
-        %td.text--center
-          - if planning.promotion
-            .promo-marker= readable_promotion planning
+        - if @has_promotion
+          %td.text--center
+            - if planning.promotion
+              .promo-marker= readable_promotion planning
         - if has_multiple_teacher
           %td.text--center
             - planning_info_text = "#{Course.human_attribute_name(:teacher_name)} : #{planning.teacher_name}"

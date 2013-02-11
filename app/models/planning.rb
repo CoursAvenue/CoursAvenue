@@ -22,7 +22,7 @@ class Planning < ActiveRecord::Base
                   :start_date,
                   :start_time, # Format: Time.parse("2000-01-01 #{value} UTC")
                   :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
-                  :week_day,
+                  :week_day, # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
                   :class_during_holidays,
                   :nb_place_available,
                   :promotion,

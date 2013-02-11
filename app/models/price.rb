@@ -16,4 +16,9 @@ class Price < ActiveRecord::Base
     end
   end
 
+  def readable_amount_with_promo
+    price_with_promo = read_attribute(:amount) + (read_attribute(:amount) * course.promotion / 100)
+    ('%.2f' % price_with_promo).gsub('.', ',').gsub(',00', '')
+  end
+
 end

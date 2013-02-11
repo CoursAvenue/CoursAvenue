@@ -3,11 +3,14 @@
     %thead
       %tr
         %th= t('.formule_type')
-        %th.text--center= t('.without_promo')
-        %th.text--center= t('.with_promo')
+        - if @has_promotion
+          %th.text--center= t('.without_promo')
+          %th.text--center= t('.with_promo')
+        - else
+          %th.text--center= t('.price')
     %tbody
-      = render @course.prices
-      = render @course.book_tickets
+      = render partial: 'prices/price'            , collection: @course.prices,       locals: {with_promo: @has_promotion}
+      = render partial: 'book_tickets/book_ticket', collection: @course.book_tickets, locals: {with_promo: @has_promotion}
   %footer
     %h4= t('infos')
     %ul

@@ -133,15 +133,17 @@ class Course < ActiveRecord::Base
 
     boolean :is_promoted
     boolean :has_online_payment
-    boolean :has_promotion do
-      plannings.order('promotion ASC').first.promotion != nil
-    end
+    boolean :has_promotion
 
     boolean :has_no_price
 
     boolean :has_package_price
     boolean :has_trial_lesson
     boolean :has_unit_course_price
+  end
+
+  def has_promotion
+    plannings.order('promotion ASC').first.promotion != nil
   end
 
   def has_no_price

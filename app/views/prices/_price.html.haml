@@ -7,4 +7,5 @@
       %td.text--center Se renseigner
     - else
       %td.text--center= "#{price.readable_amount}€"
-  %td.text--center -
+  - if with_promo
+    %td.text--center= "#{price.readable_amount_with_promo}€"
