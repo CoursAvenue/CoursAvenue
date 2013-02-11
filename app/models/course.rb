@@ -66,6 +66,15 @@ class Course < ActiveRecord::Base
       end
       subject_array.uniq.map(&:name)
     end
+
+    integer :subject_ids, multiple: true do
+      subject_ids = []
+      subjects.each do |subject|
+        subject_ids << subject.id
+        subject_ids << subject.parent.id
+      end
+      subject_ids.uniq
+    end
     string  :type do
       case type
       when 'Course::Lesson'

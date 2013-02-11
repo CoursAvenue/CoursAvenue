@@ -3,9 +3,6 @@ class SubjectsController < ApplicationController
   before_filter :prepare_search
 
   def index
-    # @courses   = @city.courses
-    # search
-    # paginate
     search_solr
     init_geoloc
 
@@ -18,14 +15,7 @@ class SubjectsController < ApplicationController
   def show
     @subject   = Subject.find(params[:id])
     city_id    = @city.id
-    if @subject.is_root?
-      subject_ids = @subject.children.map(&:id)
-      @courses    = Course.joins{subjects}.joins{structure}.where{(structure.city_id == city_id) & (subjects.id.eq_any subject_ids)}
-    else
-      @courses = @subject.courses.joins{structure}.where{structure.city_id == city_id}
-    end
-    search
-    paginate
+    search_solr
     init_geoloc
     render action: 'index'
   end
@@ -52,23 +42,6 @@ class SubjectsController < ApplicationController
     end
   end
 
-  def paginate
-    # Group by id and order by first day in week
-    case params[:sort]
-    # min promotion because promotions are negative
-    when 'price_asc'
-      @courses = @courses.joins{prices}.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(prices.amount) ASC')
-    when 'price_desc'
-      @courses = @courses.joins{prices}.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(prices.amount) DESC')
-    when 'date'
-      @courses = @courses.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(plannings.week_day)')
-    else
-      @courses = @courses.joins{plannings}.group{id}.order('min(plannings.promotion) ASC, has_online_payment DESC, min(plannings.week_day)')
-    end
-    @courses = @courses.page(params[:page]).per(15)
-
-  end
-
   def prepare_search
     @city      = City.find(params[:city_id])
     @audiences = Audience.all
@@ -86,13 +59,22 @@ class SubjectsController < ApplicationController
     if params[:levels].present?
       level_ids = params[:levels].map(&:to_i)
       #unless level_ids.include? Level.all_levels.id
-      level_ids << Level.intermediate.id if level_ids.include? Level.average.id
-      level_ids << Level.confirmed.id    if level_ids.include? Level.advanced.id
+        level_ids << Level.intermediate.id if level_ids.include? Level.average.id
+        level_ids << Level.confirmed.id    if level_ids.include? Level.advanced.id
       #end
     end
+    if params[:id]
+      if @subject.is_root?
+        subject_ids = @subject.children.map(&:id)
+      else
+        subject_ids = [@subject.id]
+      end
+    end
+
     @search = Sunspot.search(Course) do
       fulltext                              params[:name]                                         if params[:name].present?
       with :city,                           params[:city_id]
+      with(:subject_ids).any_of             subject_ids                                           if params[:id]
       with(:type).any_of                    params[:types]                                        if params[:types].present?
       with(:audience_ids).any_of            params[:audiences]                                    if params[:audiences].present?
       with(:level_ids).any_of               level_ids                                             unless level_ids.empty?
@@ -134,60 +116,4 @@ class SubjectsController < ApplicationController
     end
     @courses = @search.results
   end
-
-  def search
-    params.each do |key, value|
-      case key
-      # when 'city'
-      #   @courses = @courses.from_city(value, @courses)
-
-      # when 'name'
-      #   @courses = @courses.name_subjects_and_structure_name_contains(value, @courses) unless value.blank?
-
-      # when 'types'
-      #   @courses = @courses.is_of_type(value, @courses)
-
-      when 'price_specificities'
-        @courses = @courses.has_price_specificities(value, @courses)
-
-      # when 'audiences'
-      #   @courses = @courses.is_for_audience(value, @courses)
-
-      # when 'age'
-      #   @courses = @courses.is_for_ages(value, @courses) unless value.blank?
-
-      # when 'levels'
-      #   level_ids = value.map(&:to_i)
-      #   if !level_ids.include? Level.all_levels.id
-      #     level_ids << Level.intermediate.id if level_ids.include? Level.average.id
-      #     level_ids << Level.confirmed.id    if level_ids.include? Level.advanced.id
-      #     @courses  = @courses.is_for_level(level_ids, @courses)
-      #   end
-
-      # when 'week_days'
-      #   @courses = @courses.that_happens(value, @courses)
-
-      # when 'time_slots'
-      #   @courses = @courses.in_these_time_slots(value, @courses)
-
-      # when 'zip_codes'
-      #   @courses = @courses.joins{structure}.where do
-      #     value.map{ |zip_code| structure.zip_code == zip_code }.reduce(&:|)
-      #   end
-
-      # when 'start_date'
-      #   @courses = @courses.joins{plannings}.where{plannings.end_date >= Date.parse(value)}
-      # when 'end_date'
-      #   @courses = @courses.joins{plannings}.where{plannings.start_date <= Date.parse(value)}
-
-      # when 'time_range'
-      #   @courses = @courses.in_time_range(value[:min], value[:max], @courses)
-
-      # when 'price_range'
-      #   @courses = @courses.in_price_range(value[:min], value[:max], @courses)
-      # end
-      end
-    end
-  end
-
 end
