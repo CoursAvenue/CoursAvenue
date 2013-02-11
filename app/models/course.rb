@@ -54,6 +54,10 @@ class Course < ActiveRecord::Base
       structure.name
     end
 
+    text :planning_info do
+      plannings.map(&:info)
+    end
+
     text :teachers do
       plannings.map(&:teacher_name).uniq.compact
     end
@@ -133,9 +137,15 @@ class Course < ActiveRecord::Base
       plannings.order('promotion ASC').first.promotion != nil
     end
 
+    boolean :has_no_price
+
     boolean :has_package_price
     boolean :has_trial_lesson
     boolean :has_unit_course_price
+  end
+
+  def has_no_price
+    prices.order('amount DESC').first.amount == nil
   end
 
   def has_package_price
@@ -171,118 +181,6 @@ class Course < ActiveRecord::Base
     end
     time_slots.uniq
   end
-
-
-
-  # ------------------------------------------------------------------------------------ Self methods
-
-  # def self.from_city(city, scope = Course)
-  #   city_id = City.find(city).id
-  #   scope.joins{structure}.where{structure.city_id == city_id}
-  # end
-
-  # def self.name_subjects_and_structure_name_contains(name_string, scope)
-  #   name_string    = '%' + name_string + '%'
-  #   subject_models = Subject.where{name =~ name_string}
-  #   if subject_models.size == 1 and subject_models.first.is_root?
-  #     subject_ids = subject_models.first.children.map(&:id)
-  #   else
-  #     subject_ids = Subject.where{name =~ name_string}.map(&:id)
-  #   end
-  #   scope.joins{subjects}.joins{structure}.where{(name =~ name_string) | (structure.name =~ name_string) | (subjects.id.eq_any subject_ids)}
-  # end
-
-  # def self.is_of_type(types_array, scope)
-  #   types = []
-  #   types << 'Course::Lesson'   if types_array.include? 'lesson'
-  #   types << 'Course::Training' if types_array.include? 'training'
-  #   types << 'Course::Workshop' if types_array.include? 'workshop'
-  #   scope.where{type.eq_any types}
-  # end
-
-  # def self.has_price_specificities(price_specificities, scope)
-  #   return scope if price_specificities.length == 3 # Doesn't search if all options are checked
-  #   scope = scope.joins{book_tickets.outer}.joins{prices}.where do
-  #     query = nil
-  #     price_specificities.each_with_index do |price_specificity|
-  #       case price_specificity
-  #       when 'has_package_price'
-  #         if query
-  #           query |= (prices.libelle.eq_any ['prices.annual', 'prices.semester', 'prices.trimester', 'prices.month', 'prices.two_lesson_per_week_package'])
-  #         else
-  #           query =  (prices.libelle.eq_any ['prices.annual', 'prices.semester', 'prices.trimester', 'prices.month', 'prices.two_lesson_per_week_package'])
-  #         end
-  #       when 'has_trial_lesson'
-  #         if query then query |= (prices.libelle.eq 'prices.trial_lesson') else query = (prices.libelle.eq 'prices.trial_lesson') end
-  #       when 'has_unit_course_price'
-  #         if query then query |= (prices.libelle.eq 'prices.individual_course') else query = (prices.libelle.eq 'prices.individual_course') end
-  #       end
-  #     end
-  #     query
-  #   end
-  #   scope
-  # end
-
-  # def self.is_for_audience(audience_ids, scope)
-  #   scope.joins{audiences}.where{audiences.id.eq_any audience_ids.map(&:to_i)}
-  # end
-
-  # def self.is_for_ages(age, scope)
-  #   if age[:min].blank? and age[:max].blank?
-  #     scope
-  #   else
-  #     age[:min] = 0  if age[:min].blank?
-  #     age[:max] = 18 if age[:max].blank?
-  #     if age[:min].to_i > 18
-  #       scope
-  #     else
-  #       scope.joins{plannings}.where{(plannings.min_age_for_kid < age[:max]) & (plannings.max_age_for_kid > age[:min])}
-  #     end
-  #   end
-  # end
-
-  # def self.is_for_level(level_ids, scope)
-  #   scope.joins{levels}.where{levels.id.eq_any level_ids}
-  # end
-
-  # def self.that_happens(week_day_indexes, scope)
-  #   scope.joins{plannings}.where{(type == 'Course::Training') | ((type == 'Course::Lesson') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i))) | ((type == 'Course::Workshop') & (plannings.week_day.eq_any week_day_indexes.map(&:to_i)))}
-  # end
-
-  # def self.in_these_time_slots(values, scope)
-  #   time_slots = []
-  #   values.each do |slot|
-  #     start_time = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:start_time]
-  #     end_time   = TimeParser.parse_time_string LeBonCours::Application::TIME_SLOTS[slot.to_sym][:end_time]
-  #     time_slots << [start_time, end_time]
-  #   end
-  #   scope.joins{plannings}.where do
-  #     time_slots.map { |start_time, end_time| ((plannings.start_time >= start_time) & (plannings.start_time <= end_time)) }.reduce(&:|)
-  #   end
-  # end
-
-  # def self.in_time_range(start_time, end_time, scope)
-  #   if start_time.blank? and end_time.blank?
-  #     scope
-  #   else
-  #     start_time = TimeParser.parse_time_string( start_time.blank? ? '00:00' : start_time )
-  #     end_time   = TimeParser.parse_time_string( end_time.blank?   ? '23:59' : end_time )
-
-  #     scope.joins{plannings}.where{(plannings.start_time >= start_time) & (plannings.end_time <= end_time)}
-  #   end
-  # end
-
-  # def self.in_price_range(min_price, max_price, scope)
-  #   if min_price.blank? and max_price.blank?
-  #     scope
-  #   else
-  #     min_price = 0     if min_price.blank? and !max_price.blank?
-  #     max_price = 10000 if max_price.blank? and !min_price.blank?
-  #     if !min_price.blank? and !max_price.blank? and max_price.to_i > 0
-  #       scope.joins{prices}.where{(prices.amount >= min_price.to_i) & (prices.amount <= max_price.to_f)}
-  #     end
-  #   end
-  # end
 
   # TODO: To be improved
   def similar_courses(limit = 5)
@@ -336,7 +234,7 @@ class Course < ActiveRecord::Base
   end
 
   def best_price
-    prices.where{amount > 0}.order('amount ASC').first
+    prices.where{amount >= 0}.order('amount ASC').first
   end
 
   def type_name

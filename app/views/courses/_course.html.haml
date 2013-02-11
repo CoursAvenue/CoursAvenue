@@ -35,7 +35,7 @@
       - else
         = "- Paris&nbsp;#{course.structure.zip_code[3..4]}".html_safe
     = join_week_days(course)                        if course.is_lesson?
-    - if course.is_training?
+    - unless course.is_lesson?
       = training_dates(course.plannings.first)
       - if course.plannings.length > 1
         = "et #{course.plannings.length - 1} autres dates."
@@ -55,11 +55,15 @@
       %p.epsilon= link_to "Contacter l'établissement", city_course_path(@city, course)
     - else
       %p
-        = t('.from')
+        = t('.from') unless course.best_price.amount == 0
       - if course.promotion_planning
         %p
           %span.muted.delta.line-through= "#{course.best_price.readable_amount}€".html_safe
           %b.gamma.blue= "#{course.promotion_price}€".html_safe
       - else
-        %p.gamma= "#{course.best_price.readable_amount}€".html_safe
+        %p.gamma
+          - if course.best_price.amount == 0
+            Gratuit
+          - else
+            = "#{course.best_price.readable_amount}€".html_safe
       %p= "(#{t(course.best_price.libelle).downcase})".html_safe

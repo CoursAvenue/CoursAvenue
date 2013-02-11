@@ -2,7 +2,7 @@ module PlanningsHelper
 
   def week_day_for(planning)
     unless planning.week_day.blank?
-      I18n.t('date.day_names')[planning.week_day - 1].capitalize
+      I18n.t('date.day_names')[planning.week_day].capitalize
     else
       '-'
     end
@@ -42,7 +42,7 @@ module PlanningsHelper
     start_date = planning.first_day_of_training
     end_date   = planning.last_day_of_training
     if start_date == end_date
-      "Le #{I18n.l(start_date, format: :semi_short)}"
+      "#{I18n.l(start_date, format: :semi_long).capitalize}"
     else
       "Du #{I18n.l(start_date, format: :semi_long)} au #{I18n.l(end_date, format: :semi_short)}"
     end
