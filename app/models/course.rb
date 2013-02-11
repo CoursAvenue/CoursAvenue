@@ -184,8 +184,8 @@ class Course < ActiveRecord::Base
 
   # TODO: To be improved
   def similar_courses(limit = 5)
-    subject_ids       = self.subject_ids.map(&:to_i)
-    similar_courses   = Course.joins{subjects}.where{subjects.id.eq_any subject_ids}.limit(limit) # With same subject
+    parent_subject_ids = self.subjects.collect{|subject| subject.id}.uniq
+    similar_courses   = Course.joins{subjects}.where{subjects.id.eq_any parent_subject_ids}.sample(limit) # With same parent subject
     if similar_courses.length < 5
       max_id          = Course.maximum('id')
       min_id          = Course.minimum('id')
