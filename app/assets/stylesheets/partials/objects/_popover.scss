@@ -2,7 +2,6 @@
     display         : none;
     position        : absolute;
     left            : 50%;
-    width           : 30em;
     max-width       : 30em;
     border          : 1px solid darken($gray, 5%);
     padding         : 0.3em 0.6em;
@@ -10,5 +9,7 @@
     margin-left     : -15em;
     background-color: $gray;
     color           : $grayLighter;
+    font-size       : 0.9em;
+    text-align      : center;
     @include border-radius($brand-round);
 }

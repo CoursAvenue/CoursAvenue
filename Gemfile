@@ -20,6 +20,7 @@ gem 'rails', '3.2.11'
 # end
 
 gem 'pg'
+gem 'progress_bar'
 
 gem 'kaminari'                  , '~>0.14.1'
 gem 'paperclip'                 , '~>3.3.1'

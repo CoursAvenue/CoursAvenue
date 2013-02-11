@@ -102,6 +102,7 @@ GEM
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
     fastercsv (1.5.5)
+    fattr (2.2.1)
     font-awesome-rails (3.0.2.0)
       railties (>= 3.1)
     forgery (0.5.0)
@@ -112,6 +113,7 @@ GEM
     gmaps4rails (1.5.6)
     haml (3.1.7)
     has_scope (0.5.1)
+    highline (1.6.15)
     hike (1.2.1)
     i18n (0.6.1)
     inherited_resources (1.3.1)
@@ -145,6 +147,8 @@ GEM
       thor (~> 0.14)
     multi_json (1.5.0)
     nokogiri (1.5.6)
+    options (2.3.0)
+      fattr
     orm_adapter (0.4.0)
     paperclip (3.3.1)
       activemodel (>= 3.0.0)
@@ -157,6 +161,9 @@ GEM
       activerecord (~> 3.0)
     polyglot (0.3.3)
     pr_geohash (1.0.0)
+    progress_bar (0.4.0)
+      highline (~> 1.6.1)
+      options (~> 2.3.0)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -264,6 +271,7 @@ DEPENDENCIES
   mootools-rails (~> 1.0.1)
   paperclip (~> 3.3.1)
   pg
+  progress_bar
   rails (= 3.2.11)
   rspec-rails (~> 2.6)
   sass-rails (~> 3.2.4)

@@ -20,14 +20,15 @@
             var width;
             this.popover_element = new Element('p.popover');
             this.popover_element.set('html', this.content)
-            this.el.appendChild(this.popover_element);
-            width = (this.content.length / 1.5);
-            if (width < 30) {
-                this.popover_element.setStyle('width', width + 'em');
-                this.popover_element.setStyle('margin-left', '-' + (width / 2) + 'em');
-            }
+            document.body.appendChild(this.popover_element);
+            width = (this.content.length);
+            //if (width < 30) {
+            this.popover_element.setStyle('margin-left', '-' + this.popover_element.getComputedSize().totalWidth / 2 + 'px');
+            //}
             // Must set top property after setting width
-            this.popover_element.setStyle('top', '-' + this.popover_element.getComputedSize().totalHeight + 'px');
+            //this.popover_element.setStyle('top', this.popover_element.getComputedSize().totalHeight + 'px');
+            this.popover_element.setStyle('top', (this.el.offsetTop - this.popover_element.getComputedSize().totalHeight) + 'px');
+            this.popover_element.setStyle('left', (this.el.offsetLeft + this.el.getComputedSize().totalWidth) + 'px');
         },
 
         attachEvents: function() {
