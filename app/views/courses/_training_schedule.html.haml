@@ -3,7 +3,8 @@
     %tr
       %th Dates
       %th.text--center Durée
-      %th Places dispo
+      - if @has_nb_place
+        %th Places dispo
       - if @has_promotion
         %th.text--center Promo
       %th.text--center
@@ -13,7 +14,8 @@
       %tr{data: {'course-id' => planning.course_id}}
         %td= training_dates planning
         %td.text--center= "#{pluralize(planning.length, 'jour')}"
-        %td.text--center= planning.nb_place_available || '-'
+        - if @has_nb_place
+          %td.text--center= planning.nb_place_available
         - if @has_promotion
           %td.text--center
             - if planning.promotion

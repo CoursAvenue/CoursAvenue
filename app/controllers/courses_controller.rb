@@ -7,6 +7,7 @@ class CoursesController < ApplicationController
     @plannings          = @course.plannings
     @subjects           = @course.subjects
     @has_promotion      = @course.has_promotion
+    @has_nb_place       = @course.plannings.map(&:nb_place_available).compact.any?
 
     @similar_courses = @course.similar_courses
 

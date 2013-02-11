@@ -5,7 +5,8 @@
       %th Jour
       %th.text--center Créneau horaire
       %th.text--center Durée
-      %th.text--center Places
+      - if @has_nb_place
+        %th.text--center Places
       - if @course.is_for_kid
         %th.text--center Âge
       - if @has_promotion
@@ -18,7 +19,8 @@
         %td= week_day_for planning
         %td.text--center= readable_time_slot planning.start_time, planning.end_time
         %td.text--center= readable_duration planning.duration
-        %td.text--center= planning.nb_place_available || '-'
+        - if @has_nb_place
+          %td.text--center= planning.nb_place_available
         - if @course.is_for_kid
           %td.text--center
             = planning.min_age_for_kid || '-'
