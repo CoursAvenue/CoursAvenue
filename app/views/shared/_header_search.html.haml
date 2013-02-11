@@ -50,7 +50,7 @@
 - content_for :scripts do
   :javascript
       window.addEvent('domready', function() {
-          $('start_date').addEvent('close', function() {
-              debugger
+          $('start_date').addEvent('change', function() {
+              $('end_date').set('value', this.get('value'));
           });
       });

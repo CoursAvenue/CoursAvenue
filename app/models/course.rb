@@ -54,6 +54,10 @@ class Course < ActiveRecord::Base
       structure.name
     end
 
+    text :structure_info do
+      structure.gmaps4rails_address
+    end
+
     text :planning_info do
       plannings.map(&:info)
     end
