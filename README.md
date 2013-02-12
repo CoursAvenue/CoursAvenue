@@ -36,7 +36,16 @@ Run local server: rake sunspot:solr:run
 
 Heroku:
 Start / Stop :
-> heroku run rake sunspot:solr:start
-> heroku run rake sunspot:solr:stop
+$ heroku run rake sunspot:solr:start
+$ heroku run rake sunspot:solr:stop
 Reindex :
-> heroku run rake sunspot:reindex
+$ heroku run rake sunspot:reindex
+
+
+# Git
+List all branches
+$ git branch -a
+Remove local branch
+$ git branch -D branch_name
+Remove remote branch
+$ git push origin --delete branch_name
