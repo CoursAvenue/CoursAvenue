@@ -17,6 +17,9 @@
     li {
         @include border-radius(0);
     }
+    .btn--active {
+        border: none;
+    }
 }
 .text--right .pagination {
     text-align: right;
