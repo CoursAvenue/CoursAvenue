@@ -3,11 +3,13 @@
     %i.lbc-subject-icon.dropped-options-icon
     %span.dropped-title
       - if @subject
-        = @subject.name
+        = @parent_subject.name
       - else
         Toutes disciplines
     %i.icon-caret-down.dropped-options-caret-icon
   %ul
+    %li.subject-element{class: (@parent_subject ? '': 'selected')}
+      %label Toutes disciplines
     - Subject.roots.order('name ASC').each do |subject|
-      %li.subject-element{data: {id: subject.slug, name: subject.name}, class: (params[:id] == subject.slug ? 'selected': '')}
+      %li.subject-element{data: {id: subject.slug, name: subject.name}, class: ((@parent_subject and @parent_subject.slug == subject.slug) ? 'selected': '')}
         %label= subject.name

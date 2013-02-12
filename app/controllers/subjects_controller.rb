@@ -13,8 +13,9 @@ class SubjectsController < ApplicationController
 
 
   def show
-    @subject   = Subject.find(params[:id])
-    city_id    = @city.id
+    @subject        = Subject.find(params[:id])
+    @parent_subject = @subject.parent || @subject
+    city_id         = @city.id
     search_solr
     init_geoloc
     render action: 'index'
