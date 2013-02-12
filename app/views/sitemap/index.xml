@@ -24,7 +24,7 @@
 
 <% Course.all.each do |course| %>
   <url>
-    <loc><%= city_course_url(course.city, course) %></loc>
+    <loc><%= course_url(course) %></loc>
     <lastmod><%= I18n.l(Course.last.updated_at, format: "%Y-%m-%d") %></lastmod>
     <priority>0.8</priority>
   </url>
