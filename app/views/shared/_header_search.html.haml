@@ -4,7 +4,7 @@
 
 /.header-search-bar.main-container
 .header-search-bar
-  .town-chooser.better-select.flush{data: {behavior: 'better-select' }}
+  .town-chooser.better-select{data: {behavior: 'better-select' }}
     %span.chooser-title-wrapper
       %span.chooser-title= params[:city].capitalize
       %i.icon-caret-down
@@ -36,13 +36,10 @@
 
   = render 'shared/time_slot_search'
 
-  .hide--lap
+  .hide--semilap
     Du
-  .hide--lap
     %input#start_date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
-  .hide--lap
     au
-  .hide--lap
     %input#end_date{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker'}}
 
   %div.button-wrapper
@@ -50,10 +47,3 @@
       %i.icon-search
       Rechercher
 
-- content_for :scripts do
-  :javascript
-      window.addEvent('domready', function() {
-          $('start_date').addEvent('change', function() {
-              $('end_date').set('value', this.get('value'));
-          });
-      });

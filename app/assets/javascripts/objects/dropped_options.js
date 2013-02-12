@@ -43,7 +43,9 @@
                 // Get associated label to
                 titles.push($$('label[for='+selected_input.get('id')+']')[0].get('text'));
             });
-            this.titleText.set('text', titles.join(', '));
+            if (titles.length > 0) {
+                this.titleText.set('text', titles.join(', '));
+            }
         }
 
     });

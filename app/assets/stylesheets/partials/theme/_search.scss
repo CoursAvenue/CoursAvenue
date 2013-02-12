@@ -32,8 +32,10 @@
     display         : table;
     @include font-size(12px);
     @include media-query(palm) { display: block; };
-    .hide--lap {
-        @include media-query(lap) { display: none; };
+    .hide--semilap {
+        @media screen and (max-width: 1200px) and (min-width: $lap-start) {
+            display: none;
+        }
     }
     .button-wrapper {
         text-align: right;
@@ -55,7 +57,7 @@
             margin      : 6px auto;
             padding     : 0;
             text-align  : center;
-        };
+        }
         &.town-chooser {
             padding: 0.5em 1em;
         }
@@ -90,7 +92,10 @@
         padding-bottom  : 0.5em;
         margin-bottom   : 0.5em;
     }
-    .search-input-wrapper {
+    .dropped-options-subject {
+        > ul, > div { width: 20em; }
+    }
+    .search-input-wrapper, .dropped-options-subject {
         min-width    : 20em;
         //width        : 29%;
         padding-left : 0;
