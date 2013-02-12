@@ -16,12 +16,12 @@
     %i.icon-phone.blue
     - if @structure.phone_number
       = link_to "tel:#{@structure.phone_number.gsub(/\s+/, '')}", class: 'blue' do
-        = @structure.phone_number
+        = @structure.phone_number.gsub(' ', '&nbsp;').html_safe
     - if @structure.phone_number and @structure.mobile_phone_number
       %span.blue /
     - if @structure.mobile_phone_number
       = link_to "tel:#{@structure.mobile_phone_number.gsub(/\s+/, '')}", class: 'blue' do
-        = @structure.mobile_phone_number
+        = @structure.mobile_phone_number.gsub(' ', '&nbsp;').html_safe
   - if @structure.website
     .text--center
       %i.icon-external-link.blue
