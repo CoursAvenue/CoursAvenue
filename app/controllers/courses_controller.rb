@@ -1,8 +1,8 @@
 class CoursesController < ApplicationController
 
   def show
-    @city               = City.find(params[:city_id])
     @course             = Course.find(params[:id])
+    @city               = @course.city
     @structure          = @course.structure
     @plannings          = @course.plannings
     @subjects           = @course.subjects

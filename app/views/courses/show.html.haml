@@ -32,7 +32,7 @@
       %ul.block-list
         - @similar_courses.each do |course|
           %li
-            = link_to city_course_path(@city, course), class: 'flexbox' do
+            = link_to course_path(course), class: 'flexbox' do
               .flexbox__item.one-fifth.similar-course--image
                 - unless course.promotion_planning.nil?
                   .milli.course-promo.price-badge= readable_promotion course.promotion_planning

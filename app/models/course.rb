@@ -6,6 +6,7 @@ class Course < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
   # friendly_id :name, use: :scoped, scope: [:city, :subject]
+  before_save :enhance_slug
 
   has_attached_file :homepage_image, :styles => {default: '1600×500#'}
   has_attached_file :image, :styles => { wide: "800x480#", thumb: "200x200#" }
@@ -247,7 +248,19 @@ class Course < ActiveRecord::Base
     'Cours'
   end
 
-  def should_generate_new_friendly_id?
-    new_record?
+  # def should_generate_new_friendly_id?
+  #   new_record?
+  # end
+
+  def enhance_slug
+    subject_slugs = []
+    subjects.each do |subject|
+      subject_slugs << subject.parent.slug unless subject.parent.nil?
+    end
+    if subject_slugs.any?
+      self.slug = "#{city.slug}-#{subject_slugs.join('-')}-#{slug}"
+    else
+      self.slug = "#{city.slug}-#{slug}"
+    end
   end
 end

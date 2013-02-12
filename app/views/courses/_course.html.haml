@@ -12,9 +12,9 @@
     %header
       %h4.hN.course-title
         .map-marker-image
-          = link_to city_course_path(@city, course) do
+          = link_to course_path(course) do
             %span= @course_structures.index(course.structure) + 1
-        %span= link_to course.name, city_course_path(@city, course)
+        %span= link_to course.name, course_path(course)
 
     - if course.is_training?
       %p
@@ -52,7 +52,7 @@
 
   %div.course-price.two-twelfths
     - if course.best_price.nil?
-      %p.epsilon= link_to "Contacter l'établissement", city_course_path(@city, course)
+      %p.epsilon= link_to "Contacter l'établissement", course_path(course)
     - else
       %p
         = t('.from') unless course.best_price.amount == 0
