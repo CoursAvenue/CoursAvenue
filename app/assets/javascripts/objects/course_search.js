@@ -26,9 +26,9 @@
                 var title = $$('#dropped-options-subject .dropped-title')[0];
                 $$('#dropped-options-subject .subject-element').removeClass('selected');
                 $$('#dropped-options-subject ul').hide();
-                event.target.addClass('selected');
-                title.set('text', event.target.get('data-name'));
-                this.setSubject(event.target.get('data-id'));
+                event.event.currentTarget.addClass('selected');
+                title.set('text', event.event.currentTarget.get('data-name'));
+                this.setSubject(event.event.currentTarget.get('data-id'));
                 this.updateFormUrl();
             }.bind(this));
 
