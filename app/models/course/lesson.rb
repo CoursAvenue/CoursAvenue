@@ -8,4 +8,8 @@ class Course::Lesson < Course
     'Cours'
   end
 
+  def slug_type_name
+    'cours'
+  end
+
 end

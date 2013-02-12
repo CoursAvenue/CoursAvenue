@@ -1,4 +1,7 @@
 class Structure < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :name, use: :slugged
+
   unless Rails.env.test?
     acts_as_gmappable validation: false,
                       language: 'fr' # :msg => "Désolé, même Google n'a pas trouvé où l'établissement se trouve."

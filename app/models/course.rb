@@ -4,9 +4,9 @@ class Course < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
-  friendly_id :name, use: :slugged
-  # friendly_id :name, use: :scoped, scope: [:city, :subject]
-  before_save :enhance_slug
+  friendly_id :friendly_name, use: :slugged
+
+  # before_save :enhance_slug
 
   has_attached_file :homepage_image, :styles => {default: '1600×500#'}
   has_attached_file :image, :styles => { wide: "800x480#", thumb: "200x200#" }
@@ -252,15 +252,7 @@ class Course < ActiveRecord::Base
   #   new_record?
   # end
 
-  def enhance_slug
-    subject_slugs = []
-    subjects.each do |subject|
-      subject_slugs << subject.parent.slug unless subject.parent.nil?
-    end
-    if subject_slugs.any?
-      self.slug = "#{city.slug}-#{subject_slugs.join('-')}-#{slug}"
-    else
-      self.slug = "#{city.slug}-#{slug}"
-    end
+  def friendly_name
+    "#{self.slug_type_name}-de-#{self.name.parameterize}-a-#{city.slug}-par-#{structure.slug}"
   end
 end

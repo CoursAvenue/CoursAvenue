@@ -12,4 +12,8 @@ class Course::Training < Course
     'Stage'
   end
 
+  def slug_type_name
+    'stage'
+  end
+
 end

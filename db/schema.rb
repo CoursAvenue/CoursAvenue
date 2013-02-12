@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130201211101) do
+ActiveRecord::Schema.define(:version => 20130212142552) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -259,9 +259,11 @@ ActiveRecord::Schema.define(:version => 20130201211101) do
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
+    t.string   "slug"
   end
 
   add_index "structures", ["city_id"], :name => "index_structures_on_city_id"
+  add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true
 
   create_table "subjects", :force => true do |t|
     t.string   "name"

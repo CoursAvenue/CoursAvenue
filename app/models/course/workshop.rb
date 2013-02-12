@@ -8,4 +8,8 @@ class Course::Workshop < Course
     'Cours&#8209;atelier'.html_safe
   end
 
+  def slug_type_name
+    'cours-atelier'
+  end
+
 end
