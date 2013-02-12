@@ -12,9 +12,9 @@
     %header
       %h4.hN.course-title
         .map-marker-image
-          = link_to city_course_path(@city, course, path: request.fullpath) do
+          = link_to city_course_path(@city, course) do
             %span= @course_structures.index(course.structure) + 1
-        %span= link_to course.name, city_course_path(@city, course, path: request.fullpath)
+        %span= link_to course.name, city_course_path(@city, course)
 
     - if course.is_training?
       %p

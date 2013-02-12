@@ -5,7 +5,7 @@ class SubjectsController < ApplicationController
   def index
     search_solr
     init_geoloc
-
+    cookies[:search_path] = request.fullpath
     respond_to do |format|
       format.html { @courses }
     end
@@ -15,6 +15,7 @@ class SubjectsController < ApplicationController
   def show
     @subject        = Subject.find(params[:id])
     @parent_subject = @subject.parent || @subject
+    cookies[:search_path] = request.fullpath
     city_id         = @city.id
     search_solr
     init_geoloc

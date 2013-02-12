@@ -1,13 +1,14 @@
 = content_for :head do
   %link{rel: 'canonical', href: city_course_url(@city, @course)}
+
 = content_for :title do
   = @course.name
 - unless @course.description.blank?
   = content_for :meta_description do
     = @course.description
 
-- if params[:path]
-  = link_to params[:path] do
+- if cookies[:search_path]
+  = link_to cookies[:search_path] do
     %i.orange ←
     = t('.back_to_results')
 - else
@@ -27,7 +28,7 @@
         %span.milli.lbl.blue= link_to subject.name, city_subject_path(@city, subject), class: 'subject-link'
 
 .gw
-  %section.g.three-tenths#summary.palm-one-whole.float--right
+  %section.g.three-tenths#summary.palm-one-whole.float--right.hide--lap
     = render 'contact_structure'
     %article.hide--palm
       %h4 D'autres cours pour vous !
@@ -49,7 +50,7 @@
                   = course.structure.name
 
 
-  %section.g.seven-tenths.palm-one-whole
+  %section.g.seven-tenths.palm-one-whole.lap-one-whole
     .course-header-badge
       .course-header-image.one-half.palm-one-whole
         - if @course.image.present?
