@@ -32,6 +32,17 @@
     display         : table;
     @include font-size(12px);
     @include media-query(palm) { display: block; };
+    .hide--lap {
+        @include media-query(lap) { display: none; };
+    }
+    .hide--palm {
+        @include media-query(palm) { display: none; };
+    }
+    .hide--semipalm {
+        @media screen and (max-width: 800px) and (min-width: $lap-start) {
+            display: none;
+        }
+    }
     .hide--semilap {
         @media screen and (max-width: 1200px) and (min-width: $lap-start) {
             display: none;
@@ -96,6 +107,10 @@
         > ul, > div { width: 20em; }
     }
     .search-input-wrapper, .dropped-options-subject {
+        @media screen and (max-width: 600px) and (min-width: $lap-start) {
+            min-width    : 12em;
+        }
+
         min-width    : 20em;
         //width        : 29%;
         padding-left : 0;
