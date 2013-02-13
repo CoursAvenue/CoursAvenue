@@ -11,6 +11,13 @@
   <changefreq>weekly</changefreq>
 </url>
 
+<% [pages_why_url, pages_how_it_works_url, pages_faq_users_url, pages_faq_partners_url, pages_who_are_we_url, pages_customer_service_url, pages_press_url, pages_find_a_place_url, pages_mentions_partners_url, pages_jobs_url, pages_contact_url].each do |page_url| %>
+  <url>
+    <loc><%= page_url %></loc>
+    <priority>0.4</priority>
+    <changefreq>never</changefreq>
+  </url>
+<% end %>
 <%City.all.each do |city| %>
   <% Subject.all.each do |subject| %>
     <url>

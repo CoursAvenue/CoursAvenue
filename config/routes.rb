@@ -17,7 +17,7 @@ LeBonCours::Application.routes.draw do
   # Pages
   match 'pages/pourquoi-le-bon-cours'         => 'pages#why',               as: 'pages_why'
   match 'pages/comment-ca-marche'             => 'pages#how_it_works',      as: 'pages_how_it_works'
-  match 'pages/faq-utilisateurs'              => 'pages#faq_users',          as: 'pages_faq_users'
+  match 'pages/faq-utilisateurs'              => 'pages#faq_users',         as: 'pages_faq_users'
   match 'pages/faq-partenaires'               => 'pages#faq_partners',      as: 'pages_faq_partners'
   match 'pages/qui-sommes-nous'               => 'pages#who_are_we',        as: 'pages_who_are_we'
   match 'pages/contact'                       => 'pages#contact'
