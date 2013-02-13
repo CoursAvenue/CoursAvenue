@@ -16,6 +16,7 @@ class Structure < ActiveRecord::Base
   validates :name, :uniqueness => true
 
   attr_accessible :city,
+                  :city_id,
                   :structure_type,
                   :name,
                   :place_name,
@@ -38,6 +39,11 @@ class Structure < ActiveRecord::Base
                   :accepts_afdas_funding,
                   :accepts_dif_funding,
                   :accepts_cif_funding,
+
+                  :latitude,
+                  :longitude,
+                  :gmaps,
+                  :slug,
 
                   # For registration info
                   :has_registration_form,

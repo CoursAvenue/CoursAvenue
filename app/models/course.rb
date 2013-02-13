@@ -4,7 +4,7 @@ class Course < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
-  friendly_id :friendly_name, use: :slugged
+  friendly_id :friendly_name, use: [:slugged, :history]
 
   # before_save :enhance_slug
 
