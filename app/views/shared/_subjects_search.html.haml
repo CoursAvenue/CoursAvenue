@@ -8,7 +8,7 @@
         Toutes disciplines
     %i.icon-caret-down.dropped-options-caret-icon
   %ul
-    %li.subject-element{class: (@parent_subject ? '': 'selected')}
+    %li.subject-element{class: (@parent_subject ? '': 'selected'), data: {name: 'Toutes disciplines'}}
       %label Toutes disciplines
     - Subject.roots.order('name ASC').each do |subject|
       %li.subject-element{data: {id: subject.slug, name: subject.name}, class: ((@parent_subject and @parent_subject.slug == subject.slug) ? 'selected': '')}
