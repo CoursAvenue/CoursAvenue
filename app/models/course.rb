@@ -253,6 +253,6 @@ class Course < ActiveRecord::Base
   # end
 
   def friendly_name
-    "#{self.slug_type_name}-de-#{self.name.parameterize}-a-#{city.slug}-#{structure.slug}"
+    "#{self.slug_type_name}-de-#{self.name}-a-#{city.name}-#{structure.name}"
   end
 end
