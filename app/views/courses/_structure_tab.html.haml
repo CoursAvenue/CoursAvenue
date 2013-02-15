@@ -9,14 +9,13 @@
         = link_to @structure.email_address, "mailto:#{@structure.email_address}"
     - if @structure.gives_professional_courses
       %li= t('.give_professional_courses')
-    %li= readable_address @structure
-    - if @structure.place_name
-      %li
-        = @structure.place_name
-    - if @structure.adress_info
-      %li= @structure.adress_info
-    - if @structure.nb_room
-      %li= t('.number_of_room', count: @structure.nb_room)
+    %li= readable_address @place
+    %li
+      = @place.name
+    - if @place.info
+      %li= @place.info
+    - if @place.nb_room
+      %li= t('.number_of_room', count: @place.nb_room)
     - if @structure.website
       %li
         = Structure.human_attribute_name(:website)
@@ -25,7 +24,7 @@
       %li
         = t('.other_info')
         = @structure.info.html_safe
-    - if @structure.has_handicap_access
+    - if @place.has_handicap_access
       %li= Structure.human_attribute_name(:has_handicap_access)
     - unless @structure.has_registration_form.blank?
       %li= t('.has_registration_form')

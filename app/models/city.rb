@@ -3,8 +3,9 @@ class City < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  has_many :structures
-  has_many :courses, through: :structures
+  has_many :places
+  has_many :structures, through: :structures
+  has_many :courses   , through: :structures
 
   has_attached_file :no_result_image, :styles => {default: '900×600#'}
 

@@ -13,7 +13,7 @@
       %h4.hN.course-title
         .map-marker-image
           = link_to course_path(course) do
-            %span= @course_structures.index(course.structure) + 1
+            %span= @course_places.index(course.place) + 1
         %span= link_to course.name, course_path(course)
 
     - if course.is_training?
@@ -26,14 +26,14 @@
       %li= join_levels(course)
     %div
       %i.icon-map-marker
-      - if course.structure.name.length > 50
-        %h3.course-element-structure-name= "#{course.structure.name[0..50]}..."
+      - if course.place.name.length > 50
+        %h3.course-element-structure-name= "#{course.place.name[0..50]}..."
       - else
-        %h3.course-element-structure-name= course.structure.name
-      - if course.structure.zip_code == 75000
+        %h3.course-element-structure-name= course.place.name
+      - if course.place.zip_code == 75000
         Paris
       - else
-        = "- Paris&nbsp;#{course.structure.zip_code[3..4]}".html_safe
+        = "- Paris&nbsp;#{course.place.zip_code[3..4]}".html_safe
     = join_week_days(course)                        if course.is_lesson?
     - unless course.is_lesson?
       = training_dates(course.plannings.first)

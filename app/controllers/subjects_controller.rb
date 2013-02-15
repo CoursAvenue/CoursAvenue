@@ -26,21 +26,21 @@ class SubjectsController < ApplicationController
   private
 
   def init_geoloc
-    @course_structures = @courses.collect{|course| course.structure}.uniq
+    @course_places = @courses.collect{|course| course.place}.uniq
 
     # To remove
-    @course_structures.each do |structure|
-      structure.geolocalize unless structure.is_geolocalized?
+    @course_places.each do |place|
+      place.geolocalize unless place.is_geolocalized?
     end
-    structure_index = 0
-    @json_structure_addresses = @course_structures.to_gmaps4rails do |structure, marker|
-      structure_index += 1
+    place_index = 0
+    @json_place_addresses = @course_places.to_gmaps4rails do |place, marker|
+      place_index += 1
       marker.picture({
                       :marker_anchor => [10, true],
-                      :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='#'><span>#{structure_index}</span></a></div>"
+                      :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='#'><span>#{place_index}</span></a></div>"
                      })
-      marker.title   structure.name
-      marker.json({ id: structure.id })
+      marker.title   place.name
+      marker.json({ id: place.id })
     end
   end
 

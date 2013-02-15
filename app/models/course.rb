@@ -12,7 +12,8 @@ class Course < ActiveRecord::Base
   has_attached_file :image, :styles => { wide: "800x480#", thumb: "200x200#" }
 
   belongs_to :structure
-  has_one :city, through: :structure
+  belongs_to :place
+  has_one    :city  , through: :place
 
   has_many :plannings
   has_many :prices           , dependent: :destroy
@@ -55,8 +56,8 @@ class Course < ActiveRecord::Base
       structure.name
     end
 
-    text :structure_info do
-      structure.gmaps4rails_address
+    text :place_info do
+      place.gmaps4rails_address
     end
 
     text :planning_info do
@@ -96,7 +97,7 @@ class Course < ActiveRecord::Base
     end
 
     string :city do
-      city.slug
+      place.city.slug
     end
 
     integer :audience_ids, multiple: true
@@ -131,7 +132,7 @@ class Course < ActiveRecord::Base
     end
 
     integer :zip_code do
-      structure.zip_code
+      place.zip_code
     end
     integer :min_price
     integer :max_price
@@ -248,9 +249,9 @@ class Course < ActiveRecord::Base
     'Cours'
   end
 
-  # def should_generate_new_friendly_id?
-  #   new_record?
-  # end
+  def should_generate_new_friendly_id?
+    new_record?
+  end
 
   def friendly_name
     "#{self.slug_type_name}-de-#{self.name}-a-#{city.name}-#{structure.name}"

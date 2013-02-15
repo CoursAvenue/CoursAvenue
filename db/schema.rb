@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130213191027) do
+ActiveRecord::Schema.define(:version => 20130215145031) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -115,8 +115,10 @@ ActiveRecord::Schema.define(:version => 20130213191027) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.integer  "place_id"
   end
 
+  add_index "courses", ["place_id"], :name => "index_courses_on_place_id"
   add_index "courses", ["slug"], :name => "index_courses_on_slug", :unique => true
   add_index "courses", ["type"], :name => "index_courses_on_type"
 
@@ -160,6 +162,33 @@ ActiveRecord::Schema.define(:version => 20130213191027) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "places", :force => true do |t|
+    t.string   "name"
+    t.string   "street"
+    t.text     "info"
+    t.string   "zip_code"
+    t.boolean  "has_handicap_access"
+    t.integer  "nb_room"
+    t.string   "contact_name"
+    t.string   "contact_phone"
+    t.string   "contact_mobile_phone"
+    t.string   "contact_email"
+    t.integer  "structure_id"
+    t.integer  "city_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+    t.float    "latitude"
+    t.float    "longitude"
+    t.boolean  "gmaps"
+  end
+
+  create_table "places_structures", :id => false, :force => true do |t|
+    t.integer "place_id"
+    t.integer "structure_id"
+  end
+
+  add_index "places_structures", ["place_id", "structure_id"], :name => "index_places_structures_on_place_id_and_structure_id"
 
   create_table "plannings", :force => true do |t|
     t.date     "start_date"
@@ -240,15 +269,9 @@ ActiveRecord::Schema.define(:version => 20130213191027) do
   create_table "structures", :force => true do |t|
     t.string   "structure_type"
     t.string   "name"
-    t.string   "place_name"
     t.text     "info"
     t.text     "registration_info"
-    t.text     "street"
-    t.string   "zip_code"
-    t.text     "adress_info"
-    t.boolean  "has_handicap_access"
     t.boolean  "gives_professional_courses"
-    t.integer  "nb_room"
     t.string   "website"
     t.string   "phone_number"
     t.string   "mobile_phone_number"
@@ -264,16 +287,11 @@ ActiveRecord::Schema.define(:version => 20130213191027) do
     t.boolean  "needs_id_copy_for_registration"
     t.boolean  "needs_medical_certificate_for_registration"
     t.boolean  "needs_insurance_attestation_for_registration"
-    t.integer  "city_id"
     t.datetime "created_at",                                                      :null => false
     t.datetime "updated_at",                                                      :null => false
-    t.float    "latitude"
-    t.float    "longitude"
-    t.boolean  "gmaps"
     t.string   "slug"
   end
 
-  add_index "structures", ["city_id"], :name => "index_structures_on_city_id"
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true
 
   create_table "subjects", :force => true do |t|

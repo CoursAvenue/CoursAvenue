@@ -32,10 +32,12 @@ AdminUser.create!(:email => 'admin@leboncours.com', :password => 'password', :pa
 
 # Solr
 https://github.com/sunspot/sunspot#readme
-Run local server: rake sunspot:solr:run
+Run local server:
+$ rake sunspot:solr:run
 
 Heroku:
 Start / Stop :
+$ heroku run rake sunspot:solr:start
 $ heroku run rake sunspot:solr:start
 $ heroku run rake sunspot:solr:stop
 Reindex :

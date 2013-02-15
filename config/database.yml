@@ -22,5 +22,5 @@ production:
   encoding: unicode
   database: leboncours_production
   pool: 5
-  username: postgres
+  username: eypgvyrdvljjjb
   password: password

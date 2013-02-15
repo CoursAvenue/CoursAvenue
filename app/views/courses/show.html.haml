@@ -56,12 +56,12 @@
           = image_tag @course.subjects.first.image.url(:wide), class: 'course-header-badge-image'
 
       .course-header-map.one-half.palm-one-whole
-        = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
+        = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
         %h2.course-header-structure-name
           %b= @structure.name
           %br
           %i.icon-map-marker
-          = readable_address @structure
+          = readable_address @place
 
     %ul.tab-titles{data: {behavior: 'tabs'}}
       %li.active{data: { el: 'tab-planning' }}= t('.planning')
