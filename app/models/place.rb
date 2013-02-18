@@ -1,7 +1,7 @@
 class Place < ActiveRecord::Base
   unless Rails.env.test?
     acts_as_gmappable validation: false,
-                      language: 'fr' # :msg => "Désolé, même Google n'a pas trouvé où l'établissement se trouve."
+                      language: 'fr'
     before_save :retrieve_address
   end
 

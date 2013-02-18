@@ -134,8 +134,13 @@ class Course < ActiveRecord::Base
     integer :zip_code do
       place.zip_code
     end
+
     integer :min_price
     integer :max_price
+
+    # latlon(:location) do
+    #   Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
+    # end
 
     boolean :is_promoted
     boolean :has_online_payment

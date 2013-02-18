@@ -1,5 +1,5 @@
 = content_for :title do
-  = @course.name
+  = "#{@course.type_name} de #{@course.name} à #{@city.name} avec #{@structure.name}"
 - unless @course.description.blank?
   = content_for :meta_description do
     = @course.description
