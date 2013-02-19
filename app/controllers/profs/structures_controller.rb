@@ -1,4 +1,4 @@
-class Profs::StructuresController < ApplicationController
+class Profs::StructuresController < Profs::ProfsController
 
   def index
     @structures = Structure.all

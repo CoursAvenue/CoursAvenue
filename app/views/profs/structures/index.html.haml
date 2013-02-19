@@ -1,0 +1,4 @@
+%ul
+  - @structures.each do |structure|
+    /%li= link_to structure.name, structure_path
+    %li= structure.name
