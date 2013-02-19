@@ -8,6 +8,10 @@ class Course::Training < Course
     plannings.first.length
   end
 
+  def type_name_html
+    'Stage'
+  end
+
   def type_name
     'Stage'
   end
