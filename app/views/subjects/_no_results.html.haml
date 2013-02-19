@@ -2,7 +2,7 @@
   .picture-frame= image_tag @city.no_result_image
 
 - city_id_ = @city.id
-- if Structure.where{city_id == city_id_}.all.length == 0
+- if Course.joins{place}.where{place.city_id == city_id}.count == 0
   %br
 
   %h3.this-or-this
