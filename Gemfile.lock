@@ -61,6 +61,7 @@ GEM
       sass (>= 3.2.0)
       thor
     builder (3.0.4)
+    cancan (1.6.9)
     chunky_png (1.2.7)
     cocaine (0.4.2)
     coderay (1.0.8)
@@ -254,10 +255,12 @@ DEPENDENCIES
   aws-sdk (~> 1.8.0)
   better_errors
   binding_of_caller
+  cancan (~> 1.6.9)
   coffee-rails (~> 3.2.1)
   compass-inuit (~> 4.5.5)
   compass-rails (~> 1.0.3)
   debugger
+  devise (~> 2.2.3)
   factory_girl_rails (~> 4.2.0)
   font-awesome-rails (~> 3.0.2.0)
   forgery (~> 0.5.0)

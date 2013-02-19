@@ -2,10 +2,10 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  has_many                :courses
-  has_many                :renting_rooms
-  has_many                :cities, through: :places
-  has_and_belongs_to_many :places
+  has_many :courses
+  has_many :renting_rooms
+  has_many :cities, through: :places
+  has_many :places
 
   validates :name, :presence   => true
   validates :name, :uniqueness => true
