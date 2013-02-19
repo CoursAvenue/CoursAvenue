@@ -19,10 +19,11 @@ ActiveAdmin.register Course do
   form :html => { :enctype => "multipart/form-data" } do |f|
    f.inputs "image" do
     f.input :name, label: "Nom"
+    f.input :type
     f.input :is_promoted, label: "Sur la page d'accueil"
     f.input :has_online_payment, label: 'Paiement en ligne'
     f.input :homepage_image, as: :file
-    f.input :subjects, label: Subject.model_name.human, input_html: {style: 'height: 15em;'}, collection: Subject.order('name ASC').all
+    f.input :subjects, label: Subject.model_name.human, input_html: {style: 'height: 15em;', 'data-behavior' => 'chosen'}, collection: Subject.order('name ASC').all
     end
     f.buttons
   end

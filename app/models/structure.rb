@@ -2,7 +2,6 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  belongs_to :city
   has_many                :courses
   has_many                :renting_rooms
   has_many                :cities, through: :places
@@ -12,18 +11,11 @@ class Structure < ActiveRecord::Base
   validates :name, :uniqueness => true
 
   attr_accessible :structure_type,
-                  :city_id, #
-                  :city, #
+                  :place_ids,
                   :name,
-                  :place_name, #
                   :info,
-                  :street, #
-                  :adress_info, #
                   :registration_info,
-                  :zip_code, #
-                  :has_handicap_access, #
                   :gives_professional_courses,
-                  :nb_room, #
                   :website,
                   :phone_number,
                   :mobile_phone_number,
@@ -36,17 +28,11 @@ class Structure < ActiveRecord::Base
                   :accepts_dif_funding,
                   :accepts_cif_funding,
 
-                  :latitude, #
-                  :longitude, #
-                  :gmaps, #
-                  :slug, #
-
                   # For registration info
                   :has_registration_form,
                   :needs_photo_id_for_registration,
                   :needs_id_copy_for_registration,
                   :needs_medical_certificate_for_registration, # certificat médical de moins de 3 mois
                   :needs_insurance_attestation_for_registration # attestation d'assurance
-
 
 end
