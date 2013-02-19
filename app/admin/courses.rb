@@ -20,6 +20,7 @@ ActiveAdmin.register Course do
    f.inputs "image" do
     f.input :name, label: "Nom"
     f.input :type
+    f.input :description
     f.input :is_promoted, label: "Sur la page d'accueil"
     f.input :has_online_payment, label: 'Paiement en ligne'
     f.input :homepage_image, as: :file
