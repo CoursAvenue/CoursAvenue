@@ -1,10 +1,15 @@
 LeBonCours::Application.routes.draw do
 
-  ActiveAdmin.routes(self)
+  #ActiveAdmin.routes(self)
 
-  devise_for :admin_users, ActiveAdmin::Devise.config
+  # devise_for :admin_users, ActiveAdmin::Devise.config
+  devise_for :admin_users, path: 'profs', controllers: { sessions: "admins/sessions" }, path_names: { sign_in: '/', sign_out: 'logout'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
 
-  match "sitemap.xml", :to => "sitemap#index", :defaults => {:format => :xml}
+  namespace :profs do
+    resources :structures, only: [:show, :index]
+  end
+
+  match "sitemap.xml", to: "sitemap#index", defaults: {format: :xml}
 
   resources :newsletter_users, only: [:create]
 
