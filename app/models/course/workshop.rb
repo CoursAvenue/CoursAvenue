@@ -4,8 +4,12 @@ class Course::Workshop < Course
     true
   end
 
-  def type_name
+  def type_name_html
     'Cours&#8209;atelier'.html_safe
+  end
+
+  def type_name
+    'Cours-atelier'
   end
 
   def slug_type_name

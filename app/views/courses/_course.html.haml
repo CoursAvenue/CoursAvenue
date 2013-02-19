@@ -43,7 +43,7 @@
       %ul.nav
         %li
           %span.lbl.milli
-            = course.type_name
+            = course.type_name_html
             - if course.plannings.first.duration
               = "de #{readable_duration course.plannings.first.duration}"
         - course.subjects.each do |subject|
