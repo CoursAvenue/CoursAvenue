@@ -1,0 +1,4 @@
+= content_for :content do
+  = content_for?(:admins_content) ? yield(:admins_content) : yield
+
+= render :template => 'layouts/application'
