@@ -18,7 +18,7 @@
             this.setOptions(options);
             this.el    = el;
             this.morph = new Fx.Morph(this.el);
-            //this.hide.delay(this.options.delay, this);
+            this.hide.delay(this.options.delay, this);
         },
 
         hide: function() {
