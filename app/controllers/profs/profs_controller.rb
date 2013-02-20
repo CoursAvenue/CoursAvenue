@@ -1,3 +1,3 @@
 class Profs::ProfsController < ApplicationController
-  layout 'admins'
+  layout 'admin'
 end

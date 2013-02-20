@@ -4,7 +4,11 @@ LeBonCours::Application.routes.draw do
 
   # devise_for :admin_users, ActiveAdmin::Devise.config
   # devise_for :admin_users, path: 'profs', controllers: { sessions: "admins/sessions" }, path_names: { sign_in: '/', sign_out: 'logout'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
-  devise_for :admin_users, path: 'profs', path_names: { sign_in: '/', sign_out: 'logout'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
+
+  namespace :admin do
+    resources :admin_users, only: [:index]
+    devise_for :admin_users, controllers: { sessions: "admin/sessions" } , path: '/', path_names: { sign_in: 'login', sign_out: 'logout'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
+  end
 
   namespace :profs do
     resources :structures, only: [:show, :index]

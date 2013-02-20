@@ -1,5 +1,10 @@
 module ApplicationHelper
 
+  def current_admin
+    current_admin_admin_user
+  end
+
+
   # Overriding Kaminari's method
   # https://github.com/amatsuda/kaminari/blob/master/lib/kaminari/helpers/action_view_extension.rb
   def page_entries_info(collection, options = {})
