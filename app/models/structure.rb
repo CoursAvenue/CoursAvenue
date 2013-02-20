@@ -7,6 +7,8 @@ class Structure < ActiveRecord::Base
   has_many :cities, through: :places
   has_many :places
 
+  has_and_belongs_to_many :admin_users
+
   validates :name, :presence   => true
   validates :name, :uniqueness => true
 

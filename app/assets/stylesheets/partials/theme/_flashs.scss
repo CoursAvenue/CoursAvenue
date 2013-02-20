@@ -3,18 +3,20 @@
     top         : 0;
     left        : 50%;
     width       : 40em;
+    margin      : 0;
     margin-left : -20em;
     text-align  : center;
     color       : white;
     padding     : 0.5em 1em;
     z-index     : 10000;
     border      : 1px solid black;
+    @include border-radius(0);
     @include border-bottom-radius($brand-round);
     &.notice {
         background-color: $greenSuccess;
         border-color    : darken($greenSuccess, 5%);
     }
-    &.error {
+    &.error, &.alert {
         background-color: $red;
         border-color    : darken($red, 5%);
     }

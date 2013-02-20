@@ -1,0 +1,16 @@
+fr:
+  devise:
+    invitations:
+      send_instructions: "Un email d'invitation vient d'être envoyé à l'adresse : %{email}."
+      invitation_token_invalid: "Le jeton d'invitation n'est pas valide."
+      updated: 'Votre mot de passe a correctement été enregistré. Vous êtes maintenant connecté.'
+      no_invitations_remaining: "Aucune invitation restante"
+      new:
+        header: "Envoyer l'invitation"
+        submit_button: "Envoyer une invitation"
+      edit:
+        header: "Choisir le mot de passe"
+        submit_button: "Choisir mon mot de passe"
+    mailer:
+      invitation_instructions:
+        subject: "Instructions d'invitation"

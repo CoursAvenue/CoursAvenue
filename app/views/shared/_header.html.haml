@@ -9,10 +9,10 @@
       %ul.nav
         %li.espace-pro-wrapper
           .espace-pro
-          - if current_admin_user and current_admin_user.super_admin?
+          - if current_admin and current_admin.super_admin?
             = link_to 'Référencer mes cours et stages', profs_structures_path, class: 'btn'
-          - elsif current_admin_user
-            = link_to 'Référencer mes cours et stages', profs_structure_path(current_admin_user.structure), class: 'btn'
+          - elsif current_admin
+            = link_to 'Référencer mes cours et stages', profs_structure_path(current_admin.structure), class: 'btn'
           - else
             = link_to 'Référencer mes cours et stages', 'mailto:referencement@leboncours.com?subject=Référencement de mes cours', class: 'btn'
         %li
@@ -25,6 +25,6 @@
           = link_to 'Blog', 'http://blog.leboncours.com', class: 'header-link', target: '_blank'
         %li
           = link_to 'Contact', pages_contact_path, class: 'header-link'
-        - if current_admin_user
+        - if current_admin
           %li
-            = link_to 'Se déconnecter', destroy_admin_user_session_path, class: 'header-link', method: :delete
+            = link_to 'Se déconnecter', destroy_admin_admin_user_session_path, class: 'header-link', method: :delete
