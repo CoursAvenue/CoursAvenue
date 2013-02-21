@@ -1,4 +1,5 @@
 class Structure < ActiveRecord::Base
+  STRUCTURE_TYPES = ["structures.private_center", "structures.public_center", "structures.community_center", "structures.independant", "structures.museum"]
   extend FriendlyId
   friendly_id :name, use: :slugged
 

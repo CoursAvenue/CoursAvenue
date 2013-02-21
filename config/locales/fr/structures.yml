@@ -4,8 +4,29 @@ fr:
       structure: Structure
     attributes:
       structure:
+        name: Nom
         nb_room: Nombre de salles
         website: "Site internet :"
         has_handicap_access: Accès handicapé
-
-  #structures:
+        phone_number: Téléphone fixe
+        mobile_phone_number: Téléphone portable
+        email_address: Adresse email
+        accepts_holiday_vouchers: 'Tickets loisirs C.A.F. (y compris les "tickets temps libre")'
+        accepts_ancv_sports_coupon: Coupon Sports ANCV
+        accepts_leisure_tickets: Chèques vacances
+        accepts_afdas_funding: AFDAS
+        accepts_dif_funding: DIF
+        accepts_cif_funding: CIF
+  structures:
+    private_center: Centre privé
+    public_center: Centre public / conservatoire
+    community_center: Centre associatif
+    independant: Professeur indépendant
+    museum: Musée
+  profs:
+    structures:
+      new:
+        name: "Nom (Prénom + Nom si vous êtes indépendant"
+        you_are: Vous êtes ?
+        contact: Contact (il est important que l'on puisse vous contacter rapidement)
+        possible_funding: "Pour l’un ou l’ensemble de vos cours, acceptez-vous le paiement par les financements suivants :"
