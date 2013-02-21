@@ -27,5 +27,5 @@
           - elsif current_admin.structure.present?
             %li= link_to 'Espace admin', profs_structure_path(current_admin.structure), class: 'header-link'
           - else
-            %li= link_to 'Espace admin', profs_new_structure_path, class: 'header-link'
+            %li= link_to 'Espace admin', new_profs_structure_path, class: 'header-link'
           %li= link_to 'Se déconnecter', destroy_admin_admin_user_session_path, class: 'header-link', method: :delete

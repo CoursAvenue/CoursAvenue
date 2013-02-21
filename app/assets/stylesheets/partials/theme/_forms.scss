@@ -1,3 +1,15 @@
 .inline-form {
     display: inline;
 }
+
+.simple_form {
+    .input {
+        margin: 1em 0;
+    }
+    .control-label {
+        display      : inline-block;
+        width        : 15em;
+        text-align   : right;
+        padding-right: 1em;
+    }
+}

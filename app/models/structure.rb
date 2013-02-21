@@ -10,7 +10,7 @@ class Structure < ActiveRecord::Base
   has_many :admin_users
 
   validates :name, :presence   => true
-  validates :name, :uniqueness => true
+  # validates :name, :uniqueness => true
 
   attr_accessible :structure_type,
                   :place_ids,
@@ -22,6 +22,7 @@ class Structure < ActiveRecord::Base
                   :phone_number,
                   :mobile_phone_number,
                   :email_address,
+
                   ## Moyen de financements possible :
                   :accepts_holiday_vouchers,
                   :accepts_ancv_sports_coupon,

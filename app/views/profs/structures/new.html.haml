@@ -1,0 +1,15 @@
+%h1 Bienvenue dans votre espace d'administration
+
+%h2 Veuillez nous renseigner les informations de votre structure
+
+= simple_form_for @structure, url: profs_structures_path, :html => {method: :post} do |f|
+  = f.error_notification
+  = f.input :name
+  = f.input :info
+  = f.input :registration_info
+  = f.input :gives_professional_courses
+  = f.input :website
+  = f.input :phone_number
+  = f.input :mobile_phone_number
+  = f.input :email_address
+  = f.submit

@@ -1,5 +1,7 @@
 class Profs::StructuresController < Profs::ProfsController
 
+  layout 'users'
+
   def index
     @structures = Structure.all
   end
@@ -9,4 +11,7 @@ class Profs::StructuresController < Profs::ProfsController
     authorize! :edit, @structure
   end
 
+  def new
+    @structure = Structure.new
+  end
 end
