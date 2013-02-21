@@ -7,18 +7,14 @@
 
     %nav.text--center.espace-pro-nav
       %ul.nav
-        %li.espace-pro-wrapper
-          .espace-pro
-          - if current_admin and current_admin.super_admin?
-            = link_to 'Référencer mes cours et stages', profs_structures_path, class: 'btn'
-          - elsif current_admin
-            = link_to 'Référencer mes cours et stages', profs_structure_path(current_admin.structure), class: 'btn'
-          - else
+        - unless current_admin
+          %li.espace-pro-wrapper
+            .espace-pro
             = link_to 'Référencer mes cours et stages', 'mailto:referencement@leboncours.com?subject=Référencement de mes cours', class: 'btn'
-        %li
-          = link_to 'Louer mes espaces', 'mailto:referencement@leboncours.com?subject=Location de mes espaces', class: 'btn'
-        %li
-          = link_to 'Trouver une salle pour mes cours ?', 'mailto:referencement@leboncours.com?subject=Recherche de salle à louer', class: 'btn'
+          %li
+            = link_to 'Louer mes espaces', 'mailto:referencement@leboncours.com?subject=Location de mes espaces', class: 'btn'
+          %li
+            = link_to 'Trouver une salle pour mes cours ?', 'mailto:referencement@leboncours.com?subject=Recherche de salle à louer', class: 'btn'
     %nav.float--right.nav-links-wrapper
       %ul.nav
         %li
@@ -26,5 +22,10 @@
         %li
           = link_to 'Contact', pages_contact_path, class: 'header-link'
         - if current_admin
-          %li
-            = link_to 'Se déconnecter', destroy_admin_admin_user_session_path, class: 'header-link', method: :delete
+          - if current_admin.super_admin?
+            %li= link_to 'Espace super admin', profs_structures_path, class: 'header-link'
+          - elsif current_admin.structure.present?
+            %li= link_to 'Espace admin', profs_structure_path(current_admin.structure), class: 'header-link'
+          - else
+            %li= link_to 'Espace admin', profs_new_structure_path, class: 'header-link'
+          %li= link_to 'Se déconnecter', destroy_admin_admin_user_session_path, class: 'header-link', method: :delete

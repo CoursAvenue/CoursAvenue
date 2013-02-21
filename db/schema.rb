@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130219215411) do
+ActiveRecord::Schema.define(:version => 20130221103816) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -48,19 +48,13 @@ ActiveRecord::Schema.define(:version => 20130219215411) do
     t.integer  "invitation_limit"
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
+    t.integer  "structure_id"
   end
 
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
   add_index "admin_users", ["invitation_token"], :name => "index_admin_users_on_invitation_token"
   add_index "admin_users", ["invited_by_id"], :name => "index_admin_users_on_invited_by_id"
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
-
-  create_table "admin_users_structures", :id => false, :force => true do |t|
-    t.integer "admin_user_id"
-    t.integer "structure_id"
-  end
-
-  add_index "admin_users_structures", ["admin_user_id", "structure_id"], :name => "index_admin_users_structures_on_admin_user_id_and_structure_id"
 
   create_table "audiences", :force => true do |t|
     t.string   "name"

@@ -7,11 +7,11 @@ LeBonCours::Application.routes.draw do
 
   namespace :admin do
     resources :admin_users, only: [:index]
-    devise_for :admin_users, controllers: { sessions: "admin/sessions" } , path: '/', path_names: { sign_in: 'login', sign_out: 'logout'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
+    devise_for :admin_users, controllers: { sessions: "admin/sessions" }, invitation: 'admin/invitations' , path: '/', path_names: { sign_in: '/', sign_out: 'logout'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
   end
 
   namespace :profs do
-    resources :structures, only: [:show, :index]
+    resources :structures, only: [:show, :new, :create, :index]
   end
 
   match "sitemap.xml", to: "sitemap#index", defaults: {format: :xml}
