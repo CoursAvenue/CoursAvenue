@@ -9,8 +9,8 @@ fr:
         header: "Envoyer l'invitation"
         submit_button: "Envoyer une invitation"
       edit:
-        header: "Choisir le mot de passe"
-        submit_button: "Choisir mon mot de passe"
+        header: "Choisissez votre mot de passe"
+        submit_button: "Valider"
     mailer:
       invitation_instructions:
         subject: "Instructions d'invitation"

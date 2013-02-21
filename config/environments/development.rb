@@ -15,6 +15,20 @@ LeBonCours::Application.configure do
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
+  # ------------ Mailer configuration
+  config.action_mailer.default_url_options = { :host => 'leboncours.dev' }
+  config.action_mailer.asset_host = 'http://leboncours.dev'
+
+  config.action_mailer.smtp_settings = {
+    :address => "mail.gandi.net",
+    :port => 587,
+    :domain => 'leboncours.com',
+    :authentication => 'plain',
+    :user_name => 'contact@leboncours.com',
+    :password => 'thisisastrongpassword',
+    :enable_starttls_auto => true
+  }
+
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
