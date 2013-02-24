@@ -11,6 +11,7 @@ fr:
         phone_number: Téléphone fixe
         mobile_phone_number: Téléphone portable
         email_address: Adresse email
+        gives_professional_courses: Mes cours sont pour des professionnels
         accepts_holiday_vouchers: 'Tickets loisirs C.A.F. (y compris les "tickets temps libre")'
         accepts_ancv_sports_coupon: Coupon Sports ANCV
         accepts_leisure_tickets: Chèques vacances

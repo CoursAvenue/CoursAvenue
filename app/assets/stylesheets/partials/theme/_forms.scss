@@ -21,6 +21,11 @@
         height: 5em;
         width : 24.5em;
     }
+    .required {
+        abbr {
+            border: none;
+        }
+    }
     .input.boolean {
         @extend .cf;
         label {

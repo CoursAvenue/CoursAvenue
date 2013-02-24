@@ -14,4 +14,9 @@ class Profs::StructuresController < Profs::ProfsController
   def new
     @structure = Structure.new
   end
+
+  def create
+    @structure = Structure.create params[:structure]
+    redirect_to profs_structure_path(@structure)
+  end
 end
