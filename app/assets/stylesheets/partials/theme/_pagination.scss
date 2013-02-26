@@ -12,10 +12,23 @@
 }
 
 .pagination {
+    @extend .ilb-wrapper;
     margin-bottom: 0;
     margin-left  : 0;
+    li.current {
+        padding: 13px;
+    }
+    li.disabled {
+        padding: 12px;
+    }
     li {
+        padding: 0;
+        margin : 0;
         @include border-radius(0);
+        a {
+            margin : 0;
+            display: block;
+        }
     }
     .btn--active {
         border: none;

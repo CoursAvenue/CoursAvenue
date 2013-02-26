@@ -26,6 +26,7 @@
 //= require libs/datepicker/Picker.Date
 //= require libs/datepicker/Picker.Date.Range
 //= require libs/autocomplete
+//= require libs/simple-modal
 
 // ---------------------------------- Mootols Objects
 //= require_tree ./objects/
