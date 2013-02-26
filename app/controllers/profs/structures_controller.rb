@@ -1,6 +1,6 @@
 class Profs::StructuresController < Profs::ProfsController
 
-  layout 'users'
+  layout 'admin'
 
   def index
     @structures = Structure.all

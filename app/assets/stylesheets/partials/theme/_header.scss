@@ -25,7 +25,14 @@
         }
     }
 }
-
+.header--pro {
+    padding-left : 1em;
+    padding-right: 1em;
+    .logo {
+        height: 50px;
+        width : 262px;
+    }
+}
 a.header-link {
     color       : $grayLight;
     font-weight : bold;

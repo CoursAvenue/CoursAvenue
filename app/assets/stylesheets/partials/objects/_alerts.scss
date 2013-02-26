@@ -1,0 +1,9 @@
+.alert--info {
+    color           : darken($alert-info-background, 50%);//#c09853;
+    padding         : 8px 35px 8px 14px;
+    margin-bottom   : 20px;
+    text-shadow     : 0 1px 0 rgba(255, 255, 255, 0.5);
+    background-color: $alert-info-background;
+    border          : 1px solid #fbeed5;
+    @include border-radius($brand-round);
+}

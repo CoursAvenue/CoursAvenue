@@ -1,16 +1,15 @@
-%header.header
-  .main-container.ilb-wrapper.align-middle
+%header.header.header--pro
+  .ilb-wrapper.align-middle
     %h1.accessibility
       LeBonCours
     = link_to root_path, class: 'logo' do
-      = image_tag 'logo.png', width: 200
+      = image_tag 'logo_pro.png', width: 200
 
     %nav.text--center.espace-pro-nav
       %ul.nav
         - unless current_admin
           %li.espace-pro-wrapper
             .espace-pro
-            /= link_to 'Référencer mes cours et stages', 'mailto:referencement@leboncours.com?subject=Référencement de mes cours', class: 'btn'
             = link_to 'Référencer mes cours et stages', new_admin_admin_user_registration_path , class: 'btn'
           %li
             = link_to 'Louer mes espaces', 'mailto:referencement@leboncours.com?subject=Location de mes espaces', class: 'btn'

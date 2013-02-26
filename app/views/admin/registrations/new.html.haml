@@ -1,10 +1,12 @@
 .ilb-wrapper
   .one-third.islet.bordered--right
     %h2.text--center Merci d’avoir choisi LeBonCours et BiENVENUE !
-    %p.text--center
+    %p.text--center.alert--info
       Des questions ? Nous sommes joignables entre 9h30 et 18h30
       %br
-      %b 06 07 94 54 52
+      %b
+        %i.icon-phone
+        06 07 94 54 52
 
     %p
       %b Voici 15 (bonnes) raisons de nous rejoindre :
@@ -26,28 +28,15 @@
       %li Nous sommes 100% Made In France ;-)
 
   .two-thirds.islet
-    %h3 Veuillez nous renseigner les informations de votre structure
-
-    = simple_form_for @structure, url: profs_structures_path, :html => {method: :post} do |f|
+    = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
       = f.error_notification
-      = f.input :structure_type, label: t('.you_are'), collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
-      = f.input :name, label: t('.name')
+      .form-inputs
+        = f.input :email, :required => true, :autofocus => true
+        = f.input :password, :required => true
+        = f.input :password_confirmation, :required => true
 
-      = f.label t('.contact'), class: 'label--header'
-      = f.input :phone_number
-      = f.input :mobile_phone_number
-      = f.input :email_address
-      = f.input :info
-      = f.input :registration_info
-      = f.input :website
-      = f.input :gives_professional_courses
-
-      = f.label t('.possible_funding'), class: 'label--header'
-      = f.input :accepts_holiday_vouchers
-      = f.input :accepts_ancv_sports_coupon
-      = f.input :accepts_leisure_tickets
-      = f.input :accepts_afdas_funding
-      = f.input :accepts_dif_funding
-      = f.input :accepts_cif_funding
       .form-actions
-        = f.button :submit, t('.create_structure'), wrapper: :submit_wrapper
+        = f.button :submit, "Sign up"
+
+
+    = render "devise/shared/links"
