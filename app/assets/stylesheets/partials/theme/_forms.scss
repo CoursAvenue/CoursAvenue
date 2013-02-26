@@ -4,15 +4,23 @@
 
 .simple_form {
     .input {
-        margin: 1em 0;
+        margin: 10px 0;
+        @extend .ilb-wrapper;
+        @extend .align-middle;
+        input, select, textarea {
+            width : 70%;
+        }
+        .control-label {
+            width         : 30%;
+        }
     }
-    .control-label {
-        display       : inline-block;
-        vertical-align: middle;
-        width         : 20em;
-        text-align    : right;
-        padding-right : 1em;
-    }
+        .control-label {
+            // display       : inline-block;
+            // vertical-align: middle;
+            //width         : 20em;
+            text-align    : right;
+            padding-right : 1em;
+        }
     .label--header {
         font-weight: bold;
         width      : auto;
@@ -32,4 +40,7 @@
             float: left;
         }
     }
+}
+.form-actions {
+    padding-left: 30%;
 }

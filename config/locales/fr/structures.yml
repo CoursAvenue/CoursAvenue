@@ -27,6 +27,7 @@ fr:
   profs:
     structures:
       new:
+        create_structure: Créer ma structure
         name: "Nom (Prénom + Nom si vous êtes indépendant"
         you_are: Vous êtes ?
         contact: Contact (il est important que l'on puisse vous contacter rapidement)

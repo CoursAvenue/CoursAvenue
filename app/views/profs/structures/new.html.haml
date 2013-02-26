@@ -1,27 +1,31 @@
-%h1 Bienvenue dans votre espace d'administration
+.ilb-wrapper
+  .one-third
+    %h1.text--center Merci d’avoir choisi LeBonCours et BiENVENUE !
 
-%h2 Veuillez nous renseigner les informations de votre structure
+  .two-thirds
 
-= simple_form_for @structure, url: profs_structures_path, :html => {method: :post} do |f|
-  = f.error_notification
-  = f.input :structure_type, label: t('.you_are'), collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
-  = f.input :name, label: t('.name')
+    %h3 Veuillez nous renseigner les informations de votre structure
 
-  = f.label t('.contact'), class: 'label--header'
-  = f.input :phone_number
-  = f.input :mobile_phone_number
-  = f.input :email_address
-  = f.input :info
-  = f.input :registration_info
-  = f.input :website
-  = f.input :gives_professional_courses
+    = simple_form_for @structure, url: profs_structures_path, :html => {method: :post} do |f|
+      = f.error_notification
+      = f.input :structure_type, label: t('.you_are'), collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
+      = f.input :name, label: t('.name')
 
-  = f.label t('.possible_funding'), class: 'label--header'
-  = f.input :accepts_holiday_vouchers
-  = f.input :accepts_ancv_sports_coupon
-  = f.input :accepts_leisure_tickets
-  = f.input :accepts_afdas_funding
-  = f.input :accepts_dif_funding
-  = f.input :accepts_cif_funding
+      = f.label t('.contact'), class: 'label--header'
+      = f.input :phone_number
+      = f.input :mobile_phone_number
+      = f.input :email_address
+      = f.input :info
+      = f.input :registration_info
+      = f.input :website
+      = f.input :gives_professional_courses
 
-  = f.button :submit, wrapper: :submit_wrapper
+      = f.label t('.possible_funding'), class: 'label--header'
+      = f.input :accepts_holiday_vouchers
+      = f.input :accepts_ancv_sports_coupon
+      = f.input :accepts_leisure_tickets
+      = f.input :accepts_afdas_funding
+      = f.input :accepts_dif_funding
+      = f.input :accepts_cif_funding
+      .form-actions
+        = f.button :submit, t('.create_structure'), wrapper: :submit_wrapper
