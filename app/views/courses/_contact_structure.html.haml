@@ -15,7 +15,17 @@
   :javascript
     $("book-online").addEvent("click", function(){
         var modal = new SimpleModal({
-          width: 800
+            width: 800,
+            "onAppend": function() {
+                $("simple-modal").fade("hide");
+                setTimeout((function(){ $("simple-modal").fade("show")}), 200 );
+                var tw = new Fx.Tween($("simple-modal"),{
+                  duration: 800,
+                  transition: Fx.Transitions.Cubic.easeOut,
+                  link: 'cancel',
+                  property: 'top'
+                }).start(-400, 150);
+            }
         });
         modal.show({
             "model":"modal",
@@ -26,11 +36,11 @@
 
 #book-online-modal-content.hidden
   .ilb-wrapper
-    .one-half
-      %h4.flush--bottom.brand.text--center.bordered--right Contactez l'établissement
+    .one-half.bordered--right
+      %h4.flush--bottom.brand.text--center Contactez l'établissement
       .text--center.course-info-heading
         %b En attendant la réservation en ligne
-        %p.course-info-heading-caption{:style => 'padding-right: 1em;'} Contactez directement l'établissement en mentionnant que vous l'avez trouvé sur LeBonCours.com !
+        %p.course-info-heading-caption{:style => 'padding-right: 1em;'} Contactez l'établissement en mentionnant que vous l'avez trouvé sur LeBonCours.com !
       .text--center.delta
         %i.icon-phone.blue
         - if @structure.phone_number
@@ -52,7 +62,7 @@
         %p.course-info-heading-caption Laissez-nous votre e-mail pour être tenu au courant de son lancement ! (promis, pas de spam, que des bons plans !)
       .text--center
         = simple_form_for NewsletterUser.new do |f|
-          = f.email_field :email, placeholder: t('newsletter_users.email'), size: 20, style: 'margin-bottom: 10px;'
+          = f.email_field :email, placeholder: t('newsletter_users.email'), size: 20
           = f.hidden_field :url, value: "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
           = f.hidden_field :city, value: @city.name
-          /= f.submit 'Réservez en ligne', :class => 'btn btn__primary'
+          = f.submit 'Ok', :class => 'btn btn__primary'
