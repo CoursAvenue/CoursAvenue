@@ -1,6 +1,9 @@
 .similar-course {
     padding-left: 1em;
 }
+    .similar-course--image-wrapper {
+        position      : relative;
+    }
     .similar-course--image {
         position      : relative;
         vertical-align: middle;
