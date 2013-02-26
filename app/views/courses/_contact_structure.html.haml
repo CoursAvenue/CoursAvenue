@@ -8,31 +8,51 @@
           %b.gamma.blue= "#{@course.promotion_price}€".html_safe
       - else
         %h2.blue= "#{@course.best_price.readable_amount}€"
+  .text--center.islet.flush--bottom
+    %a#book-online.one-whole.btn.btn__primary Réservez en ligne
 
-  .text--center.course-info-heading
-    %b En attendant la réservation en ligne
-    %p.course-info-heading-caption Dites que LeBonCours vous a guidé !
-  .text--center.delta
-    %i.icon-phone.blue
-    - if @structure.phone_number
-      = link_to "tel:#{@structure.phone_number.gsub(/\s+/, '')}", class: 'blue' do
-        = @structure.phone_number.gsub(' ', '&nbsp;').html_safe
-    - if @structure.phone_number and @structure.mobile_phone_number
-      %span.blue /
-    - if @structure.mobile_phone_number
-      = link_to "tel:#{@structure.mobile_phone_number.gsub(/\s+/, '')}", class: 'blue' do
-        = @structure.mobile_phone_number.gsub(' ', '&nbsp;').html_safe
-  - if @structure.website
-    .text--center
-      %i.icon-external-link.blue
-      = link_to @structure.name, @structure.website, class: 'blue', target: '_blank'
+- content_for :scripts do
+  :javascript
+    $("book-online").addEvent("click", function(){
+        var modal = new SimpleModal({
+          width: 800
+        });
+        modal.show({
+            "model":"modal",
+            "title":"Réservez en ligne",
+            "contents": $('book-online-modal-content').get('html')
+        });
+    });
 
-  %hr.course-info-delimiter
-  .text--center.course-info-heading
-    %b Réservation en ligne
-    %p.course-info-heading-caption En attendant le lancement, restons en contact ! (promis, pas de spam, que des bons plans !)
-  .text--center
-    = simple_form_for NewsletterUser.new do |f|
-      = f.email_field :email, placeholder: t('newsletter_users.email'), size: 20, style: 'margin-bottom: 10px;'
-      = f.hidden_field :url, value: "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
-      = f.submit 'Réservez en ligne', :class => 'btn btn__primary'
+#book-online-modal-content.hidden
+  .ilb-wrapper
+    .one-half
+      %h4.flush--bottom.brand.text--center.bordered--right Contactez l'établissement
+      .text--center.course-info-heading
+        %b En attendant la réservation en ligne
+        %p.course-info-heading-caption{:style => 'padding-right: 1em;'} Contactez directement l'établissement en mentionnant que vous l'avez trouvé sur LeBonCours.com !
+      .text--center.delta
+        %i.icon-phone.blue
+        - if @structure.phone_number
+          = link_to "tel:#{@structure.phone_number.gsub(/\s+/, '')}", class: 'blue' do
+            = @structure.phone_number.gsub(' ', '&nbsp;').html_safe
+        - if @structure.phone_number and @structure.mobile_phone_number
+          %span.blue /
+        - if @structure.mobile_phone_number
+          = link_to "tel:#{@structure.mobile_phone_number.gsub(/\s+/, '')}", class: 'blue' do
+            = @structure.mobile_phone_number.gsub(' ', '&nbsp;').html_safe
+      - if @structure.website
+        .text--center
+          %i.icon-external-link.blue
+          = link_to @structure.name, @structure.website, class: 'blue', target: '_blank'
+    .one-half
+      %h4.flush--bottom.brand.text--center Réservez directement en ligne
+      .text--center.course-info-heading
+        %b La réservation en ligne n'est pas encore ouverte
+        %p.course-info-heading-caption Laissez-nous votre e-mail pour être tenu au courant de son lancement ! (promis, pas de spam, que des bons plans !)
+      .text--center
+        = simple_form_for NewsletterUser.new do |f|
+          = f.email_field :email, placeholder: t('newsletter_users.email'), size: 20, style: 'margin-bottom: 10px;'
+          = f.hidden_field :url, value: "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
+          = f.hidden_field :city, value: @city.name
+          /= f.submit 'Réservez en ligne', :class => 'btn btn__primary'
