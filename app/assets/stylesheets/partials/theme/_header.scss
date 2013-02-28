@@ -46,6 +46,9 @@ a.header-link {
 .nav-links-wrapper {
     @include media-query(palm) { display: none!important; };
     @include media-query(lap) { display: none!important; };
+    .active {
+        font-weight: bold;
+    }
 }
 .espace-pro-nav {
     padding-left: 100px;

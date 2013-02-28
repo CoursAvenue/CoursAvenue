@@ -15,16 +15,4 @@
 
 .main-container
   %nav.nav-links-wrapper
-    %ul.nav
-      %li
-        %a.submenu-link Accueil
-      %li
-        %a.submenu-link Présentation
-      %li
-        %a.submenu-link Offres & Tarifs
-      %li
-        %a.submenu-link Inscription
-      %li
-        %a.submenu-link Nos clients
-      %li
-        %a.submenu-link Presse & Partenaires
+    = yield :main_navigation

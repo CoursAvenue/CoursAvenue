@@ -1,0 +1,8 @@
+- content_for :main_navigation do
+  %ul.nav.flush--bottom
+    = submenu_link 'Accueil',             '#', current: current_tab
+    = submenu_link 'Présentation',        '#', current: current_tab
+    = submenu_link 'Offres & Tarifs',     '#', current: current_tab
+    = submenu_link 'Inscription',         '#', current: current_tab
+    = submenu_link 'Nos clients',         '#', current: current_tab
+    = submenu_link 'Presse & Partenaires','#', current: current_tab

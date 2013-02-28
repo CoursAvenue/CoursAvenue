@@ -10,13 +10,14 @@ LeBonCours::Application.routes.draw do
   constraints :subdomain => 'pro' do
     root :to => 'pro::home#index'
     resources :structures, only: [:show, :new, :create, :index]
+
+    devise_for :admin_users, controllers: { sessions: 'admin/sessions', registrations: 'admin/registrations'} , path: '/', path_names: { sign_in: '/', sign_out: 'logout', registration: 'rejoindre-leboncours-pro', sign_up: '/'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
+    namespace :admin do
+      resources :admin_users, only: [:index]
+      #devise_for :admin_users, controllers: { sessions: "admin/sessions" }, invitation: 'admin/invitations' , path: '/', path_names: { sign_in: '/', sign_out: 'logout'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
+    end
   end
 
-  namespace :admin do
-    resources :admin_users, only: [:index]
-    #devise_for :admin_users, controllers: { sessions: "admin/sessions" }, invitation: 'admin/invitations' , path: '/', path_names: { sign_in: '/', sign_out: 'logout'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
-    devise_for :admin_users, controllers: { sessions: 'admin/sessions', registrations: 'admin/registrations'} , path: '/', path_names: { sign_in: '/', sign_out: 'logout', registration: 'rejoindre-leboncours-pro', sign_up: '/'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
-  end
 
   match "sitemap.xml", to: "sitemap#index", defaults: {format: :xml}
 
