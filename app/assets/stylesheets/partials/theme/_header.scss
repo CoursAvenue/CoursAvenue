@@ -28,9 +28,13 @@
 .header--pro {
     padding-left : 1em;
     padding-right: 1em;
+    .main-container {
+        line-height: 1;
+    }
     .logo {
-        height: 50px;
-        width : 262px;
+        display: block;
+        height : 50px;
+        width  : 262px;
     }
 }
 a.header-link {

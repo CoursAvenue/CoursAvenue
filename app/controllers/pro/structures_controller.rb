@@ -1,4 +1,4 @@
-class Profs::StructuresController < Profs::ProfsController
+class Profs::StructuresController < Pro::ProfsController
 
   layout 'admin'
 

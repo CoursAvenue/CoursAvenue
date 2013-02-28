@@ -1,0 +1,30 @@
+%header.header.header--pro
+  .main-container.ilb-wrapper.align-middle
+    %h1.accessibility
+      LeBonCours
+    .one-half
+      = link_to root_path, class: 'logo' do
+        = image_tag 'logo_pro.png', width: 200
+
+    .one-half.text--right
+      %div
+        %i.icon-phone-sign.gamma.orange
+        = image_tag 'pages/phone_number.png', height: 19
+        %br
+        = image_tag 'pages/email.png', height: 10
+
+.main-container
+  %nav.nav-links-wrapper
+    %ul.nav
+      %li
+        %a.submenu-link Accueil
+      %li
+        %a.submenu-link Présentation
+      %li
+        %a.submenu-link Offres & Tarifs
+      %li
+        %a.submenu-link Inscription
+      %li
+        %a.submenu-link Nos clients
+      %li
+        %a.submenu-link Presse & Partenaires
