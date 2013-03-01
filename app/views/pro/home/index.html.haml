@@ -1,2 +1,6 @@
 = currently_at 'Accueil'
-%h1 Test
+
+%h3 Des cours à nous proposer ?
+%p= link_to "S'enregistrer", new_admin_user_registration_path, class: 'btn'
+%h3 Déjà inscrit ?
+%p= link_to 'Se connecter', new_admin_user_session_path, class: 'btn'
