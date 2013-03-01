@@ -32,7 +32,17 @@ $beigeDarker:           #e3dcd4 !default;
 $beigeDark:             #f7f5f3 !default;
 $beige:                 #f1eeec !default;
 
-$alert-info-background: #fcf8e3 !default;
+$alert-info-background-color:    #fcf8e3 !default;
+$alert-info-text-color:          #c09853 !default;
+$alert-info-border-color:        #fbeed5 !default;
+
+$alert-error-background-color:   #f2dede !default;
+$alert-error-text-color:         #b94a48 !default;
+$alert-error-border-color:       #eed3d7 !default;
+
+$alert-success-text-color:       #468847 !default;
+$alert-success-background-color: #dff0d8 !default;
+$alert-success-border-color:     #d6e9c6 !default;
 
 $brandColor:           $orange !default;
 $brand-color:          $orange !default;
