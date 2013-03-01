@@ -1,5 +1,5 @@
 .ilb-wrapper
-  .one-third.islet.bordered--right
+  .one-half.islet.bordered--right
     %h2.text--center Merci d’avoir choisi LeBonCours et BiENVENUE !
     %p.text--center.alert--info
       Des questions ? Nous sommes joignables entre 9h30 et 18h30
@@ -27,7 +27,7 @@
       %li Le paiement est simple et sécurisé : les clients peuvent soit payer le cours par carte bancaire sur LeBonCours.com, soit vous payer directement
       %li Nous sommes 100% Made In France ;-)
 
-  .two-thirds.islet
+  .one-half.islet
     = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
       = f.error_notification
       .form-inputs
