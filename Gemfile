@@ -35,7 +35,6 @@ gem 'friendly_id'               , '~> 4.0.1'
 gem 'simple_form'               , '~> 2.0.4'
 gem 'inherited_resources'       , '~> 1.3.1'
 
-gem 'activeadmin'               , '~> 0.5.1'
 gem 'cancan'                    , '~> 1.6.9'
 gem 'devise'                    , '~> 2.2.3'
 gem 'devise_invitable'          , '~> 1.1.5'

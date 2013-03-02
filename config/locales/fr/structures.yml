@@ -5,8 +5,12 @@ fr:
     attributes:
       structure:
         name: Nom
+        structure_type: Type de structure
         nb_room: Nombre de salles
-        website: "Site internet :"
+        address: Adresse
+        zip_code: Code postale
+        city_name: Ville
+        website: "Site internet"
         has_handicap_access: Accès handicapé
         phone_number: Téléphone fixe
         mobile_phone_number: Téléphone portable
@@ -24,6 +28,8 @@ fr:
     community_center: Centre associatif
     independant: Professeur indépendant
     museum: Musée
+    federation: Fédération
+    other: Autre
   profs:
     structures:
       new:

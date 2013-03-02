@@ -2,30 +2,21 @@
   .ilb-wrapper.align-middle
     %h1.accessibility
       LeBonCours
-    = link_to root_path, class: 'logo' do
-      = image_tag 'logo_pro.png', width: 200
+    .one-half
+      = link_to root_path, class: 'logo' do
+        = image_tag 'logo_pro.png', width: 200
 
-    %nav.text--center.espace-pro-nav
+    %nav.nav-links-wrapper.one-half.text--right
+      %div
+        %i.icon-phone-sign.gamma.orange
+        = image_tag 'pages/phone_number.png', height: 19
+        %br
+        = image_tag 'pages/email.png', height: 10
       %ul.nav
-        - unless current_admin
-          %li.espace-pro-wrapper
-            .espace-pro
-            = link_to 'Référencer mes cours et stages', new_admin_admin_user_registration_path , class: 'btn'
-          %li
-            = link_to 'Louer mes espaces', 'mailto:referencement@leboncours.com?subject=Location de mes espaces', class: 'btn'
-          %li
-            = link_to 'Trouver une salle pour mes cours ?', 'mailto:referencement@leboncours.com?subject=Recherche de salle à louer', class: 'btn'
-    %nav.float--right.nav-links-wrapper
-      %ul.nav
-        %li
-          = link_to 'Blog', 'http://blog.leboncours.com', class: 'header-link', target: '_blank'
-        %li
-          = link_to 'Contact', pages_contact_path, class: 'header-link'
         - if current_admin
           - if current_admin.super_admin?
-            %li= link_to 'Espace super admin', profs_structures_path, class: 'header-link'
+            %li= link_to 'Espace super admin', structures_path, class: 'header-link'
           - elsif current_admin.structure.present?
-            %li= link_to 'Espace admin', profs_structure_path(current_admin.structure), class: 'header-link'
-          - else
-            %li= link_to 'Espace admin', new_profs_structure_path, class: 'header-link'
-          %li= link_to 'Se déconnecter', destroy_admin_admin_user_session_path, class: 'header-link', method: :delete
+            %li= link_to 'Espace admin', structure_path(current_admin.structure), class: 'header-link'
+          %li= link_to 'Se déconnecter', destroy_admin_user_session_path, class: 'header-link', method: :delete
+

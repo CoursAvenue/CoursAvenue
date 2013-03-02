@@ -1,4 +1,4 @@
-class Profs::StructuresController < Pro::ProfsController
+class Pro::StructuresController < Pro::ProController
 
   layout 'admin'
 
@@ -8,7 +8,7 @@ class Profs::StructuresController < Pro::ProfsController
 
   def show
     @structure = Structure.find(params[:id])
-    authorize! :edit, @structure
+    # authorize! :edit, @structure
   end
 
   def new

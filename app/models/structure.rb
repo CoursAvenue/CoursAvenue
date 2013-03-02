@@ -1,5 +1,11 @@
 class Structure < ActiveRecord::Base
-  STRUCTURE_TYPES = ["structures.private_center", "structures.public_center", "structures.community_center", "structures.independant", "structures.museum"]
+  STRUCTURE_TYPES = ['structures.private_center',
+                      'structures.public_center',
+                      'structures.community_center',
+                      'structures.independant',
+                      'structures.museum',
+                      'structures.federation',
+                      'structures.other']
   extend FriendlyId
   friendly_id :name, use: :slugged
 
@@ -14,6 +20,9 @@ class Structure < ActiveRecord::Base
   # validates :name, :uniqueness => true
 
   attr_accessible :structure_type,
+                  :address,
+                  :zip_code,
+                  :city_name,
                   :place_ids,
                   :name,
                   :info,
