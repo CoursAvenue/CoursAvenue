@@ -8,13 +8,11 @@ LeBonCours::Application.routes.draw do
   # devise_for :admin_users, path: 'profs', controllers: { sessions: "admins/sessions" }, path_names: { sign_in: '/', sign_out: 'logout'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
 
   constraints :subdomain => 'pro' do
-    root :to => 'pro::home#index'
-    resources :structures, only: [:show, :new, :create, :index], controller: 'pro/structures'
-
-    devise_for :admin_users, controllers: { sessions: 'pro/admin/sessions', registrations: 'pro/admin/registrations'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-leboncours-pro', sign_up: '/'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
-    namespace :admin do
-      resources :admin_users, only: [:index]
-      #devise_for :admin_users, controllers: { sessions: "admin/sessions" }, invitation: 'admin/invitations' , path: '/', path_names: { sign_in: '/', sign_out: 'logout'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
+    scope :module => 'pro' do
+      root :to => 'home#index'
+      resources :structures
+      resources :admin_users
+      devise_for :admin_users, controllers: { sessions: 'pro/admin/sessions', registrations: 'pro/admin/registrations', passwords: 'pro/admin/passwords'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-leboncours-pro', sign_up: '/'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
     end
   end
 

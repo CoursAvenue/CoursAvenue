@@ -1,0 +1,8 @@
+= simple_form_for resource do |f|
+  = f.input :civility, as: :select, collection: AdminUser::CIVILITY.map{|civility| [ t(civility), civility]}
+  = f.input :firstname
+  = f.input :lastname
+  = f.input :email
+  = f.input :activated
+  .form-actions
+    = f.submit 'Mettre à jour',  class: 'btn btn__primary'

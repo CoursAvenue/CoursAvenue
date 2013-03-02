@@ -63,7 +63,7 @@ $btnBackground:                     $white !default;
 $btnBackgroundHighlight:            darken($white, 10%) !default;
 $btnBorder:                         #bbb !default;
 
-$btnPrimaryBackground:              $orange !default;
+$btnPrimaryBackground:              darken($orange, 10%) !default;
 $btnPrimaryBackgroundHighlight:     #eb7045 !default;
 
 $btnInfoBackground:                 #5bc0de !default;

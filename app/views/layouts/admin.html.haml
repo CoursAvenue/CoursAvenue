@@ -2,7 +2,10 @@
   = render 'shared/header_pro'
 
 = content_for :content do
-  .admin-wrapper
-    = content_for?(:admins_content) ? yield(:admins_content) : yield
+  .flexbox
+    %nav.one.flexbox__item.side-menu.v-top
+      = yield :side_menu
+    .admin-wrapper.flexbox__item.v-top
+      = content_for?(:admins_content) ? yield(:admins_content) : yield
 
 = render :template => 'layouts/application'

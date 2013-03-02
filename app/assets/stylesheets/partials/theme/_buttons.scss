@@ -37,6 +37,9 @@
   background-color: $orange;
   @include background-image(linear-gradient(top, $btnPrimaryBackgroundHighlight, $btnPrimaryBackground));
   //@include box-shadow(inset 0 0 4px $btnPrimaryBackgroundHighlight ,0 1px 1px transparentize($btnPrimaryBackground, 0.12));
+  &:hover {
+    @include background-image(linear-gradient(top, lighten($btnPrimaryBackgroundHighlight, 6%), lighten($btnPrimaryBackground, 6%)));
+  }
   &:active, &.btn--active {
     background-color: $btnPrimaryBackgroundHighlight;
     border-color: darken($btnPrimaryBackground, 25%);
@@ -45,14 +48,15 @@
     //@include box-shadow(inset 0 1px 5px rgba(0,0,0,0.5),0 1px 0 transparentize($btnPrimaryBackgroundHighlight, 0.6));
   }
 }
+.btn__danger {
+  text-transform: uppercase;
+  @include buttonBackground($btnDangerBackground, $btnDangerBackgroundHighlight);
+}
 // Warning appears are orange
 .btn-warning {
   @include buttonBackground($btnWarningBackground, $btnWarningBackgroundHighlight);
 }
 // Danger and error appear as red
-.btn-danger {
-  @include buttonBackground($btnDangerBackground, $btnDangerBackgroundHighlight);
-}
 // Success appears as green
 .btn-success {
   @include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);

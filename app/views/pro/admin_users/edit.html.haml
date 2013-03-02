@@ -1,0 +1,5 @@
+%h3 Édition de #{resource.fullname}
+= render partial: 'form'
+
+%p.text--center
+  = link_to "Supprimer #{resource.fullname}", admin_user_path(resource), class: 'btn btn__danger', method: 'delete'
