@@ -2,5 +2,5 @@
   %ul
     = pro_side_menu_link 'Admins'       , admin_users_path                        , current: current_tab if current_admin.super_admin?
     = pro_side_menu_link 'Structures'   , structures_path                         , current: current_tab if current_admin.super_admin?
-    = pro_side_menu_link 'Ma structures', structure_path(current_admin.structure) , current: current_tab unless current_admin.super_admin?
+    = pro_side_menu_link 'Mon établissement', structure_path(current_admin.structure) , current: current_tab unless current_admin.super_admin?
 

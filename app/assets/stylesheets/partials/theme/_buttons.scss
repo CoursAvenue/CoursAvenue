@@ -50,7 +50,10 @@
 }
 .btn__danger {
   text-transform: uppercase;
-  @include buttonBackground($btnDangerBackground, $btnDangerBackgroundHighlight);
+    @include buttonBackground($btnDangerBackground, $btnDangerBackgroundHighlight);
+  &:hover {
+    @include buttonBackground(lighten($btnDangerBackground, 6%), lighten($btnDangerBackgroundHighlight, 6%));
+  }
 }
 // Warning appears are orange
 .btn-warning {

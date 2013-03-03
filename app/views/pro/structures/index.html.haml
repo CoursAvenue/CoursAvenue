@@ -1,5 +1,12 @@
 = side_menu_currently_at 'Structures'
-%ul
-  - @structures.each do |structure|
-    /%li= link_to structure.name, structure_path
-    %li= structure.name
+%table.table--striped
+  %thead
+    %tr
+      %th Nom
+      %th Nombre de cours
+      %th
+  %tbody
+    - @structures.each do |structure|
+      %tr
+        %td= link_to structure.name, structure_path(structure)
+        %td= structure.courses.length
