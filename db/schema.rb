@@ -302,6 +302,7 @@ ActiveRecord::Schema.define(:version => 20130301165238) do
     t.string   "address"
     t.string   "zip_code"
     t.string   "city_name"
+    t.text     "description"
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true

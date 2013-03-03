@@ -15,6 +15,7 @@ class Pro::AdminUsersController < InheritedResources::Base
       end
     end
   end
+
   def destroy
     destroy! do |format|
       format.html do

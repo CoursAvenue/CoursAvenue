@@ -1,0 +1,35 @@
+= side_menu_currently_at 'Infos générales'
+
+%h3 Responsable des réservations
+= simple_form_for(@admin) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :civility, as: :select, collection: AdminUser::CIVILITY.map{|civility| [ t(civility), civility]}
+    = f.input :firstname, label: t('.firstname')
+    = f.input :lastname, label: t('.lastname')
+    = f.input :phone_number, wrapper_html: {class: 'flush--bottom'}
+    %p.field-form-info= t('.phone_number_info')
+    = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}
+    %p.field-form-info= t('.mobile_phone_number_info')
+    = f.input :email, :required => true, :autofocus => true, label: t('.email'), wrapper_html: {class: 'flush--bottom'}
+    %p.field-form-info= t('.email_info')
+    = f.input :password, :required => true, label: t('.password')
+    = f.input :password_confirmation, :required => true, label: t('.password_confirmation')
+  .form-actions
+    = f.button :submit, 'Mettre à jour', class: 'btn btn__primary'
+
+%h3 Structure d'enseignement
+= simple_form_for @structure do |structure_form|
+  = structure_form.error_notification
+  .form-inputs
+    = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
+    %p.field-form-info= t('.structure_name_info')
+    = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
+    = structure_form.input :address, wrapper_html: {class: 'flush--bottom'}
+    %p.field-form-info= t('.structure_address_info')
+    = structure_form.input :zip_code
+    = structure_form.input :city_name
+    = structure_form.input :website
+    = structure_form.input :description
+  .form-actions
+    = structure_form.button :submit, 'Mettre à jour ma structure', class: 'btn btn__primary'

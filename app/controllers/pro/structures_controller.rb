@@ -6,8 +6,9 @@ class Pro::StructuresController < Pro::ProController
     @structures = Structure.all
   end
 
-  def show
+  def edit
     @structure = Structure.find(params[:id])
+    @admin     = @structure.admin_users.first || AdminUser.new
     # authorize! :edit, @structure
   end
 
@@ -15,8 +16,12 @@ class Pro::StructuresController < Pro::ProController
     @structure = Structure.new
   end
 
-  def create
-    @structure = Structure.create params[:structure]
-    redirect_to profs_structure_path(@structure)
+  def update
+    @structure = Structure.find params[:id]
+    @admin     = @structure.admin_users.first || AdminUser.new
+    @structure.update_attributes params[:structure]
+    respond_to do |format|
+      format.html { render action: 'edit' }
+    end
   end
 end

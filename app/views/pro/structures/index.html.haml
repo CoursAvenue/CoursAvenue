@@ -8,5 +8,5 @@
   %tbody
     - @structures.each do |structure|
       %tr
-        %td= link_to structure.name, structure_path(structure)
+        %td= link_to structure.name, edit_structure_path(structure)
         %td= structure.courses.length

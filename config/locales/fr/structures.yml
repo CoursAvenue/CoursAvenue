@@ -30,8 +30,21 @@ fr:
     museum: Musée
     federation: Fédération
     other: Autre
-  profs:
+  pro:
     structures:
+      edit:
+        firstname: Votre prénom
+        lastname: Votre nom
+        phone_number_info: Renseignez le numéro pour joindre le responsable des réservations
+        mobile_phone_number_info: "Pour chaque réservation, un SMS de confirmation pourra être envoyé sur ce numéro"
+        email: Votre email
+        email_info: Cet email sera votre identifiant pour l’accès à votre espace pro
+        password: Votre mot de passe
+        password_confirmation: Confirmation de votre mot de passe
+        structure_name: Nom de votre structure
+        structure_name_info: "Si vous êtes un professeur indépendant, renseignez votre Prénom + Nom"
+        structure_address: Adresse principale
+        structure_address_info: "Si vous êtes un professeur indépendant, renseignez votre adresse ; si ce n’est pas celle de vos cours, vous pourrez le spécifier dans votre espace et rajouter d’autres lieux"
       new:
         create_structure: Créer ma structure
         name: "Nom (Prénom + Nom si vous êtes indépendant"
