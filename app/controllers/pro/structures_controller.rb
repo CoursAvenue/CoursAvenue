@@ -6,6 +6,11 @@ class Pro::StructuresController < Pro::ProController
     @structures = Structure.all
   end
 
+  def show
+    @structure = Structure.find params[:id]
+    redirect_to edit_structure_path(@structure)
+  end
+
   def edit
     @structure = Structure.find(params[:id])
     @admin     = @structure.admin_users.first || AdminUser.new

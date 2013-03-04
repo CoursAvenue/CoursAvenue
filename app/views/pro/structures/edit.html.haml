@@ -46,7 +46,7 @@
               %p.alert--info Toute autre info sur votre structure est bonne à renseigner !
           %p.flush--bottom.bold
             %b
-              %span.red#word-count 0
+              %span#word-count
               mots
           %p Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 150 mots.
     .form-actions
@@ -56,8 +56,8 @@
   :javascript
     $(document).addEvent('domready', function(){
         var word_count_span = $('word-count');
-        $('description-textarea').addEvent('keyup', function(event) {
-            var nb_word = this.value.match(/\S+/g).length;
+        var updateWordCount = function(text) {
+            var nb_word = text.match(/\S+/g).length;
             word_count_span.set('text', nb_word);
               word_count_span.removeClass('red').removeClass('orange').removeClass('green');
             if (nb_word < 30) {
@@ -67,5 +67,9 @@
             } else if (nb_word >= 100) {
               word_count_span.addClass('green');
             }
+        };
+        updateWordCount($('description-textarea').value);
+        $('description-textarea').addEvent('keyup', function(event) {
+            updateWordCount(this.value);
         })
     });
