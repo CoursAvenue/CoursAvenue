@@ -10,10 +10,13 @@
       = f.input :lastname, label: t('.lastname')
       = f.input :phone_number, wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.phone_number_info')
+      %h5.form-header-group Contact
       = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.mobile_phone_number_info')
       = f.input :email, :required => true, :autofocus => true, label: t('.email'), wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.email_info')
+
+      %h5.form-header-group Mot de passe
       = f.input :password, :required => true, label: t('.password')
       = f.input :password_confirmation, :required => true, label: t('.password_confirmation')
     .form-actions

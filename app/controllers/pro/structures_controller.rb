@@ -3,6 +3,7 @@ class Pro::StructuresController < Pro::ProController
   layout 'admin'
 
   def index
+    authorize! :manage, Structure
     @structures = Structure.all
   end
 
@@ -13,8 +14,8 @@ class Pro::StructuresController < Pro::ProController
 
   def edit
     @structure = Structure.find(params[:id])
+    authorize! :edit, @structure
     @admin     = @structure.admin_users.first || AdminUser.new
-    # authorize! :edit, @structure
   end
 
   def new
@@ -23,6 +24,7 @@ class Pro::StructuresController < Pro::ProController
 
   def update
     @structure = Structure.find params[:id]
+    authorize! :manage, @structure
     @admin     = @structure.admin_users.first || AdminUser.new
     @structure.update_attributes params[:structure]
     respond_to do |format|
