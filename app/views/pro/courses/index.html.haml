@@ -1,0 +1,18 @@
+= side_menu_currently_at 'Mes cours'
+
+%table.table--striped
+  %thead
+    %tr
+      %th Nom
+      %th Disciplines
+      %th
+  %tbody
+    - @courses.each do |course|
+      %tr
+        %td= link_to course.name, edit_structure_course_path(@structure, course)
+        %td= course.subjects.map(&:name).join(',')
+        %td
+          .btn Modifier les plannings
+        %td
+          .btn Modifier les tarifs
+= link_to 'Ajouter un cours', new_structure_course_path(@structure), class: 'btn btn__primary'

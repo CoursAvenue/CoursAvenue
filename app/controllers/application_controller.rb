@@ -15,6 +15,10 @@ class ApplicationController < ActionController::Base
     rescue_from ActionController::UnknownAction,      :with => :render_not_found
   end
 
+  def current_ability
+    @current_ability ||= Ability.new(current_admin_user)
+  end
+
   def render_not_found
     render :template => 'errors/not_found', :status => :not_found
   end

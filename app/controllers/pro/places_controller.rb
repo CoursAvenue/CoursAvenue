@@ -3,6 +3,7 @@ class Pro::PlacesController < InheritedResources::Base#Pro::ProController
   #before_filter :authenticate_admin_user!
   layout 'admin'
   belongs_to :structure
+  load_and_authorize_resource :structure
 
   def create
     create! do |success, failure|
