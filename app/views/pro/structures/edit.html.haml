@@ -1,7 +1,7 @@
 = side_menu_currently_at 'Infos générales'
 
+%h3.header-group Responsable des réservations
 .islet
-  %h3 Responsable des réservations
   = simple_form_for(@admin) do |f|
     = f.error_notification
     .form-inputs
@@ -19,8 +19,8 @@
     .form-actions
       = f.button :submit, 'Mettre à jour', class: 'btn btn__primary'
 
+%h3.header-group Structure d'enseignement
 .islet
-  %h3 Structure d'enseignement
   = simple_form_for @structure do |structure_form|
     = structure_form.error_notification
     .form-inputs
