@@ -48,6 +48,20 @@
             border: none;
         }
     }
+    .checkbox-list {
+        .input.boolean {
+            input {
+                width     : auto;
+                margin-top: 0;
+            }
+            label {
+                margin-left: 0.5em;
+                float      : none;
+                text-align : left;
+                min-width  : 15em;
+            }
+        }
+    }
     .input.boolean {
         @extend .cf;
         label {

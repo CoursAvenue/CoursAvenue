@@ -1,41 +1,19 @@
 = side_menu_currently_at "Lieux d'enseignements"
-%h3.header-group Vos différents lieux
-.islet
-  - @places.each do |place|
-    = simple_form_for [@structure, place] do |place_form|
-      %h5.form-header-group Adresse
-      = place_form.input :name, label: t('.name'), label_html: { class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => "Si vous avez plus d’un lieu, et pour pouvoir les différencier, renseignez un nom spécifique pour chaque adresse. Par exemple, si l’un de vos 3 lieux se trouve au 34 rue Buffaut, renseignez « Buffaut » ; s’il concerne le gymnase Léo Lagrange, renseignez « Lagrange », etc." }
-      = place_form.input :street, placeholder: '83 avenue du général Leclerc'
-      = place_form.input :zip_code, placeholder: '75008'
-      = place_form.input :city, as: :select, collection: City.order('name ASC')
 
-      %h5.form-header-group Info contact
-      = place_form.input :contact_email, value: place.contact_email || (@structure.main_contact.nil? ? '' : @structure.main_contact.email)
-      = place_form.input :contact_name, value: place.contact_name || (@structure.main_contact.nil? ? '' : @structure.main_contact.fullname)
-      = place_form.input :contact_phone, value: place.contact_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.phone_number)
-      = place_form.input :contact_mobile_phone, value: place.contact_mobile_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.mobile_phone_number)
-      = place_form.input :has_handicap_access
-
-      %h5.form-header-group Équipements
-
-      %h5.form-header-group Informations privées
-      = place_form.input :nb_room, as: :select, collection: 1.upto(30).to_a
-      .ilb-wrapper
-        .one-third
-          = place_form.label :info
-        .two-thirds
-          .ilb-wrapper
-            .one-half= place_form.input :info, wrapper_html: {class: 'flush--top'}, input_html: {class: 'textarea-description'}, label: false, placeholder: 'Aidez vos élèves à avoir une arrivée tout en douceur, facilement et à l’heure !'
-            .one-half
-              %p.alert--info.flush--top Quelles sont les directions pour se rendre chez vous ? Quels sont les transports en commun (quelle sortie du métro, quel arrêt de bus) ?
-              %p.alert--info Décrivez tout détail pratique : nom d’un commerce connu en face, traverser une cour, digicode après une certaine heure, n° d’escalier ou d’étage, une entrée différente de l’adresse principale, etc..
-
-
-
-%h3.header-group Location de vos espaces
-.islet
-  %p
-    Si comme la plupart des centres et écoles, vos espaces ne sont pas occupés 24h/24, 7j/7, pensez à les louer via notre espace « Louer mes espaces ».
-    %br
-    En quelques minutes, décidez du planning, des prix et des conditions de location, et rentabilisez rapidement vos locaux.
-
+- if @places.empty?
+  %h3 Vous n'avez pas encore d'espace pour vos cours ?
+  = link_to 'Ajouter un lieu pour mes cours', new_structure_place_path(@structure), class: 'btn btn__primary'
+- else
+  %table.table--striped
+    %thead
+      %tr
+        %th Nom du lieu
+        %th Ville
+        %th
+    %tbody
+      - @places.each do |place|
+        %tr
+          %td= link_to place.name, edit_structure_place_path(@structure, place)
+          %td= place.city.name
+          /%td= link_to 'Éditer', edit_structure_place_path(@structure, place)
+  = link_to 'Ajouter un nouveau lieu', new_structure_place_path(@structure), class: 'btn btn__primary'

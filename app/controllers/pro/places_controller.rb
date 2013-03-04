@@ -1,11 +1,18 @@
 # encoding: utf-8
-class Pro::PlacesController < Pro::ProController
+class Pro::PlacesController < InheritedResources::Base#Pro::ProController
   #before_filter :authenticate_admin_user!
   layout 'admin'
+  belongs_to :structure
 
-  def index
-    @structure = Structure.find params[:structure_id]
-    @places    = @structure.places
-    @places    = [Place.new] if @places.empty?
+  def create
+    create! do |success, failure|
+      success.html { redirect_to structure_places_path(@structure) }
+    end
+  end
+
+  def update
+    update! do |success, failure|
+      success.html { redirect_to structure_places_path(@structure) }
+    end
   end
 end

@@ -15,6 +15,15 @@ fr:
         contact_phone: Téléphone du contact
         contact_mobile_phone: Téléphone portable du contact
         has_handicap_access: Accès handicapé
+        has_cloackroom: Vestiaires avec douches
+        has_internet: Internet
+        has_air_conditioning: Climatisation
+        has_swimming_pool: Piscine
+        has_free_parking: Parking gratuit sur place
+        has_jacuzzi: Jacuzzi
+        has_sauna: Sauna
+        has_daylight: Lumière du jour
+
   pro:
     places:
       index:
