@@ -49,4 +49,7 @@ class Structure < ActiveRecord::Base
                   :needs_medical_certificate_for_registration, # certificat médical de moins de 3 mois
                   :needs_insurance_attestation_for_registration # attestation d'assurance
 
+  def main_contact
+    admin_users.first
+  end
 end

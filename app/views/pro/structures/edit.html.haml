@@ -57,7 +57,9 @@
     $(document).addEvent('domready', function(){
         var word_count_span = $('word-count');
         var updateWordCount = function(text) {
-            var nb_word = text.match(/\S+/g).length;
+            var words = text.match(/\S+/g);
+            if (words === null ) { words = ''; }
+            var nb_word = words.length;
             word_count_span.set('text', nb_word);
               word_count_span.removeClass('red').removeClass('orange').removeClass('green');
             if (nb_word < 30) {

@@ -10,7 +10,9 @@ LeBonCours::Application.routes.draw do
   constraints :subdomain => 'pro' do
     scope :module => 'pro' do
       root :to => 'home#index'
-      resources :structures
+      resources :structures do
+        resources :places
+      end
       resources :admin_users
       devise_for :admin_users, controllers: { sessions: 'pro/admin/sessions', registrations: 'pro/admin/registrations', passwords: 'pro/admin/passwords'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-leboncours-pro', sign_up: '/'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
     end
