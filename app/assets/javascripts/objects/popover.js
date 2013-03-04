@@ -5,6 +5,7 @@
 
     /*
      * Given an input element, will update a relative element.
+     * data-content = 'content of the popover'
      */
 
     objects.Popover = new Class({
@@ -32,8 +33,8 @@
         },
 
         attachEvents: function() {
-            this.el.addEvent('mouseover',  this.showPopover.bind(this));
-            this.el.addEvent('mouseout', this.hidePopover.bind(this));
+            this.el.addEvent('mouseover', this.showPopover.bind(this));
+            this.el.addEvent('mouseout',  this.hidePopover.bind(this));
         },
 
         showPopover: function() {

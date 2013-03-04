@@ -24,16 +24,12 @@
     }
 }
 
-.blue {
-    color: $blueGreen !important;
-}
-.orange {
-    color: $orange;
-}
-
-.brand {
-  color: $orange !important;
-}
+.orange { color: $orange; }
+.red    { color: $red; }
+.green  { color: $green; }
+.blue   { color: $blueGreen !important; }
+.orange { color: $orange; }
+.brand  { color: $orange !important; }
 
 .small-margin-bottom {
     margin-bottom: 0.5em;

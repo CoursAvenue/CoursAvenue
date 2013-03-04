@@ -8,10 +8,12 @@
         @extend .ilb-wrapper;
         @extend .align-middle;
         input, select, textarea {
-            width : 70%;
+            @extend .two-thirds;
+            //width : 70%;
         }
         .control-label {
-            width         : 30%;
+            @extend .one-third;
+            //width         : 30%;
         }
     }
         .control-label {
@@ -28,6 +30,10 @@
     textarea.text {
         height: 5em;
         width : 24.5em;
+        &.textarea-description {
+            height: 20em;
+            width : 100%;
+        }
     }
     .required {
         abbr {
@@ -52,4 +58,26 @@
     font-style: italic;
     color     : $grayLight;
     text-align: right;
+}
+
+.helper-label:after {
+    content             : '?';
+    display             : inline-block;
+    vertical-align      : middle;
+    width               : 25px;
+    height              : 25px;
+    text-align          : center;
+    font-weight         : bold;
+    margin-left         : 3px;
+    background-image    : image-url('icons/bulle.png');
+    background-repeat   : no-repeat;
+    background-position : center center;
+    background-size     : 100%;
+    color               : white;
+    text-shadow         : $gray;
+    @media \0screen {
+        background: none;
+        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/bulle.png')}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/bulle.png')}',sizingMethod='scale')";
+    }
 }

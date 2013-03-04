@@ -14,13 +14,13 @@
   %tbody
     - @admin_users.each do |admin_user|
       %tr
-        %td{class: (admin_user.super_admin? ? 'bold' : '')}= admin_user.fullname
+        %td{class: (admin_user.super_admin? ? 'bold' : '')}= link_to admin_user.fullname, edit_admin_user_path(admin_user)
         %td
           = link_to admin_user.email, "mailto:#{admin_user.email}"
         %td.text--center
           - if admin_user.activated
             %i.icon-ok
-        %td= link_to admin_user.structure.name, structure_path(admin_user.structure) if admin_user.structure
+        %td= link_to admin_user.structure.name, edit_structure_path(admin_user.structure) if admin_user.structure
         %td
           = link_to edit_admin_user_path admin_user do
             %i.icon-edit

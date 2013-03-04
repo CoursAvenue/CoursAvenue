@@ -20,8 +20,10 @@
         width     : 100%;
         li {
             @include transition(background-color 150ms linear);
-            &.active, &:hover {
+            &.active {
                 font-weight : bold;
+            }
+            &.active, &:hover {
                 background-color: darken($beigeDarker, 7%);
                 box-shadow      : inset 0px 0px 10px darken($beigeDarker, 7%);
                 border-right    : 2px solid darken($beigeDarker, 30%);
