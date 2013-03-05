@@ -35,10 +35,9 @@
       = structure_form.input :zip_code
       = structure_form.input :city_name
       = structure_form.input :website
-      .ilb-wrapper
-        .one-third
-          = structure_form.label :description, class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => 'Ne soyez pas modeste, rédigez une description qui vous met en valeur, en appuyant sur vos points forts : que vous soyez un professeur indépendant, un centre, une école ou un musée, il y a toujours quelque chose qui vous différencie ! Note : ne renseignez aucun élément de contact (téléphone ou mail), notre système l’enlèvera automatiquement.'
-        .two-thirds
+      .ilb-wrapper.input
+        = structure_form.label :description, class: 'v-top helper-label', 'data-behavior' => 'popover', 'data-content' => 'Ne soyez pas modeste, rédigez une description qui vous met en valeur, en appuyant sur vos points forts : que vous soyez un professeur indépendant, un centre, une école ou un musée, il y a toujours quelque chose qui vous différencie ! Note : ne renseignez aucun élément de contact (téléphone ou mail), notre système l’enlèvera automatiquement.'
+        .textarea-with-info
           .ilb-wrapper
             .one-half
               = structure_form.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {id: 'description-textarea', class: 'textarea-description', placeholder: 'Mettez en avant votre différence !'}

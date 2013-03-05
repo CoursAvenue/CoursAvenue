@@ -15,6 +15,7 @@
             this.content = el.get('data-content');
             this.createPopoverDiv();
             this.attachEvents();
+            this.popover_element.set('tween', {duration: 150})
         },
 
         createPopoverDiv: function() {
@@ -38,11 +39,14 @@
         },
 
         showPopover: function() {
-            this.popover_element.show();
+            //this.popover_element.show();
+            this.popover_element.setStyle('display', 'block');
+            this.popover_element.fade('in',{duration: 'short'});
         },
 
         hidePopover: function() {
-            this.popover_element.hide();
+            //this.popover_element.hide();
+            this.popover_element.fade('out');
         }
     });
 })();
