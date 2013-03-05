@@ -2,11 +2,14 @@ fr:
   all_subject: 'Toutes les disciplines'
   activerecord:
     models:
-      course: Cours
+      course: Course
+      course/training: 'Stage'
+      course/lesson: 'Cours'
+      course/workshop: 'Cours-atelier'
     attributes:
       course:
         description: Description
-        name:
+        name: Nom
         has_online_payment:
         course_info:
         registration_date:

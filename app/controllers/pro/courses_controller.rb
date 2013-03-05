@@ -2,6 +2,7 @@
 class Pro::CoursesController < InheritedResources::Base
 
   layout 'admin'
+
   belongs_to :structure
   load_and_authorize_resource :structure
 

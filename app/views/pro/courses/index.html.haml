@@ -6,13 +6,14 @@
       %th Nom
       %th Disciplines
       %th
+      %th
+      %th
   %tbody
     - @courses.each do |course|
       %tr
         %td= link_to course.name, edit_structure_course_path(@structure, course)
         %td= course.subjects.map(&:name).join(',')
-        %td
-          .btn Modifier les plannings
-        %td
-          .btn Modifier les tarifs
+        %td= link_to 'Plannings'
+        %td= link_to 'Tarifs'
+        %td= link_to 'Éditer', edit_structure_course_path(@structure, course)
 = link_to 'Ajouter un cours', new_structure_course_path(@structure), class: 'btn btn__primary'

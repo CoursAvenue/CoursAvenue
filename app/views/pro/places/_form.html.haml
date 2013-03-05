@@ -15,8 +15,8 @@
     = f.input :contact_mobile_phone, value: @place.contact_mobile_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.mobile_phone_number)
 
     %h5.form-header-group Équipements
-    .ilb-wrapper
-      .one-third &nbsp;
+    .ilb-wrapper.input
+      = f.label '&nbsp;'
       .checkbox-list
         = f.input :has_handicap_access
         = f.input :has_cloackroom
