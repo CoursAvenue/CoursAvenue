@@ -1,10 +1,11 @@
 %li.one-whole.course-element{data: {"structure-id" => course.structure_id}}
   %div.two-twelfths.hide--palm
     .course-image.media__img
-      - if course.image.present?
-        = image_tag course.image.image.url(:thumb)
-      - else
-        = image_tag course.subjects.first.image.url(:thumb)
+      = link_to course_path(course) do
+        - if course.image.present?
+          = image_tag course.image.image.url(:thumb)
+        - else
+          = image_tag course.subjects.first.image.url(:thumb)
       - unless course.promotion_planning.nil?
         .course-promo.price-badge= readable_promotion course.promotion_planning
 

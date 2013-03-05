@@ -36,9 +36,13 @@
         li:nth-of-type(odd) {
             background-color: $alternativeBackground;
         }
-        li:hover, li.selected {
+        li.selected, li.selected:hover {
             background-color: $brandColor;
             color           : white;
+        }
+        li:hover {
+            background-color: lighten($brandColor, 30%);
+            color           : black;
         }
     }
 }
