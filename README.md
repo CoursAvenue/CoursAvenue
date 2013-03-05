@@ -38,7 +38,6 @@ $ rake sunspot:solr:run
 Heroku:
 Start / Stop :
 $ heroku run rake sunspot:solr:start
-$ heroku run rake sunspot:solr:start
 $ heroku run rake sunspot:solr:stop
 Reindex :
 $ heroku run rake sunspot:reindex
