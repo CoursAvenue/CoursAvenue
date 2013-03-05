@@ -6,6 +6,7 @@ input[type=search] {
     -webkit-appearance: none;
 }
 input, textarea {
+    cursor        : text;
     border        : 1px solid #ccc;
     padding       : 5px;
     vertical-align: middle;

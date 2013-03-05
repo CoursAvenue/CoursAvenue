@@ -17,9 +17,12 @@
     @include border-radius($brand-round);
     //@include box-shadow(inset 0 0 4px #fff ,0 1px 1px rgba(0,0,0,0.12));
     @include background-image(linear-gradient(top, #fefefe,#f2f2f2));
+    &:hover {
+      @include background-image(linear-gradient(top, lighten(#fefefe, 3%), lighten(#f2f2f2, 3%)));
+    }
 }
 
-.btn:active, .btn--active {
+.btn:active, .btn--active, .btn--active:hover {
     background-color: #ebebeb;
     @include background-image(linear-gradient(top, #dad9d9, #ebebeb));
     @include box-shadow(inset 0 1px 5px rgba(0,0,0,0.22),0 1px 0 rgba(255,255,255,0.4));
@@ -40,7 +43,7 @@
   &:hover {
     @include background-image(linear-gradient(top, lighten($btnPrimaryBackgroundHighlight, 6%), lighten($btnPrimaryBackground, 6%)));
   }
-  &:active, &.btn--active {
+  &:active, &.btn--active, &.btn--active:hover {
     background-color: $btnPrimaryBackgroundHighlight;
     border-color: darken($btnPrimaryBackground, 25%);
     border-bottom: none;

@@ -64,7 +64,7 @@
   //-------------------------------------------------------------------------------------------------------- Price
   .search-panel
     %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
-      Prix
+      Prix (par cours)
       - if params[:price_range][:min].blank? and params[:price_range][:max].blank?
         %i.icon-caret-left
       - else
