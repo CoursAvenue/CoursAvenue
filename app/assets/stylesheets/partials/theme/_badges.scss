@@ -1,10 +1,18 @@
-.price-badge {
+.badge {
     margin          : 0;
     position        : absolute;
     left            : 0;
-    bottom          : 1em;
-    background-color: $blueGreen;
     padding         : 0.2em 0.7em 0.2em 0.5em;
     color           : white;
     font-weight     : bold;
+}
+.exclu-badge {
+    @extend .badge;
+    background-color: $orange;
+    top             : 1em;
+}
+.price-badge {
+    @extend .badge;
+    background-color: $blueGreen;
+    bottom          : 1em;
 }
