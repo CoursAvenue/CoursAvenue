@@ -6,6 +6,8 @@
           = image_tag course.image.image.url(:thumb)
         - else
           = image_tag course.subjects.first.image.url(:thumb)
+      - if course.is_promoted
+        .course-promo.price-badge.milli Exclusivité
       - unless course.promotion_planning.nil?
         .course-promo.price-badge= readable_promotion course.promotion_planning
 
