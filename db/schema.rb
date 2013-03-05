@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130215145031) do
+ActiveRecord::Schema.define(:version => 20130305085535) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -29,21 +29,37 @@ ActiveRecord::Schema.define(:version => 20130215145031) do
   add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
 
   create_table "admin_users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                                :default => "",    :null => false
+    t.string   "encrypted_password",                   :default => ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
+    t.integer  "sign_in_count",                        :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                              :null => false
+    t.datetime "updated_at",                                              :null => false
+    t.boolean  "super_admin",                          :default => false, :null => false
+    t.string   "invitation_token",       :limit => 60
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer  "invitation_limit"
+    t.integer  "invited_by_id"
+    t.string   "invited_by_type"
+    t.integer  "structure_id"
+    t.string   "civility"
+    t.string   "firstname"
+    t.string   "lastname"
+    t.string   "phone_number"
+    t.string   "mobile_phone_number"
+    t.boolean  "activated",                            :default => false
   end
 
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
+  add_index "admin_users", ["invitation_token"], :name => "index_admin_users_on_invitation_token"
+  add_index "admin_users", ["invited_by_id"], :name => "index_admin_users_on_invited_by_id"
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
 
   create_table "audiences", :force => true do |t|
@@ -176,19 +192,20 @@ ActiveRecord::Schema.define(:version => 20130215145031) do
     t.string   "contact_email"
     t.integer  "structure_id"
     t.integer  "city_id"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
+    t.boolean  "has_cloackroom",       :default => false
+    t.boolean  "has_internet",         :default => false
+    t.boolean  "has_air_conditioning", :default => false
+    t.boolean  "has_swimming_pool",    :default => false
+    t.boolean  "has_free_parking",     :default => false
+    t.boolean  "has_jacuzzi",          :default => false
+    t.boolean  "has_sauna",            :default => false
+    t.boolean  "has_daylight",         :default => false
   end
-
-  create_table "places_structures", :id => false, :force => true do |t|
-    t.integer "place_id"
-    t.integer "structure_id"
-  end
-
-  add_index "places_structures", ["place_id", "structure_id"], :name => "index_places_structures_on_place_id_and_structure_id"
 
   create_table "plannings", :force => true do |t|
     t.date     "start_date"
@@ -232,6 +249,7 @@ ActiveRecord::Schema.define(:version => 20130215145031) do
     t.integer  "course_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "nb_course"
   end
 
   create_table "registration_fees", :force => true do |t|
@@ -290,6 +308,10 @@ ActiveRecord::Schema.define(:version => 20130215145031) do
     t.datetime "created_at",                                                      :null => false
     t.datetime "updated_at",                                                      :null => false
     t.string   "slug"
+    t.string   "address"
+    t.string   "zip_code"
+    t.string   "city_name"
+    t.text     "description"
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true

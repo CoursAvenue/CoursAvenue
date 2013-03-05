@@ -95,8 +95,8 @@ class SubjectsController < ApplicationController
 
       with(:time_slots).any_of              params[:time_slots]                                     if params[:time_slots].present?
 
-      with(:min_price).greater_than         params[:price_range][:min].to_i                         if params[:price_range].present? and params[:price_range][:min].present?
-      with(:max_price).less_than            params[:price_range][:max].to_i                         if params[:price_range].present? and params[:price_range][:max].present?
+      with(:approximate_price_per_course).greater_than         params[:price_range][:min].to_i                         if params[:price_range].present? and params[:price_range][:min].present?
+      with(:approximate_price_per_course).less_than            params[:price_range][:max].to_i                         if params[:price_range].present? and params[:price_range][:max].present?
 
       with(:zip_code).any_of                params[:zip_codes]                                      if params[:zip_codes].present?
 
@@ -113,9 +113,9 @@ class SubjectsController < ApplicationController
       order_by :has_no_price,        :asc
 
       if params[:sort] == 'price_asc'
-        order_by :min_price, :asc
+        order_by :approximate_price_per_course, :asc
       elsif 'price_desc'
-        order_by :min_price, :desc
+        order_by :approximate_price_per_course, :desc
       end
       paginate :page => (params[:page] || 1), :per_page => 15
     end

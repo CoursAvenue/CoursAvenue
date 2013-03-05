@@ -137,6 +137,7 @@ class Course < ActiveRecord::Base
 
     integer :min_price
     integer :max_price
+    double :approximate_price_per_course
 
     # latlon(:location) do
     #   Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
@@ -248,6 +249,16 @@ class Course < ActiveRecord::Base
 
   def best_price
     prices.where{amount >= 0}.order('amount ASC').first
+  end
+
+  def approximate_price_per_course
+    one_class_price = prices.where{nb_course == 1}
+    if one_class_price.any?
+      return one_class_price.first.amount
+    else
+      price = prices.where{amount != nil}.order('nb_course DESC').first
+      return price.amount / price.nb_course
+    end
   end
 
   def type_name
