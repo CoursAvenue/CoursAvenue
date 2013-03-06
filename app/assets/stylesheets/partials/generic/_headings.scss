@@ -1,3 +1,6 @@
+.header-group:first-child {
+    margin-top    : 0;
+}
 .header-group {
     border-bottom : 1px solid darken($beigeDarker, 7%);
     padding-bottom: 0.5em;

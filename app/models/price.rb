@@ -21,13 +21,13 @@ class Price < ActiveRecord::Base
 
   attr_accessible :libelle,
                   :amount,
-                  :nb_course
+                  :nb_courses
 
   def per_course_amount
     if amount.nil?
       nil
     else
-      ('%.2f' % (amount / nb_course)).gsub('.', ',').gsub(',00', '')
+      ('%.2f' % (amount / nb_courses)).gsub('.', ',').gsub(',00', '')
     end
   end
 

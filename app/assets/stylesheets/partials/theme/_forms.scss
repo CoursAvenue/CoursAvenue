@@ -18,6 +18,18 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
         .control-label {
             width: $label-width;
         }
+        .radio {
+            @extend .ilb-wrapper;
+            @extend .align-middle;
+            display: block;
+            input {
+                width       : auto;
+                margin-right: 5px;
+            }
+        }
+        &.boolean input {
+            width: auto
+        }
     }
         .control-label {
             text-align    : right;

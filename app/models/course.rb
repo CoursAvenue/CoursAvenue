@@ -49,6 +49,7 @@ class Course < ActiveRecord::Base
                   :refund_condition,
                   :can_be_joined_during_year,
                   :subject_ids
+                  :nb_participants
   # ------------------------------------------------------------------------------------ Search methods
   searchable do
     text :name, :boost => 2

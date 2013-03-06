@@ -1,7 +1,43 @@
-= simple_form_for structure_course_path(@structure, @course) do |f|
+- if @course.new_record?
+  - form_path = new_structure_course_path(@structure)
+- else
+  - form_path = structure_course_path(@structure, @course)
+
+= simple_form_for form_path do |f|
   = f.error_notification
-  = f.input :type, as: :select, collection: [[Course::Lesson.model_name.human, Course::Lesson.name], [Course::Training.model_name.human, Course::Training.name], [Course::Workshop.model_name.human, Course::Workshop.name]]
   = f.input :name
+  .input.ilb-wrapper
+    = f.label :type, t('.type'), class: 'control-label v-top'
+    %div
+      .radio
+        %input#type_course_lesson{type: 'radio', name: 'course[type]', value: 'Course::Lesson', checked: @course.is_lesson?}
+        %label{for: 'type_course_lesson'} Cours récurrent à l’année (avec ou sans progression)
+      .radio
+        %input#type_course_workshop{type: 'radio', name: 'course[type]', value: 'Course::Workshop', checked: @course.is_workshop?}
+        %label{for: 'type_course_workshop', class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => 'Un cours-atelier est un cours d’une seule séance. Par exemple, un cours de photographie ponctuel de quelques heures est un cours-atelier, alors qu’un cours de théâtre avec des séances toutes les semaines est cours récurrent dans l’année.'} Cours-atelier
+      .radio
+        %input#type_course_training{type: 'radio', name: 'course[type]', value: 'Course::Training', checked: @course.is_training?}
+        %label{for: 'type_course_training', class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => 'Un stage est un cours-atelier étalé sur plusieurs jours consécutifs.'} Stage
+
+  .input.ilb-wrapper
+    = f.label :is_individual, t('.individual_course'), class: 'control-label v-top'
+    %div
+      .radio
+        %input#course_is_individual{type: 'radio', name: 'course[is_individual]', checked: @course.is_individual?}
+        %label{for: 'course_is_individual'} Individuel
+      .radio
+        %input#course_is_collectif{type: 'radio', name: 'course[is_individual]', checked: !@course.is_individual?}
+        %label{for: 'course_is_collectif'} Collectif -&nbsp;
+        %label Nombre moyen de participants &nbsp;
+        = f.input :nb_participants, label: false, input_html: {type: :number, placeholder: 12}
+
+  = f.input :subjects , as: :grouped_select, collection: Subject.roots.order('name ASC'), group_method: :children, input_html: {style: 'width: 300px;',multiple: true, 'data-behavior' => 'chosen'}, order: :name, label: t('.subjects')
+
+  = f.input :levels   , as: :select, collection: Level.all, input_html: {style: 'width: 300px;',multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|level| t(level.name)}
+
+  .input
+    = f.label :audiences, t('.audiences'), class: 'control-label helper-label', 'data-behavior' => 'popover', 'data-content' => 'Enfant : de 0 à 12 ans. Ado : de 12 à 18 ans. Adulte : > 18 ans. Senior : > 60 ans.'
+    = f.input :audiences, as: :select, collection: Audience.all, input_html: {style: 'width: 300px;',multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|audience| t(audience.name)}, label: false
   = f.input :has_online_payment
   = f.input :homepage_image
   = f.input :frequency
@@ -9,7 +45,6 @@
   = f.input :description
   = f.input :info
   = f.input :registration_date
-  = f.input :is_individual
   = f.input :is_for_handicaped
   = f.input :trial_lesson_info
   = f.input :price_details
@@ -19,4 +54,11 @@
   = f.input :audition_mandatory
   = f.input :refund_condition
   = f.input :can_be_joined_during_year
-  = f.input :subject_id
+
+- content_for :scripts do
+  :javascript
+    document.addEvent('domready', function() {
+        $$('[data-behavior=chosen]').each(function(select) {
+            new Chosen(select);
+        });
+    });

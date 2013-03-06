@@ -89,3 +89,13 @@ fr:
       can_be_joined_during_year: Peut être rejoint en cours d’année
     course:
       from: À partir de
+
+  pro:
+    courses:
+      form:
+        type: Type de cours
+        individual_course: Cours
+        subjects: Disciplines
+        audiences: Public
+        levels: Niveaux
+
