@@ -98,4 +98,5 @@ fr:
         subjects: Disciplines
         audiences: Public
         levels: Niveaux
-
+        info: Accroche / Libellé du cours
+        description: Description du cours

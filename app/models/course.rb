@@ -2,6 +2,8 @@
 # Courses are grouped by same name, audiences and levels
 class Course < ActiveRecord::Base
 
+  COURSE_FREQUENCIES = ['courses.frequencies.every_week', 'courses.frequencies.every_two_weeks', 'courses.frequencies.every_month']
+
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
   friendly_id :friendly_name, use: [:slugged, :history]
@@ -48,7 +50,7 @@ class Course < ActiveRecord::Base
                   :audition_mandatory,
                   :refund_condition,
                   :can_be_joined_during_year,
-                  :subject_ids
+                  :subject_ids,
                   :nb_participants
   # ------------------------------------------------------------------------------------ Search methods
   searchable do

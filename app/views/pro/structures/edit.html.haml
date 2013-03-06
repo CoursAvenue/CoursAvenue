@@ -40,7 +40,7 @@
         .textarea-with-info
           .ilb-wrapper
             .one-half
-              = structure_form.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {id: 'description-textarea', class: 'textarea-description', placeholder: 'Mettez en avant votre différence !'}
+              = structure_form.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {id: 'description-textarea', class: 'textarea-description--tall', placeholder: 'Mettez en avant votre différence !', data: { behavior: 'text-counter', 'average-words-nb' => 50, 'good-words-nb' => 150, 'bad-text' => 'Votre description doit comporter au moins 50 mots. Nos Partenaires qui ont le plus de succès ont plus de 150 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
             .one-half
               %p.alert--info.flush--top Qu'est-ce qui vous différencie ? Pourquoi nos Internautes devraient-il réserver chez vous ? Soyez sincère et original !
               %p.alert--info Quelle est votre équipe, combien êtes-vous ? Qui se cache derrière tout ça ? Quel est le profil de vos professeurs ?
@@ -53,27 +53,3 @@
           %p Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 150 mots.
     .form-actions
       = structure_form.button :submit, 'Mettre à jour ma structure', class: 'btn btn__primary'
-
-= content_for :scripts do
-  :javascript
-    $(document).addEvent('domready', function(){
-        var word_count_span = $('word-count');
-        var updateWordCount = function(text) {
-            var words = text.match(/\S+/g);
-            if (words === null ) { words = ''; }
-            var nb_word = words.length;
-            word_count_span.set('text', nb_word);
-              word_count_span.removeClass('red').removeClass('orange').removeClass('green');
-            if (nb_word < 30) {
-              word_count_span.addClass('red');
-            } else if (nb_word < 100) {
-              word_count_span.addClass('orange');
-            } else if (nb_word >= 100) {
-              word_count_span.addClass('green');
-            }
-        };
-        updateWordCount($('description-textarea').value);
-        $('description-textarea').addEvent('keyup', function(event) {
-            updateWordCount(this.value);
-        })
-    });

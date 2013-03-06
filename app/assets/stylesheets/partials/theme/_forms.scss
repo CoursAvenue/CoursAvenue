@@ -50,8 +50,13 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
     textarea.text {
         height: 5em;
         width : 24.5em;
-        &.textarea-description {
+        &.textarea-description--tall {
             height: 25em;
+        }
+        &.textarea-description {
+            height: 15em;
+        }
+        &.textarea-description--tall, &.textarea-description {
             width : 100%;
         }
     }
