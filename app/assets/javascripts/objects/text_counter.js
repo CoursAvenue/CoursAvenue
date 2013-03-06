@@ -5,7 +5,12 @@
 
 
     /*
-     *
+     * <textarea data-behaveior="text-counter"
+                 data-average-words-nb=50
+                 data-good-words-nb=100
+                 data-bad-text="Mauvais text"
+                 data-average-text="Peut mieux faire !"
+                 data-good-text="Top !">
      */
 
     objects.TextCounter = new Class({
@@ -49,7 +54,7 @@
             if (nb_words < this.options.average_words_nb) {
               this.nb_word_span.addClass('red');
               this.nb_word_info_span.set('text', this.options.bad_text);
-            } else if (nb_words > this.options.average_words_nb && nb_words < this.options.good_words_nb) {
+            } else if (nb_words >= this.options.average_words_nb && nb_words < this.options.good_words_nb) {
               this.nb_word_span.addClass('orange');
               this.nb_word_info_span.set('text', this.options.average_text);
             } else if (nb_words >= this.options.good_words_nb) {

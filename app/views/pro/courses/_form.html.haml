@@ -2,10 +2,9 @@
   - form_path = new_structure_course_path(@structure)
 - else
   - form_path = structure_course_path(@structure, @course)
-
-= simple_form_for form_path do |f|
+= simple_form_for [@structure, @course], url: form_path, as: :course do |f|
   = f.error_notification
-  = f.input :name
+  = f.input :name, label: t('.name'), placeholder: 'Intitulé : Zumba, jardin musical, Vins et Fromages, etc', label_html: {class: 'helper-label', data: {behavior: 'popover', content: "Si vous donnez déjà ce cours / stage au sein de votre structure, renseignez le même nom, sans le modifier : cela permettra d’éviter toute confusion. Par exemple, s’il s’agit du cours de « Gym'n Stretch », ne le modifiez pas en « Gym stretching  ». D’une manière générale, le nom doit être court, clair, et évocateur, et ne pas forcément comporter le nom de la discipline qui sera mentionné à côté (par exemple, mettez « Classique » au lieu de « Danse classique »)"}}
   .input.ilb-wrapper
     = f.label :type, t('.type'), class: 'control-label v-top'
     %div
@@ -14,8 +13,8 @@
         %label{for: 'type_course_lesson'} Cours récurrent à l’année (avec ou sans progression)
       %div.ilb-wrapper.align-middle
         %label Date du cours &nbsp;
-        = f.input :start_date, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {style: 'margin-right: 5px', placeholder: 'Début', class: 'datepicker-input', value: params[:start_date], 'data-behavior' => 'datepicker'}
-        = f.input :end_date, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {placeholder: 'Fin', class: 'datepicker-input', value: params[:start_date], 'data-behavior' => 'datepicker'}
+        = f.input :start_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {style: 'margin-right: 5px', placeholder: 'Début', class: 'datepicker-input', value: params[:start_date], 'data-behavior' => 'datepicker'}
+        = f.input :end_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {placeholder: 'Fin', class: 'datepicker-input', value: params[:start_date], 'data-behavior' => 'datepicker'}
       .radio
         %input#type_course_workshop{type: 'radio', name: 'course[type]', value: 'Course::Workshop', checked: @course.is_workshop?}
         %label{for: 'type_course_workshop', class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => 'Un cours-atelier est un cours d’une seule séance. Par exemple, un cours de photographie ponctuel de quelques heures est un cours-atelier, alors qu’un cours de théâtre avec des séances toutes les semaines est cours récurrent dans l’année.'} Cours-atelier
@@ -33,18 +32,17 @@
         %input#course_is_collectif{type: 'radio', name: 'course[is_individual]', checked: !@course.is_individual?}
         %label{for: 'course_is_collectif'} Collectif -&nbsp;
         %label Nombre moyen de participants &nbsp;
-        = f.input :nb_participants, label: false, input_html: {type: :number, placeholder: 12}
+        = f.input :nb_participants, label: false, input_html: {type: :number, placeholder: 12}, wrapper_html: {class: 'flush--ends'}
 
-  /= f.input :subjects , as: :grouped_select, collection: Subject.roots.order('name ASC'), group_method: :children, input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, order: :name, label: t('.subjects'), input_options: {selected: @course.subject_ids}
-  = f.input :subjects , as: :select, collection: Subject.order('name ASC'), input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, order: :name, label: t('.subjects'), selected: @course.subject_ids
+  = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, order: :name, label: t('.subjects'), selected: @course.subject_ids
 
-  = f.input :levels   , as: :select, collection: Level.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|level| t(level.name)}, label: t('.levels'), selected: @course.level_ids
+  = f.association :levels   , as: :select, collection: Level.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|level| t(level.name)}, label: t('.levels'), selected: @course.level_ids
 
   .input
     = f.label :audiences, t('.audiences'), class: 'control-label helper-label', 'data-behavior' => 'popover', 'data-content' => 'Enfant : de 0 à 12 ans. Ado : de 12 à 18 ans. Adulte : > 18 ans. Senior : > 60 ans.'
-    = f.input :audiences, as: :select, collection: Audience.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|audience| t(audience.name)}, label: false, selected: @course.audience_ids
+    = f.association :audiences, as: :select, collection: Audience.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|audience| t(audience.name)}, label: false, selected: @course.audience_ids
 
-  = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first
+  = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: t('.frequency')
 
   .ilb-wrapper.input
     = f.label :info, t('.info'), class: 'control-label v-top helper-label', 'data-behavior' => 'popover', 'data-content' => 'Ne pas mettre de tarif ni de date (voir rubriques suivantes). Le texte ne doit pas impliquer LeBonCours.com : par conséquent, nous vous demandons de ne pas mettre "nous" ni "nos”.'
@@ -67,17 +65,10 @@
           %p.alert--info Quelles sont les méthodes pratiquées ?
 
 
-  = f.input :description
-  = f.input :registration_date
-  = f.input :is_for_handicaped
-  = f.input :trial_lesson_info
-  = f.input :price_details
-  = f.input :price_info
-  = f.input :conditions
-  = f.input :partner_rib_info
-  = f.input :audition_mandatory
-  = f.input :refund_condition
-  = f.input :can_be_joined_during_year
+  = f.input :can_be_joined_during_year, label: t('.can_be_joined_during_year'), as: :boolean
+  = f.input :is_for_handicaped, label: t('.is_for_handicaped'), as: :boolean
+  .form-actions
+    = f.submit (@course.new_record? ? 'Créer le cours' : 'Mettre à le cours'), class: 'btn btn__primary'
 
 - content_for :scripts do
   :javascript

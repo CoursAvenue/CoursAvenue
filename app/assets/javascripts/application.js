@@ -28,6 +28,7 @@
 //= require libs/autocomplete
 //= require libs/simple-modal
 //= require libs/chosen/chosen
+//= require libs/TableSorter
 
 // ---------------------------------- Mootols Objects
 //= require_tree ./objects/

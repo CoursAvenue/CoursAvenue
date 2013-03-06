@@ -14,6 +14,7 @@
             this.el      = el;
             this.content = el.get('data-content');
             this.createPopoverDiv();
+            setTimeout(this.setPopoverPosition.bind(this), 5); // To be sure that it runs last and all the dom rendering is finished
             this.attachEvents();
             this.popover_element.set('tween', {duration: 150})
         },
@@ -24,12 +25,16 @@
             this.popover_element.set('html', this.content)
             document.body.appendChild(this.popover_element);
             width = (this.content.length);
-            //if (width < 30) {
             this.popover_element.setStyle('margin-left', '-' + this.popover_element.getComputedSize().totalWidth / 2 + 'px');
-            //}
+        },
+
+        setPopoverPosition: function() {
             // Must set top property after setting width
-            //this.popover_element.setStyle('top', this.popover_element.getComputedSize().totalHeight + 'px');
-            this.popover_element.setStyle('top', (this.el.offsetTop - this.popover_element.getComputedSize().totalHeight) + 'px');
+            if (this.el.offsetTop > this.popover_element.getComputedSize().totalHeight) {
+                this.popover_element.setStyle('top', (this.el.offsetTop - this.popover_element.getComputedSize().totalHeight) + 'px');
+            } else {
+                this.popover_element.setStyle('top', (this.el.offsetTop + this.el.getComputedSize().totalHeight) + 'px');
+            }
             this.popover_element.setStyle('left', (this.el.offsetLeft + this.el.getComputedSize().totalWidth) + 'px');
         },
 

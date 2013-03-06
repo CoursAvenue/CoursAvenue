@@ -100,3 +100,7 @@ fr:
         levels: Niveaux
         info: Accroche / Libellé du cours
         description: Description du cours
+        can_be_joined_during_year: Peut être rejoint en cours d'année
+        is_for_handicaped: Cours accessible aux handicapés
+        name: Nom du cours
+        frequency: Fréquence des cours

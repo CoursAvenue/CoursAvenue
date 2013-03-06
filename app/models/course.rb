@@ -33,6 +33,7 @@ class Course < ActiveRecord::Base
 
 
   attr_accessible :name,
+                  :type,
                   :has_online_payment,
                   :homepage_image,
                   :frequency,
@@ -50,8 +51,12 @@ class Course < ActiveRecord::Base
                   :audition_mandatory,
                   :refund_condition,
                   :can_be_joined_during_year,
+                  :nb_participants,
+                  :start_date,
+                  :end_date,
                   :subject_ids,
-                  :nb_participants
+                  :level_ids,
+                  :audience_ids
   # ------------------------------------------------------------------------------------ Search methods
   searchable do
     text :name, :boost => 2
@@ -255,12 +260,12 @@ class Course < ActiveRecord::Base
   end
 
   def approximate_price_per_course
-    one_class_price = prices.where{nb_course == 1}
+    one_class_price = prices.where{nb_courses == 1}
     if one_class_price.any?
       return one_class_price.first.amount
     else
-      price = prices.where{amount != nil}.order('nb_course DESC').first
-      return price.amount / price.nb_course
+      price = prices.where{amount != nil}.order('nb_courses DESC').first
+      return price.amount / price.nb_courses
     end
   end
 
