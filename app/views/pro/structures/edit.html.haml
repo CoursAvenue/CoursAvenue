@@ -5,13 +5,14 @@
   = simple_form_for(@admin) do |f|
     = f.error_notification
     .form-inputs
-      = f.input :civility, as: :select, collection: AdminUser::CIVILITY.map{|civility| [ t(civility), civility]}
+      %h5.form-header-group Contact
+      = f.input :civility, as: :select, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
       = f.input :firstname, label: t('.firstname')
       = f.input :lastname, label: t('.lastname')
-      = f.input :phone_number, wrapper_html: {class: 'flush--bottom'}
+      = f.input :role, label: t('.role' )
+      = f.input :phone_number, label: t('.phone_number'), wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.phone_number_info')
-      %h5.form-header-group Contact
-      = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}
+      = f.input :mobile_phone_number, label: t('.phone_number'), wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.mobile_phone_number_info')
       = f.input :email, :required => true, :autofocus => true, label: t('.email'), wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.email_info')

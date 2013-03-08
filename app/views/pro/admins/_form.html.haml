@@ -1,5 +1,5 @@
 = simple_form_for resource do |f|
-  = f.input :civility, as: :select, collection: AdminUser::CIVILITY.map{|civility| [ t(civility), civility]}
+  = f.input :civility, as: :select, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
   = f.input :firstname
   = f.input :lastname
   = f.input :email

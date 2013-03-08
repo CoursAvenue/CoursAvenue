@@ -1,5 +1,5 @@
 class Pro::StructuresController < Pro::ProController
-  #before_filter :authenticate_admin_user!
+  #before_filter :authenticate_admin!
   layout 'admin'
 
   def index
@@ -15,7 +15,7 @@ class Pro::StructuresController < Pro::ProController
   def edit
     @structure = Structure.find(params[:id])
     authorize! :edit, @structure
-    @admin     = @structure.admin_users.first || AdminUser.new
+    @admin     = @structure.admins.first || Admin.new
   end
 
   def new
@@ -25,7 +25,7 @@ class Pro::StructuresController < Pro::ProController
   def update
     @structure = Structure.find params[:id]
     authorize! :manage, @structure
-    @admin     = @structure.admin_users.first || AdminUser.new
+    @admin     = @structure.admins.first || Admin.new
     @structure.update_attributes params[:structure]
     respond_to do |format|
       format.html { render action: 'edit' }

@@ -1,21 +1,15 @@
 # encoding: utf-8
 LeBonCours::Application.routes.draw do
 
-
-  #ActiveAdmin.routes(self)
-
-  # devise_for :admin_users, ActiveAdmin::Devise.config
-  # devise_for :admin_users, path: 'profs', controllers: { sessions: "admins/sessions" }, path_names: { sign_in: '/', sign_out: 'logout'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
-
   constraints :subdomain => 'pro' do
-    scope :module => 'pro' do
+    scope :module => 'pro', as: 'pro' do
       root :to => 'home#index'
       resources :structures do
         resources :places
         resources :courses
       end
-      resources :admin_users
-      devise_for :admin_users, controllers: { sessions: 'pro/admin/sessions', registrations: 'pro/admin/registrations', passwords: 'pro/admin/passwords'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-leboncours-pro', sign_up: '/'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
+      resources :admins
+      devise_for :admins, controllers: { sessions: 'pro/admin/sessions', registrations: 'pro/admin/registrations', passwords: 'pro/admin/passwords'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-leboncours-pro', sign_up: '/'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
     end
   end
 

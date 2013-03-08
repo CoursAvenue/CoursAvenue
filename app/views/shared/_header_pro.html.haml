@@ -18,5 +18,5 @@
             %li= link_to 'Espace super admin', structures_path, class: 'header-link'
           - elsif current_admin.structure.present?
             %li= link_to 'Espace admin', structure_path(current_admin.structure), class: 'header-link'
-          %li= link_to 'Se déconnecter', destroy_admin_user_session_path, class: 'header-link', method: :delete
+          %li= link_to 'Se déconnecter', destroy_admin_session_path, class: 'header-link', method: :delete
 

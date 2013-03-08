@@ -28,7 +28,7 @@ heroku config:add AWS_ACCESS_KEY_ID=
 heroku config:add AWS_SECRET_ACCESS_KEY=
 
 # ActiveAdmin
-AdminUser.create!(:email => 'admin@leboncours.com', :password => 'password', :password_confirmation => 'password')
+Admin.create!(:email => 'admin@leboncours.com', :password => 'password', :password_confirmation => 'password')
 
 # Solr
 https://github.com/sunspot/sunspot#readme

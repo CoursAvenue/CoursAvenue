@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130306111203) do
+ActiveRecord::Schema.define(:version => 20130308133111) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(:version => 20130306111203) do
   add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
   add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
 
-  create_table "admin_users", :force => true do |t|
+  create_table "admins", :force => true do |t|
     t.string   "email",                                :default => "",    :null => false
     t.string   "encrypted_password",                   :default => ""
     t.string   "reset_password_token"
@@ -55,12 +55,13 @@ ActiveRecord::Schema.define(:version => 20130306111203) do
     t.string   "phone_number"
     t.string   "mobile_phone_number"
     t.boolean  "activated",                            :default => false
+    t.string   "role"
   end
 
-  add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
-  add_index "admin_users", ["invitation_token"], :name => "index_admin_users_on_invitation_token"
-  add_index "admin_users", ["invited_by_id"], :name => "index_admin_users_on_invited_by_id"
-  add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
+  add_index "admins", ["email"], :name => "index_admin_users_on_email", :unique => true
+  add_index "admins", ["invitation_token"], :name => "index_admin_users_on_invitation_token"
+  add_index "admins", ["invited_by_id"], :name => "index_admin_users_on_invited_by_id"
+  add_index "admins", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
 
   create_table "audiences", :force => true do |t|
     t.string   "name"

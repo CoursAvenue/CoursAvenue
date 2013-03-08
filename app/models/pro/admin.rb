@@ -1,4 +1,4 @@
-class AdminUser < ActiveRecord::Base
+class Pro::Admin < ActiveRecord::Base
   CIVILITY = [
     'civility.male',
     'civility.female'

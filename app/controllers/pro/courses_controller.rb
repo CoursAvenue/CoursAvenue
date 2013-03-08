@@ -17,4 +17,10 @@ class Pro::CoursesController < InheritedResources::Base
       success.html { redirect_to structure_courses_path(@structure) }
     end
   end
+
+  def destroy
+    destroy! do |success, failure|
+      success.html { redirect_to structure_courses_path(@structure) }
+    end
+  end
 end

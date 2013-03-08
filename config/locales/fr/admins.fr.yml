@@ -1,9 +1,9 @@
 fr:
   activerecord:
     models:
-      admin_user: Prof
+      admin: Prof
     attributes:
-      admin_user:
+      admin:
         civility: Civilité
         firstname: Prénom
         lastname: Nom

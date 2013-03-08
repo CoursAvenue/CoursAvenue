@@ -14,7 +14,7 @@ class Structure < ActiveRecord::Base
   has_many :cities, through: :places
   has_many :places
 
-  has_many :admin_users
+  has_many :admins
 
   validates :name, :presence   => true
   # validates :name, :uniqueness => true
@@ -50,6 +50,6 @@ class Structure < ActiveRecord::Base
                   :needs_insurance_attestation_for_registration # attestation d'assurance
 
   def main_contact
-    admin_users.first
+    admins.first
   end
 end

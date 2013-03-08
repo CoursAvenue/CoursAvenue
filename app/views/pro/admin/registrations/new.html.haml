@@ -33,7 +33,7 @@
       = f.error_notification
       .form-inputs
         %h5.form-header-group Vos coordonnées
-        = f.input :civility, as: :select, collection: AdminUser::CIVILITY.map{|civility| [ t(civility), civility]}
+        = f.input :civility, as: :select, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
         = f.input :firstname, label: t('.firstname')
         = f.input :lastname, label: t('.lastname')
         = f.input :phone_number, wrapper_html: {class: 'flush--bottom'}
