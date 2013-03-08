@@ -18,7 +18,7 @@ class Structure < ActiveRecord::Base
 
   validates :name, :presence   => true
   validates :structure_type, :presence   => true
-  validates :siret, length: { is: 14 }, numericality: { only_integer: true }
+  validates :siret, length: { maximum: 14 }#, numericality: { only_integer: true }
   # validates :name, :uniqueness => true
 
   attr_accessible :structure_type,

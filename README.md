@@ -50,3 +50,6 @@ Remove local branch
 $ git branch -D branch_name
 Remove remote branch
 $ git push origin --delete branch_name
+
+# Cities
+http://download.geonames.org/export/zip/

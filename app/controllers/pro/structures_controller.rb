@@ -27,10 +27,13 @@ class Pro::StructuresController < Pro::ProController
     authorize! :manage, @structure
 
     @admin     = @structure.admins.first || Admin.new
-    @structure.update_attributes params[:structure]
 
     respond_to do |format|
-      format.html { render action: 'edit' }
+      if @structure.update_attributes params[:structure]
+        format.html { redirect_to edit_structure_path @structure }
+      else
+        format.html { render action: 'edit' }
+      end
     end
   end
 end

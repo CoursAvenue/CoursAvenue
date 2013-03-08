@@ -14,6 +14,7 @@ LeBonCours::Application.routes.draw do
     end
   end
 
+  resources :cities, only: [:index]
 
   match "sitemap.xml", to: "sitemap#index", defaults: {format: :xml}
 

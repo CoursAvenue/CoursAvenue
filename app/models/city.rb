@@ -9,10 +9,19 @@ class City < ActiveRecord::Base
 
   has_attached_file :no_result_image, :styles => {default: '900×600#'}
 
-  attr_accessible :name, :no_result_image
-
-  validates :name, uniqueness: true
-
+  attr_accessible :name,
+                  :no_result_image,
+                  :iso_code,
+                  :zip_code,
+                  :region_name,
+                  :region_code,
+                  :department_name,
+                  :department_code,
+                  :commune_name,
+                  :commune_code,
+                  :latitude,
+                  :longitude,
+                  :acuracy
   def should_generate_new_friendly_id?
     new_record?
   end
