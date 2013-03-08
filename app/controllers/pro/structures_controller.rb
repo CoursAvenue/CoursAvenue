@@ -25,8 +25,10 @@ class Pro::StructuresController < Pro::ProController
   def update
     @structure = Structure.find params[:id]
     authorize! :manage, @structure
+
     @admin     = @structure.admins.first || Admin.new
     @structure.update_attributes params[:structure]
+
     respond_to do |format|
       format.html { render action: 'edit' }
     end

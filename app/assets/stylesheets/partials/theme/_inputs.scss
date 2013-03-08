@@ -6,11 +6,12 @@ input[type=search] {
     -webkit-appearance: none;
 }
 input{
-    &[type=text], &[type=search] {
-        cursor: text;
+    &[type=checkbox], &[type=radio]{
+        cursor: pointer;
     }
 }
 input, textarea {
+    cursor: text;
     border        : 1px solid #ccc;
     padding       : 5px;
     vertical-align: middle;

@@ -23,7 +23,7 @@
       / Par SMS : pré-insérer le n° de téléphone portable renseigné en étape 1
 
       %h5.form-header-group Changement de mot de passe
-      = f.input :password, :required => true, label: t('.password')
+      = f.input :password, :required => true, label: t('.password'), wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.password_info')
       = f.input :password_confirmation, :required => true, label: t('.password_confirmation')
     .form-actions
@@ -67,9 +67,9 @@
       = structure_form.input :bank_iban
       = structure_form.input :bank_bic
       %h5.form-header-group Contact pour la facturation
-      = structure_form.input :billing_contact_first_name, value: @structure.billing_contact_first_name || @structure.main_contact.first_name
-      = structure_form.input :billing_contact_last_name, value: @structure.billing_contact_last_name || @structure.main_contact.last_name
-      = structure_form.input :billing_contact_phone_number, value: @structure.billing_contact_phone_number || @structure.main_contact.phone_number
-      = structure_form.input :billing_contact_email, value: @structure.billing_contact_email || @structure.main_contact.email
+      = structure_form.input :billing_contact_first_name, input_html: {value: @structure.billing_contact_first_name || @structure.main_contact.first_name}
+      = structure_form.input :billing_contact_last_name, input_html: {value: @structure.billing_contact_last_name || @structure.main_contact.last_name}
+      = structure_form.input :billing_contact_phone_number, input_html: {value: @structure.billing_contact_phone_number || (@structure.main_contact.phone_number || @structure.main_contact.mobile_phone_number)}
+      = structure_form.input :billing_contact_email, input_html: {value: @structure.billing_contact_email || @structure.main_contact.email}
     .form-actions
       = structure_form.button :submit, 'Mettre à jour ma structure', class: 'btn btn__primary'
