@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Pro::AdminsController < InheritedResources::Base
+class ::Pro::AdminsController < InheritedResources::Base
 
   layout 'admin'
 
@@ -7,7 +7,12 @@ class Pro::AdminsController < InheritedResources::Base
     @admins = Admin.all
   end
 
+  def edit
+    @admin = ::Admin.find(params[:id])
+  end
+
   def update
+    @admin = ::Admin.find(params[:id])
     update! do |format|
       format.html do
         if current_admin.super_admin?
@@ -20,6 +25,7 @@ class Pro::AdminsController < InheritedResources::Base
   end
 
   def destroy
+    @admin = ::Admin.find(params[:id])
     destroy! do |format|
       format.html do
         if current_admin.super_admin?

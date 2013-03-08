@@ -1,4 +1,4 @@
-class Pro::Admin < ActiveRecord::Base
+class ::Admin < ActiveRecord::Base
   CIVILITY = [
     'civility.male',
     'civility.female'
@@ -10,13 +10,13 @@ class Pro::Admin < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :registerable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :civility, :firstname, :lastname, :phone_number, :mobile_phone_number, :activated
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :civility, :first_name, :last_name, :phone_number, :mobile_phone_number, :activated, :management_software_used, :role
 
-  validates :firstname, :lastname, presence: true
+  validates :first_name, :last_name, presence: true
   # attr_accessible :title, :body
   belongs_to :structure
 
   def fullname
-    "#{firstname} #{lastname}"
+    "#{first_name} #{last_name}"
   end
 end

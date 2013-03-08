@@ -6,8 +6,8 @@ FactoryGirl.define do
 
     association :structure
 
-    firstname   'Timoté'
-    lastname    'Gaélique'
+    first_name   'Timoté'
+    last_name    'Gaélique'
     email       'timo@gael.com'
     password    'password'
 end

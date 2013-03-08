@@ -5,6 +5,10 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
 }
 
 .simple_form {
+    .error {
+        @extend .alert--error;
+        padding: 5px 10px !important;
+    }
     .input {
         margin: 10px 0;
         @extend .ilb-wrapper;
@@ -114,6 +118,7 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
 }
 
 .helper-label:after {
+    cursor              : pointer;
     content             : '?';
     display             : inline-block;
     vertical-align      : middle;

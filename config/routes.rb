@@ -2,9 +2,10 @@
 LeBonCours::Application.routes.draw do
 
   constraints :subdomain => 'pro' do
-    scope :module => 'pro', as: 'pro' do
+    scope :module => 'pro' do
       root :to => 'home#index'
       resources :structures do
+        resources :admins, only: [:create, :update], controller: 'structures/admins'
         resources :places
         resources :courses
       end

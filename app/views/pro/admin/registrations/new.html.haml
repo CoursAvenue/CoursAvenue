@@ -34,8 +34,8 @@
       .form-inputs
         %h5.form-header-group Vos coordonnées
         = f.input :civility, as: :select, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
-        = f.input :firstname, label: t('.firstname')
-        = f.input :lastname, label: t('.lastname')
+        = f.input :first_name, label: t('.first_name')
+        = f.input :last_name, label: t('.last_name')
         = f.input :phone_number, wrapper_html: {class: 'flush--bottom'}
         %p.field-form-info= t('.phone_number_info')
         = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}
