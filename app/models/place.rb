@@ -10,15 +10,15 @@ class Place < ActiveRecord::Base
   has_many   :courses
   has_many   :rooms
 
-  validates  :city, presence: true
+  validates  :name, :city, :zip_code, presence: true
 
-  attr_accessible :contact_email,
+  attr_accessible :name,
+                  :contact_email,
                   :contact_name,
                   :contact_phone,
                   :contact_mobile_phone,
                   :has_handicap_access,
                   :info,
-                  :name,
                   # :nb_room,
                   :street,
                   :zip_code,

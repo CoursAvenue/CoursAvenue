@@ -12,6 +12,7 @@
         %th.text--center Nombre de salles
         %th
         %th
+        %th
     %tbody
       - @places.each do |place|
         %tr
@@ -24,4 +25,5 @@
               = place.rooms.count
           %td= link_to 'Gérer mes salles', structure_place_rooms_path(@structure, place)
           %td= link_to 'Éditer', edit_structure_place_path(@structure, place)
+          %td= link_to 'Supprimer', structure_place_path(@structure, place), method: :delete, data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'}
   = link_to 'Ajouter un nouveau lieu', new_structure_place_path(@structure), class: 'btn btn__primary'

@@ -16,4 +16,10 @@ class Pro::PlacesController < InheritedResources::Base#Pro::ProController
       success.html { redirect_to structure_places_path(@structure) }
     end
   end
+
+  def destroy
+    destroy! do |success, failure|
+      success.html { redirect_to structure_places_path(@structure) }
+    end
+  end
 end
