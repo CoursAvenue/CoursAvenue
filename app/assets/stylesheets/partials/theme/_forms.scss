@@ -4,19 +4,25 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
     display: inline;
 }
 
-.simple_form {
+//.simple_form {
     .error {
         @extend .alert--error;
         padding: 5px 10px !important;
     }
     .input {
         margin: 10px 0;
-        @extend .ilb-wrapper;
-        @extend .align-middle;
-        select {
-            width: auto;
+        > select, > input, > select, > textarea, > div, > label {
+            display       : inline-block;
+            vertical-align: middle;
         }
-        input, textarea {
+        > input, > select, > textarea, > div, > label {
+            font-size: $base-font-size;
+        }
+        select {
+            width    : auto;
+            font-size: 1.2em;
+        }
+        input.string, textarea {
             width: 35em;
         }
         .control-label {
@@ -33,6 +39,15 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
         }
         &.boolean input {
             width: auto
+        }
+    }
+    .inline-inputs {
+        .control-label {
+            width  : auto;
+            padding: 0 0.5em;
+        }
+        input[type="submit"] {
+            margin-left: 1em;
         }
     }
         .control-label {
@@ -58,6 +73,7 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
         &.textarea-description--tall {
             height: 25em;
         }
+//}
         &.textarea-description {
             height: 15em;
         }
@@ -94,7 +110,6 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
             margin-top: 0.5em;
         }
     }
-}
 .simple_form.half-form {
     .input {
         .control-label {

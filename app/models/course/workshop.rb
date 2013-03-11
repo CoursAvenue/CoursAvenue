@@ -16,4 +16,7 @@ class Course::Workshop < Course
     'cours-atelier'
   end
 
+  def underscore_name
+    'workshop'
+  end
 end

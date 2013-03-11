@@ -15,4 +15,7 @@ class Course::Lesson < Course
     'cours'
   end
 
+  def underscore_name
+    'lesson'
+  end
 end

@@ -18,9 +18,9 @@ provides: [TableSorter]
 */
 
 var TableSorter = new Class({
-	
+
 	Implements: [Options, Events],
-	
+
 	options: {
 		rowsPerRecord:			1,
 		headerAscClass:			'sortAsc',
@@ -36,20 +36,20 @@ var TableSorter = new Class({
 		exemptRowClass:			'sortExempt',
 		columnDataTypes:		[] // money, int, numeric, number, real, date, datetime checkbox, select, input, img, image
 	},
-	
+
 	initialize: function(table, options) {
-		
+
 		if(!document.id(table)) throw('Unknown table passed to TableSorter contructor (' + table + ')');
 		this.table = document.id(table);
 		console.log(this.table);
 		this.setOptions(options);
-		
+
 		// Build our set of data types--hints for comparison operations:
 		var columnDataTypes = this.options.columnDataTypes || [];
 		if(typeOf(columnDataTypes) == 'string') {  // handled a comma-separated list
 			columnDataTypes = columnDataTypes.split(/,\s*/);
 		}
-		
+
 		var columnCount = columnDataTypes.length;
 		this.columnDataTypeSet = columnDataTypes;
 		var self = this;
@@ -70,9 +70,9 @@ var TableSorter = new Class({
 				}
 			}
 		});
-		
+
 		this.tbody = this.table.getElement('tbody')  ||  this.table;
-		
+
 		// Create a data set of records.  Records will consist of as many table
 		// rows per as given by the rowsPerRecord option (most usually 1,
 		// but common use case is 2 when there's a "details" row that is
@@ -95,7 +95,7 @@ var TableSorter = new Class({
 				var thisRecordRowSet = [thisRecordRow];
 				for(var i=0; i < this.options.rowsPerRecord-1; i++)
 					thisRecordRowSet.push(trSet.shift());
-				
+
 				// now build our data structure of raw, comparison-ready data:
 				var thisDataSet = new Array(columnCount);
 				for(var c=0; c < columnCount; c++) {
@@ -143,29 +143,32 @@ var TableSorter = new Class({
 				this.recordSet.push({ rowSet: thisRecordRowSet, dataSet: thisDataSet });
 			}
 		}
-		
+
 		this.sortColumn = this.options.sortColumn;
 		this.sortDirection = this.options.sortDirection;
-		
+
 		var recalledSort = this.recallSortOrder();
 		if(recalledSort) {
 			var sortSet = recalledSort.split(' ');
 			this.sortColumn = sortSet[0];
 			this.sortDirection = sortSet[1];
 		}
-		
+
 		if(this.sortColumn != -1) // we should sort!
 			this.sortRows();
 	},
-	
+
 	handleHeaderClick: function(event) {
 		var element = event.target;
+		// Added by Nima Izadi
+		if(element.columnIndex == null && element.parentElement.columnIndex != null) {
+			element = element.parentElement
+		}
 		if(element.columnIndex == null) // not a header cell click
 			return;
-		
 		if(this.columnDataTypeSet[element.columnIndex] == '') // not a sortable column!
 			return;
-		
+
 		// as a response to the click, we'll adjust our sort state
 		// given by sortColumn and sortDirection:
 		if(this.sortColumn == element.columnIndex)
@@ -174,16 +177,16 @@ var TableSorter = new Class({
 			this.sortColumn = element.columnIndex;
 			this.sortDirection = 'asc';
 		}
-		
+
 		// Now we'll sort according to the new sort state:
 		this.sortRows();
 	},
-	
+
 	sortRows: function() {
-		
+
 		var sortColumn = this.sortColumn;
 		var sortDirection = this.sortDirection;
-		
+
 		// First order of business: adjust the markings of the header:
 		this.headerCells.each(function(th, index) {
 			if(index == sortColumn) {
@@ -199,7 +202,7 @@ var TableSorter = new Class({
 				th.removeClass(this.options.headerDescClass);
 			}
 		}.bind(this));
-		
+
 		this.recordSet.sort(function(r1, r2) {
 			var c1 = r1.dataSet[sortColumn];
 			var c2 = r2.dataSet[sortColumn];
@@ -207,7 +210,7 @@ var TableSorter = new Class({
 		});
 		if(sortDirection == 'desc')
 			this.recordSet.reverse();
-		
+
 		// Now to rebuild the DOM according to our newly-sorted recordSet:
 		this.recordSet.each(function(theRecord, index) {
 			for(var i=0; i < theRecord.rowSet.length; i++) {
@@ -215,22 +218,22 @@ var TableSorter = new Class({
 				this.tbody.appendChild(thisRow);
 			}
 		}.bind(this));
-		
+
 		// Append the footer rows last, in order:
 		for(var i=0; i < this.footerRowSet.length; i++)
 			this.tbody.appendChild(this.footerRowSet[i]);
-		
+
 		this.saveSortOrder();
 	},
-	
-	
+
+
 	recallSortOrder: function(){
 		return (this.options.cookieName) ? [Cookie.read(this.options.cookieName), false].pick() : false;
 	},
-	
+
 	saveSortOrder: function(){
-		if(this.options.cookieName) 
-			Cookie.write(this.options.cookieName, 
+		if(this.options.cookieName)
+			Cookie.write(this.options.cookieName,
 				this.sortColumn + ' ' + this.sortDirection,
 				{duration:this.options.cookieDays});
 	}

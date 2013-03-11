@@ -3,7 +3,21 @@ class Planning < ActiveRecord::Base
   has_many   :prices, through: :course
   belongs_to :room
 
-  attr_accessible :day_one,
+  attr_accessible :duration,
+                  :end_date,
+                  :start_date,
+                  :start_time, # Format: Time.parse("2000-01-01 #{value} UTC")
+                  :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
+                  :week_day, # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
+                  :class_during_holidays,
+                  :nb_place_available,
+                  :promotion,
+                  :info,
+                  :teacher_name,
+                  :min_age_for_kid,
+                  :max_age_for_kid,
+                  # For Trainings only
+                  :day_one,
                   :day_one_duration,
                   :day_one_start_time,
                   :day_two,
@@ -17,20 +31,7 @@ class Planning < ActiveRecord::Base
                   :day_four_start_time,
                   :day_five,
                   :day_five_duration,
-                  :day_five_start_time,
-                  :duration,
-                  :end_date,
-                  :start_date,
-                  :start_time, # Format: Time.parse("2000-01-01 #{value} UTC")
-                  :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
-                  :week_day, # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
-                  :class_during_holidays,
-                  :nb_place_available,
-                  :promotion,
-                  :info,
-                  :teacher_name,
-                  :min_age_for_kid,
-                  :max_age_for_kid
+                  :day_five_start_time
 
 
   def length

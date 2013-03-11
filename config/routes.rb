@@ -6,10 +6,20 @@ LeBonCours::Application.routes.draw do
       root :to => 'home#index'
       resources :structures do
         resources :admins, only: [:create, :update], controller: 'structures/admins'
+        resources :teachers
         resources :places do
           resources :rooms, only: [:index, :create, :destroy]
         end
         resources :courses
+        resources :course_workshops, as: 'course', controller: 'pro/courses' do
+          resources :plannings, controller: 'plannings'
+        end
+        resources :course_trainings, as: 'course', controller: 'pro/courses' do
+          resources :plannings, controller: 'plannings'
+        end
+        resources :course_lessons, as: 'course', controller: 'pro/courses' do
+          resources :plannings, controller: 'plannings'
+        end
       end
       resources :admins
       devise_for :admins, controllers: { sessions: 'pro/admin/sessions', registrations: 'pro/admin/registrations', passwords: 'pro/admin/passwords'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-leboncours-pro', sign_up: '/'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }

@@ -15,13 +15,13 @@
 
 .ilb-wrapper {
     font-size: 0;
-    > nav, > label, > h2, > i, > p, > div, > ul, > span, > a, > img, select, input, textarea {
+    > nav, > label, > h2, > i, > p, > div, > ul, > span, > a, > img, > select, > input, > textarea {
         font-size     : $base-font-size;
         display       : inline-block;
         vertical-align: top;
     }
     &.align-middle {
-        > nav, > label, > h2, > i, > p, > div, > ul, > span, > a, > img, select, input, textarea {
+        > nav, > label, > h2, > i, > p, > div, > ul, > span, > a, > img, > select, > input, > textarea {
             vertical-align: middle;
         }
     }

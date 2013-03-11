@@ -28,3 +28,38 @@
         padding: 0.8em;
     }
 }
+
+th.sortAsc span, th.sortDesc span {
+    position: relative;
+}
+th.sortAsc span:after, th.sortDesc span:after {
+    display          : block;
+    position         : absolute;
+    content          : ' ';
+    top              : 50%;
+    right            : -15px;
+    width            : 10px;
+    height           : 10px;
+    background-size  : 10px;
+    background-repeat: no-repeat;
+    vertical-align   : middle;
+    @include background-size(100%);
+
+}
+th.sortAsc span:after {
+    background-image : image-url('icons/caret-up.png');
+     @media \0screen {
+        background: none;
+        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/caret-up.png')}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/caret-up.png')}',sizingMethod='scale')";
+    }
+}
+th.sortDesc span:after {
+    background-image : image-url('icons/caret-down.png');
+     @media \0screen {
+        background: none;
+        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/caret-down.png')}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/caret-down.png')}',sizingMethod='scale')";
+    }
+
+}

@@ -11,7 +11,8 @@
     border          : 1px solid #DBD9D9;
     text-shadow     : 0 1px 0 white;
     //padding         : 0.8em 0.9em;
-    padding         : 11px;
+    //padding         : 11px;
+    padding         : 0.8em;
     color           : #555;
     font-size       : 12px;
     @include border-radius($brand-round);

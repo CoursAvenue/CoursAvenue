@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe AdminUser do
+describe Admin do
   context 'fullname' do
     it 'should display firstname and lastname' do
       admin             = FactoryGirl.create(:admin_user)

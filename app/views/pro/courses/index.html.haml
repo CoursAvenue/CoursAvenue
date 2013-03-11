@@ -3,9 +3,12 @@
 %table.table--striped#dataTable
   %thead
     %tr
-      %th Nom
-      %th Type
-      %th Disciplines
+      %th.sortDesc
+        %span Nom
+      %th
+        %span Type
+      %th
+        %span Disciplines
       %th
       %th
       %th
@@ -15,7 +18,7 @@
         %td= link_to course.name, edit_structure_course_path(@structure, course)
         %td= course.type_name
         %td= course.subjects.map(&:name).join(', ')
-        %td= link_to 'Plannings'
+        %td= link_to 'Plannings', structure_course_plannings_path(@structure, course)
         %td= link_to 'Tarifs'
         %td
           = link_to 'Éditer', edit_structure_course_path(@structure, course)

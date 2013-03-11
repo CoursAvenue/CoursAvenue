@@ -20,4 +20,7 @@ class Course::Training < Course
     'stage'
   end
 
+  def underscore_name
+    'training'
+  end
 end

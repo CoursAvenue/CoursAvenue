@@ -1,0 +1,10 @@
+= side_menu_currently_at 'Mes cours'
+
+%h2 Planning - #{@course.name}
+
+= render "#{@course.underscore_name}_list"
+
+%hr
+
+%h4 Rajouter un créneau
+= render "#{@course.underscore_name}_form"

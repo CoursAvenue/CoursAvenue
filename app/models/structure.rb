@@ -9,6 +9,7 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  has_many :teachers
   has_many :courses
   has_many :renting_rooms
   has_many :cities, through: :places

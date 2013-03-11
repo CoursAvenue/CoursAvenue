@@ -1,0 +1,25 @@
+%table.table--striped.table--data
+  %thead
+    %tr
+      %th Date
+      %th.text--center Créneau horaire
+      %th.text--center Durée
+      %th.text--center
+        %i.lbc-icon-info i
+      %th
+      %th
+  %tbody
+    - @plannings.each do |planning|
+      %tr
+        %td
+          - if planning.day_one
+            = l(planning.day_one, format: :semi_long).capitalize
+          - else
+            = l(planning.start_date, format: :semi_long).capitalize
+        %td.text--center= readable_time_slot planning.start_time, planning.end_time
+        %td.text--center= readable_duration planning.duration || planning.day_one_duration
+        %td.text--center
+          - if planning.info.present?
+            .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
+        %td= link_to 'Éditer', edit_structure_course_planning_path(@structure, @course, planning)
+        %td= link_to 'Supprimer', structure_course_planning_path(@structure, @course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?'

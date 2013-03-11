@@ -10,4 +10,5 @@ FactoryGirl.define do
     last_name    'Gaélique'
     email       'timo@gael.com'
     password    'password'
+  end
 end
