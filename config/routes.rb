@@ -6,7 +6,9 @@ LeBonCours::Application.routes.draw do
       root :to => 'home#index'
       resources :structures do
         resources :admins, only: [:create, :update], controller: 'structures/admins'
-        resources :places
+        resources :places do
+          resources :rooms, only: [:index, :create, :destroy]
+        end
         resources :courses
       end
       resources :admins

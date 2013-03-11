@@ -8,6 +8,7 @@ class Place < ActiveRecord::Base
   belongs_to :city
   belongs_to :structure
   has_many   :courses
+  has_many   :rooms
 
   validates  :city, presence: true
 
@@ -18,7 +19,7 @@ class Place < ActiveRecord::Base
                   :has_handicap_access,
                   :info,
                   :name,
-                  :nb_room,
+                  # :nb_room,
                   :street,
                   :zip_code,
                   :city,

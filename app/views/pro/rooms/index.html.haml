@@ -1,0 +1,21 @@
+= side_menu_currently_at "Lieux d'enseignements"
+
+%h2 Gestion des salles : #{@place.name}
+- unless @rooms.empty?
+  %table.table--striped
+    %thead
+      %tr
+        %th Nom
+        %th Superficie
+        %th
+    %tbody
+      - @rooms.each do |room|
+        - unless room.new_record?
+          %tr
+            %td= room.name
+            %td= room.surface
+            %td= link_to 'Supprimer', [@structure, @place, room], method: :delete
+
+%hr
+%h4 Ajouter une salle
+= render 'form'

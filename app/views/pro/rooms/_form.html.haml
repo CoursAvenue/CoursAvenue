@@ -1,0 +1,6 @@
+= simple_form_for [@structure, @place, @room || Room.new] do |f|
+  = f.error_notification
+  = f.input :name, placeholder: 'Salle bleu'
+  = f.input :surface, placeholder: '45'
+  .form-actions
+    = f.submit 'Ajouter la salle', class: 'btn btn__primary'

@@ -1,0 +1,8 @@
+fr:
+  activerecord:
+    models:
+      room: Salle
+    attributes:
+      room:
+        name: Nom
+        surface: Superficie (approximative en m2)

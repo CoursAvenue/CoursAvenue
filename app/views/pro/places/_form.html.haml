@@ -5,10 +5,10 @@
     = f.input :name, label: t('.name'), label_html: { class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => "Si vous avez plus d’un lieu, et pour pouvoir les différencier, renseignez un nom spécifique pour chaque adresse. Par exemple, si l’un de vos 3 lieux se trouve au 34 rue Buffaut, renseignez « Buffaut » ; s’il concerne le gymnase Léo Lagrange, renseignez « Lagrange », etc." }
     = f.input :street, placeholder: '83 avenue du général Leclerc'
     = f.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'place_city_id'} }
-    /= f.input :city_id, as: :select, collection: @cities
     = f.association :city, collection: [@place.city]
+    /= f.input :nb_room, as: :select, collection: 1..30
 
-    %h5.form-header-group Info contact
+    %h5.helper-label.form-header-group{data: { behavior: 'popover', content: 'Si la personne qui gère les réservations pour ce lieu spécifique est différente du Responsable des réservations renseigné dans la rubrique "Infos générales", merci de renseigner toutes les informations relatives à cette personne.' }} Contact spécifique au lieu
     = f.input :contact_email, value: @place.contact_email || (@structure.main_contact.nil? ? '' : @structure.main_contact.email)
     = f.input :contact_name, value: @place.contact_name || (@structure.main_contact.nil? ? '' : @structure.main_contact.fullname)
     = f.input :contact_phone, value: @place.contact_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.phone_number)
@@ -17,19 +17,18 @@
     %h5.form-header-group Équipements
     .ilb-wrapper.input
       = f.label '&nbsp;'
-      .checkbox-list
+      .checkbox-list.v-top
         = f.input :has_handicap_access
         = f.input :has_cloackroom
-        = f.input :has_internet
+        = f.input :has_internet, label_html: { class: 'helper-label', data: { behavior: 'popover', content: 'Internet fil ou sans fil'}}
         = f.input :has_air_conditioning
         = f.input :has_swimming_pool
-      .checkbox-list
+      .checkbox-list.v-top
         = f.input :has_free_parking
         = f.input :has_jacuzzi
         = f.input :has_sauna
-        = f.input :has_daylight
+        = f.input :has_daylight, label_html: { class: 'helper-label', data: { behavior: 'popover', content: 'Lumière du jour dans au moins l’une des salles'}}
     %h5.form-header-group Informations privées
-    = f.input :nb_room, as: :select, collection: 1..30
     .ilb-wrapper.input
       = f.label :info, class: 'v-top'
       .textarea-with-info

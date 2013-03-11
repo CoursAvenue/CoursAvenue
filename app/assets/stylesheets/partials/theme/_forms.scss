@@ -79,7 +79,8 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
                 margin-left: 0.5em;
                 float      : none;
                 text-align : left;
-                min-width  : 15em;
+                min-width  : auto;
+                width      : auto;
             }
         }
     }

@@ -7,7 +7,7 @@ class Pro::PlacesController < InheritedResources::Base#Pro::ProController
 
   def create
     create! do |success, failure|
-      success.html { redirect_to structure_places_path(@structure) }
+      success.html { redirect_to structure_place_rooms_path(@structure, @place) }
     end
   end
 
