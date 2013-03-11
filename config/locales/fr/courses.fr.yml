@@ -17,7 +17,7 @@ fr:
         max_age_for_kid: Age max
         min_age_for_kid: Age min
         is_individual: Individuel
-        is_for_handicaped: Pour handicapé
+        is_for_handicaped: Pour handicapés
         trial_lesson_info:
         price_details:
         price_info:
@@ -27,6 +27,7 @@ fr:
         refund_condition:
         can_be_joined_during_year:
         frequency: Fréquence
+        room: Salle de cours principale
 
   courses:
     training:

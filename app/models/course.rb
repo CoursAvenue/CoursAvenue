@@ -14,8 +14,9 @@ class Course < ActiveRecord::Base
   has_attached_file :image, :styles => { wide: "800x480#", thumb: "200x200#" }
 
   belongs_to :structure
-  belongs_to :place
-  has_one    :city  , through: :place
+  belongs_to :room
+  has_one    :city , through: :place
+  has_one    :place, through: :room
 
   has_many :plannings
   has_many :prices           , dependent: :destroy
@@ -29,7 +30,10 @@ class Course < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Validations
   validates :structure  , presence: true
-  # validates :subjects, presence: true
+  validates :room       , presence: true
+  validates :subjects   , presence: true
+  validates :levels     , presence: true
+  validates :audiences  , presence: true
 
 
   attr_accessible :name,
@@ -56,7 +60,8 @@ class Course < ActiveRecord::Base
                   :end_date,
                   :subject_ids,
                   :level_ids,
-                  :audience_ids
+                  :audience_ids,
+                  :room_id
   # ------------------------------------------------------------------------------------ Search methods
   searchable do
     text :name, :boost => 2

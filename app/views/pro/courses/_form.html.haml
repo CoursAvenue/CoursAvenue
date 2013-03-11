@@ -5,6 +5,7 @@
 = simple_form_for [@structure, @course], url: form_path, as: :course do |f|
   = f.error_notification
   = f.input :name, label: t('.name'), placeholder: 'Intitulé : Zumba, jardin musical, Vins et Fromages, etc', label_html: {class: 'helper-label', data: {behavior: 'popover', content: "Si vous donnez déjà ce cours / stage au sein de votre structure, renseignez le même nom, sans le modifier : cela permettra d’éviter toute confusion. Par exemple, s’il s’agit du cours de « Gym'n Stretch », ne le modifiez pas en « Gym stretching  ». D’une manière générale, le nom doit être court, clair, et évocateur, et ne pas forcément comporter le nom de la discipline qui sera mentionné à côté (par exemple, mettez « Classique » au lieu de « Danse classique »)"}}
+  %h5.form-header-group.flush--bottom Type de cours
   .input.ilb-wrapper
     = f.label :type, t('.type'), class: 'control-label v-top'
     %div
@@ -34,7 +35,12 @@
         %label Nombre moyen de participants &nbsp;
         = f.input :nb_participants, label: false, input_html: {type: :number, placeholder: 12}, wrapper_html: {class: 'flush--ends'}
 
+  = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: t('.frequency')
   = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, order: :name, label: t('.subjects'), selected: @course.subject_ids
+
+  %h5.form-header-group.flush--bottom Infos
+
+  = f.association :room , as: :grouped_select, collection: @structure.places, group_method: :rooms
 
   = f.association :levels   , as: :select, collection: Level.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|level| t(level.name)}, label: t('.levels'), selected: @course.level_ids
 
@@ -42,8 +48,10 @@
     = f.label :audiences, t('.audiences'), class: 'control-label helper-label', 'data-behavior' => 'popover', 'data-content' => 'Enfant : de 0 à 12 ans. Ado : de 12 à 18 ans. Adulte : > 18 ans. Senior : > 60 ans.'
     = f.association :audiences, as: :select, collection: Audience.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|audience| t(audience.name)}, label: false, selected: @course.audience_ids
 
-  = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: t('.frequency')
+  = f.input :can_be_joined_during_year, label: t('.can_be_joined_during_year'), as: :boolean
+  = f.input :is_for_handicaped, label: t('.is_for_handicaped'), as: :boolean
 
+  %h5.form-header-group.flush--bottom Description
   .ilb-wrapper.input
     = f.label :info, t('.info'), class: 'control-label v-top helper-label', 'data-behavior' => 'popover', 'data-content' => 'Ne pas mettre de tarif ni de date (voir rubriques suivantes). Le texte ne doit pas impliquer LeBonCours.com : par conséquent, nous vous demandons de ne pas mettre "nous" ni "nos”.'
     .textarea-with-info
@@ -65,8 +73,6 @@
           %p.alert--info Quelles sont les méthodes pratiquées ?
 
 
-  = f.input :can_be_joined_during_year, label: t('.can_be_joined_during_year'), as: :boolean
-  = f.input :is_for_handicaped, label: t('.is_for_handicaped'), as: :boolean
   .form-actions
     = f.submit (@course.new_record? ? 'Créer le cours' : 'Mettre à le cours'), class: 'btn btn__primary'
 

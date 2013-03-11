@@ -8,13 +8,13 @@ fr:
         street: Adresse
         zip_code: Code postale
         city: Ville
-        info: Info
+        info: Indications
         nb_room: Nombre de salles
         contact_email: Email
         contact_name: Nom
         contact_phone: Téléphone
         contact_mobile_phone: Téléphone portable
-        has_handicap_access: Accès handicapé
+        has_handicap_access: Accès handicapés
         has_cloackroom: Vestiaires avec douches
         has_internet: Internet
         has_air_conditioning: Climatisation

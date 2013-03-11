@@ -43,6 +43,7 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
         border-bottom: solid 1px $graySmooth;
         text-align   : right;
         width        : $label-width;
+        margin-top   : 1em;
     }
     .label--header{
         font-weight: bold;

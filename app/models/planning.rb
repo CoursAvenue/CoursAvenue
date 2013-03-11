@@ -1,6 +1,7 @@
 class Planning < ActiveRecord::Base
   belongs_to :course
   has_many   :prices, through: :course
+  belongs_to :room
 
   attr_accessible :day_one,
                   :day_one_duration,
