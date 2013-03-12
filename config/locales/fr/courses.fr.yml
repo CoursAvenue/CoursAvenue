@@ -28,6 +28,7 @@ fr:
         can_be_joined_during_year:
         frequency: Fréquence
         room: Salle de cours principale
+        place: Lieu
 
   courses:
     training:

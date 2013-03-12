@@ -36,12 +36,15 @@
         = f.input :civility, as: :select, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
         = f.input :first_name, label: t('.first_name')
         = f.input :last_name, label: t('.last_name')
-        = f.input :phone_number, wrapper_html: {class: 'flush--bottom'}
+        = f.input :phone_number, wrapper_html: {class: 'flush--bottom'}, label: t('.phone_number')
         %p.field-form-info= t('.phone_number_info')
-        = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}
+        = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, label: t('.mobile_phone_number')
         %p.field-form-info= t('.mobile_phone_number_info')
         = f.input :email, :required => true, :autofocus => true, label: t('.email'), wrapper_html: {class: 'flush--bottom'}
         %p.field-form-info= t('.email_info')
+        .input
+          %label.control-label{for: 'i_am_teacher'} Je suis professeur
+          %input#i_am_teacher{type: 'checkbox', name: 'i_am_teacher'}
         %h5.form-header-group Mot de passe
         = f.input :password, :required => true, label: t('.password')
         = f.input :password_confirmation, :required => true, label: t('.password_confirmation')

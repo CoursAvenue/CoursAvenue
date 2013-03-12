@@ -1,0 +1,37 @@
+= side_menu_currently_at 'Mes cours'
+
+- if @courses.empty?
+  %p.alert--info
+    Renseignez vos cours pour apparaître dans notre moteur de recherche !
+    = link_to 'Ajouter un cours', new_structure_course_path(@structure), class: 'btn btn__primary'
+- else
+  = link_to 'Ajouter un cours', new_structure_course_path(@structure), class: 'btn btn__primary'
+  %table.table--striped#dataTable
+    %thead
+      %tr
+        %th.sortDesc
+          %span Nom
+        %th
+          %span Type
+        %th
+          %span Disciplines
+        %th
+        %th
+        %th
+    %tbody
+      - @courses.each do |course|
+        %tr
+          %td= link_to course.name, edit_course_path(course)
+          %td= course.type_name
+          %td= course.subjects.map(&:name).join(', ')
+          %td= link_to 'Plannings', course_plannings_path(course)
+          %td= link_to 'Tarifs'
+          %td
+            = link_to 'Éditer', edit_course_path(course)
+            = link_to 'Supprimer', course_path(course), method: :delete, class: 'red'
+
+= content_for :scripts do
+  :javascript
+    document.addEvent('domready', function() {
+        new TableSorter('dataTable', { columnDataTypes: 'string, string, string' });
+    });

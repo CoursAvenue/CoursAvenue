@@ -12,7 +12,7 @@
       = f.input :role, label: t('.role' )
       = f.input :phone_number, label: t('.phone_number'), wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.phone_number_info')
-      = f.input :mobile_phone_number, label: t('.phone_number'), wrapper_html: {class: 'flush--bottom'}
+      = f.input :mobile_phone_number, label: t('.mobile_phone_number'), wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.mobile_phone_number_info')
       = f.input :email, :required => true, :autofocus => true, label: t('.email'), wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.email_info')
@@ -39,8 +39,9 @@
       = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
       = structure_form.input :address, wrapper_html: {class: 'flush--bottom'}, label: t('.structure_address')
       %p.field-form-info= t('.structure_address_info')
-      = structure_form.input :zip_code
-      = structure_form.input :city_name
+      = structure_form.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
+      = structure_form.association :city, collection: [@structure.city]
+
       = structure_form.input :website
       .ilb-wrapper.input
         = structure_form.label :description, class: 'v-top helper-label', 'data-behavior' => 'popover', 'data-content' => 'Ne soyez pas modeste, rédigez une description qui vous met en valeur, en appuyant sur vos points forts : que vous soyez un professeur indépendant, un centre, une école ou un musée, il y a toujours quelque chose qui vous différencie ! Note : ne renseignez aucun élément de contact (téléphone ou mail), notre système l’enlèvera automatiquement.'

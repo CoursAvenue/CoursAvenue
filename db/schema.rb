@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130311181354) do
+ActiveRecord::Schema.define(:version => 20130312161617) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -338,7 +338,6 @@ ActiveRecord::Schema.define(:version => 20130311181354) do
     t.string   "slug"
     t.string   "address"
     t.string   "zip_code"
-    t.string   "city_name"
     t.text     "description"
     t.string   "siret"
     t.string   "tva_intracom_number"
@@ -350,6 +349,7 @@ ActiveRecord::Schema.define(:version => 20130311181354) do
     t.string   "bank_name"
     t.string   "bank_iban"
     t.string   "bank_bic"
+    t.integer  "city_id"
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true

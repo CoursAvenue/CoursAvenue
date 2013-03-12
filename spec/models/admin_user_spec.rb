@@ -2,12 +2,12 @@
 require 'spec_helper'
 
 describe Admin do
-  context 'fullname' do
+  context 'full_name' do
     it 'should display firstname and lastname' do
       admin             = FactoryGirl.create(:admin_user)
-      fullname          = admin.fullname
-      expected_fullname = "#{admin.firstname} #{admin.lastname}"
-      expect(fullname).to eq(expected_fullname)
+      full_name          = admin.full_name
+      expected_full_name = "#{admin.firstname} #{admin.lastname}"
+      expect(full_name).to eq(expected_full_name)
     end
   end
 end

@@ -11,6 +11,7 @@ class Place < ActiveRecord::Base
   has_many   :rooms
 
   validates  :name, :city, :zip_code, presence: true
+  validates  :street, presence: true
 
   attr_accessible :name,
                   :contact_email,

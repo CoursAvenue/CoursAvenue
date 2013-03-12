@@ -12,6 +12,13 @@
         = image_tag 'pages/phone_number.png', height: 19
         %br
         = image_tag 'pages/email.png', height: 10
+      - if current_admin
+        %ul.nav
+          - if current_admin.super_admin?
+            %li= link_to 'Espace super admin', structures_path, class: 'header-link'
+          - elsif current_admin.structure.present?
+            %li= link_to 'Espace admin', structure_path(current_admin.structure), class: 'header-link'
+          %li= link_to 'Se déconnecter', destroy_admin_session_path, class: 'header-link', method: :delete
 
 .main-container
   %nav.nav-links-wrapper

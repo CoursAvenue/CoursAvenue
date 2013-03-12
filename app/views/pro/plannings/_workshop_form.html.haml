@@ -1,13 +1,13 @@
-= simple_form_for [@structure, @course, @planning] do |f|
+= simple_form_for [@course, @planning] do |f|
   = f.error_notification
   .input.inline-inputs
     %label.required.control-label Le
-    %input.datepicker-input{type: 'text', value: (@planning.start_date.nil? ? '' : l(@planning.start_date)), placeholder: '02/08/2013', name: 'plannings[start_date]', data: {behavior: 'datepicker'}}
+    %input.datepicker-input{type: 'text', value: (@planning.start_date.nil? ? '' : l(@planning.start_date)), placeholder: '02/08/2013', name: 'planning[start_date]', data: {behavior: 'datepicker'}}
     %label.required.control-label à
-    %input.timepicker-input{type: 'text', value: (@planning.start_time.nil? ? '' : @planning.start_time.strftime('%Hh%M')), placeholder: '9h30', name: 'plannings[start_time]'}
+    %input.timepicker-input{type: 'text', value: (@planning.start_time.nil? ? '' : @planning.start_time.strftime('%Hh%M')), placeholder: '9h30', name: 'planning[start_time]'}
     %label.required.control-label pendant
-    %input.timepicker-input{type: 'text', value: (@planning.duration.nil? ? '' : @planning.duration.strftime('%Hh%M')), placeholder: '1h30', name: 'plannings[duration]'}
-    = f.association :room, label: t('.room'), as: :grouped_select, collection: @structure.places, group_method: :rooms, selected: @course.room
+    %input.timepicker-input{type: 'text', value: (@planning.duration.nil? ? '' : @planning.duration.strftime('%Hh%M')), placeholder: '1h30', name: 'planning[duration]'}
+    = f.input :info, as: :string, placeholder: 'Plat : gâteau au chocolat'
     - if @planning.new_record?
       = f.submit 'Ajouter le créneau', class: 'btn btn__primary'
     - else

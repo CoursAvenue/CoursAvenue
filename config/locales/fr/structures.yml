@@ -9,7 +9,7 @@ fr:
         nb_room: Nombre de salles
         address: Adresse
         zip_code: Code postal
-        city_name: Ville
+        city: Ville
         website: "Site internet"
         has_handicap_access: Accès handicapés
         phone_number: Téléphone fixe
@@ -28,7 +28,7 @@ fr:
         billing_contact_email: Email
         siret: N° SIRET
         tva_intracom_number: N° TVA Intracommunautaire
-        structure_status: Status
+        structure_status: Statuts
         bank_name: Nom de la banque
         bank_iban: IBAN
         bank_bic: Identifiant bancaire (BIC)
@@ -44,8 +44,8 @@ fr:
   pro:
     structures:
       edit:
-        firstname: Votre prénom
-        lastname: Votre nom
+        first_name: Votre prénom
+        last_name: Votre nom
         role: Votre fonction
         phone_number: Votre téléphone fixe
         phone_number_info: Renseignez le numéro pour joindre le responsable des réservations

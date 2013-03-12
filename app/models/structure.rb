@@ -9,18 +9,23 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  belongs_to :city
+
   has_many :teachers
   has_many :courses
   has_many :renting_rooms
   has_many :cities, through: :places
   has_many :places
+  has_many :rooms, through: :places
 
   has_many :admins
 
-  validates :name, :presence   => true
-  validates :structure_type, :presence   => true
-  validates :siret, length: { maximum: 14 }#, numericality: { only_integer: true }
-  # validates :name, :uniqueness => true
+  validates :name               , :presence   => true
+  validates :address            , :presence   => true
+  validates :zip_code           , :presence   => true
+  validates :city               , :presence   => true
+  validates :structure_type     , :presence   => true
+  validates :siret              , length: { maximum: 14 }#, numericality: { only_integer: true }
 
   attr_accessible :structure_type,
                   :address,
@@ -66,4 +71,5 @@ class Structure < ActiveRecord::Base
   def main_contact
     admins.first || Admin.new
   end
+
 end

@@ -4,9 +4,9 @@
   .form-inputs
     = f.input :email, :required => false, :autofocus => true
     = f.input :password, :required => false
-    = f.input :remember_me, :as => :boolean if devise_mapping.rememberable?
+    = f.input :remember_me, :as => :boolean, input_html: {class: 'flush--top'} if devise_mapping.rememberable?
 
   .form-actions
-    = f.button :submit, "Sign in"
+    = render "pro/admin/shared/links"
     %br
-    /= render "devise/shared/links"
+    = f.button :submit, "Sign in"

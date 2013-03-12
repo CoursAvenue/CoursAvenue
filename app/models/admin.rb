@@ -13,10 +13,12 @@ class ::Admin < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :civility, :first_name, :last_name, :phone_number, :mobile_phone_number, :activated, :management_software_used, :role
 
   validates :first_name, :last_name, presence: true
+  validates :phone_number, :presence => true, :if => "self.mobile_phone_number.blank?"
+
   # attr_accessible :title, :body
   belongs_to :structure
 
-  def fullname
+  def full_name
     "#{first_name} #{last_name}"
   end
 end

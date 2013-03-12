@@ -1,0 +1,30 @@
+= side_menu_currently_at 'Mes enseignants'
+
+= content_for :scripts do
+  :javascript
+    document.addEvent('domready', function() {
+        new TableSorter('dataTable', { columnDataTypes: 'string, string, string' });
+    });
+
+- if @teachers.empty?
+  %p.alert--info Vous n'avez encore aucun professeur de référencé.
+- else
+  %table.table--striped#dataTable
+    %thead
+      %tr
+        %th.sortDesc
+          %span Nom
+        %th
+    %tbody
+      - @teachers.each do |teacher|
+        %tr
+          %td= teacher.name
+          %td
+            = link_to 'Éditer', edit_structure_teacher_path(@structure, teacher)
+            = link_to 'Supprimer', structure_teacher_path(@structure, teacher), method: :delete, class: 'red'
+
+%hr
+%h4 Ajouter un professeur
+
+= render 'form'
+

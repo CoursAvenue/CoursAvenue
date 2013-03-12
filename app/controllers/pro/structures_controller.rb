@@ -4,12 +4,12 @@ class Pro::StructuresController < Pro::ProController
 
   def index
     authorize! :manage, Structure
-    @structures = Structure.all
+    @structures = Structure.order('name ASC').all
   end
 
   def show
     @structure = Structure.find params[:id]
-    redirect_to edit_structure_path(@structure)
+    @courses   = @structure.courses
   end
 
   def edit

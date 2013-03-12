@@ -5,8 +5,8 @@ fr:
     attributes:
       place:
         name: Nom
-        street: Adresse
-        zip_code: Code postale
+        street: Adresse (N° + rue)
+        zip_code: Code postal
         city: Ville
         info: Indications
         nb_room: Nombre de salles

@@ -41,3 +41,7 @@ fr:
         date: Date
       workshop_form:
         room: dans la salle
+      training_form:
+        room: dans la salle
+      index:
+        frequency: Récurrence

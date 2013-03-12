@@ -1,0 +1,23 @@
+%table.table--striped.table--data
+  %thead
+    %tr
+      %th Dates
+      %th.text--center Créneau horaire
+      %th.text--center Durée
+      %th Places disponible
+      %th.text--center
+        %i.lbc-icon-info i
+      %th
+      %th
+  %tbody
+    - @plannings.each do |planning|
+      %tr
+        %td= training_dates planning
+        %td.text--center= readable_time_slot planning.day_one_start_time, planning.end_time
+        %td.text--center= "#{pluralize(planning.length, 'jour')}"
+        %td.text--center= planning.nb_place_available
+        %td.text--center
+          - if planning.info.present?
+            .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
+        %td= link_to 'Éditer', edit_course_planning_path(@course, planning)
+        %td= link_to 'Supprimer', course_planning_path(@course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?'

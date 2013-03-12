@@ -1,10 +1,22 @@
 = side_menu_currently_at 'Mes cours'
 
-%h2 Planning - #{@course.name}
-
-= render "#{@course.underscore_name}_list"
-
-%hr
+%h2.flush--bottom Planning - #{@course.name} - #{@course.type_name}
+- if @course.is_lesson?
+  = simple_form_for @course, as: :course do |f|
+    .inline-inputs.ilb-wrapper.align-middle
+      %div.input.depend-on-reccurent-course
+        %label.control-label{for: 'course_start_date'} Date du premier et dernier cours
+        = f.input :start_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {style: 'margin-right: 5px', placeholder: '01/09/2012', class: 'datepicker-input', value: params[:start_date], 'data-behavior' => 'datepicker'}
+        = f.input :end_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {placeholder: '01/05/2013', class: 'datepicker-input', value: params[:start_date], 'data-behavior' => 'datepicker'}
+      = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: t('.frequency'), wrapper_html: {class: 'depend-on-reccurent-course'}
+      %input{type: 'hidden',  value: request.fullpath, name: 'from'}
+      = f.submit 'Mettre à jour', class: 'btn btn__primary'
 
 %h4 Rajouter un créneau
 = render "#{@course.underscore_name}_form"
+
+%hr
+
+= render "#{@course.underscore_name}_list"
+
+

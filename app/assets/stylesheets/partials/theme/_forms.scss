@@ -106,9 +106,9 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
         label {
             float: left;
         }
-        input {
-            margin-top: 0.5em;
-        }
+        // input {
+        //     margin-top: 0.5em;
+        // }
     }
 .simple_form.half-form {
     .input {
@@ -117,6 +117,9 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
         }
         input, textarea {
             width: 20em;
+        }
+        select {
+            max-width: 20em;
         }
     }
     .form-actions      { padding-left: $label-width / 1.5; }
