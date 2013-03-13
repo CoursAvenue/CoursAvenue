@@ -21,14 +21,14 @@ class Structure < ActiveRecord::Base
   has_many :admins
 
   validates :name               , :presence   => true
-  validates :address            , :presence   => true
+  validates :street             , :presence   => true
   validates :zip_code           , :presence   => true, numericality: { only_integer: true }
   validates :city               , :presence   => true
   validates :structure_type     , :presence   => true
   validates :siret              , length: { maximum: 14 }#, numericality: { only_integer: true }
 
   attr_accessible :structure_type,
-                  :address,
+                  :street,
                   :zip_code,
                   :city_name,
                   :place_ids,

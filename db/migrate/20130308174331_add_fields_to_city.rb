@@ -11,5 +11,6 @@ class AddFieldsToCity < ActiveRecord::Migration
     add_column :cities, :latitude, :float
     add_column :cities, :longitude, :float
     add_column :cities, :acuracy, :integer
+    Rake::Task['import:cities'].invoke
   end
 end

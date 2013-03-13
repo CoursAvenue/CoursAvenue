@@ -5,7 +5,7 @@
 /.header-search-bar.main-container
 .header-search-bar
   %div.search-input-wrapper
-    %input#location-input{class: 'search-input', placeholder: 'Paris', type: 'text', name: 'city', value: params[:name], autofocus: true, list: 'location-list'}
+    %input#location-input{class: 'search-input', placeholder: 'Paris', type: 'text', name: 'city', value: @city.name, autofocus: true, list: 'location-list'}
     %datalist#location-list
       <!--[if IE 9]><select disabled></select><![endif]-->
   %div.search-input-wrapper

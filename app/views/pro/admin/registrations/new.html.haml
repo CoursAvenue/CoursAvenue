@@ -54,7 +54,7 @@
         = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
         %p.field-form-info= t('.structure_name_info')
         = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
-        = structure_form.input :address, wrapper_html: {class: 'flush--bottom'}
+        = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}
         %p.field-form-info= t('.structure_address_info')
         = structure_form.input :zip_code
         = structure_form.input :city_name

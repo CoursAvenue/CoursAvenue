@@ -7,7 +7,7 @@ fr:
         name: Nom
         structure_type: Type de structure
         nb_room: Nombre de salles
-        address: Adresse
+        street: Adresse
         zip_code: Code postal
         city: Ville
         website: "Site internet"

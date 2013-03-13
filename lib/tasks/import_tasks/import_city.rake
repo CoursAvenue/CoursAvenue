@@ -27,7 +27,7 @@ namespace :import do
   # Use rake "import:cities[Path to TXT]"
   desc 'Import City from TXT'
   task :cities, [:filename] => :environment do |t, args|
-    file_name = args.filename
+    file_name = args.filename || 'Export/FR.txt'
 
     csv_text = File.read(file_name)
     csv = CSV.parse(csv_text, { col_sep: "\t" })

@@ -8,11 +8,13 @@ class CreatePlaceForCourses < ActiveRecord::Migration
     Structure.all.each do |structure|
       place              = structure.places.first
       if place.nil?
-        debugger
+        structure.zip_code = '75001'
+        structure.city     = City.find('paris-01')
+        structure.street   = 'Paris'
       else
         structure.zip_code = place.zip_code
         structure.city     = place.city
-        structure.address  = place.street
+        structure.street  = place.street
       end
       structure.save
     end

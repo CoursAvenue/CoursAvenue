@@ -10,8 +10,8 @@ class RemovePlaceAttributesFromStructure < ActiveRecord::Migration
     remove_column :structures, :latitude
     remove_column :structures, :longitude
     remove_column :structures, :gmaps
-
   end
+
   def down
     add_column :structures, :city_id, :string
     add_column :structures, :place_name, :string
