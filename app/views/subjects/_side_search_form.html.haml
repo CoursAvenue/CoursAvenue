@@ -1,7 +1,15 @@
-- if @courses.blank?
-  = gmaps( {markers: {data: Gmaps4rails.geocode("#{params[:city]}, France").to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
-- else
-  = gmaps( {markers: {data: @json_place_addresses}, map_options: {maxZoom: 15, mapTypeControl: false}})
+.map-with-slider
+  - if @courses.blank?
+    = gmaps( {markers: {data: Gmaps4rails.geocode("#{params[:city]}, France").to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
+  - else
+    = gmaps( {markers: {data: @json_place_addresses}, map_options: {maxZoom: 15, mapTypeControl: false}})
+  %div.ilb-wrapper.align-middle.map-slider-container
+    %label.three-twelfths.bold Radius
+    #radius-slider.slider.seven-twelfths
+      #radius-knob.slider--knob
+    %label.two-twelfths.text--right.bold
+      %span#radius-label-value= params[:radius]
+      km
 
 .side-search-panel
   %h4.side-search-panel-header Affinez votre recherche :
@@ -169,4 +177,19 @@
                 }.bind(Gmaps.map.markers[i]));
             }
         };
+        var radius_hidden_input = $('radius-hidden-input');
+        var radius_label_value  = $('radius-label-value');
+        new Slider('radius-slider', 'radius-knob', {
+            range: [1, 50],
+            step: 1,
+            wheel: false,
+            snap: true,
+            initialStep: #{params[:radius]},
+            onChange: function(pos){
+                debugger
+                radius_hidden_input.set('value', pos);
+                radius_label_value.set('text', pos);
+            }
+        });
+
     });

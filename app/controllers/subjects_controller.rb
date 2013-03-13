@@ -84,7 +84,7 @@ class SubjectsController < ApplicationController
     city = @city
     @search = Sunspot.search(Course) do
       fulltext                              params[:name]                                           if params[:name].present?
-      with(:location).in_radius(city.latitude, city.longitude, 10, :bbox => true)
+      with(:location).in_radius(city.latitude, city.longitude, params[:radius] || 10, :bbox => true)
       #with :city,                           params[:city_id]
       with(:subject_ids).any_of             subject_ids                                             if params[:id]
       with(:type).any_of                    params[:types]                                          if params[:types].present?

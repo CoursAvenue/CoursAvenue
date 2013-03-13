@@ -1,0 +1,27 @@
+.slider {
+    height          : 6px;
+    background-color: #808080;
+    cursor          : pointer;
+    @include border-radius(3px);
+    @include box-shadow(-1px 0 1px #757575);
+}
+.slider--knob {
+    height          : 12px;
+    width           : 12px;
+    background-color: white;
+    cursor          : pointer;
+    top             : -3px;
+    position        : relative;
+    border          : solid 1px #EAEAEA;
+    @include box-shadow(0px 1px 2px #AAA, 0px 0px 5px #AAA);
+    @include border-radius(6px);
+}
+
+.map-slider-container {
+    background                 : white;
+    padding                    : 3px 8px;
+    border                     : 1px solid #CCC;
+    border-top                 : none;
+    @include border-bottom-left-radius($brand-round);
+    @include border-bottom-right-radius($brand-round);
+}

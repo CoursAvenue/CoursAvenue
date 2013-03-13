@@ -10,7 +10,7 @@
 - params[:time_range]          ||= {}
 - params[:zip_codes]           ||= [] # (75001..75020).to_a.map(&:to_s)
 - params[:age]                 ||= {}
-
+- params[:radius]              ||= 10
 %section.gw
   - if action_name == 'show'
     - search_path = city_subject_path(@city, @subject)
@@ -43,3 +43,4 @@
       = check_box_tag 'price_specificities[]', 'has_package_price', params[:price_specificities].include?('has_package_price')          , id: "hidden_price_specificity_package"
       = check_box_tag 'price_specificities[]', 'has_trial_lesson', params[:price_specificities].include?('has_trial_lesson')            , id: "hidden_price_specificity_test_course"
       %input#hidden-sort-input{type: 'hidden', name: 'sort', value: params[:sort]}
+      %input#radius-hidden-input{type: 'hidden', name: 'radius', value: params[:radius]}
