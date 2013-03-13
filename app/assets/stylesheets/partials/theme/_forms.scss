@@ -11,6 +11,11 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
     }
     .input {
         margin: 10px 0;
+        input.file {
+            border : none;
+            padding: 0;
+            @include box-shadow(none);
+        }
         > select, > input, > select, > textarea, > div, > label {
             display       : inline-block;
             vertical-align: middle;

@@ -1,4 +1,8 @@
 = side_menu_currently_at 'Mes cours'
 
 %h3.header-group Édition de #{@course.name}
+= link_to structure_path(@structure) do
+  %i.icon-double-angle-left
+  Retour aux cours
+
 = render partial: 'form'

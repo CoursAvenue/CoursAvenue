@@ -1,6 +1,10 @@
 = side_menu_currently_at 'Mes cours'
 
-%h2.flush--bottom Planning - #{@course.name} - #{@course.type_name}
+%h2.header-group.flush--bottom Planning - #{@course.name}
+= link_to structure_path(@structure) do
+  %i.icon-double-angle-left
+  Retour aux cours
+
 - if @course.is_lesson?
   = simple_form_for @course, as: :course do |f|
     .inline-inputs.ilb-wrapper.align-middle
@@ -12,7 +16,9 @@
       %input{type: 'hidden',  value: request.fullpath, name: 'from'}
       = f.submit 'Mettre à jour', class: 'btn btn__primary'
 
-%h4 Rajouter un créneau
+%hr
+
+%h4.flush--bottom Rajouter un créneau
 = render "#{@course.underscore_name}_form"
 
 %hr

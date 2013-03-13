@@ -38,11 +38,11 @@ class Course < ActiveRecord::Base
   validates :levels       , presence: true
   validates :audiences    , presence: true
 
-
   attr_accessible :name,
                   :type,
                   :has_online_payment,
                   :homepage_image,
+                  :image,
                   :frequency,
                   :is_promoted,
                   :description,

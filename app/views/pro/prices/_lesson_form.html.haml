@@ -3,5 +3,6 @@
   .input.inline-inputs
     = f.input :libelle, as: :select, collection: I18n.t('prices').map{|key, value| [value, "prices.#{key}"]}
     = f.input :amount, placeholder: '45'
+    €
     = f.submit 'Ajouter', class: 'btn btn__primary'
 

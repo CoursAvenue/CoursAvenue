@@ -3,7 +3,7 @@
 fr:
   devise:
     failure:
-      admin_admin:
+      admin:
         not_found_in_database: Utilisateur inconnu
   admin:
     sessions:

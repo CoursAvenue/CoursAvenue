@@ -19,13 +19,19 @@ class SubjectsController < ApplicationController
 
 
   def show
+    if @city.nil?
+      respond_to do |format|
+        format.html { redirect_to root_path, alert: "La ville que vous recherchez n'existe pas" }
+      end
+    else
     @subject        = Subject.find(params[:id])
     @parent_subject = @subject.parent || @subject
     cookies[:search_path] = request.fullpath
     city_id         = @city.id
     search_solr
     init_geoloc
-    render action: 'index'
+      render action: 'index'
+    end
   end
 
 

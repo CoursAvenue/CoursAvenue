@@ -10,20 +10,21 @@ LeBonCours::Application.routes.draw do
         resources :places do
           resources :rooms, only: [:index, :create, :destroy]
         end
+        resources :courses, only: [:new]
       end
       resources :courses do
         resources :plannings, only: [:edit, :index]
         resources :prices, only: [:edit, :index]
       end
-      resources :course_workshops, as: 'course', controller: 'courses' do
+      resources :course_workshops, controller: 'courses' do
         resources :plannings, only: [:create, :update, :destroy]
         resources :prices, only: [:create, :update, :destroy]
       end
-      resources :course_trainings, as: 'course', controller: 'courses' do
+      resources :course_trainings, controller: 'courses' do
         resources :plannings, only: [:create, :update, :destroy]
         resources :prices, only: [:create, :update, :destroy]
       end
-      resources :course_lessons, as: 'course', controller: 'courses' do
+      resources :course_lessons, controller: 'courses' do
         resources :plannings, only: [:create, :update, :destroy]
         resources :prices, only: [:create, :update, :destroy]
       end

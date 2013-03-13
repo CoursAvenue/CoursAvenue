@@ -1,10 +1,13 @@
 = side_menu_currently_at 'Mes cours'
 
+%h2.header-group Liste de mes cours
+
 - if @courses.empty?
   %p.alert--info
     Renseignez vos cours pour apparaître dans notre moteur de recherche !
     = link_to 'Ajouter un cours', new_structure_course_path(@structure), class: 'btn btn__primary'
 - else
+  %br
   = link_to 'Ajouter un cours', new_structure_course_path(@structure), class: 'btn btn__primary'
   %table.table--striped#dataTable
     %thead
@@ -18,6 +21,7 @@
         %th
         %th
         %th
+        %th
     %tbody
       - @courses.each do |course|
         %tr
@@ -26,9 +30,8 @@
           %td= course.subjects.map(&:name).join(', ')
           %td= link_to 'Plannings', course_plannings_path(course)
           %td= link_to 'Tarifs', course_prices_path(course)
-          %td
-            = link_to 'Éditer', edit_course_path(course)
-            = link_to 'Supprimer', course_path(course), method: :delete, class: 'red'
+          %td= link_to 'Éditer', edit_course_path(course)
+          %td= link_to 'Supprimer', course_path(course), method: :delete, class: 'red'
 
 = content_for :scripts do
   :javascript

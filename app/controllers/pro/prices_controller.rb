@@ -11,20 +11,24 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
   end
 
   def edit
-    @price = Price.find(params[:id])
-    @price = @course.plannings
-    render template: 'pro/plannings/index'
+    @price  = Price.find(params[:id])
+    @prices = @course.prices
+    render template: 'pro/prices/index'
   end
 
   def create
+    @prices = @course.prices.reject(&:new_record?)
     create! do |success, failure|
       success.html { redirect_to course_prices_path(@course) }
+      failure.html { render template: 'pro/prices/index' }
     end
   end
 
   def update
+    @prices = @course.prices.reject(&:new_record?)
     update! do |success, failure|
       success.html { redirect_to course_prices_path(@course) }
+      failure.html { render template: 'pro/prices/index' }
     end
   end
 
