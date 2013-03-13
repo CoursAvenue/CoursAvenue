@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require 'rake/clean'
-require 'debugger'
+# require 'debugger'
 
 desc 'Affect city to places'
 task :affect_city_to_places, [:filename] => :environment do |t, args|
