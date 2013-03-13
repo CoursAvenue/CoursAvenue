@@ -1,0 +1,30 @@
+= side_menu_currently_at "Lieux d'enseignements"
+
+- if @places.empty?
+  %p.alert--info
+    Vous n'avez pas encore d'espace pour vos cours ?
+    = link_to 'Ajouter un lieu', new_structure_place_path(@structure), class: 'btn'
+- else
+  %table.table--striped
+    %thead
+      %tr
+        %th Nom du lieu
+        %th Ville
+        %th.text--center Nombre de salles
+        %th
+        %th
+        %th
+    %tbody
+      - @places.each do |place|
+        %tr
+          %td= link_to place.name, edit_structure_place_path(@structure, place)
+          %td= place.city.name
+          %td.text--center= place.rooms.count
+          %td
+            - if place.rooms.count == 0
+              = link_to 'Renseigner ma première salle', structure_place_rooms_path(@structure, place)
+            - else
+              = link_to 'Gérer mes salles', structure_place_rooms_path(@structure, place)
+          %td= link_to 'Éditer', edit_structure_place_path(@structure, place)
+          %td= link_to 'Supprimer', structure_place_path(@structure, place), method: :delete, data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'}
+  = link_to 'Ajouter un nouveau lieu', new_structure_place_path(@structure), class: 'btn btn__primary'

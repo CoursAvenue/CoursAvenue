@@ -1,0 +1,8 @@
+fr:
+  unauthorized:
+    manage:
+      all: "Vous n'êtes pas autorisé à %{action} %{subject}."
+      structure: "Vous n'êtes pas autorisé à gérer la structure d'autres utilisateurs"
+    update:
+      all: "Vous n'êtes pas autorisé à %{action} %{subject}."
+      #project: "Not allowed to update this project."

@@ -1,0 +1,52 @@
+.islet
+  = simple_form_for [@structure, @place] do |f|
+    = f.error_notification
+    %h5.form-header-group Adresse
+    = f.input :name, label: t('.name'), label_html: { class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => "Si vous avez plus d’un lieu, et pour pouvoir les différencier, renseignez un nom spécifique pour chaque adresse. Par exemple, si l’un de vos 3 lieux se trouve au 34 rue Buffaut, renseignez « Buffaut » ; s’il concerne le gymnase Léo Lagrange, renseignez « Lagrange », etc." }, placeholder: 'Gymnase Bercy'
+    = f.input :street, placeholder: '83 avenue du général Leclerc'
+    = f.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'place_city_id'} }
+    = f.association :city, collection: [@place.city]
+
+    %h5.helper-label.form-header-group{data: { behavior: 'popover', content: 'Si la personne qui gère les réservations pour ce lieu spécifique est différente du Responsable des réservations renseigné dans la rubrique "Infos générales", merci de renseigner toutes les informations relatives à cette personne.' }} Contact spécifique au lieu
+    = f.input :contact_email, value: @place.contact_email || (@structure.main_contact.nil? ? '' : @structure.main_contact.email)
+    = f.input :contact_name, value: @place.contact_name || (@structure.main_contact.nil? ? '' : @structure.main_contact.full_name)
+    = f.input :contact_phone, value: @place.contact_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.phone_number)
+    = f.input :contact_mobile_phone, value: @place.contact_mobile_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.mobile_phone_number)
+
+    %h5.form-header-group Équipements
+    .ilb-wrapper.input
+      = f.label '&nbsp;'
+      .checkbox-list.v-top
+        = f.input :has_handicap_access
+        = f.input :has_cloackroom
+        = f.input :has_internet, label_html: { class: 'helper-label', data: { behavior: 'popover', content: 'Internet fil ou sans fil'}}
+        = f.input :has_air_conditioning
+        = f.input :has_swimming_pool
+      .checkbox-list.v-top
+        = f.input :has_free_parking
+        = f.input :has_jacuzzi
+        = f.input :has_sauna
+        = f.input :has_daylight, label_html: { class: 'helper-label', data: { behavior: 'popover', content: 'Lumière du jour dans au moins l’une des salles'}}
+    %h5.form-header-group Informations privées
+    .ilb-wrapper.input
+      = f.label :info, class: 'v-top'
+      .textarea-with-info
+        .ilb-wrapper
+          .one-half= f.input :info, wrapper_html: {class: 'flush--top'}, input_html: {class: 'textarea-description--tall'}, label: false, placeholder: 'Aidez vos élèves à avoir une arrivée tout en douceur, facilement et à l’heure !'
+          .one-half
+            %p.alert--info.flush--top
+              Quelles sont les directions pour se rendre chez vous ?
+              %br
+              Quels sont les transports en commun (quelle sortie du métro, quel arrêt de bus) ?
+            %p.alert--info
+              Décrivez tout détail pratique : nom d’un commerce connu en face, traverser une cour, digicode après une certaine heure, n° d’escalier ou d’étage, une entrée différente de l’adresse principale, etc..
+    .form-actions
+      = f.submit (@place.new_record? ? 'Créer mon espace' : 'Mettre à jour mon espace'), class: 'btn btn__primary'
+
+
+%h3.header-group Location de vos espaces
+.islet
+  %p
+    Si comme la plupart des centres et écoles, vos espaces ne sont pas occupés 24h/24, 7j/7, pensez à les louer via notre espace « Louer mes espaces ».
+    %br
+    En quelques minutes, décidez du planning, des prix et des conditions de location, et rentabilisez rapidement vos locaux.

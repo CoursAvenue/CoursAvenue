@@ -1,4 +1,4 @@
-en:
+fr:
   simple_form:
     "yes": 'Oui'
     "no": 'Non'
@@ -7,9 +7,9 @@ en:
       mark: '*'
       # You can uncomment the line below if you need to overwrite the whole required html.
       # When using html, text and mark won't be used.
-      # html: '<abbr title="required">*</abbr>'
+      html: '<abbr title="Champ obligatoire">*</abbr>'
     error_notification:
-      default_message: "Vérifiez les problèmes suivant :"
+      default_message: "Veuillez vérifier les problèmes ci-dessous :"
     # Labels and hints examples
     # labels:
     #   defaults:

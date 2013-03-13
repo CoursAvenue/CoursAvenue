@@ -1,8 +1,8 @@
 class AddNbCourseForPrice < ActiveRecord::Migration
   def up
-    add_column :prices, :nb_course, :integer
+    add_column :prices, :nb_courses, :integer
     Price.all.each do |price|
-      price.nb_course = case price.libelle
+      price.nb_courses = case price.libelle
       when 'prices.free'
         1
       when 'prices.individual_course'
@@ -28,6 +28,6 @@ class AddNbCourseForPrice < ActiveRecord::Migration
   end
 
   def down
-    remove_column :prices, :nb_course
+    remove_column :prices, :nb_courses
   end
 end

@@ -1,0 +1,6 @@
+= side_menu_currently_at 'Admins'
+%h3 Édition de #{resource.full_name}
+= render partial: 'form'
+
+%p.text--center
+  = link_to "Supprimer #{resource.full_name}", admin_path(resource), class: 'btn btn__danger', method: 'delete'

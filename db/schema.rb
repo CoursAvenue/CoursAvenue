@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130305085535) do
+ActiveRecord::Schema.define(:version => 20130313151746) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -28,21 +28,21 @@ ActiveRecord::Schema.define(:version => 20130305085535) do
   add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
   add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
 
-  create_table "admin_users", :force => true do |t|
-    t.string   "email",                                :default => "",    :null => false
-    t.string   "encrypted_password",                   :default => ""
+  create_table "admins", :force => true do |t|
+    t.string   "email",                                  :default => "",    :null => false
+    t.string   "encrypted_password",                     :default => ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                        :default => 0
+    t.integer  "sign_in_count",                          :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                              :null => false
-    t.datetime "updated_at",                                              :null => false
-    t.boolean  "super_admin",                          :default => false, :null => false
-    t.string   "invitation_token",       :limit => 60
+    t.datetime "created_at",                                                :null => false
+    t.datetime "updated_at",                                                :null => false
+    t.boolean  "super_admin",                            :default => false, :null => false
+    t.string   "invitation_token",         :limit => 60
     t.datetime "invitation_sent_at"
     t.datetime "invitation_accepted_at"
     t.integer  "invitation_limit"
@@ -50,17 +50,19 @@ ActiveRecord::Schema.define(:version => 20130305085535) do
     t.string   "invited_by_type"
     t.integer  "structure_id"
     t.string   "civility"
-    t.string   "firstname"
-    t.string   "lastname"
+    t.string   "first_name"
+    t.string   "last_name"
     t.string   "phone_number"
     t.string   "mobile_phone_number"
-    t.boolean  "activated",                            :default => false
+    t.boolean  "activated",                              :default => false
+    t.string   "role"
+    t.string   "management_software_used"
   end
 
-  add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
-  add_index "admin_users", ["invitation_token"], :name => "index_admin_users_on_invitation_token"
-  add_index "admin_users", ["invited_by_id"], :name => "index_admin_users_on_invited_by_id"
-  add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
+  add_index "admins", ["email"], :name => "index_admin_users_on_email", :unique => true
+  add_index "admins", ["invitation_token"], :name => "index_admin_users_on_invitation_token"
+  add_index "admins", ["invited_by_id"], :name => "index_admin_users_on_invited_by_id"
+  add_index "admins", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
 
   create_table "audiences", :force => true do |t|
     t.string   "name"
@@ -96,9 +98,22 @@ ActiveRecord::Schema.define(:version => 20130305085535) do
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
     t.string   "slug"
+    t.string   "iso_code"
+    t.string   "zip_code"
+    t.string   "region_name"
+    t.string   "region_code"
+    t.string   "department_name"
+    t.string   "department_code"
+    t.string   "commune_name"
+    t.string   "commune_code"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "acuracy"
   end
 
+  add_index "cities", ["name"], :name => "index_cities_on_name"
   add_index "cities", ["slug"], :name => "index_cities_on_slug", :unique => true
+  add_index "cities", ["zip_code"], :name => "index_cities_on_zip_code"
 
   create_table "courses", :force => true do |t|
     t.string   "type"
@@ -132,6 +147,10 @@ ActiveRecord::Schema.define(:version => 20130305085535) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.integer  "place_id"
+    t.integer  "nb_participants"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "room_id"
   end
 
   add_index "courses", ["place_id"], :name => "index_courses_on_place_id"
@@ -239,6 +258,7 @@ ActiveRecord::Schema.define(:version => 20130305085535) do
     t.integer  "course_id"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
+    t.integer  "room_id"
   end
 
   add_index "plannings", ["week_day"], :name => "index_plannings_on_week_day"
@@ -249,7 +269,7 @@ ActiveRecord::Schema.define(:version => 20130305085535) do
     t.integer  "course_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "nb_course"
+    t.integer  "nb_courses"
   end
 
   create_table "registration_fees", :force => true do |t|
@@ -284,6 +304,14 @@ ActiveRecord::Schema.define(:version => 20130305085535) do
     t.datetime "updated_at",            :null => false
   end
 
+  create_table "rooms", :force => true do |t|
+    t.string   "name"
+    t.integer  "surface"
+    t.integer  "place_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "structures", :force => true do |t|
     t.string   "structure_type"
     t.string   "name"
@@ -308,10 +336,20 @@ ActiveRecord::Schema.define(:version => 20130305085535) do
     t.datetime "created_at",                                                      :null => false
     t.datetime "updated_at",                                                      :null => false
     t.string   "slug"
-    t.string   "address"
+    t.string   "street"
     t.string   "zip_code"
-    t.string   "city_name"
     t.text     "description"
+    t.string   "siret"
+    t.string   "tva_intracom_number"
+    t.string   "structure_status"
+    t.string   "billing_contact_first_name"
+    t.string   "billing_contact_last_name"
+    t.string   "billing_contact_phone_number"
+    t.string   "billing_contact_email"
+    t.string   "bank_name"
+    t.string   "bank_iban"
+    t.string   "bank_bic"
+    t.integer  "city_id"
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true
@@ -330,5 +368,13 @@ ActiveRecord::Schema.define(:version => 20130305085535) do
   end
 
   add_index "subjects", ["slug"], :name => "index_subjects_on_slug", :unique => true
+
+  create_table "teachers", :force => true do |t|
+    t.string   "name"
+    t.integer  "admin_id"
+    t.integer  "structure_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
 end

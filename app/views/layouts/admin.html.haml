@@ -1,0 +1,11 @@
+= content_for :header do
+  = render 'shared/header_pro'
+
+= content_for :content do
+  .flexbox
+    %nav.one.flexbox__item.side-menu.v-top
+      = yield :side_menu
+    .admin-wrapper.flexbox__item.v-top
+      = content_for?(:admins_content) ? yield(:admins_content) : yield
+
+= render :template => 'layouts/application'

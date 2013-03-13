@@ -31,7 +31,7 @@ module PlanningsHelper
   end
 
   def readable_time_slot(start_time, end_time=nil)
-    if end_time.nil?
+    if start_time.nil? or end_time.nil?
       '-'
     else
       "#{I18n.l(start_time, format: :short)} - #{I18n.l(end_time, format: :short)}"

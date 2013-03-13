@@ -1,5 +1,6 @@
 class Price < ActiveRecord::Base
   belongs_to :course
+  before_save :update_nb_courses
 
   # Possible libelle:
   #   prices.free: Gratuit
@@ -21,13 +22,15 @@ class Price < ActiveRecord::Base
 
   attr_accessible :libelle,
                   :amount,
-                  :nb_course
+                  :nb_courses
+
+  validates :libelle, uniqueness: {scope: 'course_id'}
 
   def per_course_amount
     if amount.nil?
       nil
     else
-      ('%.2f' % (amount / nb_course)).gsub('.', ',').gsub(',00', '')
+      ('%.2f' % (amount / nb_courses)).gsub('.', ',').gsub(',00', '')
     end
   end
 
@@ -44,4 +47,31 @@ class Price < ActiveRecord::Base
     ('%.2f' % price_with_promo).gsub('.', ',').gsub(',00', '')
   end
 
+  private
+
+  def update_nb_courses
+    unless nb_courses
+      nb_courses = case libelle
+      when 'prices.free'
+        1
+      when 'prices.individual_course'
+        1
+      when 'prices.two_lesson_per_week_package'
+        2
+      when 'prices.annual'
+        35
+      when 'prices.semester'
+        17
+      when 'prices.trimester'
+        11
+      when 'prices.month'
+        4
+      when 'prices.trial_lesson'
+        1
+      when 'prices.training'
+        1
+      else 0
+      end
+    end
+  end
 end

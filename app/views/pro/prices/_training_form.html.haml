@@ -1,0 +1,11 @@
+- if @prices.empty? or !@price.new_record?
+  = simple_form_for [@course, @price] do |f|
+    = f.error_notification
+    .input.inline-inputs
+      = f.hidden_field :libelle, value: 'prices.training'
+      = f.input :amount, label:  'Prix du stage :', placeholder: '45', input_html: {style: 'width: 5em'}
+      €
+      - if @price.new_record?
+        = f.submit 'Ajouter', class: 'btn btn__primary'
+      - else
+        = f.submit 'Modifier', class: 'btn btn__primary'

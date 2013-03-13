@@ -1,16 +1,36 @@
 class Structure < ActiveRecord::Base
+  STRUCTURE_STATUS = %w(SA SAS SASU EURL SARL)
+  STRUCTURE_TYPES = ['structures.company',
+                      'structures.association',
+                      'structures.board',
+                      'structures.independant',
+                      'structures.private_structure',
+                      'structures.liberal']
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  has_many                :courses
-  has_many                :renting_rooms
-  has_many                :cities, through: :places
-  has_and_belongs_to_many :places
+  belongs_to :city
 
-  validates :name, :presence   => true
-  validates :name, :uniqueness => true
+  has_many :teachers
+  has_many :courses
+  has_many :renting_rooms
+  has_many :cities, through: :places
+  has_many :places
+  has_many :rooms, through: :places
+
+  has_many :admins
+
+  validates :name               , :presence   => true
+  validates :street             , :presence   => true
+  validates :zip_code           , :presence   => true, numericality: { only_integer: true }
+  validates :city               , :presence   => true
+  validates :structure_type     , :presence   => true
+  validates :siret              , length: { maximum: 14 }#, numericality: { only_integer: true }
 
   attr_accessible :structure_type,
+                  :street,
+                  :zip_code,
+                  :city_name,
                   :place_ids,
                   :name,
                   :info,
@@ -20,6 +40,8 @@ class Structure < ActiveRecord::Base
                   :phone_number,
                   :mobile_phone_number,
                   :email_address,
+                  :description,
+
                   ## Moyen de financements possible :
                   :accepts_holiday_vouchers,
                   :accepts_ancv_sports_coupon,
@@ -33,6 +55,21 @@ class Structure < ActiveRecord::Base
                   :needs_photo_id_for_registration,
                   :needs_id_copy_for_registration,
                   :needs_medical_certificate_for_registration, # certificat médical de moins de 3 mois
-                  :needs_insurance_attestation_for_registration # attestation d'assurance
+                  :needs_insurance_attestation_for_registration, # attestation d'assurance
+
+                  :siret,
+                  :tva_intracom_number,
+                  :structure_status,
+                  :billing_contact_first_name,
+                  :billing_contact_last_name,
+                  :billing_contact_phone_number,
+                  :billing_contact_email,
+                  :bank_name,
+                  :bank_iban,
+                  :bank_bic
+
+  def main_contact
+    admins.first || Admin.new
+  end
 
 end

@@ -2,11 +2,14 @@ fr:
   all_subject: 'Toutes les disciplines'
   activerecord:
     models:
-      course: Cours
+      course: Course
+      course/training: 'Stage'
+      course/lesson: 'Cours'
+      course/workshop: 'Cours-atelier'
     attributes:
       course:
         description: Description
-        name:
+        name: Nom
         has_online_payment:
         course_info:
         registration_date:
@@ -14,7 +17,7 @@ fr:
         max_age_for_kid: Age max
         min_age_for_kid: Age min
         is_individual: Individuel
-        is_for_handicaped: Pour handicapé
+        is_for_handicaped: Pour handicapés
         trial_lesson_info:
         price_details:
         price_info:
@@ -24,6 +27,8 @@ fr:
         refund_condition:
         can_be_joined_during_year:
         frequency: Fréquence
+        room: Salle de cours principale
+        place: Lieu
 
   courses:
     training:
@@ -86,3 +91,18 @@ fr:
       can_be_joined_during_year: Peut être rejoint en cours d’année
     course:
       from: À partir de
+
+  pro:
+    courses:
+      form:
+        type: Type de cours
+        individual_course: Cours
+        subjects: Disciplines
+        audiences: Public
+        levels: Niveaux
+        info: Accroche / Libellé du cours
+        description: Description du cours
+        can_be_joined_during_year: Peut être rejoint en cours d'année
+        is_for_handicaped: Cours accessible aux handicapés
+        name: Nom du cours
+        frequency: Fréquence des cours

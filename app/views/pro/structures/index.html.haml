@@ -1,0 +1,21 @@
+= side_menu_currently_at 'Structures'
+
+%table.table--striped#dataTable
+  %thead
+    %tr
+      %th.sortAsc
+        %span Nom
+      %th
+        %span Nombre de cours
+      %th
+  %tbody
+    - @structures.each do |structure|
+      %tr
+        %td= link_to structure.name, edit_structure_path(structure)
+        %td= structure.courses.length
+
+= content_for :scripts do
+  :javascript
+    document.addEvent('domready', function() {
+        new TableSorter('dataTable', { columnDataTypes: 'string, int' });
+    });

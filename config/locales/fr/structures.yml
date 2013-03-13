@@ -4,8 +4,66 @@ fr:
       structure: Structure
     attributes:
       structure:
+        name: Nom
+        structure_type: Type de structure
         nb_room: Nombre de salles
-        website: "Site internet :"
-        has_handicap_access: Accès handicapé
+        street: Adresse
+        zip_code: Code postal
+        city: Ville
+        website: "Site internet"
+        has_handicap_access: Accès handicapés
+        phone_number: Téléphone fixe
+        mobile_phone_number: Téléphone portable
+        email_address: Adresse email
+        gives_professional_courses: Mes cours sont pour des professionnels
+        accepts_holiday_vouchers: 'Tickets loisirs C.A.F. (y compris les "tickets temps libre")'
+        accepts_ancv_sports_coupon: Coupon Sports ANCV
+        accepts_leisure_tickets: Chèques vacances
+        accepts_afdas_funding: AFDAS
+        accepts_dif_funding: DIF
+        accepts_cif_funding: CIF
+        billing_contact_first_name: Prénom
+        billing_contact_last_name: Nom
+        billing_contact_phone_number: Numéro de téléphone
+        billing_contact_email: Email
+        siret: N° SIRET
+        tva_intracom_number: N° TVA Intracommunautaire
+        structure_status: Statuts
+        bank_name: Nom de la banque
+        bank_iban: IBAN
+        bank_bic: Identifiant bancaire (BIC)
 
-  #structures:
+
+  structures:
+    company: Société
+    association: Association
+    board: Régie - établissement public chargé de la gestion d'un service public
+    independant: Auto entrepreneur
+    private_structure: Commerçant / Structure privé
+    liberal: Proféssion libérale
+  pro:
+    structures:
+      edit:
+        first_name: Votre prénom
+        last_name: Votre nom
+        role: Votre fonction
+        phone_number: Votre téléphone fixe
+        phone_number_info: Renseignez le numéro pour joindre le responsable des réservations
+        mobile_phone_number: Votre téléphone mobile
+        mobile_phone_number_info: "Pour chaque réservation, un SMS de confirmation pourra être envoyé sur ce numéro"
+        email: Votre email
+        email_info: Cet email sera votre identifiant pour l’accès à votre espace pro
+        password: Votre mot de passe
+        password_info: Laisser vide si vous ne voulez pas changer le mot de passe
+        password_confirmation: Confirmation de votre mot de passe
+        structure_name: Nom de votre structure
+        structure_name_info: "Si vous êtes un professeur indépendant, renseignez votre Prénom + Nom"
+        structure_address: Adresse principale (N° + Rue)
+        structure_address_info: "Si vous êtes un professeur indépendant, renseignez votre adresse ; si ce n’est pas celle de vos cours, vous pourrez le spécifier dans votre espace et rajouter d’autres lieux"
+        management_software_used: "Utilisez vous actuellement un logiciel de gestion ? Si oui, lequel ?"
+      new:
+        create_structure: Créer ma structure
+        name: "Nom (Prénom + Nom si vous êtes indépendant"
+        you_are: Vous êtes ?
+        contact: Contact (il est important que l'on puisse vous contacter rapidement)
+        possible_funding: "Pour l’un ou l’ensemble de vos cours, acceptez-vous le paiement par les financements suivants :"

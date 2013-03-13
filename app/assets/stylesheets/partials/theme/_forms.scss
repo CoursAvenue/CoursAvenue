@@ -1,3 +1,166 @@
+$label-width: 250px; // Not in em to ensure title margins and paddings
+
 .inline-form {
     display: inline;
+}
+
+//.simple_form {
+    .error {
+        @extend .alert--error;
+        padding: 5px 10px !important;
+    }
+    .input {
+        margin: 10px 0;
+        input.file {
+            border : none;
+            padding: 0;
+            @include box-shadow(none);
+        }
+        > select, > input, > select, > textarea, > div, > label {
+            display       : inline-block;
+            vertical-align: middle;
+        }
+        > input, > select, > textarea, > div, > label {
+            font-size: $base-font-size;
+        }
+        select {
+            width    : auto;
+            font-size: 1.2em;
+        }
+        input.string, textarea {
+            width: 35em;
+        }
+        .control-label {
+            width: $label-width;
+        }
+        .radio {
+            @extend .ilb-wrapper;
+            @extend .align-middle;
+            display: block;
+            input {
+                width       : auto;
+                margin-right: 5px;
+            }
+        }
+        &.boolean input {
+            width: auto
+        }
+    }
+    .inline-inputs {
+        .control-label {
+            width  : auto;
+            padding: 0 0.5em;
+        }
+        input[type="submit"] {
+            margin-left: 1em;
+        }
+    }
+        .control-label {
+            text-align    : right;
+            padding-right : 1em;
+        }
+    .form-header-group {
+        border-bottom: solid 1px $graySmooth;
+        text-align   : right;
+        width        : $label-width;
+        margin-top   : 1em;
+    }
+    .label--header{
+        font-weight: bold;
+        width      : auto;
+    }
+    .textarea-with-info {
+        max-width: 60em;
+    }
+    textarea.text {
+        height: 5em;
+        width : 24.5em;
+        &.textarea-description--tall {
+            height: 25em;
+        }
+//}
+        &.textarea-description {
+            height: 15em;
+        }
+        &.textarea-description--tall, &.textarea-description {
+            width : 100%;
+        }
+    }
+    .required {
+        abbr {
+            border: none;
+        }
+    }
+    .checkbox-list {
+        .input.boolean {
+            input {
+                width     : auto;
+                margin-top: 0;
+            }
+            label {
+                margin-left: 0.5em;
+                float      : none;
+                text-align : left;
+                min-width  : auto;
+                width      : auto;
+            }
+        }
+    }
+    .input.boolean {
+        @extend .cf;
+        label {
+            float: left;
+        }
+        // input {
+        //     margin-top: 0.5em;
+        // }
+    }
+.simple_form.half-form {
+    .input {
+        .control-label {
+            width: $label-width / 1.5;
+        }
+        input, textarea {
+            width: 20em;
+        }
+        select {
+            max-width: 20em;
+        }
+    }
+    .form-actions      { padding-left: $label-width / 1.5; }
+    .field-form-info   { padding-left: $label-width / 1.5; }
+    .form-header-group { width       : $label-width / 1.5; }
+
+}
+.form-actions {
+    padding-left: $label-width;
+}
+
+.field-form-info {
+    padding-left: $label-width;
+    font-style  : italic;
+    color       : $grayLight;
+}
+
+.helper-label:after {
+    cursor              : pointer;
+    content             : '?';
+    display             : inline-block;
+    vertical-align      : middle;
+    width               : 25px;
+    height              : 25px;
+    text-align          : center;
+    font-weight         : bold;
+    margin-left         : 3px;
+    background-image    : image-url('icons/bulle.png');
+    background-repeat   : no-repeat;
+    background-position : center center;
+    background-size     : 100%;
+    color               : white;
+    text-shadow         : $gray;
+    @media \0screen {
+        background: none;
+        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/bulle.png')}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/bulle.png')}',sizingMethod='scale')";
+    }
 }

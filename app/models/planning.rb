@@ -1,23 +1,9 @@
 class Planning < ActiveRecord::Base
   belongs_to :course
   has_many   :prices, through: :course
+  belongs_to :room
 
-  attr_accessible :day_one,
-                  :day_one_duration,
-                  :day_one_start_time,
-                  :day_two,
-                  :day_two_duration,
-                  :day_two_start_time,
-                  :day_three,
-                  :day_three_duration,
-                  :day_three_start_time,
-                  :day_four,
-                  :day_four_duration,
-                  :day_four_start_time,
-                  :day_five,
-                  :day_five_duration,
-                  :day_five_start_time,
-                  :duration,
+  attr_accessible :duration,
                   :end_date,
                   :start_date,
                   :start_time, # Format: Time.parse("2000-01-01 #{value} UTC")
@@ -27,25 +13,40 @@ class Planning < ActiveRecord::Base
                   :nb_place_available,
                   :promotion,
                   :info,
-                  :teacher_name,
+                  :teacher_name, # To remove
                   :min_age_for_kid,
-                  :max_age_for_kid
+                  :max_age_for_kid,
+                  # For Trainings only
+                  :day_one,               # To remove
+                  :day_one_duration,      # To remove
+                  :day_one_start_time,    # To remove
+                  :day_two,               # To remove
+                  :day_two_duration,      # To remove
+                  :day_two_start_time,    # To remove
+                  :day_three,             # To remove
+                  :day_three_duration,    # To remove
+                  :day_three_start_time,  # To remove
+                  :day_four,              # To remove
+                  :day_four_duration,     # To remove
+                  :day_four_start_time,   # To remove
+                  :day_five,              # To remove
+                  :day_five_duration,     # To remove
+                  :day_five_start_time    # To remove
 
+
+  # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
+  def week_day
+    if read_attribute(:week_day)
+      read_attribute(:week_day)
+    elsif start_date
+      start_date.wday
+    else
+      nil
+    end
+  end
 
   def length
-    if day_one.blank?
-      'x'
-    elsif day_five
-      5
-    elsif day_four
-      4
-    elsif day_three
-      3
-    elsif day_two
-      2
-    elsif day_one
-      1
-    end
+    return (end_date - start_date).to_i
   end
 
   def first_day_of_training

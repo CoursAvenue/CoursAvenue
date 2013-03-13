@@ -5,3 +5,40 @@
         }
     }
 }
+
+.submenu-link {
+    margin-right: 1em;
+}
+
+.side-menu {
+    width           : 250px;
+    //background-color: $beigeDarker;
+    background-color: darken($beigeDark, 7%);
+    ul {
+        list-style: none;
+        margin    : 0;
+        width     : 100%;
+        li {
+            @include transition(background-color 150ms linear);
+            &.active {
+                font-weight : bold;
+            }
+            &:hover {
+                background-color: $beigeDarker;
+            }
+            &.active, &.active:hover {
+                background-color: darken($beigeDarker, 7%);
+                box-shadow      : inset 0px 0px 10px darken($beigeDarker, 7%);
+                border-right    : 2px solid darken($beigeDarker, 30%);
+            }
+            border-bottom: 1px solid darken($beigeDarker, 10%);
+            a {
+                & { text-decoration: none; }
+                color       : darken($beigeDarker, 40%);
+                text-shadow : 1px 1px 1px darken($beigeDarker, 7%);;
+                display     : block;
+                padding     : 1em;
+            }
+        }
+    }
+}

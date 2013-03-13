@@ -2,6 +2,8 @@
 # Courses are grouped by same name, audiences and levels
 class Course < ActiveRecord::Base
 
+  COURSE_FREQUENCIES = ['courses.frequencies.every_week', 'courses.frequencies.every_two_weeks', 'courses.frequencies.every_month']
+
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
   friendly_id :friendly_name, use: [:slugged, :history]
@@ -12,8 +14,10 @@ class Course < ActiveRecord::Base
   has_attached_file :image, :styles => { wide: "800x480#", thumb: "200x200#" }
 
   belongs_to :structure
+  belongs_to :room
   belongs_to :place
-  has_one    :city  , through: :place
+  has_one    :city , through: :place
+  # has_one    :place, through: :room
 
   has_many :plannings
   has_many :prices           , dependent: :destroy
@@ -26,13 +30,19 @@ class Course < ActiveRecord::Base
   has_and_belongs_to_many :subjects, :uniq => true
 
   # ------------------------------------------------------------------------------------ Validations
-  validates :structure  , presence: true
-  # validates :subjects, presence: true
-
+  validates :name         , presence: true
+  validates :is_individual, presence: true
+  validates :structure    , presence: true
+  validates :place        , presence: true
+  validates :subjects     , presence: true
+  validates :levels       , presence: true
+  validates :audiences    , presence: true
 
   attr_accessible :name,
+                  :type,
                   :has_online_payment,
                   :homepage_image,
+                  :image,
                   :frequency,
                   :is_promoted,
                   :description,
@@ -48,7 +58,14 @@ class Course < ActiveRecord::Base
                   :audition_mandatory,
                   :refund_condition,
                   :can_be_joined_during_year,
-                  :subject_ids
+                  :nb_participants,
+                  :start_date,
+                  :end_date,
+                  :subject_ids,
+                  :level_ids,
+                  :audience_ids,
+                  :room_id,
+                  :place_id
   # ------------------------------------------------------------------------------------ Search methods
   searchable do
     text :name, :boost => 2
@@ -96,8 +113,12 @@ class Course < ActiveRecord::Base
       end
     end
 
-    string :city do
-      place.city.slug
+    # string :city do
+    #   place.city.slug
+    # end
+
+    latlon :location do
+      Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
     end
 
     integer :audience_ids, multiple: true
@@ -138,10 +159,6 @@ class Course < ActiveRecord::Base
     integer :min_price
     integer :max_price
     double :approximate_price_per_course
-
-    # latlon(:location) do
-    #   Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
-    # end
 
     boolean :is_promoted
     boolean :has_online_payment
@@ -252,12 +269,12 @@ class Course < ActiveRecord::Base
   end
 
   def approximate_price_per_course
-    one_class_price = prices.where{nb_course == 1}
+    one_class_price = prices.where{nb_courses == 1}
     if one_class_price.any?
       return one_class_price.first.amount
     else
-      price = prices.where{amount != nil}.order('nb_course DESC').first
-      return price.amount / price.nb_course
+      price = prices.where{amount != nil}.order('nb_courses DESC').first
+      return price.amount / price.nb_courses
     end
   end
 

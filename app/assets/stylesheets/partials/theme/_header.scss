@@ -25,7 +25,20 @@
         }
     }
 }
-
+.header--pro {
+    padding-left : 1em;
+    padding-right: 1em;
+    padding      : 0.6em 0;
+    &, .main-container {
+        line-height: 1;
+        height     : auto;
+    }
+    .logo {
+        display: block;
+        height : 50px;
+        width  : 262px;
+    }
+}
 a.header-link {
     color       : $grayLight;
     font-weight : bold;
@@ -35,6 +48,9 @@ a.header-link {
 .nav-links-wrapper {
     @include media-query(palm) { display: none!important; };
     @include media-query(lap) { display: none!important; };
+    .active {
+        font-weight: bold;
+    }
 }
 .espace-pro-nav {
     padding-left: 100px;

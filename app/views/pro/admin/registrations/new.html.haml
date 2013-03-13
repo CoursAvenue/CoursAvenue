@@ -1,0 +1,65 @@
+.ilb-wrapper
+  .one-half.islet.bordered--right
+    %h2.text--center Merci d’avoir choisi LeBonCours et BIENVENUE !
+    %p.text--center.alert--info
+      Des questions ? Nous sommes joignables entre 9h30 et 18h30
+      %br
+      %b
+        %i.icon-phone
+        06 07 94 54 52
+
+    %p
+      %b Voici 15 (bonnes) raisons de nous rejoindre :
+    %ol
+      %li Vous ne payez aucun frais fixe
+      %li Votre inscription à notre logiciel en ligne est gratuite
+      %li Notre modèle commissionnable vous profite : vous ne payez que si des Internautes réservent vos cours
+      %li Vous gérez votre propre inventaire de cours via l’espace pro, simple et rapide d’utilisation
+      %li Nous parlerons de vous sur les réseaux sociaux, nos newsletters et notre blog
+      %li Vous maîtrisez à tout moment les tarifs et les promotions, mis à jour automatiquement et en temps réel sur notre plate-forme
+      %li Nous investissons de larges moyens en marketing et communication
+      %li Vous augmentez votre chiffre d’affaires
+      %li Vous optimisez le taux de remplissage de chaque cours (rentabilité plus forte)
+      %li Il n’y pas d’allotement fixe à nous céder
+      %li Vous n’avez plus à gérer les appels téléphoniques : notre plate-forme Internet prend les réservations 24h/24, 7j/7
+      %li Vous avez accès aux coordonnées de vos clients LeBonCours (téléphone et mail)
+      %li Vous construisez votre propre page Internet et nous vous aidons à la mettre en place
+      %li Le paiement est simple et sécurisé : les clients peuvent soit payer le cours par carte bancaire sur LeBonCours.com, soit vous payer directement
+      %li Nous sommes 100% Made In France ;-)
+
+  .one-half.islet
+    %h4.header-group Vous
+    = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: {class: 'half-form'}) do |f|
+      = f.error_notification
+      .form-inputs
+        %h5.form-header-group Vos coordonnées
+        = f.input :civility, as: :select, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
+        = f.input :first_name, label: t('.first_name')
+        = f.input :last_name, label: t('.last_name')
+        = f.input :phone_number, wrapper_html: {class: 'flush--bottom'}, label: t('.phone_number')
+        %p.field-form-info= t('.phone_number_info')
+        = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, label: t('.mobile_phone_number')
+        %p.field-form-info= t('.mobile_phone_number_info')
+        = f.input :email, :required => true, :autofocus => true, label: t('.email'), wrapper_html: {class: 'flush--bottom'}
+        %p.field-form-info= t('.email_info')
+        .input
+          %label.control-label{for: 'i_am_teacher'} Je suis professeur
+          %input#i_am_teacher{type: 'checkbox', name: 'i_am_teacher'}
+        %h5.form-header-group Mot de passe
+        = f.input :password, :required => true, label: t('.password')
+        = f.input :password_confirmation, :required => true, label: t('.password_confirmation')
+
+      %h4.header-group Votre structure
+      = simple_fields_for @structure do |structure_form|
+        = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
+        %p.field-form-info= t('.structure_name_info')
+        = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
+        = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}
+        %p.field-form-info= t('.structure_address_info')
+        = structure_form.input :zip_code
+        = structure_form.input :city_name
+        = structure_form.input :website
+      .form-actions
+        = f.button :submit, t('.sign_up')
+
+/Disciplines proposées (reprendre le listing des disciplines mères et enfants, choix multiple possible) :

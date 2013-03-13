@@ -2,6 +2,10 @@ fr:
   activerecord:
     models:
       price: Tarif
+    attributes:
+      price:
+        libelle: Type
+        amount: Montant
   prices:
     free: Gratuit
     contact_structure: Contacter l'établissement

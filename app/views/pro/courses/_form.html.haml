@@ -1,0 +1,87 @@
+= simple_form_for @course, as: :course do |f|
+  = f.error_notification
+  = f.input :name, label: t('.name'), placeholder: 'Intitulé : Zumba, jardin musical, Vins et Fromages, etc', label_html: {class: 'helper-label', data: {behavior: 'popover', content: "Si vous donnez déjà ce cours / stage au sein de votre structure, renseignez le même nom, sans le modifier : cela permettra d’éviter toute confusion. Par exemple, s’il s’agit du cours de « Gym'n Stretch », ne le modifiez pas en « Gym stretching  ». D’une manière générale, le nom doit être court, clair, et évocateur, et ne pas forcément comporter le nom de la discipline qui sera mentionné à côté (par exemple, mettez « Classique » au lieu de « Danse classique »)"}}
+
+  - unless @course.new_record? || !@course.image?
+    .input.ilb-wrapper
+      = f.label :image
+      = image_tag @course.image, height: 200
+    = f.input :delete_image, as: :boolean, :label => "Supprimer l'image"
+  .input
+    .control-label Changer l'image
+    = f.input :image, label: false
+
+  %h5.form-header-group.flush--bottom Type de cours
+  .input.ilb-wrapper
+    = f.label :type, t('.type'), class: 'control-label v-top'
+    %div
+      .radio
+        %input#type_course_lesson{type: 'radio', name: 'course[type]', value: 'Course::Lesson', checked: @course.is_lesson?}
+        %label{for: 'type_course_lesson'} Cours récurrent (avec ou sans progression)
+      .radio
+        %input#type_course_workshop{type: 'radio', name: 'course[type]', value: 'Course::Workshop', checked: @course.is_workshop?}
+        %label{for: 'type_course_workshop', class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => 'Un cours-atelier est un cours d’une seule séance. Par exemple, un cours de photographie ponctuel de quelques heures est un cours-atelier, alors qu’un cours de théâtre avec des séances toutes les semaines est cours récurrent dans l’année.'} Cours-atelier
+      .radio
+        %input#type_course_training{type: 'radio', name: 'course[type]', value: 'Course::Training', checked: @course.is_training?}
+        %label{for: 'type_course_training', class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => 'Un stage est un cours-atelier étalé sur plusieurs jours consécutifs.'} Stage
+
+  .input.ilb-wrapper
+    = f.label :is_individual, t('.individual_course'), class: 'control-label v-top'
+    %div
+      .radio
+        %input#course_is_individual{type: 'radio', name: 'course[is_individual]', checked: @course.is_individual?}
+        %label{for: 'course_is_individual'} Individuel
+      .radio
+        %input#course_is_collectif{type: 'radio', name: 'course[is_individual]', checked: !@course.is_individual?}
+        %label{for: 'course_is_collectif'} Collectif -&nbsp;
+        %label Nombre moyen de participants &nbsp;
+        = f.input :nb_participants, label: false, input_html: {type: :number, placeholder: 12}, wrapper_html: {class: 'flush--ends'}
+
+  = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, order: :name, label: t('.subjects'), selected: @course.subject_ids
+
+  %h5.form-header-group.flush--bottom Infos
+
+  - if @structure.rooms.any?
+    = f.association :room , as: :grouped_select, collection: @structure.places, group_method: :rooms
+  - else
+    = f.association :place , as: :select, collection: @structure.places, include_blank: false
+
+  = f.association :levels   , as: :select, collection: Level.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|level| t(level.name)}, label: t('.levels'), selected: @course.level_ids
+
+  .input
+    = f.label :audiences, t('.audiences'), class: 'control-label helper-label', 'data-behavior' => 'popover', 'data-content' => 'Enfant : de 0 à 12 ans. Ado : de 12 à 18 ans. Adulte : > 18 ans. Senior : > 60 ans.'
+    = f.association :audiences, as: :select, collection: Audience.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|audience| t(audience.name)}, label: false, selected: @course.audience_ids
+
+  = f.input :is_for_handicaped, label: t('.is_for_handicaped'), as: :boolean
+
+  %h5.form-header-group.flush--bottom Description
+  .ilb-wrapper.input
+    = f.label :info, t('.info'), class: 'control-label v-top helper-label', 'data-behavior' => 'popover', 'data-content' => 'Ne pas mettre de tarif ni de date (voir rubriques suivantes). Le texte ne doit pas impliquer LeBonCours.com : par conséquent, nous vous demandons de ne pas mettre "nous" ni "nos”.'
+    .textarea-with-info
+      .ilb-wrapper
+        .one-half
+          = f.input :info, as: :text, placeholder: 'Soyez objectif et neutre (pas d’auto-promotion du type “le meilleur cours de Paris”) !', label: false, input_html: {class: 'textarea-description', data: { behavior: 'text-counter', 'average-words-nb' => 40, 'good-words-nb' => 100, 'bad-text' => 'Votre libellé doit comporter environ 100 mots. ', 'average-text' => 'Encore un peu et vous aurez une superbe accroche !', 'good-text' => 'Superbe accroche !'}}, wrapper_html: {class: 'flush--top'}
+        .one-half
+          %p.alert--info.flush--top Quel est ce cours ? Quelles en sont les origines ? Qu’y trouve-t-on ?
+
+  .ilb-wrapper.input
+    = f.label :description, t('.description'), class: 'control-label v-top helper-label', 'data-behavior' => 'popover', 'data-content' => "Exemple :  « Stage de danse, chant et théâtre : entourés d'une équipe prestigieuse de professionnels, les enfants deviennent, le temps d'une semaine, les artistes d'une comédie musicale présentée aux parents en fin de stage. Programme d'une journée : de 9h00 à 10h00 - accueil facultatif, de 10h00 à 12h30 - Danse jazz et Hip hop, de 12h30 à 14h00 - Repas + Repos, de 14h00 à 17h00 - Chant et Théâtre + Goûter. »"
+    .textarea-with-info
+      .ilb-wrapper
+        .one-half
+          = f.input :description, as: :text, placeholder: 'Expliquez en quoi consiste le cours / stage, de manière à ce que l’élève comprenne bien ce qu’il y apprendra, pour éviter toute confusion. Plus de détails vous donnez, mieux c’est !', label: false, input_html: {class: 'textarea-description', data: { behavior: 'text-counter', 'average-words-nb' => 40, 'good-words-nb' => 200, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 150 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}, wrapper_html: {class: 'flush--top'}
+        .one-half
+          %p.alert--info.flush--top Quel est ce cours ? Quelles en sont les origines ? Qu’y trouve-t-on ?
+          %p.alert--info Comment se déroule le cours ? En plusieurs thèmes ?
+          %p.alert--info Quelles sont les méthodes pratiquées ?
+
+
+  .form-actions
+    = f.submit (@course.new_record? ? 'Créer le cours' : 'Mettre à le cours'), class: 'btn btn__primary'
+= content_for :scripts do
+  :javascript
+    document.addEvent('domready', function() {
+        $$('[data-behavior=chosen]').each(function(select) {
+            new Chosen(select);
+        });
+    });

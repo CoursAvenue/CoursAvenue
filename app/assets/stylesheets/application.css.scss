@@ -23,6 +23,8 @@
 
   @import "partials/theme_mixins";
 
+  @import "partials/generic/headings";
+
   @import "partials/theme/icons";
   @import "partials/theme/badges";
   @import "partials/theme/better-select";
@@ -70,10 +72,13 @@
   @import "partials/objects/pages";
   @import "partials/objects/picture-frame";
   @import "partials/objects/toggler";
+  @import "partials/objects/alerts";
+  @import "partials/objects/sliders";
 
   @import "libs/datepicker/datepicker_bootstrap";
   @import "libs/autocomplete";
   @import "libs/simplemodal";
+  @import "libs/chosen";
 
   @import "gmaps4rails";
 

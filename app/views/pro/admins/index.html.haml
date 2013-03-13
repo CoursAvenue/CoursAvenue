@@ -1,0 +1,26 @@
+= side_menu_currently_at 'Admins'
+
+%h2 Liste des admins
+%p.alert--info
+  Les super admin sont en gras
+%table.table--striped
+  %thead
+    %tr
+      %th Nom
+      %th Email
+      %th.text--center Active
+      %th Structure
+      %th
+  %tbody
+    - @admins.each do |admin|
+      %tr
+        %td{class: (admin.super_admin? ? 'bold' : '')}= link_to admin.full_name, edit_admin_path(admin)
+        %td
+          = link_to admin.email, "mailto:#{admin.email}"
+        %td.text--center
+          - if admin.activated
+            %i.icon-ok
+        %td= link_to admin.structure.name, edit_structure_path(admin.structure) if admin.structure
+        %td
+          = link_to edit_admin_path admin do
+            %i.icon-edit
