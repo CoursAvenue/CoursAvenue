@@ -1,0 +1,20 @@
+= side_menu_currently_at 'Mes cours'
+
+%h2.flush--bottom Prix - #{@course.name} - #{@course.type_name}
+
+= render 'form'
+
+%table.table--striped
+  %thead
+    %tr
+      %th Type
+      %th Montant
+      %th
+      %th
+  %tbody
+    - @prices.each do |price|
+      %tr
+        %td= t(price.libelle)
+        %td= "#{price.readable_amount}€"
+        %td= link_to 'Éditer', edit_course_price_path(@course, price)
+        %td= link_to 'Supprimer', course_price_path(@course, price), method: :delete

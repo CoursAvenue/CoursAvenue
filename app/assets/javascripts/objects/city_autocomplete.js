@@ -4,7 +4,7 @@
     var objects = GLOBAL.namespace('GLOBAL.Objects');
 
     /*
-     * Given an input element, will update a relative element.
+     * Updates a given select depending on the zip_code given
      */
 
     objects.CityAutocomplete = new Class({

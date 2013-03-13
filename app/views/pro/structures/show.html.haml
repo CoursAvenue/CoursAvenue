@@ -25,7 +25,7 @@
           %td= course.type_name
           %td= course.subjects.map(&:name).join(', ')
           %td= link_to 'Plannings', course_plannings_path(course)
-          %td= link_to 'Tarifs'
+          %td= link_to 'Tarifs', course_prices_path(course)
           %td
             = link_to 'Éditer', edit_course_path(course)
             = link_to 'Supprimer', course_path(course), method: :delete, class: 'red'

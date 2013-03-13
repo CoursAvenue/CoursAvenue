@@ -23,6 +23,7 @@ class Pro::TeachersController < InheritedResources::Base
       format.html { render template: 'pro/teachers/index' }
     end
   end
+
   def update
     update! do |success, failure|
       success.html { redirect_to structure_teachers_path(@structure) }
@@ -32,7 +33,7 @@ class Pro::TeachersController < InheritedResources::Base
   def destroy
     destroy! do |success, failure|
       success.html { redirect_to structure_teachers_path(@structure) }
-      error.html { render template: 'pro/teachers/index' }
+      failure.html { render template: 'pro/teachers/index' }
     end
   end
 end

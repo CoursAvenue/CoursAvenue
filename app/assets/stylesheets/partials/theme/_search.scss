@@ -8,7 +8,6 @@
         padding         : 2px;
         border-bottom   : none;
         @include border-radius($brand-round);
-        @include border-top-left-radius(0);
         @include background-image(none);
         &, .town-chooser {
             background-color: black;

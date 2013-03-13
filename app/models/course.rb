@@ -113,8 +113,12 @@ class Course < ActiveRecord::Base
       end
     end
 
-    string :city do
-      place.city.slug
+    # string :city do
+    #   place.city.slug
+    # end
+
+    latlon :location do
+      Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
     end
 
     integer :audience_ids, multiple: true
@@ -155,10 +159,6 @@ class Course < ActiveRecord::Base
     integer :min_price
     integer :max_price
     double :approximate_price_per_course
-
-    # latlon(:location) do
-    #   Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
-    # end
 
     boolean :is_promoted
     boolean :has_online_payment

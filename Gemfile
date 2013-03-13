@@ -39,8 +39,9 @@ gem 'cancan'                    , '~> 1.6.9'
 gem 'devise'                    , '~> 2.2.3'
 gem 'devise_invitable'          , '~> 1.1.5'
 
-gem 'sunspot_rails'
-gem 'sunspot_solr'
+gem 'sunspot'                   , '~> 2.0.0'
+gem 'sunspot_solr'              , '~> 2.0.0'
+gem 'sunspot_rails'             , '~> 2.0.0'
 
 group :production do
   # gem 'therubyracer'

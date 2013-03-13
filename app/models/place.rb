@@ -10,8 +10,10 @@ class Place < ActiveRecord::Base
   has_many   :courses
   has_many   :rooms
 
-  validates  :name, :city, :zip_code, presence: true
-  validates  :street, presence: true
+  validates  :name      , presence: true
+  validates  :street    , presence: true
+  validates  :city      , presence: true
+  validates  :zip_code  , presence: true, numericality: { only_integer: true }
 
   attr_accessible :name,
                   :contact_email,

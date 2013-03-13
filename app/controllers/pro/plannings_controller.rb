@@ -41,7 +41,8 @@ class Pro::PlanningsController < InheritedResources::Base#Pro::ProController
       else
         format.html { render template: 'pro/plannings/index' }
       end
-    end  end
+    end
+  end
 
   def destroy
     destroy! do |success, failure|

@@ -3,11 +3,17 @@ class SubjectsController < ApplicationController
   before_filter :prepare_search
 
   def index
-    search_solr
-    init_geoloc
-    cookies[:search_path] = request.fullpath
-    respond_to do |format|
-      format.html { @courses }
+    if @city.nil?
+      respond_to do |format|
+        format.html { redirect_to root_path, alert: "La ville que vous recherchez n'existe pas" }
+      end
+    else
+      search_solr
+      init_geoloc
+      cookies[:search_path] = request.fullpath
+      respond_to do |format|
+        format.html { @courses }
+      end
     end
   end
 
@@ -45,7 +51,10 @@ class SubjectsController < ApplicationController
   end
 
   def prepare_search
-    @city      = City.find(params[:city_id])
+    # @city      = City.find(params[:city_id])
+    city_term  = "#{params[:city_id]}%"
+    city_slug  = params[:city_id]
+    @city      = City.where{(slug == city_slug ) | (name =~ city_term)}.first # Prevents from bad slugs
     @audiences = Audience.all
     @levels    = [
                     {name: Level.all_levels.name, id: Level.all_levels.id},
@@ -75,7 +84,8 @@ class SubjectsController < ApplicationController
 
     @search = Sunspot.search(Course) do
       fulltext                              params[:name]                                           if params[:name].present?
-      with :city,                           params[:city_id]
+      with(:location).in_radius(@city.latitude, @city.longitude, 100)
+      #with :city,                           params[:city_id]
       with(:subject_ids).any_of             subject_ids                                             if params[:id]
       with(:type).any_of                    params[:types]                                          if params[:types].present?
       with(:audience_ids).any_of            params[:audiences]                                      if params[:audiences].present?

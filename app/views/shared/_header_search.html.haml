@@ -4,14 +4,12 @@
 
 /.header-search-bar.main-container
 .header-search-bar
-  .town-chooser.better-select{data: {behavior: 'better-select' }}
-    %span.chooser-title-wrapper
-      %span.chooser-title= params[:city].capitalize
-      %i.icon-caret-down
-    = select_tag(:city, options_for_select(City.order('name ASC').all.map{|c| [c.name, c.slug]}, params[:city]))
-
   %div.search-input-wrapper
-    %input#search-input{class: 'search-input', placeholder: 'Zumba, Cuisine, Impro, ...', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'subject-list', autocomplete: 'off'}
+    %input#location-input{class: 'search-input', placeholder: 'Paris', type: 'text', name: 'city', value: params[:name], autofocus: true, list: 'location-list'}
+    %datalist#location-list
+      <!--[if IE 9]><select disabled></select><![endif]-->
+  %div.search-input-wrapper
+    %input#search-input{class: 'search-input', placeholder: 'Zumba, Cuisine, Impro, ...', type: 'search', name: 'name', value: params[:name], list: 'subject-list', autocomplete: 'off'}
     .aListCon
       %datalist#subject-list
       <!--[if IE 9]><select disabled><![endif]-->
@@ -22,7 +20,6 @@
       :javascript
         (function(window, document, undefined) {
           "use strict";
-
           var myAutocomplete = new Autocomplete("search-input", {
             useNativeInterface : false,
             srcType : "dom"
@@ -36,11 +33,11 @@
 
   = render 'shared/time_slot_search'
 
-  .hide--semilap
-    Du
-    %input#start_date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
-    au
-    %input#end_date{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker'}}
+  / .hide--semilap
+  /   Du
+  /   %input#start_date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
+  /   au
+  /   %input#end_date{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker'}}
 
   %div.button-wrapper
     %button.btn.btn__primary{type: 'submit', id: 'submit_search_form'}
