@@ -28,12 +28,17 @@ namespace :import do
   desc 'Import City from TXT'
   task :cities, [:filename] => :environment do |t, args|
     file_name = args.filename || 'Export/FR.txt'
-
-    csv_text = File.read(file_name)
-    csv = CSV.parse(csv_text, { col_sep: "\t" })
     City.delete_all
-    csv.each_with_index do |row, i|
+    bar = ProgressBar.new( 51129 )
+    # csv_text = File.read(file_name)
+    # csv = CSV.parse(csv_text, { col_sep: "\t" })
+    # csv.each_with_index do |row, i|
+    #   City.create(cities_hash_from_row(row))
+    # end
+
+    CSV.foreach(file_name, { col_sep: "\t" }) do |row, i|
       City.create(cities_hash_from_row(row))
+      bar.increment! 1
     end
   end
 end
