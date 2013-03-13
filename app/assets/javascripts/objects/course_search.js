@@ -10,11 +10,12 @@
     objects.CourseSearchForm = new Class({
 
         initialize: function(el, options) {
-            this.form       = el;
-            this.city_input = this.form.getElement('[name=city]');
-            this.subject    = null;
+            this.form           = el;
+            this.city_input     = this.form.getElement('[name=city]');
+            this.subject        = null;
+            this.flash          = new GLOBAL.Objects.Flash('Vous devez choisir une ville.');
+            this.location_input = $('location-input');
             this.attachEvents();
-
             this.cityAjax();
             this.city_slugs = {}
         },
@@ -32,7 +33,7 @@
                     this.city_autocomplete.addValues(values);
                 }.bind(this)
             });
-            this.city_autocomplete = new Autocomplete("location-input", {
+            this.city_autocomplete = new Autocomplete(this.location_input, {
                 srcType : "dom",
                 useNativeInterface : false,
                 onInput : function(newValue, oldValue) {
@@ -45,7 +46,13 @@
         attachEvents: function() {
             // Do not submit if the city is not valid
             this.form.addEvent('submit', function() {
-                this.updateFormUrl();
+                if (this.getCity()) {
+                    this.updateFormUrl();
+                } else {
+                    this.flash.showAndHide();
+                    this.location_input.focus();
+                    return false;
+                }
             }.bind(this));
             //this.city_input.addEvent('change', this.updateFormUrl.bind(this));
             // $('start_date').addEvent('change', function() {
@@ -66,7 +73,7 @@
         },
 
         getCity: function() {
-            return this.city_slugs[this.city_input.value] || this.city_input.value;
+            return this.city_slugs[this.city_input.value];// || this.city_input.value;
         },
 
         setSubject: function(subject_slug) {
