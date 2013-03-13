@@ -1,7 +1,10 @@
+- prices = [[t('prices.free'), 'prices.free'],[t('prices.individual_course'), 'prices.individual_course'],[t('prices.annual'), 'prices.annual'],[t('prices.two_lesson_per_week_package'), 'prices.two_lesson_per_week_package'],[t('prices.semester'), 'prices.semester'],[t('prices.trimester'), 'prices.trimester'],[t('prices.month'), 'prices.month'],[t('prices.trial_lesson'), 'prices.trial_lesson']]
+- prices_libelle = @prices.collect(&:libelle)
+- prices = prices.reject{|price| prices_libelle.include?(price[1]) }
 = simple_form_for [@course, @price] do |f|
   = f.error_notification
   .input.inline-inputs
-    = f.input :libelle, as: :select, collection: I18n.t('prices').map{|key, value| [value, "prices.#{key}"]}
+    = f.input :libelle, as: :select, collection: prices
     = f.input :amount, placeholder: '45'
     €
     = f.submit 'Ajouter', class: 'btn btn__primary'

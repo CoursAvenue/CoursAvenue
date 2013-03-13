@@ -5,7 +5,5 @@ class HomeController < ApplicationController
     @audiences        = Audience.all
     @levels           = Level.all
     @promoted_courses = Course.where{is_promoted == true}.shuffle[0...3]
-    #@city             = City.find('paris')
-    @city             = City.first
   end
 end

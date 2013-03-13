@@ -51,7 +51,7 @@ class Price < ActiveRecord::Base
 
   def update_nb_courses
     unless nb_courses
-      price.nb_courses = case price.libelle
+      nb_courses = case libelle
       when 'prices.free'
         1
       when 'prices.individual_course'

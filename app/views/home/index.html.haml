@@ -1,3 +1,4 @@
+- city = City.find('paris')
 = content_for :above_container do
   = render 'home_screen'
 
@@ -19,7 +20,7 @@
                   Cours de cuisine et d’œnologie pour tous
 
             .course-block-wrapper.one-half.palm-one-whole
-              = link_to city_subject_path(@city, id: 'relaxation-fitness', time_slots: ['evening']), class: 'course-block' do
+              = link_to city_subject_path(city, id: 'relaxation-fitness', time_slots: ['evening']), class: 'course-block' do
                 .course-block-image
                   = image_tag 'home-page/after_work.jpg'
                 %h6.course-block-title
@@ -37,7 +38,7 @@
                   Laissez-vous surprendre !
 
             .course-block-wrapper.one-half.palm-one-whole
-              = link_to city_subjects_path(@city, audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block' do
+              = link_to city_subjects_path(city, audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block' do
                 .course-block-image
                   = image_tag 'home-page/child-courses.jpg'
                 %h6.course-block-title
