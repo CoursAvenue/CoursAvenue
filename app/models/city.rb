@@ -30,6 +30,7 @@ class City < ActiveRecord::Base
                   :latitude,
                   :longitude,
                   :acuracy
+
   def should_generate_new_friendly_id?
     new_record?
   end

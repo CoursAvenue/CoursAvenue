@@ -17,7 +17,10 @@
             this.location_input = $('location-input');
             this.attachEvents();
             this.cityAjax();
-            this.city_slugs = {}
+            this.city_slugs = {};
+            if (this.city_input.get('data-slug')) {
+                this.city_slugs[this.city_input.value] = this.city_input.get('data-slug');
+            }
         },
 
         /////////////////////////////////// Cities AJAX
