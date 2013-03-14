@@ -3,7 +3,7 @@
 # Import all structures from CSV
 require 'rake/clean'
 require 'csv'
-# require 'debugger'
+require 'debugger'
 
 namespace :import do
 
@@ -36,7 +36,7 @@ namespace :import do
     #   City.create(cities_hash_from_row(row))
     # end
 
-    CSV.foreach(file_name, { col_sep: "\t" }) do |row, i|
+    CSV.foreach(file_name, { col_sep: "\t" }) do |row|
       City.create!(cities_hash_from_row(row))
       bar.increment! 1
     end
