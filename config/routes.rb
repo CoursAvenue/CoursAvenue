@@ -39,8 +39,7 @@ LeBonCours::Application.routes.draw do
 
   resources :newsletter_users, only: [:create]
 
-
-  resources :courses, only: 'show', path: 'cours'
+  resources :courses, only: 'show'
   resources :city, path: 'ville' do
     resources :subjects, only: [:show, :index], defaults: {city_id: 'paris'}, path: 'disciplines'
   end
