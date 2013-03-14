@@ -3,7 +3,7 @@
 # Import all structures from CSV
 require 'rake/clean'
 require 'csv'
-require 'debugger'
+# require 'debugger'
 
 namespace :import do
 
