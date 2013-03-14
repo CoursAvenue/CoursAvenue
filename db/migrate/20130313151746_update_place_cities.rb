@@ -17,8 +17,9 @@ class UpdatePlaceCities < ActiveRecord::Migration
       )
     Place.all.each do |place|
       place_zip_code = place.zip_code
-      place.city = City.where{zip_code == place_zip_code}.first
-      place.save
+      city = City.where{zip_code == place_zip_code}.first
+      place.city = city
+      place.save!
     end
   end
 

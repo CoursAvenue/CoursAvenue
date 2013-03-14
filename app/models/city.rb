@@ -9,6 +9,14 @@ class City < ActiveRecord::Base
 
   has_attached_file :no_result_image, :styles => {default: '900×600#'}
 
+  validates :name            , presence: true
+  validates :zip_code        , presence: true
+  validates :region_name     , presence: true
+  validates :department_name , presence: true
+  validates :commune_name    , presence: true
+  validates :latitude        , presence: true
+  validates :longitude       , presence: true
+
   attr_accessible :name,
                   :no_result_image,
                   :iso_code,
