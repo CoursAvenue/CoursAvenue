@@ -37,7 +37,7 @@ namespace :import do
     # end
 
     CSV.foreach(file_name, { col_sep: "\t" }) do |row|
-      City.create!(cities_hash_from_row(row))
+      City.create(cities_hash_from_row(row))
       bar.increment! 1
     end
   end
