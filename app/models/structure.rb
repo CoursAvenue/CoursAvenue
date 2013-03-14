@@ -30,7 +30,7 @@ class Structure < ActiveRecord::Base
   attr_accessible :structure_type,
                   :street,
                   :zip_code,
-                  :city_name,
+                  :city_id,
                   :place_ids,
                   :name,
                   :info,

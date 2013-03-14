@@ -1,5 +1,5 @@
 .ilb-wrapper
-  .one-half.islet.bordered--right
+  .one-half.islet
     %h2.text--center Merci d’avoir choisi LeBonCours et BIENVENUE !
     %p.text--center.alert--info
       Des questions ? Nous sommes joignables entre 9h30 et 18h30
@@ -27,7 +27,7 @@
       %li Le paiement est simple et sécurisé : les clients peuvent soit payer le cours par carte bancaire sur LeBonCours.com, soit vous payer directement
       %li Nous sommes 100% Made In France ;-)
 
-  .one-half.islet
+  .one-half.islet.bordered--left
     %h4.header-group Vous
     = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: {class: 'half-form'}) do |f|
       = f.error_notification
@@ -56,8 +56,9 @@
         = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
         = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}
         %p.field-form-info= t('.structure_address_info')
-        = structure_form.input :zip_code
-        = structure_form.input :city_name
+        = structure_form.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
+        = structure_form.association :city, collection: [@structure.city]
+
         = structure_form.input :website
       .form-actions
         = f.button :submit, t('.sign_up')

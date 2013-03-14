@@ -3,6 +3,9 @@ class ::Admin < ActiveRecord::Base
     'civility.male',
     'civility.female'
   ]
+
+  after_initialize :set_activated
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -20,5 +23,10 @@ class ::Admin < ActiveRecord::Base
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  private
+  def set_activated
+    self.activated = false
   end
 end

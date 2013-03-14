@@ -58,6 +58,5 @@
     font-weight: 300;
 }
 
-.bordered--right {
-    border-right: 1px solid $graySmooth;
-}
+.bordered--right { border-right: 1px solid $graySmooth; }
+.bordered--left  { border-left : 1px solid $graySmooth; }

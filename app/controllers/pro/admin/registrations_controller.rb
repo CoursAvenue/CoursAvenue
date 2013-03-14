@@ -9,8 +9,9 @@ class Pro::Admin::RegistrationsController < Devise::RegistrationsController
   def create
     # TODO
     # Begin transaction ?
-    @admin           = Admin.new params[:admin_user]
-    @admin.structure = Structure.new(params[:structure])
+    @admin           = Admin.new params[:admin]
+    @structure       = Structure.new(params[:structure])
+    @admin.structure = @structure
     respond_to do |format|
       if @admin.valid? and @admin.structure.valid?
         @admin.save
