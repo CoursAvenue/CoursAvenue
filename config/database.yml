@@ -17,10 +17,10 @@ test:
   password: password
 
 production:
-  host: localhost
+  host: ec2-54-243-238-218.compute-1.amazonaws.com
   adapter: postgresql
   encoding: unicode
-  database: leboncours_production
+  database: df2kmto67m9fb3
   pool: 5
   username: eypgvyrdvljjjb
-  password: password
+  password: JTIq4AjygHjDALZPJz7O4Z87yW

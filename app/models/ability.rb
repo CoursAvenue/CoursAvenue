@@ -5,7 +5,7 @@ class Ability
       admin ||= Admin.new
       if admin.super_admin?
         can :manage, :all
-      elsif admin.activated?
+      else
         can :manage, admin.structure
       end
 
