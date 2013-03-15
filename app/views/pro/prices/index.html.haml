@@ -4,8 +4,12 @@
 = link_to structure_path(@structure) do
   %i.icon-double-angle-left
   Retour aux cours
+|
+= link_to course_plannings_path(@course) do
+  %i.icon-calendar
+  Définir le planning du cours
 
-= render "#{@course.underscore_name}_form"
+= render "pro/prices/#{@course.underscore_name}_form"
 
 - if @prices.any?
   %table.table--striped
@@ -19,8 +23,36 @@
         %tr
           %td= t(price.libelle)
           %td= "#{price.readable_amount}€"
-          %td
+          %td.text--right
             = link_to edit_course_price_path(@course, price), title: 'Éditer' do
               %i.icon-edit
             = link_to course_price_path(@course, price), method: :delete, title: 'Supprimer' do
+              %i.icon-trash
+
+- if @course.is_lesson?
+  %h5.flush--bottom Carnet de plusieurs séances
+  = simple_form_for [@course, @book_ticket] do |f|
+    = f.error_notification
+    .input.inline-inputs.flush--top
+      = f.input :number, as: :select, collection: 1..20
+      = f.input :price, placeholder: '45'
+      €
+      = f.submit 'Ajouter', class: 'btn btn__primary'
+
+- if @book_tickets and @book_tickets.any?
+  %table.table--striped
+    %thead
+      %tr
+        %th Nombre
+        %th Montant
+        %th
+    %tbody
+      - @book_tickets.each do |book_ticket|
+        %tr
+          %td= book_ticket.number
+          %td= "#{book_ticket.readable_price}€"
+          %td.text--right
+            = link_to edit_course_book_ticket_path(@course, book_ticket), title: 'Éditer' do
+              %i.icon-edit
+            = link_to course_book_ticket_path(@course, book_ticket), method: :delete, title: 'Supprimer' do
               %i.icon-trash

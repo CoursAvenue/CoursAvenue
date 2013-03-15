@@ -4,6 +4,7 @@ class BookTicket < ActiveRecord::Base
   attr_accessible :number, :price, :validity # in months
 
   validates :number, presence: true
+  validates :price, presence: true
 
   def readable_price
     if read_attribute(:price).nil?

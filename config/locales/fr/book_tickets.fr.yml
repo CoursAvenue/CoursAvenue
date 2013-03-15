@@ -1,4 +1,11 @@
 fr:
+  activerecord:
+    models:
+      book_ticket: Carnet de ticket
+    attributes:
+      book_ticket:
+        number: Nombre de ticket
+        price: Prix
   book_tickets:
     book_ticket:
       libelle:

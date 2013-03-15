@@ -1,29 +1,20 @@
 # encoding: utf-8
-class Pro::PricesController < InheritedResources::Base#Pro::ProController
+class Pro::BookTicketsController < InheritedResources::Base#Pro::ProController
   before_filter :authenticate_admin!
 
   layout 'admin'
 
   belongs_to :course
-  before_filter :load_structure
+  before_filter :load_structure, :load_prices
   load_and_authorize_resource :structure
 
-  def index
-    @price       = Price.new
-    @book_ticket = BookTicket.new
-    @book_tickets = @course.book_tickets
-    index!
-  end
-
   def edit
-    @price        = Price.find(params[:id])
-    @prices       = @course.prices
-    @book_tickets = @course.book_tickets
-    render template: 'pro/prices/index'
+    edit! do |format|
+      @book_tickets = @course.book_tickets.reject{|book_ticket| book_ticket == @book_ticket}
+      format.html { render template: 'pro/prices/index' }
+    end
   end
-
   def create
-    @prices = @course.prices.reject(&:new_record?)
     create! do |success, failure|
       success.html { redirect_to course_prices_path(@course) }
       failure.html { render template: 'pro/prices/index' }
@@ -31,7 +22,6 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
   end
 
   def update
-    @prices = @course.prices.reject(&:new_record?)
     update! do |success, failure|
       success.html { redirect_to course_prices_path(@course) }
       failure.html { render template: 'pro/prices/index' }
@@ -46,6 +36,9 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
 
 
   private
+  def load_prices
+    @prices = @course.prices
+  end
   def load_structure
     @course    = Course.find(params[:course_lesson_id] || params[:course_workshop_id] || params[:course_training_id] || params[:course_id])
     @structure = @course.structure
