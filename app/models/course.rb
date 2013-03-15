@@ -31,7 +31,6 @@ class Course < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Validations
   validates :name         , presence: true
-  validates :is_individual, presence: true
   validates :structure    , presence: true
   validates :place        , presence: true
   validates :subjects     , presence: true
