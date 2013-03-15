@@ -3,7 +3,7 @@
     = pro_side_menu_link 'Admins'               , admins_path                         , current: current_tab if current_admin.super_admin?
     = pro_side_menu_link 'Structures'           , structures_path                     , current: current_tab if current_admin.super_admin?
     = pro_side_menu_link 'Infos générales'      , edit_structure_path(@structure)     , current: current_tab if @structure
-    = pro_side_menu_link 'Mes enseignants'      , structure_teachers_path(@structure) , current: current_tab if @structure
+    = pro_side_menu_link 'Mes professeurs'      , structure_teachers_path(@structure) , current: current_tab if @structure
     = pro_side_menu_link "Lieux d'enseignements", structure_places_path(@structure)   , current: current_tab if @structure
     = pro_side_menu_link "Mes cours"            , structure_path(@structure)          , current: current_tab if @structure
 

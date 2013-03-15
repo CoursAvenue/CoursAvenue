@@ -118,7 +118,7 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
 .simple_form.half-form {
     .input {
         .control-label {
-            width: $label-width / 1.5;
+            width: $label-width / 1.4;
         }
         input, textarea {
             width: 20em;
@@ -127,9 +127,9 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
             max-width: 20em;
         }
     }
-    .form-actions      { padding-left: $label-width / 1.5; }
-    .field-form-info   { padding-left: $label-width / 1.5; }
-    .form-header-group { width       : $label-width / 1.5; }
+    .form-actions      { padding-left: $label-width / 1.4; }
+    .field-form-info   { padding-left: $label-width / 1.4; }
+    .form-header-group { width       : $label-width / 1.4; }
 
 }
 .form-actions {

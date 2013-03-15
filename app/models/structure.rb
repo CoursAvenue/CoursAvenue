@@ -41,6 +41,7 @@ class Structure < ActiveRecord::Base
                   :mobile_phone_number,
                   :email_address,
                   :description,
+                  :active,
 
                   ## Moyen de financements possible :
                   :accepts_holiday_vouchers,

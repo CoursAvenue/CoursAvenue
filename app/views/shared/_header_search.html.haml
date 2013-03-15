@@ -32,12 +32,6 @@
 
   = render 'shared/time_slot_search'
 
-  / .hide--semilap
-  /   Du
-  /   %input#start_date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
-  /   au
-  /   %input#end_date{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker'}}
-
   %div.button-wrapper
     %button.btn.btn__primary{type: 'submit', id: 'submit_search_form'}
       %i.icon-search

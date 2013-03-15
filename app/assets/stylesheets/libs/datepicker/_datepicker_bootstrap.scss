@@ -107,7 +107,8 @@ $hoveredColor               : lighten($brandColor, 30%);
         overflow    : hidden;
         margin-top  : 0.2em;
         .slider > div  {
-            height      : $datepicker-height - $datepicker-header-height;
+            height          : $datepicker-height - $datepicker-header-height;
+            background-color: white;
             > div, table {
                 height: 100%;
                 width : 98%;

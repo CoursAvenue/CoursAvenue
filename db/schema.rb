@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130314072341) do
+ActiveRecord::Schema.define(:version => 20130315153832) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -350,6 +350,7 @@ ActiveRecord::Schema.define(:version => 20130314072341) do
     t.string   "bank_iban"
     t.string   "bank_bic"
     t.integer  "city_id"
+    t.boolean  "active",                                       :default => false
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true

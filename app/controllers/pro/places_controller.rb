@@ -1,10 +1,17 @@
 # encoding: utf-8
 class Pro::PlacesController < InheritedResources::Base#Pro::ProController
-  #before_filter :authenticate_admin!
+  before_filter :authenticate_admin!
   layout 'admin'
   belongs_to :structure
   load_and_authorize_resource :structure
 
+  def index
+    index! do |format|
+      if @structure.places.empty?
+        format.html { redirect_to new_structure_place_path(@structure) }
+      end
+    end
+  end
   def create
     create! do |success, failure|
       success.html { redirect_to structure_place_rooms_path(@structure, @place) }

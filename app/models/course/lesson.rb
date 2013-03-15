@@ -7,6 +7,7 @@ class Course::Lesson < Course
   def type_name_html
     'Cours'
   end
+
   def type_name
     'Cours'
   end

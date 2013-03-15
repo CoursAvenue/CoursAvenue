@@ -1,0 +1,6 @@
+fr:
+  activerecord:
+    models:
+      teacher: Professeur
+  level:
+    name: Nom

@@ -11,7 +11,7 @@
         Implements: Options,
 
         options: {
-            delay: 5000
+            delay: 10000
         },
 
         initialize: function(el, options) {

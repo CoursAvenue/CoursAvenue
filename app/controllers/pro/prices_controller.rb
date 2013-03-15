@@ -1,6 +1,9 @@
 # encoding: utf-8
 class Pro::PricesController < InheritedResources::Base#Pro::ProController
+  before_filter :authenticate_admin!
+
   layout 'admin'
+
   belongs_to :course
   before_filter :load_structure
   load_and_authorize_resource :structure

@@ -1,5 +1,6 @@
 # encoding: utf-8
 class Pro::PlanningsController < InheritedResources::Base#Pro::ProController
+  before_filter :authenticate_admin!
   layout 'admin'
   belongs_to :course
   before_filter :load_structure

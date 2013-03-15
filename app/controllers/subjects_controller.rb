@@ -122,7 +122,7 @@ class SubjectsController < ApplicationController
         with :has_trial_lesson,             true if params[:price_specificities].include?('has_trial_lesson')
         with :has_unit_course_price,        true if params[:price_specificities].include?('has_unit_course_price')
       end
-
+      with :active, true
       order_by :has_promotion,       :desc
       order_by :is_promoted,         :desc
       order_by :has_online_payment,  :desc

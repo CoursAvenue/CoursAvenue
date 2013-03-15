@@ -1,6 +1,11 @@
 = side_menu_currently_at "Lieux d'enseignements"
 
-%h2 Gestion des salles : #{@place.name}
+%h3.header-group.flush--bottom Gestion des salles de : #{@place.name}
+%div
+  = link_to structure_path(@structure) do
+    %i.icon-double-angle-left
+    Retour aux lieux
+
 - unless @rooms.empty?
   %table.table--striped
     %thead
@@ -14,8 +19,12 @@
           %tr
             %td= room.name
             %td= room.surface
-            %td= link_to 'Supprimer', [@structure, @place, room], method: :delete
+            %td= link_to 'Supprimer', [@structure, @place, room], method: :delete, data: {confirm: 'Êtes-vous sur de supprimer cette salle ? Cette action sera irreversible.'}
 
-%hr
+  %hr
+
+%div.text--center
+  %p.alert--info Si vous n'avez qu'une seule salle vous n'êtes pas obligé d'en créer.
+
 %h4 Ajouter une salle
 = render 'form'

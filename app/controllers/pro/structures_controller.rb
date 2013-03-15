@@ -1,7 +1,9 @@
+# encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  #before_filter :authenticate_admin!
-  layout 'admin'
+  before_filter :authenticate_admin!
   load_and_authorize_resource
+
+  layout 'admin'
 
   def index
     authorize! :manage, Structure
@@ -11,6 +13,15 @@ class Pro::StructuresController < Pro::ProController
   def show
     @structure = Structure.find params[:id]
     @courses   = @structure.courses
+    respond_to do |format|
+      if @structure.places.empty?
+        format.html { redirect_to new_structure_place_path(@structure), notice: "Vous devez d'abord créé des lieux pour vos cours."}
+      elsif @courses.empty?
+        format.html{ redirect_to new_structure_course_path(@structure) }
+      else
+        format.html
+      end
+    end
   end
 
   def edit

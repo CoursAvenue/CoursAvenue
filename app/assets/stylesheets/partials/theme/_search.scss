@@ -138,6 +138,11 @@
         background-color: $beige;
         @include font-size(16px);
     }
+    .side-search-panel-header:first-child {
+        .search-panel-header {
+            border-top: none;
+        }
+    }
         .search-panel-header {
             padding         : 0.3em 1em;
             background-color: $beige;

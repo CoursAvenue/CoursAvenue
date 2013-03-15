@@ -12,7 +12,6 @@
 
 .side-menu {
     width           : 250px;
-    //background-color: $beigeDarker;
     background-color: darken($beigeDark, 7%);
     ul {
         list-style: none;
@@ -29,7 +28,7 @@
             &.active, &.active:hover {
                 background-color: darken($beigeDarker, 7%);
                 box-shadow      : inset 0px 0px 10px darken($beigeDarker, 7%);
-                border-right    : 2px solid darken($beigeDarker, 30%);
+                border-right    : 3px solid darken($beigeDarker, 30%);
             }
             border-bottom: 1px solid darken($beigeDarker, 10%);
             a {

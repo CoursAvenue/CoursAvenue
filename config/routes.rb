@@ -33,7 +33,10 @@ LeBonCours::Application.routes.draw do
         resources :places do
           resources :rooms, only: [:index, :create, :destroy]
         end
-        resources :courses, only: [:new], path: 'cours'
+        resources :courses, only: [:new, :create], path: 'cours'
+        resources :course_workshops, only: [:create, :update], controller: 'courses'
+        resources :course_trainings, only: [:create, :update], controller: 'courses'
+        resources :course_lessons, only: [:create, :update], controller: 'courses'
       end
       resources :courses, path: 'cours' do
         resources :plannings, only: [:edit, :index, :destroy]

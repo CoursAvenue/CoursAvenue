@@ -12,12 +12,31 @@
       %span#radius-label-value= params[:radius]
       km
 
+.text--center{style: 'margin-top: 1em;'}
+  %button.btn__primary.btn{type: 'submit', data: {behavior: 'input-update', element: 'submit_search_form'}}
+    %i.icon-search
+    Actualiser
 .side-search-panel
-  %h4.side-search-panel-header Affinez votre recherche :
-  .search-panel-footer
-    %button.btn__primary.btn{type: 'submit', data: {behavior: 'input-update', element: 'submit_search_form'}}
-      %i.icon-search
-      Actualiser
+  / %h4.side-search-panel-header Affinez votre recherche :
+  / .search-panel-footer
+  /   %button.btn__primary.btn{type: 'submit', data: {behavior: 'input-update', element: 'submit_search_form'}}
+  /     %i.icon-search
+  /     Actualiser
+
+  //-------------------------------------------------------------------------------------------------------- Subject
+  .search-panel
+    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+      Dates
+      - if params[:start_date].present? || params[:end_date].present?
+        %i.icon-caret-down
+      - else
+        %i.icon-caret-left
+    .search-panel-content{class: (params[:start_date].present? || params[:end_date].present?) ? '' : 'hide'}
+      Du
+      %input#start_date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
+      au
+      %input#end_date{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker'}}
+
 
   //-------------------------------------------------------------------------------------------------------- Subject
   .search-panel

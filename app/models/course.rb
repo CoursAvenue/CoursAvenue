@@ -19,7 +19,7 @@ class Course < ActiveRecord::Base
   has_one    :city , through: :place
   # has_one    :place, through: :room
 
-  has_many :plannings
+  has_many :plannings        , dependent: :destroy
   has_many :prices           , dependent: :destroy
   has_many :book_tickets     , dependent: :destroy
   has_many :registration_fees, dependent: :destroy
@@ -37,6 +37,8 @@ class Course < ActiveRecord::Base
   validates :subjects     , presence: true
   validates :levels       , presence: true
   validates :audiences    , presence: true
+
+  attr_reader :delete_image
 
   attr_accessible :name,
                   :type,
@@ -160,6 +162,10 @@ class Course < ActiveRecord::Base
     integer :max_price
     double :approximate_price_per_course
 
+    boolean :active do
+      structure.active?
+    end
+
     boolean :is_promoted
     boolean :has_online_payment
     boolean :has_promotion
@@ -172,10 +178,12 @@ class Course < ActiveRecord::Base
   end
 
   def has_promotion
+    return false if plannings.empty?
     plannings.order('promotion ASC').first.promotion != nil
   end
 
   def has_no_price
+    return false if prices.empty?
     prices.order('amount DESC').first.amount == nil
   end
 
@@ -264,6 +272,10 @@ class Course < ActiveRecord::Base
     false
   end
 
+  def slug_type_name
+    'cours'
+  end
+
   def best_price
     prices.where{amount >= 0}.order('amount ASC').first
   end
@@ -274,7 +286,11 @@ class Course < ActiveRecord::Base
       return one_class_price.first.amount
     else
       price = prices.where{amount != nil}.order('nb_courses DESC').first
-      return price.amount / price.nb_courses
+      if price
+        return price.amount / price.nb_courses
+      else
+        return 0
+      end
     end
   end
 

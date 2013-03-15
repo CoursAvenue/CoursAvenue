@@ -1,4 +1,4 @@
-= side_menu_currently_at 'Mes enseignants'
+= side_menu_currently_at 'Mes professeurs'
 
 
 - if @teachers.empty?
@@ -15,9 +15,9 @@
         %tr
           %td= teacher.name
           %td.text--right
-            = link_to edit_structure_teacher_path(@structure, teacher) do
+            = link_to edit_structure_teacher_path(@structure, teacher), title: 'Éditer' do
               %i.icon-edit
-            = link_to structure_teacher_path(@structure, teacher), method: :delete do
+            = link_to structure_teacher_path(@structure, teacher), method: :delete, title: 'Supprimer', data: {confirm: 'Êtes-vous sur de supprimer ce professeur ? Cette action sera irreversible.'} do
               %i.icon-trash
 
   = content_for :scripts do
@@ -27,7 +27,10 @@
       });
 
 %hr
-%h4 Ajouter un professeur
+- if @teachers.empty?
+  %h4 Ajouter un professeur
+- else
+  %h4 Ajouter d'autre professeurs
 
 = render 'form'
 

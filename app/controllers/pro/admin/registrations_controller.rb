@@ -18,9 +18,11 @@ class Pro::Admin::RegistrationsController < Devise::RegistrationsController
         if params[:i_am_teacher]
           teacher = Teacher.new(name: @admin.full_name)
           teacher.structure = @admin.structure
+          teacher.save
         end
-        format.html {redirect_to structure_path(@admin.structure), :notice => t("notices.successfully_done")}
-        format.js
+        sign_in @admin
+        # format.html {redirect_to edit_structure_path(@admin.structure, anchor: 'description-textarea'), :notice => t("admin.registration.successful")}
+        format.html {redirect_to structure_teachers_path(@admin.structure), :notice => t("admin.registration.successful")}
       else
         format.html {render 'new'}
       end

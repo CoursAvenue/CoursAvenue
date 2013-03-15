@@ -2,43 +2,41 @@
 
 %h2.header-group Liste de mes cours
 
-- if @courses.empty?
-  %p.alert--info
-    Renseignez vos cours pour apparaître dans notre moteur de recherche !
-    = link_to 'Ajouter un cours', new_structure_course_path(@structure), class: 'btn btn__primary'
-- else
-  %br
+.islet.flush--bottom.text--center
   = link_to 'Ajouter un cours', new_structure_course_path(@structure), class: 'btn btn__primary'
-  %table.table--striped#dataTable
-    %thead
+%table.table--striped#dataTable
+  %thead
+    %tr
+      %th.sortDesc
+        %span Nom
+      %th
+        %span Type
+      %th
+        %span Disciplines
+      %th
+      %th
+      %th
+  %tbody
+    - @courses.each do |course|
       %tr
-        %th.sortDesc
-          %span Nom
-        %th
-          %span Type
-        %th
-          %span Disciplines
-        %th
-        %th
-        %th
-    %tbody
-      - @courses.each do |course|
-        %tr
-          %td= link_to course.name, edit_course_path(course)
-          %td= course.type_name
-          %td= course.subjects.map(&:name).join(', ')
-          %td= link_to 'Plannings', course_plannings_path(course)
-          %td= link_to 'Tarifs', course_prices_path(course)
-          %td.text--right
-            = link_to edit_course_path(course) do
-              %i.icon-edit
-            = link_to course_path(course), method: :delete, class: 'red' do
-              %i.icon-trash
+        %td= link_to course.name, edit_course_path(course)
+        %td= course.type_name
+        %td= course.subjects.map(&:name).join(', ')
+        %td= link_to 'Plannings', course_plannings_path(course)
+        %td= link_to 'Tarifs', course_prices_path(course)
+        %td.text--right
+          = link_to edit_course_path(course), title: 'Éditer' do
+            %i.icon-edit
+          = link_to course_path(course), method: :delete, class: 'red', title: 'Supprimer', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'} do
+            %i.icon-trash
 
 %div.text--center
-  %a.btn.btn__primary.btn__large Mettre mes cours en ligne
+  %div
+    %a.btn.btn__primary.btn__large Mettre mes cours en ligne
   %p.one-half.alert--info.center-block
     Que se passe t-il si j'appuie sur ce bouton ?
+    %br
+    Un email nous sera envoyé et nous reviendrons vers vous au plus vite pour vous donner accès à votre espace de gestion.
 
 = content_for :scripts do
   :javascript

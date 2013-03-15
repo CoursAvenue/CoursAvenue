@@ -24,7 +24,7 @@ fr:
           last_name: Votre nom
           phone_number: Votré numéro de fixe
           mobile_phone_number: Votré numéro de portable
-          phone_number_info: Renseignez le numéro pour joindre le responsable des réservations
+          phone_number_info: Renseignez au moins un numéro de téléphone pour joindre le responsable des réservations
           mobile_phone_number_info: "Pour chaque réservation, un SMS de confirmation pourra être envoyé sur ce numéro"
           email: Votre email
           email_info: Cet email sera votre identifiant pour l’accès à votre espace pro

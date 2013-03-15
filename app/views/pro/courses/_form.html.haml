@@ -1,6 +1,6 @@
-= simple_form_for @course, as: :course do |f|
+= simple_form_for [@structure, @course], as: :course do |f|
   = f.error_notification
-  = f.input :name, label: t('.name'), placeholder: 'Intitulé : Zumba, jardin musical, Vins et Fromages, etc', label_html: {class: 'helper-label', data: {behavior: 'popover', content: "Si vous donnez déjà ce cours / stage au sein de votre structure, renseignez le même nom, sans le modifier : cela permettra d’éviter toute confusion. Par exemple, s’il s’agit du cours de « Gym'n Stretch », ne le modifiez pas en « Gym stretching  ». D’une manière générale, le nom doit être court, clair, et évocateur, et ne pas forcément comporter le nom de la discipline qui sera mentionné à côté (par exemple, mettez « Classique » au lieu de « Danse classique »)"}}
+  = f.input :name, label: t('.name'), placeholder: 'Zumba, jardin musical, Vins et Fromages, etc', label_html: {class: 'helper-label', data: {behavior: 'popover', content: "Si vous donnez déjà ce cours / stage au sein de votre structure, renseignez le même nom, sans le modifier : cela permettra d’éviter toute confusion. Par exemple, s’il s’agit du cours de « Gym'n Stretch », ne le modifiez pas en « Gym stretching  ». D’une manière générale, le nom doit être court, clair, et évocateur, et ne pas forcément comporter le nom de la discipline qui sera mentionné à côté (par exemple, mettez « Classique » au lieu de « Danse classique »)"}}
 
   - unless @course.new_record? || !@course.image?
     .input.ilb-wrapper
@@ -8,12 +8,17 @@
       = image_tag @course.image, height: 200
     = f.input :delete_image, as: :boolean, :label => "Supprimer l'image"
   .input
-    .control-label Changer l'image
+    - if @course.new_record?
+      .control-label Image du cours
+    - else
+      .control-label Changer l'image
     = f.input :image, label: false
 
   %h5.form-header-group.flush--bottom Type de cours
   .input.ilb-wrapper
-    = f.label :type, t('.type'), class: 'control-label v-top'
+    = f.label :type, class: 'control-label v-top' do
+      %abbr *
+      = t('.type')
     %div
       .radio
         %input#type_course_lesson{type: 'radio', name: 'course[type]', value: 'Course::Lesson', checked: @course.is_lesson?}
@@ -26,7 +31,9 @@
         %label{for: 'type_course_training', class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => 'Un stage est un cours-atelier étalé sur plusieurs jours consécutifs.'} Stage
 
   .input.ilb-wrapper
-    = f.label :is_individual, t('.individual_course'), class: 'control-label v-top'
+    = f.label :is_individual, class: 'control-label v-top' do
+      %abbr *
+      = t('.individual_course')
     %div
       .radio
         %input#course_is_individual{type: 'radio', name: 'course[is_individual]', checked: @course.is_individual?}
