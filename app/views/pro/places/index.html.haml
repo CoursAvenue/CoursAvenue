@@ -13,7 +13,6 @@
         %th.text--center Nombre de salles
         %th
         %th
-        %th
     %tbody
       - @places.each do |place|
         %tr
@@ -25,6 +24,9 @@
               = link_to 'Renseigner ma première salle', structure_place_rooms_path(@structure, place)
             - else
               = link_to 'Gérer mes salles', structure_place_rooms_path(@structure, place)
-          %td= link_to 'Éditer', edit_structure_place_path(@structure, place)
-          %td= link_to 'Supprimer', structure_place_path(@structure, place), method: :delete, data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'}
+          %td
+            = link_to edit_structure_place_path(@structure, place) do
+              %i.icon-edit
+            = link_to structure_place_path(@structure, place), method: :delete, data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'} do
+              %i.icon-trash
   = link_to 'Ajouter un nouveau lieu', new_structure_place_path(@structure), class: 'btn btn__primary'

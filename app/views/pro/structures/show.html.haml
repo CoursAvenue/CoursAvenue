@@ -21,7 +21,6 @@
         %th
         %th
         %th
-        %th
     %tbody
       - @courses.each do |course|
         %tr
@@ -30,8 +29,16 @@
           %td= course.subjects.map(&:name).join(', ')
           %td= link_to 'Plannings', course_plannings_path(course)
           %td= link_to 'Tarifs', course_prices_path(course)
-          %td= link_to 'Éditer', edit_course_path(course)
-          %td= link_to 'Supprimer', course_path(course), method: :delete, class: 'red'
+          %td.text--right
+            = link_to edit_course_path(course) do
+              %i.icon-edit
+            = link_to course_path(course), method: :delete, class: 'red' do
+              %i.icon-trash
+
+%div.text--center
+  %a.btn.btn__primary.btn__large Mettre mes cours en ligne
+  %p.one-half.alert--info.center-block
+    Que se passe t-il si j'appuie sur ce bouton ?
 
 = content_for :scripts do
   :javascript

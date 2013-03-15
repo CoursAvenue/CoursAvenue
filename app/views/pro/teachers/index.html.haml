@@ -14,9 +14,11 @@
       - @teachers.each do |teacher|
         %tr
           %td= teacher.name
-          %td
-            = link_to 'Éditer', edit_structure_teacher_path(@structure, teacher)
-            = link_to 'Supprimer', structure_teacher_path(@structure, teacher), method: :delete
+          %td.text--right
+            = link_to edit_structure_teacher_path(@structure, teacher) do
+              %i.icon-edit
+            = link_to structure_teacher_path(@structure, teacher), method: :delete do
+              %i.icon-trash
 
   = content_for :scripts do
     :javascript

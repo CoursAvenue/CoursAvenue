@@ -7,7 +7,6 @@
       %th.text--center
         %i.lbc-icon-info i
       %th
-      %th
   %tbody
     - @plannings.each do |planning|
       %tr
@@ -21,5 +20,8 @@
         %td.text--center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
-        %td= link_to 'Éditer', edit_course_planning_path(@course, planning)
-        %td= link_to 'Supprimer', course_planning_path(@course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?'
+        %td
+          = link_to edit_course_planning_path(@course, planning) do
+            %i.icon-edit
+          = link_to 'Supprimer', course_planning_path(@course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?' do
+            %i.icon-trash

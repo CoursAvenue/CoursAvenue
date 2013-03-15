@@ -15,11 +15,13 @@
         %th Type
         %th Montant
         %th
-        %th
     %tbody
       - @prices.each do |price|
         %tr
           %td= t(price.libelle)
           %td= "#{price.readable_amount}€"
-          %td= link_to 'Éditer', edit_course_price_path(@course, price)
-          %td= link_to 'Supprimer', course_price_path(@course, price), method: :delete
+          %td
+            = link_to edit_course_price_path(@course, price) do
+              %i.icon-edit
+            = link_to course_price_path(@course, price), method: :delete do
+              %i.icon-trash
