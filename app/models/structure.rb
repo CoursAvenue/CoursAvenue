@@ -9,6 +9,7 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  after_initialize :set_active
   belongs_to :city
 
   has_many :teachers
@@ -73,4 +74,8 @@ class Structure < ActiveRecord::Base
     admins.first || Admin.new
   end
 
+  private
+  def set_active
+    self.active = false
+  end
 end

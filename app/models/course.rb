@@ -285,7 +285,7 @@ class Course < ActiveRecord::Base
       return one_class_price.first.amount
     else
       price = prices.where{amount != nil}.order('nb_courses DESC').first
-      if price
+      if price and price.amount and price.nb_courses
         return price.amount / price.nb_courses
       else
         return 0
