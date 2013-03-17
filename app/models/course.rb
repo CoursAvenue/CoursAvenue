@@ -19,10 +19,11 @@ class Course < ActiveRecord::Base
   has_one    :city , through: :place
   # has_one    :place, through: :room
 
-  has_many :plannings        , dependent: :destroy
-  has_many :prices           , dependent: :destroy
-  has_many :book_tickets     , dependent: :destroy
-  has_many :registration_fees, dependent: :destroy
+  has_many :plannings           , dependent: :destroy
+  has_many :prices              , dependent: :destroy
+  has_many :book_tickets        , dependent: :destroy
+  has_many :registration_fees   , dependent: :destroy
+  has_many :reservation_loggers, dependent: :destroy
 
   has_and_belongs_to_many :audiences
   has_and_belongs_to_many :levels

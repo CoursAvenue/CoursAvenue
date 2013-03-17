@@ -8,6 +8,10 @@ class Pro::CoursesController < InheritedResources::Base
   before_filter :load_structure
   load_and_authorize_resource :structure
 
+  def reservation_wanted
+
+  end
+
   def create
     create! do |success, failure|
       success.html { redirect_to course_plannings_path(@course), notice: 'Vous pouvez maintenant créer le planning de ce cours' }

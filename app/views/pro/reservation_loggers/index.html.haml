@@ -1,0 +1,15 @@
+= side_menu_currently_at 'Stats'
+
+%table.table--striped#dataTable
+  %thead
+    %tr
+      %th.sortAsc
+        %span Nom du cours
+      %th
+        %span Date
+      %th
+  %tbody
+    - @reservation_loggers.each do |reservation_logger|
+      %tr
+        %td= link_to reservation_logger.course.name, course_path(reservation_logger.course)
+        %td= l(reservation_logger.created_at)
