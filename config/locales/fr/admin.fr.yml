@@ -5,9 +5,10 @@ fr:
     failure:
       admin:
         not_found_in_database: Utilisateur inconnu
-  admin:
-    registration:
-      successful: "Merci de vous être enregistrer ! Maintenant dites-nous en un peu plus sur vous."
-    sessions:
-      new:
-        log_in: Connectez-vous à votre espace admin
+  pro:
+    admin:
+      registration:
+        successful: "Merci de vous être enregistrer ! Maintenant dites-nous en un peu plus sur vous."
+      sessions:
+        new:
+          log_in: Connectez-vous à votre espace admin

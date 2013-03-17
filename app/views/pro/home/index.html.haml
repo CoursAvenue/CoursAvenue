@@ -1,6 +1,43 @@
 = menu_currently_at 'Accueil'
 
-%h3 Des cours à nous proposer ?
-%p= link_to "S'enregistrer", new_admin_registration_path, class: 'btn'
-%h3 Déjà inscrit ?
-%p= link_to 'Se connecter', new_admin_session_path, class: 'btn'
+.ilb-wrapper
+  .two-thirds.islet{style: "position: relative"}
+    = image_tag 'pro/dance_teacher.jpg'
+    .image_quote
+      %p
+        Le logiciel en ligne LeBonCours est un vrai outil pour moi au quotidien : dorénavant, il remplace mon ancien cahier papier de réservations, mais il m’aide également à promouvoir mes cours et augmenter mon taux de remplissage. Et tout cela, c’est moi qui le décide, à tout moment, en quelques clics !
+      %p.image_quote--footer.text--right.flush--bottom Elodie, professeur de flamenco
+  .one-third.islet
+    %h3.text--center Je n’ai pas encore de logiciel LeBonCoursPro
+    %br
+    %p.text--center
+      = link_to "Inscription gratuite", new_admin_registration_path, class: 'btn btn__primary btn__large'
+    %br
+    %h4.text--center LeBonCoursPro, c’est quoi ?
+    %ul
+      %li Vos cours directement sur LeBonCours.com : augmentez en <b>visibilité</b> et en <b>rentabilité</b> !
+      %li Un outil de gestion des réservations simple, intuitif, efficace, le tout <b>gratuit</b>
+      %li Vos réservations en ligne 24h/24, 7j/7 directement sur votre site Internet : <b>un gain de temps considérable</b>
+
+    %h3.text--center J’ai déjà LeBonCoursPro
+    %p.text--center= link_to 'Se connecter', new_admin_session_path, class: 'btn btn__large'
+
+%h3 Ils nous ont déja fait confiance :
+.ilb-wrapper.align-center
+  .text--center.two-twelfths
+    = image_tag 'pro/partners/deep_side_center.jpg', height: 80
+    %br
+    %i Cours de danse
+  .text--center.four-twelfths
+    = image_tag 'pro/partners/photo_up.png', height: 80
+    %br
+    %i Cours de photographie
+  .text--center.three-twelfths
+    = image_tag 'pro/partners/wine_sitting.png', height: 80
+    %br
+    %i Cours d'œunologie
+  %p.islet.text--center.three-twelfths
+    %b
+      Et plein d’autres partenaires :
+      %br
+      des professeurs indépendants aux grands centres d’enseignement.
