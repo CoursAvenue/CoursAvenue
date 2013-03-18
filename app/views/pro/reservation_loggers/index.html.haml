@@ -13,3 +13,7 @@
       %tr
         %td= link_to reservation_logger.course.name, course_path(reservation_logger.course)
         %td= l(reservation_logger.created_at)
+        %td
+          = link_to reservation_logger_path(reservation_logger), method: :delete, class: 'btn btn__danger' do
+            %i.icon-trash
+

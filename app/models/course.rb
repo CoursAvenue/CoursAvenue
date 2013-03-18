@@ -162,9 +162,7 @@ class Course < ActiveRecord::Base
     integer :max_price
     double :approximate_price_per_course
 
-    boolean :active do
-      structure.active?
-    end
+    boolean :active
 
     boolean :is_promoted
     boolean :has_online_payment

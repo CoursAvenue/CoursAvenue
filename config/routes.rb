@@ -17,7 +17,7 @@ LeBonCours::Application.routes.draw do
     scope :module => 'pro' do
       root :to => 'home#index'
 
-      resources :reservation_loggers, only: [:index]
+      resources :reservation_loggers, only: [:index, :destroy]
       resources :structures do
         #resources :admins, only: [:create, :update], controller: 'structures/admins'
         resources :teachers
