@@ -57,14 +57,19 @@
 }
 .btn__danger {
   text-transform: uppercase;
+  font-weight: bold;
     @include buttonBackground($btnDangerBackground, $btnDangerBackgroundHighlight);
   &:hover {
     @include buttonBackground(lighten($btnDangerBackground, 6%), lighten($btnDangerBackgroundHighlight, 6%));
   }
 }
 // Warning appears are orange
-.btn-warning {
+.btn__warning {
+  font-weight: bold;
   @include buttonBackground($btnWarningBackground, $btnWarningBackgroundHighlight);
+  &:hover {
+    @include buttonBackground(lighten($btnWarningBackground, 6%), lighten($btnWarningBackgroundHighlight, 6%));
+  }
 }
 // Danger and error appear as red
 // Success appears as green

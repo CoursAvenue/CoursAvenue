@@ -19,7 +19,9 @@
           %tr
             %td= room.name
             %td= room.surface
-            %td= link_to 'Supprimer', [@structure, @place, room], method: :delete, data: {confirm: 'Êtes-vous sur de supprimer cette salle ? Cette action sera irreversible.'}
+            %td
+              = link_to [@structure, @place, room], method: :delete, data: {confirm: 'Êtes-vous sur de supprimer cette salle ? Cette action sera irreversible.'} do
+                %i.icon-trash
 
   %hr
 

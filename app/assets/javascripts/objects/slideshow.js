@@ -1,6 +1,8 @@
 /*
 ---
 
+https://github.com/rpflorence/SlideShow
+
 name: "SlideShow"
 
 description: "Extensible mid-level class that manages transitions of elements that share the same space, typically for slideshows, tabs, and galleries."

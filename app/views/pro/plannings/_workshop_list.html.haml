@@ -23,5 +23,5 @@
         %td
           = link_to edit_course_planning_path(@course, planning), title: 'Éditer' do
             %i.icon-edit
-          = link_to 'Supprimer', course_planning_path(@course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer' do
+          = link_to course_planning_path(@course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer' do
             %i.icon-trash

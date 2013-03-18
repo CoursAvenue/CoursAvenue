@@ -1,6 +1,7 @@
 = simple_form_for [@structure, @teacher] do |f|
   = f.error_notification
   = f.input :name
+  = f.input :description
   .form-actions
     - if @teacher.new_record?
       = f.submit 'Ajouter', class: 'btn btn__primary'

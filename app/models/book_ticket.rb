@@ -5,6 +5,7 @@ class BookTicket < ActiveRecord::Base
 
   validates :number, presence: true
   validates :price, presence: true
+  validates :validity, presence: true
 
   def readable_price
     if read_attribute(:price).nil?

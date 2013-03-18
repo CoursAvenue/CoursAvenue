@@ -10,10 +10,17 @@
         %th.sortDesc
           %span Nom
         %th
+          %span Description
+        %th
     %tbody
       - @teachers.each do |teacher|
         %tr
           %td= teacher.name
+          %td
+            - if teacher.description.length < 150
+              = teacher.description
+            - else
+              = "#{teacher.description[0..150]}..."
           %td.text--right
             = link_to edit_structure_teacher_path(@structure, teacher), title: 'Éditer' do
               %i.icon-edit
@@ -33,4 +40,3 @@
   %h4 Ajouter d'autre professeurs
 
 = render 'form'
-

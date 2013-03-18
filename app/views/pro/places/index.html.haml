@@ -16,7 +16,7 @@
         %td.text--center= place.rooms.count
         %td
           - if place.rooms.count == 0
-            = link_to 'Renseigner ma première salle', structure_place_rooms_path(@structure, place)
+            = link_to 'Renseigner ma première salle', structure_place_rooms_path(@structure, place), class: 'btn'
           - else
             = link_to 'Gérer mes salles', structure_place_rooms_path(@structure, place)
         %td

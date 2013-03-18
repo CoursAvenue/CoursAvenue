@@ -2,5 +2,7 @@ fr:
   activerecord:
     models:
       teacher: Professeur
-  level:
-    name: Nom
+    attributes:
+      teacher:
+        name: Nom
+        description: Description

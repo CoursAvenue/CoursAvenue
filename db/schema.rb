@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130317104427) do
+ActiveRecord::Schema.define(:version => 20130318113028) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(:version => 20130317104427) do
   create_table "book_tickets", :force => true do |t|
     t.integer  "number"
     t.decimal  "price"
-    t.string   "validity"
+    t.decimal  "validity"
     t.integer  "course_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -382,6 +382,7 @@ ActiveRecord::Schema.define(:version => 20130317104427) do
     t.integer  "structure_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.text     "description"
   end
 
 end

@@ -17,6 +17,7 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
 
   def edit
     @price        = Price.find(params[:id])
+    @book_ticket  = BookTicket.new
     @prices       = @course.prices
     @book_tickets = @course.book_tickets
     render template: 'pro/prices/index'

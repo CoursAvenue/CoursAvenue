@@ -6,6 +6,7 @@ fr:
       book_ticket:
         number: Nombre de ticket
         price: Prix
+        validity: Validité (en mois)
   book_tickets:
     book_ticket:
       libelle:

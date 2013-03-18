@@ -1,5 +1,15 @@
+%h5.flush--bottom Prix d'un cours individuel
+
+= simple_form_for [@course, @price || Price.new] do |f|
+  = f.error_notification
+  .input.inline-inputs.flush--top
+    = f.hidden_field :libelle, value: 'prices.individual_course'
+    = f.input :amount, placeholder: '45'
+    €
+    = f.submit 'Ajouter', class: 'btn btn__primary'
+
 %h5.flush--bottom Prix au forfait
-- prices = [[t('prices.individual_course'), 'prices.individual_course'],[t('prices.annual'), 'prices.annual'],[t('prices.two_lesson_per_week_package'), 'prices.two_lesson_per_week_package'],[t('prices.semester'), 'prices.semester'],[t('prices.trimester'), 'prices.trimester'],[t('prices.month'), 'prices.month'],[t('prices.trial_lesson'), 'prices.trial_lesson']]
+- prices = [[t('prices.annual'), 'prices.annual'],[t('prices.two_lesson_per_week_package'), 'prices.two_lesson_per_week_package'],[t('prices.semester'), 'prices.semester'],[t('prices.trimester'), 'prices.trimester'],[t('prices.month'), 'prices.month'],[t('prices.trial_lesson'), 'prices.trial_lesson']]
 - prices_libelle = @prices.collect(&:libelle)
 - prices = prices.reject{|price| prices_libelle.include?(price[1]) }
 
