@@ -5,9 +5,9 @@
     - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate
     = f.input :week_day, as: :select, collection: days, label: false
     %label.required.control-label de
-    %input.timepicker-input{type: 'text', value: (@planning.start_time.nil? ? '' : @planning.start_time.strftime('%Hh%M')), placeholder: '9h30', name: 'planning[start_time]'}
+    = f.input :start_time, as: :time, minute_step: 15, label: false, default: {year: 2000, month: 1, day: 1}
     %label.required.control-label à
-    %input.timepicker-input{type: 'text', value: (@planning.end_time.nil? ? '' : @planning.end_time.strftime('%Hh%M')), placeholder: '17h30', name: 'planning[end_time]'}
+    = f.input :end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: {year: 2000, month: 1, day: 1}
     = f.input :info, as: :string, placeholder: 'Plat : gâteau au chocolat'
     - if @planning.new_record?
       = f.submit 'Ajouter le créneau', class: 'btn btn__primary'
