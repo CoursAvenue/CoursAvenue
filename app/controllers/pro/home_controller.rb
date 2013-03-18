@@ -4,4 +4,7 @@ class Pro::HomeController < Pro::ProController
   def index
     @admin = ::Admin.new
   end
+
+  def presentation
+  end
 end

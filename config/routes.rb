@@ -16,6 +16,7 @@ LeBonCours::Application.routes.draw do
   constraints :subdomain => 'pro' do
     scope :module => 'pro' do
       root :to => 'home#index'
+      match 'pages/presentation' => 'home#presentation'
 
       resources :reservation_loggers, only: [:index, :destroy]
       resources :structures do
