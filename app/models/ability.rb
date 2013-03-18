@@ -7,6 +7,7 @@ class Ability
         can :manage, :all
       else
         can :manage, admin.structure
+        can :create, Structure
       end
 
     # Define abilities for the passed in user here. For example:

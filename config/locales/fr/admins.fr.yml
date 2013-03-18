@@ -11,9 +11,10 @@ fr:
         mobile_phone_number: Téléphone portable
         email: E-mail
         password: Mot de passe
-        password_confirmation: Mot de passe (confirmation)
+        password_confirmation: Confirmation du mot de passe
         remember_me: Se souvenir de moi
         role: Fonction
+        is_teacher: Je suis professeur
 
   civility:
     male: Monsieur

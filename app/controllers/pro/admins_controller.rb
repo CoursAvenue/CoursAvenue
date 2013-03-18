@@ -4,7 +4,7 @@ class ::Pro::AdminsController < InheritedResources::Base
   layout 'admin'
 
   def index
-    @admins = Admin.all
+    @admins = ::Admin.all
   end
 
   def edit

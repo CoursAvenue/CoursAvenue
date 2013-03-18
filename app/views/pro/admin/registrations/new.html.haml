@@ -65,17 +65,17 @@
         = f.input :password, :required => true, label: t('.password')
         = f.input :password_confirmation, :required => true, label: t('.password_confirmation')
 
-      %h4.header-group Votre structure
-      = simple_fields_for @structure do |structure_form|
-        = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
-        %p.field-form-info= t('.structure_name_info')
-        = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
-        = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}
-        %p.field-form-info= t('.structure_address_info')
-        = structure_form.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
-        = structure_form.association :city, collection: [@structure.city]
+      / %h4.header-group Votre structure
+      / = simple_fields_for @structure do |structure_form|
+      /   = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
+      /   %p.field-form-info= t('.structure_name_info')
+      /   = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
+      /   = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}
+      /   %p.field-form-info= t('.structure_address_info')
+      /   = structure_form.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
+      /   = structure_form.association :city, collection: [@structure.city]
 
-        = structure_form.input :website
+      /   = structure_form.input :website
       .form-actions
         = f.button :submit, t('.sign_up'), class: 'btn__primary'
 

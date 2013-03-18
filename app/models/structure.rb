@@ -10,7 +10,8 @@ class Structure < ActiveRecord::Base
   friendly_id :name, use: :slugged
 
   after_initialize :set_active
-  belongs_to :city
+  after_create     :create_place
+  belongs_to       :city
 
   has_many :teachers
   has_many :courses
@@ -75,7 +76,12 @@ class Structure < ActiveRecord::Base
   end
 
   private
+
   def set_active
     self.active = false
+  end
+
+  def create_place
+    self.places.create(name: self.name, street: self.street, city: self.city, zip_code: self.zip_code)
   end
 end

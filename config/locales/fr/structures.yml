@@ -35,19 +35,21 @@ fr:
 
 
   structures:
-    company: Société
+    company: Société privée
     association: Association
     board: Régie - établissement public chargé de la gestion d'un service public
     independant: Auto entrepreneur
-    private_structure: Commerçant / Structure privé
-    liberal: Proféssion libérale
+    private_structure: Commerçant / Structure privée
+    liberal: Profession libérale
   pro:
     structures:
-      edit:
+      create:
+        create_teacher: Super ! Renseigner maintenant les professeurs de votre établissement.
+      form:
         phone_number_info: Renseignez au moins un numéro de téléphone pour joindre le responsable des réservations
         mobile_phone_number_info: "Pour chaque réservation, un SMS de confirmation pourra être envoyé sur ce numéro"
         email_info: Cet email sera votre identifiant pour l’accès à votre espace pro
-        password_info: Laisser vide si vous ne voulez pas changer le mot de passe
+        password_info: Laissez vide si vous ne voulez pas changer le mot de passe
         password_confirmation: Confirmation de votre mot de passe
         structure_name: Nom de votre structure
         structure_name_info: "Si vous êtes un professeur indépendant, renseignez votre Prénom + Nom"

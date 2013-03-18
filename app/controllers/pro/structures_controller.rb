@@ -6,7 +6,6 @@ class Pro::StructuresController < Pro::ProController
   layout 'admin'
 
   def index
-    authorize! :manage, Structure
     @structures = Structure.order('name ASC').all
   end
 
@@ -26,25 +25,47 @@ class Pro::StructuresController < Pro::ProController
 
   def edit
     @structure = Structure.find(params[:id])
-    authorize! :edit, @structure
     @admin     = @structure.admins.first || Admin.new
   end
 
   def new
     @structure = Structure.new
+    @admin     = current_admin
+    @structure.admins << @admin
   end
 
   def update
     @structure = Structure.find params[:id]
-    authorize! :manage, @structure
+    @admin     = (params[:admin][:id].blank? ? ::Admin.new : ::Admin.find(params[:admin].delete(:id)))
 
-    @admin     = @structure.admins.first || Admin.new
+    if !@admin.new_record? and params[:admin][:password].blank?
+      params[:admin].delete :password
+      params[:admin].delete :password_confirmation
+    end
 
     respond_to do |format|
-      if @structure.update_attributes params[:structure]
+      if @structure.save and @admin.update_attributes(params[:admin])
         format.html { redirect_to edit_structure_path @structure }
       else
         format.html { render action: 'edit' }
+      end
+    end
+  end
+
+  def create
+    @admin           = (params[:admin][:id].blank? ? ::Admin.new : ::Admin.find(params[:admin].delete(:id)))
+    @structure       = Structure.new(params[:structure])
+    @structure.admins << @admin
+    @admin.structure = @structure
+    if !@admin.new_record? and params[:admin][:password].blank?
+      params[:admin].delete :password
+      params[:admin].delete :password_confirmation
+    end
+    respond_to do |format|
+      if @structure.save and @admin.update_attributes(params[:admin])
+        format.html { redirect_to structure_teachers_path(@admin.structure), :notice => t(".create_teacher") }
+      else
+        format.html { render action: :new }
       end
     end
   end

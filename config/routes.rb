@@ -19,7 +19,7 @@ LeBonCours::Application.routes.draw do
 
       resources :reservation_loggers, only: [:index]
       resources :structures do
-        resources :admins, only: [:create, :update], controller: 'structures/admins'
+        #resources :admins, only: [:create, :update], controller: 'structures/admins'
         resources :teachers
         resources :places do
           resources :rooms, only: [:index, :create, :destroy]

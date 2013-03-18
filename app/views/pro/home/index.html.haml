@@ -20,7 +20,8 @@
     %h3.text--center Je n’ai pas encore de logiciel LeBonCoursPro
     %br
     %p.text--center
-      = link_to "Inscription gratuite", new_admin_registration_path, class: 'btn btn__primary btn__large'
+      /= link_to "Inscription gratuite", new_admin_registration_path, class: 'btn btn__primary btn__large', id: 'register'
+      = link_to "Inscription gratuite", '#', class: 'btn btn__primary btn__large', id: 'register'
     %br
     %h4.text--center LeBonCoursPro, c’est quoi ?
     %ul
@@ -61,3 +62,35 @@
 /             autoplay: true
 /         });
 /     });
+
+- content_for :scripts do
+  :javascript
+    $("register").addEvent("click", function(){
+        var modal = new SimpleModal({
+            width: 500,
+            "onAppend": function() {
+                $("simple-modal").fade("hide");
+                setTimeout((function(){ $("simple-modal").fade("show")}), 200 );
+                var tw = new Fx.Tween($("simple-modal"),{
+                  duration: 800,
+                  transition: Fx.Transitions.Cubic.easeOut,
+                  link: 'cancel',
+                  property: 'top'
+                }).start(-400, 150);
+            }
+        });
+        modal.show({
+            "model":"modal",
+            "title":"Inscription",
+            "contents": $('registration-form').get('html')
+        });
+    });
+
+#registration-form.hidden
+  = simple_form_for(@admin, :url => registration_path(@admin), html: {class: 'half-form'}) do |f|
+    = f.error_notification
+    .form-inputs
+      = f.input :email, :required => true, :autofocus => true, wrapper_html: {class: 'flush--bottom'}
+      = f.input :password, :required => true
+    .form-actions
+      = f.submit 'Renseigner mes cours', class: 'btn btn__primary'

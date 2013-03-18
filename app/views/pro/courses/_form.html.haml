@@ -25,7 +25,7 @@
         %label{for: 'type_course_lesson'} Cours récurrent (avec ou sans progression)
       .radio
         %input#type_course_workshop{type: 'radio', name: 'course[type]', value: 'Course::Workshop', checked: @course.is_workshop?}
-        %label{for: 'type_course_workshop', class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => 'Un cours-atelier est un cours d’une seule séance. Par exemple, un cours de photographie ponctuel de quelques heures est un cours-atelier, alors qu’un cours de théâtre avec des séances toutes les semaines est cours récurrent dans l’année.'} Cours-atelier
+        %label{for: 'type_course_workshop', class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => 'Un cours-atelier est un cours d’une seule séance. Par exemple, un cours de photographie ponctuel de quelques heures est un cours-atelier, alors qu’un cours de théâtre avec des séances toutes les semaines est un cours récurrent dans l’année.'} Cours-atelier
       .radio
         %input#type_course_training{type: 'radio', name: 'course[type]', value: 'Course::Training', checked: @course.is_training?}
         %label{for: 'type_course_training', class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => 'Un stage est un cours-atelier étalé sur plusieurs jours consécutifs.'} Stage
@@ -84,7 +84,7 @@
 
 
   .form-actions
-    = f.submit (@course.new_record? ? 'Créer le cours' : 'Mettre à le cours'), class: 'btn btn__primary'
+    = f.submit (@course.new_record? ? 'Créer le cours' : 'Mettre à jour le cours'), class: 'btn btn__primary'
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {
