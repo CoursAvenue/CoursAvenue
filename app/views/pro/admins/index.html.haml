@@ -22,5 +22,5 @@
             %i.icon-ok
         %td= link_to admin.structure.name, edit_structure_path(admin.structure) if admin.structure
         %td
-          = link_to edit_admin_path admin, title: 'Éditer' do
+          = link_to edit_admin_path admin, title: 'Éditer', class: 'btn btn__warning' do
             %i.icon-edit

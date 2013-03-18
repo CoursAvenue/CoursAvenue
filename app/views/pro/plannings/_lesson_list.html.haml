@@ -37,7 +37,7 @@
             - if planning.info
               .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
         %td
-          = link_to edit_course_planning_path(@course, planning), title: 'Éditer' do
+          = link_to edit_course_planning_path(@course, planning), title: 'Éditer', class: 'btn btn__warning' do
             %i.icon-edit
-          = link_to course_planning_path(@course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer' do
+          = link_to course_planning_path(@course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer', class: 'btn btn__danger' do
             %i.icon-trash

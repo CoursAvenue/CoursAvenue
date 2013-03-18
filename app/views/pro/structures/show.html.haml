@@ -28,9 +28,9 @@
             %span &nbsp;Plannings
         %td= link_to '€ Tarifs', course_prices_path(course), class: 'btn'
         %td.text--right
-          = link_to edit_course_path(course), title: 'Éditer' do
+          = link_to edit_course_path(course), title: 'Éditer', class: 'btn btn__warning' do
             %i.icon-edit
-          = link_to course_path(course), method: :delete, class: 'red', title: 'Supprimer', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'} do
+          = link_to course_path(course), method: :delete, class: 'red', title: 'Supprimer', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
             %i.icon-trash
 
 %div.text--center
