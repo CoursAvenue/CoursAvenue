@@ -20,6 +20,5 @@
             %li= link_to 'Espace admin', structure_path(current_admin.structure), class: 'header-link'
           %li= link_to 'Se déconnecter', destroy_admin_session_path, class: 'header-link', method: :delete
 
-.main-container
-  %nav.nav-links-wrapper
-    = yield :main_navigation
+%nav.nav-links-wrapper.main-container.page-menu
+  = yield :main_navigation
