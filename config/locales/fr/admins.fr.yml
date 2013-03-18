@@ -13,6 +13,7 @@ fr:
         password: Mot de passe
         password_confirmation: Mot de passe (confirmation)
         remember_me: Se souvenir de moi
+        role: Fonction
 
   civility:
     male: Monsieur

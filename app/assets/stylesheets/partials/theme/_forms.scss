@@ -36,7 +36,9 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
         .radio {
             @extend .ilb-wrapper;
             @extend .align-middle;
-            display: block;
+            label.collection_radio_buttons {
+                margin-right: 1em;
+            }
             input {
                 width       : auto;
                 margin-right: 5px;

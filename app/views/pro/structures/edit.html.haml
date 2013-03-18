@@ -6,15 +6,15 @@
     = f.error_notification
     .form-inputs
       %h5.form-header-group Contact
-      = f.input :civility, as: :select, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
-      = f.input :first_name, label: t('.first_name')
-      = f.input :last_name, label: t('.last_name')
-      = f.input :role, label: t('.role' )
-      = f.input :phone_number, label: t('.phone_number'), wrapper_html: {class: 'flush--bottom'}
+      = f.input :civility, as: :radio, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
+      = f.input :first_name
+      = f.input :last_name
+      = f.input :role
+      = f.input :phone_number, wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.phone_number_info')
-      = f.input :mobile_phone_number, label: t('.mobile_phone_number'), wrapper_html: {class: 'flush--bottom'}
+      = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.mobile_phone_number_info')
-      = f.input :email, :required => true, :autofocus => true, label: t('.email'), wrapper_html: {class: 'flush--bottom'}
+      = f.input :email, :required => true, :autofocus => true, wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.email_info')
       = f.input :management_software_used, label: t('.management_software_used' )
 
@@ -23,9 +23,9 @@
       / Par SMS : pré-insérer le n° de téléphone portable renseigné en étape 1
 
       %h5.form-header-group Changement de mot de passe
-      = f.input :password, :required => true, label: t('.password'), wrapper_html: {class: 'flush--bottom'}
+      = f.input :password, :required => true, wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.password_info')
-      = f.input :password_confirmation, :required => true, label: t('.password_confirmation')
+      = f.input :password_confirmation, :required => true
     .form-actions
       = f.button :submit, 'Mettre à jour', class: 'btn btn__primary'
 

@@ -44,16 +44,9 @@ fr:
   pro:
     structures:
       edit:
-        first_name: Votre prénom
-        last_name: Votre nom
-        role: Votre fonction
-        phone_number: Votre téléphone fixe
-        phone_number_info: Renseignez le numéro pour joindre le responsable des réservations
-        mobile_phone_number: Votre téléphone mobile
+        phone_number_info: Renseignez au moins un numéro de téléphone pour joindre le responsable des réservations
         mobile_phone_number_info: "Pour chaque réservation, un SMS de confirmation pourra être envoyé sur ce numéro"
-        email: Votre email
         email_info: Cet email sera votre identifiant pour l’accès à votre espace pro
-        password: Votre mot de passe
         password_info: Laisser vide si vous ne voulez pas changer le mot de passe
         password_confirmation: Confirmation de votre mot de passe
         structure_name: Nom de votre structure
