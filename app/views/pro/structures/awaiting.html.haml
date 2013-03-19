@@ -13,7 +13,10 @@
       %tr
         %td= link_to structure.name, edit_structure_path(structure)
         %td= structure.courses.length
-        %td
+        %td.text--right
+          - if structure.has_validated_conditions
+            = link_to 'Dévalider CGV', disable_condition_structure_path(structure), method: :put, class: 'btn btn__warning'
+          &nbsp;
           = link_to activate_structure_path(structure), method: :put, class: 'btn btn__success' do
             %i.icon-ok
             Valider

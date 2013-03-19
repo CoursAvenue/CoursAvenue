@@ -5,6 +5,23 @@ class Pro::StructuresController < Pro::ProController
 
   layout 'admin'
 
+  def disable_condition
+    @structure        = Structure.find params[:id]
+    @structure.update_attribute :has_validated_conditions, false
+    @structure.update_attribute :validated_by, nil
+    respond_to do |format|
+      format.html { redirect_to awaiting_structures_path }
+    end
+  end
+
+  def validate_condition
+    @structure        = Structure.find params[:id]
+    @structure.update_attributes params[:structure]
+    respond_to do |format|
+      format.html { redirect_to structure_path(@structure), notice: "Nous avons bien été avertis. Nous revenons vers vous dans les meilleurs délais." }
+    end
+  end
+
   def activate
     @structure        = Structure.find params[:id]
     @structure.update_attribute :active, true

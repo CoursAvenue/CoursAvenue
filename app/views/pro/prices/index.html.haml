@@ -11,7 +11,6 @@
     Définir le planning du cours
 
 = render "pro/prices/#{@course.underscore_name}_form"
-
 - if @prices.any?
   %table.table--striped
     %thead
@@ -31,6 +30,7 @@
               %i.icon-trash
 
 - if @course.is_lesson?
+  %hr
   %h5.flush--bottom Carnet de plusieurs séances
   = simple_form_for [@course, @book_ticket] do |f|
     = f.error_notification

@@ -29,7 +29,7 @@
               = planning.max_age_for_kid || '-'
         %td= planning.teacher.try(:name)
         %td.text--center
-          - if planning.info
+          - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
         %td
           = link_to edit_course_planning_path(@course, planning), title: 'Éditer', class: 'btn btn__warning' do

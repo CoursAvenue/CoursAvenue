@@ -37,16 +37,16 @@ fr:
   structures:
     company: Société privée
     association: Association
-    board: Régie - établissement public chargé de la gestion d'un service public
+    board: Régie ou musée - établissement chargé de la gestion d'un service public
     independant: Auto entrepreneur
-    private_structure: Commerçant / Structure privée
+    intermittent: Intermittent du spectacle
     liberal: Profession libérale
   pro:
     structures:
       create:
         create_teacher: Super ! Renseigner maintenant les professeurs de votre établissement.
       form:
-        phone_number_info: Renseignez au moins un numéro de téléphone pour joindre le responsable des réservations
+        phone_number_info: "Renseignez au moins un numéro de téléphone :"
         mobile_phone_number_info: "Pour chaque réservation, un SMS de confirmation pourra être envoyé sur ce numéro"
         email_info: Cet email sera votre identifiant pour l’accès à votre espace pro
         password_info: Laissez vide si vous ne voulez pas changer le mot de passe

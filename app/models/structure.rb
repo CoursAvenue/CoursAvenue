@@ -1,10 +1,10 @@
 class Structure < ActiveRecord::Base
   STRUCTURE_STATUS = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES = ['structures.company',
+                      'structures.independant',
                       'structures.association',
                       'structures.board',
-                      'structures.independant',
-                      'structures.private_structure',
+                      'structures.intermittent',
                       'structures.liberal']
   extend FriendlyId
   friendly_id :name, use: :slugged
@@ -45,6 +45,8 @@ class Structure < ActiveRecord::Base
                   :email_address,
                   :description,
                   :active,
+                  :has_validated_conditions,
+                  :validated_by,
 
                   ## Moyen de financements possible :
                   :accepts_holiday_vouchers,

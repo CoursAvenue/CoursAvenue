@@ -56,7 +56,7 @@
   = f.association :levels   , as: :select, collection: Level.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|level| t(level.name)}, label: t('.levels'), selected: @course.level_ids
 
   .input
-    = f.label :audiences, t('.audiences'), class: 'control-label helper-label', 'data-behavior' => 'popover', 'data-content' => 'Enfant : de 0 à 12 ans. Ado : de 12 à 18 ans. Adulte : > 18 ans. Senior : > 60 ans.'
+    = f.label :audiences, "* #{t('.audiences')}", class: 'control-label helper-label', 'data-behavior' => 'popover', 'data-content' => 'Enfant : de 0 à 12 ans. Ado : de 12 à 18 ans. Adulte : > 18 ans. Senior : > 60 ans.'
     = f.association :audiences, as: :select, collection: Audience.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|audience| t(audience.name)}, label: false, selected: @course.audience_ids
 
   = f.input :is_for_handicaped, label: t('.is_for_handicaped'), as: :boolean
@@ -67,7 +67,7 @@
     .textarea-with-info
       .ilb-wrapper
         .one-half
-          = f.input :info, as: :text, placeholder: 'Soyez objectif et neutre (pas d’auto-promotion du type “le meilleur cours de Paris”) !', label: false, input_html: {class: 'textarea-description', data: { behavior: 'text-counter', 'average-words-nb' => 40, 'good-words-nb' => 100, 'bad-text' => 'Votre libellé doit comporter environ 100 mots. ', 'average-text' => 'Encore un peu et vous aurez une superbe accroche !', 'good-text' => 'Superbe accroche !'}}, wrapper_html: {class: 'flush--top'}
+          = f.input :info, as: :text, placeholder: 'Soyez objectif et neutre (pas d’auto-promotion du type “le meilleur cours de Paris”) !', label: false, input_html: {class: 'textarea-description', data: { behavior: 'text-counter', 'average-words-nb' => 15, 'good-words-nb' => 30, 'bad-text' => 'Votre libellé doit comporter environ 30 mots. ', 'average-text' => 'Encore un peu et vous aurez une superbe accroche !', 'good-text' => 'Superbe accroche !'}}, wrapper_html: {class: 'flush--top'}
         .one-half
           %p.alert--info.flush--top Quel est ce cours ? Quelles en sont les origines ? Qu’y trouve-t-on ?
 
@@ -76,7 +76,7 @@
     .textarea-with-info
       .ilb-wrapper
         .one-half
-          = f.input :description, as: :text, placeholder: 'Expliquez en quoi consiste le cours / stage, de manière à ce que l’élève comprenne bien ce qu’il y apprendra, pour éviter toute confusion. Plus de détails vous donnez, mieux c’est !', label: false, input_html: {class: 'textarea-description', data: { behavior: 'text-counter', 'average-words-nb' => 40, 'good-words-nb' => 200, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 150 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}, wrapper_html: {class: 'flush--top'}
+          = f.input :description, as: :text, placeholder: 'Expliquez en quoi consiste le cours / stage, de manière à ce que l’élève comprenne bien ce qu’il y apprendra, pour éviter toute confusion. Plus de détails vous donnez, mieux c’est !', label: false, input_html: {class: 'textarea-description', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 70, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}, wrapper_html: {class: 'flush--top'}
         .one-half
           %p.alert--info.flush--top Quel est ce cours ? Quelles en sont les origines ? Qu’y trouve-t-on ?
           %p.alert--info Comment se déroule le cours ? En plusieurs thèmes ?

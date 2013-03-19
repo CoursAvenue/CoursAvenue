@@ -1,5 +1,7 @@
 = side_menu_currently_at "Lieux d'enseignements"
 
+%h1.text--center Renseignement des lieux d'enseignements — Étape 3/4
+
 %table.table--striped
   %thead
     %tr
@@ -16,7 +18,7 @@
         %td.text--center= place.rooms.count
         %td
           - if place.rooms.count == 0
-            = link_to 'Renseigner ma première salle', structure_place_rooms_path(@structure, place), class: 'btn'
+            = link_to "J'ai plusieurs salles : je les renseigne ici !", structure_place_rooms_path(@structure, place), class: 'btn'
           - else
             = link_to 'Gérer mes salles', structure_place_rooms_path(@structure, place)
         %td

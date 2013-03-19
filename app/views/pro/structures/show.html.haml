@@ -37,23 +37,57 @@
           = link_to course_plannings_path(course), class: 'btn' do
             %i.lbc-icon-calendar
             %span &nbsp;Plannings
+          &nbsp;
           = link_to '€ Tarifs', course_prices_path(course), class: 'btn'
         %td.text--right
           = link_to edit_course_path(course), title: 'Éditer', class: 'btn btn__warning' do
             %i.icon-edit
+          &nbsp;
           = link_to course_path(course), method: :delete, class: 'red', title: 'Supprimer', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
             %i.icon-trash
 
-%div.text--center
-  %div
-    %a.btn.btn__primary.btn__large Accéder au logiciel pro
-  %p.one-half.alert--info.center-block
-    Que se passe t-il si j'appuie sur ce bouton ?
-    %br
-    Un email nous sera envoyé et nous reviendrons vers vous au plus vite pour vous donner accès à votre espace de gestion.
+- unless @structure.has_validated_conditions
+  %hr
+  = simple_form_for @structure, url: validate_condition_structure_path(@structure), method: :put do |f|
+    .two-thirds.center-block
+      %h3 Validation finale
+      /%h5.text--right Rappel des conditions tarifaires
+      .checkbox-list
+        %input#price-input{type: 'checkbox'}
+        %label.inline{for: 'price-input'}
+          J’ai bien pris connaissance des conditions tarifaires :
+
+      %table.table--striped.table--data.flush--bottom
+        %thead
+          %tr
+            %td.one-third.text--center
+            %td.one-third.text--center Depuis la plateforme LeBonCours.com
+            %td.one-third.text--center Depuis le module de réservation sur mon site en « marque grise »
+        %tbody
+          %tr
+            %td.text--center Commission appliquée sur le prix TTC de chaque réservation effectuée en ligne :
+            %td.text--center <strike>16%</strike> <b class="blue">8%</b> HT*
+            %td.text--center <strike>5%</strike> <b class="blue">3%</b> HT*
+      %p.text--right
+        %i *Offre de lancement valable jusqu’au 30/05/2013.
+      .checkbox-list
+        = f.input :has_validated_conditions, label: "J’accepte les #{link_to 'conditions générales de vente', '#'} LeBonCoursPro"
+        = f.hidden_field :validated_by, value: current_admin.id
+
+      .text--center
+        = f.submit 'Valider et accéder à mon logiciel', class: 'btn btn__primary btn__large'
+        %p.one-half.alert--info.center-block
+          Même après avoir cliqué sur ce bouton, vous pourrez tout de même revenir modifier les informations à votre guise.
 
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {
         new TableSorter('dataTable', { columnDataTypes: 'string, string, string, string, string' });
     });
+    $$(".edit_structure")[0].addEvent("submit", function() {
+        if (!$('structure_has_validated_conditions').checked || !$('price-input').checked) {
+            alert('Vous devez accepter les conditions générales de vente et déclarer avoir pris connaissance des conditions tarifaires.');
+            return false;
+        }
+    });
+

@@ -32,6 +32,7 @@ class Course < ActiveRecord::Base
   has_and_belongs_to_many :subjects, :uniq => true
 
   # ------------------------------------------------------------------------------------ Validations
+  validates :type         , presence: true
   validates :name         , presence: true
   validates :structure    , presence: true
   validates :place        , presence: true
