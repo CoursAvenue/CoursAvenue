@@ -18,7 +18,7 @@
     <changefreq>never</changefreq>
   </url>
 <% end %>
-<%City.all.each do |city| %>
+<% ['paris'].each do |city| %>
   <% Subject.all.each do |subject| %>
     <url>
       <loc><%= city_subject_url(city, subject) %></loc>

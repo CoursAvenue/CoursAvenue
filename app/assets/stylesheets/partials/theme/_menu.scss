@@ -5,9 +5,11 @@
             padding  : 0.5em 0;
             font-size: 1em;
             width    : 100%;
+            border-top   : 2px solid $beige;
+            border-bottom: 2px solid $beige;
+            @include transition(border-color 250ms);
         }
         &:hover a {
-            @include transition(border-color 250ms);
             text-decoration : none;
             border-top      : 2px solid lighten($orange, 20%);
             border-bottom   : 2px solid lighten($orange, 20%);

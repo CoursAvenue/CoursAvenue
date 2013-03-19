@@ -7,4 +7,11 @@ class Pro::HomeController < Pro::ProController
 
   def presentation
   end
+
+  def price
+    @admin = ::Admin.new
+  end
+
+  def press
+  end
 end

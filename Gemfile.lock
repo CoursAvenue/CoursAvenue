@@ -193,6 +193,8 @@ GEM
     simple_form (2.0.4)
       actionpack (~> 3.0)
       activemodel (~> 3.0)
+    sitemap_generator (3.4)
+      builder
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -257,6 +259,7 @@ DEPENDENCIES
   rspec-rails (~> 2.6)
   sass-rails (~> 3.2.4)
   simple_form (~> 2.0.4)
+  sitemap_generator (~> 3.4)
   squeel (~> 1.0.14)
   sunspot (~> 2.0.0)
   sunspot_rails (~> 2.0.0)

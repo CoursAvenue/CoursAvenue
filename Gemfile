@@ -43,6 +43,10 @@ gem 'sunspot'                   , '~> 2.0.0'
 gem 'sunspot_solr'              , '~> 2.0.0'
 gem 'sunspot_rails'             , '~> 2.0.0'
 
+gem 'sitemap_generator'         , '~> 3.4'
+# gem 'fog'                       , '~> 1.10.0'
+# gem 'carrierwave'               , '~> 0.8.0'
+
 group :production do
   # gem 'therubyracer'
   # gem 'execjs'

@@ -2,8 +2,6 @@
 LeBonCours::Application.routes.draw do
   resources :cities, only: [:index]
 
-  match "sitemap.xml", to: "sitemap#index", defaults: {format: :xml}
-
   resources :newsletter_users, only: [:create]
 
   resources :courses, only: 'show', path: 'cours'
@@ -16,7 +14,9 @@ LeBonCours::Application.routes.draw do
   constraints :subdomain => 'pro' do
     scope :module => 'pro' do
       root :to => 'home#index'
-      match 'pages/presentation' => 'home#presentation'
+      match 'pages/presentation'    => 'home#presentation'
+      match 'pages/offre-et-tarifs' => 'home#price', as: 'pages_price'
+      match 'pages/presse'          => 'home#press', as: 'pages_press'
 
       resources :reservation_loggers, only: [:index, :destroy]
       resources :structures do
