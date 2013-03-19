@@ -50,7 +50,7 @@ class ::Admin < ActiveRecord::Base
   def create_teacher_to_structure_if_is_teacher
     admin_full_name = self.full_name
     if self.is_teacher
-      if self.structure.teachers.where{name == admin_full_name}.empty?
+      if !self.structure.new_record? and self.structure.teachers.where{name == admin_full_name}.empty?
         self.structure.teachers.create name: admin_full_name
       end
     end

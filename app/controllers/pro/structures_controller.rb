@@ -57,7 +57,9 @@ class Pro::StructuresController < Pro::ProController
     end
 
     respond_to do |format|
-      if @structure.save and @admin.update_attributes(params[:admin])
+      has_saved = @admin.update_attributes(params[:admin])
+      has_saved = has_saved && @structure.save
+      if has_saved
         format.html { redirect_to edit_structure_path @structure }
       else
         format.html { render action: 'edit' }
@@ -75,8 +77,10 @@ class Pro::StructuresController < Pro::ProController
       params[:admin].delete :password_confirmation
     end
     respond_to do |format|
-      if @structure.save and @admin.update_attributes(params[:admin])
-        format.html { redirect_to structure_teachers_path(@admin.structure), :notice => t(".create_teacher") }
+      has_saved = @admin.update_attributes(params[:admin])
+      has_saved = has_saved && @structure.save
+      if has_saved
+        format.html { redirect_to structure_teachers_path(@admin.structure), :notice => t("pro.structures.create.create_teacher") }
       else
         format.html { render action: 'new' }
       end
