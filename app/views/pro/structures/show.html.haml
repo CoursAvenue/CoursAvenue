@@ -7,26 +7,37 @@
 %table.table--striped#dataTable
   %thead
     %tr
-      %th.sortDesc
-        %span Nom
       %th
         %span Type
+      %th.sortDesc.two-twelfths
+        %span Intitulé
+      %th.two-twelfths
+        %span
+          %i.icon-user
+          Professeur(s)
       %th
-        %span Disciplines
-      %th
+        %span
+          %i.icon-map-marker
+          Lieu
+      %th.two-twelfths
+        %span
+          %i.lbc-subject-icon
+          Disciplines
       %th
       %th
   %tbody
     - @courses.each do |course|
       %tr
-        %td= link_to course.name, edit_course_path(course)
         %td= course.type_name
+        %td= link_to course.name, edit_course_path(course)
+        %td= course.teachers.uniq.map(&:name).join(', ')
+        %td= course.place.name
         %td= course.subjects.map(&:name).join(', ')
         %td
           = link_to course_plannings_path(course), class: 'btn' do
             %i.lbc-icon-calendar
             %span &nbsp;Plannings
-        %td= link_to '€ Tarifs', course_prices_path(course), class: 'btn'
+          = link_to '€ Tarifs', course_prices_path(course), class: 'btn'
         %td.text--right
           = link_to edit_course_path(course), title: 'Éditer', class: 'btn btn__warning' do
             %i.icon-edit
@@ -35,7 +46,7 @@
 
 %div.text--center
   %div
-    %a.btn.btn__primary.btn__large Mettre mes cours en ligne
+    %a.btn.btn__primary.btn__large Accéder au logiciel pro
   %p.one-half.alert--info.center-block
     Que se passe t-il si j'appuie sur ce bouton ?
     %br
@@ -44,5 +55,5 @@
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string, string, string' });
+        new TableSorter('dataTable', { columnDataTypes: 'string, string, string, string, string' });
     });

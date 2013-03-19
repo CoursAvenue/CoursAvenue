@@ -49,6 +49,7 @@ class Pro::StructuresController < Pro::ProController
   def update
     @structure = Structure.find params[:id]
     @admin     = (params[:admin][:id].blank? ? ::Admin.new : ::Admin.find(params[:admin].delete(:id)))
+    @structure.admins << @admin
 
     if !@admin.new_record? and params[:admin][:password].blank?
       params[:admin].delete :password
@@ -77,7 +78,7 @@ class Pro::StructuresController < Pro::ProController
       if @structure.save and @admin.update_attributes(params[:admin])
         format.html { redirect_to structure_teachers_path(@admin.structure), :notice => t(".create_teacher") }
       else
-        format.html { render action: :new }
+        format.html { render action: 'new' }
       end
     end
   end

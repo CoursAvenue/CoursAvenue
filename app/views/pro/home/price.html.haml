@@ -3,7 +3,7 @@
 %h3 5 minutes chrono pour vous inscrire / Sans engagement / Changez d’offre quand vous voulez.
 
 .ilb-wrapper
-  .one-third
+  .one-quarter
     .text--center
       %h3.flush--bottom
         %u Basique
@@ -11,7 +11,7 @@
       %p
         %i Hors frais de réservation*
 
-  .one-third
+  .one-quarter
     .text--center
       %h3.flush--bottom
         %u Pro
@@ -23,7 +23,7 @@
         Formule Basique
         %br
         +
-  .one-third
+  .one-quarter
     .text--center
       %h3.flush--bottom
         %u Pro <i>Plus</i>
@@ -34,8 +34,16 @@
         Formule Pro
         %br
         +
+  .one-quarter
+    .text--center
+      %h3.flush--bottom
+        %u On s'occupe de tout !
+      %h4.flush--bottom Sur devis
+      %p
+        %i Hors frais de réservation*
+
 .ilb-wrapper
-  .one-third
+  .one-quarter
     %ul.discrete-list.islet
       %li
         %i.icon-ok.delta.green
@@ -52,7 +60,7 @@
         %i.icon-ok.delta.green
         %b Gestion multi-cours, multi formules, multi-salles
 
-  .one-third
+  .one-quarter
     %ul.discrete-list.islet
       %li
         %i.icon-ok.delta.green
@@ -80,7 +88,7 @@
         de confirmation (0,08€ HT/SMS)
 
 
-  .one-third
+  .one-quarter
     %ul.discrete-list.islet
       %li
         %i.icon-ok.delta.green
@@ -98,14 +106,37 @@
         %i.icon-ok.delta.green
         %b Outils CRM avancés :
         enquêtes de satisfaction automatiques, statistiques avancées sur le comportement de vos élèves, etc.
+  .one-quarter
+    %ul.discrete-list.islet
+      %li
+        %i.icon-ok.delta.green
+        Création de votre site internet
+      %li
+        %i.icon-ok.delta.green
+        Offres préférentielles
+      %li
+        %i.icon-ok.delta.green
+        Équipe projet dédiée
+      %li
+        %i.icon-ok.delta.green
+        Personnalisation sur mesure
+      %li
+        %i.icon-ok.delta.green
+        API / Intégration
+      %li
+        %i.icon-ok.delta.green
+        Statistiques consolidées
 
-.ilb-wrapper
-  .one-third.text--center
+
+.ilb-wrapper.align-middle
+  .one-quarter.text--center
     = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large', id: 'register'
-  .one-third.text--center
-    = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large'
-  .one-third.text--center
-    = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large'
+  .one-quarter.text--center
+    = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button'
+  .one-quarter.text--center
+    = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button'
+  .one-quarter.text--center
+    = link_to "Nous contacter", pages_contact_path, class: 'btn btn__primary btn__large', style: 'padding-left: 35px; padding-right: 35px;'
 
 
 %br
@@ -121,21 +152,6 @@
         Note : LeBonCours prend en charge les frais bancaires et de carte bleue : nous avons négocié les meilleurs tarifs pour vous assurer la commission la plus basse possible et les meilleurs services associés.
     %p
       %i **Offre de lancement valable jusqu’au 30/05/2013.
-
-  .one-third
-    .text--center
-      %h3.flush--bottom
-        %u Grands comptes
-      %h4.flush--bottom Sur devis
-      %p
-        %i Hors frais de réservation*
-    %ul
-      %li Création de votre site internet
-      %li Offres préférentielles
-      %li Équipe projet dédiée
-      %li Personnalisation sur mesure
-      %li API / Intégration
-      %li Statistiques consolidées
 
 
 
@@ -212,6 +228,32 @@
             "contents": $('registration-form').get('html')
         });
     });
+    $$(".launching-space-button").addEvent("click", function(){
+        var modal = new SimpleModal({
+            width: 350,
+            "onAppend": function() {
+                $("simple-modal").fade("hide");
+                setTimeout((function(){ $("simple-modal").fade("show")}), 200 );
+                var tw = new Fx.Tween($("simple-modal"),{
+                  duration: 800,
+                  transition: Fx.Transitions.Cubic.easeOut,
+                  link: 'cancel',
+                  property: 'top'
+                }).start(-400, 150);
+            }
+        });
+        modal.show({
+            "model":"modal",
+            "title":"En cours de lancement",
+            "contents": $$('.launching-space')[0].get('html')
+        });
+    });
 
 #registration-form.hidden
   = render partial: 'pro/admins/quick_registration'
+
+.launching-space.hidden
+  %p
+    Cet espace est en cours de développement.
+    %br
+    En attendant, n'hésitez pas à tester l'offre gratuite !

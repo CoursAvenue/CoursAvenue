@@ -9,6 +9,7 @@
         %th.text--center Places
       - if @course.is_for_kid
         %th.text--center Âge
+      %th Professeur
       %th.text--center
         %i.lbc-icon-info i
       %th
@@ -26,16 +27,10 @@
             - if planning.max_age_for_kid
               à
               = planning.max_age_for_kid || '-'
-        - if has_multiple_teacher
-          %td.text--center
-            - planning_info_text = "#{Course.human_attribute_name(:teacher_name)} : #{planning.teacher_name}"
-            - if planning.info
-              - planning_info_text += '<br>' + planning.info
-            .lbc-brand-icon{data: {behavior: 'popover', content: planning_info_text}}
-        - else
-          %td.text--center
-            - if planning.info
-              .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
+        %td= planning.teacher.try(:name)
+        %td.text--center
+          - if planning.info
+            .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
         %td
           = link_to edit_course_planning_path(@course, planning), title: 'Éditer', class: 'btn btn__warning' do
             %i.icon-edit

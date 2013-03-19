@@ -9,6 +9,7 @@
     %input.timepicker-input{type: 'text', value: (@planning.start_time.nil? ? '' : @planning.start_time.strftime('%Hh%M')), placeholder: '9h30', name: 'planning[start_time]'}
     %label.required.control-label à
     %input.timepicker-input{type: 'text', value: (@planning.end_time.nil? ? '' : @planning.end_time.strftime('%Hh%M')), placeholder: '17h30', name: 'planning[end_time]'}
+    = f.association :teacher, as: :select, collection: @structure.teachers, selected: (@plannings.first.try(:teacher) || @structure.teachers.first), label: 'par'
     = f.input :info, as: :string, placeholder: 'Plat : gâteau au chocolat'
     - if @planning.new_record?
       = f.submit 'Ajouter le créneau', class: 'btn btn__primary'

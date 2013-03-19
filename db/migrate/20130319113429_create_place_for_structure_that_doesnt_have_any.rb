@@ -5,9 +5,9 @@ class CreatePlaceForStructureThatDoesntHaveAny < ActiveRecord::Migration
         if structure.city.nil?
           structure_zip_code = structure.zip_code
           structure.city = City.where{zip_code == structure_zip_code}.first
-          structure.save!
+          structure.save
         end
-        structure.places.create!(
+        structure.places.create(
             name:       structure.name,
             street:     structure.street,
             zip_code:   structure.zip_code,

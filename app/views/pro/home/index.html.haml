@@ -4,8 +4,8 @@
   .two-thirds.islet.relative
     = image_tag 'pro/dance_teacher.jpg'
     .image_quote
-      %p
-        Le logiciel en ligne LeBonCours est un vrai outil pour moi au quotidien : dorénavant, il remplace mon ancien cahier papier de réservations, mais il m’aide également à promouvoir mes cours et augmenter mon taux de remplissage. Et tout cela, c’est moi qui le décide, à tout moment, en quelques clics !
+      %quote
+        « Le logiciel en ligne LeBonCours est un vrai outil pour moi au quotidien : dorénavant, il remplace mon ancien cahier papier de réservations, mais il m’aide également à promouvoir mes cours et augmenter mon taux de remplissage. Et tout cela, c’est moi qui le décide, à tout moment, en quelques clics ! »
       %p.image_quote--footer.text--right.flush--bottom Elodie, professeur de flamenco
     / %ul#slideshow.slideshow
     /   %li.slideshow--element
@@ -30,27 +30,19 @@
       %li Vos réservations en ligne 24h/24, 7j/7 directement sur votre site Internet : <b>un gain de temps considérable</b>
 
     %h3.text--center J’ai déjà LeBonCoursPro
-    %p.text--center= link_to 'Se connecter', new_admin_session_path, class: 'btn btn__large'
+    %p.text--center= link_to 'Se connecter', new_admin_session_path, class: 'btn btn__large btn__success'
 
-%h3 Ils nous ont déja fait confiance :
-.ilb-wrapper.align-center
-  .text--center.two-twelfths
-    = image_tag 'pro/partners/deep_side_center.jpg', height: 80
-    %br
-    %i Cours de danse
-  .text--center.four-twelfths
-    = image_tag 'pro/partners/photo_up.png', height: 80
-    %br
-    %i Cours de photographie
-  .text--center.three-twelfths
-    = image_tag 'pro/partners/wine_sitting.png', height: 80
-    %br
-    %i Cours d'œunologie
-  %p.islet.text--center.three-twelfths
-    %b
-      Et plein d’autres partenaires :
-      %br
-      des professeurs indépendants aux grands centres d’enseignement.
+%h3 Ils on déjà été séduits
+.ilb-wrapper.align-middle
+  .text--center.one-third
+    = link_to 'http://www.atelier.net/blog/2013/03/01/rencontre-laureats-de-saison-4-camping', target: '_blank', alt: "L'Atelier BNP", title: "L'Atelier BNP" do
+      = image_tag 'pro/partners/atelier_bnp.png'
+  .text--center.one-third
+    = link_to 'http://www.journaldunet.com/web-tech/start-up/le-camping-saison-4/leboncours.shtml', target: '_blank', alt: 'Le Journal Du Net', title: 'Le Journal Du Net' do
+      = image_tag 'pro/partners/journal_du_net.png'
+  .text--center.one-third
+    = link_to 'http://frenchweb.fr/', target: '_blank', alt: 'FrenchWeb', title: 'FrenchWeb' do
+      = image_tag 'pro/partners/frenchweb.png'
 
 / = content_for :scripts do
 /   :javascript

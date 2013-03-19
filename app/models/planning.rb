@@ -2,6 +2,11 @@ class Planning < ActiveRecord::Base
   belongs_to :course
   has_many   :prices, through: :course
   belongs_to :room
+  belongs_to :teacher
+
+  has_one   :structure, through: :course
+
+  validates :teacher, presence: true
 
   attr_accessible :duration,
                   :end_date,
@@ -16,6 +21,8 @@ class Planning < ActiveRecord::Base
                   :teacher_name, # To remove
                   :min_age_for_kid,
                   :max_age_for_kid,
+                  :teacher,
+                  :teacher_id,
                   # For Trainings only
                   :day_one,               # To remove
                   :day_one_duration,      # To remove

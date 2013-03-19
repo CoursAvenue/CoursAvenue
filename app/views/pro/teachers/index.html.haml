@@ -1,5 +1,14 @@
 = side_menu_currently_at 'Mes professeurs'
 
+- if @teachers.empty?
+  %h4 Ajouter un professeur
+- else
+  %h4 Ajouter d'autre professeurs
+
+= render 'form'
+
+%br
+%hr
 
 - if @teachers.empty?
   %p.alert--info Vous n'avez encore aucun professeur de référencé.
@@ -33,11 +42,3 @@
       document.addEvent('domready', function() {
           new TableSorter('dataTable', { columnDataTypes: 'string' });
       });
-
-%hr
-- if @teachers.empty?
-  %h4 Ajouter un professeur
-- else
-  %h4 Ajouter d'autre professeurs
-
-= render 'form'
