@@ -24,7 +24,6 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def edit
-    zad
     @structure = Structure.find(params[:id])
     @admin     = @structure.admins.first || Admin.new
   end
