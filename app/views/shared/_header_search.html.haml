@@ -4,11 +4,7 @@
 /.header-search-bar.main-container
 .header-search-bar
   %div.search-input-wrapper
-    %input#location-input{class: 'search-input', placeholder: 'Paris', type: 'text', name: 'city', value: @city.try(:name), autofocus: true, list: 'location-list', 'data-slug' => @city.try(:slug), autocomplete: 'off'}
-    %datalist#location-list
-      <!--[if IE 9]><select disabled></select><![endif]-->
-  %div.search-input-wrapper
-    %input#search-input{class: 'search-input', placeholder: 'Zumba, Cuisine, Impro, ...', type: 'search', name: 'name', value: params[:name], list: 'subject-list', autocomplete: 'off'}
+    %input#search-input{class: 'search-input', placeholder: 'Quoi', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'subject-list', autocomplete: 'off'}
     .aListCon
       %datalist#subject-list
       <!--[if IE 9]><select disabled><![endif]-->
@@ -25,6 +21,12 @@
           });
 
         })(this, this.document);
+  %div.search-input-wrapper
+    .input-with-icon
+      %input#location-input{class: 'search-input', placeholder: 'Où', type: 'text', name: 'city', value: @city.try(:name), list: 'location-list', 'data-slug' => @city.try(:slug), autocomplete: 'off'}
+      %i.icon-map-marker.delta
+    %datalist#location-list
+      <!--[if IE 9]><select disabled></select><![endif]-->
 
   = render 'shared/subjects_search'
 

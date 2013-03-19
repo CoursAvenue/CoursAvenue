@@ -25,3 +25,14 @@ textarea:focus, input:focus {
     outline     : 0;
     @include box-shadow(0 0 4px opacify($brandColor, 0.8),0 0 0 #000);
 }
+
+.input-with-icon {
+    position: relative;
+    i {
+        position   : absolute;
+        right      : 10px;
+        top        : 50%;
+        margin-top : -0.5em;
+        line-height: 1;
+    }
+}

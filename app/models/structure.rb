@@ -9,9 +9,10 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  after_initialize :set_active
+  after_initialize :set_free_pricing_plan
   after_create     :create_place
   belongs_to       :city
+  belongs_to       :pricing_plan
 
   has_many :teachers
   has_many :courses
@@ -77,8 +78,8 @@ class Structure < ActiveRecord::Base
 
   private
 
-  def set_active
-    self.active = false
+  def set_free_pricing_plan
+    self.pricing_plan = PricingPlan.where(name: 'free').first unless self.pricing_plan.present?
   end
 
   def create_place

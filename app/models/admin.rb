@@ -14,7 +14,19 @@ class ::Admin < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :registerable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :civility, :first_name, :last_name, :phone_number, :mobile_phone_number, :activated, :management_software_used, :role, :is_teacher
+  attr_accessible :email,
+                  :password,
+                  :password_confirmation,
+                  :remember_me,
+                  :civility,
+                  :first_name,
+                  :last_name,
+                  :phone_number,
+                  :mobile_phone_number,
+                  :activated,
+                  :management_software_used,
+                  :role,
+                  :is_teacher
 
   validates :first_name, :last_name, :civility, presence: true, on: :update
   validates :phone_number, :presence => true, :if => "self.mobile_phone_number.blank?", on: :update

@@ -5,6 +5,18 @@ class Pro::StructuresController < Pro::ProController
 
   layout 'admin'
 
+  def activate
+    @structure        = Structure.find params[:id]
+    @structure.update_attribute :active, true
+    respond_to do |format|
+      format.html { redirect_to awaiting_structures_path }
+    end
+  end
+
+  def awaiting
+    @structures = Structure.where{active == false}.order('name ASC').all
+  end
+
   def index
     @structures = Structure.order('name ASC').all
   end

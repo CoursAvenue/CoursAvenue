@@ -1,6 +1,7 @@
 - content_for :side_menu do
   %ul
     = pro_side_menu_link 'Stats'                , reservation_loggers_path            , current: current_tab if current_admin.super_admin?
+    = pro_side_menu_link 'Structures en attente', awaiting_structures_path            , current: current_tab if current_admin.super_admin?
     = pro_side_menu_link 'Admins'               , admins_path                         , current: current_tab if current_admin.super_admin?
     = pro_side_menu_link 'Structures'           , structures_path                     , current: current_tab if current_admin.super_admin?
     = pro_side_menu_link 'Infos générales'      , (@structure.new_record? ? new_structure_path : edit_structure_path(@structure))     , current: current_tab if @structure

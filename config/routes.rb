@@ -20,6 +20,12 @@ LeBonCours::Application.routes.draw do
 
       resources :reservation_loggers, only: [:index, :destroy]
       resources :structures do
+        member do
+          put 'activate'
+        end
+        collection do
+          get 'awaiting'
+        end
         #resources :admins, only: [:create, :update], controller: 'structures/admins'
         resources :teachers
         resources :places do

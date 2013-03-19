@@ -73,8 +73,11 @@
 }
 // Danger and error appear as red
 // Success appears as green
-.btn-success {
+.btn__success {
   @include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);
+  &:hover {
+    @include buttonBackground(lighten($btnSuccessBackground, 6%), lighten($btnSuccessBackgroundHighlight, 6%));
+  }
 }
 // Info appears as a neutral blue
 .btn-info {

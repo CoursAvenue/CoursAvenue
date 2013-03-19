@@ -57,9 +57,13 @@ class SubjectsController < ApplicationController
   end
 
   def prepare_search
-    # @city      = City.find(params[:city_id])
-    city_term  = "#{params[:city_id]}%"
-    city_slug  = params[:city_id]
+    if params[:city_id].blank?
+      city_term = "#{request.location.city}"
+      city_slug = request.location.city
+    else
+      city_term  = "#{params[:city_id]}%"
+      city_slug  = params[:city_id]
+    end
     @city      = City.where{(slug == city_slug ) | (name =~ city_term)}.order('name ASC').first # Prevents from bad slugs
     @audiences = Audience.all
     @levels    = [

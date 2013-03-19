@@ -29,6 +29,7 @@ gem 'squeel'                    , '~>1.0.14'
 gem 'ancestry'                  , '~>1.3.0'
 
 gem 'gmaps4rails'               , '~>1.5.6'
+gem 'geocoder'                  , '~>1.1.6'
 gem 'active_model_serializers'  , '~>0.6.0'
 
 gem 'friendly_id'               , '~> 4.0.1'

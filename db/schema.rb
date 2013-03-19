@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130318165910) do
+ActiveRecord::Schema.define(:version => 20130319114026) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -274,6 +274,13 @@ ActiveRecord::Schema.define(:version => 20130318165910) do
     t.integer  "nb_courses"
   end
 
+  create_table "pricing_plans", :force => true do |t|
+    t.string   "name"
+    t.decimal  "price"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "registration_fees", :force => true do |t|
     t.decimal  "price"
     t.boolean  "for_kid"
@@ -359,6 +366,7 @@ ActiveRecord::Schema.define(:version => 20130318165910) do
     t.string   "bank_bic"
     t.integer  "city_id"
     t.boolean  "active",                                       :default => false
+    t.integer  "pricing_plan_id"
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true
