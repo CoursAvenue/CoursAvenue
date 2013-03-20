@@ -29,8 +29,7 @@
         %span
           %i.lbc-subject-icon
           Disciplines
-      %th
-      %th
+      %th.three-twelfths
   %tbody
     - @courses.each do |course|
       %tr
@@ -39,13 +38,13 @@
         %td= course.teachers.uniq.map(&:name).join(', ')
         %td= course.place.name
         %td= course.subjects.map(&:name).join(', ')
-        %td
+        %td.text--right
           = link_to course_plannings_path(course), class: 'btn' do
             %i.lbc-icon-calendar
             %span &nbsp;Plannings
           &nbsp;
           = link_to '€ Tarifs', course_prices_path(course), class: 'btn'
-        %td.text--right
+          &nbsp;
           = link_to edit_course_path(course), title: 'Éditer', class: 'btn btn__warning' do
             %i.icon-edit
           &nbsp;
