@@ -6,6 +6,7 @@
     %nav.one.flexbox__item.side-menu.v-top
       = yield :side_menu
     .admin-wrapper.flexbox__item.v-top
+      = yield :breadcrumb
       = content_for?(:admins_content) ? yield(:admins_content) : yield
 
 = render :template => 'layouts/application'

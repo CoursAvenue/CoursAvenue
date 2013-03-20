@@ -1,6 +1,6 @@
 = side_menu_currently_at 'Mes cours'
 
-%h2.header-group Liste de mes cours
+%h3.header-group Gestion de mes cours
 
 .islet.flush--bottom.text--center
   = link_to 'Ajouter un cours', new_structure_course_path(@structure), class: 'btn btn__primary'
@@ -61,7 +61,7 @@
         %thead
           %tr
             %td.one-third.text--center
-            %td.one-third.text--center Depuis la plateforme LeBonCours.com
+            %td.one-third.text--center Depuis la plateforme CoursMania.com
             %td.one-third.text--center Depuis le module de réservation sur mon site en « marque grise »
         %tbody
           %tr
@@ -71,7 +71,7 @@
       %p.text--right
         %i *Offre de lancement valable jusqu’au 30/05/2013.
       .checkbox-list
-        = f.input :has_validated_conditions, label: "J’accepte les #{link_to 'conditions générales de vente', '#'} LeBonCoursPro"
+        = f.input :has_validated_conditions, label: "J’accepte les #{link_to 'conditions générales de vente', '#'} CoursManiaPro"
         = f.hidden_field :validated_by, value: current_admin.id
 
       .text--center

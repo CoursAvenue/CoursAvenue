@@ -44,7 +44,6 @@ th.sortAsc span:after, th.sortDesc span:after {
     background-repeat: no-repeat;
     vertical-align   : middle;
     @include background-size(100%);
-
 }
 th.sortAsc span:after {
     background-image : image-url('icons/caret-up.png');

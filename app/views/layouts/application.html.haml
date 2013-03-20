@@ -2,12 +2,12 @@
 %html.no-js{lang: 'fr' }
   %head
     - if content_for? :title
-      %title= "#{yield :title} - LeBonCours.com"
+      %title= "#{yield :title} - CoursMania.com"
     - else
       - if @city
-        %title= "Tous les cours et stages à #{@city.name} - LeBonCours.com"
+        %title= "Tous les cours et stages à #{@city.name} - CoursMania.com"
       - else
-        %title Tous les cours et stages autour de vous - LeBonCours.com
+        %title Tous les cours et stages autour de vous - CoursMania.com
     %meta{'http-equiv' => 'Content-Type', :content => 'text/html; charset=utf-8'}/
     %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
     - if content_for? :meta_description
@@ -19,7 +19,7 @@
     %meta{property: "og:type", content: "website"}
     %meta{property: "og:url", content: "http://leboncours.com"}
     %meta{property: "og:image", content: ""}
-    %meta{property: "og:site_name", content: "LeBonCours"}
+    %meta{property: "og:site_name", content: "CoursMania"}
     %meta{property: "fb:admins", content: "100000023494269"}
 
     / %link{href: 'http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,700,600', rel: 'stylesheet', type: 'text/css'}

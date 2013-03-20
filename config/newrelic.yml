@@ -5,7 +5,7 @@
 #
 # Generated January 10, 2013
 #
-# This configuration file is custom generated for LeBonCours
+# This configuration file is custom generated for CoursMania
 
 # Here are the settings that are common to all environments:
 common: &default_settings
@@ -33,7 +33,7 @@ common: &default_settings
   # "All UI" then specify a semicolon-separated list of up to three
   # distinct names.  If you comment this out, it defaults to the
   # capitalized RAILS_ENV (i.e., Production, Staging, etc)
-  app_name: LeBonCours
+  app_name: CoursMania
 
   # When "true", the agent collects performance data about your
   # application and reports this data to the New Relic service at

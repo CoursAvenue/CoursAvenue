@@ -1,5 +1,5 @@
 # encoding: utf-8
-LeBonCours::Application.routes.draw do
+CoursMania::Application.routes.draw do
   resources :cities, only: [:index]
 
   resources :newsletter_users, only: [:create]

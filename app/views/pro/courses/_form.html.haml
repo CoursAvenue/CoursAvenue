@@ -44,7 +44,7 @@
         %label Nombre moyen de participants &nbsp;
         = f.input :nb_participants, label: false, input_html: {type: :number, placeholder: 12}, wrapper_html: {class: 'flush--ends'}
 
-  = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, order: :name, label: t('.subjects'), selected: @course.subject_ids
+  = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }
 
   %h5.form-header-group.flush--bottom Infos
 
@@ -63,7 +63,7 @@
 
   %h5.form-header-group.flush--bottom Description
   .ilb-wrapper.input
-    = f.label :info, t('.info'), class: 'control-label v-top helper-label', 'data-behavior' => 'popover', 'data-content' => 'Ne pas mettre de tarif ni de date (voir rubriques suivantes). Le texte ne doit pas impliquer LeBonCours.com : par conséquent, nous vous demandons de ne pas mettre "nous" ni "nos”.'
+    = f.label :info, t('.info'), class: 'control-label v-top helper-label', 'data-behavior' => 'popover', 'data-content' => 'Ne pas mettre de tarif ni de date (voir rubriques suivantes). Le texte ne doit pas impliquer CoursMania.com : par conséquent, nous vous demandons de ne pas mettre "nous" ni "nos”.'
     .textarea-with-info
       .ilb-wrapper
         .one-half
