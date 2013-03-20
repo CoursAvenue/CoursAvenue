@@ -31,7 +31,7 @@ CoursMania::Application.routes.draw do
         #resources :admins, only: [:create, :update], controller: 'structures/admins'
         resources :teachers
         resources :places do
-          resources :rooms, only: [:index, :create, :destroy]
+          resources :rooms
         end
         resources :courses, only: [:new, :create], path: 'cours'
         resources :course_workshops, only: [:create, :update], controller: 'courses'

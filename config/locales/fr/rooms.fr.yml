@@ -6,3 +6,5 @@ fr:
       room:
         name: Nom
         surface: Superficie (approximative en m2)
+  rooms:
+    main_room: Salle principale

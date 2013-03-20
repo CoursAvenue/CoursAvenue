@@ -35,6 +35,7 @@
           %td.text--right
             = link_to edit_structure_teacher_path(@structure, teacher), title: 'Éditer', class: 'btn btn__warning' do
               %i.icon-edit
+            &nbsp;
             = link_to structure_teacher_path(@structure, teacher), method: :delete, title: 'Supprimer', data: {confirm: 'Êtes-vous sur de supprimer ce professeur ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
               %i.icon-trash
 

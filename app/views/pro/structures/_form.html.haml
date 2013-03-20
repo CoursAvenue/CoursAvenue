@@ -11,8 +11,8 @@
         = contact_form.input :last_name
         / = contact_form.input :role
         = contact_form.input :is_teacher
-        %p.field-form-info= t('.phone_number_info')
-        = contact_form.input :phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: '01 02 11 33 12'
+        %p.field-form-info.flush--bottom= t('.phone_number_info')
+        = contact_form.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: '01 02 11 33 12'
         = contact_form.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: '06 07 11 33 12'
         %p.field-form-info= t('.mobile_phone_number_info')
         = contact_form.input :email, :required => true, :autofocus => true, wrapper_html: {class: 'flush--bottom'}

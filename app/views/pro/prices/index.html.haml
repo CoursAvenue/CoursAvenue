@@ -32,7 +32,7 @@
 - if @course.is_lesson?
   %hr
   %h5.flush--bottom Carnet de plusieurs séances
-  = simple_form_for [@course, @book_ticket] do |f|
+  = simple_form_for [@course, @book_ticket || BookTicket.new] do |f|
     = f.error_notification
     .input.inline-inputs.flush--top
       = f.input :number, as: :select, collection: 5..25

@@ -60,7 +60,7 @@ window.addEvent('domready', function() {
     // ------------ title
     // ------------ el : ID refferring to the content of the modal
     $$("[data-behavior=modal]").addEvent("click", function() {
-        var width = this.get('data-width') || 500,
+        var width = parseInt(this.get('data-width')) || 500,
             title = this.get('data-title'),
             el    = $(this.get('data-el'));
 

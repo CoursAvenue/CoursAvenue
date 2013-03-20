@@ -25,6 +25,7 @@ class Price < ActiveRecord::Base
                   :nb_courses
 
   validates :libelle, uniqueness: {scope: 'course_id'}
+  validates :amount , presence: true
 
   def per_course_amount
     if amount.nil?
@@ -45,6 +46,10 @@ class Price < ActiveRecord::Base
   def readable_amount_with_promo
     price_with_promo = amount + (amount * course.promotion / 100)
     ('%.2f' % price_with_promo).gsub('.', ',').gsub(',00', '')
+  end
+
+  def individual_course?
+    libelle == 'prices.individual_course'
   end
 
   private

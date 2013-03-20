@@ -21,14 +21,16 @@ class ApplicationController < ActionController::Base
 
   def render_not_found(exception)
     logger.fatal '------------------------ LOGGER FATAL --------------------------'
-    logger.fatal exception
+    logger.fatal exception.message
+    exception.backtrace.each { |line| logger.fatal line }
     logger.fatal '------------------------ LOGGER FATAL --------------------------'
     render :template => 'errors/not_found', :status => :not_found
   end
 
   def render_error(exception)
     logger.fatal '------------------------ LOGGER FATAL --------------------------'
-    logger.fatal exception
+    logger.fatal exception.message
+    exception.backtrace.each { |line| logger.fatal line }
     logger.fatal '------------------------ LOGGER FATAL --------------------------'
     render :template => 'errors/internal_server_error', :status => :not_found
   end

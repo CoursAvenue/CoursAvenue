@@ -56,7 +56,7 @@ fr:
   pro:
     structures:
       create:
-        create_teacher: Super ! Renseigner maintenant les professeurs de votre établissement.
+        create_teacher: Super ! Renseignez maintenant les professeurs de votre établissement.
       form:
         phone_number_info: "Renseignez au moins un numéro de téléphone :"
         mobile_phone_number_info: "Pour chaque réservation, un SMS de confirmation pourra être envoyé sur ce numéro"

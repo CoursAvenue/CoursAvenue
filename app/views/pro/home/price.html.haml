@@ -104,13 +104,13 @@
 
 .ilb-wrapper.align-middle
   .one-third.text--center
-    %div= link_to "Détail de l'offre", '#', data: {behavior: 'modal', el: 'basic-offer-details', title: "Détail de l'offre Basique"}
+    %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'basic-offer-details', title: "Détails de l'offre Basique"}
     = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large', id: 'register'
   .one-third.text--center
-    %div= link_to "Détail de l'offre", '#', data: {behavior: 'modal', el: 'pro-offer-details', title: "Détail de l'offre Pro"}
+    %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-offer-details', title: "Détails de l'offre Pro"}
     = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button'
   .one-third.text--center
-    %div= link_to "Détail de l'offre", '#', data: {behavior: 'modal', el: 'pro-plus-offer-details', title: "Détail de l'offre Pro Plus"}
+    %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-plus-offer-details', title: "Détails de l'offre Pro Plus"}
     = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button'
 
 
@@ -120,10 +120,12 @@
   %p
     Contactez nous pour en parler, nous faisons également des offres sur mesure !
     %br
+    = link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'custom-offer-details', title: "Détails de l'offre sur mesure", width: 300}
+    %br
     = link_to "Nous contacter", pages_contact_path, class: 'btn btn__primary'
 
 %hr
-%h4 Frais de réservation :
+%h4 *Frais de réservation :
 %ol.flush--bottom
   %li Pour chaque réservation effectuée via notre plateforme LeBonCours : commission de <strike>16%</strike> <b class="green">8%</b> HT**
   %li Pour chaque réservation effectuée directement via votre site Internet (option de l’offre Pro) : commission de <strike>5%</strike> <b class="green">3%</b> HT** correspondant uniquement aux frais bancaires et de carte bleue
@@ -236,7 +238,7 @@
     %br
     En attendant, n'hésitez pas à tester l'offre gratuite !
 
-#basic-offer-details
+#basic-offer-details.hidden
   %h4.text--center
     Formule Basique
   %ul
@@ -252,7 +254,7 @@
     %li
       %b Gestion multi-cours, multi formules, multi-salles
 
-#pro-offer-details
+#pro-offer-details.hidden
   %h4.text--center
     Formule Basique
     %br
@@ -277,7 +279,19 @@
       %b Envoi de SMS
       de confirmation (0,08€ HT/SMS)
 
-#pro-plus-offer-details
+#custom-offer-details.hidden
+  %h4.text--center
+    Sur mesure
+  %ul
+    %li Création de votre site internet
+    %li Offres préférentielles
+    %li Équipe projet dédiée
+    %li Personnalisation sur mesure
+    %li API / Intégration
+    %li Statistiques consolidées
+
+
+#pro-plus-offer-details.hidden
   %h4.text--center
     Formule Pro
     %br

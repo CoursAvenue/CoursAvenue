@@ -1,5 +1,10 @@
 require 'spec_helper'
 
 describe Place do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context :create
+    it 'should create a default room when creating place' do
+      place = FactoryGirl.build(:place)
+      place.rooms.length.should_eq 1
+    end
+  end
 end

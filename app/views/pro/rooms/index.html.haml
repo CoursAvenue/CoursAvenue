@@ -19,8 +19,11 @@
           %tr
             %td= room.name
             %td= room.surface
-            %td
-              = link_to [@structure, @place, room], method: :delete, data: {confirm: 'Êtes-vous sur de supprimer cette salle ? Cette action sera irreversible.'} do
+            %td.text--right
+              = link_to edit_structure_place_room_path(@structure, @place, room), class: 'btn btn__warning'do
+                %i.icon-edit
+              &nbsp;
+              = link_to [@structure, @place, room], method: :delete, data: {confirm: 'Êtes-vous sur de supprimer cette salle ? Cette action sera irreversible.'}, class: 'btn btn__danger'do
                 %i.icon-trash
 
   %hr

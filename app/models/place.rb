@@ -15,6 +15,8 @@ class Place < ActiveRecord::Base
   validates  :city      , presence: true
   validates  :zip_code  , presence: true, numericality: { only_integer: true }
 
+  before_create :create_default_room
+
   attr_accessible :name,
                   :contact_email,
                   :contact_name,
@@ -57,11 +59,19 @@ class Place < ActiveRecord::Base
       end
     end
   end
+
   def is_geolocalized?
     !self.latitude.nil? and self.longitude.nil?
   end
+
   def geolocalize
     self.touch
     self.save
+  end
+
+  private
+  def create_default_room
+    room = Room.create(name: I18n.t('rooms.main_room'))
+    self.rooms << room
   end
 end

@@ -14,7 +14,7 @@ class Pro::PlanningsController < InheritedResources::Base#Pro::ProController
 
   def edit
     @planning  = Planning.find(params[:id])
-    @plannings = @course.plannings
+    @plannings = @course.plannings.reject { |planning| planning == @planning }
     render template: 'pro/plannings/index'
   end
 

@@ -99,7 +99,8 @@ class Pro::StructuresController < Pro::ProController
       if has_saved
         format.html { redirect_to structure_teachers_path(@admin.structure), :notice => t("pro.structures.create.create_teacher") }
       else
-        format.html { render action: 'new' }
+        flash[:alert] = "Il nous manque quelques informations pour continuer"
+        format.html { render action: 'new'}
       end
     end
   end
