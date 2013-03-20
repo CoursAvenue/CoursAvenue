@@ -80,9 +80,12 @@
           = f.hidden_field :validated_by, value: current_admin.id
         %div
           %input#free-course-if-abonnement-input{type: 'checkbox'}
-          %label.helper-label.inline{for: 'free-course-if-abonnement-input', data: {behavior: 'popover', content: "Nous voulons insiter les élèves à prendre des abonnements en toute confiance. Ainsi, si la première séance n'a pas convaincu l'élève, il sera remboursé intégralement."}}
-            J'accepte que la première séance d'un abonnement soit un cours d'essai gratuit.
-            / J'accepte d'offrir la première séance d'un abonnement et rembourser l'élève si il n'est pas satisfait.
+          %label.helper-label.inline{for: 'free-course-if-abonnement-input', data: {behavior: 'popover', content: "Si vous proposez des formules de plusieurs cours (carnets ou abonnements), nous vous recommandons fortement de proposer au moins un cours d’essai, gratuit ou à prix très réduit : nos partenaires qui le proposent sont ceux qui font le plus de ventes. En pratique, l’élève achète son carnet ou son abonnement en ligne, il vient chez vous pour la 1ère séance d’essai : s’il décide de ne pas continuer, il nous en fait part via son espace client, et nous ne lui débitons que son cours d’essai (rien s’il est gratuit, sinon le prix réduit de la séance). S’il décide de continuer, alors il n’a rien à faire et nous lui débitons son carnet ou son forfait."}}
+            Pour tout achat d’un carnet ou d’un abonnement (non appliqué à l’achat d’une seule séance), j’accepte d’offrir une séance d’essai gratuite.
+          %p
+            %i Par expérience, nous savons qu’un élève qui ne vous connaît pas n’achètera pas de carnet ni d’ abonnement. C’est pourquoi nous vous proposons d’offrir au moins une séance d’essai gratuite
+      = f.input :cancel_condition, as: :select, collection: Structure::CANCEL_CONDITIONS, label_method: lambda { |condition| t(condition) }, label_html: { class: 'bold text--left one-third'}, input_html: { style: 'width: 65%;' }, include_blank: false
+      = f.input :modification_condition, as: :select, collection: Structure::MODIFICATION_CONDITIONS, label_method: lambda { |condition| t(condition) }, label_html: { class: 'bold text--left one-third'}, input_html: { style: 'width: 65%;' }, include_blank: false
 
       .text--center
         %h5.form-header-group.helper-label{data: {behavior: 'popover', content: 'Tous les mois, nous vous verserons les sommes dûes (total des réservations du mois précédent déduits de la commission de réservation) directement sur votre compte bancaire'}} Coordonnées bancaires

@@ -32,6 +32,8 @@ fr:
         bank_name: Nom de la banque
         bank_iban: IBAN
         bank_bic: Identifiant bancaire (BIC)
+        cancel_condition: "Conditions d’annulation"
+        modification_condition: "Conditions de modification"
 
 
   structures:
@@ -41,6 +43,16 @@ fr:
     independant: Auto entrepreneur
     intermittent: Intermittent du spectacle
     liberal: Profession libérale
+    cancel_conditions:
+      flexible: "Flexibles : remboursement intégral jusqu’à la veille du cours"
+      moderate: "Modérées : remboursement intégral jusqu’à 3 jours avant la date du cours"
+      strict: "Strictes : 50% remboursé jusqu’à 1 semaine avant la date du cours"
+      very_strict: "Très strictes : pas d’annulation ni de remboursement possible"
+    modification_conditions:
+      flexible: "Flexibles : possibilité de changer de séance (pour un même cours au même tarif) jusqu’à la veille du cours"
+      moderate: "Modérées : possibilité de changer de séance (pour un même cours au même tarif) jusqu’à 1 semaine avant la date du cours"
+      strict: "Strictes : pas de modification possible"
+
   pro:
     structures:
       create:

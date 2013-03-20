@@ -1,11 +1,22 @@
 class Structure < ActiveRecord::Base
-  STRUCTURE_STATUS = %w(SA SAS SASU EURL SARL)
-  STRUCTURE_TYPES = ['structures.company',
-                      'structures.independant',
-                      'structures.association',
-                      'structures.board',
-                      'structures.intermittent',
-                      'structures.liberal']
+  STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
+  STRUCTURE_TYPES         = ['structures.company',
+                             'structures.independant',
+                             'structures.association',
+                             'structures.board',
+                             'structures.intermittent',
+                             'structures.liberal']
+
+  CANCEL_CONDITIONS       = ['structures.cancel_conditions.flexible',
+                             'structures.cancel_conditions.moderate',
+                             'structures.cancel_conditions.strict',
+                             'structures.cancel_conditions.very_strict']
+
+  MODIFICATION_CONDITIONS = ['structures.modification_conditions.flexible',
+                             'structures.modification_conditions.moderate',
+                             'structures.modification_conditions.strict']
+
+
   extend FriendlyId
   friendly_id :name, use: :slugged
 
@@ -47,6 +58,8 @@ class Structure < ActiveRecord::Base
                   :active,
                   :has_validated_conditions,
                   :validated_by,
+                  :modification_condition,
+                  :cancel_condition,
 
                   ## Moyen de financements possible :
                   :accepts_holiday_vouchers,

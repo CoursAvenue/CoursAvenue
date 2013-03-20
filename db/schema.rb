@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130319165555) do
+ActiveRecord::Schema.define(:version => 20130320165659) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -370,6 +370,8 @@ ActiveRecord::Schema.define(:version => 20130319165555) do
     t.integer  "pricing_plan_id"
     t.boolean  "has_validated_conditions",                     :default => false
     t.integer  "validated_by"
+    t.string   "cancel_condition"
+    t.string   "modification_condition"
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true

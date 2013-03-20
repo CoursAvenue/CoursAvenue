@@ -3,7 +3,7 @@ module NavigationHelper
   def pro_breadcrumb_menu_link(title, url, options = {})
     current_tab = options.delete(:current)
     options[:class] ||= ''
-    options[:class] << ' flexbox__item text--center'
+    options[:class] << ' flexbox__item text--center one-quarter'
     link = link_to url, class: "step-breadcrumb--item #{((current_tab == title) ? ' active' : '')}" do
       case title
       when 'Infos générales'
