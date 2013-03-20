@@ -88,9 +88,11 @@
 
         updateFormUrl: function() {
             if (this.getSubject() === null) {
-                var url = Routes.city_subjects_path(this.getCity());
+                //var url = Routes.city_subjects_path(this.getCity());
+                var url = Routes.subjects_path();
             } else {
-                var url = Routes.city_subject_path(this.getCity(), this.getSubject());
+                //var url = Routes.city_subject_path(this.getCity(), this.getSubject());
+                var url = Routes.subject_path(this.getSubject());
             }
             this.form.set('action', url);
         }

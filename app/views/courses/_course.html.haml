@@ -51,7 +51,7 @@
               = "de #{readable_duration course.plannings.first.duration}"
         - course.subjects.each do |subject|
           %li
-            %span= link_to subject.name, city_subject_path(@city, subject), class: 'lbl milli inline subject-link'
+            %span= link_to subject.name, subject_path(subject), class: 'lbl milli inline subject-link'
 
   %div.course-price.two-twelfths
     - if course.best_price.nil?

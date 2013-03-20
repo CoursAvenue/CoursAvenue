@@ -18,14 +18,12 @@
     <changefreq>never</changefreq>
   </url>
 <% end %>
-<% ['paris'].each do |city| %>
-  <% Subject.all.each do |subject| %>
-    <url>
-      <loc><%= city_subject_url(city, subject) %></loc>
-      <priority>0.8</priority>
-      <changefreq>never</changefreq>
-    </url>
-  <% end %>
+<% Subject.all.each do |subject| %>
+  <url>
+    <loc><%= subject_url(subject) %></loc>
+    <priority>0.8</priority>
+    <changefreq>never</changefreq>
+  </url>
 <% end %>
 
 

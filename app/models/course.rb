@@ -44,12 +44,15 @@ class Course < ActiveRecord::Base
 
   attr_accessible :name,
                   :type,
+                  :description,
+                  :is_promoted,
+
+                  :active,
+
                   :has_online_payment,
                   :homepage_image,
                   :image,
                   :frequency,
-                  :is_promoted,
-                  :description,
                   :info,
                   :registration_date,
                   :is_individual,

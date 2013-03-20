@@ -5,9 +5,12 @@ CoursMania::Application.routes.draw do
   resources :newsletter_users, only: [:create]
 
   resources :courses, only: 'show', path: 'cours'
-  resources :city, path: 'ville' do
-    resources :subjects, only: [:show, :index], defaults: {city_id: 'paris'}, path: 'disciplines'
-  end
+
+  resources :subjects, only: [:show, :index], path: 'disciplines'
+
+  # resources :city, path: 'ville' do
+  #   resources :subjects, only: [:show, :index], defaults: {city_id: 'paris'}, path: 'disciplines'
+  # end
 
   resources :reservation_loggers, only: [:create]
 

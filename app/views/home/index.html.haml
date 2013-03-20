@@ -11,7 +11,7 @@
         .palm-one-whole.one-half
           .ilb-wrapper
             .course-block-wrapper.one-half.palm-one-whole
-              = link_to city_subject_path(id: 'cuisine-oenologie'), class: 'course-block' do
+              = link_to subject_path(id: 'cuisine-oenologie'), class: 'course-block' do
                 .course-block-image
                   = image_tag 'home-page/cooking.jpg'
                 %h6.course-block-title
@@ -20,7 +20,7 @@
                   Cours de cuisine et d’œnologie pour tous
 
             .course-block-wrapper.one-half.palm-one-whole
-              = link_to city_subject_path(city, id: 'relaxation-fitness', time_slots: ['evening']), class: 'course-block' do
+              = link_to subject_path(id: 'relaxation-fitness', time_slots: ['evening']), class: 'course-block' do
                 .course-block-image
                   = image_tag 'home-page/after_work.jpg'
                 %h6.course-block-title
@@ -29,7 +29,7 @@
                   Cours de fitness / relaxation après 18h
 
             .course-block-wrapper.one-half.palm-one-whole
-              = link_to city_subject_path(id: 'insolite'), class: 'course-block' do
+              = link_to subject_path(id: 'insolite'), class: 'course-block' do
                 .course-block-image
                   = image_tag 'home-page/insolite.jpg'
                 %h6.course-block-title
@@ -38,7 +38,7 @@
                   Laissez-vous surprendre !
 
             .course-block-wrapper.one-half.palm-one-whole
-              = link_to city_subjects_path(city, audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block' do
+              = link_to subjects_path(audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block' do
                 .course-block-image
                   = image_tag 'home-page/child-courses.jpg'
                 %h6.course-block-title

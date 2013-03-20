@@ -1,8 +1,8 @@
 = content_for :head do
   - if @subject
-    %link{rel: 'canonical', href: city_subject_url(@city, @subject)}
+    %link{rel: 'canonical', href: subject_url(@subject)}
   - else
-    %link{rel: 'canonical', href: city_subjects_url(@city)}
+    %link{rel: 'canonical', href: subjects_url}
 .gw
   = render 'search_form'
   %section.g.three-tenths.hide--lap.hide--palm

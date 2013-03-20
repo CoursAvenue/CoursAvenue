@@ -57,12 +57,16 @@ class SubjectsController < ApplicationController
   end
 
   def prepare_search
-    if params[:city_id].blank?
-      city_term = "#{request.location.city}"
+    if params[:city].blank?
+      if request.location.city.blank?
+        city_term = 'paris'
+      else
+        city_term = request.location.city
+      end
       city_slug = request.location.city
     else
-      city_term  = "#{params[:city_id]}%"
-      city_slug  = params[:city_id]
+      city_term  = "#{params[:city]}%"
+      city_slug  = params[:city]
     end
     @city      = City.where{(slug == city_slug ) | (name =~ city_term)}.order('name ASC').first # Prevents from bad slugs
     @audiences = Audience.all
@@ -95,7 +99,7 @@ class SubjectsController < ApplicationController
     @search = Sunspot.search(Course) do
       fulltext                              params[:name]                                           if params[:name].present?
       with(:location).in_radius(city.latitude, city.longitude, params[:radius] || 10, :bbox => true)
-      #with :city,                           params[:city_id]
+      #with :city,                           params[:city]
       with(:subject_ids).any_of             subject_ids                                             if params[:id]
       with(:type).any_of                    params[:types]                                          if params[:types].present?
       with(:audience_ids).any_of            params[:audiences]                                      if params[:audiences].present?
