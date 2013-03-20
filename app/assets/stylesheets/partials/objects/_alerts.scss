@@ -11,6 +11,12 @@
     background-color: $alert-info-background-color;
     border          : 1px solid $alert-info-border-color;
 }
+.alert--warning {
+    @extend .alert;
+    color           : $alert-warning-text-color;
+    background-color: $alert-warning-background-color;
+    border          : 1px solid $alert-warning-border-color;
+}
 
 .alert--error, .alert-error {
     @extend .alert;

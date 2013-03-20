@@ -1,5 +1,11 @@
 = side_menu_currently_at 'Mes cours'
 
+- unless @structure.has_validated_conditions
+  .text--center
+    %p.alert--info
+      %b Pas le temps ?
+      Vous pourrez à tout moment revenir modifier ou valider vos informations.
+
 %h3.header-group Gestion de mes cours
 
 .islet.flush--bottom.text--center
@@ -51,7 +57,6 @@
   = simple_form_for @structure, url: validate_condition_structure_path(@structure), method: :put do |f|
     .two-thirds.center-block
       %h3 Validation finale
-      /%h5.text--right Rappel des conditions tarifaires
       .checkbox-list
         %input#price-input{type: 'checkbox'}
         %label.inline{for: 'price-input'}
@@ -61,7 +66,7 @@
         %thead
           %tr
             %td.one-third.text--center
-            %td.one-third.text--center Depuis la plateforme CoursMania.com
+            %td.one-third.text--center Depuis la plateforme LeBonCours.com
             %td.one-third.text--center Depuis le module de réservation sur mon site en « marque grise »
         %tbody
           %tr
@@ -71,10 +76,21 @@
       %p.text--right
         %i *Offre de lancement valable jusqu’au 30/05/2013.
       .checkbox-list
-        = f.input :has_validated_conditions, label: "J’accepte les #{link_to 'conditions générales de vente', '#'} CoursManiaPro"
-        = f.hidden_field :validated_by, value: current_admin.id
+        %div
+          = f.input :has_validated_conditions, label: "J’accepte les #{link_to 'conditions générales de vente', '#'} LeBonCoursPro"
+          = f.hidden_field :validated_by, value: current_admin.id
+        %div
+          %input#free-course-if-abonnement-input{type: 'checkbox'}
+          %label.helper-label.inline{for: 'free-course-if-abonnement-input', data: {behavior: 'popover', content: "Nous voulons insiter les élèves à prendre des abonnements en toute confiance. Ainsi, si la première séance n'a pas convaincu l'élève, il sera remboursé intégralement."}}
+            J'accepte que la première séance d'un abonnement soit un cours d'essai gratuit.
+            / J'accepte d'offrir la première séance d'un abonnement et rembourser l'élève si il n'est pas satisfait.
 
       .text--center
+        %h5.form-header-group.helper-label{data: {behavior: 'popover', content: 'Tous les mois, nous vous verserons les sommes dûes (total des réservations du mois précédent déduits de la commission de réservation) directement sur votre compte bancaire'}} Coordonnées bancaires
+        = f.input :bank_name
+        = f.input :bank_iban
+        = f.input :bank_bic
+
         = f.submit 'Valider et accéder à mon logiciel', class: 'btn btn__primary btn__large'
         %p.one-half.alert--info.center-block
           Même après avoir cliqué sur ce bouton, vous pourrez tout de même revenir modifier les informations à votre guise.
@@ -85,7 +101,7 @@
         new TableSorter('dataTable', { columnDataTypes: 'string, string, string, string, string' });
     });
     $$(".edit_structure")[0].addEvent("submit", function() {
-        if (!$('structure_has_validated_conditions').checked || !$('price-input').checked) {
+        if (!$('structure_has_validated_conditions').checked || !$('price-input').checked || !$('free-course-if-abonnement-input').checked) {
             alert('Vous devez accepter les conditions générales de vente et déclarer avoir pris connaissance des conditions tarifaires.');
             return false;
         }

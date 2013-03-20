@@ -1,9 +1,10 @@
 = menu_currently_at 'Offres & Tarifs'
 
-%h3 5 minutes chrono pour vous inscrire / Sans engagement / Changez d’offre quand vous voulez.
+%h4.blue.text--center 5 minutes chrono pour vous inscrire / Sans engagement / Changez d’offre quand vous voulez
+%hr
 
 .ilb-wrapper
-  .one-quarter
+  .one-third
     .text--center
       %h3.flush--bottom
         %u Basique
@@ -11,7 +12,7 @@
       %p
         %i Hors frais de réservation*
 
-  .one-quarter
+  .one-third
     .text--center
       %h3.flush--bottom
         %u Pro
@@ -19,47 +20,32 @@
       %p
         %i Hors frais de réservation*
 
-      %h4.flush--bottom
-        Formule Basique
-        %br
-        +
-  .one-quarter
+  .one-third
     .text--center
       %h3.flush--bottom
         %u Pro <i>Plus</i>
       %h4.flush--bottom 69€ HT / mois
       %p
         %i Hors frais de réservation*
-      %h4
-        Formule Pro
-        %br
-        +
-  .one-quarter
-    .text--center
-      %h3.flush--bottom
-        %u Option sur mesure
-      %h4.flush--bottom Sur devis
-      %p
-        %i Hors frais de réservation*
 
 .ilb-wrapper
-  .one-quarter
-    %ul.discrete-list.islet
+  .one-third
+    %ul.discrete-list.islet.flush--bottom
       %li
         %i.icon-ok.delta.green
-        %b Référencement de vos cours sur CoursMania.com
+        %b Référencement de vos cours
       %li
         %i.icon-ok.delta.green
         %b Gestion du planning
       %li
         %i.icon-ok.delta.green
-        %b Affichage de votre planning depuis votre site Internet
+        %b Planning sur votre site Internet
       %li
         %i.icon-ok.delta.green
-        %b Gestion multi-cours, multi formules, multi-salles
+        %b Gestion des cours, tarifs et salles
 
-  .one-quarter
-    %ul.discrete-list.islet
+  .one-third
+    %ul.discrete-list.islet.flush--bottom
       %li
         %i.icon-ok.delta.green
         %b Bouton « Réserver »
@@ -80,8 +66,8 @@
         %b Envoi de SMS
 
 
-  .one-quarter
-    %ul.discrete-list.islet
+  .one-third
+    %ul.discrete-list.islet.flush--bottom
       %li
         %i.icon-ok.delta.green
         %b Base de données élèves avancée
@@ -94,52 +80,58 @@
       %li
         %i.icon-ok.delta.green
         %b Outils CRM avancés
-  .one-quarter
-    %ul.discrete-list.islet
-      %li
-        %i.icon-ok.delta.green
-        Création de votre site internet
-      %li
-        %i.icon-ok.delta.green
-        Offres préférentielles
-      %li
-        %i.icon-ok.delta.green
-        Équipe projet dédiée
-      %li
-        %i.icon-ok.delta.green
-        Personnalisation sur mesure
-      %li
-        %i.icon-ok.delta.green
-        API / Intégration
-      %li
-        %i.icon-ok.delta.green
-        Statistiques consolidées
+  / .one-third
+  /   %ul.discrete-list.islet
+  /     %li
+  /       %i.icon-ok.delta.green
+  /       Création de votre site internet
+  /     %li
+  /       %i.icon-ok.delta.green
+  /       Offres préférentielles
+  /     %li
+  /       %i.icon-ok.delta.green
+  /       Équipe projet dédiée
+  /     %li
+  /       %i.icon-ok.delta.green
+  /       Personnalisation sur mesure
+  /     %li
+  /       %i.icon-ok.delta.green
+  /       API / Intégration
+  /     %li
+  /       %i.icon-ok.delta.green
+  /       Statistiques consolidées
 
 
 .ilb-wrapper.align-middle
-  .one-quarter.text--center
+  .one-third.text--center
+    %div= link_to "Détail de l'offre", '#', data: {behavior: 'modal', el: 'basic-offer-details', title: "Détail de l'offre Basique"}
     = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large', id: 'register'
-  .one-quarter.text--center
+  .one-third.text--center
+    %div= link_to "Détail de l'offre", '#', data: {behavior: 'modal', el: 'pro-offer-details', title: "Détail de l'offre Pro"}
     = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button'
-  .one-quarter.text--center
+  .one-third.text--center
+    %div= link_to "Détail de l'offre", '#', data: {behavior: 'modal', el: 'pro-plus-offer-details', title: "Détail de l'offre Pro Plus"}
     = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button'
-  .one-quarter.text--center
-    = link_to "Nous contacter", pages_contact_path, class: 'btn btn__primary btn__large', style: 'padding-left: 35px; padding-right: 35px;'
 
 
 %br
-%br
-.ilb-wrapper
-  .two-thirds
-    %p Il existe deux catégories de frais de réservation :
-    %ol
-      %li Pour chaque réservation effectuée via notre plateforme CoursMania : commission de <strike>16%</strike> <b class="green">8%</b> HT**
-      %li Pour chaque réservation effectuée directement via votre site Internet (option de l’offre Pro) : commission de <strike>5%</strike> <b class="green">3%</b> HT** correspondant uniquement aux frais bancaires et de carte bleue
-    %p
-      %i
-        Note : CoursMania prend en charge les frais bancaires et de carte bleue : nous avons négocié les meilleurs tarifs pour vous assurer la commission la plus basse possible et les meilleurs services associés.
-    %p
-      %i **Offre de lancement valable jusqu’au 30/05/2013.
+.text--center
+  %h4.flush--bottom Vous vous lancez et voulez une offre sur mesure ?
+  %p
+    Contactez nous pour en parler, nous faisons également des offres sur mesure !
+    %br
+    = link_to "Nous contacter", pages_contact_path, class: 'btn btn__primary'
+
+%hr
+%h4 Frais de réservation :
+%ol.flush--bottom
+  %li Pour chaque réservation effectuée via notre plateforme LeBonCours : commission de <strike>16%</strike> <b class="green">8%</b> HT**
+  %li Pour chaque réservation effectuée directement via votre site Internet (option de l’offre Pro) : commission de <strike>5%</strike> <b class="green">3%</b> HT** correspondant uniquement aux frais bancaires et de carte bleue
+%p.alert--info
+  %i
+    Note : LeBonCours prend en charge les frais bancaires et de carte bleue : nous avons négocié les meilleurs tarifs pour vous assurer la commission la plus basse possible et les meilleurs services associés.
+%p
+  %i **Offre de lancement valable jusqu’au 30/05/2013.
 
 
 
@@ -168,11 +160,11 @@
   .one-half
     .alert--info
       %h5 Y a-t-il des coûts autres que celui du logiciel ?
-      %p Si vous faites le choix de référencer vos cours sur www.CoursMania.com, alors quand une réservation est effectuée sur notre site (et qu’elle est ensuite bien effectuée…), une commission vous sera facturée.
+      %p Si vous faites le choix de référencer vos cours sur www.LeBonCours.com, alors quand une réservation est effectuée sur notre site (et qu’elle est ensuite bien effectuée…), une commission vous sera facturée.
 
     .alert--info
-      %h5 Est-ce que je peux me désinscrire du site CoursMania à n’importe quel moment ?
-      %p Chez CoursMania, nous sommes toujours très tristes lorsqu’un Partenaire nous quitte. Mais nous ne forcerons jamais personne à rester avec nous : nous tenons à votre liberté de décider. La seule chose que l’on vous demande si vous décidez de nous quitter, c’est de nous appeler pour qu’on en discute ensemble. C’est aussi une piste d’amélioration pour nous.
+      %h5 Est-ce que je peux me désinscrire du site LeBonCours à n’importe quel moment ?
+      %p Chez LeBonCours, nous sommes toujours très tristes lorsqu’un Partenaire nous quitte. Mais nous ne forcerons jamais personne à rester avec nous : nous tenons à votre liberté de décider. La seule chose que l’on vous demande si vous décidez de nous quitter, c’est de nous appeler pour qu’on en discute ensemble. C’est aussi une piste d’amélioration pour nous.
 
     .alert--info
       %h5 Puis-je me connecter à mon compte Basique ou Pro depuis n’importe quel appareil ?
@@ -187,8 +179,6 @@
       %p
         Nous nous ferons un plaisir d’y répondre. Appelez-nous ou contactez-nous par email à l’adresse suivante :
         = link_to 'contact@leboncours.com', 'mailto:contact@leboncours.com?subject=Question au sujet des offres et tarifs'
-
-
 
 
 
@@ -245,3 +235,63 @@
     Cet espace est en cours de développement.
     %br
     En attendant, n'hésitez pas à tester l'offre gratuite !
+
+#basic-offer-details
+  %h4.text--center
+    Formule Basique
+  %ul
+    %li
+      %b Référencement de vos cours
+      sur LeBonCours.com
+    %li
+      %b Gestion de votre planning
+      via notre logiciel web, qui remplace votre ancien carnet papier
+    %li
+      %b Affichage de votre planning
+      directement depuis votre propre site Internet
+    %li
+      %b Gestion multi-cours, multi formules, multi-salles
+
+#pro-offer-details
+  %h4.text--center
+    Formule Basique
+    %br
+    +
+  %ul
+    %li
+      %b Bouton « Réserver »
+      directement sur votre propre site Internet, avec ou sans carte bleue (pas d'essai gratuit pour ce module)
+    %li
+      %b Votre logo
+      sur votre page de planning et sur le logiciel
+    %li
+      %b Statistiques :
+      grâce à l’historique de vos données, gardez un œil sur votre croissance, optimisez votre politique de prix et votre taux de remplissage
+    %li
+      %b Gestion multi-utilisateurs :
+      gérez tous vos outils à plusieurs
+    %li
+      %b Personnalisation de vos outils :
+      vous décidez du texte lors de chaque échange avec vos élèves
+    %li
+      %b Envoi de SMS
+      de confirmation (0,08€ HT/SMS)
+
+#pro-plus-offer-details
+  %h4.text--center
+    Formule Pro
+    %br
+    +
+  %ul
+    %li
+      %b Base de données élèves avancée :
+      gérez en quelques clics votre base clients, en fonction de leur profil, de leurs envie, etc.
+    %li
+      %b Outils de communication avancés :
+      en moins de 5min, créez votre campagne de communication mails, newsletters, SMS,… restez visibles !
+    %li
+      %b Ressources humaines :
+      générez vos fiches de paies professeurs directement via notre logiciel
+    %li
+      %b Outils CRM avancés :
+      enquêtes de satisfaction automatiques, statistiques avancées sur le comportement de vos élèves, etc.

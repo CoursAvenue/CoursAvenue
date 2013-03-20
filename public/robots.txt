@@ -4,4 +4,4 @@
 User-Agent: *
 Allow: /
 Disallow: /admin
-Sitemap: http://leboncours.com/sitemap.xml
+Sitemap: http://www.leboncours.com/sitemap1.xml

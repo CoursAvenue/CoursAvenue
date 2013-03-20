@@ -1,6 +1,14 @@
 = side_menu_currently_at "Lieux d'enseignements"
 
+- unless @structure.has_validated_conditions
+  .text--center
+    %p.alert--info
+      %b Pas le temps ?
+      Passez à l'étape suivante, nous vous avons créé un lieu au nom de votre structure.
+
 %h3.header-group Gestion des lieux d'enseignements
+
+
 
 %table.table--striped
   %thead

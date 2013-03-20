@@ -33,9 +33,13 @@ $beigeDarker:           #e3dcd4 !default;
 $beigeDark:             #f7f5f3 !default;
 $beige:                 #f1eeec !default;
 
-$alert-info-background-color:    #fcf8e3 !default;
-$alert-info-text-color:          #c09853 !default;
-$alert-info-border-color:        #fbeed5 !default;
+$alert-info-text-color:          #0e6894 !default;
+$alert-info-background-color:    #d9edf7 !default;
+$alert-info-border-color:        darken(adjust-hue($alert-info-background-color, -10), 10%) !default;
+
+$alert-warning-background-color: #fcf8e3 !default;
+$alert-warning-text-color:       #c09853 !default;
+$alert-warning-border-color:     #fbeed5 !default;
 
 $alert-error-background-color:   #f2dede !default;
 $alert-error-text-color:         #b94a48 !default;

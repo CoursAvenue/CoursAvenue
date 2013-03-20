@@ -52,5 +52,36 @@ window.addEvent('domready', function() {
         duration: 500,
         transition: Fx.Transitions.Quad.easeInOut
     });
-});
 
+    // -------------------------- Modal handler
+    // Options
+    // ------- data:
+    // ------------ width
+    // ------------ title
+    // ------------ el : ID refferring to the content of the modal
+    $$("[data-behavior=modal]").addEvent("click", function() {
+        var width = this.get('data-width') || 500,
+            title = this.get('data-title'),
+            el    = $(this.get('data-el'));
+
+        var modal = new SimpleModal({
+            width: width,
+            "onAppend": function() {
+                $("simple-modal").fade("hide");
+                setTimeout((function(){ $("simple-modal").fade("show")}), 200 );
+                var tw = new Fx.Tween($("simple-modal"),{
+                  duration: 800,
+                  transition: Fx.Transitions.Cubic.easeOut,
+                  link: 'cancel',
+                  property: 'top'
+                }).start(-400, 150);
+            }
+        });
+        modal.show({
+            "model":"modal",
+            "title": title,
+            "contents": el.get('html')
+        });
+    });
+
+});

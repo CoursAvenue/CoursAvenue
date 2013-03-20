@@ -5,7 +5,7 @@
     = image_tag 'pro/dance_teacher.jpg'
     .image_quote
       %quote
-        « Le logiciel en ligne CoursMania est un vrai outil pour moi au quotidien : dorénavant, il remplace mon ancien cahier papier de réservations, mais il m’aide également à promouvoir mes cours et augmenter mon taux de remplissage. Et tout cela, c’est moi qui le décide, à tout moment, en quelques clics ! »
+        « Le logiciel en ligne LeBonCours est un vrai outil pour moi au quotidien : dorénavant, il remplace mon ancien cahier papier de réservations, mais il m’aide également à promouvoir mes cours et augmenter mon taux de remplissage. Et tout cela, c’est moi qui le décide, à tout moment, en quelques clics ! »
       %p.image_quote--footer.text--right.flush--bottom Elodie, professeur de flamenco
     / %ul#slideshow.slideshow
     /   %li.slideshow--element
@@ -14,22 +14,22 @@
     /     = image_tag 'home-page/after_work.jpg'
     /     .image_quote
     /       %p
-    /         Le logiciel en ligne CoursMania est un vrai outil pour moi au quotidien : dorénavant, il remplace mon ancien cahier papier de réservations, mais il m’aide également à promouvoir mes cours et augmenter mon taux de remplissage. Et tout cela, c’est moi qui le décide, à tout moment, en quelques clics !
+    /         Le logiciel en ligne LeBonCours est un vrai outil pour moi au quotidien : dorénavant, il remplace mon ancien cahier papier de réservations, mais il m’aide également à promouvoir mes cours et augmenter mon taux de remplissage. Et tout cela, c’est moi qui le décide, à tout moment, en quelques clics !
     /       %p.image_quote--footer.text--right.flush--bottom Elodie, professeur de flamenco
   .one-third.islet
-    %h3.text--center Je n’ai pas encore de logiciel CoursManiaPro
+    %h3.text--center Je n’ai pas encore de logiciel LeBonCoursPro
     %br
     %p.text--center
       /= link_to "Inscription gratuite", new_admin_registration_path, class: 'btn btn__primary btn__large', id: 'register'
       = link_to "Inscription gratuite", '#', class: 'btn btn__primary btn__large', id: 'register'
     %br
-    %h4.text--center CoursManiaPro, c’est quoi ?
+    %h4.text--center LeBonCoursPro, c’est quoi ?
     %ul
-      %li Vos cours directement sur CoursMania.com : augmentez en <b>visibilité</b> et en <b>rentabilité</b> !
+      %li Vos cours directement sur LeBonCours.com : augmentez en <b>visibilité</b> et en <b>rentabilité</b> !
       %li Un outil de gestion des réservations simple, intuitif, efficace, le tout <b>gratuit</b>
       %li Vos réservations en ligne 24h/24, 7j/7 directement sur votre site Internet : <b>un gain de temps considérable</b>
 
-    %h3.text--center J’ai déjà CoursManiaPro
+    %h3.text--center J’ai déjà LeBonCoursPro
     %p.text--center= link_to 'Se connecter', new_admin_session_path, class: 'btn btn__large btn__success'
 
 %hr
@@ -71,6 +71,12 @@
                   link: 'cancel',
                   property: 'top'
                 }).start(-400, 150);
+                $('new_admin').addEvent('submit', function() {
+                    if ($('admin_password').value.length < 6) {
+                        $$('.input.password').addClass('red');
+                        return false;
+                    }
+                });
             }
         });
         modal.show({

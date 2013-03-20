@@ -1,5 +1,9 @@
 = side_menu_currently_at 'Mes professeurs'
 
+- if @teachers.empty?
+  .text--center
+    %p.alert--info Vous n'avez encore aucun professeur de référencé ? Pas de panique, ça ne prend qu'une minute !
+
 %h3.header-group Gestion des professeurs
 
 %br
@@ -9,9 +13,7 @@
 %br
 %hr
 
-- if @teachers.empty?
-  %p.alert--info Vous n'avez encore aucun professeur de référencé.
-- else
+- unless @teachers.empty?
   %table.table--striped#dataTable
     %thead
       %tr

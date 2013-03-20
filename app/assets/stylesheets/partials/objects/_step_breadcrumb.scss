@@ -4,6 +4,9 @@
     border       : 1px solid $beigeDark;
     padding-right: 15px;
 }
+    .step-breadcrumb li:first-child .step-breadcrumb--item {
+        @include border-left-radius($brand-round);
+    }
     .step-breadcrumb--item {
         position        : relative;
         padding         : 0.4em 0;
@@ -54,7 +57,8 @@
             -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('objects/step-breadcrumb/arrow-right-blue-lighter.png')}',sizingMethod='scale')";
         }
     }
-    .step-breadcrumb li:first-child .step-breadcrumb--item.active:before{
+    .step-breadcrumb li:first-child .step-breadcrumb--item:hover:before,
+    .step-breadcrumb li:first-child .step-breadcrumb--item.active:before {
         background-image: none;
     }
     .step-breadcrumb li:last-child .step-breadcrumb--item:hover:after,

@@ -11,11 +11,11 @@ module NavigationHelper
         <br>
         <i class='milli'>Temps estimé : 4min</i>".html_safe
       when 'Mes professeurs'
-        "Etape 2/4 : lieu
+        "Etape 2/4 : profs
         <br>
-        <i class='milli'>Temps estimé : 3min</i>".html_safe
+        <i class='milli'>Temps estimé : 1min</i>".html_safe
       when "Lieux d'enseignements"
-        "Etape 3/4 : profs
+        "Etape 3/4 : lieu
         <br>
         <i class='milli'>Temps estimé : 2min</i>".html_safe
 
