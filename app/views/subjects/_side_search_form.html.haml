@@ -48,7 +48,7 @@
         %i.icon-caret-left
     .search-panel-content{class: params[:id].present? ? '' : 'hide'}
       %ul.check-list
-        %li= link_to t('all_subject'), city_subjects_path(@city), class: 'subject-link'
+        %li= link_to t('all_subject'), subjects_path(city: @city.name), class: 'subject-link'
         / ----------------- If the current subject is this one or has this one as a parent
         - Subject.roots.order(:name).each do |subject|
           - if params[:id] == subject.slug || !subject.children.select{|d| d.slug == params[:id]}.blank?
