@@ -31,6 +31,10 @@ class City < ActiveRecord::Base
                   :longitude,
                   :acuracy
 
+  def to_gmap_json
+    {lng: self.longitude, lat: self.latitude}
+  end
+
   def should_generate_new_friendly_id?
     new_record?
   end

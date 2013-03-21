@@ -1,6 +1,9 @@
 .map-with-slider
   - if @courses.blank?
-    = gmaps( {markers: {data: Gmaps4rails.geocode("#{params[:city]}, France").to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
+    - unless @city.blank?
+      = gmaps( {markers: {data: [@city.to_gmap_json].to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
+    - else
+      = gmaps( {markers: {data: Gmaps4rails.geocode("#{params[:city]}, France").to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
   - else
     = gmaps( {markers: {data: @json_place_addresses}, map_options: {maxZoom: 15, mapTypeControl: false}})
   %div.ilb-wrapper.align-middle.map-slider-container
