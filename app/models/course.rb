@@ -17,7 +17,7 @@ class Course < ActiveRecord::Base
   belongs_to :room
   belongs_to :place
   has_one    :city , through: :place
-  has_one    :place, through: :room
+  # has_one    :place, through: :room
 
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , through: :plannings
