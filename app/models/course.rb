@@ -306,6 +306,10 @@ class Course < ActiveRecord::Base
   end
 
   def friendly_name
-    "#{self.slug_type_name}-de-#{self.name}-a-#{city.name}-#{structure.name}"
+    if city
+      "#{self.slug_type_name}-de-#{self.name}-a-#{city.name}-#{structure.name}"
+    else
+      "#{self.slug_type_name}-de-#{self.name}-#{structure.name}"
+    end
   end
 end
