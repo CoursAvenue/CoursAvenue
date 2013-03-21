@@ -38,6 +38,8 @@
             &nbsp;
             = link_to structure_teacher_path(@structure, teacher), method: :delete, title: 'Supprimer', data: {confirm: 'Êtes-vous sur de supprimer ce professeur ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
               %i.icon-trash
+  .text--center
+    = link_to "Passer à l'étape suivante", structure_places_path(@structure), class: 'btn btn__primary btn__large'
 
   = content_for :scripts do
     :javascript

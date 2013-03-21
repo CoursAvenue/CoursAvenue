@@ -17,7 +17,7 @@ class Course < ActiveRecord::Base
   belongs_to :room
   belongs_to :place
   has_one    :city , through: :place
-  # has_one    :place, through: :room
+  has_one    :place, through: :room
 
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , through: :plannings
@@ -35,10 +35,13 @@ class Course < ActiveRecord::Base
   validates :type         , presence: true
   validates :name         , presence: true
   validates :structure    , presence: true
-  validates :place        , presence: true
   validates :subjects     , presence: true
   validates :levels       , presence: true
   validates :audiences    , presence: true
+  validates :room         , presence: true
+  # validates :place        , presence: true
+
+  before_save :set_place_if_empty
 
   attr_reader :delete_image
 
@@ -310,6 +313,12 @@ class Course < ActiveRecord::Base
       "#{self.slug_type_name}-de-#{self.name}-a-#{city.name}-#{structure.name}"
     else
       "#{self.slug_type_name}-de-#{self.name}-#{structure.name}"
+    end
+  end
+
+  def set_place_if_empty
+    if place.nil? and room.present?
+      place = room.place
     end
   end
 end

@@ -35,4 +35,9 @@
           &nbsp;
           = link_to structure_place_path(@structure, place), method: :delete, data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'}, title: 'Supprimer', class: 'btn btn__danger' do
             %i.icon-trash
-= link_to 'Ajouter un nouveau lieu', new_structure_place_path(@structure), class: 'btn btn__primary'
+
+%p= link_to 'Ajouter un nouveau lieu', new_structure_place_path(@structure), class: 'btn btn__primary'
+
+%hr
+.text--center
+  = link_to "Passer à l'étape suivante", structure_path(@structure), class: 'btn btn__primary btn__large'
