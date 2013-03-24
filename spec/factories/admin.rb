@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
 
-  factory :admin_user do
+  factory :admin do
 
     association :structure
 

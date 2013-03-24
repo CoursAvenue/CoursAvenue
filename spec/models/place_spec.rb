@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe Place do
-  context :create
+  context :create do
     it 'should create a default room when creating place' do
-      place = FactoryGirl.build(:place)
-      place.rooms.length.should_eq 1
+      place = Place.create name: 'Test place', zip_code: 75000, street: 'super street', city: City.first
+      expect(place.rooms.length).to eq 1
     end
   end
 end

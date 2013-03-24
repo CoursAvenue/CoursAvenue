@@ -8,16 +8,16 @@ class Course < ActiveRecord::Base
   extend FriendlyId
   friendly_id :friendly_name, use: [:slugged, :history]
 
-  # before_save :enhance_slug
+  has_attached_file :homepage_image,
+                    :styles => {default: '1600×500#'}
 
-  has_attached_file :homepage_image, :styles => {default: '1600×500#'}
-  has_attached_file :image, :styles => { wide: "800x480#", thumb: "200x200#" }
+  has_attached_file :image,
+                    :styles => { wide: "800x480#", thumb: "200x200#" }
 
   belongs_to :structure
   belongs_to :room
   belongs_to :place
   has_one    :city , through: :place
-  # has_one    :place, through: :room
 
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , through: :plannings
@@ -32,50 +32,38 @@ class Course < ActiveRecord::Base
   has_and_belongs_to_many :subjects, :uniq => true
 
   # ------------------------------------------------------------------------------------ Validations
-  validates :type         , presence: true
-  validates :name         , presence: true
+  validates :type, :name  , presence: true
   validates :structure    , presence: true
+  validates :room         , presence: true
   validates :subjects     , presence: true
   validates :levels       , presence: true
   validates :audiences    , presence: true
-  validates :room         , presence: true
   # validates :place        , presence: true
 
   before_save :set_place_if_empty
 
   attr_reader :delete_image
 
-  attr_accessible :name,
-                  :type,
-                  :description,
-                  :is_promoted,
+  attr_accessible :name, :type, :description, :active, :info,
 
-                  :active,
+                  :is_promoted,
 
                   :has_online_payment,
                   :homepage_image,
                   :image,
                   :frequency,
-                  :info,
                   :registration_date,
-                  :is_individual,
-                  :is_for_handicaped,
+                  :is_individual, :is_for_handicaped,
                   :trial_lesson_info, # Info prix
-                  :price_details,
-                  :price_info,
+                  :price_details, :price_info,
                   :conditions,
                   :partner_rib_info,
                   :audition_mandatory,
                   :refund_condition,
                   :can_be_joined_during_year,
                   :nb_participants,
-                  :start_date,
-                  :end_date,
-                  :subject_ids,
-                  :level_ids,
-                  :audience_ids,
-                  :room_id,
-                  :place_id
+                  :start_date, :end_date,
+                  :subject_ids, :level_ids, :audience_ids, :room_id, :place_id
   # ------------------------------------------------------------------------------------ Search methods
   searchable do
     text :name, :boost => 2

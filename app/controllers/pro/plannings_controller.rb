@@ -3,7 +3,6 @@ class Pro::PlanningsController < InheritedResources::Base#Pro::ProController
   before_filter :authenticate_admin!
   layout 'admin'
   belongs_to :course
-  #before_filter :format_time
   before_filter :load_structure
   load_and_authorize_resource :structure
 
@@ -53,13 +52,6 @@ class Pro::PlanningsController < InheritedResources::Base#Pro::ProController
   end
 
   private
-  # def format_time
-  #   start_time = ''
-  #   if params[:planning][:start_time][:hour] or params[:planning][:start_time][:min]
-  #     start_time << params[:planning][:start_time].delete(:hour) || 7
-  #     start_time << params[:planning][:start_time].delete(:min) || 00
-  #   end
-  # end
 
   def set_dates_and_times
     params[:planning][:start_time]  = TimeParser.parse_time_string params[:planning][:start_time]  if params[:planning][:start_time].present?

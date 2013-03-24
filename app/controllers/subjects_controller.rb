@@ -138,7 +138,7 @@ class SubjectsController < ApplicationController
 
       if params[:sort] == 'price_asc'
         order_by :approximate_price_per_course, :asc
-      elsif 'price_desc'
+      elsif params[:sort] == 'price_desc'
         order_by :approximate_price_per_course, :desc
       end
       paginate :page => (params[:page] || 1), :per_page => 15

@@ -1,14 +1,14 @@
-.image_quote {
+.image-quote {
     position        : absolute;
-    bottom          : 2em;
-    right           : 2em;
+    bottom          : 0;
+    right           : 0;
     width           : 350px;
-    background-color: white;
-    background-color: rgba(255,255,255, 0.8);
+    background-color: #faf9f8;
+    //background-color: rgba(255,255,255, 0.8);
     padding         : 0.5em 1em;
     @include border-radius($brand-round);
 }
-.image_quote--footer {
+.image-quote--footer {
     font-variant: italic;
     font-weight : bold;
 }

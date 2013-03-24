@@ -11,9 +11,9 @@ describe Pro::PlanningsController do
 
   describe :create do
     context :workshop do
-      it 'should understand human hours' do
-        post :create, planning: { day_one: 'lala', day_one_start_time: '19h30', day_one_duration: '1h' }
-      end
+      # it 'should understand human hours' do
+      #   post :create, planning: { day_one: 'lala', day_one_start_time: '19h30', day_one_duration: '1h' }
+      # end
     end
   end
 end

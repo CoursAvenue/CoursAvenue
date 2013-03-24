@@ -6,30 +6,29 @@
     %i.icon-double-angle-left
     Retour aux lieux
 
-- unless @rooms.empty?
-  %table.table--striped
-    %thead
-      %tr
-        %th Nom
-        %th Superficie
-        %th
-    %tbody
-      - @rooms.each do |room|
-        - unless room.new_record?
-          %tr
-            %td= room.name
-            %td= room.surface
-            %td.text--right
-              = link_to edit_structure_place_room_path(@structure, @place, room), class: 'btn btn__warning'do
-                %i.icon-edit
-              &nbsp;
-              = link_to [@structure, @place, room], method: :delete, data: {confirm: 'Êtes-vous sur de supprimer cette salle ? Cette action sera irreversible.'}, class: 'btn btn__danger'do
-                %i.icon-trash
+- if @rooms.length == 1
+  %div.text--center
+    %p.alert--info Une salle principale a été créé. Vous pouvez la modifier ou en créer d'autres.
 
-  %hr
+%table.table--striped
+  %thead
+    %tr
+      %th Nom
+      %th Superficie
+      %th
+  %tbody
+    - @rooms.each do |room|
+      - unless room.new_record?
+        %tr
+          %td= room.name
+          %td= room.surface
+          %td.text--right
+            = link_to edit_structure_place_room_path(@structure, @place, room), class: 'btn btn__warning'do
+              %i.icon-edit
+            &nbsp;
+            = link_to [@structure, @place, room], method: :delete, data: {confirm: 'Êtes-vous sur de supprimer cette salle ? Cette action sera irreversible.'}, class: 'btn btn__danger'do
+              %i.icon-trash
 
-%div.text--center
-  %p.alert--info Si vous n'avez qu'une seule salle vous n'êtes pas obligé d'en créer.
 
 %h4 Ajouter une salle
 = render 'form'

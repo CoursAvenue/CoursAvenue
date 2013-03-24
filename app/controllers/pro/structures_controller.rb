@@ -84,6 +84,7 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+
   def create
     @admin           = (params[:admin][:id].blank? ? ::Admin.new : ::Admin.find(params[:admin].delete(:id)))
     @structure       = Structure.new(params[:structure])

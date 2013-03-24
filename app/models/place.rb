@@ -15,7 +15,7 @@ class Place < ActiveRecord::Base
   validates  :city      , presence: true
   validates  :zip_code  , presence: true, numericality: { only_integer: true }
 
-  before_create :create_default_room
+  before_create :build_default_room
 
   attr_accessible :name,
                   :contact_email,
@@ -70,8 +70,9 @@ class Place < ActiveRecord::Base
   end
 
   private
-  def create_default_room
-    room = Room.create(name: I18n.t('rooms.main_room'))
-    self.rooms << room
+  def build_default_room
+    if self.rooms.empty?
+      self.rooms.build(name: I18n.t('rooms.main_room'))
+    end
   end
 end

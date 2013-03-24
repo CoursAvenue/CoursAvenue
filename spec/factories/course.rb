@@ -4,13 +4,19 @@ FactoryGirl.define do
   factory :course do
 
     association :structure
+    association :room
+    association :place
 
+    subjects    [Subject.first.children.first]
+    levels      [Level.first]
+    audiences   [Audience.first]
+
+    type                        'Course::Lesson'
     name                        { Forgery(:lorem_ipsum).words(4) }
     description                 'Lorem ipsum dolor bla bla bla'
-    course_info                 'Lorem ipsum dolor bla bla bla'
+    info                        'Lorem ipsum dolor bla bla bla'
     price_details               'Lorem ipsum dolor bla bla bla'
     price_info                  'Lorem ipsum dolor bla bla bla'
-    teacher_name                'Tea Cher'
     trial_lesson_info           'Lorem ipsum dolor bla bla bla'
     conditions                  ''
     partner_rib_info            ''
@@ -18,9 +24,13 @@ FactoryGirl.define do
     refund_condition            ''
     can_be_joined_during_year   false
 
-    # factory :course_at_nice, class: Course do
-    #   association :structure_at_nice
-    # end
+    factory :workshop do
+      type 'Course::Workshop'
+    end
+    factory :training do
+      type 'Course::Training'
+    end
+
     factory :course_for_kid do
       min_age_for_kid  10
       max_age_for_kid  14
