@@ -97,6 +97,7 @@ fr:
       short: "%Hh%M"
       long: "%A %d %B %Y %H:%M"
       date: "%A %d %B"
+      date_short: "%d/%m/%Y"
     am: 'am'
     pm: 'pm'
 

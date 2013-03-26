@@ -3,26 +3,29 @@ module NavigationHelper
   def pro_breadcrumb_menu_link(title, url, options = {})
     current_tab = options.delete(:current)
     options[:class] ||= ''
-    options[:class] << ' flexbox__item text--center one-quarter'
+    options[:class] << ' flexbox__item text--center one-fifth'
     link = link_to url, class: "step-breadcrumb--item #{((current_tab == title) ? ' active' : '')}" do
       case title
       when 'Infos générales'
-        "Etape 1/4 : infos générales
+        "Etape 1/5 : infos générales
         <br>
         <i class='milli'>Temps estimé : 4min</i>".html_safe
       when 'Mes professeurs'
-        "Etape 2/4 : profs
+        "Etape 2/5 : profs
         <br>
         <i class='milli'>Temps estimé : 1min</i>".html_safe
       when "Lieux d'enseignements"
-        "Etape 3/4 : lieu
+        "Etape 3/5 : lieu
         <br>
         <i class='milli'>Temps estimé : 2min</i>".html_safe
-
       when 'Mes cours'
-        "Etape 4/4 : cours & validation
+        "Etape 4/5 : cours
         <br>
-        <i class='milli'>Temps estimé : 8min</i>".html_safe
+        <i class='milli'>Temps estimé : 7min</i>".html_safe
+      when 'Validation'
+        "Etape 5/5 : validation
+        <br>
+        <i class='milli'>Temps estimé : 1min</i>".html_safe
       end
     end
     content_tag(:li, link, options)

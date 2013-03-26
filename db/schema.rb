@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130324145846) do
+ActiveRecord::Schema.define(:version => 20130326150902) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -153,6 +153,7 @@ ActiveRecord::Schema.define(:version => 20130324145846) do
     t.date     "end_date"
     t.integer  "room_id"
     t.boolean  "active",                      :default => false
+    t.time     "deleted_at"
   end
 
   add_index "courses", ["place_id"], :name => "index_courses_on_place_id"
@@ -372,6 +373,7 @@ ActiveRecord::Schema.define(:version => 20130324145846) do
     t.integer  "validated_by"
     t.string   "cancel_condition"
     t.string   "modification_condition"
+    t.time     "deleted_at"
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true

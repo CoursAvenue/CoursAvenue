@@ -5,4 +5,5 @@
       = pro_breadcrumb_menu_link 'Mes professeurs'      , (@structure.new_record? ? '#' : structure_teachers_path(@structure)) , current: current_tab if @structure
       = pro_breadcrumb_menu_link "Lieux d'enseignements", (@structure.new_record? ? '#' : structure_places_path(@structure))   , current: current_tab if @structure
       = pro_breadcrumb_menu_link "Mes cours"            , (@structure.new_record? ? '#' : structure_path(@structure))          , current: current_tab if @structure
+      = pro_breadcrumb_menu_link "Validation"           , (@structure.new_record? ? '#' : structure_path(@structure))          , current: current_tab if @structure
 

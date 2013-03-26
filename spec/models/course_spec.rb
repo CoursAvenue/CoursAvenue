@@ -15,4 +15,12 @@ describe Course do
       @paris     = City.where{name == 'Paris'}.first
     end
   end
+  describe :create do
+    context 'on save' do
+      course = FactoryGirl.build(:course)
+      expect(course.place).to_be nil
+      # course.save
+      # expect(course.place_id).to eq course.room.place_id
+    end
+  end
 end

@@ -29,6 +29,8 @@
       .radio
         %input#type_course_training{type: 'radio', name: 'course[type]', value: 'Course::Training', checked: @course.is_training?}
         %label{for: 'type_course_training', class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => 'Un stage est un cours-atelier étalé sur plusieurs jours consécutifs.'} Stage
+    - if @course.errors.messages[:type]
+      %p.alert.alert-error= @course.errors.messages[:type].first
 
   .input.ilb-wrapper
     = f.label :is_individual, class: 'control-label v-top' do

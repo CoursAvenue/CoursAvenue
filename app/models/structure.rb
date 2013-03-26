@@ -1,4 +1,6 @@
 class Structure < ActiveRecord::Base
+  acts_as_paranoid
+
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',
                              'structures.independant',

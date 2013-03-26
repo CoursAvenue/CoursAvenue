@@ -1,6 +1,7 @@
 # encoding: utf-8
 # Courses are grouped by same name, audiences and levels
 class Course < ActiveRecord::Base
+  acts_as_paranoid
 
   COURSE_FREQUENCIES = ['courses.frequencies.every_week', 'courses.frequencies.every_two_weeks', 'courses.frequencies.every_month']
 
@@ -38,7 +39,6 @@ class Course < ActiveRecord::Base
   validates :subjects     , presence: true
   validates :levels       , presence: true
   validates :audiences    , presence: true
-  # validates :place        , presence: true
 
   before_save :set_place_if_empty
 
@@ -285,6 +285,14 @@ class Course < ActiveRecord::Base
       else
         return 0
       end
+    end
+  end
+
+  def place
+    if read_attribute(:place)
+      read_attribute(:place)
+    elsif self.room
+      self.room.place
     end
   end
 

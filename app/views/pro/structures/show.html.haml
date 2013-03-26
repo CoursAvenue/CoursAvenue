@@ -36,7 +36,7 @@
         %td= course.type_name
         %td= link_to course.name, edit_course_path(course)
         %td= course.teachers.uniq.map(&:name).join(', ')
-        %td= course.place.name
+        %td= "#{course.place.name} (#{course.room.name})"
         %td= course.subjects.map(&:name).join(', ')
         %td.text--right
           = link_to course_plannings_path(course), class: 'btn' do
@@ -51,61 +51,12 @@
           = link_to course_path(course), method: :delete, class: 'red', title: 'Supprimer', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
             %i.icon-trash
 
-- unless @structure.has_validated_conditions
-  %hr
-  = simple_form_for @structure, url: validate_condition_structure_path(@structure), method: :put do |f|
-    .two-thirds.center-block
-      %h3 Validation finale
-      .checkbox-list
-        %input#price-input{type: 'checkbox'}
-        %label.inline{for: 'price-input'}
-          J’ai bien pris connaissance des conditions tarifaires :
+.text--center
+  = link_to "Passer à l'étape de validation", validation_structure_path(@structure), class: 'btn btn__primary btn__large'
 
-      %table.table--striped.table--data.flush--bottom
-        %thead
-          %tr
-            %td.one-third.text--center
-            %td.one-third.text--center Depuis la plateforme LeBonCours.com
-            %td.one-third.text--center Depuis le module de réservation sur mon site en « marque grise »
-        %tbody
-          %tr
-            %td.text--center Commission appliquée sur le prix TTC de chaque réservation effectuée en ligne :
-            %td.text--center <strike>16%</strike> <b class="blue">8%</b> HT*
-            %td.text--center <strike>5%</strike> <b class="blue">3%</b> HT*
-      %p.text--right
-        %i *Offre de lancement valable jusqu’au 30/05/2013.
-      .checkbox-list
-        %div
-          = f.input :has_validated_conditions, label: "J’accepte les #{link_to 'conditions générales de vente', '#'} LeBonCoursPro"
-          = f.hidden_field :validated_by, value: current_admin.id
-        %div
-          %input#free-course-if-abonnement-input{type: 'checkbox'}
-          %label.helper-label.inline{for: 'free-course-if-abonnement-input', data: {behavior: 'popover', content: "Si vous proposez des formules de plusieurs cours (carnets ou abonnements), nous vous recommandons fortement de proposer au moins un cours d’essai, gratuit ou à prix très réduit : nos partenaires qui le proposent sont ceux qui font le plus de ventes. En pratique, l’élève achète son carnet ou son abonnement en ligne, il vient chez vous pour la 1ère séance d’essai : s’il décide de ne pas continuer, il nous en fait part via son espace client, et nous ne lui débitons que son cours d’essai (rien s’il est gratuit, sinon le prix réduit de la séance). S’il décide de continuer, alors il n’a rien à faire et nous lui débitons son carnet ou son forfait."}}
-            Pour tout achat d’un carnet ou d’un abonnement (non appliqué à l’achat d’une seule séance), j’accepte d’offrir une séance d’essai gratuite.
-          %p
-            %i Par expérience, nous savons qu’un élève qui ne vous connaît pas n’achètera pas de carnet ni d’ abonnement. C’est pourquoi nous vous proposons d’offrir au moins une séance d’essai gratuite
-      = f.input :cancel_condition, as: :select, collection: Structure::CANCEL_CONDITIONS, label_method: lambda { |condition| t(condition) }, label_html: { class: 'bold text--left one-third'}, input_html: { style: 'width: 65%;' }, include_blank: false
-      = f.input :modification_condition, as: :select, collection: Structure::MODIFICATION_CONDITIONS, label_method: lambda { |condition| t(condition) }, label_html: { class: 'bold text--left one-third'}, input_html: { style: 'width: 65%;' }, include_blank: false
-
-      .text--center
-        %h5.form-header-group.helper-label{data: {behavior: 'popover', content: 'Tous les mois, nous vous verserons les sommes dûes (total des réservations du mois précédent déduits de la commission de réservation) directement sur votre compte bancaire'}} Coordonnées bancaires
-        = f.input :bank_name
-        = f.input :bank_iban
-        = f.input :bank_bic
-
-        = f.submit 'Valider et accéder à mon logiciel', class: 'btn btn__primary btn__large'
-        %p.one-half.alert--info.center-block
-          Même après avoir cliqué sur ce bouton, vous pourrez tout de même revenir modifier les informations à votre guise.
-
+/ - unless @structure.has_validated_conditions
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {
         new TableSorter('dataTable', { columnDataTypes: 'string, string, string, string, string' });
     });
-    $$(".edit_structure")[0].addEvent("submit", function() {
-        if (!$('structure_has_validated_conditions').checked || !$('price-input').checked || !$('free-course-if-abonnement-input').checked) {
-            alert('Vous devez accepter les conditions générales de vente et déclarer avoir pris connaissance des conditions tarifaires.');
-            return false;
-        }
-    });
-

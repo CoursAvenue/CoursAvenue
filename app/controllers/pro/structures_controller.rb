@@ -38,6 +38,10 @@ class Pro::StructuresController < Pro::ProController
     @structures = Structure.order('name ASC').all
   end
 
+  def validation
+    @structure = Structure.find params[:id]
+  end
+
   def show
     @structure = Structure.find params[:id]
     @courses   = @structure.courses
@@ -105,4 +109,13 @@ class Pro::StructuresController < Pro::ProController
       end
     end
   end
+
+  def destroy
+    @structure = Structure.find params[:id]
+    @structure.delete
+    respond_to do |format|
+      format.html { redirect_to structures_path }
+    end
+  end
+
 end

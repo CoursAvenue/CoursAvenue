@@ -27,6 +27,7 @@ CoursMania::Application.routes.draw do
           put 'activate'
           put 'disable_condition'
           put 'validate_condition'
+          get 'validation'
         end
         collection do
           get 'awaiting'

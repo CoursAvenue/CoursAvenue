@@ -6,7 +6,8 @@
     %label.required.control-label au
     %input.datepicker-input{type: 'text', value: (@planning.start_date.nil? ? '' : l(@planning.start_date)), placeholder: '02/08/2013', name: 'planning[end_date]', data: {behavior: 'datepicker'}}
     %label.required.control-label de
-    %input.timepicker-input{type: 'text', value: (@planning.start_time.nil? ? '' : @planning.start_time.strftime('%Hh%M')), placeholder: '9h30', name: 'planning[start_time]'}
+    = f.input :start_time, as: :time, minute_step: 15, label: false, default: {year: 2000, month: 1, day: 1}
+    /%input.timepicker-input{type: 'text', value: (@planning.start_time.nil? ? '' : @planning.start_time.strftime('%Hh%M')), placeholder: '9h30', name: 'planning[start_time]'}
     %label.required.control-label à
     %input.timepicker-input{type: 'text', value: (@planning.end_time.nil? ? '' : @planning.end_time.strftime('%Hh%M')), placeholder: '17h30', name: 'planning[end_time]'}
     = f.association :teacher, as: :select, collection: @structure.teachers, selected: (@plannings.first.try(:teacher) || @structure.teachers.first), label: 'par'

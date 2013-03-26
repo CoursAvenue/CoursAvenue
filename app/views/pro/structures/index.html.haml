@@ -15,7 +15,7 @@
       %tr
         %td= link_to structure.name, edit_structure_path(structure)
         %td= structure.courses.count
-        %td= l(structure.created_at, format: :date)
+        %td= l(structure.created_at, format: :date_short)
         %td.text--right
           = link_to structure_path(structure), method: :delete, class: 'btn btn__danger', data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'}, title: 'Supprimer' do
             %i.icon-trash
