@@ -1,7 +1,7 @@
 = menu_currently_at 'Accueil'
 
 .ilb-wrapper.relative
-  .two-thirds.relative
+  .one-half.relative
     = image_tag 'pro/dance_teacher.jpg', class: 'block'
     .image-quote
       %quote
@@ -16,8 +16,8 @@
     /       %p
     /         Le logiciel en ligne LeBonCours est un vrai outil pour moi au quotidien : dorénavant, il remplace mon ancien cahier papier de réservations, mais il m’aide également à promouvoir mes cours et augmenter mon taux de remplissage. Et tout cela, c’est moi qui le décide, à tout moment, en quelques clics !
     /       %p.image_quote--footer.text--right.flush--bottom Elodie, professeur de flamenco
-  .one-third.islet
-    %h3.text--center Je n’ai pas encore de logiciel LeBonCoursPro
+  .one-half.islet
+    %h3.text--center Référencez et gérez vos cours simplement avec LeBonCoursPro
     %br
     %p.text--center
       = link_to "Inscription gratuite", '#', class: 'btn btn__primary btn__large', id: 'register'
@@ -27,9 +27,6 @@
       %li Vos cours directement sur LeBonCours.com : augmentez en <b>visibilité</b> et en <b>rentabilité</b> !
       %li Un outil de gestion des réservations simple, intuitif, efficace, le tout <b>gratuit</b>
       %li Vos réservations en ligne 24h/24, 7j/7 directement sur votre site Internet : <b>un gain de temps considérable</b>
-
-    %h3.text--center J’ai déjà LeBonCoursPro
-    %p.text--center= link_to 'Se connecter', new_admin_session_path, class: 'btn btn__large btn__success'
 
 %br
 %hr

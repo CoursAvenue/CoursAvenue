@@ -20,4 +20,6 @@
           - elsif current_admin.structure.present?
             %li= link_to 'Espace admin', structure_path(current_admin.structure), class: 'header-link'
           %li= link_to 'Se déconnecter', destroy_admin_session_path, class: 'header-link', method: :delete
+        - else
+          %li= link_to 'Se connecter', new_admin_session_path, class: 'header-link'
 

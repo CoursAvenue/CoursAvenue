@@ -5,117 +5,91 @@
 
 .ilb-wrapper
   .one-third
-    .text--center
-      %h3.flush--bottom
-        %u Basique
-      %h4.flush--bottom Gratuit à vie
-      %p
-        %i Hors frais de réservation*
+    .ten-twelfths.center-block.price-box.islet
+      .text--center
+        %h3.flush--bottom
+          %u Basique
+        %h4.flush--bottom Gratuit à vie
+        %p
+          %i Hors frais de réservation*
+
+      %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
+        %li
+          %i.icon-ok.delta.green
+          %b Référencement de vos cours
+        %li
+          %i.icon-ok.delta.green
+          %b Gestion du planning
+        %li
+          %i.icon-ok.delta.green
+          %b Planning sur votre site Internet
+        %li
+          %i.icon-ok.delta.green
+          %b Gestion des cours, tarifs et salles
+      .text--center
+        %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'basic-offer-details', title: "Détails de l'offre Basique"}
+        = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large', id: 'register'
 
   .one-third
-    .text--center
-      %h3.flush--bottom
-        %u Pro
-      %h4.flush--bottom 49€ HT / mois
-      %p
-        %i Hors frais de réservation*
+    .ten-twelfths.center-block.price-box.islet
+      .text--center
+        %h3.flush--bottom
+          %u Pro
+        %h4.flush--bottom 49€ HT / mois
+        %p
+          %i Hors frais de réservation*
+      %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
+        %li
+          %i.icon-ok.delta.green
+          %b Bouton « Réserver »
+        %li
+          %i.icon-ok.delta.green
+          %b Votre logo
+        %li
+          %i.icon-ok.delta.green
+          %b Statistiques
+        %li
+          %i.icon-ok.delta.green
+          %b Gestion multi-utilisateurs
+        %li
+          %i.icon-ok.delta.green
+          %b Personnalisation de vos outils
+        %li
+          %i.icon-ok.delta.green
+          %b Envoi de SMS
+      .text--center
+        %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-offer-details', title: "Détails de l'offre Pro"}
+        = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button'
 
   .one-third
-    .text--center
-      %h3.flush--bottom
-        %u Pro <i>Plus</i>
-      %h4.flush--bottom 69€ HT / mois
-      %p
-        %i Hors frais de réservation*
+    .ten-twelfths.center-block.price-box.islet
+      .text--center
+        %h3.flush--bottom
+          %u Pro <i>Plus</i>
+        %h4.flush--bottom 69€ HT / mois
+        %p
+          %i Hors frais de réservation*
+      %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
+        %li
+          %i.icon-ok.delta.green
+          %b Base de données élèves avancée
+        %li
+          %i.icon-ok.delta.green
+          %b Outils de communication avancés
+        %li
+          %i.icon-ok.delta.green
+          %b Gestion RH
+        %li
+          %i.icon-ok.delta.green
+          %b Outils CRM avancés
+      .text--center
+        %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-plus-offer-details', title: "Détails de l'offre Pro Plus"}
+        = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button'
 
-.ilb-wrapper
-  .one-third
-    %ul.discrete-list.islet.flush--bottom
-      %li
-        %i.icon-ok.delta.green
-        %b Référencement de vos cours
-      %li
-        %i.icon-ok.delta.green
-        %b Gestion du planning
-      %li
-        %i.icon-ok.delta.green
-        %b Planning sur votre site Internet
-      %li
-        %i.icon-ok.delta.green
-        %b Gestion des cours, tarifs et salles
-
-  .one-third
-    %ul.discrete-list.islet.flush--bottom
-      %li
-        %i.icon-ok.delta.green
-        %b Bouton « Réserver »
-      %li
-        %i.icon-ok.delta.green
-        %b Votre logo
-      %li
-        %i.icon-ok.delta.green
-        %b Statistiques
-      %li
-        %i.icon-ok.delta.green
-        %b Gestion multi-utilisateurs
-      %li
-        %i.icon-ok.delta.green
-        %b Personnalisation de vos outils
-      %li
-        %i.icon-ok.delta.green
-        %b Envoi de SMS
-
-
-  .one-third
-    %ul.discrete-list.islet.flush--bottom
-      %li
-        %i.icon-ok.delta.green
-        %b Base de données élèves avancée
-      %li
-        %i.icon-ok.delta.green
-        %b Outils de communication avancés
-      %li
-        %i.icon-ok.delta.green
-        %b Gestion RH
-      %li
-        %i.icon-ok.delta.green
-        %b Outils CRM avancés
-  / .one-third
-  /   %ul.discrete-list.islet
-  /     %li
-  /       %i.icon-ok.delta.green
-  /       Création de votre site internet
-  /     %li
-  /       %i.icon-ok.delta.green
-  /       Offres préférentielles
-  /     %li
-  /       %i.icon-ok.delta.green
-  /       Équipe projet dédiée
-  /     %li
-  /       %i.icon-ok.delta.green
-  /       Personnalisation sur mesure
-  /     %li
-  /       %i.icon-ok.delta.green
-  /       API / Intégration
-  /     %li
-  /       %i.icon-ok.delta.green
-  /       Statistiques consolidées
-
-
-.ilb-wrapper.align-middle
-  .one-third.text--center
-    %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'basic-offer-details', title: "Détails de l'offre Basique"}
-    = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large', id: 'register'
-  .one-third.text--center
-    %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-offer-details', title: "Détails de l'offre Pro"}
-    = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button'
-  .one-third.text--center
-    %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-plus-offer-details', title: "Détails de l'offre Pro Plus"}
-    = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button'
 
 
 %br
-.text--center
+.price-box.islet.center-block.one-half.text--center
   %h4.flush--bottom Vous vous lancez et voulez une offre sur mesure ?
   %p
     Contactez nous pour en parler, nous faisons également des offres sur mesure !
