@@ -28,11 +28,15 @@ textarea:focus, input:focus {
 
 .input-with-icon {
     position: relative;
+    i.lbc-subject-icon {
+        margin-top: -8px;
+    }
     i {
         position   : absolute;
         right      : 10px;
         top        : 50%;
         margin-top : -0.5em;
         line-height: 1;
+        color      : black;
     }
 }

@@ -19,7 +19,7 @@
 
         attachEvents: function() {
             var is_hidden       = this.toggled_el.hasClass('hide');
-            var height          = this.toggled_el.getStyle('height');
+            var height          = this.toggled_el.offsetHeight
             var padding_top     = this.toggled_el.getStyle('padding-top');
             var padding_bottom  = this.toggled_el.getStyle('padding-bottom');
             if (is_hidden) {
