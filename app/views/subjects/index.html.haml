@@ -13,6 +13,15 @@
         %p.flush--bottom= page_entries_info @courses, entry_name: Course.model_name.human.downcase
         .spoken-form
           %label Trier par :
+          / = link_to 'Pertinence', request.fullpath + '?sort=relevancy'
+          / |
+          / = link_to request.fullpath + '?sort=price_asc' do
+          /   %i.icon-angle-up
+          /   Prix
+          / |
+          / = link_to request.fullpath + '?sort=price_desc' do
+          /   %i.icon-angle-down
+          /   Prix
           %select#filter-select{name: 'sort'}
             %option{value: 'relevancy', selected: (params[:sort] == 'relevancy') } Pertinence
             %option{value: 'price_asc', selected: (params[:sort] == 'price_asc') } Prix : du plus bas au plus élevé

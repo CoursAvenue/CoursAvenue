@@ -8,11 +8,14 @@ CoursMania::Application.routes.draw do
 
   resources :subjects, only: [:show, :index], path: 'disciplines'
 
+  resources :renting_rooms, only: [:create]
+
   # resources :city, path: 'ville' do
   #   resources :subjects, only: [:show, :index], defaults: {city_id: 'paris'}, path: 'disciplines'
   # end
 
   resources :reservation_loggers, only: [:create]
+  resources :click_loggers, only: [:create]
 
   constraints :subdomain => 'pro' do
     scope :module => 'pro' do
@@ -20,6 +23,7 @@ CoursMania::Application.routes.draw do
       match 'pages/presentation'    => 'home#presentation'
       match 'pages/offre-et-tarifs' => 'home#price', as: 'pages_price'
       match 'pages/presse'          => 'home#press', as: 'pages_press'
+      match '/dashboard'            => 'dashboard#index', as: 'dashboard'
 
       resources :reservation_loggers, only: [:index, :destroy]
       resources :structures do
@@ -68,6 +72,8 @@ CoursMania::Application.routes.draw do
   end
 
   # Pages
+  match 'pages/louer-mes-salles'              => 'pages#rent_places',          as: 'pages_rent_places'
+  match 'pages/trouver-une-salle'             => 'pages#find_places',          as: 'pages_find_places'
   match 'pages/pourquoi-le-bon-cours'         => 'pages#why',                  as: 'pages_why'
   match 'pages/comment-ca-marche'             => 'pages#how_it_works',         as: 'pages_how_it_works'
   match 'pages/faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'

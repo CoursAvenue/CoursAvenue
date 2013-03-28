@@ -59,7 +59,7 @@
           %b Envoi de SMS
       .text--center
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-offer-details', title: "Détails de l'offre Pro"}
-        = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button'
+        = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button', id: 'price_pro_subscribe'
 
   .one-third
     .ten-twelfths.center-block.price-box.islet
@@ -84,7 +84,7 @@
           %b Outils CRM avancés
       .text--center
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-plus-offer-details', title: "Détails de l'offre Pro Plus"}
-        = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button'
+        = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button', id: 'price_pro_plus_subscribe'
 
 
 
@@ -96,7 +96,7 @@
     %br
     = link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'custom-offer-details', title: "Détails de l'offre sur mesure", width: 300}
     %br
-    = link_to "Nous contacter", pages_contact_path, class: 'btn btn__primary'
+    = link_to "Nous contacter", pages_contact_path, class: 'btn btn__primary', id: 'price_custom'
 
 %hr
 %h4 *Frais de réservation :
@@ -181,6 +181,44 @@
             "title":"Inscription",
             "contents": $('registration-form').get('html')
         });
+        new Request.JSON({
+            url: Routes.click_loggers_path(),
+            data: {
+              click_logger: {
+                name: "Je m'inscris - formule basiques"
+              }
+            }
+        }).post();
+    });
+    $("price_pro_subscribe").addEvent("click", function(){
+        new Request.JSON({
+            url: Routes.click_loggers_path(),
+            data: {
+              click_logger: {
+                name: "Je m'inscris - formule pro"
+              }
+            }
+        }).post();
+    });
+    $("price_pro_plus_subscribe").addEvent("click", function(){
+        new Request.JSON({
+            url: Routes.click_loggers_path(),
+            data: {
+              click_logger: {
+                name: "Je m'inscris - formule pro plus"
+              }
+            }
+        }).post();
+    });
+    $("price_custom").addEvent("click", function(){
+        new Request.JSON({
+            url: Routes.click_loggers_path(),
+            data: {
+              click_logger: {
+                name: "Je m'inscris - formule custom"
+              }
+            }
+        }).post();
     });
     $$(".launching-space-button").addEvent("click", function(){
         var modal = new SimpleModal({

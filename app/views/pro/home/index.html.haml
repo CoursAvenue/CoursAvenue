@@ -81,6 +81,14 @@
             "title":"Inscription",
             "contents": $('registration-form').get('html')
         });
+        new Request.JSON({
+            url: Routes.click_loggers_path(),
+            data: {
+              click_logger: {
+                name: 'Inscription gratuite - Accueil pro'
+              }
+            }
+        }).post();
     });
 
 #registration-form.hidden

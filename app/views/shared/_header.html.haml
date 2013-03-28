@@ -9,11 +9,11 @@
       %ul.nav
         %li.espace-pro-wrapper
           .espace-pro
-          = link_to 'Référencer mes cours et stages', 'http://pro.leboncours.com', class: 'btn'
+          = link_to 'Référencer mes cours', 'http://pro.leboncours.com', class: 'btn'
         %li
-          = link_to 'Louer mes espaces', 'mailto:referencement@leboncours.com?subject=Location de mes espaces', class: 'btn'
+          = link_to 'Louer mes salles', pages_rent_places_path, class: 'btn'
         %li
-          = link_to 'Trouver une salle pour mes cours ?', 'mailto:referencement@leboncours.com?subject=Recherche de salle à louer', class: 'btn'
+          = link_to 'Trouver une salle', pages_find_places_path, class: 'btn'
     %nav.float--right.nav-links-wrapper
       %ul.nav
         %li

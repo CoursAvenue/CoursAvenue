@@ -1,0 +1,35 @@
+%h1 Dashboard
+%h2 Metrics
+
+%h3 Bouton "Réserver en ligne"
+Nb click total : #{ReservationLogger.count}
+%table#data
+  %tfoot
+    %tr
+      - @reservations_logger.keys.each do |date|
+        %td= l(Date.parse(date), format: :short)
+  %tbody
+    %tr
+      - @reservations_logger.values.each do |count|
+        %td= count
+
+%h3 Location de salle
+%table.table--striped
+  %thead
+    %tr
+      %td Nom du contact
+      %td Email
+      %td Adresse
+  %tbody
+    %tr
+      - @renting_rooms.each do |renting_room|
+        %td= renting_room.contact_name
+        %td= renting_room.contact_email
+        %td= renting_room.address
+
+
+%h3 Nombre de click par bouton
+%ul
+  - @click_logger.each do |key, values|
+    %li= "#{key} - #{values}"
+

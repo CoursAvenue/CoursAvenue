@@ -6,42 +6,4 @@
   /= form_tag courses_path, method: :get, authenticity_token: false, class: 'header-search-bar--dark', 'data-behavior' => 'course-search-form' do
   /= form_tag city_subject_path(city_id: 'paris', id: 'toutes-disciplines'), method: :get, authenticity_token: false, class: 'header-search-bar--dark', 'data-behavior' => 'course-search-form' do
   = form_tag subjects_path, method: :get, authenticity_token: false, class: 'header-search-bar--dark', 'data-behavior' => 'course-search-form' do
-    .header-search-bar
-      %div.search-input-wrapper
-        .input-with-icon
-          %input#search-input{class: 'search-input', placeholder: 'Que voulez-vous faire ?', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'subject-list', autocomplete: 'off'}
-          %i.lbc-subject-icon
-          .aListCon
-            %datalist#subject-list
-            <!--[if IE 9]><select disabled><![endif]-->
-            - Subject.all.each do |subject|
-              %option{value: subject.name}
-            <!--[if IE 9]></select><![endif]-->
-          = content_for :scripts do
-            :javascript
-              (function(window, document, undefined) {
-                "use strict";
-                var myAutocomplete = new Autocomplete("search-input", {
-                  useNativeInterface : false,
-                  srcType : "dom"
-                });
-
-              })(this, this.document);
-      %div.search-input-wrapper
-        .input-with-icon
-          %input#location-input{class: 'search-input', placeholder: 'Où ?', type: 'text', name: 'city', value: @city.try(:name), list: 'location-list', 'data-slug' => @city.try(:slug), autocomplete: 'off'}
-          %i.icon-map-marker.delta
-        %datalist#location-list
-          <!--[if IE 9]><select disabled></select><![endif]-->
-
-      / = render 'shared/subjects_search'
-
-      = render 'shared/week_day_search'
-
-      = render 'shared/time_slot_search'
-
-      %div.button-wrapper
-        %button.btn.btn__primary{type: 'submit', id: 'submit_search_form'}
-          %i.icon-search
-          Rechercher
-
+    = render 'shared/header_search'

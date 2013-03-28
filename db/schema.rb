@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130326160551) do
+ActiveRecord::Schema.define(:version => 20130328161055) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -115,6 +115,12 @@ ActiveRecord::Schema.define(:version => 20130326160551) do
   add_index "cities", ["name"], :name => "index_cities_on_name"
   add_index "cities", ["slug"], :name => "index_cities_on_slug", :unique => true
   add_index "cities", ["zip_code"], :name => "index_cities_on_zip_code"
+
+  create_table "click_loggers", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "courses", :force => true do |t|
     t.string   "type"
@@ -299,8 +305,8 @@ ActiveRecord::Schema.define(:version => 20130326160551) do
     t.integer  "minimum_price"
     t.integer  "maximum_price"
     t.text     "price_info"
-    t.text     "contact_mail"
-    t.text     "contact_phone"
+    t.string   "contact_email"
+    t.string   "contact_phone"
     t.boolean  "is_duty_free"
     t.boolean  "has_recording_studio"
     t.boolean  "has_cloakroom"
@@ -313,6 +319,8 @@ ActiveRecord::Schema.define(:version => 20130326160551) do
     t.integer  "structure_id"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
+    t.string   "contact_name"
+    t.string   "address"
   end
 
   create_table "reservation_loggers", :force => true do |t|

@@ -2,7 +2,9 @@ class RentingRoom < ActiveRecord::Base
   belongs_to :structure
 
   attr_accessible :contact_phone,
-                  :contact_mail,
+                  :contact_name,
+                  :contact_email,
+                  :address,
                   :is_duty_free,
                   :info,
                   :maximum_price,
@@ -19,4 +21,6 @@ class RentingRoom < ActiveRecord::Base
                   :has_parquet,
                   :has_recording_studio,
                   :has_piano
+
+  validates :contact_email, :address, presence: true
 end

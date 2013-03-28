@@ -1,0 +1,14 @@
+%h1.blue Louer mes salles
+
+%p
+  Laissez nous vos informations et nous vous permettrons de louer vos salles.
+
+= simple_form_for @renting_room do |f|
+  = f.input :contact_name, label: 'Nom'
+  = f.input :contact_phone, label: 'Téléphone'
+  = f.input :contact_email, label: 'Email'
+  = f.input :name, label: 'Nom du lieu'
+  = f.input :address, label: 'Adresse'
+  = f.input :info, label: 'Informations supplémentaires', input_html: {style: 'width: 35em;'}
+  .form-actions
+    = f.submit 'Envoyer', class: 'btn btn__primary'

@@ -2,7 +2,15 @@
     background-color: $grayLighter;
 }
 
+.course-element:hover {
+    .book-online-button{
+        visibility: visible;
+    }
+}
 .course-element {
+    .book-online-button{
+        visibility: hidden;
+    }
     font-weight     : 200;
     padding         : 1em 0.5em;
     display         : table;

@@ -1,34 +1,35 @@
 - params[:start_date] ||= l(Date.today)
 - params[:end_date]   ||= l(Date.today + 6.months)
 
-/.header-search-bar.main-container
 .header-search-bar
   %div.search-input-wrapper
-    %input#search-input{class: 'search-input', placeholder: 'Quel type de cours ?', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'subject-list', autocomplete: 'off'}
-    .aListCon
-      %datalist#subject-list
-      <!--[if IE 9]><select disabled><![endif]-->
-      - Subject.all.each do |subject|
-        %option{value: subject.name}
-      <!--[if IE 9]></select><![endif]-->
-    = content_for :scripts do
-      :javascript
-        (function(window, document, undefined) {
-          "use strict";
-          var myAutocomplete = new Autocomplete("search-input", {
-            useNativeInterface : false,
-            srcType : "dom"
-          });
+    .input-with-icon
+      %input#search-input{class: 'search-input', placeholder: 'Que voulez-vous faire ?', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'subject-list', autocomplete: 'off'}
+      %i.lbc-subject-icon
+      .aListCon
+        %datalist#subject-list
+        <!--[if IE 9]><select disabled><![endif]-->
+        - Subject.all.each do |subject|
+          %option{value: subject.name}
+        <!--[if IE 9]></select><![endif]-->
+      = content_for :scripts do
+        :javascript
+          (function(window, document, undefined) {
+            "use strict";
+            var myAutocomplete = new Autocomplete("search-input", {
+              useNativeInterface : false,
+              srcType : "dom"
+            });
 
-        })(this, this.document);
+          })(this, this.document);
   %div.search-input-wrapper
     .input-with-icon
-      %input#location-input{class: 'search-input', placeholder: 'Quelle ville ?', type: 'text', name: 'city', value: @city.try(:name), list: 'location-list', 'data-slug' => @city.try(:slug), autocomplete: 'off'}
+      %input#location-input{class: 'search-input', placeholder: 'Où ?', type: 'text', name: 'city', value: @city.try(:name), list: 'location-list', 'data-slug' => @city.try(:slug), autocomplete: 'off'}
       %i.icon-map-marker.delta
     %datalist#location-list
       <!--[if IE 9]><select disabled></select><![endif]-->
 
-  /= render 'shared/subjects_search'
+  / = render 'shared/subjects_search'
 
   = render 'shared/week_day_search'
 
@@ -38,4 +39,4 @@
     %button.btn.btn__primary{type: 'submit', id: 'submit_search_form'}
       %i.icon-search
       Rechercher
-
+/ Entrez une discipline, le nom d'une école, d'un professeur ou même d'un plat.

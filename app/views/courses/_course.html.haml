@@ -23,10 +23,10 @@
       %p
         Stage de
         = pluralize course.length, 'jour'
-    %ul.nav
-      %li= join_audiences(course)
-      %li -
-      %li= join_levels(course)
+    / %ul.nav
+    /   %li= join_audiences(course)
+    /   %li -
+    /   %li= join_levels(course)
     %div
       %i.icon-map-marker
       - if course.place.name.length > 50
@@ -74,3 +74,4 @@
           %p (par cours)
         - else
           %p= "(#{t(course.best_price.libelle).downcase})".html_safe
+    /%a.book-online-button.one-whole.btn.btn__primary.text--center Réservez
