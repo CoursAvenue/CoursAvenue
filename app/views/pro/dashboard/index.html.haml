@@ -29,7 +29,10 @@ Nb click total : #{ReservationLogger.count}
 
 
 %h3 Nombre de click par bouton
-%ul
-  - @click_logger.each do |key, values|
-    %li= "#{key} - #{values}"
+%table.one-half
+  %tbody
+    - @click_logger.each do |name, count|
+      %tr
+        %td= name
+        %td= count
 
