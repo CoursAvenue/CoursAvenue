@@ -39,7 +39,7 @@
         = "- Paris&nbsp;#{course.place.zip_code[3..4]}".html_safe
     = join_week_days(course)                        if course.is_lesson?
     - unless course.is_lesson?
-      = training_dates(course.plannings.first)
+      = training_dates(course.recent_plannings.first || course.plannings.first)
       - if course.plannings.length > 1
         = "et #{course.plannings.length - 1} autres dates."
     %footer

@@ -20,7 +20,7 @@ class Course < ActiveRecord::Base
   belongs_to :place
   has_one    :city , through: :place
 
-  has_many :plannings           , dependent: :destroy
+  has_many :plannings           , dependent: :destroy, conditions: "plannings.end_date > '#{Date.today}'"
   has_many :teachers            , through: :plannings
   has_many :prices              , dependent: :destroy
   has_many :book_tickets        , dependent: :destroy
@@ -169,6 +169,10 @@ class Course < ActiveRecord::Base
     boolean :has_package_price
     boolean :has_trial_lesson
     boolean :has_unit_course_price
+  end
+
+  def recent_plannings
+    self.plannings.where{start_date > Date.today}
   end
 
   def has_promotion

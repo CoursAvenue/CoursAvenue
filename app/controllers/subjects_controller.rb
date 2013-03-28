@@ -109,6 +109,7 @@ class SubjectsController < ApplicationController
       end
     end
     city = @city
+    params[:start_date] ||= Date.today
     @search = Sunspot.search(Course) do
       fulltext                              params[:name]                                           if params[:name].present?
       with(:location).in_radius(city.latitude, city.longitude, params[:radius] || 10, :bbox => true)
