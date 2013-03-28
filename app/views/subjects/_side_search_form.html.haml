@@ -30,11 +30,8 @@
   .search-panel
     %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
       Dates
-      - if params[:start_date].present? || params[:end_date].present?
-        %i.icon-caret-down
-      - else
-        %i.icon-caret-left
-    .search-panel-content{class: (params[:start_date].present? || params[:end_date].present?) ? '' : 'hide'}
+      %i.icon-caret-down
+    .search-panel-content
       Du
       %input#start_date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
       au
