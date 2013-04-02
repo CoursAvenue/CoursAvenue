@@ -1,0 +1,19 @@
+Bonjour <%= @reservation.full_name %>,
+
+Merci d'avoir réservé le cours de : <%= @reservation.course.name %> !
+
+======== Récapitulatif ========
+Nom du cours : <%= @reservation.course.name %>
+<% if @reservation.planning.teacher %>
+Professeur : <%= @reservation.planning.teacher.name %>
+<% end %>
+Établissement : <%= @reservation.structure.name %>
+Adresse de l'établissement : <%= @reservation.structure.address %>
+Date : <%= @reservation.planning.to_s %>
+Prix : <%= @reservation.price.readable_amount %>€ (<%= I18n.t(@reservation.price.libelle) %>)
+
+Dès que le professeur aura validé votre réservation, un mail de confirmation vous sera envoyé.
+
+À très bientôt !
+
+L'équipe du Bon Cours !

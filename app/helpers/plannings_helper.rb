@@ -1,4 +1,22 @@
+# encoding: utf-8
 module PlanningsHelper
+
+  def label_method_for_collection course_type
+    case course_type
+    when 'Course::Lesson'
+      return lambda do |planning|
+        "#{week_day_for planning} à #{l(planning.start_time, format: :short)} #{(planning.teacher.present? ? "par #{planning.teacher.name}" : '')}"
+      end
+    when 'Course::Workshop'
+      return lambda do |planning|
+        "#{l(planning.start_date, format: :semi_long).capitalize} à #{l(planning.start_time, format: :short)} #{(planning.teacher.present? ? "par #{planning.teacher.name}" : '')}"
+      end
+    when 'Course::Training'
+      return lambda do |planning|
+        "#{l(planning.start_date, format: :semi_long).capitalize} à #{l(planning.start_time, format: :short)} #{(planning.teacher.present? ? "par #{planning.teacher.name}" : '')}"
+      end
+    end
+  end
 
   def week_day_for(planning)
     unless planning.week_day.blank?

@@ -1,0 +1,110 @@
+%h2.flush--bottom Réservation du cours :  #{@course.name}
+%h4.flush--bottom= @course.structure.name
+%h5
+  %i.icon-map-marker
+  %i= @course.structure.address
+
+= simple_form_for @reservation, url: course_reservations_path do |f|
+  %h4.small-margin-bottom Choix de la séance et du tarif
+  .ilb-wrapper.align-middle.price-box.islet.text--center
+    %div{style: 'margin-right: 1em;'}
+      = f.association :planning, collection: @plannings.order('start_date'), label_method: label_method_for_collection(@course.type), label: false, include_blank: false
+    - if @course.is_lesson?
+      .bordered--left{style: 'padding-left: 1em; margin-right: 1em;'}
+        %label Jour précis (optionnel)
+        = f.input :start_date, as: :string, input_html: {data: {behavior: 'datepicker'}, style: 'width: 8em;', class: 'text--center'}, label: false, placeholder: 'jj/mm/yyyy', wrapper_html: {class: 'flush--top'}
+    .bordered--left{style: 'padding-left: 1em;'}
+      = f.association :price, collection: @prices, label_method: lambda {|price| "#{t(price.libelle)} - #{price.readable_amount}€" }, label: false, include_blank: false
+  - unless @reservation.errors.any?
+    .text--center
+      %a#show-first-section.btn.btn__primary.btn__large Continuer
+
+  #first-hidden-section{style: @reservation.errors.any? ? '' : 'opacity: 0'}
+    %h4.small-margin-bottom Paiement
+    .price-box.islet
+      %h5.text--center Vos informations personnelles
+      .ilb-wrapper.text--center
+        %div.islet.flush--bottom
+          = f.label :first_name, class: 'text--left'
+          = f.input :first_name, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top'}
+        %div.islet.flush--bottom
+          = f.label :last_name, class: 'text--left'
+          = f.input :last_name, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top'}
+        %div.islet.flush--bottom
+          = f.label :email, class: 'text--left'
+          = f.input :email, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top'}
+        %div.islet.flush--bottom
+          = f.label :phone, class: 'text--left'
+          = f.input :phone, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top'}
+      %br
+      %hr
+      %h5.flush--bottom.text--center Adresse de facturation
+      .ilb-wrapper.text--center
+        %div.islet.flush--bottom
+          = f.label :billing_address_first_line, class: 'text--left'
+          = f.input :billing_address_first_line, label: false, input_html: {style: 'width: 25em;', placeholder: 'Rue, voie, boîte postale, nom de société'}
+          = f.label :billing_address_second_line, class: 'text--left'
+          = f.input :billing_address_second_line, label: false, input_html: {style: 'width: 25em;', placeholder: 'Bâtiment, étage, lieu-dit, indication au livreur, etc.'}
+        .ilb-wrapper
+          %div.islet.flush--bottom
+            = f.label :city_name, class: 'text--left'
+            = f.input :city_name, label: false, input_html: {style: 'width: 15em;'}
+            = f.label :zip_code, class: 'text--left'
+            = f.input :zip_code, label: false, input_html: {style: 'width: 15em;'}
+    - unless @reservation.errors.any?
+      .text--center
+        %a#show-second-section.btn.btn__primary.btn__large
+          %i.icon-credit-card
+          Payer
+
+  #second-hidden-section{style: @reservation.errors.any? ? '' : 'opacity: 0'}
+    %h4.small-margin-bottom Vos informations de carte bleue
+    .price-box.islet.text--center
+      .ilb-wrapper
+        .islet
+          = f.label :name_on_card, class: 'text--center'
+          = f.input :name_on_card, label: false, input_html: {style: 'width: 25em;'}, wrapper_html: {class: 'flush--top'}
+        .islet
+          %label Numéro de carte
+          %input.string{type: 'string', maxlength: 16}
+          .islet.flush--bottom
+            = image_tag 'icons/credit_cards/visa.png', height: 24
+            = image_tag 'icons/credit_cards/mastercard.png', height: 24
+            = image_tag 'icons/credit_cards/american_express.png', height: 24
+            = image_tag 'icons/credit_cards/paypall.png', height: 24
+        .islet
+          %label Date d'expiration
+          %select
+            = (1..12).each do |n|
+              %option= n
+          %select
+            = (Date.today.year..(Date.today.year + 10)).each do |n|
+              %option= n
+        .islet
+          %label Cryptogramme visuel
+          %input.string{type: 'string', maxlength: 3, style: 'width: 5em'}
+          %div
+            %a{href: 'http://www.amazon.fr/gp/help/customer/display.html?ie=UTF8&nodeId=200039250&pop-up=1', target: :_blank} De quoi s'agit-il ?
+
+      .text--center
+        = f.submit 'Réserver', class: 'btn btn__primary btn__large'
+        .milli
+          = "En cliquant sur le boutont «réserver», j'accepte les #{ link_to 'CGVs', pages_terms_and_conditions_path}.".html_safe
+      %p.alert--info Nous n'encaisserons votre argent qu'après le début du cours donc si #{@course.structure.name} annule son cours, vous serez remboursé automatiquement.
+= content_for :scripts do
+  :javascript
+      window.addEvent('domready', function() {
+          $$('form input').addEvent('keydown', function(event){
+              if (event.key === 'enter') {
+                  return false;
+              }
+          });
+          $('show-first-section').addEvent('click', function(){
+              this.fade('out');
+              $('first-hidden-section').fade('in');
+          });
+          $('show-second-section').addEvent('click', function(){
+              this.fade('out');
+              $('second-hidden-section').fade('in');
+          });
+      });

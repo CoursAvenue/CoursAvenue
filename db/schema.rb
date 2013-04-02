@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130328161055) do
+ActiveRecord::Schema.define(:version => 20130402074730) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -207,6 +207,15 @@ ActiveRecord::Schema.define(:version => 20130328161055) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "participants", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.integer  "reservation_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
   create_table "places", :force => true do |t|
     t.string   "name"
     t.string   "street"
@@ -327,6 +336,24 @@ ActiveRecord::Schema.define(:version => 20130328161055) do
     t.integer  "course_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "reservations", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.string   "name_on_card"
+    t.string   "billing_address_first_line"
+    t.string   "billing_address_second_line"
+    t.string   "city_name"
+    t.string   "zip_code"
+    t.string   "phone"
+    t.date     "start_date"
+    t.integer  "course_id"
+    t.integer  "planning_id"
+    t.integer  "price_id"
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
   end
 
   create_table "rooms", :force => true do |t|

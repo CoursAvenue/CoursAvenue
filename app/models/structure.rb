@@ -70,6 +70,10 @@ class Structure < ActiveRecord::Base
     admins.first || Admin.new
   end
 
+  def address
+    "#{self.street}, #{self.city.name}"
+  end
+
   private
 
   def set_free_pricing_plan
@@ -79,4 +83,5 @@ class Structure < ActiveRecord::Base
   def create_place
     self.places.create(name: self.name, street: self.street, city: self.city, zip_code: self.zip_code)
   end
+
 end

@@ -20,6 +20,7 @@ class Course < ActiveRecord::Base
   belongs_to :place
   has_one    :city , through: :place
 
+  has_many :reservations
   has_many :plannings           , dependent: :destroy, conditions: "plannings.end_date > '#{Date.today}'"
   has_many :teachers            , through: :plannings
   has_many :prices              , dependent: :destroy

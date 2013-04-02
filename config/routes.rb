@@ -4,9 +4,12 @@ CoursMania::Application.routes.draw do
 
   resources :newsletter_users, only: [:create]
 
-  resources :courses, only: 'show', path: 'cours'
+  resources :courses, only: 'show', path: 'cours' do
+    resources :reservations, only: [:new, :create]
+  end
 
   resources :subjects, only: [:show, :index], path: 'disciplines'
+
 
   resources :renting_rooms, only: [:create]
 
