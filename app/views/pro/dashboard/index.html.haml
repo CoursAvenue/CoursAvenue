@@ -1,9 +1,25 @@
 %h1 Dashboard
 %h2 Metrics
 
+%h3 Réservations
+%table.table--striped
+  %thead
+    %tr
+      %td Nom du contact
+      %td Nom du cours
+      %td Numéro
+      %td Email
+  %tbody
+    - @reservations.each do |reservation|
+      %tr
+        %td= reservation.full_name
+        %td= reservation.course.name
+        %td= reservation.phone
+        %td= reservation.email
+
 %h3 Bouton "Réserver en ligne"
 Nb click total : #{ReservationLogger.count}
-%table#data
+%table
   %tfoot
     %tr
       - @reservations_logger.keys.each do |date|
