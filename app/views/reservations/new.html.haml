@@ -107,4 +107,24 @@
               this.fade('out');
               $('second-hidden-section').fade('in');
           });
+          $("show-first-section").addEvent("click", function(){
+              new Request.JSON({
+                  url: Routes.click_loggers_path(),
+                  data: {
+                    click_logger: {
+                      name: "Reservation - Continuer"
+                    }
+                  }
+              }).post();
+          });
+          $("show-second-section").addEvent("click", function(){
+              new Request.JSON({
+                  url: Routes.click_loggers_path(),
+                  data: {
+                    click_logger: {
+                      name: "Reservation - Payer"
+                    }
+                  }
+              }).post();
+          });
       });
