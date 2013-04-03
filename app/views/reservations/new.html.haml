@@ -14,7 +14,10 @@
         %label Jour précis (optionnel)
         = f.input :start_date, as: :string, input_html: {data: {behavior: 'datepicker'}, style: 'width: 8em;', class: 'text--center'}, label: false, placeholder: 'jj/mm/yyyy', wrapper_html: {class: 'flush--top'}
     .bordered--left{style: 'padding-left: 1em;'}
-      = f.association :price, collection: @prices, label_method: lambda {|price| "#{t(price.libelle)} - #{price.readable_amount}€" }, label: false, include_blank: false
+      = f.association :price, collection: @prices + @book_tickets, label_method: lambda {|price| "#{((price.is_a? Price) ? t(price.libelle) : price.libelle)} : #{price.readable_amount}€" }, label: false, include_blank: false, value_method: lambda {|price| price.amount}, input_html: {name: 'none', id: 'price_select'}
+      #promotion-box.green.bold
+    = f.association :price, as: :hidden
+    = f.association :book_ticket, as: :hidden
   - unless @reservation.errors.any?
     .text--center
       %a#show-first-section.btn.btn__primary.btn__large Continuer
@@ -107,6 +110,36 @@
               this.fade('out');
               $('second-hidden-section').fade('in');
           });
+          var plannings     = #{@plannings.to_json};
+          var prices        = #{@prices.to_json};
+          var book_tickets  = #{@book_tickets.to_json};
+          var update_promotion = function() {
+              var planning_id       = parseInt($('reservation_planning_id').value);
+              var selected_planning = plannings.filter(function(planning) { return planning.id == planning_id})[0]
+              var value_price       = $('price_select').value;
+              var new_price         = parseFloat($('price_select').value) * (100 + parseFloat(selected_planning.promotion)) / 100;
+              if (selected_planning.promotion) {
+                  $('promotion-box').set('text', 'Après réduction : ' + new_price + '€');
+              } else {
+                  $('promotion-box').set('text', '');
+              }
+              var new_price_id_element = prices.filter(function(price) { return price.amount === value_price })[0];
+              if (new_price_id_element) {
+                  $('reservation_price_id').set('value', new_price_id_element.id);
+              } else {
+                  $('reservation_price_id').set('value', '');
+              }
+              var new_book_ticket_id_element = book_tickets.filter(function(book_ticket) { return book_ticket.price === value_price })[0];
+              if (new_book_ticket_id_element) {
+                  $('reservation_book_ticket_id').set('value', new_book_ticket_id_element.id);
+              } else {
+                  $('reservation_book_ticket_id').set('value', '');
+              }
+          };
+          update_promotion();
+          $('reservation_planning_id').addEvent('change', update_promotion);
+          $('price_select').addEvent('change', update_promotion);
+          // ----------------------- Logger
           $("show-first-section").addEvent("click", function(){
               new Request.JSON({
                   url: Routes.click_loggers_path(),

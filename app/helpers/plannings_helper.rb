@@ -5,15 +5,15 @@ module PlanningsHelper
     case course_type
     when 'Course::Lesson'
       return lambda do |planning|
-        "#{week_day_for planning} à #{l(planning.start_time, format: :short)} #{(planning.teacher.present? ? "par #{planning.teacher.name}" : '')}"
+        "#{week_day_for planning} à #{l(planning.start_time, format: :short)} #{(planning.teacher.present? ? "par #{planning.teacher.name}" : '')} #{(planning.promotion.present? ? "avec #{planning.promotion}% !" : '')}"
       end
     when 'Course::Workshop'
       return lambda do |planning|
-        "#{l(planning.start_date, format: :semi_long).capitalize} à #{l(planning.start_time, format: :short)} #{(planning.teacher.present? ? "par #{planning.teacher.name}" : '')}"
+        "#{l(planning.start_date, format: :semi_long).capitalize} à #{l(planning.start_time, format: :short)} #{(planning.teacher.present? ? "par #{planning.teacher.name}" : '')} #{(planning.promotion.present? ? "avec #{planning.promotion}% !" : '')}"
       end
     when 'Course::Training'
       return lambda do |planning|
-        "#{l(planning.start_date, format: :semi_long).capitalize} à #{l(planning.start_time, format: :short)} #{(planning.teacher.present? ? "par #{planning.teacher.name}" : '')}"
+        "#{l(planning.start_date, format: :semi_long).capitalize} à #{l(planning.start_time, format: :short)} #{(planning.teacher.present? ? "par #{planning.teacher.name}" : '')} #{(planning.promotion.present? ? "avec #{planning.promotion}% !" : '')}"
       end
     end
   end

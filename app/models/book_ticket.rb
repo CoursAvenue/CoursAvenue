@@ -1,3 +1,4 @@
+# encoding: utf-8
 class BookTicket < ActiveRecord::Base
   belongs_to :course
 
@@ -6,6 +7,18 @@ class BookTicket < ActiveRecord::Base
   validates :number, presence: true
   validates :price, presence: true
   validates :validity, presence: true
+
+  def libelle
+    "Carnet de #{number} cours (validité #{validity.to_i} mois)"
+  end
+
+  def amount
+    self.price
+  end
+
+  def readable_amount
+    self.readable_price
+  end
 
   def readable_price
     if read_attribute(:price).nil?
