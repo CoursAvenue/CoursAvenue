@@ -9,28 +9,29 @@
     = render 'side_search_form'
   %section.g.seven-tenths.lap-one-whole.palm-one-whole
     %ul.tab-titles
-      %li.active Par cours
-      %li= link_to 'Par structure', structures_path
+      %li= link_to 'Par cours', subjects_path
+      %li.active Par structure
+
     .flexbox.page-entries-wrapper
       .flexbox__item.palm-one-whole
-        %p.flush--bottom= page_entries_info @courses, entry_name: Course.model_name.human.downcase
+        %p.flush--bottom= page_entries_info @structures, entry_name: Structure.model_name.human.downcase
         .spoken-form
           %label Trier par :
           %select#filter-select{name: 'sort'}
             %option{value: 'relevancy', selected: (params[:sort] == 'relevancy') } Pertinence
-            %option{value: 'price_asc', selected: (params[:sort] == 'price_asc') } Prix : du plus bas au plus élevé
-            %option{value: 'price_desc', selected: (params[:sort] == 'price_desc')} Prix : du plus élevé au plus bas
             %option{value: 'rating_desc', selected: (params[:sort] == 'rating_desc')} Notes : les cours les mieux notés en premier
       .flexbox__item.hide--palm
-        .text--right= paginate @courses, window: 1, outer_window: 1
-    - if @courses.empty?
+        .text--right= paginate @structures, window: 1, outer_window: 1
+
+
+    - if @structures.empty?
       = render 'no_results'
     - else
       %ul.block-list.course-list
-        = render partial: 'courses/course', :collection => @courses
+        = render partial: 'structure', :collection => @structures
 
     %footer.g.one-whole
-      = paginate @courses, window: 2, outer_window: 1
+      = paginate @structures, window: 2, outer_window: 1
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {

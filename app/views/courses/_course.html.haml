@@ -32,7 +32,7 @@
       - if course.place.name.length > 50
         %h3.course-element-structure-name= "#{course.place.name[0..50]}..."
       - else
-        %h3.course-element-structure-name= course.place.name
+        %h3.course-element-structure-name= link_to course.place.name, structure_path(course.structure)
       - if course.place.zip_code == 75000
         Paris
       - else

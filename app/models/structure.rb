@@ -1,4 +1,9 @@
 class Structure < ActiveRecord::Base
+  unless Rails.env.test?
+    acts_as_gmappable validation: false,
+                      language: 'fr'
+    before_save :retrieve_address
+  end
   acts_as_paranoid
 
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
@@ -41,6 +46,9 @@ class Structure < ActiveRecord::Base
                   :billing_contact_last_name, :billing_contact_phone_number, :billing_contact_email,
                   :bank_name, :bank_iban, :bank_bic
 
+  has_attached_file :image,
+                    :styles => { wide: "800x480#", thumb: "200x200#" }
+
   extend FriendlyId
   friendly_id :name, use: :slugged
 
@@ -49,7 +57,9 @@ class Structure < ActiveRecord::Base
   belongs_to       :city
   belongs_to       :pricing_plan
 
+  has_many :comments, as: :commentable
   has_many :teachers
+  has_many :subjects, through: :courses
   has_many :courses
   has_many :renting_rooms
   has_many :cities, through: :places
@@ -65,6 +75,34 @@ class Structure < ActiveRecord::Base
   validates :structure_type     , :presence   => true
   validates :siret              , length: { maximum: 14 }#, numericality: { only_integer: true }
 
+  # ------------------------------------------------------------------------------------ Search attributes
+  searchable do
+    text :name, :boost => 2
+
+    text :subjects do
+      subject_array = []
+      subjects.each do |subject|
+        subject_array << subject
+        subject_array << subject.parent
+      end
+      subject_array.uniq.map(&:name)
+    end
+
+
+    latlon :location do
+      Sunspot::Util::Coordinates.new(self.latitude, self.longitude)
+    end
+
+    integer :subject_ids, multiple: true do
+      subject_ids = []
+      subjects.each do |subject|
+        subject_ids << subject.id
+        subject_ids << subject.parent.id
+      end
+      subject_ids.uniq
+    end
+
+  end
 
   def main_contact
     admins.first || Admin.new
@@ -72,6 +110,37 @@ class Structure < ActiveRecord::Base
 
   def address
     "#{self.street}, #{self.city.name}"
+  end
+
+  # describe how to retrieve the address from your model, if you use directly a db column, you can dry your code, see wiki
+  def gmaps4rails_address
+    "#{self.street}, #{self.zip_code}, France"
+  end
+
+  def retrieve_address
+    if !self.new_record? and !self.is_geolocalized?
+      begin
+        geolocation    = Gmaps4rails.geocode self.gmaps4rails_address
+        self.latitude  = geolocation[:lat]
+        self.longitude = geolocation[:lng]
+        self.save
+      rescue Exception => e
+        puts "Address not found: #{e}"
+      end
+    end
+  end
+
+  def is_geolocalized?
+    !self.latitude.nil? and self.longitude.nil?
+  end
+
+  def geolocalize
+    self.touch
+    self.save
+  end
+
+  def parent_subjects
+    subjects.uniq.map(&:parent).uniq
   end
 
   private

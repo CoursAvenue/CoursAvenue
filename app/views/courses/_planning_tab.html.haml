@@ -42,7 +42,7 @@
 
         %li.flexbox
           %label.flexbox__item= t('.class_during_holidays')
-          %strong.flexbox__item.proceed= (@course.plannings.first.class_during_holidays ? t('yes') : t('no'))
+          %strong.flexbox__item.proceed= (@course.plannings.first.class_during_holidays ? t('yes') : t('no')) unless @course.plannings.empty?
 
         - if @course.is_for_handicaped
           %li.flexbox

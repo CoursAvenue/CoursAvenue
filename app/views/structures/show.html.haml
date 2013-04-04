@@ -1,0 +1,99 @@
+= content_for :title do
+  = "#{@structure.name} à #{@city.name}"
+- unless @structure.description.blank?
+  = content_for :meta_description do
+    = @structure.description
+
+- if cookies[:structure_search_path]
+  = link_to cookies[:structure_search_path] do
+    %i.orange ←
+    Retour aux résultats
+- else
+  = link_to structures_path(city: @city.name) do
+    %i.orange ←
+    Voir les établissements à proximité
+
+%h1.course-title
+  %span= @structure.name
+  %ul.nav
+    - @structure.subjects.group(:id).limit(4).each do |subject|
+      %li
+        %h3.flush--bottom
+          %span.milli.lbl.blue= link_to subject.name, subject_path(subject), class: 'subject-link'
+
+.gw
+  %section.g.three-tenths#summary.palm-one-whole.float--right.hide--lap
+    %article.course-info
+      .text--center
+        %h4 Contact
+        = link_to @structure.website, @structure.website
+        .blue
+          = @structure.phone_number
+          \/
+          = @structure.mobile_phone_number
+
+  %section.g.seven-tenths.palm-one-whole.lap-one-whole
+    .course-header-badge
+      - if @structure.image.present?
+        .course-header-image.one-half.palm-one-whole
+          = image_tag @structure.image.url(:wide), class: 'course-header-badge-image'
+
+      .course-header-map.palm-one-whole{class: @structure.image.present? ? 'one-half' : 'one-whole'}
+        = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
+        %h2.course-header-structure-name
+          %b= @structure.name
+          %br
+          %i.icon-map-marker
+          = readable_address @structure
+    %div{style: 'margin-top: 1em;'}
+      <a href="https://twitter.com/share" class="twitter-share-button" data-via="CoursMania" data-lang="fr">Tweeter</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      <div style="display:none;" id="fb-root"></div>
+      <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=589759807705512";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+
+      <div class="fb-like" data-send="false" data-width="500" data-show-faces="false" data-action="recommend"></div>
+
+    %hr
+    %h4.text--center Cours proposés par cet établissement
+    #course-list{style: 'height: 20em; overflow: hidden'}
+      %table.table--striped
+        %thead
+          %tr
+            %th Nom du cours
+            %th Disciplines
+            %th Niveau
+            %th.text--center Nombres de séances
+        %tbody
+          - @courses.each do |course|
+            %tr
+              %td= link_to course.name, course_path(course)
+              %td= course.subjects.map(&:name).join(', ')
+              %td= course.levels.map{|level| t(level.name) }.join(', ')
+              %td.text--center= course.plannings.count
+    .text--center
+      %a#show-more-courses{href: '#'} Voir tous les cours
+    %hr
+    %article
+      = render 'comments'
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        var is_hidden = true;
+        $('show-more-courses').addEvent('click', function() {
+            if (is_hidden) {
+                $('course-list').setStyle('height', 'auto');
+                this.set('text', 'Cacher les cours');
+            } else {
+                $('course-list').setStyle('height', '20em');
+                this.set('text', 'Voir tous les cours');
+            }
+            is_hidden = !is_hidden;
+            return false;
+        });
+    });

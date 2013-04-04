@@ -10,6 +10,9 @@ CoursMania::Application.routes.draw do
   end
 
   resources :subjects, only: [:show, :index], path: 'disciplines'
+  resources :structures, only: [:show, :index] do
+    resources :comments, only: [:create], controller: 'structures/comments'
+  end
 
 
   resources :renting_rooms, only: [:create]

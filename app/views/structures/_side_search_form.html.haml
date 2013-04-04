@@ -1,0 +1,74 @@
+.map-with-slider
+  - if @structures.blank?
+    - unless @city.blank?
+      = gmaps( {markers: {data: [@city.to_gmap_json].to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
+    - else
+      = gmaps( {markers: {data: Gmaps4rails.geocode("#{params[:city]}, France").to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
+  - else
+    = gmaps( {markers: {data: @json_strcuture_addresses}, map_options: {maxZoom: 15, mapTypeControl: false}})
+  %div.ilb-wrapper.align-middle.map-slider-container
+    %label.three-twelfths.bold Radius
+    #radius-slider.slider.seven-twelfths
+      #radius-knob.slider--knob
+        .slider--inner-knob
+    %label.two-twelfths.text--right.bold
+      %span#radius-label-value= params[:radius]
+      km
+
+.side-search-panel
+
+  //-------------------------------------------------------------------------------------------------------- Subject
+  .search-panel
+    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+      Disciplines
+      %i.icon-caret-down
+    .search-panel-content
+      %ul.check-list
+        %li= link_to t('all_subject'), subjects_path(city: @city.name), class: 'subject-link'
+        / ----------------- If the current subject is this one or has this one as a parent
+        - Subject.roots.order(:name).each do |subject|
+          - if params[:subject_id].to_i == subject.id || !subject.children.select{|d| d.id == params[:subject_id].to_i}.blank?
+            %li= link_to subject.name, structures_path(subject_id: subject.id, city: @city.name), class: 'selected subject-link'
+            %ul.check-list
+              - subject.children.order('name ASC').each do |child_subject|
+                %li= link_to child_subject.name, structures_path(subject_id: child_subject.id, city: @city.name), class: (params[:subject_id].to_i == child_subject.id ? 'selected subject-link' : 'subject-link')
+          - else
+            %li= link_to subject.name, structures_path(subject_id: subject.id, city: @city.name), class: 'subject-link'
+
+//-------------------------------------------------------------------------------------------------------- Gmaps
+- content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        Gmaps.map.callback = function() {
+            for (var i = 0; i <  this.markers.length; ++i) {
+                google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
+                    var course_element = $$('.course-element[data-structure-id=' + this.id + ']');
+                    GLOBAL.Scroller.toElement(course_element[0]);
+                    // Unselect courses if there already are that are selected
+                    $$('.course-element').removeClass('selected');
+                    course_element.addClass('selected');
+                }.bind(Gmaps.map.markers[i]));
+            }
+        };
+        var radius_hidden_input = $('radius-hidden-input');
+        var radius_label_value  = $('radius-label-value');
+        var start = 0;
+        new Slider('radius-slider', 'radius-knob', {
+            range: [1, 50],
+            step: 1,
+            wheel: false,
+            snap: true,
+            initialStep: #{params[:radius]},
+            onComplete: function(pos){
+                start += 1;
+                if (start > 2) { // Because the function is triggered twice at beginning...
+                    $('header-search').submit();
+                }
+            },
+            onChange: function(pos){
+                radius_hidden_input.set('value', pos);
+                radius_label_value.set('text', pos);
+            }
+        });
+
+    });

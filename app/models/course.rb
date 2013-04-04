@@ -66,7 +66,7 @@ class Course < ActiveRecord::Base
                   :nb_participants,
                   :start_date, :end_date,
                   :subject_ids, :level_ids, :audience_ids, :room_id, :place_id
-  # ------------------------------------------------------------------------------------ Search methods
+  # ------------------------------------------------------------------------------------ Search attributes
   searchable do
     text :name, :boost => 2
     text :structure_name do

@@ -1,0 +1,17 @@
+- if @city.no_result_image.present?
+  .picture-frame= image_tag @city.no_result_image
+
+%br
+
+%h3.this-or-this
+  %span.this-or-this__or.one-half Vous cherchez un cours ?
+  %span.this-or-this__this.one-half Vous voulez être référencé ?
+
+.this-or-this
+  .this-or-this__this.one-half{style: 'border-right: 1px solid #e3dcd4;'}
+    %p Laissez-nous votre e-mail, nous vous contacterons dès que nous aurons des cours !
+    = simple_form_for NewsletterUser.new, html: {class: 'inline-form'} do |f|
+      = f.email_field :email, placeholder: t('newsletter_users.email'), size: 25
+      = f.hidden_field  :city, value: @city.slug
+  .this-or-this__this.one-half
+    = link_to 'Contactez-nous', 'mailto:referencement@leboncours.com?subject=Référencement de mes cours', class: 'btn'
