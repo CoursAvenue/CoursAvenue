@@ -30,6 +30,8 @@ class StructuresController < ApplicationController
 
         with(:location).in_radius(city.latitude, city.longitude, params[:radius] || 10, :bbox => true)
 
+        with :active,  true
+
         paginate :page => (params[:page] || 1), :per_page => 15
       end
       @structures = @search.results

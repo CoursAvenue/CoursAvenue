@@ -102,6 +102,7 @@ class Structure < ActiveRecord::Base
       subject_ids.uniq
     end
 
+    boolean :active
   end
 
   def main_contact
