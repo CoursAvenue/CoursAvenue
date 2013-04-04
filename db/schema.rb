@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130403125405) do
+ActiveRecord::Schema.define(:version => 20130404080235) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -122,6 +122,17 @@ ActiveRecord::Schema.define(:version => 20130403125405) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "comments", :force => true do |t|
+    t.text     "content"
+    t.string   "name"
+    t.string   "email"
+    t.integer  "rating"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
   create_table "courses", :force => true do |t|
     t.string   "type"
     t.string   "name"
@@ -160,6 +171,7 @@ ActiveRecord::Schema.define(:version => 20130403125405) do
     t.integer  "room_id"
     t.boolean  "active",                      :default => false
     t.time     "deleted_at"
+    t.decimal  "rating"
   end
 
   add_index "courses", ["place_id"], :name => "index_courses_on_place_id"

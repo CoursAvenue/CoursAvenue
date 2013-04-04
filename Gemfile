@@ -17,6 +17,7 @@ gem 'rails', '3.2.12'
   gem 'compass-rails'           , '~> 1.0.3'
   gem 'compass-inuit'           , '~> 4.5.5'
   gem 'js-routes'               , '~> 0.8.6'
+  gem 'gravatar_image_tag'      , '~> 1.1.3'
 # end
 
 gem 'pg'

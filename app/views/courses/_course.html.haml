@@ -74,4 +74,12 @@
           %p (par cours)
         - else
           %p= "(#{t(course.best_price.libelle).downcase})".html_safe
-    /%a.book-online-button.one-whole.btn.btn__primary.text--center Réservez
+    - if course.rating
+      %div
+        = course.comments.count
+        avis
+        %i.lbc-brand-icon
+        %br
+        = "%.1f" % course.rating
+        = course_rating course.rating
+      /%a.book-online-button.one-whole.btn.btn__primary.text--center Réservez

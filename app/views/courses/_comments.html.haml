@@ -1,0 +1,104 @@
+%h4.small-margin-bottom= t('.post_your_opinion')
+.islet.white-box
+  = simple_form_for @comment, url: course_comments_path(@course) do |f|
+    .ilb-wrapper
+      .rating
+        %i.star.icon-star-empty.gamma{data: {value: 1}}
+        %i.star.icon-star-empty.gamma{style: 'left: -3px; padding: 0 2px', data: {value: 2}}
+        %i.star.icon-star-empty.gamma{style: 'left: -6px; padding: 0 2px', data: {value: 3}}
+        %i.star.icon-star-empty.gamma{style: 'left: -9px; padding: 0 2px', data: {value: 4}}
+        %i.star.icon-star-empty.gamma{style: 'left: -12px; padding: 0 2px', data: {value: 5}}
+      #rating-description
+    = f.input :rating, as: :hidden
+    .ilb-wrapper.align-middle
+      .one-half.ilb-wrapper.align-middle
+        %label{for: 'comment_name'} * Nom&nbsp;
+        = f.input :name, input_html: {style: 'width: 22em;'}, label: false
+      .one-half.ilb-wrapper.align-middle
+        %label{for: 'comment_email'} Email&nbsp;
+        = f.input :email, input_html: {style: 'width: 22em;'}, label: false, placeholder: 'Votre email restera privé'
+    = f.input :content, label_html: {style: 'width: auto; vertical-align: top;'}, input_html: {style: 'width: 45.7em;'}, placeholder: "Qu'avez-vous pensé du cours ?"
+    .text--center
+      = f.submit 'Publier mon avis', class: 'btn btn__large btn__primary', style: 'padding-top: 6px; padding-bottom: 6px;'
+
+%h4.small-margin-bottom= t('.last_students_opinion')
+- if @comments.any?
+  %ul.comment-list
+    - @comments.each do |comment|
+      %li.comment-list__el
+        %article
+          %b= comment.name
+          - if comment.rating
+            = course_rating comment.rating
+          %i.semi-muted le #{l(comment.created_at, format: :date)}
+          %p
+            = comment.content
+- else
+  %p Soyez le premier à nous donner votre avis !
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        var rating_descriptions = [
+          'Épouvantable',
+          "Mauvais",
+          'Moyen',
+          'Très bon',
+          "Excellent"
+        ]
+        $$('.rating .star').addEvent('click', function() {
+            $('comment_rating').set('value', this.get('data-value'));
+            this.getAllPrevious().addClass('icon-star').removeClass('icon-star-empty');
+            this.addClass('icon-star').removeClass('icon-star-empty');
+            this.getAllNext().removeClass('icon-star').addClass('icon-star-empty');
+        });
+        $('new_comment').addEvent('submit', function(){
+            if ($('comment_rating').value.length === 0) {
+                new GLOBAL.Objects.Flash('Vous devez mettre une note pour poster un commentaire.').showAndHide();
+                return false;
+            }
+        });
+        $$('.rating .star').addEvents({
+            mouseenter:  function() {
+                $('rating-description').set('text', rating_descriptions[parseInt(this.get('data-value')) - 1]);
+                if ($('comment_rating').value.length === 0 || (parseInt($('comment_rating').value) < parseInt(this.get('data-value')))) {
+                    this.getAllPrevious().addClass('icon-star').removeClass('icon-star-empty');
+                    this.addClass('icon-star').removeClass('icon-star-empty');
+                    this.getAllNext().removeClass('icon-star').addClass('icon-star-empty');
+                }
+            },
+            mouseleave: function() {
+                $$('.rating .star').removeClass('icon-star').addClass('icon-star-empty');
+                if ($('comment_rating').value.length > 0) {
+                    var value = parseInt($('comment_rating').value);
+                    $('rating-description').set('text', rating_descriptions[value - 1]);
+                    for (var i = 0; i < value; i += 1) {
+                        $$('.rating .star')[i].addClass('icon-star').removeClass('icon-star-empty');
+                    }
+                } else {
+                    $('rating-description').set('text', '');
+                }
+            }
+        });
+    });
+
+/ <div id="disqus_thread"></div>
+/ <% content_for :scripts do  %>
+/     <script type="text/javascript">
+/         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+/         var disqus_shortname   = 'leboncours'; // required: replace example with your forum shortname
+/         window.disqus_no_style = true; // For asynchronous loading
+/         window.disqus_url      =location.protocol + '//' + location.host + location.pathname
+/         /* * * DON'T EDIT BELOW THIS LINE * * */
+/         // (function() {
+/         //     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+/         //     dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+/         //     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+/         // })();
+
+/         window.addEvent('domready', function() {
+/             Asset.javascript('http://disqus.com/forums/rapexegesis/embed.js');
+/         });
+/     </script>
+/ <% end %>
+/ <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+/ <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>

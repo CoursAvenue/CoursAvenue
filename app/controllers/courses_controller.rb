@@ -2,6 +2,8 @@ class CoursesController < ApplicationController
 
   def show
     @course             = Course.find(params[:id])
+    @comment            = @course.comments.build
+    @comments           = @course.comments.order('created_at DESC').reject(&:new_record?)
     @city               = @course.city
     @structure          = @course.structure
     @place              = @course.place

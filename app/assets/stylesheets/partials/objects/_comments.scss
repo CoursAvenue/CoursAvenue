@@ -1,0 +1,15 @@
+.comment-list {
+    list-style : none;
+    margin-left: 0;
+}
+    .comment-list__el {
+        border-bottom: 1px solid #CCC;
+        margin-bottom: 1em;
+        padding-bottom: 1em;
+        p {
+            margin-bottom: 0;
+        }
+    }
+    .comment-list__el:last-child {
+        border-bottom: none;
+    }

@@ -43,9 +43,11 @@ fr:
       prices: Tarifs
       structure: Établissement
       opinions: Avis
-      last_students_opinion: Avis des élèves précédents
       back_to_results: Retour aux résultats
       see_arrounding_courses: Voir les cours à proximité
+    comments:
+      post_your_opinion: Donnez nous votre avis sur ce cours
+      last_students_opinion: Avis des élèves précédents
     price_tab:
       price: Prix
       holiday_vouchers: Chèques Vacances

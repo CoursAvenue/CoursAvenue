@@ -1,3 +1,7 @@
+.semi-muted {
+    opacity: 0.75;
+}
+
 .relative {
     position: relative;
 }
@@ -31,6 +35,7 @@
 }
 
 .orange { color: $orange; }
+.yellow { color: $yellow; }
 .red    { color: $red; }
 .green  { color: $green; }
 .blue   { color: $blueGreen !important; }

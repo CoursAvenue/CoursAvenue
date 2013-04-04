@@ -1,0 +1,9 @@
+fr:
+  activerecord:
+    models:
+      comment: Commentaire
+    attributes:
+      comment:
+        content: Commentaire
+        name: Nom
+        email: Email

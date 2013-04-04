@@ -6,7 +6,7 @@
 
 = simple_form_for @reservation, url: course_reservations_path do |f|
   %h4.small-margin-bottom Choix de la séance et du tarif
-  .ilb-wrapper.align-middle.price-box.islet.text--center
+  .ilb-wrapper.align-middle.white-box.islet.text--center
     %div{style: 'margin-right: 1em;'}
       = f.association :planning, collection: @plannings.order('start_date'), label_method: label_method_for_collection(@course.type), label: false, include_blank: false
     - if @course.is_lesson?
@@ -24,7 +24,7 @@
 
   #first-hidden-section{style: @reservation.errors.any? ? '' : 'opacity: 0'}
     %h4.small-margin-bottom Paiement
-    .price-box.islet
+    .white-box.islet
       %h5.text--center Vos informations personnelles
       .ilb-wrapper.text--center
         %div.islet.flush--bottom
@@ -62,7 +62,7 @@
 
   #second-hidden-section{style: @reservation.errors.any? ? '' : 'opacity: 0'}
     %h4.small-margin-bottom Vos informations de carte bleue
-    .price-box.islet.text--center
+    .white-box.islet.text--center
       .ilb-wrapper
         .islet
           = f.label :name_on_card, class: 'text--center'

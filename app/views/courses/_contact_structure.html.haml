@@ -1,4 +1,12 @@
 %article.course-info
+  %div
+    - if @course.rating
+      = @course.comments.count
+      avis
+      %i.lbc-brand-icon
+      %br
+      = "%.1f" % @course.rating
+      = course_rating @course.rating
   - if @course.best_price #TODO: Remove this
     .course-info-price.text--right
       %small À partir de
@@ -15,62 +23,62 @@
     %i
       Nous n'encaisserons votre argent qu'après le début du cours donc si #{@structure.name} annule son cours, vous serez remboursé automatiquement.
 
-- content_for :scripts do
-  :javascript
-    $("book-online").addEvent("click", function(){
-        var modal = new SimpleModal({
-            width: 800,
-            "onAppend": function() {
-                $("simple-modal").fade("hide");
-                setTimeout((function(){ $("simple-modal").fade("show")}), 200 );
-                var tw = new Fx.Tween($("simple-modal"),{
-                  duration: 800,
-                  transition: Fx.Transitions.Cubic.easeOut,
-                  link: 'cancel',
-                  property: 'top'
-                }).start(-400, 150);
-            }
-        });
-        modal.show({
-            "model":"modal",
-            "title":"Réservez en ligne",
-            "contents": $('book-online-modal-content').get('html')
-        });
-        new Request.JSON({
-            url: Routes.reservation_loggers_path()
-        }).post('course_id=' + #{@course.id});
+/ - content_for :scripts do
+/   :javascript
+/     $("book-online").addEvent("click", function(){
+/         var modal = new SimpleModal({
+/             width: 800,
+/             "onAppend": function() {
+/                 $("simple-modal").fade("hide");
+/                 setTimeout((function(){ $("simple-modal").fade("show")}), 200 );
+/                 var tw = new Fx.Tween($("simple-modal"),{
+/                   duration: 800,
+/                   transition: Fx.Transitions.Cubic.easeOut,
+/                   link: 'cancel',
+/                   property: 'top'
+/                 }).start(-400, 150);
+/             }
+/         });
+/         modal.show({
+/             "model":"modal",
+/             "title":"Réservez en ligne",
+/             "contents": $('book-online-modal-content').get('html')
+/         });
+/         new Request.JSON({
+/             url: Routes.reservation_loggers_path()
+/         }).post('course_id=' + #{@course.id});
 
-    });
+/     });
 
-#book-online-modal-content.hidden
-  .ilb-wrapper
-    .one-half.bordered--right
-      %h4.flush--bottom.brand.text--center Contactez l'établissement
-      .text--center.course-info-heading
-        %b En attendant la réservation en ligne
-        %p.course-info-heading-caption{:style => 'padding-right: 1em;'} Contactez l'établissement en mentionnant que vous l'avez trouvé sur LeBonCours.com !
-      .text--center.delta
-        %i.icon-phone.blue
-        - if @structure.phone_number
-          = link_to "tel:#{@structure.phone_number.gsub(/\s+/, '')}", class: 'blue' do
-            = @structure.phone_number.gsub(' ', '&nbsp;').html_safe
-        - if @structure.phone_number and @structure.mobile_phone_number
-          %span.blue /
-        - if @structure.mobile_phone_number
-          = link_to "tel:#{@structure.mobile_phone_number.gsub(/\s+/, '')}", class: 'blue' do
-            = @structure.mobile_phone_number.gsub(' ', '&nbsp;').html_safe
-      - if @structure.website
-        .text--center
-          %i.icon-external-link.blue
-          = link_to @structure.name, @structure.website, class: 'blue', target: '_blank'
-    .one-half
-      %h4.flush--bottom.brand.text--center Réservez directement en ligne
-      .text--center.course-info-heading
-        %b La réservation en ligne n'est pas encore ouverte
-        %p.course-info-heading-caption Laissez-nous votre e-mail pour être tenu au courant de son lancement ! (promis, pas de spam, que des bons plans !)
-      .text--center
-        = simple_form_for NewsletterUser.new do |f|
-          = f.email_field :email, placeholder: t('newsletter_users.email'), size: 20
-          = f.hidden_field :url, value: "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
-          = f.hidden_field :city, value: @city.name
-          = f.submit 'Ok', :class => 'btn btn__primary'
+/ #book-online-modal-content.hidden
+/   .ilb-wrapper
+/     .one-half.bordered--right
+/       %h4.flush--bottom.brand.text--center Contactez l'établissement
+/       .text--center.course-info-heading
+/         %b En attendant la réservation en ligne
+/         %p.course-info-heading-caption{:style => 'padding-right: 1em;'} Contactez l'établissement en mentionnant que vous l'avez trouvé sur LeBonCours.com !
+/       .text--center.delta
+/         %i.icon-phone.blue
+/         - if @structure.phone_number
+/           = link_to "tel:#{@structure.phone_number.gsub(/\s+/, '')}", class: 'blue' do
+/             = @structure.phone_number.gsub(' ', '&nbsp;').html_safe
+/         - if @structure.phone_number and @structure.mobile_phone_number
+/           %span.blue /
+/         - if @structure.mobile_phone_number
+/           = link_to "tel:#{@structure.mobile_phone_number.gsub(/\s+/, '')}", class: 'blue' do
+/             = @structure.mobile_phone_number.gsub(' ', '&nbsp;').html_safe
+/       - if @structure.website
+/         .text--center
+/           %i.icon-external-link.blue
+/           = link_to @structure.name, @structure.website, class: 'blue', target: '_blank'
+/     .one-half
+/       %h4.flush--bottom.brand.text--center Réservez directement en ligne
+/       .text--center.course-info-heading
+/         %b La réservation en ligne n'est pas encore ouverte
+/         %p.course-info-heading-caption Laissez-nous votre e-mail pour être tenu au courant de son lancement ! (promis, pas de spam, que des bons plans !)
+/       .text--center
+/         = simple_form_for NewsletterUser.new do |f|
+/           = f.email_field :email, placeholder: t('newsletter_users.email'), size: 20
+/           = f.hidden_field :url, value: "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
+/           = f.hidden_field :city, value: @city.name
+/           = f.submit 'Ok', :class => 'btn btn__primary'

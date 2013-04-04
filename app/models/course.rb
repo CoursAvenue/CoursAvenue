@@ -20,6 +20,7 @@ class Course < ActiveRecord::Base
   belongs_to :place
   has_one    :city , through: :place
 
+  has_many :comments, as: :commentable
   has_many :reservations
   has_many :plannings           , dependent: :destroy, conditions: "plannings.end_date > '#{Date.today}'"
   has_many :teachers            , through: :plannings
@@ -46,7 +47,7 @@ class Course < ActiveRecord::Base
   attr_reader :delete_image
 
   attr_accessible :name, :type, :description, :active, :info,
-
+                  :rating,
                   :is_promoted,
 
                   :has_online_payment,
@@ -158,6 +159,8 @@ class Course < ActiveRecord::Base
     integer :min_price
     integer :max_price
     double :approximate_price_per_course
+
+    double :rating
 
     boolean :active
 
@@ -322,4 +325,5 @@ class Course < ActiveRecord::Base
       place = room.place
     end
   end
+
 end

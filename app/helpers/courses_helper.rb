@@ -1,5 +1,18 @@
 module CoursesHelper
 
+  def course_rating rating
+    out = ''
+    rating = rating.to_i
+    5.times do |i|
+      if i < rating
+        out << content_tag(:i, '', class: 'icon-star yellow')
+      else
+        out << content_tag(:i, '', class: 'icon-star-empty')
+      end
+    end
+    out.html_safe
+  end
+
   def day_by_day_schedule(planning)
     schedule_string = ''
     if planning.day_one

@@ -11,5 +11,6 @@ class UserMailer < ActionMailer::Base
 
     mail to: reservation.email, subject: @reservation.email_subject
     mail to: 'contact@leboncours.com', subject: @reservation.email_subject
+    mail to: 'nim.izadi@gmail.com', subject: @reservation.email_subject
   end
 end
