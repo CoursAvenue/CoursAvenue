@@ -1,29 +1,5 @@
 # encoding: utf-8
 CoursMania::Application.routes.draw do
-  resources :cities, only: [:index]
-
-  resources :newsletter_users, only: [:create]
-
-  resources :courses, only: 'show', path: 'cours' do
-    resources :reservations, only: [:new, :create]
-    resources :comments, only: [:create], controller: 'courses/comments'
-  end
-
-  resources :subjects, only: [:show, :index], path: 'disciplines'
-  resources :structures, only: [:show, :index] do
-    resources :comments, only: [:create], controller: 'structures/comments'
-  end
-
-
-  resources :renting_rooms, only: [:create]
-
-  # resources :city, path: 'ville' do
-  #   resources :subjects, only: [:show, :index], defaults: {city_id: 'paris'}, path: 'disciplines'
-  # end
-
-  resources :reservation_loggers, only: [:create]
-  resources :click_loggers, only: [:create]
-
   constraints :subdomain => 'pro' do
     scope :module => 'pro' do
       root :to => 'home#index'
@@ -77,6 +53,30 @@ CoursMania::Application.routes.draw do
       devise_for :admins, controllers: { sessions: 'pro/admin/sessions', registrations: 'pro/admin/registrations', passwords: 'pro/admin/passwords'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-leboncours-pro', sign_up: '/'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
     end
   end
+
+  resources :cities, only: [:index]
+
+  resources :newsletter_users, only: [:create]
+
+  resources :courses, only: 'show', path: 'cours' do
+    resources :reservations, only: [:new, :create]
+    resources :comments, only: [:create], controller: 'courses/comments'
+  end
+
+  resources :subjects, only: [:show, :index], path: 'disciplines'
+  resources :structures, only: [:show, :index] do
+    resources :comments, only: [:create], controller: 'structures/comments'
+  end
+
+  resources :renting_rooms, only: [:create]
+
+  # resources :city, path: 'ville' do
+  #   resources :subjects, only: [:show, :index], defaults: {city_id: 'paris'}, path: 'disciplines'
+  # end
+
+  resources :reservation_loggers, only: [:create]
+  resources :click_loggers, only: [:create]
+
 
   # Pages
   match 'pages/louer-mes-salles'              => 'pages#rent_places',          as: 'pages_rent_places'
