@@ -1,6 +1,7 @@
 %article.course-info
   %div
     - if @course.rating
+      %meta{itemprop: "ratingValue", content: @course.rating}
       = @course.comments.count
       avis
       %i.lbc-brand-icon

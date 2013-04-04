@@ -31,6 +31,15 @@
           = @structure.phone_number
           \/
           = @structure.mobile_phone_number
+        - if @structure.rating
+          %br
+          %meta{itemprop: "ratingValue", content: @structure.rating}
+          = @structure.comments.count
+          avis
+          %i.lbc-brand-icon
+          \/
+          = "%.1f" % @structure.rating
+          = course_rating @structure.rating
 
   %section.g.seven-tenths.palm-one-whole.lap-one-whole
     .course-header-badge

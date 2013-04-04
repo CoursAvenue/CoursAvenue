@@ -75,6 +75,7 @@
         - else
           %p= "(#{t(course.best_price.libelle).downcase})".html_safe
     - if course.rating
+      %meta{itemprop: "ratingValue", content: course.rating}
       %div
         = course.comments.count
         avis

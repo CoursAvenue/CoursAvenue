@@ -25,6 +25,7 @@
           %li
             %span= link_to subject.name, structures_path(subject_id: subject.id), class: 'lbl milli inline subject-link'
     - if structure.rating
+      %meta{itemprop: "ratingValue", content: structure.rating}
       %div
         = structure.comments.count
         avis
