@@ -121,10 +121,9 @@ class Structure < ActiveRecord::Base
   def retrieve_address
     if !self.new_record? and !self.is_geolocalized?
       begin
-        geolocation    = Gmaps4rails.geocode self.gmaps4rails_address
-        self.latitude  = geolocation[:lat]
-        self.longitude = geolocation[:lng]
-        self.save
+        geolocation    = Gmaps4rails.geocode(self.gmaps4rails_address).first
+        self.update_column :latitude, geolocation[:lat]
+        self.update_column :longitude, geolocation[:lng]
       rescue Exception => e
         puts "Address not found: #{e}"
       end
