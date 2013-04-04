@@ -4,7 +4,7 @@ class StructuresController < ApplicationController
 
   def show
     @structure = Structure.find params[:id]
-    @courses   = @structure.courses.joins{plannings}.where{plannings.end_date > Date.today}.group(:id)
+    @courses   = @structure.course_with_planning
     @comment   = @structure.comments.build
     @comments  = @structure.comments.order('created_at DESC').reject(&:new_record?)
     @city      = @structure.city

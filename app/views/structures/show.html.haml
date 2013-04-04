@@ -16,7 +16,7 @@
 %h1.course-title
   %span= @structure.name
   %ul.nav
-    - @structure.subjects.group(:id).limit(4).each do |subject|
+    - @structure.parent_subjects.each do |subject|
       %li
         %h3.flush--bottom
           %span.milli.lbl.blue= link_to subject.name, subject_path(subject), class: 'subject-link'
@@ -60,25 +60,27 @@
       <div class="fb-like" data-send="false" data-width="500" data-show-faces="false" data-action="recommend"></div>
 
     %hr
-    %h4.text--center Cours proposés par cet établissement
-    #course-list{style: 'height: 20em; overflow: hidden'}
-      %table.table--striped
-        %thead
-          %tr
-            %th Nom du cours
-            %th Disciplines
-            %th Niveau
-            %th.text--center Nombres de séances
-        %tbody
-          - @courses.each do |course|
+    - if @courses.length > 0
+      %h4.text--center Cours proposés par cet établissement
+      #course-list{style: (@courses.length > 4 ? 'height: 20em; overflow: hidden' : '')}
+        %table.table--striped
+          %thead
             %tr
-              %td= link_to course.name, course_path(course)
-              %td= course.subjects.map(&:name).join(', ')
-              %td= course.levels.map{|level| t(level.name) }.join(', ')
-              %td.text--center= course.plannings.count
-    .text--center
-      %a#show-more-courses{href: '#'} Voir tous les cours
-    %hr
+              %th Nom du cours
+              %th Disciplines
+              %th Niveau
+              %th.text--center Nombres de séances
+          %tbody
+            - @courses.each do |course|
+              %tr
+                %td= link_to course.name, course_path(course)
+                %td= course.subjects.map(&:name).join(', ')
+                %td= course.levels.map{|level| t(level.name) }.join(', ')
+                %td.text--center= course.plannings.count
+      - if @courses.length > 4
+        .text--center
+          %a#show-more-courses{href: '#'} Voir tous les cours
+      %hr
     %article
       = render 'comments'
 = content_for :scripts do

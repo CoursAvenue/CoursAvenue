@@ -3,7 +3,8 @@
     border-bottom: 1px solid $graySmooth;
     margin-top   : 1em;
     margin-bottom: 0em;
-    li {
+}
+    .tab-el {
         padding     : 0.4em 1em;
         margin-right: 0.2em;
         color        : $brandColor;
@@ -28,7 +29,7 @@
             border-bottom-color : $siteBackgroundColor;
         }
     }
-}
+
 
 .tab-pane {
     display    : none;

@@ -105,6 +105,9 @@ class Structure < ActiveRecord::Base
     boolean :active
   end
 
+  def course_with_planning
+    self.courses.joins{plannings}.where{plannings.end_date > Date.today}.group(:id)
+  end
   def main_contact
     admins.first || Admin.new
   end

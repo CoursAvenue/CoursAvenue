@@ -9,8 +9,8 @@
     = render 'side_search_form'
   %section.g.seven-tenths.lap-one-whole.palm-one-whole
     %ul.tab-titles
-      %li.active Par cours
-      %li= link_to 'Par structure', structures_path
+      %li.tab-el.active Par cours
+      %li= link_to 'Par structure', structures_path, class: 'tab-el'
     .flexbox.page-entries-wrapper
       .flexbox__item.palm-one-whole
         %p.flush--bottom= page_entries_info @courses, entry_name: Course.model_name.human.downcase
