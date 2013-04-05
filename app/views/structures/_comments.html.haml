@@ -34,8 +34,9 @@
             = course_rating comment.rating
           %i.semi-muted le #{l(comment.created_at, format: :date)}
           %p
-            %b= comment.title
-            %br
+            - if comment.title.present?
+              %b= comment.title
+              %br
             = comment.content
 - else
   %p Soyez le premier à nous donner votre avis !
