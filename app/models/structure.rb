@@ -118,7 +118,7 @@ class Structure < ActiveRecord::Base
 
   # describe how to retrieve the address from your model, if you use directly a db column, you can dry your code, see wiki
   def gmaps4rails_address
-    "#{self.street}, #{self.zip_code}, France"
+    "#{self.street}, #{self.city.name}, France"
   end
 
   def retrieve_address

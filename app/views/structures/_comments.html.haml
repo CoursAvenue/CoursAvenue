@@ -17,7 +17,8 @@
       .one-half.ilb-wrapper.align-middle
         %label{for: 'comment_email'} Email&nbsp;
         = f.input :email, input_html: {style: 'width: 22em;'}, label: false, placeholder: 'Votre email restera privé'
-    = f.input :content, label_html: {style: 'width: auto; vertical-align: top;'}, input_html: {style: 'width: 45.7em;'}, placeholder: "Qu'avez-vous pensé du cours ?"
+    = f.input :title, label_html: {style: 'width: 13em; vertical-align: top;'}, input_html: {style: 'width: 40.5em;'}, placeholder: 'Cours de Zumba du lundi, Atelier pâtisserie du 13 juin, etc.', label: 'Intitulé des cours suivis'
+    = f.input :content, label_html: {style: 'width: 13em; vertical-align: top;'}, input_html: {style: 'width: 40.5em;'}, placeholder: "Qu'avez-vous pensé du cours ?"
     .text--center
       = f.submit 'Publier mon avis', class: 'btn btn__large btn__primary', style: 'padding-top: 6px; padding-bottom: 6px;'
 
@@ -33,6 +34,8 @@
             = course_rating comment.rating
           %i.semi-muted le #{l(comment.created_at, format: :date)}
           %p
+            %b= comment.title
+            %br
             = comment.content
 - else
   %p Soyez le premier à nous donner votre avis !
