@@ -14,6 +14,8 @@
       .control-label Changer l'image
     = f.input :image, label: false
 
+  - if current_pro_admin.super_admin? and @course.is_promoted
+    = f.input :homepage_image, label: 'Image de la home'
   %h5.form-header-group.flush--bottom Type de cours
   .input.ilb-wrapper
     = f.label :type, class: 'control-label v-top' do
