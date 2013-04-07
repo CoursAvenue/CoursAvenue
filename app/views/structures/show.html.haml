@@ -63,9 +63,10 @@
         .course-header-image.one-half.palm-one-whole
           = image_tag @structure.image.url(:wide), class: 'course-header-badge-image'
 
-      %ul#subject-slideshow.discrete-list{style: 'height: 350px; overflow: hidden;'}
+      %ul#subject-slideshow.discrete-list{style: 'height: 250px; overflow: hidden;'}
         - @structure.parent_subjects.each do |subject|
-          %li.text--center.slideshow--element= image_tag subject.image.url(:super_wide), class: 'course-header-badge-image'
+          / %li.text--center.slideshow--element= image_tag subject.image.url(:super_wide), class: 'course-header-badge-image'
+          %li.text--center.slideshow--element= image_tag subject.children.first.image.url(:wide), class: 'course-header-badge-image'
 
     %div{style: 'margin-top: 1em;'}
       <a href="https://twitter.com/share" class="twitter-share-button" data-via="CoursMania" data-lang="fr">Tweeter</a>
