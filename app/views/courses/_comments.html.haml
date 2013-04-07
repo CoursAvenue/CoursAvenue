@@ -30,7 +30,7 @@
           %b= comment.name
           - if comment.rating
             %meta{itemprop: "ratingValue", content: comment.rating}
-            = course_rating comment.rating
+            = rating_stars comment.rating
           %i.semi-muted le #{l(comment.created_at, format: :date)}
           %p
             = comment.content

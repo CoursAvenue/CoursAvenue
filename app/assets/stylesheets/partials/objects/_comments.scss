@@ -13,3 +13,44 @@
     .comment-list__el:last-child {
         border-bottom: none;
     }
+
+.comment__header {
+    background-color: white;
+    padding         : 5px 10px;
+    border          : 1px solid #EEE;
+    @include box-shadow(1px 1px 1px #DDD);
+    @include border-left-radius($brand-round);
+}
+
+.comment__content:after, .comment__content:before {
+    font-family: Georgia, serif;
+    font-size : 40px;
+    position  : absolute;
+    color     : #7a7a7a;
+}
+.comment__content:after {
+    content   : "\201C";
+    left      : 5px;
+    top       : -12px;
+}
+.comment__content:before {
+    content   : "\201D";
+    right     : 5px;
+    bottom    : -30px;
+}
+.comment__content {
+    position        : relative;
+    background-color: $beigeDark;
+    @include box-shadow(inset -1px 1px 1px $beigeDarker, inset 0px -1px 1px $beigeDarker);
+    padding         : 0 10px 0 20px;
+    @include border-right-radius($brand-round);
+    p {
+        font-size  : 12px;
+        line-height: 1.4;
+        color       : #444;
+    }
+}
+// .comment-list__slideshow_el {
+//     position: absolute;
+//     top : 0;
+// }

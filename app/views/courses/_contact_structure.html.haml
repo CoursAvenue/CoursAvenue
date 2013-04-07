@@ -7,7 +7,7 @@
       %i.lbc-brand-icon
       %br
       = "%.1f" % @course.rating
-      = course_rating @course.rating
+      = rating_stars @course.rating
   - if @course.best_price #TODO: Remove this
     .course-info-price.text--right
       %small À partir de

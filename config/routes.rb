@@ -58,7 +58,7 @@ CoursMania::Application.routes.draw do
 
   resources :newsletter_users, only: [:create]
 
-  resources :courses, only: 'show', path: 'cours' do
+  resources :courses, only: [:show], path: 'cours' do
     resources :reservations, only: [:new, :create]
     resources :comments, only: [:create], controller: 'courses/comments'
   end

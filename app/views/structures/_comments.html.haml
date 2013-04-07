@@ -13,7 +13,7 @@
     .ilb-wrapper.align-middle
       .one-half.ilb-wrapper.align-middle
         %label{for: 'comment_name'} * Nom&nbsp;
-        = f.input :name, input_html: {style: 'width: 22em;'}, label: false
+        = f.input :name, input_html: {style: 'width: 22em;'}, label: false, placeholder: 'Patrick C.'
       .one-half.ilb-wrapper.align-middle
         %label{for: 'comment_email'} Email&nbsp;
         = f.input :email, input_html: {style: 'width: 22em;'}, label: false, placeholder: 'Votre email restera privé'
@@ -31,7 +31,7 @@
           %b= comment.name
           - if comment.rating
             %meta{itemprop: "ratingValue", content: comment.rating}
-            = course_rating comment.rating
+            = rating_stars comment.rating
           %i.semi-muted le #{l(comment.created_at, format: :date)}
           %p
             - if comment.title.present?

@@ -8,6 +8,7 @@ class Comment < ActiveRecord::Base
   after_commit :update_commentable_rating
 
   private
+  # Update rating of the commentable (course, or structure)
   def update_commentable_rating
     commentable = self.commentable
     ratings = commentable.comments.group(:rating).count

@@ -3,48 +3,32 @@
   = render 'home_screen'
 
   = render 'share_links'
-
+  - @comments = Comment.order('created_at DESC').limit(15)
   .home-screen-promotion-wrapper
     %section.main-container.home-screen-promotion
       .ilb-wrapper
         .palm-one-whole.one-half= render 'map_paris'
         .palm-one-whole.one-half
-          .ilb-wrapper
-            .course-block-wrapper.one-half.palm-one-whole
-              = link_to subject_path(id: 'cuisine-oenologie'), class: 'course-block' do
-                .course-block-image
-                  = image_tag 'home-page/cooking.jpg'
-                %h6.course-block-title
-                  Réveillez vos papilles
-                %p.course-block-caption
-                  Cours de cuisine et d’œnologie pour tous
-
-            .course-block-wrapper.one-half.palm-one-whole
-              = link_to subject_path(id: 'relaxation-fitness', time_slots: ['evening']), class: 'course-block' do
-                .course-block-image
-                  = image_tag 'home-page/after_work.jpg'
-                %h6.course-block-title
-                  Détendez-vous après le boulot
-                %p.course-block-caption
-                  Cours de fitness / relaxation après 18h
-
-            .course-block-wrapper.one-half.palm-one-whole
-              = link_to subject_path(id: 'insolite'), class: 'course-block' do
-                .course-block-image
-                  = image_tag 'home-page/insolite.jpg'
-                %h6.course-block-title
-                  Cours insolites
-                %p.course-block-caption
-                  Laissez-vous surprendre !
-
-            .course-block-wrapper.one-half.palm-one-whole
-              = link_to subjects_path(audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block' do
-                .course-block-image
-                  = image_tag 'home-page/child-courses.jpg'
-                %h6.course-block-title
-                  Eveillons nos tout petits
-                %p.course-block-caption
-                  Cours & stages pour les 0 à 5 ans
+          %div
+            %h3.home-title Les derniers avis
+            %ul.comment-list#comments-slideshow{style: 'height: 80px; widht: 100%;'}
+              - @comments.in_groups_of(3, false).each do |comment_group|
+                %li.slideshow--element
+                  - comment_group.each do |comment|
+                    %article.comment-list__el
+                      .flexbox
+                        .flexbox__item.one-half.comment__header
+                          %div
+                            .float--right.muted
+                              = distance_of_time_in_words_to_now comment.created_at
+                              %i.icon-time
+                            %b= comment.name
+                            %br
+                            = rating_stars comment.rating
+                            %br
+                            = link_to truncate(comment.commentable.name, length: 43), commentable_path(comment), class: 'blue'
+                        .flexbox__item.one-half.comment__content
+                          %p.flush--bottom= truncate(comment.content, length: 140)
 
   .text--center
     .newsletter-form
@@ -56,6 +40,46 @@
         = f.button :submit, t('.validate'), class: 'btn btn__primary'
 
 .main-container
+  .ilb-wrapper
+    .palm-one-whole.one-half
+      .ilb-wrapper
+        .course-block-wrapper.one-half.palm-one-whole
+          = link_to subject_path(id: 'cuisine-oenologie'), class: 'course-block' do
+            .course-block-image
+              = image_tag 'home-page/cooking.jpg'
+            %h6.course-block-title
+              Réveillez vos papilles
+            %p.course-block-caption
+              Cours de cuisine et d’œnologie pour tous
+
+        .course-block-wrapper.one-half.palm-one-whole
+          = link_to subject_path(id: 'relaxation-fitness', time_slots: ['evening']), class: 'course-block' do
+            .course-block-image
+              = image_tag 'home-page/after_work.jpg'
+            %h6.course-block-title
+              Détendez-vous après le boulot
+            %p.course-block-caption
+              Cours de fitness / relaxation après 18h
+
+        .course-block-wrapper.one-half.palm-one-whole
+          = link_to subject_path(id: 'insolite'), class: 'course-block' do
+            .course-block-image
+              = image_tag 'home-page/insolite.jpg'
+            %h6.course-block-title
+              Cours insolites
+            %p.course-block-caption
+              Laissez-vous surprendre !
+
+        .course-block-wrapper.one-half.palm-one-whole
+          = link_to subjects_path(audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block' do
+            .course-block-image
+              = image_tag 'home-page/child-courses.jpg'
+            %h6.course-block-title
+              Eveillons nos tout petits
+            %p.course-block-caption
+              Cours & stages pour les 0 à 5 ans
+    .palm-one-whole.one-half
+      %h3.home-title Le Blog
   .ilb-wrapper
     .one-third.palm-one-whole
       .ilb-wrapper.align-middle
@@ -77,3 +101,15 @@
         .four-fifths
           %h4.flush--bottom.no-bottom-padding.islet.green Votre passion autour de vous
           %p.islet Notre moteur de recherche avancé, qui inclut la géolocalisation, permettra de réveiller votre passion à deux pas de chez vous. Exprimez votre talent dans votre quartier !
+
+= content_for :scripts do
+  :javascript
+    // ---------------- Comments slideshow
+    window.addEvent('domready', function() {
+        new SlideShow('comments-slideshow', {
+            transition: 'crossFade',
+            delay: 5000,
+            duration: 500,
+            autoplay: true
+        });
+    });

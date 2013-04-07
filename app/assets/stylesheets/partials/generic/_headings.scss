@@ -12,3 +12,11 @@ h1, h2, h3, h4, h5, h6 {
     margin-top    : 1em;
     font-size    : 25px;
 }
+
+.home-title {
+    border-bottom : 1px solid darken($beigeDarker, 7%);
+    color         : darken($beigeDarker, 60%);
+    padding-bottom: 5px;
+    margin-bottom : 10px;
+    font-size    : 25px;
+}
