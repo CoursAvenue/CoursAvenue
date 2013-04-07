@@ -20,10 +20,11 @@ class Pro::CoursesController < InheritedResources::Base
 
   def update
     if params[:course].delete(:delete_image) == '1'
-      @course.image.clear
+      resource.image.clear
     end
     update! do |success, failure|
-      success.html { redirect_to (params[:from] || pro_structure_path(@structure)) }
+      # success.html { redirect_to (params[:from] || pro_structure_path(@structure)) }
+      success.html { redirect_to edit_pro_course_path(resource) }
     end
   end
 

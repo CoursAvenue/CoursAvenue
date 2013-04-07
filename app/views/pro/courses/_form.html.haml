@@ -5,7 +5,7 @@
   - unless @course.new_record? || !@course.image?
     .input.ilb-wrapper
       = f.label :image
-      = image_tag @course.image, height: 200
+      = image_tag @course.image.path(:thumb), height: 200
     = f.input :delete_image, as: :boolean, :label => "Supprimer l'image"
   .input
     - if @course.new_record?

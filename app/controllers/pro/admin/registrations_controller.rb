@@ -33,7 +33,7 @@ class Pro::Admin::RegistrationsController < Devise::RegistrationsController
     respond_to do |format|
       if @admin.save
         sign_in @admin
-        format.html {redirect_to new_structure_path, :notice => t("admin.registration.successful")}
+        format.html {redirect_to new_pro_structure_path, :notice => t("admin.registration.successful")}
       else
         format.html {render 'new'}
       end

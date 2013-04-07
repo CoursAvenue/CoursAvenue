@@ -52,6 +52,7 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  after_commit     :cerate_teacher
   after_initialize :set_free_pricing_plan
   after_create     :create_place
   belongs_to       :city
@@ -155,5 +156,7 @@ class Structure < ActiveRecord::Base
   def create_place
     self.places.create(name: self.name, street: self.street, city: self.city, zip_code: self.zip_code)
   end
-
+  def cerate_teacher
+    self.teachers.create(name: main_contact.full_name)
+  end
 end

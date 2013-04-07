@@ -13,6 +13,7 @@ class Planning < ActiveRecord::Base
   validate :presence_of_start_date
 
   before_save :set_end_date
+  before_save :set_end_time
 
   attr_accessible :duration,
                   :end_date,
@@ -93,6 +94,16 @@ class Planning < ActiveRecord::Base
   end
 
   private
+  def set_end_time
+    unless self.end_time.present?
+      if self.start_time and self.duration
+        self.end_time = self.start_time
+        self.end_time = self.end_time + self.duration.hour.hours
+        self.end_time = self.end_time + self.duration.min.minutes
+      end
+    end
+  end
+
   def set_end_date
     if course.is_workshop? or course.is_training?
       unless end_date.present?

@@ -10,22 +10,22 @@
         = contact_form.input :first_name
         = contact_form.input :last_name
         / = contact_form.input :role
-        = contact_form.input :is_teacher
+        / = contact_form.input :is_teacher
         %p.field-form-info.flush--bottom= t('.phone_number_info')
         = contact_form.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: '01 02 11 33 12'
         = contact_form.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: '06 07 11 33 12'
         %p.field-form-info= t('.mobile_phone_number_info')
-        = contact_form.input :email, :required => true, :autofocus => true, wrapper_html: {class: 'flush--bottom'}
-        %p.field-form-info= t('.email_info')
-        = contact_form.input :management_software_used, label: t('.management_software_used' )
+        / = contact_form.input :email, :required => true, :autofocus => true, wrapper_html: {class: 'flush--bottom'}
+        / %p.field-form-info= t('.email_info')
+        / = contact_form.input :management_software_used, label: t('.management_software_used' )
 
         / Par email : pré-insérer le mail renseigné en étape 1
         / Par SMS : pré-insérer le n° de téléphone portable renseigné en étape 1
 
-        %h5.form-header-group Changement de mot de passe
-        = contact_form.input :password, wrapper_html: {class: 'flush--bottom'}
-        %p.field-form-info= t('.password_info')
-        = contact_form.input :password_confirmation
+        / %h5.form-header-group Changement de mot de passe
+        / = contact_form.input :password, wrapper_html: {class: 'flush--bottom'}
+        / %p.field-form-info= t('.password_info')
+        / = contact_form.input :password_confirmation
     / .form-actions
     /   = f.button :submit, 'Mettre à jour', class: 'btn btn__primary'
 

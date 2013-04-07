@@ -17,7 +17,7 @@
           - else
             = l(planning.start_date, format: :semi_long).capitalize
         %td.text--center= readable_time_slot planning.start_time, planning.end_time
-        %td.text--center= readable_duration planning.duration || planning.day_one_duration
+        %td.text--center= readable_duration planning.duration
         %td= planning.teacher.try(:name)
         %td.text--center
           - if planning.info.present?
