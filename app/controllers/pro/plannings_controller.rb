@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pro::PlanningsController < InheritedResources::Base#Pro::ProController
-  before_filter :authenticate_admin!
+  before_filter :authenticate_pro_admin!
   layout 'admin'
   belongs_to :course
   before_filter :load_structure
@@ -19,14 +19,15 @@ class Pro::PlanningsController < InheritedResources::Base#Pro::ProController
 
   def create
     @planning        = Planning.new(params[:planning])
+    @plannings       = @course.plannings.reject { |planning| planning == @planning }
     @planning.course = @course
     set_dates_and_times
 
     respond_to do |format|
       if @planning.save
-        format.html { redirect_to course_plannings_path(@course) }
+        format.html { redirect_to pro_course_plannings_path(@course) }
       else
-        format.html { render template: 'pro/plannings/index' }
+        format.html { render template: 'pro/plannings/index'}
       end
     end
   end
@@ -38,7 +39,7 @@ class Pro::PlanningsController < InheritedResources::Base#Pro::ProController
 
     respond_to do |format|
       if @planning.update_attributes(params[:planning])
-        format.html { redirect_to course_plannings_path(@course) }
+        format.html { redirect_to pro_course_plannings_path(@course) }
       else
         format.html { render template: 'pro/plannings/index' }
       end
@@ -47,7 +48,7 @@ class Pro::PlanningsController < InheritedResources::Base#Pro::ProController
 
   def destroy
     destroy! do |success, failure|
-      success.html { redirect_to course_plannings_path(@course) }
+      success.html { redirect_to pro_course_plannings_path(@course) }
     end
   end
 

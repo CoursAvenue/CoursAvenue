@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pro::BookTicketsController < InheritedResources::Base#Pro::ProController
-  before_filter :authenticate_admin!
+  before_filter :authenticate_pro_admin!
 
   layout 'admin'
 
@@ -16,21 +16,22 @@ class Pro::BookTicketsController < InheritedResources::Base#Pro::ProController
   end
   def create
     create! do |success, failure|
-      success.html { redirect_to course_prices_path(@course) }
+      success.html { redirect_to pro_course_prices_path(@course) }
       failure.html { render template: 'pro/prices/index' }
     end
   end
 
   def update
     update! do |success, failure|
-      success.html { redirect_to course_prices_path(@course) }
+      success.html { redirect_to pro_course_prices_path(@course) }
       failure.html { render template: 'pro/prices/index' }
     end
   end
 
   def destroy
     destroy! do |success, failure|
-      success.html { redirect_to course_prices_path(@course) }
+      success.html { redirect_to pro_course_prices_path(@course) }
+      failure.html { redirect_to pro_course_prices_path(@course) }
     end
   end
 

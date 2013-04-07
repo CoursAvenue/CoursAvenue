@@ -2,15 +2,15 @@
 
 %h3.header-group Édition de #{@course.name}
 %p
-  = link_to structure_path(@structure) do
+  = link_to pro_structure_path(@structure) do
     %i.icon-double-angle-left
     Retour aux cours
   |
-  = link_to course_plannings_path(@course) do
+  = link_to pro_course_plannings_path(@course) do
     %i.icon-calendar
     Définir le planning du cours
   |
-  = link_to course_prices_path(@course) do
+  = link_to pro_course_prices_path(@course) do
     € Définir les prix du cours
 
 = render partial: 'form'

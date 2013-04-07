@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pro::CoursesController < InheritedResources::Base
-  before_filter :authenticate_admin!
+  before_filter :authenticate_pro_admin!
   belongs_to :structure
 
   layout 'admin'
@@ -14,7 +14,7 @@ class Pro::CoursesController < InheritedResources::Base
 
   def create
     create! do |success, failure|
-      success.html { redirect_to course_plannings_path(@course), notice: 'Vous pouvez maintenant créer le planning de ce cours' }
+      success.html { redirect_to pro_course_plannings_path(@course), notice: 'Vous pouvez maintenant créer le planning de ce cours' }
     end
   end
 
@@ -23,13 +23,13 @@ class Pro::CoursesController < InheritedResources::Base
       @course.image.clear
     end
     update! do |success, failure|
-      success.html { redirect_to (params[:from] || structure_path(@structure)) }
+      success.html { redirect_to (params[:from] || pro_structure_path(@structure)) }
     end
   end
 
   def destroy
     destroy! do |success, failure|
-      success.html { redirect_to structure_path(@structure) }
+      success.html { redirect_to pro_structure_path(@structure) }
     end
   end
 

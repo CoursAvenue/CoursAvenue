@@ -8,7 +8,7 @@ class Pro::RoomsController < InheritedResources::Base
   def create
     @rooms = @place.rooms
     create! do |success, failure|
-      success.html { redirect_to structure_place_rooms_path(@structure, @place) }
+      success.html { redirect_to pro_structure_place_rooms_path(@structure, @place) }
       failure.html { render template: 'pro/rooms/index'}
     end
   end
@@ -22,14 +22,14 @@ class Pro::RoomsController < InheritedResources::Base
   def update
     @rooms = @place.rooms
     update! do |success, failure|
-      success.html { redirect_to structure_place_rooms_path(@structure, @place) }
+      success.html { redirect_to pro_structure_place_rooms_path(@structure, @place) }
       failure.html { render template: 'pro/rooms/index'}
     end
   end
 
   def destroy
     destroy! do |success, failure|
-      success.html { redirect_to structure_place_rooms_path(@structure, @place) }
+      success.html { redirect_to pro_structure_place_rooms_path(@structure, @place) }
       failure.html { render template: 'pro/rooms/index'}
     end
   end

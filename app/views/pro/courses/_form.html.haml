@@ -1,4 +1,4 @@
-= simple_form_for [@structure, @course], as: :course do |f|
+= simple_form_for [:pro, @structure, @course], as: :course do |f|
   = f.error_notification
   = f.input :name, label: t('.name'), placeholder: 'Zumba, jardin musical, Vins et Fromages, etc', label_html: {class: 'helper-label', data: {behavior: 'popover', content: "Si vous donnez déjà ce cours / stage au sein de votre structure, renseignez le même nom, sans le modifier : cela permettra d’éviter toute confusion. Par exemple, s’il s’agit du cours de « Gym'n Stretch », ne le modifiez pas en « Gym stretching  ». D’une manière générale, le nom doit être court, clair, et évocateur, et ne pas forcément comporter le nom de la discipline qui sera mentionné à côté (par exemple, mettez « Classique » au lieu de « Danse classique »)"}}
 

@@ -13,7 +13,7 @@
   %tbody
     - @structures.each do |structure|
       %tr
-        %td= link_to structure.name, edit_structure_path(structure)
+        %td= link_to structure.name, edit_pro_structure_path(structure)
         %td= structure.courses.count
         %td= l(structure.created_at, format: :date_short)
         %td.text--right

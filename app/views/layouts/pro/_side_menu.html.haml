@@ -1,11 +1,11 @@
 - content_for :side_menu do
   %ul
-    = pro_side_menu_link 'Stats'                , reservation_loggers_path             , current: current_tab if current_admin.super_admin?
-    = pro_side_menu_link 'Structures en attente', awaiting_structures_path             , current: current_tab if current_admin.super_admin?
-    = pro_side_menu_link 'Admins'               , admins_path                          , current: current_tab if current_admin.super_admin?
-    = pro_side_menu_link 'Structures'           , structures_path                      , current: current_tab if current_admin.super_admin?
-    = pro_side_menu_link 'Infos générales'      , (@structure.new_record? ? new_structure_path : edit_structure_path(@structure))     , current: current_tab if @structure
-    = pro_side_menu_link 'Mes professeurs'      , structure_teachers_path(@structure)   , current: current_tab if @structure and !@structure.new_record?
-    = pro_side_menu_link "Lieux d'enseignements", structure_places_path(@structure)     , current: current_tab if @structure and !@structure.new_record?
-    = pro_side_menu_link "Mes cours"            , structure_path(@structure)            , current: current_tab if @structure and !@structure.new_record?
-    = pro_side_menu_link "Validation"           , validation_structure_path(@structure) , current: current_tab if @structure and !@structure.new_record?
+    = pro_side_menu_link 'Stats'                , pro_reservation_loggers_path             , current: current_tab if current_pro_admin.super_admin?
+    = pro_side_menu_link 'Structures en attente', awaiting_pro_structures_path             , current: current_tab if current_pro_admin.super_admin?
+    = pro_side_menu_link 'Admins'               , pro_admins_path                          , current: current_tab if current_pro_admin.super_admin?
+    = pro_side_menu_link 'Structures'           , pro_structures_path                      , current: current_tab if current_pro_admin.super_admin?
+    = pro_side_menu_link 'Infos générales'      , (@structure.new_record? ? new_pro_structure_path : edit_pro_structure_path(@structure))     , current: current_tab if @structure
+    = pro_side_menu_link 'Mes professeurs'      , pro_structure_teachers_path(@structure)   , current: current_tab if @structure and !@structure.new_record?
+    = pro_side_menu_link "Lieux d'enseignements", pro_structure_places_path(@structure)     , current: current_tab if @structure and !@structure.new_record?
+    = pro_side_menu_link "Mes cours"            , pro_structure_path(@structure)            , current: current_tab if @structure and !@structure.new_record?
+    = pro_side_menu_link "Validation"           , validation_pro_structure_path(@structure) , current: current_tab if @structure and !@structure.new_record?

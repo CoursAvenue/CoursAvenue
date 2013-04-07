@@ -6,7 +6,7 @@
 
 %h3.header-group Validation
 
-= simple_form_for @structure, url: validate_condition_structure_path(@structure), method: :put do |f|
+= simple_form_for @structure, url: validate_condition_pro_structure_path(@structure), method: :put do |f|
   .checkbox-list
     %input#price-input{type: 'checkbox', checked: @structure.has_validated_conditions}
     %label.inline{for: 'price-input'}
@@ -28,7 +28,7 @@
   .checkbox-list
     %div
       = f.input :has_validated_conditions, label: "J’accepte les #{link_to 'conditions générales de vente', pages_terms_and_conditions_path, target: '_blank'} LeBonCoursPro"
-      = f.hidden_field :validated_by, value: current_admin.id
+      = f.hidden_field :validated_by, value: current_pro_admin.id
     %div
       %input#free-course-if-abonnement-input{type: 'checkbox', checked: @structure.has_validated_conditions}
       %label.helper-label.inline{for: 'free-course-if-abonnement-input', data: {behavior: 'popover', content: "Si vous proposez des formules de plusieurs cours (carnets ou abonnements), nous vous recommandons fortement de proposer au moins un cours d’essai, gratuit ou à prix très réduit : nos partenaires qui le proposent sont ceux qui font le plus de ventes. En pratique, l’élève achète son carnet ou son abonnement en ligne, il vient chez vous pour la 1ère séance d’essai : s’il décide de ne pas continuer, il nous en fait part via son espace client, et nous ne lui débitons que son cours d’essai (rien s’il est gratuit, sinon le prix réduit de la séance). S’il décide de continuer, alors il n’a rien à faire et nous lui débitons son carnet ou son forfait."}}

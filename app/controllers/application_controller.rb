@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    @current_ability ||= Ability.new(current_admin)
+    @current_ability ||= Ability.new(current_pro_admin)
   end
 
   def render_not_found(exception)

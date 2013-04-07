@@ -15,6 +15,17 @@
 
 %h1.course-title
   %span= @course.name
+- if @course.rating
+  %div{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://schema.org/AggregateRating'}
+    %span.rating{title: comment_rating_title(@course.rating)}
+      = rating_stars @course.rating
+    %meta{property: 'v:rating', itemprop: 'ratingValue', content: '%.1f' % @course.rating}
+    %meta{itemprop: 'bestRating', content: 5}
+    (
+    %span{itemprop: 'reviewCount'}= @course.comments.count
+    %i.lbc-brand-icon
+    )
+
 %ul.nav
   %li
     %h4.flush--bottom
@@ -81,6 +92,9 @@
       %li.tab-el{data: { el: 'tab-prices' }}= t('.prices')
       %li.tab-el{data: { el: 'tab-description' }}= Course.human_attribute_name(:description)
       %li.tab-el{data: { el: 'tab-structure-info' }}= t('.structure')
+      %li.tab-el.float--right
+        = link_to structure_path(@structure) do
+          = "Voir tous les cours de #{@structure.name}"
 
     .tab-content
       = render 'planning_tab'

@@ -23,10 +23,6 @@
       %p
         Stage de
         = pluralize course.length, 'jour'
-    / %ul.nav
-    /   %li= join_audiences(course)
-    /   %li -
-    /   %li= join_levels(course)
     %div
       %i.icon-map-marker
       - if course.place.name.length > 50
@@ -75,12 +71,11 @@
         - else
           %p= "(#{t(course.best_price.libelle).downcase})".html_safe
     - if course.rating
-      %meta{itemprop: "ratingValue", content: course.rating}
       %div
+        %span.rating{title: comment_rating_title(course.rating)}
+          = rating_stars course.rating
+        (
         = course.comments.count
-        avis
         %i.lbc-brand-icon
-        %br
-        = "%.1f" % course.rating
-        = rating_stars course.rating
+        )
       /%a.book-online-button.one-whole.btn.btn__primary.text--center Réservez

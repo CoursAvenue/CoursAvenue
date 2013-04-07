@@ -10,6 +10,9 @@ class Planning < ActiveRecord::Base
   has_one   :structure, through: :course
 
   validates :teacher, presence: true
+  validate :presence_of_start_date
+
+  before_save :set_end_date
 
   attr_accessible :duration,
                   :end_date,
@@ -86,6 +89,24 @@ class Planning < ActiveRecord::Base
       day_one
     else
       end_date
+    end
+  end
+
+  private
+  def set_end_date
+    if course.is_workshop? or course.is_training?
+      unless end_date.present?
+        self.end_date = self.start_date
+      end
+    end
+  end
+
+  # Validations
+  def presence_of_start_date
+    if course.is_workshop? or course.is_training?
+      unless start_date.present?
+        errors.add(:end_date, :blank)
+      end
     end
   end
 end

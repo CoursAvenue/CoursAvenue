@@ -1,0 +1,15 @@
+%table
+  %thead
+    %tr
+      %th Nom
+      %th Image
+      %th
+  %tbody
+    - @subjects.each do |subject|
+      %tr
+        %td= subject.name
+        %td
+          - if subject.image.present?
+            %i.icon-check
+        %td= link_to 'Editer', edit_pro_subject_path(subject)
+

@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_filter :authenticate_admin!
+  before_filter :authenticate_pro_admin!
   load_and_authorize_resource
 
   layout 'admin'
@@ -10,15 +10,18 @@ class Pro::StructuresController < Pro::ProController
     @structure.update_attribute :has_validated_conditions, false
     @structure.update_attribute :validated_by, nil
     respond_to do |format|
-      format.html { redirect_to awaiting_structures_path }
+      format.html { redirect_to awaiting_pro_structures_path }
     end
   end
 
   def validate_condition
     @structure        = Structure.find params[:id]
-    @structure.update_attributes params[:structure]
     respond_to do |format|
-      format.html { redirect_to structure_path(@structure), notice: "Nous avons bien été avertis. Nous revenons vers vous dans les meilleurs délais." }
+      if @structure.update_attributes params[:structure]
+        format.html { redirect_to pro_structure_path(@structure), notice: "Nous avons bien été avertis. Nous revenons vers vous dans les meilleurs délais." }
+      else
+        format.html { redirect_to edit_pro_structure_path(@structure), alert: "Vous devez remplir toutes vos informations" }
+      end
     end
   end
 
@@ -26,7 +29,7 @@ class Pro::StructuresController < Pro::ProController
     @structure        = Structure.find params[:id]
     @structure.update_attribute :active, true
     respond_to do |format|
-      format.html { redirect_to awaiting_structures_path }
+      format.html { redirect_to awaiting_pro_structures_path }
     end
   end
 
@@ -47,9 +50,9 @@ class Pro::StructuresController < Pro::ProController
     @courses   = @structure.courses
     respond_to do |format|
       if @structure.places.empty?
-        format.html { redirect_to new_structure_place_path(@structure), notice: "Vous devez d'abord créé des lieux pour vos cours."}
+        format.html { redirect_to new_pro_structure_place_path(@structure), notice: "Vous devez d'abord créé des lieux pour vos cours."}
       elsif @courses.empty?
-        format.html{ redirect_to new_structure_course_path(@structure) }
+        format.html{ redirect_to new_pro_structure_course_path(@structure) }
       else
         format.html
       end
@@ -63,7 +66,7 @@ class Pro::StructuresController < Pro::ProController
 
   def new
     @structure = Structure.new
-    @admin     = current_admin
+    @admin     = current_pro_admin
     @structure.admins << @admin
   end
 
@@ -81,7 +84,7 @@ class Pro::StructuresController < Pro::ProController
       has_saved = @admin.update_attributes(params[:admin])
       has_saved = has_saved && @structure.save
       if has_saved
-        format.html { redirect_to edit_structure_path @structure }
+        format.html { redirect_to edit_pro_structure_path @structure }
       else
         format.html { render action: 'edit' }
       end
@@ -102,7 +105,7 @@ class Pro::StructuresController < Pro::ProController
       has_saved = @admin.update_attributes(params[:admin])
       has_saved = has_saved && @structure.save
       if has_saved
-        format.html { redirect_to structure_teachers_path(@admin.structure), :notice => t("pro.structures.create.create_teacher") }
+        format.html { redirect_to pro_structure_teachers_path(@admin.structure), :notice => t("pro.structures.create.create_teacher") }
       else
         flash[:alert] = "Il nous manque quelques informations pour continuer"
         format.html { render action: 'new'}
@@ -114,7 +117,7 @@ class Pro::StructuresController < Pro::ProController
     @structure = Structure.find params[:id]
     @structure.delete
     respond_to do |format|
-      format.html { redirect_to structures_path }
+      format.html { redirect_to pro_structures_path }
     end
   end
 

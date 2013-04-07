@@ -14,13 +14,13 @@
         %br
         = image_tag 'pages/email.png', height: 10
       %ul.nav
-        - if current_admin
-          - if current_admin.super_admin?
-            %li= link_to 'Dashboard', dashboard_path, class: 'header-link'
-            %li= link_to 'Espace super admin', structures_path, class: 'header-link'
-          - elsif current_admin.structure.present?
-            %li= link_to 'Espace admin', structure_path(current_admin.structure), class: 'header-link'
-          %li= link_to 'Se déconnecter', destroy_admin_session_path, class: 'header-link', method: :delete
+        - if current_pro_admin
+          - if current_pro_admin.super_admin?
+            %li= link_to 'Dashboard', pro_dashboard_path, class: 'header-link'
+            %li= link_to 'Espace super admin', pro_structures_path, class: 'header-link'
+          - elsif current_pro_admin.structure.present?
+            %li= link_to 'Espace admin', pro_structure_path(current_pro_admin.structure), class: 'header-link'
+          %li= link_to 'Se déconnecter', destroy_pro_admin_session_path, class: 'header-link', method: :delete
         - else
-          %li= link_to 'Se connecter', new_admin_session_path, class: 'header-link'
+          %li= link_to 'Se connecter', new_pro_admin_session_path, class: 'header-link'
 

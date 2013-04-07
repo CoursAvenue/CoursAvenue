@@ -9,7 +9,7 @@
 %h3.header-group Gestion de mes cours
 
 .islet.flush--bottom.text--center
-  = link_to 'Ajouter un cours', new_structure_course_path(@structure), class: 'btn btn__primary'
+  = link_to 'Ajouter un cours', new_pro_structure_course_path(@structure), class: 'btn btn__primary'
 %table.table--striped#dataTable
   %thead
     %tr
@@ -34,25 +34,25 @@
     - @courses.each do |course|
       %tr
         %td= course.type_name
-        %td= link_to course.name, edit_course_path(course)
+        %td= link_to course.name, edit_pro_course_path(course)
         %td= course.teachers.uniq.map(&:name).join(', ')
         %td= "#{course.place.name} (#{course.room.name})"
         %td= course.subjects.map(&:name).join(', ')
         %td.text--right
-          = link_to course_plannings_path(course), class: 'btn' do
+          = link_to pro_course_plannings_path(course), class: 'btn' do
             %i.lbc-icon-calendar
             %span &nbsp;Plannings
           &nbsp;
-          = link_to '€ Tarifs', course_prices_path(course), class: 'btn'
+          = link_to '€ Tarifs', pro_course_prices_path(course), class: 'btn'
           &nbsp;
-          = link_to edit_course_path(course), title: 'Éditer', class: 'btn btn__warning' do
+          = link_to edit_pro_course_path(course), title: 'Éditer', class: 'btn btn__warning' do
             %i.icon-edit
           &nbsp;
-          = link_to course_path(course), method: :delete, class: 'red', title: 'Supprimer', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
+          = link_to pro_course_path(course), method: :delete, class: 'red', title: 'Supprimer', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
             %i.icon-trash
 
 .text--center
-  = link_to "Passer à l'étape de validation", validation_structure_path(@structure), class: 'btn btn__primary btn__large'
+  = link_to "Passer à l'étape de validation", validation_pro_structure_path(@structure), class: 'btn btn__primary btn__large'
 
 / - unless @structure.has_validated_conditions
 = content_for :scripts do

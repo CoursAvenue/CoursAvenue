@@ -21,18 +21,22 @@
     .text--center
       = f.submit 'Publier mon avis', class: 'btn btn__large btn__primary', style: 'padding-top: 6px; padding-bottom: 6px;'
 
+- if @course.rating
+  %h5.float--right.flush--bottom Note moyenne : #{ '%.1f' % @course.rating}
 %h4.small-margin-bottom= t('.last_students_opinion')
 - if @comments.any?
   %ul.comment-list
     - @comments.each do |comment|
       %li.comment-list__el
-        %article
-          %b= comment.name
+        %article{itemprop: 'reviews', itemscope: true, itemtype:'http://schema.org/Review'}
+          %b{itemprop: 'author'}= comment.name
           - if comment.rating
-            %meta{itemprop: "ratingValue", content: comment.rating}
-            = rating_stars comment.rating
-          %i.semi-muted le #{l(comment.created_at, format: :date)}
-          %p
+            %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
+              = rating_stars comment.rating
+              %meta{itemprop: 'ratingValue', content: comment.rating}
+              %meta{itemprop: 'bestRating', content: 5}
+          %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} le #{l(comment.created_at, format: :date)}
+          %p{itemprop: 'reviewBody'}
             = comment.content
 - else
   %p Soyez le premier à nous donner votre avis !

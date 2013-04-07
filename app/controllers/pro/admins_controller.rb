@@ -15,10 +15,10 @@ class ::Pro::AdminsController < InheritedResources::Base
     @admin = ::Admin.find(params[:id])
     update! do |format|
       format.html do
-        if current_admin.super_admin?
+        if current_pro_admin.super_admin?
           redirect_to admins_path
         else
-          redirect_to structure_path current_admin.structure
+          redirect_to structure_path current_pro_admin.structure
         end
       end
     end
@@ -28,10 +28,10 @@ class ::Pro::AdminsController < InheritedResources::Base
     @admin = ::Admin.find(params[:id])
     destroy! do |format|
       format.html do
-        if current_admin.super_admin?
+        if current_pro_admin.super_admin?
           redirect_to admins_path
         else
-          redirect_to structure_path current_admin.structure
+          redirect_to structure_path current_pro_admin.structure
         end
       end
     end

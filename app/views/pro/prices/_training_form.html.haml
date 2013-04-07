@@ -1,5 +1,5 @@
 - if @prices.empty? or !@price.new_record?
-  = simple_form_for [@course, @price] do |f|
+  = simple_form_for [:pro, @course, @price] do |f|
     = f.error_notification
     .input.inline-inputs
       = f.hidden_field :libelle, value: 'prices.training'

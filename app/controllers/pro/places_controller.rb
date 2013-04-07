@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pro::PlacesController < InheritedResources::Base#Pro::ProController
-  before_filter :authenticate_admin!
+  before_filter :authenticate_pro_admin!
   layout 'admin'
   belongs_to :structure
   load_and_authorize_resource :structure
@@ -8,25 +8,25 @@ class Pro::PlacesController < InheritedResources::Base#Pro::ProController
   def index
     index! do |format|
       if @structure.places.empty?
-        format.html { redirect_to new_structure_place_path(@structure) }
+        format.html { redirect_to new_pro_structure_place_path(@structure) }
       end
     end
   end
   def create
     create! do |success, failure|
-      success.html { redirect_to structure_place_rooms_path(@structure, @place) }
+      success.html { redirect_to pro_structure_place_rooms_path(@structure, @place) }
     end
   end
 
   def update
     update! do |success, failure|
-      success.html { redirect_to structure_places_path(@structure) }
+      success.html { redirect_to pro_structure_places_path(@structure) }
     end
   end
 
   def destroy
     destroy! do |success, failure|
-      success.html { redirect_to structure_places_path(@structure) }
+      success.html { redirect_to pro_structure_places_path(@structure) }
     end
   end
 end

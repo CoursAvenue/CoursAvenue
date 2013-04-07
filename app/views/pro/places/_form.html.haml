@@ -1,5 +1,5 @@
 .islet
-  = simple_form_for [@structure, @place] do |f|
+  = simple_form_for [:pro, @structure, @place] do |f|
     = f.error_notification
     %h5.form-header-group Adresse
     = f.input :name, label: t('.name'), label_html: { class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => "Si vous avez plus d’un lieu, et pour pouvoir les différencier, renseignez un nom spécifique pour chaque adresse. Par exemple, si l’un de vos 3 lieux se trouve au 34 rue Buffaut, renseignez « Buffaut » ; s’il concerne le gymnase Léo Lagrange, renseignez « Lagrange », etc." }, placeholder: 'Gymnase Bercy'

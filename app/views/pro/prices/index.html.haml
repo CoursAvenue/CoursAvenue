@@ -2,11 +2,11 @@
 
 %h2.header-group.flush--bottom Prix - #{@course.name} - #{@course.type_name}
 %p
-  = link_to structure_path(@structure) do
+  = link_to pro_structure_path(@structure) do
     %i.icon-double-angle-left
     Retour aux cours
   |
-  = link_to course_plannings_path(@course) do
+  = link_to pro_course_plannings_path(@course) do
     %i.icon-calendar
     Définir le planning du cours
 
@@ -24,15 +24,15 @@
           %td= t(price.libelle)
           %td= "#{price.readable_amount}€"
           %td.text--right
-            = link_to edit_course_price_path(@course, price), title: 'Éditer', class: 'btn btn__warning' do
+            = link_to edit_pro_course_price_path(@course, price), title: 'Éditer', class: 'btn btn__warning' do
               %i.icon-edit
-            = link_to course_price_path(@course, price), method: :delete, title: 'Supprimer', class: 'btn btn__danger' do
+            = link_to pro_course_price_path(@course, price), method: :delete, title: 'Supprimer', class: 'btn btn__danger' do
               %i.icon-trash
 
 - if @course.is_lesson?
   %hr
   %h5.flush--bottom Carnet de plusieurs séances
-  = simple_form_for [@course, @book_ticket || BookTicket.new] do |f|
+  = simple_form_for [:pro, @course, @book_ticket || BookTicket.new] do |f|
     = f.error_notification
     .input.inline-inputs.flush--top
       = f.input :number, as: :select, collection: 5..25
@@ -54,7 +54,7 @@
           %td= book_ticket.number
           %td= "#{book_ticket.readable_price}€"
           %td.text--right
-            = link_to edit_course_book_ticket_path(@course, book_ticket), title: 'Éditer', class: 'btn btn__warning' do
+            = link_to edit_pro_course_book_ticket_path(@course, book_ticket), title: 'Éditer', class: 'btn btn__warning' do
               %i.icon-edit
-            = link_to course_book_ticket_path(@course, book_ticket), method: :delete, title: 'Supprimer', class: 'btn btn__danger' do
+            = link_to pro_course_book_ticket_path(@course, book_ticket), method: :delete, title: 'Supprimer', class: 'btn btn__danger' do
               %i.icon-trash

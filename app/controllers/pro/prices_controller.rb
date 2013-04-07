@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pro::PricesController < InheritedResources::Base#Pro::ProController
-  before_filter :authenticate_admin!
+  before_filter :authenticate_pro_admin!
 
   layout 'admin'
 
@@ -26,7 +26,7 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
   def create
     @prices = @course.prices.reject(&:new_record?)
     create! do |success, failure|
-      success.html { redirect_to course_prices_path(@course) }
+      success.html { redirect_to pro_course_prices_path(@course) }
       failure.html { render template: 'pro/prices/index' }
     end
   end
@@ -34,14 +34,14 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
   def update
     @prices = @course.prices.reject(&:new_record?)
     update! do |success, failure|
-      success.html { redirect_to course_prices_path(@course) }
+      success.html { redirect_to pro_course_prices_path(@course) }
       failure.html { render template: 'pro/prices/index' }
     end
   end
 
   def destroy
     destroy! do |success, failure|
-      success.html { redirect_to course_prices_path(@course) }
+      success.html { redirect_to pro_course_prices_path(@course) }
     end
   end
 
