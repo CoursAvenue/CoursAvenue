@@ -7,12 +7,14 @@
   .home-screen-promotion-wrapper
     %section.main-container.home-screen-promotion
       .ilb-wrapper
-        .palm-one-whole.one-half= render 'map_paris'
-        .palm-one-whole.one-half
+        .palm-one-whole.one-half.islet
+          %h3.home-title Paris
+          = render 'map_paris'
+        .palm-one-whole.one-half.islet
           %div
             %h3.home-title Les derniers avis
             %ul.comment-list#comments-slideshow{style: 'height: 80px; widht: 100%;'}
-              - @comments.in_groups_of(3, false).each do |comment_group|
+              - @comments.in_groups_of(4, false).each do |comment_group|
                 %li.slideshow--element
                   - comment_group.each do |comment|
                     %article.comment-list__el
@@ -41,7 +43,8 @@
 
 .main-container
   .ilb-wrapper
-    .palm-one-whole.one-half
+    .palm-one-whole.one-half.islet
+      %h3.home-title À découvrir ce mois-ci
       .ilb-wrapper
         .course-block-wrapper.one-half.palm-one-whole
           = link_to subject_path(id: 'cuisine-oenologie'), class: 'course-block' do
@@ -78,8 +81,10 @@
               Eveillons nos tout petits
             %p.course-block-caption
               Cours & stages pour les 0 à 5 ans
-    .palm-one-whole.one-half
+    .palm-one-whole.one-half.islet
       %h3.home-title Le Blog
+      = blog_feed
+      = link_to 'Accéder au blog', 'http://blog.leboncours.com'
   .ilb-wrapper
     .one-third.palm-one-whole
       .ilb-wrapper.align-middle

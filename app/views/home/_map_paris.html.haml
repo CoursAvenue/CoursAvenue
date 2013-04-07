@@ -1,6 +1,6 @@
 %div
   .map-paris
-    %span.epsilon.map-paris-title Paris
+    /%span.epsilon.map-paris-title Paris
     .map-marker-image.paris-1
       = link_to subjects_path(city: 'paris', zip_codes: ['75001']) do
         %span= Course.joins{place}.where{place.zip_code == '75001'}.count

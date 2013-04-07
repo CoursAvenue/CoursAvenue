@@ -71,6 +71,7 @@
     @include background-image(linear-gradient(top, $btnPrimaryBackgroundHighlight, $btnPrimaryBackground));
 }
 .map-paris {
+    margin          : auto;
     position        : relative;
     max-width       : 485px;
     max-height      : 408px;

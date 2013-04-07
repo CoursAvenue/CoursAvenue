@@ -11,3 +11,22 @@ ul.alternate-color {
         background-color: $alternativeBackground;
     }
 }
+
+.blog-feed {
+    margin-left: 0;
+    list-style: none;
+}
+    .blog-feed__title{
+        line-height: 1;
+        a {
+            color: #666;
+            font-size: 14px;
+        }
+    }
+    .blog-feed__date {
+        color: #999;
+        font-size: 12px;
+    }
+    .blog-feed__content {
+        font-size: 12px;
+    }
