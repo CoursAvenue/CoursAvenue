@@ -84,4 +84,14 @@ window.addEvent('domready', function() {
         });
     });
 
+    // Autoresize textareas
+    $$('textarea[data-behavior=autoresize]').addEvent('keyup', function() {
+        this.style.height = "1px";
+        if (this.scrollHeight < 35) {
+            this.style.height = "50px";
+        } else {
+            this.style.height = (25+this.scrollHeight)+"px";
+        }
+    });
+
 });

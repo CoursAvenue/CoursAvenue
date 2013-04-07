@@ -82,7 +82,11 @@
           %tbody
             - @courses.each do |course|
               %tr
-                %td= link_to course.name, course_path(course)
+                %td
+                  = link_to course.name, course_path(course)
+                  - if course.rating
+                    %br
+                    = rating_stars course.rating
                 %td= course.subjects.map(&:name).join(', ')
                 %td= course.levels.map{|level| t(level.name) }.join(', ')
                 %td.text--center= course.plannings.count
