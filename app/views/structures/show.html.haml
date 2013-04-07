@@ -26,11 +26,18 @@
     %article.course-info
       .text--center
         %h4 Contact
-        = link_to @structure.website, @structure.website
+        %i.icon-external-link.orange
+        = link_to @structure.website, @structure.website, target: '_blank'
         .blue
-          = @structure.phone_number
-          \/
-          = @structure.mobile_phone_number
+          %i.icon-phone.blue
+          - if @structure.phone_number
+            = link_to "tel:#{@structure.phone_number.gsub(/\s+/, '')}", class: 'blue' do
+              = @structure.phone_number.gsub(' ', '&nbsp;').html_safe
+          - if @structure.phone_number and @structure.mobile_phone_number
+            %span.blue /
+          - if @structure.mobile_phone_number
+            = link_to "tel:#{@structure.mobile_phone_number.gsub(/\s+/, '')}", class: 'blue' do
+              = @structure.mobile_phone_number.gsub(' ', '&nbsp;').html_safe
         - if @structure.rating
           %br
           %meta{itemprop: "ratingValue", content: @structure.rating}
