@@ -84,7 +84,9 @@
     .palm-one-whole.one-half.islet
       %h3.home-title Le Blog
       = blog_feed
-      = link_to 'Accéder au blog', 'http://blog.leboncours.com'
+      = link_to 'http://blog.leboncours.com', target: '_blank' do
+        %i.icon-align-left
+        &nbsp;Accéder au blog
   .ilb-wrapper
     .one-third.palm-one-whole
       .ilb-wrapper.align-middle
