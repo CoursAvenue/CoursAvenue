@@ -22,35 +22,31 @@
     @include border-left-radius($brand-round);
 }
 
-.comment__content:after, .comment__content:before {
+.comment__content p:after, .comment__content p:before {
     font-family: Georgia, serif;
     font-size : 40px;
     position  : absolute;
     color     : #7a7a7a;
 }
-.comment__content:after {
-    content   : "\201C";
-    left      : 5px;
-    top       : -12px;
-}
-.comment__content:before {
+.comment__content p:after {
     content   : "\201D";
-    right     : 5px;
-    bottom    : -30px;
+    right     : -17px;
+    bottom    : -38px;
+}
+.comment__content p:before {
+    content   : "\201C";
+    left      : -17px;
+    top       : -17px;
 }
 .comment__content {
-    position        : relative;
     background-color: $beigeDark;
+    padding         : 0 20px 0 20px;
     @include box-shadow(inset -1px 1px 1px $beigeDarker, inset 0px -1px 1px $beigeDarker);
-    padding         : 0 10px 0 20px;
     @include border-right-radius($brand-round);
     p {
+        position        : relative;
         font-size  : 12px;
         line-height: 1.4;
         color       : #444;
     }
 }
-// .comment-list__slideshow_el {
-//     position: absolute;
-//     top : 0;
-// }
