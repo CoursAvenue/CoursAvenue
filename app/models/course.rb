@@ -38,13 +38,14 @@ class Course < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Validations
   validates :type, :name  , presence: true
-  validates :structure    , presence: true
+  validates :place        , presence: true
   validates :room         , presence: true
   validates :subjects     , presence: true
   validates :levels       , presence: true
   validates :audiences    , presence: true
 
   before_save :set_place_if_empty
+  before_save :set_structure_if_empty
 
   attr_reader :delete_image
 
@@ -329,6 +330,12 @@ class Course < ActiveRecord::Base
       "#{self.slug_type_name}-de-#{self.name}-a-#{city.name}-#{structure.name}"
     else
       "#{self.slug_type_name}-de-#{self.name}-#{structure.name}"
+    end
+  end
+
+  def set_structure_if_empty
+    if structure.nil? and place.present?
+      structure = place.structure
     end
   end
 

@@ -60,7 +60,7 @@ class Structure < ActiveRecord::Base
 
   has_many :teachers
   has_many :subjects, through: :courses
-  has_many :courses
+  has_many :courses, through: :places
   has_many :renting_rooms
   has_many :cities, through: :places
   has_many :places

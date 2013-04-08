@@ -13,7 +13,7 @@
     Voir les lieux à proximité
 
 %h1.course-title
-  %span= @place.name
+  %span= @place.long_name
 - if @place.rating
   %div{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://schema.org/AggregateRating'}
     %span.rating{title: comment_rating_title(@place.rating)}

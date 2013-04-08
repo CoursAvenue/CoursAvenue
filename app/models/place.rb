@@ -58,6 +58,10 @@ class Place < ActiveRecord::Base
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
     text :name, :boost => 2
+    text :structure_name, :boost => 2 do
+      structure.name
+    end
+
 
     text :street
 
