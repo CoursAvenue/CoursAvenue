@@ -33,7 +33,7 @@
   - @subjects.each do |subject|
     %li
       %h3.flush--bottom
-        %span.milli.lbl.blue= link_to subject.name, subject_path(subject), class: 'subject-link'
+        %span.milli.lbl.blue= link_to subject.name, subject_courses_path(subject), class: 'subject-link'
 
 .gw
   %section.g.three-tenths#summary.palm-one-whole.float--right.hide--lap
@@ -56,7 +56,6 @@
                 %h3.similar-course--structure-name
                   %i.icon-map-marker
                   = course.structure.name
-
   %section.g.seven-tenths.palm-one-whole.lap-one-whole
     .course-header-badge
       .course-header-image.one-half.palm-one-whole
@@ -93,8 +92,8 @@
       %li.tab-el{data: { el: 'tab-description' }}= Course.human_attribute_name(:description)
       %li.tab-el{data: { el: 'tab-structure-info' }}= t('.structure')
       %li.tab-el.float--right
-        = link_to structure_path(@structure) do
-          = "Voir tous les cours de #{@structure.name}"
+        = link_to place_path(@place) do
+          = "Voir tous les cours de #{truncate @place.long_name, length: 20}"
 
     .tab-content
       = render 'planning_tab'

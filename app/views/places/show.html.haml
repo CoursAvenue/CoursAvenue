@@ -10,7 +10,7 @@
 - else
   = link_to places_path(city: @city.name) do
     %i.orange ←
-    Voir les établissements à proximité
+    Voir les lieux à proximité
 
 %h1.course-title
   %span= @place.name
@@ -55,7 +55,22 @@
           - if @structure.mobile_phone_number
             = link_to "tel:#{@structure.mobile_phone_number.gsub(/\s+/, '')}", class: 'blue' do
               = @structure.mobile_phone_number.gsub(' ', '&nbsp;').html_safe
-
+    %article.hide--palm
+      %h4.flush--bottom Les lieux alentours
+      %ul.block-list
+        - @surrounding_places.each do |surrounding_place|
+          %li
+            = link_to place_path(surrounding_place), class: 'flexbox similar-course--image-wrapper' do
+              .flexbox__item.one-fifth.similar-course--image
+                - if surrounding_place.image.present?
+                  = image_tag surrounding_place.image.url(:thumb)
+                - elsif surrounding_place.subjects.any?
+                  = image_tag surrounding_place.subjects.first.image.url(:thumb)
+              .flexbox__item.similar-course
+                %h2.similar-course--course-name= surrounding_place.long_name
+                %h3.similar-course--structure-name
+                  %i.icon-map-marker
+                  = surrounding_place.street
   %section.g.seven-tenths.palm-one-whole.lap-one-whole
     .course-header-badge
       - if @place.image.present?
@@ -85,7 +100,7 @@
 
     %hr
     - if @courses.length > 0
-      %h4.text--center Cours proposés par cet établissement
+      %h4.text--center Cours proposés dans ce lieu
       #course-list{style: (@courses.length > 4 ? 'height: 20em; overflow: hidden' : '')}
         %table.table--striped
           %thead

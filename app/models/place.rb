@@ -13,6 +13,7 @@ class Place < ActiveRecord::Base
   has_many   :courses
   has_many   :rooms
   has_many   :comments, as: :commentable
+  has_many   :subjects, through: :courses
 
   validates  :name      , presence: true
   validates  :street    , presence: true
@@ -58,6 +59,8 @@ class Place < ActiveRecord::Base
   searchable do
     text :name, :boost => 2
 
+    text :street
+
     text :subjects do
       subject_array = []
       structure.subjects.each do |subject|
@@ -67,6 +70,7 @@ class Place < ActiveRecord::Base
       subject_array.uniq.map(&:name)
     end
 
+    string :street
 
     latlon :location do
       Sunspot::Util::Coordinates.new(self.latitude, self.longitude)

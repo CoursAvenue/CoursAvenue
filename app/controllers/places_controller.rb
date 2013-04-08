@@ -10,6 +10,15 @@ class PlacesController < ApplicationController
     @comments  = @place.comments.order('created_at DESC').reject(&:new_record?)
     @city      = @place.city
 
+    place_latitude  = @place.latitude
+    place_longitude = @place.longitude
+    @search = Sunspot.search(Place) do
+      with(:location).in_radius(place_latitude, place_longitude, params[:radius] || 10, :bbox => true)
+      without(:street, nil)
+      paginate :page => (1), :per_page => 5
+    end
+    @surrounding_places = @search.results
+
     @json_place_address = @place.to_gmaps4rails do |place, marker|
       marker.title   place.name
       marker.json({ id: place.id })
