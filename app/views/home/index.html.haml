@@ -28,7 +28,7 @@
                             %br
                             = rating_stars comment.rating
                             %br
-                            = link_to truncate(comment.commentable.name, length: 43), commentable_path(comment), class: 'blue'
+                            = link_to truncate(comment.commentable.name, length: 40), commentable_path(comment), class: 'blue'
                         .flexbox__item.one-half.comment__content
                           %p.flush--bottom= truncate(comment.content, length: 140)
 

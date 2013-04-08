@@ -1,45 +1,44 @@
 = content_for :title do
-  = "#{@structure.name} à #{@city.name}"
-- unless @structure.description.blank?
-  = content_for :meta_description do
-    = @structure.description
+  = "#{@place.long_name} à #{@city.name}"
+= content_for :meta_description do
+  = "#{@place.long_name} à #{@city.name}"
 
-- if cookies[:structure_search_path]
-  = link_to cookies[:structure_search_path] do
+- if cookies[:place_search_path]
+  = link_to cookies[:place_search_path] do
     %i.orange ←
     Retour aux résultats
 - else
-  = link_to structures_path(city: @city.name) do
+  = link_to places_path(city: @city.name) do
     %i.orange ←
     Voir les établissements à proximité
 
 %h1.course-title
-  %span= @structure.name
-- if @structure.rating
+  %span= @place.name
+- if @place.rating
   %div{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://schema.org/AggregateRating'}
-    %span.rating{title: comment_rating_title(@structure.rating)}
-      = rating_stars @structure.rating
-    %meta{property: 'v:rating', itemprop: 'ratingValue', content: '%.1f' % @structure.rating}
+    %span.rating{title: comment_rating_title(@place.rating)}
+      = rating_stars @place.rating
+    %meta{property: 'v:rating', itemprop: 'ratingValue', content: '%.1f' % @place.rating}
     %meta{itemprop: 'bestRating', content: 5}
     (
-    %span{itemprop: 'reviewCount'}= @structure.comments.count
+    %span{itemprop: 'reviewCount'}= @place.comments.count
     %i.lbc-brand-icon
     )
 %ul.nav
-  - @structure.parent_subjects.each do |subject|
+  - @place.parent_subjects.each do |subject|
     %li
       %h3.flush--bottom
-        %span.milli.lbl.blue= link_to subject.name, subject_path(subject), class: 'subject-link'
+        %span.milli.lbl.blue= link_to subject.name, places_path(subject_id: subject.id), class: 'subject-link'
 
 .gw
   %section.g.three-tenths#summary.palm-one-whole.float--right.hide--lap
     .course-header-map
-      = gmaps( {markers: {data: @json_structure_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
+      = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
       %h2.course-header-structure-name
-        %b= @structure.name
+        %b= @place.name
         %br
         %i.icon-map-marker
-        = readable_address @structure
+        = readable_address @place
     %br
     %article.course-info
       .text--center
@@ -59,12 +58,12 @@
 
   %section.g.seven-tenths.palm-one-whole.lap-one-whole
     .course-header-badge
-      - if @structure.image.present?
+      - if @place.image.present?
         .course-header-image.one-half.palm-one-whole
-          = image_tag @structure.image.url(:wide), class: 'course-header-badge-image'
+          = image_tag @place.image.url(:wide), class: 'course-header-badge-image'
 
       %ul#subject-slideshow.discrete-list{style: 'height: 250px; overflow: hidden;'}
-        - @structure.parent_subjects.each do |subject|
+        - @place.parent_subjects.each do |subject|
           - if subject.image.present?
             %li.text--center.slideshow--element= image_tag subject.image.url(:super_wide), class: 'course-header-badge-image'
           - else

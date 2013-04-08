@@ -1,37 +1,46 @@
 = content_for :head do
   - if @subject
-    %link{rel: 'canonical', href: subject_url(@subject)}
+    %link{rel: 'canonical', href: subject_places_url(@subject)}
   - else
-    %link{rel: 'canonical', href: subjects_url}
+    %link{rel: 'canonical', href: places_url}
 .gw
   = render 'search_form'
   %section.g.three-tenths.hide--lap.hide--palm
     = render 'side_search_form'
   %section.g.seven-tenths.lap-one-whole.palm-one-whole
     %ul.tab-titles
-      %li= link_to 'Par cours', subjects_path, class: 'tab-el'
-      %li.tab-el.active Par structure
+      %li
+        - if @subject
+          = link_to 'Par cours', subject_courses_path(@subject), class: 'tab-el'
+        - else
+          = link_to 'Par cours', courses_path, class: 'tab-el'
+      %li.tab-el.active Par lieu
+      - if params[:subject_id]
+        %li.float--right
+          Filtres :
+          %span.lbl.subject-link= @subject.name
 
     .flexbox.page-entries-wrapper
       .flexbox__item.palm-one-whole
-        %p.flush--bottom= page_entries_info @structures, entry_name: Structure.model_name.human.downcase
+        %p.flush--bottom
+          = page_entries_info @places, entry_name: Place.model_name.human.downcase
         .spoken-form
           %label Trier par :
           %select#filter-select{name: 'sort'}
             %option{value: 'relevancy', selected: (params[:sort] == 'relevancy') } Pertinence
             %option{value: 'rating_desc', selected: (params[:sort] == 'rating_desc')} Notes : les cours les mieux notés en premier
       .flexbox__item.hide--palm
-        .text--right= paginate @structures, window: 1, outer_window: 1
+        .text--right= paginate @places, window: 1, outer_window: 1
 
 
-    - if @structures.empty?
+    - if @places.empty?
       = render 'no_results'
     - else
       %ul.block-list.course-list
-        = render partial: 'structure', :collection => @structures
+        = render partial: 'place', :collection => @places
 
     %footer.g.one-whole
-      = paginate @structures, window: 2, outer_window: 1
+      = paginate @places, window: 2, outer_window: 1
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {

@@ -26,9 +26,9 @@
     %div
       %i.icon-map-marker
       - if course.place.name.length > 50
-        %h3.course-element-structure-name= "#{course.place.name[0..50]}..."
+        %h3.course-element-place-name= "#{course.place.name[0..50]}..."
       - else
-        %h3.course-element-structure-name= link_to course.place.name, structure_path(course.structure)
+        %h3.course-element-place-name= link_to course.place.long_name, place_path(course.place)
       - if course.place.zip_code == 75000
         Paris
       - else
@@ -47,7 +47,7 @@
               = "de #{readable_duration course.plannings.first.duration}"
         - course.subjects.each do |subject|
           %li
-            %span= link_to subject.name, subject_path(subject), class: 'lbl milli inline subject-link'
+            %span= link_to subject.name, subject_courses_path(subject), class: 'lbl milli inline subject-link'
 
   %div.course-price.two-twelfths
     - if course.best_price.nil?
@@ -78,4 +78,10 @@
         = course.comments.count
         %i.lbc-brand-icon
         )
+    - else
+      .super-muted= rating_stars 5
+      = link_to course_path(course) do
+        Soyez le 1er à donner
+        %br
+        votre avis
       /%a.book-online-button.one-whole.btn.btn__primary.text--center Réservez

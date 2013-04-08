@@ -1,6 +1,6 @@
 %h4.small-margin-bottom Notez cet établissement
 .islet.white-box
-  = simple_form_for @comment, url: structure_comments_path(@structure) do |f|
+  = simple_form_for @comment, url: place_comments_path(@place) do |f|
     .ilb-wrapper
       .rating
         %i.star.icon-star-empty.gamma{data: {value: 1}}
@@ -21,8 +21,8 @@
     = f.input :content, label_html: {style: 'width: 13em; vertical-align: top;'}, input_html: {style: 'width: 40.5em; height: 50px;', 'data-behavior' => 'autoresize'}, placeholder: "Qu'avez-vous pensé du cours ?"
     .text--center
       = f.submit 'Publier mon avis', class: 'btn btn__large btn__primary', style: 'padding-top: 6px; padding-bottom: 6px;'
-- if @structure.rating
-  %h5.float--right.flush--bottom Note moyenne : #{'%.1f' % @structure.rating}
+- if @place.rating
+  %h5.float--right.flush--bottom Note moyenne : #{'%.1f' % @place.rating}
 / .rating-5{style: 'line-height: 1;'}
 /   .text--right
 /     %i.star.icon-star.yellow
@@ -30,29 +30,29 @@
 /     %i.star.icon-star.yellow
 /     %i.star.icon-star.yellow
 /     %i.star.icon-star.yellow
-/     = @structure.comments.where(rating: 5).count
+/     = @place.comments.where(rating: 5).count
 / .rating-4{style: 'line-height: 1;'}
 /   .text--right
 /     %i.star.icon-star.yellow
 /     %i.star.icon-star.yellow
 /     %i.star.icon-star.yellow
 /     %i.star.icon-star.yellow
-/     = @structure.comments.where(rating: 4).count
+/     = @place.comments.where(rating: 4).count
 / .rating-3{style: 'line-height: 1;'}
 /   .text--right
 /     %i.star.icon-star.yellow
 /     %i.star.icon-star.yellow
 /     %i.star.icon-star.yellow
-/     = @structure.comments.where(rating: 3).count
+/     = @place.comments.where(rating: 3).count
 / .rating-2{style: 'line-height: 1;'}
 /   .text--right
 /     %i.star.icon-star.yellow
 /     %i.star.icon-star.yellow
-/     = @structure.comments.where(rating: 2).count
+/     = @place.comments.where(rating: 2).count
 / .rating-1{style: 'line-height: 1;'}
 /   .text--right
 /     %i.star.icon-star.yellow
-/     = @structure.comments.where(rating: 1).count
+/     = @place.comments.where(rating: 1).count
 %h4.small-margin-bottom Les derniers avis
 
 - if @comments.any?
@@ -60,13 +60,13 @@
     - @comments.each do |comment|
       %li.comment-list__el
         %article{itemprop: 'reviews', itemscope: true, itemtype:'http://schema.org/Review'}
-          %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} le #{l(comment.created_at, format: :date)}
+          %b{itemprop: 'author'}= comment.name
           - if comment.rating
             %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
               = rating_stars comment.rating
               %meta{itemprop: 'ratingValue', content: comment.rating}
               %meta{itemprop: 'bestRating', content: 5}
-          %b{itemprop: 'author'}= comment.name
+          %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} le #{l(comment.created_at, format: :date)}
           - if comment.title.present?
             %h6.flush--bottom{itemprop: 'headline', content: comment.title}= comment.title
           %p{itemprop: 'reviewBody'}

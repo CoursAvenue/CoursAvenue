@@ -104,6 +104,16 @@ class Course < ActiveRecord::Base
       end
       subject_ids.uniq
     end
+
+    string :subject_slugs, multiple: true do
+      subject_slugs = []
+      subjects.each do |subject|
+        subject_slugs << subject.slug
+        subject_slugs << subject.parent.slug
+      end
+      subject_slugs.uniq
+    end
+
     string  :type do
       case type
       when 'Course::Lesson'

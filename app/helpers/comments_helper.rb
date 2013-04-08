@@ -20,8 +20,8 @@ module CommentsHelper
   end
   # Path of the commentable
   def commentable_path comment
-    if comment.commentable.is_a? Structure
-      structure_path comment.commentable
+    if comment.commentable.is_a? Place
+      place_path comment.commentable
     else
       course_path comment.commentable
     end

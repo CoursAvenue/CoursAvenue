@@ -58,7 +58,6 @@ class Structure < ActiveRecord::Base
   belongs_to       :city
   belongs_to       :pricing_plan
 
-  has_many :comments, as: :commentable
   has_many :teachers
   has_many :subjects, through: :courses
   has_many :courses
@@ -76,39 +75,11 @@ class Structure < ActiveRecord::Base
   validates :structure_type     , :presence   => true
   validates :siret              , length: { maximum: 14 }#, numericality: { only_integer: true }
 
-  # ------------------------------------------------------------------------------------ Search attributes
-  searchable do
-    text :name, :boost => 2
-
-    text :subjects do
-      subject_array = []
-      subjects.each do |subject|
-        subject_array << subject
-        subject_array << subject.parent
-      end
-      subject_array.uniq.map(&:name)
-    end
-
-
-    latlon :location do
-      Sunspot::Util::Coordinates.new(self.latitude, self.longitude)
-    end
-
-    integer :subject_ids, multiple: true do
-      subject_ids = []
-      subjects.each do |subject|
-        subject_ids << subject.id
-        subject_ids << subject.parent.id
-      end
-      subject_ids.uniq
-    end
-
-    boolean :active
-  end
 
   def course_with_planning
     self.courses.joins{plannings}.where{plannings.end_date > Date.today}.group(:id)
   end
+
   def main_contact
     admins.first || Admin.new
   end

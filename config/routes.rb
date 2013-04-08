@@ -60,21 +60,20 @@ CoursMania::Application.routes.draw do
 
   resources :newsletter_users, only: [:create]
 
-  resources :courses, only: [:show], path: 'cours' do
+  resources :courses, only: [:show, :index], path: 'cours' do
     resources :reservations, only: [:new, :create]
     resources :comments, only: [:create], controller: 'courses/comments'
   end
 
-  resources :subjects, only: [:show, :index], path: 'disciplines'
-  resources :structures, only: [:show, :index] do
-    resources :comments, only: [:create], controller: 'structures/comments'
+  resources :subjects, only: [], path: 'disciplines' do
+    resources :places, only: [:index], path: 'lieux'
+    resources :courses, only: [:index], path: 'cours'
+  end
+  resources :places, only: [:show, :index], path: 'lieux' do
+    resources :comments, only: [:create], controller: 'places/comments'
   end
 
   resources :renting_rooms, only: [:create]
-
-  # resources :city, path: 'ville' do
-  #   resources :subjects, only: [:show, :index], defaults: {city_id: 'paris'}, path: 'disciplines'
-  # end
 
   resources :reservation_loggers, only: [:create]
   resources :click_loggers, only: [:create]

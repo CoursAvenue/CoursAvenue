@@ -1,7 +1,7 @@
 fr:
   activerecord:
     models:
-      place: Espace
+      place: Lieu
     attributes:
       place:
         name: Nom

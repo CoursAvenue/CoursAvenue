@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130407161508) do
+ActiveRecord::Schema.define(:version => 20130408123317) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -255,7 +255,15 @@ ActiveRecord::Schema.define(:version => 20130407161508) do
     t.boolean  "has_jacuzzi",          :default => false
     t.boolean  "has_sauna",            :default => false
     t.boolean  "has_daylight",         :default => false
+    t.string   "slug"
+    t.integer  "rating"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
+
+  add_index "places", ["slug"], :name => "index_places_on_slug", :unique => true
 
   create_table "plannings", :force => true do |t|
     t.date     "start_date"
@@ -423,7 +431,6 @@ ActiveRecord::Schema.define(:version => 20130407161508) do
     t.string   "cancel_condition"
     t.string   "modification_condition"
     t.time     "deleted_at"
-    t.decimal  "rating"
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
