@@ -1,7 +1,10 @@
 fr:
   activerecord:
     models:
-      place: Lieu
+      place:
+        zero: Lieu
+        one: Lieu
+        other: Lieux
     attributes:
       place:
         name: Nom

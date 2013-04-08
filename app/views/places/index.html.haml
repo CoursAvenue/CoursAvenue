@@ -23,7 +23,7 @@
     .flexbox.page-entries-wrapper
       .flexbox__item.palm-one-whole
         %p.flush--bottom
-          = page_entries_info @places, entry_name: Place.model_name.human.downcase
+          = page_entries_info @places, pluralized_entry_name: Place.model_name.human(count: @places.total_count).downcase
         .spoken-form
           %label Trier par :
           %select#filter-select{name: 'sort'}
