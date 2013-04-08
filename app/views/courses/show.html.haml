@@ -23,7 +23,8 @@
     %meta{itemprop: 'bestRating', content: 5}
     (
     %span{itemprop: 'reviewCount'}= @course.comments.count
-    %i.lbc-brand-icon
+    %a{href: '#comments'}
+      %i.lbc-brand-icon
     )
 
 %ul.nav

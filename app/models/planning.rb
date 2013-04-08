@@ -14,6 +14,7 @@ class Planning < ActiveRecord::Base
 
   before_save :set_end_date
   before_save :set_end_time
+  before_save :set_duration
 
   attr_accessible :duration,
                   :end_date,
@@ -94,6 +95,13 @@ class Planning < ActiveRecord::Base
   end
 
   private
+
+  def set_duration
+    if self.start_time and self.end_time and duration.nil?
+        self.duration = Time.at(self.end_time - self.start_time)
+    end
+  end
+
   def set_end_time
     unless self.end_time.present?
       if self.start_time and self.duration
@@ -108,6 +116,10 @@ class Planning < ActiveRecord::Base
     if course.is_workshop? or course.is_training?
       unless end_date.present?
         self.end_date = self.start_date
+      end
+    else
+      unless end_date.present?
+        self.end_date = self.course.end_date
       end
     end
   end
