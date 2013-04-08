@@ -87,7 +87,7 @@ class CoursesController < ApplicationController
   end
 
   def search_solr
-    if request.referrer == 'http://www.leboncours.com/'
+    if request.referrer == 'http://www.coursavenue.com/'
       if params[:time_slots].present? and params[:week_days].present?
         ClickLogger.create(name: 'Recherche avec créneau journée et horaire')
       elsif params[:time_slots].present?

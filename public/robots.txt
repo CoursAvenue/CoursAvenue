@@ -3,5 +3,4 @@
 # To ban all spiders from the entire site uncomment the next two lines:
 User-Agent: *
 Allow: /
-Disallow: /admin
-Sitemap: http://www.leboncours.com/sitemap1.xml
+Sitemap: http://www.coursavenue.com/sitemap.xml.gz

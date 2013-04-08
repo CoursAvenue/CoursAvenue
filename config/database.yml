@@ -2,7 +2,7 @@ development:
   host: localhost
   adapter: postgresql
   encoding: unicode
-  database: leboncours_development
+  database: coursavenue_development
   pool: 5
   username: postgres
   password: password
@@ -11,7 +11,7 @@ test:
   host: localhost
   adapter: postgresql
   encoding: unicode
-  database: leboncours_test
+  database: coursavenue_test
   pool: 5
   username: postgres
   password: password

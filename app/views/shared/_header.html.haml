@@ -1,7 +1,7 @@
 %header.header
   .main-container.ilb-wrapper.align-middle
     %h1.accessibility
-      LeBonCours
+      CoursAvenue
     = link_to root_path, class: 'logo' do
       = image_tag 'logo.png', width: 200
 
@@ -9,7 +9,7 @@
       %ul.nav
         %li.espace-pro-wrapper
           .espace-pro
-          = link_to 'Référencer mes cours', 'http://pro.leboncours.com', class: 'btn'
+          = link_to 'Référencer mes cours', 'http://pro.coursavenue.com', class: 'btn'
         %li
           = link_to 'Louer mes salles', pages_rent_places_path, class: 'btn'
         %li
@@ -17,6 +17,6 @@
     %nav.float--right.nav-links-wrapper
       %ul.nav
         %li
-          = link_to 'Blog', 'http://blog.leboncours.com', class: 'header-link', target: '_blank'
+          = link_to 'Blog', 'http://blog.coursavenue.com', class: 'header-link', target: '_blank'
         %li
           = link_to 'Contact', pages_contact_path, class: 'header-link'

@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-CoursMania::Application.load_tasks
+CoursAvenue::Application.load_tasks

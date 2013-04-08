@@ -1,4 +1,4 @@
-CoursMania::Application.configure do
+CoursAvenue::Application.configure do
 
   # Settings specified here will take precedence over those in config/application.rb
 
@@ -52,7 +52,7 @@ CoursMania::Application.configure do
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { :host => 'leboncours.com' }
+  config.action_mailer.default_url_options = { :host => 'coursavenue.com' }
   # Enable threaded mode
   # config.threadsafe!
 
@@ -78,7 +78,7 @@ CoursMania::Application.configure do
   }
 
   # ------------ Mailer configuration
-  config.action_mailer.asset_host = 'http://www.leboncours.com'
+  config.action_mailer.asset_host = 'http://www.coursavenue.com'
 
   config.action_mailer.smtp_settings = {
     :address => "smtp.mandrillapp.com",

@@ -1,5 +1,5 @@
 # encoding: utf-8
-CoursMania::Application.routes.draw do
+CoursAvenue::Application.routes.draw do
 
   constraints subdomain: 'pro' do
     namespace :pro, path: '' do
@@ -52,7 +52,7 @@ CoursMania::Application.routes.draw do
         resources :book_tickets, only: [:create, :update]
       end
       resources :admins
-      devise_for :admins, controllers: { sessions: 'pro/admin/sessions', registrations: 'pro/admin/registrations', passwords: 'pro/admin/passwords'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-leboncours-pro', sign_up: '/'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
+      devise_for :admins, controllers: { sessions: 'pro/admin/sessions', registrations: 'pro/admin/registrations', passwords: 'pro/admin/passwords'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
     end
   end
 

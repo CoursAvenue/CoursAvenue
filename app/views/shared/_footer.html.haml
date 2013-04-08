@@ -4,14 +4,14 @@
       .flexbox__item
         = image_tag 'logo.png', class: 'ten-twelfths', alt: 'Le Bon Cours'
         %h5.orange À propos
-        %p <b class="green">LeBonCours</b> est la première plateforme de réservation en temps réel des cours et stages aux meilleurs prix. Pour tout public, tout âge, toute discipline, pour des activités de loisirs, mais aussi des formations professionnelles, qualifiantes et diplômantes.
+        %p <b class="green">CoursAvenue</b> est la première plateforme de réservation en temps réel des cours et stages aux meilleurs prix. Pour tout public, tout âge, toute discipline, pour des activités de loisirs, mais aussi des formations professionnelles, qualifiantes et diplômantes.
 
       .flexbox__item.nine-twelfths.palm-one-whole.column-links
         .ilb-wrapper
           .one-quarter.palm-one-half
             %h5.green Utilisateurs pratiquants
             %ul.discrete-list.milli
-              %li= link_to 'Pourquoi LeBonCours ?',            pages_why_path
+              %li= link_to 'Pourquoi CoursAvenue ?',            pages_why_path
               %li= link_to 'Comment ça marche ?',              pages_how_it_works_path
               %li= link_to 'Foire aux questions Utilisateurs', pages_faq_users_path
               %li= link_to 'Mentions légales Utilisateurs',    pages_mentions_partners_path
@@ -19,20 +19,20 @@
           .one-quarter.palm-one-half
             %h5.green Partenaires
             %ul.discrete-list.milli
-              %li= link_to 'Référencez vos cours !', 'mailto:referencement@leboncours.com?subject=Référencement de mes cours'
-              %li= link_to 'Louez vos salles', 'mailto:referencement@leboncours.com?subject=Location de mes espaces'
+              %li= link_to 'Référencez vos cours !', 'http://pro.coursavenue.com'
+              %li= link_to 'Louez vos salles', pages_rent_places_path
               %li= link_to 'Trouvez une salle', pages_find_a_place_path
               %li= link_to 'Foire aux questions Partenaires', pages_faq_partners_path
               %li= link_to 'Conditions générales de vente', pages_terms_and_conditions_path
 
           .one-quarter.palm-one-half
-            %h5.green LeBonCours
+            %h5.green CoursAvenue
             %ul.discrete-list.milli
               %li= link_to 'Qui sommes-nous ?', pages_who_are_we_path
               %li= link_to 'Contact',           pages_contact_path
               %li= link_to 'Service client',    pages_customer_service_path
               %li= link_to 'Presse',            pages_press_path
-              %li= link_to 'Blog !',            'http://blog.leboncours.com/', target: '_blank'
+              %li= link_to 'Blog !',            'http://blog.coursavenue.com/', target: '_blank'
               %li= link_to 'Jobs',              pages_jobs_path
 
           .one-quarter.palm-one-half

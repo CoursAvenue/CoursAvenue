@@ -14,4 +14,4 @@
       = f.email_field :email, placeholder: t('newsletter_users.email'), size: 25
       = f.hidden_field  :city, value: @city.slug
   .this-or-this__this.one-half
-    = link_to 'Contactez-nous', 'mailto:referencement@leboncours.com?subject=Référencement de mes cours', class: 'btn'
+    = link_to 'Contactez-nous', pages_contact_path, class: 'btn'

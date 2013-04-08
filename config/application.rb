@@ -10,7 +10,7 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
-module CoursMania
+module CoursAvenue
   class Application < Rails::Application
 
     ALL_DISCIPLINE_NAME = 'toutes-disciplines'
