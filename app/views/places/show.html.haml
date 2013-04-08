@@ -28,7 +28,7 @@
   - @place.parent_subjects.each do |subject|
     %li
       %h3.flush--bottom
-        %span.milli.lbl.blue= link_to subject.name, places_path(subject_id: subject.id), class: 'subject-link'
+        %span.milli.lbl.blue= link_to subject.name, subject_places_path(subject), class: 'subject-link'
 
 .gw
   %section.g.three-tenths#summary.palm-one-whole.float--right.hide--lap
@@ -109,7 +109,7 @@
         .text--center
           %a#show-more-courses{href: '#'} Voir tous les cours
       %hr
-    %article
+    %article#comments
       = render 'comments'
 = content_for :scripts do
   :javascript

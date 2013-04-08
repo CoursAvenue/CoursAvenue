@@ -2,7 +2,7 @@ fr:
   all_subject: 'Toutes les disciplines'
   activerecord:
     models:
-      course: Course
+      course: Cours
       course/training: 'Stage'
       course/lesson: 'Cours'
       course/workshop: 'Cours-atelier'

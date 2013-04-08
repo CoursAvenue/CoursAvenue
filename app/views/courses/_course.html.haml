@@ -80,7 +80,7 @@
         )
     - else
       .super-muted= rating_stars 5
-      = link_to course_path(course) do
+      = link_to course_path(course, anchor: 'comments') do
         Soyez le 1er à donner
         %br
         votre avis
