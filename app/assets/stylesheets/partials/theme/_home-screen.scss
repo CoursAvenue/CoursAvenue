@@ -52,6 +52,9 @@
 .home-screen-promotion-wrapper {
     background-color: $homescreenBackground;
     padding         : 0 0 2em 0;
+    .home-screen-promotion {
+        padding-top: 0;
+    }
 }
     .home-screen-promotion {
         @include media-query(palm) { text-align: center; }

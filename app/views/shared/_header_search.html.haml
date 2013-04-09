@@ -25,7 +25,7 @@
           })(this, this.document);
   %div.search-input-wrapper
     .input-with-icon
-      %input#location-input{class: 'search-input', placeholder: 'Où ?', type: 'text', name: 'city', value: @city.try(:name), list: 'location-list', 'data-slug' => @city.try(:slug), autocomplete: 'off'}
+      %input#location-input{class: 'search-input', placeholder: 'Quelle ville ?', type: 'text', name: 'city', value: @city.try(:name), list: 'location-list', 'data-slug' => @city.try(:slug), autocomplete: 'off'}
       %i.icon-map-marker.delta
     %datalist#location-list
       <!--[if IE 9]><select disabled></select><![endif]-->

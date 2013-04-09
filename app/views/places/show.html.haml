@@ -43,19 +43,19 @@
     %br
     %article.course-info
       .text--center
-        %h4 Contact
+        %h4.flush--bottom Contact
         %i.icon-external-link.orange
         = link_to @structure.website, @structure.website, target: '_blank'
         .blue
           %i.icon-phone.blue
-          - if @structure.phone_number
-            = link_to "tel:#{@structure.phone_number.gsub(/\s+/, '')}", class: 'blue' do
-              = @structure.phone_number.gsub(' ', '&nbsp;').html_safe
-          - if @structure.phone_number and @structure.mobile_phone_number
+          - if @place.contact_phone
+            = link_to "tel:#{@place.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
+              = @place.contact_phone.gsub(' ', '&nbsp;').html_safe
+          - if @place.contact_phone and @place.contact_mobile_phone
             %span.blue /
-          - if @structure.mobile_phone_number
-            = link_to "tel:#{@structure.mobile_phone_number.gsub(/\s+/, '')}", class: 'blue' do
-              = @structure.mobile_phone_number.gsub(' ', '&nbsp;').html_safe
+          - if @place.contact_mobile_phone
+            = link_to "tel:#{@place.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
+              = @place.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
     %article.hide--palm
       %h4.flush--bottom Les lieux alentours
       %ul.block-list
@@ -85,19 +85,23 @@
           - else
             %li.text--center.slideshow--element= image_tag subject.children.first.image.url(:wide), class: 'course-header-badge-image'
 
-    %div{style: 'margin-top: 1em;'}
-      <a href="https://twitter.com/share" class="twitter-share-button" data-via="CoursAvenue" data-lang="fr">Tweeter</a>
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-      <div style="display:none;" id="fb-root"></div>
-      <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=589759807705512";
-      fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));</script>
+    .ilb-wrapper.align-middle.text--right{style: 'padding-bottom: 8px;'}
+      %p.flush--bottom
+        %i Recommander cet établissement&nbsp;&nbsp;
+      %div{style: 'line-height: 1;'}
+        <a href="https://twitter.com/share" class="twitter-share-button" data-via="CoursAvenue" data-lang="fr">Tweeter</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      %div{style: 'line-height: 1;'}
+        <div style="display:none;" id="fb-root"></div>
+        <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=589759807705512";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+        <div class="fb-like" data-send="false" data-width="500" data-show-faces="false" data-action="recommend" data-layout="button_count"></div>
 
-      <div class="fb-like" data-send="false" data-width="500" data-show-faces="false" data-action="recommend"></div>
 
     %hr
     - if @courses.length > 0

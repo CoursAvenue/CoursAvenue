@@ -1,0 +1,59 @@
+Bonjour <%= @place.long_name %>,
+
+<%= @reservation.full_name %> aimerait suivre le cours de : <%= @reservation.course.name %> du <%= @reservation.planning.to_s %>.
+Il a choisit la formule suivante :
+<% if @reservation.price %>
+  <% if @reservation.planning.promotion.present? %>
+<%= I18n.t(@reservation.price.libelle) %>, d'une valeur potentielle de : <%= @reservation.price.readable_amount_with_promo %>€ au lieu de <%= @reservation.price.readable_amount %>€
+  <% else %>
+<%= I18n.t(@reservation.price.libelle) %>, d'une valeur potentielle de : <%= @reservation.price.readable_amount %>€
+  <% end %>
+<% elsif @reservation.book_ticket %>
+<% if @reservation.planning.promotion.present? %>
+<%= @reservation.book_ticket.libelle %>, d'une valeur potentielle de : <%= @reservation.book_ticket.readable_price_with_promo %>€ au lieu de <%= @reservation.book_ticket.readable_amount %>€
+<% else %>
+<%= @reservation.book_ticket.libelle %>, d'une valeur potentielle de : <%= @reservation.book_ticket.readable_amount %>€
+<% end %>
+<% end %>
+
+En parallèle, nous avons envoyé vos coordonnées à l'internaute, mais pour aller plus vite, n'hésitez pas à l'appeler directement :
+
+======== Informations de l'élève ========
+Nom : <%= @reservation.full_name %>
+Numéro de téléphone : <%= @reservation.phone %>
+Mail : <%= @reservation.email %>
+
+======== Qui sommes-nous ? ========
+CoursAvenue est la première plateforme de réservation en temps réel des cours et stages aux meilleurs prix.
+N'hésitez pas à nous contacter pour augmenter votre taux de remplissage et vous aider dans vos tâches quotidiennes.
+Pour plus d'informations :
+http://www.coursavenue.com
+http://pro.coursavenue.com
+
+
+======== Récapitulatif ========
+Nombre de places : <%= @reservation.nb_participants %>
+Nom du cours : <%= @reservation.course.name %>
+<% if @reservation.planning.teacher %>
+Professeur : <%= @reservation.planning.teacher.name %>
+<% end %>
+Établissement : <%= @reservation.structure.name %>
+Adresse de l'établissement : <%= @reservation.structure.address %>
+Date : <%= @reservation.planning.to_s %>
+<% if @reservation.price %>
+<% if @reservation.planning.promotion.present? %>
+Prix : <%= @reservation.price.readable_amount_with_promo %>€ au lieu de <%= @reservation.price.readable_amount %>€ (<%= I18n.t(@reservation.price.libelle) %>)
+<% else %>
+Prix : <%= @reservation.price.readable_amount %>€ (<%= I18n.t(@reservation.price.libelle) %>)
+<% end %>
+<% elsif @reservation.book_ticket %>
+<% if @reservation.planning.promotion.present? %>
+Prix : <%= @reservation.book_ticket.readable_price_with_promo %>€ au lieu de <%= @reservation.book_ticket.readable_amount %>€ (<%= @reservation.book_ticket.libelle %>)
+<% else %>
+Prix : <%= @reservation.book_ticket.readable_amount %>€ (<%= @reservation.book_ticket.libelle %>)
+<% end %>
+<% end %>
+
+À très bientôt !
+
+L'équipe de CoursAvenue !

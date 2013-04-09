@@ -1,10 +1,9 @@
-.share-wrapper.main-container
-  .flexbox
-    %div.flexbox__item.one-tenth.twitter-button
+.share-wrapper.main-container.text--right{style: 'padding: 5px 0;'}
+  .ilb-wrapper.align-middle
+    %div.twitter-button
       %a{href: "https://twitter.com/coursavenue", class: 'twitter-follow-button', 'data-show-count' => 'true', 'data-lang' => I18n.locale} Suivre @CoursAvenue
       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-    %div.flexbox__item.facebook-button
+    %div.facebook-button
       <div style="display:none;" id="fb-root"></div>
       <script>(function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
@@ -13,5 +12,4 @@
       js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=589759807705512";
       fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));</script>
-
-      <div class="fb-like" data-href="http://www.facebook.com/CoursAvenue" data-send="true" data-width="600" data-show-faces="false"></div>
+      <div class="fb-like" data-href="http://www.facebook.com/CoursAvenue" data-send="false" data-width="500" data-show-faces="false" data-layout="button_count"></div>

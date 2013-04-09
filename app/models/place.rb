@@ -130,6 +130,10 @@ class Place < ActiveRecord::Base
     self.save
   end
 
+  def address
+    "#{self.street}, #{self.city.name}"
+  end
+
   def long_name
     if self.name == self.structure.name
       self.name
@@ -142,6 +146,42 @@ class Place < ActiveRecord::Base
     structure.subjects.uniq.map(&:parent).uniq
   end
 
+  def to_gmap_json
+    {lng: self.longitude, lat: self.latitude}
+  end
+
+  def contact_email
+    unless read_attribute(:contact_email).present?
+      self.structure.email_address
+    else
+      read_attribute(:contact_email)
+    end
+  end
+
+  def contact_name
+    unless read_attribute(:contact_name).present?
+      self.structure.email_address
+    else
+      read_attribute(:contact_name)
+    end
+  end
+
+  def contact_phone
+    unless read_attribute(:contact_phone).present?
+      self.structure.phone_number
+    else
+      read_attribute(:contact_phone)
+    end
+  end
+
+  def contact_mobile_phone
+    unless read_attribute(:contact_mobile_phone).present?
+      self.structure.mobile_phone_number
+    else
+      read_attribute(:contact_mobile_phone)
+    end
+  end
+
   private
   def build_default_room
     if self.rooms.empty?
@@ -152,4 +192,5 @@ class Place < ActiveRecord::Base
   def friendly_name
     "#{self.structure.name}-#{self.name}"
   end
+
 end

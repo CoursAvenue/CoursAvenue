@@ -68,6 +68,7 @@ class Structure < ActiveRecord::Base
 
   has_many :admins
 
+  validate  :presence_of_phone_number
   validates :name               , :presence   => true
   validates :street             , :presence   => true
   validates :zip_code           , :presence   => true, numericality: { only_integer: true }
@@ -129,5 +130,12 @@ class Structure < ActiveRecord::Base
   end
   def cerate_teacher
     self.teachers.create(name: main_contact.full_name)
+  end
+
+  # Validations
+  def presence_of_phone_number
+    if phone_number.nil? and mobile_phone_number.nil?
+      errors.add(:phone_number, :blank)
+    end
   end
 end

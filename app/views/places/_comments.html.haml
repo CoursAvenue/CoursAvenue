@@ -23,36 +23,6 @@
       = f.submit 'Publier mon avis', class: 'btn btn__large btn__primary', style: 'padding-top: 6px; padding-bottom: 6px;'
 - if @place.rating
   %h5.float--right.flush--bottom Note moyenne : #{'%.1f' % @place.rating}
-/ .rating-5{style: 'line-height: 1;'}
-/   .text--right
-/     %i.star.icon-star.yellow
-/     %i.star.icon-star.yellow
-/     %i.star.icon-star.yellow
-/     %i.star.icon-star.yellow
-/     %i.star.icon-star.yellow
-/     = @place.comments.where(rating: 5).count
-/ .rating-4{style: 'line-height: 1;'}
-/   .text--right
-/     %i.star.icon-star.yellow
-/     %i.star.icon-star.yellow
-/     %i.star.icon-star.yellow
-/     %i.star.icon-star.yellow
-/     = @place.comments.where(rating: 4).count
-/ .rating-3{style: 'line-height: 1;'}
-/   .text--right
-/     %i.star.icon-star.yellow
-/     %i.star.icon-star.yellow
-/     %i.star.icon-star.yellow
-/     = @place.comments.where(rating: 3).count
-/ .rating-2{style: 'line-height: 1;'}
-/   .text--right
-/     %i.star.icon-star.yellow
-/     %i.star.icon-star.yellow
-/     = @place.comments.where(rating: 2).count
-/ .rating-1{style: 'line-height: 1;'}
-/   .text--right
-/     %i.star.icon-star.yellow
-/     = @place.comments.where(rating: 1).count
 %h4.small-margin-bottom Les derniers avis
 
 - if @comments.any?

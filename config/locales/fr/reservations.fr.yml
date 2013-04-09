@@ -13,3 +13,4 @@ fr:
         city_name: Ville
         zip_code: Code postal
         phone: Téléphone
+        nb_participants: Nombre de participants

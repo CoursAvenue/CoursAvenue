@@ -1,0 +1,64 @@
+= link_to '← Retour à la page cours', course_path(@course)
+%h4.small-margin-bottom Mise en contact avec l'établissement
+.white-box.islet
+  %h5.text--center
+    Récapitulatif de la demande de réservation
+  %table.table--striped.one-half.center-block
+    %tr
+      %th Nombre de places
+      %td= @reservation.nb_participants
+    %tr
+      %th Nom du cours
+      %td= @course.name
+    - if @reservation.planning.teacher
+      %tr
+        %th Professeur
+        %td= @reservation.planning.teacher.name
+    %tr
+      %th Établissement
+      %td= @place.long_name
+    %tr
+      %th Date
+      %td= @reservation.planning.to_s
+    %tr
+      %th Prix
+      %td= @reservation.readable_price
+
+.white-box.islet
+  %h5.text--center
+    Nous avons bien pris en compte votre demande de réservation : l'établissement vient d'être prévenu par mail.
+    %br
+    Pour gagner du temps, contactez-le directement :
+  .ilb-wrapper
+    .one-half.course-header-map
+      = gmaps( {markers: {data: [@place.to_gmap_json].to_json}, map_options: {maxZoom: 15, mapTypeControl: false}})
+      %h2.course-header-structure-name.flush--bottom
+        %b= @place.long_name
+        %br
+        %i.icon-map-marker
+        = readable_address @place
+
+    .one-half.islet
+      %h6= @place.long_name
+      - if @place.contact_name
+        %h5.flush--bottom
+          %i.icon-user
+          = @place.contact_name
+      %p.flush--bottom.blue
+        %i.icon-phone.blue
+        - if @place.contact_phone
+          = link_to "tel:#{@place.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
+            = @place.contact_phone.gsub(' ', '&nbsp;').html_safe
+        - if @place.contact_phone and @place.contact_mobile_phone
+          %span.blue /
+        - if @place.contact_mobile_phone
+          = link_to "tel:#{@place.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
+            = @place.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
+        %br
+        %i.icon-envelope.orange
+        = link_to @place.contact_email, "mailto:#{@place.contact_email}"
+      %p.flush--bottom
+        Site web :
+        %i.icon-external-link.orange
+        = link_to @structure.website, @structure.website, target: '_blank'
+

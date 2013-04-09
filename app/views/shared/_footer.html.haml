@@ -2,7 +2,7 @@
   .main-container
     .flexbox
       .flexbox__item
-        = image_tag 'logo.png', class: 'ten-twelfths', alt: 'Le Bon Cours'
+        = image_tag 'logo.png', class: 'ten-twelfths', alt: 'CoursAvenue'
         %h5.orange À propos
         %p <b class="green">CoursAvenue</b> est la première plateforme de réservation en temps réel des cours et stages aux meilleurs prix. Pour tout public, tout âge, toute discipline, pour des activités de loisirs, mais aussi des formations professionnelles, qualifiantes et diplômantes.
 
@@ -20,8 +20,8 @@
             %h5.green Partenaires
             %ul.discrete-list.milli
               %li= link_to 'Référencez vos cours !', 'http://pro.coursavenue.com'
-              %li= link_to 'Louez vos salles', pages_rent_places_path
-              %li= link_to 'Trouvez une salle', pages_find_a_place_path
+              / %li= link_to 'Louez vos salles', pages_rent_places_path
+              / %li= link_to 'Trouvez une salle', pages_find_a_place_path
               %li= link_to 'Foire aux questions Partenaires', pages_faq_partners_path
               %li= link_to 'Conditions générales de vente', pages_terms_and_conditions_path
 

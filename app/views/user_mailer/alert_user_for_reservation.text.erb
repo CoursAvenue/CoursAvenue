@@ -3,12 +3,13 @@ Bonjour <%= @reservation.full_name %>,
 Merci d'avoir réservé le cours de : <%= @reservation.course.name %> !
 
 ======== Récapitulatif ========
+Nombre de places : <%= @reservation.nb_participants || 1 %>
 Nom du cours : <%= @reservation.course.name %>
 <% if @reservation.planning.teacher %>
 Professeur : <%= @reservation.planning.teacher.name %>
 <% end %>
-Établissement : <%= @reservation.structure.name %>
-Adresse de l'établissement : <%= @reservation.structure.address %>
+Établissement : <%= @place.long_name %>
+Adresse de l'établissement : <%= @place.address %>
 Date : <%= @reservation.planning.to_s %>
 <% if @reservation.price %>
 <% if @reservation.planning.promotion.present? %>
@@ -24,8 +25,19 @@ Prix : <%= @reservation.book_ticket.readable_amount %>€ (<%= @reservation.book
 <% end %>
 <% end %>
 
-Dès que le professeur aura validé votre réservation, un mail de confirmation vous sera envoyé.
+Pour confirmer votre réservation, contacter l'établissement.
+
+======== Information de l'établissement ========
+<% if @place.contact_phone %>
+<%= @place.contact_phone %>
+<% end %>
+<% if @place.contact_phone and @place.contact_mobile_phone %>
+/
+<% end %>
+<% if @place.contact_mobile_phone %>
+<%= @place.contact_mobile_phone %>
+<% end %>
 
 À très bientôt !
 
-L'équipe du Bon Cours !
+L'équipe de CoursAvenue !

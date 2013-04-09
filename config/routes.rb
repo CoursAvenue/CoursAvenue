@@ -61,7 +61,7 @@ CoursAvenue::Application.routes.draw do
   resources :newsletter_users, only: [:create]
 
   resources :courses, only: [:show, :index], path: 'cours' do
-    resources :reservations, only: [:new, :create]
+    resources :reservations, only: [:new, :create, :show]
     resources :comments, only: [:create], controller: 'courses/comments'
   end
 
