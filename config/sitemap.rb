@@ -24,12 +24,19 @@ SitemapGenerator::Sitemap.create do
   #   Article.find_each do |article|
   #     add article_path(article), :lastmod => article.updated_at
   #   end
+
+  add root_path, priority: 0.8, changefreq: 'daily'
+
+  add courses_path, priority: 0.8, changefreq: 'daily'
+  add places_path, priority: 0.8, changefreq: 'daily'
+
   Course.all.each do |course|
-    add course_path(course), lastmod: course.updated_at, priority: 0.8
+    add course_path(course), lastmod: course.updated_at, priority: 0.8, changefreq: 'daily'
 
   %w(paris toulouse lyon bordeaux marseille nice montpellier).each do |city|
     Subject.all.each do |subject|
-      add city_subject_path(city, subject), changefreq: 0.8
+      add subject_courses_path(subject), changefreq: 0.8, changefreq: 'daily'
+      add subject_places_path(subject), changefreq: 0.8, changefreq: 'daily'
     end
   end
 
@@ -45,8 +52,15 @@ SitemapGenerator::Sitemap.create do
     pages_find_a_place_path,
     pages_mentions_partners_path,
     pages_jobs_path,
+    pages_terms_and_conditions_path,
     pages_contact_path].each do |page_path|
       add page_path, changefreq: 'monthly'
   end
+
+  # ------------------------------ Pro subdomain
+  add root_path(subdomain: :pro), priority: 0.8, changefreq: 'daily'
+  add pages_presentation_path(subdomain: :pro), changefreq: 'monthly'
+  add pages_prices_path(subdomain: :pro), changefreq: 'monthly'
+  add pages_press_path(subdomain: :pro), changefreq: 'monthly'
 
 end

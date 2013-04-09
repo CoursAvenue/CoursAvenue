@@ -9,7 +9,7 @@
       - else
         %h2.blue= "#{@course.best_price.readable_amount}€"
   .text--center.islet.flush--bottom
-    = link_to 'Réservez en ligne', new_course_reservation_path(@course), class: 'one-whole btn btn__primary'
+    = link_to 'Réservez ce cours', new_course_reservation_path(@course), class: 'one-whole btn btn__primary'
   %p.flush--bottom.text--center{style: 'line-height: 1'}
     %i
       Nous n'encaisserons votre argent qu'après le début du cours donc si #{@structure.name} annule son cours, vous serez remboursé automatiquement.

@@ -80,8 +80,6 @@ CoursAvenue::Application.routes.draw do
 
 
   # Pages
-  match 'pages/louer-mes-salles'              => 'pages#rent_places',          as: 'pages_rent_places'
-  match 'pages/trouver-une-salle'             => 'pages#find_places',          as: 'pages_find_places'
   match 'pages/pourquoi-le-bon-cours'         => 'pages#why',                  as: 'pages_why'
   match 'pages/comment-ca-marche'             => 'pages#how_it_works',         as: 'pages_how_it_works'
   match 'pages/faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'
@@ -91,7 +89,6 @@ CoursAvenue::Application.routes.draw do
   match 'pages/service-client'                => 'pages#customer_service',     as: 'pages_customer_service'
   match 'pages/presse'                        => 'pages#press',                as: 'pages_press'
   match 'pages/jobs'                          => 'pages#jobs'
-  match 'pages/trouver-un-espace'             => 'pages#find_a_place',         as: 'pages_find_a_place'
   match 'pages/mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
   match 'pages/conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
 
