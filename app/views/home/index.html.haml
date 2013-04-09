@@ -20,17 +20,19 @@
                     %article.comment-list__el
                       .flexbox
                         .flexbox__item.one-half.comment__header
-                          %div
-                            .float--right.muted
+                          %div{itemprop: 'reviews', itemscope: true, itemtype:'http://schema.org/Review'}
+                            .float--right.muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)}
                               = distance_of_time_in_words_to_now comment.created_at
                               %i.icon-time
-                            %b= comment.name
+                            %b{itemprop: 'author'}= comment.author_name
                             %br
-                            = rating_stars comment.rating
-                            %br
+                            %div{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
+                              = rating_stars comment.rating
+                              %meta{itemprop: 'ratingValue', content: comment.rating}
+                              %meta{itemprop: 'bestRating', content: 5}
                             = link_to truncate(comment.commentable.name, length: 40), commentable_path(comment), class: 'blue'
                         .flexbox__item.one-half.comment__content
-                          %p.flush--bottom= truncate(comment.content, length: 140)
+                          %p.flush--bottom{itemprop: 'reviewBody'}= truncate(comment.content, length: 140)
 
   .text--center
     .newsletter-form

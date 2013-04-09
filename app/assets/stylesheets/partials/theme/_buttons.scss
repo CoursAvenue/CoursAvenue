@@ -74,6 +74,7 @@
 // Danger and error appear as red
 // Success appears as green
 .btn__success {
+  text-transform: uppercase;
   @include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);
   &:hover {
     @include buttonBackground(lighten($btnSuccessBackground, 6%), lighten($btnSuccessBackgroundHighlight, 6%));
