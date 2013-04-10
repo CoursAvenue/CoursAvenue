@@ -1,4 +1,4 @@
-%li.one-whole.course-element{data: {"structure-id" => course.place_id}}
+%li.one-whole.course-element{data: {"structure-id" => course.place_id, url: course_path(course), type: 'course-element'}}
   %div.two-twelfths.hide--palm
     .course-image.media__img
       = link_to course_path(course) do
@@ -84,4 +84,3 @@
         Soyez le 1er à donner
         %br
         votre avis
-      /%a.book-online-button.one-whole.btn.btn__primary.text--center Réservez

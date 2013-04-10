@@ -43,9 +43,22 @@
       = paginate @courses, window: 2, outer_window: 1
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
-      $('filter-select').addEvent('change', function() {
-            $('hidden-sort-input').set('value', this.value);
-            $('submit_search_form').click();
-        });
-    });
+      window.addEvent('domready', function() {
+          $('filter-select').addEvent('change', function() {
+              $('hidden-sort-input').set('value', this.value);
+              $('submit_search_form').click();
+          });
+          $$('[data-type=course-element]').each(function(course_element) {
+              course_element.addEvent('click', function(event) {
+                  // Change url only if user doesn't click on link
+                  if (event.target.nodeName !== 'A') {
+                      if (event.meta || event.control) {
+                          window.open(this.get('data-url'));
+                      } else {
+                          window.location = this.get('data-url');
+                      }
+                      return false;
+                  }
+              });
+          });
+      });

@@ -1,4 +1,4 @@
-%li.one-whole.course-element{data: {"place-id" => place.id}}
+%li.one-whole.course-element{data: {"place-id" => place.id, url: place_path(place), type: 'place-element'}}
   - if place.image.present?
     %div.two-twelfths.hide--palm
       .course-image.media__img
