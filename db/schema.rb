@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130409132513) do
+ActiveRecord::Schema.define(:version => 20130410093652) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -242,25 +242,29 @@ ActiveRecord::Schema.define(:version => 20130409132513) do
     t.string   "contact_email"
     t.integer  "structure_id"
     t.integer  "city_id"
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
-    t.boolean  "has_cloackroom",       :default => false
-    t.boolean  "has_internet",         :default => false
-    t.boolean  "has_air_conditioning", :default => false
-    t.boolean  "has_swimming_pool",    :default => false
-    t.boolean  "has_free_parking",     :default => false
-    t.boolean  "has_jacuzzi",          :default => false
-    t.boolean  "has_sauna",            :default => false
-    t.boolean  "has_daylight",         :default => false
+    t.boolean  "has_cloackroom",           :default => false
+    t.boolean  "has_internet",             :default => false
+    t.boolean  "has_air_conditioning",     :default => false
+    t.boolean  "has_swimming_pool",        :default => false
+    t.boolean  "has_free_parking",         :default => false
+    t.boolean  "has_jacuzzi",              :default => false
+    t.boolean  "has_sauna",                :default => false
+    t.boolean  "has_daylight",             :default => false
     t.string   "slug"
     t.integer  "rating"
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.string   "thumb_image_file_name"
+    t.string   "thumb_image_content_type"
+    t.integer  "thumb_image_file_size"
+    t.datetime "thumb_image_updated_at"
   end
 
   add_index "places", ["slug"], :name => "index_places_on_slug", :unique => true

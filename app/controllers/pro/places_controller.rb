@@ -19,6 +19,12 @@ class Pro::PlacesController < InheritedResources::Base#Pro::ProController
   end
 
   def update
+    if params[:place].delete(:delete_image) == '1'
+      resource.image.clear
+    end
+    if params[:place].delete(:delete_thumb_image) == '1'
+      resource.thumb_image.clear
+    end
     update! do |success, failure|
       success.html { redirect_to pro_structure_places_path(@structure) }
     end

@@ -26,6 +26,7 @@ fr:
         has_jacuzzi: Jacuzzi
         has_sauna: Sauna
         has_daylight: Lumière du jour
+        thumb_image: Image de la page recherche
 
   pro:
     places:

@@ -1,6 +1,23 @@
 .islet
   = simple_form_for [:pro, @structure, @place] do |f|
     = f.error_notification
+    %h5.form-header-group Images
+    - unless @place.new_record? || !@place.image?
+      .input.ilb-wrapper
+        = image_tag @place.image.url(:thumb), height: 200
+      = f.input :delete_image, as: :boolean, :label => "Supprimer l'image"
+    .input
+      = f.label :image
+      = f.input :image, label: false
+
+    - unless @place.new_record? || !@place.thumb_image?
+      .input.ilb-wrapper
+        = image_tag @place.image.url(:thumb), height: 200
+      = f.input :delete_thumb_image, as: :boolean, :label => "Supprimer l'image"
+    .input
+      = f.label :thumb_image
+      = f.input :thumb_image, label: false
+
     %h5.form-header-group Adresse
     = f.input :name, label: t('.name'), label_html: { class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => "Si vous avez plus d’un lieu, et pour pouvoir les différencier, renseignez un nom spécifique pour chaque adresse. Par exemple, si l’un de vos 3 lieux se trouve au 34 rue Buffaut, renseignez « Buffaut » ; s’il concerne le gymnase Léo Lagrange, renseignez « Lagrange », etc." }, placeholder: 'Gymnase Bercy'
     = f.input :street, placeholder: '83 avenue du général Leclerc'

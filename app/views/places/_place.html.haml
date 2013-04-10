@@ -1,11 +1,14 @@
 %li.one-whole.course-element{data: {"place-id" => place.id, url: place_path(place), type: 'place-element'}}
-  - if place.image.present?
+  - if place.thumb_image.present? or place.structure.image.present?
     %div.two-twelfths.hide--palm
       .course-image.media__img
         = link_to place_path(place) do
-          = image_tag place.image.url(:thumb)
+          - if place.thumb_image.present?
+            = image_tag place.thumb_image.url(:thumb)
+          - else
+            = image_tag place.structure.image.url(:thumb)
 
-  %article.course-content.ten-twelfths
+  %article.course-content.eight-twelfths
     %header
       %h4.hN.course-title
         .map-marker-image
@@ -36,6 +39,6 @@
     - else
       %span.super-muted= rating_stars 5
       = link_to "Soyez le 1er à donner votre avis", place_path(place, anchor: 'comments')
-  .two-twelfths.text--center
+  .course-content.two-twelfths.text--center
     .alpha.orange= place.course_with_planning.length
     cours

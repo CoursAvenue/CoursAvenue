@@ -72,6 +72,9 @@ class Pro::StructuresController < Pro::ProController
 
   def update
     @structure = Structure.find params[:id]
+    if params[:structure].delete(:delete_image) == '1'
+      resource.image.clear
+    end
     if current_pro_admin.super_admin?
       respond_to do |format|
         if @structure.update_attributes params[:structure]

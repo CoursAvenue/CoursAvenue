@@ -23,6 +23,7 @@ class Structure < ActiveRecord::Base
                              'structures.modification_conditions.moderate',
                              'structures.modification_conditions.strict']
 
+  attr_reader :delete_image
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
                   :gives_professional_courses, :website, :phone_number,
@@ -32,6 +33,7 @@ class Structure < ActiveRecord::Base
                   :validated_by,
                   :modification_condition,
                   :cancel_condition,
+                  :image,
 
                   ## Moyen de financements possible :
                   :accepts_holiday_vouchers, :accepts_ancv_sports_coupon, :accepts_leisure_tickets,

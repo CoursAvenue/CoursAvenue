@@ -23,9 +23,13 @@ class Place < ActiveRecord::Base
   before_create :build_default_room
 
   has_attached_file :image,
-                    :styles => { wide: "800x480#", thumb: "200x200#" },
-                    :path => "places/:id/:attachment/:fingerprint-:style.:extension"
+                    :styles => { wide: "800x480#", thumb: "200x200#" }
 
+  has_attached_file :thumb_image,
+                    :styles => { wide: "400x400#", thumb: "200x200#" }
+
+  attr_reader :delete_image
+  attr_reader :delete_thumb_image
   attr_accessible :name,
                   :contact_email,
                   :contact_name,
@@ -33,6 +37,8 @@ class Place < ActiveRecord::Base
                   :contact_mobile_phone,
                   :has_handicap_access,
                   :info,
+                  :image,
+                  :thumb_image,
                   # :nb_room,
                   :street,
                   :zip_code,
