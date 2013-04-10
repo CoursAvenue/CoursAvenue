@@ -4,6 +4,7 @@ class Place < ActiveRecord::Base
                       language: 'fr'
     before_save :retrieve_address
   end
+  acts_as_paranoid
 
   extend FriendlyId
   friendly_id :friendly_name, use: [:slugged, :history]

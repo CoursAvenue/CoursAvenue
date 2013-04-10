@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130410093652) do
+ActiveRecord::Schema.define(:version => 20130410123051) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -265,6 +265,7 @@ ActiveRecord::Schema.define(:version => 20130410093652) do
     t.string   "thumb_image_content_type"
     t.integer  "thumb_image_file_size"
     t.datetime "thumb_image_updated_at"
+    t.time     "deleted_at"
   end
 
   add_index "places", ["slug"], :name => "index_places_on_slug", :unique => true
