@@ -14,7 +14,7 @@
           = link_to 'Par cours', subject_courses_path(@subject, name: params[:name]), class: 'tab-el'
         - else
           = link_to 'Par cours', courses_path(name: params[:name]), class: 'tab-el'
-      %li.tab-el.active Par lieu
+      %li.tab-el.active Par établissement
       - if params[:subject_id]
         %li.float--right
           Filtre :

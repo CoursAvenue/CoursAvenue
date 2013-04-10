@@ -12,9 +12,9 @@
       %li.tab-el.active Par cours
       %li
         - if @subject
-          = link_to 'Par lieu', subject_places_path(@subject, name: params[:name]), class: 'tab-el'
+          = link_to 'Par établissement', subject_places_path(@subject, name: params[:name]), class: 'tab-el'
         - else
-          = link_to 'Par lieu', places_path(name: params[:name]), class: 'tab-el'
+          = link_to 'Par établissement', places_path(name: params[:name]), class: 'tab-el'
 
       - if params[:subject_id]
         %li.float--right

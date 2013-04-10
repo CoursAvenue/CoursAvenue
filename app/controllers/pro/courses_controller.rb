@@ -8,13 +8,12 @@ class Pro::CoursesController < InheritedResources::Base
   before_filter :load_structure
   load_and_authorize_resource :structure
 
-  def reservation_wanted
-
-  end
-
   def create
+    @course           = Course.new params[:course]
+    @course.structure = @structure
     create! do |success, failure|
       success.html { redirect_to pro_course_plannings_path(@course), notice: 'Vous pouvez maintenant créer le planning de ce cours' }
+      failure.html { redirect_to new_pro_structure_course(@structure), alert: 'Impossible de créer le cours.' }
     end
   end
 
@@ -39,7 +38,7 @@ class Pro::CoursesController < InheritedResources::Base
     if params[:structure_id]
       @structure = Structure.find(params[:structure_id])
     else
-      @course    = Course.find(params[:id])
+      @course    = Course.find(params[:id]) if params[:id]
       @structure = @course.structure
     end
   end

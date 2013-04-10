@@ -340,9 +340,8 @@ class Course < ActiveRecord::Base
   end
 
   def set_place_if_empty
-    if place.nil? and room.present?
-      place = room.place
+    if place_id.nil? and room_id.present?
+      self.place_id = room.place_id
     end
   end
-
 end

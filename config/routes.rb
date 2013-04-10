@@ -66,10 +66,10 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :subjects, only: [], path: 'disciplines' do
-    resources :places, only: [:index], path: 'lieux'
+    resources :places, only: [:index], path: 'etablissement'
     resources :courses, only: [:index], path: 'cours'
   end
-  resources :places, only: [:show, :index], path: 'lieux' do
+  resources :places, only: [:show, :index], path: 'etablissement' do
     resources :comments, only: [:create], controller: 'places/comments'
   end
 
