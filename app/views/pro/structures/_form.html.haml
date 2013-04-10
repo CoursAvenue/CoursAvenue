@@ -1,6 +1,6 @@
 %h3.header-group Responsable des réservations
 .islet
-  = simple_form_for @structure do |structure_form|
+  = simple_form_for [:pro, @structure] do |structure_form|
     = simple_fields_for @structure.main_contact do |contact_form|
       = contact_form.error_notification
       .form-inputs

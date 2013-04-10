@@ -125,7 +125,7 @@ class Pro::StructuresController < Pro::ProController
 
   def destroy
     @structure = Structure.find params[:id]
-    @structure.delete
+    @structure.update_attribute :active, false
     respond_to do |format|
       format.html { redirect_to pro_structures_path }
     end
