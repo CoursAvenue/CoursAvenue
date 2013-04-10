@@ -4,6 +4,10 @@
       = link_to course_path(course) do
         - if course.image.present?
           = image_tag course.image.url(:thumb)
+        - elsif course.structure.image.present?
+          = image_tag course.structure.image.url(:thumb)
+        - elsif course.place.thumb_image.present?
+          = image_tag course.place.thumb.image.url(:thumb)
         - else
           = image_tag course.subjects.first.image.url(:thumb)
       - if course.is_promoted
