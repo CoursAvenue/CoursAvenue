@@ -11,13 +11,13 @@
     %ul.tab-titles
       %li
         - if @subject
-          = link_to 'Par cours', subject_courses_path(@subject), class: 'tab-el'
+          = link_to 'Par cours', subject_courses_path(@subject, name: params[:name]), class: 'tab-el'
         - else
-          = link_to 'Par cours', courses_path, class: 'tab-el'
+          = link_to 'Par cours', courses_path(name: params[:name]), class: 'tab-el'
       %li.tab-el.active Par lieu
       - if params[:subject_id]
         %li.float--right
-          Filtres :
+          Filtre :
           %span.lbl.subject-link= @subject.name
 
     .flexbox.page-entries-wrapper

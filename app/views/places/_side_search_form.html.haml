@@ -1,11 +1,11 @@
 .map-with-slider
-  - if @structures.blank?
+  - if @places.blank?
     - unless @city.blank?
       = gmaps( {markers: {data: [@city.to_gmap_json].to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
     - else
       = gmaps( {markers: {data: Gmaps4rails.geocode("#{params[:city]}, France").to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
   - else
-    = gmaps( {markers: {data: @json_strcuture_addresses}, map_options: {maxZoom: 15, mapTypeControl: false}})
+    = gmaps( {markers: {data: @json_place_addresses}, map_options: {maxZoom: 15, mapTypeControl: false}})
   %div.ilb-wrapper.align-middle.map-slider-container
     %label.three-twelfths.bold Radius
     #radius-slider.slider.seven-twelfths
