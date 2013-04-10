@@ -28,6 +28,11 @@ class Pro::StructuresController < Pro::ProController
   def activate
     @structure        = Structure.find params[:id]
     @structure.active = true
+    @structure.courses.each do |course|
+      course.active = true
+      course.save
+    end
+
     respond_to do |format|
       if @structure.save
         format.html { redirect_to pro_structures_path }
@@ -133,6 +138,10 @@ class Pro::StructuresController < Pro::ProController
   def destroy
     @structure = Structure.find params[:id]
     @structure.active = false
+    @structure.courses.each do |course|
+      course.active = false
+      course.save
+    end
     respond_to do |format|
       if @structure.save
         format.html { redirect_to pro_structures_path }
