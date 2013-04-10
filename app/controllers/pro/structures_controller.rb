@@ -27,9 +27,13 @@ class Pro::StructuresController < Pro::ProController
 
   def activate
     @structure        = Structure.find params[:id]
-    @structure.update_attribute :active, true
+    @structure.active = true
     respond_to do |format|
-      format.html { redirect_to awaiting_pro_structures_path }
+      if @structure.save
+        format.html { redirect_to pro_structures_path }
+      else
+        format.html { redirect_to pro_structures_path, alert: 'Les informations de la structure ne sont pas complètes.' }
+      end
     end
   end
 
@@ -128,9 +132,13 @@ class Pro::StructuresController < Pro::ProController
 
   def destroy
     @structure = Structure.find params[:id]
-    @structure.update_attribute :active, false
+    @structure.active = false
     respond_to do |format|
-      format.html { redirect_to pro_structures_path }
+      if @structure.save
+        format.html { redirect_to pro_structures_path }
+      else
+        format.html { redirect_to pro_structures_path, alert: 'Les informations de la structure ne sont pas complètes.' }
+      end
     end
   end
 
