@@ -31,8 +31,8 @@
       %h3.flush--bottom
         %span.milli.lbl.blue= link_to subject.name, subject_places_path(subject), class: 'subject-link'
 
-.gw
-  %section.g.three-tenths#summary.palm-one-whole.float--right.hide--lap
+.grid
+  %section#summary.grid__element.three-tenths.palm-one-whole.float--right.hide--lap>
     .course-header-map
       = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
       %h2.course-header-structure-name
@@ -72,7 +72,7 @@
                 %h3.similar-course--structure-name
                   %i.icon-map-marker
                   = surrounding_place.street
-  %section.g.seven-tenths.palm-one-whole.lap-one-whole
+  %section.grid__element.seven-tenths.palm-one-whole.lap-one-whole
     .course-header-badge
       - if @place.image.present?
         .course-header-image.one-half.palm-one-whole

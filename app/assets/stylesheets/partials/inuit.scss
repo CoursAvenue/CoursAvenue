@@ -20,7 +20,6 @@
    @import "compass-inuit/base/smallprint";
 // @import "compass-inuit/base/quotes";
 // @import "compass-inuit/base/code";
-   @import "compass-inuit/base/links";
    @import "compass-inuit/base/images";
    @import "compass-inuit/base/lists";
    @import "compass-inuit/base/tables";
@@ -29,35 +28,31 @@
 
 /**
  * Objects and abstractions
- *
- * Single-line comment (//) out any objects you do not need in your project.
  */
    @import "compass-inuit/objects/grids";
    @import "compass-inuit/objects/flexbox";
-// @import "compass-inuit/objects/columns";
+   @import "compass-inuit/objects/columns";
    @import "compass-inuit/objects/nav";
-// @import "compass-inuit/objects/options";
+   @import "compass-inuit/objects/options";
    @import "compass-inuit/objects/pagination";
-// @import "compass-inuit/objects/breadcrumb";
-// @import "compass-inuit/objects/media";
+   @import "compass-inuit/objects/breadcrumb";
+   @import "compass-inuit/objects/media";
    @import "compass-inuit/objects/marginalia";
    @import "compass-inuit/objects/island";
    @import "compass-inuit/objects/block-list";
-// @import "compass-inuit/objects/matrix";
+   @import "compass-inuit/objects/matrix";
    @import "compass-inuit/objects/split";
-// @import "example/unnecessary/file";
    @import "compass-inuit/objects/this-or-this";
    @import "compass-inuit/objects/link-complex";
    @import "compass-inuit/objects/flyout";
    @import "compass-inuit/objects/arrows";
-// @import "compass-inuit/objects/sprite";
+   @import "compass-inuit/objects/sprite";
    @import "compass-inuit/objects/icon-text";
-   @import "compass-inuit/objects/buttons";
+   @import "compass-inuit/objects/beautons";
    @import "compass-inuit/objects/lozenges";
    @import "compass-inuit/objects/rules";
    @import "compass-inuit/objects/stats";
    @import "compass-inuit/objects/greybox";
-
 
 /**
  * Style trumps; helper and brand classes

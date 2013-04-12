@@ -15,7 +15,7 @@ gem 'rails', '3.2.12'
   gem 'font-awesome-rails'      , '~> 3.0.2.0'
   gem 'mootools-rails'          , '~> 1.0.1'
   gem 'compass-rails'           , '~> 1.0.3'
-  gem 'compass-inuit'           , '~> 4.5.5'
+  gem 'compass-inuit'           , '~> 5.0.1'
   gem 'js-routes'               , '~> 0.8.6'
   gem 'gravatar_image_tag'      , '~> 1.1.3'
 # end

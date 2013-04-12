@@ -11,7 +11,7 @@
 - params[:zip_codes]           ||= [] # (75001..75020).to_a.map(&:to_s)
 - params[:age]                 ||= {}
 - params[:radius]              ||= 10
-%section.gw
+%section
   - if @subject
     - search_path = subject_courses_path(@subject)
   - else

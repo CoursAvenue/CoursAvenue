@@ -3,11 +3,11 @@
     %link{rel: 'canonical', href: subject_places_url(@subject)}
   - else
     %link{rel: 'canonical', href: places_url}
-.gw
+.grid
   = render 'search_form'
-  %section.g.three-tenths.hide--lap.hide--palm
+  %section.grid__item.three-tenths.hide--lap.hide--palm>
     = render 'side_search_form'
-  %section.g.seven-tenths.lap-one-whole.palm-one-whole
+  %section.grid__item.seven-tenths.lap-one-whole.palm-one-whole
     %ul.tab-titles
       %li
         - if @subject

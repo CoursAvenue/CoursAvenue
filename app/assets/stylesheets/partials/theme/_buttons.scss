@@ -9,7 +9,9 @@
   font-size: 20px;
   padding  : 0.6em 2.5em;
 }
+
 .btn {
+    line-height     : 1;
     font-weight     : bold;
     background-color: $light-grey;
     border          : 1px solid #DBD9D9;
@@ -37,54 +39,54 @@
 }
 
 .btn__primary {
-  text-transform: uppercase;
-  color       : white;
-  text-shadow : -1px -1px 0 #a34c30;
-  border-color: darken($btnPrimaryBackground, 3%);
-  background-color: $orange;
-  @include background-image(linear-gradient(top, $btnPrimaryBackgroundHighlight, $btnPrimaryBackground));
-  //@include box-shadow(inset 0 0 4px $btnPrimaryBackgroundHighlight ,0 1px 1px transparentize($btnPrimaryBackground, 0.12));
-  &:hover {
-    @include background-image(linear-gradient(top, lighten($btnPrimaryBackgroundHighlight, 6%), lighten($btnPrimaryBackground, 6%)));
-  }
-  &:active, &.btn--active, &.btn--active:hover {
-    background-color: $btnPrimaryBackgroundHighlight;
-    border-color: darken($btnPrimaryBackground, 10%);
-    border-bottom: none;
-    @include background-image(linear-gradient(top, darken($btnPrimaryBackgroundHighlight, 5%), lighten($btnPrimaryBackgroundHighlight, 5%)));
-    //@include box-shadow(inset 0 1px 5px rgba(0,0,0,0.5),0 1px 0 transparentize($btnPrimaryBackgroundHighlight, 0.6));
-  }
+    text-transform: uppercase;
+    color       : white;
+    text-shadow : -1px -1px 0 #a34c30;
+    border-color: darken($btnPrimaryBackground, 3%);
+    background-color: $orange;
+    @include background-image(linear-gradient(top, $btnPrimaryBackgroundHighlight, $btnPrimaryBackground));
+    //@include box-shadow(inset 0 0 4px $btnPrimaryBackgroundHighlight ,0 1px 1px transparentize($btnPrimaryBackground, 0.12));
+    &:hover {
+        @include background-image(linear-gradient(top, lighten($btnPrimaryBackgroundHighlight, 6%), lighten($btnPrimaryBackground, 6%)));
+    }
+    &:active, &.btn--active, &.btn--active:hover {
+        background-color: $btnPrimaryBackgroundHighlight;
+        border-color: darken($btnPrimaryBackground, 10%);
+        border-bottom: none;
+        @include background-image(linear-gradient(top, darken($btnPrimaryBackgroundHighlight, 5%), lighten($btnPrimaryBackgroundHighlight, 5%)));
+        //@include box-shadow(inset 0 1px 5px rgba(0,0,0,0.5),0 1px 0 transparentize($btnPrimaryBackgroundHighlight, 0.6));
+    }
 }
 .btn__danger {
-  text-transform: uppercase;
-  font-weight: bold;
+    text-transform: uppercase;
+    font-weight: bold;
     @include buttonBackground($btnDangerBackground, $btnDangerBackgroundHighlight);
-  &:hover {
-    @include buttonBackground(lighten($btnDangerBackground, 6%), lighten($btnDangerBackgroundHighlight, 6%));
-  }
+    &:hover {
+        @include buttonBackground(lighten($btnDangerBackground, 6%), lighten($btnDangerBackgroundHighlight, 6%));
+    }
 }
 // Warning appears are orange
 .btn__warning {
-  font-weight: bold;
-  @include buttonBackground($btnWarningBackground, $btnWarningBackgroundHighlight);
-  &:hover {
-    @include buttonBackground(lighten($btnWarningBackground, 6%), lighten($btnWarningBackgroundHighlight, 6%));
-  }
+    font-weight: bold;
+    @include buttonBackground($btnWarningBackground, $btnWarningBackgroundHighlight);
+    &:hover {
+        @include buttonBackground(lighten($btnWarningBackground, 6%), lighten($btnWarningBackgroundHighlight, 6%));
+    }
 }
 // Danger and error appear as red
 // Success appears as green
 .btn__success {
-  text-transform: uppercase;
-  @include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);
-  &:hover {
-    @include buttonBackground(lighten($btnSuccessBackground, 6%), lighten($btnSuccessBackgroundHighlight, 6%));
-  }
+    text-transform: uppercase;
+    @include buttonBackground($btnSuccessBackground, $btnSuccessBackgroundHighlight);
+    &:hover {
+        @include buttonBackground(lighten($btnSuccessBackground, 6%), lighten($btnSuccessBackgroundHighlight, 6%));
+    }
 }
 // Info appears as a neutral blue
 .btn-info {
-  @include buttonBackground($btnInfoBackground, $btnInfoBackgroundHighlight);
+    @include buttonBackground($btnInfoBackground, $btnInfoBackgroundHighlight);
 }
 // Inverse appears as dark gray
 .btn-inverse {
-  @include buttonBackground($btnInverseBackground, $btnInverseBackgroundHighlight);
+    @include buttonBackground($btnInverseBackground, $btnInverseBackgroundHighlight);
 }

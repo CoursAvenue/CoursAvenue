@@ -1,8 +1,8 @@
 .super-muted {
-    opacity: 0.3;
+    @include opacity(0.3);
 }
 .semi-muted {
-    opacity: 0.75;
+    @include opacity(0.75);
 }
 
 .relative {
@@ -53,10 +53,6 @@
 }
 .b-white {
     background: white;
-}
-
-.no-bottom-padding {
-    padding-bottom: 0;
 }
 
 .smaller-print {

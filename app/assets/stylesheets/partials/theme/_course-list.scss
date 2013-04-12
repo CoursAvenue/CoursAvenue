@@ -8,14 +8,12 @@
     }
 }
 .course-element {
-    .book-online-button{
-        visibility: hidden;
-    }
     font-weight     : 200;
     padding         : 1em 0.5em;
     display         : table;
     background-color: $white;
     margin-bottom   : 1em;
+    border          : none !important;
     @include box-shadow(1px 1px 3px $graySmooth);
     @include box-sizing(border-box);
     @include transition(background-color 250ms linear);

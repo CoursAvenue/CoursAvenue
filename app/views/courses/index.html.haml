@@ -3,11 +3,12 @@
     %link{rel: 'canonical', href: subject_courses_url(@subject)}
   - else
     %link{rel: 'canonical', href: courses_url}
-.gw
+
+.grid
   = render 'search_form'
-  %section.g.three-tenths.hide--lap.hide--palm
+  %section.grid__item.three-tenths.hide--lap.hide--palm>
     = render 'side_search_form'
-  %section.g.seven-tenths.lap-one-whole.palm-one-whole
+  %section.grid__item.seven-tenths.lap-one-whole.palm-one-whole
     %ul.tab-titles
       %li.tab-el.active Par cours
       %li
@@ -19,7 +20,9 @@
       - if params[:subject_id]
         %li.float--right
           Filtre :
-          %span.lbl.subject-link= @subject.name
+          %span.lbl.subject-link
+            = @subject.name
+            %i.icon-remove
 
     .flexbox.page-entries-wrapper
       .flexbox__item.palm-one-whole
