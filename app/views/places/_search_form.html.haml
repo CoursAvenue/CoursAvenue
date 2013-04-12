@@ -1,7 +1,7 @@
 - params[:sort]                ||= 'relevancy'
 - params[:zip_codes]           ||= [] # (75001..75020).to_a.map(&:to_s)
 - params[:radius]              ||= 10
-%section.gw
+%section
   = form_tag places_path, method: :get, authenticity_token: false, class: 'g one-whole', id: 'header-search' do
     .header-search-bar
       %div.search-input-wrapper

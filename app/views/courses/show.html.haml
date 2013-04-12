@@ -37,7 +37,7 @@
         %span.milli.lbl.blue= link_to subject.name, subject_courses_path(subject), class: 'subject-link'
 
 .grid
-  %section.grid__element.three-tenths#summary.palm-one-whole.float--right.hide--lap>
+  %section.grid__item.three-tenths#summary.palm-one-whole.float--right.hide--lap>
     = render 'contact_structure'
     %article.hide--palm
       %h4.flush--bottom D'autres cours pour vous !
@@ -57,7 +57,7 @@
                 %h3.similar-course--structure-name
                   %i.icon-map-marker
                   = course.structure.name
-  %section.grid__element.seven-tenths.palm-one-whole.lap-one-whole
+  %section.grid__item.seven-tenths.palm-one-whole.lap-one-whole
     .course-header-badge
       .course-header-image.one-half.palm-one-whole
         - if @course.image.present?
