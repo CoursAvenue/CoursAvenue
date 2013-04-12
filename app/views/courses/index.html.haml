@@ -20,9 +20,7 @@
       - if params[:subject_id]
         %li.float--right
           Filtre :
-          %span.lbl.subject-link
-            = @subject.name
-            %i.icon-remove
+          %span.lbl.subject-link= @subject.name
 
     .flexbox.page-entries-wrapper
       .flexbox__item.palm-one-whole
