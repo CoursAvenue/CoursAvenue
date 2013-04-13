@@ -14,8 +14,8 @@
 
 
 
-.ilb-wrapper
-  .one-half.islet
+.grid
+  .grid__item.one-half.islet>
     %h2.text--center Merci d’avoir choisi CoursAvenue et BIENVENUE !
     %p.text--center.alert--info
       Des questions ? Nous sommes joignables entre 9h30 et 18h30
@@ -43,7 +43,7 @@
       %li Le paiement est simple et sécurisé : les clients peuvent soit payer le cours par carte bancaire sur CoursAvenue.com, soit vous payer directement
       %li Nous sommes 100% Made In France ;-)
 
-  .one-half.islet.bordered--left
+  .grid__item.one-half.islet.bordered--left
     %h4.header-group Vous
     = simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), html: {class: 'half-form'}) do |f|
       = f.error_notification

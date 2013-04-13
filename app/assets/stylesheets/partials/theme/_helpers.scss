@@ -5,37 +5,16 @@
     @include opacity(0.75);
 }
 
-.relative {
-    position: relative;
-}
-.bold {
-    font-weight: bold;
-}
-.hidden {
-    display: none;
-}
+.relative { position: relative; }
+.bold { font-weight: bold; }
+.hidden { display: none; }
 .flip {
     @include vendor(transform, scaleX(-1));
     filter: FlipH; /* IE 6/7/8 */
 }
 
-.v-top {
-    vertical-align: top !important;
-}
-
-.ilb-wrapper {
-    font-size: 0;
-    > nav, > label, > h2, > i, > p, > div, > ul, > span, > a, > img, > select, > input, > textarea {
-        font-size     : $base-font-size;
-        display       : inline-block;
-        vertical-align: top;
-    }
-    &.align-middle {
-        > nav, > label, > h2, > i, > p, > div, > ul, > span, > a, > img, > select, > input, > textarea {
-            vertical-align: middle;
-        }
-    }
-}
+.v-top    { vertical-align: top!important; }
+.v-middle { vertical-align: middle!important; }
 
 .orange { color: $orange; }
 .yellow { color: $yellow; }
@@ -73,3 +52,6 @@
 .center-block    { margin-left: auto; margin-right: auto; }
 .block           { display: block; }
 .inline          { display: inline;}
+
+
+.width-auto { width: auto; }

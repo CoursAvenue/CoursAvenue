@@ -1,5 +1,5 @@
-.ilb-wrapper
-  .one-third.islet
+.grid
+  .grid__item.one-third.islet>
     %h5.flush--bottom Prix d'un cours individuel
 
     = simple_form_for [:pro, @course, @price || Price.new] do |f|
@@ -10,7 +10,7 @@
         €
         = f.submit 'Ajouter', class: 'btn btn__primary'
 
-  .two-thirds.bordered--left.islet
+  .grid__item.two-thirds.bordered--left.islet
     %h5.flush--bottom Prix au forfait
     - prices = [[t('prices.annual'), 'prices.annual'],[t('prices.two_lesson_per_week_package'), 'prices.two_lesson_per_week_package'],[t('prices.semester'), 'prices.semester'],[t('prices.trimester'), 'prices.trimester'],[t('prices.month'), 'prices.month'],[t('prices.trial_lesson'), 'prices.trial_lesson']]
     - prices_libelle = @prices.collect(&:libelle)

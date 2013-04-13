@@ -6,10 +6,10 @@
     %span Tous les jours
     %i.icon-caret-down.dropped-options-caret-icon
   %ul{data: {behavior: 'checkbox-list'}}
-    %li.ilb-wrapper.align-middle
-      %span.one-sixth.text--center= check_box_tag '', '', params[:week_days].empty?, id: "search_week_days_all", data: {value: 'all'}
-      = label_tag "search_week_days_all", 'Tous les jours', class: 'five-sixths'
+    %li.grid--full
+      %span.grid__item.one-sixth.text--center>= check_box_tag '', '', params[:week_days].empty?, id: "search_week_days_all", data: {value: 'all'}
+      = label_tag "search_week_days_all", 'Tous les jours', class: 'five-sixths grid__item'
     - days.each do |week_day, index|
-      %li.ilb-wrapper.align-middle
-        %span.one-sixth.text--center= check_box_tag 'week_days[]', (index), params[:week_days].include?((index).to_s), id: "search_week_day_#{week_day}"
-        = label_tag "search_week_day_#{week_day}", week_day.capitalize, class: 'five-sixths'
+      %li.grid--full
+        %span.grid__item.one-sixth.text--center>= check_box_tag 'week_days[]', (index), params[:week_days].include?((index).to_s), id: "search_week_day_#{week_day}"
+        = label_tag "search_week_day_#{week_day}", week_day.capitalize, class: 'five-sixths grid__item'

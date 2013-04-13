@@ -36,9 +36,9 @@
     .form-inputs
       %h5.form-header-group Image
       - unless @structure.new_record? || !@structure.image?
-        .input.ilb-wrapper
-          = structure_form.label :image
-          = image_tag @structure.image.url(:thumb), height: 200
+        .input.grid
+          .grid__item.width-auto= structure_form.label :image
+          .grid__item.width-auto= image_tag @structure.image.url(:thumb), height: 200
         = structure_form.input :delete_image, as: :boolean, :label => "Supprimer l'image"
       .input
         - unless @structure.new_record? || !@structure.image?
@@ -57,13 +57,13 @@
       = structure_form.association :city, collection: [@structure.city]
 
       = structure_form.input :website
-      .ilb-wrapper.input
-        = structure_form.label :description, class: 'v-top helper-label', 'data-behavior' => 'popover', 'data-content' => 'Ne soyez pas modeste, rédigez une description qui vous met en valeur, en appuyant sur vos points forts : que vous soyez un professeur indépendant, un centre, une école ou un musée, il y a toujours quelque chose qui vous différencie ! Note : ne renseignez aucun élément de contact (téléphone ou mail), notre système l’enlèvera automatiquement.'
-        .textarea-with-info
-          .ilb-wrapper
-            .one-half
+      .grid--full.input
+        .grid__item.width-auto>= structure_form.label :description, class: 'v-top helper-label', 'data-behavior' => 'popover', 'data-content' => 'Ne soyez pas modeste, rédigez une description qui vous met en valeur, en appuyant sur vos points forts : que vous soyez un professeur indépendant, un centre, une école ou un musée, il y a toujours quelque chose qui vous différencie ! Note : ne renseignez aucun élément de contact (téléphone ou mail), notre système l’enlèvera automatiquement.'
+        .textarea-with-info.grid__item.width-auto
+          .grid--full
+            .one-half.grid__item>
               = structure_form.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {id: 'description-textarea', class: 'textarea-description--tall', placeholder: 'Mettez en avant votre différence ! Soyez objectif et neutre (pas d’auto-promotion du type “le meilleur cours de Paris”, pas de "nous" ou de "nos", pas de contact ni de tarif) !', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
-            .one-half
+            .one-half.grid__item
               %p.alert--info.flush--top Qu'est-ce qui vous différencie ? Pourquoi nos Internautes devraient-il réserver chez vous ? Soyez sincère et original !
               %p.alert--info Quelle est votre équipe, combien êtes-vous ? Qui se cache derrière tout ça ? Quel est le profil de vos professeurs ?
               %p.alert--info Depuis quand votre structure existe-t-elle ? Quelle est sa notoriété ? A-t-elle formé des célébrités ?

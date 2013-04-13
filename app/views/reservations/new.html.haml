@@ -7,23 +7,24 @@
 
 = simple_form_for @reservation, url: course_reservations_path do |f|
   %h4.small-margin-bottom Choix de la séance et du tarif
-  .ilb-wrapper.white-box.islet.text--center
-    %div{style: 'margin-right: 1em;'}
-      %label Choix de la séance
-      = f.association :planning, collection: @plannings.order('start_date'), label_method: label_method_for_collection(@course.type), label: false, include_blank: false
-    - if @course.is_lesson?
-      .bordered--left.bordered--right{style: 'padding-left: 1em; padding-right: 1em; margin-right: 1em;'}
-        %label Jour précis (optionnel)
-        = f.input :start_date, as: :string, input_html: {data: {behavior: 'datepicker'}, style: 'margin-top: 8px; width: 8em;', class: 'text--center'}, label: false, placeholder: 'jj/mm/yyyy', wrapper_html: {class: 'flush--top'}
-    %div{style: 'padding-left: 1em; margin-right: 1em;'}
-      %label Choix du tarif
-      = f.association :price, collection: @prices + @book_tickets, label_method: lambda {|price| "#{((price.is_a? Price) ? t(price.libelle) : price.libelle)} : #{price.readable_amount}€" }, label: false, include_blank: false, value_method: lambda {|price| price.amount}, input_html: {name: 'none', id: 'price_select'}
-      #promotion-box.green.bold
-    / .bordered--left{style: 'padding-left: 1em;'}
-    /   = f.label :nb_participants
-    /   = f.input :nb_participants, collection: 1..10, include_blank: false, label: false
-    = f.association :price, as: :hidden
-    = f.association :book_ticket, as: :hidden
+  .white-box.islet.text--center
+    .grid
+      .grid__item.width-auto{style: 'margin-right: 1em;'}>
+        %label Choix de la séance
+        = f.association :planning, collection: @plannings.order('start_date'), label_method: label_method_for_collection(@course.type), label: false, include_blank: false
+      - if @course.is_lesson?
+        .grid__item.width-auto.bordered--left.bordered--right{style: 'padding-left: 1em; padding-right: 1em; margin-right: 1em;'}>
+          %label Jour précis (optionnel)
+          = f.input :start_date, as: :string, input_html: {data: {behavior: 'datepicker'}, style: 'margin-top: 8px; width: 8em;', class: 'text--center'}, label: false, placeholder: 'jj/mm/yyyy', wrapper_html: {class: 'flush--top'}
+      .grid__item.width-auto{style: 'padding-left: 1em; margin-right: 1em;'}>
+        %label Choix du tarif
+        = f.association :price, collection: @prices + @book_tickets, label_method: lambda {|price| "#{((price.is_a? Price) ? t(price.libelle) : price.libelle)} : #{price.readable_amount}€" }, label: false, include_blank: false, value_method: lambda {|price| price.amount}, input_html: {name: 'none', id: 'price_select'}
+        #promotion-box.green.bold
+      / .bordered--left{style: 'padding-left: 1em;'}
+      /   = f.label :nb_participants
+      /   = f.input :nb_participants, collection: 1..10, include_blank: false, label: false
+      = f.association :price, as: :hidden
+      = f.association :book_ticket, as: :hidden
   - unless @reservation.errors.any?
     .text--center
       %a#show-first-section.btn.btn__primary.btn__large Continuer
@@ -31,19 +32,19 @@
   #first-hidden-section{style: @reservation.errors.any? ? '' : 'opacity: 0'}
     %h4.small-margin-bottom Vos informations personnelles
     .white-box.islet
-      .ilb-wrapper.text--center
-        %div.islet.flush--bottom
+      .grid.text--center
+        .grid__item.islet.flush--bottom.one-quarter>
           = f.label :first_name, class: 'text--left'
-          = f.input :first_name, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top'}
-        %div.islet.flush--bottom
+          = f.input :first_name, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top text--left'}
+        .grid__item.islet.flush--bottom.one-quarter>
           = f.label :last_name, class: 'text--left'
-          = f.input :last_name, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top'}
-        %div.islet.flush--bottom
+          = f.input :last_name, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top text--left'}
+        .grid__item.islet.flush--bottom.one-quarter>
           = f.label :email, class: 'text--left'
-          = f.input :email, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top'}
-        %div.islet.flush--bottom
+          = f.input :email, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top text--left'}
+        .grid__item.islet.flush--bottom.one-quarter>
           = f.label :phone, class: 'text--left'
-          = f.input :phone, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top'}
+          = f.input :phone, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top text--left'}
     .text--center
       = f.submit 'Réserver', class: 'btn btn__success btn__large'
 

@@ -8,7 +8,6 @@
     display         : table;
     width           : 100%;
     &, .main-container {
-        line-height: 60px;
         height     : 60px;
     }
     @include background-image(linear-gradient(top, $beige, darken($beigeDark, 7%)));
@@ -18,17 +17,15 @@
         margin-left  : 1em;
     }
     .logo {
-        height: 40px;
-        width : 200px;
+        height  : 40px;
+        width   : 200px;
+        display : block;
         img {
             width         : 100%;
         }
     }
 }
 .header--pro {
-    padding-left : 1em;
-    padding-right: 1em;
-    padding      : 0.6em 0;
     &, .main-container {
         line-height: 1;
         height     : auto;
@@ -42,8 +39,8 @@
 a.header-link {
     color       : $grayLight;
     font-weight : bold;
-    font-size   : 0.9em;
     margin-left : 0.5em;
+    font-size   : 13px;
 }
 .nav-links-wrapper {
     @include media-query(palm) { display: none!important; };
@@ -66,7 +63,7 @@ a.header-link {
             background-position : center center;
             background-size     : 100%;
             position            : absolute;
-            top                 : 3px;
+            top                 : -10px;
             left                : -90px;
             width               : 75px;
             height              : 40px;

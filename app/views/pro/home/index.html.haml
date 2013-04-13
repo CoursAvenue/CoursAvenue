@@ -1,7 +1,7 @@
 = menu_currently_at 'Accueil'
 
-.ilb-wrapper.relative
-  .one-half.relative
+.grid.relative
+  .grid__item.one-half.relative>
     = image_tag 'pro/dance_teacher.jpg', class: 'block'
     .image-quote
       %quote
@@ -16,7 +16,7 @@
     /       %p
     /         Le logiciel en ligne CoursAvenue est un vrai outil pour moi au quotidien : dorénavant, il remplace mon ancien cahier papier de réservations, mais il m’aide également à promouvoir mes cours et augmenter mon taux de remplissage. Et tout cela, c’est moi qui le décide, à tout moment, en quelques clics !
     /       %p.image_quote--footer.text--right.flush--bottom Elodie, professeur de flamenco
-  .one-half.islet
+  .grid__item.one-half.islet
     %h3.text--center Référencez et gérez vos cours simplement avec CoursAvenuePro
     %br
     %p.text--center
@@ -32,14 +32,14 @@
 %hr
 .center-block.text--center
   %h3 Ils ont déjà été séduits
-  .ilb-wrapper.align-middle
-    .one-third
+  .grid
+    .grid__item.one-third>
       = link_to 'http://www.atelier.net/blog/2013/03/01/rencontre-laureats-de-saison-4-camping', target: '_blank', alt: "L'Atelier BNP", title: "L'Atelier BNP" do
         = image_tag 'pro/partners/atelier_bnp.png', height: 70
-    .one-third
+    .grid__item.one-third>
       = link_to 'http://www.journaldunet.com/web-tech/start-up/le-camping-saison-4/coursavenue.shtml', target: '_blank', alt: 'Le Journal Du Net', title: 'Le Journal Du Net' do
         = image_tag 'pro/partners/journal_du_net.png', height: 70
-    .one-third
+    .grid__item.one-third
       = link_to 'http://frenchweb.fr/', target: '_blank', alt: 'FrenchWeb', title: 'FrenchWeb' do
         = image_tag 'pro/partners/frenchweb.png', height: 70
 

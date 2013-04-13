@@ -23,15 +23,8 @@
         li {
             cursor          : pointer;
             background-color: $white;
-            padding         : 0;
-            > input:first-child, > label:first-child {
-                padding-left: 0.5em;
-            }
-            > label, > input {
-                font-size       : 12px;
-                display: inline-block;
-                padding         : 0.5em 0;
-            }
+            padding-top     : 0.5em;
+            padding-bottom  : 0.5em;
         }
         li:nth-of-type(odd) {
             background-color: $alternativeBackground;

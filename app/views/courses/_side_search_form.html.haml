@@ -6,12 +6,12 @@
       = gmaps( {markers: {data: Gmaps4rails.geocode("#{params[:city]}, France").to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
   - else
     = gmaps( {markers: {data: @json_place_addresses}, map_options: {maxZoom: 15, mapTypeControl: false}})
-  %div.ilb-wrapper.align-middle.map-slider-container
-    %label.three-twelfths.bold Radius
-    #radius-slider.slider.seven-twelfths
+  .grid--full.map-slider-container
+    %label.grid__item.v-middle.three-twelfths.bold> Radius
+    #radius-slider.grid__item.v-middle.slider.seven-twelfths>
       #radius-knob.slider--knob
         .slider--inner-knob
-    %label.two-twelfths.text--right.bold
+    %label.grid__item.v-middle.two-twelfths.text--right.bold
       %span#radius-label-value= params[:radius]
       km
 

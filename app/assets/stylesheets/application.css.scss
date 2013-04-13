@@ -1,5 +1,4 @@
 //*= require 'font-awesome'
-// require 'font'
 
 // Compass mixins
   @import "compass/css3/background-size";
@@ -17,6 +16,11 @@
 
   @import "widths";
   @import "colors";
+
+/**
+ * Libs
+ */
+  @import "partials/libs/csswizardry-grids";
 
 /**
  * Theme objects

@@ -3,8 +3,8 @@
 %h4.blue.text--center 5 minutes chrono pour vous inscrire / Sans engagement / Changez d’offre quand vous voulez
 %hr
 
-.ilb-wrapper
-  .one-third
+.grid
+  .grid__item.one-third>
     .ten-twelfths.center-block.white-box.islet
       .text--center
         %h3.flush--bottom
@@ -30,7 +30,7 @@
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'basic-offer-details', title: "Détails de l'offre Basique"}
         = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large', id: 'register'
 
-  .one-third
+  .grid__item.one-third>
     .ten-twelfths.center-block.white-box.islet
       .text--center
         %h3.flush--bottom
@@ -61,7 +61,7 @@
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-offer-details', title: "Détails de l'offre Pro"}
         = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button', id: 'price_pro_subscribe'
 
-  .one-third
+  .grid__item.one-third>
     .ten-twelfths.center-block.white-box.islet
       .text--center
         %h3.flush--bottom
@@ -115,8 +115,8 @@
   %i.icon-lightbulb.alpha
   Vous avez des questions ? Nous avons les réponses ! Voici les questions les plus fréquentes :
 
-.ilb-wrapper
-  .one-half
+.grid
+  .grid__item.one-half>
     .alert--info
       %h5 Au sujet de l’offre Pro : comment fonctionne le mois de gratuité ?
       %p
@@ -133,7 +133,7 @@
     .alert--info
       %h5 Quand et comment vous payer ?
       %p A chaque fin de fin de mois, nous calculerons la différence entre ce que nous vous devons (la somme des réservations honorées pendant le mois déduite des commissions associées) et ce que vous nous devez (les frais de réservation du mois et l’abonnement mensuel à notre logiciel si vous avez souscrit à l’offre Pro). Si c’est nous qui vous devons de l’argent, nous procèderons à un virement ; à l’inverse, nous procéderons à un prélèvement automatique. C’est pourquoi nous vous demandons vos coordonnées bancaires dès votre première inscription (tout est sécurisé).
-  .one-half
+  .grid__item.one-half
     .alert--info
       %h5 Y a-t-il des coûts autres que celui du logiciel ?
       %p Si vous faites le choix de référencer vos cours sur www.CoursAvenue.com, alors quand une réservation est effectuée sur notre site (et qu’elle est ensuite bien effectuée…), une commission vous sera facturée.

@@ -12,9 +12,9 @@
 }
 
 .pagination {
-    @extend .ilb-wrapper;
     margin-bottom: 0;
     margin-left  : 0;
+    word-spacing: 0;
     li.current {
         padding: 13px;
     }

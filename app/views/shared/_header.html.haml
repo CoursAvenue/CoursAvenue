@@ -1,12 +1,10 @@
 %header.header
-  .main-container.ilb-wrapper.align-middle
-    %h1.accessibility
-      CoursAvenue
-    = link_to root_path, class: 'logo' do
-      = image_tag 'logo.png', width: 200
+  .main-container.grid
+    .grid__item.one-half>
+      = link_to root_path, class: 'logo' do
+        = image_tag 'logo.png', width: 200
 
-    %nav.float--right.nav-links-wrapper
-      %ul.nav
-        %li.espace-pro-wrapper
-          .espace-pro
-          = link_to 'Référencer mes cours', 'http://pro.coursavenue.com', class: 'btn btn__success'
+    %nav.text--right.grid__item.one-half
+      %span.espace-pro-wrapper
+        %span.espace-pro
+        = link_to 'Référencer mes cours', 'http://pro.coursavenue.com', class: 'btn btn__success'

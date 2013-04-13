@@ -72,13 +72,13 @@
           %br
           %i.icon-map-marker
           = readable_address @place
-    .ilb-wrapper.align-middle.text--right{style: 'margin-top: 8px;'}
-      %p.flush--bottom
+    .grid.text--right{style: 'margin-top: 8px;'}
+      %p.flush--bottom.grid__item.v-middle.width-auto>
         %i Recommander ce cours&nbsp;&nbsp;
-      %div{style: 'line-height: 1;'}
+      .grid__item.v-middle.width-auto{style: 'line-height: 1;'}>
         <a href="https://twitter.com/share" class="twitter-share-button" data-via="CoursAvenue" data-lang="fr">Tweeter</a>
         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-      %div{style: 'line-height: 1;'}
+      .grid__item.v-middle.width-auto{style: 'line-height: 1;'}>
         <div style="display:none;" id="fb-root"></div>
         <script>(function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -87,7 +87,6 @@
         js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=589759807705512";
         fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script>
-
         <div class="fb-like" data-send="false" data-width="500" data-show-faces="false" data-action="recommend" data-layout="button_count"></div>
 
 
