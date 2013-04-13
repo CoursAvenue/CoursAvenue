@@ -29,10 +29,12 @@
         = pluralize course.length, 'jour'
     %div
       %i.icon-map-marker
-      - if course.place.name.length > 50
-        %h3.course-element-place-name= "#{course.place.name[0..50]}..."
-      - else
-        %h3.course-element-place-name= link_to course.place.long_name, place_path(course.place)
+      %h3.course-element-place-name
+        = link_to place_path(course.place) do
+          - if course.place.name.length > 50
+            = "#{course.place.name[0..50]}..."
+          - else
+            = course.place.long_name
       - if course.place.zip_code == 75000
         Paris
       - else
