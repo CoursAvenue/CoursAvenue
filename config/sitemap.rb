@@ -46,7 +46,6 @@ SitemapGenerator::Sitemap.create do
     pages_who_are_we_path,
     pages_customer_service_path,
     pages_press_path,
-    pages_find_a_place_path,
     pages_mentions_partners_path,
     pages_jobs_path,
     pages_terms_and_conditions_path,
@@ -56,8 +55,8 @@ SitemapGenerator::Sitemap.create do
 
   # ------------------------------ Pro subdomain
   add root_path(subdomain: :pro), priority: 0.8, changefreq: 'daily'
-  add pages_presentation_path(subdomain: :pro), priority: 0.1, changefreq: 'monthly'
-  add pages_prices_path(subdomain: :pro), priority: 0.1, changefreq: 'monthly'
-  add pages_press_path(subdomain: :pro), priority: 0.1, changefreq: 'monthly'
+  add pro_pages_presentation_path(subdomain: :pro), priority: 0.1, changefreq: 'monthly'
+  add pro_pages_price_path(subdomain: :pro), priority: 0.1, changefreq: 'monthly'
+  add pro_pages_press_path(subdomain: :pro), priority: 0.1, changefreq: 'monthly'
 
 end
