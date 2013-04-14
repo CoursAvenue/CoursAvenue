@@ -1,7 +1,11 @@
 = content_for :title do
   = "#{@place.long_name} à #{@city.name}"
 = content_for :meta_description do
-  = "#{@place.long_name} à #{@city.name}"
+  - if @structure.description.present?
+    = @structure.description
+  - else
+    - if @place.subjects.any?
+      = "Venez prendre des cours de #{@place.parent_subjects.map(&:name).join(', ')} avec #{@place.name}"
 
 - if cookies[:place_search_path]
   = link_to cookies[:place_search_path] do

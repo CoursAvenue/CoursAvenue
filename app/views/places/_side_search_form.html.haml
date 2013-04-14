@@ -42,7 +42,7 @@
         Gmaps.map.callback = function() {
             for (var i = 0; i <  this.markers.length; ++i) {
                 google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
-                    var course_element = $$('.course-element[data-structure-id=' + this.id + ']');
+                    var course_element = $$('.course-element[data-place-id=' + this.id + ']');
                     GLOBAL.Scroller.toElement(course_element[0]);
                     // Unselect courses if there already are that are selected
                     $$('.course-element').removeClass('selected');

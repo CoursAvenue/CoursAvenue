@@ -32,14 +32,11 @@ SitemapGenerator::Sitemap.create do
 
   Course.all.each do |course|
     add course_path(course), lastmod: course.updated_at, priority: 0.8, changefreq: 'daily'
-
-  %w(paris toulouse lyon bordeaux marseille nice montpellier).each do |city|
-    Subject.all.each do |subject|
-      add subject_courses_path(subject), changefreq: 0.8, changefreq: 'daily'
-      add subject_places_path(subject), changefreq: 0.8, changefreq: 'daily'
-    end
   end
 
+  Subject.all.each do |subject|
+    add subject_courses_path(subject), changefreq: 0.8, changefreq: 'daily'
+    add subject_places_path(subject), changefreq: 0.8, changefreq: 'daily'
   end
 
   [ pages_why_path,
@@ -54,13 +51,13 @@ SitemapGenerator::Sitemap.create do
     pages_jobs_path,
     pages_terms_and_conditions_path,
     pages_contact_path].each do |page_path|
-      add page_path, changefreq: 'monthly'
+      add page_path, changefreq: 'monthly', priority: 0.1
   end
 
   # ------------------------------ Pro subdomain
   add root_path(subdomain: :pro), priority: 0.8, changefreq: 'daily'
-  add pages_presentation_path(subdomain: :pro), changefreq: 'monthly'
-  add pages_prices_path(subdomain: :pro), changefreq: 'monthly'
-  add pages_press_path(subdomain: :pro), changefreq: 'monthly'
+  add pages_presentation_path(subdomain: :pro), priority: 0.1, changefreq: 'monthly'
+  add pages_prices_path(subdomain: :pro), priority: 0.1, changefreq: 'monthly'
+  add pages_press_path(subdomain: :pro), priority: 0.1, changefreq: 'monthly'
 
 end

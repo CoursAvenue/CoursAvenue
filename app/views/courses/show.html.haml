@@ -1,7 +1,7 @@
 = content_for :title do
   = "#{@course.type_name} de #{@course.name} à #{@city.name} avec #{@structure.name}"
-- unless @course.description.blank?
-  = content_for :meta_description do
+= content_for :meta_description do
+  - if @course.description.present?
     = @course.description
 
 - if cookies[:search_path]
