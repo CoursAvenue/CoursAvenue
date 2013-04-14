@@ -53,3 +53,6 @@ $ git push origin --delete branch_name
 
 # Cities
 http://download.geonames.org/export/zip/
+
+# Sitemap
+RAILS_ENV=production rake sitemap:create

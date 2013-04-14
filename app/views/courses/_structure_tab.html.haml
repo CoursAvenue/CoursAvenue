@@ -1,5 +1,5 @@
 %article#tab-structure-info.tab-pane
-  %h3.flush--bottom.islet= @structure.name
+  %h3.flush--bottom.islet= @place.long_name
   %ul
     %li
       %h4.base-font-style.flush--bottom= t(@structure.structure_type)
@@ -10,8 +10,6 @@
     - if @structure.gives_professional_courses
       %li= t('.give_professional_courses')
     %li= readable_address @place
-    %li
-      = @place.name
     - if @place.info
       %li= @place.info
     - if @place.nb_room

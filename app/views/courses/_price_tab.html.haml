@@ -12,7 +12,7 @@
       = render partial: 'prices/price'            , collection: @course.prices,       locals: {with_promo: @has_promotion}
       = render partial: 'book_tickets/book_ticket', collection: @course.book_tickets, locals: {with_promo: @has_promotion}
   %footer
-    %h4= t('infos')
+    %h4= t('.infos')
     %ul
       - if @course.price_details
         %li= @course.price_details
@@ -28,7 +28,6 @@
             - else
               = RegistrationFee.human_attribute_name(:registration_fee)
             = "#{registration_fee.price}€"
-    / # Mettre un lien pour CIF, DIF etc.
     - if @structure.accepts_holiday_vouchers or @structure.accepts_ancv_sports_coupon or @structure.accepts_leisure_tickets or @structure.accepts_afdas_funding or @structure.accepts_dif_funding or @structure.accepts_cif_funding
       %p.flush--bottom= t('.possible_funding')
     %ul
