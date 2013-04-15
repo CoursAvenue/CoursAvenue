@@ -17,22 +17,7 @@
               - @comments.in_groups_of(4, false).each do |comment_group|
                 %li.slideshow--element
                   - comment_group.each do |comment|
-                    %article.comment-list__el
-                      .flexbox
-                        .flexbox__item.one-half.comment__header
-                          %div{itemprop: 'reviews', itemscope: true, itemtype:'http://schema.org/Review'}
-                            .float--right.muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)}
-                              = distance_of_time_in_words_to_now comment.created_at
-                              %i.icon-time
-                            %b{itemprop: 'author'}= comment.author_name
-                            %br
-                            %div{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
-                              = rating_stars comment.rating
-                              %meta{itemprop: 'ratingValue', content: comment.rating}
-                              %meta{itemprop: 'bestRating', content: 5}
-                            = link_to truncate(comment.commentable.name, length: 40), commentable_path(comment), class: 'blue'
-                        .flexbox__item.one-half.comment__content
-                          %p.flush--bottom{itemprop: 'reviewBody'}= truncate(comment.content, length: 140)
+                    = render partial: 'comments/home_comment', locals: {comment: comment}
 
   .text--center
     .newsletter-form

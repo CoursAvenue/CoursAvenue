@@ -17,3 +17,10 @@ a:hover {
 a.selected {
     font-weight: bold;
 }
+
+.comment_link {
+    color: inherit;
+    &:hover {
+        text-decoration: none;
+    }
+}

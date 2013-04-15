@@ -47,8 +47,10 @@
     font-weight: 300;
 }
 
-.bordered--right { border-right: 1px solid $graySmooth; }
-.bordered--left  { border-left : 1px solid $graySmooth; }
+.bordered--right { border-right  : 1px solid $graySmooth; }
+.bordered--left  { border-left   : 1px solid $graySmooth; }
+.bordered--bottom{ border-bottom : 1px solid $graySmooth; }
+.bordered--top   { border-top    : 1px solid $graySmooth; }
 .center-block    { margin-left: auto; margin-right: auto; }
 .block           { display: block; }
 .inline          { display: inline;}

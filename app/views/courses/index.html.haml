@@ -9,6 +9,10 @@
   %section.grid__item.three-tenths.hide--lap.hide--palm>
     = render 'side_search_form'
   %section.grid__item.seven-tenths.lap-one-whole.palm-one-whole
+    - if params[:subject_id]
+      %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue Tous les cours et stages de <u>#{@subject.name.downcase}</u> à #{@city.name}
+    - else
+      %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue Tous les cours et stages à #{@city.name}
     %ul.tab-titles
       %li.tab-el.active Par cours
       %li
@@ -17,10 +21,6 @@
         - else
           = link_to 'Par établissement', places_path(name: params[:name]), class: 'tab-el'
 
-      - if params[:subject_id]
-        %li.float--right
-          Filtre :
-          %span.lbl.subject-link= @subject.name
 
     .flexbox.page-entries-wrapper
       .flexbox__item.palm-one-whole
