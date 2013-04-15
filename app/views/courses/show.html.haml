@@ -1,8 +1,18 @@
+- if @course.image
+  = content_for :meta_image do
+    = @course.image.url
+
 = content_for :title do
   = "#{@course.type_name} de #{@course.name} à #{@city.name} avec #{@structure.name}"
+
 = content_for :meta_description do
   - if @course.description.present?
     = @course.description
+  - else
+    - if @course.has_teacher?
+      = "Réservez le #{@course.type_name_html.downcase} de #{@course.name} à #{@city.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name_html.downcase}."
+    - else
+      = "Réservez le #{@course.type_name_html.downcase} de #{@course.name} à #{@city.name}. Retrouvez tous les avis et infos sur ce #{@course.type_name_html.downcase}."
 
 - if cookies[:search_path]
   = link_to cookies[:search_path] do
@@ -53,6 +63,9 @@
           %i.icon-map-marker
           = readable_address @place
     = render 'share_links'
+
+    %hr
+
     - if @course.description.present? and @course.description.length > 30
       %h2.delta Description du #{@course.type_name_html.downcase} de : #{@course.name}
       %p= @course.description
@@ -60,7 +73,7 @@
     %ul.tab-titles{data: {behavior: 'tabs'}}
       %li.tab-el.active{data: { el: 'tab-planning' }}= t('.planning')
       %li.tab-el{data: { el: 'tab-prices' }}= t('.prices')
-      %li.tab-el{data: { el: 'tab-description' }}= Course.human_attribute_name(:description)
+      %li.tab-el{data: { el: 'tab-description' }}= t('.infos')
       %li.tab-el{data: { el: 'tab-structure-info' }}= t('.structure')
       %li.tab-el.float--right
         = link_to place_path(@place) do
@@ -90,7 +103,7 @@
       - else
         .delta.push--bottom Aucun avis
       %div
-        = link_to 'Donnez votre avis', '#comments', class: 'btn btn__primary'
+        = link_to 'Donner mon avis', '#comments', class: 'btn btn__primary'
     %hr
     %article.hide--palm
       .delta D'autres cours pour vous !

@@ -1,11 +1,22 @@
+- if @place.image or @structure.image
+  = content_for :meta_image do
+    - if @place.image
+      = @place.image.url
+    - elsif @structure.image
+      = @structure.image.url
+
+
 = content_for :title do
   = @place.long_name
+
 = content_for :meta_description do
   - if @structure.description.present?
     = @structure.description
   - else
     - if @place.subjects.any?
-      = "Venez prendre des cours de #{@place.parent_subjects.map(&:name).join(', ')} avec #{@place.name}"
+      = "Retrouvez tous les cours et stage de #{@place.name} à #{@city.name}. #{@place.parent_subjects.map(&:name).join(', ')} et bien plus !"
+    - else
+      = "Retrouvez tous les cours et stage de #{@place.name} à #{@city.name}."
 
 - if cookies[:place_search_path]
   = link_to cookies[:place_search_path] do
@@ -50,24 +61,8 @@
           %i.icon-map-marker
           = readable_address @place
 
-    .grid.text--right{style: 'padding: 8px 0;'}
-      %p.flush--bottom.grid__item.v-middle.width-auto>
-        %i Recommander cet établissement&nbsp;&nbsp;
-      .grid__item.v-middle.width-auto{style: 'line-height: 1;'}>
-        <a href="https://twitter.com/share" class="twitter-share-button" data-via="CoursAvenue" data-lang="fr">Tweeter</a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-      .grid__item.v-middle.width-auto{style: 'line-height: 1;'}>
-        <div style="display:none;" id="fb-root"></div>
-        <script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=589759807705512";
-        fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
-        <div class="fb-like" data-send="false" data-width="500" data-show-faces="false" data-action="recommend" data-layout="button_count"></div>
-
-
+    = render 'share_links'
+    %hr
     - if @place.description.present?
       %h2.delta.text--center Description de #{@place.long_name}
       %p= @place.description
@@ -134,7 +129,7 @@
       - else
         .delta.push--bottom Aucun avis
       %div
-        = link_to 'Donnez votre avis', '#comments', class: 'btn btn__primary'
+        = link_to 'Donner mon avis', '#comments', class: 'btn btn__primary'
 
     %hr
 

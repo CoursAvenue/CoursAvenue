@@ -1,5 +1,8 @@
 %article.course-info
   %h2.delta.text--center.flush--bottom= @course.name
+  %h3.zeta.text--center.flush--bottom
+    %i.icon-map-marker
+    = @course.place.long_name
   - if @course.best_price #TODO: Remove this
     .course-info-price.text--right
       %small À partir de
