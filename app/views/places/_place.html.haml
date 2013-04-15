@@ -10,11 +10,11 @@
 
   %article.course-content.eight-twelfths
     %header
-      %h4.hN.course-title
+      .hN.course-title
         .map-marker-image
           = link_to place_path(place) do
             %span= place_counter + 1
-        %span= link_to place.long_name, place_path(place)
+        %h2.delta.inline.v-middle= link_to place.long_name, place_path(place)
     %p
       %i.icon-map-marker
       = place.street

@@ -137,8 +137,6 @@ class CoursesController < ApplicationController
       with(:approximate_price_per_course).greater_than         params[:price_range][:min].to_i                         if params[:price_range].present? and params[:price_range][:min].present?
       with(:approximate_price_per_course).less_than            params[:price_range][:max].to_i                         if params[:price_range].present? and params[:price_range][:max].present?
 
-      with(:zip_code).any_of                params[:zip_codes]                                      if params[:zip_codes].present?
-
       # TODO ------------------------------------------------------------------------------------------------------------------
       if params[:price_specificities].present?
         with :has_package_price,            true if params[:price_specificities].include?('has_package_price')

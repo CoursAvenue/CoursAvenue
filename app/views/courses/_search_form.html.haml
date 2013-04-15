@@ -8,7 +8,6 @@
 - params[:time_slots]          ||= [] # CoursAvenue::Application::TIME_SLOTS
 - params[:price_range]         ||= {} # {min: 0, max: 1000}
 - params[:time_range]          ||= {}
-- params[:zip_codes]           ||= [] # (75001..75020).to_a.map(&:to_s)
 - params[:age]                 ||= {}
 - params[:radius]              ||= 10
 %section
@@ -30,8 +29,6 @@
       = number_field_tag 'age[min]', params[:age][:max], min: 0, max: 18, step: 1, id: 'hidden_search_age_min'
       = number_field_tag 'age[max]', params[:age][:min], min: 0, max: 18, step: 1, id: 'hidden_search_age_max'
 
-      - (75001..75020).to_a.map(&:to_s).each do |zip_code|
-        = check_box_tag 'zip_codes[]', zip_code, params[:zip_codes].include?(zip_code), id: "hidden_search_arrondissement_#{zip_code}"
       %input{name: 'time_range[min]', value: params[:time_range][:min], id: 'hidden_start_time'}
       %input{name: 'time_range[max]', value: params[:time_range][:max], id: 'hidden_end_time'}
 

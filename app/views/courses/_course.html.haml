@@ -17,11 +17,11 @@
 
   %article.course-content
     %header
-      %h4.hN.course-title
+      .hN.course-title
         .map-marker-image
           = link_to course_path(course) do
             %span= @course_places.index(course.place) + 1
-        %span= link_to course.name, course_path(course)
+        %h2.delta.inline.v-middle= link_to course.name, course_path(course)
 
     - if course.is_training?
       %p

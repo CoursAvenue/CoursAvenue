@@ -165,23 +165,6 @@
       %input.timepicker-input{name: 'time_range[max]', value: params[:time_range][:max], placeholder: '20:30', data: {behavior: 'input-update', element: 'hidden_end_time'}}
       h
 
-  //-------------------------------------------------------------------------------------------------------- Places
-  .search-panel
-    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
-      Arrondissement
-      - if params[:zip_codes].empty?
-        %i.icon-caret-left
-      - else
-        %i.icon-caret-down
-    .search-panel-content{class: params[:zip_codes].empty? ? 'hide' : ''}
-      %ul.check-list
-        - (75001..75020).to_a.map(&:to_s).each_with_index do |zip_code, i|
-          %li
-            = check_box_tag 'zip_code[]', zip_code, params[:zip_codes].include?(zip_code), id: "search_arrondissement_#{zip_code}", data: {behavior: 'input-update', element: "hidden_search_arrondissement_#{zip_code}"}
-            - if i < 9
-              = label_tag "search_arrondissement_#{zip_code}", "Paris #{zip_code.to_s[4]}e"
-            - else
-              = label_tag "search_arrondissement_#{zip_code}", "Paris #{zip_code.to_s[3..4]}e"
 //-------------------------------------------------------------------------------------------------------- Gmaps
 - content_for :scripts do
   :javascript
