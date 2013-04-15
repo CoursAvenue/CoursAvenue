@@ -72,7 +72,7 @@ class Structure < ActiveRecord::Base
 
   validate  :presence_of_phone_number
   validates :name               , :presence   => true
-  validates :street             , :presence   => true
+  # validates :street             , :presence   => true
   validates :zip_code           , :presence   => true, numericality: { only_integer: true }
   validates :city               , :presence   => true
   # validates :structure_type     , :presence   => true
