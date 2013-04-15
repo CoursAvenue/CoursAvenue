@@ -37,7 +37,8 @@ class Place < ActiveRecord::Base
                   :contact_phone,
                   :contact_mobile_phone,
                   :has_handicap_access,
-                  :info,
+                  :description,
+                  :info, # Digicode, etc.
                   :image,
                   :thumb_image,
                   # :nb_room,
@@ -107,6 +108,14 @@ class Place < ActiveRecord::Base
 
     boolean :active do
       self.structure.active
+    end
+  end
+
+  def description
+    if read_attribute(:description).present?
+      read_attribute(:description)
+    else
+      structure.description
     end
   end
 

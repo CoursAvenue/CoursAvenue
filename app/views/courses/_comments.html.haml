@@ -14,7 +14,7 @@
       .grid__item.one-half.grid>
         %label.text--right.grid__item.v-middle.one-fifth{for: 'comment_author_name'}> * Nom
         = f.input :author_name, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'four-fifths grid__item v-middle'}, label: false, placeholder: 'Patrick C.'
-      .grid__item.one-half.grid>
+      .grid__item.five-twelfths.grid>
         %label.text--right.grid__item.v-middle.one-fifth{for: 'comment_email'}> Email
         = f.input :email, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'four-fifths grid__item v-middle'}, label: false, placeholder: 'Votre email restera privé'
     = f.input :content, label_html: {style: 'width: auto; vertical-align: top;'}, input_html: {style: 'width: 45.7em; height: 50px;', 'data-behavior' => 'autoresize'}, placeholder: "Qu'avez-vous pensé du cours ?"

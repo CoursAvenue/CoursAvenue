@@ -37,26 +37,6 @@
         %span.milli.lbl.blue= link_to subject.name, subject_courses_path(subject), class: 'subject-link'
 
 .grid
-  %section.grid__item.three-tenths#summary.palm-one-whole.float--right.hide--lap>
-    = render 'contact_structure'
-    %article.hide--palm
-      %h4.flush--bottom D'autres cours pour vous !
-      %ul.block-list
-        - @similar_courses.each do |course|
-          %li
-            = link_to course_path(course), class: 'flexbox similar-course--image-wrapper' do
-              .flexbox__item.one-fifth.similar-course--image
-                - unless course.promotion_planning.nil?
-                  .milli.course-promo.price-badge= readable_promotion course.promotion_planning
-                - if course.image.present?
-                  = image_tag course.image.url(:thumb)
-                - else
-                  = image_tag course.subjects.first.image.url(:thumb)
-              .flexbox__item.similar-course
-                %h2.similar-course--course-name= course.name
-                %h3.similar-course--structure-name
-                  %i.icon-map-marker
-                  = course.structure.name
   %section.grid__item.seven-tenths.palm-one-whole.lap-one-whole
     .course-header-badge
       .course-header-image.one-half.palm-one-whole
@@ -72,23 +52,10 @@
           %br
           %i.icon-map-marker
           = readable_address @place
-    .grid.text--right{style: 'margin-top: 8px;'}
-      %p.flush--bottom.grid__item.v-middle.width-auto>
-        %i Recommander ce cours&nbsp;&nbsp;
-      .grid__item.v-middle.width-auto{style: 'line-height: 1;'}>
-        <a href="https://twitter.com/share" class="twitter-share-button" data-via="CoursAvenue" data-lang="fr">Tweeter</a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-      .grid__item.v-middle.width-auto{style: 'line-height: 1;'}>
-        <div style="display:none;" id="fb-root"></div>
-        <script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=589759807705512";
-        fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
-        <div class="fb-like" data-send="false" data-width="500" data-show-faces="false" data-action="recommend" data-layout="button_count"></div>
-
+    = render 'share_links'
+    - if @course.description.present? and @course.description.length > 30
+      %h2.delta Description du #{@course.type_name_html.downcase} de : #{@course.name}
+      %p= @course.description
 
     %ul.tab-titles{data: {behavior: 'tabs'}}
       %li.tab-el.active{data: { el: 'tab-planning' }}= t('.planning')
@@ -108,3 +75,38 @@
     %hr
     %article#comments
       = render 'comments'
+
+  %section.grid__item.three-tenths#summary.palm-one-whole.hide--lap>
+    = render 'contact_structure'
+    .text--center.white-box.islet
+      - if @course.rating
+        .delta Note : #{@course.rating}
+        %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://schema.org/AggregateRating'}
+          %span.rating{title: comment_rating_title(@course.rating)}
+            = rating_stars @course.rating
+          %meta{property: 'v:rating', itemprop: 'ratingValue', content: '%.1f' % @course.rating}
+          %meta{itemprop: 'bestRating', content: 5}
+          %meta{itemprop: 'reviewCount', value: @course.comments.count}
+      - else
+        .delta.push--bottom Aucun avis
+      %div
+        = link_to 'Donnez votre avis', '#comments', class: 'btn btn__primary'
+    %hr
+    %article.hide--palm
+      .delta D'autres cours pour vous !
+      %ul.block-list
+        - @similar_courses.each do |course|
+          %li
+            = link_to course_path(course), class: 'flexbox similar-course--image-wrapper' do
+              .flexbox__item.one-fifth.similar-course--image
+                - unless course.promotion_planning.nil?
+                  .milli.course-promo.price-badge= readable_promotion course.promotion_planning
+                - if course.image.present?
+                  = image_tag course.image.url(:thumb)
+                - else
+                  = image_tag course.subjects.first.image.url(:thumb)
+              .flexbox__item.similar-course
+                %h3.similar-course--course-name= course.name
+                %h4.similar-course--structure-name
+                  %i.icon-map-marker
+                  = course.place.name

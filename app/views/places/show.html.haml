@@ -68,6 +68,9 @@
         <div class="fb-like" data-send="false" data-width="500" data-show-faces="false" data-action="recommend" data-layout="button_count"></div>
 
 
+    - if @place.description.present?
+      %h2.delta.text--center Description de #{@place.long_name}
+      %p= @place.description
     %hr
     - if @courses.length > 0
       %h2.delta.text--center <b>Cours</b> proposés par #{@place.long_name}
@@ -86,11 +89,10 @@
                 %td
                   %h3.base-font-style.flush--bottom= link_to course.name, course_path(course)
                   - if course.rating
-                    %br
                     = rating_stars course.rating
                 %td.text--center
                   - course.subjects.each do |subject|
-                    %span.lbl= link_to subject.name, subject_courses_path(subject), class: 'blue'
+                    %span.lbl= link_to subject.name.gsub(' ', '&nbsp;').html_safe, subject_courses_path(subject), class: 'blue'
                 %td.text--center= course.levels.map{|level| t(level.name) }.join(', ')
                 %td.text--center= course.plannings.count
                 %td.text--right= link_to 'Réserver', course_path(course), class: 'btn btn__primary'
@@ -122,8 +124,8 @@
 
     .text--center.white-box.islet
       - if @place.rating
-        .delta Note : #{@place.rating}/5
-        %div{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://schema.org/AggregateRating'}
+        .delta Note : #{@place.rating}
+        %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://schema.org/AggregateRating'}
           %span.rating{title: comment_rating_title(@place.rating)}
             = rating_stars @place.rating
           %meta{property: 'v:rating', itemprop: 'ratingValue', content: '%.1f' % @place.rating}
@@ -133,6 +135,9 @@
         .delta.push--bottom Aucun avis
       %div
         = link_to 'Donnez votre avis', '#comments', class: 'btn btn__primary'
+
+    %hr
+
     %article.hide--palm
       .delta Établissements à proximité
       %ul.block-list

@@ -12,7 +12,7 @@
       = render partial: 'prices/price'            , collection: @course.prices,       locals: {with_promo: @has_promotion}
       = render partial: 'book_tickets/book_ticket', collection: @course.book_tickets, locals: {with_promo: @has_promotion}
   %footer
-    %h4= t('.infos')
+    %h4= t('.infos', place_name: @place.long_name)
     %ul
       - if @course.price_details
         %li= @course.price_details

@@ -1,8 +1,4 @@
 %article#tab-description.tab-pane
-  - unless @course.description.nil?
-    %h4= Course.human_attribute_name(:description)
-    %p= @course.description
-
   - if @course.info.present? or @structure.registration_info.present?
     %h4= t('.more_information')
     - unless @course.info.blank?

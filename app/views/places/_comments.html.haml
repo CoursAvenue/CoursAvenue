@@ -14,7 +14,7 @@
       .grid__item.one-half>
         %label.text--right.grid__item.v-middle.one-fifth{for: 'comment_author_name'}> * Nom
         = f.input :author_name, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'four-fifths grid__item v-middle'}, label: false, placeholder: 'Patrick C.'
-      .grid__item.one-half>
+      .grid__item.five-twelfths>
         %label.text--right.grid__item.v-middle.one-fifth{for: 'comment_email'}> Email
         = f.input :email, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'four-fifths grid__item v-middle'}, label: false, placeholder: 'Votre email restera privé'
     = f.input :title, label_html: {style: 'width: 13em; vertical-align: top;'}, input_html: {style: 'width: 40.5em;'}, placeholder: 'Cours de Zumba du lundi, Atelier pâtisserie du 13 juin, etc.', label: 'Intitulé des cours suivis'

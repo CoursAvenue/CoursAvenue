@@ -60,7 +60,7 @@ fr:
       formule_type: Type de formule
       without_promo: Sans promo
       with_promo: Avec promo
-      infos: Infos
+      infos: "Infos tarifaire spécifique à %{place_name}"
     description_tab:
       course_description: "Description du cours :"
       more_information: "Informations complémentaires :"
