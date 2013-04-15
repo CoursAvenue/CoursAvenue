@@ -10,9 +10,9 @@
     = @course.description
   - else
     - if @course.has_teacher?
-      = "Réservez le #{@course.type_name_html.downcase} de #{@course.name} à #{@city.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name_html.downcase}."
+      = "Réservez le #{@course.type_name.downcase} de #{@course.name} à #{@city.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
     - else
-      = "Réservez le #{@course.type_name_html.downcase} de #{@course.name} à #{@city.name}. Retrouvez tous les avis et infos sur ce #{@course.type_name_html.downcase}."
+      = "Réservez le #{@course.type_name.downcase} de #{@course.name} à #{@city.name}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
 
 - if cookies[:search_path]
   = link_to cookies[:search_path] do
@@ -51,9 +51,9 @@
     .course-header-badge
       .course-header-image.one-half.palm-one-whole
         - if @course.image.present?
-          = image_tag @course.image.url(:wide), class: 'course-header-badge-image'
+          = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name}"
         - else
-          = image_tag @course.subjects.first.image.url(:wide), class: 'course-header-badge-image'
+          = image_tag @course.subjects.first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name}."
 
       .course-header-map.one-half.palm-one-whole
         = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
@@ -65,7 +65,6 @@
     = render 'share_links'
 
     %hr
-
     - if @course.description.present? and @course.description.length > 30
       %h2.delta Description du #{@course.type_name_html.downcase} de : #{@course.name}
       %p= @course.description
@@ -115,9 +114,9 @@
                 - unless course.promotion_planning.nil?
                   .milli.course-promo.price-badge= readable_promotion course.promotion_planning
                 - if course.image.present?
-                  = image_tag course.image.url(:thumb)
+                  = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
                 - else
-                  = image_tag course.subjects.first.image.url(:thumb)
+                  = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
               .flexbox__item.similar-course
                 %h3.similar-course--course-name= course.name
                 %h4.similar-course--structure-name

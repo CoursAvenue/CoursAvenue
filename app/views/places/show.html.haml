@@ -51,7 +51,7 @@
     - if @place.image.present?
       .course-header-badge
         .course-header-image.one-half.palm-one-whole
-          = image_tag @place.image.url(:wide), class: 'course-header-badge-image'
+          = image_tag @place.image.url(:wide), class: 'course-header-badge-image', alt: @place.long_name
     - else
       .course-header-map
         = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )

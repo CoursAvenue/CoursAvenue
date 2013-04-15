@@ -313,6 +313,7 @@ class Course < ActiveRecord::Base
     if read_attribute(:place)
       read_attribute(:place)
     elsif self.room
+      self.update_column :place_id, self.room.place_id
       self.room.place
     end
   end

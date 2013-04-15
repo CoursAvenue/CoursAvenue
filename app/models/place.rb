@@ -206,7 +206,11 @@ class Place < ActiveRecord::Base
   end
 
   def friendly_name
-    "#{self.structure.name}-#{self.name}"
+    if self.structure.name == self.name
+      self.name
+    else
+      "#{self.structure.name}-#{self.name}"
+    end
   end
 
 end

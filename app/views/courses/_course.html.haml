@@ -3,13 +3,13 @@
     .course-image.media__img
       = link_to course_path(course) do
         - if course.image.present?
-          = image_tag course.image.url(:thumb)
+          = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
         - elsif course.structure.image.present?
-          = image_tag course.structure.image.url(:thumb)
+          = image_tag course.structure.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
         - elsif course.place.thumb_image.present?
-          = image_tag course.place.thumb.image.url(:thumb)
+          = image_tag course.place.thumb.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
         - else
-          = image_tag course.subjects.first.image.url(:thumb)
+          = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
       - if course.is_promoted
         .course-promo.exclu-badge.milli Exclusivité
       - unless course.promotion_planning.nil?

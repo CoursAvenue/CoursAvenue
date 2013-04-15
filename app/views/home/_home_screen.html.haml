@@ -12,7 +12,7 @@
       - @promoted_courses.each do |promoted_course|
         %li
           = render 'slideshow_course_info', course: promoted_course
-          = image_tag promoted_course.homepage_image
+          = image_tag promoted_course.homepage_image, alt: "#{promoted_course.type_name} de #{promoted_course.name}"
 
 = content_for :scripts do
   :javascript

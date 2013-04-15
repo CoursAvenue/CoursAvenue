@@ -78,5 +78,5 @@
     .map-marker-image.paris-20
       = link_to courses_path(city: 'paris', zip_codes: ['75020']) do
         %span= Course.joins{place}.where{place.zip_code == '75020'}.count
-    = image_tag 'home-page/map-paris.png'
+    = image_tag 'home-page/map-paris.png', alt: 'Tous les cours et stages à Paris'
 

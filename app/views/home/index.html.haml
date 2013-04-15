@@ -36,7 +36,7 @@
         .grid__item.course-block-wrapper.one-half.palm-one-whole>
           = link_to subject_courses_path('cuisine-oenologie'), class: 'course-block' do
             .course-block-image
-              = image_tag 'home-page/cooking.jpg'
+              = image_tag 'home-page/cooking.jpg', alt: 'Tous les cours et stage de cuisine'
             %h6.course-block-title
               Réveillez vos papilles
             %p.course-block-caption
@@ -45,7 +45,7 @@
         .grid__item.course-block-wrapper.one-half.palm-one-whole>
           = link_to subject_courses_path('relaxation-fitness', time_slots: ['evening']), class: 'course-block' do
             .course-block-image
-              = image_tag 'home-page/after_work.jpg'
+              = image_tag 'home-page/after_work.jpg', alt: 'Tous les cours et stage après le travail'
             %h6.course-block-title
               Détendez-vous après le boulot
             %p.course-block-caption
@@ -54,7 +54,7 @@
         .grid__item.course-block-wrapper.one-half.palm-one-whole>
           = link_to subject_courses_path('insolite'), class: 'course-block' do
             .course-block-image
-              = image_tag 'home-page/insolite.jpg'
+              = image_tag 'home-page/insolite.jpg', alt: 'Tous les cours et stage insolites'
             %h6.course-block-title
               Cours insolites
             %p.course-block-caption
@@ -63,7 +63,7 @@
         .grid__item.course-block-wrapper.one-half.palm-one-whole>
           = link_to courses_path(audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block' do
             .course-block-image
-              = image_tag 'home-page/child-courses.jpg'
+              = image_tag 'home-page/child-courses.jpg', alt: 'Tous les cours et stage pour enfants'
             %h6.course-block-title
               Eveillons nos tout petits
             %p.course-block-caption
