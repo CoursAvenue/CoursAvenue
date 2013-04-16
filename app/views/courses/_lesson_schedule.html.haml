@@ -9,8 +9,6 @@
         %th.text--center Places
       - if @course.is_for_kid
         %th.text--center Âge
-      - if @has_promotion
-        %th.text--center Promo
       %th.text--center
         %i.lbc-icon-info i
   %tbody
@@ -27,10 +25,6 @@
             - if planning.max_age_for_kid
               à
               = planning.max_age_for_kid || '-'
-        - if @has_promotion
-          %td.text--center
-            - if planning.promotion
-              .promo-marker= readable_promotion planning
         %td.text--center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}

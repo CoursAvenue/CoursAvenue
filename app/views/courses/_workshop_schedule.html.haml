@@ -6,8 +6,6 @@
       %th.text--center Durée
       - if @has_nb_place
         %th Places dispo
-      - if @has_promotion
-        %th.text--center Promo
       %th.text--center
         %i.lbc-icon-info i
   %tbody
@@ -22,10 +20,6 @@
         %td.text--center= readable_duration planning.day_one_duration || planning.duration
         - if @has_nb_place
           %td.text--center= planning.nb_place_available
-        - if @has_promotion
-          %td.text--center
-            - if planning.promotion
-              .promo-marker= readable_promotion planning
         %td.text--center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
