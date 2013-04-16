@@ -76,9 +76,8 @@
         %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
           %span.rating{title: comment_rating_title(@place.rating)}
             = rating_stars @place.rating
-          %meta{property: 'v:rating', itemprop: 'ratingValue', content: '%.1f' % @place.rating}
-          %meta{itemprop: 'bestRating', content: 5}
-          %meta{itemprop: 'reviewCount', content: @place.comments.count}
+          %meta{property: 'v:rating', itemprop: 'rating', content: '%.1f' % @place.rating}
+          %meta{itemprop: 'count', content: @place.comments.count}
           %meta{itemprop: 'itemreviewed', content: @place.long_name}
           %meta{itemprop: 'name', content: @place.long_name}
           %meta{itemprop: 'street-address', content: @place.street}
