@@ -12,14 +12,15 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    @reservation = @course.reservations.build params[:reservation]
+    @reservation       = @course.reservations.build params[:reservation]
+    @reservation.price = @course.prices.where{nb_courses == 1}.first
     respond_to do |format|
       if @reservation.save
-        format.html { redirect_to course_reservation_path(@course, @reservation), notice: 'Votre réservation à bien été pris en compte. Un mail vous a été envoyé.' }
+        format.html { redirect_to course_path(@course), notice: 'Votre réservation à bien été pris en compte. Un mail vous a été envoyé.' }
         UserMailer.alert_structure_for_reservation(@reservation).deliver!
         UserMailer.alert_user_for_reservation(@reservation).deliver!
       else
-        format.html { render action: :new }
+        format.html { redirect_to course_path(@course), alert: "Veuillez remplir tous les champs pour votre réservation." }
       end
     end
   end

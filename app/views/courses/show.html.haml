@@ -115,9 +115,9 @@
 
     %ul.tab-titles{data: {behavior: 'tabs'}}
       %li.tab-el.active{data: { el: 'tab-planning' }}= t('.planning')
-      %li.tab-el{data: { el: 'tab-prices' }}= t('.prices')
-      %li.tab-el{data: { el: 'tab-description' }}= t('.infos')
-      %li.tab-el{data: { el: 'tab-structure-info' }}= t('.structure')
+      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos tarif', 'click', '#{@course.slug}'])", data: { el: 'tab-prices' }}= t('.prices')
+      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos cours', 'click', '#{@course.slug}'])", data: { el: 'tab-description' }}= t('.infos')
+      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos structure', 'click', '#{@course.slug}'])", data: { el: 'tab-structure-info' }}= t('.structure')
       %li.tab-el.float--right
         = link_to place_path(@place) do
           = "Voir tous les cours de #{truncate @place.long_name, length: 20}"

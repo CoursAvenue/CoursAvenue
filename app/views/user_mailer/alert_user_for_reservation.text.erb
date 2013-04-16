@@ -1,33 +1,19 @@
-Bonjour <%= @reservation.full_name %>,
+Bonjour <%= @reservation.name %>,
 
-Merci d'avoir réservé le cours de : <%= @reservation.course.name %> !
+Merci d'avoir réservé le <%= @reservation.course.type_name.downcase %> de : <%= @reservation.course.name %> !
 
 ======== Récapitulatif ========
-Nombre de places : <%= @reservation.nb_participants || 1 %>
-Nom du cours : <%= @reservation.course.name %>
-<% if @reservation.planning.teacher %>
-Professeur : <%= @reservation.planning.teacher.name %>
-<% end %>
+Nom du <%= @reservation.course.type_name.downcase %> : <%= @reservation.course.name %>
 Établissement : <%= @place.long_name %>
 Adresse de l'établissement : <%= @place.address %>
-Date : <%= @reservation.planning.to_s %>
 <% if @reservation.price %>
-<% if @reservation.planning.promotion.present? %>
-Prix : <%= @reservation.price.readable_amount_with_promo %>€ au lieu de <%= @reservation.price.readable_amount %>€ (<%= I18n.t(@reservation.price.libelle) %>)
-<% else %>
 Prix : <%= @reservation.price.readable_amount %>€ (<%= I18n.t(@reservation.price.libelle) %>)
 <% end %>
-<% elsif @reservation.book_ticket %>
-<% if @reservation.planning.promotion.present? %>
-Prix : <%= @reservation.book_ticket.readable_price_with_promo %>€ au lieu de <%= @reservation.book_ticket.readable_amount %>€ (<%= @reservation.book_ticket.libelle %>)
-<% else %>
-Prix : <%= @reservation.book_ticket.readable_amount %>€ (<%= @reservation.book_ticket.libelle %>)
-<% end %>
-<% end %>
 
-Pour confirmer votre réservation, contacter l'établissement.
+Pour confirmer votre réservation, nous vous invitons à contacter l'établissement.
 
 ======== Information de l'établissement ========
+Numéro de téléphone :
 <% if @place.contact_phone %>
 <%= @place.contact_phone %>
 <% end %>

@@ -1,4 +1,4 @@
-%h4.small-margin-bottom= t('.post_your_opinion')
+%h4.small-margin-bottom= t('.post_your_opinion', course_type_name: @course.type_name_html.downcase)
 .islet.white-box
   = simple_form_for @comment, url: course_comments_path(@course) do |f|
     %div

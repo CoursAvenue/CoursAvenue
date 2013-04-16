@@ -6,7 +6,20 @@
   - if @course.best_price #TODO: Remove this
     .course-info-price.text--right
       %h2.blue= "#{@course.best_price.readable_amount}€"
-      %small par cours
-  .text--center.islet.flush--bottom
-    = link_to 'Réserver ce cours', new_course_reservation_path(@course), class: 'one-whole btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Reservation', 'click', '#{@course.slug}'])"
-  %p.flush--bottom.text--center{style: 'line-height: 1'}
+      %small (#{t(@course.best_price.libelle)})
+  = simple_form_for @reservation, url: course_reservations_path(@course) do |f|
+    = f.input :name, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Nom', required: true
+    = f.input :email, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Email (pour confirmation)'
+    = f.submit "Réserver ce #{@course.type_name.downcase}", class: 'btn btn__success one-whole', onclick: "_gaq.push(['_trackEvent', 'Reservation', 'click', '#{@course.slug}'])"
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        $('new_reservation').addEvent('submit', function() {
+            if ($('reservation_name').get('value').length === 0 || $('reservation_email').get('value').length === 0) {
+              new GLOBAL.Objects.Flash('Vous devez remplir votre nom et email pour réserver ce #{@course.type_name_html.downcase}').showAndHide();
+              return false;
+            }
+            return true;
+        });
+    });

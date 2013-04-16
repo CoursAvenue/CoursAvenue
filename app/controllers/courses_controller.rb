@@ -29,6 +29,7 @@ class CoursesController < ApplicationController
     @subjects           = @course.subjects
     @has_promotion      = @course.has_promotion
     @has_nb_place       = @course.plannings.map(&:nb_place_available).compact.any?
+    @reservation        = Reservation.new
 
     @similar_courses = @course.similar_courses
 
@@ -147,7 +148,7 @@ class CoursesController < ApplicationController
       # order_by :has_promotion,       :desc
       # order_by :is_promoted,         :desc
       # order_by :has_online_payment,  :desc
-      order_by :min_price, :asc
+      order_by :approximate_price_per_course, :asc
 
       if params[:sort] == 'price_asc'
         order_by :approximate_price_per_course, :asc

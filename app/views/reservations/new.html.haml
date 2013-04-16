@@ -33,16 +33,13 @@
     %h4.small-margin-bottom Vos informations personnelles
     .white-box.islet
       .grid.text--center
-        .grid__item.islet.flush--bottom.one-quarter>
-          = f.label :first_name, class: 'text--left'
-          = f.input :first_name, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top text--left'}
-        .grid__item.islet.flush--bottom.one-quarter>
-          = f.label :last_name, class: 'text--left'
-          = f.input :last_name, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top text--left'}
-        .grid__item.islet.flush--bottom.one-quarter>
+        .grid__item.islet.flush--bottom.one-third>
+          = f.label :name, class: 'text--left'
+          = f.input :name, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top text--left'}
+        .grid__item.islet.flush--bottom.one-third>
           = f.label :email, class: 'text--left'
           = f.input :email, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top text--left'}
-        .grid__item.islet.flush--bottom.one-quarter>
+        .grid__item.islet.flush--bottom.one-third>
           = f.label :phone, class: 'text--left'
           = f.input :phone, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top text--left'}
     .text--center

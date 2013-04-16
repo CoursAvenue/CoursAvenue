@@ -4,8 +4,7 @@ fr:
       reservation: Reservation
     attributes:
       reservation:
-        first_name: Prénom
-        last_name: Nom
+        name: Nom
         email: Email
         billing_address_first_line: Adresse ligne 1
         billing_address_second_line: Adresse ligne 2

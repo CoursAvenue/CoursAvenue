@@ -12,7 +12,7 @@
         - Subject.all.each do |subject|
           %option{value: subject.name}
         <!--[if IE 9]></select><![endif]-->
-      %p#search-help.white-box.hidden{style: 'line-height: 1.3; padding: 5px 10px; widht: 100%; position: absolute;'} Recherchez par intitulé de cours, discipline, nom de structure, etc.
+      %p#search-help.white-box.hidden{style: 'z-index: 2; line-height: 1.3; padding: 5px 10px; widht: 100%; position: absolute;'} Recherchez par intitulé de cours, discipline, nom de structure, etc.
       = content_for :scripts do
         :javascript
           (function(window, document, undefined) {
