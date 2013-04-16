@@ -21,8 +21,5 @@
             - if planning.promotion
               .promo-marker= readable_promotion planning
         %td.text--center
-          - planning_info = day_by_day_schedule planning
           - if planning.info.present?
-            - planning_info += '<br>' + planning.info
-          - if planning_info != ''
-            .lbc-brand-icon{data: {behavior: 'popover', content: planning_info}}
+            .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
