@@ -13,7 +13,7 @@
             %meta{itemprop: 'ratingValue', content: comment.rating}
             %meta{itemprop: 'bestRating', content: 5}
             %meta{itemprop: 'worstRating', content: 1}
-            .visuallyhidden{itemprop: 'Thing', itemscope: true, itemtype: 'http://schema.org/Thing'}
+            .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
               %meta{itemprop: 'url', content: commentable_url(comment)}
               %meta{itemprop: 'name', content: commentable_name(comment)}
           %span.blue= truncate(comment.commentable.name, length: 40)
