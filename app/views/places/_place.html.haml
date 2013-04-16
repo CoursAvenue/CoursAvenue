@@ -1,6 +1,6 @@
 %li.one-whole.course-element{data: {"place-id" => place.id, url: place_path(place), type: 'place-element'}}
   - if place.thumb_image.present? or place.structure.image.present?
-    %div.two-twelfths.hide--palm
+    %div.two-twelfths.visuallyhidden--palm
       .course-image.media__img
         = link_to place_path(place) do
           - if place.thumb_image.present?

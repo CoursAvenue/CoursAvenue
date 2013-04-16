@@ -47,10 +47,65 @@
         %span.milli.lbl.blue= link_to subject.name, subject_places_path(subject), class: 'subject-link'
 
 .grid
-  %section.grid__item.seven-tenths.palm-one-whole.lap-one-whole
+  - # To Float left to have it first on mobile
+  %section#summary.grid__item.three-tenths.lap--one-whole.palm--one-whole.float--right>
+    %article.course-info
+      %h2.delta.text--center Contacter : #{@place.long_name}
+      %div
+        %i.icon-external-link.orange
+        = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
+      .blue
+        %i.icon-phone.blue
+        - if @place.contact_phone
+          = link_to "tel:#{@place.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
+            = @place.contact_phone.gsub(' ', '&nbsp;').html_safe
+        - if @place.contact_phone and @place.contact_mobile_phone
+          %span.blue /
+        - if @place.contact_mobile_phone
+          = link_to "tel:#{@place.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
+            = @place.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
+      %div
+        %i.icon-home
+        = readable_address @place
+
+    .text--center.white-box.islet
+      - if @place.rating
+        .delta Note : #{@place.rating}
+        %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://schema.org/AggregateRating'}
+          %span.rating{title: comment_rating_title(@place.rating)}
+            = rating_stars @place.rating
+          %meta{property: 'v:rating', itemprop: 'ratingValue', content: '%.1f' % @place.rating}
+          %meta{itemprop: 'bestRating', content: 5}
+          %meta{itemprop: 'reviewCount', value: @place.comments.count}
+      - else
+        .delta.push--bottom Aucun avis
+      %div
+        = link_to 'Donner mon avis', '#comments', class: 'btn btn__primary'
+
+    %hr
+
+    %article.visuallyhidden--palm.visuallyhidden--lap
+      .delta Établissements à proximité
+      %ul.block-list
+        - @surrounding_places.each do |surrounding_place|
+          %li
+            = link_to place_path(surrounding_place), class: 'flexbox similar-course--image-wrapper' do
+              .flexbox__item.one-fifth.similar-course--image
+                - if surrounding_place.image.present?
+                  = image_tag surrounding_place.image.url(:thumb)
+                - elsif surrounding_place.subjects.any?
+                  = image_tag surrounding_place.subjects.first.image.url(:thumb)
+              .flexbox__item.similar-course
+                %h4.similar-course--course-name= surrounding_place.long_name
+                .similar-course--structure-name
+                  %i.icon-map-marker
+                  = surrounding_place.street
+
+
+  %section.grid__item.seven-tenths.palm--one-whole.lap--one-whole
     - if @place.image.present?
       .course-header-badge
-        .course-header-image.one-half.palm-one-whole
+        .course-header-image.one-half.palm--one-whole
           = image_tag @place.image.url(:wide), class: 'course-header-badge-image', alt: @place.long_name
     - else
       .course-header-map
@@ -97,58 +152,6 @@
       %hr
     %article#comments
       = render 'comments'
-  %section#summary.grid__item.three-tenths.lap-one-whole.palm-one-whole.hide--lap>
-    %article.course-info
-      %h2.delta.text--center Contacter : #{@place.long_name}
-      %div
-        %i.icon-external-link.orange
-        = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
-      .blue
-        %i.icon-phone.blue
-        - if @place.contact_phone
-          = link_to "tel:#{@place.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
-            = @place.contact_phone.gsub(' ', '&nbsp;').html_safe
-        - if @place.contact_phone and @place.contact_mobile_phone
-          %span.blue /
-        - if @place.contact_mobile_phone
-          = link_to "tel:#{@place.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
-            = @place.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
-      %div
-        %i.icon-home
-        = readable_address @place
-
-    .text--center.white-box.islet
-      - if @place.rating
-        .delta Note : #{@place.rating}
-        %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://schema.org/AggregateRating'}
-          %span.rating{title: comment_rating_title(@place.rating)}
-            = rating_stars @place.rating
-          %meta{property: 'v:rating', itemprop: 'ratingValue', content: '%.1f' % @place.rating}
-          %meta{itemprop: 'bestRating', content: 5}
-          %meta{itemprop: 'reviewCount', value: @place.comments.count}
-      - else
-        .delta.push--bottom Aucun avis
-      %div
-        = link_to 'Donner mon avis', '#comments', class: 'btn btn__primary'
-
-    %hr
-
-    %article.hide--palm
-      .delta Établissements à proximité
-      %ul.block-list
-        - @surrounding_places.each do |surrounding_place|
-          %li
-            = link_to place_path(surrounding_place), class: 'flexbox similar-course--image-wrapper' do
-              .flexbox__item.one-fifth.similar-course--image
-                - if surrounding_place.image.present?
-                  = image_tag surrounding_place.image.url(:thumb)
-                - elsif surrounding_place.subjects.any?
-                  = image_tag surrounding_place.subjects.first.image.url(:thumb)
-              .flexbox__item.similar-course
-                %h4.similar-course--course-name= surrounding_place.long_name
-                .similar-course--structure-name
-                  %i.icon-map-marker
-                  = surrounding_place.street
 
 = content_for :scripts do
   :javascript

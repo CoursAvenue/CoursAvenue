@@ -34,6 +34,7 @@
             %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
               = rating_stars comment.rating
               %meta{itemprop: 'ratingValue', content: comment.rating}
+              %meta{itemprop: 'worstRating', content: 1}
               %meta{itemprop: 'bestRating', content: 5}
           %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} le #{l(comment.created_at, format: :date)}
           %p{itemprop: 'reviewBody'}

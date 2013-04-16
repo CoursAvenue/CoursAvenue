@@ -71,7 +71,7 @@ class Planning < ActiveRecord::Base
   end
 
   def length
-    return (end_date - start_date).to_i
+    return (end_date - start_date).to_i + 1
   end
 
   def first_day_of_training

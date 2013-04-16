@@ -30,18 +30,18 @@
     display         : table;
     @include font-size(12px);
     @include media-query(palm) { display: block; };
-    .hide--lap {
+    .visuallyhidden--lap {
         @include media-query(lap) { display: none; };
     }
-    .hide--palm {
+    .visuallyhidden--palm {
         @include media-query(palm) { display: none; };
     }
-    .hide--semipalm {
+    .visuallyhidden--semipalm {
         @media screen and (max-width: 800px) and (min-width: $lap-start) {
             display: none;
         }
     }
-    .hide--semilap {
+    .visuallyhidden--semilap {
         @media screen and (max-width: 1200px) and (min-width: $lap-start) {
             display: none;
         }

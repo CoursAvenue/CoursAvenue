@@ -47,15 +47,51 @@
         %span.milli.lbl.blue= link_to subject.name, subject_courses_path(subject), class: 'subject-link'
 
 .grid
-  %section.grid__item.seven-tenths.palm-one-whole.lap-one-whole
+  - # To Float left to have it first on mobile
+  %section.grid__item.three-tenths#summary.palm--one-whole.lap--one-whole.float--right>
+    = render 'contact_structure'
+    .text--center.white-box.islet
+      - if @course.rating
+        .delta Note : #{@course.rating}
+        %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://schema.org/AggregateRating'}
+          %span.rating{title: comment_rating_title(@course.rating)}
+            = rating_stars @course.rating
+          %meta{property: 'v:rating', itemprop: 'ratingValue', content: '%.1f' % @course.rating}
+          %meta{itemprop: 'bestRating', content: 5}
+          %meta{itemprop: 'reviewCount', value: @course.comments.count}
+      - else
+        .delta.push--bottom Aucun avis
+      %div
+        = link_to 'Donner mon avis', '#comments', class: 'btn btn__primary'
+    %hr
+    %article.visuallyhidden--palm.visuallyhidden--lap
+      .delta D'autres cours pour vous !
+      %ul.block-list
+        - @similar_courses.each do |course|
+          %li
+            = link_to course_path(course), class: 'flexbox similar-course--image-wrapper' do
+              .flexbox__item.one-fifth.similar-course--image
+                - unless course.promotion_planning.nil?
+                  .milli.course-promo.price-badge= readable_promotion course.promotion_planning
+                - if course.image.present?
+                  = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
+                - else
+                  = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
+              .flexbox__item.similar-course
+                %h3.similar-course--course-name= course.name
+                %h4.similar-course--structure-name
+                  %i.icon-map-marker
+                  = course.place.name
+
+  %section.grid__item.seven-tenths.palm--one-whole.lap--one-whole
     .course-header-badge
-      .course-header-image.one-half.palm-one-whole
+      .course-header-image.one-half.palm--one-whole
         - if @course.image.present?
           = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name}"
         - else
           = image_tag @course.subjects.first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name}."
 
-      .course-header-map.one-half.palm-one-whole
+      .course-header-map.one-half.palm--one-whole
         = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
         %h2.course-header-structure-name
           %b= @structure.name
@@ -88,37 +124,3 @@
     %article#comments
       = render 'comments'
 
-  %section.grid__item.three-tenths#summary.palm-one-whole.hide--lap>
-    = render 'contact_structure'
-    .text--center.white-box.islet
-      - if @course.rating
-        .delta Note : #{@course.rating}
-        %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://schema.org/AggregateRating'}
-          %span.rating{title: comment_rating_title(@course.rating)}
-            = rating_stars @course.rating
-          %meta{property: 'v:rating', itemprop: 'ratingValue', content: '%.1f' % @course.rating}
-          %meta{itemprop: 'bestRating', content: 5}
-          %meta{itemprop: 'reviewCount', value: @course.comments.count}
-      - else
-        .delta.push--bottom Aucun avis
-      %div
-        = link_to 'Donner mon avis', '#comments', class: 'btn btn__primary'
-    %hr
-    %article.hide--palm
-      .delta D'autres cours pour vous !
-      %ul.block-list
-        - @similar_courses.each do |course|
-          %li
-            = link_to course_path(course), class: 'flexbox similar-course--image-wrapper' do
-              .flexbox__item.one-fifth.similar-course--image
-                - unless course.promotion_planning.nil?
-                  .milli.course-promo.price-badge= readable_promotion course.promotion_planning
-                - if course.image.present?
-                  = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
-                - else
-                  = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
-              .flexbox__item.similar-course
-                %h3.similar-course--course-name= course.name
-                %h4.similar-course--structure-name
-                  %i.icon-map-marker
-                  = course.place.name

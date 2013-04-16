@@ -12,6 +12,7 @@
             = rating_stars comment.rating
             %meta{itemprop: 'ratingValue', content: comment.rating}
             %meta{itemprop: 'bestRating', content: 5}
+            %meta{itemprop: 'worstRating', content: 1}
           %span.blue= truncate(comment.commentable.name, length: 40)
       .flexbox__item.one-half.comment__content
         %p.flush--bottom{itemprop: 'reviewBody'}= truncate(comment.content, length: 140)

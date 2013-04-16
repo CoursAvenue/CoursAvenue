@@ -5,9 +5,9 @@
     %link{rel: 'canonical', href: places_url}
 .grid
   .grid__item= render 'search_form'
-  %section.grid__item.three-tenths.hide--lap.hide--palm>
+  %section.grid__item.three-tenths.visuallyhidden--lap.visuallyhidden--palm>
     = render 'side_search_form'
-  %section.grid__item.seven-tenths.lap-one-whole.palm-one-whole
+  %section.grid__item.seven-tenths.lap--one-whole.palm--one-whole
     - if params[:subject_id]
       %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue Tous les établissements de <u>#{@subject.name.downcase}</u> à #{@city.name}
     - else
@@ -21,7 +21,7 @@
       %li.tab-el.active Par établissement
 
     .flexbox.page-entries-wrapper
-      .flexbox__item.palm-one-whole
+      .flexbox__item.palm--one-whole
         %p.flush--bottom
           = page_entries_info @places, pluralized_entry_name: Place.model_name.human(count: @places.total_count).downcase
         .spoken-form
@@ -29,7 +29,7 @@
           %select#filter-select{name: 'sort'}
             %option{value: 'relevancy', selected: (params[:sort] == 'relevancy') } Pertinence
             %option{value: 'rating_desc', selected: (params[:sort] == 'rating_desc')} Notes : les cours les mieux notés en premier
-      .flexbox__item.hide--palm
+      .flexbox__item.visuallyhidden--palm
         .text--right= paginate @places, window: 1, outer_window: 1
 
 
