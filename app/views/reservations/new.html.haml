@@ -27,7 +27,7 @@
       = f.association :book_ticket, as: :hidden
   - unless @reservation.errors.any?
     .text--center
-      %a#show-first-section.btn.btn__primary.btn__large Continuer
+      %a#show-first-section.btn.btn__primary.btn__large{onclick: "_gaq.push(['_trackEvent', 'Reservation page', 'next','#{@course.slug}'])"} Continuer
 
   #first-hidden-section{style: @reservation.errors.any? ? '' : 'opacity: 0'}
     %h4.small-margin-bottom Vos informations personnelles
@@ -46,7 +46,7 @@
           = f.label :phone, class: 'text--left'
           = f.input :phone, label: false, input_html: {style: 'width: 15em;'}, wrapper_html: {class: 'flush--top text--left'}
     .text--center
-      = f.submit 'Réserver', class: 'btn btn__success btn__large'
+      = f.submit 'Réserver', class: 'btn btn__success btn__large', onclick: "_gaq.push(['_trackEvent', 'Reservation page', 'submit','#{@course.slug}'])"
 
 = content_for :scripts do
   :javascript

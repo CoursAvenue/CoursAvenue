@@ -13,7 +13,7 @@
       - else
         %h2.blue= "#{@course.best_price.readable_amount}€"
   .text--center.islet.flush--bottom
-    = link_to 'Réserver ce cours', new_course_reservation_path(@course), class: 'one-whole btn btn__primary'
+    = link_to 'Réserver ce cours', new_course_reservation_path(@course), class: 'one-whole btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Reservation', 'click', '#{@course.slug}'])"
   %p.flush--bottom.text--center{style: 'line-height: 1'}
 / - content_for :scripts do
 /   :javascript
