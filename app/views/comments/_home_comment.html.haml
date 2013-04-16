@@ -1,5 +1,5 @@
 %article.comment-list__el
-  = link_to commentable_path(comment), class: 'comment_link' do
+  = link_to commentable_path(comment), class: 'comment_link', onclick: "_gaq.push(['_trackEvent', 'Commentaire home', 'click', 'Note : #{comment.rating}'])" do
     .flexbox
       .flexbox__item.one-half.comment__header
         %div{itemprop: 'reviews', itemscope: true, itemtype:'http://schema.org/Review'}

@@ -30,11 +30,11 @@
 
 .main-container
   .grid
-    .grid__item.lap--one-whole.palm--one-whole.one-half.islet>
+    .grid__item.lap--one-whole.palm--one-whole.one-half>
       %h3.home-title À découvrir ce mois-ci
-      .grid
+      .grid--full
         .grid__item.course-block-wrapper.one-half.palm--one-whole>
-          = link_to subject_courses_path('cuisine-oenologie'), class: 'course-block' do
+          = link_to subject_courses_path('cuisine-oenologie'), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Réveillez vos papilles'])" do
             .course-block-image
               = image_tag 'home-page/cooking.jpg', alt: 'Tous les cours et stage de cuisine'
             %h6.course-block-title
@@ -43,7 +43,7 @@
               Cours de cuisine et d’œnologie pour tous
 
         .grid__item.course-block-wrapper.one-half.palm--one-whole>
-          = link_to subject_courses_path('relaxation-fitness', time_slots: ['evening']), class: 'course-block' do
+          = link_to subject_courses_path('relaxation-fitness', time_slots: ['evening']), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Détendez-vous après le boulot'])" do
             .course-block-image
               = image_tag 'home-page/after_work.jpg', alt: 'Tous les cours et stage après le travail'
             %h6.course-block-title
@@ -52,7 +52,7 @@
               Cours de fitness / relaxation après 18h
 
         .grid__item.course-block-wrapper.one-half.palm--one-whole>
-          = link_to subject_courses_path('insolite'), class: 'course-block' do
+          = link_to subject_courses_path('insolite'), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Cours insolites'])" do
             .course-block-image
               = image_tag 'home-page/insolite.jpg', alt: 'Tous les cours et stage insolites'
             %h6.course-block-title
@@ -61,14 +61,14 @@
               Laissez-vous surprendre !
 
         .grid__item.course-block-wrapper.one-half.palm--one-whole>
-          = link_to courses_path(audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block' do
+          = link_to courses_path(audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Éveillons nos tout petits'])" do
             .course-block-image
               = image_tag 'home-page/child-courses.jpg', alt: 'Tous les cours et stage pour enfants'
             %h6.course-block-title
-              Eveillons nos tout petits
+              Éveillons nos tout petits
             %p.course-block-caption
               Cours & stages pour les 0 à 5 ans
-    .grid__item.lap--one-whole.palm--one-whole.one-half.islet
+    .grid__item.lap--one-whole.palm--one-whole.one-half
       %h3.home-title Le Blog
       = blog_feed
       = link_to 'http://blog.coursavenue.com', target: '_blank' do

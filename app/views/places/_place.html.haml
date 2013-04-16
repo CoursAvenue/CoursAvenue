@@ -38,7 +38,7 @@
         = "%.1f" % place.rating
     - else
       %span.super-muted= rating_stars 5
-      = link_to "Soyez le 1er à donner votre avis", place_path(place, anchor: 'comments')
+      = link_to "Soyez le 1er à donner votre avis", place_path(place, anchor: 'comments'), onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - Lieu', 'click'])"
   .course-content.two-twelfths.text--center
     .alpha.orange= place.course_with_planning.length
     %b cours

@@ -86,7 +86,7 @@
         )
     - else
       .super-muted= rating_stars 5
-      = link_to course_path(course, anchor: 'comments') do
+      = link_to course_path(course, anchor: 'comments'), onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - cours', 'click'])" do
         Soyez le 1er à donner
         %br
         votre avis

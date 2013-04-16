@@ -65,7 +65,7 @@
       - else
         .delta.push--bottom Aucun avis
       %div
-        = link_to 'Donner mon avis', '#comments', class: 'btn btn__primary'
+        = link_to 'Donner mon avis', '#comments', class: 'btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - cours', 'click','#{@course.slug}'])"
     %hr
     %article.visuallyhidden--palm.visuallyhidden--lap
       .delta D'autres cours pour vous !
