@@ -56,12 +56,12 @@
             = rating_stars @course.rating
           %meta{property: 'v:rating', itemprop: 'ratingValue', content: '%.1f' % @course.rating}
           %meta{itemprop: 'bestRating', content: 5}
-          %meta{itemprop: 'reviewCount', value: @course.comments.count}
-          %meta{itemprop: 'itemreviewed', value: @course.name}
-          %meta{itemprop: 'name', value: @course.name}
-          %meta{itemprop: 'street-address', value: @place.street}
-          %meta{itemprop: 'postal-code', value: @place.zip_code}
-          %meta{itemprop: 'locality', value: @city.name}
+          %meta{itemprop: 'reviewCount', content: @course.comments.count}
+          %meta{itemprop: 'itemreviewed', content: @course.name}
+          %meta{itemprop: 'name', content: @course.name}
+          %meta{itemprop: 'street-address', content: @place.street}
+          %meta{itemprop: 'postal-code', content: @place.zip_code}
+          %meta{itemprop: 'locality', content: @city.name}
 
       - else
         .delta.push--bottom Aucun avis

@@ -78,12 +78,12 @@
             = rating_stars @place.rating
           %meta{property: 'v:rating', itemprop: 'ratingValue', content: '%.1f' % @place.rating}
           %meta{itemprop: 'bestRating', content: 5}
-          %meta{itemprop: 'reviewCount', value: @place.comments.count}
-          %meta{itemprop: 'itemreviewed', value: @place.long_name}
-          %meta{itemprop: 'name', value: @place.long_name}
-          %meta{itemprop: 'street-address', value: @place.street}
-          %meta{itemprop: 'postal-code', value: @place.zip_code}
-          %meta{itemprop: 'locality', value: @city.name}
+          %meta{itemprop: 'reviewCount', content: @place.comments.count}
+          %meta{itemprop: 'itemreviewed', content: @place.long_name}
+          %meta{itemprop: 'name', content: @place.long_name}
+          %meta{itemprop: 'street-address', content: @place.street}
+          %meta{itemprop: 'postal-code', content: @place.zip_code}
+          %meta{itemprop: 'locality', content: @city.name}
 
       - else
         .delta.push--bottom Aucun avis
