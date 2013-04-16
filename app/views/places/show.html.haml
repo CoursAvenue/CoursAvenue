@@ -73,7 +73,7 @@
     .text--center.white-box.islet
       - if @place.rating
         .delta Note : #{@place.rating}
-        %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://schema.org/AggregateRating'}
+        %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
           %span.rating{title: comment_rating_title(@place.rating)}
             = rating_stars @place.rating
           %meta{property: 'v:rating', itemprop: 'ratingValue', content: '%.1f' % @place.rating}
@@ -81,6 +81,9 @@
           %meta{itemprop: 'reviewCount', value: @place.comments.count}
           %meta{itemprop: 'itemreviewed', value: @place.long_name}
           %meta{itemprop: 'name', value: @place.long_name}
+          %meta{itemprop: 'street-address', value: @place.street}
+          %meta{itemprop: 'postal-code', value: @place.zip_code}
+          %meta{itemprop: 'locality', value: @city.name}
 
       - else
         .delta.push--bottom Aucun avis

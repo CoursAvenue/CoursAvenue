@@ -2,6 +2,7 @@ module PlacesHelper
   def short_address(place)
     "#{place.city.name}"
   end
+
   def readable_address(place)
     address = ""
     address << content_tag(:span, itemprop: 'address', itemscope: true, itemtype: 'http://schema.org/PostalAddress') do
