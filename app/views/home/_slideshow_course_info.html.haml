@@ -18,8 +18,4 @@
       %i.icon-user
       = course.audiences.map{|a| t(a.name)}.join(', ')
     %span
-      - if course.promotion_planning
-        %span.muted.line-through= "#{course.best_price.readable_amount}€".html_safe
-        %b= "#{course.promotion_price}€".html_safe
-      - else
-        = "#{course.best_price.readable_amount}€"
+      = "#{course.best_price.readable_amount}€"

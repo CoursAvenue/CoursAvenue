@@ -74,8 +74,6 @@
           %li
             = link_to course_path(course), class: 'flexbox similar-course--image-wrapper' do
               .flexbox__item.one-fifth.similar-course--image
-                - unless course.promotion_planning.nil?
-                  .milli.course-promo.price-badge= readable_promotion course.promotion_planning
                 - if course.image.present?
                   = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
                 - else
