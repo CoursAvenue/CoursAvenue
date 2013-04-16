@@ -42,6 +42,9 @@
             %h6.flush--bottom{itemprop: 'headline', content: comment.title}= comment.title
           %p{itemprop: 'reviewBody'}
             = comment.content
+          .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
+            %meta{itemprop: 'url', content: commentable_url(comment)}
+            %meta{itemprop: 'name', content: commentable_name(comment)}
 - else
   %p Soyez le premier à nous donner votre avis !
 = content_for :scripts do

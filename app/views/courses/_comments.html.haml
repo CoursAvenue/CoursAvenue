@@ -39,6 +39,10 @@
           %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} le #{l(comment.created_at, format: :date)}
           %p{itemprop: 'reviewBody'}
             = comment.content
+          .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
+            %meta{itemprop: 'url', content: commentable_url(comment)}
+            %meta{itemprop: 'name', content: commentable_name(comment)}
+
 - else
   %p Soyez le premier à nous donner votre avis !
 = content_for :scripts do
