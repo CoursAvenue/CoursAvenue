@@ -7,6 +7,10 @@
         = render 'lesson_schedule'
       - if @course.is_workshop?
         = render 'workshop_schedule'
+      %p
+        %i Dernière mise à jour le #{l(@course.updated_at, format: :date)}.
+        %br
+        %i Le planning est susceptible d'avoir changé.
     .grid__item.three-eighths.palm--one-whole.lap--one-whole
       %h4.islet.proceed.flush--bottom= t('.infos')
       %ul.block-list.alternate-color.milli

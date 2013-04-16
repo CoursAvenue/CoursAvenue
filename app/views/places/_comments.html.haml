@@ -20,7 +20,7 @@
     = f.input :title, label_html: {style: 'width: 13em; vertical-align: top;'}, input_html: {style: 'width: 40.5em;'}, placeholder: 'Cours de Zumba du lundi, Atelier pâtisserie du 13 juin, etc.', label: 'Intitulé des cours suivis'
     = f.input :content, label_html: {style: 'width: 13em; vertical-align: top;'}, input_html: {style: 'width: 40.5em; height: 50px;', 'data-behavior' => 'autoresize'}, placeholder: "Qu'avez-vous pensé du cours ?"
     .text--center
-      = f.submit 'Publier mon avis', class: 'btn btn__large btn__primary', style: 'padding-top: 6px; padding-bottom: 6px;'
+      = f.submit 'Publier mon avis', class: 'btn btn__large btn__success', style: 'padding-top: 6px; padding-bottom: 6px;'
 - if @place.rating
   %h5.float--right.flush--bottom Note moyenne : #{'%.1f' % @place.rating}
 %h4.small-margin-bottom Les derniers avis

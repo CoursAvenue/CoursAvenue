@@ -19,7 +19,7 @@
         = f.input :email, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'four-fifths grid__item v-middle'}, label: false, placeholder: 'Votre email restera privé'
     = f.input :content, label_html: {style: 'width: auto; vertical-align: top;'}, input_html: {style: 'width: 45.7em; height: 50px;', 'data-behavior' => 'autoresize'}, placeholder: "Qu'avez-vous pensé du cours ?"
     .text--center
-      = f.submit 'Publier mon avis', class: 'btn btn__large btn__primary', style: 'padding-top: 6px; padding-bottom: 6px;'
+      = f.submit 'Publier mon avis', class: 'btn btn__large btn__success', style: 'padding-top: 6px; padding-bottom: 6px;'
 
 - if @course.rating
   %h5.float--right.flush--bottom Note moyenne : #{ '%.1f' % @course.rating}

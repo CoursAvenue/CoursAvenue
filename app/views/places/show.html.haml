@@ -44,7 +44,7 @@
       %h3.flush--bottom
         %span.milli.lbl.blue= link_to subject.name, subject_places_path(subject), class: 'subject-link'
 
-.grid
+.grid.cf
   - # To Float left to have it first on mobile
   %section#summary.grid__item.three-tenths.lap--one-whole.palm--one-whole.float--right>
     %article.course-info{itemscope: true, itemtype: 'http://schema.org/Place'}
@@ -52,12 +52,18 @@
         %meta{itemprop: 'latitude', content: @place.latitude}
         %meta{itemprop: 'longitude', content: @place.longitude}
 
+      - if @place.thumb_image.present?
+        .text--center= image_tag @place.thumb_image.url(:thumb)
+      - elsif @place.structure.image.present?
+        .text--center= image_tag @place.structure.image.url(:thumb)
       %h2.delta.text--center Contacter : #{@place.long_name}
+      %hr
       %div
         %i.icon-external-link.orange
         = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
       .blue
-        %i.icon-phone.blue
+        - if @place.contact_phone or @place.contact_mobile_phone
+          %i.icon-phone.blue
         - if @place.contact_phone
           = link_to "tel:#{@place.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
             = @place.contact_phone.gsub(' ', '&nbsp;').html_safe
@@ -124,8 +130,8 @@
           = readable_address @place
 
     = render 'share_links'
-    %hr
     - if @place.description.present?
+      %hr
       %h2.delta.text--center Description de #{@place.long_name}
       %p= @place.description
     %hr
@@ -152,7 +158,7 @@
                     %span.lbl= link_to subject.name.gsub(' ', '&nbsp;').html_safe, subject_courses_path(subject), class: 'blue'
                 %td.text--center= course.levels.map{|level| t(level.name) }.join(', ')
                 %td.text--center= course.plannings.count
-                %td.text--right= link_to 'Réserver', course_path(course), class: 'btn btn__primary'
+                %td.text--right= link_to 'Réserver', course_path(course), class: 'btn btn__success'
       - if @courses.length > 4
         .text--center.islet
           %a.btn#show-more-courses Voir tous les cours
