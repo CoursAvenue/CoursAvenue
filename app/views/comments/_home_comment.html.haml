@@ -1,8 +1,8 @@
 %article.comment-list__el
   = link_to commentable_path(comment), class: 'comment_link', onclick: "_gaq.push(['_trackEvent', 'Commentaire home', 'click', 'Note : #{comment.rating}'])" do
-    .flexbox
+    .flexbox{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
       .flexbox__item.one-half.comment__header
-        %div{itemprop: 'reviews', itemscope: true, itemtype:'http://schema.org/Review'}
+        %div
           .float--right.muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)}
             = distance_of_time_in_words_to_now comment.created_at
             %i.icon-time
@@ -13,6 +13,11 @@
             %meta{itemprop: 'ratingValue', content: comment.rating}
             %meta{itemprop: 'bestRating', content: 5}
             %meta{itemprop: 'worstRating', content: 1}
+            .visuallyhidden{itemprop: 'Thing', itemscope: true, itemtype: 'http://schema.org/Thing'}
+              %meta{itemprop: 'url', content: commentable_url(comment)}
+              %meta{itemprop: 'name', content: commentable_name(comment)}
           %span.blue= truncate(comment.commentable.name, length: 40)
       .flexbox__item.one-half.comment__content
-        %p.flush--bottom{itemprop: 'reviewBody'}= truncate(comment.content, length: 140)
+        %p.flush--bottom= truncate(comment.content, length: 140)
+        %meta{itemprop: 'reviewBody', content: comment.content}
+

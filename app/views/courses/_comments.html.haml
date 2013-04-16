@@ -28,7 +28,7 @@
   %ul.comment-list
     - @comments.each do |comment|
       %li.comment-list__el
-        %article{itemprop: 'reviews', itemscope: true, itemtype:'http://schema.org/Review'}
+        %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
           %b{itemprop: 'author'}= comment.author_name
           - if comment.rating
             %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}

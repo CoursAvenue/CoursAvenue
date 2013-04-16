@@ -18,12 +18,31 @@ module CommentsHelper
       'Note : 5 étoiles (Excellent !)'
     end
   end
+
+  # Name of the commentable
+  def commentable_name comment
+    if comment.commentable.is_a? Place
+      comment.commentable.long_name
+    else
+      comment.commentable.name
+    end
+  end
+
   # Path of the commentable
   def commentable_path comment
     if comment.commentable.is_a? Place
       place_path comment.commentable
     else
       course_path comment.commentable
+    end
+  end
+
+  # URL of the commentable
+  def commentable_url comment
+    if comment.commentable.is_a? Place
+      place_url comment.commentable
+    else
+      course_url comment.commentable
     end
   end
 
