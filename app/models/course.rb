@@ -10,12 +10,12 @@ class Course < ActiveRecord::Base
   friendly_id :friendly_name, use: [:slugged, :history]
 
   has_attached_file :homepage_image,
-                    :styles => {default: '1600×500#'},
-                    :path => "courses/:id/homepage_image/:fingerprint-:style.:extension"
+                    :styles => {default: '1600×500#'}# ,
+                    # :path => "courses/:id/homepage_image/:fingerprint-:style.:extension"
 
   has_attached_file :image,
-                    :styles => { wide: "800x480#", thumb: "200x200#" },
-                    :path => "courses/:id/image/:fingerprint-:style.:extension"
+                    :styles => { wide: "800x480#", thumb: "200x200#" }# ,
+                    # :path => "courses/:id/image/:fingerprint-:style.:extension"
 
   belongs_to :structure
   belongs_to :room
@@ -341,6 +341,6 @@ class Course < ActiveRecord::Base
   end
 
   def replace_slash_n_r_by_brs
-    self.description = self.description.gsub(/\r\n/, '<br>')
+    self.description = self.description.gsub(/\r\n/, '<br>') if self.description
   end
 end

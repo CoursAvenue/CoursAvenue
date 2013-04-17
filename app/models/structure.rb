@@ -144,6 +144,6 @@ class Structure < ActiveRecord::Base
   end
 
   def replace_slash_n_r_by_brs
-    self.description = self.description.gsub(/\r\n/, '<br>')
+    self.description = self.description.gsub(/\r\n/, '<br>') if self.description
   end
 end

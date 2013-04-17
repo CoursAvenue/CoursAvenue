@@ -3,23 +3,28 @@
   .white-box.islet{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
     = f.input :name, label: t('.name'), placeholder: 'Zumba, jardin musical, Vins et Fromages, etc'
     = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }
-    .input.grid--full
-      .grid__item.width-auto.v-top>
-        .control-label *Type de cours
-      .grid__item.width-auto>
-        .radio.grid--full
-          %input#type_course_lesson{type: 'radio', name: 'course[type]', value: 'Course::Lesson', checked: @course.is_lesson?}>
-          %label{for: 'type_course_lesson'} Cours récurrent
-        .radio.grid--full
-          %input#type_course_workshop{type: 'radio', name: 'course[type]', value: 'Course::Workshop', checked: @course.is_workshop?}
-          %label{for: 'type_course_workshop'} Cours-atelier
-        .radio.grid--full
-          %input#type_course_training{type: 'radio', name: 'course[type]', value: 'Course::Training', checked: @course.is_training?}
-          %label{for: 'type_course_training'} Stage
-      - if @course.errors.messages[:type]
-        %p.alert.alert-error= @course.errors.messages[:type].first
+    - if @course.new_record?
+      .input.grid--full
+        .grid__item.width-auto.v-top>
+          .control-label *Type de cours
+        .grid__item.width-auto>
+          .radio.grid--full
+            %input#type_course_lesson{type: 'radio', name: 'course[type]', value: 'Course::Lesson', checked: @course.is_lesson?}>
+            %label{for: 'type_course_lesson'} Cours récurrent
+          .radio.grid--full
+            %input#type_course_workshop{type: 'radio', name: 'course[type]', value: 'Course::Workshop', checked: @course.is_workshop?}
+            %label{for: 'type_course_workshop'} Cours-atelier
+          .radio.grid--full
+            %input#type_course_training{type: 'radio', name: 'course[type]', value: 'Course::Training', checked: @course.is_training?}
+            %label{for: 'type_course_training'} Stage
+        - if @course.errors.messages[:type]
+          %p.alert.alert-error= @course.errors.messages[:type].first
 
-    - unless @course.new_record? || !@course.image?
+  %h5.form-header-group.flush--bottom
+    %i.icon-picture
+    Image
+  .white-box.islet{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+    - unless @course.new_record? || !@course.image.present?
       .input.grid
         .grid__item.width-auto>= f.label :image
         .grid__item.width-auto>= image_tag @course.image.url(:thumb), height: 200

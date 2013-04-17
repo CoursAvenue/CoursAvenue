@@ -1,9 +1,10 @@
-= simple_form_for [:pro, @structure, @teacher] do |f|
-  = f.error_notification
-  = f.input :name
-  = f.input :description, input_html: {'data-behavior' => 'autoresize'}
-  .form-actions
-    - if @teacher.new_record?
-      = f.submit 'Ajouter', class: 'btn btn__success'
-    - else
-      = f.submit 'Modifier', class: 'btn btn__success'
+.white-box.islet{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+  = simple_form_for [:pro, @structure, @teacher] do |f|
+    = f.error_notification
+    = f.input :name
+    = f.input :description, input_html: {'data-behavior' => 'autoresize'}
+    .form-actions
+      - if @teacher.new_record?
+        = f.submit 'Ajouter', class: 'btn btn__success'
+      - else
+        = f.submit 'Modifier', class: 'btn btn__success'
