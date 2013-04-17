@@ -9,18 +9,6 @@
   = link_to pro_course_prices_path(@course) do
     € Définir les prix du cours
 
-- if @course.is_lesson?
-  = simple_form_for [:pro, @structure, @course], as: :course do |f|
-    .inline-inputs.grid
-      .grid__item.v-middle.width-auto.input.depend-on-reccurent-course>
-        %label.control-label{for: 'course_start_date'} Date du premier et dernier cours
-        = f.input :start_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {style: 'margin-right: 5px', placeholder: '01/09/2012', class: 'datepicker-input', value: (@course.start_date.present? ? l(@course.start_date) : ''), 'data-behavior' => 'datepicker'}
-        = f.input :end_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {placeholder: '01/05/2013', class: 'datepicker-input', value: (@course.end_date.present? ? l(@course.end_date) : ''), 'data-behavior' => 'datepicker'}
-      .grid__item.v-middle.width-auto>= f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: t('.frequency'), wrapper_html: {class: 'depend-on-reccurent-course'}
-      %input.grid__item.v-middle.width-auto{type: 'hidden',  value: request.fullpath, name: 'from'}
-      = f.submit 'Mettre à jour', class: 'btn btn__success'
-
-
 %h4.flush--bottom Rajouter un créneau
 = render "#{@course.underscore_name}_form"
 

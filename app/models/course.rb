@@ -44,8 +44,8 @@ class Course < ActiveRecord::Base
   validates :levels       , presence: true
   validates :audiences    , presence: true
 
-  before_save :set_place_if_empty
   before_save :set_structure_if_empty
+  before_save :replace_slash_n_r_by_brs
 
   attr_reader :delete_image
 
@@ -340,9 +340,7 @@ class Course < ActiveRecord::Base
     end
   end
 
-  def set_place_if_empty
-    if place_id.nil? and room_id.present?
-      self.place_id = room.place_id
-    end
+  def replace_slash_n_r_by_brs
+    self.description = self.description.gsub(/\r\n/, '<br>')
   end
 end

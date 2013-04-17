@@ -21,8 +21,6 @@ class Place < ActiveRecord::Base
   validates  :city      , presence: true
   validates  :zip_code  , presence: true, numericality: { only_integer: true }
 
-  before_create :build_default_room
-
   has_attached_file :image,
                     :styles => { wide: "800x480#", thumb: "200x200#" }
 
@@ -199,12 +197,6 @@ class Place < ActiveRecord::Base
   end
 
   private
-  def build_default_room
-    if self.rooms.empty?
-      self.rooms.build(name: I18n.t('rooms.main_room'))
-    end
-  end
-
   def friendly_name
     if self.structure.name == self.name
       self.name

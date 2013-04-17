@@ -10,29 +10,33 @@
         %h5.form-header-group
           %i.icon-user
           Contact
-        = contact_form.hidden_field :id
-        = contact_form.input :civility, as: :radio, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
-        = contact_form.input :first_name
-        = contact_form.input :last_name
-        / = contact_form.input :role
-        / = contact_form.input :is_teacher
-        %p.field-form-info.flush--bottom= t('.phone_number_info')
-        = contact_form.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: '01 02 11 33 12'
-        = contact_form.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: '06 07 11 33 12'
-        %p.field-form-info= t('.mobile_phone_number_info')
+        .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+          = contact_form.hidden_field :id
+          = contact_form.input :civility, as: :radio, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
+          = contact_form.input :first_name
+          = contact_form.input :last_name
+          / = contact_form.input :role
+          / = contact_form.input :is_teacher
+          %p.field-form-info.flush--bottom= t('.phone_number_info')
+          = contact_form.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: '01 02 11 33 12'
+          = contact_form.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: '06 07 11 33 12'
+          %p.field-form-info= t('.mobile_phone_number_info')
         / = contact_form.input :email, :required => true, :autofocus => true, wrapper_html: {class: 'flush--bottom'}
         / %p.field-form-info= t('.email_info')
         / = contact_form.input :management_software_used, label: t('.management_software_used' )
 
         / Par email : pré-insérer le mail renseigné en étape 1
         / Par SMS : pré-insérer le n° de téléphone portable renseigné en étape 1
-
-        / %h5.form-header-group Changement de mot de passe
-        / = contact_form.input :password, wrapper_html: {class: 'flush--bottom'}
-        / %p.field-form-info= t('.password_info')
-        / = contact_form.input :password_confirmation
-    / .form-actions
-    /   = f.button :submit, 'Mettre à jour', class: 'btn btn__primary'
+        .input
+          .control-label
+            &nbsp;
+          %a#change-password-button Changer mon mot de passe
+        #change-password{style: 'display: none;'}
+          %h5.form-header-group.flush--top.flush--bottom Changement de mot de passe
+          .white-box.islet.flush--bottom.flush--top{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+            = contact_form.input :password, wrapper_html: {class: 'flush--bottom'}
+            %p.field-form-info= t('.password_info')
+            = contact_form.input :password_confirmation
 
     %h4.header-group Structure d'enseignement
     .islet
@@ -42,47 +46,51 @@
       %h5.form-header-group
         %i.icon-picture
         Image
-      - unless @structure.new_record? || !@structure.image?
-        .input.grid
-          .grid__item.width-auto= structure_form.label :image
-          .grid__item.width-auto= image_tag @structure.image.url(:thumb), height: 200
-        = structure_form.input :delete_image, as: :boolean, :label => "Supprimer l'image"
-      .input
+      .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
         - unless @structure.new_record? || !@structure.image?
-          .control-label Changer l'image
-        - else
-          .control-label Image de la structure
-        = structure_form.input :image, label: false
+          .input.grid
+            .grid__item.width-auto= structure_form.label :image
+            .grid__item.width-auto= image_tag @structure.image.url(:thumb), height: 200
+          = structure_form.input :delete_image, as: :boolean, :label => "Supprimer l'image"
+        .input
+          - unless @structure.new_record? || !@structure.image?
+            .control-label Changer l'image
+          - else
+            .control-label Image de la structure
+          = structure_form.input :image, label: false
 
       %h5.form-header-group
         %i.lbc-icon-info i
         Information
-      = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
-      %p.field-form-info= t('.structure_name_info')
-      = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
+      .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+        = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
+        %p.field-form-info= t('.structure_name_info')
+        = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
+        = structure_form.input :website
+
       %h5.form-header-group
         %i.icon-map-marker
         Adresse
-      = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}, label: t('.structure_address')
-      %p.field-form-info= t('.structure_address_info')
-      = structure_form.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
-      = structure_form.association :city, collection: [@structure.city]
+      .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+        = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}, label: t('.structure_address')
+        %p.field-form-info= t('.structure_address_info')
+        = structure_form.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
+        = structure_form.association :city, collection: [@structure.city]
 
       %h5.form-header-group
         Description
-
-      = structure_form.input :website
-      .grid--full.input
-        .grid__item.width-auto>= structure_form.label :description, class: 'v-top helper-label', 'data-behavior' => 'popover', 'data-content' => 'Ne soyez pas modeste, rédigez une description qui vous met en valeur, en appuyant sur vos points forts : que vous soyez un professeur indépendant, un centre, une école ou un musée, il y a toujours quelque chose qui vous différencie ! Note : ne renseignez aucun élément de contact (téléphone ou mail), notre système l’enlèvera automatiquement.'
-        .textarea-with-info.grid__item.width-auto
-          .grid--full
-            .one-half.grid__item>
-              = structure_form.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {id: 'description-textarea', class: 'textarea-description--tall', placeholder: 'Mettez en avant votre différence ! Soyez objectif et neutre (pas d’auto-promotion du type “le meilleur cours de Paris”, pas de "nous" ou de "nos", pas de contact ni de tarif) !', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
-            .one-half.grid__item
-              %p.alert--info.flush--top Qu'est-ce qui vous différencie ? Pourquoi nos Internautes devraient-il réserver chez vous ? Soyez sincère et original !
-              %p.alert--info Quelle est votre équipe, combien êtes-vous ? Qui se cache derrière tout ça ? Quel est le profil de vos professeurs ?
-              %p.alert--info Depuis quand votre structure existe-t-elle ? Quelle est sa notoriété ? A-t-elle formé des célébrités ?
-              %p.alert--info Toute autre info sur votre structure est bonne à renseigner !
+      .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+        .grid--full.input
+          /.grid__item.width-auto>= structure_form.label :description, class: 'v-top helper-label', 'data-behavior' => 'popover', 'data-content' => 'Ne soyez pas modeste, rédigez une description qui vous met en valeur, en appuyant sur vos points forts : que vous soyez un professeur indépendant, un centre, une école ou un musée, il y a toujours quelque chose qui vous différencie ! Note : ne renseignez aucun élément de contact (téléphone ou mail), notre système l’enlèvera automatiquement.'
+          .textarea-with-info.grid__item.width-auto
+            .grid--full
+              .one-half.grid__item>
+                = structure_form.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {id: 'description-textarea', class: 'textarea-description--tall', placeholder: 'Mettez en avant votre différence !', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
+              .one-half.grid__item
+                %p.alert--info.flush--top Qu'est-ce qui vous différencie ? Pourquoi nos Internautes devraient-il réserver chez vous ? Soyez sincère et original !
+                %p.alert--info Quelle est votre équipe, combien êtes-vous ? Qui se cache derrière tout ça ? Quel est le profil de vos professeurs ?
+                %p.alert--info Depuis quand votre structure existe-t-elle ? Quelle est sa notoriété ? A-t-elle formé des célébrités ?
+                %p.alert--info Toute autre info sur votre structure est bonne à renseigner !
       / %h5.form-header-group Contact
       / = structure_form.input :siret
       / = structure_form.input :tva_intracom_number
@@ -98,3 +106,12 @@
       / = structure_form.input :billing_contact_email, input_html: {value: @structure.billing_contact_email || @structure.main_contact.email}
     .form-actions
       = structure_form.button :submit, "Mettre à jour mes informations", class: 'btn btn__success btn__large'
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        var reveal = $('change-password').get('reveal');
+        $('change-password-button').addEvent('click', function(){
+            reveal.toggle();
+        });
+    });

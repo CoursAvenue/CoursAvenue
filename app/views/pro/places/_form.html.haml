@@ -1,69 +1,54 @@
 .islet
   = simple_form_for [:pro, @structure, @place] do |f|
     = f.error_notification
-    %h5.form-header-group Images
-    - unless @place.new_record? || !@place.image?
-      .input
-        = image_tag @place.image.url(:thumb), height: 200
-      = f.input :delete_image, as: :boolean, :label => "Supprimer l'image"
-    .input
-      = f.label :image
-      = f.input :image, label: false
-
-    - unless @place.new_record? || !@place.thumb_image?
-      .input
-        = image_tag @place.image.url(:thumb), height: 200
-      = f.input :delete_thumb_image, as: :boolean, :label => "Supprimer l'image"
-    .input
-      = f.label :thumb_image
-      = f.input :thumb_image, label: false
-
     %h5.form-header-group Adresse
-    = f.input :name, label: t('.name'), label_html: { class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => "Si vous avez plus d’un lieu, et pour pouvoir les différencier, renseignez un nom spécifique pour chaque adresse. Par exemple, si l’un de vos 3 lieux se trouve au 34 rue Buffaut, renseignez « Buffaut » ; s’il concerne le gymnase Léo Lagrange, renseignez « Lagrange », etc." }, placeholder: 'Gymnase Bercy'
-    = f.input :street, placeholder: '83 avenue du général Leclerc'
-    = f.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'place_city_id'} }
-    = f.association :city, collection: [@place.city]
+    .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+      = f.input :name, label: t('.name'), label_html: { class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => "Si vous avez plus d’un lieu, et pour pouvoir les différencier, renseignez un nom spécifique pour chaque adresse. Par exemple, si l’un de vos 3 lieux se trouve au 34 rue Buffaut, renseignez « Buffaut » ; s’il concerne le gymnase Léo Lagrange, renseignez « Lagrange », etc." }, placeholder: 'Gymnase Bercy'
+      = f.input :street, placeholder: '83 avenue du général Leclerc'
+      = f.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'place_city_id'} }
+      = f.association :city, collection: [@place.city]
+    %h5.form-header-group Images
+    .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+      .input
+        = f.label :image
+        = f.input :image, label: false
+      - if !@place.new_record? and @place.image.present?
+        .input
+          .control-label &nbsp;
+          = image_tag @place.image.url(:thumb), height: 200
+        = f.input :delete_image, as: :boolean, :label => "Supprimer l'image"
+      %hr
+      .input
+        = f.label :thumb_image
+        = f.input :thumb_image, label: false
+      - unless @place.new_record? || !@place.thumb_image.present?
+        .input
+          .control-label &nbsp;
+          = image_tag @place.thumb_image.url, height: 200
+        = f.input :delete_thumb_image, as: :boolean, :label => "Supprimer l'image"
 
-    %h5.helper-label.form-header-group{data: { behavior: 'popover', content: 'Si la personne qui gère les réservations pour ce lieu spécifique est différente du Responsable des réservations renseigné dans la rubrique "Infos générales", merci de renseigner toutes les informations relatives à cette personne.' }} Contact spécifique au lieu
-    = f.input :contact_email, input_html: {value: @place.contact_email || (@structure.main_contact.nil? ? '' : @structure.main_contact.email)}
-    = f.input :contact_name, input_html: {value: @place.contact_name || (@structure.main_contact.nil? ? '' : @structure.main_contact.full_name)}
-    = f.input :contact_phone, input_html: {value: @place.contact_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.phone_number)}
-    = f.input :contact_mobile_phone, input_html: {value: @place.contact_mobile_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.mobile_phone_number)}
+    / %h5.helper-label.form-header-group{data: { behavior: 'popover', content: 'Si la personne qui gère les réservations pour ce lieu spécifique est différente du Responsable des réservations renseigné dans la rubrique "Infos générales", merci de renseigner toutes les informations relatives à cette personne.' }} Contact spécifique au lieu
+    / .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+    /   = f.input :contact_email, input_html: {value: @place.contact_email || (@structure.main_contact.nil? ? '' : @structure.main_contact.email)}
+    /   = f.input :contact_name, input_html: {value: @place.contact_name || (@structure.main_contact.nil? ? '' : @structure.main_contact.full_name)}
+    /   = f.input :contact_phone, input_html: {value: @place.contact_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.phone_number)}
+    /   = f.input :contact_mobile_phone, input_html: {value: @place.contact_mobile_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.mobile_phone_number)}
 
-    %h5.form-header-group Équipements
-    .input.grid--full
-      .grid__item.width-auto= f.label '&nbsp;'
-      .grid__item.width-auto.checkbox-list.v-top
-        = f.input :has_handicap_access
-        = f.input :has_cloackroom
-        = f.input :has_internet, label_html: { class: 'helper-label', data: { behavior: 'popover', content: 'Internet fil ou sans fil'}}
-        = f.input :has_air_conditioning
-        = f.input :has_swimming_pool
-      .grid__item.width-auto.checkbox-list.v-top
-        = f.input :has_free_parking
-        = f.input :has_jacuzzi
-        = f.input :has_sauna
-        = f.input :has_daylight, label_html: { class: 'helper-label', data: { behavior: 'popover', content: 'Lumière du jour dans au moins l’une des salles'}}
-    %h5.form-header-group Informations privées
-    .grid--full.input
-      .grid__item.width-auto>= f.label :info
-      .grid__item.width-auto.textarea-with-info
-        .grid--full
-          .grid__item.one-half>= f.input :info, wrapper_html: {class: 'flush--top'}, input_html: {class: 'textarea-description--tall'}, label: false, placeholder: 'Aidez vos élèves à avoir une arrivée tout en douceur, facilement et à l’heure !'
-          .grid__item.one-half
-            %p.alert--info.flush--top
-              Quelles sont les directions pour se rendre chez vous ?
-              %br
-              Quels sont les transports en commun (quelle sortie du métro, quel arrêt de bus) ?
-            %p.alert--info
-              Décrivez tout détail pratique : nom d’un commerce connu en face, traverser une cour, digicode après une certaine heure, n° d’escalier ou d’étage, une entrée différente de l’adresse principale, etc..
+    / %h5.form-header-group Équipements
+    / .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+    /   .input.grid--full
+    /     .grid__item.width-auto.checkbox-list.v-top
+    /       = f.input :has_handicap_access
+    /       = f.input :has_cloackroom
+    /       = f.input :has_internet, label_html: { class: 'helper-label', data: { behavior: 'popover', content: 'Internet fil ou sans fil'}}
+    /       = f.input :has_air_conditioning
+    /       = f.input :has_swimming_pool
+    /     .grid__item.width-auto.checkbox-list.v-top
+    /       = f.input :has_free_parking
+    /       = f.input :has_jacuzzi
+    /       = f.input :has_sauna
+    /       = f.input :has_daylight, label_html: { class: 'helper-label', data: { behavior: 'popover', content: 'Lumière du jour dans au moins l’une des salles'}}
+
+    %br
     .form-actions
       = f.submit (@place.new_record? ? 'Créer mon espace' : 'Mettre à jour mon espace'), class: 'btn btn__success'
-
-
-%h3.header-group Location de vos espaces
-.islet
-  %p
-    Si comme la plupart des centres et écoles, vos espaces ne sont pas occupés 24h/24, 7j/7, pensez à les louer via notre espace « Louer mes espaces ».
-    %br
-    En quelques minutes, décidez du planning, des prix et des conditions de location, et rentabilisez rapidement vos locaux.

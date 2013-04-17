@@ -9,9 +9,9 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
   load_and_authorize_resource :structure
 
   def index
-    @price       = Price.new
-    @book_ticket = BookTicket.new
-    @book_tickets = @course.book_tickets
+    @individual_price = @course.prices.where{libelle == 'prices.individual_course'}.first || @course.prices.build
+    @subscription     = @course.prices.where{libelle != 'prices.individual_course'}.first || @course.prices.build
+    @book_ticket      = @course.book_tickets.where{number == 10}.first || @course.book_tickets.build
     index!
   end
 

@@ -4,6 +4,7 @@ class Structure < ActiveRecord::Base
                       language: 'fr'
     before_save :retrieve_address
   end
+
   acts_as_paranoid
 
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
@@ -78,6 +79,7 @@ class Structure < ActiveRecord::Base
   # validates :structure_type     , :presence   => true
   validates :siret              , length: { maximum: 14 }#, numericality: { only_integer: true }
 
+  before_save :replace_slash_n_r_by_brs
 
   def course_with_planning
     self.courses.joins{plannings}.where{plannings.end_date > Date.today}.group(:id)
@@ -139,5 +141,9 @@ class Structure < ActiveRecord::Base
     if phone_number.nil? and mobile_phone_number.nil?
       errors.add(:phone_number, :blank)
     end
+  end
+
+  def replace_slash_n_r_by_brs
+    self.description = self.description.gsub(/\r\n/, '<br>')
   end
 end

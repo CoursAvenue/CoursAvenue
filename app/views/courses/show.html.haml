@@ -7,7 +7,7 @@
 
 = content_for :meta_description do
   - if @course.description.present?
-    = @course.description
+    = @course.description.html_safe
   - else
     - if @course.has_teacher?
       = "Réservez le #{@course.type_name.downcase} de #{@course.name} à #{@city.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
@@ -109,7 +109,7 @@
     %hr
     - if @course.description.present? and @course.description.length > 30
       %h2.delta Description du #{@course.type_name_html.downcase} de : #{@course.name}
-      %p= @course.description
+      %p= @course.description.html_safe
 
     %ul.tab-titles{data: {behavior: 'tabs'}}
       %li.tab-el.active{data: { el: 'tab-planning' }}= t('.planning')

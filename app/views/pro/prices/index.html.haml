@@ -1,6 +1,6 @@
 = side_menu_currently_at 'Mes cours'
 
-%h2.header-group.flush--bottom Prix - #{@course.name} - #{@course.type_name}
+%h2.header-group.flush--bottom Prix - #{@course.name}
 %p
   = link_to pro_structure_path(@structure) do
     %i.icon-double-angle-left
@@ -10,51 +10,32 @@
     %i.icon-calendar
     Définir le planning du cours
 
-= render "pro/prices/#{@course.underscore_name}_form"
-- if @prices.any?
-  %table.table--striped
-    %thead
-      %tr
-        %th Type
-        %th Montant
-        %th
-    %tbody
-      - @prices.each do |price|
-        %tr
-          %td= t(price.libelle)
-          %td= "#{price.readable_amount}€"
-          %td.text--right
-            = link_to edit_pro_course_price_path(@course, price), title: 'Éditer', class: 'btn btn__warning' do
-              %i.icon-edit
-            = link_to pro_course_price_path(@course, price), method: :delete, title: 'Supprimer', class: 'btn btn__danger' do
-              %i.icon-trash
 
-- if @course.is_lesson?
-  %hr
-  %h5.flush--bottom Carnet de plusieurs séances
-  = simple_form_for [:pro, @course, @book_ticket || BookTicket.new] do |f|
-    = f.error_notification
+- prices = [[t('prices.annual'), 'prices.annual'],[t('prices.two_lesson_per_week_package'), 'prices.two_lesson_per_week_package'],[t('prices.semester'), 'prices.semester'],[t('prices.trimester'), 'prices.trimester'],[t('prices.month'), 'prices.month']]
+
+= simple_form_for [:pro, @course], url: update_price_pro_course_path(@course) do |f|
+  = simple_fields_for @individual_price do |price_form|
+    = price_form.hidden_field :libelle, value: 'prices.individual_course', name: 'individual_course_price[libelle]'
     .input.inline-inputs.flush--top
-      = f.input :number, as: :select, collection: 5..25
-      = f.input :price, placeholder: '45'
+      = price_form.label "1 #{@course.type_name_html}", style: 'width: 250px; padding-right: 1em;', class: 'text--right'
+      = price_form.input :amount, placeholder: '45', label: false, input_html: {name: 'individual_course_price[amount]'}
       €
-      = f.input :validity, placeholder: '2'
-      = f.submit 'Ajouter', class: 'btn btn__primary'
 
-- if @book_tickets and @book_tickets.any?
-  %table.table--striped
-    %thead
-      %tr
-        %th Nombre
-        %th Montant
-        %th
-    %tbody
-      - @book_tickets.each do |book_ticket|
-        %tr
-          %td= book_ticket.number
-          %td= "#{book_ticket.readable_price}€"
-          %td.text--right
-            = link_to edit_pro_course_book_ticket_path(@course, book_ticket), title: 'Éditer', class: 'btn btn__warning' do
-              %i.icon-edit
-            = link_to pro_course_book_ticket_path(@course, book_ticket), method: :delete, title: 'Supprimer', class: 'btn btn__danger' do
-              %i.icon-trash
+  - unless @course.is_training?
+    = simple_fields_for @book_ticket do |book_ticket_form|
+      = book_ticket_form.hidden_field :number, value: 10
+      .input.inline-inputs.flush--top
+        = book_ticket_form.label :price, "10 #{@course.type_name_html}", style: 'width: 250px; padding-right: 1em;', class: 'text--right'
+        = book_ticket_form.input :price, placeholder: '45', label: false
+        €
+
+  - if @course.is_lesson?
+    = simple_fields_for @subscription do |forfait_form|
+      .input.inline-inputs.flush--top
+        = forfait_form.label :libelle, 'Abonnement', style: 'width: 250px; padding-right: 1em;', class: 'text--right'
+        = forfait_form.input :libelle, as: :select, collection: prices, include_blank: false, label: false
+        = forfait_form.input :amount, placeholder: '45', label: false
+        €
+
+  .form-actions
+    = f.submit 'Valider', class: 'btn btn__success'
