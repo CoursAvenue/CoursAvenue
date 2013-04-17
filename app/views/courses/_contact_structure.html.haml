@@ -10,6 +10,7 @@
   = simple_form_for @reservation, url: course_reservations_path(@course) do |f|
     = f.input :name, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Nom', required: true
     = f.input :email, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Email (pour confirmation)'
+    = f.input :phone, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: "Téléphone pour l'établissement (optionnel)"
     = f.submit "Réserver ce #{@course.type_name.downcase}", class: 'btn btn__success one-whole', onclick: "_gaq.push(['_trackEvent', 'Reservation', 'click', '#{@course.slug}'])"
   %p.line-height-1.flush--bottom
     %i Réservez votre #{t(@best_price.libelle).downcase} et utilisez-le quand vous voulez.

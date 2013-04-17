@@ -6,6 +6,9 @@ En parallèle, nous avons envoyé vos coordonnées à l'internaute, mais pour al
 
 ======== Informations de l'élève ========
 Nom : <%= @reservation.name %>
+<% if @reservation.phone.present? %>
+Téléphone : <%= @reservation.phone %>
+<% end %>
 Mail : <%= @reservation.email %>
 
 ======== Qui sommes-nous ? ========
