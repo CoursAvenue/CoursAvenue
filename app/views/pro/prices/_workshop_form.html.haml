@@ -1,8 +1,0 @@
-= simple_form_for [:pro, @course, @price] do |f|
-  = f.error_notification
-  .input.inline-inputs
-    = f.hidden_field :libelle, value: 'prices.individual_course'
-    = f.input :amount, label: "Prix d'un cours: ", placeholder: '45', input_html: {style: 'width: 5em'}
-    €
-    = f.submit 'Ajouter', class: 'btn btn__primary'
-

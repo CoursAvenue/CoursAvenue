@@ -6,7 +6,11 @@
   - if @best_price #TODO: Remove this
     .course-info-price.text--right
       %h2.blue= "#{@best_price.readable_amount}€"
-      %small (#{t(@best_price.libelle)})
+      %small
+        - if @course.is_training?
+          (Prix du stage)
+        - else
+          (#{t(@best_price.libelle)})
   = simple_form_for @reservation, url: course_reservations_path(@course) do |f|
     = f.input :name, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Nom', required: true
     = f.input :email, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Email (pour confirmation)'
