@@ -1,9 +1,12 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_filter :authenticate_pro_admin!
-  load_and_authorize_resource
-
+  before_filter :authenticate_pro_admin!, except: [:select, :show]
+  load_and_authorize_resource except: [:select, :show]
   layout 'admin'
+
+  def select
+    @structures =  Structure.all
+  end
 
   def disable_condition
     @structure        = Structure.find params[:id]

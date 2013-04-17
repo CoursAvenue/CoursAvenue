@@ -1,14 +1,10 @@
 = side_menu_currently_at "Lieux d'enseignements"
 
-- unless @structure.has_validated_conditions
-  .text--center
-    %p.alert--info
-      %b Pas le temps ?
-      Passez à l'étape suivante, nous vous avons créé un lieu au nom de votre structure.
+%h3.header-group
+  %i.icon-map-marker
+  Mes lieux d'enseignements
 
-%h3.header-group Gestion des lieux d'enseignements
-
-
+= gmaps( {markers: {data: @places.to_gmaps4rails}, map_options: {maxZoom: 15, mapTypeControl: false}})
 
 %table.table--striped
   %thead
@@ -21,14 +17,18 @@
   %tbody
     - @places.each do |place|
       %tr
-        %td= link_to place.name, edit_pro_structure_place_path(@structure, place)
+        %td
+          - if current_pro_admin
+            = link_to place.name, edit_pro_structure_place_path(@structure, place)
+          - else
+            = link_to place.name, place_url(place, subdomain: 'www')
         %td= place.city.name
         %td.text--center= place.rooms.count
         %td
           - if place.rooms.count == 0
             = link_to "J'ai plusieurs salles : je les renseigne ici !", pro_structure_place_rooms_path(@structure, place), class: 'btn'
           - else
-            = link_to 'Gérer mes salles', pro_structure_place_rooms_path(@structure, place)
+            = link_to 'Gérer mes salles', pro_structure_place_rooms_path(@structure, place), class: 'btn'
         %td
           = link_to edit_pro_structure_place_path(@structure, place), title: 'Éditer', class: 'btn btn__warning' do
             %i.icon-edit
@@ -36,8 +36,6 @@
           = link_to pro_structure_place_path(@structure, place), method: :delete, data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'}, title: 'Supprimer', class: 'btn btn__danger' do
             %i.icon-trash
 
-%p= link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure), class: 'btn btn__primary'
 
-%hr
 .text--center
-  = link_to "Passer à l'étape suivante", pro_structure_path(@structure), class: 'btn btn__primary btn__large'
+  = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure), class: 'btn btn__success btn__large'

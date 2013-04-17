@@ -1,15 +1,9 @@
 = side_menu_currently_at 'Mes cours'
 
-- unless @structure.has_validated_conditions
-  .text--center
-    %p.alert--info
-      %b Pas le temps ?
-      Vous pourrez à tout moment revenir modifier ou valider vos informations.
+%h3.header-group
+  %i.icon-list
+  Mes cours référencés sur CoursAvenue
 
-%h3.header-group Gestion de mes cours
-
-.islet.flush--bottom.text--center
-  = link_to 'Ajouter un cours', new_pro_structure_course_path(@structure), class: 'btn btn__primary'
 %table.table--striped#dataTable
   %thead
     %tr
@@ -34,7 +28,11 @@
     - @courses.each do |course|
       %tr
         %td= course.type_name
-        %td= link_to course.name, edit_pro_course_path(course)
+        %td
+          - if current_pro_admin
+            = link_to course.name, edit_pro_course_path(course)
+          - else
+            = link_to course.name, course_url(course, subdomain: :www)
         %td= course.teachers.uniq.map(&:name).join(', ')
         %td= "#{course.place.name} (#{course.room.name})"
         %td= course.subjects.map(&:name).join(', ')
@@ -52,9 +50,8 @@
             %i.icon-trash
 
 .text--center
-  = link_to "Passer à l'étape de validation", validation_pro_structure_path(@structure), class: 'btn btn__primary btn__large'
+  = link_to 'Ajouter un cours', new_pro_structure_course_path(@structure), class: 'btn btn__success btn__large'
 
-/ - unless @structure.has_validated_conditions
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {

@@ -20,6 +20,7 @@ CoursAvenue::Application.routes.draw do
         end
         collection do
           get 'awaiting'
+          get 'select'
         end
         #resources :admins, only: [:create, :update], controller: 'structures/admins'
         resources :teachers

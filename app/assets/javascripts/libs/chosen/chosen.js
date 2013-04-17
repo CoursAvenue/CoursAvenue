@@ -90,7 +90,7 @@ var Chosen = new Class({
 		this.dropdown = this.container.getElement('div.chzn-drop');
 
 		var dd_top = this.container.getCoordinates().height;
-		var dd_width = this.f_width - this.dropdown.get_side_border_padding();
+		var dd_width = this.f_width - this.dropdown.get_side_border_padding() + 2;
 		this.dropdown.setStyles({
 			'width': 	dd_width,
 			'top': 		dd_top
@@ -544,7 +544,7 @@ var Chosen = new Class({
 			var high = this.result_highlight,
 				high_id = high.id;
 			this.result_clear_highlight();
-			
+
 			if (this.is_multiple){
 				this.result_deactivate(high);
 			} else {

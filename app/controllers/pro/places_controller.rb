@@ -1,9 +1,9 @@
 # encoding: utf-8
 class Pro::PlacesController < InheritedResources::Base#Pro::ProController
-  before_filter :authenticate_pro_admin!
+  before_filter :authenticate_pro_admin!, except: [:index]
   layout 'admin'
   belongs_to :structure
-  load_and_authorize_resource :structure
+  load_and_authorize_resource :structure, except: [:index]
 
   def index
     index! do |format|
