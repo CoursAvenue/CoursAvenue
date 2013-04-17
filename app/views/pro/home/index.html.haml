@@ -11,7 +11,7 @@
     %h1.gamma.text--center Référencez et gérez vos cours simplement
     %br
     %p.text--center
-      = link_to "Inscription gratuite", '#', class: 'btn btn__success btn__large', id: 'register', onclick: "_gaq.push(['_trackEvent', 'Inscription', 'click'])"
+      = link_to "Référencer mes cours", select_pro_structures_path, class: 'btn btn__success btn__large', id: 'register', onclick: "_gaq.push(['_trackEvent', 'Inscription', 'click'])"
     %br
     %h4.text--center CoursAvenuePro, c’est quoi ?
     %ul
@@ -36,43 +36,3 @@
     .grid__item.one-quarter.v-middle
       = link_to 'http://frenchweb.fr/', target: '_blank', alt: 'FrenchWeb', title: 'FrenchWeb', rel: 'nofollow' do
         = image_tag 'pro/partners/frenchweb.png', height: 70
-
-- content_for :scripts do
-  :javascript
-    $("register").addEvent("click", function(){
-        var modal = new SimpleModal({
-            width: 500,
-            "onAppend": function() {
-                $("simple-modal").fade("hide");
-                setTimeout((function(){ $("simple-modal").fade("show")}), 200 );
-                var tw = new Fx.Tween($("simple-modal"),{
-                  duration: 800,
-                  transition: Fx.Transitions.Cubic.easeOut,
-                  link: 'cancel',
-                  property: 'top'
-                }).start(-400, 150);
-                $('new_admin').addEvent('submit', function() {
-                    if ($('admin_password').value.length < 6) {
-                        $$('.input.password').addClass('red');
-                        return false;
-                    }
-                });
-            }
-        });
-        modal.show({
-            "model":"modal",
-            "title":"Inscription",
-            "contents": $('registration-form').get('html')
-        });
-        new Request.JSON({
-            url: Routes.click_loggers_path(),
-            data: {
-              click_logger: {
-                name: 'Inscription gratuite - Accueil pro'
-              }
-            }
-        }).post();
-    });
-
-#registration-form.hidden
-  = render partial: 'pro/admins/quick_registration'

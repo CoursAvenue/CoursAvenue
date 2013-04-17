@@ -10,8 +10,6 @@
         %h3.flush--bottom
           %u Basique
         %h4.flush--bottom Gratuit à vie
-        %p
-          %i Hors frais de réservation*
 
       %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
         %li
@@ -28,7 +26,7 @@
           %b Gestion des cours, tarifs et salles
       .text--center
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'basic-offer-details', title: "Détails de l'offre Basique"}
-        = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large', id: 'register'
+        = link_to "Je m'inscris", '#', class: 'btn btn__success btn__large', id: 'register', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Basique'])"
 
   .grid__item.one-third>
     .ten-twelfths.center-block.white-box.islet
@@ -36,8 +34,6 @@
         %h3.flush--bottom
           %u Pro
         %h4.flush--bottom 49€ HT / mois
-        %p
-          %i Hors frais de réservation*
       %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
         %li
           %i.icon-ok.delta.green
@@ -59,7 +55,7 @@
           %b Envoi de SMS
       .text--center
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-offer-details', title: "Détails de l'offre Pro"}
-        = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button', id: 'price_pro_subscribe'
+        = link_to "Je m'inscris", '#', class: 'btn btn__success btn__large launching-space-button', id: 'price_pro_subscribe', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro'])"
 
   .grid__item.one-third>
     .ten-twelfths.center-block.white-box.islet
@@ -67,8 +63,6 @@
         %h3.flush--bottom
           %u Pro <i>Plus</i>
         %h4.flush--bottom 69€ HT / mois
-        %p
-          %i Hors frais de réservation*
       %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
         %li
           %i.icon-ok.delta.green
@@ -84,7 +78,7 @@
           %b Outils CRM avancés
       .text--center
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-plus-offer-details', title: "Détails de l'offre Pro Plus"}
-        = link_to "Je m'inscris", '#', class: 'btn btn__primary btn__large launching-space-button', id: 'price_pro_plus_subscribe'
+        = link_to "Je m'inscris", '#', class: 'btn btn__success btn__large launching-space-button', id: 'price_pro_plus_subscribe', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro plus'])"
 
 
 
@@ -96,18 +90,7 @@
     %br
     = link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'custom-offer-details', title: "Détails de l'offre sur mesure", width: 300}
     %br
-    = link_to "Nous contacter", pages_contact_path, class: 'btn btn__primary', id: 'price_custom'
-
-%hr
-%h4 *Frais de réservation :
-%ol.flush--bottom
-  %li Pour chaque réservation effectuée via notre plateforme CoursAvenue : commission de <strike>16%</strike> <b class="green">8%</b> HT**
-  %li Pour chaque réservation effectuée directement via votre site Internet (option de l’offre Pro) : commission de <strike>5%</strike> <b class="green">3%</b> HT** correspondant uniquement aux frais bancaires et de carte bleue
-%p.alert--info
-  %i
-    Note : CoursAvenue prend en charge les frais bancaires et de carte bleue : nous avons négocié les meilleurs tarifs pour vous assurer la commission la plus basse possible et les meilleurs services associés.
-%p
-  %i **Offre de lancement valable jusqu’au 30/05/2013.
+    = link_to "Nous contacter", pages_contact_path, class: 'btn btn__success', id: 'price_custom'
 
 
 

@@ -31,7 +31,7 @@
         %td.text--center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
-        %td
+        %td.text--right
           = link_to edit_pro_course_planning_path(@course, planning), title: 'Éditer', class: 'btn btn__warning' do
             %i.icon-edit
           &nbsp;

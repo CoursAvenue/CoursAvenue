@@ -21,7 +21,10 @@
             %li= link_to 'Espace admin', pro_structure_path(current_pro_admin.structure), class: 'header-link'
           %li= link_to 'Se déconnecter', destroy_pro_admin_session_path, class: 'header-link', method: :delete
         - else
-          %li= link_to 'Se connecter', new_pro_admin_session_path, class: 'header-link'
+          %li
+            = link_to new_pro_admin_session_path, class: 'header-link' do
+              %i.icon-signin
+              Se connecter
 
 %nav.nav-links-wrapper.main-container.page-menu
   = yield :main_navigation

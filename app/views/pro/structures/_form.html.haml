@@ -1,10 +1,15 @@
-%h3.header-group Responsable des réservations
+%h1.header-group
+  %i.icon-cogs
+  Information générales
+%h4.header-group Responsable des réservations
 .islet
   = simple_form_for [:pro, @structure] do |structure_form|
     = simple_fields_for @structure.main_contact do |contact_form|
       = contact_form.error_notification
       .form-inputs
-        %h5.form-header-group Contact
+        %h5.form-header-group
+          %i.icon-user
+          Contact
         = contact_form.hidden_field :id
         = contact_form.input :civility, as: :radio, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
         = contact_form.input :first_name
@@ -29,12 +34,14 @@
     / .form-actions
     /   = f.button :submit, 'Mettre à jour', class: 'btn btn__primary'
 
-    %h3.header-group Structure d'enseignement
+    %h4.header-group Structure d'enseignement
     .islet
     /= simple_fields_for @structure do |structure_form|
     /= simple_form_for @structure do |structure_form|
     .form-inputs
-      %h5.form-header-group Image
+      %h5.form-header-group
+        %i.icon-picture
+        Image
       - unless @structure.new_record? || !@structure.image?
         .input.grid
           .grid__item.width-auto= structure_form.label :image
@@ -47,14 +54,22 @@
           .control-label Image de la structure
         = structure_form.input :image, label: false
 
-      %h5.form-header-group Information
+      %h5.form-header-group
+        %i.lbc-icon-info i
+        Information
       = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.structure_name_info')
       = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
+      %h5.form-header-group
+        %i.icon-map-marker
+        Adresse
       = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}, label: t('.structure_address')
       %p.field-form-info= t('.structure_address_info')
       = structure_form.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
       = structure_form.association :city, collection: [@structure.city]
+
+      %h5.form-header-group
+        Description
 
       = structure_form.input :website
       .grid--full.input
@@ -82,4 +97,4 @@
       / = structure_form.input :billing_contact_phone_number, input_html: {value: @structure.billing_contact_phone_number || (@structure.main_contact.phone_number || @structure.main_contact.mobile_phone_number)}
       / = structure_form.input :billing_contact_email, input_html: {value: @structure.billing_contact_email || @structure.main_contact.email}
     .form-actions
-      = structure_form.button :submit, "Valider et passer à l'étape suivante", class: 'btn btn__primary btn__large'
+      = structure_form.button :submit, "Mettre à jour mes informations", class: 'btn btn__success btn__large'

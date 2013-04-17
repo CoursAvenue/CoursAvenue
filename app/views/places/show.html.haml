@@ -95,6 +95,9 @@
       %div
         = link_to 'Donner mon avis', '#comments', class: 'btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - lieu', 'click','#{@place.slug}'])"
 
+    .text--center.white-box.islet
+      %h4 C'est mon établissement
+      = link_to 'Mettre à jour mes cours', pro_structure_url(@structure, subdomain: :pro), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Mettre à jour mes cours', 'click','#{@place.slug}'])"
     %hr
 
     %article.visuallyhidden--palm.visuallyhidden--lap
