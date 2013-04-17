@@ -25,11 +25,9 @@
             Non
         %td.text--right
           - if structure.active
-            = link_to pro_structure_path(structure), method: :delete, class: 'btn btn__danger', title: 'Désactiver' do
-              %i.icon-remove
+            = link_to 'Actif', pro_structure_path(structure), method: :delete, class: 'switch-button on', title: 'Désactiver'
           - else
-            = link_to activate_pro_structure_path(structure), method: :put, class: 'btn btn__success', title: 'Activer' do
-              %i.icon-ok
+            = link_to 'Inactif',  activate_pro_structure_path(structure), method: :put, class: 'switch-button off', title: 'Activer'
 
 = content_for :scripts do
   :javascript

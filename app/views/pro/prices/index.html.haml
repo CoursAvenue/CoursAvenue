@@ -14,28 +14,30 @@
 - prices = [[t('prices.annual'), 'prices.annual'],[t('prices.two_lesson_per_week_package'), 'prices.two_lesson_per_week_package'],[t('prices.semester'), 'prices.semester'],[t('prices.trimester'), 'prices.trimester'],[t('prices.month'), 'prices.month']]
 
 = simple_form_for [:pro, @course], url: update_price_pro_course_path(@course) do |f|
-  = simple_fields_for @individual_price do |price_form|
-    = price_form.hidden_field :libelle, value: 'prices.individual_course', name: 'individual_course_price[libelle]'
-    .input.inline-inputs.flush--top
-      = price_form.label "1 #{@course.type_name_html}", style: 'width: 250px; padding-right: 1em;', class: 'text--right'
-      = price_form.input :amount, placeholder: '45', label: false, input_html: {name: 'individual_course_price[amount]'}
-      €
-
-  - unless @course.is_training?
-    = simple_fields_for @book_ticket do |book_ticket_form|
-      = book_ticket_form.hidden_field :number, value: 10
+  %h5.form-header-group Prix du #{@course.type_name_html.downcase}
+  .white-box.islet{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+    = simple_fields_for @individual_price do |price_form|
+      = price_form.hidden_field :libelle, value: 'prices.individual_course', name: 'individual_course_price[libelle]'
       .input.inline-inputs.flush--top
-        = book_ticket_form.label :price, "10 #{@course.type_name_html}", style: 'width: 250px; padding-right: 1em;', class: 'text--right'
-        = book_ticket_form.input :price, placeholder: '45', label: false
+        = price_form.label "1 #{@course.type_name_html}", style: 'width: 250px; padding-right: 1em;', class: 'text--right'
+        = price_form.input :amount, placeholder: '45', label: false, input_html: {name: 'individual_course_price[amount]'}
         €
 
-  - if @course.is_lesson?
-    = simple_fields_for @subscription do |forfait_form|
-      .input.inline-inputs.flush--top
-        = forfait_form.label :libelle, 'Abonnement', style: 'width: 250px; padding-right: 1em;', class: 'text--right'
-        = forfait_form.input :libelle, as: :select, collection: prices, include_blank: false, label: false
-        = forfait_form.input :amount, placeholder: '45', label: false
-        €
+    - unless @course.is_training?
+      = simple_fields_for @book_ticket do |book_ticket_form|
+        = book_ticket_form.hidden_field :number, value: 10
+        .input.inline-inputs.flush--top
+          = book_ticket_form.label :price, "10 #{@course.type_name_html}", style: 'width: 250px; padding-right: 1em;', class: 'text--right'
+          = book_ticket_form.input :price, placeholder: '45', label: false
+          €
+
+    - if @course.is_lesson?
+      = simple_fields_for @subscription do |forfait_form|
+        .input.inline-inputs.flush--top
+          = forfait_form.label :libelle, 'Abonnement', style: 'width: 250px; padding-right: 1em;', class: 'text--right'
+          = forfait_form.input :libelle, as: :select, collection: prices, include_blank: false, label: false
+          = forfait_form.input :amount, placeholder: '45', label: false
+          €
 
   .form-actions
     = f.submit 'Valider', class: 'btn btn__success'
