@@ -6,6 +6,9 @@ gem 'rails', '3.2.12'
 # Gems used only for assets and not required
 # in production environments by default.
 
+# Caching
+gem 'memcachier'
+gem 'dalli'
 
 # group :assets do
   gem 'coffee-rails'            , '~> 3.2.1'
