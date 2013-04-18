@@ -12,7 +12,7 @@
   %tbody
     - @reservations.each do |reservation|
       %tr
-        %td= reservation.full_name
+        %td= reservation.name
         %td= reservation.course.name
         %td= reservation.phone
         %td= reservation.email
