@@ -56,7 +56,7 @@ class Structure < ActiveRecord::Base
   friendly_id :name, use: :slugged
 
   after_commit     :cerate_teacher
-  after_initialize :set_free_pricing_plan
+  after_create     :set_free_pricing_plan
   after_create     :create_place
   belongs_to       :city
   belongs_to       :pricing_plan

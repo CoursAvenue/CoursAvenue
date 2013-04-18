@@ -3,4 +3,4 @@
 = render partial: 'form'
 
 %p.text--center
-  = link_to "Supprimer #{resource.full_name}", admin_path(resource), class: 'btn btn__danger', method: 'delete'
+  = link_to "Supprimer #{resource.full_name}", pro_admin_path(resource), class: 'btn btn__danger', method: 'delete'

@@ -5,7 +5,6 @@ class ::Admin < ActiveRecord::Base
   ]
 
   after_save :create_teacher_to_structure_if_is_teacher
-  after_initialize :set_activated
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -23,13 +22,13 @@ class ::Admin < ActiveRecord::Base
                   :last_name,
                   :phone_number,
                   :mobile_phone_number,
-                  :activated,
+                  :active,
                   :management_software_used,
                   :role,
                   :is_teacher
 
-  validates :first_name, :last_name, :civility, presence: true, on: :update
-  validates :phone_number, :presence => true, :if => "self.mobile_phone_number.blank?", on: :update
+  validates :first_name, :last_name, presence: true, on: :update
+  validates :phone_number, :presence => true, :if => "!self.super_admin && self.mobile_phone_number.blank?", on: :update
 
   # attr_accessible :title, :body
   belongs_to :structure
@@ -43,9 +42,6 @@ class ::Admin < ActiveRecord::Base
   end
 
   private
-  def set_activated
-    self.activated = false
-  end
 
   def create_teacher_to_structure_if_is_teacher
     admin_full_name = self.full_name

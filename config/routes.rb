@@ -49,7 +49,12 @@ CoursAvenue::Application.routes.draw do
       resources :course_lessons, controller: 'courses' do
         resources :plannings, only: [:create, :update]
       end
-      resources :admins
+      resources :admins do
+        member do
+          put 'activate'
+          put 'disable'
+        end
+      end
       devise_for :admins, controllers: { sessions: 'pro/admin/sessions', registrations: 'pro/admin/registrations', passwords: 'pro/admin/passwords'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
     end
   end
