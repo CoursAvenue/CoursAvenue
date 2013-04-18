@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130417130510) do
+ActiveRecord::Schema.define(:version => 20130418074001) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -256,7 +256,7 @@ ActiveRecord::Schema.define(:version => 20130417130510) do
     t.boolean  "has_sauna",                :default => false
     t.boolean  "has_daylight",             :default => false
     t.string   "slug"
-    t.integer  "rating"
+    t.decimal  "rating"
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
