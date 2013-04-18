@@ -23,9 +23,8 @@ CoursAvenue::Application.routes.draw do
         end
         #resources :admins, only: [:create, :update], controller: 'structures/admins'
         resources :teachers
-        resources :places do
-          resources :rooms
-        end
+        resources :places
+
         resources :courses, only: [:new, :create], path: 'cours'
         resources :course_workshops, only: [:create, :update], controller: 'courses'
         resources :course_trainings, only: [:create, :update], controller: 'courses'
