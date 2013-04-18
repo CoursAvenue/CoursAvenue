@@ -1,0 +1,58 @@
+= side_menu_currently_at "Mes avis"
+
+%h3
+  %i.icon-comments-alt
+  Avis sur mes établissements
+- @places_comments.each do |place, comments|
+  %h4.flush--bottom
+    = place.name
+    = rating_stars place.rating
+    #{place.rating}
+  - if comments.empty?
+    Pas encore d'avis. Sollicitez vos élèves !
+  - else
+    %ul.comment-list
+      - comments.each do |comment|
+        %li.comment-list__el
+          %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
+            %b{itemprop: 'author'}= comment.author_name
+            - if comment.rating
+              %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
+                = rating_stars comment.rating
+                %meta{itemprop: 'ratingValue', content: comment.rating}
+                %meta{itemprop: 'worstRating', content: 1}
+                %meta{itemprop: 'bestRating', content: 5}
+            %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} le #{l(comment.created_at, format: :date)}
+            %p{itemprop: 'reviewBody'}
+              = comment.content
+            .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
+              %meta{itemprop: 'url', content: commentable_url(comment)}
+              %meta{itemprop: 'name', content: commentable_name(comment)}
+%h3
+  %i.icon-comments-alt
+  Avis sur mes cours
+- @courses_comments.each do |course, comments|
+  %h4.flush--bottom
+    = course.name
+    = rating_stars course.rating
+    = course.rating
+  - if comments.empty?
+    Pas encore d'avis. Sollicitez vos élèves !
+  - else
+    %ul.comment-list
+      - comments.each do |comment|
+        %li.comment-list__el
+          %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
+            %b{itemprop: 'author'}= comment.author_name
+            - if comment.rating
+              %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
+                = rating_stars comment.rating
+                %meta{itemprop: 'ratingValue', content: comment.rating}
+                %meta{itemprop: 'worstRating', content: 1}
+                %meta{itemprop: 'bestRating', content: 5}
+            %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} le #{l(comment.created_at, format: :date)}
+            %p{itemprop: 'reviewBody'}
+              = comment.content
+            .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
+              %meta{itemprop: 'url', content: commentable_url(comment)}
+              %meta{itemprop: 'name', content: commentable_name(comment)}

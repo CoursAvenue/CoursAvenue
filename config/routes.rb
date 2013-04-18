@@ -12,6 +12,7 @@ CoursAvenue::Application.routes.draw do
       resources :subjects
       resources :reservation_loggers, only: [:index, :destroy]
       resources :structures do
+        resources :comments
         member do
           put 'activate'
           put 'disable_condition'

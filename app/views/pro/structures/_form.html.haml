@@ -10,7 +10,7 @@
         %h5.form-header-group
           %i.icon-user
           Contact
-        .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+        .form-white-box
           = contact_form.hidden_field :id
           = contact_form.input :civility, as: :radio, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
           = contact_form.input :first_name
@@ -34,8 +34,7 @@
         #change-password{style: 'display: none;'}
           %h5.form-header-group.flush--top.flush--bottom Changement de mot de passe
           .white-box.islet.flush--bottom.flush--top{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
-            = contact_form.input :password, wrapper_html: {class: 'flush--bottom'}
-            %p.field-form-info= t('.password_info')
+            = contact_form.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe'
             = contact_form.input :password_confirmation
 
     %h4.header-group Structure d'enseignement
@@ -46,13 +45,13 @@
       %h5.form-header-group
         %i.icon-picture
         Image
-      .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+      .form-white-box
         - unless @structure.new_record? || !@structure.image?
           .input.grid
             .grid__item.width-auto= structure_form.label :image
             .grid__item.width-auto= image_tag @structure.image.url(:thumb), height: 200
           = structure_form.input :delete_image, as: :boolean, :label => "Supprimer l'image"
-        .input
+        .input.flush--top
           - unless @structure.new_record? || !@structure.image?
             .control-label Changer l'image
           - else
@@ -62,7 +61,7 @@
       %h5.form-header-group
         %i.lbc-icon-info i
         Information
-      .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+      .form-white-box
         = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
         %p.field-form-info= t('.structure_name_info')
         = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}
@@ -71,7 +70,7 @@
       %h5.form-header-group
         %i.icon-map-marker
         Adresse
-      .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+      .form-white-box
         = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}, label: t('.structure_address')
         %p.field-form-info= t('.structure_address_info')
         = structure_form.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
@@ -79,7 +78,7 @@
 
       %h5.form-header-group
         Description
-      .white-box.islet.flush--bottom{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+      .form-white-box
         .grid--full.input
           /.grid__item.width-auto>= structure_form.label :description, class: 'v-top helper-label', 'data-behavior' => 'popover', 'data-content' => 'Ne soyez pas modeste, rédigez une description qui vous met en valeur, en appuyant sur vos points forts : que vous soyez un professeur indépendant, un centre, une école ou un musée, il y a toujours quelque chose qui vous différencie ! Note : ne renseignez aucun élément de contact (téléphone ou mail), notre système l’enlèvera automatiquement.'
           .textarea-with-info.grid__item.width-auto

@@ -1,6 +1,6 @@
 = simple_form_for [:pro, @structure, @course], as: :course do |f|
   = f.error_notification
-  .white-box.islet{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+  .form-white-box
     = f.input :name, label: t('.name'), placeholder: 'Zumba, jardin musical, Vins et Fromages, etc'
     = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }
     - if @course.new_record?
@@ -23,7 +23,7 @@
   %h5.form-header-group.flush--bottom
     %i.icon-picture
     Image
-  .white-box.islet{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+  .form-white-box
     - unless @course.new_record? || !@course.image.present?
       .input.grid
         .grid__item.width-auto>= f.label :image
@@ -55,7 +55,7 @@
   %h5.form-header-group.flush--bottom
     %i.lbc-icon-info i
     Infos
-  .white-box.islet{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+  .form-white-box
     .input.grid--full
       = f.label :is_individual, class: 'control-label v-top' do
         %abbr *
@@ -79,7 +79,7 @@
   / = f.input :is_for_handicaped, label: t('.is_for_handicaped'), as: :boolean
 
   %h5.form-header-group.flush--bottom Description
-  .white-box.islet{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+  .form-white-box
     .grid--full.input
       /= f.label :description, t('.description'), class: 'control-label v-top helper-label', 'data-behavior' => 'popover', 'data-content' => "Exemple :  « Stage de danse, chant et théâtre : entourés d'une équipe prestigieuse de professionnels, les enfants deviennent, le temps d'une semaine, les artistes d'une comédie musicale présentée aux parents en fin de stage. Programme d'une journée : de 9h00 à 10h00 - accueil facultatif, de 10h00 à 12h30 - Danse jazz et Hip hop, de 12h30 à 14h00 - Repas + Repos, de 14h00 à 17h00 - Chant et Théâtre + Goûter. »"
       .textarea-with-info
