@@ -343,4 +343,12 @@ class Course < ActiveRecord::Base
   def replace_slash_n_r_by_brs
     self.description = self.description.gsub(/\r\n/, '<br>') if self.description
   end
+
+  def rating
+    if read_attribute(:rating)
+      '%.1f' % read_attribute(:rating)
+    else
+      read_attribute(:rating)
+    end
+  end
 end

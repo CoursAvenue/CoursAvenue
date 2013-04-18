@@ -50,11 +50,11 @@
     = render 'contact_structure'
     .text--center.white-box.islet
       - if @course.rating
-        .delta Note : #{'%.1f' % @course.rating}
+        .delta Note : #{@course.rating}
         %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
           %span.rating{title: comment_rating_title(@course.rating)}
             = rating_stars @course.rating
-          %meta{property: 'v:rating', itemprop: 'rating', content: '%.1f' % @course.rating}
+          %meta{property: 'v:rating', itemprop: 'rating', content: @course.rating}
           %meta{itemprop: 'count', content: @course.comments.count}
           %meta{itemprop: 'itemreviewed', content: @course.name}
           %meta{itemprop: 'name', content: @course.name}

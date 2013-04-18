@@ -24,7 +24,7 @@
     .text--center
       = f.submit 'Publier mon avis', class: 'btn btn__large btn__success', style: 'padding-top: 6px; padding-bottom: 6px;'
 - if @place.rating
-  %h5.float--right.flush--bottom Note moyenne : #{'%.1f' % @place.rating}
+  %h5.float--right.flush--bottom Note moyenne : #{@place.rating}
 %h4.small-margin-bottom Les derniers avis
 
 - if @comments.any?
