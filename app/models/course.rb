@@ -3,6 +3,8 @@
 class Course < ActiveRecord::Base
   acts_as_paranoid
 
+  include ActsAsCommentable
+
   COURSE_FREQUENCIES = ['courses.frequencies.every_week', 'courses.frequencies.every_two_weeks', 'courses.frequencies.every_month']
 
   # ------------------------------------------------------------------------------------ Model attributes and settings
@@ -343,14 +345,6 @@ class Course < ActiveRecord::Base
   def set_place_if_empty
     if place_id.nil? and room_id.present?
       self.place_id = room.place_id
-    end
-  end
-
-  def rating
-    if read_attribute(:rating)
-      '%.1f' % read_attribute(:rating)
-    else
-      read_attribute(:rating)
     end
   end
 end
