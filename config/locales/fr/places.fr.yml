@@ -26,8 +26,8 @@ fr:
         has_jacuzzi: Jacuzzi
         has_sauna: Sauna
         has_daylight: Lumière du jour
-        thumb_image: Logo
-        image: Image (page établissement)
+        thumb_image: "Logo<br>Format: 400x400"
+        image: "Image (page établissement)<br>Format: 800x480"
 
   pro:
     places:

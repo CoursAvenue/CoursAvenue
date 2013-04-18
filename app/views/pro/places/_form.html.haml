@@ -9,13 +9,13 @@
       = f.association :city, collection: [@place.city]
     %h5.form-header-group Images
     .form-white-box
-      .input
+      .input.flush--top
         = f.label :image
         = f.input :image, label: false
       - if !@place.new_record? and @place.image.present?
         .input
           .control-label &nbsp;
-          = image_tag @place.image.url(:thumb), height: 200
+          = image_tag @place.image.url, height: 150
         = f.input :delete_image, as: :boolean, :label => "Supprimer l'image"
       %hr
       .input
