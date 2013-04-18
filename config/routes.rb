@@ -60,18 +60,16 @@ CoursAvenue::Application.routes.draw do
 
   resources :newsletter_users, only: [:create]
 
+  resources :comments, only: [:create]
   resources :courses, only: [:show, :index], path: 'cours' do
     resources :reservations, only: [:new, :create, :show]
-    resources :comments, only: [:create], controller: 'courses/comments'
   end
 
   resources :subjects, only: [], path: 'disciplines' do
     resources :places, only: [:index], path: 'etablissement'
     resources :courses, only: [:index], path: 'cours'
   end
-  resources :places, only: [:show, :index], path: 'etablissement' do
-    resources :comments, only: [:create], controller: 'places/comments'
-  end
+  resources :places, only: [:show, :index], path: 'etablissement'
 
   resources :renting_rooms, only: [:create]
 

@@ -1,6 +1,8 @@
 %h4.small-margin-bottom= t('.post_your_opinion', course_type_name: @course.type_name_html.downcase)
 .islet.white-box
-  = simple_form_for @comment, url: course_comments_path(@course) do |f|
+  = simple_form_for @comment, url: comments_path do |f|
+    = f.hidden_field :commentable_type
+    = f.hidden_field :commentable_id
     %div
       %span.rating
         %i.star.icon-star-empty.gamma{style: 'top: 4px;', data: {value: 1}}
@@ -21,72 +23,16 @@
     .text--center
       = f.submit 'Publier mon avis', class: 'btn btn__large btn__success', style: 'padding-top: 6px; padding-bottom: 6px;'
 
+
+
 - if @course.rating
   %h5.float--right.flush--bottom Note moyenne : #{ '%.1f' % @course.rating}
 %h4.small-margin-bottom= t('.last_students_opinion')
 - if @comments.any?
   %ul.comment-list
-    - @comments.each do |comment|
-      %li.comment-list__el
-        %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
-          %b{itemprop: 'author'}= comment.author_name
-          - if comment.rating
-            %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
-              = rating_stars comment.rating
-              %meta{itemprop: 'ratingValue', content: comment.rating}
-              %meta{itemprop: 'worstRating', content: 1}
-              %meta{itemprop: 'bestRating', content: 5}
-          %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} le #{l(comment.created_at, format: :date)}
-          %p{itemprop: 'reviewBody'}
-            = comment.content
-          .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
-            %meta{itemprop: 'url', content: commentable_url(comment)}
-            %meta{itemprop: 'name', content: commentable_name(comment)}
+    = render @comments
 
 - else
   %p Soyez le premier à nous donner votre avis !
-= content_for :scripts do
-  :javascript
-    window.addEvent('domready', function() {
-        var rating_descriptions = [
-          'Épouvantable',
-          "Mauvais",
-          'Moyen',
-          'Très bon',
-          "Excellent !"
-        ]
-        $$('.rating .star').addEvent('click', function() {
-            $('comment_rating').set('value', this.get('data-value'));
-            this.getAllPrevious().addClass('icon-star').removeClass('icon-star-empty');
-            this.addClass('icon-star').removeClass('icon-star-empty');
-            this.getAllNext().removeClass('icon-star').addClass('icon-star-empty');
-        });
-        $('new_comment').addEvent('submit', function(){
-            if ($('comment_rating').value.length === 0) {
-                new GLOBAL.Objects.Flash('Vous devez mettre une note pour poster un commentaire.').showAndHide();
-                return false;
-            }
-        });
-        $$('.rating .star').addEvents({
-            mouseenter:  function() {
-                $('rating-description').set('text', rating_descriptions[parseInt(this.get('data-value')) - 1]);
-                if ($('comment_rating').value.length === 0 || (parseInt($('comment_rating').value) < parseInt(this.get('data-value')))) {
-                    this.getAllPrevious().addClass('icon-star').removeClass('icon-star-empty');
-                    this.addClass('icon-star').removeClass('icon-star-empty');
-                    this.getAllNext().removeClass('icon-star').addClass('icon-star-empty');
-                }
-            },
-            mouseleave: function() {
-                $$('.rating .star').removeClass('icon-star').addClass('icon-star-empty');
-                if ($('comment_rating').value.length > 0) {
-                    var value = parseInt($('comment_rating').value);
-                    $('rating-description').set('text', rating_descriptions[value - 1]);
-                    for (var i = 0; i < value; i += 1) {
-                        $$('.rating .star')[i].addClass('icon-star').removeClass('icon-star-empty');
-                    }
-                } else {
-                    $('rating-description').set('text', '');
-                }
-            }
-        });
-    });
+
+= render 'comments/javascript'
