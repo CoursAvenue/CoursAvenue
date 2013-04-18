@@ -345,4 +345,12 @@ class Course < ActiveRecord::Base
       self.place_id = room.place_id
     end
   end
+
+  def rating
+    if read_attribute(:rating)
+      '%.1f' % read_attribute(:rating)
+    else
+      read_attribute(:rating)
+    end
+  end
 end

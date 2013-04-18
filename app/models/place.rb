@@ -4,6 +4,7 @@ class Place < ActiveRecord::Base
                       language: 'fr'
     before_save :retrieve_address
   end
+
   acts_as_paranoid
 
   extend FriendlyId
@@ -195,6 +196,14 @@ class Place < ActiveRecord::Base
       self.structure.mobile_phone_number
     else
       read_attribute(:contact_mobile_phone)
+    end
+  end
+
+  def rating
+    if read_attribute(:rating)
+      '%.1f' % read_attribute(:rating)
+    else
+      read_attribute(:rating)
     end
   end
 
