@@ -78,7 +78,7 @@
 
     .text--center.white-box.islet
       - if @place.rating
-        .delta Note : #{@place.rating}
+        .delta Note : #{'%.1f' % @place.rating}
         %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
           %span.rating{title: comment_rating_title(@place.rating)}
             = rating_stars @place.rating
