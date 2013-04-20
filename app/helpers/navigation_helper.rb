@@ -47,7 +47,7 @@ module NavigationHelper
 
   def side_menu_currently_at(tab)
     render partial: 'layouts/pro/side_menu', locals: {current_tab: tab}
-    render partial: 'layouts/pro/breadcrumb', locals: {current_tab: tab}
+    # render partial: 'layouts/pro/breadcrumb', locals: {current_tab: tab}
   end
 
   def menu_currently_at(tab)

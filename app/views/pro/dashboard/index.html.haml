@@ -13,7 +13,8 @@
     - @reservations.each do |reservation|
       %tr
         %td= reservation.name
-        %td= reservation.course.name
+        %td
+          = link_to reservation.course.name, course_path reservation.course
         %td= reservation.phone
         %td= reservation.email
 
