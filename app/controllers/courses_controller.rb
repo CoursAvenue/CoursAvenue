@@ -145,7 +145,6 @@ class CoursesController < ApplicationController
       # order_by :has_promotion,       :desc
       # order_by :is_promoted,         :desc
       # order_by :has_online_payment,  :desc
-      order_by :has_comment, :desc
 
       if params[:sort] == 'price_asc'
         order_by :approximate_price_per_course, :asc
@@ -154,6 +153,8 @@ class CoursesController < ApplicationController
       elsif params[:sort] == 'rating_desc'
         order_by :rating, :desc
         order_by :nb_comments, :desc
+      else
+        order_by :has_comment, :desc
       end
       paginate :page => (params[:page] || 1), :per_page => 15
     end
