@@ -61,20 +61,12 @@ class CoursesController < ApplicationController
   end
 
   def prepare_search
-    if is_bot?
+    if params[:city].blank?
       city_term = 'paris'
+      city_slug = 'paris'
     else
-      if params[:city].blank?
-        if request.location.city.blank?
-          city_term = 'paris'
-        else
-          city_term = request.location.city
-        end
-        city_slug = request.location.city
-      else
-        city_term  = "#{params[:city]}%"
-        city_slug  = params[:city]
-      end
+      city_term  = "#{params[:city]}%"
+      city_slug  = params[:city]
     end
     @city      = City.where{(slug == city_slug ) | (name =~ city_term)}.order('name ASC').first # Prevents from bad slugs
     @audiences = Audience.all

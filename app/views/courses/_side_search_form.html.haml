@@ -28,7 +28,7 @@
 
   //-------------------------------------------------------------------------------------------------------- Subject
   .search-panel
-    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+    %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Dates'])", data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
       Dates
       %i.icon-caret-down
     .search-panel-content
@@ -41,7 +41,7 @@
   //-------------------------------------------------------------------------------------------------------- Subject
   - cache do 'subjects'
     .search-panel
-      %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+      %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Disciplines'])",data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
         Disciplines
         - if @subject
           %i.icon-caret-down
@@ -62,7 +62,7 @@
 
   //-------------------------------------------------------------------------------------------------------- Type de cours
   .search-panel
-    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+    %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Type de cours'])",data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
       Type de cours
       - if params[:types].empty?
         %i.icon-caret-left
@@ -92,7 +92,7 @@
 
   //-------------------------------------------------------------------------------------------------------- Price
   .search-panel
-    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+    %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Prix'])",data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
       Prix (par cours)
       - if params[:price_range][:min].blank? and params[:price_range][:max].blank?
         %i.icon-caret-left
@@ -107,7 +107,7 @@
       €
 
   .search-panel
-    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+    %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Niveaux'])",data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
       Niveaux
       - if params[:levels].empty?
         %i.icon-caret-left
@@ -123,7 +123,7 @@
 
   //-------------------------------------------------------------------------------------------------------- Audience
   .search-panel
-    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+    %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Public'])", data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
       Public
       - if params[:audiences].empty?
         %i.icon-caret-left
