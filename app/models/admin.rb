@@ -5,7 +5,7 @@ class ::Admin < ActiveRecord::Base
   ]
 
   after_save :create_teacher_to_structure_if_is_teacher
-  after_initialize :set_activated
+#  after_initialize :set_activated
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
