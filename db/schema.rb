@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130422170542) do
+ActiveRecord::Schema.define(:version => 20130422161034) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -56,10 +56,8 @@ ActiveRecord::Schema.define(:version => 20130422170542) do
     t.string   "management_software_used"
     t.boolean  "is_teacher"
     t.string   "mobile_phone_number"
-    t.string   "name"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "admins", ["email"], :name => "index_admin_users_on_email", :unique => true
