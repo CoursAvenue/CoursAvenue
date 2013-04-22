@@ -1,17 +1,19 @@
 class Place < ActiveRecord::Base
+  acts_as_paranoid
+
   unless Rails.env.test?
     acts_as_gmappable validation: false,
                       language: 'fr'
     before_save :retrieve_address
   end
 
-  acts_as_paranoid
+  include ActsAsCommentable
 
   extend FriendlyId
   friendly_id :friendly_name, use: [:slugged, :history]
 
-  belongs_to :city
-  belongs_to :structure
+  belongs_to :city, touch: true
+  belongs_to :structure, touch: true
   has_many   :courses
   has_many   :rooms
   has_many   :comments, as: :commentable
@@ -31,6 +33,7 @@ class Place < ActiveRecord::Base
   attr_reader :delete_image
   attr_reader :delete_thumb_image
   attr_accessible :name,
+                  :rating,
                   :contact_email,
                   :contact_name,
                   :contact_phone,
@@ -107,6 +110,17 @@ class Place < ActiveRecord::Base
 
     boolean :active do
       self.structure.active
+    end
+
+    double :rating
+    integer :nb_courses do
+      courses.count
+    end
+    integer :nb_comments do
+      comments.count
+    end
+    boolean :has_comment do
+      comments.count > 0
     end
   end
 
@@ -194,14 +208,6 @@ class Place < ActiveRecord::Base
       self.structure.mobile_phone_number
     else
       read_attribute(:contact_mobile_phone)
-    end
-  end
-
-  def rating
-    if read_attribute(:rating)
-      '%.1f' % read_attribute(:rating)
-    else
-      read_attribute(:rating)
     end
   end
 

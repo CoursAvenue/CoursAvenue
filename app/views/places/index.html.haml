@@ -26,9 +26,9 @@
           = page_entries_info @places, pluralized_entry_name: Place.model_name.human(count: @places.total_count).downcase
         .spoken-form
           %label Trier par :
-          %select#filter-select{name: 'sort'}
-            %option{value: 'relevancy', selected: (params[:sort] == 'relevancy') } Pertinence
-            %option{value: 'rating_desc', selected: (params[:sort] == 'rating_desc')} Notes : les cours les mieux notés en premier
+          %a.filter-select{href: '#', class: (params[:sort] == 'relevancy' ? 'bold' : ''), onclick: "_gaq.push(['_trackEvent', 'Trier établissement / pertinence', 'click'])", data: {value: 'relevancy'}} Pertinence
+          \/
+          %a.filter-select{href: '#', class: (params[:sort] == 'rating_desc' ? 'bold' : ''), onclick: "_gaq.push(['_trackEvent', 'Trier établissement / popularité', 'click'])", data: {value: 'rating_desc'}} Popularité
       .flexbox__item.visuallyhidden--palm
         .text--right= paginate @places, window: 1, outer_window: 1
 
@@ -44,8 +44,8 @@
 = content_for :scripts do
   :javascript
       window.addEvent('domready', function() {
-        $('filter-select').addEvent('change', function() {
-              $('hidden-sort-input').set('value', this.value);
+        $$('.filter-select').addEvent('click', function() {
+              $('hidden-sort-input').set('value', this.dataset.value);
               $('submit_search_form').click();
           });
           $$('[data-type=place-element]').each(function(place_element) {

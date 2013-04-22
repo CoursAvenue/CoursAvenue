@@ -5,7 +5,8 @@ class Comment < ActiveRecord::Base
   validates :author_name, :content, presence: true
   validates :rating, numericality: { greater_than: 0, less_than: 6 }
 
-  after_commit :update_commentable_rating
+  after_commit  :update_commentable_rating
+  after_destroy :update_commentable_rating
 
   private
   # Update rating of the commentable (course, or structure)

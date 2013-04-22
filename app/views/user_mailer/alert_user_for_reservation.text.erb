@@ -14,15 +14,7 @@ Pour confirmer votre réservation, nous vous invitons à contacter l'établissem
 
 ======== Information de l'établissement ========
 Numéro de téléphone :
-<% if @place.contact_phone %>
-<%= @place.contact_phone %>
-<% end %>
-<% if @place.contact_phone and @place.contact_mobile_phone %>
-/
-<% end %>
-<% if @place.contact_mobile_phone %>
-<%= @place.contact_mobile_phone %>
-<% end %>
+<% if @place.contact_phone %><%= @place.contact_phone %><% end %><% if @place.contact_phone and @place.contact_mobile_phone %>/<% end %><% if @place.contact_mobile_phone %><%= @place.contact_mobile_phone %><% end %>
 
 À très bientôt !
 

@@ -1,11 +1,11 @@
 class Structure < ActiveRecord::Base
+  acts_as_paranoid
+
   unless Rails.env.test?
     acts_as_gmappable validation: false,
                       language: 'fr'
     before_save :retrieve_address
   end
-
-  acts_as_paranoid
 
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',

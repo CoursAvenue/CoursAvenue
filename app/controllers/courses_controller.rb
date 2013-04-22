@@ -12,9 +12,8 @@ class CoursesController < ApplicationController
       search_solr
       init_geoloc
       cookies[:search_path] = request.fullpath
-      respond_to do |format|
-        format.html { @courses }
-      end
+      fresh_when etag: @courses, public: true
+      expires_in 10.minutes, public: true
     end
   end
 
@@ -31,16 +30,13 @@ class CoursesController < ApplicationController
     @has_nb_place       = @course.plannings.map(&:nb_place_available).compact.any?
     @reservation        = Reservation.new
     @best_price         = @course.best_price
-    @similar_courses = @course.similar_courses
+    @similar_courses    = @course.similar_courses
 
     @json_place_address = @place.to_gmaps4rails do |place, marker|
       marker.title   place.name
       marker.json({ id: place.id })
     end
-    respond_to do |format|
-      format.html
-      format.json {render json: @course, serializer: CourseSerializer}
-    end
+    fresh_when etag: [@course, @comments.first], public: true
   end
 
   private
@@ -145,10 +141,11 @@ class CoursesController < ApplicationController
         with :has_unit_course_price,        true if params[:price_specificities].include?('has_unit_course_price')
       end
       with :active, true
+
       # order_by :has_promotion,       :desc
       # order_by :is_promoted,         :desc
       # order_by :has_online_payment,  :desc
-      order_by :approximate_price_per_course, :asc
+      order_by :has_comment, :desc
 
       if params[:sort] == 'price_asc'
         order_by :approximate_price_per_course, :asc
@@ -156,6 +153,7 @@ class CoursesController < ApplicationController
         order_by :approximate_price_per_course, :desc
       elsif params[:sort] == 'rating_desc'
         order_by :rating, :desc
+        order_by :nb_comments, :desc
       end
       paginate :page => (params[:page] || 1), :per_page => 15
     end

@@ -3,6 +3,8 @@
 class Course < ActiveRecord::Base
   acts_as_paranoid
 
+  include ActsAsCommentable
+
   COURSE_FREQUENCIES = ['courses.frequencies.every_week', 'courses.frequencies.every_two_weeks', 'courses.frequencies.every_month']
 
   # ------------------------------------------------------------------------------------ Model attributes and settings
@@ -17,9 +19,9 @@ class Course < ActiveRecord::Base
                     :styles => { wide: "800x480#", thumb: "200x200#" }# ,
                     # :path => "courses/:id/image/:fingerprint-:style.:extension"
 
-  belongs_to :structure
+  belongs_to :structure, touch: true
   belongs_to :room
-  belongs_to :place
+  belongs_to :place, touch: true
   has_one    :city , through: :place
 
   has_many :comments, as: :commentable
@@ -157,6 +159,10 @@ class Course < ActiveRecord::Base
       plannings.map(&:end_time).uniq.compact
     end
 
+    boolean :has_comment do
+      comments.count > 0
+    end
+
     date :start_date, multiple: true do
       plannings.map(&:start_date).uniq.compact
     end
@@ -174,6 +180,9 @@ class Course < ActiveRecord::Base
     double :approximate_price_per_course
 
     double :rating
+    integer :nb_comments do
+      comments.count
+    end
 
     boolean :active
 
@@ -342,13 +351,5 @@ class Course < ActiveRecord::Base
 
   def replace_slash_n_r_by_brs
     self.description = self.description.gsub(/\r\n/, '<br>') if self.description
-  end
-
-  def rating
-    if read_attribute(:rating)
-      '%.1f' % read_attribute(:rating)
-    else
-      read_attribute(:rating)
-    end
   end
 end

@@ -114,12 +114,13 @@
                   %i.icon-map-marker
                   = surrounding_place.street
 
-
   %section.grid__item.seven-tenths.palm--one-whole.lap--one-whole
     - if @place.image.present?
       .course-header-badge
-        .course-header-image.one-half.palm--one-whole
+        .course-header-image.one-half.palm--one-whole>
           = image_tag @place.image.url(:wide), class: 'course-header-badge-image', alt: @place.long_name
+        .course-header-map.one-half.palm--one-whole
+          = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
     - else
       .course-header-map
         = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )

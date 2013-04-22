@@ -7,7 +7,7 @@
         - elsif course.structure.image.present?
           = image_tag course.structure.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
         - elsif course.place.thumb_image.present?
-          = image_tag course.place.thumb.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
+          = image_tag course.place.thumb_image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
         - else
           = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
 

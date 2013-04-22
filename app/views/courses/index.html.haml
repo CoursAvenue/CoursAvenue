@@ -27,11 +27,11 @@
         %p.flush--bottom= page_entries_info @courses, entry_name: Course.model_name.human.downcase
         .spoken-form
           %label Trier par :
-          %select#filter-select{name: 'sort'}
-            %option{value: 'relevancy', selected: (params[:sort] == 'relevancy') } Pertinence
-            %option{value: 'price_asc', selected: (params[:sort] == 'price_asc') } Prix : du plus bas au plus élevé
-            %option{value: 'price_desc', selected: (params[:sort] == 'price_desc')} Prix : du plus élevé au plus bas
-            %option{value: 'rating_desc', selected: (params[:sort] == 'rating_desc')} Notes : les cours les mieux notés en premier
+          %a.filter-select{href: '#', class: (params[:sort] == 'relevancy' ? 'bold' : ''), data: {value: 'relevancy'}} Pertinence
+          \/
+          %a.filter-select{href: '#', class: (params[:sort] == 'rating_desc' ? 'bold' : ''), data: {value: 'rating_desc'}} Popularité
+          \/
+          %a.filter-select{href: '#', class: (params[:sort] == 'price_asc' ? 'bold' : ''), data: {value: 'price_asc'}} Prix
       .flexbox__item.hide--palm
         .text--right= paginate @courses, window: 1, outer_window: 1
     - if @courses.empty?
@@ -45,8 +45,8 @@
 = content_for :scripts do
   :javascript
       window.addEvent('domready', function() {
-          $('filter-select').addEvent('change', function() {
-              $('hidden-sort-input').set('value', this.value);
+          $$('.filter-select').addEvent('click', function() {
+              $('hidden-sort-input').set('value', this.dataset.value);
               $('submit_search_form').click();
           });
           $$('[data-type=course-element]').each(function(course_element) {

@@ -25,9 +25,8 @@ CoursAvenue::Application.routes.draw do
         end
         #resources :admins, only: [:create, :update], controller: 'structures/admins'
         resources :teachers
-        resources :places do
-          resources :rooms
-        end
+        resources :places
+
         resources :courses, only: [:new, :create], path: 'cours'
         resources :course_workshops, only: [:create, :update], controller: 'courses'
         resources :course_trainings, only: [:create, :update], controller: 'courses'
@@ -70,16 +69,26 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :subjects, only: [], path: 'disciplines' do
-    resources :places, only: [:index], path: 'etablissement'
+    resources :places, only: [:index], path: 'etablissements'
+    resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
     resources :courses, only: [:index], path: 'cours'
   end
-  resources :places, only: [:show, :index], path: 'etablissement'
+  resources :places, only: [:show, :index], path: 'etablissements'
 
   resources :renting_rooms, only: [:create]
 
   resources :reservation_loggers, only: [:create]
   resources :click_loggers, only: [:create]
 
+  # Catching all 301 redirection
+  resources :subjects, only: [], path: 'disciplines' do
+    resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
+  end
+  resources :places, only: [:show],  path: 'etablissement', to: 'redirect#place_show'
+  resources :places, only: [:index], path: 'etablissement', to: 'redirect#place_index'
+  match 'lieux',                                            to: 'redirect#lieux'
+  match 'lieux/:id',                                        to: 'redirect#lieux_show'
+  match 'ville/:id',                                        to: 'redirect#ville'
 
   # Pages
   match 'pages/pourquoi-le-bon-cours'         => 'pages#why',                  as: 'pages_why'

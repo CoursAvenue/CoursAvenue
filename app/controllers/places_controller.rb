@@ -2,6 +2,45 @@ class PlacesController < ApplicationController
 
   before_filter :prepare_search
 
+  def index
+    if @city.nil?
+      respond_to do |format|
+        format.html { redirect_to root_path, alert: "La ville que vous recherchez n'existe pas" }
+      end
+    else
+      cookies[:place_search_path] = request.fullpath
+      city       = @city
+      if params[:subject_id]
+        @subject = Subject.find params[:subject_id]
+      end
+      @search = Sunspot.search(Place) do
+        fulltext                   params[:name]           if params[:name].present?
+        with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id]
+
+        with(:location).in_radius(city.latitude, city.longitude, params[:radius] || 10, :bbox => true)
+
+        with :active,  true
+
+        order_by :nb_courses, :desc
+        if params[:sort] == 'rating_desc'
+          order_by :rating, :desc
+          order_by :nb_comments, :desc
+        else
+          order_by :has_comment, :desc
+        end
+
+        paginate :page => (params[:page] || 1), :per_page => 15
+      end
+      @places = @search.results
+
+      init_geoloc
+
+      respond_to do |format|
+        format.html
+      end
+    end
+  end
+
   def show
     @place     = Place.find params[:id]
     @structure = @place.structure
@@ -24,38 +63,16 @@ class PlacesController < ApplicationController
       marker.json({ id: place.id })
     end
 
+    fresh_when etag: [@place, @comments.first], public: true
+    # fresh_when etag: @place, last_modified: @place.updated_at # Tell the page is new
+    # Can pass in an array [@place, @comments]
+    # If add respond_to :
+    # if stale? etag: @place
+    #   respond_to do |format|...
+    #     ...
+    #   end
+    # end
   end
-  def index
-    if @city.nil?
-      respond_to do |format|
-        format.html { redirect_to root_path, alert: "La ville que vous recherchez n'existe pas" }
-      end
-    else
-      cookies[:place_search_path] = request.fullpath
-      city       = @city
-      if params[:subject_id]
-        @subject = Subject.find params[:subject_id]
-      end
-      @search = Sunspot.search(Place) do
-        fulltext                   params[:name]           if params[:name].present?
-        with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id]
-
-        with(:location).in_radius(city.latitude, city.longitude, params[:radius] || 10, :bbox => true)
-
-        with :active,  true
-
-        paginate :page => (params[:page] || 1), :per_page => 15
-      end
-      @places = @search.results
-
-      init_geoloc
-
-      respond_to do |format|
-        format.html
-      end
-    end
-  end
-
   private
   def init_geoloc
     # To remove
