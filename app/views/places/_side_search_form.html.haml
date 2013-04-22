@@ -16,24 +16,24 @@
       km
 
 .side-search-panel
-
-  //-------------------------------------------------------------------------------------------------------- Subject
-  .search-panel
-    %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
-      Disciplines
-      %i.icon-caret-down
-    .search-panel-content
-      %ul.check-list
-        %li= link_to t('all_subject'), places_path(city: @city.name), class: 'subject-link'
-        / ----------------- If the current subject is this one or has this one as a parent
-        - Subject.roots.order(:name).each do |subject|
-          - if params[:subject_id] == subject.slug || !subject.children.select{|d| d.id == params[:subject_id]}.blank?
-            %li= link_to subject.name, subject_places_path(subject, city: @city.name), class: 'selected subject-link'
-            %ul.check-list
-              - subject.children.order('name ASC').each do |child_subject|
-                %li= link_to child_subject.name, subject_places_path(child_subject, city: @city.name), class: (params[:subject_id] == child_subject.slug ? 'selected subject-link' : 'subject-link')
-          - else
-            %li= link_to subject.name, subject_places_path(subject, city: @city.name), class: 'subject-link'
+  - cache do 'subjects'
+    //-------------------------------------------------------------------------------------------------------- Subject
+    .search-panel
+      %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+        Disciplines
+        %i.icon-caret-down
+      .search-panel-content
+        %ul.check-list
+          %li= link_to t('all_subject'), places_path(city: @city.name), class: 'subject-link'
+          / ----------------- If the current subject is this one or has this one as a parent
+          - Subject.roots.order(:name).each do |subject|
+            - if params[:subject_id] == subject.slug || !subject.children.select{|d| d.id == params[:subject_id]}.blank?
+              %li= link_to subject.name, subject_places_path(subject, city: @city.name), class: 'selected subject-link'
+              %ul.check-list
+                - subject.children.order('name ASC').each do |child_subject|
+                  %li= link_to child_subject.name, subject_places_path(child_subject, city: @city.name), class: (params[:subject_id] == child_subject.slug ? 'selected subject-link' : 'subject-link')
+            - else
+              %li= link_to subject.name, subject_places_path(subject, city: @city.name), class: 'subject-link'
 
 //-------------------------------------------------------------------------------------------------------- Gmaps
 - content_for :scripts do

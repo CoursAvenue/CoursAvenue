@@ -13,8 +13,8 @@ class Place < ActiveRecord::Base
   extend FriendlyId
   friendly_id :friendly_name, use: [:slugged, :history]
 
-  belongs_to :city
-  belongs_to :structure
+  belongs_to :city, touch: true
+  belongs_to :structure, touch: true
   has_many   :courses
   has_many   :rooms
   has_many   :comments, as: :commentable

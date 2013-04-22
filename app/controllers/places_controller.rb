@@ -2,37 +2,6 @@ class PlacesController < ApplicationController
 
   before_filter :prepare_search
 
-  def show
-    @place     = Place.find params[:id]
-    @structure = @place.structure
-    @courses   = @place.course_with_planning
-    @comment   = @place.comments.build
-    @comments  = @place.comments.order('created_at DESC').reject(&:new_record?)
-    @city      = @place.city
-
-    place_latitude  = @place.latitude
-    place_longitude = @place.longitude
-    @search = Sunspot.search(Place) do
-      with(:location).in_radius(place_latitude, place_longitude, params[:radius] || 10, :bbox => true)
-      without(:street, nil)
-      paginate :page => (1), :per_page => 5
-    end
-    @surrounding_places = @search.results
-
-    @json_place_address = @place.to_gmaps4rails do |place, marker|
-      marker.title   place.name
-      marker.json({ id: place.id })
-    end
-    fresh_when @place
-    # fresh_when etag: @place, last_modified: @place.updated_at # Tell the page is new
-    # Can pass in an array [@place, @comments]
-    # If add respond_to :
-    # if stale? etag: @place
-    #   respond_to do |format|...
-    #     ...
-    #   end
-    # end
-  end
   def index
     if @city.nil?
       respond_to do |format|
@@ -64,6 +33,38 @@ class PlacesController < ApplicationController
     end
   end
 
+  def show
+    @place     = Place.find params[:id]
+    @structure = @place.structure
+    @courses   = @place.course_with_planning
+    @comment   = @place.comments.build
+    @comments  = @place.comments.order('created_at DESC').reject(&:new_record?)
+    @city      = @place.city
+
+    place_latitude  = @place.latitude
+    place_longitude = @place.longitude
+    @search = Sunspot.search(Place) do
+      with(:location).in_radius(place_latitude, place_longitude, params[:radius] || 10, :bbox => true)
+      without(:street, nil)
+      paginate :page => (1), :per_page => 5
+    end
+    @surrounding_places = @search.results
+
+    @json_place_address = @place.to_gmaps4rails do |place, marker|
+      marker.title   place.name
+      marker.json({ id: place.id })
+    end
+
+    fresh_when etag: [@place, @comments.first], public: true
+    # fresh_when etag: @place, last_modified: @place.updated_at # Tell the page is new
+    # Can pass in an array [@place, @comments]
+    # If add respond_to :
+    # if stale? etag: @place
+    #   respond_to do |format|...
+    #     ...
+    #   end
+    # end
+  end
   private
   def init_geoloc
     # To remove

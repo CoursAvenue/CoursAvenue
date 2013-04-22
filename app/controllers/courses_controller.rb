@@ -12,9 +12,8 @@ class CoursesController < ApplicationController
       search_solr
       init_geoloc
       cookies[:search_path] = request.fullpath
-      respond_to do |format|
-        format.html { @courses }
-      end
+      fresh_when etag: @courses, public: true
+      expires_in 10.minutes, public: true
     end
   end
 
@@ -37,7 +36,7 @@ class CoursesController < ApplicationController
       marker.title   place.name
       marker.json({ id: place.id })
     end
-    fresh_when @course
+    fresh_when etag: [@course, @comments.first], public: true
     # respond_to do |format|
     #   format.html
     #   format.json {render json: @course, serializer: CourseSerializer}
