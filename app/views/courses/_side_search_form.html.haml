@@ -62,7 +62,7 @@
 
   //-------------------------------------------------------------------------------------------------------- Type de cours
   .search-panel
-    %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Type de cours'])",data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+    %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Type de cours'])", data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
       Type de cours
       - if params[:types].empty?
         %i.icon-caret-left
