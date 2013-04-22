@@ -23,7 +23,15 @@ class PlacesController < ApplicationController
       marker.title   place.name
       marker.json({ id: place.id })
     end
-
+    fresh_when @place
+    # fresh_when etag: @place, last_modified: @place.updated_at # Tell the page is new
+    # Can pass in an array [@place, @comments]
+    # If add respond_to :
+    # if stale? etag: @place
+    #   respond_to do |format|...
+    #     ...
+    #   end
+    # end
   end
   def index
     if @city.nil?

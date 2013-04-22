@@ -3,13 +3,13 @@
   = render 'home_screen'
 
   = render 'share_links'
-  - @comments = Comment.order('created_at DESC').limit(15)
   .home-screen-promotion-wrapper
     %section.main-container.home-screen-promotion
       .grid
         .grid__item.palm--one-whole.lap--one-whole.one-half.islet>
           %h2.home-title Paris
-          = render 'map_paris'
+          - cache do
+            = render 'map_paris'
         .grid__item.palm--one-whole.lap--one-whole.one-half.islet{style: 'min-height: 35em;'}
           %div
             %h3.home-title Les derniers avis

@@ -8,11 +8,12 @@
     = favicon_link_tag 'favicon.png'
     = stylesheet_link_tag "application", :media => "all"
     = javascript_include_tag "modernizr" # MUST BE In the Head and after CSS
-    = csrf_meta_tags
+    = csrf_meta_tags unless response.cache_control[:public]
   %body
-    - flash.each do |key, msg|
-      .flash{class: key, data: {behavior: 'flash', type: key}}
-        = msg
+    - unless response.cache_control[:public]
+      - flash.each do |key, msg|
+        .flash{class: key, data: {behavior: 'flash', type: key}}
+          = msg
 
     = yield :header
 

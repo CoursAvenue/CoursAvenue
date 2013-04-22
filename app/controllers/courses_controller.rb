@@ -31,16 +31,17 @@ class CoursesController < ApplicationController
     @has_nb_place       = @course.plannings.map(&:nb_place_available).compact.any?
     @reservation        = Reservation.new
     @best_price         = @course.best_price
-    @similar_courses = @course.similar_courses
+    @similar_courses    = @course.similar_courses
 
     @json_place_address = @place.to_gmaps4rails do |place, marker|
       marker.title   place.name
       marker.json({ id: place.id })
     end
-    respond_to do |format|
-      format.html
-      format.json {render json: @course, serializer: CourseSerializer}
-    end
+    fresh_when @course
+    # respond_to do |format|
+    #   format.html
+    #   format.json {render json: @course, serializer: CourseSerializer}
+    # end
   end
 
   private
