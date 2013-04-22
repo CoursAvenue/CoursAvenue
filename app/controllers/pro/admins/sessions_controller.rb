@@ -1,4 +1,4 @@
-class Pro::Admin::SessionsController < Devise::SessionsController
+class Pro::Admins::SessionsController < Devise::SessionsController
   layout 'admin'
   def after_sign_in_path_for(admin)
     if admin.super_admin?

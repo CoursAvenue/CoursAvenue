@@ -5,7 +5,7 @@ class Pro::StructuresController < Pro::ProController
   layout 'admin'
 
   def select
-    @structures =  Structure.all
+    @structures = Structure.all
   end
 
   def disable_condition

@@ -57,12 +57,10 @@ module PlanningsHelper
   end
 
   def training_dates(planning)
-    start_date = planning.first_day_of_training
-    end_date   = planning.last_day_of_training
-    if start_date == end_date
-      "#{I18n.l(start_date, format: :semi_long).capitalize}"
+    if planning.start_date == planning.end_date
+      "#{I18n.l(planning.start_date, format: :semi_long).capitalize}"
     else
-      "Du #{I18n.l(start_date, format: :semi_long)} au #{I18n.l(end_date, format: :semi_short)}"
+      "Du #{I18n.l(planning.start_date, format: :semi_long)} au #{I18n.l(planning.end_date, format: :semi_short)}"
     end
   end
 end

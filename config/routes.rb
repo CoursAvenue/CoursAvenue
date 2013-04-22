@@ -21,9 +21,8 @@ CoursAvenue::Application.routes.draw do
         end
         collection do
           get 'awaiting'
-          get 'select'
+          get 'select', path: 'referencer-mes-cours'
         end
-        #resources :admins, only: [:create, :update], controller: 'structures/admins'
         resources :teachers
         resources :places
 
@@ -55,7 +54,7 @@ CoursAvenue::Application.routes.draw do
           put 'disable'
         end
       end
-      devise_for :admins, controllers: { sessions: 'pro/admin/sessions', registrations: 'pro/admin/registrations', passwords: 'pro/admin/passwords'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/'}#, :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
+      devise_for :admins, controllers: { sessions: 'pro/admins/sessions', registrations: 'pro/admins/registrations', passwords: 'pro/admins/passwords'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/', :confirmation => 'verification'}#, :password => 'secret', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
     end
   end
 

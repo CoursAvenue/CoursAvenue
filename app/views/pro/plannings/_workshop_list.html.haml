@@ -12,10 +12,7 @@
     - @plannings.each do |planning|
       %tr
         %td
-          - if planning.day_one
-            = l(planning.day_one, format: :semi_long).capitalize
-          - else
-            = l(planning.start_date, format: :semi_long).capitalize
+          = l(planning.start_date, format: :semi_long).capitalize
         %td.text--center= readable_time_slot planning.start_time, planning.end_time
         %td.text--center= readable_duration planning.duration
         %td= planning.teacher.try(:name)

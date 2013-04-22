@@ -74,26 +74,6 @@ class Planning < ActiveRecord::Base
     return (end_date - start_date).to_i + 1
   end
 
-  def first_day_of_training
-    day_one || start_date
-  end
-
-  def last_day_of_training
-    if day_five
-      day_five
-    elsif day_four
-      day_four
-    elsif day_three
-      day_three
-    elsif day_two
-      day_two
-    elsif day_one
-      day_one
-    else
-      end_date
-    end
-  end
-
   private
 
   def set_duration

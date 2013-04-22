@@ -4,13 +4,13 @@ class ::Admin < ActiveRecord::Base
     'civility.female'
   ]
 
-  after_save :create_teacher_to_structure_if_is_teacher
+  after_create :create_teacher_to_structure_if_no_teacher
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable,
-         :recoverable, :rememberable, :trackable, :validatable, :registerable
+         :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email,
@@ -18,6 +18,7 @@ class ::Admin < ActiveRecord::Base
                   :password_confirmation,
                   :remember_me,
                   :civility,
+                  :name,
                   :first_name,
                   :last_name,
                   :phone_number,
@@ -25,9 +26,11 @@ class ::Admin < ActiveRecord::Base
                   :active,
                   :management_software_used,
                   :role,
-                  :is_teacher
+                  :is_teacher,
+                  :structure_id
 
   validates :first_name, :last_name, presence: true, on: :update
+  validates :name, presence: true, on: :create
   validates :phone_number, :presence => true, :if => "!self.super_admin && self.mobile_phone_number.blank?", on: :update
 
   # attr_accessible :title, :body
@@ -43,12 +46,9 @@ class ::Admin < ActiveRecord::Base
 
   private
 
-  def create_teacher_to_structure_if_is_teacher
-    admin_full_name = self.full_name
-    if self.is_teacher
-      if !self.structure.new_record? and self.structure.teachers.where{name == admin_full_name}.empty?
-        self.structure.teachers.create name: admin_full_name
-      end
+  def create_teacher_to_structure_if_no_teacher
+    if structure.teachers.empty?
+      self.structure.teachers.create name: admin.name
     end
   end
 end

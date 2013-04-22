@@ -4,21 +4,6 @@ fr:
       planning: Planning
     attributes:
       planning:
-        day_one: Jour 1
-        day_one_duration:
-        day_one_start_time:
-        day_two:
-        day_two_duration:
-        day_two_start_time:
-        day_three:
-        day_three_duration:
-        day_three_start_time:
-        day_four:
-        day_four_duration:
-        day_four_start_time:
-        day_five:
-        day_five_duration:
-        day_five_start_time:
         duration: Durée
         end_date: Date de fin
         start_date: Date de début

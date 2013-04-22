@@ -12,12 +12,9 @@
     - @plannings.each do |planning|
       %tr{data: {'course-id' => planning.course_id}}
         %td
-          - if planning.day_one
-            = l(planning.day_one, format: :semi_long).capitalize
-          - else
-            = week_day_for planning
+          = l(planning.start_date, format: :semi_long).capitalize
         %td.text--center= readable_time_slot planning.start_time, planning.end_time
-        %td.text--center= readable_duration planning.day_one_duration || planning.duration
+        %td.text--center= planning.duration
         - if @has_nb_place
           %td.text--center= planning.nb_place_available
         %td.text--center

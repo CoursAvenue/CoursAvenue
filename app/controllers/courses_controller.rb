@@ -61,16 +61,20 @@ class CoursesController < ApplicationController
   end
 
   def prepare_search
-    if params[:city].blank?
-      if request.location.city.blank?
-        city_term = 'paris'
-      else
-        city_term = request.location.city
-      end
-      city_slug = request.location.city
+    if is_bot?
+      city_term = 'paris'
     else
-      city_term  = "#{params[:city]}%"
-      city_slug  = params[:city]
+      if params[:city].blank?
+        if request.location.city.blank?
+          city_term = 'paris'
+        else
+          city_term = request.location.city
+        end
+        city_slug = request.location.city
+      else
+        city_term  = "#{params[:city]}%"
+        city_slug  = params[:city]
+      end
     end
     @city      = City.where{(slug == city_slug ) | (name =~ city_term)}.order('name ASC').first # Prevents from bad slugs
     @audiences = Audience.all
@@ -131,8 +135,8 @@ class CoursesController < ApplicationController
 
       with(:time_slots).any_of              params[:time_slots]                                     if params[:time_slots].present?
 
-      with(:approximate_price_per_course).greater_than         params[:price_range][:min].to_i                         if params[:price_range].present? and params[:price_range][:min].present?
-      with(:approximate_price_per_course).less_than            params[:price_range][:max].to_i                         if params[:price_range].present? and params[:price_range][:max].present?
+      with(:approximate_price_per_course).greater_than         params[:price_range][:min].to_i      if params[:price_range].present? and params[:price_range][:min].present?
+      with(:approximate_price_per_course).less_than            params[:price_range][:max].to_i      if params[:price_range].present? and params[:price_range][:max].present?
 
       # TODO ------------------------------------------------------------------------------------------------------------------
       if params[:price_specificities].present?

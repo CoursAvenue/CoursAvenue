@@ -13,8 +13,7 @@
         .form-white-box
           = contact_form.hidden_field :id
           = contact_form.input :civility, as: :radio, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
-          = contact_form.input :first_name
-          = contact_form.input :last_name
+          = contact_form.input :name
           / = contact_form.input :role
           / = contact_form.input :is_teacher
           %p.field-form-info.flush--bottom= t('.phone_number_info')

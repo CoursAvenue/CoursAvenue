@@ -1,17 +1,14 @@
 .pages
   %h1 Référencez mes cours
-  %div.islet
-    %h2.delta Votre structure est déjà référencée ?
-    = select_tag :structure, options_from_collection_for_select(@structures, :id, :name), include_blank: true
-  %div.islet
-    %h2.delta Ma structure n'est pas encore référencée
-    = link_to 'Référencer mon établissement', new_pro_admin_registration_path, class: 'btn btn__success'
+  %h2.delta Choisissez votre établissement
+  = select_tag :structure, options_from_collection_for_select(@structures, :slug, :name), include_blank: true
+  %div= link_to "Mon établissement n'est pas dans la liste", new_pro_admin_registration_path
 
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
         new Chosen($('structure'));
         $('structure').addEvent('change', function() {
-            window.location = Routes.pro_structure_path(this.get('value'));
+            window.location = Routes.new_pro_admin_registration_path({structure: this.get('value')});
         });
     });
