@@ -21,6 +21,14 @@ class PlacesController < ApplicationController
 
         with :active,  true
 
+        order_by :nb_courses, :desc
+        if params[:sort] == 'rating_desc'
+          order_by :rating, :desc
+          order_by :nb_comments, :desc
+        else
+          order_by :has_comment, :desc
+        end
+
         paginate :page => (params[:page] || 1), :per_page => 15
       end
       @places = @search.results

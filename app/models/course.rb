@@ -159,6 +159,10 @@ class Course < ActiveRecord::Base
       plannings.map(&:end_time).uniq.compact
     end
 
+    boolean :has_comment do
+      comments.count > 0
+    end
+
     date :start_date, multiple: true do
       plannings.map(&:start_date).uniq.compact
     end
@@ -176,6 +180,9 @@ class Course < ActiveRecord::Base
     double :approximate_price_per_course
 
     double :rating
+    integer :nb_comments do
+      comments.count
+    end
 
     boolean :active
 

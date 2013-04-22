@@ -9,7 +9,6 @@ class Place < ActiveRecord::Base
 
   include ActsAsCommentable
 
-
   extend FriendlyId
   friendly_id :friendly_name, use: [:slugged, :history]
 
@@ -36,6 +35,7 @@ class Place < ActiveRecord::Base
   attr_reader :delete_image
   attr_reader :delete_thumb_image
   attr_accessible :name,
+                  :rating,
                   :contact_email,
                   :contact_name,
                   :contact_phone,
@@ -112,6 +112,17 @@ class Place < ActiveRecord::Base
 
     boolean :active do
       self.structure.active
+    end
+
+    double :rating
+    integer :nb_courses do
+      courses.count
+    end
+    integer :nb_comments do
+      comments.count
+    end
+    boolean :has_comment do
+      comments.count > 0
     end
   end
 
