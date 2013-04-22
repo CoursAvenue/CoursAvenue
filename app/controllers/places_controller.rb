@@ -21,11 +21,11 @@ class PlacesController < ApplicationController
 
         with :active,  true
 
-        order_by :nb_courses, :desc
         if params[:sort] == 'rating_desc'
           order_by :rating, :desc
           order_by :nb_comments, :desc
         else
+          order_by :nb_courses, :desc
           order_by :has_comment, :desc
         end
 
@@ -35,9 +35,8 @@ class PlacesController < ApplicationController
 
       init_geoloc
 
-      respond_to do |format|
-        format.html
-      end
+      fresh_when etag: @places, public: true
+      expires_in 10.minutes, public: true
     end
   end
 
@@ -92,12 +91,8 @@ class PlacesController < ApplicationController
   end
   def prepare_search
     if params[:city].blank?
-      if request.location.city.blank?
-        city_term = 'paris'
-      else
-        city_term = request.location.city
-      end
-      city_slug = request.location.city
+      city_term = 'paris'
+      city_slug = 'paris'
     else
       city_term  = "#{params[:city]}%"
       city_slug  = params[:city]

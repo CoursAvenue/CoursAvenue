@@ -61,20 +61,12 @@ class CoursesController < ApplicationController
   end
 
   def prepare_search
-    if is_bot?
+    if params[:city].blank?
       city_term = 'paris'
+      city_slug = 'paris'
     else
-      if params[:city].blank?
-        if request.location.city.blank?
-          city_term = 'paris'
-        else
-          city_term = request.location.city
-        end
-        city_slug = request.location.city
-      else
-        city_term  = "#{params[:city]}%"
-        city_slug  = params[:city]
-      end
+      city_term  = "#{params[:city]}%"
+      city_slug  = params[:city]
     end
     @city      = City.where{(slug == city_slug ) | (name =~ city_term)}.order('name ASC').first # Prevents from bad slugs
     @audiences = Audience.all
@@ -149,7 +141,6 @@ class CoursesController < ApplicationController
       # order_by :has_promotion,       :desc
       # order_by :is_promoted,         :desc
       # order_by :has_online_payment,  :desc
-      order_by :has_comment, :desc
 
       if params[:sort] == 'price_asc'
         order_by :approximate_price_per_course, :asc
@@ -158,6 +149,8 @@ class CoursesController < ApplicationController
       elsif params[:sort] == 'rating_desc'
         order_by :rating, :desc
         order_by :nb_comments, :desc
+      else
+        order_by :has_comment, :desc
       end
       paginate :page => (params[:page] || 1), :per_page => 15
     end

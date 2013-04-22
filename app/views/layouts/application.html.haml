@@ -15,8 +15,7 @@
         .flash{class: key, data: {behavior: 'flash', type: key}}
           = msg
 
-    - cache 'page-header' do
-      = yield :header
+    = yield :header
 
     = yield :above_container
     = content_for?(:content) ? yield(:content) : yield

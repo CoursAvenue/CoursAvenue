@@ -15,11 +15,6 @@ class ApplicationController < ActionController::Base
     rescue_from ActionController::UnknownAction,      :with => :render_not_found
   end
 
-  # http://stackoverflow.com/questions/5882264/ruby-on-rails-how-to-determine-if-a-request-was-made-by-a-robot-or-search-engin
-  def is_bot?
-    !request.env["HTTP_USER_AGENT"].match(/\(.*https?:\/\/.*\)/).nil?
-  end
-
   def current_ability
     @current_ability ||= Ability.new(current_pro_admin)
   end
