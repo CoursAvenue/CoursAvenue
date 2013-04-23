@@ -26,17 +26,19 @@ CoursAvenue::Application.routes.draw do
         resources :teachers
         resources :places
 
-        resources :courses, only: [:new, :create], path: 'cours'
-        resources :course_workshops, only: [:create, :update], controller: 'courses'
-        resources :course_trainings, only: [:create, :update], controller: 'courses'
-        resources :course_lessons, only: [:create, :update], controller: 'courses'
+        resources :courses, only: [:new, :create], path: 'cours' # To insure to have the structure_id
+        # resources :course_workshops, only: [:create, :update], controller: 'courses'
+        # resources :course_trainings, only: [:create, :update], controller: 'courses'
+        # resources :course_lessons, only: [:create, :update], controller: 'courses'
       end
-      resources :courses, path: 'cours' do
+      resources :courses, except: [:new, :create], path: 'cours' do
         resources :plannings, only: [:edit, :index, :destroy]
         resources :prices, only: [:edit, :index, :destroy]
         resources :book_tickets, only: [:edit, :index, :destroy]
         member do
           put 'update_price'
+          put 'activate'
+          put 'disable'
         end
       end
       resources :course_workshops, controller: 'courses' do
@@ -54,7 +56,7 @@ CoursAvenue::Application.routes.draw do
           put 'disable'
         end
       end
-      devise_for :admins, controllers: { sessions: 'pro/admins/sessions', registrations: 'pro/admins/registrations', passwords: 'pro/admins/passwords'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/', :confirmation => 'verification'}#, :password => 'secret', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
+      devise_for :admins, controllers: { sessions: 'pro/admins/sessions', registrations: 'pro/admins/registrations', passwords: 'pro/admins/passwords', confirmations: 'pro/admins/confirmations'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/', :confirmation => 'verification'}#, :password => 'secret', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
     end
   end
 

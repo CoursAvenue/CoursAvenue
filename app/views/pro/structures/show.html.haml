@@ -4,58 +4,59 @@
   %i.icon-list
   Mes cours référencés sur CoursAvenue
 
-%table.table--striped#dataTable
-  %thead
-    %tr
-      %th Statut
-      %th
-        %span Type
-      %th.sortDesc.two-twelfths
-        %span Intitulé
-      %th.two-twelfths
-        %span
-          %i.icon-user
-          Professeur(s)
-      %th
-        %span
-          %i.icon-map-marker
-          Lieu
-      %th.two-twelfths
-        %span
-          %i.lbc-subject-icon
-          Disciplines
-      %th.three-twelfths
-  %tbody
-    - @courses.each do |course|
-      %tr
-        %td
-          - if course.active
-            = link_to '#', class: 'switch-button on' do
-              En&nbsp;ligne
-          - else
-            = link_to '#', class: 'switch-button off' do
-              Hors&nbsp;ligne
-        %td= course.type_name
-        %td
-          - if current_pro_admin
-            = link_to course.name, edit_pro_course_path(course)
-          - else
-            = link_to course.name, course_url(course, subdomain: :www)
-        %td= course.teachers.uniq.map(&:name).join(', ')
-        %td= course.place.name
-        %td= course.subjects.map(&:name).join(', ')
-        %td.text--right
-          = link_to pro_course_plannings_path(course), class: 'btn' do
-            %i.lbc-icon-calendar
-            %span &nbsp;Plannings
-          &nbsp;
-          = link_to '€ Tarifs', pro_course_prices_path(course), class: 'btn'
-          &nbsp;
-          = link_to edit_pro_course_path(course), title: 'Éditer', class: 'btn btn__warning' do
-            %i.icon-edit
-          &nbsp;
-          = link_to pro_course_path(course), method: :delete, class: 'red', title: 'Supprimer', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
-            %i.icon-trash
+- @places.each do |place|
+  - unless @places.length == 1
+    %h3.flush--bottom.push--top.toggleable-header.bordered--bottom{data: {behavior: 'toggleable', el:'+ .toggleable-content'}}
+      = place.name
+      %i.icon-caret-down
+  .toggleable-content
+    %table.table--striped#dataTable
+      %thead
+        %tr
+          %th.text--center Statut
+          %th
+            %span Type
+          %th.sortDesc.two-twelfths
+            %span Intitulé
+          %th.two-twelfths
+            %span
+              %i.icon-user
+              Professeur(s)
+          %th.two-twelfths
+            %span
+              %i.lbc-subject-icon
+              Disciplines
+          %th.three-twelfths
+      %tbody
+        - place.courses.order('created_at DESC').each do |course|
+          %tr
+            %td.text--center
+              - if course.active
+                = link_to disable_pro_course_path(course), method: :put, class: 'switch-button on' do
+                  En&nbsp;ligne
+              - else
+                = link_to activate_pro_course_path(course), method: :put, class: 'switch-button off' do
+                  Hors&nbsp;ligne
+            %td= course.type_name
+            %td
+              - if current_pro_admin
+                = link_to course.name, edit_pro_course_path(course)
+              - else
+                = link_to course.name, course_url(course, subdomain: :www)
+            %td= course.teachers.uniq.map(&:name).join(', ')
+            %td= course.subjects.map(&:name).join(', ')
+            %td.text--right
+              = link_to pro_course_plannings_path(course), class: 'btn' do
+                %i.lbc-icon-calendar
+                %span &nbsp;Plannings
+              &nbsp;
+              = link_to '€ Tarifs', pro_course_prices_path(course), class: 'btn'
+              &nbsp;
+              = link_to edit_pro_course_path(course), title: 'Éditer', class: 'btn btn__warning' do
+                %i.icon-edit
+              &nbsp;
+              = link_to pro_course_path(course), method: :delete, class: 'red', title: 'Supprimer', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
+                %i.icon-trash
 
 .text--center
   = link_to 'Ajouter un cours', new_pro_structure_course_path(@structure), class: 'btn btn__success btn__large'

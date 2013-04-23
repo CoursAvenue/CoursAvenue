@@ -11,7 +11,8 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-    @admin = Admin.new params[:admin]
+    @admin     = Admin.new params[:admin]
+    @structure = @admin.structure
     respond_to do |format|
       if @admin.save
         sign_in @admin

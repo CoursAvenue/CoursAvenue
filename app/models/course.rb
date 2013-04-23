@@ -20,7 +20,6 @@ class Course < ActiveRecord::Base
                     # :path => "courses/:id/image/:fingerprint-:style.:extension"
 
   belongs_to :structure, touch: true
-  belongs_to :room
   belongs_to :place, touch: true
   has_one    :city , through: :place
 
@@ -41,7 +40,6 @@ class Course < ActiveRecord::Base
   # ------------------------------------------------------------------------------------ Validations
   validates :type, :name  , presence: true
   validates :place        , presence: true
-  validates :room         , presence: true
   validates :subjects     , presence: true
   validates :levels       , presence: true
   validates :audiences    , presence: true
@@ -315,15 +313,6 @@ class Course < ActiveRecord::Base
       else
         return 0
       end
-    end
-  end
-
-  def place
-    if read_attribute(:place)
-      read_attribute(:place)
-    elsif self.room
-      self.update_column :place_id, self.room.place_id
-      self.room.place
     end
   end
 

@@ -1,5 +1,9 @@
-= can? :edit, @course
-= simple_form_for [:pro, @structure, @course], as: :course do |f|
+- if @course.new_record?
+  - url = pro_structure_courses_path(@structure)
+- else
+  - url = pro_course_path(@course)
+
+= simple_form_for [:pro, @structure, @course], url: url, as: :course do |f|
   = f.error_notification
   .form-white-box
     = f.input :name, label: t('.name'), placeholder: 'Zumba, jardin musical, Vins et Fromages, etc'

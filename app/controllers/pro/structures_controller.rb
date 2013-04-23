@@ -5,6 +5,8 @@ class Pro::StructuresController < Pro::ProController
   layout 'admin'
 
   def select
+    # structure_with_admin    = Structure.select(:id).joins(:admins)
+    # @structure_without_admin = Structure.where{id.not_in structure_with_admin}.all
     @structures = Structure.all
   end
 
@@ -59,7 +61,7 @@ class Pro::StructuresController < Pro::ProController
 
   def show
     @structure = Structure.find params[:id]
-    @courses   = @structure.courses
+    @places    = @structure.places
     respond_to do |format|
       if @structure.places.empty?
         format.html { redirect_to new_pro_structure_place_path(@structure), notice: "Vous devez d'abord créé des lieux pour vos cours."}

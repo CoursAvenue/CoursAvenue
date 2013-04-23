@@ -6,13 +6,43 @@ class Pro::CoursesController < InheritedResources::Base
   layout 'admin'
 
   before_filter :load_structure
-  load_and_authorize_resource :structure
+  load_and_authorize_resource :structure, except: [:create, :update]
+
+  def activate
+    if current_pro_admin.active
+      @course = Course.find params[:id]
+      respond_to do |format|
+        if @course.update_attribute :active, true
+          redirect_to pro_structure_path(@structure), notice: "Le cours est maintenant visible sur CoursAvenue"
+        else
+          redirect_to pro_structure_path(@structure), alert: "Le cours n'a pu être mis en ligne. Assurez vous que toutes les informations sont bien renseignés."
+        end
+      end
+    else
+      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas encore mettre vos cours en ligne"
+    end
+  end
+
+  def disable
+    if current_pro_admin.active
+      @course = Course.find params[:id]
+      respond_to do |format|
+        if @course.update_attribute :active, false
+          redirect_to pro_structure_path(@structure), notice: "Le cours n'est plus affiché sur CoursAvenue"
+        else
+          redirect_to pro_structure_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que toutes les informations sont bien renseignés."
+        end
+      end
+    else
+      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas mettre ce cours hors ligne"
+    end
+  end
 
   def edit
     if can? :edit, @course
       edit!
     else
-      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas éditer les cours actifs."
+      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas éditer les cours actifs"
     end
   end
 
@@ -21,7 +51,7 @@ class Pro::CoursesController < InheritedResources::Base
     @course.structure = @structure
     create! do |success, failure|
       success.html { redirect_to pro_course_plannings_path(@course), notice: 'Vous pouvez maintenant créer le planning de ce cours' }
-      failure.html { redirect_to new_pro_structure_course(@structure), alert: 'Impossible de créer le cours.' }
+      failure.html { redirect_to new_pro_structure_course_path(@structure), alert: 'Impossible de créer le cours.' }
     end
   end
 
@@ -54,13 +84,18 @@ class Pro::CoursesController < InheritedResources::Base
       resource.image.clear
     end
     update! do |success, failure|
-      success.html { redirect_to pro_structure_path(@structure) }
+      success.html { redirect_to pro_structure_path(@structure), notice: 'Le cours à bien été mis à jour' }
+      failure.html { render template: 'pro/courses/form' }
     end
   end
 
   def destroy
-    destroy! do |success, failure|
-      success.html { redirect_to pro_structure_path(@structure) }
+    if can? :edit, @course
+      destroy! do |success, failure|
+        success.html { redirect_to pro_structure_path(@structure) }
+      end
+    else
+      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas supprimer les cours actifs"
     end
   end
 
