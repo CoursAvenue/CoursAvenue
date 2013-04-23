@@ -8,6 +8,14 @@ class Pro::CoursesController < InheritedResources::Base
   before_filter :load_structure
   load_and_authorize_resource :structure
 
+  def edit
+    if can? :edit, @course
+      edit!
+    else
+      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas éditer les cours actifs."
+    end
+  end
+
   def create
     @course           = Course.new params[:course]
     @course.structure = @structure

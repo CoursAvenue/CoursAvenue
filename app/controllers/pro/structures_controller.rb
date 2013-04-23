@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
   before_filter :authenticate_pro_admin!, except: [:select, :show]
-  load_and_authorize_resource except: [:select, :show]
+  load_and_authorize_resource except: [:select]
   layout 'admin'
 
   def select

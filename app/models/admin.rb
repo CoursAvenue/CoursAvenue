@@ -29,9 +29,7 @@ class ::Admin < ActiveRecord::Base
                   :is_teacher,
                   :structure_id
 
-  validates :first_name, :last_name, presence: true, on: :update
   validates :name, presence: true, on: :create
-  validates :phone_number, :presence => true, :if => "!self.super_admin && self.mobile_phone_number.blank?", on: :update
 
   # attr_accessible :title, :body
   belongs_to :structure

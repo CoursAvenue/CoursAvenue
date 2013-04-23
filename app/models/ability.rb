@@ -5,6 +5,10 @@ class Ability
       admin ||= Admin.new
       if admin.super_admin?
         can :manage, :all
+      elsif !admin.active
+        can :read, admin.structure
+        can :read, admin.structure.courses.where{active == true}
+        can :manage, admin.structure.courses.where{active == false}
       else
         can :manage, admin.structure
         can :create, Structure
