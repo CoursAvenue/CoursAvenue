@@ -4,11 +4,7 @@ class ReservationsController < ApplicationController
   before_filter :retrieve_info
 
   def new
-    @reservation = Reservation.new
-  end
-
-  def show
-    @reservation = Reservation.find params[:id]
+    redirect_to course_path(@course), status: 301
   end
 
   def create
@@ -26,6 +22,7 @@ class ReservationsController < ApplicationController
   end
 
   private
+
   def retrieve_info
     @course       = Course.find params[:course_id]
     @structure    = @course.structure
