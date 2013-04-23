@@ -11,7 +11,7 @@
     - if comment.title.present?
       %h6.flush--bottom{itemprop: 'headline', content: comment.title}= comment.title
     %p{itemprop: 'reviewBody'}
-      = comment.content
+      = comment.content.html_safe
     .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
       %meta{itemprop: 'url', content: commentable_url(comment)}
       %meta{itemprop: 'name', content: commentable_name(comment)}

@@ -8,6 +8,8 @@ class Comment < ActiveRecord::Base
   after_commit  :update_commentable_rating
   after_destroy :update_commentable_rating
 
+  before_save :replace_slash_n_r_by_brs
+
   private
   # Update rating of the commentable (course, or structure)
   def update_commentable_rating
@@ -21,6 +23,10 @@ class Comment < ActiveRecord::Base
     end
     new_rating = (total_rating.to_f / nb_rating.to_f)
     self.commentable.update_attribute :rating, new_rating
+  end
+
+  def replace_slash_n_r_by_brs
+    self.content = self.content.gsub(/\r\n/, '<br>')
   end
 
 end

@@ -1,12 +1,6 @@
 class Structure < ActiveRecord::Base
   acts_as_paranoid
 
-  unless Rails.env.test?
-    acts_as_gmappable validation: false,
-                      language: 'fr'
-    before_save :retrieve_address
-  end
-
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',
                              'structures.independant',
@@ -55,9 +49,10 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  after_commit     :cerate_teacher
+  after_create     :create_teacher
   after_create     :set_free_pricing_plan
   after_create     :create_place
+
   belongs_to       :city
   belongs_to       :pricing_plan
 
@@ -71,9 +66,8 @@ class Structure < ActiveRecord::Base
 
   has_many :admins
 
-  validate  :presence_of_phone_number
   validates :name               , :presence   => true
-  # validates :street             , :presence   => true
+  validates :street             , :presence   => true
   validates :zip_code           , :presence   => true, numericality: { only_integer: true }
   validates :city               , :presence   => true
   # validates :structure_type     , :presence   => true
@@ -93,32 +87,6 @@ class Structure < ActiveRecord::Base
     "#{self.street}, #{self.city.name}"
   end
 
-  # describe how to retrieve the address from your model, if you use directly a db column, you can dry your code, see wiki
-  def gmaps4rails_address
-    "#{self.street}, #{self.city.name}, France"
-  end
-
-  def retrieve_address
-    if !self.new_record? and !self.is_geolocalized?
-      begin
-        geolocation    = Gmaps4rails.geocode(self.gmaps4rails_address).first
-        self.update_column :latitude, geolocation[:lat]
-        self.update_column :longitude, geolocation[:lng]
-      rescue Exception => e
-        puts "Address not found: #{e}"
-      end
-    end
-  end
-
-  def is_geolocalized?
-    !self.latitude.nil? and self.longitude.nil?
-  end
-
-  def geolocalize
-    self.touch
-    self.save
-  end
-
   def parent_subjects
     subjects.uniq.map(&:parent).uniq
   end
@@ -132,18 +100,13 @@ class Structure < ActiveRecord::Base
   def create_place
     self.places.create(name: self.name, street: self.street, city: self.city, zip_code: self.zip_code)
   end
-  def cerate_teacher
-    self.teachers.create(name: main_contact.full_name)
-  end
 
-  # Validations
-  def presence_of_phone_number
-    if phone_number.nil? and mobile_phone_number.nil?
-      errors.add(:phone_number, :blank)
-    end
+  def create_teacher
+    self.teachers.create(name: main_contact.name)
   end
 
   def replace_slash_n_r_by_brs
     self.description = self.description.gsub(/\r\n/, '<br>') if self.description
   end
+
 end

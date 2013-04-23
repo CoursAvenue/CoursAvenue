@@ -8,6 +8,7 @@ class Place < ActiveRecord::Base
   end
 
   include ActsAsCommentable
+  include ActsAsGeolocalizable
 
   extend FriendlyId
   friendly_id :friendly_name, use: [:slugged, :history]
@@ -130,37 +131,6 @@ class Place < ActiveRecord::Base
     else
       structure.description
     end
-  end
-
-  # describe how to retrieve the address from your model, if you use directly a db column, you can dry your code, see wiki
-  def gmaps4rails_address
-    "#{self.street}, #{self.zip_code}, France"
-  end
-
-  def retrieve_address
-    if !self.new_record? and !self.is_geolocalized?
-      begin
-        geolocation    = Gmaps4rails.geocode self.gmaps4rails_address
-        self.latitude  = geolocation[:lat]
-        self.longitude = geolocation[:lng]
-        self.save
-      rescue Exception => e
-        puts "Address not found: #{e}"
-      end
-    end
-  end
-
-  def is_geolocalized?
-    !self.latitude.nil? and self.longitude.nil?
-  end
-
-  def geolocalize
-    self.touch
-    self.save
-  end
-
-  def address
-    "#{self.street}, #{self.city.name}"
   end
 
   def long_name

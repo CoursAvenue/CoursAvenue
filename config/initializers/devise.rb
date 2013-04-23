@@ -1,10 +1,11 @@
+# encoding: utf-8
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "contact@coursavenue.com"
+  config.mailer_sender = "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"

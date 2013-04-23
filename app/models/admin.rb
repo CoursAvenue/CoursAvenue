@@ -4,8 +4,6 @@ class ::Admin < ActiveRecord::Base
     'civility.female'
   ]
 
-  after_create :create_teacher_to_structure_if_no_teacher
-
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -36,17 +34,5 @@ class ::Admin < ActiveRecord::Base
 
   def full_name
     "#{first_name} #{last_name}"
-  end
-
-  def active_for_authentication?
-    true
-  end
-
-  private
-
-  def create_teacher_to_structure_if_no_teacher
-    if structure.teachers.empty?
-      self.structure.teachers.create name: self.name
-    end
   end
 end

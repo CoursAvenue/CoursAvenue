@@ -1,10 +1,10 @@
 %p Bienvenue sur CoursAvenue !
 
-%p Nous sommes ravis de vous accueillir et espérons que vous augmenterez votre taux de remplissage très rapidement grâce à nous.
+%p Nous sommes ravis de vous accueillir et espérons que vous augmenterez votre visibilité très rapidement grâce à nous.
 
 %p
-  Veuillez cliquer sur le lien suivant pour confirmer votre email :
-  = link_to 'Confirmer mon compte', pro_admin_confirmation_url(:confirmation_token => @resource.confirmation_token, :subdomain: 'pro')
+  Veuillez cliquer sur le lien suivant pour valider votre inscription :
+  = link_to 'Valider mon inscription', pro_admin_confirmation_url(confirmation_token: @resource.confirmation_token, subdomain: 'pro')
 
 %p À très bientôt !
 

@@ -1,8 +1,10 @@
 .pages
-  %h1 Référencez mes cours
+  .text--center
+    %h1.flush--bottom Référencer mes cours
+    %p.one-half.alert--info Vous n'êtes qu'a quelques click d'augmenter votre taux de remplissage !
   %h2.delta Choisissez votre établissement
   = select_tag :structure, options_from_collection_for_select(@structures, :slug, :name), include_blank: true
-  %div= link_to "Mon établissement n'est pas dans la liste", new_pro_admin_registration_path
+  %div= link_to "Mon établissement n'est pas dans la liste", new_pro_structure_path, onclick: "_gaq.push(['_trackEvent', 'Mon établissement n'est pas dans la liste', 'click'])"
 
 = content_for :scripts do
   :javascript

@@ -1,7 +1,8 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_filter :authenticate_pro_admin!, except: [:select, :show]
-  load_and_authorize_resource except: [:select, :edit]
+  before_filter :authenticate_pro_admin!, except: [:select, :new, :create]
+  load_and_authorize_resource except: [:select, :edit, :new, :create]
+
   layout 'admin'
 
   def select
@@ -83,8 +84,6 @@ class Pro::StructuresController < Pro::ProController
 
   def new
     @structure = Structure.new
-    @admin     = current_pro_admin
-    @structure.admins << @admin
   end
 
   def update
@@ -123,22 +122,19 @@ class Pro::StructuresController < Pro::ProController
 
 
   def create
-    @admin           = (params[:admin][:id].blank? ? ::Admin.new : ::Admin.find(params[:admin].delete(:id)))
+    @admin           = ::Admin.new params[:admin]
     @structure       = Structure.new(params[:structure])
     @structure.admins << @admin
     @admin.structure = @structure
-    if !@admin.new_record? and params[:admin][:password].blank?
-      params[:admin].delete :password
-      params[:admin].delete :password_confirmation
-    end
     respond_to do |format|
-      has_saved = @admin.update_attributes(params[:admin])
-      has_saved = has_saved && @structure.save
-      if has_saved
-        format.html { redirect_to pro_structure_teachers_path(@admin.structure), :notice => t("pro.structures.create.create_teacher") }
-      else
+      errors = !@admin.save(params[:admin])
+      errors = errors || !@structure.save
+      if errors
         flash[:alert] = "Il nous manque quelques informations pour continuer"
         format.html { render action: 'new'}
+      else
+        sign_in @admin
+        format.html { redirect_to pro_structure_teachers_path(@admin.structure), :notice => t("pro.structures.create.create_teacher") }
       end
     end
   end

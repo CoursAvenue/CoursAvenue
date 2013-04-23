@@ -4,6 +4,34 @@
   %p.alert--info
     %b Bienvenue !
     %br
-    Prenons le temps de se connaitre un peu plus. Promis, ça ne sera pas long !
+    Laissez vous guider pour référencer vos cours facilement !
+.islet
+  = simple_form_for [:pro, @structure] do |structure_form|
+    = simple_fields_for @structure.main_contact do |contact_form|
+      = contact_form.error_notification
+      .form-inputs
+        %h5.form-header-group
+          %i.icon-user
+          Contact
+        .form-white-box
+          = contact_form.input :name
+          = contact_form.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: '01 02 11 33 12'
+          %p.field-form-info.flush--bottom Nous pouvons vous appeler pour confirmer votre identité
+        %h5.form-header-group.flush--top.flush--bottom Identifiant de connexion
+        .form-white-box
+          = contact_form.input :email, wrapper_html: {class: 'flush--bottom'}
+          = contact_form.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe'
+          = contact_form.input :password_confirmation
 
-= render 'form'
+    .form-inputs
+      %h5.form-header-group
+        %i.lbc-icon-info i
+        Information
+      .form-white-box
+        = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
+        = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}
+        = structure_form.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
+        = structure_form.association :city, collection: [@structure.city]
+
+    .form-actions
+      = structure_form.button :submit, "S'inscrire", class: 'btn btn__success btn__large'

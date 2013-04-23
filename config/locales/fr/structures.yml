@@ -69,6 +69,7 @@ fr:
         structure_address_info: "Si vous êtes un professeur indépendant, renseignez votre adresse ; si ce n’est pas celle de vos cours, vous pourrez le spécifier dans votre espace et rajouter d’autres lieux"
         management_software_used: "Utilisez vous actuellement un logiciel de gestion ? Si oui, lequel ?"
       new:
+        structure_name: Nom de l'établissement
         create_structure: Créer ma structure
         name: "Nom (Prénom + Nom si vous êtes indépendant"
         you_are: Vous êtes ?
