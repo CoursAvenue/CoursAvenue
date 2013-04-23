@@ -87,7 +87,8 @@ CoursAvenue::Application.routes.draw do
   resources :places, only: [:index], path: 'etablissement', to: 'redirect#place_index'
   match 'lieux',                                            to: 'redirect#lieux'
   match 'lieux/:id',                                        to: 'redirect#lieux_show'
-  match 'ville/:id',                                        to: 'redirect#ville'
+  match 'ville/:city_id/disciplines/:subject_id',           to: 'redirect#city_subject'
+  match 'ville/:id',                                        to: 'redirect#city'
 
   # Pages
   match 'pages/pourquoi-le-bon-cours'         => 'pages#why',                  as: 'pages_why'
