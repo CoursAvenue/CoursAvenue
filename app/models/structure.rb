@@ -91,6 +91,10 @@ class Structure < ActiveRecord::Base
     subjects.uniq.map(&:parent).uniq
   end
 
+  def description_for_input
+    self.description.gsub(/<br>/, '&#x000A;') if self.description
+  end
+
   private
 
   def set_free_pricing_plan

@@ -19,7 +19,6 @@
           %p.field-form-info.flush--bottom= t('.phone_number_info')
           = contact_form.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: '01 02 11 33 12'
           = contact_form.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: '06 07 11 33 12'
-          %p.field-form-info= t('.mobile_phone_number_info')
         / = contact_form.input :email, :required => true, :autofocus => true, wrapper_html: {class: 'flush--bottom'}
         / %p.field-form-info= t('.email_info')
         / = contact_form.input :management_software_used, label: t('.management_software_used' )
@@ -82,7 +81,7 @@
           .textarea-with-info.grid__item.width-auto
             .grid--full
               .one-half.grid__item>
-                = structure_form.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {id: 'description-textarea', class: 'textarea-description--tall', placeholder: 'Mettez en avant votre différence !', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
+                = structure_form.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {id: 'description-textarea', class: 'textarea-description--tall', placeholder: 'Mettez en avant votre différence !', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}, value: @structure.description_for_input.html_safe}
               .one-half.grid__item
                 %p.alert--info.flush--top Qu'est-ce qui vous différencie ? Pourquoi nos Internautes devraient-il réserver chez vous ? Soyez sincère et original !
                 %p.alert--info Quelle est votre équipe, combien êtes-vous ? Qui se cache derrière tout ça ? Quel est le profil de vos professeurs ?
@@ -90,7 +89,6 @@
                 %p.alert--info Toute autre info sur votre structure est bonne à renseigner !
     .form-actions
       = structure_form.button :submit, "Mettre à jour mes informations", class: 'btn btn__success'
-
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {

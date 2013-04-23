@@ -324,6 +324,12 @@ class Course < ActiveRecord::Base
     new_record? || !active
   end
 
+  def description_for_input
+    self.description.gsub(/<br>/, '&#x000A;') if self.description
+  end
+
+  private
+
   def friendly_name
     if city
       "#{self.slug_type_name} de #{self.name} a #{city.name} #{structure.name}"

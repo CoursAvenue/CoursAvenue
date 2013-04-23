@@ -6,9 +6,8 @@ class Pro::StructuresController < Pro::ProController
   layout 'admin'
 
   def select
-    # structure_with_admin    = Structure.select(:id).joins(:admins)
-    # @structure_without_admin = Structure.where{id.not_in structure_with_admin}.all
-    @structures = Structure.all
+    structure_with_admin  = Structure.select(:id).joins(:admins)
+    @structures           = Structure.where{id.not_in structure_with_admin}.all
   end
 
   def disable_condition
