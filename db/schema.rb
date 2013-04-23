@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130418082145) do
+ActiveRecord::Schema.define(:version => 20130422170542) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -56,8 +56,10 @@ ActiveRecord::Schema.define(:version => 20130418082145) do
     t.string   "management_software_used"
     t.boolean  "is_teacher"
     t.string   "mobile_phone_number"
-    t.string   "first_name"
-    t.string   "last_name"
+    t.string   "name"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
   end
 
   add_index "admins", ["email"], :name => "index_admin_users_on_email", :unique => true
@@ -291,21 +293,6 @@ ActiveRecord::Schema.define(:version => 20130418082145) do
     t.datetime "updated_at",            :null => false
     t.integer  "room_id"
     t.integer  "teacher_id"
-    t.date     "day_one"
-    t.time     "day_one_duration"
-    t.time     "day_one_start_time"
-    t.date     "day_two"
-    t.time     "day_two_duration"
-    t.time     "day_two_start_time"
-    t.date     "day_three"
-    t.time     "day_three_duration"
-    t.time     "day_three_start_time"
-    t.date     "day_four"
-    t.time     "day_four_duration"
-    t.time     "day_four_start_time"
-    t.date     "day_five"
-    t.time     "day_five_duration"
-    t.time     "day_five_start_time"
   end
 
   add_index "plannings", ["week_day"], :name => "index_plannings_on_week_day"

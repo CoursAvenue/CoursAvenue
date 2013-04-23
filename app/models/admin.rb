@@ -48,7 +48,7 @@ class ::Admin < ActiveRecord::Base
 
   def create_teacher_to_structure_if_no_teacher
     if structure.teachers.empty?
-      self.structure.teachers.create name: admin.name
+      self.structure.teachers.create name: self.name
     end
   end
 end

@@ -3,7 +3,7 @@
   %h3.zeta.text--center.flush--bottom
     %i.icon-map-marker
     = @course.place.long_name
-  - if @best_price #TODO: Remove this
+  - if @best_price
     .course-info-price.text--right
       %h2.blue= "#{@best_price.readable_amount}€"
       %small

@@ -21,6 +21,7 @@ fr:
   pro:
     admins:
       registrations:
+        successful: "Merci de vous être enregistré ! Bienvenue dans votre espace de configuration."
         new:
           phone_number_info: "Nous pouvons vous appeler pour confirmer votre identité"
           email_info: Cet email sera votre identifiant pour l’accès à votre espace pro
@@ -31,18 +32,14 @@ fr:
           structure_address: Adresse principale
           structure_address_info: "Si vous êtes un professeur indépendant, renseignez votre adresse ; si ce n’est pas celle de vos cours, vous pourrez le spécifier dans votre espace et rajouter d’autres lieux"
           sign_up: S'inscrire
-  devise:
-    failure:
-      admin:
-        not_found_in_database: Utilisateur inconnu
-  pro:
-    admin:
-      registration:
-        successful: "Merci de vous être enregistré ! Bienvenue dans votre espace de configuration."
       sessions:
         new:
           log_in: Connectez-vous à votre espace admin
-  admin:
+  devise:
+    failure:
+      admins:
+        not_found_in_database: Utilisateur inconnu
+  admins:
     registration:
       successful: "Merci de vous être enregistré ! Bienvenue dans votre espace de configuration."
     sessions:

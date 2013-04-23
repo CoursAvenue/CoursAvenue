@@ -22,7 +22,7 @@
       = f.input :email, :required => true, :autofocus => true, label: t('.email'), wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.email_info')
       = f.input :password, :required => true
-      = f.input :structure_id, as: :hidden, value: @structure.try(:id)
+      = f.hidden_field :structure_id, as: :hidden, value: @structure.try(:id)
 
   .text--center
     = f.button :submit, t('.sign_up'), class: 'btn__success btn__large'
