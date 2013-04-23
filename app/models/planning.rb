@@ -32,23 +32,7 @@ class Planning < ActiveRecord::Base
                   :min_age_for_kid,
                   :max_age_for_kid,
                   :teacher,
-                  :teacher_id,
-                  # For Trainings only
-                  :day_one,               # To remove
-                  :day_one_duration,      # To remove
-                  :day_one_start_time,    # To remove
-                  :day_two,               # To remove
-                  :day_two_duration,      # To remove
-                  :day_two_start_time,    # To remove
-                  :day_three,             # To remove
-                  :day_three_duration,    # To remove
-                  :day_three_start_time,  # To remove
-                  :day_four,              # To remove
-                  :day_four_duration,     # To remove
-                  :day_four_start_time,   # To remove
-                  :day_five,              # To remove
-                  :day_five_duration,     # To remove
-                  :day_five_start_time    # To remove
+                  :teacher_id
 
   # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
   def week_day

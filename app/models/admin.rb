@@ -32,7 +32,4 @@ class ::Admin < ActiveRecord::Base
   # attr_accessible :title, :body
   belongs_to :structure
 
-  def full_name
-    "#{first_name} #{last_name}"
-  end
 end
