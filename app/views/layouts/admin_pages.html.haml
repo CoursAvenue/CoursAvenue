@@ -2,7 +2,7 @@
   = render 'shared/header_pro_pages'
 
 = content_for :content do
-  .pages-style.main-container{class: controller_path}
+  .page-style.main-container{class: controller_path}
     = content_for?(:users_content) ? yield(:users_content) : yield
 
 = render :template => 'layouts/application'

@@ -1,14 +1,14 @@
-.pages-style {
+.page-style {
     background   : rgba(255,255,255, 0.5);
     padding      : 2em;
     border       : 1px solid $grayLighter;
     border-bottom: none;
 }
-.pages {
+.page, .pages {
     max-width    : 1000px;
     margin       : auto;
     margin-top   : 1em;
-    @extend .pages-style;
+    @extend .page-style;
     @include border-top-radius($brand-round);
     h2, h3, h4 {
         color: #555;

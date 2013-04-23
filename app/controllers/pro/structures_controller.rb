@@ -33,10 +33,6 @@ class Pro::StructuresController < Pro::ProController
   def activate
     @structure        = Structure.find params[:id]
     @structure.active = true
-    @structure.courses.each do |course|
-      course.active = true
-      course.save
-    end
 
     respond_to do |format|
       if @structure.save

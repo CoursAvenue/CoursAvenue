@@ -1,14 +1,15 @@
-%h2 Me renvoyer le lien de confirmation
+.page
+  %h2 Me renvoyer le lien de confirmation
 
-= simple_form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f|
-  = f.error_notification
-  = f.full_error :confirmation_token
+  = simple_form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f|
+    = f.error_notification
+    = f.full_error :confirmation_token
 
-  .form-inputs
-    = f.input :email, :required => true, :autofocus => true
+    .form-inputs
+      = f.input :email, :required => true, :autofocus => true
 
-  .form-actions
-    = f.button :submit, "Renvoyer le lien"
+    .form-actions
+      = f.button :submit, "Renvoyer le lien"
 
-  .form-actions
-    = render "pro/admins/shared/links"
+    .form-actions
+      = render "pro/admins/shared/links"

@@ -1,13 +1,14 @@
-%h2 J'ai oublié mon mot de passe
+.page
+  %h2 J'ai oublié mon mot de passe
 
-= simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
-  = f.error_notification
+  = simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
+    = f.error_notification
 
-  .form-inputs
-    = f.input :email, :required => true, :autofocus => true
+    .form-inputs
+      = f.input :email, :required => true, :autofocus => true
 
-  .form-actions
-    = f.button :submit, "Envoyer un nouveau mot de passe", class: 'btn'
-  .form-actions
-    = render "pro/admins/shared/links"
+    .form-actions
+      = f.button :submit, "Envoyer un nouveau mot de passe", class: 'btn'
+    .form-actions
+      = render "pro/admins/shared/links"
 
