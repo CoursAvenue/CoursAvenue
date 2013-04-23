@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Pro::PlanningsController < InheritedResources::Base#Pro::ProController
+class Pro::PlanningsController < InheritedResources::Base
   before_filter :authenticate_pro_admin!
   layout 'admin'
   belongs_to :course
@@ -18,37 +18,57 @@ class Pro::PlanningsController < InheritedResources::Base#Pro::ProController
   end
 
   def create
-    @planning        = Planning.new(params[:planning])
-    @plannings       = @course.plannings.reject { |planning| planning == @planning }
-    @planning.course = @course
-    set_dates_and_times
+    if can? :edit, @course
+      @planning        = Planning.new(params[:planning])
+      @plannings       = @course.plannings.reject { |planning| planning == @planning }
+      @planning.course = @course
+      set_dates_and_times
 
-    respond_to do |format|
-      if @planning.save
-        format.html { redirect_to pro_course_plannings_path(@course) }
-      else
-        format.html { render template: 'pro/plannings/index'}
+      respond_to do |format|
+        if @planning.save
+          format.html { redirect_to pro_course_plannings_path(@course) }
+        else
+          if @planning.end_date < Date.today
+            alert = 'Le cours ne peut être dans le passé'
+          end
+          flash[:alert] = alert
+          format.html { render template: 'pro/plannings/index'}
+        end
       end
+    else
+      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas éditer les cours actifs"
     end
   end
 
   def update
-    @planning        = Planning.find(params[:id])
-    @planning.course = @course
-    set_dates_and_times
+    if can? :edit, @course
+      @planning        = Planning.find(params[:id])
+      @planning.course = @course
+      set_dates_and_times
 
-    respond_to do |format|
-      if @planning.update_attributes(params[:planning])
-        format.html { redirect_to pro_course_plannings_path(@course) }
-      else
-        format.html { render template: 'pro/plannings/index' }
+      respond_to do |format|
+        if @planning.update_attributes(params[:planning])
+          format.html { redirect_to pro_course_plannings_path(@course) }
+        else
+          if @planning.end_date < Date.today
+            alert = 'Le cours ne peut être dans le passé'
+          end
+          flash[:alert] = alert
+          format.html { render template: 'pro/plannings/index' }
+        end
       end
+    else
+      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas éditer les cours actifs"
     end
   end
 
   def destroy
-    destroy! do |success, failure|
-      success.html { redirect_to pro_course_plannings_path(@course) }
+    if can? :edit, @course
+      destroy! do |success, failure|
+        success.html { redirect_to pro_course_plannings_path(@course) }
+      end
+    else
+      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas éditer les cours actifs"
     end
   end
 

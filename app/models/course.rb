@@ -321,7 +321,7 @@ class Course < ActiveRecord::Base
   end
 
   def should_generate_new_friendly_id?
-    new_record?
+    new_record? || !active
   end
 
   def friendly_name

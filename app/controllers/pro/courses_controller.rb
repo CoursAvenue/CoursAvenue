@@ -56,30 +56,36 @@ class Pro::CoursesController < InheritedResources::Base
   end
 
   def update_price
-    errors = false
-    if params[:individual_course_price][:amount].present?
-      @individual_price = @course.prices.where{libelle == 'prices.individual_course'}.first || @course.prices.build
-      errors = @individual_price.update_attributes(params[:individual_course_price])
-    end
-    if params[:price] and params[:price][:amount].present?
-      @subscription = @course.prices.where{libelle != 'prices.individual_course'}.first || @course.prices.build
-      errors = errors and @subscription.update_attributes(params[:price])
-    end
-    if params[:book_ticket] and params[:book_ticket][:price].present?
-      @book_ticket = @course.book_tickets.where{number == 10}.first || @course.book_tickets.build
-      errors = errors and @book_ticket.update_attributes(params[:book_ticket])
-    end
-
-    respond_to do |format|
-      if errors
-        format.html{ redirect_to pro_structure_path(@structure) }
-      else
-        format.html{ redirect_to pro_course_prices_path(@course), error: 'Vous devez renseigner au moins un prix' }
+    if can? :edit, @course
+      errors = false
+      if params[:individual_course_price][:amount].present?
+        @individual_price = @course.prices.where{libelle == 'prices.individual_course'}.first || @course.prices.build
+        errors = !@individual_price.update_attributes(params[:individual_course_price])
       end
+      if params[:price] and params[:price][:amount].present?
+        @subscription = @course.prices.where{libelle != 'prices.individual_course'}.first || @course.prices.build
+        errors = errors and !@subscription.update_attributes(params[:price])
+      end
+      if params[:book_ticket] and params[:book_ticket][:price].present?
+        @book_ticket = @course.book_tickets.where{number == 10}.first || @course.book_tickets.build
+        errors = errors and !@book_ticket.update_attributes(params[:book_ticket])
+      end
+
+      respond_to do |format|
+        if errors
+          flash[:alert] = 'Vous devez renseigner au moins un prix'
+          format.html{ render template: 'pro/prices/index' }
+        else
+          format.html{ redirect_to pro_structure_path(@structure), notice: 'Les prix ont bien été mis à jour' }
+        end
+      end
+    else
+      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas éditer les cours actifs"
     end
   end
 
   def update
+    authorize! :edit, @course
     if params[:course].delete(:delete_image) == '1'
       resource.image.clear
     end

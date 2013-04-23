@@ -6,10 +6,13 @@ class BookTicket < ActiveRecord::Base
 
   validates :number, presence: true
   validates :price, presence: true
-  validates :validity, presence: true
 
   def libelle
-    "Carnet de #{number} cours (validité #{validity.to_i} mois)"
+    if validity
+      "Carnet de #{number} cours (validité #{validity.to_i} mois)"
+    else
+      "Carnet de #{number} cours"
+    end
   end
 
   def amount

@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
   before_filter :authenticate_pro_admin!, except: [:select, :show]
-  load_and_authorize_resource except: [:select]
+  load_and_authorize_resource except: [:select, :edit]
   layout 'admin'
 
   def select
@@ -76,6 +76,9 @@ class Pro::StructuresController < Pro::ProController
   def edit
     @structure = Structure.find(params[:id])
     @admin     = @structure.admins.first || Admin.new
+    if ! can? :edit, @structure
+      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas éditer les informations générales"
+    end
   end
 
   def new

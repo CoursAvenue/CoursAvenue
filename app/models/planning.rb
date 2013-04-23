@@ -9,12 +9,14 @@ class Planning < ActiveRecord::Base
 
   has_one   :structure, through: :course
 
+  before_validation :set_end_date
+  before_validation :set_end_time
+  before_validation :set_duration
+
   validates :teacher, presence: true
   validate :presence_of_start_date
+  validate :end_date_in_future
 
-  before_save :set_end_date
-  before_save :set_end_time
-  before_save :set_duration
 
   attr_accessible :duration,
                   :end_date,
@@ -110,6 +112,12 @@ class Planning < ActiveRecord::Base
       unless start_date.present?
         errors.add(:end_date, :blank)
       end
+    end
+  end
+
+  def end_date_in_future
+    if end_date and end_date < Date.today
+      errors.add(:error_notification, 'Le cours ne peut pas être dans le passé.')
     end
   end
 end

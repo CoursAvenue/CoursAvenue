@@ -27,13 +27,10 @@ CoursAvenue::Application.routes.draw do
         resources :places
 
         resources :courses, only: [:new, :create], path: 'cours' # To insure to have the structure_id
-        # resources :course_workshops, only: [:create, :update], controller: 'courses'
-        # resources :course_trainings, only: [:create, :update], controller: 'courses'
-        # resources :course_lessons, only: [:create, :update], controller: 'courses'
       end
       resources :courses, except: [:new, :create], path: 'cours' do
         resources :plannings, only: [:edit, :index, :destroy]
-        resources :prices, only: [:edit, :index, :destroy]
+        resources :prices, only: [:index]
         resources :book_tickets, only: [:edit, :index, :destroy]
         member do
           put 'update_price'

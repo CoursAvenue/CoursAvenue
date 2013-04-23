@@ -7,10 +7,13 @@ class Ability
         can :manage, :all
       elsif !admin.active
         can :read, admin.structure
+        can :read, admin.structure.places
         can :read, admin.structure.courses.where{active == true}
         can :manage, admin.structure.courses.where{active == false}
       else
         can :manage, admin.structure
+        can :manage, admin.structure.places
+        can :manage, admin.structure.courses
         can :create, Structure
       end
 
