@@ -20,8 +20,12 @@ class RedirectController < ApplicationController
     redirect_to place_path(params[:id]), status: 301
   end
 
-  def ville
+  def city
     redirect_to courses_path, status: 301
+  end
+
+  def city_subject
+    redirect_to subject_courses_path(params[:subject_id]), status: 301
   end
 
   private
