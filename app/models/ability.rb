@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(admin)
-      admin ||= Admin.new
+    if admin
       if admin.super_admin?
         can :manage, :all
       elsif !admin.active
@@ -16,6 +16,7 @@ class Ability
         can :manage, admin.structure.courses
         can :create, Structure
       end
+    end
 
     # Define abilities for the passed in user here. For example:
     #
