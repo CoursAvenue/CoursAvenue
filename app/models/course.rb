@@ -325,7 +325,7 @@ class Course < ActiveRecord::Base
   end
 
   def description_for_input
-    self.description.gsub(/<br>/, '&#x000A;') if self.description
+    self.description.gsub(/<br>/, '&#x000A;').html_safe if self.description
   end
 
   private
