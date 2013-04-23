@@ -16,7 +16,6 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
     respond_to do |format|
       if @admin.save
         sign_in @admin
-        format.html { redirect_to pro_structure_path(@admin.structure), :notice => t('admins.registration.successful') }
       else
         format.html { render 'new'}
       end

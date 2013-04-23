@@ -130,11 +130,10 @@ class Pro::StructuresController < Pro::ProController
       errors = !@admin.save(params[:admin])
       errors = errors || !@structure.save
       if errors
-        flash[:alert] = "Il nous manque quelques informations pour continuer"
+        flash[:alert] = 'Il nous manque quelques informations pour continuer'
         format.html { render action: 'new'}
       else
         sign_in @admin
-        format.html { redirect_to pro_structure_teachers_path(@admin.structure), :notice => t("pro.structures.create.create_teacher") }
       end
     end
   end
