@@ -25,10 +25,5 @@ class ReservationsController < ApplicationController
 
   def retrieve_info
     @course       = Course.find params[:course_id]
-    @structure    = @course.structure
-    @place        = @course.place
-    @plannings    = @course.plannings
-    @prices       = @course.prices
-    @book_tickets = @course.book_tickets
   end
 end
