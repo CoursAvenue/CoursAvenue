@@ -23,8 +23,6 @@ CoursAvenue::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
-  config.js_routes.mode    = Rails.env.production? ? :write_once : :mount
-
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
 
