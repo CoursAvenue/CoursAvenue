@@ -97,6 +97,10 @@ class PlacesController < ApplicationController
       city_term  = "#{params[:city]}%"
       city_slug  = params[:city]
     end
-    @city = City.find(city_slug) || City.where{name =~ city_term}.order('name ASC').first # Prevents from bad slugs
+    begin
+      @city = City.find(city_slug)
+    rescue
+      @city = City.where{name =~ city_term}.order('name ASC').first # Prevents from bad slugs
+    end
   end
 end

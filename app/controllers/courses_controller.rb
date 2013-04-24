@@ -69,7 +69,12 @@ class CoursesController < ApplicationController
       city_slug  = params[:city]
     end
     #@city      = City.where{(slug == city_slug ) | (name =~ city_term)}.order('name ASC').first # Prevents from bad slugs
-    @city = City.find(city_slug) || City.where{name =~ city_term}.order('name ASC').first # Prevents from bad slugs
+    begin
+      @city = City.find(city_slug)
+    rescue
+      @city = City.where{name =~ city_term}.order('name ASC').first # Prevents from bad slugs
+    end
+    # @city = City.find(city_slug) || City.where{name =~ city_term}.order('name ASC').first # Prevents from bad slugs
     @audiences = Audience.all
     @levels    = [
                     {name: Level.all_levels.name, id: Level.all_levels.id},
