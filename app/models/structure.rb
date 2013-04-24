@@ -49,7 +49,7 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  after_create     :create_teacher
+  after_save       :create_teacher
   after_create     :set_free_pricing_plan
   after_create     :create_place
 
@@ -106,7 +106,9 @@ class Structure < ActiveRecord::Base
   end
 
   def create_teacher
-    self.teachers.create(name: main_contact.name)
+    if teachers.empty? and main_contact
+      self.teachers.create(name: main_contact.name)
+    end
   end
 
   def replace_slash_n_r_by_brs
