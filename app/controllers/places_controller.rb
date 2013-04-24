@@ -95,7 +95,7 @@ class PlacesController < ApplicationController
       city_slug = 'paris'
     else
       city_term  = "#{params[:city]}%"
-      city_slug  = params[:city]
+      city_slug  = params[:city].downcase
     end
     begin
       @city = City.find(city_slug)

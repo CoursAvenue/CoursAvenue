@@ -66,7 +66,7 @@ class CoursesController < ApplicationController
       city_slug = 'paris'
     else
       city_term  = "#{params[:city]}%"
-      city_slug  = params[:city]
+      city_slug  = params[:city].downcase
     end
     #@city      = City.where{(slug == city_slug ) | (name =~ city_term)}.order('name ASC').first # Prevents from bad slugs
     begin
