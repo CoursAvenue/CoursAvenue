@@ -13,7 +13,7 @@
     - unless response.cache_control[:public]
       - flash.each do |key, msg|
         .flash{class: key, data: {behavior: 'flash', type: key}}
-          = msg
+          = msg.html_safe
 
     = yield :header
 

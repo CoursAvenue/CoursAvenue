@@ -11,10 +11,10 @@ class Pro::CoursesController < InheritedResources::Base
   def activate
     if current_pro_admin.active
       @course = Course.find params[:id]
-      if @course.update_attribute :active, true
+      if @course.activate
         redirect_to pro_structure_path(@structure), notice: "Le cours est maintenant visible sur CoursAvenue"
       else
-        redirect_to pro_structure_path(@structure), alert: "Le cours n'a pu être mis en ligne. Assurez vous que toutes les informations sont bien renseignés."
+        redirect_to pro_structure_path(@structure), alert: "Le cours n'a pu être mis en ligne.<br>Assurez vous que le tarif et le planning sont bien renseignés."
       end
     else
       redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas encore mettre vos cours en ligne"
@@ -27,7 +27,7 @@ class Pro::CoursesController < InheritedResources::Base
       if @course.update_attribute :active, false
         redirect_to pro_structure_path(@structure), notice: "Le cours n'est plus affiché sur CoursAvenue"
       else
-        redirect_to pro_structure_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que toutes les informations sont bien renseignés."
+        redirect_to pro_structure_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que le tarif et le planning sont bien renseignés."
       end
     else
       redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas mettre ce cours hors ligne"
