@@ -26,7 +26,7 @@
         /////////////////////////////////// Cities AJAX
         cityAjax: function() {
             this.city_request = new Request.JSON({
-                url: Routes.cities_path({format: 'json'}),
+                url: Routes.name_search_cities_path({format: 'json'}),
                 onSuccess: function(cities) {
                     var values = [];
                     cities.cities.each(function(city) {

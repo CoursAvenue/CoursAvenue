@@ -14,7 +14,7 @@
             this.select_element = $(el.get('data-el'));
             this.current_val    = el.get('value');
             this.request = new Request.JSON({
-                url: Routes.cities_path({format: 'json'}),
+                url: Routes.zip_code_search_cities_path({format: 'json'}),
                 onSuccess: function(cities) {
                     this.select_element.empty();
                     var select_el = this.select_element;

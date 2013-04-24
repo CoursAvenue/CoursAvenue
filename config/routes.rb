@@ -57,7 +57,12 @@ CoursAvenue::Application.routes.draw do
     end
   end
 
-  resources :cities, only: [:index]
+  resources :cities, only: [] do
+    collection do
+      get 'zip_code_search'
+      get 'name_search'
+    end
+  end
 
   resources :newsletter_users, only: [:create]
 

@@ -1,7 +1,16 @@
 class CitiesController < ApplicationController
-  def index
+  def name_search
     term = "#{params[:term]}%"
-    @cities = City.where{(zip_code =~ term) | (name =~ term)}.limit(20)
+    @cities = City.where{name =~ term}.limit(20)
+
+    respond_to do |format|
+      format.json { render json: @cities }
+    end
+  end
+
+  def zip_code_search
+    term = params[:term]
+    @cities = City.where{zip_code =~ term}.limit(20)
 
     respond_to do |format|
       format.json { render json: @cities }
