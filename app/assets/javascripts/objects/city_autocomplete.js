@@ -12,7 +12,7 @@
         initialize: function(el, options) {
             this.el             = el;
             this.select_element = $(el.get('data-el'));
-            this.current_val    = el.get('value');
+            this.current_val    = '';
             this.request = new Request.JSON({
                 url: Routes.zip_code_search_cities_path({format: 'json'}),
                 onSuccess: function(cities) {
@@ -24,17 +24,19 @@
                 }.bind(this)
             });
             this.attachEvents();
+            this.retrieveCity();
         },
 
         attachEvents: function() {
             var select = this.select_element;
-            this.el.addEvent('keyup', function(event) {
-                if (event.target.value.length > 2 && this.current_val !== event.target.value) {
-                    this.current_val    = this.el.get('value');
-                    this.request.cancel();
-                    this.request.get('term=' + event.target.value);
-                }
-            }.bind(this));
+            this.el.addEvent('keyup', this.retrieveCity.bind(this));
+        },
+        retrieveCity: function() {
+            if (this.el.value.length === 5 && this.current_val !== this.el.value) {
+                this.request.cancel();
+                this.current_val = this.el.value;
+                this.request.get('term=' + event.target.value);
+            }
         }
     });
 })();

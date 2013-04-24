@@ -30,9 +30,8 @@
     Image
   .form-white-box
     - unless @course.new_record? || !@course.image.present?
-      .input.grid
-        .grid__item.width-auto>= f.label :image
-        .grid__item.width-auto>= image_tag @course.image.url(:thumb), height: 200
+      .text--center
+        = image_tag @course.image.url(:thumb), height: 200
       = f.input :delete_image, as: :boolean, :label => "Supprimer l'image"
     .input
       - if @course.new_record?
