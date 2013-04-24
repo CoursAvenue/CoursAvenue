@@ -12,7 +12,7 @@ class Pro::CoursesController < InheritedResources::Base
     if current_pro_admin.active
       @course = Course.find params[:id]
       if @course.activate!
-        redirect_to pro_structure_path(@structure), notice: "Le cours est maintenant visible sur CoursAvenue"
+        redirect_to pro_structure_path(@structure), notice: "Le cours sera visible sur CoursAvenue dans quelques minutes"
       else
         redirect_to pro_structure_path(@structure), alert: "Le cours n'a pu être mis en ligne.<br>Assurez vous que le tarif et le planning sont bien renseignés."
       end
