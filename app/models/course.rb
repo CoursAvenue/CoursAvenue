@@ -328,9 +328,10 @@ class Course < ActiveRecord::Base
     self.description.gsub(/<br>/, '&#x000A;').html_safe if self.description
   end
 
-  def activate
+  def activate!
     if plannings.any? and (prices.any? or book_tickets.any?)
-      return active = true
+      active = true
+      return self.save
     else
       errors.add(:plannings, "Le cours n'a pas de planning") if plannings.empty?
       errors.add(:prices, "Le cours n'a pas de tarif")       if prices.empty? and book_tickets.empty?
