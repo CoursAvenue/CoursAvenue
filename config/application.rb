@@ -38,6 +38,11 @@ module CoursAvenue
             end_time:   '11:00 PM'
           }
     }
+    # S3 =  AWS::S3.new(
+    #   :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+    #   :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+    # )
+    # S3_BUCKET = S3.buckets[ENV['AWS_BUCKET']]
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
