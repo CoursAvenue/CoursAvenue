@@ -67,9 +67,9 @@ class Structure < ActiveRecord::Base
   has_many :admins
 
   validates :name               , :presence   => true
-  validates :street             , :presence   => true
-  validates :zip_code           , :presence   => true, numericality: { only_integer: true }
-  validates :city               , :presence   => true
+  validates :street             , :presence   => true, on: :create
+  validates :zip_code           , :presence   => true, numericality: { only_integer: true }, on: :create
+  validates :city               , :presence   => true, on: :create
   # validates :structure_type     , :presence   => true
   validates :siret              , length: { maximum: 14 }#, numericality: { only_integer: true }
 

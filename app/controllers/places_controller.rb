@@ -35,8 +35,8 @@ class PlacesController < ApplicationController
 
       init_geoloc
 
-      fresh_when etag: @places, public: true
-      expires_in 10.minutes, public: true
+      fresh_when etag: [@places, ENV["ETAG_VERSION_ID"]], public: true
+      expires_in 1.minutes, public: true
     end
   end
 
@@ -62,7 +62,7 @@ class PlacesController < ApplicationController
       marker.json({ id: place.id })
     end
 
-    fresh_when etag: [@place, @comments.first], public: true
+    fresh_when etag: [@place, @comments.first, ENV["ETAG_VERSION_ID"]], public: true
     # fresh_when etag: @place, last_modified: @place.updated_at # Tell the page is new
     # Can pass in an array [@place, @comments]
     # If add respond_to :

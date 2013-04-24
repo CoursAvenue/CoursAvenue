@@ -5,9 +5,14 @@
   = link_to pro_structure_path(@structure) do
     %i.icon-double-angle-left
     Retour aux cours
-  |
+  &nbsp;|&nbsp;
   = link_to pro_course_prices_path(@course) do
-    € Définir les prix du cours
+    € Tarif
+  &nbsp;|&nbsp;
+  = link_to '#' do
+    %b
+      %i.icon-calendar
+      Planning
 
 %h4.flush--bottom Rajouter un créneau
 = render "#{@course.underscore_name}_form"

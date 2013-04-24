@@ -6,7 +6,7 @@
       .grid
         .grid__item.palm--one-whole.lap--one-whole.one-half.islet>
           %h2.home-title Paris
-          - cache 'map', expires_in: 1.day, public: true do
+          - cache "map_#{ENV["ETAG_VERSION_ID"]}", public: true do
             = render 'map_paris'
         .grid__item.palm--one-whole.lap--one-whole.one-half.islet{style: 'min-height: 35em;'}
           %div
@@ -66,7 +66,7 @@
               Éveillons nos tout petits
             %p.course-block-caption
               Cours & stages pour les 0 à 5 ans
-    - cache 'home_blog', public: true do
+    - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
       .grid__item.lap--one-whole.palm--one-whole.one-half
         %h3.home-title Le Blog
         = blog_feed

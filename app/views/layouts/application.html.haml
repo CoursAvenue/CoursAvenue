@@ -20,7 +20,7 @@
     = yield :above_container
     = content_for?(:content) ? yield(:content) : yield
 
-    - cache 'page-footer' do
+    - cache "page-footer_#{ENV["ETAG_VERSION_ID"]}" do
       = render 'shared/footer'
 
     = javascript_include_tag "application"

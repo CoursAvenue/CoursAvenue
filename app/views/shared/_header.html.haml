@@ -1,4 +1,4 @@
-- cache 'page-header' do
+- cache "page-header_#{ENV["ETAG_VERSION_ID"]}" do
   %header.header
     .main-container.grid--full
       .grid__item.one-half>

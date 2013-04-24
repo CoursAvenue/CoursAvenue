@@ -37,7 +37,7 @@ fr:
           log_in: Connectez-vous à votre espace admin
   devise:
     failure:
-      admin:
+      pro_admin:
         not_found_in_database: Utilisateur inconnu
   admins:
     registration:
@@ -45,5 +45,3 @@ fr:
     sessions:
       new:
         log_in: Connectez-vous à votre espace admin
-    verification:
-      new:

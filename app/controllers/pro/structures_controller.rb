@@ -7,7 +7,7 @@ class Pro::StructuresController < Pro::ProController
 
   def select
     structure_with_admin  = Structure.select(:id).joins(:admins)
-    @structures           = Structure.where{id.not_in structure_with_admin}.all
+    @structures           = Structure.where{id.not_in structure_with_admin}.order('name ASC').all
   end
 
   def disable_condition
@@ -57,7 +57,7 @@ class Pro::StructuresController < Pro::ProController
 
   def show
     @structure = Structure.find params[:id]
-    @places    = @structure.places
+    @places    = @structure.places.order('name ASC')
     respond_to do |format|
       if @structure.places.empty?
         format.html { redirect_to new_pro_structure_place_path(@structure), notice: "Vous devez d'abord créé des lieux pour vos cours."}
@@ -128,7 +128,7 @@ class Pro::StructuresController < Pro::ProController
         flash[:alert] = 'Il nous manque quelques informations pour continuer'
         format.html { render action: 'new'}
       else
-        format.html { redirect_to pro_root_path, notice: 'Un email de confirmation viens de vous être envoyé' }
+        format.html { redirect_to pro_root_path, notice: 'Un email de confirmation vient de vous être envoyé' }
       end
     end
   end

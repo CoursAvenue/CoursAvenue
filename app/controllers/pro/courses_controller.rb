@@ -46,7 +46,7 @@ class Pro::CoursesController < InheritedResources::Base
     @course           = Course.new params[:course]
     @course.structure = @structure
     create! do |success, failure|
-      success.html { redirect_to pro_course_plannings_path(@course), notice: 'Vous pouvez maintenant créer le planning de ce cours' }
+      success.html { redirect_to pro_course_prices_path(@course), notice: 'Vous pouvez maintenant définir les tarifs pour ce cours' }
       failure.html { redirect_to new_pro_structure_course_path(@structure), alert: 'Impossible de créer le cours.' }
     end
   end
@@ -72,7 +72,11 @@ class Pro::CoursesController < InheritedResources::Base
           flash[:alert] = 'Vous devez renseigner au moins un prix'
           format.html{ render template: 'pro/prices/index' }
         else
-          format.html{ redirect_to pro_structure_path(@structure), notice: 'Les prix ont bien été mis à jour' }
+          if @course.plannings.empty?
+            format.html{ redirect_to pro_course_plannings_path(@course), notice: 'Vous pouvez maintenant définir le planning du cours' }
+          else
+            format.html{ redirect_to pro_structure_path(@structure), notice: 'Les prix ont bien été mis à jour' }
+          end
         end
       end
     else

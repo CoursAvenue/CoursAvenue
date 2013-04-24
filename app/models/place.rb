@@ -63,7 +63,7 @@ class Place < ActiveRecord::Base
                   :has_daylight
 
   def course_with_planning
-    self.courses.joins{plannings}.where{plannings.end_date > Date.today}.group(:id)
+    self.courses.joins{plannings}.where{(active == true) & (plannings.end_date > Date.today)}.group(:id)
   end
 
   # ------------------------------------------------------------------------------------ Search attributes

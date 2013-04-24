@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Pro::Admins::RegistrationsController < Devise::RegistrationsController
   layout 'admin_pages'
 
@@ -15,7 +16,7 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
     @structure = @admin.structure
     respond_to do |format|
       if @admin.save
-        sign_in @admin
+        format.html { redirect_to pro_root_path, notice: 'Un email de confirmation vient de vous être envoyé' }
       else
         format.html { render 'new'}
       end

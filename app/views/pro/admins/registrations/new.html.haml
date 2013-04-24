@@ -3,11 +3,7 @@
     %h1= @structure.name
 .text--center
   %p.alert--info.one-half
-    Des questions ? Nous sommes joignables entre 9h30 et 18h30
-    %br
-    %b
-      %i.icon-phone
-      06 07 94 54 52
+    Créez vos identifiants pour accéder à votre espace pro.
 
 = simple_form_for [:pro, @admin], :url => pro_admin_registration_path, html: {class: 'half-form'} do |f|
   = f.error_notification

@@ -9,7 +9,8 @@ gem 'rails', '3.2.12'
 # Caching
 gem 'memcachier'
 gem 'dalli'
-
+gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
+gem 'heroku-api'                , '~> 0.3.9'
 # group :assets do
   gem 'coffee-rails'            , '~> 3.2.1'
   gem 'haml'                    , '~> 3.1.7'

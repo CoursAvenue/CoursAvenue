@@ -1,10 +1,14 @@
 .page
-  .text--center
-    %h1.flush--bottom Référencer mes cours
-    %p.one-half.alert--info Vous n'êtes qu'a quelques click d'augmenter votre taux de remplissage !
-  %h2.delta Choisissez votre établissement
-  = select_tag :structure, options_from_collection_for_select(@structures, :slug, :name), include_blank: true
-  %div= link_to "Mon établissement n'est pas dans la liste", new_pro_structure_path, onclick: "_gaq.push(['_trackEvent', 'Mon établissement n'est pas dans la liste', 'click'])"
+  %h1.text--center Accédez à notre logiciel en ligne pour référencer directement vos cours
+
+  .grid
+    .grid__item.width-auto>
+      %h2.delta Choisissez votre établissement dans la liste :
+    .grid__item.width-auto
+      = select_tag :structure, options_from_collection_for_select(@structures, :slug, :name), include_blank: true , style: 'max-width: 35em;'
+  %div
+    Votre établissement n'est pas dans la liste ? Pas de soucis,
+    = link_to "cliquez ici !", new_pro_structure_path, onclick: "_gaq.push(['_trackEvent', 'Mon établissement n'est pas dans la liste', 'click'])"
 
 = content_for :scripts do
   :javascript
