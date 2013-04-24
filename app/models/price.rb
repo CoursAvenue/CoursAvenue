@@ -28,7 +28,7 @@ class Price < ActiveRecord::Base
   validates :amount , presence: true
 
   def per_course_amount
-    if amount.nil?
+    if amount.nil? or nb_courses.nil?
       nil
     else
       ('%.2f' % (amount / nb_courses)).gsub('.', ',').gsub(',00', '')

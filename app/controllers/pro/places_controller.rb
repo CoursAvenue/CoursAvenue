@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Pro::PlacesController < InheritedResources::Base#Pro::ProController
+class Pro::PlacesController < InheritedResources::Base
   before_filter :authenticate_pro_admin!, except: [:index]
   layout 'admin'
   belongs_to :structure
@@ -14,9 +14,9 @@ class Pro::PlacesController < InheritedResources::Base#Pro::ProController
   end
 
   def create
-    if can? :create, @place
+    if can? :create, resource
       create! do |success, failure|
-        success.html { redirect_to pro_structure_place_rooms_path(@structure, @place) }
+        success.html { redirect_to pro_structure_place_rooms_path(@structure, resource) }
       end
     else
       redirect_to pro_structure_places_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas encore créer de lieu"
@@ -24,7 +24,7 @@ class Pro::PlacesController < InheritedResources::Base#Pro::ProController
   end
 
   def update
-    if can? :edit, @place
+    if can? :edit, resource
       if params[:place].delete(:delete_image) == '1'
         resource.image.clear
       end
@@ -40,7 +40,7 @@ class Pro::PlacesController < InheritedResources::Base#Pro::ProController
   end
 
   def destroy
-    if can? :edit, @place
+    if can? :edit, resource
       destroy! do |success, failure|
         success.html { redirect_to pro_structure_places_path(@structure) }
       end

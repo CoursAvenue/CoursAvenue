@@ -1,0 +1,15 @@
+# encoding: utf-8
+class AdminMailer < ActionMailer::Base
+  default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
+
+  # Subject can be set in your I18n file at config/locales/en.yml
+  # with the following lookup:
+  #
+  #   en.user_mailer.book_class.subject
+  #
+
+  def admin_validated(admin)
+    @admin = admin
+    mail to: @admin.email, subject: 'Votre compte a été validé'
+  end
+end

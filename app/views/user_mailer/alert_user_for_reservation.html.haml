@@ -1,0 +1,34 @@
+%p Bonjour #{@reservation.name},
+
+%p Merci d'avoir réservé le #{@reservation.course.type_name.downcase} de : #{@reservation.course.name} !
+
+%p
+  ======== Récapitulatif ========
+  %br
+  Nom du #{@reservation.course.type_name.downcase} : #{@reservation.course.name}
+  %br
+  Établissement : #{@place.long_name}
+  %br
+  Adresse de l'établissement : #{@place.address}
+  %br
+  - if @reservation.price
+    Prix : #{@reservation.price.readable_amount}€ (#{I18n.t(@reservation.price.libelle)})
+    %br
+
+%p Pour confirmer votre réservation, nous vous invitons à contacter l'établissement.
+
+%p
+  ======== Information de l'établissement ========
+  %br
+  Numéro de téléphone :
+  %br
+  - if @place.contact_phone
+    = @place.contact_phone
+  - if @place.contact_phone and @place.contact_mobile_phone
+    \/
+  - if @place.contact_mobile_phone
+    = @place.contact_mobile_phone
+
+%p À très bientôt !
+
+%p L'équipe de CoursAvenue !

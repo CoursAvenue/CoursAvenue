@@ -6,11 +6,18 @@ class ::Pro::AdminsController < InheritedResources::Base
   layout 'admin'
 
   def activate
-    @admin = ::Admin.find(params[:id])
-    @admin.active = true
-    @admin.save!
+    @admin            = ::Admin.find(params[:id])
+    @structure        = @admin.structure
+    @admin.active     = true
+    @structure.active = true
     respond_to do |format|
-      format.html { redirect_to pro_admins_path }
+      if @admin.save and @structure.save
+        @structure.places.map(&:index)
+        AdminMailer.admin_validated(@admin).deliver!
+        format.html { redirect_to pro_admins_path }
+      else
+        format.html { redirect_to pro_admins_path, alert: 'Something fucked up.' }
+      end
     end
   end
 
@@ -23,7 +30,7 @@ class ::Pro::AdminsController < InheritedResources::Base
   end
 
   def index
-    @admins = ::Admin.all
+    @admins = ::Admin.order('created_at DESC').all
   end
 
   def edit
