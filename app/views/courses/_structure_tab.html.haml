@@ -1,8 +1,9 @@
 %article#tab-structure-info.tab-pane
   %h3.flush--bottom.islet= @place.long_name
   %ul
-    %li
-      %h4.base-font-style.flush--bottom= t(@structure.structure_type)
+    - if @structure.structure_type
+      %li
+        %h4.base-font-style.flush--bottom= t(@structure.structure_type)
     - if @structure.email_address
       %li
         = t('.contact')

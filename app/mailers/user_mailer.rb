@@ -16,10 +16,11 @@ class UserMailer < ActionMailer::Base
   def alert_user_for_reservation(reservation)
     @reservation = reservation
     @place       = @reservation.place
+    @structure   = @place.structure
 
-    mail to: @reservation.email, subject: @reservation.email_subject_for_user
+    mail to: @reservation.email,        subject: @reservation.email_subject_for_user
     mail to: 'contact@coursavenue.com', subject: @reservation.email_subject_for_user unless Rails.env.development?
-    mail to: 'nim.izadi@gmail.com', subject: @reservation.email_subject_for_user
+    mail to: 'nim.izadi@gmail.com',     subject: @reservation.email_subject_for_user
   end
 
   def alert_structure_for_reservation(reservation)

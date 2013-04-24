@@ -58,9 +58,10 @@
         .text--center= image_tag @place.structure.image.url(:thumb)
       %h2.delta.text--center Contacter : #{@place.long_name}
       %hr
-      %div
-        %i.icon-external-link.orange
-        = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
+      - if @structure.website
+        %div
+          %i.icon-external-link.orange
+          = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
       .blue
         - if @place.contact_phone or @place.contact_mobile_phone
           %i.icon-phone.blue

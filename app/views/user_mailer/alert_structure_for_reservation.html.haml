@@ -1,4 +1,4 @@
-%p Bonjour <%= @place.long_name %>,
+%p Bonjour #{@place.long_name},
 
 %p #{@reservation.name} aimerait suivre votre #{@reservation.course.type_name.downcase} de : #{@reservation.course.name}.
 
@@ -7,12 +7,12 @@
 %p
   \======== Informations de l'élève ========
   %br
-  Nom : <%= @reservation.name %>
+  Nom : #{@reservation.name}
   %br
   - if @reservation.phone.present?
     Téléphone : #{@reservation.phone}
     %br
-  Mail : <%= @reservation.email %>
+  Mail : #{@reservation.email}
 
 %p
   \======== Qui sommes-nous ? ========

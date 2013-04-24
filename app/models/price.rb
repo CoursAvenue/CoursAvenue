@@ -1,5 +1,6 @@
 class Price < ActiveRecord::Base
   belongs_to :course
+
   before_save :update_nb_courses
 
   # Possible libelle:
@@ -55,28 +56,26 @@ class Price < ActiveRecord::Base
   private
 
   def update_nb_courses
-    unless nb_courses
-      nb_courses = case libelle
-      when 'prices.free'
-        1
-      when 'prices.individual_course'
-        1
-      when 'prices.two_lesson_per_week_package'
-        2
-      when 'prices.annual'
-        35
-      when 'prices.semester'
-        17
-      when 'prices.trimester'
-        11
-      when 'prices.month'
-        4
-      when 'prices.trial_lesson'
-        1
-      when 'prices.training'
-        1
-      else 0
-      end
+    self.nb_courses = case libelle
+    when 'prices.free'
+      return 1
+    when 'prices.individual_course'
+      return 1
+    when 'prices.two_lesson_per_week_package'
+      return 2
+    when 'prices.annual'
+      return 35
+    when 'prices.semester'
+      return 17
+    when 'prices.trimester'
+      return 11
+    when 'prices.month'
+      return 4
+    when 'prices.trial_lesson'
+      return 1
+    when 'prices.training'
+      return 1
+    else return 0
     end
   end
 end

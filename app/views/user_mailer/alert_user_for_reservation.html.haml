@@ -3,7 +3,7 @@
 %p Merci d'avoir réservé le #{@reservation.course.type_name.downcase} de : #{@reservation.course.name} !
 
 %p
-  ======== Récapitulatif ========
+  \======== Récapitulatif ========
   %br
   Nom du #{@reservation.course.type_name.downcase} : #{@reservation.course.name}
   %br
@@ -18,9 +18,12 @@
 %p Pour confirmer votre réservation, nous vous invitons à contacter l'établissement.
 
 %p
-  ======== Information de l'établissement ========
-  %br
-  Numéro de téléphone :
+  \======== Information pour contacter l'établissement ========
+  - if @structure.email_address
+    Email : #{@structure.email_address}
+  - if @place.contact_phone or @place.contact_mobile_phone
+    %br
+    Numéro de téléphone :
   %br
   - if @place.contact_phone
     = @place.contact_phone
