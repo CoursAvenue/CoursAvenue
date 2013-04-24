@@ -135,6 +135,7 @@ GEM
       railties (~> 3.0)
       thor (~> 0.14)
     multi_json (1.6.1)
+    newrelic_rpm (3.6.0.83)
     nokogiri (1.5.6)
     options (2.3.0)
       fattr
@@ -269,6 +270,7 @@ DEPENDENCIES
   memcachier
   meta_request (= 0.2.1)
   mootools-rails (~> 1.0.1)
+  newrelic_rpm
   paperclip (~> 3.3.1)
   pg
   progress_bar

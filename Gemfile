@@ -11,6 +11,8 @@ gem 'memcachier'
 gem 'dalli'
 gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
 gem 'heroku-api'                , '~> 0.3.9'
+
+
 # group :assets do
   gem 'coffee-rails'            , '~> 3.2.1'
   gem 'haml'                    , '~> 3.1.7'
@@ -59,6 +61,7 @@ group :production do
   # gem 'therubyracer'
   # gem 'execjs'
 end
+gem 'newrelic_rpm'
 
 group :test do
   gem 'factory_girl_rails', '~> 4.2.0'
