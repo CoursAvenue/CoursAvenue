@@ -98,8 +98,5 @@ module CoursAvenue
       g.test_framework      :rspec, :fixtures => true, :views => false
       g.fixture_replacement :factory_girl, :dir => 'spec/factories'
     end
-
-    config.js_routes.mode    = Rails.env.production? ? :write_once : :mount
-
   end
 end
