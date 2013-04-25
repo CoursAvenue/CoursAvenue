@@ -13,7 +13,7 @@ class Planning < ActiveRecord::Base
   before_validation :set_end_time
   before_validation :set_duration
 
-  validates :teacher, presence: true
+  # validates :teacher, presence: true
   validate :presence_of_start_date
   validate :end_date_in_future
 

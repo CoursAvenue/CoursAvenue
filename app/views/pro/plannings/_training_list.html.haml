@@ -13,7 +13,7 @@
     - @plannings.each do |planning|
       %tr
         %td= training_dates planning
-        %td.text--center= readable_time_slot planning.day_one_start_time, planning.end_time
+        %td.text--center= readable_time_slot planning.start_time, planning.end_time
         %td.text--center= "#{pluralize(planning.length, 'jour')}"
         %td.text--center= planning.nb_place_available
         %td.text--center

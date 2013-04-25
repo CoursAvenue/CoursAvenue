@@ -24,7 +24,7 @@
                 }.bind(this)
             });
             this.attachEvents();
-            if (!this.select_element.get('value')) {
+            if (this.select_element.get('value').length === 0) {
                 this.retrieveCity();
             }
         },
@@ -37,7 +37,7 @@
             if (this.el.value.length === 5 && this.current_val !== this.el.value) {
                 this.request.cancel();
                 this.current_val = this.el.value;
-                this.request.get('term=' + event.target.value);
+                this.request.get('term=' + this.el.value);
             }
         }
     });

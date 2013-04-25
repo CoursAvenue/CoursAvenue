@@ -8,7 +8,7 @@
     = f.input :start_time, as: :time, minute_step: 15, label: false, default: {year: 2000, month: 1, day: 1}
     %label.required.control-label à
     = f.input :end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: {year: 2000, month: 1, day: 1}
-    = f.association :teacher, as: :select, collection: @structure.teachers, selected: (@plannings.first.try(:teacher) || @structure.teachers.first), label: 'par'
+    = f.association :teacher, as: :select, collection: @structure.teachers, selected: @plannings.first.try(:teacher), label: 'par', include_blank: true
     = f.input :info, as: :string, placeholder: '(optionnel) Plat : gâteau au chocolat'
     - if @planning.new_record?
       = f.submit 'Ajouter le créneau', class: 'btn btn__success'

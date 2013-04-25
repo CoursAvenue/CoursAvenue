@@ -14,9 +14,9 @@ class Pro::PlacesController < InheritedResources::Base
   end
 
   def create
-    if can? :create, resource
+    if can? :create, Place
       create! do |success, failure|
-        success.html { redirect_to pro_structure_place_rooms_path(@structure, resource) }
+        success.html { redirect_to pro_structure_places_path(@structure) }
       end
     else
       redirect_to pro_structure_places_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas encore créer de lieu"
