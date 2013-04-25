@@ -15,6 +15,6 @@
     window.addEvent('domready', function() {
         new Chosen($('structure'));
         $('structure').addEvent('change', function() {
-            window.location = Routes.new_pro_admin_registration_path({structure: this.get('value')});
+            window.location = '/rejoindre-coursavenue-pro?structure=' + this.get('value');
         });
     });

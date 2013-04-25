@@ -26,7 +26,7 @@
         /////////////////////////////////// Cities AJAX
         cityAjax: function() {
             this.city_request = new Request.JSON({
-                url: Routes.name_search_cities_path({format: 'json'}),
+                url: '/cities/name_search.json',
                 onSuccess: function(cities) {
                     var values = [];
                     cities.cities.each(function(city) {
@@ -88,11 +88,9 @@
 
         updateFormUrl: function() {
             if (this.getSubject() === null) {
-                //var url = Routes.city_subjects_path(this.getCity());
-                var url = Routes.courses_path();
+                var url = '/cours';
             } else {
-                //var url = Routes.city_subject_path(this.getCity(), this.getSubject());
-                var url = Routes.subject_courses_path(this.getSubject());
+                var url = '/disciplines/' + this.getSubject() + '/cours';
             }
             this.form.set('action', url);
         }

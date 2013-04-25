@@ -84,7 +84,7 @@
           // ----------------------- Logger
           $("show-first-section").addEvent("click", function(){
               new Request.JSON({
-                  url: Routes.click_loggers_path(),
+                  url: '/click_loggers',
                   data: {
                     click_logger: {
                       name: "Reservation - Continuer"
@@ -94,7 +94,7 @@
           });
           $("show-second-section").addEvent("click", function(){
               new Request.JSON({
-                  url: Routes.click_loggers_path(),
+                  url: '/click_loggers',
                   data: {
                     click_logger: {
                       name: "Reservation - Payer"

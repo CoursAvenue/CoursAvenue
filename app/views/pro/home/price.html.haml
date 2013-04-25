@@ -147,7 +147,7 @@
   :javascript
     $("price_pro_subscribe").addEvent("click", function(){
         new Request.JSON({
-            url: Routes.click_loggers_path(),
+            url: '/click_loggers',
             data: {
               click_logger: {
                 name: "Je m'inscris - formule pro"
@@ -157,7 +157,7 @@
     });
     $("price_pro_plus_subscribe").addEvent("click", function(){
         new Request.JSON({
-            url: Routes.click_loggers_path(),
+            url: '/click_loggers',
             data: {
               click_logger: {
                 name: "Je m'inscris - formule pro plus"
@@ -167,7 +167,7 @@
     });
     $("price_custom").addEvent("click", function(){
         new Request.JSON({
-            url: Routes.click_loggers_path(),
+            url: '/click_loggers',
             data: {
               click_logger: {
                 name: "Je m'inscris - formule custom"
