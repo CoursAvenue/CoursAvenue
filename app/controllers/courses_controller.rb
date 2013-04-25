@@ -44,10 +44,6 @@ class CoursesController < ApplicationController
   def init_geoloc
     @course_places = @courses.collect{|course| course.place}.uniq
 
-    # To remove
-    @course_places.each do |place|
-      place.geolocalize unless place.is_geolocalized?
-    end
     place_index = 0
     @json_place_addresses = @course_places.to_gmaps4rails do |place, marker|
       place_index += 1

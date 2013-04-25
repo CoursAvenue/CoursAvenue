@@ -29,7 +29,7 @@ module ActsAsGeolocalizable
     end
 
     def is_geolocalized?
-      !self.latitude.nil? and self.longitude.nil?
+      !self.latitude.nil? and !self.longitude.nil?
     end
 
     def geolocalize
