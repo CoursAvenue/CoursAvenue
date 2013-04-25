@@ -16,7 +16,7 @@
       km
 
 .side-search-panel
-  - cache do 'subjects'
+  - cache "subjects_#{ENV["ETAG_VERSION_ID"]}" do
     //-------------------------------------------------------------------------------------------------------- Subject
     .search-panel
       %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}

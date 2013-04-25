@@ -147,10 +147,6 @@ class Place < ActiveRecord::Base
     end
   end
 
-  def parent_subjects
-    structure.subjects.uniq.map(&:parent).uniq
-  end
-
   def to_gmap_json
     {lng: self.longitude, lat: self.latitude}
   end
@@ -186,6 +182,11 @@ class Place < ActiveRecord::Base
       read_attribute(:contact_mobile_phone)
     end
   end
+
+
+ def parent_subjects
+   subjects.uniq.map(&:parent).uniq
+ end
 
   private
   def friendly_name

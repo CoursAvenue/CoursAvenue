@@ -39,7 +39,7 @@
 
 
   //-------------------------------------------------------------------------------------------------------- Subject
-  - cache do 'subjects'
+  - cache "subjects_#{ENV["ETAG_VERSION_ID"]}" do
     .search-panel
       %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Disciplines'])",data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
         Disciplines

@@ -14,7 +14,7 @@ class PlacesController < ApplicationController
         @subject = Subject.find params[:subject_id]
       end
       @search = Sunspot.search(Place) do
-        fulltext                   params[:name]           if params[:name].present?
+        fulltext                     params[:name]         if params[:name].present?
         with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id]
 
         with(:location).in_radius(city.latitude, city.longitude, params[:radius] || 10, :bbox => true)
@@ -74,10 +74,6 @@ class PlacesController < ApplicationController
   end
   private
   def init_geoloc
-    # To remove
-    @places.each do |place|
-      place.geolocalize unless place.is_geolocalized?
-    end
     place_index = 0
     @json_place_addresses = @places.to_gmaps4rails do |place, marker|
       place_index += 1
@@ -89,6 +85,7 @@ class PlacesController < ApplicationController
       marker.json({ id: place.id })
     end
   end
+
   def prepare_search
     if params[:city].blank?
       city_term = 'paris'

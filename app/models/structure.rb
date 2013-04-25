@@ -49,7 +49,7 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  after_create     :create_teacher
+  after_save       :create_teacher
   after_create     :set_free_pricing_plan
   after_create     :create_place
 

@@ -17,10 +17,10 @@ test:
   password: password
 
 production:
-  host: ec2-54-243-238-218.compute-1.amazonaws.com
+  host: ec2-54-228-219-94.eu-west-1.compute.amazonaws.com
   adapter: postgresql
   encoding: unicode
-  database: df2kmto67m9fb3
+  database: d28s2bum2hoqh7
   pool: 5
-  username: eypgvyrdvljjjb
-  password: JTIq4AjygHjDALZPJz7O4Z87yW
+  username: qjppevpnykjrmw
+  password: v8HdyVB0F-ZJrgsgz7ApBBrrap

@@ -20,13 +20,13 @@
       = place.street
       \-
       = place.city.try(:name)
-    - if place.parent_subjects.any?
-      %footer
-        %ul.nav
-          %li
-          - place.parent_subjects.each do |subject|
-            %li
-              %span= link_to subject.name, subject_places_path(subject), class: 'lbl milli inline subject-link'
+    - # - if place.parent_subjects.any?
+    - #   %footer
+    - #     %ul.nav
+    - #       %li
+    - #       - place.parent_subjects.each do |subject|
+    - #         %li
+    - #           %span= link_to subject.name, subject_places_path(subject), class: 'lbl milli inline subject-link'
     - if place.rating
       %meta{itemprop: "ratingValue", content: place.rating}
       %div
