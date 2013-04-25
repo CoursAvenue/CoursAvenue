@@ -24,7 +24,9 @@
                 }.bind(this)
             });
             this.attachEvents();
-            this.retrieveCity();
+            if (!this.select_element.get('value')) {
+                this.retrieveCity();
+            }
         },
 
         attachEvents: function() {
