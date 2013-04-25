@@ -74,8 +74,6 @@ class Course < ActiveRecord::Base
     text :name, :boost => 2
     text :structure_name do
       structure.name unless structure
-
-      end
     end
 
     text :place_info do
