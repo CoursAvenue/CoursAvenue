@@ -34,8 +34,6 @@
 //= require_tree ./objects/
 //= require_tree ./gmaps4rails/
 
-//= require js-routes
-
 window.addEvent('domready', function() {
     var global = GLOBAL.namespace('GLOBAL');
     Locale.use('fr-FR');
