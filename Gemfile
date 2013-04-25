@@ -29,7 +29,7 @@ gem 'pg'
 gem 'progress_bar'
 
 gem 'kaminari'                  , '~>0.14.1'
-gem 'paperclip'                 , '~>3.3.1'
+gem 'paperclip'                 , '~>3.4.1'
 gem 'aws-sdk'                   , '~>1.8.0'
 gem 'squeel'                    , '~>1.0.14'
 gem 'ancestry'                  , '~>1.3.0'
