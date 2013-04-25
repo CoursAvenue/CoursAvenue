@@ -107,8 +107,8 @@
               .flexbox__item.one-fifth.similar-course--image
                 - if surrounding_place.image.present?
                   = image_tag surrounding_place.image.url(:thumb)
-                - elsif surrounding_place.subjects.any?
-                  = image_tag surrounding_place.subjects.first.image.url(:thumb)
+                - elsif surrounding_place_subject = surrounding_place.subjects.limit(1).any?
+                  = image_tag surrounding_place_subject.image.url(:thumb)
               .flexbox__item.similar-course
                 %h4.similar-course--course-name= surrounding_place.long_name
                 .similar-course--structure-name
