@@ -99,7 +99,6 @@ module CoursAvenue
     # Will not load the environment when compile the assets
     # See: http://www.simonecarletti.com/blog/2012/02/heroku-and-rails-3-2-assetprecompile-error/
     config.initialize_on_precompile = false
-    config.js_routes.mode    = Rails.env.production? ? :write_once : :mount
 
     config.generators do |g|
       g.test_framework      :rspec, :fixtures => true, :views => false
