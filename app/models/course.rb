@@ -74,7 +74,7 @@ class Course < ActiveRecord::Base
   searchable do
     text :name, :boost => 2
     text :structure_name do
-      structure.name unless structure
+      structure.name if structure
     end
 
     text :place_info do
