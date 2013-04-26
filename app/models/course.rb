@@ -17,7 +17,7 @@ class Course < ActiveRecord::Base
                     :path => "course/:id/homepage_image/:fingerprint-:style.:extension"
 
   has_attached_file :image,
-                    :styles => { wide: "800x480#", thumb: "200x200#" },
+                    :styles => { wide: "800x480#", thumb: "200x200#", mini: '50x50#' },
                     :path => "course/:id/image/:fingerprint-:style.:extension"
 
   belongs_to :structure, touch: true
