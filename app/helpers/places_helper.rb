@@ -1,4 +1,16 @@
 module PlacesHelper
+
+  def join_place_parent_subjects(place, with_h3 = false)
+    place.parent_subjects_string.split(';').collect do |subject_string|
+      subject_name, subject_slug = subject_string.split(',')
+      content_tag(:li) do
+        content_tag (with_h3 ? :h3: :span) do
+          link_to subject_name, subject_places_path(subject_slug), class: 'lbl milli inline subject-link'
+        end
+      end
+    end.join(' ').html_safe
+  end
+
   def short_address(place)
     "#{place.city.name}"
   end

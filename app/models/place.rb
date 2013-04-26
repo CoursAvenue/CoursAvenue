@@ -9,6 +9,7 @@ class Place < ActiveRecord::Base
 
   include ActsAsCommentable
   include ActsAsGeolocalizable
+  include HasSubjects
 
   extend FriendlyId
   friendly_id :friendly_name, use: [:slugged, :history]

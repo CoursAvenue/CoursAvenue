@@ -1,5 +1,6 @@
 class Structure < ActiveRecord::Base
   acts_as_paranoid
+  include HasSubjects
 
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',

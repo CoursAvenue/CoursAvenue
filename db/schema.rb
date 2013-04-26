@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130422170542) do
+ActiveRecord::Schema.define(:version => 20130425182523) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -51,11 +51,11 @@ ActiveRecord::Schema.define(:version => 20130422170542) do
     t.integer  "structure_id"
     t.string   "civility"
     t.string   "phone_number"
-    t.string   "mobile_phone_number"
     t.boolean  "active",                                 :default => false
     t.string   "role"
     t.string   "management_software_used"
     t.boolean  "is_teacher"
+    t.string   "mobile_phone_number"
     t.string   "name"
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
@@ -176,6 +176,8 @@ ActiveRecord::Schema.define(:version => 20130422170542) do
     t.boolean  "active",                      :default => false
     t.time     "deleted_at"
     t.decimal  "rating"
+    t.text     "subjects_string"
+    t.text     "parent_subjects_string"
   end
 
   add_index "courses", ["place_id"], :name => "index_courses_on_place_id"
@@ -270,6 +272,8 @@ ActiveRecord::Schema.define(:version => 20130422170542) do
     t.datetime "thumb_image_updated_at"
     t.time     "deleted_at"
     t.text     "description"
+    t.text     "subjects_string"
+    t.text     "parent_subjects_string"
   end
 
   add_index "places", ["slug"], :name => "index_places_on_slug", :unique => true
@@ -433,6 +437,8 @@ ActiveRecord::Schema.define(:version => 20130422170542) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.text     "subjects_string"
+    t.text     "parent_subjects_string"
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true

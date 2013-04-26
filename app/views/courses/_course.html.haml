@@ -48,9 +48,7 @@
             = course.type_name_html
             - if course.plannings.first.duration
               = "de #{readable_duration course.plannings.first.duration}"
-        - course.subjects.each do |subject|
-          %li
-            %span= link_to subject.name, subject_courses_path(subject), class: 'lbl milli inline subject-link'
+        = join_course_subjects course
 
   %div.course-price.two-twelfths
     - if course.best_price.nil?

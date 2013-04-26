@@ -4,6 +4,7 @@ class Course < ActiveRecord::Base
   acts_as_paranoid
 
   include ActsAsCommentable
+  include HasSubjects
 
   COURSE_FREQUENCIES = ['courses.frequencies.every_week', 'courses.frequencies.every_two_weeks', 'courses.frequencies.every_month']
 

@@ -38,11 +38,7 @@
     %a{href: '#comments'}
       %i.lbc-brand-icon
     )
-%ul.nav
-  - @place.parent_subjects.each do |subject|
-    %li
-      %h3.flush--bottom
-        %span.milli.lbl.blue= link_to subject.name, subject_places_path(subject), class: 'subject-link'
+%ul.nav= join_place_parent_subjects @place, true
 
 .grid.cf
   - # To Float left to have it first on mobile
@@ -156,8 +152,8 @@
                   - if course.rating
                     = rating_stars course.rating
                 %td.text--center
-                  - course.subjects.each do |subject|
-                    %span.lbl= link_to subject.name.gsub(' ', '&nbsp;').html_safe, subject_courses_path(subject), class: 'blue'
+                  %ul.nav
+                    = join_course_subjects course
                 %td.text--center= course.levels.map{|level| t(level.name) }.join(', ')
                 %td.text--center= course.plannings.count
                 %td.text--right= link_to 'Réserver', course_path(course), class: 'btn btn__success'

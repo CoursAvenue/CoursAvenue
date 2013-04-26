@@ -39,10 +39,7 @@
   %li
     %h4.flush--bottom
       %span.lbl.milli= @course.type_name_html
-  - @subjects.each do |subject|
-    %li
-      %h3.flush--bottom
-        %span.milli.lbl.blue= link_to subject.name, subject_courses_path(subject), class: 'subject-link'
+  = join_course_subjects @course, true
 
 .grid.cf
   - # To Float left to have it first on mobile
