@@ -3,20 +3,24 @@
 %h2 Liste des admins
 %p.alert--info
   Les super admin sont en gras
-%table.table--striped
+%table.table--striped#dataTable
   %thead
     %tr
-      %th Nom
-      %th Email
-      %th Structure
+      %th.sortAsc
+        %span Nom
+      %th
+        %span Structure
+      %th
+        %span Date d'inscription
       %th
   %tbody
     - @admins.each do |admin|
       %tr
-        %td{class: (admin.super_admin? ? 'bold' : '')}= link_to (admin.name || ''), edit_pro_admin_path(admin)
-        %td
-          = link_to admin.email, "mailto:#{admin.email}"
+        %td{class: (admin.super_admin? ? 'bold' : '')}
+          = link_to (admin.name || ''), edit_pro_admin_path(admin)
+          \- #{link_to admin.email, "mailto:#{admin.email}"}
         %td= link_to admin.structure.name, edit_pro_structure_path(admin.structure) if admin.structure
+        %td= l(admin.updated_at, format: :date_short_en)
         %td.text--right
           - if admin.active
             = link_to 'Actif', disable_pro_admin_path(admin), class: 'switch-button on', method: :put
@@ -24,3 +28,11 @@
             = link_to 'Inactif', activate_pro_admin_path(admin), class: 'switch-button off', method: :put
           = link_to edit_pro_admin_path(admin), title: 'Éditer', class: 'btn btn__warning' do
             %i.icon-edit
+          = link_to pro_admin_path(admin), method: :delete, title: 'Supprimer', class: 'btn btn__danger' do
+            %i.icon-trash
+
+= content_for :scripts do
+  :javascript
+    document.addEvent('domready', function() {
+        new TableSorter('dataTable', { columnDataTypes: 'string, string, date, string' });
+    });

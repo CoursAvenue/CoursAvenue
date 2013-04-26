@@ -98,6 +98,7 @@ fr:
       long: "%A %d %B %Y %H:%M"
       date: "%A %d %B"
       date_short: "%d/%m/%Y"
+      date_short_en: "%Y-%m-%d"
       iso_date: "%Y-%m-%d"
     am: 'am'
     pm: 'pm'

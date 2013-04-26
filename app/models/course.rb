@@ -21,8 +21,8 @@ class Course < ActiveRecord::Base
                     :path => "course/:id/image/:fingerprint-:style.:extension"
 
   belongs_to :structure, touch: true
-  belongs_to :place, touch: true
-  has_one    :city      , through: :place
+  belongs_to :place,     touch: true
+  has_one    :city,      through: :place
 
   has_many :comments, as: :commentable
   has_many :reservations

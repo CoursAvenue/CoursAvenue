@@ -54,11 +54,7 @@ class ::Pro::AdminsController < InheritedResources::Base
     @admin = ::Admin.find(params[:id])
     destroy! do |format|
       format.html do
-        if current_pro_admin.super_admin?
-          redirect_to pro_admins_path
-        else
-          redirect_to pro_structure_path current_pro_admin.structure
-        end
+        redirect_to pro_admins_path, notice: 'Admin correctement supprimé.'
       end
     end
   end
