@@ -43,8 +43,8 @@ class Pro::CoursesController < InheritedResources::Base
   end
 
   def create
-    @course           = Course.new params[:course]
-    @course.structure = @structure
+    # @course           = Course.new params[:course]
+    # @course.structure = @structure
     create! do |success, failure|
       success.html { redirect_to pro_course_prices_path(@course), notice: 'Vous pouvez maintenant définir les tarifs pour ce cours' }
       failure.html { redirect_to new_pro_structure_course_path(@structure), alert: 'Impossible de créer le cours.' }

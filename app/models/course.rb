@@ -345,8 +345,10 @@ class Course < ActiveRecord::Base
   def friendly_name
     if city
       "#{self.slug_type_name} de #{self.name} a #{city.name} #{structure.name}"
-    else
+    elsif structure
       "#{self.slug_type_name} de #{self.name} #{structure.name}"
+    else
+      "#{self.slug_type_name} de #{self.name}"
     end
   end
 
