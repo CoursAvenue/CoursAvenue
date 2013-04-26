@@ -51,11 +51,11 @@ ActiveRecord::Schema.define(:version => 20130425182523) do
     t.integer  "structure_id"
     t.string   "civility"
     t.string   "phone_number"
+    t.string   "mobile_phone_number"
     t.boolean  "active",                                 :default => false
     t.string   "role"
     t.string   "management_software_used"
     t.boolean  "is_teacher"
-    t.string   "mobile_phone_number"
     t.string   "name"
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
