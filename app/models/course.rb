@@ -20,10 +20,9 @@ class Course < ActiveRecord::Base
                     :styles => { wide: "800x480#", thumb: "200x200#" },
                     :path => "course/:id/image/:fingerprint-:style.:extension"
 
-  # belongs_to :structure, touch: true
+  belongs_to :structure, touch: true
   belongs_to :place, touch: true
   has_one    :city      , through: :place
-  has_one    :structure , through: :place
 
   has_many :comments, as: :commentable
   has_many :reservations

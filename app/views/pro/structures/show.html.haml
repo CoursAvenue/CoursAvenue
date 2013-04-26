@@ -46,6 +46,10 @@
             %td= course.teachers.uniq.map(&:name).join(', ')
             %td= course.subjects.map(&:name).join(', ')
             %td.text--right
+              = link_to edit_pro_course_path(course), class: 'btn' do
+                %i.icon-picture
+                Photo
+              &nbsp;
               = link_to '€ Tarifs', pro_course_prices_path(course), class: 'btn'
               &nbsp;
               = link_to pro_course_plannings_path(course), class: 'btn' do

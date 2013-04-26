@@ -5,6 +5,24 @@
 
 = simple_form_for [:pro, @structure, @course], url: url, as: :course do |f|
   = f.error_notification
+  - unless @course.new_record?
+    %h5.form-header-group.flush--bottom
+      %i.icon-picture
+      Image
+    .form-white-box
+      - if @course.image.present?
+        .text--center
+          = image_tag @course.image.url(:thumb), height: 200
+        = f.input :delete_image, as: :boolean, :label => "Supprimer l'image"
+      .input
+        - if @course.image.present?
+          .control-label Changer l'image
+        - else
+          .control-label Image du cours
+        = f.input :image, label: false
+
+      - if current_pro_admin.super_admin? and @course.is_promoted
+        = f.input :homepage_image, label: 'Image de la home'
   .form-white-box
     = f.input :name, label: t('.name'), placeholder: 'Zumba, jardin musical, Vins et Fromages, etc'
     = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }
@@ -36,24 +54,6 @@
         \-&nbsp;
         = f.input :end_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {class: 'datepicker-input', value: (@course.end_date.present? ? l(@course.end_date) : l(Date.today + 1.year)), 'data-behavior' => 'datepicker'}
       = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: t('.frequency'), wrapper_html: {class: 'depend-on-reccurent-course'}
-
-  %h5.form-header-group.flush--bottom
-    %i.icon-picture
-    Image
-  .form-white-box
-    - unless @course.new_record? || !@course.image.present?
-      .text--center
-        = image_tag @course.image.url(:thumb), height: 200
-      = f.input :delete_image, as: :boolean, :label => "Supprimer l'image"
-    .input
-      - if @course.new_record?
-        .control-label Image du cours
-      - else
-        .control-label Changer l'image
-      = f.input :image, label: false
-
-    - if current_pro_admin.super_admin? and @course.is_promoted
-      = f.input :homepage_image, label: 'Image de la home'
 
   %h5.form-header-group.flush--bottom
     %i.lbc-icon-info i

@@ -184,18 +184,12 @@ class Place < ActiveRecord::Base
     end
   end
 
-
- def parent_subjects
-   subjects.uniq.map(&:parent).uniq
- end
+  def parent_subjects
+    subjects.uniq.map(&:parent).uniq
+  end
 
   private
   def friendly_name
-    if self.structure.name == self.name
-      self.name
-    else
-      "#{self.structure.name}-#{self.name}"
-    end
+    self.long_name
   end
-
 end
