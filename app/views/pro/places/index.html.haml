@@ -19,7 +19,7 @@
       %tr
         %td.text--center
           - if place.thumb_image.present?
-            = image_tag place.thumb_image.url, width: 50
+            = image_tag place.thumb_image.url(:thumb), width: 50
         %td
           - if current_pro_admin
             = link_to place.name, edit_pro_structure_place_path(@structure, place)
