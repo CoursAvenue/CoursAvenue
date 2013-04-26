@@ -48,7 +48,7 @@
             %td.text--right
               = link_to edit_pro_course_path(course), class: course.image.present? ? '': 'btn' do
                 - if course.image.present?
-                  = image_tag course.image.url
+                  = image_tag course.image.url, height: 30, class: 'v-middle'
                 - else
                   %i.icon-picture
                   Photo
