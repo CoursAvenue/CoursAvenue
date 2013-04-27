@@ -1,5 +1,5 @@
 %li.one-whole.course-element{data: {"structure-id" => course.place_id, url: course_path(course), type: 'course-element'}}
-  %div.two-twelfths.hide--palm
+  %div.two-twelfths.visuallyhidden--palm
     .course-image.media__img
       = link_to course_path(course) do
         - if course.image.present?
@@ -75,7 +75,7 @@
         )
     - else
       .super-muted= rating_stars 5
-      = link_to course_path(course, anchor: 'comments'), onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - cours', 'click'])" do
+      = link_to course_path(course, anchor: 'comments'), class: 'visuallyhidden--palm', onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - cours', 'click'])" do
         Soyez le 1er à donner
         %br
         votre avis

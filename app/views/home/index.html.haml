@@ -1,7 +1,7 @@
 = content_for :above_container do
   = render 'home_screen'
   = render 'share_links'
-  .home-screen-promotion-wrapper
+  .home-screen-promotion-wrapper.visuallyhidden--palm
     %section.main-container.home-screen-promotion
       .grid
         .grid__item.palm--one-whole.lap--one-whole.one-half.islet>
@@ -17,7 +17,7 @@
                   - comment_group.each do |comment|
                     = render partial: 'comments/home_comment', locals: {comment: comment}
 
-  .text--center
+  .text--center.visuallyhidden--palm
     .newsletter-form
       %p.inline-paragraph
         <b>Inscrivez vous</b> à la newsletter et découvrez des classes uniques dans votre ville

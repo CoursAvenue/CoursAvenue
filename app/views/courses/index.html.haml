@@ -6,7 +6,7 @@
 
 .grid
   .grid__item= render 'search_form'
-  %section.grid__item.three-tenths.hide--lap.hide--palm>
+  %section.grid__item.three-tenths.visuallyhidden--palm.visuallyhidden--lap>
     = render 'side_search_form'
   %section.grid__item.seven-tenths.lap--one-whole.palm--one-whole
     - if params[:subject_id]
@@ -32,7 +32,7 @@
           %a.filter-select{href: '#', class: (params[:sort] == 'rating_desc' ? 'bold' : ''), data: {value: 'rating_desc'}} Popularité
           \/
           %a.filter-select{href: '#', class: (params[:sort] == 'price_asc' ? 'bold' : ''), data: {value: 'price_asc'}} Prix
-      .flexbox__item.hide--palm
+      .flexbox__item.visuallyhidden--palm
         .text--right= paginate @courses, window: 1, outer_window: 1
     - if @courses.empty?
       = render 'no_results'
