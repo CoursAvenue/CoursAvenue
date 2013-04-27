@@ -7,7 +7,7 @@
      */
 
 
-    objects.AddressPicter = new Class({
+    objects.AddressPicker = new Class({
 
         initialize: function(el, options) {
             this.el             = el;
@@ -139,6 +139,6 @@
 // Initialize all input-update objects
 window.addEvent('domready', function() {
     $$('[data-behavior=address-picker]').each(function(el) {
-        new GLOBAL.Objects.AddressPicter(el);
+        new GLOBAL.Objects.AddressPicker(el);
     });
 });
