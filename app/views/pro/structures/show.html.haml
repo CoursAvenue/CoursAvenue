@@ -71,5 +71,5 @@
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string, string, string, string, string' });
+        new TableSorter('dataTable', { columnDataTypes: 'string, string, string, string, string', cookieName: 'tableSortState__structure_#{@structure.slug}' });
     });

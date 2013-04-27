@@ -67,8 +67,9 @@
   @import "partials/theme/forms";
   @import "partials/theme/helpers";
   @import "partials/theme/share_buttons";
-  @import "partials/theme/banner";
+  // @import "partials/theme/banner";
 
+  @import "partials/objects/address-list";
   @import "partials/objects/popover";
   @import "partials/objects/course-info";
   @import "partials/objects/planning";

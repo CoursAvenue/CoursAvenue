@@ -3,41 +3,35 @@ class PlacesController < ApplicationController
   before_filter :prepare_search
 
   def index
-    if @city.nil?
-      respond_to do |format|
-        format.html { redirect_to root_path, alert: "La ville que vous recherchez n'existe pas" }
-      end
-    else
-      cookies[:place_search_path] = request.fullpath
-      city       = @city
-      if params[:subject_id]
-        @subject = Subject.find params[:subject_id]
-      end
-      @search = Sunspot.search(Place) do
-        fulltext                     params[:name]         if params[:name].present?
-        with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id]
+    cookies[:place_search_path] = request.fullpath
 
-        with(:location).in_radius(city.latitude, city.longitude, params[:radius] || 10, :bbox => true)
-
-        with :active,  true
-
-        if params[:sort] == 'rating_desc'
-          order_by :rating, :desc
-          order_by :nb_comments, :desc
-        else
-          order_by :nb_courses, :desc
-          order_by :has_comment, :desc
-        end
-
-        paginate :page => (params[:page] || 1), :per_page => 15
-      end
-      @places = @search.results
-
-      init_geoloc
-
-      fresh_when etag: [@places, ENV["ETAG_VERSION_ID"]], public: true
-      expires_in 1.minutes, public: true
+    if params[:subject_id]
+      @subject = Subject.find params[:subject_id]
     end
+    @search = Sunspot.search(Place) do
+      fulltext                     params[:name]         if params[:name].present?
+      with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id]
+
+      with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 10, :bbox => true)
+
+      with :active,  true
+
+      if params[:sort] == 'rating_desc'
+        order_by :rating, :desc
+        order_by :nb_comments, :desc
+      else
+        order_by :nb_courses, :desc
+        order_by :has_comment, :desc
+        order_by_geodist(:location, params[:lat], params[:lng])
+      end
+      paginate :page => (params[:page] || 1), :per_page => 15
+    end
+    @places = @search.results
+
+    init_geoloc
+
+    fresh_when etag: [@places, ENV["ETAG_VERSION_ID"]], public: true
+    expires_in 1.minutes, public: true
   end
 
   def show
@@ -87,17 +81,10 @@ class PlacesController < ApplicationController
   end
 
   def prepare_search
-    if params[:city].blank?
-      city_term = 'paris'
-      city_slug = 'paris'
-    else
-      city_term  = "#{params[:city]}%"
-      city_slug  = params[:city].downcase
-    end
-    begin
-      @city = City.find(city_slug)
-    rescue
-      @city = City.where{name =~ city_term}.order('name ASC').first # Prevents from bad slugs
+    if params[:lat].blank? or params[:lng].blank?
+      # Setting paris lat & lng per default
+      params[:lat] = 48.8592
+      params[:lng] = 2.3417
     end
   end
 end

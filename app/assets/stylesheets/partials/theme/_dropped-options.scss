@@ -34,7 +34,7 @@
             color           : white;
         }
         li:hover {
-            background-color: lighten($brandColor, 30%);
+            background-color: $hoverListElement;
             color           : black;
         }
     }

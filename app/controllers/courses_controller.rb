@@ -4,17 +4,11 @@ class CoursesController < ApplicationController
   before_filter :prepare_search
 
   def index
-    if @city.nil?
-      respond_to do |format|
-        format.html { redirect_to root_path, alert: "La ville que vous recherchez n'existe pas" }
-      end
-    else
-      search_solr
-      init_geoloc
-      cookies[:search_path] = request.fullpath
-      fresh_when etag: [@courses, ENV["ETAG_VERSION_ID"]], public: true
-      expires_in 1.minutes, public: true
-    end
+    search_solr
+    init_geoloc
+    cookies[:search_path] = request.fullpath
+    fresh_when etag: [@courses, ENV["ETAG_VERSION_ID"]], public: true
+    expires_in 1.minutes, public: true
   end
 
   def show
@@ -43,7 +37,6 @@ class CoursesController < ApplicationController
 
   def init_geoloc
     @course_places = @courses.collect{|course| course.place}.uniq
-
     place_index = 0
     @json_place_addresses = @course_places.to_gmaps4rails do |place, marker|
       place_index += 1
@@ -57,20 +50,11 @@ class CoursesController < ApplicationController
   end
 
   def prepare_search
-    if params[:city].blank?
-      city_term = 'paris'
-      city_slug = 'paris'
-    else
-      city_term  = "#{params[:city]}%"
-      city_slug  = params[:city].downcase
+    if params[:lat].blank? or params[:lng].blank?
+      # Setting paris lat & lng per default
+      params[:lat] = 48.8592
+      params[:lng] = 2.3417
     end
-    #@city      = City.where{(slug == city_slug ) | (name =~ city_term)}.order('name ASC').first # Prevents from bad slugs
-    begin
-      @city = City.find(city_slug)
-    rescue
-      @city = City.where{name =~ city_term}.order('name ASC').first # Prevents from bad slugs
-    end
-    # @city = City.find(city_slug) || City.where{name =~ city_term}.order('name ASC').first # Prevents from bad slugs
     @audiences = Audience.all
     @levels    = [
                     {name: Level.all_levels.name, id: Level.all_levels.id},
@@ -104,12 +88,11 @@ class CoursesController < ApplicationController
     if params[:subject_id]
       @subject = Subject.find params[:subject_id]
     end
-    city = @city
 
     params[:start_date] ||= I18n.l(Date.today)
     @search = Sunspot.search(Course) do
       fulltext                              params[:name]                                           if params[:name].present?
-      with(:location).in_radius(city.latitude, city.longitude, params[:radius] || 10, :bbox => true)
+      with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 10, :bbox => true)
       with(:subject_slugs).any_of           [params[:subject_id]]                                   if params[:subject_id]
       with(:type).any_of                    params[:types]                                          if params[:types].present?
       with(:audience_ids).any_of            params[:audiences]                                      if params[:audiences].present?
@@ -152,6 +135,7 @@ class CoursesController < ApplicationController
         order_by :rating, :desc
         order_by :nb_comments, :desc
       else
+        order_by_geodist(:location, params[:lat], params[:lng])
         order_by :has_comment, :desc
       end
       paginate :page => (params[:page] || 1), :per_page => 15

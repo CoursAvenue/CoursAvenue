@@ -6,11 +6,11 @@
 %table.table--striped#dataTable
   %thead
     %tr
-      %th.sortAsc
+      %th
         %span Nom
       %th
         %span Structure
-      %th
+      %th.sortAsc
         %span Date d'inscription
       %th
   %tbody
@@ -34,5 +34,5 @@
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string, string, date, string' });
+        new TableSorter('dataTable', { columnDataTypes: 'string, string, date, string', cookieName: 'tableSortState__admins' });
     });

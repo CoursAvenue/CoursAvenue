@@ -40,5 +40,5 @@
   = content_for :scripts do
     :javascript
       document.addEvent('domready', function() {
-          new TableSorter('dataTable', { columnDataTypes: 'string' });
+          new TableSorter('dataTable', { columnDataTypes: 'string', cookieName: 'tableSortState__structure_teachers_#{@structure.slug}' });
       });

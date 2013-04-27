@@ -11,57 +11,16 @@
 
         initialize: function(el, options) {
             this.form           = el;
-            this.city_input     = this.form.getElement('[name=city]');
             this.subject        = null;
             this.flash          = new GLOBAL.Objects.Flash('Vous devez choisir une ville.');
             this.location_input = $('location-input');
             this.attachEvents();
-            this.cityAjax();
-            this.city_slugs = {};
-            if (this.city_input.get('data-slug')) {
-                this.city_slugs[this.city_input.value.toLowerCase()] = this.city_input.get('data-slug');
-            }
         },
 
-        /////////////////////////////////// Cities AJAX
-        cityAjax: function() {
-            this.city_request = new Request.JSON({
-                url: '/cities/name_search.json',
-                onSuccess: function(cities) {
-                    var values = [];
-                    cities.cities.each(function(city) {
-                        this.city_slugs[city.name.toLowerCase()] = city.slug;
-                        values.push(city.name)
-                    }.bind(this));
-                    this.city_autocomplete.addValues(values);
-                }.bind(this)
-            });
-            this.city_autocomplete = new Autocomplete(this.location_input, {
-                srcType : "dom",
-                useNativeInterface : false,
-                onInput : function(newValue, oldValue) {
-                    this.city_request.cancel();
-                    this.city_request.get('term=' + newValue);
-                }.bind(this)
-            });
-
-        },
         attachEvents: function() {
-            // Do not submit if the city is not valid
             this.form.addEvent('submit', function() {
-                //if (this.getCity()) {
-                    this.updateFormUrl();
-                // } else {
-                //     this.flash.showAndHide();
-                //     this.location_input.focus();
-                //     return false;
-                // }
+                this.updateFormUrl();
             }.bind(this));
-            //this.city_input.addEvent('change', this.updateFormUrl.bind(this));
-            // $('start_date').addEvent('change', function() {
-            //     $('end_date').set('value', this.get('value'));
-            // });
-
             // Handle subject dropdown
             $$('#dropped-options-subject .subject-element').addEvent('click', function(event) {
                 // Hide on click

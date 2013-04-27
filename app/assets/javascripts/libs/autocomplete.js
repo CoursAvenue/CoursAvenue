@@ -2,6 +2,7 @@
 //
 // Autocomplete
 // MIT-style license. Copyright 2012 Matt V. Murphy
+// Github: https://github.com/mmurph211/Autocomplete
 //
 ////////////////////////////////////
 (function(window, document, undefined) {

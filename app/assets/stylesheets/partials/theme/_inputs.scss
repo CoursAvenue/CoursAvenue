@@ -28,6 +28,9 @@ textarea:focus, input:focus {
 
 .input-with-icon {
     position: relative;
+    input {
+        padding-right: 25px;
+    }
     i.lbc-subject-icon {
         margin-top: -8px;
     }

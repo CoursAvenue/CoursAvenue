@@ -12,10 +12,11 @@
         %input#search-input{class: 'search-input', placeholder: 'Que voulez-vous faire ?', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'subject-list', autocomplete: 'off'}
       %div.search-input-wrapper
         .input-with-icon
-          %input#location-input{class: 'search-input', placeholder: 'Quelle ville ?', type: 'text', name: 'city', value: @city.try(:name), list: 'location-list', 'data-slug' => @city.try(:slug), autocomplete: 'off'}
+          %input#adress-picker{class: 'search-input', placeholder: 'Où ?', type: 'text', 'data-list' => 'address-list', 'data-behavior' => 'address-picker', 'data-lng' => 'address-lng', 'data-lat' => 'address-lat', autocomplete: 'off', name: 'address_name', value: params[:address_name]}
           %i.icon-map-marker.delta
-        %datalist#location-list
-          <!--[if IE 9]><select disabled></select><![endif]-->
+          %ul#address-list.address-list.hidden
+      %input#address-lat{type: 'hidden', name: 'lat', value: params[:lat]}
+      %input#address-lng{type: 'hidden', name: 'lng', value: params[:lng]}
 
       %div.button-wrapper
         %button.btn.btn__primary{type: 'submit', id: 'submit_search_form'}

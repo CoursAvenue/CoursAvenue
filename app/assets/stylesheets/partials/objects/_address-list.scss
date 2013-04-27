@@ -1,0 +1,32 @@
+.address-list {
+    position        : absolute;
+    z-index         : 999999;
+    top             : 0px;
+    left            : 0px;
+    display         : block;
+    margin          : 0px;
+    padding         : 0px;
+    border          : none;//1px solid $brandColor;
+    background-color: white;
+    color           : #1a2731;
+    list-style-type : none;
+    min-width       :  20em;
+    width           :  100%;
+    @include border-bottom-radius($brand-round);
+    li {
+        padding: 6px 5px;
+        cursor : pointer;
+    }
+    li:nth-of-type(odd){
+        background-color: #FFF;
+    }
+    li:nth-of-type(even){
+        background-color: $alternativeBackground;
+    }
+    li.selected, li:hover {
+        background-color: $hoverListElement;
+    }
+    li:last-child {
+        @include border-bottom-radius($brand-round);
+    }
+}

@@ -48,7 +48,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def index
-    @structures = Structure.order('name ASC').all
+    @structures = Structure.order('created_at ASC').all
   end
 
   def validation

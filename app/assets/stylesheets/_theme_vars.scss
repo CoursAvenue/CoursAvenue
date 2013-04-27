@@ -60,7 +60,7 @@ $siteBackgroundColor:   $beigeDark;
 // -------------------------
 $linkColor:             #08c !default;
 $linkColorHover:        darken($linkColor, 15%) !default;
-
+$hoverListElement:      lighten($brandColor, 30%);
 
 // Buttons
 // -------------------------

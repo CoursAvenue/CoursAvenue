@@ -10,9 +10,9 @@
     = render 'side_search_form'
   %section.grid__item.seven-tenths.lap--one-whole.palm--one-whole
     - if params[:subject_id]
-      %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue Tous les cours et stages de <u>#{@subject.name.downcase}</u> à #{@city.name}
+      %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue Tous les cours et stages de <u>#{@subject.name.downcase}</u>
     - else
-      %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue Tous les cours et stages à #{@city.name}
+      %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue Tous les cours et stages
     %ul.tab-titles
       %li.tab-el.active Par cours
       %li
@@ -62,4 +62,11 @@
                   }
               });
           });
+          setTimeout(function() {
+              Gmaps.map.addMarkers([{
+                id: -1,
+                lat: #{params[:lat]},
+                lng: #{params[:lng]}
+              }]);
+          }, 100);
       });
