@@ -128,7 +128,6 @@
         },
 
         select: function(li_element) {
-            debugger
             this.input_lat.set('value', li_element.get('data-lat'));
             this.input_lng.set('value', li_element.get('data-lng'));
             this.el.set('value', li_element.get('text'));
