@@ -3,38 +3,47 @@
     %h1.text--center.home-screen-title
       Réservez le bon cours au meilleur prix.
     %h5.text--center.home-screen-subtitle
-      = "Parmi #{Subject.count} disciplines et #{Planning.count} séances, pour tous les âges."
+      = "Parmi 128 disciplines et #{Planning.count} séances, pour tous les âges."
     = render 'shared/home_page_search_form'
-    %ul.slideshow-controller
-      - 3.times do |index|
-        %li{class: (index == 1 ? 'active' : '')}
+    / %ul.slideshow-controller
+    /   - 3.times do |index|
+    /     %li{class: (index == 1 ? 'active' : '')}
     %ul#slideshow.slideshow.home-slideshow
       - @homepage_images.each do |image, image_alt|
         %li
           = image_tag image, alt: image_alt
-          - #= render 'slideshow_course_info', course: promoted_course
+    .home-screen-subjects.grid--full
+      = link_to subject_courses_path('theatre'), class: 'home-screen-subjects__item grid__item', onclick: "_gaq.push(['_trackEvent', 'Home disciplines', 'click','Théatre'])" do
+        = image_tag 'https://s3-eu-west-1.amazonaws.com/coursavenue/homepage_images/theater_classes.jpg', height: 150, width: 150
+        .home-screen-subjects__title Théâtre
+      = link_to subject_courses_path('danse'), class: 'home-screen-subjects__item grid__item', onclick: "_gaq.push(['_trackEvent', 'Home disciplines', 'click','Danse'])" do
+        = image_tag 'https://s3-eu-west-1.amazonaws.com/coursavenue/homepage_images/dance_classes.jpg', height: 150, width: 150
+        .home-screen-subjects__title Danse
+      = link_to subject_courses_path('cuisine-oenologie'), class: 'home-screen-subjects__item grid__item', onclick: "_gaq.push(['_trackEvent', 'Home disciplines', 'click','Cuisine'])" do
+        = image_tag 'https://s3-eu-west-1.amazonaws.com/coursavenue/homepage_images/cooking_classes.jpg', height: 150, width: 150
+        .home-screen-subjects__title Cusine
 
 = content_for :scripts do
   :javascript
     var slideshow;
     window.addEvent('domready', function() {
-        var slideshow_navs = $$('.slideshow-controller li');
+        //var slideshow_navs = $$('.slideshow-controller li');
         slideshow = new SlideShow('slideshow', {
             transition: 'crossFade',
-            delay: 5000,
+            delay: 10000,
             duration: 500,
             autoplay: true
         });
-        slideshow.addEvent('show', function(event) {
-            slideshow_navs.removeClass('active');
-            slideshow_navs[event.next.index].addClass('active');
-        });
-        slideshow_navs.each(function(item, index){
-            item.addEvent('click', function(event){
-                event.stop();
-                slideshow_navs.removeClass('active');
-                item.addClass('active');
-                slideshow.show(index);
-            });
-        });
+        // slideshow.addEvent('show', function(event) {
+        //     slideshow_navs.removeClass('active');
+        //     slideshow_navs[event.next.index].addClass('active');
+        // });
+        // slideshow_navs.each(function(item, index){
+        //     item.addEvent('click', function(event){
+        //         event.stop();
+        //         slideshow_navs.removeClass('active');
+        //         item.addClass('active');
+        //         slideshow.show(index);
+        //     });
+        // });
     });

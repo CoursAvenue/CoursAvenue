@@ -76,3 +76,41 @@
         margin-right: 1em;
     }
 }
+
+
+.home-screen-subjects {
+    position        : absolute;
+    text-align      : center;
+    width           : 100%;
+    bottom          : 0;
+    z-index         : 10;
+    padding         : 1em 0;
+    @include background-image(linear-gradient(rgba(0, 0, 0, 0) 0%,rgba(0, 0, 0, 0.3) 20%, rgba(0, 0, 0, 0.8)));
+}
+    .home-screen-subjects__item {
+        width   : 150px;
+        margin  : 0 5em;
+        position: relative;
+        overflow: hidden;
+        border   : 3px solid #DDD;
+        @include border-radius(75px);
+        img {
+            display: block;
+            width  : 100%;
+        }
+        &:hover .home-screen-subjects__title {
+            bottom          : 0;
+        }
+    }
+    .home-screen-subjects__title {
+        bottom          : 0;
+        font-size       : 13px;
+        bottom          : -40px;
+        position        : absolute;
+        background-color: rgba(0,0,0,0.4);
+        color           : white;
+        width           : 100%;
+        text-align      : center;
+        padding-bottom  : 1em;
+        @include transition(bottom 200ms ease-in);
+    }
