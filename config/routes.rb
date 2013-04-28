@@ -106,7 +106,8 @@ CoursAvenue::Application.routes.draw do
   match 'pages/mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
   match 'pages/conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
 
-  match '/blog' => redirect('/blog/')
+  match '/blog'     => redirect('/blog/')
+  match '/wp-admin' => redirect('/wp-admin/')
 
   root :to => 'home#index'
 end

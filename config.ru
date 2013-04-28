@@ -7,7 +7,11 @@ use Rack::Deflater
 # See: http://rywalker.com/setting-up-a-wordpress-blog-on-heroku-as-a-subdirectory-of-a-rails-app-also-hosted-on-heroku
 use Rack::ReverseProxy do
   reverse_proxy(/^\/blog(\/.*)$/,
-    'http://desolate-wildwood-6200.herokuapp.com$1',
+    'http://coursavenue-blog.herokuapp.com$1',
+    opts = {:preserve_host => true})
+
+  reverse_proxy(/^\/wp-admin(\/.*)$/,
+    'http://coursavenue-blog.herokuapp.com$1',
     opts = {:preserve_host => true})
 end
 
