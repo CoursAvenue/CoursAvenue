@@ -22,6 +22,7 @@ gem 'heroku-api'                , '~> 0.3.9'
   gem 'mootools-rails'          , '~> 1.0.1'
   gem 'compass-rails'           , '~> 1.0.3'
   gem 'compass-inuit'           , '~> 5.0.1'
+  gem 'asset_sync'
   # gem 'js-routes'               , '~> 0.9.0'
 # end
 
