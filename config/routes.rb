@@ -1,6 +1,5 @@
 # encoding: utf-8
 CoursAvenue::Application.routes.draw do
-
   constraints subdomain: 'pro' do
     namespace :pro, path: '' do
       root :to => 'home#index'
@@ -106,6 +105,8 @@ CoursAvenue::Application.routes.draw do
   match 'pages/jobs'                          => 'pages#jobs'
   match 'pages/mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
   match 'pages/conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
+
+  match '/blog' => redirect('/blog/')
 
   root :to => 'home#index'
 end

@@ -61,6 +61,7 @@ group :production do
   # gem 'therubyracer'
   # gem 'execjs'
 end
+gem 'rack-reverse-proxy', :require => 'rack/reverse_proxy'
 gem 'newrelic_rpm'
 
 group :test do
