@@ -9,10 +9,6 @@ use Rack::ReverseProxy do
   reverse_proxy(/^\/blog(\/.*)$/,
     'http://coursavenue-blog.herokuapp.com$1',
     opts = {:preserve_host => true})
-
-  reverse_proxy(/^\/wp-admin(\/.*)$/,
-    'http://coursavenue-blog.herokuapp.com$1',
-    opts = {:preserve_host => true})
 end
 
 run CoursAvenue::Application
