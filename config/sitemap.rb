@@ -25,6 +25,7 @@ SitemapGenerator::Sitemap.create do
   #     add article_path(article), :lastmod => article.updated_at
   #   end
 
+  add blog_path, priority: 0.5, changefreq: 'daily'
   add root_path, priority: 0.8, changefreq: 'daily'
 
   add courses_path, priority: 0.8, changefreq: 'daily'
