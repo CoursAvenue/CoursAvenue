@@ -79,13 +79,11 @@ class Planning < ActiveRecord::Base
   end
 
   def set_end_date
-    if course.is_workshop? or course.is_training?
-      unless end_date.present?
-        self.end_date = self.start_date
-      end
-    else
-      unless end_date.present?
+    unless end_date.present?
+      if course.is_lesson?
         self.end_date = self.course.end_date
+      else
+        self.end_date = self.start_date
       end
     end
   end

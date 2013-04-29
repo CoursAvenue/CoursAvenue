@@ -1,7 +1,7 @@
 class Price < ActiveRecord::Base
   belongs_to :course
 
-  before_save :update_nb_courses
+  before_validation :update_nb_courses, :fuck
 
   # Possible libelle:
   #   prices.free: Gratuit
@@ -29,9 +29,10 @@ class Price < ActiveRecord::Base
   validates :amount , presence: true
 
   def per_course_amount
-    if amount.nil? or nb_courses.nil?
+    if amount.nil?
       nil
     else
+      nb_courses ||= 1
       ('%.2f' % (amount / nb_courses)).gsub('.', ',').gsub(',00', '')
     end
   end
@@ -56,26 +57,27 @@ class Price < ActiveRecord::Base
   private
 
   def update_nb_courses
-    self.nb_courses = case libelle
+    case libelle
     when 'prices.free'
-      return 1
+      self.nb_courses = 1
     when 'prices.individual_course'
-      return 1
+      self.nb_courses = 1
     when 'prices.two_lesson_per_week_package'
-      return 2
+      self.nb_courses = 2
     when 'prices.annual'
-      return 35
+      self.nb_courses = 35
     when 'prices.semester'
-      return 17
+      self.nb_courses = 17
     when 'prices.trimester'
-      return 11
+      self.nb_courses = 11
     when 'prices.month'
-      return 4
+      self.nb_courses = 4
     when 'prices.trial_lesson'
-      return 1
+      self.nb_courses = 1
     when 'prices.training'
-      return 1
-    else return 0
+      self.nb_courses = 1
+    else
+      self.nb_courses = 0
     end
   end
 end
