@@ -1,7 +1,7 @@
 class Price < ActiveRecord::Base
   belongs_to :course
 
-  before_validation :update_nb_courses, :fuck
+  before_validation :update_nb_courses
 
   # Possible libelle:
   #   prices.free: Gratuit
