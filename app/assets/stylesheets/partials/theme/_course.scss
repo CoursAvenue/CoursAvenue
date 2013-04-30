@@ -1,17 +1,10 @@
 .course-header-badge {
-    font-size: 0;
     > div {
-        display  : inline-block;
         overflow : hidden;
-        margin   : 0;
         height   : 215px;
-        font-size: 12px;
     }
 }
 
-.course-header-image {
-    position    : relative;
-}
 
 .course-header-map {
     position: relative;

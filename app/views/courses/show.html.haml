@@ -82,14 +82,14 @@
                   = course.place.long_name
 
   %section.grid__item.seven-tenths.palm--one-whole.lap--one-whole
-    .course-header-badge
-      .course-header-image.one-half.palm--one-whole
+    .grid--full.course-header-badge
+      .grid__item.one-half.palm--one-whole>
         - if @course.image.present?
           = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name}"
         - else
           = image_tag @course.subjects.first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name}."
 
-      .course-header-map.one-half.palm--one-whole
+      .grid__item.course-header-map.one-half.palm--one-whole
         = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
         %div{itemscope: true, itemtype: 'http://schema.org/Place'}
           %h2.course-header-structure-name
