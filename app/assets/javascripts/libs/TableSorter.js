@@ -34,6 +34,7 @@ var TableSorter = new Class({
 		titleSet:				null,
 		footerRowClass:			'footer',
 		exemptRowClass:			'sortExempt',
+		dateParseFunction:      function(date) { return Date.parse(date) },
 		columnDataTypes:		[] // money, int, numeric, number, real, date, datetime checkbox, select, input, img, image
 	},
 
@@ -41,7 +42,6 @@ var TableSorter = new Class({
 
 		if(!document.id(table)) throw('Unknown table passed to TableSorter contructor (' + table + ')');
 		this.table = document.id(table);
-		console.log(this.table);
 		this.setOptions(options);
 
 		// Build our set of data types--hints for comparison operations:
@@ -116,7 +116,8 @@ var TableSorter = new Class({
 								pureData = null;
 							break;
 						case 'date': case 'datetime':
-							pureData = Date.parse(rawData);
+							pureData = this.options.dateParseFunction(rawData)
+							//pureData = Date.parse(rawData);
 							break;
 						case 'checkbox':
 							var theCheckbox = $(thisRecordRow.getChildren()[c]).getElement('input[type=checkbox]');
@@ -202,7 +203,6 @@ var TableSorter = new Class({
 				th.removeClass(this.options.headerDescClass);
 			}
 		}.bind(this));
-
 		this.recordSet.sort(function(r1, r2) {
 			var c1 = r1.dataSet[sortColumn];
 			var c2 = r2.dataSet[sortColumn];

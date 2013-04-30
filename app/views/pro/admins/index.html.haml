@@ -12,15 +12,19 @@
         %span Structure
       %th.sortAsc
         %span Date d'inscription
+      %th.sortAsc
+        %span Dernière date de connexion
       %th
   %tbody
     - @admins.each do |admin|
       %tr
         %td{class: (admin.super_admin? ? 'bold' : '')}
           = link_to (admin.name || ''), edit_pro_admin_path(admin)
-          \- #{link_to admin.email, "mailto:#{admin.email}"}
-        %td= link_to admin.structure.name, edit_pro_structure_path(admin.structure) if admin.structure
-        %td= l(admin.updated_at, format: :date_short_en)
+          = link_to "(#{admin.email})", "mailto:#{admin.email}"
+        %td= link_to admin.structure.name, pro_structure_path(admin.structure) if admin.structure
+        %td= l(admin.updated_at, format: :date_short)
+        %td
+          = l(admin.last_sign_in_at) if admin.last_sign_in_at
         %td.text--right
           - if admin.active
             = link_to 'Actif', disable_pro_admin_path(admin), class: 'switch-button on', method: :put
@@ -34,5 +38,12 @@
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string, string, date, string', cookieName: 'tableSortState__admins' });
+        var dateParseFunction = function(date) {
+            if (date.replace(/^\s+|\s+$/g, '').length === 0) { // Strip
+                return 0;
+            } else {
+                return new Date(date).getTime();
+            }
+        };
+        new TableSorter('dataTable', { columnDataTypes: 'string, string, date, date, string', cookieName: 'tableSortState__admins', dateParseFunction: dateParseFunction });
     });
