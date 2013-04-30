@@ -1,9 +1,9 @@
 - content_for :side_menu do
   %ul
-    = pro_side_menu_link 'Stats'                , pro_reservation_loggers_path             , current: current_tab if current_pro_admin and current_pro_admin.super_admin?
-    = pro_side_menu_link 'Structures en attente', awaiting_pro_structures_path             , current: current_tab, icon: 'icon-time' if current_pro_admin and current_pro_admin.super_admin?
-    = pro_side_menu_link 'Admins'               , pro_admins_path                          , current: current_tab if current_pro_admin and current_pro_admin.super_admin?
-    = pro_side_menu_link 'Structures'           , pro_structures_path                      , current: current_tab if current_pro_admin and current_pro_admin.super_admin?
+    = pro_side_menu_link 'Stats'                , pro_reservation_loggers_path             , current: current_tab, icon: 'icon-bar-chart' if current_pro_admin and current_pro_admin.super_admin?
+    = pro_side_menu_link 'Derniers commentaires', pro_comments_path                        , current: current_tab, icon: 'icon-comments' if current_pro_admin and current_pro_admin.super_admin?
+    = pro_side_menu_link 'Admins'               , pro_admins_path                          , current: current_tab, icon: 'icon-group' if current_pro_admin and current_pro_admin.super_admin?
+    = pro_side_menu_link 'Structures'           , pro_structures_path                      , current: current_tab, icon: 'icon-building' if current_pro_admin and current_pro_admin.super_admin?
     = pro_side_menu_link 'Mes cours'            , pro_structure_path(@structure)            , current: current_tab, icon: 'icon-list' if @structure and !@structure.new_record?
     = pro_side_menu_link 'Mes professeurs'      , pro_structure_teachers_path(@structure)   , current: current_tab, icon: 'icon-group' if @structure and !@structure.new_record?
     = pro_side_menu_link "Lieux d'enseignements", pro_structure_places_path(@structure)     , current: current_tab, icon: 'icon-map-marker' if @structure and !@structure.new_record?

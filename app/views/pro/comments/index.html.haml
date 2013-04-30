@@ -1,32 +1,10 @@
-= side_menu_currently_at "Mes avis"
-
-.text--center
-  %p.alert--info.one-half
-    Dites à vos élèves de donner des avis sur vos cours, vous serez plus visible !
-
+= side_menu_currently_at 'Derniers commentaires'
 %h3
   %i.icon-comments-alt
-  Avis sur mes établissements
-- @places_comments.each do |place, comments|
-  %h4.flush--bottom
-    = place.name
-    = rating_stars place.rating
-    #{place.rating}
-  - if comments.empty?
-    Pas encore d'avis. Sollicitez vos élèves !
-  - else
-    %ul.comment-list
-      = render partial: '/comments/comment', collection: comments
-%h3
-  %i.icon-comments-alt
-  Avis sur mes cours
-- @courses_comments.each do |course, comments|
-  %h4.flush--bottom
-    = course.name
-    = rating_stars course.rating
-    = course.rating
-  - if comments.empty?
-    Pas encore d'avis. Sollicitez vos élèves !
-  - else
-    %ul.comment-list
-      = render partial: '/comments/comment', collection: comments
+  Derniers commentaires
+
+%ul.comment-list
+  - @comments.each do |comment|
+    = link_to commentable_url(comment, subdomain: 'www'), class: 'muted-link' do
+      = render partial: '/comments/comment', locals: {comment: comment}
+    %hr

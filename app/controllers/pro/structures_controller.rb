@@ -43,10 +43,6 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
-  def awaiting
-    @structures = Structure.where{(active == false) | (has_validated_conditions == true)}.order('created_at DESC').all
-  end
-
   def index
     @structures = Structure.order('created_at ASC').all
   end

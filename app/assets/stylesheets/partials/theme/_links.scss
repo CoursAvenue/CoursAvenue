@@ -24,3 +24,10 @@ a.selected {
         text-decoration: none;
     }
 }
+
+.muted-link {
+    color: inherit;
+    &:hover {
+        text-decoration: none;
+    }
+}

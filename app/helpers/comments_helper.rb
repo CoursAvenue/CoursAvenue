@@ -29,20 +29,20 @@ module CommentsHelper
   end
 
   # Path of the commentable
-  def commentable_path comment
+  def commentable_path comment, options={}
     if comment.commentable.is_a? Place
-      place_path comment.commentable
+      place_path comment.commentable, options
     else
-      course_path comment.commentable
+      course_path comment.commentable, options
     end
   end
 
   # URL of the commentable
-  def commentable_url comment
+  def commentable_url comment, options={}
     if comment.commentable.is_a? Place
-      place_url comment.commentable
+      place_url comment.commentable, options
     else
-      course_url comment.commentable
+      course_url comment.commentable, options
     end
   end
 

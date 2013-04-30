@@ -8,10 +8,11 @@ CoursAvenue::Application.routes.draw do
       match 'pages/presse'          => 'home#press', as: 'pages_press'
       match '/dashboard'            => 'dashboard#index', as: 'dashboard'
 
+      resources :comments, only: [:index], controller: 'comments'
       resources :subjects
       resources :reservation_loggers, only: [:index, :destroy]
       resources :structures do
-        resources :comments
+        resources :comments, only: [:index], controller: 'structures/comments'
         member do
           put 'activate'
           put 'disable_condition'
@@ -19,7 +20,6 @@ CoursAvenue::Application.routes.draw do
           get 'validation'
         end
         collection do
-          get 'awaiting'
           get 'select', path: 'referencer-mes-cours'
         end
         resources :teachers
