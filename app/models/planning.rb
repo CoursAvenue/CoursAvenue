@@ -2,16 +2,17 @@
 class Planning < ActiveRecord::Base
   include PlanningsHelper
 
-  belongs_to :course
+  belongs_to :course, touch: true
   has_many   :prices, through: :course
   belongs_to :room
   belongs_to :teacher
 
   has_one   :structure, through: :course
 
+  before_validation :set_start_date
   before_validation :set_end_date
   before_validation :set_end_time
-  before_validation :set_duration
+  before_validation :update_duration
 
   # validates :teacher, presence: true
   validate :presence_of_start_date
@@ -63,10 +64,10 @@ class Planning < ActiveRecord::Base
 
   private
 
-  def set_duration
-    if self.start_time and self.end_time and duration.nil?
-        time_at = Time.at(self.end_time - self.start_time)
-        self.update_column :duration, (time_at.hour * 60) + time_at.min
+  def update_duration
+    if self.start_time and self.end_time
+      time_at = Time.at(self.end_time - self.start_time)
+      self.duration = (time_at.hour * 60) + time_at.min
     end
   end
 
@@ -75,6 +76,12 @@ class Planning < ActiveRecord::Base
       if self.start_time and self.duration
         self.end_time = self.start_time + self.duration.minutes
       end
+    end
+  end
+
+  def set_start_date
+    if start_date.nil?
+      self.start_date = course.start_date || Date.yesterday
     end
   end
 

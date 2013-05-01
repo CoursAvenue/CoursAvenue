@@ -28,10 +28,10 @@ class Pro::PlanningsController < InheritedResources::Base
         if @planning.save
           format.html { redirect_to pro_course_plannings_path(@course) }
         else
-          if @planning.end_date < Date.today
+          if @planning.end_date and @planning.end_date < Date.today
             alert = 'Le cours ne peut être dans le passé'
+            flash[:alert] = alert
           end
-          flash[:alert] = alert
           format.html { render template: 'pro/plannings/index'}
         end
       end
@@ -75,12 +75,11 @@ class Pro::PlanningsController < InheritedResources::Base
   private
 
   def set_dates_and_times
-    params[:planning][:start_time]  = TimeParser.parse_time_string params[:planning][:start_time]  if params[:planning][:start_time].present?
-    params[:planning][:end_time]    = TimeParser.parse_time_string params[:planning][:end_time]    if params[:planning][:end_time]  .present?
-    params[:planning][:duration]    = TimeParser.parse_time_string params[:planning][:duration]    if params[:planning][:duration].present?
+    params[:planning][:start_time]  = TimeParser.parse_time_string("#{params[:planning]['start_time(4i)']}h#{params[:planning]['start_time(5i)']}")  if params[:planning]['start_time(4i)'].present? and params[:planning]['start_time(5i)'].present?
+    params[:planning][:end_time]    = TimeParser.parse_time_string("#{params[:planning]['end_time(4i)']}h#{params[:planning]['end_time(5i)']}")  if params[:planning]['end_time(4i)'].present? and params[:planning]['end_time(5i)'].present?
 
     if params[:planning][:end_time].blank? and params[:planning][:duration].present?
-      params[:planning][:end_time]   = TimeParser.end_time_from_duration(params[:planning][:start_time], params[:planning][:duration])
+      params[:planning][:end_time]   = params[:planning][:start_time] + params[:planning][:duration].to_i.minutes
     elsif params[:planning][:end_time].present? and  params[:planning][:duration].blank?
       params[:planning][:duration]   = TimeParser.duration_from params[:planning][:start_time], params[:planning][:end_time]
     end

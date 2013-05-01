@@ -6,6 +6,10 @@
     %i.icon-double-angle-left
     Retour aux cours
   &nbsp;|&nbsp;
+  = link_to edit_pro_course_path(@course) do
+    %i.lbc-icon-info i
+    Info
+  &nbsp;|&nbsp;
   = link_to pro_course_prices_path(@course) do
     € Tarif
   &nbsp;|&nbsp;

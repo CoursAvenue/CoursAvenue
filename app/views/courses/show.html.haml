@@ -91,7 +91,7 @@
       .grid__item.course-header-map.one-half.palm--one-whole>
         = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
         %div{itemscope: true, itemtype: 'http://schema.org/Place'}
-          %h2.course-header-structure-name
+          %h2.course-header-structure-name.flush--bottom
             %b= @structure.name
             %div
               %i.icon-map-marker

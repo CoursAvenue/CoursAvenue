@@ -6,6 +6,10 @@
     %i.icon-double-angle-left
     Retour aux cours
   &nbsp;|&nbsp;
+  = link_to edit_pro_course_path(@course) do
+    %i.lbc-icon-info i
+    Info
+  &nbsp;|&nbsp;
   = link_to '#' do
     %b € Tarif
   &nbsp;|&nbsp;
@@ -17,12 +21,20 @@
 - prices = [[t('prices.annual'), 'prices.annual'],[t('prices.two_lesson_per_week_package'), 'prices.two_lesson_per_week_package'],[t('prices.semester'), 'prices.semester'],[t('prices.trimester'), 'prices.trimester'],[t('prices.month'), 'prices.month']]
 = simple_form_for [:pro, @course], url: update_price_pro_course_path(@course) do |f|
   %h5.form-header-group Prix du #{@course.type_name_html.downcase.html_safe}
-  .white-box.islet{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+  .form-white-box--large
+    .grid--full.input
+      %label.control-label.grid__item &nbsp;
+      .grid__item.text--center{style: 'width: 170px;'}
+        %b Prix normal
+      .grid__item.text--center.soft-half--left{style: 'width: 190px;'}
+        %b Avec promo (optionnel)
     = simple_fields_for @individual_price do |price_form|
       = price_form.hidden_field :libelle, value: 'prices.individual_course', name: 'individual_course_price[libelle]'
       .input.inline-inputs.flush--top
         = price_form.label "1 #{@course.type_name_html}".html_safe, style: 'width: 250px; padding-right: 1em;', class: 'text--right'
         = price_form.input :amount, placeholder: '20', label: false, input_html: {name: 'individual_course_price[amount]'}
+        €
+        = price_form.input :promo_amount, placeholder: '18', label: false, input_html: {name: 'individual_course_price[promo_amount]'}, wrapper_html: {class: 'soft-half--left'}
         €
 
     - unless @course.is_training?
@@ -32,6 +44,8 @@
           = book_ticket_form.label :amount, "Carnet de 10 #{@course.type_name_html.downcase}".html_safe, style: 'width: 250px; padding-right: 1em;', class: 'text--right'
           = book_ticket_form.input :amount, placeholder: '45', label: false
           €
+          = book_ticket_form.input :promo_amount, placeholder: '40', label: false, wrapper_html: {class: 'soft-half--left'}
+          €
 
     - if @course.is_lesson?
       = simple_fields_for @subscription do |forfait_form|
@@ -39,6 +53,8 @@
           = forfait_form.label :libelle, 'Abonnement', style: 'width: 250px; padding-right: 1em;', class: 'text--right'
           = forfait_form.input :libelle, as: :select, collection: prices, include_blank: false, label: false
           = forfait_form.input :amount, placeholder: '150', label: false
+          €
+          = forfait_form.input :promo_amount, placeholder: '130', label: false, wrapper_html: {class: 'soft-half--left'}
           €
 
   .form-actions

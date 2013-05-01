@@ -121,7 +121,7 @@
     - else
       .course-header-map
         = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
-        %h4.course-header-structure-name
+        %h4.course-header-structure-name.flush--bottom
           %b= @place.name
           %br
           %i.icon-map-marker

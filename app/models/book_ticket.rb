@@ -2,7 +2,7 @@
 class BookTicket < ActiveRecord::Base
   belongs_to :course
 
-  attr_accessible :number, :amount, :validity # in months
+  attr_accessible :number, :amount, :promo_amount, :validity # in months
 
   validates :number, presence: true
   validates :amount, presence: true

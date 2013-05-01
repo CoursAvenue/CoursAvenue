@@ -32,7 +32,8 @@ module TimeParser
   end
 
   def self.duration_from(start_time, end_time)
-    TimeParser.parse_time_string(Time.at((end_time - start_time)).gmtime.strftime('%R:%S'))
+    time_at = Time.at(end_time - start_time)
+    (time_at.hour * 60) + time_at.min
   end
 
 end
