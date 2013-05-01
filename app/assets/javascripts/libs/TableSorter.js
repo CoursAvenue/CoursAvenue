@@ -62,10 +62,12 @@ var TableSorter = new Class({
 				th.addEvent('click', self.handleHeaderClick.bind(self));
 				if(self.options.includeTitles) {
 					var thisTitle;
-					if(self.options.titleSet)
+					if(self.options.titleSet) {
+
 						thisTitle = self.options.titleSet[index];
-					else
+					} else {
 						thisTitle = self.options.titleFormula.replace('[headerText]', th.get('text'));
+					}
 					th.title = thisTitle;
 				}
 			}
@@ -101,7 +103,11 @@ var TableSorter = new Class({
 				for(var c=0; c < columnCount; c++) {
 					var pureData;
 					try {
-						var rawData = $(thisRecordRow.getChildren()[c]).getProperty('text');
+						if ($(thisRecordRow.getChildren()[c]).get('data-value')) {
+							var rawData = $(thisRecordRow.getChildren()[c]).get('data-value');
+						} else {
+							var rawData = $(thisRecordRow.getChildren()[c]).getProperty('text');
+						}
 					} catch(e) {
 						throw('Row in table found with less td elements than header. ' +
 							'Be certain your table rows are uniform, and that you have ' +
