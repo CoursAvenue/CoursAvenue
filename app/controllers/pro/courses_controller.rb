@@ -61,7 +61,7 @@ class Pro::CoursesController < InheritedResources::Base
         @subscription = @course.prices.where{libelle != 'prices.individual_course'}.first || @course.prices.build
         errors = errors or !@subscription.update_attributes(params[:price])
       end
-      if params[:book_ticket] and params[:book_ticket][:price].present?
+      if params[:book_ticket] and params[:book_ticket][:amount].present?
         @book_ticket = @course.book_tickets.where{number == 10}.first || @course.book_tickets.build
         errors = errors or !@book_ticket.update_attributes(params[:book_ticket])
       end

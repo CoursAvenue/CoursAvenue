@@ -35,15 +35,15 @@
       %i.lbc-brand-icon
     )
 
-%ul.nav
+%ul.nav.flush--bottom
   %li
     %h4.flush--bottom
       %span.lbl.milli= @course.type_name_html
   = join_course_subjects @course, true
 
-.grid.cf
+.grid--full.cf
   - # To Float left to have it first on mobile
-  %section.grid__item.three-tenths#summary.palm--one-whole.lap--one-whole.float--right>
+  %section.grid__item.three-tenths#summary.palm--one-whole.lap--one-whole.float--right.islet>
     = render 'contact_structure'
     .text--center.white-box.islet
       - if @course.rating
@@ -81,15 +81,14 @@
                   %i.icon-map-marker
                   = course.place.long_name
 
-  %section.grid__item.seven-tenths.palm--one-whole.lap--one-whole
-    .grid--full.course-header-badge
+  %section.grid__item.seven-tenths.palm--one-whole.lap--one-whole.islet>
+    .grid--full.course-header-badge>
       .grid__item.one-half.palm--one-whole>
         - if @course.image.present?
           = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name}"
         - else
-          = image_tag @course.subjects.first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name}."
-
-      .grid__item.course-header-map.one-half.palm--one-whole
+          = image_tag @course.subjects.limit(1).first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name}."
+      .grid__item.course-header-map.one-half.palm--one-whole>
         = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
         %div{itemscope: true, itemtype: 'http://schema.org/Place'}
           %h2.course-header-structure-name

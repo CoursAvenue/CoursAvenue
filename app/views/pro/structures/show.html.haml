@@ -10,7 +10,7 @@
       = place.name
       %i.icon-caret-down
   .toggleable-content
-    %table.table--striped#dataTable
+    %table.table--striped.dataTable
       %thead
         %tr
           %th.text--center.one-twelfth Statut
@@ -71,5 +71,8 @@
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string, string, string, string, string', cookieName: 'tableSortState__structure_#{@structure.slug}' });
+        $$('.dataTable').each(function(datatable, i) {
+            datatable.set('id', 'datatable_' + i)
+            new TableSorter('datatable_' + i, { columnDataTypes: 'string, string, string, string, string', cookieName: 'tableSortState__structure_#{@structure.slug}_' + i });
+        })
     });

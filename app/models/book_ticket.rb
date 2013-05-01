@@ -2,10 +2,10 @@
 class BookTicket < ActiveRecord::Base
   belongs_to :course
 
-  attr_accessible :number, :price, :validity # in months
+  attr_accessible :number, :amount, :validity # in months
 
   validates :number, presence: true
-  validates :price, presence: true
+  validates :amount, presence: true
 
   def libelle
     if validity
@@ -15,24 +15,20 @@ class BookTicket < ActiveRecord::Base
     end
   end
 
-  def amount
-    self.price
+  def readable_amount
+    self.readable_amount
   end
 
   def readable_amount
-    self.readable_price
-  end
-
-  def readable_price
-    if read_attribute(:price).nil?
+    if read_attribute(:amount).nil?
       ''
     else
-      ('%.2f' % read_attribute(:price)).gsub('.', ',').gsub(',00', '')
+      ('%.2f' % read_attribute(:amount)).gsub('.', ',').gsub(',00', '')
     end
   end
 
-  def readable_price_with_promo
-    price_with_promo = read_attribute(:price) + (read_attribute(:price) * course.promotion / 100)
-    ('%.2f' % price_with_promo).gsub('.', ',').gsub(',00', '')
+  def readable_amount_with_promo
+    amount_with_promo = read_attribute(:amount) + (read_attribute(:amount) * course.promotion / 100)
+    ('%.2f' % amount_with_promo).gsub('.', ',').gsub(',00', '')
   end
 end

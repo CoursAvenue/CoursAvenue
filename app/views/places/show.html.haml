@@ -38,11 +38,11 @@
     %a{href: '#comments'}
       %i.lbc-brand-icon
     )
-%ul.nav= join_place_parent_subjects @place, true
+%ul.nav.flush--bottom= join_place_parent_subjects @place, true
 
-.grid.cf
+.grid--full.cf
   - # To Float left to have it first on mobile
-  %section#summary.grid__item.three-tenths.lap--one-whole.palm--one-whole.float--right>
+  %section#summary.grid__item.three-tenths.lap--one-whole.palm--one-whole.float--right.islet>
     %article.course-info{itemscope: true, itemtype: 'http://schema.org/Place'}
       .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
         %meta{itemprop: 'latitude', content: @place.latitude}
@@ -111,7 +111,7 @@
                   %i.icon-map-marker
                   = surrounding_place.street
 
-  %section.grid__item.seven-tenths.palm--one-whole.lap--one-whole
+  %section.grid__item.seven-tenths.palm--one-whole.lap--one-whole.islet>
     - if @place.image.present?
       .grid--full.course-header-badge
         .grid_-item.one-half.palm--one-whole>

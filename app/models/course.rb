@@ -50,7 +50,9 @@ class Course < ActiveRecord::Base
 
   attr_reader :delete_image
 
-  attr_accessible :name, :type, :description, :active, :info,
+  attr_accessible :name, :type, :description,
+                  :active,
+                  :info,
                   :rating,
                   :is_promoted,
 
@@ -69,7 +71,7 @@ class Course < ActiveRecord::Base
                   :can_be_joined_during_year,
                   :nb_participants,
                   :start_date, :end_date,
-                  :subject_ids, :level_ids, :audience_ids, :room_id, :place_id
+                  :subject_ids, :level_ids, :audience_ids, :room_id, :place_id, :active
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
     text :name, :boost => 2
@@ -356,7 +358,7 @@ class Course < ActiveRecord::Base
 
   def set_structure_if_empty
     if structure.nil? and place.present?
-      structure = place.structure
+      self.structure_id = place.structure_id
     end
   end
 

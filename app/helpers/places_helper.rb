@@ -4,7 +4,7 @@ module PlacesHelper
     place.parent_subjects_string.split(';').collect do |subject_string|
       subject_name, subject_slug = subject_string.split(',')
       content_tag(:li) do
-        content_tag (with_h3 ? :h3: :span) do
+        content_tag((with_h3 ? :h3: :span), class: 'flush--bottom') do
           link_to subject_name, subject_places_path(subject_slug), class: 'lbl milli inline subject-link'
         end
       end

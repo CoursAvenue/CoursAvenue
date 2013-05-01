@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130425182523) do
+ActiveRecord::Schema.define(:version => 20130501145659) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -51,11 +51,11 @@ ActiveRecord::Schema.define(:version => 20130425182523) do
     t.integer  "structure_id"
     t.string   "civility"
     t.string   "phone_number"
-    t.string   "mobile_phone_number"
     t.boolean  "active",                                 :default => false
     t.string   "role"
     t.string   "management_software_used"
     t.boolean  "is_teacher"
+    t.string   "mobile_phone_number"
     t.string   "name"
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
@@ -86,11 +86,12 @@ ActiveRecord::Schema.define(:version => 20130425182523) do
 
   create_table "book_tickets", :force => true do |t|
     t.integer  "number"
-    t.decimal  "price"
+    t.decimal  "amount"
     t.decimal  "validity"
     t.integer  "course_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.decimal  "promo_amount"
   end
 
   create_table "cities", :force => true do |t|
@@ -285,7 +286,6 @@ ActiveRecord::Schema.define(:version => 20130425182523) do
     t.integer  "week_day"
     t.time     "start_time"
     t.time     "end_time"
-    t.time     "duration"
     t.boolean  "class_during_holidays"
     t.decimal  "promotion"
     t.integer  "nb_place_available"
@@ -298,6 +298,8 @@ ActiveRecord::Schema.define(:version => 20130425182523) do
     t.datetime "updated_at",            :null => false
     t.integer  "room_id"
     t.integer  "teacher_id"
+    t.integer  "total_nb_place"
+    t.integer  "duration"
   end
 
   add_index "plannings", ["week_day"], :name => "index_plannings_on_week_day"
@@ -306,9 +308,10 @@ ActiveRecord::Schema.define(:version => 20130425182523) do
     t.string   "libelle"
     t.decimal  "amount"
     t.integer  "course_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.integer  "nb_courses"
+    t.decimal  "promo_amount"
   end
 
   create_table "pricing_plans", :force => true do |t|

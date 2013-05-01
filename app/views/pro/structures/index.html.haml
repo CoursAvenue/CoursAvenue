@@ -15,7 +15,8 @@
       %tr
         %td= link_to structure.name, pro_structure_path(structure)
         %td= structure.courses.count
-        %td= l(structure.created_at, format: :date_short_en)
+        %td{data: {value: structure.created_at}}
+          = l(structure.created_at)
         %td.text--right
           - if structure.active
             = link_to 'Actif', pro_structure_path(structure), method: :delete, class: 'switch-button on', title: 'Désactiver'
@@ -25,5 +26,12 @@
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string,int,date,string', cookieName: 'tableSortState__structure_index' });
+        var dateParseFunction = function(date) {
+            if (date.replace(/^\s+|\s+$/g, '').length === 0) { // Strip
+                return 0;
+            } else {
+                return new Date(date).getTime();
+            }
+        };
+        new TableSorter('dataTable', { columnDataTypes: 'string,int,date,string', cookieName: 'tableSortState__structure_index', dateParseFunction: dateParseFunction});
     });

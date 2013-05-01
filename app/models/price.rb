@@ -23,6 +23,7 @@ class Price < ActiveRecord::Base
 
   attr_accessible :libelle,
                   :amount,
+                  :promo_amount,
                   :nb_courses
 
   validates :libelle, uniqueness: {scope: 'course_id'}

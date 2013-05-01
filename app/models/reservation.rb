@@ -37,7 +37,7 @@ class Reservation < ActiveRecord::Base
       end
     elsif book_ticket
       if planning.promotion.present?
-        "#{book_ticket.readable_price_with_promo}€ au lieu de #{book_ticket.readable_amount}€ (#{I18n.t(book_ticket.libelle)})"
+        "#{book_ticket.readable_amount_with_promo}€ au lieu de #{book_ticket.readable_amount}€ (#{I18n.t(book_ticket.libelle)})"
         else
         "#{book_ticket.readable_amount}€ (#{I18n.t(book_ticket.libelle)})"
       end

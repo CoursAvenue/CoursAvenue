@@ -34,18 +34,10 @@ module PlanningsHelper
     end
   end
 
-  def readable_duration time
-    if time.blank?
-      '-'
-    elsif time.hour > 0
-      if time.min == 0
-        "#{time.hour}h"
-      else
-        "#{time.hour}h#{time.min}"
-      end
-    else
-      "#{time.min}min"
-    end
+  def readable_duration time_in_minutes
+    _minutes = (time_in_minutes % 60)
+    minutes = _minutes < 10 ? (_minutes == 0 ? '' : "0#{_minutes}") : _minutes
+    "#{(time_in_minutes / 60).to_i}h#{minutes}"
   end
 
   def readable_time_slot(start_time, end_time=nil)

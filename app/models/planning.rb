@@ -18,13 +18,14 @@ class Planning < ActiveRecord::Base
   validate :end_date_in_future
 
 
-  attr_accessible :duration,
+  attr_accessible :duration, # In minutes
                   :end_date,
                   :start_date,
                   :start_time, # Format: Time.parse("2000-01-01 #{value} UTC")
                   :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
                   :week_day, # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
                   :class_during_holidays,
+                  :total_nb_place,
                   :nb_place_available,
                   :promotion,
                   :info,
@@ -64,16 +65,15 @@ class Planning < ActiveRecord::Base
 
   def set_duration
     if self.start_time and self.end_time and duration.nil?
-        self.duration = Time.at(self.end_time - self.start_time)
+        time_at = Time.at(self.end_time - self.start_time)
+        self.update_column :duration, (time_at.hour * 60) + time_at.min
     end
   end
 
   def set_end_time
     unless self.end_time.present?
       if self.start_time and self.duration
-        self.end_time = self.start_time
-        self.end_time = self.end_time + self.duration.hour.hours
-        self.end_time = self.end_time + self.duration.min.minutes
+        self.end_time = self.start_time + self.duration.minutes
       end
     end
   end
