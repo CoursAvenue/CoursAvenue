@@ -104,7 +104,7 @@
 
     %hr
     - if @course.description.present? and @course.description.length > 30
-      %h2.delta Description du #{@course.type_name_html.downcase} de : #{@course.name}
+      %h2.delta Description du #{@course.type_name.downcase.html_safe} de : #{@course.name}
       %p= @course.description.html_safe
 
     %ul.tab-titles{data: {behavior: 'tabs'}}
