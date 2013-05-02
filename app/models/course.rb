@@ -75,8 +75,8 @@ class Course < ActiveRecord::Base
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
     text :name, :boost => 2
-    text :structure_name do
-      structure.name if structure
+    text :place_name do
+      place.long_name
     end
 
     text :place_info do
@@ -128,10 +128,6 @@ class Course < ActiveRecord::Base
         'workshop'
       end
     end
-
-    # string :city do
-    #   place.city.slug
-    # end
 
     latlon :location do
       Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
