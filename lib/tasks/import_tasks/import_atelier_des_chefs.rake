@@ -5,7 +5,7 @@ require 'rake/clean'
 require 'csv'
 # require 'debugger'
 
-# s = Structure.find 'l-atelier-des-chefs'; s.courses.each {|c| c.plannings.delete_all; c.prices.delete_all; c.delete}
+# s = Structure.find 'l-atelier-des-chefs'; s.courses.each {|c| c.plannings.delete_all; c.prices.delete_all; c.delete!}
 namespace :import do
 
   def adc_to_hash(row)
@@ -47,7 +47,8 @@ namespace :import do
         next
       end
       course = place.courses.joins{prices}.where{(name == row[:class_name]) & (prices.amount == row[:price].to_i)}.first
-      if course.nil? or !course_price_are_same(course, row)
+
+      if course.nil?
         course = Course.new(name: row[:class_name],
                             type: 'Course::Workshop',
                             audience_ids: [Audience.adult.id],
@@ -67,15 +68,5 @@ namespace :import do
       price.update_attributes(libelle: 'prices.individual_course', amount: row[:price] , promo_amount: (row[:promo_price] != '0' ? row[:promo_price] : nil))
       price.save
     end
-  end
-
-  # A course can have the same name but different prices
-  def course_price_are_same course, row
-    price = course.prices.first
-    return false if price.nil?
-    if price.amount == row[:price] and price.promo_amount == (row[:promo_price] != '0' ? row[:promo_price].to_i : nil)
-      return true
-    end
-    return false
   end
 end
