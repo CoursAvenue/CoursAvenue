@@ -113,10 +113,10 @@
 
   %section.grid__item.seven-tenths.palm--one-whole.lap--one-whole.islet>
     - if @place.image.present?
-      .grid--full.course-header-badge
-        .grid_-item.one-half.palm--one-whole>
+      .grid--full.course-header-badge>
+        .grid__item.one-half.palm--one-whole>
           = image_tag @place.image.url(:wide), class: 'course-header-badge-image', alt: @place.long_name
-        .grid_-item.course-header-map.one-half.palm--one-whole
+        .grid__item.course-header-map.one-half.palm--one-whole>
           = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
     - else
       .course-header-map
