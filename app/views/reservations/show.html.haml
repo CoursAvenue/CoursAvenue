@@ -22,7 +22,7 @@
       %td= @reservation.planning.to_s
     %tr
       %th Prix
-      %td= @reservation.readable_amount
+      %td= readable_amount(@reservation.amount)
 
 .white-box.islet
   %h5.text--center

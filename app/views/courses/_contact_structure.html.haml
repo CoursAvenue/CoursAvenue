@@ -5,7 +5,14 @@
     = @course.place.long_name
   - if @best_price
     .course-info-price.text--right
-      %h2.blue= "#{@best_price.readable_amount}€"
+      - if @best_price.has_promo?
+        %div
+          %span.line-through
+            = "#{readable_amount(@best_price.amount)}€"
+          %span.beta.green
+            = "#{readable_amount(@best_price.promo_amount)}€"
+      - else
+        .beta.green= "#{readable_amount(@best_price.amount)}€"
       %small
         - if @course.is_training?
           (Prix du stage)

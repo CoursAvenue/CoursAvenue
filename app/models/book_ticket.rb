@@ -15,17 +15,10 @@ class BookTicket < ActiveRecord::Base
     end
   end
 
-  def readable_amount
-    self.readable_amount
+  def has_promo?
+    !promo_amount.nil?
   end
 
-  def readable_amount
-    if read_attribute(:amount).nil?
-      ''
-    else
-      ('%.2f' % read_attribute(:amount)).gsub('.', ',').gsub(',00', '')
-    end
-  end
 
   def readable_amount_with_promo
     amount_with_promo = read_attribute(:amount) + (read_attribute(:amount) * course.promotion / 100)

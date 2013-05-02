@@ -18,7 +18,7 @@
           = f.input :start_date, as: :string, input_html: {data: {behavior: 'datepicker'}, style: 'margin-top: 8px; width: 8em;', class: 'text--center'}, label: false, placeholder: 'jj/mm/yyyy', wrapper_html: {class: 'flush--top'}
       .grid__item.width-auto{style: 'padding-left: 1em; margin-right: 1em;'}>
         %label Choix du tarif
-        = f.association :price, collection: @prices + @book_tickets, label_method: lambda {|price| "#{((price.is_a? Price) ? t(price.libelle) : price.libelle)} : #{price.readable_amount}€" }, label: false, include_blank: false, value_method: lambda {|price| price.amount}, input_html: {name: 'none', id: 'price_select'}
+        = f.association :price, collection: @prices + @book_tickets, label_method: lambda {|price| "#{((price.is_a? Price) ? t(price.libelle) : price.libelle)} : #{readable_amount(price.amount)}€" }, label: false, include_blank: false, value_method: lambda {|price| price.amount}, input_html: {name: 'none', id: 'price_select'}
         #promotion-box.green.bold
       / .bordered--left{style: 'padding-left: 1em;'}
       /   = f.label :nb_participants

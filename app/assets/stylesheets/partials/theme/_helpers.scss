@@ -19,7 +19,7 @@
 .orange { color: $orange; }
 .yellow { color: $yellow; }
 .red    { color: $red; }
-.green  { color: $green; }
+.green  { color: $greenSuccess; }
 .blue   { color: $blueGreen !important; }
 .orange { color: $orange; }
 .brand  { color: $orange !important; }
@@ -38,9 +38,7 @@
     font-size: 0.8em;
 }
 
-.line-through {
-    text-decoration: line-through;
-}
+.line-through { text-decoration: line-through; }
 
 .base-font-style {
     font-size  : $base-font-size;

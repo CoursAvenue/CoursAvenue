@@ -12,7 +12,10 @@
   Adresse de l'établissement : #{@place.address}
   %br
   - if @reservation.price
-    Prix : #{@reservation.price.readable_amount}€ (#{I18n.t(@reservation.price.libelle)})
+    - if @reservation.price.has_promo?
+      Prix : #{readable_amount(@reservation.price.promo_amount)}€ au lieu de #{readable_amount(@reservation.price.amount)}€ (#{I18n.t(@reservation.price.libelle)})
+    - else
+      Prix : #{readable_amount(@reservation.price.amount)}€ (#{I18n.t(@reservation.price.libelle)})
     %br
 
 %p Pour confirmer votre réservation, nous vous invitons à contacter l'établissement.

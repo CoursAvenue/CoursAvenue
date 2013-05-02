@@ -2,6 +2,7 @@
 class Reservation < ActiveRecord::Base
 
   include PlanningsHelper
+  include PricesHelper
 
   attr_accessible :course_id, :planning_id, :price_id, :book_ticket_id,
                   :name, :email,
@@ -30,16 +31,16 @@ class Reservation < ActiveRecord::Base
 
   def readable_price
     if price
-      if planning.promotion.present?
-        "#{price.readable_amount_with_promo}€ au lieu de #{price.readable_amount}€ (#{I18n.t(price.libelle)})"
+      if price.has_promo?
+        "#{readable_amount(price.promo_amount)}€ au lieu de #{readable_amount(price.amount)}€ (#{I18n.t(price.libelle)})"
       else
-        "#{price.readable_amount}€ (#{I18n.t(price.libelle)})"
+        "#{readable_amount(price.amount)}€ (#{I18n.t(price.libelle)})"
       end
     elsif book_ticket
-      if planning.promotion.present?
-        "#{book_ticket.readable_amount_with_promo}€ au lieu de #{book_ticket.readable_amount}€ (#{I18n.t(book_ticket.libelle)})"
+      if book_ticket.has_promo?
+        "#{readable_amount(book_ticket.promo_amount)}€ au lieu de #{readable_amount(book_ticket.amount)}€ (#{I18n.t(book_ticket.libelle)})"
         else
-        "#{book_ticket.readable_amount}€ (#{I18n.t(book_ticket.libelle)})"
+        "#{readable_amount(book_ticket.amount)}€ (#{I18n.t(book_ticket.libelle)})"
       end
     end
   end

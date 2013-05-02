@@ -33,26 +33,26 @@ class Price < ActiveRecord::Base
     if amount.nil?
       nil
     else
-      nb_courses ||= 1
-      ('%.2f' % (amount / nb_courses)).gsub('.', ',').gsub(',00', '')
+      self.nb_courses ||= 1
+      ('%.2f' % (amount / self.nb_courses)).gsub('.', ',').gsub(',00', '')
     end
   end
 
-  def readable_amount
-    if amount.nil?
+  def per_course_promo_amount
+    if promo_amount.nil?
       nil
     else
-      ('%.2f' % amount).gsub('.', ',').gsub(',00', '')
+      self.nb_courses ||= 1
+      ('%.2f' % (promo_amount / self.nb_courses)).gsub('.', ',').gsub(',00', '')
     end
-  end
-
-  def readable_amount_with_promo
-    price_with_promo = amount + (amount * course.promotion / 100)
-    ('%.2f' % price_with_promo).gsub('.', ',').gsub(',00', '')
   end
 
   def individual_course?
     libelle == 'prices.individual_course'
+  end
+
+  def has_promo?
+    !promo_amount.nil?
   end
 
   private

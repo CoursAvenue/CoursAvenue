@@ -6,4 +6,4 @@
     - if price.amount.nil?
       %td.text--center Se renseigner
     - else
-      %td.text--center= "#{price.readable_amount}€"
+      %td.text--center= "#{readable_amount(price.amount)}€"
