@@ -74,8 +74,11 @@ class Place < ActiveRecord::Base
       structure.name
     end
 
-
     text :street
+
+    text :course_names do
+      courses.map(&:name)
+    end
 
     text :subjects do
       subject_array = []

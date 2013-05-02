@@ -1,12 +1,3 @@
-%h3.this-or-this
-  %span.this-or-this__or.one-half Vous cherchez un cours ?
-  %span.this-or-this__this.one-half Vous voulez être référencé ?
-
-.this-or-this
-  .this-or-this__this.one-half{style: 'border-right: 1px solid #e3dcd4;'}
-    %p Laissez-nous votre e-mail, nous vous contacterons dès que nous aurons des cours !
-    = simple_form_for NewsletterUser.new, html: {class: 'inline-form'} do |f|
-      = f.email_field :email, placeholder: t('newsletter_users.email'), size: 25
-      = f.hidden_field  :city, value: params[:address_name]
-  .this-or-this__this.one-half
-    = link_to 'Contactez-nous', pages_contact_path, class: 'btn'
+.text--center
+  %h3.push--top Aucune séance trouvé
+  = link_to 'Chercher par établissement', places_path(name: params[:name]), class: 'btn btn__large btn__success', onclick: "_gaq.push(['_trackEvent', 'Chercher par établissement', 'click', 'Après recherche vide"
