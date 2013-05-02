@@ -18,15 +18,18 @@
           (Prix du stage)
         - else
           (#{t(@best_price.libelle)})
-    = simple_form_for @reservation, url: course_reservations_path(@course) do |f|
-      = f.input :name, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Nom', required: true
-      = f.input :email, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Email (pour confirmation)'
-      = f.input :phone, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: "Téléphone pour l'établissement (optionnel)"
-      = f.submit "Réserver ce #{@course.type_name.downcase}", class: 'btn btn__success one-whole', onclick: "_gaq.push(['_trackEvent', 'Reservation', 'click', '#{@course.slug}'])"
-    %p.line-height-1.flush--bottom
-      %i Réservez votre #{t(@best_price.libelle).downcase} et utilisez-le quand vous voulez.
-      %br
-      %i Si vous souhaitez ensuite passer une formule sur plusieurs cours, nous vous déduirons alors directement le prix du #{t(@best_price.libelle).downcase} que vous avez déjà payé.
+    %a#book_button.text--center.btn.btn__success.one-whole{href: '#'} Réserver ce #{@course.type_name.downcase}
+
+#booking_form.hidden
+  = simple_form_for @reservation, url: course_reservations_path(@course) do |f|
+    = f.input :name, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Nom', required: true
+    = f.input :email, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Email (pour confirmation)'
+    = f.input :phone, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: "Téléphone pour l'établissement (optionnel)"
+    = f.submit "Réserver ce #{@course.type_name.downcase}", class: 'btn btn__success one-whole', onclick: "_gaq.push(['_trackEvent', 'Reservation', 'click', '#{@course.slug}'])"
+  %p.line-height-1.flush--bottom
+    %i Réservez votre #{t(@best_price.libelle).downcase} et utilisez-le quand vous voulez.
+    %br
+    %i Si vous souhaitez ensuite passer une formule sur plusieurs cours, nous vous déduirons alors directement le prix du #{t(@best_price.libelle).downcase} que vous avez déjà payé.
 
 = content_for :scripts do
   :javascript
@@ -37,5 +40,25 @@
               return false;
             }
             return true;
+        });
+    });
+    $("book_button").addEvent("click", function(){
+        var modal = new SimpleModal({
+            width: 600,
+            "onAppend": function() {
+                $("simple-modal").fade("hide");
+                setTimeout((function(){ $("simple-modal").fade("show")}), 200 );
+                var tw = new Fx.Tween($("simple-modal"),{
+                  duration: 800,
+                  transition: Fx.Transitions.Cubic.easeOut,
+                  link: 'cancel',
+                  property: 'top'
+                }).start(-400, 150);
+            }
+        });
+        modal.show({
+            "model":"modal",
+            "title":"En cours de lancement",
+            "contents": $('booking_form').get('html')
         });
     });
