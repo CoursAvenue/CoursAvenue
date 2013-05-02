@@ -29,7 +29,7 @@ CoursAvenue::Application.routes.draw do
       end
       resources :courses, except: [:new, :create], path: 'cours' do
         member do
-          post 'update'
+          post 'update' # For paperclip image
         end
         resources :plannings, only: [:edit, :index, :destroy]
         resources :prices, only: [:index]
