@@ -1,3 +1,10 @@
+.text--right
+  - if current_user
+    Loggé en tant que
+    %b= current_user.first_name
+    = link_to "Se déconnecter", destroy_user_session_path, method: :delete
+  - else
+    = link_to "Connexion Facebook", user_omniauth_authorize_path('facebook')
 - cache "page-header_#{ENV["ETAG_VERSION_ID"]}" do
   %header.header
     .main-container.grid--full
@@ -9,3 +16,5 @@
         %span.espace-pro-wrapper
           %span.espace-pro
           = link_to 'Référencer mes cours', 'http://pro.coursavenue.com', class: 'btn btn__success'
+
+

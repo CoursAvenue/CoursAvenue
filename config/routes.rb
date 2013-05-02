@@ -1,5 +1,12 @@
 # encoding: utf-8
 CoursAvenue::Application.routes.draw do
+
+  devise_for :users, controllers: { :omniauth_callbacks => 'users/omniauth_callbacks'}
+
+  match 'auth/:provider/callback', to: 'session#create'
+  match 'auth/failure', to: redirect('/')
+  match 'signout', to: 'session#destroy', as: 'signout'
+
   constraints subdomain: 'pro' do
     namespace :pro, path: '' do
       root :to => 'home#index'

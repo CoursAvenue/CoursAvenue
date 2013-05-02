@@ -111,16 +111,14 @@
       %li.tab-el.active{data: { el: 'tab-planning' }}= t('.planning')
       %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos tarif', 'click', '#{@course.slug}'])", data: { el: 'tab-prices' }}= t('.prices')
       %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos cours', 'click', '#{@course.slug}'])", data: { el: 'tab-description' }}= t('.infos')
-      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos structure', 'click', '#{@course.slug}'])", data: { el: 'tab-structure-info' }}= t('.structure')
-      %li.tab-el.float--right
+      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos structure', 'click', '#{@course.slug}'])"}
         = link_to place_path(@place) do
-          = "Voir tous les cours de #{truncate @place.long_name, length: 20}"
+          = "Établissement"
 
     .tab-content
       = render 'planning_tab'
       = render 'price_tab'
       = render 'description_tab'
-      = render 'structure_tab'
 
     %hr
     %article#comments

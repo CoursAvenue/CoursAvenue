@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130501145659) do
+ActiveRecord::Schema.define(:version => 20130502132354) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -51,11 +51,11 @@ ActiveRecord::Schema.define(:version => 20130501145659) do
     t.integer  "structure_id"
     t.string   "civility"
     t.string   "phone_number"
-    t.string   "mobile_phone_number"
     t.boolean  "active",                                 :default => false
     t.string   "role"
     t.string   "management_software_used"
     t.boolean  "is_teacher"
+    t.string   "mobile_phone_number"
     t.string   "name"
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
@@ -469,5 +469,32 @@ ActiveRecord::Schema.define(:version => 20130501145659) do
     t.datetime "updated_at",   :null => false
     t.text     "description"
   end
+
+  create_table "users", :force => true do |t|
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.string   "authentication_token"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "image"
+    t.string   "location"
+  end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
 end

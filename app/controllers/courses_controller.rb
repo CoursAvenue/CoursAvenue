@@ -7,8 +7,8 @@ class CoursesController < ApplicationController
     search_solr
     init_geoloc
     cookies[:search_path] = request.fullpath
-    fresh_when etag: [@courses, ENV["ETAG_VERSION_ID"]], public: true
-    expires_in 1.minutes, public: true
+    # fresh_when etag: [@courses, ENV["ETAG_VERSION_ID"]], public: true
+    # expires_in 1.minutes, public: true
   end
 
   def show
@@ -30,7 +30,7 @@ class CoursesController < ApplicationController
       marker.title   place.name
       marker.json({ id: place.id })
     end
-    fresh_when etag: [@course, @comments.first, ENV["ETAG_VERSION_ID"]], public: true
+    # fresh_when etag: [@course, @comments.first, ENV["ETAG_VERSION_ID"]], public: true
   end
 
   private

@@ -46,6 +46,7 @@ gem 'inherited_resources'       , '~> 1.3.1'
 gem 'cancan'                    , '~> 1.6.9'
 gem 'devise'                    , '~> 2.2.3'
 gem 'devise_invitable'          , '~> 1.1.5'
+gem 'omniauth-facebook'         , '1.4.0'
 
 gem 'sunspot'                   , '~> 2.0.0'
 gem 'sunspot_solr'              , '~> 2.0.0'
