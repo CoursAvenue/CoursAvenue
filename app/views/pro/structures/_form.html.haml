@@ -12,7 +12,7 @@
           Contact
         .form-white-box
           = contact_form.hidden_field :id
-          = contact_form.input :civility, as: :radio, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
+          = contact_form.input :civility, as: :radio_buttons, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
           = contact_form.input :name
           / = contact_form.input :role
           / = contact_form.input :is_teacher

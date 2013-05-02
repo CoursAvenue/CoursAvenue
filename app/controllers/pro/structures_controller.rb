@@ -82,31 +82,22 @@ class Pro::StructuresController < Pro::ProController
     if params[:structure].delete(:delete_image) == '1'
       resource.image.clear
     end
-    if current_pro_admin.super_admin?
-      respond_to do |format|
-        if @structure.update_attributes params[:structure]
-          format.html { redirect_to edit_pro_structure_path @structure }
-        else
-          format.html { render action: 'edit' }
-        end
-      end
-    else
-      @admin     = (params[:admin][:id].blank? ? ::Admin.new : ::Admin.find(params[:admin].delete(:id)))
-      @structure.admins << @admin
+    @admin     = (params[:admin][:id].blank? ? ::Admin.new : ::Admin.find(params[:admin].delete(:id)))
+    @structure.admins << @admin
 
-      if !@admin.new_record? and params[:admin][:password].blank?
-        params[:admin].delete :password
-        params[:admin].delete :password_confirmation
-      end
+    if !@admin.new_record? and params[:admin][:password].blank?
+      params[:admin].delete :password
+      params[:admin].delete :password_confirmation
+    end
 
-      respond_to do |format|
-        has_saved = @admin.update_attributes(params[:admin])
-        has_saved = has_saved && @structure.update_attributes(params[:structure])
-        if has_saved
-          format.html { redirect_to edit_pro_structure_path @structure }
-        else
-          format.html { render action: 'edit' }
-        end
+    has_saved = @admin.update_attributes(params[:admin])
+
+    respond_to do |format|
+      has_saved = has_saved && @structure.update_attributes(params[:structure])
+      if has_saved
+        format.html { redirect_to edit_pro_structure_path @structure }
+      else
+        format.html { render action: 'edit' }
       end
     end
   end
