@@ -16,9 +16,14 @@ class Course < ActiveRecord::Base
                     :styles => {default: '1600×500#'},
                     :path => "course/:id/homepage_image/:fingerprint-:style.:extension"
 
-  has_attached_file :image,
-                    :styles => { wide: "800x480#", thumb: "200x200#", mini: '50x50#' },
-                    :path => "course/:id/image/:fingerprint-:style.:extension"
+  if Rails.env.production?
+    has_attached_file :image,
+                      :styles => { wide: "800x480#", thumb: "200x200#", mini: '50x50#' },
+                      :path => "course/:id/image/:fingerprint-:style.:extension"
+  else
+    has_attached_file :image,
+                      :styles => { wide: "800x480#", thumb: "200x200#", mini: '50x50#' }
+  end
 
   belongs_to :structure, touch: true
   belongs_to :place,     touch: true
