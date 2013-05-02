@@ -57,5 +57,13 @@
           = forfait_form.input :promo_amount, placeholder: '130', label: false, wrapper_html: {class: 'soft-half--left'}
           €
 
+    %hr
+    = simple_fields_for @registration_fee do |registration_form|
+      .input.inline-inputs.flush--top
+        = registration_form.label :amount, 'Adhésion (optionnel)', style: 'width: 250px; padding-right: 1em;', class: 'text--right'
+        = registration_form.input :amount, placeholder: '15', label: false
+        €
+
+
   .form-actions
     = f.submit 'Valider', class: 'btn btn__success'
