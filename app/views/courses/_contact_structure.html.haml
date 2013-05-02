@@ -21,6 +21,9 @@
     %a#book_button.text--center.btn.btn__success.one-whole{href: '#'} Réserver ce #{@course.type_name.downcase}
 
 #booking_form.hidden
+  .text--center.islet
+    = link_to "Connexion Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn__facebook'
+  %hr
   = simple_form_for @reservation, url: course_reservations_path(@course) do |f|
     = f.input :name, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Nom', required: true
     = f.input :email, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Email (pour confirmation)'
@@ -58,7 +61,7 @@
         });
         modal.show({
             "model":"modal",
-            "title":"En cours de lancement",
+            "title":"Réservation",
             "contents": $('booking_form').get('html')
         });
     });

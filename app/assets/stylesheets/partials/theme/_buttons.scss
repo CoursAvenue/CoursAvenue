@@ -82,11 +82,16 @@
         @include buttonBackground(lighten($btnSuccessBackground, 6%), lighten($btnSuccessBackgroundHighlight, 6%));
     }
 }
-// Info appears as a neutral blue
-.btn-info {
-    @include buttonBackground($btnInfoBackground, $btnInfoBackgroundHighlight);
-}
-// Inverse appears as dark gray
-.btn-inverse {
-    @include buttonBackground($btnInverseBackground, $btnInverseBackgroundHighlight);
+
+.btn__facebook {
+    text-transform  : uppercase;
+    text-shadow     : -1px -1px 0 darken($facebookBlue, 10%);
+    color           : white;
+    border-color    : darken($facebookBlue, 3%);
+    @include background-image(none);
+    background-color: $facebookBlue;
+    &:hover {
+        @include background-image(none);
+        background-color: lighten($facebookBlue, 5%);
+    }
 }
