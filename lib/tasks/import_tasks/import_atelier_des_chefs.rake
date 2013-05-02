@@ -13,7 +13,7 @@ namespace :import do
       place_name:         row[0].gsub('Paris ', ''),
       class_name:         row[1],
       start_date:         Date.strptime(row[2], '%m/%d/%y'),
-      start_time:         Time.parse("2000-01-01 #{row[3]} UTC"),
+      start_time:         Time.zone.parse("2000-01-01 #{row[3]} UTC"),
       duration:           row[4],
       info:               row[5],
       nb_place_available: row[6],
@@ -67,6 +67,7 @@ namespace :import do
       price = course.prices.where{libelle == 'prices.individual_course'}.first || course.prices.build
       price.update_attributes(libelle: 'prices.individual_course', amount: row[:price] , promo_amount: (row[:promo_price] != '0' ? row[:promo_price] : nil))
       price.save
+      course.index
     end
   end
 end

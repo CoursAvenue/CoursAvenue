@@ -5,16 +5,21 @@ class Comment < ActiveRecord::Base
   validates :author_name, :content, presence: true
   validates :rating, numericality: { greater_than: 0, less_than: 6 }
 
-  after_commit  :update_commentable_rating
+  after_save    :update_commentable_rating
   after_destroy :update_commentable_rating
 
   before_save :replace_slash_n_r_by_brs
 
   private
-  # Update rating of the commentable (course, or structure)
+
+  # Update rating of the commentable (course, or place)
   def update_commentable_rating
     commentable = self.commentable
-    ratings = commentable.comments.group(:rating).count
+    if commentable.is_a? Place
+      ratings = commentable.comments.group(:rating).count
+    else
+      ratings = commentable.comments.group(:rating).count
+    end
     nb_rating    = 0
     total_rating = 0
     ratings.delete_if {|k,v| k.nil?}.each do |key, value|

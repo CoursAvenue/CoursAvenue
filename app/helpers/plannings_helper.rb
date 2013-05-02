@@ -38,7 +38,12 @@ module PlanningsHelper
     return nil if time_in_minutes.nil?
     _minutes = (time_in_minutes % 60)
     minutes = _minutes < 10 ? (_minutes == 0 ? '' : "0#{_minutes}") : _minutes
-    "#{(time_in_minutes / 60).to_i}h#{minutes}"
+    hour    = (time_in_minutes / 60).floor
+    if hour == 0
+      "#{minutes}min"
+    else
+      "#{hour}h#{minutes}"
+    end
   end
 
   def readable_time_slot(start_time, end_time=nil)

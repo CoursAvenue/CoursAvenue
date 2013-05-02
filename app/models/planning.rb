@@ -66,7 +66,7 @@ class Planning < ActiveRecord::Base
 
   def update_duration
     if self.start_time and self.end_time
-      time_at = Time.at(self.end_time - self.start_time)
+      time_at = Time.zone.at(self.end_time - self.start_time)
       self.duration = (time_at.hour * 60) + time_at.min
     end
   end
