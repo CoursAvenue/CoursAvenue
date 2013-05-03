@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130503120502) do
+ActiveRecord::Schema.define(:version => 20130503144936) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -200,6 +200,13 @@ ActiveRecord::Schema.define(:version => 20130503120502) do
 
   add_index "courses_subjects", ["course_id", "subject_id"], :name => "index_courses_subjects_on_course_id_and_subject_id"
 
+  create_table "courses_users", :id => false, :force => true do |t|
+    t.integer "course_id"
+    t.integer "user_id"
+  end
+
+  add_index "courses_users", ["course_id", "user_id"], :name => "index_courses_users_on_course_id_and_user_id"
+
   create_table "friendly_id_slugs", :force => true do |t|
     t.string   "slug",                         :null => false
     t.integer  "sluggable_id",                 :null => false
@@ -281,6 +288,13 @@ ActiveRecord::Schema.define(:version => 20130503120502) do
   add_index "places", ["slug"], :name => "index_places_on_slug", :unique => true
   add_index "places", ["zip_code"], :name => "index_places_on_zip_code"
 
+  create_table "places_users", :id => false, :force => true do |t|
+    t.integer "place_id"
+    t.integer "user_id"
+  end
+
+  add_index "places_users", ["place_id", "user_id"], :name => "index_places_users_on_place_id_and_user_id"
+
   create_table "plannings", :force => true do |t|
     t.date     "start_date"
     t.date     "end_date"
@@ -304,6 +318,13 @@ ActiveRecord::Schema.define(:version => 20130503120502) do
   end
 
   add_index "plannings", ["week_day"], :name => "index_plannings_on_week_day"
+
+  create_table "plannings_users", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "planning_id"
+  end
+
+  add_index "plannings_users", ["planning_id", "user_id"], :name => "index_plannings_users_on_planning_id_and_user_id"
 
   create_table "prices", :force => true do |t|
     t.string   "libelle"

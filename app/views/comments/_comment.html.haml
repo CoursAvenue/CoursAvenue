@@ -8,6 +8,8 @@
         %meta{itemprop: 'worstRating', content: 1}
         %meta{itemprop: 'bestRating', content: 5}
     %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} le #{l(comment.created_at, format: :date)}
+    - if can?(:destroy, comment)
+      = link_to 'Supprimer', comment_path(comment), method: :delete
     - if comment.title.present?
       %h6.flush--bottom{itemprop: 'headline', content: comment.title}= comment.title
     %p{itemprop: 'reviewBody'}

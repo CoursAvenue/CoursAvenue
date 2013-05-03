@@ -3,6 +3,10 @@ class ApplicationController < ActionController::Base
 
   layout 'users'
 
+  def after_sign_in_path_for(user)
+    request.referrer || root_path
+  end
+
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
   end
@@ -16,7 +20,13 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    @current_ability ||= Ability.new(current_pro_admin)
+    if current_pro_admin
+      @current_ability ||= AdminAbility.new(current_pro_admin)
+    elsif current_user
+      @current_ability ||= UserAbility.new(current_user)
+    else
+      @current_ability ||= UserAbility.new(nil)
+    end
   end
 
   def render_not_found(exception)

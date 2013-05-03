@@ -3,8 +3,11 @@ class User < ActiveRecord::Base
   extend FriendlyId
   friendly_id :full_name, use: [:slugged, :history]
 
-  has_and_belongs_to_many :favorite_courses
-  has_and_belongs_to_many :favorite_places
+  has_many :comments
+
+  has_and_belongs_to_many :plannings
+  has_and_belongs_to_many :courses
+  has_and_belongs_to_many :places
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

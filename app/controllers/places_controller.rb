@@ -1,6 +1,25 @@
+# encoding: utf-8
 class PlacesController < ApplicationController
 
-  before_filter :prepare_search
+  before_filter :prepare_search, only: [:show, :index]
+
+  def add_user
+    @place = Place.find(params[:id])
+    current_user.places << @place
+    current_user.save
+    respond_to do |format|
+      format.html { redirect_to place_path(@place), notice: 'Vous suivez cet établissement'}
+    end
+  end
+
+  def remove_user
+    @place = Place.find(params[:id])
+    current_user.places.delete @place
+    current_user.save
+    respond_to do |format|
+      format.html { redirect_to place_path(@place), notice: 'Vous ne suivez plus cet établissement'}
+    end
+  end
 
   def index
     cookies[:place_search_path] = request.fullpath

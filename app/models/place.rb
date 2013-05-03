@@ -21,6 +21,8 @@ class Place < ActiveRecord::Base
   has_many   :comments, as: :commentable
   has_many   :subjects, through: :courses
 
+  has_and_belongs_to_many :users
+
   validates  :name      , presence: true
   validates  :street    , presence: true
   validates  :city      , presence: true

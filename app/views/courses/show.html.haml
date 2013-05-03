@@ -69,7 +69,7 @@
       %ul.block-list
         - @similar_courses.each do |course|
           %li
-            = link_to course_path(course), class: 'flexbox similar-course--image-wrapper' do
+            = link_to course_path(course), class: 'flexbox similar-course--image-wrapper', onclick: "_gaq.push(['_trackEvent', 'D\'autres cours pour vous', 'click','#{course.slug}'])" do
               .flexbox__item.one-fifth.similar-course--image
                 - if course.image.present?
                   = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"

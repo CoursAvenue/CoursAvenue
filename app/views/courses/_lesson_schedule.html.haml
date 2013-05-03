@@ -11,6 +11,7 @@
         %th.text--center Âge
       %th.text--center
         %i.lbc-icon-info i
+      %th
   %tbody
     - @plannings.each do |planning|
       %tr{data: {'course-id' => planning.course_id}}
@@ -28,3 +29,12 @@
         %td.text--center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
+        %td.text--right
+          - if current_user
+            - if current_user.plannings.exists? planning
+              = link_to '-', add_user_planning_path(planning), class: 'btn btn__success btn__plus', title: 'Ne plus assister à ce créneau', onclick: "_gaq.push(['_trackEvent', 'Ne plus assister à ce créneau', 'click', 'Inscrit'])"
+            - else
+              = link_to '+', add_user_planning_path(planning), class: 'btn btn__success btn__plus', title: 'Assister à ce créneau', onclick: "_gaq.push(['_trackEvent', 'Assister à ce créneau', 'click','Inscrit'])"
+          - else
+            %a.btn.btn__success.btn__plus{href: '#', onclick: "_gaq.push(['_trackEvent', 'Assister à ce créneau', 'click','Non inscrit'])",  data: {behavior: 'modal', title: 'Connectez-vous pour assister à ce créneau', width: '450px', url: '/users/sign_up'}} +
+

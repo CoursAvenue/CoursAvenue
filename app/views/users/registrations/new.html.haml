@@ -1,19 +1,14 @@
 .text--center
-  %div= link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn__facebook'
+  %div= link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn__facebook', id: 'facebook_button'
   .or
-    %span Ou
+    %span ou
 
-  = simple_form_for @user || User.new, url: user_registration_path do |f|
-    = f.error_notification
-    .grid
-      .grid__item.one-half>
-        = f.input :first_name, label: false, placeholder: 'Prénom', input_html: {size: 30}
-      .grid__item.one-half
-        = f.input :last_name,  label: false, placeholder: 'Nom', input_html: {size: 30}
+#form
+  = render 'form'
 
-    = f.input :email,    label: false, placeholder: 'Email', wrapper_html: {class: 'flush--top one-whole'}
-    = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
-    = f.button :submit, "Créer son compte", class: 'btn__success one-whole'
+#other_form.hidden
+  = render 'users/sessions/form'
+
 
 :javascript
   $('new_user').addEvent('submit', function(){
@@ -27,3 +22,16 @@
     }
     return true;
   });
+
+  $('show_new_session_form').addEvent('click', function(){
+    $('other_form').removeClass('hidden');
+    $('form').addClass('hidden');
+    $('facebook_button').set('text', "Se connecter avec Facebook")
+  });
+
+  $('show_new_registration_form').addEvent('click', function(){
+    $('form').removeClass('hidden');
+    $('other_form').addClass('hidden');
+    $('facebook_button').set('text', "S'enregistrer avec Facebook")
+  });
+

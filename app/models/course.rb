@@ -29,6 +29,8 @@ class Course < ActiveRecord::Base
   belongs_to :place,     touch: true
   has_one    :city,      through: :place
 
+  has_and_belongs_to_many :users
+
   has_many :comments, as: :commentable
   has_many :reservations
   has_many :plannings           , dependent: :destroy, conditions: "plannings.end_date > '#{Date.today}'"

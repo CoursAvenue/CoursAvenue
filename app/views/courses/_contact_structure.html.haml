@@ -4,7 +4,7 @@
     %i.icon-map-marker
     = @course.place.long_name
   - if @best_price
-    .course-info-price.text--right
+    .course-info-price.text--right.push-half--bottom
       - if @best_price.has_promo?
         %div
           %span.line-through
@@ -18,7 +18,14 @@
           (Prix du stage)
         - else
           (#{t(@best_price.libelle)})
-    %a#book_button.text--center.btn.btn__success.one-whole{href: '#'} Réserver ce #{@course.type_name.downcase}
+    .text--center
+      - if current_user
+        - if current_user.courses.exists? @course.id
+          = link_to "Vous assistez déjà à ce #{@course.type_name.downcase}", remove_user_course_path(@course), class: 'btn btn__success one-whole disabled', method: :put, onclick: "_gaq.push(['_trackEvent', 'Ne plus assister au cours', 'click','Inscrit'])"
+        - else
+          = link_to "Assiter à ce #{@course.type_name.downcase}", add_user_course_path(@course), class: 'btn btn__success one-whole', method: :put, onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])"
+      - else
+        %a#book_button.btn.btn__success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour ajouter à vos favoris', width: '400px', url: '/users/sign_up'}} Assiter à ce #{@course.type_name.downcase}
 
 #booking_form.hidden
   .text--center.islet
@@ -28,40 +35,9 @@
     = f.input :name, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Nom', required: true
     = f.input :email, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: 'Email (pour confirmation)'
     = f.input :phone, label: false, input_html: {style: 'width: 100%;'}, wrapper_html: {class: 'flush--top text--left'}, placeholder: "Téléphone pour l'établissement (optionnel)"
-    = f.submit "Réserver ce #{@course.type_name.downcase}", class: 'btn btn__success one-whole', onclick: "_gaq.push(['_trackEvent', 'Reservation', 'click', '#{@course.slug}'])"
+    = f.submit "Assiter à ce #{@course.type_name.downcase}", class: 'btn btn__success one-whole', onclick: "_gaq.push(['_trackEvent', 'Reservation', 'click', '#{@course.slug}'])"
   %p.line-height-1.flush--bottom
     %i Réservez votre #{t(@best_price.libelle).downcase} et utilisez-le quand vous voulez.
     %br
     %i Si vous souhaitez ensuite passer une formule sur plusieurs cours, nous vous déduirons alors directement le prix du #{t(@best_price.libelle).downcase} que vous avez déjà payé.
 
-= content_for :scripts do
-  :javascript
-    window.addEvent('domready', function() {
-        $('new_reservation').addEvent('submit', function() {
-            if ($('reservation_name').get('value').length === 0 || $('reservation_email').get('value').length === 0) {
-              new GLOBAL.Objects.Flash('Vous devez remplir votre nom et email pour réserver ce #{@course.type_name_html.downcase}').showAndHide();
-              return false;
-            }
-            return true;
-        });
-    });
-    $("book_button").addEvent("click", function(){
-        var modal = new SimpleModal({
-            width: 600,
-            "onAppend": function() {
-                $("simple-modal").fade("hide");
-                setTimeout((function(){ $("simple-modal").fade("show")}), 200 );
-                var tw = new Fx.Tween($("simple-modal"),{
-                  duration: 800,
-                  transition: Fx.Transitions.Cubic.easeOut,
-                  link: 'cancel',
-                  property: 'top'
-                }).start(-400, 150);
-            }
-        });
-        modal.show({
-            "model":"modal",
-            "title":"Réservation",
-            "contents": $('booking_form').get('html')
-        });
-    });

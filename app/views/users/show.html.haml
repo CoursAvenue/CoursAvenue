@@ -1,1 +1,9 @@
-= current_user.full_name
+%h2= current_user.full_name
+
+%h3 Mes cours
+- @courses.each do |course|
+  = link_to course.name, course_path(course)
+
+%h3 Mes établissements favoris
+- @places.each do |place|
+  = link_to place.name, place_path(place)

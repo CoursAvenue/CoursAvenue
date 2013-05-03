@@ -33,6 +33,18 @@ class CommentsController < ApplicationController
     end
   end
 
+  def destroy
+    @comment = Comment.find(params[:id])
+    path     = commentable_path(@comment)
+    respond_to do |format|
+      if can?(:destroy, @comment) and @comment.destroy
+        format.html { redirect_to request.referrer || path, notice: 'Votre commentaire a bien été supprimé'}
+      else
+        format.html { redirect_to request.referrer || path, alert: 'Vous ne pouvez pas supprimer ce commentaire'}
+      end
+    end
+  end
+
   private
   def find_commentable
     type = params[:comment][:commentable_type]

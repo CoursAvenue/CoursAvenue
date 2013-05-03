@@ -73,6 +73,15 @@
         %i.icon-home
         = readable_address @place
 
+      .text--center.push--top
+        - if current_user
+          - if current_user.places.exists? @place.id
+            = link_to "Enlever des favoris", remove_user_place_path(@place), class: 'btn btn__success one-whole disabled', method: :put, onclick: "_gaq.push(['_trackEvent', 'Établissement - enlever des favoris', 'click','Inscrit'])"
+          - else
+            = link_to 'Ajouter à mes favoris', add_user_place_path(@place), class: 'btn btn__success one-whole', method: :put, onclick: "_gaq.push(['_trackEvent', 'Établissement - ajouter aux favoris', 'click','Inscrit'])"
+        - else
+          %a.btn.btn__success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Établissement - ajouter aux favoris', 'click','Non inscrit'])",  data: {behavior: 'modal', title: 'Connectez-vous pour assister à ce cours', width: '400px', url: '/users/sign_up'}} Ajouter à mes favoris
+
     .text--center.white-box.islet
       - if @place.rating
         .delta Note : #{@place.rating}
@@ -99,7 +108,7 @@
       %ul.block-list
         - @surrounding_places.each do |surrounding_place|
           %li
-            = link_to place_path(surrounding_place), class: 'flexbox similar-course--image-wrapper' do
+            = link_to place_path(surrounding_place), class: 'flexbox similar-course--image-wrapper', onclick: "_gaq.push(['_trackEvent', 'Établissements à proximité - lieu', 'click','#{surrounding_place.slug}'])" do
               .flexbox__item.one-fifth.similar-course--image
                 - if surrounding_place.image.present?
                   = image_tag surrounding_place.image.url(:thumb)
@@ -156,7 +165,7 @@
                     = join_course_subjects course
                 %td.text--center= course.levels.map{|level| t(level.name) }.join(', ')
                 %td.text--center= course.plannings.count
-                %td.text--right= link_to 'Réserver', course_path(course), class: 'btn btn__success'
+                %td.text--right= link_to 'Assister', course_path(course), class: 'btn btn__success'
       - if @courses.length > 4
         .text--center.islet
           %a.btn#show-more-courses Voir tous les cours
