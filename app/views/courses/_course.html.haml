@@ -1,8 +1,9 @@
 - best_price = course.best_price
-%li.one-whole.course-element{onclick: "_gaq.push(['_trackEvent', 'Click cours', 'click', '#{best_price.has_promo? ? 'Avec promo' : 'Sans promo'}'])", data: {"structure-id" => course.place_id, url: course_path(course), type: 'course-element'}}
+
+%li.one-whole.course-element{onclick: "_gaq.push(['_trackEvent', 'Click cours', 'click', '#{best_price.try(:has_promo?) ? 'Avec promo' : 'Sans promo'}'])", data: {"structure-id" => course.place_id, url: course_path(course), type: 'course-element'}}
   %div.two-twelfths.visuallyhidden--palm
     .course-image.media__img
-      - if best_price.has_promo?
+      - if best_price.try(:has_promo?)
         .price-badge
           Promo
       = link_to course_path(course) do
@@ -62,7 +63,7 @@
       %p.gamma
         - if best_price.amount == 0
           Gratuit
-        - elsif best_price.has_promo?
+        - elsif best_price.try(:has_promo?)
           %div
             %span.line-through= "#{best_price.per_course_amount}€".html_safe
             %span.gamma.green= "#{best_price.per_course_promo_amount}€".html_safe
