@@ -1,6 +1,8 @@
 class Comment < ActiveRecord::Base
   attr_accessible :commentable_id, :commentable_type, :content, :author_name, :email, :rating, :title
+
   belongs_to :commentable, :polymorphic => true
+  belongs_to :user
 
   validates :author_name, :content, presence: true
   validates :rating, numericality: { greater_than: 0, less_than: 6 }

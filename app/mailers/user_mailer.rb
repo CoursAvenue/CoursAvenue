@@ -11,6 +11,8 @@ class UserMailer < ActionMailer::Base
   #
 
   def welcome(user)
+    @user = user
+    mail to: @user.email, subject: 'Bienvenue sur CoursAvenue.com'
   end
 
   def after_comment(comment)
