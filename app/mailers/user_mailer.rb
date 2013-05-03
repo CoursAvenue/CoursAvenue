@@ -10,6 +10,9 @@ class UserMailer < ActionMailer::Base
   #   en.user_mailer.book_class.subject
   #
 
+  def welcome(user)
+  end
+
   def after_comment(comment)
     @comment = comment
     mail to: @comment.email, subject: 'Merci pour votre commentaire ! CoursAvenue.com'

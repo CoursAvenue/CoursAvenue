@@ -4,14 +4,13 @@
     background-color: #efeff1;
     padding         : 0;
     border-bottom   : 1px solid darken($beigeDark, 10%);
-    overflow        : hidden;
+    overflow        : visible;
     display         : table;
     width           : 100%;
     &, .main-container {
         height     : 60px;
     }
     @include background-image(linear-gradient(top, $beige, darken($beigeDark, 7%)));
-    @include font-size(12px);
     .nav {
         margin-bottom: 0;
         margin-left  : 1em;
@@ -62,9 +61,8 @@ a.header-link {
             background-repeat   : no-repeat;
             background-position : center center;
             background-size     : 100%;
-            position            : absolute;
-            top                 : -10px;
-            left                : -90px;
             width               : 75px;
             height              : 40px;
+            display             : inline-block;
+            vertical-align      : middle;
         }

@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
                   :first_name, :last_name, :image, :location
 
+  validates :first_name, :last_name, :email, presence: true
+
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user.provider           = auth.provider

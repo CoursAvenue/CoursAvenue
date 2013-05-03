@@ -1,0 +1,16 @@
+.drop-down__wrapper {
+    position    : relative;
+}
+    .drop-down__el {
+        display         : none;
+        position        : absolute;
+        right           : 0;
+        top             : 100%;
+        list-style      : none;
+        background-color: white;
+        margin          : 0;
+        padding         : 0.5em 2em;
+        z-index         : 10;
+        text-align      : center;
+        @include box-shadow(1px 1px 1px #CCC);
+    }

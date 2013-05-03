@@ -1,10 +1,3 @@
-/ .text--right
-/   - if current_user
-/     Loggé en tant que
-/     %b= current_user.first_name
-/     = link_to "Se déconnecter", destroy_user_session_path, method: :delete
-/   - else
-/     = link_to "Connexion Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn__facebook'
 %header.header
   .main-container.grid--full
     - cache "page-header_#{ENV["ETAG_VERSION_ID"]}" do
@@ -13,14 +6,24 @@
           = image_tag 'logo.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
     %nav.text--right.grid__item.one-half.visuallyhidden--palm
       - if current_user
-        = link_to user_path(current_user) do
-          - if current_user.image
-            = image_tag current_user.image, height: 40
-          - else
-            = current_user.full_name
+        #drop-down-el.drop-down__wrapper
+          = link_to user_path(current_user) do
+            - if current_user.image
+              .grid
+                .grid__item.v-middle.width-auto>
+                  %b= current_user.full_name
+                .grid__item.v-middle.width-auto.soft-half--left
+                  = image_tag current_user.image, height: 40, class: 'image'
+            - else
+              = current_user.full_name
+          %ul.drop-down__el{data: {behavior: 'drop-down', trigger: 'drop-down-el'}}
+            %li= link_to 'Mon compte', user_path(current_user)
+            %li= link_to "Se déconnecter", destroy_user_session_path, method: :delete
       - else
+        %span.push--right
+          = link_to "Se connecter", '#', data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_in'}
+          \-
+          = link_to "Créer un compte", '#', data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_up'}
         %span.espace-pro-wrapper
           %span.espace-pro
           = link_to 'Référencer mes cours', 'http://pro.coursavenue.com', class: 'btn btn__success'
-
-

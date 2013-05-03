@@ -61,7 +61,7 @@ window.addEvent('domready', function() {
         var width = parseInt(this.get('data-width')) || 500,
             title = this.get('data-title'),
             el    = $(this.get('data-el'));
-
+            ajax  = this.get('data-url') !== null
         var modal = new SimpleModal({
             width: width,
             "onAppend": function() {
@@ -75,11 +75,22 @@ window.addEvent('domready', function() {
                 }).start(-400, 150);
             }
         });
+
+      if (ajax) {
         modal.show({
-            "model":"modal",
-            "title": title,
-            "contents": el.get('html')
+            model: 'modal-ajax',
+            title: title,
+            param: {
+                url: this.get('data-url')
+            }
         });
+      } else {
+        modal.show({
+            model: 'modal',
+            title: title,
+            contents: el.get('html')
+        });
+      }
     });
 
     // Autoresize textareas
