@@ -32,13 +32,13 @@
           .control-label *Type de cours
         .grid__item.width-auto>
           .radio.grid--full
-            %input#type_course_lesson{type: 'radio', name: 'course[type]', value: 'Course::Lesson', checked: @course.is_lesson?}>
+            %input#type_course_lesson{type: 'radio', name: 'course[type]', value: 'Course::Lesson', checked: @course.type == 'Course::Lesson'}>
             %label{for: 'type_course_lesson'} Cours récurrent
           .radio.grid--full
-            %input#type_course_workshop{type: 'radio', name: 'course[type]', value: 'Course::Workshop', checked: @course.is_workshop?}
+            %input#type_course_workshop{type: 'radio', name: 'course[type]', value: 'Course::Workshop', checked: @course.type == 'Course::Workshop'}
             %label{for: 'type_course_workshop'} Cours-atelier
           .radio.grid--full
-            %input#type_course_training{type: 'radio', name: 'course[type]', value: 'Course::Training', checked: @course.is_training?}
+            %input#type_course_training{type: 'radio', name: 'course[type]', value: 'Course::Training', checked: @course.type == 'Course::Training'}
             %label{for: 'type_course_training'} Stage
         - if @course.errors.messages[:type]
           %p.alert.alert-error= @course.errors.messages[:type].first
