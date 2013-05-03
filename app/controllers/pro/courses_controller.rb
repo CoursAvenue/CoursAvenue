@@ -46,7 +46,7 @@ class Pro::CoursesController < InheritedResources::Base
     @course.structure = @structure
     create! do |success, failure|
       success.html { redirect_to pro_course_prices_path(@course), notice: 'Vous pouvez maintenant définir les tarifs pour ce cours' }
-      failure.html { redirect_to new_pro_structure_course_path(@structure), alert: 'Impossible de créer le cours.' }
+      failure.html { render template: 'pro/courses/form' }
     end
   end
 
