@@ -1,9 +1,8 @@
 %header.header
   .main-container.grid--full
-    - cache "page-header_#{ENV["ETAG_VERSION_ID"]}" do
-      .grid__item.one-half.palm--one-half>
-        = link_to root_path, class: 'logo' do
-          = image_tag 'logo.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
+    .grid__item.one-half.palm--one-half>
+      = link_to root_path, class: 'logo' do
+        = image_tag 'logo.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
     %nav.text--right.grid__item.one-half.visuallyhidden--palm
       - if current_user
         #drop-down-el.drop-down__wrapper
@@ -17,8 +16,8 @@
             - else
               = current_user.full_name
           %ul.drop-down__el{data: {behavior: 'drop-down', trigger: 'drop-down-el'}}
-            /%li= link_to 'Mon compte', user_path(current_user)
             %li= link_to "Se déconnecter", destroy_user_session_path, method: :delete
+            /%li= link_to 'Mon compte', user_path(current_user)
       - else
         %span.push--right
           = link_to "Se connecter", '#', data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_in'}
