@@ -59,7 +59,7 @@ gem 'sitemap_generator'         , '~> 3.4'
 
 group :production do
   # gem 'therubyracer'
-  # gem 'execjs'
+  gem 'execjs'
 end
 gem 'rack-reverse-proxy', :require => 'rack/reverse_proxy'
 gem 'newrelic_rpm'
