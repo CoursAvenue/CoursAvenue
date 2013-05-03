@@ -25,7 +25,7 @@
         - else
           = link_to "Assiter à ce #{@course.type_name.downcase}", add_user_course_path(@course), class: 'btn btn__success one-whole', method: :put, onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])"
       - else
-        %a#book_button.btn.btn__success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour ajouter à vos favoris', width: '400px', url: '/users/sign_up'}} Assiter à ce #{@course.type_name.downcase}
+        %a.btn.btn__success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour assiter au cours', width: '400px', url: '/users/sign_up'}} Assiter à ce #{@course.type_name.downcase}
 
 #booking_form.hidden
   .text--center.islet
