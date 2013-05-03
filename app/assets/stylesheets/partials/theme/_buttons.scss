@@ -88,10 +88,25 @@
     text-shadow     : -1px -1px 0 darken($facebookBlue, 10%);
     color           : white;
     border-color    : darken($facebookBlue, 3%);
-    @include background-image(none);
     background-color: $facebookBlue;
+    padding         : 1em;
+    vertical-align  : middle;
+    display         : inline-block;
+    @include background-image(none);
     &:hover {
         @include background-image(none);
         background-color: lighten($facebookBlue, 5%);
+    }
+    &:before {
+        content         : 'f';
+        text-transform  : lowercase;
+        display         : inline-block;
+        padding-left    : 15px;
+        font-size       : 25px;
+        vertical-align  : middle;
+        margin-right    : 15px;
+        padding-right   : 15px;
+        margin-top      : -2px;
+        border-right    : 1px solid darken($facebookBlue, 8%);
     }
 }

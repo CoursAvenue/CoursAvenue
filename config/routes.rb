@@ -2,7 +2,7 @@
 CoursAvenue::Application.routes.draw do
 
   devise_for :users, controllers: { :omniauth_callbacks => 'users/omniauth_callbacks'}
-  resources  :users, only: [:show]
+  resources  :users, only: [:show], path: 'eleves'
 
   match 'auth/:provider/callback', to: 'session#create'
   match 'auth/failure', to: redirect('/')
