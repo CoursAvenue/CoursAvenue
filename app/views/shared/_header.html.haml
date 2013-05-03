@@ -17,7 +17,7 @@
               = current_user.full_name
           %ul.drop-down__el{data: {behavior: 'drop-down', trigger: 'drop-down-el'}}
             %li= link_to "Se déconnecter", destroy_user_session_path, method: :delete
-            /%li= link_to 'Mon compte', user_path(current_user)
+            - # %li= link_to 'Mon compte', user_path(current_user)
       - else
         %span.push--right
           = link_to "Se connecter", '#', data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_in'}
