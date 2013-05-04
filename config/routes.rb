@@ -50,6 +50,7 @@ CoursAvenue::Application.routes.draw do
       resources :course_lessons, controller: 'courses' do
         resources :plannings, only: [:create, :update]
       end
+      resources :users, only: [:index]
       resources :admins do
         member do
           put 'activate'

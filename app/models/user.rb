@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
       user.email              = auth.info.email
       user.image              = auth.info.image
       user.location           = auth.info.location
-      user.password           = auth.credentials.token[0..15]
+      user.password           = Devise.friendly_token[0,20]
       user.save!
     end
   end
