@@ -20,6 +20,8 @@
         %td.text--center
           - if place.thumb_image.present?
             = image_tag place.thumb_image.url(:thumb), width: 50
+          - else
+            = link_to 'Ajouter un logo', edit_pro_structure_place_path(@structure, place), class: 'btn btn__success'
         %td
           - if current_pro_admin
             = link_to place.name, edit_pro_structure_place_path(@structure, place)
@@ -27,10 +29,10 @@
             = link_to place.name, place_url(place, subdomain: 'www')
         %td= place.address
         %td.text--right
-          = link_to edit_pro_structure_place_path(@structure, place), title: 'Éditer', class: 'btn btn__warning' do
+          = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn__warning' do
             %i.icon-edit
           &nbsp;
-          = link_to pro_structure_place_path(@structure, place), method: :delete, data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'}, title: 'Supprimer', class: 'btn btn__danger' do
+          = link_to pro_structure_place_path(@structure, place), method: :delete, data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'}, title: 'Supprimer ce lieu', class: 'btn btn__danger' do
             %i.icon-trash
 
 

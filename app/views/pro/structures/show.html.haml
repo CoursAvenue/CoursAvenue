@@ -46,23 +46,19 @@
             %td= course.teachers.uniq.map(&:name).join(', ')
             %td= course.subjects.map(&:name).join(', ')
             %td.text--right
-              = link_to edit_pro_course_path(course), class: course.image.present? ? '': 'btn' do
+              = link_to edit_pro_course_path(course), class: course.image.present? ? '': 'btn btn__success' do
                 - if course.image.present?
                   = image_tag course.image.url(:mini), height: 30, class: 'v-middle'
                 - else
                   %i.icon-picture
                   Photo
-              &nbsp;
               = link_to '€ Tarifs', pro_course_prices_path(course), class: 'btn'
-              &nbsp;
               = link_to pro_course_plannings_path(course), class: 'btn' do
                 %i.lbc-icon-calendar
                 %span &nbsp;Plannings
-              &nbsp;
-              = link_to edit_pro_course_path(course), title: 'Éditer', class: 'btn btn__warning' do
+              = link_to edit_pro_course_path(course), title: 'Modifier ce cours', class: 'btn btn__warning' do
                 %i.icon-edit
-              &nbsp;
-              = link_to pro_course_path(course), method: :delete, class: 'red', title: 'Supprimer', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
+              = link_to pro_course_path(course), method: :delete, class: 'red', title: 'Supprimer ce cours', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
                 %i.icon-trash
 
 .text--center
