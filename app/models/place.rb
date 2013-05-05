@@ -69,6 +69,14 @@ class Place < ActiveRecord::Base
     self.courses.joins{plannings}.where{(active == true) & (plannings.end_date > Date.today)}.group(:id)
   end
 
+  def update_rating
+  end
+
+  def all_comments
+    _comments = self.comments + self.courses.collect(&:comments).flatten
+    _comments.reject(&:new_record?).sort {|c1, c2| c2.created_at <=> c1.created_at}
+  end
+
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
     text :name, :boost => 2
