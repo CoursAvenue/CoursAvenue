@@ -67,7 +67,9 @@ namespace :import do
       subjects = structure_info[:subjects].compact.each do |subject_name|
         subject_name = subject_name.split(' - ').last
         subject = Subject.where(name: subject_name.strip).first
-        courses << place.courses.create(name: subject_name, subject_ids: [subject.id], type: 'Course::Lesson', level_ids: [all_level_id], audience_ids: [adult_audience_id])
+        unless subject.parent.nil?
+          courses << place.courses.create(name: subject_name, subject_ids: [subject.id], type: 'Course::Lesson', level_ids: [all_level_id], audience_ids: [adult_audience_id])
+        end
       end
     end
   end
