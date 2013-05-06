@@ -47,28 +47,28 @@ namespace :import do
         structure.city = city
         structure.save
       end
-      place = nil
-      if structure_info[:update]
-        place = structure.places.where(name: structure_info[:place_name].strip).first
-      end
+      place = structure.places.where(name: structure_info[:place_name].strip).first
+
       if place.nil?
         place          = structure.places.build(name: structure_info[:place_name].strip, street: structure_info[:street], zip_code: structure_info[:zip_code])
         place.city     = city
       end
+
+      structure.email_address         = structure_info[:email_address]
       structure.phone_number          = structure_info[:phone_number]
       structure.mobile_phone_number   = structure_info[:mobile_phone_number]
       place.contact_phone             = structure_info[:phone_number]
       place.contact_mobile_phone      = structure_info[:mobile_phone_number]
 
-      courses = []
       structure.save
       place.save
-
-      subjects = structure_info[:subjects].compact.each do |subject_name|
-        subject_name = subject_name.split(' - ').last
-        subject = Subject.where(name: subject_name.strip).first
-        unless subject.parent.nil?
-          courses << place.courses.create(name: subject_name, subject_ids: [subject.id], type: 'Course::Lesson', level_ids: [all_level_id], audience_ids: [adult_audience_id])
+      if place.courses.count == 0
+        subjects = structure_info[:subjects].compact.each do |subject_name|
+          subject_name = subject_name.split(' - ').last
+          subject = Subject.where(name: subject_name.strip).first
+          unless subject.parent.nil?
+            place.courses.create(name: subject_name, subject_ids: [subject.id], type: 'Course::Lesson', level_ids: [all_level_id], audience_ids: [adult_audience_id])
+          end
         end
       end
     end
