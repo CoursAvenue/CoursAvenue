@@ -46,20 +46,25 @@
             %td= course.teachers.uniq.map(&:name).join(', ')
             %td= course.subjects.map(&:name).join(', ')
             %td.text--right
-              = link_to edit_pro_course_path(course), class: course.image.present? ? '': 'btn btn__success' do
-                - if course.image.present?
-                  = image_tag course.image.url(:mini), height: 30, class: 'v-middle'
-                - else
-                  %i.icon-picture
-                  Photo
-              = link_to '€ Tarifs', pro_course_prices_path(course), class: 'btn'
-              = link_to pro_course_plannings_path(course), class: 'btn' do
+              %div
+                = link_to edit_pro_course_path(course), class: course.image.present? ? '': 'btn btn__success' do
+                  - if course.image.present?
+                    = image_tag course.image.url(:mini), height: 30, class: 'v-middle'
+                  - else
+                    %i.icon-picture
+                    Photo
+              %div
+                = link_to '€ Tarifs', pro_course_prices_path(course), class: 'btn'
+              %div
+                = link_to pro_course_plannings_path(course), class: 'btn' do
                 %i.lbc-icon-calendar
                 %span &nbsp;Plannings
-              = link_to edit_pro_course_path(course), title: 'Modifier ce cours', class: 'btn btn__warning' do
+              %div
+                = link_to edit_pro_course_path(course), title: 'Modifier ce cours', class: 'btn btn__warning' do
                 %i.icon-edit
-              = link_to pro_course_path(course), method: :delete, class: 'red', title: 'Supprimer ce cours', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
-                %i.icon-trash
+              %div
+                = link_to pro_course_path(course), method: :delete, class: 'red', title: 'Supprimer ce cours', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
+                  %i.icon-trash
 
 .text--center
   = link_to 'Ajouter un cours', new_pro_structure_course_path(@structure), class: 'btn btn__success btn__large'

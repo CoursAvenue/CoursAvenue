@@ -13,7 +13,7 @@
       km
 
 .side-search-panel
-  - cache "place_subjects_#{ENV["ETAG_VERSION_ID"]}" do
+  - cache "place_subjects_#{ENV["ETAG_VERSION_ID"]}_#{params[:subject_id] || 'all_subject'}" do
     //-------------------------------------------------------------------------------------------------------- Subject
     .search-panel
       %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
