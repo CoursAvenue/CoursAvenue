@@ -23,6 +23,6 @@
         - if current_user.courses.exists? @course.id
           = link_to "Vous assistez déjà à ce #{@course.type_name.downcase}", remove_user_course_path(@course), class: 'btn btn__success one-whole disabled', method: :put, onclick: "_gaq.push(['_trackEvent', 'Ne plus assister au cours', 'click','Inscrit'])"
         - else
-          = link_to "Assiter à ce #{@course.type_name.downcase}", add_user_course_path(@course), class: 'btn btn__success one-whole', method: :put, onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])"
+          = link_to "Assister à ce #{@course.type_name.downcase}", add_user_course_path(@course), class: 'btn btn__success one-whole', method: :put, onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])"
       - else
-        %a.btn.btn__success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour assiter au cours', width: '400px', url: '/users/sign_up'}} Assiter à ce #{@course.type_name.downcase}
+        %a.btn.btn__success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour assister au cours', width: '400px', url: '/users/sign_up'}} Assister à ce #{@course.type_name.downcase}
