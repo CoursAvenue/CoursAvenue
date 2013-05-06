@@ -26,22 +26,21 @@
   .form-white-box
     = f.input :name, label: t('.name'), placeholder: 'Zumba, jardin musical, Vins et Fromages, etc'
     = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }
-    - if @course.new_record?
-      .input.grid--full
-        .grid__item.width-auto.v-top>
-          .control-label *Type de cours
-        .grid__item.width-auto>
-          .radio.grid--full
-            %input#type_course_lesson{type: 'radio', name: 'course[type]', value: 'Course::Lesson', checked: @course.type == 'Course::Lesson'}>
-            %label{for: 'type_course_lesson'} Cours récurrent
-          .radio.grid--full
-            %input#type_course_workshop{type: 'radio', name: 'course[type]', value: 'Course::Workshop', checked: @course.type == 'Course::Workshop'}
-            %label{for: 'type_course_workshop'} Cours-atelier
-          .radio.grid--full
-            %input#type_course_training{type: 'radio', name: 'course[type]', value: 'Course::Training', checked: @course.type == 'Course::Training'}
-            %label{for: 'type_course_training'} Stage
-        - if @course.errors.messages[:type]
-          %p.alert.alert-error= @course.errors.messages[:type].first
+    .input.grid--full
+      .grid__item.width-auto.v-top>
+        .control-label *Type de cours
+      .grid__item.width-auto>
+        .radio.grid--full
+          %input#type_course_lesson{type: 'radio', name: 'course[type]', value: 'Course::Lesson', checked: @course.type == 'Course::Lesson'}>
+          %label{for: 'type_course_lesson'} Cours récurrent
+        .radio.grid--full
+          %input#type_course_workshop{type: 'radio', name: 'course[type]', value: 'Course::Workshop', checked: @course.type == 'Course::Workshop'}
+          %label{for: 'type_course_workshop'} Cours-atelier
+        .radio.grid--full
+          %input#type_course_training{type: 'radio', name: 'course[type]', value: 'Course::Training', checked: @course.type == 'Course::Training'}
+          %label{for: 'type_course_training'} Stage
+      - if @course.errors.messages[:type]
+        %p.alert.alert-error= @course.errors.messages[:type].first
 
   #recurrency{style: @course.is_lesson? ? '' : 'display: none;'}
     %h5.form-header-group.flush--bottom.flush--top
