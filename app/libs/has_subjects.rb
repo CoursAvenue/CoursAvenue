@@ -19,7 +19,7 @@ module HasSubjects
 
     def update_parent_subjects_string
       subjects_array = []
-      subjects.uniq.collect{|subject| subject.parent }.uniq.each do |subject|
+      subjects.uniq.collect{|subject| subject.parent || subject }.uniq.each do |subject|
         subjects_array << "#{subject.name},#{subject.slug}"
       end
       self.update_column :parent_subjects_string, subjects_array.join(';')

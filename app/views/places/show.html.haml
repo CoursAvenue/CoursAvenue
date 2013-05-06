@@ -13,8 +13,8 @@
   - if @structure.description.present?
     = @structure.description
   - else
-    - if @place.subjects.any?
-      = "Retrouvez tous les cours et stages de #{@place.name} à #{@city.name}. #{@place.parent_subjects.map(&:name).join(', ')} et bien plus !"
+    - if @place.parent_subjects_string.present?
+      = "Retrouvez tous les cours et stages de #{@place.name} à #{@city.name}. #{subjects_name_from_string(@place.parent_subjects_string)} et bien plus !"
     - else
       = "Retrouvez tous les cours et stages de #{@place.name} à #{@city.name}."
 

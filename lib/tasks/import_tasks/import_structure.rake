@@ -14,7 +14,7 @@ namespace :import do
 
       street:                                        row[14],
       zip_code:                                      row[15] || 75000,
-      description:                                   "#{row[16]} #{row[17]}",
+      description:                                   row[17],
 
       website:                                       row[18],
       phone_number:                                  row[19],
@@ -43,16 +43,16 @@ namespace :import do
       structure = Structure.where{name == structure_info[:structure_name]}.first
       city      = City.where{zip_code == structure_info[:zip_code]}.first
       if structure.nil?
-        structure      = Structure.new(name: structure_info[:structure_name], street: structure_info[:street], zip_code: structure_info[:zip_code])
+        structure      = Structure.new(name: structure_info[:structure_name].strip, street: structure_info[:street], zip_code: structure_info[:zip_code], active: true)
         structure.city = city
         structure.save
       end
       place = nil
       if structure_info[:update]
-        place = structure.places.where(name: structure_info[:place_name]).first
+        place = structure.places.where(name: structure_info[:place_name].strip).first
       end
       if place.nil?
-        place          = structure.places.build(name: structure_info[:place_name], street: structure_info[:street], zip_code: structure_info[:zip_code])
+        place          = structure.places.build(name: structure_info[:place_name].strip, street: structure_info[:street], zip_code: structure_info[:zip_code])
         place.city     = city
       end
       structure.phone_number          = structure_info[:phone_number]
@@ -61,15 +61,14 @@ namespace :import do
       place.contact_mobile_phone      = structure_info[:mobile_phone_number]
 
       courses = []
-      subjects = structure_info[:subjects].compact.each do |subject_name|
-        subject_name = subject_name.split(' - ').last
-        subject = Subject.where(name: subject_name).first
-        courses << place.courses.build(name: subject_name, subject_ids: [subject.id], type: 'Course::Lesson', level_ids: [all_level_id], audience_ids: [adult_audience_id])
-      end
-
       structure.save
       place.save
-      courses.map(&:save)
+
+      subjects = structure_info[:subjects].compact.each do |subject_name|
+        subject_name = subject_name.split(' - ').last
+        subject = Subject.where(name: subject_name.strip).first
+        courses << place.courses.create(name: subject_name, subject_ids: [subject.id], type: 'Course::Lesson', level_ids: [all_level_id], audience_ids: [adult_audience_id])
+      end
     end
   end
 end

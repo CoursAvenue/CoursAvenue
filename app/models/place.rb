@@ -199,10 +199,6 @@ class Place < ActiveRecord::Base
     end
   end
 
-  def parent_subjects
-    subjects.uniq.map(&:parent).uniq
-  end
-
   private
   def friendly_name
     self.long_name
