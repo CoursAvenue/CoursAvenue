@@ -84,6 +84,8 @@ class Place < ActiveRecord::Base
       structure.name
     end
 
+    text :description
+
     text :street
 
     text :course_names do
@@ -154,10 +156,10 @@ class Place < ActiveRecord::Base
   end
 
   def long_name
-    if self.name == self.structure.name
+    if self.name == self.structure.try(:name)
       self.name
     else
-      "#{self.structure.name} - #{self.name}"
+      "#{self.structure.try(:name)} - #{self.name}"
     end
   end
 
