@@ -36,10 +36,6 @@
             = "#{course.place.name[0..50]}..."
           - else
             = course.place.long_name
-      - if course.place.zip_code == 75000
-        Paris
-      - else
-        = "- Paris&nbsp;#{course.place.zip_code[3..4]}".html_safe
     - if course.is_lesson?
       = join_week_days(course)
     - else

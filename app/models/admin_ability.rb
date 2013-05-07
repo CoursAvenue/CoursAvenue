@@ -15,8 +15,8 @@ class AdminAbility
         can :manage, admin.structure.places
         can :manage, admin.structure.courses
       end
+      can :create, Place
     end
-    can :create, Place
     can :create, Structure
 
     # Define abilities for the passed in user here. For example:

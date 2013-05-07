@@ -1,5 +1,7 @@
 # encoding: utf-8
-class Pro::CommentsController < InheritedResources::Base#Pro::ProController
+class Pro::CommentsController < InheritedResources::Base
+  before_filter :authenticate_pro_admin!
+
   layout 'admin'
 
   def index

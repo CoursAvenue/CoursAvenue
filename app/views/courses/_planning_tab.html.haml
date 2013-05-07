@@ -42,12 +42,3 @@
           %li.flexbox
             %label.flexbox__item= Course.human_attribute_name(:frequency)
             %strong.flexbox__item.proceed= t(@course.frequency)
-
-        %li.flexbox
-          %label.flexbox__item= t('.class_during_holidays')
-          %strong.flexbox__item.proceed= (@course.plannings.first.class_during_holidays ? t('yes') : t('no')) unless @course.plannings.empty?
-
-        - if @course.is_for_handicaped
-          %li.flexbox
-            %label.flexbox__item= Course.human_attribute_name(:is_for_handicaped)
-            %strong.flexbox__item.proceed= t('yes')
