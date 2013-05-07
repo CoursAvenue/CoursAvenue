@@ -9,21 +9,21 @@
       .text--center
         %h3.flush--bottom
           %u Basique
-        %h4.flush--bottom Gratuit à vie
+        %h4.flush--bottom Gratuit
 
       %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
+        %li
+          %i.icon-ok.delta.green
+          %b Accès à notre logiciel en ligne
         %li
           %i.icon-ok.delta.green
           %b Référencement de vos cours
         %li
           %i.icon-ok.delta.green
-          %b Gestion du planning
+          %b Accès aux coordonnées des élèves
         %li
           %i.icon-ok.delta.green
-          %b Planning sur votre site Internet
-        %li
-          %i.icon-ok.delta.green
-          %b Gestion des cours, tarifs et salles
+          %b Gestion en temps réel de toutes vos séances : tarifs et promotions, horaires, photos, etc.
       .text--center
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'basic-offer-details', title: "Détails de l'offre Basique"}
         = link_to "Je m'inscris", select_pro_structures_path, class: 'btn btn__success btn__large', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Basique'])"
