@@ -3,8 +3,8 @@
 %p Voici les informations pour réserver votre cours.
 
 %p
+  Adresse de l'établissement : #{@place.address}
   - if @structure.email_address
-    Adresse de l'établissement : #{@place.address}
     %br
     Email : #{@structure.email_address}
   - if @place.contact_phone or @place.contact_mobile_phone

@@ -2,26 +2,27 @@
 
 %p #{@user.full_name} aimerait suivre un de vos cours.
 
-%p En parallèle, nous avons envoyé vos coordonnées à l'internaute, mais pour aller plus vite, n'hésitez pas à l'appeler directement :
+%p En parallèle, nous avons envoyé vos coordonnées à l'internaute, mais pour aller plus vite, n'hésitez pas à le contacter directement :
 
 %p
   \======== Informations de l'élève ========
-  %br
   Nom : #{@user.full_name}
+  %br
   Mail : #{@user.email}
 
-%p
-  \======== Qui sommes-nous ? ========
-  %br
-  CoursAvenue est la première plateforme de réservation en temps réel des cours et stages aux meilleurs prix.
-  %br
-  N'hésitez pas à nous contacter pour augmenter votre taux de remplissage et vous aider dans vos tâches quotidiennes.
-  %br
-  Pour plus d'informations :
-  %br
-  = link_to 'http://www.coursavenue.com', 'http://www.coursavenue.com'
-  %br
-  = link_to 'http://pro.coursavenue.com', 'http://pro.coursavenue.com'
+- unless @structure.admins.any?
+  %p
+    \======== Qui sommes-nous ? ========
+    %br
+    CoursAvenue est la première plateforme de réservation en temps réel des cours et stages aux meilleurs prix.
+    %br
+    N'hésitez pas à nous contacter pour augmenter votre taux de remplissage et vous aider dans vos tâches quotidiennes.
+    %br
+    Pour plus d'informations :
+    %br
+    = link_to 'http://www.coursavenue.com', 'http://www.coursavenue.com'
+    %br
+    = link_to 'http://pro.coursavenue.com', 'http://pro.coursavenue.com'
 
 %p À très bientôt,
 

@@ -84,7 +84,6 @@
               = f.hidden_field :reservable_id
               = f.submit 'Contacter', class: 'btn btn__success one-whole', onclick: "_gaq.push(['_trackEvent', 'Établissement - contacter', 'click','Inscrit'])"
 
-              /= link_to 'Contacter', add_user_place_path(@place), class: 'btn btn__success one-whole', method: :put, onclick: "_gaq.push(['_trackEvent', 'Établissement - ajouter aux favoris', 'click','Inscrit'])"
         - else
           %a.btn.btn__success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Établissement - contacter', 'click','Non inscrit'])",  data: {behavior: 'modal', title: 'Connectez-vous pour contacter cet établissement', width: '400px', url: '/users/sign_up'}} Contacter l'établissement
 
@@ -137,10 +136,11 @@
       .course-header-map
         = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
         %h4.course-header-structure-name.flush--bottom
-          %b= @place.name
-          %br
-          %i.icon-map-marker
-          = readable_address @place
+          %b= @place.long_name
+          - if current_user
+            %br
+            %i.icon-map-marker
+            = readable_address @place
 
     = render 'share_links'
     - if @place.description.present?

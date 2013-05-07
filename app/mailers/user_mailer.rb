@@ -35,6 +35,7 @@ class UserMailer < ActionMailer::Base
     @reservation = reservation
     @user        = reservation.user
     @place       = @reservation.place
+    @structure   = @place.structure
 
     if Rails.env.production?
       mail to: @place.contact_email, subject: @reservation.email_subject_for_structure
