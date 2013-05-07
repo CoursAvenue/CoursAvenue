@@ -167,7 +167,7 @@
                   - if course.rating
                     = rating_stars course.rating
                 %td.text--center
-                  %ul.nav
+                  %ul.nav.flush--bottom
                     = join_course_subjects course
                 %td.text--center= course.levels.map{|level| t(level.name) }.join(', ')
                 %td.text--center= course.plannings.count

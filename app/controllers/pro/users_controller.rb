@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pro::UsersController < Pro::ProController
-  before_filter :authenticate_pro_admin!, except: [:index]
+  before_filter :authenticate_pro_admin!
 
   layout 'admin'
 
