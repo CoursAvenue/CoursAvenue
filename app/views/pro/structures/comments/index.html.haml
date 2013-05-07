@@ -23,7 +23,7 @@
 %h3
   %i.icon-comments-alt
   Avis sur mes cours
-- if @places_comments.empty?
+- if @courses_comments.empty?
   %p Encore aucun commentaire.
 - else
   - @courses_comments.each do |course, comments|
