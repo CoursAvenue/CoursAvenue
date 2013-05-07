@@ -18,7 +18,7 @@
             %li= link_to 'Dashboard', pro_dashboard_path, class: 'header-link'
             %li= link_to 'Espace super admin', pro_structures_path, class: 'header-link'
           - elsif current_pro_admin.structure.present?
-            %li= link_to 'Espace admin', pro_structure_path(current_pro_admin.structure), class: 'header-link'
+            %li= link_to 'Mes cours', pro_structure_path(current_pro_admin.structure), class: 'header-link'
           %li= link_to 'Se déconnecter', destroy_pro_admin_session_path, class: 'header-link', method: :delete
         - else
           %li

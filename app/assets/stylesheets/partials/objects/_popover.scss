@@ -12,5 +12,6 @@
     color           : $grayLighter;
     font-size       : 0.9em;
     text-align      : center;
+    z-index         : 10;
     @include border-radius($brand-round);
 }

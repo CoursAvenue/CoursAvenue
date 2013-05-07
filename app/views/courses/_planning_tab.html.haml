@@ -44,10 +44,6 @@
             %strong.flexbox__item.proceed= t(@course.frequency)
 
         %li.flexbox
-          %label.flexbox__item= t('.can_be_joined_during_year')
-          %strong.flexbox__item.proceed= (@course.can_be_joined_during_year ? t('yes') : t('no'))
-
-        %li.flexbox
           %label.flexbox__item= t('.class_during_holidays')
           %strong.flexbox__item.proceed= (@course.plannings.first.class_during_holidays ? t('yes') : t('no')) unless @course.plannings.empty?
 

@@ -29,6 +29,7 @@ fr:
         frequency: Fréquence
         room: Salle de cours principale
         place: Lieu
+        image: "Image du cours<br>Format: 800x480"
 
   courses:
     training:

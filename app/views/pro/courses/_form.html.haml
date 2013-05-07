@@ -15,10 +15,7 @@
           = image_tag @course.image.url(:thumb), height: 200
         = f.input :delete_image, as: :boolean, :label => "Supprimer l'image"
       .input
-        - if @course.image.present?
-          .control-label Changer l'image
-        - else
-          .control-label Image du cours
+        = f.label :image
         = f.input :image, label: false
 
       - if current_pro_admin.super_admin? and @course.is_promoted
