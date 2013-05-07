@@ -6,15 +6,15 @@
     %nav.text--right.grid__item.one-half.visuallyhidden--palm
       - if current_user
         #drop-down-el.drop-down__wrapper
-          = link_to user_path(current_user) do
-            - if current_user.image
-              .grid
-                .grid__item.v-middle.width-auto>
-                  %b= current_user.full_name
-                .grid__item.v-middle.width-auto.soft-half--left
-                  = image_tag current_user.image, height: 40, class: 'image'
-            - else
-              = current_user.full_name
+          /= link_to user_path(current_user) do
+          - if current_user.image
+            .grid
+              .grid__item.v-middle.width-auto>
+                %b= current_user.full_name
+              .grid__item.v-middle.width-auto.soft-half--left
+                = image_tag current_user.image, height: 40, class: 'image'
+          - else
+            = current_user.full_name
           %ul.drop-down__el{data: {behavior: 'drop-down', trigger: 'drop-down-el'}}
             %li= link_to "Se déconnecter", destroy_user_session_path, method: :delete
             - # %li= link_to 'Mon compte', user_path(current_user)
@@ -22,6 +22,6 @@
         %span
           = link_to "Se connecter", '#', data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_in'}
         %span.soft-half--left
-          = link_to "Créer un compte", '#', data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_up'}, class: 'btn btn__success'
+          = link_to "Créer un compte", '#', data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_up'}, class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Inscrit'])"
         %span.soft-half--left
-          = link_to 'Référencer mes cours', 'http://pro.coursavenue.com', class: 'btn btn__primary'
+          = link_to 'Référencer mes cours', 'http://pro.coursavenue.com', class: 'btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"

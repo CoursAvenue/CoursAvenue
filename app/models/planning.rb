@@ -7,7 +7,10 @@ class Planning < ActiveRecord::Base
   belongs_to :room
   belongs_to :teacher
 
+  has_many :reservations,         as: :reservable
+
   has_one   :structure, through: :course
+  has_one   :place,     through: :course
 
   has_and_belongs_to_many :users
 

@@ -53,34 +53,40 @@
       - elsif @place.structure.image.present?
         .text--center= image_tag @place.structure.image.url(:thumb)
       %h2.delta.text--center Contacter : #{@place.long_name}
-      %hr
-      - if @structure.website
+      - if current_user
+        %hr
+        - if @structure.website
+          %div
+            %i.icon-external-link.orange
+            = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
+        .blue
+          - if @place.contact_phone or @place.contact_mobile_phone
+            %i.icon-phone.blue
+          - if @place.contact_phone
+            = link_to "tel:#{@place.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
+              = @place.contact_phone.gsub(' ', '&nbsp;').html_safe
+          - if @place.contact_phone and @place.contact_mobile_phone
+            %span.blue /
+          - if @place.contact_mobile_phone
+            = link_to "tel:#{@place.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
+              = @place.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
         %div
-          %i.icon-external-link.orange
-          = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
-      .blue
-        - if @place.contact_phone or @place.contact_mobile_phone
-          %i.icon-phone.blue
-        - if @place.contact_phone
-          = link_to "tel:#{@place.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
-            = @place.contact_phone.gsub(' ', '&nbsp;').html_safe
-        - if @place.contact_phone and @place.contact_mobile_phone
-          %span.blue /
-        - if @place.contact_mobile_phone
-          = link_to "tel:#{@place.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
-            = @place.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
-      %div
-        %i.icon-home
-        = readable_address @place
+          %i.icon-home
+          = readable_address @place
 
       .text--center.push--top
         - if current_user
-          - if current_user.places.exists? @place.id
-            = link_to "Enlever des favoris", remove_user_place_path(@place), class: 'btn btn__success one-whole disabled', method: :put, onclick: "_gaq.push(['_trackEvent', 'Établissement - enlever des favoris', 'click','Inscrit'])"
+          - if current_user.reservation_for? @place
+            = link_to "Déjà contacté", '#', class: 'btn btn__success one-whole disabled', method: :put, onclick: "_gaq.push(['_trackEvent', 'Établissement - enlever des favoris', 'click','Inscrit'])"
           - else
-            = link_to 'Ajouter à mes favoris', add_user_place_path(@place), class: 'btn btn__success one-whole', method: :put, onclick: "_gaq.push(['_trackEvent', 'Établissement - ajouter aux favoris', 'click','Inscrit'])"
+            = form_for @place.reservations.build do |f|
+              = f.hidden_field :reservable_type
+              = f.hidden_field :reservable_id
+              = f.submit 'Contacter', class: 'btn btn__success one-whole', onclick: "_gaq.push(['_trackEvent', 'Établissement - contacter', 'click','Inscrit'])"
+
+              /= link_to 'Contacter', add_user_place_path(@place), class: 'btn btn__success one-whole', method: :put, onclick: "_gaq.push(['_trackEvent', 'Établissement - ajouter aux favoris', 'click','Inscrit'])"
         - else
-          %a.btn.btn__success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Établissement - ajouter aux favoris', 'click','Non inscrit'])",  data: {behavior: 'modal', title: 'Connectez-vous pour assister à ce cours', width: '400px', url: '/users/sign_up'}} Ajouter à mes favoris
+          %a.btn.btn__success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Établissement - contacter', 'click','Non inscrit'])",  data: {behavior: 'modal', title: 'Connectez-vous pour contacter cet établissement', width: '400px', url: '/users/sign_up'}} Contacter l'établissement
 
     .text--center.white-box.islet
       - if @place.rating

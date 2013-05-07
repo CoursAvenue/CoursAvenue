@@ -3,24 +3,6 @@ class CoursesController < ApplicationController
 
   before_filter :prepare_search, only: [:show, :index]
 
-  def add_user
-    @course = Course.find(params[:id])
-    current_user.courses << @course
-    current_user.save
-    respond_to do |format|
-      format.html { redirect_to course_path(@course), notice: 'Le cours à bien été ajouté dans la liste de vos cours à venir'}
-    end
-  end
-
-  def remove_user
-    @course = Course.find(params[:id])
-    current_user.courses.delete @course
-    current_user.save
-    respond_to do |format|
-      format.html { redirect_to course_path(@course), notice: 'Vous n\'assistez plus à ce cours'}
-    end
-  end
-
   def index
     search_solr
     init_geoloc

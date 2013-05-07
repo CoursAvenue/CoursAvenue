@@ -7,6 +7,7 @@
         %th.text--center Places dispo
       %th.text--center
         %i.lbc-icon-info i
+      %th
   %tbody
     - @plannings.each do |planning|
       %tr{data: {'course-id' => planning.course_id}}
@@ -17,3 +18,13 @@
         %td.text--center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
+        %td.text--right
+          - if current_user
+            - unless current_user.reservation_for? planning
+              = form_for planning.reservations.build do |f|
+                = f.hidden_field :reservable_type
+                = f.hidden_field :reservable_id
+                = f.submit '+', title: 'Assister à ce cours', class: 'btn btn__success btn__plus', onclick: "_gaq.push(['_trackEvent', 'Assister à ce créneau', 'click','Inscrit'])"
+          - else
+            %a.btn.btn__success.btn__plus{href: '#', onclick: "_gaq.push(['_trackEvent', 'Assister à ce créneau', 'click','Non inscrit'])",  data: {behavior: 'modal', title: 'Connectez-vous pour assister à ce créneau', width: '450px', url: '/users/sign_up'}} +
+

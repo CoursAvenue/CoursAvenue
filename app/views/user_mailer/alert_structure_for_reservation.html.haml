@@ -1,18 +1,14 @@
 %p Bonjour #{@place.long_name},
 
-%p #{@reservation.name} aimerait suivre votre #{@reservation.course.type_name.downcase} de : #{@reservation.course.name}.
+%p #{@user.full_name} aimerait suivre un de vos cours.
 
 %p En parallèle, nous avons envoyé vos coordonnées à l'internaute, mais pour aller plus vite, n'hésitez pas à l'appeler directement :
 
 %p
   \======== Informations de l'élève ========
   %br
-  Nom : #{@reservation.name}
-  %br
-  - if @reservation.phone.present?
-    Téléphone : #{@reservation.phone}
-    %br
-  Mail : #{@reservation.email}
+  Nom : #{@user.full_name}
+  Mail : #{@user.email}
 
 %p
   \======== Qui sommes-nous ? ========

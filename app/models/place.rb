@@ -16,6 +16,7 @@ class Place < ActiveRecord::Base
 
   belongs_to :city, touch: true
   belongs_to :structure, touch: true
+  has_many   :reservations,         as: :reservable
   has_many   :courses
   has_many   :rooms
   has_many   :comments, as: :commentable
@@ -168,10 +169,10 @@ class Place < ActiveRecord::Base
   end
 
   def contact_email
-    unless read_attribute(:contact_email).present?
-      self.structure.email_address
-    else
+    if read_attribute(:contact_email).present?
       read_attribute(:contact_email)
+    else
+      self.structure.email_address
     end
   end
 

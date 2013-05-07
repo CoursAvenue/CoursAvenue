@@ -31,8 +31,8 @@ class Course < ActiveRecord::Base
 
   has_and_belongs_to_many :users
 
-  has_many :comments, as: :commentable
-  has_many :reservations
+  has_many :comments,             as: :commentable
+  has_many :reservations,         as: :reservable
   has_many :plannings           , dependent: :destroy, conditions: "plannings.end_date > '#{Date.today}'"
   has_many :teachers            , through: :plannings
   has_many :prices              , dependent: :destroy

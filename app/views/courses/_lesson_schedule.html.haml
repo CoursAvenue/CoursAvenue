@@ -31,10 +31,11 @@
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
         %td.text--right
           - if current_user
-            - if current_user.plannings.exists? planning
-              = link_to '-', add_user_planning_path(planning), class: 'btn btn__success btn__plus', title: 'Ne plus assister à ce créneau', onclick: "_gaq.push(['_trackEvent', 'Ne plus assister à ce créneau', 'click', 'Inscrit'])"
-            - else
-              = link_to '+', add_user_planning_path(planning), class: 'btn btn__success btn__plus', title: 'Assister à ce créneau', onclick: "_gaq.push(['_trackEvent', 'Assister à ce créneau', 'click','Inscrit'])"
+            - unless current_user.reservation_for? planning
+              = form_for planning.reservations.build do |f|
+                = f.hidden_field :reservable_type
+                = f.hidden_field :reservable_id
+                = f.submit '+', title: 'Assister à ce cours', class: 'btn btn__success btn__plus', onclick: "_gaq.push(['_trackEvent', 'Assister à ce créneau', 'click','Inscrit'])"
           - else
             %a.btn.btn__success.btn__plus{href: '#', onclick: "_gaq.push(['_trackEvent', 'Assister à ce créneau', 'click','Non inscrit'])",  data: {behavior: 'modal', title: 'Connectez-vous pour assister à ce créneau', width: '450px', url: '/users/sign_up'}} +
 

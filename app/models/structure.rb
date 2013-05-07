@@ -80,6 +80,14 @@ class Structure < ActiveRecord::Base
     self.courses.joins{plannings}.where{plannings.end_date > Date.today}.group(:id)
   end
 
+  def contact_email
+    if admins.any?
+      admins.first.email
+    else
+      read_attribute(:email_address)
+    end
+  end
+
   def main_contact
     admins.first || Admin.new
   end

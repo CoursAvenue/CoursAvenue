@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 
   has_many :comments
 
+  has_many :reservations
+
   has_and_belongs_to_many :plannings
   has_and_belongs_to_many :courses
   has_and_belongs_to_many :places
@@ -40,5 +42,9 @@ class User < ActiveRecord::Base
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def reservation_for?(reservable)
+    self.reservations.exists?(reservable_id: reservable.id, reservable_type: (reservable.is_a?(Course) ? 'Course' : reservable.class.name))
   end
 end

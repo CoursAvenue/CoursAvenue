@@ -77,21 +77,13 @@ CoursAvenue::Application.routes.draw do
     end
   end
 
+  resources :reservations, only: [:create]
+
   resources :newsletter_users, only: [:create]
 
   resources :comments, only: [:create, :destroy]
 
-  resources :plannings, only: [] do
-    member do
-      put 'add_user'
-      put 'remove_user'
-    end
-  end
   resources :courses, only: [:show, :index], path: 'cours' do
-    member do
-      put 'add_user'
-      put 'remove_user'
-    end
     resources :reservations, only: [:new, :create] # Redirection 301 in controller
   end
 
@@ -100,12 +92,7 @@ CoursAvenue::Application.routes.draw do
     resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
     resources :courses, only: [:index], path: 'cours'
   end
-  resources :places, only: [:show, :index], path: 'etablissements' do
-    member do
-      put 'add_user'
-      put 'remove_user'
-    end
-  end
+  resources :places, only: [:show, :index], path: 'etablissements'
 
   resources :renting_rooms, only: [:create]
 

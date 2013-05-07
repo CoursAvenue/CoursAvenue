@@ -1,28 +1,10 @@
-%p Bonjour #{@reservation.name},
+%p Bonjour #{@user.full_name},
 
-%p Merci d'avoir réservé le #{@reservation.course.type_name.downcase} de : #{@reservation.course.name} !
-
-%p
-  \======== Récapitulatif ========
-  %br
-  Nom du #{@reservation.course.type_name.downcase} : #{@reservation.course.name}
-  %br
-  Établissement : #{@place.long_name}
-  %br
-  Adresse de l'établissement : #{@place.address}
-  %br
-  - if @reservation.price
-    - if @reservation.price.has_promo?
-      Prix : #{readable_amount(@reservation.price.promo_amount)}€ au lieu de #{readable_amount(@reservation.price.amount)}€ (#{I18n.t(@reservation.price.libelle)})
-    - else
-      Prix : #{readable_amount(@reservation.price.amount)}€ (#{I18n.t(@reservation.price.libelle)})
-    %br
-
-%p Pour confirmer votre réservation, nous vous invitons à contacter l'établissement.
+%p Voici les informations pour réserver votre cours.
 
 %p
-  \======== Information pour contacter l'établissement ========
   - if @structure.email_address
+    Adresse de l'établissement : #{@place.address}
     %br
     Email : #{@structure.email_address}
   - if @place.contact_phone or @place.contact_mobile_phone
