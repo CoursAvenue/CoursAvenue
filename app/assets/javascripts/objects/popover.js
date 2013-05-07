@@ -46,12 +46,14 @@
         showPopover: function() {
             //this.popover_element.show();
             this.popover_element.setStyle('display', 'block');
-            this.popover_element.fade('in',{duration: 'short'});
+            this.popover_element.fade('in');
         },
 
         hidePopover: function() {
             //this.popover_element.hide();
-            this.popover_element.fade('out');
+            this.popover_element.fade('out').get('tween').chain(function() {
+                this.popover_element.setStyle('display', 'none');
+            }.bind(this));
         }
     });
 })();
