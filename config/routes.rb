@@ -108,6 +108,7 @@ CoursAvenue::Application.routes.draw do
   match 'lieux',                                            to: 'redirect#lieux'
   match 'lieux/:id',                                        to: 'redirect#lieux_show'
   match 'ville/:city_id/disciplines/:subject_id',           to: 'redirect#city_subject'
+  match 'ville/:city_id/cours/:subject_id',                 to: 'redirect#city_subject'
   match 'ville/:id',                                        to: 'redirect#city'
   match 'disciplines/:id',                                  to: 'redirect#disciplines'
 

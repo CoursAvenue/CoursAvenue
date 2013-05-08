@@ -86,7 +86,11 @@ class CoursesController < ApplicationController
     end
 
     if params[:subject_id]
-      @subject = Subject.find params[:subject_id]
+      begin
+        @subject = Subject.find params[:subject_id]
+      rescue
+        redirect_to courses_path, status: 301
+      end
     end
 
     params[:start_date] ||= I18n.l(Date.today)
