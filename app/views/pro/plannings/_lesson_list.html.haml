@@ -27,7 +27,9 @@
             - if planning.max_age_for_kid
               à
               = planning.max_age_for_kid || '-'
-        %td= planning.teacher.try(:name)
+        %td
+          = simple_form_for [:pro, @course, planning], remote: true do |f|
+            = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select'}
         %td.text--center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
@@ -37,3 +39,14 @@
           &nbsp;
           = link_to pro_course_planning_path(@course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer le créneau', class: 'btn btn__danger' do
             %i.icon-trash
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        $$('.teacher-select').each(function(teacher_select){
+            teacher_select.addEvent('change', function() {
+                teacher_form = this.getParent('form')
+                teacher_form.submit();
+            })
+        });
+    });

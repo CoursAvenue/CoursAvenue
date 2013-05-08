@@ -95,7 +95,7 @@ class Course < ActiveRecord::Base
     end
 
     text :teachers do
-      plannings.map(&:teacher_name).uniq.compact
+      plannings.collect{|p| p.teacher.try(:name)}.compact.uniq
     end
 
     text :subjects do
@@ -272,11 +272,11 @@ class Course < ActiveRecord::Base
   end
 
   def has_multiple_teacher?
-    self.plannings.map(&:teacher_name).uniq.compact.length > 1
+    self.plannings.map(&:teacher_id).uniq.compact.length > 1
   end
 
   def has_teacher?
-    self.plannings.map(&:teacher_name).uniq.compact.length > 0
+    self.plannings.map(&:teacher_id).uniq.compact.length > 0
   end
 
   def promotion

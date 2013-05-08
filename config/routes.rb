@@ -32,7 +32,7 @@ CoursAvenue::Application.routes.draw do
         member do
           post 'update' # For paperclip image
         end
-        resources :plannings, only: [:edit, :index, :destroy]
+        resources :plannings,  only: [:edit, :index, :destroy]
         resources :prices, only: [:index]
         resources :book_tickets, only: [:edit, :index, :destroy]
         member do

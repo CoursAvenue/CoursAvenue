@@ -7,8 +7,13 @@ class Pro::PlanningsController < InheritedResources::Base
   load_and_authorize_resource :structure
 
   def index
-    @planning = Planning.new
-    index!
+    @planning  = Planning.new
+    @teachers  = @structure.teachers
+    if @course.is_lesson?
+      @plannings = @course.plannings.order('start_time ASC')
+    else
+      @plannings = @course.plannings.order('start_date ASC, start_time ASC')
+    end
   end
 
   def edit
@@ -45,7 +50,6 @@ class Pro::PlanningsController < InheritedResources::Base
       @planning        = Planning.find(params[:id])
       @planning.course = @course
       set_dates_and_times
-
       respond_to do |format|
         if @planning.update_attributes(params[:planning])
           format.html { redirect_to pro_course_plannings_path(@course) }

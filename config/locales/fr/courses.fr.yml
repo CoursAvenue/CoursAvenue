@@ -13,7 +13,7 @@ fr:
         has_online_payment:
         course_info:
         registration_date:
-        teacher_name: Professeur
+        teacher: Professeur
         max_age_for_kid: Age max
         min_age_for_kid: Age min
         is_individual: Individuel

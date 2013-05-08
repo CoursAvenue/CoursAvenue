@@ -1,7 +1,7 @@
 module CoursesHelper
 
   def join_teachers(course)
-    course.plannings.map(&:teacher_name).compact.uniq.join(', ')
+    course.plannings.collect{|p| p.teacher.try(:name)}.compact.uniq.join(', ')
   end
 
   def join_audiences(course)
