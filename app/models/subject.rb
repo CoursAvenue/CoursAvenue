@@ -1,6 +1,6 @@
 class Subject < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :name, use: [:slugged, :history]
 
   has_ancestry
   has_attached_file :image, :styles => { super_wide: "825x250#", wide: "600x375#", thumb: "200x200#" }
