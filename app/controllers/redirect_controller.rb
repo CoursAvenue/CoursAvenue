@@ -1,5 +1,9 @@
 class RedirectController < ApplicationController
 
+  def disciplines
+    redirect_to subject_courses_path(params[:id]), status: 301
+  end
+
   def place_show
     redirect_to place_path(params[:id]), status: 301
   end
