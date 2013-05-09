@@ -2,6 +2,11 @@
 class ReservationsController < ApplicationController
   include ReservationHelper
 
+  def new
+    @course = Course.find params[:course_id]
+    redirect_to course_path @course, status: 301
+  end
+
   def create
     @reservable  = find_reservable
     @reservation = @reservable.reservations.build params[:reservation]

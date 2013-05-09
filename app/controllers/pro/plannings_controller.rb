@@ -10,7 +10,7 @@ class Pro::PlanningsController < InheritedResources::Base
     @planning  = Planning.new
     @teachers  = @structure.teachers
     if @course.is_lesson?
-      @plannings = @course.plannings.order('start_time ASC')
+      @plannings = @course.plannings.order('week_day ASC, start_time ASC')
     else
       @plannings = @course.plannings.order('start_date ASC, start_time ASC')
     end

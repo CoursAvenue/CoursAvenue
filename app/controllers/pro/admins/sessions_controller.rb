@@ -3,7 +3,7 @@ class Pro::Admins::SessionsController < Devise::SessionsController
 
   def after_sign_in_path_for(admin)
     if admin.super_admin?
-      pro_structures_path
+      pro_admins_path
     else
       if admin.structure
         pro_structure_path(admin.structure)
