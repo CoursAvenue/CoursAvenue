@@ -6,10 +6,24 @@
 
 - unless current_pro_admin.active?
   .text--center
-    %p.alert--info
+    %p.alert--warning
       %b Votre compte est en attente de validation.
       %br
       Lorsque celui-ci sera validé vous receverez un email et vous pourrez mettre vos cours en ligne.
+
+  .alert--info
+    %h5.push-half--bottom
+      %i.lbc-icon-info i
+      Status des cours
+    %span.push-half--right
+      .switch-button.off
+        Hors ligne
+    %span Le cours n'est pas visible sur CoursAvenue.com
+    %br
+    %span.push--right
+      .switch-button.on
+        En ligne
+    %span Le cours est visible sur CoursAvenue.com
 
 - @places.each do |place|
   - unless @places.length == 1
@@ -39,10 +53,10 @@
           %tr
             %td.text--center
               - if course.active
-                = link_to disable_pro_course_path(course), method: :put, class: 'switch-button on' do
+                = link_to disable_pro_course_path(course), method: :put, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
                   En&nbsp;ligne
               - else
-                = link_to activate_pro_course_path(course), method: :put, class: 'switch-button off' do
+                = link_to activate_pro_course_path(course), method: :put, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
                   Hors&nbsp;ligne
             %td= course.type_name
             %td

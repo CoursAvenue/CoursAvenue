@@ -115,7 +115,7 @@ class Pro::StructuresController < Pro::ProController
         flash[:alert] = 'Il nous manque quelques informations pour continuer'
         format.html { render action: 'new'}
       else
-        format.html { redirect_to pro_root_path, notice: 'Un email de confirmation vient de vous être envoyé' }
+        format.html { redirect_to waiting_for_activation_pro_admins_path, notice: 'Un email de confirmation vient de vous être envoyé' }
       end
     end
   end

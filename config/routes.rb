@@ -52,6 +52,9 @@ CoursAvenue::Application.routes.draw do
       end
       resources :users, only: [:index]
       resources :admins do
+        collection do
+          get 'activez-votre-compte' => 'admins#waiting_for_activation', as: 'waiting_for_activation'
+        end
         member do
           put 'activate'
           put 'disable'
