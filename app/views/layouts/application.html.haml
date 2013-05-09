@@ -6,8 +6,8 @@
     %link{href: 'http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic', rel: 'stylesheet', type: 'text/css'}
     = yield :head
     = favicon_link_tag 'favicon.png'
+    = javascript_include_tag "modernizr" # MUST BE In the Head and before CSS
     = stylesheet_link_tag "application", :media => "all"
-    = javascript_include_tag "modernizr" # MUST BE In the Head and after CSS
     = csrf_meta_tags unless response.cache_control[:public]
   %body
     - unless response.cache_control[:public]
