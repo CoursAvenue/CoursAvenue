@@ -109,8 +109,8 @@ class Pro::StructuresController < Pro::ProController
     @structure.admins << @admin
     @admin.structure = @structure
     respond_to do |format|
-      errors = !@admin.save(params[:admin])
-      errors = errors || !@structure.save
+      errors = !@structure.save
+      errors = errors || !@admin.save(params[:admin])
       if errors
         flash[:alert] = 'Il nous manque quelques informations pour continuer'
         format.html { render action: 'new'}
