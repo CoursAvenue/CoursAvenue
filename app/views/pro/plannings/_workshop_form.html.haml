@@ -1,14 +1,22 @@
-- time_collection = (1..32).map{ |i| [readable_duration(i * 15), i * 15] }
+- # time_collection = (1..32).map{ |i| [readable_duration(i * 15), i * 15] }
 = simple_form_for [:pro, @course, @planning] do |f|
   = f.error_notification
-  .input.inline-inputs
-    %label.required.control-label Le
+  .input
+    %label.required.control-label Date
     %input.datepicker-input{type: 'text', value: (@planning.start_date.nil? ? '' : l(@planning.start_date)), placeholder: '02/08/2013', name: 'planning[start_date]', data: {behavior: 'datepicker'}}
-    %label.required.control-label à
-    = f.input :start_time, as: :time, minute_step: 15, label: false, default: {year: 2000, month: 1, day: 1}
-    = f.input :duration, as: :select, collection: time_collection, label: 'pendant'
-    = f.association :teacher, as: :select, collection: @structure.teachers, selected: @plannings.first.try(:teacher), label: 'par', include_blank: true
-    = f.input :info, as: :string, placeholder: '(optionnel) Plat : gâteau au chocolat'
+  .input
+    = f.input :start_time, as: :time, minute_step: 15, label: 'Horaire', default: {year: 2000, month: 1, day: 1, hour: 8, min: 00}
+    %label &nbsp;-&nbsp;
+    = f.input :end_time, as: :time, minute_step: 15, label: false, default: {year: 2000, month: 1, day: 1, hour: 9, min: 00}
+  .input
+    = f.association :teacher, as: :select, collection: @structure.teachers, selected: @plannings.first.try(:teacher), label: 'Professeur'
+    = link_to pro_structure_teachers_path(@structure) do
+      &nbsp
+      %i.icon-user
+      Ajouter un professeur
+  .input
+    = f.input :info, as: :string, placeholder: 'Plat : gâteau au chocolat', label: 'Information (optionnel)'
+  .text--center.input
     - if @planning.new_record?
       = f.submit 'Ajouter le créneau', class: 'btn btn__success'
     - else

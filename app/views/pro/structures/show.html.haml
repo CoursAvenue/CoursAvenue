@@ -4,6 +4,13 @@
   %i.icon-list
   Mes cours référencés sur CoursAvenue
 
+- unless current_pro_admin.active?
+  .text--center
+    %p.alert--info
+      %b Votre compte est en attente de validation.
+      %br
+      Lorsque celui-ci sera validé vous receverez un email et vous pourrez mettre vos cours en ligne.
+
 - @places.each do |place|
   - unless @places.length == 1
     %h3.flush--bottom.push--top.toggleable-header.bordered--bottom{data: {behavior: 'toggleable', el:'+ .toggleable-content'}}

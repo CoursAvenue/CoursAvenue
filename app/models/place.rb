@@ -24,10 +24,11 @@ class Place < ActiveRecord::Base
 
   has_and_belongs_to_many :users
 
-  validates  :name      , presence: true
-  validates  :street    , presence: true
-  validates  :city      , presence: true
-  validates  :zip_code  , presence: true, numericality: { only_integer: true }
+  validates  :name     , presence: true
+  validates  :street   , presence: true
+  validates  :city     , presence: true
+  validates  :zip_code , presence: true, numericality: { only_integer: true }
+  validates  :structure, presence: true
 
   has_attached_file :image,
                     :styles => { wide: "800x480#", thumb: "200x200#" }

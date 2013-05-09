@@ -18,8 +18,9 @@
       %i.icon-calendar
       Planning
 
-%h4.flush--bottom Rajouter un créneau
-= render "#{@course.underscore_name}_form"
+%h5.form-header-group.flush--bottom Rajouter un créneau
+.form-white-box
+  = render "#{@course.underscore_name}_form"
 
 %hr
 

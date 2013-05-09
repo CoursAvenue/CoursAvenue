@@ -67,8 +67,13 @@
           %input#course_is_collectif{type: 'radio', name: 'course[is_individual]', value: 'false', checked: !@course.is_individual?}
           %label{for: 'course_is_collectif'}> Collectif -&nbsp;
           %label Nombre moyen de participants &nbsp;
-          = f.input :nb_participants, label: false, input_html: {type: :number, placeholder: 12, style: 'width: 5em;'}, wrapper_html: {class: 'flush--ends inline'}
-    = f.association :place , as: :select, collection: @structure.places, include_blank: false
+          = f.input :nb_participants, label: false, input_html: {type: :number, placeholder: 12, style: 'max-width: 5em;', class: 'soft-half--left'}, wrapper_html: {class: 'flush--ends inline'}
+    .input
+      = f.association :place , as: :select, collection: @structure.places, include_blank: false
+      = link_to pro_structure_places_path(@structure) do
+        &nbsp;
+        %i.icon-map-marker
+        Ajouter un lieu
     = f.association :levels   , as: :select, collection: Level.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|level| t(level.name)}, label: t('.levels'), selected: @course.level_ids.any? ? @course.level_ids : [Level.all_levels.id]
 
     .input
