@@ -32,16 +32,13 @@
       Rechercher
 
 / Entrez une discipline, le nom d'une école, d'un professeur ou même d'un plat.
-= content_for :scripts do
+= content_for :javascript do
   :javascript
-    (function(window, document, undefined) {
-      "use strict";
+    window.addEvent('domready', function() {
       var myAutocomplete = new Autocomplete("search-input", {
         useNativeInterface : false,
         srcType : "dom"
       });
-    })(this, this.document);
-    window.addEvent('domready', function() {
       $('search-input').addEvent('blur', function(){
           $('search-help').addClass('hidden');
       });
