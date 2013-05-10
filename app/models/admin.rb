@@ -27,7 +27,7 @@ class ::Admin < ActiveRecord::Base
                   :is_teacher,
                   :structure_id
 
-  validates :name, presence: true, on: :create
+  validates :name, :structure, presence: true, on: :create
 
   # attr_accessible :title, :body
   belongs_to :structure

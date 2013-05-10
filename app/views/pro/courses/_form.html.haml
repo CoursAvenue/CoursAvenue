@@ -21,6 +21,12 @@
       - if current_pro_admin.super_admin? and @course.is_promoted
         = f.input :homepage_image, label: 'Image de la home'
   .form-white-box
+    .input.flush--bottom
+      = f.association :place , as: :select, collection: @structure.places, include_blank: false
+      = link_to pro_structure_places_path(@structure) do
+        &nbsp;
+        %i.icon-map-marker
+        Ajouter un lieu
     = f.input :name, label: t('.name'), placeholder: 'Zumba, jardin musical, Vins et Fromages, etc'
     = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }
     .input.grid--full
@@ -68,12 +74,6 @@
           %label{for: 'course_is_collectif'}> Collectif -&nbsp;
           %label Nombre moyen de participants &nbsp;
           = f.input :nb_participants, label: false, input_html: {type: :number, placeholder: 12, style: 'max-width: 5em;', class: 'soft-half--left'}, wrapper_html: {class: 'flush--ends inline'}
-    .input
-      = f.association :place , as: :select, collection: @structure.places, include_blank: false
-      = link_to pro_structure_places_path(@structure) do
-        &nbsp;
-        %i.icon-map-marker
-        Ajouter un lieu
     = f.association :levels   , as: :select, collection: Level.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|level| t(level.name)}, label: t('.levels'), selected: @course.level_ids.any? ? @course.level_ids : [Level.all_levels.id]
 
     .input

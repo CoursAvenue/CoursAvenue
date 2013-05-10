@@ -109,13 +109,13 @@ class Pro::StructuresController < Pro::ProController
     @structure.admins << @admin
     @admin.structure = @structure
     respond_to do |format|
-      errors = !@structure.save
-      errors = errors || !@admin.save(params[:admin])
-      if errors
+      if @structure.valid? and @admin.valid?
+        @structure.save
+        @admin.save
+        format.html { redirect_to waiting_for_activation_pro_admins_path, notice: 'Un email de confirmation vient de vous être envoyé' }
+      else
         flash[:alert] = 'Il nous manque quelques informations pour continuer'
         format.html { render action: 'new'}
-      else
-        format.html { redirect_to waiting_for_activation_pro_admins_path, notice: 'Un email de confirmation vient de vous être envoyé' }
       end
     end
   end

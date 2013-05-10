@@ -1,7 +1,7 @@
 = simple_form_for [:pro, @course, @planning] do |f|
   = f.error_notification
   .input
-    %label.required.control-label Le
+    %label.required.control-label Jour
     - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate
     = f.input :week_day, as: :select, collection: days, label: false
   .input
@@ -9,7 +9,7 @@
     %label &nbsp;-&nbsp;
     = f.input :end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: {year: 2000, month: 1, day: 1, hour: 9, min: 00}
   .input
-    = f.association :teacher, as: :select, collection: @structure.teachers, selected: @plannings.first.try(:teacher), label: 'Professeur'
+    = f.association :teacher, as: :select, collection: @structure.teachers, selected: @plannings.first.try(:teacher), label: 'Professeur', include_blank: true
     = link_to pro_structure_teachers_path(@structure) do
       &nbsp
       %i.icon-user
