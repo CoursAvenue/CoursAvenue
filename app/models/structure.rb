@@ -58,13 +58,13 @@ class Structure < ActiveRecord::Base
   belongs_to       :pricing_plan
 
   has_many :newsletter_users
-  has_many :teachers
+  has_many :teachers                 , dependent: :destroy
   has_many :subjects, through: :courses
   has_many :courses, through: :places
   has_many :renting_rooms
   has_many :cities, through: :places
-  has_many :places
-  has_many :rooms, through: :places
+  has_many :places                   , dependent: :destroy
+  # has_many :rooms, through: :places
 
   has_many :admins
 
