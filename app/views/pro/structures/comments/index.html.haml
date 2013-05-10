@@ -16,20 +16,7 @@
         = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Une recommandation à #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}
       = submit_tag 'Envoyer ma demande', class: 'btn btn__success'
 #mail-content.hidden
-  %p Bonjour,
-
-  %p.flush--bottom #{link_to @structure.name, courses_path(name: @structure.name, subdomain: 'www')} vous demande de rédiger une recommandation qui sera publié sur son profil public <a href="http://www.coursavenue.com">CoursAvenue.com</a>.
-  %p.flush--bottom <a href="http://www.coursavenue.com">CoursAvenue.com</a> est la 1ère plateforme qui permet de trouver et de comparer n’importe quel cours ou stage dispensé par un professionnel.
-  %p En tant que fidèle élève, une recommandation de votre part pourrait vraiment l'aider à se batir une réputation au sein de notre communauté. N'hésitez pas si vous avez des questions et merci pour votre aide.
-
-  .text--center.push--bottom
-    = link_to 'Rédiger une recommandation', courses_path(name: @structure.name, subdomain: 'www'), class: 'btn btn__success'
-
-  %p C'est très rapide, cela ne vous prendra que quelques minutes.
-
-  %p Merci énormément pour votre aide et à très bientôt !
-
-  %p L'équipe de CoursAvenue
+  = render template: 'admin_mailer/send_feedbacks'
 
 %hr.push-half--top
 
