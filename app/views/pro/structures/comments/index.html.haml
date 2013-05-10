@@ -1,16 +1,15 @@
 = side_menu_currently_at "Mes avis"
 
-/ .text--center
-/   %p.alert--info.one-half
-/     Dites à vos élèves de donner des avis sur vos cours, vous serez plus visible !
-
 %h5.home-title Faites-vous recommander par vos élèves
 = form_tag get_feedbacks_pro_structure_path(@structure) do
   .grid
     .grid__item.one-third>
-      %p Une fois votre demande envoyé, vos élèves pourront s'inscrire sur CoursAvenue et laisser un avis sur vos cours ou votre structure.
+      %p Une fois votre demande envoyée, vos élèves pourront s'inscrire sur CoursAvenue et laisser un avis sur vos cours ou votre structure.
+      %p
+        Un avis ne vous satisfait pas ? Gardez un droit de regard et parlons-en :
+        s'il ne respecte pas notre charte (manque d'objectivité, commentaire personnel, avis non constructif) nous le supprimerons.
     .grid__item.two-thirds>
-      %textarea{name: 'emails', rows: 5, cols: 70, placeholder: 'patrick@gmail.com, thomas@gmail.com'}
+      %textarea{name: 'emails', rows: 5, cols: 70, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr'}
       %p
         Séparez chaque email par une virgule.
         = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Une recommandation à #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}
