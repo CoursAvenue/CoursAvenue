@@ -35,7 +35,7 @@
             = link_to 'Inactif', activate_pro_admin_path(admin), class: 'switch-button off', method: :put
           = link_to edit_pro_admin_path(admin), title: 'Éditer', class: 'btn btn__warning' do
             %i.icon-edit
-          = link_to pro_admin_path(admin), method: :delete, title: 'Supprimer', class: 'btn btn__danger', data: {confirm: 'Êtes-vous sur de supprimer cet admin et TOUS ses cours ?' do
+          = link_to pro_admin_path(admin), method: :delete, title: 'Supprimer', class: 'btn btn__danger', data: {confirm: 'Êtes-vous sur de supprimer cet admin et TOUS ses cours ?'} do
             %i.icon-trash
 
 = content_for :scripts do
