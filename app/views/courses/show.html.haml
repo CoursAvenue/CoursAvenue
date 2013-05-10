@@ -112,7 +112,7 @@
       - if current_user
         %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos tarif', 'click', '#{@course.slug}'])", data: { el: 'tab-prices' }}= t('.prices')
       - else
-        %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos tarif', 'click', '#{@course.slug}'])", data: { el: 'tab-prices', behavior: 'modal', title: 'Faites partie de la communauté CoursAvenue', width: '500px', url: '/users/sign_up'}}= t('.prices')
+        %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos tarif non connecté', 'click', '#{@course.slug}'])", data: { el: 'tab-prices', behavior: 'modal', title: 'Faites partie de la communauté CoursAvenue', width: '500px', url: '/users/sign_up'}}= t('.prices')
       %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos cours', 'click', '#{@course.slug}'])", data: { el: 'tab-description' }}= t('.infos')
       %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos structure', 'click', '#{@course.slug}'])"}
         = link_to place_path(@place) do
