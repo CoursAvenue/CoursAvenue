@@ -10,6 +10,10 @@
     @include background-size(100%);
 }
 
+.btn .lbc-icon-calendar {
+    height: 11px;
+    background-size: 10px;
+}
 .lbc-icon-calendar {
     height           : 16px;
     background-image : image-url('icons/calendar.png');

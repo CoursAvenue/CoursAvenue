@@ -2,4 +2,9 @@
   %td
     = t('.libelle', count: book_ticket.number)
     = "(#{t('.validity', count: book_ticket.validity).downcase})" if book_ticket.validity
-  %td.text--center= "#{readable_amount(book_ticket.amount)}€"
+  %td.text--center
+    - if book_ticket.promo_amount
+      %span.line-through= "#{readable_amount(book_ticket.amount)}€"
+      %span.green= "#{readable_amount(book_ticket.promo_amount)}€"
+    - else
+      = "#{readable_amount(book_ticket.amount)}€"

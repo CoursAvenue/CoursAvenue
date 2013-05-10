@@ -7,6 +7,22 @@
 - unless current_pro_admin.active?
   .text--center
     %p.alert--info
+      %b Le savez-vous ?
+      %br
+      = link_to "Il existe 4 actions rapides et efficaces qui vous permettront de jouer sur la performance de vos annonces", '#', data: {behavior: 'modal', title: 'Le savez-vous ?', width: '500px', el:'augment-visibility'}
+  #augment-visibility.hidden
+    %ol
+      %li <b>Soyez recommandés !</b> : plus d'avis signifie une plus forte confiance de la part des Internautes, et donc plus de réservations pour vous. Depuis l'onglet "Mes avis" à gauche de cet écran, envoyez facilement une demande d'avis à vos clients qui vous connaissent le mieux
+
+      %li  <b>Proposez des promotions</b> : boostez vos réservations en proposant des promotions, par exemple pour les cours d'habitude peu remplis, les séances qui arrivent dans les prochains jours, ou pour l'ouverture d'un nouveau stage
+
+      %li <b>Ajoutez des photos</b> : n'oubliez pas d'illustrer vos cours par de belles photos, et votre établissement par votre logo
+
+      %li <b>Dites ce qu'on apprend !</b> : pour chaque cours, votre description doit être complète, et bien préciser les objectifs et la valeur ajoutée de votre enseignement, pour que les Internautes se sentent mieux renseignés et en confiance
+
+- else
+  .text--center
+    %p.alert--info
       %b Votre compte est en attente de validation.
       %br
       D'ici 2-3 jours l'équipe de CoursAvenue va prendre contact avec vous pour activer votre compte qui vous permettra de mettre tous vos cours en ligne.
@@ -52,7 +68,11 @@
                 = link_to course.name, edit_pro_course_path(course)
               - else
                 = link_to course.name, course_url(course, subdomain: :www)
-            %td= course.teachers.uniq.map(&:name).join(', ')
+            %td
+              - if course.teachers.any?
+                = course.teachers.uniq.map(&:name).join(', ')
+              - else
+                = link_to 'Ajouter un prof', pro_course_plannings_path(course), class: 'btn'
             %td= course.subjects.map(&:name).join(', ')
             %td.text--right
               %span>
@@ -67,7 +87,7 @@
               %span>
                 = link_to pro_course_plannings_path(course), class: 'btn' do
                   %i.lbc-icon-calendar
-                  %span &nbsp;Plannings
+                  %span Plannings
               %span>
                 = link_to edit_pro_course_path(course), title: 'Modifier ce cours', class: 'btn btn__warning' do
                   %i.icon-edit
