@@ -61,14 +61,14 @@
                         this.selectNext();
                         break;
                     default:
-                        geocoder.geocode({ 'address': event.target.value }, function (results, status) {
+                        geocoder.geocode({ 'address': 'France, ' + event.target.value, 'region': 'FR' }, function (results, status) {
                             if (results != null) {
                                 var addresses = [];
                                 results.each(function(address){
                                     var li = new Element('li', {
                                         html: address.formatted_address,
-                                        'data-lat': address.geometry.location.jb,
-                                        'data-lng': address.geometry.location.kb,
+                                        'data-lat': address.geometry.location.lat(),
+                                        'data-lng': address.geometry.location.lng(),
                                         events: {
                                             click: function(event) {
                                                 address_picker.select.call(address_picker, this);

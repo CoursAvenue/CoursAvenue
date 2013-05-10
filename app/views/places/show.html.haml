@@ -120,7 +120,7 @@
                 - elsif (surrounding_place_subject = surrounding_place.subjects.limit(1)).any?
                   = image_tag surrounding_place_subject[0].image.url(:thumb)
               .flexbox__item.similar-course
-                %h4.similar-course--course-name= surrounding_place.long_name
+                %h4.similar-course--course-name.flush--bottom= surrounding_place.long_name
                 .similar-course--structure-name
                   %i.icon-map-marker
                   = surrounding_place.street
