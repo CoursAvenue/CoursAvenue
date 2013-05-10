@@ -19,6 +19,7 @@ CoursAvenue::Application.routes.draw do
           put 'disable_condition'
           put 'validate_condition'
           get 'validation'
+          post 'get_feedbacks'
         end
         collection do
           get 'select', path: 'referencer-mes-cours'

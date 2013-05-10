@@ -5,6 +5,9 @@ class Pro::Structures::CommentsController < InheritedResources::Base#Pro::ProCon
 
   def index
     @structure = Structure.find params[:structure_id]
+    unless can? :read, @structure
+      redirect_to pro_root_path, alert: "Vous n'êtes pas autorisé à voir cette page."
+    end
     @places_comments = {}
     @structure.places.each do |place|
       @places_comments[place] = place.comments if place.comments.any?

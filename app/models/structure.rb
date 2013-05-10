@@ -57,6 +57,7 @@ class Structure < ActiveRecord::Base
   belongs_to       :city
   belongs_to       :pricing_plan
 
+  has_many :newsletter_users
   has_many :teachers
   has_many :subjects, through: :courses
   has_many :courses, through: :places

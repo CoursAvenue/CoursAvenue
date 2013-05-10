@@ -1,9 +1,20 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
   before_filter :authenticate_pro_admin!, except: [:select, :new, :create]
-  load_and_authorize_resource except: [:select, :edit, :new, :create]
+  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks]
 
   layout 'admin'
+
+  def get_feedbacks
+    @structure      = Structure.find params[:id]
+    params[:emails] ||= ''
+    emails          = params[:emails].split(',').map(&:strip)
+    emails.map{|email| NewsletterUser.create(email: email, structure_id: @structure.id) }
+    respond_to do |format|
+      format.html { redirect_to pro_structure_comments_path(@structure), notice: 'Vos élèves ont bien été notifié' }
+      emails.map{|email| AdminMailer.send_feedbacks(@structure, email).deliver}
+    end
+  end
 
   def select
     structure_with_admin  = Structure.select(:id).joins(:admins)
