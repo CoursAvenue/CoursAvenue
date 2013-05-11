@@ -23,7 +23,7 @@ module CommentsHelper
   def commentable_name comment
     if comment.commentable.is_a? Place
       comment.commentable.long_name
-    else
+    elsif comment.commentable
       comment.commentable.name
     end
   end
@@ -32,7 +32,7 @@ module CommentsHelper
   def commentable_path comment, options={}
     if comment.commentable.is_a? Place
       place_path comment.commentable, options
-    else
+    elsif comment.commentable
       course_path comment.commentable, options
     end
   end
@@ -41,7 +41,7 @@ module CommentsHelper
   def commentable_url comment, options={}
     if comment.commentable.is_a? Place
       place_url comment.commentable, options
-    else
+    elsif comment.commentable
       course_url comment.commentable, options
     end
   end
