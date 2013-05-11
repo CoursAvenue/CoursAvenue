@@ -1,15 +1,16 @@
 class Place < ActiveRecord::Base
   acts_as_paranoid
 
+  include ActsAsCommentable
+  include ActsAsGeolocalizable
+  include HasSubjects
+
   unless Rails.env.test?
     acts_as_gmappable validation: false,
                       language: 'fr'
     before_save :retrieve_address
   end
 
-  include ActsAsCommentable
-  include ActsAsGeolocalizable
-  include HasSubjects
 
   extend FriendlyId
   friendly_id :friendly_name, use: [:slugged, :history]

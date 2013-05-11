@@ -1,0 +1,35 @@
+= side_menu_currently_at 'Users'
+
+%h2 Liste des utilisateurs
+
+%table.table--striped#dataTable
+  %thead
+    %tr
+      %th
+        %span Nom
+      %th.sortAsc
+        %span Date de création
+      %th.text--center
+        %span Inscrit
+  %tbody
+    - @newsletter_users.each do |user|
+      %tr
+        %td= user.email
+        %td{data: {value: user.created_at}}
+          = l(user.created_at, format: :date_short)
+        %td.text--center
+          - if User.where{email == user.email}.any?
+            %i.icon-ok
+
+= content_for :scripts do
+  :javascript
+    document.addEvent('domready', function() {
+        var dateParseFunction = function(date) {
+            if (date.replace(/^\s+|\s+$/g, '').length === 0) { // Strip
+                return 0;
+            } else {
+                return new Date(date).getTime();
+            }
+        };
+        new TableSorter('dataTable', { columnDataTypes: 'string, date, string', cookieName: 'tableSortState__newsletter_users', dateParseFunction: dateParseFunction });
+    });

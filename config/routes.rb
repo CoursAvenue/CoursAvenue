@@ -51,7 +51,10 @@ CoursAvenue::Application.routes.draw do
       resources :course_lessons, controller: 'courses' do
         resources :plannings, only: [:create, :update]
       end
+
+      resources :newsletter_users, only: [:index]
       resources :users, only: [:index]
+
       resources :admins do
         collection do
           get 'activez-votre-compte' => 'admins#waiting_for_activation', as: 'waiting_for_activation'
