@@ -1,6 +1,6 @@
 = menu_currently_at 'Offres & Tarifs'
 
-%h4.blue.text--center 5 minutes chrono pour vous inscrire / Sans engagement / Changez d’offre quand vous voulez
+.bold.push--bottom.delta.blue.text--center 5 minutes chrono pour vous inscrire / Sans engagement / Changez d’offre quand vous voulez
 %hr
 
 .grid
@@ -14,7 +14,7 @@
       %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
         %li
           %i.icon-ok.delta.green
-          %b Accès à notre logiciel en ligne
+          %b Accès à notre <h1 class="base-font-style inline" style='font-weight: bold;'>logiciel de gestion</h1> en ligne
         %li
           %i.icon-ok.delta.green
           %b Référencement de vos cours
@@ -82,15 +82,15 @@
 
 
 
-%br
-.white-box.islet.center-block.one-half.text--center
-  %h4.flush--bottom Vous vous lancez et voulez une offre sur mesure ?
-  %p
-    Contactez nous pour en parler, nous faisons également des offres sur mesure !
-    %br
-    = link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'custom-offer-details', title: "Détails de l'offre sur mesure", width: 300}
-    %br
-    = link_to "Nous contacter", pages_contact_path, class: 'btn btn__success', id: 'price_custom'
+/ %br
+/ .white-box.islet.center-block.one-half.text--center
+/   %h4.flush--bottom Vous vous lancez et voulez une offre sur mesure ?
+/   %p
+/     Contactez nous pour en parler, nous faisons également des offres sur mesure !
+/     %br
+/     = link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'custom-offer-details', title: "Détails de l'offre sur mesure", width: 300}
+/     %br
+/     = link_to "Nous contacter", pages_contact_path, class: 'btn btn__success', id: 'price_custom', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Sur mesure'])"
 
 
 
@@ -210,7 +210,7 @@
       sur CoursAvenue.com
     %li
       %b Gestion de votre planning
-      via notre logiciel web, qui remplace votre ancien carnet papier
+      via notre logiciel de gestion en ligne, qui remplace votre ancien carnet papier
     %li
       %b Affichage de votre planning
       directement depuis votre propre site Internet
