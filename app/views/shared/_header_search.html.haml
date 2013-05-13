@@ -30,3 +30,20 @@
     %button.btn.btn__primary{type: 'submit', id: 'submit_search_form'}
       %i.icon-search
       Rechercher
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+      var myAutocomplete = new Autocomplete("search-input", {
+        useNativeInterface : false,
+        srcType : "dom"
+      });
+      $('search-input').addEvent('blur', function(){
+          $('search-help').addClass('hidden');
+      });
+      $('search-input').addEvent('click', function(){
+          if (this.value.length === 0) {
+              $('search-help').removeClass('hidden');
+          }
+      });
+    })
