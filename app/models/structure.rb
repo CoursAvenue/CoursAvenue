@@ -51,8 +51,10 @@ class Structure < ActiveRecord::Base
   friendly_id :name, use: :slugged
 
   after_save       :create_teacher
+  before_create    :set_active_to_true
   after_create     :set_free_pricing_plan
   after_create     :create_place
+  after_create     :subscribe_to_mailchimp
 
   belongs_to       :city
   belongs_to       :pricing_plan
@@ -125,4 +127,20 @@ class Structure < ActiveRecord::Base
     self.description = self.description.gsub(/\r\n/, '<br>') if self.description
   end
 
+  def set_active_to_true
+    self.active = true
+  end
+
+  def subscribe_to_mailchimp
+    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_LIST_ID,
+                           :email_address => self.email_address,
+                           :merge_vars => {
+                              :GROUPINGS => [{:groups => 'Teacher', :name => "TYPE"}],
+                              :NAME => self.name,
+                              :STATUS => 'not registered'
+                           },
+                           :double_optin => false,
+                           :update_existing => true,
+                           :send_welcome => false})
+  end
 end

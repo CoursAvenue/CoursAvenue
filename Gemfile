@@ -55,8 +55,7 @@ gem 'sunspot_rails'             , '~> 2.0.0'
 gem 'acts_as_paranoid'          , '~> 0.4.0'
 
 gem 'sitemap_generator'         , '~> 3.4'
-# gem 'fog'                       , '~> 1.10.0'
-# gem 'carrierwave'               , '~> 0.8.0'
+gem 'gibbon'                    , '~> 0.4.6'
 
 group :production do
   # gem 'therubyracer'
@@ -79,6 +78,7 @@ group :development, :test do
   gem 'awesome_print'
   gem 'meta_request', '0.2.1'
 end
+
 
 # For emails
 # gem 'roadie'

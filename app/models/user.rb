@@ -4,7 +4,6 @@ class User < ActiveRecord::Base
   friendly_id :full_name, use: [:slugged, :history]
 
   has_many :comments
-
   has_many :reservations
 
   has_and_belongs_to_many :plannings
@@ -22,6 +21,8 @@ class User < ActiveRecord::Base
                   :first_name, :last_name, :image, :location
 
   validates :first_name, :last_name, :email, presence: true
+
+  after_create :subscribe_to_mailchimp
 
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
@@ -46,5 +47,19 @@ class User < ActiveRecord::Base
 
   def reservation_for?(reservable)
     self.reservations.exists?(reservable_id: reservable.id, reservable_type: (reservable.is_a?(Course) ? 'Course' : reservable.class.name))
+  end
+
+  private
+  def subscribe_to_mailchimp
+    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_LIST_ID,
+                           :email_address => self.email,
+                           :merge_vars => {
+                              :GROUPINGS => [{:groups => 'Student', :name => "TYPE"}],
+                              :NAME => self.full_name,
+                              :STATUS => 'registered'
+                           },
+                           :double_optin => false,
+                           :update_existing => true,
+                           :send_welcome => false})
   end
 end

@@ -10,6 +10,8 @@ class ::Admin < ActiveRecord::Base
   devise :invitable, :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
+  after_create :subscribe_to_mailchimp
+
   before_save :activate_admin
 
   # Setup accessible (or protected) attributes for your model
@@ -37,5 +39,22 @@ class ::Admin < ActiveRecord::Base
   private
   def activate_admin
     self.active = true
+  end
+
+  def subscribe_to_mailchimp
+    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_LIST_ID,
+                           :email_address => self.email,
+                           :merge_vars => {
+                              :GROUPINGS => [{:groups => 'Teacher', :name => "TYPE"}],
+                              :NAME => self.structure.name,
+                              :STATUS => 'registered'
+                              #:NB_COMMENT
+                              #:NB_STUDENT
+                              #:NB_PROMO
+                              #:NBPLANNING
+                           },
+                           :double_optin => false,
+                           :update_existing => true,
+                           :send_welcome => false})
   end
 end

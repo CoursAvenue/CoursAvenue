@@ -15,8 +15,8 @@
           Contact
         .form-white-box
           = contact_form.input :name
-          = contact_form.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: '01 02 11 33 12'
-          %p.field-form-info.flush--bottom Nous pouvons vous appeler pour confirmer votre identité
+          = contact_form.input :phone_number, wrapper_html: {class: 'flush--top'}
+          %p.field-form-info.flush--bottom= t('pro.admins.registrations.new.phone_number_info')
         %h5.form-header-group.flush--top.flush--bottom Identifiant de connexion
         .form-white-box
           = contact_form.input :email, wrapper_html: {class: 'flush--bottom'}
@@ -30,7 +30,7 @@
       .form-white-box
         = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
         = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}
-        = structure_form.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
+        = structure_form.input :zip_code, input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
         = structure_form.association :city, collection: [@structure.city]
 
     .form-actions

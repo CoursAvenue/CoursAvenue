@@ -13,6 +13,10 @@ end
 module CoursAvenue
   class Application < Rails::Application
 
+    MAILCHIMP_LIST_ID = 'a1605ac58c'
+
+    ALL_DISCIPLINE_NAME = 'toutes-disciplines'
+
     ALL_DISCIPLINE_NAME = 'toutes-disciplines'
 
     # Global variables
