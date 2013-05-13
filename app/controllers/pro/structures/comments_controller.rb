@@ -8,10 +8,8 @@ class Pro::Structures::CommentsController < InheritedResources::Base#Pro::ProCon
     unless can? :read, @structure
       redirect_to pro_root_path, alert: "Vous n'êtes pas autorisé à voir cette page."
     end
-    @places_comments = {}
-    @structure.places.each do |place|
-      @places_comments[place] = place.comments if place.comments.any?
-    end
+    @structure_comments = @structure.comments
+
     @courses_comments = {}
     @structure.courses.each do |course|
       @courses_comments[course] = course.comments if course.comments.any?

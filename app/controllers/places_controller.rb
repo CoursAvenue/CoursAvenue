@@ -57,8 +57,8 @@ class PlacesController < ApplicationController
     @place     = Place.find params[:id]
     @structure = @place.structure
     @courses   = @place.course_with_planning
-    @comments  = @place.all_comments
-    @comment   = @place.comments.build
+    @comments  = @structure.all_comments
+    @comment   = @structure.comments.build
     @city      = @place.city
 
     place_latitude  = @place.latitude

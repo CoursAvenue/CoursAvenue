@@ -24,11 +24,19 @@
 - if @course.rating
   %h5.float--right.flush--bottom Note moyenne : #{@course.rating}
 %h4.small-margin-bottom= t('.last_students_opinion')
-- if @comments.any?
-  %ul.comment-list
-    = render @comments, show_title: false
+- if @comments.any? or @structure_comments.any?
+  - if @comments.any?
+    %ul.comment-list
+      = render @comments, show_title: false
+  - if @structure_comments.any?
+    %hr
+    %h4.small-margin-bottom Avis sur l'établissement
+    %ul.comment-list
+      = render @structure_comments, show_title: true
+
 
 - else
   %p Soyez le premier à nous donner votre avis !
 
 = render 'comments/javascript'
+

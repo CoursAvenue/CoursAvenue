@@ -17,8 +17,6 @@ module CoursAvenue
 
     ALL_DISCIPLINE_NAME = 'toutes-disciplines'
 
-    ALL_DISCIPLINE_NAME = 'toutes-disciplines'
-
     # Global variables
     TIME_SLOTS = {
           morning: {

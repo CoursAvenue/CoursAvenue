@@ -22,20 +22,15 @@
 
 %h3
   %i.icon-comments-alt
-  Avis sur mes établissements
-- if @places_comments.empty?
-  %p Encore aucun commentaire.
+  Avis sur mon établissement
+- if @structure_comments.empty?
+  %p
+    Encore aucun commentaire.
+    %br
+    N'hésitez pas à solliciter vos élèves les plus fidèles !
 - else
-  - @places_comments.each do |place, comments|
-    %h4.flush--bottom
-      = place.name
-      = rating_stars place.rating
-      #{place.rating}
-    - if comments.empty?
-      Pas encore d'avis. Sollicitez vos élèves !
-    - else
-      %ul.comment-list
-        = render partial: '/comments/comment', collection: comments
+  %ul.comment-list
+    = render partial: '/comments/comment', collection: @structure_comments
 %h3
   %i.icon-comments-alt
   Avis sur mes cours

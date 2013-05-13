@@ -1,6 +1,10 @@
 class Structure < ActiveRecord::Base
   acts_as_paranoid
   include HasSubjects
+  include ActsAsCommentable
+
+  extend FriendlyId
+  friendly_id :name, use: :slugged
 
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',
@@ -30,6 +34,7 @@ class Structure < ActiveRecord::Base
                   :modification_condition,
                   :cancel_condition,
                   :image,
+                  :rating,
 
                   ## Moyen de financements possible :
                   :accepts_holiday_vouchers, :accepts_ancv_sports_coupon, :accepts_leisure_tickets,
@@ -47,18 +52,10 @@ class Structure < ActiveRecord::Base
   has_attached_file :image,
                     :styles => { wide: "800x480#", thumb: "200x200#" }
 
-  extend FriendlyId
-  friendly_id :name, use: :slugged
-
-  after_save       :create_teacher
-  before_create    :set_active_to_true
-  after_create     :set_free_pricing_plan
-  after_create     :create_place
-  after_create     :subscribe_to_mailchimp
-
   belongs_to       :city
   belongs_to       :pricing_plan
 
+  has_many :comments, as: :commentable, dependent: :destroy
   has_many :newsletter_users
   has_many :teachers                 , dependent: :destroy
   has_many :subjects, through: :courses
@@ -77,7 +74,13 @@ class Structure < ActiveRecord::Base
   # validates :structure_type     , :presence   => true
   validates :siret              , length: { maximum: 14 }#, numericality: { only_integer: true }
 
-  before_save :replace_slash_n_r_by_brs
+
+  after_save       :create_teacher
+  before_create    :set_active_to_true
+  after_create     :set_free_pricing_plan
+  after_create     :create_place
+  after_create     :subscribe_to_mailchimp
+  before_save      :replace_slash_n_r_by_brs
 
   def course_with_planning
     self.courses.joins{plannings}.where{plannings.end_date > Date.today}.group(:id)
@@ -98,6 +101,12 @@ class Structure < ActiveRecord::Base
   def address
     "#{self.street}, #{self.city.name}"
   end
+
+  def all_comments
+    _comments = self.comments + self.courses.with_deleted.collect(&:comments).flatten
+    _comments.reject(&:new_record?).sort {|c1, c2| c2.created_at <=> c1.created_at}
+  end
+
 
   def parent_subjects
     subjects.uniq.map(&:parent).uniq

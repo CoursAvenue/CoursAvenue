@@ -22,9 +22,9 @@ module CommentsHelper
   # Name of the commentable
   def commentable_name comment
     if comment.title.present?
-      comment.title
-    elsif comment.commentable.is_a? Place
-      comment.commentable.long_name
+      comment.title.capitalize
+    elsif comment.commentable.is_a? Structure
+      comment.commentable.name
     elsif comment.commentable
       comment.commentable.name
     end
@@ -32,8 +32,8 @@ module CommentsHelper
 
   # Path of the commentable
   def commentable_path comment, options={}
-    if comment.commentable.is_a? Place
-      place_path comment.commentable, options
+    if comment.commentable.is_a? Structure
+      places_path({name: comment.commentable.name}.merge(options))
     elsif comment.commentable
       course_path comment.commentable, options
     end
@@ -41,8 +41,8 @@ module CommentsHelper
 
   # URL of the commentable
   def commentable_url comment, options={}
-    if comment.commentable.is_a? Place
-      place_url comment.commentable, options
+    if comment.commentable.is_a? Structure
+      places_url({name: comment.commentable.name}.merge(options))
     elsif comment.commentable
       course_url comment.commentable, options
     end

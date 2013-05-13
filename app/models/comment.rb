@@ -21,9 +21,9 @@ class Comment < ActiveRecord::Base
     end
   end
 
-  # Update rating of the commentable (course, or place)
+  # Update rating of the commentable (course, or structure)
   def update_commentable_rating(_commentable_object)
-    if _commentable_object.is_a? Place
+    if _commentable_object.is_a? Structure
       ratings_array = _commentable_object.all_comments.collect(&:rating)
       ratings       = ratings_array.inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }
     else
@@ -42,7 +42,7 @@ class Comment < ActiveRecord::Base
   def update_rating
     update_commentable_rating(self.commentable)
     if commentable.is_a? Course
-      update_commentable_rating(commentable.place)
+      update_commentable_rating(commentable.structure)
     end
   end
 

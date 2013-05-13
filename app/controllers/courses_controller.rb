@@ -20,6 +20,7 @@ class CoursesController < ApplicationController
     @comments           = @course.comments.order('created_at DESC').reject(&:new_record?)
     @city               = @course.city
     @structure          = @course.structure
+    @structure_comments = @structure.comments.order('created_at DESC')
     @place              = @course.place
     @plannings          = @course.plannings
     @subjects           = @course.subjects

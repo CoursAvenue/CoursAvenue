@@ -21,8 +21,8 @@
   .text--center.push-half--bottom
     %a.text--center.btn.btn__success.btn__large{href: '#', onclick: "_gaq.push(['_trackEvent', 'Avis sur établissement', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour commenter au cours', width: '400px', url: '/users/sign_up'}} Poster un avis
 
-- if @place.rating
-  %h5.float--right.flush--bottom Note moyenne : #{@place.rating}
+- if @structure.rating
+  %h5.float--right.flush--bottom Note moyenne : #{@structure.rating}
 %h4.small-margin-bottom Les derniers avis
 
 - if @comments.any?

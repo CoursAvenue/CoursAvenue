@@ -21,15 +21,15 @@
       \-
       = place.city.try(:name)
     %ul.nav= join_place_parent_subjects(place)
-    - if place.rating
-      %meta{itemprop: "ratingValue", content: place.rating}
+    - if place.structure.rating
+      %meta{itemprop: "ratingValue", content: place.structure.rating}
       %div
         = place.comments.count
         avis
         %i.lbc-brand-icon
         \/
-        = rating_stars place.rating
-        = "%.1f" % place.rating
+        = rating_stars place.structure.rating
+        = "%.1f" % place.structure.rating
     - else
       %span.super-muted= rating_stars 5
       = link_to "Soyez le 1er à donner votre avis", place_path(place, anchor: 'comments'), onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - Lieu', 'click'])"

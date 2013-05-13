@@ -2,6 +2,7 @@ class Place < ActiveRecord::Base
   acts_as_paranoid
 
   include ActsAsCommentable
+  has_many   :comments, as: :commentable, dependent: :destroy
   include ActsAsGeolocalizable
   include HasSubjects
 
@@ -20,7 +21,7 @@ class Place < ActiveRecord::Base
   has_many   :reservations,         as: :reservable
   has_many   :courses, dependent: :destroy
   # has_many   :rooms
-  has_many   :comments, as: :commentable, dependent: :destroy
+  has_many   :comments, through: :structure
   has_many   :subjects, through: :courses
 
   has_and_belongs_to_many :users
@@ -40,7 +41,6 @@ class Place < ActiveRecord::Base
   attr_reader :delete_image
   attr_reader :delete_thumb_image
   attr_accessible :name,
-                  :rating,
                   :contact_email,
                   :contact_name,
                   :contact_phone,
@@ -70,11 +70,6 @@ class Place < ActiveRecord::Base
 
   def course_with_planning
     self.courses.joins{plannings}.where{(active == true) & (plannings.end_date > Date.today)}.group(:id)
-  end
-
-  def all_comments
-    _comments = self.comments + self.courses.with_deleted.collect(&:comments).flatten
-    _comments.reject(&:new_record?).sort {|c1, c2| c2.created_at <=> c1.created_at}
   end
 
   # ------------------------------------------------------------------------------------ Search attributes
@@ -135,7 +130,10 @@ class Place < ActiveRecord::Base
       self.structure.active
     end
 
-    double :rating
+    double :rating do
+      self.structure.rating
+    end
+
     integer :nb_courses do
       courses.count
     end
