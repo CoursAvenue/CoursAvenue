@@ -9,7 +9,10 @@
 %table.table--striped
   %thead
     %tr
+      %th.hard--right{style: 'width: 2em;'}
+        %i.icon-external-link
       %th.text--center Logo
+      %th.text--center Image
       %th Nom du lieu
       %th Adresse
       %th
@@ -17,11 +20,23 @@
   %tbody
     - @places.each do |place|
       %tr
+        %td.hard--right
+          = link_to place_url(place, subdomain: 'www'), title: 'Voir la fiche établissement sur CoursAvenue', target: '_blank' do
+            %i.icon-external-link
         %td.text--center
           - if place.thumb_image.present?
             = image_tag place.thumb_image.url(:thumb), width: 50
           - else
-            = link_to 'Ajouter un logo', edit_pro_structure_place_path(@structure, place), class: 'btn btn__success'
+            = link_to edit_pro_structure_place_path(@structure, place), class: 'btn' do
+              %i.icon-picture
+              Ajouter un logo
+        %td.text--center
+          - if place.image.present?
+            = image_tag place.image.url(:thumb), width: 50
+          - else
+            = link_to edit_pro_structure_place_path(@structure, place), class: 'btn' do
+              %i.icon-picture
+              Ajouter une image
         %td
           - if current_pro_admin
             = link_to place.name, edit_pro_structure_place_path(@structure, place)
@@ -30,7 +45,7 @@
         %td= place.address
         %td.text--right
           = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn__warning' do
-            %i.icon-edit
+            %i.icon-pencil
           &nbsp;
           = link_to pro_structure_place_path(@structure, place), method: :delete, data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'}, title: 'Supprimer ce lieu', class: 'btn btn__danger' do
             %i.icon-trash

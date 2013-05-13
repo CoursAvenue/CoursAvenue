@@ -10,8 +10,9 @@
         s'il ne respecte pas notre charte (manque d'objectivité, commentaire personnel, avis non constructif), nous le supprimerons.
     .grid__item.two-thirds>
       %textarea{name: 'emails', rows: 5, cols: 70, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr'}
-      %p
-        Séparez chaque email par une virgule.
+      %p.flush--bottom.two-thirds
+        Entrez les emails de vos élèves les plus fidèles en séparant les adresses par des virgules (emails non utilisés à des fins commerciales).
+        %br
         = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue !", width: '700px', el: 'mail-content'}
       = submit_tag 'Envoyer ma demande', class: 'btn btn__success'
 #mail-content.hidden

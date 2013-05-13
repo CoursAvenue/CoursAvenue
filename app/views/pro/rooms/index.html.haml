@@ -24,7 +24,7 @@
           %td= room.surface
           %td.text--right
             = link_to edit_pro_structure_place_room_path(@structure, @place, room), class: 'btn btn__warning'do
-              %i.icon-edit
+              %i.icon-pencil
             &nbsp;
             = link_to [:pro, @structure, @place, room], method: :delete, data: {confirm: 'Êtes-vous sur de supprimer cette salle ? Cette action sera irreversible.'}, class: 'btn btn__danger'do
               %i.icon-trash

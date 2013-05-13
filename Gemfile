@@ -80,6 +80,9 @@ group :development, :test do
   gem 'meta_request', '0.2.1'
 end
 
+# For emails
+# gem 'roadie'
+
 # gem 'newrelic_rpm'
 # gem 'thin'
 

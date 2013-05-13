@@ -10,6 +10,8 @@ class ::Admin < ActiveRecord::Base
   devise :invitable, :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
+  before_save :activate_admin
+
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email,
                   :password,
@@ -32,4 +34,8 @@ class ::Admin < ActiveRecord::Base
   # attr_accessible :title, :body
   belongs_to :structure
 
+  private
+  def activate_admin
+    self.active = true
+  end
 end

@@ -4,30 +4,37 @@
   %i.icon-list
   Mes cours référencés sur CoursAvenue
 
-- if current_pro_admin.active?
-  .text--center
-    %p.alert--info
-      %b Le savez-vous ?
-      %br
-      = link_to "Il existe 4 actions rapides et efficaces qui vous permettront de jouer sur la performance de vos annonces", '#', data: {behavior: 'modal', title: 'Le savez-vous ?', width: '500px', el:'augment-visibility'}
-  #augment-visibility.hidden
-    %ol
-      %li <b>Soyez recommandés !</b> : plus d'avis signifie une plus forte confiance de la part des Internautes, et donc plus de réservations pour vous. Depuis l'onglet "Mes avis" à gauche de cet écran, envoyez facilement une demande d'avis à vos clients qui vous connaissent le mieux
+.text--center
+  %p.alert--info
+    %b Le savez-vous ?
+    %br
+    = link_to "Il existe 4 actions rapides et efficaces qui vous permettront de jouer sur la performance de vos annonces", '#', data: {behavior: 'modal', title: 'Le savez-vous ?', width: '500px', el:'augment-visibility'}
+#augment-visibility.hidden
+  %ol
+    %li <b>Soyez recommandés !</b> : plus d'avis signifie une plus forte confiance de la part des Internautes, et donc plus de réservations pour vous. Depuis l'onglet "Mes avis" à gauche de cet écran, envoyez facilement une demande d'avis à vos clients qui vous connaissent le mieux
 
-      %li  <b>Proposez des promotions</b> : boostez vos réservations en proposant des promotions, par exemple pour les cours d'habitude peu remplis, les séances qui arrivent dans les prochains jours, ou pour l'ouverture d'un nouveau stage
+    %li  <b>Proposez des promotions</b> : boostez vos réservations en proposant des promotions, par exemple pour les cours d'habitude peu remplis, les séances qui arrivent dans les prochains jours, ou pour l'ouverture d'un nouveau stage
 
-      %li <b>Ajoutez des photos</b> : n'oubliez pas d'illustrer vos cours par de belles photos, et votre établissement par votre logo
+    %li <b>Ajoutez des photos</b> : n'oubliez pas d'illustrer vos cours par de belles photos, et votre établissement par votre logo
 
-      %li <b>Dites ce qu'on apprend !</b> : pour chaque cours, votre description doit être complète, et bien préciser les objectifs et la valeur ajoutée de votre enseignement, pour que les Internautes se sentent mieux renseignés et en confiance
+    %li <b>Dites ce qu'on apprend !</b> : pour chaque cours, votre description doit être complète, et bien préciser les objectifs et la valeur ajoutée de votre enseignement, pour que les Internautes se sentent mieux renseignés et en confiance
 
-- else
-  .text--center
-    %p.alert--info
-      %b Votre compte est en attente de validation.
-      %br
-      D'ici 2-3 jours l'équipe de CoursAvenue va prendre contact avec vous pour activer votre compte qui vous permettra de rendre visible vos cours sur notre plateforme.
-      %br
-      En attendant, commencez dès à présent à renseigner tous vos cours.
+- unless cookies[:understood__course_status]
+  .alert--info#course-status-info
+    %a#understood__course_status.float--right{href: '#'} J'ai compris
+    %h5.push-half--bottom
+      %i.lbc-icon-info i
+      Statut des cours
+    .grid.push-half--bottom
+      .grid__item.text--center{style: 'width: 150px;'}
+        .switch-button.on Visible
+      .grid__item.width-auto
+        Le cours est visible par les internautes sur CoursAvenue.com.
+    .grid
+      .grid__item.text--center{style: 'width: 150px;'}
+        .switch-button.off Non Visible
+      .grid__item.width-auto
+        Le cours n'est pas visible par les internautes sur CoursAvenue.com.
 
 - @places.each do |place|
   - unless @places.length == 1
@@ -38,6 +45,8 @@
     %table.table--striped.dataTable
       %thead
         %tr
+          %th.hard--right{style: 'width: 2em;'}
+            %i.icon-external-link
           %th.text--center.one-twelfth Statut
           %th
             %span Type
@@ -55,6 +64,9 @@
       %tbody
         - place.courses.order('created_at DESC').each do |course|
           %tr
+            %td.hard--right
+              = link_to course_url(course, subdomain: 'www'), title: 'Voir le cours sur CoursAvenue', target: '_blank' do
+                %i.icon-external-link
             %td.text--center
               - if course.active
                 = link_to disable_pro_course_path(course), method: :put, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
@@ -90,7 +102,7 @@
                   %span Plannings
               %span>
                 = link_to edit_pro_course_path(course), title: 'Modifier ce cours', class: 'btn btn__warning' do
-                  %i.icon-edit
+                  %i.icon-pencil
               %span>
                 = link_to pro_course_path(course), method: :delete, class: 'red', title: 'Supprimer ce cours', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, class: 'btn btn__danger' do
                   %i.icon-trash
@@ -103,6 +115,12 @@
     document.addEvent('domready', function() {
         $$('.dataTable').each(function(datatable, i) {
             datatable.set('id', 'datatable_' + i)
-            new TableSorter('datatable_' + i, { columnDataTypes: 'string, string, string, string, string', cookieName: 'tableSortState__structure_#{@structure.slug}_' + i });
+            new TableSorter('datatable_' + i, { columnDataTypes: 'string, string, string, string, string, string', cookieName: 'tableSortState__structure_#{@structure.slug}_' + i });
         })
+        if ($('understood__course_status')) {
+            $('understood__course_status').addEvent('click', function() {
+                document.cookie = 'understood__course_status=true';
+                $('course-status-info').remove();
+            })
+        }
     });

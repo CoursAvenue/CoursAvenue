@@ -27,12 +27,11 @@
           = image_tag @place.thumb_image.url, height: 200
         = f.input :delete_thumb_image, as: :boolean, :label => "Supprimer l'image"
 
-    / %h5.helper-label.form-header-group{data: { behavior: 'popover', content: 'Si la personne qui gère les réservations pour ce lieu spécifique est différente du Responsable des réservations renseigné dans la rubrique "Infos générales", merci de renseigner toutes les informations relatives à cette personne.' }} Contact spécifique au lieu
-    / .form-white-box
-    /   = f.input :contact_email, input_html: {value: @place.contact_email || (@structure.main_contact.nil? ? '' : @structure.main_contact.email)}
-    /   = f.input :contact_name, input_html: {value: @place.contact_name || (@structure.main_contact.nil? ? '' : @structure.main_contact.name)}
-    /   = f.input :contact_phone, input_html: {value: @place.contact_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.phone_number)}
-    /   = f.input :contact_mobile_phone, input_html: {value: @place.contact_mobile_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.mobile_phone_number)}
+    %h5.helper-label.form-header-group{data: { behavior: 'popover', content: 'Coordonnées que les élèves receveront pour faire une réservation' }} Coordonnées pour réservation
+    .form-white-box
+      = f.input :contact_name, input_html: {value: @place.contact_name || (@structure.main_contact.nil? ? '' : @structure.main_contact.name)}
+      = f.input :contact_phone, input_html: {value: @place.contact_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.phone_number)}
+      = f.input :contact_email, input_html: {value: @place.contact_email || (@structure.main_contact.nil? ? '' : @structure.main_contact.email)}
 
     / %h5.form-header-group Équipements
     / .form-white-box

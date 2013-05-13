@@ -13,7 +13,7 @@
       Identifiants
     .form-white-box
       = f.input :name
-      = f.input :phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: '01 23 03 04 12'
+      = f.input :phone_number, wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.phone_number_info')
       = f.input :email, :required => true, :autofocus => true, label: t('.email'), wrapper_html: {class: 'flush--bottom'}
       %p.field-form-info= t('.email_info')
