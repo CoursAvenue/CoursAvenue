@@ -21,7 +21,9 @@ module CommentsHelper
 
   # Name of the commentable
   def commentable_name comment
-    if comment.commentable.is_a? Place
+    if comment.title.present?
+      comment.title
+    elsif comment.commentable.is_a? Place
       comment.commentable.long_name
     elsif comment.commentable
       comment.commentable.name

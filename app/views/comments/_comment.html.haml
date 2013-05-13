@@ -2,7 +2,7 @@
 
 %li.comment-list__el
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
-    %b{itemprop: 'author'}= comment.author_name
+    %b{itemprop: 'author'}= comment.author_name.titleize
     - if comment.rating
       %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
         = rating_stars comment.rating
@@ -13,7 +13,7 @@
     - if can?(:destroy, comment)
       = link_to 'Supprimer', comment_path(comment), method: :delete
     - if show_title and comment.title.present?
-      %h6.flush--bottom{itemprop: 'headline', content: comment.title}= comment.title
+      %h6.flush--bottom{itemprop: 'headline', content: comment.title.capitalize}= comment.title.capitalize
     %p{itemprop: 'reviewBody'}
       = comment.content.html_safe
     .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}

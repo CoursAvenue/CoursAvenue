@@ -25,6 +25,22 @@
         = f.email_field :email, placeholder: t('newsletter_users.email'), size: 25
         = f.text_field  :city , placeholder: t('newsletter_users.city') , size: 17
         = f.button :submit, t('.validate'), class: 'btn btn__primary'
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+      var myAutocomplete = new Autocomplete("search-input", {
+        useNativeInterface : false,
+        srcType : "dom"
+      });
+      $('search-input').addEvent('blur', function(){
+          $('search-help').addClass('hidden');
+      });
+      $('search-input').addEvent('click', function(){
+          if (this.value.length === 0) {
+              $('search-help').removeClass('hidden');
+          }
+      });
+    })
 
 .main-container
   .grid
