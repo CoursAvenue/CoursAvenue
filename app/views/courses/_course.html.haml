@@ -32,10 +32,8 @@
       %i.icon-map-marker
       %h3.course-element-place-name
         = link_to place_path(course.place) do
-          - if course.place.name.length > 50
-            = "#{course.place.name[0..50]}..."
-          - else
-            = course.place.long_name
+          = truncate course.place.long_name, length: 50
+          = rating_stars course.structure.rating
     - if course.is_lesson?
       = join_week_days(course)
     - else
