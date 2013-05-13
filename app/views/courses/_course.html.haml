@@ -48,6 +48,20 @@
             - if course.plannings.first.duration
               = "de #{readable_duration course.plannings.first.duration}"
         = join_course_subjects course
+    - if course.rating
+      %div
+        = course.comments.count
+        avis
+        %i.lbc-brand-icon
+        \/
+        %span.rating{title: comment_rating_title(course.rating)}
+          = rating_stars course.rating
+          = course.rating
+    - else
+      %span.super-muted.v-middle
+        = rating_stars 5
+      = link_to course_path(course, anchor: 'comments'), class: 'visuallyhidden--palm', onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - cours', 'click'])" do
+        Soyez le 1er à donner votre avis
 
   %div.course-price.two-twelfths
     - if best_price.nil?
@@ -68,17 +82,3 @@
           %p prix d'un cours
         - else
           %p= "(#{t(best_price.libelle).downcase})".html_safe
-    - if course.rating
-      %div
-        %span.rating{title: comment_rating_title(course.rating)}
-          = rating_stars course.rating
-        (
-        = course.comments.count
-        %i.lbc-brand-icon
-        )
-    - else
-      .super-muted= rating_stars 5
-      = link_to course_path(course, anchor: 'comments'), class: 'visuallyhidden--palm', onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - cours', 'click'])" do
-        Soyez le 1er à donner
-        %br
-        votre avis
