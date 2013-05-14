@@ -210,7 +210,7 @@ class Place < ActiveRecord::Base
                            :email_address => self.contact_email,
                            :merge_vars => {
                               :NAME => self.long_name,
-                              :STATUS => (self.structure.admin.count > 0 ? 'registered' : 'not registered')
+                              :STATUS => (self.structure.admins.count > 0 ? 'registered' : 'not registered')
                            },
                            :double_optin => false,
                            :update_existing => true,
