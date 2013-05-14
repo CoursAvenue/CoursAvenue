@@ -7,6 +7,9 @@ class Pro::UsersController < Pro::ProController
   authorize_resource :users
 
   def index
-    @users = User.order('created_at DESC').all
+    @users         = User.order('created_at DESC').all
+    #@users_signups = @users.group_by{|u| I18n.l(u.created_at.to_date.to_s(:db)}.map {|k,v| [k, v.length]}.sort
+    @users_signups = @users.group_by{|u| I18n.l(u.created_at, format: :date_short)}.map {|k,v| [k, v.length]}.sort
   end
+
 end
