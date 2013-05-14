@@ -13,7 +13,8 @@ end
 module CoursAvenue
   class Application < Rails::Application
 
-    MAILCHIMP_LIST_ID = 'a1605ac58c'
+    MAILCHIMP_TEACHERS_LIST_ID = '86505cfc19'
+    MAILCHIMP_USERS_LIST_ID    = 'a1605ac58c'
 
     ALL_DISCIPLINE_NAME = 'toutes-disciplines'
 

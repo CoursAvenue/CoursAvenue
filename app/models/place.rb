@@ -38,6 +38,8 @@ class Place < ActiveRecord::Base
   has_attached_file :thumb_image,
                     :styles => { wide: "400x400#", thumb: "200x200#" }
 
+  after_save :subscribe_to_mailchimp
+
   attr_reader :delete_image
   attr_reader :delete_thumb_image
   attr_accessible :name,
@@ -198,7 +200,20 @@ class Place < ActiveRecord::Base
   end
 
   private
+
   def friendly_name
     self.long_name
+  end
+
+  def subscribe_to_mailchimp
+    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
+                           :email_address => self.email,
+                           :merge_vars => {
+                              :NAME => self.contact_email,
+                              :STATUS => (self.structure.admin.count > 0 ? 'registered' : 'not registered')
+                           },
+                           :double_optin => false,
+                           :update_existing => true,
+                           :send_welcome => false})
   end
 end

@@ -141,10 +141,9 @@ class Structure < ActiveRecord::Base
   end
 
   def subscribe_to_mailchimp
-    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_LIST_ID,
+    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
                            :email_address => self.email_address,
                            :merge_vars => {
-                              :GROUPINGS => [{:groups => 'Teacher', :name => "TYPE"}],
                               :NAME => self.name,
                               :STATUS => 'not registered'
                            },

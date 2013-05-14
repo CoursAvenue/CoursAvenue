@@ -12,10 +12,9 @@ class NewsletterUser < ActiveRecord::Base
 
   private
   def subscribe_to_mailchimp
-    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_LIST_ID,
+    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_USERS_LIST_ID,
                            :email_address => self.email,
                            :merge_vars => {
-                              :GROUPINGS => [{:groups => 'Student', :name => "TYPE"}],
                               :STATUS => 'not registered'
                            },
                            :double_optin => false,

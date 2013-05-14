@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
 
   validates :first_name, :last_name, :email, presence: true
 
-  after_create :subscribe_to_mailchimp
+  after_save :subscribe_to_mailchimp
 
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
@@ -51,10 +51,9 @@ class User < ActiveRecord::Base
 
   private
   def subscribe_to_mailchimp
-    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_LIST_ID,
+    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_USERS_LIST_ID,
                            :email_address => self.email,
                            :merge_vars => {
-                              :GROUPINGS => [{:groups => 'Student', :name => "TYPE"}],
                               :NAME => self.full_name,
                               :STATUS => 'registered'
                            },
