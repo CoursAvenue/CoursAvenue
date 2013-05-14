@@ -207,9 +207,9 @@ class Place < ActiveRecord::Base
 
   def subscribe_to_mailchimp
     Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
-                           :email_address => self.email,
+                           :email_address => self.contact_email,
                            :merge_vars => {
-                              :NAME => self.contact_email,
+                              :NAME => self.long_name,
                               :STATUS => (self.structure.admin.count > 0 ? 'registered' : 'not registered')
                            },
                            :double_optin => false,
