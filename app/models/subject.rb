@@ -9,8 +9,8 @@ class Subject < ActiveRecord::Base
 
   attr_accessible :name, :image, :info
 
-  validates :name, :presence   => true
-  validates :name, :uniqueness => true
+  validates :name, presence: true
+  validates :name, uniqueness: {scope: 'ancestry'}
 
   def should_generate_new_friendly_id?
     new_record?
