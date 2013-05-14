@@ -8,7 +8,7 @@ class NewsletterUser < ActiveRecord::Base
   validates :email, presence: true
   validates :email, format: { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create }
 
-  after_create :subscribe_to_mailchimp
+  after_save :subscribe_to_mailchimp
 
   private
   def subscribe_to_mailchimp

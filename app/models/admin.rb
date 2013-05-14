@@ -10,7 +10,7 @@ class ::Admin < ActiveRecord::Base
   devise :invitable, :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
-  after_create :subscribe_to_mailchimp
+  after_save :subscribe_to_mailchimp
 
   before_save :activate_admin
 
