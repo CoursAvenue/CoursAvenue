@@ -15,6 +15,7 @@ class NewsletterUser < ActiveRecord::Base
     Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_USERS_LIST_ID,
                            :email_address => self.email,
                            :merge_vars => {
+                              :NAME => self.structure.name,
                               :STATUS => 'not registered'
                            },
                            :double_optin => false,
