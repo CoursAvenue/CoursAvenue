@@ -54,8 +54,8 @@
           %i.icon-ok.delta.green
           %b Envoi de SMS
       .text--center
-        %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-offer-details', title: "Détails de l'offre Pro"}
-        = link_to "Je m'inscris", '#', class: 'btn btn__success btn__large launching-space-button', id: 'price_pro_subscribe', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro'])"
+        %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-offer-details', title: "Détails de l'offre Pro"}, onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro - détails'])"
+        = link_to "Je m'inscris", '#', class: 'btn btn__success btn__large launching-space-button', id: 'price_pro_subscribe', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro'])", data: {behavior: 'modal', el: 'launching-space', title: "Espace en cours de création"}
 
   .grid__item.one-third>
     .ten-twelfths.center-block.white-box.islet
@@ -77,8 +77,8 @@
           %i.icon-ok.delta.green
           %b Outils CRM avancés
       .text--center
-        %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-plus-offer-details', title: "Détails de l'offre Pro Plus"}
-        = link_to "Je m'inscris", '#', class: 'btn btn__success btn__large launching-space-button', id: 'price_pro_plus_subscribe', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro plus'])"
+        %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-plus-offer-details', title: "Détails de l'offre Pro Plus"}, onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro plus - détails'])"
+        = link_to "Je m'inscris", '#', class: 'btn btn__success btn__large launching-space-button', id: 'price_pro_plus_subscribe', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro plus'])", data: {behavior: 'modal', el: 'launching-space', title: "Espace en cours de création"}
 
 
 
@@ -139,63 +139,7 @@
 -#         Nous nous ferons un plaisir d’y répondre. Appelez-nous ou contactez-nous par email à l’adresse suivante :
 -#         = link_to 'contact@coursavenue.com', 'mailto:contact@coursavenue.com?subject=Question au sujet des offres et tarifs'
 
-- content_for :scripts do
-  :javascript
-    $("price_pro_subscribe").addEvent("click", function(){
-        new Request.JSON({
-            url: '/click_loggers',
-            data: {
-              click_logger: {
-                name: "Je m'inscris - formule pro"
-              }
-            }
-        }).post();
-    });
-    $("price_pro_plus_subscribe").addEvent("click", function(){
-        new Request.JSON({
-            url: '/click_loggers',
-            data: {
-              click_logger: {
-                name: "Je m'inscris - formule pro plus"
-              }
-            }
-        }).post();
-    });
-    $("price_custom").addEvent("click", function(){
-        new Request.JSON({
-            url: '/click_loggers',
-            data: {
-              click_logger: {
-                name: "Je m'inscris - formule custom"
-              }
-            }
-        }).post();
-    });
-    $$(".launching-space-button").addEvent("click", function(){
-        var modal = new SimpleModal({
-            width: 350,
-            "onAppend": function() {
-                $("simple-modal").fade("hide");
-                setTimeout((function(){ $("simple-modal").fade("show")}), 200 );
-                var tw = new Fx.Tween($("simple-modal"),{
-                  duration: 800,
-                  transition: Fx.Transitions.Cubic.easeOut,
-                  link: 'cancel',
-                  property: 'top'
-                }).start(-400, 150);
-            }
-        });
-        modal.show({
-            "model":"modal",
-            "title":"En cours de lancement",
-            "contents": $$('.launching-space')[0].get('html')
-        });
-    });
-
-#registration-form.hidden
-  = render partial: 'pro/admins/quick_registration'
-
-.launching-space.hidden
+#launching-space.hidden
   %p
     Cet espace est en cours de développement.
     %br
