@@ -7,7 +7,11 @@
   %tbody
     - @subjects.each do |subject|
       %tr
-        %td= subject.name
+        %td
+          - if subject.parent
+            = "#{subject.parent.name} - #{subject.name}"
+          - else
+            = subject.name
         %td
           - if subject.image.present?
             %i.icon-check
