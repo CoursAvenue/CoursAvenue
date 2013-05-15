@@ -18,7 +18,7 @@
         = f.submit 'Publier mon avis', class: 'btn btn__large btn__success', style: 'padding-top: 6px; padding-bottom: 6px;'
 - else
   .text--center.push-half--bottom
-    %a.text--center.btn.btn__success.btn__large{href: '#', onclick: "_gaq.push(['_trackEvent', 'Avis sur cours', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour commenter au cours', width: '400px', url: '/users/sign_up'}} Poster un avis
+    %a.text--center.btn.btn__success.btn__large{href: '#', onclick: "_gaq.push(['_trackEvent', 'Avis sur cours', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour commenter', width: '400px', url: '/users/sign_up'}} Poster un avis
 
 
 - if @course.rating
