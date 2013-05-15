@@ -1,14 +1,15 @@
-%p Bonjour,
+%p Bonjour !
 
 %p
-  #{link_to @structure.name, courses_url(name: @structure.name, subdomain: 'www')} vous demande de rédiger une recommandation qui sera publiée sur son profil public <a href="http://www.coursavenue.com">CoursAvenue.com</a> :
-  avec plus de 6000 séances référencées, il s'agit de la 1ère plateforme qui vous permet de trouver et de comparer n’importe quel cours ou stage autour de vous.
+  Nous venons de référencer nos cours sur <a href="http://www.coursavenue.com">CoursAvenue.com</a> : c'est une nouvelle plateforme qui permet de trouver et de comparer n’importe quel cours ou stage autour de vous.
 
 %p
-  En tant que fidèle élève, si vous appréciez les cours de #{@structure.name}, une recommandation de votre part pourra l'aider à se batir une réputation au sein de notre communauté ! C'est très rapide, cela ne vous prendra que quelques minutes :
+  En tant que fidèle élève, nous serions ravis si vous pouviez prendre un peu de votre temps pour dire ce que vous avez pensé de nos cours.
+  %br
+  C'est très rapide et très simple : cliquez sur le lien ci-dessous, choisissez un cours que vous avez déjà suivi, puis déposez votre avis (si vous ne retrouvez pas votre cours, faites-le directement sur la fiche établissement).
 
-%p= link_to 'Rédiger une recommandation', courses_url(name: @structure.name, subdomain: 'www')
+%p= link_to "Donner mon avis", courses_url(name: @structure.name, subdomain: 'www')
 
-%p Merci énormément pour votre aide et à très bientôt !
+%p Merci énormément pour ce coup de pouce et à très bientôt !
 
-%p L'équipe de CoursAvenue
+%p= @structure.name
