@@ -118,8 +118,8 @@
         },
 
         selectCurrent: function(event) {
-            var current;
-            if (this.data_list.isVisible() && (current = this.data_list.getChildren('.selected')[0])) {
+            var current = this.data_list.getChildren('.selected')[0] || this.data_list.getChildren()[0];
+            if (this.data_list.isVisible()) {
                 event.stop();
                 this.select(current);
                 this.data_list.hide();
