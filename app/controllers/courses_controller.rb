@@ -129,11 +129,11 @@ class CoursesController < ApplicationController
       with(:approximate_price_per_course).less_than            params[:price_range][:max].to_i      if params[:price_range].present? and params[:price_range][:max].present?
 
       # TODO ------------------------------------------------------------------------------------------------------------------
-      if params[:price_specificities].present?
-        with :has_package_price,            true if params[:price_specificities].include?('has_package_price')
-        with :has_trial_lesson,             true if params[:price_specificities].include?('has_trial_lesson')
-        with :has_unit_course_price,        true if params[:price_specificities].include?('has_unit_course_price')
-      end
+      # if params[:price_specificities].present?
+      #   with :has_package_price,            true if params[:price_specificities].include?('has_package_price')
+      #   with :has_trial_lesson,             true if params[:price_specificities].include?('has_trial_lesson')
+      #   with :has_unit_course_price,        true if params[:price_specificities].include?('has_unit_course_price')
+      # end
       with :active, true
 
       # order_by :has_promotion,       :desc
