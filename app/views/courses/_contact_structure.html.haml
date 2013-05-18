@@ -1,4 +1,9 @@
 %article.course-info
+  - if @place.image.present?
+    .text--center= image_tag @place.image.url(:thumb)
+  - elsif @structure.image.present?
+    .text--center= image_tag @structure.image.url(:thumb)
+
   %h2.delta.text--center.flush--bottom= @course.name
   %h3.zeta.text--center.flush--bottom
     %i.icon-map-marker

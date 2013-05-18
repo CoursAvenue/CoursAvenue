@@ -1,8 +1,8 @@
-- if @place.image or @structure.image
+- if @place.image.present? or @structure.image.present?
   = content_for :meta_image do
-    - if @place.image
+    - if @place.image.present?
       = @place.image.url
-    - elsif @structure.image
+    - elsif @structure.image.present?
       = @structure.image.url
 
 
