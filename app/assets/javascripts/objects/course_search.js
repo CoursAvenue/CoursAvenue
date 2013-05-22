@@ -12,7 +12,6 @@
         initialize: function(el, options) {
             this.form           = el;
             this.subject        = null;
-            this.flash          = new GLOBAL.Objects.Flash('Vous devez choisir une ville.');
             this.location_input = $('location-input');
             this.attachEvents();
         },
