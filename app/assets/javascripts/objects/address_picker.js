@@ -35,10 +35,13 @@
             var geocoder       = this.geocoder;
 
             // ----------------------------- Input blur
-            this.el.addEvent('blur', function(event) {
-                setTimeout(function(){
+            document.body.addEvent('click', function(event) {
+                // Hide if not input and list
+                if (!event.target.match('.search-input')
+                    && !event.target.match('.search-input-wrapper')
+                    && !event.target.match('.address-list')) {
                     data_list.hide();
-                }, 50);
+                }
             });
 
             // ----------------------------- Input focus
@@ -55,10 +58,10 @@
                         this.selectCurrent(event);
                         break;
                     case 38: // Up
-                        this.selectPrevious();
+                        this.highlightPrevious();
                         break;
                     case 40: // Down
-                        this.selectNext();
+                        this.highlightNext();
                         break;
                     default:
                         geocoder.geocode({ 'address': 'France, ' + event.target.value, 'region': 'FR' }, function (results, status) {
@@ -69,6 +72,7 @@
                                         html: address.formatted_address,
                                         'data-lat': address.geometry.location.lat(),
                                         'data-lng': address.geometry.location.lng(),
+                                        class: 'address-list__item',
                                         events: {
                                             click: function(event) {
                                                 address_picker.select.call(address_picker, this);
@@ -85,7 +89,7 @@
                 }
             }.bind(this));
         },
-        selectPrevious: function() {
+        highlightPrevious: function() {
             var selected_el, children;
             if ((selected_el = this.data_list.getChildren('.selected')).length !== 0) {
                 selected_el = selected_el[0]
@@ -101,7 +105,7 @@
             }
         },
 
-        selectNext: function() {
+        highlightNext: function() {
             var selected_el, children;
             if ((selected_el = this.data_list.getChildren('.selected')).length !== 0) {
                 selected_el = selected_el[0]
@@ -131,6 +135,7 @@
             this.input_lat.set('value', li_element.get('data-lat'));
             this.input_lng.set('value', li_element.get('data-lng'));
             this.el.set('value', li_element.get('text'));
+            this.data_list.hide();
         }
 
     });

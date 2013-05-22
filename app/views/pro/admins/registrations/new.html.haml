@@ -5,7 +5,7 @@
   %p.alert--info.one-half
     Créez vos identifiants pour accéder à votre espace pro.
 
-= simple_form_for [:pro, @admin], :url => pro_admin_registration_path, html: {class: 'half-form'} do |f|
+= simple_form_for [:pro, @admin], :url => pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
   = f.error_notification
   .form-inputs
     %h4.form-header-group
