@@ -35,11 +35,11 @@ namespace :import do
     when 'I'
       Level.intermediate
     when 'M'
-      Level.average
+      Level.intermediate
     when 'A'
       Level.advanced
     when 'C'
-      Level.confirmed
+      Level.advanced
     else
       nil
     end

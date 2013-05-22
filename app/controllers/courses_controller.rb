@@ -65,13 +65,7 @@ class CoursesController < ApplicationController
       end
     end
     @audiences = Audience.all
-    @levels    = [
-                    {name: Level.all_levels.name, id: Level.all_levels.id},
-                    {name: Level.initiation.name, id: Level.initiation.id},
-                    {name: Level.beginner.name, id: Level.beginner.id},
-                    {name: 'level.average_intermediate', id: Level.intermediate.id},
-                    {name: 'level.advanced_confirmed', id: Level.advanced.id},
-                  ]
+    @levels    = Level.all
   end
 
   def search_solr
@@ -85,13 +79,6 @@ class CoursesController < ApplicationController
       else
         ClickLogger.create(name: 'Recherche')
       end
-    end
-
-    level_ids = []
-    if params[:levels].present?
-      level_ids = params[:levels].map(&:to_i)
-      level_ids << Level.intermediate.id if level_ids.include? Level.average.id
-      level_ids << Level.confirmed.id    if level_ids.include? Level.advanced.id
     end
 
     if params[:subject_id]
@@ -108,7 +95,7 @@ class CoursesController < ApplicationController
       with(:subject_slugs).any_of           [params[:subject_id]]                                   if params[:subject_id]
       with(:type).any_of                    params[:types]                                          if params[:types].present?
       with(:audience_ids).any_of            params[:audiences]                                      if params[:audiences].present?
-      with(:level_ids).any_of               level_ids                                               unless level_ids.empty?
+      with(:level_ids).any_of               params[:levels]                                         if params[:levels].present?
       with :week_days,                      params[:week_days]                                      if params[:week_days].present?
 
       with(:min_age_for_kid).less_than      params[:age][:max]                                      if params[:age].present? and params[:age][:max].present?
