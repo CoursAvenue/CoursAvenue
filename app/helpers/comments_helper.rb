@@ -50,10 +50,15 @@ module CommentsHelper
 
   def rating_stars rating
     out = ''
-    rating = rating.to_i
+    rating       = rating.to_f
     5.times do |i|
-      if i < rating
+      delta = rating - i
+      if delta > 0.9
         out << content_tag(:i, '', class: 'icon-star yellow')
+      elsif delta > 0.7
+        out << content_tag(:i, '', class: 'icon-star yellow')
+      elsif delta > 0.2
+        out << content_tag(:i, '', class: 'icon-star-half-empty yellow')
       else
         out << content_tag(:i, '', class: 'icon-star-empty')
       end

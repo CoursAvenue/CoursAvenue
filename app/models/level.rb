@@ -23,14 +23,6 @@ class Level < ActiveRecord::Base
     Level.where(name: 'level.intermediate').first
   end
 
-  def self.average
-    Level.where(name: 'level.average').first
-  end
-
-  def self.advanced
-    Level.where(name: 'level.advanced').first
-  end
-
   def self.confirmed
     Level.where(name: 'level.confirmed').first
   end
