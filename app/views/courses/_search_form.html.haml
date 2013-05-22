@@ -1,5 +1,4 @@
-- params[:types]               ||= ['lesson', 'training', 'workshop']
-- # params[:price_specificities] ||= []
+- params[:types]               ||= []
 
 - params[:sort]                ||= 'relevancy'
 - params[:audiences]           ||= [] # Audience.all.collect(&:id).map(&:to_s)
@@ -32,12 +31,12 @@
       %input{name: 'time_range[min]', value: params[:time_range][:min], id: 'hidden_start_time'}
       %input{name: 'time_range[max]', value: params[:time_range][:max], id: 'hidden_end_time'}
 
+      %input{name: 'start_date', value: params[:start_date], id: 'hidden_start_date'}
+      %input{name: 'end_date',   value: params[:end_date]  , id: 'hidden_end_date'}
+
       = check_box_tag 'types[]', 'lesson'  , params[:types].include?('lesson')    , id: "hidden_search_lesson_course_type"
       = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "hidden_search_training_course_type"
       = check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "hidden_search_workshop_course_type"
 
-      / = check_box_tag 'price_specificities[]', 'has_unit_course_price', params[:price_specificities].include?('has_unit_course_price')  , id: "hidden_price_specificity_unit_course"
-      / = check_box_tag 'price_specificities[]', 'has_package_price', params[:price_specificities].include?('has_package_price')          , id: "hidden_price_specificity_package"
-      / = check_box_tag 'price_specificities[]', 'has_trial_lesson', params[:price_specificities].include?('has_trial_lesson')            , id: "hidden_price_specificity_test_course"
       %input#hidden-sort-input{type: 'hidden', name: 'sort', value: params[:sort]}
       %input#radius-hidden-input{type: 'hidden', name: 'radius', value: params[:radius]}

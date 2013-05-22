@@ -37,7 +37,7 @@
             = rating_stars course.structure.rating
     - if course.is_lesson?
       = join_week_days(course)
-    - else
+    - elsif course.plannings.count > 0
       = training_dates(course.recent_plannings.first || course.plannings.first)
       - if course.plannings.count > 1
         = "et #{course.plannings.length - 1} autres dates."
@@ -46,7 +46,7 @@
         %li
           %span.lbl.milli
             = course.type_name_html
-            - if course.plannings.first.duration
+            - if course.plannings.any? and course.plannings.first.duration
               = "de #{readable_duration course.plannings.first.duration}"
         = join_course_subjects course
     - if course.rating

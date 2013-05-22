@@ -21,8 +21,11 @@
   .search-panel
     %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Dates'])", data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
       Dates
-      %i.icon-caret-down
-    .search-panel-content
+      - if params[:start_date].present? or params[:end_date].present?
+        %i.icon-caret-down
+      - else
+        %i.icon-caret-left
+    .search-panel-content{class: (params[:start_date].present? or params[:end_date].present? ? '' : 'hide')}
       Du
       %input#start_date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
       au
@@ -63,16 +66,6 @@
         %li
           = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "search_lesson_course_type", data: {behavior: 'input-update', element: "hidden_search_lesson_course_type"}
           = label_tag 'search_lesson_course_type', 'Cours'
-          / %ul.check-list{data: {behavior: 'depend-on-parent', element: "search_lesson_course_type"}}
-          /   %li
-          /     = check_box_tag 'price_specificities[]', 'has_unit_course_price', params[:price_specificities].include?('has_unit_course_price'), id: "price_specificity_unit_course", data: {behavior: 'input-update', element: "hidden_price_specificity_unit_course"}, onchange: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Type de cours', 'À l\\'unité / au carnet'])"
-          /     = label_tag 'price_specificity_unit_course', "À l'unité / au carnet"
-          /   %li
-          /     = check_box_tag 'price_specificities[]', 'has_package_price', params[:price_specificities].include?('has_package_price'), id: "price_specificity_package", data: {behavior: 'input-update', element: "hidden_price_specificity_package"}, onchange: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Type de cours', 'Au forfait'])"
-          /     = label_tag 'price_specificity_package', 'Au forfait (annuel, trimestriel, etc.)'
-          /   %li
-          /     = check_box_tag 'price_specificities[]', 'has_trial_lesson', params[:price_specificities].include?('has_trial_lesson'), id: "price_specificity_test_course", data: {behavior: 'input-update', element: "hidden_price_specificity_test_course"}, onchange: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Type de cours', 'Cours d\\'essai possible'])"
-          /     = label_tag 'price_specificity_test_course', "Cours d'essai possible"
         %li
           = check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "search_workshop_course_type", data: {behavior: 'input-update', element: "hidden_search_workshop_course_type"}
           = label_tag 'search_workshop_course_type', 'Cours-atelier ponctuel'
@@ -184,5 +177,10 @@
                 radius_label_value.set('text', pos);
             }
         });
-
+        $('start_date').addEvent('change', function() {
+            $('hidden_start_date').set('value', this.value);
+        });
+        $('end_date').addEvent('change', function() {
+            $('hidden_end_date').set('value', this.value);
+        });
     });
