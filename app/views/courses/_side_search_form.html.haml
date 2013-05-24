@@ -166,12 +166,19 @@
         };
         var radius_hidden_input = $('radius-hidden-input');
         var radius_label_value  = $('radius-label-value');
+        var start = 0;
         new Slider('radius-slider', 'radius-knob', {
             range: [1, 50],
             step: 1,
             wheel: false,
             snap: true,
             initialStep: #{params[:radius]},
+            onComplete: function(pos){
+                start += 1;
+                if (start > 2) { // Because the function is triggered twice at beginning...
+                    $('header-search').submit();
+                }
+            },
             onChange: function(pos){
                 radius_hidden_input.set('value', pos);
                 radius_label_value.set('text', pos);

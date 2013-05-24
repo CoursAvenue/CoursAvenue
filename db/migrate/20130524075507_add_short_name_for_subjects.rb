@@ -16,7 +16,7 @@ class AddShortNameForSubjects < ActiveRecord::Migration
     learning.update_column :short_name, 'Enseignement'
 
     arts_and_graphics    = Subject.where(name: 'Arts visuels et plastiques').first
-    arts_and_graphics.update_column :short_name, 'Arts plastiques'
+    arts_and_graphics.update_column :short_name, 'Arts'
 
     sing                 = Subject.where(name: 'Chant / Voix').first
     sing.update_column :short_name, 'Chant'
@@ -31,19 +31,19 @@ class AddShortNameForSubjects < ActiveRecord::Migration
     music.update_column :short_name, 'Musique'
 
     relaxation           = Subject.where(name: 'Relaxation / Fitness').first
-    relaxation.update_column :short_name, 'Relaxation / Fitness'
+    relaxation.update_column :short_name, 'Fitness'
 
     manual_art           = Subject.where(name: 'Arts manuels').first
-    manual_art.update_column :short_name, 'Arts manuels'
+    manual_art.update_column :short_name, 'Manuels'
 
     cooking              = Subject.where(name: 'Cuisine / Œnologie').first
     cooking.update_column :short_name, 'Cuisine'
 
     parent_kids          = Subject.where(name: 'Ateliers enfants / duo parent-enfant').first
-    parent_kids.update_column :short_name, 'Ateliers enfants'
+    parent_kids.update_column :short_name, 'Enfants'
 
     personal_development = Subject.where(name: 'Développement personnel').first
-    personal_development.update_column :short_name, 'Développement personnel'
+    personal_development.update_column :short_name, 'Dév. personnel'
   end
 
   def down

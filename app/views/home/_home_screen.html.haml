@@ -11,16 +11,16 @@
         - @homepage_images.each do |image, image_alt|
           %li
             = image_tag image, alt: image_alt
-      .home-screen-subjects.grid--full.visuallyhidden--palm
-        = link_to subject_courses_path('theatre'), class: 'home-screen-subjects__item grid__item', onclick: "_gaq.push(['_trackEvent', 'Home disciplines', 'click','Théatre'])" do
-          = image_tag 'home-page/theater_classes.jpg', height: 150, width: 150, alt: 'Cours de théatre'
-          .home-screen-subjects__title Théâtre
-        = link_to subject_courses_path('danse'), class: 'home-screen-subjects__item grid__item', onclick: "_gaq.push(['_trackEvent', 'Home disciplines', 'click','Danse'])" do
-          = image_tag 'home-page/dance_classes.jpg', height: 150, width: 150, alt: 'Cours de danse'
-          .home-screen-subjects__title Danse
-        = link_to subject_courses_path('cuisine-oenologie'), class: 'home-screen-subjects__item grid__item', onclick: "_gaq.push(['_trackEvent', 'Home disciplines', 'click','Cuisine'])" do
-          = image_tag 'home-page/cooking_classes.jpg', height: 150, width: 150, alt: 'Cours de cuisine'
-          .home-screen-subjects__title Cuisine
+      / .home-screen-subjects.grid--full.visuallyhidden--palm
+      /   = link_to subject_courses_path('theatre'), class: 'home-screen-subjects__item grid__item', onclick: "_gaq.push(['_trackEvent', 'Home disciplines', 'click','Théatre'])" do
+      /     = image_tag 'home-page/theater_classes.jpg', height: 150, width: 150, alt: 'Cours de théatre'
+      /     .home-screen-subjects__title Théâtre
+      /   = link_to subject_courses_path('danse'), class: 'home-screen-subjects__item grid__item', onclick: "_gaq.push(['_trackEvent', 'Home disciplines', 'click','Danse'])" do
+      /     = image_tag 'home-page/dance_classes.jpg', height: 150, width: 150, alt: 'Cours de danse'
+      /     .home-screen-subjects__title Danse
+      /   = link_to subject_courses_path('cuisine-oenologie'), class: 'home-screen-subjects__item grid__item', onclick: "_gaq.push(['_trackEvent', 'Home disciplines', 'click','Cuisine'])" do
+      /     = image_tag 'home-page/cooking_classes.jpg', height: 150, width: 150, alt: 'Cours de cuisine'
+      /     .home-screen-subjects__title Cuisine
 
 = content_for :scripts do
   :javascript
