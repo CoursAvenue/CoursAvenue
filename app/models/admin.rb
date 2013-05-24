@@ -10,7 +10,7 @@ class ::Admin < ActiveRecord::Base
   devise :invitable, :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
-  after_save :subscribe_to_mailchimp
+  after_save :subscribe_to_mailchimp if Rails.env.production?
 
   before_save :activate_admin
 

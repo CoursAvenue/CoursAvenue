@@ -79,7 +79,7 @@ class Structure < ActiveRecord::Base
   before_create    :set_active_to_true
   after_create     :set_free_pricing_plan
   after_create     :create_place
-  after_create     :subscribe_to_mailchimp
+  after_create     :subscribe_to_mailchimp if Rails.env.production?
   before_save      :replace_slash_n_r_by_brs
 
   def contact_email

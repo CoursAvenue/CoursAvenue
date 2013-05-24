@@ -14,7 +14,9 @@
             this.data_list      = $(el.get('data-list')).hide();
             this.input_lat      = $(el.get('data-lat'));
             this.input_lng      = $(el.get('data-lng'));
-            this.geocoder       = new google.maps.Geocoder();
+            if (typeof google !== 'undefined') {
+                this.geocoder       = new google.maps.Geocoder();
+            }
             this.initializePositionOfList();
             this.attachEvents();
         },
