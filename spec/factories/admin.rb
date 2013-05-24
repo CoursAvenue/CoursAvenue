@@ -4,11 +4,13 @@ FactoryGirl.define do
 
   factory :admin do
 
-    association :structure
+    structure
 
-    first_name   'Timoté'
-    last_name    'Gaélique'
-    email       'timo@gael.com'
-    password    'password'
+    name     Forgery::Name.full_name
+    sequence :email do |n|
+      "person#{n}@example.com"
+    end
+    confirmed_at Date.today
+    # password    { Forgery(:basic).password(:at_least => 6, :at_most => 10) }
   end
 end

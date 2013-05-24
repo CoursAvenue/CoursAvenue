@@ -16,7 +16,7 @@ gem 'heroku-api'                , '~> 0.3.9'
 # group :assets do
   gem 'coffee-rails'            , '~> 3.2.1'
   gem 'haml'                    , '~> 3.1.7'
-  gem 'sass-rails'              , '~> 3.2.4'
+  # gem 'sass-rails'              , '~> 3.2.4'
   gem 'uglifier'                , '>= 1.0.3'
   gem 'font-awesome-rails'      , '~> 3.1.1.2'
   gem 'mootools-rails'          , '~> 2.0.1'
@@ -71,13 +71,15 @@ group :test do
   gem 'spork'             , '~> 1.0rc'
 end
 
-group :development, :test do
-  # gem 'ruby-debug19'
-  # gem 'debugger'
+group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'awesome_print'
   gem 'meta_request', '0.2.1'
+end
+group :development, :test do
+  # gem 'ruby-debug19'
+  # gem 'debugger'
 end
 
 

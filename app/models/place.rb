@@ -1,8 +1,6 @@
 class Place < ActiveRecord::Base
   acts_as_paranoid
 
-  include ActsAsCommentable
-  has_many   :comments, as: :commentable, dependent: :destroy
   include ActsAsGeolocalizable
   include HasSubjects
 
@@ -17,7 +15,7 @@ class Place < ActiveRecord::Base
   friendly_id :friendly_name, use: [:slugged, :history]
 
   belongs_to :city, touch: true
-  belongs_to :structure, touch: true
+  belongs_to :structure,   touch: true
   has_many   :reservations,         as: :reservable
   has_many   :courses, dependent: :destroy
   # has_many   :rooms
@@ -40,35 +38,18 @@ class Place < ActiveRecord::Base
 
   after_save :subscribe_to_mailchimp if Rails.env.production?
 
+  # To be able to delete images in view
   attr_reader :delete_image
   attr_reader :delete_thumb_image
   attr_accessible :name,
-                  :contact_email,
-                  :contact_name,
-                  :contact_phone,
-                  :contact_mobile_phone,
-                  :has_handicap_access,
+                  :street, :zip_code, :city, :city_id,
+                  :latitude, :longitude, :gmaps,
+                  :contact_email, :contact_name, :contact_phone, :contact_mobile_phone,
                   :description,
                   :info, # Digicode, etc.
-                  :image,
-                  :thumb_image,
-                  # :nb_room,
-                  :street,
-                  :zip_code,
-                  :city,
-                  :city_id,
-                  :latitude,
-                  :longitude,
-                  :gmaps,
                   :has_handicap_access,
-                  :has_cloackroom,
-                  :has_internet,
-                  :has_air_conditioning,
-                  :has_swimming_pool,
-                  :has_free_parking,
-                  :has_jacuzzi,
-                  :has_sauna,
-                  :has_daylight
+                  :image, :thumb_image,
+                  :has_handicap_access, :has_cloackroom, :has_internet, :has_air_conditioning, :has_swimming_pool, :has_free_parking, :has_jacuzzi, :has_sauna, :has_daylight
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
@@ -151,6 +132,7 @@ class Place < ActiveRecord::Base
     end
   end
 
+  # Return name of the place with structure name
   def long_name
     if self.name == self.structure.try(:name)
       self.name
@@ -163,35 +145,38 @@ class Place < ActiveRecord::Base
     {lng: self.longitude, lat: self.latitude}
   end
 
+  # # Return structure contact email if self is not present
   def contact_email
     if read_attribute(:contact_email).present?
       read_attribute(:contact_email)
     else
-      self.structure.email_address
+      self.structure.contact_email
     end
   end
 
+  # Return structure contact name if self is not present
   def contact_name
-    unless read_attribute(:contact_name).present?
-      self.structure.email_address
-    else
+    if read_attribute(:contact_name).present?
       read_attribute(:contact_name)
+    else
+      self.structure.contact_name
     end
   end
 
+  # Return structure contact phone if self is not present
   def contact_phone
-    unless read_attribute(:contact_phone).present?
-      self.structure.phone_number
-    else
+    if read_attribute(:contact_phone).present?
       read_attribute(:contact_phone)
+    else
+      self.structure.phone_number
     end
   end
 
   def contact_mobile_phone
-    unless read_attribute(:contact_mobile_phone).present?
-      self.structure.mobile_phone_number
-    else
+    if read_attribute(:contact_mobile_phone).present?
       read_attribute(:contact_mobile_phone)
+    else
+      self.structure.mobile_phone_number
     end
   end
 

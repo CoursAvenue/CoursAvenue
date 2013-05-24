@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130524075507) do
+ActiveRecord::Schema.define(:version => 20130524103343) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -407,7 +407,7 @@ ActiveRecord::Schema.define(:version => 20130524075507) do
     t.string   "website"
     t.string   "phone_number"
     t.string   "mobile_phone_number"
-    t.string   "email_address"
+    t.string   "contact_email"
     t.boolean  "accepts_holiday_vouchers",                     :default => false
     t.boolean  "accepts_ancv_sports_coupon",                   :default => false
     t.boolean  "accepts_leisure_tickets",                      :default => false

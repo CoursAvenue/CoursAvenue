@@ -4,10 +4,10 @@
     - if @structure.structure_type.present?
       %li
         %h4.base-font-style.flush--bottom= t(@structure.structure_type)
-    - if @structure.email_address
+    - if @structure.contact_email
       %li
         = t('.contact')
-        = link_to @structure.email_address, "mailto:#{@structure.email_address}"
+        = link_to @structure.contact_email, "mailto:#{@structure.contact_email}"
     - if @structure.gives_professional_courses
       %li= t('.give_professional_courses')
     %li= readable_address @place

@@ -16,22 +16,18 @@ class ::Admin < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email,
-                  :password,
-                  :password_confirmation,
-                  :remember_me,
-                  :civility,
-                  :name,
+                  :password, :remember_me,
+                  :civility, :name,
                   # :first_name,
                   # :last_name,
-                  :phone_number,
-                  :mobile_phone_number,
+                  :phone_number, :mobile_phone_number,
                   :active,
                   :management_software_used,
-                  :role,
-                  :is_teacher,
+                  :role,                          # Not used
+                  :is_teacher,                    # Not used
                   :structure_id
 
-  validates :password, :password_confirmation, :email, :name, :structure, presence: true, on: :create
+  validates :password, :email, :name, :structure, presence: true, on: :create
 
   # attr_accessible :title, :body
   belongs_to :structure

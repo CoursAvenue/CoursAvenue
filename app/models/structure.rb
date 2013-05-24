@@ -91,7 +91,7 @@ class Structure < ActiveRecord::Base
   end
 
   def main_contact
-    admins.first || Admin.new
+    admins.first
   end
 
   def address
@@ -112,6 +112,12 @@ class Structure < ActiveRecord::Base
     self.description.gsub(/<br>/, '&#x000A;').html_safe if self.description
   end
 
+  def contact_name
+    if self.admins.any?
+      self.admins.first.name
+    end
+  end
+
   private
 
   def set_free_pricing_plan
@@ -123,7 +129,7 @@ class Structure < ActiveRecord::Base
   end
 
   def create_teacher
-    if teachers.empty? and main_contact
+    if teachers.empty? and !main_contact.nil?
       self.teachers.create(name: main_contact.name)
     end
   end
@@ -138,7 +144,7 @@ class Structure < ActiveRecord::Base
 
   def subscribe_to_mailchimp
     Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
-                           :email_address => self.email_address,
+                           :email_address => self.contact_email,
                            :merge_vars => {
                               :NAME => self.name,
                               :STATUS => 'not registered'

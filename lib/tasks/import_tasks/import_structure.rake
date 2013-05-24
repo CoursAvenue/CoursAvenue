@@ -54,7 +54,7 @@ namespace :import do
         place.city     = city
       end
 
-      structure.email_address         = structure_info[:email_address]
+      structure.contact_email         = structure_info[:email_address]
       structure.phone_number          = structure_info[:phone_number]
       structure.mobile_phone_number   = structure_info[:mobile_phone_number]
       place.contact_phone             = structure_info[:phone_number]

@@ -8,12 +8,80 @@ Spork.prefork do
   # if you change any configuration or code from libraries loaded here, you'll
   # need to restart spork for it take effect.
 
+  # Don't need passwords in test DB to be secure, but we would like 'em to be
+  # fast -- and the stretches mechanism is intended to make passwords
+  # computationally expensive.
+  module Devise
+    module Models
+      module DatabaseAuthenticatable
+
+        def valid_password?(password)
+          return false if encrypted_password.blank?
+          encrypted_password == password_digest(password)
+        end
+
+        protected
+        def password_digest(password)
+          password
+        end
+
+      end
+    end
+  end
+  # Devise.setup do |config|
+  #   config.stretches = 0
+  # end
+
+  # This file is copied to spec/ when you run 'rails generate rspec:install'
+  ENV["RAILS_ENV"] ||= 'test'
+  require File.expand_path("../../config/environment", __FILE__)
+  require 'rspec/rails'
+  require 'rspec/autorun'
+  # Requires supporting ruby files with custom matchers and macros, etc,
+  # in spec/support/ and its subdirectories.
+  Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+
+  RSpec.configure do |config|
+    config.include Devise::TestHelpers, :type => :controller
+
+    # ## Mock Frameworkf
+    #
+    # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
+    #
+    # config.mock_with :mocha
+    # config.mock_with :flexmock
+    # config.mock_with :rr
+
+    # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
+    config.fixture_path = "#{::Rails.root}/spec/fixtures"
+
+    # If you're not using ActiveRecord, or you'd prefer not to run each of your
+    # examples within a transaction, remove the following line or assign false
+    # instead of true.
+    config.use_transactional_fixtures = true
+
+    # If true, the base class of anonymous controllers will be inferred
+    # automatically. This will be the default behavior in future versions of
+    # rspec-rails.
+    config.infer_base_class_for_anonymous_controllers = false
+
+    # Run specs in random order to surface order dependencies. If you find an
+    # order dependency and want to debug it, you can fix the order by providing
+    # the seed, which is printed after each run.
+    #     --seed 1234
+    config.order = "random"
+  end
+
 end
 
 Spork.each_run do
-  # This code will be run each time you run your specs.
+  # Reload all factories, sequences, and traits
+  FactoryGirl.reload
 
+  # Reload routes
+  Rails.application.reload_routes!
 end
+
 
 # --- Instructions ---
 # Sort the contents of this file into a Spork.prefork and a Spork.each_run
@@ -46,7 +114,6 @@ end
 
 
 
-
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
@@ -57,7 +124,9 @@ require 'rspec/autorun'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
-  # ## Mock Framework
+  config.include Devise::TestHelpers, :type => :controller
+
+  # ## Mock Frameworkf
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
   #

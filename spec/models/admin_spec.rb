@@ -2,12 +2,16 @@
 require 'spec_helper'
 
 describe Admin do
-  context 'full_name' do
-    it 'should display firstname and lastname' do
-      admin             = FactoryGirl.create(:admin)
-      full_name          = admin.full_name
-      expected_full_name = "#{admin.first_name} #{admin.last_name}"
-      expect(full_name).to eq(expected_full_name)
+  describe :factories do
+    subject {admin}
+    context :admin do
+      let(:admin) { FactoryGirl.build(:admin) }
+
+      it {should be_valid}
+      it 'should not be super_admin' do
+        admin.super_admin.should_be false
+      end
     end
   end
 end
+

@@ -4,9 +4,9 @@
 
 %p
   Adresse de l'établissement : #{@place.address}
-  - if @structure.email_address
+  - if @structure.contact_email
     %br
-    Email : #{@structure.email_address}
+    Email : #{@structure.contact_email}
   - if @place.contact_phone or @place.contact_mobile_phone
     %br
     Numéro de téléphone :
