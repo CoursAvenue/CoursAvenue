@@ -65,14 +65,15 @@ gem 'rack-reverse-proxy', :require => 'rack/reverse_proxy'
 gem 'newrelic_rpm'
 
 group :test do
-  gem 'factory_girl_rails', '~> 4.2.0'
-  gem 'rspec-rails'       , '~> 2.6'
+  gem 'factory_girl_rails', '~> 4.2.1'
+  gem 'rspec-rails'       , '~> 2.13.2'
   gem 'forgery'           , '~> 0.5.0'
+  gem 'spork'             , '~> 1.0rc'
 end
 
 group :development, :test do
-  #gem 'ruby-debug19'
-  gem 'debugger'
+  # gem 'ruby-debug19'
+  # gem 'debugger'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'awesome_print'

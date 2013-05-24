@@ -38,7 +38,7 @@ class Place < ActiveRecord::Base
   has_attached_file :thumb_image,
                     :styles => { wide: "400x400#", thumb: "200x200#" }
 
-  after_save :subscribe_to_mailchimp
+  after_save :subscribe_to_mailchimp if Rails.env.production?
 
   attr_reader :delete_image
   attr_reader :delete_thumb_image
@@ -69,10 +69,6 @@ class Place < ActiveRecord::Base
                   :has_jacuzzi,
                   :has_sauna,
                   :has_daylight
-
-  def course_with_planning
-    self.courses.joins{plannings}.where{(active == true) & (plannings.end_date > Date.today)}.group(:id)
-  end
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do

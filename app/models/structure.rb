@@ -82,10 +82,6 @@ class Structure < ActiveRecord::Base
   after_create     :subscribe_to_mailchimp
   before_save      :replace_slash_n_r_by_brs
 
-  def course_with_planning
-    self.courses.joins{plannings}.where{plannings.end_date > Date.today}.group(:id)
-  end
-
   def contact_email
     if admins.any?
       admins.first.email

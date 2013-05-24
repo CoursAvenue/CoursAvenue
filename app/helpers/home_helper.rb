@@ -6,7 +6,8 @@ module HomeHelper
   def blog_feed
     source = "http://coursavenue-blog.herokuapp.com/feed" # url or local file
     content = "" # raw content of rss feed will be loaded here
-    open(source) do |s| content = s.read end
+    begin
+      open(source) do |s| content = s.read end
     rss = RSS::Parser.parse(content, false)
 
     html = "<ul class='blog-feed flush--bottom'>"
@@ -19,5 +20,7 @@ module HomeHelper
     end
     html << "</ul>"
     html.html_safe
+    rescue Exception => e
+    end
   end
 end

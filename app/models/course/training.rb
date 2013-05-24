@@ -7,9 +7,9 @@ class Course::Training < Course
   def length
     if plannings.any?
       plannings.first.length
-    end
-      0
     else
+      0
+    end
   end
 
   def type_name_html

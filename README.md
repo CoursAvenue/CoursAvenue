@@ -1,3 +1,9 @@
+# Installation
+
+## Rbenv & Pow
+Put this line in ~/.powconfig
+export PATH=$(rbenv root)/shims:$(rbenv root)/bin:$PATH
+
 # Dependencies / Gems
 
 # For Will_paginate

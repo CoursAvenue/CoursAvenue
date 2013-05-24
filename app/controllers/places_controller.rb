@@ -56,7 +56,7 @@ class PlacesController < ApplicationController
   def show
     @place     = Place.find params[:id]
     @structure = @place.structure
-    @courses   = @place.course_with_planning
+    @courses   = @place.courses.active
     @comments  = @structure.all_comments
     @comment   = @structure.comments.build
     @city      = @place.city

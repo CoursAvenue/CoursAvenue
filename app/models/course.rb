@@ -45,6 +45,9 @@ class Course < ActiveRecord::Base
 
   has_and_belongs_to_many :subjects, :uniq => true
 
+  # ------------------------------------------------------------------------------------ Scopes
+  scope :active, where(active: true)
+
   # ------------------------------------------------------------------------------------ Validations
   validates :type, :name  , presence: true
   validates :place        , presence: true
