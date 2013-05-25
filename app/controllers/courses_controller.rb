@@ -55,11 +55,9 @@ class CoursesController < ApplicationController
 
   def prepare_search
     if params[:lat].blank? or params[:lng].blank?
-      if request.location
-        if request.location.longitude != 0 and request.location.latitude != 0
-          params[:lat] = request.location.latitude
-          params[:lng] = request.location.longitude
-        end
+      if request.location and request.location.longitude != 0 and request.location.latitude != 0
+        params[:lat] = request.location.latitude
+        params[:lng] = request.location.longitude
       else
         # Setting paris lat & lng per default
         params[:lat] = 48.8592
