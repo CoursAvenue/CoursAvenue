@@ -13,10 +13,10 @@ gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
 gem 'heroku-api'                , '~> 0.3.9'
 
 
-# group :assets do
+group :assets do
   gem 'coffee-rails'            , '~> 3.2.1'
   gem 'haml'                    , '~> 3.1.7'
-  # gem 'sass-rails'              , '~> 3.2.4'
+  gem 'sass-rails'              , '~> 3.2.4'
   gem 'uglifier'                , '>= 1.0.3'
   gem 'font-awesome-rails'      , '~> 3.1.1.2'
   gem 'mootools-rails'          , '~> 2.0.1'
@@ -24,7 +24,7 @@ gem 'heroku-api'                , '~> 0.3.9'
   gem 'compass-inuit'           , '~> 5.0.1'
   gem 'asset_sync'              , '~> 0.5.4'
   # gem 'js-routes'               , '~> 0.9.0'
-# end
+end
 
 gem 'pg'
 gem 'progress_bar'
