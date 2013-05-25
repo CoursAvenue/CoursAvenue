@@ -2,25 +2,22 @@
 require 'spec_helper'
 
 describe Course do
+  subject {course}
+  let(:course) { FactoryGirl.create(:course) }
+
+  it { should be_valid }
 
   context 'friendly_id' do
-    it 'should not change the slug when the name change' do
-      course = FactoryGirl.create(:course)
+    it 'should have slug' do
+      course.slug.should_not be_nil
+    end
 
+    it 'should change slug with name' do
       initial_slug = course.slug
       course.name += ' new slug'
       course.save
-      expect(initial_slug).not_to eq(nil)
-      expect(initial_slug).to eq(course.slug)
-      @paris     = City.where{name == 'Paris'}.first
+      course.slug.should_not eq initial_slug
     end
   end
-  describe :create do
-    context 'on save' do
-      course = FactoryGirl.build(:course)
-      expect(course.place).to_be nil
-      # course.save
-      # expect(course.place_id).to eq course.room.place_id
-    end
-  end
+
 end
