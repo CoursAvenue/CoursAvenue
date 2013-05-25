@@ -62,3 +62,7 @@ http://download.geonames.org/export/zip/
 
 # Sitemap
 RAILS_ENV=production rake sitemap:create
+
+
+# Tests
+RAILS_ENV=test rake sunspot:solr:start
