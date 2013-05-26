@@ -302,7 +302,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.2.1)
   font-awesome-rails (~> 3.1.1.2)
   forgery (~> 0.5.0)
-  friendly_id (~> 4.0.1)
+  friendly_id (~> 4.0.9)
   geocoder (~> 1.1.6)
   gibbon (~> 0.4.6)
   gmaps4rails (~> 1.5.6)

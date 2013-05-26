@@ -40,7 +40,7 @@ gem 'gmaps4rails'               , '~>1.5.6'
 gem 'geocoder'                  , '~>1.1.6'
 gem 'active_model_serializers'  , '~>0.6.0'
 
-gem 'friendly_id'               , '~> 4.0.1'
+gem 'friendly_id'               , '~> 4.0.9'
 gem 'simple_form'               , '~> 2.0.4'
 gem 'inherited_resources'       , '~> 1.3.1'
 
