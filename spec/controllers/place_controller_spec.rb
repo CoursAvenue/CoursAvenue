@@ -1,16 +1,16 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe CoursesController do
+describe PlacesController do
 
-  subject {course}
-  let(:course) { FactoryGirl.create(:course) }
+  subject {place}
+  let(:place) { FactoryGirl.create(:place) }
 
   context 'slug changes' do
     it 'should respond with 302' do
-      initial_slug = course.slug
-      course.name += ' some extension'
-      course.save
+      initial_slug = place.slug
+      place.name += ' some extension'
+      place.save
       get :show, id: initial_slug
       # Check, why 302 and not 301
       response.status.should eq 302

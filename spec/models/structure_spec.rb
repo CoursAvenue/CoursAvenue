@@ -14,9 +14,9 @@ describe Structure do
       admin = FactoryGirl.build(:admin)
       structure.admins << admin
 
-      structure.contact_email.should be admin.email
-      structure.contact_name.should  be admin.name
-      structure.main_contact.should  be admin
+      structure.contact_email.should == admin.email
+      structure.contact_name.should  == admin.name
+      structure.main_contact.should  == admin
     end
   end
 

@@ -19,13 +19,13 @@ group :assets do
   gem 'coffee-rails'            , '~> 3.2.1'
 end
 
-gem 'js-routes'               , '~> 0.9.0'
-gem 'font-awesome-rails'      , '~> 3.1.1.2'
-gem 'mootools-rails'          , '~> 2.0.1'
-gem 'compass-rails'           , '~> 1.0.3'
-gem 'compass-inuit'           , '~> 5.0.1'
-gem 'asset_sync'              , '~> 0.5.4'
-gem 'haml'                    , '~> 3.1.7'
+gem 'js-routes'                 , '~> 0.9.0'
+gem 'font-awesome-rails'        , '~> 3.1.1.2'
+gem 'mootools-rails'            , '~> 2.0.1'
+gem 'compass-rails'             , '~> 1.0.3'
+gem 'compass-inuit'             , '~> 5.0.1'
+gem 'asset_sync'                , '~> 0.5.4'
+gem 'haml'                      , '~> 3.1.7'
 
 gem 'pg'
 gem 'progress_bar'
@@ -68,8 +68,9 @@ gem 'newrelic_rpm'
 group :test do
   gem 'factory_girl_rails', '~> 4.2.1'
   gem 'rspec-rails'       , '~> 2.13.2'
+  gem 'rspec-instafail'   , '~> 0.2.4'
   gem 'forgery'           , '~> 0.5.0'
-  gem 'spork'             , '~> 1.0rc'
+  gem 'simplecov'         , '~> 0.7.1', require: false
 end
 
 group :development do

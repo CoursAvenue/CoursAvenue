@@ -30,21 +30,14 @@ class Price < ActiveRecord::Base
   validates :amount , presence: true
 
   def per_course_amount
-    if amount.nil?
-      nil
-    else
-      self.nb_courses ||= 1
-      ('%.2f' % (amount / self.nb_courses)).gsub('.', ',').gsub(',00', '')
-    end
+    return nil if amount.nil?
+    amount / self.nb_courses
   end
 
   def per_course_promo_amount
-    if promo_amount.nil?
-      nil
-    else
-      self.nb_courses ||= 1
-      ('%.2f' % (promo_amount / self.nb_courses)).gsub('.', ',').gsub(',00', '')
-    end
+    return nil if promo_amount.nil?
+    self.nb_courses
+    promo_amount / self.nb_courses
   end
 
   def individual_course?
@@ -53,6 +46,11 @@ class Price < ActiveRecord::Base
 
   def has_promo?
     !promo_amount.nil?
+  end
+
+  def nb_courses
+    return 1 if read_attribute(:nb_courses).nil?
+    read_attribute(:nb_courses)
   end
 
   private

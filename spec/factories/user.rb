@@ -2,15 +2,13 @@
 
 FactoryGirl.define do
 
-  factory :admin do
+  factory :user do
 
-    structure
-
-    name     Forgery::Name.full_name
+    first_name     Forgery::Name.first_name
+    last_name      Forgery::Name.last_name
     sequence :email do |n|
       "person#{n}@example.com"
     end
-    confirmed_at Date.today
     password                'password'
     password_confirmation   'password'
   end

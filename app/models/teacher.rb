@@ -4,6 +4,5 @@ class Teacher < ActiveRecord::Base
   has_many   :courses, through: :plannings
   attr_accessible :name, :description, :structure_id
 
-  validates :name, uniqueness: {scope: 'structure_id'}
   validates :name, presence: true
 end

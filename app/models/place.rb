@@ -10,12 +10,12 @@ class Place < ActiveRecord::Base
 
 
   extend FriendlyId
-  friendly_id :friendly_name, use: [:slugged, :history]
+  friendly_id :long_name, use: [:slugged, :history]
 
-  belongs_to :city, touch: true
-  belongs_to :structure,   touch: true
+  belongs_to :city,                 touch: true
+  belongs_to :structure,            touch: true
   has_many   :reservations,         as: :reservable
-  has_many   :courses, dependent: :destroy
+  has_many   :courses,              dependent: :destroy
   # has_many   :rooms
   has_many   :comments, through: :structure
   has_many   :subjects, through: :courses
@@ -179,10 +179,6 @@ class Place < ActiveRecord::Base
   end
 
   private
-
-  def friendly_name
-    self.long_name
-  end
 
   def subscribe_to_mailchimp
     Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,

@@ -6,7 +6,18 @@ FactoryGirl.define do
 
     factory :annual_price do
       libelle 'prices.annual'
-      nb_course 35
+      nb_courses 35
+    end
+
+    factory :individual_price do
+      libelle 'prices.individual_course'
+      nb_courses 35
+    end
+
+    factory :with_promo do
+      libelle 'prices.annual'
+      nb_courses 35
+      promo_amount 123
     end
 
   end

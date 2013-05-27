@@ -1,17 +1,18 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe UserMailer do
-  describe "book_class" do
-    let(:mail) { UserMailer.book_class }
+  describe 'welcome' do
+    let(:user) { FactoryGirl.build(:user) }
+    let(:mail) { UserMailer.welcome(user) }
 
-    it "renders the headers" do
-      mail.subject.should eq("Book class")
-      mail.to.should eq(["to@example.org"])
-      mail.from.should eq(["from@example.com"])
+    it 'renders the headers' do
+      mail.subject.should eq('Bienvenue sur CoursAvenue.com')
+      mail.to.should eq([user.email])
+      mail.from.should eq(['contact@coursavenue.com'])
     end
 
-    it "renders the body" do
-      mail.body.encoded.should match("Hi")
+    it 'renders the body' do
+      mail.body.encoded.should match(user.first_name)
     end
   end
 
