@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 
 FactoryGirl.define do
-  factory :course do
+  factory :course, class: 'Course::Lesson' do
 
     structure
     place
@@ -19,10 +19,13 @@ FactoryGirl.define do
     trial_lesson_info           'Lorem ipsum dolor bla bla bla'
     can_be_joined_during_year   false
 
-    factory :workshop do
+    factory :lesson, class: 'Course::Lesson' do
+      type 'Course::Lesson'
+    end
+    factory :workshop, class: 'Course::Workshop' do
       type 'Course::Workshop'
     end
-    factory :training do
+    factory :training, class: 'Course::Training' do
       type 'Course::Training'
     end
 

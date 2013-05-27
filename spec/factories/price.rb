@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :price do
     amount 1241
+    libelle 'prices.individual_course'
 
     factory :annual_price do
       libelle 'prices.annual'

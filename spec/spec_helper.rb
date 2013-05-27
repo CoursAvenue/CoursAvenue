@@ -1,6 +1,9 @@
 require 'rubygems'
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start 'rails' do
+  add_group "Models", "app/models"
+  add_group "Controllers", "app/controllers"
+end
 
 module Devise
   module Models

@@ -9,11 +9,10 @@ describe PlacesController do
   context 'slug changes' do
     it 'should respond with 302' do
       initial_slug = place.slug
-      place.name += ' some extension'
+      place.name += ' some extension apzdoja dpaojz'
       place.save
-      get :show, id: initial_slug
-      # Check, why 302 and not 301
-      response.status.should eq 302
+      get :show, id: place.slug
+      response.status.should eq 301
     end
   end
 

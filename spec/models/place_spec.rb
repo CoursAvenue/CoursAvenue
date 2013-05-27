@@ -29,14 +29,20 @@ describe Place do
       admin = FactoryGirl.build(:admin)
       structure.admins << admin
 
-      place.contact_email.should eq admin.email
-      place.contact_name.should  eq admin.name
+      place.contact_email.should        eq admin.email
+      place.contact_name.should         eq admin.name
+      place.contact_phone.should        eq admin.phone_number
+      place.contact_mobile_phone.should eq admin.mobile_phone_number
 
-      place.contact_email = 'email@test.com'
-      place.contact_name  = 'Random name'
+      place.contact_email         = 'email@test.com'
+      place.contact_name          = 'Random name'
+      place.contact_phone         = '01201230123012'
+      place.contact_mobile_phone  = '01201230123012'
 
-      place.contact_email.should eq 'email@test.com'
-      place.contact_name.should  eq 'Random name'
+      place.contact_email.should        eq 'email@test.com'
+      place.contact_name.should         eq 'Random name'
+      place.contact_phone.should        eq '01201230123012'
+      place.contact_mobile_phone.should eq '01201230123012'
     end
   end
 

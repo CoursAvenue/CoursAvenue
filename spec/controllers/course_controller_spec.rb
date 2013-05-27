@@ -12,8 +12,7 @@ describe CoursesController do
       course.name += ' some extension'
       course.save
       get :show, id: initial_slug
-      # Check, why 302 and not 301
-      response.status.should eq 302
+      response.status.should eq 301
     end
   end
 
@@ -28,8 +27,18 @@ describe CoursesController do
       load "application_controller.rb"
     end
 
+    subject { response.status }
+
+    context 'when course is not active' do
+      it 'redirects to home page' do
+       course.update_column :active, false
+       get :show, id: course.id
+       should eq 301
+     end
+    end
+
     context 'when resource is found' do
-      it { response.status.should eq 200 }
+      it { should eq 200 }
     end
 
     context 'when resource is not found' do
@@ -42,5 +51,12 @@ describe CoursesController do
   end
 
   describe '#index' do
+    let(:course) { FactoryGirl.create(:course) }
+    let(:place)  { course.place }
+    before do
+      get :index, lat: place.latitude, lng: place.longitude
+    end
+    subject { assigns('courses') }
+    it { should have(1).item }
   end
 end

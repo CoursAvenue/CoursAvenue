@@ -308,7 +308,7 @@ class Course < ActiveRecord::Base
   end
 
   def best_price
-    prices.where{amount >= 0}.order('amount ASC').first
+    prices.where{amount >= 0}.order('promo_amount ASC, amount ASC').first
   end
 
   def approximate_price_per_course

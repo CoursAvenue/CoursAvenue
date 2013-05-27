@@ -89,16 +89,16 @@ CoursAvenue::Application.routes.draw do
 
   resources :comments, only: [:create, :destroy]
 
+  resources :places, only: [:show, :index], path: 'etablissements'
   resources :courses, only: [:show, :index], path: 'cours' do
     resources :reservations, only: [:new, :create] # Redirection 301 in controller
   end
 
   resources :subjects, only: [], path: 'disciplines' do
     resources :places, only: [:index], path: 'etablissements'
-    resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
+    resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index' # établissement without S
     resources :courses, only: [:index], path: 'cours'
   end
-  resources :places, only: [:show, :index], path: 'etablissements'
 
   resources :renting_rooms, only: [:create]
 
@@ -109,8 +109,8 @@ CoursAvenue::Application.routes.draw do
   resources :subjects, only: [], path: 'disciplines' do
     resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
   end
-  resources :places, only: [:show],  path: 'etablissement', to: 'redirect#place_show'
-  resources :places, only: [:index], path: 'etablissement', to: 'redirect#place_index'
+  resources :places, only: [:show],  path: 'etablissement', to: 'redirect#place_show' # établissement without S
+  resources :places, only: [:index], path: 'etablissement', to: 'redirect#place_index' # établissement without S
   match 'lieux',                                            to: 'redirect#lieux'
   match 'lieux/:id',                                        to: 'redirect#lieux_show'
   match 'ville/:city_id/disciplines/:subject_id',           to: 'redirect#city_subject'
