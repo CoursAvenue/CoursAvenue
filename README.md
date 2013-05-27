@@ -1,68 +1,59 @@
-# Installation
+### Rbenv & Pow
 
-## Rbenv & Pow
-Put this line in ~/.powconfig
-export PATH=$(rbenv root)/shims:$(rbenv root)/bin:$PATH
+\# ~/.powconfig
+`export PATH=$(rbenv root)/shims:$(rbenv root)/bin:$PATH`
 
 ## Dependencies / Gems
 
-## For Will_paginate
+### For Will_paginate
 A custom renderer has been created in lib/
 
-## SCSS
+### SCSS
 Inuit.css
 Compass for mixins
 
-## Add remote branch for Heroku
-git remote add heroku git@heroku.com:leboncours.git
+### Add remote branch for Heroku
+`git remote add heroku git@heroku.com:leboncours.git`
 
 
-## Heroku
+### Heroku
 
 [Using Labs: user-env-compile](https://devcenter.heroku.com/articles/labs-user-env-compile#use-case)
 
     heroku labs:enable user-env-compile -a
 
-## Paperclip
+### Paperclip
 
 Dependencies: imagemagick
 
-## For Heroku
+### For Heroku
 
-heroku config:add AWS_BUCKET=bucket_name
-heroku config:add AWS_ACCESS_KEY_ID=
-heroku config:add AWS_SECRET_ACCESS_KEY=
+`heroku config:add AWS_BUCKET=bucket_name`
+`heroku config:add AWS_ACCESS_KEY_ID=`
+`heroku config:add AWS_SECRET_ACCESS_KEY=`
 
-## Admin
-Admin.create!(:email => 'admin@coursavenue.com', :password => 'password', :password_confirmation => 'password', name: 'Nima I')
+### [Solr sunspot](https://github.com/sunspot/sunspot#readme)
+Commands
+`rake sunspot:solr:run`
 
-## Solr
-https://github.com/sunspot/sunspot#readme
-Run local server:
-$ rake sunspot:solr:run
-
-Heroku:
-Start / Stop :
-$ heroku run rake sunspot:solr:start
-$ heroku run rake sunspot:solr:stop
-Reindex :
-$ heroku run rake sunspot:reindex
+On heroku
+`heroku run rake sunspot:solr:start`
+`heroku run rake sunspot:solr:stop`
+`heroku run rake sunspot:reindex`
 
 
-## Git
-List all branches
-$ git branch -a
+### Git
 Remove local branch
-$ git branch -D branch_name
+`git branch -D branch_name`
 Remove remote branch
-$ git push origin --delete branch_name
+`git push origin --delete branch_name`
 
-## Cities
+### Cities
 http://download.geonames.org/export/zip/
 
-## Sitemap
+### Sitemap
 RAILS_ENV=production rake sitemap:create
 
 
-## Tests
+### Tests
 RAILS_ENV=test rake sunspot:solr:start
