@@ -80,8 +80,7 @@ group :development do
   gem 'meta_request', '0.2.1'
 end
 group :development, :test do
-  # gem 'ruby-debug19'
-  # gem 'debugger'
+  gem 'debugger'
 end
 
 

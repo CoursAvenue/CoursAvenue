@@ -2,7 +2,6 @@
 
 FactoryGirl.define do
   factory :course, class: 'Course::Lesson' do
-
     structure
     place
 

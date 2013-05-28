@@ -24,7 +24,7 @@ class CoursesController < ApplicationController
     @place              = @course.place
     @plannings          = @course.plannings
     @subjects           = @course.subjects
-    @has_promotion      = @course.has_promotion
+    @has_promotion      = @course.has_promotion?
     @has_nb_place       = @course.plannings.map(&:nb_place_available).compact.any?
     @reservation        = Reservation.new
     @best_price         = @course.best_price

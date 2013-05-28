@@ -197,8 +197,6 @@ class Course < ActiveRecord::Base
     boolean :has_online_payment
     boolean :has_promotion
 
-    boolean :has_no_price
-
     boolean :has_package_price
     boolean :has_trial_lesson
     boolean :has_unit_course_price
@@ -209,13 +207,11 @@ class Course < ActiveRecord::Base
   end
 
   def has_promotion
-    return false if plannings.empty?
-    plannings.order('promotion ASC').first.promotion != nil
+    return has_promotion?
   end
-
-  def has_no_price
-    return false if prices.empty?
-    prices.order('amount DESC').first.amount == nil
+  def has_promotion?
+    return false if self.prices.empty?
+    !(self.prices.order('promo_amount ASC').first.promo_amount).nil?
   end
 
   def has_package_price
@@ -231,11 +227,11 @@ class Course < ActiveRecord::Base
   end
 
   def min_price
-    prices.map(&:amount).compact.sort.first
+    best_price.try(:promo_amount) || best_price.try(:amount)
   end
 
   def max_price
-    prices.map(&:amount).compact.sort.last
+    prices.where{amount >= 0}.order('promo_amount DESC, amount DESC').first.try(:amount)
   end
 
   def time_slots
@@ -308,7 +304,7 @@ class Course < ActiveRecord::Base
   end
 
   def best_price
-    prices.where{amount >= 0}.order('promo_amount ASC, amount ASC').first
+    self.prices.where{amount >= 0}.order('promo_amount ASC, amount ASC').first
   end
 
   def approximate_price_per_course

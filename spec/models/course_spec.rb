@@ -2,45 +2,133 @@
 require 'spec_helper'
 
 describe Course do
-  subject {course}
-  let(:course)   { FactoryGirl.create(:course) }
-  let(:workshop) { FactoryGirl.build(:workshop) }
-  let(:training) { FactoryGirl.build(:training) }
-  let(:lesson)   { FactoryGirl.build(:lesson) }
+  let(:workshop)          { FactoryGirl.build(:workshop) }
+  let(:training)          { FactoryGirl.build(:training) }
+  let(:lesson)            { FactoryGirl.build(:lesson) }
 
+  before(:all) do
+    @course        = FactoryGirl.create(:course)
+    @price_1       = @course.prices.build FactoryGirl.attributes_for(:individual_price, amount: 15)
+    @price_2       = @course.prices.build FactoryGirl.attributes_for(:annual_price, amount: 20)
+    @planning_1    = FactoryGirl.create(:planning)
+    @course.prices = [@price_1, @price_2]
+    @course.save
+  end
+
+  subject {@course}
   it { should be_valid }
 
   describe '#best_price' do
-    let(:price_1)          { FactoryGirl.create(:individual_price, amount: 15) }
-    let(:price_2)          { FactoryGirl.create(:annual_price, amount: 20) }
-    before do
-      course.prices << [price_1, price_2]
-    end
     context 'without promotion' do
       it 'returns the price with lowest amount' do
-        course.best_price.should eq price_1
+        @course.best_price.should eq @price_1
       end
     end
 
     context 'with promotion' do
-      before do
-        price_2.promo_amount = 10
-        price_2.save
-      end
+      before do @price_2.update_column(:promo_amount, 10) end
+      # after  do @price_2.update_column(:promo_amount, nil) end
       it 'returns the price with lowest amount taking count of promotion' do
-        course.best_price.should eq price_2
+        @course.best_price.should eq @price_2
       end
     end
   end
-  # has_promotion
+  describe '#has_promotion?' do
+    it{ @course.has_promotion?.should be_false }
+    context 'with promo' do
+      before do @price_2.update_column(:promo_amount, 10) end
+      after  do @price_2.update_column(:promo_amount, nil) end
+      it { @course.has_promotion?.should be_true }
+    end
+  end
 
+  describe '#min_price' do
+    it 'returns the lowest price' do
+      @course.min_price.should eq @price_1.amount
+    end
+    context 'nil' do
+      it 'should return nil' do
+        course = FactoryGirl.create(:course)
+        course.min_price.should be_nil
+      end
+    end
+    context 'with promo' do
+      before do @price_2.update_column(:promo_amount, 10) end
+      after  do @price_2.update_column(:promo_amount, nil) end
+      it 'returns the promo price' do
+        @course.min_price.should eq @price_2.promo_amount
+      end
+    end
+  end
+  describe '#max_price' do
+    it 'returns the highest price' do
+      @course.max_price.should eq @price_2.amount
+    end
+    context 'nil' do
+      it 'should return nil' do
+        course = FactoryGirl.create(:course)
+        course.max_price.should be_nil
+      end
+    end
+  end
+  describe '#activate!' do
+    before(:each) do
+      @course = FactoryGirl.build(:course, active: false)
+    end
+    context 'without plannings' do
+      context 'without prices' do
+        it 'fails' do
+          @course.activate!.should be_false
+          @course.active.should be_false
+          @course.errors[:prices].length.should eq 1
+          @course.errors[:plannings].length.should eq 1
+        end
+      end
+      context 'with prices' do
+        before(:each) do
+          @course.prices << @price_1
+          @course.save
+        end
+        it 'fails' do
+          @course.activate!.should be_false
+          @course.active.should be_false
+          @course.errors[:plannings].length.should eq 1
+          @course.should have(0).errors_on(:prices)
+        end
+      end
+    end
+    context 'without prices' do
+      context 'with plannings' do
+        before(:each) do
+          @course.plannings << @planning_1
+          @course.save
+        end
+        it 'fails' do
+          @course.activate!.should be_false
+          @course.active.should be_false
+          @course.errors[:prices].length.should eq 1
+          @course.should have(0).errors_on(:plannings)
+        end
+      end
+    end
+    context 'with prices and plannings' do
+      before(:each) do
+        @course.plannings << @planning_1
+        @course.prices    << @price_1
+        @course.save
+      end
+      it 'activates' do
+        @course.activate!.should be_true
+        @course.active.should be_true
+        @course.should have(0).errors_on(:plannings)
+        @course.should have(0).errors_on(:prices)
+      end
+    end
+  end
   # recent_plannings
-  # has_no_price
   # has_package_price
   # has_trial_lesson
   # has_unit_course_price
-  # min_price
-  # max_price
   # time_slots
   # similar_courses(limit = 5)
   # promotion_planning
@@ -54,7 +142,6 @@ describe Course do
   # type_name
   # should_generate_new_friendly_id?
   # description_for_input
-  # activate!
   # friendly_name
   # set_structure_if_empty
   # replace_slash_n_r_by_brs
@@ -100,14 +187,14 @@ describe Course do
 
   context 'friendly_id' do
     it 'should have slug' do
-      course.slug.should_not be_nil
+      @course.slug.should_not be_nil
     end
 
     it 'should change slug with name' do
-      initial_slug = course.slug
-      course.name += ' new slug'
-      course.save
-      course.slug.should_not eq initial_slug
+      initial_slug = @course.slug
+      @course.name += ' new slug'
+      @course.save
+      @course.slug.should_not eq initial_slug
     end
   end
 
