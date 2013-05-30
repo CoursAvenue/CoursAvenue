@@ -3,12 +3,20 @@
 
 = menu_currently_at 'Accueil'
 .grid.relative
-  .grid__item.one-half.relative>
-    = image_tag 'pro/dance_teacher.jpg', class: 'block'
-    .image-quote
-      %quote
-        « Le logiciel en ligne CoursAvenuePro me permet de mettre en ligne tous les cours et les stages que je souhaite : en quelques clics, je renseigne le lieu, les tarifs, les horaires et toutes les informations pratiques. Cela me permet de promouvoir mes cours et d'augmenter mon taux de remplissage. Et tout cela, c’est moi qui le décide, à tout moment, gratuitement ! »
-      %p.image-quote--footer.text--right.flush--bottom Elodie, professeur de flamenco
+  .grid__item.one-half>
+    .relative
+      = image_tag 'pro/dance_teacher.jpg', class: 'block'
+      .image-quote
+        %quote
+          « Le logiciel en ligne CoursAvenuePro me permet de mettre en ligne tous les cours et les stages que je souhaite : en quelques clics, je renseigne le lieu, les tarifs, les horaires et toutes les informations pratiques. Cela me permet de promouvoir mes cours et d'augmenter mon taux de remplissage. Et tout cela, c’est moi qui le décide, à tout moment, gratuitement ! »
+        %p.image-quote--footer.text--right.flush--bottom Elodie, professeur de flamenco
+    %p.push--top
+      %i.icon-lightbulb.delta
+      Des questions ? N'hésitez pas à visiter notre
+      = link_to 'foire aux questions', pages_faq_partners_path, target: '_blank'
+      ou à
+      = link_to 'nous contacter.', pages_contact_path
+
   .grid__item.one-half.islet
     %h1.gamma.text--center Référencez vos cours simplement depuis notre logiciel de gestion en ligne
     %br
