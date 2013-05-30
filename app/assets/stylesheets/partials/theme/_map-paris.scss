@@ -24,15 +24,15 @@
 .map-marker-image {
     position: absolute;
     display : block;
-    width   : 30px;
+    width   : 22px;
     height  : 30px;
     a {
-        width               : 30px;
+        width               : 20px;
         height              : 30px;
-        line-height         : 30px;
+        line-height         : 23px;
         position            : relative;
         display             : block;
-        background-image    : image-url('icons/bulle.png');
+        background-image    : image-url('icons/map-marker.png');
         background-repeat   : no-repeat;
         background-position : center center;
         background-size     : 100%;
@@ -45,9 +45,9 @@
     span {
         position        : absolute;
         color           : white;
-        width           : 3em;
+        width           : 20px;
         left            : 50%;
-        margin-left     : -1.5em;
+        margin-left     : -10px;
         text-align      : center;
         text-shadow     : -1px -1px 0 #a34c30;
         font-size       : 12px;

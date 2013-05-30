@@ -4,14 +4,6 @@ module CoursesHelper
     course.plannings.collect{|p| p.teacher.try(:name)}.compact.uniq.join(', ')
   end
 
-  def join_audiences(course)
-    content_tag :ul, class: 'nav' do
-      course.audiences.order(:order).collect do |audience|
-        content_tag(:li, t(audience.name))
-      end.join(', ').html_safe
-    end
-  end
-
   def join_course_subjects(course, with_h3 = false)
     course.subjects_string.split(';').collect do |subject_string|
       subject_name, subject_slug = subject_string.split(',')
@@ -23,6 +15,22 @@ module CoursesHelper
     end.join(' ').html_safe
   end
 
+  def join_audiences_text(course)
+    course.audiences.map(&:name).map{|name| t(name)}.join(', ')
+  end
+
+  def join_levels_text(course)
+    course.levels.map(&:name).map{|name| t(name)}.join(', ')
+  end
+
+  def join_audiences(course)
+    content_tag :ul, class: 'nav' do
+      course.audiences.order(:order).collect do |audience|
+        content_tag(:li, t(audience.name))
+      end.join(', ').html_safe
+    end
+  end
+
   def join_levels(course)
     content_tag :ul, class: 'nav' do
       course.levels.order(:order).collect do |level|
@@ -31,13 +39,14 @@ module CoursesHelper
     end
   end
 
-  def join_week_days(course)
+  def join_week_days(course, options={})
     week_days = []
     week_days = course.plannings.order(:week_day).collect do |planning|
       planning.week_day
     end.compact.uniq
-
-    content_tag :ul, class: 'nav week_days' do
+    class_names = 'nav week_days '
+    class_names << options[:class]
+    content_tag :ul, class: class_names do
       week_days.collect do |week_day|
         content_tag(:li, t('date.day_names')[week_day])
       end.join(', ').html_safe

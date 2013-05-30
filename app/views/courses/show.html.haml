@@ -29,11 +29,11 @@
   %div
     %span.rating{title: comment_rating_title(@course.rating)}
       = rating_stars @course.rating
-    (
-    %span= @course.comments.count
+    \/
+    = @course.comments.count
+    avis
     %a{href: '#comments'}
       %i.lbc-brand-icon
-    )
 
 %ul.nav.flush--bottom
   %li

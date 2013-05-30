@@ -49,21 +49,23 @@ module CommentsHelper
   end
 
   def rating_stars rating
-    out = ''
-    rating       = rating.to_f
-    5.times do |i|
-      delta = rating - i
-      if delta > 0.9
-        out << content_tag(:i, '', class: 'icon-star yellow')
-      elsif delta > 0.7
-        out << content_tag(:i, '', class: 'icon-star yellow')
-      elsif delta > 0.2
-        out << content_tag(:i, '', class: 'icon-star-half-empty yellow')
-      else
-        out << content_tag(:i, '', class: 'icon-star-empty')
+    content_tag :span, class: 'nowrap' do
+      out = ''
+      rating       = rating.to_f
+      5.times do |i|
+        delta = rating - i
+        if delta > 0.9
+          out << content_tag(:i, '', class: 'icon-star yellow')
+        elsif delta > 0.7
+          out << content_tag(:i, '', class: 'icon-star yellow')
+        elsif delta > 0.2
+          out << content_tag(:i, '', class: 'icon-star-half-empty yellow')
+        else
+          out << content_tag(:i, '', class: 'icon-star-empty')
+        end
       end
+      out.html_safe
     end
-    out.html_safe
   end
 
 end

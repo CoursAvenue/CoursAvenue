@@ -33,11 +33,11 @@
   %div
     %span.rating{title: comment_rating_title(@structure.rating)}
       = rating_stars @structure.rating
-    (
-    %span= @structure.comments_count
+    \/
+    = @structure.comments_count
+    avis
     %a{href: '#comments'}
       %i.lbc-brand-icon
-    )
 %ul.nav.flush--bottom= join_place_parent_subjects @place, true
 
 .grid--full.cf

@@ -15,24 +15,23 @@
           = link_to place_path(place) do
             %span= place_counter + 1
         %h2.delta.inline.v-middle= link_to place.long_name, place_path(place)
+        - if place.structure.rating
+          %meta{itemprop: "ratingValue", content: place.structure.rating}
+          %div.inline
+            = rating_stars place.structure.rating
+            \/
+            = place.structure.comments_count
+            avis
+            %i.lbc-brand-icon
+        - else
+          %span.super-muted= rating_stars 0
+          = link_to "Soyez le 1er à donner votre avis", place_path(place, anchor: 'comments'), onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - Lieu', 'click'])"
     %p
       %i.icon-map-marker
       = place.street
       \-
       = place.city.try(:name)
     %ul.nav= join_place_parent_subjects(place)
-    - if place.structure.rating
-      %meta{itemprop: "ratingValue", content: place.structure.rating}
-      %div
-        = place.structure.comments_count
-        avis
-        %i.lbc-brand-icon
-        \/
-        = rating_stars place.structure.rating
-        = "%.1f" % place.structure.rating
-    - else
-      %span.super-muted= rating_stars 0
-      = link_to "Soyez le 1er à donner votre avis", place_path(place, anchor: 'comments'), onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - Lieu', 'click'])"
   .course-content.two-twelfths.text--center
     .alpha.orange= place.courses.count
     %b cours

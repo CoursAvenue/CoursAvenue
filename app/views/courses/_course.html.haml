@@ -6,6 +6,7 @@
       - if best_price.try(:has_promo?)
         .price-badge
           Promo
+          = readable_promo_percentage best_price
       = link_to course_path(course) do
         - if course.image.present?
           = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
@@ -23,63 +24,73 @@
           = link_to course_path(course) do
             %span= @course_places.index(course.place) + 1
         %h2.delta.inline.v-middle= link_to course.name, course_path(course)
+        - if course.rating
+          %div.inline
+            %span.rating{title: comment_rating_title(course.rating)}
+              = rating_stars course.rating
+            \/
+            = course.comments.count
+            avis
+            %i.lbc-brand-icon
+        - else
+          %span.super-muted.v-middle
+            = rating_stars 0
+          %span.milli
+            = link_to course_path(course, anchor: 'comments'), class: 'visuallyhidden--palm', onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - cours', 'click'])" do
+              Soyez le 1er à donner votre avis
 
-    - if course.is_training?
-      %p
-        Stage de
-        = pluralize course.length, 'jour'
-    %div
-      %i.icon-map-marker
-      %h3.course-element-place-name
-        = link_to place_path(course.place) do
-          = truncate course.place.long_name, length: 70
-          - if course.structure.rating
-            = rating_stars course.structure.rating
-    - if course.is_lesson?
-      = join_week_days(course)
-    - elsif course.plannings.count > 0
-      = training_dates(course.recent_plannings.first || course.plannings.first)
-      - if course.plannings.count > 1
-        = "et #{course.plannings.length - 1} autres dates."
-    %footer
-      %ul.nav
-        %li
+    %div.grid
+      %div.ten-twelfths.grid__item>
+        - if course.is_training?
+          %p
+            Stage de
+            = pluralize course.length, 'jour'
+        %div
+          %h3.course-element-place-name
+            = link_to place_path(course.place) do
+              = truncate course.place.long_name, length: 70
+            - if course.structure.rating
+              = rating_stars course.structure.rating
+        %footer
           %span.lbl.milli
             = course.type_name_html
             - if course.plannings.any? and course.plannings.first.duration
               = "de #{readable_duration course.plannings.first.duration}"
-        = join_course_subjects course
-    - if course.rating
-      %div
-        = course.comments.count
-        avis
-        %i.lbc-brand-icon
-        \/
-        %span.rating{title: comment_rating_title(course.rating)}
-          = rating_stars course.rating
-          = course.rating
-    - else
-      %span.super-muted.v-middle
-        = rating_stars 0
-      = link_to course_path(course, anchor: 'comments'), class: 'visuallyhidden--palm', onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - cours', 'click'])" do
-        Soyez le 1er à donner votre avis
+            pour
+            = join_audiences_text(course).downcase
+            = join_levels_text(course).downcase
+          %ul.nav
+            = join_course_subjects course
 
-  %div.course-price.two-twelfths
-    - if best_price.nil?
-      %p.epsilon= link_to "Contacter l'établissement", course_path(course)
-    - else
-      %p
-      %p.gamma
-        - if best_price.amount == 0
-          Gratuit
-        - elsif best_price.try(:has_promo?)
-          %div
-            %span.line-through= "#{readable_amount best_price.amount}€".html_safe
-            %span.gamma.green= "#{readable_amount best_price.per_course_promo_amount}€".html_safe
+        .milli
+          - if course.plannings.count > 0
+            = pluralize course.plannings.count, 'séance'
+            \:
+            - if course.is_lesson?
+              = join_week_days(course, class: 'inline')
+            - else
+              = training_dates(course.recent_plannings.first || course.plannings.first)
+              - if course.plannings.count > 1
+                = "et #{course.plannings.length - 1} autres dates."
+          - else
+            Planning en cours de création
+
+      %div.course-price.two-twelfths.grid__item>
+        - if best_price.nil?
+          %p.epsilon= link_to "Contacter l'établissement", course_path(course)
         - else
-          = "#{readable_amount best_price.per_course_amount}€".html_safe
-      - if best_price.amount != 0
-        - if course.is_lesson?
-          %p prix d'un cours
-        - else
-          %p= "(#{t(best_price.libelle).downcase})".html_safe
+          %p
+          %p.gamma
+            - if best_price.amount == 0
+              Gratuit
+            - elsif best_price.try(:has_promo?)
+              %div
+                %span.line-through= "#{readable_amount best_price.amount}€".html_safe
+                %span.gamma.green= "#{readable_amount best_price.per_course_promo_amount}€".html_safe
+            - else
+              = "#{readable_amount best_price.per_course_amount}€".html_safe
+          - if best_price.amount != 0
+            - if course.is_lesson?
+              %p prix d'un cours
+            - else
+              %p= "(#{t(best_price.libelle).downcase})".html_safe
