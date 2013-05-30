@@ -8,7 +8,7 @@
           = render 'lesson_schedule'
         - if @course.is_workshop?
           = render 'workshop_schedule'
-        %p
+        %p.milli
           %i Dernière mise à jour le #{l(@course.updated_at, format: :date)}.
           - if @structure.admins.count == 0
             %br
