@@ -1,5 +1,7 @@
 .islet
   = simple_form_for [:pro, @structure, @place] do |f|
+    - if params[:from].present?
+      %input{type: 'hidden', value: params[:from], name: 'from'}
     = f.error_notification
     %h5.form-header-group Adresse
     .form-white-box

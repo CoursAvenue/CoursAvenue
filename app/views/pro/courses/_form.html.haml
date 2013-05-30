@@ -23,7 +23,7 @@
   .form-white-box
     .input.flush--bottom
       = f.association :place , as: :select, collection: @structure.places, include_blank: false
-      = link_to pro_structure_places_path(@structure) do
+      = link_to new_pro_structure_place_path(@structure, from: request.fullpath) do
         &nbsp;
         %i.icon-map-marker
         Ajouter un lieu
