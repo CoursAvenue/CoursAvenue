@@ -46,7 +46,9 @@
   Bonjour !
   %br
   Nous venons de référencer nos cours sur le site CoursAvenue et souhaiterions avoir vos recommandations sur nos cours.
-  = link_to 'Cliquez-ici pour déposer un avis.', courses_url(name: @structure.name, subdomain: 'www')
+  %br
+  Cliquez sur le lien suivant pour déposer un avis :
+  = link_to places_url(name: @structure.name, subdomain: 'www'), courses_url(name: @structure.name, subdomain: 'www')
   %br
   C'est très rapide et ça nous donnera un bon coup de pouce. Merci à tous nos fidèles fans !
 
