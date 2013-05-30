@@ -74,7 +74,7 @@
           Gratuit
         - elsif best_price.try(:has_promo?)
           %div
-            %span.line-through= "#{readable_amount best_price.readable_amount}€".html_safe
+            %span.line-through= "#{readable_amount best_price.amount}€".html_safe
             %span.gamma.green= "#{readable_amount best_price.per_course_promo_amount}€".html_safe
         - else
           = "#{readable_amount best_price.per_course_amount}€".html_safe
