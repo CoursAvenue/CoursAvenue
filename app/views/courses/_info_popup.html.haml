@@ -1,0 +1,39 @@
+%h4 Contactez #{@place.long_name} pour réserver votre séance
+
+%h5.flush--bottom Contact :
+- if @place.contact_name
+  %div
+    %i.icon-user
+    = @place.contact_name
+
+- if @place.contact_phone or @place.contact_mobile_phone
+  %div
+    %i.icon-phone
+    = @place.contact_phone
+    - if @place.contact_phone and @place.contact_mobile_phone
+      \/
+    = @place.contact_mobile_phone
+
+- if @structure.website
+  %div
+    @
+    = link_to @structure.website, @structure.website, target: '_blank'
+
+%div
+  %i.icon-map-marker
+  = @place.address
+
+
+%h5.push--top.flush--bottom Rappel :
+
+%div
+  Cours : #{@course.name}
+%div
+  %span.lbl.milli
+    = @course.type_name_html
+    - if @course.plannings.any? and @course.plannings.first.duration
+      = "de #{readable_duration @course.plannings.first.duration}"
+    pour
+    = join_audiences_text(@course).downcase
+    = join_levels_text(@course).downcase
+

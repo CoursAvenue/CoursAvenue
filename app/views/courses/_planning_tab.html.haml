@@ -10,9 +10,8 @@
           = render 'workshop_schedule'
         %p.milli
           %i Dernière mise à jour le #{l(@course.updated_at, format: :date)}.
-          - if @structure.admins.count == 0
-            %br
-            %i Le planning est susceptible d'avoir changé.
+          %br
+          %i Planning susceptible d'avoir été modifié.
       - else
         %p Pas de planning pour ce cours.
     .grid__item.three-eighths.palm--one-whole.lap--one-whole

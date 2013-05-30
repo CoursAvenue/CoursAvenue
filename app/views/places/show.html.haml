@@ -101,10 +101,10 @@
           %meta{itemprop: 'postal-code', content: @place.zip_code}
           %meta{itemprop: 'locality', content: @city.name}
 
-      - else
-        .delta.push--bottom Aucun avis
+      %div.soft-half--bottom
+        %b Vous connaissez cet établissement ?
       %div
-        = link_to 'Donner mon avis', '#comments', class: 'btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - lieu', 'click','#{@place.slug}'])"
+        = link_to 'Donner votre avis', '#comments', class: 'btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - lieu', 'click','#{@place.slug}'])"
 
     %hr
 

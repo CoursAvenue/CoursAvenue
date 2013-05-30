@@ -23,14 +23,16 @@
           (Prix du stage)
         - else
           (#{t(@best_price.libelle)})
+      %br
+      = link_to 'Voir les autres formules', '#price_tab', onclick: "$('price_tab').click()"
     .text--center
       - if current_user
-        - if current_user.reservation_for? @course
-          = link_to "Vous assistez déjà à ce #{@course.type_name.downcase}", '#', class: 'btn btn__success one-whole disabled', onclick: "_gaq.push(['_trackEvent', 'Ne plus assister au cours', 'click','Inscrit'])"
-        - else
-          = form_for @course.reservations.build do |f|
-            = f.hidden_field :reservable_type
-            = f.hidden_field :reservable_id
-            = f.submit "Assister à ce #{@course.type_name.downcase}", class: 'btn btn__success one-whole', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])"
+        = form_for @course.reservations.build, remote: true do |f|
+          = f.hidden_field :reservable_type
+          = f.hidden_field :reservable_id
+          = f.submit "Coordonnées de reservation", class: 'btn btn__success one-whole', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])", data: {behavior: 'modal', title: 'Information pour la réservation du cours', width: '650px', el: 'course_info'}
       - else
-        %a.btn.btn__success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour effectuer votre réservation', width: '450px', url: '/users/sign_up'}} Assister à ce #{@course.type_name.downcase}
+        %a.btn.btn__success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour accéder aux informations', width: '500px', url: '/users/sign_up'}} Coordonnées de reservation
+
+- if current_user
+  #course_info.hidden= render 'info_popup'

@@ -35,17 +35,22 @@
     %a{href: '#comments'}
       %i.lbc-brand-icon
 
-%ul.nav.flush--bottom
-  %li
-    %h4.flush--bottom
-      %span.lbl.milli= @course.type_name_html
-  = join_course_subjects @course, true
+
+%span.lbl.milli
+  = @course.type_name_html
+  - if @course.plannings.any? and @course.plannings.first.duration
+    = "de #{readable_duration @course.plannings.first.duration}"
+  pour
+  = join_audiences_text(@course).downcase
+  = join_levels_text(@course).downcase
+%ul.nav.flush--bottom= join_course_subjects @course, true
 
 .grid--full.cf
   - # To Float left to have it first on mobile
   %section.grid__item.three-tenths#summary.palm--one-whole.lap--one-whole.float--right.islet>
     = render 'contact_structure'
     .text--center.white-box.islet
+
       - if @course.rating
         .delta Note : #{@course.rating}
         %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
@@ -58,11 +63,10 @@
           %meta{itemprop: 'street-address', content: @place.street}
           %meta{itemprop: 'postal-code', content: @place.zip_code}
           %meta{itemprop: 'locality', content: @city.name}
-
-      - else
-        .delta.push--bottom Aucun avis
+      %div.soft-half--bottom
+        %b Vous avez déjà suivi ce cours ?
       %div
-        = link_to 'Donner mon avis', '#comments', class: 'btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - cours', 'click','#{@course.slug}'])"
+        = link_to 'Donner votre avis', '#comments', class: 'btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - cours', 'click','#{@course.slug}'])"
     %hr
     %article.visuallyhidden--palm.visuallyhidden--lap
       .delta D'autres cours pour vous !
@@ -76,7 +80,7 @@
                 - else
                   = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
               .flexbox__item.similar-course
-                %h3.similar-course--course-name= course.name
+                %h3.similar-course--course-name.flush--bottom= course.name
                 %h4.similar-course--structure-name
                   %i.icon-map-marker
                   = course.place.long_name
@@ -109,7 +113,7 @@
 
     %ul.tab-titles{data: {behavior: 'tabs'}}
       %li.tab-el.active{data: { el: 'tab-planning' }}= t('.planning')
-      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos tarif', 'click', '#{@course.slug}'])", data: { el: 'tab-prices' }}= t('.prices')
+      %li.tab-el#price_tab{onclick: "_gaq.push(['_trackEvent', 'Infos tarif', 'click', '#{@course.slug}'])", data: { el: 'tab-prices' }}= t('.prices')
       %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos cours', 'click', '#{@course.slug}'])", data: { el: 'tab-description' }}= t('.infos')
       %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos structure', 'click', '#{@course.slug}'])"}
         = link_to place_path(@place) do
