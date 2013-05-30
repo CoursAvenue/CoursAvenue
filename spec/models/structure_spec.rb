@@ -32,8 +32,18 @@ describe Structure do
   context :comments do
     it 'should retrieve course comments' do
       comment = structure.comments.create FactoryGirl.attributes_for(:comment)
-
       structure.all_comments.should include comment
+    end
+
+    it 'updates comments_count' do
+      @structure = FactoryGirl.create(:structure)
+      @course    = FactoryGirl.create(:course, structure_id: @structure.id)
+
+      FactoryGirl.create(:structure_comment, commentable_id: @structure.id)
+      @structure.comments_count.should eq 1
+
+      FactoryGirl.create(:course_comment, commentable_id: @course.id)
+      @structure.comments_count.should eq 2
     end
   end
 end

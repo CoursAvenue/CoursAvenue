@@ -34,7 +34,7 @@ class Structure < ActiveRecord::Base
                   :modification_condition,
                   :cancel_condition,
                   :image,
-                  :rating,
+                  :rating, :comments_count,
 
                   ## Moyen de financements possible :
                   :accepts_holiday_vouchers, :accepts_ancv_sports_coupon, :accepts_leisure_tickets,

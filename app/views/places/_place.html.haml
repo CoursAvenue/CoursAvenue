@@ -24,7 +24,7 @@
     - if place.structure.rating
       %meta{itemprop: "ratingValue", content: place.structure.rating}
       %div
-        = place.comments.count
+        = place.structure.comments_count
         avis
         %i.lbc-brand-icon
         \/

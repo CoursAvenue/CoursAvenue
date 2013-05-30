@@ -1,7 +1,7 @@
 class Comment < ActiveRecord::Base
   attr_accessible :commentable_id, :commentable_type, :content, :author_name, :email, :rating, :title
 
-  belongs_to :commentable, :polymorphic => true
+  belongs_to :commentable, polymorphic: true
   belongs_to :user
 
   validates :author_name, :content, :commentable, presence: true
@@ -23,9 +23,11 @@ class Comment < ActiveRecord::Base
 
   # Update rating of the commentable (course, or structure)
   def update_commentable_rating(_commentable_object)
+    # If it is a strcuture, get ALL the comments
     if _commentable_object.is_a? Structure
       ratings_array = _commentable_object.all_comments.collect(&:rating)
       ratings       = ratings_array.inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }
+      _commentable_object.comments_count = ratings_array.length
     else
       ratings = _commentable_object.comments.group(:rating).count
     end
@@ -36,7 +38,8 @@ class Comment < ActiveRecord::Base
       total_rating += key * value
     end
     new_rating = (nb_rating == 0 ? nil : (total_rating.to_f / nb_rating.to_f))
-    _commentable_object.update_attribute :rating, new_rating
+    _commentable_object.rating = new_rating
+    _commentable_object.save
   end
 
   def update_rating
