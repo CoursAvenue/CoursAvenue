@@ -18,7 +18,7 @@ CoursAvenue::Application.routes.draw do
           put 'activate'
           put 'disable_condition'
           put 'validate_condition'
-          get 'validation'
+          get 'share'
           post 'get_feedbacks'
         end
         collection do

@@ -1,26 +1,25 @@
 = side_menu_currently_at 'Infos générales'
 
 .text--center
-  %p.alert--info
-    %b Bienvenue !
-    %br
-    Laissez vous guider pour référencer vos cours facilement !
+  .alert--info.soft-half
+    %h3.flush--bottom Bienvenue !
+    %p.flush--bottom Nous avons besoin de quelques informations rapides pour créer votre compte CoursAvenuePro.
 .islet
   = simple_form_for [:pro, @structure] do |structure_form|
-    = simple_fields_for @structure.admins.build do |contact_form|
+    = simple_fields_for((@structure.main_contact or @structure.admins.build)) do |contact_form|
       = contact_form.error_notification
       .form-inputs
         %h5.form-header-group
           %i.icon-user
-          Contact
+          Vous
         .form-white-box
           = contact_form.input :name
           = contact_form.input :phone_number, wrapper_html: {class: 'flush--top'}
-          %p.field-form-info.flush--bottom= t('pro.admins.registrations.new.phone_number_info')
+          %p.milli.field-form-info.flush--bottom= t('pro.admins.registrations.new.phone_number_info')
         %h5.form-header-group.flush--top.flush--bottom Identifiant de connexion
         .form-white-box
           = contact_form.input :email, wrapper_html: {class: 'flush--bottom'}
-          = contact_form.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe'
+          = contact_form.input :password, wrapper_html: {class: 'flush--bottom'}
           = contact_form.input :password_confirmation
 
     .form-inputs
@@ -29,7 +28,9 @@
         Information
       .form-white-box
         = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
-        = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}
+        %p.milli.field-form-info.flush--bottom= t('.structure_name_info')
+        = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}, label: t('.structure_address')
+        %p.milli.field-form-info.flush--bottom= t('.structure_address_info')
         = structure_form.input :zip_code, input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
         = structure_form.association :city, collection: [@structure.city]
 

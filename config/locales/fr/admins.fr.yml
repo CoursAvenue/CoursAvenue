@@ -23,7 +23,7 @@ fr:
       registrations:
         successful: "Merci de vous être enregistré ! Bienvenue dans votre espace de configuration."
         new:
-          phone_number_info: "Numéro donné aux élèves qui veulent réserver vos cours"
+          phone_number_info: "En cas de besoin, nous vous contacterons sur ce numéro que nous ne communiquerons à personne."
           email_info: Cet email sera votre identifiant pour l’accès à votre espace pro
           password: Votre mot de passe
           password_confirmation: Confirmation de votre mot de passe

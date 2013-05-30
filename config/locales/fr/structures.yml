@@ -75,3 +75,6 @@ fr:
         you_are: Vous êtes ?
         contact: Contact (il est important que l'on puisse vous contacter rapidement)
         possible_funding: "Pour l’un ou l’ensemble de vos cours, acceptez-vous le paiement par les financements suivants :"
+        structure_name_info: "Si vous êtes un professeur indépendant, renseignez votre Prénom + Nom"
+        structure_address_info: "Si vous êtes un professeur indépendant, renseignez votre adresse ; si ce n’est pas celle de vos cours, vous pourrez le spécifier dans votre espace et rajouter d’autres lieux"
+        structure_address: Adresse principale (N° + Rue)

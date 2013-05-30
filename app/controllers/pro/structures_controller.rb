@@ -58,10 +58,6 @@ class Pro::StructuresController < Pro::ProController
     @structures = Structure.order('created_at ASC').all
   end
 
-  def validation
-    @structure = Structure.find params[:id]
-  end
-
   def show
     @structure = Structure.find params[:id]
     @places    = @structure.places.order('name ASC')

@@ -27,7 +27,7 @@ class ::Admin < ActiveRecord::Base
                   :is_teacher,                    # Not used
                   :structure_id
 
-  validates :password, :email, :name, :structure, presence: true, on: :create
+  validates :password, :email, :name, :phone_number, :structure, presence: true, on: :create
 
   # attr_accessible :title, :body
   belongs_to :structure
