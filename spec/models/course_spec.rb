@@ -198,4 +198,13 @@ describe Course do
     end
   end
 
+  context 'levels' do
+    before do
+      @course = FactoryGirl.build(:course)
+      @course.levels << [Level.beginner, Level.beginner]
+    end
+    subject {@course}
+    it { should be_invalid }
+  end
+
 end

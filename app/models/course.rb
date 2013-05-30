@@ -53,6 +53,7 @@ class Course < ActiveRecord::Base
   validates :place        , presence: true
   validates :subjects     , presence: true
   validates :levels       , presence: true
+  validate :level_uniqueness
   validates :audiences    , presence: true
 
   before_save :set_structure_if_empty
@@ -366,5 +367,11 @@ class Course < ActiveRecord::Base
 
   def replace_slash_n_r_by_brs
     self.description = self.description.gsub(/\r\n/, '<br>') if self.description
+  end
+
+  def level_uniqueness
+    if levels.count > levels.uniq.count
+      errors.add(:levels, "Les niveaux ne peuvent être duppliqués")
+    end
   end
 end
