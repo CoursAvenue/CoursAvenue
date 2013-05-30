@@ -99,7 +99,7 @@
               - if course.teachers.any?
                 = course.teachers.uniq.map(&:name).join(', ')
               - else
-                = link_to 'Ajouter un prof', pro_course_plannings_path(course), class: 'btn'
+                = link_to 'Choisir un professeur', pro_course_plannings_path(course), class: 'btn'
             %td= course.subjects.map(&:name).join(', ')
             %td.text--right
               %span>

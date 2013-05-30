@@ -24,7 +24,11 @@ class Pro::PlanningsController < InheritedResources::Base
 
   def create
     if can? :edit, @course
+      teacher_name = params[:planning].delete :teacher
       @planning        = Planning.new(params[:planning])
+      if teacher_name.present?
+        @planning.teacher = @course.structure.teachers.create(name: teacher_name)
+      end
       @plannings       = @course.plannings.reject { |planning| planning == @planning }
       @planning.course = @course
       set_dates_and_times

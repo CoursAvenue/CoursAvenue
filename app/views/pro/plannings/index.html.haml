@@ -25,3 +25,14 @@
 %hr
 
 = render "#{@course.underscore_name}_list"
+
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        $('add-teacher').addEvent('click', function(event) {
+            $('add-teacher-wrapper').dispose()
+            $('new-teacher-wrapper').show();
+
+        });
+    });
