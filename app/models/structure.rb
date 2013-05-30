@@ -79,6 +79,7 @@ class Structure < ActiveRecord::Base
   before_create    :set_active_to_true
   after_create     :set_free_pricing_plan
   after_create     :create_place
+  # before_save      :build_place
   after_create     :subscribe_to_mailchimp if Rails.env.production?
   before_save      :replace_slash_n_r_by_brs
 
@@ -127,6 +128,10 @@ class Structure < ActiveRecord::Base
   def create_place
     self.places.create(name: self.name, street: self.street, city: self.city, zip_code: self.zip_code)
   end
+
+  # def build_place
+  #   self.places.build(name: self.name, street: self.street, city: self.city, zip_code: self.zip_code)
+  # end
 
   def create_teacher
     if teachers.empty? and !main_contact.nil?

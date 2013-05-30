@@ -51,12 +51,18 @@ describe CoursesController do
   end
 
   describe '#index' do
-    let(:course) { FactoryGirl.create(:course) }
-    let(:place)  { course.place }
-    before do
-      get :index, lat: place.latitude, lng: place.longitude
+    before(:all) do
+      Course.delete_all
+      # Sunspot.remove_all!(Course)
+      @course = FactoryGirl.create(:course)
+      @place  = @course.place
+      @course.index!
+    end
+    before(:each) do
+      get :index, lat: @place.latitude, lng: @place.longitude
     end
     subject { assigns('courses') }
+
     it { should have(1).item }
   end
 end

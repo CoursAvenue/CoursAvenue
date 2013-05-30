@@ -69,18 +69,6 @@ class CoursesController < ApplicationController
   end
 
   def search_solr
-    if request.referrer == 'http://www.coursavenue.com/'
-      if params[:time_slots].present? and params[:week_days].present?
-        ClickLogger.create(name: 'Recherche avec créneau journée et horaire')
-      elsif params[:time_slots].present?
-        ClickLogger.create(name: 'Recherche avec créneau journée')
-      elsif params[:week_days].present?
-        ClickLogger.create(name: 'Recherche avec créneau horaire')
-      else
-        ClickLogger.create(name: 'Recherche')
-      end
-    end
-
     if params[:subject_id]
       begin
         @subject = Subject.find params[:subject_id]

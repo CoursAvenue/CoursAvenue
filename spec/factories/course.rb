@@ -9,6 +9,7 @@ FactoryGirl.define do
     levels      [Level.first]
     audiences   [Audience.first]
 
+    active                      true
     type                        'Course::Lesson'
     name                        Forgery(:lorem_ipsum).words(4)
     description                 Forgery(:lorem_ipsum).words(10)

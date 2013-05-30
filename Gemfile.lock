@@ -272,6 +272,9 @@ GEM
     sunspot (2.0.0)
       pr_geohash (~> 1.0)
       rsolr (~> 1.0.7)
+    sunspot-rails-tester (1.0.0)
+      sunspot_rails (>= 1.2)
+      sunspot_solr (>= 1.2)
     sunspot_rails (2.0.0)
       nokogiri
       sunspot (= 2.0.0)
@@ -341,6 +344,7 @@ DEPENDENCIES
   sitemap_generator (~> 3.4)
   squeel (~> 1.0.14)
   sunspot (~> 2.0.0)
+  sunspot-rails-tester (~> 1.0.0)
   sunspot_rails (~> 2.0.0)
   sunspot_solr (~> 2.0.0)
   uglifier (>= 1.0.3)
