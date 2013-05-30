@@ -4,11 +4,26 @@
   %i.icon-list
   Mes cours référencés sur CoursAvenue
 
-.text--center
-  %p.alert--info
-    %b Le savez-vous ?
-    %br
-    = link_to "Il existe 4 actions rapides et efficaces qui vous permettront de jouer sur la performance de vos annonces", '#', data: {behavior: 'modal', title: 'Le savez-vous ?', width: '500px', el:'augment-visibility'}
+.grid--full.text--center.push
+  .grid__item.one-third>
+    %h3
+      %i.icon-2x.icon-edit
+      %br
+      Référencez vos cours
+
+  .grid__item.one-third>
+    %h3
+      %i.icon-2x.icon-picture
+      %br
+      Illustrez-les
+
+  .grid__item.one-third>
+    %h3
+      %i.icon-2x.icon-bullhorn
+      %br
+      Demandez des recommandations
+
+
 #augment-visibility.hidden
   %ol
     %li <b>Soyez recommandés !</b> : plus d'avis signifie une plus forte confiance de la part des Internautes, et donc plus de réservations pour vous. Depuis l'onglet "Mes avis" à gauche de cet écran, envoyez facilement une demande d'avis à vos clients qui vous connaissent le mieux
@@ -108,7 +123,7 @@
                   %i.icon-trash
 
 .text--center
-  = link_to 'Ajouter un cours', new_pro_structure_course_path(@structure), class: 'btn btn__success btn__large'
+  = link_to 'Ajouter un cours ou un stage', new_pro_structure_course_path(@structure), class: 'btn btn__success btn__large'
 
 = content_for :scripts do
   :javascript
