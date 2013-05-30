@@ -18,7 +18,7 @@ CoursAvenue::Application.routes.draw do
           put 'activate'
           put 'disable_condition'
           put 'validate_condition'
-          get 'share'
+          get 'share', path: 'faire-parler-de-moi'
           post 'get_feedbacks'
         end
         collection do

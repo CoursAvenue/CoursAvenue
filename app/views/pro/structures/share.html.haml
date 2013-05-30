@@ -30,10 +30,33 @@
         Un avis ne vous satisfait pas ? Gardez un droit de regard et parlons-en :
         s'il ne respecte pas notre charte (manque d'objectivité, commentaire personnel, avis non constructif), nous le supprimerons.
     .grid__item.two-thirds>
-      %textarea{name: 'emails', rows: 5, cols: 70, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr'}
+      %textarea{name: 'emails', rows: 7, cols: 70, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr'}
       %br
       = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Un petit coup de pouce !", width: '700px', el: 'mail-content'}
       %br
       = submit_tag 'Envoyer ma demande', class: 'btn btn__success'
 #mail-content.hidden
   = render template: 'admin_mailer/send_feedbacks'
+
+%h4
+  %i.icon-facebook-sign.icon-2x
+  Vous avez une page Facebook ?
+%b Pas de problème ! Copiez ce texte que nous vous avons préparé, puis collez-le sur le mur de votre page Facebook
+%p.alert--info
+  Bonjour !
+  %br
+  Nous venons de référencer nos cours sur le site CoursAvenue et souhaiterions avoir vos recommandations sur nos cours.
+  = link_to 'Cliquez-ici pour déposer un avis.', courses_url(name: @structure.name, subdomain: 'www')
+  %br
+  C'est très rapide et ça nous donnera un bon coup de pouce. Merci à tous nos fidèles fans !
+
+%hr
+%h4 Liste des élèves déjà sollicités
+%table.table--striped.table--data
+  %thead
+    %tr
+      %th Email
+  %tbody
+    - @structure.newsletter_users.each do |student|
+      %tr
+        %td= student.email
