@@ -3,12 +3,7 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
   layout 'admin_pages'
 
   def new
-    if params[:structure]
-      @structure = Structure.find params[:structure]
-    else
-      @structure = Structure.new
-    end
-    @admin = Admin.new
+    redirect_to new_pro_structure_path
   end
 
   def create

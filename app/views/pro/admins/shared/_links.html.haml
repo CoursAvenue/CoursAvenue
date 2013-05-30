@@ -2,9 +2,9 @@
   = link_to "Se connecter", new_session_path(resource_name)
   %br
 
-/ - if devise_mapping.registerable? && controller_name != 'registrations'
-/   = link_to "S'enregistrer", new_registration_path(resource_name)
-/   %br
+- if devise_mapping.registerable? && controller_name != 'registrations'
+  = link_to "Je n'ai pas encore de compte", new_pro_structure_path
+  %br
 
 - if devise_mapping.recoverable? && controller_name != 'passwords'
   = link_to "J'ai oublié mon mot de passe", new_pro_admin_password_path
@@ -14,11 +14,11 @@
   = link_to "Je n'ai pas reçu les instructions par email ?", new_pro_admin_confirmation_path
   %br
 
-- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
-  = link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name)
-  %br
+/ - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
+/   = link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name)
+/   %br
 
-- if devise_mapping.omniauthable?
-  - resource_class.omniauth_providers.each do |provider|
-    = link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider)
-    %br
+/ - if devise_mapping.omniauthable?
+/   - resource_class.omniauth_providers.each do |provider|
+/     = link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider)
+/     %br
