@@ -21,6 +21,19 @@
     left            : 50%;
     margin-left     : -5px;
 }
+.map-paris .map-marker-image {
+    width : 26px;
+    height: 40px;
+    a {
+        width      : 26px;
+        height     : 40px;
+        line-height: 29px;
+    }
+    span {
+        font-size: 11px;
+    }
+}
+
 .map-marker-image {
     position: absolute;
     display : block;

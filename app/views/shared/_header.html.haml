@@ -22,7 +22,8 @@
           = link_to "Se connecter", '#', data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_in'}
         %span.soft-half--left
           = link_to "Créer un compte", '#', data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_up'}, class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Inscrit'])"
-        %span.soft-half--left
+        = image_tag 'header/espace-pro.png', class: 'v-middle push--left'
+        %span
           = link_to 'Référencer mes cours', 'http://pro.coursavenue.com', class: 'btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
 
 

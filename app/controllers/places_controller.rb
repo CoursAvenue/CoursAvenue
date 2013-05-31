@@ -61,10 +61,11 @@ class PlacesController < ApplicationController
     @comment   = @structure.comments.build
     @city      = @place.city
 
+    place           = @place
     place_latitude  = @place.latitude
     place_longitude = @place.longitude
     @search = Sunspot.search(Place) do
-      with(:location).in_radius(place_latitude, place_longitude, params[:radius] || 10, :bbox => true)
+      with(:location).in_radius(place_latitude, place_longitude, params[:radius] || 10, :bbox => true) if place.is_geolocalized?
       without(:street, nil)
       paginate :page => (1), :per_page => 5
     end
