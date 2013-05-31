@@ -6,13 +6,26 @@
     color           : white;
     font-weight     : bold;
 }
-.exclu-badge {
+.badge--exclu {
     @extend .badge;
     background-color: $orange;
     top             : 1em;
 }
-.price-badge {
+
+.badge--price {
     @extend .badge;
     background-color: $greenSuccess;
     bottom          : 1em;
+}
+
+.badge--step {
+    @extend .badge;
+    @include border-radius(4em);
+    background-color: $greenSuccess;
+    top         : -0.5em;
+    left        : -1em;
+    width       : 2.5em;
+    height      : 2.5em;
+    line-height : 2em;
+    text-align  : center;
 }

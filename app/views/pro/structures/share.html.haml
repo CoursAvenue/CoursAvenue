@@ -1,22 +1,29 @@
-= side_menu_currently_at 'Faire parler de moi'
+= side_menu_currently_at 'Recommandations'
 
 %h5.home-title Faites-vous recommander par vos élèves
-.grid--full.push
-  .grid__item.one-third.text--center>
-    %h3
-      %i.icon-bullhorn.icon-2x
-      %br
-      Demandez des recommandations
-  .grid__item.one-third.text--center>
-    %h3
-      %i.icon-comments.icon-2x
-      %br
-      Recevez des avis positifs
-  .grid__item.one-third.text--center>
-    %h3
-      %i.icon-circle-arrow-up.icon-2x
-      %br
-      Gagnez la confiance des élèves
+.grid--full.text--center.push--bottom
+  .grid__item.three-twelfths.text--center.v-middle.relative>
+    .white-box.islet
+      %h4
+        %i.icon-bullhorn.icon-2x
+        %br
+        Demandez des recommandations
+  .grid__item.one-twelfth.text--center.islet.v-middle>
+    %i.icon-2x.icon-chevron-right
+  .grid__item.three-twelfths.text--center.v-middle.relative>
+    .white-box.islet
+      %h4
+        %i.icon-comments.icon-2x
+        %br
+        Recevez des avis positifs
+  .grid__item.one-twelfth.text--center.islet.v-middle>
+    %i.icon-2x.icon-chevron-right
+  .grid__item.three-twelfths.text--center.v-middle.relative>
+    .white-box.islet
+      %h4
+        %i.icon-circle-arrow-up.icon-2x
+        %br
+        Gagnez la confiance des élèves
 
 = form_tag get_feedbacks_pro_structure_path(@structure) do
   .grid
@@ -24,7 +31,7 @@
       %p
         %b Entrez les emails de vos élèves les plus fidèles en séparant les adresses par des virgules
         (emails non utilisés à des fins commerciales).
-      %p
+      %ps
         Une fois votre demande envoyée, vos élèves pourront s'inscrire sur CoursAvenue et laisser un avis sur vos cours ou votre établissement.
         %br
         Un avis ne vous satisfait pas ? Gardez un droit de regard et parlons-en :

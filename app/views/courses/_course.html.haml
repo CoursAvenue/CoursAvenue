@@ -4,7 +4,7 @@
   %div.two-twelfths.visuallyhidden--palm
     .course-image.media__img
       - if best_price.try(:has_promo?)
-        .price-badge
+        .badge--price
           Promo
           = readable_promo_percentage best_price
       = link_to course_path(course) do
