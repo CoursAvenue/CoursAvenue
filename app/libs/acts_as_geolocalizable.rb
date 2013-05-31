@@ -24,6 +24,13 @@ module ActsAsGeolocalizable
           self.update_column :longitude, geolocation[:lng]
         rescue Exception => e
           puts "Address not found: #{e}"
+          begin
+            geolocation    = Gmaps4rails.geocode("#{self.city.name}, France").first
+            self.update_column :latitude, geolocation[:lat]
+            self.update_column :longitude, geolocation[:lng]
+          rescue Exception => e
+            puts "Address not found: #{e}"
+          end
         end
       end
     end
