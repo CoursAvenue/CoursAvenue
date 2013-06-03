@@ -9,7 +9,7 @@
     %label &nbsp;-&nbsp;
     = f.input :end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: {year: 2000, month: 1, day: 1, hour: 9, min: 00}
   .input#add-teacher-wrapper
-    = f.association :teacher, as: :select, collection: @structure.teachers, selected: @planning.teacher || @plannings.first.try(:teacher), label: 'Professeur', include_blank: true
+    = f.association :teacher, as: :select, collection: @structure.teachers, selected: (@planning.teacher || @plannings.first.try(:teacher)), label: 'Professeur', include_blank: true
     = link_to '#', id: 'add-teacher' do
       &nbsp
       %i.icon-user
