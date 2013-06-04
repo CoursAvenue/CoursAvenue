@@ -13,34 +13,34 @@
           .grid__item.one-quarter.lap--one-half.palm--one-whole>
             %h5.blue Utilisateurs pratiquants
             %ul.discrete-list.milli
-              %li= link_to 'Pourquoi CoursAvenue ?',           pages_why_path, rel: :nofollow
-              %li= link_to 'Comment ça marche ?',              pages_how_it_works_path, rel: :nofollow
-              %li= link_to 'Foire aux questions Utilisateurs', pages_faq_users_path, rel: :nofollow
-              %li= link_to 'Mentions légales Utilisateurs',    pages_mentions_partners_path, rel: :nofollow
+              %li= link_to 'Pourquoi CoursAvenue ?',           pages_why_url(subdomain: 'www'), rel: :nofollow
+              %li= link_to 'Comment ça marche ?',              pages_how_it_works_url(subdomain: 'www'), rel: :nofollow
+              %li= link_to 'Foire aux questions Utilisateurs', pages_faq_users_url(subdomain: 'www'), rel: :nofollow
+              %li= link_to 'Mentions légales Utilisateurs',    pages_mentions_partners_url(subdomain: 'www'), rel: :nofollow
 
           .grid__item.one-quarter.lap--one-half.palm--one-whole>
             %h5.blue Partenaires
             %ul.discrete-list.milli
               %li= link_to 'Référencez vos cours !', 'http://pro.coursavenue.com', rel: :nofollow
-              %li= link_to 'Foire aux questions Partenaires', pages_faq_partners_path, rel: :nofollow
-              %li= link_to 'Conditions générales de vente', pages_terms_and_conditions_path, rel: :nofollow
+              %li= link_to 'Foire aux questions Partenaires', pages_faq_partners_url(subdomain: 'pro'), rel: :nofollow
+              %li= link_to 'Conditions générales de vente', pages_terms_and_conditions_url(subdomain: 'pro'), rel: :nofollow
 
           .grid__item.one-quarter.lap--one-half.palm--one-whole>
             %h5.blue CoursAvenue
             %ul.discrete-list.milli
-              %li= link_to 'Qui sommes-nous ?', pages_who_are_we_path, rel: :nofollow
-              %li= link_to 'Contact',           pages_contact_path, rel: :nofollow
-              %li= link_to 'Service client',    pages_customer_service_path, rel: :nofollow
-              %li= link_to 'Presse',            pages_press_path, rel: :nofollow
+              %li= link_to 'Qui sommes-nous ?', pages_who_are_we_url(subdomain: 'www'), rel: :nofollow
+              %li= link_to 'Contact',           pages_contact_url(subdomain: 'www'), rel: :nofollow
+              %li= link_to 'Service client',    pages_customer_service_url(subdomain: 'www'), rel: :nofollow
+              %li= link_to 'Presse',            pages_press_url(subdomain: 'www'), rel: :nofollow
               %li= link_to 'Blog !',            'http://blog.coursavenue.com/', target: '_blank', rel: :nofollow
-              %li= link_to 'Jobs',              pages_jobs_path, rel: :nofollow
+              %li= link_to 'Jobs',              pages_jobs_url(subdomain: 'www'), rel: :nofollow
 
           .grid__item.one-quarter.lap--one-half.palm--one-whole>
             %h5.blue Disciplines
             %ul.discrete-list.milli
-              %li= link_to 'Danse'  , subject_courses_path('danse')
-              %li= link_to 'Théâtre', subject_courses_path('theatre')
-              %li= link_to 'Cuisine', subject_courses_path('cuisine')
-              %li= link_to 'Zumba'  , subject_courses_path('zumba')
-              %li= link_to 'Yoga'   , subject_courses_path('yoga')
-              %li= link_to 'Musique', subject_courses_path('musique')
+              %li= link_to 'Danse'  , subject_courses_url('danse', subdomain: 'www')
+              %li= link_to 'Théâtre', subject_courses_url('theatre', subdomain: 'www')
+              %li= link_to 'Cuisine', subject_courses_url('cuisine', subdomain: 'www')
+              %li= link_to 'Zumba'  , subject_courses_url('zumba', subdomain: 'www')
+              %li= link_to 'Yoga'   , subject_courses_url('yoga', subdomain: 'www')
+              %li= link_to 'Musique', subject_courses_url('musique', subdomain: 'www')

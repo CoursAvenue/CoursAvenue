@@ -54,6 +54,9 @@ class PlacesController < ApplicationController
   end
 
   def show
+    if request.subdomain == 'pro'
+      redirect_to place_url params[:id], subdomain: 'www', status: 301
+    end
     @place     = Place.find params[:id]
     @structure = @place.structure
     @courses   = @place.courses.active

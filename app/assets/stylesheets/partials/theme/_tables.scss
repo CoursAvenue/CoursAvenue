@@ -25,7 +25,8 @@
 .table--data{
     @include font-size(13px);
     td {
-        padding: 0.8em;
+        padding    : 0.5em 0.8em;
+        line-height: 1.5;
     }
 }
 
