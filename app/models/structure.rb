@@ -10,9 +10,7 @@ class Structure < ActiveRecord::Base
   STRUCTURE_TYPES         = ['structures.company',
                              'structures.independant',
                              'structures.association',
-                             'structures.board',
-                             'structures.intermittent',
-                             'structures.liberal']
+                             'structures.board']
 
   CANCEL_CONDITIONS       = ['structures.cancel_conditions.flexible',
                              'structures.cancel_conditions.moderate',

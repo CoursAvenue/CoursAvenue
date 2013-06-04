@@ -29,6 +29,8 @@ describe Structure do
     end
   end
 
+  context :structure_type do
+  end
   context :comments do
     it 'should retrieve course comments' do
       comment = structure.comments.create FactoryGirl.attributes_for(:comment)

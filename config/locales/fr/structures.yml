@@ -40,9 +40,9 @@ fr:
     company: Société privée
     association: Association
     board: Régie ou musée - établissement chargé de la gestion d'un service public
-    independant: Auto entrepreneur
-    intermittent: Intermittent du spectacle
-    liberal: Profession libérale
+    independant: Indépendant
+    intermittent: Indépendant
+    liberal: Indépendant
     cancel_conditions:
       flexible: "Flexibles : remboursement intégral jusqu’à la veille du cours"
       moderate: "Modérées : remboursement intégral jusqu’à 3 jours avant la date du cours"
