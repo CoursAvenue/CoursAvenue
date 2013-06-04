@@ -1,6 +1,9 @@
 # encoding: utf-8
 CoursAvenue::Application.routes.draw do
 
+  # ---------------------------------------------
+  # ----------------------------------------- PRO
+  # ---------------------------------------------
   constraints subdomain: 'pro' do
     namespace :pro, path: '' do
       root :to => 'home#index'
@@ -68,6 +71,9 @@ CoursAvenue::Application.routes.draw do
     end
   end
 
+  # ---------------------------------------------
+  # ----------------------------------------- WWW
+  # ---------------------------------------------
   devise_for :users, controllers: { :omniauth_callbacks => 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations' }
   resources  :users, only: [:show], path: 'eleves'
 
@@ -85,6 +91,9 @@ CoursAvenue::Application.routes.draw do
 
   resources :reservations, only: [:create]
 
+  resources :structures, only: [], path: 'etablissements' do
+    resources :comments, only: [:new], path: 'recommandations', controller: 'structures/comments'
+  end
   resources :newsletter_users, only: [:create]
 
   resources :comments, only: [:create, :destroy]
@@ -105,6 +114,9 @@ CoursAvenue::Application.routes.draw do
   resources :reservation_loggers, only: [:create]
   resources :click_loggers, only: [:create]
 
+  # ---------------------------------------------------------
+  # ----------------------------------------- Redirection 301
+  # ---------------------------------------------------------
   # Catching all 301 redirection
   resources :subjects, only: [], path: 'disciplines' do
     resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
@@ -118,6 +130,9 @@ CoursAvenue::Application.routes.draw do
   match 'ville/:id',                                        to: 'redirect#city'
   match 'disciplines/:id',                                  to: 'redirect#disciplines'
 
+  # ------------------------------------------------------
+  # ----------------------------------------- Static pages
+  # ------------------------------------------------------
   # Pages
   match 'pages/pourquoi-le-bon-cours'         => 'pages#why',                  as: 'pages_why'
   match 'pages/comment-ca-marche'             => 'pages#how_it_works',         as: 'pages_how_it_works'

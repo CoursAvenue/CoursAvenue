@@ -1,6 +1,12 @@
 # encoding: utf-8
-class CommentsController < ApplicationController
+class Structures::CommentsController < ApplicationController
   include CommentsHelper
+
+  def new
+    @structure   = Structure.find(params[:structure_id])
+    @comment     = @structure.comments.build
+    @comments    = @structure.all_comments[0..5].reject{|c| c.new_record?}
+  end
 
   def create
     @commentable  = find_commentable
@@ -28,36 +34,16 @@ class CommentsController < ApplicationController
           format.html { redirect_to commentable_path(@comment), alert: "Le commentaire n'a pas pu être posté. Assurez-vous d'avoir bien remplis tous les champs."}
         end
       end
-    end
-  end
-
-  def destroy
-    @comment = Comment.find(params[:id])
-    path     = commentable_path(@comment)
-    respond_to do |format|
-      if can?(:destroy, @comment) and @comment.destroy
-        format.html { redirect_to request.referrer || path, notice: 'Votre commentaire a bien été supprimé'}
-      else
-        format.html { redirect_to request.referrer || path, alert: 'Vous ne pouvez pas supprimer ce commentaire'}
+      if @comment.email.present?
+        begin
+          UserMailer.after_comment(@comment).deliver!
+        rescue Exception => exception
+          logger.error '------------------------ LOGGER ERROR --------------------------'
+          logger.error "Couldn't send email to #{@comment.email}"
+          logger.error exception.message
+          logger.error '------------------------ LOGGER ERROR --------------------------'
+        end
       end
     end
   end
-
-  private
-  def find_commentable
-    type = params[:comment][:commentable_type]
-    type.classify.constantize.find(params[:comment][:commentable_id])
-  end
-
-  def find_commentable_without_type
-    params.each do |name, value|
-      # Regex correspondant à la forme model_id
-      if name =~ /(.+)_id$/
-        # $1 correspond au nom du modèle
-        return $1.classify.constantize.find(value)
-      end
-    end
-    nil # Retourne nil si rien n'a été trouvé
-  end
-
 end

@@ -2,7 +2,7 @@
     background: white;
     border    : 1px solid #DDD;
     @include border-radius($brand-round);
-    @include box-shadow(2px 2px 4px #CCC);
+    @include box-shadow(1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE);
 }
 .form-white-box {
     @extend .white-box;

@@ -4,6 +4,9 @@ fr:
       comment: Commentaire
     attributes:
       comment:
-        content: Commentaire
+        content: Votre avis
+        title: Nom du cours suivi
         name: Nom
         email: Email
+        rating: Votre appréciation
+        author_name: Votre nom

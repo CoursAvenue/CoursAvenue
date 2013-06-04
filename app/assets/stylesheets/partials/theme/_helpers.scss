@@ -16,14 +16,14 @@
 .v-top    { vertical-align: top!important; }
 .v-middle { vertical-align: middle!important; }
 
-.orange { color: $orange; }
-.yellow { color: $yellow; }
-.red    { color: $red; }
-.green  { color: $greenSuccess; }
-.blue   { color: $blueGreen !important; }
-.orange { color: $orange; }
-.brand  { color: $orange !important; }
-
+.orange     { color: $orange; }
+.yellow     { color: $yellow; }
+.red        { color: $red; }
+.green      { color: $greenSuccess; }
+.blue       { color: $blueGreen !important; }
+.orange     { color: $orange; }
+.brand      { color: $orange !important; }
+.gray-light { color: $grayLight;}
 .margin-bottom {
     margin-bottom: 1em;
 }
@@ -72,4 +72,9 @@
 }
 .nowrap {
     white-space : nowrap;
+}
+.milli {
+    p {
+        line-height: 1.5;
+    }
 }

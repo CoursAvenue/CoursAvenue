@@ -5,6 +5,15 @@
 
     /*
      * Given an input element, will update a relative element.
+     *
+     *  Example
+     *     <h5 data-behavior='toggleable' data-el='+ .search-panel-content'>
+     *         Dates
+     *         <i class='icon-caret-left'></i>
+     *     </h5>
+     *     <div class='hide search-panel-content'>
+     *          ...
+     *     </div>
      */
 
     objects.Toggler = new Class({
