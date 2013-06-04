@@ -15,17 +15,19 @@ CoursAvenue::Application.routes.draw do
       resources :comments, only: [:index], controller: 'comments'
       resources :subjects
       resources :reservation_loggers, only: [:index, :destroy]
-      resources :structures do
+      resources :structures, path: 'etablissements' do
         resources :comments, only: [:index], controller: 'structures/comments'
         member do
           put 'activate'
           put 'disable_condition'
           put 'validate_condition'
-          get 'share', path: 'faire-parler-de-moi'
+          get 'recommendations', path: 'recommandations'
           post 'get_feedbacks'
         end
         collection do
           get 'select', path: 'referencer-mes-cours'
+          get 'new_from_recomendation', path: 'demande-de-recommandation'
+          post 'create_and_get_feedbacks'
         end
         resources :teachers
         resources :places

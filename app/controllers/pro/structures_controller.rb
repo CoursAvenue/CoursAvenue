@@ -1,9 +1,9 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_filter :authenticate_pro_admin!, except: [:select, :new, :create]
-  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks]
+  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :new_from_recomendation, :create_and_get_feedbacks]
+  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :new_from_recomendation, :create_and_get_feedbacks]
 
-  layout 'admin'
+  layout :get_layout
 
   def get_feedbacks
     @structure      = Structure.find params[:id]
@@ -80,6 +80,10 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  def new_from_recomendation
+    @structure = Structure.new name: params[:name], zip_code: params[:zip_code]
+  end
+
   def new
     @structure = Structure.new
   end
@@ -109,6 +113,21 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  def create_and_get_feedbacks
+    @structure      = Structure.new params[:structure]
+    params[:emails] ||= ''
+    emails          = params[:emails].split(',').map(&:strip)
+    respond_to do |format|
+      if @structure.save
+        emails.map{|email| NewsletterUser.create(email: email, structure_id: @structure.id) }
+        format.html { redirect_to new_pro_admin_registration_path(structure: @structure), notice: 'Maintenant que vos élèves ont été notifiés, vous pouvez vous inscrire sur notre plateforme pour suivre vos recommendations' }
+        emails.map{|email| AdminMailer.send_feedbacks(@structure, email).deliver}
+      else
+        format.html { render 'pro/structures/new_from_recomendation' }
+      end
+    end
+
+  end
 
   def create
     @admin           = ::Admin.new params[:admin]
@@ -143,4 +162,13 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  private
+
+  def get_layout
+    if action_name == 'new_from_recomendation' or action_name == 'create_and_get_feedbacks'
+      'empty'
+    else
+      'admin'
+    end
+  end
 end

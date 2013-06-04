@@ -25,5 +25,6 @@
 
 - #----------------------- Image
 
+%meta{property: "og:image", content: image_path('logo.png')}
 - if content_for? :meta_image
   %meta{property: "og:image", content: yield(:meta_image)}

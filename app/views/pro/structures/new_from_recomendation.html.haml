@@ -1,0 +1,42 @@
+%h2 Trouvez de nouveaux élèves grâce à vos avis en ligne !
+
+%hr
+%p
+  Demandez des recommandations auprès de vos élèves et de votre réseau professionnel et elles apparaîtront publiquement sur votre profil CoursAvenue (si vous ne souhaitez pas qu’elles s'affichent sur votre profil, vous pourrez les supprimer depuis votre espace pro).
+  %br
+  %b C’est gratuit, simple et rapide :
+
+= simple_form_for [:pro, @structure], url: create_and_get_feedbacks_pro_structures_path, method: :post do |f|
+
+  %h4.flush--bottom Validez vos informations
+  .form-white-box.islet.flush--left
+    = f.input :name, wrapper_html: { class: 'flush--bottom' }, label: 'Nom de votre établissement / association.'
+    %p.field-form-info
+      %i Si vous êtes un professeur indépendant, entrez votre prénom + nom.
+
+    = f.input :contact_email, as: :hidden, input_html: {value: params[:email]}
+    = f.input :street
+    .grid
+      .grid__item.width-auto
+        = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
+      .grid__item.width-auto
+        = f.association :city, collection: [@structure.city], label: false
+
+  %h4.flush--bottom Renseignez les emails de vos élèves
+  .form-white-box.islet.flush--left
+    .input
+      %label.control-label.v-top Emails de vos élèves
+      %textarea{name: 'emails', rows: 7, cols: 70, placeholder: 'Entrez les emails de vos élèves en les séparant par des virgules (emails non utilisés à des fins commerciales).', value: params[:emails], style: 'height: 150px;', data: {behavior: 'autoresize'}}
+      %p.field-form-info
+        %i Exemple : patrick@gmail.com, thomas@wanadoo.fr
+        / %br
+        / Vous pouvez également importer vos contacts depuis votre boîte mail ou depuis un tableau excel.
+
+  = f.submit 'Envoyer ma demande', class: 'btn__large btn btn--large btn__success'
+
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        $('structure_zip_code').fireEvent('keyup');
+    });

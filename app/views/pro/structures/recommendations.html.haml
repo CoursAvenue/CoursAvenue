@@ -55,7 +55,17 @@
   Pas de problème !
   %b Copiez ce texte que nous vous avons préparé, puis collez-le sur le mur de votre page Facebook
 %p.alert--info
-  Vous aimez mes/nos cours ? Faites-le savoir et recommandez-moi/nous en cliquant sur le lien suivant :
+  Vous aimez
+  - if @structure.independant?
+    mes
+  - else
+    nos
+  cours ? Faites-le savoir et
+  - if @structure.independant?
+    recommandez-moi
+  - else
+    recommandez-nous
+  en cliquant sur le lien suivant :
   = link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www')
   Merci !
 

@@ -95,8 +95,8 @@ window.addEvent('domready', function() {
 
     // Autoresize textareas
     $$('textarea[data-behavior=autoresize]').each(function(textarea) {
-        var default_height = textarea.getStyle('height') || '50px';
-        var default_scrollheight = textarea.scrollHeight;
+        var default_height       = textarea.getStyle('height') || '50px';
+        var default_scrollheight = parseInt(default_height);
         textarea.addEvent('keyup', function() {
             this.style.height = "1px";
             if (this.scrollHeight < default_scrollheight) {

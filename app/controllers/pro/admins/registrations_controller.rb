@@ -3,8 +3,13 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
   layout 'admin_pages'
 
   def new
-    @structure = Structure.find params[:structure]
-    @admin     = @structure.admins.build
+    @structure = Structure.where(slug: params[:structure]).first
+    if @structure
+      @structure = Structure.find params[:structure]
+      @admin     = @structure.admins.build(email: @structure.contact_email)
+    else
+      redirect_to new_pro_structure_path
+    end
   end
 
   def create

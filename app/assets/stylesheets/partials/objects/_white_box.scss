@@ -1,3 +1,7 @@
+.white-box--noshadow {
+    @extend .white-box;
+    @include box-shadow(none!important);
+}
 .white-box {
     background: white;
     border    : 1px solid #DDD;

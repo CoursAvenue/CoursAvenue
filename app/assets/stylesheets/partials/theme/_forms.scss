@@ -6,8 +6,10 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
 
 //.simple_form {
     .error {
+        padding    : 5px 10px !important;
+        margin     : 0;
+        margin-left: $label-width;
         @extend .alert--error;
-        padding: 5px 10px !important;
     }
     .input {
         margin: 10px 0;

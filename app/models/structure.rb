@@ -25,7 +25,7 @@ class Structure < ActiveRecord::Base
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
                   :gives_professional_courses, :website, :phone_number,
-                  :mobile_phone_number, :email_address, :description,
+                  :mobile_phone_number, :contact_email, :description,
                   :active,
                   :has_validated_conditions,
                   :validated_by,
@@ -85,7 +85,7 @@ class Structure < ActiveRecord::Base
     if admins.any?
       admins.first.email
     else
-      read_attribute(:email_address)
+      read_attribute(:contact_email)
     end
   end
 

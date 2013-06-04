@@ -11,7 +11,7 @@
       %div.search-input-wrapper
         .relative
           %input#search-input{class: 'search-input', placeholder: 'Que voulez-vous faire ?', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'subject-list', autocomplete: 'off'}
-          %p#search-help.white-box.hidden{style: 'z-index: 2; line-height: 1.3; padding: 5px 10px; width: 100%; position: absolute;'} Recherchez par intitulé de cours, discipline, nom de structure, etc.
+          %p#search-help.white-box--noshadow.hidden{style: 'z-index: 2; line-height: 1.3; padding: 5px 10px; width: 100%; position: absolute;'} Recherchez par intitulé de cours, discipline, nom de structure, etc.
       .aListCon
         %datalist#subject-list
         <!--[if IE 9]><select disabled><![endif]-->
