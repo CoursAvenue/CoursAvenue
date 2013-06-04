@@ -22,11 +22,7 @@ class CommentsController < ApplicationController
       elsif cookies["comment_course_#{@commentable.id}"]
         format.html { redirect_to commentable_path(@comment), alert: "Vous ne pouvez pas poster deux commentaires sur le même #{@commentable.class.model_name.human.downcase}."}
       else
-        if params[:comment][:commentable_type] == 'Structure'
-          format.html { render '/comments/new', alert: "Le commentaire n'a pas pu être posté. Assurez-vous d'avoir bien remplis tous les champs."}
-        else
-          format.html { redirect_to commentable_path(@comment), alert: "Le commentaire n'a pas pu être posté. Assurez-vous d'avoir bien remplis tous les champs."}
-        end
+        format.html { redirect_to commentable_path(@comment), alert: "Le commentaire n'a pas pu être posté. Assurez-vous d'avoir bien remplis tous les champs."}
       end
     end
   end
