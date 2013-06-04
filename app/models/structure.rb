@@ -119,6 +119,9 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  def independant?
+    structure_type == 'structures.independant'
+  end
   private
 
   def set_free_pricing_plan

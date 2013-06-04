@@ -127,7 +127,7 @@
 
 .side-search-panel {
     margin-top  : 1em;
-    border      : 1px solid $grey;
+    border      : 1px solid $graySmooth;
     background  : white;
     @include border-radius(2px);
 }
@@ -145,8 +145,8 @@
         .search-panel-header {
             padding         : 0.3em 1em;
             background-color: $beige;
-            border-bottom   : 1px solid $grey;
-            border-top   : 1px solid $grey;
+            border-bottom   : 1px solid $graySmooth;
+            border-top   : 1px solid $graySmooth;
             margin-bottom   : 0;
             @include box-shadow(0 2px 2px -2px rgba(0,0,0,0.2),0 0 0 #000);
         }
@@ -165,7 +165,7 @@
                 }
             }
         .search-panel-footer {
-            border-top: 1px solid $grey;
+            border-top: 1px solid $gray;
             text-align: center;
             padding   : 1em;
             background: darken($beigeDark, 5%);

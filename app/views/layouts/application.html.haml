@@ -20,9 +20,6 @@
     = yield :above_container
     = content_for?(:content) ? yield(:content) : yield
 
-    - cache "page-footer_#{ENV["ETAG_VERSION_ID"]}" do
-      = render 'shared/footer'
-
     = javascript_include_tag "application"
     = yield :scripts # Do not change name, needed for gmaps4rails
     = javascript_include_tag 'http://maps.google.com/maps/api/js?sensor=false&language=fr&region=fr'

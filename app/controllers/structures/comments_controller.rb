@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Structures::CommentsController < ApplicationController
   include CommentsHelper
+  layout 'empty'
 
   def new
     @structure   = Structure.find(params[:structure_id])

@@ -1,14 +1,27 @@
 %p Bonjour !
 
 %p
-  Nous venons de référencer nos cours sur <a href="http://www.coursavenue.com">CoursAvenue.com</a> : c'est une nouvelle plateforme qui permet de trouver et de comparer n’importe quel cours ou stage autour de vous.
+  <strong>#{@structure.name} vous demande de rédiger une recommandation</strong> qui sera publiée sur son profil public CoursAvenue, le 1er moteur de recherche de cours et de stages.
 
 %p
-  En tant que fidèle élève, nous serions ravis si vous pouviez prendre un peu de votre temps pour dire ce que vous avez pensé de nos cours.
-  C'est très rapide et très simple : cliquez sur le lien ci-dessous, choisissez un cours que vous avez déjà suivi, puis déposez votre avis (si vous ne retrouvez pas votre cours, faites-le directement sur notre fiche établissement).
+  Votre avis est capital : cela
+  - if @structure.independant?
+    lui
+  - else
+    leur
+  permettra de proposer des cours toujours plus passionnants qui correspondent à votre besoin, et votre opinion
+  - if @structure.independant?
+    lui
+  - else
+    leur
+  sera également précieuse pour gagner en visibilité sur Internet.
 
-%p= link_to "Donner mon avis", courses_url(name: @structure.name, subdomain: 'www')
+%p
+  <strong>En 2 clics, partagez votre opinion :</strong>
+  = link_to 'cliquer ici.', new_structure_comment_url(@structure, email: @email)
 
-%p Merci énormément pour ce coup de pouce et à très bientôt !
+%p
+  Merci pour votre contribution et à très bientôt !
 
-%p= @structure.name
+%p
+  #{@structure.name} et toute l'équipe de CoursAvenue

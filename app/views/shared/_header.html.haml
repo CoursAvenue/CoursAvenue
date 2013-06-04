@@ -30,7 +30,7 @@
 %nav.milli.main-container.soft-half.hard--left.hard--right
   %ul.nav--fit.flush
     - Subject.roots.order(:short_name).each do |subject|
-      %li.text--center.drop-down__wrapper{class: (params[:subject_id] == subject.slug ? 'active' : ''), id: "#{subject.slug}-drop-down-el", onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}''])"}
+      %li.text--center.drop-down__wrapper{class: (params[:subject_id] == subject.slug ? 'active' : ''), id: "#{subject.slug}-drop-down-el", onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}']);"}
         = link_to subject.short_name, subject_courses_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
         %ul.drop-down__el{data: {behavior: 'drop-down', trigger: "#{subject.slug}-drop-down-el", position: 'center'}}
           - subject.children.order('name ASC').each do |child_subject|

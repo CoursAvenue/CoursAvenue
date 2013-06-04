@@ -94,13 +94,17 @@ window.addEvent('domready', function() {
     });
 
     // Autoresize textareas
-    $$('textarea[data-behavior=autoresize]').addEvent('keyup', function() {
-        this.style.height = "1px";
-        if (this.scrollHeight < 35) {
-            this.style.height = "50px";
-        } else {
-            this.style.height = (25+this.scrollHeight)+"px";
-        }
+    $$('textarea[data-behavior=autoresize]').each(function(textarea) {
+        var default_height = textarea.getStyle('height') || '50px';
+        var default_scrollheight = textarea.scrollHeight;
+        textarea.addEvent('keyup', function() {
+            this.style.height = "1px";
+            if (this.scrollHeight < default_scrollheight) {
+                this.style.height = default_height;
+            } else {
+                this.style.height = (25+this.scrollHeight)+"px";
+            }
+        });
     });
 
 });

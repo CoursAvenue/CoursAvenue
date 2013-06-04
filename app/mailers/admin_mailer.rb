@@ -10,7 +10,8 @@ class AdminMailer < ActionMailer::Base
 
   def send_feedbacks(structure, email)
     @structure = structure
-    mail to: email, subject: "Un petit coup de pouce !"
+    @email     = email
+    mail to: email, subject: "Recommandez #{structure.name} sur CoursAvenue"
   end
 
   def admin_validated(admin)
