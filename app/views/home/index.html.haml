@@ -11,7 +11,7 @@
         .grid__item.palm--one-whole.lap--one-whole.one-half.islet{style: 'min-height: 35em;'}
           %div
             %h3.home-title Les derniers avis
-            %ul.comment-list#comments-slideshow{style: 'height: 80px; widht: 100%;'}
+            %ul.comment-list#comments-slideshow{style: 'height: 80px; width: 100%;'}
               - @comments.in_groups_of(4, false).each do |comment_group|
                 %li.slideshow--element
                   - comment_group.each do |comment|

@@ -13,7 +13,7 @@
           - Subject.all.each do |subject|
             %option{value: subject.name}
         <!--[if IE 9]></select><![endif]-->
-      %p#search-help.white-box.hidden{style: 'z-index: 2; line-height: 1.3; padding: 5px 10px; widht: 100%; position: absolute;'} Recherchez par intitulé de cours, discipline, nom de structure, etc.
+      %p#search-help.white-box.hidden{style: 'z-index: 2; line-height: 1.3; padding: 5px 10px; width: 100%; position: absolute;'} Recherchez par intitulé de cours, discipline, nom de structure, etc.
   %div.search-input-wrapper
     .input-with-icon
       %input#adress-picker{class: 'search-input', placeholder: 'Où ?', type: 'text', 'data-list' => 'address-list', 'data-behavior' => 'address-picker', 'data-lng' => 'address-lng', 'data-lat' => 'address-lat', autocomplete: 'off', name: 'address_name', value: params[:address_name]}
