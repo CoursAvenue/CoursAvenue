@@ -2,9 +2,9 @@ class StudentsController < InheritedResources::Base
   actions :create
 
   def create
-    back_url = params[:newsletter_user].delete(:url)
+    back_url = params[:student].delete(:url)
     create! do |format|
-      if @newsletter_user.errors.empty?
+      if @student.errors.empty?
         flash[:notice] = t('students.creation_success_notice')
       else
         flash[:error] = t('students.wrong_email')
