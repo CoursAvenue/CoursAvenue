@@ -14,7 +14,9 @@
   :javascript
     window.addEvent('domready', function() {
         new Chosen($('structure'));
+        var structure_path = "#{new_pro_admin_structure_registration_path('__id__')}";
         $('structure').addEvent('change', function() {
-            window.location = '/rejoindre-coursavenue-pro?structure=' + this.get('value');
+            window.location = structure_path.replace('__id__', this.get('value'));
+            //window.location = '/rejoindre-coursavenue-pro' + this.get('value');
         });
     });

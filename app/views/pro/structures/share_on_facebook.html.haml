@@ -1,0 +1,25 @@
+.center-block{style: 'max-width: 800px'}
+  %h4.fb-blue
+    %i.icon-facebook-sign.icon-2x.v-middle.soft-half--right
+    %span.v-middle Vous avez une page Facebook ?
+  %p.flush--bottom
+    Pas de problème !
+    %b Copiez ce texte que nous vous avons préparé, puis collez-le sur le mur de votre page Facebook
+  %p.alert--info.flush--left
+    Vous aimez
+    - if @structure.independant?
+      mes
+    - else
+      nos
+    cours ? Faites-le savoir et
+    - if @structure.independant?
+      recommandez-moi
+    - else
+      recommandez-nous
+    en cliquant sur le lien suivant :
+    = link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www')
+    Merci !
+
+  .text--center
+    / = link_to 'Passer cette étape', new_pro_admin_registration_path(structure: @structure), class: 'btn'
+    = link_to 'Passer cette étape', new_pro_admin_structure_registration_path(@structure), class: 'btn'

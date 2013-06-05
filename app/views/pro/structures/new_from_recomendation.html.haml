@@ -25,12 +25,13 @@
 
       %h4.flush--bottom Renseignez les emails de vos élèves
       .form-white-box.islet.flush--left
-        .input
-          %label.control-label.v-middle Importez vos contacts
-          %div
-            = link_to '/contacts/gmail', class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Import contact GMail', 'click'])" do
-              %i.icon-envelope.v-middle{style: 'font-size: 16px; padding-right: 5px;'}
-              %span.v-middle Gmail
+        - unless @contacts
+          .input
+            %label.control-label.v-middle Importez vos contacts
+            %div
+              = link_to '/contacts/gmail', class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Import contact GMail', 'click'])" do
+                %i.icon-envelope.v-middle{style: 'font-size: 16px; padding-right: 5px;'}
+                %span.v-middle Importer mes contacts Gmail
         .input
           %label.control-label.v-top Emails de vos élèves
           %textarea#emails{name: 'emails', rows: 7, cols: 70, placeholder: 'Entrez les emails de vos élèves en les séparant par des virgules (emails non utilisés à des fins commerciales).', value: params[:emails], style: 'height: 150px;', data: {behavior: 'autoresize'}}
@@ -43,7 +44,7 @@
     - if @contacts
       .text--center
         .alert--info
-          %b Cliquez sur vos contact pour les ajouter
+          %b Cliquez sur vos contacts pour les ajouter
       %ul#contact-list.selectable-list.block-list
         - @contacts.each do |contact|
           %li= "#{contact[:name]} <#{contact[:email]}>"

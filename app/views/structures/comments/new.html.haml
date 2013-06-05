@@ -1,3 +1,10 @@
+- if params.has_key? :facebook
+  = content_for :scripts do
+    :javascript
+      window.addEvent('domready', function() {
+        _gaq.push(['_trackEvent', 'Commentaire depuis facebook', 'vue'])
+      });
+
 .grid
   .grid__item.two-thirds>
     %h2.flush--bottom.small-margin-bottom= @structure.name

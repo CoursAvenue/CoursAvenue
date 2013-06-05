@@ -20,6 +20,7 @@ CoursAvenue::Application.routes.draw do
       resources :subjects
       resources :reservation_loggers, only: [:index, :destroy]
       resources :structures, path: 'etablissements' do
+        devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
         resources :comments, only: [:index], controller: 'structures/comments'
         member do
           put 'activate'
@@ -27,6 +28,7 @@ CoursAvenue::Application.routes.draw do
           put 'validate_condition'
           get 'recommendations', path: 'recommandations'
           post 'get_feedbacks'
+          get 'share_on_facebook', path: 'partager-sur-facebook'
         end
         collection do
           get 'select', path: 'referencer-mes-cours'

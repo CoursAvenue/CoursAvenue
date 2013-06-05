@@ -1,10 +1,14 @@
 # encoding: utf-8
 require 'oauth2'
 class Pro::StructuresController < Pro::ProController
-  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :new_from_recomendation, :create_and_get_feedbacks, :get_emails, :import_mail_callback, :import_mail_callback_failure]
-  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :new_from_recomendation, :create_and_get_feedbacks, :get_emails, :import_mail_callback, :import_mail_callback_failure]
+  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :new_from_recomendation, :create_and_get_feedbacks, :get_emails, :import_mail_callback, :import_mail_callback_failure, :share_on_facebook]
+  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :new_from_recomendation, :create_and_get_feedbacks, :get_emails, :import_mail_callback, :import_mail_callback_failure, :share_on_facebook]
 
   layout :get_layout
+
+  def share_on_facebook
+    @structure = Structure.find params[:id]
+  end
 
   def import_mail_callback_failure
     redirect_to new_from_recomendation_pro_structures_path
@@ -143,7 +147,8 @@ class Pro::StructuresController < Pro::ProController
     respond_to do |format|
       if @structure.save
         emails.map{|email| Student.create(email: email, structure_id: @structure.id) }
-        format.html { redirect_to new_pro_admin_registration_path(structure: @structure), notice: 'Maintenant que vos élèves ont été notifiés, vous pouvez vous inscrire sur notre plateforme pour suivre vos recommendations' }
+        # format.html { redirect_to new_pro_admin_registration_path(structure: @structure), notice: 'Maintenant que vos élèves ont été notifiés, vous pouvez vous inscrire sur notre plateforme pour suivre vos recommendations' }
+        format.html { redirect_to share_on_facebook_pro_structure_path(@structure), notice: 'Vos élèves ont bien été notifiés par email. Vous avez des fans Facebook ? Alors ne vous arrêtez pas là !' }
         emails.map{|email| AdminMailer.send_feedbacks(@structure, email).deliver}
       else
         format.html { render 'pro/structures/new_from_recomendation' }
@@ -188,7 +193,7 @@ class Pro::StructuresController < Pro::ProController
   private
 
   def get_layout
-    if action_name == 'new_from_recomendation' or action_name == 'create_and_get_feedbacks' or action_name == 'import_mail_callback'
+    if action_name == 'new_from_recomendation' or action_name == 'create_and_get_feedbacks' or action_name == 'import_mail_callback' or action_name == 'share_on_facebook'
       'empty'
     else
       'admin'

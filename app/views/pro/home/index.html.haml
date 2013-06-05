@@ -8,7 +8,7 @@
       = image_tag 'pro/dance_teacher.jpg', class: 'block'
       .image-quote
         %quote
-          « Le logiciel en ligne CoursAvenuePro me permet de mettre en ligne tous les cours et les stages que je souhaite : en quelques clics, je renseigne le lieu, les tarifs, les horaires et toutes les informations pratiques. Cela me permet de promouvoir mes cours et d'augmenter mon taux de remplissage. Et tout cela, c’est moi qui le décide, à tout moment, gratuitement ! »
+          « A chaque fin de cours, mes élèves me complimentent pour la qualité de mes cours. Grâce à CoursAvenuePro, je peux enfin partager ces avis positifs sur Internet et gagner ainsi la confiance de nouveaux élèves. C’est gratuit et très rapide ! »
         %p.image-quote--footer.text--right.flush--bottom Elodie, professeur de flamenco
     %p.push--top
       %i.icon-lightbulb.delta
@@ -18,22 +18,21 @@
       = link_to 'nous contacter.', pages_contact_path
 
   .grid__item.one-half.islet
-    %h1.gamma.text--center Référencez vos cours simplement depuis notre logiciel de gestion en ligne
+    %h1.gamma.text--center Référencez vos cours et gérez vos avis simplement depuis notre logiciel en ligne 100% gratuit
     %br
     %p.text--center
       = link_to select_pro_structures_path, class: 'btn btn__success btn__large', id: 'register', onclick: "_gaq.push(['_trackEvent', 'Inscription', 'click'])" do
-        %span Référencer mes cours
+        %span Référencer mes cours et obtenir des avis
         %br
         %span.milli.line-height-1 Gratuit et sans engagement
     %br
-    %h4.text--center 6 bonnes raisons pour référencer vos cours :
+    %h4.text--center 5 bonnes raisons pour référencer vos cours :
     %ul
-      %li Augmentez votre visibilité sur Internet
-      %li Touchez une nouvelle clientèle
-      %li Augmentez votre taux de remplissage
-      %li Recevez les coordonnées des élèves intéressés
-      %li Gérez votre base clients simplement
-      %li Soyez connu des entreprises de votre quartier
+      %li Ne gardez pas les compliments de vos élèves juste pour vous, partagez-les !
+      %li Grâce aux avis, gagnez la confiance de nouveaux élèves dès aujourd’hui et soyez plus visible sur Internet
+      %li Soyez présent sur CoursAvenue, le 1er moteur de recherche de cours et stages
+      %li Diffusez toutes vos belles photos et vidéos
+      %li N’ayez aucun risque : c’est 100% gratuit, et vous maîtrisez tout en temps réel
     .text--center
       = link_to 'En savoir plus', pro_pages_presentation_path, class: 'btn btn__large', onclick: "_gaq.push(['_trackEvent', 'En savoir plus', 'click'])"
 
