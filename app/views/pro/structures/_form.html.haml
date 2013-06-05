@@ -10,7 +10,7 @@
         %h5.form-header-group
           %i.icon-user
           Contact
-        .form-white-box
+        .form-white-box.flush--bottom
           = contact_form.hidden_field :id
           = contact_form.input :civility, as: :radio_buttons, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
           = contact_form.input :name

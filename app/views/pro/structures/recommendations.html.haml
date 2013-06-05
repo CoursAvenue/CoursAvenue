@@ -40,10 +40,11 @@
         s'il ne respecte pas notre charte (manque d'objectivité, commentaire personnel, avis non constructif), nous le supprimerons.
     .grid__item.two-thirds>
       %textarea{name: 'emails', rows: 7, cols: 70, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr'}
-      %br
-      = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}
-      %br
-      = submit_tag 'Envoyer ma demande', class: 'btn btn__success'
+      .grid.push-half--top
+        .grid__item.v-middle.width-auto
+          = submit_tag 'Envoyer ma demande', class: 'btn btn__success'
+        .grid__item.v-middle.width-auto
+          = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}
 #mail-content.hidden
   = render template: 'admin_mailer/send_feedbacks'
 
@@ -54,7 +55,7 @@
 %p.flush--bottom
   Pas de problème !
   %b Copiez ce texte que nous vous avons préparé, puis collez-le sur le mur de votre page Facebook
-%p.alert--info
+%p.alert--info.flush--left
   Vous aimez
   - if @structure.independant?
     mes
