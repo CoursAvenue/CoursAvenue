@@ -55,9 +55,9 @@ class Comment < ActiveRecord::Base
   end
 
   def update_mailchimp
-    user_email = self.email
+    user_email = self.email || self.user.email
     Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_USERS_LIST_ID,
-                           :email_address => self.email,
+                           :email_address => user_email,
                            :merge_vars => {
                               :NB_COMMENT => Comment.where{email == user_email}.count
                             },
