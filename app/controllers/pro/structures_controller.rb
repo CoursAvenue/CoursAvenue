@@ -137,7 +137,7 @@ class Pro::StructuresController < Pro::ProController
     respond_to do |format|
       if @structure.save
         emails.map{|email| Student.create(email: email, structure_id: @structure.id) }
-        format.html { redirect_to share_on_facebook_pro_structure_path(@structure), notice: 'Vos élèves ont bien été notifiés par email. Vous avez des fans Facebook ? Alors ne vous arrêtez pas là !' }
+        format.html { redirect_to share_on_facebook_pro_structure_path(@structure), notice: 'Vos élèves ont bien été notifiés par email.<br>Vous avez des fans Facebook ? Alors ne vous arrêtez pas là !' }
         emails.map{|email| AdminMailer.send_feedbacks(@structure, email).deliver}
       else
         format.html { render 'pro/structures/new_from_recomendation' }

@@ -33,7 +33,7 @@ module CommentsHelper
   # Path of the commentable
   def commentable_path comment, options={}
     if comment.commentable.is_a? Structure
-      new_structure_comment_path comment.commentable
+      place_path comment.commentable.places.first
     elsif comment.commentable
       course_path comment.commentable, options
     end
