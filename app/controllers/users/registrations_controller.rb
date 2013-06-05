@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :html, :js, :json
+
   def create
     @user     = User.new params[:user]
     respond_to do |format|

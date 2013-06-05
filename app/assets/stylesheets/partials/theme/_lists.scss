@@ -35,3 +35,10 @@ ul.alternate-color {
     .blog-feed__content {
         font-size: 12px;
     }
+
+.selectable-list {
+    li:hover {
+        background-color: $alternativeBackground;
+        cursor          : pointer;
+    }
+}

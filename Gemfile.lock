@@ -183,6 +183,9 @@ GEM
     omniauth-oauth2 (1.0.3)
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
+    omnicontacts (0.3.4)
+      json
+      rack
     options (2.3.0)
       fattr
     orm_adapter (0.4.0)
@@ -330,7 +333,8 @@ DEPENDENCIES
   meta_request (= 0.2.1)
   mootools-rails (~> 2.0.1)
   newrelic_rpm
-  omniauth-facebook (= 1.4.0)
+  omniauth-facebook (~> 1.4.0)
+  omnicontacts (~> 0.3.4)
   paperclip (~> 3.4.1)
   pg
   progress_bar

@@ -12,7 +12,6 @@ gem 'dalli'
 gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
 gem 'heroku-api'                , '~> 0.3.9'
 
-
 group :assets do
   gem 'sass-rails'              , '~> 3.2.4'
   gem 'uglifier'                , '>= 1.0.3'
@@ -47,7 +46,8 @@ gem 'inherited_resources'       , '~> 1.3.1'
 gem 'cancan'                    , '~> 1.6.9'
 gem 'devise'                    , '~> 2.2.3'
 gem 'devise_invitable'          , '~> 1.1.5'
-gem 'omniauth-facebook'         , '1.4.0'
+gem 'omniauth-facebook'         , '~> 1.4.0'
+gem 'omnicontacts'              , '~> 0.3.4'
 
 gem 'sunspot'                   , '~> 2.0.0'
 gem 'sunspot_solr'              , '~> 2.0.0'

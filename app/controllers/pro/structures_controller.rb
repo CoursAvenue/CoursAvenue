@@ -1,9 +1,32 @@
 # encoding: utf-8
+require 'oauth2'
 class Pro::StructuresController < Pro::ProController
-  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :new_from_recomendation, :create_and_get_feedbacks]
-  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :new_from_recomendation, :create_and_get_feedbacks]
+  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :new_from_recomendation, :create_and_get_feedbacks, :get_emails, :import_mail_callback, :import_mail_callback_failure]
+  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :new_from_recomendation, :create_and_get_feedbacks, :get_emails, :import_mail_callback, :import_mail_callback_failure]
 
   layout :get_layout
+
+  def import_mail_callback_failure
+    redirect_to new_from_recomendation_pro_structures_path
+  end
+
+  def import_mail_callback
+    @structure = Structure.new name: params[:name], zip_code: params[:zip_code]
+    @contacts = request.env['omnicontacts.contacts'].reject{|contact| contact[:email].blank?}
+    render action: 'new_from_recomendation'
+  end
+
+  def get_emails
+    client = OAuth2::Client.new('519425112113.apps.googleusercontent.com', 'PhuIrMdUtyK9DboXJjHjDVM3', :site => 'https://www.google.com/m8/feeds')
+
+    client.auth_code.authorize_url( redirect_uri: 'http://www.coursavenue.com/oauth2callback' )
+    # => "https://example.org/oauth/authorization?response_type=code&client_id=client_id&redirect_uri=http://localhost:8080/oauth2/callback"
+
+    token = client.auth_code.get_token('authorization_code_value', :redirect_uri => 'http://www.coursavenue.com/oauth2callback', :headers => {'Authorization' => 'Basic some_password'})
+    response = token.get('/api/resource', :params => { 'query_foo' => 'bar' })
+    response.class.name
+    # => OAuth2::Response
+  end
 
   def get_feedbacks
     @structure      = Structure.find params[:id]
@@ -165,7 +188,7 @@ class Pro::StructuresController < Pro::ProController
   private
 
   def get_layout
-    if action_name == 'new_from_recomendation' or action_name == 'create_and_get_feedbacks'
+    if action_name == 'new_from_recomendation' or action_name == 'create_and_get_feedbacks' or action_name == 'import_mail_callback'
       'empty'
     else
       'admin'

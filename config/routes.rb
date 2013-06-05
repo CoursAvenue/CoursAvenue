@@ -7,10 +7,14 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: 'pro' do
     namespace :pro, path: '' do
       root :to => 'home#index'
-      match 'pages/presentation'    => 'home#presentation'
-      match 'pages/offre-et-tarifs' => 'home#price', as: 'pages_price'
-      match 'pages/presse'          => 'home#press', as: 'pages_press'
-      match '/dashboard'            => 'dashboard#index', as: 'dashboard'
+      match 'pages/presentation'           => 'home#presentation'
+      match 'pages/offre-et-tarifs'        => 'home#price', as: 'pages_price'
+      match 'pages/presse'                 => 'home#press', as: 'pages_press'
+      match '/dashboard'                   => 'dashboard#index', as: 'dashboard'
+      # Import contacts
+      match "/contacts/:importer/callback" => "structures#import_mail_callback"
+      match "/contacts/failure"            => "structures#import_mail_callback_failure"
+
 
       resources :comments, only: [:index], controller: 'comments'
       resources :subjects
@@ -26,8 +30,11 @@ CoursAvenue::Application.routes.draw do
         end
         collection do
           get 'select', path: 'referencer-mes-cours'
-          get 'new_from_recomendation', path: 'demande-de-recommandation'
+          get 'new_from_recomendation', path: 'demande-de-recommandations'
           post 'create_and_get_feedbacks'
+          get 'get_emails'
+          get 'import_mail_callback'
+          get 'import_mail_callback_failure'
         end
         resources :teachers
         resources :places
@@ -153,5 +160,3 @@ CoursAvenue::Application.routes.draw do
 
   root :to => 'home#index'
 end
-
-
