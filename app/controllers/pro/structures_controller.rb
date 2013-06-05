@@ -1,8 +1,7 @@
 # encoding: utf-8
-require 'oauth2'
 class Pro::StructuresController < Pro::ProController
-  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :new_from_recomendation, :create_and_get_feedbacks, :get_emails, :import_mail_callback, :import_mail_callback_failure, :share_on_facebook]
-  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :new_from_recomendation, :create_and_get_feedbacks, :get_emails, :import_mail_callback, :import_mail_callback_failure, :share_on_facebook]
+  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :new_from_recomendation, :create_and_get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_on_facebook]
+  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :new_from_recomendation, :create_and_get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_on_facebook]
 
   layout :get_layout
 
@@ -12,24 +11,6 @@ class Pro::StructuresController < Pro::ProController
 
   def import_mail_callback_failure
     redirect_to new_from_recomendation_pro_structures_path
-  end
-
-  def import_mail_callback
-    @structure = Structure.new name: params[:name], zip_code: params[:zip_code]
-    @contacts = request.env['omnicontacts.contacts'].reject{|contact| contact[:email].blank?}
-    render action: 'new_from_recomendation'
-  end
-
-  def get_emails
-    client = OAuth2::Client.new('519425112113.apps.googleusercontent.com', 'PhuIrMdUtyK9DboXJjHjDVM3', :site => 'https://www.google.com/m8/feeds')
-
-    client.auth_code.authorize_url( redirect_uri: 'http://www.coursavenue.com/oauth2callback' )
-    # => "https://example.org/oauth/authorization?response_type=code&client_id=client_id&redirect_uri=http://localhost:8080/oauth2/callback"
-
-    token = client.auth_code.get_token('authorization_code_value', :redirect_uri => 'http://www.coursavenue.com/oauth2callback', :headers => {'Authorization' => 'Basic some_password'})
-    response = token.get('/api/resource', :params => { 'query_foo' => 'bar' })
-    response.class.name
-    # => OAuth2::Response
   end
 
   def get_feedbacks
@@ -107,8 +88,17 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  def import_mail_callback
+    @structure = Structure.new name: session[:name], zip_code: session[:zip_code], contact_email: session[:email]
+    @contacts = request.env['omnicontacts.contacts'].reject{|contact| contact[:email].blank?}
+    render action: 'new_from_recomendation'
+  end
+
   def new_from_recomendation
-    @structure = Structure.new name: params[:name], zip_code: params[:zip_code]
+    session[:name]     = params[:name]
+    session[:zip_code] = params[:zip_code]
+    session[:email]    = params[:email]
+    @structure = Structure.new name: params[:name], zip_code: params[:zip_code], contact_email: params[:email]
   end
 
   def new
@@ -147,7 +137,6 @@ class Pro::StructuresController < Pro::ProController
     respond_to do |format|
       if @structure.save
         emails.map{|email| Student.create(email: email, structure_id: @structure.id) }
-        # format.html { redirect_to new_pro_admin_registration_path(structure: @structure), notice: 'Maintenant que vos élèves ont été notifiés, vous pouvez vous inscrire sur notre plateforme pour suivre vos recommendations' }
         format.html { redirect_to share_on_facebook_pro_structure_path(@structure), notice: 'Vos élèves ont bien été notifiés par email. Vous avez des fans Facebook ? Alors ne vous arrêtez pas là !' }
         emails.map{|email| AdminMailer.send_feedbacks(@structure, email).deliver}
       else

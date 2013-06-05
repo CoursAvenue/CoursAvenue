@@ -4,7 +4,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
-  constraints subdomain: 'pro' do
+  # constraints subdomain: 'pro' do
     namespace :pro, path: '' do
       root :to => 'home#index'
       match 'pages/presentation'           => 'home#presentation'
@@ -34,7 +34,6 @@ CoursAvenue::Application.routes.draw do
           get 'select', path: 'referencer-mes-cours'
           get 'new_from_recomendation', path: 'demande-de-recommandations'
           post 'create_and_get_feedbacks'
-          get 'get_emails'
           get 'import_mail_callback'
           get 'import_mail_callback_failure'
         end
@@ -80,7 +79,7 @@ CoursAvenue::Application.routes.draw do
       end
       devise_for :admins, controllers: { sessions: 'pro/admins/sessions', registrations: 'pro/admins/registrations', passwords: 'pro/admins/passwords', confirmations: 'pro/admins/confirmations'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/', :confirmation => 'verification'}#, :password => 'secret', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
     end
-  end
+  # end
 
   # ---------------------------------------------
   # ----------------------------------------- WWW

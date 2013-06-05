@@ -15,8 +15,8 @@
         %p.field-form-info
           %i Si vous êtes un professeur indépendant, entrez votre prénom + nom.
 
-        = f.input :contact_email, as: :hidden, input_html: {value: params[:email]}
-        = f.input :street
+        = f.input :contact_email, as: :hidden
+        = f.input :street, input_html: { value: cookies[:street] }
         .grid
           .grid__item.width-auto
             = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
@@ -29,7 +29,7 @@
           .input
             %label.control-label.v-middle Importez vos contacts
             %div
-              = link_to '/contacts/gmail', class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Import contact GMail', 'click'])" do
+              = link_to "/contacts/gmail", class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Import contact GMail', 'click'])" do
                 %i.icon-envelope.v-middle{style: 'font-size: 16px; padding-right: 5px;'}
                 %span.v-middle Importer mes contacts Gmail
         .input
@@ -63,6 +63,8 @@
             emails_textarea.set('value', new_val);
             emails_textarea.fireEvent('keyup');
             this.remove();
-
+        });
+        $('structure_street').addEvent('blur', function() {
+            document.cookie = 'street=' + this.get('value');
         });
     });
