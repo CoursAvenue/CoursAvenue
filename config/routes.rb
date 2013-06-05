@@ -57,7 +57,7 @@ CoursAvenue::Application.routes.draw do
         resources :plannings, only: [:create, :update]
       end
 
-      resources :newsletter_users, only: [:index]
+      resources :students, only: [:index]
       resources :users, only: [:index]
 
       resources :admins do
@@ -96,7 +96,7 @@ CoursAvenue::Application.routes.draw do
   resources :structures, only: [], path: 'etablissements' do
     resources :comments, only: [:new], path: 'recommandations', controller: 'structures/comments'
   end
-  resources :newsletter_users, only: [:create]
+  resources :students, only: [:create]
 
   resources :comments, only: [:create, :destroy]
 

@@ -54,7 +54,7 @@ class Structure < ActiveRecord::Base
   belongs_to       :pricing_plan
 
   has_many :comments, as: :commentable, dependent: :destroy
-  has_many :newsletter_users
+  has_many :students
   has_many :teachers                 , dependent: :destroy
   has_many :subjects, through: :courses
   has_many :courses, through: :places

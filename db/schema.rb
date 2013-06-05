@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130530140109) do
+ActiveRecord::Schema.define(:version => 20130605084253) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -226,14 +226,6 @@ ActiveRecord::Schema.define(:version => 20130530140109) do
   end
 
   add_index "levels", ["name"], :name => "index_levels_on_name"
-
-  create_table "newsletter_users", :force => true do |t|
-    t.string   "city"
-    t.string   "email"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.integer  "structure_id"
-  end
 
   create_table "participants", :force => true do |t|
     t.string   "first_name"
@@ -457,6 +449,14 @@ ActiveRecord::Schema.define(:version => 20130530140109) do
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true
+
+  create_table "students", :force => true do |t|
+    t.string   "city"
+    t.string   "email"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "structure_id"
+  end
 
   create_table "subjects", :force => true do |t|
     t.string   "name"

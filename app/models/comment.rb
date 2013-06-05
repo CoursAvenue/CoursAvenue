@@ -9,6 +9,7 @@ class Comment < ActiveRecord::Base
 
   before_save   :set_title_if_empty
   after_save    :update_rating
+  after_save    :update_mailchimp if Rails.env.production?
   after_destroy :update_rating
 
   before_save :replace_slash_n_r_by_brs
@@ -53,4 +54,17 @@ class Comment < ActiveRecord::Base
     self.content = self.content.gsub(/\r\n/, '<br>')
   end
 
+  def update_mailchimp
+    user_email = self.email
+    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_USERS_LIST_ID,
+                           :email_address => self.email,
+                           :merge_vars => {
+                              :NB_COMMENT => Comment.where{email == user_email}.count
+                            },
+                           :double_optin => false,
+                           :update_existing => true,
+                           :send_welcome => false}
+                           )
+
+  end
 end

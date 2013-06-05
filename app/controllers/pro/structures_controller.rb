@@ -9,9 +9,9 @@ class Pro::StructuresController < Pro::ProController
     @structure      = Structure.find params[:id]
     params[:emails] ||= ''
     emails          = params[:emails].split(',').map(&:strip)
-    emails.map{|email| NewsletterUser.create(email: email, structure_id: @structure.id) }
+    emails.map{|email| Student.create(email: email, structure_id: @structure.id) }
     respond_to do |format|
-      format.html { redirect_to share_pro_structure_path(@structure), notice: 'Vos élèves ont bien été notifiés' }
+      format.html { redirect_to recommendations_pro_structure_path(@structure), notice: 'Vos élèves ont bien été notifiés' }
       emails.map{|email| AdminMailer.send_feedbacks(@structure, email).deliver}
     end
   end
@@ -119,7 +119,7 @@ class Pro::StructuresController < Pro::ProController
     emails          = params[:emails].split(',').map(&:strip)
     respond_to do |format|
       if @structure.save
-        emails.map{|email| NewsletterUser.create(email: email, structure_id: @structure.id) }
+        emails.map{|email| Student.create(email: email, structure_id: @structure.id) }
         format.html { redirect_to new_pro_admin_registration_path(structure: @structure), notice: 'Maintenant que vos élèves ont été notifiés, vous pouvez vous inscrire sur notre plateforme pour suivre vos recommendations' }
         emails.map{|email| AdminMailer.send_feedbacks(@structure, email).deliver}
       else

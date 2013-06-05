@@ -14,7 +14,7 @@
       %th.text--center
         %span Inscrit
   %tbody
-    - @newsletter_users.each do |user|
+    - @students.each do |user|
       %tr
         %td= user.email
         %td{data: {value: user.created_at}}
@@ -36,5 +36,5 @@
                 return new Date(date).getTime();
             }
         };
-        new TableSorter('dataTable', { columnDataTypes: 'string, date, string', cookieName: 'tableSortState__newsletter_users', dateParseFunction: dateParseFunction });
+        new TableSorter('dataTable', { columnDataTypes: 'string, date, string', cookieName: 'tableSortState__students', dateParseFunction: dateParseFunction });
     });

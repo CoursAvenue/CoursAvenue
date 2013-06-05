@@ -1,9 +1,13 @@
 %header.header
   .main-container.grid--full
-    .grid__item.one-half.palm--one-half>
+    .grid__item.one-third.palm--one-half>
       = link_to root_path, class: 'logo' do
         = image_tag 'logo.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
-    %nav.text--right.grid__item.one-half.visuallyhidden--palm
+    %nav.text--right.grid__item.two-thirds.visuallyhidden--palm
+      %span
+        = link_to "Recommander un cours", 'mailto:referencement@coursavenue.com'
+      %span.gray-light
+        &nbsp;|&nbsp;
       - if current_user
         #drop-down-el.drop-down__wrapper
           - if current_user.image
