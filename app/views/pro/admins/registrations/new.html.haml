@@ -3,7 +3,7 @@
     %h1= "#{@structure.name}, bienvenue !"
 .text--center
   %p.alert--info.one-half
-    Créez vos identifiants pour accéder à votre espace pro.
+    Créez vos identifiants pour accéder à votre espace pro qui vous permettra de référencer gratuitement tous vos cours et de gérer vos avis.
 
 = simple_form_for [:pro, @admin], :url => pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
   = f.error_notification
@@ -21,4 +21,4 @@
       = f.hidden_field :structure_id, as: :hidden, value: @structure.try(:id)
 
   .text--center
-    = f.button :submit, t('.sign_up'), class: 'btn__success btn__large'
+    = f.button :submit, "Espace pro : c'est parti !",  class: 'btn__success btn__large'

@@ -2,10 +2,14 @@
 .grid
   .grid__item.two-thirds>
     %hr
-    %p
-      Demandez des recommandations auprès de vos élèves et de votre réseau professionnel et elles apparaîtront publiquement sur votre profil CoursAvenue (si vous ne souhaitez pas qu’elles s'affichent sur votre profil, vous pourrez les supprimer depuis votre espace pro).
-      %br
-      %b C’est gratuit, simple et rapide :
+    .alert--info.flush--sides
+      %p
+        CoursAvenue est le 1er moteur de recherche de cours et stages basé sur la <strong>réputation</strong>. Une fois cette demande de recommandations envoyée à vos élèves, vous pourrez ensuite accéder <strong>gratuitement</strong> à votre logiciel en ligne qui vous permettra de publier tous vos cours sur CoursAvenue.com et de gérer facilement tous vos avis.
+      %p
+        Voici comment apparaîtront vos recommandations sur votre profil public CoursAvenue :
+        = link_to 'profil public de Cook&Go.', 'http://www.coursavenue.com/cours/cours-atelier-de-atelier-parents-enfants-a-paris-cook-go-la-fayette', target: '_blank'
+      %p.flush--bottom
+        %b Tout est gratuit, simple et rapide !
 
     = simple_form_for [:pro, @structure], url: create_and_get_feedbacks_pro_structures_path, method: :post do |f|
 
@@ -25,23 +29,24 @@
 
       %h4.flush--bottom Renseignez les emails de vos élèves
       .form-white-box.islet.flush--left
-        - unless @contacts
-          .input
-            %label.control-label.v-middle Importez vos contacts
-            %div
-              = link_to "/contacts/gmail", class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Import contact GMail', 'click'])" do
-                %i.icon-envelope.v-middle{style: 'font-size: 16px; padding-right: 5px;'}
-                %span.v-middle Importer mes contacts Gmail
         .input
           %label.control-label.v-top Emails de vos élèves
-          %textarea#emails{name: 'emails', rows: 7, cols: 70, placeholder: 'Entrez les emails de vos élèves en les séparant par des virgules (emails non utilisés à des fins commerciales).', value: params[:emails], style: 'height: 150px;', data: {behavior: 'autoresize'}}
+          %textarea#emails{name: 'emails', rows: 7, cols: 70, placeholder: 'Entrez les emails de vos élèves en les séparant par des virgules (emails non utilisés à des fins commerciales).', style: 'height: 150px;', data: {behavior: 'autoresize'}}= cookies[:emails]
           %p.field-form-info
             %i Exemple : patrick@gmail.com, thomas@wanadoo.fr
             / %br
             / Vous pouvez également importer vos contacts depuis votre boîte mail ou depuis un tableau excel.
             %br
             = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}
-      = f.submit 'Envoyer ma demande', class: 'btn__large btn btn--large btn__success'
+        - unless @contacts
+          .input
+            %label.control-label.v-middle Importez vos contacts Gmail
+            %div
+              = link_to "/contacts/gmail", class: 'btn', onclick: "_gaq.push(['_trackEvent', 'Import contact GMail', 'click'])" do
+                %i.icon-envelope.v-middle{style: 'font-size: 16px; padding-right: 5px;'}
+                %span.v-middle Importer mes contacts Gmail
+      .push--bottom
+        = f.submit 'Envoyer ma demande et accéder à mon espace pro', class: 'btn__large btn btn--large btn__success'
   .grid__item.one-third
     - if @contacts
       .text--center
@@ -85,5 +90,8 @@
         });
         $('structure_street').addEvent('blur', function() {
             document.cookie = 'street=' + this.get('value');
+        });
+        $('emails').addEvent('blur', function() {
+            document.cookie = 'emails=' + this.get('value');
         });
     });

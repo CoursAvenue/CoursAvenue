@@ -1,11 +1,13 @@
-.center-block{style: 'max-width: 800px'}
+.center-block
+  %h2 Dernière étape conseillée avant l'accès à votre espace pro
+  %hr
   %h4.fb-blue
     %i.icon-facebook-sign.icon-2x.v-middle.soft-half--right
     %span.v-middle Vous avez une page Facebook ?
   %p.flush--bottom
     Pas de problème !
     %b Copiez ce texte que nous vous avons préparé, puis collez-le sur le mur de votre page Facebook
-  %p.alert--info.flush--left
+  %p.alert--info.flush--left{style: 'max-width: 800px'}
     Vous aimez
     - if @structure.independant?
       mes
@@ -20,7 +22,7 @@
     = link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www')
     Merci !
 
-  .text--center
+  %div
     = link_to 'Je ferai ça plus tard', new_pro_admin_structure_registration_path(@structure)
-    %span.gray-light &nbsp;|&nbsp;
-    = link_to "Passer à l'étape suivante", new_pro_admin_structure_registration_path(@structure), class: 'btn btn__success'
+    %span.bordered--right.soft-half--right.push-half--right
+    = link_to "Accéder à mon espace pro", new_pro_admin_structure_registration_path(@structure), class: 'btn btn__success'
