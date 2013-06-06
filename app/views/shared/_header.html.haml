@@ -9,7 +9,7 @@
       %span.gray-light
         &nbsp;|&nbsp;
       - if current_user
-        #drop-down-el.drop-down__wrapper
+        #drop-down-el.drop-down__wrapper.grid__item.width-auto.v-middle.hard--left
           - if current_user.image
             .grid
               .grid__item.v-middle.width-auto>
@@ -19,7 +19,9 @@
           - else
             = current_user.full_name
           %ul.drop-down__el{data: {behavior: 'drop-down', trigger: 'drop-down-el', position: 'right'}}
-            %li= link_to "Se déconnecter", destroy_user_session_path, method: :delete
+            %li
+              = link_to destroy_user_session_path, method: :delete do
+                Se&nbsp;déconnecter
             - # %li= link_to 'Mon compte', user_path(current_user)
       - else
         %span

@@ -14,8 +14,8 @@ class ReservationsController < ApplicationController
     respond_to do |format|
       if @reservation.save
         format.html { redirect_to reservable_path(@reservation), notice: 'Votre réservation à bien été pris en compte. Un mail vous a été envoyé.' }
-        UserMailer.alert_structure_for_reservation(@reservation).deliver!
-        UserMailer.alert_user_for_reservation(@reservation).deliver!
+        UserMailer.delay.alert_structure_for_reservation(@reservation)
+        UserMailer.delay.alert_user_for_reservation(@reservation)
       else
         format.html { redirect_to root_path, notice: 'Un problème est survenue lors de la reservation.' }
       end

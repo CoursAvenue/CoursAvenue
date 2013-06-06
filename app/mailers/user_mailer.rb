@@ -20,6 +20,16 @@ class UserMailer < ActionMailer::Base
     mail to: @comment.email, subject: 'Merci pour votre commentaire ! CoursAvenue.com'
   end
 
+  def after_comment_for_teacher(comment)
+    @comment = comment
+    if comment.commentable.is_a? Structure
+      @structure    = comment.commentable
+    else
+      @structure    = comment.commentable.structure
+    end
+    mail to: @comment.commentable, subject: 'Un élève vient de poster un commentaire sur votre profil public CoursAvenue.com'
+  end
+
   def alert_user_for_reservation(reservation)
     @reservation = reservation
     @place       = @reservation.place

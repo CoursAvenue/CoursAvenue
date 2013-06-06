@@ -345,6 +345,10 @@ class Course < ActiveRecord::Base
     end
   end
 
+  def contact_email
+    self.place.contact_email
+  end
+
   private
 
   def friendly_name

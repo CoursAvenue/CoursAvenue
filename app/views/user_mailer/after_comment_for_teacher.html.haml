@@ -1,0 +1,13 @@
+%p Bonjour #{@structure.name},
+
+%p
+  Félicitations !
+  = @comment.author_name.titleize
+  vient de laisser un commentaire sur votre profil public CoursAvenue.
+%p
+  Accédez à votre espace pro pour le visualiser :
+  = link_to 'cliquer ici', pro_structure_url(@structure)
+
+%p À très bientôt,
+
+%p L'équipe de CoursAvenue

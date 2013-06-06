@@ -14,11 +14,9 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if !cookies["comment_#{params[:commentable_type]}_#{@commentable.id}"] and @comment.save
         cookies["comment_#{params[:commentable_type]}_#{@commentable.id}"] = true unless Rails.env.development?
-        if params[:comment][:commentable_type] == 'Structure'
-          format.html { redirect_to (request.referrer || commentable_path(@comment)), notice: "Merci d'avoir laissé votre avis !" }
-        else
-          format.html { redirect_to commentable_path(@comment), notice: "Merci d'avoir laissé votre avis !" }
-        end
+        format.html { redirect_to (request.referrer || commentable_path(@comment)), notice: "Merci d'avoir laissé votre avis !" }
+        UserMailer.delay.after_comment_for_teacher(@comment)
+        UserMailer.delay.after_comment(@comment)
       elsif cookies["comment_course_#{@commentable.id}"]
         format.html { redirect_to commentable_path(@comment), alert: "Vous ne pouvez pas poster deux commentaires sur le même #{@commentable.class.model_name.human.downcase}."}
       else
