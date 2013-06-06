@@ -31,14 +31,15 @@
 
 %h5.push--top.flush--bottom Rappel :
 
-%div
-  Cours : #{@course.name}
-%div
-  %span.lbl.milli
-    = @course.type_name_html
-    - if @course.plannings.any? and @course.plannings.first.duration
-      = "de #{readable_duration @course.plannings.first.duration}"
-    pour
-    = join_audiences_text(@course).downcase
-    = join_levels_text(@course).downcase
+- if @course
+  %div
+    Cours : #{@course.name}
+  %div
+    %span.lbl.milli
+      = @course.type_name_html
+      - if @course.plannings.any? and @course.plannings.first.duration
+        = "de #{readable_duration @course.plannings.first.duration}"
+      pour
+      = join_audiences_text(@course).downcase
+      = join_levels_text(@course).downcase
 
