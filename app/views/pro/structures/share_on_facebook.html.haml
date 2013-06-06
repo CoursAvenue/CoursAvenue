@@ -22,7 +22,10 @@
     = link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www')
     Merci !
 
+  .push--bottom
+    = link_to 'Accéder à Facebook', 'http://www.facebook.com', target: '_blank', class: 'btn btn__facebook btn__small'
+  %hr
   %div
-    = link_to 'Je ferai ça plus tard', new_pro_admin_structure_registration_path(@structure)
-    %span.bordered--right.soft-half--right.push-half--right
     = link_to "Accéder à mon espace pro", new_pro_admin_structure_registration_path(@structure), class: 'btn btn__success'
+    %span.bordered--right.soft-half--right.push-half--right
+    = link_to 'Je ferai ça plus tard', new_pro_admin_structure_registration_path(@structure)

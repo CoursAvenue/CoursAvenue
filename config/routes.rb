@@ -23,12 +23,12 @@ CoursAvenue::Application.routes.draw do
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
         resources :comments, only: [:index], controller: 'structures/comments'
         member do
-          put 'activate'
-          put 'disable_condition'
-          put 'validate_condition'
-          get 'recommendations', path: 'recommandations'
+          put  'activate'
+          put  'disable_condition'
+          put  'validate_condition'
+          get  'recommendations', path: 'recommandations'
           post 'get_feedbacks'
-          get 'share_on_facebook', path: 'partager-sur-facebook'
+          get  'share_on_facebook', path: 'partager-sur-facebook'
         end
         collection do
           get 'select', path: 'referencer-mes-cours'
