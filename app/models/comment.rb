@@ -55,7 +55,7 @@ class Comment < ActiveRecord::Base
     self.content = self.content.gsub(/\r\n/, '<br>')
   end
 
-  def update_user_mailchimp
+  def update_users_mailchimp
     user_email = self.email || self.user.email
     Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_USERS_LIST_ID,
                            :email_address => user_email,
