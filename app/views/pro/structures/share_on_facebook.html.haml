@@ -21,4 +21,6 @@
     Merci !
 
   .text--center
-    = link_to 'Passer cette étape', new_pro_admin_structure_registration_path(@structure), class: 'btn'
+    = link_to 'Je ferai ça plus tard', new_pro_admin_structure_registration_path(@structure)
+    %span.gray-light &nbsp;|&nbsp;
+    = link_to "Passer à l'étape suivante", new_pro_admin_structure_registration_path(@structure), class: 'btn btn__success'
