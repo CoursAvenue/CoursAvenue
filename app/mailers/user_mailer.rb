@@ -27,7 +27,7 @@ class UserMailer < ActionMailer::Base
     else
       @structure    = comment.commentable.structure
     end
-    mail to: @comment.commentable, subject: 'Un élève vient de poster un commentaire sur votre profil public CoursAvenue.com'
+    mail to: @comment.commentable.contact_email, subject: 'Un élève vient de poster un commentaire sur votre profil public CoursAvenue.com'
   end
 
   def alert_user_for_reservation(reservation)
