@@ -17,10 +17,11 @@ class Pro::StructuresController < Pro::ProController
     @structure      = Structure.find params[:id]
     params[:emails] ||= ''
     emails          = params[:emails].split(',').map(&:strip)
-    emails.map{|email| Student.create(email: email, structure_id: @structure.id) }
+    emails.each do |email|
+      AdminMailer.delay.send_feedbacks(@structure, email)
+    end
     respond_to do |format|
       format.html { redirect_to recommendations_pro_structure_path(@structure), notice: 'Vos élèves ont bien été notifiés' }
-      emails.map{|email| AdminMailer.send_feedbacks(@structure, email).deliver}
     end
   end
 
@@ -136,9 +137,10 @@ class Pro::StructuresController < Pro::ProController
     emails          = params[:emails].split(',').map(&:strip)
     respond_to do |format|
       if @structure.save
-        emails.map{|email| Student.create(email: email, structure_id: @structure.id) }
+        emails.each do |email|
+          AdminMailer.delay.send_feedbacks(@structure, email)
+        end
         format.html { redirect_to share_on_facebook_pro_structure_path(@structure), notice: 'Vos élèves ont bien été notifiés par email.<br>Vous avez des fans Facebook ? Alors ne vous arrêtez pas là !' }
-        emails.map{|email| AdminMailer.send_feedbacks(@structure, email).deliver}
       else
         format.html { render 'pro/structures/new_from_recomendation' }
       end

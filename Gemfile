@@ -18,6 +18,8 @@ group :assets do
   gem 'coffee-rails'            , '~> 3.2.1'
 end
 
+gem 'delayed_job_active_record' , '~> 0.4.4'
+
 gem 'js-routes'                 , '~> 0.9.0'
 gem 'font-awesome-rails'        , '~> 3.1.1.2'
 gem 'mootools-rails'            , '~> 2.0.1'

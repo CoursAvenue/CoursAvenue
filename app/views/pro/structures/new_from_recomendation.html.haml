@@ -39,6 +39,8 @@
             %i Exemple : patrick@gmail.com, thomas@wanadoo.fr
             / %br
             / Vous pouvez également importer vos contacts depuis votre boîte mail ou depuis un tableau excel.
+            %br
+            = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}
       = f.submit 'Envoyer ma demande', class: 'btn__large btn btn--large btn__success'
   .grid__item.one-third
     - if @contacts
@@ -48,6 +50,23 @@
       %ul#contact-list.selectable-list.block-list
         - @contacts.each do |contact|
           %li= "#{contact[:name]} <#{contact[:email]}>"
+
+#mail-content.hidden
+  %p Bonjour !
+
+  %p
+    <strong>#{@structure.name} vous demande de rédiger une recommandation</strong> qui sera publiée sur son profil public CoursAvenue, le 1er moteur de recherche de cours et de stages.
+    Votre avis est capital pour continuer à vous proposer des cours toujours plus passionnants qui correspondent à votre besoin, et votre opinion sera également précieuse pour gagner en visibilité sur Internet.
+
+  %p
+    <strong>En 2 clics, partagez votre opinion :</strong>
+    cliquer ici.
+
+  %p
+    Merci pour votre contribution et à très bientôt !
+
+  %p
+    #{@structure.name} et toute l'équipe de CoursAvenue
 
 = content_for :scripts do
   :javascript
