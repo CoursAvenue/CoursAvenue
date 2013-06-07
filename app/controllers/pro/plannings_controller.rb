@@ -24,13 +24,11 @@ class Pro::PlanningsController < InheritedResources::Base
 
   def create
     if can? :edit, @course
-      teacher_name = params[:planning].delete :teacher
-      @planning        = Planning.new(params[:planning])
-      if teacher_name.present?
-        @planning.teacher = @course.structure.teachers.create(name: teacher_name)
-      end
-      @plannings       = @course.plannings.reject { |planning| planning == @planning }
-      @planning.course = @course
+      create_or_affect_teacher
+      @planning         = Planning.new(params[:planning])
+      @planning.teacher = @teacher if @teacher
+      @plannings        = @course.plannings.reject { |planning| planning == @planning }
+      @planning.course  = @course
       set_dates_and_times
 
       respond_to do |format|
@@ -51,6 +49,7 @@ class Pro::PlanningsController < InheritedResources::Base
 
   def update
     if can? :edit, @course
+      create_or_affect_teacher
       @planning        = Planning.find(params[:id])
       @planning.course = @course
       set_dates_and_times
@@ -81,6 +80,13 @@ class Pro::PlanningsController < InheritedResources::Base
   end
 
   private
+
+  def create_or_affect_teacher
+    teacher_name = params[:planning].delete :teacher
+    if teacher_name.present?
+      @teacher = @course.structure.teachers.create(name: teacher_name)
+    end
+  end
 
   def set_dates_and_times
     params[:planning][:start_time]  = TimeParser.parse_time_string("#{params[:planning]['start_time(4i)']}h#{params[:planning]['start_time(5i)']}")  if params[:planning]['start_time(4i)'].present? and params[:planning]['start_time(5i)'].present?
