@@ -144,7 +144,9 @@
         })
         if ($('understood__course_status')) {
             $('understood__course_status').addEvent('click', function() {
-                document.cookie = 'understood__course_status=true';
+                var today = new Date(), expires = new Date();
+                expires.setTime(today.getTime() + (365*24*60*60*1000));
+                document.cookie = 'understood__course_status=true;expires=' + expires.toGMTString();
                 $('course-status-info').remove();
             })
         }
