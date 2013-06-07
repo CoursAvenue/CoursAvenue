@@ -8,15 +8,6 @@ class AdminMailer < ActionMailer::Base
   #   en.user_mailer.book_class.subject
   #
 
-  def send_feedbacks(structure, email)
-    @structure = structure
-    @email     = email
-    if Student.where(email: email, structure_id: @structure.id).count == 0
-      Student.create(email: email, structure_id: @structure.id)
-    end
-    mail to: email, subject: "Recommandez #{structure.name} sur CoursAvenue"
-  end
-
   def admin_validated(admin)
     @admin = admin
     mail to: @admin.email, subject: 'Votre compte a été validé'

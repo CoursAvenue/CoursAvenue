@@ -19,6 +19,7 @@ group :assets do
 end
 
 gem 'delayed_job_active_record' , '~> 0.4.4'
+# gem 'whenever'                  , '~> 0.8.2'
 
 gem 'js-routes'                 , '~> 0.9.0'
 gem 'font-awesome-rails'        , '~> 3.1.1.2'

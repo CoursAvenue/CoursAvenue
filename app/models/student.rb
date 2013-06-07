@@ -1,5 +1,5 @@
 class Student < ActiveRecord::Base
-  attr_accessible :email, :city, :structure_id
+  attr_accessible :email, :city, :email_status, :structure_id
 
   belongs_to :structure
 
@@ -9,6 +9,21 @@ class Student < ActiveRecord::Base
   validates :email, format: { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create }
 
   after_save :subscribe_to_mailchimp if Rails.env.production?
+
+  def ask_for_feedbacks_stage_1
+    self.update_attribute(:email_status, 'resend_stage_1')
+    StudentMailer.delay.ask_for_feedbacks_stage_1(self.structure, self.email)
+  end
+
+  def ask_for_feedbacks_stage_2
+    self.update_attribute(:email_status, 'resend_stage_2')
+    StudentMailer.delay.ask_for_feedbacks_stage_2(self.structure, self.email)
+  end
+
+  def ask_for_feedbacks_stage_3
+    self.update_attribute(:email_status, 'resend_stage_3')
+    StudentMailer.delay.ask_for_feedbacks_stage_3(self.structure, self.email)
+  end
 
   private
   def subscribe_to_mailchimp

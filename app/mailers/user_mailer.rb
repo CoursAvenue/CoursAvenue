@@ -10,16 +10,19 @@ class UserMailer < ActionMailer::Base
   #   en.user_mailer.book_class.subject
   #
 
+  # Welcomes the user on the platforme
   def welcome(user)
     @user = user
     mail to: @user.email, subject: 'Bienvenue sur CoursAvenue.com'
   end
 
+  # Inform the user that the comment has correctly been posted
   def after_comment(comment)
     @comment = comment
     mail to: @comment.email, subject: 'Merci pour votre commentaire ! CoursAvenue.com'
   end
 
+  # Inform teacher that a students has commented his establishment
   def after_comment_for_teacher(comment)
     @comment = comment
     if comment.commentable.is_a? Structure
@@ -30,6 +33,7 @@ class UserMailer < ActionMailer::Base
     mail to: @comment.commentable.contact_email, subject: 'Un élève vient de poster un commentaire sur votre profil public CoursAvenue.com'
   end
 
+  # Gives user information on establishment
   def alert_user_for_reservation(reservation)
     @reservation = reservation
     @place       = @reservation.place
@@ -41,6 +45,7 @@ class UserMailer < ActionMailer::Base
     mail to: 'nim.izadi@gmail.com',     subject: @reservation.email_subject_for_user
   end
 
+  # Inform establishment that someone wants to reserve a course
   def alert_structure_for_reservation(reservation)
     @reservation = reservation
     @user        = reservation.user
@@ -52,4 +57,5 @@ class UserMailer < ActionMailer::Base
     end
     mail to: 'nima@coursavenue.com', subject: @reservation.email_subject_for_structure
   end
+
 end

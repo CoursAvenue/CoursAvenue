@@ -18,7 +18,7 @@ class Pro::StructuresController < Pro::ProController
     params[:emails] ||= ''
     emails          = params[:emails].split(',').map(&:strip)
     emails.each do |email|
-      AdminMailer.delay.send_feedbacks(@structure, email)
+      StudentMailer.delay.ask_for_feedbacks(@structure, email)
     end
     respond_to do |format|
       format.html { redirect_to recommendations_pro_structure_path(@structure), notice: 'Vos élèves ont bien été notifiés' }
@@ -83,7 +83,7 @@ class Pro::StructuresController < Pro::ProController
 
   def edit
     @structure = Structure.find(params[:id])
-    @admin     = @structure.admins.first || Admin.new
+    @admin     = @structure.admins.first || @structure.admins.build
     if ! can? :edit, @structure
       redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas éditer les informations générales"
     end
@@ -138,7 +138,7 @@ class Pro::StructuresController < Pro::ProController
     respond_to do |format|
       if @structure.save
         emails.each do |email|
-          AdminMailer.delay.send_feedbacks(@structure, email)
+          StudentMailer.delay.ask_for_feedbacks(@structure, email)
         end
         format.html { redirect_to share_on_facebook_pro_structure_path(@structure), notice: 'Vos élèves ont bien été notifiés par email.<br>Vous avez des fans Facebook ? Alors ne vous arrêtez pas là !' }
       else

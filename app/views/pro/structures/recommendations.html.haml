@@ -46,7 +46,7 @@
         .grid__item.v-middle.width-auto
           = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}
 #mail-content.hidden
-  = render template: 'admin_mailer/send_feedbacks'
+  = render template: 'student_mailer/ask_for_feedbacks'
 
 %hr.push--top
 %h4.fb-blue
