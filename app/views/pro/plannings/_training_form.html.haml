@@ -4,7 +4,7 @@
     %label.required.control-label Dates
     %input.datepicker-input{type: 'text', value: (@planning.start_date.nil? ? '' : l(@planning.start_date)), placeholder: '02/08/2013', name: 'planning[start_date]', data: {behavior: 'datepicker'}}
     %label -
-    %input.datepicker-input{type: 'text', value: (@planning.start_date.nil? ? '' : l(@planning.start_date)), placeholder: '04/08/2013', name: 'planning[end_date]', data: {behavior: 'datepicker'}}
+    %input.datepicker-input{type: 'text', value: (@planning.end_date.nil? ? '' : l(@planning.end_date)), placeholder: '04/08/2013', name: 'planning[end_date]', data: {behavior: 'datepicker'}}
   .input
     = f.input :start_time, as: :time, minute_step: 15, label: 'Horaire', default: {year: 2000, month: 1, day: 1, hour: 8, min: 00}
     %label &nbsp;-&nbsp;
@@ -16,7 +16,7 @@
       %i.icon-user
       Ajouter un professeur
   .hidden#new-teacher-wrapper.push--top
-    = f.input :teacher, label: 'Nom du professeur'
+    = f.input :teacher, label: 'Nom du professeur', input_html: {value: ''}
 
   .input
     = f.input :info, as: :string, placeholder: '(optionnel) Plat : gâteau au chocolat'

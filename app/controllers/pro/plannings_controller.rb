@@ -52,6 +52,7 @@ class Pro::PlanningsController < InheritedResources::Base
       create_or_affect_teacher
       @planning        = Planning.find(params[:id])
       @planning.course = @course
+      @plannings       = @course.plannings.reject { |planning| planning == @planning }
       set_dates_and_times
       respond_to do |format|
         if @planning.update_attributes(params[:planning])

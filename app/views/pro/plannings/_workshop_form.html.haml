@@ -14,7 +14,7 @@
       %i.icon-user
       Ajouter un professeur
   .hidden#new-teacher-wrapper.push--top
-    = f.input :teacher, label: 'Nom du professeur'
+    = f.input :teacher, label: 'Nom du professeur', input_html: {value: ''}
   .input
     = f.input :info, as: :string, placeholder: 'Plat : gâteau au chocolat', label: 'Information (optionnel)'
   .text--center.input
