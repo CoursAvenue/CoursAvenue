@@ -52,10 +52,19 @@ class Pro::StructuresController < Pro::ProController
 
   def activate
     @structure        = Structure.find params[:id]
-    @structure.active = true
-
     respond_to do |format|
-      if @structure.save
+      if @structure.activate!
+        format.html { redirect_to pro_structures_path }
+      else
+        format.html { redirect_to pro_structures_path, alert: 'Les informations de la structure ne sont pas complètes.' }
+      end
+    end
+  end
+
+  def disable
+    @structure        = Structure.find params[:id]
+    respond_to do |format|
+      if @structure.disable!
         format.html { redirect_to pro_structures_path }
       else
         format.html { redirect_to pro_structures_path, alert: 'Les informations de la structure ne sont pas complètes.' }
@@ -167,16 +176,11 @@ class Pro::StructuresController < Pro::ProController
 
   def destroy
     @structure = Structure.find params[:id]
-    @structure.active = false
-    @structure.courses.each do |course|
-      course.active = false
-      course.save
-    end
     respond_to do |format|
-      if @structure.save
-        format.html { redirect_to pro_structures_path }
+      if @structure.destroy
+        format.html { redirect_to pro_structures_path, notice: 'Structure supprimé' }
       else
-        format.html { redirect_to pro_structures_path, alert: 'Les informations de la structure ne sont pas complètes.' }
+        format.html { redirect_to pro_structures_path, alert: 'Oups...' }
       end
     end
   end

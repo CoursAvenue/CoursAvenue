@@ -7,8 +7,10 @@ describe CoursesController do
   let(:course) { FactoryGirl.create(:course) }
 
   context 'slug changes' do
-    it 'should respond with 302' do
+    it 'should respond with 301' do
       initial_slug = course.slug
+      get :show, id: initial_slug
+      response.status.should eq 200
       course.name += ' some extension'
       course.save
       get :show, id: initial_slug
@@ -62,7 +64,6 @@ describe CoursesController do
       get :index, lat: @place.latitude, lng: @place.longitude
     end
     subject { assigns('courses') }
-
     it { should have(1).item }
   end
 end

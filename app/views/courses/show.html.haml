@@ -107,9 +107,12 @@
     = render 'share_links'
 
     %hr
-    - if @course.description.present? and @course.description.length > 30
+    - if @course.description.present?
       %h2.delta Description du #{@course.type_name.downcase.html_safe} de : #{@course.name}
-      %p= @course.description.html_safe
+      %p#course-description{style: 'height: 20em; overflow: hidden;'}= @course.description.html_safe
+      .text--center.islet
+        %a.btn#show-more-description Voir toute la description
+
 
     %ul.tab-titles{data: {behavior: 'tabs'}}
       %li.tab-el.active{data: { el: 'tab-planning' }}= t('.planning')
@@ -127,3 +130,20 @@
     %hr
     %article#comments
       = render 'comments'
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        var is_hidden = true;
+        $('show-more-description').addEvent('click', function() {
+            if (is_hidden) {
+                $('course-description').setStyle('height', 'auto');
+                this.set('text', 'Cacher la description');
+            } else {
+                $('course-description').setStyle('height', '20em');
+                this.set('text', 'Voir toute la description');
+            }
+            is_hidden = !is_hidden;
+            return false;
+        });
+    });

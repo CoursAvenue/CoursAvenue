@@ -24,6 +24,7 @@ CoursAvenue::Application.routes.draw do
         resources :comments, only: [:index], controller: 'structures/comments'
         member do
           put  'activate'
+          put  'disable'
           put  'disable_condition'
           put  'validate_condition'
           get  'recommendations', path: 'recommandations'

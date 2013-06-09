@@ -5,11 +5,9 @@ class Place < ActiveRecord::Base
   include ActsAsGeolocalizable
   include HasSubjects
 
-  unless Rails.env.test?
-    acts_as_gmappable validation: false,
-                      language: 'fr'
-    before_save :retrieve_address
-  end
+  acts_as_gmappable validation: false,
+                    language: 'fr'
+  before_save :retrieve_address
 
   extend FriendlyId
   friendly_id :long_name, use: [:slugged, :history]

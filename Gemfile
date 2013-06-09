@@ -85,6 +85,8 @@ group :development do
 end
 group :development, :test do
   gem 'debugger'
+  # gem 'linecache19'      , '0.5.12'
+  # gem 'ruby-debug-base19', '0.11.25'
 end
 
 

@@ -120,6 +120,21 @@ class Structure < ActiveRecord::Base
   def independant?
     structure_type == 'structures.independant'
   end
+
+  def activate!
+    self.active = true
+    self.save
+  end
+
+  def disable!
+    self.active = false
+    self.save
+    self.courses.each do |course|
+      course.active = false
+      course.save
+    end
+  end
+
   private
 
   def set_free_pricing_plan
