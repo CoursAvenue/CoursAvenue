@@ -109,7 +109,7 @@
     %hr
     - if @course.description.present?
       %h2.delta Description du #{@course.type_name.downcase.html_safe} de : #{@course.name}
-      %p#course-description{style: 'height: 20em; overflow: hidden;'}= @course.description.html_safe
+      %p#course-description{style: 'max-height: 200px; overflow: hidden;'}= @course.description.html_safe
       .text--center.islet
         %a.btn#show-more-description Voir toute la description
 
@@ -135,15 +135,20 @@
   :javascript
     window.addEvent('domready', function() {
         var is_hidden = true;
-        $('show-more-description').addEvent('click', function() {
-            if (is_hidden) {
-                $('course-description').setStyle('height', 'auto');
-                this.set('text', 'Cacher la description');
-            } else {
-                $('course-description').setStyle('height', '20em');
-                this.set('text', 'Voir toute la description');
+        if ($('show-more-description')) {
+            if($('course-description').scrollHeight < 200) {
+                $('show-more-description').hide();
             }
-            is_hidden = !is_hidden;
-            return false;
-        });
+            $('show-more-description').addEvent('click', function() {
+                if (is_hidden) {
+                    $('course-description').setStyle('max-height', 'none');
+                    this.set('text', 'Cacher la description');
+                } else {
+                    $('course-description').setStyle('max-height', '200px');
+                    this.set('text', 'Voir toute la description');
+                }
+                is_hidden = !is_hidden;
+                return false;
+            });
+        }
     });

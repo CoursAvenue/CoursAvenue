@@ -145,7 +145,10 @@
     - if @place.description.present?
       %hr
       %h2.delta.text--center Description de #{@place.long_name}
-      %p= @place.description.html_safe
+      %p#place-description{style: 'max-height: 200px; overflow: hidden;'}= @place.description.html_safe
+      .text--center.islet
+        %a.btn#show-more-description Voir toute la description
+
     %hr
     - if @courses.length > 0
       %h2.delta.text--center <b>Cours</b> proposés par #{@place.long_name}
@@ -182,15 +185,34 @@
   :javascript
     window.addEvent('domready', function() {
         var is_hidden = true;
-        $('show-more-courses').addEvent('click', function() {
-            if (is_hidden) {
-                $('course-list').setStyle('height', 'auto');
-                this.set('text', 'Cacher les cours');
-            } else {
-                $('course-list').setStyle('height', '20em');
-                this.set('text', 'Voir tous les cours');
-            }
-            is_hidden = !is_hidden;
-            return false;
-        });
+        var description_is_hidden = true;
+        if ($('show-more-courses')) {
+            $('show-more-courses').addEvent('click', function() {
+                if (is_hidden) {
+                    $('course-list').setStyle('height', 'auto');
+                    this.set('text', 'Cacher les cours');
+                } else {
+                    $('course-list').setStyle('height', '20em');
+                    this.set('text', 'Voir tous les cours');
+                }
+                is_hidden = !is_hidden;
+                return false;
+            });
+        }
+        if ($('place-description')) {
+            $('show-more-description').addEvent('click', function() {
+                if($('place-description').scrollHeight < 200) {
+                    $('show-more-description').hide();
+                }
+                if (description_is_hidden) {
+                    $('place-description').setStyle('max-height', 'none');
+                    this.set('text', 'Cacher la description');
+                } else {
+                    $('place-description').setStyle('max-height', '200px');
+                    this.set('text', 'Voir toute la description');
+                }
+                description_is_hidden = !description_is_hidden;
+                return false;
+            });
+        }
     });
