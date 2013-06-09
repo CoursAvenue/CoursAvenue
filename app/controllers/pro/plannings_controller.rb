@@ -14,11 +14,13 @@ class Pro::PlanningsController < InheritedResources::Base
     else
       @plannings = @course.plannings.order('start_date ASC, start_time ASC')
     end
+    @planning.teacher = @plannings.first.teacher
   end
 
   def edit
     @planning  = Planning.find(params[:id])
     @plannings = @course.plannings.reject { |planning| planning == @planning }
+    @teachers  = @structure.teachers
     render template: 'pro/plannings/index'
   end
 
