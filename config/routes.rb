@@ -1,6 +1,9 @@
 # encoding: utf-8
 CoursAvenue::Application.routes.draw do
 
+  # Temporary fix
+  match '/etablissements/les-ateliers-theodore--4/recommandations/new' => redirect('/etablissements/les-ateliers-theodore/recommandations/new', status: 301)
+
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
@@ -132,15 +135,14 @@ CoursAvenue::Application.routes.draw do
   resources :subjects, only: [], path: 'disciplines' do
     resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
   end
-  resources :places, only: [:show],  path: 'etablissement', to: 'redirect#place_show' # établissement without S
-  resources :places, only: [:index], path: 'etablissement', to: 'redirect#place_index' # établissement without S
-  match 'lieux',                                            to: 'redirect#lieux'
-  match 'lieux/:id',                                        to: 'redirect#lieux_show'
-  match 'ville/:city_id/disciplines/:subject_id',           to: 'redirect#city_subject'
-  match 'ville/:city_id/cours/:subject_id',                 to: 'redirect#city_subject'
-  match 'ville/:id',                                        to: 'redirect#city'
-  match 'disciplines/:id',                                  to: 'redirect#disciplines'
-
+  resources :places, only: [:show],  path: 'etablissement',            to: 'redirect#place_show' # établissement without S
+  resources :places, only: [:index], path: 'etablissement',            to: 'redirect#place_index' # établissement without S
+  match 'lieux',                                                       to: 'redirect#lieux'
+  match 'lieux/:id',                                                   to: 'redirect#lieux_show'
+  match 'ville/:city_id/disciplines/:subject_id',                      to: 'redirect#city_subject'
+  match 'ville/:city_id/cours/:subject_id',                            to: 'redirect#city_subject'
+  match 'ville/:id',                                                   to: 'redirect#city'
+  match 'disciplines/:id',                                             to: 'redirect#disciplines'
   # ------------------------------------------------------
   # ----------------------------------------- Static pages
   # ------------------------------------------------------
