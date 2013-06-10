@@ -64,7 +64,7 @@
   - if place.courses.any?
     - unless @places.length == 1
       %h3.flush--bottom.push--top.toggleable-header.bordered--bottom{data: {behavior: 'toggleable', el:'+ .toggleable-content'}}
-        = place.name
+        = place.name.titleize
         %i.icon-caret-down
     .toggleable-content
       %table.table--striped.dataTable.table--data
@@ -102,12 +102,12 @@
               %td= course.type_name
               %td
                 - if current_pro_admin
-                  = link_to course.name, edit_pro_course_path(course)
+                  = link_to course.name.titleize, edit_pro_course_path(course)
                 - else
-                  = link_to course.name, course_url(course, subdomain: :www)
+                  = link_to course.name.titleize, course_url(course, subdomain: :www)
               %td
                 - if course.teachers.any?
-                  = course.teachers.uniq.map(&:name).join(', ')
+                  = course.teachers.uniq.map(&:name).join(', ').titleize
                 - else
                   = link_to 'Choisir un professeur', pro_course_plannings_path(course), class: 'btn'
               %td= course.subjects.map(&:name).join(', ')

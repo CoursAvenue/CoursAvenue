@@ -23,7 +23,7 @@
     %tbody
       - @teachers.each do |teacher|
         %tr
-          %td= teacher.name
+          %td= teacher.name.titleize
           %td
             - if teacher.description
               - if teacher.description.length < 150

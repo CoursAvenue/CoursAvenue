@@ -1,7 +1,7 @@
 module CoursesHelper
 
   def join_teachers(course)
-    course.plannings.collect{|p| p.teacher.try(:name)}.compact.uniq.join(', ')
+    course.plannings.collect{|p| p.teacher.try(:name)}.compact.uniq.join(', ').titleize
   end
 
   def join_course_subjects(course, with_h3 = false)

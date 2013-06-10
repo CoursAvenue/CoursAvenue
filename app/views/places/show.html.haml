@@ -165,7 +165,7 @@
             - @courses.each do |course|
               %tr
                 %td
-                  %h3.base-font-style.flush--bottom= link_to course.name, course_path(course)
+                  %h3.base-font-style.flush--bottom= link_to course.name.titleize, course_path(course)
                   - if course.rating
                     = rating_stars course.rating
                 %td.text--center
@@ -200,10 +200,10 @@
             });
         }
         if ($('place-description')) {
+            if($('place-description').scrollHeight < 200) {
+                $('show-more-description').hide();
+            }
             $('show-more-description').addEvent('click', function() {
-                if($('place-description').scrollHeight < 200) {
-                    $('show-more-description').hide();
-                }
                 if (description_is_hidden) {
                     $('place-description').setStyle('max-height', 'none');
                     this.set('text', 'Cacher la description');

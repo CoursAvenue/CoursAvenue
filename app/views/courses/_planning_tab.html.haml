@@ -35,7 +35,7 @@
             %strong.flexbox__item.proceed= t('.collective')
         - if @course.has_teacher?
           %li.flexbox
-            %label.flexbox__item= Course.human_attribute_name(:teacher)
+            %label.flexbox__item= Course.human_attribute_name(:teacher).titleize
             %h3.teacher-name.flexbox__item.proceed= join_teachers @course
 
         - unless @course.frequency.nil?
