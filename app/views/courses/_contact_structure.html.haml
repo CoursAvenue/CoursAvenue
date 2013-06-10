@@ -4,7 +4,7 @@
   - elsif @structure.image.present?
     .text--center= image_tag @structure.image.url(:thumb)
 
-  %h2.delta.text--center.flush--bottom= @course.name.titleize
+  %h2.delta.text--center.flush--bottom= @course.name.capitalize
   %h3.zeta.text--center.flush--bottom
     %i.icon-map-marker
     = @course.place.long_name

@@ -3,16 +3,16 @@
     = @course.image.url
 
 = content_for :title do
-  = "#{@course.type_name} de #{@course.name.titleize} à #{@city.name} avec #{@structure.name}"
+  = "#{@course.type_name} de #{@course.name.capitalize} à #{@city.name} avec #{@structure.name}"
 
 = content_for :meta_description do
   - if @course.description.present?
     = @course.description.html_safe
   - else
     - if @course.has_teacher?
-      = "Réservez le #{@course.type_name.downcase} de #{@course.name.titleize} à #{@city.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
+      = "Réservez le #{@course.type_name.downcase} de #{@course.name.capitalize} à #{@city.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
     - else
-      = "Réservez le #{@course.type_name.downcase} de #{@course.name.titleize} à #{@city.name}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
+      = "Réservez le #{@course.type_name.downcase} de #{@course.name.capitalize} à #{@city.name}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
 
 - if cookies[:search_path]
   = link_to cookies[:search_path] do
@@ -24,7 +24,7 @@
     = t('.see_arrounding_courses')
 
 %h1.course-title
-  %span= @course.name.titleize
+  %span= @course.name.capitalize
 - if @course.rating
   %div
     %span.rating{title: comment_rating_title(@course.rating)}
@@ -76,11 +76,11 @@
             = link_to course_path(course), class: 'flexbox similar-course--image-wrapper', onclick: "_gaq.push(['_trackEvent', 'D\'autres cours pour vous', 'click','#{course.slug}'])" do
               .flexbox__item.one-fifth.similar-course--image
                 - if course.image.present?
-                  = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name.titleize}"
+                  = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name.capitalize}"
                 - else
-                  = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name.titleize}"
+                  = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name.capitalize}"
               .flexbox__item.similar-course
-                %h3.similar-course--course-name.flush--bottom= course.name.titleize
+                %h3.similar-course--course-name.flush--bottom= course.name.capitalize
                 %h4.similar-course--structure-name
                   %i.icon-map-marker
                   = course.place.long_name
@@ -89,9 +89,9 @@
     .grid--full.course-header-badge>
       .grid__item.one-half.palm--one-whole>
         - if @course.image.present?
-          = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name.titleize}"
+          = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name.capitalize}"
         - else
-          = image_tag @course.subjects.limit(1).first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name.titleize}."
+          = image_tag @course.subjects.limit(1).first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name.capitalize}."
       .grid__item.course-header-map.one-half.palm--one-whole>
         = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
         %div{itemscope: true, itemtype: 'http://schema.org/Place'}

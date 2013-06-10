@@ -23,7 +23,7 @@
         .map-marker-image
           = link_to course_path(course) do
             %span= @course_places.index(course.place) + 1
-        %h2.delta.inline.v-middle= link_to course.name, course_path(course)
+        %h2.delta.inline.v-middle= link_to course.name.capitalize, course_path(course)
         - if course.rating
           %div.inline
             %span.rating{title: comment_rating_title(course.rating)}
