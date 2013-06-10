@@ -4,7 +4,6 @@
       %th Dates
       %th.text--center Créneau horaire
       %th.text--center Durée
-      %th Places disponible
       %th Professeur
       %th.text--center
         %i.lbc-icon-info i
@@ -15,7 +14,6 @@
         %td= training_dates planning
         %td.text--center= readable_time_slot planning.start_time, planning.end_time
         %td.text--center= "#{pluralize(planning.length, 'jour')}"
-        %td.text--center= planning.nb_place_available
         %td
           = simple_form_for [:pro, @course, planning], remote: true do |f|
             = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select'}

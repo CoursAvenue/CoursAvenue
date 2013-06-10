@@ -5,10 +5,6 @@
       %th Jour
       %th.text--center Créneau horaire
       %th.text--center Durée
-      - if @has_nb_place
-        %th.text--center Places
-      - if @course.is_for_kid
-        %th.text--center Âge
       %th Professeur
       %th.text--center
         %i.lbc-icon-info i
@@ -19,14 +15,6 @@
         %td= week_day_for planning
         %td.text--center= readable_time_slot planning.start_time, planning.end_time
         %td.text--center= readable_duration planning.duration
-        - if @has_nb_place
-          %td.text--center= planning.nb_place_available
-        - if @course.is_for_kid
-          %td.text--center
-            = planning.min_age_for_kid || '-'
-            - if planning.max_age_for_kid
-              à
-              = planning.max_age_for_kid || '-'
         %td
           = simple_form_for [:pro, @course, planning], remote: true do |f|
             = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select'}
