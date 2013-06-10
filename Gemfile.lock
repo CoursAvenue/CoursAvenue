@@ -98,6 +98,8 @@ GEM
       railties (~> 3.0)
     diff-lcs (1.2.4)
     erubis (2.7.0)
+    exceptional (2.0.33)
+      rack
     excon (0.20.1)
     execjs (1.4.0)
       multi_json (~> 1.0)
@@ -322,6 +324,7 @@ DEPENDENCIES
   delayed_job_active_record (~> 0.4.4)
   devise (~> 2.2.3)
   devise_invitable (~> 1.1.5)
+  exceptional
   execjs
   factory_girl_rails (~> 4.2.1)
   font-awesome-rails (~> 3.1.1.2)
