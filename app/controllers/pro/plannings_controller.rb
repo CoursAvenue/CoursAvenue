@@ -14,7 +14,7 @@ class Pro::PlanningsController < InheritedResources::Base
     else
       @plannings = @course.plannings.order('start_date ASC, start_time ASC')
     end
-    @planning.teacher = @plannings.first.teacher
+    @planning.teacher = @plannings.first.teacher if @plannings.any?
   end
 
   def edit
