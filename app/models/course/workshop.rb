@@ -12,10 +12,6 @@ class Course::Workshop < Course
     'Cours-atelier'
   end
 
-  def slug_type_name
-    'cours-atelier'
-  end
-
   def underscore_name
     'workshop'
   end

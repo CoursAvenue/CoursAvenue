@@ -12,10 +12,6 @@ class Course::Lesson < Course
     'Cours'
   end
 
-  def slug_type_name
-    'cours'
-  end
-
   def underscore_name
     'lesson'
   end

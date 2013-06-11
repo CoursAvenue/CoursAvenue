@@ -20,10 +20,6 @@ class Course::Training < Course
     'Stage'
   end
 
-  def slug_type_name
-    'stage'
-  end
-
   def underscore_name
     'training'
   end

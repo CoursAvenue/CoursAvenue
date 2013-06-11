@@ -137,7 +137,6 @@ describe Course do
   # has_teacher?
   # promotion
   # promotion_price
-  # slug_type_name
   # approximate_price_per_course
   # type_name
   # should_generate_new_friendly_id?

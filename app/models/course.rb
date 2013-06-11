@@ -300,10 +300,6 @@ class Course < ActiveRecord::Base
     false
   end
 
-  def slug_type_name
-    'cours'
-  end
-
   def best_price
     self.prices.where{amount >= 0}.order('promo_amount ASC, amount ASC').first
   end
@@ -352,14 +348,14 @@ class Course < ActiveRecord::Base
   private
 
   def friendly_name
-    if city and structure
-      "#{self.slug_type_name} de #{self.name} a #{city.name} #{structure.name}"
-    elsif city and !structure
-      "#{self.slug_type_name} de #{self.name} a #{city.name}"
-    elsif structure
-      "#{self.slug_type_name} de #{self.name} #{structure.name}"
+    if self.city and self.structure
+      "#{self.type_name} de #{self.name} a #{self.city.name} #{self.structure.name}"
+    elsif self.city and !self.structure
+      "#{self.type_name} de #{self.name} a #{self.city.name}"
+    elsif self.structure
+      "#{self.type_name} de #{self.name} #{self.structure.name}"
     else
-      "#{self.slug_type_name} de #{self.name}"
+      "#{self.type_name} de #{self.name}"
     end
   end
 
