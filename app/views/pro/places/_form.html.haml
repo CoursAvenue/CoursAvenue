@@ -7,8 +7,12 @@
     .form-white-box
       = f.input :name, label: t('.name'), label_html: { class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => "Si vous avez plus d’un lieu, et pour pouvoir les différencier, renseignez un nom spécifique pour chaque adresse. Par exemple, si l’un de vos 3 lieux se trouve au 34 rue Buffaut, renseignez « Buffaut » ; s’il concerne le gymnase Léo Lagrange, renseignez « Lagrange », etc." }, placeholder: 'Gymnase Bercy'
       = f.input :street, placeholder: '83 avenue du général Leclerc'
-      = f.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'place_city_id'} }
-      = f.association :city, collection: [@place.city]
+      .grid
+        .grid__item.width-auto
+          = f.input :zip_code, placeholder: '75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: 'place_city_id'} }
+        .grid__item.width-auto
+          = f.association :city, collection: [@place.city], label: false
+
     %h5.form-header-group Images
     .form-white-box
       .input.flush--top

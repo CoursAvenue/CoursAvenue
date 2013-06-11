@@ -14,18 +14,20 @@
             this.default_height       = textarea.getStyle('height') || '50px';
             this.default_scrollheight = parseInt(this.default_height);
             this.attachEvents();
+            this.resize();
         },
 
         attachEvents: function() {
-            var that = this;
-            this.textarea.addEvent('keyup', function() {
-                this.style.height = "1px";
-                if (this.scrollHeight < that.default_scrollheight) {
-                    this.style.height = that.default_height;
-                } else {
-                    this.style.height = (25 + this.scrollHeight) + "px";
-                }
-            });
+            this.textarea.addEvent('keyup', this.resize.bind(this));
+        },
+
+        resize: function(event) {
+            this.textarea.style.height = "1px";
+            if (this.textarea.scrollHeight < this.default_scrollheight) {
+                this.textarea.style.height = this.default_height;
+            } else {
+                this.textarea.style.height = (25 + this.textarea.scrollHeight) + "px";
+            }
         }
     });
 })();

@@ -70,8 +70,11 @@
       .form-white-box
         = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}, label: t('.structure_address')
         %p.field-form-info= t('.structure_address_info')
-        = structure_form.input :zip_code, placeholder: '75008', input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
-        = structure_form.association :city, collection: [@structure.city]
+        .grid
+          .grid__item.width-auto
+            = structure_form.input :zip_code, placeholder: '75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
+          .grid__item.width-auto
+            = structure_form.association :city, collection: [@structure.city], label: false
 
       %h5.form-header-group
         Description
@@ -104,6 +107,7 @@
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
+        new GLOBAL.Objects.TextareaResizer($('description-textarea'));
         var reveal = $('change-password').get('reveal');
         $('change-password-button').addEvent('click', function(){
             reveal.toggle();

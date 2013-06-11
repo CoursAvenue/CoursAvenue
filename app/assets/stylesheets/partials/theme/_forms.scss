@@ -32,6 +32,7 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
         input.string, textarea {
             width    : 35em;
             max-width: 100%;
+            &.zip_code { width: 10em; }
         }
         .control-label {
             width: $label-width;
