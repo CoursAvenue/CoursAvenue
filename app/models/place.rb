@@ -135,7 +135,7 @@ class Place < ActiveRecord::Base
     if self.name == self.structure.try(:name)
       self.name
     else
-      [self.structure.try(:name), self.name]
+      "#{self.structure.try(:name)} - #{self.name}"
     end
   end
 
