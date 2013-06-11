@@ -348,15 +348,10 @@ class Course < ActiveRecord::Base
   private
 
   def friendly_name
-    if self.city and self.structure
-      "#{self.type_name} de #{self.name} a #{self.city.name} #{self.structure.name}"
-    elsif self.city and !self.structure
-      "#{self.type_name} de #{self.name} a #{self.city.name}"
-    elsif self.structure
-      "#{self.type_name} de #{self.name} #{self.structure.name}"
-    else
-      "#{self.type_name} de #{self.name}"
-    end
+    slugs = [self.type_name, self.name]
+    slugs << self.city.name      if self.city
+    slugs << self.structure.name if self.structure
+    return slugs
   end
 
   def set_structure_if_empty
