@@ -28,7 +28,8 @@
         %i.icon-map-marker
         Ajouter un lieu
     = f.input :name, label: t('.name'), placeholder: 'Zumba, jardin musical, Vins et Fromages, etc'
-    = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }
+    = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 300px;', 'data-behavior' => 'chosen', multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
+    %p.field-form-info.blue Dans ce champ, renseignez une discipline et selectionnez-en autant que vous le souhaitez.
     .input.grid--full
       .grid__item.width-auto.v-top>
         .control-label *Type de cours

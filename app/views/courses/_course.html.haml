@@ -6,7 +6,7 @@
       - if best_price.try(:has_promo?)
         .badge--price
           Promo
-          = readable_promo_percentage best_price
+          = "-#{readable_promo_percentage best_price}"
       = link_to course_path(course) do
         - if course.image.present?
           = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
@@ -32,12 +32,12 @@
             = course.comments.count
             avis
             %i.lbc-brand-icon
-        - else
-          %span.super-muted.v-middle
-            = rating_stars 0
-          %span.milli
-            = link_to course_path(course, anchor: 'comments'), class: 'visuallyhidden--palm', onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - cours', 'click'])" do
-              Soyez le 1er à donner votre avis
+        / - else
+        /   %span.super-muted.v-middle
+        /     = rating_stars 0
+        /   %span.milli
+        /     = link_to course_path(course, anchor: 'comments'), class: 'visuallyhidden--palm', onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - cours', 'click'])" do
+        /       Soyez le 1er à donner votre avis
 
     %div.grid
       %div.ten-twelfths.grid__item>
@@ -51,6 +51,11 @@
               = truncate course.place.long_name, length: 70
             - if course.structure.rating
               = rating_stars course.structure.rating
+              \/
+              = course.structure.comments_count
+              avis
+              %i.lbc-brand-icon
+
         %footer
           %span.lbl.milli
             = course.type_name_html

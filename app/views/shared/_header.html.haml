@@ -4,10 +4,6 @@
       = link_to root_path, class: 'logo' do
         = image_tag 'logo.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
     %nav.text--right.grid__item.two-thirds.visuallyhidden--palm
-      %span
-        = link_to "Recommander un cours", 'mailto:referencement@coursavenue.com'
-      %span.gray-light
-        &nbsp;|&nbsp;
       - if current_user
         #drop-down-el.drop-down__wrapper.grid__item.width-auto.v-middle.hard--left
           - if current_user.image
@@ -28,9 +24,11 @@
           = link_to "Se connecter", '#', data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_in'}
         %span.soft-half--left
           = link_to "Créer un compte", '#', data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_up'}, class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Inscrit'])"
-        = image_tag 'header/espace-pro.png', class: 'v-middle push--left'
+        = image_tag 'header/espace-pro.png', class: 'v-middle push-half--sides'
         %span
           = link_to 'Référencer mes cours', 'http://pro.coursavenue.com', class: 'btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
+        %span.push-half--left
+          = link_to "Se connecter", new_pro_admin_session_url(subdomain: 'pro')
 
 
 %nav.milli.main-container.soft-half.hard--left.hard--right

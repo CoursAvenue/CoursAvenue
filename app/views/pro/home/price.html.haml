@@ -5,11 +5,12 @@
 
 .grid
   .grid__item.one-third>
-    .ten-twelfths.center-block.white-box.islet
+    .center-block.white-box.islet
       .text--center
         %h3.flush--bottom
-          %u Basique
-        %h4.flush--bottom Gratuit
+          %u Formule gratuite
+        %h4 0€ / mois
+        %h6.flush--bottom.green Référencez vos cours et gérez tous vos avis :
 
       %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
         %li
@@ -29,11 +30,12 @@
         = link_to "Je m'inscris", select_pro_structures_path, class: 'btn btn__success btn__large', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Basique'])"
 
   .grid__item.one-third>
-    .ten-twelfths.center-block.white-box.islet
+    .center-block.white-box.islet
       .text--center
         %h3.flush--bottom
-          %u Pro
-        %h4.flush--bottom 49€ HT / mois
+          %u Formule Pro
+        %h4 39€ / mois
+        %h6.flush--bottom.green Gérez tous vos contacts et communiquez facilement avec vos élèves
       %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
         %li
           %i.icon-ok.delta.green
@@ -58,11 +60,11 @@
         = link_to "Je m'inscris", '#', class: 'btn btn__success btn__large launching-space-button', id: 'price_pro_subscribe', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro'])", data: {behavior: 'modal', el: 'launching-space', title: "Espace en cours de création"}
 
   .grid__item.one-third>
-    .ten-twelfths.center-block.white-box.islet
+    .center-block.white-box.islet
       .text--center
         %h3.flush--bottom
-          %u Pro <i>Plus</i>
-        %h4.flush--bottom 69€ HT / mois
+          %u Formule Pro <i>Plus</i>
+        %h4 69€ / mois
       %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
         %li
           %i.icon-ok.delta.green

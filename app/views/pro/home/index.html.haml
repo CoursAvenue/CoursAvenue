@@ -19,21 +19,22 @@
       = link_to 'nous contacter.', pages_contact_path
 
   .grid__item.one-half.islet
-    %h1.gamma.text--center Référencez vos cours et gérez vos avis simplement depuis notre logiciel en ligne 100% gratuit
+    %h1.delta.text--center Référencez vos cours et gérez vos avis simplement depuis notre logiciel en ligne 100% gratuit
     %br
     %p.text--center
       = link_to select_pro_structures_path, class: 'btn btn__success btn__large', id: 'register', onclick: "_gaq.push(['_trackEvent', 'Inscription', 'click'])" do
         %span Référencer mes cours et obtenir des avis
         %br
         %span.milli.line-height-1 Gratuit et sans engagement
+      .text--center= link_to "Je suis déjà inscrit, me connecter", new_pro_admin_session_url(subdomain: 'pro')
     %br
-    %h4.text--center 5 bonnes raisons pour référencer vos cours :
+    %h4.text--center 5 bonnes raisons de référencer vos cours :
     %ul
       %li Ne gardez pas les compliments de vos élèves juste pour vous, partagez-les !
       %li Grâce aux avis, gagnez la confiance de nouveaux élèves dès aujourd’hui et soyez plus visible sur Internet
       %li Soyez présent sur CoursAvenue, le 1er moteur de recherche de cours et stages
       %li Diffusez toutes vos belles photos et vidéos
-      %li N’ayez aucun risque : c’est 100% gratuit, et vous maîtrisez tout en temps réel
+      %li C’est 100% gratuit, et vous maîtrisez tout en temps réel
     .text--center
       = link_to 'En savoir plus', pro_pages_presentation_path, class: 'btn btn__large', onclick: "_gaq.push(['_trackEvent', 'En savoir plus', 'click'])"
 
