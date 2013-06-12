@@ -80,6 +80,7 @@ class Structure < ActiveRecord::Base
   # before_save      :build_place
   after_create     :subscribe_to_mailchimp if Rails.env.production?
   before_save      :replace_slash_n_r_by_brs
+  before_save      :fix_website_url
 
   def contact_email
     if admins.any?
@@ -173,5 +174,11 @@ class Structure < ActiveRecord::Base
                            :double_optin => false,
                            :update_existing => true,
                            :send_welcome => false})
+  end
+
+  def fix_website_url
+    if self.website and !self.website.starts_with? 'http://'
+      self.website = "http://#{self.website}"
+    end
   end
 end

@@ -8,8 +8,9 @@
       = image_tag 'pro/dance_teacher.jpg', class: 'block'
       .image-quote
         %quote
-          « A chaque fin de cours, mes élèves me complimentent pour la qualité de mes cours. Grâce à CoursAvenuePro, je peux enfin partager ces avis positifs sur Internet et gagner ainsi la confiance de nouveaux élèves. C’est gratuit et très rapide ! »
-        %p.image-quote--footer.text--right.flush--bottom Elodie, professeur de flamenco
+          « CoursAvenue est le premier site en ligne où nous, enseignants, osons affronter les avis de nos élèves, bons ou mauvais. À nos côtés, CoursAvenue s'engage non seulement à diffuser notre offre de cours mais également à identifier nos points forts et nos points faibles, dans un but d'amélioration continue »
+          = link_to 'Lire la suite', '#', data: {behavior: 'modal', title: "Suite du témoignage", width: '500px', el: 'testimony'}
+        %p.image-quote--footer.text--right.flush--bottom Thierry Le Cocq, Abaneraz Tango Club
     %p.push--top
       %i.icon-lightbulb.delta
       Des questions ? N'hésitez pas à visiter notre
@@ -50,3 +51,9 @@
     .grid__item.one-third.v-middle
       = link_to 'http://frenchweb.fr/', target: '_blank', alt: 'FrenchWeb', title: 'FrenchWeb', rel: 'nofollow' do
         = image_tag 'pro/partners/frenchweb.png', height: 70
+
+#testimony.hidden
+  %p
+    La critique simple n’est pas plus pertinente que le compliment facile. En revanche, la critique positive ou négative doit être argumentée et bien écrite, car dans les deux cas elle nous donne confiance et nous rend plus crédibles. L'avantage de la critique négative, c'est aussi qu'elle nous permet de mesurer le risque que nous prenons et qui participe à notre bonne réputation.
+  %p Mais attention, il ne suffit pas de regarder ce que les gens écrivent, il faut également mesurer qui ils sont."
+  %p - Thierry Le Cocq, Abaneraz Tango Club

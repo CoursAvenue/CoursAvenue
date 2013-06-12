@@ -57,8 +57,20 @@ describe Structure do
     end
   end
 
-  context :structure_type do
+  context :website do
+    it 'adds the http://' do
+      structure.website = 'coursavenue.com'
+      structure.save
+      structure.website.should eq 'http://coursavenue.com'
+    end
+
+    it 'does not add the http:// if it exists' do
+      structure.website = 'http://coursavenue.com'
+      structure.save
+      structure.website.should eq 'http://coursavenue.com'
+    end
   end
+
   context :comments do
     it 'retrieves course comments' do
       comment = structure.comments.create FactoryGirl.attributes_for(:comment)
