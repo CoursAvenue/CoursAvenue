@@ -32,7 +32,7 @@ CoursAvenue::Application.routes.draw do
           put  'validate_condition'
           get  'recommendations', path: 'recommandations'
           post 'get_feedbacks'
-          get  'share_on_facebook', path: 'partager-sur-facebook'
+          get  'share_my_profile', path: 'partager-mon-profil'
         end
         collection do
           get 'select', path: 'referencer-mes-cours'

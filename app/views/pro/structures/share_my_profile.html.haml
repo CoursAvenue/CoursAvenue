@@ -1,0 +1,95 @@
+.center-block
+  %h2
+    Partagez votre
+    = link_to 'profil public', place_url(@structure.places.first, subdomain: 'www'), target: '_blank'
+    pour avoir des avis
+.grid
+  .grid__item.two-thirds>
+    %hr
+    %h4.fb-blue.flush--bottom
+      %i.icon-facebook-sign.icon-2x.v-middle.soft-half--right
+      %span.v-middle Partagez sur Facebook ou par email
+    %p.flush--bottom
+      Copiez ce texte que nous vous avons préparé, puis collez-le sur le mur de votre page Facebook
+    %p.alert--info.flush--left{style: 'max-width: 800px'}
+      Vous aimez
+      - if @structure.independant?
+        mes
+      - else
+        nos
+      cours ? Faites-le savoir et
+      - if @structure.independant?
+        recommandez-moi
+      - else
+        recommandez-nous
+      en cliquant sur le lien suivant :
+      = link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www')
+      Merci !
+
+    %hr
+
+    %h4.flush--bottom
+      %i.icon-envelope.icon-2x.v-middle.soft-half--right
+      %span.v-middle Envoyer un email automatiquement
+    %p.flush--bottom
+      Vous pourrez suivre votre campagne de recommandations depuis votre espace pro.
+      %br
+      Nous n'utiliserons ces emails que pour cette demande de recommandations. En aucun cas ils ne seront utilisés à des fins commerciales.
+    = simple_form_for :structure, url: get_feedbacks_pro_structure_path(@structure), method: :post do |f|
+      %input{type: 'hidden', name: 'redirect_to', value: new_pro_admin_structure_registration_path(@structure)}
+      .form-white-box.islet.flush--left
+        .input
+          %label.control-label.v-top Emails de vos élèves
+          %textarea#emails{name: 'emails', rows: 7, cols: 70, placeholder: 'Entrez les emails de vos élèves en les séparant par des virgules (emails non utilisés à des fins commerciales).', style: 'height: 150px;', data: {behavior: 'autoresize'}}= cookies['emails']
+          %p.field-form-info
+            %i Exemple : patrick@gmail.com, thomas@wanadoo.fr
+            / %br
+            / Vous pouvez également importer vos contacts depuis votre boîte mail ou depuis un tableau excel.
+            %br
+            = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}, class: 'blue'
+        - unless @contacts
+          .input
+            %label.control-label.v-middle Importez vos contacts Gmail
+            %div
+              = link_to "/contacts/gmail", class: 'btn', onclick: "_gaq.push(['_trackEvent', 'Import contact GMail', 'click'])" do
+                %i.icon-envelope.v-middle{style: 'font-size: 16px; padding-right: 5px;'}
+                %span.v-middle Importer mes contacts Gmail
+
+      / .push--bottom
+      /   = link_to 'Accéder à Facebook', 'http://www.facebook.com', target: '_blank', class: 'btn btn__facebook btn__small'
+      %div
+        = f.submit "Envoyer les emails", class: 'btn btn__success'
+        %span.bordered--right.soft-half--right.push-half--right
+        = link_to 'Je ferai ça plus tard, accéder directement à mon espace pro', new_pro_admin_structure_registration_path(@structure)
+
+  .grid__item.one-third
+    - if @contacts
+      .text--center
+        .alert--info
+          %b Cliquez sur vos contacts pour les ajouter
+      %ul#contact-list.selectable-list.block-list
+        - @contacts.each do |contact|
+          %li= "#{contact[:name]} <#{contact[:email]}>"
+
+
+#mail-content.hidden
+  = render template: 'student_mailer/ask_for_feedbacks'
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        var emails_textarea = $('emails');
+        $$('#contact-list li').addEvent('click', function() {
+            if (emails_textarea.get('value').length === 0) {
+              var new_val = this.get('text');
+            } else {
+              var new_val = emails_textarea.get('value') + ', ' + this.get('text');
+            }
+            emails_textarea.set('value', new_val);
+            emails_textarea.fireEvent('keyup');
+            this.remove();
+        });
+        $('emails').addEvent('blur', function() {
+            document.cookie = 'emails=' + this.get('value');
+        });
+    });

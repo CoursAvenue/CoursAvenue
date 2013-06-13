@@ -1,4 +1,5 @@
-- show_title = true if show_title.nil?
+- with_link  = false if with_link.nil?
+- show_title = true  if show_title.nil?
 
 %li.comment-list__el
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
@@ -14,8 +15,11 @@
       = link_to 'Supprimer', comment_path(comment), method: :delete
     - if show_title and comment.title.present?
       %h6.flush--bottom{itemprop: 'headline', content: comment.title.capitalize}= comment.title.capitalize
-    %p{itemprop: 'reviewBody'}
+    %p.flush--bottom{itemprop: 'reviewBody'}
       = comment.content.html_safe
+    - if with_link
+      %p
+        = link_to comment.commentable.name, commentable_url(comment)
     .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
       %meta{itemprop: 'url', content: commentable_url(comment)}
       %meta{itemprop: 'name', content: commentable_name(comment)}

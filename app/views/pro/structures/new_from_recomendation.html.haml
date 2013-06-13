@@ -1,13 +1,13 @@
-%h2 Trouvez de nouveaux élèves grâce à vos avis en ligne !
 .grid
   .grid__item.two-thirds>
+    %h2 Vous aussi, ayez vos avis en ligne sur CoursAvenue!
     %hr
     .alert--info.flush--sides
       %p
         CoursAvenue est le 1er moteur de recherche de cours et stages basé sur la <strong>réputation</strong>. Envoyez votre demande de recommandations à vos élèves dès maintenant (ou plus tard si vous n'avez pas le temps !), et accédez <strong>gratuitement</strong> à votre logiciel en ligne pour publier tous vos cours sur CoursAvenue.com et gérer facilement tous vos avis. En 2min, c'est fait !
       %p
         Voici comment apparaîtront vos recommandations sur votre profil public CoursAvenue :
-        = link_to 'profil public de Cook&Go.', 'http://www.coursavenue.com/cours/cours-atelier-de-atelier-parents-enfants-a-paris-cook-go-la-fayette', target: '_blank'
+        = link_to 'profil public de Cook&Go.', 'http://www.coursavenue.com/etablissements/cook-go-cook-go-la-fayette', target: '_blank'
       %p.flush--bottom
         %b Tout est gratuit, simple et rapide !
 
@@ -27,73 +27,19 @@
           .grid__item.width-auto
             = f.association :city, collection: [@structure.city], label: false
 
-      %h4.flush--bottom Renseignez les emails de vos élèves
-      %p.flush--bottom Une fois cette demande effectuée, vous pourrez suivre votre campagne de recommandations depuis votre espace pro.
-      .form-white-box.islet.flush--left
-        .input
-          %label.control-label.v-top Emails de vos élèves
-          %textarea#emails{name: 'emails', rows: 7, cols: 70, placeholder: 'Entrez les emails de vos élèves en les séparant par des virgules (emails non utilisés à des fins commerciales).', style: 'height: 150px;', data: {behavior: 'autoresize'}}= cookies[:emails]
-          %p.field-form-info
-            %i Exemple : patrick@gmail.com, thomas@wanadoo.fr
-            / %br
-            / Vous pouvez également importer vos contacts depuis votre boîte mail ou depuis un tableau excel.
-            %br
-            = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}
-        - unless @contacts
-          .input
-            %label.control-label.v-middle Importez vos contacts Gmail
-            %div
-              = link_to "/contacts/gmail", class: 'btn', onclick: "_gaq.push(['_trackEvent', 'Import contact GMail', 'click'])" do
-                %i.icon-envelope.v-middle{style: 'font-size: 16px; padding-right: 5px;'}
-                %span.v-middle Importer mes contacts Gmail
       .push--bottom
-        = f.submit 'Envoyer ma demande et accéder à mon espace pro', class: 'btn__large btn btn--large btn__success'
-        = f.submit "Je ferai ça plus tard, j'accède à mon espace pro pour référencer mes cours", class: 'btn'
+        = f.submit 'Je valide mes informations', class: 'btn__large btn btn--large btn__success'
   .grid__item.one-third
-    - if @contacts
-      .text--center
-        .alert--info
-          %b Cliquez sur vos contacts pour les ajouter
-      %ul#contact-list.selectable-list.block-list
-        - @contacts.each do |contact|
-          %li= "#{contact[:name]} <#{contact[:email]}>"
-
-#mail-content.hidden
-  %p Bonjour !
-
-  %p
-    <strong>#{@structure.name} vous demande de rédiger une recommandation</strong> qui sera publiée sur son profil public CoursAvenue, le 1er moteur de recherche de cours et de stages.
-    Votre avis est capital pour continuer à vous proposer des cours toujours plus passionnants qui correspondent à votre besoin, et votre opinion sera également précieuse pour gagner en visibilité sur Internet.
-
-  %p
-    <strong>En 2 clics, partagez votre opinion :</strong>
-    cliquer ici.
-
-  %p
-    Merci pour votre contribution et à très bientôt !
-
-  %p
-    #{@structure.name} et toute l'équipe de CoursAvenue
+    .bordered--left.soft--left
+      %h4 Les 5 derniers avis sur CoursAvenue
+      %ul.comment-list.milli
+        = render partial: 'comments/comment', collection: Comment.where{rating == 5}.order('created_at DESC').limit(5), locals: {with_link: true}
 
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
         $('structure_zip_code').fireEvent('keyup');
-        var emails_textarea = $('emails');
-        $$('#contact-list li').addEvent('click', function() {
-            if (emails_textarea.get('value').length === 0) {
-              var new_val = this.get('text');
-            } else {
-              var new_val = emails_textarea.get('value') + ', ' + this.get('text');
-            }
-            emails_textarea.set('value', new_val);
-            emails_textarea.fireEvent('keyup');
-            this.remove();
-        });
         $('structure_street').addEvent('blur', function() {
             document.cookie = 'street=' + this.get('value');
-        });
-        $('emails').addEvent('blur', function() {
-            document.cookie = 'emails=' + this.get('value');
         });
     });

@@ -5,7 +5,7 @@ fr:
     attributes:
       admin:
         civility: Civilité
-        name: Nom
+        name: Prénom + Nom
         phone_number: Téléphone
         mobile_phone_number: Téléphone portable
         email: E-mail

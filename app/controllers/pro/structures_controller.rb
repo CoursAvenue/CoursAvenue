@@ -1,11 +1,11 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :new_from_recomendation, :create_and_get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_on_facebook]
-  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :new_from_recomendation, :create_and_get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_on_facebook]
+  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :new_from_recomendation, :create_and_get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_my_profile, :get_feedbacks]
+  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :new_from_recomendation, :create_and_get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_my_profile]
 
   layout :get_layout
 
-  def share_on_facebook
+  def share_my_profile
     @structure = Structure.find params[:id]
   end
 
@@ -21,7 +21,7 @@ class Pro::StructuresController < Pro::ProController
       StudentMailer.delay.ask_for_feedbacks(@structure, email)
     end
     respond_to do |format|
-      format.html { redirect_to recommendations_pro_structure_path(@structure), notice: 'Vos élèves ont bien été notifiés' }
+      format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés': nil)}
     end
   end
 
@@ -99,9 +99,9 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def import_mail_callback
-    @structure = Structure.new name: session[:name], zip_code: session[:zip_code], contact_email: session[:email]
+    @structure = Structure.find session[:id]
     @contacts = request.env['omnicontacts.contacts'].reject{|contact| contact[:email].blank?}
-    render action: 'new_from_recomendation'
+    render action: 'share_my_profile'
   end
 
   def new_from_recomendation
@@ -142,14 +142,10 @@ class Pro::StructuresController < Pro::ProController
 
   def create_and_get_feedbacks
     @structure      = Structure.new params[:structure]
-    params[:emails] ||= ''
-    emails          = params[:emails].split(',').map(&:strip)
     respond_to do |format|
       if @structure.save
-        emails.each do |email|
-          StudentMailer.delay.ask_for_feedbacks(@structure, email)
-        end
-        format.html { redirect_to share_on_facebook_pro_structure_path(@structure), notice: 'Vos élèves ont bien été notifiés par email.<br>Vous avez des fans Facebook ? Alors ne vous arrêtez pas là !' }
+        session[:id] = @structure.id
+        format.html { redirect_to share_my_profile_pro_structure_path(@structure), notice: 'Partagez maintenant votre profil public pour avoir des recommandation' }
       else
         format.html { render 'pro/structures/new_from_recomendation' }
       end
@@ -188,7 +184,7 @@ class Pro::StructuresController < Pro::ProController
   private
 
   def get_layout
-    if action_name == 'new_from_recomendation' or action_name == 'create_and_get_feedbacks' or action_name == 'import_mail_callback' or action_name == 'share_on_facebook'
+    if action_name == 'new_from_recomendation' or action_name == 'create_and_get_feedbacks' or action_name == 'import_mail_callback' or action_name == 'share_my_profile'
       'empty'
     else
       'admin'
