@@ -10,7 +10,7 @@
         %h3.flush--bottom
           %u Formule gratuite
         %h4 0€ / mois
-        %h6.flush--bottom.green Référencez vos cours et gérez tous vos avis :
+        %h6.flush--bottom.green Référencez vos cours et gérez tous vos avis
 
       %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
         %li
@@ -21,10 +21,10 @@
           %b Référencement de vos cours
         %li
           %i.icon-ok.delta.green
-          %b Accès aux coordonnées des élèves
+          %b Demande de recommandation et gestion d'avis
         %li
           %i.icon-ok.delta.green
-          %b Gestion en temps réel de toutes vos séances : tarifs et promotions, horaires, photos, etc.
+          %b Gestion en temps réel de toutes vos séances : tarifs, professeurs, horaires, photos, etc.
       .text--center
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'basic-offer-details', title: "Détails de l'offre Basique"}
         = link_to "Je m'inscris", select_pro_structures_path, class: 'btn btn__success btn__large', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Basique'])"
@@ -35,26 +35,26 @@
         %h3.flush--bottom
           %u Formule Pro
         %h4 39€ / mois
-        %h6.flush--bottom.green Gérez tous vos contacts et communiquez facilement avec vos élèves
+        %h6.flush--bottom.green Gérez tous vos contacts et communiquez facilement
       %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
         %li
           %i.icon-ok.delta.green
-          %b Bouton « Réserver »
+          %b Suivi des présences
         %li
           %i.icon-ok.delta.green
-          %b Votre logo
+          %b Gestion de votre base clients
         %li
           %i.icon-ok.delta.green
-          %b Statistiques
+          %b Gestion du planning avancée
         %li
           %i.icon-ok.delta.green
-          %b Gestion multi-utilisateurs
-        %li
-          %i.icon-ok.delta.green
-          %b Personnalisation de vos outils
+          %b Emailing avancé
         %li
           %i.icon-ok.delta.green
           %b Envoi de SMS
+        %li
+          %i.icon-ok.delta.green
+          %b Enquête de satisfaction automatique
       .text--center
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-offer-details', title: "Détails de l'offre Pro"}, onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro - détails'])"
         = link_to "Je m'inscris", '#', class: 'btn btn__success btn__large launching-space-button', id: 'price_pro_subscribe', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro'])", data: {behavior: 'modal', el: 'launching-space', title: "Espace en cours de création"}
@@ -65,16 +65,20 @@
         %h3.flush--bottom
           %u Formule Pro <i>Plus</i>
         %h4 69€ / mois
+        %h6.flush--bottom.green Optimisez votre rentabilité et votre gestion
       %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
         %li
           %i.icon-ok.delta.green
-          %b Base de données élèves avancée
+          %b Outils statistiques avancés
         %li
           %i.icon-ok.delta.green
-          %b Outils de communication avancés
+          %b Outil d’encaissement
         %li
           %i.icon-ok.delta.green
           %b Gestion RH
+        %li
+          %i.icon-ok.delta.green
+          %b Outil de comptabilité
         %li
           %i.icon-ok.delta.green
           %b Outils CRM avancés
@@ -149,44 +153,23 @@
 
 #basic-offer-details.hidden
   %h4.text--center
-    Formule Basique
+    Formule gratuite
   %ul
-    %li
-      %b Référencement de vos cours
-      sur CoursAvenue.com
-    %li
-      %b Gestion de votre planning
-      via notre logiciel de gestion en ligne, qui remplace votre ancien carnet papier
-    %li
-      %b Affichage de votre planning
-      directement depuis votre propre site Internet
-    %li
-      %b Gestion multi-cours, multi formules, multi-salles
+    %li Accès à notre logiciel en ligne
+    %li Référencement de vos cours et stages
+    %li Demande de recommandations et gestion des avis
+    %li Gestion en temps réel de toutes vos séances : tarifs, professeurs, horaires, photos, vidéos, etc.
 
 #pro-offer-details.hidden
   %h4.text--center
-    Formule Basique
-    %br
-    +
+    Formule Pro
   %ul
-    %li
-      %b Bouton « Réserver »
-      directement sur votre propre site Internet, avec ou sans carte bleue (pas d'essai gratuit pour ce module)
-    %li
-      %b Votre logo
-      sur votre page de planning et sur le logiciel
-    %li
-      %b Statistiques :
-      grâce à l’historique de vos données, gardez un œil sur votre croissance, optimisez votre politique de prix et votre taux de remplissage
-    %li
-      %b Gestion multi-utilisateurs :
-      gérez tous vos outils à plusieurs
-    %li
-      %b Personnalisation de vos outils :
-      vous décidez du texte lors de chaque échange avec vos élèves
-    %li
-      %b Envoi de SMS
-      de confirmation (0,08€ HT/SMS)
+    %li Suivi des présences : pour chaque séance, renseignez les élèves présents, et décomptez automatiquement le nombre de tickets restants pour chaque élève (outil bientôt accessible depuis l’appli mobile CoursAvenue)
+    %li Gestion de votre base clients : gardez en mémoire le profil de chaque élève (séances déjà suivies et nombre de tickets restants, date d’anniversaire, contacts, etc.)
+    %li Gestion du planning avancée : affichez votre planning sur votre propre site Internet
+    %li Emailing : envoyez des emails à tous vos élèves en 2 clics et selon leur profil
+    %li Envoi de SMS* automatisé : pratique en cas d’annulation d’un cours ou d’une information urgente à communiquer
+    %li Enquête de satisfaction automatique
 
 #custom-offer-details.hidden
   %h4.text--center
@@ -202,19 +185,11 @@
 
 #pro-plus-offer-details.hidden
   %h4.text--center
-    Formule Pro
-    %br
-    +
+    Formule Pro Plus
   %ul
-    %li
-      %b Base de données élèves avancée :
-      gérez en quelques clics votre base clients, en fonction de leur profil, de leurs envie, etc.
-    %li
-      %b Outils de communication avancés :
-      en moins de 5min, créez votre campagne de communication mails, newsletters, SMS,… restez visibles !
-    %li
-      %b Ressources humaines :
-      générez vos fiches de paies professeurs directement via notre logiciel
-    %li
-      %b Outils CRM avancés :
-      enquêtes de satisfaction automatiques, statistiques avancées sur le comportement de vos élèves, etc.
+    %li Outils statistiques avancés : pour suivre l’historique de votre activité et optimiser votre taux de remplissage
+    %li Outil d’encaissement : générez automatiquement les factures pour chaque élève
+    %li Ressources humaines : générez vos fiches de paies professeurs directement via notre logiciel
+    %li Outil de comptabilité : suivez vos recettes et vos dépenses d’un seul coup d’oeil
+    %li Outils CRM avancés : enquêtes de satisfaction automatiques, statistiques avancées sur le comportement de vos élèves, etc.
+    %li Calendrier de rappels des événements importants : conseil d’Administration (Associations), dates importantes, etc.
