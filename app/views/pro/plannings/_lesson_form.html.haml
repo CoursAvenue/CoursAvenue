@@ -4,10 +4,10 @@
     %label.required.control-label Jour
     - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate
     = f.input :week_day, as: :select, collection: days, label: false
-  .input
-    = f.input :start_time, as: :time, minute_step: 15, label: '<i class="icon-time"></i>&nbsp;Horaire', default: {year: 2000, month: 1, day: 1, hour: 8, min: 00}
+  .input{data: {behavior: 'time-range', 'start-time-wrapper' => '#start-time-wrapper', 'end-time-wrapper' => '#end-time-wrapper'}}
+    = f.input :start_time, as: :time, minute_step: 15, label: '<i class="icon-time"></i>&nbsp;Horaire', default: {year: 2000, month: 1, day: 1, hour: 8, min: 00}, wrapper_html: {id: 'start-time-wrapper'}
     %label &nbsp;-&nbsp;
-    = f.input :end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: {year: 2000, month: 1, day: 1, hour: 9, min: 00}
+    = f.input :end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: {year: 2000, month: 1, day: 1, hour: 9, min: 00}, wrapper_html: {id: 'end-time-wrapper'}
   .input#add-teacher-wrapper
     = f.association :teacher, as: :select, collection: @structure.teachers, label: '<i class="icon-user"></i>&nbsp;Professeur', include_blank: true
     = link_to '#', id: 'add-teacher' do

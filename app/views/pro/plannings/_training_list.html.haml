@@ -16,7 +16,7 @@
         %td.text--center= "#{pluralize(planning.length, 'jour')}"
         %td
           = simple_form_for [:pro, @course, planning], remote: true do |f|
-            = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select'}
+            = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select'}, wrapper_html: {class: 'flush'}
         %td.text--center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}

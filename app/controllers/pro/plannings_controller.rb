@@ -35,7 +35,7 @@ class Pro::PlanningsController < InheritedResources::Base
 
       respond_to do |format|
         if @planning.save
-          format.html { redirect_to pro_course_plannings_path(@course) }
+          format.html { redirect_to pro_course_plannings_path(@course), notice: 'Votre planning à bien été créé.' }
         else
           if @planning.end_date and @planning.end_date < Date.today
             alert = 'Le cours ne peut être dans le passé'

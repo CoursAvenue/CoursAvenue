@@ -4,7 +4,7 @@
     %hr
     .alert--info.flush--sides
       %p
-        CoursAvenue est le 1er moteur de recherche de cours et stages basé sur la <strong>réputation</strong>. Une fois cette demande de recommandations envoyée à vos élèves, vous pourrez ensuite accéder <strong>gratuitement</strong> à votre logiciel en ligne qui vous permettra de publier tous vos cours sur CoursAvenue.com et de gérer facilement tous vos avis.
+        CoursAvenue est le 1er moteur de recherche de cours et stages basé sur la <strong>réputation</strong>. Envoyez votre demande de recommandations à vos élèves dès maintenant (ou plus tard si vous n'avez pas le temps !), et accédez <strong>gratuitement</strong> à votre logiciel en ligne pour publier tous vos cours sur CoursAvenue.com et gérer facilement tous vos avis. En 2min, c'est fait !
       %p
         Voici comment apparaîtront vos recommandations sur votre profil public CoursAvenue :
         = link_to 'profil public de Cook&Go.', 'http://www.coursavenue.com/cours/cours-atelier-de-atelier-parents-enfants-a-paris-cook-go-la-fayette', target: '_blank'
@@ -28,6 +28,7 @@
             = f.association :city, collection: [@structure.city], label: false
 
       %h4.flush--bottom Renseignez les emails de vos élèves
+      %p.flush--bottom Une fois cette demande effectuée, vous pourrez suivre votre campagne de recommandations depuis votre espace pro.
       .form-white-box.islet.flush--left
         .input
           %label.control-label.v-top Emails de vos élèves
@@ -47,6 +48,7 @@
                 %span.v-middle Importer mes contacts Gmail
       .push--bottom
         = f.submit 'Envoyer ma demande et accéder à mon espace pro', class: 'btn__large btn btn--large btn__success'
+        = f.submit "Je ferai ça plus tard, j'accède à mon espace pro pour référencer mes cours", class: 'btn'
   .grid__item.one-third
     - if @contacts
       .text--center
