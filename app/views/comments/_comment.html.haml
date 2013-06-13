@@ -19,7 +19,7 @@
       = comment.content.html_safe
     - if with_link
       %p
-        = link_to comment.commentable.name, commentable_url(comment)
+        = link_to comment.commentable.name, commentable_url(comment), target: '_blank', subdomain: 'www'
     .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
       %meta{itemprop: 'url', content: commentable_url(comment)}
       %meta{itemprop: 'name', content: commentable_name(comment)}
