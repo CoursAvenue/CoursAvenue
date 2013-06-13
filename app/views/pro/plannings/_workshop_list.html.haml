@@ -34,7 +34,7 @@
         $$('.teacher-select').each(function(teacher_select){
             teacher_select.addEvent('change', function() {
                 teacher_form = this.getParent('form')
-                teacher_form.submit();
+                teacher_form.send();
             })
         });
     });

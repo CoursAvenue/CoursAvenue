@@ -12,7 +12,10 @@
   %tbody
     - @plannings.each do |planning|
       %tr{data: {'course-id' => planning.course_id}}
-        %td= week_day_for planning
+        %td
+          = simple_form_for [:pro, @course, planning], remote: true do |f|
+            - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate
+            = f.input :week_day, as: :select, collection: days, label: false, input_html: {class: 'week-day-select'}, wrapper_html: {class: 'flush'}
         %td.text--center= readable_time_slot planning.start_time, planning.end_time
         %td.text--center= readable_duration planning.duration
         %td
@@ -34,7 +37,13 @@
         $$('.teacher-select').each(function(teacher_select){
             teacher_select.addEvent('change', function() {
                 teacher_form = this.getParent('form')
-                teacher_form.submit();
+                teacher_form.send();
+            })
+        });
+        $$('.week-day-select').each(function(week_day_select){
+            week_day_select.addEvent('change', function() {
+                week_day_form = this.getParent('form')
+                week_day_form.send();
             })
         });
     });
