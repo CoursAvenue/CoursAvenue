@@ -37,6 +37,7 @@
                     'padding-top'   : 0,
                     'padding-bottom': 0
                 });
+                this.toggled_el.setStyle('overflow', 'hidden');
                 this.toggled_el.removeClass('hide');
             }
             this.el.addEvent('click', function() {
@@ -47,9 +48,12 @@
                         'height'        : height,
                         'padding-top'   : padding_top,
                         'padding-bottom': padding_bottom
-                    });
+                    }).chain(function() {
+                        this.toggled_el.setStyle('overflow', 'visible');
+                    }.bind(this));
                 } else {
                     this.caret_icon.removeClass('icon-caret-down').addClass('icon-caret-left');
+                    this.toggled_el.setStyle('overflow', 'hidden');
                     this.morph.start({
                         'height'        : 0,
                         'padding-top'   : 0,

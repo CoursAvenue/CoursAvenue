@@ -12,7 +12,7 @@
 %hr
 %h4 Mes professeurs
 - unless @teachers.empty?
-  %table.table--striped#dataTable
+  %table.table--striped.table--data#dataTable
     %thead
       %tr
         %th.sortDesc
@@ -24,12 +24,7 @@
       - @teachers.each do |teacher|
         %tr
           %td= teacher.name.titleize
-          %td
-            - if teacher.description
-              - if teacher.description.length < 150
-                = teacher.description
-              - else
-                = "#{teacher.description[0..150]}..."
+          %td= teacher.description
           %td.text--right
             = link_to edit_pro_structure_teacher_path(@structure, teacher), title: 'Modifier ce professeur', class: 'btn btn__warning' do
               %i.icon-pencil

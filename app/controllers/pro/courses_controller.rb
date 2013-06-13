@@ -7,29 +7,27 @@ class Pro::CoursesController < InheritedResources::Base
 
   load_and_authorize_resource :structure, except: [:create, :update]
 
+  def duplicate
+    @course = Course.find params[:id]
+    @course.duplicate!
+    redirect_to pro_structure_path(@structure), notice: "Le cours à bien été dupliqué."
+  end
+
   def activate
-    if current_pro_admin.active
-      @course = Course.find params[:id]
-      if @course.activate!
-        redirect_to pro_structure_path(@structure), notice: "Le cours sera visible sur CoursAvenue dans quelques minutes"
-      else
-        redirect_to pro_structure_path(@structure), alert: "Le cours n'a pu être mis en ligne.<br>Assurez vous que le tarif et le planning sont bien renseignés."
-      end
+    @course = Course.find params[:id]
+    if @course.activate!
+      redirect_to pro_structure_path(@structure), notice: "Le cours sera visible sur CoursAvenue dans quelques minutes"
     else
-      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas encore mettre vos cours en ligne"
+      redirect_to pro_structure_path(@structure), alert: "Le cours n'a pu être mis en ligne.<br>Assurez vous que le tarif et le planning sont bien renseignés."
     end
   end
 
   def disable
-    if current_pro_admin.active
-      @course = Course.find params[:id]
-      if @course.update_attribute :active, false
-        redirect_to pro_structure_path(@structure), notice: "Le cours n'est plus affiché sur CoursAvenue"
-      else
-        redirect_to pro_structure_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que le tarif et le planning sont bien renseignés."
-      end
+    @course = Course.find params[:id]
+    if @course.update_attribute :active, false
+      redirect_to pro_structure_path(@structure), notice: "Le cours n'est plus affiché sur CoursAvenue"
     else
-      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas mettre ce cours hors ligne"
+      redirect_to pro_structure_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que le tarif et le planning sont bien renseignés."
     end
   end
 

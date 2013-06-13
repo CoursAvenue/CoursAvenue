@@ -208,14 +208,42 @@ describe Course do
     end
   end
 
-  context :audiences do
-    before do
-      @course = FactoryGirl.build(:course)
-      @course.audiences = [Audience.teenage, Audience.teenage]
-      @course.save
+  context :duplicate do
+    before(:all) do
+      @course           = FactoryGirl.build(:course)
+      @course.prices    << FactoryGirl.build(:annual_price)
+      @course.plannings << FactoryGirl.build(:planning)
+      @course_duplicate = @course.duplicate!
     end
-    it 'does not duplicate' do
-      @course.audiences.count.should eq 1
+    it 'keeps structure id' do
+      @course_duplicate.structure_id.should eq @course_duplicate.structure_id
+    end
+    it 'keeps place' do
+      @course_duplicate.place_id.should eq @course_duplicate.place_id
+    end
+    it 'keeps name with a prefix' do
+      @course_duplicate.name.should include @course.name
+    end
+    it 'has same levels' do
+      @course_duplicate.levels.should eq @course.levels
+    end
+    it 'has same audiences' do
+      @course_duplicate.audiences.should eq @course.audiences
+    end
+    it 'has same subjects' do
+      @course_duplicate.subjects.should eq @course.subjects
+    end
+    it 'has same prices' do
+      @course_duplicate.prices.count.should eq @course.prices.count
+    end
+    it 'has same plannings' do
+      @course_duplicate.plannings.count.should eq @course.plannings.count
+    end
+    it 'is inactive' do
+      @course_duplicate.active?.should be_false
+    end
+    it 'is saved' do
+      @course_duplicate.new_record?.should be_false
     end
   end
 end

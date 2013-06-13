@@ -17,6 +17,7 @@
               %li= link_to 'Comment ça marche ?',              pages_how_it_works_url(subdomain: 'www'), rel: :nofollow
               %li= link_to 'Foire aux questions Utilisateurs', pages_faq_users_url(subdomain: 'www'), rel: :nofollow
               %li= link_to 'Mentions légales Utilisateurs',    pages_mentions_partners_url(subdomain: 'www'), rel: :nofollow
+              %li= link_to 'Recommander un cours',             '#', data: {behavior: 'modal', title: "Recommander un cours", width: '500px', el: 'course-recommendation'}
 
           .grid__item.one-quarter.lap--one-half.palm--one-whole>
             %h5.blue Partenaires
@@ -44,3 +45,13 @@
               %li= link_to 'Zumba'  , subject_courses_url('zumba', subdomain: 'www')
               %li= link_to 'Yoga'   , subject_courses_url('yoga', subdomain: 'www')
               %li= link_to 'Musique', subject_courses_url('musique', subdomain: 'www')
+
+#course-recommendation.hidden
+  %h3 Recommander un cours
+  %p
+    Vous connaissez un bon professeur ou vous avez suivi de super cours ?
+    Laissez-nous ses coordonnées, nous le contacterons pour qu'il partage ses cours sur notre plateforme !
+  = form_tag '#'  do
+    %textarea.one-whole{rows: 6}
+    .text--right.push-half--top
+      %a.btn{ href: '#', onclick: "$('simple-modal-overlay').click()"} Recommander

@@ -4,21 +4,22 @@
     var objects = GLOBAL.namespace('GLOBAL.Objects');
 
     /*
-     * Given an input element, will update a relative element.
+     * data-el: CSS Selector
      */
 
     objects.DropDown = new Class({
 
         initialize: function(el, options) {
-            this.drop_down      = el;
-            this.trigger        = $(el.get('data-trigger'));
+            this.trigger        = el;
+            this.drop_down      = el.getElement(el.get('data-el'));
+            this.position       = el.get('data-position');
             this.setPositionning();
             this.attachEvents();
         },
 
         setPositionning: function() {
-            if (this.drop_down.get('data-position')) {
-                switch(this.drop_down.get('data-position')) {
+            if (this.position) {
+                switch(this.position) {
                     case 'right':
                         this.drop_down.setStyles({right: '0', left: 'auto'});
                         break;

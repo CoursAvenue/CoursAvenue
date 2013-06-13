@@ -344,6 +344,22 @@ class Course < ActiveRecord::Base
     self.place.contact_email
   end
 
+  def duplicate!
+    course_duplicate               = self.dup
+    course_duplicate.name          += ' - copie'
+    course_duplicate.audiences     = self.audiences
+    course_duplicate.levels        = self.levels
+    course_duplicate.subjects      = self.subjects
+    course_duplicate.active        = false
+    course_duplicate.slug          = nil
+    course_duplicate.save
+    course_duplicate.plannings     << self.plannings.map(&:dup)
+    course_duplicate.prices        << self.prices.map(&:dup)
+    course_duplicate.book_tickets  << self.book_tickets.map(&:dup)
+    course_duplicate.save
+    return course_duplicate
+  end
+
   private
 
   def friendly_name
