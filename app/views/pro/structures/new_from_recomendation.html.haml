@@ -15,12 +15,12 @@
 
       %h4.flush--bottom Validez vos informations
       .form-white-box.islet.flush--left
-        = f.input :name, wrapper_html: { class: 'flush--bottom' }, label: 'Nom de votre établissement / association.'
-        %p.field-form-info
-          %i Si vous êtes un professeur indépendant, entrez votre prénom + nom.
+        = f.input :name, wrapper_html: { class: 'flush--bottom' }, label: 'Nom de votre établissement / Association'
+        %p.field-form-info.blue Si vous êtes un professeur indépendant, entrez votre prénom + nom.
 
         = f.input :contact_email, as: :hidden
-        = f.input :street, input_html: { value: cookies[:street] }
+        = f.input :street, input_html: { value: cookies[:street] }, wrapper_html: {class: 'flush--bottom'}
+        %p.field-form-info.blue Si vos cours se situent dans plusieurs lieux, vous pourrez les renseigner depuis votre espace pro.
         .grid
           .grid__item.width-auto
             = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }

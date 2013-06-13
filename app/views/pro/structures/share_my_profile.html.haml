@@ -1,8 +1,7 @@
 .center-block
-  %h2
-    Partagez votre
-    = link_to 'profil public', place_url(@structure.places.first, subdomain: 'www'), target: '_blank'
-    pour avoir des avis
+  %h2.flush--bottom
+    Partagez votre profil public pour avoir des avis
+  %p= link_to 'Cliquez ici pour visualiser votre profil public', place_url(@structure.places.first, subdomain: 'www'), target: '_blank', class: 'blue'
 .grid
   .grid__item.two-thirds>
     %hr
@@ -23,7 +22,7 @@
       - else
         recommandez-nous
       en cliquant sur le lien suivant :
-      = link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www')
+      = link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), target: '_blank'
       Merci !
 
     %hr

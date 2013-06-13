@@ -15,7 +15,7 @@
         %td
           = simple_form_for [:pro, @course, planning], remote: true do |f|
             - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate
-            = f.input :week_day, as: :select, collection: days, label: false, input_html: {class: 'week-day-select'}, wrapper_html: {class: 'flush'}
+            = f.input :week_day, as: :select, collection: days, label: false, input_html: {class: 'week-day-select'}, wrapper_html: {class: 'flush'}, include_blank: false
         %td.text--center= readable_time_slot planning.start_time, planning.end_time
         %td.text--center= readable_duration planning.duration
         %td
