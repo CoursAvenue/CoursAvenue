@@ -99,7 +99,11 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def import_mail_callback
-    @structure = Structure.find session[:id]
+    if session[:id].present?
+      @structure = Structure.find session[:id]
+    else
+      @structure = Structure.last
+    end
     @contacts = request.env['omnicontacts.contacts'].reject{|contact| contact[:email].blank?}
     render action: 'share_my_profile'
   end
