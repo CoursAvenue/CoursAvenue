@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130607090731) do
+ActiveRecord::Schema.define(:version => 20130612140610) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(:version => 20130607090731) do
     t.integer "course_id"
   end
 
-  add_index "audiences_courses", ["audience_id", "course_id"], :name => "audience_course_index"
+  add_index "audiences_courses", ["audience_id", "course_id"], :name => "index_audiences_courses_on_audience_id_and_course_id", :unique => true
 
   create_table "book_tickets", :force => true do |t|
     t.integer  "number"
@@ -191,7 +191,7 @@ ActiveRecord::Schema.define(:version => 20130607090731) do
     t.integer "level_id"
   end
 
-  add_index "courses_levels", ["level_id", "course_id"], :name => "index_courses_levels_on_level_id_and_course_id"
+  add_index "courses_levels", ["level_id", "course_id"], :name => "index_courses_levels_on_level_id_and_course_id", :unique => true
 
   create_table "courses_subjects", :id => false, :force => true do |t|
     t.integer "course_id"

@@ -31,8 +31,12 @@
         %p.milli.field-form-info.flush--bottom= t('.structure_name_info')
         = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}, label: t('.structure_address')
         %p.milli.field-form-info.flush--bottom= t('.structure_address_info')
-        = structure_form.input :zip_code, input_html: { data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
-        = structure_form.association :city, collection: [@structure.city]
+        .grid
+          .grid__item.width-auto
+            = structure_form.input :zip_code, input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
+          .grid__item.width-auto
+            = structure_form.association :city, collection: [@structure.city], label: false
+
 
     .form-actions
       = structure_form.button :submit, "S'inscrire", class: 'btn btn__success btn__large'

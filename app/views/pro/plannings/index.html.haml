@@ -21,11 +21,12 @@
 %h5.form-header-group.flush--bottom Rajouter un créneau
 .form-white-box
   = render "#{@course.underscore_name}_form"
-
-%hr
-
 / %p S'il s'agit d'un cours particulier, ajoutez autant de créneaux que de séances.
-= render "#{@course.underscore_name}_list"
+
+- if @plannings.any?
+  %hr
+  %h3 Planning de mon cours
+  = render "#{@course.underscore_name}_list"
 
 
 = content_for :scripts do

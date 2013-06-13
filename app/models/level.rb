@@ -1,5 +1,6 @@
 class Level < ActiveRecord::Base
-  has_and_belongs_to_many :courses
+  has_many :levelings
+  has_many :courses,    :through => :levelings
 
   attr_accessible :name, :order
 

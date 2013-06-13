@@ -6,11 +6,11 @@
     %label -
     %input.datepicker-input{type: 'text', value: (@planning.end_date.nil? ? '' : l(@planning.end_date)), placeholder: '04/08/2013', name: 'planning[end_date]', data: {behavior: 'datepicker'}}
   .input
-    = f.input :start_time, as: :time, minute_step: 15, label: 'Horaire', default: {year: 2000, month: 1, day: 1, hour: 8, min: 00}
+    = f.input :start_time, as: :time, minute_step: 15, label: '<i class="icon-time"></i>&nbsp;Horaire', default: {year: 2000, month: 1, day: 1, hour: 8, min: 00}
     %label &nbsp;-&nbsp;
     = f.input :end_time, as: :time, minute_step: 15, label: false, default: {year: 2000, month: 1, day: 1, hour: 9, min: 00}
   .input#add-teacher-wrapper
-    = f.association :teacher, as: :select, collection: @structure.teachers, label: 'Professeur', include_blank: true
+    = f.association :teacher, as: :select, collection: @structure.teachers, label: '<i class="icon-user"></i>&nbsp;Professeur', include_blank: true
     = link_to '#', id: 'add-teacher' do
       &nbsp
       %i.icon-user
@@ -19,7 +19,7 @@
     = f.input :teacher, label: 'Nom du professeur', input_html: {value: ''}
 
   .input
-    = f.input :info, as: :string, placeholder: '(optionnel) Plat : gâteau au chocolat'
+    = f.input :info, as: :string, placeholder: '(optionnel) Plat : gâteau au chocolat', label: '<i class="lbc-icon-info">i</i>&nbsp;Information'
   .text--center.input
     - if @planning.new_record?
       = f.submit 'Ajouter le créneau', class: 'btn btn__success'

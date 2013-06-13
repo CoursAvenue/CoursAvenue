@@ -40,8 +40,8 @@ class Course < ActiveRecord::Base
   has_many :registration_fees   , dependent: :destroy
   has_many :reservation_loggers , dependent: :destroy
 
-  has_and_belongs_to_many :audiences
-  has_and_belongs_to_many :levels
+  has_and_belongs_to_many :audiences, before_add: :validates_audiences
+  has_and_belongs_to_many :levels   , before_add: :validates_levels
 
   has_and_belongs_to_many :subjects, :uniq => true
 
@@ -53,7 +53,6 @@ class Course < ActiveRecord::Base
   validates :place        , presence: true
   validates :subjects     , presence: true
   validates :levels       , presence: true
-  validate :level_uniqueness
   validates :audiences    , presence: true
 
   before_save :set_structure_if_empty
@@ -364,9 +363,12 @@ class Course < ActiveRecord::Base
     self.description = self.description.gsub(/\r\n/, '<br>') if self.description
   end
 
-  def level_uniqueness
-    if levels.count > levels.uniq.count
-      errors.add(:levels, "Les niveaux ne peuvent être duppliqués")
-    end
+  def validates_audiences(audience)
+    self.audiences.delete audience if self.audiences.include? audience
   end
+
+  def validates_levels(level)
+    self.levels.delete level if self.levels.include? level
+  end
+
 end
