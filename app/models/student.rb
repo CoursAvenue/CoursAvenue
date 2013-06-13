@@ -8,7 +8,7 @@ class Student < ActiveRecord::Base
   validates :email, presence: true
   validates :email, format: { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create }
 
-  after_save :subscribe_to_mailchimp if Rails.env.production?
+  # after_save :subscribe_to_mailchimp if Rails.env.production?
 
   def ask_for_feedbacks_stage_1
     self.update_attribute(:email_status, 'resend_stage_1')

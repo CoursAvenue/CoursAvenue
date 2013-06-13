@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
 
   validates :first_name, :last_name, :email, presence: true
 
-  after_save :subscribe_to_mailchimp if Rails.env.production?
+  # after_save :subscribe_to_mailchimp if Rails.env.production?
 
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
