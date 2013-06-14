@@ -51,6 +51,9 @@ class Pro::CoursesController < InheritedResources::Base
   def update_price
     if can? :edit, @course
       errors = false
+      if params[:price_details].present?
+        @course.update_attributes price_details: params[:price_details]
+      end
       if params[:individual_course_price][:amount].present?
         @individual_price = @course.prices.where{libelle == 'prices.individual_course'}.first_or_initialize
         errors = !@individual_price.update_attributes(params[:individual_course_price])
@@ -73,6 +76,7 @@ class Pro::CoursesController < InheritedResources::Base
           flash[:alert] = 'Vous devez renseigner au moins un prix'
           format.html{ render template: 'pro/prices/index' }
         else
+          @course.activate!
           if @course.plannings.empty?
             format.html{ redirect_to pro_course_plannings_path(@course), notice: 'Vous pouvez maintenant définir le planning du cours' }
           else
