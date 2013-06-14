@@ -20,7 +20,7 @@ class StudentMailer < ActionMailer::Base
   def ask_for_feedbacks_stage_1(structure, email)
     @structure = structure
     @email     = email
-    mail to: email, subject: "Recommandez #{structure.name} sur CoursAvenue"
+    mail to: email, subject: "Votre opinion sur #{structure.name}"
   end
 
   def ask_for_feedbacks_stage_2(structure, email)

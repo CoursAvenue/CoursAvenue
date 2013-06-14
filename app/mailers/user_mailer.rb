@@ -1,6 +1,6 @@
 # encoding: utf-8
 class UserMailer < ActionMailer::Base
-  helper :prices
+  helper :prices, :comments
 
   default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
@@ -18,18 +18,15 @@ class UserMailer < ActionMailer::Base
 
   # Inform the user that the comment has correctly been posted
   def after_comment(comment)
-    @comment = comment
-    mail to: @comment.email, subject: 'Merci pour votre commentaire ! CoursAvenue.com'
+    @comment   = comment
+    @structure = @comment.structure
+    mail to: @comment.email, subject: "Votre avis à propos de : #{@structure.name}"
   end
 
   # Inform teacher that a students has commented his establishment
   def after_comment_for_teacher(comment)
     @comment = comment
-    if comment.commentable.is_a? Structure
-      @structure    = comment.commentable
-    else
-      @structure    = comment.commentable.structure
-    end
+    @structure = @comment.structure
     mail to: @comment.commentable.contact_email, subject: 'Un élève vient de poster un commentaire sur votre profil public CoursAvenue.com'
   end
 
@@ -58,4 +55,5 @@ class UserMailer < ActionMailer::Base
     mail to: 'nima@coursavenue.com', subject: @reservation.email_subject_for_structure
   end
 
+  private
 end

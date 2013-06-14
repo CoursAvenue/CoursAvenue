@@ -1,7 +1,8 @@
 class StudentReminder
 
+  # Resend recommendation email after 4 days
   def self.resend_recommendation_stage_1
-    students = Student.where{(updated_at > Date.yesterday) & (email_status == nil) & (structure_id != nil)}
+    students = Student.where{(updated_at > Date.today - 4.days) & (email_status == nil) & (structure_id != nil)}
     students = students.reject do |student|
       Comment.where(email: student.email).count > 0
     end

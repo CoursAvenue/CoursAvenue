@@ -1,10 +1,11 @@
 %p Bonjour #{@comment.author_name.titleize},
 
 %p
-  Merci d'avoir laissé un commentaire sur CoursAvenue.
-  %br
-  N'hésitez pas à solliciter vos proches pour qu'ils postent également des commentaires sur les cours qu'ils ont suivis ou sur les établissements qu'ils connaissent.
+  Merci de nous avoir fait part de votre avis à propos de : #{@structure.name}. Il a été envoyé sur notre site Internet. Pour le visualiser, cliquez sur le lien suivant :
 
-%p À très bientôt,
+%p
+  = link_to "Votre avis à propos de : #{@structure.name}", commentable_url(@comment)
+
+%p Encore merci de nous avoir fait partager votre expérience, à très bientôt,
 
 %p L'équipe de CoursAvenue

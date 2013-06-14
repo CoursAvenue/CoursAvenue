@@ -7,11 +7,13 @@ FactoryGirl.define do
     rating          [1,2,3,4,5].sample
 
     factory :course_comment do
-      commentable_type "Course"
+      # commentable_type "Course"
+      commentable {FactoryGirl.create(:course)}
     end
 
     factory :structure_comment do
-      commentable_type "Structure"
+      # commentable_type "Structure"
+      commentable {FactoryGirl.create(:structure)}
     end
   end
 end

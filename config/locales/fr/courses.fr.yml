@@ -16,7 +16,7 @@ fr:
         teacher: Professeur
         max_age_for_kid: Age max
         min_age_for_kid: Age min
-        is_individual: Individuel
+        is_individual: Individuel / Particulier
         is_for_handicaped: Pour handicapés
         trial_lesson_info:
         price_details:
@@ -28,6 +28,7 @@ fr:
         can_be_joined_during_year:
         frequency: Fréquence
         room: Salle de cours principale
+        price_details: 'Autres tarifs / Informations'
         place: Lieu
         image: "Image du cours<br>Format: 800x480"
 
@@ -42,6 +43,10 @@ fr:
       back_to_search: Retour à la recherche
       planning: Planning
       prices: Tarifs
+      teachers:
+        zero: Professeur
+        one: Professeur
+        other: Professeur
       infos: Infos
       structure: Établissement
       opinions: Avis

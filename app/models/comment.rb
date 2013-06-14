@@ -1,5 +1,5 @@
 class Comment < ActiveRecord::Base
-  attr_accessible :commentable_id, :commentable_type, :content, :author_name, :email, :rating, :title
+  attr_accessible :commentable, :commentable_id, :commentable_type, :content, :author_name, :email, :rating, :title
 
   belongs_to :commentable, polymorphic: true
   belongs_to :user
@@ -14,6 +14,15 @@ class Comment < ActiveRecord::Base
   after_destroy :update_rating
 
   before_save :replace_slash_n_r_by_brs
+
+
+  def structure
+    if self.commentable.is_a? Structure
+      self.commentable
+    else
+      self.commentable.structure
+    end
+  end
 
   private
 

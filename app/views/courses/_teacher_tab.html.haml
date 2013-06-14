@@ -1,0 +1,6 @@
+%article#tab-teacher.tab-pane
+  - @course.teachers.each do |teacher|
+    %p
+      %b= teacher.name
+      %br
+      = teacher.description

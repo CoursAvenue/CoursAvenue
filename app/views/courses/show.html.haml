@@ -117,6 +117,7 @@
     %ul.tab-titles{data: {behavior: 'tabs'}}
       %li.tab-el.active{data: { el: 'tab-planning' }}= t('.planning')
       %li.tab-el#price_tab{onclick: "_gaq.push(['_trackEvent', 'Infos tarif', 'click', '#{@course.slug}'])", data: { el: 'tab-prices' }}= t('.prices')
+      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos profs', 'click', '#{@course.slug}'])", data: { el: 'tab-teacher' }}= t('.teachers', count: @course.teachers.length)
       %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos cours', 'click', '#{@course.slug}'])", data: { el: 'tab-description' }}= t('.infos')
       %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos structure', 'click', '#{@course.slug}'])"}
         = link_to place_path(@place) do
@@ -125,6 +126,7 @@
     .tab-content
       = render 'planning_tab'
       = render 'price_tab'
+      = render 'teacher_tab'
       = render 'description_tab'
 
     %hr

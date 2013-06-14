@@ -8,7 +8,7 @@
       = render partial: 'prices/price'            , collection: @course.prices
       = render partial: 'book_tickets/book_ticket', collection: @course.book_tickets
   %footer
-    %h4= t('.infos', place_name: @place.long_name)
+    / %h4= t('.infos', place_name: @place.long_name)
     %ul
       - if @course.price_details
         %li= @course.price_details

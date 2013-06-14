@@ -62,7 +62,9 @@
         = registration_form.label :amount, 'Adhésion (optionnel)', style: 'width: 250px; padding-right: 1em;', class: 'text--right'
         = registration_form.input :amount, placeholder: '15', label: false
         €
-
+    %hr
+    = f.input :price_details, wrapper_html: {class: 'flush--bottom'}, input_html: { data: {behavior: 'autoresize' }}
+    %p.field-form-info.blue Indiquez tous vos autres tarifs, les tarifs réduits (étudiants, chômeurs, etc.) et les différents modes de financement accetpés (CIF, DIF, Chèques Vacances, Tickets CAF, CESU, AFDAS, etc.).
 
   .form-actions
     = f.submit 'Valider et renseigner mon planning', class: 'btn btn__success'

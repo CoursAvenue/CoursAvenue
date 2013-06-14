@@ -2,29 +2,23 @@
 require 'spec_helper'
 
 describe Comment do
-  let(:course) { FactoryGirl.create(:course) }
+  let(:course_comment)    { FactoryGirl.create(:course_comment) }
+  let(:structure_comment) { FactoryGirl.create(:structure_comment) }
+  let(:course)            { FactoryGirl.create(:course) }
   let(:structure) { course.structure }
 
   context :course do
 
     it 'has the course title' do
-      comment = course.comments.create FactoryGirl.attributes_for(:course_comment)
+      comment = course.comments.create FactoryGirl.attributes_for(:comment)
       comment.title.should == course.name
     end
   end
 
   context :structure do
-    # before do
-    #   comment = course.comments.create FactoryGirl.attributes_for(:course_comment)
-    #   comment.title.should == course.name
-    #   comment = structure.comments.create FactoryGirl.attributes_for(:structure_comment)
-    #   comment.title.should == structure.name
-    # end
-
-    # it 'aggregates structure and course ratings' do
-    #   total_rating = structure.comments.map(&:rating).reduce(:+)
-    #   total_rating + structure.courses.each{ |course| course.comments.map(&:rating).reduce(:+) }.reduce()
-    #   structure.rating.should ==
-    # end
+    it 'returns the structure' do
+      course_comment.structure.should be    course_comment.commentable.structure
+      structure_comment.structure.should be structure_comment.commentable
+    end
   end
 end
