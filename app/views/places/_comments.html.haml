@@ -17,10 +17,10 @@
       = f.input :title, label_html: {style: 'width: 13em; vertical-align: top;'}, input_html: {style: 'width: 40.5em;', value: cookies[:comment_title]}, placeholder: 'Cours de Zumba du lundi, Atelier pâtisserie du 13 juin, etc.'
       = f.input :content, label_html: {style: 'width: 13em; vertical-align: top;'}, input_html: {style: 'width: 40.5em; height: 50px;', 'data-behavior' => 'autoresize', value: cookies[:comment_content]}, placeholder: "Qu'avez-vous pensé du cours ?"
       .text--center
-      - if current_user
-        = f.submit 'Publier mon avis', class: 'btn btn__large btn__success', style: 'padding-top: 6px; padding-bottom: 6px;'
-      - else
-        = link_to 'Publier mon avis', '#', class: 'btn btn__large btn__success', style: 'padding-top: 6px; padding-bottom: 6px;', onclick: "_gaq.push(['_trackEvent', 'Avis sur établissement', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour commenter', width: '400px', url: '/users/sign_up'}
+        - if current_user
+          = f.submit 'Publier mon avis', class: 'btn btn__large btn__success', style: 'padding-top: 6px; padding-bottom: 6px;'
+        - else
+          = link_to 'Publier mon avis', '#', class: 'btn btn__large btn__success', style: 'padding-top: 6px; padding-bottom: 6px;', onclick: "_gaq.push(['_trackEvent', 'Avis sur établissement', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour commenter', width: '400px', url: '/users/sign_up'}
   = render 'comments/javascript'
 
 - else
