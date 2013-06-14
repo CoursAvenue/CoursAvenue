@@ -164,6 +164,7 @@ GEM
     meta_request (0.2.1)
       rack-contrib
       rails
+    method_source (0.8.1)
     mime-types (1.23)
     mootools-rails (2.0.1)
       railties (>= 3.0, < 5.0)
@@ -210,6 +211,10 @@ GEM
     progress_bar (0.4.0)
       highline (~> 1.6.1)
       options (~> 2.3.0)
+    pry (0.9.12.2)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -270,6 +275,7 @@ GEM
     simplecov-html (0.7.1)
     sitemap_generator (3.4)
       builder
+    slop (3.4.5)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -347,6 +353,7 @@ DEPENDENCIES
   paperclip (~> 3.4.1)
   pg
   progress_bar
+  pry
   rack-reverse-proxy
   rails (= 3.2.13)
   rspec-instafail (~> 0.2.4)

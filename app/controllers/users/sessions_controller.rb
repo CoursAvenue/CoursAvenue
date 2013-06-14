@@ -9,7 +9,7 @@ class Users::SessionsController < Devise::SessionsController
 
   def new
     respond_to do |format|
-      format.html { render layout: false }
+      format.html { render layout: !request.xhr? }
     end
   end
 end

@@ -10,7 +10,7 @@ class Course < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
-  friendly_id :friendly_name, use: [:slugged, :history]
+  friendly_id :friendly_name, use: :slugged
 
   has_attached_file :homepage_image,
                     :styles => {default: '1600×500#'},
@@ -321,10 +321,6 @@ class Course < ActiveRecord::Base
     'Cours'
   end
 
-  def should_generate_new_friendly_id?
-    new_record? || !active
-  end
-
   def description_for_input
     self.description.gsub(/<br>/, '&#x000A;').html_safe if self.description
   end
@@ -357,6 +353,10 @@ class Course < ActiveRecord::Base
     course_duplicate.book_tickets  << self.book_tickets.map(&:dup)
     course_duplicate.save
     return course_duplicate
+  end
+
+  def should_generate_new_friendly_id?
+    new_record? || !self.active
   end
 
   private

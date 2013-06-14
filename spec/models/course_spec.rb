@@ -81,7 +81,7 @@ describe Course do
           @course.activate!.should be_false
           @course.active.should be_false
           @course.errors[:prices].length.should eq 1
-          @course.errors[:plannings].length.should eq 1
+          @course.errors[:plannings].length.should eq 0
         end
       end
       context 'with prices' do
@@ -89,10 +89,10 @@ describe Course do
           @course.prices << @price_1
           @course.save
         end
-        it 'fails' do
-          @course.activate!.should be_false
-          @course.active.should be_false
-          @course.errors[:plannings].length.should eq 1
+        it 'activates' do
+          @course.activate!.should be_true
+          @course.active.should be_true
+          @course.errors[:plannings].length.should eq 0
           @course.should have(0).errors_on(:prices)
         end
       end
@@ -188,12 +188,28 @@ describe Course do
     it 'should have slug' do
       @course.slug.should_not be_nil
     end
+    context :inactive do
+      before do
+        @course.active = false
+      end
+      it 'should change slug with name' do
+        initial_slug = @course.slug
+        @course.name += ' new slug'
+        @course.save
+        @course.slug.should_not eq initial_slug
+      end
+    end
 
-    it 'should change slug with name' do
-      initial_slug = @course.slug
-      @course.name += ' new slug'
-      @course.save
-      @course.slug.should_not eq initial_slug
+    context :active do
+      before do
+        @course.active = true
+      end
+      it 'should keep same slug' do
+        initial_slug = @course.slug
+        @course.name += ' new slug'
+        @course.save
+        @course.slug.should eq initial_slug
+      end
     end
   end
 
@@ -234,10 +250,10 @@ describe Course do
       @course_duplicate.subjects.should eq @course.subjects
     end
     it 'has same prices' do
-      @course_duplicate.prices.count.should eq @course.prices.count
+      @course_duplicate.prices.length.should eq @course.prices.length
     end
     it 'has same plannings' do
-      @course_duplicate.plannings.count.should eq @course.plannings.count
+      @course_duplicate.plannings.length.should eq @course.plannings.length
     end
     it 'is inactive' do
       @course_duplicate.active?.should be_false

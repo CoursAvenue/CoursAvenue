@@ -1,0 +1,9 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+fr:
+  user:
+    devise:
+      failure:
+        already_authenticated: 'Vous êtes déjà connecté.'
+        not_found_in_database: 'Invalid email or password.'
+        invalid: 'Mauvais email ou mot de passe.'
+        timeout: 'Votre session a expiré.'
