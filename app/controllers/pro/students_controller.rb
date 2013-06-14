@@ -7,6 +7,6 @@ class Pro::StudentsController < Pro::ProController
   authorize_resource :student
 
   def index
-    @students = Student.order('created_at DESC').all
+    @students = Student.order('created_at DESC').limit(500)
   end
 end

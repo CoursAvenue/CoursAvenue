@@ -21,7 +21,7 @@ class Pro::StructuresController < Pro::ProController
       StudentMailer.delay.ask_for_feedbacks(@structure, email)
     end
     respond_to do |format|
-      format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés': nil)}
+      format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés': nil)}
     end
   end
 
