@@ -1,6 +1,7 @@
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
+        var star;
         var rating_descriptions = [
           'Épouvantable',
           "Mauvais",
@@ -8,8 +9,10 @@
           'Très bon',
           "Excellent !"
         ]
+        // Add events on stars
         $$('.rating .star').addEvent('click', function() {
             $('comment_rating').set('value', this.get('data-value'));
+            $('comment_rating').fireEvent('change');
             this.getAllPrevious().addClass('icon-star').removeClass('icon-star-empty');
             this.addClass('icon-star').removeClass('icon-star-empty');
             this.getAllNext().removeClass('icon-star').addClass('icon-star-empty');
@@ -20,6 +23,7 @@
                 return false;
             }
         });
+        // Add animation on stars
         $$('.rating .star').addEvents({
             mouseenter:  function() {
                 $('rating-description').set('text', rating_descriptions[parseInt(this.get('data-value')) - 1]);
@@ -42,4 +46,11 @@
                 }
             }
         });
+        // Initialization
+        if ((star = $$('.rating .star[data-value=' + $('comment_rating').get('value') + ']')).length > 0) {
+            star[0].click();
+        }
+        if ($('comment_rating').get('value').length > 0 || $('comment_content').get('value').length > 0) {
+            scrollTo(0, $('comments').offsetTop);
+        }
     });

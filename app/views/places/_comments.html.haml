@@ -5,7 +5,7 @@
       = f.hidden_field :commentable_type
       = f.hidden_field :commentable_id
       %div.input
-        %label.control-label.text--right{style: 'width: 13em'}= Comment.human_attribute_name(:rating)
+        = f.label :rating, style: 'width: 13em'
         %span.rating
           %i.star.icon-star-empty.gamma{style: 'top: 4px;', data: {value: 1}}
           %i.star.icon-star-empty.gamma{style: 'top: 4px; left: -3px; padding: 0 2px', data: {value: 2}}
@@ -13,12 +13,16 @@
           %i.star.icon-star-empty.gamma{style: 'top: 4px; left: -9px; padding: 0 2px', data: {value: 4}}
           %i.star.icon-star-empty.gamma{style: 'top: 4px; left: -12px; padding: 0 2px', data: {value: 5}}
         %span#rating-description
-      = f.input :rating, as: :hidden
-      = f.input :title, label_html: {style: 'width: 13em; vertical-align: top;'}, input_html: {style: 'width: 40.5em;'}, placeholder: 'Cours de Zumba du lundi, Atelier pâtisserie du 13 juin, etc.'
-      = f.input :content, label_html: {style: 'width: 13em; vertical-align: top;'}, input_html: {style: 'width: 40.5em; height: 50px;', 'data-behavior' => 'autoresize'}, placeholder: "Qu'avez-vous pensé du cours ?"
+      = f.input :rating, as: :hidden, input_html: {value: cookies[:comment_rating]}
+      = f.input :title, label_html: {style: 'width: 13em; vertical-align: top;'}, input_html: {style: 'width: 40.5em;', value: cookies[:comment_title]}, placeholder: 'Cours de Zumba du lundi, Atelier pâtisserie du 13 juin, etc.'
+      = f.input :content, label_html: {style: 'width: 13em; vertical-align: top;'}, input_html: {style: 'width: 40.5em; height: 50px;', 'data-behavior' => 'autoresize', value: cookies[:comment_content]}, placeholder: "Qu'avez-vous pensé du cours ?"
       .text--center
+      - if current_user
         = f.submit 'Publier mon avis', class: 'btn btn__large btn__success', style: 'padding-top: 6px; padding-bottom: 6px;'
+      - else
+        = link_to 'Publier mon avis', '#', class: 'btn btn__large btn__success', style: 'padding-top: 6px; padding-bottom: 6px;', onclick: "_gaq.push(['_trackEvent', 'Avis sur établissement', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour commenter', width: '400px', url: '/users/sign_up'}
   = render 'comments/javascript'
+
 - else
   .text--center.push-half--bottom
     %a.text--center.btn.btn__primary.btn__large{href: '#', onclick: "_gaq.push(['_trackEvent', 'Avis sur établissement', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour commenter', width: '400px', url: '/users/sign_up'}} Donnez mon avis
@@ -32,3 +36,18 @@
     = render @comments
 - else
   %p Soyez le premier à nous donner votre avis !
+
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        $('comment_rating').addEvent('change', function() {
+            document.cookie = 'comment_rating=' + this.get('value');
+        });
+        $('comment_title').addEvent('change', function() {
+            document.cookie = 'comment_title=' + this.get('value');
+        });
+        $('comment_content').addEvent('change', function() {
+            document.cookie = 'comment_content=' + this.get('value');
+        });
+    });

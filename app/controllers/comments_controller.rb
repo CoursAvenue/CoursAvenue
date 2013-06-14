@@ -14,6 +14,8 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if !cookies["comment_#{params[:commentable_type]}_#{@commentable.id}"] and @comment.save
         cookies["comment_#{params[:commentable_type]}_#{@commentable.id}"] = true unless Rails.env.development?
+        cookies[:comment_rating]  = nil
+        cookies[:comment_content] = nil
         format.html { redirect_to (request.referrer || commentable_path(@comment)), notice: "Merci d'avoir laissé votre avis !" }
         UserMailer.delay.after_comment_for_teacher(@comment) if Rails.env.production?
         UserMailer.delay.after_comment(@comment)
