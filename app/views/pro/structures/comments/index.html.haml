@@ -19,6 +19,8 @@
 - else
   - @courses_comments.each do |course, comments|
     %h4.flush--bottom
+      = link_to course_url(course, subdomain: 'www'), title: 'Voir le cours sur CoursAvenue' do
+        %i.icon-external-link
       = course.name
       = rating_stars course.rating
       = course.rating
