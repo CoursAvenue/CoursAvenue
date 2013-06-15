@@ -6,4 +6,4 @@
 %ul.comment-list
   - @comments.each do |comment|
     = link_to commentable_url(comment, subdomain: 'www'), class: 'muted-link' do
-      = render partial: '/comments/comment', locals: {comment: comment}
+      = render partial: '/comments/comment', locals: {comment: comment, with_link: true}
