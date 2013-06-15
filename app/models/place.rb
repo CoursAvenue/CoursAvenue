@@ -10,7 +10,7 @@ class Place < ActiveRecord::Base
   before_save :retrieve_address
 
   extend FriendlyId
-  friendly_id :long_name, use: [:slugged, :history]
+  friendly_id :long_name, use: :slugged
 
   belongs_to :city,                 touch: true
   belongs_to :structure,            touch: true
@@ -176,6 +176,10 @@ class Place < ActiveRecord::Base
     else
       self.structure.mobile_phone_number
     end
+  end
+
+  def should_generate_new_friendly_id?
+    new_record?
   end
 
   private
