@@ -20,9 +20,6 @@ class CoursesController < ApplicationController
 
   def show
     @course             = Course.find(params[:id])
-    unless @course.active
-      redirect_to root_path, alert: "Ce cours n'est pas visible.", status: 301
-    end
     @comment            = @course.comments.build
     @comments           = @course.comments.order('created_at DESC').reject(&:new_record?)
     @city               = @course.city

@@ -41,7 +41,7 @@ class PlacesController < ApplicationController
     end
     @place     = Place.find params[:id]
     @structure = @place.structure
-    @courses   = @place.courses.active
+    @courses   = @place.courses
     @comments  = @structure.all_comments
     @comment   = @structure.comments.build
     @city      = @place.city
