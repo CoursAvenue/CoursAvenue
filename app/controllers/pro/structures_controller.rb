@@ -145,9 +145,15 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def create_and_get_feedbacks
-    @structure      = Structure.new params[:structure]
+    # Prevents from duplicates
+    s_name     = params[:structure][:name]
+    s_zip_code = params[:structure][:zip_code]
+    @structure = Structure.where{(name == s_name) & (zip_code == s_zip_code)}.first
+    if @structure.nil?
+      @structure = Structure.new params[:structure]
+    end
     respond_to do |format|
-      if @structure.save
+      if !@structure.new_record? or @structure.save
         session[:id] = @structure.id
         format.html { redirect_to share_my_profile_pro_structure_path(@structure), notice: 'Partagez maintenant votre profil public pour avoir des recommandations' }
       else
