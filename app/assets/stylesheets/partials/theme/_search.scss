@@ -48,6 +48,7 @@
     }
     .button-wrapper {
         text-align: right;
+        width     : 10em;
         @include media-query(palm) {
             text-align: center;
             float: none!important;

@@ -5,7 +5,7 @@ class PlaceSearch
       fulltext                     params[:name]         if params[:name].present?
       with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id]
 
-      with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 10, :bbox => true) if params[:lat].present? and params[:lng].present?
+      with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 5, :bbox => true) if params[:lat].present? and params[:lng].present?
 
       with :active,  true
 

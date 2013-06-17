@@ -36,7 +36,7 @@
     - Subject.roots.order(:short_name).each do |subject|
       %li.text--center.drop-down__wrapper{class: (params[:subject_id] == subject.slug ? 'active' : ''), onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}']);"}
         /#, data: {behavior: 'drop-down', el: "> .drop-down__el", position: 'center'}}
-        = link_to subject.short_name, subject_courses_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
+        = link_to subject.short_name, subject_places_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
         / %ul.drop-down__el
         /   - subject.children.order('name ASC').each do |child_subject|
         /     %li{onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}', '#{child_subject.name}'])"}= link_to child_subject.name, subject_courses_path(child_subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: (params[:subject_id] == child_subject.slug ? 'selected subject-link' : 'subject-link')

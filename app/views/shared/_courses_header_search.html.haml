@@ -2,7 +2,7 @@
 - params[:end_date]   ||= '' # l(Date.today + 6.months)
 
 .header-search-bar
-  %div.search-input-wrapper
+  %div.search-input-wrapper>
     .input-with-icon
       %input#search-input{class: 'search-input', placeholder: 'Que voulez-vous faire ?', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'subject-list', autocomplete: 'off'}
       %i.lbc-subject-icon
@@ -14,7 +14,7 @@
             %option{value: subject.name}
         <!--[if IE 9]></select><![endif]-->
       %p#search-help.white-box--noshadow.hidden{style: 'z-index: 2; line-height: 1.3; padding: 5px 10px; width: 100%; position: absolute;'} Recherchez par intitulé de cours, discipline, nom de structure, etc.
-  %div.search-input-wrapper
+  %div.search-input-wrapper>
     .input-with-icon
       %input#adress-picker{class: 'search-input', placeholder: 'Où ?', type: 'text', 'data-list' => 'address-list', 'data-behavior' => 'address-picker', 'data-lng' => 'address-lng', 'data-lat' => 'address-lat', autocomplete: 'off', name: 'address_name', value: params[:address_name]}
       %i.icon-map-marker.delta
