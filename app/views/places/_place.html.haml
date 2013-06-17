@@ -23,14 +23,15 @@
             = place.structure.comments_count
             avis
             %i.lbc-brand-icon
-        - else
-          %span.super-muted= rating_stars 0
-          = link_to "Soyez le 1er à donner votre avis", place_path(place, anchor: 'comments'), onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - Lieu', 'click'])"
+        / - else
+        /   %span.super-muted= rating_stars 0
+        /   = link_to "Soyez le 1er à donner votre avis", place_path(place, anchor: 'comments'), onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - Lieu', 'click'])"
     %p
       = place.street
       \-
       = place.city.try(:name)
     %ul.nav= join_place_parent_subjects(place)
-  .course-content.two-twelfths.text--center
-    .alpha.orange= place.courses.count
-    %b cours
+  - if place.courses.count > 0
+    .course-content.two-twelfths.text--center.v-middle
+      .alpha.orange= place.courses.count
+      %b cours

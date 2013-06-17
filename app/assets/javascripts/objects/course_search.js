@@ -13,6 +13,7 @@
             this.form           = el;
             this.subject        = null;
             this.location_input = $('location-input');
+            this.base_url       = this.form.get('action');
             this.attachEvents();
         },
 
@@ -46,9 +47,9 @@
 
         updateFormUrl: function() {
             if (this.getSubject() === null) {
-                var url = '/cours';
+                var url = this.base_url;
             } else {
-                var url = '/disciplines/' + this.getSubject() + '/cours';
+                var url = '/disciplines/' + this.getSubject() + this.base_url;
             }
             this.form.set('action', url);
         }
