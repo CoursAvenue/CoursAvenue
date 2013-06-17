@@ -27,26 +27,8 @@ class PlacesController < ApplicationController
     if params[:subject_id]
       @subject = Subject.find params[:subject_id]
     end
-    @search = Sunspot.search(Place) do
-      fulltext                     params[:name]         if params[:name].present?
-      with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id]
 
-      with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 10, :bbox => true)
-
-      with :active,  true
-
-      if params[:sort] == 'rating_desc'
-        order_by :rating, :desc
-        order_by :nb_comments, :desc
-      else
-        order_by :nb_courses, :desc
-        order_by :has_comment, :desc
-        order_by_geodist(:location, params[:lat], params[:lng])
-      end
-      paginate :page => (params[:page] || 1), :per_page => 15
-    end
-    @places = @search.results
-
+    @places = PlaceSearch.search(params)
     init_geoloc
 
     # fresh_when etag: [@places, ENV["ETAG_VERSION_ID"]], public: true
@@ -67,12 +49,13 @@ class PlacesController < ApplicationController
     place           = @place
     place_latitude  = @place.latitude
     place_longitude = @place.longitude
-    @search = Sunspot.search(Place) do
-      with(:location).in_radius(place_latitude, place_longitude, params[:radius] || 10, :bbox => true) if place.is_geolocalized?
-      without(:street, nil)
-      paginate :page => (1), :per_page => 5
+
+    search_params = {per_page: 5, radius: 4}
+    if place.is_geolocalized?
+      search_params[:lat] = place.latitude
+      search_params[:lng] = place.longitude
     end
-    @surrounding_places = @search.results
+    @surrounding_places = PlaceSearch.search(search_params)
 
     @json_place_address = @place.to_gmaps4rails do |place, marker|
       marker.title   place.name
