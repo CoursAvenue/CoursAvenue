@@ -22,12 +22,8 @@
         },
 
         resize: function(event) {
-            this.textarea.style.height = "1px";
-            if (this.textarea.scrollHeight < this.default_scrollheight) {
-                this.textarea.style.height = this.default_height;
-            } else {
-                this.textarea.style.height = (25 + this.textarea.scrollHeight) + "px";
-            }
+            this.textarea.style.height = ""; /* Reset the height*/
+            this.textarea.style.height = Math.max(this.textarea.scrollHeight, this.default_scrollheight) + "px";
         }
     });
 })();
