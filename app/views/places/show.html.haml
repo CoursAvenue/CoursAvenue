@@ -50,8 +50,8 @@
 
       - if @place.thumb_image.present?
         .text--center= image_tag @place.thumb_image.url(:thumb)
-      - elsif @place.structure.image.present?
-        .text--center= image_tag @place.structure.image.url(:thumb)
+      - elsif @structure.image.present?
+        .text--center= image_tag @structure.image.url(:thumb)
       %h2.delta.text--center Contacter : #{@place.long_name}
       - if current_user
         %hr
@@ -86,6 +86,7 @@
         - else
           %a.btn.btn__success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Établissement - contacter', 'click','Non inscrit'])",  data: {behavior: 'modal', title: 'Connectez-vous pour contacter cet établissement', width: '400px', url: '/users/sign_up'}} Coordonnées de reservation
 
+
     .text--center.white-box.islet
       - if @structure.rating
         .delta Note : #{@structure.rating}
@@ -104,6 +105,9 @@
         %b Vous connaissez cet établissement ?
       %div
         = link_to 'Donner votre avis', '#comments', class: 'btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - lieu', 'click','#{@place.slug}'])"
+
+    - if @structure.facebook_url.present?
+      = link_to 'Page facebook', @structure.facebook_url, target: '_blank', class: 'btn__facebook btn one-whole'
 
     %hr
 

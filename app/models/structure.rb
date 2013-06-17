@@ -24,7 +24,7 @@ class Structure < ActiveRecord::Base
   attr_reader :delete_image
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
-                  :gives_professional_courses, :website, :phone_number,
+                  :gives_professional_courses, :website, :facebook_url, :phone_number,
                   :mobile_phone_number, :contact_email, :description,
                   :subject_ids,
                   :active,

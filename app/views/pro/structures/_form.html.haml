@@ -1,7 +1,6 @@
 %h1.header-group
   %i.icon-cogs
   Information générales
-%h4.header-group Responsable des réservations
 .islet
   = simple_form_for [:pro, @structure], html: { autocomplete: 'off' } do |structure_form|
     = simple_fields_for @admin do |contact_form|
@@ -34,7 +33,7 @@
             = contact_form.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe'
             = contact_form.input :password_confirmation
 
-    %h4.header-group Structure d'enseignement
+    %h4.header-group Information sur l'établissement
     .islet
     /= simple_fields_for @structure do |structure_form|
     /= simple_form_for @structure do |structure_form|
@@ -63,6 +62,7 @@
         %p.field-form-info= t('.structure_name_info')
         = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: {style: 'max-width: 29em;'}
         = structure_form.input :website
+        = structure_form.input :facebook_url, wrapper_html: {class: 'flush--bottom'}, placeholder: 'https://www.facebook.com/CoursAvenue'
 
       %h5.form-header-group
         %i.icon-map-marker
