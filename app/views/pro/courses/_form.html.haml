@@ -108,9 +108,6 @@
   :javascript
     document.addEvent('domready', function() {
         new GLOBAL.Objects.TextareaResizer($('course_description'));
-        $$('[data-behavior=chosen]').each(function(select) {
-            new Chosen(select);
-        });
         $$('[name=course[type]]').addEvent('change', function() {
             if (this.get('value') === 'Course::Lesson') {
                 $('recurrency').reveal();

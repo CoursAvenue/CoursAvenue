@@ -51,6 +51,11 @@ window.addEvent('domready', function() {
         transition: Fx.Transitions.Quad.easeInOut
     });
 
+    // -------------------------- Chosen
+    $$('[data-behavior=chosen]').each(function(select) {
+        new Chosen(select);
+    });
+
     // -------------------------- Modal handler
     // Options
     // ------- data:

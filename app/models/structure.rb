@@ -26,6 +26,7 @@ class Structure < ActiveRecord::Base
                   :place_ids, :name, :info, :registration_info,
                   :gives_professional_courses, :website, :phone_number,
                   :mobile_phone_number, :contact_email, :description,
+                  :subject_ids,
                   :active,
                   :has_validated_conditions,
                   :validated_by,
@@ -56,12 +57,12 @@ class Structure < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :students
   has_many :teachers                 , dependent: :destroy
-  has_many :subjects, through: :courses
   has_many :courses, through: :places
   has_many :renting_rooms
   has_many :cities, through: :places
   has_many :places                   , dependent: :destroy
   # has_many :rooms, through: :places
+  has_and_belongs_to_many :subjects
 
   has_many :admins
 
@@ -77,6 +78,7 @@ class Structure < ActiveRecord::Base
   before_create    :set_active_to_true
   after_create     :set_free_pricing_plan
   after_create     :create_place
+  after_create     :create_courses_relative_to_subject
   # before_save      :build_place
   after_create     :subscribe_to_mailchimp if Rails.env.production?
   before_save      :replace_slash_n_r_by_brs
@@ -144,6 +146,13 @@ class Structure < ActiveRecord::Base
 
   def create_place
     self.places.create(name: self.name, street: self.street, city: self.city, zip_code: self.zip_code)
+  end
+
+  def create_courses_relative_to_subject
+    place = self.places.first
+    self.subjects.each do |subject|
+      place.courses.create(name: subject.name, subject_ids: [subject.id], type: 'Course::Lesson', level_ids: [Level.all_levels.id], audience_ids: [Audience.adult.id])
+    end
   end
 
   # def build_place

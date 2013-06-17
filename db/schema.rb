@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130612140610) do
+ActiveRecord::Schema.define(:version => 20130617133205) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -465,6 +465,13 @@ ActiveRecord::Schema.define(:version => 20130612140610) do
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true
+
+  create_table "structures_subjects", :id => false, :force => true do |t|
+    t.integer "structure_id"
+    t.integer "subject_id"
+  end
+
+  add_index "structures_subjects", ["structure_id", "subject_id"], :name => "index_structures_subjects_on_structure_id_and_subject_id"
 
   create_table "students", :force => true do |t|
     t.string   "city"

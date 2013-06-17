@@ -71,6 +71,18 @@ describe Structure do
     end
   end
 
+  context :subjects do
+    before do
+      @structure = FactoryGirl.build(:structure)
+    end
+    it 'creates courses depending the subjects passed' do
+      natation = Subject.first
+      @structure.subjects << natation
+      @structure.save
+      @structure.courses.length.should eq 1
+      @structure.courses.first.name.should eq natation.name
+    end
+  end
   context :comments do
     it 'retrieves course comments' do
       comment = structure.comments.create FactoryGirl.attributes_for(:comment)

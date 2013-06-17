@@ -160,7 +160,7 @@
               %th.three-twelfths.text--center Disciplines
               %th.two-twelfths.text--center Niveau
               %th.two-twelfths.text--center Séances à venir
-              %th
+              %th.text--center Prix
           %tbody
             - @courses.each do |course|
               %tr
@@ -173,7 +173,9 @@
                     = join_course_subjects course
                 %td.text--center= course.levels.map{|level| t(level.name) }.join(', ')
                 %td.text--center= course.plannings.count
-                %td.text--right= link_to 'Assister', course_path(course), class: 'btn btn__success'
+                %td.text--right
+                  - if course.best_price
+                    = "#{readable_amount course.best_price.amount}€".html_safe
       - if @courses.length > 4
         .text--center.islet
           %a.btn#show-more-courses Voir tous les cours

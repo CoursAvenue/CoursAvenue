@@ -66,11 +66,9 @@ class Place < ActiveRecord::Base
 
     text :subjects do
       subject_array = []
-      if structure
-        structure.subjects.each do |subject|
-          subject_array << subject
-          subject_array << subject.parent
-        end
+      self.subjects.each do |subject|
+        subject_array << subject
+        subject_array << subject.parent
       end
       subject_array.uniq.map(&:name)
     end
@@ -83,22 +81,18 @@ class Place < ActiveRecord::Base
 
     integer :subject_ids, multiple: true do
       subject_ids = []
-      if structure
-        structure.subjects.each do |subject|
-          subject_ids << subject.id
-          subject_ids << subject.parent.id
-        end
+      self.subjects.each do |subject|
+        subject_ids << subject.id
+        subject_ids << subject.parent.id
       end
       subject_ids.uniq
     end
 
     string :subject_slugs, multiple: true do
       subject_slugs = []
-      if structure
-        structure.subjects.each do |subject|
-          subject_slugs << subject.slug
-          subject_slugs << subject.parent.slug
-        end
+      self.subjects.each do |subject|
+        subject_slugs << subject.slug
+        subject_slugs << subject.parent.slug
       end
       subject_slugs.uniq
     end
