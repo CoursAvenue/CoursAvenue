@@ -62,27 +62,27 @@
       = link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www')
       Merci !
 
-    - if @structure.students.any?
-      - structure_id = @structure.id
-      %hr
-      %h4 Liste des élèves déjà sollicités
-      %table.table--striped.table--data
-        %thead
-          %tr
-            %th Email
-            %th.text--center A laissé une recommandation
-            %th
-        %tbody
-          - @structure.students.each do |student|
-            %tr
-              %td= student.email
-              %td.text--center
-                - if Comment.where{(email == student.email) & (commentable_id == structure_id) & (commentable_type == 'Structure')}.length > 0
-                  %i.icon-ok
-              %td
-                = form_tag get_feedbacks_pro_structure_path(@structure) do
-                  %input{type: 'hidden', value: student.email}
-                  = submit_tag 'Renvoyer une demande', class: 'btn'
+- if @structure.students.any?
+  - structure_id = @structure.id
+  %hr
+  %h4 Liste des élèves déjà sollicités
+  %table.table--striped.table--data
+    %thead
+      %tr
+        %th Email
+        %th.text--center A laissé une recommandation
+        %th
+    %tbody
+      - @structure.students.each do |student|
+        %tr
+          %td= student.email
+          %td.text--center
+            - if Comment.where{(email == student.email) & (commentable_id == structure_id) & (commentable_type == 'Structure')}.length > 0
+              %i.icon-ok
+          %td
+            = form_tag get_feedbacks_pro_structure_path(@structure) do
+              %input{type: 'hidden', value: student.email}
+              = submit_tag 'Renvoyer une demande', class: 'btn'
 
 
 
