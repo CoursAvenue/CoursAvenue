@@ -5,6 +5,13 @@
         _gaq.push(['_trackEvent', 'Commentaire depuis facebook', 'vue'])
       });
 
+- if params.has_key? :website
+  = content_for :scripts do
+    :javascript
+      window.addEvent('domready', function() {
+        _gaq.push(['_trackEvent', 'Commentaire depuis site perso', 'vue'])
+      });
+
 .grid
   .grid__item.two-thirds>
     %h2.flush--bottom.small-margin-bottom= @structure.name

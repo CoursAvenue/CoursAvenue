@@ -2,72 +2,105 @@
 
 %h5.home-title
   %i.icon-bullhorn.v-middle
-  %span.v-middle Faites-vous recommander par vos élèves
+  %span.v-middle 3 manières efficaces d'être recommandé
 .grid--full.text--center.push--top
   .grid__item.three-twelfths.text--center.v-middle.relative>
-    .white-box.islet
+    %a.muted-link.white-box.islet{href: '#email-reco'}
       %h4
-        %i.icon-bullhorn.icon-2x
+        %i.icon-envelope-alt.icon-2x
         %br
-        Demandez des recommandations
+        Email
   .grid__item.one-twelfth.text--center.v-middle>
     .islet
-      %i.icon-2x.icon-chevron-right
+      ou
   .grid__item.three-twelfths.text--center.v-middle.relative>
-    .white-box.islet
+    %a.muted-link.white-box.islet{href: '#facebook-reco'}
       %h4
-        %i.icon-comments.icon-2x
+        %i.icon-facebook.icon-2x
         %br
-        Recevez des avis positifs
+        Facebook
   .grid__item.one-twelfth.text--center.v-middle>
     .islet
-      %i.icon-2x.icon-chevron-right
+      ou
   .grid__item.three-twelfths.text--center.v-middle.relative>
-    .white-box.islet
+    %a.muted-link.white-box.islet{href: '#website-reco'}
       %h4
-        %i.icon-circle-arrow-up.icon-2x
+        %i.icon-paperclip.icon-2x
         %br
-        Gagnez la confiance des élèves
+        Sur votre site
 %hr
 
-.grid
-  .grid__item.one-half.islet.bordered--right>
-    %h4
-      %i.icon-envelope-alt.icon-2x.v-middle.soft-half--right
-      %span.v-middle Envoyez un e-mail à vos élèves
+.white-box.islet
+  %h4#email-reco
+    %i.icon-envelope-alt.icon-2x.v-middle.soft-half--right
+    %span.v-middle Envoyez un email à vos élèves
 
-    = form_tag get_feedbacks_pro_structure_path(@structure) do
-      %div
+  .grid
+    .grid__item.one-half.soft--right>
+      %h5 Soit grâce à notre outil dédié
+      = form_tag get_feedbacks_pro_structure_path(@structure) do
+        %div
+          %p
+            Entrez les emails de vos élèves en les séparant par des virgules.
+            Grâce à cet outil, vous pourrez suivre en bas de cette page les élèves qui ont posté un commentaire et relancer ceux qui ne l'ont pas encore fait.
+            %br
+            Ces emails ne seront utilisés que pour cet envoi unique.
+        %div
+          %textarea.one-whole{name: 'emails', rows: 7, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
+          .grid.push-half--top
+            .grid__item.v-middle.width-auto
+              = submit_tag 'Envoyer ma demande', class: 'btn btn__success'
+            .grid__item.v-middle.width-auto
+              = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}
+    .grid__item.one-half.bordered--left>
+      %h5 Soit en envoyant vous-même un email
+      %p
+        Vous pouvez également leur envoyé un email plus personnel. Voilà un exemple de mail que vous pouvez utiliser :
+      .alert--info.flush--left
         %p
-          %b Entrez les emails de vos élèves les plus fidèles
-          en séparant les adresses par des virgules (emails non utilisés à des fins commerciales).
-        %ps
-          Une fois votre demande envoyée, vos élèves pourront s'inscrire sur CoursAvenue et laisser un avis sur vos cours ou votre établissement.
-          %br
-          Un avis ne vous satisfait pas ? Gardez un droit de regard et parlons-en :
-          s'il ne respecte pas notre charte (manque d'objectivité, commentaire personnel, avis non constructif), nous le supprimerons.
-      %div
-        %textarea.one-whole{name: 'emails', rows: 7, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr'}
-        .grid.push-half--top
-          .grid__item.v-middle.width-auto
-            = submit_tag 'Envoyer ma demande', class: 'btn btn__success'
-          .grid__item.v-middle.width-auto
-            = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}
-  .grid__item.one-half.islet>
-    %h4.fb-blue
-      %i.icon-facebook-sign.icon-2x.v-middle.soft-half--right
-      %span.v-middle Demandez à vos fans Facebook de vous recommander
-    %p.flush--bottom
-      C'est simple et efficace : copiez le texte ci-dessous puis collez-le sur votre mur Facebook. Nos Partenaires qui l’ont déjà fait ont eu de très bons retours.
-    %p.alert--info.flush--left
-      Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Faites-le savoir et #{@structure.independant? ? 'recommandez-moi' : 'recommandez-nous'} en cliquant sur le lien suivant :
-      = link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www')
-      Merci !
+          Bonjour,
+        %p
+          Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laissez votre avis en cliquant sur le lien suivant :
+          = link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: '_blank'
+        %p
+          Merci pour votre contribution et à très bientôt !
+        %p.flush--bottom
+          #{@structure.name}
+
+%hr
+.white-box.islet
+  %h4.fb-blue#facebook-reco
+    %i.icon-facebook-sign.icon-2x.v-middle.soft-half--right
+    %span.v-middle Demandez à vos fans Facebook de vous recommander
+  %p
+    Copiez le texte ci-dessous puis collez-le sur votre mur Facebook :
+  %p.alert--info.flush--left
+    Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant :
+    = link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), target: '_blank'
+    Merci !
+
+%hr
+
+.white-box.islet
+  %h4#website-reco
+    %i.icon-paperclip.icon-2x.v-middle.soft-half--right
+    %span.v-middle Directement sur votre site internet
+
+  %p
+    Partagez les deux liens suivants :
+  .alert--info
+    Pour que les internautes visualisent tous vos avis :
+    = link_to place_url(@structure.places.first, website: '', subdomain: 'www'), place_url(@structure.places.first, website: '', subdomain: 'www'), target: '_blank'
+    %br
+    Pour que vos élèves déposent de nouveaux avis :
+    = link_to new_structure_comment_url(@structure, website: '', subdomain: 'www'), new_structure_comment_url(@structure, website: '', subdomain: 'www'), target: '_blank'
 
 - if @structure.students.any?
   - structure_id = @structure.id
   %hr
-  %h4 Liste des élèves déjà sollicités
+  %h4
+    %i.icon-group.icon-2x.v-middle.soft-half--right
+    %span.v-middle Liste des élèves déjà sollicités
   %table.table--striped.table--data
     %thead
       %tr

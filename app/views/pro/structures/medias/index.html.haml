@@ -6,14 +6,19 @@
 - if @medias.any?
   %hr
   %h4 Mes médias
-  - @medias.in_groups_of(3, false).each do |media_group|
-    .grid.media-gallery
+  .grid.media-gallery
+    - @medias.in_groups_of(3, false).each do |media_group|
       - media_group.each do |media|
         .grid__item.one-third>
-          %a.media__item{href: media.url, title: media.caption}
+          %a.flush--bottom.white-box.islet.media__item{href: media.url, title: media.caption}
             = media.url_html
-            %p
-              %i= media.caption
+            - if media.caption.present?
+              %p.flush--bottom
+                %i= media.caption
+          %p
+            = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' } do
+              %i.icon-trash
+              Supprimer
 
 = content_for :scripts do
   :javascript
