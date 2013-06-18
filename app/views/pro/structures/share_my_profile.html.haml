@@ -7,21 +7,11 @@
     %hr
     %h4.fb-blue.flush--bottom
       %i.icon-facebook-sign.icon-2x.v-middle.soft-half--right
-      %span.v-middle Partagez sur Facebook ou par email
+      %span.v-middle Partagez sur Facebook
     %p.flush--bottom
-      Vous pouvez copiez le texte suivant que nous vous avons préparé, puis collez-le sur le mur de votre page Facebook
+      Copiez le texte ci-dessous puis collez-le sur votre mur Facebook :
     %p.alert--info.flush--left{style: 'max-width: 800px'}
-      Vous aimez
-      - if @structure.independant?
-        mes
-      - else
-        nos
-      cours ? Faites-le savoir et
-      - if @structure.independant?
-        recommandez-moi
-      - else
-        recommandez-nous
-      en cliquant sur le lien suivant :
+      Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant :
       = link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), target: '_blank'
       Merci !
 
@@ -29,11 +19,12 @@
 
     %h4.flush--bottom
       %i.icon-envelope-alt.icon-2x.v-middle.soft-half--right
-      %span.v-middle Envoyer un email automatiquement
+      %span.v-middle Envoyez un email automatiquement
     %p.flush--bottom
-      Vous pourrez suivre votre campagne de recommandations depuis votre espace pro.
+      Entrez les emails de vos élèves en les séparant par des virgules.
+      Grâce à cet outil, vous pourrez suivre depuis votre espace pro tous les élèves qui ont posté un commentaire et relancer ceux qui ne l'ont pas encore fait.
       %br
-      Nous n'utiliserons ces emails que pour cette demande de recommandations. En aucun cas ils ne seront utilisés à des fins commerciales.
+      Ces emails ne seront utilisés que pour cet envoi unique.
     = simple_form_for :structure, url: get_feedbacks_pro_structure_path(@structure), method: :post do |f|
       %input{type: 'hidden', name: 'redirect_to', value: new_pro_admin_structure_registration_path(@structure)}
       .form-white-box.islet.flush--left
