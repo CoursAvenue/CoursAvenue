@@ -17,42 +17,6 @@
     %i.icon-search
     Actualiser
 .side-search-panel
-  //-------------------------------------------------------------------------------------------------------- Subject
-  .search-panel
-    %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Dates'])", data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
-      Dates
-      - if params[:start_date].present? or params[:end_date].present?
-        %i.icon-caret-down
-      - else
-        %i.icon-caret-left
-    .search-panel-content{class: (params[:start_date].present? or params[:end_date].present? ? '' : 'hide')}
-      Du
-      %input#start_date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
-      au
-      %input#end_date{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker'}}
-
-
-  //-------------------------------------------------------------------------------------------------------- Subject
-  //  .search-panel
-  //    %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Disciplines'])",data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
-  //      Disciplines
-  //      - if @subject
-  //        %i.icon-caret-down
-  //      - else
-  //        %i.icon-caret-left
-  //    .search-panel-content{class: @subject ? '' : 'hide'}
-  //      %ul.check-list
-  //        %li= link_to t('all_subject'), courses_path(address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'subject-link'
-  //        / ----------------- If the current subject is this one or has this one as a parent
-  //        - Subject.roots.order(:name).each do |subject|
-  //          - if params[:subject_id] == subject.slug || !subject.children.select{|d| d.slug == params[:subject_id]}.blank?
-  //            %li= link_to subject.name, subject_courses_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
-  //            %ul.check-list
-  //              - subject.children.order('name ASC').each do |child_subject|
-  //                %li= link_to child_subject.name, subject_courses_path(child_subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: (params[:subject_id] == child_subject.slug ? 'selected subject-link' : 'subject-link')
-  //          - else
-  //            %li= link_to subject.name, subject_courses_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'subject-link'
-
   //-------------------------------------------------------------------------------------------------------- Type de cours
   .search-panel
     %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Type de cours'])", data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
@@ -88,6 +52,21 @@
       = label_tag 'search_price_range_max_price', 'à'
       = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, placeholder: '100', class: 'timepicker-input', data: {behavior: 'input-update', element: 'hidden_search_price_range_max'}
       €
+  //-------------------------------------------------------------------------------------------------------- Subject
+  .search-panel
+    %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Dates'])", data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+      Dates
+      - if params[:start_date].present? or params[:end_date].present?
+        %i.icon-caret-down
+      - else
+        %i.icon-caret-left
+    .search-panel-content{class: (params[:start_date].present? or params[:end_date].present? ? '' : 'hide')}
+      Du
+      %input#start_date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
+      au
+      %input#end_date{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker'}}
+
+
 
   .search-panel
     %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Niveaux'])",data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
@@ -118,6 +97,27 @@
           %li
             = check_box_tag 'audiences[]', audience.id, params[:audiences].include?(audience.id.to_s), id: "search_audience_#{i}", data: {behavior: 'input-update', element: "hidden_search_audience_#{i}"}
             = label_tag "search_audience_#{i}", t(audience.name)
+
+  //-------------------------------------------------------------------------------------------------------- Subject
+  .search-panel
+    %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Disciplines'])",data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
+      Disciplines
+      - if @subject
+        %i.icon-caret-down
+      - else
+        %i.icon-caret-left
+    .search-panel-content{class: @subject ? '' : 'hide'}
+      %ul.check-list
+        %li= link_to t('all_subject'), courses_path(address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'subject-link'
+        / ----------------- If the current subject is this one or has this one as a parent
+        - Subject.roots.order(:name).each do |subject|
+          - if params[:subject_id] == subject.slug || !subject.children.select{|d| d.slug == params[:subject_id]}.blank?
+            %li= link_to subject.name, subject_courses_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
+            %ul.check-list
+              - subject.children.order('name ASC').each do |child_subject|
+                %li= link_to child_subject.name, subject_courses_path(child_subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: (params[:subject_id] == child_subject.slug ? 'selected subject-link' : 'subject-link')
+          - else
+            %li= link_to subject.name, subject_courses_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'subject-link'
 
   / .search-panel
   /   %h5.search-panel-header.toggleable-header{data: {behavior: 'toggleable', el:'+ .search-panel-content'}}

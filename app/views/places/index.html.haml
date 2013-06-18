@@ -15,9 +15,9 @@
     %ul.tab-titles
       %li
         - if @subject
-          = link_to 'Par cours', subject_courses_path(@subject, name: params[:name]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
+          = link_to 'Par cours', subject_courses_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
         - else
-          = link_to 'Par cours', courses_path(name: params[:name]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
+          = link_to 'Par cours', courses_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
       %li.tab-el.active Par établissement
 
     - if @places.empty?
