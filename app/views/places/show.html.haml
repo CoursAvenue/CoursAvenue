@@ -148,30 +148,31 @@
     = render 'share_links'
     %hr
 
-    %ul.tab-titles{data: {behavior: 'tabs'}}
-      - if @place.description.present?
-        %li.tab-el.active{data: { el: 'tab-description' }} Description
-      - if @medias.any?
-        %li.tab-el{data: { el: 'tab-videos' }} Galerie Photos & Vidéos
+    - if @place.description.present? or @medias.any?
+      %ul.tab-titles{data: {behavior: 'tabs'}}
+        - if @place.description.present?
+          %li.tab-el.active{data: { el: 'tab-description' }} Description
+        - if @medias.any?
+          %li.tab-el{data: { el: 'tab-videos' }} Galerie Photos & Vidéos
 
-    .tab-content
-      - if @place.description.present?
-        %article#tab-description.tab-pane.active
-          %h2.delta.text--center Description de #{@place.long_name}
-          %p#place-description{style: 'max-height: 200px; overflow: hidden;'}= @place.description.html_safe
-          .text--center.islet
-            %a.btn#show-more-description Voir toute la description
-      - if @medias.any?
-        %article#tab-videos.tab-pane{onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);"}
-          .media-gallery
-            - @medias.in_groups_of(2, false).each do |media_group|
-              .grid
-                - media_group.each do |media|
-                  .grid__item.one-half>
-                    %a.white-box.islet.media__item{href: media.url, title: media.caption}
-                      = media.url_html
-                      %p
-                        %i= media.caption
+      .tab-content
+        - if @place.description.present?
+          %article#tab-description.tab-pane.active
+            %h2.delta.text--center Description de #{@place.long_name}
+            %p#place-description{style: 'max-height: 200px; overflow: hidden;'}= @place.description.html_safe
+            .text--center.islet
+              %a.btn#show-more-description Voir toute la description
+        - if @medias.any?
+          %article#tab-videos.tab-pane{onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);"}
+            .media-gallery
+              - @medias.in_groups_of(2, false).each do |media_group|
+                .grid
+                  - media_group.each do |media|
+                    .grid__item.one-half>
+                      %a.white-box.islet.media__item{href: media.url, title: media.caption}
+                        = media.url_html
+                        %p
+                          %i= media.caption
 
 
     %hr
