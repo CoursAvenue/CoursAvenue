@@ -8,10 +8,9 @@
 %h5.form-header-group Ajouter un professeur
 = render 'form'
 
-%br
-%hr
-%h4 Mes professeurs
 - unless @teachers.empty?
+  %hr.push--top
+  %h4 Mes professeurs
   %table.table--striped.table--data#dataTable
     %thead
       %tr

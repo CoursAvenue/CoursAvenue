@@ -21,21 +21,7 @@
             this.form.addEvent('submit', function() {
                 this.updateFormUrl();
             }.bind(this));
-            // Handle subject dropdown
-            $$('#dropped-options-subject .subject-element').addEvent('click', function(event) {
-                // Hide on click
-                var title = $$('#dropped-options-subject .dropped-title')[0];
-                $$('#dropped-options-subject .subject-element').removeClass('selected');
-                $$('#dropped-options-subject ul').hide();
-                event.event.currentTarget.addClass('selected');
-                title.set('text', event.event.currentTarget.get('data-name'));
-                this.setSubject(event.event.currentTarget.get('data-id'));
-            }.bind(this));
 
-        },
-
-        getCity: function() {
-            return this.city_slugs[this.city_input.value.toLowerCase()] || this.city_input.value;
         },
 
         setSubject: function(subject_slug) {

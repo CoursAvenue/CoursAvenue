@@ -29,7 +29,7 @@ class Price < ActiveRecord::Base
   validates :libelle      , uniqueness: {scope: 'course_id'}
   validates :amount       , presence: true
   validates :amount       , numericality: { greater_than_or_equal_to:  0 }
-  validates :promo_amount , numericality: { less_than: :amount }
+  validates :promo_amount , numericality: { less_than: :amount }, allow_nil: true
 
   def per_course_amount
     return nil if amount.nil?

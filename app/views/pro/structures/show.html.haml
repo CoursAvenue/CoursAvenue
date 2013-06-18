@@ -70,8 +70,6 @@
       %table.table--striped.dataTable.table--data
         %thead
           %tr
-            %th.hard--right{style: 'width: 2em;'}
-              %i.icon-external-link
             %th.text--center.one-twelfth Statut
             %th
               %span Type
@@ -90,9 +88,6 @@
         %tbody
           - place.courses.order('created_at DESC').each do |course|
             %tr
-              %td.hard--right
-                = link_to course_url(course, subdomain: 'www'), title: 'Voir le cours sur CoursAvenue', target: '_blank' do
-                  %i.icon-external-link
               %td.text--center
                 - if course.active
                   = link_to disable_pro_course_path(course), method: :put, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
@@ -136,6 +131,10 @@
                       = link_to edit_pro_course_path(course), title: 'Modifier ce cours', class: 'nowrap' do
                         %i.icon-pencil
                         Éditer
+                    %li
+                      = link_to  course_url(course, subdomain: 'www'), title: 'Voir le cours sur CoursAvenue', target: '_blank', class: 'nowrap' do
+                        %i.icon-eye-open
+                        Voir sur CoursAvenue
                     %li
                       = link_to pro_course_path(course), method: :delete, class: 'red nowrap', title: 'Supprimer ce cours', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'} do
                         %i.icon-trash
