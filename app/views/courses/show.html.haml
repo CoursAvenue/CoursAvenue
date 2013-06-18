@@ -22,6 +22,8 @@
   = link_to courses_path(city: @city.name) do
     %i.orange ←
     = t('.see_arrounding_courses')
+/ .float--right
+/   = link_to 'Établissement', place_path(@place)
 
 %h1.course-title
   %span= @course.name.capitalize

@@ -122,7 +122,7 @@ class Pro::StructuresController < Pro::ProController
   def update
     @structure = Structure.find params[:id]
     if params[:structure].delete(:delete_image) == '1'
-      resource.image.clear
+      @structure.image.clear
     end
     @admin     = (params[:admin][:id].blank? ? ::Admin.new : ::Admin.find(params[:admin].delete(:id)))
     @structure.admins << @admin
