@@ -2,7 +2,9 @@
 module PricesHelper
 
   def readable_promo_percentage price
-    "#{(100 - (price.promo_amount * 100) / price.amount).to_i}%"
+    if price.amount > 0
+      "#{(100 - (price.promo_amount * 100) / price.amount).to_i}%"
+    end
   end
 
   def readable_amount amount

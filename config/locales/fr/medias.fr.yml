@@ -4,5 +4,5 @@ fr:
       media: Public
     attributes:
       media:
-        url: Lien video / image
+        url: '<i class="icon-link"></i>&nbsp;Lien video / image'
         caption: Légende

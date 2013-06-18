@@ -3,7 +3,7 @@
 %li.one-whole.course-element{onclick: "_gaq.push(['_trackEvent', 'Click cours', 'click', '#{best_price.try(:has_promo?) ? 'Avec promo' : 'Sans promo'}'])", data: {"place-id" => course.place_id, url: course_path(course), type: 'course-element'}}
   %div.two-twelfths.visuallyhidden--palm
     .course-image.media__img
-      - if best_price.try(:has_promo?)
+      - if best_price.try(:has_promo?) and best_price.try(:amount) > 0
         .badge--price
           Promo
           = "-#{readable_promo_percentage best_price}"

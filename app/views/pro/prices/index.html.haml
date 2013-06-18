@@ -21,6 +21,7 @@
 - prices = [[t('prices.annual'), 'prices.annual'],[t('prices.semester'), 'prices.semester'],[t('prices.trimester'), 'prices.trimester'],[t('prices.month'), 'prices.month']]
 = simple_form_for [:pro, @course], url: update_price_pro_course_path(@course) do |f|
   %h5.form-header-group Prix du #{@course.type_name_html.downcase.html_safe}
+  = f.error_notification
   .form-white-box--large
     .grid--full.input
       %label.control-label.grid__item &nbsp;
@@ -29,6 +30,7 @@
       .grid__item.text--center.soft-half--left{style: 'width: 190px;'}
         %b Avec promo (optionnel)
     = simple_fields_for @individual_price do |price_form|
+      = price_form.error_notification
       = price_form.hidden_field :libelle, value: 'prices.individual_course', name: 'individual_course_price[libelle]'
       .input.inline-inputs.flush--top
         = price_form.label "1 #{@course.type_name_html}".html_safe, style: 'width: 250px; padding-right: 1em;', class: 'text--right'
@@ -39,6 +41,7 @@
 
     - unless @course.is_training?
       = simple_fields_for @book_ticket do |book_ticket_form|
+        = book_ticket_form.error_notification
         = book_ticket_form.hidden_field :number, value: 10
         .input.inline-inputs.flush--top
           = book_ticket_form.label :amount, "Carnet de 10 #{@course.type_name_html.downcase}".html_safe, style: 'width: 250px; padding-right: 1em;', class: 'text--right'

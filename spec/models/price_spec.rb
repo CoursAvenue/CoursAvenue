@@ -21,15 +21,36 @@ describe Price do
     end
   end
 
-  describe '#has_promo?' do
-    it 'has promo' do
-      price.promo_amount = nil
-      price.has_promo?.should be_false
+  context :amount do
+    it 'cannot have negative price' do
+      price.amount = -1
+      price.valid?.should be_false
+    end
+  end
+
+  context :promotion do
+
+    it 'cannot have negative promo' do
+      price.promo_amount = -1
+      price.valid?.should be_false
     end
 
-    it 'does not have promo' do
-      price.promo_amount = 22
-      price.has_promo?.should be_true
+    it 'cannot have promo higher than actual price' do
+      price.amount = 10
+      price.promo_amount = 20
+      price.valid?.should be_false
+    end
+
+    describe '#has_promo?' do
+      it 'has promo' do
+        price.promo_amount = nil
+        price.has_promo?.should be_false
+      end
+
+      it 'does not have promo' do
+        price.promo_amount = 22
+        price.has_promo?.should be_true
+      end
     end
   end
 

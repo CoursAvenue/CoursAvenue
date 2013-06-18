@@ -73,7 +73,10 @@ class Pro::CoursesController < InheritedResources::Base
 
       respond_to do |format|
         if errors
-          flash[:alert] = 'Vous devez renseigner au moins un prix'
+          @individual_price ||= @course.prices.where{libelle == 'prices.individual_course'}.first || @course.prices.build
+          @subscription     ||= @course.prices.where{libelle != 'prices.individual_course'}.first || @course.prices.build
+          @book_ticket      ||= @course.book_tickets.where{number == 10}.first || @course.book_tickets.build
+          @registration_fee ||= @course.registration_fees.first || @course.registration_fees.build
           format.html{ render template: 'pro/prices/index' }
         else
           @course.activate!

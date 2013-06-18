@@ -109,10 +109,13 @@ class Place < ActiveRecord::Base
       courses.count
     end
     integer :nb_comments do
-      comments.count
+      self.comments.count
     end
     boolean :has_comment do
-      comments.count > 0
+      self.comments.count > 0
+    end
+    boolean :has_picture do
+      self.image.present? or self.structure.image.present?
     end
   end
 

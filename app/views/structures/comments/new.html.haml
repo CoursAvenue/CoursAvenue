@@ -2,14 +2,14 @@
   = content_for :scripts do
     :javascript
       window.addEvent('domready', function() {
-        _gaq.push(['_trackEvent', 'Commentaire depuis facebook', 'vue'])
+        _gaq.push(['_trackEvent', 'Commentaire depuis facebook', 'vue', '#{@structure.name}'])
       });
 
 - if params.has_key? :website
   = content_for :scripts do
     :javascript
       window.addEvent('domready', function() {
-        _gaq.push(['_trackEvent', 'Commentaire depuis site perso', 'vue'])
+        _gaq.push(['_trackEvent', 'Commentaire depuis site perso', 'vue', '#{@structure.name}'])
       });
 
 .grid
