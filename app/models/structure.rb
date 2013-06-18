@@ -54,6 +54,7 @@ class Structure < ActiveRecord::Base
   belongs_to       :city
   belongs_to       :pricing_plan
 
+  has_many :medias,   as: :mediable   , dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :students
   has_many :teachers                 , dependent: :destroy

@@ -1,0 +1,9 @@
+.form-white-box--large.islet
+  = simple_form_for [:pro, @structure, @media], url: pro_structure_medias_path(@structure) do |f|
+    = f.error_notification
+    = f.input :url, wrapper_html: {class: 'flush--bottom'}
+    %p.field-form-info.blue Copiez et collez le lien d'une image ou d'une vidéo pour alimenter votre galerie.
+    = f.input :caption, wrapper_html: {class: 'flush--bottom'}
+    %p.field-form-info.blue 200 caractères maximum
+    .form-actions
+      = f.submit 'Envoyer', class: 'btn btn__success'

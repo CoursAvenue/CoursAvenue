@@ -23,8 +23,6 @@ CoursAvenue::Application.routes.draw do
       resources :subjects
       resources :reservation_loggers, only: [:index, :destroy]
       resources :structures, path: 'etablissements' do
-        devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
-        resources :comments, only: [:index], controller: 'structures/comments'
         member do
           put  'activate'
           put  'disable'
@@ -41,6 +39,9 @@ CoursAvenue::Application.routes.draw do
           get 'import_mail_callback'
           get 'import_mail_callback_failure'
         end
+        devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
+        resources :comments, only: [:index], controller: 'structures/comments'
+        resources :medias, controller: 'structures/medias'
         resources :teachers
         resources :places
 

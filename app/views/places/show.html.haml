@@ -146,12 +146,32 @@
             = readable_address @place
 
     = render 'share_links'
-    - if @place.description.present?
-      %hr
-      %h2.delta.text--center Description de #{@place.long_name}
-      %p#place-description{style: 'max-height: 200px; overflow: hidden;'}= @place.description.html_safe
-      .text--center.islet
-        %a.btn#show-more-description Voir toute la description
+    %hr
+
+    %ul.tab-titles{data: {behavior: 'tabs'}}
+      - if @place.description.present?
+        %li.tab-el{data: { el: 'tab-description' }} Description
+      - if @medias.any?
+        %li.tab-el.active{data: { el: 'tab-videos' }} Galerie Photos & Vidéos
+
+    .tab-content
+      - if @place.description.present?
+        %article#tab-description.tab-pane
+          %h2.delta.text--center Description de #{@place.long_name}
+          %p#place-description{style: 'max-height: 200px; overflow: hidden;'}= @place.description.html_safe
+          .text--center.islet
+            %a.btn#show-more-description Voir toute la description
+      - if @medias.any?
+        %article#tab-videos.tab-pane.active
+          - @medias.in_groups_of(3, false).each do |media_group|
+            .grid.media-gallery
+              - media_group.each do |media|
+                .grid__item.one-third>
+                  %a.media__item{href: media.url, title: media.caption}
+                    = media.url_html
+                    %p
+                      %i= media.caption
+
 
     %hr
     - if @courses.length > 0
@@ -221,4 +241,16 @@
                 return false;
             });
         }
+        new XtLightbox('.media-gallery a', {
+            adaptors: ['Image', 'YouTube', 'Vimeo'],
+            loop: true,
+            rendererOptions: {
+                positionText: 'Média {x} sur {total}. Utilisez les flèches pour naviguer, échape pour fermer la fenêtre.'
+            },
+            adaptorOptions: {
+                Image: {
+                    lightboxCompat: false
+                }
+            }
+        });
     });

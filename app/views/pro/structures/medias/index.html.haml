@@ -1,0 +1,33 @@
+= side_menu_currently_at 'Mes photos & vidéos'
+
+%h5.form-header-group Ajouter une viéo / photo
+= render 'form'
+
+- if @medias.any?
+  %hr
+  %h4 Mes médias
+  - @medias.in_groups_of(3, false).each do |media_group|
+    .grid.media-gallery
+      - media_group.each do |media|
+        .grid__item.one-third>
+          %a.media__item{href: media.url, title: media.caption}
+            = media.url_html
+            %p
+              %i= media.caption
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+      new XtLightbox('.media-gallery a', {
+        adaptors: ['Image', 'YouTube', 'Vimeo'],
+        loop: true,
+        rendererOptions: {
+          positionText: 'Média {x} sur {total}. Utilisez les flèches pour naviguer, échape pour fermer la fenêtre.'
+        },
+        adaptorOptions: {
+          Image: {
+            lightboxCompat: false
+          }
+        }
+      });
+    });

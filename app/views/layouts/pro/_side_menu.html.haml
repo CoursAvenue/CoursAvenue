@@ -12,4 +12,5 @@
     = pro_side_menu_link "Lieux d'enseignements", pro_structure_places_path(@structure)     , current: current_tab, icon: 'icon-map-marker' if @structure and !@structure.new_record?
     = pro_side_menu_link 'Mes avis'             , pro_structure_comments_path(@structure)   , current: current_tab, icon: 'icon-comments'   if @structure and !@structure.new_record?
     = pro_side_menu_link 'Recommandations', recommendations_pro_structure_path(@structure)  , current: current_tab, icon: 'icon-bullhorn'   if @structure and !@structure.new_record?
+    = pro_side_menu_link 'Mes photos & vidéos', pro_structure_medias_path(@structure)       , current: current_tab, icon: 'icon-youtube-play' if @structure and !@structure.new_record?
     = pro_side_menu_link 'Infos générales'.html_safe      , (@structure.new_record? ? new_pro_structure_path : edit_pro_structure_path(@structure))     , current: current_tab, icon: 'icon-cogs' if @structure

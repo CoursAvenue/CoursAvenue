@@ -45,7 +45,7 @@ class PlacesController < ApplicationController
     @comments  = @structure.all_comments
     @comment   = @structure.comments.build
     @city      = @place.city
-
+    @medias    = @structure.medias
     place           = @place
     place_latitude  = @place.latitude
     place_longitude = @place.longitude

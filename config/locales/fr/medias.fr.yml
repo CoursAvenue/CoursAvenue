@@ -1,0 +1,8 @@
+fr:
+  activerecord:
+    models:
+      media: Public
+    attributes:
+      media:
+        url: Lien video / image
+        caption: Légende

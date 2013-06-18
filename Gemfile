@@ -18,6 +18,8 @@ group :assets do
   gem 'coffee-rails'            , '~> 3.2.1'
 end
 
+gem 'auto_html'                 , '~> 1.6.0'
+
 gem 'delayed_job_active_record' , '~> 0.4.4'
 # gem 'whenever'                  , '~> 0.8.2'
 gem 'exceptional'
@@ -29,6 +31,7 @@ gem 'compass-rails'             , '~> 1.0.3'
 gem 'compass-inuit'             , '~> 5.0.1'
 gem 'asset_sync'                , '~> 0.5.4'
 gem 'haml'                      , '~> 3.1.7'
+
 
 gem 'pg'
 gem 'progress_bar'

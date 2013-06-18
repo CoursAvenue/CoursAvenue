@@ -30,6 +30,15 @@
 //= require libs/chosen/chosen
 //= require libs/TableSorter
 
+//---- Lightbox
+//= require libs/XtLightbox/XtLightbox.js
+//= require libs/XtLightbox/Adaptor.js
+//= require libs/XtLightbox/Renderer.js
+//= require libs/XtLightbox/Adaptor/Image.js
+//= require libs/XtLightbox/Adaptor/YouTube.js
+//= require libs/XtLightbox/Adaptor/Vimeo.js
+//= require libs/XtLightbox/Renderer/Lightbox.js
+
 // ---------------------------------- Mootols Objects
 //= require_tree ./objects/
 //= require_tree ./gmaps4rails/
