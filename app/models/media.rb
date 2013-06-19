@@ -1,5 +1,5 @@
 class Media < ActiveRecord::Base
-  set_table_name 'medias' # Fails sinon
+  self.table_name = 'medias'
 
   attr_accessible :mediable, :mediable_id, :mediable_type, :url, :caption
 

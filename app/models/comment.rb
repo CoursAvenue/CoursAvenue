@@ -38,7 +38,7 @@ class Comment < ActiveRecord::Base
     if _commentable_object.is_a? Structure
       ratings_array = _commentable_object.all_comments.collect(&:rating)
       ratings       = ratings_array.inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }
-      _commentable_object.comments_count = ratings_array.length
+      _commentable_object.update_comments_count
     else
       ratings = _commentable_object.comments.group(:rating).count
     end
@@ -51,6 +51,9 @@ class Comment < ActiveRecord::Base
     new_rating = (nb_rating == 0 ? nil : (total_rating.to_f / nb_rating.to_f))
     _commentable_object.rating = new_rating
     _commentable_object.save
+    if _commentable_object.is_a? Structure
+      _commentable_object.update_comments_count
+    end
   end
 
   def update_rating

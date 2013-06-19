@@ -85,6 +85,10 @@ class Structure < ActiveRecord::Base
   before_save      :replace_slash_n_r_by_brs
   before_save      :fix_website_url
 
+  def update_comments_count
+    self.update_column :comments_count, self.comments.count
+  end
+
   def contact_email
     if admins.any?
       admins.first.email
@@ -187,7 +191,7 @@ class Structure < ActiveRecord::Base
   end
 
   def fix_website_url
-    if self.website and !self.website.starts_with? 'http://'
+    if self.website.present? and !self.website.starts_with? 'http://'
       self.website = "http://#{self.website}"
     end
   end

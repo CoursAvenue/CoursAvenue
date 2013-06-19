@@ -2,7 +2,8 @@ class Pro::HomeController < Pro::ProController
   layout 'admin_pages'
 
   def index
-    @admin = ::Admin.new
+    @admin      = ::Admin.new
+    @structures = Structure.where{image_updated_at != nil}.order('comments_count DESC').limit(8)
   end
 
   def presentation

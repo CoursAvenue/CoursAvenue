@@ -2,8 +2,29 @@
   Référencez et gérez vos cours simplement avec CoursAvenuePro
 
 = menu_currently_at 'Accueil'
-.grid.relative
-  .grid__item.one-half>
+
+%h1.text--center Partagez la qualité de vos cours
+.text--center
+  = link_to new_from_recomendation_pro_structures_path, class: 'btn btn__success btn__large', id: 'register', onclick: "_gaq.push(['_trackEvent', 'Inscription', 'click'])" do
+    %span Référencer mes cours et obtenir des avis
+    %br
+    %span.milli.line-height-1 Gratuit et sans engagement
+.push--bottom.text--center= link_to "Je suis déjà inscrit, me connecter", new_pro_admin_session_url(subdomain: 'pro')
+-#    %br
+-#    %h4.text--center 5 bonnes raisons de référencer vos cours :
+-#    %ul
+-#      %li Ne gardez pas les compliments de vos élèves juste pour vous, partagez-les !
+-#      %li Grâce aux avis, gagnez la confiance de nouveaux élèves dès aujourd’hui et soyez plus visible sur Internet
+-#      %li Soyez présent sur CoursAvenue, le 1er moteur de recherche de cours et stages
+-#      %li Diffusez toutes vos belles photos et vidéos
+-#      %li C’est 100% gratuit, et vous maîtrisez tout en temps réel
+-#    .text--center
+-#      = link_to 'En savoir plus', pro_pages_presentation_path, class: 'btn btn__large', onclick: "_gaq.push(['_trackEvent', 'En savoir plus', 'click'])"
+
+%hr
+
+.grid
+  .relative.grid__item.one-half>
     .relative
       = image_tag 'pro/dance_teacher.jpg', class: 'block'
       .image-quote
@@ -17,44 +38,46 @@
       = link_to 'foire aux questions', pages_faq_partners_path, target: '_blank'
       ou à
       = link_to 'nous contacter.', pages_contact_path
+  .grid__item.one-half>
+    %h3.push-half--bottom Ils ont déjà été séduits
+    .relative
+      %ul#slideshow.slideshow
+        - @structures.in_groups_of(2, false) do |structure_group|
+          %li.slideshow--element
+            .grid
+              - structure_group.each do |structure|
+                .grid__item.one-half>
+                  .white-box.islet
+                    %div
+                      = link_to place_url(structure.places.first, subdomain: 'www') do
+                        = image_tag structure.image.url(:thumb)
+                    %hr.push-half--bottom.push-half--top
+                    %div
+                      %b
+                        = link_to structure.name, place_url(structure.places.first, subdomain: 'www')
+                    %hr.push-half--top
+                    = structure.comments.count
+                    = rating_stars structure.rating
+                    \/
+                    = structure.comments_count
+                    avis
+                    %i.lbc-brand-icon
 
-  .grid__item.one-half.islet
-    %h1.delta.text--center Référencez vos cours et gérez vos avis simplement depuis notre logiciel en ligne 100% gratuit
-    %br
-    %p.text--center
-      = link_to new_from_recomendation_pro_structures_path, class: 'btn btn__success btn__large', id: 'register', onclick: "_gaq.push(['_trackEvent', 'Inscription', 'click'])" do
-        %span Référencer mes cours et obtenir des avis
-        %br
-        %span.milli.line-height-1 Gratuit et sans engagement
-      .text--center= link_to "Je suis déjà inscrit, me connecter", new_pro_admin_session_url(subdomain: 'pro')
-    %br
-    %h4.text--center 5 bonnes raisons de référencer vos cours :
-    %ul
-      %li Ne gardez pas les compliments de vos élèves juste pour vous, partagez-les !
-      %li Grâce aux avis, gagnez la confiance de nouveaux élèves dès aujourd’hui et soyez plus visible sur Internet
-      %li Soyez présent sur CoursAvenue, le 1er moteur de recherche de cours et stages
-      %li Diffusez toutes vos belles photos et vidéos
-      %li C’est 100% gratuit, et vous maîtrisez tout en temps réel
-    .text--center
-      = link_to 'En savoir plus', pro_pages_presentation_path, class: 'btn btn__large', onclick: "_gaq.push(['_trackEvent', 'En savoir plus', 'click'])"
-
-%br
-%hr
-.center-block.text--center
-  %h3 Ils ont déjà été séduits
-  .grid
-    .grid__item.one-third.v-middle>
-      = link_to 'http://www.atelier.net/blog/2013/03/01/rencontre-laureats-de-saison-4-camping', target: '_blank', alt: "L'Atelier BNP", title: "L'Atelier BNP", rel: 'nofollow' do
-        = image_tag 'pro/partners/atelier_bnp.png', height: 70
-    .grid__item.one-third.v-middle>
-      = link_to 'http://www.journaldunet.com/web-tech/start-up/le-camping-saison-4/coursavenue.shtml', target: '_blank', alt: 'Le Journal Du Net', title: 'Le Journal Du Net', rel: 'nofollow' do
-        = image_tag 'pro/partners/journal_du_net.png', height: 70
-    .grid__item.one-third.v-middle
-      = link_to 'http://frenchweb.fr/', target: '_blank', alt: 'FrenchWeb', title: 'FrenchWeb', rel: 'nofollow' do
-        = image_tag 'pro/partners/frenchweb.png', height: 70
 
 #testimony.hidden
   %p
     La critique simple n’est pas plus pertinente que le compliment facile. En revanche, la critique positive ou négative doit être argumentée et bien écrite, car dans les deux cas elle nous donne confiance et nous rend plus crédibles. L'avantage de la critique négative, c'est aussi qu'elle nous permet de mesurer le risque que nous prenons et qui participe à notre bonne réputation.
   %p Mais attention, il ne suffit pas de regarder ce que les gens écrivent, il faut également mesurer qui ils sont."
   %p - Thierry Le Cocq, Abaneraz Tango Club
+
+= content_for :scripts do
+  :javascript
+    var slideshow;
+    window.addEvent('domready', function() {
+        slideshow = new SlideShow('slideshow', {
+            transition: 'crossFade',
+            delay: 3000,
+            duration: 500,
+            autoplay: true
+        });
+    });

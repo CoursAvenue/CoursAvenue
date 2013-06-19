@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(:version => 20130617162921) do
     t.integer "course_id"
   end
 
-  add_index "audiences_courses", ["audience_id", "course_id"], :name => "index_audiences_courses_on_audience_id_and_course_id", :unique => true
+  add_index "audiences_courses", ["audience_id", "course_id"], :name => "audience_course_index"
 
   create_table "book_tickets", :force => true do |t|
     t.integer  "number"
@@ -191,7 +191,7 @@ ActiveRecord::Schema.define(:version => 20130617162921) do
     t.integer "level_id"
   end
 
-  add_index "courses_levels", ["level_id", "course_id"], :name => "index_courses_levels_on_level_id_and_course_id", :unique => true
+  add_index "courses_levels", ["level_id", "course_id"], :name => "index_courses_levels_on_level_id_and_course_id"
 
   create_table "courses_subjects", :id => false, :force => true do |t|
     t.integer "course_id"

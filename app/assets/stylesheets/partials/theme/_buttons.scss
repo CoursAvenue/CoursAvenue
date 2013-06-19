@@ -94,6 +94,18 @@
         @include buttonBackground(lighten($btnSuccessBackground, 15%), lighten($btnSuccessBackgroundHighlight, 15%));
     }
 }
+// Success appears as green
+.btn__blue {
+    text-transform: uppercase;
+    @include buttonBackground($btnBlueBackground, $btnBlueBackgroundHighlight);
+    &:hover {
+        @include buttonBackground(lighten($btnBlueBackground, 6%), lighten($btnBlueBackgroundHighlight, 6%));
+    }
+    &.disabled, &[disabled] {
+        cursor: default;
+        @include buttonBackground(lighten($btnBlueBackground, 15%), lighten($btnBlueBackgroundHighlight, 15%));
+    }
+}
 
 .btn__facebook {
     text-transform  : uppercase;

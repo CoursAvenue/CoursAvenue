@@ -93,10 +93,12 @@ describe Structure do
       @structure = FactoryGirl.create(:structure)
       @course    = FactoryGirl.create(:course, structure_id: @structure.id)
 
-      FactoryGirl.create(:structure_comment, commentable_id: @structure.id)
+      FactoryGirl.create(:structure_comment, commentable_id: @structure.id, commentable_type: 'Structure')
       @structure.comments_count.should eq 1
-      FactoryGirl.create(:course_comment, commentable_id: @course.id)
+      FactoryGirl.create(:course_comment, commentable_id: @course.id, commentable_type: 'Structure')
       @structure.comments_count.should eq 2
+      FactoryGirl.create(:course_comment, commentable_id: @course.id, commentable_type: 'Structure')
+      @structure.comments_count.should eq 3
     end
   end
 end
