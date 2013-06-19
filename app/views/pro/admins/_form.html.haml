@@ -5,8 +5,7 @@
       %i.icon-user
       Informations personnelles
     .form-white-box.flush--bottom
-      %p.field-form-info.blue Ces coordonnées peuvent être utilisé par le service client pour vous contacter en cas de problème.
-      = f.hidden_field :id
+      %p.field-form-info.blue.flush--bottom Ces coordonnées peuvent être utilisé par le service client pour vous contacter en cas de problème.
       = f.input :civility, as: :radio_buttons, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
       = f.input :name
       = f.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: 'Ex. : 01 02 11 33 12'

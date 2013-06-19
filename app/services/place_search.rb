@@ -15,7 +15,6 @@ class PlaceSearch
       else
         order_by :has_comment, :desc
         order_by :has_picture, :desc
-        # order_by :nb_courses, :desc
         order_by_geodist(:location, params[:lat], params[:lng])
       end
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)

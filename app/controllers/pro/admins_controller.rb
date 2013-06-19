@@ -50,13 +50,18 @@ class ::Pro::AdminsController < InheritedResources::Base
 
   def update
     @admin = ::Admin.find(params[:id])
-    update! do |format|
-      format.html do
-        if current_pro_admin.super_admin?
-          redirect_to pro_admins_path
-        else
-          redirect_to pro_structure_path current_pro_admin.structure
-        end
+
+    if !@admin.new_record? and params[:admin][:password].blank?
+      params[:admin].delete :password
+      params[:admin].delete :password_confirmation
+    end
+
+    respond_to do |format|
+      if @admin.update_attributes(params[:admin])
+        sign_in(@admin, bypass: true)
+        format.html { redirect_to edit_pro_admin_path(current_pro_admin), notice: 'Vos paramètres ont été mis à jour avec succès' }
+      else
+        format.html { render 'pro/admins/edit' }
       end
     end
   end
