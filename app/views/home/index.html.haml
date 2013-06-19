@@ -1,5 +1,13 @@
 = render 'home_screen'
 = content_for :above_container do
+  .main-container.hard
+    %ul.comment-list.flush--bottom#comments-slideshow{style: 'height: 95px; width: 100%; overflow: hidden;'}
+      - @comments.in_groups_of(2, false).each do |comment_group|
+        %li.slideshow--element.islet
+          .grid
+            - comment_group.each do |comment|
+              .grid__item.one-half.palm--one-whole.lap--one-whole>
+                = render partial: 'comments/home_comment', locals: {comment: comment}
   = render 'share_links'
   .home-screen-promotion-wrapper.visuallyhidden--palm
     %section.main-container.home-screen-promotion
@@ -9,13 +17,43 @@
           - cache "map_#{ENV["ETAG_VERSION_ID"]}", public: true do
             = render 'map_paris'
         .grid__item.palm--one-whole.lap--one-whole.one-half.islet{style: 'min-height: 35em;'}
-          %div
-            %h3.home-title Les derniers avis
-            %ul.comment-list#comments-slideshow{style: 'height: 80px; width: 100%;'}
-              - @comments.in_groups_of(4, false).each do |comment_group|
-                %li.slideshow--element
-                  - comment_group.each do |comment|
-                    = render partial: 'comments/home_comment', locals: {comment: comment}
+          %h3.home-title À découvrir ce mois-ci
+          .grid--full
+            .grid__item.course-block-wrapper.one-half.palm--one-whole>
+              = link_to subject_courses_path('cuisine-oenologie'), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Réveillez vos papilles'])" do
+                .course-block-image
+                  = image_tag 'home-page/cooking.jpg', alt: 'Tous les cours et stages de cuisine'
+                %h6.course-block-title
+                  Réveillez vos papilles
+                %p.course-block-caption
+                  Cours de cuisine et d’œnologie pour tous
+
+            .grid__item.course-block-wrapper.one-half.palm--one-whole>
+              = link_to subject_courses_path('relaxation-fitness', time_slots: ['evening']), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Détendez-vous après le boulot'])" do
+                .course-block-image
+                  = image_tag 'home-page/after_work.jpg', alt: 'Tous les cours et stages après le travail'
+                %h6.course-block-title
+                  Détendez-vous après le boulot
+                %p.course-block-caption
+                  Cours de fitness / relaxation après 18h
+
+            .grid__item.course-block-wrapper.one-half.palm--one-whole>
+              = link_to subject_courses_path('insolite'), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Cours insolites'])" do
+                .course-block-image
+                  = image_tag 'home-page/insolite.jpg', alt: 'Tous les cours et stages insolites'
+                %h6.course-block-title
+                  Cours insolites
+                %p.course-block-caption
+                  Laissez-vous surprendre !
+
+            .grid__item.course-block-wrapper.one-half.palm--one-whole>
+              = link_to courses_path(audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Éveillons nos tout petits'])" do
+                .course-block-image
+                  = image_tag 'home-page/child-courses.jpg', alt: 'Tous les cours et stages pour enfants'
+                %h6.course-block-title
+                  Éveillons nos tout petits
+                %p.course-block-caption
+                  Cours & stages pour les 0 à 5 ans
 
   .text--center.visuallyhidden--palm
     .newsletter-form
@@ -28,86 +66,54 @@
 
 .main-container
   .grid
-    .grid__item.lap--one-whole.palm--one-whole.one-half>
-      %h3.home-title À découvrir ce mois-ci
-      .grid--full
-        .grid__item.course-block-wrapper.one-half.palm--one-whole>
-          = link_to subject_courses_path('cuisine-oenologie'), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Réveillez vos papilles'])" do
-            .course-block-image
-              = image_tag 'home-page/cooking.jpg', alt: 'Tous les cours et stages de cuisine'
-            %h6.course-block-title
-              Réveillez vos papilles
-            %p.course-block-caption
-              Cours de cuisine et d’œnologie pour tous
+    .grid__item.lap--one-whole.palm--one-whole.one-whole>
+      .grid
+        .grid__item.one-third.palm--one-whole>
+          .grid
+            .grid__item.one-fifth.text--center.v-middle>
+              = image_tag 'icons/ico_piggy_bank.png'
+            .grid__item.four-fifths.v-middle
+              %h4.flush--bottom.hard--bottom.islet.blue Des prix attractifs
+              %p.islet Vous ne paierez pas plus cher en passant par CoursAvenue et la mise en relation est gratuite. Bénéficiez également des tarifs promotionnels négociés directement auprès de nos Partenaires.
 
-        .grid__item.course-block-wrapper.one-half.palm--one-whole>
-          = link_to subject_courses_path('relaxation-fitness', time_slots: ['evening']), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Détendez-vous après le boulot'])" do
-            .course-block-image
-              = image_tag 'home-page/after_work.jpg', alt: 'Tous les cours et stages après le travail'
-            %h6.course-block-title
-              Détendez-vous après le boulot
-            %p.course-block-caption
-              Cours de fitness / relaxation après 18h
+        .grid__item.one-third.palm--one-whole>
+          .grid
+            .grid__item.one-fifth.text--center.v-middle>
+              = image_tag 'icons/ico_qualitee.png'
+            .grid__item.four-fifths.v-middle
+              %h4.flush--bottom.hard--bottom.islet.blue Une qualité assurée
+              %p.islet Chaque élève a la possibilité de s’exprimer sur la qualité du cours suivi et de vous partager son expérience. Plus de mauvaises surprises, le meilleur bouche à oreille !
 
-        .grid__item.course-block-wrapper.one-half.palm--one-whole>
-          = link_to subject_courses_path('insolite'), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Cours insolites'])" do
-            .course-block-image
-              = image_tag 'home-page/insolite.jpg', alt: 'Tous les cours et stages insolites'
-            %h6.course-block-title
-              Cours insolites
-            %p.course-block-caption
-              Laissez-vous surprendre !
+        .grid__item.one-third.palm--one-whole>
+          .grid
+            .grid__item.one-fifth.text--center.v-middle>
+              = image_tag 'icons/ico_geoloc.png', style: 'height: 75px;'
+            .grid__item.four-fifths.v-middle
+              %h4.flush--bottom.hard--bottom.islet.blue Votre passion autour de vous
+              %p.islet Notre moteur de recherche avancé, qui inclut la géolocalisation, permettra de réveiller votre passion à deux pas de chez vous. Exprimez votre talent dans votre quartier !
 
-        .grid__item.course-block-wrapper.one-half.palm--one-whole>
-          = link_to courses_path(audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Éveillons nos tout petits'])" do
-            .course-block-image
-              = image_tag 'home-page/child-courses.jpg', alt: 'Tous les cours et stages pour enfants'
-            %h6.course-block-title
-              Éveillons nos tout petits
-            %p.course-block-caption
-              Cours & stages pour les 0 à 5 ans
+    %hr
     - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
-      .grid__item.lap--one-whole.palm--one-whole.one-half
+      %div
         %h3.home-title Le Blog
         = blog_feed
         .push--bottom
           = link_to 'blog', target: '_blank' do
             %i.icon-align-left
             &nbsp;Accéder au blog
-  %hr
-  .grid
-    .grid__item.one-third.palm--one-whole>
-      .grid
-        .grid__item.one-fifth.text--center.v-middle>
-          = image_tag 'icons/ico_piggy_bank.png'
-        .grid__item.four-fifths.v-middle
-          %h4.flush--bottom.hard--bottom.islet.blue Des prix attractifs
-          %p.islet Vous ne paierez pas plus cher en passant par CoursAvenue et la mise en relation est gratuite. Bénéficiez également des tarifs promotionnels négociés directement auprès de nos Partenaires.
-
-    .grid__item.one-third.palm--one-whole>
-      .grid
-        .grid__item.one-fifth.text--center.v-middle>
-          = image_tag 'icons/ico_qualitee.png'
-        .grid__item.four-fifths.v-middle
-          %h4.flush--bottom.hard--bottom.islet.blue Une qualité assurée
-          %p.islet Chaque élève a la possibilité de s’exprimer sur la qualité du cours suivi et de vous partager son expérience. Plus de mauvaises surprises, le meilleur bouche à oreille !
-
-    .grid__item.one-third.palm--one-whole>
-      .grid
-        .grid__item.one-fifth.text--center.v-middle>
-          = image_tag 'icons/ico_geoloc.png', style: 'height: 75px;'
-        .grid__item.four-fifths.v-middle
-          %h4.flush--bottom.hard--bottom.islet.blue Votre passion autour de vous
-          %p.islet Notre moteur de recherche avancé, qui inclut la géolocalisation, permettra de réveiller votre passion à deux pas de chez vous. Exprimez votre talent dans votre quartier !
 
 = content_for :scripts do
   :javascript
     // ---------------- Comments slideshow
     window.addEvent('domready', function() {
         new SlideShow('comments-slideshow', {
-            transition: 'crossFade',
+            transition: 'pushLeft',
             delay: 5000,
             duration: 500,
             autoplay: true
         });
     });
+    // window.addEvent('resize', function(){
+    //     var heights = $$('#comments-slideshow li').map(function(li){ return li.getComputedSize().totalHeight });
+    //     $('comments-slideshow').setStyle('height', heights[0] + 'px');
+    // });

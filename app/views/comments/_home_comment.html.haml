@@ -6,7 +6,7 @@
           .float--right.muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)}
             = distance_of_time_in_words_to_now comment.created_at
             %i.icon-time
-          %b{itemprop: 'author'}= comment.author_name.titleize
+          %b{itemprop: 'author'}= truncate(comment.author_name.titleize, length: 25).html_safe
           %br
           %div{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
             = rating_stars comment.rating
@@ -16,8 +16,7 @@
           .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
             %meta{itemprop: 'url', content: commentable_url(comment)}
             %meta{itemprop: 'name', content: commentable_name(comment)}
-          %span.blue= truncate(commentable_name(comment), length: 40)
+          %span.blue= truncate(commentable_name(comment), length: 35)
       .flexbox__item.one-half.comment__content
-        %p.flush--bottom= truncate(comment.content, length: 140).html_safe
+        %p.flush--bottom= truncate(comment.content, length: 130).html_safe
         %meta{itemprop: 'reviewBody', content: comment.content}
-

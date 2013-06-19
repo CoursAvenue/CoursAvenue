@@ -24,7 +24,7 @@
 %hr
 
 .grid
-  .relative.grid__item.one-half>
+  .relative.grid__item.one-half.palm--one-whole.lap--one-whole>
     .relative
       = image_tag 'pro/dance_teacher.jpg', class: 'block'
       .image-quote
@@ -38,9 +38,9 @@
       = link_to 'foire aux questions', pages_faq_partners_path, target: '_blank'
       ou à
       = link_to 'nous contacter.', pages_contact_path
-  .grid__item.one-half>
+  .grid__item.one-half.palm--one-whole.lap--one-whole>
     %h3.push-half--bottom Ils ont déjà été séduits
-    .relative
+    .relative{style: 'height: 400px; overflow: hidden;'}
       %ul#slideshow.slideshow
         - @structures.in_groups_of(2, false) do |structure_group|
           %li.slideshow--element
@@ -75,9 +75,9 @@
     var slideshow;
     window.addEvent('domready', function() {
         slideshow = new SlideShow('slideshow', {
-            transition: 'crossFade',
+            transition: 'pushLeft',
             delay: 3000,
-            duration: 500,
+            duration: 800,
             autoplay: true
         });
     });
