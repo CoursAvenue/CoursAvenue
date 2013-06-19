@@ -1,6 +1,7 @@
-= side_menu_currently_at 'Admins'
-%h3 Édition de #{resource.name}
+= side_menu_currently_at 'Mes paramètres'
+
 = render partial: 'form'
 
-%p.text--center
-  = link_to "Supprimer #{resource.name}", pro_admin_path(resource), class: 'btn btn__danger', method: 'delete'
+- if current_pro_admin.super_admin?
+  %p.text--center
+    = link_to "Supprimer #{resource.name}", pro_admin_path(resource), class: 'btn btn__danger', method: 'delete'

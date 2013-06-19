@@ -137,7 +137,7 @@ class Pro::StructuresController < Pro::ProController
     respond_to do |format|
       has_saved = has_saved && @structure.update_attributes(params[:structure])
       if has_saved
-        format.html { redirect_to edit_pro_structure_path @structure }
+        format.html { redirect_to edit_pro_structure_path(@structure), notice: 'Vos informations ont bien été mises à jour.' }
       else
         format.html { render action: 'edit' }
       end

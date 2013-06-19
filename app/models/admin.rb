@@ -21,13 +21,13 @@ class ::Admin < ActiveRecord::Base
                   # :first_name,
                   # :last_name,
                   :phone_number, :mobile_phone_number,
-                  :active,
+                  :active,                        # Not used
                   :management_software_used,
                   :role,                          # Not used
                   :is_teacher,                    # Not used
                   :structure_id
 
-  validates :password, :email, :name, :phone_number, :structure, presence: true, on: :create
+  validates :password, :email, :structure, presence: true, on: :create
 
   # attr_accessible :title, :body
   belongs_to :structure

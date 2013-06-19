@@ -16,7 +16,7 @@ class Pro::PlacesController < InheritedResources::Base
   def create
     if can? :create, Place
       create! do |success, failure|
-        success.html { redirect_to (params[:from] or pro_structure_places_path(@structure)) }
+        success.html { redirect_to (params[:from] or pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }
       end
     else
       redirect_to pro_structure_places_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas encore créer de lieu"
@@ -32,7 +32,7 @@ class Pro::PlacesController < InheritedResources::Base
         resource.thumb_image.clear
       end
       update! do |success, failure|
-        success.html { redirect_to pro_structure_places_path(@structure) }
+        success.html { redirect_to pro_structure_places_path(@structure), notice: 'Le lieu à bien été mis à jour' }
       end
     else
       redirect_to pro_structure_places_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas éditer ce lieu"

@@ -101,32 +101,32 @@
           %meta{itemprop: 'postal-code', content: @place.zip_code}
           %meta{itemprop: 'locality', content: @city.name}
 
-      %div.soft-half--bottom
+      %div
         %b Vous connaissez cet établissement ?
       %div
-        = link_to 'Donner votre avis', '#comments', class: 'btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - lieu', 'click','#{@place.slug}'])"
+        = link_to 'Publiez votre avis !', '#comments', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - lieu', 'click','#{@place.slug}'])"
 
     - if @structure.facebook_url.present?
       = link_to 'Page facebook', @structure.facebook_url, target: '_blank', class: 'btn__facebook btn one-whole btn__small'
 
-    %hr
+    -# %hr
 
-    %article.visuallyhidden--palm.visuallyhidden--lap
-      .delta Établissements à proximité
-      %ul.block-list
-        - @surrounding_places.each do |surrounding_place|
-          %li
-            = link_to place_path(surrounding_place), class: 'flexbox similar-course--image-wrapper', onclick: "_gaq.push(['_trackEvent', 'Établissements à proximité - lieu', 'click','#{surrounding_place.slug}'])" do
-              .flexbox__item.one-fifth.similar-course--image
-                - if surrounding_place.image.present?
-                  = image_tag surrounding_place.image.url(:thumb)
-                - elsif (surrounding_place_subject = surrounding_place.subjects.limit(1)).any?
-                  = image_tag surrounding_place_subject[0].image.url(:thumb)
-              .flexbox__item.similar-course
-                %h4.similar-course--course-name.flush--bottom= surrounding_place.long_name
-                .similar-course--structure-name
-                  %i.icon-map-marker
-                  = surrounding_place.street
+    -# %article.visuallyhidden--palm.visuallyhidden--lap
+    -#   .delta Établissements à proximité
+    -#   %ul.block-list
+    -#     - @surrounding_places.each do |surrounding_place|
+    -#       %li
+    -#         = link_to place_path(surrounding_place), class: 'flexbox similar-course--image-wrapper', onclick: "_gaq.push(['_trackEvent', 'Établissements à proximité - lieu', 'click','#{surrounding_place.slug}'])" do
+    -#           .flexbox__item.one-fifth.similar-course--image
+    -#             - if surrounding_place.image.present?
+    -#               = image_tag surrounding_place.image.url(:thumb)
+    -#             - elsif (surrounding_place_subject = surrounding_place.subjects.limit(1)).any?
+    -#               = image_tag surrounding_place_subject[0].image.url(:thumb)
+    -#           .flexbox__item.similar-course
+    -#             %h4.similar-course--course-name.flush--bottom= surrounding_place.long_name
+    -#             .similar-course--structure-name
+    -#               %i.icon-map-marker
+    -#               = surrounding_place.street
 
   %section.grid__item.seven-tenths.palm--one-whole.lap--one-whole.islet>
     - if @place.image.present?

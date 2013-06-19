@@ -1,7 +1,22 @@
-= simple_form_for [:pro, resource] do |f|
-  = f.input :civility, as: :select, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
-  = f.input :name
-  = f.input :email
-  = f.input :active
-  .form-actions
+= simple_form_for [:pro, @admin], html: { autocomplete: 'off' } do |f|
+  = f.error_notification
+  .form-inputs
+    %h5.form-header-group
+      %i.icon-user
+      Informations personnelles
+    .form-white-box.flush--bottom
+      %p.field-form-info.blue Ces coordonnées peuvent être utilisé par le service client pour vous contacter en cas de problème.
+      = f.hidden_field :id
+      = f.input :civility, as: :radio_buttons, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
+      = f.input :name
+      = f.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: 'Ex. : 01 02 11 33 12'
+      = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : 06 07 11 33 12'
+
+    #change-password
+      %h5.form-header-group Changement de mot de passe
+      .white-box.islet.flush--bottom.flush--top{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+        = f.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe'
+        = f.input :password_confirmation
+  .form-actions.push--top
     = f.submit 'Mettre à jour',  class: 'btn btn__success'
+

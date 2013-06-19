@@ -146,7 +146,7 @@ class Structure < ActiveRecord::Base
   end
 
   def create_place
-    self.places.create(name: self.name, street: self.street, city: self.city, zip_code: self.zip_code)
+    self.places.create(name: 'Adresse principale', street: self.street, city: self.city, zip_code: self.zip_code)
   end
 
   def create_courses_relative_to_subject

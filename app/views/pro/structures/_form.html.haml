@@ -1,46 +1,12 @@
 %h1.header-group
-  %i.icon-cogs
-  Information générales
+  %i.icon-user
+  Profil
 .islet
   = simple_form_for [:pro, @structure], html: { autocomplete: 'off' } do |structure_form|
-    = simple_fields_for @admin do |contact_form|
-      = contact_form.error_notification
-      .form-inputs
-        %h5.form-header-group
-          %i.icon-user
-          Contact
-        .form-white-box.flush--bottom
-          = contact_form.hidden_field :id
-          = contact_form.input :civility, as: :radio_buttons, collection: Admin::CIVILITY.map{|civility| [ t(civility), civility]}
-          = contact_form.input :name
-          / = contact_form.input :role
-          / = contact_form.input :is_teacher
-          = contact_form.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: '01 02 11 33 12'
-          = contact_form.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: '06 07 11 33 12'
-        / = contact_form.input :email, :required => true, :autofocus => true, wrapper_html: {class: 'flush--bottom'}
-        / %p.field-form-info= t('.email_info')
-        / = contact_form.input :management_software_used, label: t('.management_software_used' )
-
-        / Par email : pré-insérer le mail renseigné en étape 1
-        / Par SMS : pré-insérer le n° de téléphone portable renseigné en étape 1
-        .input
-          .control-label
-            &nbsp;
-          %a#change-password-button{href: '#'} Changer mon mot de passe
-        #change-password{style: 'display: none;'}
-          %h5.form-header-group.flush--top.flush--bottom Changement de mot de passe
-          .white-box.islet.flush--bottom.flush--top{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
-            = contact_form.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe'
-            = contact_form.input :password_confirmation
-
-    %h4.header-group Information sur l'établissement
-    .islet
-    /= simple_fields_for @structure do |structure_form|
-    /= simple_form_for @structure do |structure_form|
     .form-inputs
       %h5.form-header-group
         %i.icon-picture
-        Image
+        Image / Logo
       .form-white-box
         - unless @structure.new_record? || !@structure.image?
           .input.grid
@@ -51,30 +17,30 @@
           - unless @structure.new_record? || !@structure.image?
             .control-label Changer l'image
           - else
-            .control-label Image de la structure
+            .control-label Image ou logo pour vous illustrer
           = structure_form.input :image, label: false
 
       %h5.form-header-group
         %i.lbc-icon-info i
-        Information
+        Informations
       .form-white-box
         = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
-        %p.field-form-info= t('.structure_name_info')
-        = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: {style: 'max-width: 29em;'}
+        %p.field-form-info.blue= t('.structure_name_info')
+        / = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: {style: 'max-width: 29em;'}
         = structure_form.input :website
-        = structure_form.input :facebook_url, wrapper_html: {class: 'flush--bottom'}, placeholder: 'https://www.facebook.com/CoursAvenue'
+        = structure_form.input :facebook_url, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : https://www.facebook.com/CoursAvenue'
 
-      %h5.form-header-group
-        %i.icon-map-marker
-        Adresse
-      .form-white-box
-        = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}, label: t('.structure_address')
-        %p.field-form-info= t('.structure_address_info')
-        .grid
-          .grid__item.width-auto
-            = structure_form.input :zip_code, placeholder: '75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
-          .grid__item.width-auto
-            = structure_form.association :city, collection: [@structure.city], label: false
+      / %h5.form-header-group
+      /   %i.icon-map-marker
+      /   Adresse principale
+      / .form-white-box
+      /   = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}, label: t('.structure_address')
+      /   %p.field-form-info.blue= t('.structure_address_info')
+      /   .grid
+      /     .grid__item.width-auto
+      /       = structure_form.input :zip_code, placeholder: '75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
+      /     .grid__item.width-auto
+      /       = structure_form.association :city, collection: [@structure.city], label: false
 
       %h5.form-header-group
         Description
@@ -82,7 +48,7 @@
         .grid--full.input
           .textarea-with-info.grid__item.width-auto
             .grid--full
-              .three-fifths.grid__item>
+              .three-fifths.grid__item.soft-half--right>
                 = structure_form.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {id: 'description-textarea', class: 'textarea-description--tall', placeholder: 'Mettez en avant votre différence !', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}, value: @structure.description_for_input}
               .two-fifths.grid__item
                 %p.alert--info.flush--top
@@ -108,8 +74,4 @@
   :javascript
     window.addEvent('domready', function() {
         new GLOBAL.Objects.TextareaResizer($('description-textarea'));
-        var reveal = $('change-password').get('reveal');
-        $('change-password-button').addEvent('click', function(){
-            reveal.toggle();
-        });
     });

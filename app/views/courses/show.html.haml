@@ -65,27 +65,27 @@
           %meta{itemprop: 'street-address', content: @place.street}
           %meta{itemprop: 'postal-code', content: @place.zip_code}
           %meta{itemprop: 'locality', content: @city.name}
-      %div.soft-half--bottom
+      %div
         %b Vous avez déjà suivi ce cours ?
       %div
-        = link_to 'Donner votre avis', '#comments', class: 'btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - cours', 'click','#{@course.slug}'])"
-    %hr
-    %article.visuallyhidden--palm.visuallyhidden--lap
-      .delta D'autres cours pour vous !
-      %ul.block-list
-        - @similar_courses.each do |course|
-          %li
-            = link_to course_path(course), class: 'flexbox similar-course--image-wrapper', onclick: "_gaq.push(['_trackEvent', 'D\'autres cours pour vous', 'click','#{course.slug}'])" do
-              .flexbox__item.one-fifth.similar-course--image
-                - if course.image.present?
-                  = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name.capitalize}"
-                - else
-                  = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name.capitalize}"
-              .flexbox__item.similar-course
-                %h3.similar-course--course-name.flush--bottom= course.name.capitalize
-                %h4.similar-course--structure-name
-                  %i.icon-map-marker
-                  = course.place.long_name
+        = link_to 'Publier votre avis !', '#comments', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - cours', 'click','#{@course.slug}'])"
+    -# %hr
+    -# %article.visuallyhidden--palm.visuallyhidden--lap
+    -#   .delta D'autres cours pour vous !
+    -#   %ul.block-list
+    -#     - @similar_courses.each do |course|
+    -#       %li
+    -#         = link_to course_path(course), class: 'flexbox similar-course--image-wrapper', onclick: "_gaq.push(['_trackEvent', 'D\'autres cours pour vous', 'click','#{course.slug}'])" do
+    -#           .flexbox__item.one-fifth.similar-course--image
+    -#             - if course.image.present?
+    -#               = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name.capitalize}"
+    -#             - else
+    -#               = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name.capitalize}"
+    -#           .flexbox__item.similar-course
+    -#             %h3.similar-course--course-name.flush--bottom= course.name.capitalize
+    -#             %h4.similar-course--structure-name
+    -#               %i.icon-map-marker
+    -#               = course.place.long_name
 
   %section.grid__item.seven-tenths.palm--one-whole.lap--one-whole.islet>
     .grid--full.course-header-badge>
