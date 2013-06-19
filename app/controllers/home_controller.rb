@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     @audiences        = Audience.all
     @levels           = Level.all
     @promoted_courses = Course.where{is_promoted == true}.shuffle[0...3]
-    @comments         = Comment.order('created_at DESC').limit(15)
+    @comments         = Comment.order('created_at DESC').limit(16)
 
     @homepage_images  = [['home-page/dance.jpg', 'Cours de danse'],
                          ['home-page/painter.jpg', 'Cours de peinture']]
