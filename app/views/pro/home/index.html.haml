@@ -49,12 +49,12 @@
                 .grid__item.one-half>
                   .white-box.islet
                     %div
-                      = link_to place_url(structure.places.first, subdomain: 'www') do
+                      = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank' do
                         = image_tag structure.image.url(:thumb)
                     %hr.push-half--bottom.push-half--top
                     %div
                       %b
-                        = link_to structure.name, place_url(structure.places.first, subdomain: 'www')
+                        = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank'
                     %hr.push-half--top
                     = structure.comments.count
                     = rating_stars structure.rating
