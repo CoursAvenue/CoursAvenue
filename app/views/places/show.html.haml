@@ -149,8 +149,12 @@
     %hr
 
     %ul.tab-titles{data: {behavior: 'tabs'}}
-      %li.tab-el.active{data: { el: 'tab-description' }} Description
-      %li.tab-el{data: { el: 'tab-videos' }} Galerie photos & vidéos
+      %li.tab-el.active{onclick: "_gaq.push(['_trackEvent', 'Description de l etablissement', 'click', '#{@place.slug}']);", data: { el: 'tab-description' }} Description
+      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Liste des cours', 'click', '#{@place.slug}']);", data: { el: 'tab-courses' }} Liste des cours
+      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);", data: { el: 'tab-videos' }}
+        Photos & vidéos
+        - if @medias.any?
+          (#{@medias.length})
 
     .tab-content
       %article#tab-description.tab-pane.active
@@ -160,8 +164,36 @@
           .text--center.islet
             %a.btn#show-more-description Voir toute la description
         - else
-          %p Cet établissement n'a pas encore de description.
-      %article#tab-videos.tab-pane{onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);"}
+          %p Cet établissement n'a pas de description.
+
+      %article#tab-courses.tab-pane
+        %h2.delta.text--center <b>Cours</b> proposés par #{@place.long_name}
+        #course-list
+          %table.table--striped
+            %thead
+              %tr
+                %th.five-twelfths Nom du <b>cours</b>
+                %th.three-twelfths.text--center Disciplines
+                %th.two-twelfths.text--center Niveau
+                %th.two-twelfths.text--center Séances à venir
+                %th.text--center Prix
+            %tbody
+              - @courses.each do |course|
+                %tr
+                  %td
+                    %h3.base-font-style.flush--bottom= link_to course.name.capitalize, course_path(course)
+                    - if course.rating
+                      = rating_stars course.rating
+                  %td.text--center
+                    %ul.nav.flush--bottom
+                      = join_course_subjects course
+                  %td.text--center= course.levels.map{|level| t(level.name) }.join(', ')
+                  %td.text--center= course.plannings.count
+                  %td.text--right
+                    - if course.best_price
+                      = "#{readable_amount course.best_price.amount}€".html_safe
+
+      %article#tab-videos.tab-pane
         - if @medias.any?
           .media-gallery
             - @medias.in_groups_of(2, false).each do |media_group|
@@ -173,40 +205,9 @@
                       %p
                         %i= media.caption
         - else
-          %p Cet établissement n'a pas encore de médias.
-
+          %p Cet établissement n'a pas de médias.
 
     %hr
-    - if @courses.length > 0
-      %h2.delta.text--center <b>Cours</b> proposés par #{@place.long_name}
-      #course-list{style: (@courses.length > 4 ? 'height: 20em; overflow: hidden' : '')}
-        %table.table--striped
-          %thead
-            %tr
-              %th.five-twelfths Nom du <b>cours</b>
-              %th.three-twelfths.text--center Disciplines
-              %th.two-twelfths.text--center Niveau
-              %th.two-twelfths.text--center Séances à venir
-              %th.text--center Prix
-          %tbody
-            - @courses.each do |course|
-              %tr
-                %td
-                  %h3.base-font-style.flush--bottom= link_to course.name.capitalize, course_path(course)
-                  - if course.rating
-                    = rating_stars course.rating
-                %td.text--center
-                  %ul.nav.flush--bottom
-                    = join_course_subjects course
-                %td.text--center= course.levels.map{|level| t(level.name) }.join(', ')
-                %td.text--center= course.plannings.count
-                %td.text--right
-                  - if course.best_price
-                    = "#{readable_amount course.best_price.amount}€".html_safe
-      - if @courses.length > 4
-        .text--center.islet
-          %a.btn#show-more-courses Voir tous les cours
-      %hr
     %article#comments
       = render 'comments'
 
@@ -215,19 +216,19 @@
     window.addEvent('domready', function() {
         var is_hidden = true;
         var description_is_hidden = true;
-        if ($('show-more-courses')) {
-            $('show-more-courses').addEvent('click', function() {
-                if (is_hidden) {
-                    $('course-list').setStyle('height', 'auto');
-                    this.set('text', 'Cacher les cours');
-                } else {
-                    $('course-list').setStyle('height', '20em');
-                    this.set('text', 'Voir tous les cours');
-                }
-                is_hidden = !is_hidden;
-                return false;
-            });
-        }
+        // if ($('show-more-courses')) {
+        //     $('show-more-courses').addEvent('click', function() {
+        //         if (is_hidden) {
+        //             $('course-list').setStyle('height', 'auto');
+        //             this.set('text', 'Cacher les cours');
+        //         } else {
+        //             $('course-list').setStyle('height', '20em');
+        //             this.set('text', 'Voir tous les cours');
+        //         }
+        //         is_hidden = !is_hidden;
+        //         return false;
+        //     });
+        // }
         if ($('place-description')) {
             if($('place-description').scrollHeight < 200) {
                 $('show-more-description').hide();

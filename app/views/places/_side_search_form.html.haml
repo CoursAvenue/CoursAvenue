@@ -1,4 +1,3 @@
-= debug params[:subject_id]
 .map-with-slider
   - if @places.blank?
     = gmaps( {markers: {data: [{lat: params[:lat], lng: params[:lng]}].to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})

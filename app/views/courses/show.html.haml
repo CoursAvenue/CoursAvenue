@@ -108,27 +108,50 @@
 
     = render 'share_links'
 
-    %hr
-    - if @course.description.present?
-      %h2.delta Description du #{@course.type_name.downcase.html_safe} de : #{@course.name}
-      %p#course-description{style: 'max-height: 200px; overflow: hidden;'}= @course.description.html_safe
-      .text--center.islet
-        %a.btn#show-more-description Voir toute la description
-
 
     %ul.tab-titles{data: {behavior: 'tabs'}}
       %li.tab-el.active{data: { el: 'tab-planning' }}= t('.planning')
       %li.tab-el#price_tab{onclick: "_gaq.push(['_trackEvent', 'Infos tarif', 'click', '#{@course.slug}'])", data: { el: 'tab-prices' }}= t('.prices')
-      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos profs', 'click', '#{@course.slug}'])", data: { el: 'tab-teacher' }}= t('.teachers', count: @course.teachers.length)
+      %li.tab-el#price_tab{onclick: "_gaq.push(['_trackEvent', 'Description cours', 'click', '#{@course.slug}'])", data: { el: 'tab-description' }} Description
+      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos profs', 'click', '#{@course.slug}'])", data: { el: 'tab-teacher' }}
+        = t('.teachers', count: @course.teachers.length)
+        - if @course.teachers.length > 1
+          (#{@course.teachers.length})
       %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos cours', 'click', '#{@course.slug}'])", data: { el: 'tab-description' }}= t('.infos')
+      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);", data: { el: 'tab-videos' }}
+        Photos & vidéos
+        - if @medias.any?
+          (#{@medias.length})
+
       %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos structure', 'click', '#{@course.slug}'])", data: { external: 'true' }}
         = link_to 'Établissement', place_path(@place)
 
     .tab-content
       = render 'planning_tab'
       = render 'price_tab'
+      %article#tab-description.tab-pane.active
+        %h2.delta Description du #{@course.type_name.downcase.html_safe} de : #{@course.name}
+        %p= @course.description.html_safe
+        .text--center.islet
+          %a.btn#show-more-description Voir toute la description
+
       = render 'teacher_tab'
       = render 'description_tab'
+      %article#tab-videos.tab-pane
+        - if @medias.any?
+          .media-gallery
+            - @medias.in_groups_of(2, false).each do |media_group|
+              .grid
+                - media_group.each do |media|
+                  .grid__item.one-half>
+                    %a.white-box.islet.media__item{href: media.url, title: media.caption}
+                      = media.url_html
+                      %p
+                        %i= media.caption
+        - else
+          %p Cet établissement n'a pas de médias.
+
+
 
     %hr
     %article#comments
@@ -138,20 +161,20 @@
   :javascript
     window.addEvent('domready', function() {
         var is_hidden = true;
-        if ($('show-more-description')) {
-            if($('course-description').scrollHeight < 200) {
-                $('show-more-description').hide();
-            }
-            $('show-more-description').addEvent('click', function() {
-                if (is_hidden) {
-                    $('course-description').setStyle('max-height', 'none');
-                    this.set('text', 'Cacher la description');
-                } else {
-                    $('course-description').setStyle('max-height', '200px');
-                    this.set('text', 'Voir toute la description');
-                }
-                is_hidden = !is_hidden;
-                return false;
-            });
-        }
+        // if ($('show-more-description')) {
+        //     if($('course-description').scrollHeight < 200) {
+        //         $('show-more-description').hide();
+        //     }
+        //     $('show-more-description').addEvent('click', function() {
+        //         if (is_hidden) {
+        //             $('course-description').setStyle('max-height', 'none');
+        //             this.set('text', 'Cacher la description');
+        //         } else {
+        //             $('course-description').setStyle('max-height', '200px');
+        //             this.set('text', 'Voir toute la description');
+        //         }
+        //         is_hidden = !is_hidden;
+        //         return false;
+        //     });
+        // }
     });
