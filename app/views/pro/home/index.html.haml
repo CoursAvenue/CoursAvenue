@@ -39,7 +39,7 @@
       ou à
       = link_to 'nous contacter.', pages_contact_path
   .grid__item.one-half.palm--one-whole.lap--one-whole>
-    %h3.push-half--bottom Ils ont déjà été séduits
+    %h3.push-half--bottom Ils ont déjà été séduits :
     .relative{style: 'height: 400px; overflow: hidden;'}
       %ul#slideshow.slideshow
         - @structures.in_groups_of(2, false) do |structure_group|
@@ -56,7 +56,6 @@
                       %b
                         = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank'
                     %hr.push-half--top
-                    = structure.comments.count
                     = rating_stars structure.rating
                     \/
                     = structure.comments_count

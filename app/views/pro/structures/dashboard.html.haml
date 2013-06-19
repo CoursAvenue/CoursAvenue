@@ -89,7 +89,7 @@
       .gamma
         Vous avez
         %span{class: (@structure.medias.count > 3 ? 'green' : 'red')}= @structure.medias.count
-        medias
+        = Media.model_name.human(count: @structure.medias).downcase
       = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Ajouter des medias'])"
 
   .grid__item.one-half>

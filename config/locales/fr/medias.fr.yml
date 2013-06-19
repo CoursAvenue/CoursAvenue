@@ -1,7 +1,10 @@
 fr:
   activerecord:
     models:
-      media: Public
+      place:
+        zero: Média
+        one: Média
+        other: Médias
     attributes:
       media:
         url: '<i class="icon-link"></i>&nbsp;Lien video / image'
