@@ -40,7 +40,7 @@
       = link_to 'nous contacter.', pages_contact_path
   .grid__item.one-half.palm--one-whole.lap--one-whole>
     %h3.push-half--bottom Ils ont déjà été séduits :
-    .relative{style: 'height: 400px; overflow: hidden;'}
+    .relative{style: 'height: 350px; overflow: hidden;'}
       %ul#slideshow.slideshow
         - @structures.in_groups_of(2, false) do |structure_group|
           %li.slideshow--element
@@ -61,7 +61,8 @@
                     = structure.comments_count
                     avis
                     %i.lbc-brand-icon
-
+    .text--center
+      = link_to 'En savoir plus', pro_pages_presentation_path, class: 'btn btn__large', onclick: "_gaq.push(['_trackEvent', 'En savoir plus', 'click'])"
 
 #testimony.hidden
   %p
