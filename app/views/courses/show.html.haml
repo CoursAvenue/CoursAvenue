@@ -131,7 +131,8 @@
       = render 'price_tab'
       %article#tab-description.tab-pane.active
         %h2.delta Description du #{@course.type_name.downcase.html_safe} de : #{@course.name}
-        %p= @course.description.html_safe
+        - if @course.description
+          %p= @course.description.html_safe
         .text--center.islet
           %a.btn#show-more-description Voir toute la description
 
