@@ -6,7 +6,7 @@ class Pro::Admins::SessionsController < Devise::SessionsController
       pro_admins_path
     else
       if admin.structure
-        pro_structure_path(admin.structure)
+        dashboard_pro_structure_path(admin.structure)
       else
         new_pro_structure_path
       end

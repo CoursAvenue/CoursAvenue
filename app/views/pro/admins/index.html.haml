@@ -22,7 +22,7 @@
         %td{class: (admin.super_admin? ? 'bold' : '')}
           = link_to (admin.name || ''), edit_pro_admin_path(admin)
           = link_to "(#{admin.email})", "mailto:#{admin.email}"
-        %td= link_to admin.structure.name, pro_structure_path(admin.structure) if admin.structure
+        %td= link_to admin.structure.name, dashboard_pro_structure_path(admin.structure) if admin.structure
         %td= admin.phone_number if admin.phone_number
         %td{data: {value: admin.updated_at}}
           = l(admin.updated_at, format: :date_short)

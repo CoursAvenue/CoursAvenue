@@ -14,7 +14,7 @@
     - @structures.each do |structure|
       %tr
         %td
-          = link_to structure.name, pro_structure_path(structure)
+          = link_to structure.name, dashboard_pro_structure_path(structure)
           - if structure.main_contact
             \/
             = link_to "(#{structure.main_contact.name})", edit_pro_admin_path(structure.main_contact)

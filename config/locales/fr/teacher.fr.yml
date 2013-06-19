@@ -1,7 +1,10 @@
 fr:
   activerecord:
     models:
-      teacher: Professeur
+      teacher:
+        zero: Professeur
+        one: Professeur
+        other: Professeurs
     attributes:
       teacher:
         name: Nom

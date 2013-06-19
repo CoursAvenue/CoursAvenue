@@ -1,0 +1,104 @@
+= side_menu_currently_at 'Tableau de bord'
+
+%h1.header-group
+  %i.icon-dashboard
+  Tableau de bord - Améliorer la qualité de votre profil CoursAvenue
+  = link_to place_url(@structure.places.first, subdomain: 'www'), class: 'btn', target: '_blank' do
+    %i.icon-external-link.v-middle
+    %span.v-middle Voir mon profil
+
+.grid.push--top
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-user
+      Profil
+
+    .white-box.islet
+      %table
+        %tbody
+          %tr
+            %th Logo
+            %td
+              - if @structure.image.present?
+                %i.icon-ok.green
+              - else
+                %i.icon-remove.red
+                Vous n'avez ni logo ni image
+          %tr
+            %th Description
+            %td
+              - if !@structure.description
+                %i.icon-remove.red
+                Vous n'avez pas de description
+              - elsif @structure.description.count(' ') + 1 <= 30
+                %i.icon-remove.red
+                Votre description ne fait que #{@structure.description.count(' ') + 1} mots.
+              - else
+                %i.icon-ok.green
+                Super ! Votre description fait #{@structure.description.count(' ') + 1} mots.
+          %tr
+            %th Disciplines
+            %td
+              - if @structure.subjects.any?
+                %i.icon-ok.green
+                Vous avez renseigné #{@structure.subjects.count} disciplines
+              - else
+                Vous n'avez pas renseigné de disciplines.
+                %i.icon-remove.red
+      .text--center= link_to 'Mettre à jour mon profil', edit_pro_structure_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Mettre à jour mon profil'])"
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-map-marker
+      Lieux d'enseignements
+    .white-box.islet.text--center
+      .gamma
+        Vous avez
+        %span.green= @structure.places.count
+        = Place.model_name.human(count: @structure.places.count).downcase
+      = link_to "Ajouter un lieu d'enseignement", pro_structure_places_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Ajouter un lieu'])"
+
+.grid.push--top
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-comments
+      Avis et recommandations
+
+    .white-box.islet.text--center
+      .gamma
+        Vous avez
+        %span{class: (@structure.comments.count > 30 ? 'green' : 'red')}= @structure.comments.count
+        avis
+      = link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Demander des recommandations'])"
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-list
+      Vos cours et stage en ligne
+    .white-box.islet.text--center
+      .gamma
+        Vous avez
+        %span{class: (@structure.courses.active.count > 3 ? 'green' : 'red')}= @structure.courses.active.count
+        cours en ligne
+      = link_to 'Référencer mes cours', pro_structure_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Référencer mes cours'])"
+
+.grid.push--top
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-youtube-play
+      Medias
+    .white-box.islet.text--center
+      .gamma
+        Vous avez
+        %span{class: (@structure.medias.count > 3 ? 'green' : 'red')}= @structure.medias.count
+        medias
+      = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Ajouter des medias'])"
+
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-group
+      Professeurs
+    .white-box.islet.text--center
+      .gamma
+        Vous avez
+        %span.green= @structure.teachers.count
+        = Teacher.model_name.human(count: @structure.teachers.count).downcase
+      = link_to 'Ajouter un professeur', pro_structure_teachers_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Ajouter des medias'])"

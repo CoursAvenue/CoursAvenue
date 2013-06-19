@@ -5,6 +5,10 @@ class Pro::StructuresController < Pro::ProController
 
   layout :get_layout
 
+  def dashboard
+    @structure = Structure.find params[:id]
+  end
+
   def share_my_profile
     @structure = Structure.find params[:id]
   end

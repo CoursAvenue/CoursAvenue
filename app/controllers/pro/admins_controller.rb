@@ -45,7 +45,8 @@ class ::Pro::AdminsController < InheritedResources::Base
   end
 
   def edit
-    @admin = ::Admin.find(params[:id])
+    @admin     = ::Admin.find(params[:id])
+    @structure = @admin.structure
   end
 
   def update
