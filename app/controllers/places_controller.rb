@@ -55,7 +55,7 @@ class PlacesController < ApplicationController
       search_params[:lat] = place.latitude
       search_params[:lng] = place.longitude
     end
-    @surrounding_places = PlaceSearch.search(search_params)
+    # @surrounding_places = PlaceSearch.search(search_params)
 
     @json_place_address = @place.to_gmaps4rails do |place, marker|
       marker.title   place.name
