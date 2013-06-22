@@ -50,7 +50,7 @@
         if ((star = $$('.rating .star[data-value=' + $('comment_rating').get('value') + ']')).length > 0) {
             star[0].click();
         }
-        if ($('comment_rating').get('value').length > 0 || $('comment_content').get('value').length > 0) {
+        if ($('comment_rating').get('value').length > 0 || $('comment_content').get('value').length > 0) {
             scrollTo(0, $('comments').offsetTop);
         }
     });

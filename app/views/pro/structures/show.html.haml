@@ -43,7 +43,7 @@
 
     %li <b>Dites ce qu'on apprend !</b> : pour chaque cours, votre description doit être complète, et bien préciser les objectifs et la valeur ajoutée de votre enseignement, pour que les Internautes se sentent mieux renseignés et en confiance
 
-- unless cookies[:understood__course_status]
+- if @structure.courses.any? and !cookies[:understood__course_status]
   .alert--info#course-status-info
     %a#understood__course_status.float--right{href: '#'} J'ai compris
     %h5.push-half--bottom
@@ -153,7 +153,7 @@
         if ($('understood__course_status')) {
             $('understood__course_status').addEvent('click', function() {
                 var today = new Date(), expires = new Date();
-                expires.setTime(today.getTime() + (365*24*60*60*1000*5));
+                expires.setTime(today.getTime() + (365*24*60*60*1000*5));
                 document.cookie = 'understood__course_status=true;expires=' + expires.toGMTString();
                 $('course-status-info').remove();
             })

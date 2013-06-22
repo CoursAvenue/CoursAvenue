@@ -11,7 +11,7 @@
 
         initialize: function(textarea, options) {
             this.textarea             = textarea;
-            this.default_height       = textarea.getStyle('height') || '50px';
+            this.default_height       = textarea.getStyle('height') || '50px';
             this.default_scrollheight = parseInt(this.default_height);
             this.attachEvents();
             this.resize();

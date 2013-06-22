@@ -76,7 +76,7 @@ window.addEvent('domready', function() {
             title = this.get('data-title'),
             el    = $(this.get('data-el'));
             ajax  = this.get('data-url') !== null
-        var modal = new SimpleModal({
+        var modal = new SimpleModal({
             width: width,
             "onAppend": function() {
                 $("simple-modal").fade("hide");

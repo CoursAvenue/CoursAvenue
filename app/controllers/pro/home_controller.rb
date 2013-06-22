@@ -3,7 +3,7 @@ class Pro::HomeController < Pro::ProController
 
   def index
     @admin      = ::Admin.new
-    @structures = Structure.where{image_updated_at != nil}.order('comments_count DESC').limit(8)
+    @structures = Structure.where{(image_updated_at != nil) & (comments_count != nil)}.order('comments_count DESC').limit(8)
   end
 
   def presentation

@@ -43,7 +43,7 @@
     .relative{style: 'height: 350px; overflow: hidden;'}
       %ul#slideshow.slideshow
         - @structures.in_groups_of(2, false) do |structure_group|
-          %li.slideshow--element
+          %li.slideshow__element
             .grid
               - structure_group.each do |structure|
                 .grid__item.one-half>

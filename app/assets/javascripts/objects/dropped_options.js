@@ -36,7 +36,7 @@
                 }
             }.bind(this));
         },
-        updateTitle: function() {
+        updateTitle: function() {
             var titles = [];
             var checked_inputs = this.inputs.filter(function(input) { return input.checked === true});
             checked_inputs.each(function(selected_input) {

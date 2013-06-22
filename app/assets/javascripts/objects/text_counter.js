@@ -66,7 +66,7 @@
         nbWord: function() {
             var text  = this.text_input.value,
                 words = text.match(/\S+/g);
-            if (words === null ) { words = ''; }
+            if (words === null ) { words = ''; }
             return words.length;
         }
     });

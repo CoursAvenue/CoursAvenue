@@ -22,7 +22,7 @@
                     this.to_update.click();
                 }.bind(this));
             } else {
-                this.el.addEvent('change', function(event) {
+                this.el.addEvent('change', function(event) {
                     switch (this.type) {
                         case 'checkbox':
                             this.to_update.set('checked', this.el.get('checked'));

@@ -39,7 +39,7 @@
         /**
          * Will uncheck all inputs except the 'all' one
          */
-        uncheckAllInputs: function() {
+        uncheckAllInputs: function() {
             this.inputs_except_all.map(function(el) {
                 if (el.get('data-value') !== 'all') {
                     el.checked = false;
