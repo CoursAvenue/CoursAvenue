@@ -16,7 +16,6 @@
         %li= link_to 'CoursAvenue', 'http://www.coursavenue.com', class: 'header-link'
         - if current_pro_admin
           - if current_pro_admin.super_admin?
-            %li= link_to 'Dashboard', pro_dashboard_path, class: 'header-link'
             %li= link_to 'Espace super admin', pro_structures_path, class: 'header-link'
           - elsif current_pro_admin.structure.present?
             %li= link_to 'Mes cours', pro_structure_path(current_pro_admin.structure), class: 'header-link'

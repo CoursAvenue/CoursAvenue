@@ -51,10 +51,8 @@ class Place < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
-    text :name, :boost => 2
-    text :structure_name, :boost => 2 do
-      structure.name
-    end
+
+    text :long_name, :boost => 2
 
     text :description
 
@@ -66,7 +64,7 @@ class Place < ActiveRecord::Base
 
     text :subjects do
       subject_array = []
-      self.subjects.each do |subject|
+      (self.subjects + self.structure.subjects).uniq.each do |subject|
         subject_array << subject
         subject_array << subject.parent
       end
@@ -81,7 +79,7 @@ class Place < ActiveRecord::Base
 
     integer :subject_ids, multiple: true do
       subject_ids = []
-      self.subjects.each do |subject|
+      (self.subjects + self.structure.subjects).uniq.each do |subject|
         subject_ids << subject.id
         subject_ids << subject.parent.id
       end
@@ -90,7 +88,7 @@ class Place < ActiveRecord::Base
 
     string :subject_slugs, multiple: true do
       subject_slugs = []
-      self.subjects.each do |subject|
+      (self.subjects + self.structure.subjects).uniq.each do |subject|
         subject_slugs << subject.slug
         subject_slugs << subject.parent.slug
       end
@@ -119,6 +117,10 @@ class Place < ActiveRecord::Base
     end
   end
 
+  def subjects
+    structure.subjects
+  end
+
   def description
     if read_attribute(:description).present?
       read_attribute(:description)
@@ -129,10 +131,12 @@ class Place < ActiveRecord::Base
 
   # Return name of the place with structure name
   def long_name
-    if self.name == self.structure.try(:name)
+    if self.name == self.structure.name
       self.name
+    elsif self.name == 'Adresse principale'
+      self.structure.name
     else
-      "#{self.structure.try(:name)} - #{self.name}"
+      "#{self.structure.name} - #{self.name}"
     end
   end
 
