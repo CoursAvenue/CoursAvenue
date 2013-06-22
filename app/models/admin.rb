@@ -11,7 +11,6 @@ class ::Admin < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
   after_save :subscribe_to_mailchimp if Rails.env.production?
-
   before_save :activate_admin
 
   # Setup accessible (or protected) attributes for your model
@@ -31,6 +30,9 @@ class ::Admin < ActiveRecord::Base
 
   # attr_accessible :title, :body
   belongs_to :structure
+
+  # Scopes
+  scope :normal, where(super_admin: false)
 
   private
   def activate_admin

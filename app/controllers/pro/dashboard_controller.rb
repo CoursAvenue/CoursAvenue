@@ -1,10 +1,7 @@
 # encoding: utf-8
 class Pro::DashboardController < Pro::ProController
+  before_filter :authenticate_pro_admin!
   def index
-    authorize! :manage, ClickLogger
-    @reservations_logger = ReservationLogger.order("DATE(created_at)").group("DATE(created_at)").count
-    @renting_rooms       = RentingRoom.all
-    @click_logger        = ClickLogger.group('name').count
-    @reservations        = Reservation.all
+    raise CanCan::AccessDenied.new unless current_pro_admin.super_admin?
   end
 end

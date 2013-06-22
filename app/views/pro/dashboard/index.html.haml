@@ -1,54 +1,69 @@
-%h1 Dashboard
-%h2 Metrics
+= side_menu_currently_at 'Super Dashboard'
 
-%h3 Réservations
-%table.table--striped
-  %thead
-    %tr
-      %td Nom du contact
-      %td Nom du cours
-      %td Numéro
-      %td Email
-  %tbody
-    - @reservations.each do |reservation|
-      %tr
-        %td= reservation.name
-        %td= link_to reservation.course.name, course_url(reservation.course, subdomain: 'www')
-        %td= reservation.phone
-        %td= reservation.email
+%h1.header-group
+  %i.icon-dashboard
+  Tableau de bord
 
-%h3 Bouton "Réserver en ligne"
-Nb click total : #{ReservationLogger.count}
-%table
-  %tfoot
-    %tr
-      - @reservations_logger.keys.each do |date|
-        %td= l(Date.parse(date), format: :short)
-  %tbody
-    %tr
-      - @reservations_logger.values.each do |count|
-        %td= count
+.grid.push--top
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-map-marker
+      Profésseurs enregistrés
+    .white-box.islet.text--center
+      .gamma
+        = Admin.normal.count
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-map-marker
+      Lieux d'enseignements
+    .white-box.islet.text--center
+      .gamma
+        = Place.count
+        Lieux
 
-%h3 Location de salle
-%table.table--striped
-  %thead
-    %tr
-      %td Nom du contact
-      %td Email
-      %td Adresse
-  %tbody
-    %tr
-      - @renting_rooms.each do |renting_room|
-        %td= renting_room.contact_name
-        %td= renting_room.contact_email
-        %td= renting_room.address
+.grid.push--top
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-comments
+      Avis et recommandations
 
+    .white-box.islet.text--center
+      .gamma
+        = Comment.count
+        avis
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-list
+      Cours et stages en ligne
+    .white-box.islet.text--center
+      .gamma
+        = Course.active.count
+        cours en ligne
 
-%h3 Nombre de click par bouton
-%table.one-half
-  %tbody
-    - @click_logger.each do |name, count|
-      %tr
-        %td= name
-        %td= count
+.grid.push--top
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-youtube-play
+      Élèves notifiés pour commentaires
+    .white-box.islet.text--center
+      .gamma
+        = Student.count
+        élèves
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-youtube-play
+      Users
+    .white-box.islet.text--center
+      .gamma
+        = User.count
+        users
 
+.grid.push--top
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-youtube-play
+      Photos & Vidéos
+    .white-box.islet.text--center
+      .gamma
+        = Media.count
+        Médias
