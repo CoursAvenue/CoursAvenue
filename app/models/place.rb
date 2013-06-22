@@ -18,7 +18,7 @@ class Place < ActiveRecord::Base
   has_many   :courses,              dependent: :destroy
   # has_many   :rooms
   has_many   :comments, through: :structure
-  has_many   :subjects, through: :courses
+  # has_many   :subjects, through: :courses
 
   has_and_belongs_to_many :users
 
@@ -52,7 +52,7 @@ class Place < ActiveRecord::Base
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
 
-    text :long_name, :boost => 2
+    text :long_name, boost: 5
 
     text :description
 
@@ -62,9 +62,9 @@ class Place < ActiveRecord::Base
       courses.map(&:name)
     end
 
-    text :subjects do
+    text :subjects, boost: 5 do
       subject_array = []
-      (self.subjects + self.structure.subjects).uniq.each do |subject|
+      self.subjects.uniq.each do |subject|
         subject_array << subject
         subject_array << subject.parent
       end
@@ -79,7 +79,7 @@ class Place < ActiveRecord::Base
 
     integer :subject_ids, multiple: true do
       subject_ids = []
-      (self.subjects + self.structure.subjects).uniq.each do |subject|
+      self.subjects.uniq.each do |subject|
         subject_ids << subject.id
         subject_ids << subject.parent.id
       end
@@ -88,7 +88,7 @@ class Place < ActiveRecord::Base
 
     string :subject_slugs, multiple: true do
       subject_slugs = []
-      (self.subjects + self.structure.subjects).uniq.each do |subject|
+      self.subjects.uniq.each do |subject|
         subject_slugs << subject.slug
         subject_slugs << subject.parent.slug
       end
