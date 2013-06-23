@@ -6,7 +6,7 @@
     %hr
     .grid--full.text--center.push--top
       .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-        %a.muted-link.white-box.islet{href: '#email-reco'}
+        %a.muted-link.white-box.islet.word-break-normal
           %h5
             %i.icon-user.icon-2x
             %br
@@ -17,7 +17,7 @@
         .islet
           %i.icon-chevron-right.icon-2x
       .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-        %a.muted-link.white-box.islet{href: '#facebook-reco'}
+        %a.muted-link.white-box.islet.word-break-normal
           %h5
             %i.icon-comments.icon-2x
             %br
@@ -26,7 +26,7 @@
         .islet
           %i.icon-chevron-right.icon-2x
       .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-        %a.muted-link.white-box.islet
+        %a.muted-link.white-box.islet.word-break-normal
           %h5
             %i.icon-youtube-play.icon-2x
             %br
@@ -53,7 +53,7 @@
             = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
           .grid__item.width-auto.v-bottom
             = f.association :city, collection: [@structure.city], label: false
-        = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 500px;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
+        = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 400px;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
       .push--bottom
         = f.submit 'Je valide mes informations', class: 'btn__large btn btn--large btn__success'
   .grid__item.one-third.visuallyhidden--palm
