@@ -28,14 +28,6 @@
 .grid.push--top
   .grid__item.one-half>
     %h3.header-group
-      %i.icon-map-marker
-      Lieux d'enseignements
-    .white-box.islet.text--center
-      .gamma
-        = Place.count
-        Lieux
-  .grid__item.one-half>
-    %h3.header-group
       %i.icon-list
       Cours et stages en ligne
     .white-box.islet.text--center
@@ -43,6 +35,15 @@
         = Course.active.count
         cours en ligne
       #courses
+  .grid__item.one-half>
+    %h3.header-group
+      %i.icon-youtube-play
+      Photos & Vidéos
+    .white-box.islet.text--center
+      .gamma
+        = Media.count
+        Médias
+      #medias
 
 .grid.push--top
   .grid__item.one-half>
@@ -67,13 +68,12 @@
 .grid.push--top
   .grid__item.one-half>
     %h3.header-group
-      %i.icon-youtube-play
-      Photos & Vidéos
+      %i.icon-map-marker
+      Lieux d'enseignements
     .white-box.islet.text--center
       .gamma
-        = Media.count
-        Médias
-      #medias
+        = Place.count
+        Lieux
 
 = content_for :scripts do
   :javascript
