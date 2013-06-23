@@ -12,15 +12,13 @@ class CommentsController < ApplicationController
     end
 
     respond_to do |format|
-      if !cookies["comment_#{params[:commentable_type]}_#{@commentable.id}"] and @comment.save
-        cookies["comment_#{params[:commentable_type]}_#{@commentable.id}"] = true unless Rails.env.development?
-        cookies[:comment_rating]  = nil
-        cookies[:comment_content] = nil
+      if @comment.save
+        cookies.delete :comment_rating, domain: request.host
+        cookies.delete :comment_content, domain: request.host
+        cookies.delete :comment_title, domain: request.host
         format.html { redirect_to (request.referrer || commentable_path(@comment)), notice: "Merci d'avoir laissé votre avis !" }
         UserMailer.delay.after_comment_for_teacher(@comment) if Rails.env.production?
         UserMailer.delay.after_comment(@comment)
-      elsif cookies["comment_course_#{@commentable.id}"]
-        format.html { redirect_to commentable_path(@comment), alert: "Vous ne pouvez pas poster deux commentaires sur le même #{@commentable.class.model_name.human.downcase}."}
       else
         if @commentable.is_a? Structure
           format.html { redirect_to new_structure_comment_path(@commentable), alert: "Le commentaire n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."}

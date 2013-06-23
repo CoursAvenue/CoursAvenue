@@ -2,7 +2,7 @@ class PlaceSearch
 
   def self.search params
     @search = Sunspot.search(Place) do
-      fulltext                     params[:name]         if params[:name].present?
+      fulltext params[:name]                             if params[:name].present?
       with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id]
 
       with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 5, :bbox => true) if params[:lat].present? and params[:lng].present?

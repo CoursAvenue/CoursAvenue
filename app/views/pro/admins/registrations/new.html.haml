@@ -2,7 +2,7 @@
   .text--center
     %h1= "#{@structure.name}, bienvenue !"
 .text--center
-  %p.alert--info.one-half
+  %p.alert--info.one-half.palm--one-whole.lap--one-whole
     Créez vos identifiants pour accéder à votre espace pro qui vous permettra de référencer gratuitement tous vos cours et de gérer vos avis.
 
 = simple_form_for [:pro, @admin], :url => pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|

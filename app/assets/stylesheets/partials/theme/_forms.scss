@@ -36,6 +36,14 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
         }
         .control-label {
             width: $label-width;
+            @include media-query(palm) {
+                width     : 100%;
+                text-align: left;
+            };
+            @include media-query(lap) {
+                width     : 100%;
+                text-align: left;
+            };
         }
         .radio {
             @extend .grid--full;
@@ -126,20 +134,29 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
         // }
     }
 .simple_form.half-form {
+    .form-actions {
+        padding-left: $label-width / 1.4;
+        @include media-query(palm) { padding-left: 0; };
+        @include media-query(lap)  { padding-left: 0; };
+    }
+    .field-form-info {
+        padding-left: $label-width / 1.4;
+        @include media-query(palm) { padding-left: 0; };
+        @include media-query(lap)  { padding-left: 0; };
+    }
+    .form-header-group { width       : $label-width / 1.4; }
     .input {
         .control-label {
             width: $label-width / 1.4;
         }
         input, textarea {
             width: 20em;
+            @include media-query(palm) { width: 100%; };
         }
         select {
             max-width: 20em;
         }
     }
-    .form-actions      { padding-left: $label-width / 1.4; }
-    .field-form-info   { padding-left: $label-width / 1.4; }
-    .form-header-group { width       : $label-width / 1.4; }
 
 }
 .form-actions {
@@ -150,6 +167,8 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
     padding-left: $label-width;
     font-style  : italic;
     color       : $grayLight;
+    @include media-query(palm) { padding-left: 0; };
+    @include media-query(lap)  { padding-left: 0; };
 }
 
 .helper-label:after {

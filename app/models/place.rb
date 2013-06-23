@@ -52,7 +52,9 @@ class Place < ActiveRecord::Base
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
 
-    text :long_name, boost: 5
+    text :name, boost: 5 do
+      self.long_name
+    end
 
     text :description
 
