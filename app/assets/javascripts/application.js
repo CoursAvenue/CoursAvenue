@@ -29,6 +29,13 @@
 //= require libs/simple-modal
 //= require libs/chosen/chosen
 //= require libs/TableSorter
+// require libs/raphael
+// require libs/g.raphael
+
+//---- Highcharts
+//= require libs/highcharts/mootools-adapter
+//= require libs/highcharts/highcharts
+//= require libs/highcharts/modules/exporting
 
 //---- Lightbox
 //= require libs/XtLightbox/XtLightbox.js
