@@ -11,8 +11,8 @@
       Profésseurs enregistrés
     .white-box.islet.text--center
       .gamma
-        Total :
         = Admin.normal.count
+        Profs
       #admins
   .grid__item.one-half>
     %h3.header-group
@@ -21,7 +21,6 @@
 
     .white-box.islet.text--center
       .gamma
-        Total :
         = Comment.count
         avis
       #comments
@@ -43,6 +42,7 @@
       .gamma
         = Course.active.count
         cours en ligne
+      #courses
 
 .grid.push--top
   .grid__item.one-half>
@@ -73,33 +73,51 @@
       .gamma
         = Media.count
         Médias
+      #medias
 
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
         new Highcharts.Chart({
             chart: { renderTo: 'admins' },
-            title: { text: '# enregistrement / semaine' },
+            title: { text: null },
             xAxis: { categories: #{@admins.map{|date, count| l(Date.parse(date), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [{ data: #{@admins.map{|date, count| count}} }]
         });
         new Highcharts.Chart({
             chart: { renderTo: 'comments' },
+            title: { text: null },
             xAxis: { categories: #{@comments.map{|date, count| l(Date.parse(date), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [{ data: #{@comments.map{|date, count| count}} }]
         });
         new Highcharts.Chart({
             chart: { renderTo: 'users' },
+            title: { text: null },
             xAxis: { categories: #{@users.map{|date, count| l(Date.parse(date), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [{ data: #{@users.map{|date, count| count}} }]
         });
         new Highcharts.Chart({
             chart: { renderTo: 'students' },
+            title: { text: null },
             xAxis: { categories: #{@students.map{|date, count| l(Date.parse(date), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [{ data: #{@students.map{|date, count| count}} }]
+        });
+        new Highcharts.Chart({
+            chart: { renderTo: 'medias' },
+            title: { text: null },
+            xAxis: { categories: #{@medias.map{|date, count| l(Date.parse(date), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [{ data: #{@medias.map{|date, count| count}} }]
+        });
+        new Highcharts.Chart({
+            chart: { renderTo: 'courses' },
+            title: { text: null },
+            xAxis: { categories: #{@courses.map{|date, count| l(Date.parse(date), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [{ data: #{@courses.map{|date, count| count}} }]
         });
     });
