@@ -31,7 +31,7 @@
           = link_to "Se connecter", new_pro_admin_session_url(subdomain: 'pro')
 
 
-%nav.milli.main-container.soft-half.hard--left.hard--right
+%nav.milli.main-container.soft-half.hard--left.hard--right.visuallyhidden--palm
   %ul.nav--fit.flush
     - Subject.roots.order(:short_name).each do |subject|
       %li.text--center.drop-down__wrapper{class: (params[:subject_id] == subject.slug ? 'active' : ''), onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}']);"}
