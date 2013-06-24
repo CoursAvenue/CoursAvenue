@@ -67,6 +67,6 @@
     window.addEvent('domready', function() {
         $('structure_zip_code').fireEvent('keyup');
         $('structure_street').addEvent('blur', function() {
-            document.cookie = 'street=' + this.get('value');
+            Cookie.write('street', this.get('value'));
         });
     });

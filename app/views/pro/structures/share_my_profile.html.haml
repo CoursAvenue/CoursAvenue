@@ -72,6 +72,6 @@
             this.remove();
         });
         $('emails').addEvent('blur', function() {
-            document.cookie = 'emails=' + this.get('value');
+            Cookie.write('emails', this.get('value'));
         });
     });

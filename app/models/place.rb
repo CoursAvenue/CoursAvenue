@@ -58,11 +58,11 @@ class Place < ActiveRecord::Base
 
     text :description
 
-    text :street
+    # text :street
 
-    text :course_names do
-      courses.map(&:name)
-    end
+    # text :course_names do
+    #   courses.map(&:name)
+    # end
 
     text :subjects, boost: 5 do
       subject_array = []
@@ -73,7 +73,7 @@ class Place < ActiveRecord::Base
       subject_array.uniq.map(&:name)
     end
 
-    string :street
+    # string :street
 
     latlon :location do
       Sunspot::Util::Coordinates.new(self.latitude, self.longitude)

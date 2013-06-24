@@ -154,7 +154,7 @@
             $('understood__course_status').addEvent('click', function() {
                 var today = new Date(), expires = new Date();
                 expires.setTime(today.getTime() + (365*24*60*60*1000*5));
-                document.cookie = 'understood__course_status=true;expires=' + expires.toGMTString();
+                Cookie.write('understood__course_status', true, {expires: expires.toGMTString()});
                 $('course-status-info').remove();
             })
         }

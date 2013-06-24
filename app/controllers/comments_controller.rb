@@ -13,9 +13,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        cookies.delete :comment_rating, domain: request.host
-        cookies.delete :comment_content, domain: request.host
-        cookies.delete :comment_title, domain: request.host
+        cookies[:delete_cookies] = true
         format.html { redirect_to (request.referrer || commentable_path(@comment)), notice: "Merci d'avoir laissé votre avis !" }
         UserMailer.delay.after_comment_for_teacher(@comment) if Rails.env.production?
         UserMailer.delay.after_comment(@comment)
