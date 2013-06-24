@@ -32,13 +32,6 @@
             = course.comments.count
             avis
             %i.lbc-brand-icon
-        / - else
-        /   %span.super-muted.v-middle
-        /     = rating_stars 0
-        /   %span.milli
-        /     = link_to course_path(course, anchor: 'comments'), class: 'visuallyhidden--palm', onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - cours', 'click'])" do
-        /       Soyez le 1er à donner votre avis
-
     %div.grid
       %div.ten-twelfths.grid__item>
         - if course.is_training?
@@ -61,9 +54,6 @@
             = course.type_name_html
             - if course.plannings.any? and course.plannings.first.duration
               = "de #{readable_duration course.plannings.first.duration}"
-            pour
-            = join_audiences_text(course).downcase
-            = join_levels_text(course).downcase
           %ul.nav
             = join_course_subjects course
 
