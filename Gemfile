@@ -25,7 +25,7 @@ gem 'delayed_job_active_record' , '~> 0.4.4'
 gem 'exceptional'
 
 gem 'js-routes'                 , '~> 0.9.0'
-gem 'font-awesome-rails'        , '~> 3.2.0.0'
+gem 'font-awesome-rails'        , '~> 3.2.1.1'
 gem 'mootools-rails'            , '~> 2.0.1'
 gem 'compass-rails'             , '~> 1.0.3'
 gem 'compass-inuit'             , '~> 5.0.1'
