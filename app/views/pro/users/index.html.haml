@@ -1,27 +1,6 @@
 = side_menu_currently_at 'Users'
 
-%script{type:"text/javascript", src:"https://www.google.com/jsapi"}
-
-:javascript
-  google.load("visualization", "1", {packages:["corechart"]});
-  google.setOnLoadCallback(drawChart);
-  function drawChart() {
-    var data = google.visualization.arrayToDataTable(
-      #{
-        [['Date', "Nombre d'inscrit"]] + @users_signups.collect{ |date, nb_signup| ["#{date}",  nb_signup] }
-      }
-    );
-
-    var options = {
-      title: 'Inscription par jour',
-      backgroundColor: { fill:'transparent' }
-    };
-
-    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
-  }
-
-#chart_div{style:"width: 100%; height: 200px;"}
+#users
 
 %h2 Liste des utilisateurs
 
@@ -61,4 +40,12 @@
             }
         };
         new TableSorter('dataTable', { columnDataTypes: 'string, date, date, string', cookieName: 'tableSortState__users', dateParseFunction: dateParseFunction}) ;
+        new Highcharts.Chart({
+            chart: { renderTo: 'users' },
+            title: { text: null },
+            xAxis: { categories: #{@users_signups.map{|date, count| l(Date.parse(date), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [{ data: #{@users_signups.map{|date, count| count}} }]
+        });
+
     });

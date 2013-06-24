@@ -11,4 +11,12 @@ use Rack::ReverseProxy do
     opts = {:preserve_host => true})
 end
 
+use Rack::Cors do
+  allow do
+    origins '*'
+    resource '/assets/fonts/*', :headers => :any, :methods => :get
+  end
+end
+
 run CoursAvenue::Application
+
