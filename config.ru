@@ -1,5 +1,4 @@
 # This file is used by Rack-based servers to start the application.
-
 require ::File.expand_path('../config/environment',  __FILE__)
 use Rack::Deflater
 
@@ -11,10 +10,12 @@ use Rack::ReverseProxy do
     opts = {:preserve_host => true})
 end
 
+# Allow font files to be loaded from anywhere (for loading webfonts in Firefox)
+require 'rack/cors'
 use Rack::Cors do
   allow do
     origins '*'
-    resource '/assets/fonts/*', :headers => :any, :methods => :get
+    resource '/fonts/*', :headers => :any, :methods => :get
   end
 end
 
