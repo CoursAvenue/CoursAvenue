@@ -77,8 +77,6 @@
               = training_dates(course.recent_plannings.first || course.plannings.first)
               - if course.plannings.count > 1
                 = "et #{course.plannings.length - 1} autres dates."
-          - else
-            Planning en cours de création
 
       %div.course-price.two-twelfths.grid__item>
         - if best_price.nil?

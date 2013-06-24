@@ -35,6 +35,7 @@ class Place < ActiveRecord::Base
                     :styles => { wide: "400x400#", thumb: "200x200#" }
 
   after_save :subscribe_to_mailchimp if Rails.env.production?
+  after_touch :reindex
 
   # To be able to delete images in view
   attr_reader :delete_image
@@ -186,6 +187,10 @@ class Place < ActiveRecord::Base
   end
 
   private
+
+  def reindex
+    self.index
+  end
 
   def subscribe_to_mailchimp
     Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,

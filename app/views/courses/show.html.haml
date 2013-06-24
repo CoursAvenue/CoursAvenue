@@ -22,11 +22,12 @@
   = link_to courses_path(city: @city.name) do
     %i.orange ←
     = t('.see_arrounding_courses')
-/ .float--right
-/   = link_to 'Établissement', place_path(@place)
+
 
 %h1.course-title
-  %span= @course.name.capitalize
+  %span.v-middle= @course.name.capitalize
+  %span.v-middle= link_to "Voir l'établissement", place_path(@place), class: 'btn btn__blue', onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])"
+
 - if @course.rating
   %div
     %span.rating{title: comment_rating_title(@course.rating)}
@@ -117,14 +118,12 @@
         = t('.teachers', count: @course.teachers.length)
         - if @course.teachers.length > 1
           (#{@course.teachers.length})
-      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos cours', 'click', '#{@course.slug}'])", data: { el: 'tab-description' }}= t('.infos')
       %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);", data: { el: 'tab-videos' }}
         Photos & vidéos
         - if @medias.any?
           (#{@medias.length})
 
       %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos structure', 'click', '#{@course.slug}'])", data: { external: 'true' }}
-        = link_to 'Établissement', place_path(@place)
 
     .tab-content
       = render 'planning_tab'
@@ -137,7 +136,6 @@
           %p Pas de description
 
       = render 'teacher_tab'
-      = render 'description_tab'
       %article#tab-videos.tab-pane
         - if @medias.any?
           .media-gallery
