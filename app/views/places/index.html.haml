@@ -8,10 +8,13 @@
   %section.grid__item.three-tenths.visuallyhidden--lap.visuallyhidden--palm>
     = render 'side_search_form'
   %section.grid__item.seven-tenths.lap--one-whole.palm--one-whole
-    - if params[:subject_id]
-      %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue Tous les établissements de <u>#{@subject.name.downcase}</u>
-    - else
-      %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue Tous les établissements de cours et stages de loisirs
+    %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue
+      - if params[:subject_id]
+        Établissements de #{@subject.name.downcase}
+      - else
+        Établissements de cours et stages
+      - if params[:name].present?
+        correspondant à : « #{params[:name]} »
     %ul.tab-titles
       %li
         - if @subject

@@ -9,10 +9,14 @@
   %section.grid__item.three-tenths.visuallyhidden--palm.visuallyhidden--lap>
     = render 'side_search_form'
   %section.grid__item.seven-tenths.lap--one-whole.palm--one-whole
-    - if params[:subject_id]
-      %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue Tous les cours et stages de <u>#{@subject.name.downcase}</u>
-    - else
-      %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue Tous les cours et stages
+    %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue
+      - if params[:subject_id]
+        Cours et stages de #{@subject.name.downcase}
+      - else
+        Cours et stages
+      - if params[:name].present?
+        correspondant à : « #{params[:name]} »
+
     %ul.tab-titles
       %li.tab-el.active Par cours
       %li
