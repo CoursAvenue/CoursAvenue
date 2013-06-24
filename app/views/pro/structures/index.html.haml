@@ -23,7 +23,7 @@
           = l(structure.created_at)
         %td.text--right
           - if structure.active
-            = link_to 'Actif', disable_pro_structure_path(structure), method: :delete, class: 'switch-button on', title: 'Désactiver'
+            = link_to 'Actif', disable_pro_structure_path(structure), method: :put, class: 'switch-button on', title: 'Désactiver'
           - else
             = link_to 'Inactif',  activate_pro_structure_path(structure), method: :put, class: 'switch-button off', title: 'Activer'
           = link_to pro_structure_path(structure), method: :delete, class: 'btn btn__danger', title: 'Supprimer' do
