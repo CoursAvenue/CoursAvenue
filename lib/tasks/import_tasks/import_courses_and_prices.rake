@@ -24,7 +24,8 @@ namespace :import do
       Course::Workshop
     end
   end
-  def level(name)
+
+  def retrieve_level(name)
     case name
     when 'TN'
       Level.all_levels
@@ -87,8 +88,8 @@ namespace :import do
       },
 
       levels: {
-        level_1:                                      level(row[13]),
-        level_2:                                      level(row[14])
+        level_1:                                      retrieve_level(row[13]),
+        level_2:                                      retrieve_level(row[14])
       },
 
       # Planning

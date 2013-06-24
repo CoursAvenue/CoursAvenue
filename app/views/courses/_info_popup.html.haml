@@ -1,4 +1,4 @@
-%h4 Contactez #{@place.long_name} pour réserver votre séance
+%h4= @place.long_name
 
 %h5.flush--bottom Contact :
 - if @place.contact_name
@@ -29,9 +29,8 @@
   = @place.address
 
 
-%h5.push--top.flush--bottom Rappel :
-
 - if @course
+  %h5.push--top.flush--bottom Rappel :
   %div
     Cours : #{@course.name}
   %div

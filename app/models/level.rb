@@ -7,11 +7,6 @@ class Level < ActiveRecord::Base
   validates :name, :presence   => true
   validates :name, :uniqueness => true
 
-
-  def self.all_levels
-    Level.where(name: 'level.all').first
-  end
-
   def self.initiation
     Level.where(name: 'level.initiation').first
   end

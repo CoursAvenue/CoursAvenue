@@ -74,7 +74,7 @@
             %th
               %span Type
             %th.sortDesc.two-twelfths
-              %span Intitulé
+              %span Nom
             %th.two-twelfths
               %span
                 %i.icon-user
@@ -100,8 +100,8 @@
               %td
                 - if course.teachers.any?
                   = course.teachers.uniq.map(&:name).join(', ').titleize
-                - else
-                  = link_to 'Choisir un professeur', pro_course_plannings_path(course), class: 'btn'
+                / - else
+                /   = link_to 'Choisir un professeur', pro_course_plannings_path(course), class: 'btn'
               %td= course.subjects.map(&:name).join(', ')
               %td.text--right.nowrap
                 %span>

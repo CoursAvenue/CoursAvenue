@@ -118,9 +118,9 @@
         = t('.teachers', count: @course.teachers.length)
         - if @course.teachers.length > 1
           (#{@course.teachers.length})
-      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);", data: { el: 'tab-videos' }}
-        Photos & vidéos
-        - if @medias.any?
+      - if @medias.any?
+        %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);", data: { el: 'tab-videos' }}
+          Photos & vidéos
           (#{@medias.length})
 
       %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos structure', 'click', '#{@course.slug}'])", data: { external: 'true' }}
@@ -128,7 +128,7 @@
     .tab-content
       = render 'planning_tab'
       = render 'price_tab'
-      %article#tab-description.tab-pane.active
+      %article#tab-description.tab-pane
         %h2.delta Description du #{@course.type_name.downcase.html_safe} de : #{@course.name}
         - if @course.description
           %p= @course.description.html_safe
@@ -136,8 +136,8 @@
           %p Pas de description
 
       = render 'teacher_tab'
-      %article#tab-videos.tab-pane
-        - if @medias.any?
+      - if @medias.any?
+        %article#tab-videos.tab-pane
           .media-gallery
             - @medias.in_groups_of(2, false).each do |media_group|
               .grid
@@ -147,8 +147,6 @@
                       = media.url_html
                       %p
                         %i= media.caption
-        - else
-          %p Cet établissement n'a pas de médias.
 
 
 

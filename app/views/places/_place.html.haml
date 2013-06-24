@@ -23,9 +23,6 @@
             = place.structure.comments_count
             avis
             %i.lbc-brand-icon
-        / - else
-        /   %span.super-muted= rating_stars 0
-        /   = link_to "Soyez le 1er à donner votre avis", place_path(place, anchor: 'comments'), onclick: "_gaq.push(['_trackEvent', 'Soyez le premier à donner un avis - Lieu', 'click'])"
     %p
       = place.street
       \-
