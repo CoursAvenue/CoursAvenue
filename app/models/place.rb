@@ -138,8 +138,10 @@ class Place < ActiveRecord::Base
       self.name
     elsif self.name == 'Adresse principale'
       self.structure.name
-    else
+    elsif self.structure
       "#{self.structure.name} - #{self.name}"
+    else
+      self.name
     end
   end
 
