@@ -1,11 +1,12 @@
 class Level < ActiveRecord::Base
-  has_many :levelings
-  has_many :courses,    :through => :levelings
+
+  has_and_belongs_to_many :plannings
+  has_many :courses,   through: :plannings
 
   attr_accessible :name, :order
 
-  validates :name, :presence   => true
-  validates :name, :uniqueness => true
+  validates :name, presence: true
+  validates :name, uniqueness: true
 
   def self.initiation
     Level.where(name: 'level.initiation').first

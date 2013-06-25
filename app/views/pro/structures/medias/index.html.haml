@@ -10,7 +10,7 @@
     - @medias.in_groups_of(3, false).each do |media_group|
       - media_group.each do |media|
         .grid__item.one-third>
-          %a.flush--bottom.white-box.islet.media__item{href: media.url, title: media.caption}
+          %a.break-all.flush--bottom.white-box.islet.media__item{href: media.url, title: media.caption}
             = media.url_html
             - if media.caption.present?
               %p.flush--bottom

@@ -103,7 +103,7 @@
                 / - else
                 /   = link_to 'Choisir un professeur', pro_course_plannings_path(course), class: 'btn'
               %td= course.subjects.map(&:name).join(', ')
-              %td.text--right.nowrap
+              %td.text--right
                 %span>
                   = link_to edit_pro_course_path(course), class: course.image.present? ? '': 'btn btn__success' do
                     - if course.image.present?

@@ -1,5 +1,7 @@
 class Audience < ActiveRecord::Base
-  has_and_belongs_to_many :courses
+
+  has_many :courses, through: :plannings
+  has_and_belongs_to_many :plannings
 
   attr_accessible :name, :order
 

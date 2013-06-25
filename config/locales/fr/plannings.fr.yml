@@ -22,6 +22,8 @@ fr:
     no_duration: Pas de durée
   pro:
     plannings:
+      lesson_form:
+        audiences: Public
       form:
         date: Date
       workshop_form:

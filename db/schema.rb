@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130624132039) do
+ActiveRecord::Schema.define(:version => 20130624140300) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -77,12 +77,12 @@ ActiveRecord::Schema.define(:version => 20130624132039) do
 
   add_index "audiences", ["name"], :name => "index_audiences_on_name"
 
-  create_table "audiences_courses", :id => false, :force => true do |t|
+  create_table "audiences_plannings", :id => false, :force => true do |t|
+    t.integer "planning_id"
     t.integer "audience_id"
-    t.integer "course_id"
   end
 
-  add_index "audiences_courses", ["audience_id", "course_id"], :name => "index_audiences_courses_on_audience_id_and_course_id", :unique => true
+  add_index "audiences_plannings", ["audience_id", "planning_id"], :name => "index_audiences_plannings_on_audience_id_and_planning_id"
 
   create_table "book_tickets", :force => true do |t|
     t.integer  "number"
@@ -186,13 +186,6 @@ ActiveRecord::Schema.define(:version => 20130624132039) do
   add_index "courses", ["slug"], :name => "index_courses_on_slug", :unique => true
   add_index "courses", ["type"], :name => "index_courses_on_type"
 
-  create_table "courses_levels", :id => false, :force => true do |t|
-    t.integer "course_id"
-    t.integer "level_id"
-  end
-
-  add_index "courses_levels", ["level_id", "course_id"], :name => "index_courses_levels_on_level_id_and_course_id", :unique => true
-
   create_table "courses_subjects", :id => false, :force => true do |t|
     t.integer "course_id"
     t.integer "subject_id"
@@ -242,6 +235,13 @@ ActiveRecord::Schema.define(:version => 20130624132039) do
   end
 
   add_index "levels", ["name"], :name => "index_levels_on_name"
+
+  create_table "levels_plannings", :id => false, :force => true do |t|
+    t.integer "level_id"
+    t.integer "planning_id"
+  end
+
+  add_index "levels_plannings", ["planning_id", "level_id"], :name => "index_levels_plannings_on_planning_id_and_level_id"
 
   create_table "medias", :force => true do |t|
     t.text     "url"

@@ -18,16 +18,6 @@
       %h4.islet.proceed.flush--bottom= t('.infos')
       %ul.block-list.alternate-color.milli
         %li.flexbox
-          %label.flexbox__item= Level.model_name.human
-          %strong.flexbox__item.proceed
-            = @course.levels.map{|level| t(level.name)}.join(', ')
-
-        %li.flexbox
-          %label.flexbox__item= Audience.model_name.human
-          %strong.flexbox__item.proceed
-            = @course.audiences.map{|audience| t(audience.name)}.join(', ')
-
-        %li.flexbox
           %label.flexbox__item= Course.model_name.human
           - if @course.is_individual
             %strong.flexbox__item.proceed= Course.human_attribute_name(:is_individual)

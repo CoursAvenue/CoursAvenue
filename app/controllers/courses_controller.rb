@@ -27,7 +27,11 @@ class CoursesController < ApplicationController
     @medias             = @structure.medias
     @structure_comments = @structure.comments.order('created_at DESC')
     @place              = @course.place
-    @plannings          = @course.plannings
+    if @course.is_lesson?
+      @plannings = @course.plannings.order('week_day ASC, start_time ASC')
+    else
+      @plannings = @course.plannings.order('start_date ASC, start_time ASC')
+    end
     @subjects           = @course.subjects
     @has_promotion      = @course.has_promotion?
     @has_nb_place       = @course.plannings.map(&:nb_place_available).compact.any?

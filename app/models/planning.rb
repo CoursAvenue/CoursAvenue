@@ -13,6 +13,8 @@ class Planning < ActiveRecord::Base
   has_one   :place,     through: :course
 
   has_and_belongs_to_many :users
+  has_and_belongs_to_many :levels,    before_add: :validates_levels
+  has_and_belongs_to_many :audiences, before_add: :validates_audiences
 
   before_validation :set_start_date
   before_validation :set_end_date
@@ -112,5 +114,13 @@ class Planning < ActiveRecord::Base
     if end_date and end_date < Date.today
       errors.add(:error_notification, 'Le cours ne peut pas être dans le passé.')
     end
+  end
+
+  def validates_audiences(audience)
+    self.audiences.delete audience if self.audiences.include? audience
+  end
+
+  def validates_levels(level)
+    self.levels.delete level if self.levels.include? level
   end
 end

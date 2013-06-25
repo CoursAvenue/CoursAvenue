@@ -43,9 +43,6 @@
   = @course.type_name_html
   - if @course.plannings.any? and @course.plannings.first.duration
     = "de #{readable_duration @course.plannings.first.duration}"
-  pour
-  = join_audiences_text(@course).downcase
-  = join_levels_text(@course).downcase
 %ul.nav.flush--bottom= join_course_subjects @course, true
 
 .grid--full.cf
@@ -143,7 +140,7 @@
               .grid
                 - media_group.each do |media|
                   .grid__item.one-half>
-                    %a.white-box.islet.media__item{href: media.url, title: media.caption}
+                    %a.break-all.white-box.islet.media__item{href: media.url, title: media.caption}
                       = media.url_html
                       %p
                         %i= media.caption

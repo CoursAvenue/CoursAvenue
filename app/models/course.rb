@@ -40,8 +40,8 @@ class Course < ActiveRecord::Base
   has_many :registration_fees   , dependent: :destroy
   has_many :reservation_loggers , dependent: :destroy
 
-  has_and_belongs_to_many :audiences, before_add: :validates_audiences
-  has_and_belongs_to_many :levels   , before_add: :validates_levels
+  has_many :audiences, through: :plannings
+  has_many :levels   , through: :plannings
 
   has_and_belongs_to_many :subjects, :uniq => true
 
@@ -52,8 +52,6 @@ class Course < ActiveRecord::Base
   validates :type, :name  , presence: true
   validates :place        , presence: true
   validates :subjects     , presence: true
-  validates :levels       , presence: true
-  validates :audiences    , presence: true
 
   before_save :set_structure_if_empty
   before_save :replace_slash_n_r_by_brs
@@ -376,14 +374,6 @@ class Course < ActiveRecord::Base
 
   def replace_slash_n_r_by_brs
     self.description = self.description.gsub(/\r\n/, '<br>') if self.description
-  end
-
-  def validates_audiences(audience)
-    self.audiences.delete audience if self.audiences.include? audience
-  end
-
-  def validates_levels(level)
-    self.levels.delete level if self.levels.include? level
   end
 
 end

@@ -190,7 +190,6 @@
                   %td.text--center
                     %ul.nav.flush--bottom
                       = join_course_subjects course
-                  %td.text--center= course.levels.map{|level| t(level.name) }.join(', ')
                   %td.text--center= course.plannings.count
                   %td.text--right
                     - if course.best_price
@@ -203,7 +202,7 @@
               .grid
                 - media_group.each do |media|
                   .grid__item.one-half>
-                    %a.white-box.islet.media__item{href: media.url, title: media.caption}
+                    %a.break-all.white-box.islet.media__item{href: media.url, title: media.caption}
                       = media.url_html
                       %p
                         %i= media.caption
