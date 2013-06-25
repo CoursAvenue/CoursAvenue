@@ -134,7 +134,7 @@ class Place < ActiveRecord::Base
 
   # Return name of the place with structure name
   def long_name
-    if self.name == self.structure.name
+    if self.name == self.structure.try(:name)
       self.name
     elsif self.name == 'Adresse principale'
       self.structure.name
