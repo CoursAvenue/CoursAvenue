@@ -1,7 +1,7 @@
 fr:
   activerecord:
     models:
-      place:
+      media:
         zero: Média
         one: Média
         other: Médias

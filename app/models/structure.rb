@@ -106,8 +106,11 @@ class Structure < ActiveRecord::Base
   end
 
   def all_comments
-    _comments = self.comments + self.courses.with_deleted.collect(&:comments).flatten
-    _comments.reject(&:new_record?).sort {|c1, c2| c2.created_at <=> c1.created_at}
+    commentable_ids = self.courses.collect(&:id)
+    commentable_ids << self.id
+    Comment.where{commentable_id.in commentable_ids }.all
+    # _comments = self.comments + self.courses.with_deleted.collect(&:comments).flatten
+    # _comments.reject(&:new_record?).sort {|c1, c2| c2.created_at <=> c1.created_at}
   end
 
 

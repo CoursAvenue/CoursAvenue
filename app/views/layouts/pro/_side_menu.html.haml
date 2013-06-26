@@ -15,7 +15,7 @@
       = pro_side_menu_link "Lieux d'enseignements", pro_structure_places_path(@structure)          , current: current_tab, icon: 'icon-map-marker'
       = pro_side_menu_link 'Mes professeurs'      , pro_structure_teachers_path(@structure)        , current: current_tab, icon: 'icon-group'
       = pro_side_menu_link 'Recommandations'      , recommendations_pro_structure_path(@structure) , current: current_tab, icon: 'icon-bullhorn'
-      = pro_side_menu_link 'Mes photos & vidéos'  , pro_structure_medias_path(@structure)          , current: current_tab, icon: 'icon-youtube-play'
       = pro_side_menu_link 'Mes avis'             , pro_structure_comments_path(@structure)        , current: current_tab, icon: 'icon-comments'
+      = pro_side_menu_link 'Mes photos & vidéos'  , pro_structure_medias_path(@structure)          , current: current_tab, icon: 'icon-youtube-play'
       = pro_side_menu_link 'Mes cours'            , pro_structure_path(@structure)                 , current: current_tab, icon: 'icon-list'
       = pro_side_menu_link 'Mes paramètres'       , edit_pro_admin_path(@structure.admins.first)   , current: current_tab, icon: 'icon-cogs'

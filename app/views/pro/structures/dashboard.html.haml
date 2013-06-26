@@ -90,7 +90,7 @@
     .white-box.islet.text--center
       .gamma
         Vous avez
-        %span{class: (@comments.count > 30 ? 'green' : 'red')}= @comments.length
+        %span{class: (@comments.length > 30 ? 'green' : 'red')}= @comments.length
         avis
       - if @comments.any?
         #comments
@@ -153,11 +153,11 @@
                 renderTo: 'comments'
               },
               title: { text: null },
-              xAxis: { categories: #{@comments.map{|date, count| "Semaine du #{l(Date.parse(date), format: :short)}"}} },
+              xAxis: { categories: #{@comments_group.map{|date, count| "Semaine du #{l(Date.parse(date), format: :short)}"}} },
               yAxis: { title: { text: ''}},
               series: [{
                 name: 'Nombre de commentaire',
-                data: #{@comments.map{|date, count| count}}
+                data: #{@comments_group.map{|date, count| count}}
               }]
           });
       });

@@ -6,10 +6,11 @@ class Pro::StructuresController < Pro::ProController
   layout :get_layout
 
   def dashboard
-    @structure = Structure.find params[:id]
+    @structure      = Structure.find params[:id]
     commentable_ids = @structure.courses.collect(&:id)
     commentable_ids << @structure.id
-    @comments = Comment.where{commentable_id.in commentable_ids }.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
+    @comments       = @structure.all_comments
+    @comments_group = Comment.where{commentable_id.in commentable_ids }.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
     @structure_better_indexed = {}
     structure_comment_count  = @structure.comments_count
     @structure.parent_subjects_string.split(';').each do |parent_subject_string|
