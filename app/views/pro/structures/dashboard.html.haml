@@ -43,8 +43,8 @@
                 %i.icon-ok.green
                 Vous avez renseigné #{@structure.subjects.count} disciplines
               - else
-                Vous n'avez pas renseigné de disciplines.
                 %i.icon-remove.red
+                Vous n'avez pas renseigné de disciplines.
           %tr
             %th Mes photos & vidéos
             %td
@@ -52,8 +52,8 @@
                 %i.icon-ok.green
                 Vous avez renseigné #{@structure.medias.count} photos & vidéos
               - else
-                Vous n'avez pas renseigné de photos & vidéos
                 %i.icon-remove.red
+                Vous n'avez pas renseigné de photos & vidéos
                 \-
                 = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Ajouter des medias'])"
       .text--center= link_to 'Mettre à jour mon profil', edit_pro_structure_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Mettre à jour mon profil'])"
