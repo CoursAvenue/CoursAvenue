@@ -1,5 +1,5 @@
 .course-info {
-    border       : $graySmooth 1px solid;
+    border       : $gray-smooth 1px solid;
     padding      : 1em;
     margin-bottom: 2em;
     background   : white;
@@ -12,7 +12,7 @@
     }
 }
     .course-info-price {
-        border-bottom: 1px solid $graySmooth;
+        border-bottom: 1px solid $gray-smooth;
         padding      : 0.5em 0;
         h2 {
             margin-bottom: 0;
@@ -31,5 +31,5 @@
         margin-bottom: 0;
         margin-top   : 1em;
         border       : none;
-        border-top   : 1px solid $graySmooth;
+        border-top   : 1px solid $gray-smooth;
     }

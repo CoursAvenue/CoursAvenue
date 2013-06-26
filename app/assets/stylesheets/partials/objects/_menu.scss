@@ -35,7 +35,7 @@
 
 .side-menu {
     width           : 250px;
-    background-color: darken($beigeDark, 7%);
+    background-color: darken($beige-dark, 7%);
     ul {
         list-style: none;
         margin    : 0;
@@ -46,18 +46,18 @@
                 font-weight : bold;
             }
             &:hover {
-                background-color: $beigeDarker;
+                background-color: $beige-darker;
             }
             &.active, &.active:hover {
-                background-color: darken($beigeDarker, 7%);
-                box-shadow      : inset 0px 0px 10px darken($beigeDarker, 7%);
-                border-right    : 3px solid darken($beigeDarker, 30%);
+                background-color: darken($beige-darker, 7%);
+                box-shadow      : inset 0px 0px 10px darken($beige-darker, 7%);
+                border-right    : 3px solid darken($beige-darker, 30%);
             }
-            border-bottom: 1px solid darken($beigeDarker, 10%);
+            border-bottom: 1px solid darken($beige-darker, 10%);
             a {
                 & { text-decoration: none; }
-                color       : darken($beigeDarker, 40%);
-                text-shadow : 1px 1px 1px darken($beigeDarker, 7%);;
+                color       : darken($beige-darker, 40%);
+                text-shadow : 1px 1px 1px darken($beige-darker, 7%);;
                 display     : block;
                 padding     : 1em;
             }

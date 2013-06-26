@@ -7,11 +7,11 @@ $datepicker-width           : 18em;
 $datepicker-height          : 18em;
 $datepicker-header-height   : 2.5em;
 
-$hoveredColor               : lighten($brandColor, 30%);
+$hoveredColor               : lighten($brand-color, 30%);
 
 .selected-button {
     // If you have a specific selected-button style, you can do @extend .my-btn--selected
-    background-color: $brandColor;
+    background-color: $brand-color;
     color           : white;
 }
 
@@ -30,7 +30,7 @@ $hoveredColor               : lighten($brandColor, 30%);
     display: inline-block;
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
-    border-bottom: 7px solid $graySmooth;
+    border-bottom: 7px solid $gray-smooth;
     position: absolute;
     top: -7px;
     left: 6px;
@@ -45,7 +45,7 @@ $hoveredColor               : lighten($brandColor, 30%);
     width           : $datepicker-width;
     //padding         : 0.3em;
     background-color: white;
-    border          : 1px solid $graySmooth;
+    border          : 1px solid $gray-smooth;
     @include box-shadow(0 5px 10px rgba(0,0,0,0.2));
     @include border-radius(3px);
 
@@ -69,7 +69,7 @@ $hoveredColor               : lighten($brandColor, 30%);
                 padding : 0.5em;
                 @include border-radius(3px);
                 &:hover {
-                    background-color: $grayLighter;
+                    background-color: $gray-lighter;
                 }
             }
         }
@@ -86,12 +86,12 @@ $hoveredColor               : lighten($brandColor, 30%);
         .previous {
             left            : 0.4em;
             border-right    : 7px solid black;
-            &:hover { border-right-color: $grayLight; }
+            &:hover { border-right-color: $gray-light; }
         }
         .next {
             right: 0.4em;
             border-left: 7px solid black;
-            &:hover { border-left-color: $grayLight; }
+            &:hover { border-left-color: $gray-light; }
         }
         .closeButton {
             display: none;
@@ -134,7 +134,7 @@ $hoveredColor               : lighten($brandColor, 30%);
             width: (100% / 7);
         }
         .otherMonth {
-            color: $grayLight;
+            color: $gray-light;
         }
     }
     /* months-grid
@@ -164,7 +164,7 @@ $hoveredColor               : lighten($brandColor, 30%);
     /* global
     ********************************************************/
     .unavailable {
-        color           : $grayLighter !important;
+        color           : $gray-lighter !important;
         cursor          : default !important;
         text-decoration : line-through;
     }
@@ -202,10 +202,10 @@ $hoveredColor               : lighten($brandColor, 30%);
         width: 1em;
     }
     .time .ok:active {
-        @include box-shadow(inset 0 1px 5px $grayLight);
+        @include box-shadow(inset 0 1px 5px $gray-light);
     }
     .time .ok:hover {
-        background-color: $grayLighter;
+        background-color: $gray-lighter;
     }
     .time .ok {
         margin          : 1em auto;

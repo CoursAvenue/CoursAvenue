@@ -8,8 +8,8 @@
     .home-screen-subtitle, .home-screen-title {
         position        : relative;
         z-index         : 5;
-        color           : $grayLighter;
-        text-shadow     : 0 0 5px $gray, 0 0 10px $grayDark, 0 0 20px $grayDarker;
+        color           : $gray-lighter;
+        text-shadow     : 0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker;
         letter-spacing  : 0.1em;
     }
     .home-screen-subtitle {
@@ -50,7 +50,7 @@
     }
 
 .home-screen-promotion-wrapper {
-    background-color: $homescreenBackground;
+    background-color: $homescreen-background;
     padding         : 0 0 2em 0;
     .home-screen-promotion {
         padding-top: 0;

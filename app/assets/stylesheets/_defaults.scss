@@ -55,9 +55,9 @@ $brand-round:        2px!default;
 /**
  * Which objects and abstractions would you like to use?
  */
-$use-grids:         true!default;
+$use-grids:         false!default;
 $use-flexbox:       true!default;
-$use-columns:       true!default;
+$use-columns:       false!default;
 $use-nav:           true!default;
 $use-options:       false!default;
 $use-pagination:    true!default;
@@ -68,7 +68,7 @@ $use-island:        true!default;
 $use-block-list:    true!default;
 $use-matrix:        false!default;
 $use-split:         false!default;
-$use-this-or-this:  true!default;
+$use-this-or-this:  false!default;
 $use-link-complex:  false!default;
 $use-flyout:        false!default;
 $use-arrows:        false!default;
@@ -169,8 +169,8 @@ $close-quote:   null;
 /**
  * Brand stuff
  */
-$brand-color:       #4a8ec2!default;
-//$brand-face:        "Helvetica Neue", sans-serif!default;
+$brand-color:       #e9683d!default;
+$brand-face: 'Lato', Helvetica, Arial,sans-serif !default;
 
 
 /**

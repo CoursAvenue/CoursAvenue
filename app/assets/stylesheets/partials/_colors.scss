@@ -1,5 +1,3 @@
-//$brand-face: "Raleway" !default;
-//$brand-face: 'Open Sans', Helvetica, Arial,sans-serif !default;
 $brand-face: 'Lato', Helvetica, Arial,sans-serif !default;
 
 // Grays
@@ -54,7 +52,7 @@ $alert-success-background-color: #dff0d8 !default;
 $alert-success-border-color:     #d6e9c6 !default;
 
 $brand-color:                    $orange !default;
-//$alternative-background: lighten($brand-color, 35%) !default;
+
 $alternative-background: $beige;
 $homescreen-background:  $beige !default;
 $site-background-color:  $beige-dark;

@@ -11,7 +11,7 @@
 .table--striped{
     tbody {
         tr:nth-of-type(odd){
-            background-color: $alternativeBackground;
+            background-color: $alternative-background;
         }
         tr.selectable:nth-of-type(odd){
             @extend .selectable;

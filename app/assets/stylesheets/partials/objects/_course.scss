@@ -39,7 +39,7 @@
 }
 .course-price {
     position        : relative;
-    color           : $grayDarker;
+    color           : $gray-darker;
     vertical-align  : middle;
     text-align      : right;
     font-size       : 0.75em;
@@ -75,7 +75,7 @@
         content             : '';
     }
     .course-block {
-        @include box-shadow(0 -1px 3px $grayLighter);
+        @include box-shadow(0 -1px 3px $gray-lighter);
         position        : relative;
         display         : inline-block;
         margin          : 0 1em 1em 0;
@@ -88,10 +88,10 @@
     }
     .course-block-title {
         margin-bottom: 0;
-        color: $blueGreen;
+        color: $blue-green;
     }
     .course-block-caption {
         @extend .milli;
         margin-bottom: 0;
-        color        : $grayLight;
+        color        : $gray-light;
     }

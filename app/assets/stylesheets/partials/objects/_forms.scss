@@ -1,5 +1,3 @@
-$label-width: 250px; // Not in em to ensure title margins and paddings
-
 .inline-form {
     display: inline;
 }
@@ -13,6 +11,21 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
     }
     .input {
         margin: 10px 0;
+        input, textarea {
+            // width    : 35em;
+            width    : 100% - $label-width;
+            // max-width: 100%;
+            &.zip_code { width: 10em; }
+        }
+        .control-label {
+            width: $label-width;
+        }
+        .control-label, input, textarea {
+            @include multiple-media-query(palm, lap) {
+                width     : 100%;
+                text-align: left;
+            }
+        }
         input.file {
             border     : none;
             padding    : 0;
@@ -26,24 +39,9 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
         > input, > select, > textarea, > div, > label {
             font-size: $base-font-size;
         }
+
         select {
-            width    : auto;
-        }
-        input.string, textarea {
-            width    : 35em;
-            max-width: 100%;
-            &.zip_code { width: 10em; }
-        }
-        .control-label {
-            width: $label-width;
-            @include media-query(palm) {
-                width     : 100%;
-                text-align: left;
-            };
-            @include media-query(lap) {
-                width     : 100%;
-                text-align: left;
-            };
+            width: auto;
         }
         .radio {
             @extend .grid--full;
@@ -78,9 +76,9 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
             padding-right : 1em;
         }
     .form-header-group {
-        border-bottom: solid 1px $graySmooth;
+        border-bottom: solid 1px $gray-smooth;
         text-align   : right;
-        width        : $label-width;
+        width        : $left-form-margin;
         margin-top   : 1em;
     }
     .label--header{
@@ -92,11 +90,9 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
     }
     textarea.text {
         height: 5em;
-        width : 24.5em;
         &.textarea-description--tall {
             height: 30em;
         }
-//}
         &.textarea-description {
             height: 20em;
         }
@@ -136,13 +132,11 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
 .simple_form.half-form {
     .form-actions {
         padding-left: $label-width / 1.4;
-        @include media-query(palm) { padding-left: 0; };
-        @include media-query(lap)  { padding-left: 0; };
+        @include multiple-media-query(palm, lap) { padding-left: 0; };
     }
     .field-form-info {
         padding-left: $label-width / 1.4;
-        @include media-query(palm) { padding-left: 0; };
-        @include media-query(lap)  { padding-left: 0; };
+        @include multiple-media-query(palm, lap) { padding-left: 0; };
     }
     .form-header-group { width       : $label-width / 1.4; }
     .input {
@@ -160,15 +154,15 @@ $label-width: 250px; // Not in em to ensure title margins and paddings
 
 }
 .form-actions {
-    padding-left: $label-width;
+    padding-left: $left-form-margin;
+    @include multiple-media-query(palm, lap) { width: 100%; }
 }
 
 .field-form-info {
     padding-left: $label-width;
     font-style  : italic;
-    color       : $grayLight;
-    @include media-query(palm) { padding-left: 0; };
-    @include media-query(lap)  { padding-left: 0; };
+    color       : $gray-light;
+    @include multiple-media-query(palm, lap) { padding-left: 0; };
 }
 
 .helper-label:after {
