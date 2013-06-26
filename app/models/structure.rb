@@ -180,11 +180,13 @@ class Structure < ActiveRecord::Base
   end
 
   def subscribe_to_mailchimp
+    nb_comments = self.all_comments.length
     Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
                            :email_address => self.contact_email,
                            :merge_vars => {
                               :NAME => self.name,
-                              :STATUS => 'not registered'
+                              :STATUS => (self.admins.any? ? 'registered' : 'not registered'),
+                              :NB_COMMENT => nb_comments
                            },
                            :double_optin => false,
                            :update_existing => true,

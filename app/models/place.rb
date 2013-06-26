@@ -136,9 +136,9 @@ class Place < ActiveRecord::Base
   def long_name
     if self.name == self.structure.try(:name)
       self.name
-    elsif self.name == 'Adresse principale'
+    elsif self.name == 'Adresse principale' and self.structure
       self.structure.name
-    elsif self.structure
+    elsif self.structure # Prevents from nil when submiting with an image
       "#{self.structure.name} - #{self.name}"
     else
       self.name
