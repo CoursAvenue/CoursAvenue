@@ -9,9 +9,9 @@
         Image / Logo
       .form-white-box
         - unless @structure.new_record? || !@structure.image?
-          .input.grid
-            .grid__item.width-auto= structure_form.label :image
-            .grid__item.width-auto= image_tag @structure.image.url(:thumb), height: 200
+          .input
+            = structure_form.label :image, class: 'v-top'
+            = image_tag @structure.image.url(:thumb), height: 200
           = structure_form.input :delete_image, as: :boolean, :label => "Supprimer l'image"
         .input.flush--top
           - unless @structure.new_record? || !@structure.image?
