@@ -25,7 +25,7 @@
             %span= @course_places.index(course.place) + 1
         %h2.delta.inline.v-middle= link_to course.name.capitalize, course_path(course)
         - if course.rating
-          %div.inline
+          %div.inline.nowrap
             %span.rating{title: comment_rating_title(course.rating)}
               = rating_stars course.rating
             \/

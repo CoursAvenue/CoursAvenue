@@ -9,6 +9,14 @@ module HasSubjects
   end
 
   module InstanceMethods
+    # Returns all the parent subjects objects
+    def parent_subjects
+      self.parent_subjects_string.split(';').collect do |subject_string|
+        subject_name, subject_slug = subject_string.split(',')
+        Subject.find(subject_slug)
+      end
+    end
+
     def update_subjects_string
       subjects_array = []
       self.subjects.uniq.each do |subject|

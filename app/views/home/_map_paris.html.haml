@@ -78,5 +78,5 @@
     .map-marker-image.paris-20
       = link_to courses_path(address_name: 'Paris 20', lat: '48.8650611', lng: '2.3990499999999884'), onclick: "_gaq.push(['_trackEvent', 'Map paris', 'click', '75020'])", title: 'Paris 20' do
         %span= Course.joins{place}.where{place.zip_code == '75020'}.count
-    = image_tag 'home-page/map-paris.png', alt: 'Tous les cours et stages à Paris'
+    = image_tag 'home-page/map-paris.png', alt: 'Tous les cours à Paris'
 

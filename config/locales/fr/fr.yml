@@ -150,6 +150,11 @@ fr:
       second: "Seconde"
 
   number:
+    ordinals:
+      \A(1)\z: '%dère'
+      \A(2)\z: '%dème'
+      other:   '%dème'
+
     format:
       separator: ","
       delimiter: " "

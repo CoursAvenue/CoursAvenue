@@ -180,7 +180,7 @@ class Structure < ActiveRecord::Base
   end
 
   def subscribe_to_mailchimp
-    nb_comments = self.all_comments.length
+    nb_comments = self.comments_count
     Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
                            :email_address => self.contact_email,
                            :merge_vars => {
