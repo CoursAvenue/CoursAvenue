@@ -59,9 +59,8 @@
       .text--center= link_to 'Mettre à jour mon profil', edit_pro_structure_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Mettre à jour mon profil'])"
     %p.alert--info
       Notre moteur de recherche est basé sur les témoignages des élèves.
-      / Voici votre position d'apparition sur CoursAvenue basé sur votre nombre d'avis :
       %br
-      Voici les établissements qui apparaissent avant vous sur CoursAvenue basé sur votre nombre d'avis :
+      Voici votre position d'apparition sur CoursAvenue basé sur votre nombre d'avis :
     - @structure_better_indexed.each do |subject_name, structures|
       %p.flush--bottom
         %strong= subject_name
