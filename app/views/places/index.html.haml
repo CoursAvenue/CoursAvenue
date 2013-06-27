@@ -15,6 +15,9 @@
         Établissements de cours
       - if params[:name].present?
         correspondant à : « #{params[:name]} »
+      - else
+        à Paris
+
     %ul.tab-titles
       %li
         - if @subject

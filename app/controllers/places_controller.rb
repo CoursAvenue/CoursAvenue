@@ -1,8 +1,6 @@
 # encoding: utf-8
 class PlacesController < ApplicationController
 
-  before_filter :prepare_search, only: [:show, :index]
-
   def add_user
     @place = Place.find(params[:id])
     current_user.places << @place
@@ -72,7 +70,9 @@ class PlacesController < ApplicationController
     #   end
     # end
   end
+
   private
+
   def init_geoloc
     place_index = 0
     @json_place_addresses = @places.to_gmaps4rails do |place, marker|
@@ -83,19 +83,6 @@ class PlacesController < ApplicationController
                      })
       marker.title   place.name
       marker.json({ id: place.id })
-    end
-  end
-
-  def prepare_search
-    if params[:lat].blank? or params[:lng].blank?
-      if request.location and request.location.longitude != 0 and request.location.latitude != 0
-        params[:lat] = request.location.latitude
-        params[:lng] = request.location.longitude
-      else
-        # Setting paris lat & lng per default
-        params[:lat] = 48.8592
-        params[:lng] = 2.3417
-      end
     end
   end
 end

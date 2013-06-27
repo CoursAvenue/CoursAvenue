@@ -1,7 +1,7 @@
 # encoding: utf-8
 class CoursesController < ApplicationController
 
-  before_filter :prepare_search, only: [:show, :index]
+  before_filter :prepare_search, only: [:index]
 
   def index
     if params[:subject_id]
@@ -59,18 +59,7 @@ class CoursesController < ApplicationController
   end
 
   def prepare_search
-    if params[:lat].blank? or params[:lng].blank?
-      if request.location and request.location.longitude != 0 and request.location.latitude != 0
-        params[:lat] = request.location.latitude
-        params[:lng] = request.location.longitude
-      else
-        # Setting paris lat & lng per default
-        params[:lat] = 48.8592
-        params[:lng] = 2.3417
-      end
-    end
     @audiences = Audience.all
     @levels    = Level.all
   end
-
 end
