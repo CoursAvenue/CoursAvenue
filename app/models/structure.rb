@@ -160,7 +160,7 @@ class Structure < ActiveRecord::Base
   def create_courses_relative_to_subject
     place = self.places.first
     self.subjects.each do |subject|
-      place.courses.create(name: subject.name, subject_ids: [subject.id], type: 'Course::Lesson', level_ids: [Level.beginner, Level.intermediate, Level.confirmed], audience_ids: [Audience.adult.id])
+      place.courses.create(name: subject.name, subject_ids: [subject.id], type: 'Course::Lesson', level_ids: [Level.beginner.id, Level.intermediate.id, Level.confirmed.id], audience_ids: [Audience.adult.id])
     end
   end
 
