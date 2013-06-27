@@ -14,7 +14,11 @@ class CommentsController < ApplicationController
     respond_to do |format|
       if @comment.save
         cookies[:delete_cookies] = true
-        format.html { redirect_to (request.referrer || commentable_path(@comment)), notice: "Merci d'avoir laissé votre avis !" }
+        if params[:from] and params[:from] == 'recommendation-page'
+          format.html { redirect_to structure_comment_path(@comment.commentable, @comment), notice: "Merci d'avoir laissé votre avis !" }
+        else
+          format.html { redirect_to (request.referrer || commentable_path(@comment)), notice: "Merci d'avoir laissé votre avis !" }
+        end
         UserMailer.delay.after_comment_for_teacher(@comment) if Rails.env.production?
         UserMailer.delay.after_comment(@comment)
       else

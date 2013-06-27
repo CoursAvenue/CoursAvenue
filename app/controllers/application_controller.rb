@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   layout 'users'
 
   def after_sign_in_path_for(user)
-    request.referrer || root_path
+    session['user_return_to'] || request.referrer || root_path
   end
 
   rescue_from CanCan::AccessDenied do |exception|

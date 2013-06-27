@@ -108,22 +108,18 @@
     }
 }
 
-.btn__facebook {
+.btn__social {
     text-transform  : uppercase;
     text-shadow     : -1px -1px 0 darken($facebook-blue, 10%);
     color           : white;
-    border-color    : darken($facebook-blue, 3%);
-    background-color: $facebook-blue;
     padding         : 1em;
     vertical-align  : middle;
     display         : inline-block;
     @include background-image(none);
     &:hover {
         @include background-image(none);
-        background-color: lighten($facebook-blue, 5%);
     }
     &:before {
-        content         : 'f';
         text-transform  : lowercase;
         display         : inline-block;
         padding-left    : 15px;
@@ -132,6 +128,33 @@
         margin-right    : 15px;
         padding-right   : 15px;
         margin-top      : -2px;
+    }
+}
+
+.btn__facebook {
+    @extend .btn__social;
+    border-color    : darken($facebook-blue, 3%);
+    background-color: $facebook-blue;
+    &:hover {
+        background-color: lighten($facebook-blue, 5%);
+    }
+    &:before {
+        content         : 'f';
         border-right    : 1px solid darken($facebook-blue, 8%);
+    }
+}
+
+
+.btn__twitter {
+    @extend .btn__social;
+    border-color    : darken($twitter-blue, 3%);
+    background-color: $twitter-blue;
+    &:hover {
+        background-color: lighten($twitter-blue, 5%);
+    }
+    &:before {
+        content         : "\f099";
+        font-family     : 'FontAwesome';
+        border-right    : 1px solid darken($twitter-blue, 8%);
     }
 }

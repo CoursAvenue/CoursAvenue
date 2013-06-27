@@ -12,9 +12,10 @@
     .input {
         margin: 10px 0;
         input, textarea {
-            // width    : 35em;
             width    : 100% - $label-width;
-            // max-width: 100%;
+            &.one-whole {
+                width: 100%;
+            }
             &.zip_code { width: 10em; }
         }
         .control-label {

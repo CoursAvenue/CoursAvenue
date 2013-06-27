@@ -19,6 +19,7 @@
     .islet.white-box.two-thrids.center-block
       = simple_form_for @comment, url: comments_path do |f|
         = f.error_notification
+        %input{type: :hidden, name: 'from', value: 'recommendation-page'}
         = f.hidden_field :commentable_type
         = f.hidden_field :commentable_id
         = f.input :rating, as: :hidden
