@@ -7,11 +7,11 @@
     .form-white-box
       = f.input :name, label: t('.name'), label_html: { class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => "Si vous avez plus d’un lieu, et pour pouvoir les différencier, renseignez un nom spécifique pour chaque adresse. Par exemple, si l’un de vos 3 lieux se trouve au 34 rue Buffaut, renseignez « Buffaut » ; s’il concerne le gymnase Léo Lagrange, renseignez « Lagrange », etc." }, placeholder: 'Ex. : Gymnase Bercy'
       = f.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc'
-      .grid
-        .grid__item.width-auto
-          = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: 'place_city_id'} }
-        .grid__item.width-auto
-          = f.association :city, collection: [@place.city], label: false
+      .input
+        = f.label :zip_code
+        = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: 'place_city_id'} }, label: false
+        = f.association :city, collection: [@place.city], label: false
+
 
     %h5.form-header-group Images
     .form-white-box

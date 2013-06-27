@@ -1,0 +1,20 @@
+%p Bonjour !
+
+%p
+  <strong>#{@comment.author_name} vient de déposer son avis sur le profil CoursAvenue de : #{@structure.name} et vous suggère de faire de même !</strong>
+  Votre avis est capital que les cours soient toujours plus passionnants et correspondent à vos besoin.
+
+%p
+  Avis de #{@comment.author_name} :
+
+= @comment.content.html_safe
+
+%p
+  <strong>À votre tour maintenant :</strong>
+  = link_to 'Partager mon opinion.', new_structure_comment_url(@structure, email: @email)
+
+%p
+  Merci pour votre contribution et à très bientôt !
+
+%p
+  L'équipe de CoursAvenue

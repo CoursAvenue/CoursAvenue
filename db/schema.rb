@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130624140300) do
+ActiveRecord::Schema.define(:version => 20130626101613) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -471,7 +471,7 @@ ActiveRecord::Schema.define(:version => 20130624140300) do
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
     t.decimal  "rating"
-    t.integer  "comments_count"
+    t.integer  "comments_count",                               :default => 0
     t.string   "facebook_url"
   end
 

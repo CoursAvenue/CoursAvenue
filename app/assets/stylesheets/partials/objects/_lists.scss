@@ -2,13 +2,13 @@
     margin-left: 0;
     list-style: none;
     a {
-        color: $grayLight;
+        color: $gray-light;
     }
 }
 
 ul.alternate-color {
     li:nth-of-type(odd){
-        background-color: $alternativeBackground;
+        background-color: $alternative-background;
     }
 }
 
@@ -38,7 +38,7 @@ ul.alternate-color {
 
 .selectable-list {
     li:hover {
-        background-color: $alternativeBackground;
+        background-color: $alternative-background;
         cursor          : pointer;
     }
 }

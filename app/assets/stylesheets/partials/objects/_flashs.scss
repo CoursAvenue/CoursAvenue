@@ -15,8 +15,8 @@
     @include border-radius(0);
     @include border-bottom-radius($brand-round);
     &.notice {
-        background-color: $greenSuccess;
-        border-color    : darken($greenSuccess, 5%);
+        background-color: $green-success;
+        border-color    : darken($green-success, 5%);
     }
     &.error, &.alert {
         background-color: $red;

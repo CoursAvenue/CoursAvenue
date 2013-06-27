@@ -1,7 +1,7 @@
 .step-breadcrumb {
     margin       : 0;
     padding      : 0;
-    border       : 1px solid $beigeDark;
+    border       : 1px solid $beige-dark;
     padding-right: 15px;
 }
     .step-breadcrumb li:first-child .step-breadcrumb--item {
@@ -12,16 +12,16 @@
         padding         : 0.4em 0;
         display         : block;
         background-color: #4edad0;
-        //background-color: lighten($blueGreen, 20%);
+        //background-color: lighten($blue-green, 20%);
         color           : white;
         &:hover {
             text-decoration: none;
             background-color: #00d0c5;
-            //background-color: lighten($blueGreen, 10%);
+            //background-color: lighten($blue-green, 10%);
         }
         &.active {
             font-weight: bold;
-            background-color: $blueGreen;
+            background-color: $blue-green;
         }
     }
     .step-breadcrumb--item.active:after,

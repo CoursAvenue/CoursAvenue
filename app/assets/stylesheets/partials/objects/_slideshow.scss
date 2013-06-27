@@ -20,9 +20,9 @@
         width           : 100%;
         padding         : 1em;
         &, a {
-            color: $graySmooth;
+            color: $gray-smooth;
             b {
-                color: $grayLighter;
+                color: $gray-lighter;
             }
         }
         a:hover {
@@ -45,7 +45,7 @@
     margin  : 0;
     z-index: 15;
     li.active {
-        background-color: $graySmooth;
+        background-color: $gray-smooth;
     }
     li {
         margin-left     : 0.3em;

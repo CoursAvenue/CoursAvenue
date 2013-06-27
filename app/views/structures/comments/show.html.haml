@@ -1,0 +1,52 @@
+<div id='fb-root'></div>
+<script src='http://connect.facebook.net/en_US/all.js'></script>
+
+%h2.flush--bottom
+  = @structure.name
+  = link_to 'Profil public', place_path(@place), class: 'btn btn__blue'
+%h4 Merci d'avoir publié votre avis ! Il sera précieux pour les autres élèves.
+
+%ul.discrete-list
+  = render partial: 'comments/comment', locals: { comment: @comment }
+
+
+.grid
+  .grid__item.one-half.text--center.v-middle>
+    %p= link_to 'Partager sur Facebook', '#', class: 'btn btn__facebook', onclick: 'postToFeed(); return false;'
+    %p
+      = link_to 'Partager sur Twitter', "https://twitter.com/share?url=#{place_url(@structure.places.first)}&text=Je viens de donner mon avis sur #{@structure.name}. Et vous, qu'en pensez-vous ?&via=CoursAvenue", class: 'btn btn__twitter', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Comments/Show - partager sur twitter', 'click'])"
+  .grid__item.one-half.bordered--left.v-middle>
+    %h5.text--center Inviter mes amis qui ont également suivi ce cours à donner leur avis
+    = form_tag invite_friends_for_feedbacks_structure_comment_path(@structure, @comment), html: {method: :post} do
+      %p.flush--bottom
+        Entrez les emails de vos amis en les séparant par des virgules.
+      %div
+        %textarea.one-whole{name: 'emails', rows: 7, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
+      .push-half--top= submit_tag 'Envoyer une invitation', class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Comments/Show - envoyer une invitation', 'click'])"
+
+.text--center.push--top
+  = link_to subject_courses_path(@main_subject), class: 'btn btn__success btn__large', onclick: "_gaq.push(['_trackEvent', 'Comments/Show - Voir autres etablissements', 'click'])" do
+    #{@main_subject.name} : voir d'autres établissements
+
+#mail-content.hidden
+  = render template: 'student_mailer/ask_for_feedbacks'
+
+= content_for :scripts do
+  :javascript
+    FB.init({appId: "589759807705512", status: true, cookie: true});
+    function postToFeed() {
+      var obj = {
+        method: 'feed',
+        redirect_uri: "#{request.protocol + request.host_with_port + request.fullpath}",
+        link: "#{place_url(@structure.places.first)}",
+        picture: "#{@logo_url || asset_url('logo.png')}",
+        name: "Je viens de donner mon avis sur #{@structure.name}. Et vous, qu'en pensez-vous ?",
+        caption: 'CoursAvenue.com',
+        description: "Retrouvez également des centaines d'autres établissements qui donnent des cours de loisirs ! Danse, théâtre, musique, cours insolite, j'en passe et des meilleurs !"
+      };
+      function callback(response) {
+        document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+      }
+      FB.ui(obj, callback);
+      _gaq.push(['_trackEvent', 'Comments/Show - partager sur Facebook', 'click'])
+    }

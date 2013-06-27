@@ -4,7 +4,7 @@
 .header-search-bar--dark {
     .header-search-bar {
         width           : auto;
-        color           : $grayLight;
+        color           : $gray-light;
         padding         : 2px;
         border-bottom   : none;
         @include border-radius($brand-round);
@@ -85,7 +85,7 @@
         top             : -44px;
         height          : 2em;
         font-size       : 1.2em;
-        border          : 1px solid $beigeDarker;
+        border          : 1px solid $beige-darker;
         border-bottom   : none;
         @include media-query(palm) {
             top        : -44px; // Because of the margin of the child divs
@@ -116,7 +116,7 @@
         padding-right: 0;
     }
         .search-input.search-input--dark {
-            background-color: $grayLighter;
+            background-color: $gray-lighter;
         }
         input.search-input {
             width           : 100%;
@@ -128,7 +128,7 @@
 
 .side-search-panel {
     margin-top  : 1em;
-    border      : 1px solid $graySmooth;
+    border      : 1px solid $gray-smooth;
     background  : white;
     @include border-radius(2px);
 }
@@ -146,8 +146,8 @@
         .search-panel-header {
             padding         : 0.3em 1em;
             background-color: $beige;
-            border-bottom   : 1px solid $graySmooth;
-            border-top   : 1px solid $graySmooth;
+            border-bottom   : 1px solid $gray-smooth;
+            border-top   : 1px solid $gray-smooth;
             margin-bottom   : 0;
             @include box-shadow(0 2px 2px -2px rgba(0,0,0,0.2),0 0 0 #000);
         }
@@ -169,7 +169,7 @@
             border-top: 1px solid $gray;
             text-align: center;
             padding   : 1em;
-            background: darken($beigeDark, 5%);
+            background: darken($beige-dark, 5%);
             @include font-size(14px);
         }
 

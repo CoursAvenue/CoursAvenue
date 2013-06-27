@@ -106,8 +106,11 @@ class Structure < ActiveRecord::Base
   end
 
   def all_comments
-    _comments = self.comments + self.courses.with_deleted.collect(&:comments).flatten
-    _comments.reject(&:new_record?).sort {|c1, c2| c2.created_at <=> c1.created_at}
+    commentable_ids = self.courses.collect(&:id)
+    commentable_ids << self.id
+    Comment.where{commentable_id.in commentable_ids }.all
+    # _comments = self.comments + self.courses.with_deleted.collect(&:comments).flatten
+    # _comments.reject(&:new_record?).sort {|c1, c2| c2.created_at <=> c1.created_at}
   end
 
 
@@ -157,7 +160,7 @@ class Structure < ActiveRecord::Base
   def create_courses_relative_to_subject
     place = self.places.first
     self.subjects.each do |subject|
-      place.courses.create(name: subject.name, subject_ids: [subject.id], type: 'Course::Lesson', level_ids: [Level.all_levels.id], audience_ids: [Audience.adult.id])
+      place.courses.create(name: subject.name, subject_ids: [subject.id], type: 'Course::Lesson', level_ids: [Level.beginner.id, Level.intermediate.id, Level.confirmed.id], audience_ids: [Audience.adult.id])
     end
   end
 
@@ -180,11 +183,14 @@ class Structure < ActiveRecord::Base
   end
 
   def subscribe_to_mailchimp
+    nb_comments = self.comments_count
     Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
                            :email_address => self.contact_email,
                            :merge_vars => {
-                              :NAME => self.name,
-                              :STATUS => 'not registered'
+                              :NAME       => self.name,
+                              :STATUS     => (self.admins.any? ? 'registered' : 'not registered'),
+                              :NB_COMMENT => nb_comments,
+                              :SLUG       => self.slug
                            },
                            :double_optin => false,
                            :update_existing => true,

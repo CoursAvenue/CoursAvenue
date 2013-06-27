@@ -39,9 +39,9 @@
     top       : -17px;
 }
 .comment__content {
-    background-color: $beigeDark;
+    background-color: $beige-dark;
     padding         : 0 20px 0 20px;
-    @include box-shadow(inset -1px 1px 1px $beigeDarker, inset 0px -1px 1px $beigeDarker);
+    @include box-shadow(inset -1px 1px 1px $beige-darker, inset 0px -1px 1px $beige-darker);
     @include border-right-radius($brand-round);
     p {
         position        : relative;

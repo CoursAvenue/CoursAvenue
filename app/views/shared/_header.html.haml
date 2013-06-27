@@ -15,7 +15,7 @@
           - else
             = current_user.full_name
           %ul.drop-down__el
-            %li
+            %li.nowrap
               = link_to destroy_user_session_path, method: :delete do
                 Se déconnecter
             - # %li= link_to 'Mon compte', user_path(current_user)

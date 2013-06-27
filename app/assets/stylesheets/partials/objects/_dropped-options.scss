@@ -2,7 +2,7 @@
     position: relative;
     width: 13em;
     height  : 34px;
-    color   : $grayDarker;
+    color   : $gray-darker;
     > ul, > div {
         width: 13em;
         @include box-sizing(border-box);
@@ -13,7 +13,7 @@
         list-style  : none;
         margin      : 0;
         margin-top  : -2px;
-        border      : 1px solid $grayLighter;
+        border      : 1px solid $gray-lighter;
         border-top  : none;
         display     : none;
         @include border-bottom-radius($brand-round + 1);
@@ -27,14 +27,14 @@
             padding-bottom  : 0.5em;
         }
         li:nth-of-type(odd) {
-            background-color: $alternativeBackground;
+            background-color: $alternative-background;
         }
         li.selected, li.selected:hover {
-            background-color: $brandColor;
+            background-color: $brand-color;
             color           : white;
         }
         li:hover {
-            background-color: $hoverListElement;
+            background-color: $hover-list-element;
             color           : black;
         }
     }
@@ -50,7 +50,7 @@
         cursor          : pointer;
         background-color: $white;
         padding         : 4px 2em 5px 1em;
-        border          : 1px solid $graySmooth;
+        border          : 1px solid $gray-smooth;
         @include border-radius(3px);
     }
     .dropped-options-icon {

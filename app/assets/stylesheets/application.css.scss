@@ -12,10 +12,10 @@
 
 
   @import "defaults";
-  @import "theme_vars";
-  @import "partials/inuit";
-
   @import "widths";
+  @import "partials/inuit";
+  @import "colors";
+
 
 /**
  * Libs
@@ -24,50 +24,52 @@
 
 /**
  * Theme objects
+ * Overrides of Inuit.css
  */
+  @import "partials/base/links";
 
   @import "partials/theme_mixins";
 
   @import "partials/generic/headings";
   @import "partials/generic/images";
+  @import "partials/generic/mixins";
 
-  @import "partials/theme/icons";
-  @import "partials/theme/badges";
-  @import "partials/theme/better-select";
-  @import "partials/theme/block-list";
-  @import "partials/theme/buttons";
-  @import "partials/theme/course-list";
-  @import "partials/theme/course";
-  @import "partials/theme/datepicker-input";
-  @import "partials/theme/dropped-options";
-  @import "partials/theme/emphasis";
-  @import "partials/theme/footer";
-  @import "partials/theme/header";
-  @import "partials/theme/home-screen";
-  @import "partials/theme/input-range";
-  @import "partials/theme/inputs";
-  @import "partials/theme/labels";
-  @import "partials/theme/links";
-  @import "partials/theme/main-container";
-  @import "partials/theme/media";
-  @import "partials/theme/menu";
-  @import "partials/theme/pagination";
-  @import "partials/theme/search";
-  @import "partials/theme/selectable";
-  @import "partials/theme/slideshow";
-  @import "partials/theme/summary";
-  @import "partials/theme/tables";
-  @import "partials/theme/tabs";
-  @import "partials/theme/time-slots";
-  @import "partials/theme/footer";
-  @import "partials/theme/map-paris";
-  @import "partials/theme/alerts";
-  @import "partials/theme/paragraphs";
-  @import "partials/theme/lists";
-  @import "partials/theme/flashs";
-  @import "partials/theme/forms";
-  @import "partials/theme/helpers";
-  @import "partials/theme/share_buttons";
+
+  @import "partials/objects/icons";
+  @import "partials/objects/badges";
+  @import "partials/objects/better-select";
+  @import "partials/objects/block-list";
+  @import "partials/objects/buttons";
+  @import "partials/objects/course-list";
+  @import "partials/objects/course";
+  @import "partials/objects/datepicker-input";
+  @import "partials/objects/dropped-options";
+  @import "partials/objects/emphasis";
+  @import "partials/objects/footer";
+  @import "partials/objects/header";
+  @import "partials/objects/home-screen";
+  @import "partials/objects/input-range";
+  @import "partials/objects/inputs";
+  @import "partials/objects/labels";
+  @import "partials/objects/main-container";
+  @import "partials/objects/menu";
+  @import "partials/objects/pagination";
+  @import "partials/objects/search";
+  @import "partials/objects/selectable";
+  @import "partials/objects/slideshow";
+  @import "partials/objects/summary";
+  @import "partials/objects/tables";
+  @import "partials/objects/tabs";
+  @import "partials/objects/time-slots";
+  @import "partials/objects/footer";
+  @import "partials/objects/map-paris";
+  @import "partials/objects/alerts";
+  @import "partials/objects/paragraphs";
+  @import "partials/objects/lists";
+  @import "partials/objects/flashs";
+  @import "partials/objects/forms";
+  @import "partials/objects/helpers";
+  @import "partials/objects/share_buttons";
   // @import "partials/theme/banner";
 
   @import "partials/objects/address-list";
@@ -101,7 +103,7 @@
 html {
   font-family : $brand-face;
   font-weight : 300;
-  background  : $siteBackgroundColor;
+  background  : $site-background-color;
 }
 
 ::selection {

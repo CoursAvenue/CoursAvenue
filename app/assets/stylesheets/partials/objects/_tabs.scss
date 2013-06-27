@@ -1,32 +1,32 @@
 .tab-titles {
     @extend .nav;
-    border-bottom: 1px solid $graySmooth;
+    border-bottom: 1px solid $gray-smooth;
     margin-top   : 1em;
     margin-bottom: 0em;
 }
     .tab-el {
         padding     : 0.4em 1em;
         margin-right: 0.2em;
-        color        : $brandColor;
-        border       : 1px solid $beigeDark; // To prevent size to change on hover
-        //border-bottom-color: $graySmooth;
+        color        : $brand-color;
+        border       : 1px solid $beige-dark; // To prevent size to change on hover
+        //border-bottom-color: $gray-smooth;
         border-bottom: none;
         @include border-top-radius(3px);
         &:hover {
             background-color: $beige;
             cursor          : pointer;
-            border          : 1px solid darken($grayLighter, 5%);
+            border          : 1px solid darken($gray-lighter, 5%);
         }
         &.active:hover {
-            background-color: $siteBackgroundColor;
+            background-color: $site-background-color;
             cursor       : default;
         }
         &.active {
             color               : black;
-            border              : 1px solid $graySmooth;
+            border              : 1px solid $gray-smooth;
             position            : relative;
             top                 : 1px;
-            border-bottom-color : $siteBackgroundColor;
+            border-bottom-color : $site-background-color;
         }
     }
 

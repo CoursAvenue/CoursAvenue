@@ -3,14 +3,14 @@
     @include media-query(lap) { text-align: center; };
     background-color: #efeff1;
     padding         : 0;
-    border-bottom   : 1px solid darken($beigeDark, 10%);
+    border-bottom   : 1px solid darken($beige-dark, 10%);
     overflow        : visible;
     display         : table;
     width           : 100%;
     &, .main-container {
         height     : 60px;
     }
-    @include background-image(linear-gradient(top, $beige, darken($beigeDark, 7%)));
+    @include background-image(linear-gradient(top, $beige, darken($beige-dark, 7%)));
     .nav {
         margin-bottom: 0;
         margin-left  : 1em;
@@ -36,7 +36,7 @@
     }
 }
 a.header-link {
-    color       : $grayLight;
+    color       : $gray-light;
     font-weight : bold;
     margin-left : 0.5em;
     font-size   : 13px;

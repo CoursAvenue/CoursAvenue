@@ -14,6 +14,7 @@ class AdminAbility
         can :manage, admin.structure
         can :manage, admin.structure.places
         can :manage, admin.structure.courses
+        can :manage, admin.structure.all_comments
       end
       can :create, Place
       can :manage, admin

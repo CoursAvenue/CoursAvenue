@@ -17,7 +17,7 @@
         %h2.delta.inline.v-middle= link_to place.long_name, place_path(place)
         - if place.structure.rating
           %meta{itemprop: "ratingValue", content: place.structure.rating}
-          %div.inline
+          %div.inline.nowrap
             = rating_stars place.structure.rating
             \/
             = place.structure.comments_count

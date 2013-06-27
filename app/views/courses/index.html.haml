@@ -11,9 +11,9 @@
   %section.grid__item.seven-tenths.lap--one-whole.palm--one-whole
     %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue
       - if params[:subject_id]
-        Cours et stages de #{@subject.name.downcase}
+        Cours de #{@subject.name.downcase}
       - else
-        Cours et stages
+        Cours
       - if params[:name].present?
         correspondant à : « #{params[:name]} »
 

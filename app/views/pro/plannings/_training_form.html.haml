@@ -5,24 +5,35 @@
     %input#start-date.datepicker-input{type: 'text', value: (@planning.start_date.nil? ? '' : l(@planning.start_date)), placeholder: '02/08/2013', name: 'planning[start_date]', data: {behavior: 'datepicker'}}
     %label -
     %input#end-date.datepicker-input{type: 'text', value: (@planning.end_date.nil? ? '' : l(@planning.end_date)), placeholder: '04/08/2013', name: 'planning[end_date]', data: {behavior: 'datepicker'}}
+
   .input.flush--bottom{data: {behavior: 'time-range', 'start-time-wrapper' => '#start-time-wrapper', 'end-time-wrapper' => '#end-time-wrapper'}}
-    = f.input :start_time, as: :time, minute_step: 15, label: '<i class="icon-time"></i>&nbsp;Horaire', default: {year: 2000, month: 1, day: 1, hour: 8, min: 00}, wrapper_html: {id: 'start-time-wrapper'}
+    = f.label :start_time, class: 'control-label' do
+      %i.icon-time
+      Horaire
+    = f.input :start_time, as: :time, minute_step: 15, label: false, default: {year: 2000, month: 1, day: 1, hour: 8, min: 00}, wrapper_html: {id: 'start-time-wrapper'}
     %label &nbsp;-&nbsp;
     = f.input :end_time, as: :time, minute_step: 15, label: false, default: {year: 2000, month: 1, day: 1, hour: 9, min: 00}, wrapper_html: {id: 'end-time-wrapper'}
   - if @course.is_individual
     %p.field-form-info.blue Attention : 1 créneau = 1 séance de cours (si vous donnez des cours particuliers d'1h tous les lundis de 15h à 19h, entrez 4 créneaux : 15h-16h, 16h-17h,…).
 
   .input#add-teacher-wrapper
-    = f.association :teacher, as: :select, collection: @structure.teachers, label: '<i class="icon-user"></i>&nbsp;Professeur', include_blank: true
-    = link_to '#', id: 'add-teacher' do
+    = f.label :teacher, class: 'control-label' do
+      %i.icon-user
+      Professeur
+    = f.association :teacher, as: :select, collection: @structure.teachers, include_blank: true, label: false
+    = link_to 'javascript:void(0)', id: 'add-teacher' do
       &nbsp
       %i.icon-user
       Ajouter un professeur
-  .hidden#new-teacher-wrapper.push--top
-    = f.input :teacher, label: 'Nom du professeur', input_html: {value: ''}
+  .input.hidden#new-teacher-wrapper
+    = f.label :teacher
+    = f.input :teacher, label: false, input_html: {value: ''}
 
   .input
-    = f.input :info, as: :string, placeholder: '(optionnel) Plat : gâteau au chocolat', label: '<i class="lbc-icon-info">i</i>&nbsp;Information'
+    = f.label :info, class: 'control-label' do
+      %i.lbc-icon-info i
+      Information
+    = f.input :info, as: :string, placeholder: '(optionnel) Plat : gâteau au chocolat', label: false
   .text--center.input
     - if @planning.new_record?
       = f.submit 'Ajouter le créneau', class: 'btn btn__success'

@@ -17,6 +17,7 @@ fr:
         min_age_for_kid:
         max_age_for_kid:
         room: Salle
+        teacher: Professeur
 
   planning:
     no_duration: Pas de durée

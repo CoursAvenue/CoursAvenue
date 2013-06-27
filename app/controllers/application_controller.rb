@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   layout 'users'
 
   def after_sign_in_path_for(user)
-    request.referrer || root_path
+    session['user_return_to'] || request.referrer || root_path
   end
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -31,6 +31,10 @@ class ApplicationController < ActionController::Base
   end
 
   def render_not_found(exception)
+    logger.fatal '------------------------ LOGGER NOT FOUND --------------------------'
+    logger.fatal exception.message
+    exception.backtrace.each { |line| logger.fatal line }
+    logger.fatal '------------------------ LOGGER NOT FOUND --------------------------'
     redirect_to root_path, status: 301, notice: "Cette page n'existe plus."
     # render template: 'errors/not_found', status: :not_found
   end

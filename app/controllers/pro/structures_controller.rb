@@ -6,7 +6,17 @@ class Pro::StructuresController < Pro::ProController
   layout :get_layout
 
   def dashboard
-    @structure = Structure.find params[:id]
+    @structure      = Structure.find params[:id]
+    commentable_ids = @structure.courses.collect(&:id)
+    commentable_ids << @structure.id
+    @comments       = @structure.all_comments
+    @comments_group = Comment.where{commentable_id.in commentable_ids }.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
+    @structure_better_indexed = {}
+    structure_comment_count  = @structure.comments_count
+    @structure.parent_subjects_string.split(';').each do |parent_subject_string|
+      subject_name = parent_subject_string.split(',')[0]
+      @structure_better_indexed[subject_name] = Structure.where{(parent_subjects_string =~ "%#{parent_subject_string}%") & (comments_count > structure_comment_count)}.order('comments_count DESC').limit(8)
+    end
   end
 
   def share_my_profile
@@ -149,12 +159,11 @@ class Pro::StructuresController < Pro::ProController
     respond_to do |format|
       if !@structure.new_record? or @structure.save
         session[:id] = @structure.id
-        format.html { redirect_to share_my_profile_pro_structure_path(@structure), notice: 'Partagez maintenant votre profil public pour avoir des recommandations' }
+        format.html { redirect_to share_my_profile_pro_structure_path(@structure, subdomain: 'pro'), notice: 'Partagez maintenant votre profil public pour avoir des recommandations' }
       else
         format.html { render 'pro/structures/new_from_recomendation' }
       end
     end
-
   end
 
   def create

@@ -1,5 +1,5 @@
 .course-element.selected {
-    background-color: $grayLighter;
+    background-color: $gray-lighter;
 }
 
 .course-element:hover {
@@ -15,7 +15,7 @@
     background-color: $white;
     margin-bottom   : 1em;
     border          : none !important;
-    @include box-shadow(1px 1px 3px $graySmooth);
+    @include box-shadow(1px 1px 3px $gray-smooth);
     @include box-sizing(border-box);
     @include transition(background-color 250ms linear);
     &:hover {
@@ -28,7 +28,7 @@
         margin: 0;
     }
     p, ul {
-        color: $grayDarker;
+        color: $gray-darker;
     }
     @include font-size(14px);
     img {

@@ -1,9 +1,6 @@
 # encoding: utf-8
 CoursAvenue::Application.routes.draw do
 
-  # Temporary fix
-  match '/etablissements/les-ateliers-theodore--4/recommandations/new' => redirect('/etablissements/les-ateliers-theodore/recommandations/new', status: 301)
-
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
@@ -109,7 +106,11 @@ CoursAvenue::Application.routes.draw do
   resources :reservations, only: [:create]
 
   resources :structures, only: [], path: 'etablissements' do
-    resources :comments, only: [:new], path: 'recommandations', controller: 'structures/comments'
+    resources :comments, only: [:new, :show], path: 'recommandations', controller: 'structures/comments' do
+      member do
+        post 'invite_friends_for_feedbacks'
+      end
+    end
   end
   resources :students, only: [:create]
 

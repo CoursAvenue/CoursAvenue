@@ -8,7 +8,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if @user.save
         # AdminMailer.new_user_has_signed_up(@admin).deliver
         sign_in @user
-        UserMailer.welcome(@user).deliver
+        UserMailer.welcome(@user).deliver!
         format.html { redirect_to request.referrer || root_path, notice: 'Vous êtes bien enregistré. Vous êtes maintenant connecté.' }
       else
         format.html { render action: 'new' }

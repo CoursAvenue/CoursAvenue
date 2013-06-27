@@ -29,7 +29,8 @@
           Ces emails ne seront utilisés que pour cet envoi unique.
         %input{type: 'hidden', name: 'redirect_to', value: new_pro_admin_structure_registration_path(@structure)}
         .input
-          %label.control-label.v-top Emails de vos élèves
+          %label.control-label.v-top>
+            Emails de vos élèves
           %textarea#emails{name: 'emails', rows: 7, cols: 70, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', style: 'height: 150px;', data: {behavior: 'autoresize'}}= cookies['emails']
           %p.field-form-info
             = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}, class: 'blue'

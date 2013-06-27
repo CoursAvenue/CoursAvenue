@@ -48,13 +48,13 @@
         = f.input :contact_email, as: :hidden
         = f.input :street, input_html: { value: cookies[:street] }, wrapper_html: {class: 'flush--bottom'}
         %p.field-form-info.blue Si vos cours se situent dans plusieurs lieux, vous pourrez les renseigner depuis votre espace pro.
-        .grid
-          .grid__item.width-auto.v-bottom
-            = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
-          .grid__item.width-auto.v-bottom
-            = f.association :city, collection: [@structure.city], label: false
+        .input
+          = f.label :zip_code
+          = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }, label: false
+          = f.association :city, collection: [@structure.city], label: false
+
         = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 400px;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
-      .push--bottom
+      .push--bottom.text--center
         = f.submit 'Je valide mes informations', class: 'btn__large btn btn--large btn__success'
   .grid__item.one-third.visuallyhidden--palm
     .bordered--left.soft--left

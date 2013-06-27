@@ -1,0 +1,95 @@
+//$brand-face: "Raleway" !default;
+//$brand-face: 'Open Sans', Helvetica, Arial,sans-serif !default;
+$brand-face: 'Lato', Helvetica, Arial,sans-serif !default;
+
+// Grays
+// -------------------------
+$black:                          #000 !default;
+$gray-darkerer:                  #181818 !default;
+$gray-darker:                    #222 !default;
+$gray-dark:                      #333 !default;
+$gray:                           #555 !default;
+$gray-light:                     #999 !default;
+$gray-smooth:                    #ccc !default;
+$gray-lighter:                   #eee !default;
+$white:                          #fff !default;
+
+$light-grey:                     #f1f1f1 !default;
+$dark-white:                     #FBFBFB !default;
+
+
+// Accent colors
+// -------------------------
+$blue:                           #049cdb !default;
+$facebook-blue:                  #4c66a4 !default;
+$twitter-blue:                   #4099FF !default;
+$blue-dark:                      #0064cd !default;
+$green-success:                  #47b442 !default;
+$green:                          #39aa82 !default;
+$blue-green:                     #2AADA3 !default;
+$green-light:                    #62BC62 !default;
+$red:                            #e2493c !default;
+$red-light:                      #ff493a !default;
+$yellow:                         #ffc40d !default;
+$orange:                         #e9683d !default;
+$pink:                           #c3325f !default;
+$purple:                         #7a43b6 !default;
+$beige-darker:                   #e3dcd4 !default;
+$beige-dark:                     #f7f5f3 !default;
+$beige:                          #f1eeec !default;
+
+$alert-info-text-color:          #0e6894 !default;
+$alert-info-background-color:    #d9edf7 !default;
+$alert-info-border-color:        darken(adjust-hue($alert-info-background-color, -10), 10%) !default;
+
+$alert-warning-background-color: #fcf8e3 !default;
+$alert-warning-text-color:       #c09853 !default;
+$alert-warning-border-color:     #fbeed5 !default;
+
+$alert-error-background-color:   #f2dede !default;
+$alert-error-text-color:         #b94a48 !default;
+$alert-error-border-color:       #eed3d7 !default;
+
+$alert-success-text-color:       #468847 !default;
+$alert-success-background-color: #dff0d8 !default;
+$alert-success-border-color:     #d6e9c6 !default;
+
+$brand-color:                    $orange !default;
+//$alternative-background: lighten($brand-color, 35%) !default;
+$alternative-background: $beige;
+$homescreen-background:  $beige !default;
+$site-background-color:  $beige-dark;
+
+// Links
+// -------------------------
+$link-color:             #08c !default;
+$link-colorHover:        darken($link-color, 15%) !default;
+$hover-list-element:     lighten($brand-color, 30%);
+
+// Buttons
+// -------------------------
+$btn-background:                    $white !default;
+$btn-background-highlight:          darken($white, 10%) !default;
+$btn-border:                         #bbb !default;
+
+$btn-primary-background:              darken($orange, 10%) !default;
+$btn-primary-background-highlight:     #eb7045 !default;
+
+$btn-info-background:                 #5bc0de !default;
+$btn-info-background-highlight:       #2f96b4 !default;
+
+$btn-success-background:              #62c462 !default;
+$btn-success-background-highlight:     #51a351 !default;
+
+// $btn-blue-background:                 #049cdb !default;
+$btn-blue-background:                 lighten(#04a0e0, 3%) !default;
+$btn-blue-background-highlight:        #04a0e0 !default;
+
+$btn-warning-background:              lighten($orange, 15%) !default;
+$btn-warning-background-highlight:     $orange !default;
+
+$btn-danger-background:               #ee5f5b !default;
+$btn-danger-background-highlight:      #bd362f !default;
+
+$btn-inverse-background:              #444 !default;
+$btn-inverse-background-highlight:     $gray-darker !default;
