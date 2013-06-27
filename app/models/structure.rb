@@ -187,9 +187,10 @@ class Structure < ActiveRecord::Base
     Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
                            :email_address => self.contact_email,
                            :merge_vars => {
-                              :NAME => self.name,
-                              :STATUS => (self.admins.any? ? 'registered' : 'not registered'),
-                              :NB_COMMENT => nb_comments
+                              :NAME       => self.name,
+                              :STATUS     => (self.admins.any? ? 'registered' : 'not registered'),
+                              :NB_COMMENT => nb_comments,
+                              :SLUG       => self.slug
                            },
                            :double_optin => false,
                            :update_existing => true,
