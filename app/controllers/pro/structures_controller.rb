@@ -159,12 +159,11 @@ class Pro::StructuresController < Pro::ProController
     respond_to do |format|
       if !@structure.new_record? or @structure.save
         session[:id] = @structure.id
-        format.html { redirect_to share_my_profile_pro_structure_path(@structure), notice: 'Partagez maintenant votre profil public pour avoir des recommandations' }
+        format.html { redirect_to share_my_profile_pro_structure_path(@structure, subdomain: 'pro'), notice: 'Partagez maintenant votre profil public pour avoir des recommandations' }
       else
         format.html { render 'pro/structures/new_from_recomendation' }
       end
     end
-
   end
 
   def create
