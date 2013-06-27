@@ -94,6 +94,7 @@ group :development, :test do
   # gem 'ruby-debug-base19', '0.11.25'
 end
 
+gem 'unicorn'
 
 # For emails
 # gem 'roadie'
