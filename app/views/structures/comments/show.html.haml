@@ -19,7 +19,7 @@
     %h5.text--center Inviter mes amis qui ont également suivi ce cours à donner leur avis
     = form_tag invite_friends_for_feedbacks_structure_comment_path(@structure, @comment), html: {method: :post} do
       %p.flush--bottom
-        Entrez les emails de vos élèves en les séparant par des virgules.
+        Entrez les emails de vos amis en les séparant par des virgules.
       %div
         %textarea.one-whole{name: 'emails', rows: 7, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
       .push-half--top= submit_tag 'Envoyer une invitation', class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Comments/Show - envoyer une invitation', 'click'])"
