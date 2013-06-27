@@ -54,7 +54,7 @@
           = f.association :city, collection: [@structure.city], label: false
 
         = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 400px;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
-      .push--bottom
+      .push--bottom.text--center
         = f.submit 'Je valide mes informations', class: 'btn__large btn btn--large btn__success'
   .grid__item.one-third.visuallyhidden--palm
     .bordered--left.soft--left
