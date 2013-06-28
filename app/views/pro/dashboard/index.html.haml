@@ -4,26 +4,24 @@
   %i.icon-dashboard
   Tableau de bord
 
-.grid.push--top
-  .grid__item.one-half>
-    %h3.header-group
-      %i.icon-map-marker
-      Profésseurs enregistrés
-    .white-box.islet.text--center
-      .gamma
-        = Admin.normal.count
-        Profs
-      #admins
-  .grid__item.one-half>
-    %h3.header-group
-      %i.icon-comments
-      Avis et recommandations
+%h3.header-group
+  %i.icon-map-marker
+  Profésseurs enregistrés
+.white-box.islet.text--center
+  .gamma
+    = Admin.normal.count
+    Profs
+  #admins
 
-    .white-box.islet.text--center
-      .gamma
-        = Comment.count
-        avis
-      #comments
+%h3.header-group
+  %i.icon-comments
+  Avis et recommandations
+
+.white-box.islet.text--center
+  .gamma
+    = Comment.count
+    avis
+  #comments
 
 .grid.push--top
   .grid__item.one-half>
