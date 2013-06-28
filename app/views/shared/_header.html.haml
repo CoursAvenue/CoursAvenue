@@ -22,14 +22,10 @@
       - else
         %span
           = link_to "Se connecter", '#', data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_in'}
-        %span.soft-half--left
+        %span.soft-half--left.push--right.soft--right.bordered--right
           = link_to "Créer un compte", '#', data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_up'}, class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Inscrit'])"
-        = image_tag 'header/espace-pro.png', class: 'v-middle push-half--sides'
         %span
-          = link_to 'Référencer mes cours', 'http://pro.coursavenue.com', class: 'btn btn__primary', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
-        %span.push-half--left
-          = link_to "Se connecter", new_pro_admin_session_url(subdomain: 'pro')
-
+          = link_to 'Espace pro', 'http://pro.coursavenue.com', class: 'btn btn__blue', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
 
 %nav.milli.main-container.soft-half.hard--left.hard--right.visuallyhidden--palm
   %ul.nav--fit.flush
