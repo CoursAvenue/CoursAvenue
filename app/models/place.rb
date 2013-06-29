@@ -120,6 +120,8 @@ class Place < ActiveRecord::Base
     end
   end
 
+  handle_asynchronously :solr_index
+
   def subjects
     structure.subjects
   end

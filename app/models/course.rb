@@ -202,6 +202,8 @@ class Course < ActiveRecord::Base
     boolean :has_unit_course_price
   end
 
+  handle_asynchronously :solr_index
+
   def recent_plannings
     self.plannings.where{start_date > Date.today}
   end

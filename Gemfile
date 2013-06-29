@@ -28,7 +28,7 @@ gem 'auto_html'                 , '~> 1.6.0'
 
 gem 'delayed_job_active_record' , '~> 0.4.4'
 # gem 'whenever'                  , '~> 0.8.2'
-gem 'exceptional'
+# gem 'exceptional'
 
 gem 'js-routes'                 , '~> 0.9.0'
 gem 'font-awesome-rails'        , '~> 3.2.1.1'
