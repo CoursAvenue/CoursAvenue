@@ -14,13 +14,12 @@ class AdminMailer < ActionMailer::Base
   end
 
   def new_admin_has_signed_up(admin)
-    @admin = admin
+    @admin     = admin
+    @structure = admin.structure
     if Rails.env.development?
       mail to: 'nim.izadi@gmail.com', subject: "Un prof vient de s'enregistrer !"
     else
-      mail to: 'contact@coursavenue.com', subject: "Un prof vient de s'enregistrer !"
-      mail to: 'marc@coursavenue.com',    subject: "Un prof vient de s'enregistrer !"
-      mail to: 'mathieu@coursavenue.com', subject: "Un prof vient de s'enregistrer !"
+      mail to: 'all@coursavenue.com', subject: "Un prof vient de s'enregistrer !"
     end
   end
 end

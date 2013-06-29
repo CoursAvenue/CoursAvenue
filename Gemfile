@@ -6,6 +6,11 @@ gem 'rails', '3.2.13'
 # Gems used only for assets and not required
 # in production environments by default.
 
+gem 'thin'
+gem 'pg'
+gem 'newrelic_rpm'
+gem 'rack-reverse-proxy', :require => 'rack/reverse_proxy'
+
 # Caching
 gem 'memcachier'
 gem 'dalli'
@@ -23,7 +28,7 @@ gem 'auto_html'                 , '~> 1.6.0'
 
 gem 'delayed_job_active_record' , '~> 0.4.4'
 # gem 'whenever'                  , '~> 0.8.2'
-gem 'exceptional'
+# gem 'exceptional'
 
 gem 'js-routes'                 , '~> 0.9.0'
 gem 'font-awesome-rails'        , '~> 3.2.1.1'
@@ -34,7 +39,6 @@ gem 'asset_sync'                , '~> 0.5.4'
 gem 'haml'                      , '~> 3.1.7'
 
 
-gem 'pg'
 gem 'progress_bar'
 
 gem 'kaminari'                  , '~>0.14.1'
@@ -71,8 +75,6 @@ group :production do
   # gem 'therubyracer'
   gem 'execjs'
 end
-gem 'rack-reverse-proxy', :require => 'rack/reverse_proxy'
-gem 'newrelic_rpm'
 
 group :test do
   gem 'factory_girl_rails', '~> 4.2.1'
@@ -93,7 +95,6 @@ group :development, :test do
   # gem 'linecache19'      , '0.5.12'
   # gem 'ruby-debug-base19', '0.11.25'
 end
-
 
 # For emails
 # gem 'roadie'

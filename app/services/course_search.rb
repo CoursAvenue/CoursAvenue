@@ -1,6 +1,7 @@
 # encoding: utf-8
 class CourseSearch
   def self.search params
+    retrieve_location params
     @search = Sunspot.search(Course) do
       fulltext                              params[:name]                                           if params[:name].present?
       with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 5, :bbox => true)
@@ -46,5 +47,18 @@ class CourseSearch
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
     end
     @search.results
+  end
+
+  def self.retrieve_location params
+    if params[:lat].blank? or params[:lng].blank?
+      # if request.location and request.location.longitude != 0 and request.location.latitude != 0
+      #   params[:lat] = request.location.latitude
+      #   params[:lng] = request.location.longitude
+      # else
+        # Setting paris lat & lng per default
+        params[:lat] = 48.8592
+        params[:lng] = 2.3417
+      # end
+    end
   end
 end

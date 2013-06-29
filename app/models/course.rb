@@ -200,6 +200,8 @@ class Course < ActiveRecord::Base
     boolean :has_unit_course_price
   end
 
+  handle_asynchronously :solr_index
+
   def recent_plannings
     self.plannings.where{start_date > Date.today}
   end
@@ -321,6 +323,10 @@ class Course < ActiveRecord::Base
 
   def description_for_input
     self.description.gsub(/<br>/, '&#x000A;').html_safe if self.description
+  end
+
+  def description_for_meta
+    self.description.gsub(/<br>/, ' ').html_safe if self.description
   end
 
   def activate!

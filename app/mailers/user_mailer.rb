@@ -38,7 +38,6 @@ class UserMailer < ActionMailer::Base
     @structure   = @place.structure
 
     mail to: @user.email,               subject: @reservation.email_subject_for_user
-    mail to: 'contact@coursavenue.com', subject: @reservation.email_subject_for_user unless Rails.env.development?
     mail to: 'nim.izadi@gmail.com',     subject: @reservation.email_subject_for_user if Rails.env.development?
   end
 

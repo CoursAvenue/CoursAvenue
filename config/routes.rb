@@ -164,7 +164,7 @@ CoursAvenue::Application.routes.draw do
   match 'pages/conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
 
   match '/blog'     => redirect('/blog/')
-  # match '/wp-admin' => redirect('http://coursavenue-blog.herokuapp.com/wp-admin/')
+  match '/wp-admin' => redirect('http://coursavenue-blog.herokuapp.com/wp-admin/')
 
   root :to => 'home#index'
 end

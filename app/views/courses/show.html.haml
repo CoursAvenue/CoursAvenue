@@ -7,7 +7,7 @@
 
 = content_for :meta_description do
   - if @course.description.present?
-    = @course.description.html_safe
+    = @course.description_for_meta
   - else
     - if @course.has_teacher?
       = "Réservez le #{@course.type_name.downcase} de #{@course.name.capitalize} à #{@city.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."

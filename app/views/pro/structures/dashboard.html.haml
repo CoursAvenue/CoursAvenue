@@ -10,6 +10,44 @@
 .grid.push--top
   .grid__item.one-half.palm--one-whole.lap--one-whole>
     %h3.header-group
+      %i.icon-comments
+      Avis et recommandations
+
+    .white-box.islet
+      .gamma.text--center
+        Vous avez
+        %span{class: (@comments.length > 30 ? 'green' : 'red')}= @comments.length
+        avis
+      - if @comments.any?
+        #comments
+      .text--center
+        = link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Demander des recommandations'])"
+      %hr.push--top
+      %p
+        Notre moteur de recherche est basé sur les témoignages des élèves.
+        %br
+        Voici votre position d'apparition sur CoursAvenue grâce à vos avis :
+      - @structure_better_indexed.each do |subject_name, structures|
+        %p.flush--bottom
+          %strong= subject_name
+          \: #{(structures.length + 1).ordinalize}
+          position.
+          - if structures.any?
+            %br
+            Établissements mieux placés que vous :
+        - if structures.any?
+          %ul.block-list
+            - structures.each do |structure|
+              %li
+                = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank'
+                = rating_stars structure.rating
+                \/
+                = structure.comments_count
+                avis
+                %i.lbc-brand-icon
+
+  .grid__item.one-half.palm--one-whole.lap--one-whole>
+    %h3.header-group
       %i.icon-user
       Profil
 
@@ -21,6 +59,7 @@
             %td
               - if @structure.image.present?
                 %i.icon-ok.green
+                Super, vous avez un logo !
               - else
                 %i.icon-remove.red
                 Vous n'avez ni logo ni image
@@ -46,7 +85,7 @@
                 %i.icon-remove.red
                 Vous n'avez pas renseigné de disciplines.
           %tr
-            %th Mes photos & vidéos
+            %th Photos & vidéos
             %td
               - if @structure.medias.any?
                 %i.icon-ok.green
@@ -57,90 +96,53 @@
                 \-
                 = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Ajouter des medias'])"
       .text--center= link_to 'Mettre à jour mon profil', edit_pro_structure_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Mettre à jour mon profil'])"
-    %p.alert--info
-      Notre moteur de recherche est basé sur les témoignages des élèves.
-      %br
-      Voici votre position d'apparition sur CoursAvenue basé sur votre nombre d'avis :
-    - @structure_better_indexed.each do |subject_name, structures|
-      %p.flush--bottom
-        %strong= subject_name
-        \: #{(structures.length + 1).ordinalize}
-        position.
-        - if structures.any?
-          %br
-          Établissements mieux placés que vous :
-      - if structures.any?
-        %ul.block-list
-          - structures.each do |structure|
-            %li
-              = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank'
-              = rating_stars structure.rating
-              \/
-              = structure.comments_count
-              avis
-              %i.lbc-brand-icon
-    .text--center.push--top
-      = link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Demander des recommandations'])"
-  .grid__item.one-half.palm--one-whole.lap--one-whole>
-    %h3.header-group
-      %i.icon-comments
-      Avis et recommandations
-
-    .white-box.islet.text--center
-      .gamma
-        Vous avez
-        %span{class: (@comments.length > 30 ? 'green' : 'red')}= @comments.length
-        avis
-      - if @comments.any?
-        #comments
-      = link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Demander des recommandations'])"
 
 
 
-/ .grid.push--top
-/   .grid__item.one-half>
-/     %h3.header-group
-/       %i.icon-map-marker
-/       Lieux d'enseignements
-/     .white-box.islet.text--center
-/       .gamma
-/         Vous avez
-/         %span.green= @structure.places.count
-/         = Place.model_name.human(count: @structure.places.count).downcase
-/       = link_to "Ajouter un lieu d'enseignement", pro_structure_places_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Ajouter un lieu'])"
-/   .grid__item.one-half>
-/     %h3.header-group
-/       %i.icon-list
-/       Cours et stages en ligne
-/     .white-box.islet.text--center
-/       .gamma
-/         Vous avez
-/         %span{class: (@structure.courses.active.count > 3 ? 'green' : 'red')}= @structure.courses.active.count
-/         cours en ligne
-/       = link_to 'Référencer mes cours', pro_structure_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Référencer mes cours'])"
+-# .grid.push--top
+-#   .grid__item.one-half>
+-#     %h3.header-group
+-#       %i.icon-map-marker
+-#       Lieux d'enseignements
+-#     .white-box.islet.text--center
+-#       .gamma
+-#         Vous avez
+-#         %span.green= @structure.places.count
+-#         = Place.model_name.human(count: @structure.places.count).downcase
+-#       = link_to "Ajouter un lieu d'enseignement", pro_structure_places_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Ajouter un lieu'])"
+-#   .grid__item.one-half>
+-#     %h3.header-group
+-#       %i.icon-list
+-#       Cours et stages en ligne
+-#     .white-box.islet.text--center
+-#       .gamma
+-#         Vous avez
+-#         %span{class: (@structure.courses.active.count > 3 ? 'green' : 'red')}= @structure.courses.active.count
+-#         cours en ligne
+-#       = link_to 'Référencer mes cours', pro_structure_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Référencer mes cours'])"
 
-/ .grid.push--top
-/   .grid__item.one-half>
-/     %h3.header-group
-/       %i.icon-youtube-play
-/       Photos & Vidéos
-/     .white-box.islet.text--center
-/       .gamma
-/         Vous avez
-/         %span{class: (@structure.medias.count > 3 ? 'green' : 'red')}= @structure.medias.count
-/         = Media.model_name.human(count: @structure.medias).downcase
-/       = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Ajouter des medias'])"
+-# .grid.push--top
+-#   .grid__item.one-half>
+-#     %h3.header-group
+-#       %i.icon-youtube-play
+-#       Photos & Vidéos
+-#     .white-box.islet.text--center
+-#       .gamma
+-#         Vous avez
+-#         %span{class: (@structure.medias.count > 3 ? 'green' : 'red')}= @structure.medias.count
+-#         = Media.model_name.human(count: @structure.medias).downcase
+-#       = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Ajouter des medias'])"
 
-/   .grid__item.one-half>
-/     %h3.header-group
-/       %i.icon-group
-/       Professeurs
-/     .white-box.islet.text--center
-/       .gamma
-/         Vous avez
-/         %span.green= @structure.teachers.count
-/         = Teacher.model_name.human(count: @structure.teachers.count).downcase
-/       = link_to 'Ajouter un professeur', pro_structure_teachers_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Ajouter des medias'])"
+-#   .grid__item.one-half>
+-#     %h3.header-group
+-#       %i.icon-group
+-#       Professeurs
+-#     .white-box.islet.text--center
+-#       .gamma
+-#         Vous avez
+-#         %span.green= @structure.teachers.count
+-#         = Teacher.model_name.human(count: @structure.teachers.count).downcase
+-#       = link_to 'Ajouter un professeur', pro_structure_teachers_path(@structure), class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Ajouter des medias'])"
 
 - if @comments.any?
   = content_for :scripts do
@@ -155,7 +157,7 @@
               xAxis: { categories: #{@comments_group.map{|date, count| "Semaine du #{l(Date.parse(date), format: :short)}"}} },
               yAxis: { title: { text: ''}},
               series: [{
-                name: 'Nombre de commentaire',
+                name: "Nombre d'avis par semaine",
                 data: #{@comments_group.map{|date, count| count}}
               }]
           });

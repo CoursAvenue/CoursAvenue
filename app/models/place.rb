@@ -34,7 +34,7 @@ class Place < ActiveRecord::Base
   has_attached_file :thumb_image,
                     :styles => { wide: "400x400#", thumb: "200x200#" }
 
-  after_save :subscribe_to_mailchimp if Rails.env.production?
+  after_save :delay_subscribe_to_mailchimp if Rails.env.production?
   after_touch :reindex
 
   # To be able to delete images in view
@@ -120,6 +120,8 @@ class Place < ActiveRecord::Base
     end
   end
 
+  handle_asynchronously :solr_index
+
   def subjects
     structure.subjects
   end
@@ -192,6 +194,10 @@ class Place < ActiveRecord::Base
 
   def reindex
     self.index
+  end
+
+  def delay_subscribe_to_mailchimp
+    self.delay.subscribe_to_mailchimp
   end
 
   def subscribe_to_mailchimp
