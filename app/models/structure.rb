@@ -122,6 +122,10 @@ class Structure < ActiveRecord::Base
     self.description.gsub(/<br>/, '&#x000A;').html_safe if self.description
   end
 
+  def description_for_meta
+    self.description.gsub(/<br>/, ' ').html_safe if self.description
+  end
+
   def contact_name
     if self.admins.any?
       self.admins.first.name

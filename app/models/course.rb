@@ -327,6 +327,10 @@ class Course < ActiveRecord::Base
     self.description.gsub(/<br>/, '&#x000A;').html_safe if self.description
   end
 
+  def description_for_meta
+    self.description.gsub(/<br>/, ' ').html_safe if self.description
+  end
+
   def activate!
     if (prices.any? or book_tickets.any?)
       self.active = true

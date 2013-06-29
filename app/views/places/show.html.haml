@@ -11,7 +11,7 @@
 
 = content_for :meta_description do
   - if @structure.description.present?
-    = @structure.description
+    = @structure.description_for_meta
   - else
     - if @place.parent_subjects_string.present?
       = "Retrouvez tous les cours de #{@place.name} à #{@city.name}. #{subjects_name_from_string(@place.parent_subjects_string)} et bien plus !"
