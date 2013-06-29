@@ -81,7 +81,7 @@ class Structure < ActiveRecord::Base
   after_create     :create_place
   after_create     :create_courses_relative_to_subject
   # before_save      :build_place
-  after_create     :subscribe_to_mailchimp if Rails.env.production?
+  after_create     :delay_subscribe_to_mailchimp if Rails.env.production?
   before_save      :replace_slash_n_r_by_brs
   before_save      :fix_website_url
 
@@ -184,6 +184,10 @@ class Structure < ActiveRecord::Base
 
   def set_active_to_true
     self.active = true
+  end
+
+  def delay_subscribe_to_mailchimp
+    self.delay.subscribe_to_mailchimp
   end
 
   def subscribe_to_mailchimp

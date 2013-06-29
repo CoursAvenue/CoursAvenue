@@ -10,7 +10,7 @@ class ::Admin < ActiveRecord::Base
   devise :invitable, :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
-  after_save :subscribe_to_mailchimp if Rails.env.production?
+  after_save :delay_subscribe_to_mailchimp if Rails.env.production?
   before_save :activate_admin
 
   # Setup accessible (or protected) attributes for your model
@@ -37,6 +37,10 @@ class ::Admin < ActiveRecord::Base
   private
   def activate_admin
     self.active = true
+  end
+
+  def delay_subscribe_to_mailchimp
+    self.delay.subscribe_to_mailchimp
   end
 
   def subscribe_to_mailchimp
