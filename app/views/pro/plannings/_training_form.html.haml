@@ -20,7 +20,7 @@
     = f.label :teacher, class: 'control-label' do
       %i.icon-user
       Professeur
-    = f.association :teacher, as: :select, collection: @structure.teachers, include_blank: true, label: false
+    = f.association :teacher, as: :select, collection: @teachers, include_blank: true, label: false
     = link_to 'javascript:void(0)', id: 'add-teacher' do
       &nbsp
       %i.icon-user
@@ -28,6 +28,10 @@
   .input.hidden#new-teacher-wrapper
     = f.label :teacher
     = f.input :teacher, label: false, input_html: {value: ''}
+
+  = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), selected: @planning.level_ids
+
+  = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: t('planning.audiences'), selected: @planning.audience_ids
 
   .input
     = f.label :info, class: 'control-label' do

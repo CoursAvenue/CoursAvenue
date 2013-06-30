@@ -57,3 +57,8 @@ RAILS_ENV=production rake sitemap:create
 
 ### Tests
 RAILS_ENV=test rake sunspot:solr:start
+
+# Recovering a dump
+createdb -h localhost -O postgres -U postgres coursavenue_development
+psql -h localhost --user postgres coursavenue_development < a062.dump
+pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "qjppevpnykjrmw" --no-password  --verbose "/Users/Nima/Downloads/a064.dump"

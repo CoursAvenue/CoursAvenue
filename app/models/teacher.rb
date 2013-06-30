@@ -5,4 +5,6 @@ class Teacher < ActiveRecord::Base
   attr_accessible :name, :description, :structure_id
 
   validates :name, presence: true
+
+  default_scope order('name ASC')
 end

@@ -1,22 +1,29 @@
-%table.table--striped.table--data
+%table.table--striped.table--data#dataTable
   %thead
     %tr
-      %th Dates
+      %th.text--center Dates
       %th.text--center Créneau horaire
       %th.text--center Durée
-      %th Professeur
+      %th.text--center Professeur
+      %th.text--center Niveau
+      %th.text--center Public
       %th.text--center
         %i.lbc-icon-info i
       %th
   %tbody
     - @plannings.each do |planning|
       %tr
-        %td= training_dates planning
-        %td.text--center= readable_time_slot planning.start_time, planning.end_time
-        %td.text--center= "#{pluralize(planning.length, 'jour')}"
-        %td
+        %td.text--center{data: {value: planning.start_date}}
+          = training_dates planning
+        %td.text--center{data: {value: planning.start_time}}
+          = readable_time_slot planning.start_time, planning.end_time
+        %td.text--center{data: {value: planning.length}}
+          = "#{pluralize(planning.length, 'jour')}"
+        %td.text--center{data: {value: planning.teacher.name}}
           = simple_form_for [:pro, @course, planning], remote: true do |f|
             = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select'}, wrapper_html: {class: 'flush'}
+        %td.text--center= join_levels_text planning
+        %td.text--center= join_audiences_text planning
         %td.text--center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
@@ -36,4 +43,5 @@
                 teacher_form.send();
             })
         });
+        new TableSorter('dataTable', { columnDataTypes: 'date, datetime, integer, string, string, string', cookieName: 'tableSortState__planning_#{@course.slug}', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
     });

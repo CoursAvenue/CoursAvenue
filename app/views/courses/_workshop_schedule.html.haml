@@ -1,32 +1,21 @@
-%table.table--striped.table--data
-  %thead
-    %tr
-      %th Date
-      %th.text--center Créneau horaire
-      %th.text--center Durée
-      - if @has_nb_place
-        %th.text--center Places dispo
-      %th.text--center
-        %i.lbc-icon-info i
-      / %th
-  %tbody
-    - @plannings.each do |planning|
-      %tr{data: {'course-id' => planning.course_id}}
-        %td= l(planning.start_date, format: :semi_long).capitalize
-        %td.text--center= readable_time_slot planning.start_time, planning.end_time
-        %td.text--center= readable_duration planning.duration
-        - if @has_nb_place
-          %td.text--center= planning.nb_place_available
-        %td.text--center
-          - if planning.info.present?
-            .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
-        / %td.text--right
-        /   - if current_user
-        /     - unless current_user.reservation_for? planning
-        /       = form_for planning.reservations.build do |f|
-        /         = f.hidden_field :reservable_type
-        /         = f.hidden_field :reservable_id
-        /         = f.submit '+', title: 'Assister à ce cours', class: 'btn btn__success btn__plus', onclick: "_gaq.push(['_trackEvent', 'Assister à ce créneau', 'click','Inscrit'])"
-        /   - else
-        /     %a.btn.btn__success.btn__plus{href: '#', onclick: "_gaq.push(['_trackEvent', 'Assister à ce créneau', 'click','Non inscrit'])",  data: {behavior: 'modal', title: 'Connectez-vous pour assister à ce créneau', width: '450px', url: '/users/sign_up'}} +
-
+- @plannings.each do |levels, plannings|
+  %h5 Niveau : #{join_levels Level.find(levels)}
+  %table.table--striped.table--data
+    %thead
+      %tr
+        %th Date
+        %th.text--center Créneau horaire
+        %th.text--center Durée
+        %th.text--center Public
+        %th.text--center
+          %i.lbc-icon-info i
+    %tbody
+      - plannings.each do |planning|
+        %tr
+          %td= l(planning.start_date, format: :semi_long).capitalize
+          %td.text--center= readable_time_slot planning.start_time, planning.end_time
+          %td.text--center= readable_duration planning.duration
+          %td.text--center= join_audiences planning.audiences
+          %td.text--center
+            - if planning.info.present?
+              .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}

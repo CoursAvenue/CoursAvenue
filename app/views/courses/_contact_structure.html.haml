@@ -11,7 +11,7 @@
   - if @best_price
     .course-info-price.text--right.push-half--bottom
       - if @best_price.has_promo?
-        %div
+        .nowrap
           %span.line-through
             = "#{readable_amount(@best_price.amount)}€"
           %span.beta.green

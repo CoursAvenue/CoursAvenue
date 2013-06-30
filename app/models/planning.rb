@@ -13,15 +13,16 @@ class Planning < ActiveRecord::Base
   has_one   :place,     through: :course
 
   has_and_belongs_to_many :users
-  has_and_belongs_to_many :levels,    before_add: :validates_levels
-  has_and_belongs_to_many :audiences, before_add: :validates_audiences
 
   before_validation :set_start_date
   before_validation :set_end_date
   before_validation :set_end_time
   before_validation :update_duration
 
+  after_initialize :default_values
+
   # validates :teacher, presence: true
+  validates :audience_ids, :level_ids, presence: true
   validate :presence_of_start_date
   validate :end_date_in_future
 
@@ -40,7 +41,63 @@ class Planning < ActiveRecord::Base
                   :min_age_for_kid,
                   :max_age_for_kid,
                   :teacher,
-                  :teacher_id
+                  :teacher_id,
+                  :level_ids,
+                  :audience_ids
+
+  # ---------------------------- Simulating Audience and Levels
+  def audience_ids= _audiences
+    if _audiences.is_a? Array
+      write_attribute :audience_ids, _audiences.reject{|level| level.blank?}.join(',')
+    else
+      write_attribute :audience_ids, _audiences
+    end
+  end
+
+  def audiences= _audiences
+    if _audiences.is_a? Array
+      write_attribute :audience_ids, _audiences.map(&:id).join(',')
+    elsif _audiences.is_a? Audience
+      write_attribute :audience_ids, _audiences.id.to_s
+    end
+  end
+
+  def audiences
+    return [] unless audience_ids.present?
+    self.audience_ids.map{ |audience_id| Audience.find(audience_id) }
+  end
+
+  def audience_ids
+    return [] unless read_attribute(:audience_ids)
+    read_attribute(:audience_ids).split(',').map(&:to_i) if read_attribute(:audience_ids)
+  end
+
+  def level_ids= _levels
+    if _levels.is_a? Array
+      write_attribute :level_ids, _levels.reject{|level| level.blank?}.join(',')
+    else
+      write_attribute :level_ids, _levels
+    end
+  end
+
+  def levels= _levels
+    if _levels.is_a? Array
+      write_attribute :level_ids, _levels.map(&:id).join(',')
+    elsif _levels.is_a? level
+      write_attribute :level_ids, _levels.id.to_s
+    end
+  end
+
+  def level_ids
+    return [] unless read_attribute(:level_ids)
+    read_attribute(:level_ids).split(',').map(&:to_i) if read_attribute(:level_ids)
+  end
+
+  def levels
+    return [] unless level_ids.present?
+    self.level_ids.map{ |level_id| Level.find(level_id) }
+  end
+  # ---------------------------- End
 
   # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
   def week_day
@@ -70,6 +127,13 @@ class Planning < ActiveRecord::Base
 
   private
 
+  def default_values
+    if self.new_record?
+      self.audience_ids = [Audience::ADULT.id]
+    end
+  end
+
+  # Update duration column regarding start and end time
   def update_duration
     if self.start_time and self.end_time
       time_at = Time.zone.at(self.end_time - self.start_time)
@@ -77,6 +141,7 @@ class Planning < ActiveRecord::Base
     end
   end
 
+  # Set end time column regarding start time and duration
   def set_end_time
     unless self.end_time.present?
       if self.start_time and self.duration
@@ -85,12 +150,14 @@ class Planning < ActiveRecord::Base
     end
   end
 
+  # Set default start date
   def set_start_date
     if start_date.nil?
       self.start_date = course.start_date || Date.yesterday
     end
   end
 
+  # Set end date
   def set_end_date
     unless end_date.present?
       if course.is_lesson?
@@ -114,13 +181,5 @@ class Planning < ActiveRecord::Base
     if end_date and end_date < Date.today
       errors.add(:error_notification, 'Le cours ne peut pas être dans le passé.')
     end
-  end
-
-  def validates_audiences(audience)
-    self.audiences.delete audience if self.audiences.include? audience
-  end
-
-  def validates_levels(level)
-    self.levels.delete level if self.levels.include? level
   end
 end

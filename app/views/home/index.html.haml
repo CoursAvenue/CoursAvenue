@@ -47,7 +47,7 @@
                   Laissez-vous surprendre !
 
             .grid__item.course-block-wrapper.one-half.palm--one-whole>
-              = link_to courses_path(audiences: [Audience.kid], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Éveillons nos tout petits'])" do
+              = link_to courses_path(audiences: [Audience::KID.id], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Éveillons nos tout petits'])" do
                 .course-block-image
                   = image_tag 'home-page/child-courses.jpg', alt: 'Tous les cours pour enfants'
                 %h6.course-block-title

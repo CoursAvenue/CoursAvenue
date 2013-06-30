@@ -3,7 +3,7 @@
   .input
     %label.required.control-label Jour
     - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate
-    = f.input :week_day, as: :select, collection: days, label: false
+    = f.input :week_day, as: :select, collection: days, label: false, include_blank: false
   .input.flush--bottom{data: {behavior: 'time-range', 'start-time-wrapper' => '#start-time-wrapper', 'end-time-wrapper' => '#end-time-wrapper'}}
     = f.label :start_time, class: 'control-label' do
       %i.icon-time
@@ -19,7 +19,7 @@
     = f.label :teacher, class: 'control-label' do
       %i.icon-user
       Professeur
-    = f.association :teacher, as: :select, collection: @structure.teachers, label: false, include_blank: true
+    = f.association :teacher, as: :select, collection: @teachers, label: false, include_blank: true
     = link_to 'javascript:void(0)', id: 'add-teacher' do
       &nbsp
       %i.icon-user
@@ -30,11 +30,9 @@
       Professeur
     = f.input :teacher, label: 'Nom du professeur', input_html: {value: ''}, label: false
 
-  = f.association :levels   , as: :select, collection: Level.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|level| t(level.name)}, label: t('.levels'), selected: @course.level_ids.any? ? @course.level_ids : []
+  = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), selected: @planning.level_ids
 
-  .input
-    = f.label :audiences, t('.audiences'), class: 'control-label helper-label', 'data-behavior' => 'popover', 'data-content' => 'Enfant : de 0 à 12 ans. Ado : de 12 à 18 ans. Adulte : > 18 ans. Senior : > 60 ans.'
-    = f.association :audiences, as: :select, collection: Audience.all, input_html: {style: 'width: 300px;', multiple: true, 'data-behavior' => 'chosen'}, label_method: lambda {|audience| t(audience.name)}, label: false, selected: @course.audience_ids.any? ? @course.audience_ids : [Audience.adult.id]
+  = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: t('planning.audiences'), selected: @planning.audience_ids
 
   .input
     = f.label :info, class: 'control-label' do

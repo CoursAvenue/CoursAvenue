@@ -15,30 +15,6 @@ module CoursesHelper
     end.join(' ').html_safe
   end
 
-  def join_audiences_text(course)
-    course.audiences.map(&:name).map{|name| t(name)}.join(', ')
-  end
-
-  def join_levels_text(course)
-    course.levels.map(&:name).map{|name| t(name)}.join(', ')
-  end
-
-  def join_audiences(course)
-    content_tag :ul, class: 'nav' do
-      course.audiences.order(:order).collect do |audience|
-        content_tag(:li, t(audience.name))
-      end.join(', ').html_safe
-    end
-  end
-
-  def join_levels(course)
-    content_tag :ul, class: 'nav' do
-      course.levels.order(:order).collect do |level|
-        content_tag(:li, t(level.name))
-      end.join(', ').html_safe
-    end
-  end
-
   def join_week_days(course, options={})
     week_days = []
     week_days = course.plannings.order(:week_day).collect do |planning|

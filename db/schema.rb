@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130626101613) do
+ActiveRecord::Schema.define(:version => 20130629131707) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -76,13 +76,6 @@ ActiveRecord::Schema.define(:version => 20130626101613) do
   end
 
   add_index "audiences", ["name"], :name => "index_audiences_on_name"
-
-  create_table "audiences_plannings", :id => false, :force => true do |t|
-    t.integer "planning_id"
-    t.integer "audience_id"
-  end
-
-  add_index "audiences_plannings", ["audience_id", "planning_id"], :name => "index_audiences_plannings_on_audience_id_and_planning_id"
 
   create_table "book_tickets", :force => true do |t|
     t.integer  "number"
@@ -236,13 +229,6 @@ ActiveRecord::Schema.define(:version => 20130626101613) do
 
   add_index "levels", ["name"], :name => "index_levels_on_name"
 
-  create_table "levels_plannings", :id => false, :force => true do |t|
-    t.integer "level_id"
-    t.integer "planning_id"
-  end
-
-  add_index "levels_plannings", ["planning_id", "level_id"], :name => "index_levels_plannings_on_planning_id_and_level_id"
-
   create_table "medias", :force => true do |t|
     t.text     "url"
     t.text     "url_html"
@@ -332,8 +318,12 @@ ActiveRecord::Schema.define(:version => 20130626101613) do
     t.integer  "teacher_id"
     t.integer  "total_nb_place"
     t.integer  "duration"
+    t.string   "audience_ids"
+    t.string   "level_ids"
   end
 
+  add_index "plannings", ["audience_ids"], :name => "index_plannings_on_audience_ids"
+  add_index "plannings", ["level_ids"], :name => "index_plannings_on_level_ids"
   add_index "plannings", ["week_day"], :name => "index_plannings_on_week_day"
 
   create_table "plannings_users", :id => false, :force => true do |t|

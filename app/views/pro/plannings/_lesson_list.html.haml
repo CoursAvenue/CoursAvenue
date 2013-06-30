@@ -1,26 +1,31 @@
 - has_multiple_teacher = @course.has_multiple_teacher?
-%table.table--striped.table--data
+%table.table--striped.table--data#dataTable
   %thead
     %tr
-      %th Jour
+      %th.text--center Jour
       %th.text--center Créneau horaire
       %th.text--center Durée
       %th Professeur
+      %th.text--center Niveau
+      %th.text--center Public
       %th.text--center
         %i.lbc-icon-info i
       %th
   %tbody
     - @plannings.each do |planning|
       %tr{data: {'course-id' => planning.course_id}}
-        %td
+        %td.text--center{data: {value: planning.week_day}}
           = simple_form_for [:pro, @course, planning], remote: true do |f|
             - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate
             = f.input :week_day, as: :select, collection: days, label: false, input_html: {class: 'week-day-select'}, wrapper_html: {class: 'flush'}, include_blank: false
-        %td.text--center= readable_time_slot planning.start_time, planning.end_time
+        %td.text--center{data: {value: planning.start_time}}
+          = readable_time_slot planning.start_time, planning.end_time
         %td.text--center= readable_duration planning.duration
-        %td
+        %td.text--center{data: {value: planning.teacher.name}}
           = simple_form_for [:pro, @course, planning], remote: true do |f|
             = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select'}, wrapper_html: {class: 'flush'}
+        %td.text--center= join_levels_text planning
+        %td.text--center= join_audiences_text planning
         %td.text--center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
@@ -46,4 +51,5 @@
                 week_day_form.send();
             })
         });
+        new TableSorter('dataTable', { columnDataTypes: 'integer, datetime, string, string, string, string', cookieName: 'tableSortState__planning_#{@course.slug}', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
     });

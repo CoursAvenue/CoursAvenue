@@ -69,12 +69,12 @@
               - if !@structure.description
                 %i.icon-remove.red
                 Vous n'avez pas de description
-              - elsif @structure.description.count(' ') + 1 <= 30
+              - elsif @structure.description.split.size <= 30
                 %i.icon-remove.red
-                Votre description ne fait que #{@structure.description.count(' ') + 1} mots.
+                Votre description ne fait que #{@structure.description.split.size} mots.
               - else
                 %i.icon-ok.green
-                Super ! Votre description fait #{@structure.description.count(' ') + 1} mots.
+                Super ! Votre description fait #{@structure.description.split.size} mots.
           %tr
             %th Disciplines
             %td

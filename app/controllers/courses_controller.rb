@@ -32,6 +32,7 @@ class CoursesController < ApplicationController
     else
       @plannings = @course.plannings.order('start_date ASC, start_time ASC')
     end
+    @plannings          = @plannings.group_by(&:level_ids)
     @subjects           = @course.subjects
     @has_promotion      = @course.has_promotion?
     @has_nb_place       = @course.plannings.map(&:nb_place_available).compact.any?

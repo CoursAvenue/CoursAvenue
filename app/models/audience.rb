@@ -1,3 +1,14 @@
+# class Audience < ActiveHash::Base
+#   include ActiveHash::Enum
+
+#   self.data = [
+#     { id: 1, short_name: 'Kid' ,    name: 'audience.kid',    order: 1 },
+#     { id: 2, short_name: 'Adult' ,  name: 'audience.adult',  order: 2 },
+#     { id: 3, short_name: 'Senior' , name: 'audience.senior', order: 3 }
+#   ]
+#   enum_accessor :short_name
+# end
+
 class Audience < ActiveRecord::Base
 
   has_many :courses, through: :plannings
@@ -12,10 +23,6 @@ class Audience < ActiveRecord::Base
     Audience.where(name: 'audience.kid').first
   end
 
-  def self.teenage
-    Audience.where(name: 'audience.teenage').first
-  end
-
   def self.adult
     Audience.where(name: 'audience.adult').first
   end
@@ -23,5 +30,4 @@ class Audience < ActiveRecord::Base
   def self.senior
     Audience.where(name: 'audience.senior').first
   end
-
 end

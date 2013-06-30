@@ -9,6 +9,19 @@
         margin-left: $label-width;
         @extend .alert--error;
     }
+    .check_boxes {
+        .checkbox {
+            display     : inline;
+            margin-right: 1em;
+            label {
+                padding-left: 0.3em; // In order that the user can still clicks
+            }
+            input, label {
+                display: inline;
+                width  : auto;
+            }
+        }
+    }
     .input {
         margin: 10px 0;
         input, textarea {

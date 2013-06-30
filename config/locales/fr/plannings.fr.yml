@@ -21,10 +21,10 @@ fr:
 
   planning:
     no_duration: Pas de durée
+    levels: Niveau(x)
+    audiences: Public(s)
   pro:
     plannings:
-      lesson_form:
-        audiences: Public
       form:
         date: Date
       workshop_form:
