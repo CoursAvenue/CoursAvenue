@@ -21,7 +21,7 @@
         %td.text--center{data: {value: planning.start_time}}
           = readable_time_slot planning.start_time, planning.end_time
         %td.text--center= readable_duration planning.duration
-        %td.text--center{data: {value: planning.teacher.name}}
+        %td.text--center{data: {value: planning.teacher.try(:name)}}
           = simple_form_for [:pro, @course, planning], remote: true do |f|
             = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select'}, wrapper_html: {class: 'flush'}
         %td.text--center= join_levels_text planning

@@ -6,5 +6,6 @@ fr:
     all: Tous niveaux
     initiation: Initiation
     beginner: Débutant
-    intermediate: Intermédiaire
-    confirmed: Confirmé
+    intermediate: Moyen
+    confirmed: Avancé
+    professional: Professionnel
