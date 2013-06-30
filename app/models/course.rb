@@ -40,9 +40,6 @@ class Course < ActiveRecord::Base
   has_many :registration_fees   , dependent: :destroy
   has_many :reservation_loggers , dependent: :destroy
 
-  has_and_belongs_to_many :levels     # TO REMOVE
-  has_and_belongs_to_many :audiences  # TO REMOVE
-
   has_and_belongs_to_many :subjects, :uniq => true
 
   # ------------------------------------------------------------------------------------ Scopes
@@ -207,13 +204,13 @@ class Course < ActiveRecord::Base
 
   handle_asynchronously :solr_index
 
-  # def audiences
-  #   self.plannings.map(&:audience_ids).flatten.uniq.map{ |audience_id| Audience.find(audience_id) }
-  # end
+  def audiences
+    self.plannings.map(&:audience_ids).flatten.uniq.map{ |audience_id| Audience.find(audience_id) }
+  end
 
-  # def levels
-  #   self.plannings.map(&:level_ids).flatten.uniq.map{ |level_id| Level.find(level_id) }
-  # end
+  def levels
+    self.plannings.map(&:level_ids).flatten.uniq.map{ |level_id| Level.find(level_id) }
+  end
 
   def recent_plannings
     self.plannings.where{start_date > Date.today}
