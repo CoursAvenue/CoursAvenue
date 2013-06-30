@@ -80,7 +80,6 @@ class Structure < ActiveRecord::Base
   after_create     :set_free_pricing_plan
   after_create     :create_place
   after_create     :create_courses_relative_to_subject
-  # before_save      :build_place
   after_create     :delay_subscribe_to_mailchimp if Rails.env.production?
   before_save      :replace_slash_n_r_by_brs
   before_save      :fix_website_url
@@ -164,13 +163,9 @@ class Structure < ActiveRecord::Base
   def create_courses_relative_to_subject
     place = self.places.first
     self.subjects.each do |subject|
-      place.courses.create(name: subject.name, subject_ids: [subject.id], type: 'Course::Lesson', level_ids: [Level::ALL_LEVELS.id], audience_ids: [Audience::ADULT.id])
+      place.courses.create(name: subject.name, subject_ids: [subject.id], type: 'Course::Lesson')
     end
   end
-
-  # def build_place
-  #   self.places.build(name: self.name, street: self.street, city: self.city, zip_code: self.zip_code)
-  # end
 
   def create_teacher
     if teachers.empty? and !main_contact.nil?
