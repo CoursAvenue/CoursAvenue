@@ -68,15 +68,6 @@ ActiveRecord::Schema.define(:version => 20130629131707) do
   add_index "admins", ["invited_by_id"], :name => "index_admin_users_on_invited_by_id"
   add_index "admins", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
 
-  create_table "audiences", :force => true do |t|
-    t.string   "name"
-    t.integer  "order"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "audiences", ["name"], :name => "index_audiences_on_name"
-
   create_table "book_tickets", :force => true do |t|
     t.integer  "number"
     t.decimal  "amount"
@@ -219,15 +210,6 @@ ActiveRecord::Schema.define(:version => 20130629131707) do
   add_index "friendly_id_slugs", ["slug", "sluggable_type"], :name => "index_friendly_id_slugs_on_slug_and_sluggable_type", :unique => true
   add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
-
-  create_table "levels", :force => true do |t|
-    t.string   "name"
-    t.integer  "order"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "levels", ["name"], :name => "index_levels_on_name"
 
   create_table "medias", :force => true do |t|
     t.text     "url"

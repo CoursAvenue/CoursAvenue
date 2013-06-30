@@ -35,6 +35,8 @@ class ChangeLevelAndAudienceToPlanning < ActiveRecord::Migration
 
     drop_table :courses_levels
     drop_table :audiences_courses
+    drop_table :levels
+    drop_table :audiences
   end
 
   def down
