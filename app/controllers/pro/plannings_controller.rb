@@ -62,8 +62,8 @@ class Pro::PlanningsController < InheritedResources::Base
         else
           if @planning.end_date < Date.today
             alert = 'Le cours ne peut être dans le passé'
+            flash[:alert] = alert
           end
-          flash[:alert] = alert
           format.html { render template: 'pro/plannings/index' }
         end
       end
