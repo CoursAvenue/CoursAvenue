@@ -65,19 +65,12 @@ pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursave
 
 Structure.all.each{|s| s.update_column(:comments_count, s.all_comments.length)}
 
-
-
-
-
- :id => 466,
-                                  :structure_type => nil,
                                             :name => "Théâtre de Buée Séverine Batier",
-                                            :info => nil,
-                               :registration_info => nil,
-                      :gives_professional_courses => nil,
+                                          :street => "8 rue du général renault",
+Subject_id 59
+Structure.new
+                                            :name => "Theatre de Buee Severine Batier",
                                          :website => "http://www.theatredebuee.fr",
-                                    :phone_number => nil,
-                             :mobile_phone_number => nil,
                                    :contact_email => "theatredebuee@orange.fr",
                         :accepts_holiday_vouchers => false,
                       :accepts_ancv_sports_coupon => false,
@@ -85,47 +78,21 @@ Structure.all.each{|s| s.update_column(:comments_count, s.all_comments.length)}
                            :accepts_afdas_funding => false,
                              :accepts_dif_funding => false,
                              :accepts_cif_funding => false,
-                           :has_registration_form => nil,
-                 :needs_photo_id_for_registration => nil,
-                  :needs_id_copy_for_registration => nil,
-      :needs_medical_certificate_for_registration => nil,
-    :needs_insurance_attestation_for_registration => nil,
                                       :created_at => Sun, 30 Jun 2013 16:12:33 UTC +00:00,
                                       :updated_at => Sun, 30 Jun 2013 16:20:51 UTC +00:00,
                                             :slug => "theatre-de-buee-severine-batier",
-                                          :street => "8 rue du général renault",
+                                          :street => "8 rue du general renault",
                                         :zip_code => "75011",
                                      :description => "",
-                                           :siret => nil,
-                             :tva_intracom_number => nil,
-                                :structure_status => nil,
-                      :billing_contact_first_name => nil,
-                       :billing_contact_last_name => nil,
-                    :billing_contact_phone_number => nil,
-                           :billing_contact_email => nil,
-                                       :bank_name => nil,
-                                       :bank_iban => nil,
-                                        :bank_bic => nil,
                                          :city_id => 177568,
                                           :active => true,
-                                 :pricing_plan_id => nil,
                         :has_validated_conditions => false,
-                                    :validated_by => nil,
-                                :cancel_condition => nil,
-                          :modification_condition => nil,
-                                      :deleted_at => nil,
-                                        :latitude => nil,
-                                       :longitude => nil,
-                                           :gmaps => nil,
                                  :image_file_name => "Paris-20130509-00554.jpg",
                               :image_content_type => "image/jpeg",
                                  :image_file_size => 71688,
                                 :image_updated_at => Sun, 30 Jun 2013 16:20:50 UTC +00:00,
                                  :subjects_string => "Théâtre,theatre",
-                          :parent_subjects_string => "Spectacle / Théâtre,arts-du-spectacle",
-                                          :rating => nil,
-                                  :comments_count => 0,
-                                    :facebook_url => ""
+                          :parent_subjects_string => "Spectacle / Théâtre,arts-du-spectacle"
 
 
 
