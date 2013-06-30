@@ -1,6 +1,7 @@
 module LevelsHelper
 
   def join_levels(levels)
+    return t('level.all') if levels.empty?
     levels.map{ |level| t(level.name) }.join(', ')
   end
 

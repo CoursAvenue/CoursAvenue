@@ -1,5 +1,6 @@
 fr:
   audience:
+    all: Tout public
     kid: Enfant
     teenage: Ado
     adult: Adulte

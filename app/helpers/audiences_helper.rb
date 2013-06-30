@@ -1,6 +1,7 @@
 module AudiencesHelper
 
   def join_audiences(audiences)
+    return t('audience.all') if audiences.empty?
     audiences.map{ |audience| t(audience.name) }.join(', ')
   end
 

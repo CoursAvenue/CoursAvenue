@@ -61,8 +61,7 @@ class Pro::PlanningsController < InheritedResources::Base
           format.html { redirect_to pro_course_plannings_path(@course) }
         else
           if @planning.end_date < Date.today
-            alert = 'Le cours ne peut être dans le passé'
-            flash[:alert] = alert
+            flash[:alert] = 'Le cours ne peut être dans le passé'
           end
           format.html { render template: 'pro/plannings/index' }
         end
