@@ -40,6 +40,7 @@ class PlacesController < ApplicationController
     @place     = Place.find params[:id]
     @structure = @place.structure
     @courses   = @place.courses.order('name ASC')
+    @teachers  = @structure.teachers
     @comments  = @structure.all_comments
     @comment   = @structure.comments.build
     @city      = @place.city

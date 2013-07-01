@@ -5,9 +5,10 @@
     @include opacity(0.75);
 }
 
-.relative { position: relative; }
-.bold     { font-weight: bold; }
-.hidden   { display: none; }
+.relative      { position: relative; }
+.bold          { font-weight: bold; }
+.weight-normal { font-weight: normal; }
+.hidden        { display: none; }
 .flip {
     @include vendor(transform, scaleX(-1));
     filter: FlipH; /* IE 6/7/8 */

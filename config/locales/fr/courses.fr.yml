@@ -43,10 +43,6 @@ fr:
       back_to_search: Retour à la recherche
       planning: Planning
       prices: Tarifs
-      teachers:
-        zero: Professeur
-        one: Professeur
-        other: Professeur
       infos: Infos
       structure: Établissement
       opinions: Avis

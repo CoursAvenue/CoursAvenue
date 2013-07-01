@@ -12,7 +12,7 @@
       - if params[:subject_id]
         Établissements de #{@subject.name.downcase}
       - else
-        Établissements de cours
+        Établissements
       - if params[:name].present?
         correspondant à : « #{params[:name]} »
       - else
