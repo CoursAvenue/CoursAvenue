@@ -53,18 +53,19 @@
             .grid__item.v-middle.width-auto
               = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}
     .grid__item.one-half.bordered--left>
-      %h5 Soit en envoyant vous-même un email
+      %h5
+        %span.v-middle Soit en envoyant vous-même un email
+        %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn__small btn__blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'email-text', onclick: "_gaq.push(['_trackEvent', 'Copy email', 'click'])"
       %p
         Vous pouvez également leur envoyé un email plus personnel. Voilà un exemple de mail que vous pouvez utiliser :
-      .alert--info.flush--left
-        %p
+      .alert--info.flush--left#email-text>
+        %p>
           Bonjour,
-        %p
-          Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laissez votre avis en cliquant sur le lien suivant :
-          = link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: '_blank'
-        %p
+        %p>
+          Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laissez votre avis en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: '_blank'}
+        %p>
           Merci pour votre contribution et à très bientôt !
-        %p.flush--bottom
+        %p.flush--bottom>
           #{@structure.name}
 
 %hr
@@ -72,12 +73,10 @@
   %h4.fb-blue#facebook-reco
     %i.icon-facebook-sign.icon-2x.v-middle.soft-half--right
     %span.v-middle Demandez à vos fans Facebook de vous recommander
+    %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn__small btn__blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'facebook-text', onclick: "_gaq.push(['_trackEvent', 'Copy facebook', 'click'])"
   %p
     Copiez le texte ci-dessous puis collez-le sur votre mur Facebook :
-  %p.alert--info.flush--left
-    Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant :
-    = link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), target: '_blank'
-    Merci !
+  %p.alert--info.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), target: '_blank'} Merci !
 
 %hr
 
@@ -85,10 +84,10 @@
   %h4#website-reco
     %i.icon-paperclip.icon-2x.v-middle.soft-half--right
     %span.v-middle Directement sur votre site internet
-
+    %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn__small btn__blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'website-text', onclick: "_gaq.push(['_trackEvent', 'Copy website', 'click'])"
   %p
     Partagez les deux liens suivants :
-  .alert--info
+  .alert--info#website-text
     Pour que les internautes visualisent tous vos avis :
     = link_to place_url(@structure.places.first, website: '', subdomain: 'www'), place_url(@structure.places.first, website: '', subdomain: 'www'), target: '_blank'
     %br

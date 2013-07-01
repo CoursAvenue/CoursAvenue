@@ -46,6 +46,8 @@
 //= require libs/XtLightbox/Adaptor/Vimeo.js
 //= require libs/XtLightbox/Renderer/Lightbox.js
 
+//= require zeroclipboard
+
 // ---------------------------------- Mootols Objects
 //= require_tree ./objects/
 //= require_tree ./gmaps4rails/
@@ -112,5 +114,8 @@ window.addEvent('domready', function() {
             contents: el.get('html')
         });
       }
+    });
+    $$("[data-behavior=copy-to-clipboard]").each(function(element) {
+        new ZeroClipboard(element);
     });
 });

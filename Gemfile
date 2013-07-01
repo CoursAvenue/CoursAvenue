@@ -19,6 +19,7 @@ gem 'heroku-api'                , '~> 0.3.9'
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'active_hash'                , '~> 1.0.0'
+gem 'zeroclipboard-rails'
 
 group :assets do
   gem 'sass-rails'              , '~> 3.2.4'

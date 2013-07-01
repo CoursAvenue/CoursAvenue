@@ -82,7 +82,6 @@ CoursAvenue::Application.configure do
 
   # ------------ Mailer configuration
   config.action_mailer.asset_host = 'http://www.coursavenue.com'
-
   config.action_mailer.smtp_settings = {
     address:          "smtp.mandrillapp.com",
     port:             '587',
@@ -91,4 +90,5 @@ CoursAvenue::Application.configure do
     domain:           'coursavenue.com',
     authentication:   :plain
   }
+
 end

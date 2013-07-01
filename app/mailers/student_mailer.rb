@@ -24,7 +24,7 @@ class StudentMailer < ActionMailer::Base
     if Student.where(email: email, structure_id: @structure.id).count == 0
       Student.create(email: email, structure_id: @structure.id)
     end
-    mail to: email, subject: "Recommandez #{structure.name} sur CoursAvenue"
+    mail to: email, subject: "#{structure.name} veut votre avis sur ses cours"
   end
 
   def ask_for_feedbacks_stage_1(structure, email)
