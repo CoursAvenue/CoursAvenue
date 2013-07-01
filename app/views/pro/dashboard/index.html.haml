@@ -23,6 +23,15 @@
     avis
   #comments
 
+-#  %h3.header-group
+-#    %i.icon-map-marker
+-#    Lieux d'enseignements
+-#  :css
+-#    .gmaps4rails_map {
+-#      height: 50em;
+-#    }
+-#  = gmaps( {markers: {data: @places.to_gmaps4rails, options: {do_clustering: true}}, map_options: {maxZoom: 15, mapTypeControl: false}})
+
 .grid.push--top
   .grid__item.one-half>
     %h3.header-group
@@ -42,6 +51,7 @@
         = Media.count
         Médias
       #medias
+
 
 .grid.push--top
   .grid__item.one-half>
