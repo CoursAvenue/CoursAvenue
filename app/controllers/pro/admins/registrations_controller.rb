@@ -7,7 +7,7 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
     if @structure
       @admin     = @structure.admins.build(email: @structure.contact_email)
     else
-      redirect_to new_pro_structure_path
+      redirect_to inscription_pro_structures_path
     end
   end
 

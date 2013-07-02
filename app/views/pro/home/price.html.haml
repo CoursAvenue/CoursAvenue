@@ -27,7 +27,7 @@
           %b Gestion en temps réel de toutes vos séances : tarifs, professeurs, horaires, photos, etc.
       .text--center
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'basic-offer-details', title: "Détails de l'offre Basique"}
-        = link_to "Je m'inscris", new_from_recomendation_pro_structures_path, class: 'btn btn__success btn__large', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Basique'])"
+        = link_to "Je m'inscris", inscription_pro_structures_path, class: 'btn btn__success btn__large', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Basique'])"
 
   .grid__item.one-third>
     .center-block.white-box.islet

@@ -9,6 +9,7 @@
     = javascript_include_tag "modernizr" # MUST BE In the Head and before CSS
     = stylesheet_link_tag "application", :media => "all"
     = csrf_meta_tags unless response.cache_control[:public]
+    = render 'layouts/mixpanel' if Rails.env.production?
   %body
     - unless response.cache_control[:public]
       - flash.each do |key, msg|

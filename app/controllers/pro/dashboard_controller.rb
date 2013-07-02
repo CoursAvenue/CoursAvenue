@@ -10,7 +10,7 @@ class Pro::DashboardController < Pro::ProController
     @students = Student.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
     @users    = User   .count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
     @medias   = Media  .count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
-    # @places   = Place.where{zip_code =~ '75%'}
+    # @places   = Place.all
   end
 end
 

@@ -15,6 +15,10 @@ CoursAvenue::Application.routes.draw do
       match "/contacts/:importer/callback" => "structures#import_mail_callback"
       match "/contacts/failure"            => "structures#import_mail_callback_failure"
 
+      # 301 Redirection
+      match 'etablissements/demande-de-recommandations', to: 'redirect#structures_new'
+      match 'inscription'                              , to: 'structures#new'
+
 
       resources :comments, only: [:index], controller: 'comments'
       resources :subjects
@@ -31,8 +35,8 @@ CoursAvenue::Application.routes.draw do
           get  'share_my_profile', path: 'partager-mon-profil'
         end
         collection do
+          get 'inscription', to: :new
           get 'select', path: 'referencer-mes-cours'
-          get 'new_from_recomendation', path: 'demande-de-recommandations'
           post 'create_and_get_feedbacks'
           get 'import_mail_callback'
           get 'import_mail_callback_failure'
@@ -147,6 +151,7 @@ CoursAvenue::Application.routes.draw do
   match 'ville/:city_id/cours/:subject_id',                            to: 'redirect#city_subject'
   match 'ville/:id',                                                   to: 'redirect#city'
   match 'disciplines/:id',                                             to: 'redirect#disciplines'
+
   # ------------------------------------------------------
   # ----------------------------------------- Static pages
   # ------------------------------------------------------

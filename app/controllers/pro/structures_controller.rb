@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :new_from_recomendation, :create_and_get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_my_profile, :get_feedbacks]
-  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :new_from_recomendation, :create_and_get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_my_profile]
+  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :create_and_get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_my_profile, :get_feedbacks]
+  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :create_and_get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_my_profile]
 
   layout :get_layout
 
@@ -24,7 +24,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def import_mail_callback_failure
-    redirect_to new_from_recomendation_pro_structures_path
+    redirect_to inscription_pro_structures_path
   end
 
   def get_feedbacks
@@ -122,15 +122,11 @@ class Pro::StructuresController < Pro::ProController
     render action: 'share_my_profile'
   end
 
-  def new_from_recomendation
+  def new
     session[:name]     = params[:name]
     session[:zip_code] = params[:zip_code]
     session[:email]    = params[:email]
     @structure = Structure.new name: params[:name], zip_code: params[:zip_code], contact_email: params[:email]
-  end
-
-  def new
-    @structure = Structure.new
   end
 
   def update
@@ -198,7 +194,7 @@ class Pro::StructuresController < Pro::ProController
   private
 
   def get_layout
-    if action_name == 'new_from_recomendation' or action_name == 'create_and_get_feedbacks' or action_name == 'import_mail_callback' or action_name == 'share_my_profile'
+    if action_name == 'new' or action_name == 'create_and_get_feedbacks' or action_name == 'import_mail_callback' or action_name == 'share_my_profile'
       'empty'
     else
       'admin'

@@ -8,7 +8,7 @@ class Pro::Admins::SessionsController < Devise::SessionsController
       if admin.structure
         session['pro_admin_return_to'] || dashboard_pro_structure_path(admin.structure)
       else
-        new_pro_structure_path
+        inscription_pro_structures_path
       end
     end
   end

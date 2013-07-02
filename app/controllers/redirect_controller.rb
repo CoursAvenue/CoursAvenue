@@ -1,5 +1,9 @@
 class RedirectController < ApplicationController
 
+  def structures_new
+    redirect_to inscription_pro_structures_path(params_for_search), status: 301
+  end
+
   def disciplines
     redirect_to subject_courses_path(params[:id]), status: 301
   end

@@ -1,7 +1,7 @@
 / - content_for :breadcrumb do
 /   - if @structure and !@structure.has_validated_conditions
 /     %ul.flexbox.flush--left.step-breadcrumb
-/       = pro_breadcrumb_menu_link 'Infos générales'      , (@structure.new_record? ? new_pro_structure_path : edit_pro_structure_path(@structure))     , current: current_tab if @structure
+/       = pro_breadcrumb_menu_link 'Infos générales'      , (@structure.new_record? ? inscription_pro_structures_path : edit_pro_structure_path(@structure))     , current: current_tab if @structure
 /       = pro_breadcrumb_menu_link 'Mes professeurs'      , (@structure.new_record? ? '#' : pro_structure_teachers_path(@structure)) , current: current_tab if @structure
 /       = pro_breadcrumb_menu_link "Lieux d'enseignements", (@structure.new_record? ? '#' : pro_structure_places_path(@structure))   , current: current_tab if @structure
 /       = pro_breadcrumb_menu_link "Mes cours"            , (@structure.new_record? ? '#' : pro_structure_path(@structure))          , current: current_tab if @structure
