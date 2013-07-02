@@ -78,10 +78,10 @@
               Gratuit
             - elsif best_price.try(:has_promo?)
               .nowrap
-                %span.epsilon.line-through= "#{readable_amount best_price.amount}€".html_safe
-                %span.gamma.green= "#{readable_amount best_price.per_course_promo_amount}€".html_safe
+                %span.epsilon.line-through= "#{readable_amount best_price.amount, true}€".html_safe
+                %span.gamma.green= "#{readable_amount best_price.per_course_promo_amount, true}€".html_safe
             - else
-              = "#{readable_amount best_price.per_course_amount}€".html_safe
+              = "#{readable_amount best_price.per_course_amount, true}€".html_safe
           - if best_price.amount != 0
             - if course.is_lesson?
               %p prix d'un cours

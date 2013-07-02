@@ -28,7 +28,7 @@
       \-
       = place.city.try(:name)
     %ul.nav= join_place_parent_subjects(place)
-  - if place.courses.count > 0
-    .course-content.two-twelfths.text--center.v-middle
+  .course-content.two-twelfths.text--center.v-middle
+    - if place.courses.count > 0
       .alpha.orange= place.courses.count
       %b cours
