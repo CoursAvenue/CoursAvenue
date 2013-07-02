@@ -31,7 +31,7 @@
             Mettez en ligne vos photos & vidéos
 
     .text--center.push--bottom.visuallyhidden--palm
-      = link_to "Exemple du profil d'une école de cuisine (Cook&Go)", 'http://www.coursavenue.com/etablissements/cook-go-cook-go-la-fayette', target: '_blank', class: 'btn btn__blue', onclick: "mixpanel.track('Seen exemple profile');"
+      = link_to "Exemple du profil d'une école de cuisine (Cook&Go)", 'http://www.coursavenue.com/etablissements/cook-go-cook-go-la-fayette', target: '_blank', class: 'btn btn__blue', onclick: "mixpanel.track('Seen exemple profile - link');"
 
     %p.alert--info.flush--sides
       CoursAvenue est le 1er moteur de recherche de cours et stages basé sur les <strong>commentaires de véritables élèves</strong> : 3 internautes sur 4 disent consulter les avis avant de réserver un cours, il est temps de les aider !
@@ -55,16 +55,21 @@
           = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 74%;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
       .push--bottom.text--center
         = f.submit 'Je valide mes informations', class: 'btn__large btn btn--large btn__success'
-  .grid__item.one-third.visuallyhidden--palm
-    .bordered--left.soft--left
-      %h4 Les 5 derniers avis sur CoursAvenue
-      %ul.comment-list.milli
-        = render partial: 'comments/comment', collection: Comment.where{rating == 5}.order('created_at DESC').limit(5), locals: {with_link: true}
+  - unless request.path == '/sms'
+    .grid__item.one-third.visuallyhidden--palm
+      .bordered--left.soft--left
+        %h4.flush--bottom Exemple de profil
+        = link_to 'http://www.coursavenue.com/etablissements/cook-go-cook-go-la-fayette', target: '_blank', onclick: "mixpanel.track('Seen exemple profile - image');" do
+          = image_tag 'pro/cook-go-ex.jpg'
+        %hr
+        %h4 Les 5 derniers avis sur CoursAvenue
+        %ul.comment-list.milli
+          = render partial: 'comments/comment', collection: Comment.where{rating == 5}.order('created_at DESC').limit(5), locals: {with_link: true}
 
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
-        $$('.comment-list__el a').click(function() {
+        $$('.comment-list__el a').addEvent('click', function() {
           mixpanel.track('Has seen comments example');
         })
         $('structure_zip_code').fireEvent('keyup');
@@ -72,3 +77,12 @@
             Cookie.write('street', this.get('value'));
         });
     });
+
+- if request.path == '/sms'
+  = content_for :scripts do
+    :javascript
+      mixpanel.track('Reached SMS');
+- else
+  = content_for :scripts do
+    :javascript
+      mixpanel.track('Reached');

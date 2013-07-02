@@ -18,6 +18,7 @@ CoursAvenue::Application.routes.draw do
       # 301 Redirection
       match 'etablissements/demande-de-recommandations', to: 'redirect#structures_new'
       match 'inscription'                              , to: 'structures#new'
+      match 'sms'                                      , to: 'structures#new'
 
 
       resources :comments, only: [:index], controller: 'comments'
