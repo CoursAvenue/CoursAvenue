@@ -134,10 +134,10 @@
         .grid__item.one-half.palm--one-whole>
           = image_tag @place.image.url(:wide), class: 'course-header-badge-image', alt: @place.long_name
         .grid__item.course-header-map.one-half.palm--one-whole>
-          = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
+          = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: false} )
     - else
       .course-header-map
-        = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
+        = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: false} )
         %h4.course-header-structure-name.flush--bottom
           %b= @place.long_name
           - if current_user
@@ -161,7 +161,7 @@
         Photos & vidéos
         (#{@medias.length})
       - if @other_places.any?
-        %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Autres lieux', 'click', '#{@place.slug}']);", data: { el: 'tab-other-places' }}
+        %li.tab-el#tab-other-places-li{onclick: "_gaq.push(['_trackEvent', 'Autres lieux', 'click', '#{@place.slug}']);", data: { el: 'tab-other-places' }}
           Autres lieux
           (#{@other_places.length})
 
@@ -222,6 +222,7 @@
                       %i= media.caption
       - if @other_places.any?
         %article#tab-other-places.tab-pane
+          = gmaps( {markers: {data: @other_places.to_gmaps4rails}, map_options: {maxZoom: 15, mapTypeControl: false, :id => 'other_places_map'}, scripts: :none})
           %ul.block-list
             - @other_places.each do |other_place|
               %li
@@ -235,6 +236,10 @@
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
+        var map_loaded = false;
+        $('tab-other-places-li').addEvent('click', function() {
+            if (!map_loaded) { Gmaps.load_other_places_map(); map_loaded = true;}
+        });
         var description_is_hidden = true;
         if ($('place-description')) {
             if($('place-description').scrollHeight < 200) {
