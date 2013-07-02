@@ -160,9 +160,10 @@
       %li.tab-el{class: (@medias.any? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);", data: { el: 'tab-videos' }}
         Photos & vidéos
         (#{@medias.length})
-      %li.tab-el{class: (@other_places.any? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);", data: { el: 'tab-videos' }}
-        Photos & vidéos
-        (#{@medias.length})
+      - if @other_places.any?
+        %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Autres lieux', 'click', '#{@place.slug}']);", data: { el: 'tab-other-places' }}
+          Autres lieux
+          (#{@other_places.length})
 
     .tab-content
       %article#tab-description.tab-pane.active
@@ -219,7 +220,14 @@
                     = media.url_html
                     %p
                       %i= media.caption
-
+      - if @other_places.any?
+        %article#tab-other-places.tab-pane
+          %ul.block-list
+            - @other_places.each do |other_place|
+              %li
+                = link_to other_place.long_name, place_path(other_place)
+                %br
+                %i= other_place.address
     %hr
     %article#comments
       = render 'comments'
