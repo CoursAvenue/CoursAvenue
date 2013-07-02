@@ -55,7 +55,7 @@
     .grid__item.one-half.bordered--left>
       %h5
         %span.v-middle Soit en envoyant vous-même un email
-        %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn__small btn__blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'email-text', onclick: "_gaq.push(['_trackEvent', 'Copy email', 'click'])"
+        %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn__small btn__blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'email-text', onclick: "mixpanel.track('Copy share profile', {'type': 'email'});"
       %p
         Vous pouvez également leur envoyé un email plus personnel. Voilà un exemple de mail que vous pouvez utiliser :
       .alert--info.flush--left#email-text>
@@ -73,7 +73,7 @@
   %h4.fb-blue#facebook-reco
     %i.icon-facebook-sign.icon-2x.v-middle.soft-half--right
     %span.v-middle Demandez à vos fans Facebook de vous recommander
-    %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn__small btn__blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'facebook-text', onclick: "_gaq.push(['_trackEvent', 'Copy facebook', 'click'])"
+    %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn__small btn__blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'facebook-text', onclick: "mixpanel.track('Copy share profile', {'type': 'facebook'});"
   %p
     Copiez le texte ci-dessous puis collez-le sur votre mur Facebook :
   %p.alert--info.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), target: '_blank'} Merci !
@@ -84,7 +84,7 @@
   %h4#website-reco
     %i.icon-paperclip.icon-2x.v-middle.soft-half--right
     %span.v-middle Directement sur votre site internet
-    %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn__small btn__blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'website-text', onclick: "_gaq.push(['_trackEvent', 'Copy website', 'click'])"
+    %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn__small btn__blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'website-text', onclick: "mixpanel.track('Copy share profile', {'type': 'website'});"
   %p
     Partagez les deux liens suivants :
   .alert--info#website-text
