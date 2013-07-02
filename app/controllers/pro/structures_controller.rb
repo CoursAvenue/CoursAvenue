@@ -18,7 +18,7 @@ class Pro::StructuresController < Pro::ProController
       @structure_better_indexed[subject_name] = Structure.where{(parent_subjects_string =~ "%#{parent_subject_string}%") & (comments_count > structure_comment_count)}.order('comments_count DESC').limit(8)
     end
 
-    @profile_completed = @structure.image.present? and (@structure.description.present? and @structure.description.split > 30)
+    @profile_completed = @structure.image.present? and (@structure.description.present? and @structure.description.split.size > 30)
     @profile_percentage = 100
     @profile_percentage -= 25 if !@profile_completed
     @profile_percentage -= 25 if @structure.medias.empty?
