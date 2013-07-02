@@ -16,13 +16,13 @@
         .bar.bar-success{style: "width: #{@profile_percentage}%;"}
   %ol
     %li{class: @profile_completed ? 'line-through' : ''}
-      Remplir mon profil
+      = link_to_unless @profile_completed, 'Remplir mon profil', edit_pro_structure_path(@structure)
     %li{class: @comments.any? ? 'line-through' : ''}
-      Demander des avis positifs à mes élèves
+      = link_to_unless @comments.any?, 'Demander des recommandations à mes élèves', recommendations_pro_structure_path(@structure)
     %li{class: @structure.medias.any? ? 'line-through' : ''}
-      Mettre des photos et des vidéos de mes cours
+      = link_to_unless @structure.medias.any?, 'Mettre en ligne les photos et vidéos de mes cours', pro_structure_medias_path(@structure)
     %li{class: @structure.courses.active.count > 0 ? 'line-through' : ''}
-      Renseigner mes cours et mon planning
+      = link_to_unless (@structure.courses.active.count > 0), 'Renseigner mes cours et mon planning', pro_structure_path(@structure)
 
 .grid.push--top
   .grid__item.one-half.palm--one-whole.lap--one-whole>

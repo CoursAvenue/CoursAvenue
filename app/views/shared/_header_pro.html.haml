@@ -5,7 +5,7 @@
         = link_to root_path, class: 'logo grid__item inline-block v-middle' do
           = image_tag 'logo_pro.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
         - if @structure and !@structure.new_record?
-          %h1.grid__item.width-auto.flush--bottom.v-middle{title: @structure.name}= truncate(@structure.name, length: 35)
+          %h2.grid__item.width-auto.flush--bottom.v-middle{title: @structure.name}= truncate(@structure.name, length: 50)
     %nav.grid__item.one-third.text--right
       %div
         %i.icon-phone-sign.orange.icon-2x
