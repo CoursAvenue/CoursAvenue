@@ -2,8 +2,10 @@
   = simple_form_for [:pro, @structure, @media], url: pro_structure_medias_path(@structure) do |f|
     = f.error_notification
     = f.input :url, wrapper_html: {class: 'flush--bottom'}, as: :string
-    %p.field-form-info.blue Copiez et collez le lien d'une image ou d'une vidéo (YouTube, Vimeo, etc.) pour alimenter votre galerie.
-    = f.input :caption, wrapper_html: {class: 'flush--bottom'}
-    %p.field-form-info.blue 200 caractères maximum
+    %p.field-form-info.blue
+      Pour les vidéos : collez l'adresse de la page internet de la vidéo provenant de : YouTube, Vimeo ou DailyMotion
+      %br
+      Pour les photos : clic droit sur la photo → copiez l'adresse du lien
+    = f.input :caption
     .form-actions
       = f.submit 'Envoyer', class: 'btn btn--success'

@@ -17,6 +17,13 @@ class Pro::StructuresController < Pro::ProController
       subject_name = parent_subject_string.split(',')[0]
       @structure_better_indexed[subject_name] = Structure.where{(parent_subjects_string =~ "%#{parent_subject_string}%") & (comments_count > structure_comment_count)}.order('comments_count DESC').limit(8)
     end
+
+    @profile_completed = @structure.image.present? and (@structure.description.split > 30)
+    @profile_percentage = 100
+    @profile_percentage -= 25 if !@profile_completed
+    @profile_percentage -= 25 if @structure.medias.empty?
+    @profile_percentage -= 25 if @comments.empty?
+    @profile_percentage -= 25 if @structure.courses.active.count == 0
   end
 
   def share_my_profile

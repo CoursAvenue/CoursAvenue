@@ -7,6 +7,23 @@
     %i.icon-external-link.v-middle
     %span.v-middle Voir mon profil
 
+.white-box.islet
+  .grid.push-half--bottom
+    %h4.grid__item.width-auto.v-middle.flush--bottom
+      Votre profil est complété à #{@profile_percentage}%
+    .grid__item.width-auto.v-middle
+      .progress.flush--bottom{style: "width: 280px;"}
+        .bar.bar-success{style: "width: #{@profile_percentage}%;"}
+  %ol
+    %li{class: @profile_completed ? 'line-through' : ''}
+      Remplir mon profil
+    %li{class: @comments.any? ? 'line-through' : ''}
+      Demander des avis positifs à mes élèves
+    %li{class: @structure.medias.any? ? 'line-through' : ''}
+      Mettre des photos et des vidéos de mes cours
+    %li{class: @structure.courses.active.count > 0 ? 'line-through' : ''}
+      Renseigner mes cours et mon planning
+
 .grid.push--top
   .grid__item.one-half.palm--one-whole.lap--one-whole>
     %h3.header-group

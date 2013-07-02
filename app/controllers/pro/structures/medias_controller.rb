@@ -19,11 +19,12 @@ class Pro::Structures::MediasController < InheritedResources::Base
   def create
     @structure = Structure.find params[:structure_id]
     @media     = @structure.medias.build params[:media]
+    @medias    = @structure.medias.reject{|media| media.new_record?}
     respond_to do |format|
       if @media.save
         format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Media bien ajouté !' }
       else
-        format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Le lien semble corrompu !' }
+        format.html { render 'pro/structures/medias/index' }
       end
     end
   end
