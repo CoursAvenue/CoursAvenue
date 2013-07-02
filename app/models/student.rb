@@ -11,16 +11,22 @@ class Student < ActiveRecord::Base
   # after_save :subscribe_to_mailchimp if Rails.env.production?
 
   def ask_for_feedbacks_stage_1
+    @structure = self.structure
+    @email     = self.email
     self.update_attribute(:email_status, 'resend_stage_1')
     StudentMailer.delay.ask_for_feedbacks_stage_1(self.structure, self.email)
   end
 
   def ask_for_feedbacks_stage_2
+    @structure = self.structure
+    @email     = self.email
     self.update_attribute(:email_status, 'resend_stage_2')
     StudentMailer.delay.ask_for_feedbacks_stage_2(self.structure, self.email)
   end
 
   def ask_for_feedbacks_stage_3
+    @structure = self.structure
+    @email     = self.email
     self.update_attribute(:email_status, 'resend_stage_3')
     StudentMailer.delay.ask_for_feedbacks_stage_3(self.structure, self.email)
   end

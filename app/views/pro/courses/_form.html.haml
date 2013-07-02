@@ -96,7 +96,7 @@
 
 
   .form-actions
-    = f.submit (@course.new_record? ? 'Créer le cours' : 'Mettre à jour le cours'), class: 'btn btn__success'
+    = f.submit (@course.new_record? ? 'Créer le cours' : 'Mettre à jour le cours'), class: 'btn btn--success'
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {

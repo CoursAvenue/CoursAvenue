@@ -8,11 +8,11 @@
 
   = f.input :email,    label: false, placeholder: 'Email', wrapper_html: {class: 'flush--top'}, input_html: {class: 'one-whole'}
   = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
-  = f.button :submit, "Créer son compte", class: 'btn__success one-whole'
+  = f.button :submit, "Créer son compte", class: 'btn--success one-whole'
 
 .push-half--top= link_to "J'ai déjà un compte", '#', id: 'show_new_session_form'
 %hr.push--top
 .text--center
   %h4 Vous êtes professionnel ?
-  = link_to "Accéder à l'espace pro", 'http://pro.coursavenue.com', class: 'btn btn__blue btn--full', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
+  = link_to "Accéder à l'espace pro", 'http://pro.coursavenue.com', class: 'btn btn--blue btn--full', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
 

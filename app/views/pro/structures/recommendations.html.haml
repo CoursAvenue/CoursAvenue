@@ -49,13 +49,13 @@
           %textarea.one-whole{name: 'emails', rows: 7, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
           .grid.push-half--top
             .grid__item.v-middle.width-auto
-              = submit_tag 'Envoyer ma demande', class: 'btn btn__success'
+              = submit_tag 'Envoyer ma demande', class: 'btn btn--success'
             .grid__item.v-middle.width-auto
               = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}
     .grid__item.one-half.bordered--left>
       %h5
         %span.v-middle Soit en envoyant vous-même un email
-        %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn__small btn__blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'email-text', onclick: "mixpanel.track('Copy share profile', {'type': 'email'});"
+        %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn--small btn--blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'email-text', onclick: "mixpanel.track('Copy share profile', {'type': 'email'});"
       %p
         Vous pouvez également leur envoyé un email plus personnel. Voilà un exemple de mail que vous pouvez utiliser :
       .alert--info.flush--left#email-text>
@@ -73,7 +73,7 @@
   %h4.fb-blue#facebook-reco
     %i.icon-facebook-sign.icon-2x.v-middle.soft-half--right
     %span.v-middle Demandez à vos fans Facebook de vous recommander
-    %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn__small btn__blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'facebook-text', onclick: "mixpanel.track('Copy share profile', {'type': 'facebook'});"
+    %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn--small btn--blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'facebook-text', onclick: "mixpanel.track('Copy share profile', {'type': 'facebook'});"
   %p
     Copiez le texte ci-dessous puis collez-le sur votre mur Facebook :
   %p.alert--info.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), target: '_blank'} Merci !
@@ -84,7 +84,7 @@
   %h4#website-reco
     %i.icon-paperclip.icon-2x.v-middle.soft-half--right
     %span.v-middle Directement sur votre site internet
-    %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn__small btn__blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'website-text', onclick: "mixpanel.track('Copy share profile', {'type': 'website'});"
+    %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn--small btn--blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'website-text', onclick: "mixpanel.track('Copy share profile', {'type': 'website'});"
   %p
     Partagez les deux liens suivants :
   .alert--info#website-text
@@ -100,7 +100,7 @@
   %h4
     %i.icon-group.icon-2x.v-middle.soft-half--right
     %span.v-middle Liste des élèves déjà sollicités
-  %table.table--striped.table--data
+  %table.table--striped.table--data#students-table
     %thead
       %tr
         %th Email
@@ -114,7 +114,7 @@
             - if Comment.where{(email == student.email) & (commentable_id == structure_id) & (commentable_type == 'Structure')}.length > 0
               %i.icon-ok
           %td
-            = form_tag get_feedbacks_pro_structure_path(@structure) do
+            = form_tag ask_for_feedbacks_stage_1_pro_student_path(student), remote: true do
               %input{type: 'hidden', value: student.email}
               = submit_tag 'Renvoyer une demande', class: 'btn'
 
@@ -122,3 +122,11 @@
 
     #mail-content.hidden
       = render template: 'student_mailer/ask_for_feedbacks'
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+      $$('#students-table form').addEvent('submit', function() {
+          new GLOBAL.Objects.Flash("L'élève a bien été notifié.").showAndHide();
+      })
+    });

@@ -13,10 +13,10 @@
       %div
         = image_tag 'pages/email_contact.png', height: 10
       %ul.nav
-        %li= link_to 'CoursAvenue', 'http://www.coursavenue.com', class: 'header-link'
+        %li= link_to 'CoursAvenue', 'http://www.coursavenue.com', class: 'btn btn--blue btn--small'
         - if current_pro_admin
           - if current_pro_admin.super_admin?
-            %li= link_to 'Espace super admin', pro_dashboard_path, class: 'header-link'
+            %li= link_to 'Espace super admin', pro_dashboard_path, class: 'btn btn--success btn--small'
           - elsif current_pro_admin.structure.present?
             %li= link_to 'Tableau de bord', dashboard_pro_structure_path(current_pro_admin.structure), class: 'header-link'
           %li= link_to 'Se déconnecter', destroy_pro_admin_session_path, class: 'header-link', method: :delete

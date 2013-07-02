@@ -74,7 +74,11 @@ CoursAvenue::Application.routes.draw do
         resources :plannings, only: [:create, :update]
       end
 
-      resources :students, only: [:index]
+      resources :students, only: [:index] do
+        member do
+          post 'ask_for_feedbacks_stage_1'
+        end
+      end
       resources :users, only: [:index]
 
       resources :admins do

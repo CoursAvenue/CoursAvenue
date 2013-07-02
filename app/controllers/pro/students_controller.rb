@@ -9,4 +9,9 @@ class Pro::StudentsController < Pro::ProController
   def index
     @students = Student.order('created_at DESC').limit(500)
   end
+
+  def ask_for_feedbacks_stage_1
+    @students = Student.find params[:id]
+    @students.ask_for_feedbacks_stage_1
+  end
 end

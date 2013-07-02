@@ -27,10 +27,10 @@
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
         %td.text--right
-          = link_to edit_pro_course_planning_path(@course, planning), title: 'Modifier le créneau', class: 'btn btn__warning' do
+          = link_to edit_pro_course_planning_path(@course, planning), title: 'Modifier le créneau', class: 'btn btn--warning' do
             %i.icon-pencil
           &nbsp;
-          = link_to pro_course_planning_path(@course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce créneau ?', title: 'Supprimer le créneau', class: 'btn btn__danger' do
+          = link_to pro_course_planning_path(@course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce créneau ?', title: 'Supprimer le créneau', class: 'btn btn--danger' do
             %i.icon-trash
 
 = content_for :scripts do

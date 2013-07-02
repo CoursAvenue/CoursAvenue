@@ -27,7 +27,7 @@
           %b Gestion en temps réel de toutes vos séances : tarifs, professeurs, horaires, photos, etc.
       .text--center
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'basic-offer-details', title: "Détails de l'offre Basique"}
-        = link_to "Je m'inscris", inscription_pro_structures_path, class: 'btn btn__success btn__large', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Basique'])"
+        = link_to "Je m'inscris", inscription_pro_structures_path, class: 'btn btn--success btn--large', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Basique'])"
 
   .grid__item.one-third>
     .center-block.white-box.islet
@@ -57,7 +57,7 @@
           %b Enquête de satisfaction automatique
       .text--center
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-offer-details', title: "Détails de l'offre Pro"}, onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro - détails'])"
-        = link_to "Je m'inscris", '#', class: 'btn btn__success btn__large launching-space-button', id: 'price_pro_subscribe', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro'])", data: {behavior: 'modal', el: 'launching-space', title: "Espace en cours de création"}
+        = link_to "Je m'inscris", '#', class: 'btn btn--success btn--large launching-space-button', id: 'price_pro_subscribe', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro'])", data: {behavior: 'modal', el: 'launching-space', title: "Espace en cours de création"}
 
   .grid__item.one-third>
     .center-block.white-box.islet
@@ -84,7 +84,7 @@
           %b Outils CRM avancés
       .text--center
         %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-plus-offer-details', title: "Détails de l'offre Pro Plus"}, onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro plus - détails'])"
-        = link_to "Je m'inscris", '#', class: 'btn btn__success btn__large launching-space-button', id: 'price_pro_plus_subscribe', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro plus'])", data: {behavior: 'modal', el: 'launching-space', title: "Espace en cours de création"}
+        = link_to "Je m'inscris", '#', class: 'btn btn--success btn--large launching-space-button', id: 'price_pro_plus_subscribe', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Pro plus'])", data: {behavior: 'modal', el: 'launching-space', title: "Espace en cours de création"}
 
 
 
@@ -96,7 +96,7 @@
 /     %br
 /     = link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'custom-offer-details', title: "Détails de l'offre sur mesure", width: 300}
 /     %br
-/     = link_to "Nous contacter", pages_contact_path, class: 'btn btn__success', id: 'price_custom', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Sur mesure'])"
+/     = link_to "Nous contacter", pages_contact_path, class: 'btn btn--success', id: 'price_custom', onclick: "_gaq.push(['_trackEvent', 'Pricing', 'click', 'Sur mesure'])"
 
 
 

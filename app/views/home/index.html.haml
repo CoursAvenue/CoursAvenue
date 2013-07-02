@@ -62,7 +62,7 @@
       = simple_form_for Student.new, html: {class: 'inline-form'} do |f|
         = f.email_field :email, placeholder: t('students.email'), size: 25
         = f.text_field  :city , placeholder: t('students.city') , size: 17
-        = f.button :submit, t('.validate'), class: 'btn btn__primary'
+        = f.button :submit, t('.validate'), class: 'btn btn--primary'
 
 .main-container
   .grid

@@ -44,12 +44,12 @@
             = link_to place.name, place_url(place, subdomain: 'www')
         %td= place.address
         %td.text--right
-          = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn__warning' do
+          = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn--warning' do
             %i.icon-pencil
           &nbsp;
-          = link_to pro_structure_place_path(@structure, place), method: :delete, data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'}, title: 'Supprimer ce lieu', class: 'btn btn__danger' do
+          = link_to pro_structure_place_path(@structure, place), method: :delete, data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'}, title: 'Supprimer ce lieu', class: 'btn btn--danger' do
             %i.icon-trash
 
 
 .text--center
-  = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure), class: 'btn btn__success btn__large'
+  = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure), class: 'btn btn--success btn--large'

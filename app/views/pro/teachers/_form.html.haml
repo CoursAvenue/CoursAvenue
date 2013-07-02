@@ -5,6 +5,6 @@
     = f.input :description, input_html: {'data-behavior' => 'autoresize'}
     .form-actions
       - if @teacher.new_record?
-        = f.submit 'Ajouter', class: 'btn btn__success'
+        = f.submit 'Ajouter', class: 'btn btn--success'
       - else
-        = f.submit 'Modifier', class: 'btn btn__success'
+        = f.submit 'Modifier', class: 'btn btn--success'

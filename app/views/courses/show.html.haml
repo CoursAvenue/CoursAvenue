@@ -29,7 +29,7 @@
 %h2.weight-normal.delta
   %i.icon-map-marker.v-middle
   %span.v-middle= @structure.name.capitalize
-  %span.v-middle= link_to "Voir l'établissement", place_path(@place), class: 'btn btn__blue  btn__small', onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])"
+  %span.v-middle= link_to "Voir l'établissement", place_path(@place), class: 'btn btn--blue  btn--small', onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])"
 
 - if @course.rating
   %div

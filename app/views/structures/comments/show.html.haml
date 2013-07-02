@@ -3,14 +3,14 @@
 
 / %h2.flush--bottom
 / = @structure.name
-/ = link_to 'Profil public', place_path(@place), class: 'btn btn__blue'
+/ = link_to 'Profil public', place_path(@place), class: 'btn btn--blue'
 %h2 Partagez votre avis sur Facebook, Twitter et avec vos amis !
 
 .grid
   .grid__item.one-half.text--center.v-middle>
-    %p= link_to 'Partager sur Facebook', '#', class: 'btn btn__facebook', onclick: 'postToFeed(); return false;'
+    %p= link_to 'Partager sur Facebook', '#', class: 'btn btn--facebook', onclick: 'postToFeed(); return false;'
     %p
-      = link_to 'Partager sur Twitter', "https://twitter.com/share?url=#{place_url(@structure.places.first)}&text=Je viens de donner mon avis sur #{@structure.name}. Et vous, qu'en pensez-vous ?&via=CoursAvenue", class: 'btn btn__twitter', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Comments/Show - partager sur twitter', 'click'])"
+      = link_to 'Partager sur Twitter', "https://twitter.com/share?url=#{place_url(@structure.places.first)}&text=Je viens de donner mon avis sur #{@structure.name}. Et vous, qu'en pensez-vous ?&via=CoursAvenue", class: 'btn btn--twitter', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Comments/Show - partager sur twitter', 'click'])"
   .grid__item.one-half.bordered--left.v-middle>
     %h5.text--center Invitez vos amis à déposer également un avis
     = form_tag invite_friends_for_feedbacks_structure_comment_path(@structure, @comment), html: {method: :post} do
@@ -18,7 +18,7 @@
         Entrez les emails de vos amis en les séparant par des virgules.
       %div
         %textarea.one-whole{name: 'emails', rows: 7, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
-      .push-half--top= submit_tag 'Envoyer une invitation', class: 'btn btn__success', onclick: "_gaq.push(['_trackEvent', 'Comments/Show - envoyer une invitation', 'click'])"
+      .push-half--top= submit_tag 'Envoyer une invitation', class: 'btn btn--success', onclick: "_gaq.push(['_trackEvent', 'Comments/Show - envoyer une invitation', 'click'])"
 
 %hr.push--top
 %h4.flush--bottom
@@ -28,7 +28,7 @@
   = render partial: 'comments/comment', locals: { comment: @comment }
 
 .text--center.push--top
-  = link_to subject_courses_path(@main_subject), class: 'btn btn__success btn__large', onclick: "_gaq.push(['_trackEvent', 'Comments/Show - Voir autres etablissements', 'click'])" do
+  = link_to subject_courses_path(@main_subject), class: 'btn btn--success btn--large', onclick: "_gaq.push(['_trackEvent', 'Comments/Show - Voir autres etablissements', 'click'])" do
     #{@main_subject.name} : voir d'autres établissements
 
 #mail-content.hidden
