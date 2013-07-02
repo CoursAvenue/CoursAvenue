@@ -84,6 +84,6 @@
               = "#{readable_amount best_price.per_course_amount, true}€".html_safe
           - if best_price.amount != 0
             - if course.is_lesson?
-              %p prix d'un cours
+              %p prix d'une séance
             - else
               %p= "(#{t(best_price.libelle).downcase})".html_safe

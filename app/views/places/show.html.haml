@@ -104,7 +104,7 @@
       %div
         %b Vous connaissez cet établissement ?
       %div
-        = link_to 'Publiez votre avis !', '#comments', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - lieu', 'click','#{@place.slug}'])"
+        = link_to 'Donnez votre avis !', '#comments', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - lieu', 'click','#{@place.slug}'])"
 
     - if @structure.facebook_url.present?
       = link_to 'Page facebook', @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole btn--small'

@@ -4,6 +4,7 @@
     %thead
       %tr
         %th Dates
+        %th.text--center Créneau horaire
         %th.text--center Durée
         %th.text--center Public
         %th.text--center
@@ -12,6 +13,7 @@
       - plannings.each do |planning|
         %tr
           %td= training_dates planning
+          %td.text--center= readable_time_slot planning.start_time, planning.end_time
           %td.text--center= "#{pluralize(planning.length, 'jour')}"
           %td.text--center= join_audiences planning.audiences
           %td.text--center
