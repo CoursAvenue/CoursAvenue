@@ -37,14 +37,16 @@ class PlacesController < ApplicationController
     if request.subdomain == 'pro'
       redirect_to place_url params[:id], subdomain: 'www', status: 301
     end
-    @place     = Place.find params[:id]
-    @structure = @place.structure
-    @courses   = @place.courses.order('name ASC')
-    @teachers  = @structure.teachers
-    @comments  = @structure.all_comments
-    @comment   = @structure.comments.build
-    @city      = @place.city
-    @medias    = @structure.medias
+    @place        = Place.find params[:id]
+    @structure      = @place.structure
+    @courses        = @place.courses.order('name ASC')
+    @other_places   = @structure.places.reject{|place| place == @place}
+    @teachers       = @structure.teachers
+    @comments       = @structure.all_comments
+    @comment        = @structure.comments.build
+    @city           = @place.city
+    @medias         = @structure.medias
+
     place           = @place
     place_latitude  = @place.latitude
     place_longitude = @place.longitude

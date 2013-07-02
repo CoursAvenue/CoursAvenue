@@ -160,6 +160,9 @@
       %li.tab-el{class: (@medias.any? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);", data: { el: 'tab-videos' }}
         Photos & vidéos
         (#{@medias.length})
+      %li.tab-el{class: (@other_places.any? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);", data: { el: 'tab-videos' }}
+        Photos & vidéos
+        (#{@medias.length})
 
     .tab-content
       %article#tab-description.tab-pane.active

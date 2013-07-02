@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Place < ActiveRecord::Base
-  acts_as_paranoid
+  acts_as_paranoid recover_dependent_associations: false
 
   include ActsAsGeolocalizable
   include HasSubjects

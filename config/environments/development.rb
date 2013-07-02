@@ -48,6 +48,8 @@ CoursAvenue::Application.configure do
   # prevent loading files from /public/assets
   config.serve_static_assets = false
 
+  ActionMailer::Base.register_interceptor(DevelopmentMailInterceptor)
+
   # auto rotate log files, keep 2 of 5MB each
   # config.logger = Logger.new(config.paths.log.first, 1, 5.megabytes)
 end
