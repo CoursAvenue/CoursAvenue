@@ -4,15 +4,13 @@
     %p
       %b 100% gratuit, simple et rapide.
     %hr
-    .grid--full.text--center.push--top
+    .grid--full.text--center.push--top.visuallyhidden--palm
       .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
         %a.muted-link.white-box.islet.word-break-normal
           %h5
             %i.icon-user.icon-2x
             %br
-            Créez et partagez
-            %br
-            votre profil
+            Créez votre profil
       .grid__item.one-twelfth.text--center.v-middle>
         .islet
           %i.icon-chevron-right.icon-2x
@@ -32,7 +30,7 @@
             %br
             Mettez en ligne vos photos & vidéos
 
-    .text--center.push--bottom
+    .text--center.push--bottom.visuallyhidden--palm
       = link_to "Exemple du profil d'une école de cuisine (Cook&Go)", 'http://www.coursavenue.com/etablissements/cook-go-cook-go-la-fayette', target: '_blank', class: 'btn btn__blue', onclick: "mixpanel.track('Seen exemple profile');"
 
     %p.alert--info.flush--sides
@@ -53,7 +51,8 @@
           = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }, label: false
           = f.association :city, collection: [@structure.city], label: false
 
-        = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 400px;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
+        .visuallyhidden--palm
+          = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 100%;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
       .push--bottom.text--center
         = f.submit 'Je valide mes informations', class: 'btn__large btn btn--large btn__success'
   .grid__item.one-third.visuallyhidden--palm

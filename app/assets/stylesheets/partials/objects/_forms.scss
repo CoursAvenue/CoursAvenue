@@ -139,11 +139,9 @@
         label {
             float: left;
         }
-        // input {
-        //     margin-top: 0.5em;
-        // }
     }
 .simple_form.half-form {
+
     .form-actions {
         padding-left: $label-width / 1.4;
         @include multiple-media-query(palm, lap) { padding-left: 0; };
@@ -156,6 +154,12 @@
     .input {
         .control-label {
             width: $label-width / 1.4;
+        }
+        .control-label, input, textarea {
+            @include multiple-media-query(palm, lap) {
+                width     : 100%;
+                text-align: left;
+            }
         }
         input, textarea {
             width: 20em;
