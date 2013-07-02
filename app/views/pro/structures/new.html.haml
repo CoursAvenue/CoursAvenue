@@ -52,7 +52,7 @@
           = f.association :city, collection: [@structure.city], label: false
 
         .visuallyhidden--palm
-          = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 100%;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
+          = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 74%;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
       .push--bottom.text--center
         = f.submit 'Je valide mes informations', class: 'btn__large btn btn--large btn__success'
   .grid__item.one-third.visuallyhidden--palm
