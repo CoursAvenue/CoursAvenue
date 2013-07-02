@@ -134,10 +134,10 @@
         .grid__item.one-half.palm--one-whole>
           = image_tag @place.image.url(:wide), class: 'course-header-badge-image', alt: @place.long_name
         .grid__item.course-header-map.one-half.palm--one-whole>
-          = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: false} )
+          = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: @other_places.empty?} )
     - else
       .course-header-map
-        = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: false} )
+        = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: @other_places.empty?} )
         %h4.course-header-structure-name.flush--bottom
           %b= @place.long_name
           - if current_user
