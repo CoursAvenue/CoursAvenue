@@ -3,10 +3,18 @@
 
 = menu_currently_at 'Accueil'
 
-%h1.text--center Partagez la qualité de vos cours
+/ %h1.text--center
+/   Partagez la qualité de vos cours et
+/   %br
+/   gagnez la confiance de vos futurs élèves
+
+%h1.text--center
+  Gagnez la confiance de vos futurs élèves
+  %br
+  en partageant la qualité de vos cours
 
 .text--center
-  = link_to inscription_pro_structures_path, class: 'btn btn--success btn--large', id: 'register', onclick: "_gaq.push(['_trackEvent', 'Inscription', 'click'])" do
+  = link_to inscription_pro_structures_path, class: 'btn btn--success btn--large', id: 'register', onclick: "mixpanel.track('Reached home pro page');" do
     %span Créer mon profil et obtenir des avis
     %br
     %span.milli.line-height-1 Gratuit et sans engagement
@@ -73,6 +81,7 @@
 
 = content_for :scripts do
   :javascript
+    mixpanel.track('Reached home pro page');
     var slideshow;
     window.addEvent('domready', function() {
         slideshow = new SlideShow('slideshow', {

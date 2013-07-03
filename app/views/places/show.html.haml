@@ -58,7 +58,7 @@
         - if @structure.website
           %div
             %i.icon-external-link.orange
-            = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
+            = link_to @structure.website, URI.encode(@structure.website), target: '_blank', rel: 'nofollow'
         .blue
           - if @place.contact_phone or @place.contact_mobile_phone
             %i.icon-phone.blue
@@ -107,7 +107,7 @@
         = link_to 'Donnez votre avis !', '#comments', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - lieu', 'click','#{@place.slug}'])"
 
     - if @structure.facebook_url.present?
-      = link_to 'Page facebook', @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole btn--small'
+      = link_to 'Page facebook', URI.encode(@structure.facebook_url), target: '_blank', class: 'btn--facebook btn one-whole btn--small'
 
     -# %hr
 
@@ -149,7 +149,7 @@
     %hr
 
     %ul.tab-titles{data: {behavior: 'tabs'}}
-      %li.tab-el.active{class: (@description.present? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Description de l etablissement', 'click', '#{@place.slug}']);", data: { el: 'tab-description' }} Description
+      %li.tab-el.active{class: (@structure.description.present? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Description de l etablissement', 'click', '#{@place.slug}']);", data: { el: 'tab-description' }} Description
       %li.tab-el{class: (@courses.any? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Liste des cours', 'click', '#{@place.slug}']);", data: { el: 'tab-courses' }}
         Liste des cours
         - if @courses.any?

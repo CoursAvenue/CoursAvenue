@@ -18,7 +18,7 @@
     - if @structure.website
       %li
         = Structure.human_attribute_name(:website)
-        = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
+        = link_to @structure.website, URI.encode(@structure.website), target: '_blank', rel: 'nofollow'
     - if @structure.info
       %li
         = t('.other_info')

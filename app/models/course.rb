@@ -356,8 +356,6 @@ class Course < ActiveRecord::Base
   def duplicate!
     course_duplicate               = self.dup
     course_duplicate.name          += ' - copie'
-    # course_duplicate.audiences     = self.audiences
-    # course_duplicate.levels        = self.levels
     course_duplicate.subjects      = self.subjects
     course_duplicate.active        = false
     course_duplicate.slug          = nil

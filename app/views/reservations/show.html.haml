@@ -61,5 +61,5 @@
         %p.flush--bottom
           Site web :
           %i.icon-external-link.orange
-          = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
+          = link_to @structure.website, URI.encode(@structure.website), target: '_blank', rel: 'nofollow'
 
