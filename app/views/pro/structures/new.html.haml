@@ -58,9 +58,28 @@
   - unless request.path == '/sms'
     .grid__item.one-third.visuallyhidden--palm
       .bordered--left.soft--left
-        %h4.flush--bottom Exemple de profil
-        = link_to 'http://www.coursavenue.com/etablissements/cook-go-cook-go-la-fayette', target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});" do
-          = image_tag 'pro/cook-go-ex.jpg'
+        %h4 Exemple de profils
+        .relative{style: 'height: 330px; overflow: hidden;'}
+          #slideshow.slideshow
+            - @structures.each do |structure|
+              .slideshow__element
+                .white-box.islet
+                  %div
+                    = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});" do
+                      = image_tag structure.image.url(:thumb)
+                  %hr.push-half--bottom.push-half--top
+                  %div
+                    %b
+                      = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});"
+                  %hr.push-half--top
+                  = rating_stars structure.rating
+                  \/
+                  = structure.comments_count
+                  avis
+                  %i.lbc-brand-icon
+
+        -# = link_to 'http://www.coursavenue.com/etablissements/cook-go-cook-go-la-fayette', target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});" do
+        -#   = image_tag 'pro/cook-go-ex.jpg'
         %hr
         %h4 Les 5 derniers avis sur CoursAvenue
         %ul.comment-list.milli
@@ -69,13 +88,19 @@
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
-        $$('.comment-list__el a').addEvent('click', function() {
-          mixpanel.track('Has seen comments example');
-        })
+        slideshow = new SlideShow('slideshow', {
+            transition: 'pushLeft',
+            delay: 3000,
+            duration: 800,
+            autoplay: true
+        });
         $('structure_zip_code').fireEvent('keyup');
         $('structure_street').addEvent('blur', function() {
             Cookie.write('street', this.get('value'));
         });
+        $$('.comment-list__el a').addEvent('click', function() {
+          mixpanel.track('Has seen comments example');
+        })
     });
 
 - if request.path == '/sms'
@@ -86,3 +111,4 @@
   = content_for :scripts do
     :javascript
       mixpanel.track('Reached');
+
