@@ -6,8 +6,6 @@ FactoryGirl.define do
     place
 
     subjects    [Subject.roots.first.children.first]
-    levels      [Level.first]
-    audiences   [Audience.first]
 
     active                      true
     type                        'Course::Lesson'

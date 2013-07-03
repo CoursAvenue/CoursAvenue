@@ -213,16 +213,6 @@ describe Course do
     end
   end
 
-  context :levels do
-    before do
-      @course = FactoryGirl.build(:course)
-      @course.levels = [Level.beginner, Level.beginner]
-      @course.save
-    end
-    it 'does not duplicate' do
-      @course.levels.length.should eq 1
-    end
-  end
 
   context :duplicate do
     before(:all) do

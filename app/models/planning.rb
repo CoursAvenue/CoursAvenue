@@ -130,6 +130,7 @@ class Planning < ActiveRecord::Base
   def default_values
     if self.new_record?
       self.audience_ids = [Audience::ADULT.id]
+      self.level_ids    = [Level::ALL.id]
     end
   end
 

@@ -12,8 +12,12 @@
     %h4.grid__item.width-auto.v-middle.flush--bottom
       Votre profil est complété à #{@profile_percentage}%
     .grid__item.width-auto.v-middle
-      .progress.flush--bottom{style: "width: 280px;"}
-        .bar.bar-success{style: "width: #{@profile_percentage}%;"}
+      .text--center.progress.flush--bottom{style: "width: 280px;"}
+        - if @profile_percentage == 0
+          #{@profile_percentage}%
+        - else
+          .bar.bar-success{style: "width: #{@profile_percentage}%;"}
+            #{@profile_percentage}%
   %ol
     %li{class: @profile_completed ? 'line-through' : ''}
       = link_to_unless @profile_completed, 'Remplir mon profil', edit_pro_structure_path(@structure)

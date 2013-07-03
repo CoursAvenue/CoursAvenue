@@ -103,8 +103,6 @@ class Pro::StructuresController < Pro::ProController
     respond_to do |format|
       if @structure.places.empty?
         format.html { redirect_to new_pro_structure_place_path(@structure), notice: "Vous devez d'abord créé des lieux pour vos cours."}
-      # elsif @courses.empty?
-      #   format.html{ redirect_to new_pro_structure_course_path(@structure) }
       else
         format.html
       end
