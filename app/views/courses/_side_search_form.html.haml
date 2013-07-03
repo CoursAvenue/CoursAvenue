@@ -110,7 +110,7 @@
       %ul.check-list
         %li= link_to t('all_subject'), courses_path(address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'subject-link'
         / ----------------- If the current subject is this one or has this one as a parent
-        - Subject.roots.order(:name).each do |subject|
+        - Subject.roots.order('position ASC, name ASC').each do |subject|
           - if params[:subject_id] == subject.slug || !subject.children.select{|d| d.slug == params[:subject_id]}.blank?
             %li= link_to subject.name, subject_courses_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
             %ul.check-list

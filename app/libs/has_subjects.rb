@@ -3,8 +3,10 @@ module HasSubjects
   def self.included(base)
     base.instance_eval do
       include ::HasSubjects::InstanceMethods
+      after_touch :update_subjects_string        # Save subjects as : "Subject name,subject-slug;Another subject name, another-subject-slug"
       after_save :update_subjects_string        # Save subjects as : "Subject name,subject-slug;Another subject name, another-subject-slug"
       after_save :update_parent_subjects_string # Save subjects as : "Subject name,subject-slug;Another subject name, another-subject-slug"
+      after_touch :update_parent_subjects_string # Save subjects as : "Subject name,subject-slug;Another subject name, another-subject-slug"
     end
   end
 

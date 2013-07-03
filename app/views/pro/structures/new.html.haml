@@ -103,9 +103,9 @@
 - if request.path == '/sms'
   = content_for :scripts do
     :javascript
-      mixpanel.track('Reached SMS');
+      mixpanel.track('Reached sign up page', {type: 'sms'});
 - else
   = content_for :scripts do
     :javascript
-      mixpanel.track('Reached');
+      mixpanel.track('Reached sign up page', {type: 'desktop'});
 

@@ -48,7 +48,7 @@ gem 'kaminari'                  , '~>0.14.1'
 gem 'paperclip'                 , '~>3.4.1'
 gem 'aws-sdk'                   , '~>1.8.0'
 gem 'squeel'                    , '~>1.0.14'
-gem 'ancestry'                  , '~>1.3.0'
+gem 'ancestry'                  , '~>2.0.0'
 
 gem 'gmaps4rails'               , '~>1.5.6'
 gem 'geocoder'                  , '~>1.1.6'
