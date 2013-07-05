@@ -8,6 +8,17 @@ class Pro::DashboardController < Pro::ProController
     @admins   = Admin  .where{created_at > Date.today - 1.months}.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
     @comments = Comment.where{created_at > Date.today - 1.months}.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
 
+    _structures = Structure.joins{admins}.joins{subjects}.count(:group => ["subjects.id"])
+    @structures = {}
+    _structures.each do |key, value|
+      subj = Subject.find(key)
+      if subj.parent
+        @structures[subj.parent.name] = (@structures[subj.parent.name] || 0) + value
+      else
+        @structures[subj.name] = value
+      end
+    end
+
     hash_of_days = {}
     ((1.months).ago.to_date..Date.today).each{ |date| hash_of_days[date.strftime("%Y-%m-%d")] = 0}
     @comments  = hash_of_days.merge @comments
