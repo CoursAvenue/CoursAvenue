@@ -237,9 +237,11 @@
   :javascript
     window.addEvent('domready', function() {
         var map_loaded = false;
-        $('tab-other-places-li').addEvent('click', function() {
-            if (!map_loaded) { Gmaps.load_other_places_map(); map_loaded = true;}
-        });
+        if ($('tab-other-places-li')) {
+            $('tab-other-places-li').addEvent('click', function() {
+                if (!map_loaded) { Gmaps.load_other_places_map(); map_loaded = true;}
+            });
+        }
         var description_is_hidden = true;
         if ($('place-description')) {
             if($('place-description').scrollHeight < 200) {
