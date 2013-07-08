@@ -1,7 +1,7 @@
 %table.table--striped.table--data#dataTable
   %thead
     %tr
-      %th.text--center Dates
+      %th Dates
       %th.text--center Créneau horaire
       %th.text--center Durée
       %th.text--center Professeur
@@ -13,7 +13,7 @@
   %tbody
     - @plannings.each do |planning|
       %tr
-        %td.text--center{data: {value: planning.start_date}}
+        %td{data: {value: planning.start_date}}
           = training_dates planning
         %td.text--center{data: {value: planning.start_time}}
           = readable_time_slot planning.start_time, planning.end_time

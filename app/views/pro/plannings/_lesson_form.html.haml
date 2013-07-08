@@ -1,3 +1,4 @@
+- minutes = [['30min', 30], ['45min', 45], ['1h', 60], ['1h15', 75], ['1h30', 90], ['1h45', 105], ['2h', 120], ['2h15', 135], ['2h30', 150], ['2h45', 165], ['3h', 180], ['3h15', 195], ['3h30', 210], ['3h45', 225], ['4h', 240]]
 = simple_form_for [:pro, @course, @planning] do |f|
   = f.error_notification
   .input
@@ -11,6 +12,8 @@
     = f.input :start_time, as: :time, minute_step: 15, default: {year: 2000, month: 1, day: 1, hour: 8, min: 00}, wrapper_html: {id: 'start-time-wrapper'}, label: false
     %span &nbsp;-&nbsp;
     = f.input :end_time, as: :time, minute_step: 15, min_hour: 7, label: false, default: {year: 2000, month: 1, day: 1, hour: 9, min: 00}, wrapper_html: {id: 'end-time-wrapper'}
+    %span.v-middle durée du cours :
+    = f.input :duration, as: :select, collection: minutes, label: false
 
   - if @course.is_individual
     %p.field-form-info.blue Attention : 1 créneau = 1 séance de cours (si vous donnez des cours particuliers d'1h tous les lundis de 15h à 19h, entrez 4 créneaux : 15h-16h, 16h-17h,…).
