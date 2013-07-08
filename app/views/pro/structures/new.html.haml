@@ -48,8 +48,9 @@
           = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }, label: false
           = f.association :city, collection: [@structure.city], label: false
 
-        .visuallyhidden--palm
-          = f.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 74%;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
+        - cache "inscription_subjects_#{ENV["ETAG_VERSION_ID"]}"do
+          .visuallyhidden--palm
+            = f.association :subjects , as: :select, collection: Subject.roots.map(&:descendants).flatten, input_html: {style: 'width: 74%;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
       .push--bottom.text--center
         = f.submit 'Je valide mes informations', class: 'btn--large btn btn--large btn--success'
   - unless request.path == '/sms'
@@ -75,8 +76,6 @@
                   avis
                   %i.lbc-brand-icon
 
-        -# = link_to 'http://www.coursavenue.com/etablissements/cook-go-cook-go-la-fayette', target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});" do
-        -#   = image_tag 'pro/cook-go-ex.jpg'
         %hr
         %h4 Les 5 derniers avis sur CoursAvenue
         %ul.comment-list.milli

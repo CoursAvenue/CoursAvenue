@@ -13,6 +13,12 @@
     Profs
   #admins
 
+%h3.header-group
+  %i.icon-map-marker
+  Nombre d'établissements par disciplines (dont le prof est enregistré)
+.white-box.islet.text--center
+  #subjects
+
 -#%h3.header-group
 -#  %i.icon-map-marker
 -#  Lieux d'enseignements
@@ -117,5 +123,12 @@
             xAxis: { categories: #{@courses.map{|date, count| l(Date.parse(date), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [{ data: #{@courses.map{|date, count| count}} }]
+        });
+        new Highcharts.Chart({
+            chart: { renderTo: 'subjects', type: 'column' },
+            title: { text: null },
+            xAxis: { categories: #{@structures.map{|subject_name, count| subject_name}} },
+            yAxis: { title: { text: ''}},
+            series: [{ data: #{@structures.map{|subject_name, count| count}} }]
         });
     });

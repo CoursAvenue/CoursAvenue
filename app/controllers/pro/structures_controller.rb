@@ -132,7 +132,7 @@ class Pro::StructuresController < Pro::ProController
     session[:zip_code] = params[:zip_code]
     session[:email]    = params[:email]
     @structure  = Structure.new name: params[:name], zip_code: params[:zip_code], contact_email: params[:email]
-    @structures = @structures = Structure.where{(image_updated_at != nil) & (comments_count != nil)}.order('comments_count DESC').limit(8)
+    @structures = Structure.where{(image_updated_at != nil) & (comments_count != nil)}.order('comments_count DESC').limit(8)
   end
 
   def update
@@ -152,9 +152,10 @@ class Pro::StructuresController < Pro::ProController
 
   def create_and_get_feedbacks
     # Prevents from duplicates
-    s_name     = params[:structure][:name]
-    s_zip_code = params[:structure][:zip_code]
-    @structure = Structure.where{(name == s_name) & (zip_code == s_zip_code)}.first
+    s_name      = params[:structure][:name]
+    s_zip_code  = params[:structure][:zip_code]
+    @structure  = Structure.where{(name == s_name) & (zip_code == s_zip_code)}.first
+    @structures = Structure.where{(image_updated_at != nil) & (comments_count != nil)}.order('comments_count DESC').limit(8)
     if @structure.nil?
       @structure = Structure.new params[:structure]
     end
@@ -169,10 +170,10 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def create
-    @admin           = ::Admin.new params[:admin]
-    @structure       = Structure.new(params[:structure])
+    @admin            = ::Admin.new params[:admin]
+    @structure        = Structure.new(params[:structure])
     @structure.admins << @admin
-    @admin.structure = @structure
+    @admin.structure  = @structure
     respond_to do |format|
       if @structure.valid? and @admin.valid?
         @structure.save

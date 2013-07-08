@@ -70,6 +70,10 @@
         %b Vous avez déjà suivi ce cours ?
       %div
         = link_to 'Donnez votre avis !', '#comments', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - cours', 'click','#{@course.slug}'])"
+
+    .text--center.push--top
+      = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{place_url(@structure.places.first, subdomain: 'www')}", class: 'btn btn--facebook', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
+
     -# %hr
     -# %article.visuallyhidden--palm.visuallyhidden--lap
     -#   .delta D'autres cours pour vous !

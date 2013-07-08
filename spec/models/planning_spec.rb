@@ -4,6 +4,16 @@ require 'spec_helper'
 describe Planning do
   let(:planning) { Planning.new }
 
+  # context :multiple_slots do
+  #   let(:lesson)   { FactoryGirl.create(:lesson) }
+  #   it 'creates multiple plannings' do
+  #     lesson.plannings.create( start_time: Time.parse("2000-01-01 10:00 UTC"),
+  #                               end_time: Time.parse("2000-01-01 12:00 UTC"),
+  #                               duration: 60)
+  #     lesson.plannings.length.should eq 2
+  #   end
+  # end
+
   context :audiences do
     describe '#audience_ids' do
       it 'returns array if nil' do

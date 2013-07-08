@@ -12,10 +12,11 @@ class Pro::StudentsController < Pro::ProController
   end
 
   def ask_for_feedbacks_stage_1
-    @students = Student.find params[:id]
-    @students.ask_for_feedbacks_stage_1
+    @student = Student.find params[:id]
+    @student.ask_for_feedbacks_stage_1
     respond_to do |format|
       format.js { render nothing: true, status: 200 }
+      format.html { redirect_to pro_structure_path(@student.structure) }
     end
   end
 end

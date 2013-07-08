@@ -3,7 +3,7 @@
 %meta{property: 'og:site_name',       content: 'CoursAvenue'}
 %meta{property: 'fb:admins',          content: '100000023494269'}
 %meta{property: 'og:type',            content: 'website'}
-%meta{property: 'og:url',             content: 'http://www.coursavenue.com'}
+%meta{property: 'og:url',             content: "#{request.protocol + request.host_with_port + request.fullpath}"}
 
 - #----------------------- TITLE
 - if content_for? :title
@@ -25,6 +25,7 @@
 
 - #----------------------- Image
 
-%meta{property: "og:image", content: image_path('logo.png')}
 - if content_for? :meta_image
   %meta{property: "og:image", content: yield(:meta_image)}
+- else
+  %meta{property: "og:image", content: image_path('logo.png')}
