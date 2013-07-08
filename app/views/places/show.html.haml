@@ -106,6 +106,9 @@
       %div
         = link_to 'Donnez votre avis !', '#comments', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - lieu', 'click','#{@place.slug}'])"
 
+    .text--center.push--bottom
+      = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{place_url(@structure.places.first, subdomain: 'www')}", class: 'btn btn--facebook', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
+
     - if @structure.facebook_url.present?
       = link_to 'Page facebook', URI.encode(@structure.facebook_url), target: '_blank', class: 'btn--facebook btn one-whole btn--small'
 

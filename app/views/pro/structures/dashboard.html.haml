@@ -6,6 +6,8 @@
   = link_to place_url(@structure.places.first, subdomain: 'www'), class: 'btn btn--blue push--left', target: '_blank' do
     %i.icon-external-link.v-middle
     %span.v-middle Voir mon profil
+  = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{place_url(@structure.places.first, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Pro / Share on Facebook', 'click', 'From dashboard page'])"
+
 
 .white-box.islet
   .grid.push-half--bottom

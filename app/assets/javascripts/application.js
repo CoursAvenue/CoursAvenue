@@ -116,6 +116,9 @@ window.addEvent('domready', function() {
       }
     });
     $$("[data-behavior=copy-to-clipboard]").each(function(element) {
-        new ZeroClipboard(element);
+        var clip = new ZeroClipboard(element);
+        clip.on('mousedown', function(client) {
+            new GLOBAL.Objects.Flash('Votre texte à bien été copié').showAndHide();
+        });
     });
 });
