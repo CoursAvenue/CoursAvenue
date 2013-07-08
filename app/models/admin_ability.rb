@@ -10,14 +10,15 @@ class AdminAbility
         can :read, admin.structure.places
         can :read, admin.structure.courses.where{active == true}
         can :manage, admin.structure.courses.where{active == false}
+        can :manage, admin
       else
         can :manage, admin.structure
         can :manage, admin.structure.places
         can :manage, admin.structure.courses
         can :manage, admin.structure.all_comments
+        can :manage, admin
       end
       can :create, Place
-      can :manage, admin
     end
     can :create, Structure
 

@@ -262,7 +262,8 @@
       if (val && !(results = this.cache["r-" + val])) {
         // Find all matching values:
         escapeRgx = this.cache.escapeRgx || (this.cache.escapeRgx = /([-.*+?^${}()|[\]\/\\])/g);
-        matchRgx = new RegExp("^(" + val.replace(escapeRgx, "\\$1") + ".*)$", "igm");
+        matchRgx = new RegExp(".*(" + val.replace(escapeRgx, "\\$1") + ".*)$", "igm");
+        // matchRgx = new RegExp("^(" + val.replace(escapeRgx, "\\$1") + ".*)$", "igm");
         matchText = this.cache.values || (this.cache.values = this.values.sort().join("\n"));
 
         while ((matchResult = (matchRgx.exec(matchText) || [])[0])) {

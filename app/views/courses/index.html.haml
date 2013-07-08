@@ -9,7 +9,15 @@
   %section.grid__item.three-tenths.visuallyhidden--palm.visuallyhidden--lap>
     = render 'side_search_form'
   %section.grid__item.seven-tenths.lap--one-whole.palm--one-whole
-    %h1.text--center.delta.push--top.flush--bottom.lbl.lbl--blue
+    - if @subject
+      %ol.nav.breadcrumb.epsilon.push-half--top.push-half--bottom
+        %li= link_to 'Tous les cours', courses_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
+        - if @subject.parent
+          %li= link_to @subject.parent.name, subject_courses_path(@subject.parent, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
+        %li= link_to @subject.name, subject_courses_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
+        - if params[:name]
+          %li= params[:name]
+    %h1.text--center.delta.flush.lbl.lbl--blue
       - if params[:subject_id]
         Cours de #{@subject.name.downcase}
       - else
@@ -18,6 +26,7 @@
         correspondant à : « #{params[:name]} »
       - else
         à Paris
+
 
     %ul.tab-titles
       %li.tab-el.active Par cours
