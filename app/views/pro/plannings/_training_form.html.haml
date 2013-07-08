@@ -1,4 +1,4 @@
-- minutes = [['30min', 30], ['45min', 45], ['1h', 60], ['1h15', 75], ['1h30', 90], ['1h45', 105], ['2h', 120], ['2h15', 135], ['2h30', 150], ['2h45', 165], ['3h', 180], ['3h15', 195], ['3h30', 210], ['3h45', 225], ['4h', 240]]
+- minutes = (2..32).collect{ |i| time = i*15; ["#{(time/60).floor}h#{(time%60 == 0 ? '00' : time%60)}",time] }
 = simple_form_for [:pro, @course, @planning] do |f|
   = f.error_notification
   .input{data: {behavior: 'date-range', 'start-date '=> '#start-date', 'end-date '=> '#end-date' }}
