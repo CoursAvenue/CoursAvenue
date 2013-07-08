@@ -1,3 +1,4 @@
+# encoding: utf-8
 class SetWeightToSubjects < ActiveRecord::Migration
   def up
     subjects = ["Théâtre & Danse" ,"Musique & Chant" ,"Cuisine & Vins" ,"Enfants & Ados" ,"Loisirs créatifs" ,"Art & Artisanat" ,"Bien-être & Santé" ,"Photo & Vidéo" ,"Sports"]
