@@ -1,9 +1,19 @@
-- if @structure
-  .text--center
-    %h1= "#{@structure.name}, bienvenue !"
 .text--center
-  %p.alert--info.one-half.palm--one-whole.lap--one-whole
-    Créez vos identifiants pour accéder à votre espace pro qui vous permettra de référencer gratuitement tous vos cours et de gérer vos avis.
+  %h1.flush Félicitation, vous venez de créer votre profil CoursAvenue !
+  %h4 Dernière étape : créez vos identifiants pour accéder à votre espace pro
+
+  .white-box--small.islet.center-block.text--left
+    %h3.flush= @structure.name
+    .omega= @structure.address
+    %ul.nav= join_place_parent_subjects @structure.places.first, true
+    %hr
+    %div
+      = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{place_url(@structure.places.first, subdomain: 'www')}", class: 'btn btn--facebook btn--small v-middle', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Pro / Share on Facebook', 'click', 'From creation page'])"
+      = link_to place_url(@structure.places.first, subdomain: 'www'), class: 'btn btn--blue btn--small v-middle', target: '_blank' do
+        %i.icon-external-link.v-middle
+        %span.v-middle Voir mon profil
+
+
 
 = simple_form_for [:pro, @admin], :url => pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
   = f.error_notification
@@ -18,4 +28,4 @@
       = f.hidden_field :structure_id, as: :hidden, value: @structure.try(:id)
 
   .text--center
-    = f.button :submit, "Espace pro : c'est parti !",  class: 'btn--success btn--large'
+    = f.button :submit, "Accéder à mon espace pro",  class: 'btn--success btn--large'

@@ -2,6 +2,10 @@
     @extend .white-box;
     @include box-shadow(none!important);
 }
+.white-box--small {
+    @extend .white-box;
+    max-width: 400px;
+}
 .white-box {
     background: white;
     border    : 1px solid #DDD;

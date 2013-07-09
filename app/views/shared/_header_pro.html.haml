@@ -6,6 +6,9 @@
           = image_tag 'logo_pro.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
         - if @structure and !@structure.new_record?
           %h2.grid__item.width-auto.flush--bottom.v-middle{title: @structure.name}= truncate(@structure.name, length: 50)
+          = link_to place_url(@structure.places.first, subdomain: 'www'), class: 'btn btn--blue btn--small push-half--left v-middle', target: '_blank' do
+            %i.icon-external-link.v-middle
+            %span.v-middle Voir mon profil
     %nav.grid__item.one-third.text--right
       %div
         %i.icon-phone-sign.orange.icon-2x
