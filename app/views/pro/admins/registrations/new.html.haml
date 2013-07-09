@@ -1,10 +1,11 @@
 .text--center
-  %h1.flush Félicitation, vous venez de créer votre profil CoursAvenue !
-  %h4 Dernière étape : créez vos identifiants pour accéder à votre espace pro
+  %h1.push-half--bottom Félicitation, vous venez de créer votre profil CoursAvenue !
 
   .white-box--small.islet.center-block.text--left
     %h3.flush= @structure.name
-    .omega= @structure.address
+    .omega
+      %i.icon-map-marker
+      = @structure.address
     %ul.nav= join_place_parent_subjects @structure.places.first, true
     %hr
     %div
@@ -14,14 +15,13 @@
         %span.v-middle Voir mon profil
 
 
+%hr
 
+%h4.text--center Dernière étape : créez vos identifiants pour accéder à votre espace pro
 = simple_form_for [:pro, @admin], :url => pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
   = f.error_notification
   .form-inputs
-    %h4.form-header-group
-      %i.icon-user
-      Identifiants
-    .form-white-box
+    .form-white-box--centered
       = f.input :email, :required => true, :autofocus => true, label: t('.email'), wrapper_html: {class: 'flush--bottom'}
       %p.blue.field-form-info= t('.email_info')
       = f.input :password, :required => true

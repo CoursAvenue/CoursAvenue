@@ -162,11 +162,11 @@
             }
         }
         input, textarea {
-            width: 20em;
+            // width: 20em;
             @include media-query(palm) { width: 100%; };
         }
         select {
-            max-width: 20em;
+            // max-width: 20em;
         }
     }
 

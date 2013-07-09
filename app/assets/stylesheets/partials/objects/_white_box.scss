@@ -21,9 +21,12 @@
         margin-left : 0;
     }
     max-width   : 800px;
-    margin      : 1em 0 ;
-    // margin-left : $left-form-margin;
+    margin      : 1em 0;
     padding     : 1em;
+}
+.form-white-box--centered {
+    @extend .form-white-box;
+    margin: 1em auto;
 }
 .form-white-box--large {
     @extend .form-white-box;

@@ -11,7 +11,7 @@ describe CoursesController do
       initial_slug = course.slug
       get :show, id: initial_slug
       response.status.should eq 200
-      course.name += ' some extension'
+      course.slug += '-some-extension'
       course.save
       get :show, id: initial_slug
       response.status.should eq 301
