@@ -29,7 +29,7 @@
         / = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: {style: 'max-width: 29em;'}
         = structure_form.input :website
         = structure_form.input :facebook_url, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : https://www.facebook.com/CoursAvenue'
-        = structure_form.association :subjects , as: :select, collection: Subject.roots.map(&:children).flatten, input_html: {style: 'width: 490px;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
+        = structure_form.association :subjects , as: :select, collection: Subject.children.map(&:children).flatten, input_html: {style: 'width: 490px;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
 
       / %h5.form-header-group
       /   %i.icon-map-marker
