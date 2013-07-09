@@ -97,7 +97,7 @@
       .grid__item.one-half.palm--one-whole>
         - if @course.image.present?
           = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name.capitalize}"
-        - else
+        - elsif @course.subjects.any?
           = image_tag @course.subjects.limit(1).first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name.capitalize}."
       .grid__item.course-header-map.one-half.palm--one-whole>
         = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
