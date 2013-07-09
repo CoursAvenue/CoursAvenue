@@ -32,7 +32,6 @@ class Pro::PlanningsController < InheritedResources::Base
       @plannings        = @course.plannings.reject { |planning| planning == @planning }
       @planning.course  = @course
       set_dates_and_times
-
       respond_to do |format|
         if @planning.save
           format.html { redirect_to pro_course_plannings_path(@course), notice: 'Votre planning à bien été créé.' }

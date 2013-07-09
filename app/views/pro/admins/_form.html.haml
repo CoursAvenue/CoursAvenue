@@ -13,7 +13,7 @@
 
     #change-password
       %h5.form-header-group Changement de mot de passe
-      .white-box.islet.flush--bottom.flush--top{style: 'max-width: 800px; margin-left: 250px; margin-top: 1em;'}
+      .form-white-box.flush--bottom
         = f.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe'
         = f.input :password_confirmation
   .form-actions.push--top

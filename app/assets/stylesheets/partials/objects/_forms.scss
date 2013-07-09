@@ -91,7 +91,7 @@
         }
     .form-header-group {
         border-bottom: solid 1px $gray-smooth;
-        text-align   : right;
+        // text-align   : right;
         width        : $left-form-margin;
         margin-top   : 1em;
     }
@@ -172,7 +172,7 @@
 
 }
 .form-actions {
-    padding-left: $left-form-margin;
+    // padding-left: $left-form-margin;
     @include multiple-media-query(palm, lap) { width: 100%; }
 }
 

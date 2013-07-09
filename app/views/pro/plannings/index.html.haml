@@ -1,11 +1,10 @@
 = side_menu_currently_at 'Mes cours'
+%ol.nav.breadcrumb.alpha.header-group.header-group
+  %li= link_to 'Tous mes cours', pro_structure_path(@structure)
+  %li= link_to @course.name, edit_pro_course_path(@course)
+  %li Planning
 
-%h2.header-group.flush--bottom Planning - #{@course.name}
 %p
-  = link_to pro_structure_path(@structure) do
-    %i.icon-double-angle-left
-    Retour aux cours
-  &nbsp;|&nbsp;
   = link_to edit_pro_course_path(@course) do
     %i.lbc-icon-info i
     Info
@@ -13,13 +12,12 @@
   = link_to pro_course_prices_path(@course) do
     € Tarif
   &nbsp;|&nbsp;
-  = link_to '#' do
-    %b
-      %i.icon-calendar
-      Planning
+  %b
+    %i.icon-calendar
+    Planning
 
 - if @plannings.any?
-  %h3 Planning de mon cours
+  %h3.flush Planning du cours
   = render "#{@course.underscore_name}_list"
   %hr
 

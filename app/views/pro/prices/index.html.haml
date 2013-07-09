@@ -1,17 +1,16 @@
 = side_menu_currently_at 'Mes cours'
 
-%h2.header-group.flush--bottom Prix - #{@course.name}
+%ol.nav.breadcrumb.alpha.header-group.header-group
+  %li= link_to 'Tous mes cours', pro_structure_path(@structure)
+  %li= link_to @course.name, edit_pro_course_path(@course)
+  %li Prix
+
 %p
-  = link_to pro_structure_path(@structure) do
-    %i.icon-double-angle-left
-    Retour aux cours
-  &nbsp;|&nbsp;
   = link_to edit_pro_course_path(@course) do
     %i.lbc-icon-info i
     Info
   &nbsp;|&nbsp;
-  = link_to '#' do
-    %b € Tarif
+  %b € Tarif
   &nbsp;|&nbsp;
   = link_to pro_course_plannings_path(@course) do
     %i.icon-calendar
@@ -20,7 +19,7 @@
 
 - prices = [[t('prices.annual'), 'prices.annual'],[t('prices.semester'), 'prices.semester'],[t('prices.trimester'), 'prices.trimester'],[t('prices.month'), 'prices.month']]
 = simple_form_for [:pro, @course], url: update_price_pro_course_path(@course) do |f|
-  %h5.form-header-group Prix du #{@course.type_name_html.downcase.html_safe}
+  %h5.form-header-group € Prix du #{@course.type_name_html.downcase.html_safe}
   = f.error_notification
   .form-white-box--large
     .grid--full.input
@@ -34,9 +33,9 @@
       = price_form.hidden_field :libelle, value: 'prices.individual_course', name: 'individual_course_price[libelle]'
       .input.inline-inputs.flush--top
         = price_form.label "1 #{@course.type_name_html}".html_safe, style: 'width: 250px; padding-right: 1em;', class: 'text--right'
-        = price_form.input :amount, placeholder: '20', label: false, input_html: {name: 'individual_course_price[amount]'}
+        = price_form.input :amount, placeholder: '20', label: false, input_html: {name: 'individual_course_price[amount]', class: 'one-whole'}
         €
-        = price_form.input :promo_amount, placeholder: '18', label: false, input_html: {name: 'individual_course_price[promo_amount]'}, wrapper_html: {class: 'push--left soft--left'}
+        = price_form.input :promo_amount, placeholder: '18', label: false, input_html: {name: 'individual_course_price[promo_amount]', class: 'one-whole'}, wrapper_html: {class: 'push--left soft--left'}
         €
 
     - unless @course.is_training?
@@ -45,25 +44,25 @@
         = book_ticket_form.hidden_field :number, value: 10
         .input.inline-inputs.flush--top
           = book_ticket_form.label :amount, "Carnet de 10 #{@course.type_name_html.downcase}".html_safe, style: 'width: 250px; padding-right: 1em;', class: 'text--right'
-          = book_ticket_form.input :amount, placeholder: '45', label: false
+          = book_ticket_form.input :amount, placeholder: '45', label: false, input_html: {class: 'one-whole'}
           €
-          = book_ticket_form.input :promo_amount, placeholder: '40', label: false, wrapper_html: {class: 'push--left soft--left'}
+          = book_ticket_form.input :promo_amount, placeholder: '40', label: false, wrapper_html: {class: 'push--left soft--left'}, input_html: {class: 'one-whole'}
           €
 
     - if @course.is_lesson?
       = simple_fields_for @subscription do |forfait_form|
         .input.inline-inputs.flush--top
           = forfait_form.input :libelle, as: :select, collection: prices, include_blank: false, label: false, wrapper_html: {style: 'width: 250px; padding-right: 1em;', class: 'text--right'}
-          = forfait_form.input :amount, placeholder: '150', label: false
+          = forfait_form.input :amount, placeholder: '150', label: false, input_html: {class: 'one-whole'}
           €
-          = forfait_form.input :promo_amount, placeholder: '130', label: false, wrapper_html: {class: 'push--left soft--left'}
+          = forfait_form.input :promo_amount, placeholder: '130', label: false, wrapper_html: {class: 'push--left soft--left'}, input_html: {class: 'one-whole'}
           €
 
     %hr
     = simple_fields_for @registration_fee do |registration_form|
       .input.inline-inputs.flush--top
         = registration_form.label :amount, 'Adhésion (optionnel)', style: 'width: 250px; padding-right: 1em;', class: 'text--right'
-        = registration_form.input :amount, placeholder: '15', label: false
+        = registration_form.input :amount, placeholder: '15', label: false, input_html: {class: 'one-whole'}
         €
     %hr
     = f.input :price_details, wrapper_html: {class: 'flush--bottom'}, input_html: { name: 'price_details', data: {behavior: 'autoresize' }}

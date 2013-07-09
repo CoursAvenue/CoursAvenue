@@ -1,4 +1,7 @@
 = side_menu_currently_at 'Mes cours'
 
-%h3.header-group Nouveau cours
+%ol.nav.breadcrumb.alpha.header-group
+  %li= link_to 'Tous mes cours', pro_structure_path(@structure)
+  %li Nouveau cours
+
 = render partial: 'form'
