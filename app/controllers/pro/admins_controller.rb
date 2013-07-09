@@ -5,6 +5,8 @@ class ::Pro::AdminsController < InheritedResources::Base
 
   layout :admin_layout
 
+  respond_to :js
+
   def admin_layout
     if action_name == 'waiting_for_activation'
       'admin_pages'
@@ -61,6 +63,7 @@ class ::Pro::AdminsController < InheritedResources::Base
       if @admin.update_attributes(params[:admin])
         sign_in(@admin, bypass: true)
         format.html { redirect_to edit_pro_admin_path(current_pro_admin), notice: 'Vos paramètres ont été mis à jour avec succès' }
+        format.js { render nothing: true }
       else
         format.html { render 'pro/admins/edit' }
       end

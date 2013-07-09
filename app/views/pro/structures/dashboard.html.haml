@@ -7,6 +7,18 @@
   = link_to 'Partager mon profil sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{place_url(@structure.places.first, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Pro / Share on Facebook', 'click', 'From dashboard page'])"
 
 
+- if @wizard
+  #wizard.blue-box.islet.hidden.relative
+    %a#close-wizard{href: 'javascript:void(0)', style: 'position: absolute; right: 10px; top: 10px;'}
+      %i.icon-remove
+    - if @wizard.id == 1
+      %p.flush Bienvenue #{@structure.name} ! Améliorons ensemble votre profil.
+    - else
+      %p.flush Il nous manque encore quelques informations.
+    #wizard-form= render @wizard.partial
+    %span.btn.btn--success#save-wizard Enregistrer
+    %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
+  #share_your_profile.blue-box.islet{style: 'display: none;'}= render 'wizards/share_your_profile'
 .white-box.islet
   .grid.push-half--bottom
     %h4.grid__item.width-auto.v-middle.flush--bottom
@@ -44,28 +56,28 @@
       .text--center
         = link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn--success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Demander des recommandations'])"
       %hr.push--top
-      %p
-        Notre moteur de recherche est basé sur les témoignages des élèves.
-        %br
-        Voici votre position d'apparition sur CoursAvenue grâce à vos avis :
-      - @structure_better_indexed.each do |subject_name, structures|
-        %p.flush--bottom
-          %strong= subject_name
-          \: #{(structures.length + 1).ordinalize}
-          position.
-          - if structures.any?
-            %br
-            Établissements mieux placés que vous :
-        - if structures.any?
-          %ul.block-list
-            - structures.each do |structure|
-              %li
-                = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank'
-                = rating_stars structure.rating
-                \/
-                = structure.comments_count
-                avis
-                %i.lbc-brand-icon
+      / %p
+      /   Notre moteur de recherche est basé sur les témoignages des élèves.
+      /   %br
+      /   Voici votre position d'apparition sur CoursAvenue grâce à vos avis :
+      / - @structure_better_indexed.each do |subject_name, structures|
+      /   %p.flush--bottom
+      /     %strong= subject_name
+      /     \: #{(structures.length + 1).ordinalize}
+      /     position.
+      /     - if structures.any?
+      /       %br
+      /       Établissements mieux placés que vous :
+      /   - if structures.any?
+      /     %ul.block-list
+      /       - structures.each do |structure|
+      /         %li
+      /           = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank'
+      /           = rating_stars structure.rating
+      /           \/
+      /           = structure.comments_count
+      /           avis
+      /           %i.lbc-brand-icon
 
   .grid__item.one-half.palm--one-whole.lap--one-whole>
     %h3.header-group
@@ -165,10 +177,56 @@
 -#         = Teacher.model_name.human(count: @structure.teachers.count).downcase
 -#       = link_to 'Ajouter un professeur', pro_structure_teachers_path(@structure), class: 'btn btn--success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Ajouter des medias'])"
 
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        if ($('wizard')) {
+            $('wizard').reveal();
+            var wizard_ajax = new Request.JSON({
+                url: "#{wizard_pro_structure_path(@structure)}",
+                onSuccess: function(response) {
+                    $('wizard-form').dissolve();
+                    setTimeout(function(){
+                        if (response.done) {
+                            $('wizard').dissolve();
+                            $('share_your_profile').reveal();
+                        } else {
+                            $('wizard-form').set('html', response.form);
+                            $('wizard-form').reveal();
+                        }
+                    }, 500);
+                }
+            })
+            var submit_form = function() {
+                $$('#wizard form')[0].set('send', {
+                    onComplete: function() {
+                      wizard_ajax.get();
+                    }
+                }).send()
+                mixpanel.track('Wizard next');
+                return false;
+            };
+            $(document.body).addEvent('submit:relay(#wizard-form form)', submit_form)
+            // $$('#wizard-form form').addEvent('submit', submit_form);
+            $('save-wizard').addEvent('click', submit_form)
+            $('skip-wizard').addEvent('click', function(){
+                var wizard_label = $$('#wizard form label').get('text').join(',');
+                wizard_ajax.get({next: true});
+                mixpanel.track('Skip wizard', {name: wizard_label});
+            })
+            $('close-wizard').addEvent('click', function() {
+                $('wizard').dissolve();
+                mixpanel.track('Quit wizard');
+            });
+        }
+      });
 - if @comments.any?
   = content_for :scripts do
     :javascript
       window.addEvent('domready', function() {
+          if ($('wizard')) {
+              $('wizard').reveal();
+          }
           new Highcharts.Chart({
               chart: {
                 type: 'column',

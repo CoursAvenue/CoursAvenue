@@ -1,0 +1,2 @@
+= simple_form_for [:pro, @structure], html: { class: 'wizard-form' }, remote: true do |f|
+  = f.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: {style: 'max-width: 29em;'}, label: 'Quel est le type de votre structure ?'

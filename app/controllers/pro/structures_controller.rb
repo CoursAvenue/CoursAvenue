@@ -5,18 +5,33 @@ class Pro::StructuresController < Pro::ProController
 
   layout :get_layout
 
+  respond_to :json
+
+  def wizard
+    @wizard = get_next_wizard
+    @structure = Structure.find params[:id]
+    respond_to do |format|
+      if @wizard
+        format.json { render json: { form: render_to_string(partial: @wizard.partial, layout: false), done: false }  }
+      else
+        format.json { render json: { done: true }  }
+      end
+    end
+  end
+
   def dashboard
     @structure      = Structure.find params[:id]
+    @wizard         = get_next_wizard
     commentable_ids = @structure.courses.collect(&:id)
     commentable_ids << @structure.id
     @comments       = @structure.all_comments
     @comments_group = Comment.where{commentable_id.in commentable_ids }.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
     @structure_better_indexed = {}
     structure_comment_count  = @structure.comments_count
-    @structure.parent_subjects_string.split(';').each do |parent_subject_string|
-      subject_name = parent_subject_string.split(',')[0]
-      @structure_better_indexed[subject_name] = Structure.where{(parent_subjects_string =~ "%#{parent_subject_string}%") & (comments_count > structure_comment_count)}.order('comments_count DESC').limit(8)
-    end
+    # @structure.parent_subjects_string.split(';').each do |parent_subject_string|
+    #   subject_name = parent_subject_string.split(',')[0]
+    #   @structure_better_indexed[subject_name] = Structure.where{(parent_subjects_string =~ "%#{parent_subject_string}%") & (comments_count > structure_comment_count)}.order('comments_count DESC').limit(8)
+    # end
 
     @profile_completed = @structure.image.present? and (@structure.description.present? and @structure.description.split.size > 30)
     @profile_percentage = 100
@@ -144,6 +159,7 @@ class Pro::StructuresController < Pro::ProController
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
         format.html { redirect_to edit_pro_structure_path(@structure), notice: 'Vos informations ont bien été mises à jour.' }
+        format.js { render nothing: true }
       else
         format.html { render action: 'edit' }
       end
@@ -198,6 +214,20 @@ class Pro::StructuresController < Pro::ProController
   end
 
   private
+  def get_next_wizard
+    if params[:next] and session[:current_wizard_id]
+      session[:current_wizard_id] += 1
+      return Wizard.find(session[:current_wizard_id])
+    else
+      Wizard.all.each do |wizard|
+        unless wizard.completed?.call(@structure)
+          session[:current_wizard_id] = wizard.id
+          return wizard
+        end
+      end
+      return nil
+    end
+  end
 
   def get_layout
     if action_name == 'new' or action_name == 'create_and_get_feedbacks' or action_name == 'import_mail_callback' or action_name == 'share_my_profile'

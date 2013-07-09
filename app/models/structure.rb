@@ -58,7 +58,7 @@ class Structure < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :students
   has_many :teachers                 , dependent: :destroy
-  has_many :courses, through: :places
+  has_many :courses , through: :places
   has_many :renting_rooms
   has_many :cities, through: :places
   has_many :places                   , dependent: :destroy
@@ -75,12 +75,16 @@ class Structure < ActiveRecord::Base
   validates :siret              , length: { maximum: 14 }#, numericality: { only_integer: true }
 
 
-  after_save       :create_teacher
+  # -------------------- Callbacks
   before_create    :set_active_to_true
+
   after_create     :set_free_pricing_plan
   after_create     :create_place
   after_create     :create_courses_relative_to_subject
   after_create     :delay_subscribe_to_mailchimp if Rails.env.production?
+
+  after_save       :create_teacher
+
   before_save      :replace_slash_n_r_by_brs
   before_save      :fix_website_url
 
