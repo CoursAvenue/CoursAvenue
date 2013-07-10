@@ -50,6 +50,7 @@
 // Initialize all input-update objects
 window.addEvent('domready', function() {
     $$('[data-behavior=drop-down]').each(function(el) {
-        new GLOBAL.Objects.DropDown(el);
+        var drop     = new GLOBAL.Objects.DropDown(el);
+        el.drop_down = drop;
     });
 });
