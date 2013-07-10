@@ -56,28 +56,28 @@
       .text--center
         = link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn--success', onclick: "_gaq.push(['_trackEvent', 'Dashboard', 'click', 'Demander des recommandations'])"
       %hr.push--top
-      / %p
-      /   Notre moteur de recherche est basé sur les témoignages des élèves.
-      /   %br
-      /   Voici votre position d'apparition sur CoursAvenue grâce à vos avis :
-      / - @structure_better_indexed.each do |subject_name, structures|
-      /   %p.flush--bottom
-      /     %strong= subject_name
-      /     \: #{(structures.length + 1).ordinalize}
-      /     position.
-      /     - if structures.any?
-      /       %br
-      /       Établissements mieux placés que vous :
-      /   - if structures.any?
-      /     %ul.block-list
-      /       - structures.each do |structure|
-      /         %li
-      /           = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank'
-      /           = rating_stars structure.rating
-      /           \/
-      /           = structure.comments_count
-      /           avis
-      /           %i.lbc-brand-icon
+      %p
+        Notre moteur de recherche est basé sur les témoignages des élèves.
+        %br
+        Voici votre position d'apparition sur CoursAvenue grâce à vos avis :
+      - @structure_better_indexed.each do |subject_name, structures|
+        %p.flush--bottom
+          %strong= subject_name
+          \: #{(structures.length + 1).ordinalize}
+          position.
+          - if structures.any?
+            %br
+            Établissements mieux placés que vous :
+        - if structures.any?
+          %ul.block-list
+            - structures.each do |structure|
+              %li
+                = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank'
+                = rating_stars structure.rating
+                \/
+                = structure.comments_count
+                avis
+                %i.lbc-brand-icon
 
   .grid__item.one-half.palm--one-whole.lap--one-whole>
     %h3.header-group

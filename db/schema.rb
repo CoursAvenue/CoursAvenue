@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130703155313) do
+ActiveRecord::Schema.define(:version => 20130710081409) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -445,6 +445,8 @@ ActiveRecord::Schema.define(:version => 20130703155313) do
     t.decimal  "rating"
     t.integer  "comments_count",                               :default => 0
     t.string   "facebook_url"
+    t.boolean  "no_facebook"
+    t.boolean  "no_website"
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true

@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Wizard < ActiveHash::Base
 
   self.data = [
@@ -5,13 +6,13 @@ class Wizard < ActiveHash::Base
         id: 1,
         name: 'wizard.website',
         partial: 'wizards/website',
-        completed?: lambda {|structure| structure.website.present? }
+        completed?: lambda {|structure| structure.no_website || structure.website.present? }
     },
     {
         id: 2,
         name: 'wizard.facebook',
         partial: 'wizards/facebook',
-        completed?: lambda {|structure| structure.facebook_url.present? }
+        completed?: lambda {|structure| structure.no_facebook || structure.facebook_url.present? }
     },
     {
         id: 3,
@@ -23,7 +24,7 @@ class Wizard < ActiveHash::Base
         id: 4,
         name: 'wizard.admin_phone',
         partial: 'wizards/contact_phone',
-        completed?: lambda {|structure| structure.main_contact.phone_number.present? }
+        completed?: lambda {|structure| structure.main_contact.phone_number.present? || structure.main_contact.mobile_phone_number.present? }
     },
     {
         id: 5,

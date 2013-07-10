@@ -1,2 +1,3 @@
 = simple_form_for [:pro, @structure], html: { class: 'wizard-form' }, remote: true do |f|
   = f.input :website, placeholder: 'Ex : http://www.danse-a-paris.com', label: 'Avez-vous un site internet ?'
+  = f.input :no_website, label: "Je n'ai pas de site internet"

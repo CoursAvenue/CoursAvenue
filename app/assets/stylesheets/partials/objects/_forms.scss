@@ -151,6 +151,13 @@
         input, textarea {
             width    : 100%;
             max-width: 30em;
+            &.boolean {
+                width: auto;
+            }
+        }
+        label.boolean {
+            display: inline-block;
+            width  : auto;
         }
     }
 }
