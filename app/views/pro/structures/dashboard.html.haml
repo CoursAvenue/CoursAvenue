@@ -9,7 +9,7 @@
 
 - if @wizard
   #wizard.blue-box.islet.hidden.relative
-    %a#close-wizard{href: 'javascript:void(0)', style: 'position: absolute; right: 10px; top: 10px;'}
+    %a#close-wizard.closer{href: 'javascript:void(0)', data: { behavior: 'closer', el: '#wizard'}}
       %i.icon-remove
     - if @wizard.id == 1
       %p.flush Bienvenue #{@structure.name} ! Améliorons ensemble votre profil.
@@ -18,7 +18,8 @@
     #wizard-form= render @wizard.partial
     %span.btn.btn--success#save-wizard Enregistrer
     %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
-  #share_your_profile.blue-box.islet{style: 'display: none;'}= render 'wizards/share_your_profile'
+  = render 'wizards/share_your_profile'
+
 .white-box.islet
   .grid.push-half--bottom
     %h4.grid__item.width-auto.v-middle.flush--bottom
@@ -213,9 +214,8 @@
                 var wizard_label = $$('#wizard form label').get('text').join(',');
                 wizard_ajax.get({next: true});
                 mixpanel.track('Skip wizard', {name: wizard_label});
-            })
+            });
             $('close-wizard').addEvent('click', function() {
-                $('wizard').dissolve();
                 mixpanel.track('Quit wizard');
             });
         }

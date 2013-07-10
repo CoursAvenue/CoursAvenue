@@ -1,8 +1,12 @@
-%h4
-  %span.v-middle Partagez votre profil sur Facebook
-  %span.soft-half--left.v-middle
-    = link_to 'Partager mon profil sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{place_url(@structure.places.first, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "mixpanel.track('Share on Facebook from wizard'); _gaq.push(['_trackEvent', 'Pro / Share on Facebook', 'click', 'From dashboard page'])"
+#share_your_profile.relative.blue-box.islet{style: 'display: none;'}
+  %a.closer{href: 'javascript:void(0)', data: { behavior: 'closer', el: '#share_your_profile'}}
+    %i.icon-remove
 
-%h4
-  %span.v-middle Demandez des recommandations à vos élèves
-  %span.soft-half--left.v-middle= link_to 'Espace recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn--success', onclick: "mixpanel.track('Go to recommendation page from wizard');"
+  %h4
+    %span.v-middle Partagez votre profil sur Facebook
+    %span.soft-half--left.v-middle
+      = link_to 'Partager mon profil sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{place_url(@structure.places.first, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "mixpanel.track('Share on Facebook from wizard'); _gaq.push(['_trackEvent', 'Pro / Share on Facebook', 'click', 'From dashboard page'])"
+
+  %h4
+    %span.v-middle Demandez des recommandations à vos élèves
+    %span.soft-half--left.v-middle= link_to 'Espace recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn--success', onclick: "mixpanel.track('Go to recommendation page from wizard');"
