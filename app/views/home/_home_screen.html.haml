@@ -3,7 +3,7 @@
     %h1.text--center.home-screen-title
       Trouvez le cours de votre choix.
     %h5.text--center.home-screen-subtitle
-      = "Parmi 128 disciplines et #{Planning.count} séances, pour tous les âges."
+      = "Parmi 1000+ disciplines et #{Planning.count} séances, pour tous les âges."
     = render 'shared/home_page_search_form'
 
     - cache "home_screen_#{ENV["ETAG_VERSION_ID"]}" do
