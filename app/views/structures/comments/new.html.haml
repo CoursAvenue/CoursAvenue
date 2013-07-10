@@ -34,7 +34,11 @@
           %span#rating-description
         - unless current_user
           = f.input :author_name, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: false
-          = f.hidden_field :email, value: params[:email]
+          - if params[:email].present?
+            = f.hidden_field :email, value: params[:email]
+          - else
+            = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: false, label: 'Votre email'
+
         = f.input :title, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}
         %p.field-form-info.blue
           %i Soyez le plus précis possible. Exemple : « Stage de danse jazz new style pour ado du jeudi soir »

@@ -28,8 +28,10 @@
   = render partial: 'comments/comment', locals: { comment: @comment }
 
 .text--center.push--top
-  = link_to subject_courses_path(@main_subject), class: 'btn btn--blue btn--large', onclick: "mixpanel.track('See other courses after comment');" do
-    #{@main_subject.name} : voir d'autres établissements
+  / = link_to subject_courses_path(@main_subject), class: 'btn btn--blue btn--large', onclick: "mixpanel.track('See other courses after comment');" do
+  / {@main_subject.name} : voir d'autres établissements
+  %h3 CoursAvenue c'est #{Subject.count} disciplines et #{Planning.count} séances de cours !
+  %div= link_to 'Rejoindre la communauté CoursAvenue', 'javascript:void(0)', class: 'btn btn--blue btn--large', onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_up'}
 
 #mail-content.hidden
   = render template: 'student_mailer/ask_for_feedbacks'

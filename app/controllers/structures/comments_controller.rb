@@ -14,7 +14,7 @@ class Structures::CommentsController < ApplicationController
     @structure    = Structure.find(params[:structure_id])
     @place        = @structure.places.first
     @comment      = Comment.find params[:id]
-    @main_subject = @structure.parent_subjects.first
+    # @main_subject = @structure.parent_subjects.first
     if @place.thumb_image.present?
       @logo_url  = @place.thumb_image.url
     elsif @place.image.present?
