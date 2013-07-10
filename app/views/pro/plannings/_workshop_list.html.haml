@@ -40,6 +40,7 @@
             teacher_select.addEvent('change', function() {
                 teacher_form = this.getParent('form')
                 teacher_form.send();
+                new GLOBAL.Objects.Flash('Le professeur a bien été changé').showAndHide();
             })
         });
         new TableSorter('dataTable', { columnDataTypes: 'date, datetime, string, string, string, string', cookieName: 'tableSortState__planning_#{@course.slug}', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
