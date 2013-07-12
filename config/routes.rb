@@ -87,8 +87,7 @@ CoursAvenue::Application.routes.draw do
           get 'activez-votre-compte' => 'admins#waiting_for_activation', as: 'waiting_for_activation'
         end
         member do
-          put 'activate'
-          put 'disable'
+          put 'confirm'
         end
       end
       devise_for :admins, controllers: { sessions: 'pro/admins/sessions', registrations: 'pro/admins/registrations', passwords: 'pro/admins/passwords', confirmations: 'pro/admins/confirmations'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/', :confirmation => 'verification'}#, :password => 'secret', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }

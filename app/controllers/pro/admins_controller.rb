@@ -18,15 +18,10 @@ class ::Pro::AdminsController < InheritedResources::Base
   def waiting_for_activation
   end
 
-  def activate
+  def confirm
     @admin            = ::Admin.find(params[:id])
-    @structure        = @admin.structure
-    @admin.active     = true
-    @structure.active = true
     respond_to do |format|
-      if @admin.save and @structure.save
-        @structure.places.map(&:index)
-        AdminMailer.admin_validated(@admin).deliver!
+      if @admin.confirm!
         format.html { redirect_to pro_admins_path }
       else
         format.html { redirect_to pro_admins_path, alert: 'Something fucked up.' }
@@ -34,13 +29,6 @@ class ::Pro::AdminsController < InheritedResources::Base
     end
   end
 
-  def disable
-    @admin = ::Admin.find(params[:id])
-    @admin.update_attribute :active, false
-    respond_to do |format|
-      format.html { redirect_to pro_admins_path }
-    end
-  end
 
   def index
     @admins = ::Admin.order('created_at DESC').all

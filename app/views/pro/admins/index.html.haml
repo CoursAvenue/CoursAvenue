@@ -32,12 +32,15 @@
         %td{data: {value: admin.last_sign_in_at}}
           = l(admin.last_sign_in_at) if admin.last_sign_in_at
         %td.text--right.nowrap
-          - if admin.active
-            = link_to 'Actif', disable_pro_admin_path(admin), class: 'switch-button on', method: :put
+          - if admin.confirmed?
+            .switch-button.on
+              Actif
           - else
-            = link_to 'Inactif', activate_pro_admin_path(admin), class: 'switch-button off', method: :put
+            = link_to 'Inactif', confirm_pro_admin_path(admin), class: 'switch-button off', method: :put
+          &nbsp;
           = link_to edit_pro_admin_path(admin), title: 'Éditer', class: 'btn btn--warning' do
             %i.icon-pencil
+          &nbsp;
           = link_to pro_admin_path(admin), method: :delete, title: 'Supprimer', class: 'btn btn--danger', data: {confirm: 'Êtes-vous sur de supprimer cet admin et TOUS ses cours ?'} do
             %i.icon-trash
 
