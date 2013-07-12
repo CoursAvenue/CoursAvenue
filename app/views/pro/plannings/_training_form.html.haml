@@ -14,8 +14,6 @@
     = f.input :start_time, as: :time, minute_step: 15, label: false, default: {year: 2000, month: 1, day: 1, hour: 8, min: 00}, wrapper_html: {id: 'start-time-wrapper'}
     %label &nbsp;-&nbsp;
     = f.input :end_time, as: :time, minute_step: 15, label: false, default: {year: 2000, month: 1, day: 1, hour: 9, min: 00}, wrapper_html: {id: 'end-time-wrapper'}
-    %span.v-middle durée du cours :
-    = f.input :duration, as: :select, collection: minutes, label: false
 
   - if @course.is_individual
     %p.field-form-info.blue Attention : 1 créneau = 1 séance de cours (si vous donnez des cours particuliers d'1h tous les lundis de 15h à 19h, entrez 4 créneaux : 15h-16h, 16h-17h,…).
@@ -41,7 +39,7 @@
     = f.label :info, class: 'control-label' do
       %i.lbc-icon-info i
       Information
-    = f.input :info, as: :string, placeholder: '(optionnel) Plat : gâteau au chocolat', label: false
+    = f.input :info, as: :string, placeholder: '(optionnel) Plat : gâteau au chocolat', label: false, input_html: {class: 'one-whole'}
   .text--center.input
     - if @planning.new_record?
       = f.submit 'Ajouter le créneau', class: 'btn btn--success'

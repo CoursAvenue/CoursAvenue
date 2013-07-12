@@ -1,4 +1,6 @@
 class ::Admin < ActiveRecord::Base
+  acts_as_paranoid
+
   CIVILITY = [
     'civility.male',
     'civility.female'

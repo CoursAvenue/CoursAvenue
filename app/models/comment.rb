@@ -1,4 +1,5 @@
 class Comment < ActiveRecord::Base
+  acts_as_paranoid
   attr_accessible :commentable, :commentable_id, :commentable_type, :content, :author_name, :email, :rating, :title
 
   belongs_to :commentable, polymorphic: true

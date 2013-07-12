@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130710133117) do
+ActiveRecord::Schema.define(:version => 20130712172957) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(:version => 20130710133117) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.time     "deleted_at"
   end
 
   add_index "admins", ["email"], :name => "index_admin_users_on_email", :unique => true
@@ -121,6 +122,7 @@ ActiveRecord::Schema.define(:version => 20130710133117) do
     t.datetime "updated_at",       :null => false
     t.string   "title"
     t.integer  "user_id"
+    t.time     "deleted_at"
   end
 
   create_table "courses", :force => true do |t|
@@ -219,6 +221,7 @@ ActiveRecord::Schema.define(:version => 20130710133117) do
     t.string   "mediable_type"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.time     "deleted_at"
   end
 
   create_table "participants", :force => true do |t|
@@ -302,6 +305,7 @@ ActiveRecord::Schema.define(:version => 20130710133117) do
     t.integer  "duration"
     t.string   "audience_ids"
     t.string   "level_ids"
+    t.time     "deleted_at"
   end
 
   add_index "plannings", ["audience_ids"], :name => "index_plannings_on_audience_ids"
@@ -491,6 +495,7 @@ ActiveRecord::Schema.define(:version => 20130710133117) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.text     "description"
+    t.time     "deleted_at"
   end
 
   create_table "users", :force => true do |t|

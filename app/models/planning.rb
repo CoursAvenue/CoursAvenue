@@ -1,5 +1,7 @@
 # encoding: utf-8
 class Planning < ActiveRecord::Base
+  acts_as_paranoid
+
   include PlanningsHelper
 
   belongs_to :course, touch: true
@@ -129,8 +131,8 @@ class Planning < ActiveRecord::Base
 
   def default_values
     if self.new_record?
-      self.audience_ids = [Audience::ADULT.id]
-      self.level_ids    = [Level::ALL.id]
+      self.audience_ids = [Audience::ADULT.id] if self.audience_ids.empty?
+      self.level_ids    = [Level::ALL.id]      if self.audience_ids.empty?
     end
   end
 

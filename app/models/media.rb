@@ -1,4 +1,6 @@
 class Media < ActiveRecord::Base
+  acts_as_paranoid
+
   self.table_name = 'medias'
 
   attr_accessible :mediable, :mediable_id, :mediable_type, :url, :caption

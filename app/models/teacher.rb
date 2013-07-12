@@ -1,4 +1,6 @@
 class Teacher < ActiveRecord::Base
+  acts_as_paranoid
+
   belongs_to :structure
   has_many   :plannings
   has_many   :courses, through: :plannings
