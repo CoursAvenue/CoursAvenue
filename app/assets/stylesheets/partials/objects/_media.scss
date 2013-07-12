@@ -3,7 +3,7 @@
 \*------------------------------------*/
 
 .media__item {
-    iframe {
+    iframe, object {
         width: 100%;
     }
     &:hover {
