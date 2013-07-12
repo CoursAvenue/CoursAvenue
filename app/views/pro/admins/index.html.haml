@@ -8,7 +8,9 @@
       %th
         %span Nom
       %th
-        %span Structure
+        %span Email
+      %th
+        %span Établissements
       %th
         %span Téléphone
       %th
@@ -19,16 +21,17 @@
   %tbody
     - @admins.each do |admin|
       %tr
-        %td{class: (admin.super_admin? ? 'bold' : '')}
+        %td
           = link_to (admin.name || ''), edit_pro_admin_path(admin)
-          = link_to "(#{admin.email})", "mailto:#{admin.email}"
+        %td
+          = link_to admin.email, "mailto:#{admin.email}"
         %td= link_to admin.structure.name, dashboard_pro_structure_path(admin.structure) if admin.structure
         %td= admin.phone_number if admin.phone_number
         %td{data: {value: admin.updated_at}}
           = l(admin.updated_at, format: :date_short)
         %td{data: {value: admin.last_sign_in_at}}
           = l(admin.last_sign_in_at) if admin.last_sign_in_at
-        %td.text--right
+        %td.text--right.nowrap
           - if admin.active
             = link_to 'Actif', disable_pro_admin_path(admin), class: 'switch-button on', method: :put
           - else
@@ -41,5 +44,5 @@
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string, string, string, date, date, string', cookieName: 'tableSortState__admins', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
+        new TableSorter('dataTable', { columnDataTypes: 'string, string, string, string, date, date, string', cookieName: 'tableSortState__admins', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
     });

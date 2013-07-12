@@ -43,7 +43,7 @@ class ::Pro::AdminsController < InheritedResources::Base
   end
 
   def index
-    @admins = ::Admin.order('last_sign_in_at DESC').all
+    @admins = ::Admin.order('created_at DESC').all
   end
 
   def edit

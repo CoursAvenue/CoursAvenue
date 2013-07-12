@@ -19,6 +19,7 @@ class Pro::DashboardController < Pro::ProController
       end
     end
 
+    # Compute all the days to have all the days shown in the graph even when values are empty
     hash_of_days = {}
     ((1.months).ago.to_date..Date.today).each{ |date| hash_of_days[date.strftime("%Y-%m-%d")] = 0}
     @comments  = hash_of_days.merge @comments
