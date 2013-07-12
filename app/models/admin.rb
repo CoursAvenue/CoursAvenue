@@ -29,7 +29,7 @@ class ::Admin < ActiveRecord::Base
   validates :password, :email, :structure, presence: true, on: :create
 
   # attr_accessible :title, :body
-  belongs_to :structure
+  belongs_to :structure, dependent: :destroy
 
   # Scopes
   scope :normal, where(super_admin: false)

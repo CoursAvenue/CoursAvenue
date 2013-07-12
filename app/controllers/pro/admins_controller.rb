@@ -59,7 +59,7 @@ class ::Pro::AdminsController < InheritedResources::Base
   end
 
   def destroy
-    @admin = ::Admin.find(params[:id])
+    @admin     = ::Admin.find(params[:id])
     @structure = @admin.structure
     destroy! do |format|
       format.html do
