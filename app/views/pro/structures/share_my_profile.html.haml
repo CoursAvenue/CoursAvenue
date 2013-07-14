@@ -38,7 +38,7 @@
           .input.visuallyhidden--palm.visuallyhidden--lap
             %label.control-label.v-middle Importez vos contacts Gmail
             %div
-              = link_to "/contacts/gmail", class: 'btn', onclick: "ga.send('send', 'event', 'Import contact GMail', 'click')" do
+              = link_to "/contacts/gmail", class: 'btn', onclick: "ga('send', 'event', 'Import contact GMail', 'click')" do
                 %i.icon-envelope.v-middle{style: 'font-size: 16px; padding-right: 5px;'}
                 %span.v-middle Importer mes contacts Gmail
 

@@ -8,7 +8,7 @@
       = select_tag :structure, options_from_collection_for_select(@structures, :slug, :name), include_blank: true , style: 'max-width: 35em;'
   %div
     Votre établissement n'est pas dans la liste ? Pas de soucis,
-    = link_to "cliquez ici !", inscription_pro_structures_path, onclick: "ga.send('send', 'event', 'Mon établissement n'est pas dans la liste', 'click')"
+    = link_to "cliquez ici !", inscription_pro_structures_path, onclick: "ga('send', 'event', 'Mon établissement n'est pas dans la liste', 'click')"
 
 = content_for :scripts do
   :javascript
