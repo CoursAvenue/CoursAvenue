@@ -21,7 +21,7 @@
         - if params[:name]
           %li= params[:name]
     %h1.text--center.delta.flush.lbl.lbl--blue
-       - if params[:subject_id]
+      - if params[:subject_id]
         Cours de #{@subject.name.downcase}
       - else
         Cours
