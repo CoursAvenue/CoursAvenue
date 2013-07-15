@@ -1,10 +1,25 @@
 # encoding: utf-8
 class Pro::PlanningsController < InheritedResources::Base
-  before_filter :authenticate_pro_admin!
   layout 'admin'
-  belongs_to :course
+
+  before_filter :authenticate_pro_admin!
   before_filter :load_structure
+
+  belongs_to :course
   load_and_authorize_resource :structure
+
+  def duplicate
+    @planning            = Planning.find params[:id]
+    @course              = Course.find params[:course_id]
+    @duplicate_planning  = @planning.duplicate
+    respond_to do |format|
+      if @duplicate_planning.save
+        format.html { redirect_to pro_course_plannings_path(@course), notice: "Le planning à bien été dupliqué." }
+      else
+        format.html { redirect_to pro_course_plannings_path(@course), notice: "Le planning n'a pu être dupliqué." }
+      end
+    end
+  end
 
   def index
     @planning  = Planning.new

@@ -127,12 +127,16 @@ class Planning < ActiveRecord::Base
     return (end_date - start_date).to_i + 1
   end
 
+  def duplicate
+    duplicate_planning = self.dup
+  end
+
   private
 
   def default_values
     if self.new_record?
-      self.audience_ids = [Audience::ADULT.id] if self.audience_ids.empty?
-      self.level_ids    = [Level::ALL.id]      if self.audience_ids.empty?
+      self.audiences = [Audience::ADULT] if self.audiences.empty?
+      self.levels    = [Level::ALL]      if self.levels.empty?
     end
   end
 
@@ -155,8 +159,8 @@ class Planning < ActiveRecord::Base
 
   # Set default start date
   def set_start_date
-    if start_date.nil?
-      self.start_date = course.start_date || Date.yesterday
+    if self.start_date.nil?
+      self.start_date = self.course.start_date || Date.yesterday
     end
   end
 

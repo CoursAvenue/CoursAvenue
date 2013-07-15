@@ -168,7 +168,7 @@ class Structure < ActiveRecord::Base
   def create_courses_relative_to_subject
     place = self.places.first
     self.subjects.each do |subject|
-      place.courses.create(name: subject.name, subject_ids: [subject.id], type: 'Course::Lesson')
+      place.courses.create(name: subject.name, subject_ids: [subject.id], type: 'Course::Lesson', start_date: Date.today, end_date: (Date.today + 1.year))
     end
   end
 

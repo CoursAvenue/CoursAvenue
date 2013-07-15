@@ -76,7 +76,7 @@
 .btn--warning {
     font-weight: bold;
     @include buttonBackground($btn-warning-background, $btn-warning-background-highlight);
-    &:hover {
+    &:hover, &:active {
         @include buttonBackground(lighten($btn-warning-background, 6%), lighten($btn-warning-background-highlight, 6%));
     }
 }
@@ -85,7 +85,7 @@
 .btn--success {
     text-transform: uppercase;
     @include buttonBackground($btn-success-background, $btn-success-background-highlight);
-    &:hover {
+    &:hover, &:active {
         @include buttonBackground(lighten($btn-success-background, 6%), lighten($btn-success-background-highlight, 6%));
     }
     &.disabled, &[disabled] {
@@ -97,7 +97,7 @@
 .btn--blue {
     text-transform: uppercase;
     @include buttonBackground($btn-blue-background, $btn-blue-background-highlight);
-    &:hover {
+    &:hover, &:active {
         @include buttonBackground(lighten($btn-blue-background, 6%), lighten($btn-blue-background-highlight, 6%));
     }
     &.disabled, &[disabled] {

@@ -4,6 +4,9 @@
   - else
     %link{rel: 'canonical', href: courses_url}
 
+= content_for :title do
+  = "#{(params[:subject_id] ? "Cours de #{@subject.name.downcase}" : 'Cours')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : 'à Paris')}"
+
 .grid
   .grid__item= render 'search_form'
   %section.grid__item.three-tenths.visuallyhidden--palm.visuallyhidden--lap>
@@ -18,7 +21,7 @@
         - if params[:name]
           %li= params[:name]
     %h1.text--center.delta.flush.lbl.lbl--blue
-      - if params[:subject_id]
+       - if params[:subject_id]
         Cours de #{@subject.name.downcase}
       - else
         Cours
