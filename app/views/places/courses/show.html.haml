@@ -96,7 +96,7 @@
     .grid--full.course-header-badge>
       .grid__item.one-half.palm--one-whole>
         - if @course.image.present?
-          = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name.capitalize}"
+          = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name.capitalize}", longdesc: @course.description
         - elsif @course.subjects.any?
           = image_tag @course.subjects.limit(1).first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name.capitalize}."
       .grid__item.course-header-map.one-half.palm--one-whole>
@@ -146,8 +146,7 @@
                 .grid__item.one-half>
                   %a.break-all.white-box.islet.media__item{href: media.url, title: media.caption}
                     = media.url_html
-                    %p
-                      %i= media.caption
+                    %caption= media.caption
 
 
 

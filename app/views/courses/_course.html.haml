@@ -1,13 +1,13 @@
 - best_price = course.best_price
 
-%li.one-whole.course-element{onclick: "_gaq.push(['_trackEvent', 'Click cours', 'click', '#{best_price.try(:has_promo?) ? 'Avec promo' : 'Sans promo'}'])", data: {"place-id" => course.place_id, url: course_path(course), type: 'course-element'}}
+%li.one-whole.course-element{onclick: "_gaq.push(['_trackEvent', 'Click cours', 'click', '#{best_price.try(:has_promo?) ? 'Avec promo' : 'Sans promo'}'])", data: {"place-id" => course.place_id, url: place_course_path(course.place, course), type: 'course-element'}}
   %div.two-twelfths.visuallyhidden--palm
     .course-image.media__img
       - if best_price.try(:has_promo?) and best_price.try(:amount) > 0
         .badge--price
           Promo
           = "-#{readable_promo_percentage best_price}"
-      = link_to course_path(course) do
+      = link_to place_course_path(course.place, course) do
         - if course.image.present?
           = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
         - elsif course.place.thumb_image.present?
@@ -21,9 +21,9 @@
     %header
       .hN.course-title
         .map-marker-image
-          = link_to course_path(course) do
+          = link_to place_course_path(course.place, course) do
             %span= @course_places.index(course.place) + 1
-        %h2.delta.inline.v-middle= link_to course.name, course_path(course)
+        %h2.delta.inline.v-middle= link_to course.name, place_course_path(course.place, course)
         - if course.rating
           %div.inline.nowrap
             %span.rating{title: comment_rating_title(course.rating)}
@@ -70,7 +70,7 @@
 
       %div.course-price.two-twelfths.grid__item>
         - if best_price.nil?
-          %p.epsilon= link_to "Contacter l'établissement", course_path(course)
+          %p.epsilon= link_to "Contacter l'établissement", place_course_path(course.place, course)
         - else
           %p
           .gamma

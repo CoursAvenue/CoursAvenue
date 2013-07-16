@@ -198,7 +198,7 @@
                 - @courses.each do |course|
                   %tr
                     %td
-                      %h3.base-font-style.flush--bottom= link_to course.name.capitalize, course_path(course)
+                      %h3.base-font-style.flush--bottom= link_to course.name.capitalize, place_course_path(course.place, course)
                       - if course.rating
                         = rating_stars course.rating
                     %td.text--center
@@ -219,8 +219,7 @@
                 .grid__item.one-half>
                   %a.break-all.white-box.islet.media__item{href: media.url, title: media.caption}
                     = media.url_html
-                    %p
-                      %i= media.caption
+                    %caption= media.caption
       - if @other_places.any?
         %article#tab-other-places.tab-pane
           = gmaps( {markers: {data: @other_places.to_gmaps4rails}, map_options: {maxZoom: 15, mapTypeControl: false, :id => 'other_places_map'}, scripts: :none})

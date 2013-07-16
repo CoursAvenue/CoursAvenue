@@ -11,7 +11,18 @@ class CoursesController < ApplicationController
         redirect_to courses_path, status: 301
       end
     end
-    @courses = CourseSearch.search params
+    @courses           = CourseSearch.search params
+    # @course_collection = @courses
+    # if @courses.length == 0 and @subject
+    #   if @subject.parent
+    #     @other_courses = CourseSearch.search params.merge subject_id: @subject.parent.slug
+    #   else
+    #     new_params = params.dup # Duplicate params to keep subject_id in actual params
+    #     new_params.delete :subject_id
+    #     @other_courses = CourseSearch.search new_params
+    #   end
+    #   @course_collection = @other_courses
+    # end
     init_geoloc
     cookies[:search_path] = request.fullpath
     # fresh_when etag: [@courses, ENV["ETAG_VERSION_ID"]], public: true
@@ -20,31 +31,8 @@ class CoursesController < ApplicationController
 
   def show
     @course             = Course.find(params[:id])
-    @comment            = @course.comments.build
-    @comments           = @course.comments.order('created_at DESC').reject(&:new_record?)
-    @city               = @course.city
-    @structure          = @course.structure
-    @medias             = @structure.medias
-    @structure_comments = @structure.comments.order('created_at DESC')
     @place              = @course.place
-    if @course.is_lesson?
-      @plannings = @course.plannings.order('week_day ASC, start_time ASC')
-    else
-      @plannings = @course.plannings.order('start_date ASC, start_time ASC')
-    end
-    @plannings          = @plannings.group_by(&:level_ids)
-    @subjects           = @course.subjects
-    @has_promotion      = @course.has_promotion?
-    @has_nb_place       = @course.plannings.map(&:nb_place_available).compact.any?
-    @reservation        = Reservation.new
-    @best_price         = @course.best_price
-    # @similar_courses    = @course.similar_courses
-
-    @json_place_address = @place.to_gmaps4rails do |place, marker|
-      marker.title   place.name
-      marker.json({ id: place.id })
-    end
-    # fresh_when etag: [@course, @comments.first, ENV["ETAG_VERSION_ID"]], public: true
+    redirect_to place_course_path(@place, @course), status: 301
   end
 
   private

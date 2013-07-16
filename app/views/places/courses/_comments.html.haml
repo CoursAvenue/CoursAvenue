@@ -38,7 +38,7 @@
     %hr
     %h4.small-margin-bottom Avis sur l'établissement
     %ul.comment-list
-      = render @structure_comments, show_title: true
+      = render partial: 'comments/comment', collection: @structure_comments, show_title: true
 
 
 - else
