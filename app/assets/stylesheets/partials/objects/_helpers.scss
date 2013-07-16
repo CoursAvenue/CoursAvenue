@@ -52,7 +52,7 @@
 .bordered--left  { border-left   : 1px solid $gray-smooth; }
 .bordered--bottom{ border-bottom : 1px solid $gray-smooth; }
 .bordered--top   { border-top    : 1px solid $gray-smooth; }
-.center-block    { margin-left: auto; margin-right: auto; }
+.center-block    { margin-left: auto; margin-right: auto; display: block; }
 .block           { display: block; }
 .inline          { display: inline;}
 .inline-block    { display: inline-block!important;}

@@ -81,7 +81,7 @@
             = f.hidden_field :reservable_id
             = f.submit 'Coordonnées de reservation', class: 'btn btn--success one-whole', onclick: "_gaq.push(['_trackEvent', 'Établissement - contacter', 'click','Inscrit'])", data: {behavior: 'modal', title: "Information pour contacter l'établissement", width: '650px', el: 'place_info'}
 
-          #place_info.hidden= render 'courses/info_popup'
+          #place_info.hidden= render 'places/courses/info_popup'
 
         - else
           %a.btn.btn--success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Établissement - contacter', 'click','Non inscrit'])",  data: {behavior: 'modal', title: 'Connectez-vous pour contacter cet établissement', width: '400px', url: '/users/sign_up'}} Coordonnées de reservation
