@@ -20,7 +20,7 @@
       %i.orange ←
       = t('.back_to_results')
   - else
-    = link_to courses_path(city: @city.name) do
+    = link_to courses_path(address_name: @city.name, lat: @city.latitude, lng: @city.longitude) do
       %i.orange ←
       = t('.see_arrounding_courses')
 .inline-block.push-half--sides
@@ -28,7 +28,7 @@
 .inline-block
   %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
     %li
-      = link_to 'Tous les cours', courses_path()
+      = link_to "Tous les cours à #{@city.name}", courses_path(address_name: @city.name, lat: @city.latitude, lng: @city.longitude)
     %li
       = link_to @structure.name, place_path(@place), onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])"
     %li.course-title= @course.name
