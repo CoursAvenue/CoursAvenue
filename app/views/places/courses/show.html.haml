@@ -119,8 +119,8 @@
       %li.tab-el#price_tab{onclick: "_gaq.push(['_trackEvent', 'Infos tarif', 'click', '#{@course.slug}'])", data: { el: 'tab-prices' }}= t('.prices')
       %li.tab-el#description_tab{class: (@course.description.present? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Description cours', 'click', '#{@course.slug}'])", data: { el: 'tab-description' }} Description
       %li.tab-el{class: (@course.teachers.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Infos profs', 'click', '#{@course.slug}'])", data: { el: 'tab-teacher' }}
-        = Teacher.model_name.human(count: @course.teachers.length)
-        (#{@course.teachers.length})
+        = Teacher.model_name.human(count: @course.teachers.uniq.length)
+        (#{@course.teachers.uniq.length})
       %li.tab-el{class: (@medias.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);", data: { el: 'tab-videos' }}
         Photos & vidéos
         (#{@medias.length})
