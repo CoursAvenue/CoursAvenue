@@ -18,14 +18,22 @@
     - else
       = "Retrouvez tous les cours de #{@place.name} à #{@city.name}."
 
-- if cookies[:place_search_path]
-  = link_to cookies[:place_search_path] do
-    %i.orange ←
-    Retour aux résultats
-- else
-  = link_to places_path(city: @city.name) do
-    %i.orange ←
-    Voir les établissements à proximité
+.inline-block
+  - if cookies[:place_search_path]
+    = link_to cookies[:place_search_path] do
+      %i.orange ←
+      Retour aux résultats
+  - else
+    = link_to places_path(city: @city.name) do
+      %i.orange ←
+      Voir les établissements à proximité
+.inline-block.push-half--sides
+  |
+.inline-block
+  %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
+    %li
+      = link_to 'Tous les établissements', places_path()
+    %li= @place.name
 
 %h1.course-title
   %span= @place.long_name

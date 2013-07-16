@@ -3,32 +3,43 @@
     = @course.image.url
 
 = content_for :title do
-  = "#{@course.type_name} de #{@course.name.capitalize} à #{@city.name} avec #{@structure.name}"
+  = "#{@course.type_name} de #{@course.name} à #{@city.name} avec #{@structure.name}"
 
 = content_for :meta_description do
   - if @course.description.present?
     = @course.description_for_meta
   - else
     - if @course.has_teacher?
-      = "Réservez le #{@course.type_name.downcase} de #{@course.name.capitalize} à #{@city.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
+      = "Réservez le #{@course.type_name.downcase} de #{@course.name} à #{@city.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
     - else
-      = "Réservez le #{@course.type_name.downcase} de #{@course.name.capitalize} à #{@city.name}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
+      = "Réservez le #{@course.type_name.downcase} de #{@course.name} à #{@city.name}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
 
-- if cookies[:search_path]
-  = link_to cookies[:search_path] do
-    %i.orange ←
-    = t('.back_to_results')
-- else
-  = link_to courses_path(city: @city.name) do
-    %i.orange ←
-    = t('.see_arrounding_courses')
+.inline-block
+  - if cookies[:search_path]
+    = link_to cookies[:search_path] do
+      %i.orange ←
+      = t('.back_to_results')
+  - else
+    = link_to courses_path(city: @city.name) do
+      %i.orange ←
+      = t('.see_arrounding_courses')
+.inline-block.push-half--sides
+  |
+.inline-block
+  %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
+    %li
+      = link_to 'Tous les cours', courses_path()
+    %li
+      = link_to @structure.name, place_path(@place), onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])"
+    %li.course-title= @course.name
+
 
 
 %h1.course-title
-  = @course.name.capitalize
+  = @course.name
 %h2.weight-normal.delta
   %i.icon-map-marker.v-middle
-  %span.v-middle= @structure.name.capitalize
+  %span.v-middle= @structure.name
   %span.v-middle= link_to "Voir l'établissement", place_path(@place), class: 'btn btn--blue  btn--small', onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])"
 
 - if @course.rating
@@ -83,11 +94,11 @@
     -#         = link_to course_path(course), class: 'flexbox similar-course--image-wrapper', onclick: "_gaq.push(['_trackEvent', 'D\'autres cours pour vous', 'click','#{course.slug}'])" do
     -#           .flexbox__item.one-fifth.similar-course--image
     -#             - if course.image.present?
-    -#               = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name.capitalize}"
+    -#               = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
     -#             - else
-    -#               = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name.capitalize}"
+    -#               = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
     -#           .flexbox__item.similar-course
-    -#             %h3.similar-course--course-name.flush--bottom= course.name.capitalize
+    -#             %h3.similar-course--course-name.flush--bottom= course.name
     -#             %h4.similar-course--structure-name
     -#               %i.icon-map-marker
     -#               = course.place.long_name
@@ -96,9 +107,9 @@
     .grid--full.course-header-badge>
       .grid__item.one-half.palm--one-whole>
         - if @course.image.present?
-          = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name.capitalize}", longdesc: @course.description
+          = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name}", longdesc: @course.description
         - elsif @course.subjects.any?
-          = image_tag @course.subjects.limit(1).first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name.capitalize}."
+          = image_tag @course.subjects.limit(1).first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name}."
       .grid__item.course-header-map.one-half.palm--one-whole>
         = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
         %div{itemscope: true, itemtype: 'http://schema.org/Place'}
