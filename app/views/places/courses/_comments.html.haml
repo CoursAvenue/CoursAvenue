@@ -33,7 +33,7 @@
 - if @comments.any? or @structure_comments.any?
   - if @comments.any?
     %ul.comment-list
-      = render @comments, show_title: false
+      = render partial: 'comments/comment', collection: @comments, show_title: false
   - if @structure_comments.any?
     %hr
     %h4.small-margin-bottom Avis sur l'établissement

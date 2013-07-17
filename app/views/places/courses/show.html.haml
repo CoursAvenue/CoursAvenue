@@ -13,6 +13,10 @@
       = "Réservez le #{@course.type_name.downcase} de #{@course.name} à #{@city.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
     - else
       = "Réservez le #{@course.type_name.downcase} de #{@course.name} à #{@city.name}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
+    \-
+    = @course.name
+    à
+    = @place.long_name
 
 .inline-block
   - if cookies[:search_path]
