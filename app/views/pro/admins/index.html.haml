@@ -12,6 +12,8 @@
       %th
         %span Établissements
       %th
+        %span Note
+      %th
         %span Téléphone
       %th
         %span Date d'inscription
@@ -26,6 +28,12 @@
         %td
           = link_to admin.email, "mailto:#{admin.email}"
         %td= link_to admin.structure.name, dashboard_pro_structure_path(admin.structure) if admin.structure
+        %td.nowrap{data: {value: (admin.structure ? admin.structure.rating : 0)}}
+          - if admin.structure
+            = rating_stars admin.structure.rating
+            = admin.structure.comments_count
+            %i.lbc-brand-icon
+
         %td= admin.phone_number if admin.phone_number
         %td{data: {value: admin.created_at}}
           = l(admin.created_at, format: :date_short)
@@ -47,5 +55,5 @@
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string, string, string, string, date, date, string', cookieName: 'tableSortState__admins', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
+        new TableSorter('dataTable', { columnDataTypes: 'string, string, string, integer, string, date, date, string', cookieName: 'tableSortState__admins', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
     });
