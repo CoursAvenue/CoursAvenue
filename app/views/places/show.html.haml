@@ -11,14 +11,12 @@
 
 = content_for :meta_description do
   - if @structure.description.present?
-    = @structure.description_for_meta
+    = "#{@structure.description_for_meta} - #{@place.long_name}"
   - else
     - if @place.parent_subjects_string.present?
-      = "Retrouvez tous les cours de #{@place.name} à #{@city.name}. #{subjects_name_from_string(@place.parent_subjects_string)} et bien plus !"
+      = "Retrouvez tous les cours de #{@place.name} à #{@city.name}. #{subjects_name_from_string(@place.parent_subjects_string)} et bien plus ! - #{@place.long_name}"
     - else
-      = "Retrouvez tous les cours de #{@place.name} à #{@city.name}."
-    \-
-    = @place.long_name
+      = "Retrouvez tous les cours de #{@place.name} à #{@city.name} - #{@place.long_name}"
 
 .inline-block
   - if cookies[:place_search_path]

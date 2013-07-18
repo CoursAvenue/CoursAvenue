@@ -7,16 +7,12 @@
 
 = content_for :meta_description do
   - if @course.description.present?
-    = @course.description_for_meta
+    = "#{@course.description_for_meta} - #{@course.name} à #{@place.long_name}"
   - else
     - if @course.has_teacher?
-      = "Réservez le #{@course.type_name.downcase} de #{@course.name} à #{@city.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
+      = "Réservez le #{@course.type_name.downcase} de #{@course.name} à #{@city.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase} - #{@course.name} à #{@place.long_name}"
     - else
-      = "Réservez le #{@course.type_name.downcase} de #{@course.name} à #{@city.name}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase}."
-    \-
-    = @course.name
-    à
-    = @place.long_name
+      = "Réservez le #{@course.type_name.downcase} de #{@course.name} à #{@city.name}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase} - #{@course.name} à #{@place.long_name}"
 
 .inline-block
   - if cookies[:search_path]
