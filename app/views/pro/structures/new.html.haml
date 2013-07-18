@@ -1,7 +1,7 @@
 .grid
   .grid__item.two-thirds.palm--one-whole>
     %h2.flush--bottom
-      Gagnez la confiance de vos futurs élèves en partageant la qualité de vos cours
+      La 1<sup>ère</sup> plateforme d'évaluation de cours sur Internet
     %p
       %b 100% gratuit, simple et rapide.
     %hr
@@ -31,14 +31,11 @@
             %br
             Mettez en ligne vos photos & vidéos
 
-    %p.alert--info.flush--sides
-      CoursAvenue est le 1er moteur de recherche de cours et stages basé sur les <strong>commentaires de véritables élèves</strong> : 3 internautes sur 4 disent consulter les avis avant de réserver un cours, il est temps de les aider !
-
     = simple_form_for [:pro, @structure], url: create_and_get_feedbacks_pro_structures_path, method: :post do |f|
 
       %h4.flush--bottom Entrez vos informations
       .form-white-box.islet.flush--left
-        = f.input :name, wrapper_html: { class: 'flush--bottom' }, label: 'Nom de votre établissement / Association'
+        = f.input :name, wrapper_html: { class: 'flush--bottom' }, label: 'Nom de votre établissement / association'
         %p.field-form-info.blue Si vous êtes un professeur indépendant, entrez votre prénom + nom.
 
         = f.input :contact_email, as: :hidden
@@ -57,7 +54,7 @@
   - unless request.path == '/sms'
     .grid__item.one-third.visuallyhidden--palm
       .bordered--left.soft--left
-        %h4 Exemple de profils
+        %h4 Les profils stars
         .relative{style: 'height: 340px; overflow: hidden;'}
           #slideshow.slideshow
             - @structures.each do |structure|
