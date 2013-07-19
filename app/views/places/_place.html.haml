@@ -27,7 +27,7 @@
       = place.street
       \-
       = place.city.try(:name)
-    %ul.nav= join_place_parent_subjects(place)
+    %ul.nav= join_structure_parent_subjects(place.structure)
   .course-content.two-twelfths.text--center.v-middle
     - if place.courses.count > 0
       .alpha.orange= place.courses.count
