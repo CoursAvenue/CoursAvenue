@@ -179,8 +179,10 @@ CoursAvenue::Application.routes.draw do
   match 'pages/mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
   match 'pages/conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
 
-  match '/blog'     => redirect('/blog/')
-  match '/wp-admin' => redirect('http://coursavenue-blog.herokuapp.com/wp-admin/')
+  match '/blog'           => redirect('/blog/')
+  match '/wp-admin'       => redirect('http://coursavenue-blog.herokuapp.com/wp-admin/')
+  match '/blog/feed'      => redirect('http://coursavenue-blog.herokuapp.com/:feed')
+  match '/blog/:id/feed'  => redirect('http://coursavenue-blog.herokuapp.com/:id/feed')
 
   root :to => 'home#index'
 end
