@@ -5,7 +5,7 @@
     %p
       %b 100% gratuit, simple et rapide.
     %hr
-    - if params.include? :google
+    - if request.path == '/inscription'
       .text--center.white-box.islet
         %h3 Apparaissez avec des étoiles sur Google !
         = image_tag 'pro/example_google.png'
@@ -24,7 +24,7 @@
           %h5
             %i.icon-comments.icon-2x
             %br
-            - if params.include? :google
+            - if request.path == '/inscription'
               Demandez des avis positifs à vos élèves
             - else
               Partagez les compliments de vos élèves
@@ -34,7 +34,7 @@
       .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
         %a.muted-link.white-box.islet.word-break-normal
           %h5
-            - if params.include? :google
+            - if request.path == '/inscription'
               %i.icon-star.icon-2x.yellow
               %i.icon-star.icon-2x.yellow
               %i.icon-star.icon-2x.yellow
