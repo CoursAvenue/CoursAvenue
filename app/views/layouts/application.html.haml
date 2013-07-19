@@ -4,6 +4,10 @@
     = render 'shared/meta_information'
 
     %link{href: 'http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic', rel: 'stylesheet', type: 'text/css'}
+    - if request.subdomain == 'pro'
+      = render 'layouts/pro_g_analytics' if Rails.env.production?
+    - else
+      = render 'layouts/g_analytics' if Rails.env.production?
     = yield :head
     = favicon_link_tag 'favicon.png'
     = javascript_include_tag "modernizr" # MUST BE In the Head and before CSS
@@ -25,7 +29,3 @@
     = yield :scripts # Do not change name, needed for gmaps4rails
     = javascript_include_tag 'http://maps.google.com/maps/api/js?sensor=false&language=fr&region=fr'
     = javascript_include_tag 'http://google-maps-utility-library-v3.googlecode.com/svn/trunk/richmarker/src/richmarker-compiled.js' # HAVE TO BE LAST
-    - if request.subdomain == 'pro'
-      = render 'layouts/pro_g_analytics' if Rails.env.production?
-    - else
-      = render 'layouts/g_analytics' if Rails.env.production?
