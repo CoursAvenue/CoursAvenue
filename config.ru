@@ -4,11 +4,11 @@ use Rack::Deflater
 
 # For blog url
 # See: http://rywalker.com/setting-up-a-wordpress-blog-on-heroku-as-a-subdirectory-of-a-rails-app-also-hosted-on-heroku
-use Rack::ReverseProxy do
-  reverse_proxy(/^\/blog(\/.*)$/,
-    'http://coursavenue-blog.herokuapp.com$1',
-    opts = {:preserve_host => true})
-end
+# use Rack::ReverseProxy do
+#   reverse_proxy(/^\/blog(\/.*)$/,
+#     'http://coursavenue-blog.herokuapp.com$1',
+#     opts = {:preserve_host => true})
+# end
 
 # Allow font files to be loaded from anywhere (for loading webfonts in Firefox)
 require 'rack/cors'
