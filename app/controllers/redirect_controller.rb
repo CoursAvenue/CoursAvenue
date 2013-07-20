@@ -1,5 +1,9 @@
 class RedirectController < ApplicationController
 
+  def blog
+    redirect_to 'http://www.coursavenue.com/blog', status: 301
+  end
+
   def structures_new
     redirect_to inscription_pro_structures_path(params_for_search), status: 301
   end

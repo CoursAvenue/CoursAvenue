@@ -4,6 +4,9 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
+  constraints subdomain: 'blog' do
+    match '/', to: 'redirect#blog'
+  end
   constraints subdomain: 'pro' do
     namespace :pro, path: '' do
       root :to => 'home#index'
@@ -179,7 +182,7 @@ CoursAvenue::Application.routes.draw do
   match 'pages/mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
   match 'pages/conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
 
-  match '/blog'                    => redirect('/blog/')
+  match '/blog' => redirect('/blog/')
 
   root :to => 'home#index'
 end
