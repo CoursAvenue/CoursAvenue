@@ -6,10 +6,12 @@
     = render 'shared/meta_information'
 
     %link{href: 'http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic', rel: 'stylesheet', type: 'text/css'}
-    - if request.subdomain == 'pro'
-      = render 'layouts/pro_g_analytics' if Rails.env.production?
-    - else
-      = render 'layouts/g_analytics' if Rails.env.production?
+    - if Rails.env.production?
+      - if request.subdomain == 'pro'
+        = render 'layouts/pro_g_analytics'
+      - else
+        = render 'layouts/g_analytics'
+      = yield :after_ga
     = yield :head
     = favicon_link_tag 'favicon.png'
     = javascript_include_tag "modernizr" # MUST BE In the Head and before CSS

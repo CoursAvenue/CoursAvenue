@@ -1,12 +1,23 @@
+= content_for :after_ga do
+  <!-- Google Analytics Content Experiment code -->
+  <script>function utmx_section(){}function utmx(){}(function(){var
+  k='74224259-3',d=document,l=d.location,c=d.cookie;
+  if(l.search.indexOf('utm_expid='+k)>0)return;
+  function f(n){if(c){var i=c.indexOf(n+'=');if(i>-1){var j=c.
+  indexOf(';',i);return escape(c.substring(i+n.length+1,j<0?c.
+  length:j))}}}var x=f('__utmx'),xx=f('__utmxx'),h=l.hash;d.write(
+  '<sc'+'ript src="'+'http'+(l.protocol=='https:'?'s://ssl':
+  '://www')+'.google-analytics.com/ga_exp.js?'+'utmxkey='+k+
+  '&utmx='+(x?x:'')+'&utmxx='+(xx?xx:'')+'&utmxtime='+new Date().
+  valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
+  '" type="text/javascript" charset="utf-8"><\/sc'+'ript>')})();
+  </script><script>utmx('url','A/B');</script>
+  <!-- End of Google Analytics Content Experiment code -->
+
 = content_for :title do
   Le 1er site qui donne la parole à vos élèves pour faire parler de vous et attirer de nouveaux élèves !
 
 = menu_currently_at 'Accueil'
-
-/ %h1.text--center
-/   Partagez la qualité de vos cours et
-/   %br
-/   gagnez la confiance de vos futurs élèves
 
 %h1.text--center.flush--bottom
   Le 1<sup>er</sup> site qui donne la parole à vos élèves
@@ -66,12 +77,12 @@
                   .grid__item.one-half>
                     .white-box.islet
                       %div
-                        = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank' do
+                        = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Click on profile example', 'click')" do
                           = image_tag structure.image.url(:thumb)
                       %hr.push-half--bottom.push-half--top
                       %div
                         %b
-                          = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank'
+                          = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Click on profile example', 'click')"
                       %hr.push-half--top
                       = rating_stars structure.rating
                       \/
