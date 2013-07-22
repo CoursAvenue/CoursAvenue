@@ -31,13 +31,18 @@ SitemapGenerator::Sitemap.create do
   add courses_path, priority: 0.8, changefreq: 'daily'
   add places_path, priority: 0.8, changefreq: 'daily'
 
-  Course.where{active == true}.all.each do |course|
-    add course_path(course), lastmod: course.updated_at, priority: 0.8, changefreq: 'daily'
+  Structure.all.each do |structure|
+    structure.places.each do |place|
+      add place_path place, changefreq: 'daily'
+    end
+  end
+  Course.active.all.each do |course|
+    add place_course_path(course.place, course), lastmod: course.updated_at, priority: 0.8, changefreq: 'daily'
   end
 
   Subject.all.each do |subject|
-    add subject_courses_path(subject), changefreq: 0.8, changefreq: 'daily'
-    add subject_places_path(subject), changefreq: 0.8, changefreq: 'daily'
+    add subject_courses_path(subject), priority: 0.8, changefreq: 'daily'
+    add subject_places_path(subject), priority: 0.8, changefreq: 'daily'
   end
 
   [ pages_why_path,
