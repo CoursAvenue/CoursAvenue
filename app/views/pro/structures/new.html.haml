@@ -23,7 +23,7 @@
     %hr
     - if request.path == '/inscription'
       .text--center.white-box.islet
-        %h3 Apparaissez avec des étoiles sur Google !
+        %h3 Apparaissez en tête des résultats Google avec vos avis !
         = image_tag 'pro/example_google.png'
     .grid--full.text--center.push--top.visuallyhidden--palm
       .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
@@ -83,7 +83,7 @@
           .visuallyhidden--palm
             = f.association :subjects , as: :select, collection: Subject.roots.map(&:descendants).flatten, input_html: {style: 'width: 74%;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
       .push--bottom.text--center
-        = f.submit 'Je valide mes informations', class: 'btn--large btn btn--large btn--success'
+        = f.submit 'Valider', class: 'btn--large btn btn--large btn--success'
   - unless request.path == '/sms'
     .grid__item.one-third.visuallyhidden--palm
       .bordered--left.soft--left
