@@ -1,28 +1,9 @@
-= content_for :right_after_head do
-  <!-- Google Analytics Content Experiment code -->
-  <script>function utmx_section(){}function utmx(){}(function(){var
-  k='74224259-2',d=document,l=d.location,c=d.cookie;
-  if(l.search.indexOf('utm_expid='+k)>0)return;
-  function f(n){if(c){var i=c.indexOf(n+'=');if(i>-1){var j=c.
-  indexOf(';',i);return escape(c.substring(i+n.length+1,j<0?c.
-  length:j))}}}var x=f('__utmx'),xx=f('__utmxx'),h=l.hash;d.write(
-  '<sc'+'ript src="'+'http'+(l.protocol=='https:'?'s://ssl':
-  '://www')+'.google-analytics.com/ga_exp.js?'+'utmxkey='+k+
-  '&utmx='+(x?x:'')+'&utmxx='+(xx?xx:'')+'&utmxtime='+new Date().
-  valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
-  '" type="text/javascript" charset="utf-8"><\/sc'+'ript>')})();
-  </script><script>utmx('url','A/B');</script>
-  <!-- End of Google Analytics Content Experiment code -->
-
 .grid
   .grid__item.two-thirds.palm--one-whole>
     %h2.flush--bottom
       Le 1<sup>er</sup> site qui donne la parole à vos élèves
     %h4
       pour faire parler de vous et attirer de nouveaux élèves !
-
-    / %h2.flush--bottom
-    /   La 1<sup>ère</sup> plateforme d'évaluation de cours sur Internet
     %p
       %b 100% gratuit, simple et rapide.
     %hr

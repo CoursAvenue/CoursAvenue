@@ -51,32 +51,33 @@
       = link_to 'nous contacter.', pages_contact_path
   .grid__item.one-half.palm--one-whole.lap--one-whole>
     %h4.push-half--bottom Et plein d'autres !
-    :css
-      #map { height: 415px;}
-      .map_container {margin-top: 0;}
-    = gmaps( {markers: {data: @json_place_addresses}, map_options: {minZoom: 12, mapTypeControl: false}})
-    / %h3.push-half--bottom Ils ont déjà été séduits :
-    / .relative{style: 'height: 350px; overflow: hidden;'}
-    /   %ul#slideshow.slideshow
-    /     - @structures.in_groups_of(2, false) do |structure_group|
-    /       %li.slideshow__element
-    /         .grid
-    /           - structure_group.each do |structure|
-    /             .grid__item.one-half>
-    /               .white-box.islet
-    /                 %div
-    /                   = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank' do
-    /                     = image_tag structure.image.url(:thumb)
-    /                 %hr.push-half--bottom.push-half--top
-    /                 %div
-    /                   %b
-    /                     = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank'
-    /                 %hr.push-half--top
-    /                 = rating_stars structure.rating
-    /                 \/
-    /                 = structure.comments_count
-    /                 avis
-    /                 %i.lbc-brand-icon
+    - unless params[:ab]
+      :css
+        #map { height: 415px;}
+        .map_container {margin-top: 0;}
+      = gmaps( {markers: {data: @json_place_addresses}, map_options: {minZoom: 12, mapTypeControl: false}})
+    - else
+      .relative{style: 'height: 350px; overflow: hidden;'}
+        %ul#slideshow.slideshow
+          - @structures.in_groups_of(2, false) do |structure_group|
+            %li.slideshow__element
+              .grid
+                - structure_group.each do |structure|
+                  .grid__item.one-half>
+                    .white-box.islet
+                      %div
+                        = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank' do
+                          = image_tag structure.image.url(:thumb)
+                      %hr.push-half--bottom.push-half--top
+                      %div
+                        %b
+                          = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank'
+                      %hr.push-half--top
+                      = rating_stars structure.rating
+                      \/
+                      = structure.comments_count
+                      avis
+                      %i.lbc-brand-icon
     .text--center
       = link_to 'En savoir plus', pro_pages_presentation_path, class: 'btn btn--large', onclick: "ga('send', 'event', 'En savoir plus', 'click')"
 

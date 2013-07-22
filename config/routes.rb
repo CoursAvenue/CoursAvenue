@@ -10,6 +10,7 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: 'pro' do
     namespace :pro, path: '' do
       root :to => 'home#index'
+      match 'test-home-ab'                 => 'home#index', ab: true
       match 'pages/presentation'           => 'home#presentation'
       match 'pages/offre-et-tarifs'        => 'home#price', as: 'pages_price'
       match 'pages/presse'                 => 'home#press', as: 'pages_press'
