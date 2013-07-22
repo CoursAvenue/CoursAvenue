@@ -20,26 +20,27 @@
     %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
   = render 'wizards/share_your_profile'
 
-.white-box.islet
-  .grid.push-half--bottom
-    %h4.grid__item.width-auto.v-middle.flush--bottom
-      Votre profil est complété à #{@profile_percentage}%
-    .grid__item.width-auto.v-middle
-      .text--center.progress.flush--bottom{style: "width: 280px;"}
-        - if @profile_percentage == 0
-          #{@profile_percentage}%
-        - else
-          .bar.bar-success{style: "width: #{@profile_percentage}%;"}
+- unless @profile_percentage == 100
+  .white-box.islet
+    .grid.push-half--bottom
+      %h4.grid__item.width-auto.v-middle.flush--bottom
+        Votre profil est complété à #{@profile_percentage}%
+      .grid__item.width-auto.v-middle
+        .text--center.progress.flush--bottom{style: "width: 280px;"}
+          - if @profile_percentage == 0
             #{@profile_percentage}%
-  %ol
-    %li{class: @profile_completed ? 'line-through' : ''}
-      = link_to_unless @profile_completed, 'Remplir mon profil', edit_pro_structure_path(@structure)
-    %li{class: @comments.any? ? 'line-through' : ''}
-      = link_to_unless @comments.any?, 'Demander des recommandations à mes élèves', recommendations_pro_structure_path(@structure)
-    %li{class: @structure.medias.any? ? 'line-through' : ''}
-      = link_to_unless @structure.medias.any?, 'Mettre en ligne les photos et vidéos de mes cours', pro_structure_medias_path(@structure)
-    %li{class: @structure.courses.active.count > 0 ? 'line-through' : ''}
-      = link_to_unless (@structure.courses.active.count > 0), 'Renseigner mes cours et mon planning', pro_structure_path(@structure)
+          - else
+            .bar.bar-success{style: "width: #{@profile_percentage}%;"}
+              #{@profile_percentage}%
+    %ol
+      %li{class: @profile_completed ? 'line-through' : ''}
+        = link_to_unless @profile_completed, 'Remplir mon profil', edit_pro_structure_path(@structure)
+      %li{class: @comments.any? ? 'line-through' : ''}
+        = link_to_unless @comments.any?, 'Demander des recommandations à mes élèves', recommendations_pro_structure_path(@structure)
+      %li{class: @structure.medias.any? ? 'line-through' : ''}
+        = link_to_unless @structure.medias.any?, 'Mettre en ligne les photos et vidéos de mes cours', pro_structure_medias_path(@structure)
+      %li{class: @structure.courses.active.count > 0 ? 'line-through' : ''}
+        = link_to_unless (@structure.courses.active.count > 0), 'Renseigner mes cours et mon planning', pro_structure_path(@structure)
 
 .grid.push--top
   .grid__item.one-half.palm--one-whole.lap--one-whole>
@@ -80,56 +81,57 @@
                 avis
                 %i.lbc-brand-icon
 
-  .grid__item.one-half.palm--one-whole.lap--one-whole>
-    %h3.header-group
-      %i.icon-user
-      Profil
+  - unless @profile_percentage == 100
+    .grid__item.one-half.palm--one-whole.lap--one-whole>
+      %h3.header-group
+        %i.icon-user
+        Profil
 
-    .white-box.islet
-      %table
-        %tbody
-          %tr
-            %th Logo
-            %td
-              - if @structure.image.present?
-                %i.icon-ok.green
-                Super, vous avez un logo !
-              - else
-                %i.icon-remove.red
-                Vous n'avez ni logo ni image
-          %tr
-            %th Description
-            %td
-              - if !@structure.description
-                %i.icon-remove.red
-                Vous n'avez pas de description
-              - elsif @structure.description.split.size <= 30
-                %i.icon-remove.red
-                Votre description ne fait que #{@structure.description.split.size} mots.
-              - else
-                %i.icon-ok.green
-                Super ! Votre description fait #{@structure.description.split.size} mots.
-          %tr
-            %th Disciplines
-            %td
-              - if @structure.subjects.any?
-                %i.icon-ok.green
-                Vous avez renseigné #{@structure.subjects.count} disciplines
-              - else
-                %i.icon-remove.red
-                Vous n'avez pas renseigné de disciplines.
-          %tr
-            %th Photos & vidéos
-            %td
-              - if @structure.medias.any?
-                %i.icon-ok.green
-                Vous avez renseigné #{@structure.medias.count} photos & vidéos
-              - else
-                %i.icon-remove.red
-                Vous n'avez pas renseigné de photos & vidéos
-                \-
-                = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')"
-      .text--center= link_to 'Mettre à jour mon profil', edit_pro_structure_path(@structure), class: 'btn btn--success', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Mettre à jour mon profil')"
+      .white-box.islet
+        %table
+          %tbody
+            %tr
+              %th Logo
+              %td
+                - if @structure.image.present?
+                  %i.icon-ok.green
+                  Super, vous avez un logo !
+                - else
+                  %i.icon-remove.red
+                  Vous n'avez ni logo ni image
+            %tr
+              %th Description
+              %td
+                - if !@structure.description
+                  %i.icon-remove.red
+                  Vous n'avez pas de description
+                - elsif @structure.description.split.size <= 30
+                  %i.icon-remove.red
+                  Votre description ne fait que #{@structure.description.split.size} mots.
+                - else
+                  %i.icon-ok.green
+                  Super ! Votre description fait #{@structure.description.split.size} mots.
+            %tr
+              %th Disciplines
+              %td
+                - if @structure.subjects.any?
+                  %i.icon-ok.green
+                  Vous avez renseigné #{@structure.subjects.count} disciplines
+                - else
+                  %i.icon-remove.red
+                  Vous n'avez pas renseigné de disciplines.
+            %tr
+              %th Photos & vidéos
+              %td
+                - if @structure.medias.any?
+                  %i.icon-ok.green
+                  Vous avez renseigné #{@structure.medias.count} photos & vidéos
+                - else
+                  %i.icon-remove.red
+                  Vous n'avez pas renseigné de photos & vidéos
+                  \-
+                  = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')"
+        .text--center= link_to 'Mettre à jour mon profil', edit_pro_structure_path(@structure), class: 'btn btn--success', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Mettre à jour mon profil')"
 
 
 

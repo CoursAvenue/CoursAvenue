@@ -36,10 +36,13 @@
     %span.v-middle Demandez à vos fans Facebook de vous recommander
     %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn--small btn--blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'facebook-text', onclick: "mixpanel.track('Copy share profile', {'type': 'facebook'});"
 
+  .grid
+    .grid__item.one-half.v-middle>
+      %p.alert--info.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), target: '_blank'} Merci !
+    .grid__item.one-half.v-middle>
+      %p.flush--left
+        = link_to 'Demandez des recommandations sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, facebook: '', subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
 
-  %p
-    Copiez le texte ci-dessous puis collez-le sur votre mur Facebook :
-  %p.alert--info.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), target: '_blank'} Merci !
 
 %hr
 .white-box.islet
