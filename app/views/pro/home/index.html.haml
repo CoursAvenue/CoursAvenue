@@ -50,10 +50,11 @@
   .grid__item.one-half.palm--one-whole.lap--one-whole>
     %h4.push-half--bottom Et plein d'autres !
     - unless params[:ab]
-      :css
-        #map { height: 415px;}
-        .map_container {margin-top: 0;}
-      = gmaps( {markers: {data: @json_place_addresses}, map_options: {minZoom: 12, mapTypeControl: false}})
+      - cache "pro_home_map_#{ENV["ETAG_VERSION_ID"]}" do
+        :css
+          #map { height: 415px;}
+          .map_container {margin-top: 0;}
+        = gmaps( {markers: {data: @json_place_addresses}, map_options: {minZoom: 12, mapTypeControl: false}})
     - else
       .relative{style: 'height: 350px; overflow: hidden;'}
         %ul#slideshow.slideshow
