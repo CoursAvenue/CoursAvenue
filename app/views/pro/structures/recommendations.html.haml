@@ -115,8 +115,10 @@
       - @structure.students.each do |student|
         %tr
           %td= student.email
-          %td.text--center
-            - if Comment.where{(email == student.email) & (commentable_id == structure_id) & (commentable_type == 'Structure')}.length > 0
+          - if Comment.where{(email == student.email) & (commentable_id == structure_id) & (commentable_type == 'Structure')}.length > 0
+            - leaved_comment = true
+          %td.text--center{data: {value: leaved_comment ? '0' : '1'}}
+            - if leaved_comment
               %i.icon-ok
           %td
             = form_tag ask_for_feedbacks_stage_1_pro_student_path(student), remote: true do
@@ -134,6 +136,7 @@
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
+      new TableSorter('students-table', { columnDataTypes: 'string, string, string', cookieName: 'tableSortState__students_recommendation'});
       $$('#students-table form').addEvent('submit', function() {
           new GLOBAL.Objects.Flash("L'élève a bien été notifié.").showAndHide();
       })

@@ -21,7 +21,7 @@
           = l(user.created_at, format: :date_short)
         %td
           - if user.structure
-            = link_to user.structure.name, pro_structure_path(user.structure)
+            = link_to user.structure.name, recommendations_pro_structure_path(user.structure)
         %td.text--center
           - if User.where{email == user.email}.any?
             %i.icon-ok
@@ -29,5 +29,5 @@
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string, date, string', cookieName: 'tableSortState__students', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
+        new TableSorter('dataTable', { columnDataTypes: 'string, date, string, string', cookieName: 'tableSortState__students', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
     });
