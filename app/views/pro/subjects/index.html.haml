@@ -12,9 +12,9 @@
             = "#{subject.parent.name} - #{subject.name}"
           - else
             = subject.name
-        %td
+        %td{data: {value: subject.image.present? ? '0' : '1'}}
           - if subject.image.present?
-            %i.icon-check
+            %i.icon-ok
         %td= link_to 'Editer', edit_pro_subject_path(subject)
 
 

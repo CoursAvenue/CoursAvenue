@@ -1,6 +1,10 @@
-= simple_form_for [:pro, @subject] do |f|
-  = f.input :name
-  = f.input :image
-  = f.input :info
-  .form-actions
-  = f.submit 'Mettre à jour', class: 'btn btn--primary'
+- if @subject.image.present?
+  = image_tag @subject.image.url
+
+.form-white-box
+  = simple_form_for [:pro, @subject] do |f|
+    = f.input :name
+    = f.input :image
+    = f.input :info
+    .form-actions
+    = f.submit 'Mettre à jour', class: 'btn btn--primary'
