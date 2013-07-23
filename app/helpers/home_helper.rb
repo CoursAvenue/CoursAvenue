@@ -4,7 +4,7 @@ require 'open-uri'
 
 module HomeHelper
   def blog_feed
-    source = "http://coursavenue-blog.herokuapp.com/feed" # url or local file
+    source = "http://54.217.250.8/feed" # url or local file
     content = "" # raw content of rss feed will be loaded here
     begin
       open(source) do |s| content = s.read end

@@ -15,6 +15,12 @@ module CoursesHelper
     end.join(' ').html_safe
   end
 
+  def join_course_subjects_text(course)
+    course.subjects_string.split(';').collect do |subject_string|
+      subject_string.split(',')[0]
+    end.join(', ').html_safe
+  end
+
   def join_week_days(course, options={})
     week_days = []
     week_days = course.plannings.order(:week_day).collect do |planning|

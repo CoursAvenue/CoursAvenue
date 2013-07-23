@@ -107,9 +107,9 @@
     .grid--full.course-header-badge>
       .grid__item.one-half.palm--one-whole>
         - if @course.image.present?
-          = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name}", longdesc: @course.description
+          = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} de #{join_course_subjects_text(@course)} : #{@course.name}", longdesc: @course.description
         - elsif @course.subjects.any?
-          = image_tag @course.subjects.limit(1).first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} : #{@course.name}."
+          = image_tag @course.subjects.limit(1).first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} de #{join_course_subjects_text(@course)} : #{@course.name}."
       .grid__item.course-header-map.one-half.palm--one-whole>
         = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
         %div{itemscope: true, itemtype: 'http://schema.org/Place'}

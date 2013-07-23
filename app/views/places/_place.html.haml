@@ -4,9 +4,9 @@
       .course-image.media__img
         = link_to place_path(place) do
           - if place.thumb_image.present?
-            = image_tag place.thumb_image.url(:thumb)
+            = image_tag place.thumb_image.url(:thumb), alt: "Cours de #{join_structure_parent_subjects_text place.structure} à #{place.long_name}"
           - else
-            = image_tag place.structure.image.url(:thumb)
+            = image_tag place.structure.image.url(:thumb), alt: "Cours de #{join_structure_parent_subjects_text place.structure} à #{place.long_name}"
 
   %article.course-content.eight-twelfths
     %header

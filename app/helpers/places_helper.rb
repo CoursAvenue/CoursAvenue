@@ -11,6 +11,12 @@ module PlacesHelper
     end.join(' ').html_safe
   end
 
+  def join_structure_parent_subjects_text(structure)
+    structure.parent_subjects_string.split(';').collect do |subject_string|
+      subject_string.split(',')[0]
+    end.join(', ').html_safe
+  end
+
   def short_address(place)
     "#{place.city.name}"
   end
