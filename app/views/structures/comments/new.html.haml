@@ -19,6 +19,13 @@
         _gaq.push(['_trackEvent', 'Commentaire depuis site perso', 'vue', '#{@structure.name}'])
       });
 
+- if params.has_key? :email
+  = content_for :scripts do
+    :javascript
+      window.addEvent('domready', function() {
+        _gaq.push(['_trackEvent', 'Commentaire depuis email perso', 'vue', '#{@structure.name}'])
+      });
+
 .grid
   .grid__item.two-thirds>
     %h2.flush--bottom.small-margin-bottom= @structure.name
