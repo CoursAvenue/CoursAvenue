@@ -98,10 +98,10 @@
     %hr
     - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
       %div
-        %h3.home-title Le Blog
+        %h3.home-title--no-border Le Blog
         = blog_feed
         .push--bottom
-          = link_to 'blog', target: '_blank' do
+          = link_to 'blog', target: '_blank', class: 'btn btn--blue' do
             %i.icon-align-left
             &nbsp;Accéder au blog
 

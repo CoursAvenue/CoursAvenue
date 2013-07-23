@@ -12,30 +12,6 @@ ul.alternate-color {
     }
 }
 
-.blog-feed {
-    margin-left: 0;
-    list-style: none;
-    li {
-        border-bottom : 1px solid #CCC;
-        padding-bottom: 1em;
-        margin-bottom : 1em;
-    }
-}
-    .blog-feed__title{
-        line-height: 1;
-        a {
-            color: #666;
-            font-size: 14px;
-        }
-    }
-    .blog-feed__date {
-        color: #999;
-        font-size: 12px;
-    }
-    .blog-feed__content {
-        font-size: 12px;
-    }
-
 .selectable-list {
     li:hover {
         background-color: $alternative-background;
