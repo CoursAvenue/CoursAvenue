@@ -57,6 +57,10 @@ class Place < ActiveRecord::Base
       self.long_name
     end
 
+    text :teachers do
+      self.structure.teachers.map(&:name)
+    end
+
     text :description
 
     # text :street

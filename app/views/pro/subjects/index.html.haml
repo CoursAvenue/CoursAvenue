@@ -1,4 +1,4 @@
-%table
+%table.table--data.table--striped#dataTable
   %thead
     %tr
       %th Nom
@@ -17,3 +17,9 @@
             %i.icon-check
         %td= link_to 'Editer', edit_pro_subject_path(subject)
 
+
+= content_for :scripts do
+  :javascript
+    document.addEvent('domready', function() {
+        new TableSorter('dataTable', { columnDataTypes: 'string, string, string', cookieName: 'tableSortState__admins', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
+    });

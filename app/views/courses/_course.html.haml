@@ -14,8 +14,10 @@
           = image_tag course.place.thumb_image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
         - elsif course.structure.image.present?
           = image_tag course.structure.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
-        - elsif course.subjects.first and course.subjects.first.image.present?
+        - elsif course.subjects.first# and course.subjects.first.image.present?
           = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
+        - else course.image.present?
+          = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
 
   %article.course-content
     %header
