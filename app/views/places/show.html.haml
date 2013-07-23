@@ -60,7 +60,7 @@
         .text--center= image_tag @place.thumb_image.url(:thumb), alt: "Cours de #{join_structure_parent_subjects_text @place.structure} à #{@place.long_name}"
       - elsif @structure.image.present?
         .text--center= image_tag @structure.image.url(:thumb), alt: "Cours de #{join_structure_parent_subjects_text @place.structure} à #{@place.long_name}"
-      %h2.delta.text--center Contacter : #{@place.long_name}
+      %h2.delta.text--center #{@place.long_name}
       - if current_user
         %hr
         - if @structure.website
