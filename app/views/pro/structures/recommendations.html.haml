@@ -122,6 +122,9 @@
             = form_tag ask_for_feedbacks_stage_1_pro_student_path(student), remote: true do
               %input{type: 'hidden', value: student.email}
               = submit_tag 'Renvoyer une demande', class: 'btn'
+          %td
+            = link_to 'Supprimer', pro_structure_student_path(@structure, student), method: :delete, class: 'red'
+
 
 
 
