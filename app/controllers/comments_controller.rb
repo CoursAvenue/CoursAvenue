@@ -23,7 +23,10 @@ class CommentsController < ApplicationController
         UserMailer.delay.after_comment(@comment)
       else
         if @commentable.is_a? Structure
-          format.html { redirect_to new_structure_comment_path(@commentable), alert: "Le commentaire n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."}
+          @structure    = @commentable
+          @comments     = @structure.all_comments[0..5]
+          flash[:alert] = "Le commentaire n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."
+          format.html { render 'structures/comments/new'}
         else
           format.html { redirect_to commentable_path(@comment), alert: "Le commentaire n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."}
         end

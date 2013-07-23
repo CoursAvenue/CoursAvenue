@@ -5,7 +5,7 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, polymorphic: true
   belongs_to :user
 
-  validates :author_name, :rating, :content, :commentable, presence: true
+  validates :email, :author_name, :rating, :content, :commentable, presence: true
   validates :rating, numericality: { greater_than: 0, less_than: 6 }
 
   before_save   :set_title_if_empty
