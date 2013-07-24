@@ -17,7 +17,7 @@
           %td= week_day_for planning
           %td.text--center= readable_time_slot planning.start_time, planning.end_time
           %td.text--center= readable_duration planning.duration
-          %td.text--center= join_audiences planning.audiences
+          %td.text--center= join_audiences planning
           %td.text--center
             - if planning.info.present?
               .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}

@@ -64,8 +64,17 @@ module PlanningsHelper
     end
   end
 
-  def join_audiences_text(planning)
-    planning.audiences.map(&:name).map{|name| t(name)}.join(', ')
+  def join_audiences(planning)
+    return t('audience.all') if planning.audiences.empty?
+    planning.audiences.map do |audience|
+      if audience.kid?
+        if planning.min_age_for_kid and planning.max_age_for_kid
+          "#{t(audience.name)} (#{planning.min_age_for_kid} à #{planning.max_age_for_kid} ans)"
+        end
+      else
+        t(audience.name)
+      end
+    end.join(', ')
   end
 
   def join_levels_text(planning)

@@ -42,6 +42,6 @@
       - if @course.plannings.any? and @course.plannings.first.duration
         = "de #{readable_duration @course.plannings.first.duration}"
       pour
-      = join_audiences_text(@course).downcase
+      = join_audiences(@course).downcase
       = join_levels_text(@course).downcase
 

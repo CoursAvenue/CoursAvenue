@@ -4,6 +4,10 @@
   .input
     %label.required.control-label Date
     %input.datepicker-input{type: 'text', value: (@planning.start_date.nil? ? '' : l(@planning.start_date)), placeholder: '02/08/2013', name: 'planning[start_date]', data: {behavior: 'datepicker'}}
+    - if f.object.errors.include? :start_date
+      .alert.alert-error.flush
+
+        Les dates doivent être remplis
   .input.flush--bottom{data: {behavior: 'time-range', 'start-time-wrapper' => '#start-time-wrapper', 'end-time-wrapper' => '#end-time-wrapper'}}
     = f.label :start_time, class: 'control-label' do
       %i.icon-time
@@ -35,6 +39,14 @@
 
   = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: t('planning.audiences')
 
+  .input#children-ages{class: f.object.audiences.include?(Audience::KID) ? '' : 'hidden'}
+    %label.control-label.v-middle Âge
+    %span.v-middle de
+    = f.input :min_age_for_kid, label: false, input_html: {style: 'width: 5em;'}, wrapper_html: {class: 'flush v-middle'}
+    %span.v-middle à
+    = f.input :max_age_for_kid, label: false, input_html: {style: 'width: 5em;'}, wrapper_html: {class: 'flush v-middle'}
+    %span.v-middle ans
+
   .input
     = f.label :info, class: 'control-label' do
       %i.lbc-icon-info i
@@ -45,3 +57,17 @@
       = f.submit 'Ajouter le créneau', class: 'btn btn--success'
     - else
       = f.submit 'Modifier le créneau', class: 'btn btn--success'
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+      $$('[name="planning[audience_ids][]"]').addEvent('change', function(event) {
+          if (event.target.value == '1') {
+              if (event.target.checked) {
+                  $('children-ages').removeClass('hidden');
+              } else {
+                  $('children-ages').addClass('hidden');
+              }
+          }
+      })
+    });

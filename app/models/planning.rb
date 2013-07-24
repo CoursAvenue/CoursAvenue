@@ -27,6 +27,8 @@ class Planning < ActiveRecord::Base
   validates :audience_ids, :level_ids, presence: true
   validate :presence_of_start_date
   validate :end_date_in_future
+  validates :min_age_for_kid, numericality: { less_than: :max_age_for_kid }, allow_nil: true
+  validates :max_age_for_kid, numericality: { less_than: 19 }, allow_nil: true
 
 
   attr_accessible :duration, # In minutes
@@ -159,7 +161,7 @@ class Planning < ActiveRecord::Base
 
   # Set default start date
   def set_start_date
-    if self.start_date.nil?
+    if self.start_date.nil? and self.course.is_lesson?
       self.start_date = self.course.start_date || Date.yesterday
     end
   end

@@ -22,7 +22,7 @@
           = simple_form_for [:pro, @course, planning], remote: true do |f|
             = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select'}, wrapper_html: {class: 'flush'}
         %td.text--center= join_levels_text planning
-        %td.text--center= join_audiences_text planning
+        %td.text--center= join_audiences planning
         %td.text--center
           - if planning.info.present?
             .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
