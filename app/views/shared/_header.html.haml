@@ -1,8 +1,8 @@
 %header.header
   .main-container.grid--full
     .grid__item.one-third.palm--one-half>
-      = link_to root_path, class: 'logo' do
-        = image_tag 'logo.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
+      = link_to root_path, class: 'logo', title: 'CoursAvenue' do
+        = image_tag 'logo.png', width: 200, alt: 'CoursAvenue | Tous les cours et stages autour de vous'
     %nav.text--right.grid__item.two-thirds.visuallyhidden--palm
       - if current_user
         #drop-down-el.drop-down__wrapper.grid__item.width-auto.v-middle.hard--left{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}

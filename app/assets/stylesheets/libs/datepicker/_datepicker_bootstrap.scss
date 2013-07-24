@@ -133,6 +133,9 @@ $hoveredColor               : lighten($brand-color, 30%);
         td {
             width: (100% / 7);
         }
+        .pastDays {
+            color: lighten($gray-light, 10%);
+        }
         .otherMonth {
             color: $gray-light;
         }

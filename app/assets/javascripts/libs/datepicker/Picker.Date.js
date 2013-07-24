@@ -516,6 +516,8 @@ var renderers = {
 			classes = '.day.day' + date.get('day');
 			if (dateString == todayString) classes += '.today';
 			if (date.get('month') != month) classes += '.otherMonth';
+			// If the date is in the past
+			if (date.getTime() - currentDate.getTime() < 0) { classes += '.pastDays'; }
 			element = new Element('td' + classes, {text: date.getDate(), role: 'gridcell'}).inject(weekcontainer, where);
 
 			if (dateString == currentString) element.addClass('selected').set('aria-selected', 'true');
