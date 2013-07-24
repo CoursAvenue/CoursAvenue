@@ -7,7 +7,7 @@
 
 
 = content_for :title do
-  = @place.long_name
+  = "#{@structure.name} à #{@place.name}"
 
 = content_for :meta_description do
   - if @structure.description.present?
@@ -35,8 +35,11 @@
       = link_to "Tous les établissements à #{@city.name}", places_path(address_name: @city.name, lat: @city.latitude, lng: @city.longitude)
     %li= @place.name
 
-%h1.course-title
-  %span= @place.long_name
+%h1.course-title.flush--bottom
+  = @structure.name
+%h4.course-title.epsilon
+  %i.icon-map-marker.v-middle
+  %span.v-middle= @place.name
 - if @structure.rating
   %div
     %span.rating{title: comment_rating_title(@structure.rating)}
@@ -60,7 +63,11 @@
         .text--center= image_tag @place.thumb_image.url(:thumb), alt: "Cours de #{join_structure_parent_subjects_text @place.structure} à #{@place.long_name}"
       - elsif @structure.image.present?
         .text--center= image_tag @structure.image.url(:thumb), alt: "Cours de #{join_structure_parent_subjects_text @place.structure} à #{@place.long_name}"
-      %h2.delta.text--center #{@place.long_name}
+      %h2.delta.text--center.flush--bottom
+        = @structure.name
+      %h5.text--center
+        %i.icon-map-marker.v-middle
+        %span.v-middle= @place.name
       - if current_user
         %hr
         - if @structure.website
