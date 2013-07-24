@@ -39,22 +39,6 @@ fr:
       every_week: Toutes les semaines
       every_two_weeks: Tous les 15 jours
       every_month: Tous les mois
-    comments:
-      post_your_opinion: "Donnez nous votre avis sur ce %{course_type_name}"
-      last_students_opinion: Avis des élèves précédents
-    price_tab:
-      price: Prix
-      holiday_vouchers: Chèques Vacances
-      sport_coupons: Coupons Sports ANCV
-      leisure_coupons: Tickets Loisirs C.A.F. (y compris les "Tickets Temps Libres")
-      afdas_html: AFDAS ( <a target='_blank' href='https://www.afdas.com/'>plus d'infos</a> )
-      dif_html: "DIF ( <a target='_blank' href='http://travail-emploi.gouv.fr/le-droit-individuel-a-la-formation,1071.html'>plus d'infos</a> )"
-      cif_html: "CIF ( <a target='_blank' href='http://travail-emploi.gouv.fr/informations-pratiques,89/fiches-pratiques,91/formation-professionnelle,118/le-conge-individuel-de-formation,1070.html'>plus d'infos</a> )"
-      possible_funding: 'Moyen de financements possible :'
-      formule_type: Type de formule
-      without_promo: Sans promo
-      with_promo: Avec promo
-      infos: "Infos tarifaire spécifique à %{place_name}"
     description_tab:
       course_description: "Description du cours :"
       more_information: "Informations complémentaires :"
@@ -90,6 +74,22 @@ fr:
 
   places:
     courses:
+      price_tab:
+        price: Prix
+        holiday_vouchers: Chèques Vacances
+        sport_coupons: Coupons Sports ANCV
+        leisure_coupons: Tickets Loisirs C.A.F. (y compris les "Tickets Temps Libres")
+        afdas_html: AFDAS ( <a target='_blank' href='https://www.afdas.com/'>plus d'infos</a> )
+        dif_html: "DIF ( <a target='_blank' href='http://travail-emploi.gouv.fr/le-droit-individuel-a-la-formation,1071.html'>plus d'infos</a> )"
+        cif_html: "CIF ( <a target='_blank' href='http://travail-emploi.gouv.fr/informations-pratiques,89/fiches-pratiques,91/formation-professionnelle,118/le-conge-individuel-de-formation,1070.html'>plus d'infos</a> )"
+        possible_funding: 'Moyen de financements possible :'
+        formule_type: Type de formule
+        without_promo: Sans promo
+        with_promo: Avec promo
+        infos: "Infos tarifaire spécifique à %{place_name}"
+      comments:
+        post_your_opinion: "Donnez nous votre avis sur ce %{course_type_name}"
+        last_students_opinion: Avis des élèves précédents
       show:
         back_to_search: Retour à la recherche
         planning: Planning

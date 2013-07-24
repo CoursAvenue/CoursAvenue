@@ -9,10 +9,13 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
   load_and_authorize_resource :structure
 
   def index
-    @individual_price = @course.prices.where{libelle == 'prices.individual_course'}.first || @course.prices.build
-    @subscription     = @course.prices.where{libelle != 'prices.individual_course'}.first || @course.prices.build
-    @book_ticket      = @course.book_tickets.where{number == 10}.first || @course.book_tickets.build
-    @registration_fee = @course.registration_fees.first || @course.registration_fees.build
+    # If the course doesn't have a individual price, build one by default
+    unless @course.prices.where{libelle == 'prices.individual_course'}.first
+      @course.prices.build libelle: 'prices.individual_course'
+    end
+    8.times { @course.prices.build }
+    8.times { @course.book_tickets.build }
+    3.times { @course.registration_fees.build }
     index!
   end
 

@@ -10,16 +10,17 @@ fr:
     free: Gratuit
     contact_structure: Contacter l'établissement
     individual_course: Une séance
-    annual: Abonnement annuel
-    two_lesson_per_week_package: Forfait deux cours par semaine
-    semester: Abonnement semestriel
-    trimester: Abonnement trimestriel
-    month: Abonnement mensuel
-    student: Étudiant
-    young_and_senior: Jeune et sénior
-    job_seeker: Au chômage
-    low_income: Revenu faible
-    large_family: Famille nombreuse
-    couple: Couple
     trial_lesson: Cours d'essai
-    training: Prix du stage
+    subscription:
+      annual: Abonnement annuel
+      semester: Abonnement semestriel
+      trimester: Abonnement trimestriel
+      month: Abonnement mensuel
+    promotion:
+      student: Étudiant
+      young_and_senior: Jeune et sénior
+      job_seeker: Au chômage
+      low_income: Revenu faible
+      large_family: Famille nombreuse
+      couple: Couple
+      training: Prix du stage

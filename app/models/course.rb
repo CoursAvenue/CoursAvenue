@@ -76,7 +76,21 @@ class Course < ActiveRecord::Base
                   :can_be_joined_during_year,
                   :nb_participants,
                   :start_date, :end_date,
-                  :subject_ids, :level_ids, :audience_ids, :room_id, :place_id, :active
+                  :subject_ids, :level_ids, :audience_ids, :room_id, :place_id, :active,
+                  :book_tickets_attributes, :prices_attributes, :registration_fees_attributes
+
+  accepts_nested_attributes_for :prices,
+                                 reject_if: :reject_price,
+                                 allow_destroy: true
+
+  accepts_nested_attributes_for :book_tickets,
+                                 reject_if: :reject_price,
+                                 allow_destroy: true
+
+  accepts_nested_attributes_for :registration_fees,
+                                 reject_if: :reject_price,
+                                 allow_destroy: true
+
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
     text :name, :boost => 2
@@ -230,7 +244,7 @@ class Course < ActiveRecord::Base
   end
 
   def has_package_price
-    return prices.where{libelle.eq_any ['prices.annual', 'prices.semester', 'prices.trimester', 'prices.month', 'prices.two_lesson_per_week_package']}.any?
+    return prices.where{libelle.eq_any ['prices.subscription.annual', 'prices.subscription.semester', 'prices.subscription.trimester', 'prices.subscription.month']}.any?
   end
 
   def has_trial_lesson
@@ -377,6 +391,14 @@ class Course < ActiveRecord::Base
   end
 
   private
+
+  def reject_price attributes
+    exists = attributes[:id].present?
+    empty  = attributes[:amount].blank?
+    attributes.merge!({:_destroy => 1}) if exists and empty
+    return (!exists and empty)
+  end
+
 
   def friendly_name
     slugs = [self.type_name, self.name]

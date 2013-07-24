@@ -7,19 +7,17 @@ class Price < ActiveRecord::Base
   #   prices.free: Gratuit
   #   prices.contact_structure: Contacter l'établissement
   #   prices.individual_course: Cours seul
-  #   prices.annual: Abonnement annuel
-  #   prices.two_lesson_per_week_package: Forfait deux cours par semaine
-  #   prices.semester: Abonnement semestriel
-  #   prices.trimester: Abonnement trimestriel
-  #   prices.month: Abonnement mensuel
-  #   prices.student: Étudiant
-  #   prices.young_and_senior: Jeune et sénior
-  #   prices.job_seeker: Au chômage
-  #   prices.low_income: Revenu faible
-  #   prices.large_family: Famille nombreuse
-  #   prices.couple: Couple
+  #   prices.subscription.annual: Abonnement annuel
+  #   prices.subscription.semester: Abonnement semestriel
+  #   prices.subscription.trimester: Abonnement trimestriel
+  #   prices.subscription.month: Abonnement mensuel
+  #   prices.promotion.student: Étudiant
+  #   prices.promotion.young_and_senior: Jeune et sénior
+  #   prices.promotion.job_seeker: Au chômage
+  #   prices.promotion.low_income: Revenu faible
+  #   prices.promotion.large_family: Famille nombreuse
+  #   prices.promotion.couple: Couple
   #   prices.trial_lesson: Cours d'essai
-  #   prices.training: Prix du stage
 
   attr_accessible :libelle,
                   :amount,
@@ -63,19 +61,15 @@ class Price < ActiveRecord::Base
       self.nb_courses = 1
     when 'prices.individual_course'
       self.nb_courses = 1
-    when 'prices.two_lesson_per_week_package'
-      self.nb_courses = 2
-    when 'prices.annual'
+    when 'prices.subscription.annual'
       self.nb_courses = 35
-    when 'prices.semester'
+    when 'prices.subscription.semester'
       self.nb_courses = 17
-    when 'prices.trimester'
+    when 'prices.subscription.trimester'
       self.nb_courses = 11
-    when 'prices.month'
+    when 'prices.subscription.month'
       self.nb_courses = 4
     when 'prices.trial_lesson'
-      self.nb_courses = 1
-    when 'prices.training'
       self.nb_courses = 1
     else
       self.nb_courses = 0

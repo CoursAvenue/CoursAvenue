@@ -127,9 +127,6 @@ class Pro::StructuresController < Pro::ProController
   def edit
     @structure = Structure.find(params[:id])
     @admin     = @structure.admins.first || @structure.admins.build
-    if ! can? :edit, @structure
-      redirect_to pro_structure_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas éditer les informations générales"
-    end
   end
 
   def import_mail_callback

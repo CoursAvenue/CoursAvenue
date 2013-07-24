@@ -1,0 +1,8 @@
+fr:
+  activerecord:
+    models:
+      registration_fee: Frais d'adhésion
+    attributes:
+      registration_fee:
+        info: Info
+        amount: Prix

@@ -14,38 +14,26 @@ class Pro::PlacesController < InheritedResources::Base
   end
 
   def create
-    if can? :create, Place
-      create! do |success, failure|
-        success.html { redirect_to (params[:from] or pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }
-      end
-    else
-      redirect_to pro_structure_places_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas encore créer de lieu"
+    create! do |success, failure|
+      success.html { redirect_to (params[:from] or pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }
     end
   end
 
   def update
-    if can? :edit, resource
-      if params[:place].delete(:delete_image) == '1'
-        resource.image.clear
-      end
-      if params[:place].delete(:delete_thumb_image) == '1'
-        resource.thumb_image.clear
-      end
-      update! do |success, failure|
-        success.html { redirect_to pro_structure_places_path(@structure), notice: 'Le lieu à bien été mis à jour' }
-      end
-    else
-      redirect_to pro_structure_places_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas éditer ce lieu"
+    if params[:place].delete(:delete_image) == '1'
+      resource.image.clear
+    end
+    if params[:place].delete(:delete_thumb_image) == '1'
+      resource.thumb_image.clear
+    end
+    update! do |success, failure|
+      success.html { redirect_to pro_structure_places_path(@structure), notice: 'Le lieu à bien été mis à jour' }
     end
   end
 
   def destroy
-    if can? :edit, resource
-      destroy! do |success, failure|
-        success.html { redirect_to pro_structure_places_path(@structure) }
-      end
-    else
-      redirect_to pro_structure_places_path(@structure), alert: "Votre compte n'est pas encore activé, vous ne pouvez pas éditer ce lieu"
+    destroy! do |success, failure|
+      success.html { redirect_to pro_structure_places_path(@structure) }
     end
   end
 end
