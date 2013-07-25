@@ -85,15 +85,15 @@
   %p Mais attention, il ne suffit pas de regarder ce que les gens écrivent, il faut également mesurer qui ils sont."
   %p= link_to "- Thierry Le Cocq, Abaneraz Tango Club", "http://www.coursavenue.com/etablissements/abaneraz-tango-club-ecole-saint-roch", target: '_blank'
 
-= content_for :scripts do
-  :javascript
-    mixpanel.track('Reached home pro page');
-    // var slideshow;
-    // window.addEvent('domready', function() {
-    //     slideshow = new SlideShow('slideshow', {
-    //         transition: 'pushLeft',
-    //         delay: 3000,
-    //         duration: 800,
-    //         autoplay: true
-    //     });
-    // });
+/ = content_for :scripts do
+/   :javascript
+/     mixpanel.track('Reached home pro page');
+/     var slideshow;
+/     window.addEvent('domready', function() {
+/         slideshow = new SlideShow('slideshow', {
+/             transition: 'pushLeft',
+/             delay: 3000,
+/             duration: 800,
+/             autoplay: true
+/         });
+/     });
