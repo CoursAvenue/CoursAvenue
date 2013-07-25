@@ -51,7 +51,6 @@ class UserMailer < ActionMailer::Base
     if Rails.env.production?
       mail to: @place.contact_email, subject: @reservation.email_subject_for_structure
     end
-    mail to: 'nima@coursavenue.com', subject: @reservation.email_subject_for_structure
   end
 
   private
