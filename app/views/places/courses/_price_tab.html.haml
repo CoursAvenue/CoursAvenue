@@ -18,11 +18,10 @@
       - unless @course.registration_fees.empty?
         - @course.registration_fees.each do |registration_fee|
           %li
-            - if registration_fee.for_kid
-              = RegistrationFee.human_attribute_name(:kid_registration_fee)
-            - else
-              = RegistrationFee.human_attribute_name(:registration_fee)
+            = RegistrationFee.human_attribute_name(:registration_fee)
             = "#{readable_amount(registration_fee.amount)}€"
+            - if registration_fee.info.present?
+              = "(#{registration_fee.info})"
     - if @structure.accepts_holiday_vouchers or @structure.accepts_ancv_sports_coupon or @structure.accepts_leisure_tickets or @structure.accepts_afdas_funding or @structure.accepts_dif_funding or @structure.accepts_cif_funding
       %p.flush--bottom= t('.possible_funding')
     %ul
