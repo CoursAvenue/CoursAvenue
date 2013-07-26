@@ -17,4 +17,4 @@
       = pro_side_menu_link 'Mes avis'             , pro_structure_comments_path(@structure)        , current: current_tab, icon: 'icon-comments'
       = pro_side_menu_link 'Mes photos & vidéos'  , pro_structure_medias_path(@structure)          , current: current_tab, icon: 'icon-youtube-play'
       = pro_side_menu_link 'Mes cours'            , pro_structure_path(@structure)                 , current: current_tab, icon: 'icon-list'
-      = pro_side_menu_link 'Mes paramètres'       , edit_pro_admin_path(@structure.admins.any? ? @structure.admins.first : current_pro_admin)   , current: current_tab, icon: 'icon-cogs'
+      = pro_side_menu_link 'Mes paramètres'       , edit_pro_admin_path((current_pro_admin and !current_pro_admin.super_admin?) ? current_pro_admin : @structure.admins.first)   , current: current_tab, icon: 'icon-cogs'
