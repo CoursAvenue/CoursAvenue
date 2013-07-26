@@ -12,6 +12,8 @@
       %th
         %span Établissements
       %th
+        %span Disciplines
+      %th
         %span Note
       %th
         %span Téléphone
@@ -28,6 +30,9 @@
         %td
           = link_to admin.email, "mailto:#{admin.email}"
         %td= link_to admin.structure.name, dashboard_pro_structure_path(admin.structure) if admin.structure
+        %td
+          - if admin.structure
+            = join_structure_parent_subjects_text admin.structure
         %td.nowrap{data: {value: (admin.structure ? admin.structure.rating : 0)}}
           - if admin.structure
             = rating_stars admin.structure.rating
