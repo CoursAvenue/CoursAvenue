@@ -4,9 +4,9 @@
       .course-image.media__img
         = link_to place_path(place) do
           - if place.thumb_image.present?
-            = image_tag place.thumb_image.url(:thumb), alt: "Cours de #{join_structure_parent_subjects_text place.structure} à #{place.long_name}"
+            = image_tag place.thumb_image.url(:thumb), alt: "Cours de #{join_parent_subjects_text place} à #{place.long_name}"
           - else
-            = image_tag place.structure.image.url(:thumb), alt: "Cours de #{join_structure_parent_subjects_text place.structure} à #{place.long_name}"
+            = image_tag place.structure.image.url(:thumb), alt: "Cours de #{join_parent_subjects_text place} à #{place.long_name}"
 
   %article.course-content.eight-twelfths
     %header
@@ -27,7 +27,7 @@
       = place.street
       \-
       = place.city.try(:name)
-    %ul.nav= join_structure_parent_subjects(place.structure)
+    %ul.nav= join_parent_subjects(place)
   .course-content.two-twelfths.text--center.v-middle
     - if place.courses.count > 0
       .alpha.orange= place.courses.count

@@ -49,7 +49,7 @@
     avis
     %a{href: '#comments'}
       %i.lbc-brand-icon
-%ul.nav.flush--bottom= join_structure_parent_subjects @place.structure, true
+%ul.nav.flush--bottom= join_parent_subjects @place, true
 
 .grid--full.cf
   - # To Float left to have it first on mobile
@@ -60,9 +60,9 @@
         %meta{itemprop: 'longitude', content: @place.longitude}
 
       - if @place.thumb_image.present?
-        .text--center= image_tag @place.thumb_image.url(:thumb), alt: "Cours de #{join_structure_parent_subjects_text @place.structure} à #{@place.long_name}"
+        .text--center= image_tag @place.thumb_image.url(:thumb), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
       - elsif @structure.image.present?
-        .text--center= image_tag @structure.image.url(:thumb), alt: "Cours de #{join_structure_parent_subjects_text @place.structure} à #{@place.long_name}"
+        .text--center= image_tag @structure.image.url(:thumb), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
       %h2.delta.text--center.flush--bottom
         = @structure.name
       %h5.text--center

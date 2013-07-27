@@ -1,7 +1,7 @@
 module PlacesHelper
 
-  def join_structure_parent_subjects(structure, with_h3 = false)
-    structure.parent_subjects_string.split(';').collect do |subject_string|
+  def join_parent_subjects(place, with_h3 = false)
+    place.parent_subjects_string.split(';').collect do |subject_string|
       subject_name, subject_slug = subject_string.split(',')
       content_tag(:li) do
         content_tag((with_h3 ? :h3: :span), class: 'flush--bottom') do
@@ -11,8 +11,8 @@ module PlacesHelper
     end.join(' ').html_safe
   end
 
-  def join_structure_parent_subjects_text(structure)
-    structure.parent_subjects_string.split(';').collect do |subject_string|
+  def join_parent_subjects_text(place)
+    place.parent_subjects_string.split(';').collect do |subject_string|
       subject_string.split(',')[0]
     end.join(', ').html_safe
   end
