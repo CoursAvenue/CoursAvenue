@@ -50,7 +50,7 @@ class Structure < ActiveRecord::Base
                   :bank_name, :bank_iban, :bank_bic
 
   has_attached_file :image,
-                    :styles => { wide: "800x480#", thumb: "200x200#" }
+                    :styles => { wide: "800x480#", thumb: "200x200#", normal: "400x400#" }
 
   belongs_to       :city
   belongs_to       :pricing_plan

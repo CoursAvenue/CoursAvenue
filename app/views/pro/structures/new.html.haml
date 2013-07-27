@@ -62,20 +62,19 @@
           #slideshow.slideshow
             - @structures.each do |structure|
               .slideshow__element
-                .white-box.islet
+                .white-box
                   %div
-                    = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});" do
-                      = image_tag structure.image.url(:thumb)
-                  %hr.push-half--bottom.push-half--top
-                  %div
+                    = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});", class: 'block soft' do
+                      = image_tag structure.image.url(:thumb), class: 'block center-block'
+                  %div.gray-box.bordered--top.soft-half
                     %b
                       = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});"
-                  %hr.push-half--top
-                  = rating_stars structure.rating
-                  \/
-                  = structure.comments_count
-                  avis
-                  %i.lbc-brand-icon
+                    %span.nowrap
+                      = rating_stars structure.rating
+                      \/
+                      = structure.comments_count
+                      avis
+                      %i.lbc-brand-icon
 
         %hr
         %h4 Les 5 derniers avis sur CoursAvenue
@@ -87,7 +86,7 @@
     window.addEvent('domready', function() {
         slideshow = new SlideShow('slideshow', {
             transition: 'pushLeft',
-            delay: 3000,
+            delay: 30000,
             duration: 800,
             autoplay: true
         });

@@ -47,3 +47,7 @@
     @extend .form-white-box;
     max-width: 1000px;
 }
+
+.gray-box {
+    background-color: $gray-lighter;
+}
