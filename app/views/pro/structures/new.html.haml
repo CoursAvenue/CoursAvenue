@@ -65,7 +65,7 @@
                 .white-box
                   %div
                     = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});", class: 'block soft' do
-                      = image_tag structure.image.url(:thumb), class: 'block center-block'
+                      = image_tag structure.image.url(:normal), class: 'block center-block'
                   %div.gray-box.bordered--top.soft-half
                     %b
                       = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});"
@@ -86,7 +86,7 @@
     window.addEvent('domready', function() {
         slideshow = new SlideShow('slideshow', {
             transition: 'pushLeft',
-            delay: 30000,
+            delay: 3000,
             duration: 800,
             autoplay: true
         });
