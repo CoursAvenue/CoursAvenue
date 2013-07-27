@@ -60,9 +60,9 @@
         %meta{itemprop: 'longitude', content: @place.longitude}
 
       - if @place.thumb_image.present?
-        .text--center= image_tag @place.thumb_image.url(:thumb), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
+        .text--center= image_tag @place.thumb_image.url(:wide), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
       - elsif @structure.image.present?
-        .text--center= image_tag @structure.image.url(:thumb), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
+        .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
       %h2.delta.text--center.flush--bottom
         = @structure.name
       %h5.text--center

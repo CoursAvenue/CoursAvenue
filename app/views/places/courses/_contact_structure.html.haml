@@ -1,8 +1,8 @@
 %article.course-info
-  - if @place.image.present?
-    .text--center= image_tag @place.image.url(:thumb), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
+  - if @place.thumb_image.present?
+    .text--center= image_tag @place.thumb_image.url(:wide), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
   - elsif @structure.image.present?
-    .text--center= image_tag @structure.image.url(:thumb), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
+    .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
 
   %h2.delta.text--center.flush--bottom= @course.name.capitalize
   %h3.zeta.text--center.flush--bottom
