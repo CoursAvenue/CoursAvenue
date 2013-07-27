@@ -90,7 +90,7 @@ class Structure < ActiveRecord::Base
   before_save      :fix_website_url
 
   def update_comments_count
-    self.update_column :comments_count, self.comments.count
+    self.update_column :comments_count, self.all_comments.count
   end
 
   def contact_email
