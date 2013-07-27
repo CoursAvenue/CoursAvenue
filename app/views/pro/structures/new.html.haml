@@ -58,13 +58,13 @@
     .grid__item.one-third.visuallyhidden--palm
       .bordered--left.soft--left
         %h4 Les profils stars
-        .relative{style: 'height: 340px; overflow: hidden;'}
+        .relative{style: 'height: 415px; overflow: hidden;'}
           #slideshow.slideshow
             - @structures.each do |structure|
               .slideshow__element
                 .white-box
-                  %div
-                    = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});", class: 'block soft' do
+                  %div.soft-half
+                    = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});", class: 'block' do
                       = image_tag structure.image.url(:normal), class: 'block center-block'
                   %div.gray-box.bordered--top.soft-half
                     %b
