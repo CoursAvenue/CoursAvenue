@@ -127,7 +127,7 @@ class Place < ActiveRecord::Base
   handle_asynchronously :solr_index
 
   def subjects
-    (structure.subjects + self.courses.map(&:subjects)).uniq
+    (structure.subjects + self.courses.map(&:subjects)).flatten.uniq
   end
 
   def description
