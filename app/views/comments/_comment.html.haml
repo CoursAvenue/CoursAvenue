@@ -1,25 +1,29 @@
 - with_link  = false if with_link.nil?
 - show_title = true  if show_title.nil?
 
-%li.comment-list__el
+%li.comment-list__el.white-box.soft-half.hard--left
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
-    %b{itemprop: 'author'}= comment.author_name.titleize
-    - if comment.rating
-      %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
-        = rating_stars comment.rating
-        %meta{itemprop: 'ratingValue', content: comment.rating}
-        %meta{itemprop: 'worstRating', content: 1}
-        %meta{itemprop: 'bestRating', content: 5}
-    %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} le #{l(comment.created_at, format: :date)}
-    - if can?(:destroy, comment)
-      = link_to 'Supprimer', comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de supprimer cet avis ?' }
-    - if show_title and comment.title.present?
-      %h6.flush--bottom{itemprop: 'headline', content: comment.title.capitalize}= comment.title.capitalize
-    %p.flush--bottom{itemprop: 'reviewBody'}
-      = comment.content.html_safe
-    - if with_link
-      %p
-        = link_to comment.commentable.name, commentable_url(comment), target: '_blank'
-    .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
-      %meta{itemprop: 'url', content: commentable_url(comment)}
-      %meta{itemprop: 'name', content: commentable_name(comment)}
+    .grid--full
+      .grid__item.two-twelfths.text--center>
+        = gravatar_image_tag comment.email, alt: comment.author_name, gravatar: {size: 60}
+      .grid__item.ten-twelfths>
+        %b{itemprop: 'author'}= comment.author_name.titleize
+        - if comment.rating
+          %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
+            = rating_stars comment.rating
+            %meta{itemprop: 'ratingValue', content: comment.rating}
+            %meta{itemprop: 'worstRating', content: 1}
+            %meta{itemprop: 'bestRating', content: 5}
+        %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} le #{l(comment.created_at, format: :date)}
+        - if can?(:destroy, comment)
+          = link_to 'Supprimer', comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de supprimer cet avis ?' }
+        - if show_title and comment.title.present?
+          %h6.flush--bottom{itemprop: 'headline', content: comment.title.capitalize}= comment.title.capitalize
+        %p.read-more.flush--bottom{itemprop: 'reviewBody', data: {behavior: 'read-more'}}
+          = comment.content.html_safe
+        - if with_link
+          %p
+            = link_to comment.commentable.name, commentable_url(comment), target: '_blank'
+        .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
+          %meta{itemprop: 'url', content: commentable_url(comment)}
+          %meta{itemprop: 'name', content: commentable_name(comment)}

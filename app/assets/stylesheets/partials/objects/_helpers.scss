@@ -5,10 +5,11 @@
     @include opacity(0.75);
 }
 
-.relative      { position: relative; }
-.bold          { font-weight: bold; }
-.weight-normal { font-weight: normal; }
-.hidden        { display: none; }
+.relative          { position: relative; }
+.inherit-font-size { font-size: inherit; }
+.bold              { font-weight: bold; }
+.weight-normal     { font-weight: normal; }
+.hidden            { display: none; }
 .flip {
     @include vendor(transform, scaleX(-1));
     filter: FlipH; /* IE 6/7/8 */
@@ -45,7 +46,7 @@
 
 .base-font-style {
     font-size  : $base-font-size;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .bordered--right { border-right  : 1px solid $gray-smooth; }
@@ -81,3 +82,4 @@
     }
 }
 .word-break-normal { word-break: normal; }
+.thin              { font-weight: 300; }

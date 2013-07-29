@@ -66,8 +66,8 @@
     .text--center.white-box.islet
 
       - if @course.rating
-        .delta Note : #{@course.rating}
-        %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+        .alpha.brand #{@course.rating}
+        %div{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
           %span.rating{title: comment_rating_title(@course.rating)}
             = rating_stars @course.rating
           %meta{property: 'v:rating', itemprop: 'rating', content: @course.rating}
@@ -77,6 +77,12 @@
           %meta{itemprop: 'street-address', content: @place.street}
           %meta{itemprop: 'postal-code', content: @place.zip_code}
           %meta{itemprop: 'locality', content: @city.name}
+        %div
+          = @course.comments.count
+          avis
+          %a{href: '#comments'}
+            %i.lbc-brand-icon
+        %hr.push-half--top
       %div
         %b Vous avez déjà suivi ce cours ?
       %div

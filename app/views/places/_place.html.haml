@@ -8,27 +8,31 @@
           - else
             = image_tag place.structure.image.url(:thumb), alt: "Cours de #{join_parent_subjects_text place} à #{place.long_name}"
 
-  %article.course-content.eight-twelfths
+  %article.course-content{class: (place.thumb_image.present? or place.structure.image.present? ? 'eight-twelfths' : 'ten-twelfths')}
     %header
       .hN.course-title
         .map-marker-image
           = link_to place_path(place) do
             %span= place_counter + 1
         %h2.delta.inline.v-middle= link_to place.long_name, place_path(place)
-        - if place.structure.rating
-          %meta{itemprop: "ratingValue", content: place.structure.rating}
-          %div.inline.nowrap
-            = rating_stars place.structure.rating
-            \/
-            = place.structure.comments_count
-            avis
-            %i.lbc-brand-icon
     %p
       = place.street
       \-
       = place.city.try(:name)
     %ul.nav= join_parent_subjects(place)
   .course-content.two-twelfths.text--center.v-middle
-    - if place.courses.count > 0
-      .alpha.orange= place.courses.count
-      %b cours
+    .thin.alpha.brand #{place.structure.rating}
+    %div{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+      %span.rating{title: comment_rating_title(place.structure.rating)}
+        = rating_stars place.structure.rating
+      %meta{property: 'v:rating', itemprop: 'rating', content: place.structure.rating}
+      %meta{itemprop: 'count', content: place.structure.comments_count}
+      %meta{itemprop: 'itemreviewed', content: place.long_name}
+      %meta{itemprop: 'name', content: place.long_name}
+      %meta{itemprop: 'street-address', content: place.street}
+      %meta{itemprop: 'postal-code', content: place.zip_code}
+    %div
+      = place.structure.comments_count
+      avis
+      %a{href: '#comments'}
+        %i.lbc-brand-icon

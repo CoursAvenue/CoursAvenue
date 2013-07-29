@@ -94,6 +94,7 @@
   @import "partials/objects/progress-bar";
   @import "partials/objects/closer";
   @import "partials/objects/blog";
+  @import "partials/objects/read_more";
 
   @import "libs/datepicker/datepicker_bootstrap";
   @import "libs/autocomplete";
@@ -105,7 +106,7 @@
 
 html {
   font-family : $brand-face;
-  font-weight : 300;
+  font-weight : 400;
   background  : $site-background-color;
 }
 

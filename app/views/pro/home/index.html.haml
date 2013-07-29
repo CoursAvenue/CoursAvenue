@@ -6,17 +6,15 @@
 
 = menu_currently_at 'Accueil'
 
-%h1.text--center.flush--bottom
-  Le 1<sup>er</sup> site qui donne la parole à vos élèves
-%h4.text--center
-  pour faire parler de vous et attirer de nouveaux élèves !
+.gray-box.island.one-whole
+  %h1.text--center.flush--bottom
+    Le 1<sup>er</sup> site qui donne la parole à vos élèves
+  %h4.text--center
+    pour faire parler de vous et attirer de nouveaux élèves !
 
-.text--center
-  = link_to inscription_pro_structures_path, class: 'btn btn--success btn--large', id: 'register' do
-    %span Créer mon profil et obtenir des avis
-    %br
-    %span.milli.line-height-1 Gratuit et sans engagement
-.push--bottom.text--center= link_to "Je suis déjà inscrit, me connecter", new_pro_admin_session_url(subdomain: 'pro')
+  .text--center
+    = link_to "Essayer gratuitement", inscription_pro_structures_path, class: 'btn btn--success btn--large', id: 'register'
+  .push--bottom.text--center= link_to "Je suis déjà inscrit, me connecter", new_pro_admin_session_url(subdomain: 'pro')
 -#    %br
 -#    %h4.text--center 5 bonnes raisons de référencer vos cours :
 -#    %ul
@@ -30,60 +28,78 @@
 
 %hr
 
-%h3.push-half--bottom.text--center Ils ont déjà été séduits :
+/ %h3.push-half--bottom.text--center Ils ont déjà été séduits :
+- @structure = @structures.first
 .grid
-  .relative.grid__item.one-half.palm--one-whole.lap--one-whole.visuallyhidden--palm>
-    %h4.push-half--bottom Thierry Le Cocq, danseur de renommée
-    .relative
-      = image_tag 'pro/dance_teacher.jpg', class: 'block', alt: 'Cours de danse'
-      .image-quote
-        %quote
-          « CoursAvenue est le premier site en ligne où nous, enseignants, osons affronter les avis de nos élèves, bons ou mauvais. À nos côtés, CoursAvenue s'engage non seulement à diffuser notre offre de cours mais également à identifier nos points forts et nos points faibles, dans un but d'amélioration continue »
-          = link_to 'Lire la suite', '#', data: {behavior: 'modal', title: "Suite du témoignage", width: '500px', el: 'testimony'}
-        %p.image-quote--footer.text--right.flush--bottom= link_to "Thierry Le Cocq, Abaneraz Tango Club", "http://www.coursavenue.com/etablissements/abaneraz-tango-club-ecole-saint-roch", target: '_blank'
-    %p.push--top
-      %i.icon-lightbulb.delta
-      Des questions ? N'hésitez pas à visiter notre
-      = link_to 'foire aux questions', pages_faq_partners_path, target: '_blank'
-      ou à
-      = link_to 'nous contacter.', pages_contact_path
-  .grid__item.one-half.palm--one-whole.lap--one-whole>
-    %h4.push-half--bottom Et plein d'autres !
-    - unless params[:ab]
-      :css
-        #map { height: 415px;}
-        .map_container {margin-top: 0;}
-      = gmaps( {markers: {data: @json_place_addresses}, map_options: {minZoom: 12, mapTypeControl: false}})
-    - else
-      .relative{style: 'height: 350px; overflow: hidden;'}
-        %ul#slideshow.slideshow
-          - @structures.in_groups_of(2, false) do |structure_group|
-            %li.slideshow__element
-              .grid
-                - structure_group.each do |structure|
-                  .grid__item.one-half>
-                    .white-box.islet
-                      %div
-                        = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Click on profile example', 'click')" do
-                          = image_tag structure.image.url(:thumb)
-                      %hr.push-half--bottom.push-half--top
-                      %div
-                        %b
-                          = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Click on profile example', 'click')"
-                      %hr.push-half--top
-                      = rating_stars structure.rating
-                      \/
-                      = structure.comments_count
-                      avis
-                      %i.lbc-brand-icon
-    .text--center
-      = link_to 'En savoir plus', pro_pages_presentation_path, class: 'btn btn--large', onclick: "ga('send', 'event', 'En savoir plus', 'click')"
+  .grid__item.four-tenths>
+    .white-box.soft-half
+      .grid
+        .grid__item.two-twelfths>
+          /= image_tag @structure.image.url(:normal)
+          = image_tag 'http://placehold.it/100', class: 'center-block block'
+        .grid__item.ten-twelfths>
+          %h4.flush--bottom= @structure.name
+          %b
+            %i.icon-map-marker
+            = @structure.address
+          %p= truncate(@structure.description, length: 300).html_safe
+    = gmaps( {markers: {data: @structure.places.first.to_gmaps4rails}, map_options: {maxZoom: 14, mapTypeControl: false}})
+  .grid__item.six-tenths>
+    - @structure.comments.each do |comment|
+      = render partial: 'comments/comment', locals: {comment: comment}, show_title: true
+/ .grid
+/   .relative.grid__item.one-half.palm--one-whole.lap--one-whole.visuallyhidden--palm>
+/     %h4.push-half--bottom Thierry Le Cocq, danseur de renommée
+/     .relative
+/       = image_tag 'pro/dance_teacher.jpg', class: 'block', alt: 'Cours de danse'
+/       .image-quote
+/         %quote
+/           « CoursAvenue est le premier site en ligne où nous, enseignants, osons affronter les avis de nos élèves, bons ou mauvais. À nos côtés, CoursAvenue s'engage non seulement à diffuser notre offre de cours mais également à identifier nos points forts et nos points faibles, dans un but d'amélioration continue »
+/           = link_to 'Lire la suite', '#', data: {behavior: 'modal', title: "Suite du témoignage", width: '500px', el: 'testimony'}
+/         %p.image-quote--footer.text--right.flush--bottom= link_to "Thierry Le Cocq, Abaneraz Tango Club", "http://www.coursavenue.com/etablissements/abaneraz-tango-club-ecole-saint-roch", target: '_blank'
+/     %p.push--top
+/       %i.icon-lightbulb.delta
+/       Des questions ? N'hésitez pas à visiter notre
+/       = link_to 'foire aux questions', pages_faq_partners_path, target: '_blank'
+/       ou à
+/       = link_to 'nous contacter.', pages_contact_path
+/   .grid__item.one-half.palm--one-whole.lap--one-whole>
+/     %h4.push-half--bottom Et plein d'autres !
+/     - unless params[:ab]
+/       :css
+/         #map { height: 415px;}
+/         .map_container {margin-top: 0;}
+/       = gmaps( {markers: {data: @json_place_addresses}, map_options: {minZoom: 12, mapTypeControl: false}})
+/     - else
+/       .relative{style: 'height: 350px; overflow: hidden;'}
+/         %ul#slideshow.slideshow
+/           - @structures.in_groups_of(2, false) do |structure_group|
+/             %li.slideshow__element
+/               .grid
+/                 - structure_group.each do |structure|
+/                   .grid__item.one-half>
+/                     .white-box.islet
+/                       %div
+/                         = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Click on profile example', 'click')" do
+/                           = image_tag structure.image.url(:thumb)
+/                       %hr.push-half--bottom.push-half--top
+/                       %div
+/                         %b
+/                           = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Click on profile example', 'click')"
+/                       %hr.push-half--top
+/                       = rating_stars structure.rating
+/                       \/
+/                       = structure.comments_count
+/                       avis
+/                       %i.lbc-brand-icon
+/     .text--center
+/       = link_to 'En savoir plus', pro_pages_presentation_path, class: 'btn btn--large', onclick: "ga('send', 'event', 'En savoir plus', 'click')"
 
-#testimony.hidden
-  %p
-    La critique simple n’est pas plus pertinente que le compliment facile. En revanche, la critique positive ou négative doit être argumentée et bien écrite, car dans les deux cas elle nous donne confiance et nous rend plus crédibles. L'avantage de la critique négative, c'est aussi qu'elle nous permet de mesurer le risque que nous prenons et qui participe à notre bonne réputation.
-  %p Mais attention, il ne suffit pas de regarder ce que les gens écrivent, il faut également mesurer qui ils sont."
-  %p= link_to "- Thierry Le Cocq, Abaneraz Tango Club", "http://www.coursavenue.com/etablissements/abaneraz-tango-club-ecole-saint-roch", target: '_blank'
+/ #testimony.hidden
+/   %p
+/     La critique simple n’est pas plus pertinente que le compliment facile. En revanche, la critique positive ou négative doit être argumentée et bien écrite, car dans les deux cas elle nous donne confiance et nous rend plus crédibles. L'avantage de la critique négative, c'est aussi qu'elle nous permet de mesurer le risque que nous prenons et qui participe à notre bonne réputation.
+/   %p Mais attention, il ne suffit pas de regarder ce que les gens écrivent, il faut également mesurer qui ils sont."
+/   %p= link_to "- Thierry Le Cocq, Abaneraz Tango Club", "http://www.coursavenue.com/etablissements/abaneraz-tango-club-ecole-saint-roch", target: '_blank'
 
 / = content_for :scripts do
 /   :javascript

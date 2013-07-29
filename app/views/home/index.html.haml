@@ -26,7 +26,7 @@
               = link_to subject_courses_path('cuisine-oenologie'), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Réveillez vos papilles'])" do
                 .course-block-image
                   = image_tag 'home-page/cooking.jpg', alt: 'Cours de cuisine à Paris'
-                %h6.course-block-title
+                %h6.course-block-title.flush
                   Réveillez vos papilles
                 %p.course-block-caption
                   Cours de cuisine et d’œnologie pour tous
@@ -35,7 +35,7 @@
               = link_to subject_courses_path('relaxation-fitness', time_slots: ['evening']), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Détendez-vous après le boulot'])" do
                 .course-block-image
                   = image_tag 'home-page/after_work.jpg', alt: 'Cours de détente à Paris'
-                %h6.course-block-title
+                %h6.course-block-title.flush
                   Détendez-vous après le boulot
                 %p.course-block-caption
                   Cours de fitness / relaxation après 18h
@@ -44,7 +44,7 @@
               = link_to subject_courses_path('insolite'), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Cours insolites'])" do
                 .course-block-image
                   = image_tag 'home-page/insolite.jpg', alt: 'Cours insolites à Paris'
-                %h6.course-block-title
+                %h6.course-block-title.flush
                   Cours insolites
                 %p.course-block-caption
                   Laissez-vous surprendre !
@@ -53,7 +53,7 @@
               = link_to courses_path(audiences: [Audience::KID.id], 'age[min]' => 0, 'age[max]' => 5), class: 'course-block', onclick: "_gaq.push(['_trackEvent', 'À découvrir ce mois-ci', 'click','Éveillons nos tout petits'])" do
                 .course-block-image
                   = image_tag 'home-page/child-courses.jpg', alt: 'Cours pour enfants à Paris'
-                %h6.course-block-title
+                %h6.course-block-title.flush
                   Éveillons nos tout petits
                 %p.course-block-caption
                   Cours & stages pour les 0 à 5 ans

@@ -35,77 +35,29 @@
       = link_to "Tous les établissements à #{@city.name}", places_path(address_name: @city.name, lat: @city.latitude, lng: @city.longitude)
     %li= @place.name
 
-%h1.course-title.flush--bottom
-  = @structure.name
-%h4.course-title.epsilon
-  %i.icon-map-marker.v-middle
-  %span.v-middle= @place.name
-- if @structure.rating
-  %div
-    %span.rating{title: comment_rating_title(@structure.rating)}
-      = rating_stars @structure.rating
-    \/
-    = @structure.comments_count
-    avis
-    %a{href: '#comments'}
-      %i.lbc-brand-icon
-%ul.nav.flush--bottom= join_parent_subjects @place, true
 
-.grid--full.cf
-  - # To Float left to have it first on mobile
-  %section#summary.grid__item.three-tenths.lap--one-whole.palm--one-whole.float--right.islet>
-    %article.course-info{itemscope: true, itemtype: 'http://schema.org/Place'}
+.grid.push--top
+  .grid__item.four-tenths>
+    %article{itemscope: true, itemtype: 'http://schema.org/Place'}
       .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
         %meta{itemprop: 'latitude', content: @place.latitude}
         %meta{itemprop: 'longitude', content: @place.longitude}
+      .white-box.soft-half
+        %h1.blue.flush--bottom= @structure.name
+        %h4.flush
+          %i.icon-map-marker
+          - if @place.name == @structure.name
+            = @structure.address
+          - else
+            = @place.name
+        %ul.nav.flush--bottom= join_parent_subjects @place, true
+        - if @structure.description.present?
+          %p.read-more{data: {behavior: 'read-more'}}= @structure.description.html_safe
 
-      - if @place.thumb_image.present?
-        .text--center= image_tag @place.thumb_image.url(:wide), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
-      - elsif @structure.image.present?
-        .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
-      %h2.delta.text--center.flush--bottom
-        = @structure.name
-      %h5.text--center
-        %i.icon-map-marker.v-middle
-        %span.v-middle= @place.name
-      - if current_user
-        %hr
-        - if @structure.website
-          %div
-            %i.icon-external-link.orange
-            = link_to @structure.website, URI.encode(@structure.website), target: '_blank', rel: 'nofollow'
-        .blue
-          - if @place.contact_phone or @place.contact_mobile_phone
-            %i.icon-phone.blue
-          - if @place.contact_phone
-            = link_to "tel:#{@place.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
-              = @place.contact_phone.gsub(' ', '&nbsp;').html_safe
-          - if @place.contact_phone and @place.contact_mobile_phone
-            %span.blue /
-          - if @place.contact_mobile_phone
-            = link_to "tel:#{@place.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
-              = @place.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
-        %div
-          %i.icon-home
-          = readable_address @place
-
-      .text--center.push--top
-        - if current_user
-          = form_for @place.reservations.build, remote: true do |f|
-            = f.hidden_field :reservable_type
-            = f.hidden_field :reservable_id
-            = f.submit 'Coordonnées de reservation', class: 'btn btn--success one-whole', onclick: "_gaq.push(['_trackEvent', 'Établissement - contacter', 'click','Inscrit'])", data: {behavior: 'modal', title: "Information pour contacter l'établissement", width: '650px', el: 'place_info'}
-
-          #place_info.hidden= render 'places/courses/info_popup'
-
-        - else
-          %a.btn.btn--success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Établissement - contacter', 'click','Non inscrit'])",  data: {behavior: 'modal', title: 'Connectez-vous pour contacter cet établissement', width: '400px', url: '/users/sign_up'}} Coordonnées de reservation
-
-
-    .text--center.white-box.islet
-      - if @structure.rating
-        .delta Note : #{@structure.rating}
-        %div.gamma.push-half--bottom.push-half--top{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+    - if @structure.rating
+      .text--center.white-box.soft-half.push--top
+        .thin.big-alpha.brand #{@structure.rating}
+        .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
           %span.rating{title: comment_rating_title(@structure.rating)}
             = rating_stars @structure.rating
           %meta{property: 'v:rating', itemprop: 'rating', content: @structure.rating}
@@ -115,85 +67,77 @@
           %meta{itemprop: 'street-address', content: @place.street}
           %meta{itemprop: 'postal-code', content: @place.zip_code}
           %meta{itemprop: 'locality', content: @city.name}
+        %div
+          = @structure.comments_count
+          avis
+          %a{href: '#comments'}
+            %i.lbc-brand-icon
+        #write-comment.text--center= link_to 'Donner mon avis', "javascript:void(0)" #, class: 'btn btn--success'
 
+    .course-header-map.push--top
+      = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: @other_places.empty?} )
+      %h4.course-header-structure-name.flush--bottom
+        %b= @place.long_name
+        - if current_user
+          %br
+          %i.icon-map-marker
+          = readable_address @place
+    / .white-box.islet= render 'share_links'
+    .white-box.islet.push--top
+      - if @structure.website
+        %div
+          %i.icon-external-link.orange
+          = link_to @structure.website, URI.encode(@structure.website), target: '_blank', rel: 'nofollow'
+      .blue
+        - if @place.contact_phone or @place.contact_mobile_phone
+          %i.icon-phone.blue
+        - if @place.contact_phone
+          = link_to "tel:#{@place.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
+            = @place.contact_phone.gsub(' ', '&nbsp;').html_safe
+        - if @place.contact_phone and @place.contact_mobile_phone
+          %span.blue /
+        - if @place.contact_mobile_phone
+          = link_to "tel:#{@place.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
+            = @place.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
       %div
-        %b Vous connaissez cet établissement ?
-      %div
-        = link_to 'Donnez votre avis !', '#comments', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - lieu', 'click','#{@place.slug}'])"
-
-
+        %i.icon-home
+        = readable_address @place
     - if @structure.facebook_url.present?
       = link_to "Page facebook de l'établissement", URI.encode(@structure.facebook_url), target: '_blank', class: 'btn--facebook btn one-whole btn--small'
 
-    -# %hr
 
-    -# %article.visuallyhidden--palm.visuallyhidden--lap
-    -#   .delta Établissements à proximité
-    -#   %ul.block-list
-    -#     - @surrounding_places.each do |surrounding_place|
-    -#       %li
-    -#         = link_to place_path(surrounding_place), class: 'flexbox similar-course--image-wrapper', onclick: "_gaq.push(['_trackEvent', 'Établissements à proximité - lieu', 'click','#{surrounding_place.slug}'])" do
-    -#           .flexbox__item.one-fifth.similar-course--image
-    -#             - if surrounding_place.image.present?
-    -#               = image_tag surrounding_place.image.url(:thumb)
-    -#             - elsif (surrounding_place_subject = surrounding_place.subjects.limit(1)).any?
-    -#               = image_tag surrounding_place_subject[0].image.url(:thumb)
-    -#           .flexbox__item.similar-course
-    -#             %h4.similar-course--course-name.flush--bottom= surrounding_place.long_name
-    -#             .similar-course--structure-name
-    -#               %i.icon-map-marker
-    -#               = surrounding_place.street
-
-  %section.grid__item.seven-tenths.palm--one-whole.lap--one-whole.islet>
-    - if @place.image.present?
-      .grid--full.course-header-badge>
-        .grid__item.one-half.palm--one-whole>
-          = image_tag @place.image.url(:wide), class: 'course-header-badge-image', alt: @place.long_name
-        .grid__item.course-header-map.one-half.palm--one-whole>
-          = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: @other_places.empty?} )
-    - else
-      .course-header-map
-        = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: @other_places.empty?} )
-        %h4.course-header-structure-name.flush--bottom
-          %b= @place.long_name
-          - if current_user
-            %br
-            %i.icon-map-marker
-            = readable_address @place
-
-    = render 'share_links'
-    %hr
-
-    %ul.tab-titles{data: {behavior: 'tabs'}}
-      %li.tab-el.active{class: (@structure.description.present? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Description de l etablissement', 'click', '#{@place.slug}']);", data: { el: 'tab-description' }} Description
+  .grid__item.six-tenths>
+    %ul.tab-titles.flush--top{data: {behavior: 'tabs'}}
+      %li.tab-el.active{class: (@structure.comments_count > 0 ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Avis', 'click', '#{@place.slug}']);", data: { el: 'tab-comments' }}
+        %i.icon-comments
+        Avis
       %li.tab-el{class: (@courses.any? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Liste des cours', 'click', '#{@place.slug}']);", data: { el: 'tab-courses' }}
-        Liste des cours
+        %i.icon-list
+        Cours
         - if @courses.any?
           (#{@courses.length})
       %li.tab-el{class: (@teachers.any? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Profeseurs', 'click', '#{@place.slug}']);", data: { el: 'tab-teacher' }}
+        %i.icon-group
         = Teacher.model_name.human(count: @teachers.length)
         (#{@teachers.length})
       %li.tab-el{class: (@medias.any? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);", data: { el: 'tab-videos' }}
+        %i.icon-youtube-play
         Photos & vidéos
         (#{@medias.length})
       - if @other_places.any?
         %li.tab-el#tab-other-places-li{onclick: "_gaq.push(['_trackEvent', 'Autres lieux', 'click', '#{@place.slug}']);", data: { el: 'tab-other-places' }}
+          %i.icon-map-marker
           Autres lieux
           (#{@other_places.length})
 
     .tab-content
-      %article#tab-description.tab-pane.active
-        - if @place.description.present?
-          %h2.delta.text--center Description de #{@place.long_name}
-          %p#place-description{style: 'max-height: 200px; overflow: hidden;'}= @place.description.html_safe
-          .text--center.islet
-            %a.btn#show-more-description Voir toute la description
-        - else
-          %p Cet établissement n'a pas de description.
+      %article#tab-comments.tab-pane.active
+        %article.push--top.push--bottom#new_comment.hidden= render 'comments_form'
+        #comments= render partial: 'comments/comment', collection: @structure.all_comments, show_title: true
 
       %article#tab-teacher.tab-pane
         - @teachers.each do |teacher|
-          %p
+          %p.white-box.islet
             %b= teacher.name
             %br
             = teacher.description
@@ -202,7 +146,7 @@
         %h2.delta.text--center <b>Cours</b> proposés par #{@place.long_name}
         - if @courses.any?
           #course-list
-            %table.table--striped
+            %table.table--striped.white-box
               %thead
                 %tr
                   %th.five-twelfths Nom du <b>cours</b>
@@ -238,19 +182,41 @@
       - if @other_places.any?
         %article#tab-other-places.tab-pane
           = gmaps( {markers: {data: @other_places.to_gmaps4rails}, map_options: {maxZoom: 15, mapTypeControl: false, :id => 'other_places_map'}, scripts: :none})
-          %ul.block-list
+          %ul.block-list.white-box
             - @other_places.each do |other_place|
               %li
                 = link_to other_place.long_name, place_path(other_place)
                 %br
                 %i= other_place.address
-    %hr
-    %article#comments
-      = render 'comments'
+
+
+/ .grid--full.cf
+/   - # To Float left to have it first on mobile
+/   %section#summary.grid__item.three-tenths.lap--one-whole.palm--one-whole.float--right.islet>
+/     %article.course-info{itemscope: true, itemtype: 'http://schema.org/Place'}
+/       - if @place.thumb_image.present?
+/         .text--center= image_tag @place.thumb_image.url(:wide), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
+/       - elsif @structure.image.present?
+/         .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
+
+/ .text--center.push--top
+/   - if current_user
+/     = form_for @place.reservations.build, remote: true do |f|
+/       = f.hidden_field :reservable_type
+/       = f.hidden_field :reservable_id
+/       = f.submit 'Coordonnées de reservation', class: 'btn btn--success one-whole', onclick: "_gaq.push(['_trackEvent', 'Établissement - contacter', 'click','Inscrit'])", data: {behavior: 'modal', title: "Information pour contacter l'établissement", width: '650px', el: 'place_info'}
+/     #place_info.hidden= render 'places/courses/info_popup'
+/ - else
+/   %a.btn.btn--success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Établissement - contacter', 'click','Non inscrit'])",  data: {behavior: 'modal', title: 'Connectez-vous pour contacter cet établissement', width: '400px', url: '/users/sign_up'}} Coordonnées de reservation
+
+
 
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
+        $('write-comment').addEvent('click', function() {
+            $('new_comment').reveal();
+        });
         var map_loaded = false;
         if ($('tab-other-places-li')) {
             $('tab-other-places-li').addEvent('click', function() {
