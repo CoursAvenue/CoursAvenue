@@ -9,7 +9,7 @@
     %br
     %b Soyez le premier à nous donner votre avis !
 
-.islet.white-box#new-comment{class: (@structure_comments.empty? and @structure_comments.empty? ? '' : 'hidden')}
+.islet.white-box#new-comment{class: (@structure_comments.empty? and @comments.empty? ? '' : 'hidden')}
   = simple_form_for @comment, url: comments_path do |f|
     = f.hidden_field :commentable_type
     = f.hidden_field :commentable_id
