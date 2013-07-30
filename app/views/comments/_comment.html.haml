@@ -1,14 +1,17 @@
-- with_link   = false     if with_link.nil?
-- show_title  = true      if show_title.nil?
-- with_avatar = true if with_avatar.nil?
+- with_link    = false     if with_link.nil?
+- show_title   = true      if show_title.nil?
+- small_avatar = false if small_avatar.nil?
 %li.comment-list__el.white-box.soft-half.hard--left
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
     .grid--full
-      - if with_avatar
-        .grid__item.two-twelfths.text--center>
-          .profile-picture.center-block{class: "profile-picture-variation-#{rand(1..14)}"}
-            = comment.author_name[0].capitalize
-      .grid__item{class: with_avatar ? 'ten-twelfths' : 'one-whole soft-half--left'}>
+      .grid__item.two-twelfths.text--center>
+        - if small_avatar
+          .profile-picture--small.center-block{class: "profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
+            = comment.author_name.strip[0].capitalize
+        - else
+          .profile-picture.center-block{class: "profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
+            = comment.author_name.strip[0].capitalize
+      .grid__item.ten-twelfths>
         %h6.push-half--bottom.inline-block
           %b{itemprop: 'author'}= comment.author_name.titleize
           - if comment.rating
