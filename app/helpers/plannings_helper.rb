@@ -70,6 +70,8 @@ module PlanningsHelper
       if audience.kid?
         if planning.min_age_for_kid and planning.max_age_for_kid
           "#{t(audience.name)} (#{planning.min_age_for_kid} à #{planning.max_age_for_kid} ans)"
+        else
+          t(audience.name)
         end
       else
         t(audience.name)

@@ -96,7 +96,11 @@
                   = link_to activate_pro_course_path(course), method: :put, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
                     Non&nbsp;visible
               %td= course.type_name
-              %td= link_to course.name, edit_pro_course_path(course)
+              %td
+                - if course.end_date < Date.today
+                  .warning-buble{data: {behavior: 'popover', content: 'Le cours est dans le passé.'}}
+                    !
+                = link_to course.name, edit_pro_course_path(course)
               %td
                 - if course.teachers.any?
                   = course.teachers.uniq.map(&:name).join(', ').titleize

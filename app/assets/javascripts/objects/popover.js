@@ -30,12 +30,12 @@
 
         setPopoverPosition: function() {
             // Must set top property after setting width
-            if (this.el.offsetTop > this.popover_element.getComputedSize().totalHeight) {
-                this.popover_element.setStyle('top', (this.el.offsetTop - this.popover_element.getComputedSize().totalHeight) + 'px');
+            if (this.el.getOffsets().y > this.popover_element.getComputedSize().totalHeight) {
+                this.popover_element.setStyle('top', (this.el.getOffsets().y - this.popover_element.getComputedSize().totalHeight) + 'px');
             } else {
-                this.popover_element.setStyle('top', (this.el.offsetTop + this.el.getComputedSize().totalHeight) + 'px');
+                this.popover_element.setStyle('top', (this.el.getOffsets().y + this.el.getComputedSize().totalHeight) + 'px');
             }
-            this.popover_element.setStyle('left', (this.el.offsetLeft + this.el.getComputedSize().totalWidth) + 'px');
+            this.popover_element.setStyle('left', (this.el.getOffsets().x + this.el.getComputedSize().totalWidth) + 'px');
         },
 
         attachEvents: function() {
