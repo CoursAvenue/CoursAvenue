@@ -1,5 +1,5 @@
 %article#tab-prices.tab-pane
-  %table.table--striped.table--data#planning-schedule
+  %table.table--striped.table--data.table--white#planning-schedule
     %thead
       %tr
         %th= t('.formule_type')
@@ -7,21 +7,20 @@
     %tbody
       = render partial: 'prices/price'            , collection: @course.prices
       = render partial: 'book_tickets/book_ticket', collection: @course.book_tickets
-  - if @course.price_details
-    %p= @course.price_details
-  %footer
-    %ul
-      - if @course.price_info
-        %li= @course.price_info.html_safe
-      - if @structure.registration_info
-        %li= @structure.registration_info
-      - unless @course.registration_fees.empty?
-        - @course.registration_fees.each do |registration_fee|
-          %li
-            = RegistrationFee.human_attribute_name(:registration_fee)
-            = "#{readable_amount(registration_fee.amount)}€"
-            - if registration_fee.info.present?
-              = "(#{registration_fee.info})"
+  .white-box.islet
+    - if @course.price_details
+      %p= @course.price_details
+    - if @course.price_info
+      %p= @course.price_info.html_safe
+    - if @structure.registration_info
+      %p= @structure.registration_info
+    - unless @course.registration_fees.empty?
+      - @course.registration_fees.each do |registration_fee|
+        %p
+          = RegistrationFee.human_attribute_name(:registration_fee)
+          = "#{readable_amount(registration_fee.amount)}€"
+          - if registration_fee.info.present?
+            = "(#{registration_fee.info})"
     - if @structure.accepts_holiday_vouchers or @structure.accepts_ancv_sports_coupon or @structure.accepts_leisure_tickets or @structure.accepts_afdas_funding or @structure.accepts_dif_funding or @structure.accepts_cif_funding
       %p.flush--bottom= t('.possible_funding')
     %ul

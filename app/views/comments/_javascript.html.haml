@@ -17,7 +17,7 @@
             this.addClass('icon-star').removeClass('icon-star-empty');
             this.getAllNext().removeClass('icon-star').addClass('icon-star-empty');
         });
-        $('new_comment').addEvent('submit', function(){
+        $('new-comment').addEvent('submit', function(){
             if ($('comment_rating').value.length === 0) {
                 new GLOBAL.Objects.Flash('Vous devez mettre une note pour poster un commentaire.').showAndHide();
                 return false;

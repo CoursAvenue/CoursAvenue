@@ -64,25 +64,25 @@
         $$('.filter-select').addEvent('click', function() {
               $('hidden-sort-input').set('value', this.dataset.value);
               $('submit_search_form').click();
-          });
-          $$('[data-type=place-element]').each(function(place_element) {
-              place_element.addEvent('click', function(event) {
-                  // Change url only if user doesn't click on link
-                  if (event.target.nodeName !== 'A') {
-                      if (event.meta || event.control) {
-                          window.open(this.get('data-url'));
-                      } else {
-                          window.location = this.get('data-url');
-                      }
-                      return false;
-                  }
-              });
-          });
-          google.maps.event.addDomListener(window, 'load', function() {
-              Gmaps.map.addMarkers([{
-                id: -1,
-                lat: #{params[:lat]},
-                lng: #{params[:lng]}
-              }]);
-          });
-      });
+        });
+        $$('[data-type=place-element]').each(function(place_element) {
+            place_element.addEvent('click', function(event) {
+                // Change url only if user doesn't click on link
+                if (event.target.nodeName !== 'A') {
+                    if (event.meta || event.control) {
+                        window.open(this.get('data-url'));
+                    } else {
+                        window.location = this.get('data-url');
+                    }
+                    return false;
+                }
+            });
+        });
+        google.maps.event.addDomListener(window, 'load', function() {
+            Gmaps.map.addMarkers([{
+              id: -1,
+              lat: #{params[:lat]},
+              lng: #{params[:lng]}
+            }]);
+        });
+    });

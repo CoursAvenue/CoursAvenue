@@ -1,6 +1,6 @@
 %article#tab-teacher.tab-pane
   - @course.teachers.uniq.each do |teacher|
-    %p
+    %p.white-box.islet
       %b= teacher.name
       %br
       = teacher.description

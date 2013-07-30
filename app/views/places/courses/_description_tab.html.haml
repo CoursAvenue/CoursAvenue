@@ -1,9 +1,0 @@
-%article#tab-description.tab-pane
-  - if @course.info.present? or @structure.registration_info.present?
-    %h4= t('.more_information')
-    - unless @course.info.blank?
-      %p= @course.info.html_safe
-    - unless @structure.registration_info.blank?
-      %p= @structure.registration_info
-  - else
-    %p= t('.no_information')

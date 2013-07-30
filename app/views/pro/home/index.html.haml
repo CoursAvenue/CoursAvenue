@@ -6,47 +6,56 @@
 
 = menu_currently_at 'Accueil'
 
-.gray-box.island.one-whole
-  %h1.text--center.flush--bottom
-    Le 1<sup>er</sup> site qui donne la parole à vos élèves
-  %h4.text--center
-    pour faire parler de vous et attirer de nouveaux élèves !
+- content_for :above_container do
+  .home-screen-promotion-wrapper.island.one-whole.soft--top
+    %h1.text--center.flush--bottom.blue
+      Le 1<sup>er</sup> site qui donne la parole à vos élèves
+    %h4.text--center
+      pour faire parler de vous et attirer de nouveaux élèves !
 
-  .text--center
-    = link_to "Essayer gratuitement", inscription_pro_structures_path, class: 'btn btn--success btn--large', id: 'register'
-  .push--bottom.text--center= link_to "Je suis déjà inscrit, me connecter", new_pro_admin_session_url(subdomain: 'pro')
--#    %br
--#    %h4.text--center 5 bonnes raisons de référencer vos cours :
--#    %ul
--#      %li Ne gardez pas les compliments de vos élèves juste pour vous, partagez-les !
--#      %li Grâce aux avis, gagnez la confiance de nouveaux élèves dès aujourd’hui et soyez plus visible sur Internet
--#      %li Soyez présent sur CoursAvenue, le 1er moteur de recherche de cours et stages
--#      %li Diffusez toutes vos belles photos et vidéos
--#      %li C’est 100% gratuit, et vous maîtrisez tout en temps réel
--#    .text--center
--#      = link_to 'En savoir plus', pro_pages_presentation_path, class: 'btn btn--large', onclick: "ga('send', 'event', 'En savoir plus', 'click')"
+    .text--center
+      = link_to "Essayer gratuitement", inscription_pro_structures_path, class: 'btn btn--success btn--large', id: 'register'
+    .text--center= link_to "Je suis déjà inscrit, me connecter", new_pro_admin_session_url(subdomain: 'pro')
 
-%hr
+  .main-container
+    .grid
+      .grid__item.four-tenths>
+        :css
+          #map { height: 500px; }
+        = gmaps( {markers: {data: @json_places_addresses}, map_options: {maxZoom: 14, mapTypeControl: false}})
+      .grid__item.six-tenths>
+        - @places.each_with_index do |place, index|
+          .one-whole.course-element{data: {'place-id' => place.id, type: 'place-element', url: place_url(place, subdomain: 'www')}}
+            .grid
+              .grid__item.two-twelfths>
+                = image_tag place.structure.image.url(:thumb)
+              .grid__item.seven-twelfths>
+                %h3.flush--bottom.brand.course-title
+                  .map-marker-image
+                    = link_to place_url(place, subdomain: 'www') do
+                      %span= index + 1
+                  = place.structure.name
+                - if place.structure.description.present?
+                  %p.read-more{data: {behavior: 'read-more'}}= place.structure.description.html_safe
+              .grid__item.three-twelfths.text--center>
+                .thin.big-alpha.brand #{place.structure.rating}
+                .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+                  %span.rating{title: comment_rating_title(place.structure.rating)}
+                    = rating_stars place.structure.rating
+                  %meta{property: 'v:rating', itemprop: 'rating', content: place.structure.rating}
+                  %meta{itemprop: 'count', content: place.structure.comments_count}
+                  %meta{itemprop: 'itemreviewed', content: place.structure.name}
+                  %meta{itemprop: 'name', content: place.structure.name}
+                  %meta{itemprop: 'street-address', content: place.structure.street}
+                  %meta{itemprop: 'postal-code', content: place.structure.zip_code}
+                %div
+                  = link_to place_url(place, subdomain: 'www'), target: '_blank' do
+                    = place.structure.comments_count
+                    avis
+                    %i.lbc-brand-icon
+        .text--center= link_to "Et plein d'autres !", places_url(subdomain: 'www'), class: 'btn btn--primary', target: '_blank'
 
-/ %h3.push-half--bottom.text--center Ils ont déjà été séduits :
-- @structure = @structures.first
-.grid
-  .grid__item.four-tenths>
-    .white-box.soft-half
-      .grid
-        .grid__item.two-twelfths>
-          /= image_tag @structure.image.url(:normal)
-          = image_tag 'http://placehold.it/100', class: 'center-block block'
-        .grid__item.ten-twelfths>
-          %h4.flush--bottom= @structure.name
-          %b
-            %i.icon-map-marker
-            = @structure.address
-          %p= truncate(@structure.description, length: 300).html_safe
-    = gmaps( {markers: {data: @structure.places.first.to_gmaps4rails}, map_options: {maxZoom: 14, mapTypeControl: false}})
-  .grid__item.six-tenths>
-    - @structure.comments.each do |comment|
-      = render partial: 'comments/comment', locals: {comment: comment}, show_title: true
+
 / .grid
 /   .relative.grid__item.one-half.palm--one-whole.lap--one-whole.visuallyhidden--palm>
 /     %h4.push-half--bottom Thierry Le Cocq, danseur de renommée
@@ -68,7 +77,6 @@
 /     - unless params[:ab]
 /       :css
 /         #map { height: 415px;}
-/         .map_container {margin-top: 0;}
 /       = gmaps( {markers: {data: @json_place_addresses}, map_options: {minZoom: 12, mapTypeControl: false}})
 /     - else
 /       .relative{style: 'height: 350px; overflow: hidden;'}
@@ -113,3 +121,28 @@
 /             autoplay: true
 /         });
 /     });
+
+= content_for :scripts do
+  :javascript
+      window.addEvent('domready', function() {
+        $$('[data-type=place-element]').each(function(place_element) {
+            place_element.addEvent('click', function(event) {
+                // Change url only if user doesn't click on link
+                if (event.target.nodeName !== 'A') {
+                    window.open(this.get('data-url'));
+                    return false;
+                }
+            });
+        });
+        Gmaps.map.callback = function() {
+            for (var i = 0; i <  this.markers.length; ++i) {
+                google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
+                    var place_element = $$('.course-element[data-place-id=' + this.id + ']');
+                    GLOBAL.Scroller.toElement(place_element[0]);
+                    // Unselect courses if there already are that are selected
+                    $$('.course-element').removeClass('selected');
+                    place_element.addClass('selected');
+                }.bind(Gmaps.map.markers[i]));
+            }
+        };
+    });

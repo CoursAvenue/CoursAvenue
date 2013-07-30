@@ -10,9 +10,11 @@ class PlaceSearch
 
       with :active,  true
 
+      with :has_picture,  params[:has_picture] if params[:has_picture].present?
+
       if params[:sort] == 'rating_desc'
-        order_by :rating, :desc
         order_by :nb_comments, :desc
+        order_by :rating, :desc
       else
         order_by :has_comment, :desc
         order_by :has_picture, :desc

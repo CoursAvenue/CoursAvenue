@@ -63,3 +63,7 @@ th.sortDesc span:after {
     }
 
 }
+
+.table--white {
+    @extend .white-box;
+}

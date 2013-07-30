@@ -34,40 +34,22 @@
     %li.course-title= @course.name
 
 
+.grid.push--top
+  .grid__item.four-tenths>
+    .white-box.islet
+      %h1.flush.blue.beta
+        = @course.name
+      %h2.weight-normal.delta
+        = link_to place_path(@place), onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])" do
+          %i.icon-map-marker.v-middle
+          %span.v-middle= @structure.name
 
-%h1.course-title
-  = @course.name
-%h2.weight-normal.delta
-  %i.icon-map-marker.v-middle
-  %span.v-middle= @structure.name
-  %span.v-middle= link_to "Voir l'établissement", place_path(@place), class: 'btn btn--blue  btn--small', onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])"
+      = render 'contact_structure'
 
-- if @course.rating
-  %div
-    %span.rating{title: comment_rating_title(@course.rating)}
-      = rating_stars @course.rating
-    \/
-    = @course.comments.count
-    avis
-    %a{href: '#comments'}
-      %i.lbc-brand-icon
-
-
-%span.lbl.milli
-  = @course.type_name_html
-  - if @course.plannings.any? and @course.plannings.first.duration
-    = "de #{readable_duration @course.plannings.first.duration}"
-%ul.nav.flush--bottom= join_course_subjects @course, true
-
-.grid--full.cf
-  - # To Float left to have it first on mobile
-  %section.grid__item.three-tenths#summary.palm--one-whole.lap--one-whole.float--right.islet>
-    = render 'contact_structure'
-    .text--center.white-box.islet
-
+    .text--center.white-box.soft-half.push--top.push--bottom
       - if @course.rating
-        .alpha.brand #{@course.rating}
-        %div{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+        .thin.big-alpha.brand #{@course.rating}
+        .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
           %span.rating{title: comment_rating_title(@course.rating)}
             = rating_stars @course.rating
           %meta{property: 'v:rating', itemprop: 'rating', content: @course.rating}
@@ -78,81 +60,63 @@
           %meta{itemprop: 'postal-code', content: @place.zip_code}
           %meta{itemprop: 'locality', content: @city.name}
         %div
-          = @course.comments.count
+          = @course.comments_count
           avis
           %a{href: '#comments'}
             %i.lbc-brand-icon
-        %hr.push-half--top
-      %div
-        %b Vous avez déjà suivi ce cours ?
-      %div
-        = link_to 'Donnez votre avis !', '#comments', onclick: "_gaq.push(['_trackEvent', 'Donner mon avis - cours', 'click','#{@course.slug}'])"
+      - else
+        Pas encore d'avis pour ce cours
+      #write-comment.text--center= link_to 'Donner mon avis', "javascript:void(0)"
+
+      - if @course.image.present?
+        .push-half--top= image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} de #{join_course_subjects_text(@course)} : #{@course.name}", longdesc: @course.description
+
+    .course-header-map>
+      = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
+      %div{itemscope: true, itemtype: 'http://schema.org/Place'}
+        %h2.course-header-structure-name.flush--bottom
+          %b= @structure.name
+          %div
+            %i.icon-map-marker
+            = readable_address @place
+        .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
+          %meta{itemprop: 'latitude', content: @place.latitude}
+          %meta{itemprop: 'longitude', content: @place.longitude}
 
     .push--top
       = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{course_url(@course)}", class: 'btn--facebook btn one-whole btn--small', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
 
-    -# %hr
-    -# %article.visuallyhidden--palm.visuallyhidden--lap
-    -#   .delta D'autres cours pour vous !
-    -#   %ul.block-list
-    -#     - @similar_courses.each do |course|
-    -#       %li
-    -#         = link_to course_path(course), class: 'flexbox similar-course--image-wrapper', onclick: "_gaq.push(['_trackEvent', 'D\'autres cours pour vous', 'click','#{course.slug}'])" do
-    -#           .flexbox__item.one-fifth.similar-course--image
-    -#             - if course.image.present?
-    -#               = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
-    -#             - else
-    -#               = image_tag course.subjects.first.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
-    -#           .flexbox__item.similar-course
-    -#             %h3.similar-course--course-name.flush--bottom= course.name
-    -#             %h4.similar-course--structure-name
-    -#               %i.icon-map-marker
-    -#               = course.place.long_name
-
-  %section.grid__item.seven-tenths.palm--one-whole.lap--one-whole.islet>
-    .grid--full.course-header-badge>
-      .grid__item.one-half.palm--one-whole>
-        - if @course.image.present?
-          = image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} de #{join_course_subjects_text(@course)} : #{@course.name}", longdesc: @course.description
-        - elsif @course.subjects.any?
-          = image_tag @course.subjects.limit(1).first.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} de #{join_course_subjects_text(@course)} : #{@course.name}."
-      .grid__item.course-header-map.one-half.palm--one-whole>
-        = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
-        %div{itemscope: true, itemtype: 'http://schema.org/Place'}
-          %h2.course-header-structure-name.flush--bottom
-            %b= @structure.name
-            %div
-              %i.icon-map-marker
-              = readable_address @place
-          .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
-            %meta{itemprop: 'latitude', content: @place.latitude}
-            %meta{itemprop: 'longitude', content: @place.longitude}
-
-    = render 'share_links'
-
-
-    %ul.tab-titles{data: {behavior: 'tabs'}}
-      %li.tab-el.active{class: (@course.plannings.any? ? '' : 'gray-light'), data: { el: 'tab-planning' }}= t('.planning')
-      %li.tab-el#price_tab{onclick: "_gaq.push(['_trackEvent', 'Infos tarif', 'click', '#{@course.slug}'])", data: { el: 'tab-prices' }}= t('.prices')
-      %li.tab-el#description_tab{class: (@course.description.present? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Description cours', 'click', '#{@course.slug}'])", data: { el: 'tab-description' }} Description
+  .grid__item.six-tenths>
+    %ul.tab-titles.flush--top{data: {behavior: 'tabs'}}
+      %li.tab-el.active{class: (@course.plannings.any? ? '' : 'gray-light'), data: { el: 'tab-planning' }}
+        %i.icon-calendar
+        Planning
+      %li.tab-el#price_tab{onclick: "_gaq.push(['_trackEvent', 'Infos tarif', 'click', '#{@course.slug}'])", data: { el: 'tab-prices' }}
+        €
+        = t('.prices')
+      %li.tab-el#comment_tab{class: (@course.comments.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Avis', 'click', '#{@course.slug}'])", data: { el: 'tab-comments' }}
+        %i.icon-comments
+        Avis
+      %li.tab-el#description_tab{class: (@course.description.present? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Description cours', 'click', '#{@course.slug}'])", data: { el: 'tab-description' }}
+        %i.icon-list
+        Description
       %li.tab-el{class: (@course.teachers.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Infos profs', 'click', '#{@course.slug}'])", data: { el: 'tab-teacher' }}
+        %i.icon-group
         = Teacher.model_name.human(count: @course.teachers.uniq.length)
-        (#{@course.teachers.uniq.length})
       %li.tab-el{class: (@medias.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);", data: { el: 'tab-videos' }}
+        %i.icon-youtube-play
         Photos & vidéos
-        (#{@medias.length})
-
-      %li.tab-el{onclick: "_gaq.push(['_trackEvent', 'Infos structure', 'click', '#{@course.slug}'])", data: { external: 'true' }}
 
     .tab-content
       = render 'planning_tab'
       = render 'price_tab'
       %article#tab-description.tab-pane
-        %h2.delta Description du #{@course.type_name.downcase.html_safe} de : #{@course.name}
-        - if @course.description
-          %p= @course.description.html_safe
-        - else
-          %p Pas de description
+        .white-box.islet
+          %h2.delta Description du #{@course.type_name.downcase.html_safe} de : #{@course.name}
+          - if @course.description
+            %p= @course.description.html_safe
+          - else
+            %p Pas de description
 
       = render 'teacher_tab'
       %article#tab-videos.tab-pane
@@ -165,15 +129,17 @@
                     = media.url_html
                     %caption= media.caption
 
+      %article#comments#tab-comments.tab-pane
+        = render 'comments'
 
-
-    %hr
-    %article#comments
-      = render 'comments'
 
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
+        $('write-comment').addEvent('click', function() {
+            $('comment_tab').click();
+            $('new-comment').reveal();
+        });
         new XtLightbox('.media-gallery a', {
             adaptors: ['Image', 'YouTube', 'Vimeo'],
             loop: true,
