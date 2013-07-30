@@ -98,10 +98,6 @@ class Course < ActiveRecord::Base
       place.long_name
     end
 
-    text :place_info do
-      place.gmaps4rails_address
-    end
-
     text :planning_info do
       plannings.map(&:info)
     end
