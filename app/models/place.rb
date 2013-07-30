@@ -29,10 +29,12 @@ class Place < ActiveRecord::Base
   validates  :structure, presence: true
 
   has_attached_file :image,
-                    :styles => { wide: "800x480#", thumb: "200x200#" }
+                    styles: { wide: "800x480#", thumb: "200x200#", normal: '450x' },
+                    convert_options: { wide: '-interlace Line', thumb: '-interlace Line', normal: '-interlace Line' }
 
   has_attached_file :thumb_image,
-                    :styles => { wide: "400x400#", thumb: "200x200#" }
+                    styles: { wide: "400x400#", thumb: "200x200#", normal: '450x' },
+                    convert_options: { wide: '-interlace Line', thumb: '-interlace Line', normal: '-interlace Line' }
 
   after_save :delay_subscribe_to_mailchimp if Rails.env.production?
   after_touch :reindex

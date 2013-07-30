@@ -30,7 +30,7 @@ fr:
         room: Salle de cours principale
         price_details: 'Autres tarifs / Informations'
         place: Lieu
-        image: "Image du cours<br>Format: 800x480"
+        image: "Image du cours"
 
   courses:
     training:

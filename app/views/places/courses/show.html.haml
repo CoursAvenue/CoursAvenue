@@ -69,7 +69,7 @@
       #write-comment.text--center= link_to 'Donner mon avis', "javascript:void(0)"
 
       - if @course.image.present?
-        .push-half--top= image_tag @course.image.url(:wide), class: 'course-header-badge-image', alt: "#{@course.type_name} de #{join_course_subjects_text(@course)} : #{@course.name}", longdesc: @course.description
+        .push-half--top= image_tag @course.image.url(:normal), class: 'course-header-badge-image', alt: "#{@course.type_name} de #{join_course_subjects_text(@course)} : #{@course.name}", longdesc: @course.description
 
     .course-header-map>
       = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
