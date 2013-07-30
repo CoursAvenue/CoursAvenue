@@ -50,8 +50,8 @@ class Structure < ActiveRecord::Base
                   :bank_name, :bank_iban, :bank_bic
 
   has_attached_file :image,
-                    styles:          { wide: '800x480#', thumb: '200x200#', normal: '450x' },
-                    convert_options: { wide: '-interlace Line', thumb: '-interlace Line', normal: '-interlace Line' }
+                    styles:          { wide: '800x480#', thumb: '200x200#', normal: '450x' }#,
+                    #convert_options: { wide: '-interlace Line', thumb: '-interlace Line', normal: '-interlace Line' }
 
   belongs_to       :city
   belongs_to       :pricing_plan

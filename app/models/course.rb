@@ -17,8 +17,8 @@ class Course < ActiveRecord::Base
 
   has_attached_file :image,
                     styles: { wide: '800x480#', normal: '450x', thumb: '200x200#', mini: '50x50#' },
-                    path: 'course/:id/image/:fingerprint-:style.:extension',
-                    convert_options: { wide: '-interlace Line', normal: '-interlace Line', thumb: '-interlace Line' , mini: '-interlace Line' }
+                    path: 'course/:id/image/:fingerprint-:style.:extension'#,
+                    # convert_options: { wide: '-interlace Line', normal: '-interlace Line', thumb: '-interlace Line' , mini: '-interlace Line' }
 
   belongs_to :structure, touch: true
   belongs_to :place,     touch: true

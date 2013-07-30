@@ -26,6 +26,9 @@ Compass for mixins
 
 Dependencies: imagemagick
 
+#### Reprocessing images
+h run rake paperclip:refresh CLASS=Course
+
 ### For Heroku
 
 `heroku config:add AWS_BUCKET=bucket_name`
