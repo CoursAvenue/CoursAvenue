@@ -6,7 +6,7 @@
     .grid--full
       - if with_avatar
         .grid__item.two-twelfths.text--center>
-          = gravatar_image_tag comment.email, alt: comment.author_name, gravatar: {size: 60}
+          = gravatar_image_tag (comment.email.present? ? comment.email : "#{rand(1..100)}"), alt: comment.author_name, gravatar: {size: 60}
       .grid__item{class: with_avatar ? 'ten-twelfths' : 'one-whole soft-half--left'}>
         %h6.push-half--bottom.inline-block
           %b{itemprop: 'author'}= comment.author_name.titleize

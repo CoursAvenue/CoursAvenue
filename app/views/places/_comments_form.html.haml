@@ -30,6 +30,11 @@
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
+        if ( $('comment_rating').get('value').length > 0
+            || $('comment_title').get('value').length > 0
+            || $('comment_content').get('value').length > 0) {
+            $('new-comment').reveal();
+        }
         $('comment_rating').addEvent('change', function() {
             Cookie.write('comment_rating', this.get('value'));
         });
