@@ -129,11 +129,7 @@ class Place < ActiveRecord::Base
   handle_asynchronously :solr_index
 
   def subjects
-    if self.courses.any?
-      (structure.subjects + self.courses.map(&:subjects)).flatten.uniq
-    else
-      structure.subjects
-    end
+    (structure.subjects + self.courses.map(&:subjects)).flatten.uniq
   end
 
   def description

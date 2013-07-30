@@ -75,7 +75,7 @@
         Pas encore d'avis sur cet établissement
       #write-comment.text--center= link_to 'Donner mon avis', "javascript:void(0)"
       - if @place.image.present?
-        .text--center.push-half--top= image_tag @place.thumb_image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
+        .text--center.push-half--top= image_tag @place.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
       - elsif @structure.image.present?
         .text--center.push-half--top= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
 
