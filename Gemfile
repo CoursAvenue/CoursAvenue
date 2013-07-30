@@ -27,7 +27,6 @@ group :assets do
   gem 'uglifier'                , '>= 1.0.3'
   gem 'coffee-rails'            , '~> 3.2.1'
 end
-gem 'gravatar_image_tag'
 
 gem 'auto_html'                 , '~> 1.6.0'
 
