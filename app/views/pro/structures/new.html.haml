@@ -58,28 +58,35 @@
     .grid__item.one-third.visuallyhidden--palm
       .bordered--left.soft--left
         %h4 Les profils stars
-        .relative{style: 'height: 415px; overflow: hidden;'}
+        .relative{style: 'height: 215px; overflow: hidden;'}
           #slideshow.slideshow
             - @structures.each do |structure|
               .slideshow__element
                 .white-box
-                  %div.soft-half
-                    = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});", class: 'block' do
-                      = image_tag structure.image.url(:normal), class: 'block center-block'
+                  %div.soft-half.text--center
+                    .thin.big-alpha.brand #{structure.rating}
+                    .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+                      %span.rating{title: comment_rating_title(structure.rating)}
+                        = rating_stars structure.rating
+                      %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
+                      %meta{itemprop: 'count', content: structure.comments_count}
+                      %meta{itemprop: 'itemreviewed', content: structure.name}
+                      %meta{itemprop: 'name', content: structure.name}
+                      %meta{itemprop: 'street-address', content: structure.street}
+                      %meta{itemprop: 'postal-code', content: structure.zip_code}
+                    %div
+                      = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclic: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');" do
+                        = structure.comments_count
+                        avis
+                        %i.lbc-brand-icon
                   %div.gray-box.bordered--top.soft-half
                     %b
-                      = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "mixpanel.track('Seen exemple profile', {'type': 'image'});"
-                    %span.nowrap
-                      = rating_stars structure.rating
-                      \/
-                      = structure.comments_count
-                      avis
-                      %i.lbc-brand-icon
+                      = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');"
 
         %hr
-        %h4 Les 5 derniers avis sur CoursAvenue
-        %ul.comment-list.milli
-          = render partial: 'comments/comment', collection: Comment.where{rating == 5}.order('created_at DESC').limit(5), locals: {with_link: true}
+        %h4 Les 5 derniers avis
+        %ul.comment-list
+          = render partial: 'comments/comment', collection: Comment.where{rating == 5}.order('created_at DESC').limit(5), locals: {with_link: true, with_avatar: false}
 
 = content_for :scripts do
   :javascript

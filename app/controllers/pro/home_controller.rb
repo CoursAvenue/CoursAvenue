@@ -3,8 +3,6 @@ class Pro::HomeController < Pro::ProController
 
   def index
     @admin      = ::Admin.new
-    # @structures = Structure.where{(image_updated_at != nil) & (comments_count != nil)}.order('comments_count DESC').limit(5)
-    # @places     = @structures.collect{ |s| s.places.first }
     @places     = PlaceSearch.search({lat: 48.8540,
                                       lng: 2.3417,
                                       radius: 8,
