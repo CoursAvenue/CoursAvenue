@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   validates :first_name, :last_name, :email, presence: true
 
   # after_save :subscribe_to_mailchimp if Rails.env.production?
+  after_create :associate_all_comments
 
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
@@ -50,6 +51,14 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def associate_all_comments
+    Comment.where{email == self.email}.all.each do |comment|
+      comment.user = self
+      comment.save
+    end
+  end
+
   def subscribe_to_mailchimp
     Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_USERS_LIST_ID,
                            :email_address => self.email,

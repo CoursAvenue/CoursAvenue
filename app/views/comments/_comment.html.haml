@@ -5,12 +5,15 @@
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
     .grid--full
       .grid__item.two-twelfths.text--center>
-        - if small_avatar
-          .profile-picture--small.center-block{class: "profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
-            = comment.author_name.strip[0].capitalize
+        - if comment.user and comment.user.image.present?
+          = image_tag comment.user.image, height: (small_avatar ? 30 : 60)
         - else
-          .profile-picture.center-block{class: "profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
-            = comment.author_name.strip[0].capitalize
+          - if small_avatar
+            .profile-picture--small.center-block{class: "profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
+              = comment.author_name.strip[0].capitalize
+          - else
+            .profile-picture.center-block{class: "profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
+              = comment.author_name.strip[0].capitalize
       .grid__item.ten-twelfths>
         %h6.push-half--bottom.inline-block
           %b{itemprop: 'author'}= comment.author_name.titleize

@@ -6,7 +6,7 @@
     %nav.text--right.grid__item.two-thirds.visuallyhidden--palm
       - if current_user
         #drop-down-el.drop-down__wrapper.grid__item.width-auto.v-middle.hard--left{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-          - if current_user.image
+          - if current_user.image.present?
             .grid
               .grid__item.v-middle.width-auto>
                 %b= current_user.full_name
