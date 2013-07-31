@@ -1,37 +1,51 @@
 <div id='fb-root'></div>
 <script src='http://connect.facebook.net/en_US/all.js'></script>
 
-/ %h2.flush--bottom
-/ = @structure.name
-/ = link_to 'Profil public', place_path(@place), class: 'btn btn--blue'
-%h2 Partagez votre avis sur Facebook, Twitter et avec vos amis !
+%h2
+  Partagez votre avis !
+  = link_to 'Partager sur Facebook', '#', class: 'btn btn--facebook btn--small', onclick: 'postToFeed(); return false;'
 
 .grid
-  .grid__item.one-half.text--center.v-middle>
-    %p= link_to 'Partager sur Facebook', '#', class: 'btn btn--facebook', onclick: 'postToFeed(); return false;'
-    %p
-      = link_to 'Partager sur Twitter', "https://twitter.com/share?url=#{place_url(@structure.places.first)}&text=Je viens de donner mon avis sur #{@structure.name}. Et vous, qu'en pensez-vous ?&via=CoursAvenue", class: 'btn btn--twitter', target: '_blank', onclick: "mixpanel.track('Share after comment', {type: 'Twitter'});"
-  .grid__item.one-half.bordered--left.v-middle>
-    %h5.text--center Invitez vos amis à déposer également un avis
-    = form_tag invite_friends_for_feedbacks_structure_comment_path(@structure, @comment), html: {method: :post} do
-      %p.flush--bottom
-        Entrez les emails de vos amis en les séparant par des virgules.
-      %div
-        %textarea.one-whole{name: 'emails', rows: 7, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
-      .push-half--top= submit_tag 'Envoyer une invitation', class: 'btn btn--success', onclick: "mixpanel.track('Share after comment', {type: 'Email'});"
+  .grid__item.v-middle.one-half.palm--one-whole.bordered--right.soft--right>
+    .soft--left
+      = link_to 'javascript:void(0)', onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: "Rejoignez notre communauté d'élèves !", width: '400px', url: '/users/sign_up'}, class: 'soft--left' do
+        = image_tag 'texts/want_your_avatar.png', width: 400
+    %ul.discrete-list
+      = render partial: 'comments/comment', locals: { comment: @comment }
+  .grid__item.v-middle.one-half.palm--one-whole>
 
-%hr.push--top
-%h4.flush--bottom
-  Votre avis sur :
-  = link_to @structure.name, place_path(@place)
-%ul.discrete-list
-  = render partial: 'comments/comment', locals: { comment: @comment }
+    .text--center.white-box.push--top
+      .soft-half
+        .thin.big-alpha.brand #{@structure.rating}
+        .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+          %span.rating{title: comment_rating_title(@structure.rating)}
+            = rating_stars @structure.rating
+          %meta{property: 'v:rating', itemprop: 'rating', content: @structure.rating}
+          %meta{itemprop: 'count', content: @structure.comments_count}
+          %meta{itemprop: 'itemreviewed', content: @place.long_name}
+          %meta{itemprop: 'name', content: @place.long_name}
+          %meta{itemprop: 'street-address', content: @place.street}
+          %meta{itemprop: 'postal-code', content: @place.zip_code}
+        %div
+          = @structure.comments_count
+          avis
+          %a{href: '#comments'}
+            %i.lbc-brand-icon
+      %div.gray-box.bordered--top.soft-half
+        %b= link_to @structure.name, place_path(@place), onclick: "mixpanel.track('See profile after comment')"
 
-.text--center.push--top
-  / = link_to subject_courses_path(@main_subject), class: 'btn btn--blue btn--large', onclick: "mixpanel.track('See other courses after comment');" do
-  / {@main_subject.name} : voir d'autres établissements
-  %h3 CoursAvenue c'est 1000+ disciplines et #{Planning.count} séances de cours !
-  %div= link_to 'Rejoindre la communauté CoursAvenue', 'javascript:void(0)', class: 'btn btn--blue btn--large', onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_up'}
+    / %p
+    /   = link_to 'Partager sur Twitter', "https://twitter.com/share?url=#{place_url(@structure.places.first)}&text=Je viens de donner mon avis sur #{@structure.name}. Et vous, qu'en pensez-vous ?&via=CoursAvenue", class: 'btn btn--twitter', target: '_blank', onclick: "mixpanel.track('Share after comment', {type: 'Twitter'});"
+
+/ .text--center.push--top
+/   %h3 CoursAvenue c'est 1000+ disciplines et #{Planning.count} séances de cours !
+/   - if @structure.subjects.any?
+/     = link_to subject_courses_path(@structure.subjects.first), class: 'btn btn--blue btn--large', onclick: "mixpanel.track('See other courses after comment');" do
+/       #{@structure.subjects.first.name} : voir d'autres cours
+/   - else
+/     = link_to courses_path(), class: 'btn btn--blue btn--large', onclick: "mixpanel.track('See other courses after comment');" do
+/       Voir d'autres cours
+/   / %div= link_to 'Rejoindre la communauté CoursAvenue', 'javascript:void(0)', class: 'btn btn--blue btn--large', onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_up'}
 
 #mail-content.hidden
   = render template: 'student_mailer/ask_for_feedbacks'

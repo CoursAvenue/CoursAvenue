@@ -8,16 +8,6 @@ class StudentMailer < ActionMailer::Base
   #   en.user_mailer.book_class.subject
   #
 
-  def ask_friend_for_feedbacks(structure, email, comment)
-    @structure = structure
-    @email     = email
-    @comment   = comment
-    if Student.where(email: email, structure_id: @structure.id).count == 0
-      Student.create(email: email, structure_id: @structure.id)
-    end
-    mail to: email, subject: "Recommandez #{structure.name} sur CoursAvenue"
-  end
-
   def ask_for_feedbacks(structure, email)
     @structure = structure
     @email     = email

@@ -23,18 +23,4 @@ class Structures::CommentsController < ApplicationController
       @logo_url  = @structure.image.url
     end
   end
-
-  def invite_friends_for_feedbacks
-    @structure      = Structure.find params[:structure_id]
-    @comment        = Comment.find params[:id]
-    params[:emails] ||= ''
-    emails          = params[:emails].split(',').map(&:strip)
-    emails.each do |email|
-      StudentMailer.delay.ask_friend_for_feedbacks(@structure, email, @comment)
-    end
-    respond_to do |format|
-      format.html { redirect_to place_path(@structure.places.first), notice: "Merci d'avoir partagé à vos amis !" }
-    end
-  end
-
 end

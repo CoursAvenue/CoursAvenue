@@ -121,11 +121,7 @@ CoursAvenue::Application.routes.draw do
   resources :reservations, only: [:create]
 
   resources :structures, only: [], path: 'etablissements' do
-    resources :comments, only: [:new, :show], path: 'recommandations', controller: 'structures/comments' do
-      member do
-        post 'invite_friends_for_feedbacks'
-      end
-    end
+    resources :comments, only: [:new, :show], path: 'recommandations', controller: 'structures/comments'
   end
   resources :students, only: [:create]
 
