@@ -68,8 +68,6 @@
         Pas encore d'avis pour ce cours
       #write-comment.text--center= link_to 'Donner mon avis', "javascript:void(0)"
 
-      - if @course.image.present?
-        .push-half--top= image_tag @course.image.url(:normal), class: 'course-header-badge-image', alt: "#{@course.type_name} de #{join_course_subjects_text(@course)} : #{@course.name}", longdesc: @course.description
 
     .course-header-map>
       = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
@@ -85,6 +83,10 @@
 
     .push--top
       = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{course_url(@course)}", class: 'btn--facebook btn one-whole btn--small', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
+
+    - if @course.image.present?
+      .white-box.islet
+        .push-half--top= image_tag @course.image.url(:normal), class: 'course-header-badge-image', alt: "#{@course.type_name} de #{join_course_subjects_text(@course)} : #{@course.name}", longdesc: @course.description
 
   .grid__item.six-tenths>
     %ul.tab-titles.flush--top{data: {behavior: 'tabs'}}
