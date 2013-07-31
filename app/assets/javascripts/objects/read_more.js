@@ -13,7 +13,7 @@
 
         options: {
             text_height: 150,
-            read_more_text: 'Lire la suite',
+            read_more_text: 'Lire la suite →',
             read_less_text: 'Cacher'
         },
 

@@ -4,9 +4,6 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
-  constraints subdomain: 'blog' do
-    match '/', to: 'redirect#blog'
-  end
   constraints subdomain: 'pro' do
     namespace :pro, path: '' do
       root :to => 'home#index'
