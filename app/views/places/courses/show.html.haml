@@ -81,7 +81,7 @@
           %meta{itemprop: 'latitude', content: @place.latitude}
           %meta{itemprop: 'longitude', content: @place.longitude}
 
-    .push--top
+    .push--top.push--bottom
       = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{course_url(@course)}", class: 'btn--facebook btn one-whole btn--small', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
 
     - if @course.image.present?

@@ -103,8 +103,9 @@
       %div
         %i.icon-home
         = readable_address @place
+
     - if @structure.facebook_url.present?
-      = link_to "Page facebook de l'établissement", URI.encode(@structure.facebook_url), target: '_blank', class: 'btn--facebook btn one-whole btn--small'
+      = link_to "Page facebook de l'établissement", URI.encode(@structure.facebook_url), target: '_blank', class: 'btn--facebook btn one-whole btn--small push--bottom'
 
       - if @place.image.present?
         .white-box.islet
