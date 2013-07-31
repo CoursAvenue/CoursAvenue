@@ -1,7 +1,7 @@
 = user_menu_currently_at 'Mes avis'
 
 %h2 Mes avis
-- if @comments.empty?
+- if @comments.any?
   %ul.comment-list
     - @comments.each do |comment|
       = render partial: 'comments/comment', locals: {comment: comment, show_title: true, with_link: true}
