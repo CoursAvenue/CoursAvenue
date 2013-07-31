@@ -7,3 +7,11 @@ fr:
         not_found_in_database: 'Invalid email or password.'
         invalid: 'Mauvais email ou mot de passe.'
         timeout: 'Votre session a expiré.'
+  activerecord:
+    models:
+      user: Élève
+    attributes:
+      user:
+        first_name: Prénom
+        last_name: Nom
+

@@ -1,0 +1,34 @@
+= user_menu_currently_at 'Mon profil'
+
+%ol.nav.breadcrumb.delta
+  %li= link_to 'Mon profil', user_path(current_user)
+  %li Édition
+
+.white-box.islet
+  = simple_form_for @user do |f|
+    - if @user.fb_avatar or @user.avatar.present?
+      .input
+        %label.control-label Avatar
+        .text--center
+          = link_to 'javascript:void(0);', id: 'change-avatar' do
+            - if @user.avatar.present?
+              = image_tag @user.avatar.url(:thumb)
+            - elsif @user.fb_avatar
+              = image_tag @user.fb_avatar('normal')
+            %br
+            Changer ma photo
+          = f.input :avatar, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'},input_html: {id: 'avatar-input'}
+    - else
+      = f.input :avatar
+    = f.input :first_name
+    = f.input :last_name
+    .form-actions
+      = f.submit 'Sauvegarder', class: 'btn btn--success'
+
+= content_for :scripts do
+  :javascript
+    window.addEvent('domready', function() {
+        $('change-avatar').addEvent('click', function() {
+            $('avatar-input').click();
+        });
+    });

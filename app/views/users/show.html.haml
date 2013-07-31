@@ -1,9 +1,15 @@
-%h2= current_user.full_name
+= user_menu_currently_at 'Mon profil'
 
-%h3 Mes cours
-- @courses.each do |course|
-  = link_to course.name, course_path(course)
+%h2
+  Profil
 
-%h3 Mes établissements favoris
-- @places.each do |place|
-  = link_to place.name, place_path(place)
+.white-box.islet
+  .flexbox
+    .flexbox__item.v-top.one-fifth>
+      - if @user.avatar.present?
+        = image_tag @user.avatar.url(:thumb)
+      - elsif @user.fb_avatar
+        = image_tag @user.fb_avatar('large')
+    .flexbox__item.v-top.soft-half--left>
+      %h4= @user.full_name
+      = link_to 'Éditer mon profil', edit_user_path(current_user)

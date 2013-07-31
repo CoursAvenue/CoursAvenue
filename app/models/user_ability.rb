@@ -4,6 +4,7 @@ class UserAbility
   def initialize(current_user)
     if current_user
       can :manage, current_user.comments
+      can :manage, current_user
     end
 
     # Define abilities for the passed in user here. For example:

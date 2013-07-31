@@ -1,0 +1,5 @@
+- content_for :user_side_menu do
+  %ul.user-menu
+    - if current_user
+      = user_side_menu_link 'Mon profil'      , user_path(current_user)    , current: current_tab, icon: 'icon-user'
+      = user_side_menu_link 'Mes avis', user_comments_path(current_user), current: current_tab, icon: 'icon-comments'

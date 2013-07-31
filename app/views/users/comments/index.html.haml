@@ -1,0 +1,13 @@
+= user_menu_currently_at 'Mes avis'
+
+%h2 Mes avis
+- if @comments.empty?
+  %ul.comment-list
+    - @comments.each do |comment|
+      = render partial: 'comments/comment', locals: {comment: comment, show_title: true, with_link: true}
+- else
+  %p.white-box.islet
+    Vous n'avez écris aucun avis.
+    %br
+    Vous avez pris des cours mais ils ne sont pas référencer ?
+    = link_to 'Faites-le nous savoir !', pages_contact_path, onclick: "_gaq.push(['_trackEvent', 'Connait un professeur', 'click', '#{@user.email}'])"

@@ -1,0 +1,15 @@
+= content_for :header do
+  = render 'shared/header'
+
+= content_for :content do
+  .main-container{class: controller_path}
+    .grid
+      .grid__item.one-fifth.v-top.bordered--right.soft--right>
+        = yield :user_side_menu
+      .grid__item.four-fifths.v-top>
+        = content_for?(:users_content) ? yield(:users_content) : yield
+
+  - cache "page-footer_#{ENV["ETAG_VERSION_ID"]}" do
+    = render 'shared/footer'
+
+= render :template => 'layouts/application'

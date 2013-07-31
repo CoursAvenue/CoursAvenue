@@ -189,7 +189,7 @@
 
 }
 .form-actions {
-    padding-left: $left-form-margin - 8;
+    padding-left: $label-width;
     @include multiple-media-query(palm, lap) { width: 100%; }
 }
 

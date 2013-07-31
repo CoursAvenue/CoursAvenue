@@ -5,8 +5,11 @@
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
     .grid--full
       .grid__item.two-twelfths.text--center>
-        - if comment.user and comment.user.image.present?
-          = image_tag comment.user.image, height: (small_avatar ? 30 : 60)
+        - if comment.user
+          - if comment.user.avatar.present?
+            = image_tag comment.user.avatar.url(:small), height: (small_avatar ? 30 : 60)
+          - elsif comment.user.fb_avatar
+            = image_tag comment.user.fb_avatar, height: (small_avatar ? 30 : 60)
         - else
           - if small_avatar
             .profile-picture--small.center-block{class: "profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
