@@ -5,7 +5,7 @@
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
     .grid--full
       .grid__item.two-twelfths.text--center>
-        - if comment.user
+        - if comment.user and (comment.user.avatar.present? or comment.user.fb_avatar)
           - if comment.user.avatar.present?
             = image_tag comment.user.avatar.url(:small), height: (small_avatar ? 30 : 60)
           - elsif comment.user.fb_avatar

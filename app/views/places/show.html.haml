@@ -53,7 +53,7 @@
       - if @structure.description.present?
         %p.read-more{data: {behavior: 'read-more'}}= @structure.description.html_safe
 
-    .text--center.white-box.soft-half.push--top
+    .text--center.white-box.soft-half.push--top.push--bottom
       - if @structure.rating
         .thin.big-alpha.brand #{@structure.rating}
         .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
@@ -74,6 +74,13 @@
       - else
         Pas encore d'avis sur cet établissement
       #write-comment.text--center= link_to 'Donner mon avis', "javascript:void(0)"
+
+    - if @place.image.present?
+      .white-box.islet
+        .text--center= image_tag @place.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
+    - elsif @structure.image.present?
+      .white-box.islet
+        .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
 
     .course-header-map.push--top
       = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: @other_places.empty?} )
@@ -106,13 +113,6 @@
 
     - if @structure.facebook_url.present?
       = link_to "Page facebook de l'établissement", URI.encode(@structure.facebook_url), target: '_blank', class: 'btn--facebook btn one-whole btn--small push--bottom'
-
-    - if @place.image.present?
-      .white-box.islet
-        .text--center= image_tag @place.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
-    - elsif @structure.image.present?
-      .white-box.islet
-        .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
 
 
 

@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
 
   # Type in: small square large normal
   def fb_avatar(type='square')
-    self.read_attribute(:fb_avatar).split("=")[0] << "=#{type}"
+    self.read_attribute(:fb_avatar).split("=")[0] << "=#{type}" unless self.read_attribute(:fb_avatar).nil?
   end
 
   def reservation_for?(reservable)
