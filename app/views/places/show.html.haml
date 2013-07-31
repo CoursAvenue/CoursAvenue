@@ -107,12 +107,12 @@
     - if @structure.facebook_url.present?
       = link_to "Page facebook de l'établissement", URI.encode(@structure.facebook_url), target: '_blank', class: 'btn--facebook btn one-whole btn--small push--bottom'
 
-      - if @place.image.present?
-        .white-box.islet
-          .text--center= image_tag @place.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
-      - elsif @structure.image.present?
-        .white-box.islet
-          .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
+    - if @place.image.present?
+      .white-box.islet
+        .text--center= image_tag @place.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
+    - elsif @structure.image.present?
+      .white-box.islet
+        .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @place} à #{@place.long_name}"
 
 
 
