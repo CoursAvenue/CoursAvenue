@@ -7,9 +7,6 @@ gem 'rails', '3.2.13'
 # Gems used only for assets and not required
 # in production environments by default.
 
-# Analytics
-gem 'piwik_analytics', '~> 1.0.0'
-
 gem 'thin'
 gem 'pg'
 gem 'newrelic_rpm'
