@@ -54,6 +54,9 @@ class Planning < ActiveRecord::Base
                   :level_ids,
                   :audience_ids
 
+  scope :future, where("plannings.end_date > '#{Date.today}'")
+  scope :past,   where("plannings.end_date <= '#{Date.today}'")
+
   # ---------------------------- Simulating Audience and Levels
   def audience_ids= _audiences
     if _audiences.is_a? Array
@@ -186,14 +189,14 @@ class Planning < ActiveRecord::Base
   def presence_of_start_date
     if course.is_workshop? or course.is_training?
       unless start_date.present?
-        errors.add(:end_date, :blank)
+        errors.add(:start_date, :blank)
       end
     end
   end
 
   def end_date_in_future
     if end_date and end_date < Date.today
-      errors.add(:error_notification, 'Le cours ne peut pas être dans le passé.')
+      errors.add(:end_date, 'Le cours ne peut pas être dans le passé.')
     end
   end
 end

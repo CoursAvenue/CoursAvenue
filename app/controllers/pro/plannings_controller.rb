@@ -25,9 +25,11 @@ class Pro::PlanningsController < InheritedResources::Base
     @planning  = Planning.new
     @teachers  = @structure.teachers
     if @course.is_lesson?
-      @plannings = @course.plannings.order('week_day ASC, start_time ASC')
+      @plannings      = @course.plannings.order('week_day ASC, start_time ASC')
+      @past_plannings = []
     else
-      @plannings = @course.plannings.order('start_date ASC, start_time ASC')
+      @plannings      = @course.plannings.order('start_date ASC, start_time ASC').future
+      @past_plannings = @course.plannings.order('start_date ASC, start_time ASC').past
     end
     @planning.teacher = @plannings.first.teacher if @plannings.any?
   end
@@ -50,10 +52,6 @@ class Pro::PlanningsController < InheritedResources::Base
       if @planning.save
         format.html { redirect_to pro_course_plannings_path(@course), notice: 'Votre planning à bien été créé.' }
       else
-        if @planning.end_date and @planning.end_date < Date.today
-          alert = 'Le cours ne peut être dans le passé'
-          flash[:alert] = alert
-        end
         format.html { render template: 'pro/plannings/index'}
       end
     end

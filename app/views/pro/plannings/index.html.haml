@@ -16,15 +16,18 @@
     %i.icon-calendar
     Planning
 
-- if @plannings.any?
-  %h3.flush Planning du cours
-  = render "#{@course.underscore_name}_list"
-  %hr
+%h3.flush Planning du cours
+= render "#{@course.underscore_name}_list"
+%hr
 
-%h5.form-header-group.flush--bottom Rajouter un créneau
+%h5.form-header-group.flush--bottom
+  - if action_name == 'edit'
+    %i.icon-pencil
+    Édition d'un créneau
+  - else
+    Rajouter un créneau
 .form-white-box
   = render "#{@course.underscore_name}_form"
-/ %p S'il s'agit d'un cours particulier, ajoutez autant de créneaux que de séances.
 
 = content_for :scripts do
   :javascript
