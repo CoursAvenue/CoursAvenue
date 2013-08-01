@@ -8,6 +8,7 @@
   %thead
     %tr
       %th
+      %th
         %span Nom
       %th
         %span Date d'inscription
@@ -18,6 +19,15 @@
   %tbody
     - @users.each do |user|
       %tr
+        %td.text--center
+          - if user and (user.avatar.present? or user.fb_avatar)
+            - if user.avatar.present?
+              = image_tag user.avatar.url(:small), height: 30
+            - elsif user.fb_avatar
+              = image_tag user.fb_avatar, height: 30
+          - else
+            .profile-picture--small.center-block{class: "profile-picture-variation-#{((user.full_name.length * 16) % 14) + 1}"}
+              = user.full_name.strip[0].capitalize
         %td
           = user.full_name
           = link_to "(#{user.email})", "mailto:#{user.email}"
