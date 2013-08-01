@@ -223,13 +223,10 @@ class Course < ActiveRecord::Base
     self.plannings.map(&:level_ids).flatten.uniq.map{ |level_id| Level.find(level_id) }
   end
 
-  def recent_plannings
-    self.plannings.where{start_date > Date.today}
-  end
-
   def has_promotion
     return has_promotion?
   end
+
   def has_promotion?
     return false if self.prices.empty?
     !(self.prices.order('promo_amount ASC').first.promo_amount).nil?

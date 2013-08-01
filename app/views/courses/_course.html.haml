@@ -66,7 +66,7 @@
             - if course.is_lesson?
               = join_week_days(course, class: 'inline')
             - else
-              = training_dates(course.recent_plannings.first || course.plannings.first)
+              = training_dates(course.plannings.future.first || course.plannings.first)
               - if course.plannings.count > 1
                 = "et #{course.plannings.length - 1} autres dates."
 
