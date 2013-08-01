@@ -60,14 +60,14 @@
             = join_course_subjects course
 
         .milli
-          - if course.plannings.count > 0
-            = pluralize course.plannings.count, 'séance'
+          - if course.plannings.future.count > 0
+            = pluralize course.plannings.future.count, 'séance'
             \:
             - if course.is_lesson?
               = join_week_days(course, class: 'inline')
             - else
-              = training_dates(course.plannings.future.first || course.plannings.first)
-              - if course.plannings.count > 1
+              = training_dates(course.plannings.future.first)
+              - if course.plannings.future.count > 1
                 = "et #{course.plannings.length - 1} autres dates."
 
       %div.course-price.two-twelfths.grid__item>
