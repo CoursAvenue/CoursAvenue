@@ -4,6 +4,7 @@
     = yield :right_after_head
 
     = render 'shared/meta_information'
+    = piwik_tracking_tag
 
     %link{href: 'http://fonts.googleapis.com/css?family=Lato:100,300,400,700,400italic,700italic', rel: 'stylesheet', type: 'text/css'}
     - if Rails.env.production?
