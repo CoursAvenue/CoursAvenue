@@ -35,14 +35,14 @@
           = l(user.created_at, format: :date_short)
         %td{data: {value: user.last_sign_in_at}}
           = l(user.last_sign_in_at) if user.last_sign_in_at
-        %td.text--center
+        %td.text--center{data: {value: (user.provider == 'facebook' ? 'f' : '')}}
           - if user.provider == 'facebook'
             %i.icon-ok
 
 = content_for :scripts do
   :javascript
     document.addEvent('domready', function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string, date, date, string', cookieName: 'tableSortState__users', dateParseFunction: GLOBAL.DataTable.dateParseFunction}) ;
+        new TableSorter('dataTable', { columnDataTypes: 'string, string, date, date, string', cookieName: 'tableSortState__users', dateParseFunction: GLOBAL.DataTable.dateParseFunction}) ;
         new Highcharts.Chart({
             chart: { renderTo: 'users' },
             title: { text: null },
