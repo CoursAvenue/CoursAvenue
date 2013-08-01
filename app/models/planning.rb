@@ -27,8 +27,13 @@ class Planning < ActiveRecord::Base
   validates :audience_ids, :level_ids, presence: true
   validate :presence_of_start_date
   validate :end_date_in_future
-  validates :min_age_for_kid, numericality: { less_than: :max_age_for_kid }, allow_nil: true
+  validates :min_age_for_kid, numericality: { less_than: 18 }, allow_nil: true
   validates :max_age_for_kid, numericality: { less_than: 19 }, allow_nil: true
+  validate do |planning|
+    if (max_age_for_kid.present? or min_age_for_kid.present?) and min_age_for_kid.to_i >= max_age_for_kid.to_i
+      planning.errors.add(:max_age_for_kid, "L'age maximum ne peut être inférieur à l'age minimum")
+    end
+  end
 
 
   attr_accessible :duration, # In minutes

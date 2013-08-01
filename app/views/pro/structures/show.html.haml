@@ -97,7 +97,7 @@
                     Non&nbsp;visible
               %td= course.type_name
               %td
-                - if course.end_date < Date.today
+                - if (course.is_lesson? and course.end_date.nil?) or (course.end_date and course.end_date < Date.today)
                   .warning-buble{data: {behavior: 'popover', content: 'Le cours est dans le passé.'}}
                     !
                 = link_to course.name, edit_pro_course_path(course)
