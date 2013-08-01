@@ -5,7 +5,7 @@
   %h4
     %span.v-middle Partagez votre profil sur Facebook
     %span.soft-half--left.v-middle
-      = link_to 'Partager mon profil sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{place_url(@structure.places.first, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "mixpanel.track('Share on Facebook from wizard'); _gaq.push(['_trackEvent', 'Pro / Share on Facebook', 'click', 'From dashboard page'])"
+      = link_to 'Partager mon profil sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_url(@structure, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "mixpanel.track('Share on Facebook from wizard'); _gaq.push(['_trackEvent', 'Pro / Share on Facebook', 'click', 'From dashboard page'])"
 
   %h4
     %span.v-middle Demandez des recommandations à vos élèves

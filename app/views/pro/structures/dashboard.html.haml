@@ -4,7 +4,7 @@
   %i.icon-dashboard
   Tableau de bord
   &nbsp;
-  = link_to 'Partager mon profil sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{place_url(@structure.places.first, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
+  = link_to 'Partager mon profil sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_url(@structure, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
 
 
 - if @wizard
@@ -74,7 +74,7 @@
           %ul.block-list
             - structures.each do |structure|
               %li
-                = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank'
+                = link_to structure.name, structure_url(structure, subdomain: 'www'), target: '_blank'
                 = rating_stars structure.rating
                 \/
                 = structure.comments_count

@@ -8,7 +8,7 @@
           %h2.grid__item.width-auto.flush--bottom.v-middle{title: @structure.name}
             %span.v-middle= truncate(@structure.name, length: 50)
             %span.v-middle
-              = link_to place_url(@structure.places.first, subdomain: 'www'), class: 'btn btn--blue btn--small push-half--left v-middle', target: '_blank' do
+              = link_to structure_url(@structure, subdomain: 'www'), class: 'btn btn--blue btn--small push-half--left v-middle', target: '_blank' do
                 %i.icon-external-link.v-middle
                 %span.v-middle Voir mon profil
     %nav.grid__item.one-third.text--right

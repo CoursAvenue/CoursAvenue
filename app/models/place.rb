@@ -180,7 +180,7 @@ class Place < ActiveRecord::Base
     if read_attribute(:contact_phone).present?
       read_attribute(:contact_phone)
     else
-      self.structure.phone_number
+      self.structure.contact_phone
     end
   end
 
@@ -188,7 +188,7 @@ class Place < ActiveRecord::Base
     if read_attribute(:contact_mobile_phone).present?
       read_attribute(:contact_mobile_phone)
     else
-      self.structure.mobile_phone_number
+      self.structure.contact_mobile_phone
     end
   end
 

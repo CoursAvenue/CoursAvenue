@@ -129,6 +129,8 @@ CoursAvenue::Application.routes.draw do
 
   resources :comments, only: [:create, :destroy]
 
+  resources :structure, only: [:show], path: 'professeurs', controller: 'structures'
+
   resources :places, only: [:show, :index], path: 'etablissements' do
     resources :courses, only: [:show], path: 'cours', controller: 'places/courses'
   end

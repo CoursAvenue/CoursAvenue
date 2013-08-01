@@ -33,7 +33,7 @@ module CommentsHelper
   # Path of the commentable
   def commentable_path comment, options={}
     if comment.commentable.is_a? Structure
-      place_path comment.commentable.places.first
+      structure_path comment.commentable
     elsif comment.commentable
       place_course_path comment.commentable.place, comment.commentable, options
     end
@@ -42,7 +42,7 @@ module CommentsHelper
   # URL of the commentable
   def commentable_url comment, options={}
     if comment.commentable.is_a? Structure
-      place_url(comment.commentable.places.first, {subdomain: 'www'}.merge(options))
+      structure_url(comment.commentable, {subdomain: 'www'}.merge(options))
     elsif comment.commentable
       course_url comment.commentable, {subdomain: 'www'}.merge(options)
     end

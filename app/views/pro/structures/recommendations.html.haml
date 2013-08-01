@@ -94,7 +94,7 @@
     Partagez les deux liens suivants :
   .alert--info#website-text
     Pour que les internautes visualisent tous vos avis :
-    = link_to place_url(@structure.places.first, website: '', subdomain: 'www'), place_url(@structure.places.first, website: '', subdomain: 'www'), target: '_blank'
+    = link_to structure_url(@structure, website: '', subdomain: 'www'), structure_url(@structure, website: '', subdomain: 'www'), target: '_blank'
     %br
     Pour que vos élèves déposent de nouveaux avis :
     = link_to new_structure_comment_url(@structure, website: '', subdomain: 'www'), new_structure_comment_url(@structure, website: '', subdomain: 'www'), target: '_blank'

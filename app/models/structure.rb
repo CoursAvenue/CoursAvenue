@@ -1,10 +1,15 @@
 class Structure < ActiveRecord::Base
   acts_as_paranoid
+
   include HasSubjects
   include ActsAsCommentable
+  include ActsAsGeolocalizable
 
   extend FriendlyId
   friendly_id :name, use: :slugged
+
+  acts_as_gmappable validation: false,
+                    language: 'fr'
 
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',
@@ -24,8 +29,8 @@ class Structure < ActiveRecord::Base
   attr_reader :delete_image
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
-                  :gives_professional_courses, :website, :facebook_url, :phone_number,
-                  :mobile_phone_number, :contact_email, :description,
+                  :gives_professional_courses, :website, :facebook_url, :contact_phone,
+                  :contact_mobile_phone, :contact_email, :description,
                   :subject_ids,
                   :active,
                   :has_validated_conditions,

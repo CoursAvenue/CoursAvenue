@@ -9,8 +9,8 @@
     %ul.nav= join_parent_subjects @structure, true
     %hr
     %div
-      = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{place_url(@structure.places.first, subdomain: 'www')}", class: 'btn btn--facebook btn--small v-middle', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From creation page')"
-      = link_to place_url(@structure.places.first, subdomain: 'www'), class: 'btn btn--blue btn--small v-middle', target: '_blank' do
+      = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_url(@structure, subdomain: 'www')}", class: 'btn btn--facebook btn--small v-middle', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From creation page')"
+      = link_to structure_url(@structure, subdomain: 'www'), class: 'btn btn--blue btn--small v-middle', target: '_blank' do
         %i.icon-external-link.v-middle
         %span.v-middle Voir mon profil
 

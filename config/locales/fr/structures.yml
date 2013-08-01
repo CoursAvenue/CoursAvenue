@@ -13,8 +13,8 @@ fr:
         website: "Site internet"
         facebook_url: "Page facebook"
         has_handicap_access: Accès handicapés
-        phone_number: Téléphone fixe
-        mobile_phone_number: Téléphone portable
+        contact_phone: Téléphone fixe
+        contact_mobile_phone: Téléphone portable
         email_address: Adresse email
         gives_professional_courses: Mes cours sont pour des professionnels
         accepts_holiday_vouchers: 'Tickets loisirs C.A.F. (y compris les "tickets temps libre")'
