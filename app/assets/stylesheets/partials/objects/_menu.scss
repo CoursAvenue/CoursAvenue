@@ -4,10 +4,14 @@
     list-style: none;
 }
     .user-menu__item {
-        text-align   : right;
-        padding      : 1em;
-        display      : block;
-        border-bottom: 1px solid $beige-darker;
+        text-align     : right;
+        padding        : 1em;
+        display        : block;
+        border-bottom  : 1px solid $beige-darker;
+        &:hover {
+            background: $beige;
+            text-decoration: none;
+        }
         &.active {
             background: $beige-darker;
         }

@@ -43,6 +43,8 @@
         @extend  .icon-caret-down;
     }
     .dropped-options-title {
+        height          : 34px;
+        line-height     : 26px;
         position        : relative;
         overflow        : hidden;
         text-overflow   : ellipsis;

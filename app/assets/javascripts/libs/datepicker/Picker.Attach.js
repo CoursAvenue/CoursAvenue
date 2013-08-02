@@ -20,7 +20,7 @@ Picker.Attach = new Class({
 		toggle: null, // When set it deactivate toggling by clicking on the input */
 		togglesOnly: true, // set to false to always make calendar popup on input element, if true, it depends on the toggles elements set.
 		showOnInit: false, // overrides the Picker option
-		blockKeydown: true
+		blockKeydown: false
 	},
 
 	initialize: function(attachTo, options){

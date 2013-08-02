@@ -1,4 +1,31 @@
+# encoding: utf-8
 module CoursesHelper
+
+  # Returns
+  #   Case lesson:              Mardi, Jeudi, Vendredi.
+  #   Case workshop / training: Lundi 23 novembre, Mardi 24 novembre, ...
+  def plannings_to_come course, params
+    _start_date = Date.parse(params[:start_date]) if params[:start_date].present?
+    _end_date   = Date.parse(params[:end_date])   if params[:end_date].present?
+    # = pluralize course.plannings.future.count, 'séance'
+    plannings       = course.plannings.future.where{(start_date <= _end_date) & (end_date >= _start_date)}
+    plannings_count = plannings.count
+    if plannings_count > 0
+      content_tag :span do
+        string_output = pluralize plannings_count, 'séance'
+        string_output << ' : '
+        if course.is_lesson?
+          string_output << join_week_days(course, class: 'inline').downcase
+        else
+          string_output << plannings[0..3].collect{|p| training_dates(p)}.join(', ')
+          if plannings_count > 3
+            string_output << ', ...'
+          end
+        end
+        string_output.html_safe
+      end
+    end
+  end
 
   def join_teachers(course)
     course.plannings.collect{|p| p.teacher.try(:name)}.compact.uniq.join(', ').titleize
@@ -26,7 +53,7 @@ module CoursesHelper
     week_days = course.plannings.order(:week_day).collect do |planning|
       planning.week_day
     end.compact.uniq
-    class_names = 'nav week_days '
+    class_names = 'nav '
     class_names << options[:class]
     content_tag :ul, class: class_names do
       week_days.collect do |week_day|

@@ -55,13 +55,26 @@
 window.addEvent('domready', function() {
     var global = GLOBAL.namespace('GLOBAL');
     Locale.use('fr-FR');
-    new Picker.Date($$('[data-behavior=datepicker]'),
-        {
-        pickerClass: 'datepicker_bootstrap',
-        months_abbr: Locale.get('Date.months'),
-        days_title: function(date, options){
-            return date.format('%B %Y');
-        }
+    new Picker.Date($$('[data-behavior=datepicker]'),{ pickerClass: 'datepicker_bootstrap',
+                                                       months_abbr: Locale.get('Date.months'),
+                                                       days_title: function(date, options){
+                                                           return date.format('%B %Y');
+                                                       }
+    });
+
+    $$('[data-behavior=datepicker-range]').each(function(el) {
+        new Picker.Date(el,{ pickerClass: 'datepicker_bootstrap',
+                             months_abbr: Locale.get('Date.months'),
+                             days_title: function(date, options){
+                                 return date.format('%B %Y');
+                             }
+        });
+         if (el.get('data-end-range-el')) {
+            var end_range = $(el.get('data-end-range-el'));
+            el.addEvent('change', function() {
+                end_range.set('value', this.value);
+            });
+         }
     });
     global.Scroller = new Fx.Scroll($(document.body), {
         wait: false,

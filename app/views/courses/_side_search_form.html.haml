@@ -61,9 +61,9 @@
         %i.icon-caret-left
     .search-panel-content{class: (params[:start_date].present? or params[:end_date].present? ? '' : 'hide')}
       Du
-      %input#start_date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker'}}
+      %input#start_date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker-range', 'end-range-el' => 'end_date'}}
       au
-      %input#end_date{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker'}}
+      %input#end_date{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker-range'}}
 
 
 

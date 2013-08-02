@@ -16,7 +16,9 @@
     %i.icon-calendar
     Planning
 
-%h3.flush Planning du cours
+%h3 Planning du cours
+- if @plannings.any?
+  %h5.flush Séances à venir
 = render "#{@course.underscore_name}_list"
 %hr
 

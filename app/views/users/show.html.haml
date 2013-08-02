@@ -10,6 +10,8 @@
         = image_tag @user.avatar.url(:thumb)
       - elsif @user.fb_avatar
         = image_tag @user.fb_avatar('large')
+      - else
+        .text--center.push-half--top Pas d'avatar
     .flexbox__item.v-top.soft-half--left>
-      %h4= @user.full_name
+      %h4.flush= @user.full_name
       = link_to 'Éditer mon profil', edit_user_path(current_user)
