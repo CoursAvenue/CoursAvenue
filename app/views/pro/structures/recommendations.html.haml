@@ -136,8 +136,10 @@
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
-      new TableSorter('students-table', { columnDataTypes: 'string, string, string', cookieName: 'tableSortState__students_recommendation'});
-      $$('#students-table form').addEvent('submit', function() {
-          new GLOBAL.Objects.Flash("L'élève a bien été notifié.").showAndHide();
-      })
+      if ($('students-table')) {
+          new TableSorter('students-table', { columnDataTypes: 'string, string, string', cookieName: 'tableSortState__students_recommendation'});
+          $$('#students-table form').addEvent('submit', function() {
+              new GLOBAL.Objects.Flash("L'élève a bien été notifié.").showAndHide();
+          });
+      }
     });
