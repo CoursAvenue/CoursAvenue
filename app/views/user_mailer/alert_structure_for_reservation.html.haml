@@ -1,19 +1,24 @@
 %p Bonjour #{@place.long_name},
 
-%p #{@user.full_name} aimerait suivre un de vos cours.
+- if @structure.admins.empty?
+  %p #{@user.full_name} aimerait suivre un de vos cours. Nous le savons car il a cliqué sur votre profil CoursAvenue.
+
+  %p.action
+    = link_to 'Prendre le contrôle de mon profil', new_pro_admin_structure_registration_url(@structure, subdomain: 'pro')
+- else
+  %p #{@user.full_name} aimerait suivre un de vos cours.
 
 %p En parallèle, nous avons envoyé vos coordonnées à l'internaute, mais pour aller plus vite, n'hésitez pas à le contacter directement :
 
+%h4 Informations de l'élève
 %p
-  \======== Informations de l'élève ========
-  %br
   Nom : #{@user.full_name}
   %br
   Mail : #{@user.email}
 
-- unless @structure.admins.any?
+- if @structure.admins.empty?
+  %h4 Qui sommes-nous ?
   %p
-    \======== Qui sommes-nous ? ========
     %br
     CoursAvenue est la première plateforme de réservation en temps réel des cours aux meilleurs prix.
     %br

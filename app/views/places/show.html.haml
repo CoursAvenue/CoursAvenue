@@ -7,7 +7,10 @@
 
 
 = content_for :title do
-  = "#{@structure.name} à #{@place.name}"
+  - if @place.name == 'Adresse principale'
+    = "#{@structure.name} à #{@place.city.name}"
+  - else
+    = "#{@structure.name} à #{@place.name}, #{@place.city.name}"
 
 = content_for :meta_description do
   - if @structure.description.present?
@@ -49,7 +52,7 @@
           = @structure.address
         - else
           = @place.name
-      %ul.nav.flush--bottom= join_parent_subjects @place, true
+      %ul.nav.push-half--ends= join_parent_subjects @place, true
       - if @structure.description.present?
         %p.read-more{data: {behavior: 'read-more'}}= @structure.description.html_safe
 

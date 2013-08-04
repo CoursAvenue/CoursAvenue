@@ -1,5 +1,7 @@
 # encoding: utf-8
 class UserMailer < ActionMailer::Base
+  layout 'email'
+
   helper :prices, :comments
 
   default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"

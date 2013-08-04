@@ -9,7 +9,9 @@ gem 'rails', '3.2.13'
 
 gem 'thin'
 gem 'pg'
-gem 'newrelic_rpm'
+gem 'newrelic_rpm'          , '~> 3.6.6.147'
+
+# For the blog
 gem 'rack-reverse-proxy', :require => 'rack/reverse_proxy'
 
 # Caching
@@ -101,9 +103,8 @@ group :development, :test do
 end
 
 # For emails
-# gem 'roadie'
+gem 'roadie'
 
-# gem 'newrelic_rpm'
 # gem 'thin'
 
 # Deploy with Capistrano

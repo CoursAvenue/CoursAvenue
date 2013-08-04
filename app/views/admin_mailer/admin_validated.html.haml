@@ -5,6 +5,9 @@
   %br
   Vous pouvez maintenant mettre vos cours en ligne à partir de #{link_to 'votre espace pro', pro_structure_url(@admin.structure, subdomain: 'pro')}.
 
+%p.action
+  = link_to 'Accéder à mon espace pro', pro_structure_url(@admin.structure, subdomain: 'pro'), class: 'btn btn--blue'
+
 %p À très bientôt,
 
 %p L'équipe de CoursAvenue

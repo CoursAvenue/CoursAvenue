@@ -4,9 +4,9 @@
   Félicitations !
   = @comment.author_name.titleize
   vient de laisser un commentaire sur votre profil public CoursAvenue.
-%p
-  Accédez à votre espace pro pour le visualiser :
-  = link_to 'cliquer ici', pro_structure_url(@structure)
+
+%p.action
+  = link_to 'Accédez à mon espace pro pour le visualiser', pro_structure_url(@structure), class: 'btn btn--blue'
 
 %p À très bientôt,
 

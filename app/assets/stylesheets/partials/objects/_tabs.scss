@@ -16,6 +16,7 @@
             background-color: $beige;
             cursor          : pointer;
             border          : 1px solid darken($gray-lighter, 5%);
+            text-decoration : none;
         }
         &.active:hover {
             background-color: $site-background-color;

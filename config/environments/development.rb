@@ -14,18 +14,26 @@ CoursAvenue::Application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
   # ------------ Mailer configuration
   config.action_mailer.default_url_options = { :host => 'coursavenue.dev' }
   config.action_mailer.asset_host = 'http://coursavenue.dev'
 
   config.action_mailer.smtp_settings = {
-    :address => "smtp.mandrillapp.com",
+    :address => "smtp.gmail.com",
     :port => 587,
-    :user_name => 'app9696879@heroku.com',
-    :password  => 'Qf5ITuqN9LXZez-tUC_JWg'
+    :domain => 'gmail.com',
+    :user_name => 'v2r.test@gmail.com',
+    :password => 'xnnc8cesJO',
+    :authentication => 'plain',
+    :enable_starttls_auto => true
   }
-
+  # config.action_mailer.smtp_settings = {
+  #   :address => "smtp.mandrillapp.com",
+  #   :port => 587,
+  #   :user_name => 'app9696879@heroku.com',
+  #   :password  => 'Qf5ITuqN9LXZez-tUC_JWg'
+  # }
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 

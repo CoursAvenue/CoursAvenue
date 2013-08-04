@@ -40,7 +40,7 @@
   //-------------------------------------------------------------------------------------------------------- Price
   .search-panel
     %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Prix'])",data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
-      Prix (par cours)
+      Prix (par séance)
       - if params[:price_range][:min].blank? and params[:price_range][:max].blank?
         %i.icon-caret-left
       - else

@@ -18,15 +18,14 @@
         },
 
         changeTab: function(event) {
-            if (!event.target.get('data-external')) {
-                // Add active only on selected title (li)
-                this.tabs.removeClass('active');
-                event.target.addClass('active');
+            var target = event.event.currentTarget;
+            // Add active only on selected title (li)
+            this.tabs.removeClass('active');
+            target.addClass('active');
 
-                // Add active only on selected content (tab-pane)
-                this.tab_panes.removeClass('active');
-                $(event.target.get('data-el')).addClass('active');
-            }
+            // Add active only on selected content (tab-pane)
+            this.tab_panes.removeClass('active');
+            $(target.get('data-el')).addClass('active');
         }
 
     });

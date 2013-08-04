@@ -1,12 +1,11 @@
 %p Bonjour,
 
 %p
-  <strong>#{@structure.name} vous demande de rédiger une recommandation</strong> qui sera publiée sur son profil public CoursAvenue, le 1er moteur de recherche de cours et de stages.
+  <strong>#{@structure.name} vous demande de rédiger une recommandation</strong> qui sera publiée sur son profil public CoursAvenue, le 1er moteur de recherche de cours.
   Votre avis est capital pour continuer à vous proposer des cours toujours plus passionnants qui correspondent à votre besoin, et votre opinion sera également précieuse pour gagner en visibilité sur Internet.
 
-%p
-  <strong>En 2 clics, partagez votre opinion :</strong>
-  = link_to 'cliquer ici.', new_structure_comment_url(@structure, email: @email)
+%p.action
+  = link_to 'Partagez mon opinion', new_structure_comment_url(@structure, email: @email), class: 'btn btn--blue'
 
 %p
   Merci pour votre contribution et à très bientôt !
@@ -14,3 +13,6 @@
 %p
   #{@structure.name} et toute l'équipe de CoursAvenue
 
+= content_for :footer do
+  %p
+    Vous recevez cet email car #{@structure.name} est inscrit sur CoursAvenue et a renseigné votre email pour vous demander une recommandation sur ses cours.

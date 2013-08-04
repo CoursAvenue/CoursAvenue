@@ -1,0 +1,83 @@
+
+@import "compass/css3/background-size";
+@import "compass/css3/opacity";
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "compass/css3/images";
+@import "compass/css3/box-sizing";
+@import "compass/css3/transition";
+@import "compass/css3/images";
+
+
+@import "defaults";
+@import "colors";
+@import "compass-inuit/generic/mixins";
+
+@import "partials/theme_mixins";
+
+@import "partials/base/links";
+
+@import "partials/objects/boxes";
+@import "partials/objects/buttons";
+
+.body {
+    width                   : 100% !important;
+    background              : $beige;
+    -webkit-font-smoothing  : antialiased;
+    -webkit-text-size-adjust: none;
+    font-family             : 'Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+    .table {
+    }
+        .cell {
+
+        }
+    .content-block {
+        h4 {
+            color            : #444444 !important;
+            font-size        : 16px;
+            line-height      : 24px;
+            font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
+            margin-top       : 0;
+            margin-bottom    : 10px;
+            padding-top      : 0;
+            padding-bottom   : 0;
+            font-weight      : normal;
+        }
+        p {
+            color            : #666;
+            font-size        : 14px;
+            line-height      : 19px;
+            font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
+            margin-top       : 0;
+            margin-bottom    : 12px;
+            padding-top      : 0;
+            padding-bottom   : 0;
+            font-weight      : normal;
+            &.action {
+              text-align: center;
+              margin    : 20px auto;
+            }
+            a {
+                text-decoration: none;
+            }
+        }
+    }
+    .footer {
+        p {
+            color            : darken($beige, 40%);
+            font-size        : 12px;
+            line-height      : 19px;
+            font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
+            margin-top       : 0;
+            margin-bottom    : 12px;
+            padding-top      : 0;
+            padding-bottom   : 0;
+            font-weight      : normal;
+            a {
+                color            : darken($beige, 40%);
+                text-decoration: none;
+            }
+        }
+    }
+

@@ -1,5 +1,7 @@
 # encoding: utf-8
 class StudentMailer < ActionMailer::Base
+  layout 'email'
+
   default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
   # Subject can be set in your I18n file at config/locales/en.yml

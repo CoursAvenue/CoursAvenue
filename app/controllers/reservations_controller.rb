@@ -8,12 +8,17 @@ class ReservationsController < ApplicationController
   end
 
   def create
-    @reservable  = find_reservable
-    @reservation = @reservable.reservations.build params[:reservation]
-    @reservation.user = current_user
+    _reservable_type = params[:reservation][:reservable_type]
+    _reservable_id   = params[:reservation][:reservable_id]
+    _use_id          = current_user.id
+    if current_user.reservations.where{(reservable_type == _reservable_type) & (reservable_id == _reservable_id)}.empty?
+      @no
+      @reservable       = find_reservable
+      @reservation      = @reservable.reservations.build params[:reservation]
+      @reservation.user = current_user
+    end
     respond_to do |format|
-      if @reservation.save
-        # format.html { redirect_to reservable_path(@reservation), notice: 'Votre réservation à bien été pris en compte. Un mail vous a été envoyé.' }
+      if @reservation and @reservation.save
         UserMailer.delay.alert_structure_for_reservation(@reservation)
         UserMailer.delay.alert_user_for_reservation(@reservation)
       end

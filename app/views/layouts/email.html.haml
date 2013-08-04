@@ -1,0 +1,51 @@
+!!!
+%html{lang: 'fr'}
+  %head
+    %meta{content: 'text/html; charset=utf-8', 'httpequiv' => 'Content-Type'}/
+    - if content_for? :title
+      %title= yield :title
+    - else
+      %title Email de CoursAvenue
+    %link{ rel:'stylesheet', href: 'email.css'}
+
+  %body.body{leftmargin: '0', marginheight: '0', marginwidth: '0', topmargin: '0'}
+    %table.body{border: '0', cellpadding: '0', cellspacing: '0', width: '100%'}
+      %tr.body
+        %td.body{width: '100%'}
+          %table.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+            %tr
+              %td.cell{width: '600'}
+                %table.table{border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+                  %tr
+                    %td.logo-cell{width: '250'}
+                      %img.hide{border: '0', height: '20', src: 'images/spacer.gif', width: '1'}/
+                      %br.hide
+                      = link_to 'http://www.coursavenuew.com', target: '_blank' do
+                        = image_tag 'logo.png', alt: 'CoursAvenue', height: '65', src: 'images/widget-logo4.png', style: '-ms-interpolation-mode:bicubic;', width: '325'
+                      / %br.hide
+                      / %img.hide{border: '0', height: '10', src: 'images/spacer.gif', width: '1'}/
+                      / %br.hide
+                - if content_for? :promo
+                  %table.promotable{border: '0', cellpadding: '25', cellspacing: '0', width: '600'}
+                    %tr
+                      %td.promocell{width: '600'}
+                        = yield :promo
+                %img.divider{border: '0', height: '15', src: 'images/spacer.gif', width: '1'}/
+                %br
+
+          %table.table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600'}
+            %tr
+              %td.cell.content-block.white-box.push--bottom{width: '600'}
+                = yield
+          %table.table{align: 'center', border: '0', cellpadding: '5', cellspacing: '0', width: '600'}
+            %tr
+              %td.cell.footer{width: '600'}
+                - if content_for? :footer
+                  = yield :footer
+                - else
+                  %p
+                    Vous recevez cet email car vous êtes inscrit sur CoursAvenue, le 1er moteur de recherche de cours en France.
+                %br.hide
+                %img.hide{border: '0', height: '10', src: 'images/spacer.gif', width: '1'}/
+                %br.hide
+

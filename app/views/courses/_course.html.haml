@@ -36,14 +36,10 @@
             %i.lbc-brand-icon
     %div.grid--full
       %div.ten-twelfths.grid__item>
-        - if course.is_training?
-          %p
-            Stage de
-            = pluralize course.length, 'jour'
         %div
           %h3.course-element-place-name
             = link_to place_path(course.place) do
-              = truncate course.place.long_name, length: 70
+              = truncate course.structure.name, length: 70
             - if course.structure.rating
               = rating_stars course.structure.rating
               \/
@@ -54,8 +50,11 @@
         %footer
           %span.lbl.milli
             = course.type_name_html
-            - if course.plannings.any? and course.plannings.first.duration
-              = "de #{readable_duration course.plannings.first.duration}"
+            - if course.is_training?
+              = " de #{pluralize course.length, 'jour'}"
+            - else
+              - if course.plannings.any? and course.plannings.first.duration
+                = "de #{readable_duration course.plannings.first.duration}"
           %ul.nav
             = join_course_subjects course
 

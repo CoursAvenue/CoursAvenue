@@ -107,5 +107,9 @@ module CoursAvenue
       g.test_framework      :rspec, :fixtures => true, :views => false
       g.fixture_replacement :factory_girl, :dir => 'spec/factories'
     end
+
+    config.to_prepare do
+      Devise::Mailer.layout 'email' # email.haml or email.erb
+    end
   end
 end
