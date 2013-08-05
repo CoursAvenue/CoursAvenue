@@ -2,11 +2,11 @@
 %html{lang: 'fr'}
   %head
     %meta{content: 'text/html; charset=utf-8', 'httpequiv' => 'Content-Type'}/
+    %link{ rel:'stylesheet', href: '/email.css'}
     - if content_for? :title
       %title= yield :title
     - else
       %title Email de CoursAvenue
-    %link{ rel:'stylesheet', href: 'email.css'}
 
   %body.body{leftmargin: '0', marginheight: '0', marginwidth: '0', topmargin: '0'}
     %table.body{border: '0', cellpadding: '0', cellspacing: '0', width: '100%'}

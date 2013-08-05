@@ -39,6 +39,7 @@ gem 'delayed_job_active_record' , '~> 0.4.4'
 gem 'js-routes'                 , '~> 0.9.0'
 gem 'font-awesome-rails'        , '~> 3.2.1.1'
 gem 'mootools-rails'            , '~> 2.0.1'
+gem 'compass'                   , '~> 0.12.2'
 gem 'compass-rails'             , '~> 1.0.3'
 gem 'compass-inuit'             , '~> 5.0.1'
 gem 'asset_sync'                , '~> 0.5.4'
@@ -103,7 +104,7 @@ group :development, :test do
 end
 
 # For emails
-gem 'roadie'
+gem 'roadie', '~> 2.4.1'
 
 # gem 'thin'
 

@@ -14,6 +14,8 @@ class Course < ActiveRecord::Base
   has_attached_file :homepage_image,
                     styles: {default: '1600×500#'},
                     path: 'course/:id/homepage_image/:fingerprint-:style.:extension'
+                   # path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+                   # url => "/system/:attachment/:id/:style/:filename"
 
   has_attached_file :image,
                     styles: { wide: '800x480#', normal: '450x', thumb: '200x200#', mini: '50x50#' },
