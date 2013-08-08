@@ -24,13 +24,7 @@ class Pro::PlanningsController < InheritedResources::Base
   def index
     @planning  = Planning.new
     @teachers  = @structure.teachers
-    if @course.is_lesson?
-      @plannings      = @course.plannings.order('week_day ASC, start_time ASC')
-      @past_plannings = []
-    else
-      @plannings      = @course.plannings.order('start_date ASC, start_time ASC').future
-      @past_plannings = @course.plannings.order('start_date ASC, start_time ASC').past
-    end
+    retrieve_plannings_and_past_plannings
     @planning.teacher = @plannings.first.teacher if @plannings.any?
   end
 
@@ -45,8 +39,8 @@ class Pro::PlanningsController < InheritedResources::Base
     create_or_affect_teacher
     @planning         = Planning.new(params[:planning])
     @planning.teacher = @teacher if @teacher
-    @plannings        = @course.plannings.reject { |planning| planning == @planning }
     @planning.course  = @course
+    retrieve_plannings_and_past_plannings
     set_dates_and_times
     respond_to do |format|
       if @planning.save
@@ -61,7 +55,7 @@ class Pro::PlanningsController < InheritedResources::Base
     create_or_affect_teacher
     @planning        = Planning.find(params[:id])
     @planning.course = @course
-    @plannings       = @course.plannings.reject { |planning| planning == @planning }
+    retrieve_plannings_and_past_plannings
     set_dates_and_times
     respond_to do |format|
       if @planning.update_attributes(params[:planning])
@@ -82,6 +76,16 @@ class Pro::PlanningsController < InheritedResources::Base
   end
 
   private
+
+  def retrieve_plannings_and_past_plannings
+    if @course.is_lesson?
+      @plannings      = @course.plannings.order('week_day ASC, start_time ASC')
+      @past_plannings = []
+    else
+      @plannings      = @course.plannings.order('start_date ASC, start_time ASC').future
+      @past_plannings = @course.plannings.order('start_date ASC, start_time ASC').past
+    end
+  end
 
   def create_or_affect_teacher
     teacher_name = params[:planning].delete :teacher
