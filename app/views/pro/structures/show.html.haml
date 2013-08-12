@@ -61,12 +61,14 @@
         Le cours n'est pas visible par les internautes sur CoursAvenue.com.
 
 - @places.each do |place|
-  - if place.courses.any?
-    - unless @places.length == 1
-      %h3.flush--bottom.push--top.toggleable-header.bordered--bottom{data: {behavior: 'toggleable', el:'+ .toggleable-content'}}
-        = place.name.titleize
-        %i.icon-caret-down
-    .toggleable-content
+  %h3.flush--bottom.push--top.toggleable-header.bordered--bottom{data: {behavior: 'toggleable', el:'+ .toggleable-content'}}
+    %span.v-middle= place.name.titleize
+    %i.icon-caret-down
+    = link_to new_pro_structure_course_path(@structure, "course[place_id]" => place.id), class: 'btn btn--small v-middle' do
+      %i.icon-plus
+      Ajouter un cours
+  .toggleable-content
+    - unless place.courses.empty?
       %table.table--striped.dataTable.table--data
         %thead
           %tr
@@ -142,8 +144,8 @@
                         %i.icon-trash
                         Supprimer
 
-.text--center
-  = link_to 'Ajouter un cours ou un stage', new_pro_structure_course_path(@structure), class: 'btn btn--success btn--large'
+.text--center.push--top
+  = link_to 'Ajouter un cours', new_pro_structure_course_path(@structure), class: 'btn btn--success btn--large'
 
 = content_for :scripts do
   :javascript

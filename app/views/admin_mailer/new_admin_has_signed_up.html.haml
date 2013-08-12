@@ -6,6 +6,6 @@
   Téléphone : #{@admin.phone_number}
 
 %p.action
-  = link_to 'Voir son profil', dashboard_pro_structure_path(@structure), class: 'btn btn--blue'
+  = link_to 'Voir son profil', dashboard_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
 
 %p L'équipe de CoursAvenue
