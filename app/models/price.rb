@@ -17,7 +17,7 @@ class Price < ActiveRecord::Base
   #   prices.promotion.low_income: Revenu faible
   #   prices.promotion.large_family: Famille nombreuse
   #   prices.promotion.couple: Couple
-  #   prices.trial_lesson: Cours d'essai
+  #   prices.promotion.trial_lesson: Cours d'essai
 
   attr_accessible :libelle,
                   :amount,

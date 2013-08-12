@@ -41,9 +41,9 @@
               - subject.children.order('name ASC').each do |child_subject|
                 %li{onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}', '#{child_subject.name}'])"}= link_to child_subject.name, subject_places_path(child_subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: (params[:subject_id] == child_subject.slug ? 'selected subject-link' : 'subject-link')
       %li.text--center.drop-down__wrapper
-        = link_to 'javascript:void(0)', class: 'selected subject-link', id: 'toggle-non-stars' do
+        = link_to 'javascript:void(0)', class: 'selected subject-link btn btn--small', id: 'toggle-non-stars' do
           %i.icon-plus
-          Plus
+          Autres
   #non-star-subjects{style: 'display: none;'}
     %ul.nav--fit.flush
       - Subject.non_best_roots.order(:name).each do |subject|
@@ -54,9 +54,8 @@
               - subject.children.order('name ASC').each do |child_subject|
                 %li{onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}', '#{child_subject.name}'])"}= link_to child_subject.name, subject_places_path(child_subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: (params[:subject_id] == child_subject.slug ? 'selected subject-link' : 'subject-link')
       %li.text--center.drop-down__wrapper
-        = link_to 'javascript:void(0)', class: 'selected subject-link', id: 'toggle-stars' do
-          %i.icon-plus
-          Plus
+        = link_to 'javascript:void(0)', class: 'selected subject-link btn btn--small', id: 'toggle-stars' do
+          Retour
 
 = content_for :scripts do
   :javascript

@@ -17,7 +17,7 @@
     Planning
 
 
-- prices ={ 'Abonnements' => [[t('prices.subscription.annual'), 'prices.subscription.annual'],[t('prices.subscription.semester'), 'prices.subscription.semester'],[t('prices.subscription.trimester'), 'prices.subscription.trimester'],[t('prices.subscription.month'), 'prices.subscription.month']], 'Promotions' => [[t('prices.promotion.student'), 'prices.promotion.student'], [t('prices.promotion.young_and_senior'), 'prices.promotion.young_and_senior'], [t('prices.promotion.job_seeker'), 'prices.promotion.job_seeker'], [t('prices.promotion.low_income'), 'prices.promotion.low_income'], [t('prices.promotion.large_family'), 'prices.promotion.large_family'], [t('prices.promotion.couple'), 'prices.promotion.couple']]}
+- prices ={ 'Abonnements' => [[t('prices.subscription.annual'), 'prices.subscription.annual'],[t('prices.subscription.semester'), 'prices.subscription.semester'],[t('prices.subscription.trimester'), 'prices.subscription.trimester'],[t('prices.subscription.month'), 'prices.subscription.month']], 'Promotions' => [[t('prices.promotion.student'), 'prices.promotion.student'], [t('prices.promotion.young_and_senior'), 'prices.promotion.young_and_senior'], [t('prices.promotion.job_seeker'), 'prices.promotion.job_seeker'], [t('prices.promotion.low_income'), 'prices.promotion.low_income'], [t('prices.promotion.large_family'), 'prices.promotion.large_family'], [t('prices.promotion.couple'), 'prices.promotion.couple'], [t('prices.promotion.trial_lesson'), 'prices.promotion.trial_lesson']]}
 
 = simple_form_for [:pro, @structure, @course], url: pro_course_path(@course), as: :course do |f|
   %h5.form-header-group € Prix du #{@course.type_name_html.downcase.html_safe}
@@ -65,7 +65,7 @@
     .prices
       .input.flush
         %label.control-label
-          %h5.flush Abonnements & promotions
+          %h5.flush Abonnements & tarifs réduits
       - @course.prices.each do |item, i|
         - if item.libelle != 'prices.individual_course'
           = f.simple_fields_for :prices, item, child_index: i do |price_form|

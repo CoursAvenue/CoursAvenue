@@ -1,14 +1,14 @@
 %p Bonjour,
 
 %p
-  <strong>#{@structure.name} vous demande de rédiger une recommandation</strong> qui sera publiée sur son profil public CoursAvenue, le 1er moteur de recherche de cours.
-  Votre avis est capital pour continuer à vous proposer des cours toujours plus passionnants qui correspondent à votre besoin, et votre opinion sera également précieuse pour gagner en visibilité sur Internet.
+  <strong>#{@structure.name} vous demande de rédiger une recommandation</strong> qui sera publiée sur son profil public CoursAvenue, le 1er moteur de recherche de cours basé sur le témoignage des élèves.
+  Votre avis est capital pour continuer à vous proposer des cours toujours plus passionnants et pour aider les prochains élèves à s'inscrire aux cours l'esprit tranquille.
 
 %p.action
-  = link_to 'Partager mon opinion', new_structure_comment_url(@structure, email: @email), class: 'btn btn--blue'
+  = link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email), class: 'btn btn--blue'
 
 %p
-  Merci pour votre contribution et à très bientôt !
+  Merci et à très bientôt !
 
 %p
   #{@structure.name} et toute l'équipe de CoursAvenue

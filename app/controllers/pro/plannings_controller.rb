@@ -30,8 +30,8 @@ class Pro::PlanningsController < InheritedResources::Base
 
   def edit
     @planning  = Planning.find(params[:id])
-    @plannings = @course.plannings.reject { |planning| planning == @planning }
     @teachers  = @structure.teachers
+    retrieve_plannings_and_past_plannings
     render template: 'pro/plannings/index'
   end
 

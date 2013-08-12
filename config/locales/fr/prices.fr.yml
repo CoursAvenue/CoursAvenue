@@ -10,7 +10,6 @@ fr:
     free: Gratuit
     contact_structure: Contacter l'établissement
     individual_course: Une séance
-    trial_lesson: Cours d'essai
     subscription:
       annual: Abonnement annuel
       semester: Abonnement semestriel
@@ -24,3 +23,4 @@ fr:
       large_family: Famille nombreuse
       couple: Couple
       training: Prix du stage
+      trial_lesson: Cours d'essai
