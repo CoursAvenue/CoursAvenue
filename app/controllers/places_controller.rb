@@ -39,7 +39,7 @@ class PlacesController < ApplicationController
     end
     @place        = Place.find params[:id]
     @structure      = @place.structure
-    @courses        = @place.courses.order('name ASC')
+    @courses        = @place.courses.active.order('name ASC')
     @other_places   = @structure.places.reject{|place| place == @place}
     @teachers       = @structure.teachers
     @comments       = @structure.all_comments

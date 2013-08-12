@@ -63,4 +63,4 @@ RAILS_ENV=test rake sunspot:solr:start
 
 # Recovering a dump
 createdb -h localhost -O postgres -U postgres coursavenue_development
-pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "qjppevpnykjrmw" --no-password  --verbose "/Users/Nima/Downloads/b071.dump"
+pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "qjppevpnykjrmw" --no-password  --verbose "/Users/Nima/Downloads/a108.dump"

@@ -19,7 +19,10 @@
       = place.street
       \-
       = place.city.try(:name)
-    %ul.nav= join_parent_subjects(place)
+    - if place.subjects.count > 5
+      %ul.nav= join_parent_subjects(place)
+    - else
+      %ul.nav= join_child_subjects(place)
   .course-content.two-twelfths.text--center.v-middle
     .thin.alpha.brand #{place.structure.rating}
     %div{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}

@@ -17,6 +17,23 @@ module PlacesHelper
     end.join(', ').html_safe
   end
 
+  def join_child_subjects(place, with_h3 = false)
+    place.subjects_string.split(';').collect do |subject_string|
+      subject_name, subject_slug = subject_string.split(',')
+      content_tag(:li) do
+        content_tag((with_h3 ? :h3: :span), class: 'flush--bottom inherit-font-size') do
+          link_to subject_name, subject_places_path(subject_slug), class: 'lbl milli inline subject-link'
+        end
+      end
+    end.join(' ').html_safe
+  end
+
+  def join_child_subjects_text(place)
+    place.subjects_string.split(';').collect do |subject_string|
+      subject_string.split(',')[0]
+    end.join(', ').html_safe
+  end
+
   def short_address(place)
     "#{place.city.name}"
   end
