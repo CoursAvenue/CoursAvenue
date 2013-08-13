@@ -1,6 +1,13 @@
 - minutes = (2..32).collect{ |i| time = i*15; ["#{(time/60).floor}h#{(time%60 == 0 ? '00' : time%60)}",time] }
 = simple_form_for [:pro, @course, @planning] do |f|
   = f.error_notification
+  .input.flush--bottom
+    = f.label :place
+    = f.input :place_id , as: :select, collection: @structure.places, include_blank: false, label: false
+    = link_to new_pro_structure_place_path(@structure, from: request.fullpath) do
+      &nbsp;
+      %i.icon-map-marker
+      Ajouter un lieu
   .input{data: {behavior: 'date-range', 'start-date '=> '#start-date', 'end-date '=> '#end-date' }}
     %label.required.control-label Dates
     %input#start-date.datepicker-input{type: 'text', value: (@planning.start_date.nil? ? '' : l(@planning.start_date)), placeholder: '02/08/2013', name: 'planning[start_date]', data: {behavior: 'datepicker'}}

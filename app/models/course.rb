@@ -23,8 +23,8 @@ class Course < ActiveRecord::Base
                     # convert_options: { wide: '-interlace Line', normal: '-interlace Line', thumb: '-interlace Line' , mini: '-interlace Line' }
 
   belongs_to :structure, touch: true
-  belongs_to :place,     touch: true
-  has_one    :city,      through: :place
+  # belongs_to :place,     touch: true
+  # has_one    :city,      through: :place
 
   has_and_belongs_to_many :users
 
@@ -45,7 +45,7 @@ class Course < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Validations
   validates :type, :name  , presence: true
-  validates :place        , presence: true
+  # validates :place        , presence: true
   validates :subjects     , presence: true
 
   before_save :set_structure_if_empty
@@ -147,8 +147,10 @@ class Course < ActiveRecord::Base
       end
     end
 
-    latlon :location do
-      Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
+    latlon :location, multiple: true do
+      self.plannings.map(&:place).uniq.map do |place|
+        Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
+      end
     end
 
     integer :audience_ids, multiple: true do
@@ -393,7 +395,7 @@ class Course < ActiveRecord::Base
 
   def friendly_name
     slugs = [self.type_name, self.name]
-    slugs << self.city.name      if self.city
+    # slugs << self.city.name      if self.city
     slugs << self.structure.name if self.structure
     return slugs
   end

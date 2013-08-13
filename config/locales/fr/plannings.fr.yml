@@ -4,6 +4,7 @@ fr:
       planning: Planning
     attributes:
       planning:
+        place: Lieu
         duration: Durée
         end_date: Date de fin
         start_date: Date de début

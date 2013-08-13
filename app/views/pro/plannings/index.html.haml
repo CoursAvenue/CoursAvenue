@@ -18,7 +18,7 @@
 
 %h3 Planning du cours
 - if @plannings.any?
-  %h5.flush Séances à venir
+  %h5 Séances à venir
 = render "#{@course.underscore_name}_list"
 %hr
 
@@ -38,4 +38,29 @@
             $('add-teacher-wrapper').dispose()
             $('new-teacher-wrapper').show();
         });
+        if ($('show-past-planning')) {
+            $('show-past-planning').addEvent('click', function() {
+                this.remove();
+                $('past-planning').removeClass('hidden');
+            });
+        }
+        if ($$('.teacher-select').length > 0) {
+            $$('.teacher-select').each(function(teacher_select){
+                teacher_select.addEvent('change', function() {
+                    teacher_form = this.getParent('form')
+                    teacher_form.send();
+                    new GLOBAL.Objects.Flash('Le professeur a bien été changé').showAndHide();
+                })
+            });
+        }
+        if ($$('.place-select').length > 0) {
+            $$('.place-select').each(function(place_select){
+                place_select.addEvent('change', function() {
+                    planning_form = this.getParent('form')
+                    planning_form.send();
+                    new GLOBAL.Objects.Flash('Le lieu a bien été changé').showAndHide();
+                })
+            });
+        }
+
     });

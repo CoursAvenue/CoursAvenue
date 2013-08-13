@@ -4,6 +4,8 @@ class Pro::PlanningsController < InheritedResources::Base
 
   before_filter :authenticate_pro_admin!
   before_filter :load_structure
+  before_filter :retrieve_teachers
+  before_filter :retrieve_places
 
   belongs_to :course
   load_and_authorize_resource :structure
@@ -23,14 +25,12 @@ class Pro::PlanningsController < InheritedResources::Base
 
   def index
     @planning  = Planning.new
-    @teachers  = @structure.teachers
     retrieve_plannings_and_past_plannings
     @planning.teacher = @plannings.first.teacher if @plannings.any?
   end
 
   def edit
     @planning  = Planning.find(params[:id])
-    @teachers  = @structure.teachers
     retrieve_plannings_and_past_plannings
     render template: 'pro/plannings/index'
   end
@@ -103,6 +103,14 @@ class Pro::PlanningsController < InheritedResources::Base
     elsif params[:planning][:end_time].present? and  params[:planning][:duration].blank?
       params[:planning][:duration]   = TimeParser.duration_from params[:planning][:start_time], params[:planning][:end_time]
     end
+  end
+
+  def retrieve_teachers
+    @teachers = @structure.teachers
+  end
+
+  def retrieve_places
+    @places = @structure.places
   end
 
   def load_structure

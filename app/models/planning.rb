@@ -6,13 +6,13 @@ class Planning < ActiveRecord::Base
 
   belongs_to :course, touch: true
   has_many   :prices, through: :course
-  belongs_to :room
+  # belongs_to :room
   belongs_to :teacher
+  belongs_to :place
 
   has_many :reservations,         as: :reservable
 
-  has_one   :structure, through: :course
-  has_one   :place,     through: :course
+  has_one :structure, through: :course
 
   has_and_belongs_to_many :users
 
@@ -24,7 +24,7 @@ class Planning < ActiveRecord::Base
   after_initialize :default_values
 
   # validates :teacher, presence: true
-  validates :audience_ids, :level_ids, presence: true
+  validates :place, :audience_ids, :level_ids, presence: true
   validate :presence_of_start_date
   validate :end_date_in_future
   validates :min_age_for_kid, numericality: { less_than: 18 }, allow_nil: true
@@ -52,7 +52,8 @@ class Planning < ActiveRecord::Base
                   :teacher,
                   :teacher_id,
                   :level_ids,
-                  :audience_ids
+                  :audience_ids,
+                  :place_id
 
   scope :future, where("plannings.end_date > '#{Date.today}'")
   scope :past,   where("plannings.end_date <= '#{Date.today}'")

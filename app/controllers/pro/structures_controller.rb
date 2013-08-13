@@ -114,7 +114,7 @@ class Pro::StructuresController < Pro::ProController
 
   def show
     @structure = Structure.find params[:id]
-    @places    = @structure.places.order('name ASC')
+    @courses   = @structure.courses.order('name ASC')
     respond_to do |format|
       if @structure.places.empty?
         format.html { redirect_to new_pro_structure_place_path(@structure), notice: "Vous devez d'abord créé des lieux pour vos cours."}

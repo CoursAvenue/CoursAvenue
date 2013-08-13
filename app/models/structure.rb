@@ -65,7 +65,7 @@ class Structure < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :students
   has_many :teachers                  , dependent: :destroy
-  has_many :courses , through: :places
+  has_many :courses
   has_many :renting_rooms
   has_many :cities, through: :places
   has_many :places                    , dependent: :destroy
@@ -94,6 +94,85 @@ class Structure < ActiveRecord::Base
 
   before_save      :replace_slash_n_r_by_brs
   before_save      :fix_website_url
+
+  # ------------------------------------------------------------------------------------ Search attributes
+  searchable do
+
+    text :name, boost: 5 do
+      self.name
+    end
+
+    text :teachers do
+      self.teachers.map(&:name)
+    end
+
+    text :description
+
+    # text :street
+
+    # text :course_names do
+    #   courses.map(&:name)
+    # end
+
+    text :subjects, boost: 5 do
+      subject_array = []
+      self.subjects.uniq.each do |subject|
+        subject_array << subject
+        subject_array << subject.parent
+      end
+      subject_array.uniq.map(&:name)
+    end
+
+    # string :street
+
+    latlon :location, multiple: true do
+      places.map do |place|
+        Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
+      end
+    end
+
+    integer :subject_ids, multiple: true do
+      subject_ids = []
+      self.subjects.uniq.each do |subject|
+        subject_ids << subject.id
+        subject_ids << subject.parent.id
+      end
+      subject_ids.uniq
+    end
+
+    string :subject_slugs, multiple: true do
+      subject_slugs = []
+      self.subjects.uniq.each do |subject|
+        subject_slugs << subject.slug
+        subject_slugs << subject.parent.slug
+      end
+      subject_slugs.uniq
+    end
+
+    boolean :active do
+      self.active
+    end
+
+    double :rating do
+      self.rating
+    end
+
+    integer :nb_courses do
+      courses.count
+    end
+    integer :nb_comments do
+      self.comments.count
+    end
+    boolean :has_comment do
+      self.comments.count > 0
+    end
+    boolean :has_picture do
+      self.image.present?
+    end
+  end
+
+  handle_asynchronously :solr_index
+
 
   def update_comments_count
     self.update_column :comments_count, self.all_comments.count

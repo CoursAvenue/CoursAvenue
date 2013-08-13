@@ -1,6 +1,13 @@
 - minutes = (2..32).collect{ |i| time = i*15; ["#{(time/60).floor}h#{(time%60 == 0 ? '00' : time%60)}",time] }
 = simple_form_for [:pro, @course, @planning] do |f|
   = f.error_notification
+  .input.flush--bottom
+    = f.label :place
+    = f.input :place_id , as: :select, collection: @structure.places, include_blank: false, label: false
+    = link_to new_pro_structure_place_path(@structure, from: request.fullpath) do
+      &nbsp;
+      %i.icon-map-marker
+      Ajouter un lieu
   .input
     %label.required.control-label Jour
     - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate

@@ -38,18 +38,5 @@
 = content_for :scripts do
   :javascript
     window.addEvent('domready', function() {
-        if ($('show-past-planning')) {
-            $('show-past-planning').addEvent('click', function() {
-                this.remove();
-                $('past-planning').removeClass('hidden');
-            });
-        }
-        $$('.teacher-select').each(function(teacher_select){
-            teacher_select.addEvent('change', function() {
-                teacher_form = this.getParent('form')
-                teacher_form.send();
-                new GLOBAL.Objects.Flash('Le professeur a bien été changé').showAndHide();
-            })
-        });
-        new TableSorter('dataTable', { columnDataTypes: 'date, datetime, integer, string, string, string', cookieName: 'tableSortState__planning_#{@course.slug}', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
+        new TableSorter('dataTable', { columnDataTypes: 'date, datetime, integer, string, string, string, string', cookieName: 'tableSortState__planning_#{@course.slug}', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
     });

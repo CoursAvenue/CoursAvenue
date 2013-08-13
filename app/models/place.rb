@@ -16,8 +16,9 @@ class Place < ActiveRecord::Base
   belongs_to :structure,            touch: true
   has_many   :reservations,         as: :reservable
   has_many   :courses,              dependent: :destroy
-  # has_many   :rooms
+  has_many   :plannings,            dependent: :destroy
   has_many   :comments, through: :structure
+  # has_many   :rooms
   # has_many   :subjects, through: :courses
 
   has_and_belongs_to_many :users
