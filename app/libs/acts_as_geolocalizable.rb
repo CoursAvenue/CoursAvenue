@@ -17,20 +17,18 @@ module ActsAsGeolocalizable
     end
 
     def retrieve_address
-      if !self.new_record? and !self.is_geolocalized?
+      begin
+        geolocation    = Gmaps4rails.geocode(self.gmaps4rails_address).first
+        self.update_column :latitude, geolocation[:lat]
+        self.update_column :longitude, geolocation[:lng]
+      rescue Exception => e
+        puts "Address not found: #{e}"
         begin
-          geolocation    = Gmaps4rails.geocode(self.gmaps4rails_address).first
+          geolocation    = Gmaps4rails.geocode("#{self.city.name}, France").first
           self.update_column :latitude, geolocation[:lat]
           self.update_column :longitude, geolocation[:lng]
         rescue Exception => e
           puts "Address not found: #{e}"
-          begin
-            geolocation    = Gmaps4rails.geocode("#{self.city.name}, France").first
-            self.update_column :latitude, geolocation[:lat]
-            self.update_column :longitude, geolocation[:lng]
-          rescue Exception => e
-            puts "Address not found: #{e}"
-          end
         end
       end
     end
