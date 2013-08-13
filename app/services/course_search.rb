@@ -41,7 +41,7 @@ class CourseSearch
         order_by :rating, :desc
         order_by :nb_comments, :desc
       else
-        order_by_geodist(:location, params[:lat], params[:lng])
+        # order_by_geodist(:location, params[:lat], params[:lng])
         order_by :has_comment, :desc
       end
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)

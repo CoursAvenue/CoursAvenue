@@ -135,31 +135,27 @@
       %article#tab-courses.tab-pane
         - if @courses.any?
           #course-list
-            - @places.each do |place|
-              %h4
-                %i.icon-map-marker
-                = place.name
-              %table.table--striped.table--white
-                %thead
+            %table.table--striped.table--white
+              %thead
+                %tr
+                  %th.five-twelfths Nom du <b>cours</b>
+                  %th.three-twelfths.text--center Disciplines
+                  %th.two-twelfths.text--center Séances à venir
+                  %th.text--right Prix
+              %tbody
+                - @courses.each do |course|
                   %tr
-                    %th.five-twelfths Nom du <b>cours</b>
-                    %th.three-twelfths.text--center Disciplines
-                    %th.two-twelfths.text--center Séances à venir
-                    %th.text--right Prix
-                %tbody
-                  - place.courses.each do |course|
-                    %tr
-                      %td
-                        %h3.base-font-style.flush--bottom= link_to course.name.capitalize, place_course_path(place, course)
-                        - if course.rating
-                          = rating_stars course.rating
-                      %td.text--center
-                        %ul.nav.flush--bottom
-                          = join_course_subjects course
-                      %td.text--center= course.plannings.count
-                      %td.text--right
-                        - if course.best_price
-                          = "#{readable_amount course.best_price.amount}€".html_safe
+                    %td
+                      %h3.base-font-style.flush--bottom= link_to course.name.capitalize, structure_course_path(@structure, course)
+                      - if course.rating
+                        = rating_stars course.rating
+                    %td.text--center
+                      %ul.nav.flush--bottom
+                        = join_course_subjects course
+                    %td.text--center= course.plannings.count
+                    %td.text--right
+                      - if course.best_price
+                        = "#{readable_amount course.best_price.amount}€".html_safe
         - else
           %p Cet établissement n'a pas renseigné de cours.
 

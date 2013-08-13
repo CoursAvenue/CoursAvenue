@@ -1,5 +1,10 @@
 class RedirectController < ApplicationController
 
+  def structure_course
+    course    = Course.find params[:id]
+    redirect_to structure_course_path(course.structure, course), status: 301
+  end
+
   def why_coursavenue
     redirect_to pages_why_path, status: 301
   end

@@ -4,45 +4,6 @@
   %i.icon-list
   Mes cours référencés sur CoursAvenue
 
-.grid--full.text--center.push--ends
-  .grid__item.three-twelfths.text--center.v-middle.relative>
-    .white-box.islet
-      %h4
-        %i.icon-2x.icon-edit
-        %br
-        Référencez vos cours
-  .grid__item.one-twelfth.text--center.v-middle>
-    .islet
-      %i.icon-2x.icon-chevron-right
-
-  .grid__item.three-twelfths.text--center.v-middle.relative>
-    .white-box.islet
-      %h4
-        %i.icon-2x.icon-picture
-        %br
-        Illustrez-les
-  .grid__item.one-twelfth.text--center.v-middle>
-    .islet
-      %i.icon-2x.icon-chevron-right
-
-  .grid__item.three-twelfths.text--center.v-middle.relative>
-    .white-box.islet
-      %h4
-        %i.icon-2x.icon-bullhorn
-        %br
-        Demandez des recommandations
-
-
-#augment-visibility.hidden
-  %ol
-    %li <b>Soyez recommandés !</b> : plus d'avis signifie une plus forte confiance de la part des Internautes, et donc plus de réservations pour vous. Depuis l'onglet "Mes avis" à gauche de cet écran, envoyez facilement une demande d'avis à vos clients qui vous connaissent le mieux
-
-    %li  <b>Proposez des promotions</b> : boostez vos réservations en proposant des promotions, par exemple pour les cours d'habitude peu remplis, les séances qui arrivent dans les prochains jours, ou pour l'ouverture d'un nouveau stage
-
-    %li <b>Ajoutez des photos</b> : n'oubliez pas d'illustrer vos cours par de belles photos, et votre établissement par votre logo
-
-    %li <b>Dites ce qu'on apprend !</b> : pour chaque cours, votre description doit être complète, et bien préciser les objectifs et la valeur ajoutée de votre enseignement, pour que les Internautes se sentent mieux renseignés et en confiance
-
 - if @structure.courses.any? and !cookies[:understood__course_status]
   .alert--info#course-status-info
     %a#understood__course_status.float--right{href: '#'} J'ai compris

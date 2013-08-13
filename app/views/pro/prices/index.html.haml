@@ -5,17 +5,18 @@
   %li= link_to @course.name, edit_pro_course_path(@course)
   %li Prix
 
-%p
-  = link_to edit_pro_course_path(@course) do
-    %i.lbc-icon-info i
-    Info
-  &nbsp;|&nbsp;
-  %b € Tarif
-  &nbsp;|&nbsp;
-  = link_to pro_course_plannings_path(@course) do
-    %i.icon-calendar
-    Planning
 
+%ul.tab-titles{data: {behavior: 'tabs'}}
+  %li
+    = link_to edit_pro_course_path(@course), class: 'tab-el' do
+      %i.lbc-icon-info i
+      Info
+  %li.tab-el.active
+    € Tarif
+  %li
+    = link_to pro_course_plannings_path(@course), class: 'tab-el' do
+      %i.icon-calendar
+      Planning
 
 - prices ={ 'Abonnements' => [[t('prices.subscription.annual'), 'prices.subscription.annual'],[t('prices.subscription.semester'), 'prices.subscription.semester'],[t('prices.subscription.trimester'), 'prices.subscription.trimester'],[t('prices.subscription.month'), 'prices.subscription.month']], 'Promotions' => [[t('prices.promotion.student'), 'prices.promotion.student'], [t('prices.promotion.young_and_senior'), 'prices.promotion.young_and_senior'], [t('prices.promotion.job_seeker'), 'prices.promotion.job_seeker'], [t('prices.promotion.low_income'), 'prices.promotion.low_income'], [t('prices.promotion.large_family'), 'prices.promotion.large_family'], [t('prices.promotion.couple'), 'prices.promotion.couple'], [t('prices.promotion.trial_lesson'), 'prices.promotion.trial_lesson']]}
 
@@ -30,7 +31,7 @@
       .grid__item.text--center.soft-half--left{style: 'width: 190px;'}
         %b Avec promo (optionnel)
         %br
-        %i Laissez vide si pas de promo
+        %i.blue Laissez vide si pas de promo
     - @course.prices.each do |item, i|
       - if item.libelle == 'prices.individual_course'
         = f.simple_fields_for :prices, item, child_index: i do |price_form|

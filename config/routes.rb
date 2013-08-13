@@ -129,10 +129,12 @@ CoursAvenue::Application.routes.draw do
 
   resources :comments, only: [:create, :destroy]
 
-  resources :structure, only: [:show], path: 'professeurs', controller: 'structures'
-
+  resources :structure, only: [:show], path: 'professeurs', controller: 'structures' do
+    resources :courses, only: [:show], path: 'cours', controller: 'structures/courses'
+  end
   resources :places, only: [:show, :index], path: 'etablissements' do
-    resources :courses, only: [:show], path: 'cours', controller: 'places/courses'
+    # resources :courses, only: [:show], path: 'cours', controller: 'places/courses'
+    resources :courses, only: [:show], path: 'cours', to: 'redirect#structure_course'
   end
   resources :courses, only: [:show, :index], path: 'cours' do
     resources :reservations, only: [:new, :create] # Redirection 301 in controller

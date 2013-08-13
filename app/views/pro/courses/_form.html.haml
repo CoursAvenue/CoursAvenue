@@ -24,13 +24,6 @@
     %i.lbc-icon-info i
     Information générales du cours
   .form-white-box
-    / .input.flush--bottom
-    /   = f.label :place
-    /   = f.association :place , as: :select, collection: @structure.places, include_blank: false, label: false
-    /   = link_to new_pro_structure_place_path(@structure, from: request.fullpath) do
-    /     &nbsp;
-    /     %i.icon-map-marker
-    /     Ajouter un lieu
     = f.input :name, label: t('.name'), placeholder: 'Zumba, jardin musical, Vins et Fromages, etc'
     = f.association :subjects , as: :select, collection: Subject.children, input_html: {style: 'width: 74%;', 'data-behavior' => 'chosen', multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
     %p.field-form-info.blue Dans ce champ, renseignez une discipline et selectionnez-en autant que vous le souhaitez.
