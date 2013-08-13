@@ -26,7 +26,7 @@
             = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select'}, wrapper_html: {class: 'flush'}
         %td.text--center= join_levels_text planning
         %td.text--center= join_audiences planning
-        %td.text--center{data: {value: planning.place.name}}
+        %td.text--center{data: {value: planning.place.try(:name)}}
           = simple_form_for [:pro, @course, planning], remote: true do |f|
             = f.input :place_id, as: :select, collection: @places, label: false, input_html: {class: 'place-select'}, wrapper_html: {class: 'flush'}, include_blank: false
         %td.text--center

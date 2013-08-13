@@ -3,16 +3,16 @@
     = @course.image.url
 
 = content_for :title do
-  = "#{@course.type_name} de #{@course.name} à #{@city.name} avec #{@structure.name}"
+  = "#{@course.type_name} de #{@course.name} avec #{@structure.name}"
 
 = content_for :meta_description do
   - if @course.description.present?
-    = "#{@course.description_for_meta} - #{@course.name} à #{@place.long_name}"
+    = "#{@course.description_for_meta} - #{@course.name} à #{@structure.name}"
   - else
     - if @course.has_teacher?
-      = "Réservez le #{@course.type_name.downcase} de #{@course.name} à #{@city.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase} - #{@course.name} à #{@place.long_name}"
+      = "Réservez le #{@course.type_name.downcase} de #{@course.name} par #{join_teachers(@course)}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase} - #{@course.name} à #{@structure.name}"
     - else
-      = "Réservez le #{@course.type_name.downcase} de #{@course.name} à #{@city.name}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase} - #{@course.name} à #{@place.long_name}"
+      = "Réservez le #{@course.type_name.downcase} de #{@course.name}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase} - #{@course.name} à #{@structure.name}"
 
 .inline-block
   - if cookies[:search_path]
@@ -20,7 +20,7 @@
       %i.orange ←
       = t('.back_to_results')
   - else
-    = link_to courses_path(address_name: @city.name, lat: @city.latitude, lng: @city.longitude) do
+    = link_to courses_path do
       %i.orange ←
       = t('.see_arrounding_courses')
 .inline-block.push-half--sides
@@ -28,9 +28,9 @@
 .inline-block
   %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
     %li
-      = link_to "Tous les cours à #{@city.name}", courses_path(address_name: @city.name, lat: @city.latitude, lng: @city.longitude)
+      = link_to "Tous les cours", courses_path
     %li
-      = link_to @structure.name, place_path(@place), onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])"
+      = link_to @structure.name, structure_path(@structure), onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])"
     %li.course-title= @course.name
 
 
@@ -40,7 +40,7 @@
       %h1.flush.blue.beta
         = @course.name
       %h2.weight-normal.delta
-        = link_to place_path(@place), onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])" do
+        = link_to structure_path(@structure), onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])" do
           %i.icon-map-marker.v-middle
           %span.v-middle= @structure.name
 
@@ -56,9 +56,9 @@
           %meta{itemprop: 'count', content: @course.comments.count}
           %meta{itemprop: 'itemreviewed', content: @course.name}
           %meta{itemprop: 'name', content: @course.name}
-          %meta{itemprop: 'street-address', content: @place.street}
-          %meta{itemprop: 'postal-code', content: @place.zip_code}
-          %meta{itemprop: 'locality', content: @city.name}
+          %meta{itemprop: 'street-address', content: @structure.street}
+          %meta{itemprop: 'postal-code', content: @structure.zip_code}
+          %meta{itemprop: 'locality', content: @structure.city.name}
         %div
           = @course.comments.count
           avis
@@ -79,10 +79,10 @@
           %b= @structure.name
           %div
             %i.icon-map-marker
-            = readable_address @place
+            = readable_address @places.first
         .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
-          %meta{itemprop: 'latitude', content: @place.latitude}
-          %meta{itemprop: 'longitude', content: @place.longitude}
+          %meta{itemprop: 'latitude', content: @places.first.latitude}
+          %meta{itemprop: 'longitude', content: @places.first.longitude}
 
     .push--top.push--bottom
       = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{course_url(@course)}", class: 'btn--facebook btn one-whole btn--small', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
@@ -105,7 +105,7 @@
       %li.tab-el{class: (@course.teachers.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Infos profs', 'click', '#{@course.slug}'])", data: { el: 'tab-teacher' }}
         %i.icon-group
         = Teacher.model_name.human(count: @course.teachers.uniq.length)
-      %li.tab-el{class: (@medias.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@place.slug}']);", data: { el: 'tab-videos' }}
+      %li.tab-el{class: (@medias.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@structure.slug}']);", data: { el: 'tab-videos' }}
         %i.icon-youtube-play
         Photos & vidéos
 

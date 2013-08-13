@@ -33,12 +33,15 @@ class Course < ActiveRecord::Base
   has_many :reservations,         as: :reservable
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , through: :plannings
+  has_many :places              , through: :plannings
   has_many :prices              , dependent: :destroy
   has_many :book_tickets        , dependent: :destroy
   has_many :registration_fees   , dependent: :destroy
   has_many :reservation_loggers , dependent: :destroy
 
   has_and_belongs_to_many :subjects, :uniq => true
+
+  after_touch :reindex
 
   # ------------------------------------------------------------------------------------ Scopes
   scope :active, where(active: true)
@@ -92,8 +95,8 @@ class Course < ActiveRecord::Base
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
     text :name, :boost => 2
-    text :place_name do
-      place.long_name
+    text :structure_name do
+      self.structure.name
     end
 
     text :planning_info do
@@ -148,7 +151,7 @@ class Course < ActiveRecord::Base
     end
 
     latlon :location, multiple: true do
-      self.plannings.map(&:place).uniq.map do |place|
+      self.places.map do |place|
         Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
       end
     end
@@ -191,10 +194,6 @@ class Course < ActiveRecord::Base
 
     date :end_date, multiple: true do
       plannings.map(&:end_date).uniq.compact
-    end
-
-    integer :zip_code do
-      place.zip_code
     end
 
     integer :min_price
@@ -362,7 +361,7 @@ class Course < ActiveRecord::Base
   end
 
   def contact_email
-    self.place.contact_email
+    self.structure.contact_email
   end
 
   def duplicate!
@@ -384,6 +383,10 @@ class Course < ActiveRecord::Base
   end
 
   private
+
+  def reindex
+    self.index
+  end
 
   def reject_price attributes
     exists = attributes[:id].present?

@@ -2,7 +2,7 @@
   - if @courses.empty?
     = gmaps( {markers: {data: [{lat: params[:lat], lng: params[:lng]}].to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
   - else
-    = gmaps( {markers: {data: @json_place_addresses}, map_options: {maxZoom: 15, mapTypeControl: false}})
+    = gmaps( {markers: {data: @json_structures_addresses}, map_options: {maxZoom: 15, mapTypeControl: false}})
   .grid--full.map-slider-container
     %label.grid__item.v-middle.three-twelfths.bold> Rayon
     #radius-slider.grid__item.v-middle.slider.seven-twelfths>

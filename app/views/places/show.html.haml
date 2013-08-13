@@ -177,7 +177,7 @@
                 - @courses.each do |course|
                   %tr
                     %td
-                      %h3.base-font-style.flush--bottom= link_to course.name.capitalize, place_course_path(course.place, course)
+                      %h3.base-font-style.flush--bottom= link_to course.name.capitalize, structure_course_path(course.structure, course)
                       - if course.rating
                         = rating_stars course.rating
                     %td.text--center

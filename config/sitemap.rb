@@ -37,7 +37,7 @@ SitemapGenerator::Sitemap.create do
     end
   end
   Course.active.all.each do |course|
-    add place_course_path(course.place, course), lastmod: course.updated_at, priority: 0.8, changefreq: 'daily'
+    add structure_course_path(course.structure, course), lastmod: course.updated_at, priority: 0.8, changefreq: 'daily'
   end
 
   Subject.all.each do |subject|

@@ -1,8 +1,8 @@
-class PlaceSearch
+class StructureSearch
 
   def self.search params
     retrieve_location params
-    @search = Sunspot.search(Place) do
+    @search = Sunspot.search(Structure) do
       fulltext params[:name]                             if params[:name].present?
       with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id]
 

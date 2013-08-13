@@ -29,20 +29,9 @@ class Place < ActiveRecord::Base
   validates  :zip_code , presence: true, numericality: { only_integer: true }
   validates  :structure, presence: true
 
-  has_attached_file :image,
-                    styles: { wide: "800x480#", thumb: "200x200#", normal: '450x' }#,
-                    # convert_options: { wide: '-interlace Line', thumb: '-interlace Line', normal: '-interlace Line' }
-
-  has_attached_file :thumb_image,
-                    styles: { wide: "400x400#", thumb: "200x200#", normal: '450x' }#,
-                    # convert_options: { wide: '-interlace Line', thumb: '-interlace Line', normal: '-interlace Line' }
-
   after_save :delay_subscribe_to_mailchimp if Rails.env.production?
   after_touch :reindex
 
-  # To be able to delete images in view
-  attr_reader :delete_image
-  attr_reader :delete_thumb_image
   attr_accessible :name,
                   :street, :zip_code, :city, :city_id,
                   :latitude, :longitude, :gmaps,
@@ -50,7 +39,6 @@ class Place < ActiveRecord::Base
                   :description,
                   :info, # Digicode, etc.
                   :has_handicap_access,
-                  :image, :thumb_image,
                   :has_handicap_access, :has_cloackroom, :has_internet, :has_air_conditioning, :has_swimming_pool, :has_free_parking, :has_jacuzzi, :has_sauna, :has_daylight
 
   # ------------------------------------------------------------------------------------ Search attributes
@@ -121,9 +109,6 @@ class Place < ActiveRecord::Base
     end
     boolean :has_comment do
       self.comments.count > 0
-    end
-    boolean :has_picture do
-      self.image.present? or self.structure.image.present?
     end
   end
 

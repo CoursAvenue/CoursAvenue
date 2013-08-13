@@ -11,8 +11,6 @@
     %tr
       %th.hard--right{style: 'width: 2em;'}
         %i.icon-external-link
-      %th.text--center Logo
-      %th.text--center Image
       %th Nom du lieu
       %th Adresse
       %th
@@ -23,20 +21,6 @@
         %td.hard--right
           = link_to place_url(place, subdomain: 'www'), title: 'Voir la fiche établissement sur CoursAvenue', target: '_blank' do
             %i.icon-external-link
-        %td.text--center
-          - if place.thumb_image.present?
-            = image_tag place.thumb_image.url(:thumb), width: 50
-          - else
-            = link_to edit_pro_structure_place_path(@structure, place), class: 'btn' do
-              %i.icon-picture
-              Ajouter un logo
-        %td.text--center
-          - if place.image.present?
-            = image_tag place.image.url(:thumb), width: 50
-          - else
-            = link_to edit_pro_structure_place_path(@structure, place), class: 'btn' do
-              %i.icon-picture
-              Ajouter une image
         %td
           - if current_pro_admin
             = link_to place.name, edit_pro_structure_place_path(@structure, place)

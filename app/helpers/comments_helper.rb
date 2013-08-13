@@ -35,7 +35,7 @@ module CommentsHelper
     if comment.commentable.is_a? Structure
       structure_path comment.commentable
     elsif comment.commentable
-      place_course_path comment.commentable.place, comment.commentable, options
+      structure_course_path comment.commentable.structure, comment.commentable, options
     end
   end
 
