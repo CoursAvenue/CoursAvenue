@@ -5,21 +5,21 @@
     = f.error_notification
     %h5.form-header-group Adresse
     .form-white-box
-      = f.input :name, label: t('.name'), label_html: { class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => "Si vous avez plus d’un lieu, et pour pouvoir les différencier, renseignez un nom spécifique pour chaque adresse. Par exemple, si l’un de vos 3 lieux se trouve au 34 rue Buffaut, renseignez « Buffaut » ; s’il concerne le gymnase Léo Lagrange, renseignez « Lagrange », etc." }, placeholder: 'Ex. : Gymnase Bercy'
-      = f.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc'
-      .input
-        = f.label :zip_code
-        = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: 'place_city_id'} }, label: false
-        = f.association :city, collection: [@place.city], label: false
+      / = f.input :name, label: t('.name'), label_html: { class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => "Si vous avez plus d’un lieu, et pour pouvoir les différencier, renseignez un nom spécifique pour chaque adresse. Par exemple, si l’un de vos 3 lieux se trouve au 34 rue Buffaut, renseignez « Buffaut » ; s’il concerne le gymnase Léo Lagrange, renseignez « Lagrange », etc." }, placeholder: 'Ex. : Gymnase Bercy'
+      / = f.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc'
+      / .input
+      /   = f.label :zip_code
+      /   = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: 'place_city_id'} }, label: false
+      /   = f.association :city, collection: [@place.city], label: false
 
 
-    %h5.helper-label.form-header-group{data: { behavior: 'popover', content: 'Coordonnées que les élèves receveront pour faire une réservation' }} Coordonnées de réservation
-    .form-white-box
-      %p.field-form-info.blue Ces coordonnées de réservation seront affichées à l'internaute dès qu'il souhaitera prendre contact avec vous.
-      = f.input :contact_name, input_html: {value: @place.contact_name || (@structure.main_contact.nil? ? '' : @structure.main_contact.name)}
-      = f.input :contact_phone, input_html: {value: @place.contact_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.phone_number)}
-      = f.input :contact_mobile_phone, input_html: {value: @place.contact_mobile_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.mobile_phone_number)}
-      = f.input :contact_email, input_html: {value: @place.contact_email || (@structure.main_contact.nil? ? '' : @structure.main_contact.email)}
+    / %h5.helper-label.form-header-group{data: { behavior: 'popover', content: 'Coordonnées que les élèves receveront pour faire une réservation' }} Coordonnées de réservation
+    / .form-white-box
+    /   %p.field-form-info.blue Ces coordonnées de réservation seront affichées à l'internaute dès qu'il souhaitera prendre contact avec vous.
+    /   = f.input :contact_name, input_html: {value: @place.contact_name || (@structure.main_contact.nil? ? '' : @structure.main_contact.name)}
+    /   = f.input :contact_phone, input_html: {value: @place.contact_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.phone_number)}
+    /   = f.input :contact_mobile_phone, input_html: {value: @place.contact_mobile_phone || (@structure.main_contact.nil? ? '' : @structure.main_contact.mobile_phone_number)}
+    /   = f.input :contact_email, input_html: {value: @place.contact_email || (@structure.main_contact.nil? ? '' : @structure.main_contact.email)}
 
     %br
     .form-actions

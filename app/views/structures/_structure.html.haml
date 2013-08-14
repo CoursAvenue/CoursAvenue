@@ -1,4 +1,4 @@
-%li.one-whole.course-element{data: {"structure-id" => structure.id, url: structure_path(structure), type: 'structure-element'}}
+%li.one-whole.course-element{data: {"location-ids" => @structure_locations[structure].map(&:id).join(' '), url: structure_path(structure), type: 'structure-element'}}
   - if structure.image.present?
     %div.two-twelfths.visuallyhidden--palm
       .course-image.media__img
@@ -8,10 +8,15 @@
   %article.course-content{class: (structure.image.present? ? 'eight-twelfths' : 'ten-twelfths')}
     %header
       .course-title.hN
-        .map-marker-image
-          = link_to structure_path(structure) do
-            %span= structure_counter + 1
         %h2.delta.inline.v-middle= link_to structure.name, structure_path(structure)
+
+    .grid--full
+      - @structure_locations[structure].each do |location|
+        .course-title.hN.grid__item.width-auto
+          .map-marker-image
+            = link_to structure_path(structure) do
+              %span= @locations.index(location) + 1
+      .grid__item.width-auto= @structure_locations[structure].map(&:name).uniq.join(', ')
     - if structure.subjects.count > 5
       %ul.nav= join_parent_subjects(structure)
     - else

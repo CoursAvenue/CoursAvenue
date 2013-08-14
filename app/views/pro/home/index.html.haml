@@ -22,105 +22,38 @@
       .grid__item.four-tenths>
         :css
           #map { height: 500px; }
-        = gmaps( {markers: {data: @json_places_addresses}, map_options: {maxZoom: 14, mapTypeControl: false}})
+        = gmaps( {markers: {data: @json_locations_addresses}, map_options: {maxZoom: 14, mapTypeControl: false}})
       .grid__item.six-tenths>
-        - @places.each_with_index do |place, index|
-          .one-whole.course-element{data: {'place-id' => place.id, type: 'place-element', url: place_url(place, subdomain: 'www')}}
+        - @structures.each_with_index do |structure, index|
+          .one-whole.course-element{data: {'location-id' => structure.locations.first.id, type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
             .grid
               .grid__item.two-twelfths>
-                = image_tag place.structure.image.url(:thumb)
+                = image_tag structure.image.url(:thumb)
               .grid__item.seven-twelfths>
                 %h3.flush--bottom.brand.course-title
                   .map-marker-image
-                    = link_to place_url(place, subdomain: 'www') do
+                    = link_to structure_url(structure, subdomain: 'www') do
                       %span= index + 1
-                  = place.structure.name
-                - if place.structure.description.present?
-                  %p.read-more{data: {behavior: 'read-more'}}= place.structure.description.html_safe
+                  = structure.name
+                - if structure.description.present?
+                  %p.read-more{data: {behavior: 'read-more'}}= structure.description.html_safe
               .grid__item.three-twelfths.text--center>
-                .thin.big-alpha.brand #{place.structure.rating}
+                .thin.big-alpha.brand #{structure.rating}
                 .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-                  %span.rating{title: comment_rating_title(place.structure.rating)}
-                    = rating_stars place.structure.rating
-                  %meta{property: 'v:rating', itemprop: 'rating', content: place.structure.rating}
-                  %meta{itemprop: 'count', content: place.structure.comments_count}
-                  %meta{itemprop: 'itemreviewed', content: place.structure.name}
-                  %meta{itemprop: 'name', content: place.structure.name}
-                  %meta{itemprop: 'street-address', content: place.structure.street}
-                  %meta{itemprop: 'postal-code', content: place.structure.zip_code}
+                  %span.rating{title: comment_rating_title(structure.rating)}
+                    = rating_stars structure.rating
+                  %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
+                  %meta{itemprop: 'count', content: structure.comments_count}
+                  %meta{itemprop: 'itemreviewed', content: structure.name}
+                  %meta{itemprop: 'name', content: structure.name}
+                  %meta{itemprop: 'street-address', content: structure.street}
+                  %meta{itemprop: 'postal-code', content: structure.zip_code}
                 %div
-                  = link_to place_url(place, subdomain: 'www'), target: '_blank' do
-                    = place.structure.comments_count
+                  = link_to structure_url(structure, subdomain: 'www'), target: '_blank' do
+                    = structure.comments_count
                     avis
                     %i.lbc-brand-icon
         .text--center= link_to "Et plein d'autres !", places_url(subdomain: 'www'), class: 'btn btn--primary', target: '_blank'
-
-
-/ .grid
-/   .relative.grid__item.one-half.palm--one-whole.lap--one-whole.visuallyhidden--palm>
-/     %h4.push-half--bottom Thierry Le Cocq, danseur de renommée
-/     .relative
-/       = image_tag 'pro/dance_teacher.jpg', class: 'block', alt: 'Cours de danse'
-/       .image-quote
-/         %quote
-/           « CoursAvenue est le premier site en ligne où nous, enseignants, osons affronter les avis de nos élèves, bons ou mauvais. À nos côtés, CoursAvenue s'engage non seulement à diffuser notre offre de cours mais également à identifier nos points forts et nos points faibles, dans un but d'amélioration continue »
-/           = link_to 'Lire la suite', '#', data: {behavior: 'modal', title: "Suite du témoignage", width: '500px', el: 'testimony'}
-/         %p.image-quote--footer.text--right.flush--bottom= link_to "Thierry Le Cocq, Abaneraz Tango Club", "http://www.coursavenue.com/etablissements/abaneraz-tango-club-ecole-saint-roch", target: '_blank'
-/     %p.push--top
-/       %i.icon-lightbulb.delta
-/       Des questions ? N'hésitez pas à visiter notre
-/       = link_to 'foire aux questions', pages_faq_partners_path, target: '_blank'
-/       ou à
-/       = link_to 'nous contacter.', pages_contact_path
-/   .grid__item.one-half.palm--one-whole.lap--one-whole>
-/     %h4.push-half--bottom Et plein d'autres !
-/     - unless params[:ab]
-/       :css
-/         #map { height: 415px;}
-/       = gmaps( {markers: {data: @json_place_addresses}, map_options: {minZoom: 12, mapTypeControl: false}})
-/     - else
-/       .relative{style: 'height: 350px; overflow: hidden;'}
-/         %ul#slideshow.slideshow
-/           - @structures.in_groups_of(2, false) do |structure_group|
-/             %li.slideshow__element
-/               .grid
-/                 - structure_group.each do |structure|
-/                   .grid__item.one-half>
-/                     .white-box.islet
-/                       %div
-/                         = link_to place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Click on profile example', 'click')" do
-/                           = image_tag structure.image.url(:thumb)
-/                       %hr.push-half--bottom.push-half--top
-/                       %div
-/                         %b
-/                           = link_to structure.name, place_url(structure.places.first, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Click on profile example', 'click')"
-/                       %hr.push-half--top
-/                       = rating_stars structure.rating
-/                       \/
-/                       = structure.comments_count
-/                       avis
-/                       %i.lbc-brand-icon
-/     .text--center
-/       = link_to 'En savoir plus', pro_pages_presentation_path, class: 'btn btn--large', onclick: "ga('send', 'event', 'En savoir plus', 'click')"
-
-/ #testimony.hidden
-/   %p
-/     La critique simple n’est pas plus pertinente que le compliment facile. En revanche, la critique positive ou négative doit être argumentée et bien écrite, car dans les deux cas elle nous donne confiance et nous rend plus crédibles. L'avantage de la critique négative, c'est aussi qu'elle nous permet de mesurer le risque que nous prenons et qui participe à notre bonne réputation.
-/   %p Mais attention, il ne suffit pas de regarder ce que les gens écrivent, il faut également mesurer qui ils sont."
-/   %p= link_to "- Thierry Le Cocq, Abaneraz Tango Club", "http://www.coursavenue.com/etablissements/abaneraz-tango-club-ecole-saint-roch", target: '_blank'
-
-/ = content_for :scripts do
-/   :javascript
-/     mixpanel.track('Reached home pro page');
-/     var slideshow;
-/     window.addEvent('domready', function() {
-/         slideshow = new SlideShow('slideshow', {
-/             transition: 'pushLeft',
-/             delay: 3000,
-/             duration: 800,
-/             autoplay: true
-/         });
-/     });
 
 = content_for :scripts do
   :javascript
@@ -138,7 +71,7 @@
         Gmaps.map.callback = function() {
             for (var i = 0; i <  this.markers.length; ++i) {
                 google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
-                    var place_element = $$('.course-element[data-place-id=' + this.id + ']');
+                    var place_element = $$('.course-element[data-location-id=' + this.id + ']');
                     GLOBAL.Scroller.toElement(place_element[0]);
                     // Unselect courses if there already are that are selected
                     $$('.course-element').removeClass('selected');

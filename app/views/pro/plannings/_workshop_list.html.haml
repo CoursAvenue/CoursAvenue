@@ -1,20 +1,22 @@
 - if @plannings.any?
-  %table.table--striped.table--data#dataTable
-    %thead
-      %tr
-        %th Date
-        %th.text--center Créneau horaire
-        %th.text--center Durée
-        %th.text--center Professeur
-        %th.text--center Niveau
-        %th.text--center Public
-        %th.text--center Lieu
-        %th.text--center
-          %i.lbc-icon-info i
-        %th
-    %tbody
-      - @plannings.each do |planning|
-        = render partial: 'pro/plannings/workshop_list_item', locals: { planning: planning }
+  - @plannings.group_by(&:place).each do |place, plannings|
+    %h5= place.location.name
+    %table.table--striped.table--data#dataTable
+      %thead
+        %tr
+          %th Date
+          %th.text--center Créneau horaire
+          %th.text--center Durée
+          %th.text--center Professeur
+          %th.text--center Niveau
+          %th.text--center Public
+          %th.text--center Lieu
+          %th.text--center
+            %i.lbc-icon-info i
+          %th
+      %tbody
+        - plannings.each do |planning|
+          = render partial: 'pro/plannings/workshop_list_item', locals: { planning: planning }
 
 - if @past_plannings.any?
   = link_to 'Afficher le planning passé', 'javascript:void(0)', id: 'show-past-planning'

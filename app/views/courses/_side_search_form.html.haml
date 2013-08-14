@@ -2,7 +2,7 @@
   - if @courses.empty?
     = gmaps( {markers: {data: [{lat: params[:lat], lng: params[:lng]}].to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
   - else
-    = gmaps( {markers: {data: @json_structures_addresses}, map_options: {mapTypeControl: false}})
+    = gmaps( {markers: {data: @json_locations_addresses}, map_options: {mapTypeControl: false}})
   .grid--full.map-slider-container
     %label.grid__item.v-middle.three-twelfths.bold> Rayon
     #radius-slider.grid__item.v-middle.slider.seven-twelfths>
@@ -156,11 +156,20 @@
         Gmaps.map.callback = function() {
             for (var i = 0; i <  this.markers.length; ++i) {
                 google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
-                    var course_element = $$('.course-element[data-place-id=' + this.id + ']');
+                    var course_element = $$('.course-element[data-location-ids~=' + this.id + ']');
                     GLOBAL.Scroller.toElement(course_element[0]);
                     // Unselect courses if there already are that are selected
                     $$('.course-element').removeClass('selected');
                     course_element.addClass('selected');
+                }.bind(Gmaps.map.markers[i]));
+                google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'mouseover', function(event) {
+                    var course_element = $$('.course-element[data-location-ids~=' + this.id + ']');
+                    // Unselect courses if there already are that are selected
+                    course_element.addClass('selected');
+                }.bind(Gmaps.map.markers[i]));
+                google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'mouseout', function(event) {
+                    var course_element = $$('.course-element[data-location-ids~=' + this.id + ']');
+                    course_element.removeClass('selected');
                 }.bind(Gmaps.map.markers[i]));
             }
         };

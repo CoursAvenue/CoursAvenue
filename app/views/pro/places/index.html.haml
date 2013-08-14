@@ -4,7 +4,7 @@
   %i.icon-map-marker
   Mes lieux d'enseignements
 
-= gmaps( {markers: {data: @places.to_gmaps4rails}, map_options: {maxZoom: 15, mapTypeControl: false}})
+= gmaps( {markers: {data: @locations.to_gmaps4rails}, map_options: {maxZoom: 15, mapTypeControl: false}})
 
 %table.table--striped
   %thead
@@ -13,8 +13,6 @@
         %i.icon-external-link
       %th Nom du lieu
       %th Adresse
-      %th
-      %th
   %tbody
     - @places.each do |place|
       %tr
@@ -23,10 +21,10 @@
             %i.icon-external-link
         %td
           - if current_pro_admin
-            = link_to place.name, edit_pro_structure_place_path(@structure, place)
+            = link_to place.location.name, edit_pro_structure_place_path(@structure, place)
           - else
-            = link_to place.name, place_url(place, subdomain: 'www')
-        %td= place.address
+            = link_to place.location.name, place_url(place, subdomain: 'www')
+        %td= place.location.address
         %td.text--right
           = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn--warning' do
             %i.icon-pencil

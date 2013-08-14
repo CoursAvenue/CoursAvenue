@@ -1,5 +1,5 @@
 - @plannings_grouped_by_places.each do |place, plannings|
-  %h4= place.try(:name)
+  %h4= place.location.try(:name)
   - plannings.group_by(&:level_ids).each do |levels, planning|
     %h5 Niveau : #{join_levels Level.find(levels)}
     %table.table--striped.table--data.table--white

@@ -1,6 +1,6 @@
 - best_price = course.best_price
 
-%li.one-whole.course-element{onclick: "_gaq.push(['_trackEvent', 'Click cours', 'click', '#{best_price.try(:has_promo?) ? 'Avec promo' : 'Sans promo'}'])", data: {"place-id" => course.structure_id, url: structure_course_path(course.structure, course), type: 'course-element'}}
+%li.one-whole.course-element{onclick: "_gaq.push(['_trackEvent', 'Click cours', 'click', '#{best_price.try(:has_promo?) ? 'Avec promo' : 'Sans promo'}'])", data: {"location-ids" => @course_places[course].map(&:id).join(' '), url: structure_course_path(course.structure, course), type: 'course-element'}}
   %div.two-twelfths.visuallyhidden--palm
     .course-image.media__img
       - if best_price.try(:has_promo?) and best_price.try(:amount) > 0
@@ -16,10 +16,10 @@
   %article.course-content
     %header
       .hN.course-title
-        - @course_places[course].each do |place|
+        - @course_places[course].each do |location|
           .map-marker-image
             = link_to structure_course_path(course.structure, course) do
-              %span= @place_id_index[place.id]
+              %span= @locations.index(location) + 1
         %h2.delta.inline.v-middle= link_to course.name, structure_course_path(course.structure, course)
         - if course.rating
           %div.inline.nowrap

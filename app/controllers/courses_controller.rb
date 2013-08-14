@@ -27,23 +27,18 @@ class CoursesController < ApplicationController
   private
 
   def init_geoloc
-    places = []
+    @locations = []
     latitude  = params[:lat].to_f
     longitude = params[:lng].to_f
     radius    = (params[:radius] || 5).to_f
-    # Keep places that are in the correct radius
-    @course_places = {}
+    @course_places = {} # Keep places that are in the radius
     @courses.each do |course|
-      @course_places[course] = course.places.uniq.reject do |place|
-        Geocoder::Calculations.distance_between([latitude, longitude], [place.latitude, place.longitude], unit: :km) > radius
-      end
-      places += @course_places[course]
+      @course_places[course] = course.locations_around(latitude, longitude, radius)
+      @locations            += @course_places[course]
     end
     index = 0
-    @place_id_index = {}
-    @json_structures_addresses = places.uniq.to_gmaps4rails do |place, marker|
+    @json_locations_addresses = @locations.uniq.to_gmaps4rails do |place, marker|
       index += 1
-      @place_id_index[place.id] = index
       marker.picture({
                       :marker_anchor => [10, true],
                       :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'><span>#{index}</span></a></div>"

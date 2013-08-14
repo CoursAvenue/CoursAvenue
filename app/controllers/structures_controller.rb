@@ -11,17 +11,16 @@ class StructuresController < ApplicationController
     end
     @city           = @structure.city
     @places         = @structure.places
-    @places_address = @places.to_gmaps4rails
+    @places_address = @structure.locations.to_gmaps4rails
     @courses        = @structure.courses.active
     @teachers       = @structure.teachers
     @medias         = @structure.medias
     @comments       = @structure.all_comments
     @comment        = @structure.comments.build
-    HA?
   end
 
   def index
-    cookies[:place_search_path] = request.fullpath
+    cookies[:structure_search_path] = request.fullpath
 
     if params[:subject_id]
       @subject = Subject.find params[:subject_id]
@@ -37,30 +36,24 @@ class StructuresController < ApplicationController
   private
 
   def init_geoloc
-    places      = []
-    place_index = {}
-    latitude    = params[:lat].to_f
-    longitude   = params[:lng].to_f
-    radius      = (params[:radius] || 5).to_f
-    @structure_places = {}
-    @locations = []
+    latitude             = params[:lat].to_f
+    longitude            = params[:lng].to_f
+    radius               = (params[:radius] || 5).to_f
+    @locations           = []
+    @structure_locations = {} # Keeping in memory only locations that are in the radius
     @structures.each do |structure|
-      @structure_places[structure] = structure.places.reject do |place|
-        # place_index[place.id] = structure_index
-        Geocoder::Calculations.distance_between([latitude, longitude], [place.latitude, place.longitude], unit: :km) > radius
-      end
-      places += @structure_places[structure]
+      @structure_locations[structure] = structure.locations_around(latitude, longitude, radius)
+      @locations += @structure_locations[structure]
     end
-    index = 0
     place_index = 0
-    @json_structure_addresses = places.to_gmaps4rails do |place, marker|
+    @json_structure_addresses = @locations.uniq.to_gmaps4rails do |location, marker|
       place_index += 1
       marker.picture({
                       :marker_anchor => [10, true],
                       :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'><span>#{place_index}</span></a></div>"
                      })
-      marker.title   place.name
-      marker.json({ id: place.structure_id })
+      marker.title   location.name
+      marker.json({ id: location.id })
     end
   end
 end

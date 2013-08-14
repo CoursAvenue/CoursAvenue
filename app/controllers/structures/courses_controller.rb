@@ -14,7 +14,7 @@ class Structures::CoursesController < ApplicationController
     @comments           = @course.comments.order('created_at DESC').reject(&:new_record?)
     @medias             = @structure.medias
     @structure_comments = @structure.comments.order('created_at DESC')
-    @places             = @course.places.uniq
+    @locations          = @course.locations
     if @course.is_lesson?
       @plannings = @course.plannings.order('week_day ASC, start_time ASC')
     else
@@ -27,7 +27,7 @@ class Structures::CoursesController < ApplicationController
     @reservation                 = Reservation.new
     @best_price                  = @course.best_price
 
-    @json_place_address = @places.to_gmaps4rails do |place, marker|
+    @json_place_address = @locations.to_gmaps4rails do |place, marker|
       marker.title   place.name
       marker.json({ id: place.id })
     end

@@ -16,6 +16,24 @@
     - else
       = "Retrouvez tous les cours de #{@structure.name} à #{@city.name}"
 
+.inline-block
+  - if cookies[:structure_search_path]
+    = link_to cookies[:structure_search_path] do
+      %i.orange ←
+      = t('.back_to_results')
+  - else
+    = link_to structures_path do
+      %i.orange ←
+      = t('.see_arrounding_structures')
+.inline-block.push-half--sides
+  |
+.inline-block
+  %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
+    %li
+      = link_to "Tous les établissement", structures_path
+    %li= @structure.name
+
+
 .grid.push--top
   .grid__item.four-tenths{itemscope: true, itemtype: 'http://schema.org/Place'}>
     .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
@@ -57,7 +75,7 @@
         .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @structure} à #{@structure.name}"
 
     .course-header-map.push--top
-      = gmaps( {markers: {data: @places.to_gmaps4rails}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: false} )
+      = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: false} )
       %h4.course-header-structure-name.flush--bottom
         %b= @structure.name
         - if current_user
@@ -174,13 +192,13 @@
               Cet établissement n'a pas de photos ou de vidéos.
       - if @places.any?
         %article#tab-other-places.tab-pane
-          = gmaps( {markers: {data: @places.to_gmaps4rails}, map_options: {maxZoom: 15, mapTypeControl: false, :id => 'other_places_map'}, scripts: :none})
+          = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 15, mapTypeControl: false, :id => 'other_places_map'}, scripts: :none})
           %ul.block-list.white-box
             - @places.each do |other_place|
               %li
-                %b= other_place.name
+                %b= other_place.location.name
                 %br
-                %i= other_place.address
+                %i= other_place.location.address
 
 
 

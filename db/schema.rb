@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130813132023) do
+ActiveRecord::Schema.define(:version => 20130814092859) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -213,27 +213,7 @@ ActiveRecord::Schema.define(:version => 20130813132023) do
   add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
   add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
 
-  create_table "medias", :force => true do |t|
-    t.text     "url"
-    t.text     "url_html"
-    t.string   "caption"
-    t.integer  "mediable_id"
-    t.string   "mediable_type"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-    t.time     "deleted_at"
-  end
-
-  create_table "participants", :force => true do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "email"
-    t.integer  "reservation_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
-  end
-
-  create_table "places", :force => true do |t|
+  create_table "locations", :force => true do |t|
     t.string   "name"
     t.string   "street"
     t.text     "info"
@@ -266,8 +246,35 @@ ActiveRecord::Schema.define(:version => 20130813132023) do
     t.text     "parent_subjects_string"
   end
 
-  add_index "places", ["slug"], :name => "index_places_on_slug", :unique => true
-  add_index "places", ["zip_code"], :name => "index_places_on_zip_code"
+  add_index "locations", ["slug"], :name => "index_places_on_slug", :unique => true
+  add_index "locations", ["zip_code"], :name => "index_places_on_zip_code"
+
+  create_table "medias", :force => true do |t|
+    t.text     "url"
+    t.text     "url_html"
+    t.string   "caption"
+    t.integer  "mediable_id"
+    t.string   "mediable_type"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.time     "deleted_at"
+  end
+
+  create_table "participants", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.integer  "reservation_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "places", :force => true do |t|
+    t.integer "location_id"
+    t.integer "structure_id"
+  end
+
+  add_index "places", ["location_id", "structure_id"], :name => "index_places_on_location_id_and_structure_id"
 
   create_table "places_users", :id => false, :force => true do |t|
     t.integer "place_id"

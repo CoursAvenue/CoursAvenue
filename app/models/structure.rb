@@ -68,9 +68,11 @@ class Structure < ActiveRecord::Base
   has_many :courses
   has_many :renting_rooms
   has_many :cities, through: :places
-  has_many :places                    , dependent: :destroy
   # has_many :rooms, through: :places
   has_and_belongs_to_many :subjects
+
+  has_many :places
+  has_many :locations, through: :places
 
   has_many :admins
 
@@ -126,8 +128,8 @@ class Structure < ActiveRecord::Base
     # string :street
 
     latlon :location, multiple: true do
-      places.map do |place|
-        Sunspot::Util::Coordinates.new(place.latitude, place.longitude)
+      locations.map do |location|
+        Sunspot::Util::Coordinates.new(location.latitude, location.longitude)
       end
     end
 
@@ -173,6 +175,11 @@ class Structure < ActiveRecord::Base
 
   handle_asynchronously :solr_index
 
+  def locations_around(latitude, longitude, radius=5)
+    locations.reject do |location|
+      Geocoder::Calculations.distance_between([latitude, longitude], [location.latitude, location.longitude], unit: :km) > radius
+    end
+  end
 
   def update_comments_count
     self.update_column :comments_count, self.all_comments.count
@@ -247,13 +254,13 @@ class Structure < ActiveRecord::Base
   end
 
   def create_place
-    self.places.create(name: 'Adresse principale', street: self.street, city: self.city, zip_code: self.zip_code)
+    location = Location.create(name: self.city.name, street: self.street, city: self.city, zip_code: self.zip_code)
+    Place.create(structure: self, location: location)
   end
 
   def create_courses_relative_to_subject
-    place = self.places.first
     self.subjects.each do |subject|
-      place.courses.create(name: subject.name, subject_ids: [subject.id], type: 'Course::Lesson', start_date: Date.today, end_date: (Date.today + 1.year))
+      self.courses.create(name: subject.name, subject_ids: [subject.id], type: 'Course::Lesson', start_date: Date.today, end_date: (Date.today + 1.year))
     end
   end
 

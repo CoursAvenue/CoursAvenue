@@ -53,6 +53,8 @@ fr:
       flexible: "Flexibles : possibilité de changer de séance (pour un même cours au même tarif) jusqu’à la veille du cours"
       moderate: "Modérées : possibilité de changer de séance (pour un même cours au même tarif) jusqu’à 1 semaine avant la date du cours"
       strict: "Strictes : pas de modification possible"
+    show:
+      see_arrounding_structures: Voir les établissements à proximité
 
   pro:
     structures:
