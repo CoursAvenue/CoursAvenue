@@ -34,6 +34,11 @@
     }
 }
 
+.map_container {
+    .map-marker-image:hover {
+        a { background-image: image-url('icons/map-marker-hover.png'); }
+    }
+}
 .map-marker-image {
     position: absolute;
     display : block;
@@ -66,6 +71,21 @@
         font-size       : 12px;
         vertical-align  : middle;
         z-index         : 2;
+    }
+}
+.map-marker-image--small {
+    @extend .map-marker-image;
+    width   : 15px;
+    height  : 20px;
+    a {
+        width               : 13px;
+        height              : 20px;
+        line-height         : 17px;
+    }
+    span {;
+        width           : 16px;
+        margin-left     : -8px;
+        font-size       : 10px;
     }
 }
 .map-marker {

@@ -18,7 +18,7 @@ class StructureSearch
       else
         order_by :has_comment, :desc
         order_by :has_picture, :desc
-        order_by_geodist(:location, params[:lat], params[:lng]) if params[:lat].present? and params[:lng].present?
+        # order_by_geodist(:location, params[:lat], params[:lng]) if params[:lat].present? and params[:lng].present?
       end
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
     end

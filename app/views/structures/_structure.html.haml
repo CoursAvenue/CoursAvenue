@@ -1,0 +1,34 @@
+%li.one-whole.course-element{data: {"structure-id" => structure.id, url: structure_path(structure), type: 'structure-element'}}
+  - if structure.image.present?
+    %div.two-twelfths.visuallyhidden--palm
+      .course-image.media__img
+        = link_to structure_path(structure) do
+          = image_tag structure.image.url(:thumb), alt: "Cours de #{join_parent_subjects_text structure} à #{structure.name}"
+
+  %article.course-content{class: (structure.image.present? ? 'eight-twelfths' : 'ten-twelfths')}
+    %header
+      .course-title.hN
+        .map-marker-image
+          = link_to structure_path(structure) do
+            %span= structure_counter + 1
+        %h2.delta.inline.v-middle= link_to structure.name, structure_path(structure)
+    - if structure.subjects.count > 5
+      %ul.nav= join_parent_subjects(structure)
+    - else
+      %ul.nav= join_child_subjects(structure)
+  .course-content.two-twelfths.text--center.v-middle
+    .thin.alpha.brand #{structure.rating}
+    %div{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+      %span.rating{title: comment_rating_title(structure.rating)}
+        = rating_stars structure.rating
+      %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
+      %meta{itemprop: 'count', content: structure.comments_count}
+      %meta{itemprop: 'itemreviewed', content: structure.name}
+      %meta{itemprop: 'name', content: structure.name}
+      %meta{itemprop: 'street-address', content: structure.street}
+      %meta{itemprop: 'postal-code', content: structure.zip_code}
+    %div
+      = structure.comments_count
+      avis
+      %a{href: '#comments'}
+        %i.lbc-brand-icon

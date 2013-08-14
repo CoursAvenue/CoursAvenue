@@ -1,22 +1,24 @@
-- @plannings.each do |levels, plannings|
-  %h5 Niveau : #{join_levels Level.find(levels)}
-  %table.table--striped.table--data.table--white
-    %thead
-      %tr
-        %th Dates
-        %th.text--center Créneau horaire
-        %th.text--center Durée
-        %th.text--center Public
-        %th.text--center
-          %i.lbc-icon-info i
-    %tbody
-      - plannings.each do |planning|
+- @plannings_grouped_by_places.each do |place, plannings|
+  %h4= place.try(:name)
+  - plannings.group_by(&:level_ids).each do |levels, planning|
+    %h5 Niveau : #{join_levels Level.find(levels)}
+    %table.table--striped.table--data.table--white
+      %thead
         %tr
-          %td= training_dates planning
-          %td.text--center= readable_time_slot planning.start_time, planning.end_time
-          %td.text--center= "#{pluralize(planning.length, 'jour')}"
-          %td.text--center= join_audiences planning
-          %td.text--center
-            - if planning.info.present?
-              .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
-  %hr
+          %th Dates
+          %th.text--center Créneau horaire
+          %th.text--center Durée
+          %th.text--center Public
+          %th.text--center
+            %i.lbc-icon-info i
+      %tbody
+        - plannings.each do |planning|
+          %tr
+            %td= training_dates planning
+            %td.text--center= readable_time_slot planning.start_time, planning.end_time
+            %td.text--center= "#{pluralize(planning.length, 'jour')}"
+            %td.text--center= join_audiences planning
+            %td.text--center
+              - if planning.info.present?
+                .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
+    %hr

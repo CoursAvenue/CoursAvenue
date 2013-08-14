@@ -1,24 +1,24 @@
 = content_for :head do
   - if @subject
-    %link{rel: 'canonical', href: subject_places_url(@subject)}
+    %link{rel: 'canonical', href: subject_structures_url(@subject)}
   - else
-    %link{rel: 'canonical', href: places_url}
+    %link{rel: 'canonical', href: structures_url}
 
 = content_for :title do
   = "#{(params[:subject_id] ? "Cours de #{@subject.name.downcase}" : 'Cours')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : 'à Paris')}"
 
 
 .grid
-  .grid__item= render 'shared/places_header_search'
+  .grid__item= render 'shared/structures_header_search'
   %section.grid__item.three-tenths.visuallyhidden--lap.visuallyhidden--palm>
     = render 'side_search_form'
   %section.grid__item.seven-tenths.lap--one-whole.palm--one-whole
     %ol.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
-      %li= link_to 'Tous les établissement', places_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
+      %li= link_to 'Tous les établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
       - if @subject
         - if @subject.parent
-          %li= link_to @subject.parent.name, subject_places_path(@subject.parent, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
-        %li= link_to @subject.name, subject_places_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
+          %li= link_to @subject.parent.name, subject_structures_path(@subject.parent, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
+        %li= link_to @subject.name, subject_structures_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
       - if params[:name]
         %li= params[:name]
     %h1.text--center.delta.flush.lbl.lbl--blue
@@ -39,25 +39,25 @@
           = link_to 'Par cours', courses_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
       %li.tab-el.active Par établissement
 
-    - if @places.empty?
+    - if @structures.empty?
       = render 'no_results'
     - else
       .flexbox.page-entries-wrapper
         .flexbox__item.palm--one-whole
           %p.flush--bottom
-            = page_entries_info @places, pluralized_entry_name: Place.model_name.human(count: @places.total_count).downcase
+            = page_entries_info @structures, entry_name: Structure.model_name.human.downcase
           .spoken-form
             %label Trier par :
             %a.filter-select{href: '#', class: (params[:sort] == 'relevancy' ? 'bold' : ''), onclick: "_gaq.push(['_trackEvent', 'Trier établissement / pertinence', 'click'])", data: {value: 'relevancy'}} Pertinence
             \/
             %a.filter-select{href: '#', class: (params[:sort] == 'rating_desc' ? 'bold' : ''), onclick: "_gaq.push(['_trackEvent', 'Trier établissement / popularité', 'click'])", data: {value: 'rating_desc'}} Popularité
         .flexbox__item.visuallyhidden--palm
-          .text--right= paginate @places, window: 1, outer_window: 1
+          .text--right= paginate @structures, window: 1, outer_window: 1
       %ul.block-list.course-list
-        = render partial: 'place', :collection => @places
+        = render partial: 'structure', :collection => @structures
 
     %footer.g.one-whole
-      = paginate @places, window: 2, outer_window: 1
+      = paginate @structures, window: 2, outer_window: 1
 = content_for :scripts do
   :javascript
       window.addEvent('domready', function() {
@@ -65,8 +65,8 @@
               $('hidden-sort-input').set('value', this.dataset.value);
               $('submit_search_form').click();
         });
-        $$('[data-type=place-element]').each(function(place_element) {
-            place_element.addEvent('click', function(event) {
+        $$('[data-type=structure-element]').each(function(structure_element) {
+            structure_element.addEvent('click', function(event) {
                 // Change url only if user doesn't click on link
                 if (event.target.nodeName !== 'A') {
                     if (event.meta || event.control) {

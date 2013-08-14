@@ -8,7 +8,7 @@ module ReservationHelper
     when 'Planning'
       structure_course_path reservable.course.structure, reservable.course
     when 'Place'
-      place_path reservable
+      structure_path reservable
     else
       root_path
     end

@@ -30,7 +30,7 @@ class CoursesController < ApplicationController
     places = []
     latitude  = params[:lat].to_f
     longitude = params[:lng].to_f
-    radius    = params[:radius].to_f
+    radius    = (params[:radius] || 5).to_f
     # Keep places that are in the correct radius
     @course_places = {}
     @courses.each do |course|

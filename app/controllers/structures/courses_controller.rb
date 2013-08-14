@@ -2,10 +2,16 @@
 class Structures::CoursesController < ApplicationController
 
   def show
+    begin
+      @structure = Structure.find params[:structure_id]
+    rescue ActiveRecord::RecordNotFound
+      place = Place.find params[:structure_id]
+      redirect_to structure_course_path(place.structure, params[:id]), status: 301
+      return
+    end
     @course             = Course.find(params[:id])
     @comment            = @course.comments.build
     @comments           = @course.comments.order('created_at DESC').reject(&:new_record?)
-    @structure          = @course.structure
     @medias             = @structure.medias
     @structure_comments = @structure.comments.order('created_at DESC')
     @places             = @course.places.uniq

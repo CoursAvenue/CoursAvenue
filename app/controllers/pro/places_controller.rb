@@ -5,14 +5,6 @@ class Pro::PlacesController < InheritedResources::Base
   belongs_to :structure
   load_and_authorize_resource :structure, except: [:index]
 
-  def index
-    index! do |format|
-      if @structure.places.empty?
-        format.html { redirect_to new_pro_structure_place_path(@structure) }
-      end
-    end
-  end
-
   def create
     create! do |success, failure|
       success.html { redirect_to (params[:from] or pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }
@@ -20,12 +12,6 @@ class Pro::PlacesController < InheritedResources::Base
   end
 
   def update
-    if params[:place].delete(:delete_image) == '1'
-      resource.image.clear
-    end
-    if params[:place].delete(:delete_thumb_image) == '1'
-      resource.thumb_image.clear
-    end
     update! do |success, failure|
       success.html { redirect_to pro_structure_places_path(@structure), notice: 'Le lieu à bien été mis à jour' }
     end

@@ -122,26 +122,22 @@ CoursAvenue::Application.routes.draw do
 
   resources :reservations, only: [:create]
 
-  resources :structures, only: [], path: 'etablissements' do
-    resources :comments, only: [:new, :show], path: 'recommandations', controller: 'structures/comments'
-  end
   resources :students, only: [:create]
 
   resources :comments, only: [:create, :destroy]
 
-  resources :structure, only: [:show], path: 'professeurs', controller: 'structures' do
-    resources :courses, only: [:show], path: 'cours', controller: 'structures/courses'
+  resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
+    resources :courses , only: [:show], path: 'cours', controller: 'structures/courses'
+    resources :comments, only: [:new, :show], path: 'recommandations', controller: 'structures/comments'
   end
-  resources :places, only: [:show, :index], path: 'etablissements' do
-    # resources :courses, only: [:show], path: 'cours', controller: 'places/courses'
-    resources :courses, only: [:show], path: 'cours', to: 'redirect#structure_course'
-  end
+
   resources :courses, only: [:show, :index], path: 'cours' do
     resources :reservations, only: [:new, :create] # Redirection 301 in controller
   end
 
   resources :subjects, only: [], path: 'disciplines' do
-    resources :places, only: [:index], path: 'etablissements'
+    resources :structures, only: [:index], path: 'etablissements'
+    # resources :places, only: [:index], path: 'etablissements'
     resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index' # établissement without S
     resources :courses, only: [:index], path: 'cours'
   end

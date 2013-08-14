@@ -120,7 +120,7 @@
             Cet établissement n'a pas encore d'avis
             %br
             %b Soyez le premier à nous donner votre avis !
-        %article.push--top.push--bottom#new-comment{class: (@comments.any? ? 'hidden' : '')}= render '/places/comments_form'
+        %article.push--top.push--bottom#new-comment{class: (@comments.any? ? 'hidden' : '')}= render '/structures/comments_form'
         - if @comments.any?
           #comments= render partial: 'comments/comment', collection: @structure.all_comments, show_title: true
 
@@ -178,7 +178,7 @@
           %ul.block-list.white-box
             - @places.each do |other_place|
               %li
-                = link_to other_place.long_name, place_path(other_place)
+                %b= other_place.name
                 %br
                 %i= other_place.address
 

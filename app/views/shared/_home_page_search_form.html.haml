@@ -3,5 +3,5 @@
 - params[:time_range]  ||= {}
 
 .home-page-search
-  = form_tag places_path, method: :get, authenticity_token: false, class: 'header-search-bar--dark', 'data-behavior' => 'course-search-form', id: 'header-search' do
-    = render 'shared/places_header_search'
+  = form_tag structures_path, method: :get, authenticity_token: false, class: 'header-search-bar--dark', 'data-behavior' => 'course-search-form', id: 'header-search' do
+    = render 'shared/strcutures_header_search'

@@ -1,10 +1,5 @@
 class RedirectController < ApplicationController
 
-  def structure_course
-    course    = Course.find params[:id]
-    redirect_to structure_course_path(course.structure, course), status: 301
-  end
-
   def why_coursavenue
     redirect_to pages_why_path, status: 301
   end
@@ -22,23 +17,23 @@ class RedirectController < ApplicationController
   end
 
   def place_show
-    redirect_to place_path(params[:id]), status: 301
+    redirect_to structure_path(params[:id]), status: 301
   end
 
   def place_index
-    redirect_to places_path(params_for_search), status: 301
+    redirect_to structures_path(params_for_search), status: 301
   end
 
   def subject_place_index
-    redirect_to subject_places_path(params[:subject_id], params_for_search), status: 301
+    redirect_to subject_structures_path(params[:subject_id], params_for_search), status: 301
   end
 
   def lieux
-    redirect_to places_path(params_for_search), status: 301
+    redirect_to structures_path(params_for_search), status: 301
   end
 
   def lieux_show
-    redirect_to place_path(params[:id]), status: 301
+    redirect_to structure_path(params[:id]), status: 301
   end
 
   def city
