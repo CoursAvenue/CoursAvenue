@@ -212,8 +212,6 @@
                 mixpanel.track('Wizard next');
                 return false;
             };
-            // $(document.body).addEvent('submit:relay(#wizard-form form)', submit_form)
-            // $(document.body).on('submit', '#wizard-form form', submit_form);
             $('#save-wizard').click(submit_form);
             $('#skip-wizard').click(function(){
                   var wizard_label = $('#wizard form label').text();

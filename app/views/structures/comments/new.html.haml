@@ -89,7 +89,7 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('show_comments_trick').addEvent('click', function() {
-            $('comment_tricks').toggle();
+        $('#show_comments_trick').click(function() {
+            $('#comment_tricks').toggle();
         });
     });

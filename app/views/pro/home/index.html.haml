@@ -63,7 +63,7 @@
                 // Change url only if user doesn't click on link
                 if (typeof ga !== 'undefined') { ga('send', 'event', 'Go to other profile', 'click', 'From pro home page'); }
                 if (event.target.nodeName !== 'A') {
-                    window.open(this.get('data-url'));
+                    window.open(this.dataset.url);
                     return false;
                 }
             });

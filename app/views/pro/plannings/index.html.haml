@@ -35,14 +35,14 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('add-teacher').click(function(event) {
-            $('add-teacher-wrapper').dispose()
-            $('new-teacher-wrapper').show();
+        $('#add-teacher').click(function(event) {
+            $('#add-teacher-wrapper').hide();
+            $('#new-teacher-wrapper').show();
         });
-        if ($('show-past-planning')) {
-            $('show-past-planning').click(function() {
-                this.remove();
-                $('past-planning').removeClass('hidden');
+        if ($('#show-past-planning')) {
+            $('#show-past-planning').click(function() {
+                $(this).remove();
+                $('#past-planning').removeClass('hidden');
             });
         }
         if ($('.teacher-select').length > 0) {

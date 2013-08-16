@@ -65,7 +65,7 @@
   :javascript
       $(function() {
           $('.filter-select').click(function() {
-              $('#hidden-sort-input').set('value', this.dataset.value);
+              $('#hidden-sort-input').val(this.dataset.value);
               $('#submit_search_form').click();
           });
           $('[data-type=course-element]').each(function(index, el) {

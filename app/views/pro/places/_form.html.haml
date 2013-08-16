@@ -50,30 +50,12 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('find-place').addEvent('click', function() {
-            $('find-place-container').removeClass('hidden');
-            $('buttons-wrapper').hide('slow');
+        $('#find-place').click(function() {
+            $('#find-place-container').removeClass('hidden');
+            $('#buttons-wrapper').hide('slow');
         });
-        $('build-place').addEvent('click', function() {
-            $('build-place-container').removeClass('hidden');
-            $('buttons-wrapper').hide('slow');
+        $('#build-place').click(function() {
+            $('#build-place-container').removeClass('hidden');
+            $('#buttons-wrapper').hide('slow');
         });
-        var autocomplete = new GLOBAL.Objects.AjaxAutocomplete("location-autocomplete", {
-            onInput : function(newValue) {
-                location_autocomplete_request.get({term: newValue + ' '});
-            }
-        });
-        var location_autocomplete_request = new Request.JSON({
-            url: '/locations.json',
-            onSuccess: function(locations) {
-                locations.each(function(_location) {
-                    var li = new Element('li');
-                    var html = _location.name + '<br/>';
-                    html += '<i>'+ _location.street + ', ' + _location.city.name  + '</i>';
-                    var a = new Element('a', { href: 'javascript:void(0)', html: html});
-                    li.adopt(a);
-                    autocomplete.data_list.adopt(li);
-                });
-            }.bind(this)
-        });
-    });
+   });

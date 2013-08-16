@@ -102,41 +102,41 @@
   :javascript
     $(function() {
         // ----------- Book tickets
-        if ($('add-book-ticket')) {
-            $('add-book-ticket').addEvent('click', function() {
-                var div_to_show = $$('.book-tickets .book-ticket.not-persisted.hidden')[0];
-                if (div_to_show) {
+        if ($('#add-book-ticket').length > 0) {
+            $('#add-book-ticket').click(function() {
+                var div_to_show = $('.book-tickets .book-ticket.not-persisted.hidden').first();
+                if (div_to_show.length > 0) {
                     div_to_show.removeClass('hidden');
                     // Hide the link if there is no more to show
-                    if (!$$('.book-tickets .book-ticket.not-persisted.hidden')[0]) { this.hide(); }
+                    if ($('.book-tickets .book-ticket.not-persisted.hidden').first().length == 0) { $(this).hide(); }
                 }
             });
-            if ($$('.book-tickets .book-ticket.persisted').length == 0) {
-                $('add-book-ticket').click();
+            if ($('.book-tickets .book-ticket.persisted').length == 0) {
+                $('#add-book-ticket').click();
             }
         }
         // ----------- Registration fees
-        $('add-registration-fee').addEvent('click', function() {
-            var div_to_show = $$('.registration-fees .registration-fee.not-persisted.hidden')[0];
-            if (div_to_show) {
+        $('#add-registration-fee').click(function() {
+            var div_to_show = $('.registration-fees .registration-fee.not-persisted.hidden').first();
+            if (div_to_show.length > 0) {
                 div_to_show.removeClass('hidden');
                 // Hide the link if there is no more to show
-                if (!$$('.registration-fees .registration-fee.not-persisted.hidden')[0]) { this.hide(); }
+                if ($('.registration-fees .registration-fee.not-persisted.hidden').first().length == 0) { $(this).hide(); }
             }
         });
-        if ($$('.registration-fees .registration-fee.persisted').length == 0) {
-            $('add-registration-fee').click();
+        if ($('.registration-fees .registration-fee.persisted').length == 0) {
+            $('#add-registration-fee').click();
         }
         // ----------- Prices
-        $('add-price').addEvent('click', function() {
-            var div_to_show = $$('.prices .price.not-persisted.hidden')[0];
-            if (div_to_show) {
+        $('#add-price').click(function() {
+            var div_to_show = $('.prices .price.not-persisted.hidden').first();
+            if (div_to_show.length > 0) {
                 div_to_show.removeClass('hidden');
                 // Hide the link if there is no more to show
-                if (!$$('.prices .price.not-persisted.hidden')[0]) { this.hide(); }
+                if ($('.prices .price.not-persisted.hidden').first().length == 0) { $(this).hide(); }
             }
         });
-        if ($$('.prices .price.persisted').length == 0) {
-            $('add-price').click();
+        if ($('.prices .price.persisted').length == 0) {
+            $('#add-price').click();
         }
     });

@@ -136,9 +136,9 @@
 = content_for :scripts do
   :javascript
     $(function() {
-      if ($('students-table')) {
-          $('dataTable').tablesorter();
-          $$('#students-table form').addEvent('submit', function() {
+      if ($('#students-table')) {
+          $('#dataTable').tablesorter();
+          $('#students-table form').submit(function() {
               GLOBAL.flash("L'élève a bien été notifié.");
           });
       }

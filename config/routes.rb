@@ -31,15 +31,12 @@ CoursAvenue::Application.routes.draw do
           get  'dashboard', path: 'tableau-de-bord'
           put  'activate'
           put  'disable'
-          put  'disable_condition'
-          put  'validate_condition'
           get  'recommendations', path: 'recommandations'
           post 'get_feedbacks'
           get  'share_my_profile', path: 'partager-mon-profil'
         end
         collection do
           get 'inscription', to: :new
-          get 'select', path: 'referencer-mes-cours'
           post 'create_and_get_feedbacks'
           get 'import_mail_callback'
           get 'import_mail_callback_failure'

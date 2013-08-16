@@ -28,7 +28,7 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('change-avatar').addEvent('click', function() {
-            $('avatar-input').click();
+        $('#change-avatar').click(function() {
+            $('#avatar-input').click();
         });
     });
