@@ -28,6 +28,16 @@ class Location < ActiveRecord::Base
                   :has_handicap_access,
                   :has_handicap_access, :has_cloackroom, :has_internet, :has_air_conditioning, :has_swimming_pool, :has_free_parking, :has_jacuzzi, :has_sauna, :has_daylight
 
+  # ------------------------------------------------------------------------------------ Search attributes
+  searchable do
+    text :name
+    text :street
+    text :zip_code
+    text :city do
+      self.city.name
+    end
+  end
+
   def to_gmap_json
     {lng: self.longitude, lat: self.latitude}
   end

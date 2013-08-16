@@ -57,7 +57,7 @@
 
 = content_for :scripts do
   :javascript
-      window.addEvent('domready', function() {
+      $(function() {
         $$('[data-type=place-element]').each(function(place_element) {
             place_element.addEvent('click', function(event) {
                 // Change url only if user doesn't click on link

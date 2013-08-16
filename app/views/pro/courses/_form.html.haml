@@ -92,13 +92,13 @@
     = f.submit (@course.new_record? ? 'Créer le cours' : 'Mettre à jour le cours'), class: 'btn btn--success'
 = content_for :scripts do
   :javascript
-    document.addEvent('domready', function() {
+    $(function() {
         new GLOBAL.Objects.TextareaResizer($('course_description'));
         $$('[name=course[type]]').addEvent('change', function() {
             if (this.get('value') === 'Course::Lesson') {
-                $('recurrency').reveal();
+                $('recurrency').show('slow');
             } else {
-                $('recurrency').dissolve();
+                $('recurrency').hide('slow');
             }
         });
     });

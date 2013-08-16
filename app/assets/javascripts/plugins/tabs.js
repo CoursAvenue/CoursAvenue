@@ -32,7 +32,7 @@
 })();
 
 // Initialize all tabs objects
-window.addEvent('domready', function() {
+$(function() {
     $$('[data-behavior=tabs]').each(function(el) {
         new GLOBAL.Objects.Tab(el);
     });

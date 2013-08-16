@@ -50,7 +50,7 @@
 
 = content_for :scripts do
   :javascript
-    document.addEvent('domready', function() {
+    $(function() {
         $$(".edit_structure")[0].addEvent("submit", function() {
             if (!$('structure_has_validated_conditions').checked || !$('price-input').checked || !$('free-course-if-abonnement-input').checked) {
                 alert('Vous devez accepter les conditions générales de vente et déclarer avoir pris connaissance des conditions tarifaires.');

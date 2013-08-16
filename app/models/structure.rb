@@ -55,7 +55,8 @@ class Structure < ActiveRecord::Base
                   :bank_name, :bank_iban, :bank_bic
 
   has_attached_file :image,
-                    styles:          { wide: '800x480#', thumb: '200x200#', normal: '450x' }#,
+                    styles:          { wide: '800x480#', thumb: '200x200#', normal: '450x' },
+                    path: 'assets/structures/:id/image/:fingerprint-:style.:extension'
                     #convert_options: { wide: '-interlace Line', thumb: '-interlace Line', normal: '-interlace Line' }
 
   belongs_to       :city
@@ -96,6 +97,7 @@ class Structure < ActiveRecord::Base
 
   before_save      :replace_slash_n_r_by_brs
   before_save      :fix_website_url
+  before_save      :encode_uris
 
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
@@ -292,14 +294,19 @@ class Structure < ActiveRecord::Base
                               :NB_COMMENT => nb_comments,
                               :SLUG       => self.slug
                            },
-                           :double_optin => false,
+                           :double_optin    => false,
                            :update_existing => true,
-                           :send_welcome => false})
+                           :send_welcome    => false})
   end
 
   def fix_website_url
     if self.website.present? and !self.website.starts_with? 'http://'
       self.website = "http://#{self.website}"
     end
+  end
+
+  def encode_uris
+    self.website      = URI.encode(self.website)      if self.website.present?
+    self.facebook_url = URI.encode(self.facebook_url) if self.facebook_url.present?
   end
 end

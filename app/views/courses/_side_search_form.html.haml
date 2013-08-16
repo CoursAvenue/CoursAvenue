@@ -152,51 +152,52 @@
 //-------------------------------------------------------------------------------------------------------- Gmaps
 - content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
         Gmaps.map.callback = function() {
             for (var i = 0; i <  this.markers.length; ++i) {
                 google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
-                    var course_element = $$('.course-element[data-location-ids~=' + this.id + ']');
+                    var course_element = $('.course-element[data-location-ids~=' + this.id + ']');
                     GLOBAL.Scroller.toElement(course_element[0]);
                     // Unselect courses if there already are that are selected
-                    $$('.course-element').removeClass('selected');
+                    $('.course-element').removeClass('selected');
                     course_element.addClass('selected');
                 }.bind(Gmaps.map.markers[i]));
                 google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'mouseover', function(event) {
-                    var course_element = $$('.course-element[data-location-ids~=' + this.id + ']');
+                    var course_element = $('.course-element[data-location-ids~=' + this.id + ']');
                     // Unselect courses if there already are that are selected
                     course_element.addClass('selected');
                 }.bind(Gmaps.map.markers[i]));
                 google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'mouseout', function(event) {
-                    var course_element = $$('.course-element[data-location-ids~=' + this.id + ']');
+                    var course_element = $('.course-element[data-location-ids~=' + this.id + ']');
                     course_element.removeClass('selected');
                 }.bind(Gmaps.map.markers[i]));
             }
         };
-        var radius_hidden_input = $('radius-hidden-input');
-        var radius_label_value  = $('radius-label-value');
-        var start = 0;
-        new Slider('radius-slider', 'radius-knob', {
-            range: [1, 50],
-            step: 1,
-            wheel: false,
-            snap: true,
-            initialStep: #{params[:radius]},
-            onComplete: function(pos){
-                start += 1;
-                if (start > 2) { // Because the function is triggered twice at beginning...
-                    $('header-search').submit();
-                }
-            },
-            onChange: function(pos){
-                radius_hidden_input.set('value', pos);
-                radius_label_value.set('text', pos);
-            }
+        // TODO
+        // var radius_hidden_input = $('radius-hidden-input');
+        // var radius_label_value  = $('radius-label-value');
+        // var start = 0;
+        // new Slider('radius-slider', 'radius-knob', {
+        //     range: [1, 50],
+        //     step: 1,
+        //     wheel: false,
+        //     snap: true,
+        //     initialStep: #{params[:radius]},
+        //     onComplete: function(pos){
+        //         start += 1;
+        //         if (start > 2) { // Because the function is triggered twice at beginning...
+        //             $('header-search').submit();
+        //         }
+        //     },
+        //     onChange: function(pos){
+        //         radius_hidden_input.val(pos);
+        //         radius_label_value.set('text', pos);
+        //     }
+        // });
+        $('#start_date').change(function() {
+            $('#hidden_start_date').val(this.value);
         });
-        $('start_date').addEvent('change', function() {
-            $('hidden_start_date').set('value', this.value);
-        });
-        $('end_date').addEvent('change', function() {
-            $('hidden_end_date').set('value', this.value);
+        $('#end_date').change(function() {
+            $('#hidden_end_date').val(this.value);
         });
     });

@@ -46,7 +46,7 @@
         %p.field-form-info.blue Si vos cours se situent dans plusieurs lieux, vous pourrez les renseigner depuis votre espace pro.
         .input
           = f.label :zip_code
-          = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }, label: false
+          = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: '#structure_city_id'} }, label: false
           = f.association :city, collection: [@structure.city], label: false
 
         - cache "inscription_subjects_#{ENV["ETAG_VERSION_ID"]}"do
@@ -90,7 +90,7 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
         slideshow = new SlideShow('slideshow', {
             transition: 'pushLeft',
             delay: 3000,

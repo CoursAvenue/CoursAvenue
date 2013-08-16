@@ -22,7 +22,7 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
       new XtLightbox('.media-gallery a', {
         adaptors: ['Image', 'YouTube', 'Vimeo'],
         loop: true,

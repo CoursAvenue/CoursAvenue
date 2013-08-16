@@ -100,7 +100,7 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
         // ----------- Book tickets
         if ($('add-book-ticket')) {
             $('add-book-ticket').addEvent('click', function() {

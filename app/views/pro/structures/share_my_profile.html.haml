@@ -60,7 +60,7 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
         var emails_textarea = $('emails');
         $$('#contact-list li').addEvent('click', function() {
             if (emails_textarea.get('value').length === 0) {

@@ -47,7 +47,7 @@
 
 = content_for :scripts do
   :javascript
-      window.addEvent('domready', function() {
+      $(function() {
           $('show-first-section').addEvent('click', function(){
               this.fade('out');
               $('first-hidden-section').fade('in');

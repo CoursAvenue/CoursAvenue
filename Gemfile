@@ -2,7 +2,7 @@
 source 'https://rubygems.org'
 
 ruby '1.9.3'
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.14'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -38,7 +38,7 @@ gem 'delayed_job_active_record' , '~> 0.4.4'
 
 gem 'js-routes'                 , '~> 0.9.0'
 gem 'font-awesome-rails'        , '~> 3.2.1.1'
-gem 'mootools-rails'            , '~> 2.0.1'
+gem 'jquery-rails'              , '~> 3.0.4'
 gem 'compass'                   , '~> 0.12.2'
 gem 'compass-rails'             , '~> 1.0.3'
 gem 'compass-inuit'             , '~> 5.0.1'

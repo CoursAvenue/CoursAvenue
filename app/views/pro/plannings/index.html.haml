@@ -33,7 +33,7 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
         $('add-teacher').addEvent('click', function(event) {
             $('add-teacher-wrapper').dispose()
             $('new-teacher-wrapper').show();

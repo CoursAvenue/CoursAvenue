@@ -21,7 +21,7 @@
           <!--[if IE 9]></select><![endif]-->
       %div.search-input-wrapper
         .input-with-icon
-          %input#adress-picker{size: 50, class: 'search-input', placeholder: 'Où ?', type: 'text', 'data-list' => 'address-list', 'data-behavior' => 'address-picker', 'data-lng' => 'address-lng', 'data-lat' => 'address-lat', autocomplete: 'off', name: 'address_name', value: params[:address_name]}
+          %input#adress-picker{size: 50, class: 'search-input', placeholder: 'Où ?', type: 'text', 'data-list' => '#address-list', 'data-behavior' => 'address-picker', 'data-lng' => '#address-lng', 'data-lat' => '#address-lat', autocomplete: 'off', name: 'address_name', value: params[:address_name]}
           %i.icon-map-marker.delta
           %ul#address-list.address-list.hidden
       %input#address-lat{type: 'hidden', name: 'lat', value: params[:lat]}
@@ -37,17 +37,18 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
-      var myAutocomplete = new Autocomplete("search-input", {
-        useNativeInterface : false,
-        srcType : "dom"
+    $(function() {
+      // TODO
+      // var myAutocomplete = new Autocomplete("search-input", {
+      //   useNativeInterface : false,
+      //   srcType : "dom"
+      // });
+      $('#search-input').blur(function(){
+          $('#search-help').addClass('hidden');
       });
-      $('search-input').addEvent('blur', function(){
-          $('search-help').addClass('hidden');
-      });
-      $('search-input').addEvent('click', function(){
+      $('#search-input').click(function(){
           if (this.value.length === 0) {
-              $('search-help').removeClass('hidden');
+              $('#search-help').removeClass('hidden');
           }
       });
     })

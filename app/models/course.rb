@@ -14,12 +14,12 @@ class Course < ActiveRecord::Base
   has_attached_file :homepage_image,
                     styles: {default: '1600×500#'},
                     path: 'course/:id/homepage_image/:fingerprint-:style.:extension'
-                   # path => ":rails_root/public/system/:attachment/:id/:style/:filename",
-                   # url => "/system/:attachment/:id/:style/:filename"
+                    # path: 'assets/courses/:id/homepage_image/:fingerprint-:style.:extension'
 
   has_attached_file :image,
                     styles: { wide: '800x480#', normal: '450x', thumb: '200x200#', mini: '50x50#' },
                     path: 'course/:id/image/:fingerprint-:style.:extension'#,
+                    # path: 'assets/courses/:id/image/:fingerprint-:style.:extension'#,
                     # convert_options: { wide: '-interlace Line', normal: '-interlace Line', thumb: '-interlace Line' , mini: '-interlace Line' }
 
   belongs_to :structure, touch: true
@@ -219,7 +219,7 @@ class Course < ActiveRecord::Base
   handle_asynchronously :solr_index
 
   def locations
-    places.uniq.map(&:location)
+    places.uniq.map(&:location).compact
   end
 
   def locations_around(latitude, longitude, radius=5)

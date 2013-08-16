@@ -120,6 +120,8 @@ CoursAvenue::Application.routes.draw do
     end
   end
 
+  resources :locations, only: [:index]
+
   resources :reservations, only: [:create]
 
   resources :students, only: [:create]

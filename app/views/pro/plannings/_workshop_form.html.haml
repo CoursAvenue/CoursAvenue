@@ -67,7 +67,7 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
       $$('[name="planning[audience_ids][]"]').addEvent('change', function(event) {
           if (event.target.value == '1') {
               if (event.target.checked) {

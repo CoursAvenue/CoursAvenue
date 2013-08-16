@@ -23,8 +23,10 @@
         li {
             cursor          : pointer;
             background-color: $white;
-            padding-top     : 0.5em;
-            padding-bottom  : 0.5em;
+            span, label {
+                padding-top     : 0.5em;
+                padding-bottom  : 0.5em;
+            }
         }
         li:nth-of-type(odd) {
             background-color: $alternative-background;

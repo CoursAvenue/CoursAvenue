@@ -48,7 +48,7 @@
 
 
 // Initialize all input-update objects
-window.addEvent('domready', function() {
+$(function() {
     $$('[data-behavior=input-update]').each(function(el) {
         new GLOBAL.Objects.InputUpdater(el);
     });

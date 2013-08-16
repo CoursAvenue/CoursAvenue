@@ -60,7 +60,7 @@
       = paginate @structures, window: 2, outer_window: 1
 = content_for :scripts do
   :javascript
-      window.addEvent('domready', function() {
+      $(function() {
         $$('.filter-select').addEvent('click', function() {
               $('hidden-sort-input').set('value', this.dataset.value);
               $('submit_search_form').click();

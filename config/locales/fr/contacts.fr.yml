@@ -1,0 +1,10 @@
+fr:
+  activerecord:
+    models:
+      contact: Contact
+    attributes:
+      contact:
+        name: Nom
+        email: Email
+        phone: Téléphone
+        mobile_phone: Téléphone portable

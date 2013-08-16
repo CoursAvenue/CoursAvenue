@@ -30,4 +30,6 @@ fr:
   pro:
     places:
       form:
-        name: Nom spécifique du lieu
+        name: Nom du lieu
+        street: Adresse (N° + rue)
+        zip_code: Code postal

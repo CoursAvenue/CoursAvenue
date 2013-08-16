@@ -27,7 +27,7 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
         $('change-avatar').addEvent('click', function() {
             $('avatar-input').click();
         });

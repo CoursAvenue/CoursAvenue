@@ -59,17 +59,17 @@
 
 = content_for :scripts do
   :javascript
-    // ---------------- Comments slideshow
-    window.addEvent('domready', function() {
-      $('toggle-non-stars').addEvent('click', function() {
-          $('star-subjects').dissolve();
-          $('non-star-subjects').reveal()
-          $$('#non-star-subjects [data-behavior=drop-down]').map(function(drop_down_el){
-              drop_down_el.drop_down.setPositionning();
+    // ----------------  Show two bars of subjects
+    $(function() {
+      $('#toggle-non-stars').click(function() {
+          $('#star-subjects').hide();
+          $('#non-star-subjects').show()
+          $('#non-star-subjects [data-behavior=drop-down]').map(function(drop_down_el){
+              $(this).trigger('update:position');
           });
       });
-      $('toggle-stars').addEvent('click', function() {
-          $('non-star-subjects').dissolve();
-          $('star-subjects').reveal();
+      $('#toggle-stars').click(function() {
+          $('#non-star-subjects').hide();
+          $('#star-subjects').show();
       });
     });

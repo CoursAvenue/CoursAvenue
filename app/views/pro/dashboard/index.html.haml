@@ -84,7 +84,7 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
         new Highcharts.Chart({
             chart: { renderTo: 'admins', type: 'column' },
             title: { text: null },

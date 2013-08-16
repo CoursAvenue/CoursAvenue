@@ -108,11 +108,12 @@
 = content_for :scripts do
   :javascript
     // ---------------- Comments slideshow
-    window.addEvent('domready', function() {
-        new SlideShow('comments-slideshow', {
-            transition: 'pushLeft',
-            delay: 5000,
-            duration: 500,
-            autoplay: true
-        });
+    $(function() {
+        // TODO
+        // new SlideShow('comments-slideshow', {
+        //     transition: 'pushLeft',
+        //     delay: 5000,
+        //     duration: 500,
+        //     autoplay: true
+        // });
     });

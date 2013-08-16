@@ -29,7 +29,7 @@
 })();
 
 // Initialize all textarea objects
-window.addEvent('domready', function() {
+$(function() {
     $$('textarea[data-behavior=autoresize]').each(function(textarea) {
         new GLOBAL.Objects.TextareaResizer(textarea);
     });

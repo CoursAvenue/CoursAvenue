@@ -39,7 +39,7 @@
       /   %p.field-form-info.blue= t('.structure_address_info')
       /   .grid
       /     .grid__item.width-auto
-      /       = structure_form.input :zip_code, placeholder: '75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: 'structure_city_id'} }
+      /       = structure_form.input :zip_code, placeholder: '75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: '#structure_city_id'} }
       /     .grid__item.width-auto
       /       = structure_form.association :city, collection: [@structure.city], label: false
 
@@ -73,6 +73,6 @@
       = structure_form.button :submit, "Mettre à jour mes informations", class: 'btn btn--success'
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
         new GLOBAL.Objects.TextareaResizer($('description-textarea'));
     });

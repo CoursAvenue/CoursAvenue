@@ -135,7 +135,7 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
       if ($('students-table')) {
           new TableSorter('students-table', { columnDataTypes: 'string, string, string', cookieName: 'tableSortState__students_recommendation'});
           $$('#students-table form').addEvent('submit', function() {

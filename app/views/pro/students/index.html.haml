@@ -28,6 +28,6 @@
 
 = content_for :scripts do
   :javascript
-    document.addEvent('domready', function() {
+    $(function() {
         new TableSorter('dataTable', { columnDataTypes: 'string, date, string, string', cookieName: 'tableSortState__students', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
     });

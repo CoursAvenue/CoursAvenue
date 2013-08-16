@@ -137,10 +137,10 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
         $('write-comment').addEvent('click', function() {
             $('comment_tab').click();
-            $('new-comment').reveal();
+            $('new-comment').show('slow');
         });
         new XtLightbox('.media-gallery a', {
             adaptors: ['Image', 'YouTube', 'Vimeo'],

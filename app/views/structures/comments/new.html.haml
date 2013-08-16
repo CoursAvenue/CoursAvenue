@@ -8,21 +8,21 @@
 - if params.has_key? :facebook
   = content_for :scripts do
     :javascript
-      window.addEvent('domready', function() {
+      $(function() {
         if(typeof _gaq !== 'undefined') {_gaq.push(['_trackEvent', 'Commentaire depuis facebook', 'vue', '#{@structure.name}']);}
       });
 
 - if params.has_key? :website
   = content_for :scripts do
     :javascript
-      window.addEvent('domready', function() {
+      $(function() {
         if(typeof _gaq !== 'undefined') {_gaq.push(['_trackEvent', 'Commentaire depuis site perso', 'vue', '#{@structure.name}']);}
       });
 
 - if params.has_key? :email
   = content_for :scripts do
     :javascript
-      window.addEvent('domready', function() {
+      $(function() {
         if(typeof _gaq !== 'undefined') {_gaq.push(['_trackEvent', 'Commentaire depuis email perso', 'vue', '#{@structure.name}']);}
       });
 
@@ -88,7 +88,7 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
         $('show_comments_trick').addEvent('click', function() {
             $('comment_tricks').toggle();
         });

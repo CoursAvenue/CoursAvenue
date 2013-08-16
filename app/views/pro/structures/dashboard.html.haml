@@ -182,42 +182,45 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
-        if ($('wizard')) {
-            $('wizard').reveal();
-            var wizard_ajax = new Request.JSON({
-                url: "#{wizard_pro_structure_path(@structure)}",
-                onSuccess: function(response) {
-                    $('wizard-form').dissolve();
-                    setTimeout(function(){
-                        if (response.done) {
-                            $('wizard').dissolve();
-                            $('share_your_profile').reveal();
-                        } else {
-                            $('wizard-form').set('html', response.form);
-                            $('wizard-form').reveal();
-                        }
-                    }, 500);
-                }
-            })
-            var submit_form = function() {
-                $$('#wizard form')[0].set('send', {
-                    onComplete: function() {
-                      wizard_ajax.get();
+    $(function() {
+        if ($('#wizard').length > 0) {
+            $('#wizard').show('slow');
+            var send_ajax = function(options) {
+                options = options || '';
+                $.ajax({
+                    url: "#{wizard_pro_structure_path(@structure, format: :json)}",
+                    dataType: 'json',
+                    data: options,
+                    success: function(response) {
+                        $('#wizard-form').hide('slow');
+                        setTimeout(function(){
+                            if (response.done) {
+                                $('#wizard').hide('slow');
+                                $('#share_your_profile').show('slow');
+                            } else {
+                                $('#wizard-form').html(response.form);
+                                $('#wizard-form').show('slow');
+                            }
+                        }, 500);
                     }
-                }).send()
+                })
+            }
+            var submit_form = function() {
+                $('#wizard form').submit().bind('ajax:success', function() {
+                    send_ajax()
+                });
                 mixpanel.track('Wizard next');
                 return false;
             };
-            $(document.body).addEvent('submit:relay(#wizard-form form)', submit_form)
-            // $$('#wizard-form form').addEvent('submit', submit_form);
-            $('save-wizard').addEvent('click', submit_form)
-            $('skip-wizard').addEvent('click', function(){
-                var wizard_label = $$('#wizard form label').get('text').join(',');
-                wizard_ajax.get({next: true});
+            // $(document.body).addEvent('submit:relay(#wizard-form form)', submit_form)
+            // $(document.body).on('submit', '#wizard-form form', submit_form);
+            $('#save-wizard').click(submit_form);
+            $('#skip-wizard').click(function(){
+                  var wizard_label = $('#wizard form label').text();
+                send_ajax('next=true');
                 mixpanel.track('Skip wizard', {name: wizard_label});
             });
-            $('close-wizard').addEvent('click', function() {
+            $('#close-wizard').click(function() {
                 mixpanel.track('Quit wizard');
             });
         }
@@ -225,9 +228,9 @@
 - if @comments.any?
   = content_for :scripts do
     :javascript
-      window.addEvent('domready', function() {
-          if ($('wizard')) {
-              $('wizard').reveal();
+      $(function() {
+          if ($('#wizard').length > 0) {
+              $('#wizard').show('slow');
           }
           new Highcharts.Chart({
               chart: {

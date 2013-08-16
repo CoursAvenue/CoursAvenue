@@ -1,43 +1,43 @@
-%h4.flush--bottom= @place.long_name
+%h4.flush--bottom= @structure.name
 %p
   %i
     Pour être sûr de bénéficier de tous les avantages, spécifiez que vous venez de CoursAvenue !
 
-%h5.flush--bottom Contact :
-- if @place.contact_name
-  %div
-    %i.icon-user
-    = @place.contact_name
+/ %h5.flush--bottom Contact :
+/ - if @place.contact_name
+/   %div
+/     %i.icon-user
+/     = @place.contact_name
 
-- if @place.contact_email
-  %div
-    %i.icon-envelope
-    = @place.contact_email
+/ - if @place.contact_email
+/   %div
+/     %i.icon-envelope
+/     = @place.contact_email
 
-- if @place.contact_phone or @place.contact_mobile_phone
-  %div
-    %i.icon-phone
-    = @place.contact_phone
-    - if @place.contact_phone and @place.contact_mobile_phone
-      \/
-    = @place.contact_mobile_phone
+/ - if @place.contact_phone or @place.contact_mobile_phone
+/   %div
+/     %i.icon-phone
+/     = @place.contact_phone
+/     - if @place.contact_phone and @place.contact_mobile_phone
+/       \/
+/     = @place.contact_mobile_phone
 
-- if @structure.website
-  %div
-    @
-    = link_to @structure.website, URI.encode(@structure.website), target: '_blank'
+/ - if @structure.website
+/   %div
+/     @
+/     = link_to @structure.website, @structure.website, target: '_blank'
 
-%div
-  %i.icon-map-marker
-  = @place.address
+/ %div
+/   %i.icon-map-marker
+/   = @place.address
 
 
-- if @course
-  %h5.push--top.flush--bottom Rappel :
-  %div
-    Cours : #{@course.name}
-  %div
-    %span.lbl.milli
-      = @course.type_name_html
-      - if @course.plannings.any? and @course.plannings.first.duration
-        = "de #{readable_duration @course.plannings.first.duration}"
+/ - if @course
+/   %h5.push--top.flush--bottom Rappel :
+/   %div
+/     Cours : #{@course.name}
+/   %div
+/     %span.lbl.milli
+/       = @course.type_name_html
+/       - if @course.plannings.any? and @course.plannings.first.duration
+/         = "de #{readable_duration @course.plannings.first.duration}"

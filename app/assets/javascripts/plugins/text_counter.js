@@ -73,7 +73,7 @@
 })();
 
 // Initialize all input-update objects
-window.addEvent('domready', function() {
+$(function() {
     $$('[data-behavior=text-counter]').each(function(el) {
         options = {};
         if (el.get('data-average-words-nb')) { options.average_words_nb = el.get('data-average-words-nb') };

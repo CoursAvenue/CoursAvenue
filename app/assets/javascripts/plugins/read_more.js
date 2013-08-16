@@ -43,7 +43,7 @@
 })();
 
 // Initialize all input-update objects
-window.addEvent('domready', function() {
+$(function() {
     $$('[data-behavior=read-more]').each(function(el) {
         new GLOBAL.Objects.ReadMore(el);
     });

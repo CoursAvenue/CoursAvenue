@@ -59,7 +59,7 @@
 })();
 
 // Initialize all input-update objects
-window.addEvent('domready', function() {
+$(function() {
     $$('[data-behavior=popover]').each(function(el) {
         new GLOBAL.Objects.Popover(el);
     });

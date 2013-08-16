@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
 
   has_attached_file :avatar,
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
+                    # path: 'assets/users/:id/avatar/:fingerprint-:style.:extension'
 
   # after_save :subscribe_to_mailchimp if Rails.env.production?
   after_create :associate_all_comments

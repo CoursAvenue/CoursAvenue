@@ -86,7 +86,7 @@
       - if @structure.website
         %div
           %i.icon-external-link.orange
-          = link_to @structure.website, URI.encode(@structure.website), target: '_blank', rel: 'nofollow'
+          = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
       .blue
         - if @structure.contact_phone or @structure.contact_mobile_phone
           %i.icon-phone.blue
@@ -103,7 +103,7 @@
         = @structure.address
 
     - if @structure.facebook_url.present?
-      = link_to "Page facebook de l'établissement", URI.encode(@structure.facebook_url), target: '_blank', class: 'btn--facebook btn one-whole btn--small push--bottom'
+      = link_to "Page facebook de l'établissement", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole btn--small push--bottom'
 
 
 
@@ -204,9 +204,9 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
         $('write-comment').addEvent('click', function() {
-            $('new-comment').reveal();
+            $('new-comment').show('slow');
         });
         var map_loaded = false;
         if ($('tab-other-places-li')) {

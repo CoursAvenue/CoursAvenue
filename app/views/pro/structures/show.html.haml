@@ -101,7 +101,7 @@
 
 = content_for :scripts do
   :javascript
-    document.addEvent('domready', function() {
+    $(function() {
         $$('.dataTable').each(function(datatable, i) {
             datatable.set('id', 'datatable_' + i)
             new TableSorter('datatable_' + i, { columnDataTypes: 'string, string, string, string, string, string', cookieName: 'tableSortState__structure_#{@structure.slug}_' + i });

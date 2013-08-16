@@ -5,12 +5,18 @@ class Pro::PlacesController < InheritedResources::Base
   belongs_to :structure
   load_and_authorize_resource :structure, except: [:index]
 
+  def new
+    @place = Place.new
+    @place.contacts.build
+  end
+
   def index
     index! do |format|
       @locations = @structure.locations
       format.html
     end
   end
+
   def create
     create! do |success, failure|
       success.html { redirect_to (params[:from] or pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }

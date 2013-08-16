@@ -12,7 +12,7 @@
 
 = content_for :scripts do
   :javascript
-    window.addEvent('domready', function() {
+    $(function() {
         new Chosen($('structure'));
         var structure_path = "#{new_pro_admin_structure_registration_path('__id__')}";
         $('structure').addEvent('change', function() {

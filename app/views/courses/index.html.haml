@@ -62,19 +62,19 @@
 
 = content_for :scripts do
   :javascript
-      window.addEvent('domready', function() {
-          $$('.filter-select').addEvent('click', function() {
-              $('hidden-sort-input').set('value', this.dataset.value);
-              $('submit_search_form').click();
+      $(function() {
+          $('.filter-select').click(function() {
+              $('#hidden-sort-input').set('value', this.dataset.value);
+              $('#submit_search_form').click();
           });
-          $$('[data-type=course-element]').each(function(course_element) {
-              course_element.addEvent('click', function(event) {
+          $('[data-type=course-element]').each(function(index, el) {
+              $(this).click(function(event) {
                   // Change url only if user doesn't click on link
                   if (event.target.nodeName !== 'A') {
                       if (event.meta || event.control) {
-                          window.open(this.get('data-url'));
+                          window.open($(this).data('url'));
                       } else {
-                          window.location = this.get('data-url');
+                          window.location = $(this).data('url');
                       }
                       return false;
                   }

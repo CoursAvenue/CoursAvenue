@@ -15,11 +15,12 @@
 = content_for :scripts do
   :javascript
     var slideshow;
-    window.addEvent('domready', function() {
-        slideshow = new SlideShow('slideshow', {
-            transition: 'crossFade',
-            delay: 10000,
-            duration: 500,
-            autoplay: true
-        });
+    $(function() {
+        // TODO
+        // slideshow = new SlideShow('slideshow', {
+        //     transition: 'crossFade',
+        //     delay: 10000,
+        //     duration: 500,
+        //     autoplay: true
+        // });
     });

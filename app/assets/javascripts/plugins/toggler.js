@@ -67,7 +67,7 @@
 })();
 
 // Initialize all input-update objects
-window.addEvent('domready', function() {
+$(function() {
     $$('[data-behavior=toggleable]').each(function(el) {
         new GLOBAL.Objects.Toggler(el);
     });
