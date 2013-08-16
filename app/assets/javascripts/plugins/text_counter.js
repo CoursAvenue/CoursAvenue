@@ -72,7 +72,6 @@
     });
 })();
 
-// Initialize all input-update objects
 $(function() {
     $$('[data-behavior=text-counter]').each(function(el) {
         options = {};

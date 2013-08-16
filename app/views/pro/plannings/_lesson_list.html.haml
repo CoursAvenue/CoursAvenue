@@ -61,15 +61,15 @@
             teacher_select.addEvent('change', function() {
                 teacher_form = this.getParent('form')
                 teacher_form.send();
-                new GLOBAL.Objects.Flash('Le professeur a bien été changé').showAndHide();
+                GLOBAL.flash('Le professeur a bien été changé');
             })
         });
         $$('.week-day-select').each(function(week_day_select){
             week_day_select.addEvent('change', function() {
                 week_day_form = this.getParent('form')
                 week_day_form.send();
-                new GLOBAL.Objects.Flash('Le jour a bien été changé').showAndHide();
+                GLOBAL.flash('Le jour a bien été changé');
             })
         });
-        new TableSorter('dataTable', { columnDataTypes: 'integer, datetime, string, string, string, string, string', cookieName: 'tableSortState__planning_#{@course.slug}', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
+        $('dataTable').tablesorter();
     });

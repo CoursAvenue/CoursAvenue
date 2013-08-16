@@ -47,7 +47,6 @@
     });
 })();
 
-// Initialize all input-update objects
 $(function() {
     $$('[data-behavior=time-range]').each(function(el) {
         new GLOBAL.Objects.TimeRange(el);

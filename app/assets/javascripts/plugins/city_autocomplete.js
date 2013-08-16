@@ -80,7 +80,6 @@
 
 })( jQuery, window, document );
 
-// Initialize all input-update objects
 $(function() {
     $('[data-behavior=city-autocomplete]').each(function(index, el) {
         $(this).cityAutocomplete();

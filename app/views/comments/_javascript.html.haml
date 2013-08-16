@@ -20,7 +20,7 @@
         if ($('new-comment')) {
             $('new-comment').addEvent('submit', function(){
                 if ($('comment_rating').value.length === 0) {
-                    new GLOBAL.Objects.Flash('Vous devez mettre une note pour poster un commentaire.').showAndHide();
+                    GLOBAL.flash('Vous devez mettre une note pour poster un commentaire.');
                     return false;
                 }
             });

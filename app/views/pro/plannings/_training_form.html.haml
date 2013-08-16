@@ -64,16 +64,3 @@
     - else
       = f.submit 'Modifier le créneau', class: 'btn btn--success'
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-      $$('[name="planning[audience_ids][]"]').addEvent('change', function(event) {
-          if (event.target.value == '1') {
-              if (event.target.checked) {
-                  $('children-ages').removeClass('hidden');
-              } else {
-                  $('children-ages').addClass('hidden');
-              }
-          }
-      })
-    });

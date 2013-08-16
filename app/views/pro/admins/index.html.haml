@@ -60,5 +60,5 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string, string, string, integer, string, date, date, string', cookieName: 'tableSortState__admins', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
+        $('#dataTable').tablesorter();
     });

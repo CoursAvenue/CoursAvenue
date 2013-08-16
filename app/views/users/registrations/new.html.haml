@@ -11,27 +11,27 @@
 
 
 :javascript
-  $('new_user').addEvent('submit', function(){
-    if ($('user_first_name').get('value').length === 0 ||
-        $('user_last_name').get('value').length === 0 ||
-        $('user_password').get('value').length === 0 ||
-        $('user_email').get('value').length === 0 ||
-        $('user_password').get('value').length === 0) {
-      new GLOBAL.Objects.Flash('Tous les champs ne sont pas remplis').showAndHide();
+  $('#new_user').submit(function(){
+    if ($('#user_first_name').val().length === 0 ||
+        $('#user_last_name').val().length === 0 ||
+        $('#user_password').val().length === 0 ||
+        $('#user_email').val().length === 0 ||
+        $('#user_password').val().length === 0) {
+      GLOBAL.flash('Tous les champs ne sont pas remplis');
       return false
     }
     return true;
   });
 
-  $('show_new_session_form').addEvent('click', function(){
-    $('other_form').removeClass('hidden');
-    $('form').addClass('hidden');
-    $('facebook_button').set('text', "Se connecter avec Facebook")
+  $('#show_new_session_form').click(function(){
+    $('#other_form').removeClass('hidden');
+    $('#form').addClass('hidden');
+    $('#facebook_button').text("Se connecter avec Facebook");
   });
 
-  $('show_new_registration_form').addEvent('click', function(){
-    $('form').removeClass('hidden');
-    $('other_form').addClass('hidden');
-    $('facebook_button').set('text', "S'enregistrer avec Facebook")
+  $('#show_new_registration_form').click(function(){
+    $('#form').removeClass('hidden');
+    $('#other_form').addClass('hidden');
+    $('#facebook_button').text("S'enregistrer avec Facebook");
   });
 

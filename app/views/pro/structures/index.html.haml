@@ -32,5 +32,5 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string,int,date,string', cookieName: 'tableSortState__structure_index', dateParseFunction: GLOBAL.DataTable.dateParseFunction});
+        $('dataTable').tablesorter();
     });

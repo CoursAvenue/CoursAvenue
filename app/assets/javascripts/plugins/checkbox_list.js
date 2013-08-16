@@ -86,7 +86,6 @@
 
 })( jQuery, window, document );
 
-// Initialize all input-update objects
 $(function() {
     $('[data-behavior=checkbox-list]').each(function(el) {
         $(this).checkboxList();

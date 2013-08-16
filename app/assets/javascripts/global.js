@@ -22,14 +22,20 @@ GLOBAL.namespace = function (ns_string) {
     return parent;
 };
 
-GLOBAL.DataTable = GLOBAL.DataTable || {};
-GLOBAL.DataTable.dateParseFunction = function(date) {
-    if (date.replace(/^\s+|\s+$/g, '').length === 0) { // Strip
-        return 0;
-    } else {
-        return new Date(date).getTime();
-    }
-};
+GLOBAL.flash = function(text) {
+    var flash = $('<div class="flash">').text(text);
+    $(document.body).append(flash)
+    flash.flash();
+}
+
+// GLOBAL.DataTable = GLOBAL.DataTable || {};
+// GLOBAL.DataTable.dateParseFunction = function(date) {
+//     if (date.replace(/^\s+|\s+$/g, '').length === 0) { // Strip
+//         return 0;
+//     } else {
+//         return new Date(date).getTime();
+//     }
+// };
 
 // ----------------------- BIND Fuction
 if (!Function.prototype.bind) {

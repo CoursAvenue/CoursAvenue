@@ -1,34 +1,53 @@
-(function() {
-    'use strict';
+/*
+    Usage:
+    .flash{data: {behavior: 'flash'}}
+      message
+*/
+;(function ( $, window, document, undefined ) {
 
-    var objects = GLOBAL.namespace('GLOBAL.Objects');
+    // Create the defaults once
+    var pluginName = "inputUpdater",
+        defaults = {};
 
-    /*
-     * Given an input element, will update a relative element.
-     */
+    // The actual plugin constructor
+    function Plugin( element, options ) {
+        this.element  = element;
+        this.$element = $(element);
 
-    objects.InputUpdater = new Class({
+        // jQuery has an extend method that merges the
+        // contents of two or more objects, storing the
+        // result in the first object. The first object
+        // is generally empty because we don't want to alter
+        // the default options for future instances of the plugin
+        this.options = $.extend( {}, defaults, options) ;
 
-        initialize: function(el, options) {
-            this.to_update = $(el.get('data-element'));
-            this.el = el;
-            this.type = this.el.get('type');
-            this.associated_form = this.to_update.getParent('form');
+        this._defaults = defaults;
+        this._name = pluginName;
+
+        this.init();
+    }
+
+    Plugin.prototype = {
+
+        init: function() {
+            this.to_update       = $(this.$element.data('element'));;
+            this.type            = this.$element.attr('type');
+            this.associated_form = this.to_update.parents('form');
 
             this.submitOnKeyPress();
 
             if (this.type === 'submit') {
-                this.el.addEvent('click', function(event) {
+                this.$element.click(function(event) {
                     this.to_update.click();
                 }.bind(this));
             } else {
-                this.el.addEvent('change', function(event) {
+                this.$element.change(function(event) {
                     switch (this.type) {
                         case 'checkbox':
-                            this.to_update.set('checked', this.el.get('checked'));
+                            this.to_update[0].checked = this.element.checked;
                             break;
                         default:
-                            this.to_update.set('value', this.el.get('value'));
+                            this.to_update.val(this.$element.val());
                             break;
                     }
                 }.bind(this));
@@ -36,20 +55,30 @@
         },
 
         submitOnKeyPress: function() {
-            this.el.addEvent('keypress', function(event) {
-                this.el.fireEvent('change'); // In case the input haven't been focused out
-                if (event.key === 'enter') {
+            this.$element.keypress(function(event) {
+                this.$element.trigger('change'); // In case the input haven't been focused out
+                if (event.keyCode === 13) { // Enter
                     this.associated_form.submit();
                 }
             }.bind(this));
         }
-    });
-})();
+    };
 
+    // A really lightweight plugin wrapper around the constructor,
+    // preventing against multiple instantiations
+    $.fn[pluginName] = function ( options ) {
+        return this.each(function () {
+            if (!$.data(this, "plugin_" + pluginName)) {
+                $.data(this, "plugin_" + pluginName,
+                new Plugin( this, options ));
+            }
+        });
+    }
 
-// Initialize all input-update objects
+})( jQuery, window, document );
+
 $(function() {
-    $$('[data-behavior=input-update]').each(function(el) {
-        new GLOBAL.Objects.InputUpdater(el);
+    $('[data-behavior=input-update]').each(function(index, el) {
+        $(this).inputUpdater();
     });
 });

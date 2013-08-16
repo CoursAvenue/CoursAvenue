@@ -104,7 +104,7 @@
     $(function() {
         $$('.dataTable').each(function(datatable, i) {
             datatable.set('id', 'datatable_' + i)
-            new TableSorter('datatable_' + i, { columnDataTypes: 'string, string, string, string, string, string', cookieName: 'tableSortState__structure_#{@structure.slug}_' + i });
+            $('datatable_' + i).tablesorter();
         })
         if ($('understood__course_status')) {
             $('understood__course_status').addEvent('click', function() {

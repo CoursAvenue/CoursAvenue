@@ -1,54 +1,79 @@
-(function() {
-    'use strict';
+/*
+    Usage:
+    <input  data-behavior='address-picker'
+            data-list='#address-list'
+            data-lng='#address-lng'
+            data-lat='#address-lat' />
+*/
+;(function ( $, window, document, undefined ) {
 
-    var objects = GLOBAL.namespace('GLOBAL.Objects');
+    // Create the defaults once
+    var pluginName = "flash",
+        defaults = {
+            delay             : 10000,
+            animation_duration: 300
+        };
 
-    /*
-     * Given an input element, will update a relative element.
-     */
+    // The actual plugin constructor
+    function Plugin( element, options ) {
+        this.element  = element;
+        this.$element = $(element);
 
-    objects.Flash = new Class({
-        Implements: Options,
+        // jQuery has an extend method that merges the
+        // contents of two or more objects, storing the
+        // result in the first object. The first object
+        // is generally empty because we don't want to alter
+        // the default options for future instances of the plugin
+        this.options = $.extend( {}, defaults, options) ;
 
-        options: {
-            delay: 10000
-        },
+        this._defaults = defaults;
+        this._name = pluginName;
 
-        initialize: function(el, options) {
-            this.setOptions(options);
-            if (typeof el === 'string') {
-                var flash_div = new Element('div.flash.notice');
-                document.body.appendChild(flash_div);
-                this.el = flash_div;
-                this.el.set('text', el);
-            } else {
-                this.el = el;
-            }
-            this.el_height = this.el.getComputedSize().totalHeight;
-            this.el.setStyle('top', - this.el_height);
-            this.morph = new Fx.Morph(this.el);
+        this.init();
+    }
+
+    Plugin.prototype = {
+
+        init: function() {
+            this.el_height = this.$element.outerHeight();
+            this.$element.css('top', - this.el_height);
+            this.showAndHide();
         },
         showAndHide: function() {
             this.show();
-            this.hide.delay(this.options.delay, this);
+            setTimeout(function() {
+                this.hide();
+            }.bind(this), this.options.delay);
         },
         show: function() {
-            return this.morph.start({
-                top: 0
-            });
+            this.$element.animate({
+              top: 0
+            }, this.options.animation_duration, "linear");
         },
         hide: function() {
             var el_height = this.el_height;
-            return this.morph.start({
-                top: -el_height
-            });
+            this.$element.animate({
+              top: -el_height
+            }, this.options.animation_duration, "linear");
         }
-    });
-})();
 
-// Initialize all input-update objects
+    };
+
+    // A really lightweight plugin wrapper around the constructor,
+    // preventing against multiple instantiations
+    $.fn[pluginName] = function ( options ) {
+        return this.each(function () {
+            if (!$.data(this, "plugin_" + pluginName)) {
+                $.data(this, "plugin_" + pluginName,
+                new Plugin( this, options ));
+            }
+        });
+    }
+
+})( jQuery, window, document );
+
 $(function() {
-    $$('[data-behavior=flash]').each(function(el) {
-        new GLOBAL.Objects.Flash(el).showAndHide();
+    $('[data-behavior=flash]').each(function(index, el) {
+        $(this).flash();
     });
 });

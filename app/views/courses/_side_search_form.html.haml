@@ -13,7 +13,7 @@
       km
 
 .text--center{style: 'margin-top: 1em;'}
-  %button.btn--primary.btn{type: 'submit', data: {behavior: 'input-update', element: 'submit_search_form'}}
+  %button.btn--primary.btn{type: 'submit', data: {behavior: 'input-update', element: '#submit_search_form'}}
     %i.icon-search
     Actualiser
 .side-search-panel
@@ -28,13 +28,13 @@
     .search-panel-content{class: (params[:types].empty?) ? 'hide' : ''}
       %ul.check-list
         %li
-          = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "search_lesson_course_type", data: {behavior: 'input-update', element: "hidden_search_lesson_course_type"}
+          = check_box_tag 'types[]', 'lesson', params[:types].include?('lesson'), id: "search_lesson_course_type", data: {behavior: 'input-update', element: "#hidden_search_lesson_course_type"}
           = label_tag 'search_lesson_course_type', 'Cours'
         %li
-          = check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "search_workshop_course_type", data: {behavior: 'input-update', element: "hidden_search_workshop_course_type"}
+          = check_box_tag 'types[]', 'workshop', params[:types].include?('workshop'), id: "search_workshop_course_type", data: {behavior: 'input-update', element: "#hidden_search_workshop_course_type"}
           = label_tag 'search_workshop_course_type', 'Cours-atelier ponctuel'
         %li
-          = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "search_training_course_type", data: {behavior: 'input-update', element: "hidden_search_training_course_type"}
+          = check_box_tag 'types[]', 'training', params[:types].include?('training'), id: "search_training_course_type", data: {behavior: 'input-update', element: "#hidden_search_training_course_type"}
           = label_tag 'search_training_course_type', 'Stage'
 
   //-------------------------------------------------------------------------------------------------------- Price
@@ -47,10 +47,10 @@
         %i.icon-caret-down
     .search-panel-content{class: (params[:price_range][:min].blank? and params[:price_range][:max].blank?) ? 'hide' : ''}
       = label_tag 'search_price_range_min_price', 'De'
-      = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, placeholder: '35', class: 'timepicker-input', data: {behavior: 'input-update', element: 'hidden_search_price_range_min'}
+      = number_field_tag 'price_range[min]', params[:price_range][:min], min: 0, step: 1, placeholder: '35', class: 'timepicker-input', data: {behavior: 'input-update', element: '#hidden_search_price_range_min'}
       €
       = label_tag 'search_price_range_max_price', 'à'
-      = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, placeholder: '100', class: 'timepicker-input', data: {behavior: 'input-update', element: 'hidden_search_price_range_max'}
+      = number_field_tag 'price_range[max]', params[:price_range][:max], min: 0, step: 1, placeholder: '100', class: 'timepicker-input', data: {behavior: 'input-update', element: '#hidden_search_price_range_max'}
       €
   .search-panel
     %h5.search-panel-header.toggleable-header{onclick: "_gaq.push(['_trackEvent', 'Recherche latérale cours', 'click', 'Dates'])", data: {behavior: 'toggleable', el:'+ .search-panel-content'}}
@@ -78,7 +78,7 @@
       %ul.check-list
         - @levels.each_with_index do |level, i|
           %li
-            = check_box_tag 'levels[]', level[:id], params[:levels].include?(level[:id].to_s), id: "search_level_#{level[:name]}", data: {behavior: 'input-update', element: "hidden_search_level_#{level[:name]}"}
+            = check_box_tag 'levels[]', level[:id], params[:levels].include?(level[:id].to_s), id: "search_level_#{level[:name]}", data: {behavior: 'input-update', element: "#hidden_search_level_#{level[:name]}"}
             = label_tag "search_level_#{level[:name]}", t(level[:name])
 
 
@@ -94,7 +94,7 @@
       %ul.check-list
         - @audiences.each_with_index do |audience, i|
           %li
-            = check_box_tag 'audiences[]', audience.id, params[:audiences].include?(audience.id.to_s), id: "search_audience_#{i}", data: {behavior: 'input-update', element: "hidden_search_audience_#{i}"}
+            = check_box_tag 'audiences[]', audience.id, params[:audiences].include?(audience.id.to_s), id: "search_audience_#{i}", data: {behavior: 'input-update', element: "#hidden_search_audience_#{i}"}
             = label_tag "search_audience_#{i}", t(audience.name)
 
   //-------------------------------------------------------------------------------------------------------- Subject
@@ -128,9 +128,9 @@
   /       %i.icon-caret-down
   /   .search-panel-content{class: (params[:age][:min].blank? and params[:age][:max].blank?) ? 'hide' : ''}
   /     = label_tag 'for_min_age', 'De '
-  /     = number_field_tag 'age[min]', params[:age][:min], min: 0, max: 18, step: 1, placeholder: '6', data: {behavior: 'input-update', element: 'hidden_search_age_min'}, id: 'for_min_age'
+  /     = number_field_tag 'age[min]', params[:age][:min], min: 0, max: 18, step: 1, placeholder: '6', data: {behavior: 'input-update', element: '#hidden_search_age_min'}, id: 'for_min_age'
   /     = label_tag 'for_max_age', ' à '
-  /     = number_field_tag 'age[max]', params[:age][:max], min: 0, max: 18, step: 1, placeholder: '10', data: {behavior: 'input-update', element: 'hidden_search_age_max'}, id: 'for_max_age'
+  /     = number_field_tag 'age[max]', params[:age][:max], min: 0, max: 18, step: 1, placeholder: '10', data: {behavior: 'input-update', element: '#hidden_search_age_max'}, id: 'for_max_age'
   /     ans
 
   //-------------------------------------------------------------------------------------------------------- Time slot
@@ -143,10 +143,10 @@
         %i.icon-caret-down
     .search-panel-content{class: (params[:time_range][:min].blank? and params[:time_range][:max].blank?) ? 'hide' : ''}
       = label_tag 'search_time_range_min_time', 'De'
-      %input.timepicker-input{name: 'time_range[min]', value: params[:time_range][:min], placeholder: '19:30', data: {behavior: 'input-update', element: 'hidden_start_time'}}
+      %input.timepicker-input{name: 'time_range[min]', value: params[:time_range][:min], placeholder: '19:30', data: {behavior: 'input-update', element: '#hidden_start_time'}}
       h
       = label_tag 'search_time_range_max_time', 'à'
-      %input.timepicker-input{name: 'time_range[max]', value: params[:time_range][:max], placeholder: '20:30', data: {behavior: 'input-update', element: 'hidden_end_time'}}
+      %input.timepicker-input{name: 'time_range[max]', value: params[:time_range][:max], placeholder: '20:30', data: {behavior: 'input-update', element: '#hidden_end_time'}}
       h
 
 //-------------------------------------------------------------------------------------------------------- Gmaps

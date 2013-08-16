@@ -42,7 +42,6 @@
     });
 })();
 
-// Initialize all input-update objects
 $(function() {
     $$('[data-behavior=read-more]').each(function(el) {
         new GLOBAL.Objects.ReadMore(el);

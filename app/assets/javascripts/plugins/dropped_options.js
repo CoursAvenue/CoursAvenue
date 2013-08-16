@@ -87,7 +87,6 @@
 
 })( jQuery, window, document );
 
-// Initialize all input-update objects
 $(function() {
     $('[data-behavior=dropped-options]').each(function(index, el) {
         $(this).droppedOptions();

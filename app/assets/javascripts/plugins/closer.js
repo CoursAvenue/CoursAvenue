@@ -56,7 +56,6 @@
 
 })( jQuery, window, document );
 
-// Initialize all input-update objects
 $(function() {
     $('[data-behavior=closer]').each(function(index, el) {
         $(this).closer();

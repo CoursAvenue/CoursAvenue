@@ -137,9 +137,9 @@
   :javascript
     $(function() {
       if ($('students-table')) {
-          new TableSorter('students-table', { columnDataTypes: 'string, string, string', cookieName: 'tableSortState__students_recommendation'});
+          $('dataTable').tablesorter();
           $$('#students-table form').addEvent('submit', function() {
-              new GLOBAL.Objects.Flash("L'élève a bien été notifié.").showAndHide();
+              GLOBAL.flash("L'élève a bien été notifié.");
           });
       }
     });

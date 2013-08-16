@@ -42,7 +42,7 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string, string, date, date, string', cookieName: 'tableSortState__users', dateParseFunction: GLOBAL.DataTable.dateParseFunction}) ;
+        $('dataTable').tablesorter();
         new Highcharts.Chart({
             chart: { renderTo: 'users' },
             title: { text: null },

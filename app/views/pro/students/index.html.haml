@@ -29,5 +29,5 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        new TableSorter('dataTable', { columnDataTypes: 'string, date, string, string', cookieName: 'tableSortState__students', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
+        $('dataTable').tablesorter();
     });

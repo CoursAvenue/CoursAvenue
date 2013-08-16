@@ -4,6 +4,9 @@
  table.table--selectable tbody tr {
     @extend .selectable;
 }
+    .tablesorter-header {
+        cursor: pointer;
+    }
 
 /**
  * Striped tables

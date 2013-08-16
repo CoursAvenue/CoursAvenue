@@ -41,5 +41,5 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        new TableSorter('dataTable', { columnDataTypes: 'date, datetime, integer, string, string, string, string', cookieName: 'tableSortState__planning_#{@course.slug}', dateParseFunction: GLOBAL.DataTable.dateParseFunction });
+        $('dataTable').tablesorter();
     });

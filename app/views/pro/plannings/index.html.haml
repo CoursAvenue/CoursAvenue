@@ -34,33 +34,43 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('add-teacher').addEvent('click', function(event) {
+        $('add-teacher').click(function(event) {
             $('add-teacher-wrapper').dispose()
             $('new-teacher-wrapper').show();
         });
         if ($('show-past-planning')) {
-            $('show-past-planning').addEvent('click', function() {
+            $('show-past-planning').click(function() {
                 this.remove();
                 $('past-planning').removeClass('hidden');
             });
         }
-        if ($$('.teacher-select').length > 0) {
-            $$('.teacher-select').each(function(teacher_select){
-                teacher_select.addEvent('change', function() {
-                    teacher_form = this.getParent('form')
-                    teacher_form.send();
-                    new GLOBAL.Objects.Flash('Le professeur a bien été changé').showAndHide();
+        if ($('.teacher-select').length > 0) {
+            $('.teacher-select').each(function(index, teacher_select){
+                $(this).change(function() {
+                    teacher_form = $(this).parents('form')
+                    teacher_form.submit();
+                    GLOBAL.flash('Le professeur a bien été changé.')
                 })
             });
         }
-        if ($$('.place-select').length > 0) {
-            $$('.place-select').each(function(place_select){
-                place_select.addEvent('change', function() {
-                    planning_form = this.getParent('form')
-                    planning_form.send();
-                    new GLOBAL.Objects.Flash('Le lieu a bien été changé').showAndHide();
+        if ($('.place-select').length > 0) {
+            $('.place-select').each(function(index, place_select){
+                $(this).change(function() {
+                    planning_form = $(this).parents('form')
+                    planning_form.submit();
+                    GLOBAL.flash('Le lieu a bien été changé.')
                 })
             });
         }
-
+        if ($('[name="planning[audience_ids][]"]').length > 0) {
+            $('[name="planning[audience_ids][]"]').change(function(event) {
+                if (event.target.value == '1') {
+                    if (event.target.checked) {
+                        $('#children-ages').removeClass('hidden');
+                    } else {
+                        $('#children-ages').addClass('hidden');
+                    }
+                }
+            });
+        }
     });

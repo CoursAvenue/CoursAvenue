@@ -58,7 +58,6 @@
     });
 })();
 
-// Initialize all input-update objects
 $(function() {
     $$('[data-behavior=popover]').each(function(el) {
         new GLOBAL.Objects.Popover(el);

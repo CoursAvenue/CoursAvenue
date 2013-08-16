@@ -66,7 +66,6 @@
     });
 })();
 
-// Initialize all input-update objects
 $(function() {
     $$('[data-behavior=toggleable]').each(function(el) {
         new GLOBAL.Objects.Toggler(el);

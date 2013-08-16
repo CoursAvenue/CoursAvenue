@@ -191,7 +191,6 @@
 
 })( jQuery, window, document );
 
-// Initialize all input-update objects
 $(function() {
     $('[data-behavior=address-picker]').each(function(index, el) {
         $(this).addressPicker();

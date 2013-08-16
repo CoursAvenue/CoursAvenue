@@ -87,7 +87,6 @@
 
 })( jQuery, window, document );
 
-// Initialize all input-update objects
 $(function() {
     $('[data-behavior=drop-down]').each(function(el) {
         $(this).dropDown();

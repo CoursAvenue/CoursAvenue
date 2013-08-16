@@ -11,7 +11,7 @@
 - unless @teachers.empty?
   %hr.push--top
   %h4 Mes professeurs
-  %table.table--striped.table--data#dataTable
+  %table.table--striped.table--data#data-table
     %thead
       %tr
         %th.sortDesc
@@ -34,5 +34,5 @@
   = content_for :scripts do
     :javascript
       $(function() {
-          new TableSorter('dataTable', { columnDataTypes: 'string', cookieName: 'tableSortState__structure_teachers_#{@structure.slug}' });
+          $('#data-table').tablesorter();
       });
