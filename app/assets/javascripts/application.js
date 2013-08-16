@@ -27,19 +27,18 @@
 // require libs/simple-modal
 //= require libs/chosen/chosen
 //= require libs/jquery.tablesorter
+//= require libs/jquery.cookie
+
+//= require libs/fancybox/jquery.fancybox
+//= require_tree ./libs/fancybox/helpers/
+
+//---- Bootstrap plugins
+//= require libs/bootstrap.tooltip
+//= require libs/bootstrap.tab
 
 //---- Highcharts
 //= require libs/highcharts/highcharts
 //= require libs/highcharts/modules/exporting
-
-//---- Lightbox
-// require libs/XtLightbox/XtLightbox.js
-// require libs/XtLightbox/Adaptor.js
-// require libs/XtLightbox/Renderer.js
-// require libs/XtLightbox/Adaptor/Image.js
-// require libs/XtLightbox/Adaptor/YouTube.js
-// require libs/XtLightbox/Adaptor/Vimeo.js
-// require libs/XtLightbox/Renderer/Lightbox.js
 
 //= require zeroclipboard
 
@@ -58,6 +57,9 @@
 //= require plugins/dropped_options
 //= require plugins/flash
 //= require plugins/input_updaters
+//= require plugins/read_more
+//= require plugins/text_counter
+//= require plugins/textarea_resizer
 
 //= require_tree ./gmaps4rails/
 
@@ -144,4 +146,8 @@ $(function() {
     //         GLOBAL.flash('Votre texte à bien été copié');
     //     });
     // });
+    $('[data-behavior=tooltip]').each(function(el) {
+        $(this).tooltip();
+    });
+
 });

@@ -61,18 +61,18 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        var emails_textarea = $('emails');
-        $$('#contact-list li').addEvent('click', function() {
-            if (emails_textarea.get('value').length === 0) {
+        var emails_textarea = $('#emails');
+        $$('#contact-list li').click(function() {
+            if (emails_textarea.val().length === 0) {
               var new_val = this.get('text');
             } else {
-              var new_val = emails_textarea.get('value') + ', ' + this.get('text');
+              var new_val = emails_textarea.val() + ', ' + this.text();
             }
-            emails_textarea.set('value', new_val);
-            emails_textarea.fireEvent('keyup');
+            emails_textarea.val(new_val);
+            emails_textarea.trigger('keyup');
             this.remove();
         });
-        $('emails').addEvent('blur', function() {
-            Cookie.write('emails', this.get('value'));
+        $('#emails').blur(function() {
+            $.cookie('emails', $(this).val());
         });
     });

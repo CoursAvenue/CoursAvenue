@@ -1,4 +1,6 @@
-//*= require 'font-awesome'
+//*= require font-awesome
+// Bootstrap plugins
+//*= require libs/bootstrap.tooltip
 
 // Compass mixins
   @import "compass/css3/background-size";
@@ -21,6 +23,7 @@
  * Libs
  */
   @import "partials/libs/csswizardry-grids";
+
 
 /**
  * Theme objects
@@ -69,10 +72,8 @@
   @import "partials/objects/forms";
   @import "partials/objects/helpers";
   @import "partials/objects/share_buttons";
-  // @import "partials/theme/banner";
 
   @import "partials/objects/address-list";
-  @import "partials/objects/popover";
   @import "partials/objects/course-info";
   @import "partials/objects/planning";
   @import "partials/objects/similar-course";
@@ -100,7 +101,9 @@
   @import "libs/autocomplete";
   @import "libs/simplemodal";
   @import "libs/chosen";
-  @import "libs/Lightbox/style";
+  @import "libs/fancybox/jquery.fancybox";
+  @import "libs/fancybox/helpers/jquery.fancybox-buttons";
+  @import "libs/fancybox/helpers/jquery.fancybox-thumbs";
 
   @import "gmaps4rails";
 

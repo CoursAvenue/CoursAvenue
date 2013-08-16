@@ -44,14 +44,14 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        if ( $('comment_rating').get('value').length > 0
-            || $('comment_content').get('value').length > 0) {
-            $('new-comment').show('slow');
+        if ( $('#comment_rating').val().length > 0
+            || $('#comment_content').val().length > 0) {
+            $('#new-comment').show('slow');
         }
-        $('comment_rating').addEvent('change', function() {
-            Cookie.write('comment_rating', this.get('value'));
+        $('#comment_rating').change(function() {
+            $.cookie('comment_rating', $(this).val());
         });
-        $('comment_content').addEvent('change', function() {
-            Cookie.write('comment_content', this.get('value'));
+        $('#comment_content').change(function() {
+            $.cookie('comment_content', $(this).val());
         });
     });

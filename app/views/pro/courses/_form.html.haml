@@ -93,12 +93,12 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        new GLOBAL.Objects.TextareaResizer($('course_description'));
-        $$('[name=course[type]]').addEvent('change', function() {
-            if (this.get('value') === 'Course::Lesson') {
-                $('recurrency').show('slow');
+        $('#course_description').textareaResizer();
+        $('[name=course[type]]').change(function() {
+            if ($(this).val() === 'Course::Lesson') {
+                $('#recurrency').show('slow');
             } else {
-                $('recurrency').hide('slow');
+                $('#recurrency').hide('slow');
             }
         });
     });

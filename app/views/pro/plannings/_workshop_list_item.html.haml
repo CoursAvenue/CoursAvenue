@@ -15,7 +15,7 @@
 
   %td.text--center
     - if planning.info.present?
-      .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
+      .lbc-brand-icon{data: {behavior: 'tooltip', 'original-title' => planning.info}}
   %td.text--center.hard
     .drop-down-el.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
       %a.btn{href: '#'}

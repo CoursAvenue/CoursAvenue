@@ -27,7 +27,7 @@
       %h5.form-header-group Adresse
       .form-white-box
         = f.simple_fields_for :location do |location_form|
-          = location_form.input :name, label: t('.name'), label_html: { class: 'helper-label', 'data-behavior' => 'popover', 'data-content' => "Si vous avez plus d’un lieu, et pour pouvoir les différencier, renseignez un nom spécifique pour chaque adresse. Par exemple, si l’un de vos 3 lieux se trouve au 34 rue Buffaut, renseignez « Buffaut » ; s’il concerne le gymnase Léo Lagrange, renseignez « Lagrange », etc." }, placeholder: 'Ex. : Gymnase Bercy'
+          = location_form.input :name, label: t('.name'), label_html: { class: 'helper-label', data: {behavior: 'tooltip', 'original-title' => "Si vous avez plus d’un lieu, et pour pouvoir les différencier, renseignez un nom spécifique pour chaque adresse. Par exemple, si l’un de vos 3 lieux se trouve au 34 rue Buffaut, renseignez « Buffaut » ; s’il concerne le gymnase Léo Lagrange, renseignez « Lagrange », etc." }}, placeholder: 'Ex. : Gymnase Bercy'
           = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc'
           .input
             = location_form.label :zip_code
@@ -35,7 +35,7 @@
             = location_form.input :city_id, collection: [@structure.city], label: false
 
 
-    %h5.helper-label.form-header-group{data: { behavior: 'popover', content: 'Coordonnées que les élèves receveront pour faire une réservation' }} Contact pour la réservation
+    %h5.helper-label.form-header-group{data: { behavior: 'tooltip', 'original-title' => 'Coordonnées que les élèves receveront pour faire une réservation' }} Contact pour la réservation
     .form-white-box
       = f.simple_fields_for :contacts do |contact_form|
         = contact_form.input :name

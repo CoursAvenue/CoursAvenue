@@ -1,35 +1,37 @@
-.tab-titles {
+.tabs {
     @extend .nav;
     border-bottom: 1px solid $gray-smooth;
     margin-top   : 1em;
     margin-bottom: 0em;
-}
-    .tab-el {
-        padding     : 0.4em 1em;
-        margin-right: 0.2em;
-        color        : $brand-color;
-        border       : 1px solid $beige-dark; // To prevent size to change on hover
-        //border-bottom-color: $gray-smooth;
-        border-bottom: none;
-        @include border-top-radius(3px);
-        &:hover {
-            background-color: $beige;
-            cursor          : pointer;
-            border          : 1px solid darken($gray-lighter, 5%);
-            text-decoration : none;
+    li {
+        a {
+            padding     : 0.4em 1em;
+            margin-right: 0.2em;
+            color        : $brand-color;
+            border       : 1px solid $beige-dark; // To prevent size to change on hover
+            //border-bottom-color: $gray-smooth;
+            border-bottom: none;
+            @include border-top-radius(3px);
+            &:hover {
+                background-color: $beige;
+                cursor          : pointer;
+                border          : 1px solid darken($gray-lighter, 5%);
+                text-decoration : none;
+            }
         }
-        &.active:hover {
-            background-color: $site-background-color;
-            cursor       : default;
-        }
-        &.active {
+        &.active a {
             color               : black;
             border              : 1px solid $gray-smooth;
             position            : relative;
             top                 : 1px;
             border-bottom-color : $site-background-color;
+            &:hover {
+                background-color: $site-background-color;
+                cursor       : default;
+            }
         }
     }
+}
 
 
 .tab-pane {

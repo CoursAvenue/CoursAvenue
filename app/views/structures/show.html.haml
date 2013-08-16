@@ -108,28 +108,33 @@
 
 
   .grid__item.six-tenths>
-    %ul.tab-titles.flush--top{data: {behavior: 'tabs'}}
-      %li.tab-el.active{class: (@structure.comments_count > 0 ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Avis', 'click', '#{@structure.slug}']);", data: { el: 'tab-comments' }}
-        %i.icon-comments
-        Avis
-      %li.tab-el{class: (@courses.any? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Liste des cours', 'click', '#{@structure.slug}']);", data: { el: 'tab-courses' }}
-        %i.icon-list
-        Cours
-        - if @courses.any?
-          (#{@courses.length})
-      %li.tab-el{class: (@teachers.any? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Profeseurs', 'click', '#{@structure.slug}']);", data: { el: 'tab-teacher' }}
-        %i.icon-group
-        = Teacher.model_name.human(count: @teachers.length)
-        (#{@teachers.length})
-      %li.tab-el{class: (@medias.any? ? '' : 'gray-light' ), onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@structure.slug}']);", data: { el: 'tab-videos' }}
-        %i.icon-youtube-play
-        Photos & vidéos
-        (#{@medias.length})
+    %ul.tabs.flush--top
+      %li.active{class: (@structure.comments_count > 0 ? '' : 'gray-light' )}
+        %a{href: '#tab-comments', onclick: "_gaq.push(['_trackEvent', 'Avis', 'click', '#{@structure.slug}']);", data: {toggle: 'tab'}}
+          %i.icon-comments
+          Avis
+      %li{class: (@courses.any? ? '' : 'gray-light' )}
+        %a{href: '#tab-courses', onclick: "_gaq.push(['_trackEvent', 'Liste des cours', 'click', '#{@structure.slug}']);", data: {toggle: 'tab'}}
+          %i.icon-list
+          Cours
+          - if @courses.any?
+            (#{@courses.length})
+      %li{class: (@teachers.any? ? '' : 'gray-light' )}
+        %a{href: '#tab-teacher', onclick: "_gaq.push(['_trackEvent', 'Profeseurs', 'click', '#{@structure.slug}']);", data: {toggle: 'tab'}}
+          %i.icon-group
+          = Teacher.model_name.human(count: @teachers.length)
+          (#{@teachers.length})
+      %li{class: (@medias.any? ? '' : 'gray-light' )}
+        %a{href: '#tab-videos', onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@structure.slug}']);", data: {toggle: 'tab'}}
+          %i.icon-youtube-play
+          Photos & vidéos
+          (#{@medias.length})
       - if @places.any?
-        %li.tab-el#tab-other-places-li{onclick: "_gaq.push(['_trackEvent', 'Autres lieux', 'click', '#{@structure.slug}']);", data: { el: 'tab-other-places' }}
-          %i.icon-map-marker
-          Lieux des cours
-          (#{@places.length})
+        %li
+          %a#tab-all-places-link{href: '#tab-all-places', onclick: "_gaq.push(['_trackEvent', 'Autres lieux', 'click', '#{@structure.slug}']);", data: {toggle: 'tab'}}
+            %i.icon-map-marker
+            Lieux des cours
+            (#{@places.length})
 
     .tab-content
       %article#tab-comments.tab-pane.active
@@ -191,56 +196,45 @@
             %p.white-box.islet
               Cet établissement n'a pas de photos ou de vidéos.
       - if @places.any?
-        %article#tab-other-places.tab-pane
+        %article#tab-all-places.tab-pane
           = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 15, mapTypeControl: false, :id => 'other_places_map'}, scripts: :none})
           %ul.block-list.white-box
             - @places.each do |other_place|
               %li
-                %b= other_place.location.name
+                %b= other_place.location.try(:name)
                 %br
-                %i= other_place.location.address
+                %i= other_place.location.try(:address)
 
 
 
 = content_for :scripts do
   :javascript
     $(function() {
-        $('write-comment').addEvent('click', function() {
-            $('new-comment').show('slow');
+        $('#write-comment').click(function() {
+            $('#new-comment').show('slow');
         });
         var map_loaded = false;
-        if ($('tab-other-places-li')) {
-            $('tab-other-places-li').addEvent('click', function() {
+        if ($('#tab-all-places-link').length > 0) {
+            $('#tab-all-places-link').click(function() {
                 if (!map_loaded) { Gmaps.load_other_places_map(); map_loaded = true;}
             });
         }
         var description_is_hidden = true;
-        if ($('place-description')) {
-            if($('place-description').scrollHeight < 200) {
-                $('show-more-description').hide();
+        if ($('#place-description')) {
+            if($('#place-description').scrollHeight < 200) {
+                $('#show-more-description').hide();
             }
-            $('show-more-description').addEvent('click', function() {
+            $('#show-more-description').click(function() {
                 if (description_is_hidden) {
-                    $('place-description').setStyle('max-height', 'none');
+                    $('#place-description').css('max-height', 'none');
                     this.set('text', 'Cacher la description');
                 } else {
-                    $('place-description').setStyle('max-height', '200px');
+                    $('#place-description').css('max-height', '200px');
                     this.set('text', 'Voir toute la description');
                 }
                 description_is_hidden = !description_is_hidden;
                 return false;
             });
         }
-        new XtLightbox('.media-gallery a', {
-            adaptors: ['Image', 'YouTube', 'Vimeo'],
-            loop: true,
-            rendererOptions: {
-                positionText: 'Média {x} sur {total}. Utilisez les flèches pour naviguer, échape pour fermer la fenêtre.'
-            },
-            adaptorOptions: {
-                Image: {
-                    lightboxCompat: false
-                }
-            }
-        });
+        $('.media-gallery .media__item').fancybox({ helpers : { media : {} } });
     });

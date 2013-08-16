@@ -21,5 +21,5 @@
             %td.text--center= join_audiences planning
             %td.text--center
               - if planning.info.present?
-                .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
+                .lbc-brand-icon{data: {behavior: 'tooltip', 'original-title' => planning.info}}
     %hr

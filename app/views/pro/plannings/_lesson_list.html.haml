@@ -34,7 +34,7 @@
               = f.input :place_id, as: :select, collection: @places, label_method: lambda {|place| place.location.name}, label: false, input_html: {class: 'place-select'}, wrapper_html: {class: 'flush'}, include_blank: false
           %td.text--center
             - if planning.info.present?
-              .lbc-brand-icon{data: {behavior: 'popover', content: planning.info}}
+              .lbc-brand-icon{data: {behavior: 'tooltip', 'original-title' => planning.info}}
           %td.text--center.hard
             .drop-down-el.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
               %a.btn{href: '#'}
@@ -57,17 +57,10 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $$('.teacher-select').each(function(teacher_select){
-            teacher_select.addEvent('change', function() {
-                teacher_form = this.getParent('form')
-                teacher_form.send();
-                GLOBAL.flash('Le professeur a bien été changé');
-            })
-        });
-        $$('.week-day-select').each(function(week_day_select){
-            week_day_select.addEvent('change', function() {
-                week_day_form = this.getParent('form')
-                week_day_form.send();
+        $('.week-day-select').each(function(index, week_day_select){
+            $(this).change(function() {
+                week_day_form = this.parents('form');
+                week_day_form.submit();
                 GLOBAL.flash('Le jour a bien été changé');
             })
         });

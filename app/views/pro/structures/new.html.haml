@@ -97,9 +97,9 @@
             duration: 800,
             autoplay: true
         });
-        $('structure_zip_code').fireEvent('keyup');
-        $('structure_street').addEvent('blur', function() {
-            Cookie.write('street', this.get('value'));
+        $('#structure_zip_code').trigger('keyup');
+        $('#structure_street').addEvent('blur', function() {
+            $.cookie('street', this.get('value'));
         });
         $$('.comment-list__el a').addEvent('click', function() {
           mixpanel.track('Has seen comments example');

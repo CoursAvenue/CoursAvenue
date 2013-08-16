@@ -112,7 +112,7 @@
                 }
             });
             if ($$('.book-tickets .book-ticket.persisted').length == 0) {
-                $('add-book-ticket').fireEvent('click');
+                $('add-book-ticket').click();
             }
         }
         // ----------- Registration fees
@@ -125,7 +125,7 @@
             }
         });
         if ($$('.registration-fees .registration-fee.persisted').length == 0) {
-            $('add-registration-fee').fireEvent('click');
+            $('add-registration-fee').click();
         }
         // ----------- Prices
         $('add-price').addEvent('click', function() {
@@ -137,6 +137,6 @@
             }
         });
         if ($$('.prices .price.persisted').length == 0) {
-            $('add-price').fireEvent('click');
+            $('add-price').click();
         }
     });

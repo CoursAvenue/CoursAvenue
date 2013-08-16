@@ -10,49 +10,49 @@
           "Excellent !"
         ]
         // Add events on stars
-        $$('.rating .star').addEvent('click', function() {
-            $('comment_rating').set('value', this.get('data-value'));
-            $('comment_rating').fireEvent('change');
-            this.getAllPrevious().addClass('icon-star').removeClass('icon-star-empty');
-            this.addClass('icon-star').removeClass('icon-star-empty');
-            this.getAllNext().removeClass('icon-star').addClass('icon-star-empty');
+        $('.rating .star').click(function() {
+            $('#comment_rating').val($(this).data('value'));
+            $('#comment_rating').trigger('change');
+            $(this).prevAll().addClass('icon-star').removeClass('icon-star-empty');
+            $(this).addClass('icon-star').removeClass('icon-star-empty');
+            $(this).nextAll().removeClass('icon-star').addClass('icon-star-empty');
         });
-        if ($('new-comment')) {
-            $('new-comment').addEvent('submit', function(){
-                if ($('comment_rating').value.length === 0) {
+        if ($('#new-comment')) {
+            $('#new-comment').submit(function(){
+                if ($('#comment_rating').val().length === 0) {
                     GLOBAL.flash('Vous devez mettre une note pour poster un commentaire.');
                     return false;
                 }
             });
         }
         // Add animation on stars
-        $$('.rating .star').addEvents({
-            mouseenter:  function() {
-                $('rating-description').set('text', rating_descriptions[parseInt(this.get('data-value')) - 1]);
-                if ($('comment_rating').value.length === 0 || (parseInt($('comment_rating').value) < parseInt(this.get('data-value')))) {
-                    this.getAllPrevious().addClass('icon-star').removeClass('icon-star-empty');
-                    this.addClass('icon-star').removeClass('icon-star-empty');
-                    this.getAllNext().removeClass('icon-star').addClass('icon-star-empty');
+        $('.rating .star').hover(
+            function() {
+                $('#rating-description').text(rating_descriptions[parseInt($(this).data('value')) - 1]);
+                if ($('#comment_rating').val().length === 0 || (parseInt($('#comment_rating').val()) < parseInt($(this).data('value')))) {
+                    $(this).prevAll().addClass('icon-star').removeClass('icon-star-empty');
+                    $(this).addClass('icon-star').removeClass('icon-star-empty');
+                    $(this).nextAll().removeClass('icon-star').addClass('icon-star-empty');
                 }
             },
-            mouseleave: function() {
-                $$('.rating .star').removeClass('icon-star').addClass('icon-star-empty');
-                if ($('comment_rating').value.length > 0) {
-                    var value = parseInt($('comment_rating').value);
-                    $('rating-description').set('text', rating_descriptions[value - 1]);
+            function() {
+                $('.rating .star').removeClass('icon-star').addClass('icon-star-empty');
+                if ($('#comment_rating').val().length > 0) {
+                    var value = parseInt($('#comment_rating').val());
+                    $('#rating-description').text(rating_descriptions[value - 1]);
                     for (var i = 0; i < value; i += 1) {
-                        $$('.rating .star')[i].addClass('icon-star').removeClass('icon-star-empty');
+                        $($('.rating .star')[i]).addClass('icon-star').removeClass('icon-star-empty');
                     }
                 } else {
-                    $('rating-description').set('text', '');
+                    $('#rating-description').text('');
                 }
             }
-        });
+        );
         // Initialization
-        if ((star = $$('.rating .star[data-value=' + $('comment_rating').get('value') + ']')).length > 0) {
+        if ((star = $('.rating .star[data-value=' + $('#comment_rating').val() + ']')).length > 0) {
             star[0].click();
         }
-        if ($('comment_rating').get('value').length > 0 || $('comment_content').get('value').length > 0) {
-            scrollTo(0, $('comments').offsetTop);
+        if ($('#comment_rating').val().length > 0 || $('#comment_content').val().length > 0) {
+            scrollTo(0, $('#comments').offsetTop);
         }
     });

@@ -61,18 +61,18 @@
 = content_for :scripts do
   :javascript
       $(function() {
-        $$('.filter-select').addEvent('click', function() {
-              $('hidden-sort-input').set('value', this.dataset.value);
-              $('submit_search_form').click();
+        $('.filter-select').click(function() {
+              $('#hidden-sort-input').val(this.dataset.value);
+              $('#submit_search_form').click();
         });
-        $$('[data-type=structure-element]').each(function(structure_element) {
-            structure_element.addEvent('click', function(event) {
+        $('[data-type=structure-element]').each(function(index, structure_element) {
+            $(this).click(function(event) {
                 // Change url only if user doesn't click on link
                 if (event.target.nodeName !== 'A') {
                     if (event.meta || event.control) {
-                        window.open(this.get('data-url'));
+                        window.open(this.dataset.url);
                     } else {
-                        window.location = this.get('data-url');
+                        window.location = this.dataset.url;
                     }
                     return false;
                 }

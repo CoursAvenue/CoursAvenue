@@ -9,8 +9,18 @@
         list-style      : none;
         background-color: white;
         margin          : 0;
-        padding         : 0.5em 2em;
+        padding         : 0.5em 0;
         z-index         : 10;
         text-align      : center;
         @include box-shadow(1px 1px 1px #CCC);
+        a {
+            display: block;
+            padding: 0.25em 2em;
+
+            &:hover {
+                text-decoration : none;
+                background-color: $blue-green;
+                color: white;
+            }
+        }
     }

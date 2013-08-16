@@ -52,7 +52,7 @@
         %td= course.type_name
         %td
           - if (course.is_lesson? and course.end_date.nil?) or (course.end_date and course.end_date < Date.today)
-            .warning-buble{data: {behavior: 'popover', content: 'Les dates renseignées pour se cours sont passées.'}}
+            .warning-buble{data: {behavior: 'tooltip', 'original-title' => 'Les dates renseignées pour se cours sont passées.'}}
               !
           = link_to course.name, edit_pro_course_path(course)
         %td
@@ -102,16 +102,14 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $$('.dataTable').each(function(datatable, i) {
+        $('.dataTable').each(function(datatable, i) {
             datatable.set('id', 'datatable_' + i)
-            $('datatable_' + i).tablesorter();
+            $('#datatable_' + i).tablesorter();
         })
-        if ($('understood__course_status')) {
-            $('understood__course_status').addEvent('click', function() {
-                var today = new Date(), expires = new Date();
-                expires.setTime(today.getTime() + (365*24*60*60*1000*5));
-                Cookie.write('understood__course_status', true, {expires: expires.toGMTString()});
-                $('course-status-info').remove();
+        if ($('#understood__course_status')) {
+            $('#understood__course_status').click(function() {
+                $.cookie('understood__course_status', true, {expires: 10000});
+                $('#course-status-info').remove();
             })
         }
     });

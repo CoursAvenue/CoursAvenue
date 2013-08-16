@@ -138,20 +138,9 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('write-comment').addEvent('click', function() {
-            $('comment_tab').click();
-            $('new-comment').show('slow');
+        $('#write-comment').click(function() {
+            $('#comment_tab').click();
+            $('#new-comment').show('slow');
         });
-        new XtLightbox('.media-gallery a', {
-            adaptors: ['Image', 'YouTube', 'Vimeo'],
-            loop: true,
-            rendererOptions: {
-                positionText: 'Média {x} sur {total}. Utilisez les flèches pour naviguer, échape pour fermer la fenêtre.'
-            },
-            adaptorOptions: {
-                Image: {
-                    lightboxCompat: false
-                }
-            }
-        });
+        $('.media-gallery .media__item').fancybox({ helpers : { media : {} } });
     });
