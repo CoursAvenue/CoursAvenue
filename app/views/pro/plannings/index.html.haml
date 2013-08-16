@@ -4,17 +4,18 @@
   %li= link_to @course.name, edit_pro_course_path(@course)
   %li Planning
 
-%ul.tab-titles{data: {behavior: 'tabs'}}
+%ul.tabs
   %li
-    = link_to edit_pro_course_path(@course), class: 'tab-el' do
+    = link_to edit_pro_course_path(@course) do
       %i.lbc-icon-info i
       Info
   %li
-    = link_to pro_course_prices_path(@course), class: 'tab-el' do
+    = link_to pro_course_prices_path(@course) do
       € Tarif
-  %li.tab-el.active
-    %i.icon-calendar
-    Planning
+  %li.active
+    %a
+      %i.icon-calendar
+      Planning
 
 %h3 Planning du cours
 - if @plannings.any?

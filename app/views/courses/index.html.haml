@@ -31,8 +31,9 @@
         à Paris
 
 
-    %ul.tab-titles
-      %li.tab-el.active Par cours
+    %ul.tabs
+      %li.active
+        %a Par cours
       %li
         - if @subject
           = link_to 'Par établissement', subject_structures_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par établissement', 'click'])"

@@ -4,15 +4,16 @@
   %li= link_to 'Tous mes cours', pro_structure_path(@structure)
   %li= @course.name
 
-%ul.tab-titles{data: {behavior: 'tabs'}}
-  %li.tab-el.active
-    %i.lbc-icon-info i
-    Info
+%ul.tabs
+  %li.active
+    %a
+      %i.lbc-icon-info i
+      Info
   %li
-    = link_to pro_course_prices_path(@course), class: 'tab-el' do
+    = link_to pro_course_prices_path(@course) do
       € Tarif
   %li
-    = link_to pro_course_plannings_path(@course), class: 'tab-el' do
+    = link_to pro_course_plannings_path(@course) do
       %i.icon-calendar
       Planning
 

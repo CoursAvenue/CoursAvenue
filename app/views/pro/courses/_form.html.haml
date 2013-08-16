@@ -94,7 +94,7 @@
   :javascript
     $(function() {
         $('#course_description').textareaResizer();
-        $('[name=course[type]]').change(function() {
+        $('[name="course[type]"]').change(function() {
             if ($(this).val() === 'Course::Lesson') {
                 $('#recurrency').show('slow');
             } else {

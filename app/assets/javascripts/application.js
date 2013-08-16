@@ -18,14 +18,9 @@
 // ---------------------------------- Lib includes
 //= require libs/handlebars
 //= require libs/handlebars-helpers
-// require libs/datepicker/Locale.fr-FR.DatePicker
-// require libs/datepicker/Picker
-// require libs/datepicker/Picker.Attach
-// require libs/datepicker/Picker.Date
-// require libs/datepicker/Picker.Date.Range
 // require libs/autocomplete
 // require libs/simple-modal
-//= require libs/chosen/chosen
+//= require libs/chosen.jquery
 //= require libs/jquery.tablesorter
 //= require libs/jquery.cookie
 
@@ -35,6 +30,7 @@
 //---- Bootstrap plugins
 //= require libs/bootstrap.tooltip
 //= require libs/bootstrap.tab
+//= require libs/bootstrap.datepicker
 
 //---- Highcharts
 //= require libs/highcharts/highcharts

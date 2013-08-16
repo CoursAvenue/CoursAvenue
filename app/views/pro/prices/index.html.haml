@@ -6,15 +6,15 @@
   %li Prix
 
 
-%ul.tab-titles{data: {behavior: 'tabs'}}
+%ul.tabs
   %li
-    = link_to edit_pro_course_path(@course), class: 'tab-el' do
+    = link_to edit_pro_course_path(@course) do
       %i.lbc-icon-info i
       Info
-  %li.tab-el.active
-    € Tarif
+  %li.active
+    %a € Tarif
   %li
-    = link_to pro_course_plannings_path(@course), class: 'tab-el' do
+    = link_to pro_course_plannings_path(@course) do
       %i.icon-calendar
       Planning
 

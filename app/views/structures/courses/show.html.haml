@@ -89,25 +89,31 @@
 
 
   .grid__item.six-tenths>
-    %ul.tab-titles.flush--top{data: {behavior: 'tabs'}}
-      %li.tab-el.active{class: (@course.plannings.any? ? '' : 'gray-light'), data: { el: 'tab-planning' }}
-        %i.icon-calendar
-        Planning
-      %li.tab-el#price_tab{onclick: "_gaq.push(['_trackEvent', 'Infos tarif', 'click', '#{@course.slug}'])", data: { el: 'tab-prices' }}
-        €
-        = t('.prices')
-      %li.tab-el#comment_tab{class: (@course.comments.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Avis', 'click', '#{@course.slug}'])", data: { el: 'tab-comments' }}
-        %i.icon-comments
-        Avis
-      %li.tab-el#description_tab{class: (@course.description.present? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Description cours', 'click', '#{@course.slug}'])", data: { el: 'tab-description' }}
-        %i.icon-list
-        Description
-      %li.tab-el{class: (@course.teachers.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Infos profs', 'click', '#{@course.slug}'])", data: { el: 'tab-teacher' }}
-        %i.icon-group
-        = Teacher.model_name.human(count: @course.teachers.uniq.length)
-      %li.tab-el{class: (@medias.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@structure.slug}']);", data: { el: 'tab-videos' }}
-        %i.icon-youtube-play
-        Photos & vidéos
+    %ul.tabs.flush--top
+      %li
+        %a.active{class: (@course.plannings.any? ? '' : 'gray-light'), href: '#tab-planning', data: {toggle: 'tab'} }}
+          %i.icon-calendar
+          Planning
+      %li#price_tab
+        %a{onclick: "_gaq.push(['_trackEvent', 'Infos tarif', 'click', '#{@course.slug}'])", href: '#tab-prices', data: {toggle: 'tab'} }
+          €
+          = t('.prices')
+      %li#comment_tab
+        %a{class: (@course.comments.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Avis', 'click', '#{@course.slug}'])", href: '#tab-comments', data: {toggle: 'tab'} }
+          %i.icon-comments
+          Avis
+      %li#description_tab
+        %a{class: (@course.description.present? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Description cours', 'click', '#{@course.slug}'])", href: '#tab-description', data: {toggle: 'tab'} }
+          %i.icon-list
+          Description
+      %li
+        %a{class: (@course.teachers.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Infos profs', 'click', '#{@course.slug}'])", href: '#tab-teacher', data: {toggle: 'tab'} }
+          %i.icon-group
+          = Teacher.model_name.human(count: @course.teachers.uniq.length)
+      %li
+        %a{class: (@medias.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Galerie media', 'click', '#{@structure.slug}']);", href: '#tab-videos', data: {toggle: 'tab'} }
+          %i.icon-youtube-play
+          Photos & vidéos
 
     .tab-content
       = render 'planning_tab'
