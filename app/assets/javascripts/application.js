@@ -14,6 +14,7 @@
 
 // ---------------------------------- Core include
 //= require jquery_ujs
+//= require libs/jquery-ui-1.10.3.custom
 
 // ---------------------------------- Lib includes
 //= require libs/handlebars
@@ -56,6 +57,8 @@
 //= require plugins/read_more
 //= require plugins/text_counter
 //= require plugins/textarea_resizer
+//= require plugins/toggler
+//= require plugins/time_range
 
 //= require_tree ./gmaps4rails/
 
