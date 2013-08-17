@@ -19,11 +19,10 @@
 // ---------------------------------- Lib includes
 //= require libs/handlebars
 //= require libs/handlebars-helpers
-// require libs/autocomplete
-// require libs/simple-modal
 //= require libs/chosen.jquery
 //= require libs/jquery.tablesorter
 //= require libs/jquery.cookie
+//= require libs/jquery.cycle.lite
 
 //= require libs/fancybox/jquery.fancybox
 //= require_tree ./libs/fancybox/helpers/
@@ -101,47 +100,18 @@ $(function() {
         $(this).chosen();
     });
 
-    // -------------------------- Modal handler
-    // Options
-    // ------- data:
-    // ------------ width
-    // ------------ title
-    // ------------ el : ID refferring to the content of the modal
-    // $$("[data-behavior=modal]").addEvent("click", function() {
-    //     var width = parseInt(this.get('data-width')) || 500,
-    //         title = this.get('data-title'),
-    //         el    = $(this.get('data-el'));
-    //         ajax  = this.get('data-url') !== null
-    //     var modal = new SimpleModal({
-    //         width: width,
-    //         "onAppend": function() {
-    //             $("simple-modal").fade("hide");
-    //             setTimeout((function(){ $("simple-modal").fade("show")}), 200 );
-    //             var tw = new Fx.Tween($("simple-modal"),{
-    //               duration: 800,
-    //               transition: Fx.Transitions.Cubic.easeOut,
-    //               link: 'cancel',
-    //               property: 'top'
-    //             }).start(-400, 150);
-    //         }
-    //     });
-
-    //   if (ajax) {
-    //     modal.show({
-    //         model: 'modal-ajax',
-    //         title: title,
-    //         param: {
-    //             url: this.get('data-url')
-    //         }
-    //     });
-    //   } else {
-    //     modal.show({
-    //         model: 'modal',
-    //         title: title,
-    //         contents: el.get('html')
-    //     });
-    //   }
-    // });
+    $("[data-behavior=modal]").each(function() {
+        var width  = $(this).data('width') || '70%';
+        var height = $(this).data('height') || '70%';
+        $(this).fancybox({
+                maxWidth    : 800,
+                maxHeight   : 500,
+                fitToView   : false,
+                width       : width,
+                height      : height,
+                autoSize    : true
+        });
+    });
     // $("[data-behavior=copy-to-clipboard]").each(function(index, element) {
     //     var clip = new ZeroClipboard(element);
     //     clip.on('click', function(client) {

@@ -22,8 +22,8 @@ GLOBAL.namespace = function (ns_string) {
     return parent;
 };
 
-GLOBAL.flash = function(text) {
-    var flash = $('<div class="flash">').text(text);
+GLOBAL.flash = function(text, class_name) {
+    var flash = $('<div class="flash ' + class_name + '">').text(text);
     $(document.body).append(flash)
     flash.flash();
 }

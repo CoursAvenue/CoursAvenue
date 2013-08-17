@@ -1,13 +1,14 @@
-.text--center
-  %div= link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook', id: 'facebook_button'
-  .or
-    %span ou
+%div{style: 'max-width: 400px;'}
+  .text--center
+    %div= link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook', id: 'facebook_button'
+    .or
+      %span ou
 
-#form
-  = render 'form'
+  #form
+    = render 'form'
 
-#other_form.hidden
-  = render 'users/sessions/form'
+  #other_form.hidden
+    = render 'users/sessions/form'
 
 
 :javascript
@@ -17,7 +18,7 @@
         $('#user_password').val().length === 0 ||
         $('#user_email').val().length === 0 ||
         $('#user_password').val().length === 0) {
-      GLOBAL.flash('Tous les champs ne sont pas remplis');
+      GLOBAL.flash('Tous les champs ne sont pas remplis', 'alert');
       return false
     }
     return true;

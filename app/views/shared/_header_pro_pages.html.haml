@@ -13,7 +13,7 @@
       %div
         = image_tag 'pages/email_contact.png', height: 10
       %ul.nav.soft-half--top.soft-half--bottom
-        %li= link_to 'CoursAvenue', 'http://www.coursavenue.com', class: 'btn btn--blue btn--small'
+        %li= link_to 'CoursAvenue', root_url(subdomain: 'www'), class: 'btn btn--blue btn--small'
         - if current_pro_admin
           - if current_pro_admin.super_admin?
             %li= link_to 'Espace super admin', pro_dashboard_path, class: 'btn btn--success btn--small'

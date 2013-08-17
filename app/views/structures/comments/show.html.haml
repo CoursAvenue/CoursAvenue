@@ -8,7 +8,7 @@
 .grid
   .grid__item.v-middle.one-half.palm--one-whole.bordered--right.soft--right>
     .soft--left
-      = link_to 'javascript:void(0)', onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: "Rejoignez notre communauté d'élèves !", width: '400px', url: '/users/sign_up'}, class: 'soft--left' do
+      = link_to new_user_registration_path, onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: "Rejoignez notre communauté d'élèves !"}, class: 'fancybox.ajax soft--left' do
         = image_tag 'texts/want_your_avatar.png', width: 400
     %ul.discrete-list
       = render partial: 'comments/comment', locals: { comment: @comment }
@@ -34,19 +34,6 @@
       %div.gray-box.bordered--top.soft-half
         %b= link_to @structure.name, place_path(@place), onclick: "mixpanel.track('See profile after comment')"
 
-    / %p
-    /   = link_to 'Partager sur Twitter', "https://twitter.com/share?url=#{place_url(@structure.places.first)}&text=Je viens de donner mon avis sur #{@structure.name}. Et vous, qu'en pensez-vous ?&via=CoursAvenue", class: 'btn btn--twitter', target: '_blank', onclick: "mixpanel.track('Share after comment', {type: 'Twitter'});"
-
-/ .text--center.push--top
-/   %h3 CoursAvenue c'est 1000+ disciplines et #{Planning.count} séances de cours !
-/   - if @structure.subjects.any?
-/     = link_to subject_courses_path(@structure.subjects.first), class: 'btn btn--blue btn--large', onclick: "mixpanel.track('See other courses after comment');" do
-/       #{@structure.subjects.first.name} : voir d'autres cours
-/   - else
-/     = link_to courses_path(), class: 'btn btn--blue btn--large', onclick: "mixpanel.track('See other courses after comment');" do
-/       Voir d'autres cours
-/   / %div= link_to 'Rejoindre la communauté CoursAvenue', 'javascript:void(0)', class: 'btn btn--blue btn--large', onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: 'Connexion', width: '400px', url: '/users/sign_up'}
-
 #mail-content.hidden
   = render template: 'student_mailer/ask_for_feedbacks'
 
@@ -57,7 +44,7 @@
       var obj = {
         method: 'feed',
         redirect_uri: "#{request.protocol + request.host_with_port + request.fullpath}",
-        link: "#{place_url(@structure.places.first)}",
+        link: "#{structure_url(@structure.places.first)}",
         picture: "#{@logo_url || asset_url('logo.png')}",
         name: "Je viens de donner mon avis sur #{@structure.name}. Et vous, qu'en pensez-vous ?",
         caption: 'CoursAvenue.com',

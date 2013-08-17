@@ -18,7 +18,7 @@
       %div
         = image_tag 'pages/email_contact.png', height: 10
       %ul.nav
-        %li= link_to 'CoursAvenue', 'http://www.coursavenue.com', class: 'header-link'
+        %li= link_to 'CoursAvenue', root_url(subdomain: 'www'), class: 'header-link'
         - if current_pro_admin
           - if current_pro_admin.super_admin?
             %li= link_to 'Espace super admin', pro_dashboard_path, class: 'header-link'

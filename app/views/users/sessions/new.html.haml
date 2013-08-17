@@ -9,17 +9,16 @@
 #other_form.hidden
   = render 'users/registrations/form'
 
-
 :javascript
   $('#show_new_registration_form').click(function(){
-    $('#other_form').removeClass('hidden');
-    $('#form').addClass('hidden');
-    $('#facebook_button').text("S'enregistrer avec Facebook");
+      $('#other_form').removeClass('hidden');
+      $('#form').addClass('hidden');
+      $('#facebook_button').text("S'enregistrer avec Facebook");
   });
 
   $('#show_new_session_form').click(function(){
-    $('#form').removeClass('hidden');
-    $('#other_form').addClass('hidden');
-    $('#facebook_button').text("Se connecter avec Facebook");
+      $('#form').removeClass('hidden');
+      $('#other_form').addClass('hidden');
+      $('#facebook_button').text("Se connecter avec Facebook");
   });
 

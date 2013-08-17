@@ -26,7 +26,7 @@
           %i.icon-ok.delta.green
           %b Gestion en temps réel de toutes vos séances : tarifs, professeurs, horaires, photos, etc.
       .text--center
-        %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'basic-offer-details', title: "Détails de l'offre Basique"}
+        %div= link_to "Détails de l'offre", '#basic-offer-details', data: {behavior: 'modal', title: "Détails de l'offre Basique"}
         = link_to "Je m'inscris", inscription_pro_structures_path, class: 'btn btn--success btn--large', onclick: "ga('send', 'event', 'Pricing', 'click', 'Basique')"
 
   .grid__item.one-third>
@@ -56,8 +56,8 @@
           %i.icon-ok.delta.green
           %b Enquête de satisfaction automatique
       .text--center
-        %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-offer-details', title: "Détails de l'offre Pro"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Pro - détails')"
-        = link_to "Je m'inscris", '#', class: 'btn btn--success btn--large launching-space-button', id: 'price_pro_subscribe', onclick: "ga('send', 'event', 'click', 'Pro')", data: {behavior: 'modal', el: 'launching-space', title: "Espace en cours de création"}
+        %div= link_to "Détails de l'offre", '#pro-offer-details', data: {behavior: 'modal', title: "Détails de l'offre Pro"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Pro - détails')"
+        = link_to "Je m'inscris", '#launching-space', class: 'btn btn--success btn--large launching-space-button', id: 'price_pro_subscribe', onclick: "ga('send', 'event', 'click', 'Pro')", data: {behavior: 'modal', title: "Espace en cours de création"}
 
   .grid__item.one-third>
     .center-block.white-box.islet
@@ -83,8 +83,8 @@
           %i.icon-ok.delta.green
           %b Outils CRM avancés
       .text--center
-        %div= link_to "Détails de l'offre", '#', data: {behavior: 'modal', el: 'pro-plus-offer-details', title: "Détails de l'offre Pro Plus"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Pro plus - détails')"
-        = link_to "Je m'inscris", '#', class: 'btn btn--success btn--large launching-space-button', id: 'price_pro_plus_subscribe', onclick: "ga('send', 'event', 'Pricing', 'click', 'Pro plus')", data: {behavior: 'modal', el: 'launching-space', title: "Espace en cours de création"}
+        %div= link_to "Détails de l'offre", '#pro-plus-offer-details', data: {behavior: 'modal', title: "Détails de l'offre Pro Plus"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Pro plus - détails')"
+        = link_to "Je m'inscris", '#launching-space', class: 'btn btn--success btn--large launching-space-button', id: 'price_pro_plus_subscribe', onclick: "ga('send', 'event', 'Pricing', 'click', 'Pro plus')", data: {behavior: 'modal', title: "Espace en cours de création"}
 
 
 
@@ -146,7 +146,7 @@
 -#         = link_to 'contact@coursavenue.com', 'mailto:contact@coursavenue.com?subject=Question au sujet des offres et tarifs'
 
 #launching-space.hidden
-  %p
+  %p.text--center
     Cet espace est en cours de développement.
     %br
     En attendant, n'hésitez pas à tester l'offre gratuite !
