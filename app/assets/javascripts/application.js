@@ -32,6 +32,8 @@
 //= require libs/bootstrap.tooltip
 //= require libs/bootstrap.tab
 //= require libs/bootstrap.datepicker
+//= require libs/locales/bootstrap.datepicker.fr
+
 
 //---- Highcharts
 //= require libs/highcharts/highcharts
@@ -64,28 +66,29 @@
 
 $(function() {
     var global = GLOBAL.namespace('GLOBAL');
-    // Locale.use('fr-FR');
-    // new Picker.Date($$('[data-behavior=datepicker]'),{ pickerClass: 'datepicker_bootstrap',
-    //                                                    months_abbr: Locale.get('Date.months'),
-    //                                                    days_title: function(date, options){
-    //                                                        return date.format('%B %Y');
-    //                                                    }
-    // });
+    $('[data-behavior=datepicker]').each(function() {
+        $(this).datepicker({
+            format: 'dd/mm/yyyy',
+            weekStart: 1
+        });
+    });
 
-    // $('[data-behavior=datepicker-range]').each(function(el) {
-    //     new Picker.Date(el,{ pickerClass: 'datepicker_bootstrap',
-    //                          months_abbr: Locale.get('Date.months'),
-    //                          days_title: function(date, options){
-    //                              return date.format('%B %Y');
-    //                          }
-    //     });
-    //      if (el.get('data-end-range-el')) {
-    //         var end_range = $(el.get('data-end-range-el'));
-    //         el.addEvent('change', function() {
-    //             end_range.set('value', this.value);
-    //         });
-    //      }
-    // });
+    $('[data-behavior=datepicker-range]').each(function() {
+        $(this).datepicker({
+            format: 'dd/mm/yyyy',
+            weekStart: 1
+        });
+        $(this).on('changeDate', function() {
+            $(this).datepicker('hide');
+        });
+        if ($(this).data('end-range-el')) {
+            var end_range = $($(this).data('end-range-el'));
+            $(this).on('changeDate', function() {
+                end_range.val(this.value);
+                end_range.datepicker('show');
+            });
+         }
+    });
     // global.Scroller = new Fx.Scroll($(document.body), {
     //     wait: false,
     //     duration: 500,

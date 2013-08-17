@@ -90,8 +90,8 @@
 
   .grid__item.six-tenths>
     %ul.tabs.flush--top
-      %li
-        %a.active{class: (@course.plannings.any? ? '' : 'gray-light'), href: '#tab-planning', data: {toggle: 'tab'} }}
+      %li.active
+        %a{class: (@course.plannings.any? ? '' : 'gray-light'), href: '#tab-planning', data: {toggle: 'tab'} }
           %i.icon-calendar
           Planning
       %li#price_tab

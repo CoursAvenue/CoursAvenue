@@ -1,7 +1,6 @@
 //*= require font-awesome
 // Bootstrap plugins
 //*= require libs/bootstrap.tooltip
-//*= require libs/bootstrap.datepicker
 
 // Compass mixins
   @import "compass/css3/background-size";
@@ -98,13 +97,15 @@
   @import "partials/objects/read_more";
   @import "partials/objects/profile";
 
-  @import "libs/datepicker/datepicker_bootstrap";
+  // @import "libs/datepicker/datepicker_bootstrap";
   @import "libs/autocomplete";
   @import "libs/simplemodal";
   @import "libs/chosen";
   @import "libs/fancybox/jquery.fancybox";
   @import "libs/fancybox/helpers/jquery.fancybox-buttons";
   @import "libs/fancybox/helpers/jquery.fancybox-thumbs";
+
+  @import "libs/bootstrap.datepicker";
 
   @import "gmaps4rails";
 
