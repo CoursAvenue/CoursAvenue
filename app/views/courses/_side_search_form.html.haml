@@ -59,11 +59,11 @@
         %i.icon-caret-down
       - else
         %i.icon-caret-left
-    .search-panel-content{class: (params[:start_date].present? or params[:end_date].present? ? '' : 'hidee')}
+    .search-panel-content{class: (params[:start_date].present? or params[:end_date].present? ? '' : 'hide'), data: {behavior: 'date-range', 'start-date' => '#start-date', 'end-date' => '#end-date'}}
       Du
-      %input#start_date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date', data: {behavior: 'datepicker-range', 'end-range-el' => '#end_date'}}
+      %input#start-date{type: 'text', class: 'datepicker-input', value: params[:start_date], name: 'start_date'}
       au
-      %input#end_date{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date', data: {behavior: 'datepicker-range'}}
+      %input#end-date{type: 'text', class: 'datepicker-input', value: params[:end_date], name: 'end_date'}
 
 
 

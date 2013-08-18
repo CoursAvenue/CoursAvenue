@@ -191,24 +191,17 @@
 /* @end */
 /* @group Multi Chosen */
 .chosen-container-multi .chosen-choices {
-  position: relative;
-  overflow: hidden;
-  margin: 0;
-  // padding: 2px 0 3px 0;
-  width: 100%;
-  height: auto !important;
-  height: 1%;
-  // border: 1px solid #aaa;
+  position        : relative;
+  overflow        : hidden;
+  margin          : 0;
+  width           : 100%;
+  height          : auto !important;
+  height          : 1%;
   background-color: #fff;
-  // background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(1%, #eeeeee), color-stop(15%, #ffffff));
-  // background-image: -webkit-linear-gradient(#eeeeee 1%, #ffffff 15%);
-  // background-image: -moz-linear-gradient(#eeeeee 1%, #ffffff 15%);
-  // background-image: -o-linear-gradient(#eeeeee 1%, #ffffff 15%);
-  // background-image: linear-gradient(#eeeeee 1%, #ffffff 15%);
-  cursor: text;
-  border        : 1px solid #ccc;
-  padding       : 2px;
-  vertical-align: middle;
+  cursor          : text;
+  border          : 1px solid #ccc;
+  padding         : 2px;
+  vertical-align  : middle;
   @include box-sizing(border-box);
   @include border-radius(3px);
   @include font-size(14px);

@@ -72,22 +72,6 @@ $(function() {
         });
     });
 
-    $('[data-behavior=datepicker-range]').each(function() {
-        $(this).datepicker({
-            format: 'dd/mm/yyyy',
-            weekStart: 1
-        });
-        $(this).on('changeDate', function() {
-            $(this).datepicker('hide');
-        });
-        if ($(this).data('end-range-el')) {
-            var end_range = $($(this).data('end-range-el'));
-            $(this).on('changeDate', function() {
-                end_range.val(this.value);
-                end_range.datepicker('show');
-            });
-         }
-    });
     // global.Scroller = new Fx.Scroll($(document.body), {
     //     wait: false,
     //     duration: 500,

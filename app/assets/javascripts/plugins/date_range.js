@@ -1,9 +1,11 @@
 /*
     Usage:
-    <input  data-behavior='address-picker'
-            data-list='#address-list'
-            data-lng='#address-lng'
-            data-lat='#address-lat' />
+    <div date-behavior='date-range'
+         data-start-date='#start-date-input'
+         data-end-date='#end-date-input'>
+        <input id='start-date'/>
+        <input id='end-date'/>
+    </div>
 */
 ;(function ( $, window, document, undefined ) {
 
@@ -38,9 +40,22 @@
         },
 
         attachEvents: function() {
-            this.start_date.change(function() {
-                this.end_date.val(this.start_date.val());
-            }.bind(this));
+            this.start_date.datepicker({
+                format: 'dd/mm/yyyy',
+                weekStart: 1
+            });
+            this.end_date.datepicker({
+                format: 'dd/mm/yyyy',
+                weekStart: 1
+            });
+            this.start_date.on('changeDate', function() {
+                $(this).datepicker('hide');
+            });
+            var end_date = this.end_date;
+            this.start_date.on('changeDate', function() {
+                end_date.datepicker('update', this.value);
+                end_date.datepicker('show');
+            });
         }
     };
 
