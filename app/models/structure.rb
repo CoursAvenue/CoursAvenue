@@ -57,7 +57,7 @@ class Structure < ActiveRecord::Base
 
   has_attached_file :image,
                     styles:          { wide: '800x480#', thumb: '200x200#', normal: '450x' },
-                    path: 'assets/structures/:id/image/:fingerprint-:style.:extension'
+                    # path: 'assets/structures/:id/image/:fingerprint-:style.:extension'
                     #convert_options: { wide: '-interlace Line', thumb: '-interlace Line', normal: '-interlace Line' }
 
   belongs_to       :city
