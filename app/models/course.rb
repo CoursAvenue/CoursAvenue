@@ -227,7 +227,7 @@ class Course < ActiveRecord::Base
   handle_asynchronously :solr_index
 
   def locations
-    places.uniq.map(&:location).compact
+    places.map(&:location).compact
   end
 
   def locations_around(latitude, longitude, radius=5)

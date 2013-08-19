@@ -79,10 +79,10 @@
           %b= @structure.name
           %div
             %i.icon-map-marker
-            = readable_address @locations.first
+            = readable_address @structure
         .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
-          %meta{itemprop: 'latitude', content: @locations.first.latitude}
-          %meta{itemprop: 'longitude', content: @locations.first.longitude}
+          %meta{itemprop: 'latitude', content: @structure.latitude}
+          %meta{itemprop: 'longitude', content: @structure.longitude}
 
     .push--top.push--bottom
       = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{course_url(@course)}", class: 'btn--facebook btn one-whole btn--small', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"

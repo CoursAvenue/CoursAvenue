@@ -28,6 +28,7 @@ class Structures::CoursesController < ApplicationController
     @reservation                 = Reservation.new
     @best_price                  = @course.best_price
 
+    la?
     @json_place_address = @locations.to_gmaps4rails do |place, marker|
       marker.title   place.name
       marker.json({ id: place.id })

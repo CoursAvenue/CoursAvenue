@@ -215,12 +215,12 @@
         });
         var map_loaded = false;
         if ($('#tab-all-places-link').length > 0) {
-            $('#tab-all-places-link').click(function() {
+            $('#tab-all-places-link').on('shown', function() {
                 if (!map_loaded) { Gmaps.load_other_places_map(); map_loaded = true;}
             });
         }
         var description_is_hidden = true;
-        if ($('#place-description')) {
+        if ($('#place-description').length > 0) {
             if($('#place-description').scrollHeight < 200) {
                 $('#show-more-description').hide();
             }

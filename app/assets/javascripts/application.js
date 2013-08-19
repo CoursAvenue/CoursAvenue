@@ -48,21 +48,21 @@
 // - http://jqueryboilerplate.com/
 // - https://github.com/jquery-boilerplate/jquery-patterns/
 // - https://github.com/jquery-boilerplate/jquery-boilerplate
-// require_tree ./plugins/
-//= require plugins/address_picker
-//= require plugins/checkbox_list
-//= require plugins/city_autocomplete
-//= require plugins/closer
-//= require plugins/date_range
-//= require plugins/drop_down
-//= require plugins/dropped_options
-//= require plugins/flash
-//= require plugins/input_updaters
-//= require plugins/read_more
-//= require plugins/text_counter
-//= require plugins/textarea_resizer
-//= require plugins/toggler
-//= require plugins/time_range
+//= require_tree ./plugins/
+// require plugins/address_picker
+// require plugins/checkbox_list
+// require plugins/city_autocomplete
+// require plugins/closer
+// require plugins/date_range
+// require plugins/drop_down
+// require plugins/dropped_options
+// require plugins/flash
+// require plugins/input_updaters
+// require plugins/read_more
+// require plugins/text_counter
+// require plugins/textarea_resizer
+// require plugins/toggler
+// require plugins/time_range
 
 //= require_tree ./gmaps4rails/
 
