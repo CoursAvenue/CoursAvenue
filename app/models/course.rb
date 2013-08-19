@@ -203,7 +203,7 @@ class Course < ActiveRecord::Base
       self.structure.image.present?
     end
     boolean :has_admin do
-      !self.structure.main_contact.nil?
+      self.structure.admins.any?
     end
 
     double :approximate_price_per_course

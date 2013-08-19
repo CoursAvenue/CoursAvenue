@@ -12,6 +12,8 @@ class StructureSearch
 
       with :has_picture,  params[:has_picture] if params[:has_picture].present?
 
+      order_by :has_admin, :desc
+      order_by :has_picture, :desc
       if params[:sort] == 'rating_desc'
         order_by :nb_comments, :desc
         order_by :rating, :desc

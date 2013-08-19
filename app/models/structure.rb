@@ -174,6 +174,9 @@ class Structure < ActiveRecord::Base
     boolean :has_picture do
       self.image.present?
     end
+    boolean :has_admin do
+      self.admins.any?
+    end
   end
 
   handle_asynchronously :solr_index
