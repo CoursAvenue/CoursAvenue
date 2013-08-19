@@ -1,4 +1,36 @@
 = side_menu_currently_at "Lieux d'enseignements"
 
 %h3.header-group Édition de #{@place.location.name}
-= render partial: 'form'
+
+.islet
+  = simple_form_for [:pro, @structure, @place] do |f|
+    = f.error_notification
+
+    %h5.form-header-group Adresse
+    .form-white-box
+      - if @place.belongs_to_other_locations?
+        %p.text--center.alert--info
+          %b Vous ne pouvez pas éditer les informations de ce lieu car il est partagé avec d'autres utilisateurs
+          %br
+          Une information est incorrecte ?
+          = link_to 'Contactez-nous.', 'mailto:contact@coursavenue.com'
+      = f.simple_fields_for :location do |location_form|
+        = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: 'Ex. : Gymnase Bercy', disabled: @place.belongs_to_other_locations?
+        = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', disabled: @place.belongs_to_other_locations?, label: Location.human_attribute_name(:street)
+        .input
+          = location_form.label :zip_code, label: Location.human_attribute_name(:zip_code)
+          = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: '#place_location_city_id'} }, label: false, disabled: @place.belongs_to_other_locations?
+          = location_form.input :city_id, collection: [@structure.city], label: false, selected: @place.location.city, disabled: @place.belongs_to_other_locations?
+
+
+    %h5.helper-label.form-header-group{data: { behavior: 'tooltip', 'original-title' => 'Coordonnées que les élèves receveront pour faire une réservation' }} Contact pour la réservation
+    .form-white-box
+      = f.simple_fields_for :contacts do |contact_form|
+        = contact_form.input :name,         label: Contact.human_attribute_name(:name)
+        = contact_form.input :email,        label: Contact.human_attribute_name(:email)
+        = contact_form.input :phone,        label: Contact.human_attribute_name(:phone)
+        = contact_form.input :mobile_phone, label: Contact.human_attribute_name(:mobile_phone)
+
+    .form-actions#submit
+      = f.submit (@place.new_record? ? 'Créer mon lieu' : 'Mettre à jour mon lieu'), class: 'btn btn--success'
+

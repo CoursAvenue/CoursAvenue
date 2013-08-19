@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Structure < ActiveRecord::Base
   acts_as_paranoid
 
@@ -250,7 +251,13 @@ class Structure < ActiveRecord::Base
   end
 
   def create_place(place_name='Adresse principale')
-    location = Location.create(name: place_name, street: self.street, city: self.city, zip_code: self.zip_code)
+    location_street     = self.street.gsub(',', '%').gsub(' ', '%').gsub('é', '%').gsub('è', '%').gsub('ê', '%').strip
+    location_zip_code   = self.zip_code
+    if (loc = Location.where{(name != 'Adresse principale') & (name =~ place_name) & (street =~ location_street) & (zip_code == location_zip_code)}.first)
+      location = loc
+    else
+      location = Location.create(name: place_name, street: self.street, city: self.city, zip_code: self.zip_code)
+    end
     Place.create(structure: self, location: location)
   end
 

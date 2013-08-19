@@ -156,6 +156,7 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+
   def create
     # Prevents from duplicates
     s_name      = params[:structure][:name]
@@ -190,6 +191,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   private
+
   def get_next_wizard
     if params[:next] and session[:current_wizard_id]
       session[:current_wizard_id] += 1

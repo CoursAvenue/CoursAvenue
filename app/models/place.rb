@@ -10,4 +10,9 @@ class Place < ActiveRecord::Base
   accepts_nested_attributes_for :location
 
   attr_accessible :location, :structure, :contacts, :contacts_attributes, :location_attributes
+
+  def belongs_to_other_locations?
+    self.location.places.count > 1
+  end
+
 end

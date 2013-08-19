@@ -1,0 +1,10 @@
+fr:
+  activerecord:
+    models:
+      location: Lieu
+    attributes:
+      location:
+        name: Nom
+        street: Adresse
+        zip_code: Code postal
+        city: Ville
