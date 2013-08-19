@@ -198,6 +198,14 @@ class Course < ActiveRecord::Base
 
     integer :min_price
     integer :max_price
+
+    boolean :has_picture do
+      self.structure.image.present?
+    end
+    boolean :has_admin do
+      !self.structure.main_contact.nil?
+    end
+
     double :approximate_price_per_course
 
     double :rating
