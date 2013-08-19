@@ -19,6 +19,7 @@ gem 'memcachier'
 gem 'dalli'
 gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
 gem 'heroku-api'                , '~> 0.3.9'
+gem 'hirefire-resource'
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'active_hash'                , '~> 1.0.0'

@@ -1,4 +1,5 @@
 class Price < ActiveRecord::Base
+  acts_as_paranoid
   belongs_to :course
 
   before_validation :update_nb_courses

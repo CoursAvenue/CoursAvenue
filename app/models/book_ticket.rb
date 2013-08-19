@@ -1,5 +1,6 @@
 # encoding: utf-8
 class BookTicket < ActiveRecord::Base
+  acts_as_paranoid
   belongs_to :course
 
   attr_accessible :number, :amount, :promo_amount, :validity # in months
