@@ -11,6 +11,7 @@ class StructuresController < ApplicationController
     end
     @city           = @structure.city
     @places         = @structure.places
+    wa?
     @places_address = @structure.locations.to_gmaps4rails
     @courses        = @structure.courses.active
     @teachers       = @structure.teachers

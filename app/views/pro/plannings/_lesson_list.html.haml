@@ -1,6 +1,7 @@
 - has_multiple_teacher = @course.has_multiple_teacher?
 - @plannings.group_by(&:place).each do |place, plannings|
-  %h5= place.location.name
+  - unless place.nil?
+    %h5= place.location.name
   %table.table--striped.table--data#dataTable
     %thead
       %tr
@@ -29,9 +30,9 @@
               = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select'}, wrapper_html: {class: 'flush'}
           %td.text--center= join_levels_text planning
           %td.text--center= join_audiences planning
-          %td.text--center{data: {value: planning.place.location.try(:name)}}
+          %td.text--center{data: {value: (planning.place ? planning.place.location.try(:name) : nil)}}
             = simple_form_for [:pro, @course, planning], remote: true do |f|
-              = f.input :place_id, as: :select, collection: @places, label_method: lambda {|place| place.location.name}, label: false, input_html: {class: 'place-select'}, wrapper_html: {class: 'flush'}, include_blank: false
+              = f.input :place_id, as: :select, collection: @places, label_method: lambda {|place| place.location.name}, label: false, input_html: {class: 'place-select'}, wrapper_html: {class: 'flush'}, include_blank: planning.place.nil?
           %td.text--center
             - if planning.info.present?
               .lbc-brand-icon{data: {behavior: 'tooltip', 'original-title' => planning.info}}

@@ -7,18 +7,19 @@
       %input{type: 'hidden', value: params[:from], name: 'from'}
     = f.error_notification
 
-    .grid.form-white-box#buttons-wrapper
-      .grid__item.one-half>
-        %a.btn.btn--full.btn--blue#find-place Lieu partagé
-      .grid__item.one-half>
-        %a.btn.btn--full#build-place J'ai mon propre lieu
+    - unless @place.errors.any?
+      .grid.form-white-box#buttons-wrapper
+        .grid__item.one-half>
+          %a.btn.btn--full.btn--blue#find-place Lieu partagé
+        .grid__item.one-half>
+          %a.btn.btn--full#build-place J'ai mon propre lieu
 
-    .form-white-box#find-place-container.hidden
-      %p
-        Vérifiez si le lieu existe déjà sur CoursAvenue
-      %input.v-middle#location-autocomplete{placeholder: 'Nom du lieu / Adresse', type: 'text', 'data-list' => 'location-list', autocomplete: 'off', name: 'address_name', value: params[:address_name]}
-      %a#location-does-not-exist.v-middle{href: 'javascript:void(0)'} Le lieu n'existe pas encore
-    #build-place-container.hidden
+      .form-white-box#find-place-container.hidden
+        %p
+          Vérifiez si le lieu existe déjà sur CoursAvenue
+        %input.v-middle#location-autocomplete{placeholder: 'Nom du lieu / Adresse', type: 'text', 'data-list' => 'location-list', autocomplete: 'off', name: 'address_name', value: params[:address_name]}
+        %a#location-does-not-exist.v-middle{href: 'javascript:void(0)'} Le lieu n'existe pas encore
+    #build-place-container{class: @place.errors.any? ? '' : 'hidden'}
       %h5.form-header-group Adresse
       .form-white-box
         = f.simple_fields_for :location do |location_form|
@@ -26,8 +27,8 @@
           = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', label: Location.human_attribute_name(:street)
           .input
             = location_form.label :zip_code, label: Location.human_attribute_name(:zip_code)
-            = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: '#place_location_city_id'} }, label: false
-            = location_form.input :city_id, collection: [@structure.city], label: false
+            = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: '#place_location_attributes_city_id'} }, label: false
+            = location_form.input :city_id, collection: [@structure.city], label: false, selected: @place.location.city
 
 
       %h5.helper-label.form-header-group{data: { behavior: 'tooltip', 'original-title' => 'Coordonnées que les élèves receveront pour faire une réservation' }} Contact pour la réservation
@@ -38,7 +39,7 @@
           = contact_form.input :phone,        label: Contact.human_attribute_name(:phone)
           = contact_form.input :mobile_phone, label: Contact.human_attribute_name(:mobile_phone)
 
-    .form-actions#submit.hidden
+    .form-actions#submit{class: @place.errors.any? ? '' : 'hidden'}
       = f.submit (@place.new_record? ? 'Créer mon lieu' : 'Mettre à jour mon lieu'), class: 'btn btn--success'
 
 = content_for :scripts do

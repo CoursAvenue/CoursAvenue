@@ -20,7 +20,7 @@
         = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', disabled: @place.belongs_to_other_locations?, label: Location.human_attribute_name(:street)
         .input
           = location_form.label :zip_code, label: Location.human_attribute_name(:zip_code)
-          = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: '#place_location_city_id'} }, label: false, disabled: @place.belongs_to_other_locations?
+          = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: '#place_location_attributes_city_id'} }, label: false, disabled: @place.belongs_to_other_locations?
           = location_form.input :city_id, collection: [@structure.city], label: false, selected: @place.location.city, disabled: @place.belongs_to_other_locations?
 
 
