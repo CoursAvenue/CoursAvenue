@@ -24,6 +24,8 @@
 //= require libs/jquery.cookie
 //= require libs/jquery.cycle.lite
 //= require libs/typeahead
+//= require libs/jquery.scrollTo
+//= require libs/jquery.nouislider
 
 //= require libs/fancybox/jquery.fancybox
 //= require_tree ./libs/fancybox/helpers/

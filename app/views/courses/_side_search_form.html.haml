@@ -5,9 +5,8 @@
     = gmaps( {markers: {data: @json_locations_addresses}, map_options: {mapTypeControl: false}})
   .grid--full.map-slider-container
     %label.grid__item.v-middle.three-twelfths.bold> Rayon
-    #radius-slider.grid__item.v-middle.slider.seven-twelfths>
-      #radius-knob.slider--knob
-        .slider--inner-knob
+    .seven-twelfths.grid__item.v-middle>
+      .noUiSlider
     %label.grid__item.v-middle.two-twelfths.text--right.bold
       %span#radius-label-value= params[:radius]
       km
@@ -157,7 +156,7 @@
             for (var i = 0; i <  this.markers.length; ++i) {
                 google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
                     var course_element = $('.course-element[data-location-ids~=' + this.id + ']');
-                    GLOBAL.Scroller.toElement(course_element[0]);
+                    $(document.body).scrollTo(course_element[0], {duration: 400});
                     // Unselect courses if there already are that are selected
                     $('.course-element').removeClass('selected');
                     course_element.addClass('selected');
@@ -173,27 +172,21 @@
                 }.bind(Gmaps.map.markers[i]));
             }
         };
-        // TODO
-        // var radius_hidden_input = $('radius-hidden-input');
-        // var radius_label_value  = $('radius-label-value');
-        // var start = 0;
-        // new Slider('radius-slider', 'radius-knob', {
-        //     range: [1, 50],
-        //     step: 1,
-        //     wheel: false,
-        //     snap: true,
-        //     initialStep: #{params[:radius]},
-        //     onComplete: function(pos){
-        //         start += 1;
-        //         if (start > 2) { // Because the function is triggered twice at beginning...
-        //             $('header-search').submit();
-        //         }
-        //     },
-        //     onChange: function(pos){
-        //         radius_hidden_input.val(pos);
-        //         radius_label_value.set('text', pos);
-        //     }
-        // });
+        var radius_label_value  = $('#radius-label-value');
+        var radius_hidden_input = $('#radius-hidden-input');
+        $('.noUiSlider').noUiSlider({
+            range: [1, 50]
+           ,start: #{params[:radius] || 5}
+           ,step: 1
+           ,margin: 0
+           ,handles: 1
+           ,slide: function(){
+              var value = $(this).val();
+              radius_label_value.text(value);
+              radius_hidden_input.val(value);
+              $('#header-search').submit();
+           }
+        });
         $('#start_date').change(function() {
             $('#hidden_start_date').val(this.value);
         });
