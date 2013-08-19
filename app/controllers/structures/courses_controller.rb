@@ -15,6 +15,7 @@ class Structures::CoursesController < ApplicationController
     @medias             = @structure.medias
     @structure_comments = @structure.comments.order('created_at DESC')
     @locations          = @course.locations
+    @places             = @course.places
     if @course.is_lesson?
       @plannings = @course.plannings.order('week_day ASC, start_time ASC')
     else

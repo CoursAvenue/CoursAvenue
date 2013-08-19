@@ -1,6 +1,10 @@
 %article#tab-teacher.tab-pane
-  - @course.teachers.uniq.each do |teacher|
+  - if @course.teachers.any?
+    - @course.teachers.each do |teacher|
+      %p.white-box.islet
+        %b= teacher.name
+        %br
+        = teacher.description
+  - else
     %p.white-box.islet
-      %b= teacher.name
-      %br
-      = teacher.description
+      Aucun professeur n'est renseigné

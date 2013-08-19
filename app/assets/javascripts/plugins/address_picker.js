@@ -35,6 +35,7 @@
             this.data_list      = $(this.$element.data('list')).hide();
             this.input_lat      = $(this.$element.data('lat'));
             this.input_lng      = $(this.$element.data('lng'));
+            this.input_city     = $(this.$element.data('city'));
             if (typeof google !== 'undefined') {
                 this.geocoder = new google.maps.Geocoder();
             }
@@ -104,6 +105,15 @@
                                     var li = $('<li>').html(address.formatted_address);
                                     li.data('lat', address.geometry.location.lat());
                                     li.data('lat', address.geometry.location.lng());
+                                    // Retrieving city name
+                                    var arrAddress = address.address_components;
+                                    // iterate through address_component array
+                                    $.each(arrAddress, function (i, address_component) {
+                                        if (address_component.types[0] == "locality") {// locality type
+                                            li.data('city', address_component.long_name);
+                                            return false; // break the loop
+                                        }
+                                    });
                                     li.click(function(event) {
                                         address_picker.select.call(address_picker, this);
                                     });
@@ -174,6 +184,7 @@
             var $li_element = $(li_element)
             this.input_lat.val($li_element.data('lat'));
             this.input_lng.val($li_element.data('lng'));
+            this.input_city.val($li_element.data('city'));
             this.$element.val($li_element.text());
         }
     };

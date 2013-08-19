@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :import_mail_callback, :import_mail_callback_failure, :share_my_profile, :get_feedbacks]
-  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_my_profile]
+  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :get_feedbacks]
+  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks]
 
   layout :get_layout
 
@@ -39,14 +39,6 @@ class Pro::StructuresController < Pro::ProController
     @profile_percentage -= 25 if @structure.medias.empty?
     @profile_percentage -= 25 if @comments.empty?
     @profile_percentage -= 25 if @structure.courses.active.count == 0
-  end
-
-  def share_my_profile
-    @structure = Structure.find params[:id]
-  end
-
-  def import_mail_callback_failure
-    redirect_to inscription_pro_structures_path
   end
 
   def get_feedbacks
@@ -120,16 +112,6 @@ class Pro::StructuresController < Pro::ProController
   def edit
     @structure = Structure.find(params[:id])
     @admin     = @structure.admins.first || @structure.admins.build
-  end
-
-  def import_mail_callback
-    if session[:id].present?
-      @structure = Structure.find session[:id]
-    else
-      @structure = Structure.last
-    end
-    @contacts = request.env['omnicontacts.contacts'].reject{|contact| contact[:email].blank?}
-    render action: 'share_my_profile'
   end
 
   def new
@@ -208,7 +190,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def get_layout
-    if action_name == 'new' or action_name == 'create' or action_name == 'import_mail_callback' or action_name == 'share_my_profile'
+    if action_name == 'new' or action_name == 'create'
       'empty'
     else
       'admin'

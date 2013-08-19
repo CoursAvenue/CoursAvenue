@@ -9,11 +9,12 @@
       %p#search-help.white-box--noshadow.hidden{style: 'z-index: 2; line-height: 1.3; padding: 5px 10px; width: 100%; position: absolute;'} Recherchez par intitulé de cours, discipline, nom de structure, etc.
   %div.search-input-wrapper>
     .input-with-icon
-      %input#adress-picker{class: 'search-input', placeholder: 'Où ?', type: 'text', 'data-list' => '#address-list', 'data-behavior' => 'address-picker', 'data-lng' => '#address-lng', 'data-lat' => '#address-lat', autocomplete: 'off', name: 'address_name', value: params[:address_name]}
+      %input#adress-picker{class: 'search-input', placeholder: 'Où ?', type: 'text', data: {list: '#address-list', behavior: 'address-picker', lng: '#address-lng', lat: '#address-lat', city: '#address-city'}, autocomplete: 'off', name: 'address_name', value: params[:address_name]}
       %i.icon-map-marker.delta
       %ul#address-list.address-list.hidden
   %input#address-lat{type: 'hidden', name: 'lat', value: params[:lat]}
   %input#address-lng{type: 'hidden', name: 'lng', value: params[:lng]}
+  %input#address-city{type: 'hidden', name: 'city', value: params[:city]}
 
   = render 'shared/week_day_search'
 
@@ -38,7 +39,7 @@
       });
       $('#search-input').click(function(){
           if (this.value.length === 0) {
-              $('search-help').removeClass('hidden');
+              $('#search-help').removeClass('hidden');
           }
       });
     })

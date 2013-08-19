@@ -16,7 +16,11 @@
           .map-marker-image
             = link_to structure_path(structure) do
               %span= @locations.index(location) + 1
-      .grid__item.width-auto= @structure_locations[structure].map(&:name).uniq.join(', ')
+      -# .grid__item.width-auto= @structure_locations[structure].map(&:name).uniq.join(', ')
+      .grid__item.width-auto.v-middle
+        - if @structure_locations[structure].length > 1
+          = "#{@structure_locations[structure].length} #{Place.model_name.human(count: (@structure_locations[structure].length)).downcase} : "
+        = truncate(@structure_locations[structure].map(&:name).uniq.join(', '), length: 50)
     - if structure.subjects.count > 5
       %ul.nav= join_parent_subjects(structure)
     - else

@@ -15,4 +15,7 @@ class Place < ActiveRecord::Base
     self.location.places.count > 1
   end
 
+  def main_contact
+    self.contacts.first
+  end
 end

@@ -71,10 +71,10 @@
         Gmaps.map.callback = function() {
             for (var i = 0; i <  this.markers.length; ++i) {
                 google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
-                    var place_element = $$('.course-element[data-location-id=' + this.id + ']');
+                    var place_element = $('.course-element[data-location-id=' + this.id + ']');
                     $(document.body).scrollTo(place_element[0], {duration: 400});
                     // Unselect courses if there already are that are selected
-                    $$('.course-element').removeClass('selected');
+                    $('.course-element').removeClass('selected');
                     place_element.addClass('selected');
                 }.bind(Gmaps.map.markers[i]));
             }

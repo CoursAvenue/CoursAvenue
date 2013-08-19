@@ -5,7 +5,7 @@
     %link{rel: 'canonical', href: structures_url}
 
 = content_for :title do
-  = "#{(params[:subject_id] ? "Cours de #{@subject.name.downcase}" : 'Cours')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : 'à Paris')}"
+  = "#{(params[:subject_id] ? "Cours de #{@subject.name.downcase}" : 'Cours')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
 
 
 .grid
@@ -28,6 +28,8 @@
         Établissements
       - if params[:name].present?
         correspondant à : « #{params[:name]} »
+      - elsif params[:city].present?
+        = "à #{params[:city]}"
       - else
         à Paris
 

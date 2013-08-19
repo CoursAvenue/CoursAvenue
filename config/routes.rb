@@ -12,10 +12,6 @@ CoursAvenue::Application.routes.draw do
       match 'pages/offre-et-tarifs'        => 'home#price', as: 'pages_price'
       match 'pages/presse'                 => 'home#press', as: 'pages_press'
       match '/dashboard'                   => 'dashboard#index', as: 'dashboard'
-      # Import contacts
-      match "/contacts/:importer/callback" => "structures#import_mail_callback"
-      match "/contacts/failure"            => "structures#import_mail_callback_failure"
-
       # 301 Redirection
       match 'etablissements/demande-de-recommandations', to: 'redirect#structures_new'
       match 'inscription'                              , to: 'structures#new'
@@ -33,12 +29,9 @@ CoursAvenue::Application.routes.draw do
           put  'disable'
           get  'recommendations', path: 'recommandations'
           post 'get_feedbacks'
-          get  'share_my_profile', path: 'partager-mon-profil'
         end
         collection do
           get 'inscription', to: :new
-          get 'import_mail_callback'
-          get 'import_mail_callback_failure'
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
         resources :comments, only: [:index], controller: 'structures/comments'

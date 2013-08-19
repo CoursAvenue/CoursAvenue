@@ -3,41 +3,43 @@
   %i
     Pour être sûr de bénéficier de tous les avantages, spécifiez que vous venez de CoursAvenue !
 
-/ %h5.flush--bottom Contact :
-/ - if @place.contact_name
-/   %div
-/     %i.icon-user
-/     = @place.contact_name
+- @places.each do |place|
+  %h5.flush--bottom Contact :
+  - if place.main_contact
+    - if place.main_contact.name
+      %div
+        %i.icon-user
+        = place.main_contact.name
 
-/ - if @place.contact_email
-/   %div
-/     %i.icon-envelope
-/     = @place.contact_email
+    - if place.main_contact.email
+      %div
+        %i.icon-envelope
+        = place.main_contact.email
 
-/ - if @place.contact_phone or @place.contact_mobile_phone
-/   %div
-/     %i.icon-phone
-/     = @place.contact_phone
-/     - if @place.contact_phone and @place.contact_mobile_phone
-/       \/
-/     = @place.contact_mobile_phone
+    - if place..main_contact.phone or place.main_contact.phone
+      %div
+        %i.icon-phone
+        = place..main_contact.phone
+        - if place.main_contact.phone and place.main_contact.mobile_phone
+          \/
+        = place.main_contact.mobile_phone
 
-/ - if @structure.website
-/   %div
-/     @
-/     = link_to @structure.website, @structure.website, target: '_blank'
+  - if @structure.website
+    %div
+      @
+      = link_to @structure.website, @structure.website, target: '_blank'
 
-/ %div
-/   %i.icon-map-marker
-/   = @place.address
+  %div
+    %i.icon-map-marker
+    = place.location.address
 
 
-/ - if @course
-/   %h5.push--top.flush--bottom Rappel :
-/   %div
-/     Cours : #{@course.name}
-/   %div
-/     %span.lbl.milli
-/       = @course.type_name_html
-/       - if @course.plannings.any? and @course.plannings.first.duration
-/         = "de #{readable_duration @course.plannings.first.duration}"
+- if @course
+  %h5.push--top.flush--bottom Rappel :
+  %div
+    Cours : #{@course.name}
+  %div
+    %span.lbl.milli
+      = @course.type_name_html
+      - if @course.plannings.any? and @course.plannings.first.duration
+        = "de #{readable_duration @course.plannings.first.duration}"

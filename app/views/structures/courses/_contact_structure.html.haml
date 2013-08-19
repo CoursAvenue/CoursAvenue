@@ -16,7 +16,7 @@
           - else
             (#{t(@best_price.libelle)})
         %br
-        = link_to 'Voir les autres formules', '#price_tab', onclick: "$('price_tab').click()"
+        = link_to 'Voir les autres formules', '#tab-prices', onclick: "$('#price_tab a').tab('show')"
   .grid__item.one-half.v-bottom.text--right>
     %span.lbl.milli
       = @course.type_name_html
@@ -29,9 +29,9 @@
     = form_for @course.reservations.build, remote: true do |f|
       = f.hidden_field :reservable_type
       = f.hidden_field :reservable_id
-      = f.submit "Coordonnées de reservation", class: 'btn btn--success one-whole', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])", data: {behavior: 'modal', title: 'Information pour la réservation du cours', width: '650px', el: 'course_info'}
+      = f.submit "Coordonnées de reservation", href: '#course_info', class: 'btn btn--success one-whole', oonclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])", title: 'Information pour la réservation du cours', data: {behavior: 'modal', width: '650px', el: 'course_info'}
   - else
-    %a.btn.btn--success.one-whole{href: '#', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour accéder aux informations', width: '500px', url: '/users/sign_up'}} Coordonnées de reservation
+    = link_to "Coordonnées de reservation", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax btn btn--success', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Non inscrit'])", title: 'Connectez-vous pour accéder aux informations'
 
 - if current_user
   #course_info.hidden= render 'info_popup'
