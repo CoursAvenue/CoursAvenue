@@ -104,7 +104,7 @@
                                 $.each(results, function(index, address) {
                                     var li = $('<li>').html(address.formatted_address);
                                     li.data('lat', address.geometry.location.lat());
-                                    li.data('lat', address.geometry.location.lng());
+                                    li.data('lng', address.geometry.location.lng());
                                     // Retrieving city name
                                     var arrAddress = address.address_components;
                                     // iterate through address_component array
