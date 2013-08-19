@@ -9,11 +9,12 @@
     %h5.form-header-group Adresse
     .form-white-box
       - if @place.belongs_to_other_locations?
-        %p.text--center.alert--info
-          %b Vous ne pouvez pas éditer les informations de ce lieu car il est partagé avec d'autres utilisateurs
-          %br
-          Une information est incorrecte ?
-          = link_to 'Contactez-nous.', 'mailto:contact@coursavenue.com'
+        .text--center
+          %p.alert--info
+            %b Vous ne pouvez pas éditer les informations de ce lieu car il est partagé avec d'autres utilisateurs
+            %br
+            Une information est incorrecte ?
+            = link_to 'Contactez-nous.', 'mailto:contact@coursavenue.com'
       = f.simple_fields_for :location do |location_form|
         = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: 'Ex. : Gymnase Bercy', disabled: @place.belongs_to_other_locations?
         = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', disabled: @place.belongs_to_other_locations?, label: Location.human_attribute_name(:street)

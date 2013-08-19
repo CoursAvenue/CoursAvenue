@@ -61,15 +61,6 @@
                 %p.course-block-caption
                   Cours & stages pour les 0 à 5 ans
 
-  .text--center.visuallyhidden--palm
-    .newsletter-form
-      %p.inline-paragraph
-        <b>Inscrivez vous</b> à la newsletter et découvrez des classes uniques dans votre ville
-      = simple_form_for Student.new, html: {class: 'inline-form'} do |f|
-        = f.email_field :email, placeholder: t('students.email'), size: 25
-        = f.text_field  :city , placeholder: t('students.city') , size: 17
-        = f.button :submit, t('.validate'), class: 'btn btn--primary'
-
 .main-container
   .grid
     .grid__item.lap--one-whole.palm--one-whole.one-whole>

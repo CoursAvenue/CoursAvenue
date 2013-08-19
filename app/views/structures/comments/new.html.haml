@@ -1,9 +1,6 @@
-- if @structure.image.present? or @structure.places.first.image.present?
+- if @structure.image.present?
   = content_for :meta_image do
-    - if @structure.image.present?
-      = @structure.image.url
-    - elsif @structure.places.first.image.present?
-      = @structure.places.first.image.url
+    = @structure.image.url
 
 - if params.has_key? :facebook
   = content_for :scripts do

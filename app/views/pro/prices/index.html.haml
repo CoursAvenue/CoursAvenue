@@ -95,7 +95,8 @@
     = f.input :price_details, wrapper_html: {class: 'flush--bottom'}, input_html: { name: 'price_details', data: {behavior: 'autoresize' }}
     %p.field-form-info.blue Indiquez tous vos autres tarifs, les tarifs réduits (étudiants, chômeurs, etc.) et les différents modes de financement accetpés (CIF, DIF, Chèques Vacances, Tickets CAF, CESU, AFDAS, etc.).
 
-  %div= f.submit 'Mettre à jour', class: 'btn btn--success'
+    .form-actions
+      = f.submit 'Mettre à jour', class: 'btn btn--success'
 
 
 = content_for :scripts do

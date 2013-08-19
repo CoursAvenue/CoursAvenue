@@ -22,10 +22,10 @@
             = rating_stars @structure.rating
           %meta{property: 'v:rating', itemprop: 'rating', content: @structure.rating}
           %meta{itemprop: 'count', content: @structure.comments_count}
-          %meta{itemprop: 'itemreviewed', content: @place.long_name}
-          %meta{itemprop: 'name', content: @place.long_name}
-          %meta{itemprop: 'street-address', content: @place.street}
-          %meta{itemprop: 'postal-code', content: @place.zip_code}
+          %meta{itemprop: 'itemreviewed', content: @structure.name}
+          %meta{itemprop: 'name', content: @structure.name}
+          %meta{itemprop: 'street-address', content: @structure.street}
+          %meta{itemprop: 'postal-code', content: @structure.zip_code}
         %div
           = @structure.comments_count
           avis

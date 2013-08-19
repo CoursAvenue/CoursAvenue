@@ -2,6 +2,9 @@
     $Input
 \*------------------------------------*/
 
+input[disabled] {
+    color: #888;
+}
 input[type=search] {
     -webkit-appearance: none;
 }
