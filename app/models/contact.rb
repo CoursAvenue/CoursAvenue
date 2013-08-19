@@ -3,5 +3,7 @@ class Contact < ActiveRecord::Base
 
   attr_accessible :name, :phone, :mobile_phone, :email
 
+  validates  :name, presence: true
+
   belongs_to :commentable, polymorphic: true
 end

@@ -35,7 +35,7 @@
             this.select_element = $(this.$element.data('el'));
             this.current_val    = '';
             this.attachEvents();
-            if (this.select_element.val().length === 0) {
+            if (this.select_element.val() && this.select_element.val().length === 0) {
                 this.retrieveCity();
             }
         },

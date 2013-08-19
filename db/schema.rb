@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130818111459) do
+ActiveRecord::Schema.define(:version => 20130819103057) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -129,17 +129,14 @@ ActiveRecord::Schema.define(:version => 20130818111459) do
   create_table "contacts", :force => true do |t|
     t.integer  "contactable_id",   :null => false
     t.string   "contactable_type", :null => false
-    t.string   "type",             :null => false
     t.string   "name"
     t.string   "phone"
     t.string   "mobile_phone"
     t.string   "email"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.time     "deleted_at"
   end
-
-  add_index "contacts", ["contactable_id", "type"], :name => "index_contacts_on_contactable_id_and_type"
-  add_index "contacts", ["contactable_id"], :name => "index_contacts_on_contactable_id"
 
   create_table "courses", :force => true do |t|
     t.string   "type"
@@ -232,34 +229,21 @@ ActiveRecord::Schema.define(:version => 20130818111459) do
   create_table "locations", :force => true do |t|
     t.string   "name"
     t.string   "street"
-    t.text     "info"
     t.string   "zip_code"
-    t.boolean  "has_handicap_access"
-    t.integer  "nb_room"
     t.string   "contact_name"
     t.string   "contact_phone"
     t.string   "contact_mobile_phone"
     t.string   "contact_email"
     t.integer  "structure_id"
     t.integer  "city_id"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
-    t.boolean  "has_cloackroom",         :default => false
-    t.boolean  "has_internet",           :default => false
-    t.boolean  "has_air_conditioning",   :default => false
-    t.boolean  "has_swimming_pool",      :default => false
-    t.boolean  "has_free_parking",       :default => false
-    t.boolean  "has_jacuzzi",            :default => false
-    t.boolean  "has_sauna",              :default => false
-    t.boolean  "has_daylight",           :default => false
     t.string   "slug"
     t.time     "deleted_at"
-    t.text     "description"
-    t.text     "subjects_string"
-    t.text     "parent_subjects_string"
+    t.boolean  "shared"
   end
 
   add_index "locations", ["slug"], :name => "index_places_on_slug", :unique => true

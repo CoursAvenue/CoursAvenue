@@ -3,7 +3,6 @@ class CreateContacts < ActiveRecord::Migration
   def up
     create_table :contacts do |t|
       t.references :contactable, :null => false, :polymorphic => true
-      t.string     :type,        :null => false
 
       t.string     :name
       t.string     :phone
@@ -12,9 +11,6 @@ class CreateContacts < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_index :contacts,  :contactable_id
-    add_index :contacts, [:contactable_id, :type]
   end
 
   def down

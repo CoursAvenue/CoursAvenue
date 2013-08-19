@@ -6,13 +6,6 @@
     .input-with-icon
       %input#search-input{class: 'search-input', placeholder: 'Que voulez-vous faire ?', type: 'search', name: 'name', value: params[:name], autofocus: true, list: 'subject-list', autocomplete: 'off'}
       %i.lbc-subject-icon
-      .aListCon
-        %datalist#subject-list
-          <!--[if IE 9]><select disabled><![endif]-->
-          - cache "all_subjects_#{ENV["ETAG_VERSION_ID"]}" do
-            - Subject.all.each do |subject|
-              %option{value: subject.name}
-          <!--[if IE 9]></select><![endif]-->
       %p#search-help.white-box--noshadow.hidden{style: 'z-index: 2; line-height: 1.3; padding: 5px 10px; width: 100%; position: absolute;'} Recherchez par intitulé de cours, discipline, nom de structure, etc.
   %div.search-input-wrapper>
     .input-with-icon
@@ -34,10 +27,12 @@
 = content_for :scripts do
   :javascript
     $(function() {
-      // var myAutocomplete = new Autocomplete("search-input", {
-      //   useNativeInterface : false,
-      //   srcType : "dom"
-      // });
+      $('#search-input').typeahead([
+        {
+          name: 'subjects',
+          prefetch: '/subjects.json'
+        }
+      ]);
       $('#search-input').blur(function(){
           $('#search-help').addClass('hidden');
       });

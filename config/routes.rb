@@ -37,7 +37,6 @@ CoursAvenue::Application.routes.draw do
         end
         collection do
           get 'inscription', to: :new
-          post 'create_and_get_feedbacks'
           get 'import_mail_callback'
           get 'import_mail_callback_failure'
         end
@@ -118,6 +117,7 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :locations, only: [:index]
+  resources :subjects, only: [:index]
 
   resources :reservations, only: [:create]
 

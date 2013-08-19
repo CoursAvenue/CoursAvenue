@@ -89,7 +89,7 @@ class Structure < ActiveRecord::Base
   before_create    :set_active_to_true
 
   after_create     :set_free_pricing_plan
-  after_create     :create_place
+  # after_create     :create_place
   after_create     :create_courses_relative_to_subject
   after_create     :delay_subscribe_to_mailchimp if Rails.env.production?
 
@@ -249,16 +249,17 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  def create_place(place_name='Adresse principale')
+    location = Location.create(name: place_name, street: self.street, city: self.city, zip_code: self.zip_code)
+    Place.create(structure: self, location: location)
+  end
+
   private
 
   def set_free_pricing_plan
     self.pricing_plan = PricingPlan.where(name: 'free').first unless self.pricing_plan.present?
   end
 
-  def create_place
-    location = Location.create(name: self.city.name, street: self.street, city: self.city, zip_code: self.zip_code)
-    Place.create(structure: self, location: location)
-  end
 
   def create_courses_relative_to_subject
     self.subjects.each do |subject|

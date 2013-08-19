@@ -34,7 +34,7 @@
             Mettez en ligne vos photos & vidéos
 
 
-    = simple_form_for [:pro, @structure], url: create_and_get_feedbacks_pro_structures_path, method: :post do |f|
+    = simple_form_for [:pro, @structure], method: :post do |f|
 
       %h4.flush--bottom Entrez vos informations
       .form-white-box.islet.flush--left
@@ -42,8 +42,10 @@
         %p.field-form-info.blue Si vous êtes un professeur indépendant, entrez votre prénom + nom.
 
         = f.input :contact_email, as: :hidden
-        = f.input :street, input_html: { value: cookies[:street] }, wrapper_html: {class: 'flush--bottom'}
-        %p.field-form-info.blue Si vos cours se situent dans plusieurs lieux, vous pourrez les renseigner depuis votre espace pro.
+        = f.simple_fields_for :location do |location_form|
+          = location_form.input :name, label: "Nom du lieu (ex : Studio bleu)", input_html: { value: 'Adresse principale' }, wrapper_html: {class: 'flush--bottom'}
+          %p.field-form-info.blue Si vos cours se situent dans plusieurs lieux, vous pourrez les renseigner depuis votre espace pro.
+        = f.input :street, input_html: { value: cookies[:street] }
         .input
           = f.label :zip_code
           = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: '#structure_city_id'} }, label: false
@@ -51,7 +53,7 @@
 
         - cache "inscription_subjects_#{ENV["ETAG_VERSION_ID"]}"do
           .visuallyhidden--palm
-            = f.association :subjects , as: :select, collection: Subject.roots.map(&:descendants).flatten, input_html: {style: 'width: 74%;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
+            = f.association :subjects , as: :select, collection: Subject.roots.map(&:descendants).flatten, input_html: {style: 'width: 74%;', data: {behavior: 'chosen', placeholder: 'Selectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
       .push--bottom.text--center
         = f.submit 'Valider', class: 'btn--large btn btn--large btn--success'
   - unless request.path == '/sms'

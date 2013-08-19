@@ -6,7 +6,8 @@ class Pro::PlacesController < InheritedResources::Base
   load_and_authorize_resource :structure, except: [:index]
 
   def new
-    @place = Place.new
+    @place          = Place.new
+    @place.location = Location.new
     @place.contacts.build
   end
 

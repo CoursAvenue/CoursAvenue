@@ -5,7 +5,8 @@ class MergeDuplicateLocations < ActiveRecord::Migration
     Location.all.each do |location|
       location_street = location.street.gsub(',', '%').gsub(' ', '%').gsub('é', '%').gsub('è', '%').gsub('ê', '%').strip
       location_name   = location.name.gsub('é', '%').gsub('è', '%').gsub('ê', '%').strip
-      if (duplicate_locations = Location.where{(name =~ location_name) & (street =~ location_street) & (latitude == location.latitude) & (longitude == location.longitude)}).length > 1
+      # if (duplicate_locations = Location.where{(name != 'Adresse principale') & (name =~ location_name) & (street =~ location_street) & (latitude == location.latitude) & (longitude == location.longitude)}).length > 1
+      if (duplicate_locations = Location.where{(name != 'Adresse principale') & (name =~ location_name) & (street =~ location_street)}).length > 1
         duplicate_locations = duplicate_locations.reject{|l| l == location}
         duplicate_locations.each do |duplicate_location|
           duplicate_location.places do |place|

@@ -68,4 +68,9 @@ select {
     &:hover, &:focus {
         background-color: #DDD;
     }
+    &[disabled] {
+        cursor          : default;
+        color           : #777;
+        background-color: #F4F4F4;
+    }
 }

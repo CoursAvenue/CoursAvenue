@@ -20,14 +20,10 @@ class Location < ActiveRecord::Base
 
 
   attr_accessible :name,
+                  :shared,
                   :street, :zip_code, :city, :city_id,
                   :latitude, :longitude, :gmaps,
-                  :contact_email, :contact_name, :contact_phone, :contact_mobile_phone,
-                  :description,
-                  :info, # Digicode, etc.
-                  :has_handicap_access,
-                  :has_handicap_access, :has_cloackroom, :has_internet, :has_air_conditioning, :has_swimming_pool, :has_free_parking, :has_jacuzzi, :has_sauna, :has_daylight
-
+                  :contact_email, :contact_name, :contact_phone, :contact_mobile_phone
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
     text :name
@@ -35,6 +31,12 @@ class Location < ActiveRecord::Base
     text :zip_code
     text :city do
       self.city.name
+    end
+
+    string :name
+    string :street
+    boolean :shared do
+      name != 'Adresse principale'
     end
   end
 

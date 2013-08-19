@@ -4,6 +4,9 @@ class LocationsController < ApplicationController
   def index
     @locations = Location.search do
       fulltext params[:term]
+
+      with     :shared, true
+
       paginate page: 1, per_page: 20
     end.results
 

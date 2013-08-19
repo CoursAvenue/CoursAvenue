@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :create_and_get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_my_profile, :get_feedbacks]
-  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :create_and_get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_my_profile]
+  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :import_mail_callback, :import_mail_callback_failure, :share_my_profile, :get_feedbacks]
+  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :import_mail_callback, :import_mail_callback_failure, :share_my_profile]
 
   layout :get_layout
 
@@ -156,38 +156,24 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
-  def create_and_get_feedbacks
+  def create
     # Prevents from duplicates
     s_name      = params[:structure][:name]
     s_zip_code  = params[:structure][:zip_code]
     @structure  = Structure.where{(name == s_name) & (zip_code == s_zip_code)}.first
     @structures = Structure.where{(image_updated_at != nil) & (comments_count != nil)}.order('comments_count DESC').limit(8)
+    place_name = params[:structure][:location].delete :name
+    params[:structure].delete :location
     if @structure.nil?
       @structure = Structure.new params[:structure]
     end
     respond_to do |format|
       if !@structure.new_record? or @structure.save
+        @structure.create_place(place_name)
         session[:id] = @structure.id
         format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitation, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
       else
         format.html { render 'pro/structures/new' }
-      end
-    end
-  end
-
-  def create
-    @admin            = ::Admin.new params[:admin]
-    @structure        = Structure.new(params[:structure])
-    @structure.admins << @admin
-    @admin.structure  = @structure
-    respond_to do |format|
-      if @structure.valid? and @admin.valid?
-        @structure.save
-        @admin.save
-        format.html { redirect_to waiting_for_activation_pro_admins_path, notice: 'Un email de confirmation vient de vous être envoyé' }
-      else
-        flash[:alert] = 'Il nous manque quelques informations pour continuer'
-        format.html { render action: 'new'}
       end
     end
   end
@@ -220,7 +206,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def get_layout
-    if action_name == 'new' or action_name == 'create_and_get_feedbacks' or action_name == 'import_mail_callback' or action_name == 'share_my_profile'
+    if action_name == 'new' or action_name == 'create' or action_name == 'import_mail_callback' or action_name == 'share_my_profile'
       'empty'
     else
       'admin'

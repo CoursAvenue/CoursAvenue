@@ -23,6 +23,7 @@
 //= require libs/jquery.tablesorter
 //= require libs/jquery.cookie
 //= require libs/jquery.cycle.lite
+//= require libs/typeahead
 
 //= require libs/fancybox/jquery.fancybox
 //= require_tree ./libs/fancybox/helpers/
