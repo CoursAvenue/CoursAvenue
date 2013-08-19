@@ -60,7 +60,7 @@
     $(function() {
         $('.week-day-select').each(function(index, week_day_select){
             $(this).change(function() {
-                week_day_form = this.parents('form');
+                week_day_form = $(this).parents('form');
                 week_day_form.submit();
                 GLOBAL.flash('Le jour a bien été changé');
             })
