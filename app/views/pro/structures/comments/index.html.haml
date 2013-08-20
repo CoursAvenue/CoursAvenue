@@ -13,8 +13,7 @@
   %i.icon-comments-alt
   Sur mon établissement
 - if @structure_comments.empty?
-  %p
-    Encore aucun commentaire.
+  %p.white-box.islet Encore aucun commentaire.
 - else
   %ul.comment-list
     = render partial: '/comments/comment', collection: @structure_comments
@@ -22,7 +21,7 @@
   %i.icon-comments-alt
   Avis sur mes cours
 - if @courses_comments.empty?
-  %p Encore aucun commentaire.
+  %p.white-box.islet Encore aucun commentaire.
 - else
   - @courses_comments.each do |course, comments|
     %h4.flush--bottom

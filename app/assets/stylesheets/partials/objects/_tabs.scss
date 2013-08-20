@@ -11,11 +11,11 @@
             border-bottom: none;
             @include border-top-radius(3px);
             &:hover {
-                background-color: $beige;
-                cursor          : pointer;
-                border          : 1px solid darken($gray-lighter, 5%);
-                border-bottom   : none;
-                text-decoration : none;
+                background-color   : $beige;
+                cursor             : pointer;
+                border             : 1px solid darken($gray-lighter, 5%);
+                text-decoration    : none;
+                border-bottom-color: $beige;
             }
         }
         &.active a {

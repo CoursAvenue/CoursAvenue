@@ -42,8 +42,6 @@ fr:
     association: Association
     board: Régie ou musée - établissement chargé de la gestion d'un service public
     independant: Indépendant
-    intermittent: Indépendant
-    liberal: Indépendant
     cancel_conditions:
       flexible: "Flexibles : remboursement intégral jusqu’à la veille du cours"
       moderate: "Modérées : remboursement intégral jusqu’à 3 jours avant la date du cours"

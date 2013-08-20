@@ -1,4 +1,4 @@
-= side_menu_currently_at 'Profil'
+= side_menu_currently_at 'Mon profil'
 
 = render partial: 'pro/structures/tabs', locals:{ current: 'établissement'}
 .white-box.islet
@@ -8,9 +8,10 @@
         = image_tag @structure.image.url(:normal)
       - else
         %p.text--center
-          %i Pas de photo de profil
-          %br
-          = link_to 'Ajouter mon image de profil', edit_pro_structure_path(@structure)
+          = link_to edit_pro_structure_path(@structure), style: 'width: 100%; height: 150px; background-color: #555; padding-top: 50px; color: white; display: block;' do
+            Mettre une image
+            %br
+            de profil
     .grid__item.three-fifths.bordered--right>
       %p
         %b= @structure.name
