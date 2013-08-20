@@ -123,7 +123,7 @@ class Structure < ActiveRecord::Base
       subject_array = []
       self.subjects.uniq.each do |subject|
         subject_array << subject
-        subject_array << subject.parent
+        subject_array << subject.parent if subject.parent
       end
       subject_array.uniq.map(&:name)
     end
@@ -140,7 +140,7 @@ class Structure < ActiveRecord::Base
       subject_ids = []
       self.subjects.uniq.each do |subject|
         subject_ids << subject.id
-        subject_ids << subject.parent.id
+        subject_ids << subject.parent.id if subject.parent
       end
       subject_ids.uniq
     end
@@ -149,7 +149,7 @@ class Structure < ActiveRecord::Base
       subject_slugs = []
       self.subjects.uniq.each do |subject|
         subject_slugs << subject.slug
-        subject_slugs << subject.parent.slug
+        subject_slugs << subject.parent.slug if subject.parent
       end
       subject_slugs.uniq
     end

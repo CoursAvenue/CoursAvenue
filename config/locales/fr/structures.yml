@@ -55,6 +55,7 @@ fr:
       strict: "Strictes : pas de modification possible"
     show:
       see_arrounding_structures: Voir les établissements à proximité
+      back_to_results: Retour aux résultats
 
   pro:
     structures:

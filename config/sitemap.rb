@@ -29,12 +29,10 @@ SitemapGenerator::Sitemap.create do
   add root_path, priority: 0.8, changefreq: 'daily'
 
   add courses_path, priority: 0.8, changefreq: 'daily'
-  add places_path, priority: 0.8, changefreq: 'daily'
+  add structures_path, priority: 0.8, changefreq: 'daily'
 
   Structure.all.each do |structure|
-    structure.places.each do |place|
-      add place_path place, changefreq: 'daily'
-    end
+    add structure_path structure, changefreq: 'daily'
   end
   Course.active.all.each do |course|
     add structure_course_path(course.structure, course), lastmod: course.updated_at, priority: 0.8, changefreq: 'daily'
@@ -42,7 +40,7 @@ SitemapGenerator::Sitemap.create do
 
   Subject.all.each do |subject|
     add subject_courses_path(subject), priority: 0.8, changefreq: 'daily'
-    add subject_places_path(subject), priority: 0.8, changefreq: 'daily'
+    add subject_structures_path(subject), priority: 0.8, changefreq: 'daily'
   end
 
   [ pages_why_path,

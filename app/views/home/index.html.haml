@@ -4,13 +4,6 @@
 
 = content_for :above_container do
   .main-container.hard
-    -# %ul.comment-list.flush--bottom#comments-slideshow{style: 'height: 95px; width: 100%; overflow: hidden;'}
-    -#   - @comments.in_groups_of(2, false).each do |comment_group|
-    -#     %li.slideshow__element.islet
-    -#       .grid
-    -#         - comment_group.each do |comment|
-    -#           .grid__item.one-half.palm--one-whole.lap--one-whole>
-    -#             = render partial: 'comments/home_comment', locals: {comment: comment}
   = render 'share_links'
   .home-screen-promotion-wrapper.visuallyhidden--palm
     %section.main-container.home-screen-promotion
@@ -20,8 +13,6 @@
           - @comments.each do |comment|
             .grid__item>
               = render partial: 'comments/home_comment', locals: {comment: comment}
-          -# - cache "map_#{ENV["ETAG_VERSION_ID"]}", public: true do
-          -#   = render 'map_paris'
         .grid__item.palm--one-whole.lap--one-whole.one-half.islet{style: 'min-height: 35em;'}
           %h3.home-title À découvrir ce mois-ci
           .grid--full

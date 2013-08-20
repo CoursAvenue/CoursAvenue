@@ -51,7 +51,6 @@ class Course < ActiveRecord::Base
   # validates :place        , presence: true
   validates :subjects     , presence: true
 
-  before_save :set_structure_if_empty
   before_save :replace_slash_n_r_by_brs
 
   attr_reader :delete_image
@@ -96,7 +95,7 @@ class Course < ActiveRecord::Base
   searchable do
     text :name, :boost => 2
     text :structure_name do
-      self.structure.name
+      self.structure.name if self.structure
     end
 
     text :planning_info do
@@ -111,7 +110,7 @@ class Course < ActiveRecord::Base
       subject_array = []
       subjects.each do |subject|
         subject_array << subject
-        subject_array << subject.parent
+        subject_array << subject.parent if subject.parent
       end
       subject_array.uniq.map(&:name)
     end
@@ -120,7 +119,7 @@ class Course < ActiveRecord::Base
       subject_ids = []
       subjects.each do |subject|
         subject_ids << subject.id
-        subject_ids << subject.parent.id
+        subject_ids << subject.parent.id if subject.parent
       end
       subject_ids.uniq
     end
@@ -129,9 +128,7 @@ class Course < ActiveRecord::Base
       subject_slugs = []
       subjects.each do |subject|
         subject_slugs << subject.slug
-        if subject.parent
-          subject_slugs << subject.parent.slug
-        end
+        subject_slugs << subject.parent.slug if subject.parent
         if subject.parent and subject.parent.parent
           subject_slugs << subject.parent.parent.slug
         end
@@ -200,10 +197,10 @@ class Course < ActiveRecord::Base
     integer :max_price
 
     boolean :has_picture do
-      self.structure.image.present?
+      self.structure.image.present? if self.structure
     end
     boolean :has_admin do
-      self.structure.admins.any?
+      self.structure.admins.any? if self.structure
     end
 
     double :approximate_price_per_course
@@ -419,12 +416,6 @@ class Course < ActiveRecord::Base
     # slugs << self.city.name      if self.city
     slugs << self.structure.name if self.structure
     return slugs
-  end
-
-  def set_structure_if_empty
-    if structure.nil? and place.present?
-      self.structure_id = place.structure_id
-    end
   end
 
   def replace_slash_n_r_by_brs

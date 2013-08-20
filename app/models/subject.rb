@@ -1,6 +1,7 @@
 class Subject < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  # friendly_id :name, use: :slugged
+  friendly_id :name, use: [:slugged, :history]
 
   acts_as_tree
 
@@ -18,8 +19,4 @@ class Subject < ActiveRecord::Base
   scope :children,       where{ancestry != nil}
   scope :best_roots,     where{(ancestry == nil) & (position != nil)}
   scope :non_best_roots, where{(ancestry == nil) & (position == nil)}
-
-  def should_generate_new_friendly_id?
-    new_record?
-  end
 end
