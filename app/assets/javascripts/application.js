@@ -75,12 +75,6 @@ $(function() {
         });
     });
 
-    // global.Scroller = new Fx.Scroll($(document.body), {
-    //     wait: false,
-    //     duration: 500,
-    //     transition: Fx.Transitions.Quad.easeInOut
-    // });
-
     // -------------------------- Chosen
 
     $('[data-behavior=chosen]').each(function() {
@@ -101,12 +95,12 @@ $(function() {
                 autoSize    : true
         });
     });
-    // $("[data-behavior=copy-to-clipboard]").each(function(index, element) {
-    //     var clip = new ZeroClipboard(element);
-    //     clip.on('click', function(client) {
-    //         GLOBAL.flash('Votre texte à bien été copié');
-    //     });
-    // });
+    $("[data-behavior=copy-to-clipboard]").each(function(index, element) {
+        var clip = new ZeroClipboard(element);
+        clip.on('mousedown', function(client) {
+            GLOBAL.flash('Votre texte à bien été copié');
+        });
+    });
     $('[data-behavior=tooltip]').each(function(el) {
         $(this).tooltip();
     });

@@ -2,13 +2,29 @@
   = render 'shared/header_pro'
 
 = content_for :content do
-  .flexbox
-    - if content_for? :side_menu
-      %nav.one.flexbox__item.side-menu.v-top
-        = yield :side_menu
-    .admin-wrapper.flexbox__item.v-top
-      = yield :breadcrumb
-      = content_for?(:admins_content) ? yield(:admins_content) : yield
+  .main-container
+    - if @structure
+      .flexbox.white-box.islet
+        .flexbox__item.v-top{style: 'width: 150px;'}>
+          - if @structure.image?
+            = image_tag @structure.image, width: 120
+          - else
+            .text--center= link_to 'Mettre une image de profil', edit_pro_structure_path(@structure)
+        .flexbox__item.v-top>
+          %h4.push-half--bottom= @structure.name
+          %span.v-middle
+            = link_to structure_url(@structure, subdomain: 'www'), class: 'btn btn--small v-middle', target: '_blank' do
+              %i.icon-external-link.v-middle
+              %span.v-middle Voir mon profil public
+            = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_url(@structure, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
+
+    .flexbox
+      - if content_for? :side_menu
+        %nav.one.flexbox__item.v-top.side-menu.white-box
+          = yield :side_menu
+      .admin-wrapper.flexbox__item.v-top.hard--top
+        = yield :breadcrumb
+        = content_for?(:admins_content) ? yield(:admins_content) : yield
 
 
 = render :template => 'layouts/application'

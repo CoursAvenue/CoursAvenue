@@ -2,13 +2,11 @@
 
 %h2 Liste des admins
 
-%table.table--striped.table--data#dataTable
+%table.table--striped.table--data.white-box#dataTable
   %thead
     %tr
       %th
         %span Nom
-      %th
-        %span Email
       %th
         %span Établissements
       %th
@@ -19,7 +17,7 @@
         %span Téléphone
       %th
         %span Date d'inscription
-      %th
+      %th.hidden
         %span Dernière date de connexion
       %th
   %tbody
@@ -27,8 +25,7 @@
       %tr
         %td
           = link_to (admin.name || ''), edit_pro_admin_path(admin)
-        %td
-          = link_to admin.email, "mailto:#{admin.email}"
+          = link_to "(#{admin.email})", "mailto:#{admin.email}"
         %td= link_to admin.structure.name, dashboard_pro_structure_path(admin.structure) if admin.structure
         %td
           - if admin.structure
@@ -42,7 +39,7 @@
         %td= admin.phone_number if admin.phone_number
         %td{data: {value: admin.created_at}}
           = l(admin.created_at, format: :date_short)
-        %td{data: {value: admin.last_sign_in_at}}
+        %td.hidden{data: {value: admin.last_sign_in_at}}
           = l(admin.last_sign_in_at) if admin.last_sign_in_at
         %td.text--right.nowrap
           - if admin.confirmed?
@@ -51,7 +48,7 @@
           - else
             = link_to 'Inactif', confirm_pro_admin_path(admin), class: 'switch-button off', method: :put
           &nbsp;
-          = link_to edit_pro_admin_path(admin), title: 'Éditer', class: 'btn btn--warning' do
+          = link_to edit_pro_admin_path(admin), title: 'Modifier', class: 'btn btn--warning' do
             %i.icon-pencil
           &nbsp;
           = link_to pro_admin_path(admin), method: :delete, title: 'Supprimer', class: 'btn btn--danger', data: {confirm: 'Êtes-vous sur de supprimer cet admin et TOUS ses cours ?'} do

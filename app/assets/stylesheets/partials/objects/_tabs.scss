@@ -1,8 +1,7 @@
 .tabs {
     @extend .nav;
     border-bottom: 1px solid $gray-smooth;
-    margin-top   : 1em;
-    margin-bottom: 0em;
+    margin       : 0em;
     li {
         a {
             padding     : 0.4em 1em;

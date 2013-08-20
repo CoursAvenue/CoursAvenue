@@ -1,6 +1,15 @@
-= side_menu_currently_at 'Recommandations'
+= side_menu_currently_at "Mes avis"
+%ul.tabs
+  %li
+    = link_to pro_structure_comments_path(@structure) do
+      %i.icon-comments
+      Mes avis
+  %li.active
+    = link_to recommendations_pro_structure_path(@structure) do
+      %i.icon-bullhorn
+      Demander des recommandations
 
-%h5.home-title
+%h5.home-title.push--top
   %i.icon-bullhorn.v-middle
   %span.v-middle 3 manières efficaces d'être recommandé
 .grid--full.text--center.push--top
@@ -66,7 +75,7 @@
             .grid__item.v-middle.width-auto
               = submit_tag 'Envoyer ma demande', class: 'btn btn--success'
             .grid__item.v-middle.width-auto
-              = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue", width: '700px', el: 'mail-content'}
+              = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', href: '#mail-content', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue"}
     .grid__item.one-half.bordered--left>
       %h5
         %span.v-middle Soit en envoyant vous-même un email

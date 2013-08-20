@@ -1,11 +1,11 @@
-= side_menu_currently_at 'Mes photos & vidéos'
+= side_menu_currently_at 'Profil'
+= render partial: 'pro/structures/tabs', locals:{ current: 'medias'}
 
 %h5.form-header-group Ajoutez une vidéo / photo
 = render 'form'
 
 - if @medias.any?
   %hr
-  %h4 Mes médias
   .grid.media-gallery
     - @medias.in_groups_of(3, false).each do |media_group|
       - media_group.each do |media|

@@ -77,7 +77,7 @@
       .bordered--left.soft--left
         %h4 Derniers avis sur cet établissement
         %ul.comment-list.milli
-          = render partial: 'comments/comment', collection: @comments
+          = render partial: 'comments/comment', collection: @comments, locals: {small_avatar: true}
 
 
 

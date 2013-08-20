@@ -1,33 +1,27 @@
 %header.header.header--pro
-  .grid--full
-    .grid__item.two-thirds>
-      .grid
-        = link_to root_path, class: 'logo grid__item inline-block v-middle' do
-          = image_tag 'logo_pro.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
-        - if @structure and !@structure.new_record?
-          %h2.grid__item.width-auto.flush--bottom.v-middle{title: @structure.name}
-            %span.v-middle= truncate(@structure.name, length: 50)
-            %span.v-middle
-              = link_to structure_url(@structure, subdomain: 'www'), class: 'btn btn--blue btn--small push-half--left v-middle', target: '_blank' do
-                %i.icon-external-link.v-middle
-                %span.v-middle Voir mon profil
-    %nav.grid__item.one-third.text--right
-      %div
-        %i.icon-phone-sign.orange.icon-2x
-        = image_tag 'pages/phone_number.png', height: 19
-      %div
-        = image_tag 'pages/email_contact.png', height: 10
-      %ul.nav
-        %li= link_to 'CoursAvenue', root_url(subdomain: 'www'), class: 'header-link'
-        - if current_pro_admin
-          - if current_pro_admin.super_admin?
-            %li= link_to 'Espace super admin', pro_dashboard_path, class: 'header-link'
-          - elsif current_pro_admin.structure.present?
-            %li= link_to 'Tableau de bord', dashboard_pro_structure_path(current_pro_admin.structure), class: 'header-link'
-          %li= link_to 'Se déconnecter', destroy_pro_admin_session_path, class: 'header-link', method: :delete
-        - else
-          %li
-            = link_to new_pro_admin_session_path, class: 'header-link' do
-              %i.icon-signin
-              Se connecter
+  .main-container.hard
+    .grid--full
+      .grid__item.two-thirds>
+        .grid
+          = link_to root_path, class: 'logo grid__item inline-block v-middle' do
+            = image_tag 'logo_pro.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
+      %nav.grid__item.one-third.text--right
+        %div
+          %i.icon-phone-sign.orange.icon-2x
+          = image_tag 'pages/phone_number.png', height: 19
+        %div
+          = image_tag 'pages/email_contact.png', height: 10
+        %ul.nav
+          %li= link_to 'CoursAvenue', root_url(subdomain: 'www'), class: 'header-link'
+          - if current_pro_admin
+            - if current_pro_admin.super_admin?
+              %li= link_to 'Espace super admin', pro_dashboard_path, class: 'header-link'
+            - elsif current_pro_admin.structure.present?
+              %li= link_to 'Tableau de bord', dashboard_pro_structure_path(current_pro_admin.structure), class: 'header-link'
+            %li= link_to 'Se déconnecter', destroy_pro_admin_session_path, class: 'header-link', method: :delete
+          - else
+            %li
+              = link_to new_pro_admin_session_path, class: 'header-link' do
+                %i.icon-signin
+                Se connecter
 

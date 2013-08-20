@@ -62,7 +62,6 @@
 
 .side-menu {
     width           : 250px;
-    background-color: darken($beige-dark, 7%);
     ul {
         list-style: none;
         margin    : 0;
@@ -73,18 +72,19 @@
                 font-weight : bold;
             }
             &:hover {
-                background-color: $beige-darker;
+                background-color: lighten($blue, 50%);
             }
             &.active, &.active:hover {
-                background-color: darken($beige-darker, 7%);
-                box-shadow      : inset 0px 0px 10px darken($beige-darker, 7%);
-                border-right    : 3px solid darken($beige-darker, 30%);
+                background-color   : $blue;
+                box-shadow         : inset 0px 0px 10px darken($blue, 4%);
+                border-right       : 3px solid darken($blue, 10%);
+                border-bottom-color: darken($blue, 4%);
+                a { color: white; }
             }
-            border-bottom: 1px solid darken($beige-darker, 10%);
+            border-bottom: 1px solid #DDD;
             a {
                 & { text-decoration: none; }
-                color       : darken($beige-darker, 40%);
-                text-shadow : 1px 1px 1px darken($beige-darker, 7%);;
+                color       : #555;
                 display     : block;
                 padding     : 1em;
             }

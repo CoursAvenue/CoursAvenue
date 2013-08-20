@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130820095911) do
+ActiveRecord::Schema.define(:version => 20130820132301) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -143,8 +143,8 @@ ActiveRecord::Schema.define(:version => 20130820095911) do
     t.string   "name"
     t.string   "frequency"
     t.text     "description"
-    t.boolean  "is_promoted",                 :default => false
-    t.boolean  "has_online_payment",          :default => false
+    t.boolean  "is_promoted",               :default => false
+    t.boolean  "has_online_payment",        :default => false
     t.text     "info"
     t.text     "registration_date"
     t.boolean  "is_individual"
@@ -158,13 +158,9 @@ ActiveRecord::Schema.define(:version => 20130820095911) do
     t.text     "refund_condition"
     t.boolean  "can_be_joined_during_year"
     t.integer  "structure_id"
-    t.datetime "created_at",                                     :null => false
-    t.datetime "updated_at",                                     :null => false
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
     t.string   "slug"
-    t.string   "homepage_image_file_name"
-    t.string   "homepage_image_content_type"
-    t.integer  "homepage_image_file_size"
-    t.datetime "homepage_image_updated_at"
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
@@ -174,7 +170,7 @@ ActiveRecord::Schema.define(:version => 20130820095911) do
     t.date     "start_date"
     t.date     "end_date"
     t.integer  "room_id"
-    t.boolean  "active",                      :default => false
+    t.boolean  "active",                    :default => false
     t.time     "deleted_at"
     t.decimal  "rating"
     t.text     "subjects_string"

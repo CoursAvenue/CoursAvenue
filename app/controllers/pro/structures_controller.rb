@@ -58,25 +58,6 @@ class Pro::StructuresController < Pro::ProController
     @structures           = Structure.where{id.not_in structure_with_admin}.order('name ASC').all
   end
 
-  def disable_condition
-    @structure        = Structure.find params[:id]
-    @structure.update_attribute :has_validated_conditions, false
-    @structure.update_attribute :validated_by, nil
-    respond_to do |format|
-      format.html { redirect_to awaiting_pro_structures_path }
-    end
-  end
-
-  def validate_condition
-    @structure        = Structure.find params[:id]
-    respond_to do |format|
-      if @structure.update_attributes params[:structure]
-        format.html { redirect_to pro_structure_path(@structure), notice: "Nous avons bien été avertis. Nous revenons vers vous dans les meilleurs délais." }
-      else
-        format.html { redirect_to edit_pro_structure_path(@structure), alert: "Vous devez remplir toutes vos informations" }
-      end
-    end
-  end
 
   def activate
     @structure        = Structure.find params[:id]
@@ -130,7 +111,7 @@ class Pro::StructuresController < Pro::ProController
 
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
-        format.html { redirect_to edit_pro_structure_path(@structure), notice: 'Vos informations ont bien été mises à jour.' }
+        format.html { redirect_to pro_structure_path(@structure), notice: 'Vos informations ont bien été mises à jour.' }
         format.js { render nothing: true }
       else
         format.html { render action: 'edit' }

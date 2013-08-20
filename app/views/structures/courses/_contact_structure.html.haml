@@ -29,9 +29,9 @@
     = form_for @course.reservations.build, remote: true do |f|
       = f.hidden_field :reservable_type
       = f.hidden_field :reservable_id
-      = f.submit "Coordonnées de reservation", href: '#course_info', class: 'btn btn--success one-whole', oonclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])", title: 'Information pour la réservation du cours', data: {behavior: 'modal', width: '650px', el: 'course_info'}
+      = f.submit "Coordonnées de reservation", href: '#course_info', class: 'btn btn--success btn--full', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])", title: 'Information pour la réservation du cours', data: {behavior: 'modal', width: '650px', el: 'course_info'}
   - else
-    = link_to "Coordonnées de reservation", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax btn btn--success', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Non inscrit'])", title: 'Connectez-vous pour accéder aux informations'
+    = link_to "Coordonnées de reservation", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax btn btn--success btn--full', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Non inscrit'])", title: 'Connectez-vous pour accéder aux informations'
 
 - if current_user
   #course_info.hidden= render 'info_popup'

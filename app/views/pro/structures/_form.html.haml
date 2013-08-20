@@ -1,18 +1,21 @@
 %h1.header-group
   %i.icon-user
-  Profil
+  Édition du profil
 .islet
-  = simple_form_for [:pro, @structure], html: { autocomplete: 'off' } do |structure_form|
+  = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |structure_form|
     .form-inputs
       %h5.form-header-group
         %i.icon-picture
         Image / Logo
       .form-white-box
-        - unless @structure.new_record? || !@structure.image?
-          .input
-            = structure_form.label :image, class: 'v-top'
-            = image_tag @structure.image.url(:thumb), height: 200
-          = structure_form.input :delete_image, as: :boolean, :label => "Supprimer l'image"
+        .text--center
+          - if @structure.image?
+            = image_tag @structure.image.url(:normal), height: 200, id: 'logo-image'
+            %br
+            %a.red#delete-image{href: 'javascript:void(0)'} Supprimer l'image
+            .visuallyhidden= structure_form.input :delete_image, as: :boolean, label: false
+          - else
+            %img.center-block#logo-image{style: 'max-height: 200px'}
         .input.flush--top
           - unless @structure.new_record? || !@structure.image?
             .control-label Changer l'image
@@ -74,5 +77,20 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('#structure_image').change(function(event) {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#logo-image').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+        if ($('#delete-image').length > 0) {
+            $('#delete-image').click(function(){
+                $('#structure_delete_image')[0].checked = true;
+                $('#structure-form').submit();
+            });
+        }
         $('#description-textarea').textareaResizer();
     });

@@ -1,4 +1,5 @@
-= side_menu_currently_at "Lieux d'enseignements"
+= side_menu_currently_at 'Profil'
+= render partial: 'pro/structures/tabs', locals:{ current: 'lieux'}
 
 %h3.header-group Édition de #{@place.location.name}
 
@@ -33,5 +34,5 @@
         = contact_form.input :mobile_phone, label: Contact.human_attribute_name(:mobile_phone)
 
     .form-actions#submit
-      = f.submit (@place.new_record? ? 'Créer mon lieu' : 'Mettre à jour mon lieu'), class: 'btn btn--success'
+      = f.submit 'Mettre à jour', class: 'btn btn--success'
 

@@ -1,4 +1,4 @@
-= side_menu_currently_at 'Mes cours'
+= side_menu_currently_at 'Profil'
 
 %ol.nav.breadcrumb.alpha.header-group.header-group
   %li= link_to 'Tous mes cours', pro_structure_path(@structure)
@@ -6,7 +6,7 @@
   %li Prix
 
 
-%ul.tabs
+%ul.tabs.push--top
   %li
     = link_to edit_pro_course_path(@course) do
       %i.lbc-icon-info i

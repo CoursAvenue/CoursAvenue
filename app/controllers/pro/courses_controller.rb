@@ -7,6 +7,11 @@ class Pro::CoursesController < InheritedResources::Base
 
   load_and_authorize_resource :structure, except: [:create, :update]
 
+  def index
+    @structure = Structure.find params[:structure_id]
+    @courses   = @structure.courses.order('name ASC')
+  end
+
   def duplicate
     @course = Course.find params[:id]
     @course.duplicate!

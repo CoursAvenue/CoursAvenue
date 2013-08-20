@@ -1,10 +1,10 @@
-= side_menu_currently_at 'Mes cours'
+= side_menu_currently_at 'Profil'
 
 %ol.nav.breadcrumb.alpha.header-group
   %li= link_to 'Tous mes cours', pro_structure_path(@structure)
   %li= @course.name
 
-%ul.tabs
+%ul.tabs.push--top
   %li.active
     %a
       %i.lbc-icon-info i

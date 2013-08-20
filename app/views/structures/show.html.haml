@@ -108,7 +108,7 @@
 
 
   .grid__item.six-tenths>
-    %ul.tabs.flush--top
+    %ul.tabs
       %li.active{class: (@structure.comments_count > 0 ? '' : 'gray-light' )}
         %a{href: '#tab-comments', onclick: "_gaq.push(['_trackEvent', 'Avis', 'click', '#{@structure.slug}']);", data: {toggle: 'tab'}}
           %i.icon-comments

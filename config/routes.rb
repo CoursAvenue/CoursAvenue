@@ -40,7 +40,7 @@ CoursAvenue::Application.routes.draw do
         resources :places
         resources :students, only: [:destroy], controller: 'structures/students'
 
-        resources :courses, only: [:new, :create], path: 'cours' # To insure to have the structure_id
+        resources :courses, only: [:index, :new, :create], path: 'cours'#, controller: 'structures/courses' # To insure to have the structure_id
       end
       resources :courses, except: [:new, :create], path: 'cours' do
         member do

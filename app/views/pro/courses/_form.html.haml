@@ -3,17 +3,21 @@
 - else
   - url = pro_course_path(@course)
 
-= simple_form_for [:pro, @structure, @course], url: url, as: :course do |f|
+= simple_form_for [:pro, @structure, @course], url: url, as: :course, html: {id: 'course-form'} do |f|
   = f.error_notification
   - unless @course.new_record?
     %h5.form-header-group.flush--bottom
       %i.icon-picture
       Image
     .form-white-box
-      - if @course.image.present?
-        .text--center
-          = image_tag @course.image.url(:thumb), height: 200
-        = f.input :delete_image, as: :boolean, :label => "Supprimer l'image"
+      .text--center
+        - if @course.image.present?
+          = image_tag @course.image.url(:normal), height: 200, id: 'logo-image'
+          %br
+          %a.red#delete-image{href: 'javascript:void(0)'} Supprimer l'image
+          .visuallyhidden= f.input :delete_image, label: false, as: :boolean
+        - else
+          %img.center-block#logo-image{style: 'max-height: 200px'}
       .input
         = f.label :image
         = f.input :image, label: false
@@ -93,6 +97,21 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('#course_image').change(function(event) {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#logo-image').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+        if ($('#delete-image').length > 0) {
+            $('#delete-image').click(function(){
+                $('#course_delete_image')[0].checked = true;
+                $('#course-form').submit();
+            });
+        }
         $('#course_description').textareaResizer();
         $('[name="course[type]"]').change(function() {
             if ($(this).val() === 'Course::Lesson') {

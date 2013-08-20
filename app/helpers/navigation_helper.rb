@@ -13,7 +13,7 @@ module NavigationHelper
 
   def pro_side_menu_link(title, url, options = {})
     current_tab = options.delete(:current)
-    options[:class] ||= ''
+    options[:class] ||= 'nowrap'
     options[:class] << ((current_tab == title) ? ' active' : '')
     if options[:icon].present?
       title = "<i class='#{options[:icon]}'></i>&nbsp;#{title}".html_safe
