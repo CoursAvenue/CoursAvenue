@@ -8,10 +8,8 @@
           Promo
           = "-#{readable_promo_percentage best_price}"
       = link_to structure_course_path(course.structure, course) do
-        - if course.image.present?
-          = image_tag course.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
-        - elsif course.structure.image.present?
-          = image_tag course.structure.image.url(:thumb), alt: "#{course.type_name} de #{course.name}"
+        - if course.structure.logo.present?
+          = image_tag course.structure.logo.url(:thumb), alt: "#{course.type_name} de #{course.name}"
 
   %article.course-content
     %header

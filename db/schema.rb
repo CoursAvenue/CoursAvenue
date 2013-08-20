@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130820132301) do
+ActiveRecord::Schema.define(:version => 20130820202140) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -449,6 +449,15 @@ ActiveRecord::Schema.define(:version => 20130820132301) do
     t.string   "facebook_url"
     t.boolean  "no_facebook"
     t.boolean  "no_website"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
+    t.integer  "crop_x"
+    t.integer  "crop_y"
+    t.integer  "crop_width"
+    t.integer  "crop_height"
+    t.boolean  "cropping"
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true
@@ -482,6 +491,10 @@ ActiveRecord::Schema.define(:version => 20130820132301) do
     t.datetime "image_updated_at"
     t.string   "short_name"
     t.integer  "position"
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
   end
 
   add_index "subjects", ["slug"], :name => "index_subjects_on_slug", :unique => true

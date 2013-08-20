@@ -7,6 +7,10 @@ class Pro::StructuresController < Pro::ProController
 
   respond_to :json
 
+  def crop
+    @structure = Structure.find params[:id]
+  end
+
   def wizard
     @wizard = get_next_wizard
     @structure = Structure.find params[:id]
@@ -108,10 +112,17 @@ class Pro::StructuresController < Pro::ProController
     if params[:structure].delete(:delete_image) == '1'
       @structure.image.clear
     end
+    if params[:structure].delete(:delete_logo) == '1'
+      @structure.logo.clear
+    end
 
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
-        format.html { redirect_to pro_structure_path(@structure), notice: 'Vos informations ont bien été mises à jour.' }
+        if params[:structure][:logo].present?
+          format.html { redirect_to crop_pro_structure_path(@structure), notice: 'Vos informations ont bien été mises à jour.' }
+        else
+          format.html { redirect_to pro_structure_path(@structure), notice: 'Vos informations ont bien été mises à jour.' }
+        end
         format.js { render nothing: true }
       else
         format.html { render action: 'edit' }

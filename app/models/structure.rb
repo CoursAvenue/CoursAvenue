@@ -27,7 +27,7 @@ class Structure < ActiveRecord::Base
                              'structures.modification_conditions.moderate',
                              'structures.modification_conditions.strict']
 
-  attr_reader :delete_image
+  attr_reader :delete_image, :delete_logo
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
                   :gives_professional_courses, :website, :facebook_url, :contact_phone,
@@ -38,7 +38,8 @@ class Structure < ActiveRecord::Base
                   :validated_by,
                   :modification_condition,
                   :cancel_condition,
-                  :image,
+                  :image, :logo,
+                  :crop_x, :crop_y, :crop_width, :crop_height, :cropping,
                   :rating, :comments_count,
                   :no_facebook, :no_website,
 
@@ -55,8 +56,17 @@ class Structure < ActiveRecord::Base
                   :billing_contact_last_name, :billing_contact_phone_number, :billing_contact_email,
                   :bank_name, :bank_iban, :bank_bic
 
+  has_attached_file :logo,
+                    styles: {
+                      large: '500x500',
+                      thumb: {
+                        geometry: '200x200#',
+                        processors: [:cropper]
+                        }
+                      }
+
   has_attached_file :image,
-                    styles:          { wide: '800x480#', thumb: '200x200#', normal: '450x' }
+                    styles: { wide: '800x480#', thumb: '200x200#', normal: '450x' }
                     #convert_options: { wide: '-interlace Line', thumb: '-interlace Line', normal: '-interlace Line' }
 
   belongs_to       :city
@@ -94,6 +104,7 @@ class Structure < ActiveRecord::Base
   after_create     :delay_subscribe_to_mailchimp if Rails.env.production?
 
   after_save       :create_teacher
+  after_update     :reprocess_logo, :if => :cropping?
 
   before_save      :replace_slash_n_r_by_brs
   before_save      :fix_website_url
@@ -263,7 +274,21 @@ class Structure < ActiveRecord::Base
     Place.create(structure: self, location: location)
   end
 
+  def logo_geometry(style = :original)
+    @geometry ||= {}
+    @geometry[style] ||= Paperclip::Geometry.from_file(logo.path(style))
+  end
+
+  def has_cropping_attributes?
+    !crop_x.blank? && !crop_y.blank? && !crop_width.blank? && !crop_height.blank?
+  end
+
   private
+
+  def reprocess_logo
+    self.update_column :cropping, false
+    logo.reprocess!
+  end
 
   def set_free_pricing_plan
     self.pricing_plan = PricingPlan.where(name: 'free').first unless self.pricing_plan.present?

@@ -12,7 +12,7 @@
             Mettre une image
             %br
             de profil
-    .grid__item.three-fifths.bordered--right>
+    .grid__item.three-fifths.bordered--right.soft-half--right>
       %p
         %b= @structure.name
       - if @structure.description.present?
@@ -31,4 +31,4 @@
         %p= link_to 'Site web', @structure.website, class: 'btn btn--blue btn--small'
       - if @structure.facebook_url.present?
         %p= link_to 'Facebook', @structure.facebook_url, class: 'btn btn--small btn--blue'
-= link_to 'Modifier', edit_pro_structure_path(@structure), class: 'btn btn--blue'
+

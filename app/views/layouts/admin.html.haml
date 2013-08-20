@@ -7,21 +7,24 @@
       .white-box.islet
         .flexbox
           .flexbox__item.v-top.one-twelfths>
-            - if @structure.image?
-              .soft-half--right= image_tag @structure.image.url(:thumb), width: 100
+            - if @structure.logo?
+              .soft-half--right= image_tag @structure.logo.url(:thumb), width: 100
             - else
               .text--center.soft-half--right
-                = link_to edit_pro_structure_path(@structure), style: 'width: 100px; height: 100px; background-color: #555; padding-top: 13px; color: white; display: block;' do
-                  Mettre une image
+                = link_to edit_pro_structure_path(@structure), style: 'width: 100px; height: 100px; background-color: #555; padding-top: 28px; color: white; display: block;' do
+                  Télécharger
                   %br
-                  de profil
+                  mon logo
           .flexbox__item.v-top.nine-twelfths>
-            %h4.push-half--bottom= @structure.name
+            %h4.push-half--bottom
+              = @structure.name
             %span.v-middle
               = link_to structure_url(@structure, subdomain: 'www'), class: 'btn btn--small v-middle', target: '_blank' do
                 %i.icon-external-link.v-middle
                 %span.v-middle Voir mon profil public
               = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_url(@structure, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
+              %br
+              = link_to 'Modifier mon profil', edit_pro_structure_path(@structure), class: 'btn btn--primary btn--small'
           .flexbox__item.v-top.two-twelfths.text--center>
             .thin.alpha.brand= @structure.rating || 0
             %span.rating{title: comment_rating_title(@structure.rating)}

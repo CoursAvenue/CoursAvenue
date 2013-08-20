@@ -1,11 +1,11 @@
 %li.one-whole.course-element{data: {"location-ids" => @structure_locations[structure].map(&:id).join(' '), url: structure_path(structure), type: 'structure-element'}}
-  - if structure.image.present?
+  - if structure.logo.present?
     %div.two-twelfths.visuallyhidden--palm
       .course-image.media__img
         = link_to structure_path(structure) do
-          = image_tag structure.image.url(:thumb), alt: "Cours de #{join_parent_subjects_text structure} à #{structure.name}"
+          = image_tag structure.logo.url(:thumb), alt: "Cours de #{join_parent_subjects_text structure} à #{structure.name}"
 
-  %article.course-content{class: (structure.image.present? ? 'eight-twelfths' : 'ten-twelfths')}
+  %article.course-content{class: (structure.logo.present? ? 'eight-twelfths' : 'ten-twelfths')}
     %header
       .course-title.hN
         %h2.delta.inline.v-middle= link_to structure.name, structure_path(structure)

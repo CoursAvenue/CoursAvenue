@@ -43,59 +43,58 @@
     %li{class: @structure.description.present? ? 'line-through' : ''}
       = link_to_unless @structure.description.present?, 'Décrire mon établissement', edit_pro_structure_path(@structure)
 
-.white-box.islet
-  %h4
-    %i.icon-comments
-    Avis et recommandations
-  %p
-    Vous avez
-    %span{class: (@comments.length > 6 ? 'green' : 'red')}= @comments.length
-    avis
-    %br
-    = link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
-  -# %hr.push--top
-  -# %p
-  -#   Notre moteur de recherche est basé sur les témoignages des élèves.
-  -#   %br
-  -#   Voici votre position d'apparition sur CoursAvenue grâce à vos avis :
-  -# - @structure_better_indexed.each do |subject_name, structures|
-  -#   %p.flush--bottom
-  -#     %strong= subject_name
-  -#     \: #{(structures.length + 1).ordinalize}
-  -#     position.
-  -#     - if structures.any?
-  -#       %br
-  -#       Établissements mieux placés que vous :
-  -#   - if structures.any?
-  -#     %ul.block-list
-  -#       - structures.each do |structure|
-  -#         %li
-  -#           = link_to structure.name, structure_url(structure, subdomain: 'www'), target: '_blank'
-  -#           = rating_stars structure.rating
-  -#           \/
-  -#           = structure.comments_count
-  -#           avis
-  -#           %i.lbc-brand-icon
+.grid
+  .grid__item.one-third>
+    .white-box.islet.text--center
+      %h4.flush
+        %i.icon-comments
+        Avis et recommandations
+      %p
+        %span.beta{class: (@comments.length > 6 ? 'green' : 'red')}= @comments.length
+        %br
+        = link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
+    -# %hr.push--top
+    -# %p
+    -#   Notre moteur de recherche est basé sur les témoignages des élèves.
+    -#   %br
+    -#   Voici votre position d'apparition sur CoursAvenue grâce à vos avis :
+    -# - @structure_better_indexed.each do |subject_name, structures|
+    -#   %p.flush--bottom
+    -#     %strong= subject_name
+    -#     \: #{(structures.length + 1).ordinalize}
+    -#     position.
+    -#     - if structures.any?
+    -#       %br
+    -#       Établissements mieux placés que vous :
+    -#   - if structures.any?
+    -#     %ul.block-list
+    -#       - structures.each do |structure|
+    -#         %li
+    -#           = link_to structure.name, structure_url(structure, subdomain: 'www'), target: '_blank'
+    -#           = rating_stars structure.rating
+    -#           \/
+    -#           = structure.comments_count
+    -#           avis
+    -#           %i.lbc-brand-icon
 
-.white-box.islet
-  %h4
-    %i.icon-user
-    Cours
-  %p
-    Vous avez
-    = @structure.courses.active.count
-    cours actif sur CoursAvenue
-    %br
-    = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des cours')", class: 'btn btn--blue btn--small'
-.white-box.islet
-  %h4
-    %i.icon-user
-    Photo & vidéos
-  %p
-    Vous avez
-    %span{class: (@structure.medias.count > 3 ? 'green' : 'red')}= @structure.medias.count
-    %br
-    = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')", class: 'btn btn--blue btn--small'
+  .grid__item.one-third>
+    .white-box.islet.text--center
+      %h4.flush
+        %i.icon-list
+        Cours en ligne
+      %p
+        %span.beta= @structure.courses.active.count
+        %br
+        = link_to 'Ajouter des cours', pro_structure_courses_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des cours')", class: 'btn btn--blue btn--small'
+  .grid__item.one-third>
+    .white-box.islet.text--center
+      %h4.flush
+        %i.icon-youtube-play
+        Photo & vidéos
+      %p
+        %span.beta{class: (@structure.medias.count > 3 ? 'green' : 'red')}= @structure.medias.count
+        %br
+        = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')", class: 'btn btn--blue btn--small'
 
 -# .text--center= link_to 'Mettre à jour mon profil', edit_pro_structure_path(@structure), class: 'btn btn--success', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Mettre à jour mon profil')"
 
@@ -134,16 +133,6 @@
 -#         %span{class: (@structure.medias.count > 3 ? 'green' : 'red')}= @structure.medias.count
 -#         = Media.model_name.human(count: @structure.medias).downcase
 -#       = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), class: 'btn btn--success', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')"
-
-.white-box.islet
-  %h4
-    %i.icon-group
-    Professeurs
-  %p
-    Vous avez
-    = @structure.teachers.count
-    = Teacher.model_name.human(count: @structure.teachers.count).downcase
-  = link_to 'Ajouter un professeur', pro_structure_teachers_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')"
 
 = content_for :scripts do
   :javascript
