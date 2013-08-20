@@ -276,7 +276,7 @@ class Structure < ActiveRecord::Base
 
   def logo_geometry(style = :original)
     @geometry ||= {}
-    @geometry[style] ||= Paperclip::Geometry.from_file(logo.path(style))
+    @geometry[style] ||= Paperclip::Geometry.from_file(logo.url(style))
   end
 
   def has_cropping_attributes?
