@@ -96,6 +96,8 @@ class Pro::StructuresController < Pro::ProController
 
   def edit
     @structure = Structure.find(params[:id])
+    @ratio     = 1
+    @ratio     = @structure.logo_geometry(:original).width / @structure.logo_geometry(:large).width if @structure.logo?
     @admin     = @structure.admins.first || @structure.admins.build
   end
 

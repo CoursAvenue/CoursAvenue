@@ -8,6 +8,9 @@
   A better method for styling can be seen below with .jcrop-light
   (Add a class to the holder and style elements for that extended class)
 */
+.text--center .jcrop-holder {
+    margin: auto;
+}
 .jcrop-holder {
   direction: ltr;
   text-align: left;

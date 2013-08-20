@@ -10,12 +10,12 @@
       .form-white-box
         .text--center
           - if @structure.logo?
-            = image_tag @structure.logo.url(:large), height: 200, id: 'logo-logo'
-            %br
-            = link_to 'Changer le cadrage', crop_pro_structure_path(@structure)
-            %br
+            = image_tag @structure.logo.url(:large), id: 'logo-logo'
             %a.red#delete-logo{href: 'javascript:void(0)'} Supprimer le logo
             .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
+            - [:crop_x, :crop_y, :crop_width, :crop_height].each do |attribute|
+              = structure_form.input attribute, as: :hidden, input_html: {id: attribute}
+            = structure_form.input :cropping, as: :hidden, input_html: {value: true}
           - else
             %img.center-block#logo-logo{style: 'max-height: 200px'}
         .input.flush
@@ -104,6 +104,23 @@
                 reader.readAsDataURL(this.files[0]);
             }
         });
+        if ($('#logo-logo').attr('src')) {
+            $('#logo-logo').Jcrop({
+                onChange: update_crop,
+                onSelect: update_crop,
+                setSelect: [#{@structure.crop_x / @ratio || 0}, #{@structure.crop_y / @ratio || 0}, #{(@structure.crop_x + @structure.crop_width) / @ratio || 200}, #{(@structure.crop_y + @structure.crop_height) / @ratio || 200}],
+                aspectRatio: 1
+            });
+            function update_crop(coords) {
+              var rx = 100 / coords.w;
+              var ry = 100 / coords.h;
+              var ratio = #{@ratio};
+              $('#crop_x').val(Math.floor(coords.x * ratio));
+              $('#crop_y').val(Math.floor(coords.y * ratio));
+              $('#crop_width').val(Math.floor(coords.w * ratio));
+              $('#crop_height').val(Math.floor(coords.h * ratio));
+            }
+        }
         $('#structure_image').change(function(event) {
             if (this.files && this.files[0]) {
                 var reader = new FileReader();
