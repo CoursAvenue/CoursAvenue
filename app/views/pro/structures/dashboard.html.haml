@@ -15,17 +15,15 @@
 
 - unless @profile_percentage == 100
   .white-box.islet
-    .grid.push-half--bottom
-      %h4.grid__item.width-auto.v-middle.flush--bottom
-        Votre profil est complété à #{@profile_percentage}%
-      .grid__item.width-auto.v-middle
-        .text--center.progress.flush--bottom{style: "width: 280px;"}
-          - if @profile_percentage == 0
-            #{@profile_percentage}%
-          - else
-            .bar.bar-success{style: "width: #{@profile_percentage}%;"}
-              #{@profile_percentage}%
-    %ol
+    %h4.flush
+      Votre profil est complété à #{@profile_percentage}%
+    .text--center.progress.push-half--bottom{style: "width: 280px;"}
+      - if @profile_percentage == 0
+        #{@profile_percentage}%
+      - else
+        .bar.bar-success{style: "width: #{@profile_percentage}%;"}
+          #{@profile_percentage}%
+    %ol.push--left
       %li{class: @profile_completed ? 'line-through' : ''}
         = link_to_unless @profile_completed, 'Remplir mon profil', edit_pro_structure_path(@structure)
       %li{class: @comments.any? ? 'line-through' : ''}
@@ -35,96 +33,71 @@
       %li{class: @structure.courses.active.count > 0 ? 'line-through' : ''}
         = link_to_unless (@structure.courses.active.count > 0), 'Renseigner mes cours et mon planning', pro_structure_path(@structure)
 
-.grid.push--top
-  .grid__item.one-half.palm--one-whole.lap--one-whole>
-    %h3.header-group
-      %i.icon-comments
-      Avis et recommandations
+.white-box.islet
+  %h4
+    %i.icon-user
+    Profil
+  %ol.push--left
+    %li{class: @structure.image.present? ? 'line-through' : ''}
+      = link_to_unless @structure.image.present?, 'Mettre mon logo', edit_pro_structure_path(@structure)
+    %li{class: @structure.description.present? ? 'line-through' : ''}
+      = link_to_unless @structure.description.present?, 'Décrire mon établissement', edit_pro_structure_path(@structure)
 
-    .white-box.islet
-      .gamma.text--center
-        Vous avez
-        %span{class: (@comments.length > 30 ? 'green' : 'red')}= @comments.length
-        avis
-      - if @comments.any?
-        #comments
-      .text--center
-        = link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn--success', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
-      %hr.push--top
-      %p
-        Notre moteur de recherche est basé sur les témoignages des élèves.
-        %br
-        Voici votre position d'apparition sur CoursAvenue grâce à vos avis :
-      - @structure_better_indexed.each do |subject_name, structures|
-        %p.flush--bottom
-          %strong= subject_name
-          \: #{(structures.length + 1).ordinalize}
-          position.
-          - if structures.any?
-            %br
-            Établissements mieux placés que vous :
-        - if structures.any?
-          %ul.block-list
-            - structures.each do |structure|
-              %li
-                = link_to structure.name, structure_url(structure, subdomain: 'www'), target: '_blank'
-                = rating_stars structure.rating
-                \/
-                = structure.comments_count
-                avis
-                %i.lbc-brand-icon
+.white-box.islet
+  %h4
+    %i.icon-comments
+    Avis et recommandations
+  %p
+    Vous avez
+    %span{class: (@comments.length > 6 ? 'green' : 'red')}= @comments.length
+    avis
+    %br
+    = link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
+  -# %hr.push--top
+  -# %p
+  -#   Notre moteur de recherche est basé sur les témoignages des élèves.
+  -#   %br
+  -#   Voici votre position d'apparition sur CoursAvenue grâce à vos avis :
+  -# - @structure_better_indexed.each do |subject_name, structures|
+  -#   %p.flush--bottom
+  -#     %strong= subject_name
+  -#     \: #{(structures.length + 1).ordinalize}
+  -#     position.
+  -#     - if structures.any?
+  -#       %br
+  -#       Établissements mieux placés que vous :
+  -#   - if structures.any?
+  -#     %ul.block-list
+  -#       - structures.each do |structure|
+  -#         %li
+  -#           = link_to structure.name, structure_url(structure, subdomain: 'www'), target: '_blank'
+  -#           = rating_stars structure.rating
+  -#           \/
+  -#           = structure.comments_count
+  -#           avis
+  -#           %i.lbc-brand-icon
 
-  - unless @profile_percentage == 100
-    .grid__item.one-half.palm--one-whole.lap--one-whole>
-      %h3.header-group
-        %i.icon-user
-        Profil
+.white-box.islet
+  %h4
+    %i.icon-user
+    Cours
+  %p
+    Vous avez
+    = @structure.courses.active.count
+    cours actif sur CoursAvenue
+    %br
+    = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des cours')", class: 'btn btn--blue btn--small'
+.white-box.islet
+  %h4
+    %i.icon-user
+    Photo & vidéos
+  %p
+    Vous avez
+    %span{class: (@structure.medias.count > 3 ? 'green' : 'red')}= @structure.medias.count
+    %br
+    = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')", class: 'btn btn--blue btn--small'
 
-      .white-box.islet
-        %table
-          %tbody
-            %tr
-              %th Logo
-              %td
-                - if @structure.image.present?
-                  %i.icon-ok.green
-                  Super, vous avez un logo !
-                - else
-                  %i.icon-remove.red
-                  Vous n'avez ni logo ni image
-            %tr
-              %th Description
-              %td
-                - if !@structure.description
-                  %i.icon-remove.red
-                  Vous n'avez pas de description
-                - elsif @structure.description.split.size <= 30
-                  %i.icon-remove.red
-                  Votre description ne fait que #{@structure.description.split.size} mots.
-                - else
-                  %i.icon-ok.green
-                  Super ! Votre description fait #{@structure.description.split.size} mots.
-            %tr
-              %th Disciplines
-              %td
-                - if @structure.subjects.any?
-                  %i.icon-ok.green
-                  Vous avez renseigné #{@structure.subjects.count} disciplines
-                - else
-                  %i.icon-remove.red
-                  Vous n'avez pas renseigné de disciplines.
-            %tr
-              %th Photos & vidéos
-              %td
-                - if @structure.medias.any?
-                  %i.icon-ok.green
-                  Vous avez renseigné #{@structure.medias.count} photos & vidéos
-                - else
-                  %i.icon-remove.red
-                  Vous n'avez pas renseigné de photos & vidéos
-                  \-
-                  = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')"
-        .text--center= link_to 'Mettre à jour mon profil', edit_pro_structure_path(@structure), class: 'btn btn--success', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Mettre à jour mon profil')"
+-# .text--center= link_to 'Mettre à jour mon profil', edit_pro_structure_path(@structure), class: 'btn btn--success', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Mettre à jour mon profil')"
 
 
 
@@ -162,16 +135,15 @@
 -#         = Media.model_name.human(count: @structure.medias).downcase
 -#       = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), class: 'btn btn--success', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')"
 
--#   .grid__item.one-half>
--#     %h3.header-group
--#       %i.icon-group
--#       Professeurs
--#     .white-box.islet.text--center
--#       .gamma
--#         Vous avez
--#         %span.green= @structure.teachers.count
--#         = Teacher.model_name.human(count: @structure.teachers.count).downcase
--#       = link_to 'Ajouter un professeur', pro_structure_teachers_path(@structure), class: 'btn btn--success', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')"
+.white-box.islet
+  %h4
+    %i.icon-group
+    Professeurs
+  %p
+    Vous avez
+    = @structure.teachers.count
+    = Teacher.model_name.human(count: @structure.teachers.count).downcase
+  = link_to 'Ajouter un professeur', pro_structure_teachers_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')"
 
 = content_for :scripts do
   :javascript
@@ -216,24 +188,10 @@
             });
         }
       });
-- if @comments.any?
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          if ($('#wizard').length > 0) {
-              $('#wizard').show('slow');
-          }
-          new Highcharts.Chart({
-              chart: {
-                type: 'column',
-                renderTo: 'comments'
-              },
-              title: { text: null },
-              xAxis: { categories: #{@comments_group.map{|date, count| "Semaine du #{l(Date.parse(date), format: :short)}"}} },
-              yAxis: { title: { text: ''}},
-              series: [{
-                name: "Nombre d'avis par semaine",
-                data: #{@comments_group.map{|date, count| count}}
-              }]
-          });
-      });
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        if ($('#wizard').length > 0) {
+            $('#wizard').show('slow');
+        }
