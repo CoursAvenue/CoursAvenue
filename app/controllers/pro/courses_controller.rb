@@ -15,24 +15,24 @@ class Pro::CoursesController < InheritedResources::Base
   def duplicate
     @course = Course.find params[:id]
     @course.duplicate!
-    redirect_to pro_structure_path(@structure), notice: "Le cours à bien été dupliqué."
+    redirect_to pro_structure_courses_path(@structure), notice: "Le cours à bien été dupliqué."
   end
 
   def activate
     @course = Course.find params[:id]
     if @course.activate!
-      redirect_to pro_structure_path(@structure), notice: "Le cours sera visible sur CoursAvenue dans quelques minutes"
+      redirect_to pro_structure_courses_path(@structure), notice: "Le cours sera visible sur CoursAvenue dans quelques minutes"
     else
-      redirect_to pro_structure_path(@structure), alert: "Le cours n'a pu être mis en ligne.<br>Assurez vous que le tarif et le planning sont bien renseignés."
+      redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis en ligne.<br>Assurez vous que le tarif et le planning sont bien renseignés."
     end
   end
 
   def disable
     @course = Course.find params[:id]
     if @course.update_attribute :active, false
-      redirect_to pro_structure_path(@structure), notice: "Le cours n'est plus affiché sur CoursAvenue"
+      redirect_to pro_structure_courses_path(@structure), notice: "Le cours n'est plus affiché sur CoursAvenue"
     else
-      redirect_to pro_structure_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que le tarif et le planning sont bien renseignés."
+      redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que le tarif et le planning sont bien renseignés."
     end
   end
 
@@ -59,7 +59,7 @@ class Pro::CoursesController < InheritedResources::Base
         success.html { redirect_to pro_course_prices_path(@course), notice: 'Les tarifs ont bien été mis à jour' }
         failure.html { render template: 'pro/prices/index' }
       else
-        success.html { redirect_to pro_structure_path(@structure), notice: 'Le cours à bien été mis à jour' }
+        success.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours à bien été mis à jour' }
         failure.html { render template: 'pro/courses/form' }
       end
     end
@@ -67,7 +67,7 @@ class Pro::CoursesController < InheritedResources::Base
 
   def destroy
     destroy! do |success, failure|
-      success.html { redirect_to pro_structure_path(@structure) }
+      success.html { redirect_to pro_structure_courses_path(@structure) }
     end
   end
 
