@@ -1,12 +1,5 @@
 = side_menu_currently_at 'Tableau de bord'
 
-%h1.header-group
-  %i.icon-dashboard
-  Tableau de bord
-  &nbsp;
-  = link_to 'Partager mon profil sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_url(@structure, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
-
-
 - if @wizard
   #wizard.blue-box.islet.hidden.relative
     %a#close-wizard.closer{href: 'javascript:void(0)', data: { behavior: 'closer', el: '#wizard'}}

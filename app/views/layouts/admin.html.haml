@@ -5,9 +5,9 @@
   .main-container
     - if @structure
       .flexbox.white-box.islet
-        .flexbox__item.v-top{style: 'width: 150px;'}>
+        .flexbox__item.v-top>
           - if @structure.image?
-            = image_tag @structure.image, width: 120
+            .soft-half--right= image_tag @structure.image.url(:thumb), width: 100
           - else
             .text--center= link_to 'Mettre une image de profil', edit_pro_structure_path(@structure)
         .flexbox__item.v-top>
