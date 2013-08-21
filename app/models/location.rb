@@ -6,7 +6,9 @@ class Location < ActiveRecord::Base
 
   acts_as_gmappable validation: false,
                     language: 'fr'
+
   before_save :retrieve_address
+  before_save :set_shared
 
   belongs_to :city,                 touch: true
 
@@ -45,4 +47,7 @@ class Location < ActiveRecord::Base
   end
 
   private
+  def set_shared
+    shared = (name == 'Adresse principale')
+  end
 end

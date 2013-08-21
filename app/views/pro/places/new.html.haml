@@ -43,6 +43,11 @@
     .form-actions#submit{class: @place.errors.any? ? '' : 'hidden'}
       = f.submit 'Créer mon lieu', class: 'btn btn--success'
 
+%script#location-template{:type => 'text/x-handlebars-template'}
+  %p.line-height-normal
+    {{name}}
+    %br
+    %i.gray.milli {{street}}, {{city.name}}
 = content_for :scripts do
   :javascript
     $(function() {
@@ -55,10 +60,12 @@
             $('#buttons-wrapper').hide('slow');
             $('#submit').removeClass('hidden');
         });
+        var source = $("#location-template").html(),
+            template = Handlebars.compile(source);
         $('#location-autocomplete').typeahead([
           {
             name: 'locations',
-            valueKey: 'name',
+            template: template,
             remote: '/locations.json?term=%QUERY'
           }
         ]);
@@ -69,6 +76,7 @@
         });
         $('#location-autocomplete').on('typeahead:selected', function(event, data) {
             var location_id_input = $('<input type="hidden" name="place[location_attributes][id]">').val(data.id);
+            $(this).val(data.name);
             $('#build-place-container').append(location_id_input);
             $('#place_location_attributes_name').val(data.name).attr('disabled', true);
             $('#place_location_attributes_street').val(data.street).attr('disabled', true);
