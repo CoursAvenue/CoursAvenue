@@ -10,7 +10,7 @@ class Location < ActiveRecord::Base
   before_save :retrieve_address
   before_save :set_shared
 
-  belongs_to :city,                 touch: true
+  belongs_to :city
 
   has_many :places
   has_many :structures, through: :places
@@ -48,6 +48,7 @@ class Location < ActiveRecord::Base
 
   private
   def set_shared
-    shared = (name == 'Adresse principale')
+    self.shared = (name == 'Adresse principale')
+    nil
   end
 end
