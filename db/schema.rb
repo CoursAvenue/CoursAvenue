@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130820202140) do
+ActiveRecord::Schema.define(:version => 20130820211951) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -453,11 +453,11 @@ ActiveRecord::Schema.define(:version => 20130820202140) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
-    t.integer  "crop_x"
-    t.integer  "crop_y"
-    t.integer  "crop_width"
-    t.integer  "crop_height"
-    t.boolean  "cropping"
+    t.integer  "crop_x",                                       :default => 0
+    t.integer  "crop_y",                                       :default => 0
+    t.integer  "crop_width",                                   :default => 500
+    t.integer  "crop_height",                                  :default => 500
+    t.boolean  "cropping",                                     :default => false
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true

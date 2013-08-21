@@ -58,14 +58,12 @@
 = content_for :scripts do
   :javascript
       $(function() {
-        $('[data-type=place-element]').each(function(index, place_element) {
+        $('[data-type=structure-element]').each(function(index, place_element) {
             $(this).click(function(event) {
                 // Change url only if user doesn't click on link
                 if (typeof ga !== 'undefined') { ga('send', 'event', 'Go to other profile', 'click', 'From pro home page'); }
-                if (event.target.nodeName !== 'A') {
-                    window.open(this.dataset.url);
-                    return false;
-                }
+                window.open(this.dataset.url);
+                return false;
             });
         });
         Gmaps.map.callback = function() {
