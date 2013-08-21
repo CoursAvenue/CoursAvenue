@@ -36,10 +36,10 @@
             - if course.teachers.any?
               = course.teachers.uniq.map(&:name).join(', ').titleize
           %td.text--right
-            - if course.image.present?
-              = image_tag course.image.url(:mini), height: 30, class: 'v-middle'
             .btn-group
-              - unless course.image.present?
+              - if course.image.present?
+                = image_tag course.image.url(:mini), height: 30, class: 'v-middle'
+              - else
                 .btn>
                   = link_to edit_pro_course_path(course) do
                     %i.icon-picture
