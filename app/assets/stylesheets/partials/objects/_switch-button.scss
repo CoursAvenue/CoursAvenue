@@ -2,39 +2,40 @@
     content         : '';
     display         : block;
     position        : absolute;
-    width           : 30px;
+    width           : 22px;
     height          : 100%;
-    border          : 1px solid #CCC;
-    background-color: #F1F1F1;
+    // border          : 1px solid #CCC;
+    // background-color: #F1F1F1;
+    background: image-url('icons/slider-toggler.png') no-repeat;
     top             : 0;
 }
 .switch-button {
     position      : relative;
-    padding       : 2px 5px;
+    padding       : 2px 8px;
     color         : white;
     display       : inline-block;
     text-transform: uppercase;
     font-size     : 12px;
     white-space   : nowrap;
-    @include border-radius($brand-round);
+    @include border-radius(11px);
     &:hover {
         text-decoration: none;
     }
     &.on:after {
-        right: -30px;
+        right: -5px;
     }
     &.on {
         @include box-shadow(inset 1px 1px 3px darken($green-light, 20%));
         background-color: $green-light;
-        margin-right    : 30px;
+        padding-right   : 20px;
     }
     &.off:after {
-        left: -30px;
+        left: -5px;
     }
     &.off {
         @include box-shadow(inset 1px 1px 3px darken($red, 20%));
         background-color: $red;
-        margin-left     : 30px;
+        padding-left    : 20px;
     }
 }
 

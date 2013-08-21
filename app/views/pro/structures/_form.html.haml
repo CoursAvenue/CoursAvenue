@@ -1,6 +1,6 @@
 %h1.header-group
   %i.icon-user
-  Édition du profil
+  Mise à jour du profil
 .islet
   = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |structure_form|
     .form-inputs
@@ -24,7 +24,7 @@
           - else
             .control-label Logo de votre structure
           = structure_form.input :logo, label: false
-        %p.field-form-info.blue Ce logo aparaitra dans les pages de recherches
+        %p.field-form-info.blue Ce logo apparaîtra dans les résultats de recherche.
         %hr
         .text--center
           - if @structure.image?
@@ -40,7 +40,7 @@
           - else
             .control-label Image pour vous illustrer
           = structure_form.input :image, label: false
-        %p.field-form-info.blue Cette image aparaitra dans votre profil public
+        %p.field-form-info.blue Cette image apparaîtra à gauche dans la partie gauche de votre profil public.
       %h5.form-header-group
         %i.lbc-icon-info i
         Informations
@@ -49,7 +49,7 @@
         %p.field-form-info.blue= t('.structure_name_info')
         = structure_form.input :website, placeholder: 'Ex : http://www.je-danse-a-paris.com'
         = structure_form.input :facebook_url, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : https://www.facebook.com/CoursAvenue'
-        = structure_form.association :subjects , as: :select, collection: (Subject.roots + Subject.children), input_html: {style: 'width: 490px;', 'data-behavior' => 'chosen', multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
+        = structure_form.association :subjects , as: :select, collection: (Subject.roots + Subject.children), input_html: {style: 'width: 490px;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
         = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: {style: 'max-width: 29em;'}
 
       / %h5.form-header-group
@@ -64,9 +64,12 @@
       /     .grid__item.width-auto
       /       = structure_form.association :city, collection: [@structure.city], label: false
 
-      %h5.form-header-group
-        Description
-      .form-white-box
+      .grid
+        .grid__item.one-third.v-bottom>
+          %h5.form-header-group Description
+        .grid__item.two-thirds.v-bottom>
+          = image_tag 'texts/structure-description.png', height: 85
+      .form-white-box.flush
         .grid--full.input
           .textarea-with-info.grid__item.width-auto
             .grid--full
@@ -89,7 +92,6 @@
                   Quelle est sa notoriété ?
                   %br
                   A-t-elle formé des célébrités ?
-                %p.alert--info Toute autre info sur votre structure est bonne à renseigner !
     .form-actions
       = structure_form.button :submit, "Mettre à jour mes informations", class: 'btn btn--success'
 = content_for :scripts do

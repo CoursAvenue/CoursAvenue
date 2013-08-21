@@ -1,7 +1,6 @@
-- if @structure.image.present?
+- if @structure.logo.present?
   = content_for :meta_image do
-    - if @structure.image.present?
-      = @structure.image.url
+    = @structure.logo.url(:thumb)
 
 
 = content_for :title do

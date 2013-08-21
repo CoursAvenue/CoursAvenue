@@ -25,7 +25,7 @@
           #{@profile_percentage}%
     %ol.push--left
       %li{class: @profile_completed ? 'line-through' : ''}
-        = link_to_unless @profile_completed, 'Remplir mon profil', edit_pro_structure_path(@structure)
+        = link_to_unless @profile_completed, 'Compléter mes informations générales', edit_pro_structure_path(@structure)
       %li{class: @comments.any? ? 'line-through' : ''}
         = link_to_unless @comments.any?, 'Demander des recommandations à mes élèves', recommendations_pro_structure_path(@structure)
       %li{class: @structure.medias.any? ? 'line-through' : ''}
@@ -33,15 +33,15 @@
       %li{class: @structure.courses.active.count > 0 ? 'line-through' : ''}
         = link_to_unless (@structure.courses.active.count > 0), 'Renseigner mes cours et mon planning', pro_structure_path(@structure)
 
-.white-box.islet
-  %h4
-    %i.icon-user
-    Profil
-  %ol.push--left
-    %li{class: @structure.image.present? ? 'line-through' : ''}
-      = link_to_unless @structure.image.present?, 'Mettre mon logo', edit_pro_structure_path(@structure)
-    %li{class: @structure.description.present? ? 'line-through' : ''}
-      = link_to_unless @structure.description.present?, 'Décrire mon établissement', edit_pro_structure_path(@structure)
+-# .white-box.islet
+-#   %h4
+-#     %i.icon-user
+-#     Profil
+-#   %ol.push--left
+-#     %li{class: @structure.image.present? ? 'line-through' : ''}
+-#       = link_to_unless @structure.image.present?, 'Mettre mon logo', edit_pro_structure_path(@structure)
+-#     %li{class: @structure.description.present? ? 'line-through' : ''}
+-#       = link_to_unless @structure.description.present?, 'Décrire mon établissement', edit_pro_structure_path(@structure)
 
 .grid
   .grid__item.one-third>
@@ -52,7 +52,7 @@
       %p
         %span.beta{class: (@comments.length > 6 ? 'green' : 'red')}= @comments.length
         %br
-        = link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
+        = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
     -# %hr.push--top
     -# %p
     -#   Notre moteur de recherche est basé sur les témoignages des élèves.

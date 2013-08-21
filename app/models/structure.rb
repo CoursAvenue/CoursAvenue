@@ -16,7 +16,7 @@ class Structure < ActiveRecord::Base
   STRUCTURE_TYPES         = ['structures.company',
                              'structures.independant',
                              'structures.association',
-                             'structures.board']
+                             'structures.other']
 
   CANCEL_CONDITIONS       = ['structures.cancel_conditions.flexible',
                              'structures.cancel_conditions.moderate',
@@ -276,7 +276,12 @@ class Structure < ActiveRecord::Base
 
   def logo_geometry(style = :original)
     @geometry ||= {}
-    @geometry[style] ||= Paperclip::Geometry.from_file(logo.url(style))
+    begin
+      @geometry[style] ||= Paperclip::Geometry.from_file(logo.url(:original))
+    rescue
+      geometry = Struct.new(:width, :height)
+      @geometry[style] = geometry.new(100, 100)
+    end
   end
 
   def has_cropping_attributes?

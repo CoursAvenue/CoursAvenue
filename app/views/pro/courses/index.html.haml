@@ -1,8 +1,7 @@
-= side_menu_currently_at 'Mon profil'
-= render partial: 'pro/structures/tabs', locals:{ current: 'cours'}
+= side_menu_currently_at 'Mes cours'
 
 - if @courses.any?
-  %table.table--striped.dataTable.table--data.white-box
+  %table.table--striped.dataTable.table--data.white-box.flush--bottom
     %thead
       %tr
         %th.text--center.one-twelfth Statut
@@ -82,7 +81,12 @@
                   = link_to pro_course_path(course), method: :delete, class: 'red nowrap', title: 'Supprimer ce cours', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'} do
                     %i.icon-trash
                     Supprimer
-
+  - if @courses.disabled.any?
+    .grid.push-half--top
+      .grid__item.one-half>
+        .soft--left.push--left= image_tag 'texts/online-course.png', height: 80
+      .grid__item.one-half>
+        .soft--right.push--right= image_tag 'texts/plannings.png', height: 62
 .text--center.push--top
   = link_to 'Ajouter un cours', new_pro_structure_course_path(@structure), class: 'btn btn--success btn--large'
 

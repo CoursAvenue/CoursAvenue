@@ -72,7 +72,7 @@
             $(this).click(function(event) {
                 // Change url only if user doesn't click on link
                 if (event.target.nodeName !== 'A') {
-                    if (event.meta || event.control) {
+                    if (event.metaKey || event.ctrlKey) {
                         window.open(this.dataset.url);
                     } else {
                         window.location = this.dataset.url;

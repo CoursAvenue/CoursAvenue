@@ -1,15 +1,13 @@
 .grid
   .grid__item.two-thirds.palm--one-whole>
-    %h2.flush--bottom
+    %h2.flush
       Le 1<sup>er</sup> site qui donne la parole à vos élèves
-    %h4
-      pour faire parler de vous et attirer de nouveaux élèves !
     %p
       %b 100% gratuit, simple et rapide.
     %hr
     .grid--full.text--center.push--top.visuallyhidden--palm
       .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
-        %a.muted-link.white-box.islet.word-break-normal
+        %a.muted-link.blue-box.islet.word-break-normal
           %h5
             %i.icon-user.icon-2x
             %br
@@ -20,32 +18,30 @@
       .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
         %a.muted-link.white-box.islet.word-break-normal
           %h5
-            %i.icon-comments.icon-2x
+            %i.icon-ok.icon-2x
             %br
-            Partagez les compliments de vos élèves
+            Validez votre inscription
       .grid__item.one-twelfth.text--center.v-middle>
         .islet
           %i.icon-chevron-right.icon-2x
       .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
         %a.muted-link.white-box.islet.word-break-normal
           %h5
-            %i.icon-youtube-play.icon-2x
+            %i.icon-cogs.icon-2x
             %br
-            Mettez en ligne vos photos & vidéos
+            Gérez votre profil
 
 
     = simple_form_for [:pro, @structure], method: :post do |f|
-
-      %h4.flush--bottom Entrez vos informations
       .form-white-box.islet.flush--left
-        = f.input :name, wrapper_html: { class: 'flush--bottom' }, label: 'Nom de votre établissement / association'
-        %p.field-form-info.blue Si vous êtes un professeur indépendant, entrez votre prénom + nom.
+        = f.input :name, wrapper_html: { class: 'flush--bottom' }, label: 'Nom de votre établissement / association', input_html: {placeholder: 'Exemple : Association KDanse, Paris Dance School, Laurent Garu'}
+        %p.field-form-info.blue Si vous êtes un professeur indépendant, entrez votre Prénom + Nom.
 
         = f.input :contact_email, as: :hidden
         = f.simple_fields_for :location do |location_form|
-          = location_form.input :name, label: "Nom du lieu (ex : Studio bleu)", input_html: { value: 'Adresse principale' }, wrapper_html: {class: 'flush--bottom'}
+          = location_form.input :name, label: "Nom du lieu", input_html: { placeholder: "Exemple : Bastille, Studio Bleu, Centre de Danse du Marais", data: {behavior: 'tooltip'}, title: "Si pas de nom : métro ou arrêt de bus le plus proche, nom de quartier / rue, nom d'un parc à proximité" }, wrapper_html: {class: 'flush--bottom'}
           %p.field-form-info.blue Si vos cours se situent dans plusieurs lieux, vous pourrez les renseigner depuis votre espace pro.
-        = f.input :street, input_html: { value: cookies[:street] }
+        = f.input :street, input_html: { value: cookies[:street] }, input_html: {placeholder: 'N° + rue'}
         .input
           = f.label :zip_code
           = f.input :zip_code, input_html: { style: ' width: 10em;', data: {behavior: 'city-autocomplete', el: '#structure_city_id'} }, label: false
@@ -53,40 +49,41 @@
 
         - cache "inscription_subjects_#{ENV["ETAG_VERSION_ID"]}"do
           .visuallyhidden--palm
-            = f.association :subjects , as: :select, collection: Subject.roots.map(&:descendants).flatten, input_html: {style: 'width: 74%;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| "#{subj.parent.name} - #{subj.name}" }, wrapper_html: {class: 'flush--bottom'}
+            = f.association :subjects , as: :select, collection: (Subject.roots + Subject.children), input_html: {style: 'width: 74%;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
       .push--bottom.text--center
         = f.submit 'Valider', class: 'btn--large btn btn--large btn--success'
   - unless request.path == '/sms'
     .grid__item.one-third.visuallyhidden--palm
       .bordered--left.soft--left
-        %h4 Les profils stars
-        .relative{style: 'height: 215px; overflow: hidden;'}
-          #slideshow.slideshow
-            - @structures.each do |structure|
-              .slideshow__element
-                .white-box
-                  %div.soft-half.text--center
-                    .thin.big-alpha.brand #{structure.rating}
-                    .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-                      %span.rating{title: comment_rating_title(structure.rating)}
-                        = rating_stars structure.rating
-                      %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
-                      %meta{itemprop: 'count', content: structure.comments_count}
-                      %meta{itemprop: 'itemreviewed', content: structure.name}
-                      %meta{itemprop: 'name', content: structure.name}
-                      %meta{itemprop: 'street-address', content: structure.street}
-                      %meta{itemprop: 'postal-code', content: structure.zip_code}
-                    %div
-                      = link_to structure_url(structure, subdomain: 'www'), target: '_blank', onclic: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');" do
-                        = structure.comments_count
-                        avis
-                        %i.lbc-brand-icon
-                  %div.gray-box.bordered--top.soft-half
-                    %b
-                      = link_to structure.name, structure_url(structure, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');"
+        %h4
+          Plus de 300 partenaires ont déjà été recommandés :
+        - @structures.each do |structure|
+          .white-box.push-half--bottom
+            .grid
+              .grid__item.one-quarter.v-middle>
+                = image_tag structure.logo.url(:thumb), class: 'block'
+              .grid__item.three-quarters.v-middle>
+                %b
+                  = link_to structure.name, structure_url(structure, subdomain: 'www'), target: '_blank', onclick: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');"
+                %div
+                  .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+                    %span.rating{title: comment_rating_title(structure.rating)}
+                      = rating_stars structure.rating
+                    %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
+                    %meta{itemprop: 'count', content: structure.comments_count}
+                    %meta{itemprop: 'itemreviewed', content: structure.name}
+                    %meta{itemprop: 'name', content: structure.name}
+                    %meta{itemprop: 'street-address', content: structure.street}
+                    %meta{itemprop: 'postal-code', content: structure.zip_code}
+                %div
+                  = link_to structure_url(structure, subdomain: 'www'), target: '_blank', onclic: "ga('send', 'event', 'Go to other profile', 'click', 'From inscription page');" do
+                    = structure.comments_count
+                    avis
+                    %i.lbc-brand-icon
+        .push--bottom.text--center= link_to "Et plein d'autres !", root_path(subdomain: 'www')
 
         %hr
-        %h4 Les 5 derniers avis
+        %h4 Les 5 derniers avis :
         %ul.comment-list
           = render partial: 'comments/comment', collection: Comment.where{rating > 3}.order('created_at DESC').limit(5), locals: {with_link: true, small_avatar: true}
 

@@ -9,11 +9,13 @@
     = f.error_notification
 
     - unless @place.errors.any?
-      .grid.form-white-box#buttons-wrapper
-        .grid__item.one-half>
-          %a.btn.btn--full.btn--blue#find-place Lieu partagé
-        .grid__item.one-half>
-          %a.btn.btn--full#build-place J'ai mon propre lieu
+      #buttons-wrapper
+        .text--center= image_tag 'texts/shared-place.png', height: 80
+        .grid.form-white-box.flush--top
+          .grid__item.one-half>
+            %a.btn.btn--full.btn--blue#find-place Lieu partagé
+          .grid__item.one-half>
+            %a.btn.btn--full#build-place J'ai mon propre lieu
 
       .form-white-box#find-place-container.hidden
         %p
@@ -24,7 +26,7 @@
       %h5.form-header-group Adresse
       .form-white-box
         = f.simple_fields_for :location do |location_form|
-          = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: 'Ex. : Gymnase Bercy'
+          = location_form.input :name, label: Location.human_attribute_name(:name), input_html: { placeholder: "Exemple : Bastille, Studio Bleu, Centre de Danse du Marais", data: {behavior: 'tooltip'}, title: "Si pas de nom : métro ou arrêt de bus le plus proche, nom de quartier / rue, nom d'un parc à proximité"}
           = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', label: Location.human_attribute_name(:street)
           .input
             = location_form.label :zip_code, label: Location.human_attribute_name(:zip_code)
@@ -32,7 +34,7 @@
             = location_form.input :city_id, collection: [@structure.city], label: false, selected: @place.location.city
 
 
-      %h5.helper-label.form-header-group{data: { behavior: 'tooltip', 'original-title' => 'Coordonnées que les élèves receveront pour faire une réservation' }} Contact pour la réservation
+      %h5.helper-label.form-header-group{data: { behavior: 'tooltip', 'original-title' => 'Coordonnées de réservation visibles par les élèves' }} Contact pour la réservation
       .form-white-box
         = f.simple_fields_for :contacts do |contact_form|
           = contact_form.input :name,         label: Contact.human_attribute_name(:name)

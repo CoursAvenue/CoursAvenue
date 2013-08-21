@@ -2,21 +2,24 @@
   <script src="//www.google-analytics.com/cx/api.js?experiment=5MBOH-VVRzWRjzbgMSPTHA"></script>
 
 = content_for :title do
-  Le 1er site qui donne la parole à vos élèves pour faire parler de vous et attirer de nouveaux élèves !
+  Le 1er site qui donne la parole à vos élèves
 
 = pro_menu_currently_at 'Accueil'
 
 - content_for :above_container do
   .home-screen-promotion-wrapper.island.one-whole.soft--top
-    %h1.text--center.flush--bottom.blue
+    %h1.text--center.blue
       Le 1<sup>er</sup> site qui donne la parole à vos élèves
-    %h4.text--center
-      pour faire parler de vous et attirer de nouveaux élèves !
 
     .text--center
       = link_to "S'inscrire gratuitement", inscription_pro_structures_path, class: 'btn btn--success btn--large', id: 'register'
     .text--center= link_to "Je suis déjà inscrit, me connecter", new_pro_admin_session_url(subdomain: 'pro')
 
+  .text--center
+    %h4
+      Leurs élèves les ont déjà recommandés sur
+      = link_to 'CoursAvenue.com', root_url(subdomain: 'pro')
+      \:
   .main-container
     .grid
       .grid__item.four-tenths>
@@ -35,8 +38,9 @@
                     = link_to structure_url(structure, subdomain: 'www') do
                       %span= index + 1
                   = structure.name
+                %ul.nav.push-half--ends= join_child_subjects structure, true
                 - if structure.description.present?
-                  %p.read-more{data: {behavior: 'read-more'}}= structure.description.html_safe
+                  %p.read-more{data: {behavior: 'read-more', height: 50}}= structure.description.html_safe
               .grid__item.three-twelfths.text--center>
                 .thin.big-alpha.brand #{structure.rating}
                 .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
@@ -62,7 +66,10 @@
             $(this).click(function(event) {
                 // Change url only if user doesn't click on link
                 if (typeof ga !== 'undefined') { ga('send', 'event', 'Go to other profile', 'click', 'From pro home page'); }
-                window.open(this.dataset.url);
+                if (event.target.nodeName !== 'A') {
+                    window.open(this.dataset.url);
+                    return false;
+                }
                 return false;
             });
         });

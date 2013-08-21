@@ -11,20 +11,19 @@
               .soft-half--right= image_tag @structure.logo.url(:thumb), width: 100
             - else
               .text--center.soft-half--right
-                = link_to edit_pro_structure_path(@structure), style: 'width: 100px; height: 100px; background-color: #555; padding-top: 28px; color: white; display: block;' do
+                = link_to edit_pro_structure_path(@structure), style: 'width: 110px; height: 110px; background-color: #555; padding-top: 30px; color: white; display: block;' do
                   Ajouter
                   %br
                   mon logo
           .flexbox__item.v-top.nine-twelfths>
             %h4.push-half--bottom
-              = @structure.name
-            %span.v-middle
-              = link_to structure_url(@structure, subdomain: 'www'), class: 'btn btn--small v-middle', target: '_blank' do
-                %i.icon-external-link.v-middle
-                %span.v-middle Voir mon profil public
+              %span.v-middle= @structure.name
+              %span.v-middle.soft-half--left
+                = link_to structure_url(@structure, subdomain: 'www'), class: 'btn btn--small v-middle', target: '_blank' do
+                  %i.icon-external-link.v-middle
+                  %span.v-middle Voir mon profil public
+            %div.push-half--top
               = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_url(@structure, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
-              %br
-              = link_to 'Modifier mon profil', edit_pro_structure_path(@structure), class: 'btn btn--primary btn--small'
           .flexbox__item.v-top.two-twelfths.text--center>
             .thin.alpha.brand= @structure.rating || 0
             %span.rating{title: comment_rating_title(@structure.rating)}
@@ -34,10 +33,12 @@
               avis
               %a{href: '#comments'}
                 %i.lbc-brand-icon
-            - if @structure.comments_count == 0
-              = link_to "Demander des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
-            - elsif @structure.comments_count < 3
-              = link_to "Demander plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
+            .relative
+              %div{style: 'position: absolute; top: -40px; left: -200px;'}= image_tag 'texts/tete-de-liste.png', height: 70
+              - if @structure.comments_count == 0
+                = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
+              - elsif @structure.comments_count > 0
+                = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
 
     .flexbox
       - if content_for? :side_menu

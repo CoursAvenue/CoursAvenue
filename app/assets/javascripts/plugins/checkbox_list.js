@@ -38,6 +38,15 @@
         init: function() {
             this.inputs_except_all = this.$element.find('input:not([data-value=all])');
             this.$input_all        = this.$element.find('input[data-value=all]');
+            if (!this.input_all) {
+                this.$input_all        = this.$element.find('input').first();
+                var all_inputs = this.$element.find('input');
+                this.inputs_except_all = [];
+                all_inputs.each(function(index, input) {
+                    if(index > 0) { this.inputs_except_all.push(input); }
+                }.bind(this));
+                this.inputs_except_all = $(this.inputs_except_all);
+            }
             this.input_all         = this.$input_all[0];
 
             this.$input_all.change(function(event){
@@ -67,9 +76,7 @@
          */
         uncheckAllInputs: function() {
             this.inputs_except_all.map(function() {
-                if (this.dataset.value !== 'all') {
-                    this.checked = false;
-                }
+                this.checked = false;
             });
         }
     };

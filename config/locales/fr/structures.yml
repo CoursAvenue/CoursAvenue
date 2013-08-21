@@ -38,10 +38,11 @@ fr:
 
 
   structures:
-    company: Société privée
+    company: École privée
     association: Association
-    board: Régie ou musée - établissement chargé de la gestion d'un service public
-    independant: Indépendant
+    other: Autre
+    board: Autre
+    independant: Professeur indépendant
     cancel_conditions:
       flexible: "Flexibles : remboursement intégral jusqu’à la veille du cours"
       moderate: "Modérées : remboursement intégral jusqu’à 3 jours avant la date du cours"
@@ -62,10 +63,10 @@ fr:
       form:
         phone_number_info: "Renseignez au moins un numéro de téléphone :"
         mobile_phone_number_info: "Pour chaque réservation, un SMS de confirmation pourra être envoyé sur ce numéro"
-        email_info: Cet email sera votre identifiant pour l’accès à votre espace pro
+        email_info: Cet email sera votre identifiant pour gérer votre profil.
         password_info: Laissez vide si vous ne voulez pas changer le mot de passe
         password_confirmation: Confirmation de votre mot de passe
-        structure_name: Nom de votre établissement
+        structure_name: Nom de votre structure
         structure_name_info: "Si vous êtes un professeur indépendant, renseignez votre Prénom + Nom"
         structure_address: Adresse principale (N° + Rue)
         structure_address_info: "Si vous êtes un professeur indépendant, renseignez votre adresse ; si ce n’est pas celle de vos cours, vous pourrez le spécifier dans votre espace et rajouter d’autres lieux"

@@ -42,7 +42,7 @@
       Professeur
     = f.input :teacher, label: false, input_html: {value: ''}
 
-  = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels')
+  = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: {data: {behavior: 'checkbox-list'}}
 
   = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: t('planning.audiences')
 

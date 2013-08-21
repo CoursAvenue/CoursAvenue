@@ -1,23 +1,51 @@
 .text--center
-  %h1.push-half--bottom Félicitation, vous venez de créer votre profil CoursAvenue !
+  %h1.push-half--bottom Félicitations, votre profil vient d'être créé !
 
-  .white-box--small.islet.center-block.text--left
-    %h3.flush= @structure.name
-    .omega
-      %i.icon-map-marker
-      = @structure.address
-    %ul.nav= join_parent_subjects @structure, true
-    %hr
-    %div
-      = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_url(@structure, subdomain: 'www')}", class: 'btn btn--facebook btn--small v-middle', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From creation page')"
-      = link_to structure_url(@structure, subdomain: 'www'), class: 'btn btn--blue btn--small v-middle', target: '_blank' do
-        %i.icon-external-link.v-middle
-        %span.v-middle Voir mon profil
+.grid--full.text--center.push--top.visuallyhidden--palm
+  .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+    = link_to structure_url(@structure, subdomain: 'www'), class: 'muted-link blue-box islet word-break-normal', target: '_blank' do
+      %h5
+        %i.icon-user.icon-2x
+        %br
+        %i.icon-ok
+        Profil créé
+  .grid__item.one-twelfth.text--center.v-middle>
+    .islet
+      %i.icon-chevron-right.icon-2x
+  .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+    %a.muted-link.blue-box.islet.word-break-normal
+      %h5
+        %i.icon-ok.icon-2x
+        %br
+        Validez votre inscription
+  .grid__item.one-twelfth.text--center.v-middle>
+    .islet
+      %i.icon-chevron-right.icon-2x
+  .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+    %a.muted-link.white-box.islet.word-break-normal
+      %h5
+        %i.icon-cogs.icon-2x
+        %br
+        Gérez votre profil
+
+-# .text--center
+-#   .white-box--small.islet.center-block.text--left
+-#     %h3.flush= @structure.name
+-#     .omega
+-#       %i.icon-map-marker
+-#       = @structure.address
+-#     %ul.nav= join_parent_subjects @structure, true
+-#     %hr
+-#     %div
+-#       = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_url(@structure, subdomain: 'www')}", class: 'btn btn--facebook btn--small v-middle', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From creation page')"
+-#       = link_to structure_url(@structure, subdomain: 'www'), class: 'btn btn--blue btn--small v-middle', target: '_blank' do
+-#         %i.icon-external-link.v-middle
+-#         %span.v-middle Voir mon profil
 
 
 %hr
 
-%h4.text--center Dernière étape : créez vos identifiants pour accéder à votre espace pro
+%h4.text--center Dernière étape : créez vos identifiants pour gérer votre profil
 = simple_form_for [:pro, @admin], :url => pro_admin_registration_path, html: { autocomplete: 'off', class: 'half-form'} do |f|
   = f.error_notification
   .form-inputs
@@ -28,4 +56,4 @@
       = f.hidden_field :structure_id, as: :hidden, value: @structure.try(:id)
 
   .text--center
-    = f.button :submit, "Accéder à mon espace pro",  class: 'btn--success btn--large'
+    = f.button :submit, 'Valider',  class: 'btn--success btn--large'

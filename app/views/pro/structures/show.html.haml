@@ -1,6 +1,6 @@
 = side_menu_currently_at 'Mon profil'
-
 = render partial: 'pro/structures/tabs', locals:{ current: 'établissement'}
+
 .white-box.islet
   .grid
     .grid__item.one-fifth>
@@ -32,3 +32,6 @@
       - if @structure.facebook_url.present?
         %p= link_to 'Facebook', @structure.facebook_url, class: 'btn btn--small btn--blue'
 
+= link_to edit_pro_structure_path(@structure), class: 'btn btn--primary btn--small' do
+  %i.icon-pencil
+  %span.soft-half--left Mettre à jour mes informations

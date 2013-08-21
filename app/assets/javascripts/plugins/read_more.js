@@ -37,6 +37,10 @@
             this.$element.removeClass('read-more');
             this.original_height = this.$element.outerHeight();
             this.$element.addClass('read-more');
+            if(this.$element.data('height')) {
+                this.options.text_height = this.$element.data('height');
+                this.$element.css('max-height', this.options.text_height + 'px');
+            }
             if (this.original_height > this.options.text_height) {
                 this.is_hidden = true;
                 this.$element.addClass('read-more');
@@ -46,9 +50,11 @@
                     if (this.is_hidden) {
                         this.read_more_link.text(this.options.read_less_text);
                         this.$element.removeClass('read-more');
+                        this.$element.css('max-height', 'none');
                     } else {
                         this.read_more_link.text(this.options.read_more_text);
                         this.$element.addClass('read-more');
+                        this.$element.css('max-height', this.options.text_height + 'px');
                     }
                     this.is_hidden = !this.is_hidden;
                 }.bind(this));

@@ -101,14 +101,6 @@
         @include buttonBackground(lighten($btn-danger-background, 6%), lighten($btn-danger-background-highlight, 6%));
     }
 }
-// Warning appears are orange
-.btn--warning {
-    font-weight: bold;
-    @include buttonBackground($btn-warning-background, $btn-warning-background-highlight);
-    &:hover, &:active {
-        @include buttonBackground(lighten($btn-warning-background, 6%), lighten($btn-warning-background-highlight, 6%));
-    }
-}
 // Danger and error appear as red
 // Success appears as green
 .btn--success {
@@ -169,6 +161,13 @@
     &:before {
         content         : 'f';
         border-right    : 1px solid darken($facebook-blue, 8%);
+    }
+}
+.btn--facebook.btn--small {
+    padding      : 0.4em;
+    padding-right: 0.7em;
+    &:before {
+        font-size: 19px;
     }
 }
 
