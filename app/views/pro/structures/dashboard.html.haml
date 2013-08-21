@@ -83,7 +83,7 @@
         %i.icon-list
         Cours en ligne
       %p
-        %span.beta= @structure.courses.active.count
+        %span.beta{class: (@structure.courses.active.count > 2 ? 'green' : 'red')}= @structure.courses.active.count
         %br
         = link_to 'Ajouter des cours', pro_structure_courses_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des cours')", class: 'btn btn--blue btn--small'
   .grid__item.one-third>
