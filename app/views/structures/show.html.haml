@@ -41,7 +41,7 @@
       %meta{itemprop: 'longitude', content: @structure.longitude}
     .white-box.soft-half
       %h1.beta.blue.flush--bottom= @structure.name
-      %ul.nav.push-half--ends= join_parent_subjects @structure, true
+      %ul.nav.push-half--ends= join_child_subjects @structure, true
       - if @structure.description.present?
         %p.read-more{data: {behavior: 'read-more'}}= @structure.description.html_safe
 
