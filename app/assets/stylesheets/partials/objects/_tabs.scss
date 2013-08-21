@@ -27,6 +27,9 @@
             &:hover {
                 background-color: $site-background-color;
                 cursor       : default;
+                &[href] {
+                    cursor: pointer;
+                }
             }
         }
     }

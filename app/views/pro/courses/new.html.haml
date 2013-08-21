@@ -1,7 +1,4 @@
 = side_menu_currently_at 'Mon profil'
-
-%ol.nav.breadcrumb.alpha.header-group
-  %li= link_to 'Tous mes cours', pro_structure_path(@structure)
-  %li Nouveau cours
+= render partial: 'pro/structures/tabs', locals:{ current: 'cours'}
 
 = render partial: 'form'

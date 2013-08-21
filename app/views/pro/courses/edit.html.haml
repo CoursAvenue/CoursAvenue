@@ -1,18 +1,15 @@
 = side_menu_currently_at 'Mon profil'
+= render partial: 'pro/structures/tabs', locals:{ current: 'cours'}
 
-%ol.nav.breadcrumb.alpha.header-group
-  %li= link_to 'Tous mes cours', pro_structure_path(@structure)
-  %li= @course.name
-
-%ul.tabs.push--top
-  %li.active
-    %a
+.btn-group.push-half--bottom>
+  .btn.btn--active>
+    = link_to edit_pro_course_path(@course) do
       %i.lbc-icon-info i
       Info
-  %li
+  .btn>
     = link_to pro_course_prices_path(@course) do
       € Tarif
-  %li
+  .btn>
     = link_to pro_course_plannings_path(@course) do
       %i.icon-calendar
       Planning
