@@ -76,10 +76,12 @@
       %a#add-price{href: 'javascript:void(0)'} Ajouter un abonnement
 
     %hr
-    -# .prices
-    -#   .input.flush
-    -#     %label.control-label
-    -#       %h5.flush Tarifs réduits
+    -# .input.flush
+    -#   %label.control-label
+    -#     %h5.flush Tarifs réduits
+    .input.flush
+      %label.control-label
+        %h5.flush Adhésion
     .registration-fees
       = f.simple_fields_for :registration_fees do |registration_form|
         .input.flush.registration-fee{class: registration_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}

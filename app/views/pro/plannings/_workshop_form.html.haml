@@ -47,18 +47,18 @@
   = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: t('planning.audiences')
 
   .input#children-ages{class: f.object.audiences.include?(Audience::KID) ? '' : 'hidden'}
-    %label.control-label.v-middle Âge
+    %label.control-label.v-middle Âge pour les enfants (optionnel)
     %span.v-middle de
-    = f.input :min_age_for_kid, label: false, input_html: {style: 'width: 5em;'}, wrapper_html: {class: 'flush v-middle'}
+    = f.input :min_age_for_kid, label: false, input_html: {style: 'width: 5em;', value: 0}, wrapper_html: {class: 'flush v-middle'}
     %span.v-middle à
-    = f.input :max_age_for_kid, label: false, input_html: {style: 'width: 5em;'}, wrapper_html: {class: 'flush v-middle'}
+    = f.input :max_age_for_kid, label: false, input_html: {style: 'width: 5em;', value: 18}, wrapper_html: {class: 'flush v-middle'}
     %span.v-middle ans
 
   .input
     = f.label :info, class: 'control-label' do
       %i.lbc-icon-info i
-      Information
-    = f.input :info, as: :string, placeholder: '(optionnel) Plat : gâteau au chocolat', label: false
+      Information (optionnel)
+    = f.input :info, as: :string, placeholder: 'Exemple : Nous préparerons un gâteau au chocolat', label: false
   .text--center.input
     - if @planning.new_record?
       = f.submit 'Ajouter le créneau', class: 'btn btn--success'

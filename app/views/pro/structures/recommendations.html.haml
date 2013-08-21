@@ -9,12 +9,13 @@
       %i.icon-bullhorn
       Demander des recommandations
 
-%h5.home-title.push--top
+%h5.home-title.push--top.relative
   %i.icon-bullhorn.v-middle
-  %span.v-middle 3 manières efficaces d'être recommandé
+  %span.v-middle 3 manières d'être recommandé
+  %div{style: 'position: absolute; left: 460px; top: 10px;'}= image_tag 'texts/mail.png', height: 55
 .grid--full.text--center.push--top
   .grid__item.three-twelfths.text--center.v-middle.relative>
-    %a.muted-link.white-box.islet{href: '#email-reco'}
+    %a.muted-link.white-box.islet{href: '#facebook-reco'}
       %h4
         %i.icon-facebook.icon-2x
         %br
@@ -23,7 +24,7 @@
     .islet
       ou
   .grid__item.three-twelfths.text--center.v-middle.relative>
-    %a.muted-link.white-box.islet{href: '#facebook-reco'}
+    %a.muted-link.white-box.islet{href: '#email-reco'}
       %h4
         %i.icon-envelope-alt.icon-2x
         %br
@@ -38,7 +39,6 @@
         %br
         Sur votre site
 %hr
-
 .white-box.islet
   %h4.fb-blue#facebook-reco
     %i.icon-facebook-sign.icon-2x.v-middle.soft-half--right
