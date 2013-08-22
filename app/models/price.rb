@@ -14,6 +14,8 @@ class Price < ActiveRecord::Base
   validates :amount       , numericality: { greater_than_or_equal_to:  0 }
   validates :promo_amount , numericality: { less_than: :amount }, allow_nil: true
 
+  before_save :remove_zeros
+
   scope :book_tickets , where(type: 'Price::BookTicket')
   scope :subscriptions, where(type: 'Price::Subscription')
   scope :registrations, where(type: 'Price::Registration')
@@ -60,6 +62,12 @@ class Price < ActiveRecord::Base
   end
 
   private
+
+  def remove_zeros
+    if promo_amount == 0
+      promo_amount = nil
+    end
+  end
 
   def update_nb_courses
     case libelle

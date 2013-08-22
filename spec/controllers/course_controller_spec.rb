@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe CoursesController do
+describe Structure::CoursesController do
 
   subject {course}
   let(:course) { FactoryGirl.create(:course) }

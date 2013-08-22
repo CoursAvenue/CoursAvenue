@@ -10,6 +10,7 @@ fr:
     free: Gratuit
     contact_structure: Contacter l'établissement
     individual_course: Une séance
+    registration_fees: Frais d'adhésion
     book_ticket:
       libelle:
         zero: Carnet de zero ticket

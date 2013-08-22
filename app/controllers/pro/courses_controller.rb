@@ -12,6 +12,13 @@ class Pro::CoursesController < InheritedResources::Base
     @courses   = @structure.courses.order('name ASC')
   end
 
+  def copy_prices_from
+    @course                   = Course.find params[:id]
+    @course_to_duplicate_from = Course.find params[:course_id]
+    @course.copy_prices_from(@course_to_duplicate_from)
+    redirect_to pro_course_prices_path(@course), notice: "Les tarifs ont été mis à jour."
+  end
+
   def duplicate
     @course = Course.find params[:id]
     @course.duplicate!

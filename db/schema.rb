@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130822073413) do
+ActiveRecord::Schema.define(:version => 20130822160530) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -152,7 +152,6 @@ ActiveRecord::Schema.define(:version => 20130822073413) do
     t.boolean  "is_for_handicaped"
     t.text     "trial_lesson_info"
     t.text     "price_details"
-    t.text     "price_info"
     t.text     "conditions"
     t.text     "partner_rib_info"
     t.boolean  "audition_mandatory"

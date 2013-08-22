@@ -10,22 +10,11 @@ fr:
       course:
         description: Description
         name: Nom
-        has_online_payment:
-        course_info:
-        registration_date:
         teacher: Professeur
         max_age_for_kid: Age max
         min_age_for_kid: Age min
         is_individual: Individuel / Particulier
         is_for_handicaped: Pour handicapés
-        trial_lesson_info:
-        price_details:
-        price_info:
-        conditions:
-        partner_rib_info:
-        audition_mandatory:
-        refund_condition:
-        can_be_joined_during_year:
         frequency: Fréquence
         room: Salle de cours principale
         price_details: 'Autres tarifs / Informations'

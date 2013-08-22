@@ -9,6 +9,7 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
   load_and_authorize_resource :structure
 
   def index
+    @other_courses = @structure.courses.reject{|c| c == @course}
     @book_tickets  = @course.book_tickets
     @discounts     = @course.discounts
     @subscriptions = @course.subscriptions
