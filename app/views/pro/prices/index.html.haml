@@ -23,12 +23,16 @@
   .form-white-box--large
     .grid--full.input
       %label.control-label.grid__item &nbsp;
-      .grid__item.text--center{style: 'width: 100px;'}
+      .grid__item.text--center{style: 'width: 170px;'}
         %b Prix normal
-      .grid__item.text--center.soft-half--left{style: 'width: 100px;'}
+      .grid__item.text--center.soft-half--left{style: 'width: 170px;'}
         %b Avec promo (optionnel)
         %br
         %i.blue Laissez vide si pas de promo
+      .grid__item.text--center.soft-half--left{style: 'width: 250px;'}
+        %b
+          %i.lbc-icon-info i
+          Info
     .input
       %label.control-label
         %h5.flush Carnets & abonnements
@@ -54,11 +58,11 @@
                 %span Carnet de
                 %span.inline-block= book_ticket_form.input :number, value: 10, label: false, as: :select, collection: 2..20, selected: book_ticket_form.object.number || 10
                 %span cours
-              = book_ticket_form.input :amount, placeholder: '45', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 100px;'}
+              = book_ticket_form.input :amount, placeholder: '45', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;'}
               €
-              = book_ticket_form.input :promo_amount, placeholder: '40', label: false, wrapper_html: {class: 'push--left soft--left', style: 'width: 100px;'}, input_html: {class: 'one-whole'}
+              = book_ticket_form.input :promo_amount, placeholder: '40', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;', class: 'push--left'}
               €
-              = book_ticket_form.input :info, placeholder: 'Ex : Valable 3 mois', label: false, input_html: {class: 'one-whole'}
+              = book_ticket_form.input :info, placeholder: 'Ex. : Valable 3 mois', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;', class: 'push--left'}
       .input.flush--top
         %label.control-label &nbsp;
         %a#add-book-ticket{href: 'javascript:void(0)'} Ajouter un carnet
@@ -68,10 +72,11 @@
         = f.simple_fields_for :prices, item, child_index: i do |price_form|
           .input.flush.subscription{class: price_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}
             = price_form.input :libelle, as: :select, collection: Price::Subscription::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: {class: 'flush'}, label: false, wrapper_html: {class: 'control-label'}, include_blank: false
-            = price_form.input :amount, placeholder: '20', label: false, input_html: {class: 'one-whole'}
+            = price_form.input :amount, placeholder: '20', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;'}
             €
-            = price_form.input :promo_amount, placeholder: '18', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'push--left soft--left'}
+            = price_form.input :promo_amount, placeholder: '18', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;', class: 'push--left'}
             €
+            = price_form.input :info, placeholder: 'Ex. : 1 cours par semaine', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;', class: 'push--left'}
     .input.flush--top
       %label.control-label &nbsp;
       %a#add-subscription{href: 'javascript:void(0)'} Ajouter un abonnement
@@ -85,10 +90,11 @@
         = f.simple_fields_for :prices, item, child_index: i do |registration_form|
           .input.flush.registration-fee{class: registration_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}
             = registration_form.label :amount, 'Adhésion (optionnel)', class: 'control-label'
-            = registration_form.input :amount, placeholder: '15', label: false, input_html: {class: 'one-whole'}
+            = registration_form.input :amount, placeholder: '15', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;'}
             €
-            %span.soft--left Info
-            = registration_form.input :info, placeholder: 'Pour les étudiant', label: false, input_html: {class: 'one-whole'}
+            = registration_form.input :promo_amount, placeholder: '10', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;', class: 'push--left'}
+            €
+            = registration_form.input :info, placeholder: 'Pour les étudiant', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;', class: 'push--left'}
       .input.flush--top
         %label.control-label &nbsp;
         %a#add-registration-fee{href: 'javascript:void(0)'} Ajouter un autre type d'adhésion
@@ -99,15 +105,16 @@
     .discounts
       - @discounts.each do |item, i|
         = f.simple_fields_for :prices, item, child_index: i do |price_form|
-          .input.flush.discounts{class: price_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}
+          .input.flush.discount{class: price_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}
             = price_form.input :libelle, as: :select, collection: Price::Discount::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: {class: 'flush'}, label: false, wrapper_html: {class: 'control-label'}, include_blank: false
-            = price_form.input :amount, placeholder: '20', label: false, input_html: {class: 'one-whole'}
+            = price_form.input :amount, placeholder: '20', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;'}
             €
-            = price_form.input :promo_amount, placeholder: '18', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'push--left soft--left'}
+            = price_form.input :promo_amount, placeholder: '18', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;', class: 'push--left'}
             €
+            = price_form.input :info, label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;', class: 'push--left'}
     .input.flush--top
       %label.control-label &nbsp;
-      %a#add-discount{href: 'javascript:void(0)'} Ajouter un abonnement
+      %a#add-discount{href: 'javascript:void(0)'} Ajouter un tarif réduit
 
     = f.input :price_details, wrapper_html: {class: 'flush--bottom'}, input_html: { name: 'price_details', data: {behavior: 'autoresize' }}
     %p.field-form-info.blue Indiquez tous vos autres tarifs, les tarifs réduits (étudiants, chômeurs, etc.) et les différents modes de financement accetpés (CIF, DIF, Chèques Vacances, Tickets CAF, CESU, AFDAS, etc.).
