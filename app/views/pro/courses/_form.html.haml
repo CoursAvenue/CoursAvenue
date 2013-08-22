@@ -73,6 +73,8 @@
       = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: t('.frequency'), wrapper_html: {class: 'depend-on-reccurent-course'}
 
   %h5.form-header-group.flush--bottom Description
+  %div.relative
+    = image_tag 'texts/course-description.png', height: 85, style: 'position: absolute; left: 230px; bottom: -40px;'
   .form-white-box
     .grid--full.input
       .textarea-with-info

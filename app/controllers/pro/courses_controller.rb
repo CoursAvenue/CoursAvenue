@@ -55,7 +55,7 @@ class Pro::CoursesController < InheritedResources::Base
       resource.image.clear
     end
     update! do |success, failure|
-      if request.referer.include? 'prices' # From price index form
+      if params[:course][:prices_attributes].any?
         success.html { redirect_to pro_course_prices_path(@course), notice: 'Les tarifs ont bien été mis à jour' }
         failure.html { render template: 'pro/prices/index' }
       else

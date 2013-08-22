@@ -15,6 +15,8 @@ class Price::Discount < Price
            'prices.discount.large_family',
            'prices.discount.couple',
            'prices.discount.trial_lesson']
+
+  def discount?
+    true
+  end
 end
-
-

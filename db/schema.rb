@@ -497,10 +497,6 @@ ActiveRecord::Schema.define(:version => 20130822073413) do
     t.datetime "image_updated_at"
     t.string   "short_name"
     t.integer  "position"
-    t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
   end
 
   add_index "subjects", ["slug"], :name => "index_subjects_on_slug", :unique => true

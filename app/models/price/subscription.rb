@@ -8,4 +8,8 @@ class Price::Subscription < Price
            'prices.subscription.semester',
            'prices.subscription.trimester',
            'prices.subscription.month']
+
+  def subscription?
+    true
+  end
 end

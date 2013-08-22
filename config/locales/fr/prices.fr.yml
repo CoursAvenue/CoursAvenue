@@ -10,6 +10,11 @@ fr:
     free: Gratuit
     contact_structure: Contacter l'établissement
     individual_course: Une séance
+    book_ticket:
+      libelle:
+        zero: Carnet de zero ticket
+        one: Carnet de un ticket
+        other: Carnet de %{count} tickets
     subscription:
       annual: Abonnement annuel
       semester: Abonnement semestriel

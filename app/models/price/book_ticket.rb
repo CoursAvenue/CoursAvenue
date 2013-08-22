@@ -1,9 +1,13 @@
 # encoding: utf-8
-class Price::BookTicket < Price
+class ::Price::BookTicket < Price
 
   attr_accessible :number
 
   validates :number, presence: true
+
+  def book_ticket?
+    true
+  end
 
   def libelle
     "Carnet de #{number} cours"

@@ -2,11 +2,19 @@
   %table.table--striped.table--data.table--white#planning-schedule
     %thead
       %tr
-        %th= t('.formule_type')
-        %th.text--center= t('.price')
+        %th.three-tenths= t('.formule_type')
+        %th.five-tenths
+          Info
+        %th.two-tenths.text--center= t('.price')
     %tbody
-      = render partial: 'prices/price'            , collection: @course.prices
-      = render partial: 'book_tickets/book_ticket', collection: @course.book_tickets
+      - @prices.each do |price|
+        - if price.book_ticket?
+          = render partial: "prices/book_ticket", locals: { book_ticket: price }
+        - else
+          = render partial: "prices/price", locals: { price: price }
+        - # price.type.underscore returns price/book_ticket, etc
+        /= render partial: "prices/book_ticket", locals: { price: price }
+      /= render partial: 'book_tickets/book_ticket', collection: @course.book_tickets
   .white-box.islet
     - if @course.price_details
       %p= @course.price_details
