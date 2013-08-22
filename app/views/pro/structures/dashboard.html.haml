@@ -24,11 +24,14 @@
         #{@profile_percentage}%
   %ul.no-bullet-list
     %li
+      %i.icon-check
+      %span.line-through Créer mon profil
+    %li
       - if @profile_completed
         %i.icon-check
         %span.line-through Compléter mes informations générales
       - else
-        = link_to edit_pro_structure_path(@structure) do
+        = link_to edit_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
           %i.icon-check-empty
           Compléter mes informations générales
     %li
@@ -44,7 +47,7 @@
         %i.icon-check
         %span.line-through Mettre en ligne les photos et vidéos de mes cours
       - else
-        = link_to pro_structure_medias_path(@structure) do
+        = link_to pro_structure_medias_path(@structure), class: 'profile-task-uncomplete' do
           %i.icon-check-empty
           Mettre en ligne les photos et vidéos de mes cours
     %li
@@ -52,7 +55,7 @@
         %i.icon-check
         %span.line-through Renseigner mes cours et mon planning
       - else
-        = link_to pro_structure_path(@structure) do
+        = link_to pro_structure_path(@structure), class: 'profile-task-uncomplete' do
           %i.icon-check-empty
           Renseigner mes cours et mon planning
 
