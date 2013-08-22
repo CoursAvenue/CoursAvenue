@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130821080148) do
+ActiveRecord::Schema.define(:version => 20130822073413) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(:version => 20130821080148) do
     t.datetime "updated_at",   :null => false
     t.decimal  "promo_amount"
     t.time     "deleted_at"
+    t.string   "info"
   end
 
   create_table "cities", :force => true do |t|
@@ -324,7 +325,12 @@ ActiveRecord::Schema.define(:version => 20130821080148) do
     t.integer  "nb_courses"
     t.decimal  "promo_amount"
     t.time     "deleted_at"
+    t.string   "info"
+    t.string   "type"
+    t.integer  "number"
   end
+
+  add_index "prices", ["type"], :name => "index_prices_on_type"
 
   create_table "pricing_plans", :force => true do |t|
     t.string   "name"

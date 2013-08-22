@@ -219,6 +219,22 @@ class Course < ActiveRecord::Base
 
   handle_asynchronously :solr_index
 
+  # Helper methods for prices
+
+  def book_tickets
+    self.prices.select{|p| p.type == 'Price::BookTicket'}
+  end
+  def subscriptions
+    self.prices.select{|p| p.type == 'Price::Subscription'}
+  end
+  def registrations
+    self.prices.select{|p| p.type == 'Price::Registration'}
+  end
+  def discounts
+    self.prices.select{|p| p.type == 'Price::Discount'}
+  end
+
+  # Helper methods for place and locations
   def locations
     places.map(&:location).compact
   end

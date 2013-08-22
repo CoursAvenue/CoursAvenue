@@ -10,12 +10,14 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
 
   def index
     # If the course doesn't have a individual price, build one by default
-    unless @course.prices.where{libelle == 'prices.individual_course'}.first
-      @course.prices.build libelle: 'prices.individual_course'
-    end
-    8.times { @course.prices.build }
-    8.times { @course.book_tickets.build }
-    3.times { @course.registration_fees.build }
+    # unless @course.prices.where{libelle == 'prices.individual_course'}.first
+    #   @course.prices.build libelle: 'prices.individual_course'
+    # end
+    @book_tickets, @discounts, @subscriptions, @registrations = [], [], [], []
+    4.times { @subscriptions << Price::Subscription.new }
+    6.times { @discounts     << Price::Discount.new }
+    8.times { @book_tickets  << Price::BookTicket.new(course: @course)}
+    3.times { @registrations << Price::Registration.new }
     index!
   end
 

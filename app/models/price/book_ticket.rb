@@ -1,19 +1,12 @@
 # encoding: utf-8
-class BookTicket < ActiveRecord::Base
-  acts_as_paranoid
-  belongs_to :course
+class Price::BookTicket < Price
 
-  attr_accessible :number, :amount, :promo_amount, :validity, :info # in months
+  attr_accessible :number
 
   validates :number, presence: true
-  validates :amount, presence: true
 
   def libelle
-    if validity
-      "Carnet de #{number} cours (validité #{validity.to_i} mois)"
-    else
-      "Carnet de #{number} cours"
-    end
+    "Carnet de #{number} cours"
   end
 
   def has_promo?

@@ -8,27 +8,23 @@ class Price < ActiveRecord::Base
   #   prices.free: Gratuit
   #   prices.contact_structure: Contacter l'établissement
   #   prices.individual_course: Cours seul
-  #   prices.subscription.annual: Abonnement annuel
-  #   prices.subscription.semester: Abonnement semestriel
-  #   prices.subscription.trimester: Abonnement trimestriel
-  #   prices.subscription.month: Abonnement mensuel
-  #   prices.promotion.student: Étudiant
-  #   prices.promotion.young_and_senior: Jeune et sénior
-  #   prices.promotion.job_seeker: Au chômage
-  #   prices.promotion.low_income: Revenu faible
-  #   prices.promotion.large_family: Famille nombreuse
-  #   prices.promotion.couple: Couple
-  #   prices.promotion.trial_lesson: Cours d'essai
 
   attr_accessible :libelle,
                   :amount,
                   :promo_amount,
-                  :nb_courses
+                  :nb_courses,
+                  :info,
+                  :course
 
   validates :libelle      , uniqueness: {scope: 'course_id'}
   validates :amount       , presence: true
   validates :amount       , numericality: { greater_than_or_equal_to:  0 }
   validates :promo_amount , numericality: { less_than: :amount }, allow_nil: true
+
+  scope :book_tickets , where(type: 'Price::BookTicket')
+  scope :subscriptions, where(type: 'Price::Subscription')
+  scope :registrations, where(type: 'Price::Registration')
+  scope :discounts    , where(type: 'Price::Discount')
 
   def per_course_amount
     return nil if amount.nil?
