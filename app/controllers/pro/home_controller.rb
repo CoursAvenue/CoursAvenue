@@ -5,7 +5,7 @@ class Pro::HomeController < Pro::ProController
     @admin      = ::Admin.new
     @structures = StructureSearch.search({lat: 48.8540,
                                           lng: 2.3417,
-                                          radius: 8,
+                                          radius: 5,
                                           per_page: 1000,
                                           sort: 'rating_desc',
                                           has_picture: true,
