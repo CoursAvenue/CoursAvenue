@@ -62,7 +62,7 @@ class Pro::CoursesController < InheritedResources::Base
       resource.image.clear
     end
     update! do |success, failure|
-      if params[:course][:prices_attributes].any?
+      if params[:course][:prices_attributes].present?
         success.html { redirect_to pro_course_prices_path(@course), notice: 'Les tarifs ont bien été mis à jour' }
         failure.html { render template: 'pro/prices/index' }
       else

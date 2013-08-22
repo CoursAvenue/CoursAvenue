@@ -22,25 +22,39 @@
     - else
       #profile-progress-bar.bar.bar-success{style: "width: 0%;"}
         #{@profile_percentage}%
-  %ol.push--left
-    %li{class: @profile_completed ? 'line-through' : ''}
-      = link_to_unless @profile_completed, 'Compléter mes informations générales', edit_pro_structure_path(@structure)
-    %li{class: @comments.any? ? 'line-through' : ''}
-      = link_to_unless @comments.any?, 'Demander des recommandations à mes élèves', recommendations_pro_structure_path(@structure)
-    %li{class: @structure.medias.any? ? 'line-through' : ''}
-      = link_to_unless @structure.medias.any?, 'Mettre en ligne les photos et vidéos de mes cours', pro_structure_medias_path(@structure)
-    %li{class: @structure.courses.active.count > 0 ? 'line-through' : ''}
-      = link_to_unless (@structure.courses.active.count > 0), 'Renseigner mes cours et mon planning', pro_structure_path(@structure)
-
--# .white-box.islet
--#   %h4
--#     %i.icon-user
--#     Profil
--#   %ol.push--left
--#     %li{class: @structure.image.present? ? 'line-through' : ''}
--#       = link_to_unless @structure.image.present?, 'Mettre mon logo', edit_pro_structure_path(@structure)
--#     %li{class: @structure.description.present? ? 'line-through' : ''}
--#       = link_to_unless @structure.description.present?, 'Décrire mon établissement', edit_pro_structure_path(@structure)
+  %ul.no-bullet-list
+    %li
+      - if @profile_completed
+        %i.icon-check
+        %span.line-through Compléter mes informations générales
+      - else
+        = link_to edit_pro_structure_path(@structure) do
+          %i.icon-check-empty
+          Compléter mes informations générales
+    %li
+      - if @comments.any?
+        %i.icon-check
+        %span.line-through Demander des recommandations à mes élèves
+      - else
+        = link_to recommendations_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
+          %i.icon-check-empty
+          Demander des recommandations à mes élèves
+    %li
+      - if @structure.medias.any?
+        %i.icon-check
+        %span.line-through Mettre en ligne les photos et vidéos de mes cours
+      - else
+        = link_to pro_structure_medias_path(@structure) do
+          %i.icon-check-empty
+          Mettre en ligne les photos et vidéos de mes cours
+    %li
+      - if @structure.courses.active.count > 0
+        %i.icon-check
+        %span.line-through Renseigner mes cours et mon planning
+      - else
+        = link_to pro_structure_path(@structure) do
+          %i.icon-check-empty
+          Renseigner mes cours et mon planning
 
 .grid
   .grid__item.one-third>
@@ -52,29 +66,6 @@
         %span.beta{class: (@comments.length > 6 ? 'green' : 'red')}= @comments.length
         %br
         = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Demander des recommandations')"
-    -# %hr.push--top
-    -# %p
-    -#   Notre moteur de recherche est basé sur les témoignages des élèves.
-    -#   %br
-    -#   Voici votre position d'apparition sur CoursAvenue grâce à vos avis :
-    -# - @structure_better_indexed.each do |subject_name, structures|
-    -#   %p.flush--bottom
-    -#     %strong= subject_name
-    -#     \: #{(structures.length + 1).ordinalize}
-    -#     position.
-    -#     - if structures.any?
-    -#       %br
-    -#       Établissements mieux placés que vous :
-    -#   - if structures.any?
-    -#     %ul.block-list
-    -#       - structures.each do |structure|
-    -#         %li
-    -#           = link_to structure.name, structure_url(structure, subdomain: 'www'), target: '_blank'
-    -#           = rating_stars structure.rating
-    -#           \/
-    -#           = structure.comments_count
-    -#           avis
-    -#           %i.lbc-brand-icon
 
   .grid__item.one-third>
     .white-box.islet.text--center
@@ -157,6 +148,11 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('a.profile-task-uncomplete').hover(function() {
+            $(this).find('i').removeClass('icon-check-empty').addClass('icon-check');
+        }, function() {
+            $(this).find('i').removeClass('icon-check').addClass('icon-check-empty');
+        });
         $('#profile-progress-bar').animate({
             width: '#{@profile_percentage}%'
         }, 800)
