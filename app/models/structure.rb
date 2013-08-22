@@ -182,7 +182,10 @@ class Structure < ActiveRecord::Base
       self.comments.count > 0
     end
     boolean :has_picture do
-      self.image.present?
+      self.image?
+    end
+    boolean :has_logo do
+      self.logo?
     end
     boolean :has_admin do
       self.admins.any?

@@ -8,7 +8,7 @@ class Pro::HomeController < Pro::ProController
                                           radius: 5,
                                           per_page: 1000,
                                           sort: 'rating_desc',
-                                          has_picture: true,
+                                          has_logo: true,
                                           per_page: 15
                                         })
     @locations     = @structures.collect{|structure| structure.locations.first }.uniq
