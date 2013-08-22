@@ -30,8 +30,6 @@ class Course < ActiveRecord::Base
   has_many :teachers            , through: :plannings, uniq: true
   has_many :places              , through: :plannings, uniq: true
   has_many :prices              , dependent: :destroy
-  has_many :book_tickets        , dependent: :destroy
-  has_many :registration_fees   , dependent: :destroy
   has_many :reservation_loggers , dependent: :destroy
 
   has_and_belongs_to_many :subjects, :uniq => true
@@ -56,7 +54,7 @@ class Course < ActiveRecord::Base
                   :info,
                   :rating,
                   :is_promoted,
-
+                  :price_details,
                   :has_online_payment,
                   :homepage_image,
                   :image,
@@ -64,7 +62,6 @@ class Course < ActiveRecord::Base
                   :registration_date,
                   :is_individual, :is_for_handicaped,
                   :trial_lesson_info, # Info prix
-                  :price_details, :price_info,
                   :conditions,
                   :partner_rib_info,
                   :audition_mandatory,
@@ -76,14 +73,6 @@ class Course < ActiveRecord::Base
                   :book_tickets_attributes, :prices_attributes, :registration_fees_attributes
 
   accepts_nested_attributes_for :prices,
-                                 reject_if: :reject_price,
-                                 allow_destroy: true
-
-  accepts_nested_attributes_for :book_tickets,
-                                 reject_if: :reject_price,
-                                 allow_destroy: true
-
-  accepts_nested_attributes_for :registration_fees,
                                  reject_if: :reject_price,
                                  allow_destroy: true
 
@@ -219,6 +208,31 @@ class Course < ActiveRecord::Base
 
   handle_asynchronously :solr_index
 
+  # Helper methods for prices
+
+  def copy_prices_from(course)
+    new_prices = []
+    course.prices.all.each do |price|
+      new_prices << price.dup
+    end
+    self.prices        = new_prices
+    self.price_details = course.price_details
+  end
+
+  def book_tickets
+    self.prices.select{|p| p.type == 'Price::BookTicket'}
+  end
+  def subscriptions
+    self.prices.select{|p| p.type == 'Price::Subscription'}
+  end
+  def registrations
+    self.prices.select{|p| p.type == 'Price::Registration'}
+  end
+  def discounts
+    self.prices.select{|p| p.type == 'Price::Discount'}
+  end
+
+  # Helper methods for place and locations
   def locations
     places.map(&:location).compact
   end

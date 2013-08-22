@@ -6,29 +6,36 @@ class Price < ActiveRecord::Base
 
   # Possible libelle:
   #   prices.free: Gratuit
-  #   prices.contact_structure: Contacter l'établissement
   #   prices.individual_course: Cours seul
-  #   prices.subscription.annual: Abonnement annuel
-  #   prices.subscription.semester: Abonnement semestriel
-  #   prices.subscription.trimester: Abonnement trimestriel
-  #   prices.subscription.month: Abonnement mensuel
-  #   prices.promotion.student: Étudiant
-  #   prices.promotion.young_and_senior: Jeune et sénior
-  #   prices.promotion.job_seeker: Au chômage
-  #   prices.promotion.low_income: Revenu faible
-  #   prices.promotion.large_family: Famille nombreuse
-  #   prices.promotion.couple: Couple
-  #   prices.promotion.trial_lesson: Cours d'essai
 
-  attr_accessible :libelle,
-                  :amount,
-                  :promo_amount,
-                  :nb_courses
+  attr_accessible :libelle, :amount, :promo_amount, :nb_courses, :info, :course, :number, :type
 
-  validates :libelle      , uniqueness: {scope: 'course_id'}
-  validates :amount       , presence: true
+  validates :amount, :course, presence: true
   validates :amount       , numericality: { greater_than_or_equal_to:  0 }
   validates :promo_amount , numericality: { less_than: :amount }, allow_nil: true
+
+  before_save :remove_zeros
+
+  scope :book_tickets , where(type: 'Price::BookTicket')
+  scope :subscriptions, where(type: 'Price::Subscription')
+  scope :registrations, where(type: 'Price::Registration')
+  scope :discounts    , where(type: 'Price::Discount')
+
+  def book_ticket?
+    false
+  end
+
+  def subscription?
+    false
+  end
+
+  def registration?
+    false
+  end
+
+  def discount?
+    false
+  end
 
   def per_course_amount
     return nil if amount.nil?
@@ -55,6 +62,12 @@ class Price < ActiveRecord::Base
   end
 
   private
+
+  def remove_zeros
+    if promo_amount == 0
+      promo_amount = nil
+    end
+  end
 
   def update_nb_courses
     case libelle

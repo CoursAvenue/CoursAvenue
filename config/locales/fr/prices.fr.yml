@@ -10,12 +10,18 @@ fr:
     free: Gratuit
     contact_structure: Contacter l'établissement
     individual_course: Une séance
+    registration_fees: Frais d'adhésion
+    book_ticket:
+      libelle:
+        zero: Carnet de zero ticket
+        one: Carnet de un ticket
+        other: Carnet de %{count} tickets
     subscription:
       annual: Abonnement annuel
       semester: Abonnement semestriel
       trimester: Abonnement trimestriel
       month: Abonnement mensuel
-    promotion:
+    discount:
       student: Étudiant
       young_and_senior: Jeune et sénior
       job_seeker: Au chômage

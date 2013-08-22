@@ -2,38 +2,44 @@
   %table.table--striped.table--data.table--white#planning-schedule
     %thead
       %tr
-        %th= t('.formule_type')
-        %th.text--center= t('.price')
+        %th.three-tenths= t('.formule_type')
+        %th.five-tenths
+          Info
+        %th.two-tenths.text--center= t('.price')
     %tbody
-      = render partial: 'prices/price'            , collection: @course.prices
-      = render partial: 'book_tickets/book_ticket', collection: @course.book_tickets
-  .white-box.islet
-    - if @course.price_details
-      %p= @course.price_details
-    - if @course.price_info
-      %p= @course.price_info.html_safe
-    - if @structure.registration_info
-      %p= @structure.registration_info
-    - unless @course.registration_fees.empty?
-      - @course.registration_fees.each do |registration_fee|
+      - @prices.each do |price|
+        - if price.book_ticket?
+          = render partial: "prices/book_ticket", locals: { book_ticket: price }
+        - elsif !price.registration?
+          = render partial: "prices/price", locals: { price: price }
+  - if @course.price_details.present?
+    %p.white-box.islet= @course.price_details
+  - if @course.registrations.any?
+    .white-box.islet
+      - @course.registrations.each do |registration_fee|
         %p
-          = RegistrationFee.human_attribute_name(:registration_fee)
-          = "#{readable_amount(registration_fee.amount)}€"
+          = t('prices.registration_fees')
+          - if registration_fee.promo_amount
+            %span.line-through= "#{readable_amount(registration_fee.amount)}€"
+            %span.green= "#{readable_amount(registration_fee.promo_amount)}€"
+          - else
+            = "#{readable_amount(registration_fee.amount)}€"
           - if registration_fee.info.present?
             = "(#{registration_fee.info})"
-    - if @structure.accepts_holiday_vouchers or @structure.accepts_ancv_sports_coupon or @structure.accepts_leisure_tickets or @structure.accepts_afdas_funding or @structure.accepts_dif_funding or @structure.accepts_cif_funding
+  - if @structure.accepts_holiday_vouchers or @structure.accepts_ancv_sports_coupon or @structure.accepts_leisure_tickets or @structure.accepts_afdas_funding or @structure.accepts_dif_funding or @structure.accepts_cif_funding
+    .white-box.islet
       %p.flush--bottom= t('.possible_funding')
-    %ul
-      - if @structure.accepts_holiday_vouchers
-        %li= t('.holiday_vouchers')
-      - if @structure.accepts_ancv_sports_coupon
-        %li= t('.sport_coupons')
-      - if @structure.accepts_leisure_tickets
-        %li= t('.leisure_coupons')
-      - if @structure.accepts_afdas_funding
-        %li= t('.afdas_html')
-      - if @structure.accepts_dif_funding
-        %li= t('.dif_html')
-      - if @structure.accepts_cif_funding
-        %li= t('.cif_html')
+      %ul
+        - if @structure.accepts_holiday_vouchers
+          %li= t('.holiday_vouchers')
+        - if @structure.accepts_ancv_sports_coupon
+          %li= t('.sport_coupons')
+        - if @structure.accepts_leisure_tickets
+          %li= t('.leisure_coupons')
+        - if @structure.accepts_afdas_funding
+          %li= t('.afdas_html')
+        - if @structure.accepts_dif_funding
+          %li= t('.dif_html')
+        - if @structure.accepts_cif_funding
+          %li= t('.cif_html')
 

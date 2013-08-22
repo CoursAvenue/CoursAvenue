@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130821080148) do
+ActiveRecord::Schema.define(:version => 20130822160530) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(:version => 20130821080148) do
     t.datetime "updated_at",   :null => false
     t.decimal  "promo_amount"
     t.time     "deleted_at"
+    t.string   "info"
   end
 
   create_table "cities", :force => true do |t|
@@ -151,7 +152,6 @@ ActiveRecord::Schema.define(:version => 20130821080148) do
     t.boolean  "is_for_handicaped"
     t.text     "trial_lesson_info"
     t.text     "price_details"
-    t.text     "price_info"
     t.text     "conditions"
     t.text     "partner_rib_info"
     t.boolean  "audition_mandatory"
@@ -324,7 +324,12 @@ ActiveRecord::Schema.define(:version => 20130821080148) do
     t.integer  "nb_courses"
     t.decimal  "promo_amount"
     t.time     "deleted_at"
+    t.string   "info"
+    t.string   "type"
+    t.integer  "number"
   end
+
+  add_index "prices", ["type"], :name => "index_prices_on_type"
 
   create_table "pricing_plans", :force => true do |t|
     t.string   "name"
@@ -491,10 +496,6 @@ ActiveRecord::Schema.define(:version => 20130821080148) do
     t.datetime "image_updated_at"
     t.string   "short_name"
     t.integer  "position"
-    t.string   "logo_file_name"
-    t.string   "logo_content_type"
-    t.integer  "logo_file_size"
-    t.datetime "logo_updated_at"
   end
 
   add_index "subjects", ["slug"], :name => "index_subjects_on_slug", :unique => true

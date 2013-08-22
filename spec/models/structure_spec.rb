@@ -6,7 +6,6 @@ describe Structure do
   let(:structure) { FactoryGirl.create(:structure) }
 
   it {should be_valid}
-  it {should have(1).place}
   it {structure.active.should be true}
 
   context :contact do

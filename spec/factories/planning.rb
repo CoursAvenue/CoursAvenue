@@ -2,6 +2,7 @@
 FactoryGirl.define do
   factory :planning do
     course
+    place
     duration            10
     end_date            Date.tomorrow
     start_date          Date.today

@@ -12,6 +12,13 @@ class Pro::CoursesController < InheritedResources::Base
     @courses   = @structure.courses.order('name ASC')
   end
 
+  def copy_prices_from
+    @course                   = Course.find params[:id]
+    @course_to_duplicate_from = Course.find params[:course_id]
+    @course.copy_prices_from(@course_to_duplicate_from)
+    redirect_to pro_course_prices_path(@course), notice: "Les tarifs ont été mis à jour."
+  end
+
   def duplicate
     @course = Course.find params[:id]
     @course.duplicate!
@@ -55,7 +62,7 @@ class Pro::CoursesController < InheritedResources::Base
       resource.image.clear
     end
     update! do |success, failure|
-      if request.referer.include? 'prices' # From price index form
+      if params[:course][:prices_attributes].any?
         success.html { redirect_to pro_course_prices_path(@course), notice: 'Les tarifs ont bien été mis à jour' }
         failure.html { render template: 'pro/prices/index' }
       else

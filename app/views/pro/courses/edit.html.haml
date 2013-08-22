@@ -1,5 +1,9 @@
 = side_menu_currently_at 'Mes cours'
 
+%ol.breadcrumb.bordered--bottom.soft-half--bottom.nav.delta{itemprop: 'breadcrumb'}
+  %li= link_to 'Tous mes cours', pro_structure_courses_path(@structure)
+  %li= @course.name
+
 .btn-group.push-half--bottom>
   .btn.btn--active>
     = link_to edit_pro_course_path(@course) do

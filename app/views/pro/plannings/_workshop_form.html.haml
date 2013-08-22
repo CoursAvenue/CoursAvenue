@@ -25,8 +25,6 @@
     %span.v-middle durée du cours :
     = f.input :duration, as: :select, collection: minutes, label: false
 
-  - if @course.is_individual
-    %p.field-form-info.blue Attention : 1 créneau = 1 séance de cours (si vous donnez des cours particuliers d'1h tous les lundis de 15h à 19h, entrez 4 créneaux : 15h-16h, 16h-17h,…).
   .input#add-teacher-wrapper
     = f.label :teacher, class: 'control-label' do
       %i.icon-user

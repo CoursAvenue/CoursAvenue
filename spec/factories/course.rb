@@ -3,7 +3,6 @@
 FactoryGirl.define do
   factory :course, class: 'Course::Lesson' do
     structure
-    place
 
     subjects    [Subject.roots.first.children.first]
 

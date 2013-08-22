@@ -2,14 +2,7 @@
 
 FactoryGirl.define do
   factory :place do
-    city
+    location
     structure
-
-    latitude          48.8592
-    longitude         2.3417
-
-    name              Forgery::Name.full_name + ' place'
-    street            Forgery(:address).street_address
-    zip_code          75014
   end
 end

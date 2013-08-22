@@ -47,6 +47,7 @@ CoursAvenue::Application.routes.draw do
         member do
           post 'update' # For paperclip image
           post 'duplicate'
+          post 'copy_prices_from'
         end
         resources :plannings,  only: [:edit, :index, :destroy] do
           member do

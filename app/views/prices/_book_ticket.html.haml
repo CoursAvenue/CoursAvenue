@@ -1,8 +1,12 @@
 %tr
   %td
-    = t('prices.book_ticket.libelle', count: book_ticket.number)
+    - if book_ticket.number == 1
+      1 cours
+    - else
+      = t('prices.book_ticket.libelle', count: book_ticket.number)
+  %td
     = book_ticket.info
-  %td.text--center
+  %td.text--right
     - if book_ticket.promo_amount
       %span.line-through= "#{readable_amount(book_ticket.amount)}€"
       %span.green= "#{readable_amount(book_ticket.promo_amount)}€"

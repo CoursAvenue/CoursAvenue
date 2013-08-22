@@ -18,6 +18,12 @@ describe Course do
   subject {@course}
   it { should be_valid }
 
+  describe '#copy_prices_from' do
+    it 'duplicate all the prices from a given course' do
+      # Subscription
+    end
+  end
+
   describe '#best_price' do
     context 'without promotion' do
       it 'returns the price with lowest amount' do
