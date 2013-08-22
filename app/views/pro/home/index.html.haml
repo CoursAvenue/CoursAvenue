@@ -31,7 +31,7 @@
           .one-whole.course-element{data: {'location-id' => structure.locations.first.id, type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
             .grid
               .grid__item.two-twelfths>
-                = image_tag structure.image.url(:thumb)
+                = image_tag structure.logo.url(:thumb)
               .grid__item.seven-twelfths>
                 %h3.flush--bottom.brand.course-title
                   .map-marker-image
