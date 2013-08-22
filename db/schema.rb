@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130822160530) do
+ActiveRecord::Schema.define(:version => 20130822175455) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -68,18 +68,6 @@ ActiveRecord::Schema.define(:version => 20130822160530) do
   add_index "admins", ["invitation_token"], :name => "index_admin_users_on_invitation_token"
   add_index "admins", ["invited_by_id"], :name => "index_admin_users_on_invited_by_id"
   add_index "admins", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
-
-  create_table "book_tickets", :force => true do |t|
-    t.integer  "number"
-    t.decimal  "amount"
-    t.decimal  "validity"
-    t.integer  "course_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.decimal  "promo_amount"
-    t.time     "deleted_at"
-    t.string   "info"
-  end
 
   create_table "cities", :force => true do |t|
     t.string   "name"
@@ -336,15 +324,6 @@ ActiveRecord::Schema.define(:version => 20130822160530) do
     t.decimal  "price"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-  end
-
-  create_table "registration_fees", :force => true do |t|
-    t.decimal  "amount"
-    t.integer  "course_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "info"
-    t.time     "deleted_at"
   end
 
   create_table "renting_rooms", :force => true do |t|

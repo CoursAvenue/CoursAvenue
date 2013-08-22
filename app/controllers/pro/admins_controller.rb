@@ -37,6 +37,9 @@ class ::Pro::AdminsController < InheritedResources::Base
   def edit
     @admin     = ::Admin.find(params[:id])
     @structure = @admin.structure
+    if @structure.nil?
+      redirect_to request.referrer, alert: "Pas d'admin pour cet établissement"
+    end
   end
 
   def update
