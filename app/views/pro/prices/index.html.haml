@@ -61,6 +61,7 @@
               €
               = book_ticket_form.input :promo_amount, placeholder: '20', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;', class: 'push--left'}
               €
+              = book_ticket_form.input :info, placeholder: 'Ex. : Valable 3 mois', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;', class: 'push--left'}
           - else
             .book-ticket{class: book_ticket_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}
               .input.flush
@@ -68,9 +69,9 @@
                   %span Carnet de
                   %span.inline-block= book_ticket_form.input :number, value: 10, label: false, as: :select, collection: 2..20, selected: book_ticket_form.object.number || 10
                   %span cours
-                = book_ticket_form.input :amount, placeholder: '45', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;'}
+                = book_ticket_form.input :amount, placeholder: '200', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;'}
                 €
-                = book_ticket_form.input :promo_amount, placeholder: '40', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;', class: 'push--left'}
+                = book_ticket_form.input :promo_amount, placeholder: '150', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;', class: 'push--left'}
                 €
                 = book_ticket_form.input :info, placeholder: 'Ex. : Valable 3 mois', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;', class: 'push--left'}
       .input.flush--top
@@ -87,9 +88,9 @@
           .input.flush.subscription{class: price_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}
             = price_form.input :type, as: :hidden
             = price_form.input :libelle, as: :select, collection: Price::Subscription::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: {class: 'flush'}, label: false, wrapper_html: {class: 'control-label'}, include_blank: false
-            = price_form.input :amount, placeholder: '20', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;'}
+            = price_form.input :amount, placeholder: '250', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;'}
             €
-            = price_form.input :promo_amount, placeholder: '18', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;', class: 'push--left'}
+            = price_form.input :promo_amount, placeholder: '200', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;', class: 'push--left'}
             €
             = price_form.input :info, placeholder: 'Ex. : 1 cours par semaine', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;', class: 'push--left'}
     .input.flush--top

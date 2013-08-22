@@ -10,7 +10,11 @@ class ::Price::BookTicket < Price
   end
 
   def libelle
-    "Carnet de #{number} cours"
+    if number == 1
+      I18n.t('prices.individual_course')
+    else
+      I18n.t('prices.book_ticket.libelle', count: number)
+    end
   end
 
   def has_promo?

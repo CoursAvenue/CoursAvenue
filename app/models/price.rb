@@ -21,6 +21,10 @@ class Price < ActiveRecord::Base
   scope :registrations, where(type: 'Price::Registration')
   scope :discounts    , where(type: 'Price::Discount')
 
+  def libelle
+    I18n.t(read_attribute(:libelle)) if read_attribute(:libelle)
+  end
+
   def book_ticket?
     false
   end

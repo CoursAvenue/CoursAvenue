@@ -174,7 +174,7 @@
                     %td.text--center
                       %ul.nav.flush--bottom
                         = join_course_subjects course
-                    %td.text--center= course.plannings.count
+                    %td.text--center= course.plannings.future.count
                     %td.text--right
                       - if course.best_price
                         = "#{readable_amount course.best_price.amount}€".html_safe

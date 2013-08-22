@@ -9,7 +9,7 @@ fr:
   prices:
     free: Gratuit
     contact_structure: Contacter l'établissement
-    individual_course: Une séance
+    individual_course: 1 cours
     registration_fees: Frais d'adhésion
     book_ticket:
       libelle:

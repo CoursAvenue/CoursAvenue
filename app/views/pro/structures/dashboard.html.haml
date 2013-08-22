@@ -13,25 +13,24 @@
     %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
   = render 'wizards/share_your_profile'
 
-- unless @profile_percentage == 100
-  .white-box.islet
-    %h4.flush
-      Votre profil est complété à #{@profile_percentage}%
-    .text--center.progress.push-half--bottom{style: "width: 280px;"}
-      - if @profile_percentage == 0
+.white-box.islet
+  %h4.flush
+    Votre profil est complété à #{@profile_percentage}%
+  .text--center.progress.push-half--bottom{style: "width: 280px;"}
+    - if @profile_percentage == 0
+      #{@profile_percentage}%
+    - else
+      #profile-progress-bar.bar.bar-success{style: "width: 0%;"}
         #{@profile_percentage}%
-      - else
-        .bar.bar-success{style: "width: #{@profile_percentage}%;"}
-          #{@profile_percentage}%
-    %ol.push--left
-      %li{class: @profile_completed ? 'line-through' : ''}
-        = link_to_unless @profile_completed, 'Compléter mes informations générales', edit_pro_structure_path(@structure)
-      %li{class: @comments.any? ? 'line-through' : ''}
-        = link_to_unless @comments.any?, 'Demander des recommandations à mes élèves', recommendations_pro_structure_path(@structure)
-      %li{class: @structure.medias.any? ? 'line-through' : ''}
-        = link_to_unless @structure.medias.any?, 'Mettre en ligne les photos et vidéos de mes cours', pro_structure_medias_path(@structure)
-      %li{class: @structure.courses.active.count > 0 ? 'line-through' : ''}
-        = link_to_unless (@structure.courses.active.count > 0), 'Renseigner mes cours et mon planning', pro_structure_path(@structure)
+  %ol.push--left
+    %li{class: @profile_completed ? 'line-through' : ''}
+      = link_to_unless @profile_completed, 'Compléter mes informations générales', edit_pro_structure_path(@structure)
+    %li{class: @comments.any? ? 'line-through' : ''}
+      = link_to_unless @comments.any?, 'Demander des recommandations à mes élèves', recommendations_pro_structure_path(@structure)
+    %li{class: @structure.medias.any? ? 'line-through' : ''}
+      = link_to_unless @structure.medias.any?, 'Mettre en ligne les photos et vidéos de mes cours', pro_structure_medias_path(@structure)
+    %li{class: @structure.courses.active.count > 0 ? 'line-through' : ''}
+      = link_to_unless (@structure.courses.active.count > 0), 'Renseigner mes cours et mon planning', pro_structure_path(@structure)
 
 -# .white-box.islet
 -#   %h4
@@ -96,47 +95,71 @@
         %br
         = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')", class: 'btn btn--blue btn--small'
 
--# .text--center= link_to 'Mettre à jour mon profil', edit_pro_structure_path(@structure), class: 'btn btn--success', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Mettre à jour mon profil')"
+%hr
+%h3 Mes derniers commentaires
+%ul.comment-list
+  = render partial: 'comments/comment', collection: @comments[0..2]
+- if @comments.length == 0
+  %p.text--center= link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
+- elsif @comments.length > 3
+  %p.text--center= link_to 'Voir mes autres avis', pro_structure_comments_path(@structure), class: 'btn btn--blue'
 
+%hr
+%h3 Mes cours en ligne
+- if @courses.any?
+  %table.table--striped.table--white
+    %thead
+      %tr
+        %th.five-twelfths Nom du <b>cours</b>
+        %th.three-twelfths.text--center Disciplines
+        %th.two-twelfths.text--center Séances à venir
+        %th.text--right Prix
+    %tbody
+      - @courses.each do |course|
+        %tr
+          %td
+            %h3.base-font-style.flush--bottom= link_to course.name.capitalize, edit_pro_course_path(course)
+            - if course.rating
+              = rating_stars course.rating
+          %td.text--center
+            %ul.nav.flush--bottom
+              = join_course_subjects course
+          %td.text--center= course.plannings.future.count
+          %td.text--right
+            - if course.best_price
+              = "#{readable_amount course.best_price.amount}€".html_safe
+  %p.text--center= link_to 'Ajouter un cours', pro_structure_courses_path(@structure), class: 'btn btn--blue'
+- else
+  %p.text--center= link_to 'Renseigner mes cours', pro_structure_courses_path(@structure), class: 'btn btn--blue'
 
+%hr
+%h3 Mes photos & vidéos
+- if @medias.any?
+  .grid.media-gallery
+    - @medias.in_groups_of(3, false).each do |media_group|
+      - media_group.each do |media|
+        .grid__item.one-third>
+          %a.break-all.flush--bottom.white-box.islet.media__item{href: media.url, title: media.caption}
+            = media.url_html
+            - if media.caption.present?
+              %p.flush--bottom
+                %i= media.caption
+          %p
+            = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' } do
+              %i.icon-trash
+              Supprimer
 
--# .grid.push--top
--#   .grid__item.one-half>
--#     %h3.header-group
--#       %i.icon-map-marker
--#       Lieux d'enseignements
--#     .white-box.islet.text--center
--#       .gamma
--#         Vous avez
--#         %span.green= @structure.places.count
--#         = Place.model_name.human(count: @structure.places.count).downcase
--#       = link_to "Ajouter un lieu d'enseignement", pro_structure_places_path(@structure), class: 'btn btn--success', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter un lieu')"
--#   .grid__item.one-half>
--#     %h3.header-group
--#       %i.icon-list
--#       Cours et stages en ligne
--#     .white-box.islet.text--center
--#       .gamma
--#         Vous avez
--#         %span{class: (@structure.courses.active.count > 3 ? 'green' : 'red')}= @structure.courses.active.count
--#         cours en ligne
--#       = link_to 'Référencer mes cours', pro_structure_path(@structure), class: 'btn btn--success', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Référencer mes cours')"
+  %p.text--center= link_to 'Ajouter une photo ou une vidéo', pro_structure_medias_path(@structure), class: 'btn btn--blue'
+- else
+  %p.text--center= link_to 'Télécharger mes photos & vidéos', pro_structure_medias_path(@structure), class: 'btn btn--blue'
 
--# .grid.push--top
--#   .grid__item.one-half>
--#     %h3.header-group
--#       %i.icon-youtube-play
--#       Photos & Vidéos
--#     .white-box.islet.text--center
--#       .gamma
--#         Vous avez
--#         %span{class: (@structure.medias.count > 3 ? 'green' : 'red')}= @structure.medias.count
--#         = Media.model_name.human(count: @structure.medias).downcase
--#       = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), class: 'btn btn--success', onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')"
 
 = content_for :scripts do
   :javascript
     $(function() {
+        $('#profile-progress-bar').animate({
+            width: '#{@profile_percentage}%'
+        }, 800)
         if ($('#wizard').length > 0) {
             $('#wizard').show('slow');
             var send_ajax = function(options) {
@@ -176,11 +199,7 @@
                 mixpanel.track('Quit wizard');
             });
         }
-      });
-
-= content_for :scripts do
-  :javascript
-    $(function() {
         if ($('#wizard').length > 0) {
             $('#wizard').show('slow');
         }
+    });
