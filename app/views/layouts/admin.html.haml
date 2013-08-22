@@ -34,7 +34,7 @@
               %a{href: '#comments'}
                 %i.lbc-brand-icon
             .relative
-              %div{style: 'position: absolute; top: -40px; left: -200px;'}= image_tag 'texts/tete-de-liste.png', height: 70
+              %div{style: 'position: absolute; top: -40px; left: -210px;'}= image_tag 'texts/tete-de-liste.png', height: 70
               - if @structure.comments_count == 0
                 = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
               - elsif @structure.comments_count > 0

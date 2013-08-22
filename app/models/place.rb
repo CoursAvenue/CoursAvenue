@@ -15,6 +15,8 @@ class Place < ActiveRecord::Base
 
   attr_accessible :location, :structure, :contacts, :contacts_attributes, :location_attributes
 
+  validates :structure, :location, presence: true
+
   def belongs_to_other_locations?
     self.location.places.count > 1
   end

@@ -14,7 +14,7 @@
       Planning
 
 %h3 Planning du cours
-- if @plannings.any?
+- if @plannings.any? and !@course.is_lesson?
   %h5 Séances à venir
 = render "#{@course.underscore_name}_list"
 %hr

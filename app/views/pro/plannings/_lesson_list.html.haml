@@ -1,8 +1,9 @@
 - has_multiple_teacher = @course.has_multiple_teacher?
 - @plannings.group_by(&:place).each do |place, plannings|
+  %hr
   - unless place.nil?
     %h5= place.location.name
-  %table.table--striped.table--data#dataTable
+  %table.table--striped.table--data.white-box#dataTable
     %thead
       %tr
         %th.text--center Jour
@@ -45,7 +46,7 @@
                 %li
                   = link_to edit_pro_course_planning_path(@course, planning), title: 'Modifier le créneau' do
                     %i.icon-pencil
-                    Modifier
+                    Modifier le créneau
                 %li
                   = link_to duplicate_pro_course_planning_path(@course, planning), title: 'Dupliquer le créneau', class: 'nowrap', method: :post do
                     %i.icon-copy
