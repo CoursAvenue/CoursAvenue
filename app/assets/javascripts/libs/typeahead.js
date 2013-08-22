@@ -1,11 +1,13 @@
+// Version from https://github.com/brianmhunt/typeahead.js/tree/dataset-with-compute-argument to work with dataset => AdressPicker
+
 /*!
- * typeahead.js 0.9.3
+ * typeahead.js 0.9.2
  * https://github.com/twitter/typeahead
  * Copyright 2013 Twitter, Inc. and other contributors; Licensed MIT
  */
 
 (function($) {
-    var VERSION = "0.9.3";
+    var VERSION = "0.9.2";
     var utils = {
         isMsie: function() {
             var match = /(msie) ([\w.]+)/i.exec(navigator.userAgent);
@@ -190,8 +192,6 @@
         var ls, methods;
         try {
             ls = window.localStorage;
-            ls.setItem("~~~", "!");
-            ls.removeItem("~~~");
         } catch (err) {
             ls = null;
         }
@@ -378,8 +378,8 @@
             if (utils.isString(o.template) && !o.engine) {
                 $.error("no template engine specified");
             }
-            if (!o.local && !o.prefetch && !o.remote) {
-                $.error("one of local, prefetch, or remote is required");
+            if (!o.local && !o.prefetch && !o.remote && !o.computed) {
+                $.error("one of local, prefetch, computed or remote is required");
             }
             this.name = o.name || utils.getUniqueId();
             this.limit = o.limit || 5;
@@ -391,6 +391,7 @@
             this.local = o.local;
             this.prefetch = o.prefetch;
             this.remote = o.remote;
+            this.computed = o.computed;
             this.itemHash = {};
             this.adjacencyList = {};
             this.storage = o.name ? new PersistentStorage(o.name) : null;
@@ -526,11 +527,24 @@
                 }
                 terms = utils.tokenizeQuery(query);
                 suggestions = this._getLocalSuggestions(terms).slice(0, this.limit);
+                if (suggestions.length < this.limit && this.computed) {
+                    if (this.computed.length == 1) {
+                        utils.each(this.computed(query), function(i, datum) {
+                            suggestions.push(that._transformDatum(datum));
+                            return suggestions.length < that.limit;
+                        });
+                    } else if (this.computed.length == 2) {
+                        this.computed(query, processAsyncData);
+                        return;
+                    } else {
+                        $.error("the computed function must accept one or two arguments");
+                    }
+                }
                 if (suggestions.length < this.limit && this.transport) {
-                    cacheHit = this.transport.get(query, processRemoteData);
+                    cacheHit = this.transport.get(query, processAsyncData);
                 }
                 !cacheHit && cb && cb(suggestions);
-                function processRemoteData(data) {
+                function processAsyncData(data) {
                     suggestions = suggestions.slice(0);
                     utils.each(data, function(i, datum) {
                         var item = that._transformDatum(datum), isDuplicate;
@@ -746,19 +760,10 @@
                     nextIndex = $suggestions.length - 1;
                 }
                 $underCursor = $suggestions.eq(nextIndex).addClass("tt-is-under-cursor");
-                this._ensureVisibility($underCursor);
                 this.trigger("cursorMoved", extractSuggestion($underCursor));
             },
             _getSuggestions: function() {
                 return this.$menu.find(".tt-suggestions > .tt-suggestion");
-            },
-            _ensureVisibility: function($el) {
-                var menuHeight = this.$menu.height() + parseInt(this.$menu.css("paddingTop"), 10) + parseInt(this.$menu.css("paddingBottom"), 10), menuScrollTop = this.$menu.scrollTop(), elTop = $el.position().top, elBottom = elTop + $el.outerHeight(true);
-                if (elTop < 0) {
-                    this.$menu.scrollTop(menuScrollTop + elTop);
-                } else if (menuHeight < elBottom) {
-                    this.$menu.scrollTop(menuScrollTop + (elBottom - menuHeight));
-                }
             },
             destroy: function() {
                 this.$menu.off(".tt");
@@ -775,7 +780,6 @@
             close: function() {
                 if (this.isOpen) {
                     this.isOpen = false;
-                    this.isMouseOverDropdown = false;
                     this._hide();
                     this.$menu.find(".tt-suggestions > .tt-suggestion").removeClass("tt-is-under-cursor");
                     this.trigger("closed");
@@ -824,7 +828,6 @@
                     elBuilder = document.createElement("div");
                     fragment = document.createDocumentFragment();
                     utils.each(suggestions, function(i, suggestion) {
-                        suggestion.dataset = dataset.name;
                         compiledHtml = dataset.template(suggestion.datum);
                         elBuilder.innerHTML = wrapper.replace("%body", compiledHtml);
                         $el = $(elBuilder.firstChild).css(css.suggestion).data("suggestion", suggestion);
@@ -914,7 +917,7 @@
             this.inputView = new InputView({
                 input: $input,
                 hint: $hint
-            }).on("focused", this._openDropdown).on("blured", this._closeDropdown).on("blured", this._setInputValueToQuery).on("enterKeyed tabKeyed", this._handleSelection).on("queryChanged", this._clearHint).on("queryChanged", this._clearSuggestions).on("queryChanged", this._getSuggestions).on("whitespaceChanged", this._updateHint).on("queryChanged whitespaceChanged", this._openDropdown).on("queryChanged whitespaceChanged", this._setLanguageDirection).on("escKeyed", this._closeDropdown).on("escKeyed", this._setInputValueToQuery).on("tabKeyed upKeyed downKeyed", this._managePreventDefault).on("upKeyed downKeyed", this._moveDropdownCursor).on("upKeyed downKeyed", this._openDropdown).on("tabKeyed leftKeyed rightKeyed", this._autocomplete);
+            }).on("focused", this._openDropdown).on("blured", this._closeDropdown).on("blured", this._setInputValueToQuery).on("enterKeyed", this._handleSelection).on("queryChanged", this._clearHint).on("queryChanged", this._clearSuggestions).on("queryChanged", this._getSuggestions).on("whitespaceChanged", this._updateHint).on("queryChanged whitespaceChanged", this._openDropdown).on("queryChanged whitespaceChanged", this._setLanguageDirection).on("escKeyed", this._closeDropdown).on("escKeyed", this._setInputValueToQuery).on("tabKeyed upKeyed downKeyed", this._managePreventDefault).on("upKeyed downKeyed", this._moveDropdownCursor).on("upKeyed downKeyed", this._openDropdown).on("tabKeyed leftKeyed rightKeyed", this._autocomplete);
         }
         utils.mixin(TypeaheadView.prototype, EventTarget, {
             _managePreventDefault: function(e) {
@@ -983,7 +986,7 @@
                     this.inputView.setInputValue(suggestion.value);
                     byClick ? this.inputView.focus() : e.data.preventDefault();
                     byClick && utils.isMsie() ? utils.defer(this.dropdownView.close) : this.dropdownView.close();
-                    this.eventBus.trigger("selected", suggestion.datum, suggestion.dataset);
+                    this.eventBus.trigger("selected", suggestion.datum);
                 }
             },
             _getSuggestions: function() {
@@ -1013,7 +1016,7 @@
                 if (hint !== "" && query !== hint) {
                     suggestion = this.dropdownView.getFirstSuggestion();
                     this.inputView.setInputValue(suggestion.value);
-                    this.eventBus.trigger("autocompleted", suggestion.datum, suggestion.dataset);
+                    this.eventBus.trigger("autocompleted", suggestion.datum);
                 }
             },
             _propagateEvent: function(e) {

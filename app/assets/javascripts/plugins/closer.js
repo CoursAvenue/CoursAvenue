@@ -1,9 +1,7 @@
 /*
     Usage:
-    <input  data-behavior='address-picker'
-            data-list='#address-list'
-            data-lng='#address-lng'
-            data-lat='#address-lat' />
+    <a data-behavior='closer'
+       data-el='#element-to-close'>X</a>
 */
 ;(function ( $, window, document, undefined ) {
 

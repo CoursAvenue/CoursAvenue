@@ -1,9 +1,7 @@
 /*
     Usage:
-    <input  data-behavior='address-picker'
-            data-list='#address-list'
-            data-lng='#address-lng'
-            data-lat='#address-lat' />
+    <input  data-behavior='city-autocomplete'
+            data-el='#input-to-complete'/>
 */
 ;(function ( $, window, document, undefined ) {
 

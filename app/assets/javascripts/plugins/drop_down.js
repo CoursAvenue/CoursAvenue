@@ -1,9 +1,6 @@
 /*
     Usage:
-    <input  data-behavior='address-picker'
-            data-list='#address-list'
-            data-lng='#address-lng'
-            data-lat='#address-lat' />
+    TODO
 */
 ;(function ( $, window, document, undefined ) {
 
