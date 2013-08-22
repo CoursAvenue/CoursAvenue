@@ -7,7 +7,7 @@
 }
 
 .tt-dropdown-menu {
-    min-width: 160px;
+    min-width: 220px;
     margin-top: 2px;
     padding: 5px 0;
     background-color: #fff;
@@ -20,6 +20,16 @@
     -webkit-background-clip: padding-box;
          -moz-background-clip: padding;
                     background-clip: padding-box;
+    > div:first-child {
+        border-top : none;
+        margin-top : 0;
+        padding-top: 0;
+    }
+    > div {
+        border-top : 1px solid #CCC;
+        margin-top : 0.5em;
+        padding-top: 0.5em;
+    }
 }
 
 .tt-suggestion {

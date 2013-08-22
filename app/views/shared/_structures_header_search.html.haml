@@ -10,13 +10,12 @@
     .header-search-bar
       %div.search-input-wrapper.relative{style: 'display: block;'}
         %input#search-input{size: 50, class: 'search-input', placeholder: 'Que voulez-vous faire ?', type: 'search', name: 'name', value: params[:name], autofocus: true, autocomplete: 'off'}
-        %p#search-help.white-box--noshadow.hidden{style: 'z-index: 2; line-height: 1.3; padding: 5px 10px; width: 100%; position: absolute;'} Recherchez par intitulé de cours, discipline, nom de structure, etc.
       %div.search-input-wrapper
         .input-with-icon
           %input#adress-picker{size: 50, class: 'search-input', placeholder: 'Où ?', type: 'text', autocomplete: 'off', name: 'address_name', value: (params[:address_name] || request.location.city || 'Paris'), data: {behavior: 'address-picker', lng: '#address-lng', lat: '#address-lat', city: '#address-city'}}
           %i.icon-map-marker.delta
-      %input#address-lat{type: 'hidden', name: 'lat', value: (params[:lat] || request.location.latitude)}
-      %input#address-lng{type: 'hidden', name: 'lng', value: (params[:lng] || request.location.longitude)}
+      %input#address-lat{type: 'hidden', name: 'lat', value: (params[:lat] || (request.location.latitude != 0 ? request.location.latitude : nil))}
+      %input#address-lng{type: 'hidden', name: 'lng', value: (params[:lng] || (request.location.longitude != 0 ? request.location.longitude : nil))}
       %input#address-city{type: 'hidden', name: 'city', value: (params[:city] || request.location.city)}
 
       %div.button-wrapper
@@ -27,21 +26,34 @@
       %input#hidden-sort-input{type: 'hidden', name: 'sort', value: params[:sort]}
       %input#radius-hidden-input{type: 'hidden', name: 'radius', value: params[:radius]}
 
+%script#structure-item-template{:type => 'text/x-handlebars-template'}
+  .grid--full
+    .grid__item.v-middle{style: 'width: 20px;'}>
+      %i.icon-user
+    .grid__item.v-middle.eleven-twelfths.nowrap{style: 'width: 88%;'}>
+      {{name}}
+      %br
+      %i.line-height-1 {{city.name}}
 = content_for :scripts do
   :javascript
     $(function() {
-      $('#search-input').typeahead([
-        {
-          name: 'subjects',
-          prefetch: '/subjects.json'
-        }
-      ]);
-      $('#search-input').blur(function(){
-          $('#search-help').addClass('hidden');
-      });
-      $('#search-input').click(function(){
-          if (this.value.length === 0) {
-              $('#search-help').removeClass('hidden');
+        var template = Handlebars.compile($('#structure-item-template').html());
+        $('#search-input').typeahead([
+          {
+            name: 'subjects',
+            prefetch: '/subjects.json'
+          },
+          {
+            name: 'structure',
+            valueKey: 'name',
+            template: template,
+            remote: '/etablissements.json?name=%QUERY'
           }
-      });
+        ]);
+        $('#search-input').on('typeahead:selected', function(event, data){
+            // If it is a structure
+            if (data.hasOwnProperty('structure_type')) {
+                window.location = '/etablissements/' + data.slug
+            }
+        });
     })

@@ -1,6 +1,22 @@
 /*------------------------------------*\
     $Search
 \*------------------------------------*/
+.home-screen {
+    .header-search-bar {
+        .search-input-wrapper:first-child {
+            padding-left: 6px;
+        }
+        .button-wrapper {
+            padding-right: 6px;
+        }
+    }
+    .header-search-bar {
+        .btn, input[type=text], input[type=search], input[type=date] {
+            height   : 40px;
+            font-size: 14px;
+        }
+    }
+}
 .header-search-bar--dark {
     .header-search-bar {
         width           : auto;
@@ -25,6 +41,13 @@
     position        : relative;
     border-bottom   : 1px solid #e3dcd4;
     display         : table;
+    .search-input-wrapper {
+        padding-left: 0;
+    }
+    .button-wrapper {
+        padding-right: 0;
+    }
+
     @include font-size(12px);
     @include media-query(palm) { display: block; };
     .visuallyhidden--lap {
@@ -56,10 +79,10 @@
         display       : table-cell;
         vertical-align: middle;
         padding       : 6px;
-        &:first-child {
-            padding-left: 6px;
+        // &:first-child {
+        //     padding-left: 6px;
 
-        }
+        // }
         // &.search-input-wrapper {
             padding-left: 0;
         // }
