@@ -74,15 +74,15 @@ class Structure < ActiveRecord::Base
 
   has_many :medias,   as: :mediable   , dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
-  has_many :students
+  has_many :students                  , dependent: :destroy
   has_many :teachers                  , dependent: :destroy
-  has_many :courses
+  has_many :courses                   , dependent: :destroy
   has_many :renting_rooms
   has_many :cities, through: :places
   # has_many :rooms, through: :places
   has_and_belongs_to_many :subjects
 
-  has_many :places
+  has_many :places                   , dependent: :destroy
   has_many :locations, through: :places
 
   has_many :admins
