@@ -5,7 +5,7 @@ class RemoveStructuresWithoutAdmins < ActiveRecord::Migration
       bar.increment!
       structure = Structure.where{slug == _slug}.first
       if structure
-        structure.destroy
+        structure.delay.destroy
         structure.comments.each do |comment|
           comment.destroy
         end
