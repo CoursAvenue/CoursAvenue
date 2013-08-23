@@ -44,7 +44,7 @@
       %h5.form-header-group
         %i.lbc-icon-info i
         Informations
-      .form-white-box
+      .form-white-box.push--bottom
         = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
         %p.field-form-info.blue= t('.structure_name_info')
         = structure_form.input :website, placeholder: 'Ex : http://www.je-danse-a-paris.com'
@@ -52,24 +52,10 @@
         = structure_form.association :subjects , as: :select, collection: (Subject.roots + Subject.children), input_html: {style: 'width: 490px;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
         = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: {style: 'max-width: 29em;'}
 
-      / %h5.form-header-group
-      /   %i.icon-map-marker
-      /   Adresse principale
-      / .form-white-box
-      /   = structure_form.input :street, wrapper_html: {class: 'flush--bottom'}, label: t('.structure_address')
-      /   %p.field-form-info.blue= t('.structure_address_info')
-      /   .grid
-      /     .grid__item.width-auto
-      /       = structure_form.input :zip_code, placeholder: '75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: '#structure_city_id'} }
-      /     .grid__item.width-auto
-      /       = structure_form.association :city, collection: [@structure.city], label: false
-
-      .grid
-        .grid__item.one-third.v-bottom>
-          %h5.form-header-group Description
-        .grid__item.two-thirds.v-bottom>
-          = image_tag 'texts/structure-description.png', height: 85
-      .form-white-box.flush
+      %h5.form-header-group.push--top Description
+      %div.relative
+        = image_tag 'texts/structure-description.png', height: 85, style: 'position: absolute; left: 230px; bottom: -25px;'
+      .form-white-box.push--top
         .grid--full.input
           .textarea-with-info.grid__item.width-auto
             .grid--full

@@ -56,7 +56,7 @@
     .grid__item.one-third.visuallyhidden--palm
       .bordered--left.soft--left
         %h4
-          Plus de 300 partenaires ont déjà été recommandés :
+          Plus de #{Admin.count.round(-2)} partenaires ont déjà été recommandés :
         - @structures.each do |structure|
           .white-box.push-half--bottom
             .grid

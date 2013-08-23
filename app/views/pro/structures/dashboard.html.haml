@@ -5,7 +5,7 @@
     %a#close-wizard.closer{href: 'javascript:void(0)', data: { behavior: 'closer', el: '#wizard'}}
       %i.icon-remove
     - if @wizard.id == 1
-      %p.flush Bienvenue #{@structure.name} ! Améliorons ensemble votre profil.
+      %h4.flush Bienvenue #{@structure.name} ! Améliorons ensemble votre profil.
     - else
       %p.flush Il nous manque encore quelques informations.
     #wizard-form= render @wizard.partial
@@ -99,11 +99,12 @@
   %p.text--center= link_to 'Voir mes autres avis', pro_structure_comments_path(@structure), class: 'btn btn--blue'
 
 %hr
-%h3 Mes cours en ligne
+%h3 Mes cours
 - if @courses.any?
   %table.table--striped.table--white
     %thead
       %tr
+        %th.text--center.one-twelfth Statut
         %th.five-twelfths Nom du <b>cours</b>
         %th.three-twelfths.text--center Disciplines
         %th.two-twelfths.text--center Séances à venir
@@ -111,6 +112,13 @@
     %tbody
       - @courses.each do |course|
         %tr
+          %td.text--center
+            - if course.active
+              = link_to disable_pro_course_path(course), method: :put, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
+                Visible
+            - else
+              = link_to activate_pro_course_path(course), method: :put, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
+                Non&nbsp;visible
           %td
             %h3.base-font-style.flush--bottom= link_to course.name.capitalize, edit_pro_course_path(course)
             - if course.rating

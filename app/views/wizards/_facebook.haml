@@ -1,3 +1,12 @@
 = simple_form_for [:pro, @structure], html: { class: 'wizard-form' }, remote: true do |f|
   = f.input :facebook_url, placeholder: 'Ex : https://www.facebook.com/OnDanseLaSalsa', label: 'Avez-vous une page Facebook ?'
-  = f.input :no_facebook, label: "Je n'ai pas de page Facebook"
+  = f.input :no_facebook, label: "Je n'ai pas de page Facebook", label_html: {class: 'btn btn--small', id: 'no-facebook'}, input_html: { style: 'position: absolute; left: -9990px', id: 'no-facebook-input'}
+
+= content_for :scripts do
+  :javascript
+    $(function(){
+        $('#no-facebook').click(function() {
+            $('#no-facebook-input')[0].checked = true;
+            $('#save-wizard').click();
+        });
+    });

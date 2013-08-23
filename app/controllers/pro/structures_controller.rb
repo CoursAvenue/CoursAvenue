@@ -31,20 +31,12 @@ class Pro::StructuresController < Pro::ProController
     @comments       = @structure.all_comments
     @courses        = @structure.courses
     @medias         = @structure.medias
-    # @comments_group = Comment.where{commentable_id.in commentable_ids }.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
-    # @structure_better_indexed = {}
-    # structure_comment_count  = @structure.comments_count
-    # @structure.parent_subjects_string.split(';').each do |parent_subject_string|
-    #   subject_name = parent_subject_string.split(',')[0]
-    #   @structure_better_indexed[subject_name] = Structure.where{(parent_subjects_string =~ "%#{parent_subject_string}%") & (comments_count > structure_comment_count)}.order('comments_count DESC').limit(8)
-    # end
-
     @profile_completed = @structure.image.present? and (@structure.description.present? and @structure.description.split.size > 30)
     @profile_percentage = 100
-    @profile_percentage -= 25 if !@profile_completed
-    @profile_percentage -= 25 if @structure.medias.empty?
-    @profile_percentage -= 25 if @comments.empty?
-    @profile_percentage -= 25 if @structure.courses.active.count == 0
+    @profile_percentage -= 20 if !@profile_completed
+    @profile_percentage -= 20 if @structure.medias.empty?
+    @profile_percentage -= 20 if @comments.empty?
+    @profile_percentage -= 20 if @structure.courses.active.count == 0
   end
 
   def get_feedbacks
@@ -140,7 +132,7 @@ class Pro::StructuresController < Pro::ProController
     s_name      = params[:structure][:name]
     s_zip_code  = params[:structure][:zip_code]
     @structure  = Structure.where{(name == s_name) & (zip_code == s_zip_code)}.first
-    @structures = Structure.where{(image_updated_at != nil) & (comments_count != nil)}.order('comments_count DESC').limit(8)
+    @structures = Structure.where{(image_updated_at != nil) & (comments_count != nil)}.order('comments_count DESC').limit(3)
     place_name = params[:structure][:location].delete :name
     params[:structure].delete :location
     if @structure.nil?
@@ -171,7 +163,7 @@ class Pro::StructuresController < Pro::ProController
   private
 
   def get_next_wizard
-    if params[:next] and session[:current_wizard_id]
+    if params[:next] and session[:current_wizard_id] and session[:current_wizard_id] <= Wizard.data.length
       session[:current_wizard_id] += 1
       return Wizard.find(session[:current_wizard_id])
     else

@@ -1,3 +1,12 @@
 = simple_form_for [:pro, @structure], html: { class: 'wizard-form' }, remote: true do |f|
   = f.input :website, placeholder: 'Ex : http://www.danse-a-paris.com', label: 'Avez-vous un site internet ?'
-  = f.input :no_website, label: "Je n'ai pas de site internet"
+  = f.input :no_website, label: "Je n'ai pas de site internet", label_html: {class: 'btn btn--small', id: 'no-website'}, input_html: { style: 'position: absolute; left: -9990px', id: 'no-website-input'}
+
+= content_for :scripts do
+  :javascript
+    $(function(){
+        $('#no-website').click(function() {
+            $('#no-website-input')[0].checked = true;
+            $('#save-wizard').click();
+        });
+    });
