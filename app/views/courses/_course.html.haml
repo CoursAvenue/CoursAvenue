@@ -74,4 +74,4 @@
             - if course.is_lesson?
               %p (1 cours)
             - else
-              %p= "(#{best_price.libelle.downcase})".html_safe
+              %p= "(#{best_price.localized_libelle.downcase})".html_safe

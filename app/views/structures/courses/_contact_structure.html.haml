@@ -14,7 +14,7 @@
           - if @course.is_training?
             (Prix du stage)
           - else
-            (#{@best_price.libelle})
+            (#{@best_price.localized_libelle})
         %br
         = link_to 'Voir les autres formules', '#tab-prices', onclick: "$('#price_tab a').tab('show')"
   .grid__item.one-half.v-bottom.text--right>

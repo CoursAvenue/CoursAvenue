@@ -9,7 +9,7 @@ class ::Price::BookTicket < Price
     true
   end
 
-  def libelle
+  def localized_libelle
     if number == 1
       I18n.t('prices.individual_course')
     else

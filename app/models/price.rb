@@ -21,7 +21,7 @@ class Price < ActiveRecord::Base
   scope :registrations, where(type: 'Price::Registration')
   scope :discounts    , where(type: 'Price::Discount')
 
-  def libelle
+  def localized_libelle
     I18n.t(read_attribute(:libelle)) if read_attribute(:libelle)
   end
 
