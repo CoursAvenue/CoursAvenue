@@ -29,6 +29,7 @@
         %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} le #{l(comment.created_at, format: :date)}
         - if can?(:destroy, comment)
           = link_to 'Supprimer', comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de supprimer cet avis ?' }
+          .float--right= link_to "Répondre à l'élève", "mailto:#{comment.email}", onclick: "ga('send', 'event', 'Answer to student', 'click')", class: 'btn btn--blue'
         - if show_title and comment.title.present?
           %h6.flush--bottom{itemprop: 'headline', content: comment.title.capitalize}= comment.title.capitalize
         %p.read-more.flush--bottom{itemprop: 'reviewBody', data: {behavior: 'read-more'}}

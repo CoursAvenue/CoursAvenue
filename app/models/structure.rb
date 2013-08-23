@@ -343,7 +343,8 @@ class Structure < ActiveRecord::Base
   end
 
   def fix_website_url
-    if self.website.present? and !self.website.starts_with? 'http://'
+    self.website = self.website.strip if self.website
+    if self.website.present? and !self.website.match /^http(s*)\:\/\//
       self.website = "http://#{self.website}"
     end
   end
