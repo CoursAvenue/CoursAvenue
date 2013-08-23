@@ -14,13 +14,12 @@ class StructureSearch
       with :has_logo   ,  params[:has_logo] if params[:has_logo].present?
 
       order_by :has_admin, :desc
-      order_by :has_picture, :desc
+      order_by :has_logo, :desc
       if params[:sort] == 'rating_desc'
         order_by :nb_comments, :desc
         order_by :rating, :desc
       else
         order_by :has_comment, :desc
-        order_by :has_picture, :desc
         # order_by_geodist(:location, params[:lat], params[:lng]) if params[:lat].present? and params[:lng].present?
       end
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)

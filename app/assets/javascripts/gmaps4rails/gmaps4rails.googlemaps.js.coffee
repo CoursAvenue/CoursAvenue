@@ -287,13 +287,13 @@ class @Gmaps4RailsGoogle extends Gmaps4Rails
     polyline.serviceObject = new_poly
     new_poly.setMap(@serviceObject)
 
-  
+
   updateBoundsWithPolylines: ()->
     for polyline in @polylines
       polyline_points = polyline.serviceObject.latLngs.getArray()[0].getArray()
       for point in polyline_points
         @boundsObject.extend point
-  
+
   #////////////////////////////////////////////////////
   #/////////////////        KML      //////////////////
   #////////////////////////////////////////////////////
@@ -301,7 +301,7 @@ class @Gmaps4RailsGoogle extends Gmaps4Rails
   create_kml : ->
     for kml in @kml
       kml.serviceObject = @createKmlLayer kml
-            
+
   #////////////////////////////////////////////////////
   #/////////////////// Other methods //////////////////
   #////////////////////////////////////////////////////
@@ -311,7 +311,7 @@ class @Gmaps4RailsGoogle extends Gmaps4Rails
 
   centerMapOnUser : ->
     @serviceObject.setCenter(@userLocation)
-  
+
   updateBoundsWithPolygons: ()->
     for polygon in @polygons
       polygon_points = polygon.serviceObject.latLngs.getArray()[0].getArray()
@@ -327,7 +327,7 @@ class @Gmaps4RailsGoogle extends Gmaps4Rails
     for bound in @map_options.bounds
       #create points from bounds provided
       @boundsObject.extend @createLatLng(bound.lat, bound.lng)
-  
+
   adaptMapToBounds:()->
     #if autozoom is false, take user info into account
     if !@map_options.auto_zoom
