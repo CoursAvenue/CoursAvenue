@@ -21,7 +21,6 @@ class StructuresController < ApplicationController
   end
 
   def index
-    cookies[:structure_search_path] = request.fullpath
 
     if params[:subject_id]
       @subject = Subject.find params[:subject_id]
@@ -32,7 +31,9 @@ class StructuresController < ApplicationController
 
     respond_to do |format|
       format.json { render json: @structures.to_json(include: [:city]) }
-      format.html
+      format.html do
+        cookies[:structure_search_path] = request.fullpath
+      end
     end
     # fresh_when etag: [@places, ENV["ETAG_VERSION_ID"]], public: true
     # expires_in 1.minutes, public: true
