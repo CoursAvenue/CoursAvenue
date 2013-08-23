@@ -51,9 +51,9 @@
               url: '/etablissements.json',
               replace: function(url, uriEncodedQuery) {
                   if ($('#address-lat').val().length > 0) {
-                    return url + '?name=' + uriEncodedQuery + '&lat=' + $('#address-lat').val() + '&lng=' + $('#address-lng').val() + '&radius=' + $('#radius-hidden-input').val();
+                      return url + '?name=' + uriEncodedQuery + '&lat=' + $('#address-lat').val() + '&lng=' + $('#address-lng').val() + '&radius=' + $('#radius-hidden-input').val();
                   } else {
-                    return url + '?name=' + uriEncodedQuery + '&radius=10;
+                      return url + '?name=' + uriEncodedQuery + '&radius=10';
                   }
               }
             }
