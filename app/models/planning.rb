@@ -26,6 +26,7 @@ class Planning < ActiveRecord::Base
   # validates :teacher, presence: true
   validates :place, :audience_ids, :level_ids, presence: true
   validate :presence_of_start_date
+  validate :update_start_and_end_date
   validate :end_date_in_future
   validates :min_age_for_kid, numericality: { less_than: 18 }, allow_nil: true
   validates :max_age_for_kid, numericality: { less_than: 19 }, allow_nil: true
@@ -192,6 +193,13 @@ class Planning < ActiveRecord::Base
       unless start_date.present?
         errors.add(:start_date, :blank)
       end
+    end
+  end
+
+  def update_start_and_end_date
+    if course.is_lesson?
+      self.start_date = course.start_date if self.start_date != course.start_date
+      self.end_date   = course.end_date   if self.end_date != course.end_date
     end
   end
 

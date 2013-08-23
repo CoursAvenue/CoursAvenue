@@ -47,9 +47,9 @@
   .input#children-ages{class: f.object.audiences.include?(Audience::KID) ? '' : 'hidden'}
     %label.control-label.v-middle Âge pour les enfants (optionnel)
     %span.v-middle de
-    = f.input :min_age_for_kid, label: false, input_html: {style: 'width: 5em;', value: 0}, wrapper_html: {class: 'flush v-middle'}
+    = f.input :min_age_for_kid, label: false, input_html: {style: 'width: 5em;', value: f.object.min_age_for_kid || 0}, wrapper_html: {class: 'flush v-middle'}
     %span.v-middle à
-    = f.input :max_age_for_kid, label: false, input_html: {style: 'width: 5em;', value: 18}, wrapper_html: {class: 'flush v-middle'}
+    = f.input :max_age_for_kid, label: false, input_html: {style: 'width: 5em;', value: f.object.max_age_for_kid || 18}, wrapper_html: {class: 'flush v-middle'}
     %span.v-middle ans
 
   .input
