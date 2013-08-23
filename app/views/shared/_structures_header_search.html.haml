@@ -41,10 +41,12 @@
         $('#search-input').typeahead([
           {
             name: 'subjects',
-            prefetch: '/subjects.json'
+            prefetch: '/subjects.json',
+            header: '<div class="typeahead-dataset-header">Disciplines</div>'
           },
           {
             name: 'structure',
+            header: '<div class="typeahead-dataset-header">Établissements</div>',
             valueKey: 'name',
             template: template,
             remote: {
