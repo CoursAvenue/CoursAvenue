@@ -7,7 +7,7 @@ class Structure < ActiveRecord::Base
   include ActsAsGeolocalizable
 
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :name, use: [:slugged, :history]
 
   acts_as_gmappable validation: false,
                     language: 'fr'
@@ -295,7 +295,7 @@ class Structure < ActiveRecord::Base
 
   def reprocess_logo
     self.update_column :cropping, false
-    logo.reprocess!
+    self.logo.reprocess!
   end
 
   def set_free_pricing_plan
@@ -352,5 +352,9 @@ class Structure < ActiveRecord::Base
   def encode_uris
     self.website      = URI.encode(self.website)      if self.website.present?
     self.facebook_url = URI.encode(self.facebook_url) if self.facebook_url.present?
+  end
+
+  def should_generate_new_friendly_id?
+    new_record? || !self.active
   end
 end
