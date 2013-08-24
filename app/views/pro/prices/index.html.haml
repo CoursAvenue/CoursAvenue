@@ -85,7 +85,7 @@
         - # Adding 100 to index in order that indexes doesn't override each others
         - i += 100
         = f.simple_fields_for :prices, item, child_index: i do |price_form|
-          .input.flush.subscription{class: item.persisted? ? 'persisted' : 'not-persisted hidde'}
+          .input.flush.subscription{class: item.persisted? ? 'persisted' : 'not-persisted hidden'}
             = price_form.input :type, as: :hidden
             = price_form.input :libelle, as: :select, collection: Price::Subscription::TYPES, label_method: lambda{|l| I18n.t(l)}, label: false, wrapper_html: {class: 'control-label'}, include_blank: false
             = price_form.input :amount, placeholder: 'Ex. : 250', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 150px;'}
