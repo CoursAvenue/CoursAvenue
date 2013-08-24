@@ -54,6 +54,8 @@
           = link_to pro_admin_path(admin), method: :delete, title: 'Supprimer', class: 'btn btn--danger', data: {confirm: 'Êtes-vous sur de supprimer cet admin et TOUS ses cours ?'} do
             %i.icon-trash
 
+- unless params[:all]
+  .text--center= link_to 'Voir tous les profs', pro_admins_path(all: true), class: 'btn btn--blue'
 = content_for :scripts do
   :javascript
     $(function() {

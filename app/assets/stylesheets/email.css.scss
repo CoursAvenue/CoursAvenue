@@ -26,11 +26,25 @@
     -webkit-text-size-adjust: none;
     font-family             : 'Helvetica Neue',Helvetica,Arial,sans-serif;
 }
-    .table {
+    p.logo-subtitle {
+        color            : darken($beige, 50%);
+        font-size        : 14px;
+        line-height      : 19px;
+        font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
+        margin-top       : 0;
+        margin-bottom    : 5px;
+        padding-top      : 0;
+        padding-bottom   : 0;
+        padding-left     : 10px;
+        font-weight      : normal;
     }
-        .cell {
-
+    .promo-table {
+        .content-block{
+            h4 {
+                margin-bottom: 0px;
+            }
         }
+    }
     .content-block {
         h4 {
             color            : #444444 !important;
@@ -41,7 +55,7 @@
             margin-bottom    : 10px;
             padding-top      : 0;
             padding-bottom   : 0;
-            font-weight      : normal;
+            font-weight      : bold;
         }
         p {
             color            : #666;
@@ -58,6 +72,13 @@
               margin    : 20px auto;
             }
             a {
+                color: #006cdb;
+                &.btn {
+                    color: white;
+                }
+                &.btn.btn--blue {
+                    color: white;
+                }
                 text-decoration: none;
             }
         }

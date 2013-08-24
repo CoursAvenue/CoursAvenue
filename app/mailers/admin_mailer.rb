@@ -4,11 +4,13 @@ class AdminMailer < ActionMailer::Base
 
   default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.user_mailer.book_class.subject
-  #
+  def recommand_friends(structure, email_text, email)
+    @structure  = structure
+    @email_text = email_text
+    @email      = email
+    mail to: email, subject: "#{structure.name} vous invite à mettre en avant la qualité de vos cours"
+    mail to: 'contact@coursavenue.com', subject: "#{structure.name} vous invite à mettre en avant la qualité de vos cours"
+  end
 
   def admin_validated(admin)
     @admin = admin

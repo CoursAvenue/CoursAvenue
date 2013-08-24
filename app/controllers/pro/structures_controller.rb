@@ -7,6 +7,35 @@ class Pro::StructuresController < Pro::ProController
 
   respond_to :json
 
+  def recommend_friends
+    @structure      = Structure.find params[:id]
+    params[:emails] ||= ''
+    emails          = params[:emails].split(',').map(&:strip)
+    text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>'
+    emails.each do |email|
+      AdminMailer.delay.recommand_friends(@structure, text, email)
+    end
+    respond_to do |format|
+      format.html { redirect_to coursavenue_recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos amis ont bien été notifiés<br> Nous vous contacterons sous peu.': nil)}
+    end
+  end
+
+  def get_feedbacks
+    @structure      = Structure.find params[:id]
+    params[:emails] ||= ''
+    emails          = params[:emails].split(',').map(&:strip)
+    text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>'
+    emails.each do |email|
+      StudentMailer.delay.ask_for_feedbacks(@structure, text, email)
+    end
+    respond_to do |format|
+      format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés': nil)}
+    end
+  end
+
+  def coursavenue_recommendations
+  end
+
   def crop
     @structure = Structure.find params[:id]
   end
@@ -37,18 +66,6 @@ class Pro::StructuresController < Pro::ProController
     @profile_percentage -= 20 if @structure.medias.empty?
     @profile_percentage -= 20 if @comments.empty?
     @profile_percentage -= 20 if @structure.courses.active.count == 0
-  end
-
-  def get_feedbacks
-    @structure      = Structure.find params[:id]
-    params[:emails] ||= ''
-    emails          = params[:emails].split(',').map(&:strip)
-    emails.each do |email|
-      StudentMailer.delay.ask_for_feedbacks(@structure, email)
-    end
-    respond_to do |format|
-      format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés': nil)}
-    end
   end
 
   def select

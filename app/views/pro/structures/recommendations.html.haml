@@ -9,20 +9,10 @@
       %i.icon-bullhorn
       Demander des recommandations
 
-%h5.home-title.push--top.relative
+%h5.home-title.push--top
   %i.icon-bullhorn.v-middle
   %span.v-middle 3 manières d'être recommandé
-  %div{style: 'position: absolute; left: 460px; top: 10px;'}= image_tag 'texts/mail.png', height: 55
 .grid--full.text--center.push--top
-  .grid__item.three-twelfths.text--center.v-middle.relative>
-    %a.muted-link.white-box.islet{href: '#facebook-reco'}
-      %h4
-        %i.icon-facebook.icon-2x
-        %br
-        Facebook
-  .grid__item.one-twelfth.text--center.v-middle>
-    .islet
-      ou
   .grid__item.three-twelfths.text--center.v-middle.relative>
     %a.muted-link.white-box.islet{href: '#email-reco'}
       %h4
@@ -33,11 +23,46 @@
     .islet
       ou
   .grid__item.three-twelfths.text--center.v-middle.relative>
+    %a.muted-link.white-box.islet{href: '#facebook-reco'}
+      %h4
+        %i.icon-facebook.icon-2x
+        %br
+        Facebook
+  .grid__item.one-twelfth.text--center.v-middle>
+    .islet
+      ou
+  .grid__item.three-twelfths.text--center.v-middle.relative>
     %a.muted-link.white-box.islet{href: '#website-reco'}
       %h4
         %i.icon-paperclip.icon-2x
         %br
         Sur votre site
+
+%hr
+.white-box.islet
+  %h4#email-reco
+    %i.icon-envelope-alt.icon-2x.v-middle.soft-half--right
+    %span.v-middle Envoyez un email à vos élèves
+  = form_tag get_feedbacks_pro_structure_path(@structure) do
+    .grid
+      .grid__item.one-half>
+        %h4 À :
+        %p.flush
+          %i Entrez les emails de vos élèves en les séparant par des virgules.
+        %textarea.one-whole{name: 'emails', rows: 8, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
+      .grid__item.one-half>
+        %h4 Message :
+        %br
+        %textarea.one-whole{name: 'text', rows: 8, data: {behavior: 'autoresize'}}
+          Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques minutes pour laisser un avis sur mon profil ?
+        %p.gray-light.flush
+          Merci et à très bientôt,
+          %br
+          = @structure.name
+
+
+    .push-half--top.text--right= submit_tag 'Envoyer ma demande', class: 'btn btn--success'
+
 %hr
 .white-box.islet
   %h4.fb-blue#facebook-reco
@@ -48,46 +73,6 @@
   .text--center
     = link_to 'Demandez des recommandations', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, facebook: '', subdomain: 'www')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From recommendation page')"
   %p.alert--info.push-half--top.flush--left#facebook-text> Vous aimez #{@structure.independant? ? 'mes' : 'nos'} cours ? Dites-le sur notre profil CoursAvenue en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), new_structure_comment_url(@structure, facebook: '', subdomain: 'www'), target: '_blank'} Merci !
-
-
-%hr
-.white-box.islet
-  %h4#email-reco
-    %i.icon-envelope-alt.icon-2x.v-middle.soft-half--right
-    %span.v-middle Envoyez un email à vos élèves
-
-  .grid
-    .grid__item.one-half.soft--right>
-      %h5 Soit grâce à notre outil dédié
-      = form_tag get_feedbacks_pro_structure_path(@structure) do
-        %div
-          %p
-            Entrez les emails de vos élèves en les séparant par des virgules.
-            Grâce à cet outil, vous pourrez suivre en bas de cette page les élèves qui ont posté un commentaire et relancer ceux qui ne l'ont pas encore fait.
-            %br
-            Ces emails ne seront utilisés que pour cet envoi unique.
-        %div
-          %textarea.one-whole{name: 'emails', rows: 7, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
-          .grid.push-half--top
-            .grid__item.v-middle.width-auto
-              = submit_tag 'Envoyer ma demande', class: 'btn btn--success'
-            .grid__item.v-middle.width-auto
-              = link_to "Qu'est-ce que mes élèves vont recevoir ?", '#', href: '#mail-content', data: { behavior: 'modal', title: "Recommandez #{@structure.name} sur CoursAvenue"}
-    .grid__item.one-half.bordered--left>
-      %h5
-        %span.v-middle Soit en envoyant vous-même un email
-        %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn--small btn--blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'email-text', onclick: "mixpanel.track('Copy share profile', {'type': 'email'});"
-      %p
-        Vous pouvez également leur envoyé un email plus personnel. Voilà un exemple de mail que vous pouvez utiliser :
-      .alert--info.flush--left#email-text>
-        %p>
-          Bonjour,
-        %p>
-          Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laissez votre avis en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: '_blank'}
-        %p>
-          Merci pour votre contribution et à très bientôt !
-        %p.flush--bottom>
-          #{@structure.name}
 
 %hr
 
@@ -133,11 +118,6 @@
           %td
             = link_to 'Supprimer', pro_structure_student_path(@structure, student), method: :delete, class: 'red'
 
-
-
-
-#mail-content.hidden
-  = render template: 'student_mailer/ask_for_feedbacks'
 
 = content_for :scripts do
   :javascript

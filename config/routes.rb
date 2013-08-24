@@ -29,7 +29,9 @@ CoursAvenue::Application.routes.draw do
           put  'activate'
           put  'disable'
           get  'recommendations', path: 'recommandations'
+          get  'coursavenue_recommendations', path: 'recommander-coursavenue'
           post 'get_feedbacks'
+          post 'recommend_friends'
         end
         collection do
           get 'inscription', to: :new

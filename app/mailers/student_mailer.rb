@@ -10,9 +10,10 @@ class StudentMailer < ActionMailer::Base
   #   en.user_mailer.book_class.subject
   #
 
-  def ask_for_feedbacks(structure, email)
-    @structure = structure
-    @email     = email
+  def ask_for_feedbacks(structure, email_text, email)
+    @structure  = structure
+    @email      = email
+    @email_text = email_text
     if Student.where(email: email, structure_id: @structure.id).count == 0
       Student.create(email: email, structure_id: @structure.id)
     end

@@ -31,7 +31,11 @@ class ::Pro::AdminsController < InheritedResources::Base
 
 
   def index
-    @admins = ::Admin.order('created_at DESC').all
+    if params[:all]
+      @admins = ::Admin.order('created_at DESC')
+    else
+      @admins = ::Admin.order('created_at DESC').limit(50)
+    end
   end
 
   def edit

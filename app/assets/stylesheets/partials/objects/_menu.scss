@@ -67,6 +67,18 @@
         margin    : 0;
         width     : 100%;
         li {
+            &.sidemenu--extra, &.sidemenu--extra.active {
+                background-color: $green-success;
+                &.active {
+                    box-shadow: inset 0px 0px 10px darken($green-success, 4%);
+                    border-right       : 3px solid darken($green-success, 10%);
+                    border-bottom-color: darken($green-success, 4%);
+                }
+                &:hover {
+                    background-color: lighten($green-success, 10%);
+                }
+                a { color: white; }
+            }
             @include transition(background-color 150ms linear);
             &.active {
                 font-weight : bold;

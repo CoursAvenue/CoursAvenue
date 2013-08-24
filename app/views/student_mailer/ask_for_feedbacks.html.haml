@@ -1,18 +1,22 @@
-%p Bonjour,
+- if @structure.logo?
+  - content_for :logo do
+    = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
+      = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '65', height: '65'
 
-%p
-  <strong>#{@structure.name} vous demande de rédiger une recommandation</strong> qui sera publiée sur son profil public CoursAvenue, le 1er moteur de recherche de cours basé sur le témoignage des élèves.
-  Votre avis est capital pour continuer à vous proposer des cours toujours plus passionnants et pour aider les prochains élèves à s'inscrire aux cours l'esprit tranquille.
+- content_for :promo do
+  %h4
+    #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com.
+
+= @email_text.html_safe
 
 %p.action
-  = link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email), class: 'btn btn--blue'
+  = link_to 'Déposez votre avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), class: 'btn btn--blue'
 
 %p
-  Merci et à très bientôt !
+  À très bientôt !
 
-%p
-  #{@structure.name} et toute l'équipe de CoursAvenue
+%p= @structure.name
 
 = content_for :footer do
   %p
-    Vous recevez cet email car #{@structure.name} est inscrit sur CoursAvenue et a renseigné votre email pour vous demander une recommandation sur ses cours.
+    Vous recevez cet email car #{@structure.name} est inscrit sur CoursAvenue et vous demande de lui rédiger une recommandation sur ses cours.

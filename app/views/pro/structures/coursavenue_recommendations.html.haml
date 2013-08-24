@@ -1,0 +1,33 @@
+= side_menu_currently_at "Recommander CoursAvenue"
+
+%h2.text--center.flush Invitez vos amis sur CoursAvenue
+
+%h4.text--center.blue
+  Nous viendront prendre des photos et des vidéos HD de vos cours.
+
+.white-box.soft
+  = form_tag(recommend_friends_pro_structure_path(@structure), method: :post) do
+    .grid
+      .grid__item.one-half>
+        %h4 À :
+        %p.flush
+          %i Entrez les emails de vos amis en les séparant par des virgules.
+        %textarea.one-whole{name: 'emails', rows: 8, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
+      .grid__item.one-half>
+        %h4 Message :
+        %br
+        %textarea.one-whole{name: 'text', rows: 8, data: {behavior: 'autoresize'}}
+          - if @structure.comments_count and @structure.comments_count > 0
+            Bonjour,&#x000A;&#x000A;J'ai publié gratuitement tous mes cours sur CoursAvenue pour être connu de nouveaux Internautes grâce au moteur de recherche géolocalisé et aux témoignages de mes élèves. Je viens de recevoir les 1ers avis de mes élèves, je vous conseille de créer votre profil : c'est gratuit, simple et rapide.
+          - else
+            Bonjour,&#x000A;&#x000A;J'ai publié gratuitement tous mes cours sur CoursAvenue pour être connu de nouveaux Internautes grâce au moteur de recherche géolocalisé et aux témoignages de mes élèves. Je vous conseille de créer votre profil : c'est gratuit, simple et rapide.
+        %p.gray-light.flush
+          À très bientôt,
+          %br
+          = @structure.name
+
+    .text--right.push-half--top= submit_tag 'Envoyer les invitations', class: 'btn btn--success'
+
+
+%p
+  %i Pour le moment, notre équipe ne peut se déplacer que sur Paris.
