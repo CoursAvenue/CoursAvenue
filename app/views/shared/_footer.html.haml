@@ -51,19 +51,22 @@
   %p
     %b Vous connaissez un bon professeur ? Nous serions ravi qu'il fasse partie de la communauté CoursAvenue !
   %p.flush
-    Laissez-nous ses coordonnées avec un petit mot de votre part, nous le contacterons de votre part pour qu'il partage ses cours sur notre plateforme !
+    Laissez-nous ses coordonnées avec un petit mot de votre part, nous le contacterons pour qu'il se crée un profil CoursAvenue.
 
   = form_tag recommendation_structures_path  do
     .grid.push-half--top
       .grid__item.one-half>
         %div
-          %label Son nom
+          %label
+            %b Nom
           %input.one-whole{name: 'name', placeholder: "Ex. : Patrick de l'école de danse St Vincent"}
         %div
-          %label Email ou Téléphone
+          %label
+            %b Email ou Téléphone
           %input.one-whole{name: 'email', placeholder: 'Ex. : patrick@ecole-st-vincent.com'}
       .grid__item.one-half>
-        %label Votre recommandation
+        %label
+          %b Votre recommandation
         %textarea.one-whole{rows: 6, name: 'recommendation'}
           J'ai suivi un cours de salsa avec patrick qui est un très bon professeur. Il est réellement à l'écoute de ses élèves et c'est un véritable plaisir d'assister à ses cours !&#x000A;&#x000A; Patrick
         %i Pensez à signer votre message.

@@ -1,6 +1,6 @@
 .text--center
   %h4.push--top Aucune séance trouvée pour ces critères
-  / %hr
-  / %h3 Résultats plus large pouvant correspondre à votre recherche
 
-  = link_to 'Chercher par établissement', structures_path(name: params[:name]), class: 'btn btn--large btn--success', onclick: "_gaq.push(['_trackEvent', 'Chercher par établissement', 'click', 'Après recherche vide"
+  %h4 Vous connaissez un établissement qui n'est pas sur CoursAvenue ?
+
+  = link_to 'Recommander un professeur ou une école', '#course-recommendation', data: {behavior: 'modal', title: "Recommander un cours", width: '500px'}, class: 'btn btn--large btn--success', onclick: "_gaq.push(['_trackEvent', 'Recommander un professeur', 'click', 'Après recherche cours vide"
