@@ -1,28 +1,28 @@
-.user-menu {
-    margin    : 0;
-    padding   : 0;
-    list-style: none;
-}
-    .user-menu__item {
-        text-align     : right;
-        padding        : 1em;
-        display        : block;
-        border-bottom  : 1px solid $beige-darker;
-        &:hover {
-            background: $beige;
-            text-decoration: none;
-        }
-        &.active {
-            background: $beige-darker;
-        }
-    }
-.user-menu {
-    li:last-child {
-        .user-menu__item {
-            border-bottom: none;
-        }
-    }
-}
+// .user-menu {
+//     margin    : 0;
+//     padding   : 0;
+//     list-style: none;
+// }
+//     .user-menu__item {
+//         text-align     : right;
+//         padding        : 1em;
+//         display        : block;
+//         border-bottom  : 1px solid $beige-darker;
+//         &:hover {
+//             background: $beige;
+//             text-decoration: none;
+//         }
+//         &.active {
+//             background: $beige-darker;
+//         }
+//     }
+// .user-menu {
+//     li:last-child {
+//         .user-menu__item {
+//             border-bottom: none;
+//         }
+//     }
+// }
 
 
 .page-menu {

@@ -1,18 +1,22 @@
-= simple_form_for @user || User.new, url: user_registration_path do |f|
-  = f.error_notification
-  .grid
-    .grid__item.one-half>
-      = f.input :first_name, label: false, placeholder: 'Prénom', input_html: {size: 30}, input_html: {class: 'one-whole'}
-    .grid__item.one-half
-      = f.input :last_name,  label: false, placeholder: 'Nom', input_html: {size: 30}, input_html: {class: 'one-whole'}
+.grid
+  .grid__item.one-half.text--center.bordered--right.soft--right>
+    %h4 Vous êtes un élève ?
+    %div= link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook', id: 'facebook_button'
+    .or
+      %span ou
+    = simple_form_for @user || User.new, url: user_registration_path do |f|
+      = f.error_notification
+      .grid
+        .grid__item.one-half>
+          = f.input :first_name, label: false, placeholder: 'Prénom', input_html: {size: 30}, input_html: {class: 'one-whole'}
+        .grid__item.one-half
+          = f.input :last_name,  label: false, placeholder: 'Nom', input_html: {size: 30}, input_html: {class: 'one-whole'}
 
-  = f.input :email,    label: false, placeholder: 'Email', wrapper_html: {class: 'flush--top'}, input_html: {class: 'one-whole'}
-  = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
-  = f.button :submit, "Créer son compte", class: 'btn--success one-whole'
-
-.push-half--top= link_to "J'ai déjà un compte", '#', id: 'show_new_session_form'
-%hr.push--top
-.text--center
-  %h4 Vous êtes un professionnel ?
-  = link_to "Accéder à l'espace pro", 'http://pro.coursavenue.com', class: 'btn btn--blue btn--full', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
+      = f.input :email,    label: false, placeholder: 'Email', wrapper_html: {class: 'flush--top'}, input_html: {class: 'one-whole'}
+      = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
+      = f.button :submit, "Créer son compte", class: 'btn--success one-whole'
+    .push-half--top= link_to "J'ai déjà un compte", '#', id: 'show_new_session_form'
+  .grid__item.one-half.text--center>
+    %h4 Vous êtes un professionnel ?
+    = link_to "Accéder à l'espace prof", root_url(subdomain: 'pro'), class: 'btn btn--blue btn--full', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
 

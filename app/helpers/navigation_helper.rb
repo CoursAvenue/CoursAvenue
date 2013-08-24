@@ -4,11 +4,11 @@ module NavigationHelper
   def user_side_menu_link(title, url, options = {})
     current_tab = options.delete(:current)
     options[:class] ||= ''
-    link_class = ((current_tab == title) ? ' active' : '')
+    options[:class] << ((current_tab == title) ? ' active' : '')
     if options[:icon].present?
-      title = "#{title}<i class='soft-half--left #{options[:icon]}'></i>".html_safe
+      title = "<i class='#{options[:icon]}'></i>&nbsp;#{title}".html_safe
     end
-    content_tag(:li, link_to(title, url, class: "user-menu__item #{link_class}"), options)
+    content_tag(:li, link_to(title, url, class: "user-menu__item"), options)
   end
 
   def pro_side_menu_link(title, url, options = {})

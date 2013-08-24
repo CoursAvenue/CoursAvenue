@@ -1,12 +1,6 @@
-%div{style: 'max-width: 400px;'}
-  .text--center
-    %div= link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook', id: 'facebook_button'
-    .or
-      %span ou
-
+.center-block{style: 'max-width: 800px;'}
   #form
     = render 'form'
-
   #other_form.hidden
     = render 'users/sessions/form'
 
