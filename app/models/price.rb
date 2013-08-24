@@ -53,7 +53,11 @@ class Price < ActiveRecord::Base
   def per_course_promo_amount
     return nil if promo_amount.nil?
     self.nb_courses
-    promo_amount / self.nb_courses
+    if self.nb_courses and self.nb_courses > 0
+      promo_amount / self.nb_courses
+    else
+      promo_amount
+    end
   end
 
   def individual_course?

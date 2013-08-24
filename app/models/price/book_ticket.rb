@@ -13,6 +13,10 @@ class ::Price::BookTicket < Price
     self.amount / self.number
   end
 
+  def per_course_promo_amount
+    self.promo_amount / self.number
+  end
+
   def localized_libelle
     if number == 1
       I18n.t('prices.individual_course')
