@@ -14,6 +14,7 @@ class Pro::StructuresController < Pro::ProController
     text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>'
     emails.each do |email|
       AdminMailer.delay.recommand_friends(@structure, text, email)
+      AdminMailer.delay.recommand_friends(@structure, text, 'contact@coursavenue.com')
     end
     respond_to do |format|
       format.html { redirect_to coursavenue_recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos amis ont bien été notifiés<br> Nous vous contacterons sous peu.': nil)}

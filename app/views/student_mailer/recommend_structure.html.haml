@@ -1,0 +1,9 @@
+- content_for :promo do
+  %h4
+    Un élève recommande #{@structure_name}
+
+%p Email : #{@structure_email}
+
+%p.flush Recommandation :
+%p
+  = @recommendation

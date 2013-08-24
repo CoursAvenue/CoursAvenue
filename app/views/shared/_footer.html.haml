@@ -17,7 +17,7 @@
               %li= link_to 'Comment ça marche ?',              pages_how_it_works_url(subdomain: 'www'), rel: :nofollow
               %li= link_to 'Foire aux questions Utilisateurs', pages_faq_users_url(subdomain: 'www'), rel: :nofollow
               %li= link_to 'Mentions légales Utilisateurs',    pages_mentions_partners_url(subdomain: 'www'), rel: :nofollow
-              %li= link_to 'Recommander un cours',             '#course-recommendation', data: {behavior: 'modal', title: "Recommander un cours", width: '500px'}
+              %li= link_to 'Recommander un professeur',             '#course-recommendation', data: {behavior: 'modal', title: "Recommander un professeur", width: '500px'}
 
           .grid__item.one-quarter.lap--one-half.palm--one-whole>
             %h5.blue Partenaires
@@ -29,7 +29,7 @@
           .grid__item.one-quarter.lap--one-half.palm--one-whole>
             %h5.blue CoursAvenue
             %ul.discrete-list.milli
-              / %li= link_to 'Qui sommes-nous ?', pages_who_are_we_url(subdomain: 'www'), rel: :nofollow
+              -# %li= link_to 'Qui sommes-nous ?', pages_who_are_we_url(subdomain: 'www'), rel: :nofollow
               %li= link_to 'Contact',           pages_contact_url(subdomain: 'www'), rel: :nofollow
               %li= link_to 'Service client',    pages_customer_service_url(subdomain: 'www'), rel: :nofollow
               %li= link_to 'Presse',            pages_press_url(subdomain: 'www'), rel: :nofollow
@@ -47,11 +47,25 @@
               %li= link_to 'Musique', subject_courses_url('musique', subdomain: 'www')
 
 #course-recommendation.hidden
-  %h3 Recommander un cours
+  %h3.flush Recommander un professeur
   %p
-    Vous connaissez un bon professeur ou vous avez suivi de super cours ?
-    Laissez-nous ses coordonnées, nous le contacterons pour qu'il partage ses cours sur notre plateforme !
-  = form_tag '#'  do
-    %textarea.one-whole{rows: 6}
+    %b Vous connaissez un bon professeur ? Nous serions ravi qu'il fasse partie de la communauté CoursAvenue !
+  %p.flush
+    Laissez-nous ses coordonnées avec un petit mot de votre part, nous le contacterons de votre part pour qu'il partage ses cours sur notre plateforme !
+
+  = form_tag recommendation_structures_path  do
+    .grid.push-half--top
+      .grid__item.one-half>
+        %div
+          %label Son nom
+          %input.one-whole{name: 'name', placeholder: "Ex. : Patrick de l'école de danse St Vincent"}
+        %div
+          %label Email ou Téléphone
+          %input.one-whole{name: 'email', placeholder: 'Ex. : patrick@ecole-st-vincent.com'}
+      .grid__item.one-half>
+        %label Votre recommandation
+        %textarea.one-whole{rows: 6, name: 'recommendation'}
+          J'ai suivi un cours de salsa avec patrick qui est un très bon professeur. Il est réellement à l'écoute de ses élèves et c'est un véritable plaisir d'assister à ses cours !&#x000A;&#x000A; Patrick
+        %i Pensez à signer votre message.
     .text--right.push-half--top
-      %a.btn--blue.btn{ href: '#', onclick: "$('.fancybox-close').click()"} Recommander
+      = submit_tag 'Envoyer la recommandation', class: 'btn--blue btn', href: '#'

@@ -9,7 +9,6 @@ class AdminMailer < ActionMailer::Base
     @email_text = email_text
     @email      = email
     mail to: email, subject: "#{structure.name} vous invite à mettre en avant la qualité de vos cours"
-    mail to: 'contact@coursavenue.com', subject: "#{structure.name} vous invite à mettre en avant la qualité de vos cours"
   end
 
   def admin_validated(admin)
