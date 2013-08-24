@@ -96,7 +96,7 @@
             $('#logo-logo').Jcrop({
                 onChange: update_crop,
                 onSelect: update_crop,
-                setSelect: [#{@structure.crop_x / @ratio || 0}, #{@structure.crop_y / @ratio || 0}, #{(@structure.crop_x + @structure.crop_width) / @ratio || 200}, #{(@structure.crop_y + @structure.crop_height) / @ratio || 200}],
+                setSelect: [#{@structure.crop_x / @ratio}, #{@structure.crop_y / @ratio}, #{(@structure.crop_x + @structure.crop_width) / @ratio}, #{(@structure.crop_y + @structure.crop_height) / @ratio}],
                 aspectRatio: 1
             });
             function update_crop(coords) {

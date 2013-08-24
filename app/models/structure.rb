@@ -280,7 +280,7 @@ class Structure < ActiveRecord::Base
   def logo_geometry(style = :original)
     @geometry ||= {}
     begin
-      @geometry[style] ||= Paperclip::Geometry.from_file(logo.url(:original))
+      @geometry[style] ||= Paperclip::Geometry.from_file(logo.path(style))
     rescue
       geometry = Struct.new(:width, :height)
       @geometry[style] = geometry.new(100, 100)
