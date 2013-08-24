@@ -188,7 +188,7 @@ class Pro::StructuresController < Pro::ProController
   private
 
   def get_next_wizard
-    if params[:next] and session[:current_wizard_id] and session[:current_wizard_id] <= Wizard.data.length
+    if params[:next] and session[:current_wizard_id] and session[:current_wizard_id] < Wizard.data.length
       session[:current_wizard_id] += 1
       return Wizard.find(session[:current_wizard_id])
     else
