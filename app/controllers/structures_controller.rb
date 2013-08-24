@@ -6,7 +6,7 @@ class StructuresController < ApplicationController
     recommendation = '<p>' + params[:recommendation].gsub(/\r\n/, '</p><p>') + '</p>'
     name           = params[:name]
     email          = params[:email]
-    StudentMailer.recommend_structure(name, email, recommendation)
+    StudentMailer.delay.recommend_structure(name, email, recommendation)
     respond_to do |format|
       format.html { redirect_to request.referrer, notice: "Merci pour votre aide, nous allons contacter l'établissement au plus vite !"}
     end
