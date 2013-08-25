@@ -17,7 +17,7 @@
               %li= link_to 'Comment ça marche ?',              pages_how_it_works_url(subdomain: 'www'), rel: :nofollow
               %li= link_to 'Foire aux questions Utilisateurs', pages_faq_users_url(subdomain: 'www'), rel: :nofollow
               %li= link_to 'Mentions légales Utilisateurs',    pages_mentions_partners_url(subdomain: 'www'), rel: :nofollow
-              %li= link_to 'Recommander un professeur',             '#course-recommendation', data: {behavior: 'modal', title: "Recommander un professeur", width: '500px'}
+              %li= link_to 'Recommander un professeur / une école',             '#course-recommendation', data: {behavior: 'modal', title: "Recommander un professeur", width: '500px'}
 
           .grid__item.one-quarter.lap--one-half.palm--one-whole>
             %h5.blue Partenaires
@@ -47,9 +47,8 @@
               %li= link_to 'Musique', subject_courses_url('musique', subdomain: 'www')
 
 #course-recommendation.hidden
-  %h3.flush Recommander un professeur
-  %p
-    %b Vous connaissez un bon professeur ? Nous serions ravi qu'il fasse partie de la communauté CoursAvenue !
+  %h3.flush Vous connaissez un bon professeur ?
+  %h4 Nous serions ravi qu'il fasse partie de la communauté CoursAvenue !
   %p.flush
     Laissez-nous ses coordonnées avec un petit mot de votre part, nous le contacterons pour qu'il se crée un profil CoursAvenue.
 
