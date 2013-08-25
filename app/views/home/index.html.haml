@@ -8,12 +8,12 @@
   .home-screen-promotion-wrapper.visuallyhidden--palm
     %section.main-container.home-screen-promotion
       .grid
-        .grid__item.palm--one-whole.lap--one-whole.one-half.islet>
+        .grid__item.palm--one-whole.lap--one-whole.one-half.soft-half>
           %h2.home-title Les derniers avis
           - @comments.each do |comment|
             .grid__item>
               = render partial: 'comments/home_comment', locals: {comment: comment}
-        .grid__item.palm--one-whole.lap--one-whole.one-half.islet{style: 'min-height: 35em;'}
+        .grid__item.palm--one-whole.lap--one-whole.one-half.soft-half{style: 'min-height: 35em;'}
           %h3.home-title À découvrir ce mois-ci
           .grid--full
             .grid__item.course-block-wrapper.one-half.palm--one-whole>
