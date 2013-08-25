@@ -14,4 +14,12 @@
       = pro_side_menu_link 'Mes cours'.html_safe      , pro_structure_courses_path(@structure) , current: current_tab,   icon: 'icon-list'
       = pro_side_menu_link 'Mes photos & vidéos'.html_safe, pro_structure_medias_path(@structure) , current: current_tab,   icon: 'icon-youtube-play'
       = pro_side_menu_link 'Mes avis'             , pro_structure_comments_path(@structure)        , current: current_tab, icon: 'icon-comments'
-      = pro_side_menu_link 'Recommander CoursAvenue', coursavenue_recommendations_pro_structure_path(@structure)     , current: current_tab, icon: 'icon-bullhorn', class: 'sidemenu--extra'
+      = pro_side_menu_link 'Recommander CoursAvenue', coursavenue_recommendations_pro_structure_path(@structure)     , current: current_tab, icon: 'icon-bullhorn', class: 'sidemenu--extra', id: 'recommandation-side-menu'
+
+= content_for :scripts do
+  :javascript
+      $(function(){
+          $('#recommandation-side-menu a').click(function(){
+              ga('send', 'event', 'Goto Recommander CoursAvenue', 'click')
+          });
+      });
