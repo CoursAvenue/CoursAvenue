@@ -1,7 +1,7 @@
 .grid
   .grid__item.one-half.text--center.bordered--right.soft--right>
-    %h4 Vous êtes un élève ?
-    %div= link_to "Connexion avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook', id: 'facebook_button'
+    %h4 Élèves
+    %div= link_to "Connexion avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full', id: 'facebook_button'
     .or
       %span ou
     = simple_form_for User.new, url: user_session_path do |f|
@@ -13,7 +13,7 @@
     .push-half--top= link_to "Je n'ai pas de compte", '#', id: 'show_new_registration_form'
 
   .grid__item.one-half.text--center>
+    %h4 Professeurs
     .text--center
-      %h4 Vous êtes un professionnel ?
-      = link_to "Accéder à l'espace pro", new_pro_admin_session_url(subdomain: 'pro'), class: 'btn btn--blue btn--full', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
+      = link_to "Espace pro", new_pro_admin_session_url(subdomain: 'pro'), class: 'btn btn--blue btn--full btn--large', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
 
