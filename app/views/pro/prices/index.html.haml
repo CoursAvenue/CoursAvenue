@@ -22,7 +22,7 @@
       Planning
 
 
-- if @other_courses
+- if @other_courses.any?
   .blue-box.islet
     .delta.inline-block Reprendre les tarifs d'un autre cours :
     = simple_form_for [:pro, @structure, @course], url: copy_prices_from_pro_course_path(@course), as: :course, method: :post, html: {class: 'inline-block'} do |f|

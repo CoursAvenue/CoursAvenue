@@ -7,7 +7,10 @@
     a {
         &.btn {
             text-decoration: none;
-           color           : black;
+            color          : black;
+        }
+        &.btn.btn--success, &.btn.btn--primary, &.btn.btn--facebook {
+            color: white;
         }
         text-decoration: underline;
         color          : white;

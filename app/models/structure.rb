@@ -103,11 +103,11 @@ class Structure < ActiveRecord::Base
   after_create     :create_courses_relative_to_subject
   after_create     :delay_subscribe_to_mailchimp if Rails.env.production?
 
-  after_save       :create_teacher
   after_update     :reprocess_logo, :if => :cropping?
 
   before_save      :replace_slash_n_r_by_brs
   before_save      :fix_website_url
+  before_save      :fix_facebook_url
   before_save      :encode_uris
 
   # ------------------------------------------------------------------------------------ Search attributes
@@ -309,12 +309,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  def create_teacher
-    if teachers.empty? and !main_contact.nil?
-      self.teachers.create(name: main_contact.name)
-    end
-  end
-
   def replace_slash_n_r_by_brs
     self.description = self.description.gsub(/\r\n/, '<br>') if self.description
   end
@@ -343,10 +337,11 @@ class Structure < ActiveRecord::Base
   end
 
   def fix_website_url
-    self.website = self.website.strip if self.website
-    if self.website.present? and !self.website.match /^http(s*)\:\/\//
-      self.website = "http://#{self.website}"
-    end
+    self.website = URLHelper.fix_url(self.website) if self.website
+  end
+
+  def fix_facebook_url
+    self.facebook_url = URLHelper.fix_url(self.facebook_url) if self.facebook_url
   end
 
   def encode_uris

@@ -19,7 +19,7 @@ class CommentsController < ApplicationController
         else
           format.html { redirect_to (request.referrer || commentable_path(@comment)), notice: "Merci d'avoir laissé votre avis !" }
         end
-        UserMailer.delay.after_comment_for_teacher(@comment) if Rails.env.production?
+        UserMailer.delay.after_comment_for_teacher(@comment)
         UserMailer.delay.after_comment(@comment)
       else
         if @commentable.is_a? Structure

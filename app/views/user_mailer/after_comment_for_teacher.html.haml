@@ -2,11 +2,11 @@
 
 %p
   Félicitations !
-  = @comment.author_name.titleize
+  = @comment.author_name
   vient de laisser un commentaire sur votre profil public CoursAvenue.
 
 %p.action
-  = link_to 'Accédez à mon espace pro pour le visualiser', pro_structure_url(@structure), class: 'btn btn--blue'
+  = link_to "Visualiser l'avis de #{@comment.author_name}", pro_structure_comments_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
 
 %p À très bientôt,
 

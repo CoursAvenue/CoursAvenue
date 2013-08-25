@@ -22,9 +22,6 @@ class Media < ActiveRecord::Base
   private
 
   def fix_url
-    self.url = self.url.strip if self.url
-    if !self.url.match /^http(s*)\:\/\//
-      self.url = 'http://' + self.url
-    end
+    self.url = URLHelper.fix_url(self.url) if self.url
   end
 end

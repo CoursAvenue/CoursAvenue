@@ -30,7 +30,7 @@ class Pro::StructuresController < Pro::ProController
       StudentMailer.delay.ask_for_feedbacks(@structure, text, email)
     end
     respond_to do |format|
-      format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés': nil)}
+      format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés.': nil)}
     end
   end
 
@@ -165,7 +165,7 @@ class Pro::StructuresController < Pro::ProController
     end
     respond_to do |format|
       if !@structure.new_record? or @structure.save
-        @structure.create_place(place_name)
+        @structure.create_place(place_name) unless @structure.places.any?
         session[:id] = @structure.id
         format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitation, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
       else

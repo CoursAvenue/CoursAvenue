@@ -11,27 +11,9 @@
 
 %h4.push--top
   %i.icon-comments-alt
-  Sur mon établissement
+  Mes avis
 - if @structure_comments.empty?
   %p.white-box.islet Encore aucun commentaire.
 - else
   %ul.comment-list
     = render partial: '/comments/comment', collection: @structure_comments
-%h4
-  %i.icon-comments-alt
-  Avis sur mes cours
-- if @courses_comments.empty?
-  %p.white-box.islet Encore aucun commentaire.
-- else
-  - @courses_comments.each do |course, comments|
-    %h4.flush--bottom
-      = link_to course_url(course, subdomain: 'www'), title: 'Voir le cours sur CoursAvenue' do
-        %i.icon-external-link
-      = course.name
-      = rating_stars course.rating
-      = course.rating
-    - if comments.empty?
-      Pas encore d'avis. Sollicitez vos élèves !
-    - else
-      %ul.comment-list
-        = render partial: '/comments/comment', collection: comments
