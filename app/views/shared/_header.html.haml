@@ -4,10 +4,10 @@
       = link_to root_path, class: 'logo', title: 'CoursAvenue' do
         = image_tag 'logo.png', width: 200, alt: 'CoursAvenue | Tous les cours et stages autour de vous'
     %nav.text--right.grid__item.two-thirds.visuallyhidden--palm.v-middle
-      %span
-        = link_to 'Recommander un professeur / une école', '#course-recommendation', data: {behavior: 'modal', title: "Recommander un professeur", width: '500px'}
-      %span.soft--left.push--right.bordered--right
       - if current_user
+        %span
+          = link_to 'Recommander un professeur / une école', '#course-recommendation', data: {behavior: 'modal', title: "Recommander un professeur", width: '500px'}
+        %span.soft--left.push--right.bordered--right
         #drop-down-el.drop-down__wrapper.grid__item.width-auto.v-middle.hard--left{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
           = link_to user_path(current_user) do
             - if current_user.fb_avatar or current_user.avatar.present?
