@@ -1,17 +1,16 @@
-= side_menu_currently_at "Recommander CoursAvenue"
+= side_menu_currently_at "Parrainer un professeur"
 
-%h2.text--center.flush Invitez vos amis sur CoursAvenue
+%h2.text--center.flush Invitez d'autres professeurs sur CoursAvenue
 
 %h4.text--center.blue
-  Nous viendrons prendre des photos et des vidéos HD de vos cours.
-
+  Pour vous en remercier, notre équipe viendra prendre des photos et des vidéos HD pour vous mettre en avant (Facebook, blog, etc.)
 .white-box.soft
   = form_tag(recommend_friends_pro_structure_path(@structure), method: :post) do
     .grid
       .grid__item.one-half>
         %h4 À :
         %p.flush
-          %i Entrez les emails de vos amis en les séparant par des virgules.
+          %i Entrez les emails des professeurs que vous souhaitez inviter en les séparant par des virgules.
         %textarea.one-whole{name: 'emails', rows: 8, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
       .grid__item.one-half>
         %h4 Message :

@@ -222,12 +222,15 @@ class Course < ActiveRecord::Base
   def book_tickets
     self.prices.select{|p| p.type == 'Price::BookTicket'}
   end
+
   def subscriptions
     self.prices.select{|p| p.type == 'Price::Subscription'}
   end
+
   def registrations
     self.prices.select{|p| p.type == 'Price::Registration'}
   end
+
   def discounts
     self.prices.select{|p| p.type == 'Price::Discount'}
   end

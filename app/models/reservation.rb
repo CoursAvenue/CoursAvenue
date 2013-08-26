@@ -9,7 +9,7 @@ class Reservation < ActiveRecord::Base
   validates :user, :reservable, presence: true
 
   belongs_to :user
-  belongs_to :reservable, :polymorphic => true
+  belongs_to :reservable, polymorphic: true
 
   def email_subject_for_user
     "Votre réservation sur CoursAvenue"
@@ -19,11 +19,11 @@ class Reservation < ActiveRecord::Base
     "CoursAvenue - Un élève veut réserver un de vos cours"
   end
 
-  def place
-    if self.reservable.is_a? Place
+  def structure
+    if self.reservable.is_a? Structure
       self.reservable
     else
-      self.reservable.place
+      self.reservable.structure
     end
   end
 end
