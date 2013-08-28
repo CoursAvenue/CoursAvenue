@@ -3,7 +3,7 @@ class Pro::Admins::PasswordsController < Devise::PasswordsController
     if admin.structure
       dashboard_pro_structure_path(admin.structure)
     else
-      inscription_pro_structures_path
+      root_path
     end
   end
 end
