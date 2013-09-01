@@ -393,17 +393,17 @@ class Course < ActiveRecord::Base
   end
 
   def duplicate!
-    course_duplicate               = self.dup
-    course_duplicate.name          += ' - copie'
-    course_duplicate.subjects      = self.subjects
-    course_duplicate.active        = false
-    course_duplicate.slug          = nil
-    course_duplicate.save
-    course_duplicate.plannings     << self.plannings.map(&:dup)
-    course_duplicate.prices        << self.prices.map(&:dup)
-    course_duplicate.book_tickets  << self.book_tickets.map(&:dup)
-    course_duplicate.save
-    return course_duplicate
+    duplicate_course               = self.dup
+    duplicate_course.name          += ' - copie'
+    duplicate_course.subjects      = self.subjects
+    duplicate_course.active        = false
+    duplicate_course.slug          = nil
+    duplicate_course.save
+    duplicate_course.plannings     << self.plannings.map(&:dup)
+    duplicate_course.prices        << self.prices.map(&:dup)
+    duplicate_course.book_tickets  << self.book_tickets.map(&:dup)
+    duplicate_course.save
+    return duplicate_course
   end
 
   def should_generate_new_friendly_id?

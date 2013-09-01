@@ -4,8 +4,6 @@
     position        : absolute;
     width           : 22px;
     height          : 100%;
-    // border          : 1px solid #CCC;
-    // background-color: #F1F1F1;
     background: image-url('icons/slider-toggler.png') no-repeat;
     top             : 0;
 }
@@ -16,6 +14,7 @@
     display       : inline-block;
     text-transform: uppercase;
     font-size     : 12px;
+    font-weight   : normal;
     white-space   : nowrap;
     @include border-radius(11px);
     &:hover {

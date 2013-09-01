@@ -18,7 +18,7 @@
         %th
     %tbody
       - plannings.each do |planning|
-        %tr{data: {'course-id' => planning.course_id}}
+        %tr{data: {'course-id' => planning.course_id, id: planning.id }}
           %td.text--center{data: {value: planning.week_day}}
             = simple_form_for [:pro, @course, planning], remote: true do |f|
               - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate

@@ -16,6 +16,8 @@ class Pro::PlanningsController < InheritedResources::Base
     @duplicate_planning  = @planning.duplicate
     respond_to do |format|
       if @duplicate_planning.save
+        session[:duplicate]              = true
+        session[:duplicated_planning_id] = @duplicate_planning.id
         format.html { redirect_to pro_course_plannings_path(@course), notice: "Le planning à bien été dupliqué." }
       else
         format.html { redirect_to pro_course_plannings_path(@course), notice: "Le planning n'a pu être dupliqué." }

@@ -1,5 +1,4 @@
 = side_menu_currently_at 'Mes cours'
-
 %ol.breadcrumb.bordered--bottom.soft-half--bottom.nav.delta{itemprop: 'breadcrumb'}
   %li= link_to 'Tous mes cours', pro_structure_courses_path(@structure)
   %li= @course.name
@@ -17,11 +16,12 @@
       %i.icon-calendar
       Planning
 
-%h3 Planning du cours
-- if @plannings.any? and !@course.is_lesson?
-  %h5 Séances à venir
-= render "#{@course.underscore_name}_list"
-%hr
+- unless action_name == 'edit'
+  %h3 Planning du cours
+  - if @plannings.any? and !@course.is_lesson?
+    %h5 Séances à venir
+  = render "#{@course.underscore_name}_list"
+  %hr
 
 %h5.form-header-group.flush--bottom
   - if action_name == 'edit'
@@ -31,6 +31,13 @@
     Rajouter un créneau
 .form-white-box
   = render "#{@course.underscore_name}_form"
+
+- if action_name == 'edit'
+  %h3 Planning du cours
+  - if @plannings.any? and !@course.is_lesson?
+    %h5 Séances à venir
+  = render "#{@course.underscore_name}_list"
+  %hr
 
 = content_for :scripts do
   :javascript
@@ -75,3 +82,21 @@
             });
         }
     });
+
+- # If a planning has just been duplicated, highlights it
+- if session[:duplicate] == true
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          var duplicate_planning = $('[data-id=#{session[:duplicated_planning_id]}]');
+          setTimeout(function() {
+              $(window.document).scrollTo(duplicate_planning, {offset: -125, duration: 400});
+              setTimeout(function() {
+                  duplicate_planning.animate({'background-color': '#FFD977'}, {duration: 400}).animate({'background-color': 'transparant'}, {duration: 400});
+                  duplicate_planning.css('font-weight', 'bold');
+              }, 400);
+          }, 200);
+      });
+  - # Delete the session in order that the planning doesn't highlight again.
+  - session.delete :duplicate
+  - session.delete :duplicated_planning_id

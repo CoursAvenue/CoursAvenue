@@ -13,7 +13,7 @@
         %th{style: 'width: 12%'}
     %tbody
       - @courses.each do |course|
-        %tr
+        %tr{data: {id: course.id}}
           %td.text--center
             - if course.active
               = link_to disable_pro_course_path(course), method: :put, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
@@ -87,14 +87,31 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('.dataTable').each(function(datatable, i) {
-            datatable.set('id', 'datatable_' + i)
-            $('#datatable_' + i).tablesorter();
-        })
+        $('.dataTable').each(function(index, datatable) {
+            $(datatable).tablesorter();
+        });
         if ($('#understood__course_status')) {
             $('#understood__course_status').click(function() {
                 $.cookie('understood__course_status', true, {expires: 10000});
                 $('#course-status-info').remove();
-            })
+            });
         }
     });
+
+- # If a course has just been duplicated, highlights it
+- if session[:duplicate] == true
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          var duplicate_course = $('[data-id=#{session[:duplicated_course_id]}]');
+          setTimeout(function() {
+              $(window.document).scrollTo(duplicate_course, {offset: -125, duration: 400});
+              setTimeout(function() {
+                  duplicate_course.animate({'background-color': '#FFD977'}, {duration: 400}).animate({'background-color': 'transparant'}, {duration: 400});
+                  duplicate_course.css('font-weight', 'bold');
+              }, 400);
+          }, 200);
+      });
+  - # Delete the session in order that the course doesn't highlight again.
+  - session.delete :duplicate
+  - session.delete :duplicated_course_id

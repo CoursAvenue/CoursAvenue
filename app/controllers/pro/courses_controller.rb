@@ -21,7 +21,9 @@ class Pro::CoursesController < InheritedResources::Base
 
   def duplicate
     @course = Course.find params[:id]
-    @course.duplicate!
+    duplicate_course = @course.duplicate!
+    session[:duplicate]            = true
+    session[:duplicated_course_id] = duplicate_course.id
     redirect_to pro_structure_courses_path(@structure), notice: "Le cours à bien été dupliqué."
   end
 

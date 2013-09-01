@@ -1,7 +1,9 @@
-- @plannings_grouped_by_places.each do |place, plannings|
+- @plannings_grouped_by_places.each do |place, grouped_plannings|
   - if place
-    %h4= place.location.try(:name)
-  - plannings.group_by(&:level_ids).each do |levels, planning|
+    %h4
+      %i.icon-map-marker
+      = place.location.name
+  - grouped_plannings.group_by(&:level_ids).each do |levels, plannings|
     %h5 Niveau : #{join_levels Level.find(levels)}
     %table.table--striped.table--data.table--white
       %thead
