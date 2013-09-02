@@ -10,13 +10,15 @@
     .header-search-bar
       %div.search-input-wrapper.relative{style: 'display: block;'}
         %input#search-input{size: 50, class: 'search-input', placeholder: 'Que voulez-vous faire ?', type: 'search', name: 'name', value: params[:name], autofocus: true, autocomplete: 'off'}
-      %div.search-input-wrapper
+      %div.search-input-wrapper.relative
         .input-with-icon
           %input#adress-picker{size: 50, class: 'search-input', placeholder: 'Où ?', type: 'text', autocomplete: 'off', name: 'address_name', value: (params[:address_name] || request.location.try(:city) || 'Paris'), data: {behavior: 'address-picker', lng: '#address-lng', lat: '#address-lat', city: '#address-city'}}
           %i.icon-map-marker.delta
-      %input#address-lat{type: 'hidden', name: 'lat', value: (params[:lat] || (request.location.try(:latitude) != 0 ? request.location.latitude : nil))}
-      %input#address-lng{type: 'hidden', name: 'lng', value: (params[:lng] || (request.location.try(:longitude) != 0 ? request.location.longitude : nil))}
-      %input#address-city{type: 'hidden', name: 'city', value: (params[:city] || request.location.try(:city))}
+        %p#specify-location.white-box--noshadow.hidden{style: 'z-index: 2; line-height: 1.3; padding: 5px 10px; width: 100%; position: absolute;'}
+          Vous devez spécifier un lieu
+      %input#address-lat{type: 'hidden', name: 'lat', value: params[:lat]}
+      %input#address-lng{type: 'hidden', name: 'lng', value: params[:lng]}
+      %input#address-city{type: 'hidden', name: 'city', value: params[:city]}
 
       %div.button-wrapper
         %button.nowrap.btn.btn--primary{type: 'submit', id: 'submit_search_form'}
@@ -34,9 +36,20 @@
       {{name}}
       %br
       %i.line-height-1 {{city.name}}
+
 = content_for :scripts do
   :javascript
     $(function() {
+        var specify_location_label = $('#specify-location');
+        $('#adress-picker').on('typeahead:opened', function() {
+            specify_location_label.addClass('hidden');
+        });
+        $('#header-search').submit(function(){
+            if ($('#address-lat').val().length == 0) {
+                specify_location_label.removeClass('hidden');
+                return false;
+            }
+        });
         var template = Handlebars.compile($('#structure-item-template').html());
         $('#search-input').typeahead([
           {

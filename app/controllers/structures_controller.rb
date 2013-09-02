@@ -22,12 +22,22 @@ class StructuresController < ApplicationController
     end
     @city           = @structure.city
     @places         = @structure.places
-    @places_address = @structure.locations.to_gmaps4rails
     @courses        = @structure.courses.active
     @teachers       = @structure.teachers
     @medias         = @structure.medias
     @comments       = @structure.all_comments
     @comment        = @structure.comments.build
+
+    location_index = 0
+    @places_address = @structure.locations.to_gmaps4rails do |location, marker|
+      location_index += 1
+      marker.title   location.name
+      marker.picture({
+                      :marker_anchor => [10, true],
+                      :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'><span>#{location_index}</span></a></div>"
+                     })
+      marker.json({ id: location.id })
+    end
   end
 
   def index

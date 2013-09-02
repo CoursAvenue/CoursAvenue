@@ -74,18 +74,24 @@
 
     .course-header-map>
       = gmaps( {markers: {data: @json_place_address}, map_options: {maxZoom: 15, mapTypeControl: false}} )
-      %div{itemscope: true, itemtype: 'http://schema.org/Place'}
-        %h2.course-header-structure-name.flush--bottom
-          %b= @structure.name
-          %div
-            %i.icon-map-marker
-            = readable_address @structure
-        .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
-          %meta{itemprop: 'latitude', content: @structure.latitude}
-          %meta{itemprop: 'longitude', content: @structure.longitude}
+    %ul.block-list.white-box
+      - @course.places.each_with_index do |place, index|
+        %li.grid--full
+          .grid__item.width-auto.v-middle.soft-half--right>
+            .map-marker-image.center-block
+              %a
+                %span= index + 1
+          .grid__item.seven-eighths.v-middle>
+            = place.location.name
+            %br
+            %i= place.location.street
+          %div{itemscope: true, itemtype: 'http://schema.org/Place'}
+            .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
+              %meta{itemprop: 'latitude', content: place.location.latitude}
+              %meta{itemprop: 'longitude', content: place.location.longitude}
 
     .push--top.push--bottom
-      = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{course_url(@course)}", class: 'btn--facebook btn one-whole btn--small', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
+      = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{course_url(@course)}", class: 'btn--facebook btn one-whole', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
 
 
   .grid__item.six-tenths>

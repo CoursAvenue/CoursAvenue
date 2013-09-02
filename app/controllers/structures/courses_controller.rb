@@ -28,9 +28,17 @@ class Structures::CoursesController < ApplicationController
     @reservation                 = Reservation.new
     @best_price                  = @course.best_price
     @prices                      = @course.prices.order('number ASC')
-    @json_place_address = @locations.to_gmaps4rails do |place, marker|
-      marker.title   place.name
-      marker.json({ id: place.id })
+    @location_index_hash = {}
+    location_index       = 0
+    @json_place_address = @locations.to_gmaps4rails do |location, marker|
+      location_index += 1
+      @location_index_hash[location] = location_index
+      marker.title   location.name
+      marker.picture({
+                      :marker_anchor => [10, true],
+                      :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'><span>#{location_index}</span></a></div>"
+                     })
+      marker.json({ id: location.id })
     end
   end
 end

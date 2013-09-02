@@ -24,6 +24,7 @@
 .map-paris .map-marker-image {
     width : 26px;
     height: 40px;
+    position: absolute;
     a {
         width      : 26px;
         height     : 40px;
@@ -35,12 +36,17 @@
 }
 
 .map_container {
+    .map-marker-image {
+        position: absolute;
+    }
     .map-marker-image:hover {
         a { background-image: image-url('icons/map-marker-hover.png'); }
     }
 }
+// .map-marker-image
+//   a
+//     span
 .map-marker-image {
-    position: absolute;
     display : block;
     width   : 24px;
     height  : 36px;

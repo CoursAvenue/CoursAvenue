@@ -3,7 +3,7 @@
 
 .white-box.islet
   .grid
-    .grid__item.one-fifth>
+    .grid__item.two-tenths>
       - if @structure.image.present?
         = image_tag @structure.image.url(:normal)
       - else
@@ -12,7 +12,7 @@
             Mettre une image
             %br
             de profil
-    .grid__item.three-fifths.bordered--right.soft-half--right>
+    .grid__item.five-tenths.bordered--right.soft-half--right>
       %p
         %b= @structure.name
       - if @structure.description.present?
@@ -23,7 +23,7 @@
           %br
           = link_to 'Ajouter ma description', edit_pro_structure_path(@structure)
 
-    .grid__item.one-fifth>
+    .grid__item.three-tenths>
       %p.flush
         %b Disciplines pratiquées :
       %ul.nav= join_child_subjects @structure, true

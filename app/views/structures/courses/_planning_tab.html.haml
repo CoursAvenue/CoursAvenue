@@ -2,12 +2,21 @@
   .grid
     .grid__item.one-whole.palm--one-whole.lap--one-whole>
       - if @plannings.future.any?
-        - if @course.is_lesson?
-          = render 'lesson_schedule'
-        - if @course.is_training?
-          = render 'training_schedule'
-        - if @course.is_workshop?
-          = render 'workshop_schedule'
+        - @plannings_grouped_by_places.each do |place, grouped_plannings|
+          - if place
+            %h4.grid--full
+              .grid__item.width-auto
+                .map-marker-image
+                  %a
+                    %span= @location_index_hash[place.location]
+              .grid__item.width-auto
+                = place.location.name
+          - if @course.is_lesson?
+            = render partial: 'lesson_schedule', locals: {grouped_plannings: grouped_plannings}
+          - if @course.is_training?
+            = render partial: 'training_schedule', locals: {grouped_plannings: grouped_plannings}
+          - if @course.is_workshop?
+            = render partial: 'workshop_schedule', locals: {grouped_plannings: grouped_plannings}
         %p.milli
           %i Dernière mise à jour le #{l(@course.updated_at, format: :date)}.
       - else

@@ -82,13 +82,23 @@
         .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @structure} à #{@structure.name}"
 
     .course-header-map.push--top
-      = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: false} )
-      %h4.course-header-structure-name.flush--bottom
-        %b= @structure.name
-        - if current_user
-          %br
-          %i.icon-map-marker
-          = @structure.address
+      = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: true} )
+    %ul.block-list.white-box
+      - @structure.places.each_with_index do |place, index|
+        %li.grid--full
+          .grid__item.width-auto.v-middle.soft-half--right>
+            .map-marker-image.center-block
+              %a
+                %span= index + 1
+          .grid__item.seven-eighths.v-middle>
+            = place.location.name
+            %br
+            %i= place.location.street
+          %div{itemscope: true, itemtype: 'http://schema.org/Place'}
+            .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
+              %meta{itemprop: 'latitude', content: place.location.latitude}
+              %meta{itemprop: 'longitude', content: place.location.longitude}
+
     .white-box.islet.push--top
       - if @structure.website
         %div
@@ -136,12 +146,12 @@
           %i.icon-youtube-play
           Photos & vidéos
           (#{@medias.length})
-      - if @places.any?
-        %li
-          %a#tab-all-places-link{href: '#tab-all-places', onclick: "_gaq.push(['_trackEvent', 'Autres lieux', 'click', '#{@structure.slug}']);", data: {toggle: 'tab'}}
-            %i.icon-map-marker
-            Lieux des cours
-            (#{@places.length})
+      -# - if @places.any?
+      -#   %li
+      -#     %a#tab-all-places-link{href: '#tab-all-places', onclick: "_gaq.push(['_trackEvent', 'Autres lieux', 'click', '#{@structure.slug}']);", data: {toggle: 'tab'}}
+      -#       %i.icon-map-marker
+      -#       Lieux des cours
+      -#       (#{@places.length})
 
     .tab-content
       %article#tab-comments.tab-pane.active
@@ -202,15 +212,15 @@
           - else
             %p.white-box.islet
               Cet établissement n'a pas de photos ou de vidéos.
-      - if @places.any?
-        %article#tab-all-places.tab-pane
-          = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 15, mapTypeControl: false, :id => 'other_places_map'}, scripts: :none})
-          %ul.block-list.white-box
-            - @places.each do |other_place|
-              %li
-                %b= other_place.location.try(:name)
-                %br
-                %i= other_place.location.try(:address)
+      -# - if @places.any?
+      -#   %article#tab-all-places.tab-pane
+      -#     = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 15, mapTypeControl: false, :id => 'other_places_map'}, scripts: :none})
+      -#     %ul.block-list.white-box
+      -#       - @places.each do |other_place|
+      -#         %li
+      -#           %b= other_place.location.try(:name)
+      -#           %br
+      -#           %i= other_place.location.try(:address)
 
 - if current_user
   #course_info.hidden= render 'structures/courses/info_popup'
