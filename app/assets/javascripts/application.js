@@ -72,7 +72,8 @@ $(function() {
     $('[data-behavior=datepicker]').each(function() {
         $(this).datepicker({
             format: 'dd/mm/yyyy',
-            weekStart: 1
+            weekStart: 1,
+            language: 'fr'
         });
     });
 

@@ -42,11 +42,13 @@
         attachEvents: function() {
             this.start_date.datepicker({
                 format: 'dd/mm/yyyy',
-                weekStart: 1
+                weekStart: 1,
+                language: 'fr'
             });
             this.end_date.datepicker({
                 format: 'dd/mm/yyyy',
-                weekStart: 1
+                weekStart: 1,
+                language: 'fr'
             });
             this.start_date.on('changeDate', function() {
                 $(this).datepicker('hide');
