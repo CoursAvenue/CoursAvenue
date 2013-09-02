@@ -1,6 +1,10 @@
 = side_menu_currently_at 'Mes infos'
 = render partial: 'pro/structures/tabs', locals:{ current: 'établissement'}
 
+= link_to edit_pro_structure_path(@structure), class: 'btn btn--primary btn--small push--bottom' do
+  %i.icon-pencil
+  %span.soft-half--left Mettre à jour mes informations
+
 .white-box.islet
   .grid
     .grid__item.two-tenths>
@@ -31,7 +35,3 @@
         %p= link_to 'Site web', @structure.website, class: 'btn btn--blue btn--small'
       - if @structure.facebook_url.present?
         %p= link_to 'Facebook', @structure.facebook_url, class: 'btn btn--small btn--blue'
-
-= link_to edit_pro_structure_path(@structure), class: 'btn btn--primary btn--small' do
-  %i.icon-pencil
-  %span.soft-half--left Mettre à jour mes informations
