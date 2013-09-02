@@ -21,6 +21,7 @@ CoursAvenue::Application.routes.draw do
       resources :comments, only: [:index], controller: 'comments'
       resources :subjects
       resources :reservation_loggers, only: [:index, :destroy]
+      resources :invited_teachers, only: [:index]
       resources :structures, path: 'etablissements' do
         member do
           get  'crop'

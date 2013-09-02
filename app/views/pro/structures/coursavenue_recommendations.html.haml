@@ -10,7 +10,7 @@
       .grid__item.one-half>
         %h4 À :
         %p.flush
-          %i Entrez les emails des professeurs que vous souhaitez inviter en les séparant par des virgules.
+          %i Entrez les emails des professeurs que vous souhaitez inviter.
         %textarea.one-whole{name: 'emails', rows: 8, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
       .grid__item.one-half>
         %h4 Message :
@@ -30,3 +30,19 @@
 
 %p
   %i Pour le moment, notre équipe ne peut se déplacer que sur Paris.
+
+- if @structure.invited_teachers.any?
+  %h5.form-header-group Mes invitations
+  %table
+    %thead
+      %tr
+        %th Email
+        %th S'est créé un compte
+    %tbody
+      - @structure.invited_teachers.each do |invited_teacher|
+        %tr
+          %th= invited_teacher.email
+          %th
+            - if invited_teacher.registered?
+              %i.icon-ok
+

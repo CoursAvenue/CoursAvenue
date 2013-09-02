@@ -10,9 +10,11 @@ class Pro::StructuresController < Pro::ProController
   def recommend_friends
     @structure      = Structure.find params[:id]
     params[:emails] ||= ''
-    emails          = params[:emails].split(',').map(&:strip)
+    regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
+    emails = params[:emails].scan(regexp).uniq
     text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>'
     emails.each do |email|
+      InvitedTeacher.where(email: email, structure_id: @structure.id).first_or_create
       AdminMailer.delay.recommand_friends(@structure, text, email)
       AdminMailer.delay.recommand_friends(@structure, text, 'contact@coursavenue.com')
     end
@@ -24,7 +26,8 @@ class Pro::StructuresController < Pro::ProController
   def get_feedbacks
     @structure      = Structure.find params[:id]
     params[:emails] ||= ''
-    emails          = params[:emails].split(',').map(&:strip)
+    regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
+    emails = params[:emails].scan(regexp).uniq
     text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>'
     emails.each do |email|
       StudentMailer.delay.ask_for_feedbacks(@structure, text, email)
