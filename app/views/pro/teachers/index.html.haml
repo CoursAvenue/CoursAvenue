@@ -1,13 +1,6 @@
 = side_menu_currently_at 'Mes infos'
 = render partial: 'pro/structures/tabs', locals:{ current: 'professeurs'}
 
-%h3.header-group
-  %i.icon-group
-  Mes professeurs
-
-%br
-= render 'form'
-
 - if @teachers.any?
   - @teachers.each do |teacher|
     %p.white-box.islet
@@ -21,3 +14,6 @@
 - else
   %p.white-box.islet
     Aucun professeur n'est renseigné
+
+%h5.form-header-group Ajouter un professeur
+= render 'form'

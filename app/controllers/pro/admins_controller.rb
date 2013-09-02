@@ -42,7 +42,7 @@ class ::Pro::AdminsController < InheritedResources::Base
     @admin     = ::Admin.find(params[:id])
     @structure = @admin.structure
     if @structure.nil?
-      redirect_to request.referrer, alert: "Pas d'admin pour cet établissement"
+      redirect_to request.referrer || root_path, alert: "Pas d'admin pour cet établissement"
     end
   end
 

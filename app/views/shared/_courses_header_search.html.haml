@@ -12,9 +12,9 @@
       %input#adress-picker{class: 'search-input', placeholder: 'Où ?', type: 'text', autocomplete: 'off', name: 'address_name', value: (params[:address_name] || request.location.city || 'Paris'), data: {behavior: 'address-picker', lng: '#address-lng', lat: '#address-lat', city: '#address-city'}}
       %i.icon-map-marker.delta
       %ul#address-list.address-list.hidden
-  %input#address-lat{type: 'hidden', name: 'lat', value: (params[:lat] || request.location.latitude)}
-  %input#address-lng{type: 'hidden', name: 'lng', value: (params[:lng] || request.location.longitude)}
-  %input#address-city{type: 'hidden', name: 'city', value: (params[:city] || request.location.city)}
+  %input#address-lat{type: 'hidden', name: 'lat', value: (params[:lat] || request.location.try(:latitude))}
+  %input#address-lng{type: 'hidden', name: 'lng', value: (params[:lng] || request.location.try(:longitude))}
+  %input#address-city{type: 'hidden', name: 'city', value: (params[:city] || request.location.try(:city))}
 
   = render 'shared/week_day_search'
 

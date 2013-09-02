@@ -1,10 +1,10 @@
-.form-white-box
-  = simple_form_for [:pro, @structure, @teacher] do |f|
+= simple_form_for [:pro, @structure, @teacher] do |f|
+  .form-white-box
     = f.error_notification
     = f.input :name
     = f.input :description, input_html: {'data-behavior' => 'autoresize'}
     .form-actions
       - if @teacher.new_record?
-        = f.submit 'Ajouter un professeur', class: 'btn btn--success'
+        = f.submit 'Valider', class: 'btn btn--success'
       - else
-        = f.submit 'Modifier', class: 'btn btn--success'
+        = f.submit 'Modifier', class: 'btn btn--primary'

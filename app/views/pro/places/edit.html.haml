@@ -1,7 +1,7 @@
 = side_menu_currently_at 'Mes infos'
 = render partial: 'pro/structures/tabs', locals:{ current: 'lieux'}
 
-%h3.header-group Édition de #{@place.location.name}
+%h3.header-group Modification de #{@place.location.name}
 
 .islet
   = simple_form_for [:pro, @structure, @place] do |f|
@@ -34,5 +34,5 @@
         = contact_form.input :mobile_phone, label: Contact.human_attribute_name(:mobile_phone), input_html: {value: contact_form.object.mobile_phone || @structure.main_contact.mobile_phone_number}
 
     .form-actions#submit
-      = f.submit 'Mettre à jour', class: 'btn btn--success'
+      = f.submit 'Valider', class: 'btn btn--success'
 
