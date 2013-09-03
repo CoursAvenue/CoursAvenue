@@ -59,10 +59,10 @@
                 %span cours de
                 %span.inline-block= book_ticket_form.input :duration, label: false, as: :select, collection: duration_collection, selected: book_ticket_form.object.duration || 60
               %div{style: 'width: 170px;'}
-                = book_ticket_form.input :amount, placeholder: 'Ex. : 25', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}
+                = book_ticket_form.input :amount, placeholder: 'Ex. : 25', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
                 €
               %div{style: 'width: 170px;'}
-                = book_ticket_form.input :promo_amount, placeholder: 'Ex. : 20', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}
+                = book_ticket_form.input :promo_amount, placeholder: 'Ex. : 20', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
                 €
               = book_ticket_form.input :info, placeholder: 'Ex. : Valable 3 mois', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
       .input.flush--top
@@ -92,10 +92,10 @@
             = price_form.input :type, as: :hidden
             = price_form.input :libelle, as: :select, collection: Price::Subscription::TYPES, label_method: lambda{|l| I18n.t(l)}, label: false, wrapper_html: {class: 'control-label'}, include_blank: false
             %div{style: 'width: 170px;'}
-              = price_form.input :amount, placeholder: 'Ex. : 250', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}
+              = price_form.input :amount, placeholder: 'Ex. : 250', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
               €
             %div{style: 'width: 170px;'}
-              = price_form.input :promo_amount, placeholder: 'Ex. : 200', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}
+              = price_form.input :promo_amount, placeholder: 'Ex. : 200', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
               €
             = price_form.input :info, placeholder: 'Ex. : 1 cours par semaine', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
     .input.flush--top
@@ -108,7 +108,7 @@
   .form-white-box--large
     .grid--full.input.flush
       %label.control-label.grid__item &nbsp;
-      %div{style: 'width: 310px;'}
+      %div{style: 'width: 170px;'}
         %b % de promotion
       .grid__item{style: 'width: 250px;'}
         %b
@@ -121,8 +121,8 @@
           = price_form.input :type, as: :hidden
           .input.flush.discount{class: price_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}
             = price_form.input :libelle, as: :select, collection: Price::Discount::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: {class: 'flush'}, label: false, wrapper_html: {class: 'control-label'}, include_blank: false
-            %div{style: 'width: 300px;'}
-              = price_form.input :promo_percentage, placeholder: 'Ex. : 20', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-third inline-block'}
+            %div{style: 'width: 170px;'}
+              = price_form.input :promo_percentage, placeholder: 'Ex. : 20', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-third inline-block'}, as: :string
               \%
             = price_form.input :info, label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
     .input.flush--top
@@ -152,7 +152,7 @@
           .input.flush.inline-block{style: 'width: 150px;'}
             %input.width-auto.v-middle.inline-block{type: 'radio', id: "non_free_subscription_400", name: "subscription_400", checked: (@trial.persisted? and !@trial.free?)}
             %label{for: "non_free_subscription_400"}
-              = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 110px;'}
+              = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 110px;'}, as: :string
             €
           = registration_form.input :info, placeholder: 'Ex. : Pour les étudiant', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
       - @registrations.each_with_index do |item, i|
@@ -167,7 +167,7 @@
             .input.flush.inline-block{style: 'width: 150px;'}
               %input.width-auto.v-middle.inline-block{type: 'radio', id: "non_free_subscription_#{i}", name: "subscription_#{i}", checked: (item.persisted? and !item.free?)}
               %label{for: "non_free_subscription_#{i}"}
-                = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 110px;'}
+                = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 110px;'}, as: :string
               €
             = registration_form.input :info, placeholder: 'Ex. : Pour les enfants', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
       .input.flush--top

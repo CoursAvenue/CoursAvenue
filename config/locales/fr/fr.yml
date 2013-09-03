@@ -158,7 +158,7 @@ fr:
     format:
       separator: ","
       delimiter: " "
-      precision: 3
+      precision: 2
       significant: false
       strip_insignificant_zeros: false
     currency:
