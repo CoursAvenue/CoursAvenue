@@ -7,8 +7,15 @@
         - else
           = image_tag 'logo.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
     .grid__item.one-half.v-middle.text--right.visuallyhidden--palm
-      %div
-        %i.icon-phone-sign.orange{style: 'font-size: 22px;'}
-        = image_tag 'pages/phone_number.png', height: 15
-      %div
-        = image_tag 'pages/email_contact.png', height: 10
+      .grid
+        .grid__item.width-auto.v-middle>
+          %div
+            = link_to pro_pages_questions_path, class: 'btn btn--blue', target: '_blank'  do
+              %i.icon-question-sign
+              Des questions ?
+        .grid__item.width-auto.v-middle>
+          %div
+            %i.icon-phone-sign.orange{style: 'font-size: 22px;'}
+            = image_tag 'pages/phone_number.png', height: 15
+          %div
+            = image_tag 'pages/email_contact.png', height: 10

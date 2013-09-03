@@ -43,34 +43,17 @@
 
         attachEvents: function() {
             var is_hidden       = this.toggled_el.hasClass('hide');
-            var height          = this.toggled_el.outerHeight();
-            var padding_top     = this.toggled_el.css('padding-top');
-            var padding_bottom  = this.toggled_el.css('padding-bottom');
             if (is_hidden) {
-                this.toggled_el.css({
-                    'height'        : 0,
-                    'padding-top'   : 0,
-                    'padding-bottom': 0
-                });
-                this.toggled_el.css('overflow', 'hidden');
+                this.toggled_el.slideUp();
                 this.toggled_el.removeClass('hide');
             }
             this.$element.click(function() {
                 if (is_hidden) {
                     this.caret_icon.addClass('icon-caret-down').removeClass('icon-caret-left');
-                    this.toggled_el.animate({
-                        'height'        : height,
-                        'padding-top'   : padding_top,
-                        'padding-bottom': padding_bottom
-                    }, 400, 'easeOutCubic');
+                    this.toggled_el.slideDown();
                 } else {
+                    this.toggled_el.slideUp();
                     this.caret_icon.removeClass('icon-caret-down').addClass('icon-caret-left');
-                    this.toggled_el.css('overflow', 'hidden');
-                    this.toggled_el.animate({
-                        'height'        : 0,
-                        'padding-top'   : 0,
-                        'padding-bottom': 0
-                    }, 400, 'easeOutCubic');
                 }
                 is_hidden = !is_hidden;
             }.bind(this));

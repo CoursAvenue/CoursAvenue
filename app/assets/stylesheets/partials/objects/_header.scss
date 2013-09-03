@@ -7,9 +7,6 @@
     overflow        : visible;
     display         : table;
     width           : 100%;
-    &, .main-container {
-        height     : 60px;
-    }
     @include background-image(linear-gradient(top, $beige, darken($beige-dark, 7%)));
     .nav {
         margin-bottom: 0;
