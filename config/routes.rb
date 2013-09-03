@@ -52,7 +52,7 @@ CoursAvenue::Application.routes.draw do
           post 'duplicate'
           post 'copy_prices_from'
         end
-        resources :plannings,  only: [:edit, :index, :destroy] do
+        resources :plannings,  only: [:new, :edit, :index, :destroy] do
           member do
             post 'duplicate'
           end

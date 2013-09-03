@@ -31,6 +31,19 @@ class Pro::PlanningsController < InheritedResources::Base
     @planning.teacher = @plannings.first.teacher if @plannings.any?
   end
 
+  def new
+    @course    = Course.find(params[:course_id])
+    @planning  = Planning.new
+    retrieve_plannings_and_past_plannings
+    respond_to do |format|
+      if request.xhr?
+        format.html {render partial: "pro/plannings/#{@course.underscore_name}_form"}
+      else
+        format.html {render template: 'pro/plannings/index'}
+      end
+    end
+  end
+
   def edit
     @planning  = Planning.find(params[:id])
     retrieve_plannings_and_past_plannings

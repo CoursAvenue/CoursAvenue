@@ -21,10 +21,8 @@
 = render "#{@course.underscore_name}_list"
 %hr
 
-%h5.form-header-group.flush--bottom
-  Rajouter un créneau
-.form-white-box
-  = render "#{@course.underscore_name}_form"
+.text--center
+  = link_to 'Ajouter un créneau', new_pro_course_planning_path(@course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--success btn--large'
 
 = content_for :scripts do
   :javascript
