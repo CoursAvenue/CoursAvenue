@@ -122,4 +122,7 @@ $(function() {
         });
     };
     global.initialize_callbacks.push(tooltip_initializer);
+
+    // Initialize all callbacks
+    $.each(global.initialize_callbacks, function(i, func) { func(); });
 });
