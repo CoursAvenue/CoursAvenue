@@ -24,7 +24,7 @@
           %td= course.type_name
           %td
             - if (course.is_lesson? and course.end_date.nil?) or (course.end_date and course.end_date < Date.today)
-              .warning-buble{data: {behavior: 'tooltip', 'original-title' => 'Les dates renseignées pour se cours sont passées.'}}
+              .warning-buble{data: {behavior: 'tooltip', 'original-title' => 'Les dates renseignées pour ce cours sont passées.'}}
                 !
             = link_to course.name, edit_pro_course_path(course)
           %td.text--right
