@@ -100,7 +100,10 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=text-counter]').each(function(index, el) {
-        $(this).textCounter();
-    });
+    var textcounter_initializer = function() {
+        $('[data-behavior=text-counter]').each(function(index, el) {
+            $(this).textCounter();
+        });
+    };
+    GLOBAL.initialize_callbacks.push(textcounter_initializer);
 });

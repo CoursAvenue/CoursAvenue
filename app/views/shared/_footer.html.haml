@@ -52,7 +52,7 @@
   %p.flush
     Laissez-nous ses coordonnées avec un petit mot de votre part, nous le contacterons pour qu'il se crée un profil CoursAvenue.
 
-  = form_tag recommendation_structures_path  do
+  = form_tag recommendation_structures_path, id: 'recommand-form' do
     .grid.push-half--top
       .grid__item.one-half>
         %div
@@ -69,5 +69,18 @@
         %textarea.one-whole{rows: 6, name: 'recommendation'}
           J'ai suivi un cours de salsa avec patrick qui est un très bon professeur. Il est réellement à l'écoute de ses élèves et c'est un véritable plaisir d'assister à ses cours !&#x000A;&#x000A;Élodie
         %i Pensez à signer votre message.
+        #recaptha.hidden= recaptcha_tags
     .text--right.push-half--top
       = submit_tag 'Envoyer la recommandation', class: 'btn--blue btn', href: '#'
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#recommand-form').submit(function() {
+            if ($('#recaptha').hasClass('hidden')) {
+                $('#recaptha').removeClass('hidden');
+                return false;
+            }
+            return true;
+        });
+    });

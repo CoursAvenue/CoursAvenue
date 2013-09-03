@@ -91,7 +91,10 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=toggleable]').each(function(index, el) {
-        $(this).toggler();
-    });
+    var toggleable_initializer = function () {
+        $('[data-behavior=toggleable]').each(function(index, el) {
+            $(this).toggler();
+        });
+    };
+    GLOBAL.initialize_callbacks.push(toggleable_initializer);
 });

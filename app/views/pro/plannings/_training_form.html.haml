@@ -25,16 +25,16 @@
     %label &nbsp;-&nbsp;
     = f.input :end_time, as: :time, minute_step: 15, label: false, default: {year: 2000, month: 1, day: 1, hour: 9, min: 00}, wrapper_html: {id: 'end-time-wrapper'}
 
-  .input#add-teacher-wrapper
+  .input.add-teacher-wrapper
     = f.label :teacher, class: 'control-label' do
       %i.icon-user
       Professeur
     = f.association :teacher, as: :select, collection: @teachers, include_blank: true, label: false
-    = link_to 'javascript:void(0)', id: 'add-teacher' do
+    = link_to 'javascript:void(0)', class: 'add-teacher' do
       &nbsp
       %i.icon-user
       Ajouter un professeur
-  .input.hidden#new-teacher-wrapper
+  .input.hidden.new-teacher-wrapper
     = f.label :teacher
     = f.input :teacher, label: false, input_html: {value: ''}
 

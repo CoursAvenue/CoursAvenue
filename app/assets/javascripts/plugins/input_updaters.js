@@ -78,7 +78,10 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=input-update]').each(function(index, el) {
-        $(this).inputUpdater();
-    });
+    var input_update_initializer = function() {
+        $('[data-behavior=input-update]').each(function(index, el) {
+            $(this).inputUpdater();
+        });
+    };
+    GLOBAL.initialize_callbacks.push(input_update_initializer);
 });

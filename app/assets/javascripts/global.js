@@ -1,5 +1,5 @@
 var GLOBAL = GLOBAL || {};
-
+GLOBAL.initialize_callbacks = [];
 /*
  * Usage:
  * var constants = GLOBAL.namespace('GLOBAL.constants');

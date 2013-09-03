@@ -63,7 +63,10 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=autoresize]').each(function(index, el) {
-        $(this).textareaResizer();
-    });
+    var autoresize_initializer = function() {
+        $('[data-behavior=autoresize]').each(function(index, el) {
+            $(this).textareaResizer();
+        });
+    }
+    GLOBAL.initialize_callbacks.push(autoresize_initializer);
 });

@@ -69,22 +69,6 @@
 
 $(function() {
     var global = GLOBAL.namespace('GLOBAL');
-    $('[data-behavior=datepicker]').each(function() {
-        $(this).datepicker({
-            format: 'dd/mm/yyyy',
-            weekStart: 1,
-            language: 'fr'
-        });
-    });
-
-    // -------------------------- Chosen
-
-    $('[data-behavior=chosen]').each(function() {
-        $(this).chosen({
-            no_results_text: 'Pas de résultat...'
-        });
-    });
-
     $("[data-behavior=modal]").each(function() {
         var width  = $(this).data('width') || '70%';
         var height = $(this).data('height') || '70%';
@@ -95,17 +79,47 @@ $(function() {
                 fitToView   : false,
                 width       : width,
                 height      : height,
-                autoSize    : true
+                autoSize    : true,
+                ajax        : {
+                    complete: function(){
+                        $.each(global.initialize_callbacks, function(i, func) { func(); });
+                    }
+                }
         });
     });
-    $("[data-behavior=copy-to-clipboard]").each(function(index, element) {
-        var clip = new ZeroClipboard(element);
-        clip.on('mousedown', function(client) {
-            GLOBAL.flash('Votre texte à bien été copié');
+    var datepicker_initializer = function() {
+        $('[data-behavior=datepicker]').each(function() {
+            $(this).datepicker({
+                format: 'dd/mm/yyyy',
+                weekStart: 1,
+                language: 'fr'
+            });
         });
-    });
-    $('[data-behavior=tooltip]').each(function(el) {
-        $(this).tooltip();
-    });
+    };
+    global.initialize_callbacks.push(datepicker_initializer);
 
+    var chosen_initializer = function() {
+        // -------------------------- Chosen
+        $('[data-behavior=chosen]').each(function() {
+            $(this).chosen({
+                no_results_text: 'Pas de résultat...'
+            });
+        });
+    };
+    global.initialize_callbacks.push(chosen_initializer);
+    var copy_initializer = function() {
+        $("[data-behavior=copy-to-clipboard]").each(function(index, element) {
+            var clip = new ZeroClipboard(element);
+            clip.on('mousedown', function(client) {
+                GLOBAL.flash('Votre texte à bien été copié');
+            });
+        });
+    };
+    global.initialize_callbacks.push(copy_initializer);
+    var tooltip_initializer = function() {
+        $('[data-behavior=tooltip]').each(function(el) {
+            $(this).tooltip();
+        });
+    };
+    global.initialize_callbacks.push(tooltip_initializer);
 });

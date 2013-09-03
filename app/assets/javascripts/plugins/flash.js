@@ -70,7 +70,10 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=flash]').each(function(index, el) {
-        $(this).flash();
-    });
+    var flash_initializer = function() {
+        $('[data-behavior=flash]').each(function(index, el) {
+            $(this).flash();
+        });
+    };
+    GLOBAL.initialize_callbacks.push(flash_initializer);
 });

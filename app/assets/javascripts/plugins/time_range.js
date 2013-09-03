@@ -81,7 +81,10 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=time-range]').each(function(index, el) {
-        $(this).timeRange();
-    });
+    var time_range_initializer = function() {
+        $('[data-behavior=time-range]').each(function(index, el) {
+            $(this).timeRange();
+        });
+    };
+    GLOBAL.initialize_callbacks.push(time_range_initializer);
 });

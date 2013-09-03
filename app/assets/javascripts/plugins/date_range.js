@@ -75,7 +75,10 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=date-range]').each(function(index, el) {
-        $(this).dateRange();
-    });
+    var date_range_initializer = function() {
+        $('[data-behavior=date-range]').each(function(index, el) {
+            $(this).dateRange();
+        });
+    };
+    GLOBAL.initialize_callbacks.push(date_range_initializer);
 });

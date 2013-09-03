@@ -94,7 +94,10 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=checkbox-list]').each(function(el) {
-        $(this).checkboxList();
-    });
+    var checkbox_list_initializer = function(){
+        $('[data-behavior=checkbox-list]').each(function(el) {
+            $(this).checkboxList();
+        });
+    };
+    GLOBAL.initialize_callbacks.push(checkbox_list_initializer);
 });

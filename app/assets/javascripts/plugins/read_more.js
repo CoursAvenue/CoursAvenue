@@ -76,7 +76,10 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=read-more]').each(function(index, el) {
-        $(this).readMore();
-    });
+    var readmore_initializer = function() {
+        $('[data-behavior=read-more]').each(function(index, el) {
+            $(this).readMore();
+        });
+    };
+    GLOBAL.initialize_callbacks.push(readmore_initializer);
 });

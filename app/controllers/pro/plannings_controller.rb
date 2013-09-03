@@ -34,7 +34,13 @@ class Pro::PlanningsController < InheritedResources::Base
   def edit
     @planning  = Planning.find(params[:id])
     retrieve_plannings_and_past_plannings
-    render template: 'pro/plannings/index'
+    respond_to do |format|
+      if request.xhr?
+        format.html {render partial: "pro/plannings/#{@course.underscore_name}_form"}
+      else
+        format.html {render template: 'pro/plannings/index'}
+      end
+    end
   end
 
   def create
@@ -66,7 +72,7 @@ class Pro::PlanningsController < InheritedResources::Base
         if @planning.end_date < Date.today
           flash[:alert] = 'Le cours ne peut être dans le passé'
         end
-        format.html { render template: 'pro/plannings/index' }
+        format.html { render template: 'pro/plannings/index', notice: 'Le créneau a bien été mis à jour' }
       end
     end
   end

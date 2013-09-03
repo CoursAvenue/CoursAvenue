@@ -25,16 +25,16 @@
     %span.v-middle durée du cours :
     = f.input :duration, as: :select, collection: minutes, label: false
 
-  .input#add-teacher-wrapper
+  .input.add-teacher-wrapper
     = f.label :teacher, class: 'control-label' do
       %i.icon-user
       Professeur
     = f.association :teacher, as: :select, collection: @teachers, label: false, include_blank: true
-    = link_to 'javascript:void(0)', id: 'add-teacher' do
+    = link_to 'javascript:void(0)', class: 'add-teacher' do
       &nbsp
       %i.icon-user
       Ajouter un professeur
-  .input.hidden#new-teacher-wrapper
+  .input.hidden.new-teacher-wrapper
     = f.label :teacher, class: 'control-label' do
       %i.icon-user
       Professeur

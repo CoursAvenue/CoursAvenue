@@ -16,35 +16,23 @@
       %i.icon-calendar
       Planning
 
-- unless action_name == 'edit'
-  %h3 Planning du cours
-  - if @plannings.any? and !@course.is_lesson?
-    %h5 Séances à venir
-  = render "#{@course.underscore_name}_list"
-  %hr
+%h3 Planning du cours
+- if @plannings.any? and !@course.is_lesson?
+  %h5 Séances à venir
+= render "#{@course.underscore_name}_list"
+%hr
 
 %h5.form-header-group.flush--bottom
-  - if action_name == 'edit'
-    %i.icon-pencil
-    Modification du créneau
-  - else
-    Rajouter un créneau
+  Rajouter un créneau
 .form-white-box
   = render "#{@course.underscore_name}_form"
-
-- if action_name == 'edit'
-  %h3 Planning du cours
-  - if @plannings.any? and !@course.is_lesson?
-    %h5 Séances à venir
-  = render "#{@course.underscore_name}_list"
-  %hr
 
 = content_for :scripts do
   :javascript
     $(function() {
-        $('#add-teacher').click(function(event) {
-            $('#add-teacher-wrapper').hide();
-            $('#new-teacher-wrapper').show();
+        $(document.body).on('click', '.add-teacher', function(event) {
+            $('.add-teacher-wrapper').hide();
+            $('.new-teacher-wrapper').show();
         });
         if ($('#show-past-planning')) {
             $('#show-past-planning').click(function() {

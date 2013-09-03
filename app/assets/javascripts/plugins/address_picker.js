@@ -87,7 +87,10 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=address-picker]').each(function(index, el) {
-        $(this).addressPicker();
-    });
+    var address_picker_initializer = function() {
+        $('[data-behavior=address-picker]').each(function(index, el) {
+            $(this).addressPicker();
+        });
+    };
+    GLOBAL.initialize_callbacks.push(address_picker_initializer);
 });

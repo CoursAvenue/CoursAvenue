@@ -85,7 +85,10 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=dropped-options]').each(function(index, el) {
-        $(this).droppedOptions();
-    });
+    var dropped_options_initializer = function() {
+        $('[data-behavior=dropped-options]').each(function(index, el) {
+            $(this).droppedOptions();
+        });
+    };
+    GLOBAL.initialize_callbacks.push(dropped_options_initializer);
 });

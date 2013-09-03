@@ -249,6 +249,7 @@ GEM
     rake (10.1.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    recaptcha (0.3.5)
     redcarpet (2.3.0)
     responders (0.9.3)
       railties (~> 3.1)
@@ -375,6 +376,7 @@ DEPENDENCIES
   rack-cors
   rack-reverse-proxy
   rails (= 3.2.14)
+  recaptcha
   roadie (~> 2.4.1)
   rspec-instafail (~> 0.2.4)
   rspec-rails (~> 2.13.2)
