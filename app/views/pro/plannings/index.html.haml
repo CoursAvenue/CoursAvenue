@@ -16,8 +16,7 @@
       %i.icon-calendar
       Planning
 
-%h3 Planning du cours
-- if @plannings.any? and !@course.is_lesson?
+- if @plannings.any? and !@course.is_lesson? and @past_plannings.any?
   %h5 Séances à venir
 = render "#{@course.underscore_name}_list"
 %hr

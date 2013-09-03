@@ -1,9 +1,10 @@
 = side_menu_currently_at 'Mes cours'
 
-%p.alert--info#course-places-info
-  %i.icon-warning-sign
-  %b Important : si un cours possède plusieurs lieux, plusieurs niveaux, pour des publics différents, renseignez-le dans la partie "planning", mais n'ajoutez pas de nouveau cours.
-  %a#understood__course_places J'ai compris
+- unless cookies[:understood__course_places]
+  %p.alert--info#course-places-info
+    %i.icon-warning-sign
+    %b Important : si un cours possède plusieurs lieux, plusieurs niveaux, pour des publics différents, renseignez-le dans la partie "planning", mais n'ajoutez pas de nouveau cours.
+    %a#understood__course_places{href: 'javascript:void(0)'} J'ai compris
 
 - if @courses.any?
   %table.table--striped.dataTable.table--data.white-box.flush--bottom
@@ -42,6 +43,11 @@
                     %i.icon-picture
                     Photo
                     %i.icon-remove.red
+              .btn>
+                = link_to edit_pro_course_path(course) do
+                  %i.lbc-icon-info i
+                  Info
+                  %i.icon-ok.green
               .btn>
                 = link_to pro_course_prices_path(course) do
                   € Tarifs

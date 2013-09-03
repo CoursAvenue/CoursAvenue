@@ -122,7 +122,7 @@
           .input.flush.discount{class: price_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}
             = price_form.input :libelle, as: :select, collection: Price::Discount::TYPES, label_method: lambda{|l| I18n.t(l)}, wrapper_html: {class: 'flush'}, label: false, wrapper_html: {class: 'control-label'}, include_blank: false
             %div{style: 'width: 170px;'}
-              = price_form.input :promo_percentage, placeholder: 'Ex. : 20', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-third inline-block'}, as: :string
+              = price_form.input :promo_percentage, placeholder: 'Ex. : 20', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
               \%
             = price_form.input :info, label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
     .input.flush--top

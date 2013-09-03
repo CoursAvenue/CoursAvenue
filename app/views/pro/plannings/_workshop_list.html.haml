@@ -1,7 +1,9 @@
 - if @plannings.any?
   - @plannings.group_by(&:place).each do |place, plannings|
     - unless place.nil?
-      %h5= place.location.name
+      %h5
+        %i.icon-map-marker
+        = place.location.name
     %table.table--striped.table--data.white-box
       %thead
         %tr

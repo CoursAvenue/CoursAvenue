@@ -4,7 +4,4 @@
     = f.input :name
     = f.input :description, input_html: {'data-behavior' => 'autoresize'}
     .form-actions
-      - if @teacher.new_record?
-        = f.submit 'Valider', class: 'btn btn--success'
-      - else
-        = f.submit 'Modifier', class: 'btn btn--primary'
+      = f.submit 'Enregistrer', class: 'btn btn--success'

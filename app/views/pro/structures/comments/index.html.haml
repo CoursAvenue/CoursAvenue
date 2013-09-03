@@ -1,4 +1,5 @@
 = side_menu_currently_at "Mes avis"
+
 %ul.tabs
   %li.active
     = link_to pro_structure_comments_path(@structure) do
@@ -8,6 +9,10 @@
     = link_to recommendations_pro_structure_path(@structure) do
       %i.icon-bullhorn
       Demander des recommandations
+
+
+.text--center.soft-half
+  = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--success btn--large'
 
 %h4.push--top
   %i.icon-comments-alt

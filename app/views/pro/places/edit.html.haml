@@ -34,5 +34,5 @@
         = contact_form.input :mobile_phone, label: Contact.human_attribute_name(:mobile_phone), input_html: {value: contact_form.object.mobile_phone || @structure.main_contact.mobile_phone_number}
 
     .form-actions#submit
-      = f.submit 'Valider', class: 'btn btn--success'
+      = f.submit 'Enregistrer', class: 'btn btn--success'
 
