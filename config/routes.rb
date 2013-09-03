@@ -9,6 +9,7 @@ CoursAvenue::Application.routes.draw do
       root :to => 'home#index'
       match 'test-home-ab'                 => 'home#index', ab: true
       match 'pages/presentation'           => 'home#presentation'
+      match 'pages/des-questions'          => 'home#questions'
       match 'pages/offre-et-tarifs'        => 'home#price', as: 'pages_price'
       match 'pages/presse'                 => 'home#press', as: 'pages_press'
       match '/dashboard'                   => 'dashboard#index', as: 'dashboard'
