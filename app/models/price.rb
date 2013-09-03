@@ -8,10 +8,10 @@ class Price < ActiveRecord::Base
   #   prices.free: Gratuit
   #   prices.individual_course: Cours seul
 
-  attr_accessible :libelle, :amount, :promo_amount, :nb_courses, :info, :course, :number, :type
+  attr_accessible :libelle, :amount, :promo_amount, :nb_courses, :info, :course, :number, :type, :duration, :promo_percentage
 
-  validates :amount, :course, presence: true
-  validates :amount       , numericality: { greater_than_or_equal_to:  0 }
+  validates :course, presence: true
+  validates :amount       , numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :promo_amount , numericality: { less_than: :amount }, allow_nil: true
 
   before_save :remove_zeros
@@ -20,6 +20,10 @@ class Price < ActiveRecord::Base
   scope :subscriptions, where(type: 'Price::Subscription')
   scope :registrations, where(type: 'Price::Registration')
   scope :discounts    , where(type: 'Price::Discount')
+
+  def free?
+    false
+  end
 
   def localized_libelle
     I18n.t(read_attribute(:libelle)) if read_attribute(:libelle)

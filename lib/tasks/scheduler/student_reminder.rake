@@ -13,10 +13,10 @@ namespace :scheduler do
 
   # 2 days after last email sent
   # $ rake scheduler:resend_recommendation_stage_2
-  # desc 'Re ask students for recommendation'
-  # task :resend_recommendation_stage_2 => :environment do |t, args|
-  #   StudentReminder.resend_recommendation_stage_2
-  # end
+  desc 'Re ask students for recommendation'
+  task :resend_recommendation_stage_2 => :environment do |t, args|
+    StudentReminder.resend_recommendation_stage_2
+  end
 
   # 3 days after last email sent
   # $ rake scheduler:resend_recommendation_stage_3

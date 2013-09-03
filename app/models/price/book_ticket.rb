@@ -1,7 +1,7 @@
 # encoding: utf-8
 class ::Price::BookTicket < Price
 
-  attr_accessible :number
+  attr_accessible :number # in minutes
 
   validates :number, presence: true
 

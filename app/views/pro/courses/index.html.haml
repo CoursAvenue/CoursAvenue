@@ -1,5 +1,10 @@
 = side_menu_currently_at 'Mes cours'
 
+%p.alert--info#course-places-info
+  %i.icon-warning-sign
+  %b Important : si un cours possède plusieurs lieux, plusieurs niveaux, pour des publics différents, renseignez-le dans la partie "planning", mais n'ajoutez pas de nouveau cours.
+  %a#understood__course_places J'ai compris
+
 - if @courses.any?
   %table.table--striped.dataTable.table--data.white-box.flush--bottom
     %thead
@@ -90,10 +95,10 @@
         $('.dataTable').each(function(index, datatable) {
             $(datatable).tablesorter();
         });
-        if ($('#understood__course_status')) {
-            $('#understood__course_status').click(function() {
-                $.cookie('understood__course_status', true, {expires: 10000});
-                $('#course-status-info').remove();
+        if ($('#understood__course_places')) {
+            $('#understood__course_places').click(function() {
+                $.cookie('understood__course_places', true, {expires: 100000});
+                $('#course-places-info').remove();
             });
         }
     });

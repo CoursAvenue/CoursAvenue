@@ -235,6 +235,10 @@ class Course < ActiveRecord::Base
     self.prices.select{|p| p.type == 'Price::Discount'}
   end
 
+  def trial
+    self.prices.select{|p| p.type == 'Price::Trial'}.first
+  end
+
   # Helper methods for place and locations
   def locations
     places.map(&:location).compact
@@ -418,7 +422,7 @@ class Course < ActiveRecord::Base
 
   def reject_price attributes
     exists = attributes[:id].present?
-    empty  = attributes[:amount].blank?
+    empty  = (attributes[:amount].blank? and attributes[:promo_percentage].blank?)
     attributes.merge!({:_destroy => 1}) if exists and empty
     return (!exists and empty)
   end

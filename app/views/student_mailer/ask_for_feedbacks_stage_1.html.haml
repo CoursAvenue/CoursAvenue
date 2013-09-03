@@ -4,7 +4,7 @@
   #{@structure.name} vous a récemment demandé de déposer votre avis sur son profil public CoursAvenue, le 1er moteur de recherche de cours. Pour l'aider à proposer des cours encore plus passionnants grâce à vos commentaires, cliquez sur ce lien :
 
 %p.action
-  = link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email), class: 'btn btn--blue'
+  = link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, stage: 1), class: 'btn btn--blue'
 
 %p
   Merci et à très bientôt,

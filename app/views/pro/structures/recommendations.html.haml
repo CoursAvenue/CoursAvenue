@@ -59,9 +59,20 @@
           Merci et à très bientôt,
           %br
           = @structure.name
-
-
     .push-half--top.text--right= submit_tag 'Envoyer ma demande', class: 'btn btn--success'
+
+-# %p
+-#   Vous pouvez également leur envoyé un email plus personnel. Voilà un exemple de mail que vous pouvez utiliser :
+-# .alert--info.flush--left#email-text>
+-#   %p>
+-#     Bonjour,
+-#   %p>
+-#     Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laissez votre avis en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: '_blank'}
+-#   %p>
+-#     Merci pour votre contribution et à très bientôt !
+-#   %p.flush--bottom>
+-#     #{@structure.name}
+
 
 %hr
 .white-box.islet

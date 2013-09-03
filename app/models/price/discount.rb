@@ -6,15 +6,14 @@ class Price::Discount < Price
   #   prices.discount.low_income: Revenu faible
   #   prices.discount.large_family: Famille nombreuse
   #   prices.discount.couple: Couple
-  #   prices.discount.trial_lesson: Cours d'essai
+  attr_accessible :promo_percentage
 
   TYPES = ['prices.discount.student',
            'prices.discount.young_and_senior',
            'prices.discount.job_seeker',
            'prices.discount.low_income',
            'prices.discount.large_family',
-           'prices.discount.couple',
-           'prices.discount.trial_lesson']
+           'prices.discount.couple']
 
   def discount?
     true

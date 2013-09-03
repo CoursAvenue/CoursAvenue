@@ -16,6 +16,8 @@ gem 'recaptcha', require: 'recaptcha/rails'
 # For the blog
 gem 'rack-reverse-proxy', require: 'rack/reverse_proxy'
 
+gem 'delocalize', '~> 0.3.1'
+
 # Caching
 gem 'memcachier'
 gem 'dalli'

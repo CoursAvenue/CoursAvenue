@@ -2,6 +2,13 @@
   = content_for :meta_image do
     = @structure.image.url
 
+- if params.has_key? :stage
+  = content_for :scripts do
+    :javascript
+      $(function() {
+        if(typeof _gaq !== 'undefined') {_gaq.push(['_trackEvent', 'Commentaire j+', 'vue', '#{params[:stage]}']);}
+      });
+
 - if params.has_key? :facebook
   = content_for :scripts do
     :javascript
