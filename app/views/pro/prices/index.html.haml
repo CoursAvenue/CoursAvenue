@@ -33,7 +33,44 @@
 
 = simple_form_for [:pro, @structure, @course], url: pro_course_path(@course), as: :course do |f|
   = f.error_notification
-  %h5.form-header-group Au cours / au carnet
+  %h5.form-header-group Au cours
+  .form-white-box--large
+    .grid--full.input.flush
+      %label.control-label.grid__item &nbsp;
+      %div{style: 'width: 170px;'}
+        %b Prix normal
+      .grid__item{style: 'width: 170px;'}
+        %b Avec promo (optionnel)
+        %br
+        %i.blue Laissez vide si pas de promo
+      .grid__item{style: 'width: 250px;'}
+        %b
+          %i.lbc-icon-info i
+          Info
+    .individual-book-tickets
+      - @individual_courses.each_with_index do |item, i|
+        = f.simple_fields_for :prices, item, child_index: i do |book_ticket_form|
+          = book_ticket_form.input :type, as: :hidden
+          .individual-book-ticket{class: book_ticket_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}
+            .input.flush
+              %label.control-label
+                = book_ticket_form.input :number, as: :hidden, value: 1
+                %span 1 cours de
+                %span.inline-block= book_ticket_form.input :duration, label: false, as: :select, collection: duration_collection, selected: book_ticket_form.object.duration || 60
+              %div{style: 'width: 170px;'}
+                = book_ticket_form.input :amount, placeholder: 'Ex. : 25', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
+                €
+              %div{style: 'width: 170px;'}
+                = book_ticket_form.input :promo_amount, placeholder: 'Ex. : 20', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
+                €
+              = book_ticket_form.input :info, placeholder: 'Ex. : Valable 3 mois', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
+      .input.flush--top
+        %label.control-label &nbsp;
+        %a#add-individual-book-ticket{href: 'javascript:void(0)'}
+          %i.icon-plus
+          Ajouter une ligne
+
+  %h5.form-header-group Au carnet
   .form-white-box--large
     .grid--full.input.flush
       %label.control-label.grid__item &nbsp;
@@ -49,19 +86,20 @@
           Info
     .book-tickets
       - @book_tickets.each_with_index do |item, i|
+        - i += 100
         = f.simple_fields_for :prices, item, child_index: i do |book_ticket_form|
           = book_ticket_form.input :type, as: :hidden
           .book-ticket{class: book_ticket_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}
             .input.flush
               %label.control-label
-                %span.inline-block= book_ticket_form.input :number, label: false, as: :select, collection: 1..20, selected: book_ticket_form.object.number || 1
+                %span.inline-block= book_ticket_form.input :number, label: false, as: :select, collection: 2..20, selected: book_ticket_form.object.number || 5
                 %span cours de
                 %span.inline-block= book_ticket_form.input :duration, label: false, as: :select, collection: duration_collection, selected: book_ticket_form.object.duration || 60
               %div{style: 'width: 170px;'}
-                = book_ticket_form.input :amount, placeholder: 'Ex. : 25', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
+                = book_ticket_form.input :amount, placeholder: 'Ex. : 120', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
                 €
               %div{style: 'width: 170px;'}
-                = book_ticket_form.input :promo_amount, placeholder: 'Ex. : 20', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
+                = book_ticket_form.input :promo_amount, placeholder: 'Ex. : 100', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
                 €
               = book_ticket_form.input :info, placeholder: 'Ex. : Valable 3 mois', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
       .input.flush--top
@@ -85,7 +123,7 @@
     .subscriptions
       - @subscriptions.each_with_index do |item, i|
         - # Adding 100 to index in order that indexes doesn't override each others
-        - i += 100
+        - i += 200
         = f.simple_fields_for :prices, item, child_index: i do |price_form|
           .input.flush.subscription{class: item.persisted? ? 'persisted' : 'not-persisted hidden'}
             = price_form.input :type, as: :hidden
@@ -115,7 +153,7 @@
           Info
     .discounts
       - @discounts.each_with_index do |item, i|
-        - i += 200
+        - i += 300
         = f.simple_fields_for :prices, item, child_index: i do |price_form|
           = price_form.input :type, as: :hidden
           .input.flush.discount{class: price_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}
@@ -155,7 +193,7 @@
             €
           = registration_form.input :info, placeholder: 'Ex. : Pour les étudiant', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
       - @registrations.each_with_index do |item, i|
-        - i += 300
+        - i += 400
         = f.simple_fields_for :prices, item, child_index: i do |registration_form|
           = registration_form.input :type, as: :hidden
           .input.flush.registration-fee{class: registration_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}
@@ -200,6 +238,19 @@
             }
         });
         // ----------- Book tickets
+        if ($('#add-individual-book-ticket').length > 0) {
+            $('#add-individual-book-ticket').click(function() {
+                var div_to_show = $('.individual-book-tickets .individual-book-ticket.not-persisted.hidden').first();
+                if (div_to_show.length > 0) {
+                    div_to_show.removeClass('hidden');
+                    // Hide the link if there is no more to show
+                    if ($('.individual-book-tickets .individual-book-ticket.not-persisted.hidden').first().length == 0) { $(this).hide(); }
+                }
+            });
+            if ($('.individual-book-tickets .individual-book-ticket.persisted').length == 0) {
+                $('#add-individual-book-ticket').click();
+            }
+        }
         if ($('#add-book-ticket').length > 0) {
             $('#add-book-ticket').click(function() {
                 var div_to_show = $('.book-tickets .book-ticket.not-persisted.hidden').first();
