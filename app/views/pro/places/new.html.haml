@@ -32,6 +32,8 @@
             = location_form.label :zip_code, label: Location.human_attribute_name(:zip_code)
             = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: '#place_location_attributes_city_id'} }, label: false
             = location_form.input :city_id, collection: [@structure.city], label: false, selected: @place.location.city
+      .form-white-box
+        = f.input :info, placeholder: "Indiquez ici les informations relatives au lieu : station de métro/RER, l'arrêt de bus le plus proche, la description du lieu, digicode, étage, accès parking..."
 
 
       %h5.helper-label.form-header-group{data: { behavior: 'tooltip', 'original-title' => 'Coordonnées de réservation visibles par les élèves' }} Contact pour la réservation

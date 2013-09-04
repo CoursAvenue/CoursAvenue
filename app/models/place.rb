@@ -13,7 +13,10 @@ class Place < ActiveRecord::Base
   accepts_nested_attributes_for :location
 
 
-  attr_accessible :location, :structure, :contacts, :contacts_attributes, :location_attributes
+  attr_accessible :location, :structure, :contacts,
+                  :info,
+                  :contacts_attributes,
+                  :location_attributes
 
   validates :structure, :location, presence: true
 

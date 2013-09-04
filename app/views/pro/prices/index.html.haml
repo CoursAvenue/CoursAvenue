@@ -78,8 +78,6 @@
         %b Prix normal
       .grid__item{style: 'width: 170px;'}
         %b Avec promo (optionnel)
-        %br
-        %i.blue Laissez vide si pas de promo
       .grid__item{style: 'width: 250px;'}
         %b
           %i.lbc-icon-info i
@@ -172,7 +170,7 @@
   .form-white-box--large
     .grid--full.input.flush
       %label.control-label.grid__item &nbsp;
-      %div{style: 'width: 260px;'}
+      %div{style: 'width: 260px; padding-left: 120px;'}
         %b Prix
       .grid__item{style: 'width: 250px;'}
         %b
@@ -193,7 +191,7 @@
             €
           = registration_form.input :info, placeholder: 'Ex. : Pour les étudiant', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
       - @registrations.each_with_index do |item, i|
-        - i += 400
+        - i += 500
         = f.simple_fields_for :prices, item, child_index: i do |registration_form|
           = registration_form.input :type, as: :hidden
           .input.flush.registration-fee{class: registration_form.object.persisted? ? 'persisted' : 'not-persisted hidden'}

@@ -27,7 +27,9 @@
             %div.push-half--top
               = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_url(@structure, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
             %div.push-half--top
-              = link_to 'Parrainer un professeur', coursavenue_recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')"
+              = link_to coursavenue_recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
+                %i.icon-bullhorn
+                &nbsp;Parrainer un professeur
           .flexbox__item.v-top.two-twelfths.text--center>
             .thin.alpha.brand= @structure.rating || 0
             %span.rating{title: comment_rating_title(@structure.rating)}

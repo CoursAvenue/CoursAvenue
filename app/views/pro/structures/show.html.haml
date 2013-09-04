@@ -32,6 +32,6 @@
         %b Disciplines pratiquées :
       %ul.nav= join_child_subjects @structure, true
       - if @structure.website.present?
-        %p= link_to 'Site web', @structure.website, class: 'btn btn--blue btn--small'
+        %p= link_to 'Site web', @structure.website, class: 'btn btn--blue btn--small', target: '_blank', rel: 'nofollow'
       - if @structure.facebook_url.present?
-        %p= link_to 'Facebook', @structure.facebook_url, class: 'btn btn--small btn--blue'
+        %p= link_to 'Facebook', @structure.facebook_url, class: 'btn btn--small btn--blue', target: '_blank', rel: 'nofollow'
