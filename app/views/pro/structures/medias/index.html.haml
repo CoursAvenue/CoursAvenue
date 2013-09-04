@@ -5,7 +5,6 @@
 
 
 - if @medias.any?
-  %hr
   .grid.media-gallery
     - @medias.in_groups_of(3, false).each do |media_group|
       - media_group.each do |media|

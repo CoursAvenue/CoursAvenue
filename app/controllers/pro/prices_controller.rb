@@ -9,7 +9,7 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
   load_and_authorize_resource :structure
 
   def index
-    @other_courses = @structure.courses.reject{|c| c == @course}
+    @other_courses = @structure.courses.reject{|c| c == @course or c.prices.empty? }
     @book_tickets  = @course.book_tickets.sort_by(&:number)
     @discounts     = @course.discounts
     @subscriptions = @course.subscriptions

@@ -181,9 +181,9 @@ class Pro::StructuresController < Pro::ProController
     @structure = Structure.find params[:id]
     respond_to do |format|
       if @structure.destroy
-        format.html { redirect_to pro_structures_path, notice: 'Structure supprimé' }
+        format.html { redirect_to pro_admins_path, notice: 'Structure supprimé' }
       else
-        format.html { redirect_to pro_structures_path, alert: 'Oups...' }
+        format.html { redirect_to pro_admins_path, alert: 'Oups...' }
       end
     end
   end
