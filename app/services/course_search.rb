@@ -15,7 +15,7 @@ class CourseSearch
       with(:min_age_for_kid).less_than      params[:age][:max]                                      if params[:age].present? and params[:age][:max].present?
       with(:max_age_for_kid).greater_than   params[:age][:min]                                      if params[:age].present? and params[:age][:min].present?
 
-      with(:end_date).greater_than          params[:start_date]                                     if params[:start_date].present?
+      with(:end_date).greater_than          params[:start_date] || Date.today
       with(:start_date).less_than           params[:end_date]                                       if params[:end_date].present?
       # with(:start_date).greater_than        params[:start_date]                                     if params[:end_date].present?
       # with(:end_date).less_than             params[:end_date]                                       if params[:start_date].present?
