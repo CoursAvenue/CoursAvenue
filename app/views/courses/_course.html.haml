@@ -15,7 +15,7 @@
     %header
       .hN.course-title
         - @course_places[course].each do |location|
-          .map-marker-image
+          .map-marker-image.visuallyhidden--palm
             = link_to structure_course_path(course.structure, course) do
               %span= @locations.index(location) + 1
         %h2.delta.inline.v-middle= link_to course.name, structure_course_path(course.structure, course)
