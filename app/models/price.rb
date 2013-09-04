@@ -45,6 +45,10 @@ class Price < ActiveRecord::Base
     false
   end
 
+  def trial?
+    false
+  end
+
   def per_course_amount
     return nil if amount.nil?
     if self.nb_courses and self.nb_courses > 0

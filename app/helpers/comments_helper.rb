@@ -44,7 +44,7 @@ module CommentsHelper
     if comment.commentable.is_a? Structure
       structure_url(comment.commentable, {subdomain: 'www'}.merge(options))
     elsif comment.commentable
-      course_url comment.commentable, {subdomain: 'www'}.merge(options)
+      structure_course_url comment.commentable.structure, comment.commentable, {subdomain: 'www'}.merge(options)
     end
   end
 

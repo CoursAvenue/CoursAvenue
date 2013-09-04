@@ -9,13 +9,7 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
   load_and_authorize_resource :structure
 
   def index
-    @other_courses      = @structure.courses.reject{|c| c == @course or c.prices.empty? }
-    @individual_courses = @course.book_tickets.reject{|b| b.number != 1}
-    @book_tickets       = @course.book_tickets.reject{|b| b.number == 1}.sort_by(&:number)
-    @discounts          = @course.discounts
-    @subscriptions      = @course.subscriptions
-    @registrations      = @course.registrations
-    @trial              = @course.trial
+    retrieve_prices
     8.times { @book_tickets       << ::Price::BookTicket.new(course: @course, number: 5)}
     8.times { @individual_courses << ::Price::BookTicket.new(course: @course, number: 1)}
     4.times { @subscriptions      << Price::Subscription.new(course: @course) }
@@ -57,8 +51,19 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
 
 
   private
+
   def load_structure
     @course    = Course.find(params[:course_lesson_id] || params[:course_workshop_id] || params[:course_training_id] || params[:course_id])
     @structure = @course.structure
+  end
+
+  def retrieve_prices
+    @other_courses      = @structure.courses.reject{|c| c == @course or c.prices.empty? }
+    @individual_courses = @course.book_tickets.reject{|b| b.number != 1}
+    @book_tickets       = @course.book_tickets.reject{|b| b.number == 1}
+    @discounts          = @course.discounts
+    @subscriptions      = @course.subscriptions
+    @registrations      = @course.registrations
+    @trial              = @course.trial
   end
 end

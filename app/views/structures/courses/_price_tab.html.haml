@@ -1,4 +1,11 @@
 %article#tab-prices.tab-pane
+  - if @course.trial
+    .white-box.islet.text--center
+      - if @course.trial.free?
+        %b.green Cours d'essai gratuit
+      - else
+        Cours d'essai : #{readable_amount(@course.trial.amount)}€
+
   %table.table--striped.table--data.table--white#planning-schedule
     %thead
       %tr
@@ -10,8 +17,9 @@
       - @prices.each do |price|
         - if price.book_ticket?
           = render partial: "prices/book_ticket", locals: { book_ticket: price }
-        - elsif !price.registration?
+        - else
           = render partial: "prices/price", locals: { price: price }
+
   - if @course.price_details.present?
     %p.white-box.islet= @course.price_details
   - if @course.registrations.any?
@@ -26,6 +34,11 @@
             = "#{readable_amount(registration_fee.amount)}€"
           - if registration_fee.info.present?
             = "(#{registration_fee.info})"
+  - if @course.discounts.any?
+    .white-box.islet
+      %h5.push-half--bottom Tarifs réduits
+      - @course.discounts.each do |discount|
+        #{t(discount.libelle)} : #{readable_amount(discount.promo_percentage)}% de réduction
   - if @structure.accepts_holiday_vouchers or @structure.accepts_ancv_sports_coupon or @structure.accepts_leisure_tickets or @structure.accepts_afdas_funding or @structure.accepts_dif_funding or @structure.accepts_cif_funding
     .white-box.islet
       %p.flush--bottom= t('.possible_funding')

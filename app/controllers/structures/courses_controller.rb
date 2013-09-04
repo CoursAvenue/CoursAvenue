@@ -27,7 +27,7 @@ class Structures::CoursesController < ApplicationController
     @has_nb_place                = @course.plannings.map(&:nb_place_available).compact.any?
     @reservation                 = Reservation.new
     @best_price                  = @course.best_price
-    @prices                      = @course.prices.order('number ASC')
+    @prices                      = @course.book_tickets + @course.subscriptions
     @location_index_hash = {}
     location_index       = 0
     @json_place_address = @locations.to_gmaps4rails do |location, marker|

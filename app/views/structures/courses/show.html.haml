@@ -91,7 +91,7 @@
               %meta{itemprop: 'longitude', content: place.location.longitude}
 
     .push--top.push--bottom
-      = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{course_url(@course)}", class: 'btn--facebook btn one-whole', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
+      = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_course_path(@structure, @course)}", class: 'btn--facebook btn one-whole', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
 
 
   .grid__item.six-tenths>

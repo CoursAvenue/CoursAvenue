@@ -220,11 +220,11 @@ class Course < ActiveRecord::Base
   end
 
   def book_tickets
-    self.prices.select{|p| p.type == 'Price::BookTicket'}
+    self.prices.select{|p| p.type == 'Price::BookTicket'}.sort_by(&:number)
   end
 
   def subscriptions
-    self.prices.select{|p| p.type == 'Price::Subscription'}
+    self.prices.select{|p| p.type == 'Price::Subscription'}.sort{|p1, p2| Price::Subscription::TYPES_ORDER[p1.libelle] <=> Price::Subscription::TYPES_ORDER[p2.libelle] }
   end
 
   def registrations

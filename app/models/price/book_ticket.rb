@@ -29,7 +29,6 @@ class ::Price::BookTicket < Price
     !promo_amount.nil?
   end
 
-
   def readable_amount_with_promo
     amount_with_promo = read_attribute(:amount) + (read_attribute(:amount) * course.promotion / 100)
     ('%.2f' % amount_with_promo).gsub('.', ',').gsub(',00', '')

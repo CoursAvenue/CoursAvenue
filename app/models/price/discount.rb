@@ -7,6 +7,7 @@ class Price::Discount < Price
   #   prices.discount.large_family: Famille nombreuse
   #   prices.discount.couple: Couple
   attr_accessible :promo_percentage
+  validates :promo_percentage, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   TYPES = ['prices.discount.student',
            'prices.discount.young_and_senior',

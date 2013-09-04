@@ -79,7 +79,7 @@
                     %i.icon-copy
                     Dupliquer le cours
                 %li
-                  = link_to  course_url(course, subdomain: 'www'), title: 'Voir le cours sur CoursAvenue', target: '_blank', class: 'nowrap' do
+                  = link_to  structure_course_path(course.structure, course, subdomain: 'www'), title: 'Voir le cours sur CoursAvenue', target: '_blank', class: 'nowrap' do
                     %i.icon-search
                     Voir sur CoursAvenue
                 %li

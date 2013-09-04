@@ -1,9 +1,12 @@
 - duration_collection = (4..12).collect{ |i| time = i*15; ["#{(time/60).floor}h#{(time%60 == 0 ? '' : time%60)}",time] }
-- @book_tickets   ||= @course.book_tickets
-- @discounts      ||= @course.discounts
-- @subscriptions  ||= @course.subscriptions
-- @registrations  ||= @course.registrations
-- @trial          ||= @course.trial
+- @other_courses      ||= @structure.courses.reject{|c| c == @course or c.prices.empty? }
+- @individual_courses ||= @course.book_tickets.reject{|b| b.number != 1}
+- @book_tickets       ||= @course.book_tickets.reject{|b| b.number == 1}#.sort_by(&:number)
+- @discounts          ||= @course.discounts
+- @subscriptions      ||= @course.subscriptions
+- @registrations      ||= @course.registrations
+- @trial              ||= @course.trial
+
 = side_menu_currently_at 'Mes cours'
 
 %ol.breadcrumb.bordered--bottom.soft-half--bottom.nav.delta{itemprop: 'breadcrumb'}
@@ -144,7 +147,7 @@
     .grid--full.input.flush
       %label.control-label.grid__item &nbsp;
       %div{style: 'width: 170px;'}
-        %b % de promotion
+        %b % de réduction
       .grid__item{style: 'width: 250px;'}
         %b
           %i.lbc-icon-info i
@@ -177,19 +180,20 @@
           %i.lbc-icon-info i
           Info
     .registration-fees
-      = f.simple_fields_for :prices, @trial, child_index: 400 do |registration_form|
-        = registration_form.input :type, as: :hidden
-        .input.flush
-          = registration_form.label :amount, "Cours d'essai", class: 'control-label'
-          .input.flush.inline-block{style: 'width: 100px;'}
-            %input.width-auto.v-middle.inline-block{type: 'radio', id: "free_subscription_400", name: "subscription_400", checked: @trial.free?, class: 'free-input', data: {el: "#course_prices_attributes_400_amount"}}
-            %label.v-middle.inline-block{for: "free_subscription_400"} Gratuit
-          .input.flush.inline-block{style: 'width: 150px;'}
-            %input.width-auto.v-middle.inline-block{type: 'radio', id: "non_free_subscription_400", name: "subscription_400", checked: (@trial.persisted? and !@trial.free?)}
-            %label{for: "non_free_subscription_400"}
-              = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 110px;'}, as: :string
-            €
-          = registration_form.input :info, placeholder: 'Ex. : Pour les étudiant', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
+      - if @trial
+        = f.simple_fields_for :prices, @trial, child_index: 400 do |registration_form|
+          = registration_form.input :type, as: :hidden
+          .input.flush
+            = registration_form.label :amount, "Cours d'essai", class: 'control-label'
+            .input.flush.inline-block{style: 'width: 100px;'}
+              %input.width-auto.v-middle.inline-block{type: 'radio', id: "free_subscription_400", name: "subscription_400", checked: @trial.free?, class: 'free-input', data: {el: "#course_prices_attributes_400_amount"}}
+              %label.v-middle.inline-block{for: "free_subscription_400"} Gratuit
+            .input.flush.inline-block{style: 'width: 150px;'}
+              %input.width-auto.v-middle.inline-block{type: 'radio', id: "non_free_subscription_400", name: "subscription_400", checked: (@trial.persisted? and !@trial.free?)}
+              %label{for: "non_free_subscription_400"}
+                = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 110px;'}, as: :string
+              €
+            = registration_form.input :info, placeholder: 'Ex. : Pour les étudiant', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
       - @registrations.each_with_index do |item, i|
         - i += 500
         = f.simple_fields_for :prices, item, child_index: i do |registration_form|

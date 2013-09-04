@@ -9,6 +9,12 @@ class Price::Subscription < Price
            'prices.subscription.trimester',
            'prices.subscription.month']
 
+  TYPES_ORDER = { 'prices.subscription.annual'    => 1,
+                  'prices.subscription.semester'  => 2,
+                  'prices.subscription.trimester' => 3,
+                  'prices.subscription.month'     => 4
+                }
+
   def subscription?
     true
   end
