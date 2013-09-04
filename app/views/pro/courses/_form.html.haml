@@ -65,7 +65,7 @@
       %i.icon-time
       Récurrence
     .form-white-box
-      .input.depend-on-reccurent-course>
+      .input.depend-on-reccurent-course{data: {behavior: 'date-range', 'start-date' => '#course_start_date', 'end-date' => '#course_end_date'}}>
         %label.control-label{for: 'course_start_date'} Date du premier et dernier cours
         = f.input :start_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {style: 'margin-right: 5px', class: 'datepicker-input', value: (@course.start_date.present? ? l(@course.start_date) : l(Date.today)), 'data-behavior' => 'datepicker'}
         \-&nbsp;

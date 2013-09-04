@@ -78,8 +78,8 @@ $(function() {
                 maxHeight   : 500,
                 fitToView   : false,
                 width       : width,
-                height      : height,
-                autoSize    : true,
+                height      : 'auto',
+                autoSize    : false,
                 ajax        : {
                     complete: function(){
                         $.each(global.initialize_callbacks, function(i, func) { func(); });
@@ -93,6 +93,9 @@ $(function() {
                 format: 'dd/mm/yyyy',
                 weekStart: 1,
                 language: 'fr'
+            });
+            $(this).on('changeDate', function(){
+                $(this).datepicker('hide');
             });
         });
     };

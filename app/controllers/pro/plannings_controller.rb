@@ -81,6 +81,7 @@ class Pro::PlanningsController < InheritedResources::Base
     respond_to do |format|
       if @planning.update_attributes(params[:planning])
         format.html { redirect_to pro_course_plannings_path(@course) }
+        format.js { render nothing: true, status: 200 }
       else
         if @planning.end_date < Date.today
           flash[:alert] = 'Le cours ne peut être dans le passé'

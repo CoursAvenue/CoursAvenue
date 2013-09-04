@@ -16,7 +16,7 @@
       %i.icon-calendar
       Planning
 
-.text--center
+.text--center.push-half--bottom
   = link_to 'Ajouter un créneau', new_pro_course_planning_path(@course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--success btn--large'
 
 - if @plannings.any? and !@course.is_lesson? and @past_plannings.any?

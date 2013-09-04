@@ -20,6 +20,8 @@ class Planning < ActiveRecord::Base
   before_validation :set_end_date
   before_validation :set_end_time
   before_validation :update_duration
+  before_validation :set_audience_if_empty
+  before_validation :set_level_if_empty
 
   after_initialize :default_values
 
@@ -30,6 +32,7 @@ class Planning < ActiveRecord::Base
   validate :end_date_in_future
   validates :min_age_for_kid, numericality: { less_than: 18 }, allow_nil: true
   validates :max_age_for_kid, numericality: { less_than: 19 }, allow_nil: true
+
   validate do |planning|
     if (max_age_for_kid.present? or min_age_for_kid.present?) and min_age_for_kid.to_i >= max_age_for_kid.to_i
       planning.errors.add(:max_age_for_kid, "L'age maximum ne peut être inférieur à l'age minimum")
@@ -207,5 +210,13 @@ class Planning < ActiveRecord::Base
     if end_date and end_date < Date.today
       errors.add(:end_date, 'Le cours ne peut pas être dans le passé.')
     end
+  end
+
+  def set_audience_if_empty
+    self.audiences = [Audience::ADULT] if self.audiences.empty?
+  end
+
+  def set_level_if_empty
+    self.levels    = [Level::ALL]      if self.levels.empty?
   end
 end

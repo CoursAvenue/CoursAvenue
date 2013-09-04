@@ -65,7 +65,6 @@ module PlanningsHelper
   end
 
   def join_audiences(planning)
-    return t('audience.all') if planning.audiences.empty?
     planning.audiences.map do |audience|
       if audience.kid?
         if planning.min_age_for_kid and planning.max_age_for_kid

@@ -1,6 +1,6 @@
 /*
     Usage:
-    <div date-behavior='date-range'
+    <div data-behavior='date-range'
          data-start-date='#start-date-input'
          data-end-date='#end-date-input'>
         <input id='start-date'/>
@@ -50,13 +50,14 @@
                 weekStart: 1,
                 language: 'fr'
             });
-            this.start_date.on('changeDate', function() {
-                $(this).datepicker('hide');
-            });
             var end_date = this.end_date;
             this.start_date.on('changeDate', function() {
+                $(this).datepicker('hide');
                 end_date.datepicker('update', this.value);
                 end_date.datepicker('show');
+            });
+            this.end_date.on('changeDate', function() {
+                $(this).datepicker('hide');
             });
         }
     };

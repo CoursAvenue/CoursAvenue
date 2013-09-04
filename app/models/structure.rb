@@ -339,11 +339,11 @@ class Structure < ActiveRecord::Base
   end
 
   def fix_website_url
-    self.website = URLHelper.fix_url(self.website) if self.website
+    self.website = URLHelper.fix_url(self.website) if self.website.present?
   end
 
   def fix_facebook_url
-    self.facebook_url = URLHelper.fix_url(self.facebook_url) if self.facebook_url
+    self.facebook_url = URLHelper.fix_url(self.facebook_url) if self.facebook_url.present?
   end
 
   def encode_uris
