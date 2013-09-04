@@ -16,13 +16,13 @@
       %i.icon-calendar
       Planning
 
+.text--center
+  = link_to 'Ajouter un créneau', new_pro_course_planning_path(@course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--success btn--large'
+
 - if @plannings.any? and !@course.is_lesson? and @past_plannings.any?
   %h5 Séances à venir
 = render "#{@course.underscore_name}_list"
-%hr
 
-.text--center
-  = link_to 'Ajouter un créneau', new_pro_course_planning_path(@course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--success btn--large'
 
 = content_for :scripts do
   :javascript

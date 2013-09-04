@@ -18,12 +18,12 @@
       .lbc-brand-icon{data: {behavior: 'tooltip', 'original-title' => planning.info}}
   %td.text--center.hard
     .drop-down-el.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-      %a.btn{href: '#'}
+      %a.btn--primary.btn.btn{href: '#'}
         %i.icon-chevron-down
         / Actions
       %ul.drop-down__el.text--left
         %li
-          = link_to edit_pro_course_planning_path(@course, planning), title: 'Modifier le créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax' do
+          = link_to edit_pro_course_planning_path(@course, planning), title: 'Modifier le créneau', data: {behavior: 'modal'}, class: 'fancybox.ajax' do
             %i.icon-pencil
             Modifier le créneau
         %li

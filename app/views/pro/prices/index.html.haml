@@ -32,9 +32,8 @@
       = f.submit 'Valider', class: 'btn btn--success'
 
 = simple_form_for [:pro, @structure, @course], url: pro_course_path(@course), as: :course do |f|
-  -# %h5.form-header-group € Tarifs
   = f.error_notification
-  %h5.form-header-group À la carte
+  %h5.form-header-group Au cours / au carnet
   .form-white-box--large
     .grid--full.input.flush
       %label.control-label.grid__item &nbsp;

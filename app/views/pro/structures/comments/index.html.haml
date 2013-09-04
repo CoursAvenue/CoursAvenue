@@ -11,12 +11,9 @@
       Demander des recommandations
 
 
-.text--center.soft-half
-  = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--success btn--large'
+.text--center.soft
+  = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--large'
 
-%h4.push--top
-  %i.icon-comments-alt
-  Mes avis
 - if @structure_comments.empty?
   %p.white-box.islet Encore aucun commentaire.
 - else

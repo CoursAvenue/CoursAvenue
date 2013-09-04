@@ -28,4 +28,15 @@ class Pro::Structures::MediasController < InheritedResources::Base
       end
     end
   end
+
+  def new
+    @structure = Structure.find params[:structure_id]
+    new! do |format|
+      if request.xhr?
+        format.html {render partial: 'pro/structures/medias/form' }
+      else
+        format.html { render template: 'pro/structures/medias/index' }
+      end
+    end
+  end
 end

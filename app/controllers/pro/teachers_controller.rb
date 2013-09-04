@@ -20,9 +20,22 @@ class Pro::TeachersController < InheritedResources::Base
   end
 
   def edit
-    @teachers = @structure.teachers.reject{|teacher| teacher == resource}
     edit! do |format|
-      format.html { render template: 'pro/teachers/index' }
+      if request.xhr?
+        format.html {render partial: 'pro/teachers/form' }
+      else
+        format.html { render template: 'pro/teachers/index' }
+      end
+    end
+  end
+
+  def new
+    new! do |format|
+      if request.xhr?
+        format.html {render partial: 'pro/teachers/form' }
+      else
+        format.html { render template: 'pro/teachers/index' }
+      end
     end
   end
 

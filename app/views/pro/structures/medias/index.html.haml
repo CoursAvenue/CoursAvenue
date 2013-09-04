@@ -1,7 +1,8 @@
 = side_menu_currently_at 'Mes photos & vidéos'
 
-%h5.form-header-group Ajoutez une vidéo / photo
-= render 'form'
+.text--center.push--bottom
+  = link_to 'Ajoutez une vidéo / photo', new_pro_structure_media_path(@structure), class: 'fancybox.ajax btn btn--success btn--large', data: {behavior: 'modal'}
+
 
 - if @medias.any?
   %hr
@@ -15,7 +16,7 @@
               %p.flush--bottom
                 %i= media.caption
           %p
-            = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' } do
+            = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, class: 'btn btn--danger btn--small' do
               %i.icon-trash
               Supprimer
 

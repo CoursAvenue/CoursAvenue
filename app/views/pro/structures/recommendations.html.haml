@@ -8,6 +8,11 @@
     = link_to recommendations_pro_structure_path(@structure) do
       %i.icon-bullhorn
       Demander des recommandations
+  - if false
+    %li
+      = link_to recommendations_pro_structure_path(@structure) do
+        %i.icon-group
+        Demandes envoyés
 
 %h5.home-title.push--top
   %i.icon-bullhorn.v-middle
@@ -48,11 +53,12 @@
       .grid__item.one-half>
         %h4 À :
         %p.flush
-          %i Entrez les emails de vos élèves.
+          %i.blue Entrez les emails de vos élèves : rassurez-vous, ils ne seront utilisés que vous cet envoi unique et resteront confidentiels.
         %textarea.one-whole{name: 'emails', rows: 8, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
       .grid__item.one-half>
         %h4 Message :
-        %br
+        %p.flush
+          %i.blue Modifiez ce texte en le rendant le plus personnel possible avant d'envoyer votre demande.
         %textarea.one-whole{name: 'text', rows: 8, data: {behavior: 'autoresize'}}
           Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques minutes pour laisser un avis sur mon profil ?
         %p.gray-light.flush
@@ -60,18 +66,23 @@
           %br
           = @structure.name
     .push-half--top.text--right= submit_tag 'Envoyer ma demande', class: 'btn btn--success'
+  %hr.push--top
+  .text--center.push-half--bottom
+    = link_to 'Envoyer un email depuis ma boite perso', '#hidden-send', data: {behavior: 'modal'}, class: 'btn btn--blue'
 
--# %p
--#   Vous pouvez également leur envoyé un email plus personnel. Voilà un exemple de mail que vous pouvez utiliser :
--# .alert--info.flush--left#email-text>
--#   %p>
--#     Bonjour,
--#   %p>
--#     Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laissez votre avis en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: '_blank'}
--#   %p>
--#     Merci pour votre contribution et à très bientôt !
--#   %p.flush--bottom>
--#     #{@structure.name}
+#hidden-send.hidden
+  %p
+    Vous souhaitez envoyer votre demande de recommandation depuis votre propre boîte mail ? Pas de souci, nous vous avons préparé un texte que vous pouvez copier, puis coller dans votre email :
+
+  .alert--info.flush--left#email-text>
+    %p>
+      Bonjour,
+    %p>
+      Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laissez votre avis en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: '_blank'}
+    %p>
+      Merci pour votre contribution et à très bientôt !
+    %p.flush--bottom>
+      #{@structure.name}
 
 
 %hr

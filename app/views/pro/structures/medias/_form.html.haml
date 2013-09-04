@@ -1,11 +1,10 @@
-.form-white-box--large.islet
-  = simple_form_for [:pro, @structure, @media], url: pro_structure_medias_path(@structure) do |f|
-    = f.error_notification
-    = f.input :url, wrapper_html: {class: 'flush--bottom'}, as: :string
-    %p.field-form-info.blue
-      Pour les vidéos : collez l'adresse de la page internet de la vidéo provenant de : YouTube, Vimeo ou DailyMotion
-      %br
-      Pour les photos : clic droit sur la photo → copiez l'adresse / l'URL de l'image
-    = f.input :caption
-    .form-actions
-      = f.submit 'Ajouter', class: 'btn btn--success'
+= simple_form_for [:pro, @structure, @media], url: pro_structure_medias_path(@structure) do |f|
+  = f.error_notification
+  = f.input :url, wrapper_html: {class: 'flush--bottom'}, as: :string
+  %p.field-form-info.blue
+    Pour les vidéos : collez l'adresse de la page internet de la vidéo provenant de : YouTube, Vimeo ou DailyMotion
+    %br
+    Pour les photos : clic droit sur la photo → copiez l'adresse / l'URL de l'image
+  = f.input :caption
+  .form-actions
+    = f.submit 'Enregistrer', class: 'btn btn--success'
