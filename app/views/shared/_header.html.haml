@@ -6,7 +6,7 @@
     %nav.text--right.grid__item.two-thirds.visuallyhidden--palm.v-middle
       - if current_user
         %span
-          = link_to 'Recommander un professeur / une école', '#course-recommendation', data: {behavior: 'modal', title: "Recommander un professeur", width: '500px'}
+          = link_to 'Recommander un professeur / une école', '#course-recommendation', data: {behavior: 'modal', title: "Recommander un professeur"}
         %span.soft--left.push--right.bordered--right
         #drop-down-el.drop-down__wrapper.grid__item.width-auto.v-middle.hard--left{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
           = link_to user_path(current_user) do
