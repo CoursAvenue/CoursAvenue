@@ -87,6 +87,7 @@ gem 'gibbon'                    , '~> 0.4.6'
 group :production do
   # gem 'therubyracer'
   gem 'execjs'
+  gem 'rails_12factor'
 end
 
 group :test do
