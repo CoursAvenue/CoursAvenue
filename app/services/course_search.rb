@@ -1,6 +1,7 @@
 # encoding: utf-8
 class CourseSearch
   def self.search params
+    params[:sort] ||= 'rating_desc'
     retrieve_location params
     @search = Sunspot.search(Course) do
       fulltext                              params[:name]                                           if params[:name].present?

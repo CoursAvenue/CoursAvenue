@@ -1,6 +1,7 @@
 class StructureSearch
 
   def self.search params
+    params[:sort] ||= 'rating_desc'
     retrieve_location params
     @search = Sunspot.search(Structure) do
       fulltext params[:name]                             if params[:name].present?
@@ -18,7 +19,7 @@ class StructureSearch
       if params[:sort] == 'rating_desc'
         order_by :nb_comments, :desc
         order_by :rating, :desc
-      else
+      elsif params[:sort] == 'relevancy'
         order_by :has_comment, :desc
         # order_by_geodist(:location, params[:lat], params[:lng]) if params[:lat].present? and params[:lng].present?
       end

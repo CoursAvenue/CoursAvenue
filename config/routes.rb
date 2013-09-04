@@ -34,6 +34,7 @@ CoursAvenue::Application.routes.draw do
           get  'coursavenue_recommendations', path: 'recommander-coursavenue'
           post 'get_feedbacks'
           post 'recommend_friends'
+          post :update
         end
         collection do
           get 'inscription', to: :new
