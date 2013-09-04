@@ -33,7 +33,7 @@
               .warning-buble{data: {behavior: 'tooltip', 'original-title' => 'Les dates renseignées pour ce cours sont passées.'}}
                 !
             = link_to course.name, edit_pro_course_path(course)
-          %td.text--right
+          %td.text--right.nowrap
             .btn-group
               - if course.image.present?
                 = image_tag course.image.url(:mini), height: 30, class: 'v-middle'
