@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130904131319) do
+ActiveRecord::Schema.define(:version => 20130905085057) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -163,6 +163,7 @@ ActiveRecord::Schema.define(:version => 20130904131319) do
     t.decimal  "rating"
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
+    t.boolean  "no_class_during_holidays"
   end
 
   add_index "courses", ["place_id"], :name => "index_courses_on_place_id"

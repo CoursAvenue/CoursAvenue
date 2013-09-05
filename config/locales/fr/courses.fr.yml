@@ -20,7 +20,8 @@ fr:
         price_details: 'Autres tarifs / Informations'
         place: Lieu
         image: "Image du cours"
-        can_be_joined_during_year: Inscriptions acceptées en cours d'année
+        can_be_joined_during_year: Inscriptions acceptées en cours d'année (tarifs calculés au prorata)
+        no_class_during_holidays: Pas de cours pendant les vacances scolaires
 
   courses:
     training:
