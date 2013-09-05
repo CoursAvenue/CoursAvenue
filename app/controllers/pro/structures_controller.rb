@@ -7,6 +7,16 @@ class Pro::StructuresController < Pro::ProController
 
   respond_to :json
 
+  def advertising_board
+  end
+
+  def widget
+    respond_to do |format|
+      format.json { render json: { html: render_to_string(partial: 'pro/structures/widget', layout: false) } }
+      format.html
+    end
+  end
+
   def recommend_friends
     @structure      = Structure.find params[:id]
     params[:emails] ||= ''

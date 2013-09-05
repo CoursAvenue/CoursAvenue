@@ -1,0 +1,77 @@
+= side_menu_currently_at "Mes avis"
+
+= render partial: 'pro/structures/comments_tab', locals: {current: 'widget'}
+
+%h5.home-title
+  Widget CoursAvenue directement sur votre site !
+
+.grid
+  .grid__item.one-half>
+    .soft-half--right
+      %h4
+        %i.icon-cogs
+        Configurez votre widget
+      .white-box.islet
+        .push--bottom
+          %label.v-middle.inline-block{for: 'show-comments'} Afficher les derniers commentaires
+          %input#show-comments{type: 'checkbox', checked: true}
+        %div
+          %label.inline{for: 'nb-comments'} Nombre de commentaires à afficher
+          %input.inline#nb-comments{style: 'width: 3em', type: 'number', checked: true, range: '1', min: 2, step: 1, value: 5}
+
+  .grid__item.one-half.bordered--left>
+    %h4
+      Aperçu
+    %div{style: 'width: 400px'}
+      #coursavenue-widget
+
+.white-box.islet.push--top
+  %p
+    Code à donner à votre webmaster :
+  %textarea.one-half#code{rows: 5, style: 'font-size: 12px'}
+    window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget'); $.ajax({ url: "#{widget_pro_structure_url(@structure, format: :json, subdomain: 'pro')}", dataType: 'json', success: function(response) { coursavenue_widget_div.innerHTML = response.html;}});}
+
+- content_for :scripts do
+  :javascript
+    $(function() {
+        var code = "window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget'); $.ajax({ url: __URL__, dataType: 'json', success: function(response) { coursavenue_widget_div.innerHTML = response.html;}});}"
+        var load_widget,
+            coursavenue_widget_div = $('#coursavenue-widget'),
+            params = {comments: true, nb_comments: 5};
+        $('#show-comments').change(function() {
+            params['comments'] = this.checked;
+            load_widget();
+        });
+        $('#nb-comments').change(function() {
+            params['nb_comments'] = this.value;
+            load_widget();
+        });
+        load_widget = function() {
+            var url = "#{widget_pro_structure_url(@structure, format: :json, subdomain: 'pro')}";
+            url += '?comments=' + params['comments'];
+            if (params['comments'] && params['comments'] == true) {
+              url += '&nb_comments=' + params['nb_comments'];
+            }
+            $('#code').val(code.replace('__URL__', url));
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                success: function(response) {
+                  coursavenue_widget_div.html(response.html);
+                }
+            });
+        };
+        load_widget();
+    });
+-# #coursavenue-widget
+-# :javascript
+-#   window.onload = function() {
+-#     var coursavenue_widget_div = document.getElementById('coursavenue-widget');
+-#     $.ajax({
+-#       url: "#{widget_pro_structure_url(@structure, last_comments: true, format: :json, subdomain: 'pro')}",
+-#       dataType: 'json',
+-#       success: function(response) {
+-#         coursavenue_widget_div.innerHTML = response.html;
+-#       }
+-#     });
+-#   }

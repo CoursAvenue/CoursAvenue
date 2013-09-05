@@ -1,5 +1,5 @@
 = side_menu_currently_at 'Mes infos'
-= render partial: 'pro/structures/tabs', locals:{ current: 'professeurs'}
+= render partial: 'pro/structures/tabs', locals: { current: 'professeurs'}
 
 .text--center.push--bottom
   = link_to 'Ajouter un professeur', new_pro_structure_teacher_path(@structure), class: 'fancybox.ajax btn btn--success btn--large', data: {behavior: 'modal'}

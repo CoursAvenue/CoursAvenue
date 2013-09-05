@@ -26,6 +26,8 @@ CoursAvenue::Application.routes.draw do
       resources :structures, path: 'etablissements' do
         member do
           get  'wizard'
+          get  'advertising_board'
+          get  'widget'
           get  'dashboard', path: 'tableau-de-bord'
           put  'activate'
           put  'disable'

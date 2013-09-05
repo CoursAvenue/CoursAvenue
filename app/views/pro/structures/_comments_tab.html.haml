@@ -12,3 +12,7 @@
       = link_to pro_structure_students_path(@structure) do
         %i.icon-group
         Demandes envoyés
+  %li{class: current == 'widget' ? 'active' : ''}
+    = link_to widget_pro_structure_path(@structure) do
+      %i.icon-cogs
+      Widget
