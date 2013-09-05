@@ -3,6 +3,7 @@ class CourseSearch
   def self.search params
     params[:sort] ||= 'rating_desc'
     retrieve_location params
+    params[:start_date] = I18n.l(Date.today) if params[:start_date].blank?
     @search = Sunspot.search(Course) do
       fulltext                              params[:name]                                           if params[:name].present?
       with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 5, :bbox => true)
@@ -15,7 +16,7 @@ class CourseSearch
       with(:min_age_for_kid).less_than      params[:age][:max]                                      if params[:age].present? and params[:age][:max].present?
       with(:max_age_for_kid).greater_than   params[:age][:min]                                      if params[:age].present? and params[:age][:min].present?
 
-      with(:end_date).greater_than          params[:start_date] || Date.today
+      with(:end_date).greater_than          params[:start_date]
       with(:start_date).less_than           params[:end_date]                                       if params[:end_date].present?
       # with(:start_date).greater_than        params[:start_date]                                     if params[:end_date].present?
       # with(:end_date).less_than             params[:end_date]                                       if params[:start_date].present?
