@@ -18,3 +18,4 @@
 /solr/*
 /coverage
 .sass-cache
+/config/database.yml
