@@ -128,26 +128,36 @@ class Pro::StructuresController < Pro::ProController
     @ratio     = 1
     @ratio     = @structure.logo_geometry(:original).width / @structure.logo_geometry(:large).width if @structure.logo?
     @structure = Structure.find params[:id]
-    deleted_logo = false
+    deleted_image = false
     if params[:structure].delete(:delete_image) == '1'
       @structure.image.clear
-      deleted_logo = true
+      deleted_image = true
     end
     if params[:structure].delete(:delete_logo) == '1'
       @structure.logo.clear
-      deleted_logo = true
+      deleted_image = true
     end
 
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
-        if params[:structure][:logo].present?
-          format.html { redirect_to crop_pro_structure_path(@structure), notice: 'Vos informations ont bien été mises à jour.' }
-        elsif deleted_logo
+        if deleted_image
           format.html { redirect_to edit_pro_structure_path(@structure), notice: 'Vous pouvez maintenant télécharger une autre photo.' }
         else
           format.html { redirect_to pro_structure_path(@structure), notice: 'Vos informations ont bien été mises à jour.' }
         end
         format.js { render nothing: true }
+        format.json { render json: {
+                                image: { path: @structure.image.url(:normal)},
+                                logo: {
+                                        path: @structure.logo.url(:large),
+                                        ratio: @ratio,
+                                        crop_x: 0,
+                                        crop_y: 0,
+                                        crop_width: 200,
+                                        crop_height: 200
+                                      }
+                                  }
+                                }
       else
         format.html { render action: 'edit' }
       end

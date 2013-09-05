@@ -81,7 +81,6 @@
     border-color: darken($btn-primary-background, 3%);
     background-color: $orange;
     @include background-image(linear-gradient(top, $btn-primary-background-highlight, $btn-primary-background));
-    //@include box-shadow(inset 0 0 4px $btn-primary-background-highlight ,0 1px 1px transparentize($btn-primary-background, 0.12));
     &:hover {
         @include background-image(linear-gradient(top, lighten($btn-primary-background-highlight, 6%), lighten($btn-primary-background, 6%)));
     }
@@ -90,7 +89,6 @@
         border-color: darken($btn-primary-background, 10%);
         border-bottom: none;
         @include background-image(linear-gradient(top, darken($btn-primary-background-highlight, 5%), lighten($btn-primary-background-highlight, 5%)));
-        //@include box-shadow(inset 0 1px 5px rgba(0,0,0,0.5),0 1px 0 transparentize($btn-primary-background-highlight, 0.6));
     }
 }
 .btn--danger {

@@ -27,6 +27,12 @@
 //= require libs/jquery.scrollTo
 //= require libs/jquery.nouislider
 //= require libs/jquery.Jcrop
+//= require libs/jquery.fileupload/vendor/jquery.ui.widget
+//= require libs/jquery.fileupload/jquery.iframe-transport
+//= require libs/jquery.fileupload/jquery.fileupload
+//= require libs/jquery.fileupload/jquery.fileupload-process
+//= require libs/jquery.fileupload/jquery.fileupload-validate
+//= require libs/jquery.fileupload/jquery.fileupload-image
 
 //= require libs/fancybox/jquery.fancybox
 //= require_tree ./libs/fancybox/helpers/

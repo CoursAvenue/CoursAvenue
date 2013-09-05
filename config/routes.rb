@@ -25,7 +25,6 @@ CoursAvenue::Application.routes.draw do
       resources :invited_teachers, only: [:index]
       resources :structures, path: 'etablissements' do
         member do
-          get  'crop'
           get  'wizard'
           get  'dashboard', path: 'tableau-de-bord'
           put  'activate'

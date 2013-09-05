@@ -21,7 +21,8 @@
       .input
         = f.label :image
         = f.input :image, label: false
-
+      #image-progress.progress.hidden
+        .bar
       - if current_pro_admin.super_admin? and @course.is_promoted
         = f.input :homepage_image, label: 'Image de la home'
   %h5.form-header-group.flush--bottom
@@ -109,6 +110,36 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('#course_image').fileupload({
+            dataType: 'json',
+            type: 'PUT',
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            previewMaxWidth: 100,
+            previewMaxHeight: 100,
+            maxFileSize: 5000000, // 5 MB
+            submit: function (e, data) {
+                data.formData = {authenticity_token: $('meta[name="csrf-token"]').attr('content') };
+                return true;
+            },
+            add: function (e, data) {
+                $('#image-progress').show().removeClass('progress-success');
+                data.context = $('#image-progress .bar').text('Téléchargement en cours...');
+                data.submit();
+            },
+            done: function (e, data) {
+                $('#image-progress').addClass('progress-success');
+                $('#image-progress .bar').text('');
+                $('#image-progress .bar').append($('<i>').addClass('icon-ok push-half--right'));
+                $('#image-progress .bar').append($('<span>').text('Téléchargement terminé'));
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#image-progress .bar').css(
+                    'width',
+                    progress + '%'
+                );
+            }
+        });
         $('#course_image').change(function(event) {
             if (this.files && this.files[0]) {
                 var reader = new FileReader();

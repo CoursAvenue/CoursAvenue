@@ -8,43 +8,45 @@
         %i.icon-picture
         Image & Logo
       .form-white-box
-        - if @structure.logo?
-          .text--center
+        .text--center
+          - if @structure.logo?
             = image_tag @structure.logo.url(:large), id: 'logo-logo'
-            %a.red#delete-logo{href: 'javascript:void(0)'} Supprimer le logo
             %br
-            %i Vous devez supprimer le logo pour pouvoir en choisir un autre
+            %a.btn.btn--small.btn--danger#delete-logo{href: 'javascript:void(0)'}
+              %i.icon-trash
+              Supprimer
             .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
-            - [:crop_x, :crop_y, :crop_width, :crop_height].each do |attribute|
-              = structure_form.input attribute, as: :hidden, input_html: {id: attribute}
-            = structure_form.input :cropping, as: :hidden, input_html: {value: true}
-        - else
-          .text--center
-            %img.center-block#logo-logo{style: 'max-height: 200px'}
-          .input.flush
-            - unless @structure.new_record? || !@structure.logo?
-              .control-label Changer votre logo
-            - else
-              .control-label Logo de votre structure
-            = structure_form.input :logo, label: false
-          %p.field-form-info.blue Ce logo apparaîtra dans les résultats de recherche.
-        %hr
-        - if @structure.image?
-          .text--center
-            = image_tag @structure.image.url(:normal), height: 200, id: 'logo-image'
-            %br
-            %a.red#delete-image{href: 'javascript:void(0)'} Supprimer l'image
-            .visuallyhidden= structure_form.input :delete_image, as: :boolean, label: false
-        - else
-          .text--center
-            %img.center-block#logo-image{style: 'max-height: 200px'}
-        .input.flush
-          - unless @structure.new_record? || !@structure.image?
-            .control-label Changer l'image
           - else
-            .control-label Image pour vous illustrer
+            %img.center-block#logo-logo{style: 'max-height: 500px; max-width: 500px'}
+          - [:crop_x, :crop_y, :crop_width, :crop_height].each do |attribute|
+            = structure_form.input attribute, as: :hidden, input_html: {id: attribute}
+          = structure_form.input :cropping, as: :hidden, input_html: {value: true}
+
+        .input.flush
+          .control-label Logo de votre structure
+          = structure_form.input :logo, label: false
+        %p.field-form-info.blue Ce logo apparaîtra dans les résultats de recherche.
+        #logo-progress.progress.hidden
+          .bar
+        %hr
+
+        .text--center
+          - if @structure.image?
+            = image_tag @structure.image.url(:normal), id: 'logo-image', style: 'max-height: 300px; max-width: 500px'
+            %br
+            %a.btn.btn--small.btn--danger#delete-image{href: 'javascript:void(0)'}
+              %i.icon-trash
+              Supprimer
+            .visuallyhidden= structure_form.input :delete_image, as: :boolean, label: false
+          - else
+            %img.center-block#logo-image{height: 300, style: 'max-height: 200px; max-width: 500px'}
+        .input.flush
+          .control-label Image pour vous illustrer
           = structure_form.input :image, label: false
         %p.field-form-info.blue Cette image apparaîtra dans la partie gauche de votre profil public.
+        #image-progress.progress.hidden
+          .bar
+
       %h5.form-header-group
         %i.lbc-icon-info i
         Informations
@@ -88,6 +90,44 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        var initialize_crop, logo_jcrop_api;
+        GLOBAL.ratio = #{@ratio};
+        // --------------- Handling structure logo
+        $('#structure_logo').fileupload({
+            dataType: 'json',
+            type: 'PUT',
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            submit: function (e, data) {
+                data.formData = {authenticity_token: $('meta[name="csrf-token"]').attr('content') };
+                return true;
+            },
+            add: function (e, data) {
+                $('#logo-progress').show().removeClass('progress-success');
+                data.context = $('#logo-progress .bar').text('Téléchargement en cours...');
+                data.submit();
+            },
+            done: function (e, data) {
+                $('#logo-progress').addClass('progress-success');
+                $('#logo-progress .bar').text('');
+                $('#logo-progress .bar').append($('<i>').addClass('icon-ok push-half--right'));
+                $('#logo-progress .bar').append($('<span>').text('Téléchargement terminé'));
+                GLOBAL.ratio = data.result.logo.ratio;
+                if (logo_jcrop_api) {
+                    logo_jcrop_api.setImage(data.result.logo.path);
+                    logo_jcrop_api.setSelect([data.result.logo.crop_x, data.result.logo.crop_y, data.result.logo.crop_width, data.result.logo.crop_height]);
+                } else {
+                    $('#logo-logo').attr('src', data.result.logo.path);
+                    initialize_crop(data.result.logo.crop_x, data.result.logo.crop_y, data.result.logo.crop_width, data.result.logo.crop_height);
+                }
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#logo-progress .bar').css(
+                    'width',
+                    progress + '%'
+                );
+            }
+        });
         $('#structure_logo').change(function(event) {
             if (this.files && this.files[0]) {
                 var reader = new FileReader();
@@ -95,6 +135,34 @@
                     $('#logo-logo').attr('src', e.target.result);
                 }
                 reader.readAsDataURL(this.files[0]);
+            }
+        });
+        // --------------- Handling structure image
+        $('#structure_image').fileupload({
+            dataType: 'json',
+            type: 'PUT',
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            submit: function (e, data) {
+                data.formData = {authenticity_token: $('meta[name="csrf-token"]').attr('content') };
+                return true;
+            },
+            add: function (e, data) {
+                $('#image-progress').show().removeClass('progress-success');
+                data.context = $('#image-progress .bar').text('Téléchargement en cours...');
+                data.submit();
+            },
+            done: function (e, data) {
+                $('#image-progress').addClass('progress-success');
+                $('#image-progress .bar').text('');
+                $('#image-progress .bar').append($('<i>').addClass('icon-ok push-half--right'));
+                $('#image-progress .bar').append($('<span>').text('Téléchargement terminé'));
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#image-progress .bar').css(
+                    'width',
+                    progress + '%'
+                );
             }
         });
         $('#structure_image').change(function(event) {
@@ -106,23 +174,25 @@
                 reader.readAsDataURL(this.files[0]);
             }
         });
-        if ($('#logo-logo').attr('src')) {
-            $('#logo-logo').Jcrop({
-                onChange: update_crop,
-                onSelect: update_crop,
-                setSelect: [#{@structure.crop_x / @ratio}, #{@structure.crop_y / @ratio}, #{(@structure.crop_x + @structure.crop_width) / @ratio}, #{(@structure.crop_y + @structure.crop_height) / @ratio}],
-                aspectRatio: 1
-            });
-            function update_crop(coords) {
-              var rx = 100 / coords.w;
-              var ry = 100 / coords.h;
-              var ratio = #{@ratio};
-              $('#crop_x').val(Math.floor(coords.x * ratio));
-              $('#crop_y').val(Math.floor(coords.y * ratio));
-              $('#crop_width').val(Math.floor(coords.w * ratio));
-              $('#crop_height').val(Math.floor(coords.h * ratio));
+        initialize_crop = function(crop_x, crop_y, crop_width, crop_height) {
+            if ($('#logo-logo').attr('src') && !logo_jcrop_api) {
+                logo_jcrop_api = $.Jcrop('#logo-logo', {
+                    onChange: update_crop,
+                    onSelect: update_crop,
+                    setSelect: [(crop_x / GLOBAL.ratio), (crop_y / GLOBAL.ratio), (crop_x + crop_width) / GLOBAL.ratio, (crop_y + crop_height) / GLOBAL.ratio],
+                    aspectRatio: 1
+                });
+                function update_crop(coords) {
+                  var rx = 100 / coords.w;
+                  var ry = 100 / coords.h;
+                  $('#crop_x').val(Math.floor(coords.x * GLOBAL.ratio));
+                  $('#crop_y').val(Math.floor(coords.y * GLOBAL.ratio));
+                  $('#crop_width').val(Math.floor(coords.w * GLOBAL.ratio));
+                  $('#crop_height').val(Math.floor(coords.h * GLOBAL.ratio));
+                }
             }
-        }
+        };
+        initialize_crop(#{@structure.crop_x || 0}, #{@structure.crop_y || 0}, #{@structure.crop_width || 200}, #{@structure.crop_height || 200});
         if ($('#delete-image').length > 0) {
             $('#delete-image').click(function(){
                 $('#structure_delete_image')[0].checked = true;

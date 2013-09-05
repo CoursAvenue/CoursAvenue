@@ -70,6 +70,7 @@ class Pro::CoursesController < InheritedResources::Base
       else
         success.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours à bien été mis à jour' }
         failure.html { render template: 'pro/courses/form' }
+        success.json { render json: { done: true } }
       end
     end
   end
