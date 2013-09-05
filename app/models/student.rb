@@ -10,6 +10,12 @@ class Student < ActiveRecord::Base
 
   # after_save :subscribe_to_mailchimp if Rails.env.production?
 
+  def has_recommanded?
+    _email        = self.email
+    _structure_id = self.structure_id
+    Comment.where{(email == _email) & (commentable_id == _structure_id) & (commentable_type == 'Structure')}.length > 0
+  end
+
   def ask_for_feedbacks_stage_1
     @structure = self.structure
     @email     = self.email

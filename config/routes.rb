@@ -43,7 +43,7 @@ CoursAvenue::Application.routes.draw do
         resources :medias, controller: 'structures/medias'
         resources :teachers
         resources :places
-        resources :students, only: [:destroy], controller: 'structures/students'
+        resources :students, only: [:index, :destroy], controller: 'structures/students'
 
         resources :courses, only: [:index, :new, :create], path: 'cours'#, controller: 'structures/courses' # To insure to have the structure_id
       end

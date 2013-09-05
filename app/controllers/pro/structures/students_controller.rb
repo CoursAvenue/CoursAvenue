@@ -2,6 +2,7 @@
 class Pro::Structures::StudentsController < Pro::ProController
   before_filter      :authenticate_pro_admin!
   authorize_resource :student
+  load_and_authorize_resource :structure
 
   def destroy
     @structure = Structure.find params[:structure_id]
