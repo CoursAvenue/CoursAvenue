@@ -383,11 +383,12 @@ class Course < ActiveRecord::Base
   end
 
   def activate!
-    if (prices.any? or book_tickets.any?)
+    if (prices.any? and plannings.any?)
       self.active = true
       return self.save
     else
-      errors.add(:prices, "Le cours n'a pas de tarif")       if prices.empty? and book_tickets.empty?
+      errors.add(:prices, "Le cours n'a pas de tarifs")       if prices.empty?
+      errors.add(:plannings, "Le cours n'a pas de plannings") if plannings.empty?
       return false
     end
   end

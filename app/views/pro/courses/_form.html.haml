@@ -71,6 +71,7 @@
         \-&nbsp;
         = f.input :end_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {class: 'datepicker-input', value: (@course.end_date.present? ? l(@course.end_date) : l(Date.today + 1.year)), 'data-behavior' => 'datepicker'}
       = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: t('.frequency'), wrapper_html: {class: 'depend-on-reccurent-course'}
+      = f.input :can_be_joined_during_year
 
   %h5.form-header-group.flush--bottom.push--top.soft--top Description
   %div.relative

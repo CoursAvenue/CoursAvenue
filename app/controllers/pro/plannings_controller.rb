@@ -65,6 +65,7 @@ class Pro::PlanningsController < InheritedResources::Base
     set_dates_and_times
     respond_to do |format|
       if @planning.save
+        @course.activate! unless @course.active?
         format.html { redirect_to pro_course_plannings_path(@course), notice: 'Votre planning à bien été créé.' }
       else
         format.html { render template: 'pro/plannings/index'}

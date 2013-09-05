@@ -20,6 +20,7 @@ fr:
         price_details: 'Autres tarifs / Informations'
         place: Lieu
         image: "Image du cours"
+        can_be_joined_during_year: Inscriptions acceptées en cours d'année
 
   courses:
     training:
