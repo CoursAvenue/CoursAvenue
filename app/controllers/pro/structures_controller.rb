@@ -7,7 +7,10 @@ class Pro::StructuresController < Pro::ProController
 
   respond_to :json
 
-  def advertising_board
+  def signature
+  end
+
+  def flyer
   end
 
   def widget

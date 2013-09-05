@@ -16,6 +16,7 @@
       = pro_side_menu_link 'Mes photos & vidéos'.html_safe, pro_structure_medias_path(@structure) , current: current_tab,   icon: 'icon-youtube-play'
       = pro_side_menu_link 'Mes avis'             , pro_structure_comments_path(@structure)        , current: current_tab, icon: 'icon-comments'
       = pro_side_menu_link 'Parrainer un professeur', coursavenue_recommendations_pro_structure_path(@structure)     , current: current_tab, icon: 'icon-bullhorn', id: 'recommandation-side-menu'
+      = pro_side_menu_link 'Communiquer', widget_pro_structure_path(@structure)     , current: current_tab, icon: 'icon-bullhorn'
 
 = content_for :scripts do
   :javascript

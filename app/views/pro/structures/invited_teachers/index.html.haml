@@ -1,0 +1,25 @@
+= side_menu_currently_at "Parrainer un professeur"
+
+%ul.tabs.push--bottom
+  %li
+    = link_to coursavenue_recommendations_pro_structure_path(@structure) do
+      %i.icon-bullhorn
+      Parrainage
+  %li.active
+    = link_to pro_structure_invited_teachers_path(@structure) do
+      %i.icon-group
+      Suivi des invitations
+
+%table.table--data.table--white.table--striped
+  %thead
+    %tr
+      %th Email
+      %th S'est créé un compte
+  %tbody
+    - @structure.invited_teachers.each do |invited_teacher|
+      %tr
+        %th= invited_teacher.email
+        %th
+          - if invited_teacher.registered?
+            %i.icon-ok
+

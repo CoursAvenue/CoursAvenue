@@ -1,5 +1,16 @@
 = side_menu_currently_at "Parrainer un professeur"
 
+- if @structure.invited_teachers.any?
+  %ul.tabs.push--bottom
+    %li.active
+      = link_to coursavenue_recommendations_pro_structure_path(@structure) do
+        %i.icon-bullhorn
+        Parrainage
+    %li
+      = link_to pro_structure_invited_teachers_path(@structure) do
+        %i.icon-group
+        Suivi des invitations
+
 %h2.text--center.flush Invitez d'autres professeurs sur CoursAvenue
 
 %h4.text--center.blue
@@ -30,19 +41,3 @@
 
 %p
   %i Pour le moment, notre équipe ne peut se déplacer que sur Paris.
-
-- if @structure.invited_teachers.any?
-  %h5.form-header-group Mes invitations
-  %table
-    %thead
-      %tr
-        %th Email
-        %th S'est créé un compte
-    %tbody
-      - @structure.invited_teachers.each do |invited_teacher|
-        %tr
-          %th= invited_teacher.email
-          %th
-            - if invited_teacher.registered?
-              %i.icon-ok
-

@@ -1,0 +1,13 @@
+%ul.tabs.push--bottom
+  %li{class: current == 'widget' ? 'active' : ''}
+    = link_to widget_pro_structure_path(@structure) do
+      %i.icon-cogs
+      Widget
+  %li{class: current == 'flyer' ? 'active' : ''}
+    = link_to flyer_pro_structure_path(@structure) do
+      %i.icon-bookmark
+      Flyer
+  %li{class: current == 'signature' ? 'active' : ''}
+    = link_to signature_pro_structure_path(@structure) do
+      %i.icon-pencil
+      Signature

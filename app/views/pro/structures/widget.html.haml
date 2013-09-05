@@ -1,9 +1,9 @@
-= side_menu_currently_at "Mes avis"
+= side_menu_currently_at 'Communiquer'
 
-= render partial: 'pro/structures/comments_tab', locals: {current: 'widget'}
+= render partial: 'pro/structures/communication_tabs', locals: {current: 'widget'}
 
 %h5.home-title
-  Widget CoursAvenue directement sur votre site !
+  Retrouvez vos avis sur votre site !
 
 .grid
   .grid__item.one-half>
@@ -17,7 +17,7 @@
           %input#show-comments{type: 'checkbox', checked: true}
         %div
           %label.inline{for: 'nb-comments'} Nombre de commentaires à afficher
-          %input.inline#nb-comments{style: 'width: 3em', type: 'number', checked: true, range: '1', min: 2, step: 1, value: 5}
+          %input.inline#nb-comments{style: 'width: 3em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 5}
 
   .grid__item.one-half.bordered--left>
     %h4

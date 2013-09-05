@@ -26,7 +26,8 @@ CoursAvenue::Application.routes.draw do
       resources :structures, path: 'etablissements' do
         member do
           get  'wizard'
-          get  'advertising_board'
+          get  'flyer'
+          get  'signature'
           get  'widget'
           get  'dashboard', path: 'tableau-de-bord'
           put  'activate'
@@ -41,6 +42,7 @@ CoursAvenue::Application.routes.draw do
           get 'inscription', to: :new
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
+        resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
         resources :comments, only: [:index], controller: 'structures/comments'
         resources :medias, controller: 'structures/medias'
         resources :teachers
