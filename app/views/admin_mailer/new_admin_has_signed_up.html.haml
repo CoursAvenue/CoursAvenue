@@ -3,7 +3,7 @@
 %p
   #{@structure.name} (#{@admin.email}) vient de s'inscrire !
   %br
-  Téléphone : #{@admin.phone_number}
+  Disciplines : #{@structure.subjects.join(', ')}
 
 %p.action
   = link_to 'Voir son profil', dashboard_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
