@@ -126,7 +126,6 @@
             },
             add: function (e, data) {
                 $('#image-progress').show().removeClass('progress-success');
-                data.context = $('#image-progress .bar').text('Téléchargement en cours...');
                 data.submit();
             },
             done: function (e, data) {
@@ -137,6 +136,7 @@
             },
             progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#image-progress .bar').text(progress + '%');
                 $('#image-progress .bar').css(
                     'width',
                     progress + '%'

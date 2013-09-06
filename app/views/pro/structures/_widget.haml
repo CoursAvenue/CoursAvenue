@@ -2,7 +2,7 @@
   = link_to structure_url(@structure, subdomain: 'www'), style: 'display: block; ;padding: 10px; margin: 0 0 10px 0; text-align: center; background-color: white; border: 1px solid #DDD; -webkit-border-radius: 2px; -moz-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px; border-radius: 2px; -webkit-box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; -moz-box-shadow: 1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee; box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; text-decoration: none;', target: '_blank' do
     %div
       %div{style: 'font-size: 16px; color: #e9683d'} Recommendé sur
-      = image_tag asset_url('logo.png'), height: 35
+      %img{src: asset_path('logo.png'), height: 35}
     %div{style: 'font-weight: 200; font-size: 40px; color: #e9683d'}
       = @structure.rating
     %div
