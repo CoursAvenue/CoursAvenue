@@ -10,6 +10,8 @@
       %i.icon-picture
       Image
     .form-white-box
+      #image-progress.progress.hidden
+        .bar
       .text--center
         - if @course.image.present?
           = image_tag @course.image.url(:normal), height: 200, id: 'logo-image'
@@ -24,8 +26,6 @@
           %i.icon-picture
           Choisir mon image
         = f.input :image, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'}, input_html: {id: 'image-input'}
-      #image-progress.progress.hidden
-        .bar
       - if current_pro_admin.super_admin? and @course.is_promoted
         = f.input :homepage_image, label: 'Image de la home'
   %h5.form-header-group.flush--bottom
