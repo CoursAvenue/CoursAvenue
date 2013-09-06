@@ -128,7 +128,11 @@
             },
             progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
-                $('#logo-progress .bar').text(progress + '%');
+                if (progress == 100) {
+                    $('#logo-progress .bar').text('Finalisation...');
+                } else {
+                    $('#logo-progress .bar').text(progress + '%');
+                }
                 $('#logo-progress .bar').css(
                     'width',
                     progress + '%'
@@ -165,7 +169,11 @@
             },
             progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
-                $('#image-progress .bar').text(progress + '%');
+                if (progress == 100) {
+                    $('#image-progress .bar').text('Finalisation...');
+                } else {
+                    $('#image-progress .bar').text(progress + '%');
+                }
                 $('#image-progress .bar').css(
                     'width',
                     progress + '%'
