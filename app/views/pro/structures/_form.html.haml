@@ -45,7 +45,7 @@
               Supprimer
             .visuallyhidden= structure_form.input :delete_image, as: :boolean, label: false
           - else
-            %img.center-block#logo-image{height: 300, style: 'max-height: 200px; max-width: 500px'}
+            %img.center-block#logo-image{style: 'max-height: 200px; max-width: 500px'}
         .input
           .control-label Image pour vous illustrer
           = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', onclick: "$('#image-input').click();" do
