@@ -283,11 +283,20 @@ class Structure < ActiveRecord::Base
   def logo_geometry(style = :original)
     @geometry ||= {}
     begin
-      @geometry[style] ||= Paperclip::Geometry.from_file(logo.path(style))
+      if Rails.env.production?
+        @geometry[style] ||= Paperclip::Geometry.from_file(logo.url(style))
+      else
+        @geometry[style] ||= Paperclip::Geometry.from_file(logo.path(style))
+      end
     rescue
       geometry = Struct.new(:width, :height)
       @geometry[style] = geometry.new(100, 100)
     end
+  end
+
+  def ratio_from_original(style=:original)
+    return 1 unless self.logo?
+    self.logo_geometry(:original).width / self.logo_geometry(style).width
   end
 
   def has_cropping_attributes?

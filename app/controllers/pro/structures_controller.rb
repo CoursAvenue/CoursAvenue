@@ -125,7 +125,7 @@ class Pro::StructuresController < Pro::ProController
   def edit
     @structure = Structure.find(params[:id])
     @ratio     = 1
-    @ratio     = @structure.logo_geometry(:original).width / @structure.logo_geometry(:large).width if @structure.logo?
+    @ratio     = @structure.ratio_from_original(:large)
     @admin     = @structure.admins.first || @structure.admins.build
   end
 
@@ -139,7 +139,7 @@ class Pro::StructuresController < Pro::ProController
 
   def update
     @ratio     = 1
-    @ratio     = @structure.logo_geometry(:original).width / @structure.logo_geometry(:large).width if @structure.logo?
+    @ratio     = @structure.ratio_from_original(:large)
     @structure = Structure.find params[:id]
     deleted_image = false
     if params[:structure].delete(:delete_image) == '1'
