@@ -5,7 +5,7 @@ class Pro::HomeController < Pro::ProController
     @admin      = ::Admin.new
     @structures = StructureSearch.search({lat: 48.8540,
                                           lng: 2.3417,
-                                          radius: 5,
+                                          radius: 3,
                                           per_page: 1000,
                                           sort: 'rating_desc',
                                           has_logo: true,
@@ -17,7 +17,7 @@ class Pro::HomeController < Pro::ProController
       location_index += 1
       marker.picture({
                       :marker_anchor => [10, true],
-                      :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'><span>#{location_index}</span></a></div>"
+                      :rich_marker   => "<div class='map-marker-image disabled' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'><span>#{location_index}</span></a></div>"
                      })
       marker.title   location.name
       marker.json({ id: location.id })

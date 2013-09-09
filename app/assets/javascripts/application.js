@@ -33,6 +33,7 @@
 //= require libs/jquery.fileupload/jquery.fileupload-process
 //= require libs/jquery.fileupload/jquery.fileupload-validate
 //= require libs/jquery.fileupload/jquery.fileupload-image
+//= require libs/jquery.stickem
 
 //= require libs/fancybox/jquery.fancybox
 //= require_tree ./libs/fancybox/helpers/

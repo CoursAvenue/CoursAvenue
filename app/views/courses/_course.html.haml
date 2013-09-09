@@ -14,19 +14,12 @@
   %article.course-content
     %header
       .hN.course-title
-        - @course_places[course].each do |location|
-          .map-marker-image.visuallyhidden--palm
-            = link_to structure_course_path(course.structure, course) do
-              %span= @locations.index(location) + 1
-        %h2.delta.inline.v-middle= link_to course.name, structure_course_path(course.structure, course)
-        - if course.rating
-          %div.inline.nowrap
-            %span.rating{title: comment_rating_title(course.rating)}
-              = rating_stars course.rating
-            \/
-            = course.comments.count
-            avis
-            %i.lbc-brand-icon
+        %h2.delta.inline.v-middle
+          = link_to course.name, structure_course_path(course.structure, course)
+          - @course_places[course].each do |location|
+            .map-marker-image--small.visuallyhidden--palm
+              = link_to structure_course_path(course.structure, course) do
+                %span= @locations.index(location) + 1
     %div.grid--full
       %div.ten-twelfths.grid__item>
         %div

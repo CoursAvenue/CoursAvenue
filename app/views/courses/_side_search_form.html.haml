@@ -159,7 +159,9 @@
                     $(document.body).scrollTo(course_element[0], {duration: 400});
                     // Unselect courses if there already are that are selected
                     $('.course-element').removeClass('selected');
-                    course_element.addClass('selected');
+                    setTimeout(function(){
+                        course_element.addClass('selected');
+                    }, 100);
                 }.bind(Gmaps.map.markers[i]));
                 google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'mouseover', function(event) {
                     var course_element = $('.course-element[data-location-ids~=' + this.id + ']');
@@ -172,6 +174,23 @@
                 }.bind(Gmaps.map.markers[i]));
             }
         };
+        $('.course-element').hover(function(event) {
+            var location_ids = $(this).data('location-ids').toString().split(' ');
+            $.each(Gmaps.map.markers, function(index, marker){
+                if (location_ids.indexOf(marker.id.toString()) !== -1) {
+                    var service_object = marker.serviceObject;
+                    service_object.setContent($(service_object.getContent()).addClass('active')[0].outerHTML);
+                }
+            });
+        }, function() {
+            var location_ids = $(this).data('location-ids').toString().split(' ');
+            $.each(Gmaps.map.markers, function(index, marker){
+                if (location_ids.indexOf(marker.id.toString()) !== -1) {
+                    var service_object = marker.serviceObject;
+                    service_object.setContent($(service_object.getContent()).removeClass('active')[0].outerHTML);
+                }
+            });
+        });
         var radius_label_value  = $('#radius-label-value');
         var radius_hidden_input = $('#radius-hidden-input');
         $('.noUiSlider').noUiSlider({

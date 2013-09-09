@@ -126,3 +126,14 @@ html {
   background: $orange; /* Firefox */
   color     : white;
 }
+
+.stickit {
+  position: fixed;
+  top     : 10px;
+}
+
+.stickit-end {
+  bottom  : 40px;
+  position: absolute;
+  right   : 0;
+}

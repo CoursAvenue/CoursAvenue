@@ -22,7 +22,7 @@
     }
 .course-title {
     line-height  : 1.2;
-    margin-bottom: 0;
+    margin-bottom: 0.5em;
     > span {
         vertical-align: middle;
         font-weight   : normal;
@@ -30,7 +30,7 @@
     .map-marker-image {
         position       : static;
         font-size      : 12px;
-        display        : inline-block;
+        // display        : inline-block;
         vertical-align : middle;
     }
 }

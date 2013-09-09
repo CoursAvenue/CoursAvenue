@@ -10,9 +10,9 @@
 
 .grid
   .grid__item= render 'shared/structures_header_search'
-  %section.grid__item.three-tenths.visuallyhidden--lap.visuallyhidden--palm>
+  %section.grid__item.three-tenths.visuallyhidden--lap.visuallyhidden--palm.sticky>
     = render 'side_search_form'
-  %section.grid__item.seven-tenths.lap--one-whole.palm--one-whole
+  %section.grid__item.seven-tenths.lap--one-whole.palm--one-whole.stickem
     %ol.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
       %li= link_to 'Tous les établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
       - if @subject
@@ -61,6 +61,7 @@
 
     %footer.g.one-whole
       = paginate @structures, window: 2, outer_window: 1
+
 = content_for :scripts do
   :javascript
       $(function() {

@@ -46,11 +46,8 @@
         a { background-image: image-url('icons/map-marker.png'); }
     }
 }
-// .map-marker-image
-//   a
-//     span
 .map-marker-image {
-    display : block;
+    display : inline-block;
     width   : 24px;
     height  : 36px;
     a {
@@ -90,9 +87,10 @@
     width   : 15px;
     height  : 20px;
     a {
-        width               : 13px;
-        height              : 20px;
-        line-height         : 17px;
+        width       : 17px;
+        height      : 25px;
+        line-height : 19px;
+        top         : -3px;
     }
     span {;
         width           : 16px;
