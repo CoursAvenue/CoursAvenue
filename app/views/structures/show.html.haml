@@ -125,7 +125,9 @@
 
   .grid__item.six-tenths>
     %article#tab-comments
-      %h3#tab-courses Avis des élèves
+      %h3#tab-courses
+        %i.icon-star-empty
+        Avis des élèves
       - if @comments.empty?
         %p.white-box.islet.text--center
           Cet établissement n'a pas encore d'avis
@@ -142,7 +144,9 @@
 
 
       %hr
-      %h3#tab-courses Cours
+      %h3#tab-courses
+        %i.icon-list
+        Cours
       - if @courses.any?
         #course-list
           %table.table--striped.table--white
@@ -166,7 +170,9 @@
 
       - if @teachers.any?
         %hr
-        %h3#tab-teachers Professeurs
+        %h3#tab-teachers
+          %i.icon-group
+          Professeurs
         - @teachers.each do |teacher|
           .white-box.islet
             %p.read-more{data: {behavior: 'read-more'}}
@@ -175,7 +181,9 @@
               = teacher.description
 
       %hr
-      %h3#tab-videos Photos & Vidéos
+      %h3#tab-videos
+        %i.icon-youtube-play
+        Photos & Vidéos
       .media-gallery
         - if @medias.any?
           - @medias.each do |media|
