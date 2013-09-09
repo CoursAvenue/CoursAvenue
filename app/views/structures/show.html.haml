@@ -173,12 +173,16 @@
         %h3#tab-teachers
           %i.icon-group
           Professeurs
-        - @teachers.each do |teacher|
-          .white-box.islet
-            %p.read-more{data: {behavior: 'read-more'}}
-              %b= teacher.name
-              %br
-              = teacher.description
+        #teachers
+          - @teachers.each_with_index do |teacher, index|
+            .white-box.islet{class: (index > 2 ? 'hidden' : '')}
+              %p.read-more{data: {behavior: 'read-more'}}
+                %b= teacher.name
+                %br
+                = teacher.description
+            - if index == 3
+              .text--center.push--bottom
+                %a#show-all-teachers{href: 'javascript:void(0)'} Voir tous les professeurs
 
       %hr
       %h3#tab-videos
@@ -209,11 +213,26 @@
             if (comments_are_hidden) {
                 $('#comments .hidden').removeClass('hidden');
                 $('#show-all-comments').text('Cacher les avis');
+                $('#comments .comment-list__el').last().after($(this).parent());
             } else {
                 $('#comments .comment-list__el').slice(2, $('#comments .comment-list__el').length).addClass('hidden');
                 $('#show-all-comments').text('Voir tous les avis');
+                $('#comments .hidden').last().prev().after($(this).parent());
             }
             comments_are_hidden = !comments_are_hidden;
+        });
+        var teachers_are_hidden = true;
+        $('#show-all-teachers').click(function() {
+            if (teachers_are_hidden) {
+                $('#teachers .hidden').removeClass('hidden');
+                $('#show-all-teachers').text('Cacher les professeurs');
+                $('#teachers > div').last().after($(this).parent());
+            } else {
+                $('#teachers > div').slice(2, $('#teachers > div').length).addClass('hidden');
+                $('#show-all-teachers').text('Voir tous les professeurs');
+                $('#teachers .hidden').last().prev().after($(this).parent());
+            }
+            teachers_are_hidden = !teachers_are_hidden;
         });
         $('#write-comment').click(function() {
             $('#new-comment').show('slow');
