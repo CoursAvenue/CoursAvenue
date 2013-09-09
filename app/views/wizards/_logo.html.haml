@@ -1,0 +1,103 @@
+%h4
+  %i.icon-picture.icon-2x.v-middle.soft-half--right
+  %span.v-middle Logo
+= simple_form_for [:pro, @structure] ,html: { autocomplete: 'off', id: 'structure-form' }, remote: true do |f|
+  .form-inputs
+    %div
+      #logo-progress.progress.hidden
+        .bar
+      %div
+        %img.block#logo-logo{style: 'max-height: 500px; max-width: 500px'}
+        - [:crop_x, :crop_y, :crop_width, :crop_height].each do |attribute|
+          = f.input attribute, as: :hidden, input_html: {id: attribute}
+      = f.input :cropping, as: :hidden, input_html: {value: true}
+      .push-half--ends
+        = link_to 'javascript:void(0)', class: 'btn btn--small', onclick: "$('#logo-input').click();" do
+          %i.icon-picture
+          Choisir mon logo
+        %i Ce logo apparaîtra dans les résultats de recherche.
+
+      = f.input :logo, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'}, input_html: {id: 'logo-input'}
+
+:javascript
+    var wizard_function = function() {
+        var initialize_crop, logo_jcrop_api;
+        var GLOBAL = GLOBAL || {};
+        GLOBAL.ratio = 1;
+        // --------------- Handling structure logo
+        $('#logo-input').fileupload({
+            dataType: 'json',
+            type: 'PUT',
+            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            submit: function (e, data) {
+                data.formData = {authenticity_token: $('meta[name="csrf-token"]').attr('content') };
+                return true;
+            },
+            add: function (e, data) {
+                $('#logo-progress').show().removeClass('progress-success');
+                data.submit();
+            },
+            done: function (e, data) {
+                $('#logo-progress').addClass('progress-success');
+                $('#logo-progress .bar').text('');
+                $('#logo-progress .bar').append($('<i>').addClass('icon-ok push-half--right'));
+                $('#logo-progress .bar').append($('<span>').text('Téléchargement terminé'));
+                GLOBAL.ratio = data.result.logo.ratio;
+                if (logo_jcrop_api) {
+                    logo_jcrop_api.setImage(data.result.logo.path);
+                    logo_jcrop_api.setSelect([data.result.logo.crop_x, data.result.logo.crop_y, data.result.logo.crop_width, data.result.logo.crop_height]);
+                } else {
+                    $('#logo-wrapper').remove();
+                    $('#logo-logo').attr('src', data.result.logo.path);
+                    initialize_crop(data.result.logo.crop_x, data.result.logo.crop_y, data.result.logo.crop_width, data.result.logo.crop_height);
+                }
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                if (progress == 100) {
+                    $('#logo-progress .bar').text('Finalisation...');
+                } else {
+                    $('#logo-progress .bar').text(progress + '%');
+                }
+                $('#logo-progress .bar').css(
+                    'width',
+                    progress + '%'
+                );
+            }
+        });
+        $('#logo-input').change(function(event) {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#logo-logo').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+        initialize_crop = function(crop_x, crop_y, crop_width, crop_height) {
+            if ($('#logo-logo').attr('src') && !logo_jcrop_api) {
+                logo_jcrop_api = $.Jcrop('#logo-logo', {
+                    onChange: update_crop,
+                    onSelect: update_crop,
+                    setSelect: [(crop_x / GLOBAL.ratio), (crop_y / GLOBAL.ratio), (crop_x + crop_width) / GLOBAL.ratio, (crop_y + crop_height) / GLOBAL.ratio],
+                    aspectRatio: 1
+                });
+                function update_crop(coords) {
+                  var rx = 100 / coords.w;
+                  var ry = 100 / coords.h;
+                  $('#crop_x').val(Math.floor(coords.x * GLOBAL.ratio));
+                  $('#crop_y').val(Math.floor(coords.y * GLOBAL.ratio));
+                  $('#crop_width').val(Math.floor(coords.w * GLOBAL.ratio));
+                  $('#crop_height').val(Math.floor(coords.h * GLOBAL.ratio));
+                }
+            }
+        };
+        $('#logo-logo').click(function(){
+            $('#logo-input').click();
+        });
+    }
+    if (typeof($) == 'function') {
+        wizard_function();
+    } else {
+        document.ready = wizard_function;
+    }

@@ -24,10 +24,14 @@
                 = link_to structure_url(@structure, subdomain: 'www'), class: 'btn btn--small v-middle', target: '_blank' do
                   %i.icon-external-link.v-middle
                   %span.v-middle Voir mon profil public
+            %div.push-half--top.relative
+              %div{style: 'position: absolute; top: -5px; left: 140px;'}= image_tag 'texts/tete-de-liste.png', height: 60
+              - if @structure.comments_count == 0
+                = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
+              - elsif @structure.comments_count > 0
+                = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
             %div.push-half--top
-              = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_url(@structure, subdomain: 'www')}", class: 'btn btn--facebook btn--small', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
-            %div.push-half--top
-              = link_to coursavenue_recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
+              = link_to coursavenue_recommendations_pro_structure_path(@structure), class: 'btn btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
                 %i.icon-bullhorn
                 &nbsp;Parrainer un professeur
           .flexbox__item.v-top.two-twelfths.text--center>
@@ -39,13 +43,8 @@
               avis
               %a{href: '#comments'}
                 %i.lbc-brand-icon
-            .relative
-              %div{style: 'position: absolute; top: -40px; left: -210px;'}= image_tag 'texts/tete-de-liste.png', height: 70
-              - if @structure.comments_count == 0
-                = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
-              - elsif @structure.comments_count > 0
-                = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
-
+            %div
+              = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, facebook: '', subdomain: 'www')}", class: 'btn btn--small btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
     .flexbox
       - if content_for? :side_menu
         %nav.one.flexbox__item.v-top.side-menu.white-box

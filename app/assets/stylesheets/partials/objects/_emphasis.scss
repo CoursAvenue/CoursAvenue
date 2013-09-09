@@ -15,3 +15,7 @@ hr {
     border       : none;
     border-bottom: 1px inset $beige-darker;
 }
+
+hr.blue {
+    border-color: lighten($blue, 10%);
+}

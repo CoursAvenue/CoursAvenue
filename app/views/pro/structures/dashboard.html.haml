@@ -6,8 +6,6 @@
       %i.icon-remove
     - if @wizard.id == 1
       %h4.flush Bienvenue #{@structure.name} ! Améliorons ensemble votre profil.
-    - else
-      %p.flush Il nous manque encore quelques informations.
     #wizard-form= render @wizard.partial
     %span.btn.btn--success#save-wizard Enregistrer
     %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
@@ -169,46 +167,49 @@
         $('#profile-progress-bar').animate({
             width: '#{@profile_percentage}%'
         }, 800)
-        if ($('#wizard').length > 0) {
-            $('#wizard').show('slow');
-            var send_ajax = function(options) {
-                options = options || '';
-                $.ajax({
-                    url: "#{wizard_pro_structure_path(@structure, format: :json)}",
-                    dataType: 'json',
-                    data: options,
-                    success: function(response) {
-                        $('#wizard-form').hide('slow');
-                        setTimeout(function(){
-                            if (response.done) {
-                                $('#wizard').hide('slow');
-                                $('#share_your_profile').show('slow');
-                            } else {
-                                $('#wizard-form').html(response.form);
-                                $('#wizard-form').show('slow');
-                            }
-                        }, 500);
-                    }
-                })
-            }
-            var submit_form = function() {
-                $('#wizard form').submit().bind('ajax:success', function() {
-                    send_ajax()
+        setTimeout(function() {
+            if ($('#wizard').length > 0) {
+                $('#wizard').show('slow');
+                var send_ajax = function(options) {
+                    options = options || '';
+                    $.ajax({
+                        url: "#{wizard_pro_structure_path(@structure, format: :json)}",
+                        dataType: 'json',
+                        data: options,
+                        success: function(response) {
+                            $('#wizard-form').hide('slow');
+                            setTimeout(function(){
+                                if (response.done) {
+                                    $('#wizard').hide('slow');
+                                    $('#share_your_profile').show('slow');
+                                } else {
+                                    $('#wizard-form').html(response.form);
+                                    $('#wizard-form').show('slow');
+                                }
+                            }, 500);
+                        }
+                    })
+                }
+                var submit_form = function() {
+                    $('#wizard form').submit().bind('ajax:success', function() {
+                        if ($('#wizard form input[name=next]').length > 0) {
+                            send_ajax({next:true});
+                        } else {
+                            send_ajax()
+                        }
+                    });
+                    mixpanel.track('Wizard next');
+                    return false;
+                };
+                $('#save-wizard').click(submit_form);
+                $('#skip-wizard').click(function(){
+                    var wizard_label = $('#wizard form label').text();
+                    send_ajax({next:true});
+                    mixpanel.track('Skip wizard', {name: wizard_label});
                 });
-                mixpanel.track('Wizard next');
-                return false;
-            };
-            $('#save-wizard').click(submit_form);
-            $('#skip-wizard').click(function(){
-                  var wizard_label = $('#wizard form label').text();
-                send_ajax('next=true');
-                mixpanel.track('Skip wizard', {name: wizard_label});
-            });
-            $('#close-wizard').click(function() {
-                mixpanel.track('Quit wizard');
-            });
-        }
-        if ($('#wizard').length > 0) {
-            $('#wizard').show('slow');
-        }
+                $('#close-wizard').click(function() {
+                    mixpanel.track('Quit wizard');
+                });
+            }
+        }, 1000);
     });

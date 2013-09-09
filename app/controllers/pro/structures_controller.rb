@@ -15,7 +15,7 @@ class Pro::StructuresController < Pro::ProController
 
   def widget
     respond_to do |format|
-      format.json { render json: { html: render_to_string(partial: 'pro/structures/widget', layout: false) } }
+      format.json { render json: { html: render_to_string(partial: 'pro/structures/widget', layout: false)} }
       format.html
     end
   end
@@ -62,7 +62,7 @@ class Pro::StructuresController < Pro::ProController
     @structure = Structure.find params[:id]
     respond_to do |format|
       if @wizard
-        format.json { render json: { form: render_to_string(partial: @wizard.partial, layout: false), done: false }  }
+        format.json { render json: { form: render_to_string(partial: @wizard.partial, layout: false, formats: [:html]), done: false }  }
       else
         format.json { render json: { done: true }  }
       end
@@ -139,7 +139,6 @@ class Pro::StructuresController < Pro::ProController
 
   def update
     @ratio     = 1
-    @ratio     = @structure.ratio_from_original(:large)
     @structure = Structure.find params[:id]
     deleted_image = false
     if params[:structure].delete(:delete_image) == '1'
@@ -153,6 +152,7 @@ class Pro::StructuresController < Pro::ProController
 
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
+        @ratio = @structure.ratio_from_original(:large)
         if deleted_image
           format.html { redirect_to edit_pro_structure_path(@structure), notice: 'Vous pouvez maintenant télécharger une autre photo.' }
         else
@@ -214,7 +214,9 @@ class Pro::StructuresController < Pro::ProController
   private
 
   def get_next_wizard
-    if params[:next] and session[:current_wizard_id] and session[:current_wizard_id] < Wizard.data.length
+    if params[:next] and session[:current_wizard_id] and session[:current_wizard_id] == Wizard.data.length
+      return nil
+    elsif params[:next] and session[:current_wizard_id] and session[:current_wizard_id] < Wizard.data.length
       session[:current_wizard_id] += 1
       return Wizard.find(session[:current_wizard_id])
     else

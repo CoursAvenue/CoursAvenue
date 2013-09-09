@@ -1,0 +1,70 @@
+%h4
+  %i.icon-envelope-alt.icon-2x.v-middle.soft-half--right
+  %span.v-middle Demandez des recommandations à vos élèves
+= form_tag get_feedbacks_pro_structure_path(@structure), remote: true do
+  %input{type: 'hidden', value: 'true', name: 'next'}
+  .grid
+    .grid__item.one-half>
+      %h4 À :
+      %p.flush
+        %i Entrez les emails de vos élèves : rassurez-vous, ils ne seront utilisés que vous cet envoi unique et resteront confidentiels.
+      %textarea.autoresize.one-whole{name: 'emails', rows: 8, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', style: 'height: 160px'}
+    .grid__item.one-half>
+      %h4 Message :
+      %p.flush
+        %i Modifiez ce texte en le rendant le plus personnel possible avant d'envoyer votre demande.
+      %textarea.autoresize.one-whole{name: 'text', rows: 8, style: 'height: 160px'}
+        Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques minutes pour laisser un avis sur mon profil ?
+      %p.flush
+        Merci et à très bientôt,
+        %br
+        = @structure.name
+  .push-half--top.text--right= link_to 'Envoyer ma demande', 'javascript:void(0)', class: 'btn btn--success', id: 'submit-form'
+%hr.push--top.blue
+.text--center.push-half--bottom
+  = link_to 'Envoyer un email depuis ma boite perso', '#hidden-send', id: 'send-from-personal'
+
+#hidden-send.hidden
+  %p
+    Vous souhaitez envoyer votre demande de recommandation depuis votre propre boîte mail ? Pas de souci, nous vous avons préparé un texte que vous pouvez copier, puis coller dans votre email :
+
+  .text--center.push-half--bottom
+    %a#copy.btn.btn--blue{href: '', data: {behavior: 'copy-to-clipboard', 'clipboard-target' => 'email-text'}} Copier ce texte
+  #email-text.hidden Bonjour,&#x000A;&#x000A;Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laissez votre avis en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: '_blank'}&#x000A;&#x000A;Merci pour votre contribution et à très bientôt !&#x000A;&#x000A;#{@structure.name}
+  .alert--info.flush--left>
+    %p> Bonjour,
+    %p> Je viens de référencer mes cours sur CoursAvenue et je voudrais avoir votre avis sur mes cours. Si vous avez quelques minutes vous pouvez laissez votre avis en cliquant sur le lien suivant : #{link_to new_structure_comment_url(@structure, subdomain: 'www'), new_structure_comment_url(@structure, subdomain: 'www'), target: '_blank'}
+    %p> Merci pour votre contribution et à très bientôt !
+    %p.flush--bottom= @structure.name
+
+:javascript
+  var submit_form = function() {
+      $('#submit-form').click(function() {
+          $('#save-wizard').click();
+          return false;
+      });
+  }
+  if (typeof($) == 'function') {
+      submit_form();
+      $('.autoresize').textareaResizer();
+      $('.autoresize').css('height', '160px');
+      var clip = new ZeroClipboard($('#copy'));
+      clip.on('mousedown', function(client) {
+          GLOBAL.flash('Votre texte à bien été copié');
+      });
+      $('#send-from-personal').each(function() {
+          var width  = $(this).data('width') || '70%';
+          var height = $(this).data('height') || '70%';
+          $(this).fancybox({
+                  openSpeed   : 300,
+                  maxWidth    : 800,
+                  maxHeight   : 500,
+                  fitToView   : false,
+                  width       : width,
+                  height      : 'auto',
+                  autoSize    : false
+          });
+      });
+  } else {
+      document.ready = submit_form;
+  }
