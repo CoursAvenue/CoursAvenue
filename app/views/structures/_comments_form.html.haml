@@ -18,7 +18,10 @@
         %i.star.icon-star-empty.gamma{style: 'top: 4px; left: -12px; padding: 0 2px', data: {value: 5}}
       %span#rating-description
     = f.input :rating, as: :hidden, input_html: {value: cookies[:comment_rating]}
-    = f.input :title, label_html: {style: 'vertical-align: top;'}, input_html: {value: cookies[:comment_title]}, placeholder: 'Cours de Zumba du lundi, Atelier pâtisserie du 13 juin, etc.'
+    - if defined? comment_title
+      = f.input :title, as: :hidden, input_html: {value: comment_title}
+    - else
+      = f.input :title, label_html: {style: 'vertical-align: top;'}, input_html: {value: cookies[:comment_title]}, placeholder: 'Cours de Zumba du lundi, Atelier pâtisserie du 13 juin, etc.'
     = f.input :content, label_html: {style: 'vertical-align: top;'}, input_html: {style:' height: 50px;', 'data-behavior' => 'autoresize', value: cookies[:comment_content]}, placeholder: "Qu'avez-vous pensé du cours ?"
     .text--center
       - if current_user

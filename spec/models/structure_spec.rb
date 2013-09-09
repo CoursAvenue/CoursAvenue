@@ -85,7 +85,7 @@ describe Structure do
   context :comments do
     it 'retrieves course comments' do
       comment = structure.comments.create FactoryGirl.attributes_for(:comment)
-      structure.all_comments.should include comment
+      structure.comments.should include comment
     end
 
     it 'updates comments_count' do

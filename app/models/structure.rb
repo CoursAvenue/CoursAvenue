@@ -119,11 +119,11 @@ class Structure < ActiveRecord::Base
       self.name
     end
 
-    text :teachers do
-      self.teachers.map(&:name)
-    end
+    # text :teachers do
+    #   self.teachers.map(&:name)
+    # end
 
-    text :description
+    # text :description
 
     # text :street
 
@@ -135,7 +135,8 @@ class Structure < ActiveRecord::Base
       subject_array = []
       self.subjects.uniq.each do |subject|
         subject_array << subject
-        subject_array << subject.parent if subject.parent
+        subject_array << subject.parent        if subject.parent
+        subject_array << subject.parent.parent if subject.parent. and subject.parent.parent
       end
       subject_array.uniq.map(&:name)
     end
@@ -195,10 +196,6 @@ class Structure < ActiveRecord::Base
   end
 
   handle_asynchronously :solr_index
-
-  def all_comments
-    self.comments
-  end
 
   def locations_around(latitude, longitude, radius=5)
     locations.reject do |location|

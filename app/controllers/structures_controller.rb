@@ -28,7 +28,7 @@ class StructuresController < ApplicationController
     @courses        = @structure.courses.active
     @teachers       = @structure.teachers
     @medias         = @structure.medias
-    @comments       = @structure.all_comments
+    @comments       = @structure.comments.reject(&:new_record?)
     @comment        = @structure.comments.build
 
     location_index = 0
@@ -79,7 +79,7 @@ class StructuresController < ApplicationController
       place_index += 1
       marker.picture({
                       :marker_anchor => [10, true],
-                      :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'><span>#{place_index}</span></a></div>"
+                      :rich_marker   => "<div class='map-marker-image disabled' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'><span>#{place_index}</span></a></div>"
                      })
       marker.title   location.name
       marker.json({ id: location.id })

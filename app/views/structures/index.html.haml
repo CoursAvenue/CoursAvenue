@@ -21,26 +21,26 @@
         %li= link_to @subject.name, subject_structures_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
       - if params[:name]
         %li= params[:name]
-    -# %h1.text--center.delta.flush.lbl.lbl--blue
-    -#   - if params[:subject_id]
-    -#     Établissements de #{@subject.name.downcase}
-    -#   - else
-    -#     Établissements
-    -#   - if params[:name].present?
-    -#     correspondant à : « #{params[:name]} »
-    -#   - elsif params[:city].present?
-    -#     = "à #{params[:city]}"
-    -#   - else
-    -#     à Paris
+    %h1.text--center.delta.flush.lbl.lbl--blue.visuallyhidden
+      - if params[:subject_id]
+        Établissements de #{@subject.name.downcase}
+      - else
+        Établissements
+      - if params[:name].present?
+        correspondant à : « #{params[:name]} »
+      - elsif params[:city].present?
+        = "à #{params[:city]}"
+      - else
+        à Paris
 
-    -# %ul.tabs.push--top
-    -#   %li
-    -#     - if @subject
-    -#       = link_to 'Par cours', subject_courses_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
-    -#     - else
-    -#       = link_to 'Par cours', courses_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
-    -#   %li.active
-    -#     %a Par établissement
+    %ul.tabs.push--top
+      %li.active
+        %a Par établissement
+      %li
+        - if @subject
+          = link_to 'Par cours', subject_courses_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
+        - else
+          = link_to 'Par cours', courses_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
 
     - if @structures.empty?
       = render 'no_results'

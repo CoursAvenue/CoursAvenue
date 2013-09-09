@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130905085057) do
+ActiveRecord::Schema.define(:version => 20130909121234) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -233,12 +233,11 @@ ActiveRecord::Schema.define(:version => 20130905085057) do
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
-    t.string   "slug"
     t.time     "deleted_at"
     t.boolean  "shared"
+    t.string   "slug"
   end
 
-  add_index "locations", ["slug"], :name => "index_places_on_slug", :unique => true
   add_index "locations", ["zip_code"], :name => "index_places_on_zip_code"
 
   create_table "medias", :force => true do |t|

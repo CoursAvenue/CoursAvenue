@@ -74,7 +74,7 @@ class Pro::StructuresController < Pro::ProController
     @wizard         = get_next_wizard
     commentable_ids = @structure.courses.collect(&:id)
     commentable_ids << @structure.id
-    @comments       = @structure.all_comments
+    @comments       = @structure.comments
     @courses        = @structure.courses
     @medias         = @structure.medias
     @profile_completed = @structure.image.present? and (@structure.description.present? and @structure.description.split.size > 30)

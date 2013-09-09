@@ -54,7 +54,11 @@
 
     .text--center.white-box.soft-half.push--top.push--bottom
       - if @structure.rating
-        .thin.big-alpha.brand #{@structure.rating}
+        .thin.big-alpha.brand #{@structure.comments_count}
+        %div
+          avis
+          %a{href: '#comments'}
+            %i.lbc-brand-icon
         .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
           %span.rating{title: comment_rating_title(@structure.rating)}
             = rating_stars @structure.rating
@@ -65,11 +69,6 @@
           %meta{itemprop: 'street-address', content: @structure.street}
           %meta{itemprop: 'postal-code', content: @structure.zip_code}
           %meta{itemprop: 'locality', content: @city.name}
-        %div
-          = @structure.comments_count
-          avis
-          %a{href: '#comments'}
-            %i.lbc-brand-icon
       - else
         Pas encore d'avis sur cet établissement
       #write-comment.text--center= link_to 'Donner mon avis', "javascript:void(0)"
@@ -146,12 +145,6 @@
           %i.icon-youtube-play
           Photos & vidéos
           (#{@medias.length})
-      -# - if @places.any?
-      -#   %li
-      -#     %a#tab-all-places-link{href: '#tab-all-places', onclick: "_gaq.push(['_trackEvent', 'Autres lieux', 'click', '#{@structure.slug}']);", data: {toggle: 'tab'}}
-      -#       %i.icon-map-marker
-      -#       Lieux des cours
-      -#       (#{@places.length})
 
     .tab-content
       %article#tab-comments.tab-pane.active
@@ -160,10 +153,11 @@
             Cet établissement n'a pas encore d'avis
             %br
             %b Soyez le premier à nous donner votre avis !
-        %article.push--top.push--bottom#new-comment{class: (@comments.any? ? 'hidden' : '')}= render '/structures/comments_form'
+        %article.push--bottom#new-comment{class: (@comments.any? ? 'hidden' : '')}= render '/structures/comments_form'
         - if @comments.any?
-          #comments= render partial: 'comments/comment', collection: @structure.all_comments, show_title: true
-
+          #comments
+            - @comments.each_with_index do |comment, index|
+              = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
 
       %article#tab-teacher.tab-pane
         - @teachers.each do |teacher|
@@ -187,8 +181,6 @@
                   %tr
                     %td
                       %h3.base-font-style.flush--bottom= link_to course.name.capitalize, structure_course_path(@structure, course)
-                      - if course.rating
-                        = rating_stars course.rating
                     %td.text--center
                       %ul.nav.flush--bottom
                         = join_course_subjects course
@@ -212,15 +204,6 @@
           - else
             %p.white-box.islet
               Cet établissement n'a pas de photos ou de vidéos.
-      -# - if @places.any?
-      -#   %article#tab-all-places.tab-pane
-      -#     = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 15, mapTypeControl: false, :id => 'other_places_map'}, scripts: :none})
-      -#     %ul.block-list.white-box
-      -#       - @places.each do |other_place|
-      -#         %li
-      -#           %b= other_place.location.try(:name)
-      -#           %br
-      -#           %i= other_place.location.try(:address)
 
 - if current_user
   #course_info.hidden= render 'structures/courses/info_popup'

@@ -35,6 +35,7 @@
 
         init: function() {
             this.$element.removeClass('read-more');
+            if (this.$element.data('read_more_text')) { this.options.read_more_text = this.$element.data('read_more_text') }
             this.original_height = this.$element.outerHeight();
             this.$element.addClass('read-more');
             if(this.$element.data('height')) {

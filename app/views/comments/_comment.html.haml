@@ -22,7 +22,7 @@
           %b{itemprop: 'author'}= comment.author_name.titleize
           - if comment.rating
             %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
-              = rating_stars comment.rating
+              -# = rating_stars comment.rating
               %meta{itemprop: 'ratingValue', content: comment.rating}
               %meta{itemprop: 'worstRating', content: 1}
               %meta{itemprop: 'bestRating', content: 5}

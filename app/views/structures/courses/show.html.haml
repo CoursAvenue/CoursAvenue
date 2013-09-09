@@ -47,25 +47,24 @@
       = render 'contact_structure'
 
     .text--center.white-box.soft-half.push--top.push--bottom
-      - if @course.rating
-        .thin.big-alpha.brand #{@course.rating}
-        .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-          %span.rating{title: comment_rating_title(@course.rating)}
-            = rating_stars @course.rating
-          %meta{property: 'v:rating', itemprop: 'rating', content: @course.rating}
-          %meta{itemprop: 'count', content: @course.comments.count}
-          %meta{itemprop: 'itemreviewed', content: @course.name}
-          %meta{itemprop: 'name', content: @course.name}
-          %meta{itemprop: 'street-address', content: @structure.street}
-          %meta{itemprop: 'postal-code', content: @structure.zip_code}
-          %meta{itemprop: 'locality', content: @structure.city.name}
+      - if @structure.rating
+        .thin.big-alpha.brand #{@structure.comments_count}
         %div
-          = @course.comments.count
           avis
           %a{href: '#comments'}
             %i.lbc-brand-icon
+        .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+          %span.rating{title: comment_rating_title(@structure.rating)}
+            = rating_stars @structure.rating
+          %meta{property: 'v:rating', itemprop: 'rating', content: @structure.rating}
+          %meta{itemprop: 'count', content: @structure.comments.count}
+          %meta{itemprop: 'itemreviewed', content: @structure.name}
+          %meta{itemprop: 'name', content: @structure.name}
+          %meta{itemprop: 'street-address', content: @structure.street}
+          %meta{itemprop: 'postal-code', content: @structure.zip_code}
+          %meta{itemprop: 'locality', content: @structure.city.name}
       - else
-        Pas encore d'avis pour ce cours
+        Cet établissement n'a pas encore d'avis
       #write-comment.text--center= link_to 'Donner mon avis', "javascript:void(0)"
 
     - if @course.image.present?
@@ -148,7 +147,18 @@
             Aucun média n'a été ajouté
 
       %article#comments#tab-comments.tab-pane
-        = render 'comments'
+        - if @comments.empty?
+          %p.white-box.islet.text--center
+            Cet établissement n'a pas encore d'avis
+            %br
+            %b Soyez le premier à nous donner votre avis !
+        %article.push--top.push--bottom#new-comment{class: (@comments.any? ? 'hidden' : '')}
+          = render partial: '/structures/comments_form', locals: {comment_title: @course.name}
+        - if @comments.any?
+          #comments
+            - @comments.each_with_index do |comment, index|
+              = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
+
 
 
 = content_for :scripts do

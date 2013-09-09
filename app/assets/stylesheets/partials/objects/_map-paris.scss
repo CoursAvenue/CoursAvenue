@@ -39,8 +39,11 @@
     .map-marker-image {
         position: absolute;
     }
-    .map-marker-image:hover {
-        a { background-image: image-url('icons/map-marker-hover.png'); }
+    .map-marker-image.disabled {
+        a { background-image: image-url('icons/map-marker-disabled.png'); }
+    }
+    .map-marker-image:hover, .map-marker-image.active {
+        a { background-image: image-url('icons/map-marker.png'); }
     }
 }
 // .map-marker-image

@@ -25,7 +25,11 @@
     - else
       %ul.nav= join_child_subjects(structure)
   .course-content.two-twelfths.text--center.v-middle
-    .thin.alpha.brand #{structure.rating}
+    .thin.alpha.brand #{structure.comments_count}
+    %div
+      avis
+      %a{href: '#comments'}
+        %i.lbc-brand-icon
     %div{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
       %span.rating{title: comment_rating_title(structure.rating)}
         = rating_stars structure.rating
@@ -35,8 +39,3 @@
       %meta{itemprop: 'name', content: structure.name}
       %meta{itemprop: 'street-address', content: structure.street}
       %meta{itemprop: 'postal-code', content: structure.zip_code}
-    %div
-      = structure.comments_count
-      avis
-      %a{href: '#comments'}
-        %i.lbc-brand-icon

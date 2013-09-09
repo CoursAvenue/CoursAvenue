@@ -2,7 +2,6 @@
 class Course < ActiveRecord::Base
   acts_as_paranoid
 
-  include ActsAsCommentable
   include HasSubjects
 
   COURSE_FREQUENCIES = ['courses.frequencies.every_week', 'courses.frequencies.every_two_weeks', 'courses.frequencies.every_month']
@@ -23,8 +22,7 @@ class Course < ActiveRecord::Base
 
   has_and_belongs_to_many :users
 
-
-  has_many :comments,             as: :commentable
+  has_many :comments,             through: :structure
   has_many :reservations,         as: :reservable
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , through: :plannings, uniq: true
