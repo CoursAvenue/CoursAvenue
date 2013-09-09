@@ -7,7 +7,7 @@ class Structure < ActiveRecord::Base
   include ActsAsGeolocalizable
 
   extend FriendlyId
-  friendly_id :name, use: [:slugged, :history]
+  friendly_id :name, use: :slugged
 
   acts_as_gmappable validation: false,
                     language: 'fr'
@@ -73,8 +73,8 @@ class Structure < ActiveRecord::Base
   belongs_to       :pricing_plan
 
   has_many :invited_teachers          , dependent: :destroy
-  has_many :medias,   as: :mediable   , dependent: :destroy
-  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :medias,   as: :mediable
+  has_many :comments, as: :commentable, dependent: :destroy, order: 'created_at ASC'
   has_many :students                  , dependent: :destroy
   has_many :teachers                  , dependent: :destroy
   has_many :courses                   , dependent: :destroy
@@ -196,6 +196,10 @@ class Structure < ActiveRecord::Base
 
   handle_asynchronously :solr_index
 
+  def all_comments
+    self.comments
+  end
+
   def locations_around(latitude, longitude, radius=5)
     locations.reject do |location|
       Geocoder::Calculations.distance_between([latitude, longitude], [location.latitude, location.longitude], unit: :km) > radius
@@ -203,7 +207,7 @@ class Structure < ActiveRecord::Base
   end
 
   def update_comments_count
-    self.update_column :comments_count, self.all_comments.count
+    self.update_column :comments_count, self.comments.count
   end
 
   def contact_email
@@ -221,15 +225,6 @@ class Structure < ActiveRecord::Base
   def address
     "#{self.street}, #{self.city.name}"
   end
-
-  def all_comments
-    commentable_ids = self.courses.collect(&:id)
-    course_comments = Comment.order('created_at ASC').where{(commentable_id.in commentable_ids) & (commentable_type == 'Course')}.all
-    (self.comments + course_comments).reject(&:new_record?).sort {|c1, c2| c2.created_at <=> c1.created_at}
-    # _comments = self.comments + self.courses.with_deleted.collect(&:comments).flatten
-    # _comments.reject(&:new_record?).sort {|c1, c2| c2.created_at <=> c1.created_at}
-  end
-
 
   def parent_subjects
     subjects.uniq.map(&:parent).uniq
