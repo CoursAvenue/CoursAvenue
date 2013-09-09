@@ -14,7 +14,7 @@
           - if @structure.logo?
             = image_tag @structure.logo.url(:large), id: 'logo-logo'
             %br
-            %a.btn.btn--small.btn--danger#delete-logo{href: 'javascript:void(0)'}
+            %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
               %i.icon-trash
               Supprimer
             .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
@@ -40,7 +40,7 @@
           - if @structure.image?
             = image_tag @structure.image.url(:normal), id: 'logo-image', style: 'max-height: 300px; max-width: 500px'
             %br
-            %a.btn.btn--small.btn--danger#delete-image{href: 'javascript:void(0)'}
+            %a.btn.btn--small.btn--red#delete-image{href: 'javascript:void(0)'}
               %i.icon-trash
               Supprimer
             .visuallyhidden= structure_form.input :delete_image, as: :boolean, label: false
@@ -92,7 +92,7 @@
                   %br
                   A-t-elle formé des célébrités ?
     .form-actions
-      = structure_form.button :submit, "Enregistrer", class: 'btn btn--success'
+      = structure_form.button :submit, "Enregistrer", class: 'btn btn--green'
 
 = content_for :scripts do
   :javascript

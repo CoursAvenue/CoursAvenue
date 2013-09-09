@@ -21,9 +21,9 @@
 
         - if current_pro_admin
           - if current_pro_admin.super_admin?
-            %li= link_to 'Espace super admin', pro_dashboard_path, class: 'btn btn--success btn--small'
+            %li= link_to 'Espace super admin', pro_dashboard_path, class: 'btn btn--green btn--small'
           - elsif current_pro_admin.structure.present?
-            %li= link_to 'Tableau de bord', dashboard_pro_structure_path(current_pro_admin.structure), class: 'btn btn--success btn--small'
+            %li= link_to 'Tableau de bord', dashboard_pro_structure_path(current_pro_admin.structure), class: 'btn btn--green btn--small'
           %li= link_to 'Se déconnecter', destroy_pro_admin_session_path, class: 'header-link', method: :delete
         - else
           %li

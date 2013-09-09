@@ -74,7 +74,7 @@
     opacity: 0.55;
 }
 
-.btn--primary {
+.btn--orange {
     text-transform: uppercase;
     color       : white;
     text-shadow : -1px -1px 0 #a34c30;
@@ -91,7 +91,7 @@
         @include background-image(linear-gradient(top, darken($btn-primary-background-highlight, 5%), lighten($btn-primary-background-highlight, 5%)));
     }
 }
-.btn--danger {
+.btn--red {
     text-transform: uppercase;
     font-weight: bold;
     @include buttonBackground($btn-danger-background, $btn-danger-background-highlight);
@@ -101,7 +101,7 @@
 }
 // Danger and error appear as red
 // Success appears as green
-.btn--success {
+.btn--green {
     text-transform: uppercase;
     @include buttonBackground($btn-success-background, $btn-success-background-highlight);
     &:hover, &:active {

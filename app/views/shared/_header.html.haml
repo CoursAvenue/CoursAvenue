@@ -35,7 +35,7 @@
         %span
           = link_to "Se connecter", new_user_session_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax'
         %span.soft-half--left.push--right.soft--right.bordered--right
-          = link_to "Créer un compte", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax btn btn--success', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Inscrit'])"
+          = link_to "Créer un compte", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax btn btn--green', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Inscrit'])"
         %span
           = link_to 'Publier mon profil', root_url(subdomain: 'pro'), class: 'btn btn--blue', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
 

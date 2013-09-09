@@ -51,7 +51,7 @@
           .visuallyhidden--palm
             = f.association :subjects , as: :select, collection: (Subject.roots + Subject.children), input_html: {style: 'width: 74%;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
       .push--bottom.text--center
-        = f.submit 'Valider', class: 'btn--large btn btn--large btn--success'
+        = f.submit 'Valider', class: 'btn--large btn btn--large btn--green'
   - unless request.path == '/sms'
     .grid__item.one-third.visuallyhidden--palm
       .bordered--left.soft--left

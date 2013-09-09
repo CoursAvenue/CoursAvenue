@@ -2,6 +2,12 @@
 class StructuresController < ApplicationController
   respond_to :json
 
+  def bump_planning
+  end
+
+  def bump_medias
+  end
+
   def recommendation
     recommendation = '<p>' + params[:recommendation].gsub(/\r\n/, '</p><p>') + '</p>'
     name           = params[:name]

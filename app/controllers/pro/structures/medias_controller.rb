@@ -19,7 +19,6 @@ class Pro::Structures::MediasController < InheritedResources::Base
   def create
     @structure = Structure.find params[:structure_id]
     @media     = @structure.medias.build params[:media]
-    @medias    = @structure.medias.reject{|media| media.new_record?}
     respond_to do |format|
       if @media.save
         format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Media bien ajouté !' }
@@ -36,6 +35,30 @@ class Pro::Structures::MediasController < InheritedResources::Base
         format.html {render partial: 'pro/structures/medias/form' }
       else
         format.html { render template: 'pro/structures/medias/index' }
+      end
+    end
+  end
+
+  def edit
+    @structure = Structure.find params[:structure_id]
+    @media     = @structure.medias.find params[:id]
+    new! do |format|
+      if request.xhr?
+        format.html {render partial: 'pro/structures/medias/form' }
+      else
+        format.html { render template: 'pro/structures/medias/index' }
+      end
+    end
+  end
+
+  def update
+    @structure = Structure.find params[:structure_id]
+    @media     = @structure.medias.find params[:id]
+    respond_to do |format|
+      if @media.update_attributes params[:media]
+        format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Media bien ajouté !' }
+      else
+        format.html { render 'pro/structures/medias/index' }
       end
     end
   end

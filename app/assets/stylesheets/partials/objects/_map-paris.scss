@@ -43,7 +43,8 @@
         a { background-image: image-url('icons/map-marker-disabled.png'); }
     }
     .map-marker-image:hover, .map-marker-image.active {
-        a { background-image: image-url('icons/map-marker.png'); }
+        z-index: 10;
+        a    { background-image: image-url('icons/map-marker.png'); }
     }
 }
 .map-marker-image {

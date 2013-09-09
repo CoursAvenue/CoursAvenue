@@ -25,9 +25,9 @@
     = f.input :content, label_html: {style: 'vertical-align: top;'}, input_html: {style:' height: 50px;', 'data-behavior' => 'autoresize', value: cookies[:comment_content]}, placeholder: "Qu'avez-vous pensé du cours ?"
     .text--center
       - if current_user
-        = f.submit 'Publier mon avis', class: 'btn btn--large btn--success', style: 'padding-top: 6px; padding-bottom: 6px;'
+        = f.submit 'Publier mon avis', class: 'btn btn--large btn--green', style: 'padding-top: 6px; padding-bottom: 6px;'
       - else
-        = link_to 'Publier mon avis', new_user_registration_path, class: 'fancybox.ajax btn btn--large btn--success', style: 'padding-top: 6px; padding-bottom: 6px;', onclick: "_gaq.push(['_trackEvent', 'Avis sur établissement', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour commenter'}
+        = link_to 'Publier mon avis', new_user_registration_path, class: 'fancybox.ajax btn btn--large btn--green', style: 'padding-top: 6px; padding-bottom: 6px;', onclick: "_gaq.push(['_trackEvent', 'Avis sur établissement', 'click','Non inscrit'])", data: {behavior: 'modal', title: 'Connectez-vous pour commenter'}
 = render 'comments/javascript'
 
 = content_for :scripts do

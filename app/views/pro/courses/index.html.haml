@@ -65,7 +65,7 @@
                     %i.icon-ok.green
           %td.text--center.hard
             .drop-down-el.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-              %a.btn--primary.btn{href: '#'}
+              %a.btn--orange.btn{href: '#'}
                 Actions
                 %i.icon-chevron-down
                 / Actions
@@ -93,7 +93,7 @@
       .grid__item.one-half>
         .soft--right.push--right= image_tag 'texts/plannings.png', height: 62
 .text--center.push--top
-  = link_to 'Ajouter un cours', new_pro_structure_course_path(@structure), class: 'btn btn--success btn--large'
+  = link_to 'Ajouter un cours', new_pro_structure_course_path(@structure), class: 'btn btn--green btn--large'
 
 = content_for :scripts do
   :javascript

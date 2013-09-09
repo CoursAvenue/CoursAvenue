@@ -1,4 +1,9 @@
-= simple_form_for [:pro, @structure, @media], url: pro_structure_medias_path(@structure) do |f|
+- if @media.new_record?
+  - url = pro_structure_medias_path(@structure)
+- else
+  - url = pro_structure_media_path(@structure, @media)
+
+= simple_form_for [:pro, @structure, @media], url: url do |f|
   = f.error_notification
   = f.input :url, wrapper_html: {class: 'flush--bottom'}, as: :string
   %p.field-form-info.blue
@@ -7,4 +12,4 @@
     Pour les photos : clic droit sur la photo → copiez l'adresse / l'URL de l'image
   = f.input :caption
   .form-actions
-    = f.submit 'Enregistrer', class: 'btn btn--success'
+    = f.submit 'Enregistrer', class: 'btn btn--green'

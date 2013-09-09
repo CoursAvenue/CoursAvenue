@@ -3,6 +3,7 @@
 \*------------------------------------*/
 
 .media__item {
+    display: inline-block;
     iframe, object {
         width: 100%;
     }

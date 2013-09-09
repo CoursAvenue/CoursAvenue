@@ -52,7 +52,7 @@
             %i.icon-pencil
           &nbsp;
           - if admin.structure
-            = link_to pro_structure_path(admin.structure), method: :delete, title: 'Supprimer', class: 'btn btn--danger', data: {confirm: 'Êtes-vous sur de supprimer cet admin et TOUS ses cours ?'} do
+            = link_to pro_structure_path(admin.structure), method: :delete, title: 'Supprimer', class: 'btn btn--red', data: {confirm: 'Êtes-vous sur de supprimer cet admin et TOUS ses cours ?'} do
               %i.icon-trash
 
 - unless params[:all]

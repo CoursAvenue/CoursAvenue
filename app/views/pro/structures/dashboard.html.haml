@@ -7,7 +7,7 @@
     - if @wizard.id == 1
       %h4.flush Bienvenue #{@structure.name} ! Améliorons ensemble votre profil.
     #wizard-form= render @wizard.partial
-    %span.btn.btn--success#save-wizard Enregistrer
+    %span.btn.btn--green#save-wizard Enregistrer
     %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
   = render 'wizards/share_your_profile'
 

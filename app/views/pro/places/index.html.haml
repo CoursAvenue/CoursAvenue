@@ -8,7 +8,7 @@
 = gmaps( {markers: {data: @locations.to_gmaps4rails}, map_options: {maxZoom: 17, mapTypeControl: false}})
 
 .text--center.push
-  = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure), class: 'btn btn--success btn--large'
+  = link_to 'Ajouter un nouveau lieu', new_pro_structure_place_path(@structure), class: 'btn btn--green btn--large'
 
 %table.table--striped
   %thead
@@ -30,11 +30,11 @@
             = link_to place.location.name, place_url(place, subdomain: 'www')
         %td= place.location.address
         %td.text--right
-          = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn--primary' do
+          = link_to edit_pro_structure_place_path(@structure, place), title: 'Modifier ce lieu', class: 'btn btn--orange' do
             %i.icon-pencil
             %span.soft-half--left Modifier ce lieu
           &nbsp;
-          = link_to pro_structure_place_path(@structure, place), method: :delete, data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'}, title: 'Supprimer ce lieu', class: 'btn btn--danger' do
+          = link_to pro_structure_place_path(@structure, place), method: :delete, data: {confirm: 'Êtes-vous sur de supprimer ce lieu ? Cette action sera irreversible.'}, title: 'Supprimer ce lieu', class: 'btn btn--red' do
             %i.icon-trash
 
 

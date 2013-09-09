@@ -13,6 +13,8 @@
         %span Établissement
       %th.text--center
         %span Inscrit
+      %th.text--center
+        %span Déposé un commentaire
   %tbody
     - @students.each do |user|
       %tr
@@ -24,6 +26,9 @@
             = link_to user.structure.name, recommendations_pro_structure_path(user.structure)
         %td.text--center
           - if User.where{email == user.email}.any?
+            %i.icon-ok
+        %td.text--center
+          - if Comment.where{email == user.email}.any?
             %i.icon-ok
 
 = content_for :scripts do

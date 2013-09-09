@@ -32,7 +32,7 @@
     .delta.inline-block Reprendre les tarifs d'un autre cours :
     = simple_form_for [:pro, @structure, @course], url: copy_prices_from_pro_course_path(@course), as: :course, method: :post, html: {class: 'inline-block'} do |f|
       = select_tag "course_id", options_from_collection_for_select(@other_courses, :id, :name)
-      = f.submit 'Valider', class: 'btn btn--success'
+      = f.submit 'Valider', class: 'btn btn--green'
 
 = simple_form_for [:pro, @structure, @course], url: pro_course_path(@course), as: :course do |f|
   = f.error_notification
@@ -219,7 +219,7 @@
     %p.field-form-info.blue Indiquez tous vos autres tarifs, les tarifs réduits (étudiants, chômeurs, etc.) et les différents modes de financement accetpés (CIF, DIF, Chèques Vacances, Tickets CAF, CESU, AFDAS, etc.).
 
   .form-actions
-    = f.submit 'Enregistrer', class: 'btn btn--success'
+    = f.submit 'Enregistrer', class: 'btn btn--green'
 
 
 - if action_name == 'update'
