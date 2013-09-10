@@ -207,7 +207,6 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('.media-gallery').masonry({ itemSelector: '.media__item' });
         var comments_are_hidden = true;
         $('#show-all-comments').click(function() {
             if (comments_are_hidden) {
@@ -260,6 +259,7 @@
                 return false;
             });
         }
+        $('.media-gallery').masonry({ itemSelector: '.media__item' });
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
         $('#submit-coord-form').click(function(){
             $('#coord-form').submit();

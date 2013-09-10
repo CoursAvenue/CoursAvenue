@@ -120,8 +120,6 @@
                 Non&nbsp;visible
           %td
             %h3.base-font-style.flush--bottom= link_to course.name.capitalize, edit_pro_course_path(course)
-            - if course.rating
-              = rating_stars course.rating
           %td.text--center
             %ul.nav.flush--bottom
               = join_course_subjects course
@@ -136,19 +134,21 @@
 %hr
 %h3 Mes photos & vidéos
 - if @medias.any?
-  .grid.media-gallery
-    - @medias.in_groups_of(3, false).each do |media_group|
-      - media_group.each do |media|
-        .grid__item.one-third>
-          %a.break-all.flush--bottom.white-box.islet.media__item{href: media.url, title: media.caption}
-            = media.url_html
-            - if media.caption.present?
-              %p.flush--bottom
-                %i= media.caption
-          %p
-            = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' } do
-              %i.icon-trash
-              Supprimer
+  .media-gallery
+    - @medias.each do |media|
+      .one-third.media__item.very-soft>
+        %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}>
+          = media.url_html
+          - if media.caption.present?
+            %p.flush--bottom
+              %i= media.caption
+        %p
+          = link_to edit_pro_structure_media_path(@structure, media), class: 'btn btn--red btn--small', title: 'Modifier le créneau', data: {behavior: 'modal'}, class: 'btn btn--orange btn--small fancybox.ajax' do
+            %i.icon-pencil
+            Modifier
+          = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, class: 'btn btn--red btn--small' do
+            %i.icon-trash
+            Supprimer
 
   %p.text--center= link_to 'Ajouter une photo ou une vidéo', pro_structure_medias_path(@structure), class: 'btn btn--blue'
 - else
@@ -159,6 +159,8 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('.media-gallery').masonry({ itemSelector: '.media__item' });
+        $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
         $('a.profile-task-uncomplete').hover(function() {
             $(this).find('i').removeClass('icon-check-empty').addClass('icon-check');
         }, function() {
