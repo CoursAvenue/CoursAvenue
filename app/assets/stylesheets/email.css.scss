@@ -85,7 +85,7 @@
     }
     .footer {
         p {
-            color            : darken($beige, 45%);
+            color            : darken($beige, 50%);
             font-size        : 12px;
             line-height      : 19px;
             font-family      : 'Helvetica Neue',Helvetica,Arial,sans-serif;
@@ -95,8 +95,8 @@
             padding-bottom   : 0;
             font-weight      : normal;
             a {
-                color            : darken($beige, 40%);
-                text-decoration: none;
+                color          : darken($beige, 40%);
+                text-decoration: underline;
             }
         }
     }

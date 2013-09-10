@@ -9,9 +9,9 @@ class Pro::Structures::StudentsController < Pro::ProController
     @student   = @structure.students.find params[:id]
     respond_to do |format|
       if @student.destroy
-        format.html { redirect_to recommendations_pro_structure_path(@structure), notice: 'Élève supprimé'}
+        format.html { redirect_to pro_structure_students_path(@structure), notice: 'Élève supprimé'}
       else
-        format.html { redirect_to recommendations_pro_structure_path(@structure), alert: "Une erreur s'est produite"}
+        format.html { redirect_to pro_structure_students_path(@structure), alert: "Une erreur s'est produite"}
       end
     end
   end
