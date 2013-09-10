@@ -8,6 +8,28 @@ class Student < ActiveRecord::Base
   validates :email, presence: true
   validates :email, format: { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create }
 
+  def access_token
+    Student.create_access_token(self)
+  end
+
+  # Verifier based on our application secret
+  def self.verifier
+    ActiveSupport::MessageVerifier.new(CoursAvenue::Application.config.secret_token)
+  end
+
+  # Get a student from a token
+  def self.read_access_token(signature)
+    id = verifier.verify(signature)
+    Student.find id
+  rescue ActiveSupport::MessageVerifier::InvalidSignature
+    nil
+  end
+
+  # Class method for token generation
+  def self.create_access_token(student)
+    verifier.generate(student.id)
+  end
+
   # after_save :subscribe_to_mailchimp if Rails.env.production?
 
   def has_recommanded?
@@ -17,24 +39,30 @@ class Student < ActiveRecord::Base
   end
 
   def ask_for_feedbacks_stage_1
-    @structure = self.structure
-    @email     = self.email
-    self.update_attribute(:email_status, 'resend_stage_1')
-    StudentMailer.delay.ask_for_feedbacks_stage_1(self.structure, self.email)
+    if self.email_opt_in
+      @structure = self.structure
+      @email     = self.email
+      self.update_attribute(:email_status, 'resend_stage_1')
+      StudentMailer.delay.ask_for_feedbacks_stage_1(self.structure, self.email)
+    end
   end
 
   def ask_for_feedbacks_stage_2
-    @structure = self.structure
-    @email     = self.email
-    self.update_attribute(:email_status, 'resend_stage_2')
-    StudentMailer.delay.ask_for_feedbacks_stage_2(self.structure, self.email)
+    if self.email_opt_in
+      @structure = self.structure
+      @email     = self.email
+      self.update_attribute(:email_status, 'resend_stage_2')
+      StudentMailer.delay.ask_for_feedbacks_stage_2(self.structure, self.email)
+    end
   end
 
   def ask_for_feedbacks_stage_3
-    @structure = self.structure
-    @email     = self.email
-    self.update_attribute(:email_status, 'resend_stage_3')
-    StudentMailer.delay.ask_for_feedbacks_stage_3(self.structure, self.email)
+    if self.email_opt_in
+      @structure = self.structure
+      @email     = self.email
+      self.update_attribute(:email_status, 'resend_stage_3')
+      StudentMailer.delay.ask_for_feedbacks_stage_3(self.structure, self.email)
+    end
   end
 
   private

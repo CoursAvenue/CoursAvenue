@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130909121234) do
+ActiveRecord::Schema.define(:version => 20130910092535) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -466,10 +466,11 @@ ActiveRecord::Schema.define(:version => 20130909121234) do
   create_table "students", :force => true do |t|
     t.string   "city"
     t.string   "email"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.integer  "structure_id"
     t.string   "email_status"
+    t.boolean  "email_opt_in", :default => true
   end
 
   create_table "subjects", :force => true do |t|

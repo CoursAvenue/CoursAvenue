@@ -124,7 +124,11 @@ CoursAvenue::Application.routes.draw do
 
   resources :reservations, only: [:create]
 
-  resources :students, only: [:create]
+  resources :students, only: [:create] do
+    collection do
+      get 'unsubscribe/:signature' => 'students#unsubscribe', as: 'unsubscribe'
+    end
+  end
 
   resources :comments, only: [:create, :destroy]
 
