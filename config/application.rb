@@ -41,6 +41,15 @@ module CoursAvenue
             end_time:   '11:00 PM'
           }
     }
+
+    config.middleware.use Rack::Cors do
+      allow do
+        origins '*'
+        resource %r{/etablissements/.*/widget.json},
+          :headers => ['Origin', 'Accept', 'Content-Type'],
+          :methods => [:get]
+      end
+    end
     # S3 =  AWS::S3.new(
     #   :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
     #   :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
