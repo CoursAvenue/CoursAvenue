@@ -95,7 +95,7 @@
   %p.white-box.islet Vous n'avez pas encore d'avis sur votre profil.
   %p.text--center= link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
 - elsif @comments.length > 3
-  %p.text--center= link_to 'Voir mes autres avis', pro_structure_comments_path(@structure), class: 'btn btn--blue'
+  %p.text--center= link_to 'Voir mes autres avis', pro_structure_comments_path(@structure)
 
 %hr
 %h3 Mes cours

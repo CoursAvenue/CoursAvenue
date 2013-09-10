@@ -35,14 +35,13 @@
                 %i.icon-bullhorn
                 &nbsp;Parrainer un professeur
           .flexbox__item.v-top.two-twelfths.text--center>
-            .thin.alpha.brand= @structure.rating || 0
-            %span.rating{title: comment_rating_title(@structure.rating)}
-              = rating_stars @structure.rating
+            .thin.alpha.brand= @structure.comments_count || 0
             %div
-              = @structure.comments_count
               avis
               %a{href: '#comments'}
                 %i.lbc-brand-icon
+            %span.rating{title: comment_rating_title(@structure.rating)}
+              = rating_stars @structure.rating
             %div
               = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, facebook: '', subdomain: 'www')}", class: 'btn btn--small btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
     .flexbox

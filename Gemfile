@@ -51,7 +51,6 @@ gem 'compass-inuit'             , '~> 5.0.1'
 gem 'asset_sync'                , '~> 0.5.4'
 gem 'haml'                      , '~> 3.1.7'
 
-
 gem 'progress_bar'
 
 gem 'kaminari'                  , '~>0.14.1'
@@ -104,6 +103,7 @@ group :development do
   gem 'awesome_print'
   gem 'meta_request', '0.2.1'
 end
+
 group :development, :test do
   gem 'debugger'
   # gem 'linecache19'      , '0.5.12'
