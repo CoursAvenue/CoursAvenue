@@ -1,7 +1,7 @@
 - if @structure.logo?
   - content_for :logo do
     = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
-      = image_tag @structure.logo.path(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+      = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
 
 - content_for :promo do
   %h4
