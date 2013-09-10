@@ -6,18 +6,10 @@
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
     .grid--full
       .grid__item.two-twelfths.text--center>
-        - if comment.user and (comment.user.avatar.present? or comment.user.fb_avatar)
-          - if comment.user.avatar.present?
-            = image_tag comment.user.avatar.url(:small), height: (small_avatar ? 30 : 60)
-          - elsif comment.user.fb_avatar
-            = image_tag comment.user.fb_avatar, height: (small_avatar ? 30 : 60)
+        - if comment.user and comment.user.has_avatar?
+          = image_tag comment.user.avatar_url(:small), height: (small_avatar ? 30 : 60)
         - else
-          - if small_avatar
-            .profile-picture--small.center-block{class: "profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
-              = comment.author_name.strip[0].capitalize
-          - else
-            .profile-picture.center-block{class: "profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
-              = comment.author_name.strip[0].capitalize
+          = gravatar_image_tag(comment.email, gravatar: {size: (small_avatar ? 30 : 60)})
       .grid__item.ten-twelfths>
         %h6.push-half--bottom.inline-block
           %b{itemprop: 'author'}= comment.author_name.titleize

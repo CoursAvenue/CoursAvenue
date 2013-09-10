@@ -45,6 +45,18 @@ class User < ActiveRecord::Base
     end
   end
 
+  def has_avatar?
+    self.avatar? or self.fb_avatar
+  end
+
+  def avatar_url(format=:normal)
+    if self.avatar?
+      self.avatar.url(format)
+    elsif self.fb_avatar
+      self.fb_avatar
+    end
+  end
+
   def full_name
     "#{first_name} #{last_name}"
   end
