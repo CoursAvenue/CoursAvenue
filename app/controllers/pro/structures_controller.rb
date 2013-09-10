@@ -14,13 +14,11 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def widget
-    access_control = {
-        "Access-Control-Allow-Origin"  => "*",
-        "Access-Control-Allow-Headers" => "X-Requested-With",
-        "Access-Control-Max-Age"       => "60"
-    }
+    headers['Access-Control-Allow-Origin']  = '*'
+    headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+    headers['Access-Control-Max-Age']       = "1728000"
     respond_to do |format|
-      format.json { render text: render_to_string(partial: 'pro/structures/widget', layout: false), headers: access_control, status: 200 }
+      format.json { render text: render_to_string(partial: 'pro/structures/widget', layout: false)}
       format.html
     end
   end

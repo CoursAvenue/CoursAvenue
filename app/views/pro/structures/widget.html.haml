@@ -55,9 +55,9 @@
             $('#code').val(code.replace('__URL__', url) + '>');
             $.ajax({
                 url: url,
-                dataType: 'json',
+                dataType: 'text',
                 success: function(response) {
-                  coursavenue_widget_div.html(response.html);
+                  coursavenue_widget_div.html(response);
                 }
             });
         };
