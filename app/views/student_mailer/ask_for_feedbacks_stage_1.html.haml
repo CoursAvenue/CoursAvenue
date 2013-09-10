@@ -1,7 +1,16 @@
+- if @structure.logo?
+  - content_for :logo do
+    = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
+      = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+
+- content_for :promo do
+  %h4
+    #{@structure.name} vous a récemment demandé de déposer votre avis sur son profil public CoursAvenue.
+
 %p Bonjour !
 
 %p
-  #{@structure.name} vous a récemment demandé de déposer votre avis sur son profil public CoursAvenue, le 1er moteur de recherche de cours. Pour l'aider à proposer des cours encore plus passionnants grâce à vos commentaires, cliquez sur ce lien :
+  #{@structure.name} a créé son profil sur CoursAvenue et voudrait savoir ce que vous avez pensé de ses cours. Pouvez-vous prendre quelques minutes pour laisser un avis sur son profil ?
 
 %p.action
   = link_to 'Déposer mon avis en 20 secondes', new_structure_comment_url(@structure, email: @email, stage: 1), class: 'btn btn--blue'
