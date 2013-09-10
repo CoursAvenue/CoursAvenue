@@ -11,6 +11,19 @@
     %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
   = render 'wizards/share_your_profile'
 
+-# .white-box.islet
+-#   %h3 Progression de vos recommandations
+-#   %table.one-whole
+-#     %tr
+-#       - 30.times do |i|
+-#         %td.hard{title: @structure.comments[i].try(:content), data: {behavior: 'tooltip'}}=i
+-#         - if i == 4
+-#           X
+-#         - if i == 14
+-#           XX
+-#   .text--center.progress.push-half--bottom.one-whole
+-#     .bar.bar-success{style: "width: #{@structure.comments_count * 3.33}%;"}
+
 .white-box.islet
   %h4.flush
     Votre profil est complété à #{@profile_percentage}%

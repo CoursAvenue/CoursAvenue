@@ -4,11 +4,14 @@
       %div{style: 'font-size: 16px; color: #e9683d'} Recommandé sur
       %img{src: asset_path('logo.png'), height: 35}
     %div{style: 'font-weight: 200; font-size: 40px; color: #e9683d'}
-      = @structure.rating
+      = @structure.comments_count
+    %div
+      %span{style: 'vertical-align: middle; display: inline-block;'}avis
+      %img{style: 'vertical-align: middle; display: inline-block;', src: asset_path('icons/bulle.png'), height: 10}
     %div
       = rating_stars_image @structure.rating
 
-  - if params[:comments] and params[:comments] == 'true'
+  - if params[:last_comments] and params[:last_comments] == 'true'
     - params[:nb_comments] ||= 5
     - params[:nb_comments] = params[:nb_comments].to_i
     - if @structure.comments.length < params[:nb_comments]

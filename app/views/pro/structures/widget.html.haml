@@ -34,7 +34,7 @@
 - content_for :scripts do
   :javascript
     $(function() {
-        var code = "window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget'); $.ajax({ url: __URL__, dataType: 'json', success: function(response) { coursavenue_widget_div.innerHTML = response.html;}});}"
+        var code = "<div id='coursavenue-widget'></div><script>window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget');var request = new XMLHttpRequest();request.open('GET', '__URL__', false);request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');request.send(null);if(request.status == 200) {coursavenue_widget_div.innerHTML = request.responseText;}}</script";
         var load_widget,
             coursavenue_widget_div = $('#coursavenue-widget'),
             params = {comments: true, nb_comments: 5};
@@ -52,7 +52,7 @@
             if (params['comments'] && params['comments'] == true) {
               url += '&nb_comments=' + params['nb_comments'];
             }
-            $('#code').val(code.replace('__URL__', url));
+            $('#code').val(code.replace('__URL__', url) + '>');
             $.ajax({
                 url: url,
                 dataType: 'json',
@@ -63,15 +63,16 @@
         };
         load_widget();
     });
+
 -# #coursavenue-widget
 -# :javascript
 -#   window.onload = function() {
 -#     var coursavenue_widget_div = document.getElementById('coursavenue-widget');
--#     $.ajax({
--#       url: "#{widget_pro_structure_url(@structure, last_comments: true, format: :json, subdomain: 'pro')}",
--#       dataType: 'json',
--#       success: function(response) {
--#         coursavenue_widget_div.innerHTML = response.html;
--#       }
--#     });
+-#     var request = new XMLHttpRequest();
+-#     request.open('GET', "#{widget_pro_structure_url(@structure, last_comments: true, nb_comments: 5, format: :json, subdomain: 'pro')}", false);
+-#     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+-#     request.send(null);
+-#     if(request.status == 200) {
+-#       coursavenue_widget_div.innerHTML = request.responseText;
+-#     }
 -#   }
