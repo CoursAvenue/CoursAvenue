@@ -1,6 +1,8 @@
 class ::Admin < ActiveRecord::Base
   acts_as_paranoid
 
+  include ActsAsUnsubscribable
+
   CIVILITY = [
     'civility.male',
     'civility.female'
@@ -19,6 +21,7 @@ class ::Admin < ActiveRecord::Base
   attr_accessible :email,
                   :password, :password_confirmation, :remember_me,
                   :civility, :name,
+                  :email_opt_in,
                   # :first_name,
                   # :last_name,
                   :phone_number, :mobile_phone_number,

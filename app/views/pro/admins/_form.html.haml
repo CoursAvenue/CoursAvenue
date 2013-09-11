@@ -11,13 +11,19 @@
       = f.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: 'Ex. : 01 02 11 33 12'
       = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : 06 07 11 33 12'
 
-    #change-password
-      %h5.form-header-group
-        %i.icon-lock
-        Changement de mot de passe
-      .form-white-box.flush--bottom
-        = f.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe'
-        = f.input :password_confirmation
+    %h5.form-header-group
+      %i.icon-envelope-alt
+      Notifications mails
+    .form-white-box.flush--bottom
+      = f.input :email_opt_in, label: 'Recevoir les alertes'
+
+    %h5.form-header-group
+      %i.icon-lock
+      Changement de mot de passe
+    .form-white-box.flush--bottom
+      = f.input :password, wrapper_html: {class: 'flush--bottom'}, label: 'Nouveau mot de passe'
+      = f.input :password_confirmation
+
   .push--top.form-actions
     = f.submit 'Enregistrer',  class: 'btn btn--green'
 

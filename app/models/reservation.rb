@@ -6,7 +6,7 @@ class Reservation < ActiveRecord::Base
 
   attr_accessible :user, :reservable_type, :reservable_id
 
-  validates :user, :reservable, presence: true
+  validates :reservable, presence: true
 
   belongs_to :user
   belongs_to :reservable, polymorphic: true

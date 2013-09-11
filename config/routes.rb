@@ -42,7 +42,11 @@ CoursAvenue::Application.routes.draw do
         collection do
           get 'inscription', to: :new
         end
-        devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
+        devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' } do
+          collection do
+            get 'unsubscribe/:signature' => 'admins#unsubscribe', as: 'unsubscribe'
+          end
+        end
         resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
         resources :comments, only: [:index], controller: 'structures/comments'
         resources :medias, controller: 'structures/medias'

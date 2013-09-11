@@ -22,7 +22,17 @@
       - if @structure.main_contact.phone_number and @structure.main_contact.mobile_phone_number
         \/
       = @structure.main_contact.mobile_phone_number
-- @places.each do |place|
+- if @structure.website
+  %div
+    @
+    = link_to @structure.website, @structure.website, target: '_blank'
+
+%hr.push-half--ends
+- if @places.length > 1
+  %h5.push-half--bottom Lieux d'enseignements
+- @places.each_with_index do |place, index|
+  - unless index == 0
+    %hr.push-half--ends
   - if place.main_contact.present?
     %hr
     - if place.main_contact.name
@@ -42,13 +52,6 @@
         - if place.main_contact.phone and place.main_contact.mobile_phone
           \/
         = place.main_contact.mobile_phone
-
-
-  - if @structure.website
-    %div
-      @
-      = link_to @structure.website, @structure.website, target: '_blank'
-
   %div
     %i.icon-map-marker
     = place.location.address

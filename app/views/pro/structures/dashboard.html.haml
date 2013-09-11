@@ -11,18 +11,53 @@
     %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
   = render 'wizards/share_your_profile'
 
--# .white-box.islet
--#   %h3 Progression de vos recommandations
--#   %table.one-whole
--#     %tr
--#       - 30.times do |i|
--#         %td.hard{title: @structure.comments[i].try(:content), data: {behavior: 'tooltip'}}=i
--#         - if i == 4
--#           X
--#         - if i == 14
--#           XX
--#   .text--center.progress.push-half--bottom.one-whole
--#     .bar.bar-success{style: "width: #{@structure.comments_count * 3.33}%;"}
+- if current_pro_admin.super_admin?
+  .white-box.islet
+    %h3 Progression de vos recommandations
+    %table.one-whole#progress-comments
+      %thead
+        %tr
+          - 15.times do |index|
+            %th.text--center.hard{style: "width: 6.6%;"}
+              - if index == 4 or index == 14
+                = index + 1
+                avis
+                %i.lbc-brand-icon
+      %tbody
+        %tr
+          - 15.times do |index|
+            %td.text--center.hard
+              - if @structure.comments_count > index
+                .hidden.bg-green{title: "<div style='font-size: 12px;'>#{@structure.comments[index].author_name} le #{I18n.l(@structure.comments[index].created_at, format: :date)}<br><br>#{@structure.comments[index].content.html_safe}<div>", data: {behavior: 'tooltip', html: 'true'}}
+                  %i.lbc-brand-icon
+              - else
+                .hidden.bg-red
+                  - if index == 4
+                    %i.icon-ok
+                  - elsif index == 14
+                    %i.icon-ok
+                  - else
+                    &nbsp;
+        %tr
+          - 7.times do |index|
+            - if index == 2
+              %td.v-top.text--center.hard{colspan: 5}
+                %i.icon-arrow-up
+                %br
+                %p
+                  %b Recevez votre livre d'or
+                  %i.icon-question-sign{title: "Vous pourrez rajouter un widget montrant vos dernières recommandations sur votre site", data: {behavior: 'tooltip'}}
+            - elsif index == 6
+              %td.v-top.soft--right.text--right{colspan: 5}
+                %i.icon-arrow-up
+                %br
+                %p
+                  Recevez un autocollant
+                  %br
+                  %b «Recommandé sur CoursAvenue»
+                  %i.icon-question-sign{title: "Choisissez le nombre d'autocollant que vous voulez et nous vous les enverront par la poste", data: {behavior: 'tooltip'}}
+            - else
+              %td.v-top
 
 .white-box.islet
   %h4.flush
@@ -172,6 +207,14 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('#progress-comments .hidden').each(function(index, td) {
+            setTimeout(function(){
+              $(td).removeClass('hidden');
+              var width = $(td).css('width');
+              $(td).css('width', '0');
+              $(td).animate({width: width}, 250, 'linear');
+            }, index * 250)
+        });
         $('.media-gallery').masonry({ itemSelector: '.media__item' });
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
         $('a.profile-task-uncomplete').hover(function() {

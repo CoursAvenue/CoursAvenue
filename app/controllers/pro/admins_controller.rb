@@ -7,6 +7,15 @@ class ::Pro::AdminsController < InheritedResources::Base
 
   respond_to :js
 
+  def unsubscribe
+    if admin = Admin.read_access_token(params[:signature])
+      admin.update_attribute :email_opt_in, false
+      redirect_to pro_structure_path(admin.structure), notice: 'Vous avez bien été desinscrit de la liste.'
+    else
+      redirect_to pro_structure_path(admin.structure), notice: 'Lien invalide.'
+    end
+  end
+
   def admin_layout
     if action_name == 'waiting_for_activation'
       'admin_pages'

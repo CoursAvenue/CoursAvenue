@@ -1,5 +1,5 @@
 class Student < ActiveRecord::Base
-  attr_accessible :email, :city, :email_status, :structure_id
+  attr_accessible :email, :city, :email_status, :structure_id, :email_opt_in
 
   belongs_to :structure
 
@@ -8,27 +8,7 @@ class Student < ActiveRecord::Base
   validates :email, presence: true
   validates :email, format: { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create }
 
-  def access_token
-    Student.create_access_token(self)
-  end
-
-  # Verifier based on our application secret
-  def self.verifier
-    ActiveSupport::MessageVerifier.new(CoursAvenue::Application.config.secret_token)
-  end
-
-  # Get a student from a token
-  def self.read_access_token(signature)
-    id = verifier.verify(signature)
-    Student.find id
-  rescue ActiveSupport::MessageVerifier::InvalidSignature
-    nil
-  end
-
-  # Class method for token generation
-  def self.create_access_token(student)
-    verifier.generate(student.id)
-  end
+  include ActsAsUnsubscribable
 
   # after_save :subscribe_to_mailchimp if Rails.env.production?
 

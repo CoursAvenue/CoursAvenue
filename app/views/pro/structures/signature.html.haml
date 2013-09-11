@@ -4,13 +4,13 @@
 
 %h5.home-title
   %i.icon-pencil
-  Faites parler de vous grâce à la signature de vos mails
+  Attirez l'attention grâce à la signature de vos mails
 
 .text--center.push
   %a.btn--large.btn.btn--blue{href: '', data: {behavior: 'copy-to-clipboard', 'clipboard-target' => 'signature'}} Copier la signature
 
 %p.alert--info
-  Nous sommes noté #{@structure.rating} / 5 sur CoursAvenue.com ! Et vous, #{link_to "qu'avez-vous pensé de nos cours ?", new_structure_comment_url(@structure, subdomain: 'www')}
+  Déjà #{@structure.comments_count} élèves nous ont recommandé sur CoursAvenue.com ! Et vous, #{link_to "qu'avez-vous pensé de nos cours ?", new_structure_comment_url(@structure, subdomain: 'www')}
   %br
   %b Profil CoursAvenue :
   #{link_to structure_url(@structure, subdomain: 'www')}

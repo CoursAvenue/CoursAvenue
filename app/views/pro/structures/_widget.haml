@@ -1,9 +1,9 @@
 %div{style: 'font: Helvetica, Arial,sans-serif; font-size: 12px;'}
   = link_to structure_url(@structure, subdomain: 'www'), style: 'display: block; ;padding: 10px; margin: 0 0 10px 0; text-align: center; background-color: white; border: 1px solid #DDD; -webkit-border-radius: 2px; -moz-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px; border-radius: 2px; -webkit-box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; -moz-box-shadow: 1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee; box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; text-decoration: none;', target: '_blank' do
     %div
-      %div{style: 'font-size: 16px; color: #e9683d'} Recommandé sur
+      %div{style: 'font-size: 16px; color: #e9683d'} Recommandé par les élèves sur
       %img{src: asset_path('logo.png'), height: 35, style: 'height: 35px;'}
-    %div{style: 'font-weight: 200; font-size: 40px; color: #e9683d'}
+    %div{style: 'font-weight: 300; font-size: 40px; color: #e9683d'}
       = @structure.comments_count
     %div
       %span{style: 'vertical-align: middle; display: inline-block;'}avis
@@ -23,9 +23,11 @@
         - else
           Les derniers commentaires
       - @structure.comments[0..(params[:nb_comments] - 1)].each do |comment|
-        = link_to structure_url(@structure, subdomain: 'www'), style: 'display: block; font: Helvetica, Arial,sans-serif;padding: 10px; margin: 0 0 10px 0; text-align: left; background-color: white; border: 1px solid #DDD; -webkit-border-radius: 2px; -moz-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px; border-radius: 2px; -webkit-box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; -moz-box-shadow: 1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee; box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; text-decoration: none;', target: '_blank' do
+        %div{style: 'display: block; font: Helvetica, Arial,sans-serif;padding: 10px; margin: 0 0 10px 0; text-align: left; background-color: white; border: 1px solid #DDD; -webkit-border-radius: 2px; -moz-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px; border-radius: 2px; -webkit-box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; -moz-box-shadow: 1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee; box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; text-decoration: none;', target: '_blank'}
           %div{style: 'margin-bottom: 4px; font-size: 14px;'}
-            %strong= comment.author_name
-            %span= rating_stars_image comment.rating, image_size: 13
-          %p{style: 'line-height: 1.4; color: black;'}= comment.content
+            = link_to structure_url(@structure, subdomain: 'www') do
+              %strong= comment.author_name
+            %span{style: 'font-size: 12px; color: #444;'}= "le #{I18n.l(comment.created_at, format: :date)}"
+          %p{style: 'font-size: 13px; line-height: 18px; color: black;'}
+            = truncate(comment.content, length: 600, omission: "… #{link_to('Lire la suite →', structure_url(@structure, subdomain: 'www'))}").html_safe
 

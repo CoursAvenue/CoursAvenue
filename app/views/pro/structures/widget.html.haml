@@ -1,78 +1,85 @@
 = side_menu_currently_at 'Communiquer'
 
-= render partial: 'pro/structures/communication_tabs', locals: {current: 'widget'}
-
-%h5.home-title
-  Retrouvez vos avis sur votre site !
-
-.grid
-  .grid__item.one-half>
-    .soft-half--right
-      %h4
-        %i.icon-cogs
-        Configurez votre widget
-      .white-box.islet
-        .push--bottom
-          %label.v-middle.inline-block{for: 'show-comments'} Afficher les derniers commentaires
-          %input#show-comments{type: 'checkbox', checked: true}
-        %div
-          %label.inline{for: 'nb-comments'} Nombre de commentaires à afficher
-          %input.inline#nb-comments{style: 'width: 3em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 5}
-
-  .grid__item.one-half.bordered--left>
-    %h4
-      Aperçu
-    %div{style: 'width: 400px'}
-      #coursavenue-widget
-
-.white-box.islet.push--top
+.text--center.islet.white-box
+  %h2.orange
+    %i.icon-warning-sign
+    En cours de réalisation
   %p
-    Code à donner à votre webmaster :
-  %textarea.one-half#code{rows: 5, style: 'font-size: 12px'}
-    window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget'); $.ajax({ url: "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}", dataType: 'json', success: function(response) { coursavenue_widget_div.innerHTML = response.html;}});}
+    C'est bientôt fini, promis !
 
-- content_for :scripts do
-  :javascript
-    $(function() {
-        var code = "<div id='coursavenue-widget'></div><script>window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget');var request = new XMLHttpRequest();request.open('GET', '__URL__', false);request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');request.send(null);if(request.status == 200) {coursavenue_widget_div.innerHTML = request.responseText;}}</script";
-        var load_widget,
-            coursavenue_widget_div = $('#coursavenue-widget'),
-            params = {comments: true, nb_comments: 5};
-        $('#show-comments').change(function() {
-            params['comments'] = this.checked;
-            load_widget();
-        });
-        $('#nb-comments').change(function() {
-            params['nb_comments'] = this.value;
-            load_widget();
-        });
-        load_widget = function() {
-            var url = "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}";
-            url += '?comments=' + params['comments'];
-            if (params['comments'] && params['comments'] == true) {
-              url += '&nb_comments=' + params['nb_comments'];
-            }
-            $('#code').val(code.replace('__URL__', url) + '>');
-            $.ajax({
-                url: url,
-                dataType: 'text',
-                success: function(response) {
-                  coursavenue_widget_div.html(response);
-                }
-            });
-        };
-        load_widget();
-    });
+- if current_pro_admin.super_admin?
+  = render partial: 'pro/structures/communication_tabs', locals: {current: 'widget'}
+  %h5.home-title
+    Retrouvez votre livre d'or sur votre site !
 
--# #coursavenue-widget
--# :javascript
--#   window.onload = function() {
--#     var coursavenue_widget_div = document.getElementById('coursavenue-widget');
--#     var request = new XMLHttpRequest();
--#     request.open('GET', "#{widget_ext_pro_structure_url(@structure, last_comments: true, nb_comments: 5, format: :json, subdomain: 'pro')}", false);
--#     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
--#     request.send(null);
--#     if(request.status == 200) {
--#       coursavenue_widget_div.innerHTML = request.responseText;
--#     }
--#   }
+  .grid
+    .grid__item.one-half>
+      .soft--right
+        %h4
+          %i.icon-cogs
+          Configurez votre widget
+        .white-box.islet
+          .push--bottom
+            %label.v-middle.inline-block{for: 'show-comments'} Afficher les derniers commentaires
+            %input#show-comments{type: 'checkbox', checked: true}
+          %div
+            %label.inline{for: 'nb-comments'} Nombre de commentaires à afficher
+            %input.inline#nb-comments{style: 'width: 3em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 5}
+
+    .grid__item.one-half.bordered--left>
+      %h4
+        Aperçu
+      %div{style: 'width: 400px'}
+        #coursavenue-widget
+
+  .white-box.islet.push--top
+    %p
+      Code à donner à votre webmaster :
+    %textarea.one-half#code{rows: 7, style: 'font-size: 12px'}
+      window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget'); $.ajax({ url: "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}", dataType: 'json', success: function(response) { coursavenue_widget_div.innerHTML = response.html;}});}
+
+  - content_for :scripts do
+    :javascript
+      $(function() {
+          var code = "<div id='coursavenue-widget'></div><script>window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget');var request = new XMLHttpRequest();request.open('GET', '__URL__', false);request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');request.send(null);if(request.status == 200) {coursavenue_widget_div.innerHTML = request.responseText;}}</script";
+          var load_widget,
+              coursavenue_widget_div = $('#coursavenue-widget'),
+              params = {last_comments: true, nb_comments: 5};
+          $('#show-comments').change(function() {
+              params['last_comments'] = this.checked;
+              load_widget();
+          });
+          $('#nb-comments').change(function() {
+              params['nb_comments'] = this.value;
+              load_widget();
+          });
+          load_widget = function() {
+              var url = "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}";
+              url += '?last_comments=' + params['last_comments'];
+              if (params['last_comments'] && params['last_comments'] == true) {
+                url += '&nb_comments=' + params['nb_comments'];
+              }
+              $('#code').val(code.replace('__URL__', url) + '>');
+              $.ajax({
+                  url: url,
+                  dataType: 'text',
+                  success: function(response) {
+                    coursavenue_widget_div.html(response);
+                  }
+              });
+          };
+          load_widget();
+      });
+
+  -# #coursavenue-widget
+  -# :javascript
+  -#   window.onload = function() {
+  -#     var coursavenue_widget_div = document.getElementById('coursavenue-widget');
+  -#     var request = new XMLHttpRequest();
+  -#     request.open('GET', "#{widget_ext_pro_structure_url(@structure, last_comments: true, nb_comments: 5, format: :json, subdomain: 'pro')}", false);
+  -#     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+  -#     request.send(null);
+  -#     if(request.status == 200) {
+  -#       coursavenue_widget_div.innerHTML = request.responseText;
+  -#     }
+  -#   }

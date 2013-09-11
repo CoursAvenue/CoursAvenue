@@ -3,14 +3,14 @@
     = link_to pro_structure_path(@structure) do
       %i.lbc-icon-info i
       Infos
-  %li{class: current == 'professeurs' ? 'active' : ''}
-    = link_to pro_structure_teachers_path(@structure) do
-      %i.icon-group
-      Professeurs
   %li{class: current == 'lieux' ? 'active' : ''}
     = link_to pro_structure_places_path(@structure) do
       %i.icon-map-marker
       Lieux
+  %li{class: current == 'professeurs' ? 'active' : ''}
+    = link_to pro_structure_teachers_path(@structure) do
+      %i.icon-group
+      Professeurs
   %li{class: current == 'compte' ? 'active' : ''}
     = link_to edit_pro_admin_path((current_pro_admin and !current_pro_admin.super_admin?) ? current_pro_admin : (@structure.admins.first || current_pro_admin)) do
       %i.icon-cogs

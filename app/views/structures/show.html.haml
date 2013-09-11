@@ -44,13 +44,11 @@
       - if @structure.description.present?
         %p.read-more{data: {behavior: 'read-more'}}= @structure.description.html_safe
       .text--center
-        - if current_user
-          = form_for @structure.reservations.build, remote: true, html: {id: 'coord-form'} do |f|
-            = f.hidden_field :reservable_type
-            = f.hidden_field :reservable_id
-            = f.submit "Coordonnées de reservation", href: '#course_info', class: 'btn btn--green btn--full', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])", title: 'Information pour la réservation du cours', data: {behavior: 'modal', width: '650px'}, id: 'submit-coord-form'
-        - else
-          = link_to "Coordonnées de reservation", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax btn btn--green btn--full', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Non inscrit'])", title: 'Connectez-vous pour accéder aux informations'
+        -# = form_for @structure.reservations.build, remote: true, html: {id: 'coord-form'} do |f|
+        -#   = f.hidden_field :reservable_type
+        -#   = f.hidden_field :reservable_id
+        -#   = f.submit "Coordonnées de reservation", href: '#course_info', class: 'btn btn--green btn--full', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])", title: 'Information pour la réservation du cours', data: {behavior: 'modal', width: '650px'}, id: 'submit-coord-form'
+        = link_to "Coordonnées de reservation", '#course_info', class: 'btn btn--green btn--full', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])", title: 'Information pour la réservation du cours', data: {behavior: 'modal', width: '650px'}
 
     .text--center.white-box.soft-half.push--top.push--bottom
       - if @structure.rating
@@ -201,8 +199,7 @@
             -# %br
             -# = link_to 'Soliciter à mettre des photos & des vidéos', 'javascript:void(0)', class: 'btn btn--blue'
 
-- if current_user
-  #course_info.hidden= render 'structures/courses/info_popup'
+#course_info.hidden= render 'structures/courses/info_popup'
 
 = content_for :scripts do
   :javascript
