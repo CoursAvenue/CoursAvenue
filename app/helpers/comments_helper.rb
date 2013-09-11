@@ -75,13 +75,13 @@ module CommentsHelper
       5.times do |i|
         delta = rating - i
         if delta > 0.9
-          out << content_tag(:img, '', src: asset_url('icons/icon-star.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
+          out << content_tag(:img, '', src: asset_path('icons/icon-star.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
         elsif delta > 0.7
-          out << content_tag(:img, '', src: asset_url('icons/icon-star.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
+          out << content_tag(:img, '', src: asset_path('icons/icon-star.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
         elsif delta > 0.2
-          out << content_tag(:img, '', src: asset_url('icons/icon-star-half-empty.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
+          out << content_tag(:img, '', src: asset_path('icons/icon-star-half-empty.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
         else
-          out << content_tag(:img, '', src: asset_url('icons/icon-star-empty.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
+          out << content_tag(:img, '', src: asset_path('icons/icon-star-empty.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
         end
       end
       out.html_safe
