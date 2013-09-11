@@ -28,7 +28,6 @@ CoursAvenue::Application.routes.draw do
           get  'wizard'
           get  'flyer'
           get  'signature'
-          get  'widget'
           get  'dashboard', path: 'tableau-de-bord'
           put  'activate'
           put  'disable'
@@ -37,6 +36,8 @@ CoursAvenue::Application.routes.draw do
           post 'get_feedbacks'
           post 'recommend_friends'
           post :update
+          get  'widget'
+          match 'widget_ext', controller: 'structures', action: 'widget_ext', constraints: {methods: ['OPTIONS', 'GET']}, as: 'widget_ext'
         end
         collection do
           get 'inscription', to: :new

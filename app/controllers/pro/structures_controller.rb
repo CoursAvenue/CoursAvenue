@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :get_feedbacks, :widget]
-  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :widget]
+  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :get_feedbacks, :widget_ext]
+  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :widget_ext]
 
   layout :get_layout
 
@@ -14,6 +14,13 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def widget
+    @structure = Structure.find params[:id]
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def widget_ext
     # TODO protect
     @structure = Structure.find params[:id]
     headers['Access-Control-Allow-Origin']  = '*'
@@ -22,7 +29,6 @@ class Pro::StructuresController < Pro::ProController
     headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-Prototype-Version, X-CSRF-Token'
     respond_to do |format|
       format.json { render text: render_to_string(partial: 'pro/structures/widget', layout: false)}
-      format.html
     end
   end
 

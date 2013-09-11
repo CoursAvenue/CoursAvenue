@@ -29,7 +29,7 @@
   %p
     Code à donner à votre webmaster :
   %textarea.one-half#code{rows: 5, style: 'font-size: 12px'}
-    window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget'); $.ajax({ url: "#{widget_pro_structure_url(@structure, format: :json, subdomain: 'pro')}", dataType: 'json', success: function(response) { coursavenue_widget_div.innerHTML = response.html;}});}
+    window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget'); $.ajax({ url: "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}", dataType: 'json', success: function(response) { coursavenue_widget_div.innerHTML = response.html;}});}
 
 - content_for :scripts do
   :javascript
@@ -47,7 +47,7 @@
             load_widget();
         });
         load_widget = function() {
-            var url = "#{widget_pro_structure_url(@structure, format: :json, subdomain: 'pro')}";
+            var url = "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}";
             url += '?comments=' + params['comments'];
             if (params['comments'] && params['comments'] == true) {
               url += '&nb_comments=' + params['nb_comments'];
@@ -69,7 +69,7 @@
 -#   window.onload = function() {
 -#     var coursavenue_widget_div = document.getElementById('coursavenue-widget');
 -#     var request = new XMLHttpRequest();
--#     request.open('GET', "#{widget_pro_structure_url(@structure, last_comments: true, nb_comments: 5, format: :json, subdomain: 'pro')}", false);
+-#     request.open('GET', "#{widget_ext_pro_structure_url(@structure, last_comments: true, nb_comments: 5, format: :json, subdomain: 'pro')}", false);
 -#     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
 -#     request.send(null);
 -#     if(request.status == 200) {
