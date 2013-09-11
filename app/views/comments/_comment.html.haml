@@ -9,7 +9,8 @@
         - if comment.user and comment.user.has_avatar?
           = image_tag comment.user.avatar_url(:small), height: (small_avatar ? 30 : 60)
         - else
-          = gravatar_image_tag(comment.email, gravatar: {size: (small_avatar ? 30 : 60)})
+          .center-block{class: "#{(small_avatar ? 'profile-picture--small' : 'profile-picture')} profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
+            = comment.author_name[0].capitalize
       .grid__item.ten-twelfths>
         %h6.push-half--bottom.inline-block
           %b{itemprop: 'author'}= comment.author_name.titleize

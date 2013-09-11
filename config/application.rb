@@ -45,9 +45,8 @@ module CoursAvenue
     config.middleware.use Rack::Cors do
       allow do
         origins '*'
-        resource %r{/etablissements/.*/widget.json},
-          :headers => ['Origin', 'Accept', 'Content-Type'],
-          :methods => [:get]
+        # resource '/*', headers: :any, methods: :get
+        resource '/etablissements/.*/widget.json', headers: :any, methods: :get
       end
     end
     # S3 =  AWS::S3.new(

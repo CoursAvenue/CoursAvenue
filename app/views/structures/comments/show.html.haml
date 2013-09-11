@@ -13,11 +13,15 @@
     %ul.discrete-list
       = render partial: 'comments/comment', locals: { comment: @comment }
   .grid__item.v-middle.one-half.palm--one-whole>
-
     .text--center.white-box.push--top
       .soft-half
-        .thin.big-alpha.brand #{@structure.rating}
+        .thin.big-alpha.brand= @structure.comments_count
         .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+        %div
+          avis
+          %a{href: '#comments'}
+            %i.lbc-brand-icon
+        %div
           %span.rating{title: comment_rating_title(@structure.rating)}
             = rating_stars @structure.rating
           %meta{property: 'v:rating', itemprop: 'rating', content: @structure.rating}
@@ -26,16 +30,12 @@
           %meta{itemprop: 'name', content: @structure.name}
           %meta{itemprop: 'street-address', content: @structure.street}
           %meta{itemprop: 'postal-code', content: @structure.zip_code}
-        %div
-          = @structure.comments_count
-          avis
-          %a{href: '#comments'}
-            %i.lbc-brand-icon
       %div.gray-box.bordered--top.soft-half
-        %b= link_to @structure.name, place_path(@place), onclick: "mixpanel.track('See profile after comment')"
+        %b= link_to @structure.name, structure_path(@structure), onclick: "mixpanel.track('See profile after comment')"
 
-#mail-content.hidden
-  = render template: 'student_mailer/ask_for_feedbacks'
+  .text--center.push
+    = link_to "Découvrir le profil de #{@structure.name}", structure_path(@structure), onclick: "mixpanel.track('See profile after comment')", class: 'btn btn--blue'
+
 
 = content_for :scripts do
   :javascript
@@ -44,7 +44,7 @@
       var obj = {
         method: 'feed',
         redirect_uri: "#{request.protocol + request.host_with_port + request.fullpath}",
-        link: "#{structure_url(@structure.places.first)}",
+        link: "#{structure_url(@structure)}",
         picture: "#{@logo_url || asset_url('logo.png')}",
         name: "Je viens de donner mon avis sur #{@structure.name}. Et vous, qu'en pensez-vous ?",
         caption: 'CoursAvenue.com',

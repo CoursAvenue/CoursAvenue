@@ -23,7 +23,8 @@
           - if user and user.has_avatar?
             = image_tag user.avatar_url(:small), height: 30
           - else
-            = gravatar_image_tag(user.email, gravatar: {size: 30})
+            .profile-picture.center-block{class: "profile-picture-variation-#{((user.full_name.length * 16) % 14) + 1}"}
+              = user.full_name[0].capitalize
         %td
           = user.full_name
           = link_to "(#{user.email})", "mailto:#{user.email}"

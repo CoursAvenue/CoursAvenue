@@ -12,9 +12,7 @@ class Structures::CommentsController < ApplicationController
 
   def show
     @structure    = Structure.find(params[:structure_id])
-    @place        = @structure.places.first
     @comment      = Comment.find params[:id]
-    # @main_subject = @structure.parent_subjects.first
     if @structure.image.present?
       @logo_url  = @structure.image.url
     end
