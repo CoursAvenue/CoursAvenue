@@ -16,9 +16,10 @@ class Pro::StructuresController < Pro::ProController
   def widget
     # TODO protect
     @structure = Structure.find params[:id]
-    # headers['Access-Control-Allow-Origin']  = '*'
-    # headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
-    # headers['Access-Control-Max-Age']       = "1728000"
+    headers['Access-Control-Allow-Origin']  = '*'
+    headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+    headers['Access-Control-Max-Age']       = "1728000"
+    headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-Prototype-Version, X-CSRF-Token'
     respond_to do |format|
       format.json { render text: render_to_string(partial: 'pro/structures/widget', layout: false)}
       format.html
