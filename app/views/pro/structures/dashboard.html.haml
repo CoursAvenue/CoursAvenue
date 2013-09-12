@@ -24,7 +24,7 @@
         %tr
           - 15.times do |index|
             %td.text--center.hard
-              - if @structure.comments_count > index
+              - if @structure.comments.count > index
                 .hidden.bg-green{title: "<div style='font-size: 12px;'>#{@structure.comments[index].author_name} le #{I18n.l(@structure.comments[index].created_at, format: :date)}<br><br>#{@structure.comments[index].content.html_safe}<div>", data: {behavior: 'tooltip', html: 'true'}}
                   %i.lbc-brand-icon
               - else

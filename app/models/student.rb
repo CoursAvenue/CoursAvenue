@@ -1,4 +1,5 @@
 class Student < ActiveRecord::Base
+  include ActsAsUnsubscribable
   attr_accessible :email, :city, :email_status, :structure_id, :email_opt_in
 
   belongs_to :structure
@@ -8,7 +9,6 @@ class Student < ActiveRecord::Base
   validates :email, presence: true
   validates :email, format: { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create }
 
-  include ActsAsUnsubscribable
 
   # after_save :subscribe_to_mailchimp if Rails.env.production?
 
