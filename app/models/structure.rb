@@ -42,6 +42,7 @@ class Structure < ActiveRecord::Base
                   :crop_x, :crop_y, :crop_width, :crop_height, :cropping,
                   :rating, :comments_count,
                   :no_facebook, :no_website, :has_only_one_place,
+                  :email_status, :last_email_sent_at, :last_email_sent_status,
 
                   ## Moyen de financements possible :
                   :accepts_holiday_vouchers, :accepts_ancv_sports_coupon, :accepts_leisure_tickets,
@@ -104,6 +105,8 @@ class Structure < ActiveRecord::Base
   # after_create     :create_place
   after_create     :create_courses_relative_to_subject
   after_create     :delay_subscribe_to_mailchimp if Rails.env.production?
+  after_save       :update_email_status
+  after_touch      :update_email_status
 
   after_update     :reprocess_logo, :if => :cropping?
 
@@ -196,6 +199,32 @@ class Structure < ActiveRecord::Base
   end
 
   handle_asynchronously :solr_index
+
+  # Send reminder every week depending on the email status of the structure
+  def send_reminder
+    if self.main_contact.email_opt_in?
+      self.update_column :last_email_sent_at, Time.now
+      self.update_column :last_email_sent_status, self.email_status
+      AdminMailer.delay.send(self.email_status.to_sym, self)
+    end
+  end
+
+  # Update the email status of the structure
+  def update_email_status
+    email_status = nil
+    if !self.logo? or self.description.blank?
+      email_status = 'incomplete_profile'
+    elsif self.comments_count == 0
+      email_status = 'no_recommendations'
+    elsif self.comments_count < 5
+      email_status = 'less_than_five_recommendations'
+    elsif self.courses.active.empty?
+      email_status = 'planning_outdated'
+    elsif self.comments_count < 15
+      email_status = 'less_than_fifteen_recommendations'
+    end
+    self.update_column :email_status, email_status
+  end
 
   def locations_around(latitude, longitude, radius=5)
     locations.reject do |location|

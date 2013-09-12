@@ -1,12 +1,18 @@
 - content_for :promo do
-  %h4 Bienvenue dans la communauté CoursAvenue dont le nombre de visiteurs grandit chaque jour.
+  %h4 Vous n'avez pas encore reçu de recommandation de vos élèves.
+
 %p
   Bonjour #{@structure.name},
+
 %p
-  Complétez dès à présent vos informations générales qui vous permettront d'apparaître correctement dans notre moteur de recherche :
+  Le 1er facteur de réservation d'un cours est le bouche à oreille, c'est pourquoi notre moteur de recherche CoursAvenue met en avant les profils ayant le plus de témoignages d'élèves.
+
+%p
+  %strong Apparaissez dans les 1ers résultats grâce aux recommandations de vos élèves :
 
 %p.action
-  = link_to "Gérer mon profil", edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+  = link_to "Obtenir des recommandations", recommendations_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+
 %p
   N'hésitez pas à nous solliciter si vous avez des questions ! Merci et à très bientôt,
 %p
@@ -14,7 +20,6 @@
 
 - content_for :under_content do
   = render 'footer_info'
-
   - if @structures.length == 3
     %table.table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600', style: 'border-top: 1px solid: #CCC;'}
       %tr{valign: 'top'}
@@ -34,3 +39,4 @@
 
 - content_for :footer do
   %p= link_to 'Gérer mes préférences e-mails', edit_pro_admin_url(@structure.main_contact, subdomain: 'pro')
+

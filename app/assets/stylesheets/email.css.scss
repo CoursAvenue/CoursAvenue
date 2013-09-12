@@ -57,7 +57,7 @@
             padding-bottom   : 0;
             font-weight      : bold;
         }
-        p {
+        p, ul, li{
             color            : #666;
             font-size        : 14px;
             line-height      : 19px;
@@ -69,7 +69,7 @@
             font-weight      : normal;
             &.action {
               text-align: center;
-              margin    : 20px auto;
+              margin    : 30px auto;
             }
             a {
                 color: #006cdb;
@@ -81,6 +81,9 @@
                 }
                 text-decoration: none;
             }
+        }
+        li{
+            margin: 3px;
         }
     }
     .under-content {

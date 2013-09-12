@@ -29,14 +29,19 @@
 
 - if @other_courses and @other_courses.any?
   .blue-box.islet
-    .delta.inline-block Reprendre les tarifs d'un autre cours :
-    = simple_form_for [:pro, @structure, @course], url: copy_prices_from_pro_course_path(@course), as: :course, method: :post, html: {class: 'inline-block'} do |f|
-      = select_tag "course_id", options_from_collection_for_select(@other_courses, :id, :name)
-      = f.submit 'Valider', class: 'btn btn--green'
+    .delta
+      Voulez-vous appliquer les mêmes tarifs d'un autre cours ?
+      .btn#use-other-course-price-button Oui
+    .hidden#use-other-course-price
+      = simple_form_for [:pro, @structure, @course], url: copy_prices_from_pro_course_path(@course), as: :course, method: :post, html: {class: 'inline-block'} do |f|
+        %div
+          %label.inline Choisissez le cours :
+          = select_tag "course_id", options_from_collection_for_select(@other_courses, :id, :name)
+          = f.submit 'Valider', class: 'btn btn--green'
 
 = simple_form_for [:pro, @structure, @course], url: pro_course_path(@course), as: :course do |f|
   = f.error_notification
-  %h5.form-header-group Au cours
+  %h5.form-header-group Au #{@course.type_name.downcase}
   .form-white-box--large
     .grid--full.input.flush
       %label.control-label.grid__item &nbsp;
@@ -58,8 +63,11 @@
             .input.flush
               %label.control-label
                 = book_ticket_form.input :number, as: :hidden, value: 1
-                %span 1 cours de
-                %span.inline-block= book_ticket_form.input :duration, label: false, as: :select, collection: duration_collection, selected: book_ticket_form.object.duration || 60
+                - if @course.is_lesson?
+                  %span 1 cours de
+                  %span.inline-block= book_ticket_form.input :duration, label: false, as: :select, collection: duration_collection, selected: book_ticket_form.object.duration || 60
+                - else
+                  %span 1 #{@course.type_name.downcase}
               %div{style: 'width: 170px;'}
                 = book_ticket_form.input :amount, placeholder: 'Ex. : 25', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
                 €
@@ -94,8 +102,11 @@
             .input.flush
               %label.control-label
                 %span.inline-block= book_ticket_form.input :number, label: false, as: :select, collection: 2..20, selected: book_ticket_form.object.number || 5
-                %span cours de
-                %span.inline-block= book_ticket_form.input :duration, label: false, as: :select, collection: duration_collection, selected: book_ticket_form.object.duration || 60
+                - if @course.is_lesson?
+                  %span #{@course.type_name.downcase} de
+                  %span.inline-block= book_ticket_form.input :duration, label: false, as: :select, collection: duration_collection, selected: book_ticket_form.object.duration || 60
+                - else
+                  %span #{@course.type_name.downcase}
               %div{style: 'width: 170px;'}
                 = book_ticket_form.input :amount, placeholder: 'Ex. : 120', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
                 €
@@ -109,38 +120,39 @@
           %i.icon-plus
           Ajouter une ligne
 
-  %h5.form-header-group Abonnements
-  .form-white-box--large
-    .grid--full.input.flush
-      %label.control-label.grid__item &nbsp;
-      %div{style: 'width: 170px;'}
-        %b Prix normal
-      .grid__item{style: 'width: 170px;'}
-        %b Avec promo (optionnel)
-      .grid__item{style: 'width: 250px;'}
-        %b
-          %i.lbc-icon-info i
-          Info
-    .subscriptions
-      - @subscriptions.each_with_index do |item, i|
-        - # Adding 100 to index in order that indexes doesn't override each others
-        - i += 200
-        = f.simple_fields_for :prices, item, child_index: i do |price_form|
-          .input.flush.subscription{class: item.persisted? ? 'persisted' : 'not-persisted hidden'}
-            = price_form.input :type, as: :hidden
-            = price_form.input :libelle, as: :select, collection: Price::Subscription::TYPES, label_method: lambda{|l| I18n.t(l)}, label: false, wrapper_html: {class: 'control-label'}, include_blank: false
-            %div{style: 'width: 170px;'}
-              = price_form.input :amount, placeholder: 'Ex. : 250', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
-              €
-            %div{style: 'width: 170px;'}
-              = price_form.input :promo_amount, placeholder: 'Ex. : 200', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
-              €
-            = price_form.input :info, placeholder: 'Ex. : 1 cours par semaine', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
-    .input.flush--top
-      %label.control-label &nbsp;
-      %a#add-subscription{href: 'javascript:void(0)'}
-        %i.icon-plus
-        Ajouter un abonnement
+  - if @course.is_lesson?
+    %h5.form-header-group Abonnements
+    .form-white-box--large
+      .grid--full.input.flush
+        %label.control-label.grid__item &nbsp;
+        %div{style: 'width: 170px;'}
+          %b Prix normal
+        .grid__item{style: 'width: 170px;'}
+          %b Avec promo (optionnel)
+        .grid__item{style: 'width: 250px;'}
+          %b
+            %i.lbc-icon-info i
+            Info
+      .subscriptions
+        - @subscriptions.each_with_index do |item, i|
+          - # Adding 100 to index in order that indexes doesn't override each others
+          - i += 200
+          = f.simple_fields_for :prices, item, child_index: i do |price_form|
+            .input.flush.subscription{class: item.persisted? ? 'persisted' : 'not-persisted hidden'}
+              = price_form.input :type, as: :hidden
+              = price_form.input :libelle, as: :select, collection: Price::Subscription::TYPES, label_method: lambda{|l| I18n.t(l)}, label: false, wrapper_html: {class: 'control-label'}, include_blank: false
+              %div{style: 'width: 170px;'}
+                = price_form.input :amount, placeholder: 'Ex. : 250', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
+                €
+              %div{style: 'width: 170px;'}
+                = price_form.input :promo_amount, placeholder: 'Ex. : 200', label: false, input_html: {class: 'one-whole'}, wrapper_html: {class: 'one-half inline-block'}, as: :string
+                €
+              = price_form.input :info, placeholder: 'Ex. : 1 cours par semaine', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 250px;'}
+      .input.flush--top
+        %label.control-label &nbsp;
+        %a#add-subscription{href: 'javascript:void(0)'}
+          %i.icon-plus
+          Ajouter un abonnement
 
   %h5.form-header-group Tarifs réduits
   .form-white-box--large
@@ -218,8 +230,7 @@
     = f.input :price_details, wrapper_html: {class: 'flush--bottom'}, input_html: { data: {behavior: 'autoresize' }}
     %p.field-form-info.blue Indiquez tous vos autres tarifs, les tarifs réduits (étudiants, chômeurs, etc.) et les différents modes de financement accetpés (CIF, DIF, Chèques Vacances, Tickets CAF, CESU, AFDAS, etc.).
 
-  .form-actions
-    = f.submit 'Enregistrer', class: 'btn btn--green'
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
 
 
 - if action_name == 'update'
@@ -232,6 +243,9 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('#use-other-course-price-button').click(function(){
+            $('#use-other-course-price').show();
+        });
         $('.free-input').change(function(event) {
             if (this.checked) {
               $($(this).data('el')).val(0);

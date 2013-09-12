@@ -1,12 +1,19 @@
 - content_for :promo do
-  %h4 Bienvenue dans la communauté CoursAvenue dont le nombre de visiteurs grandit chaque jour.
+  %h4 Votre profil CoursAvenue n'est pas complet.
+
 %p
   Bonjour #{@structure.name},
-%p
-  Complétez dès à présent vos informations générales qui vous permettront d'apparaître correctement dans notre moteur de recherche :
+
+%p.flush
+  Vous avez récemment rejoint la communauté CoursAvenue. Pour apparaître correctement dans notre moteur de recherche, complétez vos informations générales en quelques minutes :
+%ul
+  %li Logo & image
+  %li Description
+  %li Lieux d'enseignement
 
 %p.action
-  = link_to "Gérer mon profil", edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+  = link_to "Compléter mes informations générales", edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+
 %p
   N'hésitez pas à nous solliciter si vous avez des questions ! Merci et à très bientôt,
 %p
@@ -14,7 +21,6 @@
 
 - content_for :under_content do
   = render 'footer_info'
-
   - if @structures.length == 3
     %table.table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600', style: 'border-top: 1px solid: #CCC;'}
       %tr{valign: 'top'}

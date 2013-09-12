@@ -5,7 +5,7 @@
 -#  chaque fois qu'une structure parrainée s'inscrit sur CoursAvenue, nous augmentons votre capacité de stockage de photos à mettre en avant sur votre profil public.
 
 %p.action
-  = link_to "Parrainer d'autres professeurs", coursavenue_recommendations_pro_structure_path(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+  = link_to "Parrainer d'autres professeurs", coursavenue_recommendations_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
 
 %p N'hésitez pas à nous solliciter si vous avez des questions ! Merci et à très bientôt,
 

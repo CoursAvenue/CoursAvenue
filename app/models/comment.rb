@@ -2,7 +2,7 @@ class Comment < ActiveRecord::Base
   acts_as_paranoid
   attr_accessible :commentable, :commentable_id, :commentable_type, :content, :author_name, :email, :rating, :title
 
-  belongs_to :commentable, polymorphic: true
+  belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :user
 
   validates :email, :author_name, :title, :rating, :content, :commentable, presence: true

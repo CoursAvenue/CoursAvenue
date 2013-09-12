@@ -1,0 +1,28 @@
+- content_for :promo do
+  %h4 Votre profil public comporte moins de 15 recommandations d'élèves.
+
+%p
+  Bonjour #{@structure.name},
+
+%p
+  %strong Obtenez plus de 15 avis
+  et faites partie des 10% de nos Partenaires qui apparaissent dans les 1er résultats de notre moteur de recherche CoursAvenue :
+
+%p.action
+  = link_to "Obtenir plus de 15 recommandations", recommendations_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+
+%p
+  %strong Au-delà de 15 recommandations,
+  nous vous envoyons un autocollant "Recommandé sur CoursAvenue" à afficher sur vos lieux de cours. En plus de votre livre d'or interactif, ce macaron donnera confiance à tous les élèves souhaitant s'inscrire à vos cours. Nos partenaires qui affichent cet autocollant sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
+
+%p
+  N'hésitez pas à nous solliciter si vous avez des questions ! Merci et à très bientôt,
+%p
+  L'équipe de CoursAvenue
+
+- content_for :under_content do
+  = render 'footer_info'
+
+- content_for :footer do
+  %p= link_to 'Gérer mes préférences e-mails', edit_pro_admin_url(@structure.main_contact, subdomain: 'pro')
+
