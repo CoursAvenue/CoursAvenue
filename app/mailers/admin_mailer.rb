@@ -91,5 +91,6 @@ class AdminMailer < ActionMailer::Base
                                             per_page: (3 - @structures.length)
                                           })
     end
+    return @structures
   end
 end

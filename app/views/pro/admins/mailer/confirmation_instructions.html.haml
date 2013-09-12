@@ -1,14 +1,10 @@
-%p Bienvenue !
-
-%p Nous sommes ravis de vous accueillir sur CoursAvenue qui va vous permettre de gagner la confiance des Internautes grâce aux avis positifs de vos élèves.
+%p Bonjour,
 
 %p
   Validez votre inscription en cliquant sur le bouton suivant :
 
 %p.action
   = link_to 'Valider mon inscription', pro_admin_confirmation_url(confirmation_token: @resource.confirmation_token, subdomain: 'pro'), class: 'btn btn--blue'
-
-%p À très bientôt,
 
 %p L'équipe de CoursAvenue
 

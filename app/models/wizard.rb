@@ -16,6 +16,12 @@ class Wizard < ActiveHash::Base
     },
     {
         id: 3,
+        name: 'wizard.places',
+        partial: 'wizards/places',
+        completed?: lambda {|structure| !structure.has_multiple_place? or structure.places.count > 1 }
+    },
+    {
+        id: 4,
         name: 'wizard.recommendations',
         partial: 'wizards/recommendations',
         completed?: lambda {|structure| structure.comments.any? or structure.students.any? }

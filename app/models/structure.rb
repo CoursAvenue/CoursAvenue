@@ -41,7 +41,7 @@ class Structure < ActiveRecord::Base
                   :image, :logo,
                   :crop_x, :crop_y, :crop_width, :crop_height, :cropping,
                   :rating, :comments_count,
-                  :no_facebook, :no_website,
+                  :no_facebook, :no_website, :has_only_one_place,
 
                   ## Moyen de financements possible :
                   :accepts_holiday_vouchers, :accepts_ancv_sports_coupon, :accepts_leisure_tickets,

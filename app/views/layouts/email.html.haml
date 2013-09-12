@@ -25,12 +25,13 @@
                       = link_to 'http://www.coursavenuew.com', target: '_blank' do
                         = image_tag 'logo.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '250'
                       %p.logo-subtitle
-                        Le 1er site qui donne la parole aux élèves
+                        Les élèves recommandent leurs meilleurs cours
+                      -# Le 1er site qui donne la parole aux élèves
                       -# %br.hide
                       -# %img.hide{border: '0', height: '10', src: '', width: '1'}/
                       -# %br.hide
                     - if @show_links
-                      %td.soft-half--bottom.text--right{width: '350'}
+                      %td.soft-half--bottom.text--right{width: '300'}
                         - if @structure
                           = link_to 'Connexion', pro_structure_url(@structure, subdomain: 'pro')
                         \|

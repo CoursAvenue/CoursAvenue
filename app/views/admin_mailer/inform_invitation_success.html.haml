@@ -1,35 +1,19 @@
 %p
   Bonjour #{@structure.name},
 %p
-  Félicitations ! Nous avons le plaisir de vous informer que, suite à votre parrainage, #{@invited_email} a créé son profil CoursAvenue.
--# Pensez à tous les professeurs qui vous entourent et multipliez vos parrainages : chaque fois qu'une structure parrainée s'inscrit sur CoursAvenue, nous augmentons votre capacité de stockage de photos à mettre en avant sur votre profil public.
+  Félicitations ! Nous avons le plaisir de vous informer que, suite à votre parrainage, #{@invited_email} a créé son profil CoursAvenue. Pensez à tous les professeurs (toutes disciplines confondues) qui vous entourent et multipliez vos parrainages :
+-#  chaque fois qu'une structure parrainée s'inscrit sur CoursAvenue, nous augmentons votre capacité de stockage de photos à mettre en avant sur votre profil public.
 
 %p.action
   = link_to "Parrainer d'autres professeurs", coursavenue_recommendations_pro_structure_path(@structure, subdomain: 'pro'), class: 'btn btn--blue'
-%p
-  Si vous avez des questions, n'hésitez pas ! Merci et à très bientôt,
+
+%p N'hésitez pas à nous solliciter si vous avez des questions ! Merci et à très bientôt,
+
 %p
   L'équipe de CoursAvenue
 
-
 - content_for :under_content do
-  %table.table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600'}
-    %tr{valign: 'top'}
-      %td.cell.content-block.push--bottom{width: '200'}
-        %p.text--center
-          = link_to 'Pourquoi être recommandé par mes élèves', pro_pages_questions_url(subdomain: 'www', anchor: 'about-recommendations'), class: 'push-half--bottom'
-          %br
-          Découvrez tous les avantages du bouche à oreille sur CoursAvenue.
-      %td.cell.content-block.push--bottom{width: '200'}
-        %p.text--center
-          = link_to 'Découvrez CoursAvenue', pro_pages_questions_url(subdomain: 'www'), class: 'push-half--bottom'
-          %br
-          Découvrez comment fonctionne CoursAvenue grâce aux questions les plus fréquentes.
-      %td.cell.content-block.push--bottom{width: '200'}
-        %p.text--center
-          = link_to "Déjà plus de #{Admin.count.round(-2)} profils rien qu'à Paris et 700 avis par mois", '#', class: 'push-half--bottom'
-          %br
-          Faites partie de la communauté CoursAvenue qui grandit chaque jour.
+  = render 'footer_info'
 
 - content_for :footer do
   %p= link_to 'Gérer mes préférences e-mails', edit_pro_admin_url(@structure.main_contact, subdomain: 'pro')

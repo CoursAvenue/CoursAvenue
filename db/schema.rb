@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130911154250) do
+ActiveRecord::Schema.define(:version => 20130912091748) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -453,6 +453,7 @@ ActiveRecord::Schema.define(:version => 20130911154250) do
     t.integer  "crop_width",                                   :default => 500
     t.integer  "crop_height",                                  :default => 500
     t.boolean  "cropping",                                     :default => false
+    t.boolean  "has_only_one_place"
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true

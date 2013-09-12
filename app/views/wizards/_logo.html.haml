@@ -1,6 +1,6 @@
 %h4
   %i.icon-picture.icon-2x.v-middle.soft-half--right
-  %span.v-middle Logo
+  %span.v-middle Choisissez votre logo
 = simple_form_for [:pro, @structure] ,html: { autocomplete: 'off', id: 'structure-form' }, remote: true do |f|
   .form-inputs
     %div
@@ -15,6 +15,7 @@
         = link_to 'javascript:void(0)', class: 'btn btn--small', onclick: "$('#logo-input').click();" do
           %i.icon-picture
           Choisir mon logo
+        %br
         %i Ce logo apparaîtra dans les résultats de recherche.
 
       = f.input :logo, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'}, input_html: {id: 'logo-input'}
