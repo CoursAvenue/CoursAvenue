@@ -1,8 +1,11 @@
 %h4
   %i.icon-picture.icon-2x.v-middle.soft-half--right
-  %span.v-middle Choisissez votre logo
+  %span.v-middle Il nous manque votre logo : téléchargez-le maintenant
+  = link_to 'javascript:void(0)', class: 'btn btn--small', onclick: "$('#logo-input').click();" do
+    %i.icon-picture
+    Choisir mon logo
 = simple_form_for [:pro, @structure] ,html: { autocomplete: 'off', id: 'structure-form' }, remote: true do |f|
-  .form-inputs
+  .form-inputs.push--bottom
     %div
       #logo-progress.progress.hidden
         .bar
@@ -11,12 +14,6 @@
         - [:crop_x, :crop_y, :crop_width, :crop_height].each do |attribute|
           = f.input attribute, as: :hidden, input_html: {id: attribute}
       = f.input :cropping, as: :hidden, input_html: {value: true}
-      .push-half--ends
-        = link_to 'javascript:void(0)', class: 'btn btn--small', onclick: "$('#logo-input').click();" do
-          %i.icon-picture
-          Choisir mon logo
-        %br
-        %i Ce logo apparaîtra dans les résultats de recherche.
 
       = f.input :logo, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'}, input_html: {id: 'logo-input'}
 
@@ -25,6 +22,7 @@
         var initialize_crop, logo_jcrop_api;
         var GLOBAL = GLOBAL || {};
         GLOBAL.ratio = 1;
+        $('#save-wizard').hide();
         // --------------- Handling structure logo
         $('#logo-input').fileupload({
             dataType: 'json',
@@ -74,6 +72,7 @@
                 }
                 reader.readAsDataURL(this.files[0]);
             }
+            $('#save-wizard').show();
         });
         initialize_crop = function(crop_x, crop_y, crop_width, crop_height) {
             if ($('#logo-logo').attr('src') && !logo_jcrop_api) {

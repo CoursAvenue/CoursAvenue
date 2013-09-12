@@ -1,13 +1,13 @@
 = simple_form_for [:pro, @structure], html: { autocomplete: 'off', class: 'wizard-form' }, remote: true do |f|
+  %h4
+    Il nous manque une description sur vous et vos cours : rédigez-la maintenant
   %label
-    Décrivez vous de façon originale !
-    %br
     %i Les infos sur les tarifs et les plannings sont à renseigner dans la section «Mes cours»
   .grid--full.input
     .textarea-with-info.grid__item.width-auto
       .grid--full
         .three-fifths.grid__item.soft-half--right>
-          = f.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {style: 'max-width: none', id: 'description-textarea', class: 'textarea-description--tall', placeholder: 'Mettez en avant votre différence !', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}, value: @structure.description_for_input}
+          = f.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {style: 'max-width: none', id: 'description-textarea', class: 'textarea-description--tall', placeholder: 'Mettez en avant votre différence ! Pour vous aider, répondez aux questions qui sont à droite.', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}, value: @structure.description_for_input}
         .two-fifths.grid__item
           %p.alert--info.flush--top.one-whole
             Qu'est-ce qui vous différencie ?

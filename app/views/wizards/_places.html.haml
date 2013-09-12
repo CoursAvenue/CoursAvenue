@@ -1,17 +1,22 @@
-%h4
-  %i.icon-picture.icon-2x.v-middle.soft-half--right
-  %span.v-middle Spécifiez vos lieux d'enseignements
-= simple_form_for [:pro, @structure], html: { class: 'wizard-form' }, remote: true do |f|
-  = link_to pro_structure_places_path(@structure), class: 'btn' do
-    %i.icon-map-marker
-    Ajouter un lieu
-  = f.input :has_only_one_place, label: "Je n'enseigne que dans un lieu", label_html: {class: 'btn btn--small', id: 'only-one-place'}, input_html: { style: 'position: absolute; left: -9990px', id: 'only-one-place-input'}
+= simple_form_for [:pro, @structure], html: { class: 'wizard-form', id: 'form' }, remote: true do |f|
+  %h4#title
+    %i.icon-map-marker.icon-2x.v-middle.soft-half--right
+    %span.v-middle.soft-half--right Enseignez-vous dans plusieurs lieux ?
+    = link_to 'Oui, ajouter un lieu', pro_structure_places_path(@structure), class: 'btn', target: '_blank'
+    = link_to 'Non', 'javascript:void(0)', class: 'btn', target: '_blank', id: 'only-one-place'
+  = f.input :has_only_one_place, label: false, input_html: { style: 'position: absolute; left: -9990px', id: 'only-one-place-input'}
 
-= content_for :scripts do
-  :javascript
-    $(function(){
-        $('#only-one-place').click(function() {
-            $('#only-one-place-input')[0].checked = true;
-            $('#save-wizard').click();
-        });
-    });
+:javascript
+  var submit_form = function() {
+      $('#save-wizard').hide();
+      $('#title').append($('#skip-wizard').addClass('milli'));
+      $('#only-one-place').click(function() {
+          $('#only-one-place-input')[0].checked = true;
+          $('#save-wizard').click();
+      });
+  };
+  if (typeof($) == 'function') {
+    submit_form();
+  } else {
+    document.ready = submit_form;
+  }
