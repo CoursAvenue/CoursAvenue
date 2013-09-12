@@ -5,10 +5,12 @@ require 'rake/clean'
 namespace :scheduler do
 
   # Structure without logo neither description
-  # $ rake scheduler:resollicitate_admins_for_inactivity
+  # $ rake scheduler:send_reminder
   desc 'Send email to admins for inactivity'
-  task :profile_empty => :environment do |t, args|
-    Structure.all.map(&:send_reminder)
+  task :send_reminder => :environment do |t, args|
+    if Time.now.monday?
+      Structure.all.map(&:send_reminder)
+    end
   end
 
 end
