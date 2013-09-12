@@ -19,17 +19,10 @@ class UserMailer < ActionMailer::Base
   end
 
   # Inform the user that the comment has correctly been posted
-  def after_comment(comment)
+  def congratulate_for_comment(comment)
     @comment   = comment
     @structure = @comment.structure
     mail to: @comment.email, subject: "Votre avis à propos de : #{@structure.name}"
-  end
-
-  # Inform teacher that a students has commented his establishment
-  def after_comment_for_teacher(comment)
-    @comment   = comment
-    @structure = @comment.structure
-    mail to: @comment.commentable.contact_email, subject: 'Un élève vient de poster un commentaire sur votre profil public CoursAvenue.com'
   end
 
   # Gives user information on establishment

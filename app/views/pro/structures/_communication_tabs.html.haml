@@ -11,3 +11,8 @@
     = link_to signature_pro_structure_path(@structure) do
       %i.icon-pencil
       Signature
+  - if @structure.comments_count >= 15
+    %li{class: current == 'sticker' ? 'active' : ''}
+      = link_to sticker_pro_structure_path(@structure) do
+        %i.icon-comment
+        Autocollant

@@ -1,13 +1,51 @@
-%p Bonjour #{@admin.name}
-
 %p
-  Votre compte CoursAvenue Pro a été validé.
-  %br
-  Vous pouvez maintenant mettre vos cours en ligne à partir de #{link_to 'votre espace pro', pro_structure_url(@admin.structure, subdomain: 'pro')}.
+  Bonjour #{@structure.name},
+%p
+  Félicitations ! Votre compte a bien été activé. Nous sommes ravis de vous accueillir dans la communauté CoursAvenue.
 
 %p.action
-  = link_to 'Accéder à mon espace pro', pro_structure_url(@admin.structure, subdomain: 'pro'), class: 'btn btn--blue'
+  = link_to "Gérer mon profil", edit_pro_structure_path(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+%p
+  Si vous avez des questions, n'hésitez pas ! Merci et à très bientôt,
+%p
+  L'équipe de CoursAvenue
 
-%p À très bientôt,
 
-%p L'équipe de CoursAvenue
+- content_for :under_content do
+  %table.table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600'}
+    %tr{valign: 'top'}
+      %td.cell.content-block.push--bottom{width: '200'}
+        %p.text--center
+          = link_to 'Pourquoi être recommandé par mes élèves', pro_pages_questions_url(subdomain: 'www', anchor: 'about-recommendations'), class: 'push-half--bottom'
+          %br
+          Découvrez tous les avantages du bouche à oreille sur CoursAvenue.
+      %td.cell.content-block.push--bottom{width: '200'}
+        %p.text--center
+          = link_to 'Découvrez CoursAvenue', pro_pages_questions_url(subdomain: 'www'), class: 'push-half--bottom'
+          %br
+          Découvrez comment fonctionne CoursAvenue grâce aux questions les plus fréquentes.
+      %td.cell.content-block.push--bottom{width: '200'}
+        %p.text--center
+          = link_to "Déjà plus de #{Admin.count.round(-2)} profils rien qu'à Paris et 700 avis par mois", '#', class: 'push-half--bottom'
+          %br
+          Faites partie de la communauté CoursAvenue qui grandit chaque jour.
+
+  - if @structures.length == 3
+    %table.table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600', style: 'border-top: 1px solid: #CCC;'}
+      %tr{valign: 'top'}
+        %td.cell.content-block.push--bottom{width: '600', colspan: 3}
+          %b Les profils similaires au vôtre
+      %tr{valign: 'top'}
+        - @structures.each do |structure|
+          %td.cell.content-block.push--bottom{width: '200'}
+            %p.text--center
+              = link_to structure_url(structure, subdomain: 'www'), class: 'push-half--bottom' do
+                = image_tag structure.logo.url(:thumb), width: 150, style: 'width: 150px;'
+              %br
+              %b= link_to structure.name, structure_url(structure, subdomain: 'www'), class: 'push-half--bottom'
+              %br
+              = "#{structure.comments_count} avis"
+
+
+- content_for :footer do
+  %p= link_to 'Gérer mes préférences e-mails', edit_pro_admin_url(@structure.main_contact, subdomain: 'pro')

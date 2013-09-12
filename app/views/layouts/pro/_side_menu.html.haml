@@ -16,7 +16,7 @@
       = pro_side_menu_link 'Mes cours'.html_safe      , pro_structure_courses_path(@structure) , current: current_tab,   icon: 'icon-list'
       = pro_side_menu_link 'Mes photos & vidéos'.html_safe, pro_structure_medias_path(@structure) , current: current_tab,   icon: 'icon-youtube-play'
       = pro_side_menu_link 'Parrainer un professeur', coursavenue_recommendations_pro_structure_path(@structure)     , current: current_tab, icon: 'icon-bullhorn', id: 'recommandation-side-menu'
-      - if @structure.comments_count >= 5 and current_pro_admin and current_pro_admin.super_admin?
+      - if @structure.comments_count >= 5
         = pro_side_menu_link 'Communiquer', widget_pro_structure_path(@structure)     , current: current_tab, icon: 'icon-bullhorn'
 
 = content_for :scripts do

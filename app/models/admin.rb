@@ -40,6 +40,15 @@ class ::Admin < ActiveRecord::Base
   # Scopes
   scope :normal, where(super_admin: false)
 
+  def confirm!
+    super
+    send_welcome_email
+  end
+
+  def send_welcome_email
+    AdminMailer.delay.admin_validated(self)
+  end
+
   private
   def activate_admin
     self.active = true

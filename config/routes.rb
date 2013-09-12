@@ -36,6 +36,7 @@ CoursAvenue::Application.routes.draw do
           post 'get_feedbacks'
           post 'recommend_friends'
           post :update
+          get  'sticker'
           get  'widget'
           match 'widget_ext', controller: 'structures', action: 'widget_ext', constraints: {methods: ['OPTIONS', 'GET']}, as: 'widget_ext'
         end

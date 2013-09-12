@@ -5,13 +5,13 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, polymorphic: true
   belongs_to :user
 
-  validates :email, :author_name, :rating, :content, :commentable, presence: true
+  validates :email, :author_name, :title, :rating, :content, :commentable, presence: true
   validates :rating, numericality: { greater_than: 0, less_than: 6 }
 
-  before_save   :set_title_if_empty
   after_save    :update_rating
   after_save    :update_teacher_mailchimp if Rails.env.production?
   after_destroy :update_rating
+  after_create  :send_email
 
   before_save :replace_slash_n_r_by_brs
 
@@ -20,12 +20,22 @@ class Comment < ActiveRecord::Base
     self.commentable
   end
 
+  def owner?(admin)
+    self.commentable == admin.structure
+  end
+
   private
 
-  def set_title_if_empty
-    if self.commentable.is_a? Course
-      self.title = self.commentable.name
+  # Set comments_count to 4 and 14 because after_create is triggered before after_save !
+  def send_email
+    UserMailer.delay.congratulate_for_comment(self)
+    case self.commentable.comments_count
+    when 4
+      AdminMailer.delay.congratulate_for_fifth_comment(self)
+    when 14
+      AdminMailer.delay.congratulate_for_fifteenth_comment(self)
     end
+    AdminMailer.delay.congratulate_for_comment(self)
   end
 
   # Update rating of the commentable (course, or structure)

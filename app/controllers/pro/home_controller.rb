@@ -6,7 +6,6 @@ class Pro::HomeController < Pro::ProController
     @structures = StructureSearch.search({lat: 48.8540,
                                           lng: 2.3417,
                                           radius: 3,
-                                          per_page: 1000,
                                           sort: 'rating_desc',
                                           has_logo: true,
                                           per_page: 15

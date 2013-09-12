@@ -1,0 +1,23 @@
+%p Bonjour #{@structure.name},
+
+- content_for :promo do
+  %h4
+    Félicitations ! Votre profil public comporte déjà 5 recommandations d'élèves.
+
+%p
+  %strong Nous vous offrons votre livre d'or
+  qui vous permet d'afficher tous les avis de vos élèves directement sur votre propre site Internet ou blog. Le bouche à oreille restant le 1er facteur d'inscription à un cours, vous gagnerez ainsi la confiance des Internautes qui visitent vos pages Internet :
+
+%p.action
+  = link_to "Obtenir mon livre d'or", widget_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+
+%p
+  D'autres outils de communication vous sont également offerts pour mettre en avant vos avis sur tous les supports de communication : flyers, cartes de visite, affiches, signature de vos emails, etc. Nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
+
+%p
+  Continuez à développer le bouche à oreille sur CoursAvenue : au delà de 15 recommandations, nous vous envoyons un autocollant "Recommandé sur CoursAvenue", signe de confiance et de fidélité de vos élèves.
+
+
+%p À très bientôt,
+
+%p L'équipe de CoursAvenue
