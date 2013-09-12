@@ -4,7 +4,7 @@ class ReservationsController < ApplicationController
 
   def new
     @course = Course.find params[:course_id]
-    redirect_to place_course_path @course.place, @course, status: 301
+    redirect_to structure_course_path @course.structure, @course, status: 301
   end
 
   def create

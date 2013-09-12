@@ -18,17 +18,26 @@
             %tr
               %td.cell{width: '600'}
                 %table.table{border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
-                  %tr
-                    %td.logo-cell{width: '250'}
+                  %tr{valign: 'bottom'}
+                    %td.logo-cell{width: '300'}
                       %img.hide{border: '0', height: '20', src: '', width: '1'}/
                       %br.hide
                       = link_to 'http://www.coursavenuew.com', target: '_blank' do
-                        = image_tag 'logo.png', alt: 'CoursAvenue', height: '65', style: '-ms-interpolation-mode:bicubic;', width: '325'
+                        = image_tag 'logo.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '250'
                       %p.logo-subtitle
                         Le 1er site qui donne la parole aux élèves
                       -# %br.hide
                       -# %img.hide{border: '0', height: '10', src: '', width: '1'}/
                       -# %br.hide
+                    - if @show_links
+                      %td.text--right{width: '350'}
+                        - if @structure
+                          = link_to 'Connexion', pro_structure_url(@structure, subdomain: 'pro')
+                        \|
+                        = link_to 'Aide', pro_pages_questions_url(subdomain: 'pro')
+                        \|
+                        - if @structure
+                          = link_to 'Profil public', structure_url(@structure, subdomain: 'www')
                 - if content_for? :promo
                   %table.table.promo-table{border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
                     %tr
@@ -47,6 +56,13 @@
             %tr
               %td.cell.content-block.white-box.push--bottom{width: '600'}
                 = yield
+
+          - if content_for? :under_content
+            %table.under-content.push--top.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+              %tr
+                %td.cell.content-block.white-box.push--bottom{width: '600'}
+                  - if content_for? :under_content
+                    = yield :under_content
           %table.table{align: 'center', border: '0', cellpadding: '5', cellspacing: '0', width: '600'}
             %tr
               %td.cell.footer{width: '600'}

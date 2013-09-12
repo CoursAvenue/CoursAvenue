@@ -9,4 +9,9 @@ class InvitedTeacher < ActiveRecord::Base
   def registered?
     Admin.where(email: self.email).count > 0
   end
+
+  def inform_proposer
+    AdminMailer.delay.inform_invitation_success(self.structure, self.email)
+  end
+
 end

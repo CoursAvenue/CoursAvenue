@@ -16,6 +16,7 @@ class ::Admin < ActiveRecord::Base
 
   after_save :delay_subscribe_to_mailchimp if Rails.env.production?
   before_save :activate_admin
+  after_create :check_if_was_invited
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email,
@@ -46,6 +47,10 @@ class ::Admin < ActiveRecord::Base
 
   def delay_subscribe_to_mailchimp
     self.delay.subscribe_to_mailchimp
+  end
+
+  def check_if_was_invited
+    InvitedTeacher.where(email: self.email).map(&:inform_proposer)
   end
 
   def subscribe_to_mailchimp

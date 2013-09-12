@@ -23,7 +23,7 @@ class CommentsController < ApplicationController
         UserMailer.delay.after_comment(@comment)
       else
         @structure    = @commentable
-        @comments     = @structure.comments[0..5]
+        @comments     = @structure.comments.reject(&:new_record?)[0..5]
         flash[:alert] = "Le commentaire n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."
         format.html { render 'structures/comments/new'}
       end
