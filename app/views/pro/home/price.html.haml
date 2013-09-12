@@ -1,90 +1,243 @@
 = pro_menu_currently_at 'Offres & Tarifs'
 
-.bold.push--bottom.delta.blue.text--center 5 minutes chrono pour vous inscrire / Sans engagement / Changez d’offre quand vous voulez
-%hr
+- content_for :scripts do
+  :javascript
+    $(function() {
+        $('.main-container.page-style').css('background-image', 'url(#{asset_path('pages/pricing.jpg')})');
+        $('.main-container.page-style').css('height', '600px');
+    });
 
-.grid
-  .grid__item.one-third>
-    .center-block.white-box.islet
-      .text--center
-        %h3.flush--bottom
-          %u Formule gratuite
-        %h4 0€ / mois
-        %h6.flush--bottom.green Référencez vos cours et gérez tous vos avis
+%h2.text--center.home-screen-title.soft--top.push--top Augmentez votre taux d’inscription et de fidélisation élèves
+.center-block.white-box--noshadow.island.center-block.four-fifths.palm--one-whole.lap--one-whole.push--top
+  .grid
+    .grid__item.v-middle.three-fifths>
+      .delta.push-half--top
+        Rassemblez tous vos avis sur CoursAvenue
+      %p
+        %i Développez-vous grâce au bouche à oreille
+    .grid__item.v-middle.one-fifth.text--center>
+      .delta Gratuit
+    .grid__item.v-middle.one-fifth.text--center>
+      = link_to "S'inscrire", inscription_pro_structures_path, class: 'btn btn--green'
+  %hr
+  .grid
+    .grid__item.v-middle.three-fifths>
+      .delta.push-half--top
+        Créez votre propre site web
+      %p
+        %i Multipliez par 2 le taux d’inscription à vos cours
+    .grid__item.v-middle.one-fifth.text--center>
+      .delta 25€/mois
+    .grid__item.v-middle.one-fifth.text--center>
+      = link_to "Souscrire", '#under-construction', class: 'btn btn--green', data: {behavior: 'modal', title: "Souscrire de l'offre"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Site web')"
+      %br
+      = link_to "En savoir plus", '#more-about-website', data: {behavior: 'modal', title: "Détails de l'offre"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Site web - en savoir plus')"
 
-      %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
-        %li
-          %i.icon-ok.delta.green
-          %b Accès à notre <h1 class="base-font-style inline" style='font-weight: bold;'>logiciel de gestion</h1> en ligne
-        %li
-          %i.icon-ok.delta.green
-          %b Référencement de vos cours
-        %li
-          %i.icon-ok.delta.green
-          %b Demande de recommandation et gestion d'avis
-        %li
-          %i.icon-ok.delta.green
-          %b Gestion en temps réel de toutes vos séances : tarifs, professeurs, horaires, photos, etc.
-      .text--center
-        %div= link_to "Détails de l'offre", '#basic-offer-details', data: {behavior: 'modal', title: "Détails de l'offre Basique"}
-        = link_to "Je m'inscris", inscription_pro_structures_path, class: 'btn btn--green btn--large', onclick: "ga('send', 'event', 'Pricing', 'click', 'Basique')"
+  %hr
+  .grid
+    .grid__item.v-middle.three-fifths>
+      .delta.push-half--top
+        Communiquez efficacement avec vos élèves
+      %p
+        %i Augmentez de 10% votre taux de fidélisation et d’inscription : garanti ou remboursé
+    .grid__item.v-middle.one-fifth.text--center>
+      .delta 15€/mois
+    .grid__item.v-middle.one-fifth.text--center>
+      = link_to "Souscrire", '#under-construction', class: 'btn btn--green', data: {behavior: 'modal', title: "Souscrire de l'offre"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Outil email')"
+      %br
+      = link_to "En savoir plus", '#more-about-email-tool', data: {behavior: 'modal', title: "Détails de l'offre"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Outil email - en savoir plus')"
 
-  .grid__item.one-third>
-    .center-block.white-box.islet
-      .text--center
-        %h3.flush--bottom
-          %u Formule Pro
-        %h4 39€ / mois
-        %h6.flush--bottom.green Gérez tous vos contacts et communiquez facilement
-      %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
-        %li
-          %i.icon-ok.delta.green
-          %b Suivi des présences
-        %li
-          %i.icon-ok.delta.green
-          %b Gestion de votre base clients
-        %li
-          %i.icon-ok.delta.green
-          %b Gestion du planning avancée
-        %li
-          %i.icon-ok.delta.green
-          %b Emailing avancé
-        %li
-          %i.icon-ok.delta.green
-          %b Envoi de SMS
-        %li
-          %i.icon-ok.delta.green
-          %b Enquête de satisfaction automatique
-      .text--center
-        %div= link_to "Détails de l'offre", '#pro-offer-details', data: {behavior: 'modal', title: "Détails de l'offre Pro"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Pro - détails')"
-        = link_to "Je m'inscris", '#launching-space', class: 'btn btn--green btn--large launching-space-button', id: 'price_pro_subscribe', onclick: "ga('send', 'event', 'click', 'Pro')", data: {behavior: 'modal', title: "Espace en cours de création"}
+#more-about-website.hidden
+  %h4 6 bonnes raisons de créer votre propre site web avec CoursAvenue :
+  %p Créez votre propre site web en marque blanche (CoursAvenue n’apparaîtra pas) à vos propres couleurs. Nous l’avons conçu pour faciliter la lecture de l’Internaute et pour optimiser le nombre d’élèves qui s’inscrivent après avoir visité vos pages : nos partenaires qui l’ont déjà testé ont constaté un taux d’inscription 2 fois supérieur à celui qu’ils avaient avec leur ancien site web ou blog.
+  %h5.blue.toggleable-header{data: {behavior: 'toggleable', el:'+ div'}}
+    Votre site web en 1 seul clic
+    %i.icon-caret-left
+  %div.hide.soft--sides
+    %p
+      Une fois votre profil CoursAvenue complété, générez votre propre site Internet à vos couleurs en 1 seul clic : votre site web est fait ! Tout y est :
+    %ul
+      %li Votre description
+      %li Votre planning de cours, les tarifs et les lieux associés présentés sur une belle carte
+      %li Vos photos et vidéos
+      %li Toutes les recommandations de vos élèves (livre d’or mis à jour en temps réel avec votre profil CoursAvenue)
 
-  .grid__item.one-third>
-    .center-block.white-box.islet
-      .text--center
-        %h3.flush--bottom
-          %u Formule Pro <i>Plus</i>
-        %h4 69€ / mois
-        %h6.flush--bottom.green Optimisez votre rentabilité et votre gestion
-      %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
-        %li
-          %i.icon-ok.delta.green
-          %b Outils statistiques avancés
-        %li
-          %i.icon-ok.delta.green
-          %b Outil d’encaissement
-        %li
-          %i.icon-ok.delta.green
-          %b Gestion RH
-        %li
-          %i.icon-ok.delta.green
-          %b Outil de comptabilité
-        %li
-          %i.icon-ok.delta.green
-          %b Outils CRM avancés
-      .text--center
-        %div= link_to "Détails de l'offre", '#pro-plus-offer-details', data: {behavior: 'modal', title: "Détails de l'offre Pro Plus"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Pro plus - détails')"
-        = link_to "Je m'inscris", '#launching-space', class: 'btn btn--green btn--large launching-space-button', id: 'price_pro_plus_subscribe', onclick: "ga('send', 'event', 'Pricing', 'click', 'Pro plus')", data: {behavior: 'modal', title: "Espace en cours de création"}
+  %h5.blue.toggleable-header{data: {behavior: 'toggleable', el:'+ div'}}
+    Plus besoin de webmaster
+    %i.icon-caret-left
+  %div.hide.soft--sides
+    %p Le webmaster, c’est vous ! Ne vous embêtez plus avec un webmaster peu disponible, difficile à joindre, ou qui vous coûte cher. Pour mettre à jour les informations sur votre site, c’est très simple : connectez-vous à votre profil CoursAvenue et mettez à jour vous-même tout le contenu souhaité.
+
+  %h5.blue.toggleable-header{data: {behavior: 'toggleable', el:'+ div'}}
+    Mise à jour en temps réel 24h/24
+    %i.icon-caret-left
+  %div.hide.soft--sides
+    %p Combien de jours attendiez-vous pour mettre à jour votre site Internet ? Vos élèves et Internautes n’attendent pas : mettez à jour votre profil CoursAvenue, et les informations sont automatiquement et en temps réel modifiées sur votre site Internet.
+
+  %h5.blue.toggleable-header{data: {behavior: 'toggleable', el:'+ div'}}
+    Tous les fondamentaux d’un bon site Internet
+    %i.icon-caret-left
+  %div.hide.soft--sides
+    %p
+      %strong Personnalisation du site et nom de domaine
+      %br
+      Vous avez le choix entre plusieurs modèles et designs, et vous pouvez décider de votre nom de domaine : si vous avez déjà un nom de domaine que vous souhaitez conserver, nous pouvons le transférer facilement ; sinon, nous pouvons vous en créer un.
+
+    %p
+      %strong Statistiques de visites
+      %br
+      Visualisez sur un simple graphe le nombre de visiteurs quotidien, la façon dont ils sont arrivés sur votre site internet et leurs pays de provenance. Ainsi, évaluez le succès de votre site et modifiez-le en fonction des résultats !
+
+    %p
+      %strong Référencement optimisé
+      %br
+      Avoir un site, c’est bien mais encore faut-il qu’il soit visible du plus grand nombre d’Internautes. C’est pour cette raison que notre site est optimisé pour apparaître dans les 1ers résultats des moteurs de recherche en fonction de vos mots clés.
+
+    %p
+      %strong Pas de publicité
+      %br
+      Votre site ne sera jamais pollué par des publicités qui dégraderaient le sérieux de votre contenu.
+
+  %h5.blue.toggleable-header{data: {behavior: 'toggleable', el:'+ div'}}
+    Les recommandations de vos élèves
+    %i.icon-caret-left
+  %div.hide.soft--sides
+    %p En temps réel, rendez visibles tous les témoignages de vos élèves postés sur votre profil CoursAvenue : ce livre d’or donnera à votre site une crédibilité que seul le bouche à oreille peut offrir !
+
+  %h5.blue.toggleable-header{data: {behavior: 'toggleable', el:'+ div'}}
+    Forfait mensuel, sans engagement, hébergement inclus
+    %i.icon-caret-left
+  %div.hide.soft--sides
+    %p Chez nous, pas de contrat annuel, pas d’engagement, pas d’hébergeur à payer en plus : payez un forfait mensuel et décidez de partir quand vous le souhaitez (nous en serons bien tristes !).
+
+#more-about-email-tool.hidden
+
+  %h4 6 bonnes raisons d’utiliser l’outil de communication CoursAvenue :
+
+  %p Communiquez-vous aussi bien avec vos élèves actifs et inactifs (les élèves qui sont venus qu’à 1 seule séance) ? Combien de fois par an envoyez-vous des newsletters ? Quel type d’information partagez-vous ? Communiquez mieux, de manière plus ciblée, et avec une fréquence plus régulière, et vous augmenterez votre taux de fidélisation et d’inscription d’au moins 10%. Si ce n’est pas le cas, nous vous remboursons.
+
+  %h5.blue.toggleable-header{data: {behavior: 'toggleable', el:'+ div'}}
+    Communiquez en quelques clics
+    %i.icon-caret-left
+  %div.hide.soft--sides
+    %p Importez tous vos contacts, classez-les selon leurs profils, ciblez vos communications et envoyez des emails avancés contenant logo, photos et boutons actifs. Et tout cela en quelques clics.
+
+  %h5.blue.toggleable-header{data: {behavior: 'toggleable', el:'+ div'}}
+    Espace sécurisé rassemblant tous vos contacts
+    %i.icon-caret-left
+  %div.hide.soft--sides
+    %p Tous vos contacts sont rassemblés sur votre profil privé CoursAvenue, accessible avec votre identifiant et votre mot de passe habituel. Les informations relatives à vos élèves sont sensibles et confidentielles, c’est pourquoi nous avons pensé à sécuriser au maximum votre espace rassemblant vos contacts.
+
+  %h5.blue.toggleable-header{data: {behavior: 'toggleable', el:'+ div'}}
+    Newsletters ciblées
+    %i.icon-caret-left
+  %div.hide.soft--sides
+    %p Vous n’allez pas communiquer de la même manière avec un élève régulier que vous connaissez bien qu’avec un élève qui n’est venu qu’à une seule séance il y a 6 mois. De même, une mère de famille inscrite à tous les cours du jeudi ne sera pas intéressée par les mêmes informations qu’un adolescent prenant des cours tous les lundis dans une plus petite ville. La mère de famille sera par exemple plus intéressée par les expositions temporaires de danse ou de théâtre et que vous souhaiteriez lui conseiller. Plus vos emails sont ciblés, plus vous fidéliserez vos élèves.
+
+  %h5.blue.toggleable-header{data: {behavior: 'toggleable', el:'+ div'}}
+    Emails à vos couleurs
+    %i.icon-caret-left
+  %div.hide.soft--sides
+    %p Nous vivons dans un monde qui va de plus en plus vite : dorénavant, un élève qui reçoit un email ne contenant que tu texte, et dépassant les 10 lignes ne le lira pas. Insérez dans vos emails votre logo, vos photos, et ordonnez l’information que vous souhaitez transmettre par des boutons interactifs qui renvoient vers vos propres pages web ou vers d’autres liens Internet (exemple : un événement, concert ou une exposition que vous souhaitez partager à vos élèves).
+
+  %h5.blue.toggleable-header{data: {behavior: 'toggleable', el:'+ div'}}
+    Forfait mensuel sans engagement
+    %i.icon-caret-left
+  %div.hide.soft--sides
+    %p Chez nous, pas de contrat annuel ni d’engagement : payez un forfait mensuel et décidez de partir quand vous le souhaitez (nous en serons bien tristes !).
+
+  %h5.blue.toggleable-header{data: {behavior: 'toggleable', el:'+ div'}}
+    Satisfait ou remboursé
+    %i.icon-caret-left
+  %div.hide.soft--sides
+    %p Vous ne constatez aucune différence entre vos anciennes newsletters et les nouvelles campagnes d’emails envoyées grâce à notre outil ? Vos élèves ne sont pas plus satisfaits, votre taux de fidélisation et d’inscription n’a pas augmenté ? Faites-nous en part pour bien comprendre ce qu’il s’est passé et nous vous remboursons votre abonnement.
+
+#under-construction.hidden
+  %h3.orange.text--center.push--top
+    %i.icon-warning-sign
+    Cet outil est en cours de réalisation
+
+-# %div
+-#   .center-block.white-box.islet
+-#     .text--center
+-#       %h3.flush--bottom
+-#         %u Formule gratuite
+-#       %h4 0€ / mois
+-#       %h6.flush--bottom.green Référencez vos cours et gérez tous vos avis
+
+-#     %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Accès à notre <h1 class="base-font-style inline" style='font-weight: bold;'>logiciel de gestion</h1> en ligne
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Référencement de vos cours
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Demande de recommandation et gestion d'avis
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Gestion en temps réel de toutes vos séances : tarifs, professeurs, horaires, photos, etc.
+-#     .text--center
+-#       %div= link_to "Détails de l'offre", '#basic-offer-details', data: {behavior: 'modal', title: "Détails de l'offre Basique"}
+-#       = link_to "Je m'inscris", inscription_pro_structures_path, class: 'btn btn--green btn--large', onclick: "ga('send', 'event', 'Pricing', 'click', 'Basique')"
+
+-# %div
+-#   .center-block.white-box.islet
+-#     .text--center
+-#       %h3.flush--bottom
+-#         %u Formule Pro
+-#       %h4 39€ / mois
+-#       %h6.flush--bottom.green Gérez tous vos contacts et communiquez facilement
+-#     %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Suivi des présences
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Gestion de votre base clients
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Gestion du planning avancée
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Emailing avancé
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Envoi de SMS
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Enquête de satisfaction automatique
+-#     .text--center
+-#       %div= link_to "Détails de l'offre", '#pro-offer-details', data: {behavior: 'modal', title: "Détails de l'offre Pro"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Pro - détails')"
+-#       = link_to "Je m'inscris", '#launching-space', class: 'btn btn--green btn--large launching-space-button', id: 'price_pro_subscribe', onclick: "ga('send', 'event', 'click', 'Pro')", data: {behavior: 'modal', title: "Espace en cours de création"}
+
+-# %div
+-#   .center-block.white-box.islet
+-#     .text--center
+-#       %h3.flush--bottom
+-#         %u Formule Pro <i>Plus</i>
+-#       %h4 69€ / mois
+-#       %h6.flush--bottom.green Optimisez votre rentabilité et votre gestion
+-#     %ul.discrete-list.islet.flush--bottom{style: 'min-height: 200px;'}
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Outils statistiques avancés
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Outil d’encaissement
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Gestion RH
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Outil de comptabilité
+-#       %li
+-#         %i.icon-ok.delta.green
+-#         %b Outils CRM avancés
+-#     .text--center
+-#       %div= link_to "Détails de l'offre", '#pro-plus-offer-details', data: {behavior: 'modal', title: "Détails de l'offre Pro Plus"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Pro plus - détails')"
+-#       = link_to "Je m'inscris", '#launching-space', class: 'btn btn--green btn--large launching-space-button', id: 'price_pro_plus_subscribe', onclick: "ga('send', 'event', 'Pricing', 'click', 'Pro plus')", data: {behavior: 'modal', title: "Espace en cours de création"}
 
 
 
@@ -145,51 +298,51 @@
 -#         Nous nous ferons un plaisir d’y répondre. Appelez-nous ou contactez-nous par email à l’adresse suivante :
 -#         = link_to 'contact@coursavenue.com', 'mailto:contact@coursavenue.com?subject=Question au sujet des offres et tarifs'
 
-#launching-space.hidden
-  %p.text--center
-    Cet espace est en cours de développement.
-    %br
-    En attendant, n'hésitez pas à tester l'offre gratuite !
+-# #launching-space.hidden
+-#   %p.text--center
+-#     Cet espace est en cours de développement.
+-#     %br
+-#     En attendant, n'hésitez pas à tester l'offre gratuite !
 
-#basic-offer-details.hidden
-  %h4.text--center
-    Formule gratuite
-  %ul
-    %li Accès à notre logiciel en ligne
-    %li Référencement de vos cours et stages
-    %li Demande de recommandations et gestion des avis
-    %li Gestion en temps réel de toutes vos séances : tarifs, professeurs, horaires, photos, vidéos, etc.
+-# #basic-offer-details.hidden
+-#   %h4.text--center
+-#     Formule gratuite
+-#   %ul
+-#     %li Accès à notre logiciel en ligne
+-#     %li Référencement de vos cours et stages
+-#     %li Demande de recommandations et gestion des avis
+-#     %li Gestion en temps réel de toutes vos séances : tarifs, professeurs, horaires, photos, vidéos, etc.
 
-#pro-offer-details.hidden
-  %h4.text--center
-    Formule Pro
-  %ul
-    %li Suivi des présences : pour chaque séance, renseignez les élèves présents, et décomptez automatiquement le nombre de tickets restants pour chaque élève (outil bientôt accessible depuis l’appli mobile CoursAvenue)
-    %li Gestion de votre base clients : gardez en mémoire le profil de chaque élève (séances déjà suivies et nombre de tickets restants, date d’anniversaire, contacts, etc.)
-    %li Gestion du planning avancée : affichez votre planning sur votre propre site Internet
-    %li Emailing : envoyez des emails à tous vos élèves en 2 clics et selon leur profil
-    %li Envoi de SMS* automatisé : pratique en cas d’annulation d’un cours ou d’une information urgente à communiquer
-    %li Enquête de satisfaction automatique
+-# #pro-offer-details.hidden
+-#   %h4.text--center
+-#     Formule Pro
+-#   %ul
+-#     %li Suivi des présences : pour chaque séance, renseignez les élèves présents, et décomptez automatiquement le nombre de tickets restants pour chaque élève (outil bientôt accessible depuis l’appli mobile CoursAvenue)
+-#     %li Gestion de votre base clients : gardez en mémoire le profil de chaque élève (séances déjà suivies et nombre de tickets restants, date d’anniversaire, contacts, etc.)
+-#     %li Gestion du planning avancée : affichez votre planning sur votre propre site Internet
+-#     %li Emailing : envoyez des emails à tous vos élèves en 2 clics et selon leur profil
+-#     %li Envoi de SMS* automatisé : pratique en cas d’annulation d’un cours ou d’une information urgente à communiquer
+-#     %li Enquête de satisfaction automatique
 
-#custom-offer-details.hidden
-  %h4.text--center
-    Sur mesure
-  %ul
-    %li Création de votre site internet
-    %li Offres préférentielles
-    %li Équipe projet dédiée
-    %li Personnalisation sur mesure
-    %li API / Intégration
-    %li Statistiques consolidées
+-# #custom-offer-details.hidden
+-#   %h4.text--center
+-#     Sur mesure
+-#   %ul
+-#     %li Création de votre site internet
+-#     %li Offres préférentielles
+-#     %li Équipe projet dédiée
+-#     %li Personnalisation sur mesure
+-#     %li API / Intégration
+-#     %li Statistiques consolidées
 
 
-#pro-plus-offer-details.hidden
-  %h4.text--center
-    Formule Pro Plus
-  %ul
-    %li Outils statistiques avancés : pour suivre l’historique de votre activité et optimiser votre taux de remplissage
-    %li Outil d’encaissement : générez automatiquement les factures pour chaque élève
-    %li Ressources humaines : générez vos fiches de paies professeurs directement via notre logiciel
-    %li Outil de comptabilité : suivez vos recettes et vos dépenses d’un seul coup d’oeil
-    %li Outils CRM avancés : enquêtes de satisfaction automatiques, statistiques avancées sur le comportement de vos élèves, etc.
-    %li Calendrier de rappels des événements importants : conseil d’Administration (Associations), dates importantes, etc.
+-# #pro-plus-offer-details.hidden
+-#   %h4.text--center
+-#     Formule Pro Plus
+-#   %ul
+-#     %li Outils statistiques avancés : pour suivre l’historique de votre activité et optimiser votre taux de remplissage
+-#     %li Outil d’encaissement : générez automatiquement les factures pour chaque élève
+-#     %li Ressources humaines : générez vos fiches de paies professeurs directement via notre logiciel
+-#     %li Outil de comptabilité : suivez vos recettes et vos dépenses d’un seul coup d’oeil
+-#     %li Outils CRM avancés : enquêtes de satisfaction automatiques, statistiques avancées sur le comportement de vos élèves, etc.
+-#     %li Calendrier de rappels des événements importants : conseil d’Administration (Associations), dates importantes, etc.
