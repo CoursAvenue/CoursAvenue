@@ -22,12 +22,8 @@
                     %td.logo-cell{width: '300'}
                       %img.hide{border: '0', height: '20', src: '', width: '1'}/
                       %br.hide
-                      - if @show_links
-                        = link_to 'http://pro.coursavenuew.com', target: '_blank' do
-                          = image_tag 'logo.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '250'
-                      - else
-                        = link_to 'http://www.coursavenuew.com', target: '_blank' do
-                          = image_tag 'logo.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '250'
+                      = link_to 'http://www.coursavenue.com', target: '_blank' do
+                        = image_tag 'logo.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '250'
                       %p.logo-subtitle
                         Les élèves recommandent leurs meilleurs cours
                     - if @show_links
