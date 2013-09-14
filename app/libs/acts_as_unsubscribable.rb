@@ -22,7 +22,7 @@ module ActsAsUnsubscribable
     # Get an instance from a token
     def read_access_token(signature)
       id = verifier.verify(signature)
-      self.class.find id
+      self.find id
     rescue ActiveSupport::MessageVerifier::InvalidSignature
       nil
     end
