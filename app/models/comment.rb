@@ -19,8 +19,9 @@ class Comment < ActiveRecord::Base
 
   scope :ordered,   order('created_at DESC')
 
-  scope :pending,  where(status: 'pending')
-  scope :accepted, where(status: 'accepted')
+  scope :pending,              where(status: 'pending')
+  scope :accepted,             where(status: 'accepted')
+  scope :waiting_for_deletion, where(status: 'waiting_for_deletion')
 
   before_create :set_pending_status
 
@@ -43,6 +44,17 @@ class Comment < ActiveRecord::Base
     self.status = :declined
     self.save
     self.update_rating
+  end
+
+  def ask_for_deletion!
+    self.status = :waiting_for_deletion
+    self.save
+    self.update_rating
+    AdminMailer.delay.ask_for_deletion(self)
+  end
+
+  def waiting_for_deletion?
+    self.status == 'waiting_for_deletion'
   end
 
   def accepted?

@@ -1,0 +1,12 @@
+%p Bonjour #{@structure.name} demande une suppression,
+
+%p= "#{@comment.author_name} (#{@comment.email}) — #{@comment.course_name}"
+%p
+  %strong= @comment.title
+  %br
+  = @comment.content
+
+%p.action
+  = link_to "Accéder au commentaires", pro_comments_url(subdomain: 'pro'), class: 'btn btn--blue'
+
+%p Le robot CoursAvenue

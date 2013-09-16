@@ -5,9 +5,15 @@
 .text--center.soft--bottom
   = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--large'
 
+- if @waiting_for_deletion_comments.any?
+  %h3.push-half--bottom Avis en attente de suppression par l'équipe CoursAvenue
+  %ul.comment-list
+    = render partial: '/comments/comment', collection: @waiting_for_deletion_comments
+  %hr
+
 - if @pending_comments.any?
   %h3.flush Avis en attente de validation
-  %p.blue.flush
+  %p.blue.push-half--bottom
     %i Validez les avis si ce sont bien vos élèves. Vous verrez le contenu de l'avis uniquement après validation.
   - @pending_comments.each do |comment|
     .white-box.islet
@@ -28,4 +34,4 @@
   %p.white-box.islet Encore aucun avis.
 - else
   %ul.comment-list
-    = render partial: '/comments/comment', collection: @comments
+    = render partial: '/comments/comment', collection: @comments, locals: {can_report: true}

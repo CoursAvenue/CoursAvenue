@@ -37,6 +37,12 @@ class AdminMailer < ActionMailer::Base
     mail to: structure.main_contact.email, subject: 'Vous avez moins de 15 recommandations sur CoursAvenue'
   end
 
+  def ask_for_deletion(comment)
+    @comment   = comment
+    @structure = @comment.structure
+    mail to: 'contact@coursavenue.com', subject: 'Un professeur demande une suppression de commentaire'
+  end
+
   # Inform teacher that a students has commented his establishment
   def congratulate_for_comment(comment)
     @comment   = comment

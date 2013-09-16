@@ -6,6 +6,7 @@ class Pro::CommentsController < InheritedResources::Base
   layout 'admin'
 
   def index
-    @comments = Comment.order('created_at DESC').limit(40)
+    @comments                      = Comment.order('created_at DESC').limit(40)
+    @waiting_for_deletion_comments = Comment.waiting_for_deletion.order('created_at DESC')
   end
 end

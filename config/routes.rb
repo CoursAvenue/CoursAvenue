@@ -54,6 +54,7 @@ CoursAvenue::Application.routes.draw do
           member do
             put :accept
             put :decline
+            put :ask_for_deletion
           end
         end
         resources :medias, controller: 'structures/medias'

@@ -2,7 +2,7 @@
 - show_title   = true      if show_title.nil?
 - small_avatar = false     if small_avatar.nil?
 - class_name   = ''        if class_name.nil?
--# can_report   = false     if class_name.nil?
+- can_report   = false     if class_name.nil?
 %li.comment-list__el.white-box.soft-half.hard--left{class: class_name}
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
     .grid--full
@@ -14,7 +14,10 @@
             = comment.author_name[0].capitalize
       .grid__item.ten-twelfths>
         - if can?(:destroy, comment)
-          = link_to 'Supprimer', comment_path(comment), class: 'float--right', method: :delete, data: { confirm: 'Êtes-vous sûr de supprimer cet avis ?' }
+          = link_to '&nbsp;Supprimer'.html_safe, comment_path(comment), class: 'float--right', method: :delete, data: { confirm: 'Êtes-vous sûr de supprimer cet avis ?' }
+        - if can_report
+          = link_to 'Demander une suppression', ask_for_deletion_pro_structure_comment_path(comment.structure, comment), class: 'float--right', method: :put, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet avis ?' }
+
         - if current_pro_admin and comment.owner?(current_pro_admin)
           .float--right= link_to "Répondre à l'élève", "mailto:#{comment.email}", onclick: "ga('send', 'event', 'Answer to student', 'click')", class: 'btn btn--blue'
         %div.push-half--bottom
