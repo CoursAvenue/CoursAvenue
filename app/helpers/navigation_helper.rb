@@ -21,8 +21,6 @@ module NavigationHelper
     if title == 'Mes avis'
       if @structure and @structure.has_pending_comments?
         html_title << "&nbsp;<span class='warning-buble' data-behavior='tooltip' data-original-title='Vous avez des avis en attente de validation.'>!</span>".html_safe
-      elsif @structure.comments.count == 0
-        html_title << "&nbsp;<span class='warning-buble' data-behavior='tooltip' data-original-title=\"Vous n'avez pas de recommandations.\">!</span>".html_safe
       end
     end
     content_tag(:li, link_to(html_title, url, class: 'side-menu-link'), options)
