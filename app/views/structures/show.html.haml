@@ -69,7 +69,7 @@
           %meta{itemprop: 'locality', content: @city.name}
       - else
         Pas encore d'avis sur cet établissement
-      #write-comment.text--center= link_to 'Donner mon avis', "javascript:void(0)"
+      .text--center= link_to 'Donner mon avis', new_structure_comment_path(@structure), target: '_blank'
 
     - if @structure.image.present?
       .white-box.islet
@@ -131,7 +131,6 @@
           Cet établissement n'a pas encore d'avis
           %br
           %b Soyez le premier à nous donner votre avis !
-      %article.push--bottom#new-comment{class: (@comments.any? ? 'hidden' : '')}= render '/structures/comments_form'
       - if @comments.any?
         %ul#comments.comment-list
           - @comments.each_with_index do |comment, index|
@@ -229,9 +228,6 @@
                 $('#teachers .hidden').last().prev().after($(this).parent());
             }
             teachers_are_hidden = !teachers_are_hidden;
-        });
-        $('#write-comment').click(function() {
-            $('#new-comment').show('slow');
         });
         var map_loaded = false;
         if ($('#tab-all-places-link').length > 0) {

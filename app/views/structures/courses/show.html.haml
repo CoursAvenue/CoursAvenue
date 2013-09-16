@@ -65,7 +65,7 @@
           %meta{itemprop: 'locality', content: @structure.city.name}
       - else
         Cet établissement n'a pas encore d'avis
-      #write-comment.text--center= link_to 'Donner mon avis', "javascript:void(0)"
+      .text--center= link_to 'Donner mon avis', new_structure_comment_path(@structure)
 
     - if @course.image.present?
       .white-box.islet
@@ -152,8 +152,6 @@
             Cet établissement n'a pas encore d'avis
             %br
             %b Soyez le premier à nous donner votre avis !
-        %article.push--top.push--bottom#new-comment{class: (@comments.any? ? 'hidden' : '')}
-          = render partial: '/structures/comments_form', locals: {comment_title: @course.name}
         - if @comments.any?
           #comments
             - @comments.each_with_index do |comment, index|
@@ -164,9 +162,5 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('#write-comment').click(function() {
-            $('[href="#tab-comments"]').tab('show');
-            $('#new-comment').show('slow');
-        });
         $('.media-gallery .media__item').fancybox({ helpers : { media : {} } });
     });

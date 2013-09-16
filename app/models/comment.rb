@@ -8,10 +8,11 @@ class Comment < ActiveRecord::Base
   validates :email, :author_name, :title, :rating, :content, :commentable, presence: true
   validates :rating, numericality: { greater_than: 0, less_than: 6 }
 
-  after_save    :update_rating
-  after_save    :update_teacher_mailchimp if Rails.env.production?
-  after_destroy :update_rating
-  after_create  :send_email
+  after_initialize :set_default_rating
+  after_save       :update_rating
+  after_save       :update_teacher_mailchimp if Rails.env.production?
+  after_destroy    :update_rating
+  after_create     :send_email
 
   before_save :replace_slash_n_r_by_brs
 
@@ -25,6 +26,10 @@ class Comment < ActiveRecord::Base
   end
 
   private
+
+  def set_default_rating
+    self.rating = 5
+  end
 
   # Set comments_count to 4 and 14 because after_create is triggered before after_save !
   def send_email
