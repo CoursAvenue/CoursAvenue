@@ -46,7 +46,7 @@ gem 'daemons'
 # gem 'exceptional'
 
 # gem 'js-routes'                 , '~> 0.9.3'
-gem 'font-awesome-rails'        , '~> 3.2.1.1'
+gem 'font-awesome-rails'        , '~> 3.2.1.3'
 gem 'jquery-rails'              , '~> 3.0.4'
 gem 'compass'                   , '~> 0.12.2'
 gem 'compass-rails'             , '~> 1.0.3'
