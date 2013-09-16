@@ -16,7 +16,8 @@ class Comment < ActiveRecord::Base
   before_create    :set_pending_status
   after_create     :send_email
 
-  before_save :replace_slash_n_r_by_brs
+  before_save      :replace_slash_n_r_by_brs
+  before_save      :strip_names
 
   scope :ordered,   order('created_at DESC')
 
@@ -112,6 +113,13 @@ class Comment < ActiveRecord::Base
   end
 
   private
+
+  def strip_names
+    self.author_name = self.author_name.strip if author_name.present?
+    self.title       = self.title.strip       if title.present?
+    self.course_name = self.course_name.strip if course_name.present?
+  end
+
   def set_default_rating
     self.rating = 5
   end

@@ -8,7 +8,7 @@ class Pro::StudentsController < Pro::ProController
   authorize_resource :student
 
   def index
-    @students = Student.order('created_at DESC').where{created_at > Date.today - 2.months}
+    @students = Student.order('created_at DESC').where{created_at > Date.today - 1.months}
   end
 
   def ask_for_feedbacks_stage_1
