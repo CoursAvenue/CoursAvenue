@@ -57,17 +57,25 @@
         -#     %i.star.icon-star-empty.gamma{style: 'top: 4px; left: -12px; padding: 0 2px', data: {value: 5}}
         -#   %span#rating-description
         - unless current_user
+          .input
+            %label.control-label
+              %b Vos coordonnées
           = f.input :author_name, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true
           - if params[:email].present?
             = f.hidden_field :email, value: params[:email]
           - else
-            = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, label: 'Votre email'
+            = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, label: 'Votre email', placeholder: "Votre email ne sera visible que par le professeur"
+        %hr.push--top
+        .input
+          %label.control-label
+            %b Votre avis
+        = f.input :course_name, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir'
+        -# %p.field-form-info.blue
+        -#   %i Soyez le plus précis possible.
+        = f.input :title, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute"
 
-        = f.input :title, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}
-        %p.field-form-info.blue
-          %i Soyez le plus précis possible. Exemple : « Stage de danse jazz new style pour ado du jeudi soir »
+        = f.input :content, label_html: {style: 'vertical-align: top;'}, input_html: {style: 'height: 150px;', 'data-behavior' => 'autoresize'}, wrapper_html: { class: 'flush--bottom' }, required: true
 
-        = f.input :content, label_html: {style: 'vertical-align: top;'}, input_html: {style: 'height: 150px;', 'data-behavior' => 'autoresize'}, placeholder: "Qu'avez-vous pensé du cours ?", wrapper_html: { class: 'flush--bottom' }, required: true
         %p.field-form-info.blue
           = link_to 'Astuces pour un avis utile', '#', id: 'show_comments_trick'
         .text--center

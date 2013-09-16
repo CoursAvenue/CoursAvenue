@@ -5,8 +5,8 @@
 .text--center.soft--bottom
   = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--large'
 
-- if @structure_comments.empty?
+- if @comments.empty?
   %p.white-box.islet Encore aucun commentaire.
 - else
   %ul.comment-list
-    = render partial: '/comments/comment', collection: @structure_comments
+    = render partial: '/comments/comment', collection: @comments

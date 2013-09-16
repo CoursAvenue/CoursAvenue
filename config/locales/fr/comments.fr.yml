@@ -5,7 +5,8 @@ fr:
     attributes:
       comment:
         content: Votre avis
-        title: Nom du cours suivi
+        title: Titre de votre avis
+        course_name: Nom du cours suivi
         name: Nom
         email: Email
         rating: Votre appréciation

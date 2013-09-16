@@ -24,9 +24,13 @@
     - @admins.each do |admin|
       %tr
         %td
-          = link_to (admin.name || ''), edit_pro_admin_path(admin)
-          = link_to "(#{admin.email})", "mailto:#{admin.email}", class: 'black'
-        %td= link_to admin.structure.name, dashboard_pro_structure_path(admin.structure) if admin.structure
+          = link_to admin.email, edit_pro_admin_path(admin)
+        %td
+          - if admin.structure
+            = link_to dashboard_pro_structure_path(admin.structure) do
+              - if admin.structure.logo?
+                = image_tag admin.structure.logo.url(:thumb), height: 15
+              = admin.structure.name
         %td
           - if admin.structure
             = join_parent_subjects_text admin.structure

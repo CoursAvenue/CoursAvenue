@@ -14,24 +14,27 @@
       .grid__item.ten-twelfths>
         %h6.push-half--bottom.inline-block
           %b{itemprop: 'author'}= comment.author_name.titleize
+          - if comment.course_name.present?
+            = "— #{comment.course_name.capitalize}"
           - if comment.rating
             %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
               -# = rating_stars comment.rating
               %meta{itemprop: 'ratingValue', content: comment.rating}
               %meta{itemprop: 'worstRating', content: 1}
               %meta{itemprop: 'bestRating', content: 5}
-        %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} le #{l(comment.created_at, format: :date)}
         - if can?(:destroy, comment)
           = link_to 'Supprimer', comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de supprimer cet avis ?' }
         - if current_pro_admin and comment.owner?(current_pro_admin)
           .float--right= link_to "Répondre à l'élève", "mailto:#{comment.email}", onclick: "ga('send', 'event', 'Answer to student', 'click')", class: 'btn btn--blue'
-        - if show_title and comment.title.present?
-          %h6.flush--bottom{itemprop: 'headline', content: comment.title.capitalize}= comment.title.capitalize
-        %p.read-more.flush--bottom{itemprop: 'reviewBody', data: {behavior: 'read-more'}}
+        - if comment.title.present?
+          %h6.flush--bottom{itemprop: 'headline', content: comment.title.capitalize}= "\"#{comment.title.capitalize}\""
+        %p.read-more.push-half--bottom{itemprop: 'reviewBody', data: {behavior: 'read-more'}}
           = comment.content.html_safe
+        %p.text--right.flush
+          %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} Avis écrit le #{l(comment.created_at, format: :date)}
         - if with_link
           %p.text--right
             = link_to comment.commentable.name, commentable_url(comment), target: '_blank'
         .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
           %meta{itemprop: 'url', content: commentable_url(comment)}
-          %meta{itemprop: 'name', content: commentable_name(comment)}
+          %meta{itemprop: 'name', content: comment.commentable.name}

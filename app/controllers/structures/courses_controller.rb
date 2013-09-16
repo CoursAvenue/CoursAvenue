@@ -11,9 +11,8 @@ class Structures::CoursesController < ApplicationController
     end
     @course             = Course.find(params[:id])
     @comment            = @course.comments.build
-    @comments           = @course.comments.order('created_at DESC').reject(&:new_record?)
+    @comments           = @structure.comments.reject(&:new_record?)
     @medias             = @structure.medias
-    @structure_comments = @structure.comments.order('created_at DESC')
     @locations          = @course.locations
     @places             = @course.places
     if @course.is_lesson?
@@ -23,8 +22,6 @@ class Structures::CoursesController < ApplicationController
     end
     @plannings_grouped_by_places = @plannings.future.group_by(&:place)
     @subjects                    = @course.subjects
-    @has_promotion               = @course.has_promotion?
-    @has_nb_place                = @course.plannings.map(&:nb_place_available).compact.any?
     @reservation                 = Reservation.new
     @best_price                  = @course.best_price
     @prices                      = @course.book_tickets + @course.subscriptions

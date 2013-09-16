@@ -1,11 +1,11 @@
 class Comment < ActiveRecord::Base
   acts_as_paranoid
-  attr_accessible :commentable, :commentable_id, :commentable_type, :content, :author_name, :email, :rating, :title
+  attr_accessible :commentable, :commentable_id, :commentable_type, :content, :author_name, :email, :rating, :title, :course_name
 
   belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :user
 
-  validates :email, :author_name, :title, :rating, :content, :commentable, presence: true
+  validates :email, :author_name, :course_name, :rating, :content, :commentable, presence: true
   validates :rating, numericality: { greater_than: 0, less_than: 6 }
 
   after_initialize :set_default_rating
@@ -16,6 +16,7 @@ class Comment < ActiveRecord::Base
 
   before_save :replace_slash_n_r_by_brs
 
+  default_scope order('created_at DESC')
 
   def structure
     self.commentable

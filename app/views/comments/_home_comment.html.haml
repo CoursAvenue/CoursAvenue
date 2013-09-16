@@ -9,14 +9,18 @@
           %b{itemprop: 'author'}= truncate(comment.author_name.titleize, length: 20).html_safe
           %br
           %div{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
-            = rating_stars comment.rating
+            - if comment.title.present?
+              %b= "\"#{truncate(comment.title, length: 35)}\""
+            - else
+              %b= comment.course_name
+            -# = rating_stars comment.rating
             %meta{itemprop: 'ratingValue', content: comment.rating}
             %meta{itemprop: 'bestRating', content: 5}
             %meta{itemprop: 'worstRating', content: 1}
           .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
             %meta{itemprop: 'url', content: commentable_url(comment)}
-            %meta{itemprop: 'name', content: commentable_name(comment)}
-          %span.blue= truncate(commentable_name(comment), length: 35)
+            %meta{itemprop: 'name', content: comment.commentable.name}
+          %span.blue= truncate(comment.commentable.name, length: 35)
       .flexbox__item.one-half.comment__content
         %p.flush--bottom= truncate(comment.content, length: 130).html_safe
         %meta{itemprop: 'reviewBody', content: comment.content}

@@ -19,17 +19,6 @@ module CommentsHelper
     end
   end
 
-  # Name of the commentable
-  def commentable_name comment
-    if comment.title.present?
-      comment.title.capitalize
-    elsif comment.commentable.is_a? Structure
-      comment.commentable.name
-    elsif comment.commentable
-      comment.commentable.name
-    end
-  end
-
   # Path of the commentable
   def commentable_path comment, options={}
     if comment.commentable.is_a? Structure
