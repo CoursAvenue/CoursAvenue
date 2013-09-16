@@ -89,9 +89,8 @@ class Pro::StructuresController < Pro::ProController
     @comments       = @structure.comments
     @courses        = @structure.courses
     @medias         = @structure.medias
-    @profile_completed = @structure.logo? and (@structure.description.present? and @structure.description.split.size > 30)
     @profile_percentage = 100
-    @profile_percentage -= 20 if !@profile_completed
+    @profile_percentage -= 20 if !@structure.profile_completed?
     @profile_percentage -= 20 if @structure.medias.empty?
     @profile_percentage -= 20 if @comments.empty?
     @profile_percentage -= 20 if @structure.courses.active.count == 0

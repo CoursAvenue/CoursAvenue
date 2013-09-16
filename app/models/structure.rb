@@ -212,7 +212,7 @@ class Structure < ActiveRecord::Base
   # Update the email status of the structure
   def update_email_status
     email_status = nil
-    if !self.logo? or self.description.blank?
+    if !self.profile_completed?
       email_status = 'incomplete_profile'
     elsif self.comments_count == 0
       email_status = 'no_recommendations'
@@ -322,6 +322,14 @@ class Structure < ActiveRecord::Base
 
   def has_cropping_attributes?
     !crop_x.blank? && !crop_y.blank? && !crop_width.blank? && !crop_height.blank?
+  end
+
+  def has_pending_comments?
+    self.comments.pending.count > 0
+  end
+
+  def profile_completed?
+    self.logo? and (self.description.present? and self.description.split.size > 30)
   end
 
   private

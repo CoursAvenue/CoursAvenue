@@ -16,9 +16,18 @@ module NavigationHelper
     options[:class] ||= 'nowrap'
     options[:class] << ((current_tab == title) ? ' active' : '')
     if options[:icon].present?
-      title = "<i class='#{options[:icon]}'></i>&nbsp;#{title}".html_safe
+      html_title = "<i class='#{options[:icon]}'></i>&nbsp;#{title}".html_safe
     end
-    content_tag(:li, link_to(title, url, class: 'side-menu-link'), options)
+    case title
+    when 'Mes avis'
+      if @structure and @structure.has_pending_comments?
+        has_alert = true
+        html_title << "&nbsp;<span class='warning-buble' data-behavior='tooltip' data-original-title='Vous avez des avis en attente de validation.'>!</span>".html_safe
+      elsif @structure.comments.count == 0
+        html_title << "&nbsp;<span class='warning-buble' data-behavior='tooltip' data-original-title='Vous n'avez pas de recommandations.'>!</span>".html_safe
+      end
+    end
+    content_tag(:li, link_to(html_title, url, class: 'side-menu-link'), options)
   end
 
   def pro_submenu_link(title, url, options = {})

@@ -43,8 +43,6 @@ class Comment < ActiveRecord::Base
     self.status = :declined
     self.save
     self.update_rating
-
-    self.notify_student
   end
 
   def accepted?
@@ -53,6 +51,10 @@ class Comment < ActiveRecord::Base
 
   def pending?
     self.status == 'pending'
+  end
+
+  def declined?
+    self.status == 'declined'
   end
 
   def structure
