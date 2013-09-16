@@ -25,19 +25,20 @@ class Comment < ActiveRecord::Base
   scope :waiting_for_deletion, where(status: 'waiting_for_deletion')
 
 
-  def accept!
+  def accept! silent=false
     self.status = :accepted
     self.save
     self.update_rating
+    unless silent
+      case self.commentable.comments_count
+      when 4
+        AdminMailer.delay.congratulate_for_fifth_comment(self)
+      when 14
+        AdminMailer.delay.congratulate_for_fifteenth_comment(self)
+      end
 
-    case self.commentable.comments_count
-    when 4
-      AdminMailer.delay.congratulate_for_fifth_comment(self)
-    when 14
-      AdminMailer.delay.congratulate_for_fifteenth_comment(self)
+      self.notify_student
     end
-
-    self.notify_student
   end
 
   def decline!

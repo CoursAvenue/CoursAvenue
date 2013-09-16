@@ -14,6 +14,8 @@
             = comment.author_name[0].capitalize
       .grid__item.ten-twelfths>
         - if can?(:destroy, comment)
+          - if comment.waiting_for_deletion?
+            = link_to '&nbsp;/&nbsp;Rétablir'.html_safe, accept_pro_structure_comment_path(comment.structure, comment, silent: true), class: 'float--right', method: :put, data: { confirm: 'Êtes-vous sûr de rétablir cet avis ?' }
           = link_to '&nbsp;Supprimer'.html_safe, comment_path(comment), class: 'float--right', method: :delete, data: { confirm: 'Êtes-vous sûr de supprimer cet avis ?' }
         - if can_report
           = link_to 'Demander une suppression', ask_for_deletion_pro_structure_comment_path(comment.structure, comment), class: 'float--right', method: :put, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet avis ?' }
