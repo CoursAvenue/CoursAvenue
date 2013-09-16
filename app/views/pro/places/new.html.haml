@@ -44,8 +44,8 @@
           = contact_form.input :phone,        label: Contact.human_attribute_name(:phone), input_html: {value: contact_form.object.phone || @structure.main_contact.phone_number}
           = contact_form.input :mobile_phone, label: Contact.human_attribute_name(:mobile_phone), input_html: {value: contact_form.object.mobile_phone || @structure.main_contact.mobile_phone_number}
 
-    .form-actions#submit{class: @place.errors.any? ? '' : 'hidden'}
-      = f.submit 'Enregistrer', class: 'btn btn--green'
+    #submit{class: @place.errors.any? ? '' : 'hidden'}
+      = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
 
 %script#location-template{:type => 'text/x-handlebars-template'}
   %p.line-height-normal

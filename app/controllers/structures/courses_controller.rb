@@ -11,7 +11,7 @@ class Structures::CoursesController < ApplicationController
     end
     @course             = Course.find(params[:id])
     @comment            = @course.comments.build
-    @comments           = @structure.comments.reject(&:new_record?)
+    @comments           = @structure.comments.accepted.reject(&:new_record?)
     @medias             = @structure.medias
     @locations          = @course.locations
     @places             = @course.places

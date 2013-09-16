@@ -1,10 +1,10 @@
 %p Bonjour #{@comment.author_name.titleize},
 
 %p
-  Merci de nous avoir fait part de votre expérience. Votre avis vient d'être publié sur le profil de #{@structure.name}. Pour le visualiser, cliquez sur le lien suivant :
+  Merci de nous avoir fait part de votre expérience. Votre avis vient d'être transmis à #{@structure.name}. Une fois validé, il sera publié sur son profil public.
 
 %p.action
-  = link_to "Voir mon avis", commentable_url(@comment), class: 'btn btn--blue'
+  = link_to "Voir le profil de #{@structure.name}", structure_url(@structure), class: 'btn btn--blue'
 
 %p Encore merci de nous avoir fait partager votre expérience, à très bientôt,
 

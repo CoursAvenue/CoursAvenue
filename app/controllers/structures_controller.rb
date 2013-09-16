@@ -34,7 +34,7 @@ class StructuresController < ApplicationController
     @courses        = @structure.courses.active
     @teachers       = @structure.teachers
     @medias         = @structure.medias
-    @comments       = @structure.comments.reject(&:new_record?)
+    @comments       = @structure.comments.accepted.reject(&:new_record?)
     @comment        = @structure.comments.build
 
     location_index = 0

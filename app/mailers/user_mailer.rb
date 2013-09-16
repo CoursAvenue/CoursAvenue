@@ -18,11 +18,18 @@ class UserMailer < ActionMailer::Base
     mail to: @user.email, subject: 'Bienvenue sur CoursAvenue.com'
   end
 
-  # Inform the user that the comment has correctly been posted
+  # Inform the user that the comment has correctly been submitted
   def congratulate_for_comment(comment)
     @comment   = comment
     @structure = @comment.structure
     mail to: @comment.email, subject: "Votre avis à propos de : #{@structure.name}"
+  end
+
+  # Inform the user that the comment has been validated by the teacher
+  def comment_has_been_validated(comment)
+    @comment   = comment
+    @structure = @comment.structure
+    mail to: @comment.email, subject: "Votre avis à été validé !"
   end
 
   # Gives user information on establishment

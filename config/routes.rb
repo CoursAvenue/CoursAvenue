@@ -50,7 +50,12 @@ CoursAvenue::Application.routes.draw do
           end
         end
         resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
-        resources :comments, only: [:index], controller: 'structures/comments'
+        resources :comments, only: [:index], controller: 'structures/comments' do
+          member do
+            put :accept
+            put :decline
+          end
+        end
         resources :medias, controller: 'structures/medias'
         resources :teachers
         resources :places

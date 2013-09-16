@@ -233,7 +233,7 @@ class Structure < ActiveRecord::Base
   end
 
   def update_comments_count
-    self.update_column :comments_count, self.comments.count
+    self.update_column :comments_count, self.comments.accepted.count
   end
 
   def contact_email
@@ -383,6 +383,6 @@ class Structure < ActiveRecord::Base
   end
 
   def should_generate_new_friendly_id?
-    new_record? || !self.active
+    new_record?
   end
 end

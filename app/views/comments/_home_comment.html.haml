@@ -10,9 +10,9 @@
           %br
           %div{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
             - if comment.title.present?
-              %b= "\"#{truncate(comment.title, length: 35)}\""
+              = "\"#{truncate(comment.title, length: 35)}\""
             - else
-              %b= comment.course_name
+              = comment.course_name
             -# = rating_stars comment.rating
             %meta{itemprop: 'ratingValue', content: comment.rating}
             %meta{itemprop: 'bestRating', content: 5}

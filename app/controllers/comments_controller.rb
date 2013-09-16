@@ -22,7 +22,7 @@ class CommentsController < ApplicationController
       else
         @structure    = @commentable
         @comments     = @structure.comments.reject(&:new_record?)[0..5]
-        flash[:alert] = "Le commentaire n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."
+        flash[:alert] = "L'avis n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."
         format.html { render 'structures/comments/new'}
       end
     end
@@ -33,9 +33,9 @@ class CommentsController < ApplicationController
     path     = commentable_path(@comment)
     respond_to do |format|
       if can?(:destroy, @comment) and @comment.destroy
-        format.html { redirect_to request.referrer || path, notice: 'Votre commentaire a bien été supprimé'}
+        format.html { redirect_to request.referrer || path, notice: 'Votre avis a bien été supprimé'}
       else
-        format.html { redirect_to request.referrer || path, alert: 'Vous ne pouvez pas supprimer ce commentaire'}
+        format.html { redirect_to request.referrer || path, alert: 'Vous ne pouvez pas supprimer ce avis'}
       end
     end
   end

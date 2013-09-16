@@ -133,7 +133,7 @@
         = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')", class: 'btn btn--blue btn--small'
 
 %hr
-%h3 Mes derniers commentaires
+%h3 Mes derniers avis
 %ul.comment-list
   = render partial: 'comments/comment', collection: @comments[0..2]
 - if @comments.length == 0

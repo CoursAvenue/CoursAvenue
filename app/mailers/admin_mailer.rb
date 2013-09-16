@@ -41,7 +41,7 @@ class AdminMailer < ActionMailer::Base
   def congratulate_for_comment(comment)
     @comment   = comment
     @structure = @comment.structure
-    mail to: @comment.commentable.contact_email, subject: 'Un élève vient de poster un commentaire sur votre profil'
+    mail to: @comment.commentable.contact_email, subject: 'Un élève vient de poster une recommandation sur votre profil'
   end
 
   def congratulate_for_fifth_comment(comment)

@@ -12,20 +12,20 @@
           .center-block{class: "#{(small_avatar ? 'profile-picture--small' : 'profile-picture')} profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
             = comment.author_name[0].capitalize
       .grid__item.ten-twelfths>
-        %h6.push-half--bottom.inline-block
-          %b{itemprop: 'author'}= comment.author_name.titleize
+        - if can?(:destroy, comment)
+          = link_to 'Supprimer', comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de supprimer cet avis ?' }
+        - if current_pro_admin and comment.owner?(current_pro_admin)
+          .float--right= link_to "Répondre à l'élève", "mailto:#{comment.email}", onclick: "ga('send', 'event', 'Answer to student', 'click')", class: 'btn btn--blue'
+        %div.push-half--bottom
+          %h6.flush.inline-block.v-middle{itemprop: 'author'}= comment.author_name.titleize
           - if comment.course_name.present?
-            = "— #{comment.course_name.capitalize}"
+            %span.v-middle= "— #{comment.course_name.capitalize}"
           - if comment.rating
             %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
               -# = rating_stars comment.rating
               %meta{itemprop: 'ratingValue', content: comment.rating}
               %meta{itemprop: 'worstRating', content: 1}
               %meta{itemprop: 'bestRating', content: 5}
-        - if can?(:destroy, comment)
-          = link_to 'Supprimer', comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de supprimer cet avis ?' }
-        - if current_pro_admin and comment.owner?(current_pro_admin)
-          .float--right= link_to "Répondre à l'élève", "mailto:#{comment.email}", onclick: "ga('send', 'event', 'Answer to student', 'click')", class: 'btn btn--blue'
         - if comment.title.present?
           %h6.flush--bottom{itemprop: 'headline', content: comment.title.capitalize}= "\"#{comment.title.capitalize}\""
         %p.read-more.push-half--bottom{itemprop: 'reviewBody', data: {behavior: 'read-more'}}

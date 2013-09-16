@@ -1,12 +1,12 @@
 %p Bonjour #{@structure.name},
 
 %p
-  Félicitations !
-  = @comment.author_name
-  vient de laisser un commentaire sur votre profil public CoursAvenue.
+  %strong= @comment.author_name
+  = "(#{@comment.email})"
+  vient de déposer un avis sur votre profil public CoursAvenue. Si c'est un de vos élèves, validez son avis pour le voir.
 
 %p.action
-  = link_to "Voir l'avis de #{@comment.author_name}", pro_structure_comments_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+  = link_to "Valider l'avis de #{@comment.author_name}", pro_structure_comments_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
 
 %p À très bientôt,
 

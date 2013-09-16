@@ -3,13 +3,13 @@
 
 = content_for :title do
   Développez-vous grâce au bouche à oreille
-
 = pro_menu_currently_at 'Accueil'
 
 - content_for :above_container do
   .home-screen-promotion-wrapper.island.one-whole.soft--top
     %h1.text--center.blue
       Développez-vous grâce au bouche à oreille
+    -# %h4.text--center Rassemblez les recommandations de vos élèves puis publiez-les sur votre propre site web.
     .text--center
       - if current_pro_admin
         - if current_pro_admin.super_admin?

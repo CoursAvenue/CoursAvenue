@@ -5,8 +5,27 @@
 .text--center.soft--bottom
   = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue btn--large'
 
+- if @pending_comments.any?
+  %h3.flush Avis en attente de validation
+  %p.blue.flush
+    %i Validez les avis si ce sont bien vos élèves. Vous verrez le contenu de l'avis uniquement après validation.
+  - @pending_comments.each do |comment|
+    .white-box.islet
+      .grid
+        .grid__item.three-quarters.v-middle>
+          %p.flush
+            %b= comment.author_name
+            = "(#{comment.email})"
+        .grid__item.one-quarter.v-middle>
+          = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--green', method: :put do
+            %i.icon-ok
+            Valider
+          = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--red', method: :put do
+            %i.icon-remove
+            Rejeter
+
 - if @comments.empty?
-  %p.white-box.islet Encore aucun commentaire.
+  %p.white-box.islet Encore aucun avis.
 - else
   %ul.comment-list
     = render partial: '/comments/comment', collection: @comments
