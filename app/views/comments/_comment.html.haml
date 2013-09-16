@@ -26,9 +26,9 @@
             %span.v-middle= "— #{comment.course_name.capitalize}"
           - if can?(:destroy, comment)
             - if comment.pending?
-              %span.lbl.lbl--orange Avis en cours de validation
+              %span.lbl.lbl--orange.nowrap Avis en cours de validation
             - elsif comment.declined?
-              %span.lbl.lbl--red Avis rejeté
+              %span.lbl.lbl--red.nowrap Avis rejeté
           - if comment.rating
             %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
               -# = rating_stars comment.rating

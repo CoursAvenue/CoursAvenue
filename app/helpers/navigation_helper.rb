@@ -18,13 +18,11 @@ module NavigationHelper
     if options[:icon].present?
       html_title = "<i class='#{options[:icon]}'></i>&nbsp;#{title}".html_safe
     end
-    case title
-    when 'Mes avis'
+    if title == 'Mes avis'
       if @structure and @structure.has_pending_comments?
-        has_alert = true
         html_title << "&nbsp;<span class='warning-buble' data-behavior='tooltip' data-original-title='Vous avez des avis en attente de validation.'>!</span>".html_safe
       elsif @structure.comments.count == 0
-        html_title << "&nbsp;<span class='warning-buble' data-behavior='tooltip' data-original-title='Vous n'avez pas de recommandations.'>!</span>".html_safe
+        html_title << "&nbsp;<span class='warning-buble' data-behavior='tooltip' data-original-title=\"Vous n'avez pas de recommandations.\">!</span>".html_safe
       end
     end
     content_tag(:li, link_to(html_title, url, class: 'side-menu-link'), options)
