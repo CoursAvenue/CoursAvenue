@@ -16,7 +16,7 @@ class Comment < ActiveRecord::Base
 
   before_save :replace_slash_n_r_by_brs
 
-  default_scope order('created_at DESC')
+  scope :ordered, order('created_at DESC')
 
   def structure
     self.commentable

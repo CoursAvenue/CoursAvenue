@@ -12,7 +12,7 @@
       %th
         %span Disciplines
       %th
-        %span Note
+        %span Avis
       %th
         %span Téléphone
       %th
@@ -36,7 +36,6 @@
             = join_parent_subjects_text admin.structure
         %td.nowrap{data: {value: (admin.structure ? admin.structure.rating : 0)}}
           - if admin.structure
-            = rating_stars admin.structure.rating
             = admin.structure.comments_count
             %i.lbc-brand-icon
 

@@ -40,15 +40,9 @@ module CommentsHelper
   def rating_stars rating
     content_tag :span, class: 'nowrap' do
       out = ''
-      rating       = rating.to_f
       5.times do |i|
-        delta = rating - i
-        if delta > 0.9
+        if rating
           out << content_tag(:i, '', class: 'icon-star yellow')
-        elsif delta > 0.7
-          out << content_tag(:i, '', class: 'icon-star yellow')
-        elsif delta > 0.2
-          out << content_tag(:i, '', class: 'icon-star-half-empty yellow')
         else
           out << content_tag(:i, '', class: 'icon-star-empty')
         end
@@ -60,15 +54,9 @@ module CommentsHelper
   def rating_stars_image rating, options={}
     content_tag :span, class: 'nowrap' do
       out = ''
-      rating       = rating.to_f
       5.times do |i|
-        delta = rating - i
-        if delta > 0.9
+        if rating
           out << content_tag(:img, '', src: asset_path('icons/icon-star.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
-        elsif delta > 0.7
-          out << content_tag(:img, '', src: asset_path('icons/icon-star.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
-        elsif delta > 0.2
-          out << content_tag(:img, '', src: asset_path('icons/icon-star-half-empty.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
         else
           out << content_tag(:img, '', src: asset_path('icons/icon-star-empty.png'), height: (options[:image_size] || 25), style: "height: #{options[:image_size] || 25}px;")
         end
