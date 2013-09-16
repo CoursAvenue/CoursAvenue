@@ -21,7 +21,7 @@ class CommentsController < ApplicationController
         end
       else
         @structure    = @commentable
-        @comments     = @structure.comments.reject(&:new_record?)[0..5]
+        @comments     = @structure.comments.accepted.reject(&:new_record?)[0..5]
         flash[:alert] = "L'avis n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."
         format.html { render 'structures/comments/new'}
       end

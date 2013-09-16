@@ -1,6 +1,12 @@
 = simple_form_for [:pro, @structure, @teacher] do |f|
   = f.error_notification
+  .input{data: { behavior: 'image-input' } }
+    .control-label Photo du professeur
+    %img{src: (@teacher.image? ? @teacher.image.url(:normal) : ''), width: 150}
+    = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small' do
+      %i.icon-picture
+      Choisir l'image
+    .visuallyhidden= f.input :image, label: false
   = f.input :name
   = f.input :description, input_html: {'data-behavior' => 'autoresize'}
-  .form-actions
-    = f.submit 'Enregistrer', class: 'btn btn--green'
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full'

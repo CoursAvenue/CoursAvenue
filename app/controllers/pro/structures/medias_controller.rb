@@ -12,7 +12,7 @@ class Pro::Structures::MediasController < InheritedResources::Base
   def destroy
     @structure = Structure.find params[:structure_id]
     destroy! do |format|
-      format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Media bien supprimé.'}
+      format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Photo / vidéo bien supprimé.'}
     end
   end
 
@@ -21,9 +21,9 @@ class Pro::Structures::MediasController < InheritedResources::Base
     @media     = @structure.medias.build params[:media]
     respond_to do |format|
       if @media.save
-        format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Media bien ajouté !' }
+        format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Photo / vidéo bien ajouté !' }
       else
-        format.html { render 'pro/structures/medias/index' }
+        format.html { redirect_to pro_structure_medias_path(@structure), alert: "Vous n'avez pas renseigné de lien." }
       end
     end
   end
@@ -56,9 +56,9 @@ class Pro::Structures::MediasController < InheritedResources::Base
     @media     = @structure.medias.find params[:id]
     respond_to do |format|
       if @media.update_attributes params[:media]
-        format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Media bien ajouté !' }
+        format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Photo / vidéo bien ajouté !' }
       else
-        format.html { render 'pro/structures/medias/index' }
+        format.html { redirect_to pro_structure_medias_path(@structure), alert: "Vous n'avez pas renseigné de lien." }
       end
     end
   end

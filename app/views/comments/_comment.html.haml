@@ -36,7 +36,7 @@
               %meta{itemprop: 'worstRating', content: 1}
               %meta{itemprop: 'bestRating', content: 5}
         - if comment.title.present?
-          %h6.flush--bottom{itemprop: 'headline', content: comment.title.capitalize}= "\"#{comment.title.capitalize}\""
+          %h6.quoted.flush--bottom{itemprop: 'headline', content: comment.title.capitalize}= "#{comment.title.capitalize}"
         %p.read-more.push-half--bottom{itemprop: 'reviewBody', data: {behavior: 'read-more'}}
           = comment.content.html_safe
         %p.text--right.flush

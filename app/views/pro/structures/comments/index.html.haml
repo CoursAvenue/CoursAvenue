@@ -29,6 +29,7 @@
           = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--red', method: :put do
             %i.icon-remove
             Rejeter
+  %hr
 
 - if @comments.empty?
   %p.white-box.islet Encore aucun avis.

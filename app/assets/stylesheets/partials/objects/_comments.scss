@@ -38,6 +38,16 @@
     left      : -17px;
     top       : -17px;
 }
+.quoted:after {
+    content   : "\201D";
+    right     : -17px;
+    bottom    : -38px;
+}
+.quoted:before {
+    content   : "\201C";
+    left      : -17px;
+    top       : -17px;
+}
 .comment__content {
     background-color: $beige-dark;
     padding         : 0 20px 0 20px;

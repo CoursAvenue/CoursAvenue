@@ -6,7 +6,7 @@
           .float--right.muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)}
             = distance_of_time_in_words_to_now comment.created_at
             %i.icon-time
-          %b{itemprop: 'author'}= truncate(comment.author_name.titleize, length: 20).html_safe
+          %b.v-middle{itemprop: 'author'}= truncate(comment.author_name.titleize, length: 20).html_safe
           %br
           %div{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
             - if comment.title.present?

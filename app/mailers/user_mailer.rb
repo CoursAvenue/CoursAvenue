@@ -19,6 +19,12 @@ class UserMailer < ActionMailer::Base
   end
 
   # Inform the user that the comment has correctly been submitted
+  def congratulate_for_accepted_comment(comment)
+    @comment   = comment
+    @structure = @comment.structure
+    mail to: @comment.email, subject: "Votre avis à propos de : #{@structure.name}"
+  end
+
   def congratulate_for_comment(comment)
     @comment   = comment
     @structure = @comment.structure

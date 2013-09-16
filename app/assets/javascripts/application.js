@@ -72,6 +72,7 @@
 // require plugins/textarea_resizer
 // require plugins/toggler
 // require plugins/time_range
+// require plugins/image_input
 
 //= require_tree ./gmaps4rails/
 

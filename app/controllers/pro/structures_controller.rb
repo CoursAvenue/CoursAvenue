@@ -86,7 +86,7 @@ class Pro::StructuresController < Pro::ProController
     @wizard         = get_next_wizard
     commentable_ids = @structure.courses.collect(&:id)
     commentable_ids << @structure.id
-    @comments       = @structure.comments
+    @comments       = @structure.comments.accepted
     @courses        = @structure.courses
     @medias         = @structure.medias
     @profile_percentage = 100

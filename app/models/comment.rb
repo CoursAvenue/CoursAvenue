@@ -13,6 +13,7 @@ class Comment < ActiveRecord::Base
   after_initialize :set_default_rating
   after_save       :update_teacher_mailchimp if Rails.env.production?
   after_destroy    :update_rating
+  before_create    :set_pending_status
   after_create     :send_email
 
   before_save :replace_slash_n_r_by_brs
@@ -23,7 +24,6 @@ class Comment < ActiveRecord::Base
   scope :accepted,             where(status: 'accepted')
   scope :waiting_for_deletion, where(status: 'waiting_for_deletion')
 
-  before_create :set_pending_status
 
   def accept!
     self.status = :accepted
@@ -96,7 +96,14 @@ class Comment < ActiveRecord::Base
   protected
 
   def set_pending_status
-    self.status ||= :pending
+    if self.structure and self.email
+      _structure_id = self.structure.id
+      _email        = self.email
+      if Student.where{(structure_id == _structure_id) & (email == _email)}.count > 0
+        self.status = 'accepted'
+      end
+    end
+    self.status ||= 'pending'
   end
 
   def notify_student
@@ -110,8 +117,13 @@ class Comment < ActiveRecord::Base
 
   # Set comments_count to 4 and 14 because after_create is triggered before after_save !
   def send_email
-    UserMailer.delay.congratulate_for_comment(self)
-    AdminMailer.delay.congratulate_for_comment(self)
+    if self.accepted?
+      AdminMailer.delay.congratulate_for_accepted_comment(self)
+      UserMailer.delay.congratulate_for_accepted_comment(self)
+    else
+      AdminMailer.delay.congratulate_for_comment(self)
+      UserMailer.delay.congratulate_for_comment(self)
+    end
   end
 
 

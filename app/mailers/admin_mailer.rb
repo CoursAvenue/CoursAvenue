@@ -44,6 +44,12 @@ class AdminMailer < ActionMailer::Base
   end
 
   # Inform teacher that a students has commented his establishment
+  def congratulate_for_accepted_comment(comment)
+    @comment   = comment
+    @structure = @comment.structure
+    mail to: @comment.commentable.contact_email, subject: 'Un élève vient de poster une recommandation sur votre profil'
+  end
+
   def congratulate_for_comment(comment)
     @comment   = comment
     @structure = @comment.structure

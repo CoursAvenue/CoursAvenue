@@ -162,8 +162,6 @@
       - else
         %p.white-box.islet.text--center
           Cet établissement n'a pas renseigné de cours.
-          -# %br
-          -# = link_to 'Soliciter à mettre le planning à jour', 'javascript:void(0)', class: 'btn btn--blue'
 
       - if @teachers.any?
         %hr
@@ -172,11 +170,8 @@
           Professeurs
         #teachers
           - @teachers.each_with_index do |teacher, index|
-            .white-box.islet{class: (index > 2 ? 'hidden' : '')}
-              %p.read-more{data: {behavior: 'read-more'}}
-                %b= teacher.name
-                %br
-                = teacher.description
+            %div{class: (index > 2 ? 'hidden' : '')}
+              = render partial: 'teachers/teacher', locals: {teacher: teacher}
             - if index == 3
               .text--center.push--bottom
                 %a#show-all-teachers{href: 'javascript:void(0)'} Voir tous les professeurs

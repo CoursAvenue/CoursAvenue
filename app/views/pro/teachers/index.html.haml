@@ -5,18 +5,8 @@
   = link_to 'Ajouter un professeur', new_pro_structure_teacher_path(@structure), class: 'fancybox.ajax btn btn--green btn--large', data: {behavior: 'modal'}
 
 - if @teachers.any?
-  - @teachers.each do |teacher|
-    %p.white-box.islet
-      %b= teacher.name
-      %br
-      = teacher.description
-      %br
-      = link_to edit_pro_structure_teacher_path(@structure, teacher), title: 'Modifier ce professeur', class: 'fancybox.ajax btn btn--small btn--orange', data: {behavior: 'modal'} do
-        %i.icon-pencil
-        Modifier ce professeur
-      = link_to pro_structure_teacher_path(@structure, teacher), method: :delete, title: 'Supprimer ce professeur', data: {confirm: 'Êtes-vous sur de supprimer ce professeur ? Cette action sera irreversible.'}, class: 'btn btn--small btn--red' do
-        %i.icon-trash
-        Supprimer
+  = render partial: 'teachers/teacher', collection: @teachers
+
 - else
   %p.white-box.islet
     Aucun professeur n'est renseigné
