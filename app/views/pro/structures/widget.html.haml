@@ -40,10 +40,10 @@
     .grid__item.one-half.text--center>
       = link_to "J'ai un site perso", 'javascript:void(0)', class: 'btn btn--large', id: 'personal-website'
     .grid__item.one-half.text--center>
-      = link_to "J'ai wordpress", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-website'
+      = link_to "J'utilise wordpress", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-website'
 
   #wordpress-guide.hidden
-    %h4.text--center.push--top Où voulez-vous affichez vos avis ?
+    %h4.text--center.push--top Où voulez-vous affichez votre livre d'or ?
     .grid
       .grid__item.one-half.text--center.v-middle>
         = link_to "Sur une nouvelle page", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-new-page-link'
@@ -56,20 +56,19 @@
         %h5.push--top Étape 1 : Accédez à votre espace admin
         %p
           Connectez vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
-          %br
-          = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php'
+          = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php', target: '_blank', rel: 'nofollow'
 
         %h5.push--top Étape 2 : Créez une nouvelle page
         %p Dans la barre latérale de gauche cliquez sur <strong>« Pages »</strong> / <strong>« Ajouter »</strong>.
         = image_tag 'pro/wordpress-guide/page-step-1.png'
 
         %h5.push--top Étape 3 : Cliquez sur « Texte »
-        %p En haut à droite, cliquez sur l'onglet <strong>« Texte »</strong>.
+        %p Donnez un nom à votre page puis cliquez sur l'onglet <strong>« Texte »</strong> en haut à droite.
         = image_tag 'pro/wordpress-guide/page-step-2.png'
 
         %h5.push--top Étape 4 : Copiez le code
-        %p Copiez et collez le texte suivant, et c'est fini !
-        %textarea#html-code.one-whole.push--bottom{rows: 10}
+        %p Copiez et collez le texte suivant, publiez et c'est fini !
+        %textarea.html-code.one-whole.push--bottom{rows: 10}
         = image_tag 'pro/wordpress-guide/page-step-3.png'
         %h4.text--center.push--ends Et voilà, c'est fini !
 
@@ -79,16 +78,22 @@
         %h5.push--top Étape 1 : Accédez à votre espace admin
         %p
           Connectez vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
-          %br
-          = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php'
+          = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php', target: '_blank', rel: 'nofollow'
 
         %h5.push--top Étape 2 : Allez dans la section « Widgets »
         %p Dans la barre latérale de gauche cliquez sur <strong>« Apparence »</strong> / <strong>« Widgets »</strong>.
-        = image_tag 'pro/wordpress-guide/side-step-1.png'
+        = image_tag 'pro/wordpress-guide/side-step-1.png', class: 'center-block'
 
         %h5.push--top Étape 3 : Choisissez le widget « Texte »
         %p Dans la liste des widgets disponible, choisissez le widget « Texte » et glissez le en haut à droite de l'écran dans la <strong>« Zone de Sidebar »</strong>.
         = image_tag 'pro/wordpress-guide/side-step-2.png'
+        = image_tag 'pro/wordpress-guide/side-step-3.png'
+
+        %h5.push--top Étape 4 : Copiez le code
+        %p Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
+        %textarea.html-code.one-whole.push--bottom{rows: 10}
+        = image_tag 'pro/wordpress-guide/side-step-4.png'
+        %h4.text--center.push--ends Et voilà, c'est fini !
 
   #webmaster-code.hidden
     .white-box.islet.push--top
@@ -155,7 +160,7 @@
                   dataType: 'text',
                   success: function(response) {
                     coursavenue_widget_div.html(response);
-                    $('#html-code').val($('#coursavenue-widget').parent().html().replace(/\s+/g, ' '));
+                    $('.html-code').val($('#coursavenue-widget').parent().html().replace(/\s+/g, ' '));
                   }
               });
           };

@@ -3,13 +3,13 @@
     %div
       %div{style: 'font-size: 16px; color: #e9683d'} Recommandé par les élèves sur
       %img{src: asset_path('logo.png'), height: 35, style: 'height: 35px;', style: 'background: none; border: none; padding: 0;'}
-    %div{style: 'font-weight: 300; font-size: 40px; color: #e9683d'}
-      = @structure.comments_count
-    %div
-      %span{style: 'vertical-align: middle; display: inline-block;'}avis
-      %img{style: 'height: 10px; vertical-align: middle; display: inline-block; background: none; border: none; padding: 0;', src: asset_path('icons/bulle.png'), height: 10}
-    %div
-      = rating_stars_image @structure.rating
+    -# %div{style: 'font-weight: 300; font-size: 40px; color: #e9683d'}
+    -#   = @structure.comments_count
+    -# %div
+    -#   %span{style: 'vertical-align: middle; display: inline-block;'}avis
+    -#   %img{style: 'height: 10px; vertical-align: middle; display: inline-block; background: none; border: none; padding: 0;', src: asset_path('icons/bulle.png'), height: 10}
+    -# %div
+    -#   = rating_stars_image @structure.rating
 
   - if params[:last_comments] and params[:last_comments] == 'true'
     - params[:nb_comments] ||= 3
