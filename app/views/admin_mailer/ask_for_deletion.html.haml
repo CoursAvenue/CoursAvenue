@@ -4,7 +4,7 @@
 %p
   %strong= @comment.title
   %br
-  = @comment.content
+  = @comment.content.html_safe
 
 %p.action
   = link_to "Accéder aux commentaires", pro_comments_url(subdomain: 'pro'), class: 'btn btn--blue'

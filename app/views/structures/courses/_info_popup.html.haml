@@ -1,11 +1,15 @@
 %h4.flush--bottom= @structure.name
+- if @structure.website
+  %div
+    %i.icon-external-link
+    = link_to @structure.website, @structure.website, target: '_blank'
 %p
   %i
     Pour être sûr de bénéficier de tous les avantages, spécifiez que vous venez de CoursAvenue !
 
-%h5.flush--bottom Contact :
 - has_place_contact = @places.collect{|place| place.contacts }.flatten.any?
 - unless has_place_contact
+  %h5.flush--bottom Contact :
   - if @structure.main_contact.present?
     - if @structure.main_contact.name
       %div
@@ -24,14 +28,10 @@
         - if @structure.main_contact.phone_number and @structure.main_contact.mobile_phone_number
           \/
         = @structure.main_contact.mobile_phone_number
-- if @structure.website
-  %div
-    %i.icon-external-link
-    = link_to @structure.website, @structure.website, target: '_blank'
 
 %hr.push-half--ends
 - if @places.length > 1
-  %h5.push-half--bottom Lieux d'enseignements
+  %h5.push-half--bottom Lieux d'enseignements & contact
 - @places.each_with_index do |place, index|
   - unless index == 0
     %hr.push-half--ends
@@ -47,7 +47,7 @@
         %i.icon-envelope
         = place.main_contact.email
 
-    - if place.main_contact.phone or place.main_contact.mobile_phone
+    - if place.main_contact.phone.present? or place.main_contact.mobile_phone.present?
       %div
         %i.icon-phone
         = place.main_contact.phone
