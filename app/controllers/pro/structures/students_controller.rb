@@ -4,7 +4,6 @@ class Pro::Structures::StudentsController < Pro::ProController
   load_and_authorize_resource :structure
 
   def index
-
   end
 
   def destroy

@@ -1,42 +1,126 @@
-%div{style: 'font-family: Helvetica, Arial,sans-serif; font-size: 12px;'}
-  = link_to structure_url(@structure, subdomain: 'www'), style: 'display: block; padding: 10px; margin: 0 auto 10px auto; text-align: center; background-color: white; border: 1px solid #DDD; -webkit-border-radius: 2px; -moz-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px; border-radius: 2px; -webkit-box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; -moz-box-shadow: 1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee; box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; text-decoration: none;', target: '_blank' do
+:css
+  .coursavenue-widget {
+    font-family: Helvetica, Arial,sans-serif !important;
+    font-size  : 12px !important;
+  }
+  .coursavenue-widget-wrapper-link {
+    display              : block !important;
+    padding              : 10px !important;
+    margin               : 0 auto 10px auto !important;
+    text-align           : center !important;
+    background-color     : white !important;
+    border               : 1px solid #DDD!important
+    -webkit-border-radius: 2px !important;
+    -moz-border-radius   : 2px !important;
+    -ms-border-radius    : 2px !important;
+    -o-border-radius     : 2px !important;
+    border-radius        : 2px !important;
+    -webkit-box-shadow   : 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE !important;
+    -moz-box-shadow      : 1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee !important;
+    box-shadow           : 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE !important;
+    text-decoration      : none !important;
+  }
+  .coursavenue-widget-title {
+    font-size: 16px !important;
+    color    : #e9683d !important;
+  }
+  .coursavenue-link {
+    background-color: blue !important;
+  }
+  .coursavenue-white-box {
+    display               :block !important;
+    font-family           :Helvetica, Arial,sans-serif !important;
+    padding               :10px !important;
+    margin                :0 0 10px 0 !important;
+    text-align            :left !important;
+    background-color      :white !important;
+    border                :1px solid #DDD !important;
+    -webkit-border-radius :2px !important;
+    -moz-border-radius    :2px !important;
+    -ms-border-radius     :2px !important;
+    -o-border-radius      :2px !important;
+    border-radius         :2px !important;
+    -webkit-box-shadow    :1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE !important;
+    -moz-box-shadow       :1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee !important;
+    box-shadow            :1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE !important;
+    text-decoration       :none !important;
+  }
+  .coursavenue-image{
+    background: none !important;
+    border    : none !important;
+    padding   : 0 !important;
+  }
+  .coursavenue-header {
+    margin       : 0 0 10px 0 !important;
+    font-size    : 14px !important;
+  }
+  .coursavenue-btn:hover {
+    text-decoration: underline !important;
+  }
+  .coursavenue-btn {
+    display                  : block !important;
+    margin                   : auto !important;
+    padding                  : 5px !important;
+    background-color         : white !important;
+    border                   : 1px solid #DDD !important;
+    color                    : black !important;
+    -webkit-border-radius    : 2px !important;
+    -moz-border-radius       : 2px !important;
+    -ms-border-radius        : 2px !important;
+    -o-border-radius         : 2px !important;
+    border-radius            : 2px !important;
+  }
+  .coursavenue-comment-paragraph{
+    font-size      : 13px !important;
+    line-height    : 18px !important;
+    color          : black !important;
+    margin-bottom  : 0 !important;
+    margin-top     : 0 !important;
+  }
+  .coursavenue-comment-footer{
+    margin-bottom: 0 !important;
+    text-align   : right !important;
+    font-size    : 12px !important;
+    color        : #666 !important;
+  }
+  .coursavenue-comment-footer i{
+    font-style: italic !important;
+  }
+  .coursavenue-widget-link:hover {
+    color          : #e9683d !important;
+    background     : none !important;
+    text-decoration: underline !important;
+  }
+  .coursavenue-widget-link {
+    color     : #e9683d !important;
+    background: none !important;
+  }
+.coursavenue-widget
+  = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', class: 'coursavenue-widget-wrapper-link' do
     %div
-      %div{style: 'font-size: 16px; color: #e9683d'} Recommandé par les élèves sur
-      %img{src: asset_path('logo.png'), height: 35, style: 'height: 35px;', style: 'background: none; border: none; padding: 0;'}
-    -# %div{style: 'font-weight: 300; font-size: 40px; color: #e9683d'}
-    -#   = @structure.comments_count
-    -# %div
-    -#   %span{style: 'vertical-align: middle; display: inline-block;'}avis
-    -#   %img{style: 'height: 10px; vertical-align: middle; display: inline-block; background: none; border: none; padding: 0;', src: asset_path('icons/bulle.png'), height: 10}
-    -# %div
-    -#   = rating_stars_image @structure.rating
-
+      .coursavenue-widget-title Recommandé par les élèves sur
+      %img.coursavenue-image{src: asset_path('logo.png'), height: 35, style: 'height: 35px;'}
   - if params[:last_comments] and params[:last_comments] == 'true'
     - params[:nb_comments] ||= 3
     - params[:nb_comments] = params[:nb_comments].to_i
     - if @structure.comments_count < params[:nb_comments]
       - params[:nb_comments] = @structure.comments_count
     - if params[:nb_comments] > 0
-      %div{style: 'font-weight: bold; display: block; font-family: Helvetica, Arial,sans-serif;padding: 10px; margin: 0 0 10px 0; text-align: center; background-color: white; border: 1px solid #DDD; -webkit-border-radius: 2px; -moz-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px; border-radius: 2px; -webkit-box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; -moz-box-shadow: 1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee; box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; text-decoration: none;'}
-        - if params[:nb_comments] == 1
-          Le dernier avis
-        - else
-          Les derniers avis
       - @structure.comments.accepted[0..(params[:nb_comments] - 1)].each do |comment|
-        %div{style: 'display: block; font-family: Helvetica, Arial,sans-serif;padding: 10px; margin: 0 0 10px 0; text-align: left; background-color: white; border: 1px solid #DDD; -webkit-border-radius: 2px; -moz-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px; border-radius: 2px; -webkit-box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; -moz-box-shadow: 1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee; box-shadow: 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE; text-decoration: none;', target: '_blank'}
-          %p{style: 'margin-bottom: 10px; font-size: 14px;'}
-            = link_to structure_url(@structure, subdomain: 'www') do
+        .coursavenue-white-box
+          %p.coursavenue-header
+            = link_to structure_url(@structure, subdomain: 'www'), class: 'coursavenue-widget-link' do
               %strong= comment.author_name
               = "— #{comment.course_name}"
           - if comment.title.present?
-            %p{style: 'font-size: 13px; line-height: 18px; color: black; margin-bottom: 0;'}
+            %p.coursavenue-comment-paragraph
               %strong= "\"#{comment.title}\""
-          %p{style: 'font-size: 13px; line-height: 18px; color: black; margin-bottom: 0;'}
-            = truncate(comment.content, length: 600, omission: "… #{link_to('Lire la suite →', structure_url(@structure, subdomain: 'www'))}").html_safe
-          %p{style: 'margin-bottom: 0; text-align: right; font-size: 12px; color: #666;'}
-            %i{style: 'font-style: italic;'}= "Avis déposé le #{I18n.l(comment.created_at, format: :date)}"
+          %p.coursavenue-comment-paragraph
+            = truncate(comment.content, length: 600, omission: "… #{link_to('Lire la suite →', structure_url(@structure, subdomain: 'www'), class: 'coursavenue-widget-link')}").html_safe
+          %p.coursavenue-comment-footer
+            %i= "Avis déposé le #{I18n.l(comment.created_at, format: :date)}"
     %p{style: 'text-align: center; margin-bottom: 5px;'}
-      = link_to 'Voir les autres avis sur CoursAvenue', structure_url(@structure, subdomain: 'www'), style: 'display: block; margin: auto; padding: 5px; background-color: white; border: 1px solid #DDD; color: black; -webkit-border-radius: 2px; -moz-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px; border-radius: 2px;'
+      = link_to 'Voir les autres avis sur CoursAvenue', structure_url(@structure, subdomain: 'www'), class: 'coursavenue-btn'
   - if params[:show_new_comment] and params[:show_new_comment] == 'true'
     %p{style: 'text-align: center;'}
-      = link_to 'Déposer mon avis sur CoursAvenue', new_structure_comment_url(@structure, subdomain: 'www'), style: 'display: block; margin: auto; padding: 5px; background-color: #04ABEF; color: white; -webkit-border-radius: 2px; -moz-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px; border-radius: 2px; border: 1px solid #049cdb;'
+      = link_to 'Déposer mon avis sur CoursAvenue', new_structure_comment_url(@structure, subdomain: 'www'), class: 'coursavenue-btn'
