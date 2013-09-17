@@ -80,7 +80,7 @@ class Comment < ActiveRecord::Base
   end
 
   # Update rating of the commentable (course, or structure)
-  def update_rating()
+  def update_rating
     # If it is a structure, get ALL the comments
     ratings_array = self.commentable.comments.accepted.collect(&:rating)
     ratings       = ratings_array.inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }
@@ -103,6 +103,7 @@ class Comment < ActiveRecord::Base
       _email        = self.email
       if Student.where{(structure_id == _structure_id) & (email == _email)}.count > 0
         self.status = 'accepted'
+        self.update_rating
       end
     end
     self.status ||= 'pending'

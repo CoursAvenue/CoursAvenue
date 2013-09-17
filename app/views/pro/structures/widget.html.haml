@@ -35,6 +35,7 @@
       %div{style: 'width: 400px'}
         #coursavenue-widget
 
+  %hr.push--top
   .grid
     .grid__item.one-half.text--center>
       = link_to "J'ai un site perso", 'javascript:void(0)', class: 'btn btn--large', id: 'personal-website'
@@ -42,7 +43,7 @@
       = link_to "J'ai wordpress", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-website'
 
   #wordpress-guide.hidden
-    %h4.text--center Où voulez-vous affichez vos avis ?
+    %h4.text--center.push--top Où voulez-vous affichez vos avis ?
     .grid
       .grid__item.one-half.text--center.v-middle>
         = link_to "Sur une nouvelle page", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-new-page-link'
@@ -50,14 +51,44 @@
         = link_to "Sur la barre latérale", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-lateral-link'
 
     #wordpress-new-page.hidden
-      %h5.push--top Étape 1 : Accédez à votre espace admin
-      %p
-        Connectez vous à votre espace personnel Wordpress :
-        = link_to 'Accéder à wordpress', 'https://fr.wordpress.com/wp-login.php'
+      .white-box.islet.push--top
+        %h3.text--center Guide d'installation
+        %h5.push--top Étape 1 : Accédez à votre espace admin
+        %p
+          Connectez vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
+          %br
+          = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php'
 
-      %h5 Étape 2 : Créez une nouvelle page
-      %p Dans la barre latérale de gauche cliquez sur <strong>« Pages »</strong> / <strong>« Ajouter »</strong>
+        %h5.push--top Étape 2 : Créez une nouvelle page
+        %p Dans la barre latérale de gauche cliquez sur <strong>« Pages »</strong> / <strong>« Ajouter »</strong>.
+        = image_tag 'pro/wordpress-guide/page-step-1.png'
+
+        %h5.push--top Étape 3 : Cliquez sur « Texte »
+        %p En haut à droite, cliquez sur l'onglet <strong>« Texte »</strong>.
+        = image_tag 'pro/wordpress-guide/page-step-2.png'
+
+        %h5.push--top Étape 4 : Copiez le code
+        %p Copiez et collez le texte suivant, et c'est fini !
+        %textarea#html-code.one-whole.push--bottom{rows: 10}
+        = image_tag 'pro/wordpress-guide/page-step-3.png'
+        %h4.text--center.push--ends Et voilà, c'est fini !
+
     #wordpress-lateral.hidden
+      .white-box.islet.push--top
+        %h3.text--center Guide d'installation
+        %h5.push--top Étape 1 : Accédez à votre espace admin
+        %p
+          Connectez vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
+          %br
+          = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php'
+
+        %h5.push--top Étape 2 : Allez dans la section « Widgets »
+        %p Dans la barre latérale de gauche cliquez sur <strong>« Apparence »</strong> / <strong>« Widgets »</strong>.
+        = image_tag 'pro/wordpress-guide/side-step-1.png'
+
+        %h5.push--top Étape 3 : Choisissez le widget « Texte »
+        %p Dans la liste des widgets disponible, choisissez le widget « Texte » et glissez le en haut à droite de l'écran dans la <strong>« Zone de Sidebar »</strong>.
+        = image_tag 'pro/wordpress-guide/side-step-2.png'
 
   #webmaster-code.hidden
     .white-box.islet.push--top
@@ -70,27 +101,30 @@
         .grid__item.one-half.text--center.v-middle>
           %p.push-half--top
             = link_to 'Envoyer le code à votre webmaster par email', 'mailto:?subject=Code widget CoursAvenue à mettre sur mon site Internet&body=', class: 'btn btn--blue', id: 'send-link-by-email'
-
+  %div{style: 'margin-bottom: 300px;'}
   - content_for :scripts do
     :javascript
       $(function() {
           $('#personal-website').click(function(){
             $('#wordpress-guide').hide();
-            $('#webmaster-code').show();
+            $('#webmaster-code').show('slow');
+            $.scrollTo($('#webmaster-code'), {duration: 200});
           });
           $('#wordpress-website').click(function(){
             $('#webmaster-code').hide();
-            $('#wordpress-guide').show();
+            $('#wordpress-guide').show('slow');
+            $.scrollTo($('#wordpress-guide'), {duration: 200});
           });
           $('#wordpress-new-page-link').click(function(){
-              $('#wordpress-new-page').show();
+              $('#wordpress-new-page').show('slow');
               $('#wordpress-lateral').hide();
+              $.scrollTo($('#wordpress-new-page'), {duration: 200});
           });
           $('#wordpress-lateral-link').click(function(){
               $('#wordpress-new-page').hide();
-              $('#wordpress-lateral').show();
+              $('#wordpress-lateral').show('slow');
+              $.scrollTo($('#wordpress-lateral'), {duration: 200});
           });
-
           var code = "<div id='coursavenue-widget'></div><script>window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget');var request = new XMLHttpRequest();request.open('GET', '__URL__', false);request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');request.send(null);if(request.status == 200) {coursavenue_widget_div.innerHTML = request.responseText;}}</script";
           var load_widget,
               coursavenue_widget_div = $('#coursavenue-widget'),
@@ -121,6 +155,7 @@
                   dataType: 'text',
                   success: function(response) {
                     coursavenue_widget_div.html(response);
+                    $('#html-code').val($('#coursavenue-widget').parent().html().replace(/\s+/g, ' '));
                   }
               });
           };
