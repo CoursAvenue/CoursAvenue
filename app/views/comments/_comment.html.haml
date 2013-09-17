@@ -3,7 +3,7 @@
 - small_avatar = false     if small_avatar.nil?
 - class_name   = ''        if class_name.nil?
 - can_report   = false     if can_report.nil?
-%li.comment-list__el.white-box.soft-half.hard--left{class: class_name}
+%li.comment-list__el.white-box.soft-half.hard--left{class: class_name, id: "recommantation-#{comment.id}"}
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
     .grid--full
       .grid__item.two-twelfths.text--center>

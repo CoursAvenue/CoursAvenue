@@ -8,16 +8,7 @@
     padding              : 10px !important;
     margin               : 0 auto 10px auto !important;
     text-align           : center !important;
-    background-color     : white !important;
     border               : 1px solid #DDD!important
-    -webkit-border-radius: 2px !important;
-    -moz-border-radius   : 2px !important;
-    -ms-border-radius    : 2px !important;
-    -o-border-radius     : 2px !important;
-    border-radius        : 2px !important;
-    -webkit-box-shadow   : 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE !important;
-    -moz-box-shadow      : 1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee !important;
-    box-shadow           : 1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE !important;
     text-decoration      : none !important;
   }
   .coursavenue-widget-title {
@@ -32,7 +23,6 @@
     font-family           :Helvetica, Arial,sans-serif !important;
     padding               :10px !important;
     margin                :0 0 10px 0 !important;
-    text-align            :left !important;
     background-color      :white !important;
     border                :1px solid #DDD !important;
     -webkit-border-radius :2px !important;
@@ -96,7 +86,7 @@
     background: none !important;
   }
 .coursavenue-widget
-  = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', class: 'coursavenue-widget-wrapper-link' do
+  = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', class: 'coursavenue-white-box coursavenue-widget-wrapper-link' do
     %div
       .coursavenue-widget-title Recommandé par les élèves sur
       %img.coursavenue-image{src: asset_path('logo.png'), height: 35, style: 'height: 35px;'}
@@ -109,14 +99,14 @@
       - @structure.comments.accepted[0..(params[:nb_comments] - 1)].each do |comment|
         .coursavenue-white-box
           %p.coursavenue-header
-            = link_to structure_url(@structure, subdomain: 'www'), class: 'coursavenue-widget-link' do
+            = link_to structure_url(@structure, subdomain: 'www', anchor: "recommantation-#{comment.id}"), class: 'coursavenue-widget-link' do
               %strong= comment.author_name
               = "— #{comment.course_name}"
           - if comment.title.present?
             %p.coursavenue-comment-paragraph
               %strong= "\"#{comment.title}\""
           %p.coursavenue-comment-paragraph
-            = truncate(comment.content, length: 600, omission: "… #{link_to('Lire la suite →', structure_url(@structure, subdomain: 'www'), class: 'coursavenue-widget-link')}").html_safe
+            = truncate(comment.content, length: 600, omission: "… #{link_to('Lire la suite →', structure_url(@structure, subdomain: 'www', anchor: 'recommantation-#{comment.id}'), class: 'coursavenue-widget-link')}").html_safe
           %p.coursavenue-comment-footer
             %i= "Avis déposé le #{I18n.l(comment.created_at, format: :date)}"
     %p{style: 'text-align: center; margin-bottom: 5px;'}
