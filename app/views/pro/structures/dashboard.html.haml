@@ -70,7 +70,7 @@
       %i.icon-check
       %span.line-through Créer mon profil
     %li
-      - if @profile_completed
+      - if @structure.profile_completed?
         %i.icon-check
         %span.line-through Compléter mes informations générales
       - else
