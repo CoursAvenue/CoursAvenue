@@ -147,13 +147,14 @@
               load_widget();
           });
           load_widget = function() {
-              var url      = "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}";
-              var new_code = code.replace('__URL__', url) + '>';
+              var url      = "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}",
+                  new_code;
               url += '?last_comments='    + params['last_comments'];
               url += '&show_new_comment=' + params['show_new_comment'];
               if (params['last_comments'] && params['last_comments'] == true) {
                 url += '&nb_comments=' + params['nb_comments'];
               }
+              new_code = code.replace('__URL__', url) + '>';
               $('#code').val(new_code);
               $.ajax({
                   url: url,
