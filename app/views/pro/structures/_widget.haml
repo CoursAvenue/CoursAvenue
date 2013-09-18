@@ -99,18 +99,18 @@
       - @structure.comments.accepted[0..(params[:nb_comments] - 1)].each do |comment|
         .coursavenue-white-box
           %p.coursavenue-header
-            = link_to structure_url(@structure, subdomain: 'www', anchor: "recommantation-#{comment.id}"), class: 'coursavenue-widget-link' do
+            = link_to structure_url(@structure, subdomain: 'www', anchor: "recommantation-#{comment.id}"), class: 'coursavenue-widget-link', target: '_blank' do
               %strong= comment.author_name
               = "— #{comment.course_name}"
           - if comment.title.present?
             %p.coursavenue-comment-paragraph
               %strong= "\"#{comment.title}\""
           %p.coursavenue-comment-paragraph
-            = truncate(comment.content, length: 600, omission: "… #{link_to('Lire la suite →', structure_url(@structure, subdomain: 'www', anchor: 'recommantation-#{comment.id}'), class: 'coursavenue-widget-link')}").html_safe
+            = truncate(comment.content, length: 600, omission: "… #{link_to('Lire la suite →', structure_url(@structure, subdomain: 'www', anchor: 'recommantation-#{comment.id}', target: '_blank'), class: 'coursavenue-widget-link')}").html_safe
           %p.coursavenue-comment-footer
             %i= "Avis déposé le #{I18n.l(comment.created_at, format: :date)}"
     %p{style: 'text-align: center; margin-bottom: 5px;'}
-      = link_to 'Voir les autres avis sur CoursAvenue', structure_url(@structure, subdomain: 'www'), class: 'coursavenue-btn'
+      = link_to 'Voir les autres avis sur CoursAvenue', structure_url(@structure, subdomain: 'www'), class: 'coursavenue-btn', target: '_blank'
   - if params[:show_new_comment] and params[:show_new_comment] == 'true'
     %p{style: 'text-align: center;'}
-      = link_to 'Déposer mon avis sur CoursAvenue', new_structure_comment_url(@structure, subdomain: 'www'), class: 'coursavenue-btn'
+      = link_to 'Déposer mon avis sur CoursAvenue', new_structure_comment_url(@structure, subdomain: 'www'), class: 'coursavenue-btn', target: '_blank'
