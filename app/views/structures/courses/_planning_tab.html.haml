@@ -21,3 +21,4 @@
           %i Dernière mise à jour le #{l(@course.updated_at, format: :date)}.
       - else
         %p.white-box.islet Pas de planning pour ce cours.
+  = render 'price_tab'

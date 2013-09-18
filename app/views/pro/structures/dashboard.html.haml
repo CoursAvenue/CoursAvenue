@@ -98,7 +98,7 @@
         %i.icon-check
         %span.line-through Renseigner mes cours et mon planning
       - else
-        = link_to pro_structure_path(@structure), class: 'profile-task-uncomplete' do
+        = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
           %i.icon-check-empty
           Renseigner mes cours et mon planning
 

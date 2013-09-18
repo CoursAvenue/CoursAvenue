@@ -42,7 +42,7 @@
     .map-marker-image.disabled {
         a { background-image: image-url('icons/map-marker-disabled.png'); }
     }
-    .map-marker-image:hover, .map-marker-image.active {
+    .map-marker-image.disabled:hover, .map-marker-image.active {
         z-index: 10;
         a    { background-image: image-url('icons/map-marker.png'); }
     }

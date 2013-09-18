@@ -34,15 +34,128 @@
 
 
 .grid.push--top
+  .grid__item.six-tenths>
+    %ul.tabs
+      %li.active
+        %a{href: '#tab-map', data: {toggle: 'tab'} }
+          %i.icon-map-marker
+          Carte
+      %li
+        %a{href: '#tab-medias', data: {toggle: 'tab'} }
+          %i.icon-picture
+          Photos & Vidéos
+          - if @medias.any?
+            = "(#{@medias.length})"
+
+    .tab-content
+      #tab-map.tab-pane.active
+        .course-header-map
+          = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: true} )
+        %ul.block-list.white-box#place-list
+          - @structure.places.each_with_index do |place, index|
+            %li.grid--full.hidden
+              .grid__item.width-auto.v-middle.soft-half--right>
+                .map-marker-image.center-block
+                  %a
+                    %span= index + 1
+              .grid__item.seven-eighths.v-middle>
+                = place.location.name
+                —
+                %i= place.location.street
+              %div{itemscope: true, itemtype: 'http://schema.org/Place'}
+                .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
+                  %meta{itemprop: 'latitude', content: place.location.latitude}
+                  %meta{itemprop: 'longitude', content: place.location.longitude}
+          .text--center
+            %a#show-all-places{href: 'javascript:void(0)'} Détail les lieux
+
+      #tab-medias.tab-pane
+        .media-gallery
+          - if @medias.any?
+            = render partial: 'medias/media', collection: @medias
+          - else
+            %p.white-box.islet.text--center
+              Cet établissement n'a pas de photos ou de vidéos.
+              -# %br
+              -# = link_to 'Soliciter à mettre des photos & des vidéos', 'javascript:void(0)', class: 'btn btn--blue'
+
+    %ul.tabs
+      %li.active
+        %a{href: '#tab-description', data: {toggle: 'tab'} }
+          %i.icon-list
+          Description
+      %li
+        %a{href: '#tab-courses', data: {toggle: 'tab'} }
+          %i.icon-calendar
+          Cours
+      %li
+        %a{href: '#tab-comments', data: {toggle: 'tab'} }
+          %i.icon-comments
+          Avis
+      %li
+        %a{href: '#tab-teachers', data: {toggle: 'tab'} }
+          %i.icon-group
+          Professeurs
+    .tab-content
+      %article#tab-description.tab-pane.active
+        .white-box.islet
+          %h2.delta Description de : #{@structure.name}
+          - if @structure.description
+            %p= @structure.description.html_safe
+          - else
+            %p Pas de description
+
+      %article#tab-comments.tab-pane
+        - if @comments.empty?
+          %p.white-box.islet.text--center
+            Cet établissement n'a pas encore d'avis
+            %br
+            %b Soyez le premier à nous donner votre avis !
+        - if @comments.any?
+          %ul#comments.comment-list
+            - @comments.each_with_index do |comment, index|
+              = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
+
+      %article#tab-courses.tab-pane
+        %h3#tab-courses
+          %i.icon-list
+          Cours
+        - if @courses.any?
+          #course-list
+            %table.table--striped.table--white
+              %thead
+                %tr
+                  %th.five-twelfths Nom du <b>cours</b>
+                  %th.text--right À partir de
+              %tbody
+                - @courses.each do |course|
+                  %tr
+                    %td
+                      %h3.base-font-style.flush--bottom= link_to course.name.capitalize, structure_course_path(@structure, course)
+                    %td.text--right
+                      - if course.best_price
+                        = "#{readable_amount course.best_price.amount}€".html_safe
+        - else
+          %p.white-box.islet.text--center
+            Cet établissement n'a pas renseigné de cours.
+
+      %article#tab-teachers.tab-pane
+        #teachers
+          - @teachers.each_with_index do |teacher, index|
+            %div
+              = render partial: 'teachers/teacher', locals: {teacher: teacher}
+
+
   .grid__item.four-tenths{itemscope: true, itemtype: 'http://schema.org/Place'}>
     .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
       %meta{itemprop: 'latitude', content: @structure.latitude}
       %meta{itemprop: 'longitude', content: @structure.longitude}
+
     .white-box.soft-half
-      %h1.beta.blue.flush--bottom= @structure.name
+      %h1.gamma.blue.push-half--bottom= @structure.name
       %ul.nav.push-half--ends= join_child_subjects @structure, true
-      - if @structure.description.present?
-        %p.read-more{data: {behavior: 'read-more'}}= @structure.description.html_safe
+      -# - if @structure.description.present?
+      -#   %p.read-more{data: {behavior: 'read-more'}}= @structure.description.html_safe
       .text--center
         -# = form_for @structure.reservations.build, remote: true, html: {id: 'coord-form'} do |f|
         -#   = f.hidden_field :reservable_type
@@ -52,7 +165,7 @@
 
     .text--center.white-box.soft-half.push--top.push--bottom
       - if @structure.rating
-        .thin.big-alpha.brand #{@structure.comments_count}
+        %a#show-comments.muted-link.thin.big-alpha.brand{href: 'javascript:void(0)'} #{@structure.comments_count}
         %div
           avis
           %a{href: '#comments'}
@@ -78,23 +191,23 @@
       .white-box.islet
         .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @structure} à #{@structure.name}"
 
-    .course-header-map.push--top
-      = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: true} )
-    %ul.block-list.white-box
-      - @structure.places.each_with_index do |place, index|
-        %li.grid--full
-          .grid__item.width-auto.v-middle.soft-half--right>
-            .map-marker-image.center-block
-              %a
-                %span= index + 1
-          .grid__item.seven-eighths.v-middle>
-            = place.location.name
-            %br
-            %i= place.location.street
-          %div{itemscope: true, itemtype: 'http://schema.org/Place'}
-            .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
-              %meta{itemprop: 'latitude', content: place.location.latitude}
-              %meta{itemprop: 'longitude', content: place.location.longitude}
+    -# .course-header-map.push--top
+    -#   = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: true} )
+    -# %ul.block-list.white-box
+    -#   - @structure.places.each_with_index do |place, index|
+    -#     %li.grid--full
+    -#       .grid__item.width-auto.v-middle.soft-half--right>
+    -#         .map-marker-image.center-block
+    -#           %a
+    -#             %span= index + 1
+    -#       .grid__item.seven-eighths.v-middle>
+    -#         = place.location.name
+    -#         %br
+    -#         %i= place.location.street
+    -#       %div{itemscope: true, itemtype: 'http://schema.org/Place'}
+    -#         .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
+    -#           %meta{itemprop: 'latitude', content: place.location.latitude}
+    -#           %meta{itemprop: 'longitude', content: place.location.longitude}
 
     .white-box.islet.push--top
       - if @structure.website
@@ -121,108 +234,25 @@
 
 
 
-  .grid__item.six-tenths>
-    %article#tab-comments
-      %h3#tab-courses
-        %i.icon-star-empty
-        Avis des élèves
-      - if @comments.empty?
-        %p.white-box.islet.text--center
-          Cet établissement n'a pas encore d'avis
-          %br
-          %b Soyez le premier à nous donner votre avis !
-      - if @comments.any?
-        %ul#comments.comment-list
-          - @comments.each_with_index do |comment, index|
-            = render partial: 'comments/comment', locals: {comment: comment, show_title: true, class_name: (index > 2 ? 'hidden' : '')}
-            - if index == 3
-              .text--center
-                %a#show-all-comments{href: 'javascript:void(0)'} Voir tous les avis
-
-
-      %hr
-      %h3#tab-courses
-        %i.icon-list
-        Cours
-      - if @courses.any?
-        #course-list
-          %table.table--striped.table--white
-            %thead
-              %tr
-                %th.five-twelfths Nom du <b>cours</b>
-                %th.text--right À partir de
-            %tbody
-              - @courses.each do |course|
-                %tr
-                  %td
-                    %h3.base-font-style.flush--bottom= link_to course.name.capitalize, structure_course_path(@structure, course)
-                  %td.text--right
-                    - if course.best_price
-                      = "#{readable_amount course.best_price.amount}€".html_safe
-      - else
-        %p.white-box.islet.text--center
-          Cet établissement n'a pas renseigné de cours.
-
-      - if @teachers.any?
-        %hr
-        %h3#tab-teachers
-          %i.icon-group
-          Professeurs
-        #teachers
-          - @teachers.each_with_index do |teacher, index|
-            %div{class: (index > 2 ? 'hidden' : '')}
-              = render partial: 'teachers/teacher', locals: {teacher: teacher}
-            - if index == 3
-              .text--center.push--bottom
-                %a#show-all-teachers{href: 'javascript:void(0)'} Voir tous les professeurs
-
-      %hr
-      %h3#tab-videos
-        %i.icon-youtube-play
-        Photos & Vidéos
-      .media-gallery
-        - if @medias.any?
-          - @medias.each do |media|
-            .media__item.one-half.very-soft>
-              %a.white-box.soft-half.block.break-all{href: media.url, title: media.caption}
-                = media.url_html
-                %caption= media.caption
-        - else
-          %p.white-box.islet.text--center
-            Cet établissement n'a pas de photos ou de vidéos.
-            -# %br
-            -# = link_to 'Soliciter à mettre des photos & des vidéos', 'javascript:void(0)', class: 'btn btn--blue'
-
 #course_info.hidden= render 'structures/courses/info_popup'
 
 = content_for :scripts do
   :javascript
     $(function() {
-        var comments_are_hidden = true;
-        $('#show-all-comments').click(function() {
-            if (comments_are_hidden) {
-                $('#comments .hidden').removeClass('hidden');
-                $('#show-all-comments').text('Cacher les avis');
-                $('#comments .comment-list__el').last().after($(this).parent());
-            } else {
-                $('#comments .comment-list__el').slice(2, $('#comments .comment-list__el').length).addClass('hidden');
-                $('#show-all-comments').text('Voir tous les avis');
-                $('#comments .hidden').last().prev().after($(this).parent());
-            }
-            comments_are_hidden = !comments_are_hidden;
+        var places_are_hidden   = true;
+        $('#show-comments').click(function(){
+          $.scrollTo($('[href="#tab-comments"]'), {duration: 200});
+          $('[href="#tab-comments"]').click();
         });
-        var teachers_are_hidden = true;
-        $('#show-all-teachers').click(function() {
-            if (teachers_are_hidden) {
-                $('#teachers .hidden').removeClass('hidden');
-                $('#show-all-teachers').text('Cacher les professeurs');
-                $('#teachers > div').last().after($(this).parent());
+        $('#show-all-places').click(function() {
+            if (places_are_hidden) {
+                $(this).text('Cacher les lieux');
+                $('#place-list .hidden').removeClass('hidden');
             } else {
-                $('#teachers > div').slice(2, $('#teachers > div').length).addClass('hidden');
-                $('#show-all-teachers').text('Voir tous les professeurs');
-                $('#teachers .hidden').last().prev().after($(this).parent());
+                $('#place-list li').addClass('hidden');
+                $(this).text('Détail des lieux');
             }
-            teachers_are_hidden = !teachers_are_hidden;
+            places_are_hidden = !places_are_hidden;
         });
         var map_loaded = false;
         if ($('#tab-all-places-link').length > 0) {
@@ -247,7 +277,11 @@
                 return false;
             });
         }
-        $('.media-gallery').masonry({ itemSelector: '.media__item' });
+        $('[href=#tab-medias]').click(function(){
+            setTimeout(function(){
+              $('.media-gallery').masonry({ itemSelector: '.media__item' });
+            }, 5);
+        });
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
         $('#submit-coord-form').click(function(){
             $('#coord-form').submit();

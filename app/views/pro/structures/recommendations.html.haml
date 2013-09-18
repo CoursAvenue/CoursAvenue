@@ -49,6 +49,8 @@
           %i.blue Modifiez ce texte en le rendant le plus personnel possible avant d'envoyer votre demande.
         %textarea.one-whole{name: 'text', rows: 8, data: {behavior: 'autoresize'}}
           Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques minutes pour laisser un avis sur mon profil ?
+        %p.gray-light.push-half--top
+          = link_to 'Déposez votre avis en 20 secondes', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), class: 'btn btn--blue'
         %p.gray-light.flush
           Merci et à très bientôt,
           %br
