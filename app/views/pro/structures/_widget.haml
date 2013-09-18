@@ -90,6 +90,9 @@
     %div
       .coursavenue-widget-title Recommandé par les élèves sur
       %img.coursavenue-image{src: asset_path('logo.png'), height: 35, style: 'height: 35px;'}
+  - if params[:show_new_comment] and params[:show_new_comment] == 'true'
+    %p{style: 'text-align: center;'}
+      = link_to 'Déposer mon avis sur CoursAvenue', new_structure_comment_url(@structure, subdomain: 'www'), class: 'coursavenue-btn', target: '_blank'
   - if params[:last_comments] and params[:last_comments] == 'true'
     - params[:nb_comments] ||= 3
     - params[:nb_comments] = params[:nb_comments].to_i
@@ -106,11 +109,9 @@
             %p.coursavenue-comment-paragraph
               %strong= "\"#{comment.title}\""
           %p.coursavenue-comment-paragraph
-            = truncate(comment.content, length: 600, omission: "… #{link_to('Lire la suite →', structure_url(@structure, subdomain: 'www', anchor: 'recommantation-#{comment.id}', target: '_blank'), class: 'coursavenue-widget-link')}").html_safe
+            - omission = link_to('Lire la suite →', structure_url(@structure, subdomain: 'www', anchor: "recommantation-#{comment.id}"), target: '_blank', class: 'coursavenue-widget-link')
+            = truncate(comment.content.html_safe, length: 600, omission: "… #{omission}").html_safe
           %p.coursavenue-comment-footer
             %i= "Avis déposé le #{I18n.l(comment.created_at, format: :date)}"
     %p{style: 'text-align: center; margin-bottom: 5px;'}
-      = link_to 'Voir les autres avis sur CoursAvenue', structure_url(@structure, subdomain: 'www'), class: 'coursavenue-btn', target: '_blank'
-  - if params[:show_new_comment] and params[:show_new_comment] == 'true'
-    %p{style: 'text-align: center;'}
-      = link_to 'Déposer mon avis sur CoursAvenue', new_structure_comment_url(@structure, subdomain: 'www'), class: 'coursavenue-btn', target: '_blank'
+      = link_to 'Voir tous les avis sur CoursAvenue', structure_url(@structure, subdomain: 'www'), class: 'coursavenue-btn', target: '_blank'
