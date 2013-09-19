@@ -17,6 +17,7 @@
           - if comment.waiting_for_deletion?
             = link_to '&nbsp;/&nbsp;Rétablir'.html_safe, accept_pro_structure_comment_path(comment.structure, comment, silent: true), class: 'float--right', method: :put, data: { confirm: 'Êtes-vous sûr de rétablir cet avis ?' }
           = link_to '&nbsp;Supprimer'.html_safe, comment_path(comment), class: 'float--right', method: :delete, data: { confirm: 'Êtes-vous sûr de supprimer cet avis ?' }
+          = link_to 'Modifier&nbsp;/'.html_safe, edit_pro_comment_path(comment), class: 'float--right'
 
         - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
           .float--right.text--right

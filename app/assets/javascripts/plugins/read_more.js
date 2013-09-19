@@ -60,6 +60,9 @@
                     this.is_hidden = !this.is_hidden;
                 }.bind(this));
             }
+            if (this.original_height == 0) {
+                this.$element.css('max-height', 'none');
+            }
         }
     };
 

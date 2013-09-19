@@ -19,7 +19,7 @@ CoursAvenue::Application.routes.draw do
       match 'sms'                                      , to: 'structures#new'
 
 
-      resources :comments, only: [:index], controller: 'comments'
+      resources :comments, only: [:edit, :update, :index], controller: 'comments'
       resources :subjects
       resources :reservation_loggers, only: [:index, :destroy]
       resources :invited_teachers, only: [:index]

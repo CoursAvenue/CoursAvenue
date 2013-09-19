@@ -9,7 +9,7 @@ class Comment < ActiveRecord::Base
 
   validates :email, :author_name, :course_name, :rating, :content, :commentable, presence: true
   validates :rating, numericality: { greater_than: 0, less_than: 6 }
-  validate  :doesnt_exist_yet
+  validate  :doesnt_exist_yet, on: :create
 
   after_initialize :set_default_rating
   after_save       :update_teacher_mailchimp if Rails.env.production?
@@ -25,6 +25,9 @@ class Comment < ActiveRecord::Base
   scope :accepted,             where(status: 'accepted')
   scope :waiting_for_deletion, where(status: 'waiting_for_deletion')
 
+  def content_for_input
+    self.content.gsub(/<br>/, '&#x000A;').html_safe if self.content
+  end
 
   def accept! silent=false
     self.status = :accepted

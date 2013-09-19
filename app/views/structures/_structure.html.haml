@@ -3,7 +3,7 @@
     %div.two-twelfths.visuallyhidden--palm
       .course-image.media__img
         = link_to structure_path(structure) do
-          = image_tag structure.logo.url(:thumb), alt: "Cours de #{join_parent_subjects_text structure} à #{structure.name}"
+          = image_tag structure.logo.url(:thumb), alt: "Cours de #{join_parent_subjects_text structure} à #{structure.name}", class: 'one-whole'
 
   %article.course-content{class: (structure.logo.present? ? 'eight-twelfths' : 'ten-twelfths')}
     %header

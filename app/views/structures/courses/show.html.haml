@@ -68,7 +68,7 @@
                   %meta{itemprop: 'latitude', content: place.location.latitude}
                   %meta{itemprop: 'longitude', content: place.location.longitude}
           .text--center
-            %a#show-all-places{href: 'javascript:void(0)'} Détail les lieux
+            %a#show-all-places{href: 'javascript:void(0)'} Voir les adresses
 
       %article#tab-medias.tab-pane
         - if @medias.any?
@@ -171,11 +171,11 @@
         });
         $('#show-all-places').click(function() {
             if (places_are_hidden) {
-                $(this).text('Cacher les lieux');
+                $(this).text('Cacher les adresses');
                 $('#place-list .hidden').removeClass('hidden');
             } else {
                 $('#place-list li').addClass('hidden');
-                $(this).text('Détail des lieux');
+                $(this).text('Voir les adresses');
             }
             places_are_hidden = !places_are_hidden;
         });
