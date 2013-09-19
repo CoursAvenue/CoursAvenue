@@ -1,175 +1,168 @@
 = side_menu_currently_at 'Communiquer'
 
-.text--center.islet.white-box
-  %h2.orange
-    %i.icon-warning-sign
-    En cours de réalisation
-  %p
-    C'est bientôt fini, promis !
+= render partial: 'pro/structures/communication_tabs', locals: {current: 'widget'}
+%h3.text--center Vos recommandations automatiquement mises à jour sur votre site internet
+%p.alert--info
+  Affichez votre livre d'or interactif sur votre propre site Internet ou blog en quelques minutes seulement. C'est très simple : suivez les 2 étapes ci-dessous pour installer ce qu'on appelle un "widget". Voici l'exemple d'un partenaire qui l'a installé en 2min :
+  = link_to "exemple de livre d'or.", 'http://bes.oud-academy.com/index.php/temoignages', target: '_blank'
+%h5.home-title Étape 1 : Configurez votre widget
 
-- if current_pro_admin.super_admin?
-  = render partial: 'pro/structures/communication_tabs', locals: {current: 'widget'}
-  %p.alert--info
-    Affichez votre livre d'or interactif sur votre propre site Internet ou blog en quelques minutes seulement. C'est très simple : suivez les 2 étapes ci-dessous pour installer ce qu'on appelle un "widget". Voici l'exemple d'un partenaire qui l'a installé en 2min :
-    = link_to "exemple de livre d'or.", 'http://bes.oud-academy.com/index.php/temoignages', target: '_blank'
-  %h5.home-title Étape 1 : Configurez votre widget
-
-  .grid.push--bottom
-    .grid__item.one-half>
-      .soft--right
-        %h4
-          %i.icon-cogs
-          Configuration
-        .white-box.islet
-          .push--bottom
-            %label.v-middle.inline-block{for: 'show-comments'} Afficher les derniers avis
-            %input#show-comments{type: 'checkbox', checked: true}
-          .push--bottom
-            %label.inline{for: 'nb-comments'} Nombre d'avis à afficher
-            %input.inline#nb-comments{style: 'width: 3em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 3}
-          .push--bottom
-            %label.v-middle.inline-block{for: 'show-new-comment'} Afficher un bouton pour laisser un avis
-            %input#show-new-comment{type: 'checkbox', checked: true}
-
-    .grid__item.one-half.bordered--left>
+.grid.push--bottom
+  .grid__item.one-half>
+    .soft--right
       %h4
-        Aperçu
-      %div{style: 'width: 400px'}
-        #coursavenue-widget
+        %i.icon-cogs
+        Configuration
+      .white-box.islet
+        .push--bottom
+          %label.v-middle.inline-block{for: 'show-comments'} Afficher les derniers avis
+          %input#show-comments{type: 'checkbox', checked: true}
+        .push--bottom
+          %label.inline{for: 'nb-comments'} Nombre d'avis à afficher
+          %input.inline#nb-comments{style: 'width: 3em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 3}
+        .push--bottom
+          %label.v-middle.inline-block{for: 'show-new-comment'} Afficher un bouton pour laisser un avis
+          %input#show-new-comment{type: 'checkbox', checked: true}
+
+  .grid__item.one-half.bordered--left>
+    %h4
+      Aperçu
+    %div{style: 'width: 400px'}
+      #coursavenue-widget
 
 
-  %h5.push--top.home-title Étape 2 : Installer le widget sur votre site
+%h5.push--top.home-title Étape 2 : Installez le widget sur votre site
+.grid
+  .grid__item.one-half.text--center>
+    = link_to "J'ai un site perso", 'javascript:void(0)', class: 'btn btn--large', id: 'personal-website'
+  .grid__item.one-half.text--center>
+    = link_to "J'utilise wordpress", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-website'
+
+#wordpress-guide.hidden
+  %h4.text--center.push--top Où voulez-vous affichez votre livre d'or ?
   .grid
-    .grid__item.one-half.text--center>
-      = link_to "J'ai un site perso", 'javascript:void(0)', class: 'btn btn--large', id: 'personal-website'
-    .grid__item.one-half.text--center>
-      = link_to "J'utilise wordpress", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-website'
+    .grid__item.one-half.text--center.v-middle>
+      = link_to "Sur une nouvelle page", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-new-page-link'
+    .grid__item.one-half.text--center.v-middle>
+      = link_to "Sur la barre latérale", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-lateral-link'
 
-  #wordpress-guide.hidden
-    %h4.text--center.push--top Où voulez-vous affichez votre livre d'or ?
+  #wordpress-new-page.hidden
+    .white-box.islet.push--top
+      %h3.text--center Guide d'installation
+      %h5.push--top Étape 1 : Accédez à votre espace admin
+      %p
+        Connectez-vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
+        = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php', target: '_blank', rel: 'nofollow'
+
+      %h5.push--top Étape 2 : Créez une nouvelle page
+      %p Dans la barre latérale de gauche cliquez sur <strong>« Pages »</strong> / <strong>« Ajouter »</strong>.
+      = image_tag 'pro/wordpress-guide/page-step-1.png'
+
+      %h5.push--top Étape 3 : Cliquez sur « Texte »
+      %p Donnez un nom à votre page puis cliquez sur l'onglet <strong>« Texte »</strong> en haut à droite.
+      = image_tag 'pro/wordpress-guide/page-step-2.png'
+
+      %h5.push--top Étape 4 : Copiez le code
+      %p Copiez et collez le texte suivant, publiez et c'est fini !
+      %textarea.html-code.one-whole.push--bottom{rows: 10}
+      = image_tag 'pro/wordpress-guide/page-step-3.png'
+      %h4.text--center.push--ends Et voilà, c'est fini !
+
+  #wordpress-lateral.hidden
+    .white-box.islet.push--top
+      %h3.text--center Guide d'installation
+      %h5.push--top Étape 1 : Accédez à votre espace admin
+      %p
+        Connectez-vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
+        = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php', target: '_blank', rel: 'nofollow'
+
+      %h5.push--top Étape 2 : Allez dans la section « Widgets »
+      %p Dans la barre latérale de gauche cliquez sur <strong>« Apparence »</strong> / <strong>« Widgets »</strong>.
+      = image_tag 'pro/wordpress-guide/side-step-1.png', class: 'center-block'
+
+      %h5.push--top Étape 3 : Choisissez le widget « Texte »
+      %p Dans la liste des widgets disponibles, choisissez le widget « Texte » et glissez le en haut à droite de l'écran dans la <strong>« Zone de Sidebar »</strong>.
+      = image_tag 'pro/wordpress-guide/side-step-2.png'
+      = image_tag 'pro/wordpress-guide/side-step-3.png'
+
+      %h5.push--top Étape 4 : Copiez le code
+      %p Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
+      %textarea.html-code.one-whole.push--bottom{rows: 10}
+      = image_tag 'pro/wordpress-guide/side-step-4.png'
+      %h4.text--center.push--ends Et voilà, c'est fini !
+
+#webmaster-code.hidden
+  .white-box.islet.push--top
     .grid
       .grid__item.one-half.text--center.v-middle>
-        = link_to "Sur une nouvelle page", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-new-page-link'
+        %p.text--left
+          Copiez le code ci-dessous à envoyer à votre webmaster :
+        %textarea.one-whole#code{rows: 7, style: 'font-size: 12px'}
+          window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget'); $.ajax({ url: "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}", dataType: 'json', success: function(response) { coursavenue_widget_div.innerHTML = response.html;}});}
       .grid__item.one-half.text--center.v-middle>
-        = link_to "Sur la barre latérale", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-lateral-link'
-
-    #wordpress-new-page.hidden
-      .white-box.islet.push--top
-        %h3.text--center Guide d'installation
-        %h5.push--top Étape 1 : Accédez à votre espace admin
-        %p
-          Connectez vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
-          = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php', target: '_blank', rel: 'nofollow'
-
-        %h5.push--top Étape 2 : Créez une nouvelle page
-        %p Dans la barre latérale de gauche cliquez sur <strong>« Pages »</strong> / <strong>« Ajouter »</strong>.
-        = image_tag 'pro/wordpress-guide/page-step-1.png'
-
-        %h5.push--top Étape 3 : Cliquez sur « Texte »
-        %p Donnez un nom à votre page puis cliquez sur l'onglet <strong>« Texte »</strong> en haut à droite.
-        = image_tag 'pro/wordpress-guide/page-step-2.png'
-
-        %h5.push--top Étape 4 : Copiez le code
-        %p Copiez et collez le texte suivant, publiez et c'est fini !
-        %textarea.html-code.one-whole.push--bottom{rows: 10}
-        = image_tag 'pro/wordpress-guide/page-step-3.png'
-        %h4.text--center.push--ends Et voilà, c'est fini !
-
-    #wordpress-lateral.hidden
-      .white-box.islet.push--top
-        %h3.text--center Guide d'installation
-        %h5.push--top Étape 1 : Accédez à votre espace admin
-        %p
-          Connectez vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
-          = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php', target: '_blank', rel: 'nofollow'
-
-        %h5.push--top Étape 2 : Allez dans la section « Widgets »
-        %p Dans la barre latérale de gauche cliquez sur <strong>« Apparence »</strong> / <strong>« Widgets »</strong>.
-        = image_tag 'pro/wordpress-guide/side-step-1.png', class: 'center-block'
-
-        %h5.push--top Étape 3 : Choisissez le widget « Texte »
-        %p Dans la liste des widgets disponible, choisissez le widget « Texte » et glissez le en haut à droite de l'écran dans la <strong>« Zone de Sidebar »</strong>.
-        = image_tag 'pro/wordpress-guide/side-step-2.png'
-        = image_tag 'pro/wordpress-guide/side-step-3.png'
-
-        %h5.push--top Étape 4 : Copiez le code
-        %p Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
-        %textarea.html-code.one-whole.push--bottom{rows: 10}
-        = image_tag 'pro/wordpress-guide/side-step-4.png'
-        %h4.text--center.push--ends Et voilà, c'est fini !
-
-  #webmaster-code.hidden
-    .white-box.islet.push--top
-      .grid
-        .grid__item.one-half.text--center.v-middle>
-          %p
-            Code à donner à votre webmaster :
-          %textarea.one-whole#code{rows: 7, style: 'font-size: 12px'}
-            window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget'); $.ajax({ url: "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}", dataType: 'json', success: function(response) { coursavenue_widget_div.innerHTML = response.html;}});}
-        .grid__item.one-half.text--center.v-middle>
-          %p.push-half--top
-            = link_to 'Envoyer le code à votre webmaster par email', 'mailto:?subject=Code widget CoursAvenue à mettre sur mon site Internet&body=', class: 'btn btn--blue', id: 'send-link-by-email'
-  %div{style: 'margin-bottom: 300px;'}
-  - content_for :scripts do
-    :javascript
-      $(function() {
-          $('#personal-website').click(function(){
-            $('#wordpress-guide').hide();
-            $('#webmaster-code').show('slow');
-            $.scrollTo($('#webmaster-code'), {duration: 200});
-          });
-          $('#wordpress-website').click(function(){
-            $('#webmaster-code').hide();
-            $('#wordpress-guide').show('slow');
-            $.scrollTo($('#wordpress-guide'), {duration: 200});
-          });
-          $('#wordpress-new-page-link').click(function(){
-              $('#wordpress-new-page').show('slow');
-              $('#wordpress-lateral').hide();
-              $.scrollTo($('#wordpress-new-page'), {duration: 200});
-          });
-          $('#wordpress-lateral-link').click(function(){
-              $('#wordpress-new-page').hide();
-              $('#wordpress-lateral').show('slow');
-              $.scrollTo($('#wordpress-lateral'), {duration: 200});
-          });
-          var code = "<div id='coursavenue-widget'></div><script>window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget');var request = new XMLHttpRequest();request.open('GET', '__URL__', false);request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');request.send(null);if(request.status == 200) {coursavenue_widget_div.innerHTML = request.responseText;}}</script";
-          var load_widget,
-              coursavenue_widget_div = $('#coursavenue-widget'),
-              params = {last_comments: true, nb_comments: 3, show_new_comment: true};
-          $('#show-new-comment').change(function() {
-              params['show_new_comment'] = this.checked;
-              load_widget();
-          });
-          $('#show-comments').change(function() {
-              params['last_comments'] = this.checked;
-              load_widget();
-          });
-          $('#nb-comments').change(function() {
-              params['nb_comments'] = this.value;
-              load_widget();
-          });
-          load_widget = function() {
-              var url      = "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}",
-                  new_code;
-              url += '?last_comments='    + params['last_comments'];
-              url += '&show_new_comment=' + params['show_new_comment'];
-              if (params['last_comments'] && params['last_comments'] == true) {
-                url += '&nb_comments=' + params['nb_comments'];
-              }
-              new_code = code.replace('__URL__', url) + '>';
-              $('#code').val(new_code);
-              $.ajax({
-                  url: url,
-                  dataType: 'text',
-                  success: function(response) {
-                    coursavenue_widget_div.html(response);
-                    $('.html-code').val($('#coursavenue-widget').parent().html().replace(/\s+/g, ' '));
-                  }
-              });
-          };
-          load_widget();
-      });
+        %p.push-half--top
+          = link_to 'Envoyer le code à votre webmaster par email', 'mailto:?subject=Code widget CoursAvenue à mettre sur mon site Internet&body=', class: 'btn btn--blue', id: 'send-link-by-email'
+%div{style: 'margin-bottom: 300px;'}
+- content_for :scripts do
+  :javascript
+    $(function() {
+        $('#personal-website').click(function(){
+          $('#wordpress-guide').hide();
+          $('#webmaster-code').show('slow');
+          $.scrollTo($('#webmaster-code'), {duration: 200});
+        });
+        $('#wordpress-website').click(function(){
+          $('#webmaster-code').hide();
+          $('#wordpress-guide').show('slow');
+          $.scrollTo($('#wordpress-guide'), {duration: 200});
+        });
+        $('#wordpress-new-page-link').click(function(){
+            $('#wordpress-new-page').show('slow');
+            $('#wordpress-lateral').hide();
+            $.scrollTo($('#wordpress-new-page'), {duration: 200});
+        });
+        $('#wordpress-lateral-link').click(function(){
+            $('#wordpress-new-page').hide();
+            $('#wordpress-lateral').show('slow');
+            $.scrollTo($('#wordpress-lateral'), {duration: 200});
+        });
+        var code = "<div id='coursavenue-widget'></div><script>window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget');var request = new XMLHttpRequest();request.open('GET', '__URL__', false);request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');request.send(null);if(request.status == 200) {coursavenue_widget_div.innerHTML = request.responseText;}}</script";
+        var load_widget,
+            coursavenue_widget_div = $('#coursavenue-widget'),
+            params = {last_comments: true, nb_comments: 3, show_new_comment: true};
+        $('#show-new-comment').change(function() {
+            params['show_new_comment'] = this.checked;
+            load_widget();
+        });
+        $('#show-comments').change(function() {
+            params['last_comments'] = this.checked;
+            load_widget();
+        });
+        $('#nb-comments').change(function() {
+            params['nb_comments'] = this.value;
+            load_widget();
+        });
+        load_widget = function() {
+            var url      = "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}",
+                new_code;
+            url += '?last_comments='    + params['last_comments'];
+            url += '&show_new_comment=' + params['show_new_comment'];
+            if (params['last_comments'] && params['last_comments'] == true) {
+              url += '&nb_comments=' + params['nb_comments'];
+            }
+            new_code = code.replace('__URL__', url) + '>';
+            $('#code').val(new_code);
+            $.ajax({
+                url: url,
+                dataType: 'text',
+                success: function(response) {
+                  coursavenue_widget_div.html(response);
+                  $('.html-code').val($('#coursavenue-widget').parent().html().replace(/\s+/g, ' '));
+                }
+            });
+        };
+        load_widget();
+    });
 
   -# #coursavenue-widget
   -# :javascript

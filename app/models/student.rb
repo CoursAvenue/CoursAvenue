@@ -20,27 +20,30 @@ class Student < ActiveRecord::Base
 
   def ask_for_feedbacks_stage_1
     if self.email_opt_in
-      @structure = self.structure
-      @email     = self.email
-      self.update_attribute(:email_status, 'resend_stage_1')
+      @structure        = self.structure
+      @email            = self.email
+      self.email_status = 'resend_stage_1'
+      self.save
       StudentMailer.delay.ask_for_feedbacks_stage_1(self.structure, self.email)
     end
   end
 
   def ask_for_feedbacks_stage_2
     if self.email_opt_in
-      @structure = self.structure
-      @email     = self.email
-      self.update_attribute(:email_status, 'resend_stage_2')
+      @structure        = self.structure
+      @email            = self.email
+      self.email_status = 'resend_stage_2'
+      self.save
       StudentMailer.delay.ask_for_feedbacks_stage_2(self.structure, self.email)
     end
   end
 
   def ask_for_feedbacks_stage_3
     if self.email_opt_in
-      @structure = self.structure
-      @email     = self.email
-      self.update_attribute(:email_status, 'resend_stage_3')
+      @structure        = self.structure
+      @email            = self.email
+      self.email_status = 'resend_stage_3'
+      self.save
       StudentMailer.delay.ask_for_feedbacks_stage_3(self.structure, self.email)
     end
   end

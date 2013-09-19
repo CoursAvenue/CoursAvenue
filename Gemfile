@@ -105,6 +105,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'awesome_print'
   gem 'meta_request', '0.2.1'
+  gem 'delorean'
 end
 
 group :development, :test do

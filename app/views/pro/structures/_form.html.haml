@@ -208,7 +208,9 @@
                 }
             }
         };
-        initialize_crop(#{@structure.crop_x || 0}, #{@structure.crop_y || 0}, #{@structure.crop_width || 200}, #{@structure.crop_height || 200});
+        setTimeout(function(){
+          initialize_crop(#{@structure.crop_x || 0}, #{@structure.crop_y || 0}, #{@structure.crop_width || 200}, #{@structure.crop_height || 200});
+        }, 250);
         if ($('#delete-image').length > 0) {
             $('#delete-image').click(function(){
                 $('#structure_delete_image')[0].checked = true;

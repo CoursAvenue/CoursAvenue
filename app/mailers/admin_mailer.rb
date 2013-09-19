@@ -81,7 +81,19 @@ class AdminMailer < ActionMailer::Base
     @structure  = structure
     @email_text = email_text
     @email      = email
-    mail to: email, subject: "#{structure.name} vous invite à mettre en avant la qualité de vos cours"
+    mail to: email, subject: "#{structure.name} vous invite à créer votre profil sur CoursAvenue."
+  end
+
+  def send_invitation_stage_1(structure, invited_email)
+    @structure     = structure
+    @invited_email = invited_email
+    mail to: invited_email, subject: "#{structure.name} vous invite à créer votre profil sur CoursAvenue."
+  end
+
+  def send_invitation_stage_2(structure, invited_email)
+    @structure     = structure
+    @invited_email = invited_email
+    mail to: invited_email, subject: "#{structure.name} vous invite à créer votre profil sur CoursAvenue."
   end
 
   def admin_validated(admin)

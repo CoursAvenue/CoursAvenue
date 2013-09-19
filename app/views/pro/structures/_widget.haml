@@ -91,7 +91,7 @@
       .coursavenue-widget-title Recommandé par les élèves sur
       %img.coursavenue-image{src: asset_path('logo.png'), height: 35, style: 'height: 35px;'}
   - if params[:show_new_comment] and params[:show_new_comment] == 'true'
-    %p{style: 'text-align: center;'}
+    %p{style: 'text-align: center; margin-bottom: 10px;'}
       = link_to 'Déposer mon avis sur CoursAvenue', new_structure_comment_url(@structure, subdomain: 'www'), class: 'coursavenue-btn', target: '_blank'
   - if params[:last_comments] and params[:last_comments] == 'true'
     - params[:nb_comments] ||= 3

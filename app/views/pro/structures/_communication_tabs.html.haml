@@ -3,14 +3,14 @@
     = link_to widget_pro_structure_path(@structure) do
       %i.icon-book
       Livre d'or
-  %li{class: current == 'flyer' ? 'active' : ''}
-    = link_to flyer_pro_structure_path(@structure) do
-      %i.icon-bookmark
-      Flyer
   %li{class: current == 'signature' ? 'active' : ''}
     = link_to signature_pro_structure_path(@structure) do
       %i.icon-envelope
       Signature
+  %li{class: current == 'flyer' ? 'active' : ''}
+    = link_to flyer_pro_structure_path(@structure) do
+      %i.icon-bookmark
+      Flyer
   - if @structure.comments_count >= 15
     %li{class: current == 'sticker' ? 'active' : ''}
       = link_to sticker_pro_structure_path(@structure) do
