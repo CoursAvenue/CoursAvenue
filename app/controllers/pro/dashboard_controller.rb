@@ -18,6 +18,13 @@ class Pro::DashboardController < Pro::ProController
         @structures[subj.name] = value
       end
     end
+    dates = (2.month.ago.to_date..Date.today).step
+    @admins_progression   = {}
+    @comments_progression = {}
+    dates.each do |date|
+      @admins_progression[date]   = Admin.where{created_at < date}.count
+      @comments_progression[date] = Comment.where{created_at < date}.count
+    end
 
     # Compute all the days to have all the days shown in the graph even when values are empty
     hash_of_days = {}

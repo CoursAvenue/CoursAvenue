@@ -1,4 +1,4 @@
-.map-with-slider.push-half--top
+.map-with-slider.push-half--top.side-search-map
   - if @courses.empty?
     = gmaps( {markers: {data: [{lat: params[:lat], lng: params[:lng]}].to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
   - else

@@ -10,10 +10,6 @@
       .course-title
         %h2.delta.inline.v-middle
           = link_to structure.name, structure_path(structure)
-          - @structure_locations[structure].each do |location|
-            .map-marker-image--small
-              = link_to structure_path(structure) do
-                %span= @locations.index(location) + 1
 
     - if structure.subjects.count > 5
       %ul.nav= join_parent_subjects(structure)
@@ -27,7 +23,6 @@
         %i.lbc-brand-icon
     %div{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
       %span.rating{title: comment_rating_title(structure.rating)}
-        = rating_stars structure.rating
       %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
       %meta{itemprop: 'count', content: structure.comments_count}
       %meta{itemprop: 'itemreviewed', content: structure.name}

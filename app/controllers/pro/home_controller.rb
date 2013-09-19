@@ -11,12 +11,10 @@ class Pro::HomeController < Pro::ProController
                                           per_page: 15
                                         })
     @locations     = @structures.collect{|structure| structure.locations.first }.uniq
-    location_index = 0
     @json_locations_addresses = @locations.to_gmaps4rails do |location, marker|
-      location_index += 1
       marker.picture({
                       :marker_anchor => [10, true],
-                      :rich_marker   => "<div class='map-marker-image disabled' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'><span>#{location_index}</span></a></div>"
+                      :rich_marker   => "<div class='map-marker-image disabled' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'></a></div>"
                      })
       marker.title   location.name
       marker.json({ id: location.id })

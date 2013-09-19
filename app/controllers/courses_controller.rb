@@ -36,12 +36,10 @@ class CoursesController < ApplicationController
       @course_places[course] = course.locations_around(latitude, longitude, radius)
       @locations            += @course_places[course]
     end
-    index = 0
     @json_locations_addresses = @locations.uniq.to_gmaps4rails do |place, marker|
-      index += 1
       marker.picture({
                       :marker_anchor => [10, true],
-                      :rich_marker   => "<div class='map-marker-image disabled' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'><span>#{index}</span></a></div>"
+                      :rich_marker   => "<div class='map-marker-image disabled' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'></a></div>"
                      })
       marker.title   place.name
       marker.json({ id: place.id })

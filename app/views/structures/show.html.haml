@@ -60,7 +60,7 @@
                     %span= index + 1
               .grid__item.seven-eighths.v-middle>
                 = place.location.name
-                —
+                %br
                 %i= place.location.street
               %div{itemscope: true, itemtype: 'http://schema.org/Place'}
                 .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
@@ -225,9 +225,6 @@
         - if @structure.contact_mobile_phone
           = link_to "tel:#{@structure.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
             = @structure.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
-      %div
-        %i.icon-home
-        = @structure.address
 
     - if @structure.facebook_url.present?
       = link_to "Page facebook de l'établissement", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole btn--small push--bottom'

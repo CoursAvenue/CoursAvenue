@@ -8,11 +8,13 @@
   = "#{(params[:subject_id] ? "Établissements de #{@subject.name.downcase}" : 'Établissements')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
 
 
-.grid
-  .grid__item= render 'shared/structures_header_search'
-  %section.grid__item.three-tenths.visuallyhidden--lap.visuallyhidden--palm.sticky>
+
+= render 'shared/structures_header_search'
+
+.grid.stickem-container.relative
+  %section.grid__item.four-tenths.visuallyhidden--lap.visuallyhidden--palm.stickem.absolute>
     = render 'side_search_form'
-  %section.grid__item.seven-tenths.lap--one-whole.palm--one-whole.stickem
+  %section.grid__item.six-tenths.lap--one-whole.palm--one-whole.push--four-tenths
     %ol.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
       %li= link_to 'Tous les établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
       - if @subject
@@ -65,6 +67,7 @@
 = content_for :scripts do
   :javascript
       $(function() {
+        $('body').stickem();
         $('.filter-select').click(function() {
               $('#hidden-sort-input').val(this.dataset.value);
               $('#submit_search_form').click();

@@ -16,13 +16,8 @@ fr:
         contact_phone: Téléphone fixe
         contact_mobile_phone: Téléphone portable
         email_address: Adresse email
+        funding_types: Type de financements acceptés
         gives_professional_courses: Mes cours sont pour des professionnels
-        accepts_holiday_vouchers: 'Tickets loisirs C.A.F. (y compris les "tickets temps libre")'
-        accepts_ancv_sports_coupon: Coupon Sports ANCV
-        accepts_leisure_tickets: Chèques vacances
-        accepts_afdas_funding: AFDAS
-        accepts_dif_funding: DIF
-        accepts_cif_funding: CIF
         billing_contact_first_name: Prénom
         billing_contact_last_name: Nom
         billing_contact_phone_number: Numéro de téléphone
@@ -36,6 +31,14 @@ fr:
         cancel_condition: "Conditions d’annulation"
         modification_condition: "Conditions de modification"
 
+  funding_type:
+    holiday_vouchers: 'Tickets loisirs C.A.F. (y compris les "tickets temps libre")'
+    ancv_sports_coupon: Coupon Sports ANCV
+    leisure_tickets: Chèques vacances
+    afdas: AFDAS
+    dif: DIF
+    cif: CIF
+    cesu: CESU
 
   structures:
     company: École privée

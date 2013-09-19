@@ -39,11 +39,7 @@
               .grid__item.two-twelfths>
                 = image_tag structure.logo.url(:thumb)
               .grid__item.seven-twelfths>
-                %h3.flush--bottom.brand.course-title
-                  .map-marker-image
-                    = link_to structure_url(structure, subdomain: 'www') do
-                      %span= index + 1
-                  = structure.name
+                %h3.flush--bottom.brand.course-title= structure.name
                 %ul.nav.push-half--ends= join_child_subjects structure, true
                 - if structure.description.present?
                   %p.read-more{data: {behavior: 'read-more', height: 50}}= structure.description.html_safe

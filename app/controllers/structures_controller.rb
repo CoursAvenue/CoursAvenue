@@ -37,13 +37,11 @@ class StructuresController < ApplicationController
     @comments       = @structure.comments.accepted.reject(&:new_record?)
     @comment        = @structure.comments.build
 
-    location_index = 0
     @places_address = @structure.locations.to_gmaps4rails do |location, marker|
-      location_index += 1
       marker.title   location.name
       marker.picture({
                       :marker_anchor => [10, true],
-                      :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'><span>#{location_index}</span></a></div>"
+                      :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'></a></div>"
                      })
       marker.json({ id: location.id })
     end
@@ -85,7 +83,7 @@ class StructuresController < ApplicationController
       place_index += 1
       marker.picture({
                       :marker_anchor => [10, true],
-                      :rich_marker   => "<div class='map-marker-image disabled' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'><span>#{place_index}</span></a></div>"
+                      :rich_marker   => "<div class='map-marker-image disabled' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'></a></div>"
                      })
       marker.title   location.name
       marker.json({ id: location.id })

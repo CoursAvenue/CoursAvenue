@@ -97,6 +97,7 @@
   @import "partials/objects/blog";
   @import "partials/objects/read_more";
   @import "partials/objects/profile";
+  @import "partials/objects/stickem";
 
   // @import "libs/datepicker/datepicker_bootstrap";
   @import "libs/autocomplete";
@@ -127,13 +128,3 @@ html {
   color     : white;
 }
 
-.stickit {
-  position: fixed;
-  top     : 10px;
-}
-
-.stickit-end {
-  bottom  : 40px;
-  position: absolute;
-  right   : 0;
-}

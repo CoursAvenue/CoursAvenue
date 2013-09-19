@@ -43,10 +43,7 @@ class Structure < ActiveRecord::Base
                   :rating, :comments_count,
                   :no_facebook, :no_website, :has_only_one_place,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
-
-                  ## Moyen de financements possible :
-                  :accepts_holiday_vouchers, :accepts_ancv_sports_coupon, :accepts_leisure_tickets,
-                  :accepts_afdas_funding, :accepts_dif_funding, :accepts_cif_funding,
+                  :funding_type_ids, :funding_types,
 
                   # For registration info
                   :has_registration_form, :needs_photo_id_for_registration, :needs_id_copy_for_registration,
@@ -198,6 +195,35 @@ class Structure < ActiveRecord::Base
   end
 
   handle_asynchronously :solr_index
+
+  # ---------------------------- Simulating Funding Type as objects
+  def funding_type_ids= _funding_types
+    if _funding_types.is_a? Array
+      write_attribute :funding_type_ids, _funding_types.reject{|funding_type| funding_type.blank?}.join(',')
+    else
+      write_attribute :funding_type_ids, _funding_types
+    end
+  end
+
+  def funding_types= _funding_types
+    _funding_types.reject!(&:blank?)
+    if _funding_types.is_a? Array
+      write_attribute :funding_type_ids, _funding_types.join(',')
+    elsif _funding_types.is_a? funding_type
+      write_attribute :funding_type_ids, _funding_types.id.to_s
+    end
+  end
+
+  def funding_types
+    return [] unless funding_type_ids.present?
+    self.funding_type_ids.map{ |funding_type_id| FundingType.find(funding_type_id) }
+  end
+
+  def funding_type_ids
+    return [] unless read_attribute(:funding_type_ids)
+    read_attribute(:funding_type_ids).split(',').map(&:to_i) if read_attribute(:funding_type_ids)
+  end
+
 
   # Send reminder every week depending on the email status of the structure
   def send_reminder

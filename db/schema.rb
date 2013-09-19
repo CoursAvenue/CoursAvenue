@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130916171758) do
+ActiveRecord::Schema.define(:version => 20130919074030) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -397,12 +397,6 @@ ActiveRecord::Schema.define(:version => 20130916171758) do
     t.string   "contact_phone"
     t.string   "contact_mobile_phone"
     t.string   "contact_email"
-    t.boolean  "accepts_holiday_vouchers",                     :default => false
-    t.boolean  "accepts_ancv_sports_coupon",                   :default => false
-    t.boolean  "accepts_leisure_tickets",                      :default => false
-    t.boolean  "accepts_afdas_funding",                        :default => false
-    t.boolean  "accepts_dif_funding",                          :default => false
-    t.boolean  "accepts_cif_funding",                          :default => false
     t.boolean  "has_registration_form"
     t.boolean  "needs_photo_id_for_registration"
     t.boolean  "needs_id_copy_for_registration"
@@ -459,6 +453,7 @@ ActiveRecord::Schema.define(:version => 20130916171758) do
     t.string   "email_status"
     t.datetime "last_email_sent_at"
     t.string   "last_email_sent_status"
+    t.string   "funding_type_ids"
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true

@@ -40,11 +40,11 @@
         position: absolute;
     }
     .map-marker-image.disabled {
-        a { background-image: image-url('icons/map-marker-disabled.png'); }
+        a    { background-image: image-url('icons/map-marker.png'); }
     }
     .map-marker-image.disabled:hover, .map-marker-image.active {
         z-index: 10;
-        a    { background-image: image-url('icons/map-marker.png'); }
+        a    { background-image: image-url('icons/map-marker-blue.png'); }
     }
 }
 .map-marker-image {

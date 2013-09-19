@@ -42,9 +42,9 @@
         },
 
         attachEvents: function() {
-            var is_hidden       = this.toggled_el.hasClass('hide');
+            var is_hidden = this.toggled_el.hasClass('hide');
             if (is_hidden) {
-                this.toggled_el.slideUp();
+                this.toggled_el.slideUp(0);
                 this.toggled_el.removeClass('hide');
             }
             this.$element.click(function() {
@@ -56,6 +56,7 @@
                     this.caret_icon.removeClass('icon-caret-down').addClass('icon-caret-left');
                 }
                 is_hidden = !is_hidden;
+                $('.stickem').resize();
             }.bind(this));
         }
     };

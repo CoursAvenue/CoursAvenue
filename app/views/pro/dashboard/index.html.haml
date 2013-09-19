@@ -18,6 +18,18 @@
 
 %h3.header-group
   %i.icon-map-marker
+  Profésseurs enregistrés / Avis laissés - progression
+.white-box.islet.text--center
+  .gamma
+    = Admin.normal.count
+    profs
+    \/
+    = Comment.count
+    avis
+  #admins-progression
+
+%h3.header-group
+  %i.icon-map-marker
   Nombre d'établissements par disciplines (dont le prof est enregistré)
 .white-box.islet.text--center
   #subjects
@@ -95,6 +107,20 @@
                 name: 'Profs inscrits'
                },
               { data: #{@comments.map{|date, count| count}},
+                name: 'Avis'
+              }
+            ]
+        });
+        new Highcharts.Chart({
+            chart: { renderTo: 'admins-progression'},
+            title: { text: null },
+            xAxis: { categories: #{@admins_progression.map{|date, count| l((date), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [
+              { data: #{@admins_progression.map{|date, count| count}},
+                name: 'Profs inscrits'
+               },
+              { data: #{@comments_progression.map{|date, count| count}},
                 name: 'Avis'
               }
             ]

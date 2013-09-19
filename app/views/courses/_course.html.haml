@@ -16,23 +16,15 @@
       .hN.course-title
         %h2.delta.inline.v-middle
           = link_to course.name, structure_course_path(course.structure, course)
-          - @course_places[course].each do |location|
-            .map-marker-image--small.visuallyhidden--palm
-              = link_to structure_course_path(course.structure, course) do
-                %span= @locations.index(location) + 1
     %div.grid--full
       %div.ten-twelfths.grid__item>
         %div
           %h3.course-element-place-name
-            - if @course_places[course].length > 1
-              = "(#{@course_places[course].length} #{Place.model_name.human(count: (@course_places[course].length)).downcase})"
             = link_to structure_path(course.structure) do
               = truncate course.structure.name, length: 70
             - if course.structure.rating
-              = rating_stars course.structure.rating
-              \/
+              —
               = course.structure.comments_count
-              avis
               %i.lbc-brand-icon
 
         %footer

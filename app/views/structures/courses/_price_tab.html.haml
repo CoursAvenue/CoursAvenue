@@ -37,20 +37,9 @@
       %h5.push-half--bottom Tarifs réduits
       - @course.discounts.each do |discount|
         #{t(discount.libelle)} : #{readable_amount(discount.promo_percentage)}% de réduction
-  - if @structure.accepts_holiday_vouchers or @structure.accepts_ancv_sports_coupon or @structure.accepts_leisure_tickets or @structure.accepts_afdas_funding or @structure.accepts_dif_funding or @structure.accepts_cif_funding
+  - if @structure.funding_types.any?
     .white-box.islet
-      %p.flush--bottom= t('.possible_funding')
-      %ul
-        - if @structure.accepts_holiday_vouchers
-          %li= t('.holiday_vouchers')
-        - if @structure.accepts_ancv_sports_coupon
-          %li= t('.sport_coupons')
-        - if @structure.accepts_leisure_tickets
-          %li= t('.leisure_coupons')
-        - if @structure.accepts_afdas_funding
-          %li= t('.afdas_html')
-        - if @structure.accepts_dif_funding
-          %li= t('.dif_html')
-        - if @structure.accepts_cif_funding
-          %li= t('.cif_html')
+      %p.flush--bottom
+        = t('.possible_funding')
+        %strong= @structure.funding_types.map{|funding_type| t(funding_type.name) }.join(', ')
 

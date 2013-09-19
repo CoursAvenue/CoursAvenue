@@ -7,11 +7,11 @@
 = content_for :title do
   = "#{(params[:subject_id] ? "Cours de #{@subject.name.downcase}" : 'Cours')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
 
-.grid
-  .grid__item= render 'search_form'
-  %section.grid__item.three-tenths.visuallyhidden--palm.visuallyhidden--lap>
+= render 'search_form'
+.grid.stickem-container.relative
+  %section.grid__item.four-tenths.visuallyhidden--palm.visuallyhidden--lap.stickem.absolute>
     = render 'side_search_form'
-  %section.grid__item.seven-tenths.lap--one-whole.palm--one-whole
+  %section.grid__item.six-tenths.lap--one-whole.palm--one-whole.push--four-tenths
     %ol.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
       %li= link_to 'Tous les cours', courses_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
       - if @subject
@@ -66,6 +66,7 @@
 = content_for :scripts do
   :javascript
       $(function() {
+          $('body').stickem();
           $('.filter-select').click(function() {
               $('#hidden-sort-input').val(this.dataset.value);
               $('#submit_search_form').click();
