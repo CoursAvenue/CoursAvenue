@@ -1,0 +1,6 @@
+%p Nom : #{@name}
+%p Email : #{@email}
+%p= @content.html_safe
+
+%p.action
+  = link_to "Répondre par email", "mailto:#{@email}", class: 'btn btn--blue'

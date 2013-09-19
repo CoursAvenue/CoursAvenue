@@ -2,18 +2,17 @@
   .main-container.grid--full.hard
     %h1.accessibility
       CoursAvenue
-    .grid__item.one-half.v-middle>
+    .grid__item.one-third.v-bottom>
       = link_to root_path, class: 'logo' do
         = image_tag 'logo_pro.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
 
-    .grid__item.one-half.v-middle.text--right.visuallyhidden--palm
-      %div
-        %i.icon-phone-sign.orange.icon-2x
-        = image_tag 'pages/phone_number.png', height: 19
-      %div
-        = image_tag 'pages/email_contact.png', height: 10
+    .grid__item.two-thirds.v-bottom.text--right.visuallyhidden--palm
       %ul.nav
         %li= link_to 'Accéder à CoursAvenue.com', root_url(subdomain: 'www'), class: 'btn btn--small'
+        %li
+          = link_to pages_contact_url(subdomain: 'www'), rel: :nofollow, class: 'btn btn--small' do
+            %i.icon-envelope-alt
+            Nous contacter
         = render 'shared/question_dropdown_menu'
 
         - if current_pro_admin

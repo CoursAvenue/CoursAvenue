@@ -6,7 +6,7 @@ class CourseSearch
     params[:start_date] = I18n.l(Date.today) if params[:start_date].blank?
     @search = Sunspot.search(Course) do
       fulltext                              params[:name]                                           if params[:name].present?
-      with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 5, :bbox => true)
+      with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 5, bbox: false)
       with(:subject_slugs).any_of           [params[:subject_id]]                                   if params[:subject_id]
       with(:type).any_of                    params[:types]                                          if params[:types].present?
       with(:audience_ids).any_of            params[:audiences]                                      if params[:audiences].present?

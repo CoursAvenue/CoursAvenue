@@ -253,7 +253,7 @@ class Structure < ActiveRecord::Base
 
   def locations_around(latitude, longitude, radius=5)
     locations.reject do |location|
-      Geocoder::Calculations.distance_between([latitude, longitude], [location.latitude, location.longitude], unit: :km) > radius
+      Geocoder::Calculations.distance_between([latitude, longitude], [location.latitude, location.longitude], unit: :km) >= radius
     end
   end
 

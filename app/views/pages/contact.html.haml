@@ -1,16 +1,47 @@
-%h1.blue Comment nous contacter ?
-.one-half
-  %p
-    Vous pouvez nous écrire directement à l'adresse e-mail ci-dessous.
-    %br
-    Nous répondons rapidement, presque toujours dans la demi-journée.
-    %br
-    = image_tag 'pages/email_contact.png', style: 'height: 20px'
+%h1.blue Comment pouvons-nous vous aider ?
+.grid
+  .grid__item.one-half>
+    .islet
+      %p
+        Vous pouvez nous écrire directement à l'adresse e-mail ci-dessous.
+        %br
+        Nous répondons rapidement, presque toujours dans la demi-journée.
+        %br
+        = image_tag 'pages/email_contact.png', style: 'height: 20px'
 
 
-  %p
-    Vous pouvez aussi nous joindre par téléphone, mais s'il vous plaît privilégiez autant que possible l'email, nous sommes une petite équipe !
-    %br
-    = image_tag 'pages/phone_number.png', style: 'height: 13px'
-    %br
-    Du lundi au vendredi de 9h30 à 18h30.
+      %p
+        Vous pouvez aussi nous joindre par téléphone, mais s'il vous plaît privilégiez autant que possible l'email, nous sommes une petite équipe !
+        %br
+        = image_tag 'pages/phone_number.png', style: 'height: 13px'
+        %br
+        Du lundi au vendredi de 9h30 à 18h30.
+  .grid__item.one-half.bordered--left>
+    = form_tag(contact_path, method: :post) do
+      .grid.push-half--bottom
+        .grid__item.one-third.text--right>
+          %label.bold * Votre nom
+          - if @errors and @errors.include?(:name)
+            %span.error
+              Doit être remplis
+        .grid__item.two-thirds>
+          %input.one-whole{type: 'text', name: 'name', value: params[:name]}
+      .grid.push-half--bottom
+        .grid__item.one-third.text--right>
+          %label.bold * Votre email
+          - if @errors and @errors.include?(:email)
+            %span.error
+              Doit être remplis
+        .grid__item.two-thirds>
+          %input.one-whole{type: 'text', name: 'email', value: params[:email]}
+      .grid.push-half--bottom
+        .grid__item.one-third.text--right>
+          %label.bold * Votre message
+          - if @errors and @errors.include?(:content)
+            %span.error
+              Doit être remplis
+        .grid__item.two-thirds>
+          %textarea.one-whole{type: 'text', name: 'content', rows: 10, value: params[:content], data: {behavior: 'autoresize'}}
+      .grid
+        .grid__item.push--one-third.text--left>
+          %input.btn.btn--green{type: 'submit', value: 'Envoyer'}

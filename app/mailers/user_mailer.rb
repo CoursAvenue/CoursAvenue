@@ -13,6 +13,13 @@ class UserMailer < ActionMailer::Base
   #
 
   # Welcomes the user on the platforme
+  def contact(name, email, content)
+    @name    = name
+    @email   = email
+    @content = content
+    mail to: 'contact@coursavenue', subject: 'Message de contact'
+  end
+
   def welcome(user)
     @user = user
     mail to: @user.email, subject: 'Bienvenue sur CoursAvenue.com'
