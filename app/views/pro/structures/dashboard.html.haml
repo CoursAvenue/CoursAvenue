@@ -13,7 +13,7 @@
   .grid
     .grid__item.one-half.bordered--right>
       .islet
-        %h4
+        %h4.push-half--bottom
           Votre profil est complété à #{@profile_percentage}%
         .text--center.progress.push-half--bottom{style: "width: 280px;"}
           - if @profile_percentage == 0
@@ -60,9 +60,9 @@
     .grid__item.one-half>
       .soft-half--top.soft--right
         - if @structure.comments_count > 1
-          %h4 Vous avez #{@structure.comments_count} recommandations
+          %h4.push-half--bottom Vous avez #{@structure.comments_count} recommandations
         - else
-          %h4 Vous avez #{@structure.comments_count} recommandation
+          %h4.push-half--bottom Vous avez #{@structure.comments_count} recommandation
         %table#progress-comments.push-half--right
           %tbody
             %tr{style: 'background: #e7e1da;'}
