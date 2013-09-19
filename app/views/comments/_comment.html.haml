@@ -2,7 +2,6 @@
 - show_title   = true      if show_title.nil?
 - small_avatar = false     if small_avatar.nil?
 - class_name   = ''        if class_name.nil?
-- can_report   = false     if can_report.nil?
 %li.comment-list__el.white-box.soft-half.hard--left{class: class_name, id: "recommantation-#{comment.id}"}
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
     .grid--full
@@ -13,18 +12,35 @@
           .center-block{class: "#{(small_avatar ? 'profile-picture--small' : 'profile-picture')} profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
             = comment.author_name[0].capitalize
       .grid__item.ten-twelfths>
-        - if can?(:destroy, comment)
-          - if comment.waiting_for_deletion?
-            = link_to '&nbsp;/&nbsp;Rétablir'.html_safe, accept_pro_structure_comment_path(comment.structure, comment, silent: true), class: 'float--right', method: :put, data: { confirm: 'Êtes-vous sûr de rétablir cet avis ?' }
-          = link_to '&nbsp;Supprimer'.html_safe, comment_path(comment), class: 'float--right', method: :delete, data: { confirm: 'Êtes-vous sûr de supprimer cet avis ?' }
-          = link_to 'Modifier&nbsp;/'.html_safe, edit_pro_comment_path(comment), class: 'float--right'
-
         - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
-          .float--right.text--right
-            = link_to "Répondre à l'élève", "mailto:#{comment.email}", onclick: "ga('send', 'event', 'Answer to student', 'click')", class: 'btn btn--blue'
-            - if can_report
-              %br
-              = link_to 'Demander une suppression', ask_for_deletion_pro_structure_comment_path(comment.structure, comment), method: :put, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet avis ?' }
+          .drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+            %a.btn.btn--orange{href: 'javascript:void(0)'}
+              Actions
+              %i.icon-chevron-down.soft-half--left
+            %ul.drop-down__el.text--left
+              %li.nowrap
+                = link_to "mailto:#{comment.email}", onclick: "ga('send', 'event', 'Answer to student', 'click')" do
+                  %i.icon-envelope
+                  Répondre à l'élève
+              %li.nowrap
+                = link_to ask_for_deletion_pro_structure_comment_path(comment.structure, comment), method: :put, data: { confirm: 'Êtes-vous sûr de vouloir supprimer cet avis ?' } do
+                  %i.icon-trash
+                  Demander une suppression
+              - if can?(:destroy, comment)
+                - if comment.waiting_for_deletion?
+                  %li.nowrap
+                    = link_to accept_pro_structure_comment_path(comment.structure, comment, silent: true), method: :put, data: { confirm: 'Êtes-vous sûr de rétablir cet avis ?' } do
+                      %i.icon-ok
+                      Rétablir
+                %li.nowrap
+                  = link_to edit_pro_comment_path(comment) do
+                    %i.icon-pencil
+                    Modifier
+                %li.nowrap
+                  = link_to comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de supprimer cet avis ?' } do
+                    %i.icon-trash
+                    Supprimer
+
         %div.push-half--bottom
           %h6.flush.inline-block.v-middle{itemprop: 'author'}= comment.author_name.titleize
           - if comment.course_name.present?

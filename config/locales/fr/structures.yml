@@ -32,13 +32,15 @@ fr:
         modification_condition: "Conditions de modification"
 
   funding_type:
-    holiday_vouchers: 'Tickets loisirs C.A.F. (y compris les "tickets temps libre")'
+    holiday_vouchers: Tickets CAF ("loisirs" et "temps libre")
     ancv_sports_coupon: Coupon Sports ANCV
     leisure_tickets: Chèques vacances
     afdas: AFDAS
     dif: DIF
     cif: CIF
     cesu: CESU
+    culture_cheque: Chèques Culture
+    restaurant_ticket: Tickets restaurant
 
   structures:
     company: École privée

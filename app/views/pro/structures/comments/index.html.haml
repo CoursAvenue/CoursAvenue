@@ -14,7 +14,7 @@
 - if @pending_comments.any?
   %h3.flush Avis en attente de validation
   %p.blue.push-half--bottom
-    %i Validez les avis si ce sont bien vos élèves. Vous verrez le contenu de l'avis uniquement après validation.
+    %i Validez les avis si ce sont bien vos élèves. Une fois validé, l'avis sera visible sur votre profil public.
   - @pending_comments.each do |comment|
     .white-box.islet
       .grid
@@ -35,4 +35,4 @@
   %p.white-box.islet Encore aucun avis.
 - else
   %ul.comment-list
-    = render partial: '/comments/comment', collection: @comments, locals: {can_report: true}
+    = render partial: '/comments/comment', collection: @comments
