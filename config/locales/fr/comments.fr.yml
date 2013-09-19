@@ -11,3 +11,7 @@ fr:
         email: Email
         rating: Votre appréciation
         author_name: Votre nom
+
+  comments:
+    errors:
+      already_posted: Vous avez déjà posté un avis sur cet établissement.

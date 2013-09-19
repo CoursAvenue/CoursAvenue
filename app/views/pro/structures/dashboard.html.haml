@@ -11,8 +11,8 @@
 
 .white-box.push--bottom
   .grid
-    .grid__item.one-half>
-      .islet.bordered--right
+    .grid__item.one-half.bordered--right>
+      .islet
         %h4
           Votre profil est complété à #{@profile_percentage}%
         .text--center.progress.push-half--bottom{style: "width: 280px;"}
@@ -58,12 +58,12 @@
                 %i.icon-check-empty
                 Renseigner mes cours et mon planning
     .grid__item.one-half>
-      .islet
+      .soft-half--top.soft--right
         - if @structure.comments_count > 1
           %h4 Vous avez #{@structure.comments_count} recommandations
         - else
           %h4 Vous avez #{@structure.comments_count} recommandation
-        %table#progress-comments
+        %table#progress-comments.push-half--right
           %tbody
             %tr{style: 'background: #e7e1da;'}
               - 15.times do |index|
@@ -72,45 +72,57 @@
                     .hidden.bg-green{title: "<div style='font-size: 12px;'>#{@structure.comments.accepted[index].author_name} le #{I18n.l(@structure.comments.accepted[index].created_at, format: :date)}<br><br>#{@structure.comments.accepted[index].content.html_safe}<div>", data: {behavior: 'tooltip', html: 'true'}}
                       %a{href: 'javascript:void(0)'}
                         %i.icon-comment.white
+                  - else
+                    &nbsp;
             %tr
               - 15.times do |index|
                 %th.text--center.hard{style: "width: 6.6%;"}
-                  -# - if index == 4 or index == 14
-                  -#   = index + 1
-                  -#   avis
             %tr
               - 7.times do |index|
                 - if index == 2
                   %td.v-top.text--center.hard{colspan: 5}
                     %i.icon-arrow-up
                     %br
+                    5 avis
+                    %br
                     - if @structure.comments_count > 4
                       = link_to "Livre d'or", widget_pro_structure_path(@structure), class: 'btn btn--blue'
                     - else
-                      .btn.text--center
-                        À partir de 5 avis :
-                        %b Livre d'or
-                    %br
-                    %a{href: 'javascript:void(0)', title: "Vous pourrez rajouter un widget montrant vos dernières recommandations sur votre site", data: {behavior: 'tooltip'}}
-                      En savoir plus
-                      %i.icon-question-sign
+                      %a.btn.text--center{href: '#livre-dor-explanation', data: {behavior: 'modal'}} LIVRE D'OR
                 - elsif index == 6
-                  %td.v-top.hard{colspan: 5}
-                    .text--right
-                      %i.icon-arrow-up
+                  %td.text--right.v-top.hard{colspan: 5}
+                    %i.icon-arrow-up
+                    %br
+                    15 avis et +
+                    %br
                     - if @structure.comments_count > 14
                       = link_to "Autocollant", sticker_pro_structure_path(@structure), class: 'btn btn--blue'
                     - else
-                      .btn.text--center
-                        À partir de 15 avis :
-                        %b Autocollant
-                    %p
-                      %a{href: 'javascript:void(0)', title: "Choisissez le nombre d'autocollant que vous voulez et nous vous les enverront par la poste", data: {behavior: 'tooltip'}}
-                        En savoir plus
-                        %i.icon-question-sign
+                      %a.btn.text--center{href: '#sticker-explanation', data: {behavior: 'modal'}} AUTOCOLLANT
 
                 - else
                   %td.v-top
+
+#livre-dor-explanation.hidden
+  %h3.text--center Vous n'avez pas encore accès à votre livre d'or
+
+  %p
+    %strong Au-delà de 5 avis, nous vous offrons votre livre d'or interactif
+    qui vous permet d'afficher toutes les recommandations de vos élèves directement sur votre propre site Internet ou blog, mais aussi sur tous les autres supports de communication (flyers, affiches, signature de vos emails, etc.).
+  %p
+    Le bouche à oreille restant le 1er facteur d'inscription à un cours, nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
+
+  %p.text--center
+    = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
+
+#sticker-explanation.hidden
+  %h3.text--center Vous n'avez pas encore accès à votre autocollant
+  %p
+    %strong Au-delà de 15 avis, nous vous offrons l'autocollant "Recommandé par les élèves sur CoursAvenue"
+    à afficher sur vos lieux de cours : cela signifie que vos cours sont appréciés d'une large partie de vos élèves et que le bouche à oreille participe à votre développement.
+
+  %p.text--center
+    = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
 
 .grid
   .grid__item.one-third>

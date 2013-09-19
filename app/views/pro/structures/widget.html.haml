@@ -9,15 +9,17 @@
 
 - if current_pro_admin.super_admin?
   = render partial: 'pro/structures/communication_tabs', locals: {current: 'widget'}
-  %h5.home-title
-    Retrouvez votre livre d'or sur votre site !
+  %p.alert--info
+    Affichez votre livre d'or interactif sur votre propre site Internet ou blog en quelques minutes seulement. C'est très simple : suivez les 2 étapes ci-dessous pour installer ce qu'on appelle un "widget". Voici l'exemple d'un partenaire qui l'a installé en 2min :
+    = link_to "exemple de livre d'or.", 'http://bes.oud-academy.com/index.php/temoignages', target: '_blank'
+  %h5.home-title Étape 1 : Configurez votre widget
 
-  .grid
+  .grid.push--bottom
     .grid__item.one-half>
       .soft--right
         %h4
           %i.icon-cogs
-          Configurez votre widget
+          Configuration
         .white-box.islet
           .push--bottom
             %label.v-middle.inline-block{for: 'show-comments'} Afficher les derniers avis
@@ -35,7 +37,8 @@
       %div{style: 'width: 400px'}
         #coursavenue-widget
 
-  %hr.push--top
+
+  %h5.push--top.home-title Étape 2 : Installer le widget sur votre site
   .grid
     .grid__item.one-half.text--center>
       = link_to "J'ai un site perso", 'javascript:void(0)', class: 'btn btn--large', id: 'personal-website'

@@ -9,6 +9,7 @@ class Comment < ActiveRecord::Base
 
   validates :email, :author_name, :course_name, :rating, :content, :commentable, presence: true
   validates :rating, numericality: { greater_than: 0, less_than: 6 }
+  validate  :doesnt_exist_yet
 
   after_initialize :set_default_rating
   after_save       :update_teacher_mailchimp if Rails.env.production?
@@ -20,7 +21,6 @@ class Comment < ActiveRecord::Base
   before_save      :strip_names
 
   scope :ordered,   order('created_at DESC')
-
   scope :pending,              where(status: 'pending')
   scope :accepted,             where(status: 'accepted')
   scope :waiting_for_deletion, where(status: 'waiting_for_deletion')
@@ -114,6 +114,14 @@ class Comment < ActiveRecord::Base
   end
 
   private
+
+  def doesnt_exist_yet
+    _structure_id = self.commentable_id
+    _email        = self.email
+    if Comment.where{(commentable_id == _structure_id) & (email == _email) & (created_at > 2.months.ago)}.any?
+      self.errors.add :email, I18n.t('comments.errors.already_posted')
+    end
+  end
 
   def strip_names
     self.author_name = self.author_name.strip if author_name.present?

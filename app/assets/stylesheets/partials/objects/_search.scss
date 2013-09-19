@@ -135,7 +135,6 @@
         }
 
         min-width    : 19em;
-        //width        : 29%;
         padding-left : 0;
         padding-right: 0;
     }
@@ -153,6 +152,10 @@
     #map {
         height: 30em;
     }
+}
+
+.course-list {
+    min-height: 60em;
 }
 
 .side-search-panel {

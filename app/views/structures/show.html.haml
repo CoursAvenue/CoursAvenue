@@ -50,7 +50,7 @@
     .tab-content
       #tab-map.tab-pane.active
         .course-header-map
-          = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: true} )
+          = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 17, mapTypeControl: false}, last_map: true} )
         %ul.block-list.white-box#place-list
           - @structure.places.each_with_index do |place, index|
             %li.grid--full.hidden

@@ -3,19 +3,43 @@
 = render partial: 'pro/structures/communication_tabs', locals: {current: 'signature'}
 
 %h5.home-title
-  %i.icon-pencil
-  Attirez l'attention grâce à la signature de vos mails
+  %i.icon-envelope
+  Développez le bouche à oreille grâce à la signature de vos emails
 
-.text--center.push
-  %a.btn--large.btn.btn--blue{href: '', data: {behavior: 'copy-to-clipboard', 'clipboard-target' => 'signature'}} Copier la signature
 
+
+%h5 Modèle 1 : c'est ce qu'utilise un de nos professeurs de Qi Qong
 %p.alert--info
-  Déjà #{@structure.comments_count} élèves nous ont recommandé sur CoursAvenue.com ! Et vous, #{link_to "qu'avez-vous pensé de nos cours ?", new_structure_comment_url(@structure, subdomain: 'www')}
+  \--
   %br
-  %b Profil CoursAvenue :
-  #{link_to structure_url(@structure, subdomain: 'www')}
+  Votre avis m'intéresse, d'avance merci ! Je me permets de demander à celles et ceux qui ont déjà suivi un de mes cours de prendre juste 1 minute pour me laisser un avis : #{link_to structure_url(@structure, subdomain: 'www')}
   %br
-  %b Recommander :
-  #{link_to new_structure_comment_url(@structure, subdomain: 'www')}
+  Cela me permettra d'avoir un retour mais aussi et surtout, pour que d'autres personnes puissent se faire une idée et éventuellement participer et partager des moments profitables à tous.
 
-#signature.hidden Nous sommes noté #{@structure.rating} / 5 sur CoursAvenue.com ! Et vous, #{link_to "qu'avez-vous pensé de nos cours ?", new_structure_comment_url(@structure, subdomain: 'www')}&#x000A;Profil CoursAvenue : #{link_to structure_url(@structure, subdomain: 'www')}&#x000A;Recommander : #{link_to new_structure_comment_url(@structure, subdomain: 'www')}
+.text--center.push--bottom
+  %a.btn.btn--blue{href: '', data: {behavior: 'copy-to-clipboard', 'clipboard-target' => 'signature-1'}}
+    %i.icon-copy.soft-half--right
+    Copier la signature
+
+%hr
+
+%h5 Modèle 2 : plus générique
+%p.alert--info.one-whole
+  \--
+  %br
+  Déjà #{@structure.comments_count} élèves nous ont recommandé sur CoursAvenue.com ! Votre avis nous intéresse :
+  %br
+  %b Déposer mon avis :
+  #{link_to new_structure_comment_url(@structure, subdomain: 'www')}
+  %br
+  %b Voir tous les avis :
+  #{link_to structure_url(@structure, subdomain: 'www')}
+.text--center
+  %a.btn.btn--blue{href: '', data: {behavior: 'copy-to-clipboard', 'clipboard-target' => 'signature-2'}}
+    %i.icon-copy.soft-half--right
+    Copier la signature
+
+
+#signature-1.hidden --&#x000A;Votre avis m'intéresse, d'avance merci ! Je me permets de demander à celles et ceux qui ont déjà suivi un de mes cours de prendre juste 1 minute pour me laisser un avis : #{link_to structure_url(@structure, subdomain: 'www')}&#x000A;Cela me permettra d'avoir un retour mais aussi et surtout, pour que d'autres personnes puissent se faire une idée et éventuellement participer et partager des moments profitables à tous.
+
+#signature-2.hidden --&#x000A;Déjà #{@structure.comments_count} élèves nous ont recommandé sur CoursAvenue.com ! Votre avis nous intéresse :&#x000A;Déposer mon avis :#{link_to new_structure_comment_url(@structure, subdomain: 'www')}&#x000A;Voir tous les avis :#{link_to structure_url(@structure, subdomain: 'www')}
