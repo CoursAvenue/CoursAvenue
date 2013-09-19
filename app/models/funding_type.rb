@@ -8,8 +8,8 @@ class FundingType < ActiveHash::Base
     { id: 4, name: 'funding_type.afdas',             order: 4 },
     { id: 5, name: 'funding_type.leisure_tickets',   order: 5 },
     { id: 6, name: 'funding_type.ancv_sports_coupon',order: 6 },
-    { id: 7, name: 'funding_type.holiday_vouchers',  order: 7 }
-    { id: 8, name: 'funding_type.culture_cheque',    order: 8 }
+    { id: 7, name: 'funding_type.holiday_vouchers',  order: 7 },
+    { id: 8, name: 'funding_type.culture_cheque',    order: 8 },
     { id: 9, name: 'funding_type.restaurant_ticket', order: 9 }
   ]
 

@@ -21,6 +21,6 @@ class Pro::CommentsController < InheritedResources::Base
   def update
     @comment = Comment.find params[:id]
     @comment.update_attributes params[:comment]
-    redirect_to pro_comments_path
+    redirect_to pro_comments_path(anchor: "recommandation-#{@comment.id}")
   end
 end
