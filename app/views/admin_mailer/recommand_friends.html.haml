@@ -11,7 +11,7 @@
   = @email_text.html_safe
 
 %p.action
-  = link_to 'Soyez recommandé par vos élèves', inscription_pro_structures_url(email: @email, from_friend: true, subdomain: 'pro'), class: 'btn btn--blue'
+  = link_to 'Créer mon profil', inscription_pro_structures_url(email: @email, from_friend: true, subdomain: 'pro'), class: 'btn btn--blue'
 %p
   À très bientôt !
 %p= @structure.name
