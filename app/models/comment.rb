@@ -16,6 +16,7 @@ class Comment < ActiveRecord::Base
   after_destroy    :update_rating
   before_create    :set_pending_status
   after_create     :send_email
+  after_create     :update_rating
 
   before_save      :replace_slash_n_r_by_brs
   before_save      :strip_names
@@ -106,7 +107,6 @@ class Comment < ActiveRecord::Base
       _email        = self.email
       if Student.where{(structure_id == _structure_id) & (email == _email)}.count > 0
         self.status = 'accepted'
-        self.update_rating
       end
     end
     self.status ||= 'pending'
