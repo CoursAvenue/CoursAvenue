@@ -52,9 +52,35 @@ class StructuresController < ApplicationController
 
     if params[:subject_id]
       @subject = Subject.find params[:subject_id]
+    else
+      _name = params[:name]
+      if _name.present? and Subject.where{name =~ _name}.any?
+        @subject = Subject.where{name =~ _name}.first
+      end
     end
 
-    @structures = StructureSearch.search(params)
+    @structures = StructureSearch.search(params).results
+    # If there is less than 15 results, see surrounding structure (with same parent subject)
+    if @structures.count < 15
+      if @subject and @subject.parent
+        if @subject.parent.parent
+          @parent_subject = @subject.parent.parent
+        else
+          @parent_subject = @subject.parent
+        end
+        @other_structures = StructureSearch.search({lat: params[:lat] || 48.8540,
+                                                    lng: params[:lng] || 2.3417,
+                                                    radius: params[:radius] || 5,
+                                                    sort: 'rating_desc',
+                                                    has_logo: true,
+                                                    per_page: 15 - @structures.count,
+                                                    subject_id: @subject.parent.slug,
+                                                    exclude: @subject.slug
+                                                  })
+        @other_structure_count = @other_structures.total
+        @other_structures      = @other_structures.results
+      end
+    end
     init_geoloc
 
     respond_to do |format|
@@ -75,7 +101,11 @@ class StructuresController < ApplicationController
     radius               = (params[:radius] || 5).to_f
     @locations           = []
     @structure_locations = {} # Keeping in memory only locations that are in the radius
-    @structures.each do |structure|
+    @_structures         = @structures
+    if @other_structures
+      @_structures = @_structures + @other_structures
+    end
+    @_structures.each do |structure|
       @structure_locations[structure] = structure.locations_around(latitude, longitude, radius)
       @locations += @structure_locations[structure]
     end

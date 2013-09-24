@@ -129,7 +129,7 @@ class AdminMailer < ActionMailer::Base
                                             has_logo: true,
                                             per_page: 3,
                                             subject_id: parent_subject.slug
-                                          })
+                                          }).results
       # If there is not enough with the same subjects
     end
     @structures = @structures.flatten
@@ -140,7 +140,7 @@ class AdminMailer < ActionMailer::Base
                                             sort: 'rating_desc',
                                             has_logo: true,
                                             per_page: (3 - @structures.length)
-                                          })
+                                          }).results
     end
     @structures = @structures.flatten
     # If there is not enough within the radius
@@ -151,7 +151,7 @@ class AdminMailer < ActionMailer::Base
                                             sort: 'rating_desc',
                                             has_logo: true,
                                             per_page: (3 - @structures.length)
-                                          })
+                                          }).results
     end
     @structures = @structures.flatten
     return @structures

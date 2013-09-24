@@ -7,8 +7,19 @@ class HomeController < ApplicationController
     @levels           = Level.all
     @promoted_courses = Course.where{is_promoted == true}.shuffle[0...3]
     @comments         = Comment.accepted.order('created_at DESC').limit(5)
-    @homepage_images  = [['home-page/dance.jpg', 'Cours de danse'],
-                         ['home-page/painter.jpg', 'Cours de peinture']]
+    @homepage_images  = [['home-page/dance.jpg', 'Cours de danse']]
+                         # ,['home-page/painter.jpg', 'Cours de peinture']]
+    @structures = StructureSearch.search({lat: 48.8540,
+                                          lng: 2.3417,
+                                          radius: 6,
+                                          sort: 'rating_desc',
+                                          has_logo: true,
+                                          per_page: 1000
+                                        }).results
+
+    @json_locations_addresses = @structures.to_gmaps4rails do |structure, marker|
+      marker.json({ id: structure.slug })
+    end
 
     # fresh_when @comments.first, etag: [@comments.first, ENV["ETAG_VERSION_ID"]], public: true
     # expires_in 1.minute, public: true

@@ -5,7 +5,14 @@ class StructureSearch
     retrieve_location params
     @search = Sunspot.search(Structure) do
       fulltext params[:name]                             if params[:name].present?
+
       with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id]
+
+      if params[:exclude].present?
+        without(:subject_slugs, params[:exclude])
+      elsif params[:other].present?
+        without(:subject_slugs, ['danse', 'musique-chant', 'theatre'])
+      end
 
       with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 5, bbox: false) if params[:lat].present? and params[:lng].present?
 
@@ -18,14 +25,13 @@ class StructureSearch
       order_by :has_logo, :desc
       if params[:sort] == 'rating_desc'
         order_by :nb_comments, :desc
-        order_by :rating, :desc
       elsif params[:sort] == 'relevancy'
         order_by :has_comment, :desc
         # order_by_geodist(:location, params[:lat], params[:lng]) if params[:lat].present? and params[:lng].present?
       end
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
     end
-    @search.results
+    @search
   end
 
   def self.retrieve_location params

@@ -9,7 +9,7 @@ class Pro::HomeController < Pro::ProController
                                           sort: 'rating_desc',
                                           has_logo: true,
                                           per_page: 15
-                                        })
+                                        }).results
     @locations     = @structures.collect{|structure| structure.locations.first }.uniq
     @json_locations_addresses = @locations.to_gmaps4rails do |location, marker|
       marker.picture({

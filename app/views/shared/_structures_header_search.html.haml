@@ -9,16 +9,16 @@
   = form_tag search_path, method: :get, authenticity_token: false, class: 'g one-whole', id: 'header-search' do
     .header-search-bar
       %div.search-input-wrapper.relative{style: 'display: block;'}
-        %input#search-input{size: 50, class: 'search-input', placeholder: 'Que voulez-vous faire ?', type: 'search', name: 'name', value: params[:name], autofocus: true, autocomplete: 'off'}
+        %input#search-input{size: 50, class: 'search-input', placeholder: 'Discipline / Etablissement ou professeur', type: 'search', name: 'name', value: params[:name], autofocus: true, autocomplete: 'off'}
       %div.search-input-wrapper.relative
         .input-with-icon
-          %input#adress-picker{size: 50, class: 'search-input', placeholder: 'Où ?', type: 'text', autocomplete: 'off', name: 'address_name', value: params[:address_name], data: {behavior: 'address-picker', lng: '#address-lng', lat: '#address-lat', city: '#address-city'}}
+          %input#adress-picker{size: 50, class: 'search-input', placeholder: 'Ville / CP / Adresse', type: 'text', autocomplete: 'off', name: 'address_name', value: (params[:address_name] || 'Paris'), data: {behavior: 'address-picker', lng: '#address-lng', lat: '#address-lat', city: '#address-city'}}
           %i.icon-map-marker.delta
         %p#specify-location.white-box--noshadow.hidden{style: 'z-index: 2; line-height: 1.3; padding: 5px 10px; position: absolute;'}
           Vous devez spécifier un lieu
-      %input#address-lat{type: 'hidden', name: 'lat', value: params[:lat]}
-      %input#address-lng{type: 'hidden', name: 'lng', value: params[:lng]}
-      %input#address-city{type: 'hidden', name: 'city', value: params[:city]}
+      %input#address-lat{type: 'hidden', name: 'lat', value: (params[:lat] || 48.8592)}
+      %input#address-lng{type: 'hidden', name: 'lng', value: (params[:lng] || 2.3417)}
+      %input#address-city{type: 'hidden', name: 'city', value: (params[:city] || 'paris')}
 
       %div.button-wrapper
         %button.nowrap.btn.btn--orange{type: 'submit', id: 'submit_search_form'}
@@ -53,13 +53,14 @@
         var template = Handlebars.compile($('#structure-item-template').html());
         $('#search-input').typeahead([
           {
-            name: 'subjects',
+            name: 'subjects_#{ENV["ETAG_VERSION_ID"]}',
             prefetch: '/subjects.json',
+            valueKey: 'name',
             header: '<div class="typeahead-dataset-header">Disciplines</div>'
           },
           {
-            name: 'structure',
-            header: '<div class="typeahead-dataset-header">Établissements</div>',
+            name: 'structure_#{ENV["ETAG_VERSION_ID"]}',
+            header: '<div class="typeahead-dataset-header">Établissements & professeurs</div>',
             valueKey: 'name',
             template: template,
             remote: {
@@ -74,6 +75,8 @@
             // If it is a structure
             if (data.hasOwnProperty('structure_type')) {
                 window.location = '/etablissements/' + data.slug
+            } else {
+              $('#header-search').attr('action', '/disciplines/' + data.slug + '/etablissements')
             }
         });
     })

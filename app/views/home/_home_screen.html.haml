@@ -1,10 +1,32 @@
 = content_for :above_container do
   .home-screen
-    %h1.text--center.home-screen-title
+    %h1.text--center.home-screen-title.push--bottom
       Les élèves vous guident vers les meilleurs cours
-    %h5.text--center.home-screen-subtitle
-      Plus de 700 avis / mois, toutes disciplines
+    -# %h5.text--center.home-screen-subtitle
+    -#   Plus de 700 avis / mois, toutes disciplines
     = render 'shared/home_page_search_form'
+    .home-screen-subjects.center-block.main-container.push--top
+      .grid
+        .grid__item.one-quarter.text--center>
+          = link_to subject_structures_path('danse', address_name: 'Paris'), class: 'home-screen-subjects__item' do
+            = image_tag 'icons/subjects/dance.jpg'
+            .home-screen-subjects__title
+              Danse
+        .grid__item.one-quarter.text--center>
+          = link_to subject_structures_path('musique-chant', address_name: 'Paris'), class: 'home-screen-subjects__item' do
+            = image_tag 'icons/subjects/music.jpg'
+            .home-screen-subjects__title
+              Musique & Chant
+        .grid__item.one-quarter.text--center>
+          = link_to subject_structures_path('theatre', address_name: 'Paris'), class: 'home-screen-subjects__item' do
+            = image_tag 'icons/subjects/theatre.jpg'
+            .home-screen-subjects__title
+              Théâtre
+        .grid__item.one-quarter.text--center>
+          = link_to structures_path(address_name: 'Paris', other: 'true'), class: 'home-screen-subjects__item' do
+            = image_tag 'icons/subjects/other.jpg'
+            .home-screen-subjects__title
+              Autres
 
     - cache "home_screen_#{ENV["ETAG_VERSION_ID"]}" do
       %ul#slideshow.slideshow.home-slideshow

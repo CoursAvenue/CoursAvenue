@@ -44,7 +44,7 @@
     -#     - else
     -#       = link_to 'Par cours', courses_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
 
-    - if @structures.empty?
+    - if @structures.empty? and @other_structures and @other_structures.empty?
       = render 'no_results'
     - else
       .flexbox.page-entries-wrapper
@@ -58,8 +58,18 @@
             %a.filter-select{href: '#', class: (params[:sort] == 'relevancy' ? 'bold' : ''), onclick: "_gaq.push(['_trackEvent', 'Trier établissement / pertinence', 'click'])", data: {value: 'relevancy'}} Pertinence
         .flexbox__item.visuallyhidden--palm
           .text--right= paginate @structures, window: 1, outer_window: 1
-      %ul.block-list.course-list
-        = render partial: 'structure', :collection => @structures
+      .course-list
+        %ul.block-list
+          = render partial: 'structure', :collection => @structures
+        - if @other_structures
+          %hr
+          %p.push-half--bottom
+            %strong #{@other_structure_count}
+            établissements similaires trouvés
+          %ul.block-list
+            = render partial: 'structure', :collection => @other_structures
+          .text--center
+            = link_to "Voir la suite", subject_structures_path(@parent_subject), class: 'btn btn--blue btn--large'
 
     %footer.g.one-whole
       = paginate @structures, window: 2, outer_window: 1

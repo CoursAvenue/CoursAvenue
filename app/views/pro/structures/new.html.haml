@@ -49,7 +49,7 @@
 
         - cache "inscription_subjects_#{ENV["ETAG_VERSION_ID"]}"do
           .visuallyhidden--palm
-            = f.association :subjects , as: :select, collection: (Subject.roots + Subject.children), input_html: {style: 'width: 74%;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
+            = f.association :subjects , as: :select, collection: (Subject.roots.order('name ASC') + Subject.children.order('name ASC')), input_html: {style: 'width: 74%;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
       .push--bottom.text--center
         = f.submit 'Valider', class: 'btn--large btn btn--large btn--green'
   - unless request.path == '/sms'
