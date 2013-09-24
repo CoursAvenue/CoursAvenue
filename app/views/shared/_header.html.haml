@@ -1,8 +1,10 @@
 %header.header
   .main-container.grid--full
     .grid__item.one-third.palm--one-half.v-middle>
-      = link_to root_path, class: 'logo', title: 'CoursAvenue' do
-        = image_tag 'logo.png', width: 200, alt: 'CoursAvenue | Tous les cours et stages autour de vous'
+      = link_to root_path, class: 'v-middle logo', title: 'CoursAvenue' do
+        = image_tag 'logo.png', width: 200, alt: 'CoursAvenue | Tous les cours autour de vous'
+      - if params[:subject_id] and @subject
+        .inline-block.v-middle.lbl.lbl--orange.push-half--left= @subject.name
     %nav.text--right.grid__item.two-thirds.visuallyhidden--palm.v-middle
       - if current_user
         %span
@@ -29,14 +31,16 @@
               = link_to destroy_user_session_path, method: :delete do
                 Se déconnecter
       - else
-        %span.soft-half--right
-          = link_to 'Recommander un professeur', '#course-recommendation', data: {behavior: 'modal', title: "Recommander un professeur"}
-        %span.soft-half--left.push-half--right.bordered--left
-          = link_to "Se connecter", new_user_session_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax'
+        -# %span.soft-half--right
+        -#   = link_to 'Recommander un professeur', '#course-recommendation', data: {behavior: 'modal', title: "Recommander un professeur"}
         %span.soft-half--left.push-half--right
-          = link_to "Créer un compte", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax btn btn--green', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Inscrit'])"
+          = link_to "Connexion", new_pro_admin_session_url(subdomain: 'pro')
+        -# %span.soft-half--left.push-half--right.bordered--left
+        -#   = link_to "Se connecter", new_user_session_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax'
+        -# %span.soft-half--left.push-half--right
+        -#   = link_to "Créer un compte", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax btn btn--green', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Inscrit'])"
         %span.soft-half--left
-          = link_to 'Publier mon profil', root_url(subdomain: 'pro'), class: 'btn btn--blue', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
+          = link_to 'Je donne des cours', root_url(subdomain: 'pro'), class: 'btn btn--blue', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
         %span.soft-half--left.push-half--left.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
           = link_to pro_pages_questions_path, target: '_blank', class: 'btn' do
             %i.icon-question-sign
@@ -55,39 +59,38 @@
             %li.nowrap
               = link_to 'Mais qui est derrière CoursAvenue ?', pro_pages_questions_url(subdomain: 'pro', anchor: 'about-creating-profile'), target: '_blank'
 
-
-%nav.milli.main-container.soft-half.hard--left.hard--right.visuallyhidden--palm.visuallyhidden--lap
-  #star-subjects
-    %ul.nav--fit.flush
-      - Subject.best_roots.order(:name).each do |subject|
-        %li.text--center
-          %div{class: (params[:subject_id] == subject.slug ? 'active' : ''), onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}']);"}
-            - if request.fullpath.include? 'cours'
-              = link_to subject.name, subject_courses_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
-            - else
-              = link_to subject.name, subject_structures_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
-            -# %ul.drop-down__el
-            -#   - subject.children.order('name ASC').each do |child_subject|
-            -#     %li{onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}', '#{child_subject.name}'])"}= link_to child_subject.name, subject_structures_path(child_subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: (params[:subject_id] == child_subject.slug ? 'selected subject-link' : 'subject-link')
-      %li.text--center.drop-down__wrapper
-        = link_to 'javascript:void(0)', class: 'selected subject-link btn btn--small', id: 'toggle-non-stars' do
-          %i.icon-plus
-          Autres
-  #non-star-subjects{style: 'display: none;'}
-    %ul.nav--fit.flush
-      - Subject.non_best_roots.order(:name).each do |subject|
-        %li.text--center
-          %div{class: (params[:subject_id] == subject.slug ? 'active' : ''), onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}']);"}
-            - if request.fullpath.include? 'cours'
-              = link_to subject.name, subject_courses_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
-            - else
-              = link_to subject.name, subject_structures_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
-            -# %ul.drop-down__el
-            -#   - subject.children.order('name ASC').each do |child_subject|
-            -#     %li{onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}', '#{child_subject.name}'])"}= link_to child_subject.name, subject_structures_path(child_subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: (params[:subject_id] == child_subject.slug ? 'selected subject-link' : 'subject-link')
-      %li.text--center.drop-down__wrapper
-        = link_to 'javascript:void(0)', class: 'selected subject-link btn btn--small', id: 'toggle-stars' do
-          Retour
+-# %nav.milli.main-container.soft-half.hard--left.hard--right.visuallyhidden--palm.visuallyhidden--lap
+-#   #star-subjects
+-#     %ul.nav--fit.flush
+-#       - Subject.best_roots.order(:name).each do |subject|
+-#         %li.text--center
+-#           %div{class: (params[:subject_id] == subject.slug ? 'active' : ''), onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}']);"}
+-#             - if request.fullpath.include? 'cours'
+-#               = link_to subject.name, subject_courses_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
+-#             - else
+-#               = link_to subject.name, subject_structures_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
+-#             -# %ul.drop-down__el
+-#             -#   - subject.children.order('name ASC').each do |child_subject|
+-#             -#     %li{onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}', '#{child_subject.name}'])"}= link_to child_subject.name, subject_structures_path(child_subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: (params[:subject_id] == child_subject.slug ? 'selected subject-link' : 'subject-link')
+-#       %li.text--center.drop-down__wrapper
+-#         = link_to 'javascript:void(0)', class: 'selected subject-link btn btn--small', id: 'toggle-non-stars' do
+-#           %i.icon-plus
+-#           Autres
+-#   #non-star-subjects{style: 'display: none;'}
+-#     %ul.nav--fit.flush
+-#       - Subject.non_best_roots.order(:name).each do |subject|
+-#         %li.text--center
+-#           %div{class: (params[:subject_id] == subject.slug ? 'active' : ''), onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}']);"}
+-#             - if request.fullpath.include? 'cours'
+-#               = link_to subject.name, subject_courses_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
+-#             - else
+-#               = link_to subject.name, subject_structures_path(subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'selected subject-link'
+-#             -# %ul.drop-down__el
+-#             -#   - subject.children.order('name ASC').each do |child_subject|
+-#             -#     %li{onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}', '#{child_subject.name}'])"}= link_to child_subject.name, subject_structures_path(child_subject, address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: (params[:subject_id] == child_subject.slug ? 'selected subject-link' : 'subject-link')
+-#       %li.text--center.drop-down__wrapper
+-#         = link_to 'javascript:void(0)', class: 'selected subject-link btn btn--small', id: 'toggle-stars' do
+-#           Retour
 
 = content_for :scripts do
   :javascript

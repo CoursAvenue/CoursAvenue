@@ -206,6 +206,10 @@ CoursAvenue::Application.routes.draw do
   match 'pages/mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
   match 'pages/conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
 
+  match '/musique', to: 'structures#index', subject_id: 'musique-chant'
+  match '/danse', to: 'structures#index'  , subject_id: 'danse'
+  match '/theatre', to: 'structures#index', subject_id: 'theatre'
+
   match '/blog' => redirect('/blog/')
 
   match 'contact/' => 'home#contact', via: [:post]

@@ -15,7 +15,7 @@
   %section.grid__item.four-tenths.visuallyhidden--lap.visuallyhidden--palm.stickem.absolute>
     = render 'side_search_form'
   %section.grid__item.six-tenths.lap--one-whole.palm--one-whole.push--four-tenths.course-list>
-    %ol.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
+    %ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
       %li= link_to 'Tous les établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
       - if @subject
         - if @subject.parent
@@ -35,14 +35,14 @@
       - else
         à Paris
 
-    %ul.tabs.push--top
-      %li.active
-        %a Par établissement
-      %li
-        - if @subject
-          = link_to 'Par cours', subject_courses_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
-        - else
-          = link_to 'Par cours', courses_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
+    -# %ul.tabs.push--top
+    -#   %li.active
+    -#     %a Par établissement
+    -#   %li
+    -#     - if @subject
+    -#       = link_to 'Par cours', subject_courses_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
+    -#     - else
+    -#       = link_to 'Par cours', courses_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par cours', 'click'])"
 
     - if @structures.empty?
       = render 'no_results'
@@ -53,9 +53,9 @@
             = page_entries_info @structures, entry_name: Structure.model_name.human.downcase
           .spoken-form
             %label Trier par :
-            %a.filter-select{href: '#', class: (params[:sort] == 'relevancy' ? 'bold' : ''), onclick: "_gaq.push(['_trackEvent', 'Trier établissement / pertinence', 'click'])", data: {value: 'relevancy'}} Pertinence
-            \/
             %a.filter-select{href: '#', class: (params[:sort] == 'rating_desc' ? 'bold' : ''), onclick: "_gaq.push(['_trackEvent', 'Trier établissement / popularité', 'click'])", data: {value: 'rating_desc'}} Popularité
+            \/
+            %a.filter-select{href: '#', class: (params[:sort] == 'relevancy' ? 'bold' : ''), onclick: "_gaq.push(['_trackEvent', 'Trier établissement / pertinence', 'click'])", data: {value: 'relevancy'}} Pertinence
         .flexbox__item.visuallyhidden--palm
           .text--right= paginate @structures, window: 1, outer_window: 1
       %ul.block-list.course-list
