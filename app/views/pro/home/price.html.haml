@@ -82,7 +82,7 @@
           %ul
             %li
               A partir de 5 avis, nous vous offrons votre propre livre d’or : en quelques secondes, intégrez notre « widget » qui vous permet d’afficher en temps réel et de manière automatique toutes les recommandations de votre profil CoursAvenue sur votre propre site web ou blog => voir l’exemple du
-              = link_to "livre d’or d’Emilie, professeure de Yoga", "http://www.yogasattvaparis.com/?page_id=456", target: '_blank', rel: 'nofollow'
+              = link_to "livre d’or de l'Académie Contemporaine d'Oud et de Rythme", "http://bes.oud-academy.com/index.php/temoignages", target: '_blank', rel: 'nofollow'
             %li A partir de 15 avis, nous vous offrons l’autocollant « Recommandé sur CoursAvenue » à afficher sur votre vitrine ou vos espaces d’affichage. C’est signe que vos élèves apprécient vos cours et cela facilitera votre bouche à oreille => voir les 2 modèles d’autocollant disponibles.
 
   #offre-payante.tab-pane
@@ -160,14 +160,15 @@
 = content_for :scripts do
   :javascript
     $(function() {
-      var url = document.location.toString();
-      if (url.match('#')) {
-          $('.tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+      var showTabWithHash;
+      showTabWithHash = function(){
+          var url = document.location.toString();
+          if (url.match('#')) {
+              $('.tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+          }
       }
-
-      // Change hash for page-reload
-      $('.tabs a').on('shown', function (e) {
-          window.location.hash = e.target.hash;
-          window.scrollTo(0, 0);
+      $(window).on('hashchange', function() {
+        showTabWithHash();
       });
+      showTabWithHash();
     });

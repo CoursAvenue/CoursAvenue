@@ -6,8 +6,10 @@ class Pro::Admins::SessionsController < Devise::SessionsController
       session['pro_admin_return_to']
     elsif admin.structure
       dashboard_pro_structure_path(admin.structure)
+    elsif admin.super_admin?
+      pro_dashboard_path
     else
-      inscription_pro_structures_path
+      root_path
     end
   end
 end

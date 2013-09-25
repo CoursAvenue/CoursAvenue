@@ -60,10 +60,7 @@
                 Renseigner mes cours et mon planning
     .grid__item.one-half>
       .soft-half--top.soft--right
-        - if @structure.comments_count > 1
-          %h4.push-half--bottom Vous avez #{@structure.comments_count} recommandations
-        - else
-          %h4.push-half--bottom Vous avez #{@structure.comments_count} recommandation
+        %h4.push-half--bottom Vos recommandations et récompenses
         %table#progress-comments.push-half--right
           %tbody
             %tr{style: 'background: #e7e1da;'}
@@ -84,22 +81,22 @@
                   %td.v-top.text--center.hard{colspan: 5}
                     %i.icon-arrow-up
                     %br
-                    5 avis
+                    %span.nowrap À partir du 5<sup>e</sup> avis :
                     %br
                     - if @structure.comments_count > 4
-                      = link_to "Livre d'or", widget_pro_structure_path(@structure), class: 'btn btn--blue'
+                      = link_to "Installer mon livre d'or", widget_pro_structure_path(@structure), class: 'btn btn--blue nowrap'
                     - else
-                      %a.btn.text--center{href: '#livre-dor-explanation', data: {behavior: 'modal'}} LIVRE D'OR
+                      %a.btn.text--center{href: '#livre-dor-explanation', data: {behavior: 'modal'}} OBTENEZ VOTRE LIVRE D'OR
                 - elsif index == 6
                   %td.text--right.v-top.hard{colspan: 5}
                     %i.icon-arrow-up
                     %br
-                    15 avis et +
+                    %span.nowrap À partir de 15 avis et +
                     %br
                     - if @structure.comments_count > 14
-                      = link_to "Autocollant", sticker_pro_structure_path(@structure), class: 'btn btn--blue'
+                      = link_to "Recevoir mes autocollants", sticker_pro_structure_path(@structure), class: 'btn btn--blue'
                     - else
-                      %a.btn.text--center{href: '#sticker-explanation', data: {behavior: 'modal'}} AUTOCOLLANT
+                      %a.btn.text--center{href: '#sticker-explanation', data: {behavior: 'modal'}} OBTENEZ VOS AUTOCOLLANTS
 
                 - else
                   %td.v-top
@@ -112,7 +109,7 @@
     qui vous permet d'afficher toutes les recommandations de vos élèves directement sur votre propre site Internet ou blog, mais aussi sur tous les autres supports de communication (flyers, affiches, signature de vos emails, etc.).
   %p
     Le bouche à oreille restant le 1er facteur d'inscription à un cours, nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
-
+  .text--center.push--bottom= link_to "Exemple du livre d’or de l'Académie Contemporaine d'Oud et de Rythme", "http://bes.oud-academy.com/index.php/temoignages", target: '_blank', rel: 'nofollow'
   %p.text--center
     = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
 

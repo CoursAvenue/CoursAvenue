@@ -13,9 +13,9 @@
     .text--center
       - if current_pro_admin
         - if current_pro_admin.super_admin?
-          = link_to "Accéder à mon espace pro", pro_dashboard_path, class: 'btn btn--green btn--large', id: 'register'
+          = link_to "Accéder à mon profil", pro_dashboard_path, class: 'btn btn--green btn--large', id: 'register'
         - else
-          = link_to "Accéder à mon espace pro", dashboard_pro_structure_path(current_pro_admin.structure), class: 'btn btn--green btn--large', id: 'register'
+          = link_to "Accéder à mon profil", dashboard_pro_structure_path(current_pro_admin.structure), class: 'btn btn--green btn--large', id: 'register'
       - else
         = link_to "Créer mon profil gratuit", inscription_pro_structures_path, class: 'btn btn--green btn--large', id: 'register'
     - unless current_pro_admin

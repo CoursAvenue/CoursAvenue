@@ -1,4 +1,5 @@
 = side_menu_currently_at 'Communiquer'
+= stylesheet_link_tag "widget"
 
 = render partial: 'pro/structures/communication_tabs', locals: {current: 'widget'}
 %h3.text--center Vos recommandations automatiquement mises à jour sur votre site internet
@@ -17,12 +18,9 @@
         .push--bottom
           %label.v-middle.inline-block{for: 'show-comments'} Afficher les derniers avis
           %input#show-comments{type: 'checkbox', checked: true}
-        .push--bottom
+        %div
           %label.inline{for: 'nb-comments'} Nombre d'avis à afficher
           %input.inline#nb-comments{style: 'width: 3em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 3}
-        .push--bottom
-          %label.v-middle.inline-block{for: 'show-new-comment'} Afficher un bouton pour laisser un avis
-          %input#show-new-comment{type: 'checkbox', checked: true}
 
   .grid__item.one-half.bordered--left>
     %h4
@@ -98,7 +96,6 @@
         %p.text--left
           Copiez le code ci-dessous à envoyer à votre webmaster :
         %textarea.one-whole#code{rows: 7, style: 'font-size: 12px'}
-          window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget'); $.ajax({ url: "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}", dataType: 'json', success: function(response) { coursavenue_widget_div.innerHTML = response.html;}});}
       .grid__item.one-half.text--center.v-middle>
         %p.push-half--top
           = link_to 'Envoyer le code à votre webmaster par email', 'mailto:?subject=Code widget CoursAvenue à mettre sur mon site Internet&body=', class: 'btn btn--blue', id: 'send-link-by-email'
@@ -109,9 +106,21 @@
     %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
 
 %div{style: 'margin-bottom: 300px;'}
+#coursavenue-link-to-remove-wrapper.hidden>
+  = link_to "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", structure_url(@structure, subdomain: 'www'), title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", style: 'border: 0 !important; clip: rect(0 0 0 0) !important; height: 1px !important; margin: -1px !important; overflow: hidden !important; padding: 0 !important; position: absolute !important; width: 1px !important;'
+
 - content_for :scripts do
   :javascript
     $(function() {
+        var inlineCSS = function() {
+            // Accessing the last style link tag and inline it
+            var rules = document.styleSheets[document.styleSheets.length - 1].cssRules;
+            for (var idx = 0, len = rules.length; idx < len; idx++) {
+                $(rules[idx].selectorText).each(function (i, elem) {
+                    elem.style.cssText += rules[idx].style.cssText;
+                });
+            }
+        }
         $('#personal-website').click(function(){
           $('#other-website-guide').hide();
           $('#wordpress-guide').hide();
@@ -140,14 +149,10 @@
             $('#wordpress-lateral').show('slow');
             $.scrollTo($('#wordpress-lateral'), {duration: 200});
         });
-        var code = "<div id='coursavenue-widget'></div><script>window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget');var request = new XMLHttpRequest();request.open('GET', '__URL__', false);request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');request.send(null);if(request.status == 200) {coursavenue_widget_div.innerHTML = request.responseText;}}</script";
+        var code = $('#coursavenue-link-to-remove-wrapper').html() + "<div id='coursavenue-widget'></div><script>window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget');var request = new XMLHttpRequest();request.open('GET', '__URL__', false);request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');request.send(null);if(request.status == 200) {coursavenue_widget_div.innerHTML = request.responseText;}}</script";
         var load_widget,
             coursavenue_widget_div = $('#coursavenue-widget'),
             params = {last_comments: true, nb_comments: 3, show_new_comment: true};
-        $('#show-new-comment').change(function() {
-            params['show_new_comment'] = this.checked;
-            load_widget();
-        });
         $('#show-comments').change(function() {
             params['last_comments'] = this.checked;
             load_widget();
@@ -165,12 +170,16 @@
               url += '&nb_comments=' + params['nb_comments'];
             }
             new_code = code.replace('__URL__', url) + '>';
-            $('#code').val(new_code);
+            $('#code').val(new_code.replace(/\s+/g, ' '));
             $.ajax({
                 url: url,
                 dataType: 'text',
+                data: {
+                  not_ajax: true
+                },
                 success: function(response) {
                   coursavenue_widget_div.html(response);
+                  inlineCSS();
                   $('.html-code').val($('#coursavenue-widget').parent().html().replace(/\s+/g, ' '));
                 }
             });

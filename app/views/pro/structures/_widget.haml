@@ -1,101 +1,102 @@
-:css
-  .coursavenue-widget {
-    font-family: Helvetica, Arial,sans-serif !important;
-    font-size  : 12px !important;
-  }
-  .coursavenue-widget-wrapper-link {
-    display              : block !important;
-    padding              : 10px !important;
-    margin               : 0 auto 10px auto !important;
-    text-align           : center !important;
-    border               : 1px solid #DDD!important
-    text-decoration      : none !important;
-  }
-  .coursavenue-widget-title {
-    font-size: 16px !important;
-    color    : #e9683d !important;
-  }
-  .coursavenue-link {
-    background-color: blue !important;
-  }
-  .coursavenue-white-box {
-    display               :block !important;
-    font-family           :Helvetica, Arial,sans-serif !important;
-    padding               :10px !important;
-    margin                :0 0 10px 0 !important;
-    background-color      :white !important;
-    border                :1px solid #DDD !important;
-    -webkit-border-radius :2px !important;
-    -moz-border-radius    :2px !important;
-    -ms-border-radius     :2px !important;
-    -o-border-radius      :2px !important;
-    border-radius         :2px !important;
-    -webkit-box-shadow    :1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE !important;
-    -moz-box-shadow       :1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee !important;
-    box-shadow            :1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE !important;
-    text-decoration       :none !important;
-  }
-  .coursavenue-image{
-    background: none !important;
-    border    : none !important;
-    padding   : 0 !important;
-  }
-  .coursavenue-header {
-    margin       : 0 0 10px 0 !important;
-    font-size    : 14px !important;
-  }
-  .coursavenue-btn:hover {
-    text-decoration: underline !important;
-  }
-  .coursavenue-btn {
-    display                  : block !important;
-    margin                   : auto !important;
-    padding                  : 5px !important;
-    background-color         : white !important;
-    border                   : 1px solid #DDD !important;
-    color                    : black !important;
-    -webkit-border-radius    : 2px !important;
-    -moz-border-radius       : 2px !important;
-    -ms-border-radius        : 2px !important;
-    -o-border-radius         : 2px !important;
-    border-radius            : 2px !important;
-  }
-  .coursavenue-comment-paragraph{
-    font-size      : 13px !important;
-    line-height    : 18px !important;
-    color          : black !important;
-    margin-bottom  : 0 !important;
-    margin-top     : 0 !important;
-  }
-  .coursavenue-comment-footer{
-    margin-bottom: 0 !important;
-    text-align   : right !important;
-    font-size    : 12px !important;
-    color        : #666 !important;
-  }
-  .coursavenue-comment-footer i{
-    font-style: italic !important;
-  }
-  .coursavenue-widget-link:hover {
-    color          : #e9683d !important;
-    background     : none !important;
-    text-decoration: underline !important;
-  }
-  .coursavenue-widget-link {
-    color     : #e9683d !important;
-    background: none !important;
-  }
-  .coursavenue-widget-top-logo {
-    text-align: center!important;
-  }
+- unless params[:not_ajax]
+  :css
+    .coursavenue-widget {
+      font-family: Helvetica, Arial,sans-serif !important;
+      font-size  : 12px !important;
+    }
+    .coursavenue-widget-wrapper-link {
+      display              : block !important;
+      padding              : 10px !important;
+      margin               : 0 auto 10px auto !important;
+      text-align           : center !important;
+      border               : 1px solid #DD
+      text-decoration      : none !important;
+    }
+    .coursavenue-widget-title {
+      font-size: 16px !important;
+      color    : #e9683d !important;
+    }
+    .coursavenue-link {
+      background-color: blue !important;
+    }
+    .coursavenue-white-box {
+      display               :block !important;
+      font-family           :Helvetica, Arial,sans-serif !important;
+      padding               :10px !important;
+      margin                :0 0 10px 0 !important;
+      background-color      :white !important;
+      border                :1px solid #DDD !important;
+      -webkit-border-radius :2px !important;
+      -moz-border-radius    :2px !important;
+      -ms-border-radius     :2px !important;
+      -o-border-radius      :2px !important;
+      border-radius         :2px !important;
+      -webkit-box-shadow    :1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE !important;
+      -moz-box-shadow       :1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee !important;
+      box-shadow            :1px 1px 3px #DDD, 2px 2px 9px #EEE, 4px 4px 24px #EEE !important;
+      text-decoration       :none !important;
+    }
+    .coursavenue-image{
+      background: none !important;
+      border    : none !important;
+      padding   : 0 !important;
+    }
+    .coursavenue-header {
+      margin       : 0 0 10px 0 !important;
+      font-size    : 14px !important;
+    }
+    .coursavenue-btn:hover {
+      text-decoration: underline !important;
+    }
+    .coursavenue-btn {
+      display                  : block !important;
+      margin                   : auto !important;
+      padding                  : 5px !important;
+      background-color         : white !important;
+      border                   : 1px solid #DDD !important;
+      color                    : black !important;
+      -webkit-border-radius    : 2px !important;
+      -moz-border-radius       : 2px !important;
+      -ms-border-radius        : 2px !important;
+      -o-border-radius         : 2px !important;
+      border-radius            : 2px !important;
+    }
+    .coursavenue-comment-paragraph{
+      font-size      : 13px !important;
+      line-height    : 18px !important;
+      color          : black !important;
+      margin-bottom  : 0 !important;
+      margin-top     : 0 !important;
+    }
+    .coursavenue-comment-footer{
+      margin-bottom: 0 !important;
+      text-align   : right !important;
+      font-size    : 12px !important;
+      color        : #666 !important;
+    }
+    .coursavenue-comment-footer i{
+      font-style: italic !important;
+    }
+    .coursavenue-widget-link:hover {
+      color          : #e9683d !important;
+      background     : none !important;
+      text-decoration: underline !important;
+    }
+    .coursavenue-widget-link {
+      color     : #e9683d !important;
+      background: none !important;
+    }
+    .coursavenue-widget-top-logo {
+      text-align: cente !important;
+    }
+
 .coursavenue-widget
-  = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', class: 'coursavenue-white-box coursavenue-widget-wrapper-link' do
+  = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', class: 'coursavenue-white-box coursavenue-widget-wrapper-link', title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue" do
     .coursavenue-widget-top-logo
       .coursavenue-widget-title Recommandé par les élèves sur
       %img.coursavenue-image{src: asset_path('logo.png'), height: 35, style: 'height: 35px;'}
-  - if params[:show_new_comment] and params[:show_new_comment] == 'true'
-    %p{style: 'text-align: center; margin-bottom: 10px;'}
-      = link_to 'Déposer mon avis sur CoursAvenue', new_structure_comment_url(@structure, subdomain: 'www'), class: 'coursavenue-btn', target: '_blank'
+  %p{style: 'text-align: center; margin-bottom: 10px;'}
+    = link_to 'Déposer mon avis sur CoursAvenue', new_structure_comment_url(@structure, subdomain: 'www'), class: 'coursavenue-btn', target: '_blank'
   - if params[:last_comments] and params[:last_comments] == 'true'
     - params[:nb_comments] ||= 3
     - params[:nb_comments] = params[:nb_comments].to_i
@@ -118,3 +119,4 @@
             %i= "Avis déposé le #{I18n.l(comment.created_at, format: :date)}"
     %p{style: 'text-align: center; margin-bottom: 5px;'}
       = link_to 'Voir tous les avis sur CoursAvenue', structure_url(@structure, subdomain: 'www'), class: 'coursavenue-btn', target: '_blank'
+
