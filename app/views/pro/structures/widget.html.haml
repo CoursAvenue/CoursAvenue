@@ -34,9 +34,9 @@
 %h5.push--top.home-title Étape 2 : Installez le widget sur votre site
 .grid
   .grid__item.one-half.text--center>
-    = link_to "J'ai un site perso", 'javascript:void(0)', class: 'btn btn--large', id: 'personal-website'
-  .grid__item.one-half.text--center>
     = link_to "J'utilise wordpress", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-website'
+  .grid__item.one-half.text--center>
+    = link_to "J'ai un site perso / autre blog", 'javascript:void(0)', class: 'btn btn--large', id: 'personal-website'
 
 #wordpress-guide.hidden
   %h4.text--center.push--top Où voulez-vous affichez votre livre d'or ?
@@ -64,7 +64,7 @@
 
       %h5.push--top Étape 4 : Copiez le code
       %p Copiez et collez le texte suivant, publiez et c'est fini !
-      %textarea.html-code.one-whole.push--bottom{rows: 10}
+      %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
       = image_tag 'pro/wordpress-guide/page-step-3.png'
       %h4.text--center.push--ends Et voilà, c'est fini !
 
@@ -87,7 +87,7 @@
 
       %h5.push--top Étape 4 : Copiez le code
       %p Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
-      %textarea.html-code.one-whole.push--bottom{rows: 10}
+      %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
       = image_tag 'pro/wordpress-guide/side-step-4.png'
       %h4.text--center.push--ends Et voilà, c'est fini !
 
@@ -102,19 +102,33 @@
       .grid__item.one-half.text--center.v-middle>
         %p.push-half--top
           = link_to 'Envoyer le code à votre webmaster par email', 'mailto:?subject=Code widget CoursAvenue à mettre sur mon site Internet&body=', class: 'btn btn--blue', id: 'send-link-by-email'
+
+  .white-box.islet.push--top
+    %h5 Si le code ci-dessus ne marche pas, essayez le suivant :
+    %p Copiez et collez le texte suivant :
+    %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
+
 %div{style: 'margin-bottom: 300px;'}
 - content_for :scripts do
   :javascript
     $(function() {
         $('#personal-website').click(function(){
+          $('#other-website-guide').hide();
           $('#wordpress-guide').hide();
           $('#webmaster-code').show('slow');
           $.scrollTo($('#webmaster-code'), {duration: 200});
         });
         $('#wordpress-website').click(function(){
+          $('#other-website-guide').hide();
           $('#webmaster-code').hide();
           $('#wordpress-guide').show('slow');
           $.scrollTo($('#wordpress-guide'), {duration: 200});
+        });
+        $('#other-website').click(function(){
+          $('#other-website-guide').show('slow');
+          $('#webmaster-code').hide();
+          $('#wordpress-guide').hide();
+          $.scrollTo($('#other-website-guide'), {duration: 200});
         });
         $('#wordpress-new-page-link').click(function(){
             $('#wordpress-new-page').show('slow');

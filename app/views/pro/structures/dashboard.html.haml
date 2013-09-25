@@ -5,7 +5,8 @@
     %a#close-wizard.closer{href: 'javascript:void(0)', data: { behavior: 'closer', el: '#wizard'}}
       %i.icon-remove
     #wizard-form= render @wizard.partial
-    %span.btn.btn--green#save-wizard Enregistrer
+    - if @wizard.show_save
+      %span.btn.btn--green#save-wizard Enregistrer
     %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
   = render 'wizards/share_your_profile'
 

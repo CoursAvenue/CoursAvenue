@@ -1,11 +1,25 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
   before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :get_feedbacks, :widget_ext]
-  load_and_authorize_resource :structure, except: [:select, :edit, :new, :create, :get_feedbacks, :widget_ext]
+  load_and_authorize_resource :structure, except: [:select, :new, :create, :get_feedbacks, :widget_ext]
 
   layout :get_layout
 
   respond_to :json
+
+  def update_widget_status
+    if params[:status] and Structure::WIDGET_STATUS.include? params[:status]
+      @structure.update_column :widget_status, params[:status]
+    end
+    if params[:status] == 'need_help'
+      notice = 'Merci pour votre réponse, notre équipe vous contactera au plus vite pour vous aider'
+    else
+      notice = 'Merci pour votre réponse.'
+    end
+    respond_to do |format|
+      format.html { redirect_to(widget_pro_structure_path(@structure), notice: notice) }
+    end
+  end
 
   def signature
   end
@@ -20,6 +34,7 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  # Method called from external sites by the widget
   def widget_ext
     # TODO protect
     @structure = Structure.find params[:id]

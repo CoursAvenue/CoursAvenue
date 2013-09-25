@@ -60,6 +60,11 @@ fr:
     show:
       see_arrounding_structures: Voir les établissements à proximité
       back_to_results: Retour aux résultats
+    widget_status:
+      installed: "Oui, je l'ai déjà installé"
+      remind_me: "Me le rappeler plus tard"
+      dont_want: "Non, je n'en veux pas"
+      need_help: "Non, j'ai besoin d'aide"
 
   pro:
     structures:

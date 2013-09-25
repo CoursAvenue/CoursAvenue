@@ -4,6 +4,63 @@ class AdminMailer < ActionMailer::Base
 
   default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
+  # ---------------------------------------------
+  # Recommandations
+  # ---------------------------------------------
+
+  # Inform teacher that a students has commented his establishment
+  def congratulate_for_accepted_comment(comment)
+    @comment   = comment
+    @structure = @comment.structure
+    mail to: @comment.commentable.contact_email, subject: 'Un élève vient de poster une recommandation sur votre profil'
+  end
+
+  def congratulate_for_comment(comment)
+    @comment   = comment
+    @structure = @comment.structure
+    mail to: @comment.commentable.contact_email, subject: 'Un élève vient de poster une recommandation sur votre profil'
+  end
+
+  def congratulate_for_fifth_comment(comment)
+    @comment    = comment
+    @structure  = @comment.structure
+    @show_links = true
+    mail to: @structure.main_contact.email, subject: "Votre profil comporte déjà 5 recommandations d'élèves"
+  end
+
+  def congratulate_for_fifteenth_comment(comment)
+    @comment    = comment
+    @structure  = @comment.structure
+    @show_links = true
+    mail to: @structure.main_contact.email, subject: "Votre profil comporte déjà 15 recommandations d'élèves"
+  end
+
+  def recommandation_has_been_deleted(structure)
+    @structure  = structure
+    @show_links = true
+    mail to: @structure.main_contact.email, subject: "Votre suppression d'avis a bien été prise en compte"
+  end
+
+  def remind_for_pending_comments(structure)
+    @structure  = structure
+    @show_links = true
+    mail to: @structure.main_contact.email, subject: "Vous avez #{@structure.comments.pending.count} avis en attente de validation"
+  end
+
+  def remind_for_widget(structure)
+    @structure  = structure
+    @show_links = true
+    mail to: @structure.main_contact.email, subject: "Vous avez accès à votre livre d'or"
+  end
+
+  # ---------------------------------------------
+  # ----------------------------------------- End
+  # ---------------------------------------------
+
+  # ---------------------------------------------
+  # Monday email / based on email_status
+  # ---------------------------------------------
+
   def incomplete_profile(structure)
     @structure  = structure
     @show_links = true
@@ -37,38 +94,16 @@ class AdminMailer < ActionMailer::Base
     mail to: structure.main_contact.email, subject: 'Vous avez moins de 15 recommandations sur CoursAvenue'
   end
 
+  # ---------------------------------------------
+  # Monday email / based on email_status
+  # ---------------------------------------------
+
   def ask_for_deletion(comment)
     @comment   = comment
     @structure = @comment.structure
     mail to: 'contact@coursavenue.com', subject: 'Un professeur demande une suppression de commentaire'
   end
 
-  # Inform teacher that a students has commented his establishment
-  def congratulate_for_accepted_comment(comment)
-    @comment   = comment
-    @structure = @comment.structure
-    mail to: @comment.commentable.contact_email, subject: 'Un élève vient de poster une recommandation sur votre profil'
-  end
-
-  def congratulate_for_comment(comment)
-    @comment   = comment
-    @structure = @comment.structure
-    mail to: @comment.commentable.contact_email, subject: 'Un élève vient de poster une recommandation sur votre profil'
-  end
-
-  def congratulate_for_fifth_comment(comment)
-    @comment    = comment
-    @structure  = @comment.structure
-    @show_links = true
-    mail to: @structure.main_contact.email, subject: "Votre profil comporte déjà 5 recommandations d'élèves"
-  end
-
-  def congratulate_for_fifteenth_comment(comment)
-    @comment    = comment
-    @structure  = @comment.structure
-    @show_links = true
-    mail to: @structure.main_contact.email, subject: "Votre profil comporte déjà 15 recommandations d'élèves"
-  end
 
   def inform_invitation_success(structure, invited_email)
     @structure     = structure

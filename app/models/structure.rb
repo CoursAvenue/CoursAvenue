@@ -27,6 +27,10 @@ class Structure < ActiveRecord::Base
                              'structures.modification_conditions.moderate',
                              'structures.modification_conditions.strict']
 
+  STICKER_STATUS          = []
+
+  WIDGET_STATUS           = ['installed', 'remind_me', 'dont_want', 'need_help']
+
   attr_reader :delete_image, :delete_logo
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
@@ -44,6 +48,7 @@ class Structure < ActiveRecord::Base
                   :no_facebook, :no_website, :has_only_one_place,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :funding_type_ids, :funding_types,
+                  :widget_status, :sticker_status,
 
                   # For registration info
                   :has_registration_form, :needs_photo_id_for_registration, :needs_id_copy_for_registration,
@@ -224,6 +229,9 @@ class Structure < ActiveRecord::Base
     read_attribute(:funding_type_ids).split(',').map(&:to_i) if read_attribute(:funding_type_ids)
   end
 
+  # ---------------------------------------------
+  # Reminder
+  # ---------------------------------------------
 
   # Send reminder every week depending on the email status of the structure
   def send_reminder
@@ -234,6 +242,17 @@ class Structure < ActiveRecord::Base
       AdminMailer.delay.send(self.email_status.to_sym, self)
     end
   end
+
+  def remind_for_pending_comments
+    AdminMailer.delay.remind_for_pending_comments(self)
+  end
+
+  def remind_for_widget
+    if widget_status.nil?
+      AdminMailer.delay.remind_for_widget(self)
+    end
+  end
+
 
   # Update the email status of the structure
   def update_email_status

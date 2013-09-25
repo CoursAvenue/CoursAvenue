@@ -16,7 +16,7 @@ class Subject < ActiveRecord::Base
   validates :name, presence: true
   validates :name, uniqueness: {scope: 'ancestry'}
 
-  scope :children,       where{ancestry != nil}
+  # scope :children,       where{ancestry != nil}
   scope :best_roots,     where{(ancestry == nil) & (position != nil)}
   scope :non_best_roots, where{(ancestry == nil) & (position == nil)}
 

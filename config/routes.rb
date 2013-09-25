@@ -25,19 +25,20 @@ CoursAvenue::Application.routes.draw do
       resources :invited_teachers, only: [:index]
       resources :structures, path: 'etablissements' do
         member do
-          get  'wizard'
-          get  'flyer'
-          get  'signature'
-          get  'dashboard', path: 'tableau-de-bord'
-          put  'activate'
-          put  'disable'
-          get  'recommendations', path: 'recommandations'
-          get  'coursavenue_recommendations', path: 'recommander-coursavenue'
-          post 'get_feedbacks'
-          post 'recommend_friends'
+          get  :update_widget_status
+          get  :wizard
+          get  :flyer
+          get  :signature
+          get  :dashboard, path: 'tableau-de-bord'
+          put  :activate
+          put  :disable
+          get  :recommendations, path: 'recommandations'
+          get  :coursavenue_recommendations, path: 'recommander-coursavenue'
+          post :get_feedbacks
+          post :recommend_friends
           post :update
-          get  'sticker'
-          get  'widget'
+          get  :sticker
+          get  :widget
           match 'widget_ext', controller: 'structures', action: 'widget_ext', constraints: {methods: ['OPTIONS', 'GET']}, as: 'widget_ext'
         end
         collection do
