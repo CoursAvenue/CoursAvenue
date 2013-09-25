@@ -12,10 +12,8 @@ class Pro::DashboardController < Pro::ProController
     @structures = {}
     _structures.each do |key, value|
       subj = Subject.find(key)
-      if subj.parent and subj.parent.parent
-        @structures[subj.parent.parent.name] = (@structures[subj.parent.parent.name] || 0) + value
-      elsif subj.parent
-        @structures[subj.parent.name] = (@structures[subj.parent.name] || 0) + value
+      if subj.grand_parent
+        @structures[subj.grand_parent.name] = (@structures[subj.grand_parent.name] || 0) + value
       else
         @structures[subj.name] = value
       end

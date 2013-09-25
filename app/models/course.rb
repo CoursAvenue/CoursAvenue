@@ -111,8 +111,8 @@ class Course < ActiveRecord::Base
       subjects.each do |subject|
         subject_slugs << subject.slug
         subject_slugs << subject.parent.slug if subject.parent
-        if subject.parent and subject.parent.parent
-          subject_slugs << subject.parent.parent.slug
+        if subject.grand_parent
+          subject_slugs << subject.grand_parent.slug
         end
       end
       subject_slugs.uniq

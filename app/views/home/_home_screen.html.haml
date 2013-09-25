@@ -9,22 +9,22 @@
       .grid
         .grid__item.one-quarter.text--center>
           = link_to subject_structures_path('danse', address_name: 'Paris'), class: 'home-screen-subjects__item' do
-            = image_tag 'icons/subjects/dance.jpg'
+            = image_tag 'icons/subjects/dance.jpg', onclick: "_gaq.push(['_trackEvent', 'Home button', 'click','Danse'])"
             .home-screen-subjects__title
               Danse
         .grid__item.one-quarter.text--center>
           = link_to subject_structures_path('musique-chant', address_name: 'Paris'), class: 'home-screen-subjects__item' do
-            = image_tag 'icons/subjects/music.jpg'
+            = image_tag 'icons/subjects/music.jpg', onclick: "_gaq.push(['_trackEvent', 'Home button', 'click','Musique'])"
             .home-screen-subjects__title
               Musique & Chant
         .grid__item.one-quarter.text--center>
           = link_to subject_structures_path('theatre', address_name: 'Paris'), class: 'home-screen-subjects__item' do
-            = image_tag 'icons/subjects/theatre.jpg'
+            = image_tag 'icons/subjects/theatre.jpg', onclick: "_gaq.push(['_trackEvent', 'Home button', 'click','Theatre'])"
             .home-screen-subjects__title
               Théâtre
         .grid__item.one-quarter.text--center>
           = link_to structures_path(address_name: 'Paris', other: 'true'), class: 'home-screen-subjects__item' do
-            = image_tag 'icons/subjects/other.jpg'
+            = image_tag 'icons/subjects/other.jpg', onclick: "_gaq.push(['_trackEvent', 'Home button', 'click','Autres'])"
             .home-screen-subjects__title
               Autres
 

@@ -133,7 +133,11 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :locations, only: [:index]
-  resources :subjects, only: [:index]
+  resources :subjects, only: [:index] do
+    collection do
+      get :tree
+    end
+  end
 
   resources :reservations, only: [:create]
 

@@ -4,11 +4,8 @@
       = link_to root_path, class: 'v-middle logo', title: 'CoursAvenue' do
         = image_tag 'logo.png', width: 200, alt: 'CoursAvenue | Tous les cours autour de vous'
       - if params[:subject_id] and @subject
-        - if @subject.parent
-          - if @subject.parent.parent
-            .inline-block.v-middle.lbl.lbl--orange.push-half--left= @subject.parent.parent.name
-          - else
-            .inline-block.v-middle.lbl.lbl--orange.push-half--left= @subject.parent.name
+        - if @subject.grand_parent
+          .inline-block.v-middle.lbl.lbl--orange.push-half--left= @subject.grand_parent.name
         - else
           .inline-block.v-middle.lbl.lbl--orange.push-half--left= @subject.name
       - elsif params[:other]

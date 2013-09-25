@@ -8,4 +8,19 @@ class SubjectsController < ApplicationController
     end
   end
 
+  def tree
+    @subjects = {}
+    Subject.roots.each do |root|
+      @subjects[root.name] = {}
+      root.children.each do |sub_root|
+        @subjects[root.name][sub_root.name] = []
+        sub_root.children.each do |sub_sub_root|
+          @subjects[root.name][sub_root.name] << sub_sub_root.name
+        end
+      end
+    end
+    respond_to do |format|
+      format.json { render json: @subjects.to_json }
+    end
+  end
 end

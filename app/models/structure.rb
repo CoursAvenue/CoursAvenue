@@ -135,7 +135,7 @@ class Structure < ActiveRecord::Base
       self.subjects.uniq.each do |subject|
         subject_array << subject
         subject_array << subject.parent        if subject.parent
-        subject_array << subject.parent.parent if subject.parent and subject.parent.parent
+        subject_array << subject.grand_parent  if subject.grand_parent
       end
       subject_array.uniq.map(&:name)
     end

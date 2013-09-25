@@ -62,12 +62,8 @@ class StructuresController < ApplicationController
     @structures = StructureSearch.search(params).results
     # If there is less than 15 results, see surrounding structure (with same parent subject)
     if @structures.count < 15
-      if @subject and @subject.parent
-        if @subject.parent.parent
-          @parent_subject = @subject.parent.parent
-        else
-          @parent_subject = @subject.parent
-        end
+      if @subject and @subject.grand_parent
+        @parent_subject = @subject.grand_parent
         @other_structures = StructureSearch.search({lat: params[:lat] || 48.8540,
                                                     lng: params[:lng] || 2.3417,
                                                     radius: params[:radius] || 5,
