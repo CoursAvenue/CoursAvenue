@@ -7,7 +7,7 @@
   padding        : 10px;
   margin         : 0 auto 10px auto;
   text-align     : center;
-  border         : 1px solid #DD
+  border         : 1px solid #DDD;
   text-decoration: none;
 }
 .coursavenue-widget-title {
@@ -85,5 +85,5 @@
   background: none;
 }
 .coursavenue-widget-top-logo {
-  text-align: cente;
+  text-align: center;
 }
