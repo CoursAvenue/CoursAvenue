@@ -8,7 +8,7 @@ class Pro::HomeController < Pro::ProController
                                           radius: 3,
                                           sort: 'rating_desc',
                                           has_logo: true,
-                                          per_page: 15
+                                          per_page: 100
                                         }).results
     @locations     = @structures.collect{|structure| structure.locations.first }.uniq
     @json_locations_addresses = @locations.to_gmaps4rails do |location, marker|
@@ -25,7 +25,7 @@ class Pro::HomeController < Pro::ProController
   end
 
   def price
-    @admin = ::Admin.new
+    @email = ::Email.new
   end
 
   def press

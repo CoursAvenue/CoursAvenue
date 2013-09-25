@@ -2,14 +2,14 @@
   <script src="//www.google-analytics.com/cx/api.js?experiment=5MBOH-VVRzWRjzbgMSPTHA"></script>
 
 = content_for :title do
-  Développez-vous grâce au bouche à oreille
+  Développez votre bouche à oreille sur Internet
 = pro_menu_currently_at 'Accueil'
 
 - content_for :above_container do
   .home-screen-promotion-wrapper.island.one-whole.soft--top
-    %h1.text--center.blue
-      Développez-vous grâce au bouche à oreille
-    -# %h4.text--center Rassemblez les recommandations de vos élèves puis publiez-les sur votre propre site web.
+    %h1.text--center.blue.flush
+      Développez votre bouche à oreille sur Internet
+    .delta.push--bottom.text--center Toutes les recommandations de vos élèves sur CoursAvenue et votre site Internet
     .text--center
       - if current_pro_admin
         - if current_pro_admin.super_admin?
@@ -23,9 +23,7 @@
 
   .text--center
     %h4
-      Leurs élèves les ont déjà recommandés sur
-      = link_to 'CoursAvenue.com', root_url(subdomain: 'pro')
-      \:
+      Ils ont déjà leur livre d'or :
   .main-container.stickem-container.relative
     .stickem.absolute{style: 'width: 38%;'}>
       :css
@@ -58,7 +56,7 @@
                   %meta{itemprop: 'name', content: structure.name}
                   %meta{itemprop: 'street-address', content: structure.street}
                   %meta{itemprop: 'postal-code', content: structure.zip_code}
-        .text--center= link_to "Et plein d'autres !", structures_url(subdomain: 'www'), class: 'btn btn--blue', target: '_blank'
+        .text--center= link_to "Et bien plus encore !", structures_url(subdomain: 'www'), class: 'btn btn--blue', target: '_blank'
 
 = content_for :scripts do
   :javascript
