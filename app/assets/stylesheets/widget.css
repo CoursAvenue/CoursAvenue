@@ -3,12 +3,12 @@
   font-size  : 12px;
 }
 .coursavenue-widget-wrapper-link {
-  display              : block;
-  padding              : 10px;
-  margin               : 0 auto 10px auto;
-  text-align           : center;
-  border               : 1px solid #DD
-  text-decoration      : none;
+  display        : block;
+  padding        : 10px;
+  margin         : 0 auto 10px auto;
+  text-align     : center;
+  border         : 1px solid #DD
+  text-decoration: none;
 }
 .coursavenue-widget-title {
   font-size: 16px;
