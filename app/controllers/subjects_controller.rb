@@ -10,28 +10,28 @@ class SubjectsController < ApplicationController
 
   # Params:
   #    ids: subject ids separeted by comas (123,124,53)
-  #    at_depth: depth of the children the user wants to retrieve
   #  Returns json:
-  #     Danse:
+  #     Danse - Danse de salon :
   #           - Salsa
   #           - Zumba
   #           - ...
-  #     Cuisine:
+  #     Cuisine - ...:
   #           - ...
   def descendants
     @subjects = params[:ids].split(',').map{ |id| Subject.find(id) }
-    @descendants = {}
+    @descendants = []
     @subjects.each do |parent_subject|
-      if params[:at_depth] and params[:at_depth].to_i > 0
-        parent_subject.descendants.at_depth(params[:at_depth].to_i).each do |descendant|
-          @descendants[descendant.parent.name] ||= []
-          @descendants[descendant.parent.name] << descendant
+      parent_subject.descendants.at_depth(1).each do |first_descendant|
+        obj                = {}
+        parent_name        = "#{parent_subject.name} - #{first_descendant.name}"
+        obj[parent_name] ||= []
+        first_descendant.children.each do |second_descendant|
+          obj[parent_name] << second_descendant
         end
-      else
-        @descendants[parent_subject.name] = []
-        @descendants[parent_subject.name] = parent_subject.descendants
+        @descendants << obj
       end
     end
+    @descendants = @descendants.sort_by{|subj| subj.keys[0]}
     respond_to do |format|
       if params[:callback]
         format.js { render :json => {descendants: @descendants.to_json}, callback: params[:callback] }

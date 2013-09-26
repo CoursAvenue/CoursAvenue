@@ -8,21 +8,21 @@
       %input{type: 'hidden', value: params[:from], name: 'from'}
     = f.error_notification
 
-    - unless @place.errors.any?
-      #buttons-wrapper
-        .text--center= image_tag 'texts/shared-place.png', height: 80
-        .grid.form-white-box.flush--top
-          .grid__item.one-half>
-            %a.btn.btn--full.btn--blue#find-place Lieu partagé
-          .grid__item.one-half>
-            %a.btn.btn--full#build-place J'ai mon propre lieu
+    -# - unless @place.errors.any?
+    -#   #buttons-wrapper
+    -#     .text--center= image_tag 'texts/shared-place.png', height: 80
+    -#     .grid.form-white-box.flush--top
+    -#       .grid__item.one-half>
+    -#         %a.btn.btn--full.btn--blue#find-place Lieu partagé
+    -#       .grid__item.one-half>
+    -#         %a.btn.btn--full#build-place J'ai mon propre lieu
 
-      .form-white-box#find-place-container.hidden
-        %p
-          Vérifiez si le lieu existe déjà sur CoursAvenue
-        %input.v-middle#location-autocomplete{placeholder: 'Nom du lieu / Adresse', type: 'text', 'data-list' => 'location-list', autocomplete: 'off', name: 'address_name', value: params[:address_name]}
-        %a#location-does-not-exist.v-middle{href: 'javascript:void(0)'} Le lieu n'existe pas encore
-    #build-place-container{class: @place.errors.any? ? '' : 'hidden'}
+    -#   .form-white-box#find-place-container.hidden
+    -#     %p
+    -#       Vérifiez si le lieu existe déjà sur CoursAvenue
+    -#     %input.v-middle#location-autocomplete{placeholder: 'Nom du lieu / Adresse', type: 'text', 'data-list' => 'location-list', autocomplete: 'off', name: 'address_name', value: params[:address_name]}
+    -#     %a#location-does-not-exist.v-middle{href: 'javascript:void(0)'} Le lieu n'existe pas encore
+    #build-place-container
       %h5.form-header-group Adresse
       .form-white-box
         = f.simple_fields_for :location do |location_form|
@@ -44,51 +44,52 @@
           = contact_form.input :phone,        label: Contact.human_attribute_name(:phone), input_html: {value: contact_form.object.phone || @structure.main_contact.phone_number}
           = contact_form.input :mobile_phone, label: Contact.human_attribute_name(:mobile_phone), input_html: {value: contact_form.object.mobile_phone || @structure.main_contact.mobile_phone_number}
 
-    #submit{class: @place.errors.any? ? '' : 'hidden'}
+    #submit
       = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
 
-%script#location-template{:type => 'text/x-handlebars-template'}
-  %p.line-height-normal
-    {{name}}
-    %br
-    %i.gray.milli {{street}}, {{city.name}}
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#find-place').click(function() {
-            $('#buttons-wrapper').hide('slow');
-            $('#find-place-container').removeClass('hidden');
-        });
-        $('#build-place').click(function() {
-            $('#build-place-container').removeClass('hidden');
-            $('#buttons-wrapper').hide('slow');
-            $('#submit').removeClass('hidden');
-        });
-        var source = $("#location-template").html(),
-            template = Handlebars.compile(source);
-        $('#location-autocomplete').typeahead([
-          {
-            name: 'locations',
-            template: template,
-            remote: '/locations.json?term=%QUERY'
-          }
-        ]);
-        $('#location-does-not-exist').click(function() {
-            $('#find-place-container').hide('slow');
-            $('#submit').removeClass('hidden');
-            $('#build-place-container').removeClass('hidden');
-        });
-        $('#location-autocomplete').on('typeahead:selected', function(event, data) {
-            var location_id_input = $('<input type="hidden" name="place[location_attributes][id]">').val(data.id);
-            $(this).val(data.name);
-            $('#build-place-container').append(location_id_input);
-            $('#place_location_attributes_name').val(data.name).attr('disabled', true);
-            $('#place_location_attributes_street').val(data.street).attr('disabled', true);
-            $('#place_location_attributes_zip_code').val(data.zip_code).attr('disabled', true);
-            var city_option = $('<option>').val(data.city.id).text(data.city.name).attr('disabled', true);
-            $('#place_location_attributes_city_id').append(city_option);
-            $('#place_location_attributes_city_id').val(data.city.id).attr('disabled', true);
-            $('#build-place-container').removeClass('hidden');
-            $('#submit').removeClass('hidden');
-        });
-    });
+-# %script#location-template{:type => 'text/x-handlebars-template'}
+-#   %p.line-height-normal
+-#     {{name}}
+-#     %br
+-#     %i.gray.milli {{street}}, {{city.name}}
+
+-# = content_for :scripts do
+-#   :javascript
+-#     $(function() {
+-#         $('#find-place').click(function() {
+-#             $('#buttons-wrapper').hide('slow');
+-#             $('#find-place-container').removeClass('hidden');
+-#         });
+-#         $('#build-place').click(function() {
+-#             $('#build-place-container').removeClass('hidden');
+-#             $('#buttons-wrapper').hide('slow');
+-#             $('#submit').removeClass('hidden');
+-#         });
+-#         var source = $("#location-template").html(),
+-#             template = Handlebars.compile(source);
+-#         $('#location-autocomplete').typeahead([
+-#           {
+-#             name: 'locations',
+-#             template: template,
+-#             remote: '/locations.json?term=%QUERY'
+-#           }
+-#         ]);
+-#         $('#location-does-not-exist').click(function() {
+-#             $('#find-place-container').hide('slow');
+-#             $('#submit').removeClass('hidden');
+-#             $('#build-place-container').removeClass('hidden');
+-#         });
+-#         $('#location-autocomplete').on('typeahead:selected', function(event, data) {
+-#             var location_id_input = $('<input type="hidden" name="place[location_attributes][id]">').val(data.id);
+-#             $(this).val(data.name);
+-#             $('#build-place-container').append(location_id_input);
+-#             $('#place_location_attributes_name').val(data.name).attr('disabled', true);
+-#             $('#place_location_attributes_street').val(data.street).attr('disabled', true);
+-#             $('#place_location_attributes_zip_code').val(data.zip_code).attr('disabled', true);
+-#             var city_option = $('<option>').val(data.city.id).text(data.city.name).attr('disabled', true);
+-#             $('#place_location_attributes_city_id').append(city_option);
+-#             $('#place_location_attributes_city_id').val(data.city.id).attr('disabled', true);
+-#             $('#build-place-container').removeClass('hidden');
+-#             $('#submit').removeClass('hidden');
+-#         });
+-#     });
