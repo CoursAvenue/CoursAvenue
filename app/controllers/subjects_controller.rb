@@ -8,6 +8,39 @@ class SubjectsController < ApplicationController
     end
   end
 
+  # Params:
+  #    ids: subject ids separeted by comas (123,124,53)
+  #    at_depth: depth of the children the user wants to retrieve
+  #  Returns json:
+  #     Danse:
+  #           - Salsa
+  #           - Zumba
+  #           - ...
+  #     Cuisine:
+  #           - ...
+  def descendants
+    @subjects = params[:ids].split(',').map{ |id| Subject.find(id) }
+    @descendants = {}
+    @subjects.each do |parent_subject|
+      if params[:at_depth] and params[:at_depth].to_i > 0
+        parent_subject.descendants.at_depth(params[:at_depth].to_i).each do |descendant|
+          @descendants[descendant.parent.name] ||= []
+          @descendants[descendant.parent.name] << descendant
+        end
+      else
+        @descendants[parent_subject.name] = []
+        @descendants[parent_subject.name] = parent_subject.descendants
+      end
+    end
+    respond_to do |format|
+      if params[:callback]
+        format.js { render :json => {descendants: @descendants.to_json}, callback: params[:callback] }
+      else
+        format.json { render json: @descendants.to_json }
+      end
+    end
+  end
+
   def tree
     @subjects = {}
     Subject.roots.each do |root|

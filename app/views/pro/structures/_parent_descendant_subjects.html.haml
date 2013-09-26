@@ -1,0 +1,46 @@
+= content_for :scripts do
+  :javascript
+    $(function() {
+        var descendants_subjects_url    = "#{descendants_subjects_url(subdomain: 'www', format: :js)}";
+        var descendants_subjects_select = $('#subject-descendants-select');
+        $('#parent-subjects').change(function(){
+            $('#descendants-subjects').show('slow');
+            $('#descendants-subjects .chosen-container').css('width', $('.chosen-container').first().css('width'));
+            var subject_ids  = $.map(this.selectedOptions, function(option){ return option.value }).join(',');
+            var selected_ids = descendants_subjects_select.val() || [];
+            if ($('#subject-descendants-select').data('selected')) {
+              $.each($('#subject-descendants-select').data('selected').toString().split(','), function(index, value){
+                selected_ids.push(value);
+              });
+            };
+            $.ajax({
+                url: descendants_subjects_url,
+                dataType: 'jsonp',
+                data: {
+                  at_depth: 2,
+                  ids: subject_ids
+                },
+                success: function(response) {
+                  var all_descendants = $.parseJSON(response.descendants)
+                  descendants_subjects_select.empty();
+                  $.each(all_descendants, function(subject_name, subject_descendants){
+                      var optgroup = $('<optgroup>').attr('label', subject_name);
+                      $.each(subject_descendants, function(index, descendant){
+                          // var option = $('<option>').attr('value', descendant.id).text(descendant.parent_name + ' - ' + descendant.name);
+                          var option = $('<option>').attr('value', descendant.id).text(descendant.name);
+                          optgroup.append(option);
+                      });
+                      descendants_subjects_select.append(optgroup);
+                  });
+                  descendants_subjects_select.val(selected_ids);
+                  descendants_subjects_select.trigger("chosen:updated");
+                }
+            });
+        });
+    });
+- if @structure.subjects.any?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          $('#parent-subjects').trigger('change');
+      });

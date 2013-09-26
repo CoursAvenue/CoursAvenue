@@ -62,7 +62,14 @@
         %p.field-form-info.blue= t('.structure_name_info')
         = structure_form.input :website, placeholder: 'Ex : http://www.je-danse-a-paris.com'
         = structure_form.input :facebook_url, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : https://www.facebook.com/CoursAvenue'
-        = structure_form.association :subjects , as: :select, collection: (Subject.roots + Subject.children), input_html: {style: 'width: 490px;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
+
+        = structure_form.association :subjects , as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', id: 'parent-subjects', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
+
+        #descendants-subjects
+          .input
+            %label.control-label Sous disciplines
+            %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}},
+
         = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: {style: 'max-width: 29em;'}
 
         = structure_form.input :funding_types, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: {style: 'max-width: 29em;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id)
@@ -96,6 +103,8 @@
                   %br
                   A-t-elle formé des célébrités ?
     = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full'
+
+= render 'parent_descendant_subjects'
 
 = content_for :scripts do
   :javascript

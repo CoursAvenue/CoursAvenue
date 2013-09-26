@@ -62,7 +62,7 @@
               .grid__item.seven-eighths.v-middle>
                 = place.location.name
                 %br
-                %i= place.location.street
+                %i= place.location.address
               %div{itemscope: true, itemtype: 'http://schema.org/Place'}
                 .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
                   %meta{itemprop: 'latitude', content: place.location.latitude}

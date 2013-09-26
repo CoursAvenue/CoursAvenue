@@ -49,7 +49,11 @@
 
         - cache "inscription_subjects_#{ENV["ETAG_VERSION_ID"]}"do
           .visuallyhidden--palm
-            = f.association :subjects , as: :select, collection: (Subject.roots.order('name ASC') + Subject.children.order('name ASC')), input_html: {style: 'width: 74%;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
+            = f.association :subjects , as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', id: 'parent-subjects', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
+        #descendants-subjects{class: @structure.errors.any? ? '' : 'hidden'}
+          .input
+            %label.control-label Sous disciplines
+            %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}},
       .push--bottom.text--center
         = f.submit 'Valider', class: 'btn--large btn btn--large btn--green'
   - unless request.path == '/sms'
@@ -87,6 +91,7 @@
         %ul.comment-list
           = render partial: 'comments/comment', collection: Comment.where{rating > 3}.order('created_at DESC').limit(5), locals: {with_link: true, small_avatar: true}
 
+= render 'parent_descendant_subjects'
 = content_for :scripts do
   :javascript
     $(function() {

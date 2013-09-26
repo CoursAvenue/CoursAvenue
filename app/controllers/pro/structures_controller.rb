@@ -176,6 +176,8 @@ class Pro::StructuresController < Pro::ProController
       deleted_image = true
     end
 
+    params[:structure][:subject_ids] = params[:structure][:subject_ids] + params[:structure].delete(:subject_descendants_ids) unless params[:structure][:subject_descendants_ids].blank?
+
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
         @ratio = @structure.ratio_from_original(:large)
@@ -205,6 +207,8 @@ class Pro::StructuresController < Pro::ProController
 
 
   def create
+    # Merge parent and children subjects
+    params[:structure][:subject_ids] = params[:structure][:subject_ids] + params[:structure].delete(:subject_descendants_ids) unless params[:structure][:subject_descendants_ids].blank?
     # Prevents from duplicates
     s_name      = params[:structure][:name]
     s_zip_code  = params[:structure][:zip_code]

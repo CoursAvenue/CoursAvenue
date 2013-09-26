@@ -15,12 +15,18 @@
             Nous contacter
         = render 'shared/question_dropdown_menu'
 
+
         - if current_pro_admin
-          - if current_pro_admin.super_admin?
-            %li= link_to 'Espace super admin', pro_dashboard_path, class: 'btn btn--green btn--small'
-          - elsif current_pro_admin.structure.present?
-            %li= link_to 'Tableau de bord', dashboard_pro_structure_path(current_pro_admin.structure), class: 'btn btn--green btn--small'
-          %li= link_to 'Se déconnecter', destroy_pro_admin_session_path, class: 'header-link', method: :delete
+          %li.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+            - if current_pro_admin.super_admin?
+              = link_to 'Espace super admin', pro_dashboard_path, class: 'btn btn--green btn--small'
+            - elsif current_pro_admin.structure.present?
+              = link_to 'Mon profil', dashboard_pro_structure_path(current_pro_admin.structure), class: 'btn btn--green btn--small'
+            %ul.drop-down__el
+              %li.nowrap
+                = link_to destroy_pro_admin_session_path, method: :delete do
+                  Déconnexion
+                  %i.icon-signout
         - else
           %li
             = link_to new_pro_admin_session_path, class: 'header-link' do

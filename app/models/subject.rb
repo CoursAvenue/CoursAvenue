@@ -3,7 +3,7 @@ class Subject < ActiveRecord::Base
   # friendly_id :name, use: :slugged
   friendly_id :name, use: [:slugged, :history]
 
-  acts_as_tree
+  acts_as_tree cache_depth: true
 
   has_attached_file :image,
                     :styles => { super_wide: "825x250#", wide: "600x375#", thumb: "200x200#" }
@@ -16,9 +16,13 @@ class Subject < ActiveRecord::Base
   validates :name, presence: true
   validates :name, uniqueness: {scope: 'ancestry'}
 
-  scope :children,       where{ancestry != nil}
-  scope :best_roots,     where{(ancestry == nil) & (position != nil)}
-  scope :non_best_roots, where{(ancestry == nil) & (position == nil)}
+  scope :children,               where{ancestry != nil}
+  scope :roots_with_position,    where{(ancestry == nil) & (position != nil)}
+  scope :roots_without_position, where{(ancestry == nil) & (position == nil)}
+
+  def little_children
+    self.descendants.at_depth(2)
+  end
 
   def grand_parent
     if parent and parent.parent
@@ -29,5 +33,11 @@ class Subject < ActiveRecord::Base
       nil
     end
   end
-
+  def as_json(options = {})
+    {
+      id:          self.id,
+      name:        self.name,
+      parent_name: self.parent.try(:name)
+    }
+  end
 end

@@ -139,6 +139,7 @@ CoursAvenue::Application.routes.draw do
   resources :subjects, only: [:index] do
     collection do
       get :tree
+      get :descendants
     end
   end
 

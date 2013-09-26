@@ -67,7 +67,7 @@
 -# %nav.milli.main-container.soft-half.hard--left.hard--right.visuallyhidden--palm.visuallyhidden--lap
 -#   #star-subjects
 -#     %ul.nav--fit.flush
--#       - Subject.best_roots.order(:name).each do |subject|
+-#       - Subject.roots_with_position.order(:name).each do |subject|
 -#         %li.text--center
 -#           %div{class: (params[:subject_id] == subject.slug ? 'active' : ''), onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}']);"}
 -#             - if request.fullpath.include? 'cours'
@@ -83,7 +83,7 @@
 -#           Autres
 -#   #non-star-subjects{style: 'display: none;'}
 -#     %ul.nav--fit.flush
--#       - Subject.non_best_roots.order(:name).each do |subject|
+-#       - Subject.roots_without_position.order(:name).each do |subject|
 -#         %li.text--center
 -#           %div{class: (params[:subject_id] == subject.slug ? 'active' : ''), onclick: "_gaq.push(['_trackEvent', 'Header disciplines', 'click', '#{subject.name}']);"}
 -#             - if request.fullpath.include? 'cours'

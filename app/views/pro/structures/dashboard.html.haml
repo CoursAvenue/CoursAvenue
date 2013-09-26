@@ -61,45 +61,43 @@
     .grid__item.one-half>
       .soft-half--top.soft--right
         %h4.push-half--bottom Vos recommandations et récompenses
-        %table#progress-comments.push-half--right
+        %table#progress-comments.push-half--right.flush--bottom
           %tbody
             %tr{style: 'background: #e7e1da;'}
               - 15.times do |index|
-                %td.text--center.hard
+                %td.text--center.hard{style: "width: 6.6%;"}
                   - if @structure.comments.accepted.count > index
                     .hidden.bg-green{title: "<div style='font-size: 12px;'>#{@structure.comments.accepted[index].author_name} le #{I18n.l(@structure.comments.accepted[index].created_at, format: :date)}<br><br>#{@structure.comments.accepted[index].content.html_safe}<div>", data: {behavior: 'tooltip', html: 'true'}}
                       %a{href: 'javascript:void(0)'}
                         %i.icon-comment.white
                   - else
                     &nbsp;
+        %table.push-half--right
+          %thead
             %tr
               - 15.times do |index|
                 %th.text--center.hard{style: "width: 6.6%;"}
-            %tr
-              - 7.times do |index|
-                - if index == 2
-                  %td.v-top.text--center.hard{colspan: 5}
-                    %i.icon-arrow-up
-                    %br
-                    %span.nowrap À partir du 5<sup>e</sup> avis :
-                    %br
-                    - if @structure.comments_count > 4
-                      = link_to "Installer mon livre d'or", widget_pro_structure_path(@structure), class: 'btn btn--blue nowrap'
-                    - else
-                      %a.btn.text--center{href: '#livre-dor-explanation', data: {behavior: 'modal'}} OBTENEZ VOTRE LIVRE D'OR
-                - elsif index == 6
-                  %td.text--right.v-top.hard{colspan: 5}
-                    %i.icon-arrow-up
-                    %br
-                    %span.nowrap À partir de 15 avis et +
-                    %br
-                    - if @structure.comments_count > 14
-                      = link_to "Recevoir mes autocollants", sticker_pro_structure_path(@structure), class: 'btn btn--blue'
-                    - else
-                      %a.btn.text--center{href: '#sticker-explanation', data: {behavior: 'modal'}} OBTENEZ VOS AUTOCOLLANTS
 
+          %tbody
+            %tr
+              %td.v-top.text--center.hard{colspan: 9}
+                %i.icon-arrow-up
+                %br
+                %span.nowrap À partir du 5<sup>e</sup> avis :
+                %br
+                - if @structure.comments_count > 4
+                  = link_to "Installer mon livre d'or", widget_pro_structure_path(@structure), class: 'btn btn--blue nowrap'
                 - else
-                  %td.v-top
+                  %a.btn.text--center{href: '#livre-dor-explanation', data: {behavior: 'modal'}} OBTENEZ VOTRE LIVRE D'OR
+              %td.text--right.v-top.hard{colspan: 6}
+                %i.icon-arrow-up
+                %br
+                %span.nowrap À partir de 15 avis et +
+                %br
+                - if @structure.comments_count > 14
+                  = link_to "Recevoir mes autocollants", sticker_pro_structure_path(@structure), class: 'btn btn--blue'
+                - else
+                  %a.btn.text--center{href: '#sticker-explanation', data: {behavior: 'modal'}} OBTENEZ VOS AUTOCOLLANTS
 
 #livre-dor-explanation.hidden
   %h3.text--center Vous n'avez pas encore accès à votre livre d'or
