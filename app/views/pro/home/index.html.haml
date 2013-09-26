@@ -32,7 +32,7 @@
     .grid
       .grid__item.six-tenths.push--four-tenths>
         - @structures.each_with_index do |structure, index|
-          .one-whole.course-element{data: {'location-id' => structure.locations.first.id, type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
+          .one-whole.course-element{data: {'location-ids' => structure.locations.map(&:id).join(' '), type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
             .grid
               .grid__item.two-twelfths>
                 = image_tag structure.logo.url(:thumb)
@@ -76,16 +76,16 @@
         Gmaps.map.callback = function() {
             for (var i = 0; i <  this.markers.length; ++i) {
                 google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
-                    var place_element = $('.course-element[data-location-id=' + this.id + ']');
-                    $(document.body).scrollTo(place_element[0], {duration: 400});
+                    var structure = $('.course-element[data-location-ids~=' + this.id + ']');
+                    $(document.body).scrollTo(structure[0], {duration: 400});
                     // Unselect courses if there already are that are selected
                     $('.course-element').removeClass('selected');
-                    place_element.addClass('selected');
+                    structure.addClass('selected');
                 }.bind(Gmaps.map.markers[i]));
             }
         };
         $('.course-element').hover(function(event) {
-            var location_ids = $(this).data('location-id').toString().split(' ');
+            var location_ids = $(this).data('location-ids').toString().split(' ');
             $.each(Gmaps.map.markers, function(index, marker){
                 if (location_ids.indexOf(marker.id.toString()) !== -1) {
                     var service_object = marker.serviceObject;
@@ -93,7 +93,7 @@
                 }
             });
         }, function() {
-            var location_ids = $(this).data('location-id').toString().split(' ');
+            var location_ids = $(this).data('location-ids').toString().split(' ');
             $.each(Gmaps.map.markers, function(index, marker){
                 if (location_ids.indexOf(marker.id.toString()) !== -1) {
                     var service_object = marker.serviceObject;

@@ -3,24 +3,25 @@
 
 .grid
   .grid__item.one-quarter>
-    %ul.block-list.menu
-      %li.omega.orange
-        = link_to 'Guide de démarrage', '#about-creating-profile', class: 'bold'
-      %li.omega.orange
-        = link_to 'Créer son profil', '#about-the-profile'
-      %li.omega.orange
-        = link_to 'Tout savoir sur les avis', '#about-recommendations'
-      %li.omega.orange
-        = link_to 'Se connecter à son profil ', '#about-connexion'
-      %li.omega.orange
-        = link_to 'Fonctionnement de CoursAvenue', '#about-how-it-works'
-      %li.omega.orange
-        = link_to 'Inviter d’autres professeurs', '#about-invitations'
-      %li.omega.orange
-        = link_to 'Autres questions fréquentes', '#other-questions'
+    %nav.white-box.side-menu
+      %ul
+        %li.omega.orange.active
+          = link_to 'Guide de démarrage', '#about-creating-profile', class: 'side-menu-link'
+        %li.omega.orange
+          = link_to 'Créer son profil', '#about-the-profile', class: 'side-menu-link'
+        %li.omega.orange
+          = link_to 'Tout savoir sur les avis', '#about-recommendations', class: 'side-menu-link'
+        %li.omega.orange
+          = link_to 'Se connecter à son profil ', '#about-connexion', class: 'side-menu-link'
+        %li.omega.orange
+          = link_to 'Fonctionnement de CoursAvenue', '#about-how-it-works', class: 'side-menu-link'
+        %li.omega.orange
+          = link_to 'Inviter d’autres professeurs', '#about-invitations', class: 'side-menu-link'
+        %li.omega.orange
+          = link_to 'Autres questions fréquentes', '#other-questions', class: 'side-menu-link'
 
-  .grid__item.three-quarters>
-    %div.hide.soft--sides#about-creating-profile
+  .grid__item.three-quarters.white-box.soft>
+    %div.hide#about-creating-profile
       %h5.blue.toggleable-header{data: {behavior: 'toggleable', el:'+ div'}}
         Un profil CoursAvenue, pour quoi faire ?
         %i.icon-caret-left
@@ -307,12 +308,13 @@
   :javascript
       $(function() {
           var select_menu = function(menu_link) {
-            var current_link = $('.menu li a.bold').removeClass('bold');
+            var current_link = $('.side-menu li.active a');
+            current_link.parent().removeClass('active');
             $(current_link.attr('href')).hide();
             $($(menu_link).attr('href')).show();
-            $(menu_link).addClass('bold')
+            $(menu_link).parent().addClass('active')
           }
-          var menu_links = $('.menu li a');
+          var menu_links = $('.side-menu li a');
           menu_links.click(function(){
               select_menu(this);
           });

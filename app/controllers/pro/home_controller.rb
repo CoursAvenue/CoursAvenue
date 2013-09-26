@@ -3,14 +3,19 @@ class Pro::HomeController < Pro::ProController
 
   def index
     @admin      = ::Admin.new
-    @structures = StructureSearch.search({lat: 48.8540,
-                                          lng: 2.3417,
-                                          radius: 3,
+    latitude, longitude, radius = 48.8540, 2.3417, 5
+    @structures = StructureSearch.search({lat: latitude,
+                                          lng: longitude,
+                                          radius: radius,
                                           sort: 'rating_desc',
                                           has_logo: true,
-                                          per_page: 100
+                                          per_page: 100,
+                                          bbox: false
                                         }).results
-    @locations     = @structures.collect{|structure| structure.locations.first }.uniq
+    @locations = []
+    @structures.each do |structure|
+      @locations += structure.locations_around(latitude, longitude, radius)
+    end
     @json_locations_addresses = @locations.to_gmaps4rails do |location, marker|
       marker.picture({
                       :marker_anchor => [10, true],
