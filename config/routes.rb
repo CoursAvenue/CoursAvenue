@@ -7,13 +7,13 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: 'pro' do
     namespace :pro, path: '' do
       root :to => 'home#index'
-      match 'pages/pourquoi-etre-recommande' => 'home#why_be_recommended', as: 'pages_why_be_recommended'
-      match 'pages/presentation'             => 'home#presentation'
-      match 'pages/des-questions'            => 'home#questions',          as: 'pages_questions'
-      match 'pages/offre-et-tarifs'          => 'home#price',              as: 'pages_price'
-      match 'pages/nos-convictions'          => 'home#convictions',        as: 'pages_convictions'
-      match 'pages/presse'                   => 'home#press',              as: 'pages_press'
-      match '/dashboard'                     => 'dashboard#index',         as: 'dashboard'
+      match 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
+      match 'pages/presentation'                  => 'home#presentation'
+      match 'pages/questions-les-plus-frequentes' => 'home#questions',          as: 'pages_questions'
+      match 'pages/offre-et-tarifs'               => 'home#price',              as: 'pages_price'
+      match 'pages/nos-convictions'               => 'home#convictions',        as: 'pages_convictions'
+      match 'pages/presse'                        => 'home#press',              as: 'pages_press'
+      match '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
       # 301 Redirection
       match 'etablissements/demande-de-recommandations', to: 'redirect#structures_new'
       match 'inscription'                              , to: 'structures#new'
