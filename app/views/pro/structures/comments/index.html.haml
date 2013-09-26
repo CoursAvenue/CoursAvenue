@@ -34,5 +34,7 @@
 - if @comments.empty?
   %p.white-box.islet Encore aucun avis.
 - else
+  - if @waiting_for_deletion_comments.any? or @pending_comments.any?
+    %h3.push-half--bottom Avis validés
   %ul.comment-list
     = render partial: '/comments/comment', collection: @comments

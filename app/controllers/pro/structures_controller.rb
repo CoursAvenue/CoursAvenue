@@ -17,7 +17,7 @@ class Pro::StructuresController < Pro::ProController
       notice = 'Merci pour votre réponse.'
     end
     respond_to do |format|
-      if @structure.has_installerd_widget?
+      if @structure.has_installed_widget?
         format.html { redirect_to(dashboard_pro_structure_path(@structure), notice: notice) }
       else
         format.html { redirect_to(widget_pro_structure_path(@structure), notice: notice) }

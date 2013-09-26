@@ -367,7 +367,7 @@ class Structure < ActiveRecord::Base
     self.logo? and (self.description.present? and self.description.split.size > 30)
   end
 
-  def has_installerd_widget?
+  def has_installed_widget?
     widget_status == 'installed'
   end
 

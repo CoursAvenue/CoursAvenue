@@ -104,7 +104,7 @@
                   Quelle est sa notoriété ?
                   %br
                   A-t-elle formé des célébrités ?
-      - if @structure.has_widget?
+      - if @structure.has_installed_widget?
         %h5.form-header-group Autre
         .form-white-box.push--bottom
           = structure_form.input :widget_url, as: :string, placeholder: 'Ex. : http://www.mon-site.com/livre-d-or'
