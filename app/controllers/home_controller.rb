@@ -11,10 +11,11 @@ class HomeController < ApplicationController
                          # ,['home-page/painter.jpg', 'Cours de peinture']]
     @structures = StructureSearch.search({lat: 48.8540,
                                           lng: 2.3417,
-                                          radius: 6,
+                                          radius: 5,
                                           sort: 'rating_desc',
                                           has_logo: true,
-                                          per_page: 1000
+                                          per_page: 1000,
+                                          bbox: false
                                         }).results
 
     @json_locations_addresses = @structures.to_gmaps4rails do |structure, marker|

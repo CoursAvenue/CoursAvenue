@@ -17,7 +17,6 @@
               %li= link_to 'Comment ça marche ?',              pages_how_it_works_url(subdomain: 'www'), rel: :nofollow
               %li= link_to 'Foire aux questions Utilisateurs', pages_faq_users_url(subdomain: 'www'), rel: :nofollow
               %li= link_to 'Mentions légales Utilisateurs',    pages_mentions_partners_url(subdomain: 'www'), rel: :nofollow
-              %li= link_to 'Recommander un professeur / une école',             '#course-recommendation', data: {behavior: 'modal', title: "Recommander un professeur"}
 
           .grid__item.one-quarter.lap--one-half.palm--one-whole>
             %h5.blue Partenaires
@@ -39,48 +38,9 @@
           .grid__item.one-quarter.lap--one-half.palm--one-whole>
             %h5.blue Disciplines
             %ul.discrete-list.milli
-              %li= link_to 'Danse'  , subject_courses_url('danse', subdomain: 'www')
-              %li= link_to 'Théâtre', subject_courses_url('theatre', subdomain: 'www')
-              %li= link_to 'Cuisine', subject_courses_url('cuisine', subdomain: 'www')
-              %li= link_to 'Zumba'  , subject_courses_url('zumba', subdomain: 'www')
-              %li= link_to 'Yoga'   , subject_courses_url('yoga', subdomain: 'www')
-              %li= link_to 'Musique', subject_courses_url('musique', subdomain: 'www')
-
-#course-recommendation.hidden
-  %h3.flush Vous connaissez un bon professeur ?
-  %h4 Nous serions ravis qu'il fasse partie de la communauté CoursAvenue !
-  %p.flush
-    Laissez-nous ses coordonnées avec un petit mot de votre part, nous le contacterons pour qu'il se crée un profil CoursAvenue.
-
-  = form_tag recommendation_structures_path, id: 'recommand-form' do
-    .grid.push-half--top
-      .grid__item.one-half>
-        %div
-          %label
-            %b Nom
-          %input.one-whole{name: 'name', placeholder: "Ex. : Patrick de l'école de danse St Vincent"}
-        %div
-          %label
-            %b Email ou Téléphone
-          %input.one-whole{name: 'email', placeholder: 'Ex. : patrick@ecole-st-vincent.com'}
-      .grid__item.one-half>
-        %label
-          %b Votre recommandation
-        %textarea.one-whole{rows: 6, name: 'recommendation'}
-          J'ai suivi un cours de salsa avec patrick qui est un très bon professeur. Il est réellement à l'écoute de ses élèves et c'est un véritable plaisir d'assister à ses cours !&#x000A;&#x000A;Élodie
-        %i Pensez à signer votre message.
-        #recaptha.hidden= recaptcha_tags
-    .text--right.push-half--top
-      = submit_tag 'Envoyer la recommandation', class: 'btn--blue btn', href: '#'
-
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#recommand-form').submit(function() {
-            if ($('#recaptha').hasClass('hidden')) {
-                $('#recaptha').removeClass('hidden');
-                return false;
-            }
-            return true;
-        });
-    });
+              %li= link_to 'Danse'  , subject_structures_url('danse'  , subdomain: 'www')
+              %li= link_to 'Théâtre', subject_structures_url('theatre', subdomain: 'www')
+              %li= link_to 'Cuisine', subject_structures_url('cuisine', subdomain: 'www')
+              %li= link_to 'Zumba'  , subject_structures_url('zumba'  , subdomain: 'www')
+              %li= link_to 'Yoga'   , subject_structures_url('yoga'   , subdomain: 'www')
+              %li= link_to 'Musique', subject_structures_url('musique', subdomain: 'www')
