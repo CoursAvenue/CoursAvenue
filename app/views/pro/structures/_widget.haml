@@ -1,5 +1,5 @@
 - unless params[:not_ajax]
-  = render 'widget_inline_css'
+  = render '/pro/structures/widget_inline_css'
 
 .coursavenue-widget
   = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', class: 'coursavenue-white-box coursavenue-widget-wrapper-link', title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue" do
