@@ -31,6 +31,7 @@ fr:
         cancel_condition: "Conditions d’annulation"
         modification_condition: "Conditions de modification"
         teachers_at_home: Cours à domicile
+        widget_url: Lien vers votre livre d'or
 
   funding_type:
     holiday_vouchers: Tickets CAF ("loisirs" et "temps libre")

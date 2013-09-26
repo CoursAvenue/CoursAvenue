@@ -48,7 +48,7 @@ class Structure < ActiveRecord::Base
                   :no_facebook, :no_website, :has_only_one_place,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :funding_type_ids, :funding_types,
-                  :widget_status, :sticker_status,
+                  :widget_status, :widget_url, :sticker_status,
                   :teachers_at_home
 
   has_attached_file :logo,
@@ -243,7 +243,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-
   # Update the email status of the structure
   def update_email_status
     email_status = nil
@@ -366,6 +365,10 @@ class Structure < ActiveRecord::Base
 
   def profile_completed?
     self.logo? and (self.description.present? and self.description.split.size > 30)
+  end
+
+  def has_installerd_widget?
+    widget_status == 'installed'
   end
 
   private

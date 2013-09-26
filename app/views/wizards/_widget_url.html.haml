@@ -1,0 +1,4 @@
+= simple_form_for [:pro, @structure], html: { class: 'wizard-form' }, remote: true do |f|
+  %h4
+    Sur quelle page de votre site avez-vous installé votre livre d'or ?
+  = f.input :widget_url, placeholder: 'Ex. : http://www.mon-site.com/livre-d-or', label: "Lien vers votre livre d'or", as: :string

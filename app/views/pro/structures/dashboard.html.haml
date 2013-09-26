@@ -86,7 +86,7 @@
                 %span.nowrap À partir du 5<sup>e</sup> avis :
                 %br
                 - if @structure.comments_count > 4
-                  = link_to "Installer mon livre d'or", widget_pro_structure_path(@structure), class: 'btn btn--blue nowrap'
+                  = link_to "Installer mon livre d'or", widget_pro_structure_path(@structure), class: 'btn btn--blue nowrap text--center'
                 - else
                   %a.btn.text--center{href: '#livre-dor-explanation', data: {behavior: 'modal'}} OBTENEZ VOTRE LIVRE D'OR
               %td.text--right.v-top.hard{colspan: 6}
@@ -95,7 +95,7 @@
                 %span.nowrap À partir de 15 avis et +
                 %br
                 - if @structure.comments_count > 14
-                  = link_to "Recevoir mes autocollants", sticker_pro_structure_path(@structure), class: 'btn btn--blue'
+                  = link_to "Recevoir mes autocollants", sticker_pro_structure_path(@structure), class: 'btn btn--blue text--center nowrap'
                 - else
                   %a.btn.text--center{href: '#sticker-explanation', data: {behavior: 'modal'}} OBTENEZ VOS AUTOCOLLANTS
 

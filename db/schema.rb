@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130926090616) do
+ActiveRecord::Schema.define(:version => 20130926152854) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -452,6 +452,7 @@ ActiveRecord::Schema.define(:version => 20130926090616) do
     t.string   "widget_status"
     t.string   "sticker_status"
     t.boolean  "teachers_at_home",           :default => false
+    t.text     "widget_url"
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true

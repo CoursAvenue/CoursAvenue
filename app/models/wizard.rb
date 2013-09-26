@@ -36,6 +36,13 @@ class Wizard < ActiveHash::Base
         partial: 'wizards/widget_status',
         show_save: false,
         completed?: lambda {|structure| structure.comments_count < 5 or (structure.comments_count > 5 and !structure.widget_status.nil?) }
+    },
+    {
+        id: 6,
+        name: 'wizard.widget_url',
+        partial: 'wizards/widget_url',
+        show_save: true,
+        completed?: lambda {|structure| structure.widget_url.present? or (structure.comments_count < 5 or (structure.comments_count > 5 and !structure.has_installerd_widget?)) }
     }
     # {
     #     id: 1,
