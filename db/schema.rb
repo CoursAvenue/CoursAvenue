@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130925144808) do
+ActiveRecord::Schema.define(:version => 20130926074136) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -407,31 +407,16 @@ ActiveRecord::Schema.define(:version => 20130925144808) do
     t.string   "contact_phone"
     t.string   "contact_mobile_phone"
     t.string   "contact_email"
-    t.boolean  "has_registration_form"
-    t.boolean  "needs_photo_id_for_registration"
-    t.boolean  "needs_id_copy_for_registration"
-    t.boolean  "needs_medical_certificate_for_registration"
-    t.boolean  "needs_insurance_attestation_for_registration"
-    t.datetime "created_at",                                                      :null => false
-    t.datetime "updated_at",                                                      :null => false
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
     t.string   "slug"
     t.string   "street"
     t.string   "zip_code"
     t.text     "description"
-    t.string   "siret"
-    t.string   "tva_intracom_number"
-    t.string   "structure_status"
-    t.string   "billing_contact_first_name"
-    t.string   "billing_contact_last_name"
-    t.string   "billing_contact_phone_number"
-    t.string   "billing_contact_email"
-    t.string   "bank_name"
-    t.string   "bank_iban"
-    t.string   "bank_bic"
     t.integer  "city_id"
-    t.boolean  "active",                                       :default => false
+    t.boolean  "active",                     :default => false
     t.integer  "pricing_plan_id"
-    t.boolean  "has_validated_conditions",                     :default => false
+    t.boolean  "has_validated_conditions",   :default => false
     t.integer  "validated_by"
     t.string   "cancel_condition"
     t.string   "modification_condition"
@@ -446,7 +431,7 @@ ActiveRecord::Schema.define(:version => 20130925144808) do
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
     t.decimal  "rating"
-    t.integer  "comments_count",                               :default => 0
+    t.integer  "comments_count",             :default => 0
     t.string   "facebook_url"
     t.boolean  "no_facebook"
     t.boolean  "no_website"
@@ -454,11 +439,11 @@ ActiveRecord::Schema.define(:version => 20130925144808) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
-    t.integer  "crop_x",                                       :default => 0
-    t.integer  "crop_y",                                       :default => 0
-    t.integer  "crop_width",                                   :default => 500
-    t.integer  "crop_height",                                  :default => 500
-    t.boolean  "cropping",                                     :default => false
+    t.integer  "crop_x",                     :default => 0
+    t.integer  "crop_y",                     :default => 0
+    t.integer  "crop_width",                 :default => 500
+    t.integer  "crop_height",                :default => 500
+    t.boolean  "cropping",                   :default => false
     t.boolean  "has_only_one_place"
     t.string   "email_status"
     t.datetime "last_email_sent_at"
@@ -466,6 +451,7 @@ ActiveRecord::Schema.define(:version => 20130925144808) do
     t.string   "funding_type_ids"
     t.string   "widget_status"
     t.string   "sticker_status"
+    t.boolean  "teachers_at_home",           :default => false
   end
 
   add_index "structures", ["slug"], :name => "index_structures_on_slug", :unique => true

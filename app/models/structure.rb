@@ -49,15 +49,7 @@ class Structure < ActiveRecord::Base
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :funding_type_ids, :funding_types,
                   :widget_status, :sticker_status,
-
-                  # For registration info
-                  :has_registration_form, :needs_photo_id_for_registration, :needs_id_copy_for_registration,
-                  :needs_medical_certificate_for_registration, # certificat médical de moins de 3 mois
-                  :needs_insurance_attestation_for_registration, # attestation d'assurance
-
-                  :siret, :tva_intracom_number, :structure_status, :billing_contact_first_name,
-                  :billing_contact_last_name, :billing_contact_phone_number, :billing_contact_email,
-                  :bank_name, :bank_iban, :bank_bic
+                  :teachers_at_home
 
   has_attached_file :logo,
                     styles: {

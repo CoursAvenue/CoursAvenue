@@ -67,6 +67,8 @@
 
         = structure_form.input :funding_types, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: {style: 'max-width: 29em;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id)
 
+        = structure_form.input :teachers_at_home, as: :select
+
       %h5.form-header-group.push--top Description
       %div.relative
         = image_tag 'texts/structure-description.png', height: 85, style: 'position: absolute; left: 230px; bottom: -25px;'
