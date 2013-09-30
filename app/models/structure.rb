@@ -229,7 +229,7 @@ class Structure < ActiveRecord::Base
       self.update_email_status
       self.update_column :last_email_sent_at, Time.now
       self.update_column :last_email_sent_status, self.email_status
-      AdminMailer.delay.send(self.email_status.to_sym, self)
+      AdminMailer.delay.send(self.email_status.to_sym, self) unless self.update_email_status.blank?
     end
   end
 
