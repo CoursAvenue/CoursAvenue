@@ -37,7 +37,7 @@
           %p.field-form-info.blue
             Ce logo apparaîtra dans les résultats de recherche.
             %br
-            Formats autorisés : JPEG / JPG / GIF / PNG - Taille maximum 5mo
+            = t('structures.accepted_image_formats')
         %hr
 
         %div{data: {behavior: 'image-input' }}
@@ -62,7 +62,7 @@
           %p.field-form-info.blue
             Cette image apparaîtra dans la partie gauche de votre profil public.
             %br
-            Formats autorisés : JPEG / JPG / GIF / PNG - Taille maximum 5mo
+            = t('structures.accepted_image_formats')
 
       %h5.form-header-group
         %i.lbc-icon-info i
@@ -203,9 +203,6 @@
                 );
             }
         });
-        $('#image-input').bind('fileuploadadded', function(e, data){
-          debugger
-        });
         initialize_crop = function(crop_x, crop_y, crop_width, crop_height) {
             if ($('#logo-logo').attr('src') && !logo_jcrop_api) {
                 logo_jcrop_api = $.Jcrop('#logo-logo', {
@@ -224,9 +221,25 @@
                 }
             }
         };
-        setTimeout(function(){
-          initialize_crop(#{@structure.crop_x || 0}, #{@structure.crop_y || 0}, #{@structure.crop_width || 200}, #{@structure.crop_height || 200});
-        }, 250);
+        var worked = false,
+            attempts = 0;
+        var attemptToCrop = function () {
+            if (worked) return;
+            height = $('#logo-logo').height();
+            if (typeof height === 'number' && height > 0) {
+                console.log('Crop !');
+                initialize_crop(#{@structure.crop_x || 0}, #{@structure.crop_y || 0}, #{@structure.crop_width || 200}, #{@structure.crop_height || 200});
+                worked = true;
+            } else {
+                console.log('Looping!');
+                attempts += 1;
+                if (attempts < 5) {
+                    // try again in 250 milliseconds
+                    setTimeout(attemptToCrop, 250);
+                }
+            }
+        }
+        attemptToCrop();
         if ($('#delete-image').length > 0) {
             $('#delete-image').click(function(){
                 $('#structure_delete_image')[0].checked = true;
