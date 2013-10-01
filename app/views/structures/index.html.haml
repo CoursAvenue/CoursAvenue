@@ -11,7 +11,7 @@
 
 = render 'shared/structures_header_search'
 
-.grid.stickem-container.relative
+.grid.stickem-container.relative{ :data => { :type => "filtered-search-root" }}
   %section.grid__item.four-tenths.visuallyhidden--lap.visuallyhidden--palm.stickem.absolute>
     = render 'side_search_form'
   %section.grid__item.six-tenths.lap--one-whole.palm--one-whole.push--four-tenths.course-list>
