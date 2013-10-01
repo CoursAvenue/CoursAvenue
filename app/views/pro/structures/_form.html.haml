@@ -172,23 +172,22 @@
             dataType: 'json',
             type: 'PUT',
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-            processActions: {
-                validate: function (data, options) {
-                    if (options.disabled) {
-                        return data;
-                    }
-                    var dfd = $.Deferred(),
-                        file = data.files[data.index],
-                    if (!options.acceptFileTypes.test(file.type)) {
-                        file.error = 'Invalid file type.';
-                        dfd.rejectWith(this, [data]);
-                    } else {
-                        dfd.resolveWith(this, [data]);
-                    }
-                    return dfd.promise();
-                }
-
-            },
+            //processActions: {
+            //    validate: function (data, options) {
+            //        if (options.disabled) {
+            //            return data;
+            //        }
+            //        var dfd = $.Deferred(),
+            //            file = data.files[data.index],
+            //        if (!options.acceptFileTypes.test(file.type)) {
+            //            file.error = 'Invalid file type.';
+            //            dfd.rejectWith(this, [data]);
+            //        } else {
+            //            dfd.resolveWith(this, [data]);
+            //        }
+            //        return dfd.promise();
+            //    }
+            //},
             submit: function (e, data) {
                 data.formData = {authenticity_token: $('meta[name="csrf-token"]').attr('content') };
                 return true;
