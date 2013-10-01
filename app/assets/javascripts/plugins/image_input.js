@@ -1,6 +1,12 @@
 /*
     Usage:
-    <p data-behavior='flash'>Awesome flash</p>
+    <div data-behavior="image-input">
+        <a data-trigger>Upload my file</a>
+        <img> // Image preview
+        <div data-progress class='progress-bar'>
+        </div>
+        <input type="file" />
+    </div>
 */
 ;(function ( $, window, document, undefined ) {
 
@@ -32,28 +38,40 @@
     Plugin.prototype = {
 
         init: function() {
-            this.input_element = this.$element.find('input');
-            this.image_element = this.$element.find('img');
-            this.link_element  = this.$element.find('a');
+            this.$input_element    = this.$element.find('input[type=file]');
+            this.$image_element    = this.$element.find('img');
+            this.$trigger          = this.$element.find('[data-trigger]');
+            this.$progress_bar_el  = this.$element.find('[data-progress]');
             this.attacheEvents();
         },
 
         attacheEvents: function() {
-            var image_element = this.image_element,
-                input_element = this.input_element;
-            $(this.link_element).click(function(){
+            var image_element   = this.$image_element,
+                input_element   = this.$input_element,
+                progress_bar_el = this.$progress_bar_el,
+                inputChangeCallback;
+
+            $(this.$trigger).click(function(){
                 input_element.click();
             });
-            this.input_element.change(function(){
-                if (this.files && this.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $(image_element).attr('src', e.target.result);
+            this.$input_element.change(function(){
+                if (this.files[0].type.match(GLOBAL.IMAGE_TYPE_REGEX) && this.files[0] < 5000000) { // 5MB
+                    if (this.files && this.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $(image_element).attr('src', e.target.result);
+                        }
+                        reader.readAsDataURL(this.files[0]);
                     }
-                    reader.readAsDataURL(this.files[0]);
+                } else {
+                    GLOBAL.flash("Veuillez insérer une image au bon format", 'alert');
+                    setTimeout(function(){
+                        progress_bar_el.hide();
+                    }, 5);
+                    return false;
                 }
-            })
-        }
+            });
+        },
     };
 
     // A really lightweight plugin wrapper around the constructor,

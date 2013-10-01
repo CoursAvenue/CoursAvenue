@@ -1,5 +1,7 @@
 var GLOBAL = GLOBAL || {};
 GLOBAL.initialize_callbacks = [];
+GLOBAL.IMAGE_TYPE_REGEX = /(\.|\/)(gif|jpe?g|png)$/i
+
 /*
  * Usage:
  * var constants = GLOBAL.namespace('GLOBAL.constants');

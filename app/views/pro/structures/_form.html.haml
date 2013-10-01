@@ -10,51 +10,59 @@
         %i.icon-picture
         Image & Logo
       .form-white-box
-        #logo-progress.progress.hidden
-          .bar
-        .text--center
-          - if @structure.logo?
-            = image_tag @structure.logo.url(:large), id: 'logo-logo'
+        %div{data: {behavior: 'image-input' }}
+          #logo-progress.progress.hidden{data: {progress: true }}
+            .bar
+          .text--center
+            - if @structure.logo?
+              = image_tag @structure.logo.url(:large), id: 'logo-logo'
+              %br
+              %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
+                %i.icon-trash
+                Supprimer
+              .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
+            - else
+              %img.center-block#logo-logo{style: 'max-height: 500px; max-width: 500px'}
+            - [:crop_x, :crop_y, :crop_width, :crop_height].each do |attribute|
+              = structure_form.input attribute, as: :hidden, input_html: {id: attribute}
+            = structure_form.input :cropping, as: :hidden, input_html: {value: true}
+
+          .input
+            .control-label Logo de votre structure
+            = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
+              %i.icon-picture
+              Choisir mon logo
+            .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
+
+          %p.field-form-info.blue
+            Ce logo apparaîtra dans les résultats de recherche.
             %br
-            %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
-              %i.icon-trash
-              Supprimer
-            .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
-          - else
-            %img.center-block#logo-logo{style: 'max-height: 500px; max-width: 500px'}
-          - [:crop_x, :crop_y, :crop_width, :crop_height].each do |attribute|
-            = structure_form.input attribute, as: :hidden, input_html: {id: attribute}
-          = structure_form.input :cropping, as: :hidden, input_html: {value: true}
-
-        .input
-          .control-label Logo de votre structure
-          = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', onclick: "$('#logo-input').click();" do
-            %i.icon-picture
-            Choisir mon logo
-          .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
-
-        %p.field-form-info.blue Ce logo apparaîtra dans les résultats de recherche.
+            Formats autorisés : JPEG / JPG / GIF / PNG - maximum 5mo
         %hr
 
-        #image-progress.progress.hidden
-          .bar
-        .text--center
-          - if @structure.image?
-            = image_tag @structure.image.url(:normal), id: 'logo-image', style: 'max-height: 300px; max-width: 500px'
+        %div{data: {behavior: 'image-input' }}
+          #image-progress.progress.hidden{data: {progress: true }}
+            .bar
+          .text--center
+            - if @structure.image?
+              = image_tag @structure.image.url(:normal), id: 'logo-image', style: 'max-height: 300px; max-width: 500px'
+              %br
+              %a.btn.btn--small.btn--red#delete-image{href: 'javascript:void(0)'}
+                %i.icon-trash
+                Supprimer
+              .visuallyhidden= structure_form.input :delete_image, as: :boolean, label: false
+            - else
+              %img.center-block#logo-image{style: 'max-height: 200px; max-width: 500px'}
+          .input
+            .control-label Image pour vous illustrer
+            = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
+              %i.icon-picture
+              Choisir mon image
+            .visuallyhidden= structure_form.input :image, label: false, input_html: {id: 'image-input'}
+          %p.field-form-info.blue
+            Cette image apparaîtra dans la partie gauche de votre profil public.
             %br
-            %a.btn.btn--small.btn--red#delete-image{href: 'javascript:void(0)'}
-              %i.icon-trash
-              Supprimer
-            .visuallyhidden= structure_form.input :delete_image, as: :boolean, label: false
-          - else
-            %img.center-block#logo-image{style: 'max-height: 200px; max-width: 500px'}
-        .input
-          .control-label Image pour vous illustrer
-          = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', onclick: "$('#image-input').click();" do
-            %i.icon-picture
-            Choisir mon image
-          .visuallyhidden= structure_form.input :image, label: false, input_html: {id: 'image-input'}
-        %p.field-form-info.blue Cette image apparaîtra dans la partie gauche de votre profil public.
+            Formats autorisés : JPEG / JPG / GIF / PNG - maximum 5mo
 
       %h5.form-header-group
         %i.lbc-icon-info i
@@ -63,7 +71,7 @@
         = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
         %p.field-form-info.blue= t('.structure_name_info')
         = structure_form.input :website, placeholder: 'Ex : http://www.je-danse-a-paris.com'
-        = structure_form.input :facebook_url, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : https://www.facebook.com/CoursAvenue'
+        = structure_form.input :facebook_url, as: :string, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : https://www.facebook.com/CoursAvenue'
 
         = structure_form.association :subjects , as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', id: 'parent-subjects', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
 
@@ -122,14 +130,16 @@
         $('#logo-input').fileupload({
             dataType: 'json',
             type: 'PUT',
-            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            replaceFileInput: false,
             submit: function (e, data) {
                 data.formData = {authenticity_token: $('meta[name="csrf-token"]').attr('content') };
                 return true;
             },
             add: function (e, data) {
                 $('#logo-progress').show().removeClass('progress-success');
-                data.submit();
+                if (data.files[0].type.match(GLOBAL.IMAGE_TYPE_REGEX)) {
+                    data.submit();
+                }
             },
             done: function (e, data) {
                 $('#logo-progress').addClass('progress-success');
@@ -158,43 +168,21 @@
                 );
             }
         });
-        $('#logo-input').change(function(event) {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#logo-logo').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
         // --------------- Handling structure image
         $('#image-input').fileupload({
             dataType: 'json',
             type: 'PUT',
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-            //processActions: {
-            //    validate: function (data, options) {
-            //        if (options.disabled) {
-            //            return data;
-            //        }
-            //        var dfd = $.Deferred(),
-            //            file = data.files[data.index],
-            //        if (!options.acceptFileTypes.test(file.type)) {
-            //            file.error = 'Invalid file type.';
-            //            dfd.rejectWith(this, [data]);
-            //        } else {
-            //            dfd.resolveWith(this, [data]);
-            //        }
-            //        return dfd.promise();
-            //    }
-            //},
             submit: function (e, data) {
                 data.formData = {authenticity_token: $('meta[name="csrf-token"]').attr('content') };
                 return true;
             },
+            replaceFileInput: false,
             add: function (e, data) {
                 $('#image-progress').show().removeClass('progress-success');
-                data.submit();
+                if (data.files[0].type.match(GLOBAL.IMAGE_TYPE_REGEX)) {
+                    data.submit();
+                }
             },
             done: function (e, data) {
                 $('#image-progress').addClass('progress-success');
@@ -215,14 +203,8 @@
                 );
             }
         });
-        $('#image-input').change(function(event) {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#logo-image').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
+        $('#image-input').bind('fileuploadadded', function(e, data){
+          debugger
         });
         initialize_crop = function(crop_x, crop_y, crop_width, crop_height) {
             if ($('#logo-logo').attr('src') && !logo_jcrop_api) {

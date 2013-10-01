@@ -9,8 +9,8 @@
     %h5.form-header-group.flush--bottom
       %i.icon-picture
       Image
-    .form-white-box
-      #image-progress.progress.hidden
+    .form-white-box{data: {behavior: 'image-input' }}
+      #image-progress.progress.hidden{data: {progress: true }}
         .bar
       .text--center
         - if @course.image.present?
@@ -22,12 +22,12 @@
           %img.center-block#logo-image{style: 'max-height: 200px'}
       .input
         = f.label :image
-        = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', onclick: "$('#image-input').click();" do
+        = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
           %i.icon-picture
           Choisir mon image
         = f.input :image, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'}, input_html: {id: 'image-input'}
-      - if current_pro_admin.super_admin? and @course.is_promoted
-        = f.input :homepage_image, label: 'Image de la home'
+        %p.field-form-info.blue
+          Formats autorisés : JPEG / JPG / GIF / PNG - maximum 5mo
   %h5.form-header-group.flush--bottom
     %i.lbc-icon-info i
     Information générales du cours
@@ -78,7 +78,7 @@
     .form-white-box
       .input.depend-on-reccurent-course{data: {behavior: 'date-range', 'start-date' => '#course_start_date', 'end-date' => '#course_end_date'}}>
         %label.control-label{for: 'course_start_date'} Date du premier et dernier cours
-        = f.input :start_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {style: 'margin-right: 5px', class: 'datepicker-input', value: (@course.start_date.present? ? l(@course.start_date) : l(Date.today)), 'data-behavior' => 'datepicker'}
+        = f.input :start_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {style: 'margin-right: 5px', class: 'datepicker-input', value: (@course.start_date.present? ? l(@course.start_date) : l(Date.today)), data: {behavior: 'datepicker'}}
         \-&nbsp;
         = f.input :end_date, as: :string, label: false, wrapper_html: {class: 'flush--ends'}, input_html: {class: 'datepicker-input', value: (@course.end_date.present? ? l(@course.end_date) : l(Date.today + 1.year)), 'data-behavior' => 'datepicker'}
       = f.input :frequency, as: :select, collection: Course::COURSE_FREQUENCIES, label_method: lambda {|course_frequency| t(course_frequency)}, default: Course::COURSE_FREQUENCIES.first, label: t('.frequency'), wrapper_html: {class: 'depend-on-reccurent-course'}
@@ -123,9 +123,7 @@
             dataType: 'json',
             type: 'PUT',
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-            previewMaxWidth: 100,
-            previewMaxHeight: 100,
-            maxFileSize: 5000000, // 5 MB
+            replaceFileInput: false,
             submit: function (e, data) {
                 data.formData = {authenticity_token: $('meta[name="csrf-token"]').attr('content') };
                 return true;
@@ -151,15 +149,6 @@
                     'width',
                     progress + '%'
                 );
-            }
-        });
-        $('#image-input').change(function(event) {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#logo-image').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
             }
         });
         if ($('#delete-image').length > 0) {
