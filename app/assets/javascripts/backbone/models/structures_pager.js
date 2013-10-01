@@ -1,4 +1,9 @@
-FilteredSearch.Models.Structure = Backbone.Model.extend({});
+FilteredSearch.Models.Structure = Backbone.Model.extend({
+  initialize: function() {
+    console.log("Structure->initialize");
+  }
+
+});
 
 FilteredSearch.Models.StructuresPager = Backbone.Paginator.requestPager.extend({
   model: FilteredSearch.Models.Structure,
@@ -18,6 +23,8 @@ FilteredSearch.Models.StructuresPager = Backbone.Paginator.requestPager.extend({
   },
 
   parse: function(response) {
+    console.log('StructuresPager->parse');
+
     return response;
   }
 });

@@ -55,10 +55,14 @@ FilteredSearch.addInitializer(function(options){
 
   // Create an instance of your class and populate with the models of your entire collection
   var structuresPager = new FilteredSearch.Models.StructuresPager(bootstrap);
-
   // Invoke the bootstrap function
   structuresPager.bootstrap();
 
+  var structuresPagerView = new FilteredSearch.Views.StructuresPagerView({
+    collection: structuresPager
+  });
+
+  FilteredSearch.mainRegion.show(structuresPagerView);
 });
 
 $(document).ready(function() {
