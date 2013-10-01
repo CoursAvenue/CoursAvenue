@@ -2,7 +2,7 @@
   %i.icon-user
   Mise à jour du profil
 .islet
-  = simple_form_for [:pro, @structure] ,html: { autocomplete: 'off', id: 'structure-form' } do |structure_form|
+  = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |structure_form|
     - if params[:from_path].present?
       %input{type: 'hidden', value: params[:from_path], name: 'from_path'}
     .form-inputs
@@ -172,6 +172,23 @@
             dataType: 'json',
             type: 'PUT',
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            processActions: {
+                validate: function (data, options) {
+                    if (options.disabled) {
+                        return data;
+                    }
+                    var dfd = $.Deferred(),
+                        file = data.files[data.index],
+                    if (!options.acceptFileTypes.test(file.type)) {
+                        file.error = 'Invalid file type.';
+                        dfd.rejectWith(this, [data]);
+                    } else {
+                        dfd.resolveWith(this, [data]);
+                    }
+                    return dfd.promise();
+                }
+
+            },
             submit: function (e, data) {
                 data.formData = {authenticity_token: $('meta[name="csrf-token"]').attr('content') };
                 return true;
