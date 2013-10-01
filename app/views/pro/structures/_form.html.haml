@@ -22,7 +22,7 @@
                 Supprimer
               .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
             - else
-              %img.center-block#logo-logo{style: 'max-height: 500px; max-width: 500px'}
+              %img.center-block#logo-logo{style: 'max-height: 500px; max-width: 500px;'}
             - [:crop_x, :crop_y, :crop_width, :crop_height].each do |attribute|
               = structure_form.input attribute, as: :hidden, input_html: {id: attribute}
             = structure_form.input :cropping, as: :hidden, input_html: {value: true}
@@ -151,7 +151,7 @@
                     logo_jcrop_api.setImage(data.result.logo.path);
                     logo_jcrop_api.setSelect([data.result.logo.crop_x, data.result.logo.crop_y, data.result.logo.crop_width, data.result.logo.crop_height]);
                 } else {
-                    $('#logo-logo').attr('src', data.result.logo.path);
+                    $('#logo-logo').attr('width', data.result.logo.width).attr('height', data.result.logo.height).attr('src', data.result.logo.path);
                     initialize_crop(data.result.logo.crop_x, data.result.logo.crop_y, data.result.logo.crop_width, data.result.logo.crop_height);
                 }
             },
@@ -227,11 +227,9 @@
             if (worked) return;
             height = $('#logo-logo').height();
             if (typeof height === 'number' && height > 0) {
-                console.log('Crop !');
                 initialize_crop(#{@structure.crop_x || 0}, #{@structure.crop_y || 0}, #{@structure.crop_width || 200}, #{@structure.crop_height || 200});
                 worked = true;
             } else {
-                console.log('Looping!');
                 attempts += 1;
                 if (attempts < 5) {
                     // try again in 250 milliseconds

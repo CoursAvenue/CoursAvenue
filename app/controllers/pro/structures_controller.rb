@@ -196,6 +196,8 @@ class Pro::StructuresController < Pro::ProController
                                 logo: {
                                         path: @structure.logo.url(:large),
                                         ratio: @ratio,
+                                        width: @structure.logo_geometry(:large).width,
+                                        height: @structure.logo_geometry(:large).height,
                                         crop_x: 0,
                                         crop_y: 0,
                                         crop_width: 200,
