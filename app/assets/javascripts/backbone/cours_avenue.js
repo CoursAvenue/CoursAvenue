@@ -42,7 +42,7 @@ FilteredSearch.module("Models");
 FilteredSearch.module("Views");
 
 FilteredSearch.addRegions({
-  mainRegion: '#content'
+  mainRegion: '#filtered-search'
 });
 
 FilteredSearch.addInitializer(function(options){
@@ -58,6 +58,7 @@ FilteredSearch.addInitializer(function(options){
 
   // Invoke the bootstrap function
   structuresPager.bootstrap();
+
 });
 
 $(document).ready(function() {
