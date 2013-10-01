@@ -55,7 +55,7 @@
                 input_element.click();
             });
             this.$input_element.change(function(){
-                if (this.files[0].type.match(GLOBAL.IMAGE_TYPE_REGEX) && this.files[0] < 5000000) { // 5MB
+                if (GLOBAL.isImageValid(this.files[0])) {
                     if (this.files && this.files[0]) {
                         var reader = new FileReader();
                         reader.onload = function (e) {

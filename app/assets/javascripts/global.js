@@ -1,6 +1,10 @@
 var GLOBAL = GLOBAL || {};
 GLOBAL.initialize_callbacks = [];
-GLOBAL.IMAGE_TYPE_REGEX = /(\.|\/)(gif|jpe?g|png)$/i
+GLOBAL.IMAGE_TYPE_REGEX = /(\.|\/)(gif|jpe?g|png)$/i;
+GLOBAL.MAX_IMAGE_SIZE   = 5000000; // 5mo
+GLOBAL.isImageValid = function(file) {
+  return file.type.match(GLOBAL.IMAGE_TYPE_REGEX) && file.size < GLOBAL.MAX_IMAGE_SIZE
+}
 
 /*
  * Usage:

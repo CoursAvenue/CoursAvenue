@@ -37,7 +37,7 @@
           %p.field-form-info.blue
             Ce logo apparaîtra dans les résultats de recherche.
             %br
-            Formats autorisés : JPEG / JPG / GIF / PNG - maximum 5mo
+            Formats autorisés : JPEG / JPG / GIF / PNG - Taille maximum 5mo
         %hr
 
         %div{data: {behavior: 'image-input' }}
@@ -62,7 +62,7 @@
           %p.field-form-info.blue
             Cette image apparaîtra dans la partie gauche de votre profil public.
             %br
-            Formats autorisés : JPEG / JPG / GIF / PNG - maximum 5mo
+            Formats autorisés : JPEG / JPG / GIF / PNG - Taille maximum 5mo
 
       %h5.form-header-group
         %i.lbc-icon-info i
@@ -137,7 +137,7 @@
             },
             add: function (e, data) {
                 $('#logo-progress').show().removeClass('progress-success');
-                if (data.files[0].type.match(GLOBAL.IMAGE_TYPE_REGEX)) {
+                if (GLOBAL.isImageValid(this.files[0])) {
                     data.submit();
                 }
             },
@@ -180,7 +180,7 @@
             replaceFileInput: false,
             add: function (e, data) {
                 $('#image-progress').show().removeClass('progress-success');
-                if (data.files[0].type.match(GLOBAL.IMAGE_TYPE_REGEX)) {
+                if (GLOBAL.isImageValid(this.files[0])) {
                     data.submit();
                 }
             },
