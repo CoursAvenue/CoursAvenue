@@ -39,9 +39,10 @@
 //= require libs/fancybox/jquery.fancybox
 //= require underscore
 //= require backbone
-//= require backbone_rails_sync
-//= require backbone_datalink
+//= require backbone.marionette
 //= require backbone/cours_avenue
+//= require railsy_backbone.sync
+//= require railsy_backbone.datalink
 //= require_tree ./libs/fancybox/helpers/
 
 //---- Bootstrap plugins
@@ -62,11 +63,6 @@
 // - http://jqueryboilerplate.com/
 // - https://github.com/jquery-boilerplate/jquery-patterns/
 // - https://github.com/jquery-boilerplate/jquery-boilerplate
-//= require underscore
-//= require backbone
-//= require backbone_rails_sync
-//= require backbone_datalink
-//= require backbone/cours_avenue
 //= require_tree ./plugins/
 // require plugins/address_picker
 // require plugins/checkbox_list
@@ -84,11 +80,6 @@
 // require plugins/time_range
 // require plugins/image_input
 
-//= require underscore
-//= require backbone
-//= require backbone_rails_sync
-//= require backbone_datalink
-//= require backbone/cours_avenue
 //= require_tree ./gmaps4rails/
 
 $(function() {
