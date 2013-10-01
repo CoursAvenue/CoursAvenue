@@ -42,13 +42,39 @@ class SubjectsController < ApplicationController
   end
 
   def tree
+    if params[:parent]
+      subject_roots = [Subject.find(params[:parent])]
+    else
+      subject_roots = Subject.roots
+    end
     @subjects = {}
-    Subject.roots.each do |root|
+    subject_roots.each do |root|
       @subjects[root.name] = {}
       root.children.each do |sub_root|
         @subjects[root.name][sub_root.name] = []
         sub_root.children.each do |sub_sub_root|
           @subjects[root.name][sub_root.name] << sub_sub_root.name
+        end
+      end
+    end
+    respond_to do |format|
+      format.json { render json: @subjects.to_json }
+    end
+  end
+
+  def tree_2
+    if params[:parent]
+      subject_roots = [Subject.find(params[:parent])]
+    else
+      subject_roots = Subject.roots
+    end
+    @subjects = {}
+    subject_roots.each do |root|
+      @subjects["#{root.name} - #{root.slug} (#{root.courses.count})"] = {}
+      root.children.each do |sub_root|
+        @subjects["#{root.name} - #{root.slug} (#{root.courses.count})"]["#{sub_root.name} - #{sub_root.slug} (#{sub_root.courses.count})"] = []
+        sub_root.children.each do |sub_sub_root|
+          @subjects["#{root.name} - #{root.slug} (#{root.courses.count})"]["#{sub_root.name} - #{sub_root.slug} (#{sub_root.courses.count})"] << "#{sub_sub_root.name} - #{sub_sub_root.slug} (#{sub_sub_root.courses.count})"
         end
       end
     end

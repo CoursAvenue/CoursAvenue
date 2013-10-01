@@ -7,14 +7,12 @@
 = content_for :title do
   = "#{(params[:subject_id] ? "Établissements de #{@subject.name.downcase}" : 'Établissements')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
 
-
-
 = render 'shared/structures_header_search'
 
 .grid.stickem-container.relative
   %section.grid__item.four-tenths.visuallyhidden--lap.visuallyhidden--palm.stickem.absolute>
     = render 'side_search_form'
-  %section.grid__item.six-tenths.lap--one-whole.palm--one-whole.push--four-tenths.course-list>
+  %section.grid__item.six-tenths.lap--one-whole.palm--one-whole.push--desk--four-tenths.course-list>
     %ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
       %li= link_to 'Tous les établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
       - if @subject
@@ -77,11 +75,13 @@
 = content_for :scripts do
   :javascript
       $(function() {
-        $('body').stickem();
+        $('body').stickem(); // For the stickiness of the sidebar
+        // For ordering the search
         $('.filter-select').click(function() {
               $('#hidden-sort-input').val(this.dataset.value);
               $('#submit_search_form').click();
         });
+        // To make the structure-element clickable.
         $('[data-type=structure-element]').each(function(index, structure_element) {
             $(this).click(function(event) {
                 // Change url only if user doesn't click on link

@@ -139,6 +139,7 @@ CoursAvenue::Application.routes.draw do
   resources :subjects, only: [:index] do
     collection do
       get :tree
+      get :tree_2
       get :descendants
     end
   end
@@ -154,10 +155,6 @@ CoursAvenue::Application.routes.draw do
   resources :comments, only: [:create, :destroy]
 
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
-    member do
-      post 'bump_planning'
-      post 'bump_medias'
-    end
     collection do
       post :recommendation
     end
