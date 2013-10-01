@@ -40,6 +40,7 @@
 //= require underscore
 //= require backbone
 //= require backbone.marionette
+//= require libs/backbone.paginator.js
 //= require backbone/cours_avenue
 //= require railsy_backbone.sync
 //= require railsy_backbone.datalink

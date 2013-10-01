@@ -29,3 +29,5 @@
       %meta{itemprop: 'name', content: structure.name}
       %meta{itemprop: 'street-address', content: structure.street}
       %meta{itemprop: 'postal-code', content: structure.zip_code}
+  .visuallyhidden{ :data => { :type => 'filtered-search-bootstrap'}}
+    = structure.to_json(:only => [:name, :subjects, :comments_count, :rating, :street, :zip_code])
