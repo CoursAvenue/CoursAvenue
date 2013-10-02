@@ -27,9 +27,15 @@ FilteredSearch.Models.PaginatedCollection = Backbone.Paginator.requestPager.exte
   },
 
   url: {
-    basename: 'http://localhost:3000',
-    resource: '/etablissements',
+    basename: 'http://www.examples.com',
+    resource: '/stuff',
     datatype: '.json'
+  },
+
+  setUrl: function(basename, resource, data_type) {
+    if (basename != undefined) this.url.basename = basename;
+    if (resource != undefined) this.url.resource = '/' + resource;
+    if (data_type != undefined) this.url.data_type = '.' + data_type;
   }
 
 });

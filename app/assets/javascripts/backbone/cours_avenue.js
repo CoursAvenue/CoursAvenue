@@ -55,13 +55,14 @@ FilteredSearch.addInitializer(function(options){
 
   // Create an instance of your class and populate with the models of your entire collection
   var structures = new FilteredSearch.Models.PaginatedCollection(bootstrap);
-  var structuresView = new FilteredSearch.Views.PaginatedCollectionView({
+  var structures_view = new FilteredSearch.Views.PaginatedCollectionView({
     collection: structures
   });
 
   // Invoke the bootstrap function
   structures.bootstrap();
-  FilteredSearch.mainRegion.show(structuresView);
+  structures.setUrl('http://localhost:3000', 'etablissements', 'json')
+  FilteredSearch.mainRegion.show(structures_view);
 });
 
 $(document).ready(function() {
