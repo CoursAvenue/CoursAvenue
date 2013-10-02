@@ -2,58 +2,41 @@
 <script src='http://connect.facebook.net/en_US/all.js'></script>
 
 %h2
-  Parlez-en sur Facebook et invitez vos amis
-  = link_to 'Partager sur Facebook', '#', class: 'btn btn--facebook btn--small', onclick: 'postToFeed(); return false;'
+  Aidez votre professeur, parlez-en sur Facebook
+  = link_to 'Partager sur Facebook', '#', class: 'btn btn--facebook btn--small', onclick: 'postToFeed(); return false;', id: 'post-facebook'
 
 .grid
-  .grid__item.v-middle.one-half.palm--one-whole.bordered--right.soft--right>
-    .soft--left
-      = link_to new_user_registration_path, onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: "Rejoignez notre communauté d'élèves !"}, class: 'fancybox.ajax soft--left' do
-        = image_tag 'texts/want_your_avatar.png', width: 400
-    %ul.discrete-list
-      = render partial: 'comments/comment', locals: { comment: @comment }
-  .grid__item.v-middle.one-half.palm--one-whole>
-    .text--center.white-box.push--top
-      .soft-half
-        .thin.big-alpha.brand= @structure.comments_count
-        .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-        %div
-          avis
-          %a{href: '#comments'}
-            %i.lbc-brand-icon
-        %div
-          %span.rating{title: comment_rating_title(@structure.rating)}
-            = rating_stars @structure.rating
-          %meta{property: 'v:rating', itemprop: 'rating', content: @structure.rating}
-          %meta{itemprop: 'count', content: @structure.comments_count}
-          %meta{itemprop: 'itemreviewed', content: @structure.name}
-          %meta{itemprop: 'name', content: @structure.name}
-          %meta{itemprop: 'street-address', content: @structure.street}
-          %meta{itemprop: 'postal-code', content: @structure.zip_code}
-      %div.gray-box.bordered--top.soft-half
-        %b= link_to @structure.name, structure_path(@structure), onclick: "mixpanel.track('See profile after comment')"
+  .grid__item.v-bottom.one-half.soft--left>
+    = link_to new_user_registration_path, onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: "Rejoignez notre communauté d'élèves !"}, class: 'fancybox.ajax', style: 'margin-left: 8em' do
+      = image_tag 'texts/want_your_avatar.png', width: 400
+  .grid__item.v-bottom.text--right.one-half.soft-half--bottom>
+    - unless current_user
+      = link_to new_user_registration_path, onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: "Rejoignez notre communauté d'élèves !"}, class: 'fancybox.ajax btn btn--orange btn--small' do
+        %i.icon-pencil
+        Modifier mon avis
+%ul.no-bullet-list
+  = render partial: 'comments/comment', locals: { comment: @comment }
 
-  .text--center.push
-    = link_to "Découvrir le profil de #{@structure.name}", structure_path(@structure), onclick: "mixpanel.track('See profile after comment')", class: 'btn btn--blue'
+.text--center.push
+  = link_to "Accéder CoursAvenue", structure_path(@structure), onclick: "mixpanel.track('See profile after comment')", class: 'btn btn--blue btn--large'
 
 
 = content_for :scripts do
   :javascript
     FB.init({appId: "589759807705512", status: true, cookie: true});
     function postToFeed() {
-      var obj = {
-        method: 'feed',
-        redirect_uri: "#{request.protocol + request.host_with_port + request.fullpath}",
-        link: "#{structure_url(@structure)}",
-        picture: "#{@logo_url || asset_url('logo.png')}",
-        name: "Je viens de donner mon avis sur #{@structure.name}. Et vous, qu'en pensez-vous ?",
-        caption: 'CoursAvenue.com',
-        description: "Retrouvez également des centaines d'autres établissements qui donnent des cours de loisirs ! Danse, théâtre, musique, cours insolite, j'en passe et des meilleurs !"
-      };
+        var obj = {
+            method: 'feed',
+            redirect_uri: "#{request.protocol + request.host_with_port + request.fullpath}",
+            link: "#{structure_url(@structure)}",
+            picture: "#{@logo_url || asset_url('logo.png')}",
+            name: "Je viens de donner mon avis sur #{@structure.name}. Et vous, qu'en pensez-vous ?",
+            caption: 'CoursAvenue.com',
+            description: "Retrouvez également des centaines d'autres établissements qui donnent des cours de loisirs ! Danse, théâtre, musique, cours insolite, j'en passe et des meilleurs !"
+          };
       function callback(response) {
-        document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+          document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
       }
       FB.ui(obj, callback);
       mixpanel.track('Share after comment', {type: 'Facebook'});
     }
-

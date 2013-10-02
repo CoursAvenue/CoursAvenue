@@ -10,7 +10,6 @@ class CommentsController < ApplicationController
       @comment.author_name = current_user.full_name
       @comment.email       = current_user.email
     end
-
     respond_to do |format|
       if @comment.save
         cookies[:delete_cookies] = true

@@ -12,6 +12,12 @@
           .center-block{class: "#{(small_avatar ? 'profile-picture--small' : 'profile-picture')} profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
             = comment.author_name[0].capitalize
       .grid__item.ten-twelfths>
+        - if current_user and comment.pending?
+          .float--right
+            = link_to edit_user_comment_path(current_user, comment), class: 'btn btn--orange btn--small' do
+              %i.icon-pencil.soft-half--right
+              Modifier mon avis
+
         - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
           .push-half--left.drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
             %a.btn.btn--small{href: 'javascript:void(0)'}

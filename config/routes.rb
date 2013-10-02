@@ -124,7 +124,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   devise_for :users, controllers: { :omniauth_callbacks => 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations' }
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
-    resources  :comments, only: [:index], controller: 'users/comments'
+    resources  :comments, only: [:index, :edit, :update], controller: 'users/comments'
   end
   resources :emails, only: [:create]
 
