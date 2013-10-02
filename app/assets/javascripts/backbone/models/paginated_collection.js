@@ -6,7 +6,9 @@ FilteredSearch.Models.PaginatedCollection = Backbone.Paginator.requestPager.exte
   paginator_core: {
     type: 'GET',
     dataType: 'json',
-    url: 'http://localhost:3000/etablissements.json'
+    url: function() {
+      return this.url.basename + this.url.resource + this.url.datatype;
+    }
   },
   paginator_ui: {
     firstPage: 0,
@@ -22,6 +24,13 @@ FilteredSearch.Models.PaginatedCollection = Backbone.Paginator.requestPager.exte
     console.log('PaginatedCollection->parse');
 
     return response;
+  },
+
+  url: {
+    basename: 'http://localhost:3000',
+    resource: '/etablissements',
+    datatype: '.json'
   }
+
 });
 

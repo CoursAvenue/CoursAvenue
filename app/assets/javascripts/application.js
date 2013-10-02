@@ -37,6 +37,7 @@
 //= require libs/jquery.masonry
 
 //= require libs/fancybox/jquery.fancybox
+//= require handlebars
 //= require underscore
 //= require backbone
 //= require backbone.marionette

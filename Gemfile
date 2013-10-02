@@ -30,7 +30,12 @@ gem 'rack-cors'                 , require: 'rack/cors'
 gem 'active_hash'                , '~> 1.0.0'
 gem 'zeroclipboard-rails'
 
+# for FilteredSearch
+gem 'railsy_backbone'
+gem 'marionette-rails'
+
 group :assets do
+  gem 'handlebars_assets'
   gem 'sass-rails'              , '~> 3.2.4'
   gem 'uglifier'                , '>= 1.0.3'
   gem 'coffee-rails'            , '~> 3.2.1'
@@ -48,8 +53,6 @@ gem 'daemons'
 # gem 'js-routes'                 , '~> 0.9.3'
 gem 'font-awesome-rails'        , '~> 3.2.1.3'
 gem 'jquery-rails'              , '~> 3.0.4'
-gem 'railsy_backbone'
-gem 'marionette-rails'
 gem 'compass'                   , '~> 0.12.2'
 gem 'compass-rails'             , '~> 1.0.3'
 gem 'compass-inuit'             , '~> 5.0.1'
