@@ -358,6 +358,15 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # methods Andre is using to serialize structure
+  def logo_thumb_url
+    return self.logo.url(:thumb)
+  end
+
+  def logo_present
+    return self.logo.present?
+  end
+
   def ratio_from_original(style=:original)
     return 1 unless self.logo?
     self.logo_geometry(:original).width / self.logo_geometry(style).width

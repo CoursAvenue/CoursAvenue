@@ -1,11 +1,13 @@
 <li data-url="{{ data_url }}" data-type="{{ data_type }}" data-location-ids="73" class="one-whole course-element">
-  <div class="two-twelfths visuallyhidden--palm">
-    <div class="course-image media__img">
-      <a href="{{ data_url }}">
-        <img src="/system/structures/logos/000/000/833/thumb/Portrait_Louna.jpg?1377622327" class="one-whole" alt="{{ name }}">
-      </a>
+  {{#if logo_present}}
+    <div class="two-twelfths visuallyhidden--palm">
+      <div class="course-image media__img">
+        <a href="{{ data_url }}">
+          <img src="{{ logo_thumb_url }}" class="one-whole" alt="{{ name }}">
+        </a>
+      </div>
     </div>
-  </div>
+  {{/if}}
   <article class="course-content eight-twelfths">
     <header>
       <div class="course-title">
