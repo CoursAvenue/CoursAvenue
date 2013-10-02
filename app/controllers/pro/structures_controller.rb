@@ -143,6 +143,10 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  def stars
+    @structures = Structure.order('created_at DESC').where{comments_count > 5}
+  end
+
   def index
     @structures = Structure.order('created_at ASC').all
   end

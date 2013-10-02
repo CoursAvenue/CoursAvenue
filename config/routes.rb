@@ -43,6 +43,7 @@ CoursAvenue::Application.routes.draw do
           match 'widget_ext', controller: 'structures', action: 'widget_ext', constraints: {methods: ['OPTIONS', 'GET']}, as: 'widget_ext'
         end
         collection do
+          get :stars
           get 'inscription', to: :new
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
