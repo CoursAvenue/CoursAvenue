@@ -1,7 +1,8 @@
 //= require_self
 //= require ./core_ext
 //= require_tree ./templates
-//= require_tree ./models
+//= require ./models/structure
+//= require ./models/paginated_collection
 //= require_tree ./views
 //= require_tree ./routers
 

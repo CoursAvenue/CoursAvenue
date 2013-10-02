@@ -1,5 +1,3 @@
-//= require ../models/structure
-
 /* sets up the details specific to coursavenue's API */
 FilteredSearch.Models.PaginatedCollection = Backbone.Paginator.requestPager.extend({
   model: FilteredSearch.Models.Structure,
