@@ -112,6 +112,7 @@ class Structure < ActiveRecord::Base
   before_save      :replace_slash_n_r_by_brs
   before_save      :fix_website_url
   before_save      :fix_facebook_url
+  before_save      :fix_widget_url
   before_save      :encode_uris
 
   # ------------------------------------------------------------------------------------ Search attributes
@@ -434,6 +435,10 @@ class Structure < ActiveRecord::Base
 
   def fix_facebook_url
     self.facebook_url = URLHelper.fix_url(self.facebook_url) if self.facebook_url.present?
+  end
+
+  def fix_widget_url
+    self.widget_url = URLHelper.fix_url(self.widget_url) if self.widget_url.present?
   end
 
   def encode_uris
