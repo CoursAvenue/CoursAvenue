@@ -24,13 +24,13 @@
           %td.text--center{data: {value: planning.week_day}}
             = simple_form_for [:pro, @course, planning], remote: true do |f|
               - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate
-              = f.input :week_day, as: :select, collection: days, label: false, input_html: {class: 'week-day-select'}, wrapper_html: {class: 'flush'}, include_blank: false
+              = f.input :week_day, as: :select, collection: days, label: false, input_html: {class: 'week-day-select', style: 'max-width: 10em;'}, wrapper_html: {class: 'flush'}, include_blank: false
           %td.text--center{data: {value: planning.start_time}}
             = readable_time_slot planning.start_time, planning.end_time
           %td.text--center= readable_duration planning.duration
           %td{data: {value: planning.teacher.try(:name)}}
             = simple_form_for [:pro, @course, planning], remote: true do |f|
-              = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select'}, wrapper_html: {class: 'flush'}
+              = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select', style: 'max-width: 15em;'}, wrapper_html: {class: 'flush'}
           %td.text--center= join_levels_text planning
           %td.text--center= join_audiences planning
           %td.text--center{data: {value: (planning.place ? planning.place.location.try(:name) : nil)}}

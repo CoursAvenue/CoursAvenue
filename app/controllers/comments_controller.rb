@@ -28,19 +28,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  def destroy
-    @comment = Comment.find(params[:id])
-    path     = commentable_path(@comment)
-    respond_to do |format|
-      if can?(:destroy, @comment) and @comment.destroy
-        AdminMailer.delay.recommandation_has_been_deleted(@comment.structure)
-        format.html { redirect_to request.referrer || path, notice: 'Votre avis a bien été supprimé'}
-      else
-        format.html { redirect_to request.referrer || path, alert: 'Vous ne pouvez pas supprimer ce avis'}
-      end
-    end
-  end
-
   private
   def find_commentable
     type = params[:comment][:commentable_type]

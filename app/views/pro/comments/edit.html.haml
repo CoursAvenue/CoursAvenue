@@ -5,6 +5,6 @@
     = f.input :email
     = f.input :course_name
     = f.input :title
-    = f.input :content, input_html: {value: @comment.content_for_input}
+    = f.input :content, input_html: {value: @comment.content_for_input, data: {behavior: 'autoresize'}}
     .form-actions
       = f.submit 'Enregistrer', class: 'btn btn--green'

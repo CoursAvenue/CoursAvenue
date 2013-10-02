@@ -21,7 +21,7 @@
               - if can?(:destroy, comment)
                 - if comment.waiting_for_deletion?
                   %li.nowrap
-                    = link_to accept_pro_structure_comment_path(comment.structure, comment, silent: true), method: :put, data: { confirm: 'Êtes-vous sûr de rétablir cet avis ?' } do
+                    = link_to recover_pro_comment_path(comment), method: :put do
                       %i.icon-ok
                       Rétablir
                 %li.nowrap
@@ -29,7 +29,7 @@
                     %i.icon-pencil
                     Modifier
                 %li.nowrap
-                  = link_to comment_path(comment), method: :delete, data: { confirm: 'Êtes-vous sûr de supprimer cet avis ?' } do
+                  = link_to pro_comment_path(comment), method: :delete do
                     %i.icon-trash
                     Supprimer
           - unless comment.waiting_for_deletion?

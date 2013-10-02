@@ -23,7 +23,7 @@ class SubjectsController < ApplicationController
     @subjects.each do |parent_subject|
       parent_subject.descendants.at_depth(1).each do |first_descendant|
         obj                = {}
-        parent_name        = "#{parent_subject.name} - #{first_descendant.name}"
+        parent_name        = first_descendant.name
         obj[parent_name] ||= []
         first_descendant.children.each do |second_descendant|
           obj[parent_name] << second_descendant

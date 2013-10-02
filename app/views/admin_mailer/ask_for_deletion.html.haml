@@ -6,6 +6,10 @@
   %br
   = @comment.content.html_safe
 
+%p
+  Motif de suppression :
+  %strong= t(@comment.deletion_reason)
+
 %p.action
   = link_to "Accéder aux commentaires", pro_comments_url(subdomain: 'pro'), class: 'btn btn--blue'
 

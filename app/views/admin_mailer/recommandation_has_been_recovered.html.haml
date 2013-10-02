@@ -1,0 +1,11 @@
+%p Bonjour #{@structure.name},
+
+%p
+  Vous avez récemment demandé la modification d'un avis : cet avis vient d'être modifié et mis à jour sur votre profil CoursAvenue.
+
+%p Si vous avez des questions, n'hésitez pas à nous contacter. Merci et à très bientôt,
+
+%p L'équipe de CoursAvenue
+
+- content_for :under_content do
+  = render 'footer_info'

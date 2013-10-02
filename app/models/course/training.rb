@@ -23,4 +23,8 @@ class Course::Training < Course
   def underscore_name
     'training'
   end
+
+  def latest_end_date
+    self.plannings.order.order('end_date DESC').first.end_date
+  end
 end

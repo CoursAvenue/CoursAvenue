@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Pro::CommentsController < InheritedResources::Base
   before_filter :authenticate_pro_admin!
+
   load_and_authorize_resource :comment
 
   layout 'admin'
@@ -22,5 +23,24 @@ class Pro::CommentsController < InheritedResources::Base
     @comment = Comment.find params[:id]
     @comment.update_attributes params[:comment]
     redirect_to pro_comments_path(anchor: "recommandation-#{@comment.id}")
+  end
+
+  def recover
+    @comment   = Comment.find params[:id]
+    @comment.recover!
+    AdminMailer.delay.recommandation_has_been_recovered(@comment.structure)
+    redirect_to pro_comments_path, notice: "L'avis a été rétabli"
+  end
+
+  def destroy
+    @comment = Comment.find(params[:id])
+    respond_to do |format|
+      if can?(:destroy, @comment) and @comment.destroy
+        AdminMailer.delay.recommandation_has_been_deleted(@comment.structure)
+        format.html { redirect_to request.referrer || pro_comments_path, notice: 'Votre avis a bien été supprimé'}
+      else
+        format.html { redirect_to request.referrer || root_path, alert: 'Vous ne pouvez pas supprimer ce avis'}
+      end
+    end
   end
 end

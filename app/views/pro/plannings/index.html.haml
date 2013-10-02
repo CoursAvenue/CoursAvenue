@@ -19,6 +19,13 @@
 .text--center.push-half--bottom
   = link_to 'Ajouter un créneau', new_pro_course_planning_path(@course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--green btn--large'
 
+- if @planning and @planning.errors.any?
+  %p.alert.alert-error
+    - @planning.errors.full_messages.each_with_index do |message, index|
+      - if index != 0
+        %br
+      = message
+
 - if @plannings.any? and !@course.is_lesson? and @past_plannings.any?
   %h5 Séances à venir
 = render "#{@course.underscore_name}_list"
