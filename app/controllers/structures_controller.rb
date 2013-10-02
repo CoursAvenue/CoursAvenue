@@ -77,7 +77,7 @@ class StructuresController < ApplicationController
     init_geoloc
 
     respond_to do |format|
-      format.json { render json: @structures.to_json(include: [:city]) }
+      format.json { render json: @structures, root: false, each_serializer: StructureSerializer, meta: { total: @structures.count } }
       format.html do
         cookies[:structure_search_path] = request.fullpath
       end

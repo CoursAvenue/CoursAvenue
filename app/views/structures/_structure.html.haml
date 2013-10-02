@@ -30,4 +30,4 @@
       %meta{itemprop: 'street-address', content: structure.street}
       %meta{itemprop: 'postal-code', content: structure.zip_code}
   .visuallyhidden{ :data => { :type => 'filtered-search-bootstrap'}}
-    = structure.to_json(:only => [:name, :subjects, :comments_count, :rating, :street, :zip_code, :slug], :methods => [:logo_thumb_url, :logo_present])
+    = StructureSerializer.new(structure, { root: false }).to_json
