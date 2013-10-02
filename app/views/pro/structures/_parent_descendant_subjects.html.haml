@@ -6,7 +6,7 @@
         $('#parent-subjects').change(function(){
             $('#descendants-subjects').show('slow');
             $('#descendants-subjects .chosen-container').css('width', $('.chosen-container').first().css('width'));
-            var subject_ids  = $.map(this.selectedOptions, function(option){ return option.value }).join(',');
+            var subject_ids  = $.map($(this).find('option:selected'), function(option){ return option.value }).join(',');
             var selected_ids = descendants_subjects_select.val() || [];
             if ($('#subject-descendants-select').data('selected')) {
               $.each($('#subject-descendants-select').data('selected').toString().split(','), function(index, value){
