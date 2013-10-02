@@ -38,7 +38,6 @@ class ::Pro::AdminsController < InheritedResources::Base
     end
   end
 
-
   def index
     if params[:all]
       @admins = ::Admin.order('created_at DESC')

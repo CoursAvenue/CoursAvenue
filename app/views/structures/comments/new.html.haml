@@ -56,6 +56,14 @@
         -#     %i.star.icon-star-empty.gamma{style: 'top: 4px; left: -9px; padding: 0 2px', data: {value: 4}}
         -#     %i.star.icon-star-empty.gamma{style: 'top: 4px; left: -12px; padding: 0 2px', data: {value: 5}}
         -#   %span#rating-description
+        - if @comment.errors.any?
+          %br
+          %p.alert.alert-error
+            - @comment.errors.full_messages.each_with_index do |message, index|
+              - if index != 0
+                %br
+              = message
+
         - unless current_user
           .input
             %label.control-label
@@ -65,7 +73,7 @@
             = f.hidden_field :email, value: params[:email]
           - else
             = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, label: 'Votre email', placeholder: "Votre email ne sera visible que par le professeur"
-        %hr.push--top
+          %hr.push--top
         .input
           %label.control-label
             %b Votre avis

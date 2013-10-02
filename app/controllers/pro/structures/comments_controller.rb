@@ -16,11 +16,7 @@ class Pro::Structures::CommentsController < InheritedResources::Base#Pro::ProCon
   def accept
     @structure = Structure.find params[:structure_id]
     @comment   = @structure.comments.find params[:id]
-    if params[:silent]
-      @comment.accept! true
-    else
-      @comment.accept!
-    end
+    @comment.accept!
     redirect_to pro_structure_comments_path(@structure), notice: "L'avis à bien été accepté"
   end
 
@@ -34,7 +30,7 @@ class Pro::Structures::CommentsController < InheritedResources::Base#Pro::ProCon
   def ask_for_deletion
     @structure = Structure.find params[:structure_id]
     @comment   = @structure.comments.find params[:id]
-    @comment.ask_for_deletion!
+    @comment.ask_for_deletion!(params[:deletion_reason])
     redirect_to pro_structure_comments_path(@structure), notice: "L'avis est en attente de suppression"
   end
 end

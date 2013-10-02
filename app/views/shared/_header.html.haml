@@ -12,9 +12,6 @@
         .inline-block.v-middle.lbl.lbl--orange.push-half--left Autres
     %nav.text--right.grid__item.two-thirds.visuallyhidden--palm.v-middle
       - if current_user
-        %span
-          = link_to 'Recommander un professeur', '#course-recommendation', data: {behavior: 'modal', title: "Recommander un professeur"}
-        %span.soft--left.push--right.bordered--right
         #drop-down-el.drop-down__wrapper.grid__item.width-auto.v-middle.hard--left{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
           = link_to user_path(current_user) do
             - if current_user.fb_avatar or current_user.avatar.present?
@@ -36,12 +33,9 @@
               = link_to destroy_user_session_path, method: :delete do
                 Se déconnecter
       - else
-        -# %span.soft-half--right
-        -#   = link_to 'Recommander un professeur', '#course-recommendation', data: {behavior: 'modal', title: "Recommander un professeur"}
-        %span.soft-half--left.push-half--right
-          = link_to "Connexion", new_pro_admin_session_url(subdomain: 'pro')
-        -# %span.soft-half--left.push-half--right.bordered--left
-        -#   = link_to "Se connecter", new_user_session_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax'
+        -# = link_to "Je suis élève", new_user_session_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax'
+        -# %span.soft-half--left.push-half--right
+        = link_to "Connexion", new_pro_admin_session_url(subdomain: 'pro')
         -# %span.soft-half--left.push-half--right
         -#   = link_to "Créer un compte", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax btn btn--green', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Inscrit'])"
         %span.soft-half--left

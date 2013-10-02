@@ -33,6 +33,7 @@ class Subject < ActiveRecord::Base
       nil
     end
   end
+
   def as_json(options = {})
     {
       id:          self.id,

@@ -30,20 +30,23 @@ class Comment < ActiveRecord::Base
     self.content.gsub(/<br>/, '&#x000A;').html_safe if self.content
   end
 
-  def accept! silent=false
+  def recover!
     self.status = :accepted
     self.save
     self.update_rating
-    unless silent
-      case self.commentable.comments_count
-      when 5
-        AdminMailer.delay.congratulate_for_fifth_comment(self)
-      when 15
-        AdminMailer.delay.congratulate_for_fifteenth_comment(self)
-      end
+  end
 
-      self.notify_student
+  def accept!
+    self.status = :accepted
+    self.save
+    self.update_rating
+    case self.commentable.comments_count
+    when 5
+      AdminMailer.delay.congratulate_for_fifth_comment(self)
+    when 15
+      AdminMailer.delay.congratulate_for_fifteenth_comment(self)
     end
+    self.notify_student
   end
 
   def decline!
@@ -52,8 +55,9 @@ class Comment < ActiveRecord::Base
     self.update_rating
   end
 
-  def ask_for_deletion!
-    self.status = :waiting_for_deletion
+  def ask_for_deletion!(deletion_reason=nil)
+    self.status          = :waiting_for_deletion
+    self.deletion_reason = deletion_reason if deletion_reason
     self.save
     self.update_rating
     AdminMailer.delay.ask_for_deletion(self)

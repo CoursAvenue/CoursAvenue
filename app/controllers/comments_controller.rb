@@ -10,7 +10,6 @@ class CommentsController < ApplicationController
       @comment.author_name = current_user.full_name
       @comment.email       = current_user.email
     end
-
     respond_to do |format|
       if @comment.save
         cookies[:delete_cookies] = true
@@ -24,19 +23,6 @@ class CommentsController < ApplicationController
         @comments     = @structure.comments.accepted.reject(&:new_record?)[0..5]
         flash[:alert] = "L'avis n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."
         format.html { render 'structures/comments/new'}
-      end
-    end
-  end
-
-  def destroy
-    @comment = Comment.find(params[:id])
-    path     = commentable_path(@comment)
-    respond_to do |format|
-      if can?(:destroy, @comment) and @comment.destroy
-        AdminMailer.delay.recommandation_has_been_deleted(@comment.structure)
-        format.html { redirect_to request.referrer || path, notice: 'Votre avis a bien été supprimé'}
-      else
-        format.html { redirect_to request.referrer || path, alert: 'Vous ne pouvez pas supprimer ce avis'}
       end
     end
   end

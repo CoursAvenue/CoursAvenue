@@ -1,4 +1,4 @@
-= side_menu_currently_at 'Admins'
+= side_menu_currently_at 'Profs'
 
 %h2 Liste des admins
 
@@ -13,8 +13,6 @@
         %span Disciplines
       %th
         %span Avis
-      %th
-        %span Téléphone
       %th
         %span Date d'inscription
       %th.hidden
@@ -39,7 +37,6 @@
             = admin.structure.comments_count
             %i.lbc-brand-icon
 
-        %td= admin.phone_number if admin.phone_number
         %td{data: {value: admin.created_at}}
           = l(admin.created_at, format: :date_short)
         %td.hidden{data: {value: admin.last_sign_in_at}}

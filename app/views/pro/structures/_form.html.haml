@@ -124,7 +124,7 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        var initialize_crop, logo_jcrop_api;
+        var initialize_crop, logo_jcrop_api, update_crop;
         GLOBAL.ratio = #{@ratio};
         // --------------- Handling structure logo
         $('#logo-input').fileupload({
@@ -203,6 +203,14 @@
                 );
             }
         });
+        update_crop = function(coords) {
+          var rx = 100 / coords.w;
+          var ry = 100 / coords.h;
+          $('#crop_x').val(Math.floor(coords.x * GLOBAL.ratio));
+          $('#crop_y').val(Math.floor(coords.y * GLOBAL.ratio));
+          $('#crop_width').val(Math.floor(coords.w * GLOBAL.ratio));
+          $('#crop_height').val(Math.floor(coords.h * GLOBAL.ratio));
+        }
         initialize_crop = function(crop_x, crop_y, crop_width, crop_height) {
             if ($('#logo-logo').attr('src') && !logo_jcrop_api) {
                 logo_jcrop_api = $.Jcrop('#logo-logo', {
@@ -211,14 +219,6 @@
                     setSelect: [(crop_x / GLOBAL.ratio), (crop_y / GLOBAL.ratio), (crop_x + crop_width) / GLOBAL.ratio, (crop_y + crop_height) / GLOBAL.ratio],
                     aspectRatio: 1
                 });
-                function update_crop(coords) {
-                  var rx = 100 / coords.w;
-                  var ry = 100 / coords.h;
-                  $('#crop_x').val(Math.floor(coords.x * GLOBAL.ratio));
-                  $('#crop_y').val(Math.floor(coords.y * GLOBAL.ratio));
-                  $('#crop_width').val(Math.floor(coords.w * GLOBAL.ratio));
-                  $('#crop_height').val(Math.floor(coords.h * GLOBAL.ratio));
-                }
             }
         };
         var worked = false,

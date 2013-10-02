@@ -20,7 +20,11 @@ CoursAvenue::Application.routes.draw do
       match 'sms'                                      , to: 'structures#new'
 
 
-      resources :comments, only: [:edit, :update, :index], controller: 'comments'
+      resources :comments, only: [:edit, :update, :index, :destroy] do
+        member do
+          put :recover
+        end
+      end
       resources :subjects
       resources :reservation_loggers, only: [:index, :destroy]
       resources :invited_teachers, only: [:index]
@@ -43,6 +47,7 @@ CoursAvenue::Application.routes.draw do
           match 'widget_ext', controller: 'structures', action: 'widget_ext', constraints: {methods: ['OPTIONS', 'GET']}, as: 'widget_ext'
         end
         collection do
+          get :stars
           get 'inscription', to: :new
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
@@ -119,7 +124,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   devise_for :users, controllers: { :omniauth_callbacks => 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations' }
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
-    resources  :comments, only: [:index], controller: 'users/comments'
+    resources  :comments, only: [:index, :edit, :update], controller: 'users/comments'
   end
   resources :emails, only: [:create]
 
@@ -152,7 +157,7 @@ CoursAvenue::Application.routes.draw do
     end
   end
 
-  resources :comments, only: [:create, :destroy]
+  resources :comments, only: [:create]
 
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
     collection do

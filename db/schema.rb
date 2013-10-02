@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131001162604) do
+ActiveRecord::Schema.define(:version => 20131002082407) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(:version => 20131001162604) do
     t.time     "deleted_at"
     t.string   "course_name"
     t.string   "status"
+    t.string   "deletion_reason"
   end
 
   create_table "contacts", :force => true do |t|

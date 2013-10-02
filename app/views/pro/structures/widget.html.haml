@@ -31,79 +31,151 @@
 
 %h5.push--top.home-title Étape 2 : Installez le widget sur votre site
 .grid
-  .grid__item.one-half.text--center>
-    = link_to "J'utilise wordpress", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-website'
-  .grid__item.one-half.text--center>
-    = link_to "J'ai un site perso / autre blog", 'javascript:void(0)', class: 'btn btn--large', id: 'personal-website'
+  .grid__item.one-third.text--center>
+    = link_to '#wordpress-guide', class: 'btn btn--blue btn--full', data: {toggle: 'tab'} do
+      = image_tag 'logos/wordpress.png', height: 50
+      %br
+      .soft-half--top J'utilise wordpress
+  .grid__item.one-third.text--center>
+    = link_to '#overblog-guide', class: 'btn btn--blue btn--full', data: {toggle: 'tab'} do
+      = image_tag 'logos/overblog.png', height: 50
+      %br
+      .soft-half--top J'utilise Overblog
+  .grid__item.one-third.text--center>
+    = link_to "J'ai un site perso / autre blog", '#webmaster-code', class: 'btn btn--large', data: {toggle: 'tab'}
 
-#wordpress-guide.hidden
-  %h4.text--center.push--top Où voulez-vous affichez votre livre d'or ?
-  .grid
-    .grid__item.one-half.text--center.v-middle>
-      = link_to "Sur une nouvelle page", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-new-page-link'
-    .grid__item.one-half.text--center.v-middle>
-      = link_to "Sur la barre latérale", 'javascript:void(0)', class: 'btn btn--large', id: 'wordpress-lateral-link'
-
-  #wordpress-new-page.hidden
-    .white-box.islet.push--top
-      %h3.text--center Guide d'installation
-      %h5.push--top Étape 1 : Accédez à votre espace admin
-      %p
-        Connectez-vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
-        = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php', target: '_blank', rel: 'nofollow'
-
-      %h5.push--top Étape 2 : Créez une nouvelle page
-      %p Dans la barre latérale de gauche cliquez sur <strong>« Pages »</strong> / <strong>« Ajouter »</strong>.
-      = image_tag 'pro/wordpress-guide/page-step-1.png'
-
-      %h5.push--top Étape 3 : Cliquez sur « Texte »
-      %p Donnez un nom à votre page puis cliquez sur l'onglet <strong>« Texte »</strong> en haut à droite.
-      = image_tag 'pro/wordpress-guide/page-step-2.png'
-
-      %h5.push--top Étape 4 : Copiez le code
-      %p Copiez et collez le texte suivant, publiez et c'est fini !
-      %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
-      = image_tag 'pro/wordpress-guide/page-step-3.png'
-      %h4.text--center.push--ends Et voilà, c'est fini !
-
-  #wordpress-lateral.hidden
-    .white-box.islet.push--top
-      %h3.text--center Guide d'installation
-      %h5.push--top Étape 1 : Accédez à votre espace admin
-      %p
-        Connectez-vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
-        = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php', target: '_blank', rel: 'nofollow'
-
-      %h5.push--top Étape 2 : Allez dans la section « Widgets »
-      %p Dans la barre latérale de gauche cliquez sur <strong>« Apparence »</strong> / <strong>« Widgets »</strong>.
-      = image_tag 'pro/wordpress-guide/side-step-1.png', class: 'center-block'
-
-      %h5.push--top Étape 3 : Choisissez le widget « Texte »
-      %p Dans la liste des widgets disponibles, choisissez le widget « Texte » et glissez le en haut à droite de l'écran dans la <strong>« Zone de Sidebar »</strong>.
-      = image_tag 'pro/wordpress-guide/side-step-2.png'
-      = image_tag 'pro/wordpress-guide/side-step-3.png'
-
-      %h5.push--top Étape 4 : Copiez le code
-      %p Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
-      %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
-      = image_tag 'pro/wordpress-guide/side-step-4.png'
-      %h4.text--center.push--ends Et voilà, c'est fini !
-
-#webmaster-code.hidden
-  .white-box.islet.push--top
+.tab-content
+  #wordpress-guide.tab-pane
+    %h4.text--center.push--top Où voulez-vous affichez votre livre d'or ?
     .grid
       .grid__item.one-half.text--center.v-middle>
-        %p.text--left
-          Copiez le code ci-dessous à envoyer à votre webmaster :
-        %textarea.one-whole#code{rows: 7, style: 'font-size: 12px'}
+        = link_to "Sur une nouvelle page", '#wordpress-new-page', class: 'btn btn--large', data: {toggle: 'tab'}
       .grid__item.one-half.text--center.v-middle>
-        %p.push-half--top
-          = link_to 'Envoyer le code à votre webmaster par email', 'mailto:?subject=Code widget CoursAvenue à mettre sur mon site Internet&body=', class: 'btn btn--blue', id: 'send-link-by-email'
+        = link_to "Sur la barre latérale", '#wordpress-lateral', class: 'btn btn--large', data: {toggle: 'tab'}
 
-  .white-box.islet.push--top
-    %h5 Si le code ci-dessus ne marche pas, essayez le suivant :
-    %p Copiez et collez le texte suivant :
-    %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
+    #wordpress-new-page.tab-pane
+      .white-box.islet.push--top
+        %h3.text--center Guide d'installation
+        %h5.push--top Étape 1 : Accédez à votre espace admin
+        %p
+          Connectez-vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
+          = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php', target: '_blank', rel: 'nofollow', class: 'btn btn--blue btn--small'
+
+        %h5.push--top Étape 2 : Créez une nouvelle page
+        %p Dans la barre latérale de gauche cliquez sur <strong>« Pages »</strong> / <strong>« Ajouter »</strong>.
+        = image_tag 'pro/wordpress-guide/page-step-1.png'
+
+        %h5.push--top Étape 3 : Cliquez sur « Texte »
+        %p Donnez un nom à votre page puis cliquez sur l'onglet <strong>« Texte »</strong> en haut à droite.
+        = image_tag 'pro/wordpress-guide/page-step-2.png'
+
+        %h5.push--top Étape 4 : Copiez le code
+        %p Copiez et collez le texte suivant, publiez et c'est fini !
+        %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
+        = image_tag 'pro/wordpress-guide/page-step-3.png'
+        %h4.text--center.push--ends Et voilà, c'est fini !
+
+    #wordpress-lateral.tab-pane
+      .white-box.islet.push--top
+        %h3.text--center Guide d'installation
+        %h5.push--top Étape 1 : Accédez à votre espace admin
+        %p
+          Connectez-vous à votre espace personnel Wordpress en cliquant sur le lien suivant :
+          = link_to 'Me connecter à mon espace wordpress', 'https://fr.wordpress.com/wp-login.php', target: '_blank', rel: 'nofollow', class: 'btn btn--blue btn--small'
+
+        %h5.push--top Étape 2 : Allez dans la section « Widgets »
+        %p Dans la barre latérale de gauche cliquez sur <strong>« Apparence »</strong> / <strong>« Widgets »</strong>.
+        = image_tag 'pro/wordpress-guide/side-step-1.png', class: 'center-block'
+
+        %h5.push--top Étape 3 : Choisissez le widget « Texte »
+        %p Dans la liste des widgets disponibles, choisissez le widget « Texte » et glissez le en haut à droite de l'écran dans la <strong>« Zone de Sidebar »</strong>.
+        = image_tag 'pro/wordpress-guide/side-step-2.png'
+        = image_tag 'pro/wordpress-guide/side-step-3.png'
+
+        %h5.push--top Étape 4 : Copiez le code
+        %p Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
+        %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
+        = image_tag 'pro/wordpress-guide/side-step-4.png'
+        %h4.text--center.push--ends Et voilà, c'est fini !
+
+  #overblog-guide.tab-pane
+    %h4.text--center.push--top À quoi ressemble votre interface Overblog ?
+    .white-box.islet
+      .grid
+        .grid__item.one-half>
+          = link_to '#overblog-new', data: {toggle: 'tab'} do
+            = image_tag 'pro/overblog-guide/overblog-new.jpg'
+        .grid__item.one-half>
+          = link_to '#overblog-old', data: {toggle: 'tab'} do
+            = image_tag 'pro/overblog-guide/overblog-old.jpg'
+
+    #overblog-new.tab-pane
+      .white-box.islet.push--top
+        %h3.text--center Guide d'installation
+        %h5.push--top Étape 1 : Accédez à votre espace admin
+        %p
+          Connectez-vous à votre espace personnel Overblog en cliquant sur le lien suivant :
+          = link_to 'Me connecter à mon espace Overblog', 'https://connect.over-blog-kiwi.com/en/login', target: '_blank', rel: 'nofollow'
+
+        %h5.push--top Étape 2 : Allez dans la « Liste de vos pages »
+        %p Dans le menu du haut, passez la souris sur <strong>« Publier »</strong>, puis cliquez sur <strong>« Liste des pages »</strong>.
+        = image_tag 'pro/overblog-guide/page-old-step-1.jpg', class: 'center-block'
+
+        %h5.push--top Étape 3 : Créez une nouvelle page
+        %p Dans la barre de gauche, cliquez sur le bouton <strong>« Écrire une nouvelle page »</strong>.
+        = image_tag 'pro/overblog-guide/page-old-step-2.jpg', class: 'center-block'
+
+        %h5.push--top Étape 4 : Copiez le code
+        %p Choisissez un titre, sélectionnez le mode <strong>« Avancé »</strong>, puis cliquez sur le bouton <strong>« HTML »</strong> et enfin, collez le code suivant.
+
+        %textarea.ajax-code.one-whole.push--bottom{rows: 7, style: 'font-size: 12px'}}
+        = image_tag 'pro/overblog-guide/page-old-step-3.jpg'
+        %hr
+        = image_tag 'pro/overblog-guide/page-old-step-4.jpg'
+
+        %h5.push--top Allez en bas de la page, publiez et c'est fini !
+        = image_tag 'pro/overblog-guide/page-old-step-5.jpg'
+        %h4.text--center.push--ends Et voilà, c'est fini !
+
+    #overblog-old.tab-pane
+      .white-box.islet.push--top
+        %h3.text--center Guide d'installation
+        %h5.push--top Étape 1 : Accédez à votre espace admin
+        %p
+          Connectez-vous à votre espace personnel Overblog en cliquant sur le lien suivant :
+          = link_to 'Me connecter à mon espace Overblog', 'https://connect.over-blog-kiwi.com/en/login', target: '_blank', rel: 'nofollow', class: 'btn btn--blue btn--small'
+
+        %h5.push--top Étape 2 : Créez une nouvelle page
+        %p Dans le menu du haut, cliquez sur <strong>« Publier »</strong>.
+        = image_tag 'pro/overblog-guide/page-new-step-1.jpg', class: 'center-block'
+
+        %h5.push--top Étape 3 : Ajoutez une section « HTML »
+        %p Choisissez un titre, ajoutez une section <strong>« HTML »</strong>.
+        = image_tag 'pro/overblog-guide/page-new-step-2.jpg'
+
+        %h5.push--top Étape 4 : Copiez le code
+        %textarea.ajax-code.one-whole.push--bottom{rows: 7, style: 'font-size: 12px'}}
+        = image_tag 'pro/overblog-guide/page-new-step-3.jpg'
+
+        %h5.push--top Publiez et c'est fini !
+        = image_tag 'pro/overblog-guide/page-new-step-4.jpg'
+        %h4.text--center.push--ends Et voilà, c'est fini !
+
+  #webmaster-code.tab-pane
+    .white-box.islet.push--top
+      .grid
+        .grid__item.one-half.text--center.v-middle>
+          %p.text--left
+            Copiez le code ci-dessous à envoyer à votre webmaster :
+          %textarea.one-whole.ajax-code{rows: 7, style: 'font-size: 12px'}
+        .grid__item.one-half.text--center.v-middle>
+          %p.push-half--top
+            = link_to 'Envoyer le code à votre webmaster par email', 'mailto:?subject=Code widget CoursAvenue à mettre sur mon site Internet&body=', class: 'btn btn--blue', id: 'send-link-by-email'
+
+    .white-box.islet.push--top
+      %h5 Si le code ci-dessus ne marche pas, essayez le suivant :
+      %p Copiez et collez le texte suivant :
+      %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
 
 %div{style: 'margin-bottom: 300px;'}
 #coursavenue-link-to-remove-wrapper.hidden>
@@ -121,35 +193,7 @@
                 });
             }
         }
-        $('#personal-website').click(function(){
-          $('#other-website-guide').hide();
-          $('#wordpress-guide').hide();
-          $('#webmaster-code').show('slow');
-          $.scrollTo($('#webmaster-code'), {duration: 200});
-        });
-        $('#wordpress-website').click(function(){
-          $('#other-website-guide').hide();
-          $('#webmaster-code').hide();
-          $('#wordpress-guide').show('slow');
-          $.scrollTo($('#wordpress-guide'), {duration: 200});
-        });
-        $('#other-website').click(function(){
-          $('#other-website-guide').show('slow');
-          $('#webmaster-code').hide();
-          $('#wordpress-guide').hide();
-          $.scrollTo($('#other-website-guide'), {duration: 200});
-        });
-        $('#wordpress-new-page-link').click(function(){
-            $('#wordpress-new-page').show('slow');
-            $('#wordpress-lateral').hide();
-            $.scrollTo($('#wordpress-new-page'), {duration: 200});
-        });
-        $('#wordpress-lateral-link').click(function(){
-            $('#wordpress-new-page').hide();
-            $('#wordpress-lateral').show('slow');
-            $.scrollTo($('#wordpress-lateral'), {duration: 200});
-        });
-        var code = $('#coursavenue-link-to-remove-wrapper').html() + "<div id='coursavenue-widget'></div><script>window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget');var request = new XMLHttpRequest();request.open('GET', '__URL__', false);request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');request.send(null);if(request.status == 200) {coursavenue_widget_div.innerHTML = request.responseText;}}</script";
+        var code = $('#coursavenue-link-to-remove-wrapper').html() + "<div id='coursavenue-widget'>&nbsp;</div><script>window.onload = function() {var coursavenue_widget_div = document.getElementById('coursavenue-widget');var request = new XMLHttpRequest();request.open('GET', '__URL__', false);request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');request.send(null);if(request.status == 200) {coursavenue_widget_div.innerHTML = request.responseText;}}</script";
         var load_widget,
             coursavenue_widget_div = $('#coursavenue-widget'),
             params = {last_comments: true, nb_comments: 3, show_new_comment: true};
@@ -170,7 +214,7 @@
               url += '&nb_comments=' + params['nb_comments'];
             }
             new_code = code.replace('__URL__', url) + '>';
-            $('#code').val(new_code.replace(/\s+/g, ' '));
+            $('.ajax-code').val(new_code.replace(/\s+/g, ' '));
             $.ajax({
                 url: url,
                 dataType: 'text',
@@ -187,7 +231,7 @@
         load_widget();
     });
 
-  -# #coursavenue-widget
+  -# #coursavenue-widget &nbsp;
   -# :javascript
   -#   window.onload = function() {
   -#     var coursavenue_widget_div = document.getElementById('coursavenue-widget');

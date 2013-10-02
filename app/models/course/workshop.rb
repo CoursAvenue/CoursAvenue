@@ -15,4 +15,8 @@ class Course::Workshop < Course
   def underscore_name
     'workshop'
   end
+
+  def latest_end_date
+    self.plannings.order.order('end_date DESC').first.end_date
+  end
 end
