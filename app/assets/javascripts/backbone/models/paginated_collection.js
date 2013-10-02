@@ -11,8 +11,8 @@ FilteredSearch.Models.PaginatedCollection = Backbone.Paginator.requestPager.exte
     }
   },
   paginator_ui: {
-    firstPage: 0,
-    currentPage: 0,
+    firstPage: 1,
+    currentPage: 1,
     perPage: 15,
     totalPages: 10
   },
@@ -22,8 +22,9 @@ FilteredSearch.Models.PaginatedCollection = Backbone.Paginator.requestPager.exte
 
   parse: function(response) {
     console.log('PaginatedCollection->parse');
+    this.paginator_ui.totalPages = Math.ceil(response.meta.total / this.perPage);
 
-    return response;
+    return response.structures;
   },
 
   url: {
