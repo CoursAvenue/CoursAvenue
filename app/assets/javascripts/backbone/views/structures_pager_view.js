@@ -3,6 +3,12 @@
 
 FilteredSearch.Views.StructuresPagerView = Backbone.Marionette.CompositeView.extend({
   template: 'backbone/templates/structures_pager_view',
-  itemView: FilteredSearch.Views.StructureView
+  itemView: FilteredSearch.Views.StructureView,
+  itemViewContainer: 'ul',
+
+  onRender: function() {
+    console.log("EVENT  StructuresPagerView->onRender");
+
+  }
 
 });
