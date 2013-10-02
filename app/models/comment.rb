@@ -52,8 +52,9 @@ class Comment < ActiveRecord::Base
     self.update_rating
   end
 
-  def ask_for_deletion!
-    self.status = :waiting_for_deletion
+  def ask_for_deletion!(deletion_reason=nil)
+    self.status          = :waiting_for_deletion
+    self.deletion_reason = deletion_reason if deletion_reason
     self.save
     self.update_rating
     AdminMailer.delay.ask_for_deletion(self)

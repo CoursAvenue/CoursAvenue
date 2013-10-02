@@ -13,5 +13,10 @@ fr:
         author_name: Votre nom
 
   comments:
+    deletion_reasons:
+      duplicate: Avis en doublon
+      misspellings: Fautes d'orthographes
+      inapropriate_content: Contenu inapproprié / offensant
+      other: Autres
     errors:
       already_posted: Vous avez déjà posté un avis sur cet établissement.
