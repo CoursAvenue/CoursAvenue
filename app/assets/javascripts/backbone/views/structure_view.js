@@ -1,4 +1,5 @@
 
+/* just a basic marionette view */
 FilteredSearch.Views.StructureView = Backbone.Marionette.ItemView.extend({
   template: 'backbone/templates/structure_view',
   tagName: 'li',
