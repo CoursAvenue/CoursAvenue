@@ -14,12 +14,10 @@ FilteredSearch.Views.PaginatedCollectionView = Backbone.Marionette.CompositeView
 
   itemViewOptions: function(model, index) {
     console.log("PaginatedCollection->itemViewOptions");
+    // we could pass some information from the collectionView
     return {
-      context: {
-        data_url: this.collection.url.resource + '/' + model.get('slug')
-      }
+      context: undefined
     }
-  },
-
+  }
 
 });

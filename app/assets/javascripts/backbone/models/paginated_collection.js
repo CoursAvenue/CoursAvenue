@@ -37,6 +37,14 @@ FilteredSearch.Models.PaginatedCollection = Backbone.Paginator.requestPager.exte
     if (resource != undefined) this.url.resource = '/' + resource;
     if (data_type != undefined) this.url.data_type = '.' + data_type;
   }
-
 });
 
+// for later
+//  address_name=Paris&
+//  city=paris&
+//  lat=48.8592&
+//  lng=2.3417&
+//  name=danse&
+//  page=2&
+//  radius=5&
+//  sort=rating_desc&utf8=%E2%9C%93

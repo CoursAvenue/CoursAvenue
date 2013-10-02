@@ -1,14 +1,17 @@
 <li data-url="{{ data_url }}" data-type="{{ data_type }}" data-location-ids="73" class="one-whole course-element">
+
   {{#if logo_present}}
     <div class="two-twelfths visuallyhidden--palm">
       <div class="course-image media__img">
         <a href="{{ data_url }}">
-          <img src="{{ logo_thumb_url }}" class="one-whole" alt="{{ name }}">
+          <img src="{{ logo_thumb_url }}" class="one-whole" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
         </a>
       </div>
     </div>
   {{/if}}
-  <article class="course-content eight-twelfths">
+
+  <article class="course-content {{#if logo_present }}{{ eight-twelfths }}{{else}}{{ ten-twelfths }}{{/if}}">
+
     <header>
       <div class="course-title">
         <h2 class="delta inline v-middle">
@@ -16,13 +19,23 @@
         </h2>
       </div>
     </header>
+
     <ul class="nav">
-      <li>
-        <span class="flush--bottom inherit-font-size">
-          <a class="lbl milli inline subject-link" href="/disciplines/danse/etablissements">Danse</a>
-        </span>
-      </li>
+      {{#if too_many_subjects }}
+        {{#each parent_subjects }}
+          <span class="flush--bottom inherit-font-size">
+            <a href="{{ path }}" class="lbl milli inline subject-link">{{ name }}</a>
+          </span>
+        {{/each}}
+      {{else}}
+        {{#each child_subjects }}
+          <span class="flush--bottom inherit-font-size">
+            <a href="{{ path }}" class="lbl milli inline subject-link">{{ name }}</a>
+          </span>
+        {{/each}}
+      {{/if}}
     </ul>
+
   </article>
   <div class="course-content two-twelfths text--center v-middle">
     <div class="thin alpha brand">{{ comments_count }}</div>
