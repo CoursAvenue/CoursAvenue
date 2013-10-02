@@ -30,10 +30,11 @@
         %td
           - if structure.widget_url
             = link_to structure.widget_url, target: '_blank' do
+              %span{style: 'display: none'} b
               %i.icon-ok
+          - else
+            %span{style: 'display: none'} a
 
-- unless params[:all]
-  .text--center= link_to 'Voir tous les profs', pro_admins_path(all: true), class: 'btn btn--blue'
 = content_for :scripts do
   :javascript
     $(function() {
