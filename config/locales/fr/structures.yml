@@ -45,6 +45,7 @@ fr:
     restaurant_ticket: Tickets restaurant
 
   structures:
+    accepted_image_formats: "Formats autorisés : JPEG / JPG / GIF / PNG / BMP- Taille maximum 5mo"
     company: École privée
     association: Association
     other: Autre

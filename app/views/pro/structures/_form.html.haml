@@ -2,7 +2,7 @@
   %i.icon-user
   Mise à jour du profil
 .islet
-  = simple_form_for [:pro, @structure] ,html: { autocomplete: 'off', id: 'structure-form' } do |structure_form|
+  = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |structure_form|
     - if params[:from_path].present?
       %input{type: 'hidden', value: params[:from_path], name: 'from_path'}
     .form-inputs
@@ -10,51 +10,59 @@
         %i.icon-picture
         Image & Logo
       .form-white-box
-        #logo-progress.progress.hidden
-          .bar
-        .text--center
-          - if @structure.logo?
-            = image_tag @structure.logo.url(:large), id: 'logo-logo'
+        %div{data: {behavior: 'image-input' }}
+          #logo-progress.progress.hidden{data: {progress: true }}
+            .bar
+          .text--center
+            - if @structure.logo?
+              = image_tag @structure.logo.url(:large), id: 'logo-logo'
+              %br
+              %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
+                %i.icon-trash
+                Supprimer
+              .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
+            - else
+              %img.center-block#logo-logo{style: 'max-height: 500px; max-width: 500px;'}
+            - [:crop_x, :crop_y, :crop_width, :crop_height].each do |attribute|
+              = structure_form.input attribute, as: :hidden, input_html: {id: attribute}
+            = structure_form.input :cropping, as: :hidden, input_html: {value: true}
+
+          .input
+            .control-label Logo de votre structure
+            = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
+              %i.icon-picture
+              Choisir mon logo
+            .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
+
+          %p.field-form-info.blue
+            Ce logo apparaîtra dans les résultats de recherche.
             %br
-            %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
-              %i.icon-trash
-              Supprimer
-            .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
-          - else
-            %img.center-block#logo-logo{style: 'max-height: 500px; max-width: 500px'}
-          - [:crop_x, :crop_y, :crop_width, :crop_height].each do |attribute|
-            = structure_form.input attribute, as: :hidden, input_html: {id: attribute}
-          = structure_form.input :cropping, as: :hidden, input_html: {value: true}
-
-        .input
-          .control-label Logo de votre structure
-          = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', onclick: "$('#logo-input').click();" do
-            %i.icon-picture
-            Choisir mon logo
-          .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
-
-        %p.field-form-info.blue Ce logo apparaîtra dans les résultats de recherche.
+            = t('structures.accepted_image_formats')
         %hr
 
-        #image-progress.progress.hidden
-          .bar
-        .text--center
-          - if @structure.image?
-            = image_tag @structure.image.url(:normal), id: 'logo-image', style: 'max-height: 300px; max-width: 500px'
+        %div{data: {behavior: 'image-input' }}
+          #image-progress.progress.hidden{data: {progress: true }}
+            .bar
+          .text--center
+            - if @structure.image?
+              = image_tag @structure.image.url(:normal), id: 'logo-image', style: 'max-height: 300px; max-width: 500px'
+              %br
+              %a.btn.btn--small.btn--red#delete-image{href: 'javascript:void(0)'}
+                %i.icon-trash
+                Supprimer
+              .visuallyhidden= structure_form.input :delete_image, as: :boolean, label: false
+            - else
+              %img.center-block#logo-image{style: 'max-height: 200px; max-width: 500px'}
+          .input
+            .control-label Image pour vous illustrer
+            = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
+              %i.icon-picture
+              Choisir mon image
+            .visuallyhidden= structure_form.input :image, label: false, input_html: {id: 'image-input'}
+          %p.field-form-info.blue
+            Cette image apparaîtra dans la partie gauche de votre profil public.
             %br
-            %a.btn.btn--small.btn--red#delete-image{href: 'javascript:void(0)'}
-              %i.icon-trash
-              Supprimer
-            .visuallyhidden= structure_form.input :delete_image, as: :boolean, label: false
-          - else
-            %img.center-block#logo-image{style: 'max-height: 200px; max-width: 500px'}
-        .input
-          .control-label Image pour vous illustrer
-          = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', onclick: "$('#image-input').click();" do
-            %i.icon-picture
-            Choisir mon image
-          .visuallyhidden= structure_form.input :image, label: false, input_html: {id: 'image-input'}
-        %p.field-form-info.blue Cette image apparaîtra dans la partie gauche de votre profil public.
+            = t('structures.accepted_image_formats')
 
       %h5.form-header-group
         %i.lbc-icon-info i
@@ -63,7 +71,7 @@
         = structure_form.input :name, label: t('.structure_name'), wrapper_html: {class: 'flush--bottom'}
         %p.field-form-info.blue= t('.structure_name_info')
         = structure_form.input :website, placeholder: 'Ex : http://www.je-danse-a-paris.com'
-        = structure_form.input :facebook_url, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : https://www.facebook.com/CoursAvenue'
+        = structure_form.input :facebook_url, as: :string, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : https://www.facebook.com/CoursAvenue'
 
         = structure_form.association :subjects , as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', id: 'parent-subjects', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
 
@@ -122,14 +130,16 @@
         $('#logo-input').fileupload({
             dataType: 'json',
             type: 'PUT',
-            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+            replaceFileInput: false,
             submit: function (e, data) {
                 data.formData = {authenticity_token: $('meta[name="csrf-token"]').attr('content') };
                 return true;
             },
             add: function (e, data) {
                 $('#logo-progress').show().removeClass('progress-success');
-                data.submit();
+                if (GLOBAL.isImageValid(this.files[0])) {
+                    data.submit();
+                }
             },
             done: function (e, data) {
                 $('#logo-progress').addClass('progress-success');
@@ -141,7 +151,7 @@
                     logo_jcrop_api.setImage(data.result.logo.path);
                     logo_jcrop_api.setSelect([data.result.logo.crop_x, data.result.logo.crop_y, data.result.logo.crop_width, data.result.logo.crop_height]);
                 } else {
-                    $('#logo-logo').attr('src', data.result.logo.path);
+                    $('#logo-logo').attr('width', data.result.logo.width).attr('height', data.result.logo.height).attr('src', data.result.logo.path);
                     initialize_crop(data.result.logo.crop_x, data.result.logo.crop_y, data.result.logo.crop_width, data.result.logo.crop_height);
                 }
             },
@@ -158,15 +168,6 @@
                 );
             }
         });
-        $('#logo-input').change(function(event) {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#logo-logo').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
         // --------------- Handling structure image
         $('#image-input').fileupload({
             dataType: 'json',
@@ -176,9 +177,12 @@
                 data.formData = {authenticity_token: $('meta[name="csrf-token"]').attr('content') };
                 return true;
             },
+            replaceFileInput: false,
             add: function (e, data) {
                 $('#image-progress').show().removeClass('progress-success');
-                data.submit();
+                if (GLOBAL.isImageValid(this.files[0])) {
+                    data.submit();
+                }
             },
             done: function (e, data) {
                 $('#image-progress').addClass('progress-success');
@@ -199,15 +203,6 @@
                 );
             }
         });
-        $('#image-input').change(function(event) {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#logo-image').attr('src', e.target.result);
-                }
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
         initialize_crop = function(crop_x, crop_y, crop_width, crop_height) {
             if ($('#logo-logo').attr('src') && !logo_jcrop_api) {
                 logo_jcrop_api = $.Jcrop('#logo-logo', {
@@ -226,9 +221,23 @@
                 }
             }
         };
-        setTimeout(function(){
-          initialize_crop(#{@structure.crop_x || 0}, #{@structure.crop_y || 0}, #{@structure.crop_width || 200}, #{@structure.crop_height || 200});
-        }, 250);
+        var worked = false,
+            attempts = 0;
+        var attemptToCrop = function () {
+            if (worked) return;
+            height = $('#logo-logo').height();
+            if (typeof height === 'number' && height > 0) {
+                initialize_crop(#{@structure.crop_x || 0}, #{@structure.crop_y || 0}, #{@structure.crop_width || 200}, #{@structure.crop_height || 200});
+                worked = true;
+            } else {
+                attempts += 1;
+                if (attempts < 5) {
+                    // try again in 250 milliseconds
+                    setTimeout(attemptToCrop, 250);
+                }
+            }
+        }
+        attemptToCrop();
         if ($('#delete-image').length > 0) {
             $('#delete-image').click(function(){
                 $('#structure_delete_image')[0].checked = true;

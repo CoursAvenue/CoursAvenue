@@ -1,5 +1,8 @@
 class StructureSearch
 
+  # params: params
+  #     name:          fulltext
+  #     subject_id:    slug of a subject
   def self.search params
     params[:sort] ||= 'rating_desc'
     retrieve_location params
@@ -8,6 +11,7 @@ class StructureSearch
 
       with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id]
 
+      # For the home screen link "Autres"
       if params[:exclude].present?
         without(:subject_slugs, params[:exclude])
       elsif params[:other].present?

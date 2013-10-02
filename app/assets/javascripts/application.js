@@ -121,7 +121,8 @@ $(function() {
         // -------------------------- Chosen
         $('[data-behavior=chosen]').each(function() {
             $(this).chosen({
-                no_results_text: 'Pas de résultat...'
+                no_results_text: 'Pas de résultat...',
+                search_contains: true
             });
         });
     };

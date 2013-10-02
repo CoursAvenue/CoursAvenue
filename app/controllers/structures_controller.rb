@@ -2,12 +2,6 @@
 class StructuresController < ApplicationController
   respond_to :json
 
-  def bump_planning
-  end
-
-  def bump_medias
-  end
-
   def recommendation
     recommendation = '<p>' + params[:recommendation].gsub(/\r\n/, '</p><p>') + '</p>'
     name           = params[:name]
@@ -49,10 +43,10 @@ class StructuresController < ApplicationController
   end
 
   def index
-
     if params[:subject_id]
       @subject = Subject.find params[:subject_id]
     else
+      # Little hack to determine if the name is equal a subject
       _name = params[:name]
       if _name.present? and Subject.where{name =~ _name}.any?
         @subject = Subject.where{name =~ _name}.first
@@ -60,6 +54,8 @@ class StructuresController < ApplicationController
     end
 
     @structures = StructureSearch.search(params).results
+
+    ## ------------------------- Surrounding results
     # If there is less than 15 results, see surrounding structure (with same parent subject)
     if @structures.count < 15
       if @subject and @subject.grand_parent
@@ -77,6 +73,7 @@ class StructuresController < ApplicationController
         @other_structures      = @other_structures.results
       end
     end
+    ## ------------------------- Surrounding results
     init_geoloc
 
     respond_to do |format|

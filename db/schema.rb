@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130926152854) do
+ActiveRecord::Schema.define(:version => 20131001162604) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -432,7 +432,7 @@ ActiveRecord::Schema.define(:version => 20130926152854) do
     t.text     "parent_subjects_string"
     t.decimal  "rating"
     t.integer  "comments_count",             :default => 0
-    t.string   "facebook_url"
+    t.text     "facebook_url"
     t.boolean  "no_facebook"
     t.boolean  "no_website"
     t.string   "logo_file_name"

@@ -49,7 +49,8 @@ class Structure < ActiveRecord::Base
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :funding_type_ids, :funding_types,
                   :widget_status, :widget_url, :sticker_status,
-                  :teachers_at_home
+                  :teachers_at_home,
+                  :subjects_string, :parent_subjects_string # "Name of the subject,slug-of-the-subject;Name,slug"
 
   has_attached_file :logo,
                     styles: {
@@ -62,6 +63,13 @@ class Structure < ActiveRecord::Base
 
   has_attached_file :image,
                     styles: { wide: '800x480#', thumb: '200x200#', normal: '450x' }
+
+  # validates_attachment_content_type :image,
+  #                                   :content_type => ['image/jpeg',
+  #                                                     'image/jpg',
+  #                                                     'image/png',
+  #                                                     'image/gif'], :message => "Les formats accepté sont : JPEG / JPG / PNG et GIF"
+
 
   belongs_to       :city
   belongs_to       :pricing_plan
