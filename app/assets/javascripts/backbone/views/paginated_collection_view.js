@@ -6,7 +6,7 @@
 FilteredSearch.Views.PaginatedCollectionView = Backbone.Marionette.CompositeView.extend({
   template: 'backbone/templates/paginated_collection_view',
   itemView: FilteredSearch.Views.StructureView,
-  itemViewContainer: 'ul',
+  itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
 
   onRender: function() {
     console.log("EVENT  PaginatedCollectionView->onRender");
