@@ -193,7 +193,7 @@ class Structure < ActiveRecord::Base
       self.logo?
     end
     boolean :has_admin do
-      self.admins.any?
+      self.has_admin?
     end
   end
 
@@ -285,6 +285,10 @@ class Structure < ActiveRecord::Base
     else
       read_attribute(:contact_email)
     end
+  end
+
+  def has_admin?
+    self.main_contact and self.main_contact.persisted?
   end
 
   def main_contact
