@@ -80,14 +80,14 @@ $(function() {
     var global = GLOBAL.namespace('GLOBAL');
     $("[data-behavior=modal]").each(function() {
         var width  = $(this).data('width') || '70%';
-        var height = $(this).data('height') || '70%';
+        var height = $(this).data('height') || 'auto';
         $(this).fancybox({
                 openSpeed   : 300,
                 maxWidth    : 800,
                 maxHeight   : 500,
                 fitToView   : false,
                 width       : width,
-                height      : 'auto',
+                height      : height,
                 autoSize    : false,
                 ajax        : {
                     complete: function(){
