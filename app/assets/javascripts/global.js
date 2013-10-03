@@ -2,6 +2,8 @@ var GLOBAL = GLOBAL || {};
 GLOBAL.initialize_callbacks = [];
 GLOBAL.IMAGE_TYPE_REGEX = /(\.|\/)(gif|jpe?g|png|bmp)$/i;
 GLOBAL.MAX_IMAGE_SIZE   = 5000000; // 5mo
+GLOBAL.DATE_FORMAT      = 'DD/MM/YYYY';
+// GLOBAL.DATE_FORMAT      = 'dd/mm/yyyy';
 GLOBAL.isImageValid = function(file) {
   return file.type.match(GLOBAL.IMAGE_TYPE_REGEX) && file.size < GLOBAL.MAX_IMAGE_SIZE
 }

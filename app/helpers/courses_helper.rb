@@ -43,7 +43,7 @@ module CoursesHelper
 
   def join_course_subjects(course, with_h3 = false)
     course.subjects_string.split(';').collect do |subject_string|
-      subject_name, subject_slug = subject_string.split(',')
+      subject_name, subject_slug = subject_string.split(':')
       content_tag(:li) do
         content_tag((with_h3 ? :h3: :span), class: 'flush--bottom line-height-1 inherit-font-size') do
           link_to subject_name, subject_courses_path(subject_slug), class: 'lbl milli inline subject-link'
@@ -54,7 +54,7 @@ module CoursesHelper
 
   def join_course_subjects_text(course)
     course.subjects_string.split(';').collect do |subject_string|
-      subject_string.split(',')[0]
+      subject_string.split(':')[0]
     end.join(', ').html_safe
   end
 

@@ -35,6 +35,7 @@
 //= require libs/jquery.fileupload/jquery.fileupload-image
 //= require libs/jquery.stickem
 //= require libs/jquery.masonry
+//= require libs/moment
 
 //= require libs/fancybox/jquery.fancybox
 //= require_tree ./libs/fancybox/helpers/
@@ -99,7 +100,7 @@ $(function() {
     var datepicker_initializer = function() {
         $('[data-behavior=datepicker]').each(function() {
             $(this).datepicker({
-                format: 'dd/mm/yyyy',
+                format: GLOBAL.DATE_FORMAT,
                 weekStart: 1,
                 language: 'fr'
             });

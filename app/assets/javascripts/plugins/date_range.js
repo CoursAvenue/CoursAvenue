@@ -52,9 +52,15 @@
             });
             var end_date = this.end_date;
             this.start_date.on('changeDate', function() {
+                var end_moment, start_moment;
                 $(this).datepicker('hide');
-                end_date.datepicker('update', this.value);
-                end_date.datepicker('show');
+                // If an end_date is set
+                end_moment   = moment(end_date.val(), GLOBAL.DATE_FORMAT);
+                start_moment = moment(this.value, GLOBAL.DATE_FORMAT);
+                if (end_date.val().length == 0 || start_moment.isAfter(end_moment)) {
+                    end_date.datepicker('update', this.value);
+                    end_date.datepicker('show');
+                }
             });
             this.end_date.on('changeDate', function() {
                 $(this).datepicker('hide');
