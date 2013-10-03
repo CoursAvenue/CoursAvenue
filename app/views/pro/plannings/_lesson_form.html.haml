@@ -56,3 +56,17 @@
     = f.input :info, as: :string, placeholder: 'Exemple : Nous préparerons un gâteau au chocolat', label: false
   .text--center.input
     = f.submit 'Enregistrer', class: 'btn btn--green'
+
+:javascript
+  if ($('[name="planning[audience_ids][]"]').length > 0) {
+      $('[name="planning[audience_ids][]"]').change(function(event) {
+          if (event.target.value == '1') {
+              if (event.target.checked) {
+                  $('#children-ages').removeClass('hidden');
+              } else {
+                  $('#children-ages').addClass('hidden');
+              }
+          }
+      });
+  }
+

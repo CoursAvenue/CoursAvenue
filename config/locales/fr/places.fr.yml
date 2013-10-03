@@ -17,15 +17,6 @@ fr:
         contact_name: Nom
         contact_phone: Téléphone
         contact_mobile_phone: Téléphone portable
-        has_handicap_access: Accès handicapés
-        has_cloackroom: Vestiaires avec douches
-        has_internet: Internet
-        has_air_conditioning: Climatisation
-        has_swimming_pool: Piscine
-        has_free_parking: Parking gratuit sur place
-        has_jacuzzi: Jacuzzi
-        has_sauna: Sauna
-        has_daylight: Lumière du jour
 
   pro:
     places:

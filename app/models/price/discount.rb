@@ -14,7 +14,8 @@ class Price::Discount < Price
            'prices.discount.job_seeker',
            'prices.discount.low_income',
            'prices.discount.large_family',
-           'prices.discount.couple']
+           'prices.discount.couple',
+           'prices.discount.other']
 
   def discount?
     true

@@ -5,6 +5,6 @@ fr:
     attributes:
       location:
         name: Nom
-        street: Adresse
+        street: Adresse (N° + rue)
         zip_code: Code postal
         city: Ville

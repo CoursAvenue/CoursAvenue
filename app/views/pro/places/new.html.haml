@@ -12,7 +12,7 @@
       .form-white-box
         = f.simple_fields_for :location do |location_form|
           = location_form.input :name, label: Location.human_attribute_name(:name), input_html: { placeholder: "Exemple : Bastille, Studio Bleu, Centre de Danse du Marais", data: {behavior: 'tooltip'}, title: "Si pas de nom : métro ou arrêt de bus le plus proche, nom de quartier / rue, nom d'un parc à proximité"}
-          = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', label: Location.human_attribute_name(:street)
+          = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', label: Location.human_attribute_name(:street), input_html: {title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: {behavior: 'tooltip'}}
           .input
             = location_form.label :zip_code, label: Location.human_attribute_name(:zip_code)
             = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { class: 'zip_code', data: {behavior: 'city-autocomplete', el: '#place_location_attributes_city_id'} }, label: false

@@ -4,7 +4,7 @@
 
 %h5.home-title
   %i.icon-bullhorn.v-middle
-  %span.v-middle 3 manières d'être recommandé
+  %span.v-middle Utilisez nos 3 méthodes de recommandations
 .grid--full.text--center.push--top
   .grid__item.three-twelfths.text--center.v-middle.relative>
     %a.muted-link.white-box.islet{href: '#email-reco'}
@@ -14,7 +14,7 @@
         Email
   .grid__item.one-twelfth.text--center.v-middle>
     .islet
-      ou
+      %i.icon-plus
   .grid__item.three-twelfths.text--center.v-middle.relative>
     %a.muted-link.white-box.islet{href: '#facebook-reco'}
       %h4
@@ -23,7 +23,7 @@
         Facebook
   .grid__item.one-twelfth.text--center.v-middle>
     .islet
-      ou
+      %i.icon-plus
   .grid__item.three-twelfths.text--center.v-middle.relative>
     %a.muted-link.white-box.islet{href: '#website-reco'}
       %h4
@@ -35,7 +35,10 @@
 .white-box.islet
   %h4#email-reco
     %i.icon-envelope-alt.icon-2x.v-middle.soft-half--right
-    %span.v-middle Envoyez un email à vos élèves
+    %span.v-middle
+      Envoyez un email à vos élèves
+      %i.orange (méthode la + utilisée et la plus efficace)
+
   = form_tag get_feedbacks_pro_structure_path(@structure) do
     .grid
       .grid__item.one-half>

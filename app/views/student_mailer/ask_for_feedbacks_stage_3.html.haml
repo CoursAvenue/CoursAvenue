@@ -5,15 +5,15 @@
 
 - content_for :promo do
   %h4
-    #{@structure.name} vous a récemment demandé de déposer votre avis sur son profil public CoursAvenue.
+    C'est votre dernier jour pour recommander #{@structure.name}.
 
 %p Bonjour !
 
 %p
-  #{@structure.name} a créé son profil sur CoursAvenue et voudrait savoir ce que vous avez pensé de ses cours. Pouvez-vous prendre quelques minutes pour laisser un avis sur son profil ?
+  #{@structure.name} vous a récemment demandé votre avis sur son profil public CoursAvenue : c'est votre dernier jour pour déposer votre recommandation. C'est simple, très rapide, et #{@structure.name} vous en remerciera !
 
 %p.action
-  = link_to 'Partager mon opinion.', new_structure_comment_url(@structure, email: @email), class: 'btn btn--blue'
+  = link_to 'Déposer ma recommandation', new_structure_comment_url(@structure, email: @email, stage: 2), class: 'btn btn--blue'
 
 %p
   Merci pour votre contribution et à très bientôt !
