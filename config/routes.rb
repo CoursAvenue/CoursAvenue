@@ -141,13 +141,6 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :locations, only: [:index]
-  resources :subjects, only: [:index] do
-    collection do
-      get :tree
-      get :tree_2
-      get :descendants
-    end
-  end
 
   resources :reservations, only: [:create]
 
@@ -171,7 +164,13 @@ CoursAvenue::Application.routes.draw do
     resources :reservations, only: [:new, :create] # Redirection 301 in controller
   end
 
-  resources :subjects, only: [], path: 'disciplines' do
+  resources :subjects, only: [:index], path: 'disciplines' do
+    resources :cities, only: [:show], path: 'villes', controller: 'subjects/cities'
+    collection do
+      get :tree
+      get :tree_2
+      get :descendants
+    end
     resources :structures, only: [:index], path: 'etablissements'
     # resources :places, only: [:index], path: 'etablissements'
     resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index' # établissement without S

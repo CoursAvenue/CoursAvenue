@@ -52,10 +52,11 @@
         });
         // Aucomplete search on subjects and structures
         var template = Handlebars.compile($('#structure-item-template').html());
+        var subject_path = '#{subjects_path(format: :json)}';
         $('#search-input').typeahead([
           {
             name: 'subjects_#{ENV["ETAG_VERSION_ID"]}',
-            prefetch: '/subjects.json',
+            prefetch: subject_path,
             valueKey: 'name',
             header: '<div class="typeahead-dataset-header">Disciplines</div>'
           },
