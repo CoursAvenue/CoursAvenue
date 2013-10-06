@@ -31,7 +31,7 @@ class StructureSerializer < ActiveModel::Serializer
 
   def parent_subjects
     object.parent_subjects_string.split(';').collect do |subject_string|
-      subject_name, subject_slug = subject_string.split(',')
+      subject_name, subject_slug = subject_string.split(':')
 
       { name: subject_name, path: subject_structures_path(subject_slug) }
     end
@@ -39,7 +39,7 @@ class StructureSerializer < ActiveModel::Serializer
 
   def child_subjects
     object.subjects_string.split(';').collect do |subject_string|
-      subject_name, subject_slug = subject_string.split(',')
+      subject_name, subject_slug = subject_string.split(':')
 
       { name: subject_name, path: subject_structures_path(subject_slug) }
     end

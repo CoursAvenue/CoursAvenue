@@ -30,7 +30,7 @@ gem 'rack-cors'                 , require: 'rack/cors'
 gem 'active_hash'                , '~> 1.0.0'
 gem 'zeroclipboard-rails'
 
-# for FilteredSearch
+# For Backbone applications
 gem 'railsy_backbone'
 gem 'marionette-rails'
 

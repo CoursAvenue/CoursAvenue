@@ -40,12 +40,15 @@
 //= require libs/fancybox/jquery.fancybox
 //= require handlebars
 //= require underscore
+
+// ---------------------------------- Backbone
 //= require backbone
 //= require backbone.marionette
 //= require libs/backbone.paginator.js
 //= require backbone/cours_avenue
 //= require railsy_backbone.sync
 //= require railsy_backbone.datalink
+
 //= require_tree ./libs/fancybox/helpers/
 
 //---- Bootstrap plugins
@@ -61,7 +64,7 @@
 
 //= require zeroclipboard
 
-// ---------------------------------- Mootols Objects
+// ---------------------------------- jQuery plugins
 // See boilerplate and pattern:
 // - http://jqueryboilerplate.com/
 // - https://github.com/jquery-boilerplate/jquery-patterns/
