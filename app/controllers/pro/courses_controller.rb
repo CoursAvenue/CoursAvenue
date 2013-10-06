@@ -63,9 +63,14 @@ class Pro::CoursesController < InheritedResources::Base
     if params[:course].delete(:delete_image) == '1'
       resource.image.clear
     end
+    had_price_before = @course.prices.any?
     update! do |success, failure|
       if params[:course][:prices_attributes].present?
-        success.html { redirect_to pro_course_prices_path(@course), notice: 'Les tarifs ont bien été mis à jour' }
+        if had_price_before
+          success.html { redirect_to pro_course_prices_path(@course), notice: 'Les tarifs ont bien été mis à jour' }
+        else
+          success.html { redirect_to pro_course_plannings_path(@course), notice: 'Les tarifs ont bien été mis ajouté au cours, renseignez maintenant votre planning' }
+        end
         failure.html { render template: 'pro/prices/index' }
       else
         success.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours à bien été mis à jour' }

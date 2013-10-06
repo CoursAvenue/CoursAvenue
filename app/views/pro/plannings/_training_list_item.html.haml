@@ -17,11 +17,11 @@
   %td.text--center
     - if planning.info.present?
       .lbc-brand-icon{data: {behavior: 'tooltip', 'original-title' => planning.info}}
-  %td.text--center.hard
+  %td.text--center
     .drop-down-el.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-      %a.btn--orange.btn.btn{href: '#'}
+      %a.btn--orange.btn.btn--small.nowrap{href: '#'}
+        Actions
         %i.icon-chevron-down
-        / Actions
       %ul.drop-down__el.text--left
         %li
           = link_to edit_pro_course_planning_path(@course, planning), title: 'Modifier le créneau', data: {behavior: 'modal'}, class: 'fancybox.ajax' do

@@ -35,6 +35,7 @@
 //= require libs/jquery.fileupload/jquery.fileupload-image
 //= require libs/jquery.stickem
 //= require libs/jquery.masonry
+//= require libs/moment
 
 //= require libs/fancybox/jquery.fancybox
 //= require handlebars
@@ -88,14 +89,14 @@ $(function() {
     var global = GLOBAL.namespace('GLOBAL');
     $("[data-behavior=modal]").each(function() {
         var width  = $(this).data('width') || '70%';
-        var height = $(this).data('height') || '70%';
+        var height = $(this).data('height') || 'auto';
         $(this).fancybox({
                 openSpeed   : 300,
                 maxWidth    : 800,
                 maxHeight   : 500,
                 fitToView   : false,
                 width       : width,
-                height      : 'auto',
+                height      : height,
                 autoSize    : false,
                 ajax        : {
                     complete: function(){
@@ -107,7 +108,7 @@ $(function() {
     var datepicker_initializer = function() {
         $('[data-behavior=datepicker]').each(function() {
             $(this).datepicker({
-                format: 'dd/mm/yyyy',
+                format: GLOBAL.DATE_FORMAT,
                 weekStart: 1,
                 language: 'fr'
             });

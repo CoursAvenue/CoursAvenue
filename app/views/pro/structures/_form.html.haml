@@ -64,7 +64,7 @@
             %br
             = t('structures.accepted_image_formats')
 
-      %h5.form-header-group
+      %h5.form-header-group#informations
         %i.lbc-icon-info i
         Informations
       .form-white-box.push--bottom
@@ -82,7 +82,7 @@
 
         = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: {style: 'max-width: 29em;'}
 
-        = structure_form.input :funding_types, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: {style: 'max-width: 29em;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id)
+        = structure_form.input :funding_types, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: {style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id)
 
         = structure_form.input :teachers_at_home, as: :select
 
@@ -112,9 +112,10 @@
                   Quelle est sa notoriété ?
                   %br
                   A-t-elle formé des célébrités ?
-      - if @structure.has_installed_widget?
+      - if @structure.comments_count >= 5
         %h5.form-header-group Autre
         .form-white-box.push--bottom
+          = structure_form.input :widget_status, as: :select, collection: Structure::WIDGET_STATUS, label_method: lambda{|status| t("structures.widget_status.#{status}")}
           = structure_form.input :widget_url, as: :string, placeholder: 'Ex. : http://www.mon-site.com/livre-d-or'
 
     = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full'

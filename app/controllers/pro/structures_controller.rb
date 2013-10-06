@@ -113,6 +113,13 @@ class Pro::StructuresController < Pro::ProController
     @profile_percentage -= 20 if @structure.medias.empty?
     @profile_percentage -= 20 if @comments.empty?
     @profile_percentage -= 20 if @structure.courses.active.count == 0
+    respond_to do |format|
+      if can? :manage, @structure
+        format.html
+      else
+        format.html { redirect_to root_path error: "Vous n'êtes pas autorisé à gérer la structure d'autres utilisateurs"}
+      end
+    end
   end
 
   def select
@@ -144,7 +151,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def stars
-    @structures = Structure.order('created_at DESC').where{comments_count > 5}
+    @structures = Structure.order('created_at DESC').where{comments_count >= 5}
   end
 
   def index

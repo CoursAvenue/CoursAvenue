@@ -14,6 +14,12 @@
       $(function() {
         if(typeof _gaq !== 'undefined') {_gaq.push(['_trackEvent', 'Commentaire j+', 'vue', '#{params[:stage]}']);}
       });
+- else
+  = content_for :scripts do
+    :javascript
+      $(function() {
+        if(typeof _gaq !== 'undefined') {_gaq.push(['_trackEvent', 'Commentaire j+', 'vue', '0']);}
+      });
 
 - if params.has_key? :facebook
   = content_for :scripts do

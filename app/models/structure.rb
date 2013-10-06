@@ -102,7 +102,6 @@ class Structure < ActiveRecord::Base
 
   after_create     :set_free_pricing_plan
   # after_create     :create_place
-  after_create     :create_courses_relative_to_subject
   after_create     :delay_subscribe_to_mailchimp if Rails.env.production?
   after_save       :update_email_status
   after_touch      :update_email_status
@@ -393,13 +392,6 @@ class Structure < ActiveRecord::Base
 
   def set_free_pricing_plan
     self.pricing_plan = PricingPlan.where(name: 'free').first unless self.pricing_plan.present?
-  end
-
-
-  def create_courses_relative_to_subject
-    self.subjects.each do |subject|
-      self.courses.create(name: subject.name, subject_ids: [subject.id], type: 'Course::Lesson', start_date: Date.today, end_date: (Date.today + 1.year))
-    end
   end
 
   def replace_slash_n_r_by_brs

@@ -7,7 +7,9 @@
     .grid__item.one-half>
       %h4 À :
       %p.flush
-        %i Entrez les emails de vos élèves : rassurez-vous, ils ne seront utilisés que pour cet envoi unique et resteront confidentiels.
+        .italic.blue{data: {behavior: 'tooltip', title: "Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi \"Informatique et Liberté\" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant."}}
+          %i.icon-question-sign
+          Entrez les emails de vos élèves : rassurez-vous, ils ne seront utilisés que pour cet envoi unique et resteront confidentiels.
       %textarea.autoresize.one-whole{name: 'emails', rows: 8, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', style: 'height: 160px', data: {behavior: 'autoresize'}}
     .grid__item.one-half>
       %h4 Message :

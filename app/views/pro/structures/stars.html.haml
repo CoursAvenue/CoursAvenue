@@ -30,10 +30,8 @@
         %td
           - if structure.widget_url
             = link_to structure.widget_url, target: '_blank' do
-              %span{style: 'display: none'} b
               %i.icon-ok
-          - else
-            %span{style: 'display: none'} a
+          = structure.widget_status
 
 = content_for :scripts do
   :javascript
