@@ -4,6 +4,7 @@ class Pro::RedirectController < ApplicationController
     if current_pro_admin
       redirect_to dashboard_pro_structure_path(current_pro_admin.structure)
     else
+      session['pro_admin_return_to'] = pro_structure_dashboard_redirect_path
       redirect_to new_session_path(Admin)
     end
   end
@@ -12,6 +13,7 @@ class Pro::RedirectController < ApplicationController
     if current_pro_admin
       redirect_to edit_pro_structure_path(current_pro_admin.structure)
     else
+      session['pro_admin_return_to'] = pro_structure_edit_redirect_path
       redirect_to new_session_path(Admin)
     end
   end

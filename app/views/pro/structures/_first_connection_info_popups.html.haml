@@ -1,0 +1,77 @@
+.modal-info-popup
+  .modal-info-popup__left-arrow
+    %i.icon-chevron-left
+  .modal-info-popup__content
+    %p
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    .text--right
+      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#mes-infos'}} Suivant
+
+.modal-info-popup#mes-infos.hidden
+  .modal-info-popup__left-arrow
+    %i.icon-chevron-left
+  .modal-info-popup__content
+    %p
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    .text--right
+      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#mes-avis'}} Suivant
+
+.modal-info-popup#mes-avis.hidden
+  .modal-info-popup__left-arrow
+    %i.icon-chevron-left
+  .modal-info-popup__content
+    %p
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    .text--right
+      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#mes-cours'}} Suivant
+
+.modal-info-popup#mes-cours.hidden
+  .modal-info-popup__left-arrow
+    %i.icon-chevron-left
+  .modal-info-popup__content
+    %p
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    .text--right
+      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#mes-photos'}} Suivant
+
+.modal-info-popup#mes-photos.hidden
+  .modal-info-popup__left-arrow
+    %i.icon-chevron-left
+  .modal-info-popup__content
+    %p
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    .text--right
+      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#parainage'}} Suivant
+
+.modal-info-popup#parainage.hidden
+  .modal-info-popup__left-arrow
+    %i.icon-chevron-left
+  .modal-info-popup__content
+    %p
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    .text--right
+      %a.btn.btn--blue{data: {behavior: 'got-it'}} OK
+
+
+= content_for :scripts do
+  :javascript
+    $(function(){
+        $('[data-behavior=show-next]').click(function(){
+            var $this = $(this);
+            $this.closest('.modal-info-popup').fadeOut();
+            setTimeout(function(){
+              $($this.data('next')).fadeIn();
+            }, 150);
+        });
+        $('[data-behavior=got-it]').click(function(){
+            var $this = $(this);
+            $this.closest('.modal-info-popup').fadeOut();
+            $.cookie('first_user_experience_news', true);
+        });
+    });

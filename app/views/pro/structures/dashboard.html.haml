@@ -1,5 +1,8 @@
 = side_menu_currently_at 'Tableau de bord'
 
+-# .relative
+-#   = render 'first_connection_info_popups'
+
 - if @wizard
   #wizard.blue-box.islet.hidden.relative
     %a#close-wizard.closer{href: 'javascript:void(0)', data: { behavior: 'closer', el: '#wizard'}}
