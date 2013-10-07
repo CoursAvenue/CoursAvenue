@@ -11,33 +11,27 @@
         <a onclick="_gaq.push(['_trackEvent', 'Trier établissement / pertinence', 'click'])" href="#" data-value="relevancy" class="filter-select">Pertinence</a>
       </div>
     </div>
+
     <div class="flexbox__item visuallyhidden--palm">
-      <div class="text--right"><ul class="pagination">
-        <li class="btn">
-        <a rel="prev" href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;page=2&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93"><i class="icon-arrow-left"></i></a>
-        </li>
-        <li class="btn">
-        <a href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93">1</a>
-        </li>
-        <li class="btn">
-        <a rel="prev" href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;page=2&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93">2</a>
-        </li>
-        <li class="btn btn--active current">
-        3
-        </li>
-        <li class="btn">
-        <a rel="next" href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;page=4&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93">4</a>
-        </li>
-        <li class="disabled btn">
-        ...
-        </li>
-        <li class="btn">
-        <a href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;page=9&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93">9</a>
-        </li>
-        <li class="btn">
-        <a rel="next" href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;page=4&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93"><i class="icon-arrow-right"></i></a>
-        </li>
-      </ul></div>
+      <div class="text--right">
+        <ul class="pagination">
+          {{!-- make a previous button --}}
+            <li class="btn">
+            <a rel="prev" href="{{ pagination_ui.current_query }}"><i class="icon-arrow-left"></i></a>
+            </li>
+          {{!-- make all the buttons in between --}}
+          {{!-- here we need an array of page info --}}
+            {{#each pages}}
+              <li class="btn">
+              <a href="{{ query }}">{{ number }}</a>
+              </li>
+            {{/each}}
+          {{!-- make a next button --}}
+            <li class="btn">
+              <a rel="next" href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;page=4&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93"><i class="icon-arrow-right"></i></a>
+            </li>
+        </ul>
+      </div>
     </div>
   </div>
 

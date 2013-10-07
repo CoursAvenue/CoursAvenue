@@ -10,9 +10,8 @@
 = render 'shared/structures_header_search'
 
 - @structures.each do |structure|
-  .visuallyhidden{ :data => { :type => 'filtered-search-bootstrap'}}
+  .visuallyhidden{ :data => { :type => 'filtered-search-bootstrap', :total => @structure_search.total }}
     = StructureSerializer.new(structure, { root: false }).to_json
-
 
 #filtered-search
 .grid.stickem-container.relative{ :data => { :type => "filtered-search-root" }}
