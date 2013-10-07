@@ -199,7 +199,7 @@ class Pro::StructuresController < Pro::ProController
         if deleted_image
           format.html { redirect_to edit_pro_structure_path(@structure), notice: 'Vous pouvez maintenant télécharger une autre photo.' }
         else
-          format.html { redirect_to (params[:from_path] || pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
+          format.html { redirect_to (params[:from_path] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
         end
         format.js { render nothing: true }
         format.json { render json: {

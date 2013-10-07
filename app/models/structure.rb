@@ -95,6 +95,7 @@ class Structure < ActiveRecord::Base
   validates :street             , :presence   => true, on: :create
   validates :zip_code           , :presence   => true, numericality: { only_integer: true }, on: :create
   validates :city               , :presence   => true, on: :create
+  validate  :subject_parent_and_children
 
 
   # -------------------- Callbacks
@@ -442,5 +443,10 @@ class Structure < ActiveRecord::Base
 
   def should_generate_new_friendly_id?
     new_record?
+  end
+
+  def subject_parent_and_children
+    errors.add(:subjects,          "Vous devez séléctionner au moins une discipline")        if self.subjects.select{|s| s.ancestry_depth == 0}.empty?
+    errors.add(:children_subjects, "Vous devez séléctionner au moins une discipline enfant") if self.subjects.select{|s| s.ancestry_depth == 2}.empty?
   end
 end

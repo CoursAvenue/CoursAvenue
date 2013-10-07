@@ -1,19 +1,25 @@
-.modal-info-popup#mes-infos {
+.modal-info-popup#modal-info-dashboard {
+  top: 5px;
+}
+.modal-info-popup#modal-info-mes-infos {
   top: 55px;
 }
-.modal-info-popup#mes-avis {
+.modal-info-popup#modal-info-mes-avis {
   top: 105px;
 }
-.modal-info-popup#mes-cours {
+.modal-info-popup#modal-info-mes-cours {
   top: 155px;
 }
-.modal-info-popup#mes-photos {
+.modal-info-popup#modal-info-mes-photos {
   top: 210px;
 }
-.modal-info-popup#parainage {
+.modal-info-popup#modal-info-parainage {
   top: 260px;
 }
-
+.modal-info-popup#modal-info-lets-start {
+  left: 410px;
+  top : 120px;
+}
 .modal-info-popup{
   position  : absolute;
   z-index   : 10;
@@ -39,7 +45,6 @@
   .modal-info-popup__content{
     font-size  : 1.3em;
     padding    : 0.7em;
-    color      : #333;
     @include border-radius(3px);
     p {
       margin-bottom: 0;
