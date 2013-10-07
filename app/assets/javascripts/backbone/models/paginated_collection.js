@@ -8,7 +8,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         initialize: function (models, options) {
           console.log("PaginatedCollection->initialize");
 
-          this.paginator_ui.totalPages = options.total;
+          this.paginator_ui.totalPages = Math.ceil(options.total / this.paginator_ui.perPage);
         },
 
         paginator_core: {
@@ -22,32 +22,38 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             firstPage:   1,
             currentPage: 1,
             perPage:     15,
-            totalPages:  3,
-            /* these methods return the url of the query for the
-            * previous, next, or current page. I'm not really sure
-            * this is necessary... the idea was to have nice anchors
-            * with useful URLs even though clicking on them will just
-            * fire events. Maybe that is good? */
-            previousQuery: function() {
-              return this.pageQuery(this.paginator_ui.currentPage - 1);
-            },
-            nextQuery: function() {
-              return this.pageQuery(this.paginator_ui.currentPage + 1);
-            },
-            currentQuery: function() {
-              return this.pageQuery(this.paginator_ui.currentPage);
-            },
-            pageQuery: function(page) {
-              return this.url.resource + this.url.datatype + '?page=' + page;
-            }
+            totalPages:  0,
+            radius: 2
         },
+
+        /* these methods return the url of the query for the
+        * previous, next, or current page. I'm not really sure
+        * this is necessary... the idea was to have nice anchors
+        * with useful URLs even though clicking on them will just
+        * fire events. Maybe that is good? */
+        previousQuery: function() {
+          return this.pageQuery(this.paginator_ui.currentPage - 1);
+        },
+
+        nextQuery: function() {
+          return this.pageQuery(this.paginator_ui.currentPage + 1);
+        },
+
+        currentQuery: function() {
+          return this.pageQuery(this.paginator_ui.currentPage);
+        },
+
+        pageQuery: function(page) {
+          return this.url.resource + '?page=' + page;
+        },
+
         server_api: {
             'page': function() { return this.currentPage; }
         },
 
         parse: function(response) {
             console.log('PaginatedCollection->parse');
-            this.paginator_ui.totalPages = Math.ceil(response.meta.total / this.perPage);
+            this.paginator_ui.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
 
             return response.structures;
         },

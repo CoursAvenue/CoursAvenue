@@ -7,39 +7,68 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         itemView: FilteredSearch.Views.StructureView,
         itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
 
+        /* transform the paginator_ui object into a form that can be
+        * digested by handlebars */
         serializeData: function(){
           console.log("PaginatedCollection->serializeData");
           var data = this.collection.paginator_ui;
-              last_page = data.totalPages;
-              skipped = false;
-              pages = [];
 
-          var canSkip = function (page) {
-            var out_of_bounds = (page < data.currentPage - 2 || page > data.currentPage + 2),
-                bookend = (page == 1 || page == last_page);
-            return (!bookend && out_of_bounds);
-          }
+          return {
+            current_page: data.currentPage,
+            last_page: data.totalPages,
+            buttons: this.buildPaginationButtons(data),
+            previous_page_query: this.collection.previousQuery(),
+            next_page_query: this.collection.nextQuery(),
+          };
+        },
+
+        /* we want to show buttons for the first and last pages, and the
+        * pages in a radius around the current page. So we will skip pages
+        * that don't meet that criteria */
+        canSkipPage: function (page, data) {
+          var last_page = data.totalPages,
+              out_of_bounds = (data.currentPage - data.radius > page || page > data.currentPage + data.radius),
+              bookend = (page == 1 || page == last_page);
+
+          return (!bookend && out_of_bounds);
+        },
+
+        buildPaginationButtons: function (data) {
+          var self = this,
+              skipped = false,
+              buttons = [];
 
           _.times(data.totalPages, function(index) {
             var current_page = index + 1;
 
-            if (canSkip(current_page)) {
+            if (self.canSkipPage(current_page, data)) { // 1, 2, ..., 5, 6, ..., 9
               skipped = true;
             } else {
-              if (skipped) {
-                pages.push({ body: '...', disabled: true });
+              if (skipped) { // push on an ellipsis if we've skipped any pages
+                buttons.push({ label: '...', disabled: true });
               }
 
-              pages.push({ body: current_page, active: (current_page == data.currentPage) });
+              buttons.push({ // push the current page
+                label: current_page,
+                active: (current_page == data.currentPage),
+                query: self.collection.pageQuery(current_page)
+              });
+
               skipped = false;
             }
           });
 
-          return {
-            current_page: this.collection.paginator_ui.currentPage,
-            last_page: this.collection.paginator_ui.totalPages,
-            pages: pages
-          };
+          return buttons;
+        },
+
+        events: {
+          'click .pfaff': 'wat'
+        },
+
+        wat: function (e) {
+          e.preventDefault();
+          console.log("EVENT  PaginatedCollection->wat");
+
         },
 
         /* when rendering each collection item, we might want to
