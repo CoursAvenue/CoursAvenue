@@ -62,7 +62,7 @@ class Course < ActiveRecord::Base
                   :partner_rib_info,
                   :audition_mandatory,
                   :refund_condition,
-                  :can_be_joined_during_year,
+                  :cant_be_joined_during_year,
                   :nb_participants,
                   :no_class_during_holidays,
                   :start_date, :end_date,
