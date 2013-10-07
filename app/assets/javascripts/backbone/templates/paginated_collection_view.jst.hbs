@@ -1,4 +1,3 @@
-<button class="pfaff"> DUDE </button>
 <section class="filtered-select grid__item six-tenths lap--one-whole palm--one-whole push--desk--four-tenths course-list">
   <div class="flexbox page-entries-wrapper">
     <div class="flexbox__item palm--one-whole">
@@ -24,7 +23,7 @@
           {{!-- here we need an array of page info --}}
             {{#each buttons}}
             <li class="btn {{#if active}}btn--active current{{/if}} {{#if disabled}}disabled{{/if}}">
-              <a href="{{ query }}">{{ label }}</a>
+              <a rel="page" href="{{ query }}">{{ label }}</a>
               </li>
             {{/each}}
             </li>

@@ -10,8 +10,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* transform the paginator_ui object into a form that can be
         * digested by handlebars */
         serializeData: function(){
-          console.log("PaginatedCollection->serializeData");
-          var data = this.collection.paginator_ui;
+          console.log("PaginatedCollectionView->serializeData");
+          var data = this.collection;
 
           return {
             current_page: data.currentPage,
@@ -62,19 +62,49 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         events: {
-          'click .pfaff': 'wat'
+          'click .pagination li.btn a[rel=next]': 'nextPage',
+          'click .pagination li.btn a[rel=prev]': 'prevPage',
+          'click .pagination li.btn a[rel=page]': 'goToPage'
         },
 
-        wat: function (e) {
+        nextPage: function (e) {
           e.preventDefault();
-          console.log("EVENT  PaginatedCollection->wat");
+          var page = this.collection.currentPage + 1;
 
+          return this.changePage(page);
+        },
+
+        prevPage: function (e) {
+          e.preventDefault();
+          var page = this.collection.currentPage - 1;
+
+          return this.changePage(page);
+        },
+
+        goToPage: function (e) {
+          e.preventDefault();
+          var page = e.currentTarget.text;
+
+          return this.changePage(page);
+        },
+
+        changePage: function (page) {
+          var self = this;
+
+          this.collection.goTo(page, {
+            success: function () {
+              console.log("EVENT  PaginatedCollection->changePage->success")
+              self.render();
+            }
+          });
+
+          return false;
         },
 
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something */
         itemViewOptions: function(model, index) {
-            console.log("PaginatedCollection->itemViewOptions");
+            console.log("PaginatedCollectionView->itemViewOptions");
             // we could pass some information from the collectionView
             return { };
         }
