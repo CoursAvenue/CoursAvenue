@@ -32,9 +32,6 @@ FilteredSearch = new Backbone.Marionette.Application({
 
 });
 
-// FilteredSearch.module("Models");
-// FilteredSearch.module("Views");
-
 FilteredSearch.addRegions({
     mainRegion: '#filtered-search'
 });

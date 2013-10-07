@@ -29,5 +29,3 @@
       %meta{itemprop: 'name', content: structure.name}
       %meta{itemprop: 'street-address', content: structure.street}
       %meta{itemprop: 'postal-code', content: structure.zip_code}
-  .visuallyhidden{ :data => { :type => 'filtered-search-bootstrap'}}
-    = StructureSerializer.new(structure, { root: false }).to_json

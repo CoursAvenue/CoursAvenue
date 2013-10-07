@@ -1,7 +1,7 @@
 /* Sets up the details specific to coursavenue's API */
 FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _) {
     Models.PaginatedCollection = Backbone.Paginator.requestPager.extend({
-        model: FilteredSearch.Models.Structure,
+        model: Models.Structure,
         paginator_core: {
             type: 'GET',
             dataType: 'json',
@@ -38,7 +38,6 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             if (data_type != undefined) { this.url.data_type = '.' + data_type; }
         }
     });
-
 });
 
 // for later

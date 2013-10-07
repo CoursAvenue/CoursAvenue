@@ -53,8 +53,8 @@ class StructuresController < ApplicationController
       end
     end
 
-    query = StructureSearch.search(params)
-    @structures = query.results
+    @structure_search      = StructureSearch.search(params)
+    @structures            = @structure_search.results
 
     ## ------------------------- Surrounding results
     # If there is less than 15 results, see surrounding structure (with same parent subject)
@@ -78,7 +78,7 @@ class StructuresController < ApplicationController
     init_geoloc
 
     respond_to do |format|
-      format.json { render json: @structures, meta: { total: query.total }, each_serializer: StructureSerializer }
+      format.json { render json: @structures, meta: { total: @structure_search.total }, each_serializer: StructureSerializer }
       format.html do
         cookies[:structure_search_path] = request.fullpath
       end

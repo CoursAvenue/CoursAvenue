@@ -1,9 +1,9 @@
 class StructureSerializer < ActiveModel::Serializer
   include StructuresHelper
 
-  attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code
-  attributes :logo_present, :logo_url, :parent_subjects_text, :parent_subjects, :child_subjects, :data_url
-  attributes :subjects_count, :too_many_subjects, :subjects
+  attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
+             :logo_present, :logo_url, :parent_subjects_text, :parent_subjects, :child_subjects, :data_url,
+             :subjects_count, :too_many_subjects, :subjects
 
   def logo_present
     object.logo.present?
@@ -30,18 +30,14 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def parent_subjects
-    object.parent_subjects_string.split(';').collect do |subject_string|
-      subject_name, subject_slug = subject_string.split(':')
-
-      { name: subject_name, path: subject_structures_path(subject_slug) }
+    object.parent_subjects_array.each do |subject_hash|
+      { name: subject_hash[:name], path: subject_structures_path(subject_hash[:slug]) }
     end
   end
 
   def child_subjects
-    object.subjects_string.split(';').collect do |subject_string|
-      subject_name, subject_slug = subject_string.split(':')
-
-      { name: subject_name, path: subject_structures_path(subject_slug) }
+    object.subjects_array.each do |subject_hash|
+      { name: subject_hash[:name], path: subject_structures_path(subject_hash[:slug]) }
     end
   end
 end
