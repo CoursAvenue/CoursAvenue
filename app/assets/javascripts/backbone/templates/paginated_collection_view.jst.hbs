@@ -17,18 +17,19 @@
         <ul class="pagination">
           {{!-- make a previous button --}}
             <li class="btn">
-            <a rel="prev" href="{{ pagination_ui.current_query }}"><i class="icon-arrow-left"></i></a>
+            <a rel="prev" href="{{ previous_page_query }}"><i class="icon-arrow-left"></i></a>
             </li>
           {{!-- make all the buttons in between --}}
           {{!-- here we need an array of page info --}}
             {{#each pages}}
-              <li class="btn">
-              <a href="{{ query }}">{{ number }}</a>
+            <li class="btn {{#if active}}btn--active current{{/if}} {{#if disabled}}disabled{{/if}}">
+              <a href="{{ query }}">{{ body }}</a>
               </li>
             {{/each}}
+            </li>
           {{!-- make a next button --}}
             <li class="btn">
-              <a rel="next" href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;page=4&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93"><i class="icon-arrow-right"></i></a>
+            <a rel="next" href="{{ next_page_query }}"><i class="icon-arrow-right"></i></a>
             </li>
         </ul>
       </div>
