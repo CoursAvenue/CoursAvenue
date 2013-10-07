@@ -2,7 +2,7 @@
   <div class="flexbox page-entries-wrapper">
     <div class="flexbox__item palm--one-whole">
       <p class="flush--bottom">
-      Résultat : 31&nbsp;-&nbsp;45 sur <b>133</b> établissements
+      Résultat : {{ first }}&nbsp;-&nbsp;{{ last }} sur <b>{{ total }}</b> établissements
       </p>
       <div class="spoken-form">
         <label>Trier par :</label>
@@ -12,6 +12,34 @@
       </div>
     </div>
 
+    <div class="flexbox__item visuallyhidden--palm">
+      <div class="text--right">
+        <ul class="pagination">
+          {{!-- make a previous button --}}
+            <li class="btn">
+            <a rel="prev" href="{{ previous_page_query }}"><i class="icon-arrow-left"></i></a>
+            </li>
+          {{#each buttons}}
+            <li class="btn {{#if active}}btn--active current{{/if}} {{#if disabled}}disabled{{/if}}">
+              <a rel="page" href="{{ query }}">{{ label }}</a>
+            </li>
+          {{/each}}
+            </li>
+          {{!-- make a next button --}}
+            <li class="btn">
+            <a rel="next" href="{{ next_page_query }}"><i class="icon-arrow-right"></i></a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="course-list">
+    <ul class="filtered-search__list block-list"></ul>
+  </div>
+
+  <footer class="g one-whole">
+   {{!-- How to avoid this duplication of code? --}}
     <div class="flexbox__item visuallyhidden--palm">
       <div class="text--right">
         <ul class="pagination">
@@ -34,41 +62,5 @@
         </ul>
       </div>
     </div>
-  </div>
-
-  <div class="course-list">
-    <ul class="filtered-search__list block-list"></ul>
-  </div>
-
-  <footer class="g one-whole">
-    <ul class="pagination">
-      <li class="btn">
-      <a rel="prev" href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;page=2&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93"><i class="icon-arrow-left"></i></a>
-      </li>
-      <li class="btn">
-      <a href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93">1</a>
-      </li>
-      <li class="btn">
-      <a rel="prev" href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;page=2&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93">2</a>
-      </li>
-      <li class="btn btn--active current">
-      3
-      </li>
-      <li class="btn">
-      <a rel="next" href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;page=4&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93">4</a>
-      </li>
-      <li class="btn">
-      <a href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;page=5&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93">5</a>
-      </li>
-      <li class="disabled btn">
-      ...
-      </li>
-      <li class="btn">
-      <a href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;page=9&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93">9</a>
-      </li>
-      <li class="btn">
-      <a rel="next" href="/etablissements?address_name=Paris&amp;city=paris&amp;lat=48.8592&amp;lng=2.3417&amp;name=danse&amp;page=4&amp;radius=5&amp;sort=rating_desc&amp;utf8=%E2%9C%93"><i class="icon-arrow-right"></i></a>
-      </li>
-    </ul>
   </footer>
 </section>

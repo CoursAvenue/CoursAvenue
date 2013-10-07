@@ -8,6 +8,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         initialize: function (models, options) {
           console.log("PaginatedCollection->initialize");
 
+          this.paginator_ui.grandTotal = options.total;
           this.paginator_ui.totalPages = Math.ceil(options.total / this.paginator_ui.perPage);
         },
 
@@ -18,12 +19,14 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
                 return this.url.basename + this.url.resource + this.url.datatype;
             }
         },
+
         paginator_ui: {
             firstPage:   1,
             currentPage: 1,
             perPage:     15,
             totalPages:  0,
-            radius: 2
+            grandTotal: 0,
+            radius: 1 // determines the behaviour of the ellipsis
         },
 
         /* these methods return the url of the query for the
@@ -53,6 +56,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
 
         parse: function(response) {
             console.log('PaginatedCollection->parse');
+            this.paginator_ui.grandTotal = response.meta.total;
             this.paginator_ui.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
 
             return response.structures;
@@ -80,4 +84,5 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
 //  name=danse&
 //  page=2&
 //  radius=5&
-//  sort=rating_desc&utf8=%E2%9C%93
+//  sort=rating_desc
+//  &utf8=%E2%9C%93

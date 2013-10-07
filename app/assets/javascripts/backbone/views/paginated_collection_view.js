@@ -12,10 +12,14 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         serializeData: function(){
           console.log("PaginatedCollectionView->serializeData");
           var data = this.collection;
+          var first_result = (data.currentPage - 1) * data.perPage + 1;
 
           return {
             current_page: data.currentPage,
             last_page: data.totalPages,
+            first: first_result,
+            last: Math.min(first_result + data.perPage - 1, data.grandTotal),
+            total: data.grandTotal,
             buttons: this.buildPaginationButtons(data),
             previous_page_query: this.collection.previousQuery(),
             next_page_query: this.collection.nextQuery(),
@@ -69,14 +73,14 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         nextPage: function (e) {
           e.preventDefault();
-          var page = this.collection.currentPage + 1;
+          var page = Math.min(this.collection.currentPage + 1, this.collection.totalPages);
 
           return this.changePage(page);
         },
 
         prevPage: function (e) {
           e.preventDefault();
-          var page = this.collection.currentPage - 1;
+          var page = Math.max(this.collection.currentPage - 1, 1);
 
           return this.changePage(page);
         },
@@ -89,6 +93,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         changePage: function (page) {
+          if (page == this.collection.currentPage) return false;
+
           var self = this;
 
           this.collection.goTo(page, {
