@@ -62,7 +62,7 @@ class StructuresController < ApplicationController
         @parent_subject = @subject.grand_parent
         @other_structures = StructureSearch.search({lat: params[:lat] || 48.8540,
                                                     lng: params[:lng] || 2.3417,
-                                                    radius: params[:radius] || 5,
+                                                    radius: params[:radius] || 7,
                                                     sort: 'rating_desc',
                                                     has_logo: true,
                                                     per_page: 15 - @structures.count,
@@ -91,7 +91,7 @@ class StructuresController < ApplicationController
   def init_geoloc
     latitude             = params[:lat].to_f
     longitude            = params[:lng].to_f
-    radius               = (params[:radius] || 5).to_f
+    radius               = (params[:radius] || 7).to_f
     @locations           = []
     @structure_locations = {} # Keeping in memory only locations that are in the radius
     @_structures         = @structures
