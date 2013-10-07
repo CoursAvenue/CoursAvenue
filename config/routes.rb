@@ -19,6 +19,8 @@ CoursAvenue::Application.routes.draw do
       match 'inscription'                              , to: 'structures#new'
       match 'sms'                                      , to: 'structures#new'
 
+      match 'tableau-de-bord'                          , to: 'redirect#structure_dashboard'
+
 
       resources :comments, only: [:edit, :update, :index, :destroy] do
         member do
