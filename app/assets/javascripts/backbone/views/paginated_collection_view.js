@@ -7,112 +7,126 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         itemView: FilteredSearch.Views.StructureView,
         itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
 
-        /* transform the paginator_ui object into a form that can be
-        * digested by handlebars */
+        /* transform the collection object's pagination data into a form
+         * that can be digested by handlebars */
         serializeData: function(){
-          console.log("PaginatedCollectionView->serializeData");
-          var data = this.collection;
-          var first_result = (data.currentPage - 1) * data.perPage + 1;
+            console.log("PaginatedCollectionView->serializeData");
+            var data = this.collection;
+            var first_result = (data.currentPage - 1) * data.perPage + 1;
 
-          return {
-            current_page: data.currentPage,
-            last_page: data.totalPages,
-            first: first_result,
-            last: Math.min(first_result + data.perPage - 1, data.grandTotal),
-            total: data.grandTotal,
-            buttons: this.buildPaginationButtons(data),
-            previous_page_query: this.collection.previousQuery(),
-            next_page_query: this.collection.nextQuery(),
-          };
+            return {
+                current_page: data.currentPage,
+                last_page: data.totalPages,
+                first: first_result,
+                last: Math.min(first_result + data.perPage - 1, data.grandTotal),
+                total: data.grandTotal,
+                buttons: this.buildPaginationButtons(data),
+                previous_page_query: this.collection.previousQuery(),
+                next_page_query: this.collection.nextQuery(),
+            };
         },
 
         /* we want to show buttons for the first and last pages, and the
-        * pages in a radius around the current page. So we will skip pages
-        * that don't meet that criteria */
+         * pages in a radius around the current page. So we will skip pages
+         * that don't meet that criteria */
         canSkipPage: function (page, data) {
-          var last_page = data.totalPages,
-              out_of_bounds = (data.currentPage - data.radius > page || page > data.currentPage + data.radius),
-              bookend = (page == 1 || page == last_page);
+            var last_page = data.totalPages,
+            out_of_bounds = (data.currentPage - data.radius > page || page > data.currentPage + data.radius),
+            bookend = (page == 1 || page == last_page);
 
-          return (!bookend && out_of_bounds);
+            return (!bookend && out_of_bounds);
         },
 
         buildPaginationButtons: function (data) {
-          var self = this,
-              skipped = false,
-              buttons = [];
+            var self = this,
+            skipped = false,
+            buttons = [];
 
-          _.times(data.totalPages, function(index) {
-            var current_page = index + 1;
+            _.times(data.totalPages, function(index) {
+                var current_page = index + 1;
 
-            if (self.canSkipPage(current_page, data)) { // 1, 2, ..., 5, 6, ..., 9
-              skipped = true;
-            } else {
-              if (skipped) { // push on an ellipsis if we've skipped any pages
-                buttons.push({ label: '...', disabled: true });
-              }
+                if (self.canSkipPage(current_page, data)) { // 1, ..., 5, 6, 7, ..., 9
+                    skipped = true;
+                } else {
+                    if (skipped) { // push on an ellipsis if we've skipped any pages
+                        buttons.push({ label: '...', disabled: true });
+                    }
 
-              buttons.push({ // push the current page
-                label: current_page,
-                active: (current_page == data.currentPage),
-                query: self.collection.pageQuery(current_page)
-              });
+                    buttons.push({ // push the current page
+                        label: current_page,
+                        active: (current_page == data.currentPage),
+                        query: self.collection.pageQuery(current_page)
+                    });
 
-              skipped = false;
-            }
-          });
+                    skipped = false;
+                }
+            });
 
-          return buttons;
+            return buttons;
         },
 
-        events: {
-          'click .pagination li.btn a[rel=next]': 'nextPage',
-          'click .pagination li.btn a[rel=prev]': 'prevPage',
-          'click .pagination li.btn a[rel=page]': 'goToPage'
-        },
+                                /* ui controls for the pagination tool */
+                                events: {
+                                    'click .pagination li.btn a[rel=next]': 'nextPage',
+                                    'click .pagination li.btn a[rel=prev]': 'prevPage',
+                                    'click .pagination li.btn a[rel=page]': 'goToPage',
+                                    'click .spoken-form a[data-value=relevancy]': 'updateQuery'
+                                },
 
-        nextPage: function (e) {
-          e.preventDefault();
-          var page = Math.min(this.collection.currentPage + 1, this.collection.totalPages);
+                                        /* TODO this doesn't stop the event from changing the page.
+                                         * must be some other Javascript getting in the way */
+                                updateQuery: function(e) {
+                                    e.preventDefault();
 
-          return this.changePage(page);
-        },
+                                    var value = e.currentTarget.getAttribute('data-value');
+                                    this.collection.setUrl({ params: { sort: value }})
 
-        prevPage: function (e) {
-          e.preventDefault();
-          var page = Math.max(this.collection.currentPage - 1, 1);
+                                    return this.changePage(this.collection.firstPage);
+                                },
 
-          return this.changePage(page);
-        },
+                                nextPage: function (e) {
+                                    e.preventDefault();
+                                    var page = Math.min(this.collection.currentPage + 1, this.collection.totalPages);
 
-        goToPage: function (e) {
-          e.preventDefault();
-          var page = e.currentTarget.text;
+                                    return this.changePage(page);
+                                },
 
-          return this.changePage(page);
-        },
+                                prevPage: function (e) {
+                                    e.preventDefault();
+                                    var page = Math.max(this.collection.currentPage - 1, 1);
 
-        changePage: function (page) {
-          if (page == this.collection.currentPage) return false;
+                                    return this.changePage(page);
+                                },
 
-          var self = this;
+                                goToPage: function (e) {
+                                    e.preventDefault();
+                                    var page = e.currentTarget.text;
 
-          this.collection.goTo(page, {
-            success: function () {
-              console.log("EVENT  PaginatedCollection->changePage->success")
-              self.render();
-            }
-          });
+                                    return this.changePage(page);
+                                },
 
-          return false;
-        },
+                                changePage: function (page) {
+                                    if (page == this.collection.currentPage) return false;
 
-        /* when rendering each collection item, we might want to
-         * pass in some info from the paginator_ui or something */
-        itemViewOptions: function(model, index) {
-            console.log("PaginatedCollectionView->itemViewOptions");
-            // we could pass some information from the collectionView
-            return { };
-        }
+                                    var self = this;
+
+                                    this.collection.goTo(page, {
+                                        success: function () {
+                                            console.log("EVENT  PaginatedCollection->changePage->success")
+                                            self.render();
+                                        }
+                                    });
+
+                                    return false;
+                                },
+
+                                /* when rendering each collection item, we might want to
+                                 * pass in some info from the paginator_ui or something
+                                 * if do we would do it here */
+                                itemViewOptions: function(model, index) {
+                                    console.log("PaginatedCollectionView->itemViewOptions");
+                                    // we could pass some information from the collectionView
+                                    return { };
+                                }
     });
 });

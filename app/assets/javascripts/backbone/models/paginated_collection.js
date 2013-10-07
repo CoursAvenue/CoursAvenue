@@ -1,23 +1,16 @@
 /* Sets up the details specific to coursavenue's API */
+/* TODO I think it should preload the next and previous pages */
 FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _) {
     Models.PaginatedCollection = Backbone.Paginator.requestPager.extend({
         model: Models.Structure,
 
         /* even if we are bootstrapping, we still want to know the total
-        * number of pages */
+        * number of pages and the grandTotal, for display purposes */
         initialize: function (models, options) {
           console.log("PaginatedCollection->initialize");
 
           this.paginator_ui.grandTotal = options.total;
           this.paginator_ui.totalPages = Math.ceil(options.total / this.paginator_ui.perPage);
-        },
-
-        paginator_core: {
-            type: 'GET',
-            dataType: 'json',
-            url: function() {
-                return this.url.basename + this.url.resource + this.url.datatype;
-            }
         },
 
         paginator_ui: {
@@ -29,11 +22,19 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             radius: 1 // determines the behaviour of the ellipsis
         },
 
-        /* these methods return the url of the query for the
-        * previous, next, or current page. I'm not really sure
-        * this is necessary... the idea was to have nice anchors
-        * with useful URLs even though clicking on them will just
-        * fire events. Maybe that is good? */
+        server_api: {
+            'page': function() { return this.currentPage; }
+        },
+
+        parse: function(response) {
+            console.log('PaginatedCollection->parse');
+            this.paginator_ui.grandTotal = response.meta.total;
+            this.paginator_ui.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
+
+            return response.structures;
+        },
+
+        /* the Query methods are for populating anchors */
         previousQuery: function() {
           return this.pageQuery(this.paginator_ui.currentPage - 1);
         },
@@ -50,28 +51,45 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
           return this.url.resource + '?page=' + page;
         },
 
-        server_api: {
-            'page': function() { return this.currentPage; }
+        paginator_core: {
+            type: 'GET',
+            dataType: 'json',
+            url: function() {
+                return this.url.basename + this.url.resource + this.url.datatype + this.paramString();
+            }
         },
 
-        parse: function(response) {
-            console.log('PaginatedCollection->parse');
-            this.paginator_ui.grandTotal = response.meta.total;
-            this.paginator_ui.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
-
-            return response.structures;
-        },
-
+        /* where we can expect to find the resource we seek
+        *  TODO this will need to be expanded to include all
+        *    relevant filters and params */
         url: {
             basename: 'http://www.examples.com',
             resource: '/stuff',
-            datatype: '.json'
+            datatype: '.json',
+            params: {
+              sort: 'rating_desc'
+            }
         },
 
-        setUrl: function(basename, resource, data_type) {
-            if (basename  != undefined) { this.url.basename  = basename; }
-            if (resource  != undefined) { this.url.resource  = '/' + resource; }
-            if (data_type != undefined) { this.url.data_type = '.' + data_type; }
+        paramString: function() {
+          var string = "?";
+
+          _.each(_.pairs(this.url.params), function(pair) {
+            var key = pair[0],
+                value = pair[1];
+
+            string += key + '=' + value + '&';
+          });
+
+          return string;
+        },
+
+        /* TODO change this method to take a hash of options (a 'configuration object') */
+        setUrl: function(options) {
+          if (options.basename  != undefined) { this.url.basename  = options.basename; }
+          if (options.resource  != undefined) { this.url.resource  = '/' + options.resource; }
+          if (options.data_type != undefined) { this.url.data_type = '.' + options.data_type; }
+          if (options.params != undefined) { this.url.params = options.params; }
         }
     });
 });

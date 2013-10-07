@@ -1,48 +1,48 @@
 // Create a marionette app in the global namespace
 FilteredSearch = (function (){
-  var self = new Backbone.Marionette.Application({
-    slug: 'filtered-search',
+    var self = new Backbone.Marionette.Application({
+        slug: 'filtered-search',
 
-    /* for use in query strings */
-    root:   function() { return self.slug + '-root'; },
-    suffix: function() { return self.slug + '-bootstrap'; },
-    /* returns the jQuery object where bootstrap data is */
+        /* for use in query strings */
+        root:   function() { return self.slug + '-root'; },
+        suffix: function() { return self.slug + '-bootstrap'; },
+        /* returns the jQuery object where bootstrap data is */
 
-    bootstrap: {
-      $annex: function() { return $('[data-type=' + self.suffix() + ']'); },
-      total: function() {
-        return self.bootstrap.$annex().data('total');
-      },
-      models: function() {
-        return self.bootstrap.$annex().map(function() {
-          return JSON.parse($(this).text());
-        }).get();
-      },
-    },
+        bootstrap: {
+            $annex: function() { return $('[data-type=' + self.suffix() + ']'); },
+            total: function() {
+                return self.bootstrap.$annex().data('total');
+            },
+            models: function() {
+                return self.bootstrap.$annex().map(function() {
+                    return JSON.parse($(this).text());
+                }).get();
+            },
+        },
 
-    /* methods for returning the relevant jQuery collections */
-    $root: function() {
-        return $('[data-type=' + self.root() + ']');
-    },
+        /* methods for returning the relevant jQuery collections */
+        $root: function() {
+            return $('[data-type=' + self.root() + ']');
+        },
 
-    /* A filteredSearch should only start if it detects
-     * an element whose data-type is the same as its
-     * root property.
-     * @throw the root was found to be non-unique on the page */
-    detectRoot: function() {
-        var result = self.$root().length;
+        /* A filteredSearch should only start if it detects
+         * an element whose data-type is the same as its
+         * root property.
+         * @throw the root was found to be non-unique on the page */
+        detectRoot: function() {
+            var result = self.$root().length;
 
-        if (result > 1) {
-            throw {
-                message: 'FilteredSearch->detectRoot: ' + self.root() + ' element should be unique'
+            if (result > 1) {
+                throw {
+                    message: 'FilteredSearch->detectRoot: ' + self.root() + ' element should be unique'
+                }
             }
+
+            return result > 0;
         }
+    });
 
-        return result > 0;
-    }
-  });
-
-  return self;
+    return self;
 }());
 
 FilteredSearch.addRegions({
@@ -55,12 +55,12 @@ FilteredSearch.addInitializer(function(options){
     // Scrape all the json from the filtered-search-bootstrap
     /* TODO this is teh uuuugly code */
     var bootstrap = (function (self) {
-      return {
-        options: {
-          total: self.bootstrap.total(),
-        },
-        models: self.bootstrap.models()
-      };
+        return {
+            options: {
+                total: self.bootstrap.total(),
+            },
+            models: self.bootstrap.models()
+        };
     }(this));
 
     // Create an instance of your class and populate with the models of your entire collection
@@ -71,7 +71,11 @@ FilteredSearch.addInitializer(function(options){
 
     // Invoke the bootstrap function
     structures.bootstrap();
-    structures.setUrl('http://localhost:3000', 'etablissements', 'json')
+    structures.setUrl({
+        basename: 'http://localhost:3000',
+        resource: 'etablissements',
+        data_type: 'json'
+    })
     FilteredSearch.mainRegion.show(structures_view);
 
     window.pfaff = structures;
