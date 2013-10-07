@@ -20,6 +20,7 @@ CoursAvenue::Application.routes.draw do
       match 'sms'                                      , to: 'structures#new'
 
       match 'tableau-de-bord'                          , to: 'redirect#structure_dashboard'
+      match 'modifier-mon-profil'                      , to: 'redirect#structure_edit'
 
 
       resources :comments, only: [:edit, :update, :index, :destroy] do
