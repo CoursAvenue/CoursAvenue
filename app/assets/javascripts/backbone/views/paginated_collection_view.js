@@ -75,58 +75,58 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* TODO this doesn't stop the event from changing the page.
          * must be some other Javascript getting in the way */
-updateQuery: function(e) {
-                 e.preventDefault();
+        updateQuery: function(e) {
+            e.preventDefault();
 
-                 var value = e.currentTarget.getAttribute('data-value');
-                 this.collection.setUrl({ params: { sort: value }})
+            var value = e.currentTarget.getAttribute('data-value');
+            this.collection.setUrl({ params: { sort: value }})
 
-                     return this.changePage(this.collection.firstPage);
-             },
+            return this.changePage(this.collection.firstPage);
+        },
 
-nextPage: function (e) {
-              e.preventDefault();
-              var page = Math.min(this.collection.currentPage + 1, this.collection.totalPages);
+        nextPage: function (e) {
+            e.preventDefault();
+            var page = Math.min(this.collection.currentPage + 1, this.collection.totalPages);
 
-              return this.changePage(page);
-          },
+            return this.changePage(page);
+        },
 
-prevPage: function (e) {
-              e.preventDefault();
-              var page = Math.max(this.collection.currentPage - 1, 1);
+        prevPage: function (e) {
+            e.preventDefault();
+            var page = Math.max(this.collection.currentPage - 1, 1);
 
-              return this.changePage(page);
-          },
+            return this.changePage(page);
+        },
 
-goToPage: function (e) {
-              e.preventDefault();
-              var page = e.currentTarget.text;
+        goToPage: function (e) {
+            e.preventDefault();
+            var page = e.currentTarget.text;
 
-              return this.changePage(page);
-          },
+            return this.changePage(page);
+        },
 
-changePage: function (page) {
-                if (page == this.collection.currentPage) return false;
+        changePage: function (page) {
+            if (page == this.collection.currentPage) return false;
 
-                var self = this;
+            var self = this;
 
-                this.collection.goTo(page, {
-success: function () {
-console.log("EVENT  PaginatedCollection->changePage->success")
-self.render();
-}
-});
+            this.collection.goTo(page, {
+                success: function () {
+                    console.log("EVENT  PaginatedCollection->changePage->success")
+                    self.render();
+                }
+            });
 
-return false;
-},
+            return false;
+        },
 
-    /* when rendering each collection item, we might want to
-     * pass in some info from the paginator_ui or something
-     * if do we would do it here */
-itemViewOptions: function(model, index) {
-                     console.log("PaginatedCollectionView->itemViewOptions");
-                     // we could pass some information from the collectionView
-                     return { };
-                 }
-});
+        /* when rendering each collection item, we might want to
+         * pass in some info from the paginator_ui or something
+         * if do we would do it here */
+        itemViewOptions: function(model, index) {
+            console.log("PaginatedCollectionView->itemViewOptions");
+            // we could pass some information from the collectionView
+            return { };
+        }
+    });
 });
