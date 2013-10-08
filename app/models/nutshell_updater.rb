@@ -87,8 +87,10 @@ class NutshellUpdater
     if structure.website
       new_contact['url'] = {'0' => admin.email}
     end
-    if admin.phone_number
+    if admin.phone_number.present?
       new_contact['phone'] = {'number' => admin.phone_number}
+    elsif admin.mobile_phone_number.present?
+      new_contact['phone'] = {'number' => admin.mobile_phone_number}
     end
     new_contact
   end
