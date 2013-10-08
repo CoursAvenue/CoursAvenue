@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require 'rake/clean'
-require 'debugger'
+# require 'debugger'
 
 namespace :nutshell do
 

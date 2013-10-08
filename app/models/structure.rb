@@ -104,7 +104,7 @@ class Structure < ActiveRecord::Base
   after_create     :set_free_pricing_plan
   # after_create     :create_place
   after_create     :delay_subscribe_to_mailchimp if Rails.env.production?
-  after_save       :delay_subscribe_to_nutshell  # if Rails.env.production?
+  after_save       :delay_subscribe_to_nutshell  if Rails.env.production?
   after_save       :update_email_status
   after_touch      :update_email_status
 
