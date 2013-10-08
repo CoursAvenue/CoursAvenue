@@ -13,6 +13,7 @@
 //---------- Views
 //= require ./views/structure_view
 //= require ./views/paginated_collection_view
+//= require ./views/search_widgets_layout_view
 
 //---------- Routers
 //= require_tree ./routers

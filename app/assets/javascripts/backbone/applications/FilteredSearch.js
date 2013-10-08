@@ -51,10 +51,11 @@ FilteredSearch.addRegions({
 
 FilteredSearch.addInitializer(function(options){
     console.log("FilteredSearch->addInitializer");
+    var bootstrap, structures, structures_view, layout;
 
     // Scrape all the json from the filtered-search-bootstrap
     /* TODO this is teh uuuugly code */
-    var bootstrap = (function (self) {
+    bootstrap = (function (self) {
         return {
             options: {
                 total: self.bootstrap.total(),
@@ -64,15 +65,49 @@ FilteredSearch.addInitializer(function(options){
     }(this));
 
     // Create an instance of your class and populate with the models of your entire collection
-    var structures      = new FilteredSearch.Models.PaginatedCollection(bootstrap.models, bootstrap.options);
-    var structures_view = new FilteredSearch.Views.PaginatedCollectionView({
+    structures      = new FilteredSearch.Models.PaginatedCollection(bootstrap.models, bootstrap.options);
+    structures_view = new FilteredSearch.Views.PaginatedCollectionView({
         collection: structures
     });
 
-    // Invoke the bootstrap function
     structures.bootstrap();
-    FilteredSearch.mainRegion.show(structures_view);
 
+    /* set up the layouts */
+    layout = new FilteredSearch.Views.SearchWidgetsLayout();
+
+    bob = new FilteredSearch.Views.StructureView({});
+    jill = new FilteredSearch.Views.StructureView({});
+
+    FilteredSearch.mainRegion.show(layout);
+    layout.results.show(structures_view);
+
+    /* we can add a widget along with a callback to be used
+    * for setup */
+    layout.showWidget(bob, function (view) {
+        console.log("EVENT  onBobShow");
+
+        /* right now, the callback is mainly for attaching listeners to
+        * the layout (this) */
+        this.listenTo(view, 'bob:power', function (e) {
+            console.log("EVENT  WHAT CLICKERY IS THIS!?");
+            e.preventDefault();
+            return false;
+        })
+    }, 'bob'); // we can pass an optional 'name' for the region
+
+    layout.showWidget(jill, function (view) {
+        console.log("EVENT  onStructureViewShow");
+    }); // or no name for the region, in which case it will be named after the view
+
+    /* Later:
+    * layout.widgets.show(pagination_tool_view);
+    * layout.widgets.show(google_maps_view);
+    * layout.widgets.show(filter_controls_view);
+    *
+    * Layout will act as the moderator of events being
+    * emitted from widgets and received by the search */
+
+    // Invoke the bootstrap function
     window.pfaff = structures;
 });
 
