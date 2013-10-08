@@ -9,58 +9,58 @@
         <a onclick="_gaq.push(['_trackEvent', 'Trier établissement / popularité', 'click'])" href="#" data-value="rating_desc" class="bold filter-select">Popularité</a>
         /
         <a onclick="_gaq.push(['_trackEvent', 'Trier établissement / pertinence', 'click'])" href="#" data-value="relevancy" class="filter-select">Pertinence</a>
-      </div>
     </div>
+</div>
 
-    <div class="flexbox__item visuallyhidden--palm">
-      <div class="text--right">
+<div class="flexbox__item visuallyhidden--palm">
+    <div class="text--right">
         <ul class="pagination">
-          {{!-- make a previous button --}}
+            {{!-- make a previous button --}}
             <li class="btn">
             <a rel="prev" href="{{ previous_page_query }}"><i class="icon-arrow-left"></i></a>
             </li>
-          {{#each buttons}}
+            {{#each buttons}}
             <li class="btn {{#if active}}btn--active current{{/if}} {{#if disabled}}disabled{{/if}}">
-              <a rel="page" href="{{ query }}">{{ label }}</a>
+            <a rel="page" href="{{ query }}">{{ label }}</a>
             </li>
-          {{/each}}
+            {{/each}}
             </li>
-          {{!-- make a next button --}}
+            {{!-- make a next button --}}
             <li class="btn">
             <a rel="next" href="{{ next_page_query }}"><i class="icon-arrow-right"></i></a>
             </li>
         </ul>
-      </div>
     </div>
+</div>
   </div>
 
   <div class="course-list">
-    <ul class="filtered-search__list block-list"></ul>
+      <ul class="filtered-search__list block-list"></ul>
   </div>
 
   <footer class="g one-whole">
-   {{!-- How to avoid this duplication of code? --}}
-    <div class="flexbox__item visuallyhidden--palm">
+  {{!-- How to avoid this duplication of code? --}}
+  <div class="flexbox__item visuallyhidden--palm">
       <div class="text--right">
-        <ul class="pagination">
-          {{!-- make a previous button --}}
-            <li class="btn">
-            <a rel="prev" href="{{ previous_page_query }}"><i class="icon-arrow-left"></i></a>
-            </li>
-          {{!-- make all the buttons in between --}}
-          {{!-- here we need an array of page info --}}
-            {{#each buttons}}
-            <li class="btn {{#if active}}btn--active current{{/if}} {{#if disabled}}disabled{{/if}}">
+          <ul class="pagination">
+              {{!-- make a previous button --}}
+              <li class="btn">
+              <a rel="prev" href="{{ previous_page_query }}"><i class="icon-arrow-left"></i></a>
+              </li>
+              {{!-- make all the buttons in between --}}
+              {{!-- here we need an array of page info --}}
+              {{#each buttons}}
+              <li class="btn {{#if active}}btn--active current{{/if}} {{#if disabled}}disabled{{/if}}">
               <a rel="page" href="{{ query }}">{{ label }}</a>
               </li>
-            {{/each}}
-            </li>
-          {{!-- make a next button --}}
-            <li class="btn">
-            <a rel="next" href="{{ next_page_query }}"><i class="icon-arrow-right"></i></a>
-            </li>
-        </ul>
+              {{/each}}
+              </li>
+              {{!-- make a next button --}}
+              <li class="btn">
+              <a rel="next" href="{{ next_page_query }}"><i class="icon-arrow-right"></i></a>
+              </li>
+          </ul>
       </div>
-    </div>
+  </div>
   </footer>
-</section>
+  </section>

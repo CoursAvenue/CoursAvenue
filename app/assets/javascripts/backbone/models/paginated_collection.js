@@ -5,12 +5,12 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         model: Models.Structure,
 
         /* even if we are bootstrapping, we still want to know the total
-        * number of pages and the grandTotal, for display purposes */
+         * number of pages and the grandTotal, for display purposes */
         initialize: function (models, options) {
-          console.log("PaginatedCollection->initialize");
+            console.log("PaginatedCollection->initialize");
 
-          this.paginator_ui.grandTotal = options.total;
-          this.paginator_ui.totalPages = Math.ceil(options.total / this.paginator_ui.perPage);
+            this.paginator_ui.grandTotal = options.total;
+            this.paginator_ui.totalPages = Math.ceil(options.total / this.paginator_ui.perPage);
         },
 
         paginator_ui: {
@@ -36,19 +36,19 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
 
         /* the Query methods are for populating anchors */
         previousQuery: function() {
-          return this.pageQuery(this.paginator_ui.currentPage - 1);
+            return this.pageQuery(this.paginator_ui.currentPage - 1);
         },
 
         nextQuery: function() {
-          return this.pageQuery(this.paginator_ui.currentPage + 1);
+            return this.pageQuery(this.paginator_ui.currentPage + 1);
         },
 
         currentQuery: function() {
-          return this.pageQuery(this.paginator_ui.currentPage);
+            return this.pageQuery(this.paginator_ui.currentPage);
         },
 
         pageQuery: function(page) {
-          return this.url.resource + '?page=' + page;
+            return this.url.resource + '?page=' + page;
         },
 
         paginator_core: {
@@ -60,36 +60,36 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         /* where we can expect to find the resource we seek
-        *  TODO this will need to be expanded to include all
-        *    relevant filters and params */
+         *  TODO this will need to be expanded to include all
+         *    relevant filters and params */
         url: {
             basename: 'http://www.examples.com',
             resource: '/stuff',
             datatype: '.json',
             params: {
-              sort: 'rating_desc'
+                sort: 'rating_desc'
             }
         },
 
         paramString: function() {
-          var string = "?";
+            var string = "?";
 
-          _.each(_.pairs(this.url.params), function(pair) {
-            var key = pair[0],
+            _.each(_.pairs(this.url.params), function(pair) {
+                var key = pair[0],
                 value = pair[1];
 
-            string += key + '=' + value + '&';
-          });
+                string += key + '=' + value + '&';
+            });
 
-          return string;
+            return string;
         },
 
         /* TODO change this method to take a hash of options (a 'configuration object') */
         setUrl: function(options) {
-          if (options.basename  != undefined) { this.url.basename  = options.basename; }
-          if (options.resource  != undefined) { this.url.resource  = '/' + options.resource; }
-          if (options.data_type != undefined) { this.url.data_type = '.' + options.data_type; }
-          if (options.params != undefined) { this.url.params = options.params; }
+            if (options.basename  != undefined) { this.url.basename  = options.basename; }
+            if (options.resource  != undefined) { this.url.resource  = '/' + options.resource; }
+            if (options.data_type != undefined) { this.url.data_type = '.' + options.data_type; }
+            if (options.params != undefined) { this.url.params = options.params; }
         }
     });
 });
