@@ -1,0 +1,85 @@
+.modal-info-popup#modal-info-dashboard.hidden
+  .modal-info-popup__left-arrow
+    %i.icon-chevron-left
+  .modal-info-popup__content
+    %p
+      Visualisez d'un simple coup d'œil toutes vos informations et vos dernières recommandations.
+    .text--right
+      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#modal-info-mes-infos'}} Suivant
+
+.modal-info-popup#modal-info-mes-infos.hidden
+  .modal-info-popup__left-arrow
+    %i.icon-chevron-left
+  .modal-info-popup__content
+    %p
+      Renseignez vos informations générales, disciplines, lieux d'enseignement et professeurs.
+    .text--right
+      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#modal-info-mes-avis'}} Suivant
+
+.modal-info-popup#modal-info-mes-avis.hidden
+  .modal-info-popup__left-arrow
+    %i.icon-chevron-left
+  .modal-info-popup__content
+    %p
+      Demandez à vos élèves de vous recommander et modérez vos dernières recommandations.
+    .text--right
+      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#modal-info-mes-cours'}} Suivant
+
+.modal-info-popup#modal-info-mes-cours.hidden
+  .modal-info-popup__left-arrow
+    %i.icon-chevron-left
+  .modal-info-popup__content
+    %p
+      Renseignez votre planning de cours (description, tarifs et planning) pour les rendre visible de tous.
+    .text--right
+      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#modal-info-mes-photos'}} Suivant
+
+.modal-info-popup#modal-info-mes-photos.hidden
+  .modal-info-popup__left-arrow
+    %i.icon-chevron-left
+  .modal-info-popup__content
+    %p
+      Rendez votre profil attractif en ajoutant des photos et des vidéos.
+    .text--right
+      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#modal-info-parainage'}} Suivant
+
+.modal-info-popup#modal-info-parainage.hidden
+  .modal-info-popup__left-arrow
+    %i.icon-chevron-left
+  .modal-info-popup__content
+    %p
+      Vous aimez CoursAvenue ? Invitez d'autres professeurs à vous rejoindre !
+    .text--right
+      %a.btn.btn--blue{data: {behavior: 'show-next', next: '#modal-info-lets-start'}} Suivant
+
+.modal-info-popup#modal-info-lets-start.hidden
+  .modal-info-popup__left-arrow
+    %i.icon-chevron-left
+  .modal-info-popup__content
+    %p
+      Commençons dès maintenant par remplir votre profil.
+      %br
+      Choisissez un logo pour votre structure et continuez en remplissant les champs suivants.
+    .text--right
+      %a.btn.btn--blue{data: {behavior: 'got-it'}} OK
+
+
+= content_for :scripts do
+  :javascript
+    $(function(){
+        setTimeout(function(){
+            $('#modal-info-dashboard').fadeIn();
+        }, 250);
+        $('[data-behavior=show-next]').click(function(){
+            var $this = $(this);
+            $this.closest('.modal-info-popup').fadeOut();
+            setTimeout(function(){
+              $($this.data('next')).fadeIn();
+            }, 150);
+        });
+        $('[data-behavior=got-it]').click(function(){
+            var $this = $(this);
+            $this.closest('.modal-info-popup').fadeOut();
+            $.cookie('modal_info_popup', true);
+        });
+    });

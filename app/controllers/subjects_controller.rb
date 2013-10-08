@@ -25,7 +25,7 @@ class SubjectsController < ApplicationController
         obj                = {}
         parent_name        = first_descendant.name
         obj[parent_name] ||= []
-        first_descendant.children.each do |second_descendant|
+        first_descendant.children.order('name ASC').each do |second_descendant|
           obj[parent_name] << second_descendant
         end
         @descendants << obj

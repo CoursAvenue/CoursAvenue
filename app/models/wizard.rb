@@ -35,7 +35,7 @@ class Wizard < ActiveHash::Base
         name: 'wizard.widget_status',
         partial: 'wizards/widget_status',
         show_save: false,
-        completed?: lambda {|structure| structure.comments_count < 5 or (structure.comments_count >= 5 and !structure.widget_status.nil?) }
+        completed?: lambda {|structure| structure.comments_count < 5 or (structure.comments_count >= 5 and !structure.widget_status.blank?) }
     },
     {
         id: 6,

@@ -54,6 +54,8 @@
           .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}
             %label.control-label Sous disciplines
             %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}},
+        - if @structure.errors[:children_subjects].present?
+          %p.error= @structure.errors[:children_subjects].to_sentence
       .push--bottom.text--center
         = f.submit 'Valider', class: 'btn--large btn btn--large btn--green'
   - unless request.path == '/sms'
@@ -92,6 +94,7 @@
           = render partial: 'comments/comment', collection: Comment.where{rating > 3}.order('created_at DESC').limit(5), locals: {with_link: true, small_avatar: true}
 
 = render 'parent_descendant_subjects'
+
 = content_for :scripts do
   :javascript
     $(function() {

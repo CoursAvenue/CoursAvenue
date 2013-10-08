@@ -6,8 +6,8 @@ class Pro::PlacesController < InheritedResources::Base
   load_and_authorize_resource :structure, except: [:index]
 
   def edit
-    @structure      = Structure.find params[:structure_id]
-    @place          = @structure.places.find params[:id]
+    @structure = Structure.find params[:structure_id]
+    @place     = @structure.places.find params[:id]
     @place.contacts.build if @place.contacts.empty?
   end
 

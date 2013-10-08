@@ -8,6 +8,7 @@
   @import "compass/css3/opacity";
   @import "compass/css3/border-radius";
   @import "compass/css3/box-shadow";
+  @import "compass/css3/text-shadow";
   @import "compass/css3/images";
   @import "compass/css3/box-sizing";
   @import "compass/css3/transition";
@@ -98,6 +99,7 @@
   @import "partials/objects/read_more";
   @import "partials/objects/profile";
   @import "partials/objects/stickem";
+  @import "partials/objects/modal_info_popup";
 
   // @import "libs/datepicker/datepicker_bootstrap";
   @import "libs/autocomplete";

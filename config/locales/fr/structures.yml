@@ -32,6 +32,7 @@ fr:
         modification_condition: "Conditions de modification"
         teachers_at_home: Cours à domicile
         widget_url: Lien vers votre livre d'or
+        widget_status: Avez-vous installé votre widget
 
   funding_type:
     holiday_vouchers: Tickets CAF ("loisirs" et "temps libre")

@@ -95,6 +95,7 @@ class Structure < ActiveRecord::Base
   validates :street             , :presence   => true, on: :create
   validates :zip_code           , :presence   => true, numericality: { only_integer: true }, on: :create
   validates :city               , :presence   => true, on: :create
+  validate  :subject_parent_and_children
 
 
   # -------------------- Callbacks
@@ -102,7 +103,6 @@ class Structure < ActiveRecord::Base
 
   after_create     :set_free_pricing_plan
   # after_create     :create_place
-  after_create     :create_courses_relative_to_subject
   after_create     :delay_subscribe_to_mailchimp if Rails.env.production?
   after_save       :update_email_status
   after_touch      :update_email_status
@@ -235,10 +235,11 @@ class Structure < ActiveRecord::Base
   # Send reminder every week depending on the email status of the structure
   def send_reminder
     if self.main_contact.present? and self.email_status and self.main_contact.email_opt_in?
-      self.update_email_status
-      self.update_column :last_email_sent_at, Time.now
-      self.update_column :last_email_sent_status, self.email_status
-      AdminMailer.delay.send(self.email_status.to_sym, self) unless self.update_email_status.blank?
+      if self.update_email_status.present?
+        self.update_column :last_email_sent_at, Time.now
+        self.update_column :last_email_sent_status, self.email_status
+        AdminMailer.delay.send(self.email_status.to_sym, self)
+      end
     end
   end
 
@@ -267,6 +268,7 @@ class Structure < ActiveRecord::Base
       email_status = 'less_than_fifteen_recommendations'
     end
     self.update_column :email_status, email_status
+    return email_status
   end
 
   def locations_around(latitude, longitude, radius=5)
@@ -395,13 +397,6 @@ class Structure < ActiveRecord::Base
     self.pricing_plan = PricingPlan.where(name: 'free').first unless self.pricing_plan.present?
   end
 
-
-  def create_courses_relative_to_subject
-    self.subjects.each do |subject|
-      self.courses.create(name: subject.name, subject_ids: [subject.id], type: 'Course::Lesson', start_date: Date.today, end_date: (Date.today + 1.year))
-    end
-  end
-
   def replace_slash_n_r_by_brs
     self.description = self.description.gsub(/\r\n/, '<br>') if self.description
   end
@@ -448,5 +443,10 @@ class Structure < ActiveRecord::Base
 
   def should_generate_new_friendly_id?
     new_record?
+  end
+
+  def subject_parent_and_children
+    errors.add(:subjects,          "Vous devez séléctionner au moins une discipline")        if self.subjects.select{|s| s.ancestry_depth == 0}.empty?
+    errors.add(:children_subjects, "Vous devez séléctionner au moins une discipline enfant") if self.subjects.select{|s| s.ancestry_depth == 2}.empty?
   end
 end

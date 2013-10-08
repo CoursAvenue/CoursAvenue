@@ -26,7 +26,7 @@ class StudentMailer < ActionMailer::Base
     else
       @student = Student.where(email: email, structure_id: @structure.id).first
     end
-    mail to: email, subject: "Recommandez #{structure.name} sur CoursAvenue"
+    mail to: email, subject: "#{structure.name} vous demande une recommandation"
   end
 
   def ask_for_feedbacks_stage_1(structure, email)
@@ -40,13 +40,13 @@ class StudentMailer < ActionMailer::Base
     @structure = structure
     @email     = email
     @student   = Student.where(email: email, structure_id: @structure.id).first
-    mail to: email, subject: "Recommandez #{structure.name} sur CoursAvenue"
+    mail to: email, subject: "#{structure.name} vous demande une recommandation"
   end
 
   def ask_for_feedbacks_stage_3(structure, email)
     @structure = structure
     @email     = email
     @student   = Student.where(email: email, structure_id: @structure.id).first
-    mail to: email, subject: "Recommandez #{structure.name} sur CoursAvenue"
+    mail to: email, subject: "#{structure.name} vous demande une recommandation"
   end
 end
