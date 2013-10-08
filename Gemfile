@@ -40,7 +40,6 @@ gem 'auto_html'                 , '~> 1.6.0'
 
 gem 'delayed_job_active_record' , '~> 0.4.4'
 gem 'hirefire-resource'
-gem 'hirefire'
 
 gem 'daemons'
 # gem 'whenever'                  , '~> 0.8.2'
