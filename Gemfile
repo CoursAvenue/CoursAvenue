@@ -12,7 +12,7 @@ gem 'unicorn'
 gem 'pg'
 gem 'newrelic_rpm'          , '~> 3.6.6.147'
 
-gem 'recaptcha', require: 'recaptcha/rails'
+gem 'nutshell-crm'
 
 # For the blog
 gem 'rack-reverse-proxy', require: 'rack/reverse_proxy'

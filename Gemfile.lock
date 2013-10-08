@@ -190,6 +190,9 @@ GEM
     newrelic_rpm (3.6.6.147)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
+    nutshell-crm (0.0.5)
+      httparty
+      json
     oauth2 (0.8.1)
       faraday (~> 0.8)
       httpauth (~> 0.1)
@@ -260,7 +263,6 @@ GEM
     rake (10.1.0)
     rdoc (3.12.2)
       json (~> 1.4)
-    recaptcha (0.3.5)
     redcarpet (2.3.0)
     responders (0.9.3)
       railties (~> 3.1)
@@ -383,6 +385,7 @@ DEPENDENCIES
   memcachier
   meta_request (= 0.2.1)
   newrelic_rpm (~> 3.6.6.147)
+  nutshell-crm
   omniauth-facebook (~> 1.4.0)
   omnicontacts (~> 0.3.4)
   paperclip (~> 3.5.1)
@@ -392,7 +395,6 @@ DEPENDENCIES
   rack-reverse-proxy
   rails (= 3.2.14)
   rails_12factor
-  recaptcha
   roadie (~> 2.4.1)
   rspec-instafail (~> 0.2.4)
   rspec-rails (~> 2.13.2)
