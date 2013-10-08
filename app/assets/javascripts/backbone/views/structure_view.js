@@ -6,6 +6,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         initialize: function(options) {
             console.log("StructureView->initialize");
+            if (options == undefined) return;
             if (options.context == undefined) return;
 
             var subject = options.model;

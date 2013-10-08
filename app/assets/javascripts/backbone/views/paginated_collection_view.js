@@ -76,6 +76,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* simplistic implementation of general filters:
         * click on anything with data-type=filter and you
         * get results filtered by that */
+        /* TODO currently this method doesn't work on initial page load */
         filterQuery: function(e) {
             e.preventDefault();
 
