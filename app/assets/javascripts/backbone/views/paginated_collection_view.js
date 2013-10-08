@@ -70,16 +70,17 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             'click .pagination li.btn a[rel=next]': 'nextPage',
             'click .pagination li.btn a[rel=prev]': 'prevPage',
             'click .pagination li.btn a[rel=page]': 'goToPage',
-            'click .spoken-form a[data-value=relevancy]': 'updateQuery'
+            'click a[data-type=filter]': 'filterQuery'
         },
 
-        /* TODO this doesn't stop the event from changing the page.
-         * must be some other Javascript getting in the way */
-        updateQuery: function(e) {
+        /* simplistic implementation of general filters:
+        * click on anything with data-type=filter and you
+        * get results filtered by that */
+        filterQuery: function(e) {
             e.preventDefault();
 
             var value = e.currentTarget.getAttribute('data-value');
-            this.collection.setUrl({ params: { sort: value }})
+            this.collection.setQuery({ sort: value });
 
             return this.changePage(this.collection.firstPage);
         },

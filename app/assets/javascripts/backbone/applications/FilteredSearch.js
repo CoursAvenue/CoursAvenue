@@ -71,11 +71,6 @@ FilteredSearch.addInitializer(function(options){
 
     // Invoke the bootstrap function
     structures.bootstrap();
-    structures.setUrl({
-        basename: 'http://localhost:3000',
-        resource: 'etablissements',
-        data_type: 'json'
-    })
     FilteredSearch.mainRegion.show(structures_view);
 
     window.pfaff = structures;

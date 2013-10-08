@@ -25,15 +25,13 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             var search = this.makeOptionsFromSearch(window.location.search);
 
-            this.setUrl({ params: search });
+            this.currentPage = 1;
+            this.server_api = search; // define the server API based on the load-time URI
+            this.server_api.page = function () { return this.currentPage; };
 
             this.paginator_ui.currentPage = 1;
             this.paginator_ui.grandTotal = options.total;
             this.paginator_ui.totalPages = Math.ceil(options.total / this.paginator_ui.perPage);
-
-            this.currentPage = 1;
-            this.server_api = search;
-            this.server_api.page = function () { return this.currentPage; };
         },
 
         makeOptionsFromSearch: function (search) {
@@ -92,20 +90,15 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         /* where we can expect to find the resource we seek
-         *  TODO this will need to be expanded to include all
-         *    relevant filters and params */
+         *  TODO this needs to be set on the server side */
         url: {
-            basename: 'http://www.examples.com',
-            resource: '/stuff',
+            basename: 'http://localhost:3000',
+            resource: '/etablissements',
             data_type: '.json'
         },
 
-        /* TODO change this method to take a hash of options (a 'configuration object') */
-        setUrl: function(options) {
-            if (options.basename  != undefined) { this.url.basename  = options.basename; }
-            if (options.resource  != undefined) { this.url.resource  = '/' + options.resource; }
-            if (options.data_type != undefined) { this.url.data_type = '.' + options.data_type; }
-            if (options.params != undefined) { this.url.params = options.params; }
+        setQuery: function(options) {
+            _.extend(this.server_api, options);
         }
     });
 });
