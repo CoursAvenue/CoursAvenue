@@ -120,6 +120,10 @@
   %p.text--center
     = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
 
+
+%h4.push-half--bottom Résumé du profil
+= render 'pro/structures/structure'
+
 .grid
   .grid__item.one-third>
     .white-box.islet.text--center
@@ -150,19 +154,17 @@
         %br
         = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')", class: 'btn btn--blue btn--small'
 
-%hr
-%h3 Mes derniers avis
-%ul.comment-list
-  = render partial: 'comments/comment', collection: @comments[0..2]
-- if @comments.length == 0
-  %p.white-box.islet Vous n'avez pas encore d'avis sur votre profil.
-  %p.text--center= link_to 'Demander des recommandations', recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
-- elsif @comments.length > 3
-  %p.text--center= link_to 'Voir mes autres avis', pro_structure_comments_path(@structure)
+- if @comments.length > 0
+  %hr
+  %h3 Mes derniers avis
+  %ul.comment-list
+    = render partial: 'comments/comment', collection: @comments[0..2]
+    - if @comments.length > 3
+      %p.text--center= link_to 'Voir mes autres avis', pro_structure_comments_path(@structure)
 
-%hr
-%h3 Mes cours
 - if @courses.any?
+  %hr
+  %h3 Mes cours
   %table.table--striped.table--white
     %thead
       %tr
@@ -191,12 +193,10 @@
             - if course.best_price
               = "#{readable_amount course.best_price.amount}€".html_safe
   %p.text--center= link_to 'Ajouter un cours', pro_structure_courses_path(@structure), class: 'btn btn--blue'
-- else
-  %p.text--center= link_to 'Renseigner mes cours', pro_structure_courses_path(@structure), class: 'btn btn--blue'
 
-%hr
-%h3 Mes photos & vidéos
 - if @medias.any?
+  %hr
+  %h3 Mes photos & vidéos
   .media-gallery
     - @medias.each do |media|
       .one-third.media__item.very-soft>
@@ -214,10 +214,6 @@
             Supprimer
 
   %p.text--center= link_to 'Ajouter une photo ou une vidéo', pro_structure_medias_path(@structure), class: 'btn btn--blue'
-- else
-  %p.white-box.islet Vous n'avez pas encore téléchargé vos photos & vidéos.
-  %p.text--center= link_to 'Télécharger mes photos & vidéos', pro_structure_medias_path(@structure), class: 'btn btn--blue'
-
 
 = content_for :scripts do
   :javascript

@@ -39,10 +39,11 @@
               return false;
           }
       });
+      var subject_path = '#{subjects_path(format: :json)}';
       $('#search-input').typeahead([
         {
           name: 'subjects',
-          prefetch: '/subjects.json'
+          prefetch: subject_path
         }
       ]);
       $('#search-input').blur(function(){

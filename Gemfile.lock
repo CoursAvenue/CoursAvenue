@@ -83,7 +83,6 @@ GEM
       compass (>= 0.12.2, < 0.14)
     css_parser (1.3.5)
       addressable
-    daemons (1.1.9)
     dalli (2.6.4)
     debug_inspector (0.0.2)
     debugger (1.6.2)
@@ -140,12 +139,13 @@ GEM
     friendly_id (4.0.10.1)
       activerecord (>= 3.0, < 4.0)
     fssm (0.2.10)
+    gem_bench (0.0.6)
+      bundler (> 1.2)
     geocoder (1.1.8)
     gibbon (0.4.6)
       httparty
       multi_json (>= 1.3.4)
     gmaps4rails (1.5.6)
-    gravatar_image_tag (1.1.3)
     haml (3.1.8)
     handlebars_assets (0.14.1)
       execjs (>= 1.2.9)
@@ -188,7 +188,7 @@ GEM
       rails
     mime-types (1.25)
     mini_portile (0.5.1)
-    multi_json (1.8.0)
+    multi_json (1.8.1)
     multi_xml (0.5.5)
     multipart-post (1.2.0)
     net-scp (1.1.2)
@@ -197,6 +197,9 @@ GEM
     newrelic_rpm (3.6.6.147)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
+    nutshell-crm (0.0.5)
+      httparty
+      json
     oauth2 (0.8.1)
       faraday (~> 0.8)
       httpauth (~> 0.1)
@@ -255,8 +258,8 @@ GEM
       rails_serve_static_assets
       rails_stdout_logging
     rails_serve_static_assets (0.0.1)
-    rails_stdout_logging (0.0.2)
-    railsy_backbone (0.0.3)
+    rails_stdout_logging (0.0.3)
+    railsy_backbone (0.0.4)
       coffee-script
       ejs (~> 1.1.1)
       jquery-rails
@@ -272,7 +275,6 @@ GEM
     rake (10.1.0)
     rdoc (3.12.2)
       json (~> 1.4)
-    recaptcha (0.3.5)
     redcarpet (2.3.0)
     responders (0.9.3)
       railties (~> 3.1)
@@ -297,7 +299,7 @@ GEM
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
     ruby-hmac (0.4.0)
-    sass (3.2.11)
+    sass (3.2.12)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -355,7 +357,7 @@ PLATFORMS
 DEPENDENCIES
   active_hash (~> 1.0.0)
   active_model_serializers (~> 0.8.1)
-  acts_as_paranoid (~> 0.4.0)
+  acts_as_paranoid (~> 0.4.2)
   ancestry (~> 2.0.0)
   asset_sync (~> 0.5.4)
   auto_html (~> 1.6.0)
@@ -369,7 +371,6 @@ DEPENDENCIES
   compass (~> 0.12.2)
   compass-inuit (~> 5.0.1)
   compass-rails (~> 1.0.3)
-  daemons
   dalli
   debugger
   delayed_job_active_record (~> 0.4.4)
@@ -382,13 +383,13 @@ DEPENDENCIES
   font-awesome-rails (~> 3.2.1.3)
   forgery (~> 0.5.0)
   friendly_id (~> 4.0.9)
+  gem_bench
   geocoder (~> 1.1.6)
   gibbon (~> 0.4.6)
   gmaps4rails (~> 1.5.6)
-  gravatar_image_tag (~> 1.1.3)
   haml (~> 3.1.7)
   handlebars_assets
-  heroku-api (~> 0.3.9)
+  heroku-api
   hirefire-resource
   inherited_resources (~> 1.3.1)
   jquery-rails (~> 3.0.4)
@@ -397,6 +398,7 @@ DEPENDENCIES
   memcachier
   meta_request (= 0.2.1)
   newrelic_rpm (~> 3.6.6.147)
+  nutshell-crm
   omniauth-facebook (~> 1.4.0)
   omnicontacts (~> 0.3.4)
   paperclip (~> 3.5.1)
@@ -407,7 +409,6 @@ DEPENDENCIES
   rails (= 3.2.14)
   rails_12factor
   railsy_backbone
-  recaptcha
   roadie (~> 2.4.1)
   rspec-instafail (~> 0.2.4)
   rspec-rails (~> 2.13.2)

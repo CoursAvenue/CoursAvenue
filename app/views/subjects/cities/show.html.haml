@@ -1,0 +1,28 @@
+%h2= @subject.name
+.grid.push--bottom
+  .grid__item.one-half>
+    .white-box.soft.text--center
+      %h2.flush
+        = @structures.map(&:courses).flatten.count
+        cours
+  .grid__item.one-half>
+    .white-box.soft.text--center
+      %h2.flush
+        = @structures.map(&:comments).flatten.count
+        avis
+
+:css
+  .gmaps4rails_map {
+    height: 60em;
+  }
+
+.grid
+  .grid__item.three-fifths>
+    - if @structures.blank?
+      = gmaps( {markers: {data: [{lat: @city.latitude, lng: @city.longitude}].to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
+    - else
+      = gmaps( {markers: {data: @json_structure_addresses}, map_options: {mapTypeControl: false}})
+  .grid__item.two-fifths>
+    %h3 Les avis des élèves
+    %ul.comment-list
+      = render partial: 'comments/comment', collection: @structures.map(&:comments).flatten.sample(4), locals: {structure_logo: true, with_link: true}

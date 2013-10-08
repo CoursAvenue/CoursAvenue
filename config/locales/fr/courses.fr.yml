@@ -20,7 +20,7 @@ fr:
         price_details: 'Autres tarifs / Informations'
         place: Lieu
         image: "Image du cours"
-        can_be_joined_during_year: Inscriptions acceptées en cours d'année (tarifs calculés au prorata)
+        cant_be_joined_during_year: Inscriptions non acceptées en cours d'année
         no_class_during_holidays: Pas de cours pendant les vacances scolaires
         subjects: Disciplines
 
@@ -45,7 +45,6 @@ fr:
       class_during_holidays: Cours pendant les vacances
       audience: Public
       cant_be_joined_during_year: Ne peut être rejoint en cours d’année
-      can_be_joined_during_year: Peut être rejoint en cours d’année
     course:
       from: À partir de
 
@@ -87,7 +86,7 @@ fr:
         levels: Niveaux
         info: Accroche / Libellé du cours
         description: Description du cours
-        can_be_joined_during_year: Peut être rejoint en cours d'année
+        cant_be_joined_during_year: Ne peut être rejoint en cours d'année
         is_for_handicaped: Cours accessible aux handicapés
         name: Nom du cours
         frequency: Fréquence des cours

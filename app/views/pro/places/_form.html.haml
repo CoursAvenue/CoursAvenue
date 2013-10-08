@@ -19,10 +19,10 @@
     %h5.helper-label.form-header-group{data: { behavior: 'tooltip', 'original-title' => 'Coordonnées que les élèves receveront pour faire une réservation' }} Contact pour la réservation
     .form-white-box
       = f.simple_fields_for :contacts do |contact_form|
-        = contact_form.input :name,         label: Contact.human_attribute_name(:name), input_html: {value: contact_form.object.name || @structure.main_contact.name}
-        = contact_form.input :email,        label: Contact.human_attribute_name(:email), input_html: {value: contact_form.object.email || @structure.main_contact.email}
-        = contact_form.input :phone,        label: Contact.human_attribute_name(:phone), input_html: {value: contact_form.object.phone || @structure.main_contact.phone_number}
-        = contact_form.input :mobile_phone, label: Contact.human_attribute_name(:mobile_phone), input_html: {value: contact_form.object.mobile_phone || @structure.main_contact.mobile_phone_number}
+        = contact_form.input :name,         label: Contact.human_attribute_name(:name), input_html: {value: contact_form.object.name || @structure.main_contact.try(:name)}
+        = contact_form.input :email,        label: Contact.human_attribute_name(:email), input_html: {value: contact_form.object.email || @structure.main_contact.try(:email)}
+        = contact_form.input :phone,        label: Contact.human_attribute_name(:phone), input_html: {value: contact_form.object.phone || @structure.main_contact.try(:phone_number)}
+        = contact_form.input :mobile_phone, label: Contact.human_attribute_name(:mobile_phone), input_html: {value: contact_form.object.mobile_phone || @structure.main_contact.try(:mobile_phone_number)}
 
     #submit
       = f.submit 'Enregistrer', class: 'btn btn--green  btn--full'

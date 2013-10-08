@@ -55,8 +55,8 @@
                 var end_moment, start_moment;
                 $(this).datepicker('hide');
                 // If an end_date is set
-                end_moment   = moment(end_date.val(), GLOBAL.DATE_FORMAT);
-                start_moment = moment(this.value, GLOBAL.DATE_FORMAT);
+                end_moment   = moment(end_date.val(), GLOBAL.MOMENT_DATE_FORMAT);
+                start_moment = moment(this.value, GLOBAL.MOMENT_DATE_FORMAT);
                 if (end_date.val().length == 0 || start_moment.isAfter(end_moment)) {
                     end_date.datepicker('update', this.value);
                     end_date.datepicker('show');
