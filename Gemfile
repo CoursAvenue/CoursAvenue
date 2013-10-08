@@ -23,8 +23,6 @@ gem 'delocalize', '~> 0.3.1'
 gem 'memcachier'
 gem 'dalli'
 gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
-gem 'heroku-api'                , '~> 0.3.9'
-gem 'hirefire-resource'
 gem 'rack-cors'                 , require: 'rack/cors'
 
 gem 'active_hash'                , '~> 1.0.0'
@@ -41,6 +39,9 @@ gem 'gravatar_image_tag'        , '~> 1.1.3'
 gem 'auto_html'                 , '~> 1.6.0'
 
 gem 'delayed_job_active_record' , '~> 0.4.4'
+gem 'hirefire-resource'
+gem 'hirefire'
+
 gem 'daemons'
 # gem 'whenever'                  , '~> 0.8.2'
 # gem 'exceptional'
