@@ -23,7 +23,7 @@ class Subjects::CitiesController < ApplicationController
     end
     @plannings  = @lesson_plannings + @workshop_plannings + @training_plannings
 
-    @medias     = @structures.collect(&:medias).flatten.sample(20)
+    @medias     = @structures.collect(&:medias).flatten
 
     @json_structure_addresses = @locations.flatten.to_gmaps4rails do |location, marker|
       marker.picture({

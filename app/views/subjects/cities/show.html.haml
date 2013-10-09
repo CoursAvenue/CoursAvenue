@@ -47,9 +47,9 @@
 
   .home-screen-promotion-wrapper
     #medias.push--ends.main-container
-      .alpha La gallerie
+      .alpha La galerie
       .media-gallery
-        - @medias.each do |media|
+        - @medias.sample(20).each do |media|
           .one-third.media__item.very-soft>
             %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}
               = media.url_html

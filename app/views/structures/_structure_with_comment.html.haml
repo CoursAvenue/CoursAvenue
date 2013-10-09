@@ -5,7 +5,7 @@
         = link_to commentable_url(comment) do
           = image_tag structure.logo.url(:thumb), class: 'block'
       .grid__item.nine-twelfths.soft-half>
-        %h6.flush{itemprop: 'author'}= structure.name
+        %h6.push-half--bottom{itemprop: 'author'}= structure.name
         %p.flush
           %b.quoted{itemprop: 'headline', content: comment.title.capitalize}= "#{comment.title.capitalize}"
         %p.flush.text--right
