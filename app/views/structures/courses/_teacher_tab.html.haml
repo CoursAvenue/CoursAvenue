@@ -4,7 +4,7 @@
       %p.white-box.islet
         %b= teacher.name
         %br
-        = teacher.description
+        = teacher.description.try(:html_safe)
   - else
     %p.white-box.islet
       Aucun professeur n'est renseigné

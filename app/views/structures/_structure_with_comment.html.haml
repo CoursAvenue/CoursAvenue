@@ -2,7 +2,7 @@
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
     .grid--full
       .grid__item.three-twelfths.text--center>
-        = link_to commentable_url(comment) do
+        = link_to structure_path(structure) do
           = image_tag structure.logo.url(:thumb), class: 'block'
       .grid__item.nine-twelfths.soft-half>
         %h6.push-half--bottom{itemprop: 'author'}= structure.name
@@ -10,3 +10,6 @@
           %b.quoted{itemprop: 'headline', content: comment.title.capitalize}= "#{comment.title.capitalize}"
         %p.flush.text--right
           %i Écrit par #{comment.author_name.titleize} le #{l(comment.created_at, format: :date)}
+          - if structure.comments_count and structure.comments_count > 2
+            %br
+            = link_to "Voir les #{structure.comments_count - 1} autres avis", structure_path(structure), target: '_blank'

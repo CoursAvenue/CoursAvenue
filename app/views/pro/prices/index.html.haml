@@ -202,8 +202,7 @@
               %label.v-middle.inline-block{for: "free_subscription_400"} Gratuit
             .input.flush.inline-block{style: 'width: 150px;'}
               %input.width-auto.v-middle.inline-block{type: 'radio', id: "non_free_subscription_400", name: "subscription_400", checked: (@trial.persisted? and !@trial.free?)}
-              %label{for: "non_free_subscription_400"}
-                = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 110px;'}, as: :string
+              = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: {class: 'one-whole', data: {behavior: 'select-radio', el: '#non_free_subscription_400'}}, wrapper_html: {style: 'width: 110px;'}, as: :string
               €
             = registration_form.input :info, as: :string, placeholder: 'Ex. : Pour les étudiant', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'margin-left: 90px; width: 250px;'}
       - @registrations.each_with_index do |item, i|
@@ -217,8 +216,7 @@
               %label.v-middle.inline-block{for: "free_subscription_#{i}"} Gratuit
             .input.flush.inline-block{style: 'width: 150px;'}
               %input.width-auto.v-middle.inline-block{type: 'radio', id: "non_free_subscription_#{i}", name: "subscription_#{i}", checked: (item.persisted? and !item.free?)}
-              %label{for: "non_free_subscription_#{i}"}
-                = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'width: 110px;'}, as: :string
+              = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: {class: 'one-whole', data: {behavior: 'select-radio', el: "#non_free_subscription_#{i}"}}, wrapper_html: {style: 'width: 110px;'}, as: :string
               €
             = registration_form.input :info, as: :string, placeholder: 'Ex. : Pour les enfants', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'margin-left: 90px; width: 250px;'}
       .input.flush--top
@@ -316,4 +314,7 @@
         if ($('.registration-fees .registration-fee.persisted').length == 0) {
             $('#add-registration-fee').click();
         }
+        $('[data-behavior=select-radio]').focus(function(){
+            $($(this).data('el'))[0].checked = true;
+        });
     });

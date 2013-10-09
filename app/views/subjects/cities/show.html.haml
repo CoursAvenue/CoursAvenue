@@ -46,112 +46,93 @@
             = render partial: 'structures/structure_with_comment', locals: {structure: structure, comment: comment}
         = link_to 'Voir les autres profil', subject_structures_path(@subject, address_name: @city.name, latitude: @city.latitude, longitude: @city.longitude), class: 'btn btn--full'
 
-  .main-container
-    .alpha.text--center.push--ends Vous n'êtes pas dans la liste ?
+  .home-screen-promotion-wrapper
+    .main-container.text--center
+      .alpha.push--ends Vous aussi, faite partie de la communauté CoursAvenue !
+      = link_to "Créer mon profil gratuit", inscription_pro_structures_url(subdomain: 'pro'), class: 'btn btn--green btn--large'
 
+
+  .main-container#medias
+    .alpha.text--center.push--ends La galerie
+    .media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
+      - @medias.select{|media| media.format == 'image'}.sample(20).each do |media|
+        .one-third.media__item.very-soft>
+          %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}
+            = media.url_html
+            %p.flush--bottom
+              %i
+                - if media.caption.present?
+                  = media.caption
+                \—
+                = media.mediable.name
 
   .home-screen-promotion-wrapper
-    #medias.push--ends.main-container
-      .alpha.text--center.push--ends La galerie
-      .media-gallery
-        - @medias.select{|media| media.format == 'image'}.sample(20).each do |media|
-          .one-third.media__item.very-soft>
-            %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}
-              = media.url_html
-              %p.flush--bottom
-                %i
-                  - if media.caption.present?
-                    = media.caption
-                  \—
-                  = media.mediable.name
+    #planning.push--ends.main-container
+      .alpha.text--center.push--ends Les plannings du jours
+      - @plannings.each
+      - all_level_courses, beginner_courses, intermediate_courses, experimented_courses = [], [], [], []
+      - @plannings.each do |planning|
+        - if planning.audience_ids.include?(Level::BEGINNER.id) or planning.audience_ids.include?(Level::INITIATION.id)
+          - beginner_courses << planning.course
+        - elsif planning.audience_ids.include? Level.id::INTERMEDIATE
+          - intermediate_courses << planning.course
+        - elsif planning.audience_ids.include?(Level::CONFIRMED.id) or planning.audience_ids.include?(Level::PROFESSIONAL.id)
+          - experimented_courses << planning.course
+        - else
+          - all_level_courses << planning.course
 
-  #planning.push--ends.main-container
-    .alpha.text--center.push--ends Les plannings
-    - all_level_courses, beginner_courses, intermediate_courses, experimented_courses = [], [], [], []
-    - @plannings.each do |planning|
-      - if planning.audience_ids.include?(Level::BEGINNER.id) or planning.audience_ids.include?(Level::INITIATION.id)
-        - beginner_courses << planning.course
-      - elsif planning.audience_ids.include? Level.id::INTERMEDIATE
-        - intermediate_courses << planning.course
-      - elsif planning.audience_ids.include?(Level::CONFIRMED.id) or planning.audience_ids.include?(Level::PROFESSIONAL.id)
-        - experimented_courses << planning.course
-      - else
-        - all_level_courses << planning.course
-
-    .gamma Pour les débutant
-    %table.table--striped.table--data.white-box#dataTable
-      %thead
-        %tr
-          %th Nom du cours
-          %th Donné par
-      %tbody
-        - beginner_courses.uniq.each do |course|
+      .gamma Pour les débutant
+      %table.table--striped.table--data.white-box#dataTable
+        %thead
           %tr
-            %td= link_to course.name, structure_course_path(course.structure, course)
-            %td= link_to course.structure.name, structure_path(course.structure)
+            %th Nom du cours
+            %th Donné par
+        %tbody
+          - beginner_courses.uniq.each do |course|
+            %tr
+              %td= link_to course.name, structure_course_path(course.structure, course)
+              %td= link_to course.structure.name, structure_path(course.structure)
 
-    %hr
-    .gamma Pour les intermédiaires
-    %table.table--striped.table--data.white-box#dataTable
-      %thead
-        %tr
-          %th Nom du cours
-          %th Donné par
-      %tbody
-        - intermediate_courses.uniq.each do |course|
+      %hr
+      .gamma Pour les intermédiaires
+      %table.table--striped.table--data.white-box#dataTable
+        %thead
           %tr
-            %td= link_to course.name, structure_course_path(course.structure, course)
-            %td= link_to course.structure.name, structure_path(course.structure)
+            %th Nom du cours
+            %th Donné par
+        %tbody
+          - intermediate_courses.uniq.each do |course|
+            %tr
+              %td= link_to course.name, structure_course_path(course.structure, course)
+              %td= link_to course.structure.name, structure_path(course.structure)
 
-    %hr
-    .gamma Pour les plus avancés
-    %table.table--striped.table--data.white-box#dataTable
-      %thead
-        %tr
-          %th Nom du cours
-          %th Donné par
-      %tbody
-        - experimented_courses.uniq.each do |course|
+      %hr
+      .gamma Pour les plus avancés
+      %table.table--striped.table--data.white-box#dataTable
+        %thead
           %tr
-            %td= link_to course.name, structure_course_path(course.structure, course)
-            %td= link_to course.structure.name, structure_path(course.structure)
-    %hr
-    .gamma Et pour tous le monde !
-    %table.table--striped.table--data.white-box#dataTable
-      %thead
-        %tr
-          %th Nom du cours
-          %th Donné par
-      %tbody
-        - all_level_courses.uniq.each do |course|
+            %th Nom du cours
+            %th Donné par
+        %tbody
+          - experimented_courses.uniq.each do |course|
+            %tr
+              %td= link_to course.name, structure_course_path(course.structure, course)
+              %td= link_to course.structure.name, structure_path(course.structure)
+      %hr
+      .gamma Et pour tous le monde !
+      %table.table--striped.table--data.white-box#dataTable
+        %thead
           %tr
-            %td= link_to course.name, structure_course_path(course.structure, course)
-            %td= link_to course.structure.name, structure_path(course.structure)
+            %th Nom du cours
+            %th Donné par
+        %tbody
+          - all_level_courses.uniq.each do |course|
+            %tr
+              %td= link_to course.name, structure_course_path(course.structure, course)
+              %td= link_to course.structure.name, structure_path(course.structure)
 
-
-    -# - @lesson_plannings.group_by(&:level_ids).each do |levels, plannings|
-    -#   %h5 Pour les #{join_levels(Level.find(levels)).downcase}
-    -#   %table.table--striped.table--data.white-box#dataTable
-    -#     %thead
-    -#       %tr
-    -#         %th.two-twelfths Date
-    -#         %th.two-twelfths Créneau horaire
-    -#         %th.two-twelfths Durée
-    -#         %th.two-twelfths Public
-    -#         %th.four-twelfths Cours donné par
-    -#     %tbody
-    -#       - plannings.each do |planning|
-    -#         %tr
-    -#           %td= I18n.t('date.day_names')[planning.week_day].capitalize
-    -#           %td
-    -#             = readable_time_slot planning.start_time, planning.end_time
-    -#           %td= readable_duration planning.duration
-    -#           %td= join_audiences planning
-    -#           %td= link_to planning.structure.name, structure_path(planning.structure)
-
-  = content_for :scripts do
-    :javascript
-      $(function() {
-          $('.media-gallery').masonry({ itemSelector: '.media__item' });
-          $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
-      });
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
+    });

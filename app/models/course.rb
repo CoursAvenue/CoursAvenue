@@ -210,13 +210,14 @@ class Course < ActiveRecord::Base
 
   # Helper methods for prices
 
-  def copy_prices_from(course)
+  def copy_prices_from!(course)
     new_prices = []
     course.prices.all.each do |price|
       new_prices << price.dup
     end
     self.prices        = new_prices
     self.price_details = course.price_details
+    self.save
   end
 
   def book_tickets

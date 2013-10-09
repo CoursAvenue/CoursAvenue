@@ -5,7 +5,7 @@
 
 
 - if @medias.any?
-  .media-gallery
+  .media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
     - @medias.each do |media|
       .one-third.media__item.very-soft>
         %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}
@@ -24,6 +24,5 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('.media-gallery').masonry({ itemSelector: '.media__item' });
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
     });
