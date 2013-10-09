@@ -44,6 +44,7 @@
 // ---------------------------------- Backbone
 //= require backbone
 //= require backbone.marionette
+//= require backbone-relational
 //= require libs/backbone.paginator.js
 //= require backbone/cours_avenue
 //= require railsy_backbone.sync
