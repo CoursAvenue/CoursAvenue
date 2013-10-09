@@ -58,7 +58,7 @@
   #galerie-photos.soft--bottom
     .soft--ends.text--center
       .alpha La galerie photos
-      %p.flush= link_to 'Accéder à la galerie vidéo', videos_subject_city_medias_path(@subject, @city)
+      %p.flush= link_to 'Accéder à la galerie vidéos', videos_subject_city_medias_path(@subject, @city)
     .media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
       - @medias.select{|media| media.format == 'image'}.sample(25).each do |media|
         .one-quarter.media__item.very-soft{style: 'max-width: 450px'}>
@@ -67,18 +67,18 @@
             %p.flush--bottom.text--right
               = media.mediable.name
     .text--center.push--top
-      = link_to 'Accéder à la galerie vidéo', videos_subject_city_medias_path(@subject, @city), class: 'btn btn--large btn--blue'
+      = link_to 'Accéder à la galerie vidéos', videos_subject_city_medias_path(@subject, @city), class: 'btn btn--large btn--blue'
 
   .home-screen-promotion-wrapper.push--top
     #recommandations
-      .alpha.text--center.soft--ends Les élèves recommandent leur cours
+      .alpha.text--center.soft--ends Les élèves recommandent leurs cours
       %ul.no-bullet-list.js-masonry{'data-masonry-options' => '{ "itemSelector": ".comment_masonry__item" }'}
         - @structures.select{|s| s.comments_count > 0}.sample(25).each do |structure|
           .one-third.very-soft.comment_masonry__item>
             = render partial: 'comments/comment', locals: {comment: structure.comments.last, with_link: true}
 
   .soft--bottom#cours.main-container
-    %h2.weight-normal.alpha.flush.text--center.soft--ends Tous les cours de #{@subject.name.downcase}
+    %h2.weight-normal.alpha.flush.text--center.soft--ends Tous les cours de #{@subject.name.downcase} à #{@city.name}
     %table.table--striped.table--data.white-box#dataTable
       %thead
         %tr

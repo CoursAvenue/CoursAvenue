@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131009122537) do
+ActiveRecord::Schema.define(:version => 20131009170132) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -281,6 +281,7 @@ ActiveRecord::Schema.define(:version => 20131009122537) do
     t.integer "location_id"
     t.integer "structure_id"
     t.text    "info"
+    t.time    "deleted_at"
   end
 
   add_index "places", ["location_id", "structure_id"], :name => "index_places_on_location_id_and_structure_id"
