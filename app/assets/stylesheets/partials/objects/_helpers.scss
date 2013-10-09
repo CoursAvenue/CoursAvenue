@@ -93,3 +93,7 @@
 .word-break-normal { word-break: normal; }
 .thin              { font-weight: 300; }
 .very-soft         { padding: 5px;}
+
+.darker-background {
+ background-color: $beige-darker;
+}

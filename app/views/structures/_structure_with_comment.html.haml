@@ -1,0 +1,14 @@
+.white-box.push-half--bottom{id: "recommantation-#{comment.id}"}
+  %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
+    .grid--full
+      .grid__item.three-twelfths.text--center>
+        = link_to commentable_url(comment) do
+          = image_tag structure.logo.url(:thumb), class: 'block'
+      .grid__item.nine-twelfths.soft-half>
+        %h6.flush{itemprop: 'author'}= structure.name
+        %p.flush
+          %b.quoted{itemprop: 'headline', content: comment.title.capitalize}= "#{comment.title.capitalize}"
+        %p.flush.text--right
+          %i Écrit par #{comment.author_name.titleize} le #{l(comment.created_at, format: :date)}
+        -# %p.text--right
+        -#   = link_to comment.commentable.name, commentable_url(comment), target: '_blank'

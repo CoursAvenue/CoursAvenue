@@ -1,28 +1,90 @@
-%h2= @subject.name
-.grid.push--bottom
-  .grid__item.one-half>
-    .white-box.soft.text--center
-      %h2.flush
-        = @structures.map(&:courses).flatten.count
-        cours
-  .grid__item.one-half>
-    .white-box.soft.text--center
-      %h2.flush
-        = @structures.map(&:comments).flatten.count
-        avis
+= content_for :above_container do
+  .main-container
+    %h2= @subject.name
+    .grid.push--bottom
+      .grid__item.one-third>
+        .white-box.soft.text--center
+          %h2.flush
+            = @plannings.count
+            cours
+          %p.flush
+            %a{href: '#planning'} Voir tous les plannings
+      .grid__item.one-third>
+        .white-box.soft.text--center
+          %h2.flush
+            = @structures.map(&:comments).flatten.count
+            avis
+          %p.flush
+            %a{href: '#comments'} Voir les avis
 
-:css
-  .gmaps4rails_map {
-    height: 60em;
-  }
+      .grid__item.one-third>
+        .white-box.soft.text--center
+          %h2.flush
+            = @medias.count
+            Photos & vidéos
+          %p.flush
+            %a{href: '#medias'} Voir les photos et vidéos
 
-.grid
-  .grid__item.three-fifths>
-    - if @structures.blank?
-      = gmaps( {markers: {data: [{lat: @city.latitude, lng: @city.longitude}].to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
-    - else
-      = gmaps( {markers: {data: @json_structure_addresses}, map_options: {mapTypeControl: false}})
-  .grid__item.two-fifths>
-    %h3 Les avis des élèves
-    %ul.comment-list
-      = render partial: 'comments/comment', collection: @structures.map(&:comments).flatten.sample(4), locals: {structure_logo: true, with_link: true}
+    :css
+      .gmaps4rails_map {
+        height: 60em;
+      }
+
+    .grid
+      .grid__item.three-fifths>
+        - if @structures.blank?
+          = gmaps( {markers: {data: [{lat: @city.latitude, lng: @city.longitude}].to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
+        - else
+          = gmaps( {markers: {data: @json_structure_addresses}, map_options: {mapTypeControl: false}})
+      .grid__item.two-fifths#comments>
+        - number_of_structure_rendered = 0
+        - @structures.each do |structure|
+          - break if number_of_structure_rendered == 7
+          - comment = structure.comments.where{(title != nil) & (title != '')}.first
+          - if comment
+            - number_of_structure_rendered += 1
+            = render partial: 'structures/structure_with_comment', locals: {structure: structure, comment: comment}
+
+  .home-screen-promotion-wrapper
+    #medias.push--ends.main-container
+      .alpha La gallerie
+      .media-gallery
+        - @medias.each do |media|
+          .one-third.media__item.very-soft>
+            %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}
+              = media.url_html
+              %p.flush--bottom
+                %i
+                  - if media.caption.present?
+                    = media.caption
+                  \—
+                  = media.mediable.name
+
+  #planning.push--ends.main-container
+    .alpha Les plannings
+    - @lesson_plannings.group_by(&:level_ids).each do |levels, plannings|
+      %h5 Pour les #{join_levels(Level.find(levels)).downcase}
+      %table.table--striped.table--data.white-box#dataTable
+        %thead
+          %tr
+            %th.two-twelfths Date
+            %th.two-twelfths Créneau horaire
+            %th.two-twelfths Durée
+            %th.two-twelfths Public
+            %th.four-twelfths Cours donné par
+        %tbody
+          - plannings.each do |planning|
+            %tr
+              %td= I18n.t('date.day_names')[planning.week_day].capitalize
+              %td
+                = readable_time_slot planning.start_time, planning.end_time
+              %td= readable_duration planning.duration
+              %td= join_audiences planning
+              %td= link_to planning.structure.name, structure_path(planning.structure)
+
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          $('.media-gallery').masonry({ itemSelector: '.media__item' });
+          $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
+      });

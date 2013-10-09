@@ -33,8 +33,11 @@ class Course < ActiveRecord::Base
   after_touch :reindex
 
   # ------------------------------------------------------------------------------------ Scopes
-  scope :active  , where(active: true)
-  scope :disabled, where(active: false)
+  scope :active  ,  where(active: true)
+  scope :disabled,  where(active: false)
+  scope :lessons,   where(type: "Course::Lesson")
+  scope :workshops, where(type: "Course::Workshop")
+  scope :trainings, where(type: "Course::Training")
 
   # ------------------------------------------------------------------------------------ Validations
   validates :type, :name  , presence: true
