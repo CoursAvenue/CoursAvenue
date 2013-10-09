@@ -71,11 +71,12 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     structures.bootstrap();
+    places = Backbone.Relational.store.getCollection(FilteredSearch.Models.Place);
 
     /* set up the layouts */
     layout = new FilteredSearch.Views.SearchWidgetsLayout();
 
-    google_maps_view = new FilteredSearch.Views.GoogleMapsView();
+    google_maps_view = new FilteredSearch.Views.GoogleMapsView({ collection: places });
 
     FilteredSearch.mainRegion.show(layout);
     layout.results.show(structures_view);

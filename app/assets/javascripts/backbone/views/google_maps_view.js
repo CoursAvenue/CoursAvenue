@@ -3,10 +3,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     Views.GoogleMapsView = Marionette.CompositeView.extend({
         template: 'backbone/templates/google_maps_view',
         id: 'map-container',
+        markerView: Backbone.GoogleMaps.MarkerView,
 
-        onRender: function() {
-            console.log("EVENT  GoogleMapsView->onRender");
-
+        initialize: function(options) {
             var mapOptions = {
                 center: new google.maps.LatLng(-34.397, 150.644),
                 zoom: 8,
@@ -15,18 +14,46 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             var mapView = new Marionette.ItemView({
                 template: 'backbone/templates/_google_maps_view',
+                id: 'map',
                 attributes: {
                     'class': 'map_container'
                 }
             });
 
-            var map = new google.maps.Map(mapView.el, mapOptions);
-            this.$el.find('[data-type=map-container]').prepend(mapView.el);
+            this.map = new google.maps.Map(mapView.el, mapOptions);
+            this.map_annex = mapView.el;
+        },
 
-            google.maps.event.addListener(map, "idle", function(){
-                map.setCenter(mapOptions.center);
-                google.maps.event.trigger(map, 'resize');
+        onRender: function() {
+            console.log("EVENT  GoogleMapsView->onRender");
+
+            this.$el.find('[data-type=map-container]').prepend(this.map_annex);
+
+            var self = this;
+            google.maps.event.addListener(this.map, "idle", function(){
+                self.map.setCenter(mapOptions.center);
+                google.maps.event.trigger(self.map, 'resize');
             });
+        },
+
+        appendHtml: function(collectionView, itemView, index){
+            this.addChild(itemView.model);
+        },
+
+        collectionEvents: {
+            'add': 'addChild'
+        },
+
+        // Add a MarkerView and render
+        addChild: function(childModel) {
+            console.log('GoogleMapsView->addChild');
+            var self = this;
+            var markerView = new this.markerView({
+                model: childModel,
+                map: self.map
+            });
+
+            markerView.render();
         }
     });
 });

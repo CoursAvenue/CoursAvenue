@@ -82,6 +82,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             var value = e.currentTarget.getAttribute('data-value');
             this.collection.setQuery({ sort: value });
+            // invalidate the 'currentPage' so that changePage will work
+            // even if we are ALREADY on the first page...
+            // TODO: this is a lame way
+            this.collection.currentPage = -1;
 
             return this.changePage(this.collection.firstPage);
         },
