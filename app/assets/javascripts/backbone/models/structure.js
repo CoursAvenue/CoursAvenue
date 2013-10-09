@@ -30,23 +30,3 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         }
     });
 });
-
-FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _) {
-    Models.Location = Backbone.RelationalModel.extend({
-        relations: [
-            {
-              type: Backbone.HasMany,
-              key: 'places',
-              relatedModel: Models.Place,
-              includeInJSON: false, // when serializing Structure, we don't need this
-              // collectionType: Models.LocationCollection,
-              reverseRelation: {
-                  key: 'location' // place has a location
-              }
-            }
-        ],
-        initialize: function() {
-            console.log("Location->initialize");
-        }
-    });
-});
