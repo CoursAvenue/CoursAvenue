@@ -11,7 +11,7 @@ class LocationsController < ApplicationController
     end.results
 
     respond_to do |format|
-      format.json { render json: @locations, meta: { total: @locations.count }, each_serializer: LocationSerializer }
+      format.json { render json: @locations.to_json(include: [:city]) }
     end
   end
 
