@@ -36,7 +36,7 @@
           = gmaps( {markers: {data: [{lat: @city.latitude, lng: @city.longitude}].to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
         - else
           = gmaps( {markers: {data: @json_structure_addresses}, map_options: {mapTypeControl: false}})
-      .grid__item.two-fifths#comments>
+      .grid__item.two-fifths>
         - number_of_structure_rendered = 0
         - @structures.each do |structure|
           - break if number_of_structure_rendered == 7
@@ -52,11 +52,11 @@
       = link_to "Créer mon profil gratuit", inscription_pro_structures_url(subdomain: 'pro'), class: 'btn btn--green btn--large'
 
 
-  .main-container#medias
-    .alpha.text--center.push--ends La galerie
+  #medias.soft--bottom
+    .alpha.text--center.soft--ends La galerie
     .media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
       - @medias.select{|media| media.format == 'image'}.sample(20).each do |media|
-        .one-third.media__item.very-soft>
+        .one-quarter.media__item.very-soft{style: 'max-width: 450px'}>
           %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}
             = media.url_html
             %p.flush--bottom
@@ -66,70 +66,77 @@
                 \—
                 = media.mediable.name
 
-  .home-screen-promotion-wrapper
-    #planning.push--ends.main-container
-      .alpha.text--center.push--ends Les plannings du jours
-      - @plannings.each
-      - all_level_courses, beginner_courses, intermediate_courses, experimented_courses = [], [], [], []
-      - @plannings.each do |planning|
-        - if planning.audience_ids.include?(Level::BEGINNER.id) or planning.audience_ids.include?(Level::INITIATION.id)
-          - beginner_courses << planning.course
-        - elsif planning.audience_ids.include? Level.id::INTERMEDIATE
-          - intermediate_courses << planning.course
-        - elsif planning.audience_ids.include?(Level::CONFIRMED.id) or planning.audience_ids.include?(Level::PROFESSIONAL.id)
-          - experimented_courses << planning.course
-        - else
-          - all_level_courses << planning.course
+  .home-screen-promotion-wrapper.push--top
+    #comments
+      .alpha.text--center.soft--ends Les témoignages
+      %ul.no-bullet-list.media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
+        - @structures.select{|s| s.comments_count > 0}.sample(20).each do |structure|
+          .one-third.media__item.very-soft>
+            = render partial: 'comments/comment', locals: {comment: structure.comments.last, with_link: true}
 
-      .gamma Pour les débutant
-      %table.table--striped.table--data.white-box#dataTable
-        %thead
-          %tr
-            %th Nom du cours
-            %th Donné par
-        %tbody
-          - beginner_courses.uniq.each do |course|
-            %tr
-              %td= link_to course.name, structure_course_path(course.structure, course)
-              %td= link_to course.structure.name, structure_path(course.structure)
+    -# #planning.push--ends.main-container
+    -#   .alpha.text--center.soft--ends Les plannings du jours
+    -#   - @plannings.each
+    -#   - all_level_courses, beginner_courses, intermediate_courses, experimented_courses = [], [], [], []
+    -#   - @plannings.each do |planning|
+    -#     - if planning.audience_ids.include?(Level::BEGINNER.id) or planning.audience_ids.include?(Level::INITIATION.id)
+    -#       - beginner_courses << planning.course
+    -#     - elsif planning.audience_ids.include? Level.id::INTERMEDIATE
+    -#       - intermediate_courses << planning.course
+    -#     - elsif planning.audience_ids.include?(Level::CONFIRMED.id) or planning.audience_ids.include?(Level::PROFESSIONAL.id)
+    -#       - experimented_courses << planning.course
+    -#     - else
+    -#       - all_level_courses << planning.course
 
-      %hr
-      .gamma Pour les intermédiaires
-      %table.table--striped.table--data.white-box#dataTable
-        %thead
-          %tr
-            %th Nom du cours
-            %th Donné par
-        %tbody
-          - intermediate_courses.uniq.each do |course|
-            %tr
-              %td= link_to course.name, structure_course_path(course.structure, course)
-              %td= link_to course.structure.name, structure_path(course.structure)
+    -#   .gamma Pour les débutant
+    -#   %table.table--striped.table--data.white-box#dataTable
+    -#     %thead
+    -#       %tr
+    -#         %th Nom du cours
+    -#         %th Donné par
+    -#     %tbody
+    -#       - beginner_courses.uniq.each do |course|
+    -#         %tr
+    -#           %td= link_to course.name, structure_course_path(course.structure, course)
+    -#           %td= link_to course.structure.name, structure_path(course.structure)
 
-      %hr
-      .gamma Pour les plus avancés
-      %table.table--striped.table--data.white-box#dataTable
-        %thead
-          %tr
-            %th Nom du cours
-            %th Donné par
-        %tbody
-          - experimented_courses.uniq.each do |course|
-            %tr
-              %td= link_to course.name, structure_course_path(course.structure, course)
-              %td= link_to course.structure.name, structure_path(course.structure)
-      %hr
-      .gamma Et pour tous le monde !
-      %table.table--striped.table--data.white-box#dataTable
-        %thead
-          %tr
-            %th Nom du cours
-            %th Donné par
-        %tbody
-          - all_level_courses.uniq.each do |course|
-            %tr
-              %td= link_to course.name, structure_course_path(course.structure, course)
-              %td= link_to course.structure.name, structure_path(course.structure)
+    -#   %hr
+    -#   .gamma Pour les intermédiaires
+    -#   %table.table--striped.table--data.white-box#dataTable
+    -#     %thead
+    -#       %tr
+    -#         %th Nom du cours
+    -#         %th Donné par
+    -#     %tbody
+    -#       - intermediate_courses.uniq.each do |course|
+    -#         %tr
+    -#           %td= link_to course.name, structure_course_path(course.structure, course)
+    -#           %td= link_to course.structure.name, structure_path(course.structure)
+
+    -#   %hr
+    -#   .gamma Pour les plus avancés
+    -#   %table.table--striped.table--data.white-box#dataTable
+    -#     %thead
+    -#       %tr
+    -#         %th Nom du cours
+    -#         %th Donné par
+    -#     %tbody
+    -#       - experimented_courses.uniq.each do |course|
+    -#         %tr
+    -#           %td= link_to course.name, structure_course_path(course.structure, course)
+    -#           %td= link_to course.structure.name, structure_path(course.structure)
+    -#   %hr
+    -#   .gamma Et pour tous le monde !
+    -#   %table.table--striped.table--data.white-box#dataTable
+    -#     %thead
+    -#       %tr
+    -#         %th Nom du cours
+    -#         %th Donné par
+    -#     %tbody
+    -#       - all_level_courses.uniq.each do |course|
+    -#         %tr
+    -#           %td= link_to course.name, structure_course_path(course.structure, course)
+    -#           %td= link_to course.structure.name, structure_path(course.structure)
 
 = content_for :scripts do
   :javascript

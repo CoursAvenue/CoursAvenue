@@ -270,6 +270,9 @@
                 return false;
             });
         }
+        if (window.location.hash.length > 0) {
+            $('[href=' + window.location.hash + ']').click();
+        }
         $('[href=#tab-medias]').click(function(){
             setTimeout(function(){
               $('.media-gallery').masonry({ itemSelector: '.media__item' });

@@ -12,4 +12,4 @@
           %i Écrit par #{comment.author_name.titleize} le #{l(comment.created_at, format: :date)}
           - if structure.comments_count and structure.comments_count > 2
             %br
-            = link_to "Voir les #{structure.comments_count - 1} autres avis", structure_path(structure), target: '_blank'
+            = link_to "Voir les #{structure.comments_count - 1} autres avis", structure_path(structure, anchor: 'tab-comments'), target: '_blank'
