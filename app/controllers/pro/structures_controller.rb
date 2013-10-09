@@ -230,15 +230,16 @@ class Pro::StructuresController < Pro::ProController
     s_name      = params[:structure][:name]
     s_zip_code  = params[:structure][:zip_code]
     @structure  = Structure.where{(name == s_name) & (zip_code == s_zip_code)}.first
+    # Used for showing side structure list on new action
     @structures = Structure.where{(image_updated_at != nil) & (comments_count != nil)}.order('comments_count DESC').limit(3)
-    place_name = params[:structure][:location].delete :name
     params[:structure].delete :location
     if @structure.nil?
       @structure = Structure.new params[:structure]
     end
     respond_to do |format|
-      if !@structure.new_record? or @structure.save
-        @structure.create_place(place_name) unless @structure.places.any?
+      if @structure.new_record? and @structure.save
+        @place_name = params[:structure][:location].delete :name
+        @structure.create_place(@place_name) unless @structure.places.any?
         session[:id] = @structure.id
         format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitation, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
       else

@@ -95,7 +95,7 @@ class Structure < ActiveRecord::Base
   validates :street             , :presence   => true, on: :create
   validates :zip_code           , :presence   => true, numericality: { only_integer: true }, on: :create
   validates :city               , :presence   => true, on: :create
-  validate  :subject_parent_and_children
+  validate :subject_parent_and_children
 
 
   # -------------------- Callbacks
