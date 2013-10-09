@@ -1,5 +1,11 @@
-<div id="search-results">
-    {{#each widget}}
-        <div id="{{ id }}" data-type="widget"></div>
-    {{/each}}
+<div class="grid stickem-container relative">
+    <section id="widgets-container" class="grid__item four-tenths visuallyhidden--lap visuallyhidden--palm stickem absolute">
+        {{#each widget}}
+            <div id="{{ id }}" data-type="widget"></div>
+        {{/each}}
+    </section>
+
+    <section id="search-results" class="filtered-select grid__item six-tenths lap--one-whole palm--one-whole push--desk--four-tenths course-list">
+
+    </section>
 </div>

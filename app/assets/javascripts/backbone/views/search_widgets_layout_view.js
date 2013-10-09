@@ -26,7 +26,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.listenTo(this[region_name], 'show', showHandler);
 
             /* attach the region element to the Layout and show */
-            $region_hook.appendTo(this.$el);
+            $region_hook.appendTo(this.$el.find('#widgets-container'));
             new_region.show(view);
         },
 

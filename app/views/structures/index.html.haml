@@ -16,7 +16,7 @@
 #filtered-search
 .grid.stickem-container.relative{ :data => { :type => "filtered-search-root" }}
   %section.grid__item.four-tenths.visuallyhidden--lap.visuallyhidden--palm.stickem.absolute>
-    = render 'side_search_form'
+    //= render 'side_search_form'
   %section.grid__item.six-tenths.lap--one-whole.palm--one-whole.push--desk--four-tenths.course-list>
     %ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
       %li= link_to 'Tous les établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])

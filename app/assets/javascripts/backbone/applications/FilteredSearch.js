@@ -49,9 +49,9 @@ FilteredSearch.addRegions({
     mainRegion: '#filtered-search'
 });
 
-FilteredSearch.addInitializer(function(options){
+FilteredSearch.addInitializer(function(options) {
     console.log("FilteredSearch->addInitializer");
-    var bootstrap, structures, structures_view, layout;
+    var bootstrap, structures, structures_view, layout, maps_view;
 
     // Scrape all the json from the filtered-search-bootstrap
     /* TODO this is teh uuuugly code */
@@ -75,29 +75,24 @@ FilteredSearch.addInitializer(function(options){
     /* set up the layouts */
     layout = new FilteredSearch.Views.SearchWidgetsLayout();
 
-    bob = new FilteredSearch.Views.StructureView({});
-    jill = new FilteredSearch.Views.StructureView({});
+    google_maps_view = new FilteredSearch.Views.GoogleMapsView();
 
     FilteredSearch.mainRegion.show(layout);
     layout.results.show(structures_view);
 
     /* we can add a widget along with a callback to be used
     * for setup */
-    layout.showWidget(bob, function (view) {
-        console.log("EVENT  onBobShow");
+    layout.showWidget(google_maps_view, function (view) {
+        console.log("EVENT  onMapsViewShow");
 
         /* right now, the callback is mainly for attaching listeners to
         * the layout (this) */
-        this.listenTo(view, 'bob:power', function (e) {
-            console.log("EVENT  WHAT CLICKERY IS THIS!?");
+        this.listenTo(view, 'change', function (e) {
+            console.log("EVENT  google_maps_view changed");
             e.preventDefault();
             return false;
         })
-    }, 'bob'); // we can pass an optional 'name' for the region
-
-    layout.showWidget(jill, function (view) {
-        console.log("EVENT  onStructureViewShow");
-    }); // or no name for the region, in which case it will be named after the view
+    }); // we can pass an optional 'name' for the region
 
     /* Later:
     * layout.widgets.show(pagination_tool_view);
