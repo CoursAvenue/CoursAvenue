@@ -7,7 +7,7 @@
       .grid__item.nine-twelfths.soft-half>
         %p.push-half--bottom{itemprop: 'author'}
           = link_to structure_path(structure), target: '_blank' do
-            %b= truncate structure.name, length: 40
+            %b= truncate structure.name, length: 55
         %p.flush
           %b.quoted{itemprop: 'headline', content: comment.title.capitalize}= "#{comment.title.capitalize}"
         %p.flush.text--right

@@ -1,5 +1,7 @@
 # encoding: utf-8
 class Place < ActiveRecord::Base
+  acts_as_paranoid
+
   belongs_to :location
   belongs_to :structure
 
