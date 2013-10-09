@@ -55,23 +55,19 @@
   #medias.soft--bottom
     .alpha.text--center.soft--ends La galerie
     .media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
-      - @medias.select{|media| media.format == 'image'}.sample(20).each do |media|
+      - @medias.select{|media| media.format == 'image'}.sample(25).each do |media|
         .one-quarter.media__item.very-soft{style: 'max-width: 450px'}>
           %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}
             = media.url_html
-            %p.flush--bottom
-              %i
-                - if media.caption.present?
-                  = media.caption
-                \—
-                = media.mediable.name
+            %p.flush--bottom.text--right
+              = media.mediable.name
 
   .home-screen-promotion-wrapper.push--top
     #comments
       .alpha.text--center.soft--ends Les témoignages
-      %ul.no-bullet-list.media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
+      %ul.no-bullet-list.js-masonry{'data-masonry-options' => '{ "itemSelector": ".comment_masonry__item" }'}
         - @structures.select{|s| s.comments_count > 0}.sample(20).each do |structure|
-          .one-third.media__item.very-soft>
+          .one-third.very-soft.comment_masonry__item>
             = render partial: 'comments/comment', locals: {comment: structure.comments.last, with_link: true}
 
     -# #planning.push--ends.main-container
