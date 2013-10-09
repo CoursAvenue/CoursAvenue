@@ -1,6 +1,9 @@
+= content_for :title do
+  = "Tous les cours de #{@subject.name.downcase} à #{@city.name}"
+
 = content_for :above_container do
   .main-container
-    %h2= @subject.name
+    %h2= "Tous les cours de #{@subject.name.downcase} à #{@city.name}"
     .grid.push--bottom
       .grid__item.one-third>
         .white-box.soft.text--center
@@ -8,22 +11,22 @@
             = @plannings.count
             cours
           %p.flush
-            %a{href: '#planning'} Voir tous les plannings
+            %a{href: '#cours', data: {behavior: 'scroller'}} Voir tous les cours
       .grid__item.one-third>
         .white-box.soft.text--center
           %h2.flush
             = @structures.map(&:comments).flatten.count
-            avis
+            recommandations
           %p.flush
-            %a{href: '#comments'} Voir les avis
+            %a{href: '#comments', data: {behavior: 'scroller'}} Voir les témoignages
 
       .grid__item.one-third>
         .white-box.soft.text--center
           %h2.flush
             = @medias.count
-            Photos & vidéos
+            photos & vidéos
           %p.flush
-            %a{href: '#medias'} Voir les photos et vidéos
+            %a{href: '#medias', data: {behavior: 'scroller'}} Voir la galerie photos
 
     :css
       .gmaps4rails_map {
@@ -39,21 +42,21 @@
       .grid__item.two-fifths>
         - number_of_structure_rendered = 0
         - @structures.each do |structure|
-          - break if number_of_structure_rendered == 7
+          - break if number_of_structure_rendered == 6
           - comment = structure.comments.where{(title != nil) & (title != '')}.first
           - if comment
             - number_of_structure_rendered += 1
             = render partial: 'structures/structure_with_comment', locals: {structure: structure, comment: comment}
-        = link_to 'Voir les autres profil', subject_structures_path(@subject, address_name: @city.name, latitude: @city.latitude, longitude: @city.longitude), class: 'btn btn--full'
+        = link_to 'Voir les autres profils', subject_structures_path(@subject, address_name: @city.name, latitude: @city.latitude, longitude: @city.longitude), class: 'btn btn--full btn--large', target: '_blank'
 
   .home-screen-promotion-wrapper
     .main-container.text--center
-      .alpha.push--ends Vous aussi, faite partie de la communauté CoursAvenue !
-      = link_to "Créer mon profil gratuit", inscription_pro_structures_url(subdomain: 'pro'), class: 'btn btn--green btn--large'
+      .alpha.push--ends Rejoignez gratuitement la communauté CoursAvenue
+      = link_to "Créer mon profil gratuit", inscription_pro_structures_url(subdomain: 'pro'), class: 'btn btn--green btn--large', target: '_blank'
 
 
   #medias.soft--bottom
-    .alpha.text--center.soft--ends La galerie
+    .alpha.text--center.soft--ends La galerie photos
     .media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
       - @medias.select{|media| media.format == 'image'}.sample(25).each do |media|
         .one-quarter.media__item.very-soft{style: 'max-width: 450px'}>
@@ -61,81 +64,77 @@
             = media.url_html
             %p.flush--bottom.text--right
               = media.mediable.name
+    .text--center.push--top
+      = link_to 'Accéder à la galerie vidéo', videos_subject_city_medias_path(@subject, @city), class: 'btn btn--large btn--blue'
 
   .home-screen-promotion-wrapper.push--top
     #comments
-      .alpha.text--center.soft--ends Les témoignages
+      .alpha.text--center.soft--ends Tous les témoignages des élèves
       %ul.no-bullet-list.js-masonry{'data-masonry-options' => '{ "itemSelector": ".comment_masonry__item" }'}
         - @structures.select{|s| s.comments_count > 0}.sample(20).each do |structure|
           .one-third.very-soft.comment_masonry__item>
             = render partial: 'comments/comment', locals: {comment: structure.comments.last, with_link: true}
 
-    -# #planning.push--ends.main-container
-    -#   .alpha.text--center.soft--ends Les plannings du jours
-    -#   - @plannings.each
-    -#   - all_level_courses, beginner_courses, intermediate_courses, experimented_courses = [], [], [], []
-    -#   - @plannings.each do |planning|
-    -#     - if planning.audience_ids.include?(Level::BEGINNER.id) or planning.audience_ids.include?(Level::INITIATION.id)
-    -#       - beginner_courses << planning.course
-    -#     - elsif planning.audience_ids.include? Level.id::INTERMEDIATE
-    -#       - intermediate_courses << planning.course
-    -#     - elsif planning.audience_ids.include?(Level::CONFIRMED.id) or planning.audience_ids.include?(Level::PROFESSIONAL.id)
-    -#       - experimented_courses << planning.course
-    -#     - else
-    -#       - all_level_courses << planning.course
-
-    -#   .gamma Pour les débutant
-    -#   %table.table--striped.table--data.white-box#dataTable
-    -#     %thead
-    -#       %tr
-    -#         %th Nom du cours
-    -#         %th Donné par
-    -#     %tbody
-    -#       - beginner_courses.uniq.each do |course|
-    -#         %tr
-    -#           %td= link_to course.name, structure_course_path(course.structure, course)
-    -#           %td= link_to course.structure.name, structure_path(course.structure)
-
-    -#   %hr
-    -#   .gamma Pour les intermédiaires
-    -#   %table.table--striped.table--data.white-box#dataTable
-    -#     %thead
-    -#       %tr
-    -#         %th Nom du cours
-    -#         %th Donné par
-    -#     %tbody
-    -#       - intermediate_courses.uniq.each do |course|
-    -#         %tr
-    -#           %td= link_to course.name, structure_course_path(course.structure, course)
-    -#           %td= link_to course.structure.name, structure_path(course.structure)
-
-    -#   %hr
-    -#   .gamma Pour les plus avancés
-    -#   %table.table--striped.table--data.white-box#dataTable
-    -#     %thead
-    -#       %tr
-    -#         %th Nom du cours
-    -#         %th Donné par
-    -#     %tbody
-    -#       - experimented_courses.uniq.each do |course|
-    -#         %tr
-    -#           %td= link_to course.name, structure_course_path(course.structure, course)
-    -#           %td= link_to course.structure.name, structure_path(course.structure)
-    -#   %hr
-    -#   .gamma Et pour tous le monde !
-    -#   %table.table--striped.table--data.white-box#dataTable
-    -#     %thead
-    -#       %tr
-    -#         %th Nom du cours
-    -#         %th Donné par
-    -#     %tbody
-    -#       - all_level_courses.uniq.each do |course|
-    -#         %tr
-    -#           %td= link_to course.name, structure_course_path(course.structure, course)
-    -#           %td= link_to course.structure.name, structure_path(course.structure)
+  .soft--bottom#cours.main-container
+    .alpha.text--center.soft--ends Tous les cours
+    %table.table--striped.table--data.white-box#dataTable
+      %thead
+        %tr
+          %th Nom du cours
+          %th Donné par
+          %th Niveau
+          %th.text--center.nowrap Nbre de séances
+          %th.text--right.nowrap à partir de
+      %tbody
+        - @courses = @structures.map(&:courses).flatten
+        - @courses.each do |course|
+          %tr
+            %td= link_to course.name, structure_course_path(course.structure, course)
+            %td= link_to course.structure.name, structure_path(course.structure)
+            %td
+              = join_levels(course.plannings.collect(&:levels).flatten.uniq.sort_by(&:order))
+            %td.text--center= course.plannings.count
+            %td.text--right
+              - if course.best_price
+                = "#{readable_amount course.best_price.amount}€".html_safe
 
 = content_for :scripts do
   :javascript
     $(function() {
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
+        $('[data-behavior=scroller]').click(function(){
+            var href = $(this).attr('href');
+            // $.scrollTo(href, {duration: 600, easing: 'easeOutQuint'});
+            $.scrollTo(href, {duration: 600, easing: 'easeInOutCubic'});
+            setTimeout(function(){
+                window.location.hash = href;
+            }, 600)
+            return false;
+        })
+        // Handle gmaps clicks
+        var structure_path = "#{structure_path('__ID__')}";
+        Gmaps.map.callback = function() {
+            for (var i = 0; i <  this.markers.length; ++i) {
+                google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
+                    window.open(structure_path.replace('__ID__', this.structure_slug));
+                }.bind(Gmaps.map.markers[i]));
+            }
+        };
+        $('[data-type=structure-element]').hover(function(event) {
+            var location_ids = $(this).data('location-ids').toString().split(' ');
+            $.each(Gmaps.map.markers, function(index, marker){
+                if (location_ids.indexOf(marker.id.toString()) !== -1) {
+                    var service_object = marker.serviceObject;
+                    service_object.setContent($(service_object.getContent()).addClass('active')[0].outerHTML);
+                }
+            });
+        }, function() {
+            var location_ids = $(this).data('location-ids').toString().split(' ');
+            $.each(Gmaps.map.markers, function(index, marker){
+                if (location_ids.indexOf(marker.id.toString()) !== -1) {
+                    var service_object = marker.serviceObject;
+                    service_object.setContent($(service_object.getContent()).removeClass('active')[0].outerHTML);
+                }
+            });
+        });
     });

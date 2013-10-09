@@ -1,15 +1,16 @@
-.white-box.push-half--bottom{id: "recommantation-#{comment.id}"}
+.white-box.push-half--bottom{data: {"location-ids" => structure.locations.map(&:id).join(' '), type: 'structure-element'}}
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
     .grid--full
       .grid__item.three-twelfths.text--center>
         = link_to structure_path(structure) do
           = image_tag structure.logo.url(:thumb), class: 'block'
       .grid__item.nine-twelfths.soft-half>
-        %h6.push-half--bottom{itemprop: 'author'}= structure.name
+        %p.push-half--bottom{itemprop: 'author'}
+          = link_to structure_path(structure, anchor: 'tab-comments'), target: '_blank' do
+            %b= truncate structure.name, length: 40
+          - if structure.comments_count and structure.comments_count > 2
+            %i= "(#{structure.comments_count} avis)"
         %p.flush
           %b.quoted{itemprop: 'headline', content: comment.title.capitalize}= "#{comment.title.capitalize}"
         %p.flush.text--right
           %i Écrit par #{comment.author_name.titleize} le #{l(comment.created_at, format: :date)}
-          - if structure.comments_count and structure.comments_count > 2
-            %br
-            = link_to "Voir les #{structure.comments_count - 1} autres avis", structure_path(structure, anchor: 'tab-comments'), target: '_blank'

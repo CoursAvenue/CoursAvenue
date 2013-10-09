@@ -32,7 +32,10 @@ class Subjects::CitiesController < ApplicationController
                       :rich_marker   => "<div class='map-marker-image disabled' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'></a></div>"
                      })
       marker.title   location.name
-      marker.json({ id: location.id })
+      marker.json({
+        id: location.id,
+        structure_slug: location.structures.first.slug
+      })
     end
 
   end
