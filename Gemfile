@@ -109,6 +109,9 @@ gem 'roadie', '~> 2.4.1'
 gem 'railsy_backbone'
 # Includes Backbone Marionette
 gem 'marionette-rails'
+# Includes bacbone.relational
+gem 'backbone-relational-rails'
+
 
 group :assets do
   gem 'handlebars_assets'
@@ -154,7 +157,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'debugger'
+  # gem 'debugger' # this is causing problems for Andre
   # Permits to travel in the past
   gem 'delorean'
 end
