@@ -120,6 +120,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 success: function () {
                     console.log("EVENT  PaginatedCollection->changePage->success")
                     self.render();
+                    self.trigger('paginator:updated', this);
                 }
             });
 

@@ -1,4 +1,7 @@
 
+/* TODO think about how the map will update when elements are removed or
+* added. We need to do things like clear the map, and emit events when
+* the map bounds are changed. ETC */
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
     Views.BlankView = Marionette.ItemView.extend({ template: "" });
 
@@ -37,6 +40,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 self.map.setCenter(mapOptions.center);
                 google.maps.event.trigger(self.map, 'resize');
             });
+        },
+
+        updateMap: function() {
+            console.log("GoogleMapsView->updateMap");
         },
 
         appendHtml: function(collectionView, itemView, index){

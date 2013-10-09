@@ -88,10 +88,14 @@ FilteredSearch.addInitializer(function(options) {
         console.log("EVENT  onMapsViewShow");
 
         /* right now, the callback is mainly for attaching listeners to
-        * the layout (this) */
-        this.listenTo(view, 'change', function (e) {
-            console.log("EVENT  google_maps_view changed");
+        * the layout (this) TODO this direction is still pretty ugly */
+        this.listenTo(view, 'map:boundsChanged', function (e) {
+            console.log("EVENT  GoogleMapsView->boundsChanged");
             e.preventDefault();
+
+            /* calls a method on the main region to deal with the event*/
+            this.mainRegion.currentView.boundsChanged();
+
             return false;
         })
     }); // we can pass an optional 'name' for the region

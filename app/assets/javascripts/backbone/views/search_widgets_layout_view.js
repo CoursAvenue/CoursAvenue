@@ -51,17 +51,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         onResultsShow: function(view) {
             console.log('EVENT  SearchWidgetLayout->onResultsShow');
 
-            this.listenTo(view, 'graph:selected', this.wat);
+            this.listenTo(view, 'paginator:updated', this.updateMap);
         },
 
-        wat: function() {
-            console.log('EVENT  SearchWidgetLayout->WAT');
-        },
-
-        onShow: function(region) {
-            console.log('EVENT  SearchWidgetLayout->onShow');
+        updateMap: function() {
+            console.log('EVENT  SearchWidgetLayout->updateMap');
+            this.google_maps_view.currentView.updateMap();
         }
-
     });
 });
 
