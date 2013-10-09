@@ -4,7 +4,7 @@ class StructureSerializer < ActiveModel::Serializer
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
              :logo_present, :logo_url, :parent_subjects_text, :parent_subjects, :child_subjects, :data_url,
              :subjects_count, :too_many_subjects, :subjects
-  has_many :locations
+  has_many :places
 
   def logo_present
     object.logo.present?
