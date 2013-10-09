@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131009081941) do
+ActiveRecord::Schema.define(:version => 20131009122537) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -263,7 +263,10 @@ ActiveRecord::Schema.define(:version => 20131009081941) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.time     "deleted_at"
+    t.string   "format"
   end
+
+  add_index "medias", ["format"], :name => "index_medias_on_format"
 
   create_table "participants", :force => true do |t|
     t.string   "first_name"

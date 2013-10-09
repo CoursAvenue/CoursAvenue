@@ -1,12 +1,10 @@
 = side_menu_currently_at 'Structures'
 
-%table.table--striped.table--data#dataTable
+%table.table--white.table--striped.table--data#dataTable
   %thead
     %tr
       %th
         %span Nom
-      %th
-        %span Nombre de cours
       %th.sortAsc
         %span Date de création
       %th
@@ -18,10 +16,9 @@
           - if structure.main_contact
             \/
             = link_to "(#{structure.main_contact.name})", edit_pro_admin_path(structure.main_contact)
-        %td= structure.courses.count
         %td{data: {value: structure.created_at}}
           = l(structure.created_at)
-        %td.text--right
+        %td.text--right.nowrap
           - if structure.active
             = link_to 'Actif', disable_pro_structure_path(structure), method: :put, class: 'switch-button on', title: 'Désactiver'
           - else
