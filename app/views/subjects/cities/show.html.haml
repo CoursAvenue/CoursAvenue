@@ -2,31 +2,31 @@
   = "Tous les cours de #{@subject.name.downcase} à #{@city.name}"
 
 = content_for :above_container do
-  .main-container
-    %h2= "Tous les cours de #{@subject.name.downcase} à #{@city.name}"
+  .soft
+    %h2.alpha.weight-normal.text--center= "Tous les cours de #{@subject.name.downcase} à #{@city.name}"
     .grid.push--bottom
       .grid__item.one-third>
         .white-box.soft.text--center
-          %h2.flush
+          .beta
             = @plannings.count
             cours
           %p.flush
             %a{href: '#cours', data: {behavior: 'scroller'}} Voir tous les cours
       .grid__item.one-third>
         .white-box.soft.text--center
-          %h2.flush
+          .beta
             = @structures.map(&:comments).flatten.count
             recommandations
           %p.flush
-            %a{href: '#comments', data: {behavior: 'scroller'}} Voir les témoignages
+            %a{href: '#recommandations', data: {behavior: 'scroller'}} Voir les témoignages
 
       .grid__item.one-third>
         .white-box.soft.text--center
-          %h2.flush
+          .beta
             = @medias.count
             photos & vidéos
           %p.flush
-            %a{href: '#medias', data: {behavior: 'scroller'}} Voir la galerie photos
+            %a{href: '#galerie-photos', data: {behavior: 'scroller'}} Voir la galerie photos
 
     :css
       .gmaps4rails_map {
@@ -55,8 +55,10 @@
       = link_to "Créer mon profil gratuit", inscription_pro_structures_url(subdomain: 'pro'), class: 'btn btn--green btn--large', target: '_blank'
 
 
-  #medias.soft--bottom
-    .alpha.text--center.soft--ends La galerie photos
+  #galerie-photos.soft--bottom
+    .soft--ends.text--center
+      .alpha La galerie photos
+      %p.flush= link_to 'Accéder à la galerie vidéo', videos_subject_city_medias_path(@subject, @city)
     .media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
       - @medias.select{|media| media.format == 'image'}.sample(25).each do |media|
         .one-quarter.media__item.very-soft{style: 'max-width: 450px'}>
@@ -68,15 +70,15 @@
       = link_to 'Accéder à la galerie vidéo', videos_subject_city_medias_path(@subject, @city), class: 'btn btn--large btn--blue'
 
   .home-screen-promotion-wrapper.push--top
-    #comments
-      .alpha.text--center.soft--ends Tous les témoignages des élèves
+    #recommandations
+      .alpha.text--center.soft--ends Les élèves recommandent leur cours
       %ul.no-bullet-list.js-masonry{'data-masonry-options' => '{ "itemSelector": ".comment_masonry__item" }'}
-        - @structures.select{|s| s.comments_count > 0}.sample(20).each do |structure|
+        - @structures.select{|s| s.comments_count > 0}.sample(25).each do |structure|
           .one-third.very-soft.comment_masonry__item>
             = render partial: 'comments/comment', locals: {comment: structure.comments.last, with_link: true}
 
   .soft--bottom#cours.main-container
-    .alpha.text--center.soft--ends Tous les cours
+    %h2.weight-normal.alpha.flush.text--center.soft--ends Tous les cours de #{@subject.name.downcase}
     %table.table--striped.table--data.white-box#dataTable
       %thead
         %tr
@@ -86,7 +88,7 @@
           %th.text--center.nowrap Nbre de séances
           %th.text--right.nowrap à partir de
       %tbody
-        - @courses = @structures.map(&:courses).flatten
+        - @courses = @structures.sort_by(&:name).map(&:courses).flatten
         - @courses.each do |course|
           %tr
             %td= link_to course.name, structure_course_path(course.structure, course)
@@ -97,6 +99,8 @@
             %td.text--right
               - if course.best_price
                 = "#{readable_amount course.best_price.amount}€".html_safe
+              - else
+                \-
 
 = content_for :scripts do
   :javascript
@@ -104,7 +108,6 @@
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
         $('[data-behavior=scroller]').click(function(){
             var href = $(this).attr('href');
-            // $.scrollTo(href, {duration: 600, easing: 'easeOutQuint'});
             $.scrollTo(href, {duration: 600, easing: 'easeInOutCubic'});
             setTimeout(function(){
                 window.location.hash = href;
