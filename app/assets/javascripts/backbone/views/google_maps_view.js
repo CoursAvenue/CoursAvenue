@@ -1,19 +1,22 @@
+
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+    Views.BlankView = Marionette.ItemView.extend({ template: "" });
 
     Views.GoogleMapsView = Marionette.CompositeView.extend({
         template: 'backbone/templates/google_maps_view',
         id: 'map-container',
+        itemView: Views.BlankView,
         markerView: Backbone.GoogleMaps.MarkerView,
 
         initialize: function(options) {
+            console.log("GoogleMapsView->initialize");
             var mapOptions = {
                 center: new google.maps.LatLng(-34.397, 150.644),
                 zoom: 8,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
 
-            var mapView = new Marionette.ItemView({
-                template: 'backbone/templates/_google_maps_view',
+            var mapView = new Views.BlankView({
                 id: 'map',
                 attributes: {
                     'class': 'map_container'
@@ -37,6 +40,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         appendHtml: function(collectionView, itemView, index){
+            console.log('GoogleMapsView->appendHtml');
             this.addChild(itemView.model);
         },
 

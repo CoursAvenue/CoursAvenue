@@ -71,6 +71,7 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     structures.bootstrap();
+    window.pfaff = structures;
     places = Backbone.Relational.store.getCollection(FilteredSearch.Models.Place);
 
     /* set up the layouts */
@@ -104,7 +105,6 @@ FilteredSearch.addInitializer(function(options) {
     * emitted from widgets and received by the search */
 
     // Invoke the bootstrap function
-    window.pfaff = structures;
 });
 
 $(document).ready(function() {
