@@ -7,6 +7,8 @@
 //= require_tree ./templates
 
 //---------- Models
+//= require ./models/location
+//= require ./models/place
 //= require ./models/structure
 //= require ./models/paginated_collection
 
