@@ -279,8 +279,7 @@ class Structure < ActiveRecord::Base
   end
 
   def update_comments_count
-    self.comments_count = self.comments.accepted.count
-    self.save
+    self.update_column :comments_count, self.comments.accepted.count
   end
 
   def contact_email
