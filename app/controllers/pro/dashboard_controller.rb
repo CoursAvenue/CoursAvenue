@@ -8,14 +8,19 @@ class Pro::DashboardController < Pro::ProController
     @admins   = Admin  .where{created_at > Date.today - 1.months}.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
     @comments = Comment.where{created_at > Date.today - 1.months}.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
 
-    _structures = Structure.joins{admins}.joins{subjects}.count(:group => ["subjects.id"])
-    @structures = {}
-    _structures.each do |key, value|
-      subj = Subject.find(key)
-      if subj.grand_parent
-        @structures[subj.grand_parent.name] = (@structures[subj.grand_parent.name] || 0) + value
-      else
-        @structures[subj.name] = value
+    @admins_weekly   = Admin  .where{created_at > Date.today - 3.months}.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
+    @comments_weekly = Comment.where{created_at > Date.today - 3.months}.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
+
+    if params[:with_subjects].present?
+      _structures = Structure.joins{admins}.joins{subjects}.count(:group => ["subjects.id"])
+      @structures = {}
+      _structures.each do |key, value|
+        subj = Subject.find(key)
+        if subj.grand_parent
+          @structures[subj.grand_parent.name] = (@structures[subj.grand_parent.name] || 0) + value
+        else
+          @structures[subj.name] = value
+        end
       end
     end
     dates = (2.month.ago.to_date..Date.today).step
@@ -32,7 +37,7 @@ class Pro::DashboardController < Pro::ProController
     @comments  = hash_of_days.merge @comments
     @admins    = hash_of_days.merge @admins
 
-    @students = Student.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
+    @students = Student.where{created_at > Date.today - 2.month}.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
     @users    = User   .count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
     @medias   = Media  .count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
   end
