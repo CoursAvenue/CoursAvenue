@@ -56,7 +56,7 @@
                     success: function(cities) {
                         this.select_element.empty();
                         var select_el = this.select_element;
-                        $.each(cities.cities, function(index, city) {
+                        $.each(cities, function(index, city) {
                             select_el.append(new Option(city.name, city.id));
                         });
                     }.bind(this)

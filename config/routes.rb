@@ -7,25 +7,25 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: 'pro' do
     namespace :pro, path: '' do
       root :to => 'home#index'
-      match 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
-      match 'pages/presentation'                  => 'home#presentation'
-      match 'pages/questions-les-plus-frequentes' => 'home#questions',          as: 'pages_questions'
-      match 'pages/offre-et-tarifs'               => 'home#price',              as: 'pages_price'
-      match 'pages/nos-convictions'               => 'home#convictions',        as: 'pages_convictions'
-      match 'pages/presse'                        => 'home#press',              as: 'pages_press'
-      match '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
+      get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
+      get 'pages/presentation'                  => 'home#presentation'
+      get 'pages/questions-les-plus-frequentes' => 'home#questions',          as: 'pages_questions'
+      get 'pages/offre-et-tarifs'               => 'home#price',              as: 'pages_price'
+      get 'pages/nos-convictions'               => 'home#convictions',        as: 'pages_convictions'
+      get 'pages/presse'                        => 'home#press',              as: 'pages_press'
+      get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
       # 301 Redirection
-      match 'etablissements/demande-de-recommandations', to: 'redirect#structures_new'
-      match 'inscription'                              , to: 'structures#new'
-      match 'sms'                                      , to: 'structures#new'
+      get 'etablissements/demande-de-recommandations', to: 'redirect#structures_new'
+      get 'inscription'                              , to: 'structures#new'
+      get 'sms'                                      , to: 'structures#new'
 
-      match 'tableau-de-bord'                          , to: 'redirect#structure_dashboard', as: 'structure_dashboard_redirect'
-      match 'modifier-mon-profil'                      , to: 'redirect#structure_edit',      as: 'structure_edit_redirect'
+      get 'tableau-de-bord'                          , to: 'redirect#structure_dashboard', as: 'structure_dashboard_redirect'
+      get 'modifier-mon-profil'                      , to: 'redirect#structure_edit',      as: 'structure_edit_redirect'
 
 
       resources :comments, only: [:edit, :update, :index, :destroy] do
         member do
-          put :recover
+          patch :recover
         end
       end
       resources :subjects
@@ -38,8 +38,8 @@ CoursAvenue::Application.routes.draw do
           get  :flyer
           get  :signature
           get  :dashboard, path: 'tableau-de-bord'
-          put  :activate
-          put  :disable
+          patch  :activate
+          patch  :disable
           get  :recommendations, path: 'recommandations'
           get  :coursavenue_recommendations, path: 'recommander-coursavenue'
           post :get_feedbacks
@@ -47,7 +47,7 @@ CoursAvenue::Application.routes.draw do
           post :update
           get  :sticker
           get  :widget
-          match 'widget_ext', controller: 'structures', action: 'widget_ext', constraints: {methods: ['OPTIONS', 'GET']}, as: 'widget_ext'
+          get 'widget_ext', controller: 'structures', action: 'widget_ext', constraints: {methods: ['OPTIONS', 'GET']}, as: 'widget_ext'
         end
         collection do
           get :stars
@@ -62,9 +62,9 @@ CoursAvenue::Application.routes.draw do
         resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
         resources :comments, only: [:index], controller: 'structures/comments' do
           member do
-            put :accept
-            put :decline
-            put :ask_for_deletion
+            patch :accept
+            patch :decline
+            patch :ask_for_deletion
           end
         end
         resources :medias, controller: 'structures/medias'
@@ -77,6 +77,7 @@ CoursAvenue::Application.routes.draw do
       resources :courses, except: [:new, :create], path: 'cours' do
         member do
           post 'update' # For paperclip image
+          patch 'update' # For paperclip image
           post 'duplicate'
           post 'copy_prices_from'
         end
@@ -88,9 +89,9 @@ CoursAvenue::Application.routes.draw do
         resources :prices, only: [:index]
         resources :book_tickets, only: [:edit, :index, :destroy]
         member do
-          put 'update_price'
-          put 'activate'
-          put 'disable'
+          patch 'update_price'
+          patch 'activate'
+          patch 'disable'
         end
       end
       resources :course_workshops, controller: 'courses' do
@@ -115,7 +116,7 @@ CoursAvenue::Application.routes.draw do
           get 'activez-votre-compte' => 'admins#waiting_for_activation', as: 'waiting_for_activation'
         end
         member do
-          put 'confirm'
+          patch 'confirm'
         end
       end
       devise_for :admins, controllers: { sessions: 'pro/admins/sessions', registrations: 'pro/admins/registrations', passwords: 'pro/admins/passwords', confirmations: 'pro/admins/confirmations'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/', :confirmation => 'verification'}#, :password => 'secret', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
@@ -131,9 +132,9 @@ CoursAvenue::Application.routes.draw do
   end
   resources :emails, only: [:create]
 
-  match 'auth/:provider/callback', to: 'session#create'
-  match 'auth/failure', to: redirect('/')
-  match 'signout', to: 'session#destroy', as: 'signout'
+  get 'auth/:provider/callback', to: 'session#create'
+  get 'auth/failure', to: redirect('/')
+  get 'signout', to: 'session#destroy', as: 'signout'
 
 
   resources :cities, only: [] do
@@ -200,37 +201,37 @@ CoursAvenue::Application.routes.draw do
   end
   resources :places, only: [:show],  path: 'etablissement',            to: 'redirect#place_show' # établissement without S
   resources :places, only: [:index], path: 'etablissement',            to: 'redirect#place_index' # établissement without S
-  match 'lieux',                                                       to: 'redirect#lieux'
-  match 'lieux/:id',                                                   to: 'redirect#lieux_show'
-  match 'ville/:city_id/disciplines/:subject_id',                      to: 'redirect#city_subject'
-  match 'ville/:city_id/cours/:subject_id',                            to: 'redirect#city_subject'
-  match 'ville/:id',                                                   to: 'redirect#city'
-  match 'disciplines/:id',                                             to: 'redirect#disciplines'
+  get 'lieux',                                                       to: 'redirect#lieux'
+  get 'lieux/:id',                                                   to: 'redirect#lieux_show'
+  get 'ville/:city_id/disciplines/:subject_id',                      to: 'redirect#city_subject'
+  get 'ville/:city_id/cours/:subject_id',                            to: 'redirect#city_subject'
+  get 'ville/:id',                                                   to: 'redirect#city'
+  get 'disciplines/:id',                                             to: 'redirect#disciplines'
 
   # ------------------------------------------------------
   # ----------------------------------------- Static pages
   # ------------------------------------------------------
   # Pages
-  match 'pages/pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
-  match 'pages/pourquoi-coursavenue'          => 'pages#why',                  as: 'pages_why'
-  match 'pages/comment-ca-marche'             => 'pages#how_it_works',         as: 'pages_how_it_works'
-  match 'pages/faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'
-  match 'pages/faq-partenaires'               => 'pages#faq_partners',         as: 'pages_faq_partners'
-  match 'pages/qui-sommes-nous'               => 'pages#who_are_we',           as: 'pages_who_are_we'
-  match 'pages/contact'                       => 'pages#contact'
-  match 'pages/service-client'                => 'pages#customer_service',     as: 'pages_customer_service'
-  match 'pages/presse'                        => 'pages#press',                as: 'pages_press'
-  match 'pages/jobs'                          => 'pages#jobs'
-  match 'pages/mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
-  match 'pages/conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
+  get 'pages/pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
+  get 'pages/pourquoi-coursavenue'          => 'pages#why',                  as: 'pages_why'
+  get 'pages/comment-ca-marche'             => 'pages#how_it_works',         as: 'pages_how_it_works'
+  get 'pages/faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'
+  get 'pages/faq-partenaires'               => 'pages#faq_partners',         as: 'pages_faq_partners'
+  get 'pages/qui-sommes-nous'               => 'pages#who_are_we',           as: 'pages_who_are_we'
+  get 'pages/contact'                       => 'pages#contact'
+  get 'pages/service-client'                => 'pages#customer_service',     as: 'pages_customer_service'
+  get 'pages/presse'                        => 'pages#press',                as: 'pages_press'
+  get 'pages/jobs'                          => 'pages#jobs'
+  get 'pages/mentions-legales-partenaires'  => 'pages#mentions_partners',    as: 'pages_mentions_partners'
+  get 'pages/conditions-generale-de-vente'  => 'pages#terms_and_conditions', as: 'pages_terms_and_conditions'
 
-  match '/musique', to: 'structures#index', subject_id: 'musique-chant'
-  match '/danse', to: 'structures#index'  , subject_id: 'danse'
-  match '/theatre', to: 'structures#index', subject_id: 'theatre'
+  get '/musique', to: 'structures#index', subject_id: 'musique-chant'
+  get '/danse', to: 'structures#index'  , subject_id: 'danse'
+  get '/theatre', to: 'structures#index', subject_id: 'theatre'
 
-  match '/blog' => redirect('/blog/')
+  get '/blog' => redirect('/blog/')
 
-  match 'contact/' => 'home#contact', via: [:post]
+  get 'contact/' => 'home#contact', via: [:post]
 
   root :to => 'home#index'
 end

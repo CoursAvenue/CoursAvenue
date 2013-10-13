@@ -5,7 +5,7 @@ require 'rake/clean'
 require 'csv'
 # require 'debugger'
 
-# s = Structure.find 'l-atelier-des-chefs'; s.courses.each {|c| c.plannings.delete_all; c.prices.delete_all; c.delete!}
+# s = Structure.friendly.find 'l-atelier-des-chefs'; s.courses.each {|c| c.plannings.delete_all; c.prices.delete_all; c.delete!}
 namespace :import do
 
   def adc_to_hash(row)
@@ -53,7 +53,7 @@ namespace :import do
                             type: 'Course::Workshop',
                             audience_ids: [Audience.adult.id],
                             level_ids: [Level.all_levels.id],
-                            subject_ids: [Subject.find('cuisine').id],
+                            subject_ids: [Subject.friendly.find('cuisine').id],
                             place_id: place.id,
                             active: true)
         course.save!

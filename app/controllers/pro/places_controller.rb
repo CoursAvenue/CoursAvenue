@@ -1,18 +1,18 @@
 # encoding: utf-8
 class Pro::PlacesController < InheritedResources::Base
-  before_filter :authenticate_pro_admin!
+  before_action :authenticate_pro_admin!
   layout 'admin'
   belongs_to :structure
-  load_and_authorize_resource :structure, except: [:index]
+  load_and_authorize_resource :structure, except: [:index], find_by: :slug
 
   def edit
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @place     = @structure.places.find params[:id]
     @place.contacts.build if @place.contacts.empty?
   end
 
   def new
-    @structure      = Structure.find params[:structure_id]
+    @structure      = Structure.friendly.find params[:structure_id]
     @place          = @structure.places.build
     @place.location = Location.new
     @place.contacts.build
@@ -26,7 +26,7 @@ class Pro::PlacesController < InheritedResources::Base
   end
 
   def create
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @location  = Location.find params[:place][:location_attributes].delete(:id) if params[:place][:location_attributes].has_key? :id
     @place     = @structure.places.build params[:place]
     @place.location = @location if @location

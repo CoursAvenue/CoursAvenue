@@ -18,7 +18,7 @@ class SubjectsController < ApplicationController
   #     Cuisine - ...:
   #           - ...
   def descendants
-    @subjects = params[:ids].split(',').map{ |id| Subject.find(id) }
+    @subjects = params[:ids].split(',').map{ |id| Subject.friendly.find(id) }
     @descendants = []
     @subjects.each do |parent_subject|
       parent_subject.descendants.at_depth(1).each do |first_descendant|
@@ -43,7 +43,7 @@ class SubjectsController < ApplicationController
 
   def tree
     if params[:parent]
-      subject_roots = [Subject.find(params[:parent])]
+      subject_roots = [Subject.friendly.find(params[:parent])]
     else
       subject_roots = Subject.roots
     end
@@ -64,7 +64,7 @@ class SubjectsController < ApplicationController
 
   def tree_2
     if params[:parent]
-      subject_roots = [Subject.find(params[:parent])]
+      subject_roots = [Subject.friendly.find(params[:parent])]
     else
       subject_roots = Subject.roots
     end

@@ -1,7 +1,7 @@
 class Subject < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :name, use: :slugged
-  # friendly_id :name, use: [:slugged, :history]
+  friendly_id :name, use: [:slugged, :finders]
+  # friendly_id :name, use: [:slugged, :finders]
 
   acts_as_tree cache_depth: true
 
@@ -16,10 +16,10 @@ class Subject < ActiveRecord::Base
   validates :name, presence: true
   validates :name, uniqueness: {scope: 'ancestry'}
 
-  scope :children,               where{ancestry != nil}
-  scope :little_children,        where{ancestry_depth == 2}
-  scope :roots_with_position,    where{(ancestry == nil) & (position != nil)}
-  scope :roots_without_position, where{(ancestry == nil) & (position == nil)}
+  scope :children,               -> { where{ancestry != nil} }
+  scope :little_children,        -> { where{ancestry_depth == 2} }
+  scope :roots_with_position,    -> { where{(ancestry == nil) & (position != nil)} }
+  scope :roots_without_position, -> { where{(ancestry == nil) & (position == nil)} }
 
   def little_children
     self.descendants.at_depth(2)

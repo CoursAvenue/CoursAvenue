@@ -9,13 +9,11 @@ class ::Admin < ActiveRecord::Base
   ]
 
   # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :invitable, :database_authenticatable,
+  devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
   after_save :delay_subscribe_to_mailchimp if Rails.env.production?
-  before_save :activate_admin
   after_create :check_if_was_invited
 
   # Setup accessible (or protected) attributes for your model
@@ -23,13 +21,8 @@ class ::Admin < ActiveRecord::Base
                   :password, :password_confirmation, :remember_me,
                   :civility, :name,
                   :email_opt_in,
-                  # :first_name,
-                  # :last_name,
                   :phone_number, :mobile_phone_number,
-                  :active,                        # Not used
                   :management_software_used,
-                  :role,                          # Not used
-                  :is_teacher,                    # Not used
                   :structure_id
 
   validates :password, :email, :structure, presence: true, on: :create
@@ -38,7 +31,7 @@ class ::Admin < ActiveRecord::Base
   belongs_to :structure
 
   # Scopes
-  scope :normal, where(super_admin: false)
+  scope :normal, -> { where(super_admin: false) }
 
   def confirm!
     super
@@ -50,10 +43,6 @@ class ::Admin < ActiveRecord::Base
   end
 
   private
-  def activate_admin
-    self.active = true
-  end
-
   def delay_subscribe_to_mailchimp
     self.delay.subscribe_to_mailchimp
   end

@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_filter :authenticate_pro_admin!, except: [:select, :new, :create, :get_feedbacks, :widget_ext]
-  load_and_authorize_resource :structure, except: [:select, :new, :create, :get_feedbacks, :widget_ext]
+  before_action :authenticate_pro_admin!, except: [:select, :new, :create, :get_feedbacks, :widget_ext]
+  load_and_authorize_resource :structure, except: [:select, :new, :create, :get_feedbacks, :widget_ext], find_by: :slug, find_by: :slug
 
   layout :get_layout
 
@@ -32,7 +32,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def widget
-    @structure = Structure.find params[:id]
+    @structure = Structure.friendly.find params[:id]
     respond_to do |format|
       format.html
     end
@@ -41,7 +41,7 @@ class Pro::StructuresController < Pro::ProController
   # Method called from external sites by the widget
   def widget_ext
     # TODO protect
-    @structure = Structure.find params[:id]
+    @structure = Structure.friendly.find params[:id]
     headers['Access-Control-Allow-Origin']  = '*'
     headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
     headers['Access-Control-Max-Age']       = "1728000"
@@ -52,7 +52,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def recommend_friends
-    @structure      = Structure.find params[:id]
+    @structure      = Structure.friendly.find params[:id]
     params[:emails] ||= ''
     regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
     emails = params[:emails].scan(regexp).uniq
@@ -68,7 +68,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def get_feedbacks
-    @structure      = Structure.find params[:id]
+    @structure      = Structure.friendly.find params[:id]
     params[:emails] ||= ''
     regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
     emails = params[:emails].scan(regexp).uniq
@@ -85,12 +85,12 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def crop
-    @structure = Structure.find params[:id]
+    @structure = Structure.friendly.find params[:id]
   end
 
   def wizard
     @wizard = get_next_wizard
-    @structure = Structure.find params[:id]
+    @structure = Structure.friendly.find params[:id]
     respond_to do |format|
       if @wizard
         format.json { render json: { form: render_to_string(partial: @wizard.partial, layout: false, formats: [:html]), done: false }  }
@@ -101,7 +101,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def dashboard
-    @structure      = Structure.find params[:id]
+    @structure      = Structure.friendly.find params[:id]
     @wizard         = get_next_wizard
     commentable_ids = @structure.courses.collect(&:id)
     commentable_ids << @structure.id
@@ -129,7 +129,7 @@ class Pro::StructuresController < Pro::ProController
 
 
   def activate
-    @structure        = Structure.find params[:id]
+    @structure        = Structure.friendly.find params[:id]
     respond_to do |format|
       if @structure.activate!
         format.html { redirect_to pro_structures_path }
@@ -140,7 +140,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def disable
-    @structure        = Structure.find params[:id]
+    @structure        = Structure.friendly.find params[:id]
     respond_to do |format|
       if @structure.disable!
         format.html { redirect_to pro_structures_path }
@@ -159,12 +159,12 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def show
-    @structure = Structure.find params[:id]
+    @structure = Structure.friendly.find params[:id]
     @courses   = @structure.courses.order('name ASC')
   end
 
   def edit
-    @structure = Structure.find(params[:id])
+    @structure = Structure.friendly.find(params[:id])
     @ratio     = 1
     @ratio     = @structure.ratio_from_original(:large)
     @admin     = @structure.admins.first || @structure.admins.build
@@ -180,7 +180,7 @@ class Pro::StructuresController < Pro::ProController
 
   def update
     @ratio     = 1
-    @structure = Structure.find params[:id]
+    @structure = Structure.friendly.find params[:id]
     deleted_image = false
     if params[:structure].delete(:delete_image) == '1'
       @structure.image.clear
@@ -250,7 +250,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def destroy
-    @structure = Structure.find params[:id]
+    @structure = Structure.friendly.find params[:id]
     respond_to do |format|
       if @structure.destroy
         format.html { redirect_to pro_admins_path, notice: 'Structure supprimé' }

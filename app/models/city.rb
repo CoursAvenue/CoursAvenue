@@ -1,7 +1,7 @@
 # encoding: utf-8
 class City < ActiveRecord::Base
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :name, use: [:slugged, :finders]
 
   has_many :places
   has_many :structures, through: :structures

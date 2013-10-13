@@ -6,7 +6,7 @@ class UpdateMusicSubjects < ActiveRecord::Migration
     update_parent 'mixage-dj', 'musiques-actuelles'
     musique_par_style     = rename_subject 'musique-classique', 'Musique par style'
     update_parent 'jazz', musique_par_style
-    jazz_rock = Subject.find 'musique-jazz-rock'
+    jazz_rock = Subject.friendly.find 'musique-jazz-rock'
     jazz_rock.children.each do |child|
       child.parent = musique_par_style
       child.save
@@ -18,7 +18,7 @@ class UpdateMusicSubjects < ActiveRecord::Migration
     culture_musicale.save
     delete_subject 'musique-instruments--2'
 
-    musique_par_instrument = Subject.find('musique-par-instrument')
+    musique_par_instrument = Subject.friendly.find('musique-par-instrument')
     musique_par_instrument.children.each do |child|
       child.parent = instrument_de_musique
       child.save
@@ -42,14 +42,14 @@ class UpdateMusicSubjects < ActiveRecord::Migration
   end
 
   def rename_subject slug, new_name
-    subject      = Subject.find slug
+    subject      = Subject.friendly.find slug
     subject.name = new_name
     subject.save
     return subject
   end
 
   def delete_subject slug
-    subject      = Subject.find slug
+    subject      = Subject.friendly.find slug
     subject.destroy
   end
 
@@ -60,8 +60,8 @@ class UpdateMusicSubjects < ActiveRecord::Migration
   end
 
   def update_parent slug, parent_slug
-    child  = Subject.find(slug)
-    parent = Subject.find(parent_slug)
+    child  = Subject.friendly.find(slug)
+    parent = Subject.friendly.find(parent_slug)
     child.parent = parent
     child.save
   end

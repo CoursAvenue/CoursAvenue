@@ -45,6 +45,7 @@
             if (new_height !== this.element.style.height) {
                 this.element.style.height = ""; /* Reset the height*/
                 this.element.style.height = Math.max(this.element.scrollHeight, this.default_scrollheight) + "px";
+                $(window).trigger('resize'); // To adapt fancy popups
             }
         }
     };

@@ -1,9 +1,9 @@
 class User < ActiveRecord::Base
 
   extend FriendlyId
-  friendly_id :full_name, use: [:slugged, :history]
+  friendly_id :full_name, use: [:slugged, :finders]
 
-  has_many :comments, order: 'created_at DESC'
+  has_many :comments, -> { order('created_at DESC') }
   has_many :reservations
 
   has_and_belongs_to_many :plannings
@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :token_authenticatable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,

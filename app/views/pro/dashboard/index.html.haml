@@ -99,14 +99,13 @@
     users
   #users
 
-
 = content_for :scripts do
   :javascript
     $(function() {
         new Highcharts.Chart({
             chart: { renderTo: 'admins', type: 'column' },
             title: { text: null },
-            xAxis: { categories: #{@admins.map{|date, count| l(Date.parse(date), format: :short)}} },
+            xAxis: { categories: #{@admins.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [
               { data: #{@admins.map{|date, count| count}},
@@ -120,7 +119,7 @@
         new Highcharts.Chart({
             chart: { renderTo: 'comments-admins-progression-weekly', type: 'column' },
             title: { text: null },
-            xAxis: { categories: #{@admins_weekly.map{|date, count| l(Date.parse(date), format: :short)}} },
+            xAxis: { categories: #{@admins_weekly.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [
               { data: #{@admins_weekly.map{|date, count| count}},
@@ -148,28 +147,28 @@
         new Highcharts.Chart({
             chart: { renderTo: 'users', type: 'column' },
             title: { text: null },
-            xAxis: { categories: #{@users.map{|date, count| l(Date.parse(date), format: :short)}} },
+            xAxis: { categories: #{@users.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [{ data: #{@users.map{|date, count| count}} }]
         });
         new Highcharts.Chart({
             chart: { renderTo: 'students', type: 'column' },
             title: { text: null },
-            xAxis: { categories: #{@students.map{|date, count| l(Date.parse(date), format: :short)}} },
+            xAxis: { categories: #{@students.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [{ data: #{@students.map{|date, count| count}} }]
         });
         new Highcharts.Chart({
             chart: { renderTo: 'medias', type: 'column' },
             title: { text: null },
-            xAxis: { categories: #{@medias.map{|date, count| l(Date.parse(date), format: :short)}} },
+            xAxis: { categories: #{@medias.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [{ data: #{@medias.map{|date, count| count}} }]
         });
         new Highcharts.Chart({
             chart: { renderTo: 'courses', type: 'column' },
             title: { text: null },
-            xAxis: { categories: #{@courses.map{|date, count| l(Date.parse(date), format: :short)}} },
+            xAxis: { categories: #{@courses.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [{ data: #{@courses.map{|date, count| count}} }]
         });

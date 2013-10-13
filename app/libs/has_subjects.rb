@@ -15,7 +15,7 @@ module HasSubjects
     def parent_subjects
       self.parent_subjects_string.split(';').collect do |subject_string|
         subject_name, subject_slug = subject_string.split(':')
-        Subject.find(subject_slug)
+        Subject.friendly.find(subject_slug)
       end
     end
 

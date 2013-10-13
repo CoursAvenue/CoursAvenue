@@ -1,13 +1,13 @@
 # encoding: utf-8
 class Pro::Structures::StudentsController < Pro::ProController
-  before_filter      :authenticate_pro_admin!
-  load_and_authorize_resource :structure
+  before_action      :authenticate_pro_admin!
+  load_and_authorize_resource :structure, find_by: :slug
 
   def index
   end
 
   def destroy
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @student   = @structure.students.find params[:id]
     respond_to do |format|
       if @student.destroy

@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pro::StudentsController < Pro::ProController
-  before_filter :authenticate_pro_admin!
+  before_action :authenticate_pro_admin!
   respond_to :js
 
   layout 'admin'

@@ -1,12 +1,12 @@
 # encoding: utf-8
 class Pro::BookTicketsController < InheritedResources::Base#Pro::ProController
-  before_filter :authenticate_pro_admin!
+  before_action :authenticate_pro_admin!
 
   layout 'admin'
 
   belongs_to :course
-  before_filter :load_structure, :load_prices
-  load_and_authorize_resource :structure
+  before_action :load_structure, :load_prices
+  load_and_authorize_resource :structure, find_by: :slug
 
   def edit
     edit! do |format|
@@ -41,7 +41,7 @@ class Pro::BookTicketsController < InheritedResources::Base#Pro::ProController
     @prices = @course.prices
   end
   def load_structure
-    @course    = Course.find(params[:course_lesson_id] || params[:course_workshop_id] || params[:course_training_id] || params[:course_id])
+    @course    = Course.friendly.find(params[:course_lesson_id] || params[:course_workshop_id] || params[:course_training_id] || params[:course_id])
     @structure = @course.structure
   end
 end

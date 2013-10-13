@@ -59,8 +59,8 @@ class Planning < ActiveRecord::Base
                   :audience_ids,
                   :place_id
 
-  scope :future, where("plannings.end_date > '#{Date.today}'")
-  scope :past,   where("plannings.end_date <= '#{Date.today}'")
+  scope :future, -> { where("plannings.end_date > '#{Date.today}'") }
+  scope :past,   -> { where("plannings.end_date <= '#{Date.today}'") }
 
   # ---------------------------- Simulating Audience and Levels
   def audience_ids= _audiences

@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pro::DashboardController < Pro::ProController
-  before_filter :authenticate_pro_admin!
+  before_action :authenticate_pro_admin!
   def index
     raise CanCan::AccessDenied.new unless current_pro_admin.super_admin?
     # @admins = Admin.count(:order => 'DATE(created_at) DESC', :group => ["DATE(created_at)"])
@@ -15,7 +15,7 @@ class Pro::DashboardController < Pro::ProController
       _structures = Structure.joins{admins}.joins{subjects}.count(:group => ["subjects.id"])
       @structures = {}
       _structures.each do |key, value|
-        subj = Subject.find(key)
+        subj = Subject.friendly.find(key)
         if subj.grand_parent
           @structures[subj.grand_parent.name] = (@structures[subj.grand_parent.name] || 0) + value
         else
@@ -34,8 +34,8 @@ class Pro::DashboardController < Pro::ProController
     # Compute all the days to have all the days shown in the graph even when values are empty
     hash_of_days = {}
     ((1.months).ago.to_date..Date.today).each{ |date| hash_of_days[date.strftime("%Y-%m-%d")] = 0}
-    @comments  = hash_of_days.merge @comments
-    @admins    = hash_of_days.merge @admins
+    @comments  = hash_of_days.merge(@comments).reject{|key, value| value == 0}
+    @admins    = hash_of_days.merge(@admins).reject{|key, value| value == 0}
 
     @students = Student.where{created_at > Date.today - 2.month}.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
     @users    = User   .count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])

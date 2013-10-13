@@ -2,17 +2,17 @@
 class Pro::PlanningsController < InheritedResources::Base
   layout 'admin'
 
-  before_filter :authenticate_pro_admin!
-  before_filter :load_structure
-  before_filter :retrieve_teachers
-  before_filter :retrieve_places
+  before_action :authenticate_pro_admin!
+  before_action :load_structure
+  before_action :retrieve_teachers
+  before_action :retrieve_places
 
   belongs_to :course
-  load_and_authorize_resource :structure
+  load_and_authorize_resource :structure, find_by: :slug
 
   def duplicate
     @planning            = Planning.find params[:id]
-    @course              = Course.find params[:course_id]
+    @course              = Course.friendly.find params[:course_id]
     @duplicate_planning  = @planning.duplicate
     respond_to do |format|
       if @duplicate_planning.save
@@ -32,7 +32,7 @@ class Pro::PlanningsController < InheritedResources::Base
   end
 
   def new
-    @course    = Course.find(params[:course_id])
+    @course    = Course.friendly.find(params[:course_id])
     @planning  = Planning.new
     retrieve_plannings_and_past_plannings
     respond_to do |format|
@@ -137,7 +137,7 @@ class Pro::PlanningsController < InheritedResources::Base
   end
 
   def load_structure
-    @course    = Course.find(params[:course_lesson_id] || params[:course_workshop_id] || params[:course_training_id] || params[:course_id])
+    @course    = Course.friendly.find(params[:course_lesson_id] || params[:course_workshop_id] || params[:course_training_id] || params[:course_id])
     @structure = @course.structure
   end
 end
