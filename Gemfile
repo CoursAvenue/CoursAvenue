@@ -124,6 +124,9 @@ gem 'compass-inuit'             , '~>5.0.2'
 gem 'asset_sync'                , '~>1.0.0'
 # Enable haml
 
+gem 'turbolinks'
+gem 'jquery-turbolinks'
+
 group :production do
   # gem 'therubyracer'
   gem 'execjs'

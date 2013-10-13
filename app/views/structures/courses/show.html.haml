@@ -93,7 +93,7 @@
           %i.icon-comments
           Avis
       %li
-        %a{class: (@course.teachers.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Infos profs', 'click', '#{@course.slug}'])", href: '#tab-teacher', data: {toggle: 'tab'} }
+        %a{class: (@course.teachers.count > 0 ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Infos profs', 'click', '#{@course.slug}'])", href: '#tab-teacher', data: {toggle: 'tab'} }
           %i.icon-group
           = Teacher.model_name.human(count: @course.teachers.uniq.length)
 
