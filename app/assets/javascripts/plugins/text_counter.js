@@ -101,9 +101,7 @@
 
 $(function() {
     var textcounter_initializer = function() {
-        $('[data-behavior=text-counter]').each(function(index, el) {
-            $(this).textCounter();
-        });
+        $('[data-behavior=text-counter]').textCounter();
     };
     GLOBAL.initialize_callbacks.push(textcounter_initializer);
 });

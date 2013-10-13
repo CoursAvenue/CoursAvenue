@@ -80,9 +80,7 @@
 
 $(function() {
     var city_autocomplete_initializer = function() {
-        $('[data-behavior=city-autocomplete]').each(function(index, el) {
-            $(this).cityAutocomplete();
-        });
+        $('[data-behavior=city-autocomplete]').cityAutocomplete();
     };
     GLOBAL.initialize_callbacks.push(city_autocomplete_initializer);
 });

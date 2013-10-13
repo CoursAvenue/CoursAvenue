@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131007143537) do
+ActiveRecord::Schema.define(:version => 20131009170132) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -263,7 +263,10 @@ ActiveRecord::Schema.define(:version => 20131007143537) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.time     "deleted_at"
+    t.string   "format"
   end
+
+  add_index "medias", ["format"], :name => "index_medias_on_format"
 
   create_table "participants", :force => true do |t|
     t.string   "first_name"
@@ -278,6 +281,7 @@ ActiveRecord::Schema.define(:version => 20131007143537) do
     t.integer "location_id"
     t.integer "structure_id"
     t.text    "info"
+    t.time    "deleted_at"
   end
 
   add_index "places", ["location_id", "structure_id"], :name => "index_places_on_location_id_and_structure_id"
@@ -334,7 +338,7 @@ ActiveRecord::Schema.define(:version => 20131007143537) do
     t.integer  "nb_courses"
     t.decimal  "promo_amount"
     t.time     "deleted_at"
-    t.string   "info"
+    t.text     "info"
     t.string   "type"
     t.integer  "number"
     t.decimal  "promo_percentage"

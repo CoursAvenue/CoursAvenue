@@ -168,7 +168,13 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :subjects, only: [:index], path: 'disciplines' do
-    resources :cities, only: [:show], path: 'villes', controller: 'subjects/cities'
+    resources :cities, only: [:show], path: 'villes', controller: 'subjects/cities' do
+      resources :medias, only: [], controller: 'subjects/cities/medias' do
+        collection do
+          get :videos
+        end
+      end
+    end
     collection do
       get :tree
       get :tree_2

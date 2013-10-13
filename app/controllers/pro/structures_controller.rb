@@ -155,7 +155,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def index
-    @structures = Structure.order('created_at ASC').all
+    @structures = Structure.order('created_at DESC').limit(50)
   end
 
   def show
@@ -230,16 +230,18 @@ class Pro::StructuresController < Pro::ProController
     s_name      = params[:structure][:name]
     s_zip_code  = params[:structure][:zip_code]
     @structure  = Structure.where{(name == s_name) & (zip_code == s_zip_code)}.first
+    # Used for showing side structure list on new action
     @structures = Structure.where{(image_updated_at != nil) & (comments_count != nil)}.order('comments_count DESC').limit(3)
-    place_name = params[:structure][:location].delete :name
+    @place_name = params[:structure][:location].delete :name
     params[:structure].delete :location
     if @structure.nil?
       @structure = Structure.new params[:structure]
     end
     respond_to do |format|
-      if !@structure.new_record? or @structure.save
-        @structure.create_place(place_name) unless @structure.places.any?
-        session[:id] = @structure.id
+      if @structure.persisted?
+        format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitation, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
+      elsif @structure.new_record? and @structure.save
+        @structure.create_place(@place_name) unless @structure.places.any?
         format.html { redirect_to new_pro_admin_structure_registration_path(@structure, subdomain: 'pro'), notice: 'Félicitation, votre profil est maintenant créé !<br>Dernière étape : créez vos identifiants.' }
       else
         format.html { render 'pro/structures/new' }

@@ -86,9 +86,7 @@
 
 $(function() {
     var dropped_options_initializer = function() {
-        $('[data-behavior=dropped-options]').each(function(index, el) {
-            $(this).droppedOptions();
-        });
+        $('[data-behavior=dropped-options]').droppedOptions();
     };
     GLOBAL.initialize_callbacks.push(dropped_options_initializer);
 });

@@ -32,14 +32,14 @@
             Gérez votre profil
 
 
-    = simple_form_for [:pro, @structure], method: :post do |f|
+    = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post do |f|
       .form-white-box.islet.flush--left
         = f.input :name, wrapper_html: { class: 'flush--bottom' }, label: 'Nom de votre établissement / association', input_html: {placeholder: 'Exemple : Association KDanse, Paris Dance School, Laurent Garu'}
         %p.field-form-info.blue Si vous êtes un professeur indépendant, entrez votre Prénom + Nom.
 
         = f.input :contact_email, as: :hidden
         = f.simple_fields_for :location do |location_form|
-          = location_form.input :name, label: "Nom du lieu", input_html: { placeholder: "Exemple : Bastille, Studio Bleu, Centre de Danse du Marais", data: {behavior: 'tooltip'}, title: "Si pas de nom : métro ou arrêt de bus le plus proche, nom de quartier / rue, nom d'un parc à proximité" }, wrapper_html: {class: 'flush--bottom'}
+          = location_form.input :name, label: "Nom du lieu", input_html: { value: @place_name,  placeholder: "Exemple : Bastille, Studio Bleu, Centre de Danse du Marais", data: {behavior: 'tooltip'}, title: "Si pas de nom : métro ou arrêt de bus le plus proche, nom de quartier / rue, nom d'un parc à proximité" }, wrapper_html: {class: 'flush--bottom'}
           %p.field-form-info.blue Si vos cours se situent dans plusieurs lieux, vous pourrez les renseigner depuis votre profil.
         = f.input :street, input_html: { value: cookies[:street] }, input_html: {placeholder: 'N° + rue'}
         .input

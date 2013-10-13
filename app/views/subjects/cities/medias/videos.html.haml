@@ -1,0 +1,20 @@
+= content_for :title do
+  = "Tous les cours de #{@subject.name.downcase} à #{@city.name}"
+
+= content_for :above_container do
+  #medias.soft--bottom
+    .text--center.push
+      %h2.flush= "Toutes les vidéos de #{@subject.name.downcase} à #{@city.name}"
+      = link_to 'Retour à la liste des établissements', subject_city_path(@subject, @city)
+    .media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
+      - @videos.each do |media|
+        .one-quarter.media__item.very-soft{style: 'max-width: 450px'}>
+          %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}
+            = media.url_html
+            %p.flush--bottom.text--right
+              = media.mediable.name
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
+    });

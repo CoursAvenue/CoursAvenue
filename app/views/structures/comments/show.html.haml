@@ -18,7 +18,7 @@
   = render partial: 'comments/comment', locals: { comment: @comment }
 
 .text--center.push
-  = link_to "Accéder CoursAvenue", structure_path(@structure), onclick: "mixpanel.track('See profile after comment')", class: 'btn btn--blue btn--large'
+  = link_to "Accéder à CoursAvenue", root_url(subdomain: 'www'), onclick: "mixpanel.track('See profile after comment')", class: 'btn btn--blue btn--large'
 
 
 = content_for :scripts do

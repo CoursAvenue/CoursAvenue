@@ -11,9 +11,9 @@
 .relative          { position: relative; }
 .absolute          { position: absolute; }
 .inherit-font-size { font-size: inherit; }
-.bold              { font-weight: bold; }
 .italic            { font-style: italic; }
 .weight-normal     { font-weight: normal; }
+.bold              { font-weight: bold; }
 .hidden            { display: none; }
 .flip {
     @include vendor(transform, scaleX(-1));
@@ -93,3 +93,7 @@
 .word-break-normal { word-break: normal; }
 .thin              { font-weight: 300; }
 .very-soft         { padding: 5px;}
+
+.darker-background {
+ background-color: $beige-darker;
+}

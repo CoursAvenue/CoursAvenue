@@ -72,9 +72,9 @@
                 this.end_time_hour_select.val(start_hour_time + 1)
                 this.updateDuration.call(this);
             }.bind(this));
-            this.end_time_hour_select.change(function(event) {
-                this.updateDuration.call(this);
-            }.bind(this));
+            this.end_time_hour_select.change(this.updateDuration.bind(this));
+            this.end_time_min_select.change(this.updateDuration.bind(this));
+            this.start_time_min_select.change(this.updateDuration.bind(this));
         }
     };
 
@@ -93,9 +93,7 @@
 
 $(function() {
     var time_range_initializer = function() {
-        $('[data-behavior=time-range]').each(function(index, el) {
-            $(this).timeRange();
-        });
+        $('[data-behavior=time-range]').timeRange();
     };
     GLOBAL.initialize_callbacks.push(time_range_initializer);
 });

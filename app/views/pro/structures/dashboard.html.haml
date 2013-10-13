@@ -197,7 +197,7 @@
 - if @medias.any?
   %hr
   %h3 Mes photos & vidéos
-  .media-gallery
+  .media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
     - @medias.each do |media|
       .one-third.media__item.very-soft>
         %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}>
@@ -226,7 +226,6 @@
               $(td).animate({width: width}, 250, 'linear');
             }, index * 250)
         });
-        $('.media-gallery').masonry({ itemSelector: '.media__item' });
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
         $('a.profile-task-uncomplete').hover(function() {
             $(this).find('i').removeClass('icon-check-empty').addClass('icon-check');

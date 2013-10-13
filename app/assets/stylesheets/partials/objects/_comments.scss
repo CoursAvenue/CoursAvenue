@@ -38,15 +38,21 @@
     left      : -17px;
     top       : -17px;
 }
+.quoted {
+    line-height: 1em;
+}
+.quoted:after, .quoted:before {
+    font-size: 1.7em;
+    position : relative;
+    top      : 0.2em;
+}
 .quoted:after {
     content   : "\201D";
-    right     : -17px;
-    bottom    : -38px;
+    right     : -0.1em;
 }
 .quoted:before {
     content   : "\201C";
-    left      : -17px;
-    top       : -17px;
+    left      : -0.1em;
 }
 .comment__content {
     background-color: $beige-dark;

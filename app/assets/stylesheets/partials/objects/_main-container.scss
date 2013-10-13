@@ -1,6 +1,10 @@
 .small-container {
     width: 800px;
 }
+.large-container {
+    max-width: 1400px;
+    margin   : auto;
+}
 .main-container {
     max-width: $siteMaxWidth;
     min-width: 1000px;

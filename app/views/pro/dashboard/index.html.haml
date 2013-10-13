@@ -6,7 +6,7 @@
 
 %h3.header-group
   %i.icon-map-marker
-  Professeurs enregistrés / Avis laissés
+  Professeurs enregistrés / Avis laissés (non cumulé)
 .white-box.islet.text--center
   .gamma
     = Admin.normal.count
@@ -18,7 +18,13 @@
 
 %h3.header-group
   %i.icon-map-marker
-  Professeurs enregistrés / Avis laissés - progression
+  Professeurs enregistrés / Avis laissés - progression / semaine (non cumulé)
+.white-box.islet.text--center
+  #comments-admins-progression-weekly
+
+%h3.header-group
+  %i.icon-map-marker
+  Professeurs enregistrés / Avis laissés - progression (cumulé)
 .white-box.islet.text--center
   .gamma
     = Admin.normal.count
@@ -28,11 +34,24 @@
     avis
   #admins-progression
 
+
 %h3.header-group
-  %i.icon-map-marker
-  Nombre d'établissements par disciplines (dont le prof est enregistré)
+  %i.icon-group
+  Élèves notifiés pour avis
 .white-box.islet.text--center
-  #subjects
+  .gamma
+    = Student.count
+    élèves
+  #students
+
+- if params[:with_subjects]
+  %h3.header-group
+    %i.icon-map-marker
+    Nombre d'établissements par disciplines (dont le prof est enregistré)
+  .white-box.islet.text--center
+    #subjects
+- else
+  %p.text--center= link_to 'Voir la répartition par discipline',  pro_dashboard_path(with_subjects: true), class: 'btn btn--blue'
 
 -#%h3.header-group
 -#  %i.icon-map-marker
@@ -64,35 +83,22 @@
       #medias
 
 
-.grid.push--top
-  .grid__item.one-half>
-    %h3.header-group
-      %i.icon-group
-      Élèves notifiés pour avis
-    .white-box.islet.text--center
-      .gamma
-        = Student.count
-        élèves
-      #students
-  .grid__item.one-half>
-    %h3.header-group
-      %i.icon-group
-      Users
-    .white-box.islet.text--center
-      .gamma
-        = User.count
-        users
-      #users
+%h3.header-group
+  %i.icon-map-marker
+  Lieux d'enseignement
+.white-box.islet.text--center
+  .gamma
+    = Place.count
+    Lieux
+%h3.header-group
+  %i.icon-group
+  Users
+.white-box.islet.text--center
+  .gamma
+    = User.count
+    users
+  #users
 
-.grid.push--top
-  .grid__item.one-half>
-    %h3.header-group
-      %i.icon-map-marker
-      Lieux d'enseignement
-    .white-box.islet.text--center
-      .gamma
-        = Place.count
-        Lieux
 
 = content_for :scripts do
   :javascript
@@ -107,6 +113,20 @@
                 name: 'Profs inscrits'
                },
               { data: #{@comments.map{|date, count| count}},
+                name: 'Avis'
+              }
+            ]
+        });
+        new Highcharts.Chart({
+            chart: { renderTo: 'comments-admins-progression-weekly', type: 'column' },
+            title: { text: null },
+            xAxis: { categories: #{@admins_weekly.map{|date, count| l(Date.parse(date), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [
+              { data: #{@admins_weekly.map{|date, count| count}},
+                name: 'Profs inscrits'
+               },
+              { data: #{@comments_weekly.map{|date, count| count}},
                 name: 'Avis'
               }
             ]
@@ -153,6 +173,12 @@
             yAxis: { title: { text: ''}},
             series: [{ data: #{@courses.map{|date, count| count}} }]
         });
+    });
+
+- if params[:with_subjects].present?
+  = content_for :scripts do
+    :javascript
+      $(function() {
         new Highcharts.Chart({
             chart: { renderTo: 'subjects', type: 'column' },
             title: { text: null },
