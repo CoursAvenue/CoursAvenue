@@ -71,9 +71,7 @@
 
 $(function() {
     var flash_initializer = function() {
-        $('[data-behavior=flash]').each(function(index, el) {
-            $(this).flash();
-        });
+        $('[data-behavior=flash]').flash();
     };
     GLOBAL.initialize_callbacks.push(flash_initializer);
 });

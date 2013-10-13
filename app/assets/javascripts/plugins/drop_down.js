@@ -86,9 +86,7 @@
 
 $(function() {
     var drop_down_initializer = function() {
-        $('[data-behavior=drop-down]').each(function(el) {
-            $(this).dropDown();
-        });
+        $('[data-behavior=drop-down]').dropDown();
     };
     GLOBAL.initialize_callbacks.push(drop_down_initializer);
 });

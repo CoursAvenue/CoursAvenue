@@ -48,7 +48,5 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=address-picker]').each(function(index, el) {
-        $(this).addressPicker();
-    });
+    $('[data-behavior=address-picker]').addressPicker();
 });

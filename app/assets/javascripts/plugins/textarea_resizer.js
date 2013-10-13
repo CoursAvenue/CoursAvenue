@@ -64,9 +64,7 @@
 
 $(function() {
     var autoresize_initializer = function() {
-        $('[data-behavior=autoresize]').each(function(index, el) {
-            $(this).textareaResizer();
-        });
+        $('[data-behavior=autoresize]').textareaResizer();
     }
     GLOBAL.initialize_callbacks.push(autoresize_initializer);
 });

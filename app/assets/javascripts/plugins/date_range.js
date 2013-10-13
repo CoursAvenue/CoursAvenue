@@ -83,9 +83,7 @@
 
 $(function() {
     var date_range_initializer = function() {
-        $('[data-behavior=date-range]').each(function(index, el) {
-            $(this).dateRange();
-        });
+        $('[data-behavior=date-range]').dateRange();
     };
     GLOBAL.initialize_callbacks.push(date_range_initializer);
 });

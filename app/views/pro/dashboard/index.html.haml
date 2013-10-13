@@ -83,24 +83,21 @@
       #medias
 
 
-.grid.push--top
-  .grid__item.one-half>
-    %h3.header-group
-      %i.icon-map-marker
-      Lieux d'enseignement
-    .white-box.islet.text--center
-      .gamma
-        = Place.count
-        Lieux
-  .grid__item.one-half>
-    %h3.header-group
-      %i.icon-group
-      Users
-    .white-box.islet.text--center
-      .gamma
-        = User.count
-        users
-      #users
+%h3.header-group
+  %i.icon-map-marker
+  Lieux d'enseignement
+.white-box.islet.text--center
+  .gamma
+    = Place.count
+    Lieux
+%h3.header-group
+  %i.icon-group
+  Users
+.white-box.islet.text--center
+  .gamma
+    = User.count
+    users
+  #users
 
 
 = content_for :scripts do

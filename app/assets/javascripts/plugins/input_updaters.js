@@ -79,9 +79,7 @@
 
 $(function() {
     var input_update_initializer = function() {
-        $('[data-behavior=input-update]').each(function(index, el) {
-            $(this).inputUpdater();
-        });
+        $('[data-behavior=input-update]').inputUpdater();
     };
     GLOBAL.initialize_callbacks.push(input_update_initializer);
 });

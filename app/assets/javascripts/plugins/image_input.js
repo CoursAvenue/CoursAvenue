@@ -89,9 +89,7 @@
 
 $(function() {
     var image_input_initializer = function() {
-        $('[data-behavior=image-input]').each(function(index, el) {
-            $(this).imageInput();
-        });
+        $('[data-behavior=image-input]').imageInput();
     };
     GLOBAL.initialize_callbacks.push(image_input_initializer);
 });

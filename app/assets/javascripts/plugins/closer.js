@@ -55,7 +55,5 @@
 })( jQuery, window, document );
 
 $(function() {
-    $('[data-behavior=closer]').each(function(index, el) {
-        $(this).closer();
-    });
+    $('[data-behavior=closer]').closer();
 });

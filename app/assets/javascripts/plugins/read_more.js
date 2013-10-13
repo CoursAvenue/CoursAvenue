@@ -81,9 +81,7 @@
 
 $(function() {
     var readmore_initializer = function() {
-        $('[data-behavior=read-more]').each(function(index, el) {
-            $(this).readMore();
-        });
+        $('[data-behavior=read-more]').readMore();
     };
     GLOBAL.initialize_callbacks.push(readmore_initializer);
 });

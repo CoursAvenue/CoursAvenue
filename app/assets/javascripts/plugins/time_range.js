@@ -93,9 +93,7 @@
 
 $(function() {
     var time_range_initializer = function() {
-        $('[data-behavior=time-range]').each(function(index, el) {
-            $(this).timeRange();
-        });
+        $('[data-behavior=time-range]').timeRange();
     };
     GLOBAL.initialize_callbacks.push(time_range_initializer);
 });
