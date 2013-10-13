@@ -8,19 +8,19 @@ class Pro::CoursesController < InheritedResources::Base
   load_and_authorize_resource :structure, except: [:create, :update]
 
   def index
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @courses   = @structure.courses.order('name ASC')
   end
 
   def copy_prices_from
-    @course                   = Course.find params[:id]
-    @course_to_duplicate_from = Course.find params[:course_id]
+    @course                   = Course.friendly.find params[:id]
+    @course_to_duplicate_from = Course.friendly.find params[:course_id]
     @course.copy_prices_from!(@course_to_duplicate_from)
     redirect_to pro_course_prices_path(@course), notice: "Les tarifs ont été mis à jour."
   end
 
   def duplicate
-    @course = Course.find params[:id]
+    @course = Course.friendly.find params[:id]
     duplicate_course = @course.duplicate!
     session[:duplicate]            = true
     session[:duplicated_course_id] = duplicate_course.id
@@ -28,7 +28,7 @@ class Pro::CoursesController < InheritedResources::Base
   end
 
   def activate
-    @course = Course.find params[:id]
+    @course = Course.friendly.find params[:id]
     if @course.activate!
       redirect_to pro_structure_courses_path(@structure), notice: "Le cours sera visible sur CoursAvenue dans quelques minutes"
     else
@@ -37,7 +37,7 @@ class Pro::CoursesController < InheritedResources::Base
   end
 
   def disable
-    @course = Course.find params[:id]
+    @course = Course.friendly.find params[:id]
     if @course.update_attribute :active, false
       redirect_to pro_structure_courses_path(@structure), notice: "Le cours n'est plus affiché sur CoursAvenue"
     else
@@ -90,9 +90,9 @@ class Pro::CoursesController < InheritedResources::Base
 
   def load_structure
     if params[:structure_id]
-      @structure = Structure.find(params[:structure_id])
+      @structure = Structure.friendly.find(params[:structure_id])
     else
-      @course    = Course.find(params[:id]) if params[:id]
+      @course    = Course.friendly.find(params[:id]) if params[:id]
       @structure = @course.structure
     end
   end

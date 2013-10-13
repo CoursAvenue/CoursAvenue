@@ -17,7 +17,7 @@ class UpdateLoisirsSubjects < ActiveRecord::Migration
     objets_deco.parent = deco
     objets_deco.save
 
-    ateliers_de_loisirs_creatifs = Subject.find 'ateliers-de-loisirs-creatifs'
+    ateliers_de_loisirs_creatifs = Subject.friendly.find 'ateliers-de-loisirs-creatifs'
     ateliers_de_loisirs_creatifs.courses.each do |c|
       c.subjects.delete(ateliers_de_loisirs_creatifs)
       c.subjects << deco
@@ -29,29 +29,29 @@ class UpdateLoisirsSubjects < ActiveRecord::Migration
     update_parent 'cartonnage', 'objets-decoration'
     update_parent 'fabrication-de-meubles-en-carton', 'objets-decoration'
 
-    origami = Subject.find 'origami-papier'
+    origami = Subject.friendly.find 'origami-papier'
     origami.children.each do |child|
       child.parent = papier_impression
       child.save
     end
     origami.destroy
 
-    couture = Subject.find 'couture-creation-textile'
+    couture = Subject.friendly.find 'couture-creation-textile'
     couture.parent = deco
     couture.save
 
     ['creation-de-bijoux', 'creation-de-poupees', 'decoration-de-table-fete', 'fleurs-pressees', 'lampes-abat-jour', 'masques', 'modelisme-maquettes', 'mosaique-decorative', 'peinture-sur-porcelaine', 'peinture-sur-soie-tissus', 'peinture-sur-verre', 'techniques-du-pochoir'].each do |subj_name|
-      subj        = Subject.find subj_name
+      subj        = Subject.friendly.find subj_name
       subj.parent = objets_deco
       subj.save
     end
 
     update_parent 'techniques-du-pochoir', papier_impression
-    pochoirs        = Subject.find 'refection-de-sieges-fauteuils'
+    pochoirs        = Subject.friendly.find 'refection-de-sieges-fauteuils'
     pochoirs.parent = objets_deco
     pochoirs.save
 
-    vannerie_paniers        = Subject.find 'vannerie-paniers'
+    vannerie_paniers        = Subject.friendly.find 'vannerie-paniers'
     vannerie_paniers.parent = objets_deco
     vannerie_paniers.save
 
@@ -64,7 +64,7 @@ class UpdateLoisirsSubjects < ActiveRecord::Migration
     rename_subject 'fonderie-bronze-moulages', 'Art du métal'
 
     ['couteaux-coutellerie', 'fonderie', 'forge-forgeron', 'sculpture-sur-metal'].each do |subj_name|
-      s = Subject.find subj_name
+      s = Subject.friendly.find subj_name
       s.destroy
     end
     travail_resto = update_parent 'art-du-tissu', 'travail-de-la-matiere-restauration'
@@ -77,10 +77,10 @@ class UpdateLoisirsSubjects < ActiveRecord::Migration
 
     delete_subject 'crayon'
 
-    dessin_peinture        = Subject.find 'dessin-peinture'
+    dessin_peinture        = Subject.friendly.find 'dessin-peinture'
     dessin_peinture.children.create name: 'Autres arts plastiques'
     ['croquis', 'decouverte-dessin-peinture', 'copie-de-tableaux', 'crayon-mine-fusain', 'aquarelle-lavis', 'bande-dessinee', 'dessin--2', 'caricature', 'dessin-a-l-encre-plume', 'gravure', 'graffiti', 'manga', 'pastel', 'peinture', 'peinture-a-l-huile', 'peinture-acrylique', 'peinture-abstraite-contemporaine', 'peinture-d-icones', 'peinture-en-trompe-l-oeil', 'enluminure'].each do |slug|
-      subject = Subject.find(slug)
+      subject = Subject.friendly.find(slug)
       subject.parent = dessin_peinture
       subject.save
     end
@@ -105,7 +105,7 @@ class UpdateLoisirsSubjects < ActiveRecord::Migration
     caligraphie.children.create name: "Ateliers d'écriture"
 
     delete_subjects ['patines', 'restauration-de-mobilier-ancien', 'restauration-de-tableaux', 'vernis-au-tampon', 'fabrication-d-objets-en-bois', 'peinture-sur-bois-icones', 'sculpture-sur-bois', 'travail-du-cuir-et-des-peaux', 'travail-du-verre', 'pate-de-verre', 'perles-de-verre', 'souffleur-de-verre', 'vitrail', 'art-visuel', 'art-numerique', 'ecoles-centres-academies-de-musique', 'arts-plastiques', 'travail-du-cuir', 'travail-du-bois', 'vitrail-travail-du-verre', 'restauration-d-art']
-    art_artisanat   = Subject.find('art-artisanat')
+    art_artisanat   = Subject.friendly.find('art-artisanat')
     art_artisanat.children.each do |child|
       child.parent = dessin_peinture_arts
       child.save
@@ -125,14 +125,14 @@ class UpdateLoisirsSubjects < ActiveRecord::Migration
   end
 
   def rename_subject slug, new_name
-    subject      = Subject.find slug
+    subject      = Subject.friendly.find slug
     subject.name = new_name
     subject.save
     return subject
   end
 
   def delete_subject slug
-    subject      = Subject.find slug
+    subject      = Subject.friendly.find slug
     subject.destroy
   end
 
@@ -143,9 +143,9 @@ class UpdateLoisirsSubjects < ActiveRecord::Migration
   end
 
   def update_parent slug, parent_slug
-    child  = Subject.find(slug)
+    child  = Subject.friendly.find(slug)
     if parent_slug.is_a? String
-      parent = Subject.find(parent_slug)
+      parent = Subject.friendly.find(parent_slug)
     else
       parent = parent_slug
     end

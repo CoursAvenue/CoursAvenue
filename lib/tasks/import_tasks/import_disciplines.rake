@@ -28,9 +28,9 @@ namespace :import do
       bar.increment! 1
       next if row[:parent_name].blank?
 
-      parent_subject     = Subject.find_or_create_by_name row[:parent_name]
-      sub_parent_subject = Subject.find_or_create_by_name(row[:sub_parent_name]) ; sub_parent_subject.parent = parent_subject; sub_parent_subject.save
-      child_subject      = Subject.find_or_create_by_name(row[:child_name])      ; child_subject.parent      = sub_parent_subject; child_subject.save
+      parent_subject     = Subject.friendly.find_or_create_by_name row[:parent_name]
+      sub_parent_subject = Subject.friendly.find_or_create_by_name(row[:sub_parent_name]) ; sub_parent_subject.parent = parent_subject; sub_parent_subject.save
+      child_subject      = Subject.friendly.find_or_create_by_name(row[:child_name])      ; child_subject.parent      = sub_parent_subject; child_subject.save
       if row[:child_to_replace].present?
         child_to_replace  = Subject.where{name == row[:child_to_replace]}.first
         unless child_to_replace.nil?

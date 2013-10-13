@@ -6,13 +6,13 @@ class Pro::PlacesController < InheritedResources::Base
   load_and_authorize_resource :structure, except: [:index]
 
   def edit
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @place     = @structure.places.find params[:id]
     @place.contacts.build if @place.contacts.empty?
   end
 
   def new
-    @structure      = Structure.find params[:structure_id]
+    @structure      = Structure.friendly.find params[:structure_id]
     @place          = @structure.places.build
     @place.location = Location.new
     @place.contacts.build
@@ -26,7 +26,7 @@ class Pro::PlacesController < InheritedResources::Base
   end
 
   def create
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @location  = Location.find params[:place][:location_attributes].delete(:id) if params[:place][:location_attributes].has_key? :id
     @place     = @structure.places.build params[:place]
     @place.location = @location if @location

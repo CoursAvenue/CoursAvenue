@@ -1,8 +1,8 @@
 class Subjects::Cities::MediasController < ApplicationController
 
   def videos
-    @subject          = Subject.find params[:subject_id]
-    @city             = City.find params[:city_id]
+    @subject          = Subject.friendly.find params[:subject_id]
+    @city             = City.friendly.find params[:city_id]
     @structure_search = StructureSearch.search({lat: @city.latitude,
                                           lng: @city.longitude,
                                           radius: 4,

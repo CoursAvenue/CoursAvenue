@@ -4,7 +4,7 @@ class ::Pro::Structures::InvitedTeachersController < Pro::ProController
   load_and_authorize_resource :structure
 
   def index
-    @structure        = Structure.find params[:structure_id]
+    @structure        = Structure.friendly.find params[:structure_id]
     @invited_teachers = @structure.invited_teachers
   end
 end

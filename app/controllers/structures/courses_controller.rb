@@ -3,13 +3,13 @@ class Structures::CoursesController < ApplicationController
 
   def show
     begin
-      @structure = Structure.find params[:structure_id]
+      @structure = Structure.friendly.find params[:structure_id]
     rescue ActiveRecord::RecordNotFound
       place = Place.find params[:structure_id]
       redirect_to structure_course_path(place.structure, params[:id]), status: 301
       return
     end
-    @course             = Course.find(params[:id])
+    @course             = Course.friendly.find(params[:id])
     @comment            = @course.comments.build
     @comments           = @structure.comments.accepted.reject(&:new_record?)
     @medias             = @structure.medias

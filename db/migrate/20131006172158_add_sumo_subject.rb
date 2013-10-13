@@ -1,6 +1,6 @@
 class AddSumoSubject < ActiveRecord::Migration
   def up
-    s = Subject.find 'arts-martiaux-sports-de-combat'
+    s = Subject.friendly.find 'arts-martiaux-sports-de-combat'
     s.children.create name: 'Sumo'
   end
 

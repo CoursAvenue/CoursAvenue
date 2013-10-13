@@ -12,7 +12,7 @@ class Pro::PlanningsController < InheritedResources::Base
 
   def duplicate
     @planning            = Planning.find params[:id]
-    @course              = Course.find params[:course_id]
+    @course              = Course.friendly.find params[:course_id]
     @duplicate_planning  = @planning.duplicate
     respond_to do |format|
       if @duplicate_planning.save
@@ -32,7 +32,7 @@ class Pro::PlanningsController < InheritedResources::Base
   end
 
   def new
-    @course    = Course.find(params[:course_id])
+    @course    = Course.friendly.find(params[:course_id])
     @planning  = Planning.new
     retrieve_plannings_and_past_plannings
     respond_to do |format|
@@ -137,7 +137,7 @@ class Pro::PlanningsController < InheritedResources::Base
   end
 
   def load_structure
-    @course    = Course.find(params[:course_lesson_id] || params[:course_workshop_id] || params[:course_training_id] || params[:course_id])
+    @course    = Course.friendly.find(params[:course_lesson_id] || params[:course_workshop_id] || params[:course_training_id] || params[:course_id])
     @structure = @course.structure
   end
 end

@@ -8,32 +8,29 @@ class Course < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
-  friendly_id :friendly_name, use: :slugged
+  friendly_id :friendly_name, use: [:slugged, :history]
 
   has_attached_file :image,
                     styles: { wide: '800x480#', normal: '450x', thumb: '200x200#', mini: '50x50#' },
                     path: 'course/:id/image/:fingerprint-:style.:extension'#,
 
   belongs_to :structure, touch: true
-  # belongs_to :place,     touch: true
-  # has_one    :city,      through: :place
-
   has_and_belongs_to_many :users
 
-  has_many :comments,             through: :structure
-  has_many :reservations,         as: :reservable
+  has_many :comments            , through: :structure
+  has_many :reservations        , as: :reservable
   has_many :plannings           , dependent: :destroy
-  has_many :teachers            , through: :plannings, -> { uniq }
-  has_many :places              , through: :plannings, -> { uniq }
+  has_many :teachers            , -> { uniq }, through: :plannings
+  has_many :places              , -> { uniq }, through: :plannings
   has_many :prices              , dependent: :destroy
   has_many :reservation_loggers , dependent: :destroy
 
-  has_and_belongs_to_many :subjects, -> { uniq }
+  # has_and_belongs_to_many :subjects, -> { uniq }
 
-  after_touch :reindex
+  # after_touch :reindex
 
   # ------------------------------------------------------------------------------------ Scopes
-  scope :active  ,  -> { where(active: true) }
+  scope :active,    -> { where(active: true) }
   scope :disabled,  -> { where(active: false) }
   scope :lessons,   -> { where(type: "Course::Lesson") }
   scope :workshops, -> { where(type: "Course::Workshop") }
@@ -93,6 +90,7 @@ class Course < ActiveRecord::Base
 
     text :subjects do
       subject_array = []
+      debugger
       subjects.each do |subject|
         subject_array << subject
         subject_array << subject.parent if subject.parent
@@ -121,7 +119,7 @@ class Course < ActiveRecord::Base
       subject_slugs.uniq
     end
 
-    string  :type do
+    string :type do
       case type
       when 'Course::Lesson'
         'lesson'
@@ -212,7 +210,7 @@ class Course < ActiveRecord::Base
 
   def copy_prices_from!(course)
     new_prices = []
-    course.prices.all.each do |price|
+    course.prices.each do |price|
       new_prices << price.dup
     end
     self.prices        = new_prices

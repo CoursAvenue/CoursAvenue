@@ -3,7 +3,7 @@ class ReservationsController < ApplicationController
   include ReservationHelper
 
   def new
-    @course = Course.find params[:course_id]
+    @course = Course.friendly.find params[:course_id]
     redirect_to structure_course_path @course.structure, @course, status: 301
   end
 

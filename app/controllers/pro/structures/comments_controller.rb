@@ -4,7 +4,7 @@ class Pro::Structures::CommentsController < InheritedResources::Base#Pro::ProCon
   layout 'admin'
 
   def index
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     unless can? :read, @structure
       redirect_to pro_root_path, alert: "Vous n'êtes pas autorisé à voir cette page."
     end
@@ -14,21 +14,21 @@ class Pro::Structures::CommentsController < InheritedResources::Base#Pro::ProCon
   end
 
   def accept
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @comment   = @structure.comments.find params[:id]
     @comment.accept!
     redirect_to pro_structure_comments_path(@structure), notice: "L'avis à bien été accepté"
   end
 
   def decline
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @comment   = @structure.comments.find params[:id]
     @comment.decline!
     redirect_to pro_structure_comments_path(@structure), notice: "L'avis à bien été refusé"
   end
 
   def ask_for_deletion
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @comment   = @structure.comments.find params[:id]
     @comment.ask_for_deletion!(params[:deletion_reason])
     redirect_to pro_structure_comments_path(@structure), notice: "L'avis est en attente de suppression"

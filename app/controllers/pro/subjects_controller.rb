@@ -8,11 +8,11 @@ class Pro::SubjectsController < Pro::ProController
   end
 
   def edit
-    @subject = Subject.find params[:id]
+    @subject = Subject.friendly.find params[:id]
   end
 
   def update
-    @subject = Subject.find params[:id]
+    @subject = Subject.friendly.find params[:id]
     respond_to do |format|
       if @subject.update_attributes params[:subject]
         format.html { redirect_to pro_subjects_path}

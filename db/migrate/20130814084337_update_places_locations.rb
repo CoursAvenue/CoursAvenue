@@ -2,7 +2,7 @@ class UpdatePlacesLocations < ActiveRecord::Migration
   def up
     bar = ProgressBar.new( Location.count )
     Location.all.each do |location|
-      structure = Structure.find location.structure_id
+      structure = Structure.friendly.find location.structure_id
       place     = Place.create(location: location, structure: structure)
 
       location_id = location.id

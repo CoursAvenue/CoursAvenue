@@ -7,7 +7,7 @@ class Pro::Structures::StudentsController < Pro::ProController
   end
 
   def destroy
-    @structure = Structure.find params[:structure_id]
+    @structure = Structure.friendly.find params[:structure_id]
     @student   = @structure.students.find params[:id]
     respond_to do |format|
       if @student.destroy

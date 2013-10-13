@@ -1,8 +1,8 @@
 class Subjects::CitiesController < ApplicationController
 
   def show
-    @subject          = Subject.find params[:subject_id]
-    @city             = City.find params[:id]
+    @subject          = Subject.friendly.find params[:subject_id]
+    @city             = City.friendly.find params[:id]
     @structure_search = StructureSearch.search({lat: @city.latitude,
                                           lng: @city.longitude,
                                           radius: 4,

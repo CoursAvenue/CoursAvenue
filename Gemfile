@@ -72,7 +72,7 @@ gem 'geocoder'                  , '~>1.1.8'
 gem 'active_model_serializers'  , '~>0.8.1'
 
 # Generate slugs for records
-gem 'friendly_id'               , '~>5.0'
+gem 'friendly_id'               , '~>5.0.0.rc2'
 # Handy forms
 gem 'simple_form'               , '~>3.0.0'
 # Dry the controllers
@@ -87,13 +87,15 @@ gem 'omniauth-facebook'         , '~>1.4.0'
 # Helps access to gmail contacts etc.
 gem 'omnicontacts'              , '~>0.3.4'
 
-# For search
+# Search engine
 gem 'sunspot'                   , '~>2.0.0'
-gem 'sunspot_solr'              , '~>2.0.0'
+# Add solr server for development
+gem 'sunspot_solr'              , '~>2.0.0', group: :development
 gem 'sunspot_rails'             , '~>2.0.0'
 gem 'sunspot-rails-tester'      , '~>1.0.0'
 
 # Prevent from real deletion
+# acts_as_paranoid
 gem 'paranoia'                  , '~>2.0'
 
 # Helps having a clean ruby sitemap
@@ -138,10 +140,11 @@ end
 
 group :development do
   # Show errors in a beautiful way
+  gem 'quiet_assets'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'awesome_print'
-  gem 'meta_request', '0.2.1'
+  gem 'meta_request', '0.2.6'
 end
 
 group :development, :test do
@@ -154,7 +157,6 @@ end
 gem 'gem_bench', :group => :console
 
 # Rails 4 upgrade
-gem 'protected_attributes'
 gem 'rails-observers'
 gem 'actionpack-page_caching'
 gem 'actionpack-action_caching'

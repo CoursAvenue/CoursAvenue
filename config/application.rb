@@ -114,5 +114,7 @@ module CoursAvenue
     config.to_prepare do
       Devise::Mailer.layout 'email' # email.haml or email.erb
     end
+
+    # config.quiet_assets = true
   end
 end

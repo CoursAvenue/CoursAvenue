@@ -1,8 +1,8 @@
 # encoding: utf-8
 class UpdateDecoModePhotoSubjects < ActiveRecord::Migration
   def up
-    mode_beaute         = Subject.find 'mode-beaute'
-    deco_mode_bricolage = Subject.find 'deco-mode-bricolage'
+    mode_beaute         = Subject.friendly.find 'mode-beaute'
+    deco_mode_bricolage = Subject.friendly.find 'deco-mode-bricolage'
     mode_beaute.children.each do |child|
       child.parent = deco_mode_bricolage
       child.save
@@ -49,7 +49,7 @@ class UpdateDecoModePhotoSubjects < ActiveRecord::Migration
 
     rename_subject 'infographie-pao-pao-publication-assistee-par-ordinateur', 'Infographie & PAO (Publication Assistée par Ordinateur)'
 
-    mother_langue = Subject.find 'langues-soutien-scolaire'
+    mother_langue = Subject.friendly.find 'langues-soutien-scolaire'
     mother_langue.children.map(&:destroy)
     langue   = mother_langue.children.create name: 'Langues'
     langue.children.create name: "Apprentissage d'une langue"
@@ -62,14 +62,14 @@ class UpdateDecoModePhotoSubjects < ActiveRecord::Migration
   def down
   end
   def rename_subject slug, new_name
-    subject      = Subject.find slug
+    subject      = Subject.friendly.find slug
     subject.name = new_name
     subject.save
     return subject
   end
 
   def delete_subject slug
-    subject      = Subject.find slug
+    subject      = Subject.friendly.find slug
     subject.destroy
   end
 
@@ -80,9 +80,9 @@ class UpdateDecoModePhotoSubjects < ActiveRecord::Migration
   end
 
   def update_parent slug, parent_slug
-    child  = Subject.find(slug)
+    child  = Subject.friendly.find(slug)
     if parent_slug.is_a? String
-      parent = Subject.find(parent_slug)
+      parent = Subject.friendly.find(parent_slug)
     else
       parent = parent_slug
     end

@@ -15,7 +15,7 @@ class Pro::DashboardController < Pro::ProController
       _structures = Structure.joins{admins}.joins{subjects}.count(:group => ["subjects.id"])
       @structures = {}
       _structures.each do |key, value|
-        subj = Subject.find(key)
+        subj = Subject.friendly.find(key)
         if subj.grand_parent
           @structures[subj.grand_parent.name] = (@structures[subj.grand_parent.name] || 0) + value
         else

@@ -55,7 +55,7 @@ class UpdateBienEtreDevPersoSubjects < ActiveRecord::Migration
     rename_subject 'yoga-hatha-yoga', 'Hatha yoga'
     delete_subject 'shiatsu-watsu'
     delete_subject 'tai-chi-qi-gong'
-    yoga = Subject.find 'yoga'
+    yoga = Subject.friendly.find 'yoga'
     yoga.children.create name: 'Ashtanga Vinyasa yoga'
     yoga.children.create name: 'Bikram yoga'
     yoga.children.create name: 'Kundalini yoga'
@@ -70,19 +70,19 @@ class UpdateBienEtreDevPersoSubjects < ActiveRecord::Migration
   end
 
   def rename_subject slug, new_name
-    subject      = Subject.find slug
+    subject      = Subject.friendly.find slug
     subject.name = new_name
     subject.save
     return subject
   end
 
   def delete_children slug
-    subject      = Subject.find slug
+    subject      = Subject.friendly.find slug
     subject.children.map(&:destroy)
   end
 
   def delete_subject slug
-    subject      = Subject.find slug
+    subject      = Subject.friendly.find slug
     subject.children.map(&:destroy)
     subject.destroy
   end
@@ -94,9 +94,9 @@ class UpdateBienEtreDevPersoSubjects < ActiveRecord::Migration
   end
 
   def update_parent slug, parent_slug
-    child  = Subject.find(slug)
+    child  = Subject.friendly.find(slug)
     if parent_slug.is_a? String
-      parent = Subject.find(parent_slug)
+      parent = Subject.friendly.find(parent_slug)
     else
       parent = parent_slug
     end

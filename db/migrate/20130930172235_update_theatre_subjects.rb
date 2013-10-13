@@ -3,10 +3,10 @@ class UpdateTheatreSubjects < ActiveRecord::Migration
   def up
     # Danse
     delete_subject 'danses-de-couple'
-    salsa = Subject.find 'salsa'
+    salsa = Subject.friendly.find 'salsa'
     salsa_structures = salsa.structures
     salsa.destroy
-    danse = Subject.find 'danse'
+    danse = Subject.friendly.find 'danse'
     update_parent 'danses-urbaines', danse
     update_parent 'jazz-street-jazz-modern-jazz', 'danses-urbaines'
     delete_subjects ['jazz-modern-jazz']
@@ -93,23 +93,23 @@ class UpdateTheatreSubjects < ActiveRecord::Migration
 
     delete_subject 'mode-beaute'
 
-    subj = Subject.find 'objets-decoration'
+    subj = Subject.friendly.find 'objets-decoration'
     subj.children.create name: 'Vannerie & paniers'
-    subj = Subject.find 'art-floral-vegetal'
+    subj = Subject.friendly.find 'art-floral-vegetal'
     subj.children.create name: 'Créations florales'
   end
 
   def down
   end
   def rename_subject slug, new_name
-    subject      = Subject.find slug
+    subject      = Subject.friendly.find slug
     subject.name = new_name
     subject.save
     return subject
   end
 
   def delete_subject slug
-    subject      = Subject.find slug
+    subject      = Subject.friendly.find slug
     subject.destroy
   end
 
@@ -120,9 +120,9 @@ class UpdateTheatreSubjects < ActiveRecord::Migration
   end
 
   def update_parent slug, parent_slug
-    child  = Subject.find(slug)
+    child  = Subject.friendly.find(slug)
     if parent_slug.is_a? String
-      parent = Subject.find(parent_slug)
+      parent = Subject.friendly.find(parent_slug)
     else
       parent = parent_slug
     end

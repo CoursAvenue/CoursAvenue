@@ -26,11 +26,11 @@ class RemoveChildTeenageSubject < ActiveRecord::Migration
   end
   def up
     # ----------------------- Create missing subjects
-    danse = Subject.find('danse')
+    danse = Subject.friendly.find('danse')
     danse.children.create name: 'Claquettes'
     danse.children.create name: 'Zumba'
 
-    artisanat = Subject.find('art-artisanat')
+    artisanat = Subject.friendly.find('art-artisanat')
     caligraphie = artisanat.children.create name: 'Calligraphie'
     caligraphie.children.create name: 'Calligraphie arabe'
     caligraphie.children.create name: 'Calligraphie chinoise & asiatique'
@@ -39,11 +39,11 @@ class RemoveChildTeenageSubject < ActiveRecord::Migration
 
     bar = ProgressBar.new(20)
     # ----------------------- Associating new subjects to children
-    enfants_ados = Subject.find 'enfants-ados'
+    enfants_ados = Subject.friendly.find 'enfants-ados'
     association_subjects.each do |old, new|
       bar.increment!
-      old_subject = Subject.find old
-      new_subject = Subject.find new
+      old_subject = Subject.friendly.find old
+      new_subject = Subject.friendly.find new
       old_subject.structures.each do |structure|
         structure.subjects.delete old_subject
         structure.subjects << new_subject

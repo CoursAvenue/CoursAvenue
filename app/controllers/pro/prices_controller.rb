@@ -53,7 +53,7 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
   private
 
   def load_structure
-    @course    = Course.find(params[:course_lesson_id] || params[:course_workshop_id] || params[:course_training_id] || params[:course_id])
+    @course    = Course.friendly.find(params[:course_lesson_id] || params[:course_workshop_id] || params[:course_training_id] || params[:course_id])
     @structure = @course.structure
   end
 

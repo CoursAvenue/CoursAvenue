@@ -5,13 +5,13 @@ class Structures::CommentsController < ApplicationController
   layout 'empty'
 
   def new
-    @structure   = Structure.find(params[:structure_id])
+    @structure   = Structure.friendly.find(params[:structure_id])
     @comment     = @structure.comments.build
     @comments    = @structure.comments.accepted.reject(&:new_record?)[0..5]
   end
 
   def show
-    @structure    = Structure.find(params[:structure_id])
+    @structure    = Structure.friendly.find(params[:structure_id])
     @comment      = Comment.find params[:id]
     if @structure.image.present?
       @logo_url  = @structure.image.url

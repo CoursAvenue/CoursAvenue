@@ -17,7 +17,7 @@ class StructuresController < ApplicationController
 
   def show
     begin
-      @structure = Structure.find params[:id]
+      @structure = Structure.friendly.find params[:id]
     rescue ActiveRecord::RecordNotFound
       place = Place.find params[:id]
       redirect_to structure_path(place.structure), status: 301
@@ -44,7 +44,7 @@ class StructuresController < ApplicationController
 
   def index
     if params[:subject_id]
-      @subject = Subject.find params[:subject_id]
+      @subject = Subject.friendly.find params[:subject_id]
     else
       # Little hack to determine if the name is equal a subject
       _name = params[:name]
