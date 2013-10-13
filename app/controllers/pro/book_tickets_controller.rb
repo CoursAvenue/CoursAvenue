@@ -6,7 +6,7 @@ class Pro::BookTicketsController < InheritedResources::Base#Pro::ProController
 
   belongs_to :course
   before_action :load_structure, :load_prices
-  load_and_authorize_resource :structure
+  load_and_authorize_resource :structure, find_by: :slug
 
   def edit
     edit! do |format|

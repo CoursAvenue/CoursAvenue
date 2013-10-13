@@ -8,7 +8,7 @@ class Pro::PlanningsController < InheritedResources::Base
   before_action :retrieve_places
 
   belongs_to :course
-  load_and_authorize_resource :structure
+  load_and_authorize_resource :structure, find_by: :slug
 
   def duplicate
     @planning            = Planning.find params[:id]

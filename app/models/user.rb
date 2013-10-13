@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 
   extend FriendlyId
-  friendly_id :full_name, use: [:slugged, :history]
+  friendly_id :full_name, use: [:slugged, :finders]
 
   has_many :comments, -> { order('created_at DESC') }
   has_many :reservations

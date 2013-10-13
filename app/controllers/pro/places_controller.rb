@@ -3,7 +3,7 @@ class Pro::PlacesController < InheritedResources::Base
   before_action :authenticate_pro_admin!
   layout 'admin'
   belongs_to :structure
-  load_and_authorize_resource :structure, except: [:index]
+  load_and_authorize_resource :structure, except: [:index], find_by: :slug
 
   def edit
     @structure = Structure.friendly.find params[:structure_id]

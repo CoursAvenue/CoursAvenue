@@ -6,7 +6,7 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
 
   belongs_to :course
   before_action :load_structure
-  load_and_authorize_resource :structure
+  load_and_authorize_resource :structure, find_by: :slug
 
   def index
     retrieve_prices

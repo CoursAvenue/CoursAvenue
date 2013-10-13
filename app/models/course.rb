@@ -8,7 +8,7 @@ class Course < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Model attributes and settings
   extend FriendlyId
-  friendly_id :friendly_name, use: [:slugged, :history]
+  friendly_id :friendly_name, use: [:slugged, :finders]
 
   has_attached_file :image,
                     styles: { wide: '800x480#', normal: '450x', thumb: '200x200#', mini: '50x50#' },
@@ -25,9 +25,9 @@ class Course < ActiveRecord::Base
   has_many :prices              , dependent: :destroy
   has_many :reservation_loggers , dependent: :destroy
 
-  # has_and_belongs_to_many :subjects, -> { uniq }
+  has_and_belongs_to_many :subjects, -> { uniq }
 
-  # after_touch :reindex
+  after_touch :reindex
 
   # ------------------------------------------------------------------------------------ Scopes
   scope :active,    -> { where(active: true) }
@@ -38,7 +38,6 @@ class Course < ActiveRecord::Base
 
   # ------------------------------------------------------------------------------------ Validations
   validates :type, :name  , presence: true
-  # validates :place        , presence: true
   validates :subjects     , presence: true
 
   before_save :replace_slash_n_r_by_brs
@@ -429,10 +428,11 @@ class Course < ActiveRecord::Base
 
 
   def friendly_name
-    slugs = [self.type_name, self.name]
-    # slugs << self.city.name      if self.city
-    slugs << self.structure.name if self.structure
-    return slugs
+    [
+      [-> { self.structure.name}, -> { self.type_name }, :name],
+      [-> { self.type_name }, :name],
+      :name
+    ]
   end
 
   def replace_slash_n_r_by_brs

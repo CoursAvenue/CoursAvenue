@@ -140,7 +140,6 @@ end
 
 group :development do
   # Show errors in a beautiful way
-  gem 'quiet_assets'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'awesome_print'
@@ -157,6 +156,7 @@ end
 gem 'gem_bench', :group => :console
 
 # Rails 4 upgrade
+gem 'protected_attributes'
 gem 'rails-observers'
 gem 'actionpack-page_caching'
 gem 'actionpack-action_caching'

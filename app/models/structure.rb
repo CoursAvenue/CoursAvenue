@@ -7,7 +7,7 @@ class Structure < ActiveRecord::Base
   include ActsAsGeolocalizable
 
   extend FriendlyId
-  friendly_id :name, use: [:slugged, :history]
+  friendly_id :slug_candidates, use: [:slugged, :finders]
 
   acts_as_gmappable validation: false,
                     language: 'fr'
@@ -75,8 +75,8 @@ class Structure < ActiveRecord::Base
   belongs_to       :pricing_plan
 
   has_many :invited_teachers          , dependent: :destroy
-  has_many :medias,   as: :mediable   , order: 'created_at ASC'
-  has_many :comments, as: :commentable, dependent: :destroy, order: 'created_at DESC'
+  has_many :medias                    , -> { order('created_at ASC') },  as: :mediable
+  has_many :comments                  , -> { order('created_at DESC') }, as: :commentable, dependent: :destroy
   has_many :students                  , dependent: :destroy
   has_many :teachers                  , dependent: :destroy
   has_many :courses                   , dependent: :destroy
@@ -387,6 +387,14 @@ class Structure < ActiveRecord::Base
   end
 
   private
+
+  def slug_candidates
+    [
+      :name,
+      [:name, :zip_code],
+      [:name, :zip_code, :street],
+    ]
+  end
 
   def reprocess_logo
     self.update_column :cropping, false

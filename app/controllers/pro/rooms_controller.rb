@@ -3,7 +3,7 @@ class Pro::RoomsController < InheritedResources::Base
   layout 'admin'
 
   nested_belongs_to :structure, :place
-  load_and_authorize_resource :structure
+  load_and_authorize_resource :structure, find_by: :slug
 
   def create
     @rooms = @place.rooms

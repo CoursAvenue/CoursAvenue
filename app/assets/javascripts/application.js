@@ -90,6 +90,7 @@ $(function() {
                 width       : width,
                 height      : height,
                 autoSize    : false,
+                autoResize  : true,
                 ajax        : {
                     complete: function(){
                         $.each(global.initialize_callbacks, function(i, func) { func(); });

@@ -5,7 +5,7 @@ class Pro::CoursesController < InheritedResources::Base
 
   layout 'admin'
 
-  load_and_authorize_resource :structure, except: [:create, :update]
+  load_and_authorize_resource :structure, except: [:create, :update], find_by: :slug
 
   def index
     @structure = Structure.friendly.find params[:structure_id]

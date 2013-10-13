@@ -3,7 +3,7 @@ class UsersController < InheritedResources::Base
   layout 'user_profile'
   actions :show, :update
 
-  load_and_authorize_resource :user
+  load_and_authorize_resource :user, find_by: :slug
 
   def show
     @user = User.find(params[:id])

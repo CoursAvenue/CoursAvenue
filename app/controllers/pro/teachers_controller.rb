@@ -5,7 +5,7 @@ class Pro::TeachersController < InheritedResources::Base
   layout 'admin'
 
   belongs_to :structure
-  load_and_authorize_resource :structure, except: [:index]
+  load_and_authorize_resource :structure, except: [:index], find_by: :slug
 
   def index
     @teacher = Teacher.new
