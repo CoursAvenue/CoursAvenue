@@ -23,15 +23,15 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         initialize: function (models, options) {
             console.log("PaginatedCollection->initialize");
 
-            var search = this.makeOptionsFromSearch(window.location.search);
-
             this.currentPage = 1;
-            this.server_api = search; // define the server API based on the load-time URI
+            // define the server API based on the load-time URI
+            this.server_api = this.makeOptionsFromSearch(window.location.search);
             this.server_api.page = function () { return this.currentPage; };
 
             this.paginator_ui.currentPage = 1;
             this.paginator_ui.grandTotal = options.total;
             this.paginator_ui.totalPages = Math.ceil(options.total / this.paginator_ui.perPage);
+            this.url.basename = window.location.origin;
         },
 
         makeOptionsFromSearch: function (search) {
@@ -52,8 +52,8 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             firstPage:   1,
             perPage:     15,
             totalPages:  0,
-            grandTotal: 0,
-            radius: 1 // determines the behaviour of the ellipsis
+            grandTotal:  0,
+            radius:      2 // determines the behaviour of the ellipsis
         },
 
         parse: function(response) {
@@ -92,7 +92,8 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         /* where we can expect to find the resource we seek
          *  TODO this needs to be set on the server side */
         url: {
-            basename: 'http://localhost:3000',
+            // basename: 'http://coursavenue.dev',
+            // basename: 'http://localhost:3000',
             resource: '/etablissements',
             data_type: '.json'
         },

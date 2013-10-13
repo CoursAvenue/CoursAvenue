@@ -2,7 +2,7 @@ class StructureSerializer < ActiveModel::Serializer
   include StructuresHelper
 
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
-             :logo_present, :logo_url, :parent_subjects_text, :parent_subjects, :child_subjects, :data_url,
+             :logo_present, :logo_thumb_url, :parent_subjects_text, :parent_subjects, :child_subjects, :data_url,
              :subjects_count, :too_many_subjects, :subjects
   has_many :places
 
@@ -10,7 +10,7 @@ class StructureSerializer < ActiveModel::Serializer
     object.logo.present?
   end
 
-  def logo_url
+  def logo_thumb_url
     object.logo.url(:thumb)
   end
 
