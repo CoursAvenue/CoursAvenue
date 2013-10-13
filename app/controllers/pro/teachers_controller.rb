@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pro::TeachersController < InheritedResources::Base
-  before_filter :authenticate_pro_admin!
+  before_action :authenticate_pro_admin!
 
   layout 'admin'
 

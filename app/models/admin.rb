@@ -9,9 +9,9 @@ class ::Admin < ActiveRecord::Base
   ]
 
   # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
+  # :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :invitable, :database_authenticatable,
+  devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
   after_save :delay_subscribe_to_mailchimp if Rails.env.production?
@@ -38,7 +38,7 @@ class ::Admin < ActiveRecord::Base
   belongs_to :structure
 
   # Scopes
-  scope :normal, where(super_admin: false)
+  scope :normal, -> { where(super_admin: false) }
 
   def confirm!
     super

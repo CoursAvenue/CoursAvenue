@@ -23,21 +23,21 @@ class Course < ActiveRecord::Base
   has_many :comments,             through: :structure
   has_many :reservations,         as: :reservable
   has_many :plannings           , dependent: :destroy
-  has_many :teachers            , through: :plannings, uniq: true
-  has_many :places              , through: :plannings, uniq: true
+  has_many :teachers            , through: :plannings, -> { uniq }
+  has_many :places              , through: :plannings, -> { uniq }
   has_many :prices              , dependent: :destroy
   has_many :reservation_loggers , dependent: :destroy
 
-  has_and_belongs_to_many :subjects, :uniq => true
+  has_and_belongs_to_many :subjects, -> { uniq }
 
   after_touch :reindex
 
   # ------------------------------------------------------------------------------------ Scopes
-  scope :active  ,  where(active: true)
-  scope :disabled,  where(active: false)
-  scope :lessons,   where(type: "Course::Lesson")
-  scope :workshops, where(type: "Course::Workshop")
-  scope :trainings, where(type: "Course::Training")
+  scope :active  ,  -> { where(active: true) }
+  scope :disabled,  -> { where(active: false) }
+  scope :lessons,   -> { where(type: "Course::Lesson") }
+  scope :workshops, -> { where(type: "Course::Workshop") }
+  scope :trainings, -> { where(type: "Course::Training") }
 
   # ------------------------------------------------------------------------------------ Validations
   validates :type, :name  , presence: true

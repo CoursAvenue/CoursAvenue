@@ -1,7 +1,7 @@
 # encoding: utf-8
 class CoursesController < ApplicationController
 
-  before_filter :prepare_search, only: [:index]
+  before_action :prepare_search, only: [:index]
 
   def index
     if params[:subject_id]

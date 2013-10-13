@@ -2,10 +2,10 @@
 class Pro::PlanningsController < InheritedResources::Base
   layout 'admin'
 
-  before_filter :authenticate_pro_admin!
-  before_filter :load_structure
-  before_filter :retrieve_teachers
-  before_filter :retrieve_places
+  before_action :authenticate_pro_admin!
+  before_action :load_structure
+  before_action :retrieve_teachers
+  before_action :retrieve_places
 
   belongs_to :course
   load_and_authorize_resource :structure

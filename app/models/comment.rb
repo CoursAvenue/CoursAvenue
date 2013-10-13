@@ -21,10 +21,10 @@ class Comment < ActiveRecord::Base
   before_save      :replace_slash_n_r_by_brs
   before_save      :strip_names
 
-  scope :ordered,   order('created_at DESC')
-  scope :pending,              where(status: 'pending')
-  scope :accepted,             where(status: 'accepted')
-  scope :waiting_for_deletion, where(status: 'waiting_for_deletion')
+  scope :ordered,              -> { order('created_at DESC') }
+  scope :pending,              -> { where(status: 'pending') }
+  scope :accepted,             -> { where(status: 'accepted') }
+  scope :waiting_for_deletion, -> { where(status: 'waiting_for_deletion') }
 
   def content_for_input
     self.content.gsub(/<br>/, '&#x000A;').html_safe if self.content

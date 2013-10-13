@@ -16,10 +16,10 @@ class Price < ActiveRecord::Base
 
   before_save :remove_zeros
 
-  scope :book_tickets , where(type: 'Price::BookTicket')
-  scope :subscriptions, where(type: 'Price::Subscription')
-  scope :registrations, where(type: 'Price::Registration')
-  scope :discounts    , where(type: 'Price::Discount')
+  scope :book_tickets , -> { where(type: 'Price::BookTicket') }
+  scope :subscriptions, -> { where(type: 'Price::Subscription') }
+  scope :registrations, -> { where(type: 'Price::Registration') }
+  scope :discounts    , -> { where(type: 'Price::Discount') }
 
   def free?
     false

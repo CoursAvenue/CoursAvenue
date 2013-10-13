@@ -12,8 +12,8 @@ class Media < ActiveRecord::Base
   validates :url, presence: true
   validates :caption, length: { maximum: 255 }
 
-  scope :images,   where(format: "image")
-  scope :videos,   where(format: "video")
+  scope :images,   -> { where(format: "image") }
+  scope :videos,   -> { where(format: "video") }
 
   auto_html_for :url do
     image

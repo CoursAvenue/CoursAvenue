@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Pro::CoursesController < InheritedResources::Base
-  before_filter :authenticate_pro_admin!
-  before_filter :load_structure
+  before_action :authenticate_pro_admin!
+  before_action :load_structure
 
   layout 'admin'
 

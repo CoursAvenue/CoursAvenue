@@ -1,6 +1,6 @@
 # encoding: utf-8
 class ::Pro::AdminsController < InheritedResources::Base
-  before_filter :authenticate_pro_admin!, except: [:waiting_for_activation]
+  before_action :authenticate_pro_admin!, except: [:waiting_for_activation]
   load_and_authorize_resource :admin, except: [:waiting_for_activation]
 
   layout :admin_layout

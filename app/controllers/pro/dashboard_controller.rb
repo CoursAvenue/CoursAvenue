@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pro::DashboardController < Pro::ProController
-  before_filter :authenticate_pro_admin!
+  before_action :authenticate_pro_admin!
   def index
     raise CanCan::AccessDenied.new unless current_pro_admin.super_admin?
     # @admins = Admin.count(:order => 'DATE(created_at) DESC', :group => ["DATE(created_at)"])

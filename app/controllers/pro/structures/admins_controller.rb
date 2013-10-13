@@ -3,7 +3,7 @@ class Pro::Structures::AdminsController < Pro::ProController
 
   layout 'admin'
 
-  before_filter :retrieve_structure
+  before_action :retrieve_structure
 
   def create
     @admin = ::Admin.new(params[:admin])

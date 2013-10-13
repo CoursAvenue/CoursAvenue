@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Pro::Structures::StudentsController < Pro::ProController
-  before_filter      :authenticate_pro_admin!
+  before_action      :authenticate_pro_admin!
   load_and_authorize_resource :structure
 
   def index

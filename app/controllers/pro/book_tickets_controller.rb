@@ -1,11 +1,11 @@
 # encoding: utf-8
 class Pro::BookTicketsController < InheritedResources::Base#Pro::ProController
-  before_filter :authenticate_pro_admin!
+  before_action :authenticate_pro_admin!
 
   layout 'admin'
 
   belongs_to :course
-  before_filter :load_structure, :load_prices
+  before_action :load_structure, :load_prices
   load_and_authorize_resource :structure
 
   def edit
