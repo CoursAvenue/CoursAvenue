@@ -55,9 +55,6 @@ gem 'progress_bar'              , '~>1.0.0'
 gem 'kaminari'                  , '~>0.14.1'
 # For image handling
 gem 'paperclip'                 , '~>3.5.1'
-# For uploading to amazon CDN
-# TODO
-# gem 'aws-sdk'                   , '~>1.21.0'
 
 # For handy SQL queries
 gem 'squeel'                    , '~>1.1.1'
@@ -120,6 +117,8 @@ gem 'compass'                   , '~>0.12.2'
 gem 'compass-rails'             , '~>2.0.alpha.0'
 # Load Inuit CSS
 gem 'compass-inuit'             , '~>5.0.2'
+# For uploading to amazon CDN
+gem 'aws-sdk'                   , '~>1.21.0'
 # Sync assets to S3 and CloudFront
 gem 'asset_sync'                , '~>1.0.0'
 # Enable haml
