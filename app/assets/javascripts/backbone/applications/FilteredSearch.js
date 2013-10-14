@@ -77,6 +77,7 @@ FilteredSearch.addInitializer(function(options) {
     layout = new FilteredSearch.Views.SearchWidgetsLayout();
 
     google_maps_view = new FilteredSearch.Views.GoogleMapsView({ collection: structures });
+    pagination_tool_view = new FilteredSearch.Views.PaginationToolView({ });
 
     FilteredSearch.mainRegion.show(layout);
     layout.results.show(structures_view);
@@ -98,6 +99,11 @@ FilteredSearch.addInitializer(function(options) {
             return false;
         })
     }); // we can pass an optional 'name' for the region
+
+    layout.showWidget(pagination_tool_view, function (view) {
+        console.log("EVENT  onPaginationToolShow");
+
+    });
 
     /* Later:
     * layout.widgets.show(pagination_tool_view);

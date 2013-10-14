@@ -52,12 +52,20 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         onResultsShow: function(view) {
             console.log('EVENT  SearchWidgetLayout->onResultsShow');
 
+            /* TODO we need a register/publish */
             this.listenTo(view, 'paginator:updating', this.clearForUpdate);
+            this.listenTo(view, 'paginator:updated', this.resetPaginationTool);
         },
 
-        clearForUpdate: function() {
+        clearForUpdate: function(e) {
             console.log('EVENT  SearchWidgetLayout->updateMap');
             this.google_maps_view.currentView.clearForUpdate();
+        },
+
+        resetPaginationTool: function(e) {
+            console.log('EVENT  SearchWidgetLayout->updateMap');
+            var pagination_info = this.results.currentView.getPaginationInfo();
+            this.pagination_tool_view.currentView.resetPaginationTool(pagination_info);
         }
     });
 });

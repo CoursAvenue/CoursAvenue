@@ -26,6 +26,18 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             };
         },
 
+        getPaginationInfo: function () {
+            var data = this.collection;
+            var first_result = (data.currentPage - 1) * data.perPage + 1;
+
+            return {
+                first: first_result,
+                last: Math.min(first_result + data.perPage - 1, data.grandTotal),
+                total: data.grandTotal,
+                buttons: this.buildPaginationButtons(data)
+            };
+        },
+
         /* we want to show buttons for the first and last pages, and the
          * pages in a radius around the current page. So we will skip pages
          * that don't meet that criteria */
@@ -38,6 +50,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         buildPaginationButtons: function (data) {
+            console.log("PaginatedCollectionView->buildPaginationButtons");
             var self = this,
             skipped = false,
             buttons = [];
@@ -121,7 +134,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.collection.goTo(page, {
                 success: function () {
                     console.log("EVENT  PaginatedCollection->changePage->success")
-                    // TODO here we need to update the paginator tool
+                    self.trigger('paginator:updated', this);
                 }
             });
 
