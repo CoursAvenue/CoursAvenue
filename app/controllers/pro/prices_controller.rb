@@ -10,11 +10,11 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
 
   def index
     retrieve_prices
-    8.times { @book_tickets       << ::Price::BookTicket.new(course: @course, number: 5)}
-    8.times { @individual_courses << ::Price::BookTicket.new(course: @course, number: 1)}
-    4.times { @subscriptions      << Price::Subscription.new(course: @course) }
-    6.times { @discounts          << Price::Discount.new(course: @course) }
-    6.times { @registrations      << Price::Registration.new(course: @course) }
+    8.times  { @book_tickets       << ::Price::BookTicket.new(course: @course, number: 5) }
+    8.times  { @individual_courses << ::Price::BookTicket.new(course: @course, number: 1) }
+    10.times { @subscriptions      << Price::Subscription.new(course: @course) }
+    6.times  { @discounts          << Price::Discount.new(course: @course) }
+    6.times  { @registrations      << Price::Registration.new(course: @course) }
     @trial  ||= Price::Trial.new(course: @course)
     index!
   end
