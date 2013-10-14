@@ -68,11 +68,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         // Add a MarkerView and render
         addChild: function(childModel) {
             console.log('GoogleMapsView->addChild');
-            var self = this;
+
             var markerView = new this.markerView({
                 model: childModel,
-                map: self.map
+                map: this.map
             });
+
             this.markers.push(markerView);
             markerView.render();
         }
