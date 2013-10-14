@@ -15,14 +15,10 @@
       = "Réservez le #{@course.type_name.downcase} de #{@course.name}. Retrouvez tous les avis et infos sur ce #{@course.type_name.downcase} - #{@course.name} à #{@structure.name}"
 
 .inline-block
-  - if cookies[:search_path]
-    = link_to cookies[:search_path] do
-      %i.orange ←
-      = t('.back_to_results')
-  - else
-    = link_to courses_path do
-      %i.orange ←
-      = t('.see_arrounding_courses')
+  = link_to structure_path(@structure) do
+    %i.orange ←
+    = t('.back_to_structure')
+
 .inline-block.push-half--sides
   |
 .inline-block

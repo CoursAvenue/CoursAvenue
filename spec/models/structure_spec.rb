@@ -11,6 +11,7 @@ describe Structure do
   context :contact do
     it 'returns admin contact' do
       admin = FactoryGirl.build(:admin)
+      admin.structure_id = structure.id
       structure.admins << admin
 
       structure.contact_email.should == admin.email
@@ -70,34 +71,20 @@ describe Structure do
     end
   end
 
-  context :subjects do
-    before do
-      @structure = FactoryGirl.build(:structure)
-    end
-    it 'creates courses depending the subjects passed' do
-      natation = Subject.first
-      @structure.subjects << natation
-      @structure.save
-      @structure.courses.length.should eq 1
-      @structure.courses.first.name.should eq natation.name
-    end
-  end
   context :comments do
     it 'retrieves course comments' do
       comment = structure.comments.create FactoryGirl.attributes_for(:comment)
       structure.comments.should include comment
     end
+  end
 
-    it 'updates comments_count' do
-      @structure = FactoryGirl.create(:structure)
-      @course    = FactoryGirl.create(:course, structure_id: @structure.id)
-
-      FactoryGirl.create(:structure_comment, commentable_id: @structure.id, commentable_type: 'Structure')
-      @structure.comments_count.should eq 1
-      FactoryGirl.create(:course_comment, commentable_id: @course.id, commentable_type: 'Structure')
-      @structure.comments_count.should eq 2
-      FactoryGirl.create(:course_comment, commentable_id: @course.id, commentable_type: 'Structure')
-      @structure.comments_count.should eq 3
-    end
+  it 'updates comments_count' do
+    @structure = FactoryGirl.create(:structure)
+    FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
+    @structure.reload.comments_count.should eq 1
+    FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
+    @structure.reload.comments_count.should eq 2
+    FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
+    @structure.reload.comments_count.should eq 3
   end
 end

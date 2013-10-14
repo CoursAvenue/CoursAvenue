@@ -15,7 +15,12 @@ class Pro::PlacesController < InheritedResources::Base
     @structure      = Structure.friendly.find params[:structure_id]
     @place          = @structure.places.build
     @place.location = Location.new
-    @place.contacts.build
+
+    if @structure.places.collect{|p| p.contacts}.flatten.any?
+      @place.contacts << @structure.places.collect{|p| p.contacts}.flatten.first.dup
+    else
+      @place.contacts.build
+    end
   end
 
   def index

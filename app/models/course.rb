@@ -89,7 +89,6 @@ class Course < ActiveRecord::Base
 
     text :subjects do
       subject_array = []
-      debugger
       subjects.each do |subject|
         subject_array << subject
         subject_array << subject.parent if subject.parent
