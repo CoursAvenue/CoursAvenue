@@ -12,7 +12,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* add a new region to deal with a given widget
         * assumption: view.template is in_this_form */
         showWidget: function (view, events, region_name) {
-            console.log("SearchWidgetsLayout->showWidget");
             if (region_name == undefined) {
                 region_name = _.last(view.template.split('/'));
             }
@@ -35,15 +34,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             new_region.show(view);
         },
 
-        /* generate the information needed for the template to create
-        * divs to hold the widgets */
-        serializeData: function() {
-            console.log("SearchWidgetsLayout->serializeData");
-        },
-
         initialize: function() {
-            console.log('SearchWidgetLayout->initialize');
-
             var self = this;
             /* this should listen to events from all its regions */
             _.each(_.keys(this.regions), function(region_name) {
@@ -55,15 +46,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* fires when the structures_view is first shown */
         onResultsShow: function(view) {
-            console.log('EVENT  SearchWidgetLayout->onResultsShow');
-
             this.listenTo(view, 'all', this.broadcast);
         },
 
         /* any events that come from the results region will be
         * triggered again from the layout */
         broadcast: function(e, params) {
-            console.log('EVENT  SearchWidgetLayout->reraise');
             this.trigger(e, params);
         }
     });

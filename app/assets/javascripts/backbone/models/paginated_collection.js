@@ -21,8 +21,6 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         * also, we need to grab the location.search and parse it, so
         * that our searches are configured correctly */
         initialize: function (models, options) {
-            console.log("PaginatedCollection->initialize");
-
             this.currentPage = 1;
             // define the server API based on the load-time URI
             this.server_api = this.makeOptionsFromSearch(window.location.search);
@@ -57,7 +55,6 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         parse: function(response) {
-            console.log('PaginatedCollection->parse');
             this.grandTotal = response.meta.total;
             this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
 

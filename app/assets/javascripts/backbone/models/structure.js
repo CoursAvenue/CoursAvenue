@@ -5,6 +5,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         defaults: {
             data_type: 'structure-element'
         },
+
         relations: [
             {
               type: Backbone.HasMany,
@@ -15,9 +16,6 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
                   key: 'structure' // place has a structure
               }
             }
-        ],
-        initialize: function() {
-            console.log("Structure->initialize");
-        }
+        ]
     });
 });

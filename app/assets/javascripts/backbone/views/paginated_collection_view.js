@@ -10,7 +10,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* transform the collection object's pagination data into a form
          * that can be digested by handlebars */
         serializeData: function(){
-            console.log("PaginatedCollectionView->serializeData");
             var data = this.collection;
             var first_result = (data.currentPage - 1) * data.perPage + 1;
 
@@ -50,7 +49,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         buildPaginationButtons: function (data) {
-            console.log("PaginatedCollectionView->buildPaginationButtons");
             var self = this,
             skipped = false,
             buttons = [];
@@ -125,7 +123,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         changePage: function (page) {
-            console.log("PaginatedCollectionView->changePage");
             if (page == this.collection.currentPage) return false;
 
             var self = this;
@@ -133,7 +130,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             self.trigger('paginator:updating', this);
             this.collection.goTo(page, {
                 success: function () {
-                    console.log("EVENT  PaginatedCollection->changePage->success")
                     self.trigger('paginator:updated', self.getPaginationInfo());
                 }
             });
@@ -145,7 +141,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
          * pass in some info from the paginator_ui or something
          * if do we would do it here */
         itemViewOptions: function(model, index) {
-            console.log("PaginatedCollectionView->itemViewOptions");
             // we could pass some information from the collectionView
             return { };
         }

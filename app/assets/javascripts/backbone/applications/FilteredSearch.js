@@ -50,7 +50,6 @@ FilteredSearch.addRegions({
 });
 
 FilteredSearch.addInitializer(function(options) {
-    console.log("FilteredSearch->addInitializer");
     var bootstrap, structures, structures_view, layout, maps_view;
 
     // Scrape all the json from the filtered-search-bootstrap
@@ -102,8 +101,6 @@ FilteredSearch.addInitializer(function(options) {
 });
 
 $(document).ready(function() {
-    console.log('EVENT  document->ready');
-
     /* we only want the filteredsearch on the search page */
     if (FilteredSearch.detectRoot()) {
         FilteredSearch.start({});

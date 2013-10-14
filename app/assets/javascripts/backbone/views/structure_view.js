@@ -7,22 +7,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         className: 'one-whole course-element',
 
         initialize: function(options) {
-            console.log("StructureView->initialize");
             if (options == undefined)         { return; }
             if (options.context == undefined) { return; }
 
             var subject = options.model;
             _.each(_.pairs(options.context), function(pair) {
-                console.log(pair);
                 var key   = pair[0];
                 var value = pair[1];
 
                 subject.set(key, value);
             });
-        },
-
-        onRender: function() {
-            console.log("EVENT  StructureView->onRender")
         }
 
     });
