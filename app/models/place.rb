@@ -9,7 +9,8 @@ class Place < ActiveRecord::Base
   has_many :plannings
 
   accepts_nested_attributes_for :contacts,
-                                reject_if: lambda {|attributes| attributes[:name].blank?},
+                                reject_if: lambda {|attributes| attributes.values.compact.reject(&:blank?).empty?},
+                                # reject_if: lambda {|attributes| attributes[:name].blank?},
                                 allow_destroy: true
 
   accepts_nested_attributes_for :location

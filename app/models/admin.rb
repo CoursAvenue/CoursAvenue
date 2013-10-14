@@ -15,7 +15,7 @@ class ::Admin < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
   after_save :delay_subscribe_to_mailchimp if Rails.env.production?
-  before_save :activate_admin
+  # before_save :activate_admin
   after_create :check_if_was_invited
 
   # Setup accessible (or protected) attributes for your model
