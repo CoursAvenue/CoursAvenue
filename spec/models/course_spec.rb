@@ -8,8 +8,8 @@ describe Course do
 
   before(:all) do
     @course        = FactoryGirl.create(:course)
-    @price_1       = @course.prices.build FactoryGirl.attributes_for(:individual_price, amount: 15)
-    @price_2       = @course.prices.build FactoryGirl.attributes_for(:annual_price, amount: 20)
+    @price_1       = @course.prices.build FactoryGirl.attributes_for(:price, amount: 15)
+    @price_2       = @course.prices.build FactoryGirl.attributes_for(:subscription, amount: 200)
     @planning_1    = FactoryGirl.create(:planning)
     @course.prices = [@price_1, @price_2]
     @course.save
@@ -77,9 +77,11 @@ describe Course do
       end
     end
   end
+
   describe '#activate!' do
     before(:each) do
-      @course = FactoryGirl.build(:course, active: false)
+      @course  = FactoryGirl.build(:course, active: false)
+      @price_3 = FactoryGirl.build(:price)
     end
     context 'without plannings' do
       context 'without prices' do
@@ -87,18 +89,18 @@ describe Course do
           @course.activate!.should be_false
           @course.active.should be_false
           @course.errors[:prices].length.should eq 1
-          @course.errors[:plannings].length.should eq 0
+          @course.errors[:plannings].length.should eq 1
         end
       end
       context 'with prices' do
         before(:each) do
-          @course.prices << @price_1
+          @course.prices << @price_3
           @course.save
         end
         it 'activates' do
-          @course.activate!.should be_true
-          @course.active.should be_true
-          @course.errors[:plannings].length.should eq 0
+          @course.activate!.should be_false
+          @course.active.should be_false
+          @course.errors[:plannings].length.should eq 1
           @course.should have(0).errors_on(:prices)
         end
       end
@@ -120,8 +122,8 @@ describe Course do
     context 'with prices and plannings' do
       before(:each) do
         @course.plannings << @planning_1
-        @course.prices    << @price_1
-        @course.save
+        @price_3.course = @course
+        @price_3.save
       end
       it 'activates' do
         @course.activate!.should be_true
@@ -131,6 +133,7 @@ describe Course do
       end
     end
   end
+  # Methods to test
   # recent_plannings
   # has_package_price
   # has_trial_lesson
@@ -223,7 +226,7 @@ describe Course do
   context :duplicate do
     before(:all) do
       @course           = FactoryGirl.build(:course)
-      @course.prices    << FactoryGirl.build(:annual_price)
+      @course.prices    << FactoryGirl.build(:subscription)
       @course.plannings << FactoryGirl.build(:planning)
       @course_duplicate = @course.duplicate!
     end
@@ -246,6 +249,7 @@ describe Course do
       @course_duplicate.subjects.should eq @course.subjects
     end
     it 'has same prices' do
+      debugger
       @course_duplicate.prices.length.should eq @course.prices.length
     end
     it 'has same plannings' do
