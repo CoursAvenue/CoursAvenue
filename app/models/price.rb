@@ -64,10 +64,6 @@ class Price < ActiveRecord::Base
     end
   end
 
-  def individual_course?
-    libelle == 'prices.individual_course'
-  end
-
   def has_promo?
     !promo_amount.nil?
   end

@@ -249,7 +249,6 @@ describe Course do
       @course_duplicate.subjects.should eq @course.subjects
     end
     it 'has same prices' do
-      debugger
       @course_duplicate.prices.length.should eq @course.prices.length
     end
     it 'has same plannings' do

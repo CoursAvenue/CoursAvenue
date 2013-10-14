@@ -10,8 +10,12 @@ FactoryGirl.define do
     sequence :email do |n|
       "person#{n}@example.com"
     end
+    phone_number            '0104050104'
+    mobile_phone_number     '0604050104'
+
     confirmed_at Date.today
-    password                'password'
-    password_confirmation   'password'
+
+    password                'zpdajdpzaojdxd'
+    password_confirmation   'zpdajdpzaojdxd'
   end
 end
