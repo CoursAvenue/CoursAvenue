@@ -76,21 +76,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             return buttons;
         },
 
-        /* ui controls for the pagination tool */
-        events: {
-            'click .pagination li.btn a[rel=next]': 'nextPage',
-            'click .pagination li.btn a[rel=prev]': 'prevPage',
-            'click .pagination li.btn a[rel=page]': 'goToPage',
-            'click a[data-type=filter]': 'filterQuery'
-        },
-
         /* simplistic implementation of general filters:
         * click on anything with data-type=filter and you
         * get results filtered by that */
         /* TODO currently this method doesn't work on initial page load */
         filterQuery: function(e) {
-            e.preventDefault();
-
             var value = e.currentTarget.getAttribute('data-value');
             this.collection.setQuery({ sort: value });
             // invalidate the 'currentPage' so that changePage will work
@@ -102,21 +92,18 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         nextPage: function (e) {
-            e.preventDefault();
             var page = Math.min(this.collection.currentPage + 1, this.collection.totalPages);
 
             return this.changePage(page);
         },
 
         prevPage: function (e) {
-            e.preventDefault();
             var page = Math.max(this.collection.currentPage - 1, 1);
 
             return this.changePage(page);
         },
 
         goToPage: function (e) {
-            e.preventDefault();
             var page = e.currentTarget.text;
 
             return this.changePage(page);

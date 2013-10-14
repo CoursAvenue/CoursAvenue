@@ -27,6 +27,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
                 /* view registers to be notified of events on layout */
                 Marionette.bindEntityEvents(view, this, events);
+                this.listenTo(view, 'all', this.broadcast);
             });
 
             /* attach the region element to the Layout and show */
@@ -46,12 +47,27 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* fires when the structures_view is first shown */
         onResultsShow: function(view) {
+            var self = this;
+
+            /* the layout broadcasts all main region events */
             this.listenTo(view, 'all', this.broadcast);
+
+            /* the main region passes in a hash of events */
+            _.each(_.pairs(view.events), function (event) {
+                var key = event[0];
+                var value = event[1];
+                console.log(key);
+                console.log(value);
+
+                /* the view listens to the layout's broadcasts */
+                view.listenTo(self, key, view[value]);
+            });
         },
 
         /* any events that come from the results region will be
         * triggered again from the layout */
         broadcast: function(e, params) {
+            console.log("SearchWidgetsLayout->broadcast");
             this.trigger(e, params);
         }
     });

@@ -66,7 +66,10 @@ FilteredSearch.addInitializer(function(options) {
     // Create an instance of your class and populate with the models of your entire collection
     structures      = new FilteredSearch.Models.PaginatedCollection(bootstrap.models, bootstrap.options);
     structures_view = new FilteredSearch.Views.PaginatedCollectionView({
-        collection: structures
+        collection: structures,
+        events: {
+            'pagination:next': 'nextPage'
+        }
     });
 
     structures.bootstrap();
