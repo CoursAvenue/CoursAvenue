@@ -134,7 +134,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.collection.goTo(page, {
                 success: function () {
                     console.log("EVENT  PaginatedCollection->changePage->success")
-                    self.trigger('paginator:updated', this);
+                    self.trigger('paginator:updated', self.getPaginationInfo());
                 }
             });
 

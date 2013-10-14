@@ -77,7 +77,7 @@ FilteredSearch.addInitializer(function(options) {
     layout = new FilteredSearch.Views.SearchWidgetsLayout();
 
     google_maps_view = new FilteredSearch.Views.GoogleMapsView({ collection: structures });
-    pagination_tool_view = new FilteredSearch.Views.PaginationToolView({ });
+    pagination_tool_view = new FilteredSearch.Views.PaginationToolView({});
 
     FilteredSearch.mainRegion.show(layout);
     layout.results.show(structures_view);
@@ -85,24 +85,21 @@ FilteredSearch.addInitializer(function(options) {
     /* we can add a widget along with a callback to be used
     * for setup */
     layout.showWidget(google_maps_view, function (view) {
-        console.log("EVENT  onMapsViewShow");
+        console.log("EVENT  onGoogleMapsViewShow");
 
-        /* right now, the callback is mainly for attaching listeners to
-        * the layout (this) TODO this direction is still pretty ugly */
-        this.listenTo(view, 'map:boundsChanged', function (e) {
-            console.log("EVENT  GoogleMapsView->boundsChanged");
-            e.preventDefault();
-
-            /* calls a method on the main region to deal with the event*/
-            this.mainRegion.currentView.boundsChanged();
-
-            return false;
-        })
-    }); // we can pass an optional 'name' for the region
+        /* view registers to be notified of events on layout */
+        Marionette.bindEntityEvents(view, this, {
+            'paginator:updating': 'clearForUpdate'
+        });
+    });
 
     layout.showWidget(pagination_tool_view, function (view) {
         console.log("EVENT  onPaginationToolShow");
 
+        /* view registers to be notified of events on layout */
+        Marionette.bindEntityEvents(view, this, {
+            'paginator:updated': 'resetPaginationTool'
+        });
     });
 
     /* Later:
