@@ -11,7 +11,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* add a new region to deal with a given widget
         * assumption: view.template is in_this_form */
-        showWidget: function (view, showHandler, region_name) {
+        showWidget: function (view, events, region_name) {
             console.log("SearchWidgetsLayout->showWidget");
             if (region_name == undefined) {
                 region_name = _.last(view.template.split('/'));
@@ -23,7 +23,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             /* remember the region and listen to its show method */
             this.widgets.push({ name: this[region_name], id: view.cid });
-            this.listenTo(this[region_name], 'show', showHandler);
+            this.listenTo(this[region_name], 'show', function (view) {
+                console.log("EVENT  onPaginationToolShow");
+
+                /* view registers to be notified of events on layout */
+                Marionette.bindEntityEvents(view, this, events);
+            });
 
             /* attach the region element to the Layout and show */
             $region_hook.appendTo(this.$el.find('#widgets-container'));

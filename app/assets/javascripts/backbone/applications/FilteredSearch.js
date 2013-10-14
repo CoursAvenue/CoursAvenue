@@ -84,22 +84,12 @@ FilteredSearch.addInitializer(function(options) {
 
     /* we can add a widget along with a callback to be used
     * for setup */
-    layout.showWidget(google_maps_view, function (view) {
-        console.log("EVENT  onGoogleMapsViewShow");
-
-        /* view registers to be notified of events on layout */
-        Marionette.bindEntityEvents(view, this, {
-            'paginator:updating': 'clearForUpdate'
-        });
+    layout.showWidget(google_maps_view, {
+        'paginator:updating': 'clearForUpdate'
     });
 
-    layout.showWidget(pagination_tool_view, function (view) {
-        console.log("EVENT  onPaginationToolShow");
-
-        /* view registers to be notified of events on layout */
-        Marionette.bindEntityEvents(view, this, {
-            'paginator:updated': 'resetPaginationTool'
-        });
+    layout.showWidget(pagination_tool_view, {
+        'paginator:updated': 'resetPaginationTool'
     });
 
     /* Later:
