@@ -48,15 +48,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
         },
 
+        /* fires when the structures_view is first shown */
         onResultsShow: function(view) {
             console.log('EVENT  SearchWidgetLayout->onResultsShow');
 
-            this.listenTo(view, 'paginator:updated', this.updateMap);
+            this.listenTo(view, 'paginator:updating', this.clearForUpdate);
         },
 
-        updateMap: function() {
+        clearForUpdate: function() {
             console.log('EVENT  SearchWidgetLayout->updateMap');
-            this.google_maps_view.currentView.updateMap();
+            this.google_maps_view.currentView.clearForUpdate();
         }
     });
 });

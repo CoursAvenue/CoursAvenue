@@ -107,8 +107,6 @@ FilteredSearch.addInitializer(function(options) {
     *
     * Layout will act as the moderator of events being
     * emitted from widgets and received by the search */
-
-    // Invoke the bootstrap function
 });
 
 $(document).ready(function() {

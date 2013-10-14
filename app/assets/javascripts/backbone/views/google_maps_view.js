@@ -10,6 +10,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         id:       'map-container',
         itemView: Views.BlankView,
         markerView: Backbone.GoogleMaps.MarkerView,
+        markerViewChildren: {},
 
         initialize: function(options) {
             console.log("GoogleMapsView->initialize");
@@ -44,9 +45,14 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
         },
 
-        updateMap: function() {
-            // this.removeMarkers(); // TODO: Is it at the right place?
-            console.log("GoogleMapsView->updateMap");
+        clearForUpdate: function() {
+            console.log("GoogleMapsView->clearForUpdate");
+
+            this.closeChildren();
+        },
+
+        onBeforeRender: function () {
+            console.log("GoogleMapsView->onBeforeRender");
         },
 
         appendHtml: function(collectionView, itemView, index){
@@ -54,28 +60,34 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.addChild(itemView.model);
         },
 
-        collectionEvents: {
-            'add': 'addChild'
+        // Close all child MarkerViews
+        closeChildren: function() {
+            console.log("GoogleMapsView->closeChildren");
+            for(var cid in this.markerViewChildren) {
+                this.closeChild(this.markerViewChildren[cid]);
+            }
         },
 
-        // removeMarkers: function() {
-        //     _.each(this.markers, function(marker){
-        //         marker.map = null;
-        //         marker.remove();
-        //     });
-        //     this.markers = [];
-        // },
+        closeChild: function(child) {
+            console.log("GoogleMapsView->closeChild");
+            // Param can be child's model, or child view itself
+            var childView = (child instanceof Backbone.Model)? this.markerViewChildren[child.cid]: child;
+
+            childView.close();
+            delete this.markerViewChildren[childView.model.cid];
+        },
 
         // Add a MarkerView and render
         addChild: function(childModel) {
-            console.log('GoogleMapsView->addChild');
+           // console.log('GoogleMapsView->addChild');
 
             var markerView = new this.markerView({
                 model: childModel,
                 map: this.map
             });
 
-            this.markers.push(markerView);
+            this.markerViewChildren[childModel.cid] = markerView;
+
             markerView.render();
         }
     });

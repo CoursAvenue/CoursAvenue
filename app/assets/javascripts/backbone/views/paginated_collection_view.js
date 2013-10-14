@@ -112,15 +112,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         changePage: function (page) {
+            console.log("PaginatedCollectionView->changePage");
             if (page == this.collection.currentPage) return false;
 
             var self = this;
 
+            self.trigger('paginator:updating', this);
             this.collection.goTo(page, {
                 success: function () {
                     console.log("EVENT  PaginatedCollection->changePage->success")
                     self.render();
-                    self.trigger('paginator:updated', this);
                 }
             });
 
