@@ -14,8 +14,8 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
     8.times { @individual_courses << ::Price::BookTicket.new(course: @course, number: 1)}
     4.times { @subscriptions      << Price::Subscription.new(course: @course) }
     6.times { @discounts          << Price::Discount.new(course: @course) }
-    3.times { @registrations      << Price::Registration.new(course: @course) }
-    @trial         ||= Price::Trial.new(course: @course)
+    6.times { @registrations      << Price::Registration.new(course: @course) }
+    @trial  ||= Price::Trial.new(course: @course)
     index!
   end
 
