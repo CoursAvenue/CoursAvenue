@@ -51,16 +51,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.closeChildren();
         },
 
-        onBeforeRender: function () {
-            console.log("GoogleMapsView->onBeforeRender");
-        },
-
         appendHtml: function(collectionView, itemView, index){
             console.log('GoogleMapsView->appendHtml');
             this.addChild(itemView.model);
         },
 
-        // Close all child MarkerViews
         closeChildren: function() {
             console.log("GoogleMapsView->closeChildren");
             for(var cid in this.markerViewChildren) {
@@ -81,14 +76,19 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         addChild: function(childModel) {
            // console.log('GoogleMapsView->addChild');
 
-            var markerView = new this.markerView({
-                model: childModel,
-                map: this.map
+            var places = childModel.getRelation('places').related.models;
+            var self = this;
+
+            _.each(places, function (place) {
+                var markerView = new self.markerView({
+                    model: place,
+                    map: self.map
+                });
+
+                self.markerViewChildren[place.cid] = markerView;
+
+                markerView.render();
             });
-
-            this.markerViewChildren[childModel.cid] = markerView;
-
-            markerView.render();
         }
     });
 });

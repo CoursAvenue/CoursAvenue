@@ -121,7 +121,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.collection.goTo(page, {
                 success: function () {
                     console.log("EVENT  PaginatedCollection->changePage->success")
-                    self.render();
+                    // TODO here we need to update the paginator tool
                 }
             });
 
