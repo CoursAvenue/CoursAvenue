@@ -29,9 +29,9 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.server_api.page = function () { return this.currentPage; };
 
             this.paginator_ui.currentPage = 1;
-            this.paginator_ui.grandTotal = options.total;
-            this.paginator_ui.totalPages = Math.ceil(options.total / this.paginator_ui.perPage);
-            this.url.basename = window.location.origin;
+            this.paginator_ui.grandTotal  = options.total;
+            this.paginator_ui.totalPages  = Math.ceil(options.total / this.paginator_ui.perPage);
+            this.url.basename             = window.location.origin;
         },
 
         makeOptionsFromSearch: function (search) {
