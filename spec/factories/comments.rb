@@ -2,18 +2,22 @@
 
 FactoryGirl.define do
   factory :comment do
-    content         Forgery(:lorem_ipsum).words(8)
-    author_name     Forgery::Name.full_name
-    rating          [1,2,3,4,5].sample
+    commentable {FactoryGirl.create(:structure)}
 
-    factory :course_comment do
-      # commentable_type "Course"
-      commentable {FactoryGirl.create(:course)}
+    # Comment contact
+    author_name     Forgery::Name.full_name
+    sequence :email do |n|
+      "person#{n}@example.com"
     end
 
-    factory :structure_comment do
-      # commentable_type "Structure"
-      commentable {FactoryGirl.create(:structure)}
+
+    # Comment content
+    course_name     Forgery(:lorem_ipsum).words(4)
+    content         Forgery(:lorem_ipsum).words(8)
+    # rating          [1,2,3,4,5].sample
+
+    factory :accepted_comment do
+      status 'accepted'
     end
   end
 end

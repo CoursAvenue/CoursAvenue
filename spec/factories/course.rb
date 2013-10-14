@@ -4,7 +4,9 @@ FactoryGirl.define do
   factory :course, class: 'Course::Lesson' do
     structure
 
-    subjects    [Subject.roots.first.children.first]
+    after(:build) do |course|
+      course.subjects << course.structure.subjects.at_depth(2)
+    end
 
     active                      true
     type                        'Course::Lesson'
@@ -12,9 +14,7 @@ FactoryGirl.define do
     description                 Forgery(:lorem_ipsum).words(10)
     info                        Forgery(:lorem_ipsum).words(4)
     price_details               'Lorem ipsum dolor bla bla bla'
-    price_info                  'Lorem ipsum dolor bla bla bla'
-    trial_lesson_info           'Lorem ipsum dolor bla bla bla'
-    can_be_joined_during_year   false
+    cant_be_joined_during_year   false
 
     factory :lesson, class: 'Course::Lesson' do
       type 'Course::Lesson'

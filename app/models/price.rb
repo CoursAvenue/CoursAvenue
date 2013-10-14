@@ -4,10 +4,6 @@ class Price < ActiveRecord::Base
 
   before_validation :update_nb_courses
 
-  # Possible libelle:
-  #   prices.free: Gratuit
-  #   prices.individual_course: Cours seul
-
   attr_accessible :libelle, :amount, :promo_amount, :nb_courses, :info, :course, :number, :type, :duration, :promo_percentage
 
   validates :course, presence: true
@@ -66,10 +62,6 @@ class Price < ActiveRecord::Base
     else
       promo_amount
     end
-  end
-
-  def individual_course?
-    libelle == 'prices.individual_course'
   end
 
   def has_promo?

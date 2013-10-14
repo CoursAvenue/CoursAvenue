@@ -3,22 +3,11 @@ require 'spec_helper'
 
 describe Price do
   subject {price}
-  let(:price)             { FactoryGirl.build(:price) }
-  let(:individual_price)  { FactoryGirl.build(:individual_price) }
-  let(:annual_price)      { FactoryGirl.build(:annual_price) }
+  let(:price)       { FactoryGirl.build(:price) }
+  let(:book_ticket) { FactoryGirl.build(:book_ticket) }
 
   describe '#per_course_amount' do
-    it { price.per_course_amount.should eq price.amount / price.nb_courses }
-  end
-
-  describe '#individual_course?' do
-    it 'is an individual_course' do
-      individual_price.individual_course?.should be_true
-    end
-
-    it 'is not an individual_course' do
-      annual_price.individual_course?.should be_false
-    end
+    it { book_ticket.per_course_amount.should eq book_ticket.amount / book_ticket.number }
   end
 
   context :amount do
@@ -36,7 +25,7 @@ describe Price do
     end
 
     it 'cannot have promo higher than actual price' do
-      price.amount = 10
+      price.amount       = 10
       price.promo_amount = 20
       price.valid?.should be_false
     end

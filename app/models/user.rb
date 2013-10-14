@@ -75,7 +75,7 @@ class User < ActiveRecord::Base
   def associate_all_comments
     _email   = self.email
     _user_id = self.id
-    Comment.where(email: _email).each do |comment|
+    Comment.where{email =~ _email}.each do |comment|
       comment.update_column(:user_id, _user_id)
     end
   end

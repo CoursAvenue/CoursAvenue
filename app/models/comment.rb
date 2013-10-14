@@ -3,6 +3,10 @@ class Comment < ActiveRecord::Base
   attr_accessible :commentable, :commentable_id, :commentable_type, :content, :author_name, :email, :rating,
                   :title, :course_name,
                   :validated
+  # A comment has a status which can be one of the following:
+  #   - pending
+  #   - accepted
+  #   - waiting_for_deletion
 
   belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :user
@@ -13,13 +17,15 @@ class Comment < ActiveRecord::Base
 
   after_initialize :set_default_rating
   after_save       :update_teacher_mailchimp if Rails.env.production?
-  after_destroy    :update_rating
+  after_destroy    :update_comments_count
   before_create    :set_pending_status
   after_create     :send_email
-  after_create     :update_rating
 
   before_save      :replace_slash_n_r_by_brs
   before_save      :strip_names
+  before_save      :downcase_email
+
+  after_save       :update_comments_count
 
   scope :ordered,              -> { order('created_at DESC') }
   scope :pending,              -> { where(status: 'pending') }
@@ -33,13 +39,11 @@ class Comment < ActiveRecord::Base
   def recover!
     self.status = :accepted
     self.save
-    self.update_rating
   end
 
   def accept!
     self.status = :accepted
     self.save
-    self.update_rating
     case self.commentable.comments_count
     when 5
       AdminMailer.delay.congratulate_for_fifth_comment(self)
@@ -52,14 +56,12 @@ class Comment < ActiveRecord::Base
   def decline!
     self.status = :declined
     self.save
-    self.update_rating
   end
 
   def ask_for_deletion!(deletion_reason=nil)
     self.status          = :waiting_for_deletion
     self.deletion_reason = deletion_reason if deletion_reason
     self.save
-    self.update_rating
     AdminMailer.delay.ask_for_deletion(self)
   end
 
@@ -88,18 +90,7 @@ class Comment < ActiveRecord::Base
   end
 
   # Update rating of the commentable (course, or structure)
-  def update_rating
-    # If it is a structure, get ALL the comments
-    ratings_array = self.commentable.comments.accepted.collect(&:rating)
-    ratings       = ratings_array.inject(Hash.new(0)) { |h, e| h[e] += 1 ; h }
-    nb_rating    = 0
-    total_rating = 0
-    ratings.delete_if {|k,v| k.nil?}.each do |key, value|
-      nb_rating    += value
-      total_rating += key * value
-    end
-    new_rating = (nb_rating == 0 ? nil : (total_rating.to_f / nb_rating.to_f))
-    self.commentable.update_column :rating, new_rating
+  def update_comments_count
     self.commentable.update_comments_count
   end
 
@@ -154,6 +145,10 @@ class Comment < ActiveRecord::Base
 
   def replace_slash_n_r_by_brs
     self.content = self.content.gsub(/\r\n/, '<br>')
+  end
+
+  def downcase_email
+    self.email = self.email.downcase
   end
 
   def update_teacher_mailchimp
