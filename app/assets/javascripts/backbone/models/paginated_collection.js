@@ -29,13 +29,13 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.server_api.page = function () { return this.currentPage; };
 
             this.paginator_ui.currentPage = 1;
-            this.paginator_ui.grandTotal = options.total;
-            this.paginator_ui.totalPages = Math.ceil(options.total / this.paginator_ui.perPage);
-            this.url.basename = window.location.origin;
+            this.paginator_ui.grandTotal  = options.total;
+            this.paginator_ui.totalPages  = Math.ceil(options.total / this.paginator_ui.perPage);
+            this.url.basename             = window.location.origin;
         },
 
         makeOptionsFromSearch: function (search) {
-            if (search.length < 1) return;
+            if (search.length < 1) { return {} };
 
             var data = search.substring(1).split("&"); // assume no values have & in them
 

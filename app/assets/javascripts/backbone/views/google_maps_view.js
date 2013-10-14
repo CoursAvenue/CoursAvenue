@@ -13,7 +13,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         initialize: function(options) {
             console.log("GoogleMapsView->initialize");
-            this.markers = [];
+            // this.markers = [];
             this.mapOptions = {
                 // TODO: Those coordinates should be taken from the url parameters
                 center: new google.maps.LatLng(48.8592, 2.3417),
@@ -37,6 +37,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.$el.find('[data-type=map-container]').prepend(this.map_annex);
 
             var self = this;
+            // TODO: Find if this is necessary
             google.maps.event.addListener(this.map, "idle", function(){
                 self.map.setCenter(self.mapOptions.center);
                 google.maps.event.trigger(self.map, 'resize');
@@ -44,7 +45,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         updateMap: function() {
-            this.removeMarkers(); // TODO: Is it at the right place?
+            // this.removeMarkers(); // TODO: Is it at the right place?
             console.log("GoogleMapsView->updateMap");
         },
 
@@ -57,13 +58,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             'add': 'addChild'
         },
 
-        removeMarkers: function() {
-            _.each(this.markers, function(marker){
-                marker.map = null;
-                marker.remove();
-            });
-            this.markersArray = [];
-        },
+        // removeMarkers: function() {
+        //     _.each(this.markers, function(marker){
+        //         marker.map = null;
+        //         marker.remove();
+        //     });
+        //     this.markers = [];
+        // },
 
         // Add a MarkerView and render
         addChild: function(childModel) {
