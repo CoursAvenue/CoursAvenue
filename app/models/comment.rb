@@ -20,6 +20,7 @@ class Comment < ActiveRecord::Base
 
   before_save      :replace_slash_n_r_by_brs
   before_save      :strip_names
+  before_save      :downcase_email
 
   scope :ordered,              -> { order('created_at DESC') }
   scope :pending,              -> { where(status: 'pending') }
@@ -154,6 +155,10 @@ class Comment < ActiveRecord::Base
 
   def replace_slash_n_r_by_brs
     self.content = self.content.gsub(/\r\n/, '<br>')
+  end
+
+  def downcase_email
+    self.email = self.email.downcase
   end
 
   def update_teacher_mailchimp

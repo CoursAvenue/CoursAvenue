@@ -4,7 +4,14 @@ FactoryGirl.define do
   factory :course, class: 'Course::Lesson' do
     structure
 
-    subjects    [Subject.roots.first.children.first]
+    ignore do
+      subjects_count 1
+    end
+
+    before :create do |course, evaluator|
+      # course.subjects << FactoryGirl.build_list(:subject, evaluator.subjects_count)
+      course.subjects << FactoryGirl.build(:subject)
+    end
 
     active                      true
     type                        'Course::Lesson'

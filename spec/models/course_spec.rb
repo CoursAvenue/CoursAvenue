@@ -20,7 +20,7 @@ describe Course do
 
   describe '#copy_prices_from' do
     it 'duplicate all the prices from a given course' do
-      # Subscription
+      # TODO
     end
   end
 

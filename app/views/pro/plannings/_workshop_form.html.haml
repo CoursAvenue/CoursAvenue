@@ -52,11 +52,7 @@
     = f.input :max_age_for_kid, label: false, input_html: {style: 'width: 5em;', value: f.object.max_age_for_kid || 18}, wrapper_html: {class: 'flush v-middle'}
     %span.v-middle ans
 
-  .input
-    = f.label :info, class: 'control-label' do
-      %i.lbc-icon-info i
-      Information (optionnel)
-    = f.input :info, as: :string, placeholder: 'Exemple : Nous préparerons un gâteau au chocolat', label: false
+  = f.input :info, as: :string, placeholder: 'Exemple : Nous préparerons un gâteau au chocolat', label: 'Information (optionnel)'
   .text--center.input
     = f.submit 'Enregistrer', class: 'btn btn--green'
 
