@@ -35,7 +35,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         makeOptionsFromSearch: function (search) {
-            if (search.length < 1) return;
+            if (search.length < 1) { return {} };
 
             var data = search.substring(1).split("&"); // assume no values have & in them
 

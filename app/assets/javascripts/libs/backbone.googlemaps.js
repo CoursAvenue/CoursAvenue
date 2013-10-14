@@ -17,7 +17,7 @@
 }(this, function(Backbone, _, $) {
 
   'use strict';
-  
+
   var GoogleMaps = {};
 
   /**
@@ -102,7 +102,6 @@
     mapEvents: {},
 
     overlayOptions: {},
-
     constructor: function() {
       _.bindAll(this, 'render', 'close');
 
