@@ -43,7 +43,8 @@ gem 'active_hash'               , '~>1.2.0'
 # Transform urls into images, videos etc. Used in medias.
 gem 'auto_html'                 , '~>1.6.0'
 
-# gem 'protected_attributes'      , '~>1.0.3'
+# Must be before jobs
+gem 'protected_attributes'      , '~>1.0.3'
 
 # Queue of jobs
 gem 'delayed_job_active_record' , '~>4.0.0'

@@ -50,4 +50,5 @@ class CoursesController < ApplicationController
     @audiences = Audience.all
     @levels    = Level.all
   end
+
 end

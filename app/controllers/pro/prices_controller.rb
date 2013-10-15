@@ -66,4 +66,8 @@ class Pro::PricesController < InheritedResources::Base#Pro::ProController
     @registrations      = @course.registrations
     @trial              = @course.trial
   end
+
+  def build_resource_params
+    [ params.require(:price).permit(:libelle, :amount, :promo_amount, :nb_courses, :info, :course, :number, :type, :duration, :promo_percentage) ]
+  end
 end
