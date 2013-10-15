@@ -17,6 +17,6 @@ class Course::Workshop < Course
   end
 
   def latest_end_date
-    self.plannings.order.order('end_date DESC').first.try(:end_date)
+    self.plannings.order('end_date DESC').first.try(:end_date)
   end
 end

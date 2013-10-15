@@ -122,10 +122,6 @@ gem 'compass'                   , '~>0.12.2'
 gem 'compass-rails'             , '~>2.0.alpha.0'
 # Load Inuit CSS
 gem 'compass-inuit'             , '~>5.0.2'
-# For uploading to amazon CDN
-gem 'aws-sdk'                   , '~>1.21.0'
-# Sync assets to S3 and CloudFront
-gem 'asset_sync'                , '~>1.0.0'
 # Enable haml
 
 gem 'turbolinks'
@@ -135,6 +131,10 @@ group :production, :staging do
   # gem 'therubyracer'
   gem 'execjs'
   gem 'rails_12factor'
+  # For uploading to amazon CDN
+  gem 'aws-sdk'                   , '~>1.21.0'
+  # Sync assets to S3 and CloudFront
+  gem 'asset_sync'                , '~>1.0.0'
 end
 
 group :test do

@@ -63,7 +63,7 @@ class Pro::StructuresController < Pro::ProController
       AdminMailer.delay.recommand_friends(@structure, text, 'contact@coursavenue.com')
     end
     respond_to do |format|
-      format.html { redirect_to coursavenue_recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos amis ont bien été notifiés<br> Nous vous contacterons sous peu.': nil)}
+      format.html { redirect_to coursavenue_recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Les autres professeurs ont bien été notifiés.': nil)}
     end
   end
 
