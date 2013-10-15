@@ -280,6 +280,7 @@ class Structure < ActiveRecord::Base
 
   def update_comments_count
     self.update_column :comments_count, self.comments.accepted.count
+    self.index
   end
 
   def contact_email

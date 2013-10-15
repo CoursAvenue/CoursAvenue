@@ -45,6 +45,7 @@ gem 'auto_html'                 , '~>1.6.0'
 
 # Queue of jobs
 gem 'delayed_job_active_record' , '~>4.0.0'
+gem 'daemons'                   , '~>1.1.9'
 # Needed for hirefire to handle to access to jobs count
 gem 'hirefire-resource'
 
