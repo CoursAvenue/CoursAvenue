@@ -65,6 +65,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         // Add a MarkerView and render
         addChild: function(childModel) {
+            console.log("GoogleMapsView->addChild");
 
             var places = childModel.getRelation('places').related.models;
             var self = this;

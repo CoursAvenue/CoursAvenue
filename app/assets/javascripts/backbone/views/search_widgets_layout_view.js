@@ -23,11 +23,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             /* remember the region and listen to its show method */
             this.widgets.push({ name: this[region_name], id: view.cid });
             this.listenTo(this[region_name], 'show', function (view) {
-                console.log("EVENT  onPaginationToolShow");
 
                 /* view registers to be notified of events on layout */
                 Marionette.bindEntityEvents(view, this, events);
                 this.listenTo(view, 'all', this.broadcast);
+
+                view.triggerMethod('after:show');
             });
 
             /* attach the region element to the Layout and show */
@@ -45,8 +46,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
         },
 
-        /* fires when the structures_view is first shown */
+        /* fires after the main region is first shown */
         onResultsShow: function(view) {
+            console.log("EVENT  SearchWidgetsLayout->resultsShow");
             var self = this;
 
             /* the layout broadcasts all main region events */
@@ -56,18 +58,17 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             _.each(_.pairs(view.events), function (event) {
                 var key = event[0];
                 var value = event[1];
-                console.log(key);
-                console.log(value);
 
                 /* the view listens to the layout's broadcasts */
                 view.listenTo(self, key, view[value]);
             });
+
+            view.triggerMethod('after:show');
         },
 
         /* any events that come from the results region will be
         * triggered again from the layout */
         broadcast: function(e, params) {
-            console.log("SearchWidgetsLayout->broadcast");
             this.trigger(e, params);
         }
     });

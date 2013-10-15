@@ -68,7 +68,10 @@ FilteredSearch.addInitializer(function(options) {
     structures_view = new FilteredSearch.Views.PaginatedCollectionView({
         collection: structures,
         events: {
-            'pagination:next': 'nextPage'
+            'pagination:next': 'nextPage',
+            'pagination:prev': 'prevPage',
+            'pagination:page': 'goToPage',
+            'pagination:filter': 'filterQuery'
         }
     });
 
@@ -78,11 +81,10 @@ FilteredSearch.addInitializer(function(options) {
     /* set up the layouts */
     layout = new FilteredSearch.Views.SearchWidgetsLayout();
 
-    google_maps_view = new FilteredSearch.Views.GoogleMapsView({ collection: structures });
+    google_maps_view     = new FilteredSearch.Views.GoogleMapsView({ collection: structures });
     pagination_tool_view = new FilteredSearch.Views.PaginationToolView({});
 
     FilteredSearch.mainRegion.show(layout);
-    layout.results.show(structures_view);
 
     /* we can add a widget along with a callback to be used
     * for setup */
@@ -93,6 +95,8 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(pagination_tool_view, {
         'paginator:updated': 'resetPaginationTool'
     });
+
+    layout.results.show(structures_view);
 
     /* Later:
     * layout.widgets.show(pagination_tool_view);

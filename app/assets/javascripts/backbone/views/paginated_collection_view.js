@@ -7,13 +7,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         itemView: FilteredSearch.Views.StructureView,
         itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
 
-        /* transform the collection object's pagination data into a form
-         * that can be digested by handlebars */
-        serializeData: function(){
+        announcePaginatorUpdated: function () {
             var data = this.collection;
             var first_result = (data.currentPage - 1) * data.perPage + 1;
 
-            return {
+            /* the data is not used here */
+            this.trigger('paginator:updated', {
                 current_page: data.currentPage,
                 last_page: data.totalPages,
                 first: first_result,
@@ -21,8 +20,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 total: data.grandTotal,
                 buttons: this.buildPaginationButtons(data),
                 previous_page_query: this.collection.previousQuery(),
-                next_page_query: this.collection.nextQuery(),
-            };
+                next_page_query: this.collection.nextQuery()
+            });
+        },
+
+        onAfterShow: function () {
+            console.log("PaginatedCollectionView->onAfterShow");
+            this.announcePaginatorUpdated();
         },
 
         getPaginationInfo: function () {
@@ -117,7 +121,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             self.trigger('paginator:updating', this);
             this.collection.goTo(page, {
                 success: function () {
-                    self.trigger('paginator:updated', self.getPaginationInfo());
+                    console.log("EVENT  PaginatedCollectionView->success");
+                    self.announcePaginatorUpdated();
                 }
             });
 

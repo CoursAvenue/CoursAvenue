@@ -55,6 +55,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         parse: function(response) {
+            console.log("PaginatedCollection->parse");
             this.grandTotal = response.meta.total;
             this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
 
