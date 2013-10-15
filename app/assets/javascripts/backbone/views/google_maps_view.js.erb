@@ -8,6 +8,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     Views.GoogleMapsView = Marionette.CompositeView.extend({
         template: 'backbone/templates/google_maps_view',
         id:       'map-container',
+        icon: "<%= asset_path('icons/map-marker.png') %>",
         itemView: Views.BlankView,
         markerView: Backbone.GoogleMaps.MarkerView,
         markerViewChildren: {},
@@ -73,7 +74,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             _.each(places, function (place) {
                 var markerView = new self.markerView({
                     model: place,
-                    map: self.map
+                    map: self.map,
+                    overlayOptions: {
+                        icon: this.icon
+                    }
                 });
 
                 self.markerViewChildren[place.cid] = markerView;
