@@ -24,12 +24,12 @@
   .text--center
     %h4
       Ils ont déjà leur livre d'or :
-  - cache(cache_key_for_structures) do
-    .main-container.stickem-container.relative
-      .stickem.absolute{style: 'width: 38%;'}>
-        :css
-          #map { height: 500px; }
-        = gmaps( {markers: {data: @json_locations_addresses}, map_options: {maxZoom: 14, mapTypeControl: false}})
+  .main-container.stickem-container.relative
+    .stickem.absolute{style: 'width: 38%;'}>
+      :css
+        #map { height: 500px; }
+      = gmaps( {markers: {data: @json_locations_addresses}, map_options: {maxZoom: 14, mapTypeControl: false}})
+    - cache(cache_key_for_structures) do
       .grid
         .grid__item.six-tenths.push--four-tenths>
           - @structures.each_with_index do |structure, index|
