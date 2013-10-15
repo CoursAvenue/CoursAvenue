@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/nim1989/delayed_job.git
+  revision: 48ca9dde166b431f664b3dfcffa0a82294a697da
+  specs:
+    delayed_job (4.0.0)
+      activesupport (>= 3.0, < 4.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -91,8 +98,6 @@ GEM
       debugger-ruby_core_source (~> 1.2.3)
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.2.3)
-    delayed_job (4.0.0)
-      activesupport (>= 3.0, < 4.1)
     delayed_job_active_record (4.0.0)
       activerecord (>= 3.0, < 4.1)
       delayed_job (>= 3.0, < 4.1)
@@ -363,6 +368,7 @@ DEPENDENCIES
   daemons (~> 1.1.9)
   dalli (~> 2.6.4)
   debugger
+  delayed_job (~> 4.0.0)!
   delayed_job_active_record (~> 4.0.0)
   delorean
   devise (~> 3.1.1)
