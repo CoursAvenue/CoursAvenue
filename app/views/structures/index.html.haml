@@ -72,11 +72,6 @@
   :javascript
       $(function() {
         $('body').stickem(); // For the stickiness of the sidebar
-        // For ordering the search
-        $('.filter-select').click(function() {
-              $('#hidden-sort-input').val(this.dataset.value);
-              $('#submit_search_form').click();
-        });
         // To make the structure-element clickable.
         $('[data-type=structure-element]').each(function(index, structure_element) {
             $(this).click(function(event) {

@@ -18,6 +18,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         filter: function (e) {
+            console.log("ResultsSummaryView->filter");
             e.preventDefault();
             this.trigger('summary:filter', e);
 

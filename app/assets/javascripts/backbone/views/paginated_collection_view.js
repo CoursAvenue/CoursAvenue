@@ -20,7 +20,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 total: data.grandTotal,
                 buttons: this.buildPaginationButtons(data),
                 previous_page_query: this.collection.previousQuery(),
-                next_page_query: this.collection.nextQuery()
+                next_page_query: this.collection.nextQuery(),
+                relevancy_query: this.collection.relevancyQuery(),
+                popularity_query: this.collection.popularityQuery()
             });
         },
 

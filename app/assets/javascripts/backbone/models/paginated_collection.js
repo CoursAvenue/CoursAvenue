@@ -62,6 +62,14 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             return response.structures;
         },
 
+        relevancyQuery: function () {
+            return this.url.resource + '?page=1&sort=relevancy';
+        },
+
+        popularityQuery: function () {
+            return this.url.resource + '?page=1&sort=rating_desc';
+        },
+
         /* the Query methods are for populating anchors */
         previousQuery: function() {
             return this.pageQuery(this.paginator_ui.currentPage - 1);
