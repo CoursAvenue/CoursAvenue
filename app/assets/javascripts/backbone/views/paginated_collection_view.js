@@ -7,6 +7,19 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         itemView: FilteredSearch.Views.StructureView,
         itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
 
+        collectionEvents: {
+            'add':'bob',
+            'remove':'jill'
+        },
+
+        bob: function () {
+            console.log("added");
+        },
+
+        jill: function () {
+            console.log("removed");
+        },
+
         announcePaginatorUpdated: function () {
             var data = this.collection;
             var first_result = (data.currentPage - 1) * data.perPage + 1;
@@ -88,6 +101,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* TODO currently this method doesn't work on initial page load */
         filterQuery: function(e) {
             var value = e.currentTarget.getAttribute('data-value');
+            this.collection.reset();
             this.collection.setQuery({ sort: value });
             // invalidate the 'currentPage' so that changePage will work
             // even if we are ALREADY on the first page...
