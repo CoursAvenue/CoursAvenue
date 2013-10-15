@@ -43,6 +43,8 @@ gem 'active_hash'               , '~>1.2.0'
 # Transform urls into images, videos etc. Used in medias.
 gem 'auto_html'                 , '~>1.6.0'
 
+# gem 'protected_attributes'      , '~>1.0.3'
+
 # Queue of jobs
 gem 'delayed_job_active_record' , '~>4.0.0'
 gem 'daemons'                   , '~>1.1.9'
@@ -159,7 +161,4 @@ end
 gem 'gem_bench', :group => :console
 
 # Rails 4 upgrade
-gem 'protected_attributes'
-gem 'rails-observers'
-gem 'actionpack-page_caching'
-gem 'actionpack-action_caching'
+gem 'actionpack-action_caching', '~>1.0.0'

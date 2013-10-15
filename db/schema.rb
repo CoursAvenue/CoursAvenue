@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131013142941) do
+ActiveRecord::Schema.define(version: 20131015085607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -354,32 +354,6 @@ ActiveRecord::Schema.define(version: 20131013142941) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "renting_rooms", force: true do |t|
-    t.string   "name"
-    t.integer  "surface"
-    t.text     "info"
-    t.integer  "regular_renting_price"
-    t.integer  "minimum_price"
-    t.integer  "maximum_price"
-    t.text     "price_info"
-    t.string   "contact_email"
-    t.string   "contact_phone"
-    t.boolean  "is_duty_free"
-    t.boolean  "has_recording_studio"
-    t.boolean  "has_cloakroom"
-    t.boolean  "has_bars"
-    t.boolean  "has_mirrors"
-    t.boolean  "has_sound"
-    t.boolean  "has_carpets"
-    t.boolean  "has_parquet"
-    t.boolean  "has_piano"
-    t.integer  "structure_id"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-    t.string   "contact_name"
-    t.string   "address"
-  end
-
   create_table "reservation_loggers", force: true do |t|
     t.integer  "course_id"
     t.datetime "created_at", null: false
@@ -392,14 +366,6 @@ ActiveRecord::Schema.define(version: 20131013142941) do
     t.integer  "user_id"
     t.integer  "reservable_id"
     t.string   "reservable_type"
-  end
-
-  create_table "rooms", force: true do |t|
-    t.string   "name"
-    t.integer  "surface"
-    t.integer  "place_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "structures", force: true do |t|

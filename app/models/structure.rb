@@ -80,10 +80,8 @@ class Structure < ActiveRecord::Base
   has_many :students                  , dependent: :destroy
   has_many :teachers                  , dependent: :destroy
   has_many :courses                   , dependent: :destroy
-  has_many :renting_rooms
   has_many :cities, through: :places
   has_many :reservations,         as: :reservable
-  # has_many :rooms, through: :places
   has_and_belongs_to_many :subjects
 
   has_many :places                   , dependent: :destroy

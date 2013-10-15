@@ -187,8 +187,6 @@ CoursAvenue::Application.routes.draw do
     resources :courses, only: [:index], path: 'cours'
   end
 
-  resources :renting_rooms, only: [:create]
-
   resources :reservation_loggers, only: [:create]
   resources :click_loggers, only: [:create]
 

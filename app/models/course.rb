@@ -65,7 +65,7 @@ class Course < ActiveRecord::Base
                   :nb_participants,
                   :no_class_during_holidays,
                   :start_date, :end_date,
-                  :subject_ids, :level_ids, :audience_ids, :room_id, :place_id, :active,
+                  :subject_ids, :level_ids, :audience_ids, :place_id, :active,
                   :book_tickets_attributes, :prices_attributes, :registration_fees_attributes
 
   accepts_nested_attributes_for :prices,
