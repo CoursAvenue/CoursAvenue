@@ -22,7 +22,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 previous_page_query: this.collection.previousQuery(),
                 next_page_query: this.collection.nextQuery(),
                 relevancy_query: this.collection.relevancyQuery(),
-                popularity_query: this.collection.popularityQuery()
+                popularity_query: this.collection.popularityQuery(),
+                sort: this.collection.server_api.sort
+            });
+
+            this.trigger('paginator:updated:map', {
+                lat: this.collection.server_api.lat,
+                lng: this.collection.server_api.lng
             });
         },
 

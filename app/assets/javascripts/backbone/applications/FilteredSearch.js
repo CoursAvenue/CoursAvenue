@@ -93,7 +93,8 @@ FilteredSearch.addInitializer(function(options) {
     /* we can add a widget along with a callback to be used
     * for setup */
     layout.showWidget(google_maps_view, {
-        'paginator:updating': 'clearForUpdate'
+        'paginator:updating': 'clearForUpdate',
+        'paginator:updated:map': 'centerMap'
     });
 
     layout.showWidget(results_summary_tool, {

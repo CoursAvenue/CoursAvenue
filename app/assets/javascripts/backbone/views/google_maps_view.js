@@ -14,8 +14,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         initialize: function(options) {
             this.mapOptions = {
-                // TODO: Those coordinates should be taken from the url parameters
-                center: new google.maps.LatLng(48.8592, 2.3417),
+                center: new google.maps.LatLng(0, 0),
                 zoom: 12,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
@@ -32,16 +31,17 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         onRender: function() {
             this.$el.find('[data-type=map-container]').prepend(this.map_annex);
+        },
 
-            var self = this;
-            // TODO: Find if this is necessary
-            google.maps.event.addListener(this.map, "idle", function(){
-                self.map.setCenter(self.mapOptions.center);
-                google.maps.event.trigger(self.map, 'resize');
-            });
+        centerMap: function (data) {
+            console.log("GoogleMapsView->centerMap");
+            if (data.lat && data.lng) {
+                this.map.setCenter(new google.maps.LatLng(data.lat, data.lng));
+            }
         },
 
         clearForUpdate: function() {
+            console.log("GoogleMapsView->clearForUpdate");
             this.closeChildren();
         },
 
