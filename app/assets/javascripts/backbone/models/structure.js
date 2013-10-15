@@ -2,10 +2,6 @@
 /* just a basic backbone model */
 FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _) {
     Models.Structure = Backbone.RelationalModel.extend({
-        initialize: function () {
-            console.log("Structure->initialize");
-        },
-
         defaults: {
             data_type: 'structure-element'
         },

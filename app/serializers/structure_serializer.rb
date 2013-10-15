@@ -31,13 +31,13 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def parent_subjects
-    object.parent_subjects_array.each do |subject_hash|
+    object.parent_subjects_array.map do |subject_hash|
       { name: subject_hash[:name], path: subject_structures_path(subject_hash[:slug]) }
     end
   end
 
   def child_subjects
-    object.subjects_array.each do |subject_hash|
+    object.subjects_array.map do |subject_hash|
       { name: subject_hash[:name], path: subject_structures_path(subject_hash[:slug]) }
     end
   end

@@ -72,25 +72,4 @@
   :javascript
       $(function() {
         $('body').stickem(); // For the stickiness of the sidebar
-        // To make the structure-element clickable.
-        $('[data-type=structure-element]').each(function(index, structure_element) {
-            $(this).click(function(event) {
-                // Change url only if user doesn't click on link
-                if (event.target.nodeName !== 'A') {
-                    if (event.metaKey || event.ctrlKey) {
-                        window.open(this.dataset.url);
-                    } else {
-                        window.location = this.dataset.url;
-                    }
-                    return false;
-                }
-            });
-        });
-        // google.maps.event.addDomListener(window, 'load', function() {
-        //     Gmaps.map.addMarkers([{
-        //       id: -1,
-        //       lat: #{params[:lat]},
-        //       lng: #{params[:lng]}
-        //     }]);
-        // });
     });

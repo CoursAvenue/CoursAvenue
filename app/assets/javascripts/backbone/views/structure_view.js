@@ -5,18 +5,29 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         tagName: 'li',
         className: 'one-whole course-element',
+        attributes: {
+            'data-type': 'structure-element'
+        },
 
         initialize: function(options) {
-            if (options == undefined)         { return; }
-            if (options.context == undefined) { return; }
+            console.log("StructureView->initialize");
 
-            var subject = options.model;
-            _.each(_.pairs(options.context), function(pair) {
-                var key   = pair[0];
-                var value = pair[1];
+            this.$el.data('url', options.model.get('data_url'));
+        },
 
-                subject.set(key, value);
-            });
+        events: {
+            'click': 'resolveClick'
+        },
+
+        resolveClick: function (event) {
+            if (event.target.nodeName !== 'A') {
+                if (event.metaKey || event.ctrlKey) {
+                    window.open(this.model.get('data_url'));
+                } else {
+                    window.location = this.model.get('data_url');
+                }
+                return false;
+            }
         }
 
     });
