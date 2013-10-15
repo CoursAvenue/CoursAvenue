@@ -22,10 +22,10 @@
         %tr{data: {id: course.id}}
           %td.text--center
             - if course.active
-              = link_to disable_pro_course_path(course), method: :put, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
+              = link_to disable_pro_course_path(course), method: :patch, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
                 Visible
             - else
-              = link_to activate_pro_course_path(course), method: :put, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
+              = link_to activate_pro_course_path(course), method: :patch, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
                 Non&nbsp;visible
           %td= course.type_name
           %td

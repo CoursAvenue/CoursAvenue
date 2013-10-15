@@ -131,7 +131,7 @@ gem 'asset_sync'                , '~>1.0.0'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 
-group :production do
+group :production, :staging do
   # gem 'therubyracer'
   gem 'execjs'
   gem 'rails_12factor'

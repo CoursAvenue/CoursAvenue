@@ -19,25 +19,26 @@
               Modifier mon avis
 
         - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
-          .push-half--left.drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-            %a.btn.btn--small{href: 'javascript:void(0)'}
-              %i.icon-cogs
-              %i.icon-chevron-down.soft-half--left
-            %ul.drop-down__el.text--left
-              - if can?(:destroy, comment)
-                - if comment.waiting_for_deletion?
+          - if current_pro_admin.super_admin?
+            .push-half--left.drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+              %a.btn.btn--small{href: 'javascript:void(0)'}
+                %i.icon-cogs
+                %i.icon-chevron-down.soft-half--left
+              %ul.drop-down__el.text--left
+                - if can?(:destroy, comment)
+                  - if comment.waiting_for_deletion?
+                    %li.nowrap
+                      = link_to recover_pro_comment_path(comment), method: :patch do
+                        %i.icon-ok
+                        Rétablir
                   %li.nowrap
-                    = link_to recover_pro_comment_path(comment), method: :put do
-                      %i.icon-ok
-                      Rétablir
-                %li.nowrap
-                  = link_to edit_pro_comment_path(comment) do
-                    %i.icon-pencil
-                    Modifier
-                %li.nowrap
-                  = link_to pro_comment_path(comment), method: :delete do
-                    %i.icon-trash
-                    Supprimer
+                    = link_to edit_pro_comment_path(comment) do
+                      %i.icon-pencil
+                      Modifier
+                  %li.nowrap
+                    = link_to pro_comment_path(comment), method: :delete do
+                      %i.icon-trash
+                      Supprimer
           - unless comment.waiting_for_deletion?
             .drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
               %a.btn.btn--small.btn--orange{href: 'javascript:void(0)'}
@@ -46,7 +47,7 @@
               %ul.drop-down__el.text--left
                 - t('comments.deletion_reasons').each do |i18n_key, traducted_string|
                   %li.nowrap
-                    = link_to ask_for_deletion_pro_structure_comment_path(comment.structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :put do
+                    = link_to ask_for_deletion_pro_structure_comment_path(comment.structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
                       = traducted_string
 
           = link_to "mailto:#{comment.email}", onclick: "ga('send', 'event', 'Answer to student', 'click')", class: 'btn btn--small btn--blue float--right push-half--right' do
