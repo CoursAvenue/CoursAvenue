@@ -34,9 +34,12 @@ class Pro::DashboardController < Pro::ProController
     # Compute all the days to have all the days shown in the graph even when values are empty
     hash_of_days = {}
     ((1.months).ago.to_date..Date.today).each{ |date| hash_of_days[date.strftime("%Y-%m-%d")] = 0}
-    @comments  = hash_of_days.merge(@comments).reject{|key, value| value == 0}
-    @admins    = hash_of_days.merge(@admins).reject{|key, value| value == 0}
-
+    @comments_hash = {}
+    @comments.each{|date, count| @comments_hash[date.to_s] = count}
+    @admins_hash   = {}
+    @admins.each{|date, count| @admins_hash[date.to_s] = count}
+    @comments_hash  = hash_of_days.merge(@comments_hash) #.reject{|key, value| value == 0}
+    @admins_hash    = hash_of_days.merge(@admins_hash)   #.reject{|key, value| value == 0}
     @students = Student.where{created_at > Date.today - 2.month}.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
     @users    = User   .count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
     @medias   = Media  .count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])

@@ -38,6 +38,8 @@ CoursAvenue::Application.configure do
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 
+  config.log_level = :warn
+
   # Expands the lines which load the assets
   config.assets.debug = true
 

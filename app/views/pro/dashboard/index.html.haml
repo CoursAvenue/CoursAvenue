@@ -98,20 +98,19 @@
     = User.count
     users
   #users
-
 = content_for :scripts do
   :javascript
     $(function() {
         new Highcharts.Chart({
             chart: { renderTo: 'admins', type: 'column' },
             title: { text: null },
-            xAxis: { categories: #{@admins.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            xAxis: { categories: #{@comments_hash.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [
-              { data: #{@admins.map{|date, count| count}},
+              { data: #{@admins_hash.map{|date, count| count}},
                 name: 'Profs inscrits'
                },
-              { data: #{@comments.map{|date, count| count}},
+              { data: #{@comments_hash.map{|date, count| count}},
                 name: 'Avis'
               }
             ]

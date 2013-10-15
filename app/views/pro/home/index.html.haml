@@ -24,39 +24,41 @@
   .text--center
     %h4
       Ils ont déjà leur livre d'or :
-  .main-container.stickem-container.relative
-    .stickem.absolute{style: 'width: 38%;'}>
-      :css
-        #map { height: 500px; }
-      = gmaps( {markers: {data: @json_locations_addresses}, map_options: {maxZoom: 14, mapTypeControl: false}})
-    .grid
-      .grid__item.six-tenths.push--four-tenths>
-        - @structures.each_with_index do |structure, index|
-          .one-whole.course-element{data: {'location-ids' => structure.locations.map(&:id).join(' '), type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
-            .grid
-              .grid__item.two-twelfths>
-                = image_tag structure.logo.url(:thumb)
-              .grid__item.seven-twelfths>
-                %h3.flush--bottom.brand.course-title= structure.name
-                %ul.nav.push-half--ends= join_child_subjects structure, true
-                - if structure.description.present?
-                  %p.read-more{data: {behavior: 'read-more', height: 50}}= structure.description.html_safe
-              .grid__item.three-twelfths.text--center>
-                .thin.big-alpha.brand #{structure.comments_count}
-                %div
-                  = link_to structure_url(structure, subdomain: 'www'), target: '_blank' do
-                    avis
-                    %i.lbc-brand-icon
-                .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-                  %span.rating{title: comment_rating_title(structure.rating)}
-                    = rating_stars structure.rating
-                  %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
-                  %meta{itemprop: 'count', content: structure.comments_count}
-                  %meta{itemprop: 'itemreviewed', content: structure.name}
-                  %meta{itemprop: 'name', content: structure.name}
-                  %meta{itemprop: 'street-address', content: structure.street}
-                  %meta{itemprop: 'postal-code', content: structure.zip_code}
-        .text--center= link_to "Et bien plus encore !", structures_url(subdomain: 'www'), class: 'btn btn--blue', target: '_blank'
+  - cache(cache_key_for_structures) do
+    .main-container.stickem-container.relative
+      .stickem.absolute{style: 'width: 38%;'}>
+        :css
+          #map { height: 500px; }
+        = gmaps( {markers: {data: @json_locations_addresses}, map_options: {maxZoom: 14, mapTypeControl: false}})
+      .grid
+        .grid__item.six-tenths.push--four-tenths>
+          - @structures.each_with_index do |structure, index|
+            - cache(structure) do
+              .one-whole.course-element{data: {'location-ids' => structure.locations.map(&:id).join(' '), type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
+                .grid
+                  .grid__item.two-twelfths>
+                    = image_tag structure.logo.url(:thumb)
+                  .grid__item.seven-twelfths>
+                    %h3.flush--bottom.brand.course-title= structure.name
+                    %ul.nav.push-half--ends= join_child_subjects structure, true
+                    - if structure.description.present?
+                      %p.read-more{data: {behavior: 'read-more', height: 50}}= structure.description.html_safe
+                  .grid__item.three-twelfths.text--center>
+                    .thin.big-alpha.brand #{structure.comments_count}
+                    %div
+                      = link_to structure_url(structure, subdomain: 'www'), target: '_blank' do
+                        avis
+                        %i.lbc-brand-icon
+                    .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+                      %span.rating{title: comment_rating_title(structure.rating)}
+                        = rating_stars structure.rating
+                      %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
+                      %meta{itemprop: 'count', content: structure.comments_count}
+                      %meta{itemprop: 'itemreviewed', content: structure.name}
+                      %meta{itemprop: 'name', content: structure.name}
+                      %meta{itemprop: 'street-address', content: structure.street}
+                      %meta{itemprop: 'postal-code', content: structure.zip_code}
+          .text--center= link_to "Et bien plus encore !", structures_url(subdomain: 'www'), class: 'btn btn--blue', target: '_blank'
 
 = content_for :scripts do
   :javascript

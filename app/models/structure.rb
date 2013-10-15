@@ -278,6 +278,7 @@ class Structure < ActiveRecord::Base
 
   def update_comments_count
     self.update_column :comments_count, self.comments.accepted.count
+    self.update_column :updated_at, Time.now
     self.index
   end
 
