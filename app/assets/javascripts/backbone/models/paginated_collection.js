@@ -26,6 +26,14 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.server_api = this.makeOptionsFromSearch(window.location.search);
             this.server_api.page = function () { return this.currentPage; };
 
+            if (this.server_api.sort === undefined) {
+                this.server_api.sort = 'rating_desc';
+            }
+
+            // now write back the server_api so that the search bar is up to date
+            // we are passing this.server_api for fun! ^o^ why not?
+            window.history.pushState({}, "Search Results", this.getQuery());
+
             this.paginator_ui.currentPage = 1;
             this.paginator_ui.grandTotal  = options.total;
             this.paginator_ui.totalPages  = Math.ceil(options.total / this.paginator_ui.perPage);
@@ -56,21 +64,33 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
 
         parse: function(response) {
             console.log("PaginatedCollection->parse");
+
+            // we did some kind of request, I guess we should update the query
+            window.history.pushState({}, "Search Results", this.getQuery());
+
             this.grandTotal = response.meta.total;
             this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
 
             return response.structures;
         },
 
+        /* the Query methods are for populating anchors, they predict
+        *  what the location.search bar would look like if performed
+        *  a particular action */
         relevancyQuery: function () {
-            return this.url.resource + '?page=1&sort=relevancy';
+            return this.url.resource + this.getQuery({
+                'sort': 'relevancy',
+                'page': 1
+            });
         },
 
         popularityQuery: function () {
-            return this.url.resource + '?page=1&sort=rating_desc';
+            return this.url.resource + this.getQuery({
+                'sort': 'rating_desc',
+                'page': 1
+            });
         },
 
-        /* the Query methods are for populating anchors */
         previousQuery: function() {
             return this.pageQuery(this.paginator_ui.currentPage - 1);
         },
@@ -84,7 +104,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         pageQuery: function(page) {
-            return this.url.resource + '?page=' + page;
+            return this.url.resource + this.getQuery({ 'page': page });
         },
 
         paginator_core: {
@@ -106,6 +126,24 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
 
         setQuery: function(options) {
             _.extend(this.server_api, options);
+        },
+
+        /* get URI query string from the server_api values merged with opts */
+        getQuery: function(options) {
+            var self = this;
+            var params = _.extend(_.clone(this.server_api), options);
+
+            // some of the server_api params might be functions, in which case execute them
+            return _.reduce(_.pairs(params), function (memo, pair) {
+                var key = pair[0];
+                var value = pair[1];
+
+                if (typeof value === 'function') {
+                    value = value.call(self);
+                }
+
+                return memo + key + '=' + value + '&';
+            }, "?").slice(0, -1); // damn trailing character!
         }
     });
 });

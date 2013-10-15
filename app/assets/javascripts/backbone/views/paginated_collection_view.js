@@ -12,7 +12,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             var first_result = (data.currentPage - 1) * data.perPage + 1;
 
             /* the data is not used here */
-            this.trigger('paginator:updated', {
+            this.trigger('paginator:updated summary:updated', {
                 current_page: data.currentPage,
                 last_page: data.totalPages,
                 first: first_result,

@@ -11,7 +11,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* data to describe the pagination tool */
         resetSummaryTool: function (data) {
+            console.log("ResultsSummaryView->resetSummaryTool");
             this.current_summary_data = data;
+            this.updateSortingMethod();
             this.render();
         },
 
