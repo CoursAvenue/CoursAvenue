@@ -20,7 +20,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             'click .pagination li.btn a[rel=next]': 'next',
             'click .pagination li.btn a[rel=prev]': 'prev',
             'click .pagination li.btn a[rel=page]': 'page',
-            'click a[data-type=filter]': 'filter'
         },
 
         next: function (e) {
@@ -40,13 +39,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         page: function (e) {
             e.preventDefault();
             this.trigger('pagination:page', e);
-
-            return false;
-        },
-
-        filter: function (e) {
-            e.preventDefault();
-            this.trigger('pagination:filter', e);
 
             return false;
         },

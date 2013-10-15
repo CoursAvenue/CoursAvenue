@@ -71,7 +71,7 @@ FilteredSearch.addInitializer(function(options) {
             'pagination:next': 'nextPage',
             'pagination:prev': 'prevPage',
             'pagination:page': 'goToPage',
-            'pagination:filter': 'filterQuery'
+            'summary:filter': 'filterQuery'
         }
     });
 
@@ -82,7 +82,11 @@ FilteredSearch.addInitializer(function(options) {
     layout = new FilteredSearch.Views.SearchWidgetsLayout();
 
     google_maps_view     = new FilteredSearch.Views.GoogleMapsView({ collection: structures });
-    pagination_tool_view = new FilteredSearch.Views.PaginationToolView({});
+
+    /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
+    top_pagination_tool = new FilteredSearch.Views.PaginationToolView({});
+    bottom_pagination_tool = new FilteredSearch.Views.PaginationToolView({});
+    results_summary_tool = new FilteredSearch.Views.ResultsSummaryView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -92,9 +96,17 @@ FilteredSearch.addInitializer(function(options) {
         'paginator:updating': 'clearForUpdate'
     });
 
-    layout.showWidget(pagination_tool_view, {
+    layout.showWidget(results_summary_tool, {
+        'paginator:updated': 'resetSummaryTool'
+    }, '[data-type=results-summary-tool]');
+
+    layout.showWidget(top_pagination_tool, {
         'paginator:updated': 'resetPaginationTool'
-    }, '.pagination-tool');
+    }, '[data-type=top-pagination-tool]');
+
+    layout.showWidget(bottom_pagination_tool, {
+        'paginator:updated': 'resetPaginationTool'
+    }, '[data-type=bottom-pagination-tool]');
 
     layout.results.show(structures_view);
 });
