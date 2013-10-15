@@ -94,17 +94,9 @@ FilteredSearch.addInitializer(function(options) {
 
     layout.showWidget(pagination_tool_view, {
         'paginator:updated': 'resetPaginationTool'
-    });
+    }, '.pagination-tool');
 
     layout.results.show(structures_view);
-
-    /* Later:
-    * layout.widgets.show(pagination_tool_view);
-    * layout.widgets.show(google_maps_view);
-    * layout.widgets.show(filter_controls_view);
-    *
-    * Layout will act as the moderator of events being
-    * emitted from widgets and received by the search */
 });
 
 $(document).ready(function() {

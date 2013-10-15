@@ -11,28 +11,28 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* add a new region to deal with a given widget
         * assumption: view.template is in_this_form */
-        showWidget: function (view, events, region_name) {
-            if (region_name == undefined) {
-                region_name = _.last(view.template.split('/'));
+        showWidget: function (view, events, dom_query) {
+            if (dom_query === undefined) {
+                dom_query = '#widgets-container';
             }
 
             /* prepare the region and its el */
-            var new_region = this.addRegion(region_name, '#' + view.cid),
+            var region_name = _.last(view.template.split('/')),
+                new_region = this.addRegion(region_name, '#' + view.cid),
                 $region_hook = $('<div/>', { id: new_region.el.slice(1) });
 
             /* remember the region and listen to its show method */
-            this.widgets.push({ name: this[region_name], id: view.cid });
             this.listenTo(this[region_name], 'show', function (view) {
 
                 /* view registers to be notified of events on layout */
                 Marionette.bindEntityEvents(view, this, events);
                 this.listenTo(view, 'all', this.broadcast);
 
-                view.triggerMethod('after:show');
+                view.triggerMethod('after:show'); /* finally, the view may respond */
             });
 
             /* attach the region element to the Layout and show */
-            $region_hook.appendTo(this.$el.find('#widgets-container'));
+            $region_hook.appendTo(this.$el.find(dom_query));
             new_region.show(view);
         },
 
@@ -63,7 +63,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 view.listenTo(self, key, view[value]);
             });
 
-            view.triggerMethod('after:show');
+            view.triggerMethod('after:show'); /* allow the view to yawn */
         },
 
         /* any events that come from the results region will be
