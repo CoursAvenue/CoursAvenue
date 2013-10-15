@@ -47,7 +47,7 @@ gem 'auto_html'                 , '~>1.6.0'
 gem 'protected_attributes'      , '~>1.0.3'
 
 # Queue of jobs
-gem 'delayed_job'               , '~>4.0.0', git: 'git://github.com/nim1989/delayed_job.git'
+gem 'delayed_job'               , '~>4.0.0'#, git: 'git://github.com/nim1989/delayed_job.git'
 gem 'delayed_job_active_record' , '~>4.0.0'
 gem 'daemons'                   , '~>1.1.9'
 # Needed for hirefire to handle to access to jobs count
