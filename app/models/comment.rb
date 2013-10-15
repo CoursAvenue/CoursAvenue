@@ -154,8 +154,9 @@ class Comment < ActiveRecord::Base
   def update_teacher_mailchimp
     structure = self.commentable
     nb_comments = structure.comments.count
-    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
-                           :email_address => structure.contact_email,
+    gb = Gibbon::API.new
+    gb.lists.subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
+                           :email => {email: structure.contact_email},
                            :merge_vars => {
                               :NB_COMMENT => nb_comments
                            },

@@ -426,8 +426,9 @@ class Structure < ActiveRecord::Base
 
   def subscribe_to_mailchimp
     nb_comments = self.comments_count
-    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
-                           :email_address => self.contact_email,
+    gb = Gibbon::API.new
+    gb.lists.subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
+                           :email => {email: self.contact_email},
                            :merge_vars => {
                               :NAME       => self.name,
                               :STATUS     => (self.admins.any? ? 'registered' : 'not registered'),
