@@ -69,6 +69,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* any events that come from the results region will be
         * triggered again from the layout */
         broadcast: function(e, params) {
+            // for spying on the event storm
+            // console.log("EVENT  SearchWidgetsLayout->broadcast: %o : %o", e, params);
             this.trigger(e, params);
         }
     });

@@ -109,33 +109,39 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
         },
 
-        /* TODO currently these two methods know WAY too much about the arguments being
-         * passed in. Some of what they are doing should be handled by the view */
-        selectMarkers: function(view) {
+        /* TODO for now we are using 'cid' as the key, but
+         * later I would like to use (lat,long) as the key
+         * since cid is not actually an attribute and so
+         * should not be included in the event from structureView */
+        toKey: function (model) {
+            return model.cid;
+        },
+
+        selectMarkers: function(data) {
             var self = this;
 
-            var places = view.model.getRelation('places').related.models.map(function(model) {
-                return model.cid;
+            var keys = data.map(function(model) {
+                return self.toKey(model);
             });
 
-            _.each(places, function (place) {
-                var a = self.markerViewChildren[place];
+            _.each(keys, function (key) {
+                var marker = self.markerViewChildren[key];
 
-                a.select();
+                marker.select();
             });
         },
 
-        deselectMarkers: function (view) {
+        deselectMarkers: function (data) {
             var self = this;
 
-            var places = view.model.getRelation('places').related.models.map(function(model) {
-                return model.cid;
+            var keys = data.map(function(model) {
+                return self.toKey(model);
             });
 
-            _.each(places, function (place) {
-                var a = self.markerViewChildren[place];
+            _.each(keys, function (key) {
+                var marker = self.markerViewChildren[key];
 
-                a.deselect();
+                marker.deselect();
             });
         }
     });

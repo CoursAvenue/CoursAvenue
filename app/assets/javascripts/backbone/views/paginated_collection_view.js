@@ -8,6 +8,15 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
         itemViewEventPrefix: 'paginator:itemview',
 
+        /* forward events with only the necessary data */
+        onPaginatorItemviewSelected: function (view, data) {
+            this.trigger('paginator:structure:selected', data);
+        },
+
+        onPaginatorItemviewDeselected: function (view, data) {
+            this.trigger('paginator:structure:deselected', data);
+        },
+
         announcePaginatorUpdated: function () {
             var data = this.collection;
             var first_result = (data.currentPage - 1) * data.perPage + 1;

@@ -21,16 +21,22 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             'mouseleave': 'deselectStructure'
         },
 
-        /* TODO this is unfortunate, for some reason I can only pass
-        * 'this' through the trigger. I think it is because the event
-        * is being passed on by the collectionView. This shouldn't
-        * be too hard to fix, but I will leave it for now. */
+        /* return toJSON for the places relation */
+        placesToJSON: function () {
+            return this.model.getRelation('places').related.models.map(function (model) {
+                return _.extend(model.toJSON(), { cid: model.cid });
+            });
+        },
+
+        /* a structure was selected, so return the places JSON
+        * TODO would it be nicer is this just returned the whole model's
+        * json, including the places relation? */
         selectStructure: function (e) {
-            this.trigger('selected', this);
+            this.trigger('selected', this.placesToJSON());
         },
 
         deselectStructure: function (e) {
-            this.trigger('deselected', this);
+            this.trigger('deselected', this.placesToJSON());
         },
 
         resolveClick: function (event) {
