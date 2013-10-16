@@ -43,8 +43,13 @@ gem 'active_hash'               , '~>1.2.0'
 # Transform urls into images, videos etc. Used in medias.
 gem 'auto_html'                 , '~>1.6.0'
 
+# Must be before jobs
+gem 'protected_attributes'      , '~>1.0.3'
+
 # Queue of jobs
+gem 'delayed_job'               , '~>4.0.0'#, git: 'git://github.com/nim1989/delayed_job.git'
 gem 'delayed_job_active_record' , '~>4.0.0'
+gem 'daemons'                   , '~>1.1.9'
 # Needed for hirefire to handle to access to jobs count
 gem 'hirefire-resource'
 
@@ -55,9 +60,6 @@ gem 'progress_bar'              , '~>1.0.0'
 gem 'kaminari'                  , '~>0.14.1'
 # For image handling
 gem 'paperclip'                 , '~>3.5.1'
-# For uploading to amazon CDN
-# TODO
-# gem 'aws-sdk'                   , '~>1.21.0'
 
 # For handy SQL queries
 gem 'squeel'                    , '~>1.1.1'
@@ -128,17 +130,19 @@ gem 'compass'                   , '~>0.12.2'
 gem 'compass-rails'             , '~>2.0.alpha.0'
 # Load Inuit CSS
 gem 'compass-inuit'             , '~>5.0.2'
-# Sync assets to S3 and CloudFront
-gem 'asset_sync'                , '~>1.0.0'
 # Enable haml
 
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 
-group :production do
+group :production, :staging do
   # gem 'therubyracer'
   gem 'execjs'
   gem 'rails_12factor'
+  # For uploading to amazon CDN
+  gem 'aws-sdk'                   , '~>1.21.0'
+  # Sync assets to S3 and CloudFront
+  gem 'asset_sync'                , '~>1.0.0'
 end
 
 group :test do
@@ -167,7 +171,4 @@ end
 gem 'gem_bench', :group => :console
 
 # Rails 4 upgrade
-gem 'protected_attributes'
-gem 'rails-observers'
-gem 'actionpack-page_caching'
-gem 'actionpack-action_caching'
+gem 'actionpack-action_caching', '~>1.0.0'

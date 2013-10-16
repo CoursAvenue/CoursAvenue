@@ -21,7 +21,6 @@ class Comment < ActiveRecord::Base
   before_create    :set_pending_status
   after_create     :send_email
 
-  before_save      :replace_slash_n_r_by_brs
   before_save      :strip_names
   before_save      :downcase_email
 
@@ -31,10 +30,6 @@ class Comment < ActiveRecord::Base
   scope :pending,              -> { where(status: 'pending') }
   scope :accepted,             -> { where(status: 'accepted') }
   scope :waiting_for_deletion, -> { where(status: 'waiting_for_deletion') }
-
-  def content_for_input
-    self.content.gsub(/<br>/, '&#x000A;').html_safe if self.content
-  end
 
   def recover!
     self.status = :accepted
@@ -142,11 +137,6 @@ class Comment < ActiveRecord::Base
     end
   end
 
-
-  def replace_slash_n_r_by_brs
-    self.content = self.content.gsub(/\r\n/, '<br>')
-  end
-
   def downcase_email
     self.email = self.email.downcase
   end
@@ -154,8 +144,9 @@ class Comment < ActiveRecord::Base
   def update_teacher_mailchimp
     structure = self.commentable
     nb_comments = structure.comments.count
-    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
-                           :email_address => structure.contact_email,
+    gb = Gibbon::API.new
+    gb.lists.subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
+                           :email => {email: structure.contact_email},
                            :merge_vars => {
                               :NB_COMMENT => nb_comments
                            },

@@ -30,7 +30,7 @@
               %strong= "\"#{comment.title}\""
           %p.coursavenue-comment-paragraph
             - omission = link_to('Lire la suite →', structure_url(@structure, subdomain: 'www', anchor: "recommantation-#{comment.id}"), target: '_blank', class: 'coursavenue-widget-link')
-            = truncate(comment.content.html_safe, length: 600, omission: "… #{omission}").html_safe
+            = simple_format(truncate(comment.content, length: 600, omission: "… #{omission}"))
           %p.coursavenue-comment-footer
             %i= "Avis déposé le #{I18n.l(comment.created_at, format: :date)}"
     %p{style: 'text-align: center; margin-bottom: 5px;'}

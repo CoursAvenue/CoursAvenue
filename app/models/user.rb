@@ -81,8 +81,9 @@ class User < ActiveRecord::Base
   end
 
   def subscribe_to_mailchimp
-    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_USERS_LIST_ID,
-                           :email_address => self.email,
+    gb = Gibbon::API.new
+    gb.lists.subscribe({:id => CoursAvenue::Application::MAILCHIMP_USERS_LIST_ID,
+                           :email => {email: self.email},
                            :merge_vars => {
                               :NAME => self.full_name,
                               :STATUS => 'registered'

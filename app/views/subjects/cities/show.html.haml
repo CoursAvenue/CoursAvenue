@@ -86,7 +86,7 @@
           %th.text--center.nowrap Nbre de séances
           %th.text--right.nowrap à partir de
       %tbody
-        - @courses = @structures.sort_by(&:name).map(&:courses).flatten
+        - @courses = @structures.sort_by(&:name).map{|s| s.courses.active}.flatten
         - @courses.each do |course|
           %tr
             %td= link_to course.name, structure_course_path(course.structure, course)

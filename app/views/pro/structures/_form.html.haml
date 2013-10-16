@@ -1,64 +1,69 @@
 = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |structure_form|
+  = structure_form.error_notification
+
   - if params[:from_path].present?
     %input{type: 'hidden', value: params[:from_path], name: 'from_path'}
   .form-inputs
     %h5.form-header-group
       %i.icon-picture
       Image & Logo
-    .form-white-box
-      %div{data: {behavior: 'image-input' }}
-        #logo-progress.progress.hidden{data: {progress: true }}
-          .bar
-        .text--center
-          - if @structure.logo?
-            = image_tag @structure.logo.url(:large), id: 'logo-logo'
+    - if @structure.valid?
+      .form-white-box
+        %div{data: {behavior: 'image-input' }}
+          #logo-progress.progress.hidden{data: {progress: true }}
+            .bar
+          .text--center
+            - if @structure.logo?
+              = image_tag @structure.logo.url(:large), id: 'logo-logo'
+              %br
+              %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
+                %i.icon-trash
+                Supprimer
+              .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
+            - else
+              %img.center-block#logo-logo{style: 'max-height: 500px; max-width: 500px;'}
+            - [:crop_x, :crop_y, :crop_width, :crop_height].each do |attribute|
+              = structure_form.input attribute, as: :hidden, input_html: {id: attribute}
+            = structure_form.input :cropping, as: :hidden, input_html: {value: true}
+
+          .input
+            .control-label Logo de votre structure
+            = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
+              %i.icon-picture
+              Choisir mon logo
+            .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
+
+          %p.field-form-info.blue
+            Ce logo apparaîtra dans les résultats de recherche.
             %br
-            %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
-              %i.icon-trash
-              Supprimer
-            .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
-          - else
-            %img.center-block#logo-logo{style: 'max-height: 500px; max-width: 500px;'}
-          - [:crop_x, :crop_y, :crop_width, :crop_height].each do |attribute|
-            = structure_form.input attribute, as: :hidden, input_html: {id: attribute}
-          = structure_form.input :cropping, as: :hidden, input_html: {value: true}
+            = t('structures.accepted_image_formats')
+        %hr
 
-        .input
-          .control-label Logo de votre structure
-          = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
-            %i.icon-picture
-            Choisir mon logo
-          .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
-
-        %p.field-form-info.blue
-          Ce logo apparaîtra dans les résultats de recherche.
-          %br
-          = t('structures.accepted_image_formats')
-      %hr
-
-      %div{data: {behavior: 'image-input' }}
-        #image-progress.progress.hidden{data: {progress: true }}
-          .bar
-        .text--center
-          - if @structure.image?
-            = image_tag @structure.image.url(:normal), id: 'logo-image', style: 'max-height: 300px; max-width: 500px'
+        %div{data: {behavior: 'image-input' }}
+          #image-progress.progress.hidden{data: {progress: true }}
+            .bar
+          .text--center
+            - if @structure.image?
+              = image_tag @structure.image.url(:normal), id: 'logo-image', style: 'max-height: 300px; max-width: 500px'
+              %br
+              %a.btn.btn--small.btn--red#delete-image{href: 'javascript:void(0)'}
+                %i.icon-trash
+                Supprimer
+              .visuallyhidden= structure_form.input :delete_image, as: :boolean, label: false
+            - else
+              %img.center-block#logo-image{style: 'max-height: 200px; max-width: 500px'}
+          .input
+            .control-label Image pour vous illustrer
+            = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
+              %i.icon-picture
+              Choisir mon image
+            .visuallyhidden= structure_form.input :image, label: false, input_html: {id: 'image-input'}
+          %p.field-form-info.blue
+            Cette image apparaîtra dans la partie gauche de votre profil public.
             %br
-            %a.btn.btn--small.btn--red#delete-image{href: 'javascript:void(0)'}
-              %i.icon-trash
-              Supprimer
-            .visuallyhidden= structure_form.input :delete_image, as: :boolean, label: false
-          - else
-            %img.center-block#logo-image{style: 'max-height: 200px; max-width: 500px'}
-        .input
-          .control-label Image pour vous illustrer
-          = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
-            %i.icon-picture
-            Choisir mon image
-          .visuallyhidden= structure_form.input :image, label: false, input_html: {id: 'image-input'}
-        %p.field-form-info.blue
-          Cette image apparaîtra dans la partie gauche de votre profil public.
-          %br
-          = t('structures.accepted_image_formats')
+            = t('structures.accepted_image_formats')
+    - else
+      %p.alert--error Vous devez choisir une sous discipline pour mettre un logo.
 
     %h5.form-header-group#informations
       %i.lbc-icon-info i
@@ -92,7 +97,7 @@
         .textarea-with-info.grid__item.width-auto
           .grid--full
             .three-fifths.grid__item.soft-half--right>
-              = structure_form.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {id: 'description-textarea', class: 'textarea-description--tall', placeholder: 'Mettez en avant votre différence !', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}, value: @structure.description_for_input}
+              = structure_form.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {id: 'description-textarea', class: 'textarea-description--tall', placeholder: 'Mettez en avant votre différence !', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
             .two-fifths.grid__item
               %p.alert--info.flush--top
                 Qu'est-ce qui vous différencie ?

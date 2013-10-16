@@ -6,7 +6,6 @@ class Planning < ActiveRecord::Base
 
   belongs_to :course, touch: true
   has_many   :prices, through: :course
-  # belongs_to :room
   belongs_to :teacher
   belongs_to :place
 

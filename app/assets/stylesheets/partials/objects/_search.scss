@@ -154,6 +154,11 @@
     }
 }
 
+.course-list-wrapper {
+    position: relative;
+    left    : 40%;
+    @include multiple-media-query(palm, lap) { left: 0; };
+}
 .course-list {
     min-height: 60em;
 }

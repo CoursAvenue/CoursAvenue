@@ -28,7 +28,6 @@ class ::Admin < ActiveRecord::Base
 
   validates :password, :email, :structure, presence: true, on: :create
 
-  # attr_accessible :title, :body
   belongs_to :structure
 
   # Scopes
@@ -53,8 +52,9 @@ class ::Admin < ActiveRecord::Base
   end
 
   def subscribe_to_mailchimp
-    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
-                           :email_address => self.email,
+    gb = Gibbon::API.new
+    gb.lists.subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
+                           :email => {email: self.email},
                            :merge_vars => {
                               :NAME => (self.structure ? self.structure.name : ''),
                               :STATUS => 'registered'

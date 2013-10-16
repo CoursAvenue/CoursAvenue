@@ -4,7 +4,7 @@
 %p
   %strong= @comment.title
   %br
-  = @comment.content.html_safe
+  = simple_format @comment.content
 
 %p
   Motif de suppression :

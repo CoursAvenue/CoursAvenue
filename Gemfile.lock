@@ -12,8 +12,6 @@ GEM
       rack-test (~> 0.6.2)
     actionpack-action_caching (1.0.0)
       actionpack (>= 4.0.0.beta, < 5.0)
-    actionpack-page_caching (1.0.0)
-      actionpack (>= 4.0.0.beta, < 5.0)
     active_hash (1.2.0)
       activesupport (>= 2.2.2)
     active_model_serializers (0.8.1)
@@ -45,6 +43,10 @@ GEM
       redcarpet (~> 2.0)
       rinku (~> 1.5.0)
     awesome_print (1.2.0)
+    aws-sdk (1.21.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4, < 1.6.0)
+      uuidtools (~> 2.1)
     backbone-relational-rails (0.8.6)
       railties (>= 3.1)
     bcrypt-ruby (3.1.2)
@@ -81,6 +83,7 @@ GEM
       compass (>= 0.12.2, < 0.14)
     css_parser (1.3.5)
       addressable
+    daemons (1.1.9)
     dalli (2.6.4)
     debug_inspector (0.0.2)
     delayed_job (4.0.0)
@@ -143,7 +146,7 @@ GEM
     hashie (2.0.5)
     heroku-api (0.3.15)
       excon (~> 0.25.1)
-    highline (1.6.19)
+    highline (1.6.20)
     hike (1.2.3)
     hirefire-resource (0.2.2)
     httparty (0.12.0)
@@ -178,17 +181,15 @@ GEM
       rack-contrib
       railties
     mime-types (1.25)
-    mini_portile (0.5.1)
     minitest (4.7.5)
-    multi_json (1.8.1)
+    multi_json (1.8.2)
     multi_xml (0.5.5)
     multipart-post (1.2.0)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-ssh (2.7.0)
     newrelic_rpm (3.6.8.164)
-    nokogiri (1.6.0)
-      mini_portile (~> 0.5.0)
+    nokogiri (1.5.10)
     nutshell-crm (0.0.5)
       httparty
       json
@@ -246,8 +247,6 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.0.0)
       sprockets-rails (~> 2.0.0)
-    rails-observers (0.1.2)
-      activemodel (~> 4.0)
     rails_12factor (0.0.2)
       rails_serve_static_assets
       rails_stdout_logging
@@ -275,11 +274,11 @@ GEM
       sprockets
     rsolr (1.0.9)
       builder (>= 2.1.2)
-    rspec-core (2.14.5)
+    rspec-core (2.14.6)
     rspec-expectations (2.14.3)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-instafail (0.2.4)
-    rspec-mocks (2.14.3)
+    rspec-mocks (2.14.4)
     rspec-rails (2.14.0)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
@@ -289,8 +288,8 @@ GEM
       rspec-mocks (~> 2.14.0)
     ruby-hmac (0.4.0)
     sass (3.2.12)
-    sass-rails (4.0.0)
-      railties (>= 4.0.0.beta, < 5.0)
+    sass-rails (4.0.1)
+      railties (>= 4.0.0, < 5.0)
       sass (>= 3.1.10)
       sprockets-rails (~> 2.0.0)
     simple_form (3.0.0)
@@ -342,6 +341,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    uuidtools (2.1.4)
     warden (1.2.3)
       rack (>= 1.0)
     zeroclipboard-rails (0.0.7)
@@ -351,14 +351,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  actionpack-action_caching
-  actionpack-page_caching
+  actionpack-action_caching (~> 1.0.0)
   active_hash (~> 1.2.0)
   active_model_serializers (~> 0.8.1)
   ancestry (~> 2.0.0)
   asset_sync (~> 1.0.0)
   auto_html (~> 1.6.0)
   awesome_print
+  aws-sdk (~> 1.21.0)
   backbone-relational-rails (~> 0.8.6)
   better_errors
   binding_of_caller
@@ -368,7 +368,9 @@ DEPENDENCIES
   compass (~> 0.12.2)
   compass-inuit (~> 5.0.2)
   compass-rails (~> 2.0.alpha.0)
+  daemons (~> 1.1.9)
   dalli (~> 2.6.4)
+  delayed_job (~> 4.0.0)
   delayed_job_active_record (~> 4.0.0)
   delorean
   devise (~> 3.1.1)
@@ -400,11 +402,10 @@ DEPENDENCIES
   paranoia (~> 2.0)
   pg
   progress_bar (~> 1.0.0)
-  protected_attributes
+  protected_attributes (~> 1.0.3)
   rack-cors
   rack-reverse-proxy
   rails (= 4.0.0)
-  rails-observers
   rails_12factor
   railsy_backbone (~> 0.0.5)
   roadie (~> 2.4.2)
