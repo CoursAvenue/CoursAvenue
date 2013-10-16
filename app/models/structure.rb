@@ -80,10 +80,8 @@ class Structure < ActiveRecord::Base
   has_many :students                  , dependent: :destroy
   has_many :teachers                  , dependent: :destroy
   has_many :courses                   , dependent: :destroy
-  has_many :renting_rooms
   has_many :cities, through: :places
   has_many :reservations,         as: :reservable
-  # has_many :rooms, through: :places
   has_and_belongs_to_many :subjects
 
   has_many :places                   , dependent: :destroy
@@ -110,7 +108,6 @@ class Structure < ActiveRecord::Base
 
   after_update     :reprocess_logo, :if => :cropping?
 
-  before_save      :replace_slash_n_r_by_brs
   before_save      :fix_website_url
   before_save      :fix_facebook_url
   before_save      :fix_widget_url
@@ -280,6 +277,8 @@ class Structure < ActiveRecord::Base
 
   def update_comments_count
     self.update_column :comments_count, self.comments.accepted.count
+    self.update_column :updated_at, Time.now
+    self.index
   end
 
   def contact_email
@@ -306,18 +305,14 @@ class Structure < ActiveRecord::Base
     subjects.uniq.map(&:parent).uniq
   end
 
-  def description_for_input
-    self.description.gsub(/<br>/, '&#x000A;').html_safe if self.description
-  end
-
-  def description_for_meta
-    self.description.gsub(/<br>/, ' ').html_safe if self.description
-  end
-
   def contact_name
     if self.admins.any?
       self.admins.first.name
     end
+  end
+
+  def description_for_meta
+    self.description.gsub(/\r\n\r\n/, ' ').html_safe if self.description
   end
 
   def independant?
@@ -370,6 +365,22 @@ class Structure < ActiveRecord::Base
     self.logo_geometry(:original).width / self.logo_geometry(style).width
   end
 
+  def crop_width
+    if read_attribute(:crop_width).nil? or read_attribute(:crop_width) == 0
+      [logo_geometry.height, logo_geometry.width].min
+    else
+      read_attribute(:crop_width)
+    end
+  end
+
+  def crop_height
+    if read_attribute(:crop_height).nil? or read_attribute(:crop_height) == 0
+      [logo_geometry.height, logo_geometry.width].min
+    else
+      read_attribute(:crop_height)
+    end
+  end
+
   def has_cropping_attributes?
     !crop_x.blank? && !crop_y.blank? && !crop_width.blank? && !crop_height.blank?
   end
@@ -405,10 +416,6 @@ class Structure < ActiveRecord::Base
     self.pricing_plan = PricingPlan.where(name: 'free').first unless self.pricing_plan.present?
   end
 
-  def replace_slash_n_r_by_brs
-    self.description = self.description.gsub(/\r\n/, '<br>') if self.description
-  end
-
   def set_active_to_true
     self.active = true
   end
@@ -427,8 +434,9 @@ class Structure < ActiveRecord::Base
 
   def subscribe_to_mailchimp
     nb_comments = self.comments_count
-    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
-                           :email_address => self.contact_email,
+    gb = Gibbon::API.new
+    gb.lists.subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
+                           :email => {email: self.contact_email},
                            :merge_vars => {
                               :NAME       => self.name,
                               :STATUS     => (self.admins.any? ? 'registered' : 'not registered'),

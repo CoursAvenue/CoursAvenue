@@ -4,11 +4,11 @@ class Price < ActiveRecord::Base
 
   before_validation :update_nb_courses
 
-  attr_accessible :libelle, :amount, :promo_amount, :nb_courses, :info, :course, :number, :type, :duration, :promo_percentage
-
   validates :course, presence: true
   validates :amount       , numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :promo_amount , numericality: { less_than: :amount }, allow_nil: true
+
+  attr_accessible :libelle, :amount, :promo_amount, :nb_courses, :info, :course, :number, :type, :duration, :promo_percentage
 
   before_save :remove_zeros
 

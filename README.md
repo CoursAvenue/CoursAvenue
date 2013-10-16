@@ -1,3 +1,15 @@
+# Production & Staging environment
+
+[Some heroku docs](https://devcenter.heroku.com/articles/multiple-environments)
+
+## Production
+
+## Staging
+
+$ git push staging master
+$ heroku run rake db:migrate --remote staging
+$ heroku ps --remote staging
+
 ### Rbenv & Pow
 
 \# ~/.powconfig

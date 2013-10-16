@@ -5,6 +5,6 @@
   = simple_form_for [current_user, @comment] do |f|
     = f.input :course_name
     = f.input :title
-    = f.input :content, input_html: {value: @comment.content_for_input, data: {behavior: 'autoresize'}}
+    = f.input :content, input_html: { data: {behavior: 'autoresize'} }
     .form-actions
       = f.submit 'Enregistrer', class: 'btn btn--green'

@@ -99,9 +99,9 @@
     .tab-content
       %article#tab-description.tab-pane.active
         .white-box.islet
-          %h2.delta Description de : #{@structure.name}
+          %h2.visuallyhidden.delta Description de : #{@structure.name}
           - if @structure.description
-            %p= @structure.description.html_safe
+            %p= simple_format @structure.description
           - else
             %p Pas de description
 
@@ -152,7 +152,7 @@
       %h1.gamma.blue.push-half--bottom= @structure.name
       %ul.nav.push-half--ends= join_child_subjects @structure, true
       -# - if @structure.description.present?
-      -#   %p.read-more{data: {behavior: 'read-more'}}= @structure.description.html_safe
+      -#   %p.read-more{data: {behavior: 'read-more'}}= simple_format @structure.description
       .text--center
         -# = form_for @structure.reservations.build, remote: true, html: {id: 'coord-form'} do |f|
         -#   = f.hidden_field :reservable_type

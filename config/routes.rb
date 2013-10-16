@@ -4,7 +4,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
-  constraints subdomain: 'pro' do
+  constraints subdomain: (Rails.env.staging? ? 'pro.staging' : 'pro') do
     namespace :pro, path: '' do
       root :to => 'home#index'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
@@ -186,8 +186,6 @@ CoursAvenue::Application.routes.draw do
     resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index' # établissement without S
     resources :courses, only: [:index], path: 'cours'
   end
-
-  resources :renting_rooms, only: [:create]
 
   resources :reservation_loggers, only: [:create]
   resources :click_loggers, only: [:create]

@@ -50,4 +50,29 @@ class CoursesController < ApplicationController
     @audiences = Audience.all
     @levels    = Level.all
   end
+
+  # def course_params
+  #   params.require(:course).permit(:name, :type, :description,
+  #                                   :active, :info, :rating, :is_promoted,
+  #                                   :price_details,
+  #                                   :has_online_payment,
+  #                                   :homepage_image,
+  #                                   :image,
+  #                                   :frequency,
+  #                                   :registration_date,
+  #                                   :is_individual, :is_for_handicaped,
+  #                                   :trial_lesson_info, # Info prix
+  #                                   :conditions,
+  #                                   :partner_rib_info,
+  #                                   :audition_mandatory,
+  #                                   :refund_condition,
+  #                                   :cant_be_joined_during_year,
+  #                                   :nb_participants,
+  #                                   :no_class_during_holidays,
+  #                                   :start_date, :end_date,
+  #                                   :subject_ids, :level_ids, :audience_ids, :place_id, :active,
+  #                                   :book_tickets_attributes, :prices_attributes, :registration_fees_attributes)
+
+  # end
+
 end

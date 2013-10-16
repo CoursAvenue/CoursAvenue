@@ -58,8 +58,9 @@ class Student < ActiveRecord::Base
       merge_vars[:STRUC_SLUG] = self.structure.slug
       merge_vars[:STRUC_NAME] = self.structure.name
     end
-    Gibbon.list_subscribe({:id => CoursAvenue::Application::MAILCHIMP_USERS_LIST_ID,
-                           :email_address => self.email,
+    gb = Gibbon::API.new
+    gb.lists.subscribe({:id => CoursAvenue::Application::MAILCHIMP_USERS_LIST_ID,
+                           :email => {email: self.email},
                            :merge_vars => merge_vars,
                            :double_optin => false,
                            :update_existing => true,

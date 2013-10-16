@@ -35,8 +35,10 @@ CoursAvenue::Application.configure do
   #   :user_name => 'app9696879@heroku.com',
   #   :password  => 'Qf5ITuqN9LXZez-tUC_JWg'
   # }
-  # Print deprecation notices to the Rails logger
+  # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
+
+  # config.log_level = :info
 
   # Expands the lines which load the assets
   config.assets.debug = true

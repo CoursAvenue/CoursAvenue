@@ -1,5 +1,11 @@
 module StructuresHelper
 
+  def cache_key_for_structures
+    count          = Structure.count
+    max_updated_at = Structure.maximum(:updated_at).try(:utc).try(:to_s, :number)
+    "structures/all-#{count}-#{max_updated_at}"
+  end
+
   def join_child_subjects(structure, with_h3 = false)
     structure.subjects_string.split(';').collect do |subject_string|
       subject_name, subject_slug = subject_string.split(':')
