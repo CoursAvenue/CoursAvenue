@@ -84,7 +84,7 @@
     background-color: $blue-green;
     background-color: transparentize($blue-green, 0.2);
     height          : 8em;
-    border-radius   : 5em;
+    @include border-radius(5em);
     width           : 8em;
     margin          : auto;
     img {

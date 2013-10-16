@@ -365,6 +365,22 @@ class Structure < ActiveRecord::Base
     self.logo_geometry(:original).width / self.logo_geometry(style).width
   end
 
+  def crop_width
+    if read_attribute(:crop_width).nil? or read_attribute(:crop_width) == 0
+      [logo_geometry.height, logo_geometry.width].min
+    else
+      read_attribute(:crop_width)
+    end
+  end
+
+  def crop_height
+    if read_attribute(:crop_height).nil? or read_attribute(:crop_height) == 0
+      [logo_geometry.height, logo_geometry.width].min
+    else
+      read_attribute(:crop_height)
+    end
+  end
+
   def has_cropping_attributes?
     !crop_x.blank? && !crop_y.blank? && !crop_width.blank? && !crop_height.blank?
   end
