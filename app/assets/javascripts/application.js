@@ -80,5 +80,4 @@
 //= require_tree ./gmaps4rails/
 
 //= require ./plugins_initalization
-
 // require turbolinks
