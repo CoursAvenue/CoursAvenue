@@ -51,26 +51,38 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
             this.map = new google.maps.Map(this.mapView.el, this.mapOptions);
             this.map_annex = this.mapView.el;
-
-            var radius_label_value  = $('#radius-label-value');
-            var radius_hidden_input = $('#radius-hidden-input');
-            $('.noUiSlider').noUiSlider({
-                range: [1, 10]
-               ,start: 7 // #{params[:radius] || 7}
-               ,step: 1
-               ,margin: 0
-               ,handles: 1
-               ,slide: function(){
-                  var value = $(this).val();
-                  radius_label_value.text(value);
-                  radius_hidden_input.val(value);
-                  $('#header-search').submit();
-               }
-            });
         },
 
         onMarkerFocus: function (data) {
             this.trigger('map:marker:focus', data);
+        },
+
+        onShow: function () {
+            var radius_label_value  = $('#radius-label-value');
+            var radius_hidden_input = $('#radius-hidden-input');
+            var self = this;
+
+            /* TODO this still needs to be set up */
+            $('.noUiSlider').noUiSlider({
+                range: [1, 20], // kilometers
+                start: 6, // should be fed from params
+                step: 1 ,
+                margin: 0,
+                handles: 1,
+                slide: function () {
+                    /* our zoom is 1 to 10 but the actual map is more like 1 to 20 */
+                    var value = $(this).val();
+                    radius_label_value.text(value);
+                    radius_hidden_input.val(value);
+                    self.changeMapRadius({ radius: value });
+                }
+            });
+        },
+        
+        changeMapRadius: function(data) {
+            if (data.radius) {
+                this.map.setZoom(data.radius);
+            }
         },
 
         onRender: function() {
