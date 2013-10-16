@@ -22,5 +22,5 @@
             %meta{itemprop: 'name', content: comment.commentable.name}
           %span.blue= truncate(comment.commentable.name, length: 35)
       .flexbox__item.one-half.comment__content
-        %p.flush--bottom= truncate(comment.content, length: 130).html_safe
+        %p.flush--bottom= simple_format(truncate(comment.content, length: 130))
         %meta{itemprop: 'reviewBody', content: comment.content}

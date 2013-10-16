@@ -108,7 +108,6 @@ class Structure < ActiveRecord::Base
 
   after_update     :reprocess_logo, :if => :cropping?
 
-  before_save      :replace_slash_n_r_by_brs
   before_save      :fix_website_url
   before_save      :fix_facebook_url
   before_save      :fix_widget_url
@@ -306,18 +305,14 @@ class Structure < ActiveRecord::Base
     subjects.uniq.map(&:parent).uniq
   end
 
-  def description_for_input
-    self.description.gsub(/<br>/, '&#x000A;').html_safe if self.description
-  end
-
-  def description_for_meta
-    self.description.gsub(/<br>/, ' ').html_safe if self.description
-  end
-
   def contact_name
     if self.admins.any?
       self.admins.first.name
     end
+  end
+
+  def description_for_meta
+    self.description.gsub(/\r\n\r\n/, ' ').html_safe if self.description
   end
 
   def independant?
@@ -403,10 +398,6 @@ class Structure < ActiveRecord::Base
 
   def set_free_pricing_plan
     self.pricing_plan = PricingPlan.where(name: 'free').first unless self.pricing_plan.present?
-  end
-
-  def replace_slash_n_r_by_brs
-    self.description = self.description.gsub(/\r\n/, '<br>') if self.description
   end
 
   def set_active_to_true

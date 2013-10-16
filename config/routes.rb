@@ -4,7 +4,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- PRO
   # ---------------------------------------------
-  constraints subdomain: 'pro' do
+  constraints subdomain: (Rails.env.staging? ? 'pro.staging' : 'pro') do
     namespace :pro, path: '' do
       root :to => 'home#index'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'

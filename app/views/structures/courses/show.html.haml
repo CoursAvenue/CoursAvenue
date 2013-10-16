@@ -100,7 +100,7 @@
         .white-box.islet
           %h2.delta Description du #{@course.type_name.downcase.html_safe} de : #{@course.name}
           - if @course.description
-            %p= @course.description.html_safe
+            %p= simple_format @course.description
           - else
             %p Pas de description
 

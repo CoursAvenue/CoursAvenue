@@ -371,12 +371,8 @@ class Course < ActiveRecord::Base
     'Cours'
   end
 
-  def description_for_input
-    self.description.gsub(/<br>/, '&#x000A;').html_safe if self.description
-  end
-
   def description_for_meta
-    self.description.gsub(/<br>/, ' ').html_safe if self.description
+    self.description.gsub(/\r\n\r\n/, ' ').html_safe if self.description
   end
 
   def activate!

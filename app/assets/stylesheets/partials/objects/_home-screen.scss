@@ -81,6 +81,7 @@
     font-weight     : bold;
     font-size       : 1.5em;
     color           : #FFF;
+    background-color: $blue-green;
     background-color: transparentize($blue-green, 0.2);
     height          : 8em;
     border-radius   : 5em;
@@ -117,9 +118,8 @@
     .home-screen-subjects__title {
         bottom          : 0;
         font-size       : 15px;
-        // bottom          : -40px;
         position        : absolute;
-        // background-color: rgba(0,0,0,0.6);
+        background-color: $blue-green;
         background-color: transparentize($blue-green, 0.2);
         color           : white;
         width           : 100%;

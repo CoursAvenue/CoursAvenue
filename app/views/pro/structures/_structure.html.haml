@@ -13,7 +13,7 @@
       %p
         %b= @structure.name
       - if @structure.description.present?
-        %p.read-more{data: {behavior: 'read-more'}}= @structure.description.html_safe
+        %p.read-more{data: {behavior: 'read-more'}}= simple_format @structure.description
       - else
         %p
           %i Pas de description

@@ -71,8 +71,8 @@
               %meta{itemprop: 'bestRating', content: 5}
         - if comment.title.present?
           %h6.quoted.flush--bottom{itemprop: 'headline', content: comment.title.capitalize}= "#{comment.title.capitalize}"
-        %p.read-more.push-half--bottom{itemprop: 'reviewBody', data: {behavior: 'read-more'}}
-          = comment.content.html_safe
+        .read-more.push-half--bottom{itemprop: 'reviewBody', data: {behavior: 'read-more'}}
+          = simple_format comment.content
         %p.text--right.flush
           %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} Avis écrit le #{l(comment.created_at, format: :date)}
         - if with_link
