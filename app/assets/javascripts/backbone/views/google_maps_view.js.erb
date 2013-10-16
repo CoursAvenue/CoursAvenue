@@ -4,13 +4,38 @@
 * the map bounds are changed. ETC */
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
     Views.BlankView = Marionette.ItemView.extend({ template: "" });
+    Views.CoursMarkerView = Backbone.GoogleMaps.MarkerView.extend({
+        icons: {
+            'plain': '<%= asset_path('icons/map-marker.png') %>',
+            'selected': '<%= asset_path('icons/map-marker-blue.png') %>'
+        },
+
+        initialize: function (options) {
+
+            this.overlayOptions.icon = this.icons.plain;
+        },
+
+        mapEvents: {
+            'mouseover': 'select',
+            'mouseout': 'deselect'
+        },
+
+        /* these functions stupidly resolve with this scoped
+           to the icon and no access to the backbone object */
+        select: function (e) {
+            this.gOverlay.setIcon(this.icons.selected);
+        },
+
+        deselect: function (e) {
+            this.gOverlay.setIcon(this.icons.plain);
+        }
+    });
 
     Views.GoogleMapsView = Marionette.CompositeView.extend({
         template: 'backbone/templates/google_maps_view',
         id:       'map-container',
-        icon: "<%= asset_path('icons/map-marker.png') %>",
         itemView: Views.BlankView,
-        markerView: Backbone.GoogleMaps.MarkerView,
+        markerView: Views.CoursMarkerView,
         markerViewChildren: {},
 
         initialize: function(options) {
@@ -75,15 +100,17 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 var markerView = new self.markerView({
                     model: place,
                     map: self.map,
-                    overlayOptions: {
-                        icon: this.icon
-                    }
+                    parentClass: self
                 });
 
                 self.markerViewChildren[place.cid] = markerView;
 
                 markerView.render();
             });
+        },
+
+        broadcast: function () {
+            debugger
         }
     });
 });
