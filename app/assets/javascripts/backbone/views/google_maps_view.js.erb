@@ -109,8 +109,34 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
         },
 
-        broadcast: function () {
-            debugger
+        /* TODO currently these two methods know WAY too much about the arguments being
+         * passed in. Some of what they are doing should be handled by the view */
+        selectMarkers: function(view) {
+            var self = this;
+
+            var places = view.model.getRelation('places').related.models.map(function(model) {
+                return model.cid;
+            });
+
+            _.each(places, function (place) {
+                var a = self.markerViewChildren[place];
+
+                a.select();
+            });
+        },
+
+        deselectMarkers: function (view) {
+            var self = this;
+
+            var places = view.model.getRelation('places').related.models.map(function(model) {
+                return model.cid;
+            });
+
+            _.each(places, function (place) {
+                var a = self.markerViewChildren[place];
+
+                a.deselect();
+            });
         }
     });
 });

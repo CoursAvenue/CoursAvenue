@@ -6,6 +6,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         template: 'backbone/templates/paginated_collection_view',
         itemView: FilteredSearch.Views.StructureView,
         itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
+        itemViewEventPrefix: 'paginator:itemview',
 
         announcePaginatorUpdated: function () {
             var data = this.collection;

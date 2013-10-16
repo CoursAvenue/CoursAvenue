@@ -16,7 +16,21 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         events: {
-            'click': 'resolveClick'
+            'click': 'resolveClick',
+            'mouseenter': 'selectStructure',
+            'mouseleave': 'deselectStructure'
+        },
+
+        /* TODO this is unfortunate, for some reason I can only pass
+        * 'this' through the trigger. I think it is because the event
+        * is being passed on by the collectionView. This shouldn't
+        * be too hard to fix, but I will leave it for now. */
+        selectStructure: function (e) {
+            this.trigger('selected', this);
+        },
+
+        deselectStructure: function (e) {
+            this.trigger('deselected', this);
         },
 
         resolveClick: function (event) {

@@ -94,7 +94,9 @@ FilteredSearch.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         'paginator:updating': 'clearForUpdate',
-        'paginator:updated:map': 'centerMap'
+        'paginator:updated:map': 'centerMap',
+        'paginator:itemview:selected': 'selectMarkers',
+        'paginator:itemview:deselected': 'deselectMarkers'
     });
 
     layout.showWidget(results_summary_tool, {
