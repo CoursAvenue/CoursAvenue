@@ -78,7 +78,7 @@
           - if params[:email].present?
             = f.hidden_field :email, value: params[:email]
           - else
-            = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, label: 'Votre email', placeholder: "Votre email ne sera visible que par le professeur"
+            = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par le professeur"
           %hr.push--top
         .input
           %label.control-label

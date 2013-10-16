@@ -31,7 +31,7 @@
       = gmaps( {markers: {data: @json_locations_addresses}, map_options: {maxZoom: 14, mapTypeControl: false}})
     - cache(cache_key_for_structures) do
       .grid
-        .grid__item.six-tenths.push--four-tenths>
+        .grid__item.six-tenths.course-list-wrapper.palm-one-whole.lap-one-whole>
           - @structures.each_with_index do |structure, index|
             - cache(structure) do
               .one-whole.course-element{data: {'location-ids' => structure.locations.map(&:id).join(' '), type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
