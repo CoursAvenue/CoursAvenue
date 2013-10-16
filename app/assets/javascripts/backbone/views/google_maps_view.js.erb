@@ -4,15 +4,11 @@
 * the map bounds are changed. ETC */
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
     Views.BlankView = Marionette.ItemView.extend({ template: "" });
-    Views.CoursMarkerView = Backbone.GoogleMaps.MarkerView.extend({
-        icons: {
-            'plain': '<%= asset_path('icons/map-marker.png') %>',
-            'selected': '<%= asset_path('icons/map-marker-blue.png') %>'
-        },
-
+    Views.CoursMarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
         initialize: function (options) {
 
-            this.overlayOptions.icon = this.icons.plain;
+            this.$el = $("<div class='map-marker-image disabled' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'></a></div>");
+            this.overlayOptions.content = this.$el[0];
         },
 
         mapEvents: {
@@ -23,11 +19,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* these functions stupidly resolve with this scoped
            to the icon and no access to the backbone object */
         select: function (e) {
-            this.gOverlay.setIcon(this.icons.selected);
+            this.$el.addClass('active');
         },
 
         deselect: function (e) {
-            this.gOverlay.setIcon(this.icons.plain);
+            this.$el.removeClass('active');
         }
     });
 
@@ -99,8 +95,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             _.each(places, function (place) {
                 var markerView = new self.markerView({
                     model: place,
-                    map: self.map,
-                    parentClass: self
+                    map: self.map
                 });
 
                 self.markerViewChildren[place.cid] = markerView;
