@@ -42,7 +42,8 @@
                     %h3.flush--bottom.brand.course-title= structure.name
                     %ul.nav.push-half--ends= join_child_subjects structure, true
                     - if structure.description.present?
-                      %p.read-more{data: {behavior: 'read-more', height: 50}}= simple_format structure.description
+                      .read-more{data: {behavior: 'read-more', height: 50}}
+                        = simple_format structure.description
                   .grid__item.three-twelfths.text--center>
                     .thin.big-alpha.brand #{structure.comments_count}
                     %div
