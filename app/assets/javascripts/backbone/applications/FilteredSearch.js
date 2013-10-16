@@ -71,7 +71,8 @@ FilteredSearch.addInitializer(function(options) {
             'pagination:next': 'nextPage',
             'pagination:prev': 'prevPage',
             'pagination:page': 'goToPage',
-            'summary:filter': 'filterQuery'
+            'summary:filter': 'filterQuery',
+            'map:marker:focus': 'zoomToStructure'
         }
     });
 

@@ -1,6 +1,7 @@
 /* a view for presenting a backbone.paginator collection, and for presenting and handling
  * its pagination UI element */
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+    var EPSILON = 0.0000001; // google maps latlng precision
 
     Views.PaginatedCollectionView = Backbone.Marionette.CompositeView.extend({
         template: 'backbone/templates/paginated_collection_view',
@@ -153,6 +154,33 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
 
             return false;
+        },
+
+        zoomToStructure: function (data) {
+            console.log("PaginatedCollectionView->zoomToStructure");
+
+            /* find the first place that has any locations that match the given lat/lng */
+            var position = data.model.getLatLng();
+
+            var relevant_structure = this.collection.find(function (model) {
+
+                return _.find(model.getRelation('places').related.models, function (place) {
+                    var location = place.get('location');
+                    var latlng = new google.maps.LatLng(location.latitude, location.longitude);
+
+                    return (position.equals(latlng)); // ha! google to the rescue
+                });
+            });
+
+            var course_element = this.children.findByModel(relevant_structure).$el;
+
+            $(document.body).animate({scrollTop: course_element.offset().top}, 200,'easeInOutCubic');
+            $(document.body).scrollTo(course_element[0], {duration: 400})
+            // Unselect courses if there already are that are selected
+            $('.course-element').removeClass('selected');
+            setTimeout(function(){
+                course_element.addClass('selected');
+            }, 100);
         },
 
         /* when rendering each collection item, we might want to
