@@ -30,6 +30,18 @@ class Pro::DashboardController < Pro::ProController
       @admins_progression[date]   = Admin.where{created_at < date}.count
       @comments_progression[date] = Comment.where{created_at < date}.count
     end
+    @admins2 = [0,0,0,0]
+    Structure.all.each do |s|
+      if s.comments_count == nil or s.comments_count == 0
+        @admins2[0] += 1
+      elsif s.comments_count > 0 and s.comments_count < 5
+        @admins2[1] += 1
+      elsif s.comments_count > 4 and s.comments_count <= 10
+        @admins2[2] += 1
+      else
+        @admins2[3] += 1
+      end
+    end
 
     # Compute all the days to have all the days shown in the graph even when values are empty
     hash_of_days = {}

@@ -4,6 +4,7 @@
   %i.icon-dashboard
   Tableau de bord
 
+
 %h3.header-group
   %i.icon-map-marker
   Professeurs enregistrés / Avis laissés (non cumulé)
@@ -15,6 +16,12 @@
     = Comment.count
     avis
   #admins
+
+.white-box.islet.text--center
+  .gamma
+    = Admin.normal.count
+    profs
+  #admins2
 
 %h3.header-group
   %i.icon-map-marker
@@ -101,6 +108,17 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        new Highcharts.Chart({
+            chart: { renderTo: 'admins2', type: 'column' },
+            title: { text: null },
+            xAxis: { categories: ['0', '1-4', '5-10', '+ de 10'] },
+            yAxis: { title: { text: ''}},
+            series: [
+              { data: #{@admins2.map{|count| count}},
+                name: 'Profs inscrits'
+               }
+            ]
+        });
         new Highcharts.Chart({
             chart: { renderTo: 'admins', type: 'column' },
             title: { text: null },
