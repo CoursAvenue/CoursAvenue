@@ -89,12 +89,12 @@
 
       = structure_form.input :teachers_at_home, as: :select
 
-    %h5.form-header-group Coordonnées de réservations
+    %h5.form-header-group Coordonnées de réservation
     .form-white-box.push--bottom
       %p.field-form-info.blue.flush Si vous avez plusieurs lieux : renseignez vos coordonnées principales, vous pourrez ensuite choisir des coordonnées de réservation spécifiques à chaque lieu dans l'onglet « Lieux »
       = structure_form.input :contact_phone, placeholder: 'Ex. : 01 04 12 49 12'
       = structure_form.input :contact_mobile_phone, placeholder: 'Ex. : 06 34 41 99 31'
-      = structure_form.input :contact_email, input_html: {value: @structure.main_contact.try(:email)}
+      = structure_form.input :contact_email, input_html: {value: (@structure.contact_email || @structure.main_contact.try(:email))}
 
     %h5.form-header-group.push--top Description
     %div.relative
