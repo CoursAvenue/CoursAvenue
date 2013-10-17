@@ -68,10 +68,10 @@ FilteredSearch.addInitializer(function(options) {
     structures_view = new FilteredSearch.Views.PaginatedCollectionView({
         collection: structures,
         events: {
-            'pagination:next': 'nextPage',
-            'pagination:prev': 'prevPage',
-            'pagination:page': 'goToPage',
-            'summary:filter': 'filterQuery',
+            'pagination:next':  'nextPage',
+            'pagination:prev':  'prevPage',
+            'pagination:page':  'goToPage',
+            'summary:filter':   'filterQuery',
             'map:marker:focus': 'zoomToStructure'
         }
     });
@@ -80,23 +80,23 @@ FilteredSearch.addInitializer(function(options) {
     window.pfaff = structures;
 
     /* set up the layouts */
-    layout = new FilteredSearch.Views.SearchWidgetsLayout();
+    layout                 = new FilteredSearch.Views.SearchWidgetsLayout();
 
-    google_maps_view     = new FilteredSearch.Views.GoogleMapsView({ collection: structures });
+    google_maps_view       = new FilteredSearch.Views.GoogleMapsView({ collection: structures });
 
     /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
-    top_pagination_tool = new FilteredSearch.Views.PaginationToolView({});
+    top_pagination_tool    = new FilteredSearch.Views.PaginationToolView({});
     bottom_pagination_tool = new FilteredSearch.Views.PaginationToolView({});
-    results_summary_tool = new FilteredSearch.Views.ResultsSummaryView({});
+    results_summary_tool   = new FilteredSearch.Views.ResultsSummaryView({});
 
     FilteredSearch.mainRegion.show(layout);
 
     /* we can add a widget along with a callback to be used
     * for setup */
     layout.showWidget(google_maps_view, {
-        'paginator:updating': 'clearForUpdate',
-        'paginator:updated:map': 'centerMap',
-        'paginator:structure:selected': 'selectMarkers',
+        'paginator:updating':             'clearForUpdate',
+        'paginator:updated:map':          'centerMap',
+        'paginator:structure:selected':   'selectMarkers',
         'paginator:structure:deselected': 'deselectMarkers'
     });
 

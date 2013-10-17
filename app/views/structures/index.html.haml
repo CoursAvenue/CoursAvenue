@@ -13,60 +13,27 @@
   .visuallyhidden{ :data => { :type => 'filtered-search-bootstrap', :total => @structure_search.total }}
     = StructureSerializer.new(structure, { root: false }).to_json
 
-#filtered-search
-.grid.stickem-container.relative{ :data => { :type => "filtered-search-root" }}
-  %section.grid__item.four-tenths.visuallyhidden--lap.visuallyhidden--palm.stickem.absolute>
-    //= render 'side_search_form'
-  %section.grid__item.six-tenths.lap-one-whole.palm-one-whole.course-list-wrapper>
-    %ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
-      %li= link_to 'Tous les établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
-      - if @subject
-        - if @subject.parent
-          %li= link_to @subject.parent.name, subject_structures_path(@subject.parent, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
-        %li= link_to @subject.name, subject_structures_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
-      - if params[:name]
-        %li= params[:name]
-    %h1.text--center.delta.flush.lbl.lbl--blue.visuallyhidden
-      - if params[:subject_id]
-        Établissements de #{@subject.name.downcase}
-      - else
-        Établissements
-      - if params[:name].present?
-        correspondant à : « #{params[:name]} »
-      - elsif params[:city].present?
-        = "à #{params[:city]}"
-      - else
-        à Paris
+%ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
+  %li= link_to 'Tous les établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
+  - if @subject
+    - if @subject.parent
+      %li= link_to @subject.parent.name, subject_structures_path(@subject.parent, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
+    %li= link_to @subject.name, subject_structures_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
+  - if params[:name]
+    %li= params[:name]
+%h1.text--center.delta.flush.lbl.lbl--blue.visuallyhidden
+  - if params[:subject_id]
+    Établissements de #{@subject.name.downcase}
+  - else
+    Établissements
+  - if params[:name].present?
+    correspondant à : « #{params[:name]} »
+  - elsif params[:city].present?
+    = "à #{params[:city]}"
+  - else
+    à Paris
 
-    - if @structures.empty? and @other_structures and @other_structures.empty?
-      = render 'no_results'
-    - else
-      .flexbox.page-entries-wrapper
-        .flexbox__item.palm-one-whole
-          %p.flush--bottom
-            = page_entries_info @structures, entry_name: Structure.model_name.human.downcase
-          .spoken-form
-            %label Trier par :
-            %a.filter-select{href: '#', class: (params[:sort] == 'rating_desc' ? 'bold' : ''), onclick: "_gaq.push(['_trackEvent', 'Trier établissement / popularité', 'click'])", data: {value: 'rating_desc'}} Popularité
-            \/
-            %a.filter-select{href: '#', class: (params[:sort] == 'relevancy' ? 'bold' : ''), onclick: "_gaq.push(['_trackEvent', 'Trier établissement / pertinence', 'click'])", data: {value: 'relevancy'}} Pertinence
-        .flexbox__item.visuallyhidden--palm
-          .text--right= paginate @structures, window: 1, outer_window: 1
-      .course-list
-        %ul.block-list
-          = render partial: 'structure', :collection => @structures
-        - if @other_structures
-          %hr
-          %p.push-half--bottom
-            %strong #{@other_structure_count}
-            établissements similaires trouvés
-          %ul.block-list
-            = render partial: 'structure', :collection => @other_structures
-          .text--center
-            = link_to "Voir la suite", subject_structures_path(@parent_subject), class: 'btn btn--blue btn--large'
-
-    %footer.g.one-whole
-      = paginate @structures, window: 2, outer_window: 1
+#filtered-search{ :data => { :type => "filtered-search-root" }}
 
 = content_for :scripts do
   :javascript

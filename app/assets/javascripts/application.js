@@ -27,7 +27,7 @@
 //= require libs/jquery.cycle.lite
 //= require libs/typeahead
 //= require libs/jquery.scrollTo
-//= require libs/jquery.nouislider
+// require libs/jquery.nouislider
 //= require libs/jquery.Jcrop
 //= require libs/jquery.fileupload/vendor/jquery.ui.widget
 //= require libs/jquery.fileupload/jquery.iframe-transport
