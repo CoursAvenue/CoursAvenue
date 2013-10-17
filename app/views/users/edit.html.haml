@@ -20,8 +20,7 @@
           = f.input :avatar, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'},input_html: {id: 'avatar-input'}
     - else
       = f.input :avatar
-    = f.input :first_name
-    = f.input :last_name
+    = f.input :name
     .form-actions
       = f.submit 'Sauvegarder', class: 'btn btn--green'
 

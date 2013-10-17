@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   acts_as_messageable
 
   extend FriendlyId
-  friendly_id :full_name, use: [:slugged, :finders]
+  friendly_id :name, use: [:slugged, :finders]
 
   has_many :comments, -> { order('created_at DESC') }
   has_many :reservations
@@ -20,14 +20,13 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
-                  :first_name, :last_name, :fb_avatar, :location, :avatar
+                  :name, :first_name, :last_name, :fb_avatar, :location, :avatar
 
-  validates :first_name, :last_name, :email, presence: true
+  validates :name, :email, presence: true
 
   has_attached_file :avatar,
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
 
-  # after_save :subscribe_to_mailchimp if Rails.env.production?
   after_create :associate_all_comments
 
   def self.from_omniauth(auth)
@@ -37,12 +36,17 @@ class User < ActiveRecord::Base
       user.oauth_token        = auth.credentials.token
       user.oauth_expires_at   = Time.at(auth.credentials.expires_at)
 
-      user.first_name         = auth.info.first_name
-      user.last_name          = auth.info.last_name
+      user.name               = "#{auth.info.first_name} #{auth.info.last_name}"
       user.email              = auth.info.email
       user.fb_avatar          = auth.info.image
-      user.location           = auth.info.location
       user.password           = Devise.friendly_token[0,20]
+
+      # Extra
+      user.location           = auth.info.location
+      # user.gender           = auth.info.location
+      # user.age              = auth.info.location
+      # user.birthdate        = auth.info.location
+
       user.save!
     end
   end
@@ -59,9 +63,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  def full_name
-    "#{first_name} #{last_name}"
-  end
 
   # Type in: small square large normal
   def fb_avatar(type='square')
@@ -80,18 +81,5 @@ class User < ActiveRecord::Base
     Comment.where{email =~ _email}.each do |comment|
       comment.update_column(:user_id, _user_id)
     end
-  end
-
-  def subscribe_to_mailchimp
-    gb = Gibbon::API.new
-    gb.lists.subscribe({:id => CoursAvenue::Application::MAILCHIMP_USERS_LIST_ID,
-                           :email => {email: self.email},
-                           :merge_vars => {
-                              :NAME => self.full_name,
-                              :STATUS => 'registered'
-                           },
-                           :double_optin => false,
-                           :update_existing => true,
-                           :send_welcome => false})
   end
 end

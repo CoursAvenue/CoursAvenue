@@ -88,9 +88,10 @@ gem 'cancan'                    , '~>1.6.9'
 # For authentication
 gem 'devise'                    , '~>3.1.1'
 # Facebook connect
-gem 'omniauth-facebook'         , '~>1.4.0'
+gem 'omniauth-facebook'         , '~>1.4.1'
 # Helps access to gmail contacts etc.
 gem 'omnicontacts'              , '~>0.3.4'
+gem 'certified'                 , '~>0.1.1'
 
 # Search engine
 gem 'sunspot'                   , '~>2.0.0'

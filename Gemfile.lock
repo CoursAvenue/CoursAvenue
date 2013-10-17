@@ -61,6 +61,7 @@ GEM
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
       json (>= 1.7)
+    certified (0.1.1)
     chronic (0.10.2)
     chunky_png (1.2.8)
     climate_control (0.0.3)
@@ -366,6 +367,7 @@ DEPENDENCIES
   binding_of_caller
   bust_rails_etags
   cancan (~> 1.6.9)
+  certified (~> 0.1.1)
   coffee-rails (~> 4.0.0)
   compass (~> 0.12.2)
   compass-inuit (~> 5.0.2)
@@ -398,7 +400,7 @@ DEPENDENCIES
   meta_request (= 0.2.6)
   newrelic_rpm (~> 3.6.8.164)
   nutshell-crm
-  omniauth-facebook (~> 1.4.0)
+  omniauth-facebook (~> 1.4.1)
   omnicontacts (~> 0.3.4)
   paperclip (~> 3.5.1)
   paranoia (~> 2.0)

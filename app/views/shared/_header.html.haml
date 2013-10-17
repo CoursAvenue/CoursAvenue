@@ -17,14 +17,14 @@
             - if current_user.fb_avatar or current_user.avatar.present?
               .grid
                 .grid__item.v-middle.width-auto>
-                  %b= current_user.full_name
+                  %b= current_user.name
                 .grid__item.v-middle.width-auto.soft-half--left
                   - if current_user.avatar.present?
                     = image_tag current_user.avatar.url(:mini), height: 40, class: 'image'
                   - elsif current_user.fb_avatar
                     = image_tag current_user.fb_avatar, height: 40, class: 'image'
             - else
-              = current_user.full_name
+              = current_user.name
           %ul.drop-down__el
             %li.nowrap
               = link_to user_path(current_user) do

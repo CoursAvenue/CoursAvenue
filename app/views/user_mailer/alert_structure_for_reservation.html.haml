@@ -1,18 +1,18 @@
 %p Bonjour #{@structure.name},
 
 - if @structure.admins.empty?
-  %p #{@user.full_name} aimerait suivre un de vos cours. Nous le savons car il a cliqué sur votre profil CoursAvenue.
+  %p #{@user.name} aimerait suivre un de vos cours. Nous le savons car il a cliqué sur votre profil CoursAvenue.
 
   %p.action
     = link_to 'Prendre le contrôle de mon profil', new_pro_admin_structure_registration_url(@structure, subdomain: 'pro')
 - else
-  %p #{@user.full_name} aimerait suivre un de vos cours.
+  %p #{@user.name} aimerait suivre un de vos cours.
 
 %p En parallèle, nous avons envoyé vos coordonnées à l'internaute, mais pour aller plus vite, n'hésitez pas à le contacter directement :
 
 %h4 Informations de l'élève
 %p
-  Nom : #{@user.full_name}
+  Nom : #{@user.name}
   %br
   Mail : #{@user.email}
 
