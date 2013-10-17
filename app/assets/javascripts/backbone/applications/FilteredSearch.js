@@ -102,6 +102,7 @@ FilteredSearch.addInitializer(function(options) {
 
     layout.showWidget(results_summary_tool, {
         'paginator:updated': 'resetSummaryTool'
+        'paginator:updating':             'clearForUpdate',
     }, '[data-type=results-summary-tool]');
 
     layout.showWidget(top_pagination_tool, {
