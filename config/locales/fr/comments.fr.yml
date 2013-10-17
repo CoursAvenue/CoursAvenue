@@ -8,9 +8,9 @@ fr:
         title: Titre de votre avis
         course_name: Nom du cours suivi
         name: Nom
-        email: Votre email (non visible)
+        email: Votre email
         rating: Votre appréciation
-        author_name: Votre nom (visible)
+        author_name: Votre nom
 
   comments:
     deletion_reasons:

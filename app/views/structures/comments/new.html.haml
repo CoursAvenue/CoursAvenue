@@ -44,8 +44,12 @@
 
 .grid
   .grid__item.two-thirds>
-    %h2.flush--bottom.small-margin-bottom= @structure.name
-    %h4 Votre expérience est précieuse pour les autres élèves. Merci !
+    .grid
+      .grid__item.one-fifth>
+        = image_tag @structure.logo.url(:thumb)
+      .grid__item.four-fifths>
+        %h2.flush--bottom.small-margin-bottom= @structure.name
+        %h4 Votre expérience est précieuse pour les autres élèves. Merci !
     .islet.white-box.two-thrids.center-block
       = simple_form_for @comment, url: comments_path do |f|
         = f.error_notification
@@ -73,22 +77,25 @@
         - unless current_user
           .input
             %label.control-label
-              %b Vos coordonnées
+              .lbl.lbl--blue
+                %i.icon-eye-open.soft-half--right
+                Public
           = f.input :author_name, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true
+        = f.input :course_name, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir'
+        = f.input :title, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute"
+
+        = f.input :content, label_html: {style: 'vertical-align: top;'}, input_html: {style: 'height: 150px;', 'data-behavior' => 'autoresize'}, wrapper_html: { class: 'flush--bottom' }, required: true
+        %hr.push--top
+        .input
+          %label.control-label
+            .lbl.lbl--gray
+              %i.icon-lock.soft-half--right
+              Privée
+        - unless current_user
           - if params[:email].present?
             = f.hidden_field :email, value: params[:email]
           - else
             = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par le professeur"
-          %hr.push--top
-        .input
-          %label.control-label
-            %b Votre avis
-        = f.input :course_name, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir'
-        -# %p.field-form-info.blue
-        -#   %i Soyez le plus précis possible.
-        = f.input :title, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute"
-
-        = f.input :content, label_html: {style: 'vertical-align: top;'}, input_html: {style: 'height: 150px;', 'data-behavior' => 'autoresize'}, wrapper_html: { class: 'flush--bottom' }, required: true
 
         %p.field-form-info.blue
           = link_to 'Astuces pour un avis utile', '#', id: 'show_comments_trick'
