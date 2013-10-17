@@ -80,6 +80,9 @@ gem 'simple_form'               , '~>3.0.0'
 # Dry the controllers
 gem 'inherited_resources'       , '~>1.3.1'
 
+# For messaging
+gem 'mailboxer'                 , '~> 0.11.0'
+
 # For authorizations
 gem 'cancan'                    , '~>1.6.9'
 # For authentication

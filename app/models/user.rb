@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
 
+  acts_as_messageable
+
   extend FriendlyId
   friendly_id :full_name, use: [:slugged, :finders]
 
