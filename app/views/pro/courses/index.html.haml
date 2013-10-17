@@ -84,7 +84,7 @@
                     %i.icon-search
                     Voir sur CoursAvenue
                 %li
-                  = link_to pro_course_path(course), method: :delete, class: 'red nowrap', title: 'Supprimer ce cours', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'} do
+                  = link_to [:pro, course], method: :delete, class: 'red nowrap', title: 'Supprimer ce cours', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'} do
                     %i.icon-trash
                     Supprimer
   - if @courses.disabled.any?
