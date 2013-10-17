@@ -282,10 +282,10 @@ class Structure < ActiveRecord::Base
   end
 
   def contact_email
-    if admins.any?
-      admins.first.email
-    else
+    if read_attribute(:contact_email)
       read_attribute(:contact_email)
+    elsif admins.any?
+      admins.first.email
     end
   end
 

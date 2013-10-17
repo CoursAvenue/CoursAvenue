@@ -15,6 +15,7 @@ fr:
         has_handicap_access: Accès handicapés
         contact_phone: Téléphone fixe
         contact_mobile_phone: Téléphone portable
+        contact_email: Email
         email_address: Adresse email
         funding_types: Type de financements acceptés
         gives_professional_courses: Mes cours sont pour des professionnels

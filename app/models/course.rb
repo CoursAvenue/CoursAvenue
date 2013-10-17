@@ -40,8 +40,6 @@ class Course < ActiveRecord::Base
   validates :type, :name  , presence: true
   validates :subjects     , presence: true
 
-  before_save :replace_slash_n_r_by_brs
-
   attr_reader :delete_image
 
   attr_accessible :name, :type, :description,
@@ -429,9 +427,4 @@ class Course < ActiveRecord::Base
       :name
     ]
   end
-
-  def replace_slash_n_r_by_brs
-    self.description = self.description.gsub(/\r\n/, '<br>') if self.description
-  end
-
 end
