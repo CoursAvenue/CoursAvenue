@@ -36,7 +36,7 @@
 
         attachEvents: function() {
             this.$element.click(function() {
-                this.element_to_closer.hide('slow');
+                this.element_to_closer.slideUp();
             }.bind(this));
         }
     };

@@ -26,7 +26,8 @@
 %hr.push-half--bottom
 
 - if @course.description
-  %p.read-more{data: {behavior: 'read-more'}}= simple_format @course.description
+  .read-more{data: {behavior: 'read-more'}}
+    = simple_format @course.description
 
 .text--center
   -# = form_for @course.reservations.build, remote: true, html: {id: 'coord-form'} do |f|

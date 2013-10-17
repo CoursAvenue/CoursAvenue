@@ -5,18 +5,22 @@
     .map-marker-image.disabled {
         a {
             background-image: image-url('icons/map-marker.png');
-            background: none;
-            filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker.png')}', sizingMethod='scale');
-            -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker.png')}',sizingMethod='scale')";
+            @media \0screen {
+                background: none;
+                filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker.png')}', sizingMethod='scale');
+                -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker.png')}',sizingMethod='scale')";
+            }
         }
     }
     .map-marker-image.disabled:hover, .map-marker-image.active {
         z-index: 10;
         a {
             background-image: image-url('icons/map-marker-blue.png');
-            background: none;
-            filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker-blue.png')}', sizingMethod='scale');
-            -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker-blue.png')}',sizingMethod='scale')";
+            @media \0screen {
+                background: none;
+                filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker-blue.png')}', sizingMethod='scale');
+                -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker-blue.png')}',sizingMethod='scale')";
+            }
         }
     }
 }

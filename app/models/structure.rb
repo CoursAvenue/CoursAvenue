@@ -282,10 +282,10 @@ class Structure < ActiveRecord::Base
   end
 
   def contact_email
-    if admins.any?
-      admins.first.email
-    else
+    if read_attribute(:contact_email)
       read_attribute(:contact_email)
+    elsif admins.any?
+      admins.first.email
     end
   end
 
@@ -471,6 +471,6 @@ class Structure < ActiveRecord::Base
 
   def subject_parent_and_children
     errors.add(:subjects,          "Vous devez séléctionner au moins une discipline")        if self.subjects.select{|s| s.ancestry_depth == 0}.empty?
-    errors.add(:children_subjects, "Vous devez séléctionner au moins une discipline enfant") if self.subjects.select{|s| s.ancestry_depth == 2}.empty?
+    errors.add(:children_subjects, "Vous devez séléctionner au moins une sous discipline") if self.subjects.select{|s| s.ancestry_depth == 2}.empty?
   end
 end

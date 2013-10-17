@@ -10,6 +10,9 @@ $ git push staging master
 $ heroku run rake db:migrate --remote staging
 $ heroku ps --remote staging
 
+### Pushing local branch to heroku staging
+$ git push staging feature_branch:master
+
 ### Rbenv & Pow
 
 \# ~/.powconfig

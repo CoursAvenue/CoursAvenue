@@ -237,7 +237,7 @@
         }, 800)
         setTimeout(function() {
             if ($('#wizard').length > 0) {
-                $('#wizard').show('slow');
+                $('#wizard').slideDown();
                 var send_ajax = function(options) {
                     options = options || '';
                     $.ajax({

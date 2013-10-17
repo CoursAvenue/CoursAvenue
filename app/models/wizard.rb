@@ -18,27 +18,34 @@ class Wizard < ActiveHash::Base
     },
     {
         id: 3,
+        name: 'wizard.coordonates',
+        partial: 'wizards/coordonates',
+        show_save: true,
+        completed?: lambda {|structure| structure.contact_phone.present? or structure.contact_mobile_phone.present? or structure.contact_email.present? }
+    },
+    {
+        id: 4,
         name: 'wizard.places',
         partial: 'wizards/places',
         show_save: true,
         completed?: lambda {|structure| structure.has_only_one_place? or structure.places.count > 1 }
     },
     {
-        id: 4,
+        id: 5,
         name: 'wizard.recommendations',
         partial: 'wizards/recommendations',
         show_save: true,
         completed?: lambda {|structure| structure.comments.any? or structure.students.any? }
     },
     {
-        id: 5,
+        id: 6,
         name: 'wizard.widget_status',
         partial: 'wizards/widget_status',
         show_save: false,
         completed?: lambda {|structure| structure.comments_count < 5 or (structure.comments_count >= 5 and !structure.widget_status.blank?) }
     },
     {
-        id: 6,
+        id: 7,
         name: 'wizard.widget_url',
         partial: 'wizards/widget_url',
         show_save: true,

@@ -167,7 +167,6 @@ class Pro::StructuresController < Pro::ProController
     @structure = Structure.friendly.find(params[:id])
     @ratio     = 1
     @ratio     = @structure.ratio_from_original(:large)
-    @admin     = @structure.admins.first || @structure.admins.build
   end
 
   def new
@@ -263,11 +262,18 @@ class Pro::StructuresController < Pro::ProController
   private
 
   def get_next_wizard
+    # Return nil if there is no next wizard
     if params[:next] and session[:current_wizard_id] and session[:current_wizard_id] == Wizard.data.length
       return nil
+    # Return the next wizard if it's not completed, else, it increments
     elsif params[:next] and session[:current_wizard_id] and session[:current_wizard_id] < Wizard.data.length
       session[:current_wizard_id] += 1
-      return Wizard.find(session[:current_wizard_id])
+      wizard = Wizard.find(session[:current_wizard_id])
+      if wizard.completed?.call(@structure)
+        return get_next_wizard
+      else
+        return wizard
+      end
     else
       Wizard.all.each do |wizard|
         unless wizard.completed?.call(@structure)
