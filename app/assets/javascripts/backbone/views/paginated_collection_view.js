@@ -43,6 +43,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
         },
 
+        onBeforeShow: function() {
+            console.log('TODO: Show loading indicator')
+        },
+
         onAfterShow: function () {
             console.log("PaginatedCollectionView->onAfterShow");
             this.announcePaginatorUpdated();

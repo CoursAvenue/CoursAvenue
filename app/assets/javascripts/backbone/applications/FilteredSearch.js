@@ -68,11 +68,12 @@ FilteredSearch.addInitializer(function(options) {
     structures_view = new FilteredSearch.Views.PaginatedCollectionView({
         collection: structures,
         events: {
-            'pagination:next':  'nextPage',
-            'pagination:prev':  'prevPage',
-            'pagination:page':  'goToPage',
-            'summary:filter':   'filterQuery',
-            'map:marker:focus': 'zoomToStructure'
+            'paginator:updating': 'onBeforeShow',
+            'pagination:next':    'nextPage',
+            'pagination:prev':    'prevPage',
+            'pagination:page':    'goToPage',
+            'summary:filter':     'filterQuery',
+            'map:marker:focus':   'zoomToStructure'
         }
     });
 
@@ -102,7 +103,6 @@ FilteredSearch.addInitializer(function(options) {
 
     layout.showWidget(results_summary_tool, {
         'paginator:updated': 'resetSummaryTool'
-        'paginator:updating':             'clearForUpdate',
     }, '[data-type=results-summary-tool]');
 
     layout.showWidget(top_pagination_tool, {
