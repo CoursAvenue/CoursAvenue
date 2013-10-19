@@ -24,7 +24,7 @@
 .inline-block
   %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
     %li
-      = link_to "Tous les cours", courses_path
+      = link_to "Tous les établissement", structures_path
     %li
       = link_to @structure.name, structure_path(@structure), onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])"
     %li.course-title= @course.name

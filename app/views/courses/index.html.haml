@@ -9,9 +9,9 @@
 
 = render 'search_form'
 .grid.stickem-container.relative
-  %section.grid__item.four-tenths.visuallyhidden--palm.visuallyhidden--lap.stickem.absolute>
+  %section.grid__item.four-tenths.visuallyhidden--lap.visuallyhidden--palm.stickem.absolute>
     = render 'side_search_form'
-  %section.grid__item.six-tenths.lap-one-whole.palm-one-whole.push--four-tenths.course-list>
+  %section.grid__item.six-tenths.lap-one-whole.palm-one-whole.course-list-wrapper>
     %ol.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
       %li= link_to 'Tous les cours', courses_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
       - if @subject
