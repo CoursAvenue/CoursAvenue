@@ -168,8 +168,6 @@
           %a{href: '#comments'}
             %i.lbc-brand-icon
         .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-          %span.rating{title: comment_rating_title(@structure.rating)}
-            = rating_stars @structure.rating
           %meta{property: 'v:rating', itemprop: 'rating', content: @structure.rating}
           %meta{itemprop: 'count', content: @structure.comments_count}
           %meta{itemprop: 'itemreviewed', content: @structure.name}
