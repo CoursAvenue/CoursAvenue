@@ -13,7 +13,6 @@
               = "\"#{truncate(comment.title, length: 35)}\""
             - else
               = comment.course_name
-            -# = rating_stars comment.rating
             %meta{itemprop: 'ratingValue', content: comment.rating}
             %meta{itemprop: 'bestRating', content: 5}
             %meta{itemprop: 'worstRating', content: 1}
@@ -22,5 +21,5 @@
             %meta{itemprop: 'name', content: comment.commentable.name}
           %span.blue= truncate(comment.commentable.name, length: 35)
       .flexbox__item.one-half.comment__content
-        %p.flush--bottom= simple_format(truncate(comment.content, length: 130))
+        = simple_format(truncate(comment.content, length: 130))
         %meta{itemprop: 'reviewBody', content: comment.content}
