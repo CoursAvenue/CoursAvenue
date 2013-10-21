@@ -74,7 +74,9 @@ RAILS_ENV=production rake sitemap:create
 
 
 ### Tests
+rake db:test:clone
 RAILS_ENV=test rake sunspot:solr:start
+$ rspec spec
 
 # Recovering a dump
-killall ruby; dropdb -h localhost -U postgres coursavenue_development && createdb -h localhost -O postgres -U postgres coursavenue_development && pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "qjppevpnykjrmw" --no-password  --verbose "/Users/Nima/Downloads/a162.dump"; zeus start
+killall ruby; dropdb -h localhost -U postgres coursavenue_development && createdb -h localhost -O postgres -U postgres coursavenue_development && pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "qjppevpnykjrmw" --no-password  --verbose "/Users/Nima/Downloads/a176.dump"; zeus start

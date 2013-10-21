@@ -1,7 +1,9 @@
 class MergeFirstAndLastNameForUsers < ActiveRecord::Migration
   def change
     add_column :users, :name, :string
-    User.all.each do |user|
+    bar = ProgressBar.new User.count
+    User.find_each do |user|
+      bar.increment!
       user.update_column :name, "#{user.first_name} #{user.last_name}"
     end
     remove_column :users, :first_name

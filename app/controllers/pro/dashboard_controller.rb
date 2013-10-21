@@ -31,7 +31,7 @@ class Pro::DashboardController < Pro::ProController
       @comments_progression[date] = Comment.where{created_at < date}.count
     end
     @admins2 = [0,0,0,0]
-    Structure.all.each do |s|
+    Structure.find_each do |s|
       if s.comments_count == nil or s.comments_count == 0
         @admins2[0] += 1
       elsif s.comments_count > 0 and s.comments_count < 5

@@ -8,9 +8,8 @@ class User < ActiveRecord::Base
   has_many :comments, -> { order('created_at DESC') }
   has_many :reservations
 
-  has_and_belongs_to_many :plannings
-  has_and_belongs_to_many :courses
-  has_and_belongs_to_many :places
+  has_and_belongs_to_many :structures
+  has_and_belongs_to_many :subjects
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -20,14 +19,22 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
-                  :name, :first_name, :last_name, :fb_avatar, :location, :avatar
+                  :name, :first_name, :last_name, :fb_avatar, :location, :avatar, :active
 
   validates :name, :email, presence: true
 
   has_attached_file :avatar,
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
 
+  # TODO: Remove comment when all migration have passed
+  after_initialize :affect_random_password#, :unless => :active
+
   after_create :associate_all_comments
+
+  # Scopes
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
+
 
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
@@ -63,7 +70,6 @@ class User < ActiveRecord::Base
     end
   end
 
-
   # Type in: small square large normal
   def fb_avatar(type='square')
     self.read_attribute(:fb_avatar).split("=")[0] << "=#{type}" unless self.read_attribute(:fb_avatar).nil?
@@ -73,7 +79,19 @@ class User < ActiveRecord::Base
     self.reservations.exists?(reservable_id: reservable.id, reservable_type: (reservable.is_a?(Course) ? 'Course' : reservable.class.name))
   end
 
+  def affect_random_password
+    self.password = random_string unless self.read_attribute(:active)
+  end
+
+  def mailboxer_email(object)
+    self.email
+  end
+
   private
+
+  def random_string
+    (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+  end
 
   def associate_all_comments
     _email   = self.email

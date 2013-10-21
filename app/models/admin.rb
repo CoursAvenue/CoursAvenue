@@ -44,7 +44,12 @@ class ::Admin < ActiveRecord::Base
     AdminMailer.delay.admin_validated(self)
   end
 
+  def mailboxer_email(object)
+    self.email
+  end
+
   private
+
   def delay_subscribe_to_mailchimp
     self.delay.subscribe_to_mailchimp
   end

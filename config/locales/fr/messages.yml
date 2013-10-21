@@ -3,5 +3,5 @@ fr:
     models:
       message: Message
     attributes:
-      media:
+      message:
         body: Message

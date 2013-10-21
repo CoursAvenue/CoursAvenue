@@ -93,4 +93,5 @@ CoursAvenue::Application.configure do
     authentication:   :plain
   }
 
+  ActionMailer::Base.register_interceptor(DevelopmentMailInterceptor)
 end

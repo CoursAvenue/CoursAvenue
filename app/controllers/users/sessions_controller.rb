@@ -12,4 +12,5 @@ class Users::SessionsController < Devise::SessionsController
       format.html { render layout: !request.xhr? }
     end
   end
+
 end

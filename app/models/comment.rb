@@ -20,6 +20,7 @@ class Comment < ActiveRecord::Base
   after_destroy    :update_comments_count
   before_create    :set_pending_status
   after_create     :send_email
+  after_create     :create_user
 
   before_save      :strip_names
   before_save      :downcase_email
@@ -107,6 +108,12 @@ class Comment < ActiveRecord::Base
   end
 
   private
+
+  def create_user
+    unless User.where(email: self.email).any?
+      User.create active: false, name: self.author_name, email: self.email
+    end
+  end
 
   def doesnt_exist_yet
     _structure_id = self.commentable_id

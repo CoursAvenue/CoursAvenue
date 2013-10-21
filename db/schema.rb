@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131017100927) do
+ActiveRecord::Schema.define(version: 20131021131134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -187,13 +187,6 @@ ActiveRecord::Schema.define(version: 20131017100927) do
 
   add_index "courses_subjects", ["course_id", "subject_id"], name: "index_courses_subjects_on_course_id_and_subject_id", using: :btree
 
-  create_table "courses_users", id: false, force: true do |t|
-    t.integer "course_id"
-    t.integer "user_id"
-  end
-
-  add_index "courses_users", ["course_id", "user_id"], name: "index_courses_users_on_course_id_and_user_id", using: :btree
-
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
     t.integer  "attempts",   default: 0
@@ -312,13 +305,6 @@ ActiveRecord::Schema.define(version: 20131017100927) do
 
   add_index "places", ["location_id", "structure_id"], name: "index_places_on_location_id_and_structure_id", using: :btree
 
-  create_table "places_users", id: false, force: true do |t|
-    t.integer "place_id"
-    t.integer "user_id"
-  end
-
-  add_index "places_users", ["place_id", "user_id"], name: "index_places_users_on_place_id_and_user_id", using: :btree
-
   create_table "plannings", force: true do |t|
     t.date     "start_date"
     t.date     "end_date"
@@ -347,13 +333,6 @@ ActiveRecord::Schema.define(version: 20131017100927) do
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
   add_index "plannings", ["level_ids"], name: "index_plannings_on_level_ids", using: :btree
   add_index "plannings", ["week_day"], name: "index_plannings_on_week_day", using: :btree
-
-  create_table "plannings_users", id: false, force: true do |t|
-    t.integer "user_id"
-    t.integer "planning_id"
-  end
-
-  add_index "plannings_users", ["planning_id", "user_id"], name: "index_plannings_users_on_planning_id_and_user_id", using: :btree
 
   create_table "prices", force: true do |t|
     t.string   "libelle"
@@ -475,6 +454,13 @@ ActiveRecord::Schema.define(version: 20131017100927) do
 
   add_index "structures_subjects", ["structure_id", "subject_id"], name: "index_structures_subjects_on_structure_id_and_subject_id", using: :btree
 
+  create_table "structures_users", id: false, force: true do |t|
+    t.integer "structure_id"
+    t.integer "user_id"
+  end
+
+  add_index "structures_users", ["structure_id", "user_id"], name: "index_structures_users_on_structure_id_and_user_id", using: :btree
+
   create_table "students", force: true do |t|
     t.string   "city"
     t.string   "email"
@@ -506,6 +492,13 @@ ActiveRecord::Schema.define(version: 20131017100927) do
   add_index "subjects", ["ancestry_depth"], name: "index_subjects_on_ancestry_depth", using: :btree
   add_index "subjects", ["slug"], name: "index_subjects_on_slug", unique: true, using: :btree
 
+  create_table "subjects_users", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "subject_id"
+  end
+
+  add_index "subjects_users", ["user_id", "subject_id"], name: "index_subjects_users_on_user_id_and_subject_id", using: :btree
+
   create_table "teachers", force: true do |t|
     t.string   "name"
     t.integer  "admin_id"
@@ -521,8 +514,8 @@ ActiveRecord::Schema.define(version: 20131017100927) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",   null: false
+    t.string   "encrypted_password",     default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -532,8 +525,8 @@ ActiveRecord::Schema.define(version: 20131017100927) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "authentication_token"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.string   "provider"
     t.string   "uid"
     t.string   "oauth_token"
@@ -549,6 +542,7 @@ ActiveRecord::Schema.define(version: 20131017100927) do
     t.string   "gender"
     t.integer  "age"
     t.date     "birthday"
+    t.boolean  "active",                 default: true
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

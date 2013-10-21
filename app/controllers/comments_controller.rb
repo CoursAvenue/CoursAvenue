@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
     @comment      = @commentable.comments.build params[:comment]
     if current_user
       @comment.user        = current_user
-      @comment.author_name = current_user.full_name
+      @comment.author_name = current_user.name
       @comment.email       = current_user.email
     end
     respond_to do |format|

@@ -33,11 +33,11 @@
               = link_to destroy_user_session_path, method: :delete do
                 Se déconnecter
       - else
-        -# = link_to "Je suis élève", new_user_session_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax'
-        -# %span.soft-half--left.push-half--right
+        = link_to "Je suis élève", new_user_session_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax'
+        %span.soft-half--left.push-half--right
         = link_to "Connexion", new_pro_admin_session_url(subdomain: 'pro')
-        -# %span.soft-half--left.push-half--right
-        -#   = link_to "Créer un compte", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax btn btn--green', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Inscrit'])"
+        %span.soft-half--left.push-half--right
+        = link_to "Créer un compte", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', height: '500px'}, class: 'fancybox.ajax btn btn--green', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Inscrit'])"
         %span.soft-half--left
           = link_to 'Créer mon profil gratuit', root_url(subdomain: 'pro'), class: 'btn btn--green', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
         %span.soft-half--left.push-half--left.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}

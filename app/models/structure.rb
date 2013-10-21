@@ -82,7 +82,9 @@ class Structure < ActiveRecord::Base
   has_many :courses                   , dependent: :destroy
   has_many :cities, through: :places
   has_many :reservations,         as: :reservable
+
   has_and_belongs_to_many :subjects
+  has_and_belongs_to_many :users
 
   has_many :places                   , dependent: :destroy
   has_many :locations, through: :places

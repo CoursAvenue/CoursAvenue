@@ -13,8 +13,6 @@ class Planning < ActiveRecord::Base
 
   has_one :structure, through: :course
 
-  has_and_belongs_to_many :users
-
   before_validation :set_start_date
   before_validation :set_end_date
   before_validation :set_end_time

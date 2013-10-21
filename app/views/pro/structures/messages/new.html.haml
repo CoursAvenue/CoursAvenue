@@ -1,11 +1,12 @@
 = side_menu_currently_at 'Mes messages'
 
-%h3 Nouveau messages
+%h3 Nouveau message
 
 = simple_form_for [:pro, @structure, @message] do |f|
-  = debug @message
   .form-white-box
     = f.error_notification
+    - if params[:recipient_email]
+      = hidden_field_tag :recipient_email, params[:recipient_email]
     = f.input :body
     .form-actions
       = f.submit 'Envoyer', class: 'btn btn--green'

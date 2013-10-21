@@ -10,6 +10,7 @@ class Subject < ActiveRecord::Base
 
   has_and_belongs_to_many :courses
   has_and_belongs_to_many :structures
+  has_and_belongs_to_many :users
 
   attr_accessible :name, :short_name, :image, :info, :parent, :position
 

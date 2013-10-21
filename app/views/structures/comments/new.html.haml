@@ -74,12 +74,12 @@
                 %br
               = message
 
+        .input
+          %label.control-label
+            .lbl.lbl--blue
+              %i.icon-eye-open.soft-half--right
+              Public
         - unless current_user
-          .input
-            %label.control-label
-              .lbl.lbl--blue
-                %i.icon-eye-open.soft-half--right
-                Public
           = f.input :author_name, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true
         = f.input :course_name, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir'
         = f.input :title, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute"
