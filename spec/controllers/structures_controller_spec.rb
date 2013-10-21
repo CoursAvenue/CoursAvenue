@@ -29,19 +29,16 @@ describe StructuresController do
     let(:structure) { FactoryGirl.build(:structure_with_place) }
 
     before do
-      FactoryGirl.create(:structure_with_place)
+      @structure = FactoryGirl.create(:structure_with_place)
       Sunspot.commit
     end
 
     it "renders structures with the json required by filtered search" do
       get :index, format: :json, lat: 48.8592, lng: 2.3417
       response.should be_success
-      puts response.body
+      result = JSON.parse(StructureSerializer.new(@structure, {root: false}).to_json)
 
-      result = JSON.parse(response.body)
-      result.should have_key('structures')
-      result['structures'].length.should be > 0
-      result['structures'].first.keys.should include(*required_keys) # splat ^o^//
+      result.keys.should include(*required_keys) # splat ^o^//
     end
 
     it "includes 'meta' in the rendered json" do
