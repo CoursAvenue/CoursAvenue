@@ -43,8 +43,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
         },
 
-        onBeforeShow: function() {
-            console.log('TODO: Show loading indicator')
+        showLoader: function() {
+            this.$loader.fadeIn({duration: 200});
+        },
+
+        hideLoader: function() {
+            this.$loader.fadeOut({duration: 200});
+        },
+
+        onRender: function() {
+            this.$loader = this.$('.filtered-search__loader');
         },
 
         onAfterShow: function () {

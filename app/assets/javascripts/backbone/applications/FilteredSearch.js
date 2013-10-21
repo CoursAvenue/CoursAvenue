@@ -68,7 +68,8 @@ FilteredSearch.addInitializer(function(options) {
     structures_view = new FilteredSearch.Views.PaginatedCollectionView({
         collection: structures,
         events: {
-            'paginator:updating': 'onBeforeShow',
+            'paginator:updating': 'showLoader',
+            'paginator:updated': 'hideLoader',
             'pagination:next':    'nextPage',
             'pagination:prev':    'prevPage',
             'pagination:page':    'goToPage',
