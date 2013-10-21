@@ -57,9 +57,10 @@
     @include box-shadow(inset -1px 1px 1px $beige-darker, inset 0px -1px 1px $beige-darker);
     @include border-right-radius($brand-round);
     p {
-        position        : relative;
+        position   : relative;
         font-size  : 12px;
         line-height: 1.4;
-        color       : #444;
+        color      : #444;
+        margin     : 0;
     }
 }
