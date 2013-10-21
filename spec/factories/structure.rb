@@ -14,5 +14,14 @@ FactoryGirl.define do
     zip_code   75014
     structure_type Structure::STRUCTURE_TYPES.sample
 
+      factory :structure_with_place do
+          after(:create) do |structure|
+              structure.places << FactoryGirl.build(:place)
+              structure.save
+              structure.index
+          end
+      end
   end
+
+
 end

@@ -4,8 +4,7 @@ class Location < ActiveRecord::Base
 
   include ActsAsGeolocalizable
 
-  acts_as_gmappable validation: false,
-                    language: 'fr'
+  acts_as_gmappable validation: false, language: 'fr'
 
   before_save :retrieve_address
   before_save :set_shared

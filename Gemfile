@@ -56,8 +56,6 @@ gem 'hirefire-resource'
 # Show progress bars in scripts
 gem 'progress_bar'              , '~>1.0.0'
 
-# For pagination
-gem 'kaminari'                  , '~>0.14.1'
 # For image handling
 gem 'paperclip'                 , '~>3.5.1'
 
@@ -151,6 +149,7 @@ group :test do
   gem 'rspec-instafail'   , '~>0.2.4'
   gem 'forgery'           , '~>0.5.0'
   gem 'simplecov'         , '~>0.7.1'
+  gem "sunspot_test"
 end
 
 group :development do
