@@ -1,6 +1,6 @@
 = simple_form_for [:pro, @structure], html: { autocomplete: 'off', class: 'wizard-form' }, remote: true do |f|
   %h4
-    Quelles sont vos coordonnées de réservation princaples ?
+    Quelles sont vos coordonnées de réservation principales ?
   = f.input :contact_phone, placeholder: 'Ex. : 01 04 12 49 12'
   = f.input :contact_mobile_phone, placeholder: 'Ex. : 06 34 41 99 31'
   = f.input :contact_email, input_html: {value: @structure.main_contact.try(:email)}
