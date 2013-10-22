@@ -124,6 +124,8 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             data_type: '.json'
         },
 
+        /* TODO currently we only ever extend the current filters, bu there may
+        * be cases when we need to remove keys: in this case, set them to false? */
         setQuery: function(options) {
             _.extend(this.server_api, options);
         },

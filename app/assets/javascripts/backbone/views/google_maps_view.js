@@ -53,18 +53,47 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.map_annex = this.mapView.el;
         },
 
+        /* life-cycle methods */
         onMarkerFocus: function (data) {
             this.trigger('map:marker:focus', data);
+        },
+
+        onRender: function() {
+            this.$el.find('[data-type=map-container]').prepend(this.map_annex);
+        },
+
+        /* ui-events */
+        events: {
+            'click .announce-bounds': 'announceBounds'
+
+        },
+
+        announceBounds: function (e) {
+            console.log("EVENT  GoogleMapsView->announceBounds");
+            e.preventDefault();
+
+            /* TODO we are pretending to use a bounding box, but really we are using radius
+            *  on the backend, with bbox: true
+            *  ref: https://github.com/sunspot/sunspot#filter-by-radius-inexact-with-bbox */
+            var bounds = this.map.getBounds();
+
+            var southWest = bounds.getSouthWest();
+            var northEast = bounds.getNorthEast();
+
+            var bounding_box = {
+                southWest: [southWest.lat(), southWest.lng()],
+                northEast: [northEast.lat(), northEast.lng()]
+            }
+
+            this.trigger('map:bounds', { bounding_box: bounding_box });
+
+            return false;
         },
 
         changeMapRadius: function(data) {
             if (data.radius) {
                 this.map.setZoom(data.radius);
             }
-        },
-
-        onRender: function() {
-            this.$el.find('[data-type=map-container]').prepend(this.map_annex);
         },
 
         centerMap: function (data) {
