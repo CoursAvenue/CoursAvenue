@@ -15,17 +15,15 @@ class Comment < ActiveRecord::Base
   validates :rating, numericality: { greater_than: 0, less_than: 6 }
   validate  :doesnt_exist_yet, on: :create
 
-  after_initialize :set_default_rating
-  after_save       :update_teacher_mailchimp if Rails.env.production?
-  after_destroy    :update_comments_count
   before_create    :set_pending_status
-  after_create     :send_email
-  after_create     :create_user
 
   before_save      :strip_names
   before_save      :downcase_email
 
   after_save       :update_comments_count
+  after_create     :send_email
+  after_create     :create_user
+  after_destroy    :update_comments_count
 
   scope :ordered,              -> { order('created_at DESC') }
   scope :pending,              -> { where(status: 'pending') }
@@ -111,7 +109,10 @@ class Comment < ActiveRecord::Base
 
   def create_user
     unless User.where(email: self.email).any?
-      User.create active: false, name: self.author_name, email: self.email
+      user            = User.new active: false, name: self.author_name, email: self.email
+      user.structures << self.structure
+      user.subjects   << self.structure.subjects
+      user.save
     end
   end
 
@@ -129,10 +130,6 @@ class Comment < ActiveRecord::Base
     self.course_name = self.course_name.strip if course_name.present?
   end
 
-  def set_default_rating
-    self.rating = 5
-  end
-
   # Set comments_count to 4 and 14 because after_create is triggered before after_save !
   def send_email
     if self.accepted?
@@ -148,19 +145,4 @@ class Comment < ActiveRecord::Base
     self.email = self.email.downcase
   end
 
-  def update_teacher_mailchimp
-    structure = self.commentable
-    nb_comments = structure.comments.count
-    gb = Gibbon::API.new
-    gb.lists.subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
-                           :email => {email: structure.contact_email},
-                           :merge_vars => {
-                              :NB_COMMENT => nb_comments
-                           },
-                           :double_optin => false,
-                           :update_existing => true,
-                           :send_welcome => false}
-                           )
-
-  end
 end

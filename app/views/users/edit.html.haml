@@ -19,7 +19,11 @@
             Changer ma photo
           = f.input :avatar, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'},input_html: {id: 'avatar-input'}
     - else
-      = f.input :avatar
+      .input{ data: { behavior: 'image-input'} }
+        = f.label :avatar
+        %a.btn.btn--blue{ data: {trigger: true} } Choisir mon avatar
+        %img
+        = f.input :avatar, wrapper_html: {class: 'visuallyhidden'}
     = f.input :name
     .form-actions
       = f.submit 'Sauvegarder', class: 'btn btn--green'

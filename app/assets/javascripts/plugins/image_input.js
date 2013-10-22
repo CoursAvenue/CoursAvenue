@@ -1,6 +1,6 @@
 /*
     Usage:
-    <div data-behavior="image-input">
+    <div data-behavior="image-input" class="input">
         <a data-trigger>Upload my file</a>
         <img> // Image preview
         <div data-progress class='progress-bar'>

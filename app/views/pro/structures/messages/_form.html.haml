@@ -1,0 +1,7 @@
+= simple_form_for [:pro, @structure, @conversation] do |f|
+  .form-white-box
+    = f.error_notification
+    = f.fields_for :message do |message_form|
+      = message_form.input :body, input_html: { style: 'height: 100px', data: {behavior: 'autoresize'} }, as: :text
+      .form-actions
+        = f.submit 'Répondre', class: 'btn btn--green'

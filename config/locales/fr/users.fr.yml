@@ -12,3 +12,4 @@ fr:
     attributes:
       user:
         name: Nom
+        avatar: Avatar

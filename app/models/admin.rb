@@ -48,6 +48,10 @@ class ::Admin < ActiveRecord::Base
     self.email
   end
 
+  def avatar
+    self.structure.logo(:thumb)
+  end
+
   private
 
   def delay_subscribe_to_mailchimp

@@ -1,0 +1,11 @@
+.grid
+  .grid__item.one-twelfth.v-top.text--right>
+    = image_tag current_user.avatar, class: 'message__avatar'
+  .grid__item.eleven-twelfths.soft-half--left>
+    = simple_form_for [current_user, @conversation] do |f|
+      .form-white-box.flush--top
+        = f.error_notification
+        = f.fields_for :message do |message_form|
+          = message_form.input :body, input_html: { style: 'height: 100px', data: {behavior: 'autoresize'} }, as: :text
+          .form-actions
+            = f.submit 'Répondre', class: 'btn btn--green'

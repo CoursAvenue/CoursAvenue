@@ -14,4 +14,7 @@ Mailboxer.setup do |config|
   # Supported enignes: [:solr,:sphinx]
   config.search_enabled = false
   config.search_engine = :solr
+
+  # config.notification_mailer = CustomNotificationMailer
+  config.message_mailer = MailboxerMessageMailer
 end

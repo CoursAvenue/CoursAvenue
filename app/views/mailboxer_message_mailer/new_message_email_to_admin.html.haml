@@ -1,0 +1,26 @@
+- if @user.avatar.present?
+  - content_for :logo do
+    = image_tag @user.avatar.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+
+- content_for :promo do
+  %h4= t('mailboxer.message_mailer.subject_new', sender: @structure.name)
+
+%p
+  Bonjour #{@receiver.name},
+%p
+  #{@structure.name} viens de vous envoyer un message privée sur CoursAvenue :
+
+- if @message.subject.present?
+  %p.flush
+    %strong= @message.subject
+
+= simple_format @message.body
+
+%p.action
+  = link_to "Répondre au message", root_url, class: 'btn btn--blue'
+
+%p
+  L'équipe de CoursAvenue
+
+- content_for :footer do
+  %p Vous recevez ce message car #{@structure.name} vous a envoyé un message privée sur CoursAvenue.com

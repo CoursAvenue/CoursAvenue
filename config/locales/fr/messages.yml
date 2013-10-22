@@ -4,4 +4,15 @@ fr:
       message: Message
     attributes:
       message:
+        subject: Sujet
         body: Message
+        recipients: À
+      conversation:
+        message:
+
+  simple_form:
+    labels:
+      message:
+        subject: Sujet
+        body: Message
+        recipients: À

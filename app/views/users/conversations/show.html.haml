@@ -1,9 +1,9 @@
-= side_menu_currently_at 'Mes messages'
+= user_menu_currently_at 'Mes messages'
 
 %ol.nav.breadcrumb{itemprop: 'breadcrumb'}
-  %li.delta= link_to 'Mes messages', pro_structure_conversations_path(@structure)
+  %li.delta= link_to 'Mes messages', user_conversations_path(current_user)
   %li.delta Conversation avec #{@conversation.recipients.reject{|recipient| recipient == @admin }.first.name}
 
 = render partial: 'messages/message', collection: @conversation.messages.reject(&:new_record?).reverse
 
-= render 'pro/structures/conversations/form'
+= render 'users/conversations/form'

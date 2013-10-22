@@ -6,6 +6,11 @@ class Pro::Structures::ConversationsController < ApplicationController
 
   layout 'admin'
 
+  def show
+    @conversation = @admin.mailbox.conversations.find(params[:id])
+    @message      = @conversation.messages.build
+  end
+
   def index
     @conversations = @admin.mailbox.conversations
   end
@@ -15,13 +20,21 @@ class Pro::Structures::ConversationsController < ApplicationController
     @message      = @conversation.messages.build
   end
 
+  def update
+    @conversation    = @admin.mailbox.conversations.find params[:id]
+    @admin.reply_to_conversation(@conversation, params[:conversation][:message][:body])
+    respond_to do |format|
+      format.html { redirect_to pro_structure_conversation_path(@structure, @conversation) }
+    end
+  end
+
   private
 
   def get_structure
-    @structure     = Structure.find params[:structure_id]
+    @structure = Structure.find params[:structure_id]
   end
 
   def get_admin
-    @admin         = @structure.main_contact
+    @admin = @structure.main_contact
   end
 end

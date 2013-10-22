@@ -15,15 +15,18 @@ class Pro::Structures::MessagesController < ApplicationController
     @messages = @admin.messages.build
   end
 
+  # A new message without conversation will create by default a new conversation.
+  # This is done by default by mailboxer
+  # Recipients receive only one person here
   def create
-    @recipient = User.where(email: params[:recipient_email]).first
-    @receipt   = get_admin.send_message(@recipient, params[:message][:body], "Réponse à votre avis")
+    @recipients = params[:message][:recipients].collect{|user_id| @structure.users.find(user_id)}
+    @receipt    = @admin.send_message(@recipients, params[:message][:body], params[:message][:subject])
     @conversation = @receipt.conversation
     respond_to do |format|
       if @conversation
         render 'new'
       else
-        format.html { redirect_to pro_structure_conversation_path(get_structure, @conversation) }
+        format.html { redirect_to pro_structure_conversation_path(@structure, @conversation) }
       end
     end
   end
