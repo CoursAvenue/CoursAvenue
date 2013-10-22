@@ -146,7 +146,31 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
 
                 return memo + key + '=' + value + '&';
             }, "?").slice(0, -1); // damn trailing character!
+        },
+
+        /* return an object with lat, lng, and a bounding box parsed from server_api */
+        /* the outside world must never know that we store the bounds as CSV... */
+        getLatLngBounds: function () {
+            var sw_latlng = this.server_api.bbox_sw.split(',');
+            var ne_latlng = this.server_api.bbox_ne.split(',');
+
+            /* yup, everything is nice objects over here! */
+            return {
+                lat: this.server_api.lat,
+                lng: this.server_api.lng,
+                bbox: {
+                    sw: {
+                        lat: sw_latlng[0],
+                        lng: sw_latlng[1]
+                    },
+                    ne: {
+                        lat: ne_latlng[0],
+                        lng: ne_latlng[1]
+                    }
+                }
+            };
         }
+
     });
 });
 

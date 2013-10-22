@@ -53,6 +53,14 @@ class StructuresController < ApplicationController
       end
     end
 
+    # the bbox params may come uri encoded as CSV
+    if (params[:bbox_sw] && params[:bbox_ne])
+      if (params[:bbox_sw].methods.include?(:split) && params[:bbox_ne].methods.include?(:split))
+        params[:bbox_sw] = params[:bbox_sw].split(',');
+        params[:bbox_ne] = params[:bbox_ne].split(',');
+      end
+    end
+
     @structure_search      = StructureSearch.search(params)
     @structures            = @structure_search.results
 

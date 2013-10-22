@@ -64,8 +64,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* ui-events */
         events: {
-            'click .announce-bounds': 'announceBounds'
-
+            'click .announce-bounds': 'announceBounds',
         },
 
         announceBounds: function (e) {
@@ -103,6 +102,14 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             console.log("GoogleMapsView->centerMap");
             if (data.lat && data.lng) {
                 this.map.setCenter(new google.maps.LatLng(data.lat, data.lng));
+            }
+
+            if (data.bbox.sw && data.bbox.ne) {
+                var sw_latlng = new google.maps.LatLng(data.bbox.sw.lat, data.bbox.sw.lng);
+                var ne_latlng = new google.maps.LatLng(data.bbox.ne.lat, data.bbox.ne.lng);
+
+                var bounds = new google.maps.LatLngBounds(sw_latlng, ne_latlng);
+                this.map.fitBounds(bounds);
             }
         },
 

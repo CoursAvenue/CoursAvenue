@@ -37,10 +37,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 sort: this.collection.server_api.sort
             });
 
-            this.trigger('paginator:updated:map', {
-                lat: this.collection.server_api.lat,
-                lng: this.collection.server_api.lng
-            });
+            data = this.collection.getLatLngBounds();
+
+            /* let the map know what we think the center and bounds should be */
+            this.trigger('paginator:updated:map', data);
         },
 
         showLoader: function() {
