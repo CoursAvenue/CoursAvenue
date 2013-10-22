@@ -79,13 +79,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             var southWest = bounds.getSouthWest();
             var northEast = bounds.getNorthEast();
+            var center = bounds.getCenter();
 
-            var bounding_box = {
-                southWest: [southWest.lat(), southWest.lng()],
-                northEast: [northEast.lat(), northEast.lng()]
+            var filters = {
+                bbox_sw: [southWest.lat(), southWest.lng()],
+                bbox_ne: [northEast.lat(), northEast.lng()],
+                lat: center.lat(),
+                lng: center.lng()
             }
 
-            this.trigger('map:bounds', { bounding_box: bounding_box });
+            this.trigger('map:bounds', filters);
 
             return false;
         },
