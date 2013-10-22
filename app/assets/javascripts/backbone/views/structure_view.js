@@ -17,8 +17,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         events: {
             'click': 'resolveClick',
-            'mouseenter': 'selectStructure',
-            'mouseleave': 'deselectStructure'
+            'mouseenter': 'highlightStructure',
+            'mouseleave': 'unhighlightStructure'
         },
 
         /* return toJSON for the places relation */
@@ -31,12 +31,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* a structure was selected, so return the places JSON
         * TODO would it be nicer is this just returned the whole model's
         * json, including the places relation? */
-        selectStructure: function (e) {
-            this.trigger('selected', this.placesToJSON());
+        highlightStructure: function (e) {
+            this.trigger('highlighted', this.placesToJSON());
         },
 
-        deselectStructure: function (e) {
-            this.trigger('deselected', this.placesToJSON());
+        unhighlightStructure: function (e) {
+            this.trigger('unhighlighted', this.placesToJSON());
         },
 
         resolveClick: function (event) {

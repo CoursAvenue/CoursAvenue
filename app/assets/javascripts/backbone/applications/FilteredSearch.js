@@ -72,8 +72,8 @@ FilteredSearch.addInitializer(function(options) {
     structures_view = new FilteredSearch.Views.PaginatedCollectionView({
         collection: structures,
         events: {
-            'paginator:updating': 'showLoader',
-            'paginator:updated': 'hideLoader',
+            'structures:updating': 'showLoader',
+            'structures:updated': 'hideLoader',
             'pagination:next':    'nextPage',
             'pagination:prev':    'prevPage',
             'pagination:page':    'goToPage',
@@ -107,22 +107,22 @@ FilteredSearch.addInitializer(function(options) {
     /* we can add a widget along with a callback to be used
     * for setup */
     layout.showWidget(google_maps_view, {
-        'paginator:updating':             'clearForUpdate',
-        'paginator:updated:map':          'centerMap',
-        'paginator:structure:selected':   'selectMarkers',
-        'paginator:structure:deselected': 'deselectMarkers'
+        'structures:updating':                'clearForUpdate',
+        'structures:updated:map':             'centerMap',
+        'structures:structure:highlighted':   'selectMarkers',
+        'structures:structure:unhighlighted': 'deselectMarkers'
     });
 
     layout.showWidget(results_summary_tool, {
-        'paginator:updated': 'resetSummaryTool'
+        'structures:updated': 'resetSummaryTool'
     }, '[data-type=results-summary-tool]');
 
     layout.showWidget(top_pagination_tool, {
-        'paginator:updated': 'resetPaginationTool'
+        'structures:updated': 'resetPaginationTool'
     }, '[data-type=top-pagination-tool]');
 
     layout.showWidget(bottom_pagination_tool, {
-        'paginator:updated': 'resetPaginationTool'
+        'structures:updated': 'resetPaginationTool'
     }, '[data-type=bottom-pagination-tool]');
 
     layout.results.show(structures_view);
