@@ -9,8 +9,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* data to describe the pagination tool */
         resetSummaryTool: function (data) {
-            console.log("ResultsSummaryView->resetSummaryTool");
-
             this.current_summary_data = data;
             if (data.sort !== undefined) {
                 var method = data.sort === 'rating_desc';
@@ -33,7 +31,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         filter: function (e) {
-            console.log("ResultsSummaryView->filter");
             e.preventDefault();
 
             var value = e.currentTarget.getAttribute('data-value');

@@ -67,8 +67,6 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         parse: function(response) {
-            console.log("PaginatedCollection->parse");
-
             // we did some kind of request, I guess we should update the query
             window.history.pushState({}, "Search Results", this.getQuery());
 

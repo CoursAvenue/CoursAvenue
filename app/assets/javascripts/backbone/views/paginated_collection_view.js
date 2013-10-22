@@ -56,7 +56,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         onAfterShow: function () {
-            console.log("PaginatedCollectionView->onAfterShow");
             this.announcePaginatorUpdated();
         },
 
@@ -116,7 +115,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         * get results filtered by that */
         /* TODO currently this method doesn't work on initial page load */
         filterQuery: function(filters) {
-            console.log("EVENT  PaginatedCollectionView->filterQuery with");
             /* TODO check for redundancy: if the incoming filters don't
             *  change anything, we shouldn't do the update */
             // if (this.collection.setQuery(filter) === this.collection.getQuery()) {
@@ -162,7 +160,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             self.trigger('paginator:updating', this);
             this.collection.goTo(page, {
                 success: function () {
-                    console.log("EVENT  PaginatedCollectionView->success");
                     self.announcePaginatorUpdated();
                 }
             });
@@ -171,8 +168,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         zoomToStructure: function (data) {
-            console.log("PaginatedCollectionView->zoomToStructure");
-
             /* find the first place that has any locations that match the given lat/lng */
             var position = data.model.getLatLng();
 

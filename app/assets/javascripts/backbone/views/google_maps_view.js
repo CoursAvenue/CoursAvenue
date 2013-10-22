@@ -65,7 +65,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* the first time the user changes the map bounds, we show the controls */
         showBoundsControls: function () {
-            console.log("EVENT  GoogleMapsView->showBoundsControls")
             var self = this;
 
             this.boundsControlsListener = google.maps.event.addListenerOnce(this.map, 'bounds_changed', function() {
@@ -93,8 +92,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         toggleLiveUpdate: function (e) {
-            console.log("EVENT  GoogleMapsView->toggleLiveUpdate");
-
             this.update_live = e.currentTarget.checked;
 
             /* set or remove a listener */
@@ -106,7 +103,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         announceBounds: function (e) {
-            console.log("EVENT  GoogleMapsView->announceBounds");
             if (e) { // we got here by a click
                 e.preventDefault();
             }
@@ -139,7 +135,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         centerMap: function (data) {
-            console.log("GoogleMapsView->centerMap");
             if (data.lat && data.lng) {
                 this.map.setCenter(new google.maps.LatLng(data.lat, data.lng));
             }
@@ -154,7 +149,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         clearForUpdate: function() {
-            console.log("GoogleMapsView->clearForUpdate");
             this.closeChildren();
         },
 
@@ -178,7 +172,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         // Add a MarkerView and render
         addChild: function(childModel) {
-            console.log("GoogleMapsView->addChild");
 
             var places = childModel.getRelation('places').related.models;
             var self = this;
