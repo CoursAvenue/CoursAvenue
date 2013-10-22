@@ -10,7 +10,7 @@
 = render 'shared/structures_header_search'
 
 - @structures.each do |structure|
-  .visuallyhidden{ :data => { :type => 'filtered-search-bootstrap', :total => @structure_search.total }}
+  .visuallyhidden{ :data => { :type => 'filtered-search-bootstrap', :total => @structure_search.total, :latlng => @latlng }}
     = StructureSerializer.new(structure, { root: false }).to_json
 
 %ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
