@@ -77,7 +77,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             /* set or remove a listener */
             if (this.update_live) {
-                this.boundsChangedListener = google.maps.event.addListener(this.map, 'bounds_changed', this.announceBounds);
+                this.boundsChangedListener = google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
             } else {
                 this.boundsChangedListener = google.maps.event.removeListener(this.boundsChangedListener);
             }
