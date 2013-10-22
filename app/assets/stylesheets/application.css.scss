@@ -111,6 +111,10 @@
 
   @import "gmaps4rails";
 
+html, body {
+  height: 100%;
+}
+
 html {
   font-family : $brand-face;
   font-weight : 400;

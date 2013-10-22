@@ -8,6 +8,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         itemView: FilteredSearch.Views.StructureView,
         itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
         itemViewEventPrefix: 'paginator:itemview',
+        className: 'filtered-search__list-wrapper',
 
         /* forward events with only the necessary data */
         onPaginatorItemviewSelected: function (view, data) {

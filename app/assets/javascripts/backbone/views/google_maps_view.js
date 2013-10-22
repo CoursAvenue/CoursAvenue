@@ -73,7 +73,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         ui: {
-            bounds_controls: '.bounds-controls'
+            bounds_controls: '[data-behavior="bounds-controls"]'
         },
 
         /* life-cycle methods */
@@ -87,7 +87,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* ui-events */
         events: {
-            'click .announce-bounds': 'announceBounds',
             'click .live-update': 'toggleLiveUpdate'
         },
 

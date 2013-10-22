@@ -73,12 +73,12 @@ FilteredSearch.addInitializer(function(options) {
         collection: structures,
         events: {
             'paginator:updating': 'showLoader',
-            'paginator:updated': 'hideLoader',
+            'paginator:updated':  'hideLoader',
             'pagination:next':    'nextPage',
             'pagination:prev':    'prevPage',
             'pagination:page':    'goToPage',
             'summary:filter':     'filterQuery',
-            'map:bounds': 'filterQuery',
+            'map:bounds':         'filterQuery',
             'map:marker:focus':   'zoomToStructure'
         }
     });
