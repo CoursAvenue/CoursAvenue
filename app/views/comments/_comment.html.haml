@@ -50,7 +50,7 @@
                     = link_to ask_for_deletion_pro_structure_comment_path(comment.structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
                       = traducted_string
 
-          = link_to new_pro_structure_message_path(@structure, message: {recipients: [comment.user.id]}), onclick: "ga('send', 'event', 'Answer to student', 'click')", class: 'btn btn--small btn--blue float--right push-half--right' do
+          = link_to new_pro_structure_message_path(@structure, message: {recipients: [comment.user.id], subject: 'Réponse à votre avis'}), onclick: "ga('send', 'event', 'Answer to student', 'click')", class: 'btn btn--small btn--blue float--right push-half--right' do
             %i.icon-envelope.v-middle.soft-half--right
             %span.v-middle Répondre
 

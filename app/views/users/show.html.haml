@@ -11,7 +11,7 @@
       - elsif @user.fb_avatar
         = image_tag @user.fb_avatar('large')
       - else
-        .text--center.push-half--top Pas d'avatar
+        .text--center.push-half--top= link_to 'Ajouter mon avatar', edit_user_path(current_user)
     .flexbox__item.v-top.soft-half--left>
       %h4.flush= @user.name
       = link_to 'Modifier mon profil', edit_user_path(current_user)

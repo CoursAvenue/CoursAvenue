@@ -11,8 +11,7 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :user
 
-  validates :email, :author_name, :course_name, :rating, :content, :commentable, presence: true
-  validates :rating, numericality: { greater_than: 0, less_than: 6 }
+  validates :email, :author_name, :course_name, :content, :commentable, presence: true
   validate  :doesnt_exist_yet, on: :create
 
   before_create    :set_pending_status

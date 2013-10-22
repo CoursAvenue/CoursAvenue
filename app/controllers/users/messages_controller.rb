@@ -6,11 +6,8 @@ class Users::MessagesController < ApplicationController
 
   layout 'user_profile'
 
-  def see_message
-  end
-
   def new
-    @message = current_user.messages.build
+    @message = current_user.messages.build params[:message]
   end
 
   def index

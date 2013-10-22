@@ -1,14 +1,14 @@
 - last_message = conversation.messages.last
 .grid.conversation
   .grid__item.one-twelfth.v-top.text--right>
-    = image_tag last_message.sender.avatar, class: 'message__avatar'
+    = image_tag last_message.sender.avatar_url(:thumb), class: 'message__avatar'
   .grid__item.eleven-twelfths.soft-half--left>
     .white-box.grid--full.islet
       .grid__item.two-tenths>
         %p
           = last_message.sender.name
           %br
-          = l(last_message.created_at.to_date, format: :short)
+          = "#{l(last_message.created_at.to_date, format: :short)} à #{l(last_message.created_at, format: :short)}"
       .grid__item.eight-tenths.hard>
         %p.flush
           %strong= conversation.subject

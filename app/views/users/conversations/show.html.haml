@@ -2,7 +2,7 @@
 
 %ol.nav.breadcrumb{itemprop: 'breadcrumb'}
   %li.delta= link_to 'Mes messages', user_conversations_path(current_user)
-  %li.delta Conversation avec #{@conversation.recipients.reject{|recipient| recipient == @admin }.first.name}
+  %li.delta Conversation avec #{@conversation.recipients.reject{|recipient| recipient == @user }.first.name}
 
 = render partial: 'messages/message', collection: @conversation.messages.reject(&:new_record?).reverse
 

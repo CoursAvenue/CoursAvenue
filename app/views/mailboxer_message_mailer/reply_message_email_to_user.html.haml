@@ -7,18 +7,18 @@
   %h4= t('mailboxer.message_mailer.subject_reply', sender: @structure.name)
 
 %p
-  Bonjour #{@receiver.name},
+  Bonjour #{@user.name},
 %p
   #{@structure.name} viens de vous répondre sur CoursAvenue :
-
-- if @message.subject.present?
-  %p.flush
-    %strong= @message.subject
 
 = simple_format @message.body
 
 %p.action
-  = link_to "Répondre au message", root_url, class: 'btn btn--blue'
+  - if @token
+    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, token: @token), class: 'btn btn--blue'
+  - else
+    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation), class: 'btn btn--blue'
+
 
 %p
   L'équipe de CoursAvenue

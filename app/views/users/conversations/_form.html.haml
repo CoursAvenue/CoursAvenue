@@ -1,11 +1,17 @@
 .grid
   .grid__item.one-twelfth.v-top.text--right>
-    = image_tag current_user.avatar, class: 'message__avatar'
+    = image_tag (@user || current_user).avatar_url(:thumb), class: 'message__avatar'
   .grid__item.eleven-twelfths.soft-half--left>
-    = simple_form_for [current_user, @conversation] do |f|
+    = simple_form_for [(@user || current_user), @conversation] do |f|
       .form-white-box.flush--top
         = f.error_notification
-        = f.fields_for :message do |message_form|
+        = f.fields_for @message do |message_form|
           = message_form.input :body, input_html: { style: 'height: 100px', data: {behavior: 'autoresize'} }, as: :text
-          .form-actions
-            = f.submit 'Répondre', class: 'btn btn--green'
+        - if !@user.active
+          %input{type: 'hidden', value: params[:token], name: 'reset_password_token'}
+          .input
+            %label.control-label> Mot de passe
+            %input{type: 'password', name: 'password'}
+
+        .form-actions
+          = f.submit 'Répondre', class: 'btn btn--green'

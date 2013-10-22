@@ -1,9 +1,11 @@
-= simple_form_for [:pro, @structure, @conversation] do |f|
-  .form-white-box
-    = f.error_notification
-    = f.fields_for :messages do |message_form|
-      = message_form.input :recipients, as: :select, collection: @structure.users.sort_by(&:name), input_html: {data: {behavior: 'chosen', placeholder: 'Sélectionnez un destinataires'}}, selected: (params[:message] ? params[:message][:recipients] : nil)
-      = message_form.input :subject, input_html: {value: 'Réponse à votre avis'}
-      = message_form.input :body, input_html: { style: 'height: 150px', data: {behavior: 'autoresize'} }
-    .form-actions
-      = f.submit 'Envoyer', class: 'btn btn--green'
+.grid
+  .grid__item.one-twelfth.v-top.text--right>
+    = image_tag @admin.avatar, class: 'message__avatar'
+  .grid__item.eleven-twelfths.soft-half--left>
+    = simple_form_for [:pro, @structure, @conversation] do |f|
+      .form-white-box.flush
+        = f.error_notification
+        = f.fields_for @message do |message_form|
+          = message_form.input :body, input_html: { style: 'height: 100px', data: {behavior: 'autoresize'} }, as: :text
+          .form-actions
+            = f.submit 'Répondre', class: 'btn btn--green'

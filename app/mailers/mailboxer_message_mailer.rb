@@ -36,22 +36,25 @@ class MailboxerMessageMailer < ActionMailer::Base
   # Sends an email for indicating a new message for the receiver
   def new_message_email_to_user(message, receiver)
     @message     = message
-    @receiver    = receiver
+    @user        = receiver
     @structure   = message.sender.structure
     subject      = message.subject.to_s
     subject      = strip_tags(subject) unless subject.html_safe?
-    mail to: receiver.email,
+
+    @token       = @user.generate_and_set_reset_password_token if !@user.active
+
+    mail to: @user.email,
          subject: t('mailboxer.message_mailer.subject_new', sender: @structure.name),
          template_name: 'new_message_email_to_user'
   end
 
   def new_message_email_to_admin(message, receiver)
-    @message  = message
-    @receiver = receiver
-    @user     = message.sender.name
-    subject   = message.subject.to_s
-    subject   = strip_tags(subject) unless subject.html_safe?
-    mail to: receiver.email,
+    @message   = message
+    @structure = receiver
+    @user      = message.sender
+    subject    = message.subject.to_s
+    subject    = strip_tags(subject) unless subject.html_safe?
+    mail to: @structure.email,
          subject: t('mailboxer.message_mailer.subject_new', sender: @user.name),
          template_name: 'new_message_email_to_admin'
   end
@@ -59,22 +62,25 @@ class MailboxerMessageMailer < ActionMailer::Base
   # Sends and email for indicating a reply in an already created conversation
   def reply_message_email_to_user(message, receiver)
     @message     = message
-    @receiver    = receiver
+    @user        = receiver
     @structure   = message.sender.structure
     subject      = message.subject.to_s
     subject      = strip_tags(subject) unless subject.html_safe?
-    mail to: receiver.email,
+
+    @token       = @user.generate_and_set_reset_password_token if !@user.active
+
+    mail to: @user.email,
          subject: t('mailboxer.message_mailer.subject_reply', sender: @structure.name),
          template_name: 'reply_message_email_to_user'
   end
 
   def reply_message_email_to_admin(message, receiver)
-    @message  = message
-    @receiver = receiver
-    @user     = message.sender.name
-    subject   = message.subject.to_s
-    subject   = strip_tags(subject) unless subject.html_safe?
-    mail to: receiver.email,
+    @message   = message
+    @structure = receiver
+    @user      = message.sender
+    subject    = message.subject.to_s
+    subject    = strip_tags(subject) unless subject.html_safe?
+    mail to: @structure.email,
          subject: t('mailboxer.message_mailer.subject_reply', sender: @user.name),
          template_name: 'reply_message_email_to_admin'
   end

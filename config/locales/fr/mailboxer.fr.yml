@@ -1,7 +1,7 @@
 fr:
   mailboxer:
     message_mailer:
-      subject_new: "Vous avez un nouveau message de %{sender}"
+      subject_new: "Vous avez un message de %{sender}"
       subject_reply: "Vous avez une réponse de %{sender}"
     notification_mailer:
       subject: "Vous avez une notification : %{subject}"

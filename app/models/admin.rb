@@ -52,6 +52,10 @@ class ::Admin < ActiveRecord::Base
     self.structure.logo(:thumb)
   end
 
+  def avatar_url(format=:thumb)
+    self.structure.logo.url(format)
+  end
+
   private
 
   def delay_subscribe_to_mailchimp

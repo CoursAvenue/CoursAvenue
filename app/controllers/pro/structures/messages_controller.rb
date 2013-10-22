@@ -8,7 +8,7 @@ class Pro::Structures::MessagesController < ApplicationController
   layout 'admin'
 
   def new
-    @message = @admin.messages.build
+    @message = @admin.messages.build params[:message]
   end
 
   def index
@@ -19,14 +19,15 @@ class Pro::Structures::MessagesController < ApplicationController
   # This is done by default by mailboxer
   # Recipients receive only one person here
   def create
-    @recipients = params[:message][:recipients].collect{|user_id| @structure.users.find(user_id)}
-    @receipt    = @admin.send_message(@recipients, params[:message][:body], params[:message][:subject])
+    @recipients   = @structure.users.find(params[:message][:recipients])
+    @receipt      = @admin.send_message(@recipients, params[:message][:body], params[:message][:subject])
     @conversation = @receipt.conversation
     respond_to do |format|
-      if @conversation
-        render 'new'
-      else
+      if @conversation.persisted?
         format.html { redirect_to pro_structure_conversation_path(@structure, @conversation) }
+      else
+        @messages = @admin.messages.build
+        render 'new'
       end
     end
   end

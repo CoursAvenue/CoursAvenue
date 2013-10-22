@@ -3,12 +3,12 @@
     = image_tag @user.avatar.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
 
 - content_for :promo do
-  %h4= t('mailboxer.message_mailer.subject_new', sender: @structure.name)
+  %h4= t('mailboxer.message_mailer.subject_new', sender: @user.name)
 
 %p
-  Bonjour #{@receiver.name},
+  Bonjour #{@structure.name},
 %p
-  #{@structure.name} viens de vous envoyer un message privée sur CoursAvenue :
+  #{@user.name} viens de vous envoyer un message privée sur CoursAvenue :
 
 - if @message.subject.present?
   %p.flush
@@ -17,10 +17,10 @@
 = simple_format @message.body
 
 %p.action
-  = link_to "Répondre au message", root_url, class: 'btn btn--blue'
+  = link_to "Répondre au message", pro_structure_conversation_url(@structure, @message.conversation, subdomain: 'pro'), class: 'btn btn--blue'
 
 %p
   L'équipe de CoursAvenue
 
 - content_for :footer do
-  %p Vous recevez ce message car #{@structure.name} vous a envoyé un message privée sur CoursAvenue.com
+  %p Vous recevez ce message car #{@user.name} vous a envoyé un message privée sur CoursAvenue.com

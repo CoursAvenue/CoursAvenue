@@ -67,6 +67,8 @@ class User < ActiveRecord::Base
       self.avatar.url(format)
     elsif self.fb_avatar
       self.fb_avatar
+    else
+      self.avatar
     end
   end
 
@@ -85,6 +87,23 @@ class User < ActiveRecord::Base
 
   def mailboxer_email(object)
     self.email
+  end
+
+  def activate
+    self.active = true
+  end
+
+  def generate_and_set_reset_password_token
+    raw, enc = Devise.token_generator.generate(self.class, :reset_password_token)
+
+    self.reset_password_token   = enc
+    self.reset_password_sent_at = Time.now.utc
+    self.save
+    return raw
+  end
+
+  def reset_password_token_valid?(token)
+    Devise.token_generator.digest(self, :reset_password_token, token) == self.reset_password_token
   end
 
   private

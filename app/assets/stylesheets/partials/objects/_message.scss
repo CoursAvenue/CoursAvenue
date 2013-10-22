@@ -12,9 +12,9 @@
 .conversation {
     .white-box {
         background-color: #FFF;
-        @include transition(background-color 100ms linear);
+        @include transition(background-color 150ms linear);
     }
     .white-box:hover {
-        background-color: #EFEFEF;
+        background-color: #F9F9F9;
     }
 }
