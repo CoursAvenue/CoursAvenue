@@ -36,8 +36,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             console.log("ResultsSummaryView->filter");
             e.preventDefault();
 
+            var value = e.currentTarget.getAttribute('data-value');
             this.updateSortingMethod(e.currentTarget);
-            this.trigger('summary:filter', e);
+            this.trigger('summary:filter', { sort: value });
 
             return false;
         },

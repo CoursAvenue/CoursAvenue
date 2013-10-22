@@ -115,16 +115,18 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         * click on anything with data-type=filter and you
         * get results filtered by that */
         /* TODO currently this method doesn't work on initial page load */
-        filterQuery: function(e) {
-            var value = e.currentTarget.getAttribute('data-value');
-            if (value === this.collection.server_api.sort) {
-                return false;
-            }
+        filterQuery: function(filters) {
+            console.log("EVENT  PaginatedCollectionView->filterQuery with");
+            /* TODO check for redundancy: if the incoming filters don't
+            *  change anything, we shouldn't do the update */
+            // if (this.collection.setQuery(filter) === this.collection.getQuery()) {
+            //     return false;
+            // }
 
-            /* since we are changing the sorting method, we need to reset
+            /* since we are changing the query, we need to reset
             *  the collection, or else some elements will be in the wrong order */
             this.collection.reset();
-            this.collection.setQuery({ sort: value });
+            this.collection.setQuery(filters);
 
             // invalidate the 'currentPage' so that changePage will work
             // even if we are ALREADY on the first page...
