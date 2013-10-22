@@ -1,6 +1,8 @@
 
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
     Views.BlankView = Marionette.ItemView.extend({ template: "" });
+
+    /* TODO break this out into its own file (it got big...) */
     Views.CoursMarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
         initialize: function (options) {
 
@@ -37,7 +39,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         markerViewChildren: {},
 
         initialize: function(options) {
-            _.bindAll(this, 'announceBounds');
+            _.bindAll(this, 'announceBounds', 'showBoundsControls');
 
             this.mapOptions = {
                 center: new google.maps.LatLng(0, 0),
@@ -53,6 +55,23 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
             this.map = new google.maps.Map(this.mapView.el, this.mapOptions);
             this.map_annex = this.mapView.el;
+
+            /* the first time the map bounds chang, we won't offer the 'bounds_controls' */
+            google.maps.event.addListenerOnce(this.map, 'bounds_changed', _.debounce(this.showBoundsControls));
+        },
+
+        /* the first time the user changes the map bounds, we show the controls */
+        showBoundsControls: function () {
+            console.log("EVENT  GoogleMapsView->mapCentered")
+            var self = this;
+
+            this.boundsControlsListener = google.maps.event.addListenerOnce(this.map, 'bounds_changed', function() {
+                self.ui.bounds_controls.slideDown();
+            });
+        },
+
+        ui: {
+            bounds_controls: '.bounds-controls'
         },
 
         /* life-cycle methods */
