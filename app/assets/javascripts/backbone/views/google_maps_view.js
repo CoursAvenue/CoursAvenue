@@ -37,6 +37,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         markerViewChildren: {},
 
         initialize: function(options) {
+            _.bindAll(this, 'announceBounds');
+
             this.mapOptions = {
                 center: new google.maps.LatLng(0, 0),
                 zoom: 12,
@@ -65,11 +67,27 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* ui-events */
         events: {
             'click .announce-bounds': 'announceBounds',
+            'click .live-update': 'toggleLiveUpdate'
+        },
+
+        toggleLiveUpdate: function (e) {
+            console.log("EVENT  GoogleMapsView->toggleLiveUpdate");
+
+            this.update_live = e.currentTarget.checked;
+
+            /* set or remove a listener */
+            if (this.update_live) {
+                this.boundsChangedListener = google.maps.event.addListener(this.map, 'bounds_changed', this.announceBounds);
+            } else {
+                this.boundsChangedListener = google.maps.event.removeListener(this.boundsChangedListener);
+            }
         },
 
         announceBounds: function (e) {
             console.log("EVENT  GoogleMapsView->announceBounds");
-            e.preventDefault();
+            if (e) { // we got here by a click
+                e.preventDefault();
+            }
 
             /* TODO we are pretending to use a bounding box, but really we are using radius
             *  on the backend, with bbox: true
