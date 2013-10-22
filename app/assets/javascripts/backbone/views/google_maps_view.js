@@ -87,7 +87,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* ui-events */
         events: {
-            'click .live-update': 'toggleLiveUpdate'
+            'click [data-behavior="live-update"]': 'toggleLiveUpdate'
         },
 
         toggleLiveUpdate: function (e) {
@@ -96,6 +96,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             /* set or remove a listener */
             if (this.update_live) {
                 this.boundsChangedListener = google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
+                this.announceBounds();
             } else {
                 this.boundsChangedListener = google.maps.event.removeListener(this.boundsChangedListener);
             }
@@ -109,11 +110,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             /* TODO we are pretending to use a bounding box, but really we are using radius
             *  on the backend, with bbox: true
             *  ref: https://github.com/sunspot/sunspot#filter-by-radius-inexact-with-bbox */
-            var bounds = this.map.getBounds();
 
+            var bounds    = this.map.getBounds();
             var southWest = bounds.getSouthWest();
             var northEast = bounds.getNorthEast();
-            var center = bounds.getCenter();
+            var center    = bounds.getCenter();
 
             var filters = {
                 bbox_sw: [southWest.lat(), southWest.lng()],
