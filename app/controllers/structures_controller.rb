@@ -85,8 +85,10 @@ class StructuresController < ApplicationController
     ## ------------------------- Surrounding results
     init_geoloc
 
+    @latlng = StructureSearch.retrieve_location(params)
+
     respond_to do |format|
-      format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: @structure_search.total }}
+      format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: @structure_search.total, location: @latlng }}
       format.html do
         cookies[:structure_search_path] = request.fullpath
       end

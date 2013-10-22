@@ -13,6 +13,9 @@ FilteredSearch = (function (){
             total: function() {
                 return self.bootstrap.$annex().data('total');
             },
+            latlng: function() {
+                return self.bootstrap.$annex().data('latlng');
+            },
             models: function() {
                 return self.bootstrap.$annex().map(function() {
                     return JSON.parse($(this).text());
@@ -58,6 +61,7 @@ FilteredSearch.addInitializer(function(options) {
         return {
             options: {
                 total: self.bootstrap.total(),
+                latlng: self.bootstrap.latlng()
             },
             models: self.bootstrap.models()
         };
@@ -85,7 +89,13 @@ FilteredSearch.addInitializer(function(options) {
     /* set up the layouts */
     layout                 = new FilteredSearch.Views.SearchWidgetsLayout();
 
-    google_maps_view       = new FilteredSearch.Views.GoogleMapsView({ collection: structures });
+    var bounds = structures.getLatLngBounds();
+    google_maps_view       = new FilteredSearch.Views.GoogleMapsView({
+        collection: structures,
+        mapOptions: {
+            center: new google.maps.LatLng(bounds.lat, bounds.lng)
+        }
+    });
 
     /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
     top_pagination_tool    = new FilteredSearch.Views.PaginationToolView({});

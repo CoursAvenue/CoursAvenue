@@ -38,6 +38,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         markerView: Views.CoursMarkerView,
         markerViewChildren: {},
 
+        /* provide options.mapOptions to override defaults */
         initialize: function(options) {
             _.bindAll(this, 'announceBounds', 'showBoundsControls');
 
@@ -46,6 +47,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 zoom: 12,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
+
+            _.extend(this.mapOptions, options.mapOptions);
 
             this.mapView = new Views.BlankView({
                 id: 'map',
@@ -56,13 +59,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.map = new google.maps.Map(this.mapView.el, this.mapOptions);
             this.map_annex = this.mapView.el;
 
-            /* the first time the map bounds chang, we won't offer the 'bounds_controls' */
+            /* the first time the map bounds change, we won't offer the 'bounds_controls' */
             google.maps.event.addListenerOnce(this.map, 'bounds_changed', _.debounce(this.showBoundsControls));
         },
 
         /* the first time the user changes the map bounds, we show the controls */
         showBoundsControls: function () {
-            console.log("EVENT  GoogleMapsView->mapCentered")
+            console.log("EVENT  GoogleMapsView->showBoundsControls")
             var self = this;
 
             this.boundsControlsListener = google.maps.event.addListenerOnce(this.map, 'bounds_changed', function() {

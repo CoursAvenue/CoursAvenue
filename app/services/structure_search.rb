@@ -47,5 +47,7 @@ class StructureSearch
       params[:lat] = 48.8592
       params[:lng] = 2.3417
     end
+
+    [params[:lat], params[:lng]]
   end
 end
