@@ -2,19 +2,18 @@
  * its pagination UI element */
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
 
-    Views.PaginatedCollectionView = Backbone.Marionette.CompositeView.extend({
+    Views.PaginatedCollectionView = Views.AccordionView.extend({
         template: 'backbone/templates/paginated_collection_view',
         itemView: FilteredSearch.Views.StructureView,
         itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
-        itemViewEventPrefix: 'structure',
 
         /* forward events with only the necessary data */
-        onStructureHighlighted: function (view, data) {
-            this.trigger('structures:structure:highlighted', data);
+        onItemviewHighlighted: function (view, data) {
+            this.trigger('structures:itemview:highlighted', data);
         },
 
-        onStructureUnhighlighted: function (view, data) {
-            this.trigger('structures:structure:unhighlighted', data);
+        onItemviewUnhighlighted: function (view, data) {
+            this.trigger('structures:itemview:unhighlighted', data);
         },
 
         onRender: function() {

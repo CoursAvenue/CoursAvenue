@@ -109,8 +109,8 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(google_maps_view, {
         'structures:updating':                'clearForUpdate',
         'structures:updated:map':             'centerMap',
-        'structures:structure:highlighted':   'selectMarkers',
-        'structures:structure:unhighlighted': 'deselectMarkers'
+        'structures:itemview:highlighted':   'selectMarkers',
+        'structures:itemview:unhighlighted': 'deselectMarkers'
     });
 
     layout.showWidget(results_summary_tool, {
