@@ -80,14 +80,13 @@ class Structure < ActiveRecord::Base
   has_many :students                  , dependent: :destroy
   has_many :teachers                  , dependent: :destroy
   has_many :courses                   , dependent: :destroy
-  has_many :cities, through: :places
+  has_many :cities                    , through: :places
   has_many :reservations,         as: :reservable
 
   has_and_belongs_to_many :subjects
   has_and_belongs_to_many :users
 
   has_many :places                   , dependent: :destroy
-  has_many :locations, through: :places
 
   has_many :admins                   , dependent: :destroy
 
@@ -269,6 +268,10 @@ class Structure < ActiveRecord::Base
     end
     self.update_column :email_status, email_status
     return email_status
+  end
+
+  def locations
+    self.places.map(&:location)
   end
 
   def locations_around(latitude, longitude, radius=5)
