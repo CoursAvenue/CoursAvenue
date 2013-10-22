@@ -151,22 +151,30 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         /* return an object with lat, lng, and a bounding box parsed from server_api */
         /* the outside world must never know that we store the bounds as CSV... */
         getLatLngBounds: function () {
-            var sw_latlng = this.server_api.bbox_sw.split(',');
-            var ne_latlng = this.server_api.bbox_ne.split(',');
+            var sw_latlng, ne_latlng;
+
+            if (this.server_api.bbox_sw && this.server_api.bbox_ne) {
+                sw_latlng = this.server_api.bbox_sw.split(',');
+                ne_latlng = this.server_api.bbox_ne.split(',');
+
+                sw_latlng = {
+                    lat: sw_latlng[0],
+                    lng: sw_latlng[1]
+                };
+
+                ne_latlng = {
+                    lat: ne_latlng[0],
+                    lng: ne_latlng[1]
+                };
+            }
 
             /* yup, everything is nice objects over here! */
             return {
                 lat: this.server_api.lat,
                 lng: this.server_api.lng,
                 bbox: {
-                    sw: {
-                        lat: sw_latlng[0],
-                        lng: sw_latlng[1]
-                    },
-                    ne: {
-                        lat: ne_latlng[0],
-                        lng: ne_latlng[1]
-                    }
+                    sw: sw_latlng,
+                    ne: ne_latlng
                 }
             };
         }
