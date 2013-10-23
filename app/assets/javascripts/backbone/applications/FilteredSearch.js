@@ -115,7 +115,6 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(google_maps_view, {
         'paginator:updating':             'clearForUpdate showLoader',
         'paginator:updated':              'hideLoader',
-        'paginator:updated:map':          'centerMap',
         'paginator:structure:selected':   'selectMarkers',
         'paginator:structure:deselected': 'deselectMarkers'
     });
