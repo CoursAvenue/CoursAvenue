@@ -14,6 +14,6 @@ class AddStructuresUsersTable < ActiveRecord::Migration
     end
     add_index :subjects_users, [:user_id, :subject_id]
 
-    add_column :users, :active, :boolean, default: true
+    add_column :users, :email_opt_in      , :boolean, default: true
   end
 end

@@ -5,12 +5,13 @@
 
 - content_for :promo do
   %h4
-    C'est votre dernier jour pour recommander #{@structure.name}.
+    Il vous reste 5 jours pour recommander #{@structure.name}.
 
 %p Bonjour !
 
 %p
-  #{@structure.name} vous a récemment demandé votre avis sur son profil public CoursAvenue : c'est votre dernier jour pour déposer votre recommandation. C'est simple, très rapide, et #{@structure.name} vous en remerciera !
+  #{@structure.name} vous a récemment demandé votre avis sur son profil public CoursAvenue. Pour que votre recommandation soit directement visible, déposez-le dans les 5 prochains jours.
+  Pouvez-vous le faire dès maintenant en quelques minutes ?
 
 %p.action
   = link_to 'Déposer ma recommandation', new_structure_comment_url(@structure, email: @email, stage: 2), class: 'btn btn--blue'
@@ -24,4 +25,4 @@
 = content_for :footer do
   %p
     Vous recevez cet email car #{@structure.name} est inscrit sur CoursAvenue et vous demande de lui rédiger une recommandation sur ses cours.
-    = link_to 'Ne plus recevoir ces emails', unsubscribe_students_url(@student.access_token, subdomain: 'www')
+    = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@user.access_token, subdomain: 'www')

@@ -1,8 +1,7 @@
 class Comment < ActiveRecord::Base
   acts_as_paranoid
   attr_accessible :commentable, :commentable_id, :commentable_type, :content, :author_name, :email, :rating,
-                  :title, :course_name,
-                  :validated
+                  :title, :course_name
   # A comment has a status which can be one of the following:
   #   - pending
   #   - accepted
@@ -107,11 +106,18 @@ class Comment < ActiveRecord::Base
   private
 
   def create_user
-    unless User.where(email: self.email).any?
-      user            = User.new active: false, name: self.author_name, email: self.email
-      user.structures << self.structure
-      user.subjects   << self.structure.subjects
-      user.save
+    user_email = self.email
+    if (user = User.where{email == user_email}.first).nil?
+      user = User.new name: self.author_name, email: self.email
+    end
+    user.structures << self.structure
+    user.subjects   << self.structure.subjects
+    user.comments   << self
+    user.save(validate: false)
+
+    structure_id = self.structure.id
+    if (comment_notification = user.comment_notifications.where(structure_id: structure_id).first).present?
+      comment_notification.complete!
     end
   end
 

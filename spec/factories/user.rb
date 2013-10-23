@@ -3,12 +3,10 @@
 FactoryGirl.define do
 
   factory :user do
+    name     Forgery::Name.full_name
 
-    first_name     Forgery::Name.first_name
-    last_name      Forgery::Name.last_name
-    sequence :email do |n|
-      "person#{n}@example.com"
-    end
+    email Forgery(:internet).email_address
+
     password                'password'
     password_confirmation   'password'
   end

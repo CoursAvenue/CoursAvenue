@@ -12,6 +12,7 @@ class CommentsController < ApplicationController
     end
     respond_to do |format|
       if @comment.save
+        send_private_message if params[:private_message].present?
         cookies[:delete_cookies] = true
         if params[:from] and params[:from] == 'recommendation-page'
           format.html { redirect_to structure_comment_path(@comment.commentable, @comment), notice: "Merci d'avoir laissé votre avis !" }
@@ -28,6 +29,13 @@ class CommentsController < ApplicationController
   end
 
   private
+
+  def send_private_message
+    @recipient    = @comment.structure.main_contact
+    @receipt      = @comment.user.send_message(@recipient, params[:private_message], 'Recommendation de ton cours')
+    @conversation = @receipt.conversation
+  end
+
   def find_commentable
     type = params[:comment][:commentable_type]
     type.classify.constantize.find(params[:comment][:commentable_id])

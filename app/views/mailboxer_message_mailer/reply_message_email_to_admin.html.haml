@@ -8,7 +8,7 @@
 %p
   Bonjour #{@structure.name},
 %p
-  #{@user.name} viens de vous répondre sur CoursAvenue :
+  #{@user.name} vient de vous répondre sur CoursAvenue :
 
 = simple_format @message.body
 
@@ -19,4 +19,4 @@
   L'équipe de CoursAvenue
 
 - content_for :footer do
-  %p Vous recevez ce message car #{@user.name} vous a envoyé un message privée sur CoursAvenue.com
+  %p Vous recevez ce message car #{@user.name} vous a envoyé un message privé sur CoursAvenue.com

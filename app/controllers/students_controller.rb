@@ -3,7 +3,7 @@ class StudentsController < InheritedResources::Base
   actions :create
 
   def unsubscribe
-    if student = Student.read_access_token(params[:signature])
+    if student = User.read_access_token(params[:signature])
       student.update_attribute :email_opt_in, false
       redirect_to root_url, notice: 'Vous avez bien été desinscrit de la liste.'
     else

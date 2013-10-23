@@ -74,7 +74,7 @@ class Pro::StructuresController < Pro::ProController
     emails = params[:emails].scan(regexp).uniq
     text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>'
     emails.each do |email|
-      StudentMailer.delay.ask_for_feedbacks(@structure, text, email)
+      UsersReminder.delay.send_recommendation(@structure, text, email)
     end
     respond_to do |format|
       format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés.': nil)}

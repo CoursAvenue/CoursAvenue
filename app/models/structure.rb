@@ -82,6 +82,7 @@ class Structure < ActiveRecord::Base
   has_many :courses                   , dependent: :destroy
   has_many :cities                    , through: :places
   has_many :reservations,         as: :reservable
+  has_many :comment_notifications
 
   has_and_belongs_to_many :subjects
   has_and_belongs_to_many :users
@@ -159,7 +160,7 @@ class Structure < ActiveRecord::Base
         subject_ids << subject.id
         subject_ids << subject.parent.id if subject.parent
       end
-      subject_ids.uniq
+      subject_ids.compact.uniq
     end
 
     string :subject_slugs, multiple: true do

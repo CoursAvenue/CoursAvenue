@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-
+  include ActsAsUnsubscribable
   acts_as_messageable
 
   extend FriendlyId
@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
 
   has_many :comments, -> { order('created_at DESC') }
   has_many :reservations
+  has_many :comment_notifications
 
   has_and_belongs_to_many :structures
   has_and_belongs_to_many :subjects
@@ -19,21 +20,18 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
-                  :name, :first_name, :last_name, :fb_avatar, :location, :avatar, :active
+                  :name, :first_name, :last_name, :fb_avatar, :location, :avatar, :email_opt_in
 
   validates :name, :email, presence: true
 
   has_attached_file :avatar,
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
 
-  # TODO: Remove comment when all migration have passed
-  after_initialize :affect_random_password#, :unless => :active
-
   after_create :associate_all_comments
 
   # Scopes
-  scope :active, -> { where(active: true) }
-  scope :inactive, -> { where(active: false) }
+  scope :active,   -> { where{encrypted_password != nil} }
+  scope :inactive, -> { where{encrypted_password == ''} }
 
 
   def self.from_omniauth(auth)
@@ -81,16 +79,8 @@ class User < ActiveRecord::Base
     self.reservations.exists?(reservable_id: reservable.id, reservable_type: (reservable.is_a?(Course) ? 'Course' : reservable.class.name))
   end
 
-  def affect_random_password
-    self.password = random_string unless self.read_attribute(:active)
-  end
-
   def mailboxer_email(object)
     self.email
-  end
-
-  def activate
-    self.active = true
   end
 
   def generate_and_set_reset_password_token
@@ -104,6 +94,10 @@ class User < ActiveRecord::Base
 
   def reset_password_token_valid?(token)
     Devise.token_generator.digest(self, :reset_password_token, token) == self.reset_password_token
+  end
+
+  def active
+    self.encrypted_password.present?
   end
 
   private

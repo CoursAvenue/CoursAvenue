@@ -25,7 +25,6 @@ class Users::ConversationsController < ApplicationController
     if params[:password]
       if @user.reset_password_token_valid?(params[:reset_password_token])
         @user.password = params[:password]
-        @user.activate
         @user.save
         sign_in(@user, bypass: true)
         flash[:notice] = "Votre message à bien été envoyé et vous êtes maintenant connecté."
