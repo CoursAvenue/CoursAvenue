@@ -3,7 +3,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     Views.BlankView = Marionette.ItemView.extend({ template: "" });
 
     /* TODO break this out into its own file (it got big...) */
-    Views.CoursMarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
+    Views.StructureMarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
         initialize: function (options) {
 
             /* TODO this setup should be done in the constructor, in the library, in another repo far, far away */
@@ -35,12 +35,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         id:       'map-container',
         itemView: Views.BlankView,
         itemViewEventPrefix: 'marker',
-        markerView: Views.CoursMarkerView,
+        markerView: Views.StructureMarkerView,
         markerViewChildren: {},
 
         /* provide options.mapOptions to override defaults */
         initialize: function(options) {
-            _.bindAll(this, 'announceBounds', 'showBoundsControls');
+            _.bindAll(this, 'announceBounds', 'showBoundsControls', 'hideLoader', 'showLoader');
 
             this.mapOptions = {
                 center: new google.maps.LatLng(0, 0),
@@ -56,7 +56,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                     'class': 'map_container'
                 }
             });
-            this.map = new google.maps.Map(this.mapView.el, this.mapOptions);
+            this.map       = new google.maps.Map(this.mapView.el, this.mapOptions);
             this.map_annex = this.mapView.el;
 
             /* the first time the map bounds change, we won't offer the 'bounds_controls' */
@@ -83,6 +83,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         onRender: function() {
             this.$el.find('[data-type=map-container]').prepend(this.map_annex);
+            this.$loader = this.$('[data-type=loader]');
         },
 
         /* ui-events */
@@ -136,7 +137,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         centerMap: function (data) {
             if (data.lat && data.lng) {
-                this.map.setCenter(new google.maps.LatLng(data.lat, data.lng));
+                // More smooth than setCenter
+                this.map.panTo(new google.maps.LatLng(data.lat, data.lng));
             }
 
             if (data.bbox.sw && data.bbox.ne) {
@@ -225,6 +227,23 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 // Prevent from undefined
                 if (marker) { marker.deselect(); }
             });
-        }
+        },
+
+        showLoader: function() {
+            var self = this;
+            self.$loader.show();
+            // Add setTimeout to prevent from appearing suddunly
+            setTimeout(function(){
+                self.$loader.addClass('visible');
+            });
+        },
+
+        hideLoader: function() {
+            var self = this;
+            self.$loader.removeClass('visible');
+            setTimeout(function(){
+                self.$loader.hide();
+            }, 300);
+        },
     });
 });
