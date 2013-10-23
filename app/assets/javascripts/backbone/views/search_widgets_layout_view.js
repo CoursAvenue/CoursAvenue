@@ -9,6 +9,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         widgets: [],
 
+        onShow: function() {
+            FilteredSearch.$loader().fadeOut('slow');
+        },
+
         /* add a new region to deal with a given widget
         * assumption: view.template is in_this_form */
         showWidget: function (view, events, dom_query) {

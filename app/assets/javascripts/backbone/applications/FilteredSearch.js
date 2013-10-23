@@ -6,6 +6,7 @@ FilteredSearch = (function (){
         /* for use in query strings */
         root:   function() { return self.slug + '-root'; },
         suffix: function() { return self.slug + '-bootstrap'; },
+        loader: function() { return self.slug + '-loader'; },
         /* returns the jQuery object where bootstrap data is */
 
         bootstrap: {
@@ -26,6 +27,11 @@ FilteredSearch = (function (){
         /* methods for returning the relevant jQuery collections */
         $root: function() {
             return $('[data-type=' + self.root() + ']');
+        },
+
+        /* Return the element in which the application will be appended */
+        $loader: function() {
+            return $('[data-type=' + self.loader() + ']');
         },
 
         /* A filteredSearch should only start if it detects
@@ -87,10 +93,10 @@ FilteredSearch.addInitializer(function(options) {
     window.pfaff = structures;
 
     /* set up the layouts */
-    layout                 = new FilteredSearch.Views.SearchWidgetsLayout();
+    layout           = new FilteredSearch.Views.SearchWidgetsLayout();
 
-    var bounds = structures.getLatLngBounds();
-    google_maps_view       = new FilteredSearch.Views.GoogleMapsView({
+    var bounds       = structures.getLatLngBounds();
+    google_maps_view = new FilteredSearch.Views.GoogleMapsView({
         collection: structures,
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)

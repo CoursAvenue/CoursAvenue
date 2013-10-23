@@ -4,7 +4,7 @@
 }
     .filtered-search__list-wrapper {
         position  : relative;
-        min-height: 15em;
+        min-height: 35em;
     }
     .filtered-search__loader {
         position   : absolute;
@@ -18,7 +18,7 @@
         text-align : center;
         padding-top: 1em;
         font-size  : 1.5em;
-        z-index    : 100;
+        z-index    : 10;
     }
 
 
@@ -26,4 +26,15 @@
     #map {
         height: 30em;
     }
+}
+
+.filtered-search-loader {
+    position        : absolute;
+    z-index         : 20;
+    background-color: $site-background-color;
+    width           : 100%;
+    height          : 100%;
+    top             : 10em;
+    left            : 0;
+    padding-top     : 10em;
 }
