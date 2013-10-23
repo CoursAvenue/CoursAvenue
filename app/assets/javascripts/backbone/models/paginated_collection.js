@@ -30,9 +30,11 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
                 this.server_api.sort = 'rating_desc';
             }
 
-            /* we receive a pair from the bootstrap */
-            this.server_api.lat = options.latlng[0];
-            this.server_api.lng = options.latlng[1];
+            /* if we receive a pair from the bootstrap */
+            if (options.latlng) {
+                this.server_api.lat = options.latlng[0];
+                this.server_api.lng = options.latlng[1];
+            }
 
             // now write back the server_api so that the search bar is up to date
             // we are passing this.server_api for fun! ^o^ why not?
@@ -131,14 +133,12 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         setQuery: function(options) {
             /* setQuery stringifies all incoming options */
 
-            debugger
             _.map(options, function(value, key) {
                 if (_.isFunction(value.toString)) {
                     options[key] = value.toString();
                 }
             });
 
-            debugger
             _.extend(this.server_api, options);
         },
 

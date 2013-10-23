@@ -26,6 +26,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         announcePaginatorUpdated: function () {
+            console.log("PaginatedCollectionView->announcePaginatorUpdated");
             var data = this.collection;
             var first_result = (data.currentPage - 1) * data.perPage + 1;
 
@@ -47,6 +48,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             data = this.collection.getLatLngBounds();
 
             /* let the map know what we think the center and bounds should be */
+            /* TODO this was used to center the map on page load, but I think
+            *  now it is not being used */
             this.trigger('structures:updated:map', data);
         },
 
@@ -112,6 +115,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         filterQuery: function(filters) {
+            console.log("PaginatedCollectionView->filterQuery");
             /* TODO check for redundancy: if the incoming filters don't
             *  change anything, we shouldn't do the update */
             // if (this.collection.setQuery(filter) === this.collection.getQuery()) {

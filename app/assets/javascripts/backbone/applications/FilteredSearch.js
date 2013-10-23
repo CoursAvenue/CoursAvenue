@@ -120,7 +120,6 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(google_maps_view, {
         'structures:updating':             'clearForUpdate showLoader',
         'structures:updated':              'hideLoader',
-        'structures:updated:map':          'centerMap',
         'structures:itemview:highlighted':   'selectMarkers',
         'structures:itemview:unhighlighted': 'deselectMarkers'
     });
