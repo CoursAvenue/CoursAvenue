@@ -161,7 +161,7 @@ CoursAvenue::Application.routes.draw do
       post :recommendation
     end
     resources :courses , only: [:show], path: 'cours', controller: 'structures/courses'
-    resources :comments, only: [:new, :show], path: 'recommandations', controller: 'structures/comments'
+    resources :comments, only: [:new, :show, :index], path: 'recommandations', controller: 'structures/comments'
   end
 
   resources :courses, only: [:show, :index], path: 'cours' do

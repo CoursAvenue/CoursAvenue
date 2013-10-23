@@ -4,6 +4,15 @@ class Structures::CommentsController < ApplicationController
 
   layout 'empty'
 
+  def index
+    @structure    = Structure.friendly.find(params[:structure_id])
+    @comments     = @structure.comments.to_a
+
+    respond_to do |format|
+      format.json { render json: @comments }
+    end
+  end
+
   def new
     @structure   = Structure.friendly.find(params[:structure_id])
     @comment     = @structure.comments.build
