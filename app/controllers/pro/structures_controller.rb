@@ -181,17 +181,18 @@ class Pro::StructuresController < Pro::ProController
     @ratio     = 1
     @structure = Structure.friendly.find params[:id]
     deleted_image = false
-    if params[:structure].delete(:delete_image) == '1'
+    if params[:structure] and params[:structure].delete(:delete_image) == '1'
       @structure.image.clear
       deleted_image = true
     end
-    if params[:structure].delete(:delete_logo) == '1'
+    if params[:structure] and params[:structure].delete(:delete_logo) == '1'
       @structure.logo.clear
       deleted_image = true
     end
 
-    params[:structure][:subject_ids] = params[:structure][:subject_ids] + params[:structure].delete(:subject_descendants_ids) unless params[:structure][:subject_descendants_ids].blank?
-
+    if params[:structure] and params[:structure][:subject_descendants_ids].present?
+      params[:structure][:subject_ids] = params[:structure][:subject_ids] + params[:structure].delete(:subject_descendants_ids)
+    end
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
         @ratio = @structure.ratio_from_original(:large)

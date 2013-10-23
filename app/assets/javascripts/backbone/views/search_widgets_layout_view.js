@@ -9,6 +9,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         widgets: [],
 
+        onShow: function() {
+            FilteredSearch.$loader().fadeOut('slow');
+        },
+
         /* add a new region to deal with a given widget
         * assumption: view.template is in_this_form */
         showWidget: function (view, events, dom_query) {
@@ -48,7 +52,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* fires after the main region is first shown */
         onResultsShow: function(view) {
-            console.log("EVENT  SearchWidgetsLayout->resultsShow");
             var self = this;
 
             /* the layout broadcasts all main region events */
@@ -69,8 +72,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* any events that come from the results region will be
         * triggered again from the layout */
         broadcast: function(e, params) {
-            // for spying on the event storm
-            // console.log("EVENT  SearchWidgetsLayout->broadcast: %o : %o", e, params);
             this.trigger(e, params);
         }
     });

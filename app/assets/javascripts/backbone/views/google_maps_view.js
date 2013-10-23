@@ -3,7 +3,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     Views.BlankView = Marionette.ItemView.extend({ template: "" });
 
     /* TODO break this out into its own file (it got big...) */
-    Views.CoursMarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
+    Views.StructureMarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
         initialize: function (options) {
 
             /* TODO this setup should be done in the constructor, in the library, in another repo far, far away */
@@ -35,12 +35,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         id:       'map-container',
         itemView: Views.BlankView,
         itemViewEventPrefix: 'marker',
-        markerView: Views.CoursMarkerView,
+        markerView: Views.StructureMarkerView,
         markerViewChildren: {},
 
         /* provide options.mapOptions to override defaults */
         initialize: function(options) {
-            _.bindAll(this, 'announceBounds', 'showBoundsControls');
+            _.bindAll(this, 'announceBounds', 'showBoundsControls', 'hideLoader', 'showLoader');
 
             this.mapOptions = {
                 center: new google.maps.LatLng(0, 0),
@@ -56,7 +56,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                     'class': 'map_container'
                 }
             });
-            this.map = new google.maps.Map(this.mapView.el, this.mapOptions);
+            this.map       = new google.maps.Map(this.mapView.el, this.mapOptions);
             this.map_annex = this.mapView.el;
 
             /* the first time the map bounds change, we won't offer the 'bounds_controls' */
@@ -65,7 +65,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* the first time the user changes the map bounds, we show the controls */
         showBoundsControls: function () {
-            console.log("EVENT  GoogleMapsView->showBoundsControls")
             var self = this;
 
             this.boundsControlsListener = google.maps.event.addListenerOnce(this.map, 'bounds_changed', function() {
@@ -74,7 +73,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         ui: {
-            bounds_controls: '.bounds-controls'
+            bounds_controls: '[data-behavior="bounds-controls"]'
         },
 
         /* life-cycle methods */
@@ -84,29 +83,27 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         onRender: function() {
             this.$el.find('[data-type=map-container]').prepend(this.map_annex);
+            this.$loader = this.$('[data-type=loader]');
         },
 
         /* ui-events */
         events: {
-            'click .announce-bounds': 'announceBounds',
-            'click .live-update': 'toggleLiveUpdate'
+            'click [data-behavior="live-update"]': 'toggleLiveUpdate'
         },
 
         toggleLiveUpdate: function (e) {
-            console.log("EVENT  GoogleMapsView->toggleLiveUpdate");
-
             this.update_live = e.currentTarget.checked;
 
             /* set or remove a listener */
             if (this.update_live) {
                 this.boundsChangedListener = google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
+                this.announceBounds();
             } else {
                 this.boundsChangedListener = google.maps.event.removeListener(this.boundsChangedListener);
             }
         },
 
         announceBounds: function (e) {
-            console.log("EVENT  GoogleMapsView->announceBounds");
             if (e) { // we got here by a click
                 e.preventDefault();
             }
@@ -114,11 +111,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             /* TODO we are pretending to use a bounding box, but really we are using radius
             *  on the backend, with bbox: true
             *  ref: https://github.com/sunspot/sunspot#filter-by-radius-inexact-with-bbox */
-            var bounds = this.map.getBounds();
 
+            var bounds    = this.map.getBounds();
             var southWest = bounds.getSouthWest();
             var northEast = bounds.getNorthEast();
-            var center = bounds.getCenter();
+            var center    = bounds.getCenter();
 
             var filters = {
                 bbox_sw: [southWest.lat(), southWest.lng()],
@@ -139,9 +136,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         centerMap: function (data) {
-            console.log("GoogleMapsView->centerMap");
             if (data.lat && data.lng) {
-                this.map.setCenter(new google.maps.LatLng(data.lat, data.lng));
+                // More smooth than setCenter
+                this.map.panTo(new google.maps.LatLng(data.lat, data.lng));
             }
 
             if (data.bbox.sw && data.bbox.ne) {
@@ -154,7 +151,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         clearForUpdate: function() {
-            console.log("GoogleMapsView->clearForUpdate");
             this.closeChildren();
         },
 
@@ -178,7 +174,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         // Add a MarkerView and render
         addChild: function(childModel) {
-            console.log("GoogleMapsView->addChild");
 
             var places = childModel.getRelation('places').related.models;
             var self = this;
@@ -232,6 +227,23 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 // Prevent from undefined
                 if (marker) { marker.deselect(); }
             });
-        }
+        },
+
+        showLoader: function() {
+            var self = this;
+            self.$loader.show();
+            // Add setTimeout to prevent from appearing suddunly
+            setTimeout(function(){
+                self.$loader.addClass('visible');
+            });
+        },
+
+        hideLoader: function() {
+            var self = this;
+            self.$loader.removeClass('visible');
+            setTimeout(function(){
+                self.$loader.hide();
+            }, 300);
+        },
     });
 });

@@ -35,8 +35,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         initialize: function(options) {
-            console.log("StructureView->initialize");
-
             this.$el.data('url', options.model.get('data_url'));
         },
 

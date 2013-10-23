@@ -33,6 +33,9 @@
   - else
     à Paris
 
+.filtered-search-loader.text--center.island{ :data => { :type => "filtered-search-loader" }}
+  = image_tag 'logo.png', class: 'center-block'
+  = image_tag 'gifs/loading-indicator.gif', class: 'center-block'
 #filtered-search{ :data => { :type => "filtered-search-root" }}
 
 = content_for :scripts do

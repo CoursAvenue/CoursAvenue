@@ -6,6 +6,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         template: 'backbone/templates/paginated_collection_view',
         itemView: FilteredSearch.Views.StructureView,
         itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
+        className: 'filtered-search__list-wrapper',
 
         /* forward events with only the necessary data */
         onItemviewHighlighted: function (view, data) {
@@ -17,7 +18,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         onRender: function() {
-            this.$loader = this.$('.filtered-search__loader');
+            this.$loader = this.$('[data-type=loader]');
         },
 
         onAfterShow: function () {
@@ -50,11 +51,19 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         showLoader: function() {
-            this.$loader.fadeIn({duration: 200});
+            var self = this;
+            self.$loader.show();
+            setTimeout(function(){
+                self.$loader.addClass('visible');
+            });
         },
 
         hideLoader: function() {
-            this.$loader.fadeOut({duration: 200});
+            var self = this;
+            self.$loader.removeClass('visible');
+            setTimeout(function(){
+                self.$loader.hide();
+            }, 300);
         },
 
         /* we want to show buttons for the first and last pages, and the

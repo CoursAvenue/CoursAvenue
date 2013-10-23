@@ -1,7 +1,8 @@
-//*= require font-awesome
 // Bootstrap plugins
 //*= require libs/bootstrap.tooltip
 //*= require libs/jquery.fileupload/jquery.fileupload-ui
+
+@import "font-awesome";
 
 // Compass mixins
   @import "compass/css3/background-size";
@@ -110,6 +111,10 @@
   @import "libs/bootstrap.datepicker";
 
   @import "gmaps4rails";
+
+html, body {
+  height: 100%;
+}
 
 html {
   font-family : $brand-face;
