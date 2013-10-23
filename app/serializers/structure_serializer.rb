@@ -5,6 +5,7 @@ class StructureSerializer < ActiveModel::Serializer
              :logo_present, :logo_thumb_url, :parent_subjects_text, :parent_subjects, :child_subjects, :data_url,
              :subjects_count, :too_many_subjects, :subjects
   has_many :places
+  has_many :comments
 
   def logo_present
     object.logo.present?
