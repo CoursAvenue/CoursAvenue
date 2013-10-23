@@ -8,17 +8,23 @@
     }
     .filtered-search__loader {
         position   : absolute;
-        width      : 100%;
-        top        : 0;
-        left       : 0;
-        height     : 100%;
-        background : black;
-        color      : white;
+        // Prevent from drop shadow of elements that are under it.
+        height     : 110%;
+        width      : 110%;
+        top        : -5px;
+        left       : -5px;
+        background : $site-background-color;
+        color      : #333;
         opacity    : 0.7;
         text-align : center;
         padding-top: 1em;
         font-size  : 1.5em;
         z-index    : 10;
+        opacity    : 0;
+        @include transition(opacity 250ms linear);
+        &.visible {
+            opacity: 1;
+        }
     }
 
 

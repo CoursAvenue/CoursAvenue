@@ -10,6 +10,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         itemViewEventPrefix: 'paginator:itemview',
         className: 'filtered-search__list-wrapper',
 
+
         /* forward events with only the necessary data */
         onPaginatorItemviewSelected: function (view, data) {
             this.trigger('paginator:structure:selected', data);
@@ -45,15 +46,23 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         showLoader: function() {
-            this.$loader.fadeIn({duration: 200});
+            var self = this;
+            self.$loader.show();
+            setTimeout(function(){
+                self.$loader.addClass('visible');
+            });
         },
 
         hideLoader: function() {
-            this.$loader.fadeOut({duration: 200});
+            var self = this;
+            self.$loader.removeClass('visible');
+            setTimeout(function(){
+                self.$loader.hide();
+            }, 300);
         },
 
         onRender: function() {
-            this.$loader = this.$('.filtered-search__loader');
+            this.$loader = this.$('[data-type=loader]');
         },
 
         onAfterShow: function () {
