@@ -28,7 +28,7 @@ class ::Pro::AdminsController < InheritedResources::Base
   end
 
   def confirm
-    @admin            = ::Admin.find(params[:id])
+    @admin = ::Admin.find(params[:id])
     respond_to do |format|
       if @admin.confirm!
         format.html { redirect_to pro_admins_path }

@@ -42,6 +42,7 @@ class ::Admin < ActiveRecord::Base
     text :structure_name do
       self.structure.name if self.structure
     end
+    date :created_at
   end
   handle_asynchronously :solr_index
 
