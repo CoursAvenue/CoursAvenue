@@ -1,6 +1,3 @@
-label {
-    padding-left: 0.5em;
-}
 .inline-form {
     display: inline;
 }
@@ -64,11 +61,11 @@ label {
             width: auto;
         }
         .radio {
-            @extend .grid--full;
             label, input {
-                @extend .grid__item;
-                @extend .width-auto;
-                @extend .v-middle;
+                display       : inline-block;
+                width         : auto;
+                vertical-align: middle;
+                padding-left  : 0.5em;
             }
             label.collection_radio_buttons {
                 margin-right: 1em;

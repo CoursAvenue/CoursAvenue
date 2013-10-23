@@ -2,6 +2,10 @@
 
 %h2 Liste des admins
 
+%div{style: 'font-size: 2em;'}
+  %input#search-input{type: 'text', placeholder: 'Cherchez un établissement'}
+
+.push-half--bottom= paginate @admins, window: 2, outer_window: 1
 %table.table--striped.table--data.white-box#dataTable
   %thead
     %tr
@@ -54,11 +58,32 @@
           - if admin.structure
             = link_to pro_structure_path(admin.structure), method: :delete, title: 'Supprimer', class: 'btn btn--red', data: {confirm: 'Êtes-vous sur de supprimer cet admin et TOUS ses cours ?'} do
               %i.icon-trash
+.push-half--bottom= paginate @admins, window: 2, outer_window: 1
+%script#structure-item-template{:type => 'text/x-handlebars-template'}
+  %div{style: 'font-size: 13px;'}
+    {{name}}
+    ({{email}})
+    %br
+    %strong {{structure.name}}
+    ({{structure.comments_count}} avis)
 
-- unless params[:all]
-  .text--center= link_to 'Voir tous les profs', pro_admins_path(all: true), class: 'btn btn--blue'
 = content_for :scripts do
   :javascript
     $(function() {
         $('#dataTable').tablesorter();
-    });
+        // Admin search
+        var template = Handlebars.compile($('#structure-item-template').html());
+        $('#search-input').typeahead([
+          {
+            valueKey: 'name',
+            template: template,
+            limit: 10,
+            remote: {
+              url: '/admins.json?name=%QUERY'
+            }
+          }
+        ]);
+        $('#search-input').on('typeahead:selected', function(event, data){
+            window.open('/etablissements/' + data.structure.slug)
+        });
+    })

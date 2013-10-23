@@ -94,4 +94,5 @@ CoursAvenue::Application.configure do
   }
 
   ActionMailer::Base.register_interceptor(DevelopmentMailInterceptor)
+
 end
