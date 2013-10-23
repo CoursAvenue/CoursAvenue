@@ -112,7 +112,9 @@ class Structure < ActiveRecord::Base
   before_save      :fix_widget_url
   before_save      :encode_uris
 
-  # ------------------------------------------------------------------------------------ Search attributes
+  # ------------------------------------
+  # ------------------ Search attributes
+  # ------------------------------------
   searchable do
 
     text :name, boost: 5 do

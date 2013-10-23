@@ -33,6 +33,18 @@ class ::Admin < ActiveRecord::Base
   # Scopes
   scope :normal, -> { where(super_admin: false) }
 
+  # ------------------------------------
+  # ------------------ Search attributes
+  # ------------------------------------
+  searchable do
+    text :name
+    text :email
+    text :structure_name do
+      self.structure.name if self.structure
+    end
+  end
+  handle_asynchronously :solr_index
+
   def confirm!
     super
     send_welcome_email
