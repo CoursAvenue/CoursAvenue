@@ -5,7 +5,7 @@ class ::Pro::AdminsController < InheritedResources::Base
 
   layout :admin_layout
 
-  respond_to :js
+  respond_to :js, :json
 
   def unsubscribe
     if admin = Admin.read_access_token(params[:signature])
@@ -28,21 +28,22 @@ class ::Pro::AdminsController < InheritedResources::Base
   end
 
   def confirm
-    @admin            = ::Admin.find(params[:id])
+    @admin = ::Admin.find(params[:id])
     respond_to do |format|
       if @admin.confirm!
         format.html { redirect_to pro_admins_path }
       else
-        format.html { redirect_to pro_admins_path, alert: 'Something fucked up.' }
+        format.html { redirect_to pro_admins_path, alert: 'Admin could not have been confirmed.' }
       end
     end
   end
 
   def index
-    if params[:all]
-      @admins = ::Admin.order('created_at DESC')
-    else
-      @admins = ::Admin.order('created_at DESC').limit(50)
+    @admins = ::AdminSearch.search(params).results
+    # @admins = ::Admin.order('created_at DESC').limit(75)
+    respond_to do |format|
+      format.json { render json: @admins.to_json(include: :structure) }
+      format.html
     end
   end
 
