@@ -1,15 +1,14 @@
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
 
-    Views.AccordionItemView = Backbone.Marionette.CompositeView.extend({
+    Views.AccordionItemView = Backbone.Marionette.Layout.extend({
 
         accordionClose: function() {
             this.minimize();
             this.model.set({ selected: false });
         },
 
-        accordionOpen: function(e) {
+        accordionOpen: function() {
             console.log("AccordionItemView->accordionOpen");
-            e.preventDefault();
 
             if (this.model.get("selected") === true) {
                 return false;
@@ -19,16 +18,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.maximize();
             this.trigger("accordion:open", this.model.cid);
 
-            return false;
+            return true;
         },
 
         /* hide for now, since slideUp is being mean */
         minimize: function() {
-            this.$el.find('[data-type=accordion]').hide();
+            this.$el.find('[data-type=accordion-data]').hide();
         },
 
         maximize: function() {
-            this.$el.find('[data-type=accordion]').show();
+            this.$el.find('[data-type=accordion-data]').show();
         }
     });
 });
