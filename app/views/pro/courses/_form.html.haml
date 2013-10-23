@@ -167,9 +167,9 @@
         $('#course_description').textareaResizer();
         $('[name="course[type]"]').change(function() {
             if ($(this).val() === 'Course::Lesson') {
-                $('#recurrency').show('slow');
+                $('#recurrency').slideDown();
             } else {
-                $('#recurrency').hide('slow');
+                $('#recurrency').slideUp();
             }
         });
     });
