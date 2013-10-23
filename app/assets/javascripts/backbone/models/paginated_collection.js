@@ -129,6 +129,16 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         /* TODO currently we only ever extend the current filters, bu there may
         * be cases when we need to remove keys: in this case, set them to false? */
         setQuery: function(options) {
+            /* setQuery stringifies all incoming options */
+
+            debugger
+            _.map(options, function(value, key) {
+                if (_.isFunction(value.toString)) {
+                    options[key] = value.toString();
+                }
+            });
+
+            debugger
             _.extend(this.server_api, options);
         },
 
