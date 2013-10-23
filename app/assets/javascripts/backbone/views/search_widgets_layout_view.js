@@ -40,7 +40,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             var self = this;
             /* this should listen to events from all its regions */
             _.each(_.keys(this.regions), function(region_name) {
-                var name = region_name.charAt(0).toUpperCase() + region_name.slice(1);
+                var name = App.capitalize(region_name);
 
                 self.listenTo(self[region_name], 'show', self['on' + name + 'Show']);
             });
