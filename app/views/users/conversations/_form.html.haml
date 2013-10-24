@@ -15,7 +15,7 @@
             = f.submit 'Répondre', class: 'btn btn--green'
         - else
           .form-actions
-            = link_to 'Répondre', '#registration', class: 'btn btn--green', data: {behavior: 'modal'}
+            = link_to 'Répondre', '#registration', title: 'Enregistrez-vous pour répondre', class: 'btn btn--green', data: {behavior: 'modal'}
 
 - if !@user.active?
   #registration.hidden

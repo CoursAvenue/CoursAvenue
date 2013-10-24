@@ -124,13 +124,14 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
-  devise_for :users, controllers: { :omniauth_callbacks => 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations'}
-  resources  :users, only: [:edit, :show, :update, :first_update], path: 'eleves' do
+  devise_for :users, controllers: { :omniauth_callbacks => 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations'}, path: '/', path_names: { sign_in: '/connexion'}
+  resources  :users, only: [:edit, :show, :update], path: 'eleves' do
     collection do
       get 'unsubscribe/:signature' => 'students#unsubscribe', as: 'unsubscribe'
     end
     member do
       get :choose_password
+      patch :first_update
     end
     resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
     resources :messages     , controller: 'users/messages'
