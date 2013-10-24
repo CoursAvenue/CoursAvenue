@@ -15,6 +15,9 @@ gem 'pg'
 gem 'heroku-api'
 gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
 
+# For pagination
+gem 'kaminari', '~> 0.14.1'
+
 # Monitoring
 gem 'newrelic_rpm'          , '~>3.6.8.164'
 
