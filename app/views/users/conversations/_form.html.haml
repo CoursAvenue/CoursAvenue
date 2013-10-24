@@ -7,7 +7,7 @@
         = f.error_notification
         = f.fields_for @message do |message_form|
           = message_form.input :body, input_html: { style: 'height: 100px', data: {behavior: 'autoresize'} }, as: :text
-        - if !@user.active
+        - if !@user.active?
           %input{type: 'hidden', value: params[:token], name: 'reset_password_token'}
           .input
             %label.control-label> Mot de passe

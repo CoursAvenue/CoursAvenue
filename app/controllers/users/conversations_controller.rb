@@ -32,7 +32,7 @@ class Users::ConversationsController < ApplicationController
         flash[:alert] = "Le token n'est pas valide, vous ne pouvez pas changer votre mot de passe."
       end
     end
-    if @user.active
+    if @user.active?
       @conversation = @user.mailbox.conversations.find params[:id]
       @user.reply_to_conversation(@conversation, params[:conversation][:message][:body])
     end

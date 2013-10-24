@@ -9,8 +9,7 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
-  acts_as_gmappable validation: false,
-                    language: 'fr'
+  acts_as_gmappable validation: false, language: 'fr'
 
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',

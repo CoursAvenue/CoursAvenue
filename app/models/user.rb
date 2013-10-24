@@ -96,7 +96,7 @@ class User < ActiveRecord::Base
     Devise.token_generator.digest(self, :reset_password_token, token) == self.reset_password_token
   end
 
-  def active
+  def active?
     self.encrypted_password.present?
   end
 

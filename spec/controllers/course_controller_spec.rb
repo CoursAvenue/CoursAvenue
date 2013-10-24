@@ -6,18 +6,6 @@ describe Structure::CoursesController do
   subject {course}
   let(:course) { FactoryGirl.create(:course) }
 
-  context 'slug changes' do
-    it 'should respond with 301' do
-      initial_slug = course.slug
-      get :show, id: initial_slug
-      response.status.should eq 200
-      course.slug += '-some-extension'
-      course.save
-      get :show, id: initial_slug
-      response.status.should eq 301
-    end
-  end
-
   describe '#show' do
     before do
       Rails.application.config.consider_all_requests_local = false
@@ -52,18 +40,4 @@ describe Structure::CoursesController do
     end
   end
 
-  describe '#index' do
-    before(:all) do
-      Course.delete_all
-      # Sunspot.remove_all!(Course)
-      @course = FactoryGirl.create(:course)
-      @place  = @course.place
-      @course.index!
-    end
-    before(:each) do
-      get :index, lat: @place.latitude, lng: @place.longitude
-    end
-    subject { assigns('courses') }
-    it { should have(1).item }
-  end
 end

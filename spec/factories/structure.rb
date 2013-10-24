@@ -14,5 +14,10 @@ FactoryGirl.define do
     zip_code   75014
     structure_type Structure::STRUCTURE_TYPES.sample
 
+    factory :structure_with_admin do
+      after(:build) do |structure|
+        structure.admins << FactoryGirl.build(:admin)
+      end
+    end
   end
 end
