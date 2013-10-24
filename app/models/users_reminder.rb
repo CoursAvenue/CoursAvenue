@@ -11,7 +11,6 @@ class UsersReminder
     notification           = user.comment_notifications.build
     notification.structure = structure
     notification.save
-    azd?
     UserMailer.delay.ask_for_feedbacks(structure, text, _email)
   end
 
