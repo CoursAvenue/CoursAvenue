@@ -56,8 +56,6 @@ gem 'hirefire-resource'
 # Show progress bars in scripts
 gem 'progress_bar'              , '~>1.0.0'
 
-# For pagination
-gem 'kaminari'                  , '~>0.14.1'
 # For image handling
 gem 'paperclip'                 , '~>3.5.1'
 
@@ -108,11 +106,19 @@ gem 'gibbon'                    , '~>1.0.4'
 # Transform external CSS stylesheets into inline CSS for emails
 gem 'roadie'                    , '~>2.4.2'
 
+# Includes Backbone
+gem 'railsy_backbone'           , '~>0.0.5'
+# Includes Backbone Marionette
+gem 'marionette-rails'          , '~>1.1.0'
+# Includes bacbone.relational
+gem 'backbone-relational-rails' , '~>0.8.6'
+gem 'handlebars_assets'         , '~>0.14.1'
 gem 'sass-rails'                , '~>4.0.0'
 gem 'haml'                      , '~>4.0.3'
 gem 'uglifier'                  , '>= 1.0.3'
 gem 'coffee-rails'              , '~>4.0.0'
 # gem 'js-routes'                 , '~>0.9.3'
+
 # Load FontAwesome
 gem 'font-awesome-rails'        , '~>3.2.1.3'
 # Load jQuery
@@ -143,6 +149,7 @@ group :test do
   gem 'rspec-instafail'   , '~>0.2.4'
   gem 'forgery'           , '~>0.5.0'
   gem 'simplecov'         , '~>0.7.1'
+  gem "sunspot_test"
 end
 
 group :development do
@@ -154,7 +161,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'debugger'
+  # gem 'debugger' # this is causing problems for Andre
   # Permits to travel in the past
   gem 'delorean'
 end

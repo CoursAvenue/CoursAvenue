@@ -112,7 +112,9 @@ class Structure < ActiveRecord::Base
   before_save      :fix_widget_url
   before_save      :encode_uris
 
-  # ------------------------------------------------------------------------------------ Search attributes
+  # ------------------------------------
+  # ------------------ Search attributes
+  # ------------------------------------
   searchable do
 
     text :name, boost: 5 do
@@ -155,7 +157,7 @@ class Structure < ActiveRecord::Base
         subject_ids << subject.id
         subject_ids << subject.parent.id if subject.parent
       end
-      subject_ids.uniq
+      subject_ids.compact.uniq
     end
 
     string :subject_slugs, multiple: true do
@@ -195,7 +197,7 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  handle_asynchronously :solr_index
+  handle_asynchronously :solr_index unless Rails.env.test?
 
   # ---------------------------- Simulating Funding Type as objects
   def funding_type_ids= _funding_types

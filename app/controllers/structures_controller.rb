@@ -53,7 +53,16 @@ class StructuresController < ApplicationController
       end
     end
 
-    @structures = StructureSearch.search(params).results
+    # the bbox params may come uri encoded as CSV
+    if (params[:bbox_sw] && params[:bbox_ne])
+      if (params[:bbox_sw].methods.include?(:split) && params[:bbox_ne].methods.include?(:split))
+        params[:bbox_sw] = params[:bbox_sw].split(',');
+        params[:bbox_ne] = params[:bbox_ne].split(',');
+      end
+    end
+
+    @structure_search      = StructureSearch.search(params)
+    @structures            = @structure_search.results
 
     ## ------------------------- Surrounding results
     # If there is less than 15 results, see surrounding structure (with same parent subject)
@@ -76,8 +85,10 @@ class StructuresController < ApplicationController
     ## ------------------------- Surrounding results
     init_geoloc
 
+    @latlng = StructureSearch.retrieve_location(params)
+
     respond_to do |format|
-      format.json { render json: @structures.to_json(include: [:city]) }
+      format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: @structure_search.total, location: @latlng }}
       format.html do
         cookies[:structure_search_path] = request.fullpath
       end
