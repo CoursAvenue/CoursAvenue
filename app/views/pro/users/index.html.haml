@@ -21,7 +21,7 @@
           - if user and user.has_avatar?
             = image_tag user.avatar_url(:small), height: 30
           - elsif user.name.present?
-            .profile-picture.center-block{class: "profile-picture-variation-#{((user.name.length * 16) % 14) + 1}"}
+            .profile-picture--small.center-block{class: "profile-picture-variation-#{((user.name.length * 16) % 14) + 1}"}
               = user.name[0].capitalize
         %td
           = user.name
