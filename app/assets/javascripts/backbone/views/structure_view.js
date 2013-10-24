@@ -1,0 +1,52 @@
+/* just a basic marionette view */
+FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+    Views.StructureView = Backbone.Marionette.ItemView.extend({
+        template: 'backbone/templates/structure_view',
+
+        tagName: 'li',
+        className: 'one-whole course-element',
+        attributes: {
+            'data-type': 'structure-element'
+        },
+
+        initialize: function(options) {
+            this.$el.data('url', options.model.get('data_url'));
+        },
+
+        events: {
+            'click': 'resolveClick',
+            'mouseenter': 'selectStructure',
+            'mouseleave': 'deselectStructure'
+        },
+
+        /* return toJSON for the places relation */
+        placesToJSON: function () {
+            return this.model.getRelation('places').related.models.map(function (model) {
+                return _.extend(model.toJSON(), { cid: model.cid });
+            });
+        },
+
+        /* a structure was selected, so return the places JSON
+        * TODO would it be nicer is this just returned the whole model's
+        * json, including the places relation? */
+        selectStructure: function (e) {
+            this.trigger('selected', this.placesToJSON());
+        },
+
+        deselectStructure: function (e) {
+            this.trigger('deselected', this.placesToJSON());
+        },
+
+        resolveClick: function (event) {
+            if (event.target.nodeName !== 'A') {
+                if (event.metaKey || event.ctrlKey) {
+                    window.open(this.model.get('data_url'));
+                } else {
+                    window.location = this.model.get('data_url');
+                }
+                return false;
+            }
+        }
+
+    });
+});

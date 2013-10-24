@@ -1,7 +1,8 @@
-//*= require font-awesome
 // Bootstrap plugins
 //*= require libs/bootstrap.tooltip
 //*= require libs/jquery.fileupload/jquery.fileupload-ui
+
+@import "font-awesome";
 
 // Compass mixins
   @import "compass/css3/background-size";
@@ -60,7 +61,8 @@
   @import "partials/objects/tabs";
   @import "partials/objects/time-slots";
   @import "partials/objects/footer";
-  @import "partials/objects/map-paris";
+  @import "partials/objects/map";
+  @import "partials/objects/markers";
   @import "partials/objects/alerts";
   @import "partials/objects/paragraphs";
   @import "partials/objects/lists";
@@ -78,7 +80,7 @@
   @import "partials/objects/picture-frame";
   @import "partials/objects/toggler";
   @import "partials/objects/alerts";
-  @import "partials/objects/sliders";
+  // @import "partials/objects/sliders";
   @import "partials/objects/image_quote";
   @import "partials/objects/step_breadcrumb";
   @import "partials/objects/boxes";
@@ -95,6 +97,7 @@
   @import "partials/objects/stickem";
   @import "partials/objects/modal_info_popup";
   @import "partials/objects/message";
+  @import "partials/objects/filtered_search";
 
   // @import "libs/datepicker/datepicker_bootstrap";
   @import "libs/autocomplete";
@@ -109,6 +112,10 @@
   @import "libs/bootstrap.datepicker";
 
   @import "gmaps4rails";
+
+html, body {
+  height: 100%;
+}
 
 html {
   font-family : $brand-face;

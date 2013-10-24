@@ -18,7 +18,11 @@ class StructureSearch
         without(:subject_slugs, ['danse', 'musique-chant', 'theatre'])
       end
 
-      with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
+      if params[:bbox_sw] && params[:bbox_ne]
+        with(:location).in_bounding_box(params[:bbox_sw], params[:bbox_ne])
+      else
+        with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
+      end
 
       with :active,  true
 
@@ -43,5 +47,7 @@ class StructureSearch
       params[:lat] = 48.8592
       params[:lng] = 2.3417
     end
+
+    [params[:lat], params[:lng]]
   end
 end

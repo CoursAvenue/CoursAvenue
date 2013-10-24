@@ -199,7 +199,7 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  handle_asynchronously :solr_index
+  handle_asynchronously :solr_index unless Rails.env.test?
 
   # ---------------------------- Simulating Funding Type as objects
   def funding_type_ids= _funding_types

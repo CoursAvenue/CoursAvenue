@@ -6,23 +6,23 @@ require 'rubygems'
 #   add_group "Controllers", "app/controllers"
 # end
 
-module Devise
-  module Models
-    module DatabaseAuthenticatable
+#   module Devise
+#     module Models
+#       module DatabaseAuthenticatable
 
-      def valid_password?(password)
-        return false if encrypted_password.blank?
-        encrypted_password == password_digest(password)
-      end
+#         def valid_password?(password)
+#           return false if encrypted_password.blank?
+#           encrypted_password == password_digest(password)
+#         end
 
-      protected
-      def password_digest(password)
-        password
-      end
+#         protected
+#         def password_digest(password)
+#           password
+#         end
 
-    end
-  end
-end
+#       end
+#     end
+#   end
 # Devise.setup do |config|
 #   config.stretches = 0
 # end
@@ -32,6 +32,8 @@ end
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'sunspot_test/rspec'
+
 # require 'rspec/autorun'
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

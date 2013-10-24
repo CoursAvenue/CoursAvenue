@@ -1,0 +1,16 @@
+<ul class="pagination">
+    {{!-- make a previous button --}}
+    <li class="btn">
+    <a rel="prev" href="{{ previous_page_query }}"><i class="icon-arrow-left"></i></a>
+    </li>
+    {{#each buttons}}
+    <li class="btn {{#if active}}btn--active current{{/if}} {{#if disabled}}disabled{{/if}}">
+    <a rel="page" href="{{ query }}">{{ label }}</a>
+    </li>
+    {{/each}}
+    </li>
+    {{!-- make a next button --}}
+    <li class="btn">
+    <a rel="next" href="{{ next_page_query }}"><i class="icon-arrow-right"></i></a>
+    </li>
+</ul>

@@ -27,7 +27,7 @@
 //= require libs/jquery.cycle.lite
 //= require libs/typeahead
 //= require libs/jquery.scrollTo
-//= require libs/jquery.nouislider
+// require libs/jquery.nouislider
 //= require libs/jquery.Jcrop
 //= require libs/jquery.fileupload/vendor/jquery.ui.widget
 //= require libs/jquery.fileupload/jquery.iframe-transport
@@ -40,6 +40,19 @@
 //= require libs/moment
 
 //= require libs/fancybox/jquery.fancybox
+//= require handlebars
+//= require underscore
+
+// ---------------------------------- Backbone
+//= require backbone
+//= require backbone.marionette
+//= require libs/backbone.googlemaps
+//= require backbone-relational
+//= require libs/backbone.paginator.js
+//= require backbone/cours_avenue
+//= require railsy_backbone.sync
+//= require railsy_backbone.datalink
+
 //= require_tree ./libs/fancybox/helpers/
 
 //---- Bootstrap plugins
@@ -55,7 +68,7 @@
 
 //= require zeroclipboard
 
-// ---------------------------------- Mootols Objects
+// ---------------------------------- jQuery plugins
 // See boilerplate and pattern:
 // - http://jqueryboilerplate.com/
 // - https://github.com/jquery-boilerplate/jquery-patterns/
