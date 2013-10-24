@@ -84,7 +84,9 @@
         = f.input :course_name, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir'
         = f.input :title, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute"
 
-        = f.input :content, label_html: {style: 'vertical-align: top;'}, input_html: {style: 'height: 150px;', 'data-behavior' => 'autoresize'}, wrapper_html: { class: 'flush--bottom' }, required: true
+        = f.input :content, label_html: {style: 'vertical-align: top;'}, input_html: {style: 'height: 150px;', data: { behavior: 'autoresize'}}, wrapper_html: { class: 'flush--bottom' }, required: true
+        %p.field-form-info
+          = link_to 'Astuces pour un avis utile', '#', id: 'show_comments_trick'
         %hr.push--top
         .input
           %label.control-label
@@ -95,11 +97,11 @@
           %input{type: 'hidden', name: 'default_email', value: params[:email]}
           = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par le professeur", input_html: { value: params[:email] }
 
-        .input
+        .input.flush
           %label.control-label.text> Message privé
-          = text_area_tag :private_message, nil, class: 'text'
+          = text_area_tag :private_message, "Bonjour,\nje viens de poster mon témoignage de manière à partager tous les bénéfices de vos cours : faisons marcher le bouche à oreille !\nEncore merci pour tout et à très bientôt.", class: 'text', style: 'height: 100px', data: { behavior: 'autoresize' }
         %p.field-form-info.blue
-          = link_to 'Astuces pour un avis utile', '#', id: 'show_comments_trick'
+          Ce message sera uniquement visible par votre professeur ou votre école.
         .text--center
           = f.submit 'Publier mon avis', class: 'btn btn--large btn--green', style: 'padding-top: 6px; padding-bottom: 6px;'
 

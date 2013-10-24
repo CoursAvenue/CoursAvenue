@@ -18,7 +18,8 @@ class CreateUsersFromCommentEmail < ActiveRecord::Migration
         user.structures << student.structure
         user.subjects   << student.structure.subjects
         if student.email_status.present?
-          comment_notification            = user.comment_notifications.build(structure: student.structure)
+          comment_notification            = user.comment_notifications.build
+          comment_notification.structure  = student.structure
           comment_notification.status     = student.email_status
           comment_notification.updated_at = student.updated_at
         end
