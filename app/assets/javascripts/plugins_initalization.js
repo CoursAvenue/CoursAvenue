@@ -1,7 +1,7 @@
 $(function() {
     var global = GLOBAL.namespace('GLOBAL');
     $("[data-behavior=modal]").each(function() {
-        var width  = $(this).data('width') || '70%';
+        var width  = $(this).data('width') || 'auto';
         var height = $(this).data('height') || 'auto';
         $(this).fancybox({
                 openSpeed   : 300,

@@ -1,17 +1,10 @@
-.grid
-  .grid__item.one-half.text--center.bordered--right.soft--right>
-    %h4 Élèves
-    %div= link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full', id: 'facebook_button'
-    .or
-      %span ou
-    = simple_form_for @user || User.new, url: user_registration_path do |f|
-      = f.error_notification
-      = f.input :name, label: false, placeholder: 'Nom', input_html: {class: 'one-whole'}
-      = f.input :email,    label: false, placeholder: 'Email', wrapper_html: {class: 'flush--top'}, input_html: {class: 'one-whole'}
-      = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
-      = f.button :submit, "Créer son compte", class: 'btn--green one-whole'
-    .push-half--top= link_to "J'ai déjà un compte", '#', id: 'show_new_session_form'
-  .grid__item.one-half.text--center>
-    %h4 Professeurs
-    = link_to "Publier mon profil", root_url(subdomain: 'pro'), class: 'btn btn--blue btn--full btn--large', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
-
+%div= link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full', id: 'facebook_button'
+.or
+  %span ou
+= simple_form_for @user || User.new, url: user_registration_path do |f|
+  = f.error_notification
+  = f.input :name, label: false, placeholder: 'Nom', input_html: {class: 'one-whole'}
+  = f.input :email,    label: false, placeholder: 'Email', wrapper_html: {class: 'flush--top'}, input_html: {class: 'one-whole'}
+  = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
+  = f.button :submit, "Créer son compte", class: 'btn--green one-whole'
+.push-half--top= link_to "J'ai déjà un compte", '#', id: 'show_new_session_form'

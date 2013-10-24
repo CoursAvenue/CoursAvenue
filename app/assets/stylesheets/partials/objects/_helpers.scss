@@ -8,13 +8,13 @@
     @include opacity(0.75);
 }
 
-.relative          { position: relative; }
-.absolute          { position: absolute; }
-.inherit-font-size { font-size: inherit; }
-.italic            { font-style: italic; }
+.relative          { position   : relative; }
+.absolute          { position   : absolute; }
+.inherit-font-size { font-size  : inherit; }
+.italic            { font-style : italic; }
 .weight-normal     { font-weight: normal; }
 .bold              { font-weight: bold; }
-.hidden            { display: none; }
+.hidden            { display    : none; }
 .flip {
     @include vendor(transform, scaleX(-1));
     filter: FlipH; /* IE 6/7/8 */
