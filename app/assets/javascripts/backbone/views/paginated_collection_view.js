@@ -21,7 +21,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         announcePaginatorUpdated: function () {
-            console.log("PaginatedCollectionView->announcePaginatorUpdated");
             var data = this.collection;
             var first_result = (data.currentPage - 1) * data.perPage + 1;
 
@@ -128,7 +127,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         * get results filtered by that */
         /* TODO currently this method doesn't work on initial page load */
         filterQuery: function(filters) {
-            console.log("PaginatedCollectionView->filterQuery");
             /* TODO check for redundancy: if the incoming filters don't
             *  change anything, we shouldn't do the update */
             // if (this.collection.setQuery(filter) === this.collection.getQuery()) {
