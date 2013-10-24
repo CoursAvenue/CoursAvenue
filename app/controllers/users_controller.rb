@@ -14,4 +14,15 @@ class UsersController < InheritedResources::Base
       format.html { redirect_to user_path(current_user), notice: 'Votre profil a bien été mis à jour.' }
     end
   end
+
+  def first_update
+    @user = User.find(params[:id])
+    if @user.reset_password_token_valid?(params[:reset_password_token]) and params[:users][:password].present?
+      @user.update_attributes(params[:user])
+      sign_in @user, :bypass => true
+      redirect_to user_path(current_user), notice: 'Votre profil a bien été mis à jour.'
+    else
+      redirect_to root_path, alert: "Vous n'avez pas la permission"
+    end
+  end
 end

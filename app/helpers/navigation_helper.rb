@@ -22,6 +22,8 @@ module NavigationHelper
       if @structure and @structure.has_pending_comments?
         html_title << "&nbsp;<span class='warning-buble' data-behavior='tooltip' data-original-title='Vous avez des avis en attente de validation.'>!</span>".html_safe
       end
+    elsif title == 'Mes messages'
+      html_title << " (#{@structure.main_contact.mailbox.conversations.length})" if @structure.main_contact.mailbox.conversations.any?
     end
     content_tag(:li, link_to(html_title, url, class: 'side-menu-link'), options)
   end

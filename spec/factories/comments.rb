@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :comment do
     commentable {FactoryGirl.create(:structure)}
+    user
 
     # Comment contact
     author_name     Forgery::Name.full_name

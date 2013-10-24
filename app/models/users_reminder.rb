@@ -8,9 +8,10 @@ class UsersReminder
       user.subjects   << structure.subjects
       user.save(validate: false)
     end
-    notification = user.comment_notifications.build
+    notification           = user.comment_notifications.build
     notification.structure = structure
     notification.save
+    azd?
     UserMailer.delay.ask_for_feedbacks(structure, text, _email)
   end
 

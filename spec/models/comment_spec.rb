@@ -10,9 +10,11 @@ describe Comment do
     end
   end
 
-  context 'just created a comment' do
-    let(:comment) { FactoryGirl.create(:comment) }
+  context 'does not have a user' do
+    let(:comment) { FactoryGirl.build(:comment) }
     it 'creates a user' do
+      comment.user = nil
+      comment.save
       comment.user.should_not be_nil
     end
   end

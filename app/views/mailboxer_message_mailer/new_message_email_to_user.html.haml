@@ -9,7 +9,8 @@
 %p
   Bonjour #{@user.name},
 %p
-  #{@structure.name} vient de vous envoyer un message privé sur CoursAvenue :
+  %strong= @structure.name
+  vient de vous envoyer un message privé sur CoursAvenue :
 
 - if @message.subject.present?
   %p.flush

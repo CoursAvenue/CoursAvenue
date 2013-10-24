@@ -15,6 +15,10 @@ class CommentNotification < ActiveRecord::Base
     self.save
   end
 
+  def complete?
+    self.status == 'completed'
+  end
+
   def ask_for_feedbacks_stage_1
     if self.user.email_opt_in
       @structure  = self.structure

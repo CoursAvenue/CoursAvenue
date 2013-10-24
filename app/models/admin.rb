@@ -69,6 +69,14 @@ class ::Admin < ActiveRecord::Base
     self.structure.logo.url(format)
   end
 
+  def name
+    if read_attribute(:name).nil?
+      structure.name
+    else
+      read_attribute(:name).nil?
+    end
+  end
+
   private
 
   def delay_subscribe_to_mailchimp

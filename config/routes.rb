@@ -42,7 +42,6 @@ CoursAvenue::Application.routes.draw do
           patch :disable
           get   :recommendations, path: 'recommandations'
           get   :coursavenue_recommendations, path: 'recommander-coursavenue'
-          post  :get_feedbacks
           post  :recommend_friends
           post  :update
           get   :sticker
@@ -60,6 +59,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
         resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
+        resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments' do
           member do
             patch :accept
@@ -70,7 +70,6 @@ CoursAvenue::Application.routes.draw do
         resources :medias, controller: 'structures/medias'
         resources :teachers
         resources :places
-        resources :students, only: [:index, :destroy], controller: 'structures/students'
 
         resources :messages     , controller: 'structures/messages'
         resources :conversations, controller: 'structures/conversations'
@@ -106,12 +105,9 @@ CoursAvenue::Application.routes.draw do
         resources :plannings, only: [:create, :update]
       end
 
-      resources :students, only: [:index] do
-        member do
-          post 'ask_for_feedbacks_stage_1'
-        end
-      end
-      resources :users, only: [:index]
+      resources :users                , only: [:index]
+      resources :comment_notifications, only: [:index]
+      resources :messages             , only: [:index]
 
       resources :admins do
         collection do
@@ -129,7 +125,7 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- WWW
   # ---------------------------------------------
   devise_for :users, controllers: { :omniauth_callbacks => 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations'}
-  resources  :users, only: [:edit, :show, :update], path: 'eleves' do
+  resources  :users, only: [:edit, :show, :update, :first_update], path: 'eleves' do
     collection do
       get 'unsubscribe/:signature' => 'students#unsubscribe', as: 'unsubscribe'
     end

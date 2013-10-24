@@ -19,8 +19,11 @@ class Comment < ActiveRecord::Base
   before_save      :downcase_email
 
   after_save       :update_comments_count
+
   after_create     :send_email
-  after_create     :create_user
+  after_create     :create_user, if: -> { self.user.nil? }
+  after_create     :affect_structure_and_subjects_to_user
+  after_create     :complete_comment_notification
   after_destroy    :update_comments_count
 
   scope :ordered,              -> { order('created_at DESC') }
@@ -110,11 +113,19 @@ class Comment < ActiveRecord::Base
     if (user = User.where{email == user_email}.first).nil?
       user = User.new name: self.author_name, email: self.email
     end
-    user.structures << self.structure
-    user.subjects   << self.structure.subjects
-    user.comments   << self
+    self.user = user
+    self.save
     user.save(validate: false)
+  end
 
+  def affect_structure_and_subjects_to_user
+    self.user.structures << self.structure
+    self.user.subjects   << self.structure.subjects
+    self.user.comments   << self
+    self.user.save(validate: false)
+  end
+
+  def complete_comment_notification
     structure_id = self.structure.id
     if (comment_notification = user.comment_notifications.where(structure_id: structure_id).first).present?
       comment_notification.complete!

@@ -6,9 +6,10 @@
   %h4= t('mailboxer.message_mailer.subject_new', sender: @user.name)
 
 %p
-  Bonjour #{@structure.name},
+  Bonjour #{@admin.structure.name},
 %p
-  #{@user.name} vient de vous envoyer un message privé sur CoursAvenue :
+  %strong= @user.name
+  vient de vous envoyer un message privé sur CoursAvenue :
 
 - if @message.subject.present?
   %p.flush
@@ -17,7 +18,7 @@
 = simple_format @message.body
 
 %p.action
-  = link_to "Répondre au message", pro_structure_conversation_url(@structure, @message.conversation, subdomain: 'pro'), class: 'btn btn--blue'
+  = link_to "Répondre au message", pro_structure_conversation_url(@admin.structure, @message.conversation, subdomain: 'pro'), class: 'btn btn--blue'
 
 %p
   L'équipe de CoursAvenue

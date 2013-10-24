@@ -39,12 +39,12 @@
       Envoyez un email à vos élèves
       %i.orange (méthode la + utilisée et la + efficace)
 
-  = form_tag get_feedbacks_pro_structure_path(@structure) do
+  = simple_form_for [:pro, @structure, @structure.comment_notifications.build] do |f|
     .grid
       .grid__item.one-half>
         %h4 À :
-        %p.flush
-          .italic.blue{data: {behavior: 'tooltip', title: "Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi \"Informatique et Liberté\" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant."}}
+        %p.flush>
+          %span.italic.blue{data: {behavior: 'tooltip', title: "Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi \"Informatique et Liberté\" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant."}}
             %i.icon-question-sign
             Entrez les emails de vos élèves : rassurez-vous, ils resteront confidentiels et ne seront jamais divulgués.
         %textarea.one-whole{name: 'emails', rows: 8, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
@@ -60,7 +60,8 @@
           Merci et à très bientôt,
           %br
           = @structure.name
-    .push-half--top.text--right= submit_tag 'Envoyer ma demande', class: 'btn btn--green'
+    .push-half--top.text--right
+      = f.submit 'Envoyer ma demande', class: 'btn btn--green'
   %hr.push--top
   .text--center.push-half--bottom
     = link_to 'Envoyer un email depuis ma boite perso', '#hidden-send', data: {behavior: 'modal'}, class: 'btn btn--blue'

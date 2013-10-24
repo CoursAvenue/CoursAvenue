@@ -92,13 +92,11 @@
               %i.icon-lock.soft-half--right
               Privé
         - unless current_user
-          - if params[:email].present?
-            = f.hidden_field :email, value: params[:email]
-          - else
-            = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par le professeur"
+          %input{type: 'hidden', name: 'default_email', value: params[:email]}
+          = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par le professeur", input_html: { value: params[:email] }
 
         .input
-          %label.control-label.text> Ajouter un message privé
+          %label.control-label.text> Message privé
           = text_area_tag :private_message, nil, class: 'text'
         %p.field-form-info.blue
           = link_to 'Astuces pour un avis utile', '#', id: 'show_comments_trick'

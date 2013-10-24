@@ -67,20 +67,6 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
-  def get_feedbacks
-    @structure      = Structure.friendly.find params[:id]
-    params[:emails] ||= ''
-    regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
-    emails = params[:emails].scan(regexp).uniq
-    text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>'
-    emails.each do |email|
-      UsersReminder.delay.send_recommendation(@structure, text, email)
-    end
-    respond_to do |format|
-      format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés.': nil)}
-    end
-  end
-
   def coursavenue_recommendations
   end
 

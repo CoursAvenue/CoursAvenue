@@ -5,14 +5,28 @@ class CommentsController < ApplicationController
   def create
     @commentable  = find_commentable
     @comment      = @commentable.comments.build params[:comment]
+    # If current user exists, affect it to the comment
     if current_user
       @comment.user        = current_user
       @comment.author_name = current_user.name
       @comment.email       = current_user.email
+    # else, check if the user has changed his email
+    elsif params[:default_email].present?
+      default_email = params[:default_email]
+      # If the user does not change his email, just retrieve the user
+      if default_email == params[:comment][:email]
+        user = User.where{email == default_email}.first
+      # If the user changes his email, change the email of the user
+      else
+        user = User.where{email == default_email}.first
+        user.email = params[:comment][:email]
+        user.save(validate: false) # Doesn't validate in case the user has no name and therefore will not be valid
+      end
+      @comment.user = user
     end
     respond_to do |format|
       if @comment.save
-        send_private_message if params[:private_message].present?
+        send_private_message unless params[:private_message].blank?
         cookies[:delete_cookies] = true
         if params[:from] and params[:from] == 'recommendation-page'
           format.html { redirect_to structure_comment_path(@comment.commentable, @comment), notice: "Merci d'avoir laissé votre avis !" }

@@ -12,7 +12,7 @@ class Pro::Structures::MessagesController < ApplicationController
   end
 
   def index
-    @messages = @admin.messages.build
+    @messages = @admin.messages
   end
 
   # A new message without conversation will create by default a new conversation.

@@ -41,7 +41,7 @@ class MailboxerMessageMailer < ActionMailer::Base
     subject      = message.subject.to_s
     subject      = strip_tags(subject) unless subject.html_safe?
 
-    @token       = @user.generate_and_set_reset_password_token if !@user.active
+    @token       = @user.generate_and_set_reset_password_token if !@user.active?
 
     mail to: @user.email,
          subject: t('mailboxer.message_mailer.subject_new', sender: @structure.name),
@@ -50,11 +50,11 @@ class MailboxerMessageMailer < ActionMailer::Base
 
   def new_message_email_to_admin(message, receiver)
     @message   = message
-    @structure = receiver
+    @admin     = receiver
     @user      = message.sender
     subject    = message.subject.to_s
     subject    = strip_tags(subject) unless subject.html_safe?
-    mail to: @structure.email,
+    mail to: @admin.email,
          subject: t('mailboxer.message_mailer.subject_new', sender: @user.name),
          template_name: 'new_message_email_to_admin'
   end
@@ -67,7 +67,7 @@ class MailboxerMessageMailer < ActionMailer::Base
     subject      = message.subject.to_s
     subject      = strip_tags(subject) unless subject.html_safe?
 
-    @token       = @user.generate_and_set_reset_password_token if !@user.active
+    @token       = @user.generate_and_set_reset_password_token if !@user.active?
 
     mail to: @user.email,
          subject: t('mailboxer.message_mailer.subject_reply', sender: @structure.name),
@@ -76,11 +76,11 @@ class MailboxerMessageMailer < ActionMailer::Base
 
   def reply_message_email_to_admin(message, receiver)
     @message   = message
-    @structure = receiver
+    @admin     = receiver
     @user      = message.sender
     subject    = message.subject.to_s
     subject    = strip_tags(subject) unless subject.html_safe?
-    mail to: @structure.email,
+    mail to: @admin.email,
          subject: t('mailboxer.message_mailer.subject_reply', sender: @user.name),
          template_name: 'reply_message_email_to_admin'
   end
