@@ -105,7 +105,14 @@ class User < ActiveRecord::Base
     # Comments notifications
     self.comment_notifications = user.comment_notifications
     # Mailbox
-    self.receipts << user.receipts
+    user.receipts.each do |receipt|
+      receipt.update_column :receiver_id, self.id
+    end
+    user.mailbox.conversations.each do |conversation|
+      conversation.messages.where{(sender_type == 'User') & (sender_id == user.id)}.each do |message|
+        message.update_column :sender_id, self.id
+      end
+    end
     self.save
     user.destroy
   end
