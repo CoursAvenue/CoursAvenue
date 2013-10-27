@@ -477,7 +477,7 @@ class Structure < ActiveRecord::Base
   end
 
   def subject_parent_and_children
-    errors.add(:subjects,          "Vous devez séléctionner au moins une discipline")        if self.subjects.select{|s| s.ancestry_depth == 0}.empty?
-    errors.add(:children_subjects, "Vous devez séléctionner au moins une sous discipline") if self.subjects.select{|s| s.ancestry_depth == 2}.empty?
+    errors.add(:subjects,          "Vous devez sélectionner au moins une discipline")        if self.subjects.select{|s| s.ancestry_depth == 0}.empty?
+    errors.add(:children_subjects, "Vous devez sélectionner au moins une sous discipline") if self.subjects.select{|s| s.ancestry_depth == 2}.empty?
   end
 end
