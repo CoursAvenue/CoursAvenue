@@ -105,7 +105,7 @@ class User < ActiveRecord::Base
     # Comments notifications
     self.comment_notifications = user.comment_notifications
     # Mailbox
-    self.receipts = user.receipts
+    self.receipts << user.receipts
     self.save
     user.destroy
   end

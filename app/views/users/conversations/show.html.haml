@@ -16,6 +16,7 @@
       %span ou
     = simple_form_for @user, url: first_update_user_path(@user) do |user_form|
       = user_form.error_notification
+      %input#hidden-message{type: 'hidden', name: 'message'}
       %input{type: 'hidden', value: @user.email, name: 'previous_email'}
       %input{type: 'hidden', value: params[:token], name: 'reset_password_token'}
       = user_form.input :name, label: false, placeholder: 'Nom', input_html: {class: 'one-whole'}
@@ -26,6 +27,10 @@
   - content_for :scripts do
     :javascript
       $(function(){
+          $('#registration-link').click(function(){
+              $('#hidden-message').val($('[name="conversation[message][body]"]').val());
+              $.cookie('conversation_#{params[:conversation_id]}_message', $('[name="conversation[message][body]"]').val());
+          });
           $('[data-behavior="connection"]').click(function() {
               $.fancybox($('#registration'));
           });

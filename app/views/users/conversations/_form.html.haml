@@ -6,10 +6,12 @@
       .form-white-box.flush--top
         = f.error_notification
         = f.fields_for @message do |message_form|
-          = message_form.input :body, input_html: { style: 'height: 100px', data: {behavior: 'autoresize'} }, as: :text
+          = message_form.input :body, input_html: { style: 'height: 100px', value: cookies["conversation_#{params[:conversation_id]}_message"], data: {behavior: 'autoresize'} }, as: :text
         - if @user.active?
           .form-actions
             = f.submit 'Répondre', class: 'btn btn--green'
         - else
           .form-actions
-            = link_to 'Répondre', '#registration', title: 'Enregistrez-vous pour répondre', class: 'btn btn--green', data: {behavior: 'modal'}
+            = link_to 'Répondre', '#registration', title: 'Enregistrez-vous pour répondre', class: 'btn btn--green', data: {behavior: 'modal'}, id: 'registration-link'
+
+- cookies.delete "conversation_#{params[:conversation_id]}_message"

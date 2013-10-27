@@ -18,9 +18,11 @@ class UsersController < InheritedResources::Base
   def first_update
     @user = User.find(params[:id])
     if @user.reset_password_token_valid?(params[:reset_password_token]) and params[:user][:password].present?
+      conversation = @user.mailbox.conversations.last
       @user.update_attributes(params[:user])
+      @user.reply_to_conversation(conversation, params[:message])
       sign_in @user, :bypass => true
-      redirect_to user_path(current_user), notice: 'Votre profil a bien été mis à jour.'
+      redirect_to user_conversation_path(current_user, conversation), notice: 'Vous êtes maintenant connecté.'
     else
       redirect_to root_path, alert: "Vous n'avez pas la permission"
     end
