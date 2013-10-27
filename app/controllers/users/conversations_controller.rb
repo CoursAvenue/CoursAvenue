@@ -6,7 +6,10 @@ class Users::ConversationsController < ApplicationController
   layout 'user_profile'
 
   def show
-    @user         = User.find(params[:user_id])
+    @user = current_user || User.find(params[:user_id])
+    if !current_user and !@user.reset_password_token_valid?(params[:token])
+      redirect_to root_path, alert: 'Vous ne pouvez pas visualiser cette page'
+    end
     @conversation = @user.mailbox.conversations.find(params[:id])
     @message      = @conversation.messages.build
   end

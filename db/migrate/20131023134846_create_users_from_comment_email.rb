@@ -1,7 +1,7 @@
 class CreateUsersFromCommentEmail < ActiveRecord::Migration
   def up
     bar = ProgressBar.new Student.count
-    Student.find_each do |student|
+    Student.find_each(batch_size: 100) do |student|
       bar.increment!
       student_email = student.email
       if User.where(email: student_email).empty?

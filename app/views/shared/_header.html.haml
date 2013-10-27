@@ -25,12 +25,22 @@
                     = image_tag current_user.fb_avatar, height: 40, class: 'image'
             - else
               = current_user.name
-          %ul.drop-down__el
+          %ul.drop-down__el.text--left
             %li.nowrap
               = link_to user_path(current_user) do
-                Voir mon profil
+                %i.icon-user
+                Mon profil
+            %li.nowrap
+              = link_to user_comments_path(current_user) do
+                %i.icon-comments
+                Mes avis
+            %li.nowrap
+              = link_to user_conversations_path(current_user) do
+                %i.icon-envelope
+                Mes messages
             %li.nowrap
               = link_to destroy_user_session_path, method: :delete do
+                %i.icon-signout
                 Se déconnecter
       - else
         .inline-block

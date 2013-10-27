@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :price, class: 'Price::BookTicket' do
     type 'Price::BookTicket'
-    amount Forgery(:monetary).money
+    amount 200
     number 1
 
     factory :book_ticket do

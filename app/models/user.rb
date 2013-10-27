@@ -48,9 +48,8 @@ class User < ActiveRecord::Base
 
       # Extra
       user.location           = auth.info.location
-      # user.gender           = auth.info.location
-      # user.age              = auth.info.location
-      # user.birthdate        = auth.info.location
+      user.gender             = auth.extra.raw_info.gender
+      user.birthdate          = Date.strptime(auth.extra.raw_info.birthday, '%m/%d/%Y') if auth.extra.raw_info.birthday.present?
 
       user.save!
     end
@@ -98,6 +97,17 @@ class User < ActiveRecord::Base
 
   def active?
     self.encrypted_password.present?
+  end
+
+  def merge user
+    # Comments
+    self.comments              = user.comments
+    # Comments notifications
+    self.comment_notifications = user.comment_notifications
+    # Mailbox
+    self.receipts = user.receipts
+    self.save
+    user.destroy
   end
 
   private

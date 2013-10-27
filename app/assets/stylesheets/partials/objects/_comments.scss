@@ -19,18 +19,18 @@
     @include border-left-radius($brand-round);
 }
 
-.comment__content p:after, .comment__content p:before {
+.comment__content p:last-of-type::after, .comment__content p:first-of-type::before {
     font-family: Georgia, serif;
     font-size : 40px;
     position  : absolute;
     color     : #7a7a7a;
 }
-.comment__content p:after {
+.comment__content p:last-of-type:after {
     content   : "\201D";
     right     : -17px;
     bottom    : -38px;
 }
-.comment__content p:before {
+.comment__content p:first-of-type:before {
     content   : "\201C";
     left      : -17px;
     top       : -17px;

@@ -7,11 +7,11 @@ describe UsersReminder do
   context 'user does not exist' do
     it 'creates a user' do
       user_count = User.count
-      UsersReminder.send_recommendation(structure, 'fake text', Forgery(:internet).email_address)
+      UsersReminder.send_recommendation(structure, 'fake text', Faker::Internet.email)
       User.count.should eq user_count + 1
     end
     it 'creates a comment_notification' do
-      user_email = Forgery(:internet).email_address
+      user_email = Faker::Internet.email
       UsersReminder.send_recommendation(structure, 'fake text', user_email)
       user = User.where{email == user_email}.first
 

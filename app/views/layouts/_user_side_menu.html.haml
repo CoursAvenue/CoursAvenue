@@ -1,8 +1,8 @@
 - content_for :user_side_menu do
   %ul
     - if current_user
-      = user_side_menu_link 'Mon profil'      , user_path(current_user)    , current: current_tab, icon: 'icon-user'
-      = user_side_menu_link 'Mes avis', user_comments_path(current_user), current: current_tab, icon: 'icon-comments'
+      = user_side_menu_link 'Mon profil', user_path(current_user)    , current: current_tab, icon: 'icon-user'
+      = user_side_menu_link 'Mes avis',   user_comments_path(current_user), current: current_tab, icon: 'icon-comments'
       = user_side_menu_link 'Mes messages', user_conversations_path(current_user), current: current_tab, icon: 'icon-envelope'
     - else
       = user_side_menu_link 'Mon profil',   '#', current: current_tab, icon: 'icon-user'

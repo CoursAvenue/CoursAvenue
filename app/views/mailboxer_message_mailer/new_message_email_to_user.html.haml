@@ -20,7 +20,7 @@
 
 %p.action
   - if @token
-    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, token: @token, subdomain: 'www'), class: 'btn btn--blue'
+    = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, token: @token, email: @user.email, subdomain: 'www'), class: 'btn btn--blue'
   - else
     = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: 'www'), class: 'btn btn--blue'
 

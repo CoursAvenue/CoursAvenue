@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131023134846) do
+ActiveRecord::Schema.define(version: 20131027072302) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -552,8 +552,7 @@ ActiveRecord::Schema.define(version: 20131023134846) do
     t.datetime "avatar_updated_at"
     t.string   "name"
     t.string   "gender"
-    t.integer  "age"
-    t.date     "birthday"
+    t.date     "birthdate"
     t.boolean  "email_opt_in",           default: true
   end
 

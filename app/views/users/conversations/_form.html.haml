@@ -16,18 +16,3 @@
         - else
           .form-actions
             = link_to 'Répondre', '#registration', title: 'Enregistrez-vous pour répondre', class: 'btn btn--green', data: {behavior: 'modal'}
-
-- if !@user.active?
-  #registration.hidden
-    %div
-      = link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full', id: 'facebook_button'
-    .or
-      %span ou
-    = simple_form_for @user, url: first_update_user_path(@user) do |user_form|
-      = user_form.error_notification
-      %input{type: 'hidden', value: @user.email, name: 'previous_email'}
-      %input{type: 'hidden', value: params[:token], name: 'reset_password_token'}
-      = user_form.input :name, label: false, placeholder: 'Nom', input_html: {class: 'one-whole'}
-      = user_form.input :email,    label: false, placeholder: 'Email', wrapper_html: {class: 'flush--top'}, input_html: {class: 'one-whole'}
-      = user_form.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
-      = user_form.button :submit, "Créer son compte", class: 'btn--green one-whole'

@@ -44,6 +44,11 @@ class ::Admin < ActiveRecord::Base
     text :structure_name do
       self.structure.name if self.structure
     end
+
+    integer :comments_count do
+      self.structure.comments_count if self.structure
+    end
+
     date :created_at
   end
   handle_asynchronously :solr_index
@@ -70,10 +75,10 @@ class ::Admin < ActiveRecord::Base
   end
 
   def name
-    if read_attribute(:name).nil?
+    if read_attribute(:name).nil? and self.structure
       structure.name
     else
-      read_attribute(:name).nil?
+      read_attribute(:name)
     end
   end
 

@@ -124,7 +124,7 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
-  devise_for :users, controllers: { :omniauth_callbacks => 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations'}, path: '/', path_names: { sign_in: '/connexion'}
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations'}
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
     collection do
       get 'unsubscribe/:signature' => 'students#unsubscribe', as: 'unsubscribe'
@@ -140,8 +140,8 @@ CoursAvenue::Application.routes.draw do
   resources :emails, only: [:create]
 
   get 'auth/:provider/callback', to: 'session#create'
-  get 'auth/failure', to: redirect('/')
-  get 'signout', to: 'session#destroy', as: 'signout'
+  get 'auth/failure'           , to: redirect('/')
+  get 'signout'                , to: 'session#destroy', as: 'signout'
 
 
   resources :cities, only: [] do

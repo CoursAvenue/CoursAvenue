@@ -10,9 +10,9 @@ FactoryGirl.define do
 
     active                      true
     type                        'Course::Lesson'
-    name                        Forgery(:lorem_ipsum).words(4)
-    description                 Forgery(:lorem_ipsum).words(10)
-    info                        Forgery(:lorem_ipsum).words(4)
+    name                        Faker::Lorem.sentence(4)
+    description                 Faker::Lorem.sentence(10)
+    info                        Faker::Lorem.sentence(4)
     price_details               'Lorem ipsum dolor bla bla bla'
     cant_be_joined_during_year   false
 

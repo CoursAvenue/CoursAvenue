@@ -89,7 +89,7 @@ gem 'cancan'                    , '~>1.6.9'
 # For authentication
 gem 'devise'                    , '~>3.1.1'
 # Facebook connect
-gem 'omniauth-facebook'         , '~>1.4.0'
+gem 'omniauth-facebook'         , '~>1.4.1'
 # Helps access to gmail contacts etc.
 gem 'omnicontacts'              , '~>0.3.4'
 gem 'certified'                 , '~>0.1.1'
@@ -154,7 +154,7 @@ group :test do
   gem 'factory_girl_rails', '~>4.2.1'
   gem 'rspec-rails'       , '~>2.14.0'
   gem 'rspec-instafail'   , '~>0.2.4'
-  gem 'forgery'           , '~>0.5.0'
+  gem 'faker'             , '~>1.2.0'
   gem 'simplecov'         , '~>0.7.1'
   gem "sunspot_test"
 end
