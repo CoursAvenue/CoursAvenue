@@ -8,9 +8,6 @@
         = f.fields_for @message do |message_form|
           = message_form.input :body, input_html: { style: 'height: 100px', data: {behavior: 'autoresize'} }, as: :text
         - if @user.active?
-          .input.flush
-            %label.control-label> Mot de passe
-            %input{type: 'password', name: 'password'}
           .form-actions
             = f.submit 'Répondre', class: 'btn btn--green'
         - else
