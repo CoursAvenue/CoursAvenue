@@ -10,8 +10,10 @@ class Users::ConversationsController < ApplicationController
     @conversation = @user.mailbox.conversations.find(params[:id])
     @message      = @conversation.messages.build
     respond_to do |format|
-      if !@user.active? and !@user.reset_password_token_valid?(params[:token])
+      # If user not active and password token is not valid, kick'em off
+      if cannot_see_conversation
         format.html { redirect_to root_path, alert: 'Vous ne pouvez pas visualiser cette page' }
+      # If the slug of the user is wrong (can happen when redirect for facebook connect)
       elsif current_user and current_user.slug != params[:user_id]
         format.html { redirect_to user_conversation_path(current_user, @conversation)}
       else
@@ -48,5 +50,11 @@ class Users::ConversationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to user_conversation_path(@user, @conversation) }
     end
+  end
+
+  private
+
+  def cannot_see_conversation
+    (!@user.active? and !@user.reset_password_token_valid?(params[:token])) or @user.active? and !current_user
   end
 end
