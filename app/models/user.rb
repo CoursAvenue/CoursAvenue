@@ -85,9 +85,8 @@ class User < ActiveRecord::Base
   def generate_and_set_reset_password_token
     raw, enc = Devise.token_generator.generate(self.class, :reset_password_token)
 
-    self.reset_password_token   = enc
-    self.reset_password_sent_at = Time.now.utc
-    self.save
+    self.update_column :reset_password_token,   enc
+    self.update_column :reset_password_sent_at, Time.now.utc
     return raw
   end
 
@@ -110,6 +109,14 @@ class User < ActiveRecord::Base
     Receipt.where{(receiver_id == user_id) & (receiver_type == 'User')}.update_all(receiver_id: self.id)
     self.save
     user.reload.destroy
+  end
+
+  def name_with_email
+    if self.name
+      "#{self.name} (#{self.email})"
+    else
+      self.email
+    end
   end
 
   private

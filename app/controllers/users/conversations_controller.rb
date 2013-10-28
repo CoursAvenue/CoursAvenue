@@ -10,7 +10,7 @@ class Users::ConversationsController < ApplicationController
     @conversation = @user.mailbox.conversations.find(params[:id])
     @message      = @conversation.messages.build
     respond_to do |format|
-      if !current_user and !@user.reset_password_token_valid?(params[:token])
+      if !@user.active? and !@user.reset_password_token_valid?(params[:token])
         format.html { redirect_to root_path, alert: 'Vous ne pouvez pas visualiser cette page' }
       elsif current_user and current_user.slug != params[:user_id]
         format.html { redirect_to user_conversation_path(current_user, @conversation)}
