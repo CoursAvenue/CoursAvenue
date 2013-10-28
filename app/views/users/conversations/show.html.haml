@@ -27,7 +27,6 @@
   - content_for :scripts do
     :javascript
       $(function(){
-          $.removeCookie("conversation_#{params[:id]}_message");
           $('#registration-link').click(function(){
               $('#hidden-message').val($('[name="conversation[message][body]"]').val());
               $.cookie('conversation_#{params[:id]}_message', $('[name="conversation[message][body]"]').val());
@@ -36,3 +35,9 @@
               $.fancybox($('#registration'));
           });
       });
+
+- content_for :scripts do
+  :javascript
+    $(function(){
+        $.removeCookie("conversation_#{params[:id]}_message");
+    });
