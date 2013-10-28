@@ -280,6 +280,15 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # Params:
+  #   bbox_sw: [latitude, longitude]
+  #   bbox_ne: [latitude, longitude]
+  def locations_in_bounding_box(bbox_sw, bbox_ne)
+    locations.reject do |location|
+      # TODO
+    end
+  end
+
   def update_comments_count
     self.update_column :comments_count, self.comments.accepted.count
     self.update_column :updated_at, Time.now
