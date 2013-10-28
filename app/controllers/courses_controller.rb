@@ -4,18 +4,7 @@ class CoursesController < ApplicationController
   before_action :prepare_search, only: [:index]
 
   def index
-    if params[:subject_id]
-      begin
-        @subject = Subject.friendly.find params[:subject_id]
-      rescue
-        redirect_to courses_path, status: 301
-      end
-    end
-    @courses           = CourseSearch.search params
-    init_geoloc
-    cookies[:search_path] = request.fullpath
-    # fresh_when etag: [@courses, ENV["ETAG_VERSION_ID"]], public: true
-    # expires_in 1.minutes, public: true
+    redirect_to structures_path, status: 301
   end
 
   def show

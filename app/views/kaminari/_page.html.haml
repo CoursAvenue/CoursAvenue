@@ -7,4 +7,7 @@
 -#    per_page:      number of items to fetch per page
 -#    remote:        data-remote
 %li{:class => "btn#{' btn--active current' if page.current?}"}>
-  = link_to_unless page.current?, page, url, {:remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil}
+  - if page.current?
+    %a= page
+  - else
+    = link_to page, url, {:remote => remote, :rel => page.next? ? 'next' : page.prev? ? 'prev' : nil}
