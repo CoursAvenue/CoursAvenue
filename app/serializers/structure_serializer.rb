@@ -1,3 +1,7 @@
+class ShortSerializer < ActiveModel::Serializer
+    attributes :id
+end
+
 class StructureSerializer < ActiveModel::Serializer
   include StructuresHelper
 
@@ -5,7 +9,8 @@ class StructureSerializer < ActiveModel::Serializer
              :logo_present, :logo_thumb_url, :parent_subjects_text, :parent_subjects, :child_subjects, :data_url,
              :subjects_count, :too_many_subjects, :subjects
   has_many :places
-  has_many :comments
+  has_many :comments, serializer: ShortSerializer
+  has_many :courses, serializer: ShortSerializer
 
   def logo_present
     object.logo.present?
