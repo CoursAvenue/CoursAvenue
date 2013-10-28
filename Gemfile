@@ -97,6 +97,8 @@ gem 'sunspot_solr'              , '~>2.0.0', group: :development
 gem 'sunspot_rails'             , '~>2.0.0'
 gem 'sunspot-rails-tester'      , '~>1.0.0'
 
+gem 'truncate_html'             , '~>0.9.2'
+
 # Prevent from real deletion
 # acts_as_paranoid
 gem 'paranoia'                  , '~>2.0'
