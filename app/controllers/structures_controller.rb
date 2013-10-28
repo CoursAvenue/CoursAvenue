@@ -67,8 +67,8 @@ class StructuresController < ApplicationController
     # TODO: To be removed when using Solr 4.
     # This is used because the bounding box refers to a circle and not a box...
     # Rejecting the structures that are not in the bounding box
-    @structures.select do |structure|
-      structure.locations_in_bounding_box(params[:bbox_sw], params[:bbox_ne], radius).any?
+    @structures.select! do |structure|
+      structure.locations_in_bounding_box(params[:bbox_sw], params[:bbox_ne]).any?
     end
 
     @latlng = StructureSearch.retrieve_location(params)

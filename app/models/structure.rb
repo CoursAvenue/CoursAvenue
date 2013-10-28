@@ -285,7 +285,16 @@ class Structure < ActiveRecord::Base
   #   bbox_ne: [latitude, longitude]
   def locations_in_bounding_box(bbox_sw, bbox_ne)
     locations.reject do |location|
-      # TODO
+      # ensure that the location really is completely inside the box
+      is_in_bounds = true
+
+      if nil != location.latitude && bbox_sw[0].to_f < location.latitude && location.latitude < bbox_ne[0].to_f
+        if nil != location.longitude && bbox_sw[1].to_f < location.longitude && location.longitude < bbox_ne[1].to_f
+          is_in_bounds = false
+        end
+      end
+
+      is_in_bounds
     end
   end
 
