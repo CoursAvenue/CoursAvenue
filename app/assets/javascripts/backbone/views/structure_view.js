@@ -48,6 +48,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         accordionControl: function (e) {
             e.preventDefault();
             console.log("EVENT  StructureView->accordionControl")
+            this.model.fetchRelated("comments", {}, true);
+
             /* we are using values like place, which are already on the model,
             *  for now, but later there will need to be some data fetching
             *  going on */

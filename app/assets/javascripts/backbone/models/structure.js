@@ -20,17 +20,17 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             {
                 type: Backbone.HasMany,
                 key: 'comments',
-                keySource: 'id',
                 relatedModel: Backbone.RelationalModel.extend({ }),
                 includeInJSON: false,
                 reverseRelation: {
                     key: 'structure'
                 },
                 collectionType: Backbone.Collection.extend({
-                    url: function (model) {
+                    url: function (models) {
                         console.log("URL");
+                        if (models === undefined) { return ''; }
 
-                        return '/etablissements/' + model[0].id + 'recommandations.json';
+                        return '/etablissements/' + models[0].get('structure').get('id') + '/recommandations.json';
                     }
                 })
             }
