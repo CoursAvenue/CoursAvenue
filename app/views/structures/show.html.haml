@@ -267,6 +267,10 @@
                 return false;
             });
         }
+        if (window.location.hash.indexOf('recommantation-') != -1) {
+            $('[href=#tab-comments]').click();
+            $.scrollTo($(window.location.hash), {duration: 500});
+        }
         if (window.location.hash.length > 0) {
             $('[href=' + window.location.hash + ']').click();
         }
