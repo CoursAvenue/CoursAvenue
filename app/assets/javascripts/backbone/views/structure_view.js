@@ -2,16 +2,16 @@
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
 
     /* views here temporarily to get this all all started */
-    Views.PlaceView = Backbone.Marionette.ItemView.extend({
+    Views.CommentView = Backbone.Marionette.ItemView.extend({
         tagName: "tr",
-        template: "backbone/templates/place_view"
+        template: "backbone/templates/comment_view"
     });
 
-    Views.PlacesCollectionView = Backbone.Marionette.CompositeView.extend({
-        template: 'backbone/templates/places_collection_view',
+    Views.CommentsCollectionView = Backbone.Marionette.CompositeView.extend({
+        template: 'backbone/templates/comments_collection_view',
         tagName: 'table',
 
-        itemView: Views.PlaceView,
+        itemView: Views.CommentView,
     });
 
     Views.SubjectView = Backbone.Marionette.ItemView.extend({
@@ -48,19 +48,29 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         accordionControl: function (e) {
             e.preventDefault();
             console.log("EVENT  StructureView->accordionControl")
-            this.model.fetchRelated("comments", {}, true);
 
             /* we are using values like place, which are already on the model,
             *  for now, but later there will need to be some data fetching
             *  going on */
 
-            var value = $(e.currentTarget).data('value');
+            var value = $(e.currentTarget).data('value'),
+                self = this;
 
             /* we need to build the region */
             if (this.regions[value] === undefined) {
-                this.createRegionFor(value);
+                /* wait for asynchronous fetch of models before adding region */
+                this.model.fetchRelated(value, {}, true)[0].then(function () {
+                    self.createRegionFor(value);
+                    self.accordionShow(value);
+                });
+            } else {
+                this.accordionShow(value);
             }
 
+            return false;
+        },
+
+        accordionShow: function (value) {
             /* replace the existing active region */
             if (this.active_region && this.active_region !== value) {
                 this[this.active_region].$el.find('[data-type=accordion-data]').hide();
@@ -74,8 +84,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             }
 
             this.active_region = value;
-
-            return false;
         },
 
         createRegionFor: function (value) {
@@ -83,7 +91,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.regions[value] = '#' + value;
             this.$el.append('<div id="' + value + '">');
 
-            collection = new Backbone.Collection(this.model.get('places').models);
+            collection = new Backbone.Collection(this.model.get(value).models);
+            debugger
             view_class = Views[App.capitalize(value) + 'CollectionView'];
             view = new view_class({
                 collection: collection,
