@@ -44,19 +44,26 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             'mouseleave': 'unhighlightStructure'
         },
 
-        /* build an appropriate collection and populate an appropriate view */
+        /* When a button is clicked, accordionControl arranges for a
+        *  relation with the given name to be displayed, either by
+        *  switching between tabs on the current structure_view or by
+        *  deferring to the "accordionOpen" method on super */
+        /* in order for accordionControl to work, you need:
+        *   - a model with a relation, such as "widgets"
+        *   - a backend that returns the right stuff: of course
+        *   - a button in templates/structure_view, like this:
+        *       <button data-type="accordion-control" data-value="widgets">Whoa!</button>
+        *   - two templates: widget_view and a widgets_collection_view
+        *
+        *   The actual view classes and collection are generated below */
         accordionControl: function (e) {
             e.preventDefault();
-            console.log("EVENT  StructureView->accordionControl")
-
-            /* we are using values like place, which are already on the model,
-            *  for now, but later there will need to be some data fetching
-            *  going on */
 
             var value = $(e.currentTarget).data('value'),
                 self = this;
 
-            /* we need to build the region */
+            /* if no region exists on the structure view, then we need to
+            *  fetch the relation, and create a region for it */
             if (this.regions[value] === undefined) {
                 /* wait for asynchronous fetch of models before adding region */
                 this.model.fetchRelated(value, {}, true)[0].then(function () {
@@ -70,6 +77,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             return false;
         },
 
+        /* either switch between tabs on the structure, or defer to
+        *  the accordion action */
         accordionShow: function (value) {
             /* replace the existing active region */
             if (this.active_region && this.active_region !== value) {
@@ -86,15 +95,29 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.active_region = value;
         },
 
+        /* given a string, find the relation on the model with that name
+        *  and create a region, and a view. Attach the view to the region */
         createRegionFor: function (value) {
             this.addRegion(value, "#" + value);
             this.regions[value] = '#' + value;
             this.$el.append('<div id="' + value + '">');
 
             collection = new Backbone.Collection(this.model.get(value).models);
-            debugger
-            view_class = Views[App.capitalize(value) + 'CollectionView'];
-            view = new view_class({
+
+            /* an anonymous compositeView/itemView is all we need */
+            ItemViewClass = Backbone.Marionette.ItemView.extend({
+                tagName: "tr",
+                template: "backbone/templates/" + value.slice(0, -1) + "_view" // singular name for the view
+            });
+
+            ViewClass = Backbone.Marionette.CompositeView.extend({
+                template: 'backbone/templates/' + value + '_collection_view',
+                tagName: 'table',
+
+                itemView: ItemViewClass,
+            });
+
+            view = new ViewClass({
                 collection: collection,
                 attributes: {
                     'data-type': 'accordion-data',

@@ -33,6 +33,24 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
                         return '/etablissements/' + models[0].get('structure').get('id') + '/recommandations.json';
                     }
                 })
+            },
+
+            {
+                type: Backbone.HasMany,
+                key: 'courses',
+                relatedModel: Backbone.RelationalModel.extend({ }),
+                includeInJSON: false,
+                reverseRelation: {
+                    key: 'structure'
+                },
+                collectionType: Backbone.Collection.extend({
+                    url: function (models) {
+                        console.log("URL");
+                        if (models === undefined) { return ''; }
+
+                        return '/etablissements/' + models[0].get('structure').get('id') + '/cours.json';
+                    }
+                })
             }
         ]
     });
