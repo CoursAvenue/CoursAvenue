@@ -280,6 +280,24 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # Params:
+  #   bbox_sw: [latitude, longitude]
+  #   bbox_ne: [latitude, longitude]
+  def locations_in_bounding_box(bbox_sw, bbox_ne)
+    locations.reject do |location|
+      # ensure that the location really is completely inside the box
+      is_in_bounds = true
+
+      if nil != location.latitude && bbox_sw[0].to_f < location.latitude && location.latitude < bbox_ne[0].to_f
+        if nil != location.longitude && bbox_sw[1].to_f < location.longitude && location.longitude < bbox_ne[1].to_f
+          is_in_bounds = false
+        end
+      end
+
+      is_in_bounds
+    end
+  end
+
   def update_comments_count
     self.update_column :comments_count, self.comments.accepted.count
     self.update_column :updated_at, Time.now
