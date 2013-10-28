@@ -7,11 +7,17 @@ class Users::ConversationsController < ApplicationController
 
   def show
     @user = current_user || User.find(params[:user_id])
-    if !current_user and !@user.reset_password_token_valid?(params[:token])
-      redirect_to root_path, alert: 'Vous ne pouvez pas visualiser cette page'
-    end
     @conversation = @user.mailbox.conversations.find(params[:id])
     @message      = @conversation.messages.build
+    respond_to do |format|
+      if !current_user and !@user.reset_password_token_valid?(params[:token])
+        format.html { redirect_to root_path, alert: 'Vous ne pouvez pas visualiser cette page' }
+      elsif current_user.slug != params[:user_id]
+        format.html { redirect_to user_conversation_path(current_user, @conversation)}
+      else
+        format.html
+      end
+    end
   end
 
   def index
