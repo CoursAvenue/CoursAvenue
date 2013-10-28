@@ -17,6 +17,7 @@
 //= require ./views/pagination_tool_view
 //= require ./views/result_summary_view
 //= require ./views/accordion_item_view
+//= require ./views/comment_view
 //= require ./views/structure_view
 //= require ./views/accordion_view
 //= require ./views/paginated_collection_view

@@ -40,8 +40,10 @@
 //= require libs/moment
 
 //= require libs/fancybox/jquery.fancybox
-//= require handlebars
 //= require underscore
+
+//= require i18n
+//= require i18n/translations
 
 // ---------------------------------- Backbone
 //= require backbone

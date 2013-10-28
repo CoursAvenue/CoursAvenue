@@ -1,0 +1,11 @@
+.structure-item {
+
+}
+
+    .structure-item__button {
+        cursor: pointer;
+        @include transition(background-color 250ms linear);
+        &:hover {
+            background-color: #EEE;
+        }
+    }

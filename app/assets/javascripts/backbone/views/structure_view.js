@@ -1,37 +1,13 @@
 /* just a basic marionette view */
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
 
-    /* views here temporarily to get this all all started */
-    Views.CommentView = Backbone.Marionette.ItemView.extend({
-        tagName: "tr",
-        template: "backbone/templates/comment_view"
-    });
-
-    Views.CommentsCollectionView = Backbone.Marionette.CompositeView.extend({
-        template: 'backbone/templates/comments_collection_view',
-        tagName: 'table',
-
-        itemView: Views.CommentView,
-    });
-
-    Views.SubjectView = Backbone.Marionette.ItemView.extend({
-        tagName: "tr",
-        template: "backbone/templates/subject_view"
-    });
-
-    Views.SubjectsCollectionView = Backbone.Marionette.CompositeView.extend({
-        template: 'backbone/templates/subjects_collection_view',
-        tagName: 'table',
-
-        itemView: Views.SubjectView,
-    });
 
     Views.StructureView = Views.AccordionItemView.extend({
         template: 'backbone/templates/structure_view',
         tagName: 'li',
-        className: 'one-whole course-element',
+        className: 'structure-item',
         attributes: {
-            'data-type': 'structure-element'
+            'data-type': 'structure-element hard'
         },
 
         initialize: function(options) {
@@ -39,9 +15,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         events: {
-            'click button[data-type=accordion-control]': 'accordionControl',
-            'mouseenter': 'highlightStructure',
-            'mouseleave': 'unhighlightStructure'
+            'click [data-type=accordion-control]': 'accordionControl',
+            'mouseenter':                          'highlightStructure',
+            'mouseleave':                          'unhighlightStructure'
         },
 
         /* When a button is clicked, accordionControl arranges for a
@@ -98,30 +74,25 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* given a string, find the relation on the model with that name
         *  and create a region, and a view. Attach the view to the region */
         createRegionFor: function (value) {
-            this.addRegion(value, "#" + value);
-            this.regions[value] = '#' + value;
-            this.$el.append('<div id="' + value + '">');
+            this.addRegion(value, "#" + value + this.cid);
+            this.regions[value] = '#' + value + this.cid;
+            this.$el.append('<div id="' + value  + this.cid + '">');
 
             collection = new Backbone.Collection(this.model.get(value).models);
 
-            /* an anonymous compositeView/itemView is all we need */
-            ItemViewClass = Backbone.Marionette.ItemView.extend({
-                tagName: "tr",
-                template: "backbone/templates/" + value.slice(0, -1) + "_view" // singular name for the view
-            });
-
+            /* an anonymous compositeView is all we need */
             ViewClass = Backbone.Marionette.CompositeView.extend({
                 template: 'backbone/templates/' + value + '_collection_view',
-                tagName: 'table',
 
-                itemView: ItemViewClass,
+                // The "value" has an 's' at the end, that's what the slice is for
+                itemView: Views[App.capitalize(value.slice(0, -1)) + 'View'],
+                itemViewContainer: '[data-type=container]'
             });
-
             view = new ViewClass({
                 collection: collection,
                 attributes: {
                     'data-type': 'accordion-data',
-                    'style': 'display:none'
+                    'style':     'display:none'
                 }
             });
 

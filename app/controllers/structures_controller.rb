@@ -53,23 +53,24 @@ class StructuresController < ApplicationController
       end
     end
 
-    # the bbox params may come uri encoded as CSV
-    if (params[:bbox_sw] && params[:bbox_ne])
-      if (params[:bbox_sw].methods.include?(:split) && params[:bbox_ne].methods.include?(:split))
-        params[:bbox_sw] = params[:bbox_sw].split(',');
-        params[:bbox_ne] = params[:bbox_ne].split(',');
-      end
-    end
-
     @structure_search      = StructureSearch.search(params)
     @structures            = @structure_search.results
 
-    # TODO: To be removed when using Solr 4.
-    # This is used because the bounding box refers to a circle and not a box...
-    # Rejecting the structures that are not in the bounding box
-    @structures.select! do |structure|
-      structure.locations_in_bounding_box(params[:bbox_sw], params[:bbox_ne]).any?
+    # the bbox params may come uri encoded as CSV
+    if (params[:bbox_sw] && params[:bbox_ne])
+      if (params[:bbox_sw].respond_to?(:split) && params[:bbox_ne].respond_to?(:split))
+        params[:bbox_sw] = params[:bbox_sw].split(',');
+        params[:bbox_ne] = params[:bbox_ne].split(',');
+      end
+      # TODO: To be removed when using Solr 4.
+      # This is used because the bounding box refers to a circle and not a box...
+      # Rejecting the structures that are not in the bounding box
+      @structures.select! do |structure|
+        structure.locations_in_bounding_box(params[:bbox_sw], params[:bbox_ne]).any?
+      end
     end
+
+
 
     @latlng = StructureSearch.retrieve_location(params)
 
