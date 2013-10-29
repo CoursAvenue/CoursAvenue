@@ -66,8 +66,6 @@
 //= require libs/highcharts/highcharts
 //= require libs/highcharts/modules/exporting
 
-//= require zeroclipboard
-
 // ---------------------------------- jQuery plugins
 // See boilerplate and pattern:
 // - http://jqueryboilerplate.com/

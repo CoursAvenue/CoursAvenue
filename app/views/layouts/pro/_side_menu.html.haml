@@ -18,7 +18,7 @@
       = pro_side_menu_link 'Mes cours'      , pro_structure_courses_path(@structure)    , current: current_tab,   icon: 'icon-list'
       = pro_side_menu_link 'Mes photos & vidéos', pro_structure_medias_path(@structure) , current: current_tab,   icon: 'icon-youtube-play'
       = pro_side_menu_link 'Mes messages', pro_structure_conversations_path(@structure) , current: current_tab,   icon: 'icon-envelope'
-      = pro_side_menu_link 'Parrainer un professeur', coursavenue_recommendations_pro_structure_path(@structure)     , current: current_tab, icon: 'icon-bullhorn', id: 'recommandation-side-menu'
+      = pro_side_menu_link 'Parrainer un professeur', coursavenue_recommendations_pro_structure_path(@structure)     , current: current_tab, icon: 'icon-gift', id: 'recommandation-side-menu'
       - if @structure.comments_count >= 5
         = pro_side_menu_link 'Communiquer', widget_pro_structure_path(@structure)     , current: current_tab, icon: 'icon-bullhorn'
 

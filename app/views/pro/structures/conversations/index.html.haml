@@ -1,11 +1,17 @@
 = side_menu_currently_at 'Mes messages'
 
 %h3 Mes conversations
+- unless cookies[:understood__conversation_message]
+  %p.alert--info#conversation-info
+    %i.icon-warning-sign
+    Envoyez des messages personnels aux élèves qui vous ont déjà recommandé, ou aux élèves dont vous avez renseigné l'email dans notre outil de demande de recommandation automatique.
+    %a#understood__conversation_message{href: 'javascript:void(0)'} J'ai compris
 .text--center.push--bottom
   - if @structure.users.any?
     = link_to 'Nouveau message', new_pro_structure_message_path(@structure), class: 'btn btn--green btn--large'
   - else
     = link_to 'Nouveau message', '#no_users', class: 'btn btn--green btn--large', data: { behavior: 'modal' }
+
 
 - @conversations.each do |conversation|
   = link_to pro_structure_conversation_path(@structure, conversation), class: 'muted-link' do
@@ -18,3 +24,14 @@
     %p Pour pouvoir envoyer votre premier message, vous devez d'abord avoir reçu des recommandations ou avoir utilisé notre outil de demande automatique dans lequel vous avez renseigné les emails de vos élèves.
     .text--center
       = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        if ($('#understood__conversation_message')) {
+            $('#understood__conversation_message').click(function() {
+                $.cookie('understood__conversation_message', true, {expires: 100000});
+                $('#conversation-info').remove();
+            });
+        }
+    });
