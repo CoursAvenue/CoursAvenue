@@ -51,7 +51,7 @@
                 %li.nowrap
                   = link_to "Profs, associations, écoles", new_pro_admin_session_url(subdomain: 'pro')
                 %li.nowrap
-                  = link_to "Élèves", new_user_session_path, data: {behavior: 'modal', title: 'Connexion'}, class: 'fancybox.ajax'
+                  = link_to "Élèves", new_user_session_path, data: {behavior: 'modal', title: 'Connexion'}, class: 'fancybox.ajax', id: 'connection'
 
             .inline-block.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'center'}}
               %a.btn.btn--green{href: 'javascript:void(0)'} Créer mon profil gratuit
@@ -78,3 +78,11 @@
             %li.nowrap
               = link_to 'Mais qui est derrière CoursAvenue ?', pro_pages_questions_url(subdomain: 'pro', anchor: 'about-creating-profile'), target: '_blank'
 
+= content_for :scripts do
+  :javascript
+    // ---------------- Comments slideshow
+    $(function() {
+      if (window.location.hash == '#connection') {
+          $('#connection').click();
+      }
+    });

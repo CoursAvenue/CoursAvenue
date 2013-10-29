@@ -12,7 +12,7 @@ class Users::ConversationsController < ApplicationController
     respond_to do |format|
       # If user not active and password token is not valid, kick'em off
       if cannot_see_conversation
-        format.html { redirect_to root_path, alert: 'Vous ne pouvez pas visualiser cette page' }
+        format.html { redirect_to root_path(anchor: 'connection'), alert: 'Vous devez vous connecter pour visualiser le message' }
       # If the slug of the user is wrong (can happen when redirect for facebook connect)
       elsif current_user and current_user.slug != params[:user_id]
         format.html { redirect_to user_conversation_path(current_user, @conversation)}
