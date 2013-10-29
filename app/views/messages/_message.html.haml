@@ -1,6 +1,6 @@
 .grid.message
   .grid__item.one-twelfth.v-top.text--right>
-    = image_tag message.sender.avatar_url(:thumb), class: 'message__avatar'
+    = image_tag message.sender.avatar_url(:thumb), class: 'message__avatar' if message.sender
   .grid__item.eleven-twelfths.soft-half--left>
     .grid--full.soft-half.white-box.push-half--bottom
       .grid__item.two-twelfths.text--right>
