@@ -17,11 +17,11 @@ class CommentsController < ApplicationController
       if default_email == params[:comment][:email]
         user = User.where{email == default_email}.first
       # If the user changes his email, change the email of the user
-      else
-        user = User.where{email == default_email}.first
-        user.email = params[:comment][:email]
-        user.save(validate: false) # Doesn't validate in case the user has no name and therefore will not be valid
+      elsif (user = User.where{email == default_email}.first)
+        user.update_attribute :email, params[:comment][:email]
+        # Doesn't validate in case the user has no name and therefore will not be valid
       end
+      user.update_attribute(:name, params[:comment][:author_name]) if user.present? and params[:comment][:author_name].present?
       @comment.user = user
     end
     respond_to do |format|
@@ -46,7 +46,7 @@ class CommentsController < ApplicationController
 
   def send_private_message
     @recipient    = @comment.structure.main_contact
-    @receipt      = @comment.user.send_message(@recipient, params[:private_message], 'Recommendation de ton cours')
+    @receipt      = @comment.user.send_message(@recipient, params[:private_message], (params[:subject].present? ? params[:subject] : 'Message personnel suite à ma recommandation'))
     @conversation = @receipt.conversation
   end
 

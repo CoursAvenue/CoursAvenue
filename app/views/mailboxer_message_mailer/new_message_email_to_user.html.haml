@@ -4,17 +4,15 @@
       = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
 
 - content_for :promo do
-  %h4= t('mailboxer.message_mailer.subject_new', sender: @structure.name)
-
-%p
-  Bonjour #{@user.name},
-%p
-  %strong= @structure.name
-  vient de vous envoyer un message privé sur CoursAvenue :
+  %h4
+    = @structure.name
+    vient de vous envoyer un message personnel :
 
 - if @message.subject.present?
   %p.flush
-    %strong= @message.subject
+    %strong
+      Objet :
+      = @message.subject
 
 = simple_format @message.body
 

@@ -3,6 +3,14 @@ require 'spec_helper'
 
 describe Comment do
 
+  context :title do
+    it 'removes the first and last quotes if there are in the title' do
+      comment = FactoryGirl.build(:comment, title: '"Title with quotes"')
+      comment.save
+      comment.title.should eq "Title with quotes"
+    end
+  end
+
   context :structure do
     let(:comment) { FactoryGirl.create(:comment) }
     it 'returns the structure' do
@@ -23,7 +31,7 @@ describe Comment do
   context 'create a comment from a user that has a comment_notification' do
     it 'creates a comment notification for a user' do
       user     = comment_notification.user
-      _comment = Comment.new(author_name: user.name, email: user.email, commentable: comment_notification.structure, user: user, content: 'lorem', course_name: 'lala')
+      _comment = FactoryGirl.build(:comment, author_name: user.name, email: user.email, commentable: comment_notification.structure, user: user)
       _comment.save
       comment_notification.reload.status.should eq 'completed'
     end

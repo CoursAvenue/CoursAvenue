@@ -6,6 +6,10 @@
       .form-white-box.flush
         = f.error_notification
         = f.fields_for @message do |message_form|
-          = message_form.input :body, input_html: { style: 'height: 100px', data: {behavior: 'autoresize'} }, as: :text
-          .form-actions
-            = f.submit 'Répondre', class: 'btn btn--green'
+          .grid--full
+            .grid__item.two-twelfths>
+              = message_form.label :body
+            .grid__item.ten-twelfths>
+              = message_form.input :body, input_html: { style: 'height: 100px', class: 'one-whole', data: {behavior: 'autoresize'} }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
+              = f.submit 'Répondre', class: 'btn btn--green'
+

@@ -1,7 +1,6 @@
-= user_menu_currently_at 'Mon profil'
+= user_menu_currently_at 'Mes infos'
 
-%h2
-  Profil
+%h2 Mes infos
 
 .white-box.islet
   .flexbox
@@ -14,4 +13,4 @@
         .text--center.push-half--top= link_to 'Ajouter mon avatar', edit_user_path(current_user)
     .flexbox__item.v-top.soft-half--left>
       %h4.flush= @user.name
-      = link_to 'Modifier mon profil', edit_user_path(current_user)
+      = link_to 'Modifier mes infos', edit_user_path(current_user)

@@ -4,12 +4,9 @@
       = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
 
 - content_for :promo do
-  %h4= t('mailboxer.message_mailer.subject_reply', sender: @structure.name)
-
-%p
-  Bonjour #{@user.name},
-%p
-  #{@structure.name} vient de vous répondre sur CoursAvenue :
+  %h4
+    = @structure.name
+    à répondu à votre message :
 
 = simple_format @message.body
 
@@ -19,9 +16,6 @@
   - else
     = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: 'www'), class: 'btn btn--blue'
 
-
-%p
-  L'équipe de CoursAvenue
 
 - content_for :footer do
   %p Vous recevez ce message car #{@structure.name} vous a envoyé un message privé sur CoursAvenue.com

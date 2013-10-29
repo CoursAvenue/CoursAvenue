@@ -10,7 +10,7 @@ fr:
         name: Nom
         email: Votre email
         rating: Votre appréciation
-        author_name: Votre nom
+        author_name: Votre nom / pseudo
 
   comments:
     deletion_reasons:
@@ -20,3 +20,4 @@ fr:
       other: Autres
     errors:
       already_posted: Vous avez déjà posté un avis sur cet établissement.
+      content_too_small: Votre avis doit comporter au moins 30 mots

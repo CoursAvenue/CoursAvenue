@@ -69,7 +69,7 @@
 %script#structure-item-template{:type => 'text/x-handlebars-template'}
   %div{style: 'font-size: 13px;'}
     {{name}}
-    ({{email}})
+    <a href="mailto:{{email}}">({{email}})</a>
     %br
     %strong {{structure.name}}
     ({{structure.comments_count}} avis)

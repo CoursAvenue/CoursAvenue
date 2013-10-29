@@ -32,15 +32,16 @@ class CreateUsersFromCommentEmail < ActiveRecord::Migration
     Comment.find_each(batch_size: 100) do |comment|
       bar.increment!
       comment_email = comment.email
-      if User.where{email == comment_email}.empty?
+      if (user = User.where{email == comment_email}.first).nil?
         user = User.new email: comment.email, name: comment.author_name
-        user.structures << comment.structure
-        user.subjects   << comment.structure.subjects
-        user.save(validate: false)
       end
-    end
-    Comment.where{user_id == nil}.each do |comment|
-      comment.update_column(:user_id, User.where(email: comment.email).first.id)
+      user.structures << comment.structure
+      user.subjects   << comment.structure.subjects
+      user.save(validate: false)
+      if comment.user_id.nil?
+        comment.user = user
+        comment.save
+      end
     end
   end
 

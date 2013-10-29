@@ -4,6 +4,7 @@ FactoryGirl.define do
   factory :comment do
     commentable {FactoryGirl.create(:structure)}
     user
+    title       Faker::Lorem.sentence(4)
 
     # Comment contact
     author_name     Faker::Name.name
@@ -14,7 +15,7 @@ FactoryGirl.define do
 
     # Comment content
     course_name       Faker::Lorem.sentence(4)
-    content           Faker::Lorem.sentence(8)
+    content           Faker::Lorem.sentence(40)
     # rating          [1,2,3,4,5].sample
 
     factory :accepted_comment do

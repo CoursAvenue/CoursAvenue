@@ -10,10 +10,12 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :user
 
-  validates :email, :author_name, :course_name, :content, :commentable, presence: true
+  validates :email, :author_name, :course_name, :content, :commentable, :title, presence: true
   validate  :doesnt_exist_yet, on: :create
+  validate  :content_length, on: :create
 
   before_create    :set_pending_status
+  before_create    :remove_quotes_from_title
 
   before_save      :strip_names
   before_save      :downcase_email
@@ -108,6 +110,12 @@ class Comment < ActiveRecord::Base
 
   private
 
+  def content_length
+    if content.split.size < 30
+      self.errors.add :content, I18n.t('comments.errors.content_too_small')
+    end
+  end
+
   def create_user
     user_email = self.email
     if (user = User.where{email == user_email}.first).nil?
@@ -159,6 +167,13 @@ class Comment < ActiveRecord::Base
 
   def downcase_email
     self.email = self.email.downcase
+  end
+
+  def remove_quotes_from_title
+    string_title = self.title
+    string_title[0]                       = '' if string_title[0] == '"' or string_title[0] == "'"
+    string_title[string_title.length - 1] = '' if string_title.last == '"' or string_title.last == "'"
+    self.title = string_title
   end
 
 end
