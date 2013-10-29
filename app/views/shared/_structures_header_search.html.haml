@@ -33,9 +33,9 @@
     .grid__item.v-middle{style: 'width: 20px;'}>
       %i.icon-user
     .grid__item.v-middle.eleven-twelfths.nowrap{style: 'width: 88%;'}>
-      {{name}}
-      %br
-      %i.line-height-1 {{city.name}}
+      {{structure.name}}
+      -# %br
+      -# %i.line-height-1 {{structure.city.name}}
 
 = content_for :scripts do
   :javascript
