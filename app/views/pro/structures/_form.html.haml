@@ -104,7 +104,7 @@
         .textarea-with-info.grid__item.width-auto
           .grid--full
             .three-fifths.grid__item.soft-half--right>
-              = structure_form.input :description, label: false, wrapper_html: {class: 'flush--top'}, input_html: {id: 'description-textarea', class: 'textarea-description--tall', placeholder: 'Mettez en avant votre différence !', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
+              = structure_form.input :description, label: false, wrapper_html: {class: 'flush one-whole'}, input_html: {id: 'description-textarea', class: 'textarea-description--tall', placeholder: 'Mettez en avant votre différence !', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 100, 'bad-text' => 'Votre description doit comporter au moins 30 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots.', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}
             .two-fifths.grid__item
               %p.alert--info.flush--top
                 Qu'est-ce qui vous différencie ?
