@@ -173,7 +173,7 @@ class Comment < ActiveRecord::Base
     string_title = self.title
     string_title[0]                       = '' if string_title[0] == '"' or string_title[0] == "'"
     string_title[string_title.length - 1] = '' if string_title.last == '"' or string_title.last == "'"
-    self.title = string_title
+    self.title = string_title.strip
   end
 
 end
