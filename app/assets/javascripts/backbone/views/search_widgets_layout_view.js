@@ -51,7 +51,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             $(document).on('click', function (e) {
                 _.each(_.keys(self.regionManager._regions), function (key) {
-                    self[key].currentView.triggerMethod('click:outside');
+                    self[key].currentView.triggerMethod('click:outside', e);
                 });
             });
         },

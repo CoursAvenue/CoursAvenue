@@ -25,8 +25,14 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.announcePaginatorUpdated();
         },
 
-        onClickOutside: function () {
-            if (this.currently_selected_cid=== undefined) {
+        onClickOutside: function (e) {
+            // this event was not "outside" enough, the user was clicking on a review
+            if (this.$itemViewContainer.find(e.originalEvent.explicitOriginalTarget).length !== 0) {
+                return false;
+            }
+
+            // all accordions are closed
+            if (this.currently_selected_cid === undefined) {
                 return false;
             }
 
