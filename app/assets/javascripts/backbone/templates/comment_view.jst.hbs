@@ -1,14 +1,15 @@
-<article>
+<article data-url="{{ comment-url }}" class="structure-item__button soft-half">
     {{#if title }}
-      <h6 class="brand quoted flush--bottom" content="Dans la joie et la bonne humeur" itemprop="headline">{{ title }}</h6>
+        <h6 class="brand flush--bottom" content="Dans la joie et la bonne humeur" itemprop="headline">{{ title }}</h6>
+        <span class="gray quoted read-more push-half--bottom read-more" data-behavior="read-more" itemprop="reviewBody" style="max-height: 50px;">
+          {{{ content }}}
+        </span>
     {{else}}
-    <span class="brand quoted read-more push-half--bottom read-more" data-behavior="read-more" itemprop="reviewBody" style="max-height: 50px;">
-      {{{ content }}}
-    </span>
+        <span class="gray quoted read-more push-half--bottom read-more" data-behavior="read-more" itemprop="reviewBody" style="max-height: 50px;">
+          {{{ content }}}
+        </span>
     {{/if}}
     <p class="text--right flush">
       —<i class="semi-muted" content="2013-10-14" itemprop="datePublished">Par {{author_name}} le {{ localizeDate created_at 'default' }}</i>
     </p>
-
 </article>
-<hr></hr>
