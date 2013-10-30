@@ -25,20 +25,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.announcePaginatorUpdated();
         },
 
-        onClickOutside: function (e) {
-            // this event was not "outside" enough, the user was clicking on a review
-            if (this.$itemViewContainer.find(e.originalEvent.explicitOriginalTarget).length !== 0) {
-                return false;
-            }
-
-            // all accordions are closed
-            if (this.currently_selected_cid.length < 1) {
-                return false;
-            }
-
-            this.accordionCloseAll();
-        },
-
+        /* we don't use this, but we could */
         accordionCloseAll: function () {
             var self = this;
 
