@@ -13,7 +13,7 @@ class CommentSerializer < ActiveModel::Serializer
 
   # while link_to and such aren't working, we will just use this
   def comment_url
-    "#{object.structure.slug}#recommandation-#{object.id}"
+    "etablissements/#{object.structure.slug}#recommandation-#{object.id}"
   end
 
 end

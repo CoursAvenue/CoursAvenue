@@ -11,8 +11,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         handleClick: function () {
-          console.log("Oh, we handled that.");
-
+          window.location = window.location.protocol + '//' + window.location.host + '/' + this.model.get('comment_url');
         }
     });
 
