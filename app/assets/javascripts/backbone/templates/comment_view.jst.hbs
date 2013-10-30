@@ -1,10 +1,11 @@
 <article>
     {{#if title }}
-      <h6 class="quoted flush--bottom" content="Dans la joie et la bonne humeur" itemprop="headline">{{ title }}</h6>
-    {{/if}}
-    <div class="read-more push-half--bottom read-more" data-behavior="read-more" itemprop="reviewBody" style="max-height: 50px;">
+      <h6 class="brand quoted flush--bottom" content="Dans la joie et la bonne humeur" itemprop="headline">{{ title }}</h6>
+    {{else}}
+    <span class="brand quoted read-more push-half--bottom read-more" data-behavior="read-more" itemprop="reviewBody" style="max-height: 50px;">
       {{{ content }}}
-    </div>
+    </span>
+    {{/if}}
     <p class="text--right flush">
       —<i class="semi-muted" content="2013-10-14" itemprop="datePublished">Par {{author_name}} le {{ localizeDate created_at 'default' }}</i>
     </p>
