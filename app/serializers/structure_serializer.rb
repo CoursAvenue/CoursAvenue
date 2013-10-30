@@ -12,6 +12,10 @@ class StructureSerializer < ActiveModel::Serializer
   has_many :comments, serializer: ShortSerializer
   has_many :courses, serializer: ShortSerializer
 
+  def comments
+    object.comments.limit(15).order(created_at: :desc)
+  end
+
   def courses_count
     self.courses.count
   end
