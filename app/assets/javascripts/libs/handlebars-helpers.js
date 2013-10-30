@@ -14,5 +14,5 @@ Handlebars.registerHelper('pluralize', function(number, single, plural) {
 
 // usage: {{localizeDate date 'short'}}
 Handlebars.registerHelper('localizeDate', function(date, format) {
-    return I18n.l('time.format.date', date);
+    return I18n.l('date.formats.short', new Date(date));
 });
