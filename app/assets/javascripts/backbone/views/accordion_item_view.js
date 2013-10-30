@@ -26,11 +26,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* hide for now, since slideUp is being mean */
         minimize: function() {
-            this.$el.find('[data-type=accordion-data]').hide();
+            this.$el.find('[data-type=accordion-data]').slideUp();
         },
 
         maximize: function() {
-            this.$el.find('[data-type=accordion-data]').show();
+            this.$el.find('[data-type=accordion-data]').slideDown('slow');
         }
     });
 });
