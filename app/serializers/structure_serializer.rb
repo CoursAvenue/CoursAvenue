@@ -22,7 +22,7 @@ class StructureSerializer < ActiveModel::Serializer
 
   def logo_thumb_url
     # object.logo.url(:thumb)
-    "http://placehold.it/400"
+    "http://placehold.it/100"
   end
 
   def parent_subjects_text

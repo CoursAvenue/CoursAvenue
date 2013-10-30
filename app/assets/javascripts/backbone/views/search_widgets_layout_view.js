@@ -48,6 +48,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
                 self.listenTo(self[region_name], 'show', self['on' + name + 'Show']);
             });
+
+            $(document).on('click', function (e) {
+                _.each(_.keys(self.regionManager._regions), function (key) {
+                    self[key].currentView.triggerMethod('click:outside');
+                });
+            });
         },
 
         /* fires after the main region is first shown */
