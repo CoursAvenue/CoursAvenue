@@ -2,14 +2,17 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
     Views.AccordionItemView = Backbone.Marionette.Layout.extend({
 
+        onClickOutside: function () {
+            this.accordionClose();
+        },
+
         accordionClose: function() {
-            this.minimize();
             this.model.set({ selected: false });
+            this.minimize();
+            this.trigger("accordion:close", this.model.cid);
         },
 
         accordionOpen: function() {
-            console.log("AccordionItemView->accordionOpen");
-
             if (this.model.get("selected") === true) {
                 return false;
             }

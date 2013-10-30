@@ -25,8 +25,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.announcePaginatorUpdated();
         },
 
+        onClickOutside: function () {
+            if (this.currently_selected_cid=== undefined) {
+                return false;
+            }
+
+            var currently_selected = this.children.findByModelCid(this.currently_selected_cid);
+            currently_selected.triggerMethod('click:outside');
+        },
+
         announcePaginatorUpdated: function () {
-            console.log("PaginatedCollectionView->announcePaginatorUpdated");
             var data = this.collection;
             var first_result = (data.currentPage - 1) * data.perPage + 1;
 
@@ -115,7 +123,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         filterQuery: function(filters) {
-            console.log("PaginatedCollectionView->filterQuery");
             /* TODO check for redundancy: if the incoming filters don't
             *  change anything, we shouldn't do the update */
             // if (this.collection.setQuery(filter) === this.collection.getQuery()) {
