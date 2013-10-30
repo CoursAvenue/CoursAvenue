@@ -32,12 +32,21 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             }
 
             // all accordions are closed
-            if (this.currently_selected_cid === undefined) {
+            if (this.currently_selected_cid.length < 1) {
                 return false;
             }
 
-            var currently_selected = this.children.findByModelCid(this.currently_selected_cid);
-            currently_selected.triggerMethod('click:outside');
+            this.accordionCloseAll();
+        },
+
+        accordionCloseAll: function () {
+            var self = this;
+
+            _.each(_.clone(this.currently_selected_cid), function(cid) {
+                console.log(cid);
+                var itemView = self.children.findByModelCid(cid);
+                itemView.accordionToggle(itemView.active_region);
+            });
         },
 
         announcePaginatorUpdated: function () {

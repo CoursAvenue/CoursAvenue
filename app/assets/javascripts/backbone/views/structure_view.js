@@ -44,10 +44,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 /* wait for asynchronous fetch of models before adding region */
                 this.model.fetchRelated(value, {}, true)[0].then(function () {
                     self.createRegionFor(value);
-                    self.accordionShow(value);
+                    self.accordionToggle(value);
                 });
             } else {
-                this.accordionShow(value);
+                this.accordionToggle(value);
             }
 
             return false;
@@ -55,20 +55,27 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* either switch between tabs on the structure, or defer to
         *  the accordion action */
-        accordionShow: function (value) {
-            /* replace the existing active region */
-            if (this.active_region && this.active_region !== value) {
-                this[this.active_region].$el.find('[data-type=accordion-data]').hide();
-                this[this.active_region].currentView.$el.attr('data-type', '');
-                this[value].currentView.$el.attr('data-type', 'accordion-data');
+        accordionToggle: function (value) {
+            var closing = (this.active_region === value);
+
+            if (closing) {
+                this.accordionClose();
+            } else { // we may be opening or switching
+
+                /* we are switching */
+                if (this.active_region) {
+                    this[this.active_region].$el.find('[data-type=accordion-data]').hide();
+                    this[this.active_region].currentView.$el.attr('data-type', '');
+                    this[value].currentView.$el.attr('data-type', 'accordion-data');
+                }
+
+                /* we tried to switch between regions */
+                if (this.accordionOpen() === false) {
+                    this[value].$el.find('[data-type=accordion-data]').show();
+                }
             }
 
-            /* we tried to switch between regions */
-            if (this.accordionOpen() === false) {
-                this[value].$el.find('[data-type=accordion-data]').show();
-            }
-
-            this.active_region = value;
+            this.active_region = (closing)? undefined : value;
         },
 
         /* given a string, find the relation on the model with that name
