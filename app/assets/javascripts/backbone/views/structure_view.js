@@ -98,8 +98,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 itemView: Views[App.capitalize(value.slice(0, -1)) + 'View'],
                 itemViewContainer: '[data-type=container]'
             });
+
             view = new ViewClass({
                 collection: collection,
+                model: new Backbone.Model({ data_url: this.model.get('data_url') }),
                 attributes: {
                     'data-type': 'accordion-data',
                     'style':     'display:none'

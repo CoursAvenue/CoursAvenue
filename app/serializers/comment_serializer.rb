@@ -3,7 +3,7 @@ class CommentSerializer < ActiveModel::Serializer
   include ActionView::Helpers::UrlHelper
   include TruncateHtmlHelper
 
-  attributes :id, :content, :title, :author_name, :course_name, :created_at, :comment_url, :rating
+  attributes :id, :content, :title, :author_name, :course_name, :created_at, :comment_url, :rating, :comments_url
 
   def content
     # TODO there is a problem with UrlHelper in Rails 4 that breaks this
@@ -14,6 +14,10 @@ class CommentSerializer < ActiveModel::Serializer
   # while link_to and such aren't working, we will just use this
   def comment_url
     "etablissements/#{object.structure.slug}#recommandation-#{object.id}"
+  end
+
+  def comments_url
+    "etablissements/#{object.structure.slug}"
   end
 
 end
