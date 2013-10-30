@@ -1,6 +1,8 @@
 class ::Admin < ActiveRecord::Base
   acts_as_paranoid
 
+  acts_as_messageable
+
   include ActsAsUnsubscribable
 
   CIVILITY = [
@@ -42,6 +44,11 @@ class ::Admin < ActiveRecord::Base
     text :structure_name do
       self.structure.name if self.structure
     end
+
+    integer :comments_count do
+      self.structure.comments_count if self.structure
+    end
+
     date :created_at
   end
   handle_asynchronously :solr_index
@@ -55,7 +62,28 @@ class ::Admin < ActiveRecord::Base
     AdminMailer.delay.admin_validated(self)
   end
 
+  def mailboxer_email(object)
+    self.email
+  end
+
+  def avatar
+    self.structure.logo(:thumb)
+  end
+
+  def avatar_url(format=:thumb)
+    self.structure.logo.url(format)
+  end
+
+  def name
+    if read_attribute(:name).blank? and self.structure
+      structure.name
+    else
+      read_attribute(:name)
+    end
+  end
+
   private
+
   def delay_subscribe_to_mailchimp
     self.delay.subscribe_to_mailchimp
   end

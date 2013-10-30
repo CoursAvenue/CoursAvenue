@@ -1,19 +1,10 @@
-.grid
-  .grid__item.one-half.text--center.bordered--right.soft--right>
-    %h4 Élèves
-    %div= link_to "Connexion avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full', id: 'facebook_button'
-    .or
-      %span ou
-    = simple_form_for User.new, url: user_session_path do |f|
-      = f.input :email, label: false, placeholder: 'Email', input_html: {class: 'one-whole'}
-      = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
-      = f.hidden_field :remember_me, value: true
-      = f.button :submit, "Se connecter", class: 'btn--green one-whole'
+%div= link_to "Connexion avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full', id: 'facebook_button'
+.or
+  %span ou
+= simple_form_for User.new, url: user_session_path do |f|
+  = f.input :email, label: false, placeholder: 'Email', input_html: {class: 'one-whole'}
+  = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
+  = f.hidden_field :remember_me, value: true
+  = f.button :submit, "Se connecter", class: 'btn--green one-whole'
 
-    .push-half--top= link_to "Je n'ai pas de compte", '#', id: 'show_new_registration_form'
-
-  .grid__item.one-half.text--center>
-    %h4 Professeurs
-    .text--center
-      = link_to "Accéder à mon profil", new_pro_admin_session_url(subdomain: 'pro'), class: 'btn btn--blue btn--full btn--large', onclick: "_gaq.push(['_trackEvent', 'Référencer mes cours', 'click','Inscrit'])"
-
+.push-half--top= link_to "Je n'ai pas de compte", '#', id: 'show_new_registration_form'

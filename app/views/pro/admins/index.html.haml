@@ -6,6 +6,13 @@
   %input#search-input{type: 'text', placeholder: 'Cherchez un établissement'}
 
 .push-half--bottom= paginate @admins, window: 2, outer_window: 1
+
+.input
+  %label Trier par
+  %select#sorting
+    %option{value: 'created_at_desc', selected: params[:sort] == 'created_at_desc'} Date de création
+    %option{value: 'comments_count_desc', selected: params[:sort] == 'comments_count_desc'} Nombre d'avis
+
 %table.table--striped.table--data.white-box#dataTable
   %thead
     %tr
@@ -62,7 +69,7 @@
 %script#structure-item-template{:type => 'text/x-handlebars-template'}
   %div{style: 'font-size: 13px;'}
     {{name}}
-    ({{email}})
+    <a href="mailto:{{email}}">({{email}})</a>
     %br
     %strong {{structure.name}}
     ({{structure.comments_count}} avis)
@@ -85,5 +92,11 @@
         ]);
         $('#search-input').on('typeahead:selected', function(event, data){
             window.open('/etablissements/' + data.structure.slug)
+        });
+        $('#sorting').change(function(){
+            var new_location = "#{pro_admins_path}" + '?page=';
+            new_location += '#{params[:page] || 1}';
+            new_location += '&sort=' + this.value;
+            window.location = new_location;
         });
     })

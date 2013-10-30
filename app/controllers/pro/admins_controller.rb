@@ -40,7 +40,6 @@ class ::Pro::AdminsController < InheritedResources::Base
 
   def index
     @admins = ::AdminSearch.search(params).results
-    # @admins = ::Admin.order('created_at DESC').limit(75)
     respond_to do |format|
       format.json { render json: @admins.to_json(include: :structure) }
       format.html

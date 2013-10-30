@@ -2,49 +2,32 @@
 
 = render partial: 'pro/structures/comments_tabs', locals: {current: 'recommandation'}
 
+.alert--info.epsilon
+  %ul.push-half--left.flush--bottom
+    %li
+      %strong CoursAvenue est basé sur la confiance et le bouche à oreille :
+      plus vous avez d'avis, plus votre profil apparaîtra dans les premiers résultats de notre moteur de recherche.
+    %li
+      %strong Demandez à vos élèves de vous recommander :
+      vous recevrez un email à chaque nouvelle recommandation que vous pourrez alors soit accepter, soit ignorer, avant qu'elle ne s'affiche sur votre profil public.
+
 %h5.home-title
   %i.icon-bullhorn.v-middle
-  %span.v-middle Utilisez nos 3 méthodes de recommandations
-.grid--full.text--center.push--top
-  .grid__item.three-twelfths.text--center.v-middle.relative>
-    %a.muted-link.white-box.islet{href: '#email-reco'}
-      %h4
-        %i.icon-envelope-alt.icon-2x
-        %br
-        Email
-  .grid__item.one-twelfth.text--center.v-middle>
-    .islet
-      %i.icon-plus
-  .grid__item.three-twelfths.text--center.v-middle.relative>
-    %a.muted-link.white-box.islet{href: '#facebook-reco'}
-      %h4
-        %i.icon-facebook.icon-2x
-        %br
-        Facebook
-  .grid__item.one-twelfth.text--center.v-middle>
-    .islet
-      %i.icon-plus
-  .grid__item.three-twelfths.text--center.v-middle.relative>
-    %a.muted-link.white-box.islet{href: '#website-reco'}
-      %h4
-        %i.icon-paperclip.icon-2x
-        %br
-        Sur votre site
+  %span.v-middle Utilisez nos 3 méthodes de recommandations :
 
-%hr
 .white-box.islet
   %h4#email-reco
     %i.icon-envelope-alt.icon-2x.v-middle.soft-half--right
     %span.v-middle
       Envoyez un email à vos élèves
-      %i.orange (méthode la + utilisée et la + efficace)
+      %i= link_to '(voir les 5 avantages de cette méthode la + utilisée)', '#most-used-method', data: {behavior: 'modal'}
 
-  = form_tag get_feedbacks_pro_structure_path(@structure) do
+  = simple_form_for [:pro, @structure, @structure.comment_notifications.build] do |f|
     .grid
       .grid__item.one-half>
         %h4 À :
-        %p.flush
-          .italic.blue{data: {behavior: 'tooltip', title: "Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi \"Informatique et Liberté\" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant."}}
+        %p.flush>
+          %span.italic.blue{data: {behavior: 'tooltip', title: "Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi \"Informatique et Liberté\" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant."}}
             %i.icon-question-sign
             Entrez les emails de vos élèves : rassurez-vous, ils resteront confidentiels et ne seront jamais divulgués.
         %textarea.one-whole{name: 'emails', rows: 8, placeholder: 'patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
@@ -60,7 +43,8 @@
           Merci et à très bientôt,
           %br
           = @structure.name
-    .push-half--top.text--right= submit_tag 'Envoyer ma demande', class: 'btn btn--green'
+    .push-half--top.text--right
+      = f.submit 'Envoyer ma demande', class: 'btn btn--green'
   %hr.push--top
   .text--center.push-half--bottom
     = link_to 'Envoyer un email depuis ma boite perso', '#hidden-send', data: {behavior: 'modal'}, class: 'btn btn--blue'
@@ -81,7 +65,6 @@
   %h4.fb-blue#facebook-reco
     %i.icon-facebook-sign.icon-2x.v-middle.soft-half--right
     %span.v-middle Demandez à vos fans Facebook de vous recommander
-    %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn--small btn--blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'facebook-text', onclick: "mixpanel.track('Copy share profile', {'type': 'facebook'});"
 
   .text--center
     = link_to 'Demandez des recommandations', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, facebook: '', subdomain: 'www')}", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From recommendation page')"
@@ -93,7 +76,6 @@
   %h4#website-reco
     %i.icon-paperclip.icon-2x.v-middle.soft-half--right
     %span.v-middle Directement sur votre site internet
-    %span.v-middle= link_to 'Copier le texte', 'javascript:void(0)', class: 'btn btn--small btn--blue', 'data-behavior' => 'copy-to-clipboard', 'data-clipboard-target' => 'website-text', onclick: "mixpanel.track('Copy share profile', {'type': 'website'});"
   %p
     Partagez les deux liens suivants :
   .alert--info#website-text
@@ -102,3 +84,15 @@
     %br
     Pour que vos élèves déposent de nouveaux avis :
     = link_to new_structure_comment_url(@structure, website: '', subdomain: 'www'), new_structure_comment_url(@structure, website: '', subdomain: 'www'), target: '_blank'
+
+#most-used-method.hidden
+  %h5 Les 5 avantages de cette méthode la + utilisée.
+
+  %p Envoyez votre demande de recommandation à vos élèves grâce à notre outil automatique, méthode la plus utilisée par nos partenaires et la plus efficace :
+
+  %ul
+    %li Le message que recevront vos élèves est personnalisé avec votre nom et votre logo : ils se sentent plus impliqués, leurs recommandations sont alors plus précises, détaillées et de grande qualité ;
+    %li Nos partenaires qui ont utilisé cet outil sont ceux qui ont eu les plus forts taux de réponse : en moyenne, plus de 25% des élèves sollicités ont déposé un témoignage, contre 10% suite à la demande d'avis via Facebook ;
+    %li Une fois votre demande envoyée, un nouvel onglet "Demandes envoyées" apparaîtra et vous pourrez alors suivre les élèves ayant déposé leur avis, et éventuellement relancer ceux qui ne l'ont pas encore fait ;
+    %li Dans l'onglet "Mes messages", vous pourrez envoyer un message privé à chaque élève dont l'email a été préalablement utilisé dans cet outil de demande de recommandation ;
+    %li Les élèves n'auront pas besoin de remplir leur email qui sera automatiquement pré-renseigné (ils pourront tout de même le modifier s'ils le souhaitent).

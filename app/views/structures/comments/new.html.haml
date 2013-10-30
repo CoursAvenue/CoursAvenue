@@ -44,24 +44,18 @@
 
 .grid
   .grid__item.two-thirds>
-    %h2.flush--bottom.small-margin-bottom= @structure.name
-    %h4 Votre expérience est précieuse pour les autres élèves. Merci !
+    .grid
+      .grid__item.one-eighth>
+        = image_tag @structure.logo.url(:thumb)
+      .grid__item.seven-eighths>
+        %h2.flush--bottom.small-margin-bottom= @structure.name
+        %h4 Votre expérience est précieuse pour les autres élèves. Merci !
     .islet.white-box.two-thrids.center-block
       = simple_form_for @comment, url: comments_path do |f|
         = f.error_notification
         %input{type: :hidden, name: 'from', value: 'recommendation-page'}
         = f.hidden_field :commentable_type
         = f.hidden_field :commentable_id
-        -# = f.input :rating, as: :hidden
-        -# %div.input
-        -#   %label.control-label= Comment.human_attribute_name(:rating)
-        -#   %span.rating
-        -#     %i.star.icon-star-empty.gamma{style: 'top: 4px;', data: {value: 1}}
-        -#     %i.star.icon-star-empty.gamma{style: 'top: 4px; left: -3px; padding: 0 2px', data: {value: 2}}
-        -#     %i.star.icon-star-empty.gamma{style: 'top: 4px; left: -6px; padding: 0 2px', data: {value: 3}}
-        -#     %i.star.icon-star-empty.gamma{style: 'top: 4px; left: -9px; padding: 0 2px', data: {value: 4}}
-        -#     %i.star.icon-star-empty.gamma{style: 'top: 4px; left: -12px; padding: 0 2px', data: {value: 5}}
-        -#   %span#rating-description
         - if @comment.errors.any?
           %br
           %p.alert.alert-error
@@ -70,35 +64,51 @@
                 %br
               = message
 
-        - unless current_user
-          .input
-            %label.control-label
-              %b Vos coordonnées
-          = f.input :author_name, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true
-          - if params[:email].present?
-            = f.hidden_field :email, value: params[:email]
-          - else
-            = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par le professeur"
-          %hr.push--top
         .input
           %label.control-label
-            %b Votre avis
+            .lbl.lbl--blue
+              %i.icon-eye-open.soft-half--right
+              Public
+          %h5.inline
+            Déposez votre avis visible de tous
         = f.input :course_name, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir'
-        -# %p.field-form-info.blue
-        -#   %i Soyez le plus précis possible.
         = f.input :title, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute"
 
-        = f.input :content, label_html: {style: 'vertical-align: top;'}, input_html: {style: 'height: 150px;', 'data-behavior' => 'autoresize'}, wrapper_html: { class: 'flush--bottom' }, required: true
-
-        %p.field-form-info.blue
+        .input.flush--bottom<
+          = f.label :content, style: 'vertical-align: top;'
+          = f.input :content, label: false, input_html: {style: 'height: 150px;', class: 'one-whole', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 60, 'bad-text' => 'Votre avis doit comporter au moins 30 mots.', 'average-text' => 'Encore quelques mots et votre professeur sera enchanté !', 'good-text' => "Là c'est certain, votre professeur va adorer !"}}, wrapper_html: { class: 'flush' }, required: true
+        %p.field-form-info.flush
           = link_to 'Astuces pour un avis utile', '#', id: 'show_comments_trick'
+        - unless current_user
+          = f.input :author_name, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: 'Ex. : Stéphanie P.'
+        %hr.push--top
+        .input
+          %label.control-label
+            .lbl.lbl--gray
+              %i.icon-lock.soft-half--right
+              Privé
+          %h5.inline
+            Informations visibles uniquement par votre professeur
+        - unless current_user
+          %input{type: 'hidden', name: 'default_email', value: params[:email]}
+          = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: params[:email] }
+        .input.push-half--bottom
+          %label.control-label.text>
+            %strong Message personnel
+        .input
+          %label.control-label.text> Objet
+          = text_field_tag :subject, nil, placeholder: "Ex. : Merci d'avoir pensé à moi !"
+        .input
+          %label.control-label.text> Message
+          = text_area_tag :private_message, "Salut !\nJe viens de déposer ma recommandation, j'espère qu'elle te plaira.\nMerci pour tout, à très bientôt !", class: 'text', style: 'height: 100px', data: { behavior: 'autoresize' }
         .text--center
           = f.submit 'Publier mon avis', class: 'btn btn--large btn--green', style: 'padding-top: 6px; padding-bottom: 6px;'
 
+  .grid__item.one-third>
     #comment_tricks.hidden
       .alert--info
         %b Astuces pour un avis utile.
-        %p Rédigez votre avis en répondant aux questions suivantes :
+        %p.flush Rédigez votre avis en répondant aux questions suivantes :
         %ul
           %li Depuis quand suivez-vous ce cours ? / Quand avez-vous suivi ce stage ?
           %li Quelle est la principale qualité du professeur ?
@@ -107,8 +117,7 @@
           %li Concrètement, qu’est-ce que vous faites aujourd’hui grâce à ce que vous avez appris ?
           %li Comment vous êtes-vous senti(e) à la fin du dernier cours ou stage ?
           %li Racontez une anecdote sympa à partager aux futurs élèves !
-  - if @comments.any?
-    .grid__item.one-third>
+    - if @comments.any?
       .bordered--left.soft--left
         %h4 Derniers avis sur cet établissement
         %ul.comment-list.milli
@@ -118,7 +127,8 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('#comment_content').textareaResizer();
         $('#show_comments_trick').click(function() {
-            $('#comment_tricks').toggle();
+            $('#comment_tricks').slideToggle();
         });
     });

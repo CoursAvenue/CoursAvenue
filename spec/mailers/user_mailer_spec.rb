@@ -12,7 +12,7 @@ describe UserMailer do
     end
 
     it 'renders the body' do
-      mail.body.encoded.should match(user.first_name)
+      mail.body.encoded.should match(user.name)
     end
   end
 

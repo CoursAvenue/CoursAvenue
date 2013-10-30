@@ -33,9 +33,9 @@
     .grid__item.v-middle{style: 'width: 20px;'}>
       %i.icon-user
     .grid__item.v-middle.eleven-twelfths.nowrap{style: 'width: 88%;'}>
-      {{name}}
-      %br
-      %i.line-height-1 {{city.name}}
+      {{structure.name}}
+      -# %br
+      -# %i.line-height-1 {{structure.city.name}}
 
 = content_for :scripts do
   :javascript
@@ -59,19 +59,20 @@
             prefetch: subject_path,
             valueKey: 'name',
             header: '<div class="typeahead-dataset-header">Disciplines</div>'
-          },
-          {
-            name: 'structure_#{ENV["ETAG_VERSION_ID"]}',
-            header: '<div class="typeahead-dataset-header">Établissements & professeurs</div>',
-            valueKey: 'name',
-            template: template,
-            remote: {
-              url: '/etablissements.json',
-              replace: function(url, uriEncodedQuery) {
-                  return url + '?name=' + uriEncodedQuery + '&radius=1000';
-              }
-            }
           }
+          // ,
+          // {
+          //   name: 'structure_#{ENV["ETAG_VERSION_ID"]}',
+          //   header: '<div class="typeahead-dataset-header">Établissements & professeurs</div>',
+          //   valueKey: 'name',
+          //   template: template,
+          //   remote: {
+          //     url: '/etablissements.json',
+          //     replace: function(url, uriEncodedQuery) {
+          //         return url + '?name=' + uriEncodedQuery + '&radius=1000';
+          //     }
+          //   }
+          // }
         ]);
         $('#search-input').on('typeahead:selected', function(event, data){
             // If it is a structure

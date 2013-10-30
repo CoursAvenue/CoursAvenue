@@ -1,8 +1,7 @@
 class Comment < ActiveRecord::Base
   acts_as_paranoid
   attr_accessible :commentable, :commentable_id, :commentable_type, :content, :author_name, :email, :rating,
-                  :title, :course_name,
-                  :validated
+                  :title, :course_name
   # A comment has a status which can be one of the following:
   #   - pending
   #   - accepted
@@ -11,20 +10,23 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :user
 
-  validates :email, :author_name, :course_name, :rating, :content, :commentable, presence: true
-  validates :rating, numericality: { greater_than: 0, less_than: 6 }
+  validates :email, :author_name, :course_name, :content, :commentable, :title, presence: true
   validate  :doesnt_exist_yet, on: :create
+  validate  :content_length, on: :create
 
-  after_initialize :set_default_rating
-  after_save       :update_teacher_mailchimp if Rails.env.production?
-  after_destroy    :update_comments_count
   before_create    :set_pending_status
-  after_create     :send_email
+  before_create    :remove_quotes_from_title
 
   before_save      :strip_names
   before_save      :downcase_email
 
   after_save       :update_comments_count
+
+  after_create     :send_email
+  after_create     :create_user, if: -> { self.user.nil? }
+  after_create     :affect_structure_and_subjects_to_user
+  after_create     :complete_comment_notification
+  after_destroy    :update_comments_count
 
   scope :ordered,              -> { order('created_at DESC') }
   scope :pending,              -> { where(status: 'pending') }
@@ -108,6 +110,36 @@ class Comment < ActiveRecord::Base
 
   private
 
+  def content_length
+    if content.split.size < 30
+      self.errors.add :content, I18n.t('comments.errors.content_too_small')
+    end
+  end
+
+  def create_user
+    user_email = self.email
+    if (user = User.where{email == user_email}.first).nil?
+      user = User.new name: self.author_name, email: self.email
+    end
+    self.user = user
+    self.save
+    user.save(validate: false)
+  end
+
+  def affect_structure_and_subjects_to_user
+    self.user.structures << self.structure
+    self.user.subjects   << self.structure.subjects
+    self.user.comments   << self
+    self.user.save(validate: false)
+  end
+
+  def complete_comment_notification
+    structure_id = self.structure.id
+    if (comment_notification = user.comment_notifications.where(structure_id: structure_id).first).present?
+      comment_notification.complete!
+    end
+  end
+
   def doesnt_exist_yet
     _structure_id = self.commentable_id
     _email        = self.email
@@ -120,10 +152,6 @@ class Comment < ActiveRecord::Base
     self.author_name = self.author_name.strip if author_name.present?
     self.title       = self.title.strip       if title.present?
     self.course_name = self.course_name.strip if course_name.present?
-  end
-
-  def set_default_rating
-    self.rating = 5
   end
 
   # Set comments_count to 4 and 14 because after_create is triggered before after_save !
@@ -141,19 +169,11 @@ class Comment < ActiveRecord::Base
     self.email = self.email.downcase
   end
 
-  def update_teacher_mailchimp
-    structure = self.commentable
-    nb_comments = structure.comments.count
-    gb = Gibbon::API.new
-    gb.lists.subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
-                           :email => {email: structure.contact_email},
-                           :merge_vars => {
-                              :NB_COMMENT => nb_comments
-                           },
-                           :double_optin => false,
-                           :update_existing => true,
-                           :send_welcome => false}
-                           )
-
+  def remove_quotes_from_title
+    string_title = self.title
+    string_title[0]                       = '' if string_title[0] == '"' or string_title[0] == "'"
+    string_title[string_title.length - 1] = '' if string_title.last == '"' or string_title.last == "'"
+    self.title = string_title.strip
   end
+
 end

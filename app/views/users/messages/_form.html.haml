@@ -1,0 +1,8 @@
+= simple_form_for [current_user, @message] do |f|
+  .form-white-box.flush
+    = f.error_notification
+    = f.input :recipients, as: :select, collection: current_user.structures.sort_by(&:name), include_blank: false
+    = f.input :subject
+    = f.input :body, input_html: { style: 'height: 150px', data: {behavior: 'autoresize'} }
+    .form-actions
+      = f.submit 'Envoyer', class: 'btn btn--green'

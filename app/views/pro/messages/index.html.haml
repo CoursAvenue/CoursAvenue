@@ -1,0 +1,12 @@
+= side_menu_currently_at 'Derniers messages'
+
+- @messages.each do |message|
+  %div.text--right
+    À
+    - recipient = message.recipients.reject{|recipient| recipient == message.sender }.first
+    - if recipient
+      - if recipient.is_a? Admin
+        = link_to recipient.name, pro_structure_path(recipient.structure)
+      - else
+        = recipient.name
+  = render partial: 'messages/message', locals: { message: message }

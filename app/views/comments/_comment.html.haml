@@ -2,7 +2,7 @@
 - show_title   = true      if show_title.nil?
 - small_avatar = false     if small_avatar.nil?
 - class_name   = ''        if class_name.nil?
-%li.comment-list__el.white-box.soft-half.hard--left{class: class_name, id: "recommantation-#{comment.id}"}
+%li.comment-list__el.white-box.soft-half.hard--left{class: class_name, id: "recommandation-#{comment.id}"}
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
     .grid--full
       .grid__item.two-twelfths.text--center>
@@ -12,6 +12,39 @@
           .center-block{class: "#{(small_avatar ? 'profile-picture--small' : 'profile-picture')} profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
             = comment.author_name[0].capitalize
       .grid__item.ten-twelfths>
+
+        - if comment.title.present?
+          %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: comment.title.capitalize}= "#{comment.title.capitalize}"
+          - if comment.course_name
+            %span.v-middle= "— #{comment.course_name.capitalize}"
+
+          - if can?(:destroy, comment)
+            - if comment.pending?
+              %span.lbl.lbl--orange.nowrap Avis en cours de validation
+            - elsif comment.declined?
+              %span.lbl.lbl--red.nowrap Avis rejeté
+        %span.rating{title: comment_rating_title(5), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
+          %meta{itemprop: 'ratingValue', content: 5}
+          %meta{itemprop: 'worstRating', content: 1}
+          %meta{itemprop: 'bestRating', content: 5}
+        .read-more{itemprop: 'reviewBody', data: {behavior: 'read-more'}}
+          = simple_format comment.content
+        %p.text--right.flush
+          %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)}
+            Écrit par
+            %strong= comment.author_name
+            le #{l(comment.created_at, format: :date)}
+        - if with_link
+          %p.text--right.flush
+            = link_to comment.commentable.name, commentable_url(comment), target: '_blank'
+        .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
+          %meta{itemprop: 'url', content: commentable_url(comment)}
+          %meta{itemprop: 'name', content: comment.commentable.name}
+        - if comment.waiting_for_deletion?
+          %p.red
+            Motif de suppression :
+            %strong= t(comment.deletion_reason)
+
         - if current_user and comment.pending?
           .float--right
             = link_to edit_user_comment_path(current_user, comment), class: 'btn btn--orange btn--small' do
@@ -50,38 +83,6 @@
                     = link_to ask_for_deletion_pro_structure_comment_path(comment.structure, comment, deletion_reason: "comments.deletion_reasons.#{i18n_key.to_s.downcase}"), method: :patch do
                       = traducted_string
 
-          = link_to "mailto:#{comment.email}", onclick: "ga('send', 'event', 'Answer to student', 'click')", class: 'btn btn--small btn--blue float--right push-half--right' do
+          = link_to new_pro_structure_message_path(comment.structure, message: {recipients: [comment.user.id], subject: 'Merci beaucoup pour ta recommandation'}), onclick: "ga('send', 'event', 'Answer to student', 'click')", class: 'btn btn--small btn--blue float--right push-half--right' do
             %i.icon-envelope.v-middle.soft-half--right
             %span.v-middle Répondre
-
-        %div.push-half--bottom
-          %h6.flush.inline-block.v-middle{itemprop: 'author'}= comment.author_name.titleize
-          - if comment.course_name.present?
-            %span.v-middle= "— #{comment.course_name.capitalize}"
-          - if can?(:destroy, comment)
-            - if comment.pending?
-              %span.lbl.lbl--orange.nowrap Avis en cours de validation
-            - elsif comment.declined?
-              %span.lbl.lbl--red.nowrap Avis rejeté
-          - if comment.rating
-            %span.rating{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
-              -# = rating_stars comment.rating
-              %meta{itemprop: 'ratingValue', content: comment.rating}
-              %meta{itemprop: 'worstRating', content: 1}
-              %meta{itemprop: 'bestRating', content: 5}
-        - if comment.title.present?
-          %h6.quoted.flush--bottom{itemprop: 'headline', content: comment.title.capitalize}= "#{comment.title.capitalize}"
-        .read-more.push-half--bottom{itemprop: 'reviewBody', data: {behavior: 'read-more'}}
-          = simple_format comment.content
-        %p.text--right.flush
-          %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)} Avis écrit le #{l(comment.created_at, format: :date)}
-        - if with_link
-          %p.text--right
-            = link_to comment.commentable.name, commentable_url(comment), target: '_blank'
-        .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
-          %meta{itemprop: 'url', content: commentable_url(comment)}
-          %meta{itemprop: 'name', content: comment.commentable.name}
-        - if comment.waiting_for_deletion?
-          %p.red
-            Motif de suppression :
-            %strong= t(comment.deletion_reason)

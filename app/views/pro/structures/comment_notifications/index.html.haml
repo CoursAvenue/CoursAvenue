@@ -1,0 +1,28 @@
+= side_menu_currently_at "Mes avis"
+
+= render partial: 'pro/structures/comments_tabs', locals: {current: 'comment_notification'}
+
+%table.table--striped.table--data.table--white#comment-notification-table
+  %thead
+    %tr
+      %th Email
+      %th.text--center A laissé une recommandation
+  %tbody
+    - @structure.comment_notifications.each do |comment_notification|
+      %tr
+        %td= comment_notification.user.email
+        %td.text--center{data: {value: comment_notification.complete? ? '0' : '1'}}
+          - if comment_notification.complete?
+            %i.icon-ok
+        - if current_pro_admin.super_admin?
+          %td
+            = link_to 'Supprimer', pro_structure_comment_notification_path(@structure, comment_notification), method: :delete, class: 'red'
+
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+      if ($('#comment-notification-table')) {
+          $('#dataTable').tablesorter();
+      }
+    });

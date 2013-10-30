@@ -67,20 +67,6 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
-  def get_feedbacks
-    @structure      = Structure.friendly.find params[:id]
-    params[:emails] ||= ''
-    regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
-    emails = params[:emails].scan(regexp).uniq
-    text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>'
-    emails.each do |email|
-      StudentMailer.delay.ask_for_feedbacks(@structure, text, email)
-    end
-    respond_to do |format|
-      format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés.': nil)}
-    end
-  end
-
   def coursavenue_recommendations
   end
 
@@ -193,6 +179,7 @@ class Pro::StructuresController < Pro::ProController
     if params[:structure] and params[:structure][:subject_descendants_ids].present?
       params[:structure][:subject_ids] = params[:structure][:subject_ids] + params[:structure].delete(:subject_descendants_ids)
     end
+
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
         @ratio = @structure.ratio_from_original(:large)
@@ -276,7 +263,7 @@ class Pro::StructuresController < Pro::ProController
         return wizard
       end
     else
-      Wizard.all.each do |wizard|
+      Wizard.all do |wizard|
         unless wizard.completed?.call(@structure)
           session[:current_wizard_id] = wizard.id
           return wizard

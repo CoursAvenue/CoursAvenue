@@ -41,6 +41,7 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   config.include Devise::TestHelpers, :type => :controller
+  config.include Delorean
 
   # $original_sunspot_session = Sunspot.session
   # config.before do

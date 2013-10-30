@@ -6,7 +6,7 @@ FactoryGirl.define do
 
     structure
 
-    name     Forgery::Name.full_name
+    name     Faker::Name.name
     sequence :email do |n|
       "person#{n}@example.com"
     end

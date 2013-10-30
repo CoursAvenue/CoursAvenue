@@ -51,33 +51,32 @@
       #tab-map.tab-pane.active
         .course-header-map
           = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 17, mapTypeControl: false}, last_map: true} )
-        %ul.block-list.white-box#place-list
-          - @structure.places.each_with_index do |place, index|
-            %li.grid--full.hidden
-              .grid__item.width-auto.v-middle.soft-half--right>
-                .map-marker-image.center-block
-                  %a
-                    %span= index + 1
-              .grid__item.seven-eighths.v-middle>
-                = place.location.name
-                %br
-                %i= place.location.address
-              %div{itemscope: true, itemtype: 'http://schema.org/Place'}
-                .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
-                  %meta{itemprop: 'latitude', content: place.location.latitude}
-                  %meta{itemprop: 'longitude', content: place.location.longitude}
+        %div.white-box.push-half--bottom
+          %ul.block-list#place-list.hidden.flush
+            - @structure.places.each_with_index do |place, index|
+              %li.grid--full
+                .grid__item.width-auto.v-middle.soft-half--right>
+                  .map-marker-image.center-block
+                    %a
+                      %span= index + 1
+                .grid__item.seven-eighths.v-middle>
+                  = place.location.name
+                  %br
+                  %i= place.location.address
+                %div{itemscope: true, itemtype: 'http://schema.org/Place'}
+                  .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
+                    %meta{itemprop: 'latitude', content: place.location.latitude}
+                    %meta{itemprop: 'longitude', content: place.location.longitude}
           .text--center
             %a#show-all-places{href: 'javascript:void(0)'} Voir les adresses
 
       #tab-medias.tab-pane
-        .media-gallery
-          - if @medias.any?
+        - if @medias.any?
+          .media-gallery
             = render partial: 'medias/media', collection: @medias
-          - else
-            %p.white-box.islet.text--center
-              Cet établissement n'a pas de photos ou de vidéos.
-              -# %br
-              -# = link_to 'Soliciter à mettre des photos & des vidéos', 'javascript:void(0)', class: 'btn btn--blue'
+        - else
+          %p.white-box.islet.text--center
+            Cet établissement n'a ni photos ni vidéos.
 
     %ul.tabs
       %li.active
@@ -238,9 +237,9 @@
         $('#show-all-places').click(function() {
             if (places_are_hidden) {
                 $(this).text('Cacher les adresses');
-                $('#place-list .hidden').removeClass('hidden');
+                $('#place-list').slideDown();
             } else {
-                $('#place-list li').addClass('hidden');
+                $('#place-list').slideUp();
                 $(this).text('Voir les adresses');
             }
             places_are_hidden = !places_are_hidden;
@@ -268,7 +267,7 @@
                 return false;
             });
         }
-        if (window.location.hash.indexOf('recommantation-') != -1) {
+        if (window.location.hash.indexOf('recommandation-') != -1) {
             $('[href=#tab-comments]').click();
             $.scrollTo($(window.location.hash), {duration: 500});
         }
@@ -276,9 +275,11 @@
             $('[href=' + window.location.hash + ']').click();
         }
         $('[href=#tab-medias]').click(function(){
-            setTimeout(function(){
-              $('.media-gallery').masonry({ itemSelector: '.media__item' });
-            }, 5);
+            if ($('.media-gallery').length > 0) {
+                setTimeout(function(){
+                  $('.media-gallery').masonry({ itemSelector: '.media__item' });
+                }, 5);
+            }
         });
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
         $('#submit-coord-form').click(function(){

@@ -16,7 +16,7 @@ gem 'heroku-api'
 gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
 
 # For pagination
-gem 'kaminari'
+gem 'kaminari', '~> 0.14.1'
 
 # Monitoring
 gem 'newrelic_rpm'          , '~>3.6.8.164'
@@ -81,14 +81,18 @@ gem 'simple_form'               , '~>3.0.0'
 # Dry the controllers
 gem 'inherited_resources'       , '~>1.3.1'
 
+# For messaging
+gem 'mailboxer'                 , '~> 0.11.0'
+
 # For authorizations
 gem 'cancan'                    , '~>1.6.9'
 # For authentication
 gem 'devise'                    , '~>3.1.1'
 # Facebook connect
-gem 'omniauth-facebook'         , '~>1.4.0'
+gem 'omniauth-facebook'         , '~>1.4.1'
 # Helps access to gmail contacts etc.
 gem 'omnicontacts'              , '~>0.3.4'
+gem 'certified'                 , '~>0.1.1'
 
 # Search engine
 gem 'sunspot'                   , '~>2.0.0'
@@ -155,7 +159,7 @@ group :test do
   gem 'factory_girl_rails', '~>4.2.1'
   gem 'rspec-rails'       , '~>2.14.0'
   gem 'rspec-instafail'   , '~>0.2.4'
-  gem 'forgery'           , '~>0.5.0'
+  gem 'faker'             , '~>1.2.0'
   gem 'simplecov'         , '~>0.7.1'
   gem "sunspot_test"
 end

@@ -42,7 +42,6 @@ CoursAvenue::Application.routes.draw do
           patch :disable
           get   :recommendations, path: 'recommandations'
           get   :coursavenue_recommendations, path: 'recommander-coursavenue'
-          post  :get_feedbacks
           post  :recommend_friends
           post  :update
           get   :sticker
@@ -60,6 +59,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
         resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
+        resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments' do
           member do
             patch :accept
@@ -70,8 +70,9 @@ CoursAvenue::Application.routes.draw do
         resources :medias, controller: 'structures/medias'
         resources :teachers
         resources :places
-        resources :students, only: [:index, :destroy], controller: 'structures/students'
 
+        resources :messages     , controller: 'structures/messages'
+        resources :conversations, controller: 'structures/conversations'
         resources :courses, only: [:index, :new, :create], path: 'cours'#, controller: 'structures/courses' # To insure to have the structure_id
       end
       resources :courses, except: [:new, :create], path: 'cours' do
@@ -104,12 +105,9 @@ CoursAvenue::Application.routes.draw do
         resources :plannings, only: [:create, :update]
       end
 
-      resources :students, only: [:index] do
-        member do
-          post 'ask_for_feedbacks_stage_1'
-        end
-      end
-      resources :users, only: [:index]
+      resources :users                , only: [:index]
+      resources :comment_notifications, only: [:index]
+      resources :messages             , only: [:index]
 
       resources :admins do
         collection do
@@ -119,22 +117,31 @@ CoursAvenue::Application.routes.draw do
           patch 'confirm'
         end
       end
-      devise_for :admins, controllers: { sessions: 'pro/admins/sessions', registrations: 'pro/admins/registrations', passwords: 'pro/admins/passwords', confirmations: 'pro/admins/confirmations'} , path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/', :confirmation => 'verification'}#, :password => 'secret', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
+      devise_for :admins, controllers: { sessions: 'pro/admins/sessions', registrations: 'pro/admins/registrations', passwords: 'pro/admins/passwords', confirmations: 'pro/admins/confirmations'}, path: '/', path_names: { sign_in: '/connexion', sign_out: 'logout', registration: 'rejoindre-coursavenue-pro', sign_up: '/', :confirmation => 'verification'}#, :password => 'secret', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
     end
   end
 
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
-  devise_for :users, controllers: { :omniauth_callbacks => 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations' }
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations'}
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
-    resources  :comments, only: [:index, :edit, :update], controller: 'users/comments'
+    collection do
+      get 'unsubscribe/:signature' => 'students#unsubscribe', as: 'unsubscribe'
+    end
+    member do
+      get :choose_password
+      patch :first_update
+    end
+    resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
+    resources :messages     , controller: 'users/messages'
+    resources :conversations, controller: 'users/conversations'
   end
   resources :emails, only: [:create]
 
   get 'auth/:provider/callback', to: 'session#create'
-  get 'auth/failure', to: redirect('/')
-  get 'signout', to: 'session#destroy', as: 'signout'
+  get 'auth/failure'           , to: redirect('/')
+  get 'signout'                , to: 'session#destroy', as: 'signout'
 
 
   resources :cities, only: [] do
@@ -147,12 +154,6 @@ CoursAvenue::Application.routes.draw do
   resources :locations, only: [:index]
 
   resources :reservations, only: [:create]
-
-  resources :students, only: [:create] do
-    collection do
-      get 'unsubscribe/:signature' => 'students#unsubscribe', as: 'unsubscribe'
-    end
-  end
 
   resources :comments, only: [:create]
 

@@ -1,14 +1,14 @@
-= user_menu_currently_at 'Mon profil'
+= user_menu_currently_at 'Mes infos'
 
 %ol.nav.breadcrumb.delta
-  %li= link_to 'Mon profil', user_path(current_user)
+  %li= link_to 'Mes infos', user_path(current_user)
   %li Modification
 
 .white-box.islet
   = simple_form_for @user do |f|
     - if @user.fb_avatar or @user.avatar.present?
       .input
-        %label.control-label Avatar
+        %label.control-label Ma photo
         .text--center
           = link_to 'javascript:void(0);', id: 'change-avatar' do
             - if @user.avatar.present?
@@ -19,9 +19,13 @@
             Changer ma photo
           = f.input :avatar, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'},input_html: {id: 'avatar-input'}
     - else
-      = f.input :avatar
-    = f.input :first_name
-    = f.input :last_name
+      %div{ data: { behavior: 'image-input'} }
+        .input
+          = f.label :avatar
+          %a.btn.btn--blue{ data: {trigger: true} } Choisir ma photo
+          %img{style: 'max-height: 5em; max-width: 15em;'}
+        = f.input :avatar, wrapper_html: {class: 'visuallyhidden'}
+    = f.input :name
     .form-actions
       = f.submit 'Sauvegarder', class: 'btn btn--green'
 

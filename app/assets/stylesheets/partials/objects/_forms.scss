@@ -24,7 +24,7 @@
     }
     .input {
         margin: 10px 0;
-        input, textarea {
+        input, textarea, .input {
             width    : 100% - $label-width;
             &.one-whole {
                 width: 100%;
@@ -49,6 +49,9 @@
         > select, > input, > select, > textarea, > div, > label {
             display       : inline-block;
             vertical-align: middle;
+        }
+        > label.text {
+            vertical-align: top;
         }
         > input, > select, > textarea, > div, > label {
             font-size: $base-font-size;

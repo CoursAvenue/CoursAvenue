@@ -1,7 +1,7 @@
 $(function() {
     var global = GLOBAL.namespace('GLOBAL');
     $("[data-behavior=modal]").each(function() {
-        var width  = $(this).data('width') || '70%';
+        var width  = $(this).data('width') || 'auto';
         var height = $(this).data('height') || 'auto';
         $(this).fancybox({
                 openSpeed   : 300,
@@ -43,15 +43,6 @@ $(function() {
         });
     };
     global.initialize_callbacks.push(chosen_initializer);
-    var copy_initializer = function() {
-        $("[data-behavior=copy-to-clipboard]").each(function(index, element) {
-            var clip = new ZeroClipboard(element);
-            clip.on('mousedown', function(client) {
-                GLOBAL.flash('Votre texte à bien été copié');
-            });
-        });
-    };
-    global.initialize_callbacks.push(copy_initializer);
     var tooltip_initializer = function() {
         $('[data-behavior=tooltip]').each(function(el) {
             $(this).tooltip();

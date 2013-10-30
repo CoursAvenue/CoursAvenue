@@ -12,6 +12,5 @@ describe Pro::StructuresController do
       get :index
       expect(response).to be_redirect
     end
-
   end
 end

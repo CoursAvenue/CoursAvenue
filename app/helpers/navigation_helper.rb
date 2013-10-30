@@ -8,7 +8,11 @@ module NavigationHelper
     if options[:icon].present?
       title = "<i class='#{options[:icon]}'></i>&nbsp;#{title}".html_safe
     end
-    content_tag(:li, link_to(title, url, class: "user-menu__item"), options)
+    if current_user
+      content_tag(:li, link_to(title, url, class: 'user-menu__item'), options)
+    else
+      content_tag(:li, link_to(title, 'javascript:void(0);', data: {behavior: 'connection'}, class: 'fancybox.ajax user-menu__item'), options)
+    end
   end
 
   def pro_side_menu_link(title, url, options = {})
@@ -22,6 +26,8 @@ module NavigationHelper
       if @structure and @structure.has_pending_comments?
         html_title << "&nbsp;<span class='warning-buble' data-behavior='tooltip' data-original-title='Vous avez des avis en attente de validation.'>!</span>".html_safe
       end
+    elsif title == 'Mes messages'
+      html_title << " (#{@structure.main_contact.mailbox.conversations.length})" if @structure.main_contact.mailbox.conversations.any?
     end
     content_tag(:li, link_to(html_title, url, class: 'side-menu-link'), options)
   end

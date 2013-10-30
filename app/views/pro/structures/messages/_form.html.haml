@@ -1,0 +1,8 @@
+= simple_form_for [:pro, @structure, @message] do |f|
+  .form-white-box
+    = f.error_notification
+    = f.input :recipients, as: :select, collection: @structure.users.sort_by(&:email).uniq, input_html: {data: {behavior: 'chosen', placeholder: 'Sélectionnez un destinataires'}}, selected: (params[:message] ? params[:message][:recipients] : nil), label_method: lambda {|user| user.name_with_email }
+    = f.input :subject
+    = f.input :body, input_html: { style: 'height: 150px', data: {behavior: 'autoresize'} }
+    .form-actions
+      = f.submit 'Envoyer', class: 'btn btn--green'

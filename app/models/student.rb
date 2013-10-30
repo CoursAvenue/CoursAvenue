@@ -1,6 +1,8 @@
 class Student < ActiveRecord::Base
   include ActsAsUnsubscribable
-  attr_accessible :email, :city, :email_status, :structure_id, :email_opt_in
+  acts_as_messageable
+
+  attr_accessible :email, :city, :structure_id, :email_opt_in, :email_status
 
   belongs_to :structure
 
@@ -9,8 +11,6 @@ class Student < ActiveRecord::Base
   validates :email, presence: true
   validates :email, format: { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create }
 
-
-  # after_save :subscribe_to_mailchimp if Rails.env.production?
 
   def has_recommanded?
     _email        = self.email
@@ -46,25 +46,5 @@ class Student < ActiveRecord::Base
       self.save
       StudentMailer.delay.ask_for_feedbacks_stage_3(self.structure, self.email)
     end
-  end
-
-  private
-  def subscribe_to_mailchimp
-    merge_vars = {
-      :STATUS     => 'not registered',
-      :NB_COMMENT => 0
-    }
-    if self.structure
-      merge_vars[:STRUC_SLUG] = self.structure.slug
-      merge_vars[:STRUC_NAME] = self.structure.name
-    end
-    gb = Gibbon::API.new
-    gb.lists.subscribe({:id => CoursAvenue::Application::MAILCHIMP_USERS_LIST_ID,
-                           :email => {email: self.email},
-                           :merge_vars => merge_vars,
-                           :double_optin => false,
-                           :update_existing => true,
-                           :send_welcome => false}
-                           )
   end
 end

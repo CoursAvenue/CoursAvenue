@@ -1,0 +1,14 @@
+.grid.message
+  .grid__item.one-twelfth.v-top.text--right>
+    = image_tag message.sender.avatar_url(:thumb), class: 'message__avatar' if message.sender
+  .grid__item.eleven-twelfths.soft-half--left>
+    .grid--full.soft-half.white-box.push-half--bottom
+      .grid__item.two-twelfths.text--right>
+        - if message.sender.is_a? Admin
+          %strong= link_to message.sender.name, structure_url(message.sender.structure, subdomain: 'www'), class: 'semi-muted-link'
+        - else
+          %strong= message.sender.name
+        %br
+        = "#{l(message.created_at.to_date, format: :short)} à #{l(message.created_at, format: :short)}"
+      .grid__item.ten-twelfths>
+        = simple_format message.body

@@ -9,8 +9,7 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
-  acts_as_gmappable validation: false,
-                    language: 'fr'
+  acts_as_gmappable validation: false, language: 'fr'
 
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',
@@ -82,7 +81,10 @@ class Structure < ActiveRecord::Base
   has_many :courses                   , dependent: :destroy
   has_many :cities                    , through: :places
   has_many :reservations,         as: :reservable
+  has_many :comment_notifications
+
   has_and_belongs_to_many :subjects
+  has_and_belongs_to_many :users
 
   has_many :places                   , dependent: :destroy
 
@@ -305,7 +307,7 @@ class Structure < ActiveRecord::Base
   end
 
   def contact_email
-    if read_attribute(:contact_email)
+    if !read_attribute(:contact_email).blank?
       read_attribute(:contact_email)
     elsif admins.any?
       admins.first.email

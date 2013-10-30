@@ -1,8 +1,6 @@
 = side_menu_currently_at 'Users'
 
-#users
-
-%h2 Liste des utilisateurs (#{@users.length})
+%h2 Liste des utilisateurs (#{User.count})
 
 %table.table--striped.white-box#dataTable
   %thead
@@ -22,11 +20,11 @@
         %td.text--center
           - if user and user.has_avatar?
             = image_tag user.avatar_url(:small), height: 30
-          - else
-            .profile-picture.center-block{class: "profile-picture-variation-#{((user.full_name.length * 16) % 14) + 1}"}
-              = user.full_name[0].capitalize
+          - elsif user.name.present?
+            .profile-picture--small.center-block{class: "profile-picture-variation-#{((user.name.length * 16) % 14) + 1}"}
+              = user.name[0].capitalize
         %td
-          = user.full_name
+          = user.name
           = link_to "(#{user.email})", "mailto:#{user.email}"
         %td{data: {value: user.created_at}}
           = l(user.created_at, format: :date_short)
@@ -40,12 +38,4 @@
   :javascript
     $(function() {
         $('#dataTable').tablesorter();
-        new Highcharts.Chart({
-            chart: { renderTo: 'users' },
-            title: { text: null },
-            xAxis: { categories: #{@users_signups.map{|date, count| l(Date.parse(date), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@users_signups.map{|date, count| count}} }]
-        });
-
     });

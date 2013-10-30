@@ -1,5 +1,4 @@
 .flash {
-    text-shadow : none;
     overflow    : hidden;
     position    : fixed;
     top         : -1000px;
@@ -8,6 +7,8 @@
     margin      : 0;
     margin-left : -20em;
     text-align  : center;
+    text-shadow : none;
+    font-weight : normal;
     color       : white;
     padding     : 0.5em 1em;
     z-index     : 1000000;

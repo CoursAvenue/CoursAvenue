@@ -3,12 +3,13 @@
 FactoryGirl.define do
 
   factory :user do
+    name     Faker::Name.name
 
-    first_name     Forgery::Name.first_name
-    last_name      Forgery::Name.last_name
+    # email    Faker::Internet.email
     sequence :email do |n|
       "person#{n}@example.com"
     end
+
     password                'password'
     password_confirmation   'password'
   end

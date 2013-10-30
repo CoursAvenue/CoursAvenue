@@ -3,17 +3,19 @@
 FactoryGirl.define do
   factory :comment do
     commentable {FactoryGirl.create(:structure)}
+    user
+    title       Faker::Lorem.sentence(4)
 
     # Comment contact
-    author_name     Forgery::Name.full_name
+    author_name     Faker::Name.name
     sequence :email do |n|
       "person#{n}@example.com"
     end
 
 
     # Comment content
-    course_name     Forgery(:lorem_ipsum).words(4)
-    content         Forgery(:lorem_ipsum).words(8)
+    course_name       Faker::Lorem.sentence(4)
+    content           Faker::Lorem.sentence(40)
     # rating          [1,2,3,4,5].sample
 
     factory :accepted_comment do

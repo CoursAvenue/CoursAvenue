@@ -7,9 +7,7 @@ class Pro::UsersController < Pro::ProController
   authorize_resource :users
 
   def index
-    @users         = User.order('created_at DESC').all
-    @users_signups = User.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
-    # @users_signups = @users.group_by{|u| I18n.l(u.created_at, format: :date_short)}.map {|k,v| [k, v.length]}.sort
+    @users         = User.order('created_at DESC').limit(300)
   end
 
 end
