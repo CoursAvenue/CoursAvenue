@@ -5,7 +5,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     Views.StructureView = Views.AccordionItemView.extend({
         template: 'backbone/templates/structure_view',
         tagName: 'li',
-        className: 'structure-item',
+        className: 'structure-item push-half--bottom',
         attributes: {
             'data-type': 'structure-element hard'
         },

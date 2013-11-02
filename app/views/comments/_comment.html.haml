@@ -31,9 +31,9 @@
           = simple_format comment.content
         %p.text--right.flush
           %i.semi-muted{itemprop: 'datePublished', content: l(comment.created_at, format: :iso_date)}
-            Écrit par
+            Par
             %strong= comment.author_name
-            le #{l(comment.created_at, format: :date)}
+            il y a #{distance_of_time_in_words_to_now comment.created_at}
         - if with_link
           %p.text--right.flush
             = link_to comment.commentable.name, commentable_url(comment), target: '_blank'
