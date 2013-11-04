@@ -25,8 +25,18 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.announcePaginatorUpdated();
         },
 
+        /* we don't use this, but we could */
+        accordionCloseAll: function () {
+            var self = this;
+
+            _.each(_.clone(this.currently_selected_cid), function(cid) {
+                console.log(cid);
+                var itemView = self.children.findByModelCid(cid);
+                itemView.accordionToggle(itemView.active_region);
+            });
+        },
+
         announcePaginatorUpdated: function () {
-            console.log("PaginatedCollectionView->announcePaginatorUpdated");
             var data = this.collection;
             var first_result = (data.currentPage - 1) * data.perPage + 1;
 
@@ -115,7 +125,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         filterQuery: function(filters) {
-            console.log("PaginatedCollectionView->filterQuery");
             /* TODO check for redundancy: if the incoming filters don't
             *  change anything, we shouldn't do the update */
             // if (this.collection.setQuery(filter) === this.collection.getQuery()) {

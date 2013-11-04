@@ -1,11 +1,21 @@
 .structure-item {
 
 }
-
     .structure-item__button {
         cursor: pointer;
-        @include transition(background-color 250ms linear);
+        @include transition(background-color 150ms linear);
         &:hover {
             background-color: #EEE;
+        }
+    }
+    .structure-item__comment-list {
+        position: relative;
+        top     : -1px;
+        z-index : -1;
+        .structure-item__comment-item{
+            border-bottom: 1px solid #EEE;
+        }
+        .structure-item__comment-item:last-child {
+            border-bottom: none;
         }
     }

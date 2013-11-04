@@ -3,13 +3,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     Views.AccordionItemView = Backbone.Marionette.Layout.extend({
 
         accordionClose: function() {
-            this.minimize();
             this.model.set({ selected: false });
+            this.minimize();
+            this.trigger("accordion:close", this.model.cid);
         },
 
         accordionOpen: function() {
-            console.log("AccordionItemView->accordionOpen");
-
             if (this.model.get("selected") === true) {
                 return false;
             }
@@ -23,11 +22,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* hide for now, since slideUp is being mean */
         minimize: function() {
-            this.$el.find('[data-type=accordion-data]').hide();
+            this.$el.find('[data-type=accordion-data]').slideUp();
         },
 
         maximize: function() {
-            this.$el.find('[data-type=accordion-data]').show();
+            this.$el.find('[data-type=accordion-data]').slideDown('slow');
         }
     });
 });

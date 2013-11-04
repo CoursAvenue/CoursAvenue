@@ -5,13 +5,14 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     Views.CommentView = Backbone.Marionette.ItemView.extend({
         template: "backbone/templates/comment_view",
         tagName: "li",
+        className: 'structure-item__comment-item',
 
-        onRender: function () {
-            // TODO Check the right method to be called after render
-            var self = this;
-            setTimeout(function(){
-              self.$('[data-behavior=read-more]').readMore();
-            });
+        events: {
+          'click': 'handleClick'
+        },
+
+        handleClick: function () {
+          window.location = window.location.protocol + '//' + window.location.host + '/' + this.model.get('comment_url');
         }
     });
 

@@ -30,7 +30,9 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
                         console.log("URL");
                         if (models === undefined) { return ''; }
 
-                        return '/etablissements/' + models[0].get('structure').get('id') + '/recommandations.json';
+                        var model_ids = _.pluck(models, 'id').join(',');
+
+                        return '/etablissements/' + models[0].get('structure').get('id') + '/recommandations/' + model_ids + '.json';
                     }
                 })
             },
