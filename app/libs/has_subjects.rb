@@ -36,7 +36,7 @@ module HasSubjects
 
     def update_subjects_string
       subjects_array = []
-      self.subjects.uniq.each do |subject|
+      self.subjects.at_depth(2).uniq.each do |subject|
         subjects_array << "#{subject.name}:#{subject.slug}"
       end
       self.update_column :subjects_string, subjects_array.join(';')
