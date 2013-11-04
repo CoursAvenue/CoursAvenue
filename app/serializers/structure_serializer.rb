@@ -17,7 +17,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def comments
-    object.comments.limit(5).order(created_at: :desc)
+    object.comments.title_ordered_first.limit(5)
   end
 
   def courses_count

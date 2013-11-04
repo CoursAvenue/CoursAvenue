@@ -6,7 +6,7 @@ class Structures::CommentsController < ApplicationController
 
   def index
     @structure    = Structure.friendly.find(params[:structure_id])
-    @comments     = @structure.comments.to_a
+    @comments     = @structure.comments.title_ordered_first.limit(5).to_a
 
     respond_to do |format|
       format.json { render json: @comments }
