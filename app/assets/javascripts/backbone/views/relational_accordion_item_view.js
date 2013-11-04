@@ -49,14 +49,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* either switch between tabs on the structure, or defer to
         *  the accordion action */
         accordionToggle: function (value) {
-            var closing = (this.active_region === value);
-
+            var closing = (this.active_region === value),
+                button  = this.$('[data-value=' + value + ']');
             if (closing) {
                 this.accordionClose();
                 $('html, body').animate({
                     scrollTop: this.$el.offset().top
                 }, 400);
+                button.removeClass('active');
             } else { // we may be opening or switching
+                button.addClass('active');
 
                 /* we are switching */
                 if (this.active_region) {

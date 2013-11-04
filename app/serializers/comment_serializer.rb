@@ -7,7 +7,7 @@ class CommentSerializer < ActiveModel::Serializer
   attributes :id, :content, :title, :author_name, :course_name, :created_at, :comment_url, :rating, :comments_url, :distance_of_time
 
   def content
-    truncate_html(object.content, length: 65, omission: "...").html_safe
+    truncate_html(object.content, length: 60, omission: "...").html_safe
   end
 
   # while link_to and such aren't working, we will just use this
