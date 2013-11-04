@@ -73,11 +73,6 @@ http://download.geonames.org/export/zip/
 
 `RAILS_ENV=production rake sitemap:create`
 
-### I18n
-
-Exporting translations:
-`rake i18n:js:export`
-
 ### Tests
 rake db:test:clone
 RAILS_ENV=test rake sunspot:solr:start

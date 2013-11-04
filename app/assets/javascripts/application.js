@@ -18,9 +18,6 @@
 
 // require jquery.turbolinks
 
-//= require i18n
-//= require i18n/translations
-
 // ---------------------------------- Lib includes
 //= require libs/handlebars
 //= require libs/handlebars-helpers
