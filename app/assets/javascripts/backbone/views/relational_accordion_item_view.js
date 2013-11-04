@@ -52,21 +52,30 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         accordionToggle: function (value) {
             var closing = (this.active_region === value),
                 button  = this.$('[data-value=' + value + ']');
+
+            button.toggleClass('active');
+
             if (closing) {
                 this.accordionClose();
-                button.removeClass('active');
-            } else { // we may be opening or switching
-                button.addClass('active');
+                this[this.active_region].currentView.$el.attr('data-type', '');
 
-                /* we are switching */
+            } else { // we may be opening or switching
+
                 if (this.active_region) {
+                /* we are switching */
                     this[this.active_region].$el.find('[data-type=accordion-data]').hide();
                     this[this.active_region].currentView.$el.attr('data-type', '');
+                    this.$('[data-value=' + this.active_region + ']').toggleClass('active');
                     this[value].currentView.$el.attr('data-type', 'accordion-data');
+                } else {
+                /* both tabs are closed */
+                    this[value].currentView.$el.attr('data-type', 'accordion-data');
+
                 }
 
-                /* we tried to switch between regions */
+                /* try to unfold something */
                 if (this.accordionOpen() === false) {
+                /* we are switch between regions */
                     this[value].$el.find('[data-type=accordion-data]').show();
                 }
             }
