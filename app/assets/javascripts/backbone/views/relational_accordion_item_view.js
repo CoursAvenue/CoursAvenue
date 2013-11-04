@@ -53,9 +53,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 button  = this.$('[data-value=' + value + ']');
             if (closing) {
                 this.accordionClose();
-                $('html, body').animate({
-                    scrollTop: this.$el.offset().top
-                }, 400);
                 button.removeClass('active');
             } else { // we may be opening or switching
                 button.addClass('active');
