@@ -2,7 +2,7 @@
 
 - if @waiting_for_deletion_comments.any?
   %h3
-    %i.icon-comments-alt
+    %i.fa.fa-comments-alt
     Avis en attente de suppression
 
   %ul.comment-list
@@ -10,14 +10,14 @@
 
 - if @waiting_for_validation_comments.any?
   %h3
-    %i.icon-comments-alt
+    %i.fa.fa-comments-alt
     Avis en attente de validation
 
   %ul.comment-list
     = render partial: '/comments/comment', collection: @waiting_for_validation_comments, locals: {with_link: true}
 
 %h3
-  %i.icon-comments-alt
+  %i.fa.fa-comments-alt
   Derniers avis
 
 %ul.comment-list

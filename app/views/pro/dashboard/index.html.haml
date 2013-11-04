@@ -1,12 +1,12 @@
 = side_menu_currently_at 'Dashboard'
 
 %h1.header-group
-  %i.icon-dashboard
+  %i.fa.fa-dashboard
   Tableau de bord
 
 
 %h3.header-group
-  %i.icon-map-marker
+  %i.fa.fa-map-marker
   Professeurs enregistrés / Avis laissés (non cumulé)
 .white-box.islet.text--center
   .gamma
@@ -24,13 +24,13 @@
   #admins2
 
 %h3.header-group
-  %i.icon-map-marker
+  %i.fa.fa-map-marker
   Professeurs enregistrés / Avis laissés - progression / semaine (non cumulé)
 .white-box.islet.text--center
   #comments-admins-progression-weekly
 
 %h3.header-group
-  %i.icon-map-marker
+  %i.fa.fa-map-marker
   Professeurs enregistrés / Avis laissés - progression (cumulé)
 .white-box.islet.text--center
   .gamma
@@ -43,7 +43,7 @@
 
 
 %h3.header-group
-  %i.icon-group
+  %i.fa.fa-group
   Élèves notifiés pour avis
 .white-box.islet.text--center
   .gamma
@@ -53,7 +53,7 @@
 
 - if params[:with_subjects]
   %h3.header-group
-    %i.icon-map-marker
+    %i.fa.fa-map-marker
     Nombre d'établissements par disciplines (dont le prof est enregistré)
   .white-box.islet.text--center
     #subjects
@@ -61,7 +61,7 @@
   %p.text--center= link_to 'Voir la répartition par discipline',  pro_dashboard_path(with_subjects: true), class: 'btn btn--blue'
 
 -#%h3.header-group
--#  %i.icon-map-marker
+-#  %i.fa.fa-map-marker
 -#  Lieux d'enseignement
 -#:css
 -#  .gmaps4rails_map {
@@ -72,7 +72,7 @@
 .grid.push--top
   .grid__item.one-half>
     %h3.header-group
-      %i.icon-list
+      %i.fa.fa-list
       Cours en ligne
     .white-box.islet.text--center
       .gamma
@@ -81,7 +81,7 @@
       #courses
   .grid__item.one-half>
     %h3.header-group
-      %i.icon-youtube-play
+      %i.fa.fa-youtube-play
       Photos & Vidéos
     .white-box.islet.text--center
       .gamma
@@ -91,14 +91,14 @@
 
 
 %h3.header-group
-  %i.icon-map-marker
+  %i.fa.fa-map-marker
   Lieux d'enseignement
 .white-box.islet.text--center
   .gamma
     = Place.count
     Lieux
 %h3.header-group
-  %i.icon-group
+  %i.fa.fa-group
   Users
 .white-box.islet.text--center
   .gamma

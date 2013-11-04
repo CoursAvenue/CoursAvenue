@@ -1,7 +1,7 @@
 %h4.flush--bottom= @structure.name
 - if @structure.website
   %div
-    %i.icon-external-link
+    %i.fa.fa-external-link
     = link_to @structure.website, @structure.website, target: '_blank'
 %p
   %i
@@ -13,17 +13,17 @@
   - if @structure.main_contact.present?
     - if @structure.main_contact.name
       %div
-        %i.icon-user
+        %i.fa.fa-user
         = @structure.main_contact.name
 
     - if @structure.main_contact.email
       %div
-        %i.icon-envelope
+        %i.fa.fa-envelope
         = @structure.main_contact.email
 
     - if @structure.main_contact.phone_number or @structure.main_contact.mobile_phone_number
       %div
-        %i.icon-phone
+        %i.fa.fa-phone
         = @structure.main_contact.phone_number
         - if @structure.main_contact.phone_number and @structure.main_contact.mobile_phone_number
           \/
@@ -39,23 +39,23 @@
     %hr
     - if place.main_contact.name
       %div
-        %i.icon-user
+        %i.fa.fa-user
         = place.main_contact.name
 
     - if place.main_contact.email
       %div
-        %i.icon-envelope
+        %i.fa.fa-envelope
         = place.main_contact.email
 
     - if place.main_contact.phone.present? or place.main_contact.mobile_phone.present?
       %div
-        %i.icon-phone
+        %i.fa.fa-phone
         = place.main_contact.phone
         - if place.main_contact.phone and place.main_contact.mobile_phone
           \/
         = place.main_contact.mobile_phone
   %div
-    %i.icon-map-marker
+    %i.fa.fa-map-marker
     = place.location.address
 
 

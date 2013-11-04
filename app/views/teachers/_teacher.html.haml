@@ -14,9 +14,9 @@
   - if can? :destroy, teacher
     %br
     = link_to edit_pro_structure_teacher_path(@structure, teacher), title: 'Modifier ce professeur', class: 'fancybox.ajax btn btn--small btn--orange', data: {behavior: 'modal'} do
-      %i.icon-pencil
+      %i.fa.fa-pencil
       Modifier ce professeur
     &nbsp;
     = link_to pro_structure_teacher_path(@structure, teacher), method: :delete, title: 'Supprimer ce professeur', data: {confirm: 'Êtes-vous sur de supprimer ce professeur ? Cette action sera irreversible.'}, class: 'btn btn--small btn--red' do
-      %i.icon-trash
+      %i.fa.fa-trash
       Supprimer

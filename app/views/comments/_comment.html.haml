@@ -48,35 +48,35 @@
         - if current_user and comment.pending?
           .float--right
             = link_to edit_user_comment_path(current_user, comment), class: 'btn btn--orange btn--small' do
-              %i.icon-pencil.soft-half--right
+              %i.fa.fa-pencil.soft-half--right
               Modifier mon avis
 
         - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
           - if current_pro_admin.super_admin?
             .push-half--left.drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
               %a.btn.btn--small{href: 'javascript:void(0)'}
-                %i.icon-cogs
-                %i.icon-chevron-down.soft-half--left
+                %i.fa.fa-cogs
+                %i.fa.fa-chevron-down.soft-half--left
               %ul.drop-down__el.text--left
                 - if can?(:destroy, comment)
                   - if comment.waiting_for_deletion?
                     %li.nowrap
                       = link_to recover_pro_comment_path(comment), method: :patch do
-                        %i.icon-ok
+                        %i.fa.fa-ok
                         Rétablir
                   %li.nowrap
                     = link_to edit_pro_comment_path(comment) do
-                      %i.icon-pencil
+                      %i.fa.fa-pencil
                       Modifier
                   %li.nowrap
                     = link_to pro_comment_path(comment), method: :delete do
-                      %i.icon-trash
+                      %i.fa.fa-trash
                       Supprimer
           - unless comment.waiting_for_deletion?
             .drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
               %a.btn.btn--small.btn--orange{href: 'javascript:void(0)'}
                 Demande de suppression
-                %i.icon-chevron-down.soft-half--left
+                %i.fa.fa-chevron-down.soft-half--left
               %ul.drop-down__el.text--left
                 - t('comments.deletion_reasons').each do |i18n_key, traducted_string|
                   %li.nowrap
@@ -84,5 +84,5 @@
                       = traducted_string
 
           = link_to new_pro_structure_message_path(comment.structure, message: {recipients: [comment.user.id], subject: 'Merci beaucoup pour ta recommandation'}), onclick: "ga('send', 'event', 'Answer to student', 'click')", class: 'btn btn--small btn--blue float--right push-half--right' do
-            %i.icon-envelope.v-middle.soft-half--right
+            %i.fa.fa-envelope.v-middle.soft-half--right
             %span.v-middle Répondre

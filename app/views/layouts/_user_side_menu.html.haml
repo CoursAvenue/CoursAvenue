@@ -1,10 +1,10 @@
 - content_for :user_side_menu do
   %ul
     - if current_user
-      = user_side_menu_link 'Mes infos', user_path(current_user)    , current: current_tab, icon: 'icon-user'
-      = user_side_menu_link 'Mes avis',   user_comments_path(current_user), current: current_tab, icon: 'icon-comments'
-      = user_side_menu_link 'Mes messages', user_conversations_path(current_user), current: current_tab, icon: 'icon-envelope'
+      = user_side_menu_link 'Mes infos', user_path(current_user)    , current: current_tab, icon: 'fa fa-user'
+      = user_side_menu_link 'Mes avis',   user_comments_path(current_user), current: current_tab, icon: 'fa fa-comments'
+      = user_side_menu_link 'Mes messages', user_conversations_path(current_user), current: current_tab, icon: 'fa fa-envelope'
     - else
-      = user_side_menu_link 'Mes infos',   '#', current: current_tab, icon: 'icon-user'
-      = user_side_menu_link 'Mes avis',     '#', current: current_tab, icon: 'icon-comments'
-      = user_side_menu_link 'Mes messages', '#', current: current_tab, icon: 'icon-envelope'
+      = user_side_menu_link 'Mes infos',   '#', current: current_tab, icon: 'fa fa-user'
+      = user_side_menu_link 'Mes avis',     '#', current: current_tab, icon: 'fa fa-comments'
+      = user_side_menu_link 'Mes messages', '#', current: current_tab, icon: 'fa fa-envelope'

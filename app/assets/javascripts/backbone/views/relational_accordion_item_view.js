@@ -28,9 +28,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         accordionControl: function (e) {
             e.preventDefault();
 
-            var value = $(e.currentTarget).data('value'),
-                attributes = $(e.currentTarget).data('attributes').split(' '),
-                self = this;
+            var value      = $(e.currentTarget).data('value'),
+                self       = this,
+                attributes = ($(e.currentTarget).data('attributes') ? $(e.currentTarget).data('attributes').split(' ') : {});
 
             /* if no region exists on the structure view, then we need to
             *  fetch the relation, and create a region for it */
@@ -50,11 +50,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* either switch between tabs on the structure, or defer to
         *  the accordion action */
         accordionToggle: function (value) {
-            var closing = (this.active_region === value);
-
+            var closing = (this.active_region === value),
+                button  = this.$('[data-value=' + value + ']');
             if (closing) {
                 this.accordionClose();
+                button.removeClass('active');
             } else { // we may be opening or switching
+                button.addClass('active');
 
                 /* we are switching */
                 if (this.active_region) {

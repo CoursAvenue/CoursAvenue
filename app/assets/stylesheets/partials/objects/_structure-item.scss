@@ -1,10 +1,12 @@
 .structure-item {
-
+    position: relative;
+    z-index : 2;
 }
     .structure-item__button {
-        cursor: pointer;
+        cursor  : pointer;
+        position: relative;
         @include transition(background-color 150ms linear);
-        &:hover {
+        &.active, &:hover {
             background-color: #EEE;
         }
     }
@@ -12,7 +14,7 @@
     .structure-item__comment-list {
         position: relative;
         top     : -1px;
-        z-index : -1;
+        z-index : 1;
         .structure-item__comment-item{
             border-bottom: 1px solid #EEE;
         }
@@ -32,3 +34,21 @@
       }
     }
 
+    .structure-item__comment-author {
+        position: absolute;
+        right   : 1em;
+    }
+
+    .structure-item__medias-count {
+        position         : absolute;
+        right            : 0;
+        bottom           : 4px;
+        padding          : 1px 3px;
+        // background-color : $beige-darker;
+        background-color : white;
+        background-color : rgba(255, 255, 255, 0.9);
+        // color            : darken($beige-darker, 35%);
+        color            : black;
+        font-size        : 12px;
+        @include border-left-radius(2px);
+    }

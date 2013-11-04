@@ -12,7 +12,7 @@
             = truncate(comment.author_name.titleize, length: 20).html_safe
             il y a
             = distance_of_time_in_words_to_now comment.created_at
-            %i.icon-time
+            %i.fa.fa-time
             %meta{itemprop: 'ratingValue', content: comment.rating}
             %meta{itemprop: 'bestRating', content: 5}
             %meta{itemprop: 'worstRating', content: 1}

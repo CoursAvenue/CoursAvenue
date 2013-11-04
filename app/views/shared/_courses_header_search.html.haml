@@ -10,7 +10,7 @@
   %div.search-input-wrapper>
     .input-with-icon
       %input#adress-picker{class: 'search-input', placeholder: 'Où ?', type: 'text', autocomplete: 'off', name: 'address_name', value: params[:address_name], data: {behavior: 'address-picker', lng: '#address-lng', lat: '#address-lat', city: '#address-city'}}
-      %i.icon-map-marker.delta
+      %i.fa.fa-map-marker.delta
       %p#specify-location.white-box--noshadow.hidden{style: 'z-index: 2; line-height: 1.3; padding: 5px 10px; position: absolute;'}
         Vous devez spécifier un lieu
   %input#address-lat{type: 'hidden', name: 'lat', value: params[:lat]}
@@ -23,7 +23,7 @@
 
   %div.button-wrapper
     %button.nowrap.btn.btn--orange{type: 'submit', id: 'submit_search_form'}
-      %i.icon-search
+      %i.fa.fa-search
       Rechercher
 
 = content_for :scripts do

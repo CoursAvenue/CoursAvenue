@@ -1,36 +1,55 @@
-<div class="flexbox white-box">
-    <div class="flexbox__item one-sixth">
+<div class="flexbox white-box structure-item">
+    <div class="flexbox__item two-tenths relative">
         {{#if logo_present}}
             <a href="{{ data_url }}" class="block">
                 <img src="{{ logo_thumb_url }}" class="block" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
             </a>
         {{/if}}
+        {{#if has_free_trial_course}}
+            <div class="free-trial-badge"></div>
+        {{/if}}
+        {{#if medias_count}}
+            <a href="{{ data_url }}#tab-medias" class="structure-item__medias-count">
+                {{ medias_count }}
+                {{ pluralize medias_count 'photo / vidéo' 'photos / vidéos' }}
+            </a>
+        {{/if}}
     </div><!--
- --><article class="flexbox__item three-sixths v-top soft-half">
-        <h2 class="delta inline v-middle">
+ --><article class="flexbox__item four-tenths v-top soft-half">
+        <h2 class="epsilon inline v-top">
             <a href="{{ data_url }}">{{ name }}</a>
         </h2>
         <ul class="nav flush">
-            {{#if too_many_subjects }}
-            {{#each parent_subjects }}
-            <span class="flush--bottom inherit-font-size">
-                <a href="{{ path }}" class="lbl milli inline subject-link">{{ name }}</a>
-            </span>
-            {{/each}}
-            {{else}}
             {{#each child_subjects }}
             <span class="flush--bottom inherit-font-size">
                 <a href="{{ path }}" class="lbl milli inline subject-link">{{ name }}</a>
             </span>
             {{/each}}
-            {{/if}}
         </ul>
     </article><!--
- --><div class="flexbox__item structure-item__button one-sixth v-middle text--center" data-type="accordion-control" data-value="courses" data-attributes="data_url">
-        <div class="alpha thin brand">{{ comments_count }}</div>
-        {{ pluralize courses_count 'Séance' 'Séances' }} <i class="lbc-brand-icon"></i>
+ --><div class="flexbox__item two-tenths v-top soft--top text--center milli" data-type="accordion-control" data-value="courses" data-attributes="data_url">
+        <div class="alpha thin brand">{{ courses_count }}</div>
+        {{ pluralize courses_count 'séance' 'séances' }}
+        {{#if teaches_at_home}}
+            <div>
+                <span class="lbl lbl--blue lbl--small">à domicile</span>
+            </div>
+        {{/if}}
+        <div>
+            {{#if has_price_range}}
+                de
+                <span data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                à
+                <span data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
+            {{else}}
+                {{#if min_price_amount}}
+                    à partir de
+                    <span data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                {{/if}}
+            {{/if}}
+        </div>
     </div><!--
- --><div class="flexbox__item structure-item__button one-sixth v-middle text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
+ --><div class="flexbox__item structure-item__button two-twelfths v-top soft--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
         <div class="alpha thin brand">{{ comments_count }}</div>
         avis <i class="lbc-brand-icon"></i>
         <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">

@@ -10,7 +10,7 @@
           %li= link_to 'CoursAvenue.com', root_url(subdomain: 'www'), class: 'btn btn--small'
           %li
             = link_to pages_contact_url(subdomain: 'www'), rel: :nofollow, class: 'btn btn--small' do
-              %i.icon-envelope-alt
+              %i.fa.fa-envelope-alt
               Nous contacter
           = render 'shared/question_dropdown_menu'
 
@@ -20,10 +20,10 @@
             %li
               = link_to destroy_pro_admin_session_path, class: 'header-link', method: :delete do
                 Déconnexion
-                %i.icon-signout
+                %i.fa.fa-signout
           - else
             %li
               = link_to new_pro_admin_session_path, class: 'header-link' do
-                %i.icon-signin
+                %i.fa.fa-signin
                 Se connecter
 

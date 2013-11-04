@@ -22,7 +22,7 @@
               %span.v-middle= @structure.name
               %span.v-middle.soft-half--left
                 = link_to structure_url(@structure, subdomain: 'www'), class: 'btn btn--small v-middle', target: '_blank' do
-                  %i.icon-external-link.v-middle
+                  %i.fa.fa-external-link.v-middle
                   %span.v-middle Voir mon profil public
             %div.push-half--top.relative
               %div{style: 'position: absolute; top: -5px; left: 140px;'}= image_tag 'texts/tete-de-liste.png', height: 60
@@ -32,7 +32,7 @@
                 = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
             %div.push-half--top
               = link_to coursavenue_recommendations_pro_structure_path(@structure), class: 'btn btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
-                %i.icon-bullhorn
+                %i.fa.fa-bullhorn
                 &nbsp;Parrainer un professeur
           .flexbox__item.v-top.two-twelfths.text--center>
             .thin.alpha.brand= @structure.comments_count || 0

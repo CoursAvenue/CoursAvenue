@@ -31,7 +31,7 @@ fr:
         bank_bic: Identifiant bancaire (BIC)
         cancel_condition: "Conditions d’annulation"
         modification_condition: "Conditions de modification"
-        teachers_at_home: Cours à domicile
+        teaches_at_home: Cours à domicile
         widget_url: Lien vers votre livre d'or
         widget_status: Avez-vous installé votre widget
 

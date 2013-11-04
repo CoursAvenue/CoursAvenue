@@ -38,11 +38,11 @@
     %ul.tabs
       %li.active
         %a{href: '#tab-map', data: {toggle: 'tab'} }
-          %i.icon-map-marker
+          %i.fa.fa-map-marker
           Carte
       %li
         %a{href: '#tab-medias', data: {toggle: 'tab'} }
-          %i.icon-picture
+          %i.fa.fa-picture
           Photos & Vidéos
           - if @medias.any?
             = "(#{@medias.length})"
@@ -81,19 +81,19 @@
     %ul.tabs
       %li.active
         %a{href: '#tab-description', data: {toggle: 'tab'} }
-          %i.icon-list
+          %i.fa.fa-list
           Description
       %li
         %a{href: '#tab-courses', data: {toggle: 'tab'} }
-          %i.icon-calendar
+          %i.fa.fa-calendar
           Cours
       %li
         %a{href: '#tab-comments', data: {toggle: 'tab'} }
-          %i.icon-comments
+          %i.fa.fa-comments
           Avis
       %li
         %a{href: '#tab-teachers', data: {toggle: 'tab'} }
-          %i.icon-group
+          %i.fa.fa-group
           Professeurs
     .tab-content
       %article#tab-description.tab-pane.active
@@ -206,11 +206,11 @@
     .white-box.islet.push--top
       - if @structure.website
         %div
-          %i.icon-external-link.orange
+          %i.fa.fa-external-link.orange
           = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
       .blue
         - if @structure.contact_phone or @structure.contact_mobile_phone
-          %i.icon-phone.blue
+          %i.fa.fa-phone.blue
         - if @structure.contact_phone
           = link_to "tel:#{@structure.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
             = @structure.contact_phone.gsub(' ', '&nbsp;').html_safe

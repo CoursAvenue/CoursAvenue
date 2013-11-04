@@ -13,9 +13,9 @@
         $('.rating .star').click(function() {
             $('#comment_rating').val($(this).data('value'));
             $('#comment_rating').trigger('change');
-            $(this).prevAll().addClass('icon-star').removeClass('icon-star-empty');
-            $(this).addClass('icon-star').removeClass('icon-star-empty');
-            $(this).nextAll().removeClass('icon-star').addClass('icon-star-empty');
+            $(this).prevAll().addClass('fa fa-star').removeClass('fa fa-star-empty');
+            $(this).addClass('fa fa-star').removeClass('fa fa-star-empty');
+            $(this).nextAll().removeClass('fa fa-star').addClass('fa fa-star-empty');
         });
         if ($('#new-comment')) {
             $('#new-comment').submit(function(){
@@ -30,18 +30,18 @@
             function() {
                 $('#rating-description').text(rating_descriptions[parseInt($(this).data('value')) - 1]);
                 if ($('#comment_rating').val().length === 0 || (parseInt($('#comment_rating').val()) < parseInt($(this).data('value')))) {
-                    $(this).prevAll().addClass('icon-star').removeClass('icon-star-empty');
-                    $(this).addClass('icon-star').removeClass('icon-star-empty');
-                    $(this).nextAll().removeClass('icon-star').addClass('icon-star-empty');
+                    $(this).prevAll().addClass('fa fa-star').removeClass('fa fa-star-empty');
+                    $(this).addClass('fa fa-star').removeClass('fa fa-star-empty');
+                    $(this).nextAll().removeClass('fa fa-star').addClass('fa fa-star-empty');
                 }
             },
             function() {
-                $('.rating .star').removeClass('icon-star').addClass('icon-star-empty');
+                $('.rating .star').removeClass('fa fa-star').addClass('fa fa-star-empty');
                 if ($('#comment_rating').val().length > 0) {
                     var value = parseInt($('#comment_rating').val());
                     $('#rating-description').text(rating_descriptions[value - 1]);
                     for (var i = 0; i < value; i += 1) {
-                        $($('.rating .star')[i]).addClass('icon-star').removeClass('icon-star-empty');
+                        $($('.rating .star')[i]).addClass('fa fa-star').removeClass('fa fa-star-empty');
                     }
                 } else {
                     $('#rating-description').text('');

@@ -13,7 +13,7 @@
         %td= link_to comment_notification.structure.name, dashboard_pro_structure_path(comment_notification.structure)
         %td.text--center{data: {value: comment_notification.complete? ? '0' : '1'}}
           - if comment_notification.complete?
-            %i.icon-ok
+            %i.fa.fa-ok
 
 
 = content_for :scripts do

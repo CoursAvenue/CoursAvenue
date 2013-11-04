@@ -3,7 +3,7 @@
 - if @wizard
   #wizard.blue-box.islet.hidden.relative
     %a#close-wizard.closer{href: 'javascript:void(0)', data: { behavior: 'closer', el: '#wizard'}}
-      %i.icon-remove
+      %i.fa.fa-remove
     #wizard-form= render @wizard.partial
     - if @wizard.show_save
       %span.btn.btn--green#save-wizard Enregistrer
@@ -24,39 +24,39 @@
               #{@profile_percentage}%
         %ul.no-bullet-list
           %li
-            %i.icon-check
+            %i.fa.fa-check
             %span.line-through Créer mon profil
           %li
             - if @structure.profile_completed?
-              %i.icon-check
+              %i.fa.fa-check
               %span.line-through Compléter mes informations générales
             - else
               = link_to edit_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
-                %i.icon-check-empty
+                %i.fa.fa-check-empty
                 Compléter mes informations générales
           %li
             - if @comments.any?
-              %i.icon-check
+              %i.fa.fa-check
               %span.line-through Demander des recommandations à mes élèves
             - else
               = link_to recommendations_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
-                %i.icon-check-empty
+                %i.fa.fa-check-empty
                 Demander des recommandations à mes élèves
           %li
             - if @structure.medias.any?
-              %i.icon-check
+              %i.fa.fa-check
               %span.line-through Mettre en ligne les photos et vidéos de mes cours
             - else
               = link_to pro_structure_medias_path(@structure), class: 'profile-task-uncomplete' do
-                %i.icon-check-empty
+                %i.fa.fa-check-empty
                 Mettre en ligne les photos et vidéos de mes cours
           %li
             - if @structure.courses.active.count > 0
-              %i.icon-check
+              %i.fa.fa-check
               %span.line-through Renseigner mes cours et mon planning
             - else
               = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
-                %i.icon-check-empty
+                %i.fa.fa-check-empty
                 Renseigner mes cours et mon planning
     .grid__item.one-half>
       .soft-half--top.soft--right
@@ -69,7 +69,7 @@
                   - if @structure.comments.accepted.count > index
                     .hidden.bg-green{title: "<div style='font-size: 12px;'>#{@structure.comments.accepted[index].author_name} le #{I18n.l(@structure.comments.accepted[index].created_at, format: :date)}<br><br>#{@structure.comments.accepted[index].content.html_safe}<div>", data: {behavior: 'tooltip', html: 'true'}}
                       %a{href: 'javascript:void(0)'}
-                        %i.icon-comment.white
+                        %i.fa.fa-comment.white
                   - else
                     &nbsp;
         %table.push-half--right
@@ -81,7 +81,7 @@
           %tbody
             %tr
               %td.v-top.text--center.hard{colspan: 9}
-                %i.icon-arrow-up
+                %i.fa.fa-arrow-up
                 %br
                 %span.nowrap À partir du 5<sup>e</sup> avis :
                 %br
@@ -90,7 +90,7 @@
                 - else
                   %a.btn.text--center{href: '#livre-dor-explanation', data: {behavior: 'modal'}} OBTENEZ VOTRE LIVRE D'OR
               %td.text--right.v-top.hard{colspan: 6}
-                %i.icon-arrow-up
+                %i.fa.fa-arrow-up
                 %br
                 %span.nowrap À partir de 15 avis et +
                 %br
@@ -128,7 +128,7 @@
   .grid__item.one-third>
     .white-box.islet.text--center
       %h4.flush
-        %i.icon-comments
+        %i.fa.fa-comments
         Avis et recommandations
       %p
         %span.beta{class: (@comments.length > 6 ? 'green' : 'red')}= @comments.length
@@ -138,7 +138,7 @@
   .grid__item.one-third>
     .white-box.islet.text--center
       %h4.flush
-        %i.icon-list
+        %i.fa.fa-list
         Cours en ligne
       %p
         %span.beta{class: (@structure.courses.active.count > 2 ? 'green' : 'red')}= @structure.courses.active.count
@@ -147,7 +147,7 @@
   .grid__item.one-third>
     .white-box.islet.text--center
       %h4.flush
-        %i.icon-youtube-play
+        %i.fa.fa-youtube-play
         Photo & vidéos
       %p
         %span.beta{class: (@structure.medias.count > 3 ? 'green' : 'red')}= @structure.medias.count
@@ -207,10 +207,10 @@
               %i= media.caption
         %p
           = link_to edit_pro_structure_media_path(@structure, media), class: 'btn btn--red btn--small', title: 'Modifier le créneau', data: {behavior: 'modal'}, class: 'btn btn--orange btn--small fancybox.ajax' do
-            %i.icon-pencil
+            %i.fa.fa-pencil
             Modifier
           = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, class: 'btn btn--red btn--small' do
-            %i.icon-trash
+            %i.fa.fa-trash
             Supprimer
 
   %p.text--center= link_to 'Ajouter une photo ou une vidéo', pro_structure_medias_path(@structure), class: 'btn btn--blue'
@@ -228,9 +228,9 @@
         });
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
         $('a.profile-task-uncomplete').hover(function() {
-            $(this).find('i').removeClass('icon-check-empty').addClass('icon-check');
+            $(this).find('i').removeClass('fa fa-check-empty').addClass('fa fa-check');
         }, function() {
-            $(this).find('i').removeClass('icon-check').addClass('icon-check-empty');
+            $(this).find('i').removeClass('fa fa-check').addClass('fa fa-check-empty');
         });
         $('#profile-progress-bar').animate({
             width: '#{@profile_percentage}%'

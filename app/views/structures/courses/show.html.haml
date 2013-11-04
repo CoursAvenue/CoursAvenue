@@ -35,11 +35,11 @@
     %ul.tabs
       %li.active
         %a{href: '#tab-map', data: {toggle: 'tab'} }
-          %i.icon-map-marker
+          %i.fa.fa-map-marker
           Carte
       %li
         %a{href: '#tab-medias', data: {toggle: 'tab'} }
-          %i.icon-picture
+          %i.fa.fa-picture
           Photos & Vidéos
           - if @medias.any?
             = "(#{@medias.length})"
@@ -78,19 +78,19 @@
     %ul.tabs
       %li.active
         %a{class: (@course.plannings.any? ? '' : 'gray-light'), href: '#tab-planning', data: {toggle: 'tab'} }
-          %i.icon-calendar
+          %i.fa.fa-calendar
           Planning & Tarifs
       %li#description_tab
         %a{class: (@course.description.present? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Description cours', 'click', '#{@course.slug}'])", href: '#tab-description', data: {toggle: 'tab'} }
-          %i.icon-list
+          %i.fa.fa-list
           Description
       %li#comment_tab
         %a{class: (@course.comments.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Avis', 'click', '#{@course.slug}'])", href: '#tab-comments', data: {toggle: 'tab'} }
-          %i.icon-comments
+          %i.fa.fa-comments
           Avis
       %li
         %a{class: (@course.teachers.count > 0 ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Infos profs', 'click', '#{@course.slug}'])", href: '#tab-teacher', data: {toggle: 'tab'} }
-          %i.icon-group
+          %i.fa.fa-group
           = Teacher.model_name.human(count: @course.teachers.uniq.length)
 
     .tab-content
@@ -123,7 +123,7 @@
         = @course.name
       %h2.weight-normal.delta
         = link_to structure_path(@structure), onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])" do
-          %i.icon-map-marker.v-middle
+          %i.fa.fa-map-marker.v-middle
           %span.v-middle= @structure.name
 
       = render 'contact_structure'

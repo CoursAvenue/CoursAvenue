@@ -6,7 +6,7 @@
     = f.input :place_id , as: :select, collection: @structure.places, label_method: lambda {|place| place.location.name}, include_blank: false, label: false
     = link_to new_pro_structure_place_path(@structure, from: request.fullpath) do
       &nbsp;
-      %i.icon-map-marker
+      %i.fa.fa-map-marker
       Ajouter un lieu
   .input
     %label.required.control-label Jour
@@ -14,7 +14,7 @@
     = f.input :week_day, as: :select, collection: days, label: false, include_blank: false
   .input.flush--bottom{data: {behavior: 'time-range', 'start-time-wrapper' => '#start-time-wrapper', 'end-time-wrapper' => '#end-time-wrapper', duration: '#planning_duration'}}
     = f.label :start_time, class: 'control-label' do
-      %i.icon-time
+      %i.fa.fa-time
       Horaire
     = f.input :start_time, as: :time, minute_step: 15, default: {year: 2000, month: 1, day: 1, hour: 8, min: 00}, wrapper_html: {id: 'start-time-wrapper'}, label: false
     %span &nbsp;-&nbsp;
@@ -24,16 +24,16 @@
 
   .input.add-teacher-wrapper
     = f.label :teacher, class: 'control-label' do
-      %i.icon-user
+      %i.fa.fa-user
       Professeur
     = f.association :teacher, as: :select, collection: @teachers, label: false, include_blank: true
     = link_to 'javascript:void(0)', class: 'add-teacher' do
       &nbsp
-      %i.icon-user
+      %i.fa.fa-user
       Ajouter un professeur
   .input.hidden.new-teacher-wrapper
     = f.label :teacher, class: 'control-label' do
-      %i.icon-user
+      %i.fa.fa-user
       Professeur
     = f.input :teacher, label: 'Nom du professeur', input_html: {value: ''}, label: false
 
