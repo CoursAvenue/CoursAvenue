@@ -1,5 +1,6 @@
 .structure-item {
-
+    position: relative;
+    z-index : 2;
 }
     .structure-item__button {
         cursor: pointer;
@@ -11,7 +12,7 @@
     .structure-item__comment-list {
         position: relative;
         top     : -1px;
-        z-index : -1;
+        z-index : 1;
         .structure-item__comment-item{
             border-bottom: 1px solid #EEE;
         }

@@ -1,14 +1,14 @@
 %ul.tabs.push--bottom
   %li{class: current == 'comments' ? 'active' : ''}
     = link_to pro_structure_comments_path(@structure) do
-      %i.icon-comments
+      %i.fa.fa-comments
       Mes avis
   %li{class: current == 'recommandation' ? 'active' : ''}
     = link_to recommendations_pro_structure_path(@structure) do
-      %i.icon-bullhorn
+      %i.fa.fa-bullhorn
       Demander des recommandations
   - if @structure.comment_notifications.any?
     %li{class: current == 'comment_notification' ? 'active' : ''}
       = link_to pro_structure_comment_notifications_path(@structure) do
-        %i.icon-group
+        %i.fa.fa-group
         Demandes envoyées

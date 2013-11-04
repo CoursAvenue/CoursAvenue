@@ -1,8 +1,8 @@
-<ul class="structure-item__comment-list no-bullet-list white-box islet push-half--sides hard flush--bottom" data-type='container'>
+<ul class="structure-item__comment-list no-bullet-list white-box--noshadow islet push-half--sides hard flush--bottom" data-type='container'>
 </ul>
-{{#if more_than_five_comments }}
-  <div class="text--center">
+<div class="text--center soft--sides">
+  {{#if more_than_five_comments }}
     <a href="{{ data_url }}">Voir tous les avis</a>
-  </div>
-{{/if}}
-{{!-- <button data-type="accordion-control" data-value="comments">close</button> --}}
+  {{/if}}
+<a data-type="accordion-control" data-value="comments" class="float--right"><i class="fa fa-arrow-up"></i></a>
+</div>

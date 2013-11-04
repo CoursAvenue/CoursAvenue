@@ -1,8 +1,8 @@
 %h4
-  %i.icon-picture.icon-2x.v-middle.soft-half--right
+  %i.fa.fa-picture.fa.fa-2x.v-middle.soft-half--right
   %span.v-middle Il nous manque votre logo : téléchargez-le maintenant
   = link_to 'javascript:void(0)', class: 'btn btn--small', onclick: "$('#logo-input').click();" do
-    %i.icon-picture
+    %i.fa.fa-picture
     Choisir mon logo
 = simple_form_for [:pro, @structure] ,html: { autocomplete: 'off', id: 'structure-form' }, remote: true do |f|
   .form-inputs.push--bottom

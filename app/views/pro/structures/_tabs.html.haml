@@ -5,14 +5,14 @@
       Infos
   %li{class: current == 'lieux' ? 'active' : ''}
     = link_to pro_structure_places_path(@structure) do
-      %i.icon-map-marker
+      %i.fa.fa-map-marker
       Lieux
   %li{class: current == 'professeurs' ? 'active' : ''}
     = link_to pro_structure_teachers_path(@structure) do
-      %i.icon-group
+      %i.fa.fa-group
       Professeurs
   - if @structure.has_admin?
     %li{class: current == 'compte' ? 'active' : ''}
       = link_to edit_pro_admin_path((current_pro_admin and !current_pro_admin.super_admin?) ? current_pro_admin : (@structure.admins.first || current_pro_admin)) do
-        %i.icon-cogs
+        %i.fa.fa-cogs
         Mon compte

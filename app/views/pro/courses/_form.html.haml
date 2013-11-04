@@ -7,7 +7,7 @@
   = f.error_notification
   - unless @course.new_record?
     %h5.form-header-group.flush--bottom
-      %i.icon-picture
+      %i.fa.fa-picture
       Image
     .form-white-box{data: {behavior: 'image-input' }}
       #image-progress.progress.hidden{data: {progress: true }}
@@ -23,7 +23,7 @@
       .input
         = f.label :image
         = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
-          %i.icon-picture
+          %i.fa.fa-picture
           Choisir mon image
         = f.input :image, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'}, input_html: {id: 'image-input'}
       %p.field-form-info.blue= t('structures.accepted_image_formats')
@@ -40,7 +40,7 @@
       = f.association :subjects , as: :select, collection: subjects, input_html: {style: 'width: 300px;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush'}, label: false
       .inline-block
         = link_to edit_pro_structure_path(@structure, from_path: request.path, anchor: 'informations') do
-          %i.icon-plus
+          %i.fa.fa-plus
           Ajouter des disciplines à mon profil
     %p.field-form-info.blue.flush Si vous désirez choisir d'autres disciplines, ajoutez-les à votre profil en cliquant sur le lien ci-dessus.
 
@@ -75,7 +75,7 @@
 
   #recurrency{style: @course.is_lesson? ? '' : 'display: none;'}
     %h5.form-header-group.flush--bottom.flush--top
-      %i.icon-time
+      %i.fa.fa-time
       Récurrence
     .form-white-box
       .input.depend-on-reccurent-course{data: {behavior: 'date-range', 'start-date' => '#course_start_date', 'end-date' => '#course_end_date'}}>

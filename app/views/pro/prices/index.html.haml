@@ -23,7 +23,7 @@
       € Tarifs
   .btn>
     = link_to pro_course_plannings_path(@course) do
-      %i.icon-calendar
+      %i.fa.fa-calendar
       Planning
 
 
@@ -78,7 +78,7 @@
       .input.flush--top
         %label.control-label &nbsp;
         %a#add-individual-book-ticket{href: 'javascript:void(0)'}
-          %i.icon-plus
+          %i.fa.fa-plus
           Ajouter une ligne
 
   %h5.form-header-group Au carnet
@@ -118,7 +118,7 @@
       .input.flush--top
         %label.control-label &nbsp;
         %a#add-book-ticket{href: 'javascript:void(0)'}
-          %i.icon-plus
+          %i.fa.fa-plus
           Ajouter une ligne
 
   - if @course.is_lesson?
@@ -152,7 +152,7 @@
       .input.flush--top
         %label.control-label &nbsp;
         %a#add-subscription{href: 'javascript:void(0)'}
-          %i.icon-plus
+          %i.fa.fa-plus
           Ajouter un abonnement
 
   %h5.form-header-group Tarifs réduits
@@ -179,7 +179,7 @@
     .input.flush--top
       %label.control-label &nbsp;
       %a#add-discount{href: 'javascript:void(0)'}
-        %i.icon-plus
+        %i.fa.fa-plus
         Ajouter un tarif réduit
 
   %h5.form-header-group Autres tarifs
@@ -223,7 +223,7 @@
       .input.flush--top
         %label.control-label &nbsp;
         %a#add-registration-fee{href: 'javascript:void(0)'}
-          %i.icon-plus
+          %i.fa.fa-plus
           Ajouter un autre type d'adhésion
 
     = f.input :price_details, wrapper_html: {class: 'flush--bottom'}, input_html: { data: {behavior: 'autoresize' }}
