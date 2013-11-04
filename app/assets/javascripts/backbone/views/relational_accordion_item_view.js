@@ -27,9 +27,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         accordionControl: function (e) {
             e.preventDefault();
 
-            var value = $(e.currentTarget).data('value'),
-                attributes = $(e.currentTarget).data('attributes').split(' '),
-                self = this;
+            var value      = $(e.currentTarget).data('value'),
+                self       = this,
+                attributes = ($(e.currentTarget).data('attributes') ? $(e.currentTarget).data('attributes').split(' ') : {});
 
             /* if no region exists on the structure view, then we need to
             *  fetch the relation, and create a region for it */

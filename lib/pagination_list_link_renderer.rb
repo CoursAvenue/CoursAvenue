@@ -13,9 +13,9 @@
 
 #     def previous_or_next_page(page, text, classname)
 #       if classname == 'previous_page'
-#         text = '<i class="icon-arrow-left"></i>' + text
+#         text = '<i class="fa fa-arrow-left"></i>' + text
 #       else
-#         text = text + '<i class="icon-arrow-right"></i>'
+#         text = text + '<i class="fa fa-arrow-right"></i>'
 #       end
 
 #       if page

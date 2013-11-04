@@ -228,9 +228,9 @@
         });
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
         $('a.profile-task-uncomplete').hover(function() {
-            $(this).find('i').removeClass('icon-check-empty').addClass('icon-check');
+            $(this).find('i').removeClass('fa fa-check-empty').addClass('fa fa-check');
         }, function() {
-            $(this).find('i').removeClass('icon-check').addClass('icon-check-empty');
+            $(this).find('i').removeClass('fa fa-check').addClass('fa fa-check-empty');
         });
         $('#profile-progress-bar').animate({
             width: '#{@profile_percentage}%'

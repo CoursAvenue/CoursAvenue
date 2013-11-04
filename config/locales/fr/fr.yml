@@ -264,8 +264,8 @@ fr:
     pagination:
       truncate: '...'
       first: "Début"
-      previous: "<i class='icon-arrow-left'></i>"
-      next: "<i class='icon-arrow-right'></i>"
+      previous: "<i class='fa fa-arrow-left'></i>"
+      next: "<i class='fa fa-arrow-right'></i>"
       last: Fin
   helpers:
     page_entries_info:

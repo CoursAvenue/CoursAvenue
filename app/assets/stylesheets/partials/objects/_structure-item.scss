@@ -3,12 +3,14 @@
     z-index : 2;
 }
     .structure-item__button {
-        cursor: pointer;
+        cursor  : pointer;
+        position: relative;
         @include transition(background-color 150ms linear);
-        &:hover {
+        &.active, &:hover {
             background-color: #EEE;
         }
     }
+
     .structure-item__comment-list {
         position: relative;
         top     : -1px;
