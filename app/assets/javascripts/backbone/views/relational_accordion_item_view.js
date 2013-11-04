@@ -53,9 +53,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             if (closing) {
                 this.accordionClose();
-                $('html, body').animate({
-                    scrollTop: this.$el.offset().top
-                }, 400);
             } else { // we may be opening or switching
 
                 /* we are switching */
