@@ -32,7 +32,6 @@ class Comment < ActiveRecord::Base
   scope :pending,              -> { where(status: 'pending') }
   scope :accepted,             -> { where(status: 'accepted') }
   scope :waiting_for_deletion, -> { where(status: 'waiting_for_deletion') }
-  scope :title_ordered_first,  -> { order('title ASC') }
 
   def recover!
     self.status = :accepted

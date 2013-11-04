@@ -70,8 +70,13 @@ Remove remote branch
 http://download.geonames.org/export/zip/
 
 ### Sitemap
-RAILS_ENV=production rake sitemap:create
 
+`RAILS_ENV=production rake sitemap:create`
+
+### I18n
+
+Exporting translations:
+`rake i18n:js:export`
 
 ### Tests
 rake db:test:clone
