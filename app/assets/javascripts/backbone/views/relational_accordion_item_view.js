@@ -17,7 +17,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         *   - a backend that returns the right stuff: of course
         *   - a button in templates/factory_view, like this:
         *       <button data-type="accordion-control" data-value="widgets">Whoa!</button>
-        *   - two templates: widgets_view and a widgets_collection_view
+        *   - two templates: widget_view and a widgets_collection_view
+        *   - a view class: widget_view
         *   - the view that is created is a composite view
         *     - if you want some data on the composite part of the view,
         *       use data-attributes to define a space separated list of
