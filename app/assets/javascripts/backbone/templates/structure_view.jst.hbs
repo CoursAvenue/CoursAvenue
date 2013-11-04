@@ -1,9 +1,12 @@
 <div class="flexbox white-box structure-item">
-    <div class="flexbox__item one-sixth">
+    <div class="flexbox__item one-sixth relative">
         {{#if logo_present}}
             <a href="{{ data_url }}" class="block">
                 <img src="{{ logo_thumb_url }}" class="block" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
             </a>
+        {{/if}}
+        {{#if has_free_trial_course}}
+            <div class="free-trial-badge"></div>
         {{/if}}
     </div><!--
  --><article class="flexbox__item three-sixths v-top soft-half">

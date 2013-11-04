@@ -8,11 +8,15 @@ class StructureSerializer < ActiveModel::Serializer
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
              :logo_present, :logo_thumb_url, :child_subjects, :data_url,
              :subjects_count, :subjects, :courses_count, :more_than_five_comments,
-             :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range
+             :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range, :has_free_trial_course
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
   has_many :courses, serializer: ShortSerializer
+
+  def has_free_trial_course
+    object.prices.where{(type == 'Price::Trial') & ((amount == nil) | (amount == 0))}.any?
+  end
 
   def has_price_range
     object.min_price and object.max_price
@@ -51,7 +55,11 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def logo_thumb_url
-    object.logo.url(:thumb)
+    if Rails.env.development?
+      'http://placehold.it/150'
+    else
+      object.logo.url(:thumb)
+    end
   end
 
   def data_url
