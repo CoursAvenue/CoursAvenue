@@ -18,6 +18,9 @@
 
 // require jquery.turbolinks
 
+//= require i18n
+//= require i18n/translations
+
 // ---------------------------------- Lib includes
 //= require libs/handlebars
 //= require libs/handlebars-helpers
@@ -27,7 +30,6 @@
 //= require libs/jquery.cycle.lite
 //= require libs/typeahead
 //= require libs/jquery.scrollTo
-// require libs/jquery.nouislider
 //= require libs/jquery.Jcrop
 //= require libs/jquery.fileupload/vendor/jquery.ui.widget
 //= require libs/jquery.fileupload/jquery.iframe-transport
@@ -40,8 +42,8 @@
 //= require libs/moment
 
 //= require libs/fancybox/jquery.fancybox
-//= require handlebars
 //= require underscore
+
 
 // ---------------------------------- Backbone
 //= require backbone

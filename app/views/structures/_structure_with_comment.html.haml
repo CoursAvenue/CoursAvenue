@@ -11,7 +11,7 @@
         %p.flush
           %b.quoted{itemprop: 'headline', content: comment.title.capitalize}= "#{comment.title.capitalize}"
         %p.flush.text--right
-          %i Écrit par #{comment.author_name.titleize} le #{l(comment.created_at, format: :date)}
+          %i Par #{comment.author_name.titleize} le #{l(comment.created_at, format: :date)}
           %br
           - if structure.comments_count and structure.comments_count > 2
             = link_to structure_path(structure, anchor: 'tab-comments'), target: '_blank' do

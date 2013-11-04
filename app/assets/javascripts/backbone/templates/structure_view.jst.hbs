@@ -1,54 +1,47 @@
-{{#if logo_present}}
-<div class="two-twelfths visuallyhidden--palm">
-    <div class="course-image media__img">
-        <a href="{{ data_url }}">
-            <img src="{{ logo_thumb_url }}" class="one-whole" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
-        </a>
-    </div>
-</div>
-{{/if}}
-
-<article class="course-content {{#if logo_present }}{{ eight-twelfths }}{{else}}{{ ten-twelfths }}{{/if}}">
-    <header>
-        <div class="course-title">
-            <h2 class="delta inline v-middle">
-                <a href="{{ data_url }}">{{ name }}</a>
-            </h2>
-        </div>
-    </header>
-
-    <ul class="nav">
-        {{#if too_many_subjects }}
-        {{#each parent_subjects }}
-        <span class="flush--bottom inherit-font-size">
-            <a href="{{ path }}" class="lbl milli inline subject-link">{{ name }}</a>
-        </span>
-        {{/each}}
-        {{else}}
-        {{#each child_subjects }}
-        <span class="flush--bottom inherit-font-size">
-            <a href="{{ path }}" class="lbl milli inline subject-link">{{ name }}</a>
-        </span>
-        {{/each}}
+<div class="flexbox white-box">
+    <div class="flexbox__item one-sixth">
+        {{#if logo_present}}
+            <a href="{{ data_url }}" class="block">
+                <img src="{{ logo_thumb_url }}" class="block" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
+            </a>
         {{/if}}
-    </ul>
-
-</article>
-<div class="course-content two-twelfths text--center v-middle">
-    <div class="thin alpha brand">{{ comments_count }}</div>
-    <div>
-        avis
-        <a href="#comments">
-            <i class="lbc-brand-icon"></i>
-        </a>
-    </div>
-    <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
-        <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
-        <meta property="v:rating" itemprop="rating" content="{{ rating }}">
-        <meta itemprop="count" content="{{ comments_count }}">
-        <meta itemprop="itemreviewed" content="{{ name }}">
-        <meta itemprop="name" content="{{ name }}">
-        <meta itemprop="street-address" content="{{ street }}">
-        <meta itemprop="postal-code" content="{{ zip_code }}">
+    </div><!--
+ --><article class="flexbox__item three-sixths v-top soft-half">
+        <h2 class="delta inline v-middle">
+            <a href="{{ data_url }}">{{ name }}</a>
+        </h2>
+        <ul class="nav flush">
+            {{#if too_many_subjects }}
+            {{#each parent_subjects }}
+            <span class="flush--bottom inherit-font-size">
+                <a href="{{ path }}" class="lbl milli inline subject-link">{{ name }}</a>
+            </span>
+            {{/each}}
+            {{else}}
+            {{#each child_subjects }}
+            <span class="flush--bottom inherit-font-size">
+                <a href="{{ path }}" class="lbl milli inline subject-link">{{ name }}</a>
+            </span>
+            {{/each}}
+            {{/if}}
+        </ul>
+    </article><!--
+ --><div class="flexbox__item one-sixth v-middle text--center">
+        <div class="alpha thin brand">{{ courses_count }}</div>
+        {{ pluralize courses_count 'Séance' 'Séances' }}
+    </div><!--
+ --><div class="flexbox__item structure-item__button one-sixth v-middle text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
+        <div class="alpha thin brand">{{ comments_count }}</div>
+        avis <i class="lbc-brand-icon"></i>
+        <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
+            <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
+            <meta property="v:rating" itemprop="rating" content="{{ rating }}">
+            <meta itemprop="count" content="{{ comments_count }}">
+            <meta itemprop="name" content="{{ name }}">
+            <meta itemprop="street-address" content="{{ street }}">
+            <meta itemprop="postal-code" content="{{ zip_code }}">
+        </div>
     </div>
 </div>
+
+

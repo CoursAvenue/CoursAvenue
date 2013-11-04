@@ -4,6 +4,15 @@ class Structures::CommentsController < ApplicationController
 
   layout 'empty'
 
+  def index
+    @structure    = Structure.friendly.find(params[:structure_id])
+    @comments     = @structure.comments.to_a
+
+    respond_to do |format|
+      format.json { render json: @comments }
+    end
+  end
+
   def new
     @structure   = Structure.friendly.find(params[:structure_id])
     @comment     = @structure.comments.build
@@ -12,9 +21,19 @@ class Structures::CommentsController < ApplicationController
 
   def show
     @structure    = Structure.friendly.find(params[:structure_id])
-    @comment      = Comment.find params[:id]
+    if params[:id].include?(',')
+      params[:id] = params[:id].split(',')
+    end
+
+    @comment      = Comment.find(params[:id])
+
     if @structure.image.present?
       @logo_url  = @structure.image.url
+    end
+
+    respond_to do |format|
+      format.json { render json: @comment }
+      format.html { }
     end
   end
 end

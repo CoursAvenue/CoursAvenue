@@ -8,8 +8,8 @@
           %br
           %span.blue= truncate(comment.commentable.name, length: 40)
           %div.muted.text--right.milli{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
-            Écrit par
-            = truncate(comment.author_name.titleize, length: 15).html_safe
+            Par
+            = truncate(comment.author_name.titleize, length: 20).html_safe
             il y a
             = distance_of_time_in_words_to_now comment.created_at
             %i.icon-time
@@ -22,3 +22,4 @@
       .flexbox__item.one-half.comment__content
         = simple_format(truncate(comment.content, length: 130))
         %meta{itemprop: 'reviewBody', content: comment.content}
+

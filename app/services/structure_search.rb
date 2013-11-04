@@ -39,6 +39,7 @@ class StructureSearch
       end
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
     end
+
     @search
   end
 

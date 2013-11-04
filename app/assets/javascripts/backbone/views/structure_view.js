@@ -1,22 +1,26 @@
 /* just a basic marionette view */
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
-    Views.StructureView = Backbone.Marionette.ItemView.extend({
-        template: 'backbone/templates/structure_view',
 
+
+    Views.StructureView = Views.RelationalAccordionItemView.extend({
+        template: 'backbone/templates/structure_view',
         tagName: 'li',
-        className: 'one-whole course-element',
+        className: 'structure-item push-half--bottom',
         attributes: {
-            'data-type': 'structure-element'
+            'data-type': 'structure-element hard'
         },
 
         initialize: function(options) {
             this.$el.data('url', options.model.get('data_url'));
         },
 
+        /* TODO accordioncontrol is defined on the parent, so it feels
+        * dirty to have the click handled here. However, it seems that
+        * the child's events hash overrides the parent's hash by default */
         events: {
-            'click': 'resolveClick',
-            'mouseenter': 'selectStructure',
-            'mouseleave': 'deselectStructure'
+            'click [data-type=accordion-control]': 'accordionControl',
+            'mouseenter':                          'highlightStructure',
+            'mouseleave':                          'unhighlightStructure'
         },
 
         /* return toJSON for the places relation */
@@ -29,12 +33,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* a structure was selected, so return the places JSON
         * TODO would it be nicer is this just returned the whole model's
         * json, including the places relation? */
-        selectStructure: function (e) {
-            this.trigger('selected', this.placesToJSON());
+        highlightStructure: function (e) {
+            this.trigger('highlighted', this.placesToJSON());
         },
 
-        deselectStructure: function (e) {
-            this.trigger('deselected', this.placesToJSON());
+        unhighlightStructure: function (e) {
+            this.trigger('unhighlighted', this.placesToJSON());
         },
 
         resolveClick: function (event) {
@@ -47,6 +51,5 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 return false;
             }
         }
-
     });
 });

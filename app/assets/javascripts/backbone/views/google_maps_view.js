@@ -61,6 +61,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             /* the first time the map bounds change, we won't offer the 'bounds_controls' */
             google.maps.event.addListenerOnce(this.map, 'bounds_changed', _.debounce(this.showBoundsControls));
+
+            this.update_live = $.cookie('map:update:live');
+            if (this.update_live === 'true') {
+                this.toggleLiveUpdate();
+            }
         },
 
         /* the first time the user changes the map bounds, we show the controls */
@@ -88,16 +93,24 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* ui-events */
         events: {
-            'click [data-behavior="live-update"]': 'toggleLiveUpdate'
+            'click [data-behavior="live-update"]': 'liveUpdateClicked'
         },
 
-        toggleLiveUpdate: function (e) {
+        liveUpdateClicked: function (e) {
             this.update_live = e.currentTarget.checked;
+            $.cookie('map:update:live', this.update_live);
 
+            if (e.currentTarget.checked) {
+                this.announceBounds();
+            }
+
+            this.toggleLiveUpdate();
+        },
+
+        toggleLiveUpdate: function () {
             /* set or remove a listener */
             if (this.update_live) {
                 this.boundsChangedListener = google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
-                this.announceBounds();
             } else {
                 this.boundsChangedListener = google.maps.event.removeListener(this.boundsChangedListener);
             }
@@ -245,5 +258,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 self.$loader.hide();
             }, 300);
         },
+
+        serializeData: function () {
+            return {
+                update_live: this.update_live === 'true'
+            };
+        }
     });
 });

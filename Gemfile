@@ -142,6 +142,9 @@ gem 'compass-inuit'             , '~>5.0.2'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 
+# To have I18n in javascript
+gem 'i18n-js'                   , '~>2.1.2'
+
 group :production, :staging do
   # gem 'therubyracer'
   gem 'execjs'

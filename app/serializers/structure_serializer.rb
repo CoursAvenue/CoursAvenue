@@ -1,17 +1,36 @@
+class ShortSerializer < ActiveModel::Serializer
+    attributes :id
+end
+
 class StructureSerializer < ActiveModel::Serializer
   include StructuresHelper
 
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
              :logo_present, :logo_thumb_url, :parent_subjects_text, :parent_subjects, :child_subjects, :data_url,
-             :subjects_count, :too_many_subjects, :subjects
+             :subjects_count, :too_many_subjects, :subjects, :courses_count, :more_than_five_comments
   has_many :places
+  has_many :comments, serializer: ShortSerializer
+  has_many :courses, serializer: ShortSerializer
+
+  def more_than_five_comments
+    object.comments.count > 5
+  end
+
+  def comments
+    object.comments.limit(5).order(created_at: :desc)
+  end
+
+  def courses_count
+    self.courses.count
+  end
 
   def logo_present
     object.logo.present?
   end
 
   def logo_thumb_url
-    object.logo.url(:thumb)
+    # object.logo.url(:thumb)
+    "http://placehold.it/125"
   end
 
   def parent_subjects_text
