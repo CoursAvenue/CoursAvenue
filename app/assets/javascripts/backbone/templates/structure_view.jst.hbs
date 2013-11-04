@@ -30,6 +30,11 @@
  --><div class="flexbox__item two-tenths v-top soft--top text--center milli">
         <div class="alpha thin brand">{{ courses_count }}</div>
         {{ pluralize courses_count 'séance' 'séances' }}
+        {{#if teaches_at_home}}
+            <div>
+                <span class="lbl lbl--blue lbl--small">à domicile</span>
+            </div>
+        {{/if}}
         <div>
             {{#if has_price_range}}
                 de
@@ -41,9 +46,6 @@
                     à partir de
                     <span data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                 {{/if}}
-            {{/if}}
-            {{#if teaches_at_home}}
-                <span class="lbl lbl--green lbl--small">à domicile</span>
             {{/if}}
         </div>
     </div><!--
