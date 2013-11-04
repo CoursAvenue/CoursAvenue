@@ -7,30 +7,35 @@
         {{/if}}
     </div><!--
  --><article class="flexbox__item three-sixths v-top soft-half">
-        <h2 class="delta inline v-middle">
+        <h2 class="epsilon inline v-top">
             <a href="{{ data_url }}">{{ name }}</a>
         </h2>
         <ul class="nav flush">
-            {{#if too_many_subjects }}
-            {{#each parent_subjects }}
-            <span class="flush--bottom inherit-font-size">
-                <a href="{{ path }}" class="lbl milli inline subject-link">{{ name }}</a>
-            </span>
-            {{/each}}
-            {{else}}
             {{#each child_subjects }}
             <span class="flush--bottom inherit-font-size">
                 <a href="{{ path }}" class="lbl milli inline subject-link">{{ name }}</a>
             </span>
             {{/each}}
-            {{/if}}
         </ul>
     </article><!--
- --><div class="flexbox__item one-sixth v-middle text--center">
+ --><div class="flexbox__item one-sixth v-top soft-half--top text--center milli">
         <div class="alpha thin brand">{{ courses_count }}</div>
-        {{ pluralize courses_count 'Séance' 'Séances' }}
+        {{ pluralize courses_count 'séance' 'séances' }}
+        <div>
+            {{#if has_price_range}}
+                de
+                <span data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                à
+                <span data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
+            {{else}}
+                {{#if min_price_amount}}
+                    à partir de
+                    <span data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                {{/if}}
+            {{/if}}
+        </div>
     </div><!--
- --><div class="flexbox__item structure-item__button one-sixth v-middle text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
+ --><div class="flexbox__item structure-item__button one-sixth v-top soft-half--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
         <div class="alpha thin brand">{{ comments_count }}</div>
         avis <i class="lbc-brand-icon"></i>
         <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">

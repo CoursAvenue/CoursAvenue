@@ -70,8 +70,11 @@ class Structure < ActiveRecord::Base
   #                                                     'image/gif'], :message => "Les formats accepté sont : JPEG / JPG / PNG et GIF"
 
 
-  belongs_to       :city
-  belongs_to       :pricing_plan
+  belongs_to :city
+  belongs_to :pricing_plan
+
+  belongs_to :min_price, class_name: 'Price'
+  belongs_to :max_price, class_name: 'Price'
 
   has_many :invited_teachers          , dependent: :destroy
   has_many :medias                    , -> { order('created_at ASC') },  as: :mediable
@@ -80,6 +83,7 @@ class Structure < ActiveRecord::Base
   has_many :teachers                  , dependent: :destroy
   has_many :courses                   , dependent: :destroy
   has_many :cities                    , through: :places
+  has_many :prices                    , through: :courses
   has_many :reservations,         as: :reservable
   has_many :comment_notifications
 
@@ -423,6 +427,17 @@ class Structure < ActiveRecord::Base
   end
 
   private
+
+  def set_min_and_max_price
+    best_price           = prices.where{(type != 'Price::Registration') & (amount > 0)}.order('promo_amount ASC, amount ASC').first
+    most_expensive_price = prices.where{(type != 'Price::Registration') & (amount > 0)}.order('promo_amount DESC, amount DESC').first
+    self.update_column :min_price_id, best_price.try(:id)
+    if best_price != most_expensive_price
+      self.update_column :max_price_id, most_expensive_price.try(:id)
+    else
+      self.update_column :max_price_id, nil
+    end
+  end
 
   def slug_candidates
     [

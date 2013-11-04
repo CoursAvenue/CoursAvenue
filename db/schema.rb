@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131029130747) do
+ActiveRecord::Schema.define(version: 20131104144858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -455,6 +455,8 @@ ActiveRecord::Schema.define(version: 20131029130747) do
     t.string   "sticker_status"
     t.boolean  "teachers_at_home",           default: false
     t.text     "widget_url"
+    t.integer  "min_price_id"
+    t.integer  "max_price_id"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
