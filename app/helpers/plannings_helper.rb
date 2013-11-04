@@ -1,5 +1,10 @@
 # encoding: utf-8
 module PlanningsHelper
+  include ActionView::Helpers::NumberHelper
+
+  def plain_price(course)
+    number_to_currency(course.price)
+  end
 
   def label_method_for_collection course_type
     case course_type

@@ -1,5 +1,20 @@
 # encoding: utf-8
 module CoursesHelper
+  include ActionView::Helpers::NumberHelper
+
+  def plain_price_range(course)
+    amounts = course.prices.map(&:amount)
+
+    if amounts.length > 1
+      "#{number_to_currency(amounts.min)} à #{number_to_currency(amounts.max)}"
+    else
+      "#{number_to_currency(amounts.min)}"
+    end
+  end
+
+  def plain_type_name(course)
+    course.type.split("::").last
+  end
 
   # Returns
   #   Case lesson:              Mardi, Jeudi, Vendredi.
