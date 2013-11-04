@@ -9,7 +9,7 @@ class Structures::CommentsController < ApplicationController
     @comments     = @structure.comments.to_a
 
     respond_to do |format|
-      format.json { render json: @comments }
+      format.json { render json: @comments, each_serializer: CommentSerializer }
     end
   end
 

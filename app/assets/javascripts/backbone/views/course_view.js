@@ -5,14 +5,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     Views.CourseView = Backbone.Marionette.ItemView.extend({
         template: "backbone/templates/course_view",
         tagName: "tr",
-        className: '',
 
         events: {
           'click': 'handleClick'
         },
 
         handleClick: function () {
-            console.log("handled");
         }
     });
 

@@ -1,3 +1,26 @@
-<td>{{ name }}</td>
-<td>{{ start_date }}</td>
-<td>{{ end_date }}</td>
+<td>
+<table class="table--striped white-box">
+    <thead>
+        <tr>
+            <td>{{ name }}</td>
+            <td>{{ start_date }} until {{ end_date }}</td>
+            <td>{{ type }}</td>
+        </tr>
+        <tr>
+            <td>Weekday</td>
+            <td>Time</td>
+            <td>Duration</td>
+            <td>Niveaux</td>
+        </tr>
+    <tbody>
+        {{#each plannings }}
+        <tr>
+            <td>{{ week_day }}</td>
+            <td>{{ time_slot }}</td>
+            <td>{{ duration }}</td>
+            <td>{{ levels }}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</td>
