@@ -9,7 +9,7 @@ class StructureSerializer < ActiveModel::Serializer
              :logo_present, :logo_thumb_url, :child_subjects, :data_url,
              :subjects_count, :subjects, :courses_count, :more_than_five_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
-             :has_free_trial_course, :medias_count, :teaches_at_home
+             :has_free_trial_course, :medias_count, :teaches_at_home, :videos_count, :images_count
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
@@ -17,6 +17,14 @@ class StructureSerializer < ActiveModel::Serializer
 
   def medias_count
     (object.medias.count == 0 ? nil : object.medias.count)
+  end
+
+  def videos_count
+    (object.medias.videos.count == 0 ? nil : object.medias.videos.count)
+  end
+
+  def images_count
+    (object.medias.images.count == 0 ? nil : object.medias.images.count)
   end
 
   def has_free_trial_course
@@ -48,7 +56,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def comments
-    object.comments.title_ordered_first.limit(5)
+    object.comments.limit(5)
   end
 
   def courses_count
