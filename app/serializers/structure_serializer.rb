@@ -13,7 +13,7 @@ class StructureSerializer < ActiveModel::Serializer
   has_many :courses, serializer: ShortSerializer
 
   def more_than_five_comments
-    comments.count > 5
+    object.comments.count > 5
   end
 
   def comments
