@@ -1,5 +1,5 @@
 <div class="flexbox white-box structure-item">
-    <div class="flexbox__item one-sixth relative">
+    <div class="flexbox__item three-twelfths relative">
         {{#if logo_present}}
             <a href="{{ data_url }}" class="block">
                 <img src="{{ logo_thumb_url }}" class="block" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
@@ -8,8 +8,14 @@
         {{#if has_free_trial_course}}
             <div class="free-trial-badge"></div>
         {{/if}}
+        {{#if medias_count}}
+            <a href="{{ data_url }}#tab-medias" class="structure-item__medias-count">
+                {{ medias_count }}
+                {{ pluralize medias_count 'photo / vidéo' 'photos / vidéos' }}
+            </a>
+        {{/if}}
     </div><!--
- --><article class="flexbox__item three-sixths v-top soft-half">
+ --><article class="flexbox__item five-twelfths v-top soft-half">
         <h2 class="epsilon inline v-top">
             <a href="{{ data_url }}">{{ name }}</a>
         </h2>
@@ -21,7 +27,7 @@
             {{/each}}
         </ul>
     </article><!--
- --><div class="flexbox__item one-sixth v-top soft-half--top text--center milli">
+ --><div class="flexbox__item two-twelfths v-top soft-half--top text--center milli">
         <div class="alpha thin brand">{{ courses_count }}</div>
         {{ pluralize courses_count 'séance' 'séances' }}
         <div>
@@ -38,7 +44,7 @@
             {{/if}}
         </div>
     </div><!--
- --><div class="flexbox__item structure-item__button one-sixth v-top soft-half--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
+ --><div class="flexbox__item structure-item__button two-twelfths v-top soft-half--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
         <div class="alpha thin brand">{{ comments_count }}</div>
         avis <i class="lbc-brand-icon"></i>
         <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">

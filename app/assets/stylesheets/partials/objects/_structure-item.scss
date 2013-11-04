@@ -26,3 +26,14 @@
         position: absolute;
         right   : 1em;
     }
+
+    .structure-item__medias-count {
+        position         : absolute;
+        right            : 0;
+        bottom           : 4px;
+        padding          : 1px 3px;
+        background-color : $beige-darker;
+        color            : darken($beige-darker, 30%);
+        font-size        : 12px;
+        @include border-left-radius(2px);
+    }
