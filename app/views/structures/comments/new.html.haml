@@ -1,3 +1,19 @@
+- default_fake_message = []
+- default_fake_message << "Salut !\nJe viens de déposer ma recommandation, j'espère qu'elle te plaira.\nMerci pour tout, à très bientôt !"
+- default_fake_message << "Bonjour,\nJ’ai déposé mon témoignage avec grand plaisir, ça fait toujours du bien de partager de si belles expériences.\nA très vite !"
+- default_fake_message << "Salut,\nMerci beaucoup d’avoir pensé à moi pour témoigner sur tes cours que je recommande toujours aussi vivement !\nA très vite."
+- default_fake_message << "Salut\nSuperbe idée que de témoigner sur tes cours qui m’apportent toujours autant.\nA très bientôt !"
+- default_fake_message << "Hello,\nMon avis vient d’être posté sur ton profil, bien content de participer au bouche à oreille.\nMerci, à bientôt !"
+- default_fake_message << "Salut,\nRavi d’avoir pu poster ma recommandation sur tes cours qui valent la peine d’être connus.\nA + !"
+- default_fake_message << "Salut,\nMa recommandation est déposée, j’espère qu’elle t’aidera à développer encore plus de cours.\nÀ très vite !"
+- default_fake_message << "Hello,\nVoici mon avis positif à propos de tes cours, à très bientôt dans une prochaine séance !"
+- default_fake_message << "Salut,\nSuite à ta demande de recommandation, voici mon avis à propos de tes cours, toujours au top.\nA bientôt !"
+- default_fake_message << "Salut,\nC’était très facile de rédiger mon avis positif à propos de tes cours ! Merci encore et à très bientôt."
+- default_fake_message << "Hello,\nVoici mon témoignage sur tes cours, j’ai déjà hâte de venir à la prochaine séance !"
+- default_fake_message << "Bonjour,\nJ'ai déposé mon avis qui est bien sûr très positif.\nBises et à très bientôt !"
+- default_fake_message << "Salut !\nJ'espère que mon avis te plaira.\n À très vite !"
+- default_fake_message << "Salut !\n Voilà, j'ai déposé mon avis.\n À bientôt !"
+
 = content_for :title do
   = "À tous nos élèves : recommandez-nous sur CoursAvenue !"
 
@@ -100,7 +116,7 @@
           = text_field_tag :subject, nil, placeholder: "Ex. : Merci d'avoir pensé à moi !"
         .input
           %label.control-label.text> Message
-          = text_area_tag :private_message, "Salut !\nJe viens de déposer ma recommandation, j'espère qu'elle te plaira.\nMerci pour tout, à très bientôt !", class: 'text', style: 'height: 100px', data: { behavior: 'autoresize' }
+          = text_area_tag :private_message, default_fake_message.sample, class: 'text', style: 'height: 100px', data: { behavior: 'autoresize' }
         .text--center
           = f.submit 'Publier mon avis', class: 'btn btn--large btn--green', style: 'padding-top: 6px; padding-bottom: 6px;'
 
