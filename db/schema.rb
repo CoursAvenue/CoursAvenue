@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131104144858) do
+ActiveRecord::Schema.define(version: 20131104163916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -453,7 +453,7 @@ ActiveRecord::Schema.define(version: 20131104144858) do
     t.string   "funding_type_ids"
     t.string   "widget_status"
     t.string   "sticker_status"
-    t.boolean  "teachers_at_home",           default: false
+    t.boolean  "teaches_at_home",            default: false
     t.text     "widget_url"
     t.integer  "min_price_id"
     t.integer  "max_price_id"

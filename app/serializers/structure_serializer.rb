@@ -9,7 +9,7 @@ class StructureSerializer < ActiveModel::Serializer
              :logo_present, :logo_thumb_url, :child_subjects, :data_url,
              :subjects_count, :subjects, :courses_count, :more_than_five_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
-             :has_free_trial_course, :medias_count
+             :has_free_trial_course, :medias_count, :teaches_at_home
 
   has_many :places
   has_many :comments, serializer: ShortSerializer

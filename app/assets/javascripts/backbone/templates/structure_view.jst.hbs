@@ -1,5 +1,5 @@
 <div class="flexbox white-box structure-item">
-    <div class="flexbox__item three-twelfths relative">
+    <div class="flexbox__item two-tenths relative">
         {{#if logo_present}}
             <a href="{{ data_url }}" class="block">
                 <img src="{{ logo_thumb_url }}" class="block" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
@@ -15,7 +15,7 @@
             </a>
         {{/if}}
     </div><!--
- --><article class="flexbox__item five-twelfths v-top soft-half">
+ --><article class="flexbox__item four-tenths v-top soft-half">
         <h2 class="epsilon inline v-top">
             <a href="{{ data_url }}">{{ name }}</a>
         </h2>
@@ -27,7 +27,7 @@
             {{/each}}
         </ul>
     </article><!--
- --><div class="flexbox__item two-twelfths v-top soft-half--top text--center milli">
+ --><div class="flexbox__item two-tenths v-top soft--top text--center milli">
         <div class="alpha thin brand">{{ courses_count }}</div>
         {{ pluralize courses_count 'séance' 'séances' }}
         <div>
@@ -42,9 +42,12 @@
                     <span data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                 {{/if}}
             {{/if}}
+            {{#if teaches_at_home}}
+                <span class="lbl lbl--green lbl--small">à domicile</span>
+            {{/if}}
         </div>
     </div><!--
- --><div class="flexbox__item structure-item__button two-twelfths v-top soft-half--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
+ --><div class="flexbox__item structure-item__button two-twelfths v-top soft--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
         <div class="alpha thin brand">{{ comments_count }}</div>
         avis <i class="lbc-brand-icon"></i>
         <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
