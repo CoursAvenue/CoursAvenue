@@ -3,7 +3,7 @@ module CoursesHelper
   include ActionView::Helpers::NumberHelper
 
   def plain_price_range(course)
-    amounts = course.prices.map(&:amount)
+    amounts = [ course.min_price, course.max_price ].uniq
 
     if amounts.length > 1
       "#{number_to_currency(amounts.min)} à #{number_to_currency(amounts.max)}"
