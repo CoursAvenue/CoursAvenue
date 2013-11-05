@@ -1,28 +1,3 @@
-class PlanningSerializer < ActiveModel::Serializer
-  include PlanningsHelper
-
-  attributes :week_day, :duration, :time_slot, :levels, :price
-
-  def week_day
-    week_day_for(object)
-  end
-
-  def duration
-    readable_duration object.duration
-  end
-
-  def time_slot
-    readable_time_slot(object.start_time, object.end_time)
-  end
-
-  def levels
-    join_levels_text(object)
-  end
-
-  def price
-  end
-end
-
 class CourseSerializer < ActiveModel::Serializer
   include CoursesHelper
 
@@ -38,10 +13,10 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def start_date
-    I18n.l(object.start_date, format: :short)
+    I18n.l(object.start_date, format: :short) if object.start_date
   end
 
   def end_date
-    I18n.l(object.end_date, format: :short)
+    I18n.l(object.end_date, format: :short) if object.end_date
   end
 end

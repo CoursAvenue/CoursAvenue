@@ -24,14 +24,9 @@
     }
 
     .structure-item__plannings-table {
-      tbody tr:nth-of-type(odd){
-        background-color:lighten($brand-color, 40%); /* Override this color in your theme stylesheet */
-      }
-
-      thead {
-        border: 2px solid $brand-color;
-
-      }
+        tbody tr:nth-of-type(odd){
+            background-color:lighten($brand-color, 40%); /* Override this color in your theme stylesheet */
+        }
     }
 
     .structure-item__comment-author {
