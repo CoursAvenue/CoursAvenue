@@ -107,7 +107,7 @@
             Informations visibles uniquement par votre professeur
         - unless current_user
           %input{type: 'hidden', name: 'default_email', value: params[:email]}
-          = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: params[:comment][:email] }
+          = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: (params[:comment].present? ? params[:comment][:email] : nil)}
         .input.push-half--bottom
           %label.control-label.text>
             %strong Message personnel
