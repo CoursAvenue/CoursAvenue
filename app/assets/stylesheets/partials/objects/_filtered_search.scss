@@ -7,7 +7,7 @@
     width        : 100%;
     position     : fixed;
     left         : 0%;
-    padding-right: 725px;
+    padding-right: 710px;
     height       : 100%;
     > div,  > div > div, > div > div > div, #map {
         height: 100%;
@@ -22,7 +22,7 @@
 .filtered-search__list-wrapper {
     position                 : fixed;
     right                    : 0%;
-    width                    : 700px;
+    max-width                : 700px;
     height                   : 100%;
     padding-bottom           : 7em;
     overflow-y               : scroll;
@@ -34,7 +34,7 @@
         position   : absolute;
         // Prevent from drop shadow of elements that are under it.
         height     : 110%;
-        width      : 110%;
+        width      : 104%;
         top        : -5px;
         left       : -5px;
         background : $site-background-color;
