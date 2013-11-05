@@ -1,5 +1,6 @@
+- expanded = false unless expanded.present?
 %header.header
-  .main-container.very-soft.grid--full
+  .very-soft.grid--full{class: expanded ? '' : 'main-container'}
     .grid__item.one-third.palm-one-half.v-middle>
       = link_to root_path, class: 'v-middle logo', title: 'CoursAvenue' do
         = image_tag 'logo.png', width: 200, alt: 'CoursAvenue | Tous les cours autour de vous'
