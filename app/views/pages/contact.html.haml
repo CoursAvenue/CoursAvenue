@@ -41,7 +41,7 @@
             %span.error
               Doit être remplis
         .grid__item.two-thirds>
-          %textarea.one-whole{type: 'text', name: 'content', rows: 10, value: params[:content], data: {behavior: 'autoresize'}}
+          %textarea.one-whole{type: 'text', name: 'content', rows: 10, value: params[:content], data: {behavior: 'autoresize'}}= params[:message]
       .grid
         .grid__item.push--one-third.text--left>
           %input.btn.btn--green{type: 'submit', value: 'Envoyer'}
