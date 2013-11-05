@@ -30,7 +30,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             var self = this;
 
             _.each(_.clone(this.currently_selected_cid), function(cid) {
-                console.log(cid);
                 var itemView = self.children.findByModelCid(cid);
                 itemView.accordionToggle(itemView.active_region);
             });
@@ -63,7 +62,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             /* announce the filters used in the current result set */
             this.trigger('structures:updated:filters', {
-                address_name: data.server_api.address_name
+                address_name: data.server_api.address_name,
+                subject_name: decodeURIComponent(data.server_api.subject_name)
             });
         },
 

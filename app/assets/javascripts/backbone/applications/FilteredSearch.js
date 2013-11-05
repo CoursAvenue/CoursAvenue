@@ -61,8 +61,9 @@ FilteredSearch.addInitializer(function(options) {
             'pagination:next':    'nextPage',
             'pagination:prev':    'prevPage',
             'pagination:page':    'goToPage',
-            'summary:filter':     'filterQuery',
+            'filter:summary':     'filterQuery',
             'map:bounds':         'filterQuery',
+            'filter:subject':     'filterQuery',
             'map:marker:focus':   'zoomToStructure'
         }
     });
@@ -105,7 +106,7 @@ FilteredSearch.addInitializer(function(options) {
     }, '[data-type=results-summary-tool]');
 
     layout.showWidget(categorical_filter_tool, {
-        'structures:updated:filters': 'resetCategoricalFilterTool'
+        'structures:updated:filters': 'resetCategoricalFilterTool',
     }, '[data-type=categorical-filter-tool]');
 
     layout.showWidget(top_pagination_tool, {
