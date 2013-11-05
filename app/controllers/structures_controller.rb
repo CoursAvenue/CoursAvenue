@@ -42,15 +42,18 @@ class StructuresController < ApplicationController
       end
     end
 
-    @structure_search      = StructureSearch.search(params)
-    @structures            = @structure_search.results
-
     # the bbox params may come uri encoded as CSV
     if (params[:bbox_sw] && params[:bbox_ne])
       if (params[:bbox_sw].respond_to?(:split) && params[:bbox_ne].respond_to?(:split))
         params[:bbox_sw] = params[:bbox_sw].split(',');
         params[:bbox_ne] = params[:bbox_ne].split(',');
       end
+    end
+
+    @structure_search      = StructureSearch.search(params)
+    @structures            = @structure_search.results
+
+    if (params[:bbox_sw] && params[:bbox_ne])
       # TODO: To be removed when using Solr 4.
       # This is used because the bounding box refers to a circle and not a box...
       # Rejecting the structures that are not in the bounding box
