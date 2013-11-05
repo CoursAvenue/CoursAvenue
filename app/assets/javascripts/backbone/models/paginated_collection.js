@@ -21,10 +21,14 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         * also, we need to grab the location.search and parse it, so
         * that our searches are configured correctly */
         initialize: function (models, options) {
-            this.currentPage = 1;
+            var self = this;
             // define the server API based on the load-time URI
             this.server_api = this.makeOptionsFromSearch(window.location.search);
-            this.server_api.page = function () { return this.currentPage; };
+
+            /* TODO for some reason */
+            this.currentPage = parseInt(this.server_api.page, 10) || 1;
+
+            this.server_api.page = function () { return self.currentPage; };
 
             if (this.server_api.sort === undefined) {
                 this.server_api.sort = 'rating_desc';
