@@ -28,21 +28,6 @@
         %br
         Gérez votre profil
 
--# .text--center
--#   .white-box--small.islet.center-block.text--left
--#     %h3.flush= @structure.name
--#     .omega
--#       %i.fa.fa-map-marker
--#       = @structure.address
--#     %ul.nav= join_parent_subjects @structure, true
--#     %hr
--#     %div
--#       = link_to 'Partager sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_url(@structure, subdomain: 'www')}", class: 'btn btn--facebook btn--small v-middle', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From creation page')"
--#       = link_to structure_url(@structure, subdomain: 'www'), class: 'btn btn--blue btn--small v-middle', target: '_blank' do
--#         %i.fa.fa-external-link.v-middle
--#         %span.v-middle Voir mon profil
-
-
 %hr
 
 %h4.text--center Dernière étape : créez vos identifiants pour gérer votre profil
