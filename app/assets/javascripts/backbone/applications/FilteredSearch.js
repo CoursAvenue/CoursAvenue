@@ -92,28 +92,28 @@ FilteredSearch.addInitializer(function(options) {
     /* we can add a widget along with a callback to be used
     * for setup */
     layout.showWidget(google_maps_view, {
-        'structures:updating':             'clearForUpdate showLoader',
-        'structures:updated':              'hideLoader',
-        'structures:itemview:highlighted':   'selectMarkers',
-        'structures:itemview:unhighlighted': 'deselectMarkers'
+        'structures:updating':                  'clearForUpdate showLoader',
+        'structures:updated':                   'hideLoader',
+        'structures:itemview:highlighted':      'selectMarkers',
+        'structures:itemview:unhighlighted':    'deselectMarkers'
     });
 
     /* TODO these widgets all have "reset" bound to "updated"...
     *  let's make that a default */
     layout.showWidget(results_summary_tool, {
-        'structures:updated': 'resetSummaryTool'
+        'structures:updated:summary': 'resetSummaryTool'
     }, '[data-type=results-summary-tool]');
 
     layout.showWidget(categorical_filter_tool, {
-        'structures:updated': 'resetCategoricalFilterTool'
+        'structures:updated:filters': 'resetCategoricalFilterTool'
     }, '[data-type=categorical-filter-tool]');
 
     layout.showWidget(top_pagination_tool, {
-        'structures:updated': 'resetPaginationTool'
+        'structures:updated:pagination': 'resetPaginationTool'
     }, '[data-type=top-pagination-tool]');
 
     layout.showWidget(bottom_pagination_tool, {
-        'structures:updated': 'resetPaginationTool'
+        'structures:updated:pagination': 'resetPaginationTool'
     }, '[data-type=bottom-pagination-tool]');
 
     layout.results.show(structures_view);
