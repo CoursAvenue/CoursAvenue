@@ -82,9 +82,10 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
-    top_pagination_tool    = new FilteredSearch.Views.PaginationToolView({});
-    bottom_pagination_tool = new FilteredSearch.Views.PaginationToolView({});
-    results_summary_tool   = new FilteredSearch.Views.ResultsSummaryView({});
+    top_pagination_tool        = new FilteredSearch.Views.PaginationToolView({});
+    bottom_pagination_tool     = new FilteredSearch.Views.PaginationToolView({});
+    results_summary_tool       = new FilteredSearch.Views.ResultsSummaryView({});
+    categorical_filter_tool    = new FilteredSearch.Views.CategoricalFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -97,9 +98,15 @@ FilteredSearch.addInitializer(function(options) {
         'structures:itemview:unhighlighted': 'deselectMarkers'
     });
 
+    /* TODO these widgets all have "reset" bound to "updated"...
+    *  let's make that a default */
     layout.showWidget(results_summary_tool, {
         'structures:updated': 'resetSummaryTool'
     }, '[data-type=results-summary-tool]');
+
+    layout.showWidget(categorical_filter_tool, {
+        'structures:updated': 'resetCategoricalFilterTool'
+    }, '[data-type=categorical-filter-tool]');
 
     layout.showWidget(top_pagination_tool, {
         'structures:updated': 'resetPaginationTool'

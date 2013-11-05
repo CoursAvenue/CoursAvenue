@@ -1,0 +1,35 @@
+
+<div class="header-search-bar">
+    <div class="search-input-wrapper relative">
+        <input id="search-input"></input>
+    </div>
+    <div class="search-input-wrapper relative">
+        <div class="input-with-icon">
+            <input id="address-picker"> </input>
+            <i class="fa fa-map-marker delta"></i>
+        </div>
+    </div>
+
+    <div class="button-wrapper">
+        <button class="nowrap btn btn--orange">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
+</div>
+
+<script type="text/garbage">
+    .header-search-bar
+      %div.search-input-wrapper.relative{style: 'display: block;'}
+        %input#search-input{size: 50, class: 'search-input', placeholder: 'Discipline / Etablissement ou professeur', type: 'search', name: 'name', value: params[:name], autofocus: true, autocomplete: 'off'}
+      %div.search-input-wrapper.relative
+        .input-with-icon
+          %input#adress-picker{size: 50, class: 'search-input', placeholder: 'Ville / CP / Adresse', type: 'text', autocomplete: 'off', name: 'address_name', value: (params[:address_name] || 'Paris'), data: {behavior: 'address-picker', lng: '#address-lng', lat: '#address-lat', city: '#address-city'}}
+          %i.fa.fa-map-marker.delta
+        %p#specify-location.white-box--noshadow.hidden{style: 'z-index: 2; line-height: 1.3; padding: 5px 10px; position: absolute;'}
+          Vous devez spécifier un lieu
+
+      %div.button-wrapper
+        %button.nowrap.btn.btn--orange{type: 'submit', id: 'submit_search_form'}
+          %i.fa.fa-search
+          Rechercher
+</script>
