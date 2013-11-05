@@ -24,7 +24,7 @@
           - else
             = link_to 'Inactif',  activate_pro_structure_path(structure), method: :patch, class: 'switch-button off', title: 'Activer'
           = link_to pro_structure_path(structure), method: :delete, class: 'btn btn--red', title: 'Supprimer' do
-            %i.fa.fa-trash
+            %i.fa.fa-trash-o
 
 = content_for :scripts do
   :javascript

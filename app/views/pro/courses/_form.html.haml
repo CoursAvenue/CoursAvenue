@@ -32,7 +32,7 @@
     Information générales du cours
   .form-white-box
     = f.input :name, label: t('.name'), placeholder: 'Ex : Danse orientale, Dégustation de vins & fromages, etc.'
-    .input
+    .input<
       = f.label :subjects
       - subjects = @structure.subjects.little_children.uniq
       - if subjects.empty?
@@ -142,7 +142,7 @@
             done: function (e, data) {
                 $('#image-progress').addClass('progress-success');
                 $('#image-progress .bar').text('');
-                $('#image-progress .bar').append($('<i>').addClass('fa fa-ok push-half--right'));
+                $('#image-progress .bar').append($('<i>').addClass('fa fa-check push-half--right'));
                 $('#image-progress .bar').append($('<span>').text('Téléchargement terminé'));
             },
             progressall: function (e, data) {

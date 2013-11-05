@@ -64,14 +64,18 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def logo_present
-    object.logo.present?
+    object.logo.present? or object.image.present?
   end
 
   def logo_thumb_url
     if Rails.env.development?
       'http://placehold.it/200'
     else
-      object.logo.url(:thumb)
+      if object.logo.present?
+        object.logo.url(:thumb)
+      elsif object.image.present?
+        object.image.url(:thumb)
+      end
     end
   end
 

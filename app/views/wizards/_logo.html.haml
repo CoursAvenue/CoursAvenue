@@ -39,7 +39,7 @@
             done: function (e, data) {
                 $('#logo-progress').addClass('progress-success');
                 $('#logo-progress .bar').text('');
-                $('#logo-progress .bar').append($('<i>').addClass('fa fa-ok push-half--right'));
+                $('#logo-progress .bar').append($('<i>').addClass('fa fa-check push-half--right'));
                 $('#logo-progress .bar').append($('<span>').text('Téléchargement terminé'));
                 GLOBAL.ratio = data.result.logo.ratio;
                 if (logo_jcrop_api) {

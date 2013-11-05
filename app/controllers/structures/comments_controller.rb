@@ -16,7 +16,7 @@ class Structures::CommentsController < ApplicationController
   def new
     @structure   = Structure.friendly.find(params[:structure_id])
     @comment     = @structure.comments.build
-    @comments    = @structure.comments.accepted.reject(&:new_record?)[0..5]
+    @comments    = @structure.comments.accepted.reject(&:new_record?)[0..3]
   end
 
   def show

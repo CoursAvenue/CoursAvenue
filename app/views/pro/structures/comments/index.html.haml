@@ -24,7 +24,7 @@
             = "(#{comment.email})"
         .grid__item.one-quarter.v-middle.text--right>
           = link_to accept_pro_structure_comment_path(@structure, comment), class: 'btn btn--green', method: :patch do
-            %i.fa.fa-ok
+            %i.fa.fa-check
             Valider
           = link_to decline_pro_structure_comment_path(@structure, comment), class: 'btn btn--red', method: :patch do
             %i.fa.fa-remove
