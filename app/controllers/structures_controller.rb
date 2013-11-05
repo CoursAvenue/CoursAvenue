@@ -62,9 +62,10 @@ class StructuresController < ApplicationController
       end
     end
 
-
-
     @latlng = StructureSearch.retrieve_location(params)
+    @models = @structures.map do |structure|
+      StructureSerializer.new(structure, { root: false })
+    end
 
     respond_to do |format|
       format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: @structure_search.total, location: @latlng }}
