@@ -40,6 +40,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             var data = this.collection;
             var first_result = (data.currentPage - 1) * data.perPage + 1;
 
+            this.trigger('structures:updated');
+
             /* announce the pagination statistics for the current page */
             this.trigger('structures:updated:pagination', {
                 current_page: data.currentPage,
