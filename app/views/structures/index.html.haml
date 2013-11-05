@@ -9,6 +9,16 @@
 
 = render 'shared/structures_header_search'
 
+:javascript
+  window.coursavenue = window.coursavenue || {};
+  window.coursavenue.bootstrap = {
+    options: {
+      total: #{ @structure_search.total },
+      latlng: #{ @latlng }
+    },
+    models: #{ @models.to_json }
+  };
+
 - @structures.each do |structure|
   .visuallyhidden{ :data => { :type => 'filtered-search-bootstrap', :total => @structure_search.total, :latlng => @latlng }}
     = StructureSerializer.new(structure, { root: false }).to_json
