@@ -24,10 +24,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             var self = this;
             // define the server API based on the load-time URI
             this.server_api = this.makeOptionsFromSearch(window.location.search);
-
-            /* TODO for some reason */
             this.currentPage = parseInt(this.server_api.page, 10) || 1;
-
             this.server_api.page = function () { return self.currentPage; };
 
             if (this.server_api.sort === undefined) {
@@ -44,9 +41,12 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             // we are passing this.server_api for fun! ^o^ why not?
             window.history.pushState({}, "Search Results", this.getQuery());
 
-            this.paginator_ui.currentPage = 1;
-            this.paginator_ui.grandTotal  = options.total;
-            this.paginator_ui.totalPages  = Math.ceil(options.total / this.paginator_ui.perPage);
+            this.paginator_ui.currentPage = this.server_api.page();
+
+            /* TODO the results total seems to be out of sync with what we actually
+             * receive, so for now we will just do this: */
+            this.paginator_ui.grandTotal  = (models.length === 0) ? 0 : options.total;
+            this.paginator_ui.totalPages  = Math.ceil(this.paginator_ui.grandTotal / this.paginator_ui.perPage);
             this.url.basename             = window.location.origin;
         },
 
