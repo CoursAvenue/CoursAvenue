@@ -24,7 +24,7 @@
     }
     .input {
         margin: 10px 0;
-        input, textarea {
+        input, textarea, .text {
             width    : 100% - $label-width;
             &.one-whole {
                 width: 100%;
