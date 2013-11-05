@@ -65,7 +65,9 @@
     .soft--ends.text--center
       .alpha La galerie photos
       %p.flush= link_to 'Accéder à la galerie vidéos', videos_subject_city_medias_path(@subject, @city)
-    .media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
+    -# {'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
+    -# .js-masonry
+    .media-gallery
       - @medias.select{|media| media.format == 'image'}.sample(25).each do |media|
         .one-quarter.media__item.very-soft{style: 'max-width: 450px'}>
           %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}
@@ -86,7 +88,6 @@
           %th.text--center.nowrap Nbre de séances
           %th.text--right.nowrap à partir de
       %tbody
-        - @courses = @structures.sort_by(&:name).map{|s| s.courses.active}.flatten
         - @courses.each do |course|
           %tr
             %td= link_to course.name, structure_course_path(course.structure, course)
@@ -103,6 +104,13 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        var first_time = true;
+        $(window).scroll(function(){
+            if (first_time) {
+                $('.media-gallery').masonry({ itemSelector: '.media__item' });
+                first_time = false;
+            }
+        });
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
         $('[data-behavior=scroller]').click(function(){
             var href = $(this).attr('href');

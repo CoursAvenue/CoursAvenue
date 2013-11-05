@@ -15,7 +15,13 @@ class Subjects::CitiesController < ApplicationController
     @structures = @structure_search.results
     @locations  = @structures.map{|s| s.locations_around(@city.latitude, @city.longitude, 4) }
 
-    @plannings = @structures.map{|structure| structure.courses.map(&:plannings).flatten}.flatten
+    @courses   = CourseSearch.search({lat: @city.latitude,
+                                      lng: @city.longitude,
+                                      radius: 4,
+                                      per_page: 150,
+                                      subject_id: @subject.slug
+                                    })
+    @plannings = @courses.map(&:plannings).flatten
 
     @medias     = @structures.collect(&:medias).flatten
 
