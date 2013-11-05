@@ -32,7 +32,7 @@
     Information générales du cours
   .form-white-box
     = f.input :name, label: t('.name'), placeholder: 'Ex : Danse orientale, Dégustation de vins & fromages, etc.'
-    .input
+    .input<
       = f.label :subjects
       - subjects = @structure.subjects.little_children.uniq
       - if subjects.empty?

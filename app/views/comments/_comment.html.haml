@@ -70,7 +70,7 @@
                       Modifier
                   %li.nowrap
                     = link_to pro_comment_path(comment), method: :delete do
-                      %i.fa.fa-trash
+                      %i.fa.fa-trash-o
                       Supprimer
           - unless comment.waiting_for_deletion?
             .drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}

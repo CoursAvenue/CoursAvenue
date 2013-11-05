@@ -85,7 +85,7 @@
                     Voir sur CoursAvenue
                 %li
                   = link_to [:pro, course], method: :delete, class: 'red nowrap', title: 'Supprimer ce cours', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'} do
-                    %i.fa.fa-trash
+                    %i.fa.fa-trash-o
                     Supprimer
   - if @courses.disabled.any?
     .grid.push-half--top

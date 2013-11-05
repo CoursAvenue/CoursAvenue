@@ -24,12 +24,17 @@
     }
     .input {
         margin: 10px 0;
-        input, textarea, .input {
+        input, textarea {
             width    : 100% - $label-width;
             &.one-whole {
                 width: 100%;
             }
-            &.zip_code { width: 10em; }
+        }
+        &.city-autocomplete-wrapper {
+            > .input, input {
+                width        : 10em;
+                margin-bottom: 0;
+            }
         }
         .control-label {
             width: $label-width;

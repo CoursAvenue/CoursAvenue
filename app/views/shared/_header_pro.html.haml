@@ -12,7 +12,7 @@
             = link_to pages_contact_url(subdomain: 'www'), rel: :nofollow, class: 'btn btn--small' do
               %i.fa.fa-envelope-alt
               Nous contacter
-          = render 'shared/question_dropdown_menu'
+          %li= render 'shared/question_dropdown_menu'
 
           - if current_pro_admin
             - if current_pro_admin.super_admin?
