@@ -102,7 +102,7 @@ class Pro::PlanningsController < InheritedResources::Base
 
   def retrieve_plannings_and_past_plannings
     if @course.is_lesson?
-      @plannings      = @course.plannings.order('week_day ASC, start_time ASC')
+      @plannings      = @course.plannings.ordered_by_day.order('start_time ASC')
       @past_plannings = []
     else
       @plannings      = @course.plannings.order('start_date ASC, start_time ASC').future

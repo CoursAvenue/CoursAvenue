@@ -40,7 +40,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* provide options.mapOptions to override defaults */
         initialize: function(options) {
-            _.bindAll(this, 'announceBounds', 'showBoundsControls', 'hideLoader', 'showLoader');
+            _.bindAll(this, 'announceBounds', 'hideLoader', 'showLoader');
 
             this.mapOptions = {
                 center: new google.maps.LatLng(0, 0),
@@ -59,22 +59,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.map       = new google.maps.Map(this.mapView.el, this.mapOptions);
             this.map_annex = this.mapView.el;
 
-            /* the first time the map bounds change, we won't offer the 'bounds_controls' */
-            google.maps.event.addListenerOnce(this.map, 'bounds_changed', _.debounce(this.showBoundsControls));
-
             this.update_live = $.cookie('map:update:live');
             if (this.update_live === 'true') {
                 this.toggleLiveUpdate();
             }
-        },
-
-        /* the first time the user changes the map bounds, we show the controls */
-        showBoundsControls: function () {
-            var self = this;
-
-            this.boundsControlsListener = google.maps.event.addListenerOnce(this.map, 'bounds_changed', function() {
-                self.ui.bounds_controls.slideDown();
-            });
         },
 
         ui: {

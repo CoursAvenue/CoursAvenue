@@ -64,7 +64,7 @@
           &nbsp;
           - if admin.structure
             = link_to pro_structure_path(admin.structure), method: :delete, title: 'Supprimer', class: 'btn btn--red', data: {confirm: 'Êtes-vous sur de supprimer cet admin et TOUS ses cours ?'} do
-              %i.fa.fa-trash
+              %i.fa.fa-trash-o
 .push-half--bottom= paginate @admins, window: 2, outer_window: 1
 %script#structure-item-template{:type => 'text/x-handlebars-template'}
   %div{style: 'font-size: 13px;'}

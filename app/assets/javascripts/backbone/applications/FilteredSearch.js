@@ -5,24 +5,7 @@ FilteredSearch = (function (){
 
         /* for use in query strings */
         root:   function() { return self.slug + '-root'; },
-        suffix: function() { return self.slug + '-bootstrap'; },
         loader: function() { return self.slug + '-loader'; },
-        /* returns the jQuery object where bootstrap data is */
-
-        bootstrap: {
-            $annex: function() { return $('[data-type=' + self.suffix() + ']'); },
-            total: function() {
-                return self.bootstrap.$annex().data('total');
-            },
-            latlng: function() {
-                return self.bootstrap.$annex().data('latlng');
-            },
-            models: function() {
-                return self.bootstrap.$annex().map(function() {
-                    return JSON.parse($(this).text());
-                }).get();
-            },
-        },
 
         /* methods for returning the relevant jQuery collections */
         $root: function() {
@@ -66,17 +49,7 @@ FilteredSearch.addRegions({
 FilteredSearch.addInitializer(function(options) {
     var bootstrap, structures, structures_view, layout, maps_view;
 
-    // Scrape all the json from the filtered-search-bootstrap
-    /* TODO this is teh uuuugly code */
-    bootstrap = (function (self) {
-        return {
-            options: {
-                total: self.bootstrap.total(),
-                latlng: self.bootstrap.latlng()
-            },
-            models: self.bootstrap.models()
-        };
-    }(this));
+    bootstrap = window.coursavenue.bootstrap;
 
     // Create an instance of your class and populate with the models of your entire collection
     structures      = new FilteredSearch.Models.PaginatedCollection(bootstrap.models, bootstrap.options);
@@ -118,8 +91,8 @@ FilteredSearch.addInitializer(function(options) {
     /* we can add a widget along with a callback to be used
     * for setup */
     layout.showWidget(google_maps_view, {
-        'structures:updating':             'clearForUpdate showLoader',
-        'structures:updated':              'hideLoader',
+        'structures:updating':               'clearForUpdate showLoader',
+        'structures:updated':                'hideLoader',
         'structures:itemview:highlighted':   'selectMarkers',
         'structures:itemview:unhighlighted': 'deselectMarkers'
     });

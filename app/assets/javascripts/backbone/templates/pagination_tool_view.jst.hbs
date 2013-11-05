@@ -1,4 +1,5 @@
 <ul class="pagination">
+    {{#if buttons }}
     {{!-- make a previous button --}}
     <li class="btn">
     <a rel="prev" href="{{ previous_page_query }}"><i class="fa fa-arrow-left"></i></a>
@@ -13,4 +14,5 @@
     <li class="btn">
     <a rel="next" href="{{ next_page_query }}"><i class="fa fa-arrow-right"></i></a>
     </li>
+    {{/if}}
 </ul>

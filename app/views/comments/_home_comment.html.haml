@@ -3,8 +3,8 @@
     .flexbox{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
       .flexbox__item.one-half.comment__header
         %div
-          %b.v-middle{itemprop: 'author'}
-            = "\"#{truncate(comment.title, length: 40)}\"".html_safe
+          %b.quoted.v-middle{itemprop: 'author'}
+            = "#{truncate(comment.title, length: 40)}".html_safe
           %br
           %span.blue= truncate(comment.commentable.name, length: 40)
           %div.muted.text--right.milli{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}

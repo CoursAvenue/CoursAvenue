@@ -12,8 +12,3 @@ Handlebars.registerHelper('pluralize', function(number, single, plural) {
     return (number === 1) ? single : plural;
 });
 
-// usage: {{localizeDate date 'short'}}
-Handlebars.registerHelper('localizeDate', function(date, format) {
-    format = format || 'time.formats.date';
-    return I18n.l(format, date);
-});

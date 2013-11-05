@@ -10,7 +10,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.render();
         },
 
-        serializeData: function (data) {
+        serializeData: function () {
             return this.current_pagination_data;
         },
 

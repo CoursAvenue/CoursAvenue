@@ -1,39 +1,56 @@
-.filtered-search__wrapper {
-    left    : 40%;
-    @include multiple-media-query(palm, lap) { left: 0; };
+.search-wrapper {
+    position: absolute;
+    top     : 0;
 }
-    .filtered-search__list-wrapper {
-        position  : relative;
-        min-height: 35em;
+
+.filtered-search__map-wrapper {
+    width        : 100%;
+    position     : fixed;
+    left         : 0%;
+    padding-right: 710px;
+    height       : 100%;
+    > div,  > div > div, > div > div > div, #map {
+        height: 100%;
+    }
+}
+    .filtered-search__map-control {
+        position: absolute;
+        top     : 1.5em;
+        left    : 6em;
+    }
+
+.filtered-search__list-wrapper {
+    position                 : fixed;
+    right                    : 0%;
+    max-width                : 700px;
+    height                   : 100%;
+    padding-bottom           : 7em;
+    overflow-y               : scroll;
+    webkit-overflow-scrolling: touch;
+}
+    .filtered-search__list {
+        padding-left: 7px;
     }
     .filtered-search__loader {
         position   : absolute;
         // Prevent from drop shadow of elements that are under it.
-        height     : 110%;
-        width      : 110%;
-        top        : -5px;
-        left       : -5px;
-        background : $site-background-color;
+        height     : 100%;
+        width      : 100%;
+        top        : 0;
+        left       : 0;
+        background : white;
         color      : #333;
-        opacity    : 0.7;
         text-align : center;
-        padding-top: 1em;
+        padding-top: 5em;
         font-size  : 1.5em;
         z-index    : 10;
         opacity    : 0;
         @include transition(opacity 250ms linear);
         &.visible {
-            opacity: 1;
+            opacity: 0.8;
         }
     }
 
-
-.filtered-search__map {
-    position: relative;
-    #map {
-        height: 30em;
-    }
-}
     .filtered-search__map-loader {
         background-color: black;
         background-color: rgba(0,0,0,0.5);

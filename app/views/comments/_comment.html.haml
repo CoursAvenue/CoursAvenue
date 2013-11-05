@@ -62,7 +62,7 @@
                   - if comment.waiting_for_deletion?
                     %li.nowrap
                       = link_to recover_pro_comment_path(comment), method: :patch do
-                        %i.fa.fa-ok
+                        %i.fa.fa-check
                         Rétablir
                   %li.nowrap
                     = link_to edit_pro_comment_path(comment) do
@@ -70,7 +70,7 @@
                       Modifier
                   %li.nowrap
                     = link_to pro_comment_path(comment), method: :delete do
-                      %i.fa.fa-trash
+                      %i.fa.fa-trash-o
                       Supprimer
           - unless comment.waiting_for_deletion?
             .drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}

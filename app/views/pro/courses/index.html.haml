@@ -48,14 +48,14 @@
                 = link_to edit_pro_course_path(course) do
                   %i.lbc-icon-info i
                   Info
-                  %i.fa.fa-ok.green
+                  %i.fa.fa-check.green
               .btn>
                 = link_to pro_course_prices_path(course) do
                   € Tarifs
                   - if course.prices.empty?
                     %i.fa.fa-remove.red
                   - else
-                    %i.fa.fa-ok.green
+                    %i.fa.fa-check.green
               .btn>
                 = link_to pro_course_plannings_path(course) do
                   %i.lbc-icon-calendar
@@ -63,7 +63,7 @@
                   - if course.plannings.empty?
                     %i.fa.fa-remove.red
                   - else
-                    %i.fa.fa-ok.green
+                    %i.fa.fa-check.green
           %td.text--center.hard
             .drop-down-el.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
               %a.btn--orange.btn.btn--small{href: '#'}
@@ -85,7 +85,7 @@
                     Voir sur CoursAvenue
                 %li
                   = link_to [:pro, course], method: :delete, class: 'red nowrap', title: 'Supprimer ce cours', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'} do
-                    %i.fa.fa-trash
+                    %i.fa.fa-trash-o
                     Supprimer
   - if @courses.disabled.any?
     .grid.push-half--top

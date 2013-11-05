@@ -2,6 +2,8 @@
 class StructuresController < ApplicationController
   respond_to :json
 
+  layout :choose_layout
+
   def show
     begin
       @structure = Structure.friendly.find params[:id]
@@ -40,15 +42,18 @@ class StructuresController < ApplicationController
       end
     end
 
-    @structure_search      = StructureSearch.search(params)
-    @structures            = @structure_search.results
-
     # the bbox params may come uri encoded as CSV
     if (params[:bbox_sw] && params[:bbox_ne])
       if (params[:bbox_sw].respond_to?(:split) && params[:bbox_ne].respond_to?(:split))
         params[:bbox_sw] = params[:bbox_sw].split(',');
         params[:bbox_ne] = params[:bbox_ne].split(',');
       end
+    end
+
+    @structure_search      = StructureSearch.search(params)
+    @structures            = @structure_search.results
+
+    if (params[:bbox_sw] && params[:bbox_ne])
       # TODO: To be removed when using Solr 4.
       # This is used because the bounding box refers to a circle and not a box...
       # Rejecting the structures that are not in the bounding box
@@ -57,9 +62,10 @@ class StructuresController < ApplicationController
       end
     end
 
-
-
     @latlng = StructureSearch.retrieve_location(params)
+    @models = @structures.map do |structure|
+      StructureSerializer.new(structure, { root: false })
+    end
 
     respond_to do |format|
       format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: @structure_search.total, location: @latlng }}
@@ -71,4 +77,13 @@ class StructuresController < ApplicationController
     # expires_in 1.minutes, public: true
   end
 
+  private
+
+  def choose_layout
+    if action_name == 'index'
+      'search'
+    else
+      'users'
+    end
+  end
 end

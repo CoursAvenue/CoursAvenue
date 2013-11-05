@@ -49,13 +49,13 @@
         <div>
             {{#if has_price_range}}
                 de
-                <span data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                <span class="cursor" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                 à
-                <span data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
+                <span class="cursor" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
             {{else}}
                 {{#if min_price_amount}}
                     à partir de
-                    <span data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                    <span class="cursor" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                 {{/if}}
             {{/if}}
         </div>
