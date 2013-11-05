@@ -2,6 +2,8 @@
 class StructuresController < ApplicationController
   respond_to :json
 
+  layout :choose_layout
+
   def show
     begin
       @structure = Structure.friendly.find params[:id]
@@ -71,4 +73,13 @@ class StructuresController < ApplicationController
     # expires_in 1.minutes, public: true
   end
 
+  private
+
+  def choose_layout
+    if action_name == 'index'
+      'search'
+    else
+      'users'
+    end
+  end
 end

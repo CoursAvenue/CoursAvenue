@@ -1,11 +1,11 @@
-<div class="grid stickem-container relative">
-    <section id="widgets-container" class="grid__item four-tenths visuallyhidden--lap visuallyhidden--palm stickem absolute">
+<div class="relative">
+    <section id="widgets-container" class="filtered-search__map-wrapper">
         {{#each widget}}
             <div id="{{ id }}" data-type="widget"></div>
         {{/each}}
     </section>
 
-    <section class="filtered-select grid__item six-tenths lap-one-whole palm-one-whole course-list-wrapper">
+    <section class="filtered-search__list-wrapper">
         <header class="flexbox page-entries-wrapper">
             <div class="flexbox__item palm-one-whole" data-type="results-summary-tool"></div>
             <div class="flexbox__item visuallyhidden--palm text--right" data-type="top-pagination-tool"></div>

@@ -6,7 +6,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         template: 'backbone/templates/paginated_collection_view',
         itemView: FilteredSearch.Views.StructureView,
         itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
-        className: 'filtered-search__list-wrapper',
 
         /* forward events with only the necessary data */
         onItemviewHighlighted: function (view, data) {
