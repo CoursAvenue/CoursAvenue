@@ -107,16 +107,16 @@
             Informations visibles uniquement par votre professeur
         - unless current_user
           %input{type: 'hidden', name: 'default_email', value: params[:email]}
-          = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: params[:email] }
+          = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: params[:comment][:email] }
         .input.push-half--bottom
           %label.control-label.text>
             %strong Message personnel
         .input
           %label.control-label.text> Objet
-          = text_field_tag :subject, nil, placeholder: "Ex. : Merci d'avoir pensé à moi !"
+          = text_field_tag :subject, params[:subject], placeholder: "Ex. : Merci d'avoir pensé à moi !"
         .input
           %label.control-label.text> Message
-          = text_area_tag :private_message, default_fake_message.sample, class: 'text', style: 'height: 100px', data: { behavior: 'autoresize' }
+          = text_area_tag :private_message, (params[:private_message] || default_fake_message.sample), class: 'text', style: 'height: 100px', data: { behavior: 'autoresize' }
         .text--center
           = f.submit 'Publier mon avis', class: 'btn btn--large btn--green', style: 'padding-top: 6px; padding-bottom: 6px;'
 
