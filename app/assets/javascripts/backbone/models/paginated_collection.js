@@ -155,7 +155,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         /* remove the given keys from the query */
         unsetQuery: function (keys) {
 
-            _.omit(this.server_api, keys);
+            this.server_api = _.omit(this.server_api, keys);
         },
 
         /* get URI query string from the server_api values merged with opts */

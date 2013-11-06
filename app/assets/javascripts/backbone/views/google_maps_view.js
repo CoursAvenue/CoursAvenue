@@ -109,10 +109,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 e.preventDefault();
             }
 
-            /* TODO we are pretending to use a bounding box, but really we are using radius
-            *  on the backend, with bbox: true
-            *  ref: https://github.com/sunspot/sunspot#filter-by-radius-inexact-with-bbox */
-
             var bounds    = this.map.getBounds();
             var southWest = bounds.getSouthWest();
             var northEast = bounds.getNorthEast();
@@ -151,6 +147,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                     this.map.fitBounds(bounds);
                 }
             }
+
+            this.map.setZoom(12);
         },
 
         clearForUpdate: function() {

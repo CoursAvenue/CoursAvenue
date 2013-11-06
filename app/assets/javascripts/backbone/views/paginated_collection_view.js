@@ -141,7 +141,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.collection.reset();
             this.collection.setQuery(filters);
 
-            if (filters.lat || filters.lng) {
+            /* we are updating from the location filter */
+            if (filters.city && filters.lat) {
                 this.trigger('filter:update:map', filters);
             }
 
