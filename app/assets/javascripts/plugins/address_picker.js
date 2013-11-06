@@ -10,7 +10,7 @@
     // Create the defaults once
     var pluginName = "addressPicker",
         defaults = {
-            template_string: '<p data-lat="{{latitude}}" data-lng="{{longitude}}" data-city="{{city}}">{{address}}</p>'
+            template_string: '<p data-lat="{{lat}}" data-lng="{{lng}}" data-city="{{city}}">{{address_name}}</p>'
         };
 
     // The actual plugin constructor
@@ -40,31 +40,32 @@
             this.input_city     = $(this.$element.data('city'));
             this.geocoder       = new google.maps.Geocoder();
             this.$element.on('typeahead:selected', function(event, data) {
-                this.input_lat.val(data.latitude);
-                this.input_lng.val(data.longitude);
+                this.input_lat.val(data.lat);
+                this.input_lng.val(data.lng);
                 this.input_city.val(data.city);
-                this.$element.typeahead('setQuery', data.address);
+                this.$element.typeahead('setQuery', data.address_name);
             }.bind(this));
             template = Handlebars.compile(this.options.template_string);
             this.$element.typeahead({
                 template: template,
                 computed: function (q, done) {
-                    q = q + ', France';
+                    q = q + ' France';
                     this.geocoder.geocode({ address: q }, function (results, status) {
                         done($.map(results, function (result) {
                             var city, arrAddress = result.address_components;
                             // iterate through address_component array
                             $.each(arrAddress, function (i, address_component) {
+                                console.log(address_component);
                                 if (address_component.types[0] == "locality") {// locality type
                                     city = address_component.long_name;
                                     return false; // break the loop
                                 }
                             });
                             return {
-                                city: city,
-                                latitude: result.geometry.location.lat(),
-                                longitude: result.geometry.location.lng(),
-                                address: result.formatted_address
+                                city:         city,
+                                lat:          result.geometry.location.lat(),
+                                lng:          result.geometry.location.lng(),
+                                address_name: result.formatted_address
                             };
                         }));
                     });

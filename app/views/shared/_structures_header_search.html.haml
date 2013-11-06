@@ -37,6 +37,9 @@
       -# %br
       -# %i.line-height-1 {{structure.city.name}}
 
+:javascript
+  window.subject_path = '#{subjects_path(format: :json)}';
+
 = content_for :scripts do
   :javascript
     $(function() {
@@ -53,27 +56,6 @@
         // Aucomplete search on subjects and structures
         var template = Handlebars.compile($('#structure-item-template').html());
         var subject_path = '#{subjects_path(format: :json)}';
-        $('#search-input').typeahead([
-          {
-            name: 'subjects_#{ENV["ETAG_VERSION_ID"]}',
-            prefetch: subject_path,
-            valueKey: 'name',
-            header: '<div class="typeahead-dataset-header">Disciplines</div>'
-          }
-          // ,
-          // {
-          //   name: 'structure_#{ENV["ETAG_VERSION_ID"]}',
-          //   header: '<div class="typeahead-dataset-header">Établissements & professeurs</div>',
-          //   valueKey: 'name',
-          //   template: template,
-          //   remote: {
-          //     url: '/etablissements.json',
-          //     replace: function(url, uriEncodedQuery) {
-          //         return url + '?name=' + uriEncodedQuery + '&radius=1000';
-          //     }
-          //   }
-          // }
-        ]);
         $('#search-input').on('typeahead:selected', function(event, data){
             // If it is a structure
             if (data.hasOwnProperty('structure_type')) {

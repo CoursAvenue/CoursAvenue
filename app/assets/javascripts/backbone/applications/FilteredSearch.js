@@ -35,7 +35,7 @@ FilteredSearch = (function (){
 
         /* convenience method */
         capitalize: function (word) {
-          return word.charAt(0).toUpperCase() + word.slice(1);
+            return word.charAt(0).toUpperCase() + word.slice(1);
         }
     });
 
@@ -57,13 +57,16 @@ FilteredSearch.addInitializer(function(options) {
         collection: structures,
         events: {
             'structures:updating': 'showLoader',
-            'structures:updated': 'hideLoader',
-            'pagination:next':    'nextPage',
-            'pagination:prev':    'prevPage',
-            'pagination:page':    'goToPage',
-            'summary:filter':     'filterQuery',
-            'map:bounds':         'filterQuery',
-            'map:marker:focus':   'zoomToStructure'
+            'structures:updated':  'hideLoader',
+            'pagination:next':     'nextPage',
+            'pagination:prev':     'prevPage',
+            'pagination:page':     'goToPage',
+            'filter:summary':      'filterQuery',
+            'map:bounds':          'filterQuery',
+            'filter:subject':      'filterQuery',
+            'filter:search_term':  'filterQuery',
+            'filter:location':     'filterQuery',
+            'map:marker:focus':    'zoomToStructure'
         }
     });
 
@@ -82,9 +85,11 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
-    top_pagination_tool    = new FilteredSearch.Views.PaginationToolView({});
-    bottom_pagination_tool = new FilteredSearch.Views.PaginationToolView({});
-    results_summary_tool   = new FilteredSearch.Views.ResultsSummaryView({});
+    top_pagination_tool        = new FilteredSearch.Views.PaginationToolView({});
+    bottom_pagination_tool     = new FilteredSearch.Views.PaginationToolView({});
+    results_summary_tool       = new FilteredSearch.Views.ResultsSummaryView({});
+    subject_filter_tool        = new FilteredSearch.Views.SubjectFilterView({});
+    categorical_filter_tool    = new FilteredSearch.Views.CategoricalFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -94,19 +99,34 @@ FilteredSearch.addInitializer(function(options) {
         'structures:updating':               'clearForUpdate showLoader',
         'structures:updated':                'hideLoader',
         'structures:itemview:highlighted':   'selectMarkers',
-        'structures:itemview:unhighlighted': 'deselectMarkers'
+        'structures:itemview:unhighlighted': 'deselectMarkers',
+        'filter:update:map':                 'centerMap'
     });
 
+    /* TODO these widgets all have "reset" bound to "updated"...
+    *  let's make that a default */
     layout.showWidget(results_summary_tool, {
-        'structures:updated': 'resetSummaryTool'
+        'structures:updated:summary': 'resetSummaryTool'
     }, '[data-type=results-summary-tool]');
 
+    layout.showWidget(categorical_filter_tool, {
+        once: {
+            'structures:updated:filters': 'resetCategoricalFilterTool',
+        }
+    }, '[data-type=categorical-filter-tool]');
+
+    layout.showWidget(subject_filter_tool, {
+        once: {
+            'structures:updated:filters': 'setupSubjectFilter'
+        }
+    }, '[data-type=subject-filter-tool]');
+
     layout.showWidget(top_pagination_tool, {
-        'structures:updated': 'resetPaginationTool'
+        'structures:updated:pagination': 'resetPaginationTool'
     }, '[data-type=top-pagination-tool]');
 
     layout.showWidget(bottom_pagination_tool, {
-        'structures:updated': 'resetPaginationTool'
+        'structures:updated:pagination': 'resetPaginationTool'
     }, '[data-type=bottom-pagination-tool]');
 
     layout.results.show(structures_view);

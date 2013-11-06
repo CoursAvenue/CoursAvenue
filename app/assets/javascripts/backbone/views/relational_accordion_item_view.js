@@ -8,6 +8,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     *    - naming conventions are used to build the views on demand */
     Views.RelationalAccordionItemView = Views.AccordionItemView.extend({
 
+        loaderTemplate: '<div class="loading-indicator" style="height: 60px;"></div>',
+
         /* When a button is clicked, accordionControl arranges for a
         *  relation with the given name to be displayed, either by
         *  switching between tabs on the current structure_view or by
@@ -35,10 +37,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             /* if no region exists on the structure view, then we need to
             *  fetch the relation, and create a region for it */
             if (this.regions[value] === undefined) {
+                self.showLoader(value);
                 /* wait for asynchronous fetch of models before adding region */
                 this.model.fetchRelated(value, {}, true)[0].then(function () {
                     self.createRegionFor(value, attributes);
                     self.accordionToggle(value);
+                    self.hideLoader();
                 });
             } else {
                 this.accordionToggle(value);
@@ -81,6 +85,21 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             }
 
             this.active_region = (closing)? undefined : value;
+        },
+
+        showLoader: function(value) {
+            var closing = (this.active_region === value);
+            if (!this.$loader) {
+                this.$loader = $(this.loaderTemplate).hide();
+                this.$el.append(this.$loader);
+            }
+            if (!closing) {
+                this.$loader.slideDown();
+            }
+        },
+
+        hideLoader: function(value) {
+            this.$loader.slideUp();
         },
 
         /* given a string, find the relation on the model with that name

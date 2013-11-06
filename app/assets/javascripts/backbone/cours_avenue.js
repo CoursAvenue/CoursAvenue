@@ -16,6 +16,8 @@
 //= require ./views/google_maps_view
 //= require ./views/pagination_tool_view
 //= require ./views/result_summary_view
+//= require ./views/subject_filter_view
+//= require ./views/categorical_filter_view
 //= require ./views/accordion_item_view
 //= require ./views/relational_accordion_item_view
 //= require ./views/course_view
