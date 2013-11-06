@@ -49,22 +49,23 @@
             this.$element.typeahead({
                 template: template,
                 computed: function (q, done) {
-                    q = q + ', France';
+                    q = q + ' France';
                     this.geocoder.geocode({ address: q }, function (results, status) {
                         done($.map(results, function (result) {
                             var city, arrAddress = result.address_components;
                             // iterate through address_component array
                             $.each(arrAddress, function (i, address_component) {
+                                console.log(address_component);
                                 if (address_component.types[0] == "locality") {// locality type
                                     city = address_component.long_name;
                                     return false; // break the loop
                                 }
                             });
                             return {
-                                city: city,
-                                latitude: result.geometry.location.lat(),
-                                longitude: result.geometry.location.lng(),
-                                address: result.formatted_address
+                                city:         city,
+                                lat:          result.geometry.location.lat(),
+                                lng:          result.geometry.location.lng(),
+                                address_name: result.formatted_address
                             };
                         }));
                     });

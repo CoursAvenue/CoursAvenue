@@ -30,7 +30,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             var self = this;
 
             _.each(_.clone(this.currently_selected_cid), function(cid) {
-                console.log(cid);
                 var itemView = self.children.findByModelCid(cid);
                 itemView.accordionToggle(itemView.active_region);
             });
@@ -40,13 +39,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             var data = this.collection;
             var first_result = (data.currentPage - 1) * data.perPage + 1;
 
-            /* the data is not used here */
-            this.trigger('structures:updated', {
+            this.trigger('structures:updated');
+
+            /* announce the pagination statistics for the current page */
+            this.trigger('structures:updated:pagination', {
                 current_page: data.currentPage,
                 last_page: data.totalPages,
-                first: first_result,
-                last: Math.min(first_result + data.perPage - 1, data.grandTotal),
-                total: data.grandTotal,
                 buttons: this.buildPaginationButtons(data),
                 previous_page_query: this.collection.previousQuery(),
                 next_page_query: this.collection.nextQuery(),
@@ -55,12 +53,18 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 sort: this.collection.server_api.sort
             });
 
-            data = this.collection.getLatLngBounds();
+            /* announce the summary of the result set */
+            this.trigger('structures:updated:summary', {
+                first: first_result,
+                last: Math.min(first_result + data.perPage - 1, data.grandTotal),
+                total: data.grandTotal,
+            });
 
-            /* let the map know what we think the center and bounds should be */
-            /* TODO this was used to center the map on page load, but I think
-            *  now it is not being used */
-            this.trigger('structures:updated:map', data);
+            /* announce the filters used in the current result set */
+            this.trigger('structures:updated:filters', {
+                address_name: (data.server_api.address_name) ? decodeURIComponent(data.server_api.address_name) : "",
+                name: (data.server_api.name) ? decodeURIComponent(data.server_api.name) : ""
+            });
         },
 
         showLoader: function() {
@@ -95,6 +99,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         *  method to construct query strings for anchors. This is a problem!
         *  we could:
         *  - build all the query strings and put them in an array
+        *  - send enough information to be able to build the query strings over there
         *  - send a reference to the pageQuery method */
         buildPaginationButtons: function (data) {
             var self = this,
@@ -135,6 +140,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             *  the collection, or else some elements will be in the wrong order */
             this.collection.reset();
             this.collection.setQuery(filters);
+
+            /* we are updating from the location filter */
+            if (filters.city && filters.lat) {
+                this.trigger('filter:update:map', filters);
+            }
 
             this.collection.currentPage = -1;
 

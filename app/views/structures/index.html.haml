@@ -18,10 +18,6 @@
     models: #{ @models.to_json }
   };
 
-- @structures.each do |structure|
-  .visuallyhidden{ :data => { :type => 'filtered-search-bootstrap', :total => @structure_search.total, :latlng => @latlng }}
-    = StructureSerializer.new(structure, { root: false }).to_json
-
 %ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
   %li= link_to 'Tous les établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
   - if @subject
