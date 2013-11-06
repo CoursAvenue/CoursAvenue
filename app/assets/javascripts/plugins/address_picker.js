@@ -10,7 +10,7 @@
     // Create the defaults once
     var pluginName = "addressPicker",
         defaults = {
-            template_string: '<p data-lat="{{latitude}}" data-lng="{{longitude}}" data-city="{{city}}">{{address}}</p>'
+            template_string: '<p data-lat="{{lat}}" data-lng="{{lng}}" data-city="{{city}}">{{address_name}}</p>'
         };
 
     // The actual plugin constructor
