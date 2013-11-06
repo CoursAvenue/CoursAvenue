@@ -36,21 +36,21 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         announcePaginatorUpdated: function () {
-            var data = this.collection;
+            var data         = this.collection;
             var first_result = (data.currentPage - 1) * data.perPage + 1;
 
             this.trigger('structures:updated');
 
             /* announce the pagination statistics for the current page */
             this.trigger('structures:updated:pagination', {
-                current_page: data.currentPage,
-                last_page: data.totalPages,
-                buttons: this.buildPaginationButtons(data),
+                current_page:        data.currentPage,
+                last_page:           data.totalPages,
+                buttons:             this.buildPaginationButtons(data),
                 previous_page_query: this.collection.previousQuery(),
-                next_page_query: this.collection.nextQuery(),
-                relevancy_query: this.collection.relevancyQuery(),
-                popularity_query: this.collection.popularityQuery(),
-                sort: this.collection.server_api.sort
+                next_page_query:     this.collection.nextQuery(),
+                relevancy_query:     this.collection.relevancyQuery(),
+                popularity_query:    this.collection.popularityQuery(),
+                sort:                this.collection.server_api.sort
             });
 
             /* announce the summary of the result set */
@@ -62,8 +62,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             /* announce the filters used in the current result set */
             this.trigger('structures:updated:filters', {
-                address_name: (data.server_api.address_name) ? decodeURIComponent(data.server_api.address_name) : "",
-                name: (data.server_api.name) ? decodeURIComponent(data.server_api.name) : ""
+                address_name: (data.server_api.address_name ? decodeURIComponent(data.server_api.address_name) : ""),
+                name:         (data.server_api.name ? decodeURIComponent(data.server_api.name) : ""),
+                subject_id:   (data.server_api.subject_id ? decodeURIComponent(data.server_api.subject_id) : "")
             });
         },
 
