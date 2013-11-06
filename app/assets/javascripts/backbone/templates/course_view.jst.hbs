@@ -1,17 +1,22 @@
 <thead>
-    <tr class="brand epsilon">
-        <td>{{ name }}</td>
-        <td>{{ start_date }} à {{ end_date }}</td>
-        <td>{{ type }} de</td>
-        <td>{{ price_range }}</td>
+    <tr class="bold">
+        <td colspan="2" class="text--left">
+            <a href="{{data_url}}" title="{{ name }}">{{ name }}</a>
+        </td>
+        {{!-- <td>{{ start_date }} à {{ end_date }}</td> --}}
+        <td colspan="2" class="text--right">
+        {{#if min_price_amount}}
+            à partir de {{ min_price_amount }}€ ({{ min_price_libelle }})
+        {{/if}}
+        </td>
     </tr>
 <tbody>
     {{#each plannings }}
     <tr>
-        <td>{{ week_day }}</td>
-        <td>{{ time_slot }}</td>
-        <td>{{ duration }}</td>
-        <td>{{ levels }}</td>
+        <td class="four-twelfths">{{ week_day }}</td>
+        <td class="three-twelfths">{{ time_slot }}</td>
+        <td class="one-twelfth">{{ duration }}</td>
+        <td class="four-twelfths">{{ levels }}</td>
     </tr>
     {{/each}}
 </tbody>
