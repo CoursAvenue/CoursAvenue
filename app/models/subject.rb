@@ -45,7 +45,7 @@ class Subject < ActiveRecord::Base
       name:        self.name,
       parent_name: self.parent.try(:name),
       slug:        self.slug,
-      asset_url:   asset_path("assets/icons/subjects/#{self.slug}.png")
+      asset_url:   asset_url("icons/subjects/#{self.slug}.png")
     }
   end
 end

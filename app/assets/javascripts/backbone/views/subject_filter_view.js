@@ -5,7 +5,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         className: 'very-soft',
 
         serializeData: function(data) {
-            return {subjects: coursavenue.bootstrap.subjects};
+            return { subjects: coursavenue.bootstrap.subjects };
         },
 
         events: {
