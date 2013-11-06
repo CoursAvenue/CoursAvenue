@@ -62,8 +62,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             /* announce the filters used in the current result set */
             this.trigger('structures:updated:filters', {
-                address_name: data.server_api.address_name,
-                name: decodeURIComponent(data.server_api.name)
+                address_name: (data.server_api.address_name) ? decodeURIComponent(data.server_api.address_name) : "",
+                name: (data.server_api.name) ? decodeURIComponent(data.server_api.name) : ""
             });
         },
 
