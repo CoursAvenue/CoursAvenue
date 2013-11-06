@@ -38,6 +38,7 @@
         position   : absolute;
         // Prevent from drop shadow of elements that are under it.
         height     : 100%;
+        min-height : 10em;
         width      : 100%;
         top        : 0;
         left       : 0;
