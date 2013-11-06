@@ -15,7 +15,8 @@
       total: #{ @structure_search.total },
       latlng: #{ @latlng }
     },
-    models: #{ @models.to_json }
+    models: #{ @models.to_json },
+    subjects: #{ Subject.stars.to_json }
   };
 
 %ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}

@@ -57,13 +57,14 @@ FilteredSearch.addInitializer(function(options) {
         collection: structures,
         events: {
             'structures:updating': 'showLoader',
-            'structures:updated': 'hideLoader',
-            'pagination:next':    'nextPage',
-            'pagination:prev':    'prevPage',
-            'pagination:page':    'goToPage',
-            'filter:summary':     'filterQuery',
-            'map:bounds':         'filterQuery',
-            'filter:search_term': 'filterQuery',
+            'structures:updated':  'hideLoader',
+            'pagination:next':     'nextPage',
+            'pagination:prev':     'prevPage',
+            'pagination:page':     'goToPage',
+            'filter:summary':      'filterQuery',
+            'map:bounds':          'filterQuery',
+            'filter:subject':      'filterQuery',
+            'filter:search_term':  'filterQuery',
             'filter:location':     'filterQuery',
             'map:marker:focus':    'zoomToStructure'
         }
@@ -87,6 +88,7 @@ FilteredSearch.addInitializer(function(options) {
     top_pagination_tool        = new FilteredSearch.Views.PaginationToolView({});
     bottom_pagination_tool     = new FilteredSearch.Views.PaginationToolView({});
     results_summary_tool       = new FilteredSearch.Views.ResultsSummaryView({});
+    subject_filter_tool        = new FilteredSearch.Views.SubjectFilterView({});
     categorical_filter_tool    = new FilteredSearch.Views.CategoricalFilterView({});
     location_filter            = new FilteredSearch.Views.LocationFilterView({});
 
@@ -132,6 +134,12 @@ FilteredSearch.addInitializer(function(options) {
             'structures:updated:filters': 'setup',
         }
     });
+
+    layout.showWidget(subject_filter_tool, {
+        once: {
+            'structures:updated:filters': 'setupSubjectFilter'
+        }
+    }, '[data-type=subject-filter-tool]');
 
     layout.showWidget(top_pagination_tool, {
         'structures:updated:pagination': 'resetPaginationTool'

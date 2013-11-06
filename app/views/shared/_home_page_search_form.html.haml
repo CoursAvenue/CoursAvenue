@@ -3,12 +3,8 @@
     .header-search-bar
       %div.search-input-wrapper
         %select.one-whole.epsilon{name: 'subject_id'}
-          %option{value: 'danse'} Danse
-          %option{value: 'theatre-scene'} Théâtre & Scène
-          %option{value: 'yoga-bien-etre-sante'} Yoga, Bien-être & Santé
-          %option{value: 'dessin-peinture-arts-plastiques'} Dessin, Peinture & Arts plastiques
-          %option{value: 'musique-chant'} Musique & Chant
-          %option{value: 'sports-arts-martiaux'} Sports & Arts martiaux
+          - Subject.stars.each do |subject|
+            %option{value: subject.slug}= subject.name
           %option{value: 'other'} Autres
       %div.search-input-wrapper
         %select.one-whole.epsilon{name: 'city'}

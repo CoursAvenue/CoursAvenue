@@ -15,7 +15,7 @@ class StructureSearch
       if params[:exclude].present?
         without(:subject_slugs, params[:exclude])
       elsif params[:other].present?
-        without(:subject_slugs, ['danse', 'theatre-scene', 'yoga-bien-etre-sante', 'dessin-peinture-arts-plastiques', 'musique-chant', 'sports-arts-martiaux'])
+        without(:subject_slugs, Subject.stars.map(&:slug))
       end
 
       if params[:bbox_sw] && params[:bbox_ne]

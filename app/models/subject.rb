@@ -21,6 +21,7 @@ class Subject < ActiveRecord::Base
   scope :little_children,        -> { where{ancestry_depth == 2} }
   scope :roots_with_position,    -> { where{(ancestry == nil) & (position != nil)} }
   scope :roots_without_position, -> { where{(ancestry == nil) & (position == nil)} }
+  scope :stars,                  -> { where{position < 8}.order('position ASC') }
 
   def little_children
     self.descendants.at_depth(2)
@@ -40,7 +41,8 @@ class Subject < ActiveRecord::Base
     {
       id:          self.id,
       name:        self.name,
-      parent_name: self.parent.try(:name)
+      parent_name: self.parent.try(:name),
+      slug:        self.slug
     }
   end
 end
