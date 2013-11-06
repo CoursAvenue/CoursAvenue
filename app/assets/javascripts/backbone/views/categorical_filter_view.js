@@ -2,6 +2,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
     Views.CategoricalFilterView = Backbone.Marionette.ItemView.extend({
         template: 'backbone/templates/categorical_filter_view',
+        className: 'header-search-bar push-half--bottom',
 
         initialize: function () {
             this.announceSubject = _.debounce(this.announceSubject, 500);

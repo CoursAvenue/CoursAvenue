@@ -35,16 +35,7 @@ FilteredSearch = (function (){
 
         /* convenience method */
         capitalize: function (word) {
-          return word.charAt(0).toUpperCase() + word.slice(1);
-        },
-
-        renameProperty: function(object, old_name, new_name) {
-            if (object.hasOwnProperty(old_name)) {
-                object[new_name] = object[old_name];
-                delete object[old_name];
-            }
-
-            return object;
+            return word.charAt(0).toUpperCase() + word.slice(1);
         }
     });
 
