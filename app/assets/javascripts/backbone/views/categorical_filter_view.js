@@ -6,17 +6,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         initialize: function () {
             this.announceSearchTerm = _.debounce(this.announceSearchTerm, 500);
-            this.announceLocation = _.debounce(this.announceLocation, 500);
         },
 
         events: {
             'typeahead:selected #search-input': 'announceSearchTerm',
             'keypress #search-input': 'announceSearchTerm',
-            'typeahead:selected #address-picker': 'announceLocation'
-        },
-
-        announceLocation: function (e, data) {
-            this.trigger("filter:location", data);
         },
 
         announceSearchTerm: function (e, data) {
@@ -26,7 +20,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         ui: {
             $search_input: '#search-input',
-            $address_picker: '#address-picker'
         },
 
         onRender: function () {
@@ -41,10 +34,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         resetCategoricalFilterTool: function (data) {
-            this.current_summary_data = data;
-
             this.ui.$search_input.attr('value', data.name);
-            this.ui.$address_picker.attr('value', data.address_name);
         }
     });
 });

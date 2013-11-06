@@ -88,6 +88,7 @@ FilteredSearch.addInitializer(function(options) {
     bottom_pagination_tool     = new FilteredSearch.Views.PaginationToolView({});
     results_summary_tool       = new FilteredSearch.Views.ResultsSummaryView({});
     categorical_filter_tool    = new FilteredSearch.Views.CategoricalFilterView({});
+    location_filter            = new FilteredSearch.Views.LocationFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -102,7 +103,20 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     /* TODO these widgets all have "reset" bound to "updated"...
-    *  let's make that a default */
+    *  let's make that a default: the master declares a "setup"
+    *  event, and the widgets all run their "setup" method on
+    *  that event. */
+    /* TODO all these widgets have "dependencies", that is, they
+    * can depend on the main widget for data. Let's make this
+    * explicit so that the order of the 'showWidget' calls doesn't
+    * matter */
+    /* TODO all these widgets use 'data-type=view_name' so lets
+    * make that a default. */
+    /* TODO the layout is divided into two parts: one widget well,
+    * where widgets can be added (the map is there), and one div
+    * full of explicitly added widgets. We should either not use
+    * wells, or fix the well system to adapt to different layout
+    * designs easily */
     layout.showWidget(results_summary_tool, {
         'structures:updated:summary': 'resetSummaryTool'
     }, '[data-type=results-summary-tool]');
@@ -112,6 +126,12 @@ FilteredSearch.addInitializer(function(options) {
             'structures:updated:filters': 'resetCategoricalFilterTool',
         }
     }, '[data-type=categorical-filter-tool]');
+
+    layout.showWidget(location_filter, {
+        once: {
+            'structures:updated:filters': 'setup',
+        }
+    });
 
     layout.showWidget(top_pagination_tool, {
         'structures:updated:pagination': 'resetPaginationTool'
