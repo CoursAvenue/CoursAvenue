@@ -142,12 +142,14 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 this.map.panTo(new google.maps.LatLng(data.lat, data.lng));
             }
 
-            if (data.bbox.sw && data.bbox.ne) {
-                var sw_latlng = new google.maps.LatLng(data.bbox.sw.lat, data.bbox.sw.lng);
-                var ne_latlng = new google.maps.LatLng(data.bbox.ne.lat, data.bbox.ne.lng);
+            if (data.bbox) {
+                if (data.bbox.sw && data.bbox.ne) {
+                    var sw_latlng = new google.maps.LatLng(data.bbox.sw.lat, data.bbox.sw.lng);
+                    var ne_latlng = new google.maps.LatLng(data.bbox.ne.lat, data.bbox.ne.lng);
 
-                var bounds = new google.maps.LatLngBounds(sw_latlng, ne_latlng);
-                this.map.fitBounds(bounds);
+                    var bounds = new google.maps.LatLngBounds(sw_latlng, ne_latlng);
+                    this.map.fitBounds(bounds);
+                }
             }
         },
 

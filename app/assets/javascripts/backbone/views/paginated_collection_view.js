@@ -141,6 +141,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.collection.reset();
             this.collection.setQuery(filters);
 
+            if (filters.lat || filters.lng) {
+                this.trigger('filter:update:map', filters);
+            }
+
             this.collection.currentPage = -1;
 
             return this.changePage(this.collection.firstPage);

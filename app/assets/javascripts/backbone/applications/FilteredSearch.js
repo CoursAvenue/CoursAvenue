@@ -106,7 +106,8 @@ FilteredSearch.addInitializer(function(options) {
         'structures:updating':               'clearForUpdate showLoader',
         'structures:updated':                'hideLoader',
         'structures:itemview:highlighted':   'selectMarkers',
-        'structures:itemview:unhighlighted': 'deselectMarkers'
+        'structures:itemview:unhighlighted': 'deselectMarkers',
+        'filter:update:map':                 'centerMap'
     });
 
     /* TODO these widgets all have "reset" bound to "updated"...
