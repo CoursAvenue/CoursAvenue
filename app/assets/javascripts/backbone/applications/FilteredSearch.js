@@ -63,9 +63,9 @@ FilteredSearch.addInitializer(function(options) {
             'pagination:page':    'goToPage',
             'filter:summary':     'filterQuery',
             'map:bounds':         'filterQuery',
-            'filter:subject':     'filterQuery',
+            'filter:search_term': 'filterQuery',
             'filter:location':     'filterQuery',
-            'map:marker:focus':   'zoomToStructure'
+            'map:marker:focus':    'zoomToStructure'
         }
     });
 

@@ -5,13 +5,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         className: 'header-search-bar push-half--bottom',
 
         initialize: function () {
-            this.announceSubject = _.debounce(this.announceSubject, 500);
+            this.announceSearchTerm = _.debounce(this.announceSearchTerm, 500);
             this.announceLocation = _.debounce(this.announceLocation, 500);
         },
 
         events: {
-            'typeahead:selected #search-input': 'announceSubject',
-            'keypress #search-input': 'announceSubject',
+            'typeahead:selected #search-input': 'announceSearchTerm',
+            'keypress #search-input': 'announceSearchTerm',
             'typeahead:selected #address-picker': 'announceLocation'
         },
 
@@ -19,9 +19,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.trigger("filter:location", data);
         },
 
-        announceSubject: function (e, data) {
+        announceSearchTerm: function (e, data) {
             name = (data === undefined) ? e.currentTarget.value : data.name;
-            this.trigger("filter:subject", { 'name': name });
+            this.trigger("filter:search_term", { 'name': name });
         },
 
         ui: {
