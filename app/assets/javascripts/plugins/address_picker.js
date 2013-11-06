@@ -40,10 +40,10 @@
             this.input_city     = $(this.$element.data('city'));
             this.geocoder       = new google.maps.Geocoder();
             this.$element.on('typeahead:selected', function(event, data) {
-                this.input_lat.val(data.latitude);
-                this.input_lng.val(data.longitude);
+                this.input_lat.val(data.lat);
+                this.input_lng.val(data.lng);
                 this.input_city.val(data.city);
-                this.$element.typeahead('setQuery', data.address);
+                this.$element.typeahead('setQuery', data.address_name);
             }.bind(this));
             template = Handlebars.compile(this.options.template_string);
             this.$element.typeahead({
