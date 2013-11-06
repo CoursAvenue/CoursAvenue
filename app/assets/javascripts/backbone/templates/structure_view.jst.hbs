@@ -30,15 +30,18 @@
         <h2 class="epsilon inline v-top">
             <a href="{{ data_url }}">{{ name }}</a>
         </h2>
+        <div>
+        {{#if teaches_at_home}}
+            <span class="lbl lbl--blue lbl--small">À domicile</span>
+        {{/if}}
+        {{#if has_kids_courses}}
+            <span class="lbl lbl--yellow lbl--small">Cours enfants</span>
+        {{/if}}
+        </div>
     </article><!--
  --><div class="flexbox__item two-tenths v-top soft--top text--center milli {{#if has_courses}}structure-item__button{{/if}}" data-type="accordion-control" data-value="courses" data-attributes="data_url">
         <div class="alpha thin brand">{{ plannings_count }}</div>
         {{ pluralize plannings_count 'séance' 'séances' }}
-        {{#if teaches_at_home}}
-            <div>
-                <span class="lbl lbl--blue lbl--small">à domicile</span>
-            </div>
-        {{/if}}
         <div>
             {{#if has_price_range}}
                 de
