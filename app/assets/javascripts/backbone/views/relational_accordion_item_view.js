@@ -17,7 +17,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         *   - a backend that returns the right stuff: of course
         *   - a button in templates/factory_view, like this:
         *       <button data-type="accordion-control" data-value="widgets">Whoa!</button>
-        *   - two templates: widgets_view and a widgets_collection_view
+        *   - two templates: widget_view and a widgets_collection_view
+        *   - a view class: widget_view
         *   - the view that is created is a composite view
         *     - if you want some data on the composite part of the view,
         *       use data-attributes to define a space separated list of
@@ -51,21 +52,30 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         accordionToggle: function (value) {
             var closing = (this.active_region === value),
                 button  = this.$('[data-value=' + value + ']');
+
+            button.toggleClass('active');
+
             if (closing) {
                 this.accordionClose();
-                button.removeClass('active');
-            } else { // we may be opening or switching
-                button.addClass('active');
+                this[this.active_region].currentView.$el.attr('data-type', '');
 
-                /* we are switching */
+            } else { // we may be opening or switching
+
                 if (this.active_region) {
+                /* we are switching */
                     this[this.active_region].$el.find('[data-type=accordion-data]').hide();
                     this[this.active_region].currentView.$el.attr('data-type', '');
+                    this.$('[data-value=' + this.active_region + ']').toggleClass('active');
                     this[value].currentView.$el.attr('data-type', 'accordion-data');
+                } else {
+                /* both tabs are closed */
+                    this[value].currentView.$el.attr('data-type', 'accordion-data');
+
                 }
 
-                /* we tried to switch between regions */
+                /* try to unfold something */
                 if (this.accordionOpen() === false) {
+                /* we are switch between regions */
                     this[value].$el.find('[data-type=accordion-data]').show();
                 }
             }

@@ -34,7 +34,7 @@
         .grid__item.six-tenths.course-list-wrapper.palm-one-whole.lap-one-whole>
           - @structures.each_with_index do |structure, index|
             - cache(structure) do
-              .one-whole.course-element{data: {'location-ids' => structure.locations.map(&:id).join(' '), type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
+              .one-whole.course-element.white-box.islet{data: {'location-ids' => structure.locations.map(&:id).join(' '), type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
                 .grid
                   .grid__item.two-twelfths>
                     = image_tag structure.logo.url(:thumb)
@@ -51,8 +51,6 @@
                         avis
                         %i.lbc-brand-icon
                     .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-                      %span.rating{title: comment_rating_title(structure.rating)}
-                        = rating_stars structure.rating
                       %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
                       %meta{itemprop: 'count', content: structure.comments_count}
                       %meta{itemprop: 'itemreviewed', content: structure.name}

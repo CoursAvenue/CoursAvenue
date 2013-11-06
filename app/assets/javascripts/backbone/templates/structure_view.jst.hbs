@@ -30,17 +30,10 @@
         <h2 class="epsilon inline v-top">
             <a href="{{ data_url }}">{{ name }}</a>
         </h2>
-        <ul class="nav flush">
-            {{#each child_subjects }}
-            <span class="flush--bottom inherit-font-size">
-                <a href="{{ path }}" class="lbl milli inline subject-link">{{ name }}</a>
-            </span>
-            {{/each}}
-        </ul>
     </article><!--
- --><div class="flexbox__item two-tenths v-top soft--top text--center milli">
-        <div class="alpha thin brand">{{ courses_count }}</div>
-        {{ pluralize courses_count 'séance' 'séances' }}
+ --><div class="flexbox__item two-tenths v-top soft--top text--center milli {{#if has_courses}}structure-item__button{{/if}}" data-type="accordion-control" data-value="courses" data-attributes="data_url">
+        <div class="alpha thin brand">{{ plannings_count }}</div>
+        {{ pluralize plannings_count 'séance' 'séances' }}
         {{#if teaches_at_home}}
             <div>
                 <span class="lbl lbl--blue lbl--small">à domicile</span>
@@ -60,7 +53,7 @@
             {{/if}}
         </div>
     </div><!--
- --><div class="flexbox__item structure-item__button two-twelfths v-top soft--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
+ --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} two-twelfths v-top soft--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
         <div class="alpha thin brand">{{ comments_count }}</div>
         avis <i class="lbc-brand-icon"></i>
         <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">

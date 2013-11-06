@@ -32,6 +32,10 @@ class StructuresController < ApplicationController
   end
 
   def index
+    if params[:subject_id] == 'other'
+      params[:other] = true
+      params.delete(:subject_id)
+    end
     if params[:subject_id]
       @subject = Subject.friendly.find params[:subject_id]
     else

@@ -82,6 +82,7 @@ class Structure < ActiveRecord::Base
   has_many :students                  , dependent: :destroy
   has_many :teachers                  , dependent: :destroy
   has_many :courses                   , dependent: :destroy
+  has_many :plannings                 , through: :courses
   has_many :cities                    , through: :places
   has_many :prices                    , through: :courses
   has_many :reservations,         as: :reservable

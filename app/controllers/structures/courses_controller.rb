@@ -6,7 +6,7 @@ class Structures::CoursesController < ApplicationController
     @courses     = @structure.courses.to_a
 
     respond_to do |format|
-      format.json { render json: @courses }
+      format.json { render json: @courses, each_serializer: CourseSerializer }
     end
   end
 
