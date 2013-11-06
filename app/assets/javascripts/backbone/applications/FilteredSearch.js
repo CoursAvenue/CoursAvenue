@@ -36,6 +36,15 @@ FilteredSearch = (function (){
         /* convenience method */
         capitalize: function (word) {
           return word.charAt(0).toUpperCase() + word.slice(1);
+        },
+
+        renameProperty: function(object, old_name, new_name) {
+            if (object.hasOwnProperty(old_name)) {
+                object[new_name] = object[old_name];
+                delete object[old_name];
+            }
+
+            return object;
         }
     });
 
@@ -64,6 +73,7 @@ FilteredSearch.addInitializer(function(options) {
             'filter:summary':     'filterQuery',
             'map:bounds':         'filterQuery',
             'filter:subject':     'filterQuery',
+            'filter:location':     'filterQuery',
             'map:marker:focus':   'zoomToStructure'
         }
     });
@@ -106,7 +116,9 @@ FilteredSearch.addInitializer(function(options) {
     }, '[data-type=results-summary-tool]');
 
     layout.showWidget(categorical_filter_tool, {
-        'structures:updated:filters': 'resetCategoricalFilterTool',
+        once: {
+            'structures:updated:filters': 'resetCategoricalFilterTool',
+        }
     }, '[data-type=categorical-filter-tool]');
 
     layout.showWidget(top_pagination_tool, {

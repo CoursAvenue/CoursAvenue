@@ -23,10 +23,23 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             /* prepare the region and its el */
             var region_name = _.last(view.template.split('/')),
                 new_region = this.addRegion(region_name, '#' + view.cid),
-                $region_hook = $('<div/>', { id: new_region.el.slice(1) });
+                $region_hook = $('<div/>', { id: new_region.el.slice(1) }),
+                self = this;
 
             /* remember the region and listen to its show method */
             this.listenTo(this[region_name], 'show', function (view) {
+
+                /* process events that are only responded to once */
+                if (events.once) {
+                    _.each(_.pairs(events.once), function (pair) {
+                        var evt = pair[0];
+                        var method = view[pair[1]];
+
+                        view.listenToOnce(self, evt, method, view);
+                    });
+                }
+
+                delete events.once;
 
                 /* view registers to be notified of events on layout */
                 Marionette.bindEntityEvents(view, this, events);
