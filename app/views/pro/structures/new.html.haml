@@ -31,6 +31,8 @@
             %br
             Gérez votre profil
 
+    .text--center
+      = link_to "Pas le temps de créer votre profil ? Contactez notre équipe qui s'en chargera.", pages_contact_url(message: "Bonjour,\nPourriez-vous créer mon profil à ma place ? Voici le lien vers mon site Internet où vous trouverez toutes mes informations : www.", subdomain: 'www'), onclick: "ga('send', 'event', 'Create a profile for me', 'click', 'From inscription page');"
 
     = simple_form_for [:pro, @structure], url: pro_structures_path, method: :post do |f|
       .form-white-box.islet.flush--left
@@ -89,9 +91,9 @@
         .push--bottom.text--center= link_to "Et plein d'autres !", structures_url(subdomain: 'www'), target: '_blank'
 
         %hr
-        %h4 Les 5 derniers avis :
+        %h4 Les 3 derniers avis :
         %ul.comment-list
-          = render partial: 'comments/comment', collection: Comment.where{rating > 3}.order('created_at DESC').limit(5), locals: {with_link: true, small_avatar: true}
+          = render partial: 'comments/comment', collection: Comment.where{rating > 3}.order('created_at DESC').limit(3), locals: {with_link: true, small_avatar: true}
 
 = render 'parent_descendant_subjects'
 
