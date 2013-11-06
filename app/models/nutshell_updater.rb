@@ -29,8 +29,6 @@ class NutshellUpdater
       begin
         contact = nutshell.get_contact contact['id']
         new_tags = contact['tags'] || []
-        new_tags.delete('Call')
-        new_tags.delete('Call non rep')
         new_tags += structure.subjects.at_depth(2).map(&:name)
         new_tags << 'Inscrit'
         if !structure.profile_completed?
