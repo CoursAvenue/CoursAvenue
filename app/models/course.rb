@@ -350,6 +350,10 @@ class Course < ActiveRecord::Base
     self.prices.where{(type != 'Price::Registration') & (amount > 0)}.order('promo_amount ASC, amount ASC').first
   end
 
+  def most_expansive_price
+    self.prices.where{(type != 'Price::Registration') & (amount > 0)}.order('promo_amount ASC, amount DESC').first
+  end
+
   def approximate_price_per_course
     one_class_price = prices.where{nb_courses == 1}
     if one_class_price.any?

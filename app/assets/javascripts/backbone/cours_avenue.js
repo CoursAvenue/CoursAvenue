@@ -18,6 +18,7 @@
 //= require ./views/result_summary_view
 //= require ./views/accordion_item_view
 //= require ./views/relational_accordion_item_view
+//= require ./views/course_view
 //= require ./views/comment_view
 //= require ./views/structure_view
 //= require ./views/accordion_view
