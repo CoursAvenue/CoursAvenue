@@ -2,7 +2,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
     Views.LocationFilterView = Backbone.Marionette.ItemView.extend({
         template: 'backbone/templates/location_filter_view',
-        className: 'header-search-bar push-half--bottom',
 
         initialize: function () {
             this.announceLocation = _.debounce(this.announceLocation, 500);

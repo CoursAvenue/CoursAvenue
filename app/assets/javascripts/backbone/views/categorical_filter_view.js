@@ -10,11 +10,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         events: {
             'typeahead:selected #search-input': 'announceSearchTerm',
-            'keypress #search-input': 'announceSearchTerm',
+            // Use keydown instead of keypress to handle the case when the user empties the input
+            'keydown #search-input':            'announceSearchTerm'
         },
 
         announceSearchTerm: function (e, data) {
-            name = (data === undefined) ? e.currentTarget.value : data.name;
+            name = (data ? data.name : e.currentTarget.value);
             this.trigger("filter:search_term", { 'name': name });
         },
 

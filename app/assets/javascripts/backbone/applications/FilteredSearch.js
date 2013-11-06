@@ -133,7 +133,7 @@ FilteredSearch.addInitializer(function(options) {
         once: {
             'structures:updated:filters': 'setup',
         }
-    });
+    }, '[data-type=location-filter-tool]');
 
     layout.showWidget(subject_filter_tool, {
         once: {
