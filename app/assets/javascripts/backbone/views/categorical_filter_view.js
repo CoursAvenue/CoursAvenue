@@ -16,10 +16,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         announceLocation: function (e, data) {
-            App.renameProperty(data, 'address', 'address_name');
-            App.renameProperty(data, 'latitude', 'lat');
-            App.renameProperty(data, 'longitude', 'lng');
-
             this.trigger("filter:location", data);
         },
 
