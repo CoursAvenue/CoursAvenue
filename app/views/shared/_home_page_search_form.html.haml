@@ -1,7 +1,29 @@
-- params[:week_days]   ||= [] # I18n.t('date.day_names')
-- params[:time_slots]  ||= [] # CoursAvenue::Application::TIME_SLOTS
-- params[:time_range]  ||= {}
-
 .home-page-search
   = form_tag structures_path, method: :get, authenticity_token: false, class: 'header-search-bar--dark', id: 'header-search' do
-    = render 'shared/structures_header_search'
+    .header-search-bar
+      %div.search-input-wrapper
+        %select.one-whole.epsilon{name: 'subject_id'}
+          %option{value: 'danse'} Danse
+          %option{value: 'theatre-scene'} Théâtre & Scène
+          %option{value: 'yoga-bien-etre-sante'} Yoga, Bien-être & Santé
+          %option{value: 'dessin-peinture-arts-plastiques'} Dessin, Peinture & Arts plastiques
+          %option{value: 'musique-chant'} Musique & Chant
+          %option{value: 'sports-arts-martiaux'} Sports & Arts martiaux
+          %option{value: 'other'} Autres
+      %div.search-input-wrapper
+        %select.one-whole.epsilon{name: 'city'}
+          %option{value: 'paris'} Paris
+          %option{disabled: true, value: 'marseille'} Marseille (bientôt)
+          %option{disabled: true, value: 'lyon'} Lyon (bientôt)
+          %option{disabled: true, value: 'toulouse'} Toulouse (bientôt)
+          %option{disabled: true, value: 'nice'} Nice (bientôt)
+          %option{disabled: true, value: 'nantes'} Nantes (bientôt)
+          %option{disabled: true, value: 'strasbourg'} Strasbourg (bientôt)
+          %option{disabled: true, value: 'montpellier'} Montpellier (bientôt)
+          %option{disabled: true, value: 'bordeaux'} Bordeaux (bientôt)
+          %option{disabled: true, value: 'lille'} Lille (bientôt)
+
+      %div.button-wrapper
+        %button.nowrap.btn.btn--orange{type: 'submit', id: 'submit_search_form'}
+          %i.fa.fa-search
+          Rechercher

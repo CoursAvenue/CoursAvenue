@@ -43,6 +43,9 @@
     display         : table;
     .search-input-wrapper {
         padding-left: 0;
+        select {
+            padding: 8px;
+        }
     }
     .button-wrapper {
         padding-right: 0;
