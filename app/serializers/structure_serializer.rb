@@ -7,7 +7,7 @@ class StructureSerializer < ActiveModel::Serializer
 
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
              :logo_present, :logo_thumb_url, :child_subjects, :data_url,
-             :subjects_count, :subjects, :courses_count, :has_courses, :plannings_count, :more_than_five_comments,
+             :subjects_count, :subjects, :courses_count, :has_courses, :plannings_count, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :videos_count, :images_count
 
@@ -53,6 +53,10 @@ class StructureSerializer < ActiveModel::Serializer
 
   def more_than_five_comments
     object.comments.count > 5
+  end
+
+  def has_comments
+    object.comments.count > 0
   end
 
   def comments

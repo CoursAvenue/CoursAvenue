@@ -53,7 +53,7 @@
             {{/if}}
         </div>
     </div><!--
- --><div class="flexbox__item structure-item__button two-twelfths v-top soft--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
+ --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} two-twelfths v-top soft--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
         <div class="alpha thin brand">{{ comments_count }}</div>
         avis <i class="lbc-brand-icon"></i>
         <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
