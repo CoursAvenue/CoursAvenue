@@ -14,6 +14,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 var method = data.sort === 'rating_desc';
                 this.sort_by_popularity = method;
                 this.sort_by_relevance = !method;
+            } else {
+                // Datas are sort by popularity by default
+                this.sort_by_popularity = true;
             }
 
             this.render();
@@ -22,7 +25,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         serializeData: function (data) {
             return _.extend(this.current_summary_data, {
                 sort_by_popularity: this.sort_by_popularity,
-                sort_by_relevance: this.sort_by_relevance
+                sort_by_relevance:  this.sort_by_relevance
             });
         },
 
