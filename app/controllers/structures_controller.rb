@@ -25,7 +25,7 @@ class StructuresController < ApplicationController
       marker.title   location.name
       marker.picture({
                       :marker_anchor => [10, true],
-                      :rich_marker   => "<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'><span>#{index}</span></a></div>"
+                      :rich_marker   => "<div class='map-marker-image'><a href='javascript:void(0)'><span>#{index}</span></a></div>"
                      })
       marker.json({ id: location.id })
     end

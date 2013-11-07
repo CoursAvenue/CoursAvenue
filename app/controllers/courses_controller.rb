@@ -28,7 +28,7 @@ class CoursesController < ApplicationController
     @json_locations_addresses = @locations.uniq.to_gmaps4rails do |place, marker|
       marker.picture({
                       :marker_anchor => [10, true],
-                      :rich_marker   => "<div class='map-marker-image disabled' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'></a></div>"
+                      :rich_marker   => "<div class='map-marker-image disabled'><a href='javascript:void(0)'></a></div>"
                      })
       marker.title   place.name
       marker.json({ id: place.id })

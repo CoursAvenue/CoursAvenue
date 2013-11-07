@@ -15,9 +15,18 @@
 }
     .filtered-search__map-control {
         position: absolute;
-        top     : 2em;
+        top     : 1em;
         left    : 6em;
     }
+        .filtered-search__location-input {
+            .tt-hint {
+                border: none;
+                height: 100%;
+            }
+            .tt-query {
+                padding-left: 1em;
+            }
+        }
 
 .filtered-search__list-wrapper {
     position                 : fixed;

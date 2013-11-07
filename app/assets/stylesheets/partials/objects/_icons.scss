@@ -60,3 +60,21 @@
         -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/bulle.png')}',sizingMethod='scale')";
     }
 }
+
+
+.subject_icon {
+    height              : 30px;
+    background-position : center center;
+    background-repeat   : no-repeat;
+    margin-bottom       : 5px;
+    @include background-size(contain);
+
+}
+.subject_icon__danse                           { background-image : image-url('icons/subjects/danse.png'); }
+.subject_icon__theatre-scene                   { background-image : image-url('icons/subjects/theatre-scene.png'); }
+.subject_icon__yoga-bien-etre-sante            { background-image : image-url('icons/subjects/yoga-bien-etre-sante.png'); }
+.subject_icon__musique-chant                   { background-image : image-url('icons/subjects/musique-chant.png'); }
+.subject_icon__dessin-peinture-arts-plastiques { background-image : image-url('icons/subjects/dessin-peinture-arts-plastiques.png'); }
+.subject_icon__sports-arts-martiaux            { background-image : image-url('icons/subjects/sports-arts-martiaux.png'); }
+.subject_icon__cuisine-vins                    { background-image : image-url('icons/subjects/cuisine-vins.png'); }
+.subject_icon__other                           { background-image : image-url('icons/subjects/other.png'); }
