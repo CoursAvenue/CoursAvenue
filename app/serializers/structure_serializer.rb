@@ -25,7 +25,8 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def medias_count
-    (object.medias.count == 0 ? nil : object.medias.count)
+    count = object.medias.images.count + object.medias.videos.count
+    (count == 0 ? nil : count)
   end
 
   def videos_count
@@ -70,6 +71,10 @@ class StructureSerializer < ActiveModel::Serializer
 
   def comments
     object.comments.limit(5)
+  end
+
+  def medias
+    object.medias.videos.limit(5) + object.medias.images.limit(5)
   end
 
   def plannings_count
