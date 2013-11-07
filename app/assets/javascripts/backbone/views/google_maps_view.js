@@ -7,7 +7,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         initialize: function (options) {
 
             /* TODO this setup should be done in the constructor, in the library, in another repo far, far away */
-            this.$el = $("<div class='map-marker-image' style='font-size: 13px; top: -2em;'><a href='javascript:void(0)'></a></div>");
+            this.$el = $("<div class='map-marker-image'><a href='javascript:void(0)'></a></div>");
             this.overlayOptions.content = this.$el[0];
         },
 
