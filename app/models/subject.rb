@@ -1,5 +1,4 @@
 class Subject < ActiveRecord::Base
-  include ActionView::Helpers::AssetUrlHelper
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
@@ -44,8 +43,7 @@ class Subject < ActiveRecord::Base
       id:          self.id,
       name:        self.name,
       parent_name: self.parent.try(:name),
-      slug:        self.slug,
-      asset_url:   asset_url("icons/subjects/#{self.slug}.png")
+      slug:        self.slug
     }
   end
 end
