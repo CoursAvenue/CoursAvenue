@@ -1,7 +1,8 @@
 class CourseSerializer < ActiveModel::Serializer
   include CoursesHelper
+  include ActionView::Helpers::TextHelper
 
-  attributes :id, :name, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle
+  attributes :id, :name, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects
   has_many :plannings
 
   def is_individual
@@ -34,5 +35,9 @@ class CourseSerializer < ActiveModel::Serializer
 
   def data_url
     structure_course_path(object.structure, object)
+  end
+
+  def subjects
+    truncate(object.subjects.map(&:name).join(', '), length: 50)
   end
 end

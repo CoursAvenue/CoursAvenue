@@ -76,5 +76,11 @@
 .subject_icon__musique-chant                   { background-image : image-url('icons/subjects/musique-chant.png'); }
 .subject_icon__dessin-peinture-arts-plastiques { background-image : image-url('icons/subjects/dessin-peinture-arts-plastiques.png'); }
 .subject_icon__sports-arts-martiaux            { background-image : image-url('icons/subjects/sports-arts-martiaux.png'); }
-.subject_icon__cuisine-vins                    { background-image : image-url('icons/subjects/cuisine-vins.png'); }
-.subject_icon__other                           { background-image : image-url('icons/subjects/other.png'); }
+.subject_icon__cuisine-vins                    {
+    @include background-size(60px 25px);
+    background-image : image-url('icons/subjects/cuisine-vins.png');
+}
+.subject_icon__other {
+    height: 68px;
+    line-height: 50px!important;
+}

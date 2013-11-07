@@ -86,4 +86,8 @@ module PlanningsHelper
   def join_levels_text(planning)
     planning.levels.map(&:name).map{|name| I18n.t(name)}.join(', ')
   end
+
+  def join_audiences_text(planning)
+    planning.audiences.map(&:name).map{|name| I18n.t(name)}.join(', ')
+  end
 end
