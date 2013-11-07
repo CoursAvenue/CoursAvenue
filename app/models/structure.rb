@@ -48,7 +48,7 @@ class Structure < ActiveRecord::Base
                   :email_status, :last_email_sent_at, :last_email_sent_status,
                   :funding_type_ids, :funding_types,
                   :widget_status, :widget_url, :sticker_status,
-                  :teaches_at_home,
+                  :teaches_at_home, :teaches_at_home_radius, # in KM
                   :subjects_string, :parent_subjects_string, # "Name of the subject,slug-of-the-subject;Name,slug"
                   # Attributes synced regarding the courses. Synced from the observers
                   # audience_ids is a coma separated string of audience_id

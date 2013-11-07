@@ -32,6 +32,7 @@ fr:
         cancel_condition: "Conditions d’annulation"
         modification_condition: "Conditions de modification"
         teaches_at_home: Cours à domicile
+        teaches_at_home_radius: Rayon (en km)
         widget_url: Lien vers votre livre d'or
         widget_status: Avez-vous installé votre widget
 

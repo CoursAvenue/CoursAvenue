@@ -414,7 +414,9 @@ class Course < ActiveRecord::Base
   private
 
   def set_teaches_at_home
-    self.teaches_at_home = self.structure.teaches_at_home if self.structure
+    if self.new_record? and self.teaches_at_home.nil?
+      self.teaches_at_home = self.structure.teaches_at_home if self.structure
+    end
   end
 
   def reindex

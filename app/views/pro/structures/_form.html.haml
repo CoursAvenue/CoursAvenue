@@ -87,7 +87,9 @@
 
       = structure_form.input :funding_types, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: {style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id)
 
-      = structure_form.input :teaches_at_home, as: :select
+      = structure_form.input :teaches_at_home, as: :select, include_blank: false
+      #teaches-at-home-radius{class: @structure.teaches_at_home ? '' : 'hidden'}
+        = structure_form.input :teaches_at_home_radius, input_html: { style: 'width: 5em;' }, wrapper_html: {class: 'flush'}
 
     %h5.form-header-group Coordonnées de réservation
     .form-white-box.push--bottom
@@ -136,6 +138,13 @@
   :javascript
     $(function() {
         var initialize_crop, logo_jcrop_api, update_crop;
+        $('#structure_teaches_at_home').change(function(){
+            if (this.value == 'true') {
+                $('#teaches-at-home-radius').slideDown();
+            } else {
+                $('#teaches-at-home-radius').slideUp();
+            }
+        });
         GLOBAL.ratio = #{@ratio};
         // --------------- Handling structure logo
         $('#logo-input').fileupload({
