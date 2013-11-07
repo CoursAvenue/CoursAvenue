@@ -264,6 +264,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
         },
 
+        hideInfoWindow: function () {
+            this.current_info_marker = undefined;
+            this.infoWindow.close();
+        },
+
         showInfoWindow: function (view) {
             var marker = this.markerViewChildren[this.current_info_marker];
 
