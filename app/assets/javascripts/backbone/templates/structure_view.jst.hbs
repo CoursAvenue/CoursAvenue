@@ -1,5 +1,5 @@
 <div class="flexbox white-box structure-item">
-    <div class="flexbox__item two-tenths">
+    <div class="flexbox__item two-tenths v-top">
         <div class="relative">
             {{#if logo_present}}
                 <a href="{{ data_url }}" class="block">
@@ -8,21 +8,6 @@
             {{/if}}
             {{#if has_free_trial_course}}
                 <div class="free-trial-badge"></div>
-            {{/if}}
-            {{#if medias_count}}
-                <a href="{{ data_url }}#tab-medias" class="structure-item__medias-count">
-                    {{#if images_count}}
-                        {{ images_count }} <i class="fa fa-picture-o"></i>
-                    {{/if}}
-                    {{#if images_count}}
-                        {{#if videos_count}}
-                            /
-                        {{/if}}
-                    {{/if}}
-                    {{#if videos_count}}
-                        {{ videos_count }} <i class="fa fa-youtube-play"></i>
-                    {{/if}}
-                </a>
             {{/if}}
         </div>
     </div><!--
@@ -55,6 +40,24 @@
         {{#if funding_types}}
             <div>
                 <span class="pointer lbl lbl--small" data-behavior="tooltip" title="{{funding_types}}">Financements spécifiques acceptés</span>
+            </div>
+        {{/if}}
+        {{#if medias_count}}
+            <div style="margin-top: 2px;">
+                {{!-- <a href="{{ data_url }}#tab-medias" class="lbl lbl--small lbl--blue" data-type="accordion-control" data-value="courses"> --}}
+                <a href="javascript:void(0)" class="lbl lbl--small lbl--blue" data-type="accordion-control" data-value="medias">
+                    {{#if images_count}}
+                        {{ images_count }} <i class="fa fa-picture-o"></i>
+                    {{/if}}
+                    {{#if images_count}}
+                        {{#if videos_count}}
+                            /
+                        {{/if}}
+                    {{/if}}
+                    {{#if videos_count}}
+                        {{ videos_count }} <i class="fa fa-youtube-play"></i>
+                    {{/if}}
+                </a>
             </div>
         {{/if}}
     </article><!--

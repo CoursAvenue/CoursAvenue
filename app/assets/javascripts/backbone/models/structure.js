@@ -27,7 +27,6 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
                 },
                 collectionType: Backbone.Collection.extend({
                     url: function (models) {
-                        console.log("URL");
                         if (models === undefined) { return ''; }
 
                         var model_ids = _.pluck(models, 'id').join(',');
@@ -47,10 +46,26 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
                 },
                 collectionType: Backbone.Collection.extend({
                     url: function (models) {
-                        console.log("URL");
                         if (models === undefined) { return ''; }
 
                         return '/etablissements/' + models[0].get('structure').get('id') + '/cours.json';
+                    }
+                })
+            },
+
+            {
+                type: Backbone.HasMany,
+                key: 'medias',
+                relatedModel: Backbone.RelationalModel.extend({ }),
+                includeInJSON: false,
+                reverseRelation: {
+                    key: 'structure'
+                },
+                collectionType: Backbone.Collection.extend({
+                    url: function (models) {
+                        if (models === undefined) { return ''; }
+
+                        return '/etablissements/' + models[0].get('structure').get('id') + '/medias.json';
                     }
                 })
             }
