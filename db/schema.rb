@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131105094759) do
+ActiveRecord::Schema.define(version: 20131106173757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -504,6 +504,7 @@ ActiveRecord::Schema.define(version: 20131105094759) do
   end
 
   add_index "subjects", ["ancestry_depth"], name: "index_subjects_on_ancestry_depth", using: :btree
+  add_index "subjects", ["position"], name: "index_subjects_on_position", using: :btree
   add_index "subjects", ["slug"], name: "index_subjects_on_slug", unique: true, using: :btree
 
   create_table "subjects_users", id: false, force: true do |t|

@@ -5,31 +5,6 @@ describe CommentNotification do
   context :comment_notification do
 
     # -------------------------------
-    # Never received emails
-    # -------------------------------
-    context 'never received emails' do
-      let!(:comment_notification) { FactoryGirl.create(:comment_notification) }
-      describe '#resend_recommendation_stage_1' do
-        it 'should be notified' do
-          UsersReminder.resend_recommendation_stage_1
-          comment_notification.reload.status.should eq 'resend_stage_1'
-        end
-      end
-      describe '#resend_recommendation_stage_2' do
-        it 'should not be notified' do
-          UsersReminder.resend_recommendation_stage_2
-          comment_notification.reload.status.should be_nil
-        end
-      end
-      describe '#resend_recommendation_stage_3' do
-        it 'should not be notified' do
-          UsersReminder.resend_recommendation_stage_3
-          comment_notification.reload.status.should be_nil
-        end
-      end
-    end
-
-    # -------------------------------
     # Has already received 1 email
     # -------------------------------
     context 'has already received one email' do
@@ -51,7 +26,7 @@ describe CommentNotification do
           it 'should not be notified' do
             time_travel_to Date.today + 4.days
             UsersReminder.resend_recommendation_stage_2
-            comment_notification_stage_1.reload.status.should eq 'resend_stage_2'
+            comment_notification_stage_1.reload.status.should eq 'resend_stage_1'
             back_to_the_present
           end
         end
