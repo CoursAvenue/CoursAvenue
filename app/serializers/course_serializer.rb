@@ -1,7 +1,7 @@
 class CourseSerializer < ActiveModel::Serializer
   include CoursesHelper
 
-  attributes :id, :name, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle
+  attributes :id, :name, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url
   has_many :plannings
 
   def is_individual

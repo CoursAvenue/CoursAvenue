@@ -3,21 +3,28 @@
         <td colspan="3" class="text--left">
             <a href="{{data_url}}" title="{{ name }}">{{ name }}</a>
         </td>
-        {{!-- <td>{{ start_date }} à {{ end_date }}</td> --}}
-        <td colspan="2" class="text--right">
+        <td colspan="3" class="text--right">
         {{#if min_price_amount}}
             à partir de {{ min_price_amount }}€ ({{ min_price_libelle }})
         {{/if}}
         </td>
     </tr>
 <tbody>
+    {{#unless plannings }}
+    <tr>
+        <td colspan="5" class="italic text--left">
+            Le planning de ce cours n'a pas été mis à jour.
+        </td>
+    </tr>
+    {{/unless}}
     {{#each plannings }}
     <tr>
-        <td class="four-twelfths">{{ week_day }}</td>
+        <td class="two-twelfths">{{ week_day }}</td>
         <td class="three-twelfths">{{ time_slot }}</td>
         <td class="one-twelfth">{{ duration }}</td>
+        <td class="two-twelfths">{{ audiences }}</td>
         <td class="three-twelfths">{{ levels }}</td>
-        <td class="one-twelfth">
+        <td class="one-twelfths text--right">
             {{#if is_individual}}
                 <i class="fa fa-user"></i>
             {{else}}
