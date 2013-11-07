@@ -411,6 +411,10 @@ class Course < ActiveRecord::Base
     new_record? || !self.active
   end
 
+  def migration_set_teaches_at_home
+    self.update_column(:teaches_at_home, self.structure.teaches_at_home) if self.structure
+  end
+
   private
 
   def set_teaches_at_home

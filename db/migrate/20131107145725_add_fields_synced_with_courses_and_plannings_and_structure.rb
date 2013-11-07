@@ -12,8 +12,7 @@ class AddFieldsSyncedWithCoursesAndPlanningsAndStructure < ActiveRecord::Migrati
 
     Course.find_each(batch_size: 100) do |course|
       bar.increment!
-      course.send(:set_teaches_at_home)
-      course.save(validate: false)
+      course.delay(:migration_set_teaches_at_home)
     end
   end
 
