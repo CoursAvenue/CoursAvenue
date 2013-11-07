@@ -1,11 +1,15 @@
 class CourseSerializer < ActiveModel::Serializer
   include CoursesHelper
 
-  attributes :id, :name, :type, :start_date, :end_date, :price_range, :min_price_amount, :min_price_libelle
+  attributes :id, :name, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle
   has_many :plannings
 
-  def price_range
-    plain_price_range(object)
+  def is_individual
+    self.is_individual?
+  end
+
+  def teaches_at_home
+    self.teaches_at_home?
   end
 
   def min_price_amount

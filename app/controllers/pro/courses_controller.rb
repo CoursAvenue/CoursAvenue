@@ -7,6 +7,10 @@ class Pro::CoursesController < InheritedResources::Base
 
   load_and_authorize_resource :structure, except: [:create, :update], find_by: :slug
 
+  def new
+    @course = @structure.courses.build
+  end
+
   def index
     @structure = Structure.friendly.find params[:structure_id]
     @courses   = @structure.courses.order('name ASC')

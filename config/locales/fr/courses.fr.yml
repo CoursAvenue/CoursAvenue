@@ -23,6 +23,7 @@ fr:
         cant_be_joined_during_year: Inscriptions non acceptées en cours d'année
         no_class_during_holidays: Pas de cours pendant les vacances scolaires
         subjects: Disciplines
+        teaches_at_home: Cours à domicile
 
   courses:
     training:

@@ -1,6 +1,6 @@
 <thead>
     <tr class="bold">
-        <td colspan="2" class="text--left">
+        <td colspan="3" class="text--left">
             <a href="{{data_url}}" title="{{ name }}">{{ name }}</a>
         </td>
         {{!-- <td>{{ start_date }} à {{ end_date }}</td> --}}
@@ -16,7 +16,17 @@
         <td class="four-twelfths">{{ week_day }}</td>
         <td class="three-twelfths">{{ time_slot }}</td>
         <td class="one-twelfth">{{ duration }}</td>
-        <td class="four-twelfths">{{ levels }}</td>
+        <td class="three-twelfths">{{ levels }}</td>
+        <td class="one-twelfth">
+            {{#if is_individual}}
+                <i class="fa fa-user"></i>
+            {{else}}
+                <i class="fa fa-group"></i>
+            {{/if}}
+            {{#if teaches_at_home}}
+                <i class="fa fa-home"></i>
+            {{/if}}
+        </td>
     </tr>
     {{/each}}
 </tbody>

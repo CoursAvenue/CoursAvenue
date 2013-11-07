@@ -73,6 +73,8 @@
       - if @course.errors.messages[:type]
         %p.alert.alert-error= @course.errors.messages[:type].first
 
+    = f.input :teaches_at_home, as: :select, include_blank: false
+
   #recurrency{style: @course.is_lesson? ? '' : 'display: none;'}
     %h5.form-header-group.flush--bottom.flush--top
       %i.fa.fa-time
