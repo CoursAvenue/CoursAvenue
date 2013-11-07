@@ -10,5 +10,5 @@
           %strong= message.sender.name
         %br
         = "#{l(message.created_at.to_date, format: :short)} à #{l(message.created_at, format: :short)}"
-      .grid__item.ten-twelfths>
+      .grid__item.ten-twelfths.soft-half--left>
         = simple_format message.body

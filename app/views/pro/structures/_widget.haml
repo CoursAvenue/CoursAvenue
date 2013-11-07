@@ -28,7 +28,7 @@
           - if comment.title.present?
             %p.coursavenue-comment-paragraph
               %strong= "\"#{comment.title}\""
-          %p.coursavenue-comment-paragraph
+          .coursavenue-comment-paragraph
             - omission = link_to('Lire la suite →', structure_url(@structure, subdomain: 'www', anchor: "recommandation-#{comment.id}"), target: '_blank', class: 'coursavenue-widget-link')
             = truncate_html(simple_format(comment.content), length: 600, omission: "… #{omission}")
           %p.coursavenue-comment-footer
