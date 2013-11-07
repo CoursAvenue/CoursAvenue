@@ -75,18 +75,24 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             /* one info window that gets populated on each marker click */
             this.infoWindow = new google.maps.InfoWindow({});
+
+            google.maps.event.addListener(this.infoWindow, 'closeclick', _.bind(this.unlockCurrentMarker, this));
         },
 
         ui: {
             bounds_controls: '[data-behavior="bounds-controls"]'
         },
 
-        onMarkerFocus: function (marker_view) {
+        unlockCurrentMarker: function () {
             if (this.current_info_marker) {
-                var previous_marker = this.markerViewChildren[this.current_info_marker];
-                previous_marker.setSelectLock(false);
-                previous_marker.deselect();
+                var marker = this.markerViewChildren[this.current_info_marker];
+                marker.setSelectLock(false);
+                marker.deselect();
             }
+        },
+
+        onMarkerFocus: function (marker_view) {
+            this.unlockCurrentMarker();
 
             /* TODO this is a problem, we need to not pass out the whole view, d'uh */
             this.current_info_marker = marker_view.model.cid;
