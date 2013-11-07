@@ -1,9 +1,7 @@
 <div class="grid--full">{{#each subjects}}{{!--
    --}}<div class="grid__item one-quarter very-soft">
       <div data-type="button" data-value="{{slug}}" class="text--center btn one-whole">
-        {{!-- <img class="center-block very-soft" src="{{asset_url}}" height="35" /> --}}
-        <img class="center-block very-soft" src="<%= asset_path("/icons/subjects/{{slug}}.png") %>" height="35" />
-        {{!-- <img class="center-block very-soft" src="<%= asset_path("assets/icons/subjects/{{slug}}.png") %>" height="35" /> --}}
+        <img class="center-block very-soft" src="<%= asset_path("assets/icons/subjects/{{slug}}.png") %>" height="35" />
         {{name}}
       </div>
   </div>{{!--
