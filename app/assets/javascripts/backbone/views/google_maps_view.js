@@ -18,15 +18,24 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* TODO stupidly named event that the library forces us to use *barf* */
         toggleSelect: function (e) {
+            this.setSelectLock(true);
             this.trigger('focus', e);
         },
 
         select: function (e) {
-            this.$el.addClass('active');
+            if (!this.select_lock) {
+                this.$el.addClass('active');
+            }
         },
 
         deselect: function (e) {
-            this.$el.removeClass('active');
+            if (!this.select_lock) {
+                this.$el.removeClass('active');
+            }
+        },
+
+        setSelectLock: function (bool) {
+            this.select_lock = bool;
         }
     });
 
@@ -72,12 +81,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             bounds_controls: '[data-behavior="bounds-controls"]'
         },
 
-        /* life-cycle methods */
         onMarkerFocus: function (marker_view) {
+            if (this.current_info_marker) {
+                var previous_marker = this.markerViewChildren[this.current_info_marker];
+                previous_marker.setSelectLock(false);
+                previous_marker.deselect();
+            }
+
             /* TODO this is a problem, we need to not pass out the whole view, d'uh */
-            /* TODO it is possible that these things will happen in the wrong order */
+            this.current_info_marker = marker_view.model.cid;
             this.trigger('map:marker:focus', marker_view);
-            this.openInfoWindow(marker_view);
         },
 
         onRender: function() {
@@ -245,16 +258,15 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
         },
 
-        openInfoWindow: function (marker) {
+        showInfoWindow: function (view) {
+            var marker = this.markerViewChildren[this.current_info_marker];
+
             if (this.infoWindow) {
                 this.infoWindow.close();
             }
 
-            this.infoWindow.open(marker.map, marker.gOverlay);
-        },
-
-        populateInfoWindow: function (view) {
             this.infoWindow.setContent(view.$el.html());
+            this.infoWindow.open(marker.map, marker.gOverlay);
         },
 
         hideLoader: function() {
