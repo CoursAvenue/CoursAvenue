@@ -26025,6 +26025,7 @@ FilteredSearch.addInitializer(function(options) {
     results_summary_tool       = new FilteredSearch.Views.ResultsSummaryView({});
     subject_filter_tool        = new FilteredSearch.Views.SubjectFilterView({});
     categorical_filter_tool    = new FilteredSearch.Views.CategoricalFilterView({});
+    location_filter            = new FilteredSearch.Views.LocationFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -26039,7 +26040,20 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     /* TODO these widgets all have "reset" bound to "updated"...
-    *  let's make that a default */
+    *  let's make that a default: the master declares a "setup"
+    *  event, and the widgets all run their "setup" method on
+    *  that event. */
+    /* TODO all these widgets have "dependencies", that is, they
+    * can depend on the main widget for data. Let's make this
+    * explicit so that the order of the 'showWidget' calls doesn't
+    * matter */
+    /* TODO all these widgets use 'data-type=view_name' so lets
+    * make that a default. */
+    /* TODO the layout is divided into two parts: one widget well,
+    * where widgets can be added (the map is there), and one div
+    * full of explicitly added widgets. We should either not use
+    * wells, or fix the well system to adapt to different layout
+    * designs easily */
     layout.showWidget(results_summary_tool, {
         'structures:updated:summary': 'resetSummaryTool'
     }, '[data-type=results-summary-tool]');
@@ -26049,6 +26063,12 @@ FilteredSearch.addInitializer(function(options) {
             'structures:updated:filters': 'resetCategoricalFilterTool',
         }
     }, '[data-type=categorical-filter-tool]');
+
+    layout.showWidget(location_filter, {
+        once: {
+            'structures:updated:filters': 'setup',
+        }
+    }, '[data-type=location-filter-tool]');
 
     layout.showWidget(subject_filter_tool, {
         once: {
@@ -26082,7 +26102,7 @@ $(document).ready(function() {
     
   
   
-    return "<div class=\"search-input-wrapper relative\" style=\"display:block;\">\n    <input id=\"search-input\" size=50 class=\"search-input\" placeholder=\"Mots clés (Ex. : salsa, dessin, guitare)\" type=\"search\" name=\"name\" autocomplete=\"off\"></input>\n</div>\n<div class=\"search-input-wrapper relative\">\n    <div class=\"input-with-icon\">\n        <input id=\"address-picker\" class=\"search-input\" size=50 placeholder='Ville / CP / Adresse' type='text' autocomplete='off' name='address_name' data-behavior='address-picker' data-lng='#address-lng' data-lat='#address-lat' data-city='#address-city'></input>\n        <i class=\"fa fa-map-marker delta\"></i>\n    </div>\n    <p id=\"specify-location\" class=\"white-box--noshadow hidden\" style=\"z-index:2; line-height:1.3; padding: 5px 10px; position: absolute;\">\n        Vous devez spécifier un lieu\n    </p>\n</div>\n";
+    return "<div class=\"search-input-wrapper relative\" style=\"display:block;\">\n    <input id=\"search-input\" size=50 class=\"search-input\" placeholder=\"Mots clés (Ex. : salsa, dessin, guitare)\" type=\"search\" name=\"name\" autocomplete=\"off\"></input>\n</div>\n";
     });
     return this.HandlebarsTemplates["backbone/templates/categorical_filter_view"];
   }).call(this);;
@@ -26264,13 +26284,26 @@ $(document).ready(function() {
     return "checked";
     }
   
-    buffer += "<div class=\"relative filtered-search__map\" data-type=\"map-container\">\n  <div data-type=\"loader\" class=\"filtered-search__map-loader absolute-curtain\"> Chargement... </div>\n\n  <div class=\" visuallyhidden--palm visuallyhidden--lap filtered-search__map-control white-box--noshadow very-soft soft-half--sides\" data-behavior=\"bounds-controls\">\n      <input id=\"filtered-search__map-bounds-controls-checkbox\" data-behavior=\"live-update\" type=\"checkbox\" ";
+    buffer += "<div class=\"relative filtered-search__map\" data-type=\"map-container\">\n  <div data-type=\"loader\" class=\"filtered-search__map-loader absolute-curtain\"> Chargement... </div>\n\n  <div class=\" visuallyhidden--palm visuallyhidden--lap filtered-search__map-control\" data-behavior=\"bounds-controls\">\n      <div data-type=\"location-filter-tool\"></div>\n      <div class=\"white-box--noshadow soft-half--left very-soft\">\n        <input id=\"filtered-search__map-bounds-controls-checkbox\" data-behavior=\"live-update\" type=\"checkbox\" ";
     stack1 = helpers['if'].call(depth0, depth0.update_live, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
     if(stack1 || stack1 === 0) { buffer += stack1; }
-    buffer += "></input>\n      <label for=\"filtered-search__map-bounds-controls-checkbox\" class=\"inline soft-half--left\n      \">\n        Rechercher quand je déplace la carte\n      </label>\n  </div>\n</div>\n";
+    buffer += "></input>\n        <label for=\"filtered-search__map-bounds-controls-checkbox\" class=\"inline soft-half--left milli\">\n          Rechercher quand je déplace la carte\n        </label>\n      </div>\n  </div>\n</div>\n";
     return buffer;
     });
     return this.HandlebarsTemplates["backbone/templates/google_maps_view"];
+  }).call(this);;
+}).call(this);
+(function() { this.JST || (this.JST = {}); this.JST["backbone/templates/location_filter_view"] = (function() {
+    this.HandlebarsTemplates || (this.HandlebarsTemplates = {});
+    this.HandlebarsTemplates["backbone/templates/location_filter_view"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+    this.compilerInfo = [4,'>= 1.0.0'];
+  helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+    
+  
+  
+    return "<div class=\"filtered-search__location-input\" style=\"margin-bottom: 2px;\">\n    <div class=\"input-with-icon\">\n        <input id=\"address-picker\" class=\"search-input\" size=50 placeholder='Ville / CP / Adresse' type='text' autocomplete='off' name='address_name' data-behavior='address-picker' data-lng='#address-lng' data-lat='#address-lat' data-city='#address-city' style=\"font-size: 15px\"></input>\n        <i class=\"fa fa-map-marker delta\"></i>\n    </div>\n</div>\n";
+    });
+    return this.HandlebarsTemplates["backbone/templates/location_filter_view"];
   }).call(this);;
 }).call(this);
 (function() { this.JST || (this.JST = {}); this.JST["backbone/templates/paginated_collection_view"] = (function() {
@@ -26433,18 +26466,18 @@ $(document).ready(function() {
   function program1(depth0,data) {
     
     var buffer = "", stack1;
-    buffer += "\n            <div id=\"";
+    buffer += "\n        <div id=\"";
     if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
     else { stack1 = depth0.id; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
     buffer += escapeExpression(stack1)
-      + "\" data-type=\"widget\"></div>\n        ";
+      + "\" data-type=\"widget\"></div>\n    ";
     return buffer;
     }
   
-    buffer += "<div class=\"relative\">\n    <section id=\"widgets-container\" class=\"filtered-search__map-wrapper\">\n        ";
+    buffer += "<section id=\"widgets-container\" class=\"filtered-search__map-wrapper\">\n    ";
     stack1 = helpers.each.call(depth0, depth0.widget, {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
     if(stack1 || stack1 === 0) { buffer += stack1; }
-    buffer += "\n    </section>\n\n    <section class=\"filtered-search__list-wrapper\">\n        <header class=\"flexbox page-entries-wrapper soft-half\">\n            <div class=\"one-whole\" data-type=\"subject-filter-tool\"></div>\n            <div class=\"one-whole\" data-type=\"categorical-filter-tool\"></div>\n            <div class=\"flexbox\">\n                <div class=\"flexbox__item palm-one-whole\" data-type=\"results-summary-tool\"></div>\n                <div class=\"flexbox__item visuallyhidden--palm text--right\" data-type=\"top-pagination-tool\"></div>\n            </div>\n        </header>\n\n        <div id=\"search-results\"></div>\n\n        <div class=\"text--center\" data-type=\"bottom-pagination-tool\">\n        </div>\n    </section>\n</div>\n";
+    buffer += "\n</section>\n\n<section class=\"filtered-search__list-wrapper\">\n    <header class=\"flexbox page-entries-wrapper soft-half\">\n        <div class=\"one-whole\" data-type=\"subject-filter-tool\"></div>\n        <div class=\"one-whole\" data-type=\"categorical-filter-tool\"></div>\n        <div class=\"flexbox\">\n            <div class=\"flexbox__item palm-one-whole\" data-type=\"results-summary-tool\"></div>\n            <div class=\"flexbox__item visuallyhidden--palm text--right\" data-type=\"top-pagination-tool\"></div>\n        </div>\n    </header>\n\n    <div id=\"search-results\"></div>\n\n    <div class=\"text--center\" data-type=\"bottom-pagination-tool\">\n    </div>\n</section>\n";
     return buffer;
     });
     return this.HandlebarsTemplates["backbone/templates/search_widgets_layout_view"];
@@ -26545,27 +26578,16 @@ $(document).ready(function() {
   function program13(depth0,data) {
     
     
-    return "\n            <span class=\"lbl lbl--blue lbl--small\">À domicile</span>\n        ";
+    return "structure-item__button";
     }
   
   function program15(depth0,data) {
     
-    var buffer = "", stack1;
-    buffer += "\n            <span class=\"lbl lbl--yellow lbl--small\">Public : ";
-    if (stack1 = helpers.audience) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-    else { stack1 = depth0.audience; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-    buffer += escapeExpression(stack1)
-      + "</span>\n        ";
-    return buffer;
+    
+    return "\n            <div>\n                <span class=\"lbl lbl--blue lbl--small\">à domicile</span>\n            </div>\n        ";
     }
   
   function program17(depth0,data) {
-    
-    
-    return "structure-item__button";
-    }
-  
-  function program19(depth0,data) {
     
     var buffer = "", stack1;
     buffer += "\n                de\n                <span class=\"cursor\" data-behavior=\"tooltip\" title=\"";
@@ -26588,16 +26610,16 @@ $(document).ready(function() {
     return buffer;
     }
   
-  function program21(depth0,data) {
+  function program19(depth0,data) {
     
     var buffer = "", stack1;
     buffer += "\n                ";
-    stack1 = helpers['if'].call(depth0, depth0.min_price_amount, {hash:{},inverse:self.noop,fn:self.program(22, program22, data),data:data});
+    stack1 = helpers['if'].call(depth0, depth0.min_price_amount, {hash:{},inverse:self.noop,fn:self.program(20, program20, data),data:data});
     if(stack1 || stack1 === 0) { buffer += stack1; }
     buffer += "\n            ";
     return buffer;
     }
-  function program22(depth0,data) {
+  function program20(depth0,data) {
     
     var buffer = "", stack1;
     buffer += "\n                    à partir de\n                    <span class=\"cursor\" data-behavior=\"tooltip\" title=\"";
@@ -26629,14 +26651,8 @@ $(document).ready(function() {
     if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
     else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
     buffer += escapeExpression(stack1)
-      + "</a>\n        </h2>\n        <div>\n        ";
-    stack1 = helpers['if'].call(depth0, depth0.teaches_at_home, {hash:{},inverse:self.noop,fn:self.program(13, program13, data),data:data});
-    if(stack1 || stack1 === 0) { buffer += stack1; }
-    buffer += "\n        ";
-    stack1 = helpers['if'].call(depth0, depth0.audience, {hash:{},inverse:self.noop,fn:self.program(15, program15, data),data:data});
-    if(stack1 || stack1 === 0) { buffer += stack1; }
-    buffer += "\n        </div>\n    </article><!--\n --><div class=\"flexbox__item two-tenths v-top soft--top text--center milli ";
-    stack1 = helpers['if'].call(depth0, depth0.has_courses, {hash:{},inverse:self.noop,fn:self.program(17, program17, data),data:data});
+      + "</a>\n        </h2>\n    </article><!--\n --><div class=\"flexbox__item two-tenths v-top soft--top text--center milli ";
+    stack1 = helpers['if'].call(depth0, depth0.has_courses, {hash:{},inverse:self.noop,fn:self.program(13, program13, data),data:data});
     if(stack1 || stack1 === 0) { buffer += stack1; }
     buffer += "\" data-type=\"accordion-control\" data-value=\"courses\" data-attributes=\"data_url\">\n        <div class=\"alpha thin brand\">";
     if (stack1 = helpers.plannings_count) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
@@ -26645,11 +26661,14 @@ $(document).ready(function() {
       + "</div>\n        ";
     options = {hash:{},data:data};
     buffer += escapeExpression(((stack1 = helpers.pluralize || depth0.pluralize),stack1 ? stack1.call(depth0, depth0.plannings_count, "séance", "séances", options) : helperMissing.call(depth0, "pluralize", depth0.plannings_count, "séance", "séances", options)))
-      + "\n        <div>\n            ";
-    stack2 = helpers['if'].call(depth0, depth0.has_price_range, {hash:{},inverse:self.program(21, program21, data),fn:self.program(19, program19, data),data:data});
+      + "\n        ";
+    stack2 = helpers['if'].call(depth0, depth0.teaches_at_home, {hash:{},inverse:self.noop,fn:self.program(15, program15, data),data:data});
+    if(stack2 || stack2 === 0) { buffer += stack2; }
+    buffer += "\n        <div>\n            ";
+    stack2 = helpers['if'].call(depth0, depth0.has_price_range, {hash:{},inverse:self.program(19, program19, data),fn:self.program(17, program17, data),data:data});
     if(stack2 || stack2 === 0) { buffer += stack2; }
     buffer += "\n        </div>\n    </div><!--\n --><div class=\"flexbox__item ";
-    stack2 = helpers['if'].call(depth0, depth0.has_comments, {hash:{},inverse:self.noop,fn:self.program(17, program17, data),data:data});
+    stack2 = helpers['if'].call(depth0, depth0.has_comments, {hash:{},inverse:self.noop,fn:self.program(13, program13, data),data:data});
     if(stack2 || stack2 === 0) { buffer += stack2; }
     buffer += " two-twelfths v-top soft--top text--center\" data-type=\"accordion-control\" data-value=\"comments\" data-attributes=\"data_url more_than_five_comments\">\n        <div class=\"alpha thin brand\">";
     if (stack2 = helpers.comments_count) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
@@ -26695,7 +26714,7 @@ $(document).ready(function() {
     if (stack1 = helpers.slug) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
     else { stack1 = depth0.slug; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
     buffer += escapeExpression(stack1)
-      + "\" class=\"text--center btn one-whole\">\n        <img class=\"center-block very-soft\" src=\"assets/icons/subjects/";
+      + "\" class=\"text--center btn one-whole\">\n        <img class=\"center-block very-soft\" src=\"/assets/icons/subjects/";
     if (stack1 = helpers.slug) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
     else { stack1 = depth0.slug; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
     buffer += escapeExpression(stack1)
@@ -27328,6 +27347,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 var method = data.sort === 'rating_desc';
                 this.sort_by_popularity = method;
                 this.sort_by_relevance = !method;
+            } else {
+                // Datas are sort by popularity by default
+                this.sort_by_popularity = true;
             }
 
             this.render();
@@ -27336,7 +27358,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         serializeData: function (data) {
             return _.extend(this.current_summary_data, {
                 sort_by_popularity: this.sort_by_popularity,
-                sort_by_relevance: this.sort_by_relevance
+                sort_by_relevance:  this.sort_by_relevance
             });
         },
 
@@ -27363,12 +27385,39 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 });
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
 
+    Views.LocationFilterView = Backbone.Marionette.ItemView.extend({
+        template: 'backbone/templates/location_filter_view',
+
+        initialize: function () {
+            this.announceLocation = _.debounce(this.announceLocation, 500);
+        },
+
+        events: {
+            'typeahead:selected #address-picker': 'announceLocation'
+        },
+
+        announceLocation: function (e, data) {
+            this.trigger("filter:location", data);
+        },
+
+        ui: {
+            $address_picker: '#address-picker'
+        },
+
+        setup: function (data) {
+            this.ui.$address_picker.attr('value', data.address_name);
+        }
+
+    });
+});
+FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+
     Views.SubjectFilterView = Backbone.Marionette.ItemView.extend({
         template: 'backbone/templates/subject_filter_view',
         className: 'very-soft',
 
         serializeData: function(data) {
-            return {subjects: coursavenue.bootstrap.subjects};
+            return { subjects: coursavenue.bootstrap.subjects };
         },
 
         events: {
@@ -27399,27 +27448,21 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         initialize: function () {
             this.announceSearchTerm = _.debounce(this.announceSearchTerm, 500);
-            this.announceLocation = _.debounce(this.announceLocation, 500);
         },
 
         events: {
             'typeahead:selected #search-input': 'announceSearchTerm',
-            'keypress #search-input': 'announceSearchTerm',
-            'typeahead:selected #address-picker': 'announceLocation'
-        },
-
-        announceLocation: function (e, data) {
-            this.trigger("filter:location", data);
+            // Use keydown instead of keypress to handle the case when the user empties the input
+            'keydown #search-input':            'announceSearchTerm'
         },
 
         announceSearchTerm: function (e, data) {
-            name = (data === undefined) ? e.currentTarget.value : data.name;
+            name = (data ? data.name : e.currentTarget.value);
             this.trigger("filter:search_term", { 'name': name });
         },
 
         ui: {
             $search_input: '#search-input',
-            $address_picker: '#address-picker'
         },
 
         onRender: function () {
@@ -27434,10 +27477,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         resetCategoricalFilterTool: function (data) {
-            this.current_summary_data = data;
-
             this.ui.$search_input.attr('value', data.name);
-            this.ui.$address_picker.attr('value', data.address_name);
         }
     });
 });
@@ -27971,6 +28011,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
     Views.SearchWidgetsLayout = Backbone.Marionette.Layout.extend({
         template: 'backbone/templates/search_widgets_layout_view',
+        className: 'relative',
 
         regions: {
             results: "#search-results",
@@ -28080,6 +28121,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
 
 //---------- Views
+
 
 
 

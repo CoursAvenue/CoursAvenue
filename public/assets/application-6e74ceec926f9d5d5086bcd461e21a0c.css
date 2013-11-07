@@ -6694,12 +6694,20 @@ select[disabled] {
   background-color: #F4F4F4;
 }
 
-/* line 5, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_labels.scss */
-f
+/*------------------------------------*\
+    $LABELS
+\*------------------------------------*/
+/* line 6, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_labels.scss */
+.lbl.lbl--small {
+  padding: 0px 0.6em;
+  font-size: 0.8em;
+}
+
+/* line 10, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_labels.scss */
 .lbl {
   display: inline-block;
   font-weight: 500;
-  padding: 0.2em 0.7em;
+  padding: 2px 0.7em;
   background-color: #f1f1f1;
   border: 1px solid #b5b5b5;
   text-shadow: 0 1px 0 white;
@@ -6711,12 +6719,6 @@ f
   -webkit-box-shadow: inset 0 0 4px white, 0 1px 1px rgba(0, 0, 0, 0.12);
   -moz-box-shadow: inset 0 0 4px white, 0 1px 1px rgba(0, 0, 0, 0.12);
   box-shadow: inset 0 0 4px white, 0 1px 1px rgba(0, 0, 0, 0.12);
-}
-
-/* line 16, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_labels.scss */
-.lbl.lbl--small {
-  padding: 0.2em 0.6em;
-  font-size: 0.8em;
 }
 
 /* line 21, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_labels.scss */
@@ -6753,17 +6755,6 @@ f
 }
 
 /* line 45, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_labels.scss */
-.lbl.lbl--yellow {
-  background-color: #ffc40d;
-  border: 1px solid #d9a400;
-  color: #222;
-  text-shadow: 0 1px 0 #a67e00;
-  -webkit-box-shadow: inset 0 0 4px #e8b000, 0 1px 1px rgba(0, 0, 0, 0.12);
-  -moz-box-shadow: inset 0 0 4px #e8b000, 0 1px 1px rgba(0, 0, 0, 0.12);
-  box-shadow: inset 0 0 4px #e8b000, 0 1px 1px rgba(0, 0, 0, 0.12);
-}
-
-/* line 53, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_labels.scss */
 .lbl.lbl--blue {
   background-color: #049cdb;
   border: 1px solid #0378a9;
@@ -6774,7 +6765,7 @@ f
   box-shadow: inset 0 0 4px #0383b8, 0 1px 1px rgba(0, 0, 0, 0.12);
 }
 
-/* line 61, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_labels.scss */
+/* line 53, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_labels.scss */
 .lbl.lbl--green {
   background-color: #47b442;
   border: 1px solid #388f34;
@@ -9951,11 +9942,21 @@ textarea.text.textarea-description--tall, textarea.text.textarea-description {
 /* line 16, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
 .filtered-search__map-control {
   position: absolute;
-  top: 2em;
+  top: 1em;
   left: 6em;
 }
 
 /* line 22, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
+.filtered-search__location-input .tt-hint {
+  border: none;
+  height: 100%;
+}
+/* line 26, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
+.filtered-search__location-input .tt-query {
+  padding-left: 1em;
+}
+
+/* line 31, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
 .filtered-search__list-wrapper {
   position: fixed;
   right: 0%;
@@ -9967,13 +9968,13 @@ textarea.text.textarea-description--tall, textarea.text.textarea-description {
   webkit-overflow-scrolling: touch;
 }
 
-/* line 33, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
+/* line 42, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
 .filtered-search__list {
   padding-top: 6px;
   padding-left: 6px;
 }
 
-/* line 37, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
+/* line 46, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
 .filtered-search__loader {
   position: absolute;
   height: 100%;
@@ -9993,12 +9994,12 @@ textarea.text.textarea-description--tall, textarea.text.textarea-description {
   -o-transition: opacity 250ms linear;
   transition: opacity 250ms linear;
 }
-/* line 53, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
+/* line 62, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
 .filtered-search__loader.visible {
   opacity: 0.8;
 }
 
-/* line 58, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
+/* line 67, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
 .filtered-search__map-loader {
   background-color: black;
   background-color: rgba(0, 0, 0, 0.5);
@@ -10012,12 +10013,12 @@ textarea.text.textarea-description--tall, textarea.text.textarea-description {
   -o-transition: opacity 250ms linear;
   transition: opacity 250ms linear;
 }
-/* line 67, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
+/* line 76, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
 .filtered-search__map-loader.visible {
   opacity: 1;
 }
 
-/* line 71, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
+/* line 80, /Users/Nima/Development/Work/CoursAvenue/app/assets/stylesheets/partials/objects/_filtered_search.scss */
 .filtered-search-loader {
   position: absolute;
   z-index: 20;
