@@ -27,6 +27,7 @@ class Course < ActiveRecord::Base
   has_and_belongs_to_many :subjects, -> { uniq }
 
   after_touch :reindex
+  after_initialize :set_teaches_at_home
 
   # ------------------------------------------------------------------------------------ Scopes
   scope :active,    -> { where(active: true) }
@@ -53,6 +54,7 @@ class Course < ActiveRecord::Base
                   :frequency,
                   :registration_date,
                   :is_individual, :is_for_handicaped,
+                  :teaches_at_home,
                   :trial_lesson_info, # Info prix
                   :conditions,
                   :partner_rib_info,
@@ -410,6 +412,10 @@ class Course < ActiveRecord::Base
   end
 
   private
+
+  def set_teaches_at_home
+    self.teaches_at_home = self.structure.teaches_at_home if self.structure
+  end
 
   def reindex
     self.index

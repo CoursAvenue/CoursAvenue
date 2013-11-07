@@ -49,8 +49,10 @@ class Structure < ActiveRecord::Base
                   :funding_type_ids, :funding_types,
                   :widget_status, :widget_url, :sticker_status,
                   :teaches_at_home,
-                  :subjects_string, :parent_subjects_string # "Name of the subject,slug-of-the-subject;Name,slug"
-
+                  :subjects_string, :parent_subjects_string, # "Name of the subject,slug-of-the-subject;Name,slug"
+                  # Attributes synced regarding the courses. Synced from the observers
+                  # audience_ids is a coma separated string of audience_id
+                  :audience_ids, :gives_group_courses, :gives_individual_courses
   has_attached_file :logo,
                     styles: {
                       large: '500x500',
@@ -62,12 +64,6 @@ class Structure < ActiveRecord::Base
 
   has_attached_file :image,
                     styles: { wide: '800x480#', thumb: '200x200#', normal: '450x' }
-
-  # validates_attachment_content_type :image,
-  #                                   :content_type => ['image/jpeg',
-  #                                                     'image/jpg',
-  #                                                     'image/png',
-  #                                                     'image/gif'], :message => "Les formats accepté sont : JPEG / JPG / PNG et GIF"
 
 
   belongs_to :city
@@ -425,6 +421,26 @@ class Structure < ActiveRecord::Base
 
   def has_installed_widget?
     widget_status == 'installed'
+  end
+
+  # Synced attributes are:
+  #    :audience_ids
+  #    :gives_group_courses
+  #    :gives_individual_courses
+  def update_synced_attributes
+    self.update_column :audience_ids,             self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
+    self.update_column :gives_group_courses,      self.courses.select{|course| !course.is_individual? }.any?
+    self.update_column :gives_individual_courses, self.courses.select(&:is_individual?).any?
+  end
+
+  def audiences
+    return [] unless audience_ids.present?
+    self.audience_ids.map{ |audience_id| Audience.find(audience_id) }
+  end
+
+  def audience_ids
+    return [] unless read_attribute(:audience_ids)
+    read_attribute(:audience_ids).split(',').map(&:to_i) if read_attribute(:audience_ids)
   end
 
   private

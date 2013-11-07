@@ -10,14 +10,18 @@ class StructureSerializer < ActiveModel::Serializer
              :subjects_count, :subjects, :courses_count, :has_courses, :plannings_count, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :videos_count, :images_count,
-             :audience
+             :audience, :funding_types, :gives_group_courses, :gives_individual_courses
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
   has_many :courses, serializer: ShortSerializer
 
+  def funding_types
+    object.funding_types.map{|funding| I18n.t(funding.name)}.join(', ')
+  end
+
   def audience
-    object.plannings.map(&:audiences).flatten.uniq.map{|audience| I18n.t(audience.name)}.join(', ')
+    object.audiences.sort_by(&:order).map{|audience| I18n.t(audience.name)}.join(', ')
   end
 
   def medias_count

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131106173757) do
+ActiveRecord::Schema.define(version: 20131107145725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -186,6 +186,7 @@ ActiveRecord::Schema.define(version: 20131106173757) do
     t.text     "subjects_string"
     t.text     "parent_subjects_string"
     t.boolean  "no_class_during_holidays"
+    t.boolean  "teaches_at_home"
   end
 
   add_index "courses", ["place_id"], name: "index_courses_on_place_id", using: :btree
@@ -457,6 +458,9 @@ ActiveRecord::Schema.define(version: 20131106173757) do
     t.text     "widget_url"
     t.integer  "min_price_id"
     t.integer  "max_price_id"
+    t.string   "audience_ids"
+    t.boolean  "gives_group_courses"
+    t.boolean  "gives_individual_courses"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
