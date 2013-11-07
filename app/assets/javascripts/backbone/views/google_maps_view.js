@@ -92,6 +92,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         onMarkerFocus: function (marker_view) {
+            var marker = this.markerViewChildren[this.current_info_marker];
+            if (marker_view === marker) {
+                return false;
+            }
+
             this.unlockCurrentMarker();
 
             /* TODO this is a problem, we need to not pass out the whole view, d'uh */
