@@ -63,10 +63,11 @@
 
 
 .subject_icon {
-    height           : 35px;
-    background-position: center center;
-    background-repeat: no-repeat;
-    @include background-size(35px);
+    height              : 30px;
+    background-position : center center;
+    background-repeat   : no-repeat;
+    margin-bottom       : 5px;
+    @include background-size(contain);
 
 }
 .subject_icon__danse                           { background-image : image-url('icons/subjects/danse.png'); }
