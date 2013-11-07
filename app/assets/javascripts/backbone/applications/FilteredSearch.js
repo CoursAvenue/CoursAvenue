@@ -66,7 +66,7 @@ FilteredSearch.addInitializer(function(options) {
             'filter:subject':      'filterQuery',
             'filter:search_term':  'filterQuery',
             'filter:location':     'filterQuery',
-            'map:marker:focus':    'zoomToStructure'
+            'map:marker:focus':    'findItemView'
         }
     });
 
@@ -100,7 +100,8 @@ FilteredSearch.addInitializer(function(options) {
         'structures:updated':                'hideLoader',
         'structures:itemview:highlighted':   'selectMarkers',
         'structures:itemview:unhighlighted': 'deselectMarkers',
-        'filter:update:map':                 'centerMap'
+        'filter:update:map':                 'centerMap',
+        'structures:itemview:found':         'populateInfoWindow'
     });
 
     /* TODO these widgets all have "reset" bound to "updated"...

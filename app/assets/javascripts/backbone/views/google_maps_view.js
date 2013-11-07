@@ -63,6 +63,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             if (this.update_live === 'true') {
                 this.toggleLiveUpdate();
             }
+
+            /* one info window that gets populated on each marker click */
+            this.infoWindow = new google.maps.InfoWindow({});
         },
 
         ui: {
@@ -70,8 +73,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         /* life-cycle methods */
-        onMarkerFocus: function (data) {
-            this.trigger('map:marker:focus', data);
+        onMarkerFocus: function (marker_view) {
+            /* TODO this is a problem, we need to not pass out the whole view, d'uh */
+            /* TODO it is possible that these things will happen in the wrong order */
+            this.trigger('map:marker:focus', marker_view);
+            this.openInfoWindow(marker_view);
         },
 
         onRender: function() {
@@ -237,6 +243,18 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             setTimeout(function(){
                 self.$loader.addClass('visible');
             });
+        },
+
+        openInfoWindow: function (marker) {
+            if (this.infoWindow) {
+                this.infoWindow.close();
+            }
+
+            this.infoWindow.open(marker.map, marker.gOverlay);
+        },
+
+        populateInfoWindow: function (view) {
+            this.infoWindow.setContent(view.$el.html());
         },
 
         hideLoader: function() {
