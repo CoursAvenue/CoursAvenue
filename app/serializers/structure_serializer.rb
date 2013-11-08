@@ -78,7 +78,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def medias
-    object.medias.videos.limit(5) + object.medias.images.limit(5)
+    (object.medias.videos.limit(5) + object.medias.images.limit(5))[0..4]
   end
 
   def plannings_count

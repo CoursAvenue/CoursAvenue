@@ -62,9 +62,11 @@
         {{/if}}
 
     </article><!--
- --><div class="flexbox__item two-twelfths v-top soft--top text--center {{#if has_medias}}structure-item__button{{/if}}" data-type="accordion-control" data-value="medias" data-attributes="">
+ --><div class="flexbox__item two-twelfths v-top soft--top text--center {{#if has_medias}}structure-item__button{{/if}}" data-type="accordion-control" data-value="medias" data-attributes="data_url">
         <div class="alpha thin brand">{{ medias_count }}</div>
-        <span class="milli">Photos & vidéos</span>
+        <span class="milli">
+            Photos & vidéos
+        </span>
     </div><!--
  --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} two-twelfths v-top soft--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
         <div class="alpha thin brand">{{ comments_count }}</div>

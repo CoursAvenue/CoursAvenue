@@ -1,5 +1,5 @@
 class MediaSerializer < ActiveModel::Serializer
 
-  attributes :id, :url, :caption
+  attributes :id, :url, :url_html, :caption
 
 end
