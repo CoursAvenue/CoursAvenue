@@ -65,8 +65,6 @@
     .soft--ends.text--center
       .alpha La galerie photos
       %p.flush= link_to 'Accéder à la galerie vidéos', videos_subject_city_medias_path(@subject, @city)
-    -# {'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
-    -# .js-masonry
     .media-gallery
       - @medias.select{|media| media.format == 'image'}.sample(25).each do |media|
         .one-quarter.media__item.very-soft{style: 'max-width: 450px'}>
