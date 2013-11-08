@@ -171,7 +171,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         changePage: function (page) {
-            if (page == this.collection.currentPage) return false;
+            if (page == this.collection.currentPage) { return false };
 
             var self = this;
 
