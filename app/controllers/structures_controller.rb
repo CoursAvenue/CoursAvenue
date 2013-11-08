@@ -35,8 +35,7 @@ class StructuresController < ApplicationController
     if params[:subject_id] == 'other'
       params[:other] = true
       params.delete(:subject_id)
-    end
-    if params[:subject_id]
+    elsif params[:subject_id].present?
       @subject = Subject.friendly.find params[:subject_id]
     else
       # Little hack to determine if the name is equal a subject

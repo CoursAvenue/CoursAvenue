@@ -14,12 +14,21 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         announceSubject: function (e, data) {
             var subject_slug = e.currentTarget.dataset.value;
-            this.trigger("filter:subject", { 'subject_id': subject_slug });
-            this.activateButton(subject_slug);
+            if (this.$('[data-value=' + subject_slug + ']').hasClass('active')) {
+                this.trigger("filter:subject", { 'subject_id': null });
+                this.disabledButton(subject_slug);
+            } else {
+                this.trigger("filter:subject", { 'subject_id': subject_slug });
+                this.activateButton(subject_slug);
+            }
         },
 
         setupSubjectFilter: function (data) {
             this.activateButton(data.subject_id);
+        },
+
+        disabledButton: function(subject_slug) {
+            this.$('[data-value=' + subject_slug + ']').removeClass('active');
         },
 
         activateButton: function(subject_slug) {

@@ -132,13 +132,18 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             data_type: '.json'
         },
 
-        /* TODO currently we only ever extend the current filters, bu there may
+        /* TODO currently we only ever extend the current filters, but there may
         * be cases when we need to remove keys: in this case, set them to false? */
         setQuery: function(options) {
             /* setQuery stringifies all incoming options */
 
+            var self = this;
             _.map(options, function(value, key) {
-                if (_.isFunction(value.toString)) {
+                if (value === null) {
+                    self.unsetQuery([key]);
+                    delete options[key];
+
+                } else if (_.isFunction(value.toString)) {
                     options[key] = value.toString();
                 }
             });
@@ -148,13 +153,11 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             if (options.lat || options.lng) {
                 this.unsetQuery(['bbox_ne', 'bbox_sw']);
             }
-
             _.extend(this.server_api, options);
         },
 
         /* remove the given keys from the query */
         unsetQuery: function (keys) {
-
             this.server_api = _.omit(this.server_api, keys);
         },
 
