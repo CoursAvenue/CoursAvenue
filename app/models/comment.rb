@@ -97,7 +97,7 @@ class Comment < ActiveRecord::Base
     if self.structure and self.email
       _structure_id = self.structure.id
       _email        = self.email
-      if Student.where{(structure_id == _structure_id) & (email == _email)}.count > 0
+      if User.where{(structure_id == _structure_id) & (email == _email)}.count > 0
         self.status = 'accepted'
       end
     end
