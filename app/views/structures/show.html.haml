@@ -276,9 +276,9 @@
         }
         $('[href=#tab-medias]').click(function(){
             if ($('.media-gallery').length > 0) {
-                setTimeout(function(){
+                $('.media-gallery img').load(function(){
                   $('.media-gallery').masonry({ itemSelector: '.media__item' });
-                }, 5);
+                });
             }
         });
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });

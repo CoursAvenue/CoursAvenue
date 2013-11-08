@@ -31,12 +31,12 @@
         <td class="three-twelfths">{{ levels }}</td>
         <td class="one-twelfths text--right">
             {{#if is_individual}}
-                <i class="fa fa-user"></i>
+                <i data-behavior="tooltip" title="Cours individuel" data-placement="left" class="pointer fa fa-user"></i>
             {{else}}
-                <i class="fa fa-group"></i>
+                <i data-behavior="tooltip" title="Cours collectif" data-placement="left" class="pointer fa fa-group"></i>
             {{/if}}
             {{#if teaches_at_home}}
-                <i class="fa fa-home"></i>
+                <i data-behavior="tooltip" title="Cours à domicile" data-placement="left" class="pointer fa fa-home"></i>
             {{/if}}
         </td>
     </tr>
