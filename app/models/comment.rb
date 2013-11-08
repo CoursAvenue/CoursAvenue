@@ -97,7 +97,9 @@ class Comment < ActiveRecord::Base
     if self.structure and self.email
       _structure_id = self.structure.id
       _email        = self.email
-      if User.where{(structure_id == _structure_id) & (email == _email)}.count > 0
+      user          = User.where{email == _email}.first
+      user_id       = user.id if user
+      if user_id and CommentNotification.where{(structure_id == _structure_id) & (user_id == _user_id)}.count > 0
         self.status = 'accepted'
       end
     end
