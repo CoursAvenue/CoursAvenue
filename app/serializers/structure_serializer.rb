@@ -10,12 +10,16 @@ class StructureSerializer < ActiveModel::Serializer
              :subjects_count, :subjects, :courses_count, :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
-             :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :has_medias
+             :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :has_medias, :structure_type
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
   has_many :courses,  serializer: ShortSerializer
   has_many :medias,   serializer: ShortSerializer
+
+  def structure_type
+    I18n.t(object.structure_type) if object.structure_type.present?
+  end
 
   def funding_types
     object.funding_types.map{|funding| I18n.t(funding.name)}.join(', ')
