@@ -11,7 +11,7 @@ module StructuresHelper
       subject_name, subject_slug = subject_string.split(':')
       content_tag(:li) do
         content_tag((with_h3 ? :h3: :span), class: 'flush--bottom inherit-font-size') do
-          link_to subject_name, subject_structures_path(subject_slug), class: 'lbl milli inline subject-link'
+          link_to subject_name, structures_path(name: subject_name), class: 'lbl milli inline subject-link'
         end
       end
     end.join(' ').html_safe
@@ -22,7 +22,7 @@ module StructuresHelper
       subject_name, subject_slug = subject_string.split(':')
       content_tag(:li) do
         content_tag((with_h3 ? :h3: :span), class: 'flush--bottom inherit-font-size') do
-          link_to subject_name, subject_structures_path(subject_slug), class: 'lbl milli inline subject-link'
+          link_to subject_name, structures_path(name: subject_name), class: 'lbl milli inline subject-link'
         end
       end
     end.join(' ').html_safe
