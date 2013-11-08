@@ -17,13 +17,17 @@ class StructureSerializer < ActiveModel::Serializer
   has_many :courses,  serializer: ShortSerializer
   has_many :medias,   serializer: ShortSerializer
 
+  # Following functions has to return the same objects than the associated controllers
   def courses
     object.courses.active
   end
 
-  # Has to be the same than medias_controller
   def medias
     object.medias.videos_first.limit(9)
+  end
+
+  def comments
+    object.comments.accepted.limit(5)
   end
 
   def structure_type
@@ -85,10 +89,6 @@ class StructureSerializer < ActiveModel::Serializer
 
   def has_comments
     object.comments.count > 0
-  end
-
-  def comments
-    object.comments.limit(5)
   end
 
   def plannings_count
