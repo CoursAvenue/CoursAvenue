@@ -15,6 +15,24 @@
         <h2 class="epsilon inline v-top">
             <a href="{{ data_url }}">{{ name }}</a>
         </h2>
+        <div>
+            <a href="javascript:void(0);" class="flexbox__item blue" data-type="accordion-control" data-value="courses" data-attributes="data_url">
+                <i class="fa fa-arrow-circle-down"></i>
+                {{ plannings_count }}
+                {{ pluralize plannings_count 'séance' 'séances' }}
+                {{#if has_price_range}}
+                    entre
+                    <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                    à
+                    <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
+                {{else}}
+                    {{#if min_price_amount}}
+                        à partir de
+                        <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                    {{/if}}
+                {{/if}}
+            </a>
+        </div>
         {{#if audience}}
             <div>
                 <span class="milli">{{audience}}</span>
@@ -42,45 +60,15 @@
                 <span class="pointer lbl lbl--small" data-behavior="tooltip" title="{{funding_types}}">Financements spécifiques acceptés</span>
             </div>
         {{/if}}
-        {{#if medias_count}}
-            <div style="margin-top: 2px;">
-                {{!-- <a href="{{ data_url }}#tab-medias" class="lbl lbl--small lbl--blue" data-type="accordion-control" data-value="courses"> --}}
-                <a href="javascript:void(0)" class="lbl lbl--small lbl--blue" data-type="accordion-control" data-value="medias">
-                    {{#if images_count}}
-                        {{ images_count }} <i class="fa fa-picture-o"></i>
-                    {{/if}}
-                    {{#if images_count}}
-                        {{#if videos_count}}
-                            /
-                        {{/if}}
-                    {{/if}}
-                    {{#if videos_count}}
-                        {{ videos_count }} <i class="fa fa-youtube-play"></i>
-                    {{/if}}
-                </a>
-            </div>
-        {{/if}}
+
     </article><!--
- --><div class="flexbox__item two-tenths v-top soft--top text--center milli {{#if has_courses}}structure-item__button{{/if}}" data-type="accordion-control" data-value="courses" data-attributes="data_url">
-        <div class="alpha thin brand">{{ plannings_count }}</div>
-        {{ pluralize plannings_count 'séance' 'séances' }}
-        <div>
-            {{#if has_price_range}}
-                de
-                <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
-                à
-                <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
-            {{else}}
-                {{#if min_price_amount}}
-                    à partir de
-                    <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
-                {{/if}}
-            {{/if}}
-        </div>
+ --><div class="flexbox__item two-twelfths v-top soft--top text--center {{#if has_medias}}structure-item__button{{/if}}" data-type="accordion-control" data-value="medias" data-attributes="">
+        <div class="alpha thin brand">{{ medias_count }}</div>
+        <span class="milli">Photos & vidéos</span>
     </div><!--
  --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} two-twelfths v-top soft--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
         <div class="alpha thin brand">{{ comments_count }}</div>
-        avis <i class="lbc-brand-icon"></i>
+        <span class="milli">avis <i class="lbc-brand-icon"></i></span>
         <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
             <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
             <meta property="v:rating" itemprop="rating" content="{{ rating }}">
