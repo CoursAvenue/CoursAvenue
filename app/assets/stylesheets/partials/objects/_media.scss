@@ -3,7 +3,8 @@
 \*------------------------------------*/
 
 .media__item {
-    display: inline-block;
+    display : inline-block;
+    position: relative;
     iframe, object {
         width: 100%;
     }
@@ -12,6 +13,14 @@
     }
     img {
         width: 100%;
+    }
+    i {
+        position        : absolute;
+        top             : 6px;
+        right           : 6px;
+        background-color: white;
+        padding         : 4px;
+        @include border-radius(3px);
     }
 }
 
