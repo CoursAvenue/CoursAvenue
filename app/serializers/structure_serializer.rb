@@ -17,6 +17,15 @@ class StructureSerializer < ActiveModel::Serializer
   has_many :courses,  serializer: ShortSerializer
   has_many :medias,   serializer: ShortSerializer
 
+  def courses
+    object.courses.active
+  end
+
+  # Has to be the same than medias_controller
+  def medias
+    object.medias.videos_first.limit(9)
+  end
+
   def structure_type
     I18n.t(object.structure_type) if object.structure_type.present?
   end
@@ -37,10 +46,6 @@ class StructureSerializer < ActiveModel::Serializer
     object.medias.images.count + object.medias.videos.count
   end
 
-  # Has to be the same than medias_controller
-  def medias
-    object.medias.videos_first.limit(9)
-  end
 
   def videos_count
     (object.medias.videos.count == 0 ? nil : object.medias.videos.count)
