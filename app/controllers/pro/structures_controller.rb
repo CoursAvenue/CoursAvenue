@@ -263,7 +263,7 @@ class Pro::StructuresController < Pro::ProController
         return wizard
       end
     else
-      Wizard.all do |wizard|
+      Wizard.all.each do |wizard|
         unless wizard.completed?.call(@structure)
           session[:current_wizard_id] = wizard.id
           return wizard
