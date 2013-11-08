@@ -127,7 +127,7 @@ CoursAvenue::Application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations'}
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
     collection do
-      get 'unsubscribe/:signature' => 'students#unsubscribe', as: 'unsubscribe'
+      get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
     end
     member do
       get :choose_password
