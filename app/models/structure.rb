@@ -52,7 +52,7 @@ class Structure < ActiveRecord::Base
                   :subjects_string, :parent_subjects_string, # "Name of the subject,slug-of-the-subject;Name,slug"
                   # Attributes synced regarding the courses. Synced from the observers
                   # audience_ids is a coma separated string of audience_id
-                  :audience_ids, :gives_group_courses, :gives_individual_courses
+                  :audience_ids, :gives_group_courses, :gives_individual_courses, :plannings_count
   has_attached_file :logo,
                     styles: {
                       large: '500x500',
@@ -428,6 +428,7 @@ class Structure < ActiveRecord::Base
   #    :gives_group_courses
   #    :gives_individual_courses
   def update_synced_attributes
+    self.update_column :plannings_count,          self.plannings.count
     self.update_column :audience_ids,             self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
     self.update_column :gives_group_courses,      self.courses.select{|course| !course.is_individual? }.any?
     self.update_column :gives_individual_courses, self.courses.select(&:is_individual?).any?

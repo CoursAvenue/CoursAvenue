@@ -7,7 +7,7 @@ class StructureSerializer < ActiveModel::Serializer
 
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
              :logo_present, :logo_thumb_url, :child_subjects, :data_url,
-             :subjects_count, :subjects, :courses_count, :has_courses, :plannings_count, :more_than_five_comments, :has_comments,
+             :subjects_count, :subjects, :courses_count, :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :has_medias
@@ -31,6 +31,11 @@ class StructureSerializer < ActiveModel::Serializer
 
   def medias_count
     object.medias.images.count + object.medias.videos.count
+  end
+
+  # Has to be the same than medias_controller
+  def medias
+    object.medias.videos_first.limit(9)
   end
 
   def videos_count
@@ -77,12 +82,12 @@ class StructureSerializer < ActiveModel::Serializer
     object.comments.limit(5)
   end
 
-  def medias
-    (object.medias.videos.limit(5) + object.medias.images.limit(5))[0..4]
+  def plannings_count
+    object.plannings_count
   end
 
-  def plannings_count
-    object.plannings.count
+  def has_plannings
+    object.plannings_count > 0
   end
 
   def courses_count
