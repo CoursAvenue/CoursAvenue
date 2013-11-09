@@ -96,7 +96,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def has_plannings
-    object.plannings_count > 0
+    object.plannings_count > 0 if object.plannings_count
   end
 
   def courses_count
