@@ -63,6 +63,8 @@
         background-color: white;
         z-index         : 10;
         padding         : 0.5em;
+        border          : 1px solid #EEE;
+        border-top      : none;
         @include border-bottom-radius(3px);
     }
 .filtered-search-loader {
