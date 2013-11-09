@@ -9,7 +9,7 @@ class StructureSearch
     @search = Sunspot.search(Structure) do
       fulltext params[:name]                             if params[:name].present?
 
-      with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id]
+      with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id].present?
 
       # For the home screen link "Autres"
       if params[:exclude].present?

@@ -3,7 +3,7 @@
     .header-search-bar
       %div.search-input-wrapper
         %select.one-whole.epsilon{name: 'subject_id'}
-          %option Que voulez-vous faire ?
+          %option{value: ''} Que voulez-vous faire ?
           - Subject.stars.each do |subject|
             %option{value: subject.slug}= subject.name
           %option{value: 'other'} Autres

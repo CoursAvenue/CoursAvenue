@@ -32,6 +32,7 @@ class StructuresController < ApplicationController
   end
 
   def index
+    params.delete(:subject_id) if params[:subject_id].blank?
     if params[:subject_id] == 'other'
       params[:other] = true
       params.delete(:subject_id)
