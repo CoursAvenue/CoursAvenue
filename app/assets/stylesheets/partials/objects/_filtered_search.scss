@@ -61,7 +61,7 @@
         width           : 16em;
         margin-left     : -8em;
         background-color: white;
-        z-index         : 1;
+        z-index         : 10;
         padding         : 0.5em;
         @include border-bottom-radius(3px);
     }

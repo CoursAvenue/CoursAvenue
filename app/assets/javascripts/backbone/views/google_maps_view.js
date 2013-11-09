@@ -60,7 +60,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.map       = new google.maps.Map(this.mapView.el, this.mapOptions);
             this.map_annex = this.mapView.el;
 
-            this.update_live = $.cookie('map:update:live');
+            this.update_live = (typeof($.cookie('map:update:live')) === 'undefined' ? 'true' : $.cookie('map:update:live'));
             if (this.update_live === 'true') {
                 this.toggleLiveUpdate();
             }
@@ -154,7 +154,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         clearForUpdate: function() {
             if (!this.first_update) {
-                debugger
                 this.closeChildren();
                 this.first_update = false;
             }
