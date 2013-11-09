@@ -68,6 +68,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                     self[key].currentView.triggerMethod('click:outside', e);
                 });
             });
+
         },
 
         /* fires after the main region is first shown */

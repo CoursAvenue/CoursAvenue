@@ -17,9 +17,9 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         model: Models.Structure,
 
         /* even if we are bootstrapping, we still want to know the total
-        * number of pages and the grandTotal, for display purposes
-        * also, we need to grab the location.search and parse it, so
-        * that our searches are configured correctly */
+         * number of pages and the grandTotal, for display purposes
+         * also, we need to grab the location.search and parse it, so
+         * that our searches are configured correctly */
         initialize: function (models, options) {
             var self = this;
             // define the server API based on the load-time URI
@@ -27,6 +27,11 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.currentPage = parseInt(this.server_api.page, 10) || 1;
             this.server_api.page = function () { return self.currentPage; };
 
+            /* we need to reset the collection, or else some elements will
+             * be in the wrong order */
+            this.on('sync', function(e, response, xhr){
+                this.reset(response.structures);
+            });
             if (this.server_api.sort === undefined) {
                 this.server_api.sort = 'rating_desc';
             }

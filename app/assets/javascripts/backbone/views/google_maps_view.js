@@ -31,17 +31,18 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     });
 
     Views.GoogleMapsView = Marionette.CompositeView.extend({
-        template: 'backbone/templates/google_maps_view',
-        id:       'map-container',
-        itemView: Views.BlankView,
+        template:            'backbone/templates/google_maps_view',
+        id:                  'map-container',
+        itemView:            Views.BlankView,
         itemViewEventPrefix: 'marker',
-        markerView: Views.StructureMarkerView,
+        markerView:          Views.StructureMarkerView,
         markerViewChildren: {},
 
         /* provide options.mapOptions to override defaults */
         initialize: function(options) {
-            _.bindAll(this, 'announceBounds', 'hideLoader', 'showLoader');
+            _.bindAll(this, 'announceBounds');
 
+            this.first_update = true;
             this.mapOptions = {
                 center: new google.maps.LatLng(0, 0),
                 zoom: 12,
@@ -152,7 +153,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         clearForUpdate: function() {
-            this.closeChildren();
+            if (!this.first_update) {
+                debugger
+                this.closeChildren();
+                this.first_update = false;
+            }
         },
 
         appendHtml: function(collectionView, itemView, index){
@@ -229,24 +234,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 if (marker) { marker.deselect(); }
             });
         },
-
-        showLoader: function() {
-            var self = this;
-            self.$loader.show();
-            // Add setTimeout to prevent from appearing suddunly
-            setTimeout(function(){
-                self.$loader.addClass('visible');
-            });
-        },
-
-        hideLoader: function() {
-            var self = this;
-            self.$loader.removeClass('visible');
-            setTimeout(function(){
-                self.$loader.hide();
-            }, 300);
-        },
-
         serializeData: function () {
             return {
                 update_live: this.update_live === 'true'
