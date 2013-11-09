@@ -3,7 +3,7 @@
 - if @wizard
   #wizard.blue-box.islet.hidden.relative
     %a#close-wizard.closer{href: 'javascript:void(0)', data: { behavior: 'closer', el: '#wizard'}}
-      %i.fa.fa-remove
+      %i.fa.fa-times
     #wizard-form= render @wizard.partial
     - if @wizard.show_save
       %span.btn.btn--green#save-wizard Enregistrer
