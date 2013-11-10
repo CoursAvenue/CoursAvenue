@@ -31,6 +31,10 @@ class Pro::StructuresController < Pro::ProController
   def flyer
   end
 
+  def sticker
+    @sticker_demand = @structure.sticker_demands.build
+  end
+
   def widget
     @structure = Structure.friendly.find params[:id]
     respond_to do |format|

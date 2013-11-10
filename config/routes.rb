@@ -31,6 +31,7 @@ CoursAvenue::Application.routes.draw do
       resources :subjects
       resources :reservation_loggers, only: [:index, :destroy]
       resources :invited_teachers, only: [:index]
+      resources :sticker_demands, only: [:index]
       resources :structures, path: 'etablissements' do
         member do
           get   :update_widget_status
@@ -58,6 +59,7 @@ CoursAvenue::Application.routes.draw do
             get 'unsubscribe/:signature' => 'admins#unsubscribe', as: 'unsubscribe'
           end
         end
+        resources :sticker_demands, only: [:create], controller: 'structures/sticker_demands'
         resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
         resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments' do

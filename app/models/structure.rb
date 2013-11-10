@@ -83,6 +83,7 @@ class Structure < ActiveRecord::Base
   has_many :prices                    , through: :courses
   has_many :reservations,         as: :reservable
   has_many :comment_notifications
+  has_many :sticker_demands           , dependent: :destroy
 
   has_and_belongs_to_many :subjects
   has_and_belongs_to_many :users
