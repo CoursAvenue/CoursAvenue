@@ -194,13 +194,13 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
                 ne_latlng = this.server_api.bbox_ne.split(',');
 
                 sw_latlng = {
-                    lat: sw_latlng[0],
-                    lng: sw_latlng[1]
+                    lat: parseFloat(sw_latlng[0]),
+                    lng: parseFloat(sw_latlng[1])
                 };
 
                 ne_latlng = {
-                    lat: ne_latlng[0],
-                    lng: ne_latlng[1]
+                    lat: parseFloat(ne_latlng[0]),
+                    lng: parseFloat(ne_latlng[1])
                 };
             }
 
