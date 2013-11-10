@@ -5,6 +5,7 @@ class CreateStickerDemands < ActiveRecord::Migration
       t.integer :square_number
 
       t.boolean :sent, default: false
+      t.time :sent_at
 
       t.references :structure
       t.timestamps

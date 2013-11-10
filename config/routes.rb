@@ -58,7 +58,11 @@ CoursAvenue::Application.routes.draw do
             get 'unsubscribe/:signature' => 'admins#unsubscribe', as: 'unsubscribe'
           end
         end
-        resources :sticker_demands, only: [:create, :new, :index], controller: 'structures/sticker_demands'
+        resources :sticker_demands, only: [:create, :new, :index], controller: 'structures/sticker_demands' do
+          member do
+            put :update_sent
+          end
+        end
         resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
         resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments' do

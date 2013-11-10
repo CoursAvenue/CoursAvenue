@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Pro::Structures::StickerDemandsController < Pro::ProController
   before_action               :authenticate_pro_admin!
+  before_action               :authenticate_pro_super_admin!, only: [:sent]
   load_and_authorize_resource :structure, find_by: :slug
 
   def create
@@ -17,5 +18,12 @@ class Pro::Structures::StickerDemandsController < Pro::ProController
 
   def new
     @sticker_demand = @structure.sticker_demands.build
+  end
+
+  def update_sent
+    @sticker_demand      = StickerDemand.find params[:id]
+    @sticker_demand.update_column :sent, true
+    @sticker_demand.update_column :sent_at, Time.now
+    redirect_to pro_sticker_demands_path
   end
 end

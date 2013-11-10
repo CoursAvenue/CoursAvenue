@@ -15,6 +15,7 @@
         %td= sticker_demand.square_number
         %td
           - if sticker_demand.sent?
-            Envoyé
+            Envoyé le
+            = l(sticker_demand.sent_at, format: :date)
           - else
             En cours de traitement

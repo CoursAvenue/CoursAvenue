@@ -404,6 +404,7 @@ ActiveRecord::Schema.define(version: 20131110151021) do
     t.integer  "round_number"
     t.integer  "square_number"
     t.boolean  "sent",          default: false
+    t.time     "sent_at"
     t.integer  "structure_id"
     t.datetime "created_at"
     t.datetime "updated_at"
