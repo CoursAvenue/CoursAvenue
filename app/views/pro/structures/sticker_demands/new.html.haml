@@ -6,16 +6,17 @@
     Les autocollants sont en cours d'impression
   %p Nous vous contacterons dès qu'ils seront imprimés, promis !
 
-= simple_form_for [:pro, @structure, @sticker_demand] do |f|
-  .form-white-box
-    = f.error_notification
-    .text--center
-      .soft-half--sides.inline-block= image_tag 'pro/stickers/round.png', height: 200
-      .soft-half--sides.inline-block= image_tag 'pro/stickers/square.png', height: 200
+- if current_pro_admin.super_admin?
+  = simple_form_for [:pro, @structure, @sticker_demand] do |f|
+    .form-white-box
+      = f.error_notification
+      .text--center
+        .soft-half--sides.inline-block= image_tag 'pro/stickers/round.png', height: 200
+        .soft-half--sides.inline-block= image_tag 'pro/stickers/square.png', height: 200
 
-    %h5.flush
-      Combien d'autocollant voulez vous ?
-    = f.input :round_number, as: :select, collection: 0..3, label: "Nombre d'autocollants ronds", include_blank: false
-    = f.input :square_number, as: :select, collection: 0..3, label: "Nombre d'autocollants carrés", include_blank: false
-    .form-actions
-      = f.submit 'Demander mes autocollants', class: 'btn btn--green'
+      %h5.flush
+        Combien d'autocollant voulez vous ?
+      = f.input :round_number, as: :select, collection: 0..3, label: "Nombre d'autocollants ronds", include_blank: false
+      = f.input :square_number, as: :select, collection: 0..3, label: "Nombre d'autocollants carrés", include_blank: false
+      .form-actions
+        = f.submit 'Demander mes autocollants', class: 'btn btn--green'
