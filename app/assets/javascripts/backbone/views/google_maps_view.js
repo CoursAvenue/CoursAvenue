@@ -40,6 +40,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* provide options.mapOptions to override defaults */
         initialize: function(options) {
+            var self = this;
             _.bindAll(this, 'announceBounds');
 
             this.first_update = true;
@@ -57,8 +58,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                     'class': 'map_container'
                 }
             });
+            this.bbox      = options.collection.getLatLngBounds().bbox;
             this.map       = new google.maps.Map(this.mapView.el, this.mapOptions);
             this.map_annex = this.mapView.el;
+
+            /* This is to prevent the first bounds_changed event
+             * The tilesloaded event is triggered after bounds_changed */
+            this.bounds_has_changed_for_first_time = true;
+            google.maps.event.addListenerOnce(this.map, 'tilesloaded', function(){
+                self.bounds_has_changed_for_first_time = false;
+            });
 
             this.update_live = (typeof($.cookie('map:update:live')) === 'undefined' ? 'true' : $.cookie('map:update:live'));
             if (this.update_live === 'true') {
@@ -105,10 +114,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             }
         },
 
-        announceBounds: function (e) {
-            if (e) { // we got here by a click
-                e.preventDefault();
-            }
+        announceBounds: function (e, a, b) {
+            // we got here by a click
+            if (e) { e.preventDefault(); }
 
             var bounds    = this.map.getBounds();
             var southWest = bounds.getSouthWest();
@@ -121,8 +129,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 lat: center.lat(),
                 lng: center.lng()
             }
-
-            this.trigger('map:bounds', filters);
+            if (!this.bounds_has_changed_for_first_time) {
+                this.trigger('map:bounds', filters);
+            }
 
             return false;
         },
