@@ -8,7 +8,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         onRender: function() {
             this.$('a').fancybox({ helpers : { media : {} } });
-            this.$('img').load(function(){
+            this.$('img, iframe').load(function(){
                 $('.media-gallery').masonry({ itemSelector: '.media__item' });
             });
         }
