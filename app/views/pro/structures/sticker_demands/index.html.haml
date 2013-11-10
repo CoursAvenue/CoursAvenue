@@ -1,0 +1,20 @@
+= side_menu_currently_at 'Communiquer'
+= render partial: 'pro/structures/communication_tabs', locals: {current: 'sticker-index'}
+
+%h3 Suivi de l'envoi de mes autocollants
+%table.white-box.table--striped
+  %thead
+    %tr
+      %th Nombre d'autocollant rond
+      %th Nombre d'autocollant rectangulaire
+      %th Status
+  %tbody
+    - @structure.sticker_demands.each do |sticker_demand|
+      %tr
+        %td= sticker_demand.round_number
+        %td= sticker_demand.square_number
+        %td
+          - if sticker_demand.sent?
+            Envoyé
+          - else
+            En cours de traitement

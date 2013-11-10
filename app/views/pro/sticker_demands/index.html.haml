@@ -1,2 +1,15 @@
-= @sticker_demands.each do |sticker_demand|
-  = debug sticker_demand
+= side_menu_currently_at 'Demande de stickers'
+
+%table
+  %thead
+    %tr
+      %th Structure
+      %th Rond
+      %th Carré
+      %th
+  %tbody
+    - @sticker_demands.each do |sticker_demand|
+      %tr
+        %td= link_to sticker_demand.strucure.name, pro_structure_path(sticker_demand.strucure)
+        %td= sticker_demand.round_number
+        %td= sticker_demand.square_number

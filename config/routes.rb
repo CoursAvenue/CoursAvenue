@@ -45,7 +45,6 @@ CoursAvenue::Application.routes.draw do
           get   :coursavenue_recommendations, path: 'recommander-coursavenue'
           post  :recommend_friends
           post  :update
-          get   :sticker
           get   :widget
           match :widget_ext, controller: 'structures', via: [:options, :get], as: 'widget_ext'
         end
@@ -59,7 +58,7 @@ CoursAvenue::Application.routes.draw do
             get 'unsubscribe/:signature' => 'admins#unsubscribe', as: 'unsubscribe'
           end
         end
-        resources :sticker_demands, only: [:create], controller: 'structures/sticker_demands'
+        resources :sticker_demands, only: [:create, :new, :index], controller: 'structures/sticker_demands'
         resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
         resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments' do

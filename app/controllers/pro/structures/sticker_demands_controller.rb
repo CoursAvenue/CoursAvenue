@@ -5,9 +5,17 @@ class Pro::Structures::StickerDemandsController < Pro::ProController
 
   def create
     @structure      = Structure.friendly.find params[:structure_id]
-
+    @sticker_demand = @structure.sticker_demands.build params[:sticker_demand]
     respond_to do |format|
-      format.html { redirect_to params[:redirect_to] || recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés.': nil)}
+      if @sticker_demand.save
+        format.html { redirect_to pro_structure_sticker_demands_path(@structure), notice: 'Votre demande à bien été transmise'}
+      else
+        format.html { render action: 'new' }
+      end
     end
+  end
+
+  def new
+    @sticker_demand = @structure.sticker_demands.build
   end
 end
