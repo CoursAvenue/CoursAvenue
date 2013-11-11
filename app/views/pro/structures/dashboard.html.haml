@@ -64,13 +64,14 @@
         %table#progress-comments.push-half--right.flush--bottom
           %tbody
             %tr{style: 'background: #e7e1da;'}
-              - 15.times do |index|
+              - @structure.comments.accepted.limit(15).order('created_at ASC').each do |comment|
                 %td.text--center.hard{style: "width: 6.6%;"}
-                  - if @structure.comments.accepted.count > index
-                    .hidden.bg-green{title: "<div style='font-size: 12px;'>#{@structure.comments.accepted[index].author_name} le #{I18n.l(@structure.comments.accepted[index].created_at, format: :date)}<br><br>#{@structure.comments.accepted[index].content.html_safe}<div>", data: {behavior: 'tooltip', html: 'true'}}
-                      %a{href: 'javascript:void(0)'}
-                        %i.fa.fa-comment.white
-                  - else
+                  .hidden.bg-green{title: "<div style='font-size: 12px;'>#{comment.author_name} le #{I18n.l(comment.created_at, format: :date)}<br><br>#{comment.content.html_safe}<div>", data: {behavior: 'tooltip', html: 'true'}}
+                    %a{href: 'javascript:void(0)'}
+                      %i.fa.fa-comment.white
+              - if @structure.comments.accepted.count < 15
+                - (15 -@structure.comments.accepted.count).times do |index|
+                  %td.text--center.hard{style: "width: 6.6%;"}
                     &nbsp;
         %table.push-half--right
           %thead

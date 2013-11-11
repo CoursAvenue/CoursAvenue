@@ -2,6 +2,8 @@
 class CommentsController < ApplicationController
   include CommentsHelper
 
+  # TODO:
+  # To be refactored...
   def create
     @commentable  = find_commentable
     @comment      = @commentable.comments.build params[:comment]
@@ -20,8 +22,12 @@ class CommentsController < ApplicationController
       elsif (user = User.where{email == default_email}.first)
         new_user_email = params[:comment][:email]
         # If the new user email already exists
+        # Delete the user, update the comment notification
         if (new_user = User.where{email == new_user_email}.first)
-          user.delete unless user.active?
+          if !user.active?
+            user.comment_notifications.each {|comment_notif| comment_notif.user = new_user; comment_notif.save}
+            user.delete
+          end
           user = new_user
         else
           user.update_attribute :email, params[:comment][:email]
