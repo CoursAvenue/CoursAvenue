@@ -6,20 +6,11 @@ module PlanningsHelper
     number_to_currency(course.price)
   end
 
-  def label_method_for_collection course_type
-    case course_type
-    when 'Course::Lesson'
-      return lambda do |planning|
-        "#{week_day_for planning} à #{l(planning.start_time, format: :short)} #{(planning.teacher.present? ? "par #{planning.teacher.name}" : '')} #{(planning.promotion.present? ? "avec #{planning.promotion}% !" : '')}"
-      end
-    when 'Course::Workshop'
-      return lambda do |planning|
-        "#{l(planning.start_date, format: :semi_long).capitalize} à #{l(planning.start_time, format: :short)} #{(planning.teacher.present? ? "par #{planning.teacher.name}" : '')} #{(planning.promotion.present? ? "avec #{planning.promotion}% !" : '')}"
-      end
-    when 'Course::Training'
-      return lambda do |planning|
-        "#{l(planning.start_date, format: :semi_long).capitalize} à #{l(planning.start_time, format: :short)} #{(planning.teacher.present? ? "par #{planning.teacher.name}" : '')} #{(planning.promotion.present? ? "avec #{planning.promotion}% !" : '')}"
-      end
+  def planning_date_for(planning)
+    if planning.end_date and planning.start_date != planning.end_date
+      "Du #{I18n.l(planning.start_date, format: :semi_short)} au #{I18n.l(planning.end_date, format: :semi_short)}"
+    else
+      "#{I18n.l(planning.start_date, format: :semi_short)}"
     end
   end
 

@@ -1,10 +1,14 @@
 class PlanningSerializer < ActiveModel::Serializer
   include PlanningsHelper
 
-  attributes :week_day, :duration, :time_slot, :levels, :audiences, :price
+  attributes :date, :duration, :time_slot, :levels, :audiences, :price
 
-  def week_day
-    week_day_for(object)
+  def date
+    if object.course.is_lesson?
+      week_day_for(object)
+    else
+      planning_date_for object
+    end
   end
 
   def duration
