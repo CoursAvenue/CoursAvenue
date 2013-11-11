@@ -18,8 +18,14 @@ class CommentsController < ApplicationController
         user = User.where{email == default_email}.first
       # If the user changes his email, change the email of the user
       elsif (user = User.where{email == default_email}.first)
-        user.update_attribute :email, params[:comment][:email]
-        # Doesn't validate in case the user has no name and therefore will not be valid
+        new_user_email = params[:comment][:email]
+        # If the new user email already exists
+        if (new_user = User.where{email == new_user_email}.first)
+          user.delete unless user.active?
+          user = new_user
+        else
+          user.update_attribute :email, params[:comment][:email]
+        end
       end
       user.update_attribute(:name, params[:comment][:author_name]) if user.present? and params[:comment][:author_name].present?
       @comment.user = user
