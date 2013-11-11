@@ -13,7 +13,7 @@
     = simple_format teacher.description
   - if can? :destroy, teacher
     %br
-    = link_to edit_pro_structure_teacher_path(@structure, teacher), title: 'Modifier ce professeur', class: 'fancybox.ajax btn btn--small btn--orange', data: {behavior: 'modal'} do
+    = link_to edit_pro_structure_teacher_path(@structure, teacher), title: 'Modifier ce professeur', class: 'fancybox.ajax btn btn--small btn--orange', data: {behavior: 'modal', width: 700} do
       %i.fa.fa-pencil
       Modifier ce professeur
     &nbsp;
