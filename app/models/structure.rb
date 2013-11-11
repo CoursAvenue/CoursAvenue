@@ -75,7 +75,6 @@ class Structure < ActiveRecord::Base
   has_many :invited_teachers          , dependent: :destroy
   has_many :medias                    , -> { order('created_at ASC') },  as: :mediable
   has_many :comments                  , -> { order('created_at DESC') }, as: :commentable, dependent: :destroy
-  has_many :students                  , dependent: :destroy
   has_many :teachers                  , dependent: :destroy
   has_many :courses                   , dependent: :destroy
   has_many :plannings                 , through: :courses

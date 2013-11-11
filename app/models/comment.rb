@@ -47,7 +47,7 @@ class Comment < ActiveRecord::Base
     when 15
       AdminMailer.delay.congratulate_for_fifteenth_comment(self)
     end
-    self.notify_student
+    self.notify_user
   end
 
   def decline!
@@ -106,7 +106,7 @@ class Comment < ActiveRecord::Base
     self.status ||= 'pending'
   end
 
-  def notify_student
+  def notify_user
     UserMailer.delay.comment_has_been_validated(self)
   end
 
