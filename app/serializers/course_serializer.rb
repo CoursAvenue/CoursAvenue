@@ -42,6 +42,6 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def subjects
-    truncate(object.subjects.map(&:name).join(', '), length: 50)
+    truncate(object.subjects.map(&:name).join(', '), length: 70)
   end
 end

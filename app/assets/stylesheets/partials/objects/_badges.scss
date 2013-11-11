@@ -1,7 +1,7 @@
 .free-trial-badge {
     position         : absolute;
-    top: -5px;
-    left: -5px;
+    top              : -5px;
+    left             : -5px;
     width            : 5em;
     height           : 100%;
     background-repeat: no-repeat;
@@ -13,6 +13,24 @@
         -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('badges/free_trial.png')}',sizingMethod='scale')";
     }
 }
+
+.promotion-badge {
+    position           : absolute;
+    bottom             : -5px;
+    right              : -5px;
+    width              : 5em;
+    height             : 100%;
+    background-repeat  : no-repeat;
+    background-image   : asset-url('badges/promotion.png');
+    background-position: bottom;
+    @include background-size(100%);
+    @media \0screen {
+        background: none;
+        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('badges/promotion.png')}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('badges/promotion.png')}',sizingMethod='scale')";
+    }
+}
+
 .badge {
     margin          : 0;
     position        : absolute;

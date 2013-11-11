@@ -52,7 +52,7 @@ class Structure < ActiveRecord::Base
                   :subjects_string, :parent_subjects_string, # "Name of the subject,slug-of-the-subject;Name,slug"
                   # Attributes synced regarding the courses. Synced from the observers
                   # audience_ids is a coma separated string of audience_id
-                  :audience_ids, :gives_group_courses, :gives_individual_courses, :plannings_count
+                  :audience_ids, :gives_group_courses, :gives_individual_courses, :plannings_count, :has_promotion
   has_attached_file :logo,
                     styles: {
                       large: '500x500',
@@ -423,17 +423,6 @@ class Structure < ActiveRecord::Base
     widget_status == 'installed'
   end
 
-  # Synced attributes are:
-  #    :audience_ids
-  #    :gives_group_courses
-  #    :gives_individual_courses
-  def update_synced_attributes
-    self.update_column :plannings_count,          self.plannings.count
-    self.update_column :audience_ids,             self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
-    self.update_column :gives_group_courses,      self.courses.select{|course| !course.is_individual? }.any?
-    self.update_column :gives_individual_courses, self.courses.select(&:is_individual?).any?
-  end
-
   def audiences
     return [] unless audience_ids.present?
     self.audience_ids.map{ |audience_id| Audience.find(audience_id) }
@@ -444,11 +433,22 @@ class Structure < ActiveRecord::Base
     read_attribute(:audience_ids).split(',').map(&:to_i) if read_attribute(:audience_ids)
   end
 
-  private
+  # Synced attributes are:
+  #    :audience_ids
+  #    :gives_group_courses
+  #    :gives_individual_courses
+  def update_synced_attributes
+    self.update_column :plannings_count,          self.plannings.count
+    self.update_column :audience_ids,             self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
+    self.update_column :gives_group_courses,      self.courses.select{|course| !course.is_individual? }.any?
+    self.update_column :gives_individual_courses, self.courses.select(&:is_individual?).any?
+    self.update_column :has_promotion,            self.prices.select{|p| p.promo_amount.present?}.any?
+    self.set_min_and_max_price
+  end
 
   def set_min_and_max_price
-    best_price           = prices.where{(type != 'Price::Registration') & (amount > 0)}.order('promo_amount ASC, amount ASC').first
-    most_expensive_price = prices.where{(type != 'Price::Registration') & (amount > 0)}.order('promo_amount DESC, amount DESC').first
+    best_price           = prices.where{(type != 'Price::Registration') & (amount > 0)}.order('amount ASC').first
+    most_expensive_price = prices.where{(type != 'Price::Registration') & (amount > 0)}.order('amount DESC').first
     self.update_column :min_price_id, best_price.try(:id)
     if best_price != most_expensive_price
       self.update_column :max_price_id, most_expensive_price.try(:id)
@@ -456,6 +456,8 @@ class Structure < ActiveRecord::Base
       self.update_column :max_price_id, nil
     end
   end
+
+  private
 
   def slug_candidates
     [

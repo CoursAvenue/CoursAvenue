@@ -280,7 +280,7 @@ class Course < ActiveRecord::Base
   end
 
   def max_price
-    prices.where{amount >= 0}.order('promo_amount DESC, amount DESC').first.try(:amount)
+    prices.where{amount >= 0}.order('amount DESC').first.try(:amount)
   end
 
   def time_slots
@@ -349,11 +349,11 @@ class Course < ActiveRecord::Base
   end
 
   def best_price
-    self.prices.where{(type != 'Price::Registration') & (amount > 0)}.order('promo_amount ASC, amount ASC').first
+    self.prices.where{(type != 'Price::Registration') & (amount > 0)}.order('amount ASC').first
   end
 
   def most_expansive_price
-    self.prices.where{(type != 'Price::Registration') & (amount > 0)}.order('promo_amount ASC, amount DESC').first
+    self.prices.where{(type != 'Price::Registration') & (amount > 0)}.order('amount DESC').first
   end
 
   def approximate_price_per_course

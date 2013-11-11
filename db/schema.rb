@@ -200,6 +200,13 @@ ActiveRecord::Schema.define(version: 20131110151021) do
 
   add_index "courses_subjects", ["course_id", "subject_id"], name: "index_courses_subjects_on_course_id_and_subject_id", using: :btree
 
+  create_table "courses_users", id: false, force: true do |t|
+    t.integer "course_id"
+    t.integer "user_id"
+  end
+
+  add_index "courses_users", ["course_id", "user_id"], name: "index_courses_users_on_course_id_and_user_id", using: :btree
+
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
     t.integer  "attempts",   default: 0
@@ -318,6 +325,13 @@ ActiveRecord::Schema.define(version: 20131110151021) do
 
   add_index "places", ["location_id", "structure_id"], name: "index_places_on_location_id_and_structure_id", using: :btree
 
+  create_table "places_users", id: false, force: true do |t|
+    t.integer "place_id"
+    t.integer "user_id"
+  end
+
+  add_index "places_users", ["place_id", "user_id"], name: "index_places_users_on_place_id_and_user_id", using: :btree
+
   create_table "plannings", force: true do |t|
     t.date     "start_date"
     t.date     "end_date"
@@ -346,6 +360,13 @@ ActiveRecord::Schema.define(version: 20131110151021) do
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
   add_index "plannings", ["level_ids"], name: "index_plannings_on_level_ids", using: :btree
   add_index "plannings", ["week_day"], name: "index_plannings_on_week_day", using: :btree
+
+  create_table "plannings_users", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "planning_id"
+  end
+
+  add_index "plannings_users", ["planning_id", "user_id"], name: "index_plannings_users_on_planning_id_and_user_id", using: :btree
 
   create_table "prices", force: true do |t|
     t.string   "libelle"

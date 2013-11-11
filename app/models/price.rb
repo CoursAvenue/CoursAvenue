@@ -11,7 +11,6 @@ class Price < ActiveRecord::Base
   attr_accessible :libelle, :amount, :promo_amount, :nb_courses, :info, :course, :number, :type, :duration, :promo_percentage
 
   before_save :remove_zeros
-  after_save :update_structure_min_and_max_price
 
   has_one :structure, through: :course
 
@@ -77,10 +76,6 @@ class Price < ActiveRecord::Base
   end
 
   private
-
-  def update_structure_min_and_max_price
-    self.structure.send(:set_min_and_max_price)
-  end
 
   def remove_zeros
     if promo_amount == 0

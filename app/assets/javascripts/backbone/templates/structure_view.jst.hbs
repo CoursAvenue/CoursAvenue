@@ -9,6 +9,9 @@
             {{#if has_free_trial_course}}
                 <div class="free-trial-badge"></div>
             {{/if}}
+            {{#if has_promotion}}
+                <div class="promotion-badge"></div>
+            {{/if}}
         </div>
     </div><!--
  --><article class="flexbox__item four-tenths v-top soft-half hard--right">
@@ -68,14 +71,13 @@
         {{/if}}
 
     </article><!--
- --><div class="flexbox__item two-twelfths v-middle text--center {{#if has_medias}}structure-item__button{{/if}}" data-type="accordion-control" data-value="medias" data-attributes="data_url">
+ --><div class="flexbox__item two-twelfths v-middle text--center {{#if has_medias}}structure-item__button{{/if}}" {{#if has_medias}} data-type="accordion-control" data-value="medias" data-attributes="data_url"{{/if}}>
         <div class="alpha thin brand">{{ medias_count }}</div>
-
         <span class="milli">
             {{ pluralize medias_count 'Photo / vidéo' 'Photos & vidéos' }}
         </span>
     </div><!--
- --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} two-twelfths v-middle text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
+ --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} two-twelfths v-middle text--center" {{#if has_comments}}data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments"{{/if}}>
         <div class="alpha thin brand">{{ comments_count }}</div>
         <span class="milli">avis <i class="lbc-brand-icon"></i></span>
         <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
