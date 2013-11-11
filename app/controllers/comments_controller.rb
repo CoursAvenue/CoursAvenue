@@ -24,10 +24,6 @@ class CommentsController < ApplicationController
         # If the new user email already exists
         # Delete the user, update the comment notification
         if (new_user = User.where{email == new_user_email}.first)
-          if !user.active?
-            user.comment_notifications.each {|comment_notif| comment_notif.user = new_user; comment_notif.save}
-            user.delete
-          end
           user = new_user
         else
           user.update_attribute :email, params[:comment][:email]

@@ -15,7 +15,7 @@
         %td= l(comment_notification.created_at)
         %td.text--center{data: {value: comment_notification.complete? ? '0' : '1'}}
           - if comment_notification.complete?
-            %i.fa.fa-check
+            %i.fa.fa-check-square-o
 
 
 = content_for :scripts do

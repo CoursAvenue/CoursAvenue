@@ -24,39 +24,39 @@
               #{@profile_percentage}%
         %ul.no-bullet-list
           %li
-            %i.fa.fa-check
+            %i.fa.fa-check-square-o
             %span.line-through Créer mon profil
           %li
             - if @structure.profile_completed?
-              %i.fa.fa-check
+              %i.fa.fa-check-square-o
               %span.line-through Compléter mes informations générales
             - else
               = link_to edit_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
-                %i.fa.fa-check-empty
+                %i.fa.fa-square-o
                 Compléter mes informations générales
           %li
             - if @comments.any?
-              %i.fa.fa-check
+              %i.fa.fa-check-square-o
               %span.line-through Demander des recommandations à mes élèves
             - else
               = link_to recommendations_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
-                %i.fa.fa-check-empty
+                %i.fa.fa-square-o
                 Demander des recommandations à mes élèves
           %li
             - if @structure.medias.any?
-              %i.fa.fa-check
+              %i.fa.fa-check-square-o
               %span.line-through Mettre en ligne les photos et vidéos de mes cours
             - else
               = link_to pro_structure_medias_path(@structure), class: 'profile-task-uncomplete' do
-                %i.fa.fa-check-empty
+                %i.fa.fa-square-o
                 Mettre en ligne les photos et vidéos de mes cours
           %li
             - if @structure.courses.active.count > 0
-              %i.fa.fa-check
+              %i.fa.fa-check-square-o
               %span.line-through Renseigner mes cours et mon planning
             - else
               = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
-                %i.fa.fa-check-empty
+                %i.fa.fa-square-o
                 Renseigner mes cours et mon planning
     .grid__item.one-half>
       .soft-half--top.soft--right
@@ -229,9 +229,9 @@
         });
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
         $('a.profile-task-uncomplete').hover(function() {
-            $(this).find('i').removeClass('fa fa-check-empty').addClass('fa fa-check');
+            $(this).find('i').removeClass('fa fa-square-o').addClass('fa fa-check-square-o');
         }, function() {
-            $(this).find('i').removeClass('fa fa-check').addClass('fa fa-check-empty');
+            $(this).find('i').removeClass('fa fa-check-square-o').addClass('fa fa-square-o');
         });
         $('#profile-progress-bar').animate({
             width: '#{@profile_percentage}%'
