@@ -1,0 +1,93 @@
+<div class="flexbox white-box structure-item">
+    <div class="flexbox__item two-tenths">
+        <div class="relative">
+            {{#if logo_present}}
+                <a href="{{ data_url }}" class="block">
+                    <img src="{{ logo_thumb_url }}" class="block one-whole" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
+                </a>
+            {{/if}}
+            {{#if has_free_trial_course}}
+                <div class="free-trial-badge"></div>
+            {{/if}}
+            {{#if medias_count}}
+                <a href="{{ data_url }}#tab-medias" class="structure-item__medias-count">
+                    {{#if images_count}}
+                        {{ images_count }} <i class="fa fa-picture-o"></i>
+                    {{/if}}
+                    {{#if images_count}}
+                        {{#if videos_count}}
+                            /
+                        {{/if}}
+                    {{/if}}
+                    {{#if videos_count}}
+                        {{ videos_count }} <i class="fa fa-youtube-play"></i>
+                    {{/if}}
+                </a>
+            {{/if}}
+        </div>
+    </div><!--
+ --><article class="flexbox__item four-tenths v-top soft-half">
+        <h2 class="epsilon inline v-top">
+            <a href="{{ data_url }}">{{ name }}</a>
+        </h2>
+        {{#if audience}}
+            <div>
+                <span class="milli">{{audience}}</span>
+            </div>
+        {{/if}}
+        <div>
+        {{#if gives_individual_courses}}
+            <span title="Cours particulier" data-behavior="tooltip" class="pointer">
+                <i class="fa fa-user"></i>
+            </span>
+        {{/if}}
+        {{#if gives_group_courses}}
+            <span title="Cours collectif" data-behavior="tooltip" class="pointer">
+                <i class="fa fa-group"></i>
+            </span>
+        {{/if}}
+        {{#if teaches_at_home}}
+            <span title="Cours à domicile {{#if teaches_at_home_radius}}(dans un rayon de {{teaches_at_home_radius}}km){{/if}}" data-behavior="tooltip" class="pointer">
+                <i class="fa fa-home"></i>
+            </span>
+        {{/if}}
+        </div>
+        {{#if funding_types}}
+            <div>
+                <span class="pointer lbl lbl--small" data-behavior="tooltip" title="{{funding_types}}">Financements spécifiques acceptés</span>
+            </div>
+        {{/if}}
+    </article><!--
+ --><div class="flexbox__item two-tenths v-top soft--top text--center milli {{#if has_courses}}structure-item__button{{/if}}" data-type="accordion-control" data-value="courses" data-attributes="data_url">
+        <div class="alpha thin brand">{{ plannings_count }}</div>
+        {{ pluralize plannings_count 'séance' 'séances' }}
+        <div>
+            {{#if has_price_range}}
+                de
+                <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                à
+                <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
+            {{else}}
+                {{#if min_price_amount}}
+                    à partir de
+                    <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                {{/if}}
+            {{/if}}
+        </div>
+    </div><!--
+ --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} two-twelfths v-top soft--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
+        <div class="alpha thin brand">{{ comments_count }}</div>
+        avis <i class="lbc-brand-icon"></i>
+        <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
+            <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
+            <meta property="v:rating" itemprop="rating" content="{{ rating }}">
+            <meta itemprop="count" content="{{ comments_count }}">
+            <meta itemprop="name" content="{{ name }}">
+            <meta itemprop="street-address" content="{{ street }}">
+            <meta itemprop="postal-code" content="{{ zip_code }}">
+        </div>
+    </div>
+</div>
+
+
+

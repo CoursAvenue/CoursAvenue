@@ -4,7 +4,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
     /* TODO break this out into its own file (it got big...) */
     Views.InfoBoxView = Backbone.Marionette.ItemView.extend({
-        template: 'backbone/templates/structure_view',
+        template: 'backbone/templates/info_box_view',
 
         initialize: function (options) {
             var defaultOptions = {
