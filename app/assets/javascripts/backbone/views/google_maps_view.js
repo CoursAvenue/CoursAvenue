@@ -74,9 +74,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             }
 
             /* one info window that gets populated on each marker click */
-            this.infoWindow = new google.maps.InfoWindow({});
+            this.infoBox = new InfoBox({});
 
-            google.maps.event.addListener(this.infoWindow, 'closeclick', _.bind(this.unlockCurrentMarker, this));
+            google.maps.event.addListener(this.infoBox, 'closeclick', _.bind(this.unlockCurrentMarker, this));
         },
 
         ui: {
@@ -271,18 +271,18 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         hideInfoWindow: function () {
             this.current_info_marker = undefined;
-            this.infoWindow.close();
+            this.infoBox.close();
         },
 
         showInfoWindow: function (view) {
             var marker = this.markerViewChildren[this.current_info_marker];
 
-            if (this.infoWindow) {
-                this.infoWindow.close();
+            if (this.infoBox) {
+                this.infoBox.close();
             }
 
-            this.infoWindow.setContent(view.$el.html());
-            this.infoWindow.open(marker.map, marker.gOverlay);
+            this.infoBox.setContent(view.$el.html());
+            this.infoBox.open(marker.map, marker.gOverlay);
         },
 
         hideLoader: function() {
