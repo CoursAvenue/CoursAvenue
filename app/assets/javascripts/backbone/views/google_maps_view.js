@@ -3,39 +3,46 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     Views.BlankView = Marionette.ItemView.extend({ template: "" });
 
     /* TODO break this out into its own file (it got big...) */
-    Views.StructureMarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
+    Views.InfoBoxView = Backbone.Marionette.ItemView.extend({
+        template: 'backbone/templates/structure_view',
+
         initialize: function (options) {
+            var defaultOptions = {
+                alignBottom: true,
+                pixelOffset: new google.maps.Size(-140, 0),
+                boxStyle: {
+                    width: "280px"
+                },
+                closeBoxMargin: "2px",
+            };
 
-            /* TODO this setup should be done in the constructor, in the library, in another repo far, far away */
-            this.$el = $("<div class='map-marker-image'><a href='javascript:void(0)'></a></div>");
-            this.overlayOptions.content = this.$el[0];
+            options = _.extend(defaultOptions, options);
+
+            this.infoBox = new InfoBox(options);
+            google.maps.event.addListener(this.infoBox, 'closeclick', _.bind(this.closeClick, this));
         },
 
-        mapEvents: {
-            'mouseover': 'select',
-            'mouseout':  'deselect'
+        onClose: function () {
+            this.infoBox.close();
         },
 
-        /* TODO stupidly named event that the library forces us to use *barf* */
-        toggleSelect: function (e) {
-            this.setSelectLock(true);
-            this.trigger('focus', e);
+        closeClick: function () {
+            this.trigger('closeClick');
         },
 
-        select: function (e) {
-            if (!this.select_lock) {
-                this.$el.addClass('active');
-            }
+        open: function (map, marker) {
+            this.infoBox.open(map, marker);
         },
 
-        deselect: function (e) {
-            if (!this.select_lock) {
-                this.$el.removeClass('active');
-            }
+        setContent: function (model) {
+            this.model = model;
+            this.render();
+
+            this.infoBox.setContent(this.el);
         },
 
-        setSelectLock: function (bool) {
-            this.select_lock = bool;
+        getInfoBox: function () {
+            return this.infoBox;
         }
     });
 
@@ -75,20 +82,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             /* one info window that gets populated on each marker click */
 
-            var defaultOptions = {
-                alignBottom: true,
-                pixelOffset: new google.maps.Size(-140, 0),
-                boxStyle: {
-                    width: "280px"
-                },
-                closeBoxMargin: "2px",
-            };
+            this.infoBox = new Views.InfoBoxView(options.infoBoxOptions);
+        },
 
-            infoBoxOptions = _.extend(defaultOptions, options.infoBoxOptions);
-
-            this.infoBox = new InfoBox(infoBoxOptions);
-
-            google.maps.event.addListener(this.infoBox, 'closeclick', _.bind(this.unlockCurrentMarker, this));
+        onItemviewCloseClick: function () {
+            this.unlockCurrentMarker();
         },
 
         ui: {
@@ -293,7 +291,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 this.infoBox.close();
             }
 
-            this.infoBox.setContent(view.$el.html());
+            /* build content for infoBox */
+            // var content = view.$el.html();
+            var content = view.model;
+
+            this.infoBox.setContent(content);
             this.infoBox.open(marker.map, marker.gOverlay);
         },
 
