@@ -7,16 +7,32 @@
   %p Nous vous contacterons dès qu'ils seront imprimés, promis !
 
 - if current_pro_admin.super_admin?
-  = simple_form_for [:pro, @structure, @sticker_demand] do |f|
-    .form-white-box
+  .form-white-box
+    %h2.orange.push-half--bottom
+      Les autocollants sont en cours d'impression
+    %p
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    = simple_form_for [:pro, @structure, @sticker_demand] do |f|
       = f.error_notification
-      .text--center
-        .soft-half--sides.inline-block= image_tag 'pro/stickers/round.png', height: 200
-        .soft-half--sides.inline-block= image_tag 'pro/stickers/square.png', height: 200
+      .text--center.push--bottom
+        .soft-half--sides.inline-block
+          = image_tag 'pro/stickers/round.png', height: 200
+          .text--center
+            %strong Autocollant rond
+        .soft-half--sides.inline-block
+          = image_tag 'pro/stickers/square.png', height: 200
+          .text--center
+            %strong Autocollant rectangulaire
 
       %h5.flush
         Combien d'autocollant voulez vous ?
-      = f.input :round_number, as: :select, collection: 0..3, label: "Nombre d'autocollants ronds", include_blank: false
-      = f.input :square_number, as: :select, collection: 0..3, label: "Nombre d'autocollants carrés", include_blank: false
+      = f.input :round_number, as: :select, collection: 0..5, label: "Nombre d'autocollants ronds", include_blank: false
+      = f.input :square_number, as: :select, collection: 0..5, label: "Nombre d'autocollants rectangulaires", include_blank: false
+      = f.input :address, input_html: { value: @structure.address }
       .form-actions
         = f.submit 'Demander mes autocollants', class: 'btn btn--green'

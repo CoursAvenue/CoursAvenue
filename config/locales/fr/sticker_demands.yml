@@ -1,8 +1,10 @@
 fr:
   activerecord:
     models:
-      sticker_demand: Demande de Sticker
-  sticker_demand:
-    round_number: Nombre de rond
-    square_number: Nombre de carré
-    sent: Envoyé
+      sticker_demand: Demande de sticker
+    attributes:
+      sticker_demand:
+        round_number: Nombre de rond
+        square_number: Nombre de rectangulaire
+        address: Addresse de livraison
+        sent: Envoyé
