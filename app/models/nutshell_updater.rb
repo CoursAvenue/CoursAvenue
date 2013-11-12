@@ -82,7 +82,7 @@ class NutshellUpdater
   def self.create_nutshell_contact_object(structure)
     admin = structure.main_contact
     address = {
-      'address_1'  => structure.address,
+      'address_1'  => structure.street,
       'city'       => structure.city.name,
       'state'      => '',
       'postalCode' => structure.zip_code,
