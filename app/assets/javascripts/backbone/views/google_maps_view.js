@@ -83,10 +83,14 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             /* one info window that gets populated on each marker click */
 
             this.infoBox = new Views.InfoBoxView(options.infoBoxOptions);
+            google.maps.event.addListener(this.map, 'click', _.bind(this.onItemviewCloseClick, this));
         },
 
         onItemviewCloseClick: function () {
-            this.unlockCurrentMarker();
+            if (this.current_info_marker) {
+                this.unlockCurrentMarker();
+                this.hideInfoWindow();
+            }
         },
 
         ui: {
