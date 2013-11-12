@@ -74,7 +74,19 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             }
 
             /* one info window that gets populated on each marker click */
-            this.infoBox = new InfoBox({});
+
+            var defaultOptions = {
+                alignBottom: true,
+                pixelOffset: new google.maps.Size(-140, 0),
+                boxStyle: {
+                    width: "280px"
+                },
+                closeBoxMargin: "2px",
+            };
+
+            infoBoxOptions = _.extend(defaultOptions, options.infoBoxOptions);
+
+            this.infoBox = new InfoBox(infoBoxOptions);
 
             google.maps.event.addListener(this.infoBox, 'closeclick', _.bind(this.unlockCurrentMarker, this));
         },

@@ -81,6 +81,12 @@ FilteredSearch.addInitializer(function(options) {
         collection: structures,
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
+        },
+        infoBoxOptions: {
+            pixelOffset: new google.maps.Size(-135, -40),
+            boxStyle: {
+                width: "280px"
+            }
         }
     });
 
