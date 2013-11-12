@@ -34,10 +34,16 @@ class NutshellUpdater
         new_tags << 'Inscrit'
         if !structure.profile_completed?
           new_tags << 'Complet 0'
+          new_tags.delete 'Complet 1'
+          new_tags.delete 'Complet 2'
         elsif structure.comments_count < 5
           new_tags << 'Complet 1'
+          new_tags.delete 'Complet 0'
+          new_tags.delete 'Complet 2'
         elsif structure.comments_count >= 5
           new_tags << 'Complet 2'
+          new_tags.delete 'Complet 0'
+          new_tags.delete 'Complet 1'
         end
         address = {
           'address_1'  => structure.address,
@@ -80,7 +86,8 @@ class NutshellUpdater
       'country'    => 'France'
     }
     new_contact = {
-      'address' => address
+      'address' => address,
+      'tags'    => 'Inscrit'
     }
     # if it does not exists
     new_contact['name'] = structure.name

@@ -1,10 +1,10 @@
 fr:
   audience:
     all: Tout public
-    kid: Enfant
+    kid: Enfants
     teenage: Ado
-    adult: Adulte
-    senior: Sénior
+    adult: Adultes
+    senior: Séniors
   activerecord:
     models:
       audience: Public

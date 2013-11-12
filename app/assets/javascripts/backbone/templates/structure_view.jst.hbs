@@ -30,25 +30,47 @@
         <h2 class="epsilon inline v-top">
             <a href="{{ data_url }}">{{ name }}</a>
         </h2>
+        {{#if audience}}
+            <div>
+                <span class="milli">{{audience}}</span>
+            </div>
+        {{/if}}
+        <div>
+        {{#if gives_individual_courses}}
+            <span title="Cours particulier" data-behavior="tooltip" class="pointer">
+                <i class="fa fa-user"></i>
+            </span>
+        {{/if}}
+        {{#if gives_group_courses}}
+            <span title="Cours collectif" data-behavior="tooltip" class="pointer">
+                <i class="fa fa-group"></i>
+            </span>
+        {{/if}}
+        {{#if teaches_at_home}}
+            <span title="Cours à domicile {{#if teaches_at_home_radius}}(dans un rayon de {{teaches_at_home_radius}}km){{/if}}" data-behavior="tooltip" class="pointer">
+                <i class="fa fa-home"></i>
+            </span>
+        {{/if}}
+        </div>
+        {{#if funding_types}}
+            <div>
+                <span class="pointer lbl lbl--small" data-behavior="tooltip" title="{{funding_types}}">Financements spécifiques acceptés</span>
+            </div>
+        {{/if}}
     </article><!--
  --><div class="flexbox__item two-tenths v-top soft--top text--center milli {{#if has_courses}}structure-item__button{{/if}}" data-type="accordion-control" data-value="courses" data-attributes="data_url">
         <div class="alpha thin brand">{{ plannings_count }}</div>
         {{ pluralize plannings_count 'séance' 'séances' }}
-        {{#if teaches_at_home}}
-            <div>
-                <span class="lbl lbl--blue lbl--small">à domicile</span>
-            </div>
-        {{/if}}
         <div>
             {{#if has_price_range}}
                 de
-                <span class="cursor" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                 à
-                <span class="cursor" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
+                <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
             {{else}}
                 {{#if min_price_amount}}
                     à partir de
-                    <span class="cursor" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                    <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                 {{/if}}
             {{/if}}
         </div>

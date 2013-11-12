@@ -1,7 +1,7 @@
 class PlanningSerializer < ActiveModel::Serializer
   include PlanningsHelper
 
-  attributes :week_day, :duration, :time_slot, :levels, :price
+  attributes :week_day, :duration, :time_slot, :levels, :audiences, :price
 
   def week_day
     week_day_for(object)
@@ -17,6 +17,10 @@ class PlanningSerializer < ActiveModel::Serializer
 
   def levels
     join_levels_text(object)
+  end
+
+  def audiences
+    join_audiences_text(object)
   end
 
   def price

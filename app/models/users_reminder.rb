@@ -16,12 +16,12 @@ class UsersReminder
 
   # Resend recommendation email after 4 days
   def self.resend_recommendation_stage_1
-    comment_notifications = CommentNotification.where{(status == nil)}
+    comment_notifications = CommentNotification.where{(updated_at >= Date.today - 4.days) & (updated_at < Date.today - 3.days) & (status == nil)}
     comment_notifications.each{ |comment_notification| comment_notification.ask_for_feedbacks_stage_1 }
   end
 
   def self.resend_recommendation_stage_2
-    comment_notifications = CommentNotification.where{(updated_at >= Date.today - 4.days) & (updated_at < Date.today - 3.days) & (status == 'resend_stage_1')}
+    comment_notifications = CommentNotification.where{(updated_at >= Date.today - 5.days) & (updated_at < Date.today - 4.days) & (status == 'resend_stage_1')}
     comment_notifications.each{ |comment_notification| comment_notification.ask_for_feedbacks_stage_2 }
   end
 

@@ -144,6 +144,10 @@ class Planning < ActiveRecord::Base
     duplicate_planning = self.dup
   end
 
+  def for_kid?
+    audiences.include? Audience::KID
+  end
+
   private
 
   def default_values

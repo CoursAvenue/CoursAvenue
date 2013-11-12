@@ -3,7 +3,7 @@ class Structures::CoursesController < ApplicationController
 
   def index
     @structure    = Structure.friendly.find(params[:structure_id])
-    @courses     = @structure.courses.to_a
+    @courses     = @structure.courses.active.to_a
 
     respond_to do |format|
       format.json { render json: @courses, each_serializer: CourseSerializer }
