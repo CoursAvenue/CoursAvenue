@@ -106,6 +106,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         *  and create a region, and a composite view. Data for the composite
         *  view is grabbed from the structure, based on strings passed in
         *  an array. The collection is models on a relation on structure. */
+        /* TODO this was cool at one time, but we now realize that each of
+        * the collection views will need its own post-processing methods
+        * etc, and so we should really have individual view files */
         createRegionFor: function (value, attribute_strings) {
             var singular = value.slice(0, -1),
                 self = this;
