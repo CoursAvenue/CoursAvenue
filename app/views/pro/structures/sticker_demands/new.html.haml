@@ -26,10 +26,10 @@
         %p
           %strong Format rond
           %br
-          %i Plus grand que le rectangulaire (dimensions : ), il a le format idéal pour être bien visible sur les vitrines qui donnent sur l’extérieur, les panneaux d’affichage à l’accueil, dans une salle de cours ou sur une porte.
+          %i Plus grand que le rectangulaire, il a le format idéal pour être bien visible sur les vitrines qui donnent sur l’extérieur, les panneaux d’affichage à l’accueil, dans une salle de cours ou sur une porte.
         %div
           %strong.soft-half--right Nombre souhaité :
-          .inline-block= f.input :round_number, as: :select, collection: ((0..10).to_a + 20.step(100,10).to_a), label: false, include_blank: false
+          .inline-block= f.input :round_number, as: :select, collection: ((0..20).to_a + 30.step(100,10).to_a), label: false, include_blank: false
       .grid__item.one-half.soft-half--left>
         .flexbox{style: 'height: 300px'}
           .flexbox__item.v-middle
@@ -37,10 +37,10 @@
         %p
           %strong Format rectangulaire
           %br
-          %i Plus petit que le format rond (dimensions : ), il est moins visible mais a l’avantage de pouvoir être collé plus facilement, comme par exemple sur vos feuilles de planning affichées dans des lieux publics.
+          %i Plus petit que le format rond, il est moins visible mais a l’avantage de pouvoir être collé plus facilement, comme par exemple sur vos feuilles de planning affichées dans des lieux publics.
         %div
           %strong.soft-half--right Nombre souhaité :
-          .inline-block= f.input :square_number, as: :select, collection: ((0..10).to_a + 20.step(100,10).to_a), label: false, include_blank: false
+          .inline-block= f.input :square_number, as: :select, collection: ((0..20).to_a + 30.step(100,10).to_a), label: false, include_blank: false
     = f.label :address, class: 'text--left bold'
     %p.blue.flush
       %i Nous vous enverrons le courrier contenant vos autocollants à cette adresse.

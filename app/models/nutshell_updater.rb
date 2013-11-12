@@ -48,11 +48,13 @@ class NutshellUpdater
           new_tags.delete 'Complet 1'
         end
         address = {
-          'address_1'  => structure.street,
-          'city'       => structure.city.name,
-          'state'      => '',
-          'postalCode' => structure.zip_code,
-          'country'    => 'FR'
+          '1' => {
+            'address_1'  => structure.street,
+            'city'       => structure.city.name,
+            'state'      => '',
+            'postalCode' => structure.zip_code,
+            'country'    => 'FR'
+          }
         }
         new_contact = {
           'tags'    => new_tags.uniq,
@@ -82,11 +84,13 @@ class NutshellUpdater
   def self.create_nutshell_contact_object(structure)
     admin = structure.main_contact
     address = {
-      'address_1'  => structure.street,
-      'city'       => structure.city.name,
-      'state'      => '',
-      'postalCode' => structure.zip_code,
-      'country'    => 'FR'
+      '1' => {
+        'address_1'  => structure.street,
+        'city'       => structure.city.name,
+        'state'      => '',
+        'postalCode' => structure.zip_code,
+        'country'    => 'FR'
+      }
     }
     new_contact = {
       'address' => address,
