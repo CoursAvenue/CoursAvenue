@@ -1,8 +1,13 @@
 fr:
   activerecord:
     models:
-      sticker_demand: Demande de Sticker
-  sticker_demand:
-    round_number: Nombre de rond
-    square_number: Nombre de carré
-    sent: Envoyé
+      sticker_demand: Demande de sticker
+    attributes:
+      sticker_demand:
+        round_number: Nombre de rond
+        square_number: Nombre de rectangulaire
+        address: Votre adresse postale
+        sent: Envoyé
+  sticker_demands:
+    errors:
+      at_least_one_sticker: Vous devez choisir au moins un autocollant

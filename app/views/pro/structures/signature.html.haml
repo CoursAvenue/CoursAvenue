@@ -2,35 +2,35 @@
 
 = render partial: 'pro/structures/communication_tabs', locals: {current: 'signature'}
 
-%h5.home-title
-  %i.fa.fa-envelope
-  Développez le bouche à oreille grâce à la signature de vos emails
+.islet.white-box
+  %h2.blue.push-half--bottom
+    Développez le bouche à oreille grâce à la signature de vos emails
 
 
 
-%h5 Modèle 1 : c'est ce qu'utilise un de nos professeurs de Qi Qong
-%p.alert--info
-  \--
-  %br
-  Votre avis m'intéresse, d'avance merci ! Je me permets de demander à celles et ceux qui ont déjà suivi un de mes cours de prendre juste 1 minute pour me laisser un avis : #{link_to structure_url(@structure, subdomain: 'www')}
-  %br
-  Cela me permettra d'avoir un retour mais aussi et surtout, pour que d'autres personnes puissent se faire une idée et éventuellement participer et partager des moments profitables à tous.
+  %h5 Modèle 1 : c'est ce qu'utilise un de nos professeurs de Qi Qong
+  %p.alert--info
+    \--
+    %br
+    Votre avis m'intéresse, d'avance merci ! Je me permets de demander à celles et ceux qui ont déjà suivi un de mes cours de prendre juste 1 minute pour me laisser un avis : #{link_to structure_url(@structure, subdomain: 'www')}
+    %br
+    Cela me permettra d'avoir un retour mais aussi et surtout, pour que d'autres personnes puissent se faire une idée et éventuellement participer et partager des moments profitables à tous.
 
-%hr
+  %hr
 
-%h5 Modèle 2 : plus générique
-%p.alert--info.one-whole
-  \--
-  %br
-  Déjà #{@structure.comments_count} élèves nous ont recommandé sur CoursAvenue.com ! Votre avis nous intéresse :
-  %br
-  %b Déposer mon avis :
-  #{link_to new_structure_comment_url(@structure, subdomain: 'www')}
-  %br
-  %b Voir tous les avis :
-  #{link_to structure_url(@structure, subdomain: 'www')}
+  %h5 Modèle 2 : plus générique
+  %p.alert--info.one-whole
+    \--
+    %br
+    Déjà #{@structure.comments_count} élèves nous ont recommandé sur CoursAvenue.com ! Votre avis nous intéresse :
+    %br
+    %b Déposer mon avis :
+    #{link_to new_structure_comment_url(@structure, subdomain: 'www')}
+    %br
+    %b Voir tous les avis :
+    #{link_to structure_url(@structure, subdomain: 'www')}
 
 
-#signature-1.hidden --&#x000A;Votre avis m'intéresse, d'avance merci ! Je me permets de demander à celles et ceux qui ont déjà suivi un de mes cours de prendre juste 1 minute pour me laisser un avis : #{link_to structure_url(@structure, subdomain: 'www')}&#x000A;Cela me permettra d'avoir un retour mais aussi et surtout, pour que d'autres personnes puissent se faire une idée et éventuellement participer et partager des moments profitables à tous.
+  #signature-1.hidden --&#x000A;Votre avis m'intéresse, d'avance merci ! Je me permets de demander à celles et ceux qui ont déjà suivi un de mes cours de prendre juste 1 minute pour me laisser un avis : #{link_to structure_url(@structure, subdomain: 'www')}&#x000A;Cela me permettra d'avoir un retour mais aussi et surtout, pour que d'autres personnes puissent se faire une idée et éventuellement participer et partager des moments profitables à tous.
 
-#signature-2.hidden --&#x000A;Déjà #{@structure.comments_count} élèves nous ont recommandé sur CoursAvenue.com ! Votre avis nous intéresse :&#x000A;Déposer mon avis :#{link_to new_structure_comment_url(@structure, subdomain: 'www')}&#x000A;Voir tous les avis :#{link_to structure_url(@structure, subdomain: 'www')}
+  #signature-2.hidden --&#x000A;Déjà #{@structure.comments_count} élèves nous ont recommandé sur CoursAvenue.com ! Votre avis nous intéresse :&#x000A;Déposer mon avis :#{link_to new_structure_comment_url(@structure, subdomain: 'www')}&#x000A;Voir tous les avis :#{link_to structure_url(@structure, subdomain: 'www')}

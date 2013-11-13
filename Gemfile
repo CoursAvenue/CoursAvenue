@@ -15,6 +15,7 @@ gem 'pg'
 # Mainly used for caching: see:  config/bust_http_cache.rb
 gem 'heroku-api'
 gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
+gem 'bugsnag'
 
 # For pagination
 gem 'kaminari', '~> 0.14.1'
