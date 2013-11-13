@@ -6,15 +6,34 @@ class StructureSerializer < ActiveModel::Serializer
   include StructuresHelper
 
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
-             :logo_present, :logo_thumb_url, :child_subjects, :data_url,
-             :subjects_count, :subjects, :courses_count, :has_courses, :plannings_count, :more_than_five_comments, :has_comments,
+             :logo_present, :logo_thumb_url, :data_url,
+             :courses_count, :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
-             :audience, :funding_types, :gives_group_courses, :gives_individual_courses
+             :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :has_medias, :structure_type,
+             :has_promotion
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
-  has_many :courses, serializer: ShortSerializer
+  has_many :courses,  serializer: ShortSerializer
+  has_many :medias,   serializer: ShortSerializer
+
+  # Following functions has to return the same objects than the associated controllers
+  def courses
+    object.courses.active
+  end
+
+  def medias
+    object.medias.videos_first.limit(9)
+  end
+
+  def comments
+    object.comments.accepted.limit(5)
+  end
+
+  def structure_type
+    I18n.t(object.structure_type) if object.structure_type.present?
+  end
 
   def funding_types
     object.funding_types.map{|funding| I18n.t(funding.name)}.join(', ')
@@ -24,9 +43,14 @@ class StructureSerializer < ActiveModel::Serializer
     object.audiences.sort_by(&:order).map{|audience| I18n.t(audience.name)}.join(', ')
   end
 
-  def medias_count
-    (object.medias.count == 0 ? nil : object.medias.count)
+  def has_medias
+    (object.medias.images.count + object.medias.videos.count) > 0
   end
+
+  def medias_count
+    object.medias.images.count + object.medias.videos.count
+  end
+
 
   def videos_count
     (object.medias.videos.count == 0 ? nil : object.medias.videos.count)
@@ -68,12 +92,12 @@ class StructureSerializer < ActiveModel::Serializer
     object.comments.count > 0
   end
 
-  def comments
-    object.comments.limit(5)
+  def plannings_count
+    object.plannings_count
   end
 
-  def plannings_count
-    object.plannings.count
+  def has_plannings
+    object.plannings_count > 0 if object.plannings_count
   end
 
   def courses_count
@@ -102,22 +126,5 @@ class StructureSerializer < ActiveModel::Serializer
 
   def data_url
     structure_path(object)
-  end
-
-  def subjects_count
-    object.subjects.count
-  end
-
-  def child_subjects
-    if object.subjects_array.length > 4
-      at_depth_1_subjects = object.subjects.at_depth(2).collect(&:parent)
-      at_depth_1_subjects.uniq.map do |subject_hash|
-        { name: subject_hash[:name], path: subject_structures_path(subject_hash[:slug]) }
-      end
-    else
-      object.subjects_array.map do |subject_hash|
-        { name: subject_hash[:name], path: subject_structures_path(subject_hash[:slug]) }
-      end
-    end
   end
 end

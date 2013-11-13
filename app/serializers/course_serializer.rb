@@ -5,6 +5,10 @@ class CourseSerializer < ActiveModel::Serializer
   attributes :id, :name, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects
   has_many :plannings
 
+  def plannings
+    object.plannings.ordered_by_day
+  end
+
   def is_individual
     self.is_individual?
   end
@@ -38,6 +42,6 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def subjects
-    truncate(object.subjects.map(&:name).join(', '), length: 50)
+    truncate(object.subjects.map(&:name).join(', '), length: 70)
   end
 end

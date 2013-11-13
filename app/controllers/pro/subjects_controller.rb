@@ -1,7 +1,6 @@
 # encoding: utf-8
 class Pro::SubjectsController < Pro::ProController
-  before_action :authenticate_pro_admin!
-  before_action :authenticate_pro_super_admin
+  before_action :authenticate_pro_super_admin!
 
   def index
     @subjects = Subject.all
@@ -22,10 +21,4 @@ class Pro::SubjectsController < Pro::ProController
     end
   end
 
-  private
-  def authenticate_pro_super_admin
-    unless can? :edit, Admin
-      redirect_to root_path, alert: "Vous n'avez pas le droit !"
-    end
-  end
 end

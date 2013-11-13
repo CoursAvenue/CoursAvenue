@@ -1,13 +1,23 @@
 .search-wrapper {
     position: absolute;
     top     : 0;
+    width   : 100%;
 }
 
+.filtered-search__map-wrapper:before {
+    content : '';
+    position: absolute;
+    height  : 100%;
+    right   : 0;
+    width   : 2px;
+    z-index : 2;
+    @include box-shadow(inset -1px 0 1px rgba(0, 0, 0, 0.3));
+}
 .filtered-search__map-wrapper {
     width        : 100%;
     position     : fixed;
     left         : 0%;
-    padding-right: 700px;
+    padding-right: 800px;
     height       : 100%;
     > div,  > div > div, > div > div > div, #map {
         height: 100%;
@@ -31,7 +41,7 @@
 .filtered-search__list-wrapper {
     position                 : fixed;
     right                    : 0%;
-    max-width                : 700px;
+    max-width                : 800px;
     width                    : 100%;
     height                   : 100%;
     padding-bottom           : 7em;
@@ -44,38 +54,18 @@
         padding-left: 6px;
     }
     .filtered-search__loader {
-        position   : absolute;
-        // Prevent from drop shadow of elements that are under it.
-        height     : 100%;
-        min-height : 10em;
-        width      : 100%;
-        top        : 0;
-        left       : 0;
-        background : white;
-        color      : #333;
-        text-align : center;
-        padding-top: 5em;
-        font-size  : 1.5em;
-        z-index    : 10;
-        opacity    : 0;
-        @include transition(opacity 250ms linear);
-        &.visible {
-            opacity: 0.8;
-        }
-    }
-
-    .filtered-search__map-loader {
-        background-color: black;
-        background-color: rgba(0,0,0,0.5);
-        text-align      : center;
-        opacity         : 0;
-        color           : white;
-        padding-top     : 42%;
-        font-size       : 1.5em;
-        @include transition(opacity 250ms linear);
-        &.visible {
-            opacity: 1;
-        }
+        position        : absolute;
+        top             : 0;
+        left            : 50%;
+        height          : auto;
+        width           : 16em;
+        margin-left     : -8em;
+        background-color: white;
+        z-index         : 10;
+        padding         : 0.5em;
+        border          : 1px solid #EEE;
+        border-top      : none;
+        @include border-bottom-radius(3px);
     }
 .filtered-search-loader {
     position        : absolute;

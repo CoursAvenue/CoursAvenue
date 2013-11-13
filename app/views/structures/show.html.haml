@@ -42,7 +42,7 @@
           Carte
       %li
         %a{href: '#tab-medias', data: {toggle: 'tab'} }
-          %i.fa.fa-picture
+          %i.fa.fa-picture-o
           Photos & Vidéos
           - if @medias.any?
             = "(#{@medias.length})"
@@ -150,13 +150,8 @@
     .white-box.soft-half
       %h1.gamma.blue.push-half--bottom= @structure.name
       %ul.nav.push-half--ends= join_child_subjects @structure, true
-      -# - if @structure.description.present?
-      -#   %p.read-more{data: {behavior: 'read-more'}}= simple_format @structure.description
+
       .text--center
-        -# = form_for @structure.reservations.build, remote: true, html: {id: 'coord-form'} do |f|
-        -#   = f.hidden_field :reservable_type
-        -#   = f.hidden_field :reservable_id
-        -#   = f.submit "Coordonnées de reservation", href: '#course_info', class: 'btn btn--green btn--full', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])", title: 'Information pour la réservation du cours', data: {behavior: 'modal', width: '650px'}, id: 'submit-coord-form'
         = link_to "Coordonnées de reservation", '#course_info', class: 'btn btn--green btn--full', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])", title: 'Information pour la réservation du cours', data: {behavior: 'modal', width: '650px'}
 
     .text--center.white-box.soft-half.push--top.push--bottom
@@ -167,7 +162,7 @@
           %a{href: '#comments'}
             %i.lbc-brand-icon
         .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-          %meta{property: 'v:rating', itemprop: 'rating', content: @structure.rating}
+          %meta{property: 'v:rating', itemprop: 'rating', content: 5}
           %meta{itemprop: 'count', content: @structure.comments_count}
           %meta{itemprop: 'itemreviewed', content: @structure.name}
           %meta{itemprop: 'name', content: @structure.name}
@@ -277,8 +272,8 @@
         $('[href=#tab-medias]').click(function(){
             if ($('.media-gallery').length > 0) {
                 setTimeout(function(){
-                  $('.media-gallery').masonry({ itemSelector: '.media__item' });
-                }, 5);
+                    $('.media-gallery').masonry({ itemSelector: '.media__item' });
+                }, 5)
             }
         });
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });

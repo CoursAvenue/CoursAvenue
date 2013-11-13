@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131107155352) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20131111161625) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "resource_id",   null: false
@@ -200,6 +197,13 @@ ActiveRecord::Schema.define(version: 20131107155352) do
 
   add_index "courses_subjects", ["course_id", "subject_id"], name: "index_courses_subjects_on_course_id_and_subject_id", using: :btree
 
+  create_table "courses_users", id: false, force: true do |t|
+    t.integer "course_id"
+    t.integer "user_id"
+  end
+
+  add_index "courses_users", ["course_id", "user_id"], name: "index_courses_users_on_course_id_and_user_id", using: :btree
+
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0
     t.integer  "attempts",   default: 0
@@ -318,6 +322,13 @@ ActiveRecord::Schema.define(version: 20131107155352) do
 
   add_index "places", ["location_id", "structure_id"], name: "index_places_on_location_id_and_structure_id", using: :btree
 
+  create_table "places_users", id: false, force: true do |t|
+    t.integer "place_id"
+    t.integer "user_id"
+  end
+
+  add_index "places_users", ["place_id", "user_id"], name: "index_places_users_on_place_id_and_user_id", using: :btree
+
   create_table "plannings", force: true do |t|
     t.date     "start_date"
     t.date     "end_date"
@@ -346,6 +357,13 @@ ActiveRecord::Schema.define(version: 20131107155352) do
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
   add_index "plannings", ["level_ids"], name: "index_plannings_on_level_ids", using: :btree
   add_index "plannings", ["week_day"], name: "index_plannings_on_week_day", using: :btree
+
+  create_table "plannings_users", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "planning_id"
+  end
+
+  add_index "plannings_users", ["planning_id", "user_id"], name: "index_plannings_users_on_planning_id_and_user_id", using: :btree
 
   create_table "prices", force: true do |t|
     t.string   "libelle"
@@ -398,6 +416,16 @@ ActiveRecord::Schema.define(version: 20131107155352) do
     t.integer  "user_id"
     t.integer  "reservable_id"
     t.string   "reservable_type"
+  end
+
+  create_table "sticker_demands", force: true do |t|
+    t.integer  "round_number"
+    t.integer  "square_number"
+    t.boolean  "sent",          default: false
+    t.time     "sent_at"
+    t.integer  "structure_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "structures", force: true do |t|
@@ -462,6 +490,8 @@ ActiveRecord::Schema.define(version: 20131107155352) do
     t.boolean  "gives_group_courses"
     t.boolean  "gives_individual_courses"
     t.integer  "teaches_at_home_radius"
+    t.integer  "plannings_count"
+    t.boolean  "has_promotion",              default: false
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree

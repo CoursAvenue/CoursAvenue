@@ -5,7 +5,7 @@
     %input{type: 'hidden', value: params[:from_path], name: 'from_path'}
   .form-inputs
     %h5.form-header-group
-      %i.fa.fa-picture
+      %i.fa.fa-picture-o
       Image & Logo
     - if @structure.valid?
       .form-white-box
@@ -29,7 +29,7 @@
           .input
             .control-label Logo de votre structure
             = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
-              %i.fa.fa-picture
+              %i.fa.fa-picture-o
               Choisir mon logo
             .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
 
@@ -55,7 +55,7 @@
           .input
             .control-label Image pour vous illustrer
             = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
-              %i.fa.fa-picture
+              %i.fa.fa-picture-o
               Choisir mon image
             .visuallyhidden= structure_form.input :image, label: false, input_html: {id: 'image-input'}
           %p.field-form-info.blue
@@ -164,7 +164,7 @@
             done: function (e, data) {
                 $('#logo-progress').addClass('progress-success');
                 $('#logo-progress .bar').text('');
-                $('#logo-progress .bar').append($('<i>').addClass('fa fa-check push-half--right'));
+                $('#logo-progress .bar').append($('<i>').addClass('fa fa-check-square-o push-half--right'));
                 $('#logo-progress .bar').append($('<span>').text('Téléchargement terminé'));
                 GLOBAL.ratio = data.result.logo.ratio;
                 if (logo_jcrop_api) {
@@ -207,7 +207,7 @@
             done: function (e, data) {
                 $('#image-progress').addClass('progress-success');
                 $('#image-progress .bar').text('');
-                $('#image-progress .bar').append($('<i>').addClass('fa fa-check push-half--right'));
+                $('#image-progress .bar').append($('<i>').addClass('fa fa-check-square-o push-half--right'));
                 $('#image-progress .bar').append($('<span>').text('Téléchargement terminé'));
             },
             progressall: function (e, data) {

@@ -44,9 +44,7 @@ $(function() {
     };
     global.initialize_callbacks.push(chosen_initializer);
     var tooltip_initializer = function() {
-        $('[data-behavior=tooltip]').each(function(el) {
-            $(this).tooltip();
-        });
+        $('[data-behavior=tooltip]').tooltip();
     };
     global.initialize_callbacks.push(tooltip_initializer);
 

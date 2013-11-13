@@ -1,7 +1,7 @@
 %h4
-  %i.fa.fa-envelope-alt.fa.fa-2x.v-middle.soft-half--right
+  %i.fa.fa-envelope-o.fa.fa-2x.v-middle.soft-half--right
   %span.v-middle Demandez des recommandations à vos élèves
-= form_tag get_feedbacks_pro_structure_path(@structure), remote: true do
+= simple_form_for [:pro, @structure, @structure.comment_notifications.build], remote: true do |f|
   %input{type: 'hidden', value: 'true', name: 'next'}
   .grid
     .grid__item.one-half>
@@ -20,7 +20,8 @@
         Merci et à très bientôt,
         %br
         = @structure.name
-  .push-half--top.text--right= link_to 'Envoyer ma demande', 'javascript:void(0)', class: 'btn btn--green', id: 'submit-form'
+  .push-half--top.text--right
+    = f.submit 'Envoyer ma demande', class: 'btn btn--green', id: 'submit-form'
 %hr.hr--clear.push--top
 .text--center.push-half--bottom
   = link_to 'Envoyer un email depuis ma boite perso', '#hidden-send', id: 'send-from-personal', data: {behavior: 'modal'}

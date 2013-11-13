@@ -35,7 +35,7 @@ class Wizard < ActiveHash::Base
         name: 'wizard.recommendations',
         partial: 'wizards/recommendations',
         show_save: true,
-        completed?: lambda {|structure| structure.comments.any? or structure.students.any? }
+        completed?: lambda {|structure| structure.comments.any? or structure.users.any? }
     },
     {
         id: 6,

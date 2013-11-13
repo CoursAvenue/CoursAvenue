@@ -14,6 +14,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.$el.data('url', options.model.get('data_url'));
         },
 
+        onRender: function() {
+            this.$('[data-behavior=tooltip]').tooltip();
+        },
+
         /* TODO accordioncontrol is defined on the parent, so it feels
         * dirty to have the click handled here. However, it seems that
         * the child's events hash overrides the parent's hash by default */

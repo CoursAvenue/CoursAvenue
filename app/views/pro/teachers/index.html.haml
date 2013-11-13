@@ -2,7 +2,7 @@
 = render partial: 'pro/structures/tabs', locals: { current: 'professeurs'}
 
 .text--center.push--bottom
-  = link_to 'Ajouter un professeur', new_pro_structure_teacher_path(@structure), class: 'fancybox.ajax btn btn--green btn--large', data: {behavior: 'modal'}
+  = link_to 'Ajouter un professeur', new_pro_structure_teacher_path(@structure), class: 'fancybox.ajax btn btn--green btn--large', data: {behavior: 'modal', width: 700}
 
 - if @teachers.any?
   = render partial: 'teachers/teacher', collection: @teachers

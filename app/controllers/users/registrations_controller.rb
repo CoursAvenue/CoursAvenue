@@ -7,7 +7,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if (@user = User.inactive.where(email: params[:user][:email]).first).nil?
       @user = User.new params[:user]
     else
-      @user.active   = true
       @user.name     = params[:user][:name]
       @user.password = params[:user][:password]
     end

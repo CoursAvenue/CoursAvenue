@@ -3,7 +3,7 @@
 - if @wizard
   #wizard.blue-box.islet.hidden.relative
     %a#close-wizard.closer{href: 'javascript:void(0)', data: { behavior: 'closer', el: '#wizard'}}
-      %i.fa.fa-remove
+      %i.fa.fa-times
     #wizard-form= render @wizard.partial
     - if @wizard.show_save
       %span.btn.btn--green#save-wizard Enregistrer
@@ -24,39 +24,39 @@
               #{@profile_percentage}%
         %ul.no-bullet-list
           %li
-            %i.fa.fa-check
+            %i.fa.fa-check-square-o
             %span.line-through Créer mon profil
           %li
             - if @structure.profile_completed?
-              %i.fa.fa-check
+              %i.fa.fa-check-square-o
               %span.line-through Compléter mes informations générales
             - else
               = link_to edit_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
-                %i.fa.fa-check-empty
+                %i.fa.fa-square-o
                 Compléter mes informations générales
           %li
             - if @comments.any?
-              %i.fa.fa-check
+              %i.fa.fa-check-square-o
               %span.line-through Demander des recommandations à mes élèves
             - else
               = link_to recommendations_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
-                %i.fa.fa-check-empty
+                %i.fa.fa-square-o
                 Demander des recommandations à mes élèves
           %li
             - if @structure.medias.any?
-              %i.fa.fa-check
+              %i.fa.fa-check-square-o
               %span.line-through Mettre en ligne les photos et vidéos de mes cours
             - else
               = link_to pro_structure_medias_path(@structure), class: 'profile-task-uncomplete' do
-                %i.fa.fa-check-empty
+                %i.fa.fa-square-o
                 Mettre en ligne les photos et vidéos de mes cours
           %li
             - if @structure.courses.active.count > 0
-              %i.fa.fa-check
+              %i.fa.fa-check-square-o
               %span.line-through Renseigner mes cours et mon planning
             - else
               = link_to pro_structure_courses_path(@structure), class: 'profile-task-uncomplete' do
-                %i.fa.fa-check-empty
+                %i.fa.fa-square-o
                 Renseigner mes cours et mon planning
     .grid__item.one-half>
       .soft-half--top.soft--right
@@ -64,13 +64,14 @@
         %table#progress-comments.push-half--right.flush--bottom
           %tbody
             %tr{style: 'background: #e7e1da;'}
-              - 15.times do |index|
+              - @structure.comments.accepted.limit(15).order('created_at ASC').each do |comment|
                 %td.text--center.hard{style: "width: 6.6%;"}
-                  - if @structure.comments.accepted.count > index
-                    .hidden.bg-green{title: "<div style='font-size: 12px;'>#{@structure.comments.accepted[index].author_name} le #{I18n.l(@structure.comments.accepted[index].created_at, format: :date)}<br><br>#{@structure.comments.accepted[index].content.html_safe}<div>", data: {behavior: 'tooltip', html: 'true'}}
-                      %a{href: 'javascript:void(0)'}
-                        %i.fa.fa-comment.white
-                  - else
+                  .hidden.bg-green{title: "<div style='font-size: 12px;'>#{comment.author_name} le #{I18n.l(comment.created_at, format: :date)}<br><br>#{comment.content.html_safe}<div>", data: {behavior: 'tooltip', html: 'true'}}
+                    %a{href: 'javascript:void(0)'}
+                      %i.fa.fa-comment.white
+              - if @structure.comments.accepted.count < 15
+                - (15 -@structure.comments.accepted.count).times do |index|
+                  %td.text--center.hard{style: "width: 6.6%;"}
                     &nbsp;
         %table.push-half--right
           %thead
@@ -95,7 +96,7 @@
                 %span.nowrap À partir de 15 avis et +
                 %br
                 - if @structure.comments_count > 14
-                  = link_to "Recevoir mes autocollants", sticker_pro_structure_path(@structure), class: 'btn btn--blue text--center nowrap'
+                  = link_to "Recevoir mes autocollants", new_pro_structure_sticker_demand_path(@structure), class: 'btn btn--blue text--center nowrap'
                 - else
                   %a.btn.text--center{href: '#sticker-explanation', data: {behavior: 'modal'}} OBTENEZ VOS AUTOCOLLANTS
 
@@ -228,9 +229,9 @@
         });
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
         $('a.profile-task-uncomplete').hover(function() {
-            $(this).find('i').removeClass('fa fa-check-empty').addClass('fa fa-check');
+            $(this).find('i').removeClass('fa fa-square-o').addClass('fa fa-check-square-o');
         }, function() {
-            $(this).find('i').removeClass('fa fa-check').addClass('fa fa-check-empty');
+            $(this).find('i').removeClass('fa fa-check-square-o').addClass('fa fa-square-o');
         });
         $('#profile-progress-bar').animate({
             width: '#{@profile_percentage}%'

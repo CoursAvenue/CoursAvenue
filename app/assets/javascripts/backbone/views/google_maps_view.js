@@ -31,17 +31,19 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     });
 
     Views.GoogleMapsView = Marionette.CompositeView.extend({
-        template: 'backbone/templates/google_maps_view',
-        id:       'map-container',
-        itemView: Views.BlankView,
+        template:            'backbone/templates/google_maps_view',
+        id:                  'map-container',
+        itemView:            Views.BlankView,
         itemViewEventPrefix: 'marker',
-        markerView: Views.StructureMarkerView,
+        markerView:          Views.StructureMarkerView,
         markerViewChildren: {},
 
         /* provide options.mapOptions to override defaults */
         initialize: function(options) {
-            _.bindAll(this, 'announceBounds', 'hideLoader', 'showLoader');
+            var self = this;
+            _.bindAll(this, 'announceBounds');
 
+            this.first_update = true;
             this.mapOptions = {
                 center: new google.maps.LatLng(0, 0),
                 zoom: 12,
@@ -56,10 +58,18 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                     'class': 'map_container'
                 }
             });
+            this.bbox      = options.collection.getLatLngBounds().bbox;
             this.map       = new google.maps.Map(this.mapView.el, this.mapOptions);
             this.map_annex = this.mapView.el;
 
-            this.update_live = $.cookie('map:update:live');
+            /* This is to prevent the first bounds_changed event
+             * The tilesloaded event is triggered after bounds_changed */
+            this.bounds_has_changed_for_first_time = true;
+            google.maps.event.addListenerOnce(this.map, 'tilesloaded', function(){
+                self.bounds_has_changed_for_first_time = false;
+            });
+
+            this.update_live = (typeof($.cookie('map:update:live')) === 'undefined' ? 'true' : $.cookie('map:update:live'));
             if (this.update_live === 'true') {
                 this.toggleLiveUpdate();
             }
@@ -104,10 +114,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             }
         },
 
-        announceBounds: function (e) {
-            if (e) { // we got here by a click
-                e.preventDefault();
-            }
+        announceBounds: function (e, a, b) {
+            // we got here by a click
+            if (e) { e.preventDefault(); }
 
             var bounds    = this.map.getBounds();
             var southWest = bounds.getSouthWest();
@@ -120,8 +129,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 lat: center.lat(),
                 lng: center.lng()
             }
-
-            this.trigger('map:bounds', filters);
+            if (!this.bounds_has_changed_for_first_time) {
+                this.trigger('map:bounds', filters);
+            }
 
             return false;
         },
@@ -152,7 +162,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         clearForUpdate: function() {
-            this.closeChildren();
+            if (!this.first_update) {
+                this.closeChildren();
+                this.first_update = false;
+            }
         },
 
         appendHtml: function(collectionView, itemView, index){
@@ -229,24 +242,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 if (marker) { marker.deselect(); }
             });
         },
-
-        showLoader: function() {
-            var self = this;
-            self.$loader.show();
-            // Add setTimeout to prevent from appearing suddunly
-            setTimeout(function(){
-                self.$loader.addClass('visible');
-            });
-        },
-
-        hideLoader: function() {
-            var self = this;
-            self.$loader.removeClass('visible');
-            setTimeout(function(){
-                self.$loader.hide();
-            }, 300);
-        },
-
         serializeData: function () {
             return {
                 update_live: this.update_live === 'true'

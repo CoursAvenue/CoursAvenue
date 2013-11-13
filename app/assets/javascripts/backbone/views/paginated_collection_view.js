@@ -17,10 +17,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.trigger('structures:itemview:unhighlighted', data);
         },
 
-        onRender: function() {
-            this.$loader = this.$('[data-type=loader]');
-        },
-
         onAfterShow: function() {
             this.announcePaginatorUpdated();
         },
@@ -66,22 +62,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 name:         (data.server_api.name ? decodeURIComponent(data.server_api.name) : ""),
                 subject_id:   (data.server_api.subject_id ? decodeURIComponent(data.server_api.subject_id) : "")
             });
-        },
-
-        showLoader: function() {
-            var self = this;
-            self.$loader.show();
-            setTimeout(function(){
-                self.$loader.addClass('visible');
-            });
-        },
-
-        hideLoader: function() {
-            var self = this;
-            self.$loader.removeClass('visible');
-            setTimeout(function(){
-                self.$loader.hide();
-            }, 300);
         },
 
         /* we want to show buttons for the first and last pages, and the
@@ -139,7 +119,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             /* since we are changing the query, we need to reset
             *  the collection, or else some elements will be in the wrong order */
-            this.collection.reset();
+            // this.collection.reset();
             this.collection.setQuery(filters);
 
             /* we are updating from the location filter */
@@ -171,7 +151,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         changePage: function (page) {
-            if (page == this.collection.currentPage) return false;
+            if (page == this.collection.currentPage) { return false };
 
             var self = this;
 

@@ -9,6 +9,7 @@
     - @medias.each do |media|
       .one-third.media__item.very-soft>
         %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}
+          %i.fa.fa-expand
           = media.url_html
           - if media.caption.present?
             %p.flush--bottom

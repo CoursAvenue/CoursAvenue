@@ -17,9 +17,9 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         model: Models.Structure,
 
         /* even if we are bootstrapping, we still want to know the total
-        * number of pages and the grandTotal, for display purposes
-        * also, we need to grab the location.search and parse it, so
-        * that our searches are configured correctly */
+         * number of pages and the grandTotal, for display purposes
+         * also, we need to grab the location.search and parse it, so
+         * that our searches are configured correctly */
         initialize: function (models, options) {
             var self = this;
             // define the server API based on the load-time URI
@@ -27,6 +27,11 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.currentPage = parseInt(this.server_api.page, 10) || 1;
             this.server_api.page = function () { return self.currentPage; };
 
+            /* we need to reset the collection, or else some elements will
+             * be in the wrong order */
+            this.on('sync', function(e, response, xhr){
+                this.reset(response.structures);
+            });
             if (this.server_api.sort === undefined) {
                 this.server_api.sort = 'rating_desc';
             }
@@ -132,13 +137,18 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             data_type: '.json'
         },
 
-        /* TODO currently we only ever extend the current filters, bu there may
+        /* TODO currently we only ever extend the current filters, but there may
         * be cases when we need to remove keys: in this case, set them to false? */
         setQuery: function(options) {
             /* setQuery stringifies all incoming options */
 
+            var self = this;
             _.map(options, function(value, key) {
-                if (_.isFunction(value.toString)) {
+                if (value === null) {
+                    self.unsetQuery([key]);
+                    delete options[key];
+
+                } else if (_.isFunction(value.toString)) {
                     options[key] = value.toString();
                 }
             });
@@ -148,13 +158,11 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             if (options.lat || options.lng) {
                 this.unsetQuery(['bbox_ne', 'bbox_sw']);
             }
-
             _.extend(this.server_api, options);
         },
 
         /* remove the given keys from the query */
         unsetQuery: function (keys) {
-
             this.server_api = _.omit(this.server_api, keys);
         },
 
@@ -186,13 +194,13 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
                 ne_latlng = this.server_api.bbox_ne.split(',');
 
                 sw_latlng = {
-                    lat: sw_latlng[0],
-                    lng: sw_latlng[1]
+                    lat: parseFloat(sw_latlng[0]),
+                    lng: parseFloat(sw_latlng[1])
                 };
 
                 ne_latlng = {
-                    lat: ne_latlng[0],
-                    lng: ne_latlng[1]
+                    lat: parseFloat(ne_latlng[0]),
+                    lng: parseFloat(ne_latlng[1])
                 };
             }
 

@@ -42,7 +42,7 @@
                   = simple_form_for course, url: pro_course_path(course), as: :course do |f|
                     = f.input :image, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'}, input_html: {class: 'image-input'}
                     = link_to 'javascript:void(0)', data: {behavior: 'course-image'} do
-                      %i.fa.fa-picture
+                      %i.fa.fa-picture-o
                       Photo
               .btn>
                 = link_to edit_pro_course_path(course) do
@@ -53,7 +53,7 @@
                 = link_to pro_course_prices_path(course) do
                   € Tarifs
                   - if course.prices.empty?
-                    %i.fa.fa-remove.red
+                    %i.fa.fa-times.red
                   - else
                     %i.fa.fa-check.green
               .btn>
@@ -61,7 +61,7 @@
                   %i.lbc-icon-calendar
                   %span Plannings
                   - if course.plannings.empty?
-                    %i.fa.fa-remove.red
+                    %i.fa.fa-times.red
                   - else
                     %i.fa.fa-check.green
           %td.text--center.hard
