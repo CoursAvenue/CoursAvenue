@@ -1,4 +1,6 @@
 class Comment < ActiveRecord::Base
+  MIN_LENGTH = 20
+
   acts_as_paranoid
   attr_accessible :commentable, :commentable_id, :commentable_type, :content, :author_name, :email, :rating,
                   :title, :course_name
@@ -113,8 +115,8 @@ class Comment < ActiveRecord::Base
   private
 
   def content_length
-    if content.split.size < 30
-      self.errors.add :content, I18n.t('comments.errors.content_too_small')
+    if content.split.size < MIN_LENGTH
+      self.errors.add :content, I18n.t('comments.errors.content_too_small', count: MIN_LENGTH)
     end
   end
 

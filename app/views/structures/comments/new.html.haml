@@ -92,7 +92,7 @@
 
         .input.flush--bottom<
           = f.label :content, style: 'vertical-align: top;'
-          = f.input :content, label: false, input_html: {style: 'height: 150px;', class: 'one-whole', data: { behavior: 'text-counter', 'average-words-nb' => 30, 'good-words-nb' => 60, 'bad-text' => 'Votre avis doit comporter au moins 30 mots.', 'average-text' => 'Encore quelques mots et votre professeur sera enchanté !', 'good-text' => "Là c'est certain, votre professeur va adorer !"}}, wrapper_html: { class: 'flush' }, required: true
+          = f.input :content, label: false, input_html: {style: 'height: 150px;', class: 'one-whole', data: { behavior: 'text-counter', 'average-words-nb' => Comment::MIN_LENGTH, 'good-words-nb' => 60, 'bad-text' => "Votre avis doit comporter au moins #{Comment::MIN_LENGTH} mots.", 'average-text' => 'Encore quelques mots et votre professeur sera enchanté !', 'good-text' => "Là c'est certain, votre professeur va adorer !"}}, wrapper_html: { class: 'flush' }, required: true
         %p.field-form-info.flush
           = link_to 'Astuces pour un avis utile', '#', id: 'show_comments_trick'
         - unless current_user
@@ -106,8 +106,7 @@
           %h5.inline
             Informations visibles uniquement par votre professeur
         - unless current_user
-          %input{type: 'hidden', name: 'default_email', value: params[:email]}
-          = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: (params[:comment].present? ? params[:comment][:email] : nil)}
+          = f.input :email, label_html: {style: 'vertical-align: top;', class: 'v-middle'}, required: true, placeholder: "Votre email ne sera visible que par votre professeur", input_html: { value: (params[:comment].present? ? params[:comment][:email] : params[:email])}
         .input.push-half--bottom
           %label.control-label.text>
             %strong Message personnel
