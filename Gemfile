@@ -6,7 +6,8 @@ ruby '2.0.0'
 gem 'rails', '4.0.0'
 
 # Webserver
-gem 'unicorn'
+# gem 'unicorn'
+gem 'puma'
 # Database
 gem 'pg'
 
@@ -14,6 +15,7 @@ gem 'pg'
 # Mainly used for caching: see:  config/bust_http_cache.rb
 gem 'heroku-api'
 gem 'bust_rails_etags'          # https://github.com/n8/bust_rails_etags
+gem 'bugsnag'
 
 # For pagination
 gem 'kaminari', '~> 0.14.1'
@@ -130,7 +132,7 @@ gem 'coffee-rails'              , '~>4.0.0'
 # gem 'js-routes'                 , '~>0.9.3'
 
 # Load FontAwesome
-gem 'font-awesome-rails'        , '~>4.0.1.0'
+gem 'font-awesome-rails'        , '~>4.0.3.0'
 # Load jQuery
 gem 'jquery-rails'              , '~>3.0.4'
 # Load Compass utilities

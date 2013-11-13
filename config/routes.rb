@@ -31,11 +31,11 @@ CoursAvenue::Application.routes.draw do
       resources :subjects
       resources :reservation_loggers, only: [:index, :destroy]
       resources :invited_teachers, only: [:index]
+      resources :sticker_demands, only: [:index]
       resources :structures, path: 'etablissements' do
         member do
           get   :update_widget_status
           get   :wizard
-          get   :flyer
           get   :signature
           get   :dashboard, path: 'tableau-de-bord'
           patch :activate
@@ -44,7 +44,6 @@ CoursAvenue::Application.routes.draw do
           get   :coursavenue_recommendations, path: 'recommander-coursavenue'
           post  :recommend_friends
           post  :update
-          get   :sticker
           get   :widget
           match :widget_ext, controller: 'structures', via: [:options, :get], as: 'widget_ext'
         end
@@ -56,6 +55,11 @@ CoursAvenue::Application.routes.draw do
         devise_scope :admins do
           collection do
             get 'unsubscribe/:signature' => 'admins#unsubscribe', as: 'unsubscribe'
+          end
+        end
+        resources :sticker_demands, only: [:create, :new, :index], controller: 'structures/sticker_demands' do
+          member do
+            put :update_sent
           end
         end
         resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
@@ -127,7 +131,7 @@ CoursAvenue::Application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations'}
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
     collection do
-      get 'unsubscribe/:signature' => 'students#unsubscribe', as: 'unsubscribe'
+      get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
     end
     member do
       get :choose_password
@@ -163,6 +167,7 @@ CoursAvenue::Application.routes.draw do
     end
     resources :courses , only: [:show, :index], path: 'cours', controller: 'structures/courses'
     resources :comments, only: [:new, :show, :index], path: 'recommandations', controller: 'structures/comments'
+    resources :medias, only: [:index], controller: 'structures/medias'
   end
 
   resources :courses, only: [:show, :index], path: 'cours' do
@@ -230,7 +235,7 @@ CoursAvenue::Application.routes.draw do
 
   get '/blog' => redirect('/blog/')
 
-  get 'contact/' => 'home#contact', via: [:post]
+  post 'contact/' => 'home#contact'
 
   root :to => 'home#index'
 end

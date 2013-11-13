@@ -3,7 +3,16 @@ class UsersController < InheritedResources::Base
   layout 'user_profile'
   actions :show, :update
 
-  load_and_authorize_resource :user, find_by: :slug, except: [:first_update]
+  load_and_authorize_resource :user, find_by: :slug, except: [:first_update, :unsubscribe]
+
+  def unsubscribe
+    if user = User.read_access_token(params[:signature])
+      user.update_attribute :email_opt_in, false
+      redirect_to root_url, notice: 'Vous avez bien été desinscrit de la liste.'
+    else
+      redirect_to root_url, notice: 'Lien invalide.'
+    end
+  end
 
   def show
     @user = User.find(params[:id])

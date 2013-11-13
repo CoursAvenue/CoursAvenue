@@ -47,7 +47,7 @@ FilteredSearch.addRegions({
 });
 
 FilteredSearch.addInitializer(function(options) {
-    var bootstrap, structures, structures_view, layout, maps_view;
+    var bootstrap, structures, structures_view, layout, maps_view, $loader;
 
     bootstrap = window.coursavenue.bootstrap;
 
@@ -56,8 +56,6 @@ FilteredSearch.addInitializer(function(options) {
     structures_view = new FilteredSearch.Views.PaginatedCollectionView({
         collection: structures,
         events: {
-            'structures:updating': 'showLoader',
-            'structures:updated':  'hideLoader',
             'pagination:next':     'nextPage',
             'pagination:prev':     'prevPage',
             'pagination:page':     'goToPage',
@@ -70,23 +68,27 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
+
     structures.bootstrap();
     window.pfaff = structures;
 
     /* set up the layouts */
     layout           = new FilteredSearch.Views.SearchWidgetsLayout();
 
+    layout.on('structures:updating', function(){
+        $loader = $loader || $('[data-type="loader"]');
+        $loader.slideDown();
+    })
+    layout.on('structures:updated', function(){
+        $loader = $loader || $('[data-type="loader"]');
+        $loader.slideUp();
+    })
+
     var bounds       = structures.getLatLngBounds();
     google_maps_view = new FilteredSearch.Views.GoogleMapsView({
         collection: structures,
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
-        },
-        infoBoxOptions: {
-            pixelOffset: new google.maps.Size(-135, -40),
-            boxStyle: {
-                width: "280px"
-            }
         }
     });
 
@@ -103,8 +105,8 @@ FilteredSearch.addInitializer(function(options) {
     /* we can add a widget along with a callback to be used
     * for setup */
     layout.showWidget(google_maps_view, {
-        'structures:updating':               'clearForUpdate showLoader hideInfoWindow',
-        'structures:updated':                'hideLoader',
+        'structures:updating':               'clearForUpdate hideInfoWindow',
+        'structures:updated':                'clearForUpdate',
         'structures:itemview:highlighted':   'selectMarkers',
         'structures:itemview:unhighlighted': 'deselectMarkers',
         'filter:update:map':                 'centerMap',
@@ -112,20 +114,20 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     /* TODO these widgets all have "reset" bound to "updated"...
-    *  let's make that a default: the master declares a "setup"
-    *  event, and the widgets all run their "setup" method on
-    *  that event. */
+     * let's make that a default: the master declares a "setup"
+     * event, and the widgets all run their "setup" method on
+     * that event. */
     /* TODO all these widgets have "dependencies", that is, they
-    * can depend on the main widget for data. Let's make this
-    * explicit so that the order of the 'showWidget' calls doesn't
-    * matter */
+     * can depend on the main widget for data. Let's make this
+     * explicit so that the order of the 'showWidget' calls doesn't
+     * matter */
     /* TODO all these widgets use 'data-type=view_name' so lets
-    * make that a default. */
+     * make that a default. */
     /* TODO the layout is divided into two parts: one widget well,
-    * where widgets can be added (the map is there), and one div
-    * full of explicitly added widgets. We should either not use
-    * wells, or fix the well system to adapt to different layout
-    * designs easily */
+     * where widgets can be added (the map is there), and one div
+     * full of explicitly added widgets. We should either not use
+     * wells, or fix the well system to adapt to different layout
+     * designs easily */
     layout.showWidget(results_summary_tool, {
         'structures:updated:summary': 'resetSummaryTool'
     }, '[data-type=results-summary-tool]');

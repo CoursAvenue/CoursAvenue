@@ -1,5 +1,5 @@
 <div class="flexbox white-box structure-item">
-    <div class="flexbox__item two-tenths">
+    <div class="flexbox__item two-tenths v-top">
         <div class="relative">
             {{#if logo_present}}
                 <a href="{{ data_url }}" class="block">
@@ -9,27 +9,35 @@
             {{#if has_free_trial_course}}
                 <div class="free-trial-badge"></div>
             {{/if}}
-            {{#if medias_count}}
-                <a href="{{ data_url }}#tab-medias" class="structure-item__medias-count">
-                    {{#if images_count}}
-                        {{ images_count }} <i class="fa fa-picture-o"></i>
-                    {{/if}}
-                    {{#if images_count}}
-                        {{#if videos_count}}
-                            /
-                        {{/if}}
-                    {{/if}}
-                    {{#if videos_count}}
-                        {{ videos_count }} <i class="fa fa-youtube-play"></i>
-                    {{/if}}
-                </a>
+            {{#if has_promotion}}
+                <div class="promotion-badge"></div>
             {{/if}}
         </div>
     </div><!--
- --><article class="flexbox__item four-tenths v-top soft-half">
+ --><article class="flexbox__item four-tenths v-top soft-half hard--right">
         <h2 class="epsilon inline v-top">
             <a href="{{ data_url }}">{{ name }}</a>
         </h2>
+        <div>
+            {{#if has_plannings}}
+            <a href="javascript:void(0);" class="flexbox__item blue" data-type="accordion-control" data-value="courses" data-attributes="data_url">
+                <i class="fa fa-arrow-circle-down"></i>
+                {{ plannings_count }}
+                {{ pluralize plannings_count 'séance' 'séances' }}
+                {{#if has_price_range}}
+                    entre
+                    <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                    à
+                    <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
+                {{else}}
+                    {{#if min_price_amount}}
+                        à partir de
+                        <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                    {{/if}}
+                {{/if}}
+            </a>
+            {{/if}}
+        </div>
         {{#if audience}}
             <div>
                 <span class="milli">{{audience}}</span>
@@ -51,33 +59,27 @@
                 <i class="fa fa-home"></i>
             </span>
         {{/if}}
+        {{#if structure_type}}
+            |
+            <span class="milli">{{structure_type}}</span>
+        {{/if}}
         </div>
         {{#if funding_types}}
             <div>
                 <span class="pointer lbl lbl--small" data-behavior="tooltip" title="{{funding_types}}">Financements spécifiques acceptés</span>
             </div>
         {{/if}}
+
     </article><!--
- --><div class="flexbox__item two-tenths v-top soft--top text--center milli {{#if has_courses}}structure-item__button{{/if}}" data-type="accordion-control" data-value="courses" data-attributes="data_url">
-        <div class="alpha thin brand">{{ plannings_count }}</div>
-        {{ pluralize plannings_count 'séance' 'séances' }}
-        <div>
-            {{#if has_price_range}}
-                de
-                <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
-                à
-                <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
-            {{else}}
-                {{#if min_price_amount}}
-                    à partir de
-                    <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
-                {{/if}}
-            {{/if}}
-        </div>
+ --><div class="flexbox__item two-twelfths v-middle text--center {{#if has_medias}}structure-item__button{{/if}}" {{#if has_medias}} data-type="accordion-control" data-value="medias" data-attributes="data_url"{{/if}}>
+        <div class="alpha thin brand">{{ medias_count }}</div>
+        <span class="milli">
+            {{ pluralize medias_count 'Photo / vidéo' 'Photos & vidéos' }}
+        </span>
     </div><!--
- --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} two-twelfths v-top soft--top text--center" data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments">
+ --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} two-twelfths v-middle text--center" {{#if has_comments}}data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments"{{/if}}>
         <div class="alpha thin brand">{{ comments_count }}</div>
-        avis <i class="lbc-brand-icon"></i>
+        <span class="milli">avis <i class="lbc-brand-icon"></i></span>
         <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
             <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
             <meta property="v:rating" itemprop="rating" content="{{ rating }}">

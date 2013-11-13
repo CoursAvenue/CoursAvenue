@@ -1,17 +1,17 @@
 <thead>
     <tr>
-        <td colspan="3" class="text--left">
+        <td colspan="6" class="text--left">
+            {{#if min_price_amount}}
+            <div class="float--right">
+                à partir de {{ min_price_amount }}€ ({{ min_price_libelle }})
+            </div>
+            {{/if}}
             <div>
                 <a href="{{data_url}}" title="{{ name }}" class="bold zeta">{{ name }}</a>
             </div>
             <div class="gray" style="font-size: 12px;">
                 {{{subjects}}}
             </div>
-        </td>
-        <td colspan="3" class="text--right">
-        {{#if min_price_amount}}
-            à partir de {{ min_price_amount }}€ ({{ min_price_libelle }})
-        {{/if}}
         </td>
     </tr>
 <tbody>
@@ -24,19 +24,19 @@
     {{/unless}}
     {{#each plannings }}
     <tr>
-        <td class="two-twelfths">{{ week_day }}</td>
+        <td class="two-twelfths">{{ date }}</td>
         <td class="three-twelfths">{{ time_slot }}</td>
         <td class="one-twelfth">{{ duration }}</td>
         <td class="two-twelfths">{{ audiences }}</td>
         <td class="three-twelfths">{{ levels }}</td>
         <td class="one-twelfths text--right">
             {{#if is_individual}}
-                <i class="fa fa-user"></i>
+                <i data-behavior="tooltip" title="Cours individuel" data-placement="left" class="pointer fa fa-user"></i>
             {{else}}
-                <i class="fa fa-group"></i>
+                <i data-behavior="tooltip" title="Cours collectif" data-placement="left" class="pointer fa fa-group"></i>
             {{/if}}
             {{#if teaches_at_home}}
-                <i class="fa fa-home"></i>
+                <i data-behavior="tooltip" title="Cours à domicile" data-placement="left" class="pointer fa fa-home"></i>
             {{/if}}
         </td>
     </tr>

@@ -93,7 +93,7 @@
 }
 .word-break-normal { word-break: normal; }
 .thin              { font-weight: 300; }
-.very-soft         { padding: 5px;}
+.very-soft         { padding: 5px; }
 
 .darker-background {
  background-color: $beige-darker;
@@ -107,6 +107,5 @@
     top      : 0;
     left     : 0;
 }
-.pointer {
-    cursor: pointer;
-}
+.pointer    { cursor: pointer;}
+.underlined { text-decoration: underline; }

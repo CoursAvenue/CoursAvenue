@@ -15,7 +15,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if @user.persisted?
       # Merge user if it comes from a new message.
       flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', :kind => 'Facebook'
-      if request.referer.include?('token') and request.referer.include?('email')
+      if request.referer and request.referer.include?('token') and request.referer.include?('email')
         request_params = Rack::Utils.parse_nested_query(request.referer.split('?')[1])
         requested_user = User.where(email: request_params['email']).first
         if requested_user.reset_password_token_valid?(request_params['token'])

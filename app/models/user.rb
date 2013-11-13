@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
                   :name, :first_name, :last_name, :fb_avatar, :location, :avatar, :email_opt_in
 
   validates :name, :email, presence: true
+  validates :email, uniqueness: true
 
   has_attached_file :avatar,
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,

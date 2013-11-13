@@ -18,7 +18,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         markerSelected: function (e) {
-            console.log("markerSelected");
             this.setSelectLock(true);
             this.trigger('focus', e);
             e.stopPropagation();

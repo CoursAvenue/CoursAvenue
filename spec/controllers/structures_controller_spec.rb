@@ -16,11 +16,8 @@ describe StructuresController do
       "logo_thumb_url",
       "parent_subjects_text",
       "parent_subjects",
-      "child_subjects",
       "data_url",
-      "subjects_count",
       "too_many_subjects",
-      "subjects",
       "places"
     ]
   end

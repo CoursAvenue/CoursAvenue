@@ -47,7 +47,7 @@ class Comment < ActiveRecord::Base
     when 15
       AdminMailer.delay.congratulate_for_fifteenth_comment(self)
     end
-    self.notify_student
+    self.notify_user
   end
 
   def decline!
@@ -97,14 +97,16 @@ class Comment < ActiveRecord::Base
     if self.structure and self.email
       _structure_id = self.structure.id
       _email        = self.email
-      if Student.where{(structure_id == _structure_id) & (email == _email)}.count > 0
+      user          = User.where{email == _email}.first
+      _user_id      = user.id if user
+      if _user_id and CommentNotification.where{(structure_id == _structure_id) & (user_id == _user_id)}.count > 0
         self.status = 'accepted'
       end
     end
     self.status ||= 'pending'
   end
 
-  def notify_student
+  def notify_user
     UserMailer.delay.comment_has_been_validated(self)
   end
 

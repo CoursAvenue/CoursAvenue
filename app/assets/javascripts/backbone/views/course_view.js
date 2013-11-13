@@ -7,12 +7,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         tagName:   "table",
         className: "white-box table--striped table--data push-half--top flush--bottom",
 
-        events: {
-          'click': 'handleClick'
+        onRender: function() {
+            this.$('[data-behavior=tooltip]').tooltip();
         },
-
-        handleClick: function () {
-        }
     });
 
 });

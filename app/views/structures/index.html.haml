@@ -5,7 +5,7 @@
     %link{rel: 'canonical', href: structures_url}
 
 = content_for :title do
-  = "#{(params[:subject_id] ? "Établissements de #{@subject.name.downcase}" : 'Établissements')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
+  = "#{(params[:subject_id].present? ? "Établissements de #{@subject.name.downcase}" : 'Établissements')} #{(params[:name].present? ? "correspondant à : « #{params[:name]} »" : (params[:city].present? ? "à #{params[:city]}" : 'à Paris'))}"
 
 
 :javascript
@@ -28,7 +28,7 @@
   - if params[:name]
     %li= params[:name]
 %h1.text--center.delta.flush.lbl.lbl--blue.visuallyhidden
-  - if params[:subject_id]
+  - if params[:subject_id].present?
     Établissements de #{@subject.name.downcase}
   - else
     Établissements
@@ -39,10 +39,9 @@
   - else
     à Paris
 
--# .main-container= render 'shared/structures_header_search'
 .filtered-search-loader.text--center.island{ :data => { :type => "filtered-search-loader" }}
   = image_tag 'logo.png', class: 'center-block'
-  = image_tag 'gifs/loading-indicator.gif', class: 'center-block'
+  = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20
 #filtered-search.filtered-search{ :data => { :type => "filtered-search-root" }}
 
 = content_for :scripts do

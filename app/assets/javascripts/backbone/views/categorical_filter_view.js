@@ -14,9 +14,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             'keydown #search-input':            'announceSearchTerm'
         },
 
-        announceSearchTerm: function (e, data) {
-            name = (data ? data.name : e.currentTarget.value);
-            this.trigger("filter:search_term", { 'name': name });
+        announceSearchTerm: function (event, data) {
+            name = (data ? data.name : event.currentTarget.value);
+            // Prevent from launching the search if the name is same than previous one
+            if (name != this.previous_searched_name) {
+                this.previous_searched_name = name;
+                this.trigger("filter:search_term", { 'name': name });
+            }
         },
 
         ui: {
@@ -36,6 +40,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         resetCategoricalFilterTool: function (data) {
             this.ui.$search_input.attr('value', data.name);
+            this.previous_searched_name = data.name;
         }
     });
 });

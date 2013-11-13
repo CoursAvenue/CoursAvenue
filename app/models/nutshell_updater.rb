@@ -15,8 +15,10 @@ class NutshellUpdater
     if (admin = structure.main_contact)
       contacts = self.nutshell.search_by_email admin.email
       if contacts['contacts'].any?
+        puts 'Updating contact'
         self.update_contact(structure)
       else
+        puts 'Creating contact'
         self.create_contact(structure)
       end
     end
@@ -46,11 +48,13 @@ class NutshellUpdater
           new_tags.delete 'Complet 1'
         end
         address = {
-          'address_1'  => structure.address,
-          'city'       => structure.city.name,
-          'state'      => '',
-          'postalCode' => structure.zip_code,
-          'country'    => 'France'
+          '1' => {
+            'address_1'  => structure.street,
+            'city'       => structure.city.name,
+            'state'      => '',
+            'postalCode' => structure.zip_code,
+            'country'    => 'FR'
+          }
         }
         new_contact = {
           'tags'    => new_tags.uniq,
@@ -58,7 +62,8 @@ class NutshellUpdater
         }
         nutshell.edit_contact contact['id'], contact['rev'].to_i, new_contact
         puts "Updating #{admin.email} from #{structure.name}"
-      rescue
+      rescue Exception => exception
+        puts exception
       end
     end
 
@@ -79,11 +84,13 @@ class NutshellUpdater
   def self.create_nutshell_contact_object(structure)
     admin = structure.main_contact
     address = {
-      'address_1'  => structure.address,
-      'city'       => structure.city.name,
-      'state'      => '',
-      'postalCode' => structure.zip_code,
-      'country'    => 'France'
+      '1' => {
+        'address_1'  => structure.street,
+        'city'       => structure.city.name,
+        'state'      => '',
+        'postalCode' => structure.zip_code,
+        'country'    => 'FR'
+      }
     }
     new_contact = {
       'address' => address,
