@@ -58,7 +58,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                     'class': 'map_container'
                 }
             });
-            this.bbox      = options.collection.getLatLngBounds().bbox;
             this.map       = new google.maps.Map(this.mapView.el, this.mapOptions);
             this.map_annex = this.mapView.el;
 

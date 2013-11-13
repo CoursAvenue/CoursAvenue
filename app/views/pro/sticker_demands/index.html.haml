@@ -6,6 +6,7 @@
       %th Structure
       %th Rond
       %th Carré
+      %th Adresse
       %th
   %tbody
     - @sticker_demands.each do |sticker_demand|
@@ -13,6 +14,7 @@
         %td= link_to sticker_demand.structure.name, pro_structure_path(sticker_demand.structure)
         %td= sticker_demand.round_number
         %td= sticker_demand.square_number
+        %td= sticker_demand.address
         %td.text--right
           - if sticker_demand.sent
             Envoyé le

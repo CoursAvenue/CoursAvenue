@@ -55,6 +55,9 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bugsnag (1.6.3)
+      httparty (>= 0.6, < 1.0)
+      multi_json (~> 1.0)
     builder (3.1.4)
     bust_rails_etags (0.0.5)
     callsite (0.0.11)
@@ -375,6 +378,7 @@ DEPENDENCIES
   backbone-relational-rails (~> 0.8.6)
   better_errors
   binding_of_caller
+  bugsnag
   bust_rails_etags
   cancan (~> 1.6.9)
   certified (~> 0.1.1)

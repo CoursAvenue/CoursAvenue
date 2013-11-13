@@ -4,6 +4,24 @@ class AdminMailer < ActionMailer::Base
 
   default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
+
+  def inform_admin(subject, text)
+    @text = text
+    mail to: 'contact@coursavenue.com', subject: subject
+  end
+  # ---------------------------------------------
+  # Stickers
+  # ---------------------------------------------
+  def stickers_has_been_ordered(sticker_demand)
+    @structure = sticker_demand.structure
+    mail to: @structure.main_contact.email, subject: 'Votre commande d’autocollants a bien été prise en compte'
+  end
+
+  def stickers_has_been_sent(sticker_demand)
+    @structure = sticker_demand.structure
+    mail to: @structure.main_contact.email, subject: "Vos d’autocollants viennent d'être expédiés"
+  end
+
   # ---------------------------------------------
   # Recommandations
   # ---------------------------------------------

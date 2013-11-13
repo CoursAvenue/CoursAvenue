@@ -28,9 +28,6 @@ class Pro::StructuresController < Pro::ProController
   def signature
   end
 
-  def flyer
-  end
-
   def widget
     @structure = Structure.friendly.find params[:id]
     respond_to do |format|

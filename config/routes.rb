@@ -36,7 +36,6 @@ CoursAvenue::Application.routes.draw do
         member do
           get   :update_widget_status
           get   :wizard
-          get   :flyer
           get   :signature
           get   :dashboard, path: 'tableau-de-bord'
           patch :activate
