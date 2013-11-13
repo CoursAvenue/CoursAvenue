@@ -58,10 +58,12 @@
     font-weight: 400;
 }
 
+.rounded         { @include border-radius($brand-round) }
 .bordered--right { border-right  : 1px solid $gray-smooth; }
 .bordered--left  { border-left   : 1px solid $gray-smooth; }
 .bordered--bottom{ border-bottom : 1px solid $gray-smooth; }
 .bordered--top   { border-top    : 1px solid $gray-smooth; }
+.bordered        { border        : 1px solid $gray-smooth; }
 .center-block    { margin-left: auto; margin-right: auto; display: block; }
 .block           { display: block; }
 .inline          { display: inline;}
@@ -93,7 +95,7 @@
 }
 .word-break-normal { word-break: normal; }
 .thin              { font-weight: 300; }
-.very-soft         { padding: 5px;}
+.very-soft         { padding: 5px; }
 
 .darker-background {
  background-color: $beige-darker;

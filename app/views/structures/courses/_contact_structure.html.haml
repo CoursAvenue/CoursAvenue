@@ -23,16 +23,3 @@
       - if @course.plannings.any? and @course.plannings.first.duration
         = "de #{readable_duration @course.plannings.first.duration}"
     %ul.nav.flush--bottom= join_course_subjects @course, true
-%hr.push-half--bottom
-
-- if @course.description
-  .read-more{data: {behavior: 'read-more'}}
-    = simple_format @course.description
-
-.text--center
-  -# = form_for @course.reservations.build, remote: true, html: {id: 'coord-form'} do |f|
-  -#   = f.hidden_field :reservable_type
-  -#   = f.hidden_field :reservable_id
-  = link_to "Coordonnées de reservation", '#course_info', class: 'btn btn--green btn--full', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])", title: 'Information pour la réservation du cours', data: {behavior: 'modal', width: '650px'}
-
-#course_info.hidden= render 'info_popup'

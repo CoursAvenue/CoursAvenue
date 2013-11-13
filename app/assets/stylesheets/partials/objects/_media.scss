@@ -8,11 +8,15 @@
     iframe, object {
         width: 100%;
     }
-    &:hover {
-        text-decoration: none;
-    }
     img {
         width: 100%;
+    }
+    &:hover {
+        text-decoration: none;
+        i.fa-expand {
+            padding    : 10px;
+            font-size  : 1.3em;
+        }
     }
     i.fa-expand {
         position        : absolute;
@@ -20,7 +24,10 @@
         right           : 6px;
         background-color: white;
         padding         : 4px;
+        font-weight     : normal;
+        font-size       : 1em;
         @include border-radius(3px);
+        @include transition(all 200ms linear);
     }
 }
 

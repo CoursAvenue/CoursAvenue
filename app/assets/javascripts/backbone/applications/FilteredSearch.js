@@ -64,7 +64,7 @@ FilteredSearch.addInitializer(function(options) {
             'filter:subject':      'filterQuery',
             'filter:search_term':  'filterQuery',
             'filter:location':     'filterQuery',
-            'map:marker:focus':    'zoomToStructure'
+            'map:marker:focus':    'findItemView'
         }
     });
 
@@ -105,10 +105,12 @@ FilteredSearch.addInitializer(function(options) {
     /* we can add a widget along with a callback to be used
     * for setup */
     layout.showWidget(google_maps_view, {
+        'structures:updating':               'clearForUpdate hideInfoWindow',
         'structures:updated':                'clearForUpdate',
         'structures:itemview:highlighted':   'selectMarkers',
         'structures:itemview:unhighlighted': 'deselectMarkers',
-        'filter:update:map':                 'centerMap'
+        'filter:update:map':                 'centerMap',
+        'structures:itemview:found':         'showInfoWindow'
     });
 
     /* TODO these widgets all have "reset" bound to "updated"...

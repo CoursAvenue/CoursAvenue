@@ -3,30 +3,47 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     Views.BlankView = Marionette.ItemView.extend({ template: "" });
 
     /* TODO break this out into its own file (it got big...) */
-    Views.StructureMarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
+    Views.InfoBoxView = Backbone.Marionette.ItemView.extend({
+        template: 'backbone/templates/info_box_view',
+
         initialize: function (options) {
+            var defaultOptions = {
+                alignBottom: true,
+                pixelOffset: new google.maps.Size(-150, -30),
+                boxStyle: {
+                    width: "300px"
+                },
+                enableEventPropagation: true,
+                closeBoxUrl: ""
+            };
 
-            /* TODO this setup should be done in the constructor, in the library, in another repo far, far away */
-            this.$el = $("<div class='map-marker-image'><a href='javascript:void(0)'></a></div>");
-            this.overlayOptions.content = this.$el[0];
+            options = _.extend(defaultOptions, options);
+
+            this.infoBox = new InfoBox(options);
+            google.maps.event.addListener(this.infoBox, 'closeclick', _.bind(this.closeClick, this));
         },
 
-        mapEvents: {
-            'mouseover': 'select',
-            'mouseout':  'deselect'
+        onClose: function () {
+            this.infoBox.close();
         },
 
-        /* TODO stupidly named event that the library forces us to use *barf* */
-        toggleSelect: function (e) {
-            this.trigger('focus', e);
+        closeClick: function () {
+            this.trigger('closeClick');
         },
 
-        select: function (e) {
-            this.$el.addClass('active');
+        open: function (map, marker) {
+            this.infoBox.open(map, marker);
         },
 
-        deselect: function (e) {
-            this.$el.removeClass('active');
+        setContent: function (model) {
+            this.model = model;
+            this.render();
+
+            this.infoBox.setContent(this.el);
+        },
+
+        getInfoBox: function () {
+            return this.infoBox;
         }
     });
 
@@ -72,15 +89,47 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             if (this.update_live === 'true') {
                 this.toggleLiveUpdate();
             }
+
+            /* one info window that gets populated on each marker click */
+
+            this.infoBox = new Views.InfoBoxView(options.infoBoxOptions);
+            google.maps.event.addListener(this.map, 'click', _.bind(this.onItemviewCloseClick, this));
+        },
+
+        events: {
+            'click [data-type="closer"]': 'hideInfoWindow'
+        },
+
+        onItemviewCloseClick: function () {
+            if (this.current_info_marker) {
+                this.unlockCurrentMarker();
+                this.hideInfoWindow();
+            }
         },
 
         ui: {
             bounds_controls: '[data-behavior="bounds-controls"]'
         },
 
-        /* life-cycle methods */
-        onMarkerFocus: function (data) {
-            this.trigger('map:marker:focus', data);
+        unlockCurrentMarker: function () {
+            if (this.current_info_marker) {
+                var marker = this.markerViewChildren[this.current_info_marker];
+                marker.setSelectLock(false);
+                marker.deselect();
+            }
+        },
+
+        onMarkerFocus: function (marker_view) {
+            var marker = this.markerViewChildren[this.current_info_marker];
+            if (marker_view === marker) {
+                return false;
+            }
+
+            this.unlockCurrentMarker();
+
+            /* TODO this is a problem, we need to not pass out the whole view, d'uh */
+            this.current_info_marker = marker_view.model.cid;
+            this.trigger('map:marker:focus', marker_view);
         },
 
         onRender: function() {
@@ -241,6 +290,27 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 if (marker) { marker.deselect(); }
             });
         },
+
+        hideInfoWindow: function () {
+            this.current_info_marker = undefined;
+            this.infoBox.close();
+        },
+
+        showInfoWindow: function (view) {
+            var marker = this.markerViewChildren[this.current_info_marker];
+
+            if (this.infoBox) {
+                this.infoBox.close();
+            }
+
+            /* build content for infoBox */
+            // var content = view.$el.html();
+            var content = view.model;
+
+            this.infoBox.setContent(content);
+            this.infoBox.open(marker.map, marker.gOverlay);
+        },
+
         serializeData: function () {
             return {
                 update_live: this.update_live === 'true'

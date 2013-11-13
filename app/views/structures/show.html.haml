@@ -147,12 +147,25 @@
       %meta{itemprop: 'latitude', content: @structure.latitude}
       %meta{itemprop: 'longitude', content: @structure.longitude}
 
-    .white-box.soft-half
+    .white-box.islet
       %h1.gamma.blue.push-half--bottom= @structure.name
       %ul.nav.push-half--ends= join_child_subjects @structure, true
 
-      .text--center
-        = link_to "Coordonnées de reservation", '#course_info', class: 'btn btn--green btn--full', onclick: "_gaq.push(['_trackEvent', 'Assister au cours', 'click','Inscrit'])", title: 'Information pour la réservation du cours', data: {behavior: 'modal', width: '650px'}
+    .blue-box.islet
+      = simple_form_for [@structure, Message.new] do |f|
+        .delta Envoyez votre message personnel
+        %i Gratuit & sans inscription
+        .grid
+          .grid__item.one-half>
+            %label Votre nom
+            %input.one-whole{type: 'text', name: 'user[name]', placeholder: 'Ex. : Florian Cassel'}
+          .grid__item.one-half>
+            %label Votre email
+            %input.one-whole{type: 'email', name: 'user[email]', placeholder: 'Ex. : florian.c@gmail.com'}
+        %label Message
+        = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 165px;', value: "Bonjour,\n\nJe souhaiterais venir pour une première séance au cours de XXX, est-ce que cela est possible ? N’hésitez pas à m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt", data: { behavior: 'autoresize' }}
+        = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
+
 
     .text--center.white-box.soft-half.push--top.push--bottom
       - if @structure.comments_count and @structure.comments_count > 0

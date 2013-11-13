@@ -128,6 +128,27 @@
 
       = render 'contact_structure'
 
+    .blue-box.islet
+      = simple_form_for [@structure, Message.new] do |f|
+        .delta Envoyez votre message personnel
+        %i Gratuit & sans inscription
+        .grid
+          .grid__item.one-half>
+            %label Votre nom
+            %input.one-whole{type: 'text', name: 'user[name]', placeholder: 'Ex. : Florian Cassel'}
+          .grid__item.one-half>
+            %label Votre email
+            %input.one-whole{type: 'email', name: 'user[email]', placeholder: 'Ex. : florian.c@gmail.com'}
+        %label Message
+        = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 165px;', value: "Bonjour,\n\nJe souhaiterais venir pour une première séance au cours de #{@course.name}, est-ce que cela est possible ? N’hésitez pas à m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt", data: { behavior: 'autoresize' }}
+        = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
+
+    - if @course.description
+      .white-box.islet
+        .delta Description du cours
+        .read-more{data: {behavior: 'read-more'}}
+          = simple_format @course.description
+
     .text--center.white-box.soft-half.push--top.push--bottom
       - if @structure.comments_count and @structure.comments_count > 0
         %a#show-comments.muted-link.thin.big-alpha.brand{href: 'javascript:void(0)'} #{@structure.comments_count}
