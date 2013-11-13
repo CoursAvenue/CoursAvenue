@@ -113,41 +113,16 @@ FilteredSearch.addInitializer(function(options) {
         'structures:itemview:found':         'showInfoWindow'
     });
 
-    /* TODO these widgets all have "reset" bound to "updated"...
-     * let's make that a default: the master declares a "setup"
-     * event, and the widgets all run their "setup" method on
-     * that event. */
     /* TODO all these widgets have "dependencies", that is, they
      * can depend on the main widget for data. Let's make this
      * explicit so that the order of the 'showWidget' calls doesn't
      * matter */
-    /* TODO all these widgets use 'data-type=view_name' so lets
-     * make that a default. */
-    /* TODO the layout is divided into two parts: one widget well,
-     * where widgets can be added (the map is there), and one div
-     * full of explicitly added widgets. We should either not use
-     * wells, or fix the well system to adapt to different layout
-     * designs easily */
-    layout.showWidget(results_summary, {
-        'structures:updated:summary': 'reset'
-    }, '[data-type=results-summary]');
-
-    layout.showWidget(categorical_filter, {
-    }, '[data-type=categorical-filter]');
-
-    layout.showWidget(location_filter, {
-    }, '[data-type=location-filter]');
-
-    layout.showWidget(subject_filter, {
-    }, '[data-type=subject-filter]');
-
-    layout.showWidget(top_pagination, {
-        'structures:updated:pagination': 'reset'
-    }, '[data-type=top-pagination]');
-
-    layout.showWidget(bottom_pagination, {
-        'structures:updated:pagination': 'reset'
-    }, '[data-type=bottom-pagination]');
+    layout.showWidget(categorical_filter);
+    layout.showWidget(location_filter);
+    layout.showWidget(subject_filter);
+    layout.showWidget(results_summary);
+    layout.showWidget(top_pagination);
+    layout.showWidget(bottom_pagination);
 
     layout.results.show(structures_view);
 });

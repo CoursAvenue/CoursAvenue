@@ -1,7 +1,7 @@
 <div data-type="loader" class="filtered-search__loader" style="display: none;">
   <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block" height="10">
 </div>
-<section id="widgets-container" class="filtered-search__map-wrapper relative">
+<section id="widgets-container" class="filtered-search__map-wrapper relative" data-type="google-maps">
     {{#each widget}}
         <div id="{{ id }}" data-type="widget"></div>
     {{/each}}
