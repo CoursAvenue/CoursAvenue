@@ -84,7 +84,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 }
             }
 
-            this.active_region = (closing)? undefined : value;
+            this.active_region = (closing ? undefined : value);
         },
 
         showLoader: function(value) {
