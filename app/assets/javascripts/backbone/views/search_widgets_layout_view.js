@@ -44,10 +44,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             /* remember the region and listen to its show method */
             this.listenTo(this[region_name], 'show', function (view) {
-                if (events) {
-                    this.bindWidgetEvents(view, events, region_name);
-                }
-
+                this.bindWidgetEvents(view, events, region_name);
                 view.triggerMethod('after:show'); /* finally, the view may respond */
             });
 
@@ -64,14 +61,22 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             var event_suffix = _.last(region_name.split('_')),
                 self = this;
 
+            if (events === undefined) {
+                events = {};
+            }
+
             /* tie the setup method to the main region */
-            /* TODO reset and setup are probably dangerous names to take...
-             * reset, in particular, already has a meaning in terms of backbone */
             /* TODO currently we are hard-coding 'structures:updated', but this
              * should be configured when the 'master region' is chosen */
-            if (events && _.isFunction(view.setup) || _.isFunction(view.reset)) {
+            if (_.isFunction(view.setup)) {
                 events.once = (events.once ? events.once : {});
                 events.once['structures:updated' + ':' + event_suffix] = 'setup';
+            }
+
+            /* TODO reset and setup are probably dangerous names to take...
+             * reset, in particular, already has a meaning in terms of backbone */
+            if (_.isFunction(view.reset)) {
+                events['structures:updated' + ':' + event_suffix] = 'reset';
             }
 
             /* process events that are only responded to once */
