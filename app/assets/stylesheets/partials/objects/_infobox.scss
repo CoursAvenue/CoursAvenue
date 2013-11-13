@@ -14,8 +14,8 @@
         bottom      : -24px;
         content     : "";
         height      : 0;
-        // 100px - 12px (half of the size of the infobox minus the width of the triangle)
-        left        : 88px;
+        // 150px - 12px (half of the size of the infobox minus the width of the triangle)
+        left        : 139px;
         position    : absolute;
         width       : 0;
       }
@@ -38,6 +38,7 @@
         color      : #666;
         z-index    : 10;
         cursor     : pointer;
+        padding-left: 1px;
         @include border-radius(10px);
         &:hover {
           color: black;
