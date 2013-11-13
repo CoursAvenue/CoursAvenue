@@ -22,13 +22,24 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             }
 
             /* prepare the region and its el */
-            var region_name = _.last(view.template.split('/')),
-                new_region = this.addRegion(region_name, '#' + view.cid),
-                $region_hook = $('<div/>', { id: new_region.el.slice(1) }),
-                self = this;
+            /* view_name,     like important_filter_view */
+            /* region name,   like important_filter */
+            /* region suffix, like filter */
+            var view_name     = _.last(view.template.split('/')),
+                region_name   = view_name.split('_').slice(0, -1).join('_'),
+                region_suffix = _.last(region_name.split('_')),
+                new_region    = this.addRegion(region_name, '#' + view.cid),
+                $region_hook  = $('<div/>', { id: new_region.el.slice(1) }),
+                self          = this;
 
             /* remember the region and listen to its show method */
             this.listenTo(this[region_name], 'show', function (view) {
+
+                /* tie the setup method to the main region */
+                if (_.isFunction(view.setup)) {
+                    events.once = (events.once ? events.once : {});
+                    events.once['structures:updated' + ':' + region_suffix] = 'setup';
+                }
 
                 /* process events that are only responded to once */
                 if (events.once) {

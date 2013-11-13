@@ -129,33 +129,24 @@ FilteredSearch.addInitializer(function(options) {
      * wells, or fix the well system to adapt to different layout
      * designs easily */
     layout.showWidget(results_summary, {
-        'structures:updated:summary': 'setup'
+        'structures:updated:summary': 'reset'
     }, '[data-type=results-summary]');
 
     layout.showWidget(categorical_filter, {
-        once: {
-            'structures:updated:filters': 'setup',
-        }
     }, '[data-type=categorical-filter]');
 
     layout.showWidget(location_filter, {
-        once: {
-            'structures:updated:filters': 'setup',
-        }
     }, '[data-type=location-filter]');
 
     layout.showWidget(subject_filter, {
-        once: {
-            'structures:updated:filters': 'setup'
-        }
     }, '[data-type=subject-filter]');
 
     layout.showWidget(top_pagination, {
-        'structures:updated:pagination': 'setup'
+        'structures:updated:pagination': 'reset'
     }, '[data-type=top-pagination]');
 
     layout.showWidget(bottom_pagination, {
-        'structures:updated:pagination': 'setup'
+        'structures:updated:pagination': 'reset'
     }, '[data-type=bottom-pagination]');
 
     layout.results.show(structures_view);
