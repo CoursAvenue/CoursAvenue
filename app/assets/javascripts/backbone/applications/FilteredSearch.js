@@ -93,12 +93,12 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
-    top_pagination_tool        = new FilteredSearch.Views.PaginationToolView({});
-    bottom_pagination_tool     = new FilteredSearch.Views.PaginationToolView({});
-    results_summary_tool       = new FilteredSearch.Views.ResultsSummaryView({});
-    subject_filter_tool        = new FilteredSearch.Views.SubjectFilterView({});
-    categorical_filter_tool    = new FilteredSearch.Views.CategoricalFilterView({});
-    location_filter            = new FilteredSearch.Views.LocationFilterView({});
+    top_pagination            = new FilteredSearch.Views.PaginationToolView({});
+    bottom_pagination         = new FilteredSearch.Views.PaginationToolView({});
+    results_summary           = new FilteredSearch.Views.ResultsSummaryView({});
+    subject_filter            = new FilteredSearch.Views.SubjectFilterView({});
+    categorical_filter        = new FilteredSearch.Views.CategoricalFilterView({});
+    location_filter           = new FilteredSearch.Views.LocationFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -128,35 +128,35 @@ FilteredSearch.addInitializer(function(options) {
      * full of explicitly added widgets. We should either not use
      * wells, or fix the well system to adapt to different layout
      * designs easily */
-    layout.showWidget(results_summary_tool, {
-        'structures:updated:summary': 'resetSummaryTool'
-    }, '[data-type=results-summary-tool]');
+    layout.showWidget(results_summary, {
+        'structures:updated:summary': 'setup'
+    }, '[data-type=results-summary]');
 
-    layout.showWidget(categorical_filter_tool, {
+    layout.showWidget(categorical_filter, {
         once: {
-            'structures:updated:filters': 'resetCategoricalFilterTool',
+            'structures:updated:filters': 'setup',
         }
-    }, '[data-type=categorical-filter-tool]');
+    }, '[data-type=categorical-filter]');
 
     layout.showWidget(location_filter, {
         once: {
             'structures:updated:filters': 'setup',
         }
-    }, '[data-type=location-filter-tool]');
+    }, '[data-type=location-filter]');
 
-    layout.showWidget(subject_filter_tool, {
+    layout.showWidget(subject_filter, {
         once: {
-            'structures:updated:filters': 'setupSubjectFilter'
+            'structures:updated:filters': 'setup'
         }
-    }, '[data-type=subject-filter-tool]');
+    }, '[data-type=subject-filter]');
 
-    layout.showWidget(top_pagination_tool, {
-        'structures:updated:pagination': 'resetPaginationTool'
-    }, '[data-type=top-pagination-tool]');
+    layout.showWidget(top_pagination, {
+        'structures:updated:pagination': 'setup'
+    }, '[data-type=top-pagination]');
 
-    layout.showWidget(bottom_pagination_tool, {
-        'structures:updated:pagination': 'resetPaginationTool'
-    }, '[data-type=bottom-pagination-tool]');
+    layout.showWidget(bottom_pagination, {
+        'structures:updated:pagination': 'setup'
+    }, '[data-type=bottom-pagination]');
 
     layout.results.show(structures_view);
 });

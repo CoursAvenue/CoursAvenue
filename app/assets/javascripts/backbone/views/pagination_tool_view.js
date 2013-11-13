@@ -5,7 +5,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         template: 'backbone/templates/pagination_tool_view',
 
         /* data to describe the pagination tool */
-        resetPaginationTool: function (data) {
+        setup: function (data) {
             this.current_pagination_data = data;
             this.render();
         },

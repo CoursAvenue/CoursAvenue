@@ -8,7 +8,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         /* data to describe the pagination tool */
-        resetSummaryTool: function (data) {
+        setup: function (data) {
             this.current_summary_data = data;
             if (data.sort !== undefined) {
                 var method = data.sort === 'rating_desc';
