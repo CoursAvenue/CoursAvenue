@@ -9,7 +9,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         initialize: function (options) {
             var defaultOptions = {
                 alignBottom: true,
-                pixelOffset: new google.maps.Size(-100, 0),
+                pixelOffset: new google.maps.Size(-100, -30),
                 boxStyle: {
                     width: "200px"
                 },
