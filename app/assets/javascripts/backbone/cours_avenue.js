@@ -23,6 +23,7 @@
 //= require ./views/accordion_item_view
 //= require ./views/relational_accordion_item_view
 //= require ./views/course_view
+//= require ./views/courses_collection_view
 //= require ./views/comment_view
 //= require ./views/media_view
 //= require ./views/medias_collection_view
