@@ -28,9 +28,6 @@
         font-size       : 1em;
         @include border-radius(3px);
         @include transition(all 200ms linear);
-        &:hover {
-            font-weight: bold;
-        }
     }
 }
 

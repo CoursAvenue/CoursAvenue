@@ -25,6 +25,7 @@
 //= require ./views/course_view
 //= require ./views/comment_view
 //= require ./views/media_view
+//= require ./views/medias_collection_view
 //= require ./views/structure_view
 //= require ./views/accordion_view
 //= require ./views/paginated_collection_view

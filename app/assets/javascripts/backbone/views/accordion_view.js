@@ -25,6 +25,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             }*/
 
             this.currently_selected_cid.push(model_cid);
+            view.trigger('show');
         }
     });
 });

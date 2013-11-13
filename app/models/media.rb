@@ -19,9 +19,9 @@ class Media < ActiveRecord::Base
   auto_html_for :url do
     image
     flickr
-    youtube(:width => 400, :height => 250)
-    dailymotion(:width => 400, :height => 250)
-    vimeo(:width => 400, :height => 250)
+    youtube(width: 400, height: 250)
+    dailymotion(width: 400, height: 250)
+    vimeo(width: 400, height: 250)
   end
 
   def determine_format
