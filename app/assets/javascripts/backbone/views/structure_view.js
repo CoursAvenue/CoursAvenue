@@ -12,6 +12,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         initialize: function(options) {
             this.$el.data('url', options.model.get('data_url'));
+
+            /* the structure view needs to know how it is being filtered */
+            if (options.search_term) {
+                this.search_term = options.search_term;
+            }
         },
 
         onRender: function() {
@@ -54,6 +59,25 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 }
                 return false;
             }
+        },
+
+        serializeData: function () {
+            var data = this.model.toJSON();
+            data.search_term = this.search_term;
+
+            data.show_search_term  = false;
+            data.show_price_range  = false;
+            data.show_single_price = false;
+
+            if (data.search_term) {
+                data.show_search_term = true;
+            } else {
+                data.show_price_range = (data.has_price_range ? true : false );
+                data.show_single_price = !data.show_price_range;
+            }
+
+            return data;
         }
+
     });
 });

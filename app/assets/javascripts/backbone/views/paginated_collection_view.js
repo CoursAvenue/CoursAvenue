@@ -193,9 +193,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something
          * if do we would do it here */
+        /* remember that itemViews are constructed and destroyed more often
+        * than the corresponding models */
         itemViewOptions: function(model, index) {
             // we could pass some information from the collectionView
-            return { };
+            return {
+                search_term: decodeURIComponent(this.collection.server_api.name)
+            };
         }
     });
 });
