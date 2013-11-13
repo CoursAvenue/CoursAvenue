@@ -165,7 +165,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             return false;
         },
 
-        zoomToStructure: function (data) {
+        findItemView: function (data) {
             /* find the first place that has any locations that match the given lat/lng */
             var position = data.model.getLatLng();
 
@@ -179,7 +179,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 });
             });
 
-            var course_element = this.children.findByModel(relevant_structure).$el;
+            var itemview = this.children.findByModel(relevant_structure);
+
+            /* announce the view we found */
+            this.trigger('structures:itemview:found', itemview);
+            this.scrollToView(itemview);
+
+        },
+
+        scrollToView: function(view) {
+            var course_element = view.$el;
 
             $(document.body).animate({scrollTop: course_element.offset().top}, 200,'easeInOutCubic');
             $(document.body).scrollTo(course_element[0], {duration: 400})
@@ -188,6 +197,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             setTimeout(function(){
                 course_element.addClass('selected');
             }, 100);
+
         },
 
         /* when rendering each collection item, we might want to

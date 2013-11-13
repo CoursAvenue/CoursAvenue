@@ -1,0 +1,46 @@
+.gm-style {
+    .infoBox {
+        background   : white;
+        position     : relative;
+        > img {
+          display: none;
+        }
+    }
+
+    .infoBox:before {
+        border-color: #FFFFFF rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+        border-style: solid;
+        border-width: 12px 10px;
+        bottom      : -24px;
+        content     : "";
+        height      : 0;
+        // 100px - 12px (half of the size of the infobox minus the width of the triangle)
+        left        : 88px;
+        position    : absolute;
+        width       : 0;
+      }
+
+    .infobox__title {
+        font-size  : 13px;
+        font-weight: bold;
+        display    : block;
+    }
+    .infobox__close {
+        position   : absolute;
+        top        : -8px;
+        right      : -8px;
+        width      : 22px;
+        height     : 22px;
+        line-height: 20px;
+        background : white;
+        border     : 1px solid #EEE;
+        text-align : center;
+        color      : #666;
+        z-index    : 10;
+        cursor     : pointer;
+        @include border-radius(10px);
+        &:hover {
+          color: black;
+        }
+    }
+}

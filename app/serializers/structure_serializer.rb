@@ -11,7 +11,7 @@ class StructureSerializer < ActiveModel::Serializer
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :has_medias, :structure_type,
-             :has_promotion
+             :has_promotion, :parent_subjects_text
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
@@ -126,5 +126,9 @@ class StructureSerializer < ActiveModel::Serializer
 
   def data_url
     structure_path(object)
+  end
+
+  def parent_subjects_text
+    join_parent_subjects_text(object)
   end
 end
