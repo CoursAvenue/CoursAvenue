@@ -199,6 +199,8 @@ class Course < ActiveRecord::Base
     boolean :has_package_price
     boolean :has_trial_lesson
     boolean :has_unit_course_price
+
+    integer :structure_id
   end
 
   handle_asynchronously :solr_index
