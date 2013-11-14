@@ -2,6 +2,9 @@
     position: relative;
     z-index : 2;
 }
+    .structure-item__logo {
+        max-height: 200px;
+    }
     .structure-item__button {
         cursor  : pointer;
         position: relative;
