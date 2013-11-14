@@ -78,18 +78,17 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.map       = new google.maps.Map(this.mapView.el, this.mapOptions);
             this.map_annex = this.mapView.el;
 
-            this.update_live = (typeof($.cookie('map:update:live')) === 'undefined' ? 'true' : $.cookie('map:update:live'));
-
-            google.maps.event.addListenerOnce(this.map, 'bounds_changed', function(){
-                if (self.update_live === 'true') {
-                    /* this is happening too early */
-                    self.toggleLiveUpdate();
-                }
-            });
-
             /* one info window that gets populated on each marker click */
             this.infoBox = new Views.InfoBoxView(options.infoBoxOptions);
+
+            /* recover the user's preference */
+            this.update_live = (typeof($.cookie('map:update:live')) === 'undefined' ? 'true' : $.cookie('map:update:live'));
+
+            /* add listeners, but ignore the first bounds change */
             google.maps.event.addListener(this.map, 'click', _.bind(this.onItemviewCloseClick, this));
+            google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
+            this.lockOnce('map:bounds');
+            this.toggleLiveUpdate();
         },
 
         ui: {
@@ -148,14 +147,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         toggleLiveUpdate: function () {
             /* set or remove a listener */
             if (this.update_live) {
-                this.boundsChangedListener = google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
+                this.unlock('map:bounds');
             } else {
-                this.boundsChangedListener = google.maps.event.removeListener(this.boundsChangedListener);
+                this.lock('map:bounds');
             }
         },
 
         announceBounds: function (e, a, b) {
-            console.log("GoogleMapsView->announceBounds");
             // we got here by a click
             if (e) { e.preventDefault(); }
 
@@ -183,7 +181,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         centerMap: function (data) {
-            console.log("GoogleMapsView->centerMap");
             if (data.lat && data.lng) {
                 // More smooth than setCenter
                 this.map.panTo(new google.maps.LatLng(data.lat, data.lng));
@@ -294,6 +291,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             var content = view.model;
 
             this.infoBox.setContent(content);
+            this.lockOnce('map:bounds');
             this.infoBox.open(marker.map, marker.gOverlay);
         },
 
