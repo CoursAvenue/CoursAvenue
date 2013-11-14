@@ -1,4 +1,62 @@
 // Create a marionette app in the global namespace
+
+var _trigger = Marionette.View.prototype.trigger;
+
+/* event locking for our evented Marionette party party */
+_.extend(Marionette.View.prototype, {
+    _locks: {},
+    _once_locks: {},
+
+    trigger: function () {
+        var args = Array.prototype.slice.call(arguments);
+
+        return this.tryTrigger(args);
+    },
+
+    /* used internally, this method will unset a once lock */
+    tryTrigger: function (args) {
+        var message = args[0];
+
+        if (! this.isLocked(message)) {
+            _trigger.apply(this, args);
+        } else {
+            this.unlockOnce(message);
+        }
+
+        return this;
+    },
+
+    lock: function (message) {
+        this._locks[message] = true;
+    },
+
+    unlock: function (message) {
+        this._locks[message] = false;
+    },
+
+    lockOnce: function (message) {
+        if (this._once_locks[message] === undefined) {
+            this._once_locks[message] = { count: 0 };
+        }
+
+        this._once_locks[message].count += 1;
+    },
+
+    unlockOnce: function (message) {
+        if (this.isLockedOnce(message)) {
+            this._once_locks[message].count -= 1;
+        }
+    },
+
+    isLocked: function (message) {
+        return this._locks[message] || this.isLockedOnce(message);
+    },
+
+    isLockedOnce: function (message) {
+        return this._once_locks[message] && this._once_locks[message].count > 0;
+    }
+});
+
 FilteredSearch = (function (){
     var self = new Backbone.Marionette.Application({
         slug: 'filtered-search',
