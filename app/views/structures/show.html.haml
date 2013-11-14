@@ -34,49 +34,12 @@
 
 
 .grid.push--top
-  .grid__item.six-tenths>
-    %ul.tabs
-      %li.active
-        %a{href: '#tab-map', data: {toggle: 'tab'} }
-          %i.fa.fa-map-marker
-          Carte
-      %li
-        %a{href: '#tab-medias', data: {toggle: 'tab'} }
-          %i.fa.fa-picture-o
-          Photos & Vidéos
-          - if @medias.any?
-            = "(#{@medias.length})"
+  .grid__item.eight-twelfths>
+    = render partial: 'structures/structure_header', locals: {structure: @structure}
 
-    .tab-content
-      #tab-map.tab-pane.active
-        .course-header-map
-          = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 17, mapTypeControl: false}, last_map: true} )
-        %div.white-box.push-half--bottom
-          %ul.block-list#place-list.hidden.flush
-            - @structure.places.each_with_index do |place, index|
-              %li.grid--full
-                .grid__item.width-auto.v-middle.soft-half--right>
-                  .map-marker-image.center-block
-                    %a
-                      %span= index + 1
-                .grid__item.seven-eighths.v-middle>
-                  = place.location.name
-                  %br
-                  %i= place.location.address
-                %div{itemscope: true, itemtype: 'http://schema.org/Place'}
-                  .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
-                    %meta{itemprop: 'latitude', content: place.location.latitude}
-                    %meta{itemprop: 'longitude', content: place.location.longitude}
-          .text--center
-            %a#show-all-places{href: 'javascript:void(0)'} Voir les adresses
+    = render partial: 'structures/map_and_galery', locals: {structure: @structure, places: @structure.places, places_address: @places_address, medias: @medias}
 
-      #tab-medias.tab-pane
-        - if @medias.any?
-          .media-gallery
-            = render partial: 'medias/media', collection: @medias
-        - else
-          %p.white-box.islet.text--center
-            Cet établissement n'a ni photos ni vidéos.
+    = render partial: 'structures/comments_headband', locals: {structure: @structure}
 
     %ul.tabs
       %li.active
@@ -142,49 +105,27 @@
               = render partial: 'teachers/teacher', locals: {teacher: teacher}
 
 
-  .grid__item.four-tenths{itemscope: true, itemtype: 'http://schema.org/Place'}>
+  .grid__item.four-twelfths{itemscope: true, itemtype: 'http://schema.org/Place'}>
     .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
       %meta{itemprop: 'latitude', content: @structure.latitude}
       %meta{itemprop: 'longitude', content: @structure.longitude}
 
-    .white-box.islet
-      %h1.gamma.blue.push-half--bottom= @structure.name
-      %ul.nav.push-half--ends= join_child_subjects @structure, true
+    - if @structure.main_contact
+      .blue-box.islet
+        = simple_form_for [@structure, Message.new] do |f|
+          .delta Contactez pour réserver
+          %i Gratuit & sans inscription
+          .grid
+            .grid__item.one-half>
+              %label Votre nom
+              %input.one-whole.milli{type: 'text', name: 'user[name]', placeholder: 'Ex. : Florian Cassel'}
+            .grid__item.one-half>
+              %label Votre email
+              %input.one-whole.milli{type: 'email', name: 'user[email]', placeholder: 'Ex. : florian.c@gmail.com'}
+          %label Message
+          = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 190px;', value: "Bonjour,\n\nJe souhaiterais venir pour une première séance au cours de XXX, est-ce que cela est possible ? N’hésitez pas à m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt", data: { behavior: 'autoresize' }}
+          = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
 
-    .blue-box.islet
-      = simple_form_for [@structure, Message.new] do |f|
-        .delta Contactez pour réserver
-        %i Gratuit & sans inscription
-        .grid
-          .grid__item.one-half>
-            %label Votre nom
-            %input.one-whole{type: 'text', name: 'user[name]', placeholder: 'Ex. : Florian Cassel'}
-          .grid__item.one-half>
-            %label Votre email
-            %input.one-whole{type: 'email', name: 'user[email]', placeholder: 'Ex. : florian.c@gmail.com'}
-        %label Message
-        = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 165px;', value: "Bonjour,\n\nJe souhaiterais venir pour une première séance au cours de XXX, est-ce que cela est possible ? N’hésitez pas à m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt", data: { behavior: 'autoresize' }}
-        = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
-
-
-    .text--center.white-box.soft-half.push--top.push--bottom
-      - if @structure.comments_count and @structure.comments_count > 0
-        %a#show-comments.muted-link.thin.big-alpha.brand{href: 'javascript:void(0)'} #{@structure.comments_count}
-        %div
-          avis
-          %a{href: '#comments'}
-            %i.lbc-brand-icon
-        .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-          %meta{property: 'v:rating', itemprop: 'rating', content: 5}
-          %meta{itemprop: 'count', content: @structure.comments_count}
-          %meta{itemprop: 'itemreviewed', content: @structure.name}
-          %meta{itemprop: 'name', content: @structure.name}
-          %meta{itemprop: 'street-address', content: @structure.street}
-          %meta{itemprop: 'postal-code', content: @structure.zip_code}
-          %meta{itemprop: 'locality', content: @city.name}
-      - else
-        Pas encore d'avis sur cet établissement
-      .text--center= link_to 'Donner mon avis', new_structure_comment_path(@structure), target: '_blank'
 
     - if @structure.image.present?
       .white-box.islet
@@ -193,40 +134,21 @@
       .white-box.islet
         .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @structure} à #{@structure.name}"
 
-    -# .course-header-map.push--top
-    -#   = gmaps( {markers: {data: @places_address}, map_options: {maxZoom: 15, mapTypeControl: false}, last_map: true} )
-    -# %ul.block-list.white-box
-    -#   - @structure.places.each_with_index do |place, index|
-    -#     %li.grid--full
-    -#       .grid__item.width-auto.v-middle.soft-half--right>
-    -#         .map-marker-image.center-block
-    -#           %a
-    -#             %span= index + 1
-    -#       .grid__item.seven-eighths.v-middle>
-    -#         = place.location.name
-    -#         %br
-    -#         %i= place.location.street
-    -#       %div{itemscope: true, itemtype: 'http://schema.org/Place'}
-    -#         .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
-    -#           %meta{itemprop: 'latitude', content: place.location.latitude}
-    -#           %meta{itemprop: 'longitude', content: place.location.longitude}
-
     .white-box.islet.push--top
       - if @structure.website
         %div
           %i.fa.fa-external-link.orange
           = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
-      .blue
-        - if @structure.contact_phone or @structure.contact_mobile_phone
-          %i.fa.fa-phone.blue
-        - if @structure.contact_phone
-          = link_to "tel:#{@structure.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
-            = @structure.contact_phone.gsub(' ', '&nbsp;').html_safe
-        - if @structure.contact_phone and @structure.contact_mobile_phone
-          %span.blue /
-        - if @structure.contact_mobile_phone
-          = link_to "tel:#{@structure.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
-            = @structure.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
+      - if @structure.contact_phone or @structure.contact_mobile_phone
+        %i.fa.fa-phone.blue
+      - if @structure.contact_phone
+        = link_to "tel:#{@structure.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
+          = @structure.contact_phone.gsub(' ', '&nbsp;').html_safe
+      - if @structure.contact_phone and @structure.contact_mobile_phone
+        %span.blue /
+      - if @structure.contact_mobile_phone
+        = link_to "tel:#{@structure.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
+          = @structure.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
 
     - if @structure.facebook_url.present?
       = link_to "Page facebook de l'établissement", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole btn--small push--bottom'
@@ -237,44 +159,6 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        var places_are_hidden   = true;
-        $('#show-comments').click(function(){
-          $.scrollTo($('[href="#tab-comments"]'), {duration: 200});
-          $('[href="#tab-comments"]').click();
-        });
-        $('#show-all-places').click(function() {
-            if (places_are_hidden) {
-                $(this).text('Cacher les adresses');
-                $('#place-list').slideDown();
-            } else {
-                $('#place-list').slideUp();
-                $(this).text('Voir les adresses');
-            }
-            places_are_hidden = !places_are_hidden;
-        });
-        var map_loaded = false;
-        if ($('#tab-all-places-link').length > 0) {
-            $('#tab-all-places-link').on('shown', function() {
-                if (!map_loaded) { Gmaps.load_other_places_map(); map_loaded = true;}
-            });
-        }
-        var description_is_hidden = true;
-        if ($('#place-description').length > 0) {
-            if($('#place-description').scrollHeight < 200) {
-                $('#show-more-description').hide();
-            }
-            $('#show-more-description').click(function() {
-                if (description_is_hidden) {
-                    $('#place-description').css('max-height', 'none');
-                    this.set('text', 'Cacher la description');
-                } else {
-                    $('#place-description').css('max-height', '200px');
-                    this.set('text', 'Voir toute la description');
-                }
-                description_is_hidden = !description_is_hidden;
-                return false;
-            });
-        }
         if (window.location.hash.indexOf('recommandation-') != -1) {
             $('[href=#tab-comments]').click();
             $.scrollTo($(window.location.hash), {duration: 500});
@@ -282,15 +166,4 @@
         if (window.location.hash.length > 0) {
             $('[href=' + window.location.hash + ']').click();
         }
-        $('[href=#tab-medias]').click(function(){
-            if ($('.media-gallery').length > 0) {
-                setTimeout(function(){
-                    $('.media-gallery').masonry({ itemSelector: '.media__item' });
-                }, 5)
-            }
-        });
-        $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
-        $('#submit-coord-form').click(function(){
-            $('#coord-form').submit();
-        });
     });

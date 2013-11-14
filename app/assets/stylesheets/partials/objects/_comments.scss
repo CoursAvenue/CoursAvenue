@@ -38,6 +38,9 @@
 .quoted {
     line-height: 1em;
 }
+.quoted.quoted--large {
+    line-height: 1.4em;
+}
 .quoted:after, .quoted:before {
     font-size: 1.7em;
     position : relative;

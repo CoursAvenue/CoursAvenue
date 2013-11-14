@@ -5,11 +5,24 @@
 .media__item {
     display : inline-block;
     position: relative;
-    iframe, object {
+    img, iframe, object {
         width: 100%;
     }
-    img {
-        width: 100%;
+    &.media__item--slides{
+        background-size    : cover;
+        background-position: center;
+        img {
+            width  : auto;
+        }
+        img, iframe, object {
+            height : 100%;
+            margin : auto;
+            display: block;
+        }
+        > a {
+            display: block;
+            height : 100%;
+        }
     }
     &:hover {
         text-decoration: none;

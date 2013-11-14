@@ -17,6 +17,13 @@ module StructuresHelper
     end.join(' ').html_safe
   end
 
+  def join_child_subjects_text(structure)
+    structure.subjects_string.split(';').collect do |subject_string|
+      subject_name, subject_slug = subject_string.split(':')
+      subject_name
+    end.join(', ').html_safe
+  end
+
   def join_parent_subjects(structure, with_h3 = false)
     structure.parent_subjects_string.split(';').collect do |subject_string|
       subject_name, subject_slug = subject_string.split(':')

@@ -16,7 +16,7 @@
           - else
             (#{@best_price.localized_libelle})
         %br
-        = link_to 'Voir les autres formules', '#tab-planning', onclick: "$('[href='#tab-planning]').tab('show')"
+        = link_to 'Voir les autres formules', 'javascript:void(0)', onclick: "$.scrollTo($('#planning-schedule'), {duration: 200})"
   .grid__item.one-half.v-bottom.text--right>
     %span.lbl.milli
       = @course.type_name_html
