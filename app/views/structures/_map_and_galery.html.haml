@@ -1,25 +1,27 @@
 .white-box
   .grid--full
-    .grid__item.one-half>
+    .grid__item{class: medias.any? ? 'one-half' : 'one-whole'}>
       = gmaps( {markers: {data: places_address}, map_options: {maxZoom: 17, mapTypeControl: false}, last_map: true} )
-    .grid__item.one-half>
-      .media-gallery#slides.slidesjs-wrapper{style: 'display: none;'}>
-        .slidesjs-previous.slidesjs-navigation
-          %i.fa.fa-chevron-left
-        .slidesjs-next.slidesjs-navigation
-          %i.fa.fa-chevron-right
-        - medias.each do |media|
-          .media__item.media__item--slides{style: 'height: 280px;'}>
-            %a.block.break-all{href: media.url, title: media.caption}
-              = media.url_html
-              %i.fa.fa-expand
+    - if medias.any?
+      .grid__item.one-half>
+        .media-gallery#slides.slidesjs-wrapper{style: 'display: none;'}>
+          .slidesjs-previous.slidesjs-navigation
+            %i.fa.fa-chevron-left
+          .slidesjs-next.slidesjs-navigation
+            %i.fa.fa-chevron-right
+          - medias.each do |media|
+            .media__item.media__item--slides{style: 'height: 280px;'}>
+              %a.block.break-all{href: media.url, title: media.caption}
+                = media.url_html
+                %i.fa.fa-expand
   .grid--full
-    .grid__item.one-half>
+    .grid__item{class: medias.any? ? 'one-half' : 'one-whole'}>
       .text--center
         %a#show-all-places{href: 'javascript:void(0)'} Voir les adresses
-    .grid__item.one-half>
-      .text--center
-        %a#show-galery{href: 'javascript:void(0)'} Voir la galerie
+    - if medias.any?
+      .grid__item.one-half>
+        .text--center
+          %a#show-galery{href: 'javascript:void(0)'} Voir la galerie
 
   %ul.block-list#place-list.hidden.flush
     - places.each_with_index do |place, index|
@@ -36,9 +38,10 @@
           .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
             %meta{itemprop: 'latitude', content: place.location.latitude}
             %meta{itemprop: 'longitude', content: place.location.longitude}
-  #galery.hidden
-    .media-gallery>
-      = render partial: 'medias/media', collection: medias
+  - if medias.any?
+    #galery.hidden
+      .media-gallery>
+        = render partial: 'medias/media', collection: medias
 
 = content_for :scripts do
   :javascript
