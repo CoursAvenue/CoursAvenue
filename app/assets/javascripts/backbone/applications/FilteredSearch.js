@@ -105,8 +105,7 @@ FilteredSearch.addInitializer(function(options) {
     /* we can add a widget along with a callback to be used
     * for setup */
     layout.showWidget(google_maps_view, {
-        'structures:updating':               'clearForUpdate hideInfoWindow',
-        'structures:updated':                'clearForUpdate',
+        'structures:updating':               'hideInfoWindow',
         'structures:itemview:highlighted':   'selectMarkers',
         'structures:itemview:unhighlighted': 'deselectMarkers',
         'filter:update:map':                 'centerMap',
