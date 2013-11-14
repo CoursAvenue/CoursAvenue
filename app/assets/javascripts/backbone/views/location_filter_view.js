@@ -7,6 +7,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.announceLocation = _.debounce(this.announceLocation, 500);
         },
 
+        setup: function (data) {
+            this.ui.$address_picker.attr('value', data.address_name);
+        },
+
         events: {
             'typeahead:selected #address-picker': 'announceLocation'
         },
@@ -17,11 +21,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         ui: {
             $address_picker: '#address-picker'
-        },
-
-        setup: function (data) {
-            this.ui.$address_picker.attr('value', data.address_name);
         }
-
     });
 });
