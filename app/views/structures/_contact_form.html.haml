@@ -4,13 +4,18 @@
   = simple_form_for [structure, Message.new] do |f|
     .delta Contactez pour réserver
     %i Gratuit & sans inscription
-    .grid
-      .grid__item.one-half>
-        %label Votre nom
-        %input.one-whole.milli{type: 'text', name: 'user[name]', placeholder: 'Ex. : Florian Cassel'}
-      .grid__item.one-half>
-        %label Votre email
-        %input.one-whole.milli{type: 'email', name: 'user[email]', placeholder: 'Ex. : florian.c@gmail.com'}
+    - unless current_user
+      .grid
+        .grid__item.one-half>
+          %label Votre nom
+          %input.one-whole.milli{type: 'text', name: 'user[name]', placeholder: 'Ex. : Florian Cassel'}
+        .grid__item.one-half>
+          %label Votre email
+          %input.one-whole.milli{type: 'email', name: 'user[email]', placeholder: 'Ex. : florian.c@gmail.com'}
     %label Message
+    -# Here to stop bots.
+    -# If this is filled, the message won't be sent
+    .visuallyhidden
+      %input{name: 'content', type: 'text'}
     = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 190px;', value: "Bonjour,\n\nJe souhaiterais venir pour une première séance au cours de #{course_name}, est-ce que cela est possible ? N’hésitez pas à m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt", data: { behavior: 'autoresize' }}
     = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
