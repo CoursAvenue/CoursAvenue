@@ -23,17 +23,17 @@
             <a href="javascript:void(0);" class="flexbox__item blue" data-type="accordion-control" data-value="courses" data-attributes="data_url">
                 <i class="fa fa-arrow-circle-down"></i>
 
-                Voir {{ plannings_count }} {{ pluralize plannings_count 'séance' 'séances' }} 
-                {{#if show_search_term }}
-                    correspondants à "{{ search_term }}" {{ bob }}
+                {{#if search_term }}
+                    Voir les séances correspondantes à <strong>"{{ search_term }}"</strong>
+                {{else}}
+                    Voir {{ plannings_count }} {{ pluralize plannings_count 'séance' 'séances' }}
                 {{/if}}
-                {{#if show_price_range }}
+                {{#if has_price_range }}
                     entre
                     <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                     à
                     <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
-                {{/if}}
-                {{#if show_single_price }}
+                {{else}}
                     à partir de
                     <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                 {{/if}}
