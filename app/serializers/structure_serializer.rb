@@ -4,6 +4,7 @@ end
 
 class StructureSerializer < ActiveModel::Serializer
   include StructuresHelper
+  include ActionView::Helpers::TextHelper
 
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
              :logo_present, :logo_thumb_url, :data_url,
@@ -11,12 +12,13 @@ class StructureSerializer < ActiveModel::Serializer
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :has_medias, :structure_type,
-             :has_promotion, :parent_subjects_text
+             :has_promotion, :parent_subjects_text, :last_comment_title
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
   has_many :courses,  serializer: ShortSerializer
-  has_many :medias,   serializer: ShortSerializer
+  has_many :medias,   serializer: MediaSerializer
+  # has_many :medias,   serializer: ShortSerializer
 
   # Following functions has to return the same objects than the associated controllers
   def courses
@@ -29,6 +31,10 @@ class StructureSerializer < ActiveModel::Serializer
 
   def comments
     object.comments.accepted.limit(5)
+  end
+
+  def last_comment_title
+    truncate(object.comments.accepted.first.title, length: 40) if object.comments_count > 0
   end
 
   def structure_type
