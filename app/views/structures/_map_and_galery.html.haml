@@ -1,0 +1,95 @@
+.white-box
+  .grid--full
+    .grid__item{class: medias.any? ? 'one-half' : 'one-whole'}>
+      = gmaps( {markers: {data: places_address}, map_options: {maxZoom: 17, mapTypeControl: false}, last_map: true} )
+    - if medias.any?
+      .grid__item.one-half>
+        - if medias.length == 1
+          .media-gallery
+            .media__item.media__item--slides.one-whole{style: 'height: 280px;'}>
+              %a.block.break-all{href: medias.first.url, title: medias.first.caption}
+                = medias.first.url_html
+                %i.fa.fa-expand
+        - else
+          .media-gallery#slides.slidesjs-wrapper{style: 'display: none;'}>
+            .slidesjs-previous.slidesjs-navigation
+              %i.fa.fa-chevron-left
+            .slidesjs-next.slidesjs-navigation
+              %i.fa.fa-chevron-right
+            - medias.each do |media|
+              .media__item.media__item--slides{style: 'height: 280px;'}>
+                %a.block.break-all{href: media.url, title: media.caption}
+                  = media.url_html
+                  %i.fa.fa-expand
+  .grid--full
+    .grid__item{class: medias.any? ? 'one-half' : 'one-whole'}>
+      .text--center
+        %a#show-all-places{href: 'javascript:void(0)'} Voir les adresses
+    - if medias.any?
+      .grid__item.one-half>
+        .text--center
+          %a#show-galery{href: 'javascript:void(0)'} Voir la galerie
+
+  %ul.block-list#place-list.hidden.flush
+    - places.each_with_index do |place, index|
+      %li.grid--full
+        .grid__item.width-auto.v-middle.soft-half--right>
+          .map-marker-image.center-block
+            %a
+              %span= index + 1
+        .grid__item.seven-eighths.v-middle>
+          = place.location.name
+          %br
+          %i= place.location.address
+        %div{itemscope: true, itemtype: 'http://schema.org/Place'}
+          .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
+            %meta{itemprop: 'latitude', content: place.location.latitude}
+            %meta{itemprop: 'longitude', content: place.location.longitude}
+  - if medias.any?
+    #galery.hidden
+      .media-gallery>
+        = render partial: 'medias/media', collection: medias
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('.media__item--slides img').each(function(){
+            var $this = $(this);
+            $this.hide();
+            $this.closest('.media__item--slides').css('background-image', 'url(' + $this.attr('src') + ')')
+        });
+        $("#slides").slidesjs({
+            width: 400,
+            height: 300,
+            navigation: {
+              active: false
+            }
+        });
+        var places_are_hidden   = true;
+        $('#show-all-places').click(function() {
+            $('#place-list').slideToggle();
+            if (places_are_hidden) {
+                $(this).text('Cacher les adresses');
+            } else {
+                $(this).text('Voir les adresses');
+            }
+            places_are_hidden = !places_are_hidden;
+        });
+        var galery_is_hidden   = true;
+        $('#show-galery').click(function() {
+            if (galery_is_hidden) {
+                $(this).text('Cacher la galerie');
+            } else {
+                $(this).text('Voir la galerie');
+            }
+            galery_is_hidden = !galery_is_hidden;
+            $('#galery').slideToggle();
+            $('#galery .media-gallery').masonry({ itemSelector: '.media__item' });
+        });
+        $('[href=#tab-medias]').click(function(){
+            if ($('.media-gallery').length > 0) {
+                $('#show-galery').click();
+            }
+        });
+        $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
+    });

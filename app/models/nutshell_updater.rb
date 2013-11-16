@@ -94,7 +94,7 @@ class NutshellUpdater
     }
     new_contact = {
       'address' => address,
-      'tags'    => 'Inscrit'
+      'tags'    => ['Inscrit']
     }
     # if it does not exists
     new_contact['name'] = structure.name

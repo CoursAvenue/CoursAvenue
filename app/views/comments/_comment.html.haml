@@ -62,7 +62,7 @@
                   - if comment.waiting_for_deletion?
                     %li.nowrap
                       = link_to recover_pro_comment_path(comment), method: :patch do
-                        %i.fa.fa-check-square-o
+                        %i.fa.fa-check-o
                         Rétablir
                   %li.nowrap
                     = link_to edit_pro_comment_path(comment) do

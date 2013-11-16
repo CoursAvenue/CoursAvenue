@@ -5,7 +5,7 @@
 
 
 - if @medias.any?
-  .media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
+  .media-gallery
     - @medias.each do |media|
       .one-third.media__item.very-soft>
         %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}
@@ -26,4 +26,7 @@
   :javascript
     $(function() {
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
+        $('.media-gallery img, .media-gallery iframe').load(function(){
+            $('.media-gallery').masonry({ itemSelector: '.media__item' });
+        });
     });

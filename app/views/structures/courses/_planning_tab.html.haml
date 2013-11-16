@@ -17,8 +17,6 @@
             = render partial: 'training_schedule', locals: {grouped_plannings: grouped_plannings}
           - if @course.is_workshop?
             = render partial: 'workshop_schedule', locals: {grouped_plannings: grouped_plannings}
-        %p.milli
-          %i Dernière mise à jour le #{l(@course.updated_at, format: :date)}.
       - else
         %p.white-box.islet Pas de planning pour ce cours.
   = render 'price_tab'

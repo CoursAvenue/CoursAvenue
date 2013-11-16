@@ -23,7 +23,7 @@ class Pro::Structures::MediasController < InheritedResources::Base
       if @media.save
         format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Photo / vidéo bien ajoutée !' }
       else
-        format.html { redirect_to pro_structure_medias_path(@structure), alert: "Vous n'avez pas renseigné de lien." }
+        format.html { redirect_to pro_structure_medias_path(@structure), alert: "Le lien que vous avez fourni est incorrect." }
       end
     end
   end

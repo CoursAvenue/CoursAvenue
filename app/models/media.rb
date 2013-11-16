@@ -11,6 +11,7 @@ class Media < ActiveRecord::Base
   belongs_to :mediable, polymorphic: true
   validates :url, presence: true
   validates :caption, length: { maximum: 255 }
+  validate :url_validness
 
   scope :images,       -> { where(format: "image") }
   scope :videos,       -> { where(format: "video") }
@@ -40,5 +41,11 @@ class Media < ActiveRecord::Base
 
   def fix_url
     self.url = URLHelper.fix_url(self.url) if self.url
+  end
+
+  def url_validness
+    if self.url == self.url_html
+      self.errors.add :url, "Le lien est incorrect."
+    end
   end
 end
