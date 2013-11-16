@@ -4,6 +4,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         template: 'backbone/templates/subject_filter_view',
         className: 'very-soft',
 
+        setup: function (data) {
+            this.activateButton(data.subject_id);
+        },
+
         serializeData: function(data) {
             return { subjects: coursavenue.bootstrap.subjects };
         },
@@ -21,10 +25,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 this.trigger("filter:subject", { 'subject_id': subject_slug });
                 this.activateButton(subject_slug);
             }
-        },
-
-        setupSubjectFilter: function (data) {
-            this.activateButton(data.subject_id);
         },
 
         disabledButton: function(subject_slug) {
