@@ -39,7 +39,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             if (this.regions[value] === undefined) {
                 self.showLoader(value);
                 /* wait for asynchronous fetch of models before adding region */
-                this.model.fetchRelated(value, {}, true)[0].then(function () {
+                this.model.fetchRelated(value, { data: { search_term: this.search_term }}, true)[0].then(function () {
                     self.createRegionFor(value, attributes);
                     self.accordionToggle(value);
                     self.hideLoader();

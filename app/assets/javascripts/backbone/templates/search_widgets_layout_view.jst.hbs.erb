@@ -1,7 +1,7 @@
 <div data-type="loader" class="filtered-search__loader" style="display: none;">
   <img src="<%= asset_path 'gifs/loading-indicator.gif' %>"/ class="center-block" height="10">
 </div>
-<section id="widgets-container" class="filtered-search__map-wrapper relative">
+<section id="widgets-container" class="filtered-search__map-wrapper relative" data-type="google-maps">
     {{#each widget}}
         <div id="{{ id }}" data-type="widget"></div>
     {{/each}}
@@ -9,16 +9,16 @@
 
 <section class="filtered-search__list-wrapper">
     <header class="flexbox page-entries-wrapper soft-half">
-        <div class="one-whole" data-type="subject-filter-tool"></div>
-        <div class="one-whole" data-type="categorical-filter-tool"></div>
+        <div class="one-whole" data-type="subject-filter"></div>
+        <div class="one-whole" data-type="categorical-filter"></div>
         <div class="flexbox">
-            <div class="flexbox__item palm-one-whole" data-type="results-summary-tool"></div>
-            <div class="flexbox__item visuallyhidden--palm text--right" data-type="top-pagination-tool"></div>
+            <div class="flexbox__item palm-one-whole" data-type="results-summary"></div>
+            <div class="flexbox__item visuallyhidden--palm text--right" data-type="top-pagination"></div>
         </div>
     </header>
 
     <div id="search-results"></div>
 
-    <div class="text--center" data-type="bottom-pagination-tool">
+    <div class="text--center" data-type="bottom-pagination">
     </div>
 </section>

@@ -8,6 +8,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.announceSearchTerm = _.debounce(this.announceSearchTerm, 500);
         },
 
+        setup: function (data) {
+            this.ui.$search_input.attr('value', data.name);
+            this.previous_searched_name = data.name;
+        },
+
         events: {
             'typeahead:selected #search-input': 'announceSearchTerm',
             // Use keydown instead of keypress to handle the case when the user empties the input
@@ -37,10 +42,5 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 header: '<div class="typeahead-dataset-header">Disciplines</div>'
             }]);
         },
-
-        resetCategoricalFilterTool: function (data) {
-            this.ui.$search_input.attr('value', data.name);
-            this.previous_searched_name = data.name;
-        }
     });
 });
