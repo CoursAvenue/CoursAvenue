@@ -178,8 +178,8 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(location_filter);
     layout.showWidget(subject_filter);
     layout.showWidget(results_summary);
-    layout.showWidget(top_pagination);
-    layout.showWidget(bottom_pagination);
+    layout.showWidget(top_pagination, {}, '[data-type=top-pagination]');
+    layout.showWidget(bottom_pagination, {}, '[data-type=bottom-pagination]');
 
     layout.results.show(structures_view);
 });
