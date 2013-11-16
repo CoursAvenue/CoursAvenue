@@ -83,7 +83,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             /* recover the user's preference */
             this.update_live = (typeof($.cookie('map:update:live')) === 'undefined' ? 'true' : $.cookie('map:update:live'));
-
+            // Converting to boolean
+            this.update_live = this.update_live === 'true';
             /* add listeners, but ignore the first bounds change */
             google.maps.event.addListener(this.map, 'click', _.bind(this.onItemviewCloseClick, this));
             google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));

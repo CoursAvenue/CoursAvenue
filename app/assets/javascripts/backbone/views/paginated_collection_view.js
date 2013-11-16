@@ -19,18 +19,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         onAfterShow: function() {
             this.announcePaginatorUpdated();
-            this.$('.media__item--slides img').each(function(){
-                var $this = $(this);
-                $this.hide();
-                $this.closest('.media__item--slides').css('background-image', 'url(' + $this.attr('src') + ')')
-            });
-            this.$(".slidesjs-wrapper").first().slidesjs({
-                width: 150,
-                height: 100,
-                navigation: {
-                  active: false
-                }
-            });
         },
 
         /* we don't use this, but we could */

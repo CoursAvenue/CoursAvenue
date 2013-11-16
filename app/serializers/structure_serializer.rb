@@ -12,7 +12,7 @@ class StructureSerializer < ActiveModel::Serializer
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :has_medias, :structure_type,
-             :has_promotion, :parent_subjects_text, :last_comment_title
+             :has_promotion, :parent_subjects_text, :last_comment_title, :video
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
@@ -26,15 +26,19 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def medias
-    object.medias.videos_first.limit(2)
+    object.medias.videos_first.limit(9)
   end
 
   def comments
     object.comments.accepted.limit(5)
   end
 
+  def video
+    object.medias.images.first
+  end
+
   def last_comment_title
-    truncate(object.comments.accepted.first.title, length: 40) if object.comments_count > 0
+    truncate(object.comments.accepted.first.title, length: 38) if object.comments_count > 0
   end
 
   def structure_type

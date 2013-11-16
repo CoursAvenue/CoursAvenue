@@ -14,71 +14,76 @@
             {{/if}}
         </div>
     </div><!--
- --><article class="flexbox__item four-tenths v-top soft-half hard--right">
-        <h2 class="epsilon inline v-top">
-            <a href="{{ data_url }}">{{ name }}</a>
-        </h2>
-        <div>
-            {{#if has_plannings}}
-            <a href="javascript:void(0);" class="flexbox__item blue" data-type="accordion-control" data-value="courses" data-attributes="data_url">
-                <i class="fa fa-arrow-circle-down"></i>
-                {{ plannings_count }}
-                {{ pluralize plannings_count 'séance' 'séances' }}
+ --><article class="flexbox__item three-eighths v-top">
+        <div class="soft-half hard--right">
+            <h2 class="epsilon flush">
+                <a href="{{ data_url }}">{{ name }}</a>
+            </h2>
+            <div class="lbl lbl--blue lbl--small">
                 {{#if has_price_range}}
-                    entre
+                    De
                     <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                     à
                     <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
                 {{else}}
                     {{#if min_price_amount}}
-                        à partir de
+                        À partir de
                         <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                     {{/if}}
                 {{/if}}
-            </a>
+            </div>
+            <div>
+                {{#if has_plannings}}
+                <a href="javascript:void(0);" class="blue" data-type="accordion-control" data-value="courses" data-attributes="data_url">
+                    <i class="fa fa-arrow-circle-down"></i>
+                    {{ plannings_count }}
+                    {{ pluralize plannings_count 'séance' 'séances' }}
+                </a>
+                {{/if}}
+            </div>
+            {{#if audience}}
+                <div>
+                    <span class="milli">{{audience}}</span>
+                </div>
+            {{/if}}
+            <div>
+            {{#if gives_individual_courses}}
+                <span title="Cours particulier" data-behavior="tooltip" class="pointer">
+                    <i class="fa fa-user"></i>
+                </span>
+            {{/if}}
+            {{#if gives_group_courses}}
+                <span title="Cours collectif" data-behavior="tooltip" class="pointer">
+                    <i class="fa fa-user"></i>
+                    <i class="fa fa-user" style="left: -6px; top: 2px; position: relative"></i>
+                </span>
+            {{/if}}
+            {{#if teaches_at_home}}
+                <span title="Cours à domicile {{#if teaches_at_home_radius}}(dans un rayon de {{teaches_at_home_radius}}km){{/if}}" data-behavior="tooltip" class="pointer">
+                    <i class="fa fa-home"></i>
+                </span>
+            {{/if}}
+            {{#if structure_type}}
+                |
+                <span class="milli">{{structure_type}}</span>
+            {{/if}}
+            </div>
+            {{#if funding_types}}
+                <div>
+                    <span class="pointer lbl lbl--small" data-behavior="tooltip" title="{{funding_types}}">Financements spécifiques acceptés</span>
+                </div>
             {{/if}}
         </div>
-        {{#if audience}}
-            <div>
-                <span class="milli">{{audience}}</span>
-            </div>
-        {{/if}}
-        <div>
-        {{#if gives_individual_courses}}
-            <span title="Cours particulier" data-behavior="tooltip" class="pointer">
-                <i class="fa fa-user"></i>
-            </span>
-        {{/if}}
-        {{#if gives_group_courses}}
-            <span title="Cours collectif" data-behavior="tooltip" class="pointer">
-                <i class="fa fa-user"></i>
-                <i class="fa fa-user" style="left: -6px; top: 2px; position: relative"></i>
-            </span>
-        {{/if}}
-        {{#if teaches_at_home}}
-            <span title="Cours à domicile {{#if teaches_at_home_radius}}(dans un rayon de {{teaches_at_home_radius}}km){{/if}}" data-behavior="tooltip" class="pointer">
-                <i class="fa fa-home"></i>
-            </span>
-        {{/if}}
-        {{#if structure_type}}
-            |
-            <span class="milli">{{structure_type}}</span>
-        {{/if}}
-        </div>
-        {{#if funding_types}}
-            <div>
-                <span class="pointer lbl lbl--small" data-behavior="tooltip" title="{{funding_types}}">Financements spécifiques acceptés</span>
-            </div>
-        {{/if}}
-
     </article><!--
- --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} two-eighths v-middle text--center" {{#if has_comments}}data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments"{{/if}}>
+ --><div class="flexbox__item relative {{#if has_comments}}structure-item__button{{/if}} two-eighths v-middle text--center" {{#if has_comments}}data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments"{{/if}}>
         <div class="structure-item__button-wrapper">
             <div class="structure-item__button-triangle"></div>
             <div class="alpha thin brand">
                 {{ comments_count }}
-                avis {{!-- <i class="lbc-brand-icon"></i> --}}
             </div>
+            <span class="soft-half--bottom">
+                avis <i class="lbc-brand-icon"></i>
+            </span>
             {{#if last_comment_title}}
             <div class="quoted milli">
                 {{last_comment_title}}
@@ -95,21 +100,11 @@
         </div>
     </div><!--
  --><div class="flexbox__item two-eighths v-middle text--center">
-        <div class="media-gallery slidesjs-wrapper" style="display: none">
-            <div class="slidesjs-navigation slidesjs-previous">
-              <i clas="fa fa-chevron-left"></i>
+        {{#if video}}
+            <div class="media__item">
+                {{{video.url_html}}}
             </div>
-            <div class="slidesjs-navigation slidesjs-next">
-              <i clas="fa fa-chevron-right"></i>
-            </div>
-            {{#each medias}}
-                <div class="media__item media__item--slides one-whole" style="height: 130px;">
-                    <a class="block break-all" href="{{url}}" title="{{caption}}"}>
-                      {{{url_html}}}
-                    </a>
-                </div>
-            {{/each}}
-        </div>
+        {{/if}}
     </div>
 </div>
 
