@@ -57,7 +57,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
                 type: Backbone.HasMany,
                 key: 'medias',
                 relatedModel: Backbone.RelationalModel.extend({ }),
-                includeInJSON: false,
+                includeInJSON: true,
                 reverseRelation: {
                     key: 'structure'
                 },

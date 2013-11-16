@@ -26,7 +26,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def medias
-    object.medias.videos_first.limit(9)
+    object.medias.videos_first.limit(2)
   end
 
   def comments

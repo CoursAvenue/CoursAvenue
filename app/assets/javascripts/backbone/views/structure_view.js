@@ -16,18 +16,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         onRender: function() {
             this.$('[data-behavior=tooltip]').tooltip();
-            this.$('.media__item--slides img').each(function(){
-                var $this = $(this);
-                $this.hide();
-                $this.closest('.media__item--slides').css('background-image', 'url(' + $this.attr('src') + ')')
-            });
-            this.$(".slidesjs-wrapper").slidesjs({
-                width: 400,
-                height: 300,
-                navigation: {
-                  active: false
-                }
-            });
         },
 
         /* TODO accordioncontrol is defined on the parent, so it feels

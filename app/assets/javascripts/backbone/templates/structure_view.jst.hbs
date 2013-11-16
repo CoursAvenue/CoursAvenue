@@ -94,7 +94,7 @@
             </div>
         </div>
     </div><!--
- --><div class="flexbox__item one-eighth v-middle text--center">
+ --><div class="flexbox__item two-eighths v-middle text--center">
         <div class="media-gallery slidesjs-wrapper" style="display: none">
             <div class="slidesjs-navigation slidesjs-previous">
               <i clas="fa fa-chevron-left"></i>
@@ -103,9 +103,9 @@
               <i clas="fa fa-chevron-right"></i>
             </div>
             {{#each medias}}
-                <div class="media__item media__item--slides" style="height: 140px">
+                <div class="media__item media__item--slides one-whole" style="height: 130px;">
                     <a class="block break-all" href="{{url}}" title="{{caption}}"}>
-                      {{{url_html}}}<i class="fa fa-expand"></i>
+                      {{{url_html}}}
                     </a>
                 </div>
             {{/each}}
