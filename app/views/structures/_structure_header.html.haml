@@ -1,0 +1,8 @@
+.grid--full.push-half--bottom.white-box
+  - if structure.logo.present?
+    .grid__item.two-twelfths>
+      = image_tag structure.logo.url(:thumb), class: 'block'
+  .grid__item.ten-twelfths.soft-half--sides>
+    %h1.gamma.blue.flush--bottom= structure.name
+    %p.push-half--bottom
+      %i= join_child_subjects_text structure

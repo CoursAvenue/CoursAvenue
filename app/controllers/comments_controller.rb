@@ -2,36 +2,22 @@
 class CommentsController < ApplicationController
   include CommentsHelper
 
-  # TODO:
-  # To be refactored...
   def create
     @commentable  = find_commentable
     @comment      = @commentable.comments.build params[:comment]
     # If current user exists, affect it to the comment
     if current_user
-      @comment.user        = current_user
       @comment.author_name = current_user.name
       @comment.email       = current_user.email
-    # else, check if the user has changed his email
-    elsif params[:default_email].present?
-      default_email = params[:default_email]
-      # If the user does not change his email, just retrieve the user
-      if default_email == params[:comment][:email]
-        user = User.where{email == default_email}.first
-      # If the user changes his email, change the email of the user
-      elsif (user = User.where{email == default_email}.first)
-        new_user_email = params[:comment][:email]
-        # If the new user email already exists
-        # Delete the user, update the comment notification
-        if (new_user = User.where{email == new_user_email}.first)
-          user = new_user
-        else
-          user.update_attribute :email, params[:comment][:email]
-        end
+    else
+      user_email = params[:comment][:email]
+      # If the user does not exists
+      unless (@user = User.where{email == user_email}.first)
+        @user = User.new email: params[:comment][:email], name: params[:comment][:author_name]
       end
-      user.update_attribute(:name, params[:comment][:author_name]) if user.present? and params[:comment][:author_name].present?
-      @comment.user = user
+      @user.update_attribute(:name, params[:comment][:author_name]) if params[:comment][:author_name].present?
     end
+    @comment.user = @user || current_user
     respond_to do |format|
       if @comment.save
         send_private_message unless params[:private_message].blank?

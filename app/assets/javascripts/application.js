@@ -37,6 +37,7 @@
 //= require libs/jquery.stickem
 //= require libs/jquery.masonry
 //= require libs/moment
+//= require libs/jquery.slides
 
 //= require libs/fancybox/jquery.fancybox
 //= require underscore

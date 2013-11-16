@@ -2,12 +2,18 @@
     position: relative;
     z-index : 2;
 }
+    .structure-item__logo {
+        max-height: 200px;
+    }
     .structure-item__button {
         cursor  : pointer;
         position: relative;
-        @include transition(background-color 150ms linear);
+        @include transition(all 200ms linear);
         &.active, &:hover {
-            background-color: #EEE;
+            background-color: #f0f8ff;
+        }
+        &.active {
+            &, .thin { font-weight: bold; }
         }
     }
 
@@ -40,4 +46,19 @@
         color            : black;
         font-size        : 12px;
         @include border-left-radius(2px);
+    }
+    .structure-item__button-wrapper {
+        position: relative;
+        .structure-item__button-triangle {
+            position: absolute;
+            bottom  : 0;
+            width   : 10px;
+            height  : 10px;
+            display : none;
+        }
+        &.active {
+            .structure-item__button-triangle {
+                display: block;
+            }
+        }
     }

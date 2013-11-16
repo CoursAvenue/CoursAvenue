@@ -106,11 +106,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         *  and create a region, and a composite view. Data for the composite
         *  view is grabbed from the structure, based on strings passed in
         *  an array. The collection is models on a relation on structure. */
-        /* TODO this was cool at one time, but we now realize that each of
-        * the collection views will need its own post-processing methods
-        * etc, and so we should really have individual view files */
-        createRegionFor: function (value, attribute_strings) {
-            var singular = value.slice(0, -1),
+        createRegionFor: function (object_name, attribute_strings) {
+            var singular = object_name.slice(0, -1),
                 self = this;
 
             /* collect some information to pass in to the compositeview */
@@ -120,20 +117,25 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 return memo;
             }, {});
 
-            this.addRegion(value, "#" + value + this.cid);
-            this.regions[value] = '#' + value + this.cid;
-            this.$el.append('<div id="' + value  + this.cid + '">');
+            this.addRegion(object_name, "#" + object_name + this.cid);
+            this.regions[object_name] = '#' + object_name + this.cid;
+            this.$el.append('<div id="' + object_name  + this.cid + '">');
 
-            collection = new Backbone.Collection(this.model.get(value).models);
+            collection = new Backbone.Collection(this.model.get(object_name).models);
 
             /* an anonymous compositeView is all we need */
-            ViewClass = Backbone.Marionette.CompositeView.extend({
-                template: 'backbone/templates/' + value + '_collection_view',
+            // If a collection view exists, then use it, else create a generic one.
+            if (Views[App.capitalize(object_name) + 'CollectionView']) {
+                ViewClass = Views[App.capitalize(object_name) + 'CollectionView'];
+            } else {
+                ViewClass = Backbone.Marionette.CompositeView.extend({
+                    template: 'backbone/templates/' + object_name + '_collection_view',
 
-                // The "value" has an 's' at the end, that's what the slice is for
-                itemView: Views[App.capitalize(singular) + 'View'],
-                itemViewContainer: '[data-type=container]'
-            });
+                    // The "object_name" has an 's' at the end, that's what the slice is for
+                    itemView: Views[App.capitalize(singular) + 'View'],
+                    itemViewContainer: '[data-type=container]'
+                });
+            }
 
             view = new ViewClass({
                 collection: collection,
@@ -143,8 +145,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                     'style':     'display:none'
                 }
             });
-
-            this[value].show(view);
+            this[object_name].show(view);
         },
     });
 });

@@ -1,5 +1,5 @@
 <div class="flexbox white-box structure-item">
-    <div class="flexbox__item two-tenths v-top">
+    <div class="flexbox__item one-eighth v-top">
         <div class="relative">
             {{#if logo_present}}
                 <a href="{{ data_url }}" class="block">
@@ -54,7 +54,8 @@
         {{/if}}
         {{#if gives_group_courses}}
             <span title="Cours collectif" data-behavior="tooltip" class="pointer">
-                <i class="fa fa-group"></i>
+                <i class="fa fa-user"></i>
+                <i class="fa fa-user" style="left: -6px; top: 2px; position: relative"></i>
             </span>
         {{/if}}
         {{#if teaches_at_home}}
@@ -74,22 +75,28 @@
         {{/if}}
 
     </article><!--
- --><div class="flexbox__item two-twelfths v-middle text--center {{#if has_medias}}structure-item__button{{/if}}" {{#if has_medias}} data-type="accordion-control" data-value="medias" data-attributes="data_url"{{/if}}>
-        <div class="alpha thin brand">{{ medias_count }}</div>
-        <span class="milli">
-            {{ pluralize medias_count 'Photo / vidéo' 'Photos & vidéos' }}
-        </span>
+ --><div class="flexbox__item one-eighth v-middle text--center {{#if has_medias}}structure-item__button{{/if}}" {{#if has_medias}} data-type="accordion-control" data-value="medias" data-attributes="data_url"{{/if}}>
+        <div class="structure-item__button-wrapper">
+            <div class="structure-item__button-triangle"></div>
+            <div class="alpha thin brand">{{ medias_count }}</div>
+            <span class="milli">
+                {{ pluralize medias_count 'Photo / vidéo' 'Photos & vidéos' }}
+            </span>
+        </div>
     </div><!--
- --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} two-twelfths v-middle text--center" {{#if has_comments}}data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments"{{/if}}>
-        <div class="alpha thin brand">{{ comments_count }}</div>
-        <span class="milli">avis <i class="lbc-brand-icon"></i></span>
-        <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
-            <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
-            <meta property="v:rating" itemprop="rating" content="{{ rating }}">
-            <meta itemprop="count" content="{{ comments_count }}">
-            <meta itemprop="name" content="{{ name }}">
-            <meta itemprop="street-address" content="{{ street }}">
-            <meta itemprop="postal-code" content="{{ zip_code }}">
+ --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} one-eighth v-middle text--center" {{#if has_comments}}data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments"{{/if}}>
+        <div class="structure-item__button-wrapper">
+            <div class="structure-item__button-triangle"></div>
+            <div class="alpha thin brand">{{ comments_count }}</div>
+            <span class="milli">avis <i class="lbc-brand-icon"></i></span>
+            <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
+                <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
+                <meta property="v:rating" itemprop="rating" content="{{ rating }}">
+                <meta itemprop="count" content="{{ comments_count }}">
+                <meta itemprop="name" content="{{ name }}">
+                <meta itemprop="street-address" content="{{ street }}">
+                <meta itemprop="postal-code" content="{{ zip_code }}">
+            </div>
         </div>
     </div>
 </div>
