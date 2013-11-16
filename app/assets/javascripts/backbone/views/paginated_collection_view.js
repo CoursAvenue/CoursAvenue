@@ -57,11 +57,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
 
             /* announce the filters used in the current result set */
-            this.trigger('structures:updated:filters', {
+            this.trigger('structures:updated:filter', {
                 address_name: (data.server_api.address_name ? decodeURIComponent(data.server_api.address_name) : ""),
                 name:         (data.server_api.name ? decodeURIComponent(data.server_api.name) : ""),
                 subject_id:   (data.server_api.subject_id ? decodeURIComponent(data.server_api.subject_id) : "")
             });
+
+            this.trigger('structures:updated:maps');
         },
 
         /* we want to show buttons for the first and last pages, and the
