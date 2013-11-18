@@ -155,9 +155,20 @@
         %br
         = link_to 'Ajouter des photos / vidéos', pro_structure_medias_path(@structure), onclick: "ga('send', 'event', 'Dashboard', 'click', 'Ajouter des medias')", class: 'btn btn--blue btn--small'
 
+%hr
+%h3
+  %i.fa.fa-map-marker
+  Mes lieux d'enseignement
+
+= gmaps( {markers: {data: @locations.to_gmaps4rails}, map_options: {maxZoom: 17, mapTypeControl: false}})
+.text--center
+  = link_to "Ajouter un lieu d'enseignement", pro_structure_places_path(@structure), class: 'btn btn--blue push-half--ends'
+
 - if @comments.length > 0
   %hr
-  %h3 Mes derniers avis
+  %h3
+    %i.fa.fa-comments
+    Mes derniers avis
   %ul.comment-list
     = render partial: 'comments/comment', collection: @comments[0..2]
     - if @comments.length > 3
