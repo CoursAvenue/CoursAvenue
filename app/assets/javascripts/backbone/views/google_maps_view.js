@@ -60,7 +60,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             var self = this;
             _.bindAll(this, 'announceBounds');
 
-            this.first_update = true;
             this.mapOptions = {
                 center: new google.maps.LatLng(0, 0),
                 zoom: 12,
@@ -69,6 +68,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             _.extend(this.mapOptions, options.mapOptions);
 
+            /* create mapview */
             this.mapView = new Views.BlankView({
                 id: 'map',
                 attributes: {
@@ -78,44 +78,33 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.map       = new google.maps.Map(this.mapView.el, this.mapOptions);
             this.map_annex = this.mapView.el;
 
-            /* This is to prevent the first bounds_changed event
-             * The tilesloaded event is triggered after bounds_changed */
-            this.bounds_has_changed_for_first_time = true;
-            google.maps.event.addListenerOnce(this.map, 'tilesloaded', function(){
-                self.bounds_has_changed_for_first_time = false;
-            });
-
-            this.update_live = (typeof($.cookie('map:update:live')) === 'undefined' ? 'true' : $.cookie('map:update:live'));
-            if (this.update_live === 'true') {
-                this.toggleLiveUpdate();
-            }
-
             /* one info window that gets populated on each marker click */
-
             this.infoBox = new Views.InfoBoxView(options.infoBoxOptions);
+
+            /* recover the user's preference */
+            this.update_live = (typeof($.cookie('map:update:live')) === 'undefined' ? 'true' : $.cookie('map:update:live'));
+            // Converting to boolean
+            this.update_live = this.update_live === 'true';
+            /* add listeners, but ignore the first bounds change */
             google.maps.event.addListener(this.map, 'click', _.bind(this.onItemviewCloseClick, this));
-        },
-
-        events: {
-            'click [data-type="closer"]': 'hideInfoWindow'
-        },
-
-        onItemviewCloseClick: function () {
-            if (this.current_info_marker) {
-                this.unlockCurrentMarker();
-                this.hideInfoWindow();
-            }
+            google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
+            this.lockOnce('map:bounds');
+            this.toggleLiveUpdate();
         },
 
         ui: {
             bounds_controls: '[data-behavior="bounds-controls"]'
         },
 
-        unlockCurrentMarker: function () {
+        events: {
+            'click [data-type="closer"]': 'hideInfoWindow',
+            'click [data-behavior="live-update"]': 'liveUpdateClicked'
+        },
+
+        onItemviewCloseClick: function () {
             if (this.current_info_marker) {
-                var marker = this.markerViewChildren[this.current_info_marker];
-                marker.setSelectLock(false);
-                marker.deselect();
+                this.unlockCurrentMarker();
+                this.hideInfoWindow();
             }
         },
 
@@ -137,9 +126,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.$loader = this.$('[data-type=loader]');
         },
 
-        /* ui-events */
-        events: {
-            'click [data-behavior="live-update"]': 'liveUpdateClicked'
+        unlockCurrentMarker: function () {
+            if (this.current_info_marker) {
+                var marker = this.markerViewChildren[this.current_info_marker];
+                marker.setSelectLock(false);
+                marker.deselect();
+            }
         },
 
         liveUpdateClicked: function (e) {
@@ -156,9 +148,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         toggleLiveUpdate: function () {
             /* set or remove a listener */
             if (this.update_live) {
-                this.boundsChangedListener = google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
+                this.unlock('map:bounds');
             } else {
-                this.boundsChangedListener = google.maps.event.removeListener(this.boundsChangedListener);
+                this.lock('map:bounds');
             }
         },
 
@@ -177,9 +169,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 lat: center.lat(),
                 lng: center.lng()
             }
-            if (!this.bounds_has_changed_for_first_time) {
-                this.trigger('map:bounds', filters);
-            }
+
+            this.trigger('map:bounds', filters);
 
             return false;
         },
@@ -207,13 +198,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             }
 
             this.map.setZoom(12);
-        },
-
-        clearForUpdate: function() {
-            if (!this.first_update) {
-                this.closeChildren();
-                this.first_update = false;
-            }
         },
 
         appendHtml: function(collectionView, itemView, index){
@@ -308,6 +292,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             var content = view.model;
 
             this.infoBox.setContent(content);
+            this.lockOnce('map:bounds');
             this.infoBox.open(marker.map, marker.gOverlay);
         },
 

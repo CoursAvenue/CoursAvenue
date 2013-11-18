@@ -62,6 +62,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 name:         (data.server_api.name ? decodeURIComponent(data.server_api.name) : ""),
                 subject_id:   (data.server_api.subject_id ? decodeURIComponent(data.server_api.subject_id) : "")
             });
+
+            this.trigger('structures:updated:maps');
         },
 
         /* we want to show buttons for the first and last pages, and the
