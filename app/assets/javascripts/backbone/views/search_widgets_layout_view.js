@@ -32,7 +32,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* add a new region to deal with a given widget
         * assumption: view.template is in_this_form */
-        showWidget: function (view, events, dom_query) {
+        showWidget: function (view, options) {
+            if (options === undefined) {
+                options = {};
+            }
 
             /* prepare the region and its el */
             /* view_name,     like important_filter_view */
@@ -40,7 +43,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             var view_name     = _.last(view.template.split('/')),
                 region_name   = view_name.split('_').slice(0, -1).join('_'),
                 new_region    = this.addRegion(region_name, '#' + view.cid),
-                $region_hook  = $('<div/>', { id: new_region.el.slice(1) });
+                $region_hook  = $('<div/>', { id: new_region.el.slice(1) }),
+                events        = options.events,
+                selector      = options.selector;
 
             /* remember the region and listen to its show method */
             this.listenTo(this[region_name], 'show', function (view) {
@@ -49,11 +54,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
 
             /* attach the region element to the Layout and show */
-            if (dom_query === undefined) {
-                dom_query = '[data-type=' + region_name.replace('_', '-') + ']';
+            if (selector === undefined) {
+                selector = '[data-type=' + region_name.replace('_', '-') + ']';
             }
 
-            $region_hook.appendTo(this.$el.find(dom_query));
+            $region_hook.appendTo(this.$el.find(selector));
             new_region.show(view);
         },
 

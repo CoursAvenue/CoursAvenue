@@ -163,11 +163,13 @@ FilteredSearch.addInitializer(function(options) {
     /* we can add a widget along with a callback to be used
     * for setup */
     layout.showWidget(google_maps_view, {
-        'structures:updating':               'hideInfoWindow',
-        'structures:itemview:highlighted':   'selectMarkers',
-        'structures:itemview:unhighlighted': 'deselectMarkers',
-        'filter:update:map':                 'centerMap',
-        'structures:itemview:found':         'showInfoWindow'
+        events: {
+            'structures:updating':               'hideInfoWindow',
+            'structures:itemview:highlighted':   'selectMarkers',
+            'structures:itemview:unhighlighted': 'deselectMarkers',
+            'filter:update:map':                 'centerMap',
+            'structures:itemview:found':         'showInfoWindow'
+        }
     });
 
     /* TODO all these widgets have "dependencies", that is, they
@@ -178,8 +180,20 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(location_filter);
     layout.showWidget(subject_filter);
     layout.showWidget(results_summary);
-    layout.showWidget(top_pagination, {}, '[data-type=top-pagination]');
-    layout.showWidget(bottom_pagination, {}, '[data-type=bottom-pagination]');
+    layout.showWidget(top_pagination, {
+        events: {
+            'structures:updated:pagination': 'reset'
+
+        },
+        selector: '[data-type=top-pagination]'
+    });
+    layout.showWidget(bottom_pagination, {
+        events: {
+            'structures:updated:pagination': 'reset'
+
+        },
+        selector: '[data-type=bottom-pagination]'
+    });
 
     layout.results.show(structures_view);
 });
