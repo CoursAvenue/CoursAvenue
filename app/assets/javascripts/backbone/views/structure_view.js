@@ -12,6 +12,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         initialize: function(options) {
             this.$el.data('url', options.model.get('data_url'));
+
+            /* the structure view needs to know how it is being filtered */
+            if (options.search_term) {
+                this.search_term = options.search_term;
+            }
         },
 
         onRender: function() {
@@ -54,6 +59,14 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 }
                 return false;
             }
+        },
+
+        serializeData: function () {
+            var data = this.model.toJSON();
+            data.search_term = this.search_term;
+
+            return data;
         }
+
     });
 });

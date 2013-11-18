@@ -4,8 +4,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     Views.PaginationToolView = Backbone.Marionette.ItemView.extend({
         template: 'backbone/templates/pagination_view',
 
+        initialize: function () {
+            console.log("HELLO");
+        },
+
         /* data to describe the pagination tool */
         reset: function (data) {
+            console.log("Reset");
             this.current_pagination_data = data;
             this.render();
         },
