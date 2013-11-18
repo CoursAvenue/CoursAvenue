@@ -1,6 +1,6 @@
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
 
-    Views.AccordionItemView = Backbone.Marionette.Layout.extend({
+    Views.AccordionItemView = Views.EventLayout.extend({
 
         accordionClose: function() {
             this.model.set({ selected: false });

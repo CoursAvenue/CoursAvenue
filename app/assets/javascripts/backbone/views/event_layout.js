@@ -1,10 +1,7 @@
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
-
-    Views.SearchWidgetsLayout = Backbone.Marionette.Layout.extend({
-        template: 'backbone/templates/search_widgets_layout_view',
-        className: 'relative',
-
-        initialize: function() {
+    Views.EventLayout = Backbone.Marionette.Layout.extend({
+        constructor: function() {
+            Marionette.Layout.prototype.constructor.apply(this, arguments);
             var self = this;
             /* this should listen to events from all its regions */
             _.each(_.keys(this.regions), function(region_name) {
@@ -18,16 +15,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                     self[key].currentView.triggerMethod('click:outside', e);
                 });
             });
-        },
-
-        regions: {
-            results: "#search-results",
-        },
-
-        widgets: [],
-
-        onShow: function() {
-            FilteredSearch.$loader().fadeOut('slow');
         },
 
         /* add a new region to deal with a given widget
@@ -123,9 +110,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* any events that come from the results region will be
         * triggered again from the layout */
         broadcast: function(e, params) {
-            console.log("-->  %o : %o", e, params);
             this.trigger(e, params);
         }
     });
 });
-
