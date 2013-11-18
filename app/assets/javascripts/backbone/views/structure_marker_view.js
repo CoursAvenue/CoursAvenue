@@ -50,9 +50,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             if (!this.select_lock) {
                 this.$el.addClass('active');
                 this.$el.animate({ top: crest }, 200, 'linear', function () {
-                    self.$el.animate({ top: old_top }, 400, 'easeOutBounce', function () {
-                        console.log("boom");
-                    });
+                    self.$el.animate({ top: old_top }, 400, 'easeOutBounce');
                 });
             }
         },

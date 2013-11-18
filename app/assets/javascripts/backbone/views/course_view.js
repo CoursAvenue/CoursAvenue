@@ -15,6 +15,20 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 this.$el.removeClass("bordered--top soft-half--top");
             }
         },
+
+        events: {
+            'mouseenter [data-type=line-item]': 'select',
+            'mouseleave [data-type=line-item]': 'deselect',
+        },
+
+        select: function (e) {
+            $(e.currentTarget).toggleClass('active');
+        },
+
+        deselect: function (e) {
+            $(e.currentTarget).toggleClass('active');
+        },
+
     });
 
 });
