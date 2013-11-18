@@ -207,8 +207,14 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         * than the corresponding models */
         itemViewOptions: function(model, index) {
             // we could pass some information from the collectionView
+            var search_term;
+
+            if (this.collection.server_api.name) {
+                search_term = decodeURIComponent(this.collection.server_api.name);
+            }
+
             return {
-                search_term: decodeURIComponent(this.collection.server_api.name)
+                search_term: search_term
             };
         }
     });
