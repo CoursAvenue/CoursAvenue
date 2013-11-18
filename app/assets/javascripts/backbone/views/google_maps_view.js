@@ -298,7 +298,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         serializeData: function () {
             return {
-                update_live: this.update_live === 'true'
+                update_live: this.update_live
             };
         }
     });
