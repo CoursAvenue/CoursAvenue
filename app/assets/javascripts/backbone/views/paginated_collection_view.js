@@ -17,6 +17,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.trigger('structures:itemview:unhighlighted', data);
         },
 
+        onItemViewCourseSelected: function (view, data) {
+            console.log("PaginatedCollectionView->onItemViewCourseSelected");
+        },
+
         onAfterShow: function() {
             this.announcePaginatorUpdated();
         },

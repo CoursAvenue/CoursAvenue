@@ -11,6 +11,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.$('[data-behavior=tooltip]').tooltip();
         },
 
+        onItemviewSelected: function (data) {
+            console.log("onItemView:selected");
+            this.trigger('course:selected', data);
+        },
+
+        onItemviewDelected: function (data) {
+            console.log("onItemView:deselected");
+            this.trigger('course:deselected', data);
+        },
+
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something
          * if do we would do it here */

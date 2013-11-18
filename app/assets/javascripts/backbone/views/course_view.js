@@ -23,10 +23,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         select: function (e) {
             $(e.currentTarget).toggleClass('active');
+            this.trigger('selected', this.model.toJSON()); // TODO should not expose the whole model
         },
 
         deselect: function (e) {
             $(e.currentTarget).toggleClass('active');
+            this.trigger('deselected', this.model.toJSON()); // TODO should not expose the whole model
         },
 
     });
