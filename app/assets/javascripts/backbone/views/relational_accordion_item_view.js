@@ -28,18 +28,23 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         *
         *         <button data-attributes="url count bob" data-type="accordion-control" data-value="widgets">Whoa!</button> */
         accordionControl: function (e) {
+            console.log("AccordionItemView->accordionControl");
             e.preventDefault();
 
             var value      = $(e.currentTarget).data('value'),
+                model      = _.first(value.split('_')),
                 self       = this,
                 attributes = ($(e.currentTarget).data('attributes') ? $(e.currentTarget).data('attributes').split(' ') : {});
 
+            console.log("  value: %o", value);
+            console.log("  value: %o", model);
             /* if no region exists on the structure view, then we need to
             *  fetch the relation, and create a region for it */
             if (this.regions[value] === undefined) {
+                console.log("region for value is defined");
                 self.showLoader(value);
                 /* wait for asynchronous fetch of models before adding region */
-                this.model.fetchRelated(value, { data: { search_term: this.search_term }}, true)[0].then(function () {
+                this.model.fetchRelated(model, { data: { search_term: this.search_term }}, true)[0].then(function () {
                     self.createRegionFor(value, attributes);
                     self.accordionToggle(value);
                     self.hideLoader();
@@ -54,6 +59,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* either switch between tabs on the structure, or defer to
         *  the accordion action */
         accordionToggle: function (value) {
+            console.log("AccordionItemView->accordionToggle");
+            console.log("value: %o", value);
+
             var closing = (this.active_region === value),
                 button  = this.$('[data-value=' + value + ']');
 
@@ -107,7 +115,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         *  view is grabbed from the structure, based on strings passed in
         *  an array. The collection is models on a relation on structure. */
         createRegionFor: function (object_name, attribute_strings) {
-            var singular = object_name.slice(0, -1),
+            console.log("AccordionItemView->createRegionFor");
+            var model_name = _.first(object_name.split('_')).slice(0, -1),
                 self = this;
 
             /* collect some information to pass in to the compositeview */
@@ -117,11 +126,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 return memo;
             }, {});
 
-            this.addRegion(object_name, "#" + object_name + this.cid);
-            this.regions[object_name] = '#' + object_name + this.cid;
-            this.$el.append('<div id="' + object_name  + this.cid + '">');
+            this.$el.append('<div data-type="' + object_name.replace('_', '-') + '">');
 
-            collection = new Backbone.Collection(this.model.get(object_name).models);
+            collection = new Backbone.Collection(this.model.get(model_name + 's').models);
 
             /* an anonymous compositeView is all we need */
             // If a collection view exists, then use it, else create a generic one.
@@ -129,10 +136,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 ViewClass = Views[App.capitalize(object_name) + 'CollectionView'];
             } else {
                 ViewClass = Backbone.Marionette.CompositeView.extend({
-                    template: 'backbone/templates/' + object_name + '_collection_view',
+                    template: 'backbone/templates/' + object_name + '_view',
 
                     // The "object_name" has an 's' at the end, that's what the slice is for
-                    itemView: Views[App.capitalize(singular) + 'View'],
+                    itemView: Views[App.capitalize(model_name) + 'View'],
                     itemViewContainer: '[data-type=container]'
                 });
             }
@@ -145,7 +152,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                     'style':     'display:none'
                 }
             });
-            this[object_name].show(view);
+
+            this.showWidget(view);
         },
     });
 });

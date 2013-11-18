@@ -20,7 +20,7 @@
         </h2>
         <div>
             {{#if has_plannings}}
-            <a href="javascript:void(0);" class="flexbox__item blue" data-type="accordion-control" data-value="courses" data-attributes="data_url">
+            <a href="javascript:void(0);" class="flexbox__item blue" data-type="accordion-control" data-value="courses_collection" data-attributes="data_url">
                 <i class="fa fa-arrow-circle-down"></i>
 
                 {{#if search_term }}
@@ -75,7 +75,7 @@
         {{/if}}
 
     </article><!--
- --><div class="flexbox__item one-eighth v-middle text--center {{#if has_medias}}structure-item__button{{/if}}" {{#if has_medias}} data-type="accordion-control" data-value="medias" data-attributes="data_url"{{/if}}>
+ --><div class="flexbox__item one-eighth v-middle text--center {{#if has_medias}}structure-item__button{{/if}}" {{#if has_medias}} data-type="accordion-control" data-value="medias_collection" data-attributes="data_url"{{/if}}>
         <div class="structure-item__button-wrapper">
             <div class="structure-item__button-triangle"></div>
             <div class="alpha thin brand">{{ medias_count }}</div>
@@ -84,7 +84,7 @@
             </span>
         </div>
     </div><!--
- --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} one-eighth v-middle text--center" {{#if has_comments}}data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments"{{/if}}>
+ --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} one-eighth v-middle text--center" {{#if has_comments}}data-type="accordion-control" data-value="comments_collection" data-attributes="data_url more_than_five_comments"{{/if}}>
         <div class="structure-item__button-wrapper">
             <div class="structure-item__button-triangle"></div>
             <div class="alpha thin brand">{{ comments_count }}</div>
