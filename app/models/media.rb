@@ -3,10 +3,11 @@ class Media < ActiveRecord::Base
 
   self.table_name = 'medias'
 
-  attr_accessible :mediable, :mediable_id, :mediable_type, :url, :caption
+  attr_accessible :mediable, :mediable_id, :mediable_type, :url, :caption, :format
 
   before_save :fix_url
   after_save :update_format
+  after_save :determine_provider
 
   belongs_to :mediable, polymorphic: true
   validates :url, presence: true
@@ -23,6 +24,11 @@ class Media < ActiveRecord::Base
     youtube(width: 400, height: 250)
     dailymotion(width: 400, height: 250)
     vimeo(width: 400, height: 250)
+    google_video(width: 400, height: 250)
+  end
+
+  def determine_provider
+    lalala!
   end
 
   def determine_format
@@ -31,6 +37,14 @@ class Media < ActiveRecord::Base
     elsif url_html.starts_with? '<iframe' or url_html.starts_with? '<object'
       'video'
     end
+  end
+
+  def video?
+    self.format == 'video'
+  end
+
+  def image?
+    self.format == 'image'
   end
 
   private

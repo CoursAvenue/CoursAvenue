@@ -17,8 +17,19 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         itemViewOptions: function(model, index) {
             // we could pass some information from the collectionView
             return { index: index };
-        }
+        },
 
+        /* overriding super's showCollection to only show those items that
+        * are valid */
+        showCollection: function(){
+            var self = this;
+            var ItemView = this.getItemView();
+            this.collection.each(function(item, index){
+                if (item.get('name')) {
+                    self.addItemView(item, ItemView, index);
+                }
+            });
+        },
     });
 
 });

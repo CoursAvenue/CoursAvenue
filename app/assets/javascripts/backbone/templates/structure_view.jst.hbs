@@ -1,5 +1,5 @@
 <div class="flexbox white-box structure-item">
-    <div class="flexbox__item one-eighth v-top">
+    <div class="flexbox__item v-top structure-item__logo">
         <div class="relative">
             {{#if logo_present}}
                 <a href="{{ data_url }}" class="block">
@@ -14,39 +14,39 @@
             {{/if}}
         </div>
     </div><!--
- --><article class="flexbox__item three-eighths v-top">
-        <div class="soft-half hard--right">
-            <h2 class="epsilon flush">
-                <a href="{{ data_url }}">{{ name }}</a>
-            </h2>
-            <div class="lbl lbl--blue lbl--small">
-                {{#if has_price_range}}
-                    De
+ --><article class="flexbox__item four-tenths v-top soft-half hard--right">
+        <h2 class="epsilon flush v-top">
+            <a href="{{ data_url }}">{{ name }}</a>
+        </h2>
+        {{#if subjects_string}}
+            <div class="milli gray"> <i>{{{subjects_string}}}</i> </div>
+        {{/if}}
+        <div>
+            {{#if has_plannings}}
+            <a href="javascript:void(0);" class="flexbox__item blue" data-type="accordion-control" data-value="courses" data-attributes="data_url">
+                <i class="fa fa-arrow-circle-down"></i>
+                {{#if search_term }}
+                    Voir les séances correspondantes à <strong>"{{ search_term }}"</strong>
+                {{else}}
+                    Voir {{ plannings_count }} {{ pluralize plannings_count 'séance' 'séances' }}
+                {{/if}}
+                {{#if has_price_range }}
+                    de
                     <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                     à
                     <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
                 {{else}}
                     {{#if min_price_amount}}
-                        À partir de
+                        à partir de
                         <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                     {{/if}}
                 {{/if}}
-            </div>
-            <div>
-                {{#if has_plannings}}
-                <a href="javascript:void(0);" class="blue" data-type="accordion-control" data-value="courses" data-attributes="data_url">
-                    <i class="fa fa-arrow-circle-down"></i>
-                    {{ plannings_count }}
-                    {{ pluralize plannings_count 'séance' 'séances' }}
-                </a>
-                {{/if}}
-            </div>
-            {{#if audience}}
-                <div>
-                    <span class="milli">{{audience}}</span>
-                </div>
+            </a>
             {{/if}}
             <div>
+            {{#if audience}}
+                <span class="milli soft-half--right">{{audience}}</span>
+            {{/if}}
             {{#if gives_individual_courses}}
                 <span title="Cours particulier" data-behavior="tooltip" class="pointer">
                     <i class="fa fa-user"></i>
@@ -84,7 +84,7 @@
             <span class="soft-half--bottom milli">avis <i class="lbc-brand-icon"></i></span>
             {{#if last_comment_title}}
             <div class="quoted milli">
-                {{last_comment_title}}
+                {{{last_comment_title}}}
             </div>
             {{/if}}
             <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
@@ -97,14 +97,18 @@
             </div>
         </div>
     </div><!--
- --><div class="flexbox__item two-eighths v-middle text--center">
-        {{#if video}}
-            <div class="media__item">
-                {{{video.url_html}}}
-            </div>
-        {{/if}}
+ --><div class="flexbox__item two-eighths v-middle text--center rslides-wrapper">
+        <ul class="rslides hidden">
+            {{#each images}}
+                <li>
+                    <div class="media__item media__item--slides">
+                        <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
+                            {{{this.url_html}}}
+                        </a>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
     </div>
 </div>
-
-{{!-- <div {{#if has_medias}} data-type="accordion-control" data-value="medias" data-attributes="data_url"{{/if}}>Voir la galerie</div>
- --}}
+{{!-- {{#if has_medias}} data-type="accordion-control" data-value="medias" data-attributes="data_url"{{/if}} --}}

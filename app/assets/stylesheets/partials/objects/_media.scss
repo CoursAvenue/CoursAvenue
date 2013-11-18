@@ -3,11 +3,9 @@
 \*------------------------------------*/
 
 .media__item {
-    display : inline-block;
     position: relative;
     img, iframe, object {
         width : 100%;
-        height: initial;
     }
     &.media__item--slides{
         background-size    : cover;

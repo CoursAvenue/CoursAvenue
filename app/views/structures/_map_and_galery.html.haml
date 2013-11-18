@@ -1,23 +1,13 @@
 .white-box
-  .grid--full
+  .grid--full#media-grid
     .grid__item{class: medias.any? ? 'one-half' : 'one-whole'}>
       = gmaps( {markers: {data: places_address}, map_options: {maxZoom: 17, mapTypeControl: false}, last_map: true} )
     - if medias.any?
-      .grid__item.one-half>
-        - if medias.length == 1
-          .media-gallery
-            .media__item.media__item--slides.one-whole{style: 'height: 280px;'}>
-              %a.block.break-all{href: medias.first.url, title: medias.first.caption}
-                = medias.first.url_html
-                %i.fa.fa-expand
-        - else
-          .media-gallery.slidesjs-wrapper{style: 'display: none;'}>
-            .slidesjs-previous.slidesjs-navigation
-              %i.fa.fa-chevron-left
-            .slidesjs-next.slidesjs-navigation
-              %i.fa.fa-chevron-right
-            - medias.each do |media|
-              .media__item.media__item--slides{style: 'height: 280px;'}>
+      .grid__item.one-half.rslides-wrapper>
+        %ul.rslides.hidden>
+          - medias.each do |media|
+            %li
+              .media__item.media__item--slides>
                 %a.block.break-all{href: media.url, title: media.caption}
                   = media.url_html
                   %i.fa.fa-expand
@@ -53,18 +43,25 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $('.media__item--slides img').each(function(){
+        // Start slideshow
+        // Removing images and adding the image url to background image in order to have the image being covered
+        $('.rslides img').each(function(){
             var $this = $(this);
-            $this.hide();
-            $this.closest('.media__item--slides').css('background-image', 'url(' + $this.attr('src') + ')')
+            $this.closest('.media__item').hide();
+            $this.closest('li').css('background-image', 'url(' + $this.attr('src') + ')')
         });
-        $(".slidesjs-wrapper").slidesjs({
-            width: 400,
-            height: 300,
-            navigation: {
-              active: false
-            }
+        $(".rslides").responsiveSlides({
+            auto: false,
+            nav: true,
+            prevText: '<i class="fa fa-chevron-left"></i>',
+            nextText: '<i class="fa fa-chevron-right"></i>'
         });
+        $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
+        // Set the height of the slides
+        var media_height = $('#media-grid').height();
+        $('.rslides li').css('height', media_height);
+        $('.rslides').removeClass('hidden');
+        // End slideshow
         var places_are_hidden   = true;
         $('#show-all-places').click(function() {
             $('#place-list').slideToggle();
@@ -91,5 +88,4 @@
                 $('#show-galery').click();
             }
         });
-        $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
     });

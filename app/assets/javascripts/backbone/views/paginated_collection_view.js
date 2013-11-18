@@ -21,6 +21,43 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.announcePaginatorUpdated();
         },
 
+        ///// TODO Improve
+        onRender: function() {
+            var self = this;
+            setTimeout(function(){
+                // Start slideshow
+                // Removing images and adding the image url to background image in order to have the image being covered
+                self.$('.rslides img').each(function(){
+                    var $this = $(this);
+                    $this.closest('.media__item').hide();
+                    $this.closest('li').css('background-image', 'url(' + $this.attr('src') + ')')
+                });
+                self.$(".rslides").responsiveSlides({
+                    auto: false,
+                    nav: true,
+                    prevText: '<i class="fa fa-chevron-left"></i>',
+                    nextText: '<i class="fa fa-chevron-right"></i>'
+                });
+                self.$('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
+                // Set the height of the slides
+                self.$('.structure-item').each(function() {
+                    var $this = $(this);
+                    var media_height = $this.height();
+                    $this.find('.rslides li').css('height', media_height);
+                    $this.find('.rslides').removeClass('hidden');
+                });
+            });
+            // this.$('.media__item img').each(function(){
+            //     var $this = $(this);
+            //     $this.closest('.media__item').hide();
+            //     $this.closest('.flexbox__item').css({
+            //         'background-image'   : 'url(' + $this.attr('src') + ')',
+            //         'background-size'    : 'cover',
+            //         'background-position': 'center'
+            //     });
+            // });
+        },
+
         /* we don't use this, but we could */
         accordionCloseAll: function () {
             var self = this;
@@ -205,9 +242,19 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something
          * if do we would do it here */
+        /* remember that itemViews are constructed and destroyed more often
+        * than the corresponding models */
         itemViewOptions: function(model, index) {
             // we could pass some information from the collectionView
-            return { };
+            var search_term;
+
+            if (this.collection.server_api.name) {
+                search_term = decodeURIComponent(this.collection.server_api.name);
+            }
+
+            return {
+                search_term: search_term
+            };
         }
     });
 });

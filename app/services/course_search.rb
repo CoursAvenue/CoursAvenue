@@ -3,11 +3,13 @@ class CourseSearch
   def self.search params
     params[:sort] ||= 'rating_desc'
     retrieve_location params
-    params[:start_date] = I18n.l(Date.today) if params[:start_date].blank?
+    # params[:start_date] = I18n.l(Date.today) if params[:start_date].blank?
     @search = Sunspot.search(Course) do
       fulltext                              params[:name]                                           if params[:name].present?
-      with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: true)
+      keywords                              [ params[:search_term] ]                                    if params[:search_term].present?
+     # with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: true)
       with(:subject_slugs).any_of           [params[:subject_id]]                                   if params[:subject_id]
+      with :structure_id,                   params[:structure_id].to_i                              if params[:structure_id]
       with(:type).any_of                    params[:types]                                          if params[:types].present?
       with(:audience_ids).any_of            params[:audiences]                                      if params[:audiences].present?
       with(:level_ids).any_of               params[:levels]                                         if params[:levels].present?
@@ -16,10 +18,8 @@ class CourseSearch
       with(:min_age_for_kid).less_than      params[:age][:max]                                      if params[:age].present? and params[:age][:max].present?
       with(:max_age_for_kid).greater_than   params[:age][:min]                                      if params[:age].present? and params[:age][:min].present?
 
-      with(:end_date).greater_than          params[:start_date]
+      with(:end_date).greater_than          params[:start_date]                                     if params[:start_date].present?
       with(:start_date).less_than           params[:end_date]                                       if params[:end_date].present?
-      # with(:start_date).greater_than        params[:start_date]                                     if params[:end_date].present?
-      # with(:end_date).less_than             params[:end_date]                                       if params[:start_date].present?
 
       with(:start_time).greater_than        TimeParser.parse_time_string(params[:time_range][:min]) if params[:time_range].present? and params[:time_range][:min].present?
       with(:end_time).less_than             TimeParser.parse_time_string(params[:time_range][:max]) if params[:time_range].present? and params[:time_range][:max].present?
@@ -31,22 +31,10 @@ class CourseSearch
 
       with :active, true
 
-      order_by :has_admin, :desc
-      order_by :has_picture, :desc
-      if params[:sort] == 'price_asc'
-        order_by :approximate_price_per_course, :asc
-      elsif params[:sort] == 'price_desc'
-        order_by :approximate_price_per_course, :desc
-      elsif params[:sort] == 'rating_desc'
-        order_by :rating, :desc
-        order_by :nb_comments, :desc
-      else
-        # order_by_geodist(:location, params[:lat], params[:lng])
-        order_by :has_comment, :desc
-      end
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
     end
-    @search.results
+
+    @search
   end
 
   def self.retrieve_location params

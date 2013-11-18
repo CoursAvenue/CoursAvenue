@@ -12,13 +12,13 @@ class StructureSerializer < ActiveModel::Serializer
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :has_medias, :structure_type,
-             :has_promotion, :parent_subjects_text, :last_comment_title, :video
+             :has_promotion, :subjects_string, :last_comment_title, :cover_image, :has_media, :images
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
   has_many :courses,  serializer: ShortSerializer
-  has_many :medias,   serializer: MediaSerializer
-  # has_many :medias,   serializer: ShortSerializer
+  has_many :medias,   serializer: ShortSerializer
+  # has_many :medias,   serializer: MediaSerializer
 
   # Following functions has to return the same objects than the associated controllers
   def courses
@@ -33,8 +33,16 @@ class StructureSerializer < ActiveModel::Serializer
     object.comments.accepted.limit(5)
   end
 
-  def video
-    object.medias.images.first
+  def cover_image
+    object.medias.images.first || object.image.url
+  end
+
+  def images
+    object.medias.images
+  end
+
+  def has_media
+    object.medias.any?
   end
 
   def last_comment_title
@@ -138,7 +146,7 @@ class StructureSerializer < ActiveModel::Serializer
     structure_path(object)
   end
 
-  def parent_subjects_text
-    join_parent_subjects_text(object)
+  def subjects_string
+    truncate(join_child_subjects_text(object), length: 55)
   end
 end

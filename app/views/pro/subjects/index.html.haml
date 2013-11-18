@@ -14,7 +14,7 @@
             = subject.name
         %td{data: {value: subject.image.present? ? '0' : '1'}}
           - if subject.image.present?
-            %i.fa.fa-check-o
+            %i.fa.fa-check
         %td= link_to 'Editer', edit_pro_subject_path(subject)
 
 
