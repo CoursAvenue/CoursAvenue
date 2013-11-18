@@ -91,6 +91,7 @@ class Pro::StructuresController < Pro::ProController
     @comments       = @structure.comments.accepted
     @courses        = @structure.courses
     @medias         = @structure.medias
+    @locations      = @structure.locations
     @profile_percentage = 100
     @profile_percentage -= 20 if !@structure.profile_completed?
     @profile_percentage -= 20 if @structure.medias.empty?
