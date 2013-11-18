@@ -14,6 +14,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                     width: "300px"
                 },
                 enableEventPropagation: true,
+                infoBoxClearance: new google.maps.Size(100, 100),
                 closeBoxUrl: ""
             };
 
