@@ -41,7 +41,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         goToStructurePage: function(event) {
-            if (event.target.nodeName !== 'A') {
+            // Checking the parent prevent from clicking on an icon that is nested within a link element.
+            if (event.target.nodeName !== 'A' && $(event.target).parent('a').length === 0) {
                 window.location = this.model.get('data_url');
             }
         },
