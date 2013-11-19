@@ -55,9 +55,14 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         *  the accordion action */
         accordionToggle: function (value) {
             var closing = (this.active_region === value),
-                button  = this.$('[data-value=' + value + ']');
+                button  = this.$('[data-value=' + value + ']'),
+                active_region_button;
 
-            button.toggleClass('active');
+            if (button.data('wrapper')) {
+                button.closest(button.data('wrapper')).toggleClass('active');
+            } else {
+                button.toggleClass('active');
+            }
 
             if (closing) {
                 this.accordionClose();
@@ -69,7 +74,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 /* we are switching */
                     this[this.active_region].$el.find('[data-type=accordion-data]').hide();
                     this[this.active_region].currentView.$el.attr('data-type', '');
-                    this.$('[data-value=' + this.active_region + ']').toggleClass('active');
+                    active_region_button = this.$('[data-value=' + this.active_region + ']');
+                    if (active_region_button.data('wrapper')) {
+                        active_region_button.closest(active_region_button.data('wrapper')).toggleClass('active');
+                    } else {
+                        active_region_button.toggleClass('active');
+                    }
+
                     this[value].currentView.$el.attr('data-type', 'accordion-data');
                 } else {
                 /* both tabs are closed */

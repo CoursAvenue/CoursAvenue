@@ -27,6 +27,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         * dirty to have the click handled here. However, it seems that
         * the child's events hash overrides the parent's hash by default */
         events: {
+            'click': 'goToStructurePage',
             'click [data-type=accordion-control]': 'accordionControl',
             'mouseenter':                          'highlightStructure',
             'mouseleave':                          'unhighlightStructure'
@@ -39,6 +40,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
         },
 
+        goToStructurePage: function(event) {
+            if (event.target.nodeName !== 'A') {
+                window.location = this.model.get('data_url');
+            }
+        },
         /* a structure was selected, so return the places JSON
         * TODO would it be nicer is this just returned the whole model's
         * json, including the places relation? */

@@ -23,6 +23,7 @@
     background-repeat  : no-repeat;
     background-image   : asset-url('badges/promotion.png');
     background-position: bottom;
+    z-index            : 10;
     @include background-size(100%);
     @media \0screen {
         background: none;

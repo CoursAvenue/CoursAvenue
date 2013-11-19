@@ -38,10 +38,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                     nextText: '<i class="fa fa-chevron-right"></i>'
                 });
                 self.$('.rslides-wrapper [data-behavior="fancy"]').fancybox({ helpers : { media : {} } });
-                // Set the height of the slides
+                // Set the height of relative divs that needs to fits the table cells.
                 self.$('.structure-item').each(function() {
                     var $this = $(this);
                     var media_height = $this.height();
+                    $this.find('.full-height').css('height', media_height);
                     $this.find('.rslides li').css('height', media_height);
                     $this.find('.rslides').removeClass('hidden');
                 });
