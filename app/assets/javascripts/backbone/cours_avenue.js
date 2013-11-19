@@ -15,7 +15,7 @@
 //---------- Views
 //= require ./views/structure_marker_view
 //= require ./views/google_maps_view
-//= require ./views/pagination_view
+//= require ./views/pagination_tool_view
 //= require ./views/result_summary_view
 //= require ./views/location_filter_view
 //= require ./views/subject_filter_view
