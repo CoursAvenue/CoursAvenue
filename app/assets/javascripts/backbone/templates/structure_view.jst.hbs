@@ -101,30 +101,21 @@
         <ul class="rslides hidden">
             {{#each preloaded_medias}}
                 <li>
-                    {{#if this.thumbnail_url}}
-                        <a href="{{{this.url}}}" class="rslides_nav rslides_nav--icon" data-behavior="fancy">
-                            <i class="fa fa-youtube-play"></i>
-                        </a>
-                        <a class="rslides_nav rslides_nav--bottom" data-type="accordion-control" data-value="medias" data-attributes="data_url">Voir la galerie</a>
-                        <div class="media__item media__item--slides">
-                            <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
+                    <a href="{{{this.url}}}" class="rslides_nav rslides_nav--icon" data-behavior="fancy">
+                        <i class="fa {{#if this.thumbnail_url}}fa-youtube-play{{else}}fa-eye{{/if}}"></i>
+                    </a>
+                    <a class="rslides_nav rslides_nav--bottom" data-type="accordion-control" data-value="medias" data-attributes="data_url">Voir la galerie</a>
+                    <div class="media__item media__item--slides">
+                        <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
+                            {{#if this.thumbnail_url}}
                                 <img src="{{this.thumbnail_url}}" />
-                            </a>
-                        </div>
-                    {{else}}
-                        <a href="{{{this.url}}}" class="rslides_nav rslides_nav--icon" data-behavior="fancy">
-                            <i class="fa fa-eye"></i>
-                        </a>
-                        <a class="rslides_nav rslides_nav--bottom" data-type="accordion-control" data-value="medias" data-attributes="data_url">Voir la galerie</a>
-                        <div class="media__item media__item--slides">
-                            <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
+                            {{else}}
                                 {{{this.url_html}}}
-                            </a>
-                        </div>
-                    {{/if}}
+                            {{/if}}
+                        </a>
+                    </div>
                 </li>
             {{/each}}
         </ul>
     </div>
 </div>
-{{!-- {{#if has_medias}} data-type="accordion-control" data-value="medias" data-attributes="data_url"{{/if}} --}}
