@@ -62,12 +62,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             this.toggleButtonForModel(model_name);
 
-            if (button.data('wrapper')) {
-                button.closest(button.data('wrapper')).toggleClass('active');
-            } else {
-                button.toggleClass('active');
-            }
-
             if (closing) {
                 this.accordionClose();
                 this[this.active_region].currentView.$el.attr('data-behavior', '');
