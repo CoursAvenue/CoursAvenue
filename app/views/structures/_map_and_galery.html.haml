@@ -7,7 +7,7 @@
         %ul.rslides.hidden>
           - medias.each do |media|
             %li
-              .media__item.media__item--slides>
+              .one-whole.media__item.media__item--slides>
                 %a.block.break-all{href: media.url, title: media.caption}
                   = media.url_html
                   %i.fa.fa-expand

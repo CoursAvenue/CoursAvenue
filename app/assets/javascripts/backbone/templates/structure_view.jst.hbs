@@ -99,13 +99,29 @@
     </div><!--
  --><div class="flexbox__item two-eighths v-middle text--center rslides-wrapper">
         <ul class="rslides hidden">
-            {{#each images}}
+            {{#each preloaded_medias}}
                 <li>
-                    <div class="media__item media__item--slides">
-                        <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
-                            {{{this.url_html}}}
+                    {{#if this.thumbnail_url}}
+                        <a href="{{{this.url}}}" class="rslides_nav rslides_nav--icon" data-behavior="fancy">
+                            <i class="fa fa-youtube-play"></i>
                         </a>
-                    </div>
+                        <a class="rslides_nav rslides_nav--bottom" data-type="accordion-control" data-value="medias" data-attributes="data_url">Voir la galerie</a>
+                        <div class="media__item media__item--slides">
+                            <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
+                                <img src="{{this.thumbnail_url}}" />
+                            </a>
+                        </div>
+                    {{else}}
+                        <a href="{{{this.url}}}" class="rslides_nav rslides_nav--icon" data-behavior="fancy">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <a class="rslides_nav rslides_nav--bottom" data-type="accordion-control" data-value="medias" data-attributes="data_url">Voir la galerie</a>
+                        <div class="media__item media__item--slides">
+                            <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
+                                {{{this.url_html}}}
+                            </a>
+                        </div>
+                    {{/if}}
                 </li>
             {{/each}}
         </ul>
