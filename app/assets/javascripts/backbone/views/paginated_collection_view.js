@@ -21,7 +21,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.announcePaginatorUpdated();
         },
 
-        onRender: function() {
+        renderSlideshows: function() {
             var self = this;
             setTimeout(function(){
                 // Start slideshow
