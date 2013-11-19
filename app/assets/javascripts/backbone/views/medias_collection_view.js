@@ -13,7 +13,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             })
         },
         onRender: function() {
-            this.$('a').fancybox({ helpers : { media : {} } });
+            this.$('a[data-behavior="fancy"]').fancybox({ helpers : { media : {} } });
             this.$('img, iframe').load(function(){
                 $('.media-gallery').masonry({ itemSelector: '.media__item' });
             });

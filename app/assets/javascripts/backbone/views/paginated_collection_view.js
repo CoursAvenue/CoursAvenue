@@ -25,6 +25,34 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.announcePaginatorUpdated();
         },
 
+        renderSlideshows: function() {
+            var self = this;
+            setTimeout(function(){
+                // Start slideshow
+                // Removing images and adding the image url to background image in order to have the image being covered
+                self.$('.rslides img').each(function(){
+                    var $this = $(this);
+                    $this.closest('.media__item').hide();
+                    $this.closest('li').css('background-image', 'url(' + $this.attr('src') + ')')
+                });
+                self.$(".rslides").responsiveSlides({
+                    auto: false,
+                    nav: true,
+                    prevText: '<i class="fa fa-chevron-left"></i>',
+                    nextText: '<i class="fa fa-chevron-right"></i>'
+                });
+                self.$('.rslides-wrapper [data-behavior="fancy"]').fancybox({ helpers : { media : {} } });
+                // Set the height of relative divs that needs to fits the table cells.
+                self.$('.structure-item').each(function() {
+                    var $this = $(this);
+                    var media_height = $this.height();
+                    $this.find('.full-height').css('height', media_height);
+                    $this.find('.rslides li').css('height', media_height);
+                    $this.find('.rslides').removeClass('hidden');
+                });
+            });
+        },
+
         /* we don't use this, but we could */
         accordionCloseAll: function () {
             var self = this;

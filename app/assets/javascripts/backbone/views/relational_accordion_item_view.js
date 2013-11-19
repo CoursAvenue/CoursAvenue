@@ -58,9 +58,15 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         *  the accordion action */
         accordionToggle: function (collection_name, model_name) {
             var closing       = (this.active_region === collection_name),
-                active_model;
+                active_model, active_region_button;
 
             this.toggleButtonForModel(model_name);
+
+            if (button.data('wrapper')) {
+                button.closest(button.data('wrapper')).toggleClass('active');
+            } else {
+                button.toggleClass('active');
+            }
 
             if (closing) {
                 this.accordionClose();
@@ -93,7 +99,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         toggleButtonForModel: function (model_name) {
-            this.$('[data-model=' + model_name + ']').toggleClass('active');
+            var button = this.$('[data-model=' + model_name + ']');
+
+            if (button.data('wrapper')) {
+                button = button.closest(button.data('wrapper'));
+            }
+
+            button.toggleClass('active');
         },
 
         showLoader: function(collection_name) {

@@ -2,13 +2,13 @@
 
 = render partial: 'pro/structures/comments_tabs', locals: {current: 'comment_notification'}
 
-%table.table--striped.table--data.table--white#comment-notification-table
+%table.table--striped.table--data.white-box#comment-notification-table
   %thead
     %tr
       %th Email
       %th.text--center A laissé une recommandation
   %tbody
-    - @structure.comment_notifications.each do |comment_notification|
+    - @structure.comment_notifications.limit(500).each do |comment_notification|
       %tr
         %td= comment_notification.user.email
         %td.text--center{data: {value: comment_notification.complete? ? '0' : '1'}}
