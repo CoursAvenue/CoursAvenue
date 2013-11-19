@@ -1,5 +1,5 @@
 <div class="flexbox white-box structure-item">
-    <div class="flexbox__item one-eighth v-top">
+    <div class="flexbox__item v-top structure-item__logo">
         <div class="relative">
             {{#if logo_present}}
                 <a href="{{ data_url }}" class="block">
@@ -15,80 +15,78 @@
         </div>
     </div><!--
  --><article class="flexbox__item four-tenths v-top soft-half hard--right">
-        <h2 class="epsilon inline v-top">
+        <h2 class="epsilon flush v-top">
             <a href="{{ data_url }}">{{ name }}</a>
         </h2>
+        {{#if subjects_string}}
+            <div class="milli gray"> <i>{{{subjects_string}}}</i> </div>
+        {{/if}}
         <div>
             {{#if has_plannings}}
             <a href="javascript:void(0);" class="flexbox__item blue" data-type="accordion-control" data-value="courses" data-attributes="data_url">
                 <i class="fa fa-arrow-circle-down"></i>
-
                 {{#if search_term }}
                     Voir les séances correspondantes à <strong>"{{ search_term }}"</strong>
                 {{else}}
                     Voir {{ plannings_count }} {{ pluralize plannings_count 'séance' 'séances' }}
                 {{/if}}
                 {{#if has_price_range }}
-                    entre
+                    de
                     <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
                     à
                     <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
                 {{else}}
-                    à partir de
-                    <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                    {{#if min_price_amount}}
+                        à partir de
+                        <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
+                    {{/if}}
                 {{/if}}
-
             </a>
             {{/if}}
-        </div>
-        {{#if audience}}
             <div>
-                <span class="milli">{{audience}}</span>
+            {{#if audience}}
+                <span class="milli">{{audience}}</span>&nbsp;
+            {{/if}}
+            {{#if gives_individual_courses}}
+                <span title="Cours particulier" data-behavior="tooltip" class="pointer">
+                    <i class="fa fa-user"></i>
+                </span>
+            {{/if}}
+            {{#if gives_group_courses}}
+                <span title="Cours collectif" data-behavior="tooltip" class="pointer">
+                    <i class="fa fa-user"></i>
+                    <i class="fa fa-user" style="left: -6px; top: 2px; position: relative"></i>
+                </span>
+            {{/if}}
+            {{#if teaches_at_home}}
+                <span title="Cours à domicile {{#if teaches_at_home_radius}}(dans un rayon de {{teaches_at_home_radius}}km){{/if}}" data-behavior="tooltip" class="pointer">
+                    <i class="fa fa-home"></i>
+                </span>
+            {{/if}}
+            {{#if structure_type}}
+                |
+                <span class="milli">{{structure_type}}</span>
+            {{/if}}
             </div>
-        {{/if}}
-        <div>
-        {{#if gives_individual_courses}}
-            <span title="Cours particulier" data-behavior="tooltip" class="pointer">
-                <i class="fa fa-user"></i>
-            </span>
-        {{/if}}
-        {{#if gives_group_courses}}
-            <span title="Cours collectif" data-behavior="tooltip" class="pointer">
-                <i class="fa fa-user"></i>
-                <i class="fa fa-user" style="left: -6px; top: 2px; position: relative"></i>
-            </span>
-        {{/if}}
-        {{#if teaches_at_home}}
-            <span title="Cours à domicile {{#if teaches_at_home_radius}}(dans un rayon de {{teaches_at_home_radius}}km){{/if}}" data-behavior="tooltip" class="pointer">
-                <i class="fa fa-home"></i>
-            </span>
-        {{/if}}
-        {{#if structure_type}}
-            |
-            <span class="milli">{{structure_type}}</span>
-        {{/if}}
+            {{#if funding_types}}
+                <div>
+                    <span class="pointer lbl lbl--small" data-behavior="tooltip" title="{{funding_types}}">Financements spécifiques acceptés</span>
+                </div>
+            {{/if}}
         </div>
-        {{#if funding_types}}
-            <div>
-                <span class="pointer lbl lbl--small" data-behavior="tooltip" title="{{funding_types}}">Financements spécifiques acceptés</span>
-            </div>
-        {{/if}}
-
     </article><!--
- --><div class="flexbox__item one-eighth v-middle text--center {{#if has_medias}}structure-item__button{{/if}}" {{#if has_medias}} data-type="accordion-control" data-value="medias" data-attributes="data_url"{{/if}}>
+ --><div class="flexbox__item relative soft-half--sides {{#if has_comments}}structure-item__button{{/if}} two-eighths v-middle text--center" {{#if has_comments}}data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments"{{/if}}>
         <div class="structure-item__button-wrapper">
             <div class="structure-item__button-triangle"></div>
-            <div class="alpha thin brand">{{ medias_count }}</div>
-            <span class="milli">
-                {{ pluralize medias_count 'Photo / vidéo' 'Photos & vidéos' }}
-            </span>
-        </div>
-    </div><!--
- --><div class="flexbox__item {{#if has_comments}}structure-item__button{{/if}} one-eighth v-middle text--center" {{#if has_comments}}data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments"{{/if}}>
-        <div class="structure-item__button-wrapper">
-            <div class="structure-item__button-triangle"></div>
-            <div class="alpha thin brand">{{ comments_count }}</div>
-            <span class="milli">avis <i class="lbc-brand-icon"></i></span>
+            <div class="alpha thin brand">
+                {{ comments_count }}
+            </div>
+            <span class="soft-half--bottom milli">avis <i class="lbc-brand-icon"></i></span>
+            {{#if last_comment_title}}
+            <div class="quoted milli">
+                {{{last_comment_title}}}
+            </div>
+            {{/if}}
             <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
                 <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
                 <meta property="v:rating" itemprop="rating" content="{{ rating }}">
@@ -98,7 +96,26 @@
                 <meta itemprop="postal-code" content="{{ zip_code }}">
             </div>
         </div>
+    </div><!--
+ --><div class="flexbox__item two-eighths v-middle text--center rslides-wrapper">
+        <ul class="rslides hidden">
+            {{#each preloaded_medias}}
+                <li>
+                    <a href="{{{this.url}}}" class="rslides_nav rslides_nav--icon" data-behavior="fancy">
+                        <i class="fa {{#if this.thumbnail_url}}fa-youtube-play{{else}}fa-eye{{/if}}"></i>
+                    </a>
+                    <a class="rslides_nav rslides_nav--bottom" data-type="accordion-control" data-value="medias" data-attributes="data_url">Voir la galerie</a>
+                    <div class="media__item media__item--slides">
+                        <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
+                            {{#if this.thumbnail_url}}
+                                <img src="{{this.thumbnail_url}}" />
+                            {{else}}
+                                {{{this.url_html}}}
+                            {{/if}}
+                        </a>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
     </div>
 </div>
-
-

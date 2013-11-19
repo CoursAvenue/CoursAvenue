@@ -19,12 +19,9 @@ class Pro::Structures::MediasController < InheritedResources::Base
   def create
     @structure = Structure.friendly.find params[:structure_id]
     @media     = @structure.medias.build params[:media]
+    @media.save
     respond_to do |format|
-      if @media.save
-        format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Photo / vidéo bien ajoutée !' }
-      else
-        format.html { redirect_to pro_structure_medias_path(@structure), alert: "Le lien que vous avez fourni est incorrect." }
-      end
+      format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Photo / vidéo bien ajoutée !' }
     end
   end
 

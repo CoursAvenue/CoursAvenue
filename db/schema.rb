@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131114214332) do
+ActiveRecord::Schema.define(version: 20131118165902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -283,6 +283,9 @@ ActiveRecord::Schema.define(version: 20131114214332) do
     t.datetime "updated_at",    null: false
     t.time     "deleted_at"
     t.string   "format"
+    t.string   "provider_id"
+    t.string   "provider_name"
+    t.text     "thumbnail_url"
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree

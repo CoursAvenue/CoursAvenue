@@ -122,7 +122,8 @@ FilteredSearch.addInitializer(function(options) {
             'filter:subject':      'filterQuery',
             'filter:search_term':  'filterQuery',
             'filter:location':     'filterQuery',
-            'map:marker:focus':    'findItemView'
+            'map:marker:focus':    'findItemView',
+            'structures:updated': 'renderSlideshows'
         }
     });
 
