@@ -18,7 +18,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         onItemviewCourseFocus: function (view, data) {
-            console.log("PaginatedCollectionView->onItemviewCourseFocus");
             this.trigger('structures:itemview:peacock', data);
         },
 

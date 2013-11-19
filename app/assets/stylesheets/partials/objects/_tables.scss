@@ -19,6 +19,10 @@
         tr.selectable:nth-of-type(odd){
             @extend .selectable;
         }
+
+        tr.active {
+            background-color: $btn-primary-background-highlight;
+        }
     }
 }
 

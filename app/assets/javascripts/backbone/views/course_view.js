@@ -33,7 +33,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         onItemviewToggleSelected: function (view, data) {
-            console.log("CourseView->onItemviewToggleSelected");
             this.trigger('toggleSelected', data);
         },
 
