@@ -53,7 +53,7 @@
                 </span>
             {{/if}}
             {{#if gives_group_courses}}
-                <span title="Cours collectif" data-behavior="tooltip" class="pointer">
+                <span title="Cours collectif" data-behavior="tooltip" class="pointer" style="margin-right: -3px">
                     <i class="fa fa-user"></i>
                     <i class="fa fa-user" style="left: -6px; top: 2px; position: relative"></i>
                 </span>
@@ -81,12 +81,13 @@
             <div class="alpha thin brand">
                 {{ comments_count }}
             </div>
-            <span class="soft-half--bottom milli">avis <i class="lbc-brand-icon"></i></span>
+            <span class="orange soft-half--bottom milli">avis <i class="lbc-brand-icon"></i></span>
             {{#if last_comment_title}}
-            <div class="quoted milli">
+            <div class="quoted milli push-half--top">
                 {{{last_comment_title}}}
             </div>
             {{/if}}
+            {{!-- <a href="javascript:void(0)">Voir tous les avis</a> --}}
             <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
                 <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
                 <meta property="v:rating" itemprop="rating" content="{{ rating }}">
