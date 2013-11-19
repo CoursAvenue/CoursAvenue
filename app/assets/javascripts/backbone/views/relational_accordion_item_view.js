@@ -18,7 +18,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         *   - a model, such as "factory", with a relation, such as "widgets"
         *   - a backend that returns the right stuff: of course
         *   - a button in templates/factory_view, like this:
-        *       <button data-type="accordion-control" data-value="widgets">Whoa!</button>
+        *       <button data-behavior="accordion-control" data-model="widget">Whoa!</button>
         *   - two templates: widget_view and a widgets_collection_view
         *   - a view class: widget_view
         *   - the view that is created is a composite view
@@ -26,31 +26,29 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         *       use data-attributes to define a space separated list of
         *       model attributes to be used by the composite view.
         *
-        *         <button data-attributes="url count bob" data-type="accordion-control" data-value="widgets">Whoa!</button> */
+        *         <button data-attributes="url count bob" data-behavior="accordion-control" data-model="widget">Whoa!</button> */
         accordionControl: function (e) {
-            console.log("AccordionItemView->accordionControl");
             e.preventDefault();
 
-            var value      = $(e.currentTarget).data('value'),
-                model      = _.first(value.split('_')),
-                self       = this,
-                attributes = ($(e.currentTarget).data('attributes') ? $(e.currentTarget).data('attributes').split(' ') : {});
+            var model_name      = $(e.currentTarget).data('model'), // the singular model
+                relation_name   = model_name + 's',
+                collection_name = relation_name + '_collection',
+                collection_slug = collection_name.replace('_', '-'),
+                self            = this,
+                attributes      = ($(e.currentTarget).data('attributes') ? $(e.currentTarget).data('attributes').split(' ') : {});
 
-            console.log("  value: %o", value);
-            console.log("  value: %o", model);
             /* if no region exists on the structure view, then we need to
             *  fetch the relation, and create a region for it */
-            if (this.regions[value] === undefined) {
-                console.log("region for value is defined");
-                self.showLoader(value);
+            if (this.regions[collection_name] === undefined) {
+                self.showLoader(collection_name);
                 /* wait for asynchronous fetch of models before adding region */
-                this.model.fetchRelated(model, { data: { search_term: this.search_term }}, true)[0].then(function () {
-                    self.createRegionFor(value, attributes);
-                    self.accordionToggle(value);
+                this.model.fetchRelated(relation_name, { data: { search_term: this.search_term }}, true)[0].then(function () {
+                    self.createRegionFor(relation_name, attributes);
+                    self.accordionToggle(collection_name, model_name);
                     self.hideLoader();
                 });
             } else {
-                this.accordionToggle(value);
+                this.accordionToggle(collection_name, model_name);
             }
 
             return false;
@@ -58,45 +56,48 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         /* either switch between tabs on the structure, or defer to
         *  the accordion action */
-        accordionToggle: function (value) {
-            console.log("AccordionItemView->accordionToggle");
-            console.log("value: %o", value);
+        accordionToggle: function (collection_name, model_name) {
+            var closing       = (this.active_region === collection_name),
+                active_model;
 
-            var closing = (this.active_region === value),
-                button  = this.$('[data-value=' + value + ']');
-
-            button.toggleClass('active');
+            this.toggleButtonForModel(model_name);
 
             if (closing) {
                 this.accordionClose();
-                this[this.active_region].currentView.$el.attr('data-type', '');
+                this[this.active_region].currentView.$el.attr('data-behavior', '');
 
             } else { // we may be opening or switching
 
                 if (this.active_region) {
                 /* we are switching */
-                    this[this.active_region].$el.find('[data-type=accordion-data]').hide();
-                    this[this.active_region].currentView.$el.attr('data-type', '');
-                    this.$('[data-value=' + this.active_region + ']').toggleClass('active');
-                    this[value].currentView.$el.attr('data-type', 'accordion-data');
+                    active_model = _.first(this.active_region.split('_')).slice(0, -1);
+                    this.toggleButtonForModel(active_model);
+
+                    this[this.active_region].$el.find('[data-behavior=accordion-data]').hide();
+                    this[this.active_region].currentView.$el.attr('data-behavior', '');
+                    this[collection_name].currentView.$el.attr('data-behavior', 'accordion-data');
                 } else {
                 /* both tabs are closed */
-                    this[value].currentView.$el.attr('data-type', 'accordion-data');
+                    this[collection_name].currentView.$el.attr('data-behavior', 'accordion-data');
 
                 }
 
                 /* try to unfold something */
                 if (this.accordionOpen() === false) {
                 /* we are switch between regions */
-                    this[value].$el.find('[data-type=accordion-data]').show();
+                    this[collection_name].$el.find('[data-behavior=accordion-data]').show();
                 }
             }
 
-            this.active_region = (closing ? undefined : value);
+            this.active_region = (closing ? undefined : collection_name);
         },
 
-        showLoader: function(value) {
-            var closing = (this.active_region === value);
+        toggleButtonForModel: function (model_name) {
+            this.$('[data-model=' + model_name + ']').toggleClass('active');
+        },
+
+        showLoader: function(collection_name) {
+            var closing = (this.active_region === collection_name);
             if (!this.$loader) {
                 this.$loader = $(this.loaderTemplate).hide();
                 this.$el.append(this.$loader);
@@ -106,7 +107,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             }
         },
 
-        hideLoader: function(value) {
+        hideLoader: function() {
             this.$loader.slideUp();
         },
 
@@ -114,9 +115,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         *  and create a region, and a composite view. Data for the composite
         *  view is grabbed from the structure, based on strings passed in
         *  an array. The collection is models on a relation on structure. */
-        createRegionFor: function (object_name, attribute_strings) {
-            console.log("AccordionItemView->createRegionFor");
-            var model_name = _.first(object_name.split('_')).slice(0, -1),
+        createRegionFor: function (relation_name, attribute_strings) {
+            var model_name = relation_name.slice(0, -1),
                 self = this;
 
             /* collect some information to pass in to the compositeview */
@@ -126,19 +126,18 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 return memo;
             }, {});
 
-            this.$el.append('<div data-type="' + object_name.replace('_', '-') + '">');
+            this.$el.append('<div data-type="' + relation_name + '-collection">');
 
-            collection = new Backbone.Collection(this.model.get(model_name + 's').models);
+            collection = new Backbone.Collection(this.model.get(relation_name).models);
 
             /* an anonymous compositeView is all we need */
             // If a collection view exists, then use it, else create a generic one.
-            if (Views[App.capitalize(object_name) + 'CollectionView']) {
-                ViewClass = Views[App.capitalize(object_name) + 'CollectionView'];
+            if (Views[App.capitalize(relation_name) + 'CollectionView']) {
+                ViewClass = Views[App.capitalize(relation_name) + 'CollectionView'];
             } else {
                 ViewClass = Backbone.Marionette.CompositeView.extend({
-                    template: 'backbone/templates/' + object_name + '_view',
+                    template: 'backbone/templates/' + relation_name + '_collection_view',
 
-                    // The "object_name" has an 's' at the end, that's what the slice is for
                     itemView: Views[App.capitalize(model_name) + 'View'],
                     itemViewContainer: '[data-type=container]'
                 });
@@ -148,7 +147,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 collection: collection,
                 model: new Backbone.Model(data),
                 attributes: {
-                    'data-type': 'accordion-data',
+                    'data-behavior': 'accordion-data',
                     'style':     'display:none'
                 }
             });

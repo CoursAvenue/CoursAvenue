@@ -12,12 +12,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         onItemviewSelected: function (data) {
-            console.log("onItemView:selected");
             this.trigger('course:selected', data);
         },
 
         onItemviewDelected: function (data) {
-            console.log("onItemView:deselected");
             this.trigger('course:deselected', data);
         },
 
