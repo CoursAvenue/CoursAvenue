@@ -37,7 +37,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                     prevText: '<i class="fa fa-chevron-left"></i>',
                     nextText: '<i class="fa fa-chevron-right"></i>'
                 });
-                self.$('.media-gallery a[data-behavior=fancy]').fancybox({ helpers : { media : {} } });
+                self.$('.rslides-wrapper a[data-behavior="fancy"]').fancybox({ helpers : { media : {} } });
                 // Set the height of the slides
                 self.$('.structure-item').each(function() {
                     var $this = $(this);
