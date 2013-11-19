@@ -1,24 +1,5 @@
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
 
-    /* easing functions borroed from jQuery UI
-       ref: http://stackoverflow.com/a/5207328/29182 */
-    $.extend($.easing, {
-        easeInBounce: function (x, t, b, c, d) {
-            return c - $.easing.easeOutBounce (x, d-t, 0, c, d) + b;
-        },
-        easeOutBounce: function (x, t, b, c, d) {
-            if ((t/=d) < (1/2.75)) {
-                return c*(7.5625*t*t) + b;
-            } else if (t < (2/2.75)) {
-                return c*(7.5625*(t-=(1.5/2.75))*t + .75) + b;
-            } else if (t < (2.5/2.75)) {
-                return c*(7.5625*(t-=(2.25/2.75))*t + .9375) + b;
-            } else {
-                return c*(7.5625*(t-=(2.625/2.75))*t + .984375) + b;
-            }
-        },
-    });
-
     /* TODO break this out into its own file (it got big...) */
     Views.StructureMarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
         initialize: function (options) {
@@ -50,7 +31,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             if (!this.select_lock) {
                 this.$el.addClass('active');
-                this.$el.animate({ top: crest }, 200, 'linear', function () {
+                this.$el.animate({ top: crest }, 200, 'easeOutQuint', function () {
                     self.$el.animate({ top: old_top }, 400, 'easeOutBounce');
                 });
             }
@@ -85,7 +66,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 old_top = parseInt(this.$el.css('top'), 10),
                 crest = old_top - 30;
 
-            this.$el.animate({ top: crest }, 200, 'linear', function () {
+            this.$el.animate({ top: crest }, 200, 'easeOutQuint', function () {
                 self.$el.animate({ top: old_top }, 400, 'easeOutBounce', _.bind(self.bounce, self));
             });
         }

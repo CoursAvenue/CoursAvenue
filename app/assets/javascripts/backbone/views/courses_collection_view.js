@@ -15,11 +15,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             var places = view.model.get('structure').get('places'),
                 keys = places.findWhere({ id: data.place_id });
 
-            if (keys.length) {
-                console.log("keys had a length!");
-                debugger
-            }
-
             this.trigger('course:focus', { keys: keys });
         },
 
