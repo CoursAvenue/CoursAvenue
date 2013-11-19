@@ -57,11 +57,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
 
             /* announce the filters used in the current result set */
-            this.trigger('structures:updated:filters', {
+            this.trigger('structures:updated:filter', {
                 address_name: (data.server_api.address_name ? decodeURIComponent(data.server_api.address_name) : ""),
                 name:         (data.server_api.name ? decodeURIComponent(data.server_api.name) : ""),
                 subject_id:   (data.server_api.subject_id ? decodeURIComponent(data.server_api.subject_id) : "")
             });
+
+            this.trigger('structures:updated:maps');
         },
 
         /* we want to show buttons for the first and last pages, and the
@@ -203,9 +205,19 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something
          * if do we would do it here */
+        /* remember that itemViews are constructed and destroyed more often
+        * than the corresponding models */
         itemViewOptions: function(model, index) {
             // we could pass some information from the collectionView
-            return { };
+            var search_term;
+
+            if (this.collection.server_api.name) {
+                search_term = decodeURIComponent(this.collection.server_api.name);
+            }
+
+            return {
+                search_term: search_term
+            };
         }
     });
 });

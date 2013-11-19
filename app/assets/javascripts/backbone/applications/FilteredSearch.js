@@ -1,4 +1,62 @@
 // Create a marionette app in the global namespace
+
+var _trigger = Marionette.View.prototype.trigger;
+
+/* event locking for our evented Marionette party party */
+_.extend(Marionette.View.prototype, {
+    _locks: {},
+    _once_locks: {},
+
+    trigger: function () {
+        var args = Array.prototype.slice.call(arguments);
+
+        return this.tryTrigger(args);
+    },
+
+    /* used internally, this method will unset a once lock */
+    tryTrigger: function (args) {
+        var message = args[0];
+
+        if (! this.isLocked(message)) {
+            _trigger.apply(this, args);
+        } else {
+            this.unlockOnce(message);
+        }
+
+        return this;
+    },
+
+    lock: function (message) {
+        this._locks[message] = true;
+    },
+
+    unlock: function (message) {
+        this._locks[message] = false;
+    },
+
+    lockOnce: function (message) {
+        if (this._once_locks[message] === undefined) {
+            this._once_locks[message] = { count: 0 };
+        }
+
+        this._once_locks[message].count += 1;
+    },
+
+    unlockOnce: function (message) {
+        if (this.isLockedOnce(message)) {
+            this._once_locks[message].count -= 1;
+        }
+    },
+
+    isLocked: function (message) {
+        return this._locks[message] || this.isLockedOnce(message);
+    },
+
+    isLockedOnce: function (message) {
+        return this._once_locks[message] && this._once_locks[message].count > 0;
+    }
+});
+
 FilteredSearch = (function (){
     var self = new Backbone.Marionette.Application({
         slug: 'filtered-search',
@@ -93,70 +151,49 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
-    top_pagination_tool        = new FilteredSearch.Views.PaginationToolView({});
-    bottom_pagination_tool     = new FilteredSearch.Views.PaginationToolView({});
-    results_summary_tool       = new FilteredSearch.Views.ResultsSummaryView({});
-    subject_filter_tool        = new FilteredSearch.Views.SubjectFilterView({});
-    categorical_filter_tool    = new FilteredSearch.Views.CategoricalFilterView({});
-    location_filter            = new FilteredSearch.Views.LocationFilterView({});
+    top_pagination            = new FilteredSearch.Views.PaginationToolView({});
+    bottom_pagination         = new FilteredSearch.Views.PaginationToolView({});
+    results_summary           = new FilteredSearch.Views.ResultsSummaryView({});
+    subject_filter            = new FilteredSearch.Views.SubjectFilterView({});
+    categorical_filter        = new FilteredSearch.Views.CategoricalFilterView({});
+    location_filter           = new FilteredSearch.Views.LocationFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
     /* we can add a widget along with a callback to be used
     * for setup */
     layout.showWidget(google_maps_view, {
-        'structures:updating':               'clearForUpdate hideInfoWindow',
-        'structures:updated':                'clearForUpdate',
-        'structures:itemview:highlighted':   'selectMarkers',
-        'structures:itemview:unhighlighted': 'deselectMarkers',
-        'filter:update:map':                 'centerMap',
-        'structures:itemview:found':         'showInfoWindow'
+        events: {
+            'structures:updating':               'hideInfoWindow',
+            'structures:itemview:highlighted':   'selectMarkers',
+            'structures:itemview:unhighlighted': 'deselectMarkers',
+            'filter:update:map':                 'centerMap',
+            'structures:itemview:found':         'showInfoWindow'
+        }
     });
 
-    /* TODO these widgets all have "reset" bound to "updated"...
-     * let's make that a default: the master declares a "setup"
-     * event, and the widgets all run their "setup" method on
-     * that event. */
     /* TODO all these widgets have "dependencies", that is, they
      * can depend on the main widget for data. Let's make this
      * explicit so that the order of the 'showWidget' calls doesn't
      * matter */
-    /* TODO all these widgets use 'data-type=view_name' so lets
-     * make that a default. */
-    /* TODO the layout is divided into two parts: one widget well,
-     * where widgets can be added (the map is there), and one div
-     * full of explicitly added widgets. We should either not use
-     * wells, or fix the well system to adapt to different layout
-     * designs easily */
-    layout.showWidget(results_summary_tool, {
-        'structures:updated:summary': 'resetSummaryTool'
-    }, '[data-type=results-summary-tool]');
+    layout.showWidget(categorical_filter);
+    layout.showWidget(location_filter);
+    layout.showWidget(subject_filter);
+    layout.showWidget(results_summary);
+    layout.showWidget(top_pagination, {
+        events: {
+            'structures:updated:pagination': 'reset'
 
-    layout.showWidget(categorical_filter_tool, {
-        once: {
-            'structures:updated:filters': 'resetCategoricalFilterTool',
-        }
-    }, '[data-type=categorical-filter-tool]');
+        },
+        selector: '[data-type=top-pagination]'
+    });
+    layout.showWidget(bottom_pagination, {
+        events: {
+            'structures:updated:pagination': 'reset'
 
-    layout.showWidget(location_filter, {
-        once: {
-            'structures:updated:filters': 'setup',
-        }
-    }, '[data-type=location-filter-tool]');
-
-    layout.showWidget(subject_filter_tool, {
-        once: {
-            'structures:updated:filters': 'setupSubjectFilter'
-        }
-    }, '[data-type=subject-filter-tool]');
-
-    layout.showWidget(top_pagination_tool, {
-        'structures:updated:pagination': 'resetPaginationTool'
-    }, '[data-type=top-pagination-tool]');
-
-    layout.showWidget(bottom_pagination_tool, {
-        'structures:updated:pagination': 'resetPaginationTool'
-    }, '[data-type=bottom-pagination-tool]');
+        },
+        selector: '[data-type=bottom-pagination]'
+    });
 
     layout.results.show(structures_view);
 });

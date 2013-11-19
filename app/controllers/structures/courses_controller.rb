@@ -2,8 +2,9 @@
 class Structures::CoursesController < ApplicationController
 
   def index
-    @structure    = Structure.friendly.find(params[:structure_id])
-    @courses      = @structure.courses.active.to_a
+
+    @course_search = CourseSearch.search(params);
+    @courses       = @course_search.results
 
     respond_to do |format|
       format.json { render json: @courses, each_serializer: CourseSerializer }
