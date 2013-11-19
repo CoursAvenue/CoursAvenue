@@ -29,6 +29,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             /* apparently the only way to get this done */
             this.$el.on('click', _.bind(this.markerSelected, this));
+            this.bounce = _.debounce(this.bounce, 300);
         },
 
         mapEvents: {
@@ -45,7 +46,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         select: function () {
             var self = this,
                 old_top = parseInt(this.$el.css('top'), 10),
-                crest = old_top - 10;
+                crest = old_top - 30;
 
             if (!this.select_lock) {
                 this.$el.addClass('active');
@@ -72,6 +73,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         stopPeacocking: function () {
             this.is_peacocking = false;
+            this.$el.finish();
         },
 
         bounce: function () {
@@ -81,7 +83,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             var self = this,
                 old_top = parseInt(this.$el.css('top'), 10),
-                crest = old_top - 10;
+                crest = old_top - 30;
 
             this.$el.animate({ top: crest }, 200, 'linear', function () {
                 self.$el.animate({ top: old_top }, 400, 'easeOutBounce', _.bind(self.bounce, self));
