@@ -276,6 +276,22 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             });
         },
 
+        togglePeacockingMarkers: function (data) {
+            var self = this;
+
+            _.each(data.keys, function (key) {
+                var marker = self.markerViewChildren[key];
+
+                if (marker) {
+                    if (! marker.is_peacocking) {
+                        marker.startPeacocking();
+                    } else {
+                        marker.stopPeacocking();
+                    }
+                }
+            });
+        },
+
         hideInfoWindow: function () {
             this.current_info_marker = undefined;
             this.infoBox.close();

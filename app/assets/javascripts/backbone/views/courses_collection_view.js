@@ -11,12 +11,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.$('[data-behavior=tooltip]').tooltip();
         },
 
-        onItemviewSelected: function (data) {
-            this.trigger('course:selected', data);
-        },
+        onItemviewToggleSelected: function (view, data) {
+            var places = view.model.get('structure').get('places'),
+                keys = places.findWhere({ id: data.place_id });
 
-        onItemviewDelected: function (data) {
-            this.trigger('course:deselected', data);
+            if (keys.length) {
+                console.log("keys had a length!");
+                debugger
+            }
+
+            this.trigger('course:focus', { keys: keys });
         },
 
         /* when rendering each collection item, we might want to

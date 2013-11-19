@@ -17,8 +17,9 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.trigger('structures:itemview:unhighlighted', data);
         },
 
-        onItemViewCourseSelected: function (view, data) {
-            console.log("PaginatedCollectionView->onItemViewCourseSelected");
+        onItemviewCourseFocus: function (view, data) {
+            console.log("PaginatedCollectionView->onItemviewCourseFocus");
+            this.trigger('structures:itemview:peacock', data);
         },
 
         onAfterShow: function() {

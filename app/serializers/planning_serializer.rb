@@ -1,7 +1,7 @@
 class PlanningSerializer < ActiveModel::Serializer
   include PlanningsHelper
 
-  attributes :date, :duration, :time_slot, :levels, :audiences, :price
+  attributes :date, :duration, :time_slot, :levels, :audiences, :price, :place_id
 
   def date
     if object.course.is_lesson?

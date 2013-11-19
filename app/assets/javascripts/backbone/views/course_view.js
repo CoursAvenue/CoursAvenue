@@ -10,8 +10,19 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             tagName: 'tr',
             attributes: {
                 'data-type': 'line-item'
+            },
+
+            events: {
+                'mouseenter': 'toggleSelected',
+                'mouseleave': 'toggleSelected',
+            },
+
+            toggleSelected: function (e) {
+                $(e.currentTarget).toggleClass('active');
+                this.trigger('toggleSelected', this.model.toJSON());
             }
         }),
+
         itemViewContainer: 'tbody',
 
         initialize: function(options){
@@ -21,25 +32,15 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             }));
         },
 
+        onItemviewToggleSelected: function (view, data) {
+            console.log("CourseView->onItemviewToggleSelected");
+            this.trigger('toggleSelected', data);
+        },
+
         onRender: function() {
             if (this.index == 0) {
                 this.$el.removeClass("bordered--top soft-half--top");
             }
-        },
-
-        events: {
-            'mouseenter [data-type=line-item]': 'select',
-            'mouseleave [data-type=line-item]': 'deselect',
-        },
-
-        select: function (e) {
-            $(e.currentTarget).toggleClass('active');
-            this.trigger('selected', this.model.toJSON()); // TODO should not expose the whole model
-        },
-
-        deselect: function (e) {
-            $(e.currentTarget).toggleClass('active');
-            this.trigger('deselected', this.model.toJSON()); // TODO should not expose the whole model
         },
 
     });

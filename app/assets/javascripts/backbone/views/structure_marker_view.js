@@ -63,6 +63,30 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         setSelectLock: function (bool) {
             this.select_lock = bool;
+        },
+
+        startPeacocking: function () {
+            this.is_peacocking = true;
+            this.bounce();
+        },
+
+        stopPeacocking: function () {
+            this.is_peacocking = false;
+        },
+
+        bounce: function () {
+            if (! this.is_peacocking) {
+                return;
+            }
+
+            var self = this,
+                old_top = parseInt(this.$el.css('top'), 10),
+                crest = old_top - 10;
+
+            this.$el.animate({ top: crest }, 200, 'linear', function () {
+                self.$el.animate({ top: old_top }, 400, 'easeOutBounce', _.bind(self.bounce, self));
+            });
         }
+
     });
 });

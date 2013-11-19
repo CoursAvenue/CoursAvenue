@@ -168,7 +168,8 @@ FilteredSearch.addInitializer(function(options) {
             'structures:itemview:highlighted':   'selectMarkers',
             'structures:itemview:unhighlighted': 'deselectMarkers',
             'filter:update:map':                 'centerMap',
-            'structures:itemview:found':         'showInfoWindow'
+            'structures:itemview:found':         'showInfoWindow',
+            'structures:itemview:peacock':       'togglePeacockingMarkers'
         }
     });
 
