@@ -78,10 +78,16 @@
  --><div class="flexbox__item relative soft-half--sides {{#if has_comments}}structure-item__button{{/if}} two-eighths v-middle text--center" {{#if has_comments}}data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments"{{/if}}>
         <div class="structure-item__button-wrapper">
             <div class="structure-item__button-triangle"></div>
-            <div class="alpha thin brand">
+            <div class="alpha thin {{#if has_comments }}orange{{else}}gray-light{{/if}}">
                 {{ comments_count }}
             </div>
-            <span class="orange soft-half--bottom milli">avis <i class="lbc-brand-icon"></i></span>
+            <span class="{{#if has_comments }}orange{{else}}gray-light{{/if}} soft-half--bottom milli">avis
+            {{#if has_comments }}
+                <i class="lbc-brand-icon"></i>
+            {{else}}
+                <i class="fa fa-comment"></i>
+            {{/if}}
+            </span>
             {{#if last_comment_title}}
             <div class="quoted milli push-half--top">
                 {{{last_comment_title}}}
@@ -99,6 +105,7 @@
         </div>
     </div><!--
  --><div class="flexbox__item two-eighths v-middle text--center rslides-wrapper">
+        {{#if preloaded_medias}}
         <ul class="rslides hidden">
             {{#each preloaded_medias}}
                 <li>
@@ -118,5 +125,12 @@
                 </li>
             {{/each}}
         </ul>
+        {{else}}
+        <div class="text--center gray-light">
+            <i class="fa fa-picture-o fa-3x gray-light"></i>
+            <br />
+            0 photo / vidéo
+        </div>
+        {{/if}}
     </div>
 </div>
