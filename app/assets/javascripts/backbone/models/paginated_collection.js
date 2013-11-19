@@ -44,7 +44,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             // now write back the server_api so that the search bar is up to date
             // we are passing this.server_api for fun! ^o^ why not?
-            window.history.pushState({}, "Search Results", this.getQuery());
+            if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
 
             this.paginator_ui.currentPage = this.server_api.page();
 
@@ -79,7 +79,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
 
         parse: function(response) {
             // we did some kind of request, I guess we should update the query
-            window.history.pushState({}, "Search Results", this.getQuery());
+            if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
 
             this.grandTotal = response.meta.total;
             this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
