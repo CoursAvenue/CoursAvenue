@@ -184,10 +184,10 @@ class Structure < ActiveRecord::Base
       courses.count
     end
     integer :nb_comments do
-      self.comments.count
+      self.comments_count
     end
     boolean :has_comment do
-      self.comments.count > 0
+      self.comments_count > 0
     end
     boolean :has_picture do
       self.image?

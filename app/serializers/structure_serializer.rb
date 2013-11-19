@@ -91,11 +91,11 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def more_than_five_comments
-    object.comments.count > 5
+    object.comments_count > 5
   end
 
   def has_comments
-    object.comments.count > 0
+    object.comments.accepted.count > 0
   end
 
   def plannings_count
