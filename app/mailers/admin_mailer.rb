@@ -88,21 +88,21 @@ class AdminMailer < ActionMailer::Base
   def incomplete_profile(structure)
     @structure  = structure
     @show_links = true
-    @structures = similar_profile
+    @structures = StructureSearch.similar_profile(@structure)
     mail to: structure.main_contact.email, subject: "Votre profil CoursAvenue n'est pas complet"
   end
 
   def no_recommendations(structure)
     @structure  = structure
     @show_links = true
-    @structures = similar_profile
+    @structures = StructureSearch.similar_profile(@structure)
     mail to: structure.main_contact.email, subject: 'Vos élèves ne vous ont pas encore recommandé sur CoursAvenue'
   end
 
   def less_than_five_recommendations(structure)
     @structure  = structure
     @show_links = true
-    @structures = similar_profile
+    @structures = StructureSearch.similar_profile(@structure)
     mail to: structure.main_contact.email, subject: 'Vous avez moins de 5 recommandations sur CoursAvenue'
   end
 
@@ -159,7 +159,7 @@ class AdminMailer < ActionMailer::Base
     @admin         = admin
     @structure     = @admin.structure
     @show_links    = true
-    @structures    = similar_profile
+    @structures    = StructureSearch.similar_profile(@structure)
     mail to: @admin.email, subject: 'Bienvenue sur CoursAvenue'
   end
 
@@ -173,46 +173,4 @@ class AdminMailer < ActionMailer::Base
     end
   end
 
-  private
-
-  def similar_profile
-    parent_subject = @structure.subjects.first
-    parent_subject = parent_subject.parent if parent_subject and parent_subject.parent
-    parent_subject = parent_subject.parent if parent_subject and parent_subject.parent
-    @structures    = []
-    if parent_subject
-      @structures << StructureSearch.search({lat: @structure.latitude,
-                                            lng: @structure.longitude,
-                                            radius: 3,
-                                            sort: 'rating_desc',
-                                            has_logo: true,
-                                            per_page: 3,
-                                            subject_id: parent_subject.slug
-                                          }).results
-      # If there is not enough with the same subjects
-    end
-    @structures = @structures.flatten
-    if @structures.length < 3
-      @structures << StructureSearch.search({lat: @structure.latitude,
-                                            lng: @structure.longitude,
-                                            radius: 3,
-                                            sort: 'rating_desc',
-                                            has_logo: true,
-                                            per_page: (3 - @structures.length)
-                                          }).results
-    end
-    @structures = @structures.flatten
-    # If there is not enough within the radius
-    if @structures.length < 3
-      @structures << StructureSearch.search({lat: @structure.latitude,
-                                            lng: @structure.longitude,
-                                            radius: 7,
-                                            sort: 'rating_desc',
-                                            has_logo: true,
-                                            per_page: (3 - @structures.length)
-                                          }).results
-    end
-    @structures = @structures.flatten
-    return @structures
-  end
 end
