@@ -162,16 +162,12 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def update
-    @ratio     = 1
     @structure = Structure.friendly.find params[:id]
-    deleted_image = false
     if params[:structure] and params[:structure].delete(:delete_image) == '1'
       @structure.image.clear
-      deleted_image = true
     end
     if params[:structure] and params[:structure].delete(:delete_logo) == '1'
       @structure.logo.clear
-      deleted_image = true
     end
 
     if params[:structure] and params[:structure][:subject_descendants_ids].present?
@@ -180,33 +176,32 @@ class Pro::StructuresController < Pro::ProController
 
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
-        @ratio = @structure.ratio_from_original(:large)
-        if deleted_image
-          format.html { redirect_to edit_pro_structure_path(@structure), notice: 'Vous pouvez maintenant télécharger une autre photo.' }
+        @structure.logo.reprocess! if @structure.logo.present?
+        if !request.xhr? and params[:structure][:logo].present?
+          format.html { redirect_to (crop_logo_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
         else
           format.html { redirect_to (params[:from_path] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
-        end
-        format.js { render nothing: true }
-        format.json { render json: {
-                                image: { path: @structure.image.url(:normal)},
-                                logo: {
-                                        path: @structure.logo.url(:large),
-                                        ratio: @ratio,
-                                        width: @structure.logo_geometry(:large).width,
-                                        height: @structure.logo_geometry(:large).height,
-                                        crop_x: 0,
-                                        crop_y: 0,
-                                        crop_width: 200,
-                                        crop_height: 200
-                                      }
+          format.js { render nothing: true }
+          format.json { render json: {
+                                  image: { path: @structure.image.url(:normal)},
+                                  logo: {
+                                          path: @structure.logo.url(:large)
+                                        }
+                                    }
                                   }
-                                }
+        end
       else
         format.html { render action: 'edit' }
       end
     end
   end
 
+  def crop_logo
+    @structure = Structure.find(params[:id])
+    if !@structure.logo.present?
+      redirect_to edit_pro_structure_path(@structure), alert: "Vous n'avez pas de logo"
+    end
+  end
 
   def create
     # Merge parent and children subjects

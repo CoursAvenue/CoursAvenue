@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131118165902) do
+ActiveRecord::Schema.define(version: 20131120103056) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "resource_id",   null: false
@@ -477,8 +480,6 @@ ActiveRecord::Schema.define(version: 20131118165902) do
     t.integer  "crop_x",                     default: 0
     t.integer  "crop_y",                     default: 0
     t.integer  "crop_width",                 default: 500
-    t.integer  "crop_height",                default: 500
-    t.boolean  "cropping",                   default: false
     t.boolean  "has_only_one_place"
     t.string   "email_status"
     t.datetime "last_email_sent_at"

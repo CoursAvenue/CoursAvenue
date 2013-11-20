@@ -14,17 +14,19 @@
             .bar
           .text--center
             - if @structure.logo?
-              = image_tag @structure.logo.url(:large), id: 'logo-logo'
+              .push-half--bottom.text--center.center-block.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;"}<
+                = image_tag @structure.logo.url(:thumb), class: 'v-middle inline-block', style: 'max-height: 100%;'
               %br
+              = link_to crop_logo_pro_structure_path(@structure), class: 'btn btn--small btn--blue' do
+                %i.fa.fa-expand.soft-half--right
+                Recadrer mon logo
               %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}
-                %i.fa.fa-trash-o
+                %i.fa.fa-trash-o.soft-half--right
                 Supprimer
               .visuallyhidden= structure_form.input :delete_logo, as: :boolean, label: false
             - else
-              %img.center-block#logo-logo{style: 'max-height: 500px; max-width: 500px;'}
-            - [:crop_x, :crop_y, :crop_width, :crop_height].each do |attribute|
-              = structure_form.input attribute, as: :hidden, input_html: {id: attribute}
-            = structure_form.input :cropping, as: :hidden, input_html: {value: true}
+              .text--center.center-block.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px; display: none;"}
+                %img#logo-placeholder.v-middle.inline-block{style: 'max-height: 100%;'}
 
           .input
             .control-label Logo de votre structure
@@ -137,7 +139,6 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        var initialize_crop, logo_jcrop_api, update_crop;
         $('#structure_teaches_at_home').change(function(){
             if (this.value == 'true') {
                 $('#teaches-at-home-radius').slideDown();
@@ -145,7 +146,6 @@
                 $('#teaches-at-home-radius').slideUp();
             }
         });
-        GLOBAL.ratio = #{@ratio};
         // --------------- Handling structure logo
         $('#logo-input').fileupload({
             dataType: 'json',
@@ -166,14 +166,6 @@
                 $('#logo-progress .bar').text('');
                 $('#logo-progress .bar').append($('<i>').addClass('fa fa-check push-half--right'));
                 $('#logo-progress .bar').append($('<span>').text('Téléchargement terminé'));
-                GLOBAL.ratio = data.result.logo.ratio;
-                if (logo_jcrop_api) {
-                    logo_jcrop_api.setImage(data.result.logo.path);
-                    logo_jcrop_api.setSelect([data.result.logo.crop_x, data.result.logo.crop_y, data.result.logo.crop_width, data.result.logo.crop_height]);
-                } else {
-                    $('#logo-logo').attr('width', data.result.logo.width).attr('height', data.result.logo.height).attr('src', data.result.logo.path);
-                    initialize_crop(data.result.logo.crop_x, data.result.logo.crop_y, data.result.logo.crop_width, data.result.logo.crop_height);
-                }
             },
             progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -182,10 +174,7 @@
                 } else {
                     $('#logo-progress .bar').text(progress + '%');
                 }
-                $('#logo-progress .bar').css(
-                    'width',
-                    progress + '%'
-                );
+                $('#logo-progress .bar').css('width', progress + '%');
             }
         });
         // --------------- Handling structure image
@@ -223,41 +212,6 @@
                 );
             }
         });
-        update_crop = function(coords) {
-          var rx = 100 / coords.w;
-          var ry = 100 / coords.h;
-          $('#crop_x').val(Math.floor(coords.x * GLOBAL.ratio));
-          $('#crop_y').val(Math.floor(coords.y * GLOBAL.ratio));
-          $('#crop_width').val(Math.floor(coords.w * GLOBAL.ratio));
-          $('#crop_height').val(Math.floor(coords.h * GLOBAL.ratio));
-        }
-        initialize_crop = function(crop_x, crop_y, crop_width, crop_height) {
-            if ($('#logo-logo').attr('src') && !logo_jcrop_api) {
-                logo_jcrop_api = $.Jcrop('#logo-logo', {
-                    onChange: update_crop,
-                    onSelect: update_crop,
-                    setSelect: [(crop_x / GLOBAL.ratio), (crop_y / GLOBAL.ratio), (crop_x + crop_width) / GLOBAL.ratio, (crop_y + crop_height) / GLOBAL.ratio],
-                    aspectRatio: 1
-                });
-            }
-        };
-        var worked = false,
-            attempts = 0;
-        var attemptToCrop = function () {
-            if (worked) return;
-            height = $('#logo-logo').height();
-            if (typeof height === 'number' && height > 0) {
-                initialize_crop(#{@structure.crop_x || 0}, #{@structure.crop_y || 0}, #{@structure.crop_width || 200}, #{@structure.crop_height || 200});
-                worked = true;
-            } else {
-                attempts += 1;
-                if (attempts < 5) {
-                    // try again in 250 milliseconds
-                    setTimeout(attemptToCrop, 250);
-                }
-            }
-        }
-        attemptToCrop();
         if ($('#delete-image').length > 0) {
             $('#delete-image').click(function(){
                 $('#structure_delete_image')[0].checked = true;
@@ -271,4 +225,9 @@
             });
         }
         $('#description-textarea').textareaResizer();
+        if($('#logo-placeholder').length > 0) {
+            $('#logo-placeholder').load(function(){
+                $(this).parent().show();
+            });
+        }
     });

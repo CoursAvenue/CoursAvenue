@@ -1,0 +1,51 @@
+= side_menu_currently_at 'Mes infos'
+= render partial: 'pro/structures/tabs', locals:{ current: 'établissement'}
+
+= simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |f|
+  .form-white-box
+    = f.error_notification
+    .grid
+      .grid__item.two-thirds>
+        %h3.text--center Ajustez votre logo
+      .grid__item.one-third>
+        %h3.text--center Aperçu
+    .grid
+      .grid__item.two-thirds.v-middle.text--center>
+        = image_tag @structure.logo.url(:large), id: 'cropbox', class: 'bordered'
+        - [:crop_x, :crop_y, :crop_width].each do |attribute|
+          = f.input attribute, input_html: {id: attribute}, as: :hidden
+      .grid__item.one-third.v-middle.text--center>
+        .center-block{style: "width:150px; height:150px; overflow:hidden"}
+          = image_tag @structure.logo.url(:large), id: "preview", style: 'max-width: none;', class: 'bordered'
+    .push--top
+      = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+
+
+- @ratio = @structure.ratio_from_original(:large)
+= content_for :scripts do
+  :javascript
+    $(function() {
+      var update_crop;
+      update_crop = function(coords) {
+          $('#preview').css({
+              width: Math.round(150 / coords.w * $('#cropbox').width()) + 'px',
+              height: Math.round(150 / coords.w * $('#cropbox').height()) + 'px',
+              marginLeft: '-' + Math.round(150 / coords.w * coords.x) + 'px',
+              marginTop: '-' + Math.round(150 / coords.h * coords.y) + 'px'
+          });
+          $("#crop_x").val(Math.round(coords.x * #{@ratio}));
+          $("#crop_y").val(Math.round(coords.y * #{@ratio}));
+          $("#crop_width").val(Math.round(coords.w * #{@ratio}));
+          $("#crop_height").val(Math.round(coords.w * #{@ratio}));
+      }
+      var crop_x      = #{@structure.crop_x || 0};
+      var crop_y      = #{@structure.crop_y || 0};
+      var crop_width  = #{@structure.crop_width || 200};
+      var ratio       =  #{@ratio};
+      $('#cropbox').Jcrop({
+          aspectRatio: 1,
+          setSelect: [(crop_x / ratio), (crop_y / ratio), (crop_x + crop_width) / ratio, (crop_x + crop_width) / ratio],
+          onChange: update_crop,
+          onSelect: update_crop
+      });
+    });

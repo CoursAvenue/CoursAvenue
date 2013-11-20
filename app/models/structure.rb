@@ -42,7 +42,7 @@ class Structure < ActiveRecord::Base
                   :modification_condition,
                   :cancel_condition,
                   :image, :logo,
-                  :crop_x, :crop_y, :crop_width, :crop_height, :cropping,
+                  :crop_x, :crop_y, :crop_width,
                   :rating, :comments_count,
                   :no_facebook, :no_website, :has_only_one_place,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
@@ -55,7 +55,11 @@ class Structure < ActiveRecord::Base
                   :audience_ids, :gives_group_courses, :gives_individual_courses, :plannings_count, :has_promotion
   has_attached_file :logo,
                     styles: {
-                      large: '500x500',
+                      original: {
+                        geometry: '600x600#',
+                        processors: [:cropper_square]
+                      },
+                      large: '450x450',
                       thumb: {
                         geometry: '200x200#',
                         processors: [:cropper]
@@ -107,8 +111,6 @@ class Structure < ActiveRecord::Base
   after_save       :delay_subscribe_to_nutshell  if Rails.env.production?
   after_save       :update_email_status
   after_touch      :update_email_status
-
-  after_update     :reprocess_logo, :if => :cropping?
 
   before_save      :fix_website_url
   before_save      :fix_facebook_url
@@ -387,28 +389,24 @@ class Structure < ActiveRecord::Base
   end
 
   def ratio_from_original(style=:original)
-    return 1 unless self.logo?
+    return 1 unless self.logo.present?
     self.logo_geometry(:original).width / self.logo_geometry(style).width
   end
 
   def crop_width
-    if read_attribute(:crop_width).nil? or read_attribute(:crop_width) == 0
-      [logo_geometry.height, logo_geometry.width].min
+    logo_min_width = [logo_geometry.width, logo_geometry.height].min
+    # if the crop is larger than the picture, return the nil
+    if (read_attribute(:crop_width) + crop_x) > logo_min_width or
+       (read_attribute(:crop_width) + crop_y) > logo_min_width
+      nil
     else
       read_attribute(:crop_width)
     end
   end
 
-  def crop_height
-    if read_attribute(:crop_height).nil? or read_attribute(:crop_height) == 0
-      [logo_geometry.height, logo_geometry.width].min
-    else
-      read_attribute(:crop_height)
-    end
-  end
-
   def has_cropping_attributes?
-    !crop_x.blank? && !crop_y.blank? && !crop_width.blank? && !crop_height.blank?
+    return false if crop_width == 0
+    !crop_x.blank? && !crop_y.blank? && !crop_width.blank?
   end
 
   def has_pending_comments?
@@ -465,11 +463,6 @@ class Structure < ActiveRecord::Base
       [:name, :zip_code],
       [:name, :zip_code, :street],
     ]
-  end
-
-  def reprocess_logo
-    self.update_column :cropping, false
-    self.logo.reprocess!
   end
 
   def set_free_pricing_plan

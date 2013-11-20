@@ -35,6 +35,7 @@ CoursAvenue::Application.routes.draw do
       resources :structures, path: 'etablissements' do
         member do
           get   :update_widget_status
+          get   :crop_logo
           get   :wizard
           get   :signature
           get   :dashboard, path: 'tableau-de-bord'
