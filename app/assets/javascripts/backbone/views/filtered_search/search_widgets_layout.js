@@ -1,7 +1,7 @@
-FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.FilteredSearch', function(Module, App, Backbone, Marionette, $, _) {
 
-    Views.SearchWidgetsLayout = Views.EventLayout.extend({
-        template: 'backbone/templates/search_widgets_layout_view',
+    Module.SearchWidgetsLayout = Module.EventLayout.extend({
+        template: Module.templateDirname() + 'search_widgets_layout_view',
         className: 'relative',
 
         regions: {
