@@ -54,9 +54,8 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def medias_count
-    object.medias.images.count + object.medias.videos.count
+    object.medias.count
   end
-
 
   def videos_count
     (object.medias.videos.count == 0 ? nil : object.medias.videos.count)
