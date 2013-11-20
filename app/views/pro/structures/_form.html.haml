@@ -17,7 +17,7 @@
               .push-half--bottom.text--center.center-block.bordered{style: "height: 200px; width: 200px; display: inline-block; line-height: 196px;"}<
                 = image_tag @structure.logo.url(:thumb), class: 'v-middle inline-block', style: 'max-height: 100%;'
               %br
-              = link_to crop_logo_pro_structure_path(@structure), class: 'btn btn--small btn--blue' do
+              = link_to crop_logo_pro_structure_path(@structure), class: 'btn btn--small btn--blue push-half--right' do
                 %i.fa.fa-expand.soft-half--right
                 Recadrer mon logo
               %a.btn.btn--small.btn--red#delete-logo{href: 'javascript:void(0)'}

@@ -116,6 +116,7 @@ class Structure < ActiveRecord::Base
   before_save      :fix_facebook_url
   before_save      :fix_widget_url
   before_save      :encode_uris
+  before_save      :reset_cropping_attributes, if: :logo_has_changed?
 
   # ------------------------------------
   # ------------------ Search attributes
@@ -377,14 +378,14 @@ class Structure < ActiveRecord::Base
   def logo_geometry(style = :original)
     @geometry ||= {}
     begin
-      if Rails.env.production?
-        @geometry[style] ||= Paperclip::Geometry.from_file(logo.url(style))
-      else
+      if Rails.env.development?
         @geometry[style] ||= Paperclip::Geometry.from_file(logo.path(style))
+      else
+        @geometry[style] ||= Paperclip::Geometry.from_file(logo.url(style))
       end
     rescue
       geometry = Struct.new(:width, :height)
-      @geometry[style] = geometry.new(100, 100)
+      @geometry[style] = geometry.new(200, 200)
     end
   end
 
@@ -399,6 +400,8 @@ class Structure < ActiveRecord::Base
     if (read_attribute(:crop_width) + crop_x) > logo_min_width or
        (read_attribute(:crop_width) + crop_y) > logo_min_width
       nil
+    elsif read_attribute(:crop_width) == 0
+      logo_min_width
     else
       read_attribute(:crop_width)
     end
@@ -456,6 +459,16 @@ class Structure < ActiveRecord::Base
   end
 
   private
+
+  def logo_has_changed?
+    self.logo.dirty?
+  end
+
+  def reset_cropping_attributes
+    self.crop_width = 0 # not nil, because it'll fail when reprocessing image.
+    self.crop_x     = 0
+    self.crop_y     = 0
+  end
 
   def slug_candidates
     [
