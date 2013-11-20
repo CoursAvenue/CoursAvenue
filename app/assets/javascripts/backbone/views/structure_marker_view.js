@@ -19,7 +19,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
     });
 
-    /* TODO break this out into its own file (it got big...) */
+    /* The markers! Oh the markers.
+    *  hover over a marker on the map. It will be highlighted.
+    *  hover over a structure in the list. All associate markers will be highlighted and excited
+    *  hover over a planning in the list. The associated marker will start peacocking. */
     Views.StructureMarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
         initialize: function (options) {
 
@@ -30,42 +33,42 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             /* apparently the only way to get this done */
             this.$el.on('click', _.bind(this.markerSelected, this));
             this.bounce = _.debounce(this.bounce, 300);
+            this.bounceOnce = _.debounce(this.bounceOnce, 300);
         },
 
         mapEvents: {
-            'mouseover': 'select',
-            'mouseout':  'deselect'
+            'mouseover': 'toggleHighlight',
+            'mouseout':  'toggleHighlight'
         },
 
         markerSelected: function (e) {
-            this.setSelectLock(true);
+            this.setSelectLock(true); // while one marker is selected, the rest should be unselectable
             this.trigger('focus', e);
             e.stopPropagation();
         },
 
-        select: function () {
-            var self = this,
-                old_top = parseInt(this.$el.css('top'), 10),
-                crest = old_top - 30;
-
+        /* a highlighted marker needs to be different from the rest */
+        toggleHighlight: function () {
             if (!this.select_lock) {
-                this.$el.addClass('active');
-                this.$el.animate({ top: crest }, 200, 'linear', function () {
-                    self.$el.animate({ top: old_top }, 400, 'easeOutBounce');
-                });
+                this.$el.toggleClass('active');
             }
         },
 
-        deselect: function () {
-            if (!this.select_lock) {
-                this.$el.removeClass('active');
-            }
+        isHighlighted: function () {
+            return this.$el.hasClass('active');
         },
 
-        setSelectLock: function (bool) {
-            this.select_lock = bool;
+        /* an excited marker needs to be more than just highlighted */
+        excite: function () {
+            this.bounceOnce();
         },
 
+        /* cancel an animation in progress */
+        calm: function () {
+            this.$el.finish();
+        },
+
+        /* a marker that should be continuously excited is peacocking */
         startPeacocking: function () {
             this.is_peacocking = true;
             this.bounce();
@@ -74,6 +77,16 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         stopPeacocking: function () {
             this.is_peacocking = false;
             this.$el.finish();
+        },
+
+        bounceOnce: function () {
+            var self = this,
+                old_top = parseInt(this.$el.css('top'), 10),
+                crest = old_top - 30;
+
+            this.$el.animate({ top: crest }, 200, 'linear', function () {
+                self.$el.animate({ top: old_top }, 400, 'easeOutBounce');
+            });
         },
 
         bounce: function () {
@@ -88,7 +101,11 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.$el.animate({ top: crest }, 200, 'linear', function () {
                 self.$el.animate({ top: old_top }, 400, 'easeOutBounce', _.bind(self.bounce, self));
             });
-        }
+        },
+
+        setSelectLock: function (bool) {
+            this.select_lock = bool;
+        },
 
     });
 });
