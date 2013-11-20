@@ -7,7 +7,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         tagName: 'li',
         className: 'push-half--bottom',
         attributes: {
-            'data-type': 'structure-element hard'
+            'data-type': 'structure-element'
         },
 
         initialize: function(options) {
