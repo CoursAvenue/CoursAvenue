@@ -385,7 +385,7 @@ class Structure < ActiveRecord::Base
       end
     rescue
       geometry = Struct.new(:width, :height)
-      @geometry[style] = geometry.new(200, 200)
+      @geometry[style] = geometry.new(0, 0)
     end
   end
 
