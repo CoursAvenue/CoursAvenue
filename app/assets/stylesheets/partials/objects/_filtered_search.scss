@@ -72,6 +72,14 @@
     .filtered-search__list {
         padding-top : 6px;
         padding-left: 6px;
+
+        li.selected {
+
+            .structure-item {
+                border: 1px solid $orange;
+                @include box-shadow(0px 0px 5px transparentize($orange, 0.5));
+            }
+        }
     }
     .filtered-search__loader {
         position        : absolute;
