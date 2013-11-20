@@ -70,7 +70,7 @@
                     </div>
                 {{/if}}
             </div>
-            <a href="javascritp:void(0)" class="structure-item__see-all blue" data-type="accordion-control" data-value="courses" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
+            <a href="javascritp:void(0);" class="structure-item__see-all blue" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
                 <span>
                 {{#if search_term }}
                     Voir les séances correspondantes à <strong>"{{ search_term }}"</strong>
@@ -81,7 +81,7 @@
             </a>
         </div>
     </article><!--
- --><div class="flexbox__item relative soft-half--sides structure-item__see-all-wrapper {{#if has_comments}}structure-item__button{{/if}} two-eighths v-middle text--center" {{#if has_comments}}data-type="accordion-control" data-value="comments" data-attributes="data_url more_than_five_comments"{{/if}}>
+ --><div class="flexbox__item relative soft-half--sides structure-item__see-all-wrapper {{#if has_comments}}structure-item__button{{/if}} two-eighths v-middle text--center" {{#if has_comments}}data-behavior="accordion-control" data-model="comment" data-attributes="data_url more_than_five_comments"{{/if}}>
         {{#if has_comments }}
         <div class="relative full-height soft--top">
             <div class="alpha thin orange"> {{ comments_count }} </div>
@@ -113,7 +113,7 @@
  --><div class="flexbox__item two-eighths v-middle text--center rslides-wrapper structure-item__see-all-wrapper">
         {{#if preloaded_medias}}
         <div class="relative full-height">
-            <a class="structure-item__see-all rslides_nav rslides_nav--bottom" data-type="accordion-control" data-wrapper=".structure-item__see-all-wrapper" data-value="medias" data-attributes="data_url">
+            <a class="structure-item__see-all rslides_nav rslides_nav--bottom" data-behavior="accordion-control" data-wrapper=".structure-item__see-all-wrapper" data-model="media" data-attributes="data_url">
                 <span>Voir la galerie</span>
             </a>
             <ul class="rslides hidden">

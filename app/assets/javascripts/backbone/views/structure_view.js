@@ -7,7 +7,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         tagName: 'li',
         className: 'push-half--bottom',
         attributes: {
-            'data-type': 'structure-element hard'
+            'data-type': 'structure-element'
         },
 
         initialize: function(options) {
@@ -27,10 +27,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         * dirty to have the click handled here. However, it seems that
         * the child's events hash overrides the parent's hash by default */
         events: {
-            'click': 'goToStructurePage',
-            'click [data-type=accordion-control]': 'accordionControl',
-            'mouseenter':                          'highlightStructure',
-            'mouseleave':                          'unhighlightStructure'
+            'click':                                   'goToStructurePage',
+            'click [data-behavior=accordion-control]': 'accordionControl',
+            'mouseenter':                              'highlightStructure',
+            'mouseleave':                              'unhighlightStructure'
         },
 
         /* return toJSON for the places relation */
@@ -55,17 +55,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
         unhighlightStructure: function (e) {
             this.trigger('unhighlighted', this.placesToJSON());
-        },
-
-        resolveClick: function (event) {
-            if (event.target.nodeName !== 'A') {
-                if (event.metaKey || event.ctrlKey) {
-                    window.open(this.model.get('data_url'));
-                } else {
-                    window.location = this.model.get('data_url');
-                }
-                return false;
-            }
         },
 
         serializeData: function () {

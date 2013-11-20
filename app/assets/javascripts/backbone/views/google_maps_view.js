@@ -131,7 +131,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             if (this.current_info_marker) {
                 var marker = this.markerViewChildren[this.current_info_marker];
                 marker.setSelectLock(false);
-                marker.deselect();
+                marker.toggleHighlight();
             }
         },
 
@@ -246,7 +246,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             return model.cid;
         },
 
-        selectMarkers: function(data) {
+        /* a set of markers should be made to stand out */
+        exciteMarkers: function(data) {
             var self = this;
 
             var keys = data.map(function(model) {
@@ -257,22 +258,32 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 var marker = self.markerViewChildren[key];
 
                 // Prevent from undefined
-                if (marker) { marker.select(); }
+                if (marker) {
+                    marker.toggleHighlight();
+
+                    if (marker.isHighlighted()) {
+                        marker.excite();
+                    } else {
+                        marker.calm();
+                    }
+                }
             });
         },
 
-        deselectMarkers: function (data) {
+        togglePeacockingMarkers: function (data) {
+            console.log("togglePeacockingMarkers");
             var self = this;
 
-            var keys = data.map(function(model) {
-                return self.toKey(model);
-            });
-
-            _.each(keys, function (key) {
+            _.each(data.keys, function (key) {
                 var marker = self.markerViewChildren[key];
 
-                // Prevent from undefined
-                if (marker) { marker.deselect(); }
+                if (marker) {
+                    if (! marker.is_peacocking) {
+                        marker.startPeacocking();
+                    } else {
+                        marker.stopPeacocking();
+                    }
+                }
             });
         },
 

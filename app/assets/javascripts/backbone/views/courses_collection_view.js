@@ -11,6 +11,18 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.$('[data-behavior=tooltip]').tooltip();
         },
 
+        onItemviewToggleSelected: function (view, data) {
+            var places = view.model.get('structure').get('places'),
+                keys = places.findWhere({ id: data.place_id });
+
+            if (keys.length) {
+                console.log("keys had a length!");
+                debugger
+            }
+
+            this.trigger('course:focus', { keys: keys });
+        },
+
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something
          * if do we would do it here */

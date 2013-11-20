@@ -2,12 +2,38 @@
 FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
 
     /* views here temporarily to get this all all started */
-    Views.CourseView = Backbone.Marionette.ItemView.extend({
+    Views.CourseView = Backbone.Marionette.CompositeView.extend({
         template:  "backbone/templates/course_view",
         className: "push-half--top soft-half--top bordered--top",
+        itemView: Backbone.Marionette.ItemView.extend({
+            template: "backbone/templates/plannings_view",
+            tagName: 'tr',
+            attributes: {
+                'data-type': 'line-item'
+            },
+
+            events: {
+                'mouseenter': 'toggleSelected',
+                'mouseleave': 'toggleSelected',
+            },
+
+            toggleSelected: function (e) {
+                $(e.currentTarget).toggleClass('active');
+                this.trigger('toggleSelected', this.model.toJSON());
+            }
+        }),
+
+        itemViewContainer: 'tbody',
 
         initialize: function(options){
             this.index = options.index;
+            this.collection = new Backbone.Collection(_.map(options.model.get("plannings"), function (data) {
+                return new Backbone.Model(data);
+            }));
+        },
+
+        onItemviewToggleSelected: function (view, data) {
+            this.trigger('toggleSelected', data);
         },
 
         onRender: function() {
@@ -15,6 +41,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 this.$el.removeClass("bordered--top soft-half--top");
             }
         },
+
     });
 
 });

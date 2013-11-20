@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20131118165902) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "active_admin_comments", force: true do |t|
     t.string   "resource_id",   null: false
     t.string   "resource_type", null: false

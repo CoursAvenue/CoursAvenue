@@ -17,6 +17,10 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.trigger('structures:itemview:unhighlighted', data);
         },
 
+        onItemviewCourseFocus: function (view, data) {
+            this.trigger('structures:itemview:peacock', data);
+        },
+
         onAfterShow: function() {
             this.announcePaginatorUpdated();
         },
@@ -218,14 +222,15 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         scrollToView: function(view) {
-            var course_element = view.$el;
+            var structure_element = view.$el;
 
-            $(document.body).animate({scrollTop: course_element.offset().top}, 200,'easeInOutCubic');
-            $(document.body).scrollTo(course_element[0], {duration: 400})
+            this.$el.parents('section').animate({scrollTop: structure_element.offset().top}, 200,'easeInOutCubic');
+            this.$el.parents('section').scrollTo(structure_element[0], {duration: 400});
+
             // Unselect courses if there already are that are selected
-            $('.course-element').removeClass('selected');
+            $('[data-type=structure-element]').removeClass('selected');
             setTimeout(function(){
-                course_element.addClass('selected');
+                structure_element.addClass('selected');
             }, 100);
 
         },
