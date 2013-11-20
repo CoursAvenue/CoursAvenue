@@ -44,7 +44,7 @@
       var ratio       =  #{@ratio};
       $('#cropbox').Jcrop({
           aspectRatio: 1,
-          setSelect: [(crop_x / ratio), (crop_y / ratio), (crop_x + crop_width) / ratio, (crop_x + crop_width) / ratio],
+          setSelect: [(crop_x / ratio), (crop_y / ratio), (crop_x + crop_width) / ratio, (crop_y + crop_width) / ratio],
           onChange: update_crop,
           onSelect: update_crop
       });
