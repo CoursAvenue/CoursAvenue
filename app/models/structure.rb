@@ -390,7 +390,7 @@ class Structure < ActiveRecord::Base
   end
 
   def ratio_from_original(style=:original)
-    return 1 unless self.logo.present?
+    return 1 if !self.logo.present? or self.logo_geometry(style).width == 0
     self.logo_geometry(:original).width / self.logo_geometry(style).width
   end
 

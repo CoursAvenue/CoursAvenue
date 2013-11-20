@@ -149,8 +149,6 @@ class Pro::StructuresController < Pro::ProController
 
   def edit
     @structure = Structure.friendly.find(params[:id])
-    @ratio     = 1
-    @ratio     = @structure.ratio_from_original(:large)
   end
 
   def new
