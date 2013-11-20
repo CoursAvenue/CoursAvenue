@@ -23,6 +23,21 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
     *  hover over a marker on the map. It will be highlighted.
     *  hover over a structure in the list. All associate markers will be highlighted and excited
     *  hover over a planning in the list. The associated marker will start peacocking. */
+    /* TODO markers are probably not the only element that has multiple levels of "priority".
+    *  this could probably be abstracted so that the calling class sends messages like,
+    *
+    *    marker.priorityCode('red'); // green, blue, yellow, orange, red
+    *
+    *  and the receiving class defines how it reacts to the different priorities. For example,
+    *  marker would have 'blue', 'green', 'yellow', and 'red' defined as:
+    *
+    *   blue: nothing, no highlight
+    *   green: highlighted (class 'active')
+    *   yellow: same as green + single bounce
+    *   red: same as green + continuous bounce
+    *
+    *  Other classes would expose similar semantics, but implement their behaviour differently
+    * */
     Views.StructureMarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
         initialize: function (options) {
 
