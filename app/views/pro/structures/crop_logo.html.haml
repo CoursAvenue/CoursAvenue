@@ -11,12 +11,13 @@
         %h3.text--center Aperçu
     .grid
       .grid__item.two-thirds.v-middle.text--center>
-        = image_tag @structure.logo.url(:large), id: 'cropbox', class: 'bordered'
+        .bordered
+          = image_tag @structure.logo.url(:large), id: 'cropbox'
         - [:crop_x, :crop_y, :crop_width].each do |attribute|
           = f.input attribute, input_html: {id: attribute}, as: :hidden
       .grid__item.one-third.v-middle.text--center>
-        .center-block{style: "width:150px; height:150px; overflow:hidden"}
-          = image_tag @structure.logo.url(:large), id: "preview", style: 'max-width: none;', class: 'bordered'
+        .bordered.center-block{style: "width:150px; height:150px; overflow:hidden"}
+          = image_tag @structure.logo.url(:large), id: "preview", style: 'max-width: none;'
     .push--top
       = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
 
