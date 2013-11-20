@@ -1,6 +1,6 @@
-FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $, _) {
 
-    Views.AccordionView = Backbone.Marionette.CompositeView.extend({
+    Module.AccordionView = Backbone.Marionette.CompositeView.extend({
 
         initialize: function () {
             this.currently_selected_cid = [];

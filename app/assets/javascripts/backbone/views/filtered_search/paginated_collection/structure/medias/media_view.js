@@ -1,10 +1,9 @@
 /* just a basic marionette view */
-FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Structure.Medias', function(Module, App, Backbone, Marionette, $, _) {
 
     /* views here temporarily to get this all all started */
-    Views.MediaView = Backbone.Marionette.ItemView.extend({
-        template: "backbone/templates/media_view",
+    Module.MediaView = Backbone.Marionette.ItemView.extend({
+        template: Module.templateDirname() + "media_view",
         className: 'media__item one-third'
-
     });
 });

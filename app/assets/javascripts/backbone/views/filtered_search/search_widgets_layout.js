@@ -1,6 +1,6 @@
 FilteredSearch.module('Views.FilteredSearch', function(Module, App, Backbone, Marionette, $, _) {
 
-    Module.SearchWidgetsLayout = Module.EventLayout.extend({
+    Module.SearchWidgetsLayout = FilteredSearch.Views.Lib.EventLayout.extend({
         template: Module.templateDirname() + 'search_widgets_layout_view',
         className: 'relative',
 

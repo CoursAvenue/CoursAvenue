@@ -1,9 +1,9 @@
 /* just a basic marionette view */
-FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Structure.Comments', function(Module, App, Backbone, Marionette, $, _) {
 
     /* views here temporarily to get this all all started */
-    Views.CommentView = Backbone.Marionette.ItemView.extend({
-        template: "backbone/templates/comment_view",
+    Module.CommentView = Backbone.Marionette.ItemView.extend({
+        template: Module.templateDirname() + "comment_view",
         tagName: "li",
         className: 'structure-item__comment-item',
 
