@@ -1,10 +1,11 @@
 
-FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
-    Views.BlankView = Marionette.ItemView.extend({ template: "" });
+FilteredSearch.module('Views.FilteredSearch.Map', function(Module, App, Backbone, Marionette, $, _) {
+
+    Module.BlankView = Marionette.ItemView.extend({ template: "" });
 
     /* TODO break this out into its own file (it got big...) */
-    Views.InfoBoxView = Backbone.Marionette.ItemView.extend({
-        template: 'backbone/templates/info_box_view',
+    Module.InfoBoxView = Backbone.Marionette.ItemView.extend({
+        template: Module.templateDirname() + 'info_box_view',
 
         initialize: function (options) {
             var defaultOptions = {
@@ -48,12 +49,12 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         }
     });
 
-    Views.GoogleMapsView = Marionette.CompositeView.extend({
-        template:            'backbone/templates/google_maps_view',
+    Module.GoogleMapsView = Marionette.CompositeView.extend({
+        template:            Module.templateDirname() + 'google_maps_view',
         id:                  'map-container',
-        itemView:            Views.BlankView,
+        itemView:            Module.BlankView,
         itemViewEventPrefix: 'marker',
-        markerView:          Views.StructureMarkerView,
+        markerView:          Module.StructureMarkerView,
         markerViewChildren: {},
 
         /* provide options.mapOptions to override defaults */
@@ -70,7 +71,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             _.extend(this.mapOptions, options.mapOptions);
 
             /* create mapview */
-            this.mapView = new Views.BlankView({
+            this.mapView = new Module.BlankView({
                 id: 'map',
                 attributes: {
                     'class': 'map_container'
@@ -80,7 +81,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.map_annex = this.mapView.el;
 
             /* one info window that gets populated on each marker click */
-            this.infoBox = new Views.InfoBoxView(options.infoBoxOptions);
+            this.infoBox = new Module.InfoBoxView(options.infoBoxOptions);
 
             /* recover the user's preference */
             this.update_live = (typeof($.cookie('map:update:live')) === 'undefined' ? 'true' : $.cookie('map:update:live'));

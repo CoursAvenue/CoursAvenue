@@ -1,10 +1,10 @@
-FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Structure.Medias', function(Module, App, Backbone, Marionette, $, _) {
 
-    Views.MediasCollectionView = Backbone.Marionette.CompositeView.extend({
-        template: 'backbone/templates/medias_collection_view',
+    Module.MediasCollectionView = Backbone.Marionette.CompositeView.extend({
+        template: Module.templateDirname() + 'medias_collection_view',
 
         // The "value" has an 's' at the end, that's what the slice is for
-        itemView: Views.MediaView,
+        itemView: Module.MediaView,
         itemViewContainer: '[data-type=container]',
 
         initialize: function(){

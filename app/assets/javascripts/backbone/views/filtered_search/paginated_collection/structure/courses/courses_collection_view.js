@@ -1,10 +1,10 @@
-FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Structure.Courses', function(Module, App, Backbone, Marionette, $, _) {
 
-    Views.CoursesCollectionView = Backbone.Marionette.CompositeView.extend({
-        template: 'backbone/templates/courses_collection_view',
+    Module.CoursesCollectionView = Backbone.Marionette.CompositeView.extend({
+        template: Module.templateDirname() + 'courses_collection_view',
 
         // The "value" has an 's' at the end, that's what the slice is for
-        itemView: Views.CourseView,
+        itemView: Module.CourseView,
         itemViewContainer: '[data-type=container]',
 
         onRender: function() {

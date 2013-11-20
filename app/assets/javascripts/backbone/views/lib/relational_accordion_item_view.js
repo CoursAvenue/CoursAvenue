@@ -1,12 +1,12 @@
 
-FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $, _) {
 
     /* RelationalAccordionItemview
     *  - used to populate accordion views for collections of relational models
     *  - can provide accordion action for multiple relations on the model
     *  - doesn't need to know what relations exist on the model
     *    - naming conventions are used to build the views on demand */
-    Views.RelationalAccordionItemView = Views.AccordionItemView.extend({
+    Module.RelationalAccordionItemView = FilteredSearch.Views.Lib.AccordionItemView.extend({
 
         loaderTemplate: '<div class="loading-indicator" style="height: 60px;"></div>',
 
@@ -117,13 +117,31 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             this.$loader.slideUp();
         },
 
+        /* Descendants must override this */
+        getModuleForRelation: function (relation) {
+            var keys = this.modulePath.split('.')
+            keys.push(App.capitalize(relation));
+
+            var Relation = _.inject(keys, function (memo, key) {
+                if (memo[key]) {
+                    memo = memo[key];
+                }
+
+                return memo;
+
+            }, FilteredSearch);
+
+            return Relation;
+        },
+
         /* given a string, find the relation on the model with that name
         *  and create a region, and a composite view. Data for the composite
         *  view is grabbed from the structure, based on strings passed in
         *  an array. The collection is models on a relation on structure. */
         createRegionFor: function (relation_name, attribute_strings) {
-            var model_name = relation_name.slice(0, -1),
-                self = this;
+            var model_name   = relation_name.slice(0, -1),
+                Relations    = this.getModuleForRelation(relation_name), // the module in which the relation views will be
+                self         = this;
 
             /* collect some information to pass in to the compositeview */
             var data = _.inject(attribute_strings, function (memo, attr) {
@@ -138,13 +156,13 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
 
             /* an anonymous compositeView is all we need */
             // If a collection view exists, then use it, else create a generic one.
-            if (Views[App.capitalize(relation_name) + 'CollectionView']) {
-                ViewClass = Views[App.capitalize(relation_name) + 'CollectionView'];
+            if (Relations[App.capitalize(relation_name) + 'CollectionView']) {
+                ViewClass = Relations[App.capitalize(relation_name) + 'CollectionView'];
             } else {
                 ViewClass = Backbone.Marionette.CompositeView.extend({
-                    template: 'backbone/templates/' + relation_name + '_collection_view',
+                    template: Relations.templateDirname() + relation_name + '_collection_view',
 
-                    itemView: Views[App.capitalize(model_name) + 'View'],
+                    itemView: Relations[App.capitalize(model_name) + 'View'],
                     itemViewContainer: '[data-type=container]'
                 });
             }
@@ -154,7 +172,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 model: new Backbone.Model(data),
                 attributes: {
                     'data-behavior': 'accordion-data',
-                    'style':     'display:none'
+                    'style':         'display:none'
                 }
             });
 
