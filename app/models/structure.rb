@@ -118,8 +118,6 @@ class Structure < ActiveRecord::Base
   before_save      :encode_uris
   before_save      :reset_cropping_attributes, if: :logo_has_changed?
 
-  before_post_process :save_logo_dimensions
-
   # ------------------------------------
   # ------------------ Search attributes
   # ------------------------------------
@@ -380,27 +378,33 @@ class Structure < ActiveRecord::Base
   def logo_geometry(style = :original)
     @geometry ||= {}
     begin
-      if Rails.env.development?
-        @geometry[style] ||= Paperclip::Geometry.from_file(logo.path(style))
-      else
+      if Rails.env.production?
         @geometry[style] ||= Paperclip::Geometry.from_file(logo.url(style))
+      else
+        @geometry[style] ||= Paperclip::Geometry.from_file(logo.path(style))
       end
     rescue
       geometry = Struct.new(:width, :height)
-      @geometry[style] = geometry.new(0, 0)
+      if style == :original
+        @geometry[style] = geometry.new(600, 600)
+      elsif style == :large
+        @geometry[style] = geometry.new(450, 450)
+      else
+        @geometry[style] = geometry.new(200, 200)
+      end
     end
   end
 
-  def ratio_from_original_to_large
-    return 1 if !self.logo.present?
-    self.logo_width / 450
+  def ratio_from_original_from_large
+    600.0 / 450.0
+    # self.logo_geometry(:original).width / self.logo_geometry(style).width
   end
 
   def crop_width
-    logo_min_width = [self.logo_width, self.logo_height].min
+    logo_min_width = [logo_geometry.width, logo_geometry.height].min
     # if the crop is larger than the picture, return the nil
-    if logo_min_width and ((read_attribute(:crop_width) + crop_x) > logo_min_width or
-                           (read_attribute(:crop_width) + crop_y) > logo_min_width)
+    if (read_attribute(:crop_width) + crop_x) > logo_min_width or
+       (read_attribute(:crop_width) + crop_y) > logo_min_width
       nil
     elsif read_attribute(:crop_width) == 0
       logo_min_width
@@ -461,12 +465,6 @@ class Structure < ActiveRecord::Base
   end
 
   private
-
-  def save_logo_dimensions
-    geometry         = Paperclip::Geometry.from_file(logo.queued_for_write[:original])
-    self.logo_width  = geometry.width
-    self.logo_height = geometry.height
-  end
 
   def logo_has_changed?
     self.logo.dirty?
