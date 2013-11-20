@@ -1,7 +1,7 @@
-FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
 
-    Views.CategoricalFilterView = Backbone.Marionette.ItemView.extend({
-        template: 'backbone/templates/categorical_filter_view',
+    Module.CategoricalFilterView = Backbone.Marionette.ItemView.extend({
+        template: Module.templateDirname() + 'categorical_filter_view',
         className: 'header-search-bar push-half--bottom',
 
         initialize: function () {

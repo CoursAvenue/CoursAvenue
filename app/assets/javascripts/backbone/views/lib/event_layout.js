@@ -1,5 +1,6 @@
-FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
-    Views.EventLayout = Backbone.Marionette.Layout.extend({
+FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $, _) {
+
+    Module.EventLayout = Backbone.Marionette.Layout.extend({
         constructor: function() {
             Marionette.Layout.prototype.constructor.apply(this, arguments);
             var self = this;
