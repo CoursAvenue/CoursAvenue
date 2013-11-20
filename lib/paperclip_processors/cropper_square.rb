@@ -10,7 +10,7 @@ module Paperclip
     end
 
     def square_command
-      %w(-virtual-pixel white -set option:distort:viewport "%[fx:max(w,h)]x%[fx:max(w,h)]-%[fx:max((h-w)/2,0)]-%[fx:max((w-h)/2,0)]" -filter point -distort SRT 0 +repage)
+      %w(\\( +clone -rotate 90 +clone -mosaic +level-colors white \\) +swap -gravity center -composite)
     end
   end
 end
