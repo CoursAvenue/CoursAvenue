@@ -271,7 +271,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         },
 
         togglePeacockingMarkers: function (data) {
-            console.log("togglePeacockingMarkers");
             var self = this;
 
             _.each(data.keys, function (key) {

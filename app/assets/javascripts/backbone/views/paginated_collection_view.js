@@ -224,7 +224,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
         scrollToView: function(view) {
             var structure_element = view.$el;
 
-            this.$el.parents('section').animate({scrollTop: structure_element.offset().top}, 200,'easeInOutCubic');
             this.$el.parents('section').scrollTo(structure_element[0], {duration: 400});
 
             // Unselect courses if there already are that are selected

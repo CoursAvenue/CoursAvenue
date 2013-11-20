@@ -10,7 +10,8 @@
       = f.input :name
       = f.input :phone_number, wrapper_html: {class: 'flush--top'}, placeholder: 'Ex. : 01 02 11 33 12'
       = f.input :mobile_phone_number, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : 06 07 11 33 12'
-      = f.input :email, disabled: true
+      = f.input :email, disabled: true, wrapper_html: {class: 'flush--bottom'}
+      %p.field-form-info.blue.flush--bottom Cet email vous permet de vous connecter à votre profil et de recevoir toutes les notifications CoursAvenue (nouvelle recommandation d'élève déposée, demande de renseignements sur vos cours, etc.).
 
     %h5.form-header-group
       %i.fa.fa-envelope-o

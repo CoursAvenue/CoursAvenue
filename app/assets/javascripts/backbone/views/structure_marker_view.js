@@ -80,7 +80,7 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
                 old_top = parseInt(this.$el.css('top'), 10),
                 crest = old_top - 30;
 
-            this.$el.animate({ top: crest }, 200, 'easeOutQuint', function () {
+            this.$el.animate({ top: crest }, 200, 'easeOutQuint', function (event) {
                 self.$el.animate({ top: old_top }, 400, 'easeOutBounce');
             });
         },
