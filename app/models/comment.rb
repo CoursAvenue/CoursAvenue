@@ -3,7 +3,7 @@ class Comment < ActiveRecord::Base
 
   acts_as_paranoid
   attr_accessible :commentable, :commentable_id, :commentable_type, :content, :author_name, :email, :rating,
-                  :title, :course_name
+                  :title, :course_name, :deletion_reason
   # A comment has a status which can be one of the following:
   #   - pending
   #   - accepted

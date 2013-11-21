@@ -53,9 +53,11 @@ class AdminMailer < ActionMailer::Base
     mail to: @structure.main_contact.email, subject: "Votre profil comporte déjà 15 recommandations d'élèves"
   end
 
-  def recommandation_has_been_recovered(structure)
-    @structure  = structure
-    @show_links = true
+  def recommandation_has_been_recovered(structure, deletion_reason)
+    @structure          = structure
+    deletion_reason_key = deletion_reason.split('.').last
+    @email_text         = I18n.t("comments.recover_email_texts.#{deletion_reason_key}")
+    @show_links         = true
     mail to: @structure.main_contact.email, subject: "Votre demande de modification d'avis a bien été prise en compte"
   end
 

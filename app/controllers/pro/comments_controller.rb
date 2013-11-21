@@ -28,7 +28,7 @@ class Pro::CommentsController < InheritedResources::Base
   def recover
     @comment   = Comment.find params[:id]
     @comment.recover!
-    AdminMailer.delay.recommandation_has_been_recovered(@comment.structure)
+    AdminMailer.delay.recommandation_has_been_recovered(@comment.structure, @comment.deletion_reason)
     redirect_to pro_comments_path, notice: "L'avis a été rétabli"
   end
 
