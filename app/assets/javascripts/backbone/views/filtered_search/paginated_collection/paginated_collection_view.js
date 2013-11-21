@@ -224,15 +224,7 @@ FilteredSearch.module('Views.FilteredSearch.PaginatedCollection', function(Modul
         scrollToView: function(view) {
             var structure_element = view.$el;
 
-            this.$el.parents('section').animate({scrollTop: structure_element.offset().top}, 200,'easeInOutCubic');
             this.$el.parents('section').scrollTo(structure_element[0], {duration: 400});
-
-            // Unselect courses if there already are that are selected
-            $('[data-type=structure-element]').removeClass('selected');
-            setTimeout(function(){
-                structure_element.addClass('selected');
-            }, 100);
-
         },
 
         /* when rendering each collection item, we might want to
