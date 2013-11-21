@@ -350,6 +350,15 @@ class Course < ActiveRecord::Base
     false
   end
 
+  # Returns an array with one or two values
+  def price_range
+    if best_price == most_expansive_price
+      [best_price]
+    else
+      [best_price, most_expansive_price]
+    end
+  end
+
   def best_price
     self.prices.where{(type != 'Price::Registration') & (amount > 0)}.order('amount ASC').first
   end

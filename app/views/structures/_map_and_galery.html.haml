@@ -18,7 +18,7 @@
     - if medias.any?
       .grid__item.one-half>
         .text--center
-          %a#show-galery{href: 'javascript:void(0)'} Voir la galerie
+          %a#show-galery{href: 'javascript:void(0)'} Voir la galerie (#{medias.count})
 
   %ul.block-list#place-list.hidden.flush
     - places.each_with_index do |place, index|

@@ -4,9 +4,12 @@
   - if @course.trial
     .white-box.islet.text--center
       - if @course.trial.free?
-        %h4.flush.green Cours d'essai gratuit
+        %h4.flush.green
+          Cours d'essai gratuit
+          = @course.trial.info.present? ? "(#{@course.trial.info})" : ''
       - else
         Cours d'essai : #{readable_amount(@course.trial.amount)}€
+        = @course.trial.info.present? ? "(#{@course.trial.info})" : ''
 
   %table.table--striped.table--data.white-box#planning-schedule
     %thead
@@ -26,20 +29,24 @@
     %p.white-box.islet= @course.price_details
   - if @course.registrations.any?
     .white-box.islet
+      %h5.push-half--bottom= t('prices.registration_fees')
       - @course.registrations.each do |registration_fee|
         %p.flush
-          = t('prices.registration_fees')
           = "#{readable_amount(registration_fee.amount)}€"
-          - if registration_fee.info.present?
-            = "(#{registration_fee.info})"
+          = registration_fee.info.present? ? "(#{registration_fee.info})" : ''
+
   - if @course.discounts.any?
     .white-box.islet
       %h5.push-half--bottom Tarifs réduits
       - @course.discounts.each do |discount|
         #{t(discount.libelle)} : #{readable_amount(discount.promo_percentage)}% de réduction
+        = discount.info.present? ? "(#{discount.info})" : ''
+        %br
   - if @structure.funding_types.any?
     .white-box.islet
+      %h5.push-half--bottom= t('.possible_funding')
       %p.flush--bottom
-        = t('.possible_funding')
-        %strong= @structure.funding_types.map{|funding_type| t(funding_type.name) }.join(', ')
+        - @structure.funding_types.each do |funding_type|
+          = t(funding_type.name)
+          %br
 

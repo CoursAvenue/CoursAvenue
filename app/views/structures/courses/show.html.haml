@@ -32,7 +32,27 @@
 
 .grid.push--top
   .grid__item.eight-twelfths>
-    = render partial: 'structures/structure_header', locals: {structure: @structure}
+    .grid--full.push-half--bottom.white-box
+      - if @structure.logo.present?
+        .grid__item.two-twelfths>
+          = image_tag @structure.logo.url(:thumb), class: 'block'
+      .grid__item.ten-twelfths.soft-half--sides>
+        %h1.gamma.flush--bottom= link_to @structure.name, structure_path(@structure), class: 'blue'
+        .flexbox
+          .flexbox__item.two-thirds.v-top>
+            %h2.delta.orange.flush--bottom= @course.name
+            %p.push-half--bottom
+              %i= join_child_subjects_text @course
+          .flexbox__item.one-third.v-middle.text--right>
+            %div
+              - if @price_range.length == 1
+                %span.gamma.pointer.green.line-height-1{title: @price_range.first.localized_libelle, data: { behavior: 'tooltip' } }= "#{readable_amount(@price_range.first.amount)}€"
+              - else
+                de
+                %span.gamma.pointer.green.line-height-1{title: @price_range.first.localized_libelle, data: { behavior: 'tooltip' } }= "#{readable_amount(@price_range.first.amount)}€"
+                à
+                %span.gamma.pointer.green.line-height-1{title: @price_range.last.localized_libelle, data: { behavior: 'tooltip' } }= "#{readable_amount(@price_range.last.amount)}€"
+            = link_to 'Voir tous les tarifs', 'javascript:void(0)', onclick: "$.scrollTo($('#planning-schedule'), {duration: 200})"
 
     = render partial: 'structures/map_and_galery', locals: {structure: @structure, places: @course.places, places_address: @json_place_address, medias: @medias}
 
@@ -58,7 +78,6 @@
 
     .tab-content
       = render 'planning_tab'
-      -# = render 'price_tab'
       %article#tab-description.tab-pane
         .white-box.islet
           %h2.delta Description du #{@course.type_name.downcase.html_safe} de : #{@course.name}
@@ -81,12 +100,6 @@
               = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
 
   .grid__item.four-twelfths>
-    .white-box.islet
-      %h2.delta.push-half--bottom.orange
-        = @course.name
-
-      = render 'contact_structure'
-
     - if @structure.main_contact
       = render partial: 'structures/contact_form', locals: {structure: @structure, course: @course}
 

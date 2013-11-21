@@ -52,7 +52,8 @@ class Structure < ActiveRecord::Base
                   :subjects_string, :parent_subjects_string, # "Name of the subject,slug-of-the-subject;Name,slug"
                   # Attributes synced regarding the courses. Synced from the observers
                   # audience_ids is a coma separated string of audience_id
-                  :audience_ids, :gives_group_courses, :gives_individual_courses, :plannings_count, :has_promotion
+                  :audience_ids, :gives_group_courses, :gives_individual_courses,
+                  :plannings_count, :has_promotion, :has_free_trial_course
   has_attached_file :logo,
                     styles: {
                       original: {
@@ -450,6 +451,7 @@ class Structure < ActiveRecord::Base
     self.update_column :gives_group_courses,      self.courses.select{|course| !course.is_individual? }.any?
     self.update_column :gives_individual_courses, self.courses.select(&:is_individual?).any?
     self.update_column :has_promotion,            self.prices.select{|p| p.promo_amount.present?}.any?
+    self.update_column :has_free_trial_course,    self.prices.where{(type == 'Price::Trial') & ((amount == nil) | (amount == 0))}.any?
     self.set_min_and_max_price
   end
 

@@ -66,7 +66,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def has_free_trial_course
-    object.prices.where{(type == 'Price::Trial') & ((amount == nil) | (amount == 0))}.any?
+    object.has_free_trial_course
   end
 
   def has_price_range
