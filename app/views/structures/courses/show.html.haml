@@ -34,10 +34,10 @@
   .grid__item.eight-twelfths>
     .grid--full.push-half--bottom.white-box
       - if @structure.logo.present?
-        .grid__item.two-twelfths>
+        .grid__item.two-twelfths.relative>
           = image_tag @structure.logo.url(:thumb), class: 'block'
-        - if @course.has_trial_lesson
-          .free-trial-badge
+          - if @course.has_free_trial_lesson?
+            .free-trial-badge
       .grid__item.ten-twelfths.soft-half--sides>
         %h1.gamma.flush--bottom= link_to @structure.name, structure_path(@structure), class: 'blue'
         .flexbox

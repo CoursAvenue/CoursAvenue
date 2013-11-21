@@ -94,7 +94,7 @@ class Structure < ActiveRecord::Base
 
   has_many :places                   , dependent: :destroy
 
-  has_many :admins                   , dependent: :destroy
+  has_many :admins
 
   validates :name               , :presence   => true
   validates :street             , :presence   => true, on: :create

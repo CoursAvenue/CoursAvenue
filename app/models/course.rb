@@ -270,7 +270,11 @@ class Course < ActiveRecord::Base
   end
 
   def has_trial_lesson
-    return prices.where(libelle: 'prices.trial_lesson').any?
+    return self.prices.where{(type == 'Price::Trial')}.any?
+  end
+
+  def has_free_trial_lesson?
+    return self.prices.where{(type == 'Price::Trial') & ((amount == nil) | (amount == 0))}.any?
   end
 
   def has_unit_course_price
