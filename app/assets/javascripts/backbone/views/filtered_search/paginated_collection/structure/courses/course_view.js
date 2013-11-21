@@ -1,12 +1,12 @@
 /* just a basic marionette view */
-FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Structure.Courses', function(Module, App, Backbone, Marionette, $, _) {
 
     /* views here temporarily to get this all all started */
-    Views.CourseView = Backbone.Marionette.CompositeView.extend({
-        template:  "backbone/templates/course_view",
+    Module.CourseView = Backbone.Marionette.CompositeView.extend({
+        template:  Module.templateDirname() + "course_view",
         className: "push-half--top soft-half--top bordered--top",
         itemView: Backbone.Marionette.ItemView.extend({
-            template: "backbone/templates/plannings_view",
+            template: Module.templateDirname() + "plannings/plannings_view",
             tagName: 'tr',
             attributes: {
                 'data-type': 'line-item'

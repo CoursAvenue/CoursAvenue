@@ -1,9 +1,8 @@
 /* just a basic marionette view */
-FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Structure', function(Module, App, Backbone, Marionette, $, _) {
 
-
-    Views.StructureView = Views.RelationalAccordionItemView.extend({
-        template: 'backbone/templates/structure_view',
+    Module.StructureView = FilteredSearch.Views.Lib.RelationalAccordionItemView.extend({
+        template: Module.templateDirname() + 'structure_view',
         tagName: 'li',
         className: 'push-half--bottom',
         attributes: {
@@ -17,6 +16,8 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             if (options.search_term) {
                 this.search_term = options.search_term;
             }
+
+            this.getModuleForRelation = _.bind(this.getModuleForRelation, Module);
         },
 
         onRender: function() {

@@ -1,62 +1,3 @@
-// Create a marionette app in the global namespace
-
-var _trigger = Marionette.View.prototype.trigger;
-
-/* event locking for our evented Marionette party party */
-_.extend(Marionette.View.prototype, {
-    _locks: {},
-    _once_locks: {},
-
-    trigger: function () {
-        var args = Array.prototype.slice.call(arguments);
-
-        return this.tryTrigger(args);
-    },
-
-    /* used internally, this method will unset a once lock */
-    tryTrigger: function (args) {
-        var message = args[0];
-
-        if (! this.isLocked(message)) {
-            _trigger.apply(this, args);
-        } else {
-            this.unlockOnce(message);
-        }
-
-        return this;
-    },
-
-    lock: function (message) {
-        this._locks[message] = true;
-    },
-
-    unlock: function (message) {
-        this._locks[message] = false;
-    },
-
-    lockOnce: function (message) {
-        if (this._once_locks[message] === undefined) {
-            this._once_locks[message] = { count: 0 };
-        }
-
-        this._once_locks[message].count += 1;
-    },
-
-    unlockOnce: function (message) {
-        if (this.isLockedOnce(message)) {
-            this._once_locks[message].count -= 1;
-        }
-    },
-
-    isLocked: function (message) {
-        return this._locks[message] || this.isLockedOnce(message);
-    },
-
-    isLockedOnce: function (message) {
-        return this._once_locks[message] && this._once_locks[message].count > 0;
-    }
-});
-
 FilteredSearch = (function (){
     var self = new Backbone.Marionette.Application({
         slug: 'filtered-search',
@@ -111,7 +52,7 @@ FilteredSearch.addInitializer(function(options) {
 
     // Create an instance of your class and populate with the models of your entire collection
     structures      = new FilteredSearch.Models.PaginatedCollection(bootstrap.models, bootstrap.options);
-    structures_view = new FilteredSearch.Views.PaginatedCollectionView({
+    structures_view = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.PaginatedCollectionView({
         collection: structures,
         events: {
             'pagination:next':     'nextPage',
@@ -132,7 +73,7 @@ FilteredSearch.addInitializer(function(options) {
     window.pfaff = structures;
 
     /* set up the layouts */
-    layout           = new FilteredSearch.Views.SearchWidgetsLayout();
+    layout           = new FilteredSearch.Views.FilteredSearch.SearchWidgetsLayout();
 
     layout.on('structures:updating', function(){
         $loader = $loader || $('[data-type="loader"]');
@@ -144,7 +85,7 @@ FilteredSearch.addInitializer(function(options) {
     })
 
     var bounds       = structures.getLatLngBounds();
-    google_maps_view = new FilteredSearch.Views.GoogleMapsView({
+    google_maps_view = new FilteredSearch.Views.FilteredSearch.Map.GoogleMapsView({
         collection: structures,
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
@@ -152,12 +93,12 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
-    top_pagination            = new FilteredSearch.Views.PaginationToolView({});
-    bottom_pagination         = new FilteredSearch.Views.PaginationToolView({});
-    results_summary           = new FilteredSearch.Views.ResultsSummaryView({});
-    subject_filter            = new FilteredSearch.Views.SubjectFilterView({});
-    categorical_filter        = new FilteredSearch.Views.CategoricalFilterView({});
-    location_filter           = new FilteredSearch.Views.LocationFilterView({});
+    top_pagination            = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.PaginationToolView({});
+    bottom_pagination         = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.PaginationToolView({});
+    results_summary           = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.ResultsSummaryView({});
+    subject_filter            = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.SubjectFilterView({});
+    categorical_filter        = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.CategoricalFilterView({});
+    location_filter           = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.LocationFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 

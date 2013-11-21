@@ -1,10 +1,10 @@
 /* a view for presenting a backbone.paginator collection, and for presenting and handling
  * its pagination UI element */
-FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.FilteredSearch.PaginatedCollection', function(Module, App, Backbone, Marionette, $, _) {
 
-    Views.PaginatedCollectionView = Views.AccordionView.extend({
-        template: 'backbone/templates/paginated_collection_view',
-        itemView: FilteredSearch.Views.StructureView,
+    Module.PaginatedCollectionView = FilteredSearch.Views.Lib.AccordionView.extend({
+        template: Module.templateDirname() + 'paginated_collection_view',
+        itemView: Module.Structure.StructureView,
         itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
         className: 'relative',
 
@@ -225,13 +225,6 @@ FilteredSearch.module('Views', function(Views, App, Backbone, Marionette, $, _) 
             var structure_element = view.$el;
 
             this.$el.parents('section').scrollTo(structure_element[0], {duration: 400});
-
-            // Unselect courses if there already are that are selected
-            $('[data-type=structure-element]').removeClass('selected');
-            setTimeout(function(){
-                structure_element.addClass('selected');
-            }, 100);
-
         },
 
         /* when rendering each collection item, we might want to
