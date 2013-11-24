@@ -5,6 +5,8 @@ ruby '2.0.0'
 
 gem 'rails', '4.0.0'
 
+gem 'filepicker-rails'
+
 # Webserver
 # gem 'unicorn'
 gem 'puma'
@@ -145,12 +147,13 @@ gem 'compass-inuit'             , '~>5.0.2'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 
+# For uploading to amazon CDN
+gem 'aws-sdk'                   , '~>1.21.0'
+
 group :production, :staging do
   # gem 'therubyracer'
   gem 'execjs'
   gem 'rails_12factor'
-  # For uploading to amazon CDN
-  gem 'aws-sdk'                   , '~>1.21.0'
   # Sync assets to S3 and CloudFront
   gem 'asset_sync'                , '~>1.0.0'
 end
@@ -176,10 +179,10 @@ group :development, :test do
   # gem 'debugger' # this is causing problems for Andre
   # Permits to travel in the past
   gem 'delorean'
+  gem 'dotenv-rails'
 end
 
-# Helps see which gems are not necessessary for boot time
-gem 'gem_bench', :group => :console
+gem 'rmagick'
 
 # Rails 4 upgrade
 gem 'actionpack-action_caching', '~>1.0.0'

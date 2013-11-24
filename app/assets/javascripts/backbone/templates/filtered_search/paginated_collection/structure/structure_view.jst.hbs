@@ -119,16 +119,12 @@
             <ul class="rslides hidden">
                 {{#each preloaded_medias}}
                     <li>
-                        <a href="{{{this.url}}}" class="rslides_nav rslides_nav--icon {{#if this.thumbnail_url}}visible{{/if}}" data-behavior="fancy">
-                            <i class="fa {{#if this.thumbnail_url}}fa-youtube-play{{else}}fa-eye{{/if}}"></i>
+                        <a href="{{{this.url}}}" class="rslides_nav rslides_nav--icon {{#if this.is_video}}visible{{/if}}" data-behavior="fancy">
+                            <i class="fa {{#if this.is_video}}fa-youtube-play{{else}}fa-eye{{/if}}"></i>
                         </a>
                         <div class="media__item media__item--slides">
                             <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
-                                {{#if this.thumbnail_url}}
-                                    <img src="{{this.thumbnail_url}}" />
-                                {{else}}
-                                    {{{this.url_html}}}
-                                {{/if}}
+                                <img src="{{this.thumbnail_url}}" />
                             </a>
                         </div>
                     </li>

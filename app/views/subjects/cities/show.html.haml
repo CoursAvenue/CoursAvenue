@@ -102,13 +102,10 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        var first_time = true;
-        $(window).scroll(function(){
-            if (first_time) {
-                $('.media-gallery').masonry({ itemSelector: '.media__item' });
-                first_time = false;
-            }
-        });
+        // Using one load prevents from not triggering the event if the image is in cache
+        $('.media-gallery img, .media-gallery iframe').one('load', function() {
+            $('.media-gallery').masonry({ itemSelector: '.media__item' });
+        }).each(function() { if(this.complete) $(this).load(); });;
         $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
         $('[data-behavior=scroller]').click(function(){
             var href = $(this).attr('href');

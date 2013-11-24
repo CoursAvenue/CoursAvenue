@@ -12,12 +12,13 @@ class StructureSerializer < ActiveModel::Serializer
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :structure_type,
-             :has_promotion, :subjects_string, :last_comment_title, :preloaded_medias
+             :has_promotion, :subjects_string, :last_comment_title
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
   has_many :courses,  serializer: ShortSerializer
   has_many :medias,   serializer: ShortSerializer
+  has_many :preloaded_medias,  serializer: MediaSerializer
 
   # Following functions has to return the same objects than the associated controllers
   def courses
@@ -25,7 +26,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def medias
-    object.medias.videos_first.limit(9)
+    object.medias.videos_first
   end
 
   def comments

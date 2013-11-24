@@ -1,5 +1,6 @@
 $(function() {
     var global = GLOBAL.namespace('GLOBAL');
+    $('[data-behavior="fancy"]').fancybox({ helpers : { media : {} } });
     $("[data-behavior=modal]").each(function() {
         var width  = $(this).data('width') || 'auto';
         var height = $(this).data('height') || 'auto';

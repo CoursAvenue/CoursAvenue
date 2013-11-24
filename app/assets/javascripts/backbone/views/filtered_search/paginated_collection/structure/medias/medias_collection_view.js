@@ -14,9 +14,10 @@ FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Structure.Medias
         },
         onRender: function() {
             this.$('a[data-behavior="fancy"]').fancybox({ helpers : { media : {} } });
-            this.$('img, iframe').load(function(){
+            // Using one load prevents from not triggering the event if the image is in cache
+            this.$('img, iframe').one('load', function() {
                 $('.media-gallery').masonry({ itemSelector: '.media__item' });
-            });
+            }).each(function() { if(this.complete) $(this).load(); });;
         }
     });
 

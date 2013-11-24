@@ -1,5 +1,14 @@
 /*! http://responsiveslides.com v1.54 by @viljamis */
 
+.rslides-wrapper {
+    position: relative;
+    &:hover {
+        .rslides_nav {
+            opacity   : 1;
+        }
+    }
+}
+
 .rslides {
   position   : relative;
   list-style : none;
@@ -34,47 +43,50 @@
   border   : 0;
 }
 
-.rslides_nav {
-    top       : 50%;
-    position  : absolute;
-    z-index   : 20;
-    font-size : 26px;
-    margin-top: -26px;
-    color     : white;
-    cursor    : pointer;
-    opacity   : 0;
-    @include transition(opacity 200ms linear);
-    @include text-shadow(0px 0px 3px #333);
-    &:hover {
-        @include text-shadow(0px 0px 6px black);
-    }
-    &.rslides_nav--icon{
-        font-size  : 50px;
-        margin-left: -25px;
-        margin-top : -45px;
-        left       : 50%;
-        &.visible {
-          opacity: 1;
-        }
-    }
-    &.rslides_nav--bottom {
-        font-size  : 1em;
-        width      : 100%;
-        left       : 0;
-        top        : 100%;
-    }
-}
-.rslides_nav.prev {
-    left: 0.5em;
-}
-.rslides_nav.next {
-    right: 0.5em;
-}
-.rslides-wrapper {
-    position: relative;
-    &:hover {
-        .rslides_nav {
-            opacity   : 1;
+.rslides--big {
+    .rslides_nav {
+        font-size : 36px;
+        margin-top: -36px;
+        &.rslides_nav--icon {
+            font-size  : 70px;
+            margin-left: -30px;
+            margin-top : -60px;
         }
     }
 }
+    .rslides_nav {
+        top       : 50%;
+        position  : absolute;
+        z-index   : 20;
+        font-size : 26px;
+        margin-top: -26px;
+        color     : white;
+        cursor    : pointer;
+        opacity   : 0;
+        @include transition(opacity 200ms linear);
+        @include text-shadow(0px 0px 3px #333);
+        &:hover {
+            @include text-shadow(0px 0px 6px black);
+        }
+        &.rslides_nav--icon {
+            font-size  : 50px;
+            margin-left: -25px;
+            margin-top : -45px;
+            left       : 50%;
+            &.visible {
+              opacity: 1;
+            }
+        }
+        &.rslides_nav--bottom {
+            font-size  : 1em;
+            width      : 100%;
+            left       : 0;
+            top        : 100%;
+        }
+    }
+    .rslides_nav.prev {
+        left: 0.5em;
+    }
+    .rslides_nav.next {
+        right: 0.5em;
+    }

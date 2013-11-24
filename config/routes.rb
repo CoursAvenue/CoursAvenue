@@ -72,7 +72,10 @@ CoursAvenue::Application.routes.draw do
             patch :ask_for_deletion
           end
         end
-        resources :medias, controller: 'structures/medias'
+        resources :medias, only: [:index, :destroy], controller: 'structures/medias'
+        resources :videos, only: [:create, :new], controller: 'structures/medias/videos'
+        resources :images, only: [:create, :new], controller: 'structures/medias/images'
+
         resources :teachers
         resources :places
 

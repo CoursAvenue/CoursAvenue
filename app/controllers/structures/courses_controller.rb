@@ -3,7 +3,7 @@ class Structures::CoursesController < ApplicationController
 
   def index
 
-    @course_search = CourseSearch.search(params);
+    @course_search = CourseSearch.search(params)
     @courses       = @course_search.results
 
     respond_to do |format|

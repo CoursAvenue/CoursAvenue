@@ -44,7 +44,7 @@ module CoursAvenue
         resource '/etablissements/.*/widget.json', headers: :any, methods: :get
       end
     end
-    # S3 =  AWS::S3.new(
+    # S3 = AWS::S3.new(
     #   :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
     #   :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
     # )
@@ -114,5 +114,10 @@ module CoursAvenue
     config.to_prepare do
       Devise::Mailer.layout 'email' # email.haml or email.erb
     end
+
+    # Filepicker
+    # Test api key
+    config.filepicker_rails.api_key = 'Avw88aTGTyCvtoxyfXIAzz'
+    # config.filepicker_rails.api_key = ENV['FILEPICKER_API_KEY']
   end
 end

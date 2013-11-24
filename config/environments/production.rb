@@ -70,7 +70,8 @@ CoursAvenue::Application.configure do
   config.paperclip_defaults = {
     :storage => :s3,
     :s3_protocol => 'http',
-    :s3_host_name => 's3-eu-west-1.amazonaws.com',
+    # 's3-eu-west-1.amazonaws.com'
+    :s3_host_name => ENV['ENDPOINT'],
     :s3_credentials => {
       :bucket => ENV['AWS_BUCKET'],
       :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
@@ -92,5 +93,4 @@ CoursAvenue::Application.configure do
     domain:           'coursavenue.com',
     authentication:   :plain
   }
-
 end
