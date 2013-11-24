@@ -24,7 +24,7 @@ class Pro::Structures::Medias::VideosController < Pro::ProController
 
   def new
     @structure = Structure.friendly.find params[:structure_id]
-    @video     = Media::Video.new structure: @structure
+    @video     = Media::Video.new mediable: @structure
   end
 
   def edit

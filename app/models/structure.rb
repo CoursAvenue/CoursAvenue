@@ -108,8 +108,6 @@ class Structure < ActiveRecord::Base
 
   after_create     :set_free_pricing_plan
   # after_create     :create_place
-  after_create     :delay_subscribe_to_mailchimp if Rails.env.production?
-  after_save       :delay_subscribe_to_nutshell  if Rails.env.production?
   after_save       :update_email_status
   after_touch      :update_email_status
 
@@ -500,26 +498,6 @@ class Structure < ActiveRecord::Base
 
   def subscribe_to_nutshell
     NutshellUpdater.update(self)
-  end
-
-  def delay_subscribe_to_mailchimp
-    self.delay.subscribe_to_mailchimp
-  end
-
-  def subscribe_to_mailchimp
-    nb_comments = self.comments_count
-    gb = Gibbon::API.new
-    gb.lists.subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
-                           :email => {email: self.contact_email},
-                           :merge_vars => {
-                              :NAME       => self.name,
-                              :STATUS     => (self.admins.any? ? 'registered' : 'not registered'),
-                              :NB_COMMENT => nb_comments,
-                              :SLUG       => self.slug
-                           },
-                           :double_optin    => false,
-                           :update_existing => true,
-                           :send_welcome    => false})
   end
 
   def fix_website_url

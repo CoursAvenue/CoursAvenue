@@ -1,5 +1,5 @@
 = side_menu_currently_at 'Mes infos'
-= render partial: 'pro/structures/tabs', locals:{ current: 'établissement'}
+= render partial: 'pro/structures/tabs', locals: { current: 'établissement'}
 
 = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |f|
   .form-white-box

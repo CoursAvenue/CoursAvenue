@@ -15,8 +15,6 @@ class ::Admin < ActiveRecord::Base
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
-  after_save :delay_subscribe_to_mailchimp if Rails.env.production?
-
   after_create :check_if_was_invited
 
   # Setup accessible (or protected) attributes for your model
@@ -84,28 +82,8 @@ class ::Admin < ActiveRecord::Base
 
   private
 
-  def delay_subscribe_to_mailchimp
-    self.delay.subscribe_to_mailchimp
-  end
-
   def check_if_was_invited
     InvitedTeacher.where(email: self.email).map(&:inform_proposer)
   end
 
-  def subscribe_to_mailchimp
-    gb = Gibbon::API.new
-    gb.lists.subscribe({:id => CoursAvenue::Application::MAILCHIMP_TEACHERS_LIST_ID,
-                           :email => {email: self.email},
-                           :merge_vars => {
-                              :NAME => (self.structure ? self.structure.name : ''),
-                              :STATUS => 'registered'
-                              #:NB_COMMENT
-                              #:NB_STUDENT
-                              #:NB_PROMO
-                              #:NBPLANNING
-                           },
-                           :double_optin => false,
-                           :update_existing => true,
-                           :send_welcome => false})
-  end
 end

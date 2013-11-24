@@ -12,7 +12,8 @@ class DownloadMediaImages < ActiveRecord::Migration
         # Original
         file         = open(image.url)
         object       = bucket.objects[image.s3_media_path + image.file_name]
-        object.write(file, acl: :public_read)
+        written_file = object.write(file, acl: :public_read)
+        image.update_column :url, written_file.public_url.to_s
 
         # Thumbnail
         file   = Magick::Image.read(image.url).first

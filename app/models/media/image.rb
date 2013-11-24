@@ -2,7 +2,8 @@ class Media::Image < Media
   require 'open-uri'
   require 'aws'
 
-  after_save :save_thumbnail_url_to_s3
+  after_create :save_thumbnail_url_to_s3
+  after_destroy :remove_file_from_s3
 
   def video?
     false
@@ -36,7 +37,7 @@ class Media::Image < Media
       h:500,
       w:500
     }
-    file   = open("#{self.url}/convert?#{convert_options.to_query}")
+    file   = open("#{self.filepicker_url}/convert?#{convert_options.to_query}")
 
     # Writing file into S3 bucket
     amazon = AWS::S3.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
@@ -46,4 +47,12 @@ class Media::Image < Media
     self.update_column :thumbnail_url, written_file.public_url.to_s
   end
 
+  def remove_file_from_s3
+    amazon          = AWS::S3.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
+    bucket          = amazon.buckets[ENV['AWS_BUCKET']]
+    thumbnail_image = bucket.objects[self.thumbnail_url.split('.com/').last]
+    original_image  = bucket.objects[self.url.split('.com/').last]
+    thumbnail_image.delete
+    original_image.delete
+  end
 end

@@ -8,10 +8,8 @@ Bundler.require(:default, Rails.env)
 module CoursAvenue
   class Application < Rails::Application
 
-    MAILCHIMP_TEACHERS_LIST_ID = '86505cfc19'
-    MAILCHIMP_USERS_LIST_ID    = 'a1605ac58c'
-
-    ALL_DISCIPLINE_NAME = 'toutes-disciplines'
+    AMAZON_S3 = AWS::S3.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
+    S3_BUCKET = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
 
     # Global variables
     TIME_SLOTS = {
@@ -116,8 +114,6 @@ module CoursAvenue
     end
 
     # Filepicker
-    # Test api key
-    config.filepicker_rails.api_key = 'Avw88aTGTyCvtoxyfXIAzz'
-    # config.filepicker_rails.api_key = ENV['FILEPICKER_API_KEY']
+    config.filepicker_rails.api_key = ENV['FILEPICKER_API_KEY']
   end
 end

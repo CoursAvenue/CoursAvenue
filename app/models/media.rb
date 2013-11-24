@@ -4,7 +4,7 @@ class Media < ActiveRecord::Base
   self.table_name = 'medias'
 
   attr_accessible :mediable, :mediable_id, :mediable_type, :url, :caption, :format,
-                  :provider_id, :provider_name, :thumbnail_url
+                  :provider_id, :provider_name, :thumbnail_url, :filepicker_url
 
   belongs_to :mediable, polymorphic: true
 

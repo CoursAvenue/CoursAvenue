@@ -1,0 +1,13 @@
+%ul.tabs.push--bottom
+  %li{class: current == 'index' ? 'active' : ''}
+    = link_to pro_structure_medias_path(@structure) do
+      %i.fa.fa-picture-o
+      Ma galerie
+  %li{class: current == 'video' ? 'active' : ''}
+    = link_to new_pro_structure_video_path(@structure) do
+      %i.fa.fa-youtube-play
+      Ajouter des vidéos
+  %li{class: current == 'image' ? 'active' : ''}
+    = link_to new_pro_structure_image_path(@structure) do
+      %i.fa.fa-picture-o
+      Ajouter des photos

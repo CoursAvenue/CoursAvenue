@@ -48,3 +48,14 @@
     background-color: white;
     @include border-radius(2px);
 }
+
+.show-on-hover-wrapper {
+    .show-on-hover {
+        visibility: hidden;
+    }
+    &:hover {
+        .show-on-hover {
+            visibility: visible;
+        }
+    }
+}
