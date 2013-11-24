@@ -18,10 +18,10 @@ class DownloadMediaImages < ActiveRecord::Migration
         # file   = Magick::Image.read(image.url).first
         # Hack taken from: http://stackoverflow.com/questions/9479960/rmagick-imagemagick-gives-error-no-decode-delegate-for-this-image-format
         # Which prevents RMagick from not finding the good format
-        image = Magick::ImageList.new
-        bin   = file.read
-        image = image.from_blob(bin)
-        file  = image.resize_to_fit(500)
+        rmagick_image = Magick::ImageList.new
+        bin           = file.read
+        rmagick_image = rmagick_image.from_blob(bin)
+        file          = rmagick_image.resize_to_fit(500)
 
         # Writing file into S3 bucket
         object       = bucket.objects[image.s3_thumbnail_media_path + image.file_name]
