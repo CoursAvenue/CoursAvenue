@@ -24,7 +24,10 @@ class DownloadMediaImages < ActiveRecord::Migration
         file         = StringIO.open(file.to_blob)
         written_file = object.write(file, acl: :public_read) # :authenticated_read
         image.update_column :thumbnail_url, written_file.public_url.to_s
-      rescue Exception => e
+      rescue Exception => exception
+        puts exception.message
+        exception.backtrace.each { |line| puts line }
+
         puts "Url not working: #{image.mediable.slug} / #{image.url}"
       end
     end
