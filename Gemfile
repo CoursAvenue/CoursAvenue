@@ -182,7 +182,7 @@ group :development, :test do
   gem 'dotenv-rails'
 end
 
-gem 'rmagick'
+gem 'rmagick', '~>2.13.2', require: 'RMagick'
 
 # Rails 4 upgrade
 gem 'actionpack-action_caching', '~>1.0.0'

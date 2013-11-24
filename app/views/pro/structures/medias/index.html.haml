@@ -3,13 +3,12 @@
 = render partial: 'tabs', locals: { current: 'index'}
 
 .text--center.push--bottom
-  = link_to new_pro_structure_video_path(@structure), class: 'btn btn--green push--right' do
+  = link_to new_pro_structure_video_path(@structure), class: 'btn btn--blue push--right btn--large' do
     %i.fa.fa-youtube-play.soft-half--right
     Ajouter une vidéo
-  = link_to new_pro_structure_image_path(@structure), class: 'btn btn--green' do
+  = link_to new_pro_structure_image_path(@structure), class: 'btn btn--blue btn--large' do
     %i.fa.fa-picture-o.soft-half--right
     Ajouter une photo
-
 
 - if @medias.any?
   .media-gallery.white-box
@@ -22,7 +21,6 @@
             %p.flush--bottom
               %i= media.caption
         = link_to 'Supprimer', pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, class: 'push-half--left show-on-hover btn btn--small btn--red'
-
 = content_for :scripts do
   :javascript
     $(function() {

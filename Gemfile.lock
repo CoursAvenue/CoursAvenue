@@ -434,7 +434,7 @@ DEPENDENCIES
   rails-observers (~> 0.1.2)
   rails_12factor
   railsy_backbone (~> 0.0.5)
-  rmagick
+  rmagick (~> 2.13.2)
   roadie (~> 2.4.2)
   rspec-instafail (~> 0.2.4)
   rspec-rails (~> 2.14.0)

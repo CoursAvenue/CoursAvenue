@@ -1,6 +1,6 @@
 class DownloadMediaImages < ActiveRecord::Migration
   require 'open-uri'
-  require "rmagick"
+  require 'RMagick'
 
   def up
     bar    = ProgressBar.new Media::Image.count
