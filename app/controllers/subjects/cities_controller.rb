@@ -20,7 +20,7 @@ class Subjects::CitiesController < ApplicationController
                                       radius: 4,
                                       per_page: 150,
                                       subject_id: @subject.slug
-                                    })
+                                    }).results
     @plannings = @courses.map(&:plannings).flatten
 
     @medias     = @structures.collect(&:medias).flatten
