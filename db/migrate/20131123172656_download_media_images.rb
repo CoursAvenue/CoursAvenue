@@ -10,11 +10,10 @@ class DownloadMediaImages < ActiveRecord::Migration
       bar.increment!
       begin
         # Original
-        file         = open(image.url)
-        object       = bucket.objects[image.s3_media_path + image.file_name]
-        written_file = object.write(file, acl: :public_read)
-        image.update_column :url, written_file.public_url.to_s
-
+        file          = open(image.url)
+        object        = bucket.objects[image.s3_media_path + image.file_name]
+        written_file  = object.write(file, acl: :public_read)
+        new_image_url = written_file.public_url.to_s
         # Thumbnail
         file   = Magick::Image.read(image.url).first
         file   = file.resize_to_fit(500)
@@ -23,6 +22,8 @@ class DownloadMediaImages < ActiveRecord::Migration
         object       = bucket.objects[image.s3_thumbnail_media_path + image.file_name]
         file         = StringIO.open(file.to_blob)
         written_file = object.write(file, acl: :public_read) # :authenticated_read
+
+        image.update_column :url, new_image_url
         image.update_column :thumbnail_url, written_file.public_url.to_s
       rescue Exception => exception
         puts exception.message
