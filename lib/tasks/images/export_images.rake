@@ -1,21 +1,29 @@
-class MigratingCourseAndProfilePictureToMedias < ActiveRecord::Migration
-  require 'open-uri'
-  require 'RMagick'
+# encoding: utf-8
 
-  def up
+# Import all renting room and associate it to appropriate structure
+require 'rake/clean'
+require 'csv'
+# require 'debugger'
+
+# s = Structure.friendly.find 'l-atelier-des-chefs'; s.courses.each {|c| c.plannings.delete_all; c.prices.delete_all; c.delete!}
+namespace :images do
+
+  # Use rake images:export
+  desc 'Move course and structures images to medias'
+  task :export, [:filename] => :environment do |t, args|
     bar = ProgressBar.new (Structure.count + Course.count)
 
     [Structure, Course].each do |model|
       model.find_each do |instance|
         bar.increment!
         if instance.image.present?
+          if instance.is_a? Structure
+            media = Media::Image.new(mediable: instance, cover: true)
+          else
+            media = Media::Image.new(mediable: instance.structure)
+          end
           begin
             # Original
-            if instance.is_a? Structure
-              media = Media::Image.new(mediable: instance, cover: true)
-            else
-              media = Media::Image.new(mediable: instance.structure)
-            end
             file          = open(instance.image.url)
             object        = CoursAvenue::Application::S3_BUCKET.objects[media.s3_media_path + instance.image_file_name]
             written_file  = object.write(file, acl: :public_read)
@@ -46,8 +54,5 @@ class MigratingCourseAndProfilePictureToMedias < ActiveRecord::Migration
         end
       end
     end
-  end
-
-  def down
   end
 end
