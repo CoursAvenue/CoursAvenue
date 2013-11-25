@@ -35,7 +35,7 @@ class Pro::Structures::Medias::ImagesController < Pro::ProController
     @image.cover = true
     @image.save
     respond_to do |format|
-      format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Votre image est maintenant par défaut sur votre page profil' }
+      format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Votre image est maintenant visible par défaut sur votre page profil' }
     end
   end
 

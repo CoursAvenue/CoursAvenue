@@ -2,6 +2,7 @@ class Media::Image < Media
   require 'open-uri'
   require 'aws'
 
+  before_create :make_cover_if_first
   after_create :save_thumbnail_url_to_s3
   after_destroy :remove_file_from_s3
 
@@ -30,6 +31,10 @@ class Media::Image < Media
   end
 
   private
+
+  def make_cover_if_first
+    self.cover = true if self.mediable.medias.images.empty?
+  end
 
   def save_thumbnail_url_to_s3
     if self.filepicker_url
