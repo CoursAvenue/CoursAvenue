@@ -41,7 +41,7 @@ class MigratingCourseAndProfilePictureToMedias < ActiveRecord::Migration
             puts exception.message
             exception.backtrace.each { |line| puts line }
 
-            puts "Url not working: #{media.mediable.slug} / #{media.url}"
+            puts "Url not working: #{instance.slug} / #{instance.image.url}"
           end
         end
       end
