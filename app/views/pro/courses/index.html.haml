@@ -35,15 +35,6 @@
             = link_to course.name, edit_pro_course_path(course)
           %td.text--right.nowrap
             .btn-group
-              - if course.image.present?
-                = image_tag course.image.url(:mini), height: 30, class: 'v-middle'
-              - else
-                .btn.btn--blue.course-image-wrapper>
-                  = simple_form_for course, url: pro_course_path(course), as: :course do |f|
-                    = f.input :image, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'}, input_html: {class: 'image-input'}
-                    = link_to 'javascript:void(0)', data: {behavior: 'course-image'} do
-                      %i.fa.fa-picture-o
-                      Photo
               .btn>
                 = link_to edit_pro_course_path(course) do
                   %i.lbc-icon-info i
@@ -108,15 +99,6 @@
                 $('#course-places-info').remove();
             });
         }
-        // ----------------------- Image uploader handler
-        $('.course-image-wrapper input:file').change(function(){
-          $(this).closest('form').submit();
-          GLOBAL.flash("Veuillez patienter, l'image est en train d'être téléchargée.")
-        });
-        $('[data-behavior=course-image]').click(function(event) {
-            $(this).siblings('.file').find('input').click();
-            return false;
-        });
     });
 
 - # If a course has just been duplicated, highlights it

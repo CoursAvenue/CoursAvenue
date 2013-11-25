@@ -115,12 +115,9 @@
       = render partial: 'structures/contact_form', locals: {structure: @structure}
 
 
-    - if @structure.image.present?
+    - if @structure.cover_image.present?
       .white-box.islet
-        .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @structure} à #{@city.name}"
-    - elsif @structure.image.present?
-      .white-box.islet
-        .text--center= image_tag @structure.image.url(:normal), alt: "Cours de #{join_parent_subjects_text @structure} à #{@structure.name}"
+        .text--center= image_tag @structure.cover_image.thumbnail_url, alt: "Cours de #{join_parent_subjects_text @structure} à #{@city.name}"
 
     - if @structure.website.present? or @structure.contact_phone.present? or @structure.contact_mobile_phone.present?
       .white-box.islet.push--top

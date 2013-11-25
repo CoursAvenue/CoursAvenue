@@ -4,7 +4,7 @@ class Media < ActiveRecord::Base
   self.table_name = 'medias'
 
   attr_accessible :mediable, :mediable_id, :mediable_type, :url, :caption, :format,
-                  :provider_id, :provider_name, :thumbnail_url, :filepicker_url
+                  :provider_id, :provider_name, :thumbnail_url, :filepicker_url, :cover
 
   belongs_to :mediable, polymorphic: true
 
@@ -14,6 +14,7 @@ class Media < ActiveRecord::Base
   scope :images,       -> { where(type: "Media::Image") }
   scope :videos,       -> { where(type: "Media::Video") }
   scope :videos_first, -> { order('type DESC NULLS LAST') }
+  scope :cover,        -> { where{cover == true} }
 
 
   def video?

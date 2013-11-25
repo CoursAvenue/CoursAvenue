@@ -12,7 +12,7 @@ class MigratingCourseAndProfilePictureToMedias < ActiveRecord::Migration
           begin
             # Original
             if instance.is_a? Structure
-              media = Media::Image.new(mediable: instance)
+              media = Media::Image.new(mediable: instance, cover: true)
             else
               media = Media::Image.new(mediable: instance.structure)
             end

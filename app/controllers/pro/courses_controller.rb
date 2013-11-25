@@ -64,9 +64,6 @@ class Pro::CoursesController < InheritedResources::Base
 
   def update
     authorize! :edit, @course
-    if params[:course].delete(:delete_image) == '1'
-      resource.image.clear
-    end
     had_price_before = @course.prices.any?
     update! do |success, failure|
       if params[:course][:prices_attributes].present?
