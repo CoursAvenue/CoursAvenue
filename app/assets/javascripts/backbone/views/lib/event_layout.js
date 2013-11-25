@@ -43,7 +43,7 @@ FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $
 
             /* attach the region element to the Layout and show */
             if (selector === undefined) {
-                selector = '[data-type=' + region_name.replace('_', '-') + ']';
+                selector = '[data-type=' + region_name.replace(/_/g, '-') + ']';
             }
 
             $region_hook.appendTo(this.$el.find(selector));

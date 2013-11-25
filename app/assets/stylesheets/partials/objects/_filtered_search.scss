@@ -69,6 +69,14 @@
     @include transition(all 250ms linear);
 }
 
+    .filtered-search__infinite-scroll {
+      padding-bottom: 5em;
+
+      button {
+          margin-left: 6px;
+      }
+    }
+
     .filtered-search__list {
         padding-top : 6px;
         padding-left: 6px;
