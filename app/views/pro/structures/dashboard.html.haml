@@ -218,9 +218,6 @@
             %p.flush--bottom
               %i= media.caption
         %p
-          = link_to edit_pro_structure_media_path(@structure, media), class: 'btn btn--red btn--small', title: 'Modifier le créneau', data: {behavior: 'modal'}, class: 'btn btn--orange btn--small fancybox.ajax' do
-            %i.fa.fa-pencil
-            Modifier
           = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, class: 'btn btn--red btn--small' do
             %i.fa.fa-trash-o
             Supprimer
