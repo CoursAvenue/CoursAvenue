@@ -15,6 +15,7 @@ class Media < ActiveRecord::Base
   scope :videos,       -> { where(type: "Media::Video") }
   scope :videos_first, -> { order('type DESC NULLS LAST') }
   scope :cover,        -> { where{cover == true} }
+  scope :cover_first,  -> { order('cover DESC NULLS LAST') }
 
 
   def video?
