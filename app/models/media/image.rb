@@ -47,7 +47,7 @@ class Media::Image < Media
 
   def remove_file_from_s3
     if self.thumbnail_url
-      thumbnail_image = CoursAvenue::Application::S3_BUCKET.objects[URI.unescape(self.thumbnail_url.split('.com/').last)] if self.thumbnail_url
+      thumbnail_image = CoursAvenue::Application::S3_BUCKET.objects[URI.unescape(self.thumbnail_url.split('.com/').last)]
       thumbnail_image.delete
     end
     if self.url
