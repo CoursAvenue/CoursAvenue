@@ -50,4 +50,15 @@ CoursAvenue::Application.configure do
 
   # auto rotate log files, keep 2 of 5MB each
   # config.logger = Logger.new(config.paths.log.first, 1, 5.megabytes)
+  config.paperclip_defaults = {
+    :storage => :s3,
+    :s3_protocol => 'http',
+    # 's3-eu-west-1.amazonaws.com'
+    :s3_host_name => ENV['ENDPOINT'],
+    :s3_credentials => {
+      :bucket => ENV['AWS_BUCKET'],
+      :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+    }
+  }
 end

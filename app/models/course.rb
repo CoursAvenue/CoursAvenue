@@ -10,10 +10,6 @@ class Course < ActiveRecord::Base
   extend FriendlyId
   friendly_id :friendly_name, use: [:slugged, :finders]
 
-  has_attached_file :image,
-                    styles: { wide: '800x480#', normal: '450x', thumb: '200x200#', mini: '50x50#' },
-                    path: 'course/:id/image/:fingerprint-:style.:extension'#,
-
   belongs_to :structure, touch: true
 
   has_many :comments            , through: :structure
@@ -40,8 +36,6 @@ class Course < ActiveRecord::Base
   validates :type, :name  , presence: true
   validates :subjects     , presence: true
 
-  attr_reader :delete_image
-
   attr_accessible :name, :type, :description,
                   :active,
                   :info,
@@ -50,7 +44,6 @@ class Course < ActiveRecord::Base
                   :price_details,
                   :has_online_payment,
                   :homepage_image,
-                  :image,
                   :frequency,
                   :registration_date,
                   :is_individual, :is_for_handicaped,
@@ -176,9 +169,6 @@ class Course < ActiveRecord::Base
     integer :min_price
     integer :max_price
 
-    boolean :has_picture do
-      self.structure.image.present? if self.structure
-    end
     boolean :has_admin do
       self.structure.admins.any? if self.structure
     end

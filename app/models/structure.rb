@@ -41,7 +41,7 @@ class Structure < ActiveRecord::Base
                   :validated_by,
                   :modification_condition,
                   :cancel_condition,
-                  :image, :logo,
+                  :logo,
                   :crop_x, :crop_y, :crop_width,
                   :rating, :comments_count,
                   :no_facebook, :no_website, :has_only_one_place,
@@ -67,9 +67,6 @@ class Structure < ActiveRecord::Base
                         processors: [:cropper]
                         }
                       }
-  has_attached_file :image,
-                    styles: { wide: '800x480#', thumb: '200x200#', normal: '450x' }
-
   belongs_to :city
   belongs_to :pricing_plan
 
