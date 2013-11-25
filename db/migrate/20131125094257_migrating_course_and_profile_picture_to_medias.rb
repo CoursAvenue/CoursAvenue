@@ -17,7 +17,7 @@ class MigratingCourseAndProfilePictureToMedias < ActiveRecord::Migration
               media = Media::Image.new(mediable: instance.structure)
             end
             file          = open(instance.image.url)
-            object        = bucket.objects[media.s3_media_path + instance.image_file_name]
+            object        = CoursAvenue::Application::S3_BUCKET.objects[media.s3_media_path + instance.image_file_name]
             written_file  = object.write(file, acl: :public_read)
             new_image_url = written_file.public_url.to_s
             # Thumbnail
@@ -30,7 +30,7 @@ class MigratingCourseAndProfilePictureToMedias < ActiveRecord::Migration
             file          = rmagick_image.resize_to_fit(500)
 
             # Writing file into S3 bucket
-            object       = bucket.objects[media.s3_thumbnail_media_path + instance.image_file_name]
+            object       = CoursAvenue::Application::S3_BUCKET.objects[media.s3_thumbnail_media_path + instance.image_file_name]
             file         = StringIO.open(file.to_blob)
             written_file = object.write(file, acl: :public_read) # :authenticated_read
 
@@ -41,7 +41,7 @@ class MigratingCourseAndProfilePictureToMedias < ActiveRecord::Migration
             puts exception.message
             exception.backtrace.each { |line| puts line }
 
-            puts "Url not working: #{image.mediable.slug} / #{image.url}"
+            puts "Url not working: #{media.mediable.slug} / #{media.url}"
           end
         end
       end
