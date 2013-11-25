@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131124175606) do
+ActiveRecord::Schema.define(version: 20131125094256) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "resource_id",   null: false
@@ -276,8 +279,8 @@ ActiveRecord::Schema.define(version: 20131124175606) do
     t.string   "caption"
     t.integer  "mediable_id"
     t.string   "mediable_type"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.time     "deleted_at"
     t.string   "format"
     t.string   "provider_id"
@@ -285,6 +288,7 @@ ActiveRecord::Schema.define(version: 20131124175606) do
     t.text     "thumbnail_url"
     t.string   "type"
     t.string   "filepicker_url"
+    t.boolean  "cover",          default: false
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree
