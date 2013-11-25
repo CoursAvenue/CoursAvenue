@@ -118,6 +118,8 @@ FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $
         },
 
         /* Descendants must override this */
+        /* any implementation of RelationalAccordionView must do this */
+        /*    this.getModuleForRelation = _.bind(this.getModuleForRelation, Module); */
         getModuleForRelation: function (relation) {
             var keys = this.modulePath.split('.')
             keys.push(App.capitalize(relation));

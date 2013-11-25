@@ -17,6 +17,7 @@ FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Structure', func
                 this.search_term = options.search_term;
             }
 
+            /* any implementation of RelationalAccordionView must do this */
             this.getModuleForRelation = _.bind(this.getModuleForRelation, Module);
         },
 
