@@ -32,17 +32,19 @@ class Media::Image < Media
   private
 
   def save_thumbnail_url_to_s3
-    convert_options = {
-      fit: 'clip',
-      h:500,
-      w:500
-    }
-    file   = open("#{self.filepicker_url}/convert?#{convert_options.to_query}")
+    if self.filepicker_url
+      convert_options = {
+        fit: 'clip',
+        h:500,
+        w:500
+      }
+      file   = open("#{self.filepicker_url}/convert?#{convert_options.to_query}")
 
-    # Writing file into S3 bucket
-    object = CoursAvenue::Application::S3_BUCKET.objects[s3_thumbnail_media_path + file_name]
-    written_file = object.write(file, acl: :public_read) # :authenticated_read
-    self.update_column :thumbnail_url, written_file.public_url.to_s
+      # Writing file into S3 bucket
+      object = CoursAvenue::Application::S3_BUCKET.objects[s3_thumbnail_media_path + file_name]
+      written_file = object.write(file, acl: :public_read) # :authenticated_read
+      self.update_column :thumbnail_url, written_file.public_url.to_s
+    end
   end
 
   def remove_file_from_s3
