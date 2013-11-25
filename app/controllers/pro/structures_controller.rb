@@ -178,7 +178,6 @@ class Pro::StructuresController < Pro::ProController
           format.html { redirect_to (params[:from_path] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
           format.js { render nothing: true }
           format.json { render json: {
-                                  image: { path: @structure.image.url(:normal)},
                                   logo: {
                                           path: @structure.logo.url(:large)
                                         }

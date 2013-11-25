@@ -27,10 +27,6 @@ class Structures::CommentsController < ApplicationController
 
     @comment      = Comment.find(params[:id])
 
-    if @structure.image.present?
-      @logo_url  = @structure.image.url
-    end
-
     respond_to do |format|
       format.json { render json: @comment }
       format.html { }
