@@ -54,6 +54,8 @@ class StructuresController < ApplicationController
       end
     end
 
+    params[:page] = 1 unless request.xhr?
+
     @structure_search      = StructureSearch.search(params)
     @structures            = @structure_search.results
 

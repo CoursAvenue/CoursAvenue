@@ -24,7 +24,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             var self = this;
             // define the server API based on the load-time URI
             this.server_api = this.makeOptionsFromSearch(window.location.search);
-            this.currentPage = parseInt(this.server_api.page, 10) || 1;
+            this.currentPage = 1; // we always start from page 1
             this.server_api.page = function () { return self.currentPage; };
 
             if (this.server_api.sort === undefined) {
