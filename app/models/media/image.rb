@@ -40,18 +40,14 @@ class Media::Image < Media
     file   = open("#{self.filepicker_url}/convert?#{convert_options.to_query}")
 
     # Writing file into S3 bucket
-    amazon = AWS::S3.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
-    bucket = amazon.buckets[ENV['AWS_BUCKET']]
-    object = bucket.objects[s3_thumbnail_media_path + file_name]
+    object = CoursAvenue::Application::S3_BUCKET.objects[s3_thumbnail_media_path + file_name]
     written_file = object.write(file, acl: :public_read) # :authenticated_read
     self.update_column :thumbnail_url, written_file.public_url.to_s
   end
 
   def remove_file_from_s3
-    amazon          = AWS::S3.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
-    bucket          = amazon.buckets[ENV['AWS_BUCKET']]
-    thumbnail_image = bucket.objects[self.thumbnail_url.split('.com/').last]
-    original_image  = bucket.objects[self.url.split('.com/').last]
+    thumbnail_image = CoursAvenue::Application::S3_BUCKET.objects[self.thumbnail_url.split('.com/').last] if self.thumbnail_url
+    original_image  = CoursAvenue::Application::S3_BUCKET.objects[self.url.split('.com/').last]           if self.url
     thumbnail_image.delete
     original_image.delete
   end
