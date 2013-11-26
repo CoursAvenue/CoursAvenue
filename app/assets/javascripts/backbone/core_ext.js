@@ -126,3 +126,9 @@ _.extend(Marionette.View.prototype, {
     }
 });
 
+/* convenience method */
+_.extend(_, {
+    capitalize: function (word) {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+    }
+});

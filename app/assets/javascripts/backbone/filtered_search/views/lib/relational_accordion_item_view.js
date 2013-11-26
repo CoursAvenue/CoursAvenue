@@ -120,7 +120,7 @@ FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $
         /* Descendants must override this */
         getModuleForRelation: function (relation) {
             var keys = this.modulePath.split('.')
-            keys.push(App.capitalize(relation));
+            keys.push(_.capitalize(relation));
 
             var Relation = _.inject(keys, function (memo, key) {
                 if (memo[key]) {
@@ -156,13 +156,13 @@ FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $
 
             /* an anonymous compositeView is all we need */
             // If a collection view exists, then use it, else create a generic one.
-            if (Relations[App.capitalize(relation_name) + 'CollectionView']) {
-                ViewClass = Relations[App.capitalize(relation_name) + 'CollectionView'];
+            if (Relations[_.capitalize(relation_name) + 'CollectionView']) {
+                ViewClass = Relations[_.capitalize(relation_name) + 'CollectionView'];
             } else {
                 ViewClass = Backbone.Marionette.CompositeView.extend({
                     template: Relations.templateDirname() + relation_name + '_collection_view',
 
-                    itemView: Relations[App.capitalize(model_name) + 'View'],
+                    itemView: Relations[_.capitalize(model_name) + 'View'],
                     itemViewContainer: '[data-type=container]'
                 });
             }

@@ -31,11 +31,6 @@ FilteredSearch = (function (){
 
             return result > 0;
         },
-
-        /* convenience method */
-        capitalize: function (word) {
-            return word.charAt(0).toUpperCase() + word.slice(1);
-        }
     });
 
     return self;

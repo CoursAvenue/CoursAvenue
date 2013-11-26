@@ -6,7 +6,7 @@ FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $
             var self = this;
             /* this should listen to events from all its regions */
             _.each(_.keys(this.regions), function(region_name) {
-                var name = App.capitalize(region_name);
+                var name = _.capitalize(region_name);
 
                 self.listenTo(self[region_name], 'show', self['on' + name + 'Show']);
             });
