@@ -8,7 +8,3 @@
 
 //---------- Views
 //= require ./views/manifest
-
-//---------- Routers
-//= require_tree ./routers
-

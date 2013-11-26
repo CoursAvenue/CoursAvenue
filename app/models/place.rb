@@ -5,6 +5,8 @@ class Place < ActiveRecord::Base
   belongs_to :location
   belongs_to :structure
 
+  after_save :update_location_if_not_set
+
   has_many :contacts, as: :contactable, dependent: :destroy
   has_many :plannings
 
@@ -29,5 +31,11 @@ class Place < ActiveRecord::Base
 
   def main_contact
     self.contacts.first
+  end
+
+  private
+
+  def update_location_if_not_set
+    location.save unless location.is_geolocalized?
   end
 end
