@@ -1,6 +1,6 @@
-- if @course.image
+- if @structure.logo.present?
   = content_for :meta_image do
-    = @course.image.url
+    = @structure.logo.url(:thumb)
 
 = content_for :title do
   = "#{@course.type_name} de #{@course.name} avec #{@structure.name}"
