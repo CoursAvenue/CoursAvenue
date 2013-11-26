@@ -96,6 +96,7 @@ FilteredSearch.addInitializer(function(options) {
 
     /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
     infinite_scroll_button    = new FiltersModule.InfiniteScrollButtonView({});
+    results_summary            = new FiltersModule.ResultsSummaryView({});
     subject_filter            = new FiltersModule.SubjectFilterView({});
     categorical_filter        = new FiltersModule.CategoricalFilterView({});
     location_filter           = new FiltersModule.LocationFilterView({});
@@ -121,6 +122,7 @@ FilteredSearch.addInitializer(function(options) {
      * matter */
     layout.showWidget(categorical_filter);
     layout.showWidget(location_filter);
+    layout.showWidget(results_summary);
     layout.showWidget(subject_filter);
     layout.showWidget(infinite_scroll_button);
 
