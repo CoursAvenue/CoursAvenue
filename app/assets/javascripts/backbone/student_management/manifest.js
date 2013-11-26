@@ -8,5 +8,3 @@
 
 //---------- Views
 //= require ./views/manifest
-
-
