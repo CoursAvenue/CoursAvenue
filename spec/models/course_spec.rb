@@ -32,7 +32,7 @@ describe Course do
     end
 
     context 'with promotion' do
-      before do @price_2.update_column(:promo_amount, 10) end
+      before { @price_2.update_column(:promo_amount, 10) }
       # after  do @price_2.update_column(:promo_amount, nil) end
       it 'returns the price with lowest amount taking count of promotion' do
         @course.best_price.should eq @price_2
