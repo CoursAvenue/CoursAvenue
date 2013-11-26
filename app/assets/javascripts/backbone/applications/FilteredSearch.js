@@ -92,13 +92,14 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
+    var FiltersModule = FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters;
+
     /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
-    top_pagination            = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.PaginationToolView({});
-    bottom_pagination         = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.PaginationToolView({});
-    results_summary           = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.ResultsSummaryView({});
-    subject_filter            = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.SubjectFilterView({});
-    categorical_filter        = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.CategoricalFilterView({});
-    location_filter           = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.LocationFilterView({});
+    infinite_scroll_button    = new FiltersModule.InfiniteScrollButtonView({});
+    results_summary            = new FiltersModule.ResultsSummaryView({});
+    subject_filter            = new FiltersModule.SubjectFilterView({});
+    categorical_filter        = new FiltersModule.CategoricalFilterView({});
+    location_filter           = new FiltersModule.LocationFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -106,7 +107,7 @@ FilteredSearch.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         events: {
-            'structures:updating':               'hideInfoWindow',
+            'structures:updating':               'hideInfoWindow retireMarkers',
             'structures:itemview:highlighted':   'exciteMarkers',
             'structures:itemview:unhighlighted': 'exciteMarkers',
             'filter:update:map':                 'centerMap',
@@ -121,22 +122,9 @@ FilteredSearch.addInitializer(function(options) {
      * matter */
     layout.showWidget(categorical_filter);
     layout.showWidget(location_filter);
-    layout.showWidget(subject_filter);
     layout.showWidget(results_summary);
-    layout.showWidget(top_pagination, {
-        events: {
-            'structures:updated:pagination': 'reset'
-
-        },
-        selector: '[data-type=top-pagination]'
-    });
-    layout.showWidget(bottom_pagination, {
-        events: {
-            'structures:updated:pagination': 'reset'
-
-        },
-        selector: '[data-type=bottom-pagination]'
-    });
+    layout.showWidget(subject_filter);
+    layout.showWidget(infinite_scroll_button);
 
     layout.results.show(structures_view);
 });

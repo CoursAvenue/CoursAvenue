@@ -247,6 +247,10 @@ FilteredSearch.module('Views.FilteredSearch.Map', function(Module, App, Backbone
             return model.cid;
         },
 
+        retireMarkers: function(data) {
+            this.$el.find('.map-marker-image').addClass('map-marker-image--small');
+        },
+
         /* a set of markers should be made to stand out */
         exciteMarkers: function(data) {
             var self = this;
