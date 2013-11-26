@@ -43,6 +43,12 @@ UserManagement.addRegions({
 UserManagement.addInitializer(function(options) {
     console.log("UserManagement->initialize");
     // initialize the app
+
+    var user_profiles = new UserManagement.Models.UserProfilesCollection({});
+
+    user_profiles.fetch();
+
+    window.pfaff = user_profiles;
 });
 
 $(document).ready(function() {

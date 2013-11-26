@@ -9,6 +9,11 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     search_params = params
     search_params[:structure_id] = @structure.id
     @user_profiles = UserProfileSearch.search(params).results
+
+    respond_to do |format|
+        format.json { render json: @structure.user_profiles }
+        format.html
+    end
   end
 
   def new
