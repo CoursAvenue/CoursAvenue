@@ -30,12 +30,6 @@ _.extend(Marionette.Module, _module, {
     // Get an existing module of this name if we have one
     var module = parentModule[moduleName], modulePath;
 
-    // parent module name is undefined, then this is "Views" or "Models"
-    // we need to not include it in the pathname
-    //
-    // parent moduleName is defined but pathname is not
-    // parent pathname is defined
-    //
     if (parentModule.modulePath !== undefined) {
         modulePath = parentModule.modulePath + "." + moduleName;
     } else if (parentModule.moduleName !== undefined) {
@@ -69,7 +63,9 @@ _.extend(Marionette.Module.prototype, {
             return memo;
         }, "");
 
-        return 'backbone/templates/' + dirpath;
+        var app_name = this.app.slug.replace(/-/g, '');
+
+        return 'backbone/ ' + app_name + '/templates/' + dirpath;
     }
 });
 

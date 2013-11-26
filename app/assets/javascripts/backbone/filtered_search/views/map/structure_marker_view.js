@@ -1,4 +1,4 @@
-FilteredSearch.module('Views.FilteredSearch.Map', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $, _) {
 
     /* The markers! Oh the markers.
     *  hover over a marker on the map. It will be highlighted.

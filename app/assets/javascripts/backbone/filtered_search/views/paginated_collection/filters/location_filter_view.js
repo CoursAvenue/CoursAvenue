@@ -1,4 +1,4 @@
-FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.PaginatedCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.LocationFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'location_filter_view',

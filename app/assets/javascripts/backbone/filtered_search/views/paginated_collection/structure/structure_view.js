@@ -1,5 +1,5 @@
 /* just a basic marionette view */
-FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Structure', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.PaginatedCollection.Structure', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.StructureView = FilteredSearch.Views.Lib.RelationalAccordionItemView.extend({
         template: Module.templateDirname() + 'structure_view',

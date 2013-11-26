@@ -1,4 +1,4 @@
-FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.PaginatedCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.CategoricalFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'categorical_filter_view',

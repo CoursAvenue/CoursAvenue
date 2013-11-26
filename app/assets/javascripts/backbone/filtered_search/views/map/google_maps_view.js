@@ -1,5 +1,5 @@
 
-FilteredSearch.module('Views.FilteredSearch.Map', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.BlankView = Marionette.ItemView.extend({ template: "" });
 

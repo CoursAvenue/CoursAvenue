@@ -1,6 +1,6 @@
 /* a view for presenting a backbone.paginator collection, and for presenting and handling
  * its pagination UI element */
-FilteredSearch.module('Views.FilteredSearch.PaginatedCollection', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.PaginatedCollection', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.PaginatedCollectionView = FilteredSearch.Views.Lib.AccordionView.extend({
         template: Module.templateDirname() + 'paginated_collection_view',

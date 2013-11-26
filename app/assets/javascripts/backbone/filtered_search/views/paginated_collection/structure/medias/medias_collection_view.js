@@ -1,4 +1,4 @@
-FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Structure.Medias', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.PaginatedCollection.Structure.Medias', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.MediasCollectionView = Backbone.Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'medias_collection_view',

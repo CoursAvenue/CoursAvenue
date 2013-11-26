@@ -52,7 +52,7 @@ FilteredSearch.addInitializer(function(options) {
 
     // Create an instance of your class and populate with the models of your entire collection
     structures      = new FilteredSearch.Models.PaginatedCollection(bootstrap.models, bootstrap.options);
-    structures_view = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.PaginatedCollectionView({
+    structures_view = new FilteredSearch.Views.PaginatedCollection.PaginatedCollectionView({
         collection: structures,
         events: {
             'pagination:next':     'nextPage',
@@ -73,7 +73,7 @@ FilteredSearch.addInitializer(function(options) {
     window.pfaff = structures;
 
     /* set up the layouts */
-    layout           = new FilteredSearch.Views.FilteredSearch.SearchWidgetsLayout();
+    layout           = new FilteredSearch.Views.SearchWidgetsLayout();
 
     layout.on('structures:updating', function(){
         $loader = $loader || $('[data-type="loader"]');
@@ -85,7 +85,7 @@ FilteredSearch.addInitializer(function(options) {
     })
 
     var bounds       = structures.getLatLngBounds();
-    google_maps_view = new FilteredSearch.Views.FilteredSearch.Map.GoogleMapsView({
+    google_maps_view = new FilteredSearch.Views.Map.GoogleMapsView({
         collection: structures,
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
@@ -93,12 +93,12 @@ FilteredSearch.addInitializer(function(options) {
     });
 
     /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
-    top_pagination            = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.PaginationToolView({});
-    bottom_pagination         = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.PaginationToolView({});
-    results_summary           = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.ResultsSummaryView({});
-    subject_filter            = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.SubjectFilterView({});
-    categorical_filter        = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.CategoricalFilterView({});
-    location_filter           = new FilteredSearch.Views.FilteredSearch.PaginatedCollection.Filters.LocationFilterView({});
+    top_pagination            = new FilteredSearch.Views.PaginatedCollection.Filters.PaginationToolView({});
+    bottom_pagination         = new FilteredSearch.Views.PaginatedCollection.Filters.PaginationToolView({});
+    results_summary           = new FilteredSearch.Views.PaginatedCollection.Filters.ResultsSummaryView({});
+    subject_filter            = new FilteredSearch.Views.PaginatedCollection.Filters.SubjectFilterView({});
+    categorical_filter        = new FilteredSearch.Views.PaginatedCollection.Filters.CategoricalFilterView({});
+    location_filter           = new FilteredSearch.Views.PaginatedCollection.Filters.LocationFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 

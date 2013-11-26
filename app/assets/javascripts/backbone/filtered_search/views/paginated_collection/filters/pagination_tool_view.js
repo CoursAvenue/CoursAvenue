@@ -1,5 +1,5 @@
 
-FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.PaginatedCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.PaginationToolView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'pagination_tool_view',

@@ -1,4 +1,4 @@
-FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.PaginatedCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.SubjectFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'subject_filter_view',
