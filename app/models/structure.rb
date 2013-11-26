@@ -86,7 +86,9 @@ class Structure < ActiveRecord::Base
   has_many :sticker_demands           , dependent: :destroy
 
   has_and_belongs_to_many :subjects
-  has_and_belongs_to_many :users
+
+  has_many :user_profiles
+  has_many :users, through: :user_profiles
 
   has_many :places                   , dependent: :destroy
 
