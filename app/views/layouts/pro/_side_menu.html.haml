@@ -18,7 +18,8 @@
       = pro_side_menu_link 'Mes avis'                 , pro_structure_comments_path(@structure)   , current: current_tab, icon: 'fa fa-comments'
       = pro_side_menu_link 'Mes cours'      , pro_structure_courses_path(@structure)    , current: current_tab,   icon: 'fa fa-list'
       = pro_side_menu_link 'Mes photos & vidéos', pro_structure_medias_path(@structure) , current: current_tab,   icon: 'fa fa-youtube-play'
-      = pro_side_menu_link 'Mes élèves', pro_structure_user_profiles_path(@structure) , current: current_tab,   icon: 'fa fa-group'
+      - if current_pro_admin.super_admin?
+        = pro_side_menu_link 'Mes élèves', pro_structure_user_profiles_path(@structure) , current: current_tab,   icon: 'fa fa-group'
       = pro_side_menu_link 'Mes messages', pro_structure_conversations_path(@structure) , current: current_tab,   icon: 'fa fa-envelope'
       = pro_side_menu_link 'Parrainer un professeur', coursavenue_recommendations_pro_structure_path(@structure)     , current: current_tab, icon: 'fa fa-gift', id: 'recommandation-side-menu'
       - if @structure.comments_count >= 5
