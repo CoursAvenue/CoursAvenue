@@ -55,7 +55,6 @@
                             var city, arrAddress = result.address_components;
                             // iterate through address_component array
                             $.each(arrAddress, function (i, address_component) {
-                                console.log(address_component);
                                 if (address_component.types[0] == "locality") {// locality type
                                     city = address_component.long_name;
                                     return false; // break the loop

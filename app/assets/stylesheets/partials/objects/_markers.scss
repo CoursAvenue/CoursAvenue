@@ -4,6 +4,10 @@
         font-size: 13px;
         top      : -3em;
         left     : -1em;
+        &.map-marker-image--small {
+            top : -10px;
+            left: -8px;
+        }
     }
     .map-marker-image.disabled {
         a {
@@ -23,6 +27,16 @@
                 background: none;
                 filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker-blue.png')}', sizingMethod='scale');
                 -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker-blue.png')}',sizingMethod='scale')";
+            }
+        }
+        &.map-marker-image--small {
+            a {
+                background-image: image-url('icons/map-marker-blue-small.png');
+                @media \0screen {
+                    background: none;
+                    filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker-blue.png')}', sizingMethod='scale');
+                    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker-blue.png')}',sizingMethod='scale')";
+                }
             }
         }
     }
@@ -62,16 +76,22 @@
 }
 .map-marker-image--small {
     @extend .map-marker-image;
-    width   : 15px;
-    height  : 20px;
+    width   : 13px;
+    height  : 13px;
     a {
-        width       : 17px;
-        height      : 25px;
-        line-height : 19px;
+        width       : 13px;
+        height      : 13px;
+        line-height : 13px;
         top         : -3px;
+        background-image    : image-url('icons/map-marker-small.png');
+        @media \0screen {
+            background: none;
+            filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker.png')}', sizingMethod='scale');
+            -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/map-marker.png')}',sizingMethod='scale')";
+        }
     }
     span {;
-        width           : 16px;
+        width           : 13px;
         margin-left     : -8px;
         font-size       : 10px;
     }

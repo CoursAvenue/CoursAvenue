@@ -2,6 +2,7 @@ FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Filters', functi
 
     Module.ResultsSummaryView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'results_summary_view',
+        className: 'grid',
 
         initialize: function (options) {
             this.current_summary_data = {};
