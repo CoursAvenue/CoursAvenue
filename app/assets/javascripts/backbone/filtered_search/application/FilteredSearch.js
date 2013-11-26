@@ -37,7 +37,7 @@ FilteredSearch = (function (){
 }());
 
 FilteredSearch.addRegions({
-    mainRegion: '#filtered-search'
+    mainRegion: '#' + FilteredSearch.slug
 });
 
 FilteredSearch.addInitializer(function(options) {
