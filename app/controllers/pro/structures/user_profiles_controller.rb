@@ -6,6 +6,8 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   layout 'admin'
 
   def index
+    search_params = params
+    search_params[:structure_id] = @structure.id
     @user_profiles = UserProfileSearch.search(params).results
   end
 

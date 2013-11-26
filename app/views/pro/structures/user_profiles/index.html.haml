@@ -4,5 +4,6 @@
 - @user_profiles.each do |user_profile|
   = user_profile.email
   = user_profile.full_name
+
 .text--center
   = link_to 'Ajouter un élève', new_pro_structure_user_profile_path(@structure), class: 'btn btn--blue'
