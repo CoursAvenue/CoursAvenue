@@ -41,6 +41,7 @@ UserManagement.addRegions({
 });
 
 UserManagement.addInitializer(function(options) {
+    console.log("UserManagement->initialize");
     // initialize the app
 });
 
