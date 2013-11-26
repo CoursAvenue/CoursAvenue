@@ -9,7 +9,8 @@ class User < ActiveRecord::Base
   has_many :reservations
   has_many :comment_notifications
 
-  has_and_belongs_to_many :structures
+  has_many :user_profiles
+  has_many :structures, through: :user_profiles
   has_and_belongs_to_many :subjects
 
   # Include default devise modules. Others available are:
