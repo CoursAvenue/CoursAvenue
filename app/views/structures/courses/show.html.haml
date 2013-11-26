@@ -105,9 +105,9 @@
     - if @structure.main_contact
       = render partial: 'structures/contact_form', locals: {structure: @structure, course: @course}
 
-    - if @course.image.present?
+    - if @structure.cover_image.present?
       .white-box.islet
-        .push-half--top= image_tag @course.image.url(:normal), class: 'course-header-badge-image', alt: "#{@course.type_name} de #{join_course_subjects_text(@course)} : #{@course.name}", longdesc: @course.description
+        .text--center= image_tag @structure.cover_image.thumbnail_url, alt: "Cours de #{join_parent_subjects_text @structure} à #{@city.name}"
     .push--top.push--bottom
       = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_course_path(@structure, @course)}", class: 'btn--facebook btn one-whole', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
 

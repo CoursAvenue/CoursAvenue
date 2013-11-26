@@ -26,7 +26,6 @@ class StructureSearch
 
       with :active,  true
 
-      with :has_picture,  params[:has_picture] if params[:has_picture].present?
       with :has_logo   ,  params[:has_logo]    if params[:has_logo].present?
 
       order_by :has_admin, :desc

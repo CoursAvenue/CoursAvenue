@@ -30,7 +30,7 @@ class Structure < ActiveRecord::Base
 
   WIDGET_STATUS           = ['installed', 'remind_me', 'dont_want', 'need_help']
 
-  attr_reader :delete_image, :delete_logo
+  attr_reader :delete_logo
   attr_accessible :structure_type, :street, :zip_code, :city_id,
                   :place_ids, :name, :info, :registration_info,
                   :gives_professional_courses, :website, :facebook_url, :contact_phone,
@@ -41,7 +41,7 @@ class Structure < ActiveRecord::Base
                   :validated_by,
                   :modification_condition,
                   :cancel_condition,
-                  :image, :logo,
+                  :logo,
                   :crop_x, :crop_y, :crop_width,
                   :rating, :comments_count,
                   :no_facebook, :no_website, :has_only_one_place,
@@ -54,6 +54,7 @@ class Structure < ActiveRecord::Base
                   # audience_ids is a coma separated string of audience_id
                   :audience_ids, :gives_group_courses, :gives_individual_courses,
                   :plannings_count, :has_promotion, :has_free_trial_course
+
   has_attached_file :logo,
                     styles: {
                       original: {
@@ -66,11 +67,6 @@ class Structure < ActiveRecord::Base
                         processors: [:cropper]
                         }
                       }
-
-  has_attached_file :image,
-                    styles: { wide: '800x480#', thumb: '200x200#', normal: '450x' }
-
-
   belongs_to :city
   belongs_to :pricing_plan
 
@@ -190,9 +186,6 @@ class Structure < ActiveRecord::Base
     end
     boolean :has_comment do
       self.comments_count > 0
-    end
-    boolean :has_picture do
-      self.image?
     end
     boolean :has_logo do
       self.logo?
@@ -427,6 +420,10 @@ class Structure < ActiveRecord::Base
 
   def has_installed_widget?
     widget_status == 'installed'
+  end
+
+  def cover_image
+    self.medias.images.cover.first || self.medias.images.first
   end
 
   def audiences

@@ -6,7 +6,7 @@ class Pro::Structures::MediasController < Pro::ProController
   def index
     @structure = Structure.friendly.find params[:structure_id]
     @media     = @structure.medias.build
-    @medias    = @structure.medias.reject(&:new_record?)
+    @medias    = @structure.medias.cover_first.reject(&:new_record?)
   end
 
   def destroy

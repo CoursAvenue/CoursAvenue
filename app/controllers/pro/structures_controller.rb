@@ -90,7 +90,7 @@ class Pro::StructuresController < Pro::ProController
     commentable_ids << @structure.id
     @comments       = @structure.comments.accepted
     @courses        = @structure.courses
-    @medias         = @structure.medias
+    @medias         = @structure.medias.cover_first
     @locations      = @structure.locations
     @profile_percentage = 100
     @profile_percentage -= 20 if !@structure.profile_completed?
@@ -156,14 +156,11 @@ class Pro::StructuresController < Pro::ProController
     session[:zip_code] = params[:zip_code]
     session[:email]    = params[:email]
     @structure  = Structure.new name: params[:name], zip_code: params[:zip_code], contact_email: params[:email]
-    @structures = Structure.where{(image_updated_at != nil) & (comments_count != nil)}.order('comments_count DESC').limit(3)
+    @structures = Structure.where{(comments_count != nil)}.order('comments_count DESC').limit(3)
   end
 
   def update
     @structure = Structure.friendly.find params[:id]
-    if params[:structure] and params[:structure].delete(:delete_image) == '1'
-      @structure.image.clear
-    end
     if params[:structure] and params[:structure].delete(:delete_logo) == '1'
       @structure.logo.clear
     end
@@ -181,7 +178,6 @@ class Pro::StructuresController < Pro::ProController
           format.html { redirect_to (params[:from_path] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
           format.js { render nothing: true }
           format.json { render json: {
-                                  image: { path: @structure.image.url(:normal)},
                                   logo: {
                                           path: @structure.logo.url(:large)
                                         }
@@ -209,7 +205,7 @@ class Pro::StructuresController < Pro::ProController
     s_zip_code  = params[:structure][:zip_code]
     @structure  = Structure.where{(name == s_name) & (zip_code == s_zip_code)}.first
     # Used for showing side structure list on new action
-    @structures = Structure.where{(image_updated_at != nil) & (comments_count != nil)}.order('comments_count DESC').limit(3)
+    @structures = Structure.where{(comments_count != nil)}.order('comments_count DESC').limit(3)
     @place_name = params[:structure][:location].delete :name
     params[:structure].delete :location
     if @structure.nil?

@@ -6,7 +6,7 @@
   .form-inputs
     %h5.form-header-group
       %i.fa.fa-picture-o
-      Image & Logo
+      Logo
     - if @structure.valid?
       .form-white-box
         %div{data: {behavior: 'image-input' }}
@@ -37,31 +37,6 @@
 
           %p.field-form-info.blue
             Ce logo apparaîtra dans les résultats de recherche.
-            %br
-            = t('structures.accepted_image_formats')
-        %hr
-
-        %div{data: {behavior: 'image-input' }}
-          #image-progress.progress.hidden{data: {progress: true }}
-            .bar
-          .text--center
-            - if @structure.image?
-              = image_tag @structure.image.url(:normal), id: 'logo-image', style: 'max-height: 300px; max-width: 500px'
-              %br
-              %a.btn.btn--small.btn--red#delete-image{href: 'javascript:void(0)'}
-                %i.fa.fa-trash-o
-                Supprimer
-              .visuallyhidden= structure_form.input :delete_image, as: :boolean, label: false
-            - else
-              %img.center-block#logo-image{style: 'max-height: 200px; max-width: 500px'}
-          .input
-            .control-label Image pour vous illustrer
-            = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
-              %i.fa.fa-picture-o
-              Choisir mon image
-            .visuallyhidden= structure_form.input :image, label: false, input_html: {id: 'image-input'}
-          %p.field-form-info.blue
-            Cette image apparaîtra dans la partie gauche de votre profil public.
             %br
             = t('structures.accepted_image_formats')
     - else
@@ -177,47 +152,6 @@
                 $('#logo-progress .bar').css('width', progress + '%');
             }
         });
-        // --------------- Handling structure image
-        $('#image-input').fileupload({
-            dataType: 'json',
-            type: 'PUT',
-            acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
-            submit: function (e, data) {
-                data.formData = {authenticity_token: $('meta[name="csrf-token"]').attr('content') };
-                return true;
-            },
-            replaceFileInput: false,
-            add: function (e, data) {
-                $('#image-progress').show().removeClass('progress-success');
-                if (GLOBAL.isImageValid(this.files[0])) {
-                    data.submit();
-                }
-            },
-            done: function (e, data) {
-                $('#image-progress').addClass('progress-success');
-                $('#image-progress .bar').text('');
-                $('#image-progress .bar').append($('<i>').addClass('fa fa-check push-half--right'));
-                $('#image-progress .bar').append($('<span>').text('Téléchargement terminé'));
-            },
-            progressall: function (e, data) {
-                var progress = parseInt(data.loaded / data.total * 100, 10);
-                if (progress == 100) {
-                    $('#image-progress .bar').text('Finalisation...');
-                } else {
-                    $('#image-progress .bar').text(progress + '%');
-                }
-                $('#image-progress .bar').css(
-                    'width',
-                    progress + '%'
-                );
-            }
-        });
-        if ($('#delete-image').length > 0) {
-            $('#delete-image').click(function(){
-                $('#structure_delete_image')[0].checked = true;
-                $('#structure-form').submit();
-            });
-        }
         if ($('#delete-logo').length > 0) {
             $('#delete-logo').click(function(){
                 $('#structure_delete_logo')[0].checked = true;

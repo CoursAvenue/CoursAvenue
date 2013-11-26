@@ -209,21 +209,18 @@
 - if @medias.any?
   %hr
   %h3 Mes photos & vidéos
-  .media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
+  .media-gallery.white-box
     - @medias.each do |media|
-      .one-third.media__item.very-soft>
-        %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}>
-          = media.url_html
+      .one-third.media__item.very-soft.show-on-hover-wrapper>
+        %a.break-all.soft-half.hard--bottom.block{href: media.url, title: media.caption, data: {behavior: 'fancy'}}
+          %i.fa.fa-expand
+          = media.thumbnail_url_html
           - if media.caption.present?
             %p.flush--bottom
               %i= media.caption
-        %p
-          = link_to edit_pro_structure_media_path(@structure, media), class: 'btn btn--red btn--small', title: 'Modifier le créneau', data: {behavior: 'modal'}, class: 'btn btn--orange btn--small fancybox.ajax' do
-            %i.fa.fa-pencil
-            Modifier
-          = link_to pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, class: 'btn btn--red btn--small' do
-            %i.fa.fa-trash-o
-            Supprimer
+        - if media.image? and !media.cover?
+          = link_to 'Définir comme photo de profil', make_it_cover_pro_structure_image_path(@structure, media), method: :put, class: 'push-half--left show-on-hover btn btn--small btn--blue'
+        = link_to 'Supprimer', pro_structure_media_path(@structure, media), method: :delete, data: { confirm: 'Êtes-vous sûr de vouloir supprimer ce média ?' }, class: 'push-half--left show-on-hover btn btn--small btn--red'
 
   %p.text--center= link_to 'Ajouter une photo ou une vidéo', pro_structure_medias_path(@structure), class: 'btn btn--blue'
 

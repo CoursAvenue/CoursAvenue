@@ -2,6 +2,7 @@ class Media::Image < Media
   require 'open-uri'
   require 'aws'
 
+  before_create :make_cover_if_first
   after_create :save_thumbnail_url_to_s3
   after_destroy :remove_file_from_s3
 
@@ -31,23 +32,29 @@ class Media::Image < Media
 
   private
 
-  def save_thumbnail_url_to_s3
-    convert_options = {
-      fit: 'clip',
-      h:500,
-      w:500
-    }
-    file   = open("#{self.filepicker_url}/convert?#{convert_options.to_query}")
+  def make_cover_if_first
+    self.cover = true if self.mediable.medias.images.empty?
+  end
 
-    # Writing file into S3 bucket
-    object = CoursAvenue::Application::S3_BUCKET.objects[s3_thumbnail_media_path + file_name]
-    written_file = object.write(file, acl: :public_read) # :authenticated_read
-    self.update_column :thumbnail_url, written_file.public_url.to_s
+  def save_thumbnail_url_to_s3
+    if self.filepicker_url
+      convert_options = {
+        fit: 'clip',
+        h:500,
+        w:500
+      }
+      file   = open("#{self.filepicker_url}/convert?#{convert_options.to_query}")
+
+      # Writing file into S3 bucket
+      object = CoursAvenue::Application::S3_BUCKET.objects[s3_thumbnail_media_path + file_name]
+      written_file = object.write(file, acl: :public_read) # :authenticated_read
+      self.update_column :thumbnail_url, written_file.public_url.to_s
+    end
   end
 
   def remove_file_from_s3
     if self.thumbnail_url
-      thumbnail_image = CoursAvenue::Application::S3_BUCKET.objects[URI.unescape(self.thumbnail_url.split('.com/').last)] if self.thumbnail_url
+      thumbnail_image = CoursAvenue::Application::S3_BUCKET.objects[URI.unescape(self.thumbnail_url.split('.com/').last)]
       thumbnail_image.delete
     end
     if self.url
