@@ -63,6 +63,8 @@ CoursAvenue::Application.routes.draw do
             put :update_sent
           end
         end
+
+        resources :user_profiles, controller: 'structures/user_profiles'
         resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
         resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments' do
