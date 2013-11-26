@@ -27,6 +27,19 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.currentPage = 1; // we always start from page 1
             this.server_api.page = function () { return self.currentPage; };
 
+            /* we need to reset the collection on 'sync', rather than in the
+             * paginated_collection_view. This is because we don't want a momentary
+             * flash of the zero result set.
+            *  However, the 'sync' event occurs too often, so we have to be sure
+            *  that we are responding to both a sync and a filter, rather than
+            *  just a sync */
+            /* for now we will "detect" filters by the page being 1 */
+            this.on('sync', function(model, response, xhr){
+                if (model.currentPage === 1) {
+                    this.reset(response.structures);
+                }
+            });
+
             if (this.server_api.sort === undefined) {
                 this.server_api.sort = 'rating_desc';
             }
