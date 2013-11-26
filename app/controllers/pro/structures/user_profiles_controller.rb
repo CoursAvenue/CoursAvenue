@@ -16,6 +16,15 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   end
 
   def create
+    @user_profile = @structure.user_profiles.build params[:user_profile]
+
+    respond_to do |format|
+      if @user_profile.save
+        format.html { redirect_to pro_structure_user_profiles_path(@structure) }
+      else
+        format.html { render :new }
+      end
+    end
   end
 
   private

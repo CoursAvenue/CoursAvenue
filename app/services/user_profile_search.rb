@@ -9,7 +9,7 @@ class UserProfileSearch
 
       with :structure_id, params[:structure_id].to_i if params[:structure_id]
 
-      paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
+      paginate page: (params[:page] || 1), per_page: (params[:per_page] || 30)
     end
     @search
   end
