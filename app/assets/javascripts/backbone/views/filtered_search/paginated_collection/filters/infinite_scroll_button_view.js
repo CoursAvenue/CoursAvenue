@@ -3,6 +3,7 @@ FilteredSearch.module('Views.FilteredSearch.PaginatedCollection.Filters', functi
 
     Module.InfiniteScrollButtonView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'infinite_scroll_button_view',
+        className: 'soft-half--sides',
 
         /* the pagination tool forwards all events, since it has
         * no idea what it is paginating */
