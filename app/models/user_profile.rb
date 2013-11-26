@@ -4,6 +4,7 @@ class UserProfile < ActiveRecord::Base
 
   attr_accessible :email, :first_name, :last_name, :birthdate, :notes, :phone, :mobile_phone, :address
 
+  before_save :affect_email_if_empty
   after_create :associate_to_user
   # ------------------------------------
   # ------------------ Search attributes
@@ -25,11 +26,19 @@ class UserProfile < ActiveRecord::Base
 
   private
 
-  def associate_to_user
-    unless (u = User.where(email: self.email).first)
-      u = User.new(email: self.email, name: self.full_name)
-      u.save(validate: false)
+  def affect_email_if_empty
+    if self.user
+      self.email = self.user.email
     end
-    self.user = u
+  end
+
+  def associate_to_user
+    if self.user.nil?
+      if (u = User.where(email: self.email).first).nil?
+        u = User.new(email: self.email, name: self.full_name)
+        u.save(validate: false)
+      end
+      self.user = u
+    end
   end
 end
