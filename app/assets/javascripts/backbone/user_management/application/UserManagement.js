@@ -1,6 +1,6 @@
-StudentManagement = (function (){
+UserManagement = (function (){
     var self = new Backbone.Marionette.Application({
-        slug: 'student-management',
+        slug: 'user-management',
 
         /* for use in query strings */
         root:   function() { return self.slug + '-root'; },
@@ -25,7 +25,7 @@ StudentManagement = (function (){
 
             if (result > 1) {
                 throw {
-                    message: 'StudentManagement->detectRoot: ' + self.root() + ' element should be unique'
+                    message: 'UserManagement->detectRoot: ' + self.root() + ' element should be unique'
                 }
             }
 
@@ -36,18 +36,18 @@ StudentManagement = (function (){
     return self;
 }());
 
-StudentManagement.addRegions({
-    mainRegion: '#' + StudentManagement.slug
+UserManagement.addRegions({
+    mainRegion: '#' + UserManagement.slug
 });
 
-StudentManagement.addInitializer(function(options) {
+UserManagement.addInitializer(function(options) {
     // initialize the app
 });
 
 $(document).ready(function() {
     /* we only want the filteredsearch on the search page */
-    if (StudentManagement.detectRoot()) {
-        StudentManagement.start({});
+    if (UserManagement.detectRoot()) {
+        UserManagement.start({});
     }
 
 });
