@@ -45,7 +45,7 @@
             %h2.delta.orange.flush--bottom= @course.name
             %p.push-half--bottom
               %i= join_child_subjects_text @course
-          - if @price_range
+          - if @price_range.any?
             .flexbox__item.one-third.v-middle.text--right>
               %div
                 - if @price_range.length == 1
