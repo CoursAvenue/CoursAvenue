@@ -6,6 +6,11 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   layout 'admin'
 
   def index
+    @user_profiles = UserProfileSearch.search(params)
+  end
+
+  def new
+    @user_profile = @structure.user_profiles.build
   end
 
   def create
