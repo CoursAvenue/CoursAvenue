@@ -63,9 +63,9 @@ _.extend(Marionette.Module.prototype, {
             return memo;
         }, "");
 
-        var app_name = this.app.slug.replace(/-/g, '');
+        var app_name = this.app.slug.replace(/-/g, '_');
 
-        return 'backbone/ ' + app_name + '/templates/' + dirpath;
+        return 'backbone/' + app_name + '/templates/' + dirpath;
     }
 });
 
