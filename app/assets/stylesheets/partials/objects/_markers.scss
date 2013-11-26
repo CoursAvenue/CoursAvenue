@@ -76,12 +76,12 @@
 }
 .map-marker-image--small {
     @extend .map-marker-image;
-    width   : 15px;
-    height  : 15px;
+    width   : 13px;
+    height  : 13px;
     a {
-        width       : 17px;
-        height      : 17px;
-        line-height : 17px;
+        width       : 13px;
+        height      : 13px;
+        line-height : 13px;
         top         : -3px;
         background-image    : image-url('icons/map-marker-small.png');
         @media \0screen {
@@ -91,7 +91,7 @@
         }
     }
     span {;
-        width           : 16px;
+        width           : 13px;
         margin-left     : -8px;
         font-size       : 10px;
     }
