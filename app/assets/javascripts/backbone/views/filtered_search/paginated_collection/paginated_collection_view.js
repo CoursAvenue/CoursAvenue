@@ -153,7 +153,7 @@ FilteredSearch.module('Views.FilteredSearch.PaginatedCollection', function(Modul
 
             /* since we are changing the query, we need to reset
             *  the collection, or else some elements will be in the wrong order */
-            // this.collection.reset();
+            this.collection.reset();
             this.collection.setQuery(filters);
 
             /* we are updating from the location filter */

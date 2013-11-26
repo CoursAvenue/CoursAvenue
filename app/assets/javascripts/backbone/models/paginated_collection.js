@@ -24,14 +24,9 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             var self = this;
             // define the server API based on the load-time URI
             this.server_api = this.makeOptionsFromSearch(window.location.search);
-            this.currentPage = parseInt(this.server_api.page, 10) || 1;
+            this.currentPage = 1; // we always start from page 1
             this.server_api.page = function () { return self.currentPage; };
 
-            /* we need to reset the collection, or else some elements will
-             * be in the wrong order */
-            this.on('sync', function(e, response, xhr){
-                this.reset(response.structures);
-            });
             if (this.server_api.sort === undefined) {
                 this.server_api.sort = 'rating_desc';
             }
@@ -84,7 +79,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.grandTotal = response.meta.total;
             this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
 
-            return response.structures;
+            return _.union(response.structures, this.toJSON());
         },
 
         /* the Query methods are for populating anchors, they predict

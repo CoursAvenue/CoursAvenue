@@ -1,15 +1,14 @@
-<p class="flush--bottom">
-{{#if total }}
-    Résultat : {{ first }}&nbsp;-&nbsp;{{ last }} sur <b>{{ total }}</b> établissements
-{{else}}
-    <p class="brand epsilon text--center">Aucun résultat ne correspond à vos critères.</p>
-{{/if}}
-</p>
-<div class="spoken-form">
-{{#if total }}
-    <label>Trier par :</label>
-    <a onclick="_gaq.push(['_trackEvent', 'Trier établissement / popularité', 'click'])" href="{{ popularity_query }}" data-type="filter" data-value="rating_desc" class="{{#if sort_by_popularity}}bold{{/if}} filter-select">Popularité</a>
-    /
-    <a onclick="_gaq.push(['_trackEvent', 'Trier établissement / pertinence', 'click'])" href="{{ relevancy_query }}" data-type="filter" data-value="relevancy" class="{{#if sort_by_relevance}}bold{{/if}} filter-select">Pertinence</a>
-{{/if}}
+<div class="grid__item one-half">
+  {{#if total }}
+      Résultat : <b>{{ total }}</b> établissements
+  {{else}}
+      <p class="brand epsilon text--center">Aucun résultat ne correspond à vos critères.</p>
+  {{/if}}
+</div><div class="grid__item one-half text--right">
+  {{#if total }}
+      <label class="inline">Trier par :</label>
+      <a onclick="_gaq.push(['_trackEvent', 'Trier établissement / popularité', 'click'])" href="{{ popularity_query }}" data-type="filter" data-value="rating_desc" class="{{#if sort_by_popularity}}bold{{/if}} filter-select">Popularité</a>
+      /
+      <a onclick="_gaq.push(['_trackEvent', 'Trier établissement / pertinence', 'click'])" href="{{ relevancy_query }}" data-type="filter" data-value="relevancy" class="{{#if sort_by_relevance}}bold{{/if}} filter-select">Pertinence</a>
+  {{/if}}
 </div>
