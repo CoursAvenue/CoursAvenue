@@ -1,4 +1,19 @@
 = side_menu_currently_at 'Mes élèves'
 
 #user-management{ :data => { :type => "user-management-root" }}
+.push-half--bottom= paginate @user_profiles, window: 2, outer_window: 1
+%table.white-box.table--striped.table--data
+  %thead
+    %tr
+      %th Email
+      %th Nom
+  %tbody
+    - @user_profiles.each do |user_profile|
+      %tr
+        %td= user_profile.email
+        %td= user_profile.full_name
 
+.push-half--bottom= paginate @user_profiles, window: 2, outer_window: 1
+
+.text--center
+  = link_to 'Ajouter un élève', new_pro_structure_user_profile_path(@structure), class: 'btn btn--blue'
