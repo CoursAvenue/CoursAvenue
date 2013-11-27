@@ -53,7 +53,7 @@ class Structure < ActiveRecord::Base
                   # Attributes synced regarding the courses. Synced from the observers
                   # audience_ids is a coma separated string of audience_id
                   :audience_ids, :gives_group_courses, :gives_individual_courses,
-                  :plannings_count, :has_promotion, :has_free_trial_course
+                  :plannings_count, :has_promotion, :has_free_trial_course, :course_names
 
   has_attached_file :logo,
                     styles: {
