@@ -4,9 +4,15 @@ class Structures::MessagesController < ApplicationController
 
   def create
     # params[:content] has to be blank. It is used to prevent from bot form submission
-    @valid        = params[:content].blank? and (current_user or !(params[:user][:name].blank? or params[:user][:email].blank?))
+    if params[:content].present?
+      valid = false
+    elsif current_user.present?
+      valid = true
+    else
+      valid = (params[:user][:name].present? and params[:user][:email].present?)
+    end
     @structure    = Structure.find params[:structure_id]
-    if @valid
+    if valid
       user_email    = params[:user][:email] unless current_user
       @user         = current_user || User.where{email == user_email}.first || User.new(email: params[:user][:email].downcase, name: params[:user][:name])
       @user.save(validate: false) if @user.new_record?
@@ -15,7 +21,7 @@ class Structures::MessagesController < ApplicationController
       @conversation = @receipt.conversation
     end
     respond_to do |format|
-      if @valid and @conversation.persisted?
+      if valid and @conversation.persisted?
         @token       = @user.generate_and_set_reset_password_token if !@user.active?
         format.html { redirect_to user_conversation_path(@user, @conversation, token: @token) }
       else

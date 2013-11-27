@@ -19,8 +19,12 @@
             <h2 class="epsilon flush v-top">
                 <a href="{{ data_url }}">{{ name }}</a>
             </h2>
-            {{#if subjects_string}}
-                <div class="milli gray"> <i>{{{subjects_string}}}</i> </div>
+            {{#if course_names}}
+                <div class="milli gray">
+                    <span title="{{course_names}}" data-behavior="tooltip">
+                        <i>{{{truncate course_names 55}}}</i>
+                    </span>
+                </div>
             {{/if}}
             <div>
                 {{#if has_plannings}}
