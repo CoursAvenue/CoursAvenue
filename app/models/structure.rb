@@ -123,18 +123,9 @@ class Structure < ActiveRecord::Base
     text :name, boost: 5 do
       self.name
     end
-
-    # text :teachers do
-    #   self.teachers.map(&:name)
-    # end
-
-    # text :description
-
-    # text :street
-
-    # text :course_names do
-    #   courses.map(&:name)
-    # end
+    text :course_names do
+      courses.map(&:name)
+    end
 
     text :subjects, boost: 5 do
       subject_array = []
