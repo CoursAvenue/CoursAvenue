@@ -12,3 +12,6 @@ fr:
         phone: Téléphone
         mobile_phone: Téléphone portable
         address: Adresse
+  user_profile:
+    errors:
+      no_info_on_name_or_email: Vous devez au moins renseigner l'email ou un nom

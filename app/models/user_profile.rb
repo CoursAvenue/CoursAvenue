@@ -4,6 +4,9 @@ class UserProfile < ActiveRecord::Base
 
   attr_accessible :email, :first_name, :last_name, :birthdate, :notes, :phone, :mobile_phone, :address
 
+  validates :structure_id, presence: true
+  validate :presence_of_email_or_name
+
   after_create :associate_to_user
   # ------------------------------------
   # ------------------ Search attributes
@@ -25,11 +28,20 @@ class UserProfile < ActiveRecord::Base
 
   private
 
-  def associate_to_user
-    unless (u = User.where(email: self.email).first)
-      u = User.new(email: self.email, name: self.full_name)
-      u.save(validate: false)
+  def presence_of_email_or_name
+    if self.email.blank? and self.first_name.blank? and self.last_name.blank?
+      self.errors[:base] << I18n.t('user_profile.errors.no_info_on_name_or_email')
     end
-    self.user = u
+  end
+
+  def associate_to_user
+    if self.email.present?
+      u = User.where(email: self.email).first
+      if u.nil?
+        u = User.new(email: self.email, name: self.full_name)
+        u.save(validate: false)
+      end
+      self.user = u
+    end
   end
 end
