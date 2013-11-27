@@ -1,5 +1,7 @@
 = side_menu_currently_at 'Mes élèves'
 
+= render partial: 'tabs', locals: { current: 'list' }
+
 #user-management{ :data => { :type => "user-management-root" }}
 .push-half--bottom= paginate @user_profiles, window: 2, outer_window: 1
 %table.white-box.table--striped.table--data

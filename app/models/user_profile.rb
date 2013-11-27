@@ -24,6 +24,9 @@ class UserProfile < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
+  def self.import(file)
+  end
+
   private
 
   def affect_email_if_empty

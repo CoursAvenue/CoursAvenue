@@ -1,0 +1,10 @@
+= side_menu_currently_at 'Mes élèves'
+
+= render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'import' }
+
+= simple_form_for [:choose_headers, :pro, @structure, @user_profile_import] do |f|
+  .form-white-box
+    .text--center
+      = f.input :file, as: :file, label: 'Fichier'
+    .form-actions
+      = f.submit 'Enregistrer', class: 'btn btn--green'

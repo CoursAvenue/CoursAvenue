@@ -150,6 +150,8 @@ gem 'jquery-turbolinks'
 # For uploading to amazon CDN
 gem 'aws-sdk'                   , '~>1.21.0'
 
+gem 'roo'                   , '~>1.12.2'
+
 group :production, :staging do
   # gem 'therubyracer'
   gem 'execjs'
