@@ -1,6 +1,6 @@
 FilteredSearch.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
-    Module.SearchWidgetsLayout = CoursAvenue.Lib.Views.EventLayout.extend({
+    Module.SearchWidgetsLayout = CoursAvenue.Views.EventLayout.extend({
         template: Module.templateDirname() + 'search_widgets_layout_view',
         className: 'relative',
 

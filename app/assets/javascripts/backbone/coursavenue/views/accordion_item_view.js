@@ -1,4 +1,4 @@
-CoursAvenue.module('Lib.Views', function(Module, App, Backbone, Marionette, $, _) {
+CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.AccordionItemView = Module.EventLayout.extend({
 

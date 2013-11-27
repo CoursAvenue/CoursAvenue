@@ -1,6 +1,6 @@
 
 FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _) {
-    Models.StructuresCollection = CoursAvenue.Lib.Models.PaginatedCollection.extend({
+    Models.StructuresCollection = CoursAvenue.Models.PaginatedCollection.extend({
         model: Models.Structure,
 
         /* even if we are bootstrapping, we still want to know the total
@@ -59,20 +59,6 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             data_type: '.json'
         },
 
-        makeOptionsFromSearch: function (search) {
-            if (search.length < 1) { return {} };
-
-            var data = search.substring(1).split("&"); // assume no values have & in them
-
-            return _.reduce(data, function (memo, datum) {
-                var pair = datum.split('='); // assume there are no equal signs in the value
-
-                memo[pair[0]] = pair[1];
-
-                return memo;
-            }, {});
-        },
-
         parse: function(response) {
             // we did some kind of request, I guess we should update the query
             if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
@@ -98,51 +84,6 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
                 'sort': 'rating_desc',
                 'page': 1
             });
-        },
-
-        setQuery: function(options) {
-            /* setQuery stringifies all incoming options */
-
-            var self = this;
-            _.map(options, function(value, key) {
-                if (value === null) {
-                    self.unsetQuery([key]);
-                    delete options[key];
-
-                } else if (_.isFunction(value.toString)) {
-                    options[key] = value.toString();
-                }
-            });
-
-            /* if lat/lng is in options, then we either have a new bounding box
-            * or we want to invalidate the bounding box */
-            if (options.lat || options.lng) {
-                this.unsetQuery(['bbox_ne', 'bbox_sw']);
-            }
-            _.extend(this.server_api, options);
-        },
-
-        /* remove the given keys from the query */
-        unsetQuery: function (keys) {
-            this.server_api = _.omit(this.server_api, keys);
-        },
-
-        /* get URI query string from the server_api values merged with opts */
-        getQuery: function(options) {
-            var self = this;
-            var params = _.extend(_.clone(this.server_api), options);
-
-            // some of the server_api params might be functions, in which case execute them
-            return _.reduce(_.pairs(params), function (memo, pair) {
-                var key = pair[0];
-                var value = pair[1];
-
-                if (typeof value === 'function') {
-                    value = value.call(self);
-                }
-
-                return memo + key + '=' + value + '&';
-            }, "?").slice(0, -1); // damn trailing character!
         },
 
         /* return an object with lat, lng, and a bounding box parsed from server_api */

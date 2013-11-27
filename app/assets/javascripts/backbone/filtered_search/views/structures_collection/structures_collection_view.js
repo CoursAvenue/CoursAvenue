@@ -2,7 +2,7 @@
  * its pagination UI element */
 
 FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbone, Marionette, $, _) {
-    Module.StructuresCollectionView = CoursAvenue.Lib.Views.PaginatedCollectionView.extend({
+    Module.StructuresCollectionView = CoursAvenue.Views.PaginatedCollectionView.extend({
         template: Module.templateDirname() + 'structures_collection_view',
         itemView: Module.Structure.StructureView,
         itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',

@@ -1,7 +1,7 @@
 /* just a basic marionette view */
 FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, App, Backbone, Marionette, $, _) {
 
-    Module.StructureView = CoursAvenue.Lib.Views.RelationalAccordionItemView.extend({
+    Module.StructureView = CoursAvenue.Views.RelationalAccordionItemView.extend({
         template: Module.templateDirname() + 'structure_view',
         tagName: 'li',
         className: 'push-half--bottom',

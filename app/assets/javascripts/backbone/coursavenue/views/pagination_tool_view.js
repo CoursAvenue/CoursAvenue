@@ -1,5 +1,5 @@
 
-FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
+CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.PaginationToolView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'pagination_tool_view',

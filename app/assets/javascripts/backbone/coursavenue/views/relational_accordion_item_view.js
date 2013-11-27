@@ -1,5 +1,5 @@
 
-CoursAvenue.module('Lib.Views', function(Module, App, Backbone, Marionette, $, _) {
+CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
     /* RelationalAccordionItemview
     *  - used to populate accordion views for collections of relational models

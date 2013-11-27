@@ -44,11 +44,29 @@ UserManagement.addInitializer(function(options) {
     console.log("UserManagement->initialize");
     // initialize the app
 
-    var user_profiles = new UserManagement.Models.UserProfilesCollection({});
+    var user_profiles                 = new UserManagement.Models.UserProfilesCollection({});
+    var user_profiles_collection_view = new UserManagement.Views.UserProfilesCollection.UserProfilesCollectionView({
+        collection: user_profiles,
+        events: {
+            'pagination:next':     'nextPage',
+            'pagination:prev':     'prevPage',
+            'pagination:page':     'goToPage'
+        }
+    });
 
     user_profiles.fetch();
-
     window.pfaff = user_profiles;
+
+    layout = new UserManagement.Views.UserProfilesLayout();
+
+    UserManagement.mainRegion.show(layout);
+
+    pagination_tool = new CoursAvenue.Views.PaginationToolView({});
+
+    layout.showWidget(pagination_tool);
+
+    layout.results.show(user_profiles_collection_view);
+
 });
 
 $(document).ready(function() {
