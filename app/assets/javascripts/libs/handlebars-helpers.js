@@ -16,9 +16,9 @@ Handlebars.registerHelper('pluralize', function(number, single, plural) {
 // usage: {{truncate 'my long text' length}}
 Handlebars.registerHelper('truncate', function(text, length) {
     if (text.length < length) {
-        return text.length
+        return text;
     } else {
-        return text.slice(0, length) + "..."
+        return text.slice(0, length) + "...";
     }
 });
 
