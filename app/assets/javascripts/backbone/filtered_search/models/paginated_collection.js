@@ -1,6 +1,7 @@
 /* Sets up the details specific to coursavenue's API */
 /* TODO I think it should preload the next and previous pages */
 
+
 FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _) {
     Models.PaginatedCollection = Backbone.Paginator.requestPager.extend({
 
@@ -220,4 +221,3 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
 
     });
 });
-

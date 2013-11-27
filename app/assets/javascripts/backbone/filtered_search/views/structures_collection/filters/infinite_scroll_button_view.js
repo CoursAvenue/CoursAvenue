@@ -1,5 +1,5 @@
 
-FilteredSearch.module('Views.PaginatedCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.InfiniteScrollButtonView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'infinite_scroll_button_view',

@@ -1,4 +1,4 @@
-FilteredSearch.module('Views.PaginatedCollection.Structure.Courses', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.StructuresCollection.Structure.Courses', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.CoursesCollectionView = Backbone.Marionette.CompositeView.extend({
         template: Module.templateDirname() + 'courses_collection_view',

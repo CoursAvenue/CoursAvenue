@@ -1,58 +1,8 @@
 /* a view for presenting a backbone.paginator collection, and for presenting and handling
  * its pagination UI element */
-FilteredSearch.module('Views.PaginatedCollection', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.PaginatedCollectionView = FilteredSearch.Views.Lib.AccordionView.extend({
-        template: Module.templateDirname() + 'paginated_collection_view',
-        itemView: Module.Structure.StructureView,
-        itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
-        className: 'relative',
-
-        /* forward events with only the necessary data */
-        onItemviewHighlighted: function (view, data) {
-            this.trigger('structures:itemview:highlighted', data);
-        },
-
-        onItemviewUnhighlighted: function (view, data) {
-            this.trigger('structures:itemview:unhighlighted', data);
-        },
-
-        onItemviewCourseFocus: function (view, data) {
-            this.trigger('structures:itemview:peacock', data);
-        },
-
-        onAfterShow: function() {
-            this.announcePaginatorUpdated();
-        },
-
-        renderSlideshows: function() {
-            var self = this;
-            setTimeout(function(){
-                // Start slideshow
-                // Removing images and adding the image url to background image in order to have the image being covered
-                self.$('.rslides img').each(function(){
-                    var $this = $(this);
-                    $this.closest('.media__item').hide();
-                    $this.closest('li').css('background-image', 'url(' + $this.attr('src') + ')')
-                });
-                self.$(".rslides").responsiveSlides({
-                    auto: false,
-                    nav: true,
-                    prevText: '<i class="fa fa-chevron-left"></i>',
-                    nextText: '<i class="fa fa-chevron-right"></i>'
-                });
-                self.$('.rslides-wrapper [data-behavior="fancy"]').fancybox({ helpers : { media : {} } });
-                // Set the height of relative divs that needs to fits the table cells.
-                self.$('.structure-item').each(function() {
-                    var $this = $(this);
-                    var media_height = $this.height();
-                    $this.find('.full-height').css('height', media_height);
-                    $this.find('.rslides li').css('height', media_height);
-                    $this.find('.rslides').removeClass('hidden');
-                });
-            });
-        },
-
         /* we don't use this, but we could */
         accordionCloseAll: function () {
             var self = this;
@@ -63,39 +13,13 @@ FilteredSearch.module('Views.PaginatedCollection', function(Module, App, Backbon
             });
         },
 
+        onAfterShow: function() {
+            this.announcePaginatorUpdated();
+        },
+
+        /* VIRTUAL inheriting classes must override announcePaginatorUpdated */
         announcePaginatorUpdated: function () {
-            var data         = this.collection;
-            var first_result = (data.currentPage - 1) * data.perPage + 1;
-
-            this.trigger('structures:updated');
-
-            /* announce the pagination statistics for the current page */
-            this.trigger('structures:updated:pagination', {
-                current_page:        data.currentPage,
-                last_page:           data.totalPages,
-                buttons:             this.buildPaginationButtons(data),
-                previous_page_query: this.collection.previousQuery(),
-                next_page_query:     this.collection.nextQuery(),
-                relevancy_query:     this.collection.relevancyQuery(),
-                popularity_query:    this.collection.popularityQuery(),
-                sort:                this.collection.server_api.sort
-            });
-
-            /* announce the summary of the result set */
-            this.trigger('structures:updated:summary', {
-                first: first_result,
-                last: Math.min(first_result + data.perPage - 1, data.grandTotal),
-                total: data.grandTotal,
-            });
-
-            /* announce the filters used in the current result set */
-            this.trigger('structures:updated:filter', {
-                address_name: (data.server_api.address_name ? decodeURIComponent(data.server_api.address_name) : ""),
-                name:         (data.server_api.name ? decodeURIComponent(data.server_api.name) : ""),
-                subject_id:   (data.server_api.subject_id ? decodeURIComponent(data.server_api.subject_id) : "")
-            });
-
-            this.trigger('structures:updated:maps');
+            throw "announcePaginatorUpdated is a virtual method. Override it in your inheriting class";
         },
 
         /* we want to show buttons for the first and last pages, and the
@@ -103,8 +27,8 @@ FilteredSearch.module('Views.PaginatedCollection', function(Module, App, Backbon
          * that don't meet that criteria */
         canSkipPage: function (page, data) {
             var last_page = data.totalPages,
-            out_of_bounds = (data.currentPage - data.radius > page || page > data.currentPage + data.radius),
-            bookend = (page == 1 || page == last_page);
+                out_of_bounds = (data.currentPage - data.radius > page || page > data.currentPage + data.radius),
+                bookend = (page == 1 || page == last_page);
 
             return (!bookend && out_of_bounds);
         },
@@ -118,8 +42,8 @@ FilteredSearch.module('Views.PaginatedCollection', function(Module, App, Backbon
         *  - send a reference to the pageQuery method */
         buildPaginationButtons: function (data) {
             var self = this,
-            skipped = false,
-            buttons = [];
+                skipped = false,
+                buttons = [];
 
             _.times(data.totalPages, function(index) {
                 var current_page = index + 1;
@@ -189,7 +113,7 @@ FilteredSearch.module('Views.PaginatedCollection', function(Module, App, Backbon
 
             var self = this;
 
-            self.trigger('structures:updating', this);
+            self.trigger('paginator:updating', this);
             this.collection.goTo(page, {
                 success: function () {
                     self.announcePaginatorUpdated();
@@ -197,6 +121,39 @@ FilteredSearch.module('Views.PaginatedCollection', function(Module, App, Backbon
             });
 
             return false;
+        },
+
+        scrollToView: function(view) {
+            var element = view.$el;
+
+            this.$el.parents('section').scrollTo(element[0], {duration: 400});
+        }
+    });
+});
+
+FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbone, Marionette, $, _) {
+    Module.StructuresCollectionView = Module.PaginatedCollectionView.extend({
+        template: Module.templateDirname() + 'structures_collection_view',
+        itemView: Module.Structure.StructureView,
+        itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
+        className: 'relative',
+
+        /* when rendering each collection item, we might want to
+         * pass in some info from the paginator_ui or something
+         * if do we would do it here */
+        /* remember that itemViews are constructed and destroyed more often
+        * than the corresponding models */
+        itemViewOptions: function(model, index) {
+            // we could pass some information from the collectionView
+            var search_term;
+
+            if (this.collection.server_api.name) {
+                search_term = decodeURIComponent(this.collection.server_api.name);
+            }
+
+            return {
+                search_term: search_term
+            };
         },
 
         findItemView: function (data) {
@@ -221,28 +178,83 @@ FilteredSearch.module('Views.PaginatedCollection', function(Module, App, Backbon
 
         },
 
-        scrollToView: function(view) {
-            var structure_element = view.$el;
 
-            this.$el.parents('section').scrollTo(structure_element[0], {duration: 400});
+        announcePaginatorUpdated: function () {
+            var data         = this.collection;
+            var first_result = (data.currentPage - 1) * data.perPage + 1;
+
+            this.trigger('structures:updated');
+
+            /* announce the pagination statistics for the current page */
+            this.trigger('structures:updated:pagination', {
+                current_page:        data.currentPage,
+                last_page:           data.totalPages,
+                buttons:             this.buildPaginationButtons(data),
+                previous_page_query: this.collection.previousQuery(),
+                next_page_query:     this.collection.nextQuery(),
+                relevancy_query:     this.collection.relevancyQuery(),
+                popularity_query:    this.collection.popularityQuery(),
+                sort:                this.collection.server_api.sort
+            });
+
+            /* announce the summary of the result set */
+            this.trigger('structures:updated:summary', {
+                first: first_result,
+                last: Math.min(first_result + data.perPage - 1, data.grandTotal),
+                total: data.grandTotal,
+            });
+
+            /* announce the filters used in the current result set */
+            this.trigger('structures:updated:filter', {
+                address_name: (data.server_api.address_name ? decodeURIComponent(data.server_api.address_name) : ""),
+                name:         (data.server_api.name ? decodeURIComponent(data.server_api.name) : ""),
+                subject_id:   (data.server_api.subject_id ? decodeURIComponent(data.server_api.subject_id) : "")
+            });
+
+            this.trigger('structures:updated:maps');
         },
 
-        /* when rendering each collection item, we might want to
-         * pass in some info from the paginator_ui or something
-         * if do we would do it here */
-        /* remember that itemViews are constructed and destroyed more often
-        * than the corresponding models */
-        itemViewOptions: function(model, index) {
-            // we could pass some information from the collectionView
-            var search_term;
+        renderSlideshows: function() {
+            var self = this;
+            setTimeout(function(){
+                // Start slideshow
+                // Removing images and adding the image url to background image in order to have the image being covered
+                self.$('.rslides img').each(function(){
+                    var $this = $(this);
+                    $this.closest('.media__item').hide();
+                    $this.closest('li').css('background-image', 'url(' + $this.attr('src') + ')')
+                });
+                self.$(".rslides").responsiveSlides({
+                    auto: false,
+                    nav: true,
+                    prevText: '<i class="fa fa-chevron-left"></i>',
+                    nextText: '<i class="fa fa-chevron-right"></i>'
+                });
+                self.$('.rslides-wrapper [data-behavior="fancy"]').fancybox({ helpers : { media : {} } });
+                // Set the height of relative divs that needs to fits the table cells.
+                self.$('.structure-item').each(function() {
+                    var $this = $(this);
+                    var media_height = $this.height();
+                    $this.find('.full-height').css('height', media_height);
+                    $this.find('.rslides li').css('height', media_height);
+                    $this.find('.rslides').removeClass('hidden');
+                });
+            });
+        },
 
-            if (this.collection.server_api.name) {
-                search_term = decodeURIComponent(this.collection.server_api.name);
-            }
+        /* forward events with only the necessary data */
+        onItemviewHighlighted: function (view, data) {
+            this.trigger('structures:itemview:highlighted', data);
+        },
 
-            return {
-                search_term: search_term
-            };
-        }
+        onItemviewUnhighlighted: function (view, data) {
+            this.trigger('structures:itemview:unhighlighted', data);
+        },
+
+        onItemviewCourseFocus: function (view, data) {
+            this.trigger('structures:itemview:peacock', data);
+        },
+
     });
 });
+

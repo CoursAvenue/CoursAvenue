@@ -1,4 +1,4 @@
-FilteredSearch.module('Views.PaginatedCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.ResultsSummaryView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'results_summary_view',

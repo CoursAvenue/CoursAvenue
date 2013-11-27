@@ -1,5 +1,5 @@
 /* just a basic marionette view */
-FilteredSearch.module('Views.PaginatedCollection.Structure.Courses', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.StructuresCollection.Structure.Courses', function(Module, App, Backbone, Marionette, $, _) {
 
     /* views here temporarily to get this all all started */
     Module.CourseView = Backbone.Marionette.CompositeView.extend({
