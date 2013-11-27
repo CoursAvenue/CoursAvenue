@@ -8,7 +8,7 @@
 //= require ./models/location
 //= require ./models/place
 //= require ./models/structure
-//= require ./models/paginated_collection
+//= require ./models/structures_collection
 
 //---------- Views
 //= require ./views/manifest

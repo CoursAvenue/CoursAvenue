@@ -46,8 +46,8 @@ FilteredSearch.addInitializer(function(options) {
     bootstrap = window.coursavenue.bootstrap;
 
     // Create an instance of your class and populate with the models of your entire collection
-    structures      = new FilteredSearch.Models.PaginatedCollection(bootstrap.models, bootstrap.options);
-    structures_view = new FilteredSearch.Views.PaginatedCollection.PaginatedCollectionView({
+    structures      = new FilteredSearch.Models.StructuresCollection(bootstrap.models, bootstrap.options);
+    structures_view = new FilteredSearch.Views.StructuresCollection.StructuresCollectionView({
         collection: structures,
         events: {
             'pagination:next':     'nextPage',
@@ -70,7 +70,7 @@ FilteredSearch.addInitializer(function(options) {
     /* set up the layouts */
     layout           = new FilteredSearch.Views.SearchWidgetsLayout();
 
-    layout.on('structures:updating', function(){
+    layout.on('paginator:updating', function(){
         $loader = $loader || $('[data-type="loader"]');
         $loader.slideDown();
     })
@@ -87,7 +87,7 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    var FiltersModule = FilteredSearch.Views.PaginatedCollection.Filters;
+    var FiltersModule = FilteredSearch.Views.StructuresCollection.Filters;
 
     /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
     infinite_scroll_button    = new FiltersModule.InfiniteScrollButtonView({});
@@ -102,7 +102,7 @@ FilteredSearch.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         events: {
-            'structures:updating':               'hideInfoWindow retireMarkers',
+            'paginator:updating':               'hideInfoWindow retireMarkers',
             'structures:itemview:highlighted':   'exciteMarkers',
             'structures:itemview:unhighlighted': 'exciteMarkers',
             'filter:update:map':                 'centerMap',
