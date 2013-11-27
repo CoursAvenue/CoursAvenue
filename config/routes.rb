@@ -121,7 +121,7 @@ CoursAvenue::Application.routes.draw do
 
       resources :users                , only: [:index]
       resources :comment_notifications, only: [:index]
-      resources :messages             , only: [:index]
+      resources :conversations        , only: [:index]
 
       resources :admins do
         collection do

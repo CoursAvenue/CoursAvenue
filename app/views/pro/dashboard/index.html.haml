@@ -96,14 +96,7 @@
   .gamma
     = Place.count
     Lieux
-%h3.header-group
-  %i.fa.fa-group
-  Users
-.white-box.islet.text--center
-  .gamma
-    = User.count
-    users
-  #users
+
 = content_for :scripts do
   :javascript
     $(function() {
@@ -161,18 +154,11 @@
             ]
         });
         new Highcharts.Chart({
-            chart: { renderTo: 'users', type: 'column' },
-            title: { text: null },
-            xAxis: { categories: #{@users.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
-            yAxis: { title: { text: ''}},
-            series: [{ data: #{@users.map{|date, count| count}} }]
-        });
-        new Highcharts.Chart({
             chart: { renderTo: 'students', type: 'column' },
             title: { text: null },
             xAxis: { categories: #{@students.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
-            series: [{ data: #{@students.map{|date, count| (count > 11000 ? 100 : count)}} }]
+            series: [{ data: #{@students.map{|date, count| (count > 10000 ? 100 : count)}} }]
         });
         new Highcharts.Chart({
             chart: { renderTo: 'messages', type: 'column' },

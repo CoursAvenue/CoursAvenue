@@ -1,5 +1,3 @@
-- course ||= nil
-- course_name = course.try(:name) || 'XXX'
 .blue-box.islet
   = simple_form_for [structure, Message.new] do |f|
     .delta Contactez pour réserver
@@ -12,10 +10,13 @@
         .grid__item.one-half>
           %label Votre email
           %input.one-whole.milli{type: 'email', name: 'user[email]', placeholder: 'Ex. : florian.c@gmail.com'}
-    %label Message
+    %label Message privé
     -# Here to stop bots.
     -# If this is filled, the message won't be sent
     .visuallyhidden
       %input{name: 'content', type: 'text'}
-    = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 190px;', value: "Bonjour,\n\nJe souhaiterais venir pour une première séance au cours de #{course_name}, est-ce que cela est possible ? N’hésitez pas à m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt", data: { behavior: 'autoresize' }}
+    = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt", data: { behavior: 'autoresize' }}
+    %p.flush
+      %i Modifiez ce texte avec le plus d'informations sur vous et sur le cours souhaité.
     = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
+
