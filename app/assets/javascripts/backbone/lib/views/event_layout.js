@@ -1,4 +1,4 @@
-FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $, _) {
+CoursAvenue.module('Lib.Views', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.EventLayout = Backbone.Marionette.Layout.extend({
         constructor: function() {

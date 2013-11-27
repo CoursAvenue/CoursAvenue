@@ -1,12 +1,12 @@
 
-FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $, _) {
+CoursAvenue.module('Lib.Views', function(Module, App, Backbone, Marionette, $, _) {
 
     /* RelationalAccordionItemview
     *  - used to populate accordion views for collections of relational models
     *  - can provide accordion action for multiple relations on the model
     *  - doesn't need to know what relations exist on the model
     *    - naming conventions are used to build the views on demand */
-    Module.RelationalAccordionItemView = FilteredSearch.Views.Lib.AccordionItemView.extend({
+    Module.RelationalAccordionItemView = Module.AccordionItemView.extend({
 
         loaderTemplate: '<div class="loading-indicator" style="height: 60px;"></div>',
 
@@ -117,7 +117,6 @@ FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $
             this.$loader.slideUp();
         },
 
-        /* Descendants must override this */
         /* any implementation of RelationalAccordionView must do this */
         /*    this.getModuleForRelation = _.bind(this.getModuleForRelation, Module); */
         getModuleForRelation: function (relation) {
@@ -131,7 +130,7 @@ FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $
 
                 return memo;
 
-            }, FilteredSearch);
+            }, this.app);
 
             return Relation;
         },

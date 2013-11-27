@@ -1,5 +1,3 @@
-//= require ./lib/manifest
-//
 //= require ./search_widgets_layout
 //
 //= require ./structures_collection/manifest
