@@ -69,26 +69,23 @@
 -#  }
 -#= gmaps( {markers: {data: @places.to_gmaps4rails, options: {do_clustering: true}}, map_options: {maxZoom: 15, mapTypeControl: false}})
 
-.grid.push--top
-  .grid__item.one-half>
-    %h3.header-group
-      %i.fa.fa-list
-      Cours en ligne
-    .white-box.islet.text--center
-      .gamma
-        = Course.active.count
-        cours en ligne
-      #courses
-  .grid__item.one-half>
-    %h3.header-group
-      %i.fa.fa-youtube-play
-      Photos & Vidéos
-    .white-box.islet.text--center
-      .gamma
-        = Media.count
-        Médias
-      #medias
+%h3.header-group
+  %i.fa.fa-youtube-play
+  Photos & Vidéos
+.white-box.islet.text--center
+  .gamma
+    = Media.count
+    Médias
+  #medias
 
+%h3.header-group
+  %i.fa.fa-list
+  Cours en ligne
+.white-box.islet.text--center
+  .gamma
+    = Course.active.count
+    cours en ligne
+  #courses
 
 %h3.header-group
   %i.fa.fa-map-marker
