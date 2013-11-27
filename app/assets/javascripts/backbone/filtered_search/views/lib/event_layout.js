@@ -48,6 +48,10 @@ FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $
 
             $region_hook.appendTo(this.$el.find(selector));
             new_region.show(view);
+            this.regions[region_name] = new_region;
+            /* we have to add the region here to the regions object, because
+            * the addregion method only adds the region to the regionManager's
+            * _regions object, not to the view's regions object. */
         },
 
         bindWidgetEvents: function (view, events, region_name) {
