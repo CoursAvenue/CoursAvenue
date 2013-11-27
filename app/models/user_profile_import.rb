@@ -3,7 +3,16 @@ class UserProfileImport
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :file
+  attr_accessor :file, :structure_id,
+                       :email_index,
+                       :first_name_index,
+                       :last_name_index,
+                       :birthdate_index,
+                       :notes_index,
+                       :phone_index,
+                       :mobile_phone_index,
+                       :address_index
+
 
   def initialize(attributes = {})
     attributes.each { |name, value| send("#{name}=", value) }
@@ -20,7 +29,7 @@ class UserProfileImport
     else
       imported_user_profiles.each_with_index do |product, index|
         product.errors.full_messages.each do |message|
-          errors.add :base, "Row #{index+2}: #{message}"
+          errors.add :base, "Ligne #{index+2}: #{message}"
         end
       end
       false
@@ -38,13 +47,32 @@ class UserProfileImport
 
   def load_imported_user_profiles
     spreadsheet = open_spreadsheet
-    header      = spreadsheet.row(1)
+    # header      = spreadsheet.row(1)
+
     (2..spreadsheet.last_row).map do |i|
-      row = Hash[[header, spreadsheet.row(i)].transpose]
-      user_profile            = UserProfile.where{email == row['email']} || UserProfile.new
-      user_profile.attributes = row.to_hash.slice(*UserProfile.accessible_attributes)
+      row = {}
+      user_profile_accessible_attributes.map do |attribute_name|
+        if (index = self.send("#{attribute_name}_index")).present?
+          row[attribute_name] = spreadsheet.row(i)[index.to_i]
+        else
+          row[attribute_name] = nil
+        end
+      end
+      # row = Hash[[header, spreadsheet.row(i)].transpose]
+      # Prevents from blank email affecting some bs
+      if row['email'].present?
+        user_profile = UserProfile.where{email == row['email']}.first || UserProfile.new
+      else
+        user_profile = UserProfile.new
+      end
+      user_profile.attributes = row.slice(*UserProfile.accessible_attributes)
+      user_profile.structure_id = self.structure_id
       user_profile
     end
+  end
+
+  def user_profile_accessible_attributes
+    ['email', 'first_name', 'last_name', 'birthdate', 'notes', 'phone', 'mobile_phone', 'address']
   end
 
   def open_spreadsheet

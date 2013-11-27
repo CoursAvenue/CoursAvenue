@@ -2,7 +2,8 @@ class UserProfile < ActiveRecord::Base
   belongs_to :structure
   belongs_to :user
 
-  attr_accessible :email, :first_name, :last_name, :birthdate, :notes, :phone, :mobile_phone, :address
+  attr_accessible :email, :first_name, :last_name, :birthdate, :notes, :phone, :mobile_phone,
+                  :address, :structure_id
 
   before_save :affect_email_if_empty
   after_create :associate_to_user
@@ -36,7 +37,7 @@ class UserProfile < ActiveRecord::Base
   end
 
   def associate_to_user
-    if self.user.nil?
+    if self.user.nil? and self.email.present?
       if (u = User.where(email: self.email).first).nil?
         u = User.new(email: self.email, name: self.full_name)
         u.save(validate: false)

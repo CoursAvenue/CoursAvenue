@@ -14,7 +14,14 @@ class Pro::Structures::UserProfileImportsController < ApplicationController
   end
 
   def create
-    lazdl?
+    #
+    if params[:table_indexes].present?
+      params.delete(:table_indexes).reject(&:blank?).each do |table_index|
+        attribute_name, index = table_index.split(':')
+        params[:user_profile_import]["#{attribute_name}_index".to_sym] = index
+      end
+    end
+    params[:user_profile_import][:structure_id] = @structure.id
     @user_profile_import = UserProfileImport.new(params[:user_profile_import])
     if @user_profile_import.save
       redirect_to pro_structure_user_profiles_path(@structure), notice: "Imported products successfully."

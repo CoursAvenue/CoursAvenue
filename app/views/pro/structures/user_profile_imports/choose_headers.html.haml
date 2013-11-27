@@ -2,15 +2,23 @@
 
 = render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'import' }
 
-%table.white-box.table--data.table--striped
-  %tbody
-    - @user_profile_import.headers.each do |attribute|
-      %tr
-        %td= attribute
-        %td lala
-
 = simple_form_for [:pro, @structure, @user_profile_import] do |f|
   .form-white-box
+    = f.error_notification
+    - @user_profile_import.errors[:base].each do |error|
+      .alert.alert-error= error
+    %table.table--data.table--striped
+      %tbody
+        - attributes = *UserProfile.accessible_attributes
+        - @user_profile_import.headers.each_with_index do |attribute, index|
+          %tr
+            %td= attribute
+            %td
+              %select{name: 'table_indexes[]'}
+                %option
+                - attributes.each do |attribute_name|
+                  %option{value: "#{attribute_name}:#{index}"}= UserProfile.human_attribute_name(attribute_name)
+
     .text--center
       = f.input :file, as: :file
     .form-actions
