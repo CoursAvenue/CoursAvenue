@@ -12,7 +12,7 @@ class StructureSerializer < ActiveModel::Serializer
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :structure_type,
-             :has_promotion, :subjects_string, :last_comment_title
+             :has_promotion, :course_names, :last_comment_title
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
@@ -130,7 +130,11 @@ class StructureSerializer < ActiveModel::Serializer
     structure_path(object)
   end
 
-  def subjects_string
-    truncate(join_child_subjects_text(object), length: 55)
+  def course_names
+    if object.course_names.present?
+      object.course_names
+    else
+      join_child_subjects_text(object)
+    end
   end
 end
