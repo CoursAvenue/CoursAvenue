@@ -60,18 +60,9 @@
 - else
   %p.text--center= link_to 'Voir la répartition par discipline',  pro_dashboard_path(with_subjects: true), class: 'btn btn--blue'
 
--#%h3.header-group
--#  %i.fa.fa-map-marker
--#  Lieux d'enseignement
--#:css
--#  .gmaps4rails_map {
--#    height: 60em;
--#  }
--#= gmaps( {markers: {data: @places.to_gmaps4rails, options: {do_clustering: true}}, map_options: {maxZoom: 15, mapTypeControl: false}})
-
 %h3.header-group
   %i.fa.fa-youtube-play
-  Message vers profs
+  Demande d'infos
 .white-box.islet.text--center
   .gamma
     = Conversation.where{subject == "Demande d'informations"}.count
@@ -181,7 +172,7 @@
             title: { text: null },
             xAxis: { categories: #{@students.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
-            series: [{ data: #{@students.map{|date, count| count}} }]
+            series: [{ data: #{@students.map{|date, count| (count > 11000 ? 100 : count)}} }]
         });
         new Highcharts.Chart({
             chart: { renderTo: 'messages', type: 'column' },
@@ -199,7 +190,7 @@
               { data: #{@videos.map{|date, count| count}},
                 name: 'Vidéos'
                },
-              { data: #{@images.map{|date, count| (count > 1700 ? 10 : count)}},
+              { data: #{@images.map{|date, count| (count > 1200 ? 10 : count)}},
                 name: 'Photos'
               }
             ]
