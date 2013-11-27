@@ -71,11 +71,22 @@
 
 %h3.header-group
   %i.fa.fa-youtube-play
+  Message vers profs
+.white-box.islet.text--center
+  .gamma
+    = Conversation.where{subject == "Demande d'informations"}.count
+    Messages
+  #messages
+
+%h3.header-group
+  %i.fa.fa-youtube-play
   Photos & Vidéos
 .white-box.islet.text--center
   .gamma
-    = Media.count
-    Médias
+    = Media::Video.count
+    Vidéos /
+    = Media::Image.count
+    Photos
   #medias
 
 %h3.header-group
@@ -173,11 +184,25 @@
             series: [{ data: #{@students.map{|date, count| count}} }]
         });
         new Highcharts.Chart({
+            chart: { renderTo: 'messages', type: 'column' },
+            title: { text: null },
+            xAxis: { categories: #{@messages.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [{ data: #{@messages.map{|date, count| count}} }]
+        });
+        new Highcharts.Chart({
             chart: { renderTo: 'medias', type: 'column' },
             title: { text: null },
-            xAxis: { categories: #{@medias.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            xAxis: { categories: #{@images.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
-            series: [{ data: #{@medias.map{|date, count| count}} }]
+            series: [
+              { data: #{@videos.map{|date, count| count}},
+                name: 'Vidéos'
+               },
+              { data: #{@images.map{|date, count| (count > 1700 ? 10 : count)}},
+                name: 'Photos'
+              }
+            ]
         });
         new Highcharts.Chart({
             chart: { renderTo: 'courses', type: 'column' },

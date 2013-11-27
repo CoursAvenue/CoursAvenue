@@ -52,9 +52,11 @@ class Pro::DashboardController < Pro::ProController
     @admins.each{|date, count| @admins_hash[date.to_s] = count}
     @comments_hash  = hash_of_days.merge(@comments_hash) #.reject{|key, value| value == 0}
     @admins_hash    = hash_of_days.merge(@admins_hash)   #.reject{|key, value| value == 0}
-    @students = User.where{created_at > Date.today - 2.month}.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
-    @users    = User   .count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
-    @medias   = Media  .count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
+    @students   = User.where{created_at > Date.today - 2.month}.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
+    @users      = User.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
+    @videos     = Media::Video.where{created_at > Date.today - 1.month}.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
+    @images     = Media::Image.where{created_at > Date.today - 1.month}.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
+    @messages   = Conversation.where{subject == "Demande d'informations"} .count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
   end
 end
 
