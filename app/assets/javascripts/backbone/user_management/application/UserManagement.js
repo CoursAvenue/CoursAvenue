@@ -60,12 +60,21 @@ UserManagement.addInitializer(function(options) {
 
     UserManagement.mainRegion.show(layout);
 
-    pagination_tool = new CoursAvenue.Views.PaginationToolView({});
+    pagination_top    = new CoursAvenue.Views.PaginationToolView({});
+    pagination_bottom = new CoursAvenue.Views.PaginationToolView({});
 
-    layout.showWidget(pagination_tool, {
+    layout.showWidget(pagination_top, {
         events: {
             'user_profiles:updated:pagination': 'reset'
-        }
+        },
+        selector: '[data-type=pagination-top]'
+    });
+
+    layout.showWidget(pagination_bottom, {
+        events: {
+            'user_profiles:updated:pagination': 'reset'
+        },
+        selector: '[data-type=pagination-bottom]'
     });
 
     layout.results.show(user_profiles_collection_view);
