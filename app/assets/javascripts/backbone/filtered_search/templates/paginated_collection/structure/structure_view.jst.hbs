@@ -20,8 +20,10 @@
                 <a href="{{ data_url }}">{{ name }}</a>
             </h2>
             {{#if course_names}}
-                <div class="milli gray" title="{{course_names}}" data-behavior="tooltip">
-                    <i>{{{truncate course_names 55}}}</i>
+                <div class="milli gray">
+                    <span title="{{course_names}}" data-behavior="tooltip">
+                        <i>{{{truncate course_names 55}}}</i>
+                    </span>
                 </div>
             {{/if}}
             <div>
