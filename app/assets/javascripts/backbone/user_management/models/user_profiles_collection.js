@@ -32,8 +32,8 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             /* TODO the results total seems to be out of sync with what we actually
              * receive, so for now we will just do this: */
-            // this.paginator_ui.grandTotal  = (models.length === 0) ? 0 : options.total;
-           // this.paginator_ui.totalPages  = Math.ceil(this.paginator_ui.grandTotal / this.paginator_ui.perPage);
+            this.paginator_ui.grandTotal  = 0;
+            this.paginator_ui.totalPages  = 0;
             this.url.basename         = window.location.toString().split('/');
             this.url.basename.pop();
             this.url.basename         = this.url.basename.join('/');
@@ -46,10 +46,23 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             data_type: '.json'
         },
 
-//      url: function () {
-//          console.log("UserProfilesCollection->url");
+        parse: function(response) {
+            // we did some kind of request, I guess we should update the query
+            if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
 
-//          return "mes-eleves.json";
-//      }
+            this.grandTotal = response.meta.total;
+            this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
+
+            return response.user_profiles;
+        },
+
+        paginator_ui: {
+            firstPage:   1,
+            perPage:     30,
+            totalPages:  0,
+            grandTotal:  0,
+            radius:      2 // determines the behaviour of the ellipsis
+        }
+
     });
 });

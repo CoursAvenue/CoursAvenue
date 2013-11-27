@@ -54,7 +54,6 @@ UserManagement.addInitializer(function(options) {
         }
     });
 
-    user_profiles.fetch();
     window.pfaff = user_profiles;
 
     layout = new UserManagement.Views.UserProfilesLayout();
@@ -63,10 +62,14 @@ UserManagement.addInitializer(function(options) {
 
     pagination_tool = new CoursAvenue.Views.PaginationToolView({});
 
-    layout.showWidget(pagination_tool);
+    layout.showWidget(pagination_tool, {
+        events: {
+            'user_profiles:updated:pagination': 'reset'
+        }
+    });
 
     layout.results.show(user_profiles_collection_view);
-
+    user_profiles_collection_view.changePage(2);
 });
 
 $(document).ready(function() {

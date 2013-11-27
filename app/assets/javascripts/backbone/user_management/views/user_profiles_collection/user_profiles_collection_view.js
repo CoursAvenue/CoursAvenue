@@ -43,7 +43,12 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         /* override inherited method */
         announcePaginatorUpdated: function () {
+            if (this.collection.totalPages == undefined || this.collection.totalPages < 1) {
+                return;
+            }
+
             var data         = this.collection;
+
             var first_result = (data.currentPage - 1) * data.perPage + 1;
 
             this.trigger('user_profiles:updated');
@@ -58,7 +63,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 sort:                this.collection.server_api.sort
             });
         }
-
     });
 });
 
