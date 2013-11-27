@@ -26,6 +26,16 @@ FilteredSearch.module('Views.Lib', function(Module, App, Backbone, Marionette, $
 
             this.currently_selected_cid.push(model_cid);
             view.trigger('show');
+        },
+
+        /* we don't use this, but we could */
+        accordionCloseAll: function () {
+            var self = this;
+
+            _.each(_.clone(this.currently_selected_cid), function(cid) {
+                var itemView = self.children.findByModelCid(cid);
+                itemView.accordionToggle(itemView.active_region);
+            });
         }
     });
 });
