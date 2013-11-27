@@ -1,7 +1,7 @@
 
 /* just a basic backbone model */
 UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _) {
-    Models.UserProfilesCollection = Backbone.Collection.extend({
+    Models.UserProfilesCollection = CoursAvenue.Lib.Models.PaginatedCollection.extend({
         model: Models.UserProfile,
 
         url: function () {
