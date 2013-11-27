@@ -10,13 +10,14 @@
         .grid__item.one-half>
           %label Votre email
           %input.one-whole.milli{type: 'email', name: 'user[email]', placeholder: 'Ex. : florian.c@gmail.com'}
-    %label Message privé
+    %label
+      Message privé
+      \—
+      %i Modifiez ce texte avec des informations sur vous et sur le cours souhaité.
     -# Here to stop bots.
     -# If this is filled, the message won't be sent
     .visuallyhidden
       %input{name: 'content', type: 'text'}
     = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt", data: { behavior: 'autoresize' }}
-    %p.flush
-      %i Modifiez ce texte avec le plus d'informations sur vous et sur le cours souhaité.
     = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
 
