@@ -33,6 +33,7 @@ class NutshellUpdater
         new_tags = contact['tags'] || []
         new_tags.delete('Non inscrit')
         new_tags += structure.subjects.at_depth(2).map(&:name)
+        new_tags += structure.subjects.at_depth(0).map(&:name)
         new_tags << 'Inscrit'
         if !structure.profile_completed?
           new_tags << 'Complet 0'
@@ -58,7 +59,11 @@ class NutshellUpdater
         }
         new_contact = {
           'tags'    => new_tags.uniq,
-          'address' => address
+          'address' => address,
+          'customFields' => {
+              'Profil privé' => "http://pro.coursavenue.com/etablissements/#{structure.slug}/tableau-de-bord",
+              'Profil public' => "http://www.coursavenue.com/etablissements/#{structure.slug}"
+          }
         }
         nutshell.edit_contact contact['id'], contact['rev'].to_i, new_contact
         puts "Updating #{admin.email} from #{structure.name}"

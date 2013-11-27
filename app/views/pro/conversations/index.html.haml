@@ -1,0 +1,8 @@
+= side_menu_currently_at 'Derniers messages'
+
+.text--center.push--bottom= link_to "Voir les demandes d'élèves", pro_conversations_path(info: true), class: 'btn btn--blue'
+
+- @conversations.each do |conversation|
+  - structure = conversation.recipients.select{|r| r.is_a? Admin}.first.structure
+  = link_to pro_structure_conversation_path(structure, conversation), class: 'muted-link' do
+    = render partial: 'conversations/conversation', locals: { conversation: conversation }

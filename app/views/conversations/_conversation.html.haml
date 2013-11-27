@@ -1,6 +1,6 @@
 - last_message = conversation.messages.last
 
-- recipient = conversation.recipients.reject{|recipient| recipient == ((@admin || current_pro_admin) || current_user) }.first
+- recipient = conversation.recipients.compact.reject{|recipient| recipient == ((@admin || current_pro_admin) || current_user) }.first
 
 .grid.conversation
   .grid__item.one-twelfth.v-top.text--right>
