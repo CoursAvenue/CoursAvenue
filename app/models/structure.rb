@@ -440,6 +440,7 @@ class Structure < ActiveRecord::Base
     self.update_column :gives_individual_courses, self.courses.select(&:is_individual?).any?
     self.update_column :has_promotion,            self.prices.select{|p| p.promo_amount.present?}.any?
     self.update_column :has_free_trial_course,    self.prices.where{(type == 'Price::Trial') & ((amount == nil) | (amount == 0))}.any?
+    self.update_column :course_names,             self.courses.map(&:name).uniq.join(', ')
     self.set_min_and_max_price
   end
 

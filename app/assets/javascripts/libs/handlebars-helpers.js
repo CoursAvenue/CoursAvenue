@@ -12,3 +12,13 @@ Handlebars.registerHelper('pluralize', function(number, single, plural) {
     return (number === 1) ? single : plural;
 });
 
+
+// usage: {{truncate 'my long text' length}}
+Handlebars.registerHelper('truncate', function(text, length) {
+    if (text.length < length) {
+        return text.length
+    } else {
+        return text.slice(0, length) + "..."
+    }
+});
+

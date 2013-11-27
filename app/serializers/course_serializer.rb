@@ -6,7 +6,7 @@ class CourseSerializer < ActiveModel::Serializer
   has_many :plannings
 
   def plannings
-    object.plannings.ordered_by_day
+    object.plannings.future.ordered_by_day
   end
 
   def is_individual
