@@ -1,6 +1,16 @@
 <td>{{email}}</td>
 <td>{{first_name}}</td>
 <td>{{last_name}}</td>
-<td data-title="{{notes}}" data-behavior="tooltip">
-  <i class="lbc-brand-icon"></i>
+<td>
+  <span data-title="{{mobile_phone_number}} {{#ifCond mobile_phone_number '&&' phone_number}}/{{/ifCond}} {{phone_number}}" data-behavior="tooltip" class="pointer">
+    <i class="fa fa-phone"></i>
+  </span>
 </td>
+<td>
+  {{#if notes}}
+  <span data-title="{{notes}}" data-behavior="tooltip">
+    <i class="lbc-brand-icon"></i>
+  </span>
+  {{/if}}
+</td>
+
