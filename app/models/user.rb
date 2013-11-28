@@ -121,6 +121,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  # Check if user's email is valid
+  def email_valid?
+    self.valid? # Generates the errors
+    self.errors[:email].empty?
+  end
+
   private
 
   def random_string
