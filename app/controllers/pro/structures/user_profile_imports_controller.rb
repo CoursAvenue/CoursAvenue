@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Pro::Structures::UserProfileImportsController < ApplicationController
   before_action :authenticate_pro_admin!
   before_action :load_structure
@@ -5,28 +6,46 @@ class Pro::Structures::UserProfileImportsController < ApplicationController
   layout 'admin'
 
   def new
-    @user_profile_import = UserProfileImport.new
+    @user_profile_import = @structure.user_profile_imports.build
   end
 
   def choose_headers
-    @file = params[:user_profile_import][:file]
-    @user_profile_import = UserProfileImport.new(params[:user_profile_import])
+    @user_profile_import = @structure.user_profile_imports.find(params[:id])
   end
 
   def create
-    #
+    @user_profile_import           = @structure.user_profile_imports.build
+    if params[:user_profile_import].present?
+      @file = params[:user_profile_import][:file]
+
+      @user_profile_import.data      = @file.open.read.force_encoding('BINARY')
+      # @user_profile_import.data      = @file.open.read
+      @user_profile_import.filename  = @file.original_filename
+      @user_profile_import.mime_type = @file.content_type
+    end
+    @user_profile_import.structure = @structure
+    respond_to do |format|
+      if @user_profile_import.save
+        format.html { redirect_to choose_headers_pro_structure_user_profile_import_path(@structure, @user_profile_import) }
+      else
+        format.html { render :new }
+      end
+    end
+  end
+
+  def import
+    @user_profile_import = @structure.user_profile_imports.find(params[:id])
     if params[:table_indexes].present?
       params.delete(:table_indexes).reject(&:blank?).each do |table_index|
         attribute_name, index = table_index.split(':')
-        params[:user_profile_import]["#{attribute_name}_index".to_sym] = index
+        @user_profile_import.send("#{attribute_name}_index=", index.to_i)
       end
     end
-    params[:user_profile_import][:structure_id] = @structure.id
-    @user_profile_import = UserProfileImport.new(params[:user_profile_import])
-    if @user_profile_import.save
+    @user_profile_import
+    if @user_profile_import.import
       redirect_to pro_structure_user_profiles_path(@structure), notice: "Imported products successfully."
     else
-      render :new
+      render :choose_headers
     end
   end
 

@@ -8,7 +8,7 @@ class UserProfile < ActiveRecord::Base
   before_save :affect_email_if_empty
   after_create :associate_to_user
 
-  validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }
+  validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }, allow_blank: true
   validate :presence_of_mandatory_fields
 
   # ------------------------------------

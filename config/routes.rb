@@ -67,8 +67,9 @@ CoursAvenue::Application.routes.draw do
 
         resources :user_profiles, controller: 'structures/user_profiles', path: 'mes-eleves'
         resources :user_profile_imports, only: [:new, :create], controller: 'structures/user_profile_imports', path: 'importer-mes-eleves' do
-          collection do
-            post :choose_headers
+          member do
+            get   :choose_headers
+            patch :import
           end
         end
         resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'

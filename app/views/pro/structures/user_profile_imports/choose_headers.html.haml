@@ -1,25 +1,25 @@
 = side_menu_currently_at 'Mes élèves'
 
 = render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'import' }
-
-= simple_form_for [:pro, @structure, @user_profile_import] do |f|
+- zad?
+= simple_form_for [:import, :pro, @structure, @user_profile_import] do |f|
   .form-white-box
     = f.error_notification
     - @user_profile_import.errors[:base].each do |error|
-      .alert.alert-error= error
+      %p.flush= error
     %table.table--data.table--striped
+      %thead
+        %tr
+          %th 1ère ligne
+          %th Association
       %tbody
-        - attributes = *UserProfile.accessible_attributes
-        - @user_profile_import.headers.each_with_index do |attribute, index|
+        - @user_profile_import.headers.each_with_index do |excel_first_row, index|
           %tr
-            %td= attribute
+            %td= excel_first_row
             %td
               %select{name: 'table_indexes[]'}
                 %option
-                - attributes.each do |attribute_name|
-                  %option{value: "#{attribute_name}:#{index}"}= UserProfile.human_attribute_name(attribute_name)
+                - @user_profile_import.user_profile_accessible_attributes.each do |attribute_name|
+                  %option{selected: (@user_profile_import.send("#{attribute_name}_index") == index) ,value: "#{attribute_name}:#{index}"}= UserProfile.human_attribute_name(attribute_name)
 
-    .text--center
-      = f.input :file_id, as: :hidden
-    .form-actions
-      = f.submit 'Enregistrer', class: 'btn btn--green'
+    = f.submit 'Valider', class: 'btn btn--green btn--full'
