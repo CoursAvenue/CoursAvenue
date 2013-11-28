@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131127141027) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20131128100450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,11 +81,15 @@ ActiveRecord::Schema.define(version: 20131127141027) do
   add_index "cities", ["slug"], name: "index_cities_on_slug", unique: true, using: :btree
   add_index "cities", ["zip_code"], name: "index_cities_on_zip_code", using: :btree
 
-  create_table "click_loggers", force: true do |t|
+  create_table "click_logs", force: true do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.integer  "structure_id"
+    t.text     "info"
   end
+
+  add_index "click_logs", ["structure_id"], name: "index_click_logs_on_structure_id", using: :btree
 
   create_table "comment_notifications", force: true do |t|
     t.integer  "user_id"

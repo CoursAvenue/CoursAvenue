@@ -1,0 +1,13 @@
+= side_menu_currently_at 'Clicks'
+
+%table.white-box.table--data.table--striped
+  %thead
+    %tr
+      %th Nom
+      %th # clicks
+  %tbody
+    - @click_logs.each do |structure_id, count|
+      %tr
+        %td= Structure.find(structure_id).name
+        %td= count
+

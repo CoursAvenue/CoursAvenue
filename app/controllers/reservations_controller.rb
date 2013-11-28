@@ -16,6 +16,7 @@ class ReservationsController < ApplicationController
       @reservation.user = current_user
     end
     respond_to do |format|
+      format.js { render nothing: true }
       if @reservation and @reservation.save
         UserMailer.delay.alert_structure_for_reservation(@reservation)
         UserMailer.delay.alert_user_for_reservation(@reservation)
