@@ -44,6 +44,7 @@
           .flexbox__item.two-thirds.v-top>
             %h2.delta.orange.flush--bottom= @course.name
             %p.push-half--bottom
+              %i.fa.fa-tags
               %i= join_child_subjects_text @course
           - if @price_range.any?
             .flexbox__item.one-third.v-middle.text--right>
