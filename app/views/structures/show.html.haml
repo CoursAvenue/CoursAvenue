@@ -119,22 +119,6 @@
       .white-box.islet
         .text--center= image_tag @structure.cover_image.thumbnail_url, alt: "Cours de #{join_parent_subjects_text @structure} à #{@city.name}"
 
-    - if @structure.website.present? or @structure.contact_phone.present? or @structure.contact_mobile_phone.present?
-      .white-box.islet.push--top
-        - if @structure.website.present?
-          %div
-            %i.fa.fa-external-link.orange
-            = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
-        - if @structure.contact_phone.present? or @structure.contact_mobile_phone.present?
-          %i.fa.fa-phone.blue
-        - if @structure.contact_phone.present?
-          = link_to "tel:#{@structure.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
-            = @structure.contact_phone.gsub(' ', '&nbsp;').html_safe
-        - if @structure.contact_phone.present? and @structure.contact_mobile_phone.present?
-          %span.blue /
-        - if @structure.contact_mobile_phone.present?
-          = link_to "tel:#{@structure.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
-            = @structure.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
 
     - if @structure.facebook_url.present?
       = link_to "Page facebook de l'établissement", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole btn--small push--bottom'

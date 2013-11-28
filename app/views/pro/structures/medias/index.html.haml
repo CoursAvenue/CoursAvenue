@@ -16,7 +16,10 @@
       .one-third.media__item.very-soft.show-on-hover-wrapper>
         %a.break-all.soft-half.hard--bottom.block{href: media.url, title: media.caption, data: {behavior: 'fancy'}}
           %i.fa.fa-expand
-          = media.thumbnail_url_html
+          - if media.video?
+            = media.url_html
+          - else
+            = media.thumbnail_url_html
           - if media.caption.present?
             %p.flush--bottom
               %i= media.caption

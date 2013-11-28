@@ -3,7 +3,7 @@
 UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.UserProfileView = Backbone.Marionette.ItemView.extend({
-        template: Module.templateDirname() + 'user_profile_view'
-
+        template: Module.templateDirname() + 'user_profile_view',
+        tagName: 'tr'
     });
 });

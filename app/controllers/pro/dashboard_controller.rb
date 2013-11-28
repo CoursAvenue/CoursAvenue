@@ -56,6 +56,11 @@ class Pro::DashboardController < Pro::ProController
     @users      = User.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
     @videos     = Media::Video.where{created_at > Date.today - 1.month}.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
     @images     = Media::Image.where{created_at > Date.today - 1.month}.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
+    @medias_dates = (@videos.map(&:first) + @images.map(&:first)).uniq.sort
+    @medias_dates.each do |date|
+      @videos[date] ||= 0
+      @images[date] ||= 0
+    end
     @messages   = Conversation.where{subject == "Demande d'informations"} .count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
   end
 end

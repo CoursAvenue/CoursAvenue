@@ -32,7 +32,6 @@ class Structures::CoursesController < ApplicationController
     end
     @plannings_grouped_by_places = @plannings.future.group_by(&:place)
     @subjects                    = @course.subjects
-    @reservation                 = Reservation.new
     @price_range                 = @course.price_range
     @prices                      = @course.book_tickets + @course.subscriptions
     @location_index_hash = {}

@@ -21,3 +21,41 @@
     = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt", data: { behavior: 'autoresize' }}
     = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
 
+= simple_form_for [ClickLog.new(structure_id: @structure.id)], remote: true, html: { id: 'show-structure-contact-form' } do |f|
+  - if @course
+    = f.input :info, as: :hidden, input_html: { value: "Cours : #{@course.name}" }
+  = f.input :structure_id, as: :hidden
+  = f.submit 'Voir les coordonnées'.html_safe, class: 'push--bottom btn btn--full btn--blue', id: 'show-structure-contact'
+#structure-contact.hidden
+  .white-box.islet
+    - if @structure.contact_phone.present? or @structure.contact_mobile_phone.present?
+      %i.fa.fa-phone.blue
+    - if @structure.contact_phone.present?
+      = link_to "tel:#{@structure.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
+        = @structure.contact_phone.gsub(' ', '&nbsp;').html_safe
+    - if @structure.contact_phone.present? and @structure.contact_mobile_phone.present?
+      %span.blue /
+    - if @structure.contact_mobile_phone.present?
+      = link_to "tel:#{@structure.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
+        = @structure.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
+    - if @structure.contact_email.present?
+      %div
+        %i.fa.fa-envelope.orange
+        = link_to @structure.contact_email, "mailto:#{@structure.contact_email}", target: '_blank', rel: 'nofollow'
+    - if @structure.website.present?
+      %div
+        %i.fa.fa-external-link.orange
+        = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
+
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#show-structure-contact').click(function() {
+            $('#structure-contact').slideDown();
+            // Prevent from multiple click and multiple submission
+            $('#show-structure-contact-form').on('ajax:complete', function(){
+              $('#show-structure-contact-form').attr('action', '');
+            });
+        });
+    });
