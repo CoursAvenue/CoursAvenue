@@ -12,6 +12,7 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :user
 
+  validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }
   validates :email, :author_name, :course_name, :content, :commentable, :title, presence: true
   validate  :doesnt_exist_yet, on: :create
   validate  :content_length, on: :create
