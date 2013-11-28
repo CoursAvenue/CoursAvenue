@@ -88,6 +88,7 @@ class Structure < ActiveRecord::Base
   has_and_belongs_to_many :subjects
 
   has_many :user_profiles
+  has_many :user_profile_imports
   has_many :users, through: :user_profiles
 
   has_many :places                   , dependent: :destroy
