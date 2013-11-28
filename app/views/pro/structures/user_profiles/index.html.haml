@@ -1,2 +1,6 @@
 = side_menu_currently_at 'Mes élèves'
 
+#user-management{ :data => { :type => "user-management-root" }}
+
+.text--center
+  = link_to 'Ajouter un élève', new_pro_structure_user_profile_path(@structure), class: 'btn btn--blue'
