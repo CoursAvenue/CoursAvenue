@@ -20,6 +20,6 @@
                   %option{value: "#{attribute_name}:#{index}"}= UserProfile.human_attribute_name(attribute_name)
 
     .text--center
-      = f.input :file, as: :file
+      = f.input :file_id, as: :hidden
     .form-actions
       = f.submit 'Enregistrer', class: 'btn btn--green'

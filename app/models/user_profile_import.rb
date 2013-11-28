@@ -3,15 +3,15 @@ class UserProfileImport
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :file, :structure_id,
-                       :email_index,
-                       :first_name_index,
-                       :last_name_index,
-                       :birthdate_index,
-                       :notes_index,
-                       :phone_index,
-                       :mobile_phone_index,
-                       :address_index
+  attr_accessor :file, :file_id, :structure_id,
+                                 :email_index,
+                                 :first_name_index,
+                                 :last_name_index,
+                                 :birthdate_index,
+                                 :notes_index,
+                                 :phone_index,
+                                 :mobile_phone_index,
+                                 :address_index
 
 
   def initialize(attributes = {})
@@ -61,7 +61,8 @@ class UserProfileImport
       # row = Hash[[header, spreadsheet.row(i)].transpose]
       # Prevents from blank email affecting some bs
       if row['email'].present?
-        user_profile = UserProfile.where{email == row['email']}.first || UserProfile.new
+        _structure_id = self.structure_id
+        user_profile = UserProfile.where{(structure_id == _structure_id) && (email == row['email'])}.first || UserProfile.new
       else
         user_profile = UserProfile.new
       end
