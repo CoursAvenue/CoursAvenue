@@ -34,7 +34,10 @@ class Pro::Structures::UserProfileImportsController < ApplicationController
   end
 
   def import
-    @user_profile_import = @structure.user_profile_imports.find(params[:id])
+    @user_profile_import      = @structure.user_profile_imports.find(params[:id])
+    # Replace old file by new file if the users wants to
+    @user_profile_import.file = params[:user_profile_import][:file] if params[:user_profile_import] and params[:user_profile_import][:file].present?
+
     if params[:table_indexes].present?
       params.delete(:table_indexes).reject(&:blank?).each do |table_index|
         attribute_name, index = table_index.split(':')

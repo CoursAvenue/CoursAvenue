@@ -58,6 +58,7 @@ class UserProfileImport < ActiveRecord::Base
       # row = Hash[[header, spreadsheet.row(i)].transpose]
       # Prevents from blank email affecting some bs
       if row['email'].present?
+        row['email'] = strip_noise(row['email'])
         _structure_id = self.structure_id
         user_profile = UserProfile.where{(structure_id == _structure_id) && (email == row['email'])}.first || UserProfile.new
       else
@@ -70,14 +71,14 @@ class UserProfileImport < ActiveRecord::Base
   end
 
   def file
-    if read_attribute(:file).nil?
+    if @file.nil?
       unless @tempfile
         @tempfile = Tempfile.new(self.filename)
         @tempfile.write(self.data.force_encoding('UTF-8'))
       end
       @tempfile
     else
-      read_attribute(:file)
+      @file
     end
   end
 
@@ -92,5 +93,10 @@ class UserProfileImport < ActiveRecord::Base
     when ".xlsx" then Roo::Excelx.new(file.path, nil, :ignore)
     else raise "Unknown file type: #{file.original_filename}"
     end
+  end
+
+  # Remove non breaking spaces
+  def strip_noise(string)
+    ActiveSupport::Inflector.transliterate string.to_s, ''
   end
 end

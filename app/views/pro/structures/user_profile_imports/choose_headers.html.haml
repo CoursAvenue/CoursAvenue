@@ -1,12 +1,16 @@
 = side_menu_currently_at 'Mes élèves'
 
 = render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'import' }
-- zad?
+
 = simple_form_for [:import, :pro, @structure, @user_profile_import] do |f|
   .form-white-box
     = f.error_notification
-    - @user_profile_import.errors[:base].each do |error|
-      %p.flush= error
+    - if @user_profile_import.errors.any?
+      %br
+      .alert--error
+        - @user_profile_import.errors[:base].each do |error|
+          = error
+          %br
     %table.table--data.table--striped
       %thead
         %tr
@@ -21,5 +25,10 @@
                 %option
                 - @user_profile_import.user_profile_accessible_attributes.each do |attribute_name|
                   %option{selected: (@user_profile_import.send("#{attribute_name}_index") == index) ,value: "#{attribute_name}:#{index}"}= UserProfile.human_attribute_name(attribute_name)
+
+    - if @user_profile_import.errors.any?
+      %hr
+      = f.input :file, as: :file, label: 'Nouveau fichier à importer', wrapper_html: { class: 'flush' }
+      %p.field-form-info.blue Laisser vide si vous ne voulez pas le changer
 
     = f.submit 'Valider', class: 'btn btn--green btn--full'
