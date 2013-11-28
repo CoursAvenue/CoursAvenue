@@ -22,6 +22,7 @@ CoursAvenue::Application.routes.draw do
       get 'tableau-de-bord'                          , to: 'redirect#structure_dashboard', as: 'structure_dashboard_redirect'
       get 'modifier-mon-profil'                      , to: 'redirect#structure_edit',      as: 'structure_edit_redirect'
 
+      resources :click_logs, only: [:index]
 
       resources :comments, only: [:edit, :update, :index, :destroy] do
         member do
@@ -29,7 +30,7 @@ CoursAvenue::Application.routes.draw do
         end
       end
       resources :subjects
-      resources :reservation_loggers, only: [:index, :destroy]
+      resources :reservations, only: [:index]
       resources :invited_teachers, only: [:index]
       resources :sticker_demands, only: [:index]
       resources :structures, path: 'etablissements' do
@@ -210,7 +211,7 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :reservation_loggers, only: [:create]
-  resources :click_loggers, only: [:create]
+  resources :click_logs, only: [:create]
 
   # ---------------------------------------------------------
   # ----------------------------------------- Redirection 301

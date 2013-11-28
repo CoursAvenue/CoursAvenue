@@ -170,13 +170,13 @@
         new Highcharts.Chart({
             chart: { renderTo: 'medias', type: 'column' },
             title: { text: null },
-            xAxis: { categories: #{@images.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            xAxis: { categories: #{@medias_dates.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
             yAxis: { title: { text: ''}},
             series: [
-              { data: #{@videos.map{|date, count| count}},
+              { data: #{@videos.sort.map{|date, count| count}},
                 name: 'Vidéos'
                },
-              { data: #{@images.map{|date, count| (count > 1200 ? 10 : count)}},
+              { data: #{@images.sort.map{|date, count| (count > 1200 ? 10 : count)}},
                 name: 'Photos'
               }
             ]
