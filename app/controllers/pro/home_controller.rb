@@ -10,7 +10,7 @@ class Pro::HomeController < Pro::ProController
                                           sort: 'rating_desc',
                                           has_logo: true,
                                           per_page: 100,
-                                          bbox: false
+                                          bbox: true
                                         }).results
     @locations = []
     @structures.each do |structure|

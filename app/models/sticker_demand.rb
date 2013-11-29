@@ -4,6 +4,14 @@ class StickerDemand < ActiveRecord::Base
   attr_accessible :round_number, :square_number, :address, :sent
   validate :at_least_one_sticker, on: :create
 
+  def sent?
+    self.sent_at.present?
+  end
+
+  def send!
+    self.update_column :sent_at, Time.now
+  end
+
   private
 
   def at_least_one_sticker
