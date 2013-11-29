@@ -26,9 +26,7 @@
       Ils ont déjà leur livre d'or :
   .main-container.stickem-container.relative
     .stickem.absolute{style: 'width: 38%;'}>
-      :css
-        #map { height: 500px; }
-      = gmaps( {markers: {data: @json_locations_addresses}, map_options: {maxZoom: 14, mapTypeControl: false}})
+      #map.google-map.google-map--medium
     - cache(cache_key_for_structures) do
       .grid
         .grid__item.six-tenths.course-list-wrapper.palm-one-whole.lap-one-whole>
@@ -74,33 +72,39 @@
                 return false;
             });
         });
-        Gmaps.map.callback = function() {
-            for (var i = 0; i <  this.markers.length; ++i) {
-                google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
-                    var structure = $('.course-element[data-location-ids~=' + this.id + ']');
-                    $(document.body).scrollTo(structure[0], {duration: 400});
-                    // Unselect courses if there already are that are selected
-                    $('.course-element').removeClass('selected');
-                    structure.addClass('selected');
-                }.bind(Gmaps.map.markers[i]));
-            }
-        };
-        $('.course-element').hover(function(event) {
-            var location_ids = $(this).data('location-ids').toString().split(' ');
-            $.each(Gmaps.map.markers, function(index, marker){
-                if (location_ids.indexOf(marker.id.toString()) !== -1) {
-                    var service_object = marker.serviceObject;
-                    service_object.setContent($(service_object.getContent()).addClass('active')[0].outerHTML);
-                }
-            });
-        }, function() {
-            var location_ids = $(this).data('location-ids').toString().split(' ');
-            $.each(Gmaps.map.markers, function(index, marker){
-                if (location_ids.indexOf(marker.id.toString()) !== -1) {
-                    var service_object = marker.serviceObject;
-                    service_object.setContent($(service_object.getContent()).removeClass('active')[0].outerHTML);
-                }
-            });
+        handler = Gmaps.build('Google');
+        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+            markers = handler.addMarkers(#{@json_locations_addresses.to_json});
+            handler.bounds.extendWith(markers);
+            handler.fitMapToBounds();
         });
+        // Gmaps.map.callback = function() {
+        //     for (var i = 0; i <  this.markers.length; ++i) {
+        //         google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
+        //             var structure = $('.course-element[data-location-ids~=' + this.id + ']');
+        //             $(document.body).scrollTo(structure[0], {duration: 400});
+        //             // Unselect courses if there already are that are selected
+        //             $('.course-element').removeClass('selected');
+        //             structure.addClass('selected');
+        //         }.bind(Gmaps.map.markers[i]));
+        //     }
+        // };
+        // $('.course-element').hover(function(event) {
+        //     var location_ids = $(this).data('location-ids').toString().split(' ');
+        //     $.each(Gmaps.map.markers, function(index, marker){
+        //         if (location_ids.indexOf(marker.id.toString()) !== -1) {
+        //             var service_object = marker.serviceObject;
+        //             service_object.setContent($(service_object.getContent()).addClass('active')[0].outerHTML);
+        //         }
+        //     });
+        // }, function() {
+        //     var location_ids = $(this).data('location-ids').toString().split(' ');
+        //     $.each(Gmaps.map.markers, function(index, marker){
+        //         if (location_ids.indexOf(marker.id.toString()) !== -1) {
+        //             var service_object = marker.serviceObject;
+        //             service_object.setContent($(service_object.getContent()).removeClass('active')[0].outerHTML);
+        //         }
+        //     });
+        // });
 
     });

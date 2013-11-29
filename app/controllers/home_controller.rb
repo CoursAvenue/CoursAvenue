@@ -13,16 +13,15 @@ class HomeController < ApplicationController
                                           radius: 5,
                                           sort: 'rating_desc',
                                           has_logo: true,
-                                          per_page: 1000,
-                                          bbox: false
+                                          per_page: 130,
+                                          bbox: true
                                         }).results
 
-    @json_locations_addresses = @structures.to_gmaps4rails do |structure, marker|
-      marker.json({ id: structure.slug })
+    @json_locations_addresses = Gmaps4rails.build_markers(@structures) do |structure, marker|
+      marker.lat structure.latitude
+      marker.lng structure.longitude
     end
 
-    # fresh_when @comments.first, etag: [@comments.first, ENV["ETAG_VERSION_ID"]], public: true
-    # expires_in 1.minute, public: true
   end
 
   def contact

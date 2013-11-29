@@ -61,7 +61,6 @@ StructureProfile.addInitializer(function(options) {
     /* we can add a widget along with a callback to be used
     * for setup */
     layout.showWidget(google_maps_view);
-    window.google_maps_view = google_maps_view;
 
 });
 

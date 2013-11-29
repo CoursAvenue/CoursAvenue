@@ -25,17 +25,13 @@ class Subjects::CitiesController < ApplicationController
 
     @medias     = @structures.collect(&:medias).flatten
 
-    @json_structure_addresses = @locations.flatten.to_gmaps4rails do |location, marker|
-      marker.picture({
-                      :marker_anchor => [10, true],
-                      :rich_marker   => "<div class='map-marker-image disabled'><a href='javascript:void(0)'></a></div>"
-                     })
-      marker.title   location.name
-      marker.json({
-        id: location.id,
-        structure_slug: location.structures.first.slug
-      })
+    if @locations.empty?
+      @locations << Location.new(latitude: @city.latitude, longitude: @city.longitude)
     end
-
+    @json_structure_addresses = Gmaps4rails.build_markers(@locations.flatten) do |location, marker|
+      marker.lat location.latitude
+      marker.lng location.longitude
+    end
   end
 end
+

@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Pro::PlacesController < InheritedResources::Base
+class Pro::Structures::PlacesController < InheritedResources::Base
   before_action :authenticate_pro_admin!
   layout 'admin'
   belongs_to :structure
@@ -25,7 +25,10 @@ class Pro::PlacesController < InheritedResources::Base
 
   def index
     index! do |format|
-      @locations = @structure.locations
+      @locations = Gmaps4rails.build_markers(@structure.locations) do |location, marker|
+        marker.lat location.latitude
+        marker.lng location.longitude
+      end
       format.html
     end
   end

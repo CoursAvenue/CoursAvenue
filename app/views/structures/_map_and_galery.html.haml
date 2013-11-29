@@ -1,6 +1,6 @@
 :javascript
   window.coursavenue = window.coursavenue || {};
-  var models = #{ActiveModel::ArraySerializer.new(@structure.places, each_serializer: BigPlaceSerializer).to_json};
+  var models = #{ActiveModel::ArraySerializer.new(places, each_serializer: BigPlaceSerializer).to_json};
   window.coursavenue.bootstrap = {
       models: models
   };

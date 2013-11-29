@@ -28,17 +28,9 @@
           %p.flush
             %a{href: '#cours', data: {behavior: 'scroller'}} Voir tous les cours
 
-    :css
-      .gmaps4rails_map {
-        height: 60em;
-      }
-
     .grid
       .grid__item.three-fifths>
-        - if @structures.blank?
-          = gmaps( {markers: {data: [{lat: @city.latitude, lng: @city.longitude}].to_json}, map_options: {maxZoom: 11, mapTypeControl: false}})
-        - else
-          = gmaps( {markers: {data: @json_structure_addresses}, map_options: {mapTypeControl: false}})
+        #map.google-map.google-map--large
       .grid__item.two-fifths>
         - number_of_structure_rendered = 0
         - @structures.each do |structure|
@@ -115,30 +107,10 @@
             }, 600)
             return false;
         })
-        // Handle gmaps clicks
-        var structure_path = "#{structure_path('__ID__')}";
-        Gmaps.map.callback = function() {
-            for (var i = 0; i <  this.markers.length; ++i) {
-                google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
-                    window.open(structure_path.replace('__ID__', this.structure_slug));
-                }.bind(Gmaps.map.markers[i]));
-            }
-        };
-        $('[data-type=structure-element]').hover(function(event) {
-            var location_ids = $(this).data('location-ids').toString().split(' ');
-            $.each(Gmaps.map.markers, function(index, marker){
-                if (location_ids.indexOf(marker.id.toString()) !== -1) {
-                    var service_object = marker.serviceObject;
-                    service_object.setContent($(service_object.getContent()).addClass('active')[0].outerHTML);
-                }
-            });
-        }, function() {
-            var location_ids = $(this).data('location-ids').toString().split(' ');
-            $.each(Gmaps.map.markers, function(index, marker){
-                if (location_ids.indexOf(marker.id.toString()) !== -1) {
-                    var service_object = marker.serviceObject;
-                    service_object.setContent($(service_object.getContent()).removeClass('active')[0].outerHTML);
-                }
-            });
+        handler = Gmaps.build('Google');
+        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+            markers = handler.addMarkers(#{@locations.to_json});
+            handler.bounds.extendWith(markers);
+            handler.fitMapToBounds();
         });
     });
