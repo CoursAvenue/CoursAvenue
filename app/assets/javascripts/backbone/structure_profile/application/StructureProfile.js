@@ -44,36 +44,24 @@ StructureProfile.addInitializer(function(options) {
     bootstrap = window.coursavenue.bootstrap;
 
     // Create an instance of your class and populate with the models of your entire collection
-    places      = new StructureProfile.Models.PlacesCollection(bootstrap.models);
-
+    places = new StructureProfile.Models.PlacesCollection(bootstrap.models);
     /* set up the layouts */
-    layout           = new StructureProfile.Views.StructureProfileLayout();
-
-    layout.on('places:updated', function(){
-        $loader = $loader || $('[data-type="loader"]');
-        $loader.slideUp();
-    })
+    layout = new StructureProfile.Views.StructureProfileLayout();
 
     // var bounds = places.getLatLngBounds();
     google_maps_view = new CoursAvenue.Views.Map.GoogleMapsView({
         collection: places,
-        template: 'lol'
-    });
+        infoBoxOptions: {
+            template: StructureProfile.module('Views.Map').templateDirname() + 'place_info_box_view'
+        }
 
+    });
     StructureProfile.mainRegion.show(layout);
 
     /* we can add a widget along with a callback to be used
     * for setup */
-    layout.showWidget(google_maps_view, {
-        events: {
-            'paginator:updating':               'hideInfoWindow retireMarkers',
-            'places:itemview:highlighted':      'exciteMarkers',
-            'places:itemview:unhighlighted':    'exciteMarkers',
-            'filter:update:map':                'centerMap',
-            'places:itemview:found':            'showInfoWindow',
-            'places:itemview:peacock':          'togglePeacockingMarkers'
-        }
-    });
+    layout.showWidget(google_maps_view);
+    window.google_maps_view = google_maps_view;
 
 });
 

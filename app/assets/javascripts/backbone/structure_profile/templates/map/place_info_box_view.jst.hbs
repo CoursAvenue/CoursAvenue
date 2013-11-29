@@ -1,0 +1,14 @@
+<div data-type="closer" class="infobox__close">
+    <i class="fa fa-times"></i>
+</div>
+<p>
+    {{location.name}}
+    {{location.street}}
+    {{location.zip_code}}
+    {{#each contacts}}
+        {{this.name}}
+        {{this.phone}}
+        {{this.email}}
+    {{/each}}
+</p>
+

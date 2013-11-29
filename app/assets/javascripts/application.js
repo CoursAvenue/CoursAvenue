@@ -88,7 +88,7 @@
 // require plugins/time_range
 // require plugins/image_input
 
-//= require gmaps/google
+// require gmaps/google
 
 //= require ./plugins_initalization
 // require turbolinks

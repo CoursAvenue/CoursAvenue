@@ -8,6 +8,7 @@ CoursAvenue.module('Views.Map', function(Module, App, Backbone, Marionette, $, _
         template: Module.templateDirname() + 'info_box_view',
 
         initialize: function (options) {
+            if (options.template) { this.template = options.template }
             var defaultOptions = {
                 alignBottom: true,
                 pixelOffset: new google.maps.Size(-150, -30),
@@ -52,6 +53,7 @@ CoursAvenue.module('Views.Map', function(Module, App, Backbone, Marionette, $, _
     Module.GoogleMapsView = Marionette.CompositeView.extend({
         template:            Module.templateDirname() + 'google_maps_view',
         id:                  'map-container',
+        className:           'google-map',
         itemView:            Module.BlankView,
         itemViewEventPrefix: 'marker',
         // TODO: Understand why it's not working
@@ -60,6 +62,7 @@ CoursAvenue.module('Views.Map', function(Module, App, Backbone, Marionette, $, _
 
         /* provide options.mapOptions to override defaults */
         initialize: function(options) {
+            if (options.template) { this.template = options.template }
             this.markerView = Module.MarkerView;
             var self = this;
             _.bindAll(this, 'announceBounds');
@@ -75,6 +78,7 @@ CoursAvenue.module('Views.Map', function(Module, App, Backbone, Marionette, $, _
             /* create mapview */
             this.mapView = new Module.BlankView({
                 id: 'map',
+                className: 'google-map',
                 attributes: {
                     'class': 'map_container'
                 }
@@ -101,7 +105,7 @@ CoursAvenue.module('Views.Map', function(Module, App, Backbone, Marionette, $, _
         },
 
         events: {
-            'click [data-type="closer"]': 'hideInfoWindow',
+            'click [data-type="closer"]':          'hideInfoWindow',
             'click [data-behavior="live-update"]': 'liveUpdateClicked'
         },
 
@@ -123,11 +127,13 @@ CoursAvenue.module('Views.Map', function(Module, App, Backbone, Marionette, $, _
             /* TODO this is a problem, we need to not pass out the whole view, d'uh */
             this.current_info_marker = marker_view.model.cid;
             this.trigger('map:marker:focus', marker_view);
+            this.showInfoWindow(marker_view);
         },
 
         onRender: function() {
             this.$el.find('[data-type=map-container]').prepend(this.map_annex);
             this.$loader = this.$('[data-type=loader]');
+            this.centerMapAutomatically();
         },
 
         unlockCurrentMarker: function () {
@@ -185,7 +191,22 @@ CoursAvenue.module('Views.Map', function(Module, App, Backbone, Marionette, $, _
             }
         },
 
+        /*
+         * Center the map regarding the markers
+         */
+        centerMapAutomatically: function () {
+            //  Make an array of the LatLng's of the markers you want to show
+            var bounds = new google.maps.LatLngBounds();
+            //  Create a new viewpoint bound
+            this.collection.each(function(model) {
+                bounds.extend(model.getLatLng());
+            })
+            //  Fit these bounds to the map
+            this.map.fitBounds(bounds);
+        },
+
         centerMap: function (data) {
+            // if (typeof(data) === 'undefined') { this.centerMapAutomatically(); return; }
             if (data.lat && data.lng) {
                 // More smooth than setCenter
                 this.map.panTo(new google.maps.LatLng(data.lat, data.lng));

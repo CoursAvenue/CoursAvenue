@@ -46,6 +46,7 @@ class Location < ActiveRecord::Base
   end
 
   private
+
   def set_shared
     self.shared = (name == 'Adresse principale')
     nil
