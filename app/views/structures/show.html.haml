@@ -1,7 +1,14 @@
+:javascript
+  window.coursavenue = window.coursavenue || {};
+  window.coursavenue.bootstrap = {
+    models: #{ @structure.locations.to_json }
+  };
+
+%div{data: { type: 'structure-profile-root'}}
+
 - if @structure.logo.present?
   = content_for :meta_image do
     = @structure.logo.url(:thumb)
-
 
 = content_for :title do
   = "#{@structure.name} à #{@city.name}"

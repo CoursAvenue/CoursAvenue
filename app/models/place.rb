@@ -36,6 +36,6 @@ class Place < ActiveRecord::Base
   private
 
   def update_location_if_not_set
-    location.save unless location.is_geolocalized?
+    location.geocode unless location.geocoded?
   end
 end

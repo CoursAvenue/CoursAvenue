@@ -1,7 +1,8 @@
 .white-box
   .grid--full#media-grid
     .grid__item{class: medias.any? ? 'one-half' : 'one-whole'}>
-      = gmaps( {markers: {data: places_address}, map_options: {maxZoom: 17, mapTypeControl: false}, last_map: true} )
+      #map
+      -# = gmaps( {markers: {data: places_address}, map_options: {maxZoom: 17, mapTypeControl: false}, last_map: true} )
     - if medias.any?
       .grid__item.one-half.rslides-wrapper.rslides--big>
         %ul.rslides.hidden>
@@ -92,4 +93,11 @@
                 $('#show-galery').click();
             }
         });
+        handler = Gmaps.build('Google');
+        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+            markers = handler.addMarkers(#{raw @places_address.to_json});
+            handler.bounds.extendWith(markers);
+            handler.fitMapToBounds();
+        });
+
     });

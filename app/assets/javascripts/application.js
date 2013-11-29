@@ -88,7 +88,7 @@
 // require plugins/time_range
 // require plugins/image_input
 
-//= require_tree ./gmaps4rails/
+//= require gmaps/google
 
 //= require ./plugins_initalization
 // require turbolinks
