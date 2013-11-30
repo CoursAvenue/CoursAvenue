@@ -1,11 +1,19 @@
+:javascript
+  window.coursavenue = window.coursavenue || {};
+  var models = #{ActiveModel::ArraySerializer.new(places, each_serializer: BigPlaceSerializer).to_json};
+  window.coursavenue.bootstrap = {
+      models: models
+  };
+
 .white-box
   .grid--full#media-grid
     .grid__item{class: medias.any? ? 'one-half' : 'one-whole'}>
-      = gmaps( {markers: {data: places_address}, map_options: {maxZoom: 17, mapTypeControl: false}, last_map: true} )
+      #structure-profile{data: { type: 'structure-profile-root'}}
+
     - if medias.any?
       .grid__item.one-half.rslides-wrapper.rslides--big>
         %ul.rslides.hidden>
-          - medias.each do |media|
+          - medias.each_with_index do |media, index|
             %li
               %a.rslides_nav.rslides_nav--icon{href: media.url, class: (media.video? ? 'visible' : ''), data: {behavior: "fancy"}}
                 - if media.video?
@@ -78,6 +86,7 @@
         });
         var galery_is_hidden   = true;
         $('#show-galery').click(function() {
+            $(".media__item img").trigger('galery:show');
             if (galery_is_hidden) {
                 $(this).text('Cacher la galerie');
             } else {
@@ -85,11 +94,20 @@
             }
             galery_is_hidden = !galery_is_hidden;
             $('#galery').slideToggle();
-            $('#galery .media-gallery').masonry({ itemSelector: '.media__item' });
         });
         $('[href=#tab-medias]').click(function(){
             if ($('.media-gallery').length > 0) {
                 $('#show-galery').click();
+            }
+        });
+        $("#galery .media__item img").lazyload({
+            effect : "fadeIn",
+            event: 'galery:show',
+            skip_invisible: true,
+            load: function(elements_left, settings) {
+                if (elements_left == 0) {
+                   $('#galery .media-gallery').masonry({ itemSelector: '.media__item' });
+                }
             }
         });
     });

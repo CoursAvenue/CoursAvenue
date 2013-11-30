@@ -160,7 +160,7 @@
   %i.fa.fa-map-marker
   Mes lieux d'enseignement
 
-= gmaps( {markers: {data: @locations.to_gmaps4rails}, map_options: {maxZoom: 17, mapTypeControl: false}})
+#map.google-map
 .text--center
   = link_to "Ajouter un lieu d'enseignement", pro_structure_places_path(@structure), class: 'btn btn--blue push-half--ends'
 
@@ -289,4 +289,10 @@
                 });
             }
         }, 1000);
+        handler = Gmaps.build('Google');
+        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+            markers = handler.addMarkers(#{@json_locations.to_json});
+            handler.bounds.extendWith(markers);
+            handler.fitMapToBounds();
+        });
     });

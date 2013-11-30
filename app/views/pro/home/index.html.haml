@@ -26,9 +26,7 @@
       Ils ont déjà leur livre d'or :
   .main-container.stickem-container.relative
     .stickem.absolute{style: 'width: 38%;'}>
-      :css
-        #map { height: 500px; }
-      = gmaps( {markers: {data: @json_locations_addresses}, map_options: {maxZoom: 14, mapTypeControl: false}})
+      #map.google-map.google-map--medium
     - cache(cache_key_for_structures) do
       .grid
         .grid__item.six-tenths.course-list-wrapper.palm-one-whole.lap-one-whole>
@@ -37,7 +35,8 @@
               .pointer.one-whole.course-element.white-box.islet{data: {'location-ids' => structure.locations.map(&:id).join(' '), type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
                 .grid
                   .grid__item.two-twelfths>
-                    = image_tag structure.logo.url(:thumb)
+                    %img{ data: { original: structure.logo.url(:thumb) } }
+                    -# image_tag structure.logo.url(:thumb)
                   .grid__item.seven-twelfths>
                     %h3.flush--bottom.brand.course-title= structure.name
                     %ul.nav.push-half--ends= join_child_subjects structure, true
@@ -57,7 +56,7 @@
                       %meta{itemprop: 'name', content: structure.name}
                       %meta{itemprop: 'street-address', content: structure.street}
                       %meta{itemprop: 'postal-code', content: structure.zip_code}
-          .text--center= link_to "Et bien plus encore !", structures_url(subdomain: 'www'), class: 'btn btn--blue', target: '_blank'
+          .text--center= link_to "Voir les autres structures", structures_url(subdomain: 'www'), class: 'btn btn--blue btn--full btn--large', target: '_blank'
 
 = content_for :scripts do
   :javascript
@@ -74,33 +73,13 @@
                 return false;
             });
         });
-        Gmaps.map.callback = function() {
-            for (var i = 0; i <  this.markers.length; ++i) {
-                google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
-                    var structure = $('.course-element[data-location-ids~=' + this.id + ']');
-                    $(document.body).scrollTo(structure[0], {duration: 400});
-                    // Unselect courses if there already are that are selected
-                    $('.course-element').removeClass('selected');
-                    structure.addClass('selected');
-                }.bind(Gmaps.map.markers[i]));
-            }
-        };
-        $('.course-element').hover(function(event) {
-            var location_ids = $(this).data('location-ids').toString().split(' ');
-            $.each(Gmaps.map.markers, function(index, marker){
-                if (location_ids.indexOf(marker.id.toString()) !== -1) {
-                    var service_object = marker.serviceObject;
-                    service_object.setContent($(service_object.getContent()).addClass('active')[0].outerHTML);
-                }
-            });
-        }, function() {
-            var location_ids = $(this).data('location-ids').toString().split(' ');
-            $.each(Gmaps.map.markers, function(index, marker){
-                if (location_ids.indexOf(marker.id.toString()) !== -1) {
-                    var service_object = marker.serviceObject;
-                    service_object.setContent($(service_object.getContent()).removeClass('active')[0].outerHTML);
-                }
-            });
+        handler = Gmaps.build('Google');
+        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+            markers = handler.addMarkers(#{@json_locations_addresses.to_json});
+            handler.bounds.extendWith(markers);
+            handler.fitMapToBounds();
         });
-
+        $("img").lazyload({
+            effect : "fadeIn"
+        });
     });

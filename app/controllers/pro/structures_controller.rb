@@ -97,6 +97,12 @@ class Pro::StructuresController < Pro::ProController
     @profile_percentage -= 20 if @structure.medias.empty?
     @profile_percentage -= 20 if @comments.empty?
     @profile_percentage -= 20 if @structure.courses.active.count == 0
+
+    @json_locations = Gmaps4rails.build_markers(@locations) do |location, marker|
+      marker.lat location.latitude
+      marker.lng location.longitude
+    end
+
     respond_to do |format|
       if can? :manage, @structure
         format.html

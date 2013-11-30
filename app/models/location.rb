@@ -4,9 +4,9 @@ class Location < ActiveRecord::Base
 
   include ActsAsGeolocalizable
 
-  acts_as_gmappable validation: false, language: 'fr'
+  geocoded_by :geocoder_address
+  after_validation :geocode
 
-  before_save :retrieve_address
   before_save :set_shared
 
   belongs_to :city
@@ -46,6 +46,7 @@ class Location < ActiveRecord::Base
   end
 
   private
+
   def set_shared
     self.shared = (name == 'Adresse principale')
     nil

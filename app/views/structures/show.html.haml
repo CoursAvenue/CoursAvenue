@@ -2,7 +2,6 @@
   = content_for :meta_image do
     = @structure.logo.url(:thumb)
 
-
 = content_for :title do
   = "#{@structure.name} à #{@city.name}"
 
@@ -37,7 +36,7 @@
   .grid__item.eight-twelfths>
     = render partial: 'structures/structure_header', locals: {structure: @structure}
 
-    = render partial: 'structures/map_and_galery', locals: {structure: @structure, places: @structure.places, places_address: @places_address, medias: @medias}
+    = render partial: 'structures/map_and_galery', locals: {structure: @structure, places: @structure.places, medias: @medias}
 
     = render partial: 'structures/comments_headband', locals: {structure: @structure}
 

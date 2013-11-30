@@ -9,7 +9,8 @@ class Structure < ActiveRecord::Base
   extend FriendlyId
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
-  acts_as_gmappable validation: false, language: 'fr'
+  geocoded_by :geocoder_address
+  after_validation :geocode
 
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',

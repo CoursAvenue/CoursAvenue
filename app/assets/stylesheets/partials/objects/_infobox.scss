@@ -1,4 +1,7 @@
 .gm-style {
+    div {
+        @include box-shadow(none!important);
+    }
     .infoBox {
         background   : white;
         position     : relative;

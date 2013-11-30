@@ -14,9 +14,7 @@
             = render partial: 'comments/home_comment', locals: {comment: comment}
         .grid__item.palm-one-whole.lap-one-whole.one-half.soft-half{style: 'min-height: 35em;'}
           %h2.home-title Une communauté grandissante
-          :css
-            #map { height: 500px; }
-          = gmaps( {markers: {data: @json_locations_addresses}, map_options: {minZoom: 12, mapTypeControl: false}})
+          #map.google-map.google-map--medium
 
 .main-container
   .grid
@@ -63,12 +61,10 @@
         $('#comments-slideshow').cycle({
             timeout: 5000,
         });
-        base_url = "#{structure_path('__id__')}";
-        Gmaps.map.callback = function() {
-            for (var i = 0; i <  this.markers.length; ++i) {
-                google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
-                    window.location = base_url.replace('__id__', this.id);
-                }.bind(Gmaps.map.markers[i]));
-            }
-        };
+        handler = Gmaps.build('Google');
+        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+            markers = handler.addMarkers(#{@json_locations_addresses.to_json});
+            handler.bounds.extendWith(markers);
+            handler.fitMapToBounds();
+        });
     });
