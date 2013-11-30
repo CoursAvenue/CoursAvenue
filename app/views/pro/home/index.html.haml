@@ -35,7 +35,8 @@
               .pointer.one-whole.course-element.white-box.islet{data: {'location-ids' => structure.locations.map(&:id).join(' '), type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
                 .grid
                   .grid__item.two-twelfths>
-                    = image_tag structure.logo.url(:thumb)
+                    %img{ data: { original: structure.logo.url(:thumb) } }
+                    -# image_tag structure.logo.url(:thumb)
                   .grid__item.seven-twelfths>
                     %h3.flush--bottom.brand.course-title= structure.name
                     %ul.nav.push-half--ends= join_child_subjects structure, true
@@ -78,33 +79,7 @@
             handler.bounds.extendWith(markers);
             handler.fitMapToBounds();
         });
-        // Gmaps.map.callback = function() {
-        //     for (var i = 0; i <  this.markers.length; ++i) {
-        //         google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function() {
-        //             var structure = $('.course-element[data-location-ids~=' + this.id + ']');
-        //             $(document.body).scrollTo(structure[0], {duration: 400});
-        //             // Unselect courses if there already are that are selected
-        //             $('.course-element').removeClass('selected');
-        //             structure.addClass('selected');
-        //         }.bind(Gmaps.map.markers[i]));
-        //     }
-        // };
-        // $('.course-element').hover(function(event) {
-        //     var location_ids = $(this).data('location-ids').toString().split(' ');
-        //     $.each(Gmaps.map.markers, function(index, marker){
-        //         if (location_ids.indexOf(marker.id.toString()) !== -1) {
-        //             var service_object = marker.serviceObject;
-        //             service_object.setContent($(service_object.getContent()).addClass('active')[0].outerHTML);
-        //         }
-        //     });
-        // }, function() {
-        //     var location_ids = $(this).data('location-ids').toString().split(' ');
-        //     $.each(Gmaps.map.markers, function(index, marker){
-        //         if (location_ids.indexOf(marker.id.toString()) !== -1) {
-        //             var service_object = marker.serviceObject;
-        //             service_object.setContent($(service_object.getContent()).removeClass('active')[0].outerHTML);
-        //         }
-        //     });
-        // });
-
+        $("img").lazyload({
+            effect : "fadeIn"
+        });
     });

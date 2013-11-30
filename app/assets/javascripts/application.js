@@ -36,6 +36,7 @@
 //= require libs/jquery.fileupload/jquery.fileupload-image
 //= require libs/jquery.stickem
 //= require libs/jquery.masonry
+//= require libs/jquery.lazyload
 //= require libs/moment
 //= require libs/responsiveslides
 

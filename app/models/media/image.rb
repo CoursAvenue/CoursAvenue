@@ -15,7 +15,11 @@ class Media::Image < Media
   end
 
   def url_html(options={})
-    "<img src='#{self.url}' title='#{self.caption}'/>".html_safe
+    if options[:lazy]
+      "<img data-original='#{self.thumbnail_url}' title='#{self.caption}'/>".html_safe
+    else
+      "<img src='#{self.url}' title='#{self.caption}'/>".html_safe
+    end
   end
 
   def file_name

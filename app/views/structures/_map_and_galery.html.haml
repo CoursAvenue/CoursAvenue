@@ -13,7 +13,7 @@
     - if medias.any?
       .grid__item.one-half.rslides-wrapper.rslides--big>
         %ul.rslides.hidden>
-          - medias.each do |media|
+          - medias.each_with_index do |media, index|
             %li
               %a.rslides_nav.rslides_nav--icon{href: media.url, class: (media.video? ? 'visible' : ''), data: {behavior: "fancy"}}
                 - if media.video?
@@ -86,6 +86,7 @@
         });
         var galery_is_hidden   = true;
         $('#show-galery').click(function() {
+            $(".media__item img").trigger('galery:show');
             if (galery_is_hidden) {
                 $(this).text('Cacher la galerie');
             } else {
@@ -93,11 +94,20 @@
             }
             galery_is_hidden = !galery_is_hidden;
             $('#galery').slideToggle();
-            $('#galery .media-gallery').masonry({ itemSelector: '.media__item' });
         });
         $('[href=#tab-medias]').click(function(){
             if ($('.media-gallery').length > 0) {
                 $('#show-galery').click();
+            }
+        });
+        $("#galery .media__item img").lazyload({
+            effect : "fadeIn",
+            event: 'galery:show',
+            skip_invisible: true,
+            load: function(elements_left, settings) {
+                if (elements_left == 0) {
+                   $('#galery .media-gallery').masonry({ itemSelector: '.media__item' });
+                }
             }
         });
     });
