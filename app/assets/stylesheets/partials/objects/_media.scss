@@ -15,8 +15,12 @@
             left       : 50%;
             font-size  : 60px;
             margin-left: -30px;
-            margin-top : -30px;
+            margin-top : -50px;
             color      : white;
+            @include text-shadow(0px 0px 3px #333);
+            &:hover {
+                @include text-shadow(0px 0px 6px black);
+            }
         }
     }
     &.media__item--slides{
