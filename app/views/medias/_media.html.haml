@@ -1,5 +1,9 @@
-.media__item.one-half.very-soft>
-  %a.soft-half.block.break-all{href: media.url, title: media.caption}
-    = media.url_html lazy: true
+.media__item.one-half.very-soft{class: media.video? ? 'media__item--video relative' : ''}>
+  %a.soft-half.block.break-all{href: media.url, title: media.caption, data: {behavior: "fancy"}}
+    - if media.video?
+      = media.thumbnail_url_html lazy: true
+      %i.fa.fa-youtube-play
+    - else
+      = media.url_html lazy: true
     %caption= media.caption
     %i.fa.fa-expand
