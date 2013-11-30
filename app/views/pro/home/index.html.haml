@@ -56,7 +56,7 @@
                       %meta{itemprop: 'name', content: structure.name}
                       %meta{itemprop: 'street-address', content: structure.street}
                       %meta{itemprop: 'postal-code', content: structure.zip_code}
-          .text--center= link_to "Et bien plus encore !", structures_url(subdomain: 'www'), class: 'btn btn--blue', target: '_blank'
+          .text--center= link_to "Voir les autres structures", structures_url(subdomain: 'www'), class: 'btn btn--blue btn--full btn--large', target: '_blank'
 
 = content_for :scripts do
   :javascript
