@@ -21,42 +21,73 @@
     - unless current_pro_admin
       .text--center= link_to "Je suis déjà inscrit, me connecter", new_pro_admin_session_url(subdomain: 'pro')
 
-  .text--center
-    %h4
-      Ils ont déjà leur livre d'or :
-  .main-container.stickem-container.relative
-    .stickem.absolute{style: 'width: 38%;'}>
-      #map.google-map.google-map--medium
-    - cache(cache_key_for_structures) do
-      .grid
-        .grid__item.six-tenths.course-list-wrapper.palm-one-whole.lap-one-whole>
-          - @structures.each_with_index do |structure, index|
-            - cache(structure) do
-              .pointer.one-whole.course-element.white-box.islet{data: {'location-ids' => structure.locations.map(&:id).join(' '), type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
-                .grid
-                  .grid__item.two-twelfths>
-                    %img{ data: { original: structure.logo.url(:thumb) } }
-                    -# image_tag structure.logo.url(:thumb)
-                  .grid__item.seven-twelfths>
-                    %h3.flush--bottom.brand.course-title= structure.name
-                    %ul.nav.push-half--ends= join_child_subjects structure, true
-                    - if structure.description.present?
-                      .read-more{data: {behavior: 'read-more', height: 50}}
-                        = simple_format structure.description
-                  .grid__item.three-twelfths.text--center>
-                    .thin.big-alpha.brand #{structure.comments_count}
-                    %div
-                      = link_to structure_url(structure, subdomain: 'www'), target: '_blank' do
-                        avis
-                        %i.lbc-brand-icon
-                    .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-                      %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
-                      %meta{itemprop: 'count', content: structure.comments_count}
-                      %meta{itemprop: 'itemreviewed', content: structure.name}
-                      %meta{itemprop: 'name', content: structure.name}
-                      %meta{itemprop: 'street-address', content: structure.street}
-                      %meta{itemprop: 'postal-code', content: structure.zip_code}
-          .text--center= link_to "Voir les autres structures", structures_url(subdomain: 'www'), class: 'btn btn--blue btn--full btn--large', target: '_blank'
+  .main-container.grid--full.text--center.push--top.visuallyhidden--palm
+    .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+      = link_to inscription_pro_structures_path, class: 'muted-link white-box islet word-break-normal', data: {toggle: 'popover', content: "En quelques minutes, renseignez vos informations générales, vos lieux d'enseignements, vos cours et vos photos & vidéos.", 'original-title' => 'Créez un profil complet en 5min !', trigger: 'hover', placement: 'top'} do
+        %h5
+          = image_tag 'icons/profile.png', height: 30
+          %br
+          Créez votre profil
+    .grid__item.one-twelfth.text--center.v-middle>
+      .islet
+        %i.fa.fa-chevron-right.fa.fa-2x
+    .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+      %a.muted-link.white-box.islet.word-break-normal{data: {toggle: 'popover', content: "Grâce à notre outils dédié, envoyez un email à tous vos élèves pour qu'ils recommandent vos cours. Au dela de 5 recommandations affichez directement votre livre d'or sur votre propre site !".html_safe, 'original-title' => 'Solicitez vos élèves les plus fidèles', trigger: 'hover', placement: 'top'}}
+        %h5
+          %i.fa.fa-star.fa.fa-2x.yellow{style: 'padding-left: 20px;'}
+          %i.fa.fa-star.fa.fa-2x.yellow.relative{style: 'left: -5px;'}
+          %i.fa.fa-star.fa.fa-2x.yellow.relative{style: 'left: -10px;'}
+          %i.fa.fa-star.fa.fa-2x.yellow.relative{style: 'left: -15px;'}
+          %i.fa.fa-star.fa.fa-2x.yellow.relative{style: 'left: -20px;'}
+          %br
+          Demandez des recommandations
+    .grid__item.one-twelfth.text--center.v-middle>
+      .islet
+        %i.fa.fa-chevron-right.fa.fa-2x
+    .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
+      %a.muted-link.white-box.islet.word-break-normal{data: {toggle: 'popover', content: "Maintenant que vous avez un profil complet, laissez les élèves venir à vous et répondez à leur messages via notre messagerie interne.", 'original-title' => 'Laissez nous faire', trigger: 'hover', placement: 'top'}}
+        %h5
+          %i.fa.fa-group.fa.fa-2x
+          %br
+          Attirez de nouveaux élèves
+
+  .home-screen-promotion-wrapper.soft--top
+    .text--center
+      %h3
+        Ils ont déjà leur livre d'or :
+    .main-container.stickem-container.relative
+      .stickem.absolute{style: 'width: 38%;'}>
+        #map.google-map.google-map--medium
+      - cache(cache_key_for_structures) do
+        .grid
+          .grid__item.six-tenths.course-list-wrapper.palm-one-whole.lap-one-whole>
+            - @structures.each_with_index do |structure, index|
+              - cache(structure) do
+                .pointer.one-whole.course-element.white-box.islet{data: {'location-ids' => structure.locations.map(&:id).join(' '), type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
+                  .grid
+                    .grid__item.two-twelfths>
+                      %img{ data: { original: structure.logo.url(:thumb) } }
+                      -# image_tag structure.logo.url(:thumb)
+                    .grid__item.seven-twelfths>
+                      %h3.flush--bottom.brand.course-title= structure.name
+                      %ul.nav.push-half--ends= join_child_subjects structure, true
+                      - if structure.description.present?
+                        .read-more{data: {behavior: 'read-more', height: 50}}
+                          = simple_format structure.description
+                    .grid__item.three-twelfths.text--center>
+                      .thin.big-alpha.brand #{structure.comments_count}
+                      %div
+                        = link_to structure_url(structure, subdomain: 'www'), target: '_blank' do
+                          avis
+                          %i.lbc-brand-icon
+                      .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
+                        %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
+                        %meta{itemprop: 'count', content: structure.comments_count}
+                        %meta{itemprop: 'itemreviewed', content: structure.name}
+                        %meta{itemprop: 'name', content: structure.name}
+                        %meta{itemprop: 'street-address', content: structure.street}
+                        %meta{itemprop: 'postal-code', content: structure.zip_code}
+            .text--center= link_to "Voir les autres structures", structures_url(subdomain: 'www'), class: 'btn btn--blue btn--full btn--large', target: '_blank'
 
 = content_for :scripts do
   :javascript
