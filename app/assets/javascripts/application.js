@@ -58,6 +58,7 @@
 
 //---- Bootstrap plugins
 //= require libs/bootstrap.tooltip
+//= require libs/bootstrap.popover
 //= require libs/bootstrap.tab
 //= require libs/bootstrap.datepicker
 //= require libs/locales/bootstrap.datepicker.fr
