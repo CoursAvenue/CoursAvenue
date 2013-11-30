@@ -17,6 +17,9 @@ class Media < ActiveRecord::Base
   scope :cover,        -> { where{cover == true} }
   scope :cover_first,  -> { order('cover DESC NULLS LAST') }
 
+  def url_html(options={})
+    read_attribute(:url_html).html_safe
+  end
 
   def video?
     self.type == 'Media::Video'

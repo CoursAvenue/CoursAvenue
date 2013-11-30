@@ -30,10 +30,6 @@ class Media::Video < Media
     vimeo(width: 400, height: 250)
   end
 
-  def url_html(options={})
-    read_attribute(:url_html).html_safe
-  end
-
   private
 
   def update_thumbnail
