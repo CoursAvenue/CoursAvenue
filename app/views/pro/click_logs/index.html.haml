@@ -1,6 +1,6 @@
 = side_menu_currently_at 'Clicks'
 
-%table.white-box.table--data.table--striped
+%table.white-box.table--data.table--striped#dataTable
   %thead
     %tr
       %th Nom
@@ -14,3 +14,8 @@
         %td= structure.comments_count
         %td= count
 
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#dataTable').tablesorter();
+    });
