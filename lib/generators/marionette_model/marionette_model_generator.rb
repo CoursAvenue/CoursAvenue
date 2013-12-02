@@ -19,23 +19,11 @@ in which case the nesting appears after 'my_app/models/' and before 'widget.js'
 
     # @pre backbone_path is a valid path
     def create_backbone_model
-        app_path = Pathname.new("#{backbone_path}") + app.underscore
         self.backbone_class = "Model"
 
-        if (not app_path.directory?)
+        ensure_app_exists(app, name)
 
-            say "\nWait! #{app} is not an app yet! Would you like to create it?"
-            print_table [["1.", "Go ahead and create #{name}, without creating a new app"],
-                         ["2.", "First create #{app}, then continue creating #{name}"]]
-            selection = ask("? ").to_i
-
-            if (selection == 1)
-                # TODO invoke the app creation task
-            end
-        end
-
-        model_path = app_path + 'models' + namespace_path(namespace) + "#{name.underscore}#{dot_js}"
-        template "model.js", model_path
+        template "model.js", model_path(app, name, namespace)
     end
 
 end
