@@ -132,3 +132,46 @@ _.extend(_, {
         return word.charAt(0).toUpperCase() + word.slice(1);
     }
 });
+
+_.extend(Marionette.Application.prototype, {
+    /* for use in query strings */
+    root:   function() {
+        if (this.root === undefined) {
+            throw "CoursAvenue Applications must override slug"
+        }
+
+        return this.slug + '-root';
+    },
+
+    /* methods for returning the relevant jQuery collections */
+    $root: function() {
+        if (this.root === undefined) {
+            throw "CoursAvenue Applications must override slug"
+        }
+
+        return $('[data-type=' + this.root() + ']');
+    },
+
+    /* A filteredSearch should only start if it detects
+     * an element whose data-type is the same as its
+     * root property.
+     * @throw the root was found to be non-unique on the page */
+    detectRoot: function() {
+        var result = this.$root().length;
+
+        if (result > 1) {
+            throw {
+                message: 'FilteredSearch->detectRoot: ' + this.root() + ' element should be unique'
+            }
+        }
+
+        return result > 0;
+    },
+
+    loader: function() { return this.slug + '-loader'; },
+
+    /* Return the element in which the application will be appended */
+    $loader: function() {
+        return $('[data-type=' + this.loader() + ']');
+    }
+});
