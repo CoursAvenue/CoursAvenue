@@ -18,7 +18,7 @@ and files (such as manifests) that need to be created when initially
 installing a new app. These generators are being created to ease that
 process.
 
-`$ rails g coursavenue:scaffold MyApp Widgets
+`$ rails g coursavenue:scaffold MyApp Widgets`
 
 creates the following directory structure,
 
@@ -214,6 +214,7 @@ This would create `backbone/my_app/views/space/ship/widget/widget_view.js` and,
 `backbone/my_app/templates/space/ship/widget/widget_view.jst.hbs` would be created
 as well.
 
+````
 FilteredSearch.module('Views.Space.Ship.Widget', function(Module, App, Backbone, Marionette, $, _) {
     Module.WidgetView = Backbone.Marionette.ItemView.extend({
         template: App.templateDirname() + 'widget_view',
@@ -221,6 +222,7 @@ FilteredSearch.module('Views.Space.Ship.Widget', function(Module, App, Backbone,
         // your implementation here
     });
 });
+````
 
 Collection views and composite views are naturally more complicated. In the
 case of a collection view, a user will invoke:
@@ -280,11 +282,11 @@ directory structure if they want.
 The various generators will naturally need to take some opts, so that we don't
 waste time removing unnecessary crud.
 
---no-template
+ - `--no-template`
     generates the view without a template; the option is passed down to
     further generators that may be invoked along the way.
 
---no-model
+ - `--no-model`
     generates a collection without a model.
 
 ### Wants
@@ -293,8 +295,8 @@ This is enough for now, but later I would like the js files generated
 to begin their life with a bunch of empty methods. A short list of methods
 that would be useful:
 
-    - initialize
-    - setup
-    - reset
-    - itemviewOptions
-    - tagName, etc for views
+ - initialize
+ - setup
+ - reset
+ - itemviewOptions
+ - tagName, etc for views
