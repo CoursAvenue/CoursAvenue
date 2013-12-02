@@ -81,11 +81,11 @@ MyApp = (function (){
     return self;
 }());
 
-FilteredSearch.addRegions({
+MyApp.addRegions({
     mainRegion: '#' + MyApp.slug
 });
 
-FilteredSearch.addInitializer(function(options) {
+MyApp.addInitializer(function(options) {
 
     // if the generator was called with a model and view the
     // generator will also give us the following
