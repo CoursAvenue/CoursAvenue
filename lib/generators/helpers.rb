@@ -23,6 +23,10 @@ module Marionette
                 @app_path ||= Pathname.new("#{backbone_path}") + app.underscore
             end
 
+            def application_path(app)
+                @application_path ||= app_path(app) + 'application' + "#{app.underscore}#{dot_js}"
+            end
+
             # can't be lazily initialized, because it gets called in different contexts
             def namespace_path(namespace)
                 Pathname.new(namespace.underscore.gsub(/\./, File::SEPARATOR))
@@ -74,7 +78,7 @@ module Marionette
                 selection = ask("? ").to_i
 
                 if (selection == 2)
-                    # TODO invoke the app creation task
+                    ::Rails::Generators.invoke("marionette_application", [app])
                 end
             end
 
