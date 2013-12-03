@@ -246,36 +246,24 @@ as an option, as in,
 
 ### Namespace Collisions
 
-We don't allow any duplication of names within a single app. Across apps, duplication
-may occur but is not encouraged. As such, if a user invokes a generator like so,
+The generators try to be helpful by creating associations automatically, or prompting 
+the user to choose whether or not an association is necessary. For example, if a
+user invokes the generator like so,
 
-`$ rails g coursavenue:view:item MyApp Space.Ship Widget`
+`$ rails g coursavenue:view:item MyApp Widget`
 
-Naturally the operation will fail since Rails won't allow the generated js to overwrite
-existing files. More subtly, though, our generator will throw an exception if
-a "widget_view.js" exists anywhere else in the app. There can't be two WidgetViews
-in one app. If a file by that name is found in another app, a warning will be
-printed and the user will have to choose (y/n) to proceed.
+and there is already a `widgets_collection_view`, the generator will prompt the user
+as to whether they would rather create a standalone item view, or nest the new item
+view inside the collection view. Naturally, if the collection view already has a
+widget view, no changes will be made.
 
-*ed: maybe this is too strong a requirement: I mean, why are we using namespaces
-at all if we don't allow duplicate leaves?*
+If a namespace is provided, such as,
 
-It may be the case that there a user invokes,
+`$ rails g coursavenue:view:item MyApp Widget FriendlySpace.Ship`
 
-`$ rails g coursavenue:view:collection MyApp Space.Ship Widget`
-
-before invoking,
-
-`$ rails g coursavenue:view:item MyApp Space.Ship Widget`
-
-In this case, a warning will be generated. The generator will detect that a file
-named `widgets_collection_view` already exists, and will suggest that the user
-meant to invoke:
-
-`$ rails g coursavenue:view:itemview MyApp Space.Ship.WidgetsCollection Widget`
-
-The user will be prompted (y/n), but will be allowed to create the strange
-directory structure if they want.
+the generator will only concern itself with collection views that share the same
+namespacing. That is, it will be possible to have both a `friendly_space/ship/widget/widget_view.js`
+and a `widget/widget_view.js` in the same app.
 
 ### Options
 
