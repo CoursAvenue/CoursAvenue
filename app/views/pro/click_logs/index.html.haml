@@ -1,14 +1,21 @@
 = side_menu_currently_at 'Clicks'
 
-%table.white-box.table--data.table--striped
+%table.white-box.table--data.table--striped#dataTable
   %thead
     %tr
       %th Nom
+      %th # avis
       %th # clicks
   %tbody
     - @click_logs.each do |structure_id, count|
       - structure = Structure.find(structure_id)
       %tr
         %td= link_to structure.name, structure_url(structure)
+        %td= structure.comments_count
         %td= count
 
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#dataTable').tablesorter();
+    });

@@ -33,18 +33,23 @@
 
 %h5.push--top.home-title Étape 2 : Installez le livre d'or sur votre site
 .grid
-  .grid__item.one-third.text--center>
+  .grid__item.one-quarter.text--center>
     = link_to '#wordpress-guide', class: 'btn btn--blue btn--full', data: {toggle: 'tab'} do
       = image_tag 'logos/wordpress.png', height: 50
       %br
       .soft-half--top J'utilise wordpress
-  .grid__item.one-third.text--center>
+  .grid__item.one-quarter.text--center>
     = link_to '#overblog-guide', class: 'btn btn--blue btn--full', data: {toggle: 'tab'} do
       = image_tag 'logos/overblog.png', height: 50
       %br
       .soft-half--top J'utilise Overblog
-  .grid__item.one-third.text--center>
-    = link_to "J'ai un site perso / autre blog", '#webmaster-code', class: 'btn btn--large btn--blue', data: {toggle: 'tab'}
+  .grid__item.one-quarter.text--center>
+    = link_to '#wix-guide', class: 'btn btn--blue btn--full', data: {toggle: 'tab'} do
+      = image_tag 'logos/wix.png', height: 25, style:'margin-top: 13px; margin-bottom: 12px;'
+      %br
+      .soft-half--top J'utilise WIX
+  .grid__item.one-quarter.text--center>
+    = link_to "J'ai un site perso / autre blog", '#webmaster-code', class: 'btn btn--large btn--blue', data: {toggle: 'tab'}, style:'padding: 33px; font-size: 14px;'
 
 .tab-content
   #wordpress-guide.tab-pane
@@ -97,8 +102,28 @@
         %h5.push--top Étape 4 : Copiez le code
         %p Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
         %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
-        = image_tag 'pro/wordpress-guide/side-step-4.png'
+        = image_tag 'pro/wordpress-guide/side-step-4.jpg'
         %h4.text--center.push--ends Et voilà, c'est fini !
+
+  #wix-guide.tab-pane
+    .white-box.islet.push--top
+      %h3.text--center Guide d'installation
+      %hr
+      %h5.push--top Étape 1 : Ajoutez une « Apps »
+      = image_tag 'pro/wix-guide/page-step-1.png', class: 'center-block'
+      %hr
+      %h5.push--top Étape 2 : Choissez « HTML »
+      = image_tag 'pro/wix-guide/page-step-2.png', class: 'center-block'
+      %hr
+      %h5.push--top Étape 3 : Configurez votre « Apps »
+      = image_tag 'pro/wix-guide/page-step-3.png', class: 'center-block'
+      = image_tag 'pro/wix-guide/page-step-4.png', class: 'center-block'
+      %hr
+      %h5.push--top Étape 4 : Copiez le code
+      %p Choisissez un titre, copiez et collez le texte suivant, et c'est fini !
+      %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
+      %h4.text--center.push--ends Et voilà, c'est fini !
+      = image_tag 'pro/wix-guide/page-step-5.png', class: 'center-block'
 
   #overblog-guide.tab-pane
     %h4.text--center.push--top À quoi ressemble votre interface Overblog ?
@@ -166,6 +191,16 @@
   #webmaster-code.tab-pane
     .white-box.islet.push--top
       .grid
+        .grid__item.one-half.v-middle>
+          %p
+            Pour le faire sans votre webmaster, lors de l'édition de vos pages / articles, cherchez à éditer votre text en
+            %strong « HTML »
+            ou cherchez un bouton qui ressemble à :
+            %strong « <> »
+        .grid__item.one-half.v-middle>
+          .text--center= image_tag 'pro/other/other.jpg'
+    .white-box.islet.push--top
+      .grid
         .grid__item.one-half.text--center.v-middle>
           %p.text--left
             Copiez le code ci-dessous à envoyer à votre webmaster :
@@ -178,6 +213,7 @@
       %h5 Si le code ci-dessus ne marche pas, essayez le suivant :
       %p Copiez et collez le texte suivant :
       %textarea.html-code.one-whole.push--bottom{rows: 10, style: 'font-size: 12px'}}
+
 
 %div{style: 'margin-bottom: 300px;'}
 #coursavenue-link-to-remove-wrapper.hidden>
