@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Structure < ActiveRecord::Base
   acts_as_paranoid
+  acts_as_tagger
 
   include HasSubjects
   include ActsAsCommentable

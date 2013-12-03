@@ -1,0 +1,14 @@
+.tag {
+    border          : 1px solid #CCC;
+    padding         : 0.5em;
+    background-color: white;
+    &.tag--small {
+        font-size: 0.9em;
+        padding  : 0.2em 0.6em;
+    }
+    &:before {
+        @extend .fa;
+        @extend .fa-tag;
+        padding-right: 0.3em;
+    }
+}

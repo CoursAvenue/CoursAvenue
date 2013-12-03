@@ -40,9 +40,6 @@ gem 'rack-cors',           require: 'rack/cors'
 gem 'memcachier'
 gem 'dalli'      , '~>2.6.4'
 
-# Add plugin to enable copy button
-gem 'zeroclipboard-rails'
-
 # Non stored hash models
 # See Level and Audience model
 gem 'active_hash'               , '~>1.2.0'
@@ -107,6 +104,10 @@ gem 'sunspot_rails'             , '~>2.0.0'
 gem 'sunspot-rails-tester'      , '~>1.0.0'
 
 gem 'truncate_html'             , '~>0.9.2'
+
+# Add taggable behavior to models
+# https://github.com/mbleigh/acts-as-taggable-on
+gem 'acts-as-taggable-on'       , '~>2.4.1'
 
 # Prevent from real deletion
 # acts_as_paranoid
