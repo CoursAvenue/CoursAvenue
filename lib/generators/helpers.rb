@@ -15,6 +15,18 @@ module Marionette
                 '.jst.hbs'
             end
 
+            def manifest
+                "manifest.js"
+            end
+
+            def manifest_require
+                "//= require "
+            end
+
+            def models_header
+                "//---------- Models"
+            end
+
             def backbone_path
                 @backbone_path ||= ::Rails.root.join('app', 'assets', 'javascripts', 'backbone')
             end

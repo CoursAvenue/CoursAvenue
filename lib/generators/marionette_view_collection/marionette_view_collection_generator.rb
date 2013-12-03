@@ -28,10 +28,15 @@ and before 'widgets_collection/widgets_collection_view.js'.
         self.namespace = namespace
 
         ensure_app_exists(app, name)
-        ensure_item_view_exists(app, name, namespace)
 
         template "collection_view.js", collection_view_path(app, name, self.namespace)
         template "collection_view.jst.hbs", collection_view_template_path(app, name, self.namespace)
+
+        # create a new manifest, and then point the previous manifest to it
+        create_file(app_path(name) + 'views' + collection_view_path(namespace) + manifest, "#{manifest_require} ./#{name.underscore}")
+        append_to_file(app_path(name) + 'views' + manifest, "#{manifest_require} ./#{namespace_path(namespace)}/manifest")
+
+        ensure_item_view_exists(app, name, namespace)
     end
 
 end

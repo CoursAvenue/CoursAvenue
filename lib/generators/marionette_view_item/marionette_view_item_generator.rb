@@ -33,6 +33,10 @@ will not assume anything about the relationship between view and model.
 
         template "item_view.js", item_view_path(app, name, self.namespace)
         template "item_view.jst.hbs", item_view_template_path(app, name, self.namespace)
+
+        # create a new manifest, and then point the previous manifest to it
+        create_file(app_path(name) + 'views' + namespace_path(namespace) + manifest, "#{manifest_require} ./#{name.underscore}")
+        append_to_file(app_path(name) + 'views' + manifest, "#{manifest_require} ./#{namespace_path(namespace)}/manifest")
     end
 
 end

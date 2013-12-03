@@ -23,6 +23,7 @@ in which case the nesting appears after 'my_app/models/' and before 'widget.js'
 
         ensure_app_exists(app, name)
 
+        insert_into_file(app_path(name) + 'manifest.js', "#{manifest_require} ./models/#{name.underscore}", after: models_header)
         template "model.js", model_path(app, name, namespace)
     end
 

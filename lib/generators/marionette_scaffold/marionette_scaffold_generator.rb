@@ -21,8 +21,16 @@ will be used as a placeholder in those files, but not widget files will be creat
 
     # @pre backbone_path is a valid path
     def create_backbone_model
+        template "application_manifest.js", app_path(name) + "manifest.js"
 
+        # make the top level dirs and a views/manifest.js
+        # TODO for now we are just making the views directory
+        (app_path(name) + "views").mkpath
+        create_file app_path(name) + "views/manifest.js"
+        
+        # the order here is important, as it will populate the manifests correctly
         ::Rails::Generators.invoke("marionette_application", [name, resource])
+        # ::Rails::Generators.invoke("marionette_layout", [name, resource])
         ::Rails::Generators.invoke("marionette_collection", [name, resource])
         ::Rails::Generators.invoke("marionette_view_collection", [name, resource])
     end
