@@ -34,17 +34,10 @@ class Structures::CoursesController < ApplicationController
     @subjects                    = @course.subjects
     @price_range                 = @course.price_range
     @prices                      = @course.book_tickets + @course.subscriptions
-    @location_index_hash = {}
-    location_index       = 0
-    @json_place_address = @locations.to_gmaps4rails do |location, marker|
-      location_index += 1
-      @location_index_hash[location] = location_index
-      marker.title   location.name
-      marker.picture({
-                      :marker_anchor => [10, true],
-                      :rich_marker   => "<div class='map-marker-image'><a href='javascript:void(0)'><span>#{location_index}</span></a></div>"
-                     })
-      marker.json({ id: location.id })
+    @location_index_hash         = {}
+    location_index               = 0
+    @locations.each_with_index do |location, index|
+      @location_index_hash[location] = index + 1
     end
   end
 end

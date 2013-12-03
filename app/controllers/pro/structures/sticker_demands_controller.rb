@@ -24,8 +24,7 @@ class Pro::Structures::StickerDemandsController < Pro::ProController
 
   def update_sent
     @sticker_demand      = StickerDemand.find params[:id]
-    @sticker_demand.update_column :sent, true
-    @sticker_demand.update_column :sent_at, Time.now
+    @sticker_demand.send!
     AdminMailer.delay.stickers_has_been_sent(@sticker_demand)
     redirect_to pro_sticker_demands_path
   end

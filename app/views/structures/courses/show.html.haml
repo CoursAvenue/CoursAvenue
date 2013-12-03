@@ -55,7 +55,7 @@
                   = "de #{show_price(@price_range.first)} à #{show_price(@price_range.last)}".html_safe
               = link_to 'Voir tous les tarifs', 'javascript:void(0)', onclick: "$.scrollTo($('#planning-schedule'), {duration: 200})"
 
-    = render partial: 'structures/map_and_galery', locals: {structure: @structure, places: @course.places, places_address: @json_place_address, medias: @medias}
+    = render partial: 'structures/map_and_galery', locals: {structure: @structure, places: @course.places, medias: @medias}
 
     = render partial: 'structures/comments_headband', locals: {structure: @structure}
 
@@ -64,10 +64,6 @@
         %a{class: (@course.plannings.any? ? '' : 'gray-light'), href: '#tab-planning', data: {toggle: 'tab'} }
           %i.fa.fa-calendar
           Planning & Tarifs
-      %li#description_tab
-        %a{class: (@course.description.present? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Description cours', 'click', '#{@course.slug}'])", href: '#tab-description', data: {toggle: 'tab'} }
-          %i.fa.fa-list
-          Description
       %li#comment_tab
         %a{class: (@course.comments.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Avis', 'click', '#{@course.slug}'])", href: '#tab-comments', data: {toggle: 'tab'} }
           %i.fa.fa-comments
@@ -79,13 +75,6 @@
 
     .tab-content
       = render 'planning_tab'
-      %article#tab-description.tab-pane
-        .white-box.islet
-          %h2.delta Description du #{@course.type_name.downcase.html_safe} de : #{@course.name}
-          - if @course.description
-            %p= simple_format @course.description
-          - else
-            %p Pas de description
 
       = render 'teacher_tab'
 
@@ -103,6 +92,10 @@
   .grid__item.four-twelfths>
     - if @structure.main_contact
       = render partial: 'structures/contact_form', locals: {structure: @structure, course: @course}
+    - if @course.description
+      .white-box.islet
+        %p= simple_format @course.description
+
 
     - if @structure.cover_image.present?
       .white-box.islet

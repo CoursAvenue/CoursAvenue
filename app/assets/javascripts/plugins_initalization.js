@@ -49,6 +49,11 @@ $(function() {
     };
     global.initialize_callbacks.push(tooltip_initializer);
 
+    var popover_initializer = function() {
+        $('[data-toggle=popover]').popover();
+    };
+    global.initialize_callbacks.push(popover_initializer);
+
     // Initialize all callbacks
     $.each(global.initialize_callbacks, function(i, func) { func(); });
 });

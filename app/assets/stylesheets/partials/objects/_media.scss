@@ -8,6 +8,17 @@
     img, iframe, object {
         width : 100%;
     }
+    &.media__item--video {
+        .fa-youtube-play {
+            position   : absolute;
+            top        : 50%;
+            left       : 50%;
+            font-size  : 60px;
+            margin-left: -30px;
+            margin-top : -30px;
+            color      : white;
+        }
+    }
     &.media__item--slides{
         background-size    : cover;
         background-position: center;

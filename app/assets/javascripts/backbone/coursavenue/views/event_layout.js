@@ -13,7 +13,9 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             $(document).on('click', function (e) {
                 _.each(_.keys(self.regionManager._regions), function (key) {
-                    self[key].currentView.triggerMethod('click:outside', e);
+                    if (self[key].currentView) {
+                        self[key].currentView.triggerMethod('click:outside', e);
+                    }
                 });
             });
         },

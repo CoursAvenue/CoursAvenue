@@ -415,12 +415,11 @@ ActiveRecord::Schema.define(version: 20131128103440) do
   create_table "sticker_demands", force: true do |t|
     t.integer  "round_number"
     t.integer  "square_number"
-    t.boolean  "sent",          default: false
-    t.time     "sent_at"
     t.integer  "structure_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "address"
+    t.datetime "sent_at"
   end
 
   create_table "structures", force: true do |t|

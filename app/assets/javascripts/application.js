@@ -36,6 +36,7 @@
 //= require libs/jquery.fileupload/jquery.fileupload-image
 //= require libs/jquery.stickem
 //= require libs/jquery.masonry
+//= require libs/jquery.lazyload
 //= require libs/moment
 //= require libs/responsiveslides
 
@@ -57,6 +58,7 @@
 
 //---- Bootstrap plugins
 //= require libs/bootstrap.tooltip
+//= require libs/bootstrap.popover
 //= require libs/bootstrap.tab
 //= require libs/bootstrap.datepicker
 //= require libs/locales/bootstrap.datepicker.fr
@@ -88,7 +90,7 @@
 // require plugins/time_range
 // require plugins/image_input
 
-//= require_tree ./gmaps4rails/
+//= require gmaps/google
 
 //= require ./plugins_initalization
 // require turbolinks

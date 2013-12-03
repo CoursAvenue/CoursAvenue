@@ -1,0 +1,338 @@
+
+CoursAvenue.module('Views.Map', function(Module, App, Backbone, Marionette, $, _) {
+
+    Module.BlankView = Marionette.ItemView.extend({ template: "" });
+
+    /* TODO break this out into its own file (it got big...) */
+    Module.InfoBoxView = Backbone.Marionette.ItemView.extend({
+        template: Module.templateDirname() + 'info_box_view',
+
+        initialize: function (options) {
+            if (options.template) { this.template = options.template }
+            var defaultOptions = {
+                alignBottom: true,
+                pixelOffset: new google.maps.Size(-150, -30),
+                boxStyle: {
+                    width: "300px"
+                },
+                enableEventPropagation: true,
+                infoBoxClearance: new google.maps.Size(100, 100),
+                closeBoxUrl: ""
+            };
+
+            options = _.extend(defaultOptions, options);
+
+            this.infoBox = new InfoBox(options);
+            google.maps.event.addListener(this.infoBox, 'closeclick', _.bind(this.closeClick, this));
+        },
+
+        onClose: function () {
+            this.infoBox.close();
+        },
+
+        closeClick: function () {
+            this.trigger('closeClick');
+        },
+
+        open: function (map, marker) {
+            this.infoBox.open(map, marker);
+        },
+
+        setContent: function (model) {
+            this.model = model;
+            this.render();
+
+            this.infoBox.setContent(this.el);
+        },
+
+        getInfoBox: function () {
+            return this.infoBox;
+        }
+    });
+
+    Module.GoogleMapsView = Marionette.CompositeView.extend({
+        template:            Module.templateDirname() + 'google_maps_view',
+        id:                  'map-container',
+        className:           'google-map',
+        itemView:            Module.BlankView,
+        itemViewEventPrefix: 'marker',
+        // TODO: Understand why it's not working
+        markerView:          Module.MarkerView,
+        markerViewChildren: {},
+
+        /* provide options.mapOptions to override defaults */
+        initialize: function(options) {
+            if (options.template) { this.template = options.template }
+            this.markerView = Module.MarkerView;
+            var self = this;
+            _.bindAll(this, 'announceBounds');
+
+            this.mapOptions = {
+                center: new google.maps.LatLng(0, 0),
+                zoom: 12,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            _.extend(this.mapOptions, options.mapOptions);
+
+            /* create mapview */
+            this.mapView = new Module.BlankView({
+                id: 'map',
+                className: 'google-map',
+                attributes: {
+                    'class': 'map_container'
+                }
+            });
+            this.map       = new google.maps.Map(this.mapView.el, this.mapOptions);
+            this.map_annex = this.mapView.el;
+
+            /* one info window that gets populated on each marker click */
+            this.infoBox = new Module.InfoBoxView(options.infoBoxOptions);
+
+            /* recover the user's preference */
+            this.update_live = (typeof($.cookie('map:update:live')) === 'undefined' ? 'true' : $.cookie('map:update:live'));
+            // Converting to boolean
+            this.update_live = this.update_live === 'true';
+            /* add listeners, but ignore the first bounds change */
+            google.maps.event.addListener(this.map, 'click', _.bind(this.onItemviewCloseClick, this));
+            google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
+            this.lockOnce('map:bounds');
+            this.toggleLiveUpdate();
+        },
+
+        ui: {
+            bounds_controls: '[data-behavior="bounds-controls"]'
+        },
+
+        events: {
+            'click [data-type="closer"]':          'hideInfoWindow',
+            'click [data-behavior="live-update"]': 'liveUpdateClicked'
+        },
+
+        onItemviewCloseClick: function () {
+            if (this.current_info_marker) {
+                this.unlockCurrentMarker();
+                this.hideInfoWindow();
+            }
+        },
+
+        onMarkerFocus: function (marker_view) {
+            var marker = this.markerViewChildren[this.current_info_marker];
+            if (marker_view === marker) {
+                return false;
+            }
+
+            this.unlockCurrentMarker();
+
+            /* TODO this is a problem, we need to not pass out the whole view, d'uh */
+            this.current_info_marker = marker_view.model.cid;
+            this.trigger('map:marker:focus', marker_view);
+            this.showInfoWindow(marker_view);
+        },
+
+        onRender: function() {
+            this.$el.find('[data-type=map-container]').prepend(this.map_annex);
+            this.$loader = this.$('[data-type=loader]');
+            this.centerMapAutomatically();
+        },
+
+        unlockCurrentMarker: function () {
+            if (this.current_info_marker) {
+                var marker = this.markerViewChildren[this.current_info_marker];
+                marker.setSelectLock(false);
+                marker.toggleHighlight();
+            }
+        },
+
+        liveUpdateClicked: function (e) {
+            this.update_live = e.currentTarget.checked;
+            $.cookie('map:update:live', this.update_live);
+
+            if (e.currentTarget.checked) {
+                this.announceBounds();
+            }
+
+            this.toggleLiveUpdate();
+        },
+
+        toggleLiveUpdate: function () {
+            /* set or remove a listener */
+            if (this.update_live) {
+                this.unlock('map:bounds');
+            } else {
+                this.lock('map:bounds');
+            }
+        },
+
+        announceBounds: function (e, a, b) {
+            // we got here by a click
+            if (e) { e.preventDefault(); }
+
+            var bounds    = this.map.getBounds();
+            var southWest = bounds.getSouthWest();
+            var northEast = bounds.getNorthEast();
+            var center    = bounds.getCenter();
+
+            var filters = {
+                bbox_sw: [southWest.lat(), southWest.lng()],
+                bbox_ne: [northEast.lat(), northEast.lng()],
+                lat: center.lat(),
+                lng: center.lng()
+            }
+
+            this.trigger('map:bounds', filters);
+
+            return false;
+        },
+
+        changeMapRadius: function(data) {
+            if (data.radius) {
+                this.map.setZoom(data.radius);
+            }
+        },
+
+        /*
+         * Center the map regarding the markers
+         */
+        centerMapAutomatically: function () {
+            //  Make an array of the LatLng's of the markers you want to show
+            var bounds = new google.maps.LatLngBounds();
+            //  Create a new viewpoint bound
+            this.collection.each(function(model) {
+                bounds.extend(model.getLatLng());
+            })
+            //  Fit these bounds to the map
+            this.map.fitBounds(bounds);
+        },
+
+        centerMap: function (data) {
+            // if (typeof(data) === 'undefined') { this.centerMapAutomatically(); return; }
+            if (data.lat && data.lng) {
+                // More smooth than setCenter
+                this.map.panTo(new google.maps.LatLng(data.lat, data.lng));
+            }
+
+            if (data.bbox) {
+                if (data.bbox.sw && data.bbox.ne) {
+                    var sw_latlng = new google.maps.LatLng(data.bbox.sw.lat, data.bbox.sw.lng);
+                    var ne_latlng = new google.maps.LatLng(data.bbox.ne.lat, data.bbox.ne.lng);
+
+                    var bounds = new google.maps.LatLngBounds(sw_latlng, ne_latlng);
+                    this.map.fitBounds(bounds);
+                }
+            }
+
+            this.map.setZoom(12);
+        },
+
+        appendHtml: function(collectionView, itemView, index){
+            this.addChild(itemView.model);
+        },
+
+        closeChildren: function() {
+            for(var cid in this.markerViewChildren) {
+                this.closeChild(this.markerViewChildren[cid]);
+            }
+        },
+
+        closeChild: function(child) {
+            // Param can be child's model, or child view itself
+            var childView = (child instanceof Backbone.Model)? this.markerViewChildren[child.cid]: child;
+
+            childView.close();
+            delete this.markerViewChildren[childView.model.cid];
+        },
+
+        // Add a MarkerView and render
+        addChild: function(childModel) {
+            var markerView = new this.markerView({
+                model: childModel,
+                map: this.map
+            });
+
+            this.markerViewChildren[childModel.cid] = markerView;
+            this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
+
+            markerView.render();
+        },
+
+        /* TODO for now we are using 'cid' as the key, but
+         * later I would like to use (lat,long) as the key
+         * since cid is not actually an attribute and so
+         * should not be included in the event from structureView */
+        toKey: function (model) {
+            return model.cid;
+        },
+
+        retireMarkers: function(data) {
+            this.$el.find('.map-marker-image').addClass('map-marker-image--small');
+        },
+
+        /* a set of markers should be made to stand out */
+        exciteMarkers: function(data) {
+            var self = this;
+
+            var keys = data.map(function(model) {
+                return self.toKey(model);
+            });
+
+            _.each(keys, function (key) {
+                var marker = self.markerViewChildren[key];
+
+                // Prevent from undefined
+                if (marker) {
+                    marker.toggleHighlight();
+
+                    if (marker.isHighlighted()) {
+                        marker.excite();
+                    } else {
+                        marker.calm();
+                    }
+                }
+            });
+        },
+
+        togglePeacockingMarkers: function (data) {
+            var self = this;
+
+            _.each(data.keys, function (key) {
+                var marker = self.markerViewChildren[key];
+
+                if (marker) {
+                    if (! marker.is_peacocking) {
+                        marker.startPeacocking();
+                    } else {
+                        marker.stopPeacocking();
+                    }
+                }
+            });
+        },
+
+        hideInfoWindow: function () {
+            this.current_info_marker = undefined;
+            this.infoBox.close();
+        },
+
+        showInfoWindow: function (view) {
+            var marker = this.markerViewChildren[this.current_info_marker];
+
+            if (this.infoBox) {
+                this.infoBox.close();
+            }
+
+            /* build content for infoBox */
+            // var content = view.$el.html();
+            var content = view.model;
+
+            this.infoBox.setContent(content);
+            this.lockOnce('map:bounds');
+            this.infoBox.open(marker.map, marker.gOverlay);
+        },
+
+        serializeData: function () {
+            return {
+                update_live: this.update_live
+            };
+        }
+    });
+});

@@ -20,15 +20,6 @@ class StructuresController < ApplicationController
     @comments       = @structure.comments.accepted.reject(&:new_record?)
     @comment        = @structure.comments.build
     index           = 0
-    @places_address = @structure.locations.to_gmaps4rails do |location, marker|
-      index += 1
-      marker.title   location.name
-      marker.picture({
-                      :marker_anchor => [10, true],
-                      :rich_marker   => "<div class='map-marker-image'><a href='javascript:void(0)'><span>#{index}</span></a></div>"
-                     })
-      marker.json({ id: location.id })
-    end
   end
 
   def index
