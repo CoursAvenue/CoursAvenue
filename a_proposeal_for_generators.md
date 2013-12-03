@@ -49,37 +49,7 @@ which will specify load time dependencies between modules.
 The MyApp.js file will contain the following boilerplate code:
 
 ````
-MyApp = (function (){
-    var self = new Backbone.Marionette.Application({
-        slug: 'my-app',
-
-        /* for use in query strings */
-        root:   function() { return self.slug + '-root'; },
-
-        /* methods for returning the relevant jQuery collections */
-        $root: function() {
-            return $('[data-type=' + self.root() + ']');
-        },
-
-        /* An app should only start if it detects
-         * an element whose data-type is the same as its
-         * root property.
-         * @throw the root was found to be non-unique on the page */
-        detectRoot: function() {
-            var result = self.$root().length;
-
-            if (result > 1) {
-                throw {
-                    message: 'MyApp->detectRoot: ' + self.root() + ' element should be unique'
-                }
-            }
-
-            return result > 0;
-        },
-    });
-
-    return self;
-}());
+MyApp = new Backbone.Marionette.Application({ slug: 'my-app', });
 
 MyApp.addRegions({
     mainRegion: '#' + MyApp.slug
