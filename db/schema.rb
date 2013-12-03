@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20131129103827) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "admins", force: true do |t|
     t.string   "email",                               default: "",    null: false
     t.string   "encrypted_password",                  default: ""
@@ -544,15 +541,6 @@ ActiveRecord::Schema.define(version: 20131129103827) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
-  end
-
-  create_table "user_profile_imports", force: true do |t|
-    t.binary   "data",         null: false
-    t.string   "filename"
-    t.string   "mime_type"
-    t.integer  "structure_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "user_profiles", force: true do |t|
