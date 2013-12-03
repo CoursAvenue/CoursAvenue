@@ -11,7 +11,7 @@
         Cours d'essai : #{readable_amount(@course.trial.amount)}€
         = @course.trial.info.present? ? "(#{@course.trial.info})" : ''
 
-  %table.table--striped.table--data.white-box#planning-schedule
+  %table.table--striped.table--data#planning-schedule
     %thead
       %tr
         %th.three-tenths= t('.formule_type')
@@ -26,7 +26,8 @@
           = render partial: "prices/price", locals: { price: price }
 
   - if @course.registrations.any?
-    .white-box.islet
+    %hr.push-half--ends
+    %div
       %h5.push-half--bottom= t('prices.registration_fees')
       - @course.registrations.each do |registration_fee|
         %p.flush
@@ -34,20 +35,23 @@
           = registration_fee.info.present? ? "(#{registration_fee.info})" : ''
 
   - if @course.discounts.any?
-    .white-box.islet
+    %hr.push-half--ends
+    %div
       %h5.push-half--bottom Tarifs réduits
       - @course.discounts.each do |discount|
         #{t(discount.libelle)} : #{readable_amount(discount.promo_percentage)}% de réduction
         = discount.info.present? ? "(#{discount.info})" : ''
         %br
   - if @structure.funding_types.any?
-    .white-box.islet
+    %hr.push-half--ends
+    %div
       %h5.push-half--bottom= t('.possible_funding')
       %p.flush--bottom
         - @structure.funding_types.each do |funding_type|
           = t(funding_type.name)
           %br
   - if @course.price_details.present?
-    .white-box.islet
+    %hr.push-half--ends
+    %div
       %h5.push-half--bottom Informations supplémentaires
       %p= @course.price_details
