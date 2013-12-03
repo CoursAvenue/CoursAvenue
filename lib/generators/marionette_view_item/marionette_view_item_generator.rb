@@ -29,7 +29,7 @@ will not assume anything about the relationship between view and model.
         self.namespace = namespace
 
         ensure_app_exists(app, name)
-        self.namespace = detect_related_collection_view(app, name) if self.namespace.blank?
+        self.namespace = detect_related_collection_view(app, name, namespace)
 
         template "item_view.js", item_view_path(app, name, self.namespace)
         template "item_view.jst.hbs", item_view_template_path(app, name, self.namespace)

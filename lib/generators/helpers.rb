@@ -86,8 +86,8 @@ module Marionette
                 end
             end
 
-            def detect_related_collection_view(app, name)
-                return "" unless (collection_view_path(app, name).exist?)
+            def detect_related_collection_view(app, name, namespace = "")
+                return "" unless (collection_view_path(app, name, namespace).exist?)
 
                 say "\nWait! We found a collection view for #{name}. Do you want to add #{item_view_name(name)} to the existing collection view?"
                 print_table [["1.", "Go ahead and create #{item_view_name(name)} as a stand-alone itemview."],
@@ -95,8 +95,10 @@ module Marionette
                 selection = ask("? ").to_i
 
                 if (selection == 2)
-                  namespace = collection_name(name)
+                  namespace = namespace + '.' + collection_name(name)
                 end
+
+                namespace = namespace[1..-1] if namespace[0] == '.' # trim the god damn leading .
 
                 return namespace || ""
             end
