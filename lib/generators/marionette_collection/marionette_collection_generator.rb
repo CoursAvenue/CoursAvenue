@@ -23,7 +23,7 @@ with the name 'widget.js', the user will be prompted to optionally create widget
     argument :namespace, type: :string, optional: true, desc: "Optional module nesting.", default: "",                   banner: "Space.Ship"
 
     # @pre backbone_path is a valid path
-    def create_backbone_model
+    def create_backbone_collection
         self.backbone_class = "Collection"
 
         ensure_app_exists(app, collection_name(name))

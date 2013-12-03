@@ -16,8 +16,9 @@ module Marionette
                 @app_path ||= Pathname.new("#{backbone_path}") + app.underscore
             end
 
+            # can't be lazily initialized, because it gets called in different contexts
             def namespace_path(namespace)
-                @namespace_path ||= Pathname.new(namespace.underscore.gsub(/\./, File::SEPARATOR))
+                Pathname.new(namespace.underscore.gsub(/\./, File::SEPARATOR))
             end
 
             def model_path(app, name, namespace = "")
