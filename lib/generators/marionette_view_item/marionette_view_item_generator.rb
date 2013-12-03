@@ -25,7 +25,7 @@ will not assume anything about the relationship between view and model.
 
     # @pre backbone_path is a valid path
     def create_backbone_model
-        self.backbone_class = "Model"
+        self.backbone_class = "ItemView"
         self.namespace = namespace
 
         ensure_app_exists(app, name)
