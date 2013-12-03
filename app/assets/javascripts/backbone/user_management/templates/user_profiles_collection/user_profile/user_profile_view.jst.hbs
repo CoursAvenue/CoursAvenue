@@ -1,24 +1,28 @@
 <td class="text--center hard">
   <input type="checkbox" />
 </td>
-<td>{{email}}</td>
-<td>{{first_name}}</td>
-<td>{{last_name}}</td>
 <td>
-  {{#each tags}}
-    <span class="tag tag--small">{{this.name}}</span>
-  {{/each}}
+  <div class="pointer" data-behavior="editable" data-type="text" data-name="email" data-pk="{{id}}" data-url="{{path}}">
+    {{email}}
+  </div>
+</td>
+<td>
+  <div class="pointer" data-behavior="editable" data-type="text" data-name="first_name" data-pk="{{id}}" data-url="{{path}}">
+    {{first_name}}
+  </div>
+</td>
+<td>
+  <div class="pointer" data-behavior="editable" data-type="text" data-name="last_name" data-pk="{{id}}" data-url="{{path}}">
+    {{last_name}}
+  </div>
+</td>
+<td>
+  <div class="pointer" data-behavior="editable" data-type="text" data-name="tags" data-pk="{{id}}" data-url="{{path}}">
+    {{tag_name}}
+  </div>
 </td>
 <td>
   <span data-title="{{mobile_phone_number}} {{#ifCond mobile_phone_number '&&' phone_number}}/{{/ifCond}} {{phone_number}}" data-behavior="tooltip" class="pointer">
     <i class="fa fa-phone"></i>
   </span>
 </td>
-<td>
-  {{#if notes}}
-  <span data-title="{{notes}}" data-behavior="tooltip">
-    <i class="lbc-brand-icon"></i>
-  </span>
-  {{/if}}
-</td>
-

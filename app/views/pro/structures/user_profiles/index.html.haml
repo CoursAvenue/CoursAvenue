@@ -2,6 +2,9 @@
 
 = render partial: 'tabs', locals: { current: 'list' }
 
+.text--center.island{ :data => { :type => "user-management-loader" }}
+  = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20
+
 #user-management{ :data => { :type => "user-management-root" }}
 
 .text--center
