@@ -65,7 +65,7 @@ class StructuresController < ApplicationController
     end
 
     # Log search terms
-    SearchTermLog.delay.create_log(params[:name])
+    SearchTermLog.create(name: params[:name]) unless params[:name].blank?
 
     respond_to do |format|
       format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: @structure_search.total, location: @latlng }}

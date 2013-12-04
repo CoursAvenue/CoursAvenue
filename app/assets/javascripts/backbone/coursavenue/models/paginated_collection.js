@@ -74,7 +74,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
                     value = value.call(self);
                 }
 
-                return memo + key + '=' + value + '&';
+                return memo + key + '=' + encodeURI(value) + '&';
             }, "?").slice(0, -1); // damn trailing character!
         },
 

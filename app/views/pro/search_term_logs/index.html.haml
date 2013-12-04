@@ -6,10 +6,10 @@
       %th Nom
       %th #
   %tbody
-    - @search_term_logs.each do |search_term_log|
+    - @search_term_logs.each do |search_term_log_name, count|
       %tr
-        %td= search_term_log.name
-        %td= search_term_log.count
+        %td= search_term_log_name
+        %td= count
 = content_for :scripts do
   :javascript
     $(function() {

@@ -3,6 +3,6 @@ class Pro::SearchTermLogsController < Pro::ProController
   before_action :authenticate_pro_super_admin!
 
   def index
-    @search_term_logs = SearchTermLog.order('count DESC').limit(500)
+    @search_term_logs = SearchTermLog.count(order: 'name', group: ['name'])
   end
 end
