@@ -47,7 +47,11 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
              * receive, so for now we will just do this: */
             this.paginator_ui.grandTotal  = (models.length === 0) ? 0 : options.total;
             this.paginator_ui.totalPages  = Math.ceil(this.paginator_ui.grandTotal / this.paginator_ui.perPage);
-            this.url.basename             = window.location.origin;
+            // this.url.basename             = window.location.origin;
+            // window.location.origin returns "http://www.coursavenue.dev/"
+            this.url.basename             = window.location.protocol + '//' + window.location.host
+            // window.location.protocol returns "http:"
+            // window.location.host returns "www.coursavenue.dev/"
         },
 
         /* where we can expect to find the resource we seek
