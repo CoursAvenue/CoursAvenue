@@ -1,15 +1,19 @@
 /* a view for presenting a backbone.paginator collection, and for presenting and handling
  * its pagination UI element */
 
+/* TopStructuresCollectionView */
+/* @brief: TopStructuresCollectionView is a collection view that presents
+*   structures in a manner identical to the structures_collection in the
+*   filteredsearch module. However, it inherits directly from Compositeview
+*   and had no pagination or accordion controller behaviour. */
 HomeIndexStructures.module('Views.TopStructuresCollection', function(Module, App, Backbone, Marionette, $, _) {
     Module.TopStructuresCollectionView = Backbone.Marionette.CompositeView.extend({
-        template: Module.templateDirname() + 'top_structures_collection_view',
-        itemView: Module.TopStructure.TopStructureView,
-        itemViewContainer: 'tbody',
-        className: 'top-structures-collection',
 
-        /* TODO choose a model to represent the composite portion, if you want */
-        model: HomeIndexStructures.Models.SomeModel,
+        template: FilteredSearch.Views.StructuresCollection.templateDirname() + 'structures_collection_view',
+        itemView: FilteredSearch.Views.StructuresCollection.Structure.StructureView,
+
+        itemViewContainer: 'ul',
+        className: 'top-structures-collection',
 
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something
