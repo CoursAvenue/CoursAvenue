@@ -123,7 +123,7 @@
             <ul class="rslides hidden">
                 {{#each preloaded_medias}}
                     <li>
-                        <a href="{{{this.url}}}" class="rslides_nav rslides_nav--icon {{#if this.is_video}}visible{{/if}}" data-behavior="fancy">
+                        <a rel="slideshow-{{mediable_id}}" href="{{{this.url}}}" class="rslides_nav rslides_nav--icon {{#if this.is_video}}visible{{/if}}" data-behavior="fancy">
                             <i class="fa {{#if this.is_video}}fa-youtube-play{{else}}fa-eye{{/if}}"></i>
                         </a>
                         <div class="media__item media__item--slides">
