@@ -145,7 +145,13 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def index
+    @latlng = StructureSearch.retrieve_location(params)
     @structures = Structure.order('created_at DESC').limit(50)
+
+    respond_to do |format|
+      format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: 50, location: @latlng }}
+      format.html
+    end
   end
 
   def show

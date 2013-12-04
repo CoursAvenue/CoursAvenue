@@ -55,39 +55,17 @@
     .text--center
       %h3
         Ils ont déjà leur livre d'or :
-    .main-container.stickem-container.relative
-      .stickem.absolute{style: 'width: 38%;'}>
-        #map.google-map.google-map--medium
-      - cache(cache_key_for_structures) do
-        .grid
-          .grid__item.six-tenths.course-list-wrapper.palm-one-whole.lap-one-whole>
-            - @structures.each_with_index do |structure, index|
-              - cache(structure) do
-                .pointer.one-whole.course-element.white-box.islet{data: {'location-ids' => structure.locations.map(&:id).join(' '), type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
-                  .grid
-                    .grid__item.two-twelfths>
-                      %img{ data: { original: structure.logo.url(:thumb) } }
-                      -# image_tag structure.logo.url(:thumb)
-                    .grid__item.seven-twelfths>
-                      %h3.flush--bottom.brand.course-title= structure.name
-                      %ul.nav.push-half--ends= join_child_subjects structure, true
-                      - if structure.description.present?
-                        .read-more{data: {behavior: 'read-more', height: 50}}
-                          = simple_format structure.description
-                    .grid__item.three-twelfths.text--center>
-                      .thin.big-alpha.brand #{structure.comments_count}
-                      %div
-                        = link_to structure_url(structure, subdomain: 'www'), target: '_blank' do
-                          avis
-                          %i.lbc-brand-icon
-                      .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-                        %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
-                        %meta{itemprop: 'count', content: structure.comments_count}
-                        %meta{itemprop: 'itemreviewed', content: structure.name}
-                        %meta{itemprop: 'name', content: structure.name}
-                        %meta{itemprop: 'street-address', content: structure.street}
-                        %meta{itemprop: 'postal-code', content: structure.zip_code}
-            .text--center= link_to "Voir les autres structures", structures_url(subdomain: 'www'), class: 'btn btn--blue btn--full btn--large', target: '_blank'
+    .main-container.stickem-container.relative{ data: { type: 'home-index-structures-root' } }
+
+:javascript
+  // there is a work around below: https://github.com/rails/rails/issues/10320
+  window.coursavenue = window.coursavenue || {};
+  window.coursavenue.bootstrap = {
+    options: {
+      total: #{ @structures.length }
+    },
+    models: #{ @structures.to_json.gsub(/\u2028/, '\u2028').gsub(/\u2029/, '\u2029') }
+  };
 
 = content_for :scripts do
   :javascript
