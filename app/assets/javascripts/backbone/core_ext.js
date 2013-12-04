@@ -161,7 +161,7 @@ _.extend(Marionette.Application.prototype, {
 
         if (result > 1) {
             throw {
-                message: 'FilteredSearch->detectRoot: ' + this.root() + ' element should be unique'
+                message: 'Application->detectRoot: ' + this.root() + ' element should be unique'
             }
         }
 

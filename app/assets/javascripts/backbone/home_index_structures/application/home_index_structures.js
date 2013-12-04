@@ -1,7 +1,7 @@
-HomeIndexStructures = new Backbone.Marionette.Application({ slug: 'home-index-structures' });
+HomeIndexStructures = new Backbone.Marionette.Application({ slug: 'bob' });
 
 HomeIndexStructures.addRegions({
-    mainRegion: '#' + this.slug
+    mainRegion: '#' + HomeIndexStructures.slug
 });
 
 HomeIndexStructures.addInitializer(function(options) {
@@ -23,32 +23,6 @@ HomeIndexStructures.addInitializer(function(options) {
 
     /* set up the layouts */
     var layout           = new HomeIndexStructures.Views.TopStructuresLayout();
-
-    /* code to demonstrate initializing some submodules to be added to the layout here */
-    // var SubModules = HomeIndexStructures.Views.WidgetsCollection.SubModules;
-
-    // var submodule               = new SubModules.SubModule({});
-    // var submodule_with_events   = new SubModules.SubModuleWithEvents({});
-    // var submodule_with_selector = new SubModules.SubModuleWithSelector({});
-
-    // HomeIndexStructures.mainRegion.show(layout);
-
-    /* we can add a widget along with a callback to be used
-     * for setup */
-    //layout.showWidget(submodule_with_events, {
-    //    events: {
-    //        'some:event':               'aMethod orTwo',
-    //    }
-    //});
-
-    //layout.showWidget(submodule);
-
-    //layout.showWidget(submodule_with_selector, {
-    //    events: {
-    //        'some:event':               'aMethod orTwo',
-    //    },
-    //    selector: '[data-type=something-weird]'
-    //});
 
     layout.master.show(top_structures_collection_view); // shouldn't be "results" should be app specific
 });
