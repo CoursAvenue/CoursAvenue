@@ -6,15 +6,12 @@
     .text--center.push
       %h2.flush= "Toutes les vidéos de #{@subject.name.downcase} à #{@city.name}"
       = link_to 'Retour à la liste des établissements', subject_city_path(@subject, @city)
+    .text--center.push--bottom= paginate @videos, window: 1, outer_window: 3
     .media-gallery.js-masonry{'data-masonry-options' => '{ "itemSelector": ".media__item" }'}
       - @videos.each do |media|
         .one-quarter.media__item.very-soft{style: 'max-width: 450px'}>
-          %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}
+          %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption, data: {behavior: 'fancy'}}
             = media.url_html
             %p.flush--bottom.text--right
               = media.mediable.name
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
-    });
+  .text--center= paginate @videos, window: 1, outer_window: 3
