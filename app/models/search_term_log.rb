@@ -6,6 +6,6 @@ class SearchTermLog < ActiveRecord::Base
   private
 
   def decode_name
-    self.name = URI::decode(name).strip
+    self.name = URI::decode(name).strip.downcase
   end
 end
