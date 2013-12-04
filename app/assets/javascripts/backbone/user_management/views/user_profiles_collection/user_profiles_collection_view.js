@@ -37,7 +37,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             /* find the first place that has any locations that match the given criteria */
 
             /* announce the view we found */
-            this.trigger('structures:itemview:found', itemview);
+            this.trigger('user_profiles:itemview:found', itemview);
             this.scrollToView(itemview);
         },
 
