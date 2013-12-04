@@ -51,6 +51,7 @@ CoursAvenue::Application.routes.draw do
         end
         collection do
           get :stars
+          get :best
           get 'inscription', to: :new
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }

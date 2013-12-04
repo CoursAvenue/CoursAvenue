@@ -140,18 +140,39 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  def best
+    @admin      = ::Admin.new
+    latitude, longitude, radius = 48.8540, 2.3417, 5
+    @structures = StructureSearch.search({lat: latitude,
+                                          lng: longitude,
+                                          radius: radius,
+                                          sort: 'rating_desc',
+                                          has_logo: true,
+                                          per_page: 50,
+                                          bbox: true
+                                        }).results
+    @locations = []
+    @structures.each do |structure|
+      @locations += structure.locations_around(latitude, longitude, radius)
+    end
+
+    @json_locations_addresses = Gmaps4rails.build_markers(@locations) do |location, marker|
+      marker.lat location.latitude
+      marker.lng location.longitude
+    end
+    @latlng = StructureSearch.retrieve_location(params)
+
+    respond_to do |format|
+      format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: 50, location: @latlng }}
+    end
+  end
+
   def stars
     @structures = Structure.order('created_at DESC').where{comments_count >= 5}
   end
 
   def index
-    @latlng = StructureSearch.retrieve_location(params)
     @structures = Structure.order('created_at DESC').limit(50)
-
-    respond_to do |format|
-      format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: 50, location: @latlng }}
-      format.html
-    end
   end
 
   def show
