@@ -93,7 +93,7 @@ FilteredSearch.addInitializer(function(options) {
     infinite_scroll_button    = new FiltersModule.InfiniteScrollButtonView({});
     results_summary           = new FiltersModule.ResultsSummaryView({});
     subject_filter            = new FiltersModule.SubjectFilterView({});
-    categorical_filter        = new FiltersModule.CategoricalFilterView({});
+    keyword_filter            = new FiltersModule.KeywordFilterView({});
     location_filter           = new FiltersModule.LocationFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
@@ -115,7 +115,7 @@ FilteredSearch.addInitializer(function(options) {
      * can depend on the main widget for data. Let's make this
      * explicit so that the order of the 'showWidget' calls doesn't
      * matter */
-    layout.showWidget(categorical_filter);
+    layout.showWidget(keyword_filter);
     layout.showWidget(location_filter);
     layout.showWidget(results_summary);
     layout.showWidget(subject_filter);

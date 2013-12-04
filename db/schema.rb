@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131129103827) do
+ActiveRecord::Schema.define(version: 20131204100748) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "admins", force: true do |t|
     t.string   "email",                               default: "",    null: false
@@ -230,6 +233,12 @@ ActiveRecord::Schema.define(version: 20131129103827) do
     t.datetime "updated_at",                   null: false
     t.string   "email_status"
     t.boolean  "registered",   default: false
+  end
+
+  create_table "keywords", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "locations", force: true do |t|
@@ -529,6 +538,23 @@ ActiveRecord::Schema.define(version: 20131129103827) do
 
   add_index "subjects_users", ["user_id", "subject_id"], name: "index_subjects_users_on_user_id_and_subject_id", using: :btree
 
+  create_table "taggings", force: true do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       limit: 128
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
+
+  create_table "tags", force: true do |t|
+    t.string "name"
+  end
+
   create_table "teachers", force: true do |t|
     t.string   "name"
     t.integer  "admin_id"
@@ -541,6 +567,15 @@ ActiveRecord::Schema.define(version: 20131129103827) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+  end
+
+  create_table "user_profile_imports", force: true do |t|
+    t.binary   "data",         null: false
+    t.string   "filename"
+    t.string   "mime_type"
+    t.integer  "structure_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "user_profiles", force: true do |t|
