@@ -35,6 +35,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         onRender: function () {
             this.ui.$search_input.typeahead([{
                 name: 'keywords',
+                limit: 10,
                 valueKey: 'name',
                 prefetch: {
                     url: '/keywords.json'

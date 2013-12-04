@@ -1,0 +1,17 @@
+= side_menu_currently_at 'Dashboard'
+
+%table.white-box.table--data.table--striped#dataTable
+  %thead
+    %tr
+      %th Nom
+      %th #
+  %tbody
+    - @search_term_logs.each do |search_term_log|
+      %tr
+        %td= search_term_log.name
+        %td= search_term_log.count
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#dataTable').tablesorter();
+    });

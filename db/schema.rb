@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131204100748) do
+ActiveRecord::Schema.define(version: 20131204134311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -416,6 +416,13 @@ ActiveRecord::Schema.define(version: 20131204100748) do
     t.integer  "user_id"
     t.integer  "reservable_id"
     t.string   "reservable_type"
+  end
+
+  create_table "search_term_logs", force: true do |t|
+    t.string   "name"
+    t.integer  "count",      default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sticker_demands", force: true do |t|

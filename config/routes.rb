@@ -30,6 +30,7 @@ CoursAvenue::Application.routes.draw do
         end
       end
       resources :keywords, only: [:index, :create, :destroy]
+      resources :search_term_logs, only: [:index]
       resources :subjects
       resources :reservations, only: [:index]
       resources :invited_teachers, only: [:index]
