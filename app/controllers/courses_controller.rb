@@ -1,8 +1,6 @@
 # encoding: utf-8
 class CoursesController < ApplicationController
 
-  before_action :prepare_search, only: [:index]
-
   def index
     redirect_to structures_path, status: 301
   end
