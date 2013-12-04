@@ -4,7 +4,7 @@ HomeIndexStructures.module('Views.TopStructuresCollection.TopStructure', functio
 
     Module.TopStructureView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'top_structure_view',
-        tagName: 'div',
+        tagName: 'li',
         className: 'top-structure',
         attributes: {
             'data-behaviour': 'top-structure'
