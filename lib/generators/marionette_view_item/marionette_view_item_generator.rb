@@ -24,7 +24,9 @@ will not assume anything about the relationship between view and model.
     argument :namespace, type: :string, optional: true, desc: "Optional module nesting.", default: "",       banner: "Space.Ship"
 
     # @pre backbone_path is a valid path
-    def create_backbone_model
+    def create_item_view
+        puts "in create_item_view"
+
         self.backbone_class = "ItemView"
         self.namespace = namespace
 
@@ -35,8 +37,10 @@ will not assume anything about the relationship between view and model.
         template "item_view.jst.hbs", item_view_template_path(app, name, self.namespace)
 
         # create a new manifest, and then point the previous manifest to it
-        create_file(app_path(name) + 'views' + namespace_path(namespace) + manifest, "#{manifest_require} ./#{name.underscore}")
-        append_to_file(app_path(name) + 'views' + manifest, "#{manifest_require} ./#{namespace_path(namespace)}/manifest")
+        create_file(app_path(name) + 'views' + namespace_path(namespace) + name.underscore + manifest, "#{manifest_require} ./#{item_view_name(name).underscore}")
+        append_to_file(app_path(name) + 'views' + namespace_path(namespace) + manifest, "#{manifest_require} ./#{name.underscore}/manifest")
+
+        puts "out create_item_view"
     end
 
 end

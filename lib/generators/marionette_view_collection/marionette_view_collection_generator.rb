@@ -23,7 +23,9 @@ and before 'widgets_collection/widgets_collection_view.js'.
     argument :namespace, type: :string, optional: true, desc: "Optional module nesting.", default: "",       banner: "Space.Ship"
 
     # @pre backbone_path is a valid path
-    def create_backbone_model
+    def create_collection_view
+        puts "in create_collection_view"
+
         self.backbone_class = "CollectionView"
         self.namespace = namespace
 
@@ -33,10 +35,11 @@ and before 'widgets_collection/widgets_collection_view.js'.
         template "collection_view.jst.hbs", collection_view_template_path(app, name, self.namespace)
 
         # create a new manifest, and then point the previous manifest to it
-        create_file(app_path(name) + 'views' + collection_view_path(namespace) + manifest, "#{manifest_require} ./#{name.underscore}")
-        append_to_file(app_path(name) + 'views' + manifest, "#{manifest_require} ./#{namespace_path(namespace)}/manifest")
+        create_file(app_path(name) + 'views' + namespace_path(namespace) + collection_name(name).underscore + manifest, "#{manifest_require} ./#{collection_view_name(name).underscore}")
+        append_to_file(app_path(name) + 'views' + manifest, "#{manifest_require} ./#{collection_name(name).underscore}/manifest")
 
         ensure_item_view_exists(app, name, namespace)
+        puts "out create_collection_view"
     end
 
 end

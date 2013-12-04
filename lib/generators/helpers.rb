@@ -20,7 +20,7 @@ module Marionette
             end
 
             def manifest_require
-                "//= require "
+                "\n//= require"
             end
 
             def models_header

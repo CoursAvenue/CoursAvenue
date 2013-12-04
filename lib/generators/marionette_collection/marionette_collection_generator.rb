@@ -29,7 +29,7 @@ with the name 'widget.js', the user will be prompted to optionally create widget
         ensure_app_exists(app, collection_name(name))
         ensure_model_exists(app, name, namespace)
 
-        insert_into_file(app_path(name) + 'manifest.js', "#{manifest_require} ./models/#{name.underscore}", after: models_header)
+        insert_into_file(app_path(name) + 'manifest.js', "#{manifest_require} ./models/#{collection_name(name).underscore}", after: models_header)
         template "collection.js", collection_path(app, name, namespace)
     end
 
