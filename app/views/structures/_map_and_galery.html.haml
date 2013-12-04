@@ -13,9 +13,9 @@
     - if medias.any?
       .grid__item.one-half.rslides-wrapper.rslides--big>
         %ul.rslides.hidden>
-          - medias.each_with_index do |media, index|
+          - medias[0..20].each_with_index do |media, index|
             %li
-              %a.rslides_nav.rslides_nav--icon{href: media.url, class: (media.video? ? 'visible' : ''), data: {behavior: "fancy"}}
+              %a.rslides_nav.rslides_nav--icon{rel: 'slideshow', href: media.url, class: (media.video? ? 'visible' : ''), data: {behavior: "fancy"}}
                 - if media.video?
                   %i.fa.fa-youtube-play
                 - else

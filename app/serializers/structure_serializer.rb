@@ -26,7 +26,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def medias
-    object.medias.videos_first
+    object.medias.videos_first.limit(20)
   end
 
   def comments
@@ -55,7 +55,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def medias_count
-    object.medias.count
+    [object.medias.count, 20].min
   end
 
   def videos_count
