@@ -33,6 +33,22 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     end
   end
 
+  def update
+    @user_profile = @structure.user_profiles.find params[:id]
+    if params[:name] == 'tags'
+      saved = @structure.tag(@user_profile, with: params[:value], on: :tags)
+    else
+      saved = @user_profile.update_attributes({ params[:name] => params[:value] })
+    end
+    respond_to do |format|
+      if saved
+        format.html{ render nothing: true, status: 200 }
+      else
+        format.html{ render nothing: true, status: 500 }
+      end
+    end
+  end
+
   private
 
   def load_structure

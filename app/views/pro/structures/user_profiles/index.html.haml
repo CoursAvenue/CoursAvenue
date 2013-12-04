@@ -1,6 +1,21 @@
 = side_menu_currently_at 'Mes élèves'
 
+= render partial: 'tabs', locals: { current: 'list' }
+
+.text--center.island{ :data => { :type => "user-management-loader" }}
+  = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20
+
 #user-management{ :data => { :type => "user-management-root" }}
 
 .text--center
   = link_to 'Ajouter un élève', new_pro_structure_user_profile_path(@structure), class: 'btn btn--blue'
+
+:javascript
+  window.coursavenue = window.coursavenue || {};
+  var models = #{ActiveModel::ArraySerializer.new(@user_profiles, each_serializer: UserProfileSerializer).to_json};
+  window.coursavenue.bootstrap = {
+    options: {
+      total: #{ @user_profiles_search.total }
+    },
+    models: models
+  };

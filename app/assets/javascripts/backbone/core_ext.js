@@ -10,45 +10,45 @@ var _prototype = Marionette.Module.prototype;
 // A simple module system, used to create privacy and encapsulation in
 // Marionette applications
 Marionette.Module = function(moduleName, modulePath, app){
-  this.moduleName = moduleName;
-  this.modulePath = modulePath;
+    this.moduleName = moduleName;
+    this.modulePath = modulePath;
 
-  // store sub-modules
-  this.submodules = {};
+    // store sub-modules
+    this.submodules = {};
 
-  this._setupInitializersAndFinalizers();
+    this._setupInitializersAndFinalizers();
 
-  // store the configuration for this module
-  this.app = app;
-  this.startWithParent = true;
+    // store the configuration for this module
+    this.app = app;
+    this.startWithParent = true;
 
-  this.triggerMethod = Marionette.triggerMethod;
+    this.triggerMethod = Marionette.triggerMethod;
 };
 
 _.extend(Marionette.Module, _module, {
-  _getModule: function(parentModule, moduleName, app, def, args){
-    // Get an existing module of this name if we have one
-    var module = parentModule[moduleName], modulePath;
+    _getModule: function(parentModule, moduleName, app, def, args){
+        // Get an existing module of this name if we have one
+        var module = parentModule[moduleName], modulePath;
 
-    if (parentModule.modulePath !== undefined) {
-        modulePath = parentModule.modulePath + "." + moduleName;
-    } else if (parentModule.moduleName !== undefined) {
-        console.log("EDGECASE: prepending parrent module name");
-        modulePath = parentModule.moduleName + moduleName;
-    } else {
-        modulePath = moduleName; // module is a top level module, like Views
+        if (parentModule.modulePath !== undefined) {
+            modulePath = parentModule.modulePath + "." + moduleName;
+        } else if (parentModule.moduleName !== undefined) {
+            console.log("EDGECASE: prepending parrent module name");
+            modulePath = parentModule.moduleName + moduleName;
+        } else {
+            modulePath = moduleName; // module is a top level module, like Views
+        }
+
+        if (!module){
+            // Create a new module if we don't have one
+            module = new Marionette.Module(moduleName, modulePath, app);
+            parentModule[moduleName] = module;
+            // store the module on the parent
+            parentModule.submodules[moduleName] = module;
+        }
+
+        return module;
     }
-
-    if (!module){
-      // Create a new module if we don't have one
-      module = new Marionette.Module(moduleName, modulePath, app);
-      parentModule[moduleName] = module;
-      // store the module on the parent
-      parentModule.submodules[moduleName] = module;
-    }
-
-    return module;
-  },
 });
 _.extend(Marionette.Module.prototype, _prototype);
 

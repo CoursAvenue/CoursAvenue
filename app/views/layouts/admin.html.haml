@@ -52,5 +52,15 @@
         = yield :breadcrumb
         = content_for?(:admins_content) ? yield(:admins_content) : yield
 
+= content_for :layout_scripts do
+  -# = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/jquery-editable/js/jquery-editable-poshytip.min.js"
+  = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"
+  :javascript
+    // $.fn.editable.defaults.mode = 'inline';
+    $.fn.editable.defaults.emptytext = '-';
+    $.fn.editable.defaults.ajaxOptions = {type: "PUT"};
+    $.fn.editableform.buttons = '<div class="btn btn--green editable-submit"><i class="fa fa-check"></i></div>'+
+    '<div class="btn editable-cancel"><i class="fa fa-times"></i></div>';
+
 
 = render :template => 'layouts/application'
