@@ -113,7 +113,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                     prevText: '<i class="fa fa-chevron-left"></i>',
                     nextText: '<i class="fa fa-chevron-right"></i>'
                 });
-                self.$('.rslides-wrapper [data-behavior="fancy"]').fancybox({ helpers : { media : {}, thumbs : { width  : 75, height : 50 } }});
+                GLOBAL.initialize_fancy(self.$('.rslides-wrapper [data-behavior="fancy"]'));
                 // Set the height of relative divs that needs to fits the table cells.
                 self.$('.structure-item').each(function() {
                     var $this = $(this);
