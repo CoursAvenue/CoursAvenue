@@ -56,6 +56,18 @@ module Marionette
                 @collection_path ||= app_path(app) + 'models' + namespace_path(namespace) + "#{collection_name(name).underscore}#{dot_js}"
             end
 
+            def layout_name(name)
+                @layout_name ||= "#{name.pluralize}Layout"
+            end
+
+            def layout_path(app, name, namespace = "")
+                @layout_path ||= app_path(app) + 'views' + namespace_path(namespace) + "#{layout_name(name).underscore}#{dot_js}"
+            end
+
+            def layout_template_path(app, name, namespace = "")
+                @layout_template_path ||= app_path(app) + 'templates' + namespace_path(namespace) + "#{layout_name(name).underscore}#{dot_jst}"
+            end
+
             def item_view_name(name)
                 @item_view_name ||= "#{name}View"
             end

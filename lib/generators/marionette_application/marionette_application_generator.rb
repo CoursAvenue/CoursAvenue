@@ -21,7 +21,7 @@ will simply barf at you if you try to make two.
     argument :data_source, type: :string, required: false, default: "Widget", desc: "A model used as the main source of data on the page.", banner: "Widget"
 
     # @pre backbone_path is a valid path
-    def create_backbone_model
+    def create_application
         self.backbone_class = "Application"
         self.data_source = data_source || "Widget"
 

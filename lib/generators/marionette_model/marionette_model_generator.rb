@@ -18,7 +18,7 @@ in which case the nesting appears after 'my_app/models/' and before 'widget.js'
     argument :namespace, type: :string, optional: true, desc: "Optional module nesting.", default: "",       banner: "Space.Ship"
 
     # @pre backbone_path is a valid path
-    def create_backbone_model
+    def create_model
         self.backbone_class = "Model"
 
         ensure_app_exists(app, name)

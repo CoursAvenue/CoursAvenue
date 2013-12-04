@@ -25,8 +25,6 @@ will not assume anything about the relationship between view and model.
 
     # @pre backbone_path is a valid path
     def create_item_view
-        puts "in create_item_view"
-
         self.backbone_class = "ItemView"
         self.namespace = namespace
 
@@ -39,8 +37,6 @@ will not assume anything about the relationship between view and model.
         # create a new manifest, and then point the previous manifest to it
         create_file(app_path(name) + 'views' + namespace_path(namespace) + name.underscore + manifest, "#{manifest_require} ./#{item_view_name(name).underscore}")
         append_to_file(app_path(name) + 'views' + namespace_path(namespace) + manifest, "#{manifest_require} ./#{name.underscore}/manifest")
-
-        puts "out create_item_view"
     end
 
 end

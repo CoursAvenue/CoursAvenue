@@ -24,8 +24,6 @@ and before 'widgets_collection/widgets_collection_view.js'.
 
     # @pre backbone_path is a valid path
     def create_collection_view
-        puts "in create_collection_view"
-
         self.backbone_class = "CollectionView"
         self.namespace = namespace
 
@@ -39,7 +37,6 @@ and before 'widgets_collection/widgets_collection_view.js'.
         append_to_file(app_path(name) + 'views' + manifest, "#{manifest_require} ./#{collection_name(name).underscore}/manifest")
 
         ensure_item_view_exists(app, name, namespace)
-        puts "out create_collection_view"
     end
 
 end
