@@ -11,17 +11,18 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         edit: function() {
-            debugger
-            var lala = $.fancybox({href: ''}, {
-                    openSpeed   : 300,
-                    maxWidth    : 800,
-                    maxHeight   : 500,
-                    fitToView   : false,
-                    width       : width,
-                    height      : height,
-                    autoSize    : false,
-                    autoResize  : true
-            });
+            //!\ WIP on branch card_6_edit_users
+            // debugger
+            // var lala = $.fancybox({href: ''}, {
+            //         openSpeed   : 300,
+            //         maxWidth    : 800,
+            //         maxHeight   : 500,
+            //         fitToView   : false,
+            //         width       : width,
+            //         height      : height,
+            //         autoSize    : false,
+            //         autoResize  : true
+            // });
 
         },
 
