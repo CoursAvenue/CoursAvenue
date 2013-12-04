@@ -7,11 +7,11 @@ class UserProfile < ActiveRecord::Base
   attr_accessible :email, :first_name, :last_name, :birthdate, :notes, :phone, :mobile_phone,
                   :address, :structure_id
 
-  before_save :affect_email_if_empty
   after_create :associate_to_user
 
+  before_validation :affect_email_if_empty
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }, allow_blank: true
-  # validate :presence_of_mandatory_fields
+  validate :presence_of_mandatory_fields
 
   # ------------------------------------
   # ------------------ Search attributes
@@ -52,10 +52,10 @@ class UserProfile < ActiveRecord::Base
     end
   end
 
-  # def presence_of_mandatory_fields
-  #   if self.email.blank? and self.first_name.blank? and self.last_name.blank?
-  #     self.errors[:base] << I18n.t('user_profile.errors.no_info_on_name_or_email')
-  #   end
-  # end
+  def presence_of_mandatory_fields
+    if self.email.blank? and self.first_name.blank? and self.last_name.blank?
+      self.errors[:base] << I18n.t('user_profile.errors.no_info_on_name_or_email')
+    end
+  end
 
 end
