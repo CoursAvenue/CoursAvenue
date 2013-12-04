@@ -20,11 +20,15 @@ module Marionette
             end
 
             def manifest_require
-                "\n//= require"
+                "//= require"
             end
 
             def models_header
-                "//---------- Models"
+                "//---------- Models\n"
+            end
+
+            def views_header
+                "//---------- Views\n"
             end
 
             def backbone_path
