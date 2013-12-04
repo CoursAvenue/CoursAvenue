@@ -1,6 +1,18 @@
-.blue-box.islet
+.blue-box.islet.push-half--bottom#show-structure-contact-wrapper
+  .delta.push-half--bottom.text--center{style: 'margin-top: 3px;'}
+    Contactez pour réserver ou
+    %br
+    pour avoir plus d'infos
+  = link_to 'Contacter', 'javascript:void(0)', class: 'btn btn--green btn--large btn--full', id: 'show-structure-contact'
+
+= simple_form_for [ClickLog.new(structure_id: @structure.id)], remote: true, html: { class: 'hidden', id: 'show-structure-contact-form' } do |f|
+  - if @course
+    = f.input :info, as: :hidden, input_html: { value: "Cours : #{@course.name}" }
+  = f.input :structure_id, as: :hidden
+
+#structure-contact.blue-box.islet.hidden
   = simple_form_for [structure, Message.new] do |f|
-    .delta Contactez pour réserver
+    .delta Envoyez un message
     %i Gratuit & sans inscription
     - unless current_user
       .grid
@@ -21,13 +33,15 @@
     = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt", data: { behavior: 'autoresize' }}
     = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
 
-= simple_form_for [ClickLog.new(structure_id: @structure.id)], remote: true, html: { id: 'show-structure-contact-form' } do |f|
-  - if @course
-    = f.input :info, as: :hidden, input_html: { value: "Cours : #{@course.name}" }
-  = f.input :structure_id, as: :hidden
-  = f.submit 'Voir les coordonnées'.html_safe, class: 'push--bottom btn btn--full btn--blue', id: 'show-structure-contact'
-#structure-contact.hidden
-  .white-box.islet
+  .grid--full
+    .grid__item.v-middle{style: 'width: 45%;'}>
+      %hr.hr--white.push--top
+    .grid__item.v-middle.text--center{style: 'width: 10%;'}>
+      OU
+    .grid__item.v-middle{style: 'width: 45%;'}>
+      %hr.hr--white.push--top
+  .delta.push-half--bottom Contactez directement
+  %div
     - if @structure.contact_phone.present? or @structure.contact_mobile_phone.present?
       %i.fa.fa-phone.blue
     - if @structure.contact_phone.present?
@@ -40,22 +54,23 @@
         = @structure.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
     - if @structure.contact_email.present?
       %div
-        %i.fa.fa-envelope.orange
-        = link_to @structure.contact_email, "mailto:#{@structure.contact_email}", target: '_blank', rel: 'nofollow'
+        %i.fa.fa-envelope
+        = link_to @structure.contact_email, "mailto:#{@structure.contact_email}", target: '_blank', rel: 'nofollow', onclick: "_gaq.push(['_trackEvent', 'Contact structure', 'click', 'email'])"
     - if @structure.website.present?
       %div
-        %i.fa.fa-external-link.orange
-        = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow'
+        %i.fa.fa-external-link
+        = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow', onclick: "_gaq.push(['_trackEvent', 'Contact structure', 'click', 'website'])"
 
 
 = content_for :scripts do
   :javascript
     $(function() {
         $('#show-structure-contact').click(function() {
+            if (!$.cookie("contact_structure_#{@structure.id}")) {
+                $.cookie("contact_structure_#{@structure.id}", true)
+                $('#show-structure-contact-form').submit();
+            }
             $('#structure-contact').slideDown();
-            // Prevent from multiple click and multiple submission
-            $('#show-structure-contact-form').on('ajax:complete', function(){
-              $('#show-structure-contact-form').attr('action', '');
-            });
+            $('#show-structure-contact-wrapper').slideUp();
         });
     });

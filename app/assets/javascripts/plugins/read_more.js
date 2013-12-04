@@ -1,7 +1,9 @@
 /*
-    Usage:
-        %p.read-more{data: {behavior: 'read-more'}}
-          your long text
+*   Usage:
+*       %p.read-more{data: {behavior: 'read-more', height: 100}}
+*         your long text
+*   Options:
+*       Height: integer
 */
 ;(function ( $, window, document, undefined ) {
 

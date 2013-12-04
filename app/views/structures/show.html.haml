@@ -42,10 +42,6 @@
 
     %ul.tabs
       %li.active
-        %a{href: '#tab-description', data: {toggle: 'tab'} }
-          %i.fa.fa-list
-          Description
-      %li
         %a{href: '#tab-courses', data: {toggle: 'tab'} }
           %i.fa.fa-calendar
           Cours
@@ -58,13 +54,32 @@
           %i.fa.fa-group
           Professeurs
     .tab-content
-      %article#tab-description.tab-pane.active
-        .white-box.islet
-          %h2.visuallyhidden.delta Description de : #{@structure.name}
-          - if @structure.description
-            %p= simple_format @structure.description
-          - else
-            %p Pas de description
+      %article#tab-courses.tab-pane.active
+        - if @courses.any?
+          #course-list.white-box.islet
+            - @courses.each_with_index do |course, index|
+              - unless index == 0
+                %hr.push-half--ends
+              %div
+                %div.float--right.text--right
+                  - if course.best_price
+                    = "à partir de #{readable_amount course.best_price.amount}€".html_safe
+                    %br
+                    - if course.is_individual
+                      %i.fa.fa-user.pointer{data: { behavior: "tooltip", title: "Cours individuel", placement: "left"}}
+                    - else
+                      %span{data: { behavior: "tooltip", title: "Cours collectif", placement: "left"}}
+                        %i.fa.fa-user
+                        %i.fa.fa-user{style:'left: -6px; top: 2px; position: relative'}
+
+                %h3.base-font-style.flush--bottom= link_to course.name.capitalize, structure_course_path(@structure, course)
+                %span.gray
+                  %i.fa.fa-tags
+                  = course.subjects.map(&:name).join(', ')
+        - else
+          %p.white-box.islet.text--center
+            Cet établissement n'a pas renseigné de cours.
+
 
       %article#tab-comments.tab-pane
         - if @comments.empty?
@@ -76,27 +91,6 @@
           %ul#comments.comment-list
             - @comments.each_with_index do |comment, index|
               = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
-
-      %article#tab-courses.tab-pane
-        - if @courses.any?
-          #course-list
-            %table.table--striped.white-box
-              %thead
-                %tr
-                  %th.five-twelfths Nom du <b>cours</b>
-                  %th.text--right À partir de
-              %tbody
-                - @courses.each do |course|
-                  %tr
-                    %td
-                      %h3.base-font-style.flush--bottom= link_to course.name.capitalize, structure_course_path(@structure, course)
-                    %td.text--right
-                      - if course.best_price
-                        = "#{readable_amount course.best_price.amount}€".html_safe
-        - else
-          %p.white-box.islet.text--center
-            Cet établissement n'a pas renseigné de cours.
-
       %article#tab-teachers.tab-pane
         #teachers
           - @teachers.each_with_index do |teacher, index|
@@ -110,9 +104,13 @@
       %meta{itemprop: 'longitude', content: @structure.longitude}
 
 
+
     - if @structure.main_contact
       = render partial: 'structures/contact_form', locals: {structure: @structure}
 
+    - if @structure.description
+      .white-box.islet
+        %div.read-more{data: {behavior: 'read-more', height: 300}}= simple_format @structure.description
 
     - if @structure.cover_image.present?
       .white-box.islet
