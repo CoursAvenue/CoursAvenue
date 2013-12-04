@@ -1,120 +1,123 @@
 // Bootstrap plugins
 //*= require libs/bootstrap.tooltip
 //*= require libs/jquery.fileupload/jquery.fileupload-ui
-//*= require font-awesome
+
+@import "font-awesome";
 
 // Compass mixins
-  @import "compass/css3/background-size";
-  @import "compass/css3/opacity";
-  @import "compass/css3/border-radius";
-  @import "compass/css3/box-shadow";
-  @import "compass/css3/text-shadow";
-  @import "compass/css3/images";
-  @import "compass/css3/box-sizing";
-  @import "compass/css3/transition";
-  @import "compass/css3/images";
+@import "compass/css3/background-size";
+@import "compass/css3/opacity";
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "compass/css3/text-shadow";
+@import "compass/css3/images";
+@import "compass/css3/box-sizing";
+@import "compass/css3/transition";
+@import "compass/css3/images";
 
 
-  @import "defaults";
-  @import "widths";
-  @import "partials/inuit";
-  @import "colors";
+@import "defaults";
+@import "widths";
+@import "partials/inuit";
+@import "colors";
 
 
 /**
- * Theme objects
- * Overrides of Inuit.css
- */
-  @import "partials/base/links";
+* Theme objects
+* Overrides of Inuit.css
+*/
+@import "partials/base/links";
 
-  @import "partials/theme_mixins";
+@import "partials/theme_mixins";
 
-  @import "partials/generic/headings";
-  @import "partials/generic/images";
-  @import "partials/generic/mixins";
-  @import "partials/generic/grid";
+@import "partials/generic/headings";
+@import "partials/generic/images";
+@import "partials/generic/mixins";
+@import "partials/generic/grid";
 
 
-  @import "partials/objects/icons";
-  @import "partials/objects/badges";
-  @import "partials/objects/block-list";
-  @import "partials/objects/buttons";
-  @import "partials/objects/structure-item";
-  @import "partials/objects/course";
-  @import "partials/objects/datepicker-input";
-  @import "partials/objects/dropped-options";
-  @import "partials/objects/emphasis";
-  @import "partials/objects/footer";
-  @import "partials/objects/header";
-  @import "partials/objects/home-screen";
-  @import "partials/objects/input-range";
-  @import "partials/objects/inputs";
-  @import "partials/objects/labels";
-  @import "partials/objects/main-container";
-  @import "partials/objects/menu";
-  @import "partials/objects/pagination";
-  @import "partials/objects/search";
-  @import "partials/objects/selectable";
-  @import "partials/objects/slideshow";
-  @import "partials/objects/summary";
-  @import "partials/objects/tables";
-  @import "partials/objects/tabs";
-  @import "partials/objects/time-slots";
-  @import "partials/objects/footer";
-  @import "partials/objects/map";
-  @import "partials/objects/markers";
-  @import "partials/objects/alerts";
-  @import "partials/objects/paragraphs";
-  @import "partials/objects/lists";
-  @import "partials/objects/flashs";
-  @import "partials/objects/forms";
-  @import "partials/objects/helpers";
-  @import "partials/objects/share_buttons";
+@import "partials/objects/icons";
+@import "partials/objects/badges";
+@import "partials/objects/block-list";
+@import "partials/objects/buttons";
+@import "partials/objects/structure-item";
+@import "partials/objects/course";
+@import "partials/objects/datepicker-input";
+@import "partials/objects/dropped-options";
+@import "partials/objects/emphasis";
+@import "partials/objects/footer";
+@import "partials/objects/header";
+@import "partials/objects/home-screen";
+@import "partials/objects/input-range";
+@import "partials/objects/inputs";
+@import "partials/objects/labels";
+@import "partials/objects/main-container";
+@import "partials/objects/menu";
+@import "partials/objects/pagination";
+@import "partials/objects/search";
+@import "partials/objects/selectable";
+@import "partials/objects/slideshow";
+@import "partials/objects/summary";
+@import "partials/objects/tables";
+@import "partials/objects/tabs";
+@import "partials/objects/time-slots";
+@import "partials/objects/footer";
+@import "partials/objects/map";
+@import "partials/objects/markers";
+@import "partials/objects/alerts";
+@import "partials/objects/paragraphs";
+@import "partials/objects/lists";
+@import "partials/objects/flashs";
+@import "partials/objects/forms";
+@import "partials/objects/helpers";
+@import "partials/objects/share_buttons";
 
-  @import "partials/objects/address-list";
-  @import "partials/objects/course-info";
-  @import "partials/objects/planning";
-  @import "partials/objects/similar-course";
-  @import "partials/objects/subject-link";
-  @import "partials/objects/pages";
-  @import "partials/objects/picture-frame";
-  @import "partials/objects/toggler";
-  @import "partials/objects/alerts";
-  // @import "partials/objects/sliders";
-  @import "partials/objects/image_quote";
-  @import "partials/objects/step_breadcrumb";
-  @import "partials/objects/boxes";
-  @import "partials/objects/rating";
-  @import "partials/objects/comments";
-  @import "partials/objects/switch-button";
-  @import "partials/objects/drop-down";
-  @import "partials/objects/media";
-  @import "partials/objects/progress-bar";
-  @import "partials/objects/closer";
-  @import "partials/objects/blog";
-  @import "partials/objects/read_more";
-  @import "partials/objects/profile";
-  @import "partials/objects/stickem";
-  @import "partials/objects/modal_info_popup";
-  @import "partials/objects/message";
-  @import "partials/objects/filtered_search";
-  @import "partials/objects/loading-indicator";
-  @import "partials/objects/infobox";
-  @import "partials/objects/filepicker";
-  @import "partials/objects/popover";
+@import "partials/objects/address-list";
+@import "partials/objects/course-info";
+@import "partials/objects/planning";
+@import "partials/objects/similar-course";
+@import "partials/objects/subject-link";
+@import "partials/objects/pages";
+@import "partials/objects/picture-frame";
+@import "partials/objects/toggler";
+@import "partials/objects/alerts";
+// @import "partials/objects/sliders";
+@import "partials/objects/image_quote";
+@import "partials/objects/step_breadcrumb";
+@import "partials/objects/boxes";
+@import "partials/objects/rating";
+@import "partials/objects/comments";
+@import "partials/objects/switch-button";
+@import "partials/objects/drop-down";
+@import "partials/objects/media";
+@import "partials/objects/progress-bar";
+@import "partials/objects/closer";
+@import "partials/objects/blog";
+@import "partials/objects/read_more";
+@import "partials/objects/profile";
+@import "partials/objects/stickem";
+@import "partials/objects/modal_info_popup";
+@import "partials/objects/message";
+@import "partials/objects/filtered_search";
+@import "partials/objects/loading-indicator";
+@import "partials/objects/infobox";
+@import "partials/objects/filepicker";
+@import "partials/objects/popover";
+@import "partials/objects/tags";
 
-  // @import "libs/datepicker/datepicker_bootstrap";
-  @import "libs/autocomplete";
-  @import "libs/simplemodal";
-  @import "libs/chosen";
-  @import "libs/fancybox/jquery.fancybox";
-  @import "libs/fancybox/helpers/jquery.fancybox-buttons";
-  @import "libs/fancybox/helpers/jquery.fancybox-thumbs";
-  @import "libs/typeahead";
-  @import "libs/jquery.Jcrop";
-  @import "libs/responsiveslides";
+// @import "libs/datepicker/datepicker_bootstrap";
+@import "libs/autocomplete";
+@import "libs/simplemodal";
+@import "libs/chosen";
+@import "libs/fancybox/jquery.fancybox";
+@import "libs/fancybox/helpers/jquery.fancybox-buttons";
+@import "libs/fancybox/helpers/jquery.fancybox-thumbs";
+@import "libs/typeahead";
+@import "libs/jquery.Jcrop";
+@import "libs/responsiveslides";
+@import "libs/jquery-editable";
 
-  @import "libs/bootstrap.datepicker";
+@import "libs/bootstrap.datepicker";
 
 html, body {
   height: 100%;

@@ -56,6 +56,18 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             * _regions object, not to the view's regions object. */
         },
 
+        /* getter for virtual property */
+        /* this will only get called if there are subregions that have setup
+        *  or reset methods. So, it is possible to get by without a master_region_name,
+        *  as is the case with accordion_view */
+        getMasterRegionName: function () {
+            if (this.master_region_name === undefined) {
+                throw "Objects extending from EventLayout must define master_region_name."
+            }
+
+            return this.master_region_name;
+        },
+
         bindWidgetEvents: function (view, events, region_name) {
             var event_suffix = _.last(region_name.split('_')),
                 self = this;
@@ -65,17 +77,15 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             }
 
             /* tie the setup method to the main region */
-            /* TODO currently we are hard-coding 'structures:updated', but this
-             * should be configured when the 'master region' is chosen */
             if (_.isFunction(view.setup)) {
                 events.once = (events.once ? events.once : {});
-                events.once['structures:updated' + ':' + event_suffix] = 'setup';
+                events.once[this.getMasterRegionName() + ':updated' + ':' + event_suffix] = 'setup';
             }
 
             /* TODO reset and setup are probably dangerous names to take...
              * reset, in particular, already has a meaning in terms of backbone */
             if (_.isFunction(view.reset)) {
-                events['structures:updated' + ':' + event_suffix] = 'reset';
+                events[this.getMasterRegionName() + ':updated' + ':' + event_suffix] = 'reset';
             }
 
             /* process events that are only responded to once */

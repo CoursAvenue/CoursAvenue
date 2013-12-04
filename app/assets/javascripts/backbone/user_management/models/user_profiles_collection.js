@@ -32,11 +32,12 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             /* TODO the results total seems to be out of sync with what we actually
              * receive, so for now we will just do this: */
-            this.paginator_ui.grandTotal  = 0;
-            this.paginator_ui.totalPages  = 0;
+            this.paginator_ui.grandTotal  = (models.length === 0) ? 0 : options.total;
+            this.paginator_ui.totalPages  = Math.ceil(this.paginator_ui.grandTotal / this.paginator_ui.perPage);
             this.url.basename         = window.location.toString().split('/');
             this.url.basename.pop();
             this.url.basename         = this.url.basename.join('/');
+
         },
 
         /* where we can expect to find the resource we seek
@@ -47,6 +48,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         parse: function(response) {
+            console.log("parse");
             // we did some kind of request, I guess we should update the query
             if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
 

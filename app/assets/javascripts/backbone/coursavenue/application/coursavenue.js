@@ -1,13 +1,7 @@
 
 /* this file simply creates a top level Module in which Lib can live */
 
-CoursAvenue = (function (){
-    var self = new Backbone.Marionette.Application({
-        slug: 'coursavenue'
-    });
-
-    return self;
-}());
+CoursAvenue = new Backbone.Marionette.Application({ slug: 'coursavenue' });
 
 $(document).ready(function() {
     CoursAvenue.start({});
