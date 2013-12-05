@@ -17,7 +17,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         announceSubject: function (e, data) {
-            var subject_slug = e.currentTarget.dataset.value;
+            var subject_slug = e.currentTarget.getAttribute('data-value');
             if (this.$('[data-value=' + subject_slug + ']').hasClass('active')) {
                 this.trigger("filter:subject", { 'subject_id': null });
                 this.disabledButton(subject_slug);
