@@ -97,6 +97,9 @@
     = Place.count
     Lieux
 
+.text--center= link_to 'Mots clés', pro_keywords_path, class: 'btn btn--blue'
+.text--center= link_to 'Mots clés tapé par les utilisateurs', pro_search_term_logs_path, class: 'btn btn--blue'
+
 = content_for :scripts do
   :javascript
     $(function() {

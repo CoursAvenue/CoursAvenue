@@ -29,6 +29,8 @@ CoursAvenue::Application.routes.draw do
           patch :recover
         end
       end
+      resources :keywords, only: [:index, :create, :destroy]
+      resources :search_term_logs, only: [:index]
       resources :subjects
       resources :reservations, only: [:index]
       resources :invited_teachers, only: [:index]
@@ -193,6 +195,7 @@ CoursAvenue::Application.routes.draw do
     resources :reservations, only: [:new, :create] # Redirection 301 in controller
   end
 
+  resources :keywords, only: [:index]
   resources :subjects, only: [:index], path: 'disciplines' do
     resources :cities, only: [:show], path: 'villes', controller: 'subjects/cities' do
       resources :medias, only: [], controller: 'subjects/cities/medias' do

@@ -43,14 +43,14 @@
   .delta.push-half--bottom Contactez directement
   %div
     - if @structure.contact_phone.present? or @structure.contact_mobile_phone.present?
-      %i.fa.fa-phone.blue
+      %i.fa.fa-phone
     - if @structure.contact_phone.present?
-      = link_to "tel:#{@structure.contact_phone.gsub(/\s+/, '')}", class: 'blue' do
+      = link_to "tel:#{@structure.contact_phone.gsub(/\s+/, '')}" do
         = @structure.contact_phone.gsub(' ', '&nbsp;').html_safe
     - if @structure.contact_phone.present? and @structure.contact_mobile_phone.present?
-      %span.blue /
+      %span /
     - if @structure.contact_mobile_phone.present?
-      = link_to "tel:#{@structure.contact_mobile_phone.gsub(/\s+/, '')}", class: 'blue' do
+      = link_to "tel:#{@structure.contact_mobile_phone.gsub(/\s+/, '')}" do
         = @structure.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
     - if @structure.contact_email.present?
       %div

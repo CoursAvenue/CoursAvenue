@@ -1,7 +1,7 @@
 FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
 
-    Module.CategoricalFilterView = Backbone.Marionette.ItemView.extend({
-        template: Module.templateDirname() + 'categorical_filter_view',
+    Module.KeywordFilterView = Backbone.Marionette.ItemView.extend({
+        template: Module.templateDirname() + 'keyword_filter_view',
         className: 'header-search-bar push-half--bottom',
 
         initialize: function () {
@@ -34,12 +34,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         onRender: function () {
             this.ui.$search_input.typeahead([{
-                name: 'subjects' + this.cid,
+                name: 'keywords',
+                limit: 10,
                 valueKey: 'name',
                 prefetch: {
-                    url: '/disciplines.json'
-                },
-                header: '<div class="typeahead-dataset-header">Disciplines</div>'
+                    url: '/keywords.json'
+                }
             }]);
         },
     });

@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131203142852) do
+ActiveRecord::Schema.define(version: 20131204140509) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "admins", force: true do |t|
     t.string   "email",                               default: "",    null: false
@@ -232,6 +235,12 @@ ActiveRecord::Schema.define(version: 20131203142852) do
     t.boolean  "registered",   default: false
   end
 
+  create_table "keywords", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "locations", force: true do |t|
     t.string   "name"
     t.string   "street"
@@ -407,6 +416,12 @@ ActiveRecord::Schema.define(version: 20131203142852) do
     t.integer  "user_id"
     t.integer  "reservable_id"
     t.string   "reservable_type"
+  end
+
+  create_table "search_term_logs", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sticker_demands", force: true do |t|

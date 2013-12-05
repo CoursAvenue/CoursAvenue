@@ -13,7 +13,7 @@ FilteredSearch.module('Views.StructuresCollection.Structure.Medias', function(Mo
             })
         },
         onRender: function() {
-            this.$('a[data-behavior="fancy"]').fancybox({ helpers : { media : {} } });
+            GLOBAL.initialize_fancy(this.$('a[data-behavior="fancy"]'));
             // Using one load prevents from not triggering the event if the image is in cache
             this.$('img, iframe').one('load', function() {
                 $('.media-gallery').masonry({ itemSelector: '.media__item' });

@@ -167,7 +167,7 @@ group :test do
   gem 'rspec-instafail'   , '~>0.2.4'
   gem 'faker'             , '~>1.2.0'
   gem 'simplecov'         , '~>0.7.1'
-  gem "sunspot_test"
+  gem 'sunspot_test'
 end
 
 group :development do

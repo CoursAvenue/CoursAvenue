@@ -60,7 +60,7 @@
     .media-gallery
       - @medias.select{|media| media.format == 'image'}.sample(25).each do |media|
         .one-quarter.media__item.very-soft{style: 'max-width: 450px'}>
-          %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption}
+          %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption, data: {behavior: 'fancy'}}
             = media.url_html
             %p.flush--bottom.text--right
               = media.mediable.name

@@ -14,5 +14,6 @@ class Subjects::Cities::MediasController < ApplicationController
 
     @structures = @structure_search.results
     @videos     = @structures.collect{|structure| structure.medias.videos }.flatten
+    @videos     = Kaminari.paginate_array(@videos).page(params[:page]).per(8)
   end
 end

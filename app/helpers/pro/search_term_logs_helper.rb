@@ -1,0 +1,2 @@
+module Pro::SearchTermLogsHelper
+end

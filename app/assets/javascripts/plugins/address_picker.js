@@ -47,6 +47,7 @@
             }.bind(this));
             template = Handlebars.compile(this.options.template_string);
             this.$element.typeahead({
+                cache: false,
                 template: template,
                 computed: function (q, done) {
                     q = q + ' France';
