@@ -16,6 +16,9 @@
     img {
         max-width: none;
     }
+    &.google-map--small {
+        height: 10em;
+    }
     &.google-map--medium {
         height: 40em;
     }
