@@ -43,8 +43,8 @@
     $(function() {
         handler = Gmaps.build('Google');
         handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-            markers = handler.addMarkers(#{@json_locations_addresses.to_json});
+            var markers = handler.addMarkers(#{@locations.to_json});
             handler.bounds.extendWith(markers);
             handler.fitMapToBounds();
         });
-  });
+    });
