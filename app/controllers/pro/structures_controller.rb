@@ -148,18 +148,10 @@ class Pro::StructuresController < Pro::ProController
                                           radius: radius,
                                           sort: 'rating_desc',
                                           has_logo: true,
-                                          per_page: 50,
+                                          per_page: 3,
                                           bbox: true
                                         }).results
-    @locations = []
-    @structures.each do |structure|
-      @locations += structure.locations_around(latitude, longitude, radius)
-    end
 
-    @json_locations_addresses = Gmaps4rails.build_markers(@locations) do |location, marker|
-      marker.lat location.latitude
-      marker.lng location.longitude
-    end
     @latlng = StructureSearch.retrieve_location(params)
 
     respond_to do |format|

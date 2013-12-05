@@ -1,5 +1,5 @@
 class ShortSerializer < ActiveModel::Serializer
-    attributes :id
+  attributes :id
 end
 
 class StructureSerializer < ActiveModel::Serializer

@@ -26,7 +26,7 @@ HomeIndexStructures.addInitializer(function(options) {
     window.pfaff = structures;
 
     /* set up the layouts */
-    layout = new HomeIndexStructures.Views.SearchWidgetsLayout();
+    layout = new HomeIndexStructures.Views.TopStructuresLayout();
 
     /* these won't be known yet because we are fetching */
     var bounds       = structures.getLatLngBounds();
@@ -47,11 +47,11 @@ HomeIndexStructures.addInitializer(function(options) {
         events: {
             'top:structures:itemview:highlighted':   'exciteMarkers',
             'top:structures:itemview:unhighlighted': 'exciteMarkers',
-            'top:structures:itemview:found':         'showInfoWindow',
+            'top:structures:itemview:found':         'showInfoWindow'
         }
     });
 
-    layout.results.show(structures_view);
+    layout.master.show(structures_view);
 });
 
 $(document).ready(function() {
