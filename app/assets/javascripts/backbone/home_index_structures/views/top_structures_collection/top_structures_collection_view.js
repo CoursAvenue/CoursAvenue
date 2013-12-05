@@ -9,8 +9,12 @@
 HomeIndexStructures.module('Views.TopStructuresCollection', function(Module, App, Backbone, Marionette, $, _) {
     Module.TopStructuresCollectionView = Backbone.Marionette.CompositeView.extend({
 
+        /* we are using the structures_collection_view template, and the structure_view
+        *  as itemview, but we are using out own structure_view template */
         template: FilteredSearch.Views.StructuresCollection.templateDirname() + 'structures_collection_view',
-        itemView: FilteredSearch.Views.StructuresCollection.Structure.StructureView,
+        itemView: FilteredSearch.Views.StructuresCollection.Structure.StructureView.extend({
+            template: Module.TopStructure.templateDirname() + 'top_structure_view'
+        }),
 
         itemViewContainer: 'ul',
         className: 'top-structures-collection',
