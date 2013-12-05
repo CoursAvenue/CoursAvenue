@@ -14,7 +14,7 @@
       .grid__item.ten-twelfths>
 
         - if comment.title.present?
-          %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: comment.title.capitalize}= "#{comment.title.capitalize}"
+          %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: comment.title}= "#{comment.title}"
           - if comment.course_name
             %span.v-middle= "— #{comment.course_name.capitalize}"
 
