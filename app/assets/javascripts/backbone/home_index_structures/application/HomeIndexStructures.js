@@ -18,16 +18,7 @@ HomeIndexStructures.addInitializer(function(options) {
     structures_view = new HomeIndexStructures.Views.TopStructuresCollection.TopStructuresCollectionView({
         collection: structures,
         events: {
-            'pagination:next':     'nextPage',
-            'pagination:prev':     'prevPage',
-            'pagination:page':     'goToPage',
-            'filter:summary':      'filterQuery',
-            'map:bounds':          'filterQuery',
-            'filter:subject':      'filterQuery',
-            'filter:search_term':  'filterQuery',
-            'filter:location':     'filterQuery',
             'map:marker:focus':    'findItemView',
-            'structures:updated':  'renderSlideshows'
         }
     });
 
@@ -36,15 +27,6 @@ HomeIndexStructures.addInitializer(function(options) {
 
     /* set up the layouts */
     layout = new HomeIndexStructures.Views.SearchWidgetsLayout();
-
-    layout.on('paginator:updating', function(){
-        $loader = $loader || $('[data-type="loader"]');
-        $loader.slideDown();
-    })
-    layout.on('structures:updated', function(){
-        $loader = $loader || $('[data-type="loader"]');
-        $loader.slideUp();
-    })
 
     /* these won't be known yet because we are fetching */
     var bounds       = structures.getLatLngBounds();
@@ -63,12 +45,9 @@ HomeIndexStructures.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         events: {
-            'paginator:updating':               'hideInfoWindow retireMarkers',
-            'structures:itemview:highlighted':   'exciteMarkers',
-            'structures:itemview:unhighlighted': 'exciteMarkers',
-            'filter:update:map':                 'centerMap',
-            'structures:itemview:found':         'showInfoWindow',
-            'structures:itemview:peacock':       'togglePeacockingMarkers'
+            'top:structures:itemview:highlighted':   'exciteMarkers',
+            'top:structures:itemview:unhighlighted': 'exciteMarkers',
+            'top:structures:itemview:found':         'showInfoWindow',
         }
     });
 

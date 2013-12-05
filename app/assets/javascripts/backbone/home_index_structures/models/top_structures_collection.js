@@ -9,8 +9,8 @@ HomeIndexStructures.module('Models', function(Module, App, Backbone, Marionette,
     Module.TopStructuresCollection = Backbone.Collection.extend({
         model: FilteredSearch.Models.Structure,
         server_api: {
-            lat: 0,
-            lng: 0
+            lat: 48.8567,
+            lng: 2.3508
         },
 
         url: function () {

@@ -33,7 +33,42 @@ HomeIndexStructures.module('Views.TopStructuresCollection', function(Module, App
             var data = this.collection;
 
             this.trigger('top:structures:updated');
+        },
 
+        findItemView: function (data) {
+            /* find the first place that has any locations that match the given lat/lng */
+            var position = data.model.getLatLng();
+
+            var relevant_structure = this.collection.find(function (model) {
+
+                return _.find(model.getRelation('places').related.models, function (place) {
+                    var location = place.get('location');
+                    var latlng = new google.maps.LatLng(location.latitude, location.longitude);
+
+                    return (position.equals(latlng)); // ha! google to the rescue
+                });
+            });
+
+            var itemview = this.children.findByModel(relevant_structure);
+
+            /* announce the view we found */
+            this.trigger('top:structures:itemview:found', itemview);
+            this.scrollToView(itemview);
+        },
+
+        scrollToView: function(view) {
+            var element = view.$el;
+
+            this.$el.parents('section').scrollTo(element[0], {duration: 400});
+        },
+
+        /* forward events with only the necessary data */
+        onItemviewHighlighted: function (view, data) {
+            this.trigger('top:structures:itemview:highlighted', data);
+        },
+
+        onItemviewUnhighlighted: function (view, data) {
+            this.trigger('top:structures:itemview:unhighlighted', data);
         },
     });
 });
