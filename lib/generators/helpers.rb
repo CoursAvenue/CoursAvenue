@@ -110,6 +110,11 @@ module Marionette
                 end
             end
 
+            def ensure_manifest_exists(app, marionette_module)
+                # given an app and a module name, ensure that this module
+                # has a manifest file
+            end
+
             def ensure_model_exists(app, name, namespace = "")
                 return if (model_path(app, name).exist?)
 
@@ -153,6 +158,21 @@ module Marionette
                 namespace = namespace[1..-1] if namespace[0] == '.' # trim the god damn leading .
 
                 return namespace || ""
+            end
+
+            def connect_namespace_manifests(app, name, namespace, starting_module)
+                namespace_parent = namespace.split('.').each.inject(app_path(app) + starting_module.underscore) do |parent, child|
+                    puts parent.to_s
+
+                    append_to_file(parent + manifest, "#{manifest_require} ./#{Pathname.new(child.underscore) + manifest}\n")
+                    parent += namespace_path(child)
+                    parent.mkpath
+                    create_file(parent + manifest)
+
+                    parent
+                end
+
+                # append_to_file(namespace_parent + manifest, "#{manifest_require} ./#{Pathname.new(name.underscore) + manifest}\n")
             end
         end
     end
