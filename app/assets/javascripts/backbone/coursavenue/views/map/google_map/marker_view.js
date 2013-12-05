@@ -1,5 +1,5 @@
 
-CoursAvenue.module('Views.Map', function(Module, App, Backbone, Marionette, $, _) {
+Coursavenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marionette, $, _) {
 
     /* The markers! Oh the markers.
     *  hover over a marker on the map. It will be highlighted.
@@ -20,7 +20,7 @@ CoursAvenue.module('Views.Map', function(Module, App, Backbone, Marionette, $, _
     *
     *  Other classes would expose similar semantics, but implement their behaviour differently
     * */
-    Module.MarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
+    Module.StructureMarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
         initialize: function (options) {
 
             /* TODO this setup should be done in the constructor, in the library, in another repo far, far away */
