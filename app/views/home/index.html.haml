@@ -67,5 +67,6 @@
             markers = handler.addMarkers(#{@json_locations_addresses.to_json});
             handler.bounds.extendWith(markers);
             handler.fitMapToBounds();
+            handler.getMap().setCenter({lat: 48.8592, lng: 2.3417});
         });
     });
