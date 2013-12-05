@@ -1,11 +1,12 @@
 
-Coursavenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marionette, $, _) {
+CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marionette, $, _) {
 
     /* TODO break this out into its own file (it got big...) */
     Module.InfoBoxView = Backbone.Marionette.ItemView.extend({
-        template: Module.templateDirname() + 'info_box_view',
 
-        initialize: function (options) {
+        constructor: function (options) {
+            Backbone.Marionette.ItemView.prototype.constructor.apply(this, arguments);
+
             var defaultOptions = {
                 alignBottom: true,
                 pixelOffset: new google.maps.Size(-150, -30),

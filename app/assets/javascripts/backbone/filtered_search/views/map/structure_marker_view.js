@@ -19,7 +19,7 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
     *
     *  Other classes would expose similar semantics, but implement their behaviour differently
     * */
-    Module.StructureMarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
+    Module.MarkerView = CoursAvenue.Views.Map.GoogleMap.MarkerView.extend({
         initialize: function (options) {
 
             /* TODO this setup should be done in the constructor, in the library, in another repo far, far away */

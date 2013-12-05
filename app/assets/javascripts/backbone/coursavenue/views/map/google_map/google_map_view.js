@@ -1,28 +1,31 @@
 
 /* just a basic marionette view */
-Coursavenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marionette, $, _) {
+CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.BlankView = Marionette.ItemView.extend({ template: "" });
 
     Module.GoogleMapsView = Marionette.CompositeView.extend({
-        template:            Module.templateDirname() + 'google_maps_view',
         id:                  'map-container',
         itemView:            Module.BlankView,
         itemViewEventPrefix: 'marker',
-        markerView:          Module.StructureMarkerView,
+        markerView:          Module.MarkerView,
+        infoBoxView:         Module.InfoBoxView,
         markerViewChildren: {},
 
-        /* provide options.mapOptions to override defaults */
-        initialize: function(options) {
+        constructor: function (options) {
+            Marionette.CompositeView.prototype.constructor.apply(this, arguments);
+
             var self = this;
             _.bindAll(this, 'announceBounds');
 
+            /* default options */
             this.mapOptions = {
                 center: new google.maps.LatLng(0, 0),
                 zoom: 12,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
 
+            /* override with custom options */
             _.extend(this.mapOptions, options.mapOptions);
 
             /* create mapview */
@@ -32,11 +35,9 @@ Coursavenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                     'class': 'map_container'
                 }
             });
+
             this.map       = new google.maps.Map(this.mapView.el, this.mapOptions);
             this.map_annex = this.mapView.el;
-
-            /* one info window that gets populated on each marker click */
-            this.infoBox = new Module.InfoBoxView(options.infoBoxOptions);
 
             /* recover the user's preference */
             this.update_live = (typeof($.cookie('map:update:live')) === 'undefined' ? 'true' : $.cookie('map:update:live'));
@@ -47,6 +48,23 @@ Coursavenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
             this.lockOnce('map:bounds');
             this.toggleLiveUpdate();
+        },
+
+        /* VIRTUAL */
+        initialize: function () {
+throw(" \
+GoogleMapsView is a virtual constructor!\n \
+Objects extending from it must implement the following methods:\n \
+\n \
+    /* a default InfoBoxView is provided */\n \
+    initialize: function(options) {\n \
+        /* one info window that gets populated on each marker click */\n \
+        this.infoBox = new Module.InfoBoxView(options.infoBoxOptions);\n \
+\n \
+        // ... your initialization here\n \
+\n \
+    },\n \
+");
         },
 
         ui: {
