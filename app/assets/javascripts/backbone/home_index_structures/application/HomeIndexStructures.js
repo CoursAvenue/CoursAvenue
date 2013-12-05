@@ -30,11 +30,12 @@ HomeIndexStructures.addInitializer(function(options) {
 
     /* these won't be known yet because we are fetching */
     var bounds       = structures.getLatLngBounds();
-    google_maps_view = new HomeIndexStructures.Views.Map.GoogleMap.GoogleMapView({
+    google_maps_view = new HomeIndexStructures.Views.Map.GoogleMap.GoogleMapsView({
         collection: structures,
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
-        }
+        },
+        mapClass: 'google-map google-map--large'
     });
 
     var FiltersModule = HomeIndexStructures.Views.StructuresCollection.Filters;

@@ -29,10 +29,16 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             _.extend(this.mapOptions, options.mapOptions);
 
             /* create mapview */
+            if (options.mapClass && options.mapClass.length > 0) {
+                options.mapClass = ' ' + options.mapClass;
+            } else {
+                options.mapClass = "";
+            }
+
             this.mapView = new Module.BlankView({
                 id: 'map',
                 attributes: {
-                    'class': 'map_container'
+                    'class': 'map_container' + options.mapClass
                 }
             });
 
