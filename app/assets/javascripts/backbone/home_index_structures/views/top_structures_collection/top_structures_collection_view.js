@@ -35,6 +35,7 @@ HomeIndexStructures.module('Views.TopStructuresCollection', function(Module, App
             this.trigger('top:structures:updated');
         },
 
+        /* TODO: these should be pulled out into a concern */
         findItemView: function (data) {
             /* find the first place that has any locations that match the given lat/lng */
             var position = data.model.getLatLng();
@@ -56,13 +57,14 @@ HomeIndexStructures.module('Views.TopStructuresCollection', function(Module, App
             this.scrollToView(itemview);
         },
 
+        /* TODO: this should be added to collectionview at the top level */
         scrollToView: function(view) {
             var element = view.$el;
 
             this.$el.parents('section').scrollTo(element[0], {duration: 400});
         },
 
-        /* forward events with only the necessary data */
+        /* TODO: these should be pulled out into a concern */
         onItemviewHighlighted: function (view, data) {
             this.trigger('top:structures:itemview:highlighted', data);
         },
