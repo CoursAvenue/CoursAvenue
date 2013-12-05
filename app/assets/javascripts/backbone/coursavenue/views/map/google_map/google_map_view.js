@@ -43,6 +43,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.update_live = (typeof($.cookie('map:update:live')) === 'undefined' ? 'true' : $.cookie('map:update:live'));
             // Converting to boolean
             this.update_live = this.update_live === 'true';
+
             /* add listeners, but ignore the first bounds change */
             google.maps.event.addListener(this.map, 'click', _.bind(this.onItemviewCloseClick, this));
             google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
@@ -64,16 +65,37 @@ Objects extending from it must implement the following methods:\n \
         // ... your initialization here\n \
 \n \
     },\n \
+\n \
+    /* adds a MarkerView to the map */\n \
+    addChild: function(options) {\n \
+\n \
+        // ... your initialization here\n \
+\n \
+    },\n \
 ");
         },
 
-        ui: {
-            bounds_controls: '[data-behavior="bounds-controls"]'
-        },
-
-        events: {
-            'click [data-type="closer"]': 'hideInfoWindow',
-            'click [data-behavior="live-update"]': 'liveUpdateClicked'
+        /* VIRTUAL */
+        addChild: function () {
+throw(" \
+GoogleMapsView is a virtual constructor!\n \
+Objects extending from it must implement the following methods:\n \
+\n \
+    /* adds a MarkerView to the map */\n \
+    addChild: function(child_model) {\n \
+        /* here is an example implementation */\n\
+        var markerView = new self.markerView({\n\
+            model: child_model,\n\
+            map: this.map\n\
+        });\n\
+\n\
+        self.markerViewChildren[child_model.cid] = markerView;\n\
+        self.addChildViewEventForwarding(markerView); // buwa ha ha ha!\n\
+\n\
+        markerView.render();\n\
+\n \
+    },\n \
+");
         },
 
         onItemviewCloseClick: function () {
@@ -94,11 +116,6 @@ Objects extending from it must implement the following methods:\n \
             /* TODO this is a problem, we need to not pass out the whole view, d'uh */
             this.current_info_marker = marker_view.model.cid;
             this.trigger('map:marker:focus', marker_view);
-        },
-
-        onRender: function() {
-            this.$el.find('[data-type=map-container]').prepend(this.map_annex);
-            this.$loader = this.$('[data-type=loader]');
         },
 
         unlockCurrentMarker: function () {
@@ -129,7 +146,7 @@ Objects extending from it must implement the following methods:\n \
             }
         },
 
-        announceBounds: function (e, a, b) {
+        announceBounds: function (e) {
             // we got here by a click
             if (e) { e.preventDefault(); }
 
@@ -193,75 +210,12 @@ Objects extending from it must implement the following methods:\n \
             delete this.markerViewChildren[childView.model.cid];
         },
 
-        // Add a MarkerView and render
-        addChild: function(childModel) {
-
-            var places = childModel.getRelation('places').related.models;
-            var self = this;
-
-            _.each(places, function (place) {
-                var markerView = new self.markerView({
-                    model: place,
-                    map: self.map
-                });
-
-                self.markerViewChildren[place.cid] = markerView;
-                self.addChildViewEventForwarding(markerView); // buwa ha ha ha!
-
-                markerView.render();
-            });
-        },
-
         /* TODO for now we are using 'cid' as the key, but
          * later I would like to use (lat,long) as the key
          * since cid is not actually an attribute and so
          * should not be included in the event from structureView */
         toKey: function (model) {
             return model.cid;
-        },
-
-        retireMarkers: function(data) {
-            this.$el.find('.map-marker-image').addClass('map-marker-image--small');
-        },
-
-        /* a set of markers should be made to stand out */
-        exciteMarkers: function(data) {
-            var self = this;
-
-            var keys = data.map(function(model) {
-                return self.toKey(model);
-            });
-
-            _.each(keys, function (key) {
-                var marker = self.markerViewChildren[key];
-
-                // Prevent from undefined
-                if (marker) {
-                    marker.toggleHighlight();
-
-                    if (marker.isHighlighted()) {
-                        marker.excite();
-                    } else {
-                        marker.calm();
-                    }
-                }
-            });
-        },
-
-        togglePeacockingMarkers: function (data) {
-            var self = this;
-
-            _.each(data.keys, function (key) {
-                var marker = self.markerViewChildren[key];
-
-                if (marker) {
-                    if (! marker.is_peacocking) {
-                        marker.startPeacocking();
-                    } else {
-                        marker.stopPeacocking();
-                    }
-                }
-            });
         },
 
         hideInfoWindow: function () {
