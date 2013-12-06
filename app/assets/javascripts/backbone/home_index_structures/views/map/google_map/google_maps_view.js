@@ -1,27 +1,23 @@
 
-FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $, _) {
+/* just a basic marionette view */
+HomeIndexStructures.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.GoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
-        template:            Module.templateDirname() + 'google_maps_view',
-        id:                  'map-container',
-        itemViewEventPrefix: 'marker',
+        template: Module.templateDirname() + 'google_maps_view',
         markerView:          Module.MarkerView,
         infoBoxView:         Module.InfoBoxView,
-        markerViewChildren: {},
 
-        /* VIRTUAL method overrides */
-        initialize: function(options) {
-            options = options || {};
-
-            /* one info window that gets populated on each marker click */
-            this.infoBox = new Module.InfoBoxView(_.extend(options, {
-                infoBoxOptions: {
-                    infoBoxClearance: new google.maps.Size(100, 100)
-                }
-            }));
+        attributes: {
+            'data-behaviour': 'google-map'
         },
 
-        // Add a MarkerView and render
+        /* a default InfoBoxView is provided */
+        initialize: function(options) {
+            /* one info window that gets populated on each marker click */
+            this.infoBox = new Module.InfoBoxView(options.infoBoxOptions);
+        },
+
+        /* adds a MarkerView to the map */
         addChild: function(childModel) {
 
             var places = childModel.getRelation('places').related.models;
@@ -38,16 +34,6 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
 
                 markerView.render();
             });
-        },
-
-        /* UI and events */
-        ui: {
-            bounds_controls: '[data-behavior="bounds-controls"]'
-        },
-
-        events: {
-            'click [data-type="closer"]':          'hideInfoWindow',
-            'click [data-behavior="live-update"]': 'liveUpdateClicked'
         },
 
         /* lifecycle */
