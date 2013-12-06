@@ -34,9 +34,7 @@ HomeIndexStructures.module('Views.Map.GoogleMap', function(Module, App, Backbone
 
         /* lifecycle */
         onRender: function() {
-            this.$el.find('[data-type=map-container]').prepend(this.map_annex);
-            this.$loader = this.$('[data-type=loader]');
-            $('body').stickem();
+            this.$el.append(this.map_annex);
         },
 
         retireMarkers: function(data) {

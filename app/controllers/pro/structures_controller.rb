@@ -148,7 +148,7 @@ class Pro::StructuresController < Pro::ProController
                                           radius: radius,
                                           sort: 'rating_desc',
                                           has_logo: true,
-                                          per_page: 10,
+                                          per_page: 50,
                                           bbox: true
                                         }).results
 

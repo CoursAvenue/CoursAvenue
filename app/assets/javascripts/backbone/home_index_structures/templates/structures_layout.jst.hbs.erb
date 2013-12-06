@@ -1,17 +1,9 @@
-<div data-type="loader" class="home-index-structures__loader" style="display: none;">
-  <img src="<%= asset_path 'gifs/loading-indicator.gif' %>" class="center-block" height="10">
-</div>
-
-<section id="widgets-container" class="grid__item one-half relative" data-type="google-maps">
+<section id="widgets-container" class="grid__item one-half stickem absolute" data-type="google-maps">
     {{#each widget}}
         <div id="{{ id }}" data-type="widget"></div>
     {{/each}}
 </section>{{!--
- --}}<section class="grid__item one-half">
-    <header class="flexbox page-entries-wrapper soft-half">
-        <div class="one-whole" data-type="insert-widget-slug"></div>
-    </header>
-
+ --}}<section class="grid__item one-half" style="margin-left: 50%;">
     <div id="structures">
     </div>
     <div class="home-index-structures__infinite-scroll text--center" data-type="infinite-scroll-button"></div>

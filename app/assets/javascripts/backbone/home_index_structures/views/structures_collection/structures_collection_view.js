@@ -19,6 +19,14 @@ HomeIndexStructures.module('Views.StructuresCollection', function(Module, App, B
         itemViewContainer: 'ul',
         className: 'structures-collection',
 
+        initialize: function() {
+            this.collection.on('reset', function() {
+                setTimeout(function(){
+                    $('body').stickem();
+                }, 500);
+            });
+        },
+
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something
          * if do we would do it here */

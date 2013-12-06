@@ -18,11 +18,11 @@ HomeIndexStructures.addInitializer(function(options) {
     structures_view = new HomeIndexStructures.Views.StructuresCollection.StructuresCollectionView({
         collection: structures,
         events: {
-            'map:marker:focus':    'findItemView',
+            'map:marker:focus':    'findItemView'
         }
     });
 
-    structures.fetch();
+    structures.fetch({reset: true}); // Use to listen to the reset event of the structure
     window.pfaff = structures;
 
     /* set up the layouts */
@@ -35,7 +35,7 @@ HomeIndexStructures.addInitializer(function(options) {
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
         },
-        mapClass: 'google-map google-map--large'
+        mapClass: 'google-map google-map--medium'
     });
 
     var FiltersModule = HomeIndexStructures.Views.StructuresCollection.Filters;
@@ -67,9 +67,7 @@ $(document).ready(function() {
     // Or, the modules should now override already defined ones.
     _.each(FilteredSearch.submodules, function (module) {
         // Do not extend from structures
-        // HomeIndexStructures[module.moduleName] = _.extend(HomeIndexStructures[module.moduleName], FilteredSearch[module.moduleName]);
-        // _.extend(HomeIndexStructures[module.moduleName], _.omit(FilteredSearch[module.moduleName], 'Structure', 'StructuresCollection'));
-        _.extend(HomeIndexStructures[module.moduleName], FilteredSearch[module.moduleName]);
+        _.extend(HomeIndexStructures[module.moduleName], _.omit(FilteredSearch[module.moduleName], 'Structure', 'StructuresCollection'));
     });
 
     HomeIndexStructures.Views.Map.GoogleMap = _our_gmaps;

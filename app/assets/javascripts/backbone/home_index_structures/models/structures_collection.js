@@ -14,7 +14,7 @@ HomeIndexStructures.module('Models', function(Module, App, Backbone, Marionette,
         },
 
         url: function () {
-            return '/etablissement/best.json';
+            return '/etablissements/best.json';
         },
 
         /* we will receive an object with meta and structures */

@@ -55,4 +55,6 @@
     .text--center
       %h3
         Ils ont déjà leur livre d'or :
-    #home-index-structures.home-index-structures.main-container.stickem-container.relative{ data: { type: 'home-index-structures-root' }}
+    %div{data: {type: "home-index-structures-loader"}}
+      = image_tag 'gifs/loading-indicator.gif', class: "center-block", height: "10"
+    #home-index-structures.home-index-structures.stickem-container.relative{ data: { type: 'home-index-structures-root' }}

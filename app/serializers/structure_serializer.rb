@@ -127,7 +127,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def data_url
-    structure_path(object)
+    structure_url(object, subdomain: 'www')
   end
 
   def course_names
