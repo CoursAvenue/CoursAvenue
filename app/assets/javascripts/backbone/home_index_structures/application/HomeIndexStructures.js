@@ -30,11 +30,12 @@ HomeIndexStructures.addInitializer(function(options) {
 
     /* these won't be known yet because we are fetching */
     var bounds       = structures.getLatLngBounds();
-    google_maps_view = new HomeIndexStructures.Views.Map.GoogleMapsView({
+    google_maps_view = new HomeIndexStructures.Views.Map.GoogleMap.GoogleMapsView({
         collection: structures,
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
-        }
+        },
+        mapClass: 'google-map google-map--large'
     });
 
     var FiltersModule = HomeIndexStructures.Views.StructuresCollection.Filters;
@@ -57,9 +58,15 @@ HomeIndexStructures.addInitializer(function(options) {
 $(document).ready(function() {
     /* we are kind of "inheriting" this app from Filteredsearch
     *  in the sense that we will use most of the same models etc */
+
+    /* we need a better way to do this: extend is not deep enough */
+    _our_gmaps = HomeIndexStructures.Views.Map.GoogleMap;
+
     _.each(FilteredSearch.submodules, function (module) {
         HomeIndexStructures[module.moduleName] = _.extend(HomeIndexStructures[module.moduleName], FilteredSearch[module.moduleName]);
     });
+
+    HomeIndexStructures.Views.Map.GoogleMap = _our_gmaps;
 
     /* we only want the filteredsearch on the search page */
     if (HomeIndexStructures.detectRoot()) {
