@@ -5,7 +5,7 @@
 //= require_tree ./templates
 
 //---------- Models
-//= require ./models/top_structures_collection
+//= require ./models/structures_collection
 
 //---------- Views
 //= require ./views/manifest

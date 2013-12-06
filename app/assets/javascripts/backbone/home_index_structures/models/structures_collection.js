@@ -1,12 +1,12 @@
 
-/* TopStructuresCollection */
-/* @brief: TopStructuresCollection is a simple collection whose data-source is
+/* StructuresCollection */
+/* @brief: StructuresCollection is a simple collection whose data-source is
 *   etablissement/best.json
 *   The model is structure, from FilteredSearch, but there is no support of
 *   the pagination behaviour.
 *   */
 HomeIndexStructures.module('Models', function(Module, App, Backbone, Marionette, $, _) {
-    Module.TopStructuresCollection = Backbone.Collection.extend({
+    Module.StructuresCollection = Backbone.Collection.extend({
         model: FilteredSearch.Models.Structure,
         server_api: {
             lat: 48.8567,
@@ -14,7 +14,7 @@ HomeIndexStructures.module('Models', function(Module, App, Backbone, Marionette,
         },
 
         url: function () {
-            return 'etablissement/best.json';
+            return '/etablissement/best.json';
         },
 
         /* we will receive an object with meta and structures */

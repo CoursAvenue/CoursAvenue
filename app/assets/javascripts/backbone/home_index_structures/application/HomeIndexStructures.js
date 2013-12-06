@@ -14,8 +14,8 @@ HomeIndexStructures.addInitializer(function(options) {
     var structures, structures_view, layout, maps_view, $loader;
 
     // Create an instance of your class and populate with the models of your entire collection
-    structures      = new HomeIndexStructures.Models.TopStructuresCollection();
-    structures_view = new HomeIndexStructures.Views.TopStructuresCollection.TopStructuresCollectionView({
+    structures      = new HomeIndexStructures.Models.StructuresCollection();
+    structures_view = new HomeIndexStructures.Views.StructuresCollection.StructuresCollectionView({
         collection: structures,
         events: {
             'map:marker:focus':    'findItemView',
@@ -26,7 +26,7 @@ HomeIndexStructures.addInitializer(function(options) {
     window.pfaff = structures;
 
     /* set up the layouts */
-    layout = new HomeIndexStructures.Views.TopStructuresLayout();
+    layout = new HomeIndexStructures.Views.StructuresLayout();
 
     /* these won't be known yet because we are fetching */
     var bounds       = structures.getLatLngBounds();

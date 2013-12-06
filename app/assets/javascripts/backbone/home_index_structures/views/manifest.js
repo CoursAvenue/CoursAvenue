@@ -1,4 +1,3 @@
-
-//= require ./top_structures_layout
-//= require ./top_structures_collection/manifest
+//= require ./structures_layout
+//= require ./structures_collection/manifest
 //= require ./map/manifest

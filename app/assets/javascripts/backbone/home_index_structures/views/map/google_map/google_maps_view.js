@@ -40,6 +40,7 @@ HomeIndexStructures.module('Views.Map.GoogleMap', function(Module, App, Backbone
         onRender: function() {
             this.$el.find('[data-type=map-container]').prepend(this.map_annex);
             this.$loader = this.$('[data-type=loader]');
+            $('body').stickem();
         },
 
         retireMarkers: function(data) {
