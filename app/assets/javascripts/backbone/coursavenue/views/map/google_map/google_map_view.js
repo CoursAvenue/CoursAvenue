@@ -13,6 +13,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         markerViewChildren: {},
 
         constructor: function (options) {
+            options = options || {};
             Marionette.CompositeView.prototype.constructor.apply(this, arguments);
 
             var self = this;
@@ -26,7 +27,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             };
 
             /* override with custom options */
-            _.extend(this.mapOptions, options.mapOptions);
+            _.extend(this.mapOptions, (options.mapOptions));
 
             /* create mapview */
             if (options.mapClass && options.mapClass.length > 0) {
@@ -38,7 +39,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.mapView = new Module.BlankView({
                 id: 'map',
                 attributes: {
-                    'class': 'map_container' + options.mapClass
+                    'class': 'map_container google-map' + options.mapClass
                 }
             });
 

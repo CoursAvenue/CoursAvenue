@@ -7,10 +7,6 @@ HomeIndexStructures.module('Views.Map.GoogleMap', function(Module, App, Backbone
         markerView:          Module.MarkerView,
         infoBoxView:         Module.InfoBoxView,
 
-        attributes: {
-            'data-behaviour': 'google-map'
-        },
-
         /* a default InfoBoxView is provided */
         initialize: function(options) {
             /* one info window that gets populated on each marker click */

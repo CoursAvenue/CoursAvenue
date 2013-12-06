@@ -46,9 +46,9 @@ HomeIndexStructures.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         events: {
-            'top:structures:itemview:highlighted':   'exciteMarkers',
-            'top:structures:itemview:unhighlighted': 'exciteMarkers',
-            'top:structures:itemview:found':         'showInfoWindow'
+            'structures:itemview:highlighted':   'exciteMarkers',
+            'structures:itemview:unhighlighted': 'exciteMarkers',
+            'structures:itemview:found':         'showInfoWindow'
         }
     });
 
@@ -60,10 +60,16 @@ $(document).ready(function() {
     *  in the sense that we will use most of the same models etc */
 
     /* we need a better way to do this: extend is not deep enough */
-    _our_gmaps = HomeIndexStructures.Views.Map.GoogleMap;
+    _our_gmaps      = HomeIndexStructures.Views.Map.GoogleMap;
+    _our_structure = HomeIndexStructures.Views.Map.GoogleMap;
 
+    // I think we should cherry pick the module we want to extend from.
+    // Or, the modules should now override already defined ones.
     _.each(FilteredSearch.submodules, function (module) {
-        HomeIndexStructures[module.moduleName] = _.extend(HomeIndexStructures[module.moduleName], FilteredSearch[module.moduleName]);
+        // Do not extend from structures
+        // HomeIndexStructures[module.moduleName] = _.extend(HomeIndexStructures[module.moduleName], FilteredSearch[module.moduleName]);
+        // _.extend(HomeIndexStructures[module.moduleName], _.omit(FilteredSearch[module.moduleName], 'Structure', 'StructuresCollection'));
+        _.extend(HomeIndexStructures[module.moduleName], FilteredSearch[module.moduleName]);
     });
 
     HomeIndexStructures.Views.Map.GoogleMap = _our_gmaps;

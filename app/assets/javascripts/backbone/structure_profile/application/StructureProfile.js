@@ -11,21 +11,12 @@ StructureProfile.addInitializer(function(options) {
     // Create an instance of your class and populate with the models of your entire collection
     places = new StructureProfile.Models.PlacesCollection(bootstrap.models);
     /* set up the layouts */
-    layout = new StructureProfile.Views.StructureProfileLayout();
+    layout = new StructureProfile.Views.StructureProfileLayout({collection: places});
 
-    // var bounds = places.getLatLngBounds();
-    google_maps_view = new CoursAvenue.Views.Map.GoogleMapsView({
-        collection: places,
-        infoBoxOptions: {
-            template: StructureProfile.module('Views.Map').templateDirname() + 'place_info_box_view'
-        }
+    google_maps_view = new StructureProfile.Views.Map.GoogleMap.GoogleMapsView({collection: places});
 
-    });
     StructureProfile.mainRegion.show(layout);
-
-    /* we can add a widget along with a callback to be used
-    * for setup */
-    layout.showWidget(google_maps_view);
+    layout.master.show(google_maps_view);
 
 });
 

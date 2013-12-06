@@ -1,2 +1,3 @@
 //---------- Views
-//= require_tree .
+//= require ./map/manifest
+//= require ./structure_profile_layout

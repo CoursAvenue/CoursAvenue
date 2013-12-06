@@ -32,7 +32,7 @@ HomeIndexStructures.module('Views.StructuresCollection', function(Module, App, B
         announceStructuresUpdated: function () {
             var data = this.collection;
 
-            this.trigger('top:structures:updated');
+            this.trigger('structures:updated');
         },
 
         /* TODO: these should be pulled out into a concern */
@@ -53,7 +53,7 @@ HomeIndexStructures.module('Views.StructuresCollection', function(Module, App, B
             var itemview = this.children.findByModel(relevant_structure);
 
             /* announce the view we found */
-            this.trigger('top:structures:itemview:found', itemview);
+            this.trigger('structures:itemview:found', itemview);
             this.scrollToView(itemview);
         },
 
@@ -66,11 +66,11 @@ HomeIndexStructures.module('Views.StructuresCollection', function(Module, App, B
 
         /* TODO: these should be pulled out into a concern */
         onItemviewHighlighted: function (view, data) {
-            this.trigger('top:structures:itemview:highlighted', data);
+            this.trigger('structures:itemview:highlighted', data);
         },
 
         onItemviewUnhighlighted: function (view, data) {
-            this.trigger('top:structures:itemview:unhighlighted', data);
+            this.trigger('structures:itemview:unhighlighted', data);
         },
     });
 });
