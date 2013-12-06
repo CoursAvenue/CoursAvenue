@@ -30,7 +30,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
             /* apparently the only way to get this done */
             this.$el.on('click', _.bind(this.markerSelected, this));
-            this.bounce = _.debounce(this.bounce, 300);
+            this.bounce     = _.debounce(this.bounce, 300);
             this.bounceOnce = _.debounce(this.bounceOnce, 300);
         },
 

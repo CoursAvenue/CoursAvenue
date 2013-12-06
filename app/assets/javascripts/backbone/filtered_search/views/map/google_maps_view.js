@@ -46,7 +46,7 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
         },
 
         events: {
-            'click [data-type="closer"]': 'hideInfoWindow',
+            'click [data-type="closer"]':          'hideInfoWindow',
             'click [data-behavior="live-update"]': 'liveUpdateClicked'
         },
 
