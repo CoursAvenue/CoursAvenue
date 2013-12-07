@@ -71,23 +71,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def has_price_range
-    object.min_price and object.max_price
-  end
-
-  def min_price_amount
-    object.min_price.amount.to_i if object.min_price
-  end
-
-  def min_price_libelle
-    object.min_price.localized_libelle if object.min_price
-  end
-
-  def max_price_amount
-    object.max_price.amount.to_i if object.max_price
-  end
-
-  def max_price_libelle
-    object.max_price.localized_libelle if object.max_price
+    object.min_price_amount and object.max_price_amount
   end
 
   def more_than_five_comments
@@ -98,12 +82,8 @@ class StructureSerializer < ActiveModel::Serializer
     object.comments.accepted.count > 0
   end
 
-  def plannings_count
-    object.plannings_count
-  end
-
   def has_plannings
-    object.plannings_count > 0 if object.plannings_count
+    object.plannings_count.to_i > 0 if object.plannings_count
   end
 
   def courses_count
@@ -127,7 +107,7 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def data_url
-    structure_url(object, subdomain: 'www')
+    structure_url(object, subdomain: 'www', host: 'coursavenue.com')
   end
 
   def course_names

@@ -51,11 +51,17 @@ class Structure < ActiveRecord::Base
                   :funding_type_ids, :funding_types,
                   :widget_status, :widget_url, :sticker_status,
                   :teaches_at_home, :teaches_at_home_radius, # in KM
-                  :subjects_string, :parent_subjects_string, # "Name of the subject,slug-of-the-subject;Name,slug"
+                  :subjects_string, :parent_subjects_string # "Name of the subject,slug-of-the-subject;Name,slug"
+
                   # Attributes synced regarding the courses. Synced from the observers
                   # audience_ids is a coma separated string of audience_id
-                  :audience_ids, :gives_group_courses, :gives_individual_courses,
-                  :plannings_count, :has_promotion, :has_free_trial_course, :course_names
+
+
+  # To store hashes into hstore
+  store_accessor :meta_data, :audience_ids, :gives_group_courses, :gives_individual_courses,
+                             :plannings_count, :has_promotion, :has_free_trial_course, :course_names,
+                             :last_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount
+
 
   has_attached_file :logo,
                     styles: {
@@ -72,8 +78,8 @@ class Structure < ActiveRecord::Base
   belongs_to :city
   belongs_to :pricing_plan
 
-  belongs_to :min_price, class_name: 'Price'
-  belongs_to :max_price, class_name: 'Price'
+  # belongs_to :min_price, class_name: 'Price'
+  # belongs_to :max_price, class_name: 'Price'
 
   has_many :invited_teachers          , dependent: :destroy
   has_many :medias                    , -> { order('created_at ASC') },  as: :mediable
@@ -436,25 +442,33 @@ class Structure < ActiveRecord::Base
   #    :audience_ids
   #    :gives_group_courses
   #    :gives_individual_courses
-  def update_synced_attributes
-    self.update_column :plannings_count,          self.plannings.count
-    self.update_column :audience_ids,             self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
-    self.update_column :gives_group_courses,      self.courses.select{|course| !course.is_individual? }.any?
-    self.update_column :gives_individual_courses, self.courses.select(&:is_individual?).any?
-    self.update_column :has_promotion,            self.prices.select{|p| p.promo_amount.present?}.any?
-    self.update_column :has_free_trial_course,    self.prices.where{(type == 'Price::Trial') & ((amount == nil) | (amount == 0))}.any?
-    self.update_column :course_names,             self.courses.map(&:name).uniq.join(', ')
+  def update_meta_datas
+    self.plannings_count          = self.plannings.count
+    self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
+    self.gives_group_courses      = self.courses.select{|course| !course.is_individual? }.any?
+    self.gives_individual_courses = self.courses.select(&:is_individual?).any?
+    self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?
+    self.has_free_trial_course    = self.prices.where{(type == 'Price::Trial') & ((amount == nil) | (amount == 0))}.any?
+    self.course_names             = self.courses.map(&:name).uniq.join(', ')
+    self.last_comment_title       = self.comments.accepted.first.title if self.comments.accepted.any?
     self.set_min_and_max_price
+    self.save
   end
 
   def set_min_and_max_price
     best_price           = prices.where{(type != 'Price::Registration') & (amount > 0)}.order('amount ASC').first
     most_expensive_price = prices.where{(type != 'Price::Registration') & (amount > 0)}.order('amount DESC').first
-    self.update_column :min_price_id, best_price.try(:id)
-    if best_price != most_expensive_price
-      self.update_column :max_price_id, most_expensive_price.try(:id)
-    else
-      self.update_column :max_price_id, nil
+
+    if best_price
+      self.min_price_libelle = best_price.localized_libelle
+      self.min_price_amount  = best_price.amount
+      if best_price != most_expensive_price
+        self.max_price_libelle = most_expensive_price.localized_libelle
+        self.max_price_amount  = most_expensive_price.amount
+      else
+        self.max_price_libelle = nil
+        self.max_price_amount  = nil
+      end
     end
   end
 

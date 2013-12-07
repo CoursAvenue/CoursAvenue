@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131204140509) do
+ActiveRecord::Schema.define(version: 20131206175416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "admins", force: true do |t|
     t.string   "email",                               default: "",    null: false
@@ -484,16 +485,8 @@ ActiveRecord::Schema.define(version: 20131204140509) do
     t.string   "sticker_status"
     t.boolean  "teaches_at_home",            default: false
     t.text     "widget_url"
-    t.integer  "min_price_id"
-    t.integer  "max_price_id"
-    t.string   "audience_ids"
-    t.boolean  "gives_group_courses"
-    t.boolean  "gives_individual_courses"
     t.integer  "teaches_at_home_radius"
-    t.integer  "plannings_count"
-    t.boolean  "has_promotion",              default: false
-    t.boolean  "has_free_trial_course",      default: false
-    t.text     "course_names"
+    t.hstore   "meta_data"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
