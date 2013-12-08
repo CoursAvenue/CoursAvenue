@@ -9,7 +9,7 @@ class LightStructureSerializer < ActiveModel::Serializer
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
              :logo_present, :logo_thumb_url, :data_url,
              :courses_count, :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
-             :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
+             :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle,
              :gives_group_courses, :gives_individual_courses,
              :has_promotion, :course_names, :last_comment_title
 
@@ -18,10 +18,6 @@ class LightStructureSerializer < ActiveModel::Serializer
 
   def comments
     object.comments.accepted.limit(5)
-  end
-
-  def has_price_range
-    object.min_price and object.max_price
   end
 
   def more_than_five_comments

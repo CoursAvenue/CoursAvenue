@@ -60,15 +60,13 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         /* where we can expect to find the resource we seek
          *  TODO this needs to be set on the server side */
         url: {
-            // basename: 'http://coursavenue.dev',
-            // basename: 'http://localhost:3000',
             resource: '/etablissements',
             data_type: '.json'
         },
 
         parse: function(response) {
             // we did some kind of request, I guess we should update the query
-            if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
+            if (window.history.pushState) { window.history.pushState({}, document.title, this.getQuery()); }
 
             this.grandTotal = response.meta.total;
             this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);

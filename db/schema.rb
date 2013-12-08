@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131206175416) do
+ActiveRecord::Schema.define(version: 20131208094518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,6 +121,9 @@ ActiveRecord::Schema.define(version: 20131206175416) do
     t.string   "deletion_reason"
   end
 
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+
   create_table "contacts", force: true do |t|
     t.integer  "contactable_id",   null: false
     t.string   "contactable_type", null: false
@@ -175,8 +178,10 @@ ActiveRecord::Schema.define(version: 20131206175416) do
     t.boolean  "teaches_at_home"
   end
 
+  add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
   add_index "courses", ["place_id"], name: "index_courses_on_place_id", using: :btree
   add_index "courses", ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
+  add_index "courses", ["structure_id"], name: "index_courses_on_structure_id", using: :btree
   add_index "courses", ["type"], name: "index_courses_on_type", using: :btree
 
   create_table "courses_subjects", id: false, force: true do |t|
@@ -284,6 +289,8 @@ ActiveRecord::Schema.define(version: 20131206175416) do
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree
+  add_index "medias", ["mediable_id"], name: "index_medias_on_mediable_id", using: :btree
+  add_index "medias", ["mediable_type"], name: "index_medias_on_mediable_type", using: :btree
 
   create_table "notifications", force: true do |t|
     t.string   "type"

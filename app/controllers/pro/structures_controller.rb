@@ -140,6 +140,8 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  # Returns the best structures located near Paris
+  # Used on Pro::HomeController#index
   def best
     @admin      = ::Admin.new
     latitude, longitude, radius = 48.8540, 2.3417, 5
@@ -148,7 +150,7 @@ class Pro::StructuresController < Pro::ProController
                                           radius: radius,
                                           sort: 'rating_desc',
                                           has_logo: true,
-                                          per_page: 50,
+                                          per_page: 30,
                                           bbox: true
                                         }).results
 

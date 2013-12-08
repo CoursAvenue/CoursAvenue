@@ -70,8 +70,16 @@ class StructureSerializer < ActiveModel::Serializer
     object.has_free_trial_course
   end
 
+  def min_price_amount
+    object.min_price_amount.to_i
+  end
+
+  def max_price_amount
+    object.max_price_amount.to_i
+  end
+
   def has_price_range
-    object.min_price_amount and object.max_price_amount
+    object.min_price_amount.present? and object.max_price_amount.present?
   end
 
   def more_than_five_comments
