@@ -42,9 +42,10 @@
     line-height: 1.4em;
 }
 .quoted:after, .quoted:before {
-    font-size: 1.7em;
-    position : relative;
-    top      : 0.2em;
+    font-family: Georgia, serif;
+    font-size  : 1.7em;
+    position   : relative;
+    top        : 0.2em;
 }
 .quoted:after {
     content   : "\201D";
