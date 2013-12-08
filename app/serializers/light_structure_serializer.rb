@@ -8,7 +8,7 @@ class LightStructureSerializer < ActiveModel::Serializer
 
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
              :logo_present, :logo_thumb_url, :data_url,
-             :courses_count, :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
+             :plannings_count, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle,
              :gives_group_courses, :gives_individual_courses,
              :has_promotion, :course_names, :last_comment_title
@@ -26,18 +26,6 @@ class LightStructureSerializer < ActiveModel::Serializer
 
   def has_comments
     object.comments.accepted.count > 0
-  end
-
-  def has_plannings
-    object.plannings_count.to_i > 0 if object.plannings_count
-  end
-
-  def courses_count
-    object.courses.count
-  end
-
-  def has_courses
-    object.courses.count > 0
   end
 
   def logo_present
