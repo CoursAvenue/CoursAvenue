@@ -33,7 +33,7 @@ _.extend(Marionette.Module, _module, {
         if (parentModule.modulePath !== undefined) {
             modulePath = parentModule.modulePath + "." + moduleName;
         } else if (parentModule.moduleName !== undefined) {
-            console.log("EDGECASE: prepending parrent module name");
+            // EDGECASE: prepending parrent module name");
             modulePath = parentModule.moduleName + moduleName;
         } else {
             modulePath = moduleName; // module is a top level module, like Views

@@ -1,3 +1,12 @@
+.home-screen-comment {
+    width      : 500px;
+    color      : white;
+    margin-top : 3em;
+    @include text-shadow(0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker);
+    img {
+        @include border-radius(5em);
+    }
+}
 .home-screen {
     background-color: black;
     width           : 100%;
@@ -9,7 +18,7 @@
         position        : relative;
         z-index         : 5;
         color           : $gray-lighter;
-        text-shadow     : 0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker;
+        @include text-shadow(0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker);
         letter-spacing  : 0.1em;
     }
     .home-screen-subtitle {
@@ -17,7 +26,8 @@
     }
     .home-screen-title {
         margin : 0;
-        padding: 2.7em 0 0 0;
+        // padding: 2.7em 0 0 0;
+        padding: 0;
         @include media-query(palm) { margin: 0; font-size: 20px;}
     }
     .home-page-search {
@@ -52,6 +62,7 @@
 .home-screen-promotion-wrapper {
     background-color: $homescreen-background;
     padding         : 0 0 2em 0;
+    border          : 1px solid #DBDBDB;
     .home-screen-promotion {
         padding-top: 0;
     }

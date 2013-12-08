@@ -5,24 +5,39 @@
 = content_for :above_container do
   .main-container.hard
   = render 'share_links'
-  .home-screen-promotion-wrapper.visuallyhidden--palm
+  .home-screen-promotion-wrapper
     %section.main-container.home-screen-promotion
       .grid
         .grid__item.palm-one-whole.lap-one-whole.one-half.soft-half>
-          %h2.home-title Les derniers avis
+          %h2.home-title Écoutez la parole des élèves
           - @comments.each do |comment|
             = render partial: 'comments/home_comment', locals: {comment: comment}
         .grid__item.palm-one-whole.lap-one-whole.one-half.soft-half{style: 'min-height: 35em;'}
-          %h2.home-title Vidéos des cours
-          .media-gallery.white-box>
-            = render partial: 'medias/media', collection: Media::Video.limit(6), locals: { show_caption: false }
+          = render 'videos'
+  .main-container
+    - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
+      %div
+        %h3.home-title--no-border Le Blog
+        = blog_feed
+        .push--bottom
+          = link_to 'blog', target: '_blank', class: 'btn btn--blue' do
+            %i.fa.fa-align-left
+            &nbsp;Accéder au blog
 
-.main-container
-  - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
-    %div
-      %h3.home-title--no-border Le Blog
-      = blog_feed
-      .push--bottom
-        = link_to 'blog', target: '_blank', class: 'btn btn--blue' do
-          %i.fa.fa-align-left
-          &nbsp;Accéder au blog
+
+
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $("#galery .media__item img").lazyload({
+            effect : "fadeIn",
+            event: 'galery:show',
+            skip_invisible: true,
+            load: function(elements_left, settings) {
+                if (elements_left == 0) {
+                   $('#galery .media-gallery').masonry({ itemSelector: '.media__item' });
+                }
+            }
+        });
+    });
