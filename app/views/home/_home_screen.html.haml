@@ -5,16 +5,5 @@
     = render 'shared/home_page_search_form'
 
     - cache "home_screen_#{ENV["ETAG_VERSION_ID"]}" do
-      %ul#slideshow.slideshow.home-slideshow
-        - @homepage_images.each do |image, image_alt|
-          %li
-            = image_tag image, alt: image_alt
-
-= content_for :scripts do
-  :javascript
-    var slideshow;
-    $(function() {
-        $('#slideshow').cycle({
-            timeout: 15000
-        });
-    });
+      #slideshow.slideshow.home-slideshow
+        = image_tag 'home-page/dance.jpg', alt: 'Cours de danse'
