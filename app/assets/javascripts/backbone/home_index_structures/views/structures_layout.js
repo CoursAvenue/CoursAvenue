@@ -2,7 +2,7 @@ HomeIndexStructures.module('Views', function(Module, App, Backbone, Marionette, 
 
     Module.StructuresLayout = CoursAvenue.Views.EventLayout.extend({
         template: Module.templateDirname() + 'structures_layout',
-        className: 'structures-layout grid',
+        className: 'structures-layout grid--full',
         master_region_name: 'structure',
 
         regions: {
