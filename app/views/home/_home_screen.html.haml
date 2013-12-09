@@ -4,7 +4,7 @@
       .grid.home-screen-comment
         .grid__item.one-fifth>
           = link_to "http://www.coursavenue.com/etablissements/soraya#recommandation-907", class: 'muted-link block' do
-            = image_tag 'home-page/user-picture.jpg', class: 'block'
+            = image_tag 'home-page/user-picture.png', class: 'block'
         .grid__item.four-fifths>
           %p.flush.quoted.epsilon.quoted--large
             = link_to "Elle nous transmet à chaque cours toute sa passion et son amour de la danse orientale qu'elle maîtrise à la perfection avec beaucoup d'enthousiasme !", "http://www.coursavenue.com/etablissements/soraya#recommandation-907", class: 'muted-link'
@@ -15,5 +15,6 @@
     = render 'shared/home_page_search_form'
 
     - cache "home_screen_#{ENV["ETAG_VERSION_ID"]}" do
-      #slideshow.slideshow.home-slideshow
-        = image_tag 'home-page/dance.jpg', alt: 'Cours de danse'
+      .slideshow.home-slideshow
+        %div
+          = image_tag 'home-page/dance.jpg', alt: 'Cours de danse'

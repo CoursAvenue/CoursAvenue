@@ -111,3 +111,13 @@
 }
 .pointer    { cursor: pointer;}
 .underlined { text-decoration: underline; }
+
+.ie-blocker {
+    position   : fixed;
+    height     : 100%;
+    width      : 100%;
+    left       : 0;
+    top        : 0;
+    background : #EEE;
+    z-index    : 100;
+}

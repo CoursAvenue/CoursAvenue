@@ -2,8 +2,7 @@
   = link_to commentable_path(comment, anchor: "recommandation-#{comment.id}"), class: 'comment_link', onclick: "_gaq.push(['_trackEvent', 'Commentaire home', 'click', 'Note : #{comment.rating}'])" do
     .flexbox{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
       .flexbox__item.one-fifth>
-        = link_to structure_path(comment.structure), class: 'block' do
-          = image_tag comment.structure.logo.url(:thumb), class: 'block'
+        = image_tag comment.structure.logo.url(:thumb), class: 'block one-whole'
       .flexbox__item.four-fifths.comment__header>
         %div
           %b.quoted.v-middle{itemprop: 'author'}

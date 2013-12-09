@@ -46,4 +46,5 @@ class ApplicationController < ActionController::Base
     logger.fatal '------------------------ LOGGER FATAL --------------------------'
     render template: 'errors/internal_server_error', status: :not_found
   end
+
 end
