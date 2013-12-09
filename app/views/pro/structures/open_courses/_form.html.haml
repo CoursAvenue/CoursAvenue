@@ -1,0 +1,77 @@
+- if @course.new_record?
+  - url = pro_structure_course_opens_path(@structure)
+- else
+  - url = pro_structure_course_open_path(@structure, @course)
+
+= simple_form_for [:pro, @structure, @course], url: url, as: :course, html: {id: 'course-form'} do |f|
+  = f.error_notification
+
+  %h5.form-header-group.flush--bottom
+    %i.lbc-icon-info i
+    Information générales du cours
+  .form-white-box
+    = f.input :name, label: t('.name'), placeholder: 'Ex : Danse orientale, Dégustation de vins & fromages, etc.'
+    .input<
+      = f.label :subjects
+      - subjects = @structure.subjects.little_children.uniq
+      - if subjects.empty?
+        - subjects = @structure.subjects.roots.map(&:little_children).flatten
+      = f.association :subjects , as: :select, collection: subjects, input_html: {style: 'width: 300px;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush'}, label: false
+      .inline-block
+        = link_to edit_pro_structure_path(@structure, from_path: request.path, anchor: 'informations') do
+          %i.fa.fa-plus
+          Ajouter des disciplines à mon profil
+    %p.field-form-info.blue.flush Si vous désirez choisir d'autres disciplines, ajoutez-les à votre profil en cliquant sur le lien ci-dessus.
+    .input
+      .control-label.v-top *Type d'évènement
+      %div
+        .radio
+          %input#event_type_atelier{type: 'radio', name: 'course[event_type]', value: 'Atelier collectif', checked: @course.event_type == 'Atelier collectif'}>
+          %label{for: 'event_type_atelier'} Atelier collectif
+        .radio
+          %input#event_type_demo{type: 'radio', name: 'course[event_type]', value: 'Démonstration', checked: @course.event_type == 'Démonstration'}>
+          %label{for: 'event_type_demo'} Démonstration
+        .radio
+          %input#event_other{type: 'radio', name: 'course[event_type]', value: 'other', checked: (@course.event_type.present? and !@course.event_type.include?(['Atelier collectif', 'Démonstration'])) }>
+          %label{for: 'event_other'} Autres, précisez
+          %input#event_type_description_hidden.push--left{ name: 'course[event_type_description]', type: 'text', size: '50' }
+
+  %h5.form-header-group.flush--bottom.soft--top Description
+  .form-white-box
+    .grid--full.input
+      .textarea-with-info
+        .grid
+          .three-fifths.grid__item>
+            = f.input :description, as: :text, placeholder: 'Expliquez en quoi consiste le cours / stage, de manière à ce que l’élève comprenne bien ce qu’il y apprendra, pour éviter toute confusion. Plus de détails vous donnez, mieux c’est !', label: false, input_html: {class: 'textarea-description', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 70, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}, wrapper_html: {class: 'flush--top one-whole'}
+          .two-fifths.grid__item>
+            %p.alert--info.flush--top
+              Quel est ce cours ?
+              %br
+              Qu’y trouve-t-on ?
+            %p.alert--info
+              Comment se déroule t-il ?
+              %br
+              En plusieurs thèmes ?
+            %p.alert--info Quelles sont les méthodes pratiquées ?
+
+  %h5.form-header-group.flush--bottom.soft--top
+    Informations supplémentaire
+  .form-white-box
+    .input
+      .control-label.v-top Tarifs
+      %div
+        .radio
+          %input#course_price_free{type: 'radio', name: 'course[price]', value: '0', checked: (@course.new_record? or @course.price.to_i == 0) }>
+          %label{for: 'course_price_free'} Gratuit
+        .radio
+          %input#course_price_other{type: 'radio', name: 'course[price]', checked: (@course.price.present? and @course.price.to_i > 0) }>
+          %label{for: 'course_price_other'} Participation financière libre
+          = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false
+
+    = f.input :info, label: 'Infos pratiques'
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+
+-# = content_for :scripts do
+-#   :javascript
+-#     $(function() {
+-#     });

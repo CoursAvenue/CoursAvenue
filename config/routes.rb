@@ -97,6 +97,7 @@ CoursAvenue::Application.routes.draw do
         resources :messages     , controller: 'structures/messages'
         resources :conversations, controller: 'structures/conversations'
         resources :courses, only: [:index, :new, :create], path: 'cours'#, controller: 'structures/courses' # To insure to have the structure_id
+        resources :course_opens, only: [:index, :new, :create], path: 'journees-portes-ouvertes', controller: 'structures/open_courses'
       end
       resources :courses, except: [:new, :create], path: 'cours' do
         member do

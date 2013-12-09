@@ -103,7 +103,6 @@ class Structure < ActiveRecord::Base
   validates :city               , :presence   => true, on: :create
   validate :subject_parent_and_children
 
-
   # -------------------- Callbacks
   before_create    :set_active_to_true
 
