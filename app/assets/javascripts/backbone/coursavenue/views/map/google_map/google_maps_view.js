@@ -5,15 +5,16 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
     Module.BlankView = Marionette.ItemView.extend({ template: "" });
 
     Module.GoogleMapsView = Marionette.CompositeView.extend({
-        template:            Module.templateDirname() + 'google_maps_view',
-        id:                  'map-container',
+        template:                Module.templateDirname() + 'google_maps_view',
+        id:                      'map-container',
 
         /* while the map is a composite view, it uses
          * marker views instead of item views */
-        itemView:            Module.BlankView,
-        markerView:          Module.MarkerView,
-        itemViewEventPrefix: 'marker',
-        markerViewChildren: {},
+        itemView:                Module.BlankView,
+        markerView:              Module.MarkerView,
+        markerViewTemplate:      Module.templateDirname() + 'marker_view',
+        itemViewEventPrefix:     'marker',
+        markerViewChildren:      {},
 
         infoBoxView:         Module.InfoBoxView,
 
@@ -185,13 +186,18 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         appendHtml: function(collectionView, itemView, index){
-            this.addChild(itemView.model);
+            /* the markerview is kind of a silly little class
+            * so we are rendering its template out here, and
+            * passing that in to add child. */
+            var html = Marionette.Renderer.render(this.markerViewTemplate, {});
+            this.addChild(itemView.model, html);
         },
 
-        addChild: function (childModel) {
+        addChild: function (childModel, html) {
             var markerView = new this.markerView({
-                model: childModel,
-                map:   this.map
+                model:   childModel,
+                map:     this.map,
+                content: html
             });
 
             this.markerViewChildren[childModel.cid] = markerView;

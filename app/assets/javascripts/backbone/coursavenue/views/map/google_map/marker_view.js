@@ -26,7 +26,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         initialize: function (options) {
             // Backbone.GoogleMaps.RichMarkerView.prototype.constructor.apply(this, arguments);
             /* TODO this setup should be done in the constructor, in the library, in another repo far, far away */
-            this.$el = $("<div class='map-marker-image'><a href='javascript:void(0)'></a></div>");
+            this.$el = $(options.content);
             this.overlayOptions.content = this.$el[0];
 
             /* apparently the only way to get this done */

@@ -5,14 +5,15 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
         template:            Module.templateDirname() + 'google_maps_view',
 
         /* override addchild to add one marker for each place on the model */
-        addChild: function(childModel) {
+        addChild: function(childModel, html) {
             var places = childModel.getRelation('places').related.models;
             var self = this;
 
             _.each(places, function (place) {
                 var markerView = new self.markerView({
                     model: place,
-                    map: self.map
+                    map: self.map,
+                    content: html
                 });
 
                 self.markerViewChildren[place.cid] = markerView;
