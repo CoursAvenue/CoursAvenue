@@ -3,9 +3,10 @@
     .header-search-bar
       %div.search-input-wrapper
         %select.one-whole.epsilon{name: 'subject_id'}
-          %option{value: ''} Que voulez-vous faire ?
-          - Subject.stars.each do |subject|
-            %option{value: subject.slug}= subject.name
+          %option{value: ''} Toutes disciplines
+          - cache ['home_page_dropdown', Subject.stars] do
+            - Subject.stars.each do |subject|
+              %option{value: subject.slug}= subject.name
           %option{value: 'other'} Autres
       %div.search-input-wrapper
         .input-with-icon
@@ -18,4 +19,4 @@
       %div.button-wrapper
         %button.nowrap.btn.btn--blue{type: 'submit', id: 'submit_search_form'}
           %i.fa.fa-search
-          Touver un cours
+          Trouver un cours
