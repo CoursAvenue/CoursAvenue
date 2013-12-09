@@ -5,36 +5,20 @@ StructureProfile.module('Views.Map.GoogleMap', function(Module, App, Backbone, M
     Module.GoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
         infoBoxView: Module.InfoBoxView,
 
-        /* a default InfoBoxView is provided */
-        initialize: function(options) {
-            /* one info window that gets populated on each marker click */
-            // TODO: Should be automatic if infoBoxView is defined
-            this.infoBox = new Module.InfoBoxView();
-        },
-
         onMarkerFocus: function (view) {
             this.showInfoWindow(view);
         },
 
-        /* adds a MarkerView to the map */
-        addChild: function(childModel) {
-            var markerView = new this.markerView({
-                model: childModel,
-                map:   this.map
-            });
-
-            this.markerViewChildren[childModel.cid] = markerView;
-            this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
-            markerView.render();
-        },
-
+        /* we need to center the view ourselves, since we are the data source */
         onRender: function() {
-            // TODO The following should be in the parent file IMO.
-            this.$el.append(this.map_annex);
             this.centerMapAutomatically();
         },
 
-        // TODO: This should be on the parent file and be automatic if there is no lat / lng or bbox given
+        /* TODO we could probably tweek GoogleMapsView.centerMap to work like
+         * this if passed a collection */
+        /* TODO if we have a bunch of map markers already, then we should
+        * automatically center to them after appending them all in the 'render'
+        * method */
         centerMapAutomatically:  function () {
             var latlngbounds = new google.maps.LatLngBounds();
             this.collection.each(function(model){

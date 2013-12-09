@@ -27,7 +27,6 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-
     structures.bootstrap();
     window.pfaff = structures;
 
@@ -50,6 +49,9 @@ FilteredSearch.addInitializer(function(options) {
         collection: structures,
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
+        },
+        infoBoxOptions: {
+            infoBoxClearance: new google.maps.Size(100, 100)
         }
     });
 

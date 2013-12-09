@@ -5,7 +5,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
     Module.BlankView = Marionette.ItemView.extend({ template: "" });
 
     Module.GoogleMapsView = Marionette.CompositeView.extend({
-        template:            '',
+        template:            Module.templateDirname() + 'google_maps_view',
         id:                  'map-container',
 
         /* while the map is a composite view, it uses
@@ -62,15 +62,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.lockOnce('map:bounds');
             this.toggleLiveUpdate();
             this.on('marker:focus', this.markerFocus);
-        },
-
-        /* VIRTUAL */
-        initialize: function () {
-            this._throwInitializeError();
-        },
-        /* VIRTUAL */
-        addChild: function () {
-            this._throwAddChildError();
+            this.infoBox = new this.infoBoxView();
         },
 
         onItemviewCloseClick: function () {
@@ -167,8 +159,44 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.map.setZoom(12);
         },
 
+        // Renders the model once, and the collection once. Calling
+        // this again will tell the model's view to re-render itself
+        // but the collection will not re-render.
+        render: function(){
+            this.isRendered = true;
+            this.isClosed = false;
+            this.resetItemViewContainer();
+
+            this.triggerBeforeRender();
+            var html = this.renderModel();
+            this.$el.html(html);
+            // the ui bindings is done here and not at the end of render since they
+            // will not be available until after the model is rendered, but should be
+            // available before the collection is rendered.
+            this.bindUIElements();
+            this.triggerMethod("composite:model:rendered");
+
+            this._renderChildren();
+            this.$el.find('[data-type=map-container]').prepend(this.map_annex);
+
+            this.triggerMethod("composite:rendered");
+            this.triggerRendered();
+            return this;
+        },
+
         appendHtml: function(collectionView, itemView, index){
             this.addChild(itemView.model);
+        },
+
+        addChild: function (childModel) {
+            var markerView = new this.markerView({
+                model: childModel,
+                map:   this.map
+            });
+
+            this.markerViewChildren[childModel.cid] = markerView;
+            this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
+            markerView.render();
         },
 
         closeChildren: function() {
@@ -218,55 +246,6 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             return {
                 update_live: this.update_live
             };
-        },
-
-        _throwInitializeError: function () {
-            var error = '';
-            error += "GoogleMapsView is a virtual constructor!\n";
-            error += "Objects extending from it must implement the following methods:\n";
-            // TODO
-throw(" \
-GoogleMapsView is a virtual constructor!\n \
-Objects extending from it must implement the following methods:\n \
-\n \
-    /* a default InfoBoxView is provided */\n \
-    initialize: function(options) {\n \
-        /* one info window that gets populated on each marker click */\n \
-        this.infoBox = new Module.InfoBoxView(options.infoBoxOptions);\n \
-\n \
-        // ... your initialization here\n \
-\n \
-    },\n \
-\n \
-    /* adds a MarkerView to the map */\n \
-    addChild: function(options) {\n \
-\n \
-        // ... your initialization here\n \
-\n \
-    },\n \
-");
-        },
-        _throwAddChildError: function() {
-throw(" \
-GoogleMapsView is a virtual constructor!\n \
-Objects extending from it must implement the following methods:\n \
-\n \
-    /* adds a MarkerView to the map */\n \
-    addChild: function(child_model) {\n \
-        /* here is an example implementation */\n\
-        var markerView = new self.markerView({\n\
-            model: child_model,\n\
-            map: this.map\n\
-        });\n\
-\n\
-        self.markerViewChildren[child_model.cid] = markerView;\n\
-        self.addChildViewEventForwarding(markerView); // buwa ha ha ha!\n\
-\n\
-        markerView.render();\n\
-\n \
-    },\n \
-");
         }
-
     });
 });

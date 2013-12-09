@@ -3,23 +3,9 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
 
     Module.GoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
         template:            Module.templateDirname() + 'google_maps_view',
-        infoBoxView:         Module.InfoBoxView,
 
-        /* VIRTUAL method overrides */
-        initialize: function(options) {
-            options = options || {};
-
-            /* one info window that gets populated on each marker click */
-            this.infoBox = new Module.InfoBoxView(_.extend(options, {
-                infoBoxOptions: {
-                    infoBoxClearance: new google.maps.Size(100, 100)
-                }
-            }));
-        },
-
-        // Add a MarkerView and render
+        /* override addchild to add one marker for each place on the model */
         addChild: function(childModel) {
-
             var places = childModel.getRelation('places').related.models;
             var self = this;
 
@@ -48,7 +34,6 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
 
         /* lifecycle */
         onRender: function() {
-            this.$el.find('[data-type=map-container]').prepend(this.map_annex);
             this.$loader = this.$('[data-type=loader]');
         },
 
