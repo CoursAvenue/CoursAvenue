@@ -79,6 +79,10 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             }
         },
 
+        /* TODO the parent class shouldn't implement any "on" methods
+        *  these should be left entirely to the extending class. So,
+        *  this logic needs to move to an explicit .on('marker:focus')
+        *  callback set in the constructor */
         onMarkerFocus: function (marker_view) {
             var marker = this.markerViewChildren[this.current_info_marker];
             if (marker_view === marker) {

@@ -44,6 +44,8 @@ FilteredSearch.addInitializer(function(options) {
     })
 
     var bounds       = structures.getLatLngBounds();
+    /* TODO does the google map need a reference to the collection?
+    *  I don't think so, and I don't remember why this is here */
     google_maps_view = new FilteredSearch.Views.Map.GoogleMapsView({
         collection: structures,
         mapOptions: {
@@ -85,7 +87,7 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(subject_filter);
     layout.showWidget(infinite_scroll_button);
 
-    layout.results.show(structures_view);
+    layout.master.show(structures_view);
 });
 
 $(document).ready(function() {

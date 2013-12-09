@@ -106,7 +106,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         /* fires after the main region is first shown */
-        onResultsShow: function(view) {
+        onMasterShow: function(view) {
             var self = this;
 
             /* the layout broadcasts all main region events */
