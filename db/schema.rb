@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131208094518) do
+ActiveRecord::Schema.define(version: 20131209165628) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "admins", force: true do |t|
     t.string   "email",                               default: "",    null: false
@@ -172,6 +176,9 @@ ActiveRecord::Schema.define(version: 20131208094518) do
     t.text     "parent_subjects_string"
     t.boolean  "no_class_during_holidays"
     t.boolean  "teaches_at_home"
+    t.string   "event_type"
+    t.string   "event_type_description"
+    t.float    "price"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
