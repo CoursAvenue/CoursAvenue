@@ -61,6 +61,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
             this.lockOnce('map:bounds');
             this.toggleLiveUpdate();
+            this.on('marker:focus', this.markerFocus);
         },
 
         /* VIRTUAL */
@@ -79,11 +80,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             }
         },
 
-        /* TODO the parent class shouldn't implement any "on" methods
-        *  these should be left entirely to the extending class. So,
-        *  this logic needs to move to an explicit .on('marker:focus')
-        *  callback set in the constructor */
-        onMarkerFocus: function (marker_view) {
+        markerFocus: function (marker_view) {
             var marker = this.markerViewChildren[this.current_info_marker];
             if (marker_view === marker) {
                 return false;

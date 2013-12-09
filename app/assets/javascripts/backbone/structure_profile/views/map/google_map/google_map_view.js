@@ -12,12 +12,19 @@ StructureProfile.module('Views.Map.GoogleMap', function(Module, App, Backbone, M
             this.infoBox = new Module.InfoBoxView();
         },
 
+        onMarkerFocus: function (view, click) {
+            this.showInfoWindow(view);
+        },
+
         /* adds a MarkerView to the map */
         addChild: function(childModel) {
             var markerView = new this.markerView({
                 model: childModel,
                 map:   this.map
             });
+
+            this.markerViewChildren[childModel.cid] = markerView;
+            this.addChildViewEventForwarding(markerView); // buwa ha ha ha!
             markerView.render();
         },
 
