@@ -12,7 +12,7 @@ StructureProfile.module('Views.Map.GoogleMap', function(Module, App, Backbone, M
             this.infoBox = new Module.InfoBoxView();
         },
 
-        onMarkerFocus: function (view, click) {
+        onMarkerFocus: function (view) {
             this.showInfoWindow(view);
         },
 

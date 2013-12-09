@@ -3,11 +3,7 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
 
     Module.GoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
         template:            Module.templateDirname() + 'google_maps_view',
-        id:                  'map-container',
-        itemViewEventPrefix: 'marker',
-        markerView:          Module.MarkerView,
         infoBoxView:         Module.InfoBoxView,
-        markerViewChildren: {},
 
         /* VIRTUAL method overrides */
         initialize: function(options) {
