@@ -3,8 +3,6 @@
 StructureProfile.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.GoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
-        template:    '',
-        markerView:  Module.MarkerView,
         infoBoxView: Module.InfoBoxView,
 
         /* a default InfoBoxView is provided */

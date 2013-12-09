@@ -21,6 +21,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
     *  Other classes would expose similar semantics, but implement their behaviour differently
     * */
     Module.MarkerView = Backbone.GoogleMaps.RichMarkerView.extend({
+        template: '',
         // constructor: function (options) {
         initialize: function (options) {
             // Backbone.GoogleMaps.RichMarkerView.prototype.constructor.apply(this, arguments);

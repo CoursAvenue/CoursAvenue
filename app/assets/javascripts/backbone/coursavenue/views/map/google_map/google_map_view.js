@@ -5,12 +5,17 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
     Module.BlankView = Marionette.ItemView.extend({ template: "" });
 
     Module.GoogleMapsView = Marionette.CompositeView.extend({
+        template:            '',
         id:                  'map-container',
+
+        /* while the map is a composite view, it uses
+         * marker views instead of item views */
         itemView:            Module.BlankView,
-        itemViewEventPrefix: 'marker',
         markerView:          Module.MarkerView,
-        infoBoxView:         Module.InfoBoxView,
+        itemViewEventPrefix: 'marker',
         markerViewChildren: {},
+
+        infoBoxView:         Module.InfoBoxView,
 
         constructor: function (options) {
             options = options || {};
