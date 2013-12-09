@@ -5,46 +5,16 @@
 = content_for :above_container do
   .main-container.hard
   = render 'share_links'
-  .home-screen-promotion-wrapper.visuallyhidden--palm
+  .home-screen-promotion-wrapper
     %section.main-container.home-screen-promotion
       .grid
         .grid__item.palm-one-whole.lap-one-whole.one-half.soft-half>
-          %h2.home-title Les derniers avis
+          %h2.home-title Écoutez la parole des élèves
           - @comments.each do |comment|
             = render partial: 'comments/home_comment', locals: {comment: comment}
         .grid__item.palm-one-whole.lap-one-whole.one-half.soft-half{style: 'min-height: 35em;'}
-          %h2.home-title Une communauté grandissante
-          #map.google-map.google-map--medium
-
-.main-container
-  .grid
-    .grid__item.lap-one-whole.palm-one-whole.one-whole>
-      .grid
-        .grid__item.one-third.palm-one-whole>
-          .grid
-            .grid__item.one-fifth.text--center.v-middle>
-              = image_tag 'icons/ico_piggy_bank.png', alt: 'Cours pas cher'
-            .grid__item.four-fifths.v-middle
-              %h4.flush--bottom.hard--bottom.islet.blue Des prix attractifs
-              %p.islet Vous ne paierez pas plus cher en passant par CoursAvenue et la mise en relation est gratuite. Bénéficiez également des tarifs promotionnels négociés directement auprès de nos Partenaires.
-
-        .grid__item.one-third.palm-one-whole>
-          .grid
-            .grid__item.one-fifth.text--center.v-middle>
-              = image_tag 'icons/ico_qualitee.png', alt: 'Cours de qualité'
-            .grid__item.four-fifths.v-middle
-              %h4.flush--bottom.hard--bottom.islet.blue Une qualité assurée
-              %p.islet Chaque élève a la possibilité de s’exprimer sur la qualité du cours suivi et de vous partager son expérience. Plus de mauvaises surprises, le meilleur bouche à oreille !
-
-        .grid__item.one-third.palm-one-whole>
-          .grid
-            .grid__item.one-fifth.text--center.v-middle>
-              = image_tag 'icons/ico_geoloc.png', style: 'height: 75px;', alt: 'Cours autour de chez vous'
-            .grid__item.four-fifths.v-middle
-              %h4.flush--bottom.hard--bottom.islet.blue Votre passion autour de vous
-              %p.islet Notre moteur de recherche avancé, qui inclut la géolocalisation, permettra de réveiller votre passion à deux pas de chez vous. Exprimez votre talent dans votre quartier !
-
-    %hr
+          = render 'videos'
+  .main-container
     - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
       %div
         %h3.home-title--no-border Le Blog
@@ -54,19 +24,20 @@
             %i.fa.fa-align-left
             &nbsp;Accéder au blog
 
+
+
+
 = content_for :scripts do
   :javascript
-    localStorage.clear();
-    // ---------------- Comments slideshow
     $(function() {
-        $('#comments-slideshow').cycle({
-            timeout: 5000,
-        });
-        handler = Gmaps.build('Google');
-        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-            markers = handler.addMarkers(#{@json_locations_addresses.to_json});
-            handler.bounds.extendWith(markers);
-            handler.fitMapToBounds();
-            handler.getMap().setCenter({lat: 48.8592, lng: 2.3417});
+        $("#galery .media__item img").lazyload({
+            effect : "fadeIn",
+            event: 'galery:show',
+            skip_invisible: true,
+            load: function(elements_left, settings) {
+                if (elements_left == 0) {
+                   $('#galery .media-gallery').masonry({ itemSelector: '.media__item' });
+                }
+            }
         });
     });

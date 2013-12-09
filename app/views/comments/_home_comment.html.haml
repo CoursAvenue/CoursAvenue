@@ -1,12 +1,13 @@
 %article.comment-list__el
   = link_to commentable_path(comment, anchor: "recommandation-#{comment.id}"), class: 'comment_link', onclick: "_gaq.push(['_trackEvent', 'Commentaire home', 'click', 'Note : #{comment.rating}'])" do
     .flexbox{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
-      .flexbox__item.one-half.comment__header
+      .flexbox__item.one-fifth>
+        = image_tag comment.structure.logo.url(:thumb), class: 'block one-whole'
+      .flexbox__item.four-fifths.comment__header>
         %div
           %b.quoted.v-middle{itemprop: 'author'}
-            = "#{truncate(comment.title, length: 40)}".html_safe
-          %br
-          %span.blue= truncate(comment.commentable.name, length: 40)
+            = "#{truncate(comment.title, length: 80)}".html_safe
+          .milli.gray= truncate(comment.content, length: 150)
           %div.muted.text--right.milli{title: comment_rating_title(comment.rating), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
             Par
             = truncate(comment.author_name.titleize, length: 20).html_safe
@@ -19,7 +20,3 @@
           .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
             %meta{itemprop: 'url', content: commentable_url(comment)}
             %meta{itemprop: 'name', content: comment.commentable.name}
-      .flexbox__item.one-half.comment__content
-        = simple_format(truncate(comment.content, length: 130))
-        %meta{itemprop: 'reviewBody', content: comment.content}
-

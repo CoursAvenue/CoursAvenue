@@ -1,7 +1,9 @@
-.media__item.one-half.very-soft{class: media.video? ? 'media__item--video relative' : ''}>
+- lazy             = false unless lazy
+- width_class_name = 'one-half' unless width_class_name
+.media__item.very-soft{class: [(media.video? ? 'media__item--video relative' : ''), width_class_name]}>
   %a.soft-half.block.break-all{rel: 'gallery', href: media.url, title: media.caption, data: {behavior: "fancy"}}
     - if media.video?
-      = media.thumbnail_url_html lazy: true
+      = media.thumbnail_url_html lazy: lazy
       %i.fa.fa-youtube-play
     - else
       = media.url_html lazy: true

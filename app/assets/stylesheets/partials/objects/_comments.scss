@@ -36,15 +36,16 @@
     top       : -17px;
 }
 .quoted {
-    line-height: 1em;
+    line-height: 14px;
 }
 .quoted.quoted--large {
-    line-height: 1.4em;
+    line-height: 20px;
 }
 .quoted:after, .quoted:before {
-    font-size: 1.7em;
-    position : relative;
-    top      : 0.2em;
+    font-family: Georgia, serif;
+    font-size  : 1.7em;
+    position   : relative;
+    top        : 0.2em;
 }
 .quoted:after {
     content   : "\201D";

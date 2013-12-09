@@ -1,20 +1,20 @@
 = content_for :above_container do
   .home-screen
+    .main-container.relative{style: 'z-index: 1'}
+      .grid.home-screen-comment
+        .grid__item.one-fifth>
+          = link_to "http://www.coursavenue.com/etablissements/soraya#recommandation-907", class: 'muted-link block' do
+            = image_tag 'home-page/user-picture.png', class: 'block'
+        .grid__item.four-fifths>
+          %p.flush.quoted.epsilon.quoted--large
+            = link_to "Elle nous transmet à chaque cours toute sa passion et son amour de la danse orientale qu'elle maîtrise à la perfection avec beaucoup d'enthousiasme !", "http://www.coursavenue.com/etablissements/soraya#recommandation-907", class: 'muted-link'
+          .milli
+            = link_to 'Avis écrit par Sanaâ Sultana sur les cours de danse orientale de Soraya', "http://www.coursavenue.com/etablissements/soraya#recommandation-907", class: 'muted-link'
     %h1.text--center.home-screen-title.push--bottom
       Les élèves vous guident vers les meilleurs cours
     = render 'shared/home_page_search_form'
 
     - cache "home_screen_#{ENV["ETAG_VERSION_ID"]}" do
-      %ul#slideshow.slideshow.home-slideshow
-        - @homepage_images.each do |image, image_alt|
-          %li
-            = image_tag image, alt: image_alt
-
-= content_for :scripts do
-  :javascript
-    var slideshow;
-    $(function() {
-        $('#slideshow').cycle({
-            timeout: 15000
-        });
-    });
+      .slideshow.home-slideshow
+        %div
+          = image_tag 'home-page/dance.jpg', alt: 'Cours de danse'
