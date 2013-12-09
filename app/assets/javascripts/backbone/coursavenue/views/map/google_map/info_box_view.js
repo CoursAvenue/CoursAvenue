@@ -3,6 +3,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
     /* TODO break this out into its own file (it got big...) */
     Module.InfoBoxView = Backbone.Marionette.ItemView.extend({
+        template: '',
 
         constructor: function (options) {
             Backbone.Marionette.ItemView.prototype.constructor.apply(this, arguments);
