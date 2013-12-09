@@ -452,7 +452,7 @@ class Structure < ActiveRecord::Base
     self.course_names             = self.courses.map(&:name).uniq.join(', ')
     self.last_comment_title       = self.comments.accepted.first.title if self.comments.accepted.any?
     self.set_min_and_max_price
-    self.save
+    self.save(validate: false)
   end
 
   def set_min_and_max_price

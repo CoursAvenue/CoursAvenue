@@ -4,7 +4,6 @@ HomeIndexStructures.module('Views.Map.GoogleMap', function(Module, App, Backbone
 
     Module.GoogleMapsView = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
         template: Module.templateDirname() + 'google_maps_view',
-        markerView:          Module.MarkerView,
         infoBoxView:         Module.InfoBoxView,
 
         /* a default InfoBoxView is provided */
@@ -14,15 +13,15 @@ HomeIndexStructures.module('Views.Map.GoogleMap', function(Module, App, Backbone
         },
 
         /* adds a MarkerView to the map */
-        addChild: function(childModel) {
-
+        addChild: function(childModel, html) {
             var places = childModel.getRelation('places').related.models;
             var self = this;
 
             _.each(places, function (place) {
                 var markerView = new self.markerView({
                     model: place,
-                    map: self.map
+                    map: self.map,
+                    content: html // Nima: I don't think so.
                 });
 
                 self.markerViewChildren[place.cid] = markerView;
