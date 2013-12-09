@@ -60,17 +60,15 @@ $(document).ready(function() {
     *  in the sense that we will use most of the same models etc */
 
     /* we need a better way to do this: extend is not deep enough */
-    _our_gmaps      = HomeIndexStructures.Views.Map.GoogleMap;
-    _our_structure = HomeIndexStructures.Views.Map.GoogleMap;
 
     // I think we should cherry pick the module we want to extend from.
     // Or, the modules should now override already defined ones.
     _.each(FilteredSearch.submodules, function (module) {
         // Do not extend from structures
-        _.extend(HomeIndexStructures[module.moduleName], _.omit(FilteredSearch[module.moduleName], 'Structure', 'StructuresCollection'));
+        _.extend(HomeIndexStructures[module.moduleName],
+                _.omit(FilteredSearch[module.moduleName], 'Structure', 'StructuresCollection', 'Map'));
     });
 
-    HomeIndexStructures.Views.Map.GoogleMap = _our_gmaps;
 
     /* we only want the filteredsearch on the search page */
     if (HomeIndexStructures.detectRoot()) {
