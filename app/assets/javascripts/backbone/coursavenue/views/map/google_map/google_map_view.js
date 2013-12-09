@@ -60,49 +60,11 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         /* VIRTUAL */
         initialize: function () {
-throw(" \
-GoogleMapsView is a virtual constructor!\n \
-Objects extending from it must implement the following methods:\n \
-\n \
-    /* a default InfoBoxView is provided */\n \
-    initialize: function(options) {\n \
-        /* one info window that gets populated on each marker click */\n \
-        this.infoBox = new Module.InfoBoxView(options.infoBoxOptions);\n \
-\n \
-        // ... your initialization here\n \
-\n \
-    },\n \
-\n \
-    /* adds a MarkerView to the map */\n \
-    addChild: function(options) {\n \
-\n \
-        // ... your initialization here\n \
-\n \
-    },\n \
-");
+            this._throwInitializeError();
         },
-
         /* VIRTUAL */
         addChild: function () {
-throw(" \
-GoogleMapsView is a virtual constructor!\n \
-Objects extending from it must implement the following methods:\n \
-\n \
-    /* adds a MarkerView to the map */\n \
-    addChild: function(child_model) {\n \
-        /* here is an example implementation */\n\
-        var markerView = new self.markerView({\n\
-            model: child_model,\n\
-            map: this.map\n\
-        });\n\
-\n\
-        self.markerViewChildren[child_model.cid] = markerView;\n\
-        self.addChildViewEventForwarding(markerView); // buwa ha ha ha!\n\
-\n\
-        markerView.render();\n\
-\n \
-    },\n \
-");
+            this._throwAddChildError();
         },
 
         onItemviewCloseClick: function () {
@@ -250,6 +212,55 @@ Objects extending from it must implement the following methods:\n \
             return {
                 update_live: this.update_live
             };
+        },
+
+        _throwInitializeError: function () {
+            var error = '';
+            error += "GoogleMapsView is a virtual constructor!\n";
+            error += "Objects extending from it must implement the following methods:\n";
+            // TODO
+throw(" \
+GoogleMapsView is a virtual constructor!\n \
+Objects extending from it must implement the following methods:\n \
+\n \
+    /* a default InfoBoxView is provided */\n \
+    initialize: function(options) {\n \
+        /* one info window that gets populated on each marker click */\n \
+        this.infoBox = new Module.InfoBoxView(options.infoBoxOptions);\n \
+\n \
+        // ... your initialization here\n \
+\n \
+    },\n \
+\n \
+    /* adds a MarkerView to the map */\n \
+    addChild: function(options) {\n \
+\n \
+        // ... your initialization here\n \
+\n \
+    },\n \
+");
+        },
+        _throwAddChildError: function() {
+throw(" \
+GoogleMapsView is a virtual constructor!\n \
+Objects extending from it must implement the following methods:\n \
+\n \
+    /* adds a MarkerView to the map */\n \
+    addChild: function(child_model) {\n \
+        /* here is an example implementation */\n\
+        var markerView = new self.markerView({\n\
+            model: child_model,\n\
+            map: this.map\n\
+        });\n\
+\n\
+        self.markerViewChildren[child_model.cid] = markerView;\n\
+        self.addChildViewEventForwarding(markerView); // buwa ha ha ha!\n\
+\n\
+        markerView.render();\n\
+\n \
+    },\n \
+");
         }
+
     });
 });
