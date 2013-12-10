@@ -438,10 +438,21 @@ class Structure < ActiveRecord::Base
     read_attribute(:audience_ids).split(',').map(&:to_i) if read_attribute(:audience_ids)
   end
 
-  # Synced attributes are:
-  #    :audience_ids
-  #    :gives_group_courses
-  #    :gives_individual_courses
+  # Augment methods to have them return boolean
+  %w[has_promotion gives_group_courses gives_individual_courses has_free_trial_course].each do |key|
+    scope "has_#{key}", ->(value) { where("meta_data @> hstore(?, ?)", key, value) }
+
+    define_method("#{key}") do
+      if meta_data && meta_data[key].present? then
+        ActiveRecord::ConnectionAdapters::Column.value_to_boolean(meta_data[key])
+      else
+        nil
+      end
+    end
+  end
+
+
+  # Synced attributes
   def update_meta_datas
     self.plannings_count          = self.plannings.count
     self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
