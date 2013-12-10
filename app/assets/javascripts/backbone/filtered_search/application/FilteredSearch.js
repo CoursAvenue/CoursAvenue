@@ -23,6 +23,7 @@ FilteredSearch.addInitializer(function(options) {
             'map:bounds':          'filterQuery',
             'filter:subject':      'filterQuery',
             'filter:level':        'filterQuery',
+            'filter:audience':     'filterQuery',
             'filter:course_type':  'filterQuery',
             'filter:search_term':  'filterQuery',
             'filter:location':     'filterQuery',
@@ -71,6 +72,7 @@ FilteredSearch.addInitializer(function(options) {
     /* advanced filters */
     level_filter              = new FiltersModule.LevelFilterView({});
     course_type_filter        = new FiltersModule.CourseTypeFilterView({});
+    audience_filter           = new FiltersModule.AudienceFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -99,6 +101,7 @@ FilteredSearch.addInitializer(function(options) {
 
     layout.showWidget(level_filter);
     layout.showWidget(course_type_filter);
+    layout.showWidget(audience_filter);
 
     layout.master.show(structures_view);
 });
