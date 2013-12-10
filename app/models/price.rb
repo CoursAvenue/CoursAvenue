@@ -14,10 +14,24 @@ class Price < ActiveRecord::Base
 
   has_one :structure, through: :course
 
-  scope :book_tickets , -> { where(type: 'Price::BookTicket') }
-  scope :subscriptions, -> { where(type: 'Price::Subscription') }
-  scope :registrations, -> { where(type: 'Price::Registration') }
-  scope :discounts    , -> { where(type: 'Price::Discount') }
+  # BookTickets
+  scope :book_tickets      , -> { where{type == 'Price::BookTicket'} }
+  # Retrieve individual courses
+  scope :individual        , -> { where{ number == 1} }
+  # Retrieve actual book tickets
+  scope :multiple_only     , -> { where{ number > 1} }
+
+  # BookTickets
+  scope :subscriptions     , -> { where(type: 'Price::Subscription') }
+  scope :annual            , -> { where(libelle: 'prices.subscription.annual') }
+  scope :trimestrial       , -> { where(libelle: 'prices.subscription.semester') }
+  scope :semestrial        , -> { where(libelle: 'prices.subscription.trimester') }
+  scope :monthly           , -> { where(libelle: 'prices.subscription.month') }
+
+  # Registration
+  scope :registrations     , -> { where(type: 'Price::Registration') }
+  # Discounts
+  scope :discounts         , -> { where(type: 'Price::Discount') }
 
   def free?
     false

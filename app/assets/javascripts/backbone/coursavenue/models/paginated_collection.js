@@ -73,7 +73,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
                     value = value.call(self);
                 }
                 // When value is an array, should be splitted as following:
-                // request.com/?level_ids[]=1&level_ids[]=2
+                // ...&level_ids[]=1&level_ids[]=2
                 if (_.isArray(value)) {
                     var new_keys = '';
                     _.each(value, function(array_value) {

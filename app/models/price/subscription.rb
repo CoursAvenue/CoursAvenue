@@ -4,6 +4,7 @@ class Price::Subscription < Price
   #   prices.subscription.semester: Abonnement semestriel
   #   prices.subscription.trimester: Abonnement trimestriel
   #   prices.subscription.month: Abonnement mensuel
+
   TYPES = ['prices.subscription.annual',
            'prices.subscription.semester',
            'prices.subscription.trimester',

@@ -35,8 +35,9 @@ class StructureSearch
         with("#{name}_max_price".to_sym).greater_than params["#{name}_min_price".to_sym] if params["#{name}_min_price".to_sym].present?
         with("#{name}_min_price".to_sym).less_than    params["#{name}_max_price".to_sym] if params["#{name}_max_price".to_sym].present?
       end
-        # with(:max_price).greater_than params[:min_price]                    if params[:min_price].present?
-        # with(:min_price).less_than    params[:max_price]                    if params[:max_price].present?
+
+      # with(:max_price).greater_than params[:min_price]                    if params[:min_price].present?
+      # with(:min_price).less_than    params[:max_price]                    if params[:max_price].present?
 
       with :active,  true
 
