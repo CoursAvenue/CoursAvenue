@@ -92,7 +92,9 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 address_name: (data.server_api.address_name ? decodeURIComponent(data.server_api.address_name) : ""),
                 name:         (data.server_api.name ? decodeURIComponent(data.server_api.name) : ""),
                 subject_id:   (data.server_api.subject_id ? decodeURIComponent(data.server_api.subject_id) : ""),
-                level_value:  (data.server_api.level_value ? decodeURIComponent(data.server_api.level_value) : "")
+                level_value:  (data.server_api.level_value ? decodeURIComponent(data.server_api.level_value) : ""),
+                course_type:  (data.server_api.course_type ? decodeURIComponent(data.server_api.course_type) : ""),
+                audience:  (data.server_api.audience ? decodeURIComponent(data.server_api.audience) : "")
             });
 
             this.trigger('structures:updated:maps');
