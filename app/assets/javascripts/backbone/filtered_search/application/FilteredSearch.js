@@ -10,6 +10,8 @@ FilteredSearch.addInitializer(function(options) {
     bootstrap = window.coursavenue.bootstrap;
 
     // Create an instance of your class and populate with the models of your entire collection
+    /* TODO so much repetition down there, should be able to specify a comma separated list of events
+    *  to be handled by a single callback */
     structures      = new FilteredSearch.Models.StructuresCollection(bootstrap.models, bootstrap.options);
     structures_view = new FilteredSearch.Views.StructuresCollection.StructuresCollectionView({
         collection: structures,
@@ -20,6 +22,7 @@ FilteredSearch.addInitializer(function(options) {
             'filter:summary':      'filterQuery',
             'map:bounds':          'filterQuery',
             'filter:subject':      'filterQuery',
+            'filter:level':        'filterQuery',
             'filter:search_term':  'filterQuery',
             'filter:location':     'filterQuery',
             'map:marker:focus':    'findItemView',
@@ -57,12 +60,15 @@ FilteredSearch.addInitializer(function(options) {
 
     var FiltersModule = FilteredSearch.Views.StructuresCollection.Filters;
 
-    /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
+    /* basic filters */
     infinite_scroll_button    = new FiltersModule.InfiniteScrollButtonView({});
     results_summary           = new FiltersModule.ResultsSummaryView({});
     subject_filter            = new FiltersModule.SubjectFilterView({});
     keyword_filter            = new FiltersModule.KeywordFilterView({});
     location_filter           = new FiltersModule.LocationFilterView({});
+
+    /* advanced filters */
+    level_filter           = new FiltersModule.LevelFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -88,6 +94,8 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(results_summary);
     layout.showWidget(subject_filter);
     layout.showWidget(infinite_scroll_button);
+
+    layout.showWidget(level_filter);
 
     layout.master.show(structures_view);
 });

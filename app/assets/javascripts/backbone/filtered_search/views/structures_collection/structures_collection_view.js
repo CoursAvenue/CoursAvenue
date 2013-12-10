@@ -91,7 +91,8 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             this.trigger('structures:updated:filter', {
                 address_name: (data.server_api.address_name ? decodeURIComponent(data.server_api.address_name) : ""),
                 name:         (data.server_api.name ? decodeURIComponent(data.server_api.name) : ""),
-                subject_id:   (data.server_api.subject_id ? decodeURIComponent(data.server_api.subject_id) : "")
+                subject_id:   (data.server_api.subject_id ? decodeURIComponent(data.server_api.subject_id) : ""),
+                level_value:  (data.server_api.level_value ? decodeURIComponent(data.server_api.level_value) : "")
             });
 
             this.trigger('structures:updated:maps');
