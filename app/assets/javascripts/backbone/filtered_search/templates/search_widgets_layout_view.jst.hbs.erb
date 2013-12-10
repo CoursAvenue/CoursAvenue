@@ -14,8 +14,21 @@
         <div data-type="results-summary"></div>
     </header>
 
-    <div id="search-results">
-    </div>
+    </header class="flexbox">
+        <button class="one-eigths" data-toggle="tab" data-target="[data-tab=advanced-filters]">More Filters</button>
+        <div class="six-eigths" data-type="filter-breadcrumbs"></div>
+    <header>
+
+
+    <div class="filtered-search__tab-group" data-type="filters-results" data-behaviour="tab-group">
+        <div class="tab-pane" data-tab="advanced-filters">
+            <h6>Advanced Filters</h6>
+
+            <button class="one-eigths" data-toggle="tab" data-target="[data-tab=search-results]">Less Filters</button>
+        </div>
+        <div class="active tab-pane" id="search-results" data-tab="search-results"></div>
+    <div>
+
     <div class="filtered-search__infinite-scroll text--center" data-type="infinite-scroll-button"></div>
 
 </section>
