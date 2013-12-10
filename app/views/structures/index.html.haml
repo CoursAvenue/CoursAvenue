@@ -44,8 +44,3 @@
   = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20
 #filtered-search.filtered-search{ :data => { :type => "filtered-search-root" }}
 
-= content_for :scripts do
-  :javascript
-      $(function() {
-        $('body').stickem(); // For the stickiness of the sidebar
-    });

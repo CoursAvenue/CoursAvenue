@@ -69,12 +69,20 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             return _.reduce(_.pairs(params), function (memo, pair) {
                 var key = pair[0];
                 var value = pair[1];
-
-                if (typeof value === 'function') {
+                if (_.isFunction(value)) {
                     value = value.call(self);
                 }
-
-                return memo + key + '=' + encodeURIComponent(value) + '&';
+                // When value is an array, should be splitted as following:
+                // request.com/?level_ids[]=1&level_ids[]=2
+                if (_.isArray(value)) {
+                    var new_keys = '';
+                    _.each(value, function(array_value) {
+                        new_keys += key + '=' + encodeURIComponent(array_value) + '&';
+                    });
+                    return memo + new_keys;
+                } else {
+                    return memo + key + '=' + encodeURIComponent(value) + '&';
+                }
             }, "?").slice(0, -1); // damn trailing character!
         },
 
@@ -85,9 +93,15 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
 
             return _.reduce(data, function (memo, datum) {
                 var pair = datum.split('='); // assume there are no equal signs in the value
-
-                memo[pair[0]] = pair[1];
-
+                // If the key (memo[pair[0]]) already exists, then it's an array.
+                // Example: &level_ids[]=1&level_ids[]=2
+                if (memo[pair[0]]) {
+                    var array = [memo[pair[0]], pair[1]]
+                    // We flatten the array in case the last memo was an array
+                    memo[pair[0]] = _.flatten(array);
+                } else {
+                    memo[pair[0]] = pair[1];
+                }
                 return memo;
             }, {});
         },
