@@ -174,7 +174,7 @@ class Structure < ActiveRecord::Base
       self.level_ids
     end
 
-    %w(per_course book_ticket annual_subscription trimestrial_subscription).each do |name|
+    %w(per_course book_ticket annual_subscription semestrial_subscription trimestrial_subscription monthly_subscription).each do |name|
       integer "#{name}_min_price".to_sym do
         self.min_price_amount_for(name)
       end
@@ -515,14 +515,35 @@ class Structure < ActiveRecord::Base
   end
 
   def min_price_amount_for(type)
-    1
+    price = price_amount_for_scope(type).order('amount ASC').first
+    price.amount.to_i if price
   end
 
   def max_price_amount_for(type)
-    1
+    price = price_amount_for_scope(type).order('amount DESC').first
+    price.amount.to_i if price
   end
 
   private
+
+  # Return the scoped price for a given type.
+  # Used in search
+  def price_amount_for_scope(type)
+    case type
+    when 'per_course'
+      self.prices.book_tickets.individual
+    when 'book_ticket'
+      self.prices.book_tickets.multiple_only
+    when 'annual_subscription'
+      self.prices.subscriptions.annual
+    when 'semestrial_subscription'
+      self.prices.subscriptions.semestrial
+    when 'trimestrial_subscription'
+      self.prices.subscriptions.trimestrial
+    when 'monthly_subscription'
+      self.prices.subscriptions.monthly
+    end
+  end
 
   def logo_has_changed?
     self.logo.dirty?
