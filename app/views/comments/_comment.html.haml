@@ -31,7 +31,7 @@
 
           - if can?(:destroy, comment)
             - if comment.pending?
-              %span.lbl.lbl--orange.nowrap Avis en cours de validation
+              %span.lbl--small.lbl.lbl--orange.nowrap Avis en cours de validation
             - elsif comment.declined?
               %span.lbl.lbl--red.nowrap Avis rejeté
         %span.rating{title: comment_rating_title(5), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}

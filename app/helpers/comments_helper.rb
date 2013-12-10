@@ -8,9 +8,9 @@ module CommentsHelper
   def share_comment_url comment, provider=:facebook
     case provider
     when :facebook
-      "http://www.facebook.com/sharer.php?s=100&p[title]=#{comment.title}&p[url]=#{URI.encode(structure_comment_url(comment))}&p[summary]=#{truncate(comment.content, length: 200)}"
+      URI.encode("http://www.facebook.com/sharer.php?s=100&p[title]=\"#{comment.title}\" par #{comment.author_name}&p[url]=#{structure_comment_url(comment)}&p[summary]=#{truncate(comment.content, length: 200)}")
     when :twitter
-      "https://twitter.com/intent/tweet?text=#{comment.title}&via=CoursAvenue&url=#{URI.encode(structure_comment_url(comment))}"
+      URI.encode("https://twitter.com/intent/tweet?text=\"#{comment.title}\" par #{comment.author_name}&via=CoursAvenue&url=#{structure_comment_url(comment)}")
     end
   end
   def comment_rating_title rating
