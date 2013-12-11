@@ -99,6 +99,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 max_age_for_kids: (data.server_api.max_age_for_kids  ? decodeURIComponent(data.server_api.max_age_for_kids) : ''),
                 structure_type:   (data.server_api.structure_type    ? decodeURIComponent(data.server_api.structure_type)   : ''),
                 funding_type:     (data.server_api.funding_type      ? decodeURIComponent(data.server_api.funding_type)     : '')
+                discount_type:  (data.server_api.discount_type    ? decodeURIComponent(data.server_api.discount_type)  : "")
             });
 
             this.trigger('structures:updated:maps');
