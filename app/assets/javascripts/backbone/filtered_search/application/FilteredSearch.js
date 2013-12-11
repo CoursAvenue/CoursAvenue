@@ -26,6 +26,7 @@ FilteredSearch.addInitializer(function(options) {
             'filter:audience':         'filterQuery',
             'filter:course_type':      'filterQuery',
             'filter:structure_type':   'filterQuery',
+            'filter:payment_method':   'filterQuery',
             'filter:search_term':      'filterQuery',
             'filter:location':         'filterQuery',
             'map:marker:focus':        'findItemView',
@@ -75,6 +76,7 @@ FilteredSearch.addInitializer(function(options) {
     course_type_filter        = new FiltersModule.CourseTypeFilterView({});
     audience_filter           = new FiltersModule.AudienceFilterView({});
     structure_type_filter     = new FiltersModule.StructureTypeFilterView({});
+    payment_method_filter     = new FiltersModule.PaymentMethodFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -105,6 +107,7 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(course_type_filter);
     layout.showWidget(audience_filter);
     layout.showWidget(structure_type_filter);
+    layout.showWidget(payment_method_filter);
 
     layout.master.show(structures_view);
 });
