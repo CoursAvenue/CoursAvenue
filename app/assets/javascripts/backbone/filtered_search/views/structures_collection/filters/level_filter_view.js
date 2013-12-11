@@ -17,7 +17,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         announce: function (e, data) {
-            // var level_value = e.currentTarget.getAttribute('value');
             var level_ids = _.map(this.$('[name="level_ids[]"]:checked'), function(input){ return input.value });
             this.trigger("filter:level", { 'level_ids[]': level_ids });
         },

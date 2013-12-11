@@ -8,33 +8,40 @@
 </section>
 
 <section class="filtered-search__list-wrapper">
-    <header class="flexbox page-entries-wrapper soft-half">
-        <div class="one-whole" data-type="subject-filter"></div>
-        <div class="one-whole" data-type="keyword-filter"></div>
-        <div data-type="results-summary"></div>
-    </header>
+    <div class="white-box soft-half push-half--bottom">
 
-    <header class="flexbox">
-        <button class="one-eigths btn btn--small" data-toggle="tab" data-target="[data-tab=advanced-filters]">Plus de filtres</button>
-        <div class="seven-eigths" data-type="filter-breadcrumbs"></div>
-    </header>
+        <div data-type="subject-filter"></div>
+        <div data-type="keyword-filter"></div>
 
-
-    <div class="filtered-search__tab-group" data-type="filters-results" data-behaviour="tab-group">
-        <div class="tab-pane" data-tab="advanced-filters">
-            <h6>Advanced Filters</h6>
-
-            <div class="one-whole" data-type="level-filter"></div>
-            <div class="one-whole" data-type="course-type-filter"></div>
-            <div class="one-whole" data-type="audience-filter"></div>
-            <div class="one-whole" data-type="structure-type-filter"></div>
-            <div class="one-whole" data-type="payment-method-filter"></div>
-            <div class="one-whole" data-type="discount-filter"></div>
-            <div class="one-whole" data-type="date-filter"></div>
-            <button class="one-eigths" data-toggle="tab" data-target="[data-tab=search-results]">Less Filters</button>
+        <div class="flexbox">
+            <button class="one-eigth btn btn--small" data-toggle="tab" data-target="[data-tab=advanced-filters]"><i class="fa fa-filter soft-half--right"></i>FILTRES</button>
+            <div class="seven-eigths" data-type="filter-breadcrumbs"></div>
         </div>
-        <div class="active tab-pane" id="search-results" data-tab="search-results"></div>
-    <div>
+
+        <div class="filtered-search__tab-group" data-type="filters-results" data-behavior="tab-group">
+            <div class="tab-pane" data-tab="advanced-filters">
+                <div data-type="level-filter"></div>
+                <hr />
+                <div data-type="audience-filter"></div>
+                <hr />
+                <div data-type="course-type-filter"></div>
+                <hr />
+                <div data-type="structure-type-filter"></div>
+                <hr />
+                <div data-type="payment-method-filter"></div>
+                <hr />
+                <div class="one-whole" data-type="discount-filter"></div>
+                <hr />
+                <div class="one-whole" data-type="date-filter"></div>
+                <hr />
+                <button class="btn btn--blue btn--full text--center" data-toggle="tab" data-target="[data-tab=search-results]">Voir les résultats</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="soft-half--sides" data-type="results-summary"></div>
+
+    <div class="active tab-pane" id="search-results" data-tab="search-results"></div>
 
     <div class="filtered-search__infinite-scroll text--center" data-type="infinite-scroll-button"></div>
 

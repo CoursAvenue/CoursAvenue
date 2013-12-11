@@ -2,29 +2,26 @@
     <div class="grid__item one-fifth">
         <h5>Audience</h5>
     </div><!--
-    --><div class="grid__item four-fifths">
-          <div class="grid--full"><!--
-              --><div class="grid__item one-third">
-                  <label for="children">Enfants</label>
-                  <input class="text--center outlined-btn one-whole"  id="children" name="audience_ids" value="1" type="checkbox">
-              </div><!--
+ --><div class="grid__item four-fifths">
+        <div class="grid--full"><!--
+         --><div class="grid__item one-third">
+                <label class="inline soft-half--right "for="children">Enfants</label>
+                <input class="text--center" id="children" name="audience_ids[]" value="1" type="checkbox">
+            </div><!--
 
-              --><div class="grid__item one-third">
-                  <label for="adults">Adultes</label>
-                  <input class="text--center outlined-btn one-whole" id="adults" name="audience_ids" value="2"   type="checkbox">
-              </div><!--
+          --><div class="grid__item one-third">
+                <label class="inline soft-half--right "for="adults">Adultes</label>
+                <input class="text--center" id="adults" name="audience_ids[]" value="2" type="checkbox">
+            </div><!--
 
-
-              --><div class="grid__item one-third">
-                  <label for="seniors">Senior</label>
-                  <input class="text--center outlined-btn one-whole"  id="seniors" name="audience_ids" value="2"  type="checkbox">
-              </div><!--
-
-          --></div>
-          <div data-behaviour="age-picker">
-              <h6>Age Range</h6>
-              De <select id="min-age"></select>
-              a <select id="max-age"></select> ans.
-          </div>
+         --><div class="grid__item one-third">
+                <label class="inline soft-half--right "for="seniors">Senior</label>
+                <input class="text--center" id="seniors" name="audience_ids[]" value="2" type="checkbox">
+            </div><!--
+    --></div>
+        <div data-behavior="age-picker" class="push-half--bottom">
+            De <select id="min-age"></select>
+            à <select id="max-age"></select> ans.
+        </div>
     </div>
 </div>

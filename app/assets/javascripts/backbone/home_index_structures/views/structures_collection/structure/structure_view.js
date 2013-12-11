@@ -7,7 +7,7 @@ HomeIndexStructures.module('Views.StructuresCollection.Structure', function(Modu
         tagName: 'li',
         className: 'structure',
         attributes: {
-            'data-behaviour': 'top-structure'
+            'data-behavior': 'top-structure'
         },
 
         onRender: function() {
