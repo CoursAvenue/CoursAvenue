@@ -5,6 +5,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.PaymentMethodFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'payment_method_filter_view',
 
+        initialize: function() {
+            this.announce = _.debounce(this.announce, 800);
+        },
+
         setup: function (data) {
             this.ui.$select.val(data.funding_type);
         },

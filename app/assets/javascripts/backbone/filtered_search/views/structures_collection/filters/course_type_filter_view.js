@@ -5,6 +5,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.CourseTypeFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'course_type_filter_view',
 
+        initialize: function() {
+            this.announce = _.debounce(this.announce, 800);
+        },
+
         setup: function (data) {
             var self = this;
             _.each(data.course_types, function(course_type) {
@@ -22,7 +26,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         activateInput: function(course_type) {
-            this.$('[value=' + course_type + ']').prop('checked', true);
+             var $input = this.$('[value=' + course_type + ']');
+            $input.prop('checked', true);
+            $input.parent('.btn').addClass('active');
         }
     });
 });

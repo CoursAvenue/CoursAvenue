@@ -1,21 +1,20 @@
 <div class="grid--full">
-    <div class="grid__item v-top one-fifth">
+    <div class="grid__item v-middle one-fifth">
         <strong class="gray">Type de cours</strong>
     </div><!--
- --><div class="grid__item v-top four-fifths">
-        <div class="btn-group"><!--
+ --><div class="grid__item v-middle four-fifths">
+        <div class="btn-group" data-toggle="buttons"><!--
             --><label class="btn" for="lesson">
-                    <input id="lesson" name="course_type" value="lesson" type="checkbox">
+                    <input id="lesson" name="course_types[]" value="lesson" type="checkbox">
                     Cours régulier
                </label><!--
             --><label class="btn" for="training">
-                    <input id="training" name="course_type" value="training" type="checkbox">
+                    <input id="training" name="course_types[]" value="training" type="checkbox">
                     Cours-atelier
                </label><!--
             --><label class="btn" for="workshop">
-                    <input id="workshop" name="course_type" value="workshop" type="checkbox">
-                    Stage</label
-                ><!--
+                    <input id="workshop" name="course_types[]" value="workshop" type="checkbox">
+                    Stage</label><!--
       --></div>
     </div>
 </div>
