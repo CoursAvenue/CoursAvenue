@@ -4,11 +4,9 @@
     </div><!--
  --><div class="grid__item v-top four-fifths">
       <select>
-        {{#each structure_types}}
-          <% Structure::STRUCTURE_TYPES.each do |s| %>
-              <option value="<%= s %>"><%= I18n.t(s) %></option>
-          <% end %>
-        {{/each}}
+        <% Structure::STRUCTURE_TYPES.each do |structure_type| %>
+            <option value="<%= structure_type %>"><%= I18n.t(structure_type) %></option>
+        <% end %>
       <select>
     </div>
 </div>
