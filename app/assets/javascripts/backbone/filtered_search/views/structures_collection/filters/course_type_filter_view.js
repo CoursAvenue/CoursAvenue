@@ -19,10 +19,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.activateButton(value);
         },
 
-        disabledButton: function(data) {
-            this.$('[value=' + data + ']').removeClass('active');
-        },
-
         activateButton: function(data) {
             this.$('[type="radio"]').prop('checked', false);
             this.$('[value=' + data + ']').prop('checked', true);
