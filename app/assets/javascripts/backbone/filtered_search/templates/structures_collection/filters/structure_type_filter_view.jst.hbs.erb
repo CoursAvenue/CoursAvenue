@@ -5,7 +5,9 @@
  --><div class="grid__item v-top four-fifths">
       <select>
         {{#each structure_types}}
-        <option value="{{this}}">{{this}}</option>
+          <% Structure::STRUCTURE_TYPES.each do |s| %>
+              <option value="<%= s %>"><%= I18n.t(s) %></option>
+          <% end %>
         {{/each}}
       <select>
     </div>

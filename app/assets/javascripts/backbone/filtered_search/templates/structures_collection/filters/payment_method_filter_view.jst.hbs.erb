@@ -1,0 +1,12 @@
+<div class="grid--full">
+    <div class="grid__item v-top one-fifth">
+        <strong class="gray">Financements acceptés</strong>
+    </div><!--
+ --><div class="grid__item v-top four-fifths">
+      <select>
+        <% FundingType.all.map(&:name).each do |k| %>
+            <option value="<%= k %>"><%= I18n.t(k) %></option>
+        <% end %>
+      <select>
+    </div>
+</div>

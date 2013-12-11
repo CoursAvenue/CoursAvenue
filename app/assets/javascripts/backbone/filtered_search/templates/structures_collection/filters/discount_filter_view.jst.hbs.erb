@@ -1,12 +1,12 @@
 <div class="grid--full">
     <div class="grid__item v-top one-fifth">
-        <strong class="gray">Financements acceptés</strong>
+        <strong class="gray">Tarifs réduits</strong>
     </div><!--
  --><div class="grid__item v-top four-fifths">
       <select>
-        {{#each payment_methods}}
-        <option value="{{this}}">{{this}}</option>
-        {{/each}}
+        <% Price::Discount::TYPES.each do |s| %>
+        <option value="<%= s %>"><%= I18n.t(s) %></option>
+        <% end %>
       <select>
     </div>
 </div>

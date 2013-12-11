@@ -9,10 +9,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.ui.$select.val(data.funding_type);
         },
 
-        serializeData: function(data) {
-            return { payment_methods: coursavenue.bootstrap.funding_types };
-        },
-
         ui: {
             '$select': 'select'
         },
@@ -23,7 +19,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announce: function (e, data) {
             var value = this.ui.$select.val();
-            console.log(value);
             this.trigger("filter:payment_method", { 'funding_type': value });
         }
     });
