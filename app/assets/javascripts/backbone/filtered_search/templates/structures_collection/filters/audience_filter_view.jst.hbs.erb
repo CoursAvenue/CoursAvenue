@@ -6,7 +6,7 @@
         <div class="btn-group" data-toggle="buttons"><!--
         --><% Audience.all.each do |audience| %><!--
              --><label class="btn">
-                    <input type="checkbox" name="options" value="<%= audience.id %>"><%= I18n.t(audience.name) %>
+                    <input type="checkbox" name="audience_ids[]" value="<%= audience.id %>"><%= I18n.t(audience.name) %>
                 </label><!--
         --><% end %><!--
     --></div>

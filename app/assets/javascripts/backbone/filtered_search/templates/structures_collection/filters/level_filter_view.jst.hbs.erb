@@ -6,7 +6,7 @@
         <div class="btn-group" data-toggle="buttons"><!--
         --><% Level.all.each do |level| %><!--
              --><label class="btn">
-                    <input type="checkbox" name="options" value="<%= level.id %>"><%= I18n.t(level.name) %>
+                    <input type="checkbox" name="level_ids[]" value="<%= level.id %>"><%= I18n.t(level.name) %>
                 </label><!--
         --><% end %><!--
     --></div>
