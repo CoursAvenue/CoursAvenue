@@ -181,7 +181,7 @@ class Structure < ActiveRecord::Base
     end
 
     string :discounts, multiple: true do
-      self.prices.discounts.map{ |discount| discount.libelle.split(',').last }.uniq
+      self.prices.discounts.collect{ |discount| discount.libelle.split('.').last }.uniq
     end
 
     integer :funding_type_ids, multiple: true do
@@ -189,7 +189,7 @@ class Structure < ActiveRecord::Base
     end
 
     string :structure_type do
-      self.structure_type.split(',').last if self.structure_type
+      self.structure_type.split('.').last if self.structure_type
     end
 
     integer :audience_ids, multiple: true do

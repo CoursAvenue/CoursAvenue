@@ -5,7 +5,7 @@
  --><div class="grid__item v-middle four-fifths">
       <select data-behavior="chosen" multiple style="width: 100%;">
         <% Structure::STRUCTURE_TYPES.each do |structure_type| %>
-            <option value="<%= structure_type.split(',').last %>"><%= I18n.t(structure_type) %></option>
+            <option value="<%= structure_type.split('.').last %>"><%= I18n.t(structure_type) %></option>
         <% end %>
       <select>
     </div>
