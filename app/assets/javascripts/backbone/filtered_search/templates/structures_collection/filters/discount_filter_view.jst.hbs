@@ -1,6 +1,12 @@
-<h5>Discounts</h5>
-<select>
-{{#each discount_types}}
-<option value="{{this}}">{{this}}</option>
-{{/each}}
-<select>
+<div class="grid--full">
+    <div class="grid__item v-top one-fifth">
+        <strong class="gray">Tarifs réduits</strong>
+    </div><!--
+ --><div class="grid__item v-top four-fifths">
+      <select>
+        {{#each discount_types}}
+        <option value="{{this}}">{{this}}</option>
+        {{/each}}
+      <select>
+    </div>
+</div>
