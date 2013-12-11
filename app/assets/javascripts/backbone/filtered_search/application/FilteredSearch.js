@@ -16,19 +16,21 @@ FilteredSearch.addInitializer(function(options) {
     structures_view = new FilteredSearch.Views.StructuresCollection.StructuresCollectionView({
         collection: structures,
         events: {
-            'pagination:next':     'nextPage',
-            'pagination:prev':     'prevPage',
-            'pagination:page':     'goToPage',
-            'filter:summary':      'filterQuery',
-            'map:bounds':          'filterQuery',
-            'filter:subject':      'filterQuery',
-            'filter:level':        'filterQuery',
-            'filter:audience':     'filterQuery',
-            'filter:course_type':  'filterQuery',
-            'filter:search_term':  'filterQuery',
-            'filter:location':     'filterQuery',
-            'map:marker:focus':    'findItemView',
-            'structures:updated':  'renderSlideshows'
+            'pagination:next':         'nextPage',
+            'pagination:prev':         'prevPage',
+            'pagination:page':         'goToPage',
+            'filter:summary':          'filterQuery',
+            'map:bounds':              'filterQuery',
+            'filter:subject':          'filterQuery',
+            'filter:level':            'filterQuery',
+            'filter:audience':         'filterQuery',
+            'filter:course_type':      'filterQuery',
+            'filter:structure_type':   'filterQuery',
+            'filter:payment_method':   'filterQuery',
+            'filter:search_term':      'filterQuery',
+            'filter:location':         'filterQuery',
+            'map:marker:focus':        'findItemView',
+            'structures:updated':      'renderSlideshows'
         }
     });
 
@@ -73,6 +75,8 @@ FilteredSearch.addInitializer(function(options) {
     level_filter              = new FiltersModule.LevelFilterView({});
     course_type_filter        = new FiltersModule.CourseTypeFilterView({});
     audience_filter           = new FiltersModule.AudienceFilterView({});
+    structure_type_filter     = new FiltersModule.StructureTypeFilterView({});
+    payment_method_filter     = new FiltersModule.PaymentMethodFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -102,6 +106,8 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(level_filter);
     layout.showWidget(course_type_filter);
     layout.showWidget(audience_filter);
+    layout.showWidget(structure_type_filter);
+    layout.showWidget(payment_method_filter);
 
     layout.master.show(structures_view);
 });
