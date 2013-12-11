@@ -96,7 +96,8 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 course_type:  (data.server_api.course_type ? decodeURIComponent(data.server_api.course_type) : ""),
                 audience:  (data.server_api.audience ? decodeURIComponent(data.server_api.audience) : ""),
                 structure_type:  (data.server_api.structure_type ? decodeURIComponent(data.server_api.structure_type) : ""),
-                funding_type:  (data.server_api.funding_type ? decodeURIComponent(data.server_api.funding_type) : "")
+                funding_type:  (data.server_api.funding_type ? decodeURIComponent(data.server_api.funding_type) : ""),
+                discount_type:  (data.server_api.discount_type ? decodeURIComponent(data.server_api.discount_type) : "")
             });
 
             this.trigger('structures:updated:maps');
