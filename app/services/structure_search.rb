@@ -28,16 +28,25 @@ class StructureSearch
       end
 
       # --------------- Other filters
-      with(:audience_ids).any_of    params[:audience_ids].map(&:to_i)     if params[:audience_ids].present?
-      with(:level_ids).any_of       params[:level_ids].map(&:to_i)        if params[:level_ids].present?
+      with(:audience_ids).any_of           params[:audience_ids].map(&:to_i)       if params[:audience_ids].present?
+      with(:level_ids).any_of              params[:level_ids].map(&:to_i)          if params[:level_ids].present?
 
+      with(:course_type).any_of            params[:course_types]                   if params[:course_types].present?
+
+      with :has_trial_course, true                                                 if params[:has_trial_course].present?
+
+      with(:trial_course_amount).less_than params[:trial_course_amount]            if params[:trial_course_amount].present?
+
+      with(:discounts).any_of              params[:discounts]                      if params[:discounts].present?
+      with(:funding_type_ids).any_of       params[:funding_type_ids].map(&:to_i)   if params[:funding_type_ids].present?
+
+      with :structure_type, params[:structure_type]                                if params[:funding_type_ids].present?
+
+      # --------------- Iterating over all types of prices
       %w(per_course book_ticket annual_subscription trimestrial_subscription).each do |name|
         with("#{name}_max_price".to_sym).greater_than params["#{name}_min_price".to_sym] if params["#{name}_min_price".to_sym].present?
         with("#{name}_min_price".to_sym).less_than    params["#{name}_max_price".to_sym] if params["#{name}_max_price".to_sym].present?
       end
-
-      # with(:max_price).greater_than params[:min_price]                    if params[:min_price].present?
-      # with(:min_price).less_than    params[:max_price]                    if params[:max_price].present?
 
       with :active,  true
 
