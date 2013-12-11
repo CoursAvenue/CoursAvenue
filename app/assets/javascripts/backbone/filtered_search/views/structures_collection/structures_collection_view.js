@@ -89,14 +89,16 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             /* announce the filters used in the current result set */
             this.trigger('structures:updated:filter', {
-                address_name:  (data.server_api.address_name      ? decodeURIComponent(data.server_api.address_name)   : ''),
-                name:          (data.server_api.name              ? decodeURIComponent(data.server_api.name)           : ''),
-                subject_id:    (data.server_api.subject_id        ? decodeURIComponent(data.server_api.subject_id)     : ''),
-                level_ids:     (data.server_api['level_ids[]']    ? data.server_api['level_ids[]']                     : ''),
-                audience_ids:  (data.server_api['audience_ids[]'] ? data.server_api['audience_ids[]']                  : ''),
-                course_type:   (data.server_api.course_type       ? decodeURIComponent(data.server_api.course_type)    : ''),
-                structure_type:(data.server_api.structure_type    ? decodeURIComponent(data.server_api.structure_type) : ''),
-                funding_type:  (data.server_api.funding_type      ? decodeURIComponent(data.server_api.funding_type)   : '')
+                address_name:     (data.server_api.address_name      ? decodeURIComponent(data.server_api.address_name)     : ''),
+                name:             (data.server_api.name              ? decodeURIComponent(data.server_api.name)             : ''),
+                subject_id:       (data.server_api.subject_id        ? decodeURIComponent(data.server_api.subject_id)       : ''),
+                level_ids:        (data.server_api['level_ids[]']    ? data.server_api['level_ids[]']                       : ''),
+                audience_ids:     (data.server_api['audience_ids[]'] ? data.server_api['audience_ids[]']                    : ''),
+                course_types:     (data.server_api['course_types[]'] ? data.server_api['course_types[]']                    : ''),
+                min_age_for_kids: (data.server_api.min_age_for_kids  ? decodeURIComponent(data.server_api.min_age_for_kids) : ''),
+                max_age_for_kids: (data.server_api.max_age_for_kids  ? decodeURIComponent(data.server_api.max_age_for_kids) : ''),
+                structure_type:   (data.server_api.structure_type    ? decodeURIComponent(data.server_api.structure_type)   : ''),
+                funding_type:     (data.server_api.funding_type      ? decodeURIComponent(data.server_api.funding_type)     : '')
             });
 
             this.trigger('structures:updated:maps');

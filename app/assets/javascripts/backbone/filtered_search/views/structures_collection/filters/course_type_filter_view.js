@@ -6,22 +6,23 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         template: Module.templateDirname() + 'course_type_filter_view',
 
         setup: function (data) {
-            this.activateButton(data.course_type);
+            var self = this;
+            _.each(data.course_types, function(course_type) {
+                self.activateInput(course_type);
+            });
         },
 
         events: {
-            'change [type="radio"]': 'announceSubject'
+            'change input': 'announce'
         },
 
-        announceSubject: function (e, data) {
-            var value = e.currentTarget.getAttribute('value');
-            this.trigger("filter:course_type", { 'course_type': value });
-            this.activateButton(value);
+        announce: function (e, data) {
+            var course_types = _.map(this.$('[name="course_types[]"]:checked'), function(input){ return input.value });
+            this.trigger("filter:level", { 'course_types[]': course_types });
         },
 
-        activateButton: function(data) {
-            this.$('[type="radio"]').prop('checked', false);
-            this.$('[value=' + data + ']').prop('checked', true);
+        activateInput: function(course_type) {
+            this.$('[value=' + course_type + ']').prop('checked', true);
         }
     });
 });

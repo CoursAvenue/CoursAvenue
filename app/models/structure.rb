@@ -167,7 +167,7 @@ class Structure < ActiveRecord::Base
     end
 
     string :course_type, multiple: true do
-      self.courses.map(&:type).uniq
+      self.courses.map(&:underscore_name).uniq
     end
 
     boolean :has_trial_course do
