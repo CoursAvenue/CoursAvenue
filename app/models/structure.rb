@@ -181,7 +181,7 @@ class Structure < ActiveRecord::Base
     end
 
     string :discounts, multiple: true do
-      self.prices.discounts.map(&:libelle).uniq
+      self.prices.discounts.map{ |discount| discount.libelle.split(',').last }.uniq
     end
 
     integer :funding_type_ids, multiple: true do
@@ -189,7 +189,7 @@ class Structure < ActiveRecord::Base
     end
 
     string :structure_type do
-      self.structure_type
+      self.structure_type.split(',').last if self.structure_type
     end
 
     integer :audience_ids, multiple: true do
@@ -201,11 +201,11 @@ class Structure < ActiveRecord::Base
     end
 
     integer :min_age_for_kid do
-      self.plannings.map(&:min_age_for_kid).min
+      self.plannings.map(&:min_age_for_kid).compact.min
     end
 
     integer :max_age_for_kid do
-      self.plannings.map(&:max_age_for_kid).max
+      self.plannings.map(&:max_age_for_kid).compact.max
     end
 
     %w(per_course book_ticket annual_subscription semestrial_subscription trimestrial_subscription monthly_subscription).each do |name|

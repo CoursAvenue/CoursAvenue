@@ -4,8 +4,8 @@
     </div><!--
  --><div class="grid__item v-middle four-fifths">
       <select data-behavior="chosen" multiple style="width: 100%;">
-        <% FundingType.all.map(&:name).each do |funding_type| %>
-            <option value="<%= funding_type %>"><%= I18n.t(funding_type) %></option>
+        <% FundingType.all.each do |funding_type| %>
+            <option value="<%= funding_type.id %>"><%= I18n.t(funding_type.name) %></option>
         <% end %>
       <select>
     </div>

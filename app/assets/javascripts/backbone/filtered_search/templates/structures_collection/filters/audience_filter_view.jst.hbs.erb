@@ -3,14 +3,14 @@
         <strong class="gray">Public</strong>
     </div><!--
   --><div class="grid__item v-middle four-fifths">
-        <div class="btn-group" data-toggle="buttons"><!--
+        <div class="btn-group inline-block v-middle" data-toggle="buttons"><!--
         --><% Audience.all.each do |audience| %><!--
              --><label class="btn">
                     <input type="checkbox" name="audience_ids[]" value="<%= audience.id %>"><%= I18n.t(audience.name) %>
                 </label><!--
         --><% end %><!--
     --></div>
-        <div data-behavior="age-picker" class="push-half--ends">
+        <div data-behavior="age-picker" class="push-half--left inline-block v-middle">
             De <select id="min-age"></select>
             à <select id="max-age"></select> ans.
         </div>

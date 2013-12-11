@@ -5,6 +5,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.LevelFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'level_filter_view',
 
+        initialize: function() {
+            this.announce = _.debounce(this.announce, 800);
+        },
+
         setup: function (data) {
             var self = this;
             _.each(data.level_ids, function(level_id) {

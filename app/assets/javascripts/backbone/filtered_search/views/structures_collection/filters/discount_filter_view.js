@@ -5,6 +5,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.DiscountFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'discount_filter_view',
 
+        initialize: function() {
+            this.announce = _.debounce(this.announce, 800);
+        },
+
         setup: function (data) {
             this.ui.$select.val(data.discount_types);
         },

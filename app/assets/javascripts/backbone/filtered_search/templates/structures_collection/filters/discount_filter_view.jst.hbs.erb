@@ -5,7 +5,7 @@
  --><div class="grid__item v-middle four-fifths">
       <select data-behavior="chosen" multiple style="width: 100%;">
         <% Price::Discount::TYPES.each do |discount| %>
-          <option value="<%= discount %>"><%= I18n.t(discount) %></option>
+          <option value="<%= discount.split(',').last %>"><%= I18n.t(discount) %></option>
         <% end %>
       <select>
     </div>

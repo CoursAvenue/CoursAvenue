@@ -6,6 +6,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
     Module.AudienceFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'audience_filter_view',
+
+        initialize: function() {
+            this.announce = _.debounce(this.announce, 800);
+        },
+
         setup: function (data) {
             var self = this;
             _.each(data.audience_ids, function(audience_id) {
@@ -21,8 +26,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
             this.populateAgeSelect($selects, 0, MAX_AGE);
             this.ui.age_picker.find('#max-age').val(MAX_AGE - 1);
+
             this.ui.min_age_select.val(data.min_age_for_kids || 0);
-            this.ui.max_age_select.val(data.max_age_for_kids || MAX_AGE);
+            this.ui.max_age_select.val(data.max_age_for_kids || MAX_AGE - 1);
         },
 
         ui: {
@@ -33,7 +39,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         events: {
             'change input':   'announce',
-            'change select':  'setRangeOptions announce'
+            'change select':  'setRangeOptions'
         },
 
         setRangeOptions: function (e) {
@@ -49,6 +55,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
 
             this.populateAgeSelect($select, min, max);
+            this.announce();
         },
 
         populateAgeSelect: function ($select, min, max) {
@@ -75,11 +82,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
             // 1 is children
             if (this.isChild(audience_ids)) {
-                this.ui.age_picker.slideDown();
+                this.ui.age_picker.show();
                 value_to_trigger['min_age_for_kids'] = this.ui.age_picker.find('#min-age').val();
                 value_to_trigger['max_age_for_kids'] = this.ui.age_picker.find('#max-age').val();
             } else {
-                this.ui.age_picker.slideUp();
+                value_to_trigger['min_age_for_kids'] = null;
+                value_to_trigger['max_age_for_kids'] = null;
+                this.ui.age_picker.hide();
             }
 
             this.trigger("filter:audience", value_to_trigger);
