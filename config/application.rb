@@ -14,22 +14,22 @@ module CoursAvenue
     # Global variables
     TIME_SLOTS = {
           morning: {
-            name:       'Matin (9h-12h)',
+            name:       'planning.timeslots.morning',
             start_time: '9:00 AM',
             end_time:   '12:00 PM',
           },
           noon: {
-            name:       'Midi (12h-14h)',
+            name:       'planning.timeslots.noon',
             start_time: '12:00 PM',
             end_time:   '2:00 PM'
           },
           afternoon: {
-            name:       'Après-midi (14h-18h)',
+            name:       'planning.timeslots.afternoon',
             start_time: '2:00 PM',
             end_time:   '6:00 PM'
           },
           evening: {
-            name:       'Soirée (18h-23h)',
+            name:       'planning.timeslots.evening',
             start_time: '6:00 PM',
             end_time:   '11:00 PM'
           }

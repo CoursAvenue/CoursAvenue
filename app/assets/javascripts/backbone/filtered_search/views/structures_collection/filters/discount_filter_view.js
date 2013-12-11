@@ -9,10 +9,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.ui.$select.val(data.discount_type);
         },
 
-        serializeData: function(data) {
-            return { discount_types: coursavenue.bootstrap.discount_types };
-        },
-
         ui: {
             '$select': 'select'
         },

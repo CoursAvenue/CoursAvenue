@@ -1,0 +1,6 @@
+<h5>Payment Method</h5>
+<select>
+<% FundingType.all.map(&:name).each do |k| %>
+    <option value="<%= k %>"><%= I18n.t(k) %></option>
+<% end %>
+<select>

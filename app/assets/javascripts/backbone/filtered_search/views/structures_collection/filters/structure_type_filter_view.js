@@ -9,10 +9,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.ui.$select.val(data.structure_type);
         },
 
-        serializeData: function(data) {
-            return { structure_types: coursavenue.bootstrap.structure_types };
-        },
-
         ui: {
             '$select': 'select'
         },

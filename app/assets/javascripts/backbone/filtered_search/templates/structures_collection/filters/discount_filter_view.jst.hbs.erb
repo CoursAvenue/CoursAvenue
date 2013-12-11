@@ -1,0 +1,6 @@
+<h5>Discounts</h5>
+<select>
+<% Price::Discount::TYPES.each do |s| %>
+<option value="<%= s %>"><%= I18n.t(s) %></option>
+<% end %>
+<select>
