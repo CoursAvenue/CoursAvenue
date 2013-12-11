@@ -22,7 +22,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         activateInput: function(course_type) {
-            this.$('[value=' + course_type + ']').prop('checked', true);
+             var $input = this.$('[value=' + course_type + ']');
+            $input.prop('checked', true);
+            $input.parent('.btn').addClass('active');
         }
     });
 });

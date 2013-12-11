@@ -22,7 +22,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         activateInput: function(level_value) {
-            this.$('[value=' + level_value + ']').prop('checked', true);
+             var $input = this.$('[value=' + level_value + ']');
+            $input.prop('checked', true);
+            $input.parent('.btn').addClass('active');
         }
     });
 });

@@ -2,7 +2,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
     Module.KeywordFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'keyword_filter_view',
-        className: 'header-search-bar',
+        className: 'header-search-bar hard',
 
         initialize: function () {
             this.announceSearchTerm = _.debounce(this.announceSearchTerm, 500);

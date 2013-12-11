@@ -86,8 +86,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         activateInput: function (audience_id) {
-            this.$('[value=' + audience_id + ']').prop('checked', true);
-
+             var $input = this.$('[value=' + audience_id + ']');
+            $input.prop('checked', true);
+            $input.parent('.btn').addClass('active');
         },
 
         isChild: function (audience_id) {
