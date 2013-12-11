@@ -10,15 +10,20 @@
             <% CoursAvenue::Application::TIME_SLOTS.each do |k, v| %>
             <option value="<%= v[:name] %>"><%= I18n.t(v[:name]) %></option>
             <% end %>
+            <option value="creneau">Creneau Precis</option>
         </select>
     </div>
-    <div data-precision="hour-range">
-        <select>
+    <div data-time="hour-range">
+        Entre
+        <select id="start-hour">
+        </select>
+        et
+        <select id="end-hour">
         </select>
     </div>
 </div>
-<button "btn btn--blue">Choisir des dates precises</button>
+<button class="btn btn--blue" data-behaviour="toggle" >Choisir des dates precises</button>
 
 <div data-type="date-range">
-    Dates Precise: du <input data-value="start-date" data-provide="datepicker-inline"> au <input data-value="end-date" data-provide="datepicker-inline">
+    Dates Precise: du <input id="start-date" data-value="start-date" data-provide="datepicker-inline"> au <input id="end-date" data-value="end-date" data-provide="datepicker-inline">
 </div>

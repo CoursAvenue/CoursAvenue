@@ -33,10 +33,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         events: {
             'change input':   'announce',
-            'change select':  'setRangeOptions announce'
+            'change select':  'narrowRangeOptions announce'
         },
 
-        setRangeOptions: function (e) {
+        narrowRangeOptions: function (e) {
             var $select = this.ui.age_picker.find('select:not(#' + e.currentTarget.id + ')'),
                 age_1 = e.currentTarget.value, min, max;
 
