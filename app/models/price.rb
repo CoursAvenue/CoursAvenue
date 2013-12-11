@@ -33,6 +33,9 @@ class Price < ActiveRecord::Base
   # Discounts
   scope :discounts         , -> { where(type: 'Price::Discount') }
 
+  # Trials
+  scope :trials            , -> { where(type: 'Price::Trial') }
+
   def free?
     false
   end

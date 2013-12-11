@@ -166,6 +166,32 @@ class Structure < ActiveRecord::Base
       subject_slugs.uniq
     end
 
+    string :course_type, multiple: true do
+      self.courses.map(&:type).uniq
+    end
+
+    boolean :has_trial_course do
+      self.prices.trials.any?
+    end
+
+    integer :trial_course_amount do
+      if self.prices.trials.any?
+        self.prices.trials.map(&:amount).min.to_i
+      end
+    end
+
+    string :discounts, multiple: true do
+      self.prices.discounts.map(&:libelle).uniq
+    end
+
+    integer :funding_type_ids, multiple: true do
+      self.funding_type_ids
+    end
+
+    string :structure_type do
+      self.structure_type
+    end
+
     integer :audience_ids, multiple: true do
       self.audience_ids
     end
@@ -516,12 +542,14 @@ class Structure < ActiveRecord::Base
 
   def min_price_amount_for(type)
     price = price_amount_for_scope(type).order('amount ASC').first
-    price.amount.to_i if price
+    return 0 unless price
+    price.amount.to_i
   end
 
   def max_price_amount_for(type)
     price = price_amount_for_scope(type).order('amount DESC').first
-    price.amount.to_i if price
+    return 0 unless price
+    price.amount.to_i
   end
 
   private

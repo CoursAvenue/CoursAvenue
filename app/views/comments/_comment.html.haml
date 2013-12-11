@@ -17,11 +17,11 @@
               %i.fa.fa-share
             %ul.drop-down__el.text--left
               %li.nowrap
-                = link_to share_comment_url(comment, :facebook), target: '_blank', onclick: "ga('send', 'event', 'Share comment on Facebook', 'click')" do
+                = link_to share_comment_url(comment, :facebook), target: '_blank', onclick: "ga('send', 'event', 'Share comment on', 'click', 'Facebook')" do
                   %i.fa.fa-facebook.soft-half--right
                   Partager sur Facebook
               %li.nowrap
-                = link_to share_comment_url(comment, :twitter), target: '_blank', onclick: "ga('send', 'event', 'Share comment on Twitter', 'click')" do
+                = link_to share_comment_url(comment, :twitter), target: '_blank', onclick: "ga('send', 'event', 'Share comment on', 'click', 'Twitter')" do
                   %i.fa.fa-twitter.soft-half--right
                   Partager sur Twitter
         - if comment.title.present?
