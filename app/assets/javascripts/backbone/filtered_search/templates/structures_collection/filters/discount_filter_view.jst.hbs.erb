@@ -1,11 +1,11 @@
 <div class="grid--full">
-    <div class="grid__item v-top one-fifth">
+    <div class="grid__item v-middle one-fifth">
         <strong class="gray">Tarifs réduits</strong>
     </div><!--
- --><div class="grid__item v-top four-fifths">
-      <select>
-        <% Price::Discount::TYPES.each do |s| %>
-        <option value="<%= s %>"><%= I18n.t(s) %></option>
+ --><div class="grid__item v-middle four-fifths">
+      <select data-behavior="chosen" multiple style="width: 100%;">
+        <% Price::Discount::TYPES.each do |discount| %>
+          <option value="<%= discount %>"><%= I18n.t(discount) %></option>
         <% end %>
       <select>
     </div>

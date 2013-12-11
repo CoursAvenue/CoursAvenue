@@ -49,7 +49,8 @@ $(function() {
         $('[data-behavior=chosen]').each(function() {
             $(this).chosen({
                 no_results_text: 'Pas de résultat...',
-                search_contains: true
+                search_contains: true,
+                width: $(this).css('width') // Returns undefined if there is no width style defined.
             });
         });
     };

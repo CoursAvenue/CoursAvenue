@@ -6,7 +6,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         template: Module.templateDirname() + 'discount_filter_view',
 
         setup: function (data) {
-            this.ui.$select.val(data.discount_type);
+            this.ui.$select.val(data.discount_types);
         },
 
         ui: {
@@ -19,7 +19,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announce: function (e, data) {
             var value = this.ui.$select.val();
-            this.trigger("filter:discount", { 'discount_type': value });
+            this.trigger("filter:discount", { 'discount_types[]': value });
         }
     });
 });
