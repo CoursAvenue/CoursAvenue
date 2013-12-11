@@ -79,6 +79,7 @@ FilteredSearch.addInitializer(function(options) {
     audience_filter           = new FiltersModule.AudienceFilterView({});
     structure_type_filter     = new FiltersModule.StructureTypeFilterView({});
     payment_method_filter     = new FiltersModule.PaymentMethodFilterView({});
+    date_filter               = new FiltersModule.DateFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -111,6 +112,7 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(structure_type_filter);
     layout.showWidget(payment_method_filter);
     layout.showWidget(discount_filter);
+    layout.showWidget(date_filter);
 
     layout.master.show(structures_view);
 });

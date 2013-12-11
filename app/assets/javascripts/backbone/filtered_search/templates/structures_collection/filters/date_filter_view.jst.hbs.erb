@@ -1,0 +1,24 @@
+<h5>Date</h5>
+<div data-type="date">
+    <select data-type="day">
+        {{#each days_of_the_week}}
+        <option value="{{this}}">{{this}}</option>
+        {{/each}}
+    </select>
+    <div data-type="time">
+        <select>
+            <% CoursAvenue::Application::TIME_SLOTS.each do |k, v| %>
+            <option value="<%= v[:name] %>"><%= I18n.t(v[:name]) %></option>
+            <% end %>
+        </select>
+    </div>
+    <div data-precision="hour-range">
+        <select>
+        </select>
+    </div>
+</div>
+<button "btn btn--blue">Choisir des dates precises</button>
+
+<div data-type="date-range">
+    Dates Precise: du <input data-value="start-date" data-provide="datepicker-inline"> au <input data-value="end-date" data-provide="datepicker-inline">
+</div>
