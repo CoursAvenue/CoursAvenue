@@ -6,25 +6,23 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         template: Module.templateDirname() + 'level_filter_view',
 
         setup: function (data) {
-            this.activateButton(data.level_value);
+            var self = this;
+            _.each(data.level_ids, function(level_id) {
+                self.activateInput(level_id);
+            });
         },
 
         events: {
-            'change [type="radio"]': 'announceSubject'
+            'change input': 'announce'
         },
 
-        announceSubject: function (e, data) {
-            var level_value = e.currentTarget.getAttribute('value');
-            this.trigger("filter:level", { 'level_value': level_value });
-            this.activateButton(level_value);
+        announce: function (e, data) {
+            // var level_value = e.currentTarget.getAttribute('value');
+            var level_ids = _.map(this.$('[name="level_ids[]"]:checked'), function(input){ return input.value });
+            this.trigger("filter:level", { 'level_ids[]': level_ids });
         },
 
-        disabledButton: function(level_value) {
-            this.$('[value=' + level_value + ']').removeClass('active');
-        },
-
-        activateButton: function(level_value) {
-            this.$('[type="radio"]').prop('checked', false);
+        activateInput: function(level_value) {
             this.$('[value=' + level_value + ']').prop('checked', true);
         }
     });

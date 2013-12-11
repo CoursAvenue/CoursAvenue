@@ -41,7 +41,8 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
                 if (value === null) {
                     self.unsetQuery([key]);
                     delete options[key];
-
+                } else if (_.isArray(value)) {
+                    options[key] = value;
                 } else if (_.isFunction(value.toString)) {
                     options[key] = value.toString();
                 }

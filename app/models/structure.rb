@@ -200,6 +200,14 @@ class Structure < ActiveRecord::Base
       self.level_ids
     end
 
+    integer :min_age_for_kid do
+      self.plannings.map(&:min_age_for_kid).min
+    end
+
+    integer :max_age_for_kid do
+      self.plannings.map(&:max_age_for_kid).max
+    end
+
     %w(per_course book_ticket annual_subscription semestrial_subscription trimestrial_subscription monthly_subscription).each do |name|
       integer "#{name}_min_price".to_sym do
         self.min_price_amount_for(name)

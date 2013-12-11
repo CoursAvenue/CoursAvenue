@@ -1,20 +1,30 @@
-<h5>Audience</h5>
-<div class="grid--full"><!--
-    --><div class="grid__item one-third">
-        <label for="adults">Adults</label><input class="text--center outlined-btn one-whole" id="adults"          nae="audience" value="adults"   type="radio">
+<div class="grid--full">
+    <div class="grid__item one-fifth">
+        <h5>Audience</h5>
     </div><!--
+    --><div class="grid__item four-fifths">
+          <div class="grid--full"><!--
+              --><div class="grid__item one-third">
+                  <label for="children">Enfants</label>
+                  <input class="text--center outlined-btn one-whole"  id="children" name="audience_ids" value="1" type="checkbox">
+              </div><!--
 
-    --><div class="grid__item one-third">
-        <label for="children">Children</label><input class="text--center outlined-btn one-whole"  id="children"    name="audience" value="children" type="radio">
-    </div><!--
+              --><div class="grid__item one-third">
+                  <label for="adults">Adultes</label>
+                  <input class="text--center outlined-btn one-whole" id="adults" name="audience_ids" value="2"   type="checkbox">
+              </div><!--
 
-    --><div class="grid__item one-third">
-        <label for="seniors">Seniors</label><input class="text--center outlined-btn one-whole"  id="seniors"      name="audience" value="seniors"  type="radio">
-    </div><!--
 
---></div>
-<div data-behaviour="age-picker">
-    <h6>Age Range</h6>
-    De <select id="min-age"></select>
-    a <select id="max-age"></select> ans.
+              --><div class="grid__item one-third">
+                  <label for="seniors">Senior</label>
+                  <input class="text--center outlined-btn one-whole"  id="seniors" name="audience_ids" value="2"  type="checkbox">
+              </div><!--
+
+          --></div>
+          <div data-behaviour="age-picker">
+              <h6>Age Range</h6>
+              De <select id="min-age"></select>
+              a <select id="max-age"></select> ans.
+          </div>
+    </div>
 </div>

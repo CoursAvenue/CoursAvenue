@@ -1,23 +1,33 @@
-<h5>Level</h5>
-<div class="grid--full"><!--
-    --><div class="grid__item one-fifth">
-        <label for="all">All</label><input  id="all"          name="level" value="all"          type="radio">
+<div class="grid--full">
+    <div class="grid__item one-fifth">
+        <h5>Level</h5>
     </div><!--
+    --><div class="grid__item four-fifths">
+            <div class="grid--full"><!--
+                --><div class="grid__item one-fifth">
+                    <label class="inline soft-half--right" for="all">Tout niveaux</label>
+                    <input id="all" name="level_ids[]" value="0" type="checkbox">
+                </div><!--
 
-    --><div class="grid__item one-fifth">
-        <label for="initiation">Initiation</label><input  id="initiation"   name="level" value="initiation"   type="radio">
-    </div><!--
+                --><div class="grid__item one-fifth">
+                    <label class="inline soft-half--right" for="initiation">Initiation / Débutant</label>
+                    <input id="initiation" name="level_ids[]" value="1" type="checkbox">
+                </div><!--
 
-    --><div class="grid__item one-fifth">
-        <label for="beginner">Beginner</label><input  id="beginner"     name="level" value="beginner"     type="radio">
-    </div><!--
+                --><div class="grid__item one-fifth">
+                    <label class="inline soft-half--right" for="beginner">Moyen / Intermédiaire</label>
+                    <input id="beginner" name="level_ids[]" value="2" type="checkbox">
+                </div><!--
 
-    --><div class="grid__item one-fifth">
-        <label for="confirmed">Confirmed</label><input  id="confirmed"    name="level" value="confirmed"    type="radio">
-    </div><!--
+                --><div class="grid__item one-fifth">
+                    <label class="inline soft-half--right" for="confirmed">Avancé</label>
+                    <input id="confirmed" name="level_ids[]" value="3" type="checkbox">
+                </div><!--
 
-    --><div class="grid__item one-fifth">
-        <label for="professional">Professional</label><input  id="professional" name="level" value="professional" type="radio">
-    </div><!--
-
---></div>
+                --><div class="grid__item one-fifth">
+                    <label class="inline soft-half--right" for="professional">Professionel</label>
+                    <input id="professional" name="level_ids[]" value="4" type="checkbox">
+                </div><!--
+        --></div>
+    </div>
+</div>
