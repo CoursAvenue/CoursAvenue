@@ -15,23 +15,23 @@ module CoursAvenue
     TIME_SLOTS = {
           morning: {
             name:       'planning.timeslots.morning',
-            start_time: '9:00 AM',
-            end_time:   '12:00 PM',
+            start_time: '9',
+            end_time:   '12',
           },
           noon: {
             name:       'planning.timeslots.noon',
-            start_time: '12:00 PM',
-            end_time:   '2:00 PM'
+            start_time: '12',
+            end_time:   '14'
           },
           afternoon: {
             name:       'planning.timeslots.afternoon',
-            start_time: '2:00 PM',
-            end_time:   '6:00 PM'
+            start_time: '14',
+            end_time:   '18'
           },
           evening: {
             name:       'planning.timeslots.evening',
-            start_time: '6:00 PM',
-            end_time:   '11:00 PM'
+            start_time: '18',
+            end_time:   '23'
           }
     }
 
