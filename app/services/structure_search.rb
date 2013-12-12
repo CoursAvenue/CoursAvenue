@@ -111,8 +111,8 @@ class StructureSearch
     return nil if params[:week_days].blank? and params[:start_time].blank? and params[:end_time].blank?
     # If blank, genreates for all week days regarding start and end time
     array_of_hours = []
-    start_time     = params[:start_time] || 0
-    end_time       = params[:start_time] || 24
+    start_time     = params[:start_time].to_i || 0
+    end_time       = params[:end_time].to_i   || 24
     week_days      = (params[:week_days].present? ? params[:week_days].map(&:to_i) : [0,1,2,3,4,5,6])
     week_days.each do |week_day|
       (start_time..end_time).to_a.each do |hour|

@@ -124,14 +124,14 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             $select.empty();
 
             _.times((max - min), function (index) {
-                $select.append('<option>' + (index + min) + 'h' + '</option>')
+                $select.append('<option value="' + (index + min) + '">' + (index + min) + 'h' + '</option>')
             });
 
             // if the select value is still in [min, max), apply it
             if (min <= val && val < max) {
-                $select.val(val + 'h');
+                $select.val(val);
             } else {
-                ($select.attr('id') === 'start-hour')? $select.val(min + 'h') : $select.val(max + 'h');
+                ($select.attr('id') === 'start-hour')? $select.val(min) : $select.val(max);
             }
         },
 

@@ -4,7 +4,7 @@
     </div><!--
  --><div class="grid__item v-middle four-fifths">
         <div data-type="date">
-            <select data-type="day" data-behavior="chosen" style="width: 300px;" multiple class="inline-block v-middle">
+            <select data-type="day" data-placeholder="Selectionnez un ou plusieurs jour" data-behavior="chosen" style="width: 300px;" multiple class="inline-block v-middle">
                 <% # Rotate to have sunday last %>
                 <% I18n.t('date.day_names').rotate.each_with_index do |day, index| %>
                     <option value="<%= (index == 6  ? 0 : index + 1) %>"><%= day.capitalize %></option>
