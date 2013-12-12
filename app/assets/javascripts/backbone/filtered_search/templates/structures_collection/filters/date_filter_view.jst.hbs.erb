@@ -4,7 +4,7 @@
     </div><!--
  --><div class="grid__item v-middle four-fifths">
         <div data-type="date">
-            <select data-type="day" data-behavior="chosen" style="width: 300px;" multiple class="inline-block v-middle">
+            <select data-type="day" data-placeholder="Selectionnez un ou plusieurs jour" data-behavior="chosen" style="width: 300px;" multiple class="inline-block v-middle">
                 <% # Rotate to have sunday last %>
                 <% I18n.t('date.day_names').rotate.each_with_index do |day, index| %>
                     <option value="<%= (index == 6  ? 0 : index + 1) %>"><%= day.capitalize %></option>
@@ -12,17 +12,18 @@
             </select>
             <div data-type="time" class="inline-block v-middle">
                 <select>
+                    <option value="all-day">Toute la journée</option>
                     <% CoursAvenue::Application::TIME_SLOTS.each do |key, value| %>
-                    <option value="<%= value[:name] %>"><%= I18n.t(value[:name]) %></option>
+                        <option value="<%= value[:start_time] %>-<%= value[:end_time] %>"><%= I18n.t(value[:name]) %></option>
                     <% end %>
-                    <option value="creneau">Creneau Precis</option>
+                    <option value="choose-slot">Creneau précis</option>
                 </select>
             </div>
-            <div data-time="hour-range" class="inline-block v-middle">
-                Entre
+            <div data-type="hour-range" class="inline-block v-middle">
+                de
                 <select id="start-hour">
                 </select>
-                et
+                à
                 <select id="end-hour">
                 </select>
             </div>

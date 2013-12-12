@@ -100,7 +100,8 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 price:            (data.server_api.price                ? decodeURIComponent(data.server_api.price)            : ''),
                 structure_types:  (data.server_api['structure_types[]'] ? data.server_api['structure_types[]']                 : ''),
                 funding_types:    (data.server_api['funding_types[]']   ? data.server_api['funding_types[]']                   : ''),
-                discount_types:   (data.server_api['discount_types[]']  ? data.server_api['discount_types[]']                  : '')
+                discount_types:   (data.server_api['discount_types[]']  ? data.server_api['discount_types[]']                  : ''),
+                week_days:        (data.server_api['week_days[]']       ? data.server_api['week_days[]']                       : '')
             });
 
             this.trigger('structures:updated:maps');

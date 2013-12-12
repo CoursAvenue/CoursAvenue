@@ -10,7 +10,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.populateHourRange($selects, 0, 24);
             this.ui.$hour_range.hide();
             this.ui.$date_range.hide();
-
+            this.ui.$week_days_select.val(data.week_days);
             if (data.date) {
                 this.ui.$select.val(data.date);
             } else {
@@ -20,13 +20,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         ui: {
-            '$day':          '[data-type=day]',
-            '$time':         '[data-type=time]',
-            '$date':         '[data-type=date]',
-            '$date_range':   '[data-type=date-range]',
-            '$start_date':   '[data-type=start-date]',
-            '$end_date':     '[data-type=end-date]',
-            '$hour_range':   '[data-time=hour-range]',
+            '$week_days_select': '[data-type=day]',
+            '$time':             '[data-type=time]',
+            '$date':             '[data-type=date]',
+            '$date_range':       '[data-type=date-range]',
+            '$start_date':       '[data-type=start-date]',
+            '$end_date':         '[data-type=end-date]',
+            '$hour_range':       '[data-type=hour-range]'
         },
 
         events: {
@@ -34,9 +34,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             'change [data-type=day]':                 'announceDay',
             'change [data-type=time] select':         'announceTime',
             'change [data-type=time] > select':       'showHourRange',
-            'change [data-time=hour-range] select':   'narrowHourRange',
-            'change [data-time=hour-range] > select': 'announceHourRange',
-            'change [data-type=date-range] input':    'announceDateRange',
+            'change [data-type=hour-range] select':   'narrowHourRange',
+            'change [data-type=hour-range] > select': 'announceHourRange',
+            'change [data-type=date-range] input':    'announceDateRange'
         },
 
         /* TODO this creates three requests: would be better to gather the
@@ -49,51 +49,58 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announceDay: function () {
             this.trigger("filter:date", {
-                'days[]'  : this.ui.$day.val(),
+                'week_days[]'  : this.ui.$week_days_select.val(),
                 start_date: null,
                 end_date  : null
             });
         },
 
         announceTime: function (e, data) {
-            if (this.ui.$time.find('select').val() === "creneau") {
-                return;
+            var range, data;
+            switch(this.ui.$time.find('select').val()) {
+                case 'choose-slot':
+                    return;
+                break;
+                case 'all-day':
+                    data = {start_time: null, end_time: null};
+                break;
+                default:
+                    // Value is formatted as: 9-12
+                    range = this.ui.$time.find('select').val().split('-');
+                    data = {
+                        start_time: range[0],
+                        end_time: range[1]
+                    };
+                break;
             }
-
-            this.ui.$hour_range.slideUp();
-            this.trigger("filter:date", {
-                time: this.ui.$time.find('select').val(),
-                start_time: null,
-                end_time: null,
-            });
+            this.trigger("filter:date", data);
         },
 
         announceHourRange: function (e) {
-            if (this.ui.$time.find('select').val() !== "creneau") {
+            if (this.ui.$time.find('select').val() !== "choose-slot") {
                 return;
             }
 
             this.trigger("filter:date", {
                 start_time: this.$el.find('#start-hour').val(),
-                end_time: this.$el.find('#end-hour').val(),
-                time: null // eliminate the time param
+                end_time:   this.$el.find('#end-hour').val(),
             });
         },
 
         /* TODO this announces many many times on each date change event */
         announceDateRange: function () {
             this.trigger("filter:date", {
-                start_date: this.$el.find('#start-date').val(),
-                end_date: this.$el.find('#end-date').val(),
-                time: null, // eliminate the time param
-                start_time: null,
-                'days[]': null,
-                end_time: null
+                start_date:     this.$el.find('#start-date').val(),
+                end_date:       this.$el.find('#end-date').val(),
+                start_time:     null,
+                'week_days[]':  null,
+                end_time:       null
             });
         },
 
         showHourRange: function () {
-            if (this.ui.$time.find('select').val() !== "creneau") {
+            if (this.ui.$time.find('select').val() !== "choose-slot") {
+                this.ui.$hour_range.slideUp();
                 return;
             }
 
@@ -101,6 +108,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
             if (this.$el.find('#start-hour').val() && this.$el.find('#end-hour').val()) {
                 this.announceHourRange();
+            } else {
+                this.$el.find('#start-hour').val(8);
+                this.$el.find('#end-hour').val(20);
             }
         },
 
@@ -124,14 +134,14 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             $select.empty();
 
             _.times((max - min), function (index) {
-                $select.append('<option>' + (index + min) + 'h' + '</option>')
+                $select.append('<option value="' + (index + min) + '">' + (index + min) + 'h' + '</option>')
             });
 
             // if the select value is still in [min, max), apply it
             if (min <= val && val < max) {
-                $select.val(val + 'h');
+                $select.val(val);
             } else {
-                ($select.attr('id') === 'start-hour')? $select.val(min + 'h') : $select.val(max + 'h');
+                ($select.attr('id') === 'start-hour')? $select.val(min) : $select.val(max);
             }
         },
 

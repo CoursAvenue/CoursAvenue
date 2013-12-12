@@ -2,7 +2,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
     Module.SubjectFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'subject_filter_view',
-        className: 'very-soft',
 
         setup: function (data) {
             this.activateButton(data.subject_id);
