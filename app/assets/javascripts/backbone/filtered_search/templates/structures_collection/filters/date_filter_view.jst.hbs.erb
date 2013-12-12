@@ -5,9 +5,10 @@
  --><div class="grid__item v-middle four-fifths">
         <div data-type="date">
             <select data-type="day" data-behavior="chosen" style="width: 300px;" multiple class="inline-block v-middle">
-                {{#each days_of_the_week}}
-                <option value="{{this}}">{{this}}</option>
-                {{/each}}
+                <% # Rotate to have sunday last %>
+                <% I18n.t('date.day_names').rotate.each_with_index do |day, index| %>
+                    <option value="<%= (index == 6  ? 0 : index + 1) %>"><%= day.capitalize %></option>
+                <% end %>
             </select>
             <div data-type="time" class="inline-block v-middle">
                 <select>
@@ -17,7 +18,7 @@
                     <option value="creneau">Creneau Precis</option>
                 </select>
             </div>
-            <div data-time="hour-range">
+            <div data-time="hour-range" class="inline-block v-middle">
                 Entre
                 <select id="start-hour">
                 </select>
