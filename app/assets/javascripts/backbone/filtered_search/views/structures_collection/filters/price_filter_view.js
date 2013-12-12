@@ -6,11 +6,38 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         template: Module.templateDirname() + 'price_filter_view',
 
         setup: function (data) {
-            this.activateInput(data.price);
+            var $option, range;
+
+            if (data.price_type === "") {
+                $option = this.ui.$select.find('option').first();
+            } else {
+                $option = $('[value="' + data.price_type + '"]');
+            }
+
+            range = $option.data("range").split(',');
+
+            if (data.min_price === "" && data.max_price === "") {
+                min = range[0];
+                max = range[1];
+            } else {
+                min = data.min_price;
+                max = data.max_price;
+            }
+
+            this.ui.$slider.noUiSlider({
+                range: range,
+                start: [min, max],
+                handles: 2,
+                margin: 2,
+                step: 1,
+                serialization: {
+                    to: [ $('value'), 'text']
+                }
+            });
         },
 
         ui: {
-            '$select': '[data-behavior=chosen]',
+            '$select': 'select',
             '$slider': '[data-behavior=slider]'
         },
 
@@ -24,22 +51,19 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         announce: function (e) {
-debugger
-            var $option = $('[value="' + e.currentTarget.value + '"]'),
-                range = $option.data("range").split(','),
-                slider_value = this.ui.$slider.val().split(',');
+            var option = this.ui.$select.val(),
+                $option = $('[value="' + this.ui.$select.val() + '"]'),
+                range = $option.data('range').split(','),
+                slider_value;
 
             this.ui.$slider.noUiSlider({ range: range }, true);
+            slider_value = this.ui.$slider.val(),
 
-//            this.trigger("filter:price", {
- //               'price_types': this.ui.$select.val(),
-  //              'min_price': slider_value[0],
-   //             'max_price': slider_value[1],
-    //        });
-        },
-
-        activateInput: function () {
-
+            this.trigger("filter:price", {
+                'price_type': this.ui.$select.val(),
+                'min_price': slider_value[0],
+                'max_price': slider_value[1],
+            });
         }
     });
 });

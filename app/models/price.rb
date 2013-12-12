@@ -14,18 +14,20 @@ class Price < ActiveRecord::Base
 
   has_one :structure, through: :course
 
-  TYPES = ['prices.subscription.annual',
+  TYPES = ['prices.individual_course',
+           'prices.subscription.annual',
            'prices.subscription.semester',
            'prices.subscription.trimester',
            'prices.subscription.month',
            'prices.book_ticket.libelle.book']
 
   RANGES = {
-      "#{TYPES[0]}" => { min: 1, max: 2 },
-      "#{TYPES[1]}" => { min: 2, max: 3 },
-      "#{TYPES[2]}" => { min: 3, max: 4 },
-      "#{TYPES[3]}" => { min: 4, max: 5 },
-      "#{TYPES[4]}" => { min: 5, max: 6 }
+      "#{TYPES[0]}" => { min: 5, max: 500 },
+      "#{TYPES[1]}" => { min: 50, max: 2000 },
+      "#{TYPES[2]}" => { min: 20, max: 1000 },
+      "#{TYPES[3]}" => { min: 20, max: 1000 },
+      "#{TYPES[4]}" => { min: 20, max: 1000 },
+      "#{TYPES[5]}" => { min: 20, max: 1000 }
   }
 
   # BookTickets

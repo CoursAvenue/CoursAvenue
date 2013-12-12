@@ -80,7 +80,7 @@
 @import "partials/objects/picture-frame";
 @import "partials/objects/toggler";
 @import "partials/objects/alerts";
-// @import "partials/objects/sliders";
+@import "partials/objects/sliders";
 @import "partials/objects/image_quote";
 @import "partials/objects/step_breadcrumb";
 @import "partials/objects/boxes";
@@ -115,7 +115,6 @@
 @import "libs/responsiveslides";
 @import "libs/jquery-editable";
 
-@import "libs/bootstrap/bootstrap.slider";
 @import "libs/bootstrap/bootstrap.datepicker";
 @import "libs/bootstrap/bootstrap.tooltip";
 @import "libs/bootstrap/bootstrap.collapse";

@@ -3,12 +3,12 @@
         <strong class="gray">Prix</strong>
     </div><!--
  --><div class="grid__item v-middle four-fifths">
-        <select data-type="price" data-behavior="chosen" style="width: 300px;" multiple class="inline-block v-middle">
+        <select data-type="price" class="inline-block v-middle">
             <% Price::TYPES.each do |price| %>
                 <option value="<%= price %>" data-range="<%= Price::RANGES[price][:min] %>,<%= Price::RANGES[price][:max] %>"><%= I18n.t(price).split(" ").last %></option>
             <% end %>
         </select>
-        <div class="inline-block v-middle" style="padding-left: 10px;">
+        <div class="one-half soft--left inline-block v-middle" style="padding-left: 10px;">
             <div data-behavior="slider"></div>
         </div>
     </div>
