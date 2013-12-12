@@ -13,8 +13,8 @@
         <div data-type="subject-filter"></div>
         <div data-type="keyword-filter"></div>
 
-        <div class="filtered-search__tab-group" data-type="filters-results" data-behavior="tab-group">
-            <div class="tab-pane hard--top" data-tab="advanced-filters">
+        <div data-type="filters-results">
+            <div class="hard--top collapse" id="advanced-filters">
                 <hr class="push-half--ends" />
                 <div data-type="level-filter"></div>
                 <hr class="push-half--ends" />
@@ -37,7 +37,7 @@
         </div>
 
         <div class="flexbox">
-            <button class="one-eigth btn btn--small" data-toggle="tab" data-target="[data-tab=advanced-filters]"><i class="fa fa-filter soft-half--right"></i>FILTRES</button>
+            <button class="one-eigth btn btn--small" data-toggle="collapse" data-target="#advanced-filters"><i class="fa fa-filter soft-half--right"></i>FILTRES</button>
             <div class="seven-eigths" data-type="filter-breadcrumbs"></div>
         </div>
     </div>

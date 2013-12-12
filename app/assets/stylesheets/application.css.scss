@@ -1,5 +1,4 @@
 // Bootstrap plugins
-//*= require libs/bootstrap.tooltip
 //*= require libs/jquery.fileupload/jquery.fileupload-ui
 
 @import "font-awesome";
@@ -116,8 +115,10 @@
 @import "libs/responsiveslides";
 @import "libs/jquery-editable";
 
-@import "libs/bootstrap.datepicker";
-@import "libs/bootstrap.slider";
+@import "libs/bootstrap/bootstrap.slider";
+@import "libs/bootstrap/bootstrap.datepicker";
+@import "libs/bootstrap/bootstrap.tooltip";
+@import "libs/bootstrap/bootstrap.collapse";
 
 html, body {
   height: 100%;

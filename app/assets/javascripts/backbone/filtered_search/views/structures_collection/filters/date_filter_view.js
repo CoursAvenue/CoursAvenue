@@ -39,10 +39,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             'change [data-type=date-range] input':    'announceDateRange',
         },
 
-        serializeData: function(data) {
-            return { 'days_of_the_week': $.fn.datepicker.dates.fr.days.slice(1) };
-        },
-
         /* TODO this creates three requests: would be better to gather the
         * json data and then make one request at the end. */
         announce: function () {
@@ -53,9 +49,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announceDay: function () {
             this.trigger("filter:date", {
-                day: this.ui.$day.val(),
+                'days[]'  : this.ui.$day.val(),
                 start_date: null,
-                end_date: null
+                end_date  : null
             });
         },
 
@@ -91,7 +87,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 end_date: this.$el.find('#end-date').val(),
                 time: null, // eliminate the time param
                 start_time: null,
-                day: null,
+                'days[]': null,
                 end_time: null
             });
         },
@@ -128,14 +124,14 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             $select.empty();
 
             _.times((max - min), function (index) {
-                $select.append('<option>' + (index + min) + 'H00' + '</option>')
+                $select.append('<option>' + (index + min) + 'h' + '</option>')
             });
 
             // if the select value is still in [min, max), apply it
             if (min <= val && val < max) {
-                $select.val(val + 'H00');
+                $select.val(val + 'h');
             } else {
-                ($select.attr('id') === 'start-hour')? $select.val(min + 'H00') : $select.val(max + 'H00');
+                ($select.attr('id') === 'start-hour')? $select.val(min + 'h') : $select.val(max + 'h');
             }
         },
 

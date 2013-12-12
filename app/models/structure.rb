@@ -216,6 +216,11 @@ class Structure < ActiveRecord::Base
         self.max_price_amount_for(name)
       end
     end
+
+    integer :week_days, multiple: true do
+      self.plannings.map(&:week_day).compact.uniq
+    end
+
     integer :min_price do
       self.min_price_amount.to_i
     end
