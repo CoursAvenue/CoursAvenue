@@ -27,6 +27,7 @@ FilteredSearch.addInitializer(function(options) {
             'filter:course_type':      'filterQuery',
             'filter:discount':         'filterQuery',
             'filter:date':             'filterQuery',
+            'filter:price':            'filterQuery',
             'filter:structure_type':   'filterQuery',
             'filter:payment_method':   'filterQuery',
             'filter:search_term':      'filterQuery',
@@ -81,6 +82,7 @@ FilteredSearch.addInitializer(function(options) {
     structure_type_filter     = new FiltersModule.StructureTypeFilterView({});
     payment_method_filter     = new FiltersModule.PaymentMethodFilterView({});
     date_filter               = new FiltersModule.DateFilterView({});
+    price_filter              = new FiltersModule.PriceFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -114,6 +116,7 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(payment_method_filter);
     layout.showWidget(discount_filter);
     layout.showWidget(date_filter);
+    layout.showWidget(price_filter);
 
     layout.master.show(structures_view);
 });

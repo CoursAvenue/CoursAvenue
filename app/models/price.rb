@@ -14,6 +14,12 @@ class Price < ActiveRecord::Base
 
   has_one :structure, through: :course
 
+  TYPES = ['prices.subscription.annual',
+           'prices.subscription.semester',
+           'prices.subscription.trimester',
+           'prices.subscription.month',
+           'prices.book_ticket.libelle.book']
+
   # BookTickets
   scope :book_tickets      , -> { where{type == 'Price::BookTicket'} }
   # Retrieve individual courses

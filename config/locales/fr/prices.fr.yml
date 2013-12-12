@@ -13,6 +13,7 @@ fr:
     registration_fees: Frais d'adhésion
     book_ticket:
       libelle:
+        book: Au Carnet
         zero: Carnet de zero ticket
         one: Carnet de un ticket
         other: Carnet de %{count} tickets

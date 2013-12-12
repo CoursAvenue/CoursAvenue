@@ -1,0 +1,11 @@
+<h5>Prix</h5>
+<div data-behavior="radio-control">
+    <% Price::TYPES.each do |price| %>
+        <input type="radio" name="price" value="<%= price %>"><%= I18n.t(price) %></input>
+    <% end %>
+</div>
+
+<div data-behavior="slider">
+    <input type="text" value="" data-provide="slider-control" data-slider-min="-20" data-slider-max="20" data-slider-step="1" data-slider-value="-14" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
+</div>
+
