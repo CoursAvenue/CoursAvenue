@@ -43,8 +43,20 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             return { 'days_of_the_week': $.fn.datepicker.dates.fr.days.slice(1) };
         },
 
+        /* TODO this creates three requests: would be better to gather the
+        * json data and then make one request at the end. */
+        announce: function () {
+            this.announceDay();
+            this.announceTime();
+            this.announceHourRange();
+        },
+
         announceDay: function () {
-            this.trigger("filter:day", { day: this.ui.$day.val() });
+            this.trigger("filter:date", {
+                day: this.ui.$day.val(),
+                start_date: null,
+                end_date: null
+            });
         },
 
         announceTime: function (e, data) {
@@ -53,7 +65,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
 
             this.ui.$hour_range.slideUp();
-            this.trigger("filter:time", {
+            this.trigger("filter:date", {
                 time: this.ui.$time.find('select').val(),
                 start_time: null,
                 end_time: null,
@@ -61,15 +73,20 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         announceHourRange: function (e) {
-            this.trigger("filter:hour_range", {
+            if (this.ui.$time.find('select').val() !== "creneau") {
+                return;
+            }
+
+            this.trigger("filter:date", {
                 start_time: this.$el.find('#start-hour').val(),
                 end_time: this.$el.find('#end-hour').val(),
                 time: null // eliminate the time param
             });
         },
 
+        /* TODO this announces many many times on each date change event */
         announceDateRange: function () {
-            this.trigger("filter:hour_range", {
+            this.trigger("filter:date", {
                 start_date: this.$el.find('#start-date').val(),
                 end_date: this.$el.find('#end-date').val(),
                 time: null, // eliminate the time param
@@ -126,9 +143,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             if (this.ui.$date_range.is(':visible')) {
                 this.ui.$date_range.slideUp();
                 this.ui.$date.slideDown();
+                this.announce();
             } else {
                 this.ui.$date_range.slideDown();
                 this.ui.$date.slideUp();
+                this.announceDateRange();
             }
         }
 

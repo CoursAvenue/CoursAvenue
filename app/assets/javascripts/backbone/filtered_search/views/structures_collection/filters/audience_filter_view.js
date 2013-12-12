@@ -39,7 +39,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         events: {
             'change input':   'announce',
-            'change select':  'narrowRangeOptions announce'
+            'change select':  'narrowRangeOptions'
         },
 
         narrowRangeOptions: function (e) {
