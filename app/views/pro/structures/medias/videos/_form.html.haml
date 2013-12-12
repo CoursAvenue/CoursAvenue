@@ -1,7 +1,7 @@
 = simple_form_for [:pro, @structure, @video], url: pro_structure_videos_path(@structure) do |f|
   .form-white-box
     = f.error_notification
-    = f.input :url, wrapper_html: {class: 'flush--bottom'}, as: :string
+    = f.input :url, wrapper_html: {class: 'flush--bottom'}, as: :string, label: '<i class="fa fa-link"></i>&nbsp;Lien video / image'.html_safe
     %p.field-form-info.blue
       Collez le lien de la page internet de la vidéo provenant de : YouTube, Vimeo ou DailyMotion
     = f.input :caption
