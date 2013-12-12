@@ -97,8 +97,9 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 course_types:     (data.server_api['course_types[]']    ? data.server_api['course_types[]']                    : ''),
                 min_age_for_kids: (data.server_api.min_age_for_kids     ? decodeURIComponent(data.server_api.min_age_for_kids) : ''),
                 max_age_for_kids: (data.server_api.max_age_for_kids     ? decodeURIComponent(data.server_api.max_age_for_kids) : ''),
-                structure_types:  (data.server_api['structure_types[]'] ? data.server_api['structure_types[]']              : ''),
-                funding_types:    (data.server_api['funding_types[]']   ? data.server_api['funding_types[]']                  : ''),
+                price:            (data.server_api.price                ? decodeURIComponent(data.server_api.price)            : ''),
+                structure_types:  (data.server_api['structure_types[]'] ? data.server_api['structure_types[]']                 : ''),
+                funding_types:    (data.server_api['funding_types[]']   ? data.server_api['funding_types[]']                   : ''),
                 discount_types:   (data.server_api['discount_types[]']  ? data.server_api['discount_types[]']                  : '')
             });
 
