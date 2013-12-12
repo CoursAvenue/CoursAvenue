@@ -126,6 +126,7 @@ class Structure < ActiveRecord::Base
     text :name, boost: 5 do
       self.name
     end
+
     text :course_names do
       courses.map(&:name)
     end
@@ -219,6 +220,20 @@ class Structure < ActiveRecord::Base
 
     integer :week_days, multiple: true do
       self.plannings.map(&:week_day).compact.uniq
+    end
+
+    # It builds an array of integers as follow:
+    # For a planning happening monday between 10 and 12 it's gonna generate
+    # 110, 111, 112
+    # And so on.
+    integer :week_day_hours, multiple: true do
+      week_day_hours = []
+      self.courses.lessons.map(&:plannings).flatten.each do |planning|
+        (planning.start_time.hour..planning.end_time.hour).to_a.each do |hour|
+          week_day_hours << (planning.week_day * 100) + hour
+        end
+      end
+      week_day_hours.uniq.sort
     end
 
     integer :min_price do

@@ -42,6 +42,8 @@ class StructureSearch
 
       with :structure_type, params[:structure_type]                                if params[:funding_type_ids].present?
 
+      with(:week_days).any_of              params[:week_days].map(&:to_i)          if params[:week_days].present?
+
       # --------------- Iterating over all types of prices
       %w(per_course book_ticket annual_subscription trimestrial_subscription).each do |name|
         with("#{name}_max_price".to_sym).greater_than params["#{name}_min_price".to_sym] if params["#{name}_min_price".to_sym].present?
