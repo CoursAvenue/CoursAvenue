@@ -1,11 +1,16 @@
-<h5>Prix</h5>
-<div data-behavior="radio-control">
-    <% Price::TYPES.each do |price| %>
-        <input type="radio" name="price" value="<%= price %>"><%= I18n.t(price) %></input>
-    <% end %>
-</div>
-
-<div data-behavior="slider">
-    <input type="text" value="" data-provide="slider-control" data-slider-min="-20" data-slider-max="20" data-slider-step="1" data-slider-value="-14" data-slider-orientation="horizontal" data-slider-selection="after" data-slider-tooltip="hide">
+<div class="grid--full">
+    <div class="grid__item v-middle one-fifth">
+        <strong class="gray">Prix</strong>
+    </div><!--
+ --><div class="grid__item v-middle four-fifths">
+        <select data-type="price" class="inline-block v-middle">
+            <% Price::TYPES.each do |price| %>
+                <option value="<%= price %>" data-range="<%= Price::RANGES[price][:min] %>,<%= Price::RANGES[price][:max] %>"><%= I18n.t(price).split(" ").last %></option>
+            <% end %>
+        </select>
+        <div class="one-half soft--left inline-block v-middle" style="padding-left: 10px;">
+            <div data-behavior="slider"></div>
+        </div>
+    </div>
 </div>
 
