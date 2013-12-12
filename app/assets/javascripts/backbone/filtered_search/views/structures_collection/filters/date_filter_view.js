@@ -5,15 +5,25 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.DateFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'date_filter_view',
 
+        initialize: function() {
+            this.data = {start_date: '', end_date: ''};
+            this.announceDay       = _.debounce(this.announceDay, 700);
+            this.announceTime      = _.debounce(this.announceTime, 700);
+            this.announceHourRange = _.debounce(this.announceHourRange, 700);
+            this.announceDateRange = _.debounce(this.announceDateRange, 700);
+            this.announce          = _.debounce(this.announce, 700);
+        },
+
         setup: function (data) {
             var $selects = this.ui.$hour_range.find('select');
+            this.data    = data;
+            this.render();
+
             this.populateHourRange($selects, 0, 24);
             this.ui.$hour_range.hide();
             this.ui.$date_range.hide();
             this.ui.$week_days_select.val(data.week_days);
 
-            this.ui.$start_date.datepicker('setValue', data.start_date);
-            this.ui.$start_date.datepicker('setValue', data.end_date);
             if (this.ui.$start_date.val().length > 0 || this.ui.$end_date.val().length > 0 ) {
                 this.showDateRange();
             }
@@ -163,7 +173,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         showWeekDays: function () {
             this.ui.$date_range.slideUp();
             this.ui.$date.slideDown();
-        }
+        },
 
+        serializeData: function () {
+            return {
+                start_date: this.data.start_date,
+                end_date:   this.data.end_date
+            };
+        }
     });
 });

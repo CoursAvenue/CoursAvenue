@@ -35,7 +35,9 @@ $(function() {
             $(this).datepicker({
                 format: GLOBAL.DATE_FORMAT,
                 weekStart: 1,
-                language: 'fr'
+                language: 'fr',
+                autoClose: true,
+                todayHighlight: true
             });
             $(this).on('changeDate', function(){
                 $(this).datepicker('hide');

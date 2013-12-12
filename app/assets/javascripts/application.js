@@ -66,7 +66,7 @@
 //= require libs/bootstrap/bootstrap.datepicker
 //= require libs/bootstrap/bootstrap-slider
 //= require libs/bootstrap/bootstrap.button
-//= require libs/locales/bootstrap.datepicker.fr
+//= require libs/bootstrap/datepicker-locales/bootstrap.datepicker.fr
 
 
 //---- Highcharts

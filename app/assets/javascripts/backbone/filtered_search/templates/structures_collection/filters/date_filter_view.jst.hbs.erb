@@ -30,11 +30,11 @@
             <button class="inline-block v-middle btn btn--small" data-behaviour="toggle" >Choisir des dates precises</button>
         </div>
 
-        <div data-type="date-range">
-            du
-            <input class="datepicker-input" id="start-date" data-value="start-date" data-behavior="datepicker">
-            au
-            <input class="datepicker-input" id="end-date" data-value="end-date" data-behavior="datepicker">
+        <div class="input-daterange" data-type="date-range" data-behavior="datepicker">
+            <span class="add-on">du</span>
+            <input name="start" class="datepicker-input" id="start-date" data-value="start-date" value="{{start_date}}">
+            <span class="add-on">au</span>
+            <input name="end" class="datepicker-input" id="end-date" data-value="end-date" value="{{end_date}}">
             <button class="push-half--left inline-block v-middle btn btn--small" data-behaviour="toggle" >Choisir les jours de la semaine</button>
         </div>
     </div>
