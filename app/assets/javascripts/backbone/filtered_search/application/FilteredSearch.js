@@ -75,6 +75,8 @@ FilteredSearch.addInitializer(function(options) {
     location_filter           = new FiltersModule.LocationFilterView({});
 
     /* advanced filters */
+    filter_breadcrumbs        = new FiltersModule.FilterBreadcrumbs.FilterBreadcrumbsView({});
+
     level_filter              = new FiltersModule.LevelFilterView({});
     course_type_filter        = new FiltersModule.CourseTypeFilterView({});
     discount_filter           = new FiltersModule.DiscountFilterView({});
@@ -109,7 +111,15 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(subject_filter);
     layout.showWidget(infinite_scroll_button);
 
-    layout.showWidget(level_filter);
+    layout.showWidget(filter_breadcrumbs);
+
+    // TODO for now this is fine. Just add this
+    // to any filter that implements clear
+    layout.showWidget(level_filter, {
+        events: {
+            'breadcrumbs:clear:level': 'clear'
+        }
+    });
     layout.showWidget(course_type_filter);
     layout.showWidget(audience_filter);
     layout.showWidget(structure_type_filter);
