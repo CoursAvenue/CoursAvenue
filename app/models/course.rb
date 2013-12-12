@@ -26,11 +26,12 @@ class Course < ActiveRecord::Base
   after_initialize :set_teaches_at_home
 
   # ------------------------------------------------------------------------------------ Scopes
-  scope :active,    -> { where(active: true) }
-  scope :disabled,  -> { where(active: false) }
-  scope :lessons,   -> { where(type: "Course::Lesson") }
-  scope :workshops, -> { where(type: "Course::Workshop") }
-  scope :trainings, -> { where(type: "Course::Training") }
+  scope :active,                 -> { where(active: true) }
+  scope :disabled,               -> { where(active: false) }
+  scope :lessons,                -> { where(type: "Course::Lesson") }
+  scope :workshops,              -> { where(type: "Course::Workshop") }
+  scope :trainings,              -> { where(type: "Course::Training") }
+  scope :workshops_and_training, -> { where{ type != "Course::Lesson" } }
 
   # ------------------------------------------------------------------------------------ Validations
   validates :type, :name  , presence: true

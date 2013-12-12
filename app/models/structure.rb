@@ -228,12 +228,36 @@ class Structure < ActiveRecord::Base
     # And so on.
     integer :week_day_hours, multiple: true do
       week_day_hours = []
-      self.courses.lessons.map(&:plannings).flatten.each do |planning|
+      self.courses.active.lessons.map(&:plannings).flatten.each do |planning|
         (planning.start_time.hour..planning.end_time.hour).to_a.each do |hour|
           week_day_hours << (planning.week_day * 100) + hour
         end
       end
-      week_day_hours.uniq.sort
+      week_day_hours.uniq
+    end
+
+    date :course_dates, multiple: true do
+      dates = []
+      self.courses.active.workshops_and_training.map(&:plannings).flatten.each do |planning|
+        dates << (planning.start_date..planning.end_date).to_a if planning.start_date and planning.end_date
+      end
+      dates.flatten.uniq
+    end
+
+    date :end_date do
+      dates = []
+      self.courses.active.workshops_and_training.map(&:plannings).flatten.each do |planning|
+        dates << planning.end_date
+      end
+      dates.flatten.compact.max
+    end
+
+    date :start_date do
+      dates = []
+      self.courses.active.workshops_and_training.map(&:plannings).flatten.each do |planning|
+        dates << planning.start_date
+      end
+      dates.flatten.compact.min
     end
 
     integer :min_price do

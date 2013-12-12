@@ -101,7 +101,9 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 structure_types:  (data.server_api['structure_types[]'] ? data.server_api['structure_types[]']                 : ''),
                 funding_types:    (data.server_api['funding_types[]']   ? data.server_api['funding_types[]']                   : ''),
                 discount_types:   (data.server_api['discount_types[]']  ? data.server_api['discount_types[]']                  : ''),
-                week_days:        (data.server_api['week_days[]']       ? data.server_api['week_days[]']                       : '')
+                week_days:        (data.server_api['week_days[]']       ? data.server_api['week_days[]']                       : ''),
+                start_date:       (data.server_api.start_date           ? decodeURIComponent(data.server_api.start_date)       : ''),
+                end_date:         (data.server_api.end_date             ? decodeURIComponent(data.server_api.end_date)         : '')
             });
 
             this.trigger('structures:updated:maps');

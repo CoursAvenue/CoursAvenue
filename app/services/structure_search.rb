@@ -8,8 +8,9 @@ class StructureSearch
     params[:sort] ||= 'rating_desc'
     retrieve_location params
 
-    week_day_hours_array = self.week_day_hours params
-    @search = Sunspot.search(Structure) do
+    week_day_hours = self.week_day_hours params
+    course_dates   = self.course_dates params
+    @search        = Sunspot.search(Structure) do
       fulltext params[:name]                             if params[:name].present?
 
       # --------------- Geolocation
@@ -44,7 +45,16 @@ class StructureSearch
       with :structure_type, params[:structure_type]                                if params[:funding_type_ids].present?
 
       with(:week_days).any_of              params[:week_days].map(&:to_i)          if params[:week_days].present?
-      with(:week_day_hours).any_of         week_day_hours_array                    if week_day_hours_array
+      with(:week_day_hours).any_of         week_day_hours                          if week_day_hours
+
+      # If it has a date ranges
+      if course_dates
+        with(:course_dates).any_of course_dates
+      elsif params[:start_date]
+        with(:end_date).greater_than Date.strptime(params[:start_date], '%d/%m/%Y')
+      elsif params[:end_date]
+        with(:start_date).less_than Date.strptime(params[:end_date], '%d/%m/%Y')
+      end
 
       # --------------- Iterating over all types of prices
       %w(per_course book_ticket annual_subscription trimestrial_subscription).each do |name|
@@ -120,5 +130,11 @@ class StructureSearch
       end
     end
     return array_of_hours
+  end
+
+  # Create course date ranges
+  def self.course_dates(params)
+    return nil if params[:start_date].blank? or params[:end_date].blank?
+    (Date.strptime(params[:start_date], '%d/%m/%Y')..Date.strptime(params[:end_date], '%d/%m/%Y')).to_a
   end
 end

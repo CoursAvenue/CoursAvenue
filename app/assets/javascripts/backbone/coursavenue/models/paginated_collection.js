@@ -73,16 +73,19 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
                 if (_.isFunction(value)) {
                     value = value.call(self);
                 }
+
+                // Decode value before encoding it if the value is not decoded when coming here
+
                 // When value is an array, should be splitted as following:
                 // ...&level_ids[]=1&level_ids[]=2
                 if (_.isArray(value)) {
                     var new_keys = '';
                     _.each(value, function(array_value) {
-                        new_keys += key + '=' + encodeURIComponent(array_value) + '&';
+                        new_keys += key + '=' + encodeURIComponent(decodeURIComponent(value)) + '&';
                     });
                     return memo + new_keys;
                 } else {
-                    return memo + key + '=' + encodeURIComponent(value) + '&';
+                    return memo + key + '=' + encodeURIComponent(decodeURIComponent(value)) + '&';
                 }
             }, "?").slice(0, -1); // damn trailing character!
         },

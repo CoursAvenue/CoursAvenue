@@ -11,11 +11,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.ui.$hour_range.hide();
             this.ui.$date_range.hide();
             this.ui.$week_days_select.val(data.week_days);
-            if (data.date) {
-                this.ui.$select.val(data.date);
-            } else {
-                this.ui.$start_date.val(data.start_date);
-                this.ui.$end_date.val(data.end_date);
+
+            this.ui.$start_date.datepicker('setValue', data.start_date);
+            this.ui.$start_date.datepicker('setValue', data.end_date);
+            if (this.ui.$start_date.val().length > 0 || this.ui.$end_date.val().length > 0 ) {
+                this.showDateRange();
             }
         },
 
@@ -24,13 +24,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             '$time':             '[data-type=time]',
             '$date':             '[data-type=date]',
             '$date_range':       '[data-type=date-range]',
-            '$start_date':       '[data-type=start-date]',
-            '$end_date':         '[data-type=end-date]',
+            '$start_date':       '[data-value=start-date]',
+            '$end_date':         '[data-value=end-date]',
             '$hour_range':       '[data-type=hour-range]'
         },
 
         events: {
-            'click [data-behaviour=toggle]':          'toggleModes',
+            'click  [data-behaviour=toggle]':         'toggleModes',
             'change [data-type=day]':                 'announceDay',
             'change [data-type=time] select':         'announceTime',
             'change [data-type=time] > select':       'showHourRange',
@@ -90,8 +90,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         /* TODO this announces many many times on each date change event */
         announceDateRange: function () {
             this.trigger("filter:date", {
-                start_date:     this.$el.find('#start-date').val(),
-                end_date:       this.$el.find('#end-date').val(),
+                start_date:     (this.ui.$start_date.val().length > 0 ? this.ui.$start_date.val() : null),
+                end_date:       (this.ui.$end_date.val().length > 0   ? this.ui.$end_date.val()   : null),
                 start_time:     null,
                 'week_days[]':  null,
                 end_time:       null
@@ -147,14 +147,22 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         toggleModes: function () {
             if (this.ui.$date_range.is(':visible')) {
-                this.ui.$date_range.slideUp();
-                this.ui.$date.slideDown();
+                this.showWeekDays();
                 this.announce();
             } else {
-                this.ui.$date_range.slideDown();
-                this.ui.$date.slideUp();
+                this.showDateRange();
                 this.announceDateRange();
             }
+        },
+
+        showDateRange: function () {
+            this.ui.$date_range.slideDown();
+            this.ui.$date.slideUp();
+        },
+
+        showWeekDays: function () {
+            this.ui.$date_range.slideUp();
+            this.ui.$date.slideDown();
         }
 
     });
