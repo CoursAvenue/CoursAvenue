@@ -8,7 +8,7 @@
 </section>
 
 <section class="filtered-search__list-wrapper">
-    <div class="white-box soft-half push-half--bottom">
+    <div class="white-box soft-half hard--top">
 
         <div data-type="subject-filter"></div>
         <div data-type="keyword-filter"></div>
@@ -35,14 +35,18 @@
                 <button class="btn btn--blue btn--full text--center" data-toggle="tab" data-target="[data-tab=search-results]">Voir les résultats</button>
             </div>
         </div>
-
+        <hr class="push-half--ends" />
         <div class="flexbox">
-            <button class="one-eigth btn btn--small" data-toggle="collapse" data-target="#advanced-filters"><i class="fa fa-filter soft-half--right"></i>FILTRES</button>
-            <div class="seven-eigths" data-type="filter-breadcrumbs"></div>
+            <div class="flexbox__item v-top">
+                <button class="one-eigth btn" data-toggle="collapse" data-target="#advanced-filters"><i class="fa fa-filter soft-half--right"></i>FILTRES</button>
+            </div>
+            <div class="flexbox__item v-top" data-type="filter-breadcrumbs">
+            </div>
+            <div class="flexbox__item v-top" data-type="results-summary">
+            </div>
         </div>
     </div>
 
-    <div class="soft-half--sides" data-type="results-summary"></div>
 
     <div class="active tab-pane" id="search-results" data-tab="search-results"></div>
 
