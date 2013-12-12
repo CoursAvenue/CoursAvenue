@@ -10,26 +10,36 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         ui: {
-            '$radio': '[data-behavior=radio-control]',
-            '$slider': '[data-behavior=slider-control]'
+            '$select': '[data-behavior=chosen]',
+            '$slider': '[data-behavior=slider]'
         },
 
         events: {
-            'change @ui.$radio': 'announce'
+            'change    @ui.$select':        'announce',
+            'change    @ui.$slider':        'announce'
+        },
+
+        toggleSlider: function () {
+
         },
 
         announce: function (e) {
-            this.trigger("filter:price", { 'price': e.target.value });
+debugger
+            var $option = $('[value="' + e.currentTarget.value + '"]'),
+                range = $option.data("range").split(','),
+                slider_value = this.ui.$slider.val().split(',');
+
+            this.ui.$slider.noUiSlider({ range: range }, true);
+
+//            this.trigger("filter:price", {
+ //               'price_types': this.ui.$select.val(),
+  //              'min_price': slider_value[0],
+   //             'max_price': slider_value[1],
+    //        });
         },
 
-        announceRange: function (e) {
-            this.trigger("filter:price", { 'price': data });
-        },
+        activateInput: function () {
 
-        activateInput: function(value) {
-            var $input = this.ui.$radio.find('[value="' + value + '"]');
-
-            $input.prop('checked', true);
         }
     });
 });

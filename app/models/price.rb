@@ -20,6 +20,14 @@ class Price < ActiveRecord::Base
            'prices.subscription.month',
            'prices.book_ticket.libelle.book']
 
+  RANGES = {
+      "#{TYPES[0]}" => { min: 1, max: 2 },
+      "#{TYPES[1]}" => { min: 2, max: 3 },
+      "#{TYPES[2]}" => { min: 3, max: 4 },
+      "#{TYPES[3]}" => { min: 4, max: 5 },
+      "#{TYPES[4]}" => { min: 5, max: 6 }
+  }
+
   # BookTickets
   scope :book_tickets      , -> { where{type == 'Price::BookTicket'} }
   # Retrieve individual courses
