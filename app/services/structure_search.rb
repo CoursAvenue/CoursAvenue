@@ -8,6 +8,7 @@ class StructureSearch
     params[:sort] ||= 'rating_desc'
     retrieve_location params
 
+    week_day_hours_array = self.week_day_hours params
     @search = Sunspot.search(Structure) do
       fulltext params[:name]                             if params[:name].present?
 
@@ -43,6 +44,7 @@ class StructureSearch
       with :structure_type, params[:structure_type]                                if params[:funding_type_ids].present?
 
       with(:week_days).any_of              params[:week_days].map(&:to_i)          if params[:week_days].present?
+      with(:week_day_hours).any_of         week_day_hours_array                    if week_day_hours_array
 
       # --------------- Iterating over all types of prices
       %w(per_course book_ticket annual_subscription trimestrial_subscription).each do |name|
@@ -102,5 +104,21 @@ class StructureSearch
     end
     @structures = @structures.flatten
     return @structures[0..(limit - 1)]
+  end
+
+  # Builds an array of hours from week_days, start_time and end_time
+  def self.week_day_hours(params)
+    return nil if params[:week_days].blank? and params[:start_time].blank? and params[:end_time].blank?
+    # If blank, genreates for all week days regarding start and end time
+    array_of_hours = []
+    start_time     = params[:start_time] || 0
+    end_time       = params[:start_time] || 24
+    week_days      = (params[:week_days].present? ? params[:week_days].map(&:to_i) : [0,1,2,3,4,5,6])
+    week_days.each do |week_day|
+      (start_time..end_time).to_a.each do |hour|
+        array_of_hours << (week_day * 100) + hour
+      end
+    end
+    return array_of_hours
   end
 end
