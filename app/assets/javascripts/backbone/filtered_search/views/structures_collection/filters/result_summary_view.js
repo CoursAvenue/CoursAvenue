@@ -48,6 +48,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var method = $(element).data('value') === 'rating_desc';
             this.sort_by_popularity = method;
             this.sort_by_relevance = !method;
+        },
+        // Clears all the given filters
+        clear: function (filters) {
         }
     });
 });

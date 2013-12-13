@@ -11,6 +11,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         setup: function (data) {
             this.ui.$select.val(data.discount_types);
+            this.announceBreadcrumbs();
         },
 
         ui: {
@@ -22,8 +23,24 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         announce: function (e, data) {
-            var value = this.ui.$select.val();
-            this.trigger("filter:discount", { 'discount_types[]': value });
+            var discount_types = this.ui.$select.val();
+            this.trigger("filter:discount", { 'discount_types[]': discount_types });
+            this.announceBreadcrumbs(discount_types);
+        },
+
+        announceBreadcrumbs: function(discount_types) {
+            discount_types = discount_types || this.ui.$select.val();
+            if (discount_types === null) {
+                this.trigger("filter:breadcrumb:remove", {target: 'discount'});
+            } else {
+                this.trigger("filter:breadcrumb:add", {target: 'discount'});
+            }
+        },
+
+        // Clears all the given filters
+        clear: function () {
+            this.ui.$select.val('').trigger('chosen:updated');
+            this.announce();
         }
     });
 });

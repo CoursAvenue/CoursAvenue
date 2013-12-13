@@ -11,6 +11,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         setup: function (data) {
             this.ui.$select.val(data.funding_type);
+            this.announceBreadcrumb();
         },
 
         ui: {
@@ -22,8 +23,24 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         announce: function (e, data) {
-            var value = this.ui.$select.val();
-            this.trigger("filter:payment_method", { 'funding_type': value });
+            var payment_methods = this.ui.$select.val();
+            this.trigger("filter:payment_method", { 'funding_type': payment_methods });
+            this.announceBreadcrumb(payment_methods);
+        },
+
+        announceBreadcrumb: function (payment_methods) {
+            payment_methods = payment_methods || this.ui.$select.val();
+            if (payment_methods === null) {
+                this.trigger("filter:breadcrumb:remove", {target: 'payment_method'});
+            } else {
+                this.trigger("filter:breadcrumb:add", {target: 'payment_method'});
+            }
+        },
+
+        // Clears all the given filters
+        clear: function (filters) {
+            this.ui.$select.val('').trigger('chosen:updated');
+            this.announce();
         }
     });
 });

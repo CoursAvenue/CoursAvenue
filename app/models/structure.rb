@@ -209,7 +209,7 @@ class Structure < ActiveRecord::Base
       self.plannings.map(&:max_age_for_kid).compact.max
     end
 
-    %w(per_course book_ticket annual_subscription semestrial_subscription trimestrial_subscription monthly_subscription).each do |name|
+    Price::TYPES.each do |name|
       integer "#{name}_min_price".to_sym do
         self.min_price_amount_for(name)
       end
@@ -609,6 +609,7 @@ class Structure < ActiveRecord::Base
   # Return the scoped price for a given type.
   # Used in search
   def price_amount_for_scope(type)
+    puts type
     case type
     when 'per_course'
       self.prices.book_tickets.individual

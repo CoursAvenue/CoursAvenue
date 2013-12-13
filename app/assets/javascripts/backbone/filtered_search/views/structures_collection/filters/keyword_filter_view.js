@@ -5,26 +5,41 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         className: 'header-search-bar hard',
 
         initialize: function () {
-            this.announceSearchTerm = _.debounce(this.announceSearchTerm, 500);
+            this.announce = _.debounce(this.announce, 500);
         },
 
         setup: function (data) {
             this.ui.$search_input.attr('value', data.name);
             this.previous_searched_name = data.name;
+            this.announceBreadcrumbs();
+        },
+
+        ui: {
+            '$search_input': '#search-input'
         },
 
         events: {
-            'typeahead:selected #search-input': 'announceSearchTerm',
+            'typeahead:selected #search-input': 'announce',
             // Use keydown instead of keypress to handle the case when the user empties the input
-            'keydown #search-input':            'announceSearchTerm'
+            'keydown #search-input':            'announce'
         },
 
-        announceSearchTerm: function (event, data) {
+        announce: function (event, data) {
             name = (data ? data.name : event.currentTarget.value);
             // Prevent from launching the search if the name is same than previous one
             if (name != this.previous_searched_name) {
                 this.previous_searched_name = name;
                 this.trigger("filter:search_term", { 'name': name });
+            }
+            this.announceBreadcrumbs(name);
+        },
+
+        announceBreadcrumbs: function(name) {
+            name = name || this.ui.$search_input.val();
+            if (name.length === 0) {
+                this.trigger("filter:breadcrumb:remove", {target: 'search_term'});
+            } else {
+                this.trigger("filter:breadcrumb:add", {target: 'search_term'});
             }
         },
 
@@ -42,5 +57,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 }
             }]);
         },
+        // Clears all the given filters
+        clear: function () {
+            this.previous_searched_name = null;
+            this.ui.search_input.val('');
+            this.announce();
+        }
+
     });
 });

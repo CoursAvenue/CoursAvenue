@@ -12,13 +12,12 @@ fr:
     individual_course: 1 cours
     registration_fees: Frais d'adhésion
     filter:
-      individual_course: Par cours
+      per_course: Par cours
       book_ticket: Au carnet
-      subscription:
-        annual: Par abonnement annuel
-        semester: Par abonnement semestriel
-        trimester: Par abonnement trimestriel
-        month: Par abonnement mensuel
+      annual_subscription: Par abonnement annuel
+      semestrial_subscription: Par abonnement semestriel
+      trimestrial_subscription: Par abonnement trimestriel
+      monthly_subscription: Par abonnement mensuel
     book_ticket:
       libelle:
         zero: Carnet de zero ticket

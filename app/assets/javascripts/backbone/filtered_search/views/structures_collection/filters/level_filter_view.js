@@ -14,19 +14,16 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             _.each(data.level_ids, function(level_id) {
                 self.activateInput(level_id);
             });
+            this.announceBreadcrumb();
         },
 
-        /* clears all the given filters */
-        clear: function (filters) {
-            filters = [0, 1];
-            var self = this;
-
-            _.each(filters, function (filter) {
-                var input = self.ui.$buttons.find('[value="' + filter + '"]');
-                input.prop("checked", false);
-                input.parent('.btn').removeClass('active');
+        // Clears all the given filters
+        clear: function () {
+            _.each(this.ui.$buttons.find('input'), function(input) {
+                var $input = $(input);
+                $input.prop("checked", false);
+                $input.parent('.btn').removeClass('active');
             });
-
             this.announce();
         },
 
@@ -35,13 +32,22 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         events: {
-            'change input': 'announce',
-            'click [data-type=bob]': 'clear'
+            'change input': 'announce'
         },
 
         announce: function (e, data) {
             var level_ids = _.map(this.$('[name="level_ids[]"]:checked'), function(input){ return input.value });
             this.trigger("filter:level", { 'level_ids[]': level_ids });
+            this.announceBreadcrumb(level_ids);
+        },
+
+        announceBreadcrumb: function(level_ids) {
+            level_ids = level_ids || _.map(this.$('[name="level_ids[]"]:checked'), function(input){ return input.value });
+            if (level_ids.length === 0) {
+                this.trigger("filter:breadcrumb:remove", {target: 'level'});
+            } else {
+                this.trigger("filter:breadcrumb:add", {target: 'level'});
+            }
         },
 
         activateInput: function(level_value) {

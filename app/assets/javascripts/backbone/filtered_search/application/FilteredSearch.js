@@ -5,7 +5,7 @@ FilteredSearch.addRegions({
 });
 
 FilteredSearch.addInitializer(function(options) {
-    var bootstrap, structures, structures_view, layout, maps_view, $loader;
+    var bootstrap, structures, structures_view, layout, maps_view, $loader, clearEvent;
 
     bootstrap = window.coursavenue.bootstrap;
 
@@ -105,28 +105,30 @@ FilteredSearch.addInitializer(function(options) {
      * can depend on the main widget for data. Let's make this
      * explicit so that the order of the 'showWidget' calls doesn't
      * matter */
-    layout.showWidget(keyword_filter);
-    layout.showWidget(location_filter);
-    layout.showWidget(results_summary);
-    layout.showWidget(subject_filter);
-    layout.showWidget(infinite_scroll_button);
 
-    layout.showWidget(filter_breadcrumbs);
+    layout.showWidget(filter_breadcrumbs, {
+        events: {
+            'filter:breadcrumb:add':     'addBreadCrumb',
+            'filter:breadcrumb:remove':  'removeBreadCrumb'
+        }
+    });
+
+    layout.showWidget(keyword_filter,          { events: { 'breadcrumbs:clear:keyword': 'clear'} });
+    layout.showWidget(location_filter,         { events: { 'breadcrumbs:clear:location': 'clear'} });
+    layout.showWidget(subject_filter,          { events: { 'breadcrumbs:clear:subject': 'clear'} });
+    layout.showWidget(infinite_scroll_button);
+    layout.showWidget(results_summary);
 
     // TODO for now this is fine. Just add this
     // to any filter that implements clear
-    layout.showWidget(level_filter, {
-        events: {
-            'breadcrumbs:clear:level': 'clear'
-        }
-    });
-    layout.showWidget(course_type_filter);
-    layout.showWidget(audience_filter);
-    layout.showWidget(structure_type_filter);
-    layout.showWidget(payment_method_filter);
-    layout.showWidget(discount_filter);
-    layout.showWidget(date_filter);
-    layout.showWidget(price_filter);
+    layout.showWidget(level_filter,          { events: { 'breadcrumbs:clear:level': 'clear'} });
+    layout.showWidget(course_type_filter,    { events: { 'breadcrumbs:clear:course_type': 'clear'} });
+    layout.showWidget(audience_filter,       { events: { 'breadcrumbs:clear:audience': 'clear'} });
+    layout.showWidget(structure_type_filter, { events: { 'breadcrumbs:clear:structure_type': 'clear'} });
+    layout.showWidget(payment_method_filter, { events: { 'breadcrumbs:clear:payment_method': 'clear'} });
+    layout.showWidget(discount_filter,       { events: { 'breadcrumbs:clear:discount': 'clear'} });
+    layout.showWidget(date_filter,           { events: { 'breadcrumbs:clear:date': 'clear'} });
+    layout.showWidget(price_filter,          { events: { 'breadcrumbs:clear:price': 'clear'} });
 
     layout.master.show(structures_view);
 });

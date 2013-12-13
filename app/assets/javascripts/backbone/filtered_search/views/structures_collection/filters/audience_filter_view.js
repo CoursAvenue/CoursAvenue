@@ -29,6 +29,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
             this.ui.min_age_select.val(data.min_age_for_kids || 0);
             this.ui.max_age_select.val(data.max_age_for_kids || MAX_AGE - 1);
+            this.announceBreadcrumb();
         },
 
         ui: {
@@ -92,6 +93,16 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
 
             this.trigger("filter:audience", value_to_trigger);
+            this.announceBreadcrumb(audience_ids);
+        },
+
+        announceBreadcrumb: function(audience_ids) {
+            audience_ids = audience_ids || _.map(this.$('[name="audience_ids[]"]:checked'), function(input){ return input.value });
+            if (audience_ids.length === 0) {
+                this.trigger("filter:breadcrumb:remove", {target: 'audience'});
+            } else {
+                this.trigger("filter:breadcrumb:add", {target: 'audience'});
+            }
         },
 
         activateInput: function (audience_id) {
@@ -106,6 +117,16 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             } else {
                 return audience_id === '1';
             }
+        },
+
+        // Clears all the given filters
+        clear: function (filters) {
+            _.each(this.$('input'), function(input) {
+                var $input = $(input);
+                $input.prop("checked", false);
+                $input.parent('.btn').removeClass('active');
+            });
+            this.announce();
         }
     });
 });

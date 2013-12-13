@@ -42,6 +42,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                     resolution: 1
                 }
             });
+            this.announceBreadcrumb();
         },
 
         ui: {
@@ -73,6 +74,23 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 'min_price': slider_value[0],
                 'max_price': slider_value[1],
             });
+            this.announceBreadcrumb();
+        },
+        announceBreadcrumb: function() {
+            if (this.ui.$select.val() === 'per_course' &&
+                this.ui.$slider.val()[0] === '5' &&
+                this.ui.$slider.val()[1] === '500') {
+                this.trigger("filter:breadcrumb:remove", {target: 'price'});
+            } else {
+                this.trigger("filter:breadcrumb:add", {target: 'price'});
+            }
+        },
+
+        // Clears all the given filters
+        clear: function (filters) {
+            this.ui.$select.val('per_course');
+            this.ui.$slider.val([5, 500]);
+            this.announce();
         }
     });
 });

@@ -22,9 +22,23 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         announce: function (e, data) {
-            var value = this.ui.$select.val();
-            this.trigger("filter:structure_type", { 'structure_type': value });
-        }
+            var structure_types = this.ui.$select.val();
+            this.trigger("filter:structure_type", { 'structure_type': structure_types });
+            this.announceBreadcrumb(structure_types);
+        },
+        announceBreadcrumb: function(structure_types) {
+            structure_types = structure_types || this.ui.$select.val();
+            if (structure_types === null) {
+                this.trigger("filter:breadcrumb:remove", {target: 'structure_type'});
+            } else {
+                this.trigger("filter:breadcrumb:add", {target: 'structure_type'});
+            }
+        },
 
+        // Clears all the given filters
+        clear: function (filters) {
+            this.ui.$select.val('').trigger('chosen:updated');
+            this.announce();
+        }
     });
 });

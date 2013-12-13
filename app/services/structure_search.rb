@@ -10,6 +10,7 @@ class StructureSearch
 
     week_day_hours = self.week_day_hours params
     course_dates   = self.course_dates params
+    self.build_prices params
     @search        = Sunspot.search(Structure) do
       fulltext params[:name]                             if params[:name].present?
 
@@ -136,5 +137,12 @@ class StructureSearch
   def self.course_dates(params)
     return nil if params[:start_date].blank? or params[:end_date].blank?
     (Date.strptime(params[:start_date], '%d/%m/%Y')..Date.strptime(params[:end_date], '%d/%m/%Y')).to_a
+  end
+
+  def self.build_prices(params)
+    if params[:price_type].present?
+      params["#{params[:price_type]}_min_price"] = params[:min_price].to_i if params[:min_price].present?
+      params["#{params[:price_type]}_max_price"] = params[:max_price].to_i if params[:max_price].present?
+    end
   end
 end

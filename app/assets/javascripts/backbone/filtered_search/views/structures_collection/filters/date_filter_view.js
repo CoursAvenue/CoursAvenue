@@ -28,6 +28,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             if (this.ui.$start_date.val().length > 0 || this.ui.$end_date.val().length > 0 ) {
                 this.showDateRange();
             }
+            this.announceBreadcrumbs();
         },
 
         ui: {
@@ -64,6 +65,18 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 start_date: null,
                 end_date  : null
             });
+            this.announceBreadcrumbs();
+        },
+        announceBreadcrumbs: function() {
+            // Remove breadcrumb if all values are not set
+            if ((this.ui.$week_days_select.val() === null) &&
+                (this.ui.$start_date.val().length === 0) &&
+                (this.ui.$end_date.val().length === 0) &&
+                this.ui.$time.find('select').val() === 'all-day') {
+                this.trigger("filter:breadcrumb:remove", {target: 'date'});
+            } else {
+                this.trigger("filter:breadcrumb:add", {target: 'date'});
+            }
         },
 
         announceTime: function (e, data) {
@@ -75,16 +88,23 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 case 'all-day':
                     data = {start_time: null, end_time: null};
                 break;
-                default:
+                case '9-12':
+                case '12-14':
+                case '14-18':
+                case '18-23':
                     // Value is formatted as: 9-12
                     range = this.ui.$time.find('select').val().split('-');
-                    data = {
+                    data  = {
                         start_time: range[0],
                         end_time: range[1]
                     };
                 break;
+                default:
+                    return;
+                break;
             }
             this.trigger("filter:date", data);
+            this.announceBreadcrumbs();
         },
 
         announceHourRange: function (e) {
@@ -96,6 +116,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 start_time: this.$el.find('#start-hour').val(),
                 end_time:   this.$el.find('#end-hour').val(),
             });
+            this.announceBreadcrumbs();
         },
 
         /* TODO this announces many many times on each date change event */
@@ -107,6 +128,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 'week_days[]':  null,
                 end_time:       null
             });
+            this.announceBreadcrumbs();
         },
 
         showHourRange: function () {
@@ -181,6 +203,14 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 start_date: this.data.start_date,
                 end_date:   this.data.end_date
             };
+        },
+        // Clears all the given filters
+        clear: function () {
+            this.ui.$week_days_select.val('').trigger('chosen:updated');
+            this.ui.$start_date.val('');
+            this.ui.$end_date.val('');
+            this.ui.$time.find('select').val('all-day');
+            this.announce();
         }
     });
 });
