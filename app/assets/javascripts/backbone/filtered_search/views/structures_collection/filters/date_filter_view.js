@@ -17,6 +17,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         setup: function (data) {
             var $selects = this.ui.$hour_range.find('select');
             this.data    = data;
+            // Re render to have the data in the view.
             this.render();
 
             this.populateHourRange($selects, 0, 24);

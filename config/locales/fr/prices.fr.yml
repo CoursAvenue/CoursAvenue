@@ -11,9 +11,16 @@ fr:
     contact_structure: Contacter l'établissement
     individual_course: 1 cours
     registration_fees: Frais d'adhésion
+    filter:
+      individual_course: Par cours
+      book_ticket: Au carnet
+      subscription:
+        annual: Par abonnement annuel
+        semester: Par abonnement semestriel
+        trimester: Par abonnement trimestriel
+        month: Par abonnement mensuel
     book_ticket:
       libelle:
-        book: Au Carnet
         zero: Carnet de zero ticket
         one: Carnet de un ticket
         other: Carnet de %{count} tickets

@@ -3,13 +3,25 @@
         <strong class="gray">Prix</strong>
     </div><!--
  --><div class="grid__item v-middle four-fifths">
-        <select data-type="price" class="inline-block v-middle">
+        <select data-type="price" class="inline-block v-top">
             <% Price::TYPES.each do |price| %>
-                <option value="<%= price %>" data-range="<%= Price::RANGES[price][:min] %>,<%= Price::RANGES[price][:max] %>"><%= I18n.t(price).split(" ").last %></option>
+                <option value="<%= price %>" data-step="<%= Price::RANGES[price][:step].to_i %>" data-range="<%= Price::RANGES[price][:min].to_i %>,<%= Price::RANGES[price][:max].to_i %>"><%= I18n.t("prices.filter.#{price}") %></option>
             <% end %>
         </select>
-        <div class="one-half soft--left inline-block v-middle" style="padding-left: 10px;">
+        <div class="push--left one-half inline-block v-top" style="padding-top: 5px;">
             <div data-behavior="slider"></div>
+            <div class="grid soft-half--top"><!--
+             --><div class="grid__item one-half">
+                    Prix minimum :
+                    <strong data-behavior="slider-min-value"></strong>
+                    €
+                </div><!--
+             --><div class="grid__item one-half text--right">
+                    Prix maximum :
+                    <strong data-behavior="slider-max-value"></strong>
+                    €
+                </div><!--
+         --></div>
         </div>
     </div>
 </div>

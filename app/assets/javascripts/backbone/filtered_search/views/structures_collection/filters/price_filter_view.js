@@ -5,8 +5,14 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.PriceFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'price_filter_view',
 
+        initialize: function() {
+            this.announce = _.debounce(this.announce, 800);
+        },
+
         setup: function (data) {
-            var $option, range;
+            var $option, range, step,
+                $min_value = this.ui.$min_value,
+                $max_value = this.ui.$max_value;
 
             if (data.price_type === "") {
                 $option = this.ui.$select.find('option').first();
@@ -15,6 +21,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
 
             range = $option.data("range").split(',');
+            step  = $option.data("step");
 
             if (data.min_price === "" && data.max_price === "") {
                 min = range[0];
@@ -23,42 +30,44 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 min = data.min_price;
                 max = data.max_price;
             }
-
             this.ui.$slider.noUiSlider({
                 range: range,
                 start: [min, max],
+                connect: true,
                 handles: 2,
                 margin: 2,
-                step: 1,
+                step: step,
                 serialization: {
-                    to: [ $('value'), 'text']
+                    to: [ [$min_value, 'text'], [$max_value, 'text']],
+                    resolution: 1
                 }
             });
         },
 
         ui: {
-            '$select': 'select',
-            '$slider': '[data-behavior=slider]'
+            '$select':    'select',
+            '$slider':    '[data-behavior=slider]',
+            '$min_value': '[data-behavior="slider-min-value"]',
+            '$max_value': '[data-behavior="slider-max-value"]'
         },
 
         events: {
-            'change    @ui.$select':        'announce',
-            'change    @ui.$slider':        'announce'
+            'change @ui.$select': 'changeRange',
+            'change @ui.$slider': 'announce'
         },
 
-        toggleSlider: function () {
-
+        changeRange: function() {
+            var $option = $('[value="' + this.ui.$select.val() + '"]'),
+                range   = $option.data('range').split(','),
+                step    = $option.data('step');
+            this.ui.$slider.noUiSlider({ range: range, start: range, step: step }, true);
+            this.ui.$slider.parent().animate({backgroundColor: 'rgba(255, 255, 13, 0.35)'}, {duration: 300})
+                                    .animate({backgroundColor: 'transparent'}, {duration: 300});
+            this.announce();
         },
 
         announce: function (e) {
-            var option = this.ui.$select.val(),
-                $option = $('[value="' + this.ui.$select.val() + '"]'),
-                range = $option.data('range').split(','),
-                slider_value;
-
-            this.ui.$slider.noUiSlider({ range: range }, true);
-            slider_value = this.ui.$slider.val(),
-
+            var slider_value = this.ui.$slider.val();
             this.trigger("filter:price", {
                 'price_type': this.ui.$select.val(),
                 'min_price': slider_value[0],
