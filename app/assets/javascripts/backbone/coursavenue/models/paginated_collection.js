@@ -75,17 +75,18 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
                 }
 
                 // Decode value before encoding it if the value is not decoded when coming here
+                // ANDRE removed the encode(decode()) stuff because it seems to work normally without
 
                 // When value is an array, should be splitted as following:
                 // ...&level_ids[]=1&level_ids[]=2
                 if (_.isArray(value)) {
                     var new_keys = '';
                     _.each(value, function(array_value) {
-                        new_keys += key + '=' + encodeURIComponent(decodeURIComponent(value)) + '&';
+                        new_keys += key + '=' + array_value + '&';
                     });
                     return memo + new_keys;
                 } else {
-                    return memo + key + '=' + encodeURIComponent(decodeURIComponent(value)) + '&';
+                    return memo + key + '=' + value + '&';
                 }
             }, "?").slice(0, -1); // damn trailing character!
         },

@@ -16,8 +16,27 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             });
         },
 
+        /* clears all the given filters */
+        clear: function (filters) {
+            filters = [0, 1];
+            var self = this;
+
+            _.each(filters, function (filter) {
+                var input = self.ui.$buttons.find('[value="' + filter + '"]');
+                input.prop("checked", false);
+                input.parent('.btn').removeClass('active');
+            });
+
+            this.announce();
+        },
+
+        ui: {
+            '$buttons': '[data-toggle=buttons]'
+        },
+
         events: {
-            'change input': 'announce'
+            'change input': 'announce',
+            'click [data-type=bob]': 'clear'
         },
 
         announce: function (e, data) {
