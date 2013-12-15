@@ -609,7 +609,6 @@ class Structure < ActiveRecord::Base
   # Return the scoped price for a given type.
   # Used in search
   def price_amount_for_scope(type)
-    puts type
     case type
     when 'per_course'
       self.prices.book_tickets.individual
