@@ -32,6 +32,7 @@ FilteredSearch.addInitializer(function(options) {
             'filter:payment_method':   'filterQuery',
             'filter:search_term':      'filterQuery',
             'filter:location':         'filterQuery',
+            'filter:trial_course':     'filterQuery',
             'map:marker:focus':        'findItemView',
             'structures:updated':      'renderSlideshows'
         }
@@ -85,6 +86,7 @@ FilteredSearch.addInitializer(function(options) {
     payment_method_filter     = new FiltersModule.PaymentMethodFilterView({});
     date_filter               = new FiltersModule.DateFilterView({});
     price_filter              = new FiltersModule.PriceFilterView({});
+    trial_course_filter       = new FiltersModule.TrialCourseFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -129,6 +131,7 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(discount_filter,       { events: { 'breadcrumbs:clear:discount': 'clear'} });
     layout.showWidget(date_filter,           { events: { 'breadcrumbs:clear:date': 'clear'} });
     layout.showWidget(price_filter,          { events: { 'breadcrumbs:clear:price': 'clear'} });
+    layout.showWidget(trial_course_filter,   { events: { 'breadcrumbs:clear:trial_course': 'clear'} });
 
     layout.master.show(structures_view);
 });

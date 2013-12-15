@@ -97,10 +97,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         announceBreadcrumb: function(audience_ids) {
+            var title;
             audience_ids = audience_ids || _.map(this.$('[name="audience_ids[]"]:checked'), function(input){ return input.value });
             if (audience_ids.length === 0) {
                 this.trigger("filter:breadcrumb:remove", {target: 'audience'});
             } else {
+                title = _.map(this.$('[name="audience_ids[]"]:checked'), function(input){ return $(input).parent().text().trim() });
                 this.trigger("filter:breadcrumb:add", {target: 'audience'});
             }
         },

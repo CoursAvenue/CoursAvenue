@@ -64,7 +64,6 @@
 //= require libs/bootstrap/bootstrap.popover
 //= require libs/bootstrap/bootstrap.tab
 //= require libs/bootstrap/bootstrap.datepicker
-//= require libs/bootstrap/bootstrap-slider
 //= require libs/bootstrap/bootstrap.button
 //= require libs/bootstrap/datepicker-locales/bootstrap.datepicker.fr
 

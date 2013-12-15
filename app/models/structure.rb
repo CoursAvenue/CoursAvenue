@@ -565,7 +565,7 @@ class Structure < ActiveRecord::Base
     self.gives_group_courses      = self.courses.select{|course| !course.is_individual? }.any?
     self.gives_individual_courses = self.courses.select(&:is_individual?).any?
     self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?
-    self.has_free_trial_course    = self.prices.where{(type == 'Price::Trial') & ((amount == nil) | (amount == 0))}.any?
+    self.has_free_trial_course    = self.prices.trials.where{(amount == nil) | (amount == 0)}.any?
     self.course_names             = self.courses.map(&:name).uniq.join(', ')
     self.last_comment_title       = self.comments.accepted.first.title if self.comments.accepted.any?
     # Store level and audiences ids as coma separated string values: "1,3,5"

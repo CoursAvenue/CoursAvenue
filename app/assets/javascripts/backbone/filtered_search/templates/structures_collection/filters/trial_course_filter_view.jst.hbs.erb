@@ -1,0 +1,18 @@
+<div class="grid--full">
+    <div class="grid__item v-middle one-fifth">
+        <strong class="gray">Cours d'essai</strong>
+    </div><!--
+ --><div class="grid__item v-middle four-fifths">
+      <input class="v-middle" id="free-trial-course" type="radio" value="0" name="trial-course"></input>
+      <label for="free-trial-course" class="inline v-middle">GRATUIT !</label>
+      <label for="trial-course-price" class="inline v-middle">ou moins de</label>
+      <select id="trial-course-price" class="v-middle">
+        <option value="0"></option>
+        <% 5.step(50,5).each do |price| %>
+            <option value="<%= price %>"><%= price %></option>
+        <% end %>
+      </select>
+      <span>€</span>
+    </div>
+</div>
+

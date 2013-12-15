@@ -42,11 +42,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         announceBreadcrumb: function(level_ids) {
+            var title;
             level_ids = level_ids || _.map(this.$('[name="level_ids[]"]:checked'), function(input){ return input.value });
             if (level_ids.length === 0) {
                 this.trigger("filter:breadcrumb:remove", {target: 'level'});
             } else {
-                this.trigger("filter:breadcrumb:add", {target: 'level'});
+                title = _.map(this.$('[name="level_ids[]"]:checked'), function(input){ return $(input).parent().text().trim() });
+                this.trigger("filter:breadcrumb:add", {target: 'level', title: title.join(', ')});
             }
         },
 

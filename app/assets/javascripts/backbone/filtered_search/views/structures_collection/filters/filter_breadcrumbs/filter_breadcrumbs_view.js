@@ -25,6 +25,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
             this.render();
         },
 
+        onRender: function() {
+            this.$('[data-behavior="tooltip"]').tooltip();
+        },
+
         // @data: - hash
         //    target
         //    name
@@ -64,7 +68,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
                 case 'location':
                     this.breadcrumbs[data.target].name = 'Lieux';
                 break;
+                case 'trial_course':
+                    this.breadcrumbs[data.target].name = "Cours d'essai";
+                break;
             }
+            if (data.title)           { this.breadcrumbs[data.target].title = data.title; }
+            if (data.additional_info) { this.breadcrumbs[data.target].additional_info = data.additional_info; }
             this.render();
         },
 
@@ -75,7 +84,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
         clear: function (e) {
             var data = $(e.currentTarget).data();
             this.trigger('breadcrumbs:clear:' + data.target);
-            this.$el.find(e.currentTarget).remove();
+            this.removeBreadCrumb(data);
+            this.render();
         },
 
         serializeData: function() {

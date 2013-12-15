@@ -89,23 +89,24 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             /* announce the filters used in the current result set */
             this.trigger('structures:updated:filter', {
-                address_name:     (data.server_api.address_name         ? decodeURIComponent(data.server_api.address_name)     : ''),
-                name:             (data.server_api.name                 ? decodeURIComponent(data.server_api.name)             : ''),
-                subject_id:       (data.server_api.subject_id           ? decodeURIComponent(data.server_api.subject_id)       : ''),
-                level_ids:        (data.server_api['level_ids[]']       ? data.server_api['level_ids[]']                       : ''),
-                audience_ids:     (data.server_api['audience_ids[]']    ? data.server_api['audience_ids[]']                    : ''),
-                course_types:     (data.server_api['course_types[]']    ? data.server_api['course_types[]']                    : ''),
-                min_age_for_kids: (data.server_api.min_age_for_kids     ? decodeURIComponent(data.server_api.min_age_for_kids) : ''),
-                max_age_for_kids: (data.server_api.max_age_for_kids     ? decodeURIComponent(data.server_api.max_age_for_kids) : ''),
-                price_type:       (data.server_api.price_type           ? decodeURIComponent(data.server_api.price_type)       : ''),
-                max_price:        (data.server_api.max_price            ? decodeURIComponent(data.server_api.max_price)        : ''),
-                min_price:        (data.server_api.min_price            ? decodeURIComponent(data.server_api.min_price)        : ''),
-                structure_types:  (data.server_api['structure_types[]'] ? data.server_api['structure_types[]']                 : ''),
-                funding_types:    (data.server_api['funding_types[]']   ? data.server_api['funding_types[]']                   : ''),
-                discount_types:   (data.server_api['discount_types[]']  ? data.server_api['discount_types[]']                  : ''),
-                week_days:        (data.server_api['week_days[]']       ? data.server_api['week_days[]']                       : ''),
-                start_date:       (data.server_api.start_date           ? decodeURIComponent(data.server_api.start_date)       : ''),
-                end_date:         (data.server_api.end_date             ? decodeURIComponent(data.server_api.end_date)         : '')
+                address_name:        (data.server_api.address_name         ? decodeURIComponent(data.server_api.address_name)        : ''),
+                name:                (data.server_api.name                 ? decodeURIComponent(data.server_api.name)                : ''),
+                subject_id:          (data.server_api.subject_id           ? decodeURIComponent(data.server_api.subject_id)          : ''),
+                level_ids:           (data.server_api['level_ids[]']       ? data.server_api['level_ids[]']                          : ''),
+                audience_ids:        (data.server_api['audience_ids[]']    ? data.server_api['audience_ids[]']                       : ''),
+                course_types:        (data.server_api['course_types[]']    ? data.server_api['course_types[]']                       : ''),
+                min_age_for_kids:    (data.server_api.min_age_for_kids     ? decodeURIComponent(data.server_api.min_age_for_kids)    : ''),
+                max_age_for_kids:    (data.server_api.max_age_for_kids     ? decodeURIComponent(data.server_api.max_age_for_kids)    : ''),
+                price_type:          (data.server_api.price_type           ? decodeURIComponent(data.server_api.price_type)          : ''),
+                max_price:           (data.server_api.max_price            ? decodeURIComponent(data.server_api.max_price)           : ''),
+                min_price:           (data.server_api.min_price            ? decodeURIComponent(data.server_api.min_price)           : ''),
+                structure_types:     (data.server_api['structure_types[]'] ? data.server_api['structure_types[]']                    : ''),
+                funding_types:       (data.server_api['funding_types[]']   ? data.server_api['funding_types[]']                      : ''),
+                discount_types:      (data.server_api['discount_types[]']  ? data.server_api['discount_types[]']                     : ''),
+                week_days:           (data.server_api['week_days[]']       ? data.server_api['week_days[]']                          : ''),
+                start_date:          (data.server_api.start_date           ? decodeURIComponent(data.server_api.start_date)          : ''),
+                end_date:            (data.server_api.end_date             ? decodeURIComponent(data.server_api.end_date)            : ''),
+                trial_course_amount: (data.server_api.trial_course_amount  ? decodeURIComponent(data.server_api.trial_course_amount) : '')
             });
 
             this.trigger('structures:updated:maps');
