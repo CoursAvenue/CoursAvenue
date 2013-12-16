@@ -25,10 +25,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.announceBreadcrumb();
         },
         announceBreadcrumb: function() {
+            var title;
             if (this.ui.$address_picker.val() === 0) {
                 this.trigger("filter:breadcrumb:remove", {target: 'location'});
             } else {
-                this.trigger("filter:breadcrumb:add", {target: 'location'});
+                title = this.ui.$address_picker.val();
+                this.trigger("filter:breadcrumb:add", {target: 'location', title: title});
             }
         },
 

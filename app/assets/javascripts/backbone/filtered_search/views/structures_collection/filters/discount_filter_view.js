@@ -29,11 +29,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         announceBreadcrumbs: function(discount_types) {
+            var title;
             discount_types = discount_types || this.ui.$select.val();
             if (discount_types === null) {
                 this.trigger("filter:breadcrumb:remove", {target: 'discount'});
             } else {
-                this.trigger("filter:breadcrumb:add", {target: 'discount'});
+                title = _.map(this.ui.$select.find('option:selected'), function(option) { return $(option).text().trim() });
+                this.trigger("filter:breadcrumb:add", {target: 'discount', title: title.join(', ')});
             }
         },
 

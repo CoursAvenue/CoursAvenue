@@ -103,7 +103,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 this.trigger("filter:breadcrumb:remove", {target: 'audience'});
             } else {
                 title = _.map(this.$('[name="audience_ids[]"]:checked'), function(input){ return $(input).parent().text().trim() });
-                this.trigger("filter:breadcrumb:add", {target: 'audience'});
+                this.trigger("filter:breadcrumb:add", {target: 'audience', title: title.join(', ')});
             }
         },
 

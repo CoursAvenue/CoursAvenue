@@ -77,12 +77,14 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.announceBreadcrumb();
         },
         announceBreadcrumb: function() {
+            var title;
             if (this.ui.$select.val() === 'per_course' &&
                 this.ui.$slider.val()[0] === '5' &&
                 this.ui.$slider.val()[1] === '500') {
                 this.trigger("filter:breadcrumb:remove", {target: 'price'});
             } else {
-                this.trigger("filter:breadcrumb:add", {target: 'price'});
+                title = 'De ' + this.ui.$slider.val()[0] + ' à ' + this.ui.$slider.val()[1] + '€'
+                this.trigger("filter:breadcrumb:add", {target: 'price', title: title});
             }
         },
 

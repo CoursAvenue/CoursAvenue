@@ -33,9 +33,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         announceBreadcrumb: function(subject_slug) {
-            var subject_slug = subject_slug || this.$('.active[data-type="button"]').data('value');
+            var title,
+                subject_slug = subject_slug || this.$('.active[data-type="button"]').data('value');
             if (subject_slug) {
-                this.trigger("filter:breadcrumb:add", {target: 'subject_slug'});
+                title = this.$('.active[data-type="button"]').text().trim();
+                this.trigger("filter:breadcrumb:add", {target: 'subject_slug', title: title});
             } else {
                 this.trigger("filter:breadcrumb:remove", {target: 'subject_slug'});
             }

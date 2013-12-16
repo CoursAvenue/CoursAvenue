@@ -24,16 +24,18 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announce: function (e, data) {
             var payment_methods = this.ui.$select.val();
-            this.trigger("filter:payment_method", { 'funding_type': payment_methods });
+            this.trigger("filter:payment_method", { 'funding_type_ids[]': payment_methods });
             this.announceBreadcrumb(payment_methods);
         },
 
         announceBreadcrumb: function (payment_methods) {
+            var title;
             payment_methods = payment_methods || this.ui.$select.val();
             if (payment_methods === null) {
                 this.trigger("filter:breadcrumb:remove", {target: 'payment_method'});
             } else {
-                this.trigger("filter:breadcrumb:add", {target: 'payment_method'});
+                title = _.map(this.ui.$select.find('option:selected'), function(option) { return $(option).text().trim() });
+                this.trigger("filter:breadcrumb:add", {target: 'payment_method', title: title.join(', ')});
             }
         },
 

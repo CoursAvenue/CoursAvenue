@@ -25,10 +25,10 @@ fr:
     levels: Niveau(x)
     audiences: Public(s)
     timeslots:
-      morning: Matin (9h-12h)
+      morning: Matin (avant 12h)
       noon: Midi (12h-14h)
       afternoon: Après-midi (14h-18h)
-      evening: Soirée (18h-23h)
+      evening: Soirée (après 18h)
   pro:
     plannings:
       form:

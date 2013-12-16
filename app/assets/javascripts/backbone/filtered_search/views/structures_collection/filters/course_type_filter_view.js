@@ -28,11 +28,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         announceBreadcrumb: function(course_types) {
+            var title;
             course_types = course_types || _.map(this.$('[name="course_types[]"]:checked'), function(input){ return input.value });
             if (course_types.length === 0) {
                 this.trigger("filter:breadcrumb:remove", {target: 'course_type'});
             } else {
-                this.trigger("filter:breadcrumb:add", {target: 'course_type'});
+                title = _.map(this.$('[name="course_types[]"]:checked'), function(input){ return $(input).parent().text().trim() });
+                this.trigger("filter:breadcrumb:add", {target: 'course_type', title: title.join(', ')});
             }
         },
 

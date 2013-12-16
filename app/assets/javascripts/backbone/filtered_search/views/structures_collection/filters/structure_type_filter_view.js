@@ -23,7 +23,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announce: function (e, data) {
             var structure_types = this.ui.$select.val();
-            this.trigger("filter:structure_type", { 'structure_type': structure_types });
+            this.trigger("filter:structure_type", { 'structure_types[]': structure_types });
             this.announceBreadcrumb(structure_types);
         },
         announceBreadcrumb: function(structure_types) {
@@ -31,7 +31,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             if (structure_types === null) {
                 this.trigger("filter:breadcrumb:remove", {target: 'structure_type'});
             } else {
-                this.trigger("filter:breadcrumb:add", {target: 'structure_type'});
+                title = _.map(this.ui.$select.find('option:selected'), function(option) { return $(option).text().trim() });
+                this.trigger("filter:breadcrumb:add", {target: 'structure_type', title: title.join(', ')});
             }
         },
 

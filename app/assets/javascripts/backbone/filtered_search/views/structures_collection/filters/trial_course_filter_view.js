@@ -6,52 +6,41 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         template: Module.templateDirname() + 'trial_course_filter_view',
 
         setup: function (data) {
+            var self = this;
+            // var $input = this.$('[value=' + level_value + ']');
+            // $input.prop('checked', true);
+            // $input.parent('.btn').addClass('active');
+
             if (data.trial_course_amount) {
-                if (data.trial_course_amount == '0') {
-                    this.ui.$free_trial_course_input.prop('checked', true);
-                } else {
-                    this.ui.$trial_course_price_select.val(data.trial_course_amount);
-                }
+
             }
+            this.ui.$buttons.find('input[value=' + data.trial_course_amount + ']').prop('checked', true);
             this.announceBreadcrumb();
         },
 
         ui: {
-            '$free_trial_course_input'  : '#free-trial-course',
-            '$trial_course_price_select': '#trial-course-price'
+            '$buttons': '[data-toggle=buttons]'
         },
 
         events: {
-            'change @ui.$free_trial_course_input':   'announce',
-            'change @ui.$trial_course_price_select': 'announce',
-            'click  @ui.$trial_course_price_select': 'deselectTrialRadio'
+            'change input': 'announce'
         },
 
 
-        announce: function (e) {
-            var trial_course_price;
-            if (this.ui.$free_trial_course_input.is(':checked')) {
-                trial_course_price = 0;
-            } else {
-                this.deselectTrialRadio();
-                trial_course_price = this.ui.$trial_course_price_select.val();
-            }
-            this.trigger("filter:trial_course", {trial_course_amount: trial_course_price});
-            this.announceBreadcrumb(trial_course_price);
+        announce: function (e, data) {
+            var trial_course_amount
+            this.trigger("filter:trial_course", { 'trial_course_amount': trial_course_amount });
+            this.announceBreadcrumb(level_ids);
         },
 
-        announceBreadcrumb: function(trial_course_price) {
-            if (!trial_course_price) {
-                if (this.ui.$free_trial_course_input.is(':checked')) {
-                    trial_course_price = 0;
-                } else {
-                    trial_course_price = this.ui.$trial_course_price_select.val();
-                }
-            }
-            if (trial_course_price === '') {
+        announceBreadcrumb: function(level_ids) {
+            var title;
+            level_ids = level_ids || _.map(this.$('[name="level_ids[]"]:checked'), function(input){ return input.value });
+            if (level_ids.length === 0) {
                 this.trigger("filter:breadcrumb:remove", {target: 'trial_course'});
             } else {
-                this.trigger("filter:breadcrumb:add", {target: 'trial_course'});
+                title = _.map(this.$('[name="trial_course_price"]:checked'), function(input){ return $(input).parent().text().trim() });
+                this.trigger("filter:breadcrumb:add", {target: 'trial_course', title: title.join(', ')});
             }
         },
 
@@ -60,9 +49,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         // Clears all the given filters
-        clear: function (filters) {
-            this.ui.$free_trial_course_input.prop('checked', false);
-            this.ui.$trial_course_price_select.val('');
+        clear: function () {
+            _.each(this.ui.$buttons.find('input'), function(input) {
+                var $input = $(input);
+                $input.prop("checked", false);
+                $input.parent('.btn').removeClass('active');
+            });
             this.announce();
         }
     });

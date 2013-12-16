@@ -10,7 +10,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
         },
 
         ui: {
-            '$breadcrumbs': '[data-trigger=clear]'
+            '$breadcrumbs': '[data-type=clear]'
         },
 
         events: {
@@ -62,14 +62,14 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
                 case 'payment_method':
                     this.breadcrumbs[data.target].name = 'Financements acceptés';
                 break;
-                case 'search_term':
-                    this.breadcrumbs[data.target].name = 'Mots clés';
-                break;
                 case 'location':
                     this.breadcrumbs[data.target].name = 'Lieux';
                 break;
                 case 'trial_course':
                     this.breadcrumbs[data.target].name = "Cours d'essai";
+                break;
+                case 'search_term':
+                    this.breadcrumbs[data.target].name = "Mots clés";
                 break;
             }
             if (data.title)           { this.breadcrumbs[data.target].title = data.title; }

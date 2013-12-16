@@ -209,6 +209,10 @@ class Structure < ActiveRecord::Base
       self.plannings.map(&:max_age_for_kid).compact.max
     end
 
+    string :query_strings, multiple: true do
+      self.query_string
+    end
+
     Price::TYPES.each do |name|
       integer "#{name}_min_price".to_sym do
         self.min_price_amount_for(name)
@@ -226,15 +230,15 @@ class Structure < ActiveRecord::Base
     # For a planning happening monday between 10 and 12 it's gonna generate
     # 110, 111, 112
     # And so on.
-    integer :week_day_hours, multiple: true do
-      week_day_hours = []
-      self.courses.active.lessons.map(&:plannings).flatten.each do |planning|
-        (planning.start_time.hour..planning.end_time.hour).to_a.each do |hour|
-          week_day_hours << (planning.week_day * 100) + hour
-        end
-      end
-      week_day_hours.uniq
-    end
+    # integer :week_day_hours, multiple: true do
+    #   week_day_hours = []
+    #   self.courses.active.lessons.map(&:plannings).flatten.each do |planning|
+    #     (planning.start_time.hour..planning.end_time.hour).to_a.each do |hour|
+    #       week_day_hours << (planning.week_day * 100) + hour
+    #     end
+    #   end
+    #   week_day_hours.uniq
+    # end
 
     date :course_dates, multiple: true do
       dates = []
@@ -602,6 +606,28 @@ class Structure < ActiveRecord::Base
     price = price_amount_for_scope(type).order('amount DESC').first
     return 0 unless price
     price.amount.to_i
+  end
+
+
+  def query_string
+    queries_to_index = []
+    self.courses.each do |course|
+      course_type = course.underscore_name
+      trial_course_amount = nil
+      if self.prices.trials.any?
+        trial_course_amount = "trial_amount_#{self.prices.trials.map(&:amount).min.to_i}"
+      end
+      course.plannings.each do |planning|
+        queries_to_index << StructureSearch.build_query_string_from_params({
+          course_types:        [course_type],
+          trial_course_amount: trial_course_amount,
+          week_days:           [planning.week_day],
+          level_ids:           planning.level_ids,
+          audience_ids:        planning.audience_ids
+        }, true)
+      end
+    end
+    queries_to_index.flatten.uniq
   end
 
   private

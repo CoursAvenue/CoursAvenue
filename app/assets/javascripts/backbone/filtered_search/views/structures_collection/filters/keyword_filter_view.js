@@ -39,7 +39,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             if (name.length === 0) {
                 this.trigger("filter:breadcrumb:remove", {target: 'search_term'});
             } else {
-                this.trigger("filter:breadcrumb:add", {target: 'search_term'});
+                this.trigger("filter:breadcrumb:add", {target: 'search_term', title: name});
             }
         },
 
@@ -60,7 +60,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         // Clears all the given filters
         clear: function () {
             this.previous_searched_name = null;
-            this.ui.search_input.val('');
+            this.ui.$search_input.val('');
             this.announce();
         }
 
