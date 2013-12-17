@@ -5,7 +5,7 @@ class AddStructureIdToPlannings < ActiveRecord::Migration
     bar = ProgressBar.new Planning.count
     Planning.find_each do |planning|
       bar.increment!
-      planning.update_column :structure_id, planning.course.structure_id
+      planning.update_column(:structure_id, planning.course.structure_id) if planning.course
     end
   end
 
