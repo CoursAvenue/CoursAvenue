@@ -15,12 +15,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         setup: function (data) {
-            var $selects = this.ui.$hour_range.find('select');
             this.data    = data;
             // Re render to have the data in the view.
             this.render();
 
-            this.populateHourRange($selects, 0, 24);
+            this.populateHourRange(this.ui.$hour_range.find('select').first(), 0, 24);
+            this.populateHourRange(this.ui.$hour_range.find('select').last(), 0, 24);
             this.ui.$hour_range.hide();
             this.ui.$date_range.hide();
             this.ui.$week_days_select.val(data.week_days);
@@ -86,7 +86,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                     return;
                 break;
                 case 'all-day':
-                    data = {start_time: null, end_time: null};
+                    data = {start_hour: null, end_hour: null};
                 break;
                 case '9-12':
                 case '12-14':
@@ -95,8 +95,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                     // Value is formatted as: 9-12
                     range = this.ui.$time.find('select').val().split('-');
                     data  = {
-                        start_time: range[0],
-                        end_time: range[1]
+                        start_hour: range[0],
+                        end_hour: range[1]
                     };
                 break;
                 default:
@@ -113,8 +113,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             }
 
             this.trigger("filter:date", {
-                start_time: this.$el.find('#start-hour').val(),
-                end_time:   this.$el.find('#end-hour').val(),
+                start_hour: this.$el.find('#start-hour').val(),
+                end_hour:   this.$el.find('#end-hour').val(),
             });
             this.announceBreadcrumbs();
         },
@@ -124,9 +124,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.trigger("filter:date", {
                 start_date:     (this.ui.$start_date.val().length > 0 ? this.ui.$start_date.val() : null),
                 end_date:       (this.ui.$end_date.val().length > 0   ? this.ui.$end_date.val()   : null),
-                start_time:     null,
+                start_hour:     null,
                 'week_days[]':  null,
-                end_time:       null
+                end_hour:       null
             });
             this.announceBreadcrumbs();
         },

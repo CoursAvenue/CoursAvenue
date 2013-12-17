@@ -17,11 +17,13 @@ class Price < ActiveRecord::Base
   # All types
 
   TYPES = ['per_course',
-            'book_ticket',
-            'annual_subscription',
-            'semestrial_subscription',
-            'trimestrial_subscription',
-            'monthly_subscription']
+           'book_ticket',
+           'annual_subscription',
+           'semestrial_subscription',
+           'trimestrial_subscription',
+           'monthly_subscription',
+           'any_per_course',
+           'all_subscriptions']
 
   RANGES = {
       "#{TYPES[0]}" => { min: 5, max: 500, step: 5 },

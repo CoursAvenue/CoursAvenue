@@ -2,12 +2,27 @@
 class Structures::CoursesController < ApplicationController
 
   def index
-
-    @course_search = CourseSearch.search(params)
-    @courses       = @course_search.results
+    @structure       = Structure.find params[:structure_id]
+    @planning_search = PlanningSearch.search(params)
+    @plannings       = @planning_search.results
+    @courses         = []
+    # TODO Refactor this.
+    @plannings.group_by(&:course_id).each do |course_id, plannings|
+      course = Course.find(course_id)
+      @courses << {
+        id:                course.id,
+        name:              course.name,
+        type:              course.type_name,
+        min_price_amount:  course.best_price.amount,
+        min_price_libelle: course.best_price.localized_libelle,
+        data_url:          structure_course_url(@structure, course),
+        subjects:          course.subjects.map(&:name).join(', '),
+        plannings:         ActiveModel::ArraySerializer.new(plannings, each_serializer: PlanningSerializer)
+      }
+    end
 
     respond_to do |format|
-      format.json { render json: @courses, each_serializer: CourseSerializer }
+      format.json { render json: @courses }
     end
   end
 

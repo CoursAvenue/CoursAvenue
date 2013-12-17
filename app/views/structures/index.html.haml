@@ -12,7 +12,7 @@
   window.coursavenue = window.coursavenue || {};
   window.coursavenue.bootstrap = {
     options: {
-      total: #{ @structure_search.total },
+      total: #{ @structure_search.group(:structure_id_str).total },
       latlng: #{ @latlng }
     },
     models: #{ @models.to_json },

@@ -47,17 +47,19 @@ class StructuresController < ApplicationController
 
     params[:page] = 1 unless request.xhr?
 
-    @structure_search      = StructureSearch.search(params)
-    @structures            = @structure_search.results
-
-    if (params[:bbox_sw] && params[:bbox_ne])
-      # TODO: To be removed when using Solr 4.
-      # This is used because the bounding box refers to a circle and not a box...
-      # Rejecting the structures that are not in the bounding box
-      @structures.select! do |structure|
-        structure.locations_in_bounding_box(params[:bbox_sw], params[:bbox_ne]).any?
-      end
+    @structure_search      = PlanningSearch.search(params, group: :structure_id_str)
+    @structures = @structure_search.group(:structure_id_str).groups.collect do |planning_group|
+      planning_group.results.first.structure
     end
+
+    # if (params[:bbox_sw] && params[:bbox_ne])
+    #   # TODO: To be removed when using Solr 4.
+    #   # This is used because the bounding box refers to a circle and not a box...
+    #   # Rejecting the structures that are not in the bounding box
+    #   @structures.select! do |structure|
+    #     structure.locations_in_bounding_box(params[:bbox_sw], params[:bbox_ne]).any?
+    #   end
+    # end
 
     @latlng = StructureSearch.retrieve_location(params)
     @models = @structures.map do |structure|
@@ -71,7 +73,10 @@ class StructuresController < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: @structure_search.total, location: @latlng }}
+      format.json { render json: @structures,
+                           root: 'structures',
+                           each_serializer: StructureSerializer,
+                           meta: { total: @structure_search.group(:structure_id_str).total, location: @latlng }}
       format.html do
         cookies[:structure_search_path] = request.fullpath
       end

@@ -46,15 +46,30 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         ui: {
-            '$select':    'select',
-            '$slider':    '[data-behavior=slider]',
-            '$min_value': '[data-behavior="slider-min-value"]',
-            '$max_value': '[data-behavior="slider-max-value"]'
+            '$price_type_radio': '[name=price_type]',
+            '$select':           'select',
+            '$slider':           '[data-behavior=slider]',
+            '$min_value':        '[data-behavior="slider-min-value"]',
+            '$max_value':        '[data-behavior="slider-max-value"]',
+            '$subscription_prices_select': '[data-type="subscription-prices"]',
+            '$course_prices_select':       '[data-type="course-prices"]'
         },
 
         events: {
-            'change @ui.$select': 'changeRange',
-            'change @ui.$slider': 'announce'
+            'change @ui.$price_type_radio': 'changeSelect',
+            'change @ui.$select':           'changeRange',
+            'change @ui.$slider':           'announce'
+        },
+
+        changeSelect: function() {
+            if (this.$('[name=price_type]:checked').val() == 'course') {
+                this.ui.$subscription_prices_select.hide();
+                this.ui.$course_prices_select.show();
+            } else {
+                this.ui.$course_prices_select.hide();
+                this.ui.$subscription_prices_select.show();
+            }
+            this.changeRange();
         },
 
         changeRange: function() {
@@ -69,18 +84,24 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announce: function (e) {
             var slider_value = this.ui.$slider.val();
-            this.trigger("filter:price", {
-                'price_type': this.ui.$select.val(),
-                'min_price': slider_value[0],
-                'max_price': slider_value[1],
-            });
+            if (this.$('[name=price_type]:checked').lenght === 0) {
+                this.trigger("filter:price", {
+                    'price_type': null,
+                    'min_price':  null,
+                    'max_price':  null
+                });
+            } else {
+                this.trigger("filter:price", {
+                    'price_type': this.ui.$select.val(),
+                    'min_price': slider_value[0],
+                    'max_price': slider_value[1]
+                });
+            }
             this.announceBreadcrumb();
         },
         announceBreadcrumb: function() {
             var title;
-            if (this.ui.$select.val() === 'per_course' &&
-                this.ui.$slider.val()[0] === '5' &&
-                this.ui.$slider.val()[1] === '500') {
+            if (this.$('[name=price_type]:checked').lenght === 0) {
                 this.trigger("filter:breadcrumb:remove", {target: 'price'});
             } else {
                 title = 'De ' + this.ui.$slider.val()[0] + ' à ' + this.ui.$slider.val()[1] + '€'
@@ -90,8 +111,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         // Clears all the given filters
         clear: function (filters) {
+            this.ui.$price_type_radio.prop('checked', false);
+            this.ui.$subscription_prices_select.hide();
+            this.ui.$subscription_prices_select.val('all_subscription');
+            this.ui.$course_prices_select.hide();
+            this.ui.$course_prices_select.val('any_per_course');
             this.ui.$select.val('per_course');
-            this.ui.$slider.val([5, 500]);
+            this.ui.$slider.val([5, 2000]);
             this.announce();
         }
     });

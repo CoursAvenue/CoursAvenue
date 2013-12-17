@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131211094047) do
+ActiveRecord::Schema.define(version: 20131217101422) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -360,6 +360,7 @@ ActiveRecord::Schema.define(version: 20131211094047) do
     t.string   "level_ids"
     t.time     "deleted_at"
     t.integer  "place_id"
+    t.integer  "structure_id"
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
