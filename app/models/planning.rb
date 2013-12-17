@@ -149,8 +149,8 @@ class Planning < ActiveRecord::Base
       self.level_ids
     end
 
-    integer :week_day do
-      self.week_day
+    integer :week_days, multiple: true do
+      self.week_days
     end
 
     time :start_time
@@ -335,6 +335,13 @@ class Planning < ActiveRecord::Base
     price.amount.to_i
   end
 
+  def week_days
+    if self.course.is_lesson?
+      self.week_day
+    else
+      (self.start_date..self.end_date).to_a.map(&:wday).uniq
+    end
+  end
 
   private
 
