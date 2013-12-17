@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131204140509) do
+ActiveRecord::Schema.define(version: 20131209165628) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "admins", force: true do |t|
     t.string   "email",                               default: "",    null: false
@@ -120,6 +121,9 @@ ActiveRecord::Schema.define(version: 20131204140509) do
     t.string   "deletion_reason"
   end
 
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+
   create_table "contacts", force: true do |t|
     t.integer  "contactable_id",   null: false
     t.string   "contactable_type", null: false
@@ -172,10 +176,15 @@ ActiveRecord::Schema.define(version: 20131204140509) do
     t.text     "parent_subjects_string"
     t.boolean  "no_class_during_holidays"
     t.boolean  "teaches_at_home"
+    t.string   "event_type"
+    t.string   "event_type_description"
+    t.float    "price"
   end
 
+  add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
   add_index "courses", ["place_id"], name: "index_courses_on_place_id", using: :btree
   add_index "courses", ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
+  add_index "courses", ["structure_id"], name: "index_courses_on_structure_id", using: :btree
   add_index "courses", ["type"], name: "index_courses_on_type", using: :btree
 
   create_table "courses_subjects", id: false, force: true do |t|
@@ -283,6 +292,8 @@ ActiveRecord::Schema.define(version: 20131204140509) do
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree
+  add_index "medias", ["mediable_id"], name: "index_medias_on_mediable_id", using: :btree
+  add_index "medias", ["mediable_type"], name: "index_medias_on_mediable_type", using: :btree
 
   create_table "notifications", force: true do |t|
     t.string   "type"
@@ -484,16 +495,8 @@ ActiveRecord::Schema.define(version: 20131204140509) do
     t.string   "sticker_status"
     t.boolean  "teaches_at_home",            default: false
     t.text     "widget_url"
-    t.integer  "min_price_id"
-    t.integer  "max_price_id"
-    t.string   "audience_ids"
-    t.boolean  "gives_group_courses"
-    t.boolean  "gives_individual_courses"
     t.integer  "teaches_at_home_radius"
-    t.integer  "plannings_count"
-    t.boolean  "has_promotion",              default: false
-    t.boolean  "has_free_trial_course",      default: false
-    t.text     "course_names"
+    t.hstore   "meta_data"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree

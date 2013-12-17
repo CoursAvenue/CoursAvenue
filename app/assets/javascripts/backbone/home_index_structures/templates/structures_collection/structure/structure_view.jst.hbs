@@ -1,0 +1,60 @@
+<div class="flexbox white-box structure-item">
+    <div class="flexbox__item v-top structure-item__logo one-twelfth">
+        <div class="relative">
+            {{#if logo_present}}
+                <a href="{{ data_url }}" class="block">
+                    <img src="{{ logo_thumb_url }}" class="block one-whole" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
+                </a>
+            {{/if}}
+            {{#if has_free_trial_course}}
+                <div class="free-trial-badge"></div>
+            {{/if}}
+            {{#if has_promotion}}
+                <div class="promotion-badge"></div>
+            {{/if}}
+        </div>
+    </div><!--
+ --><article class="flexbox__item seven-twelfths v-top structure-item__see-all-wrapper structure-item__button">
+        <div class="relative full-height soft-half hard--right">
+            <h2 class="delta flush v-top">
+                <a href="{{ data_url }}">{{ name }}</a>
+            </h2>
+            {{#if course_names}}
+                <div class="milli gray">
+                    <span title="{{course_names}}" data-behavior="tooltip">
+                        <i>{{{truncate course_names 55}}}</i>
+                    </span>
+                </div>
+            {{/if}}
+        </div>
+    </article><!--
+ --><div class="flexbox__item relative soft-half--sides structure-item__see-all-wrapper four-twelfths {{#if has_comments}}structure-item__button{{/if}} one-thirds v-middle text--center" {{#if has_comments}}data-behavior="accordion-control" data-model="comment" data-attributes="data_url more_than_five_comments"{{/if}}>
+        {{#if has_comments }}
+        <div class="relative full-height soft--top">
+            <div class="alpha thin orange"> {{ comments_count }} </div>
+            <span class="orange soft-half--bottom milli">avis
+                <i class="lbc-brand-icon"></i>
+            </span>
+            {{#if last_comment_title}}
+            <div class="quoted milli">
+                {{{truncate last_comment_title 60}}}
+            </div>
+            {{/if}}
+            <a style="position: static" href="javascritp:void(0)" class="structure-item__see-all blue"><span>Voir tous les avis</span></a>
+            <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
+                <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
+                <meta property="v:rating" itemprop="rating" content="{{ rating }}">
+                <meta itemprop="count" content="{{ comments_count }}">
+                <meta itemprop="name" content="{{ name }}">
+                <meta itemprop="street-address" content="{{ street }}">
+                <meta itemprop="postal-code" content="{{ zip_code }}">
+            </div>
+        </div>
+        {{else}}
+            <div class="alpha thin gray-light">0</div>
+            <span class="gray-light milli">
+                avis <i class="fa fa-comment"></i>
+            </span>
+        {{/if}}
+    </div>
+</div>

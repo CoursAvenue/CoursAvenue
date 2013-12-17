@@ -27,7 +27,6 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-
     structures.bootstrap();
     window.pfaff = structures;
 
@@ -44,10 +43,15 @@ FilteredSearch.addInitializer(function(options) {
     })
 
     var bounds       = structures.getLatLngBounds();
+    /* TODO does the google map need a reference to the collection?
+    *  I don't think so, and I don't remember why this is here */
     google_maps_view = new FilteredSearch.Views.Map.GoogleMapsView({
         collection: structures,
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
+        },
+        infoBoxOptions: {
+            infoBoxClearance: new google.maps.Size(100, 100)
         }
     });
 
@@ -66,7 +70,7 @@ FilteredSearch.addInitializer(function(options) {
     * for setup */
     layout.showWidget(google_maps_view, {
         events: {
-            'paginator:updating':               'hideInfoWindow retireMarkers',
+            'paginator:updating':                'hideInfoWindow retireMarkers',
             'structures:itemview:highlighted':   'exciteMarkers',
             'structures:itemview:unhighlighted': 'exciteMarkers',
             'filter:update:map':                 'centerMap',
@@ -85,7 +89,7 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(subject_filter);
     layout.showWidget(infinite_scroll_button);
 
-    layout.results.show(structures_view);
+    layout.master.show(structures_view);
 });
 
 $(document).ready(function() {

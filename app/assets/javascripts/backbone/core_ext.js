@@ -33,7 +33,7 @@ _.extend(Marionette.Module, _module, {
         if (parentModule.modulePath !== undefined) {
             modulePath = parentModule.modulePath + "." + moduleName;
         } else if (parentModule.moduleName !== undefined) {
-            console.log("EDGECASE: prepending parrent module name");
+            // EDGECASE: prepending parrent module name");
             modulePath = parentModule.moduleName + moduleName;
         } else {
             modulePath = moduleName; // module is a top level module, like Views
@@ -161,7 +161,7 @@ _.extend(Marionette.Application.prototype, {
 
         if (result > 1) {
             throw {
-                message: 'FilteredSearch->detectRoot: ' + this.root() + ' element should be unique'
+                message: 'Application->detectRoot: ' + this.root() + ' element should be unique'
             }
         }
 

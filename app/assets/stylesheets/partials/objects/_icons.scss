@@ -64,21 +64,78 @@
 
 .subject_icon {
     height              : 30px;
+    margin-left         : auto;
+    margin-right        : auto;
+    margin-bottom       : 5px;
     background-position : center center;
     background-repeat   : no-repeat;
-    margin-bottom       : 5px;
     @include background-size(contain);
+}
+.subject_icon__danse                           {
+    width            : 3.6em;
+    background-image : image-url('icons/subjects/danse.png');
+    @media \0screen {
+        background: none;
+        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/danse.png')}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/danse.png')}',sizingMethod='scale')";
+    }
+}
+.subject_icon__theatre-scene {
+    width            : 3.2em;
+    background-image : image-url('icons/subjects/theatre-scene.png');
+    @media \0screen {
+        background: none;
+        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/theatre-scene.png')}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/theatre-scene.png')}',sizingMethod='scale')";
+    }
 
 }
-.subject_icon__danse                           { background-image : image-url('icons/subjects/danse.png'); }
-.subject_icon__theatre-scene                   { background-image : image-url('icons/subjects/theatre-scene.png'); }
-.subject_icon__yoga-bien-etre-sante            { background-image : image-url('icons/subjects/yoga-bien-etre-sante.png'); }
-.subject_icon__musique-chant                   { background-image : image-url('icons/subjects/musique-chant.png'); }
-.subject_icon__dessin-peinture-arts-plastiques { background-image : image-url('icons/subjects/dessin-peinture-arts-plastiques.png'); }
-.subject_icon__sports-arts-martiaux            { background-image : image-url('icons/subjects/sports-arts-martiaux.png'); }
-.subject_icon__cuisine-vins                    {
-    @include background-size(60px 25px);
+.subject_icon__yoga-bien-etre-sante {
+    width            : 3em;
+    background-image : image-url('icons/subjects/yoga-bien-etre-sante.png');
+    @media \0screen {
+        background: none;
+        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/yoga-bien-etre-sante.png')}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/yoga-bien-etre-sante.png')}',sizingMethod='scale')";
+    }
+}
+.subject_icon__musique-chant {
+    width            : 1.8em;
+    background-image : image-url('icons/subjects/musique-chant.png');
+    @media \0screen {
+        background: none;
+        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/musique-chant.png')}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/musique-chant.png')}',sizingMethod='scale')";
+    }
+}
+.subject_icon__dessin-peinture-arts-plastiques {
+    width            : 2.7em;
+    background-image : image-url('icons/subjects/dessin-peinture-arts-plastiques.png');
+    @media \0screen {
+        background: none;
+        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/dessin-peinture-arts-plastiques.png')}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/dessin-peinture-arts-plastiques.png')}',sizingMethod='scale')";
+    }
+}
+.subject_icon__sports-arts-martiaux {
+    width            : 4.1em;
+    background-image : image-url('icons/subjects/sports-arts-martiaux.png');
+    @media \0screen {
+        background: none;
+        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/sports-arts-martiaux.png')}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/sports-arts-martiaux.png')}',sizingMethod='scale')";
+    }
+}
+.subject_icon__cuisine-vins {
+    width            : 5em;
     background-image : image-url('icons/subjects/cuisine-vins.png');
+    @include background-size(60px 25px);
+    background-size  : 60px 25px;
+    @media \0screen {
+        background: none;
+        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/cuisine-vins.png')}', sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/cuisine-vins.png')}',sizingMethod='scale')";
+    }
 }
 .subject_icon__other {
     height     : 68px;

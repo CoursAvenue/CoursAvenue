@@ -75,6 +75,16 @@ class Price < ActiveRecord::Base
     read_attribute(:nb_courses)
   end
 
+  def to_meta_data
+    {
+      amount:            self.amount,
+      promo_amount:      self.promo_amount,
+      localized_libelle: self.localized_libelle,
+      libelle:           self.libelle,
+      into:              self.info
+    }
+  end
+
   private
 
   def remove_zeros

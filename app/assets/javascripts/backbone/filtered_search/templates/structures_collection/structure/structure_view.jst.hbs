@@ -94,7 +94,7 @@
             </span>
             {{#if last_comment_title}}
             <div class="quoted milli">
-                {{{last_comment_title}}}
+                {{{truncate last_comment_title 60}}}
             </div>
             {{/if}}
             <a href="javascritp:void(0)" class="structure-item__see-all blue"><span>Voir tous les avis</span></a>
@@ -123,7 +123,7 @@
             <ul class="rslides hidden">
                 {{#each preloaded_medias}}
                     <li>
-                        <a href="{{{this.url}}}" class="rslides_nav rslides_nav--icon {{#if this.is_video}}visible{{/if}}" data-behavior="fancy">
+                        <a rel="slideshow-{{mediable_id}}" href="{{{this.url}}}" class="rslides_nav rslides_nav--icon {{#if this.is_video}}visible{{/if}}" data-behavior="fancy">
                             <i class="fa {{#if this.is_video}}fa-youtube-play{{else}}fa-eye{{/if}}"></i>
                         </a>
                         <div class="media__item media__item--slides">

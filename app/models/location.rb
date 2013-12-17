@@ -4,10 +4,9 @@ class Location < ActiveRecord::Base
 
   include ActsAsGeolocalizable
 
-  geocoded_by :geocoder_address
-  after_validation :geocode
-
-  before_save :set_shared
+  geocoded_by      :geocoder_address
+  after_validation :geocode_if_needs_to
+  after_touch      :geocode_if_needs_to
 
   belongs_to :city
 
@@ -36,19 +35,22 @@ class Location < ActiveRecord::Base
 
     string :name
     string :street
-    boolean :shared do
-      name != 'Adresse principale'
-    end
   end
 
   def to_gmap_json
-    {lng: self.longitude, lat: self.latitude}
+    { lng: self.longitude, lat: self.latitude }
   end
 
   private
 
-  def set_shared
-    self.shared = (name == 'Adresse principale')
-    nil
+  # Only geocode if lat and lng attributes haven't changed and are nil
+  # Unless it means they have been set by the user
+  def geocode_if_needs_to
+    unless self.latitude_changed? and self.longitude_changed?
+      unless self.geocoded? and !self.street_changed? and !self.zip_code_changed?
+        self.geocode
+      end
+    end
   end
+
 end

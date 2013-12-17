@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
-  before_action :authenticate_pro_admin!, except: [:select, :new, :create, :get_feedbacks, :widget_ext]
-  load_and_authorize_resource :structure, except: [:select, :new, :create, :get_feedbacks, :widget_ext], find_by: :slug, find_by: :slug
+  before_action :authenticate_pro_admin!, except: [:select, :new, :create, :get_feedbacks, :widget_ext, :best]
+  load_and_authorize_resource :structure, except: [:select, :new, :create, :get_feedbacks, :widget_ext, :best], find_by: :slug
 
   layout :get_layout
 
@@ -137,6 +137,27 @@ class Pro::StructuresController < Pro::ProController
       else
         format.html { redirect_to pro_structures_path, alert: 'Les informations de la structure ne sont pas complètes.' }
       end
+    end
+  end
+
+  # Returns the best structures located near Paris
+  # Used on Pro::HomeController#index
+  def best
+    @admin      = ::Admin.new
+    latitude, longitude, radius = 48.8540, 2.3417, 5
+    @structures = StructureSearch.search({lat: latitude,
+                                          lng: longitude,
+                                          radius: radius,
+                                          sort: 'rating_desc',
+                                          has_logo: true,
+                                          per_page: 30,
+                                          bbox: true
+                                        }).results
+
+    @latlng = StructureSearch.retrieve_location(params)
+
+    respond_to do |format|
+      format.json { render json: @structures, root: 'structures', each_serializer: LightStructureSerializer, meta: { total: 50, location: @latlng }}
     end
   end
 
