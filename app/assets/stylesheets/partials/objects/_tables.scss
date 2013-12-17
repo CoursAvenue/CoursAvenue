@@ -37,6 +37,10 @@
     }
 }
 
+.table__cell--editable {
+    min-height: 1.5em;
+}
+
 th.sortAsc span, th.sortDesc span {
     position: relative;
 }
