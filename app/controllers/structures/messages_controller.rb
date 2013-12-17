@@ -10,7 +10,7 @@ class Structures::MessagesController < ApplicationController
       @user         = current_user || User.where{email == user_email}.first || User.new(email: params[:user][:email].downcase, name: params[:user][:name])
       @user.save(validate: false) if @user.new_record? and @user.email_valid?
     end
-    if @user.persisted?
+    if @user and @user.persisted?
       @recipients   = @structure.main_contact
       @receipt      = @user.send_message(@recipients, params[:message][:body], "Demande d'informations")
       @conversation = @receipt.conversation
