@@ -62,6 +62,12 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
         },
 
         /* get URI query string from the server_api values merged with opts */
+        /* This method is called by the collection for a relation on the model,
+        * when fetching that relation if params are required. For example,
+        *
+        * Structure has many courses. If we filter Structures, and then want courses,
+        * we will want to filter courses in the same manner. The CoursesCollection will
+        * call getQuery on its `this.structure.collection` reference. */
         getQuery: function(options) {
             var self = this;
             var params = _.extend(_.clone(this.server_api), options);
@@ -118,6 +124,5 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
                 return this.url.basename + this.url.resource + this.url.data_type;
             }
         }
-
     });
 });
