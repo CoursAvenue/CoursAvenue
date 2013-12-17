@@ -10,7 +10,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         setup: function (data) {
-            this.ui.$select.val(data.funding_type);
+            this.ui.$select.val(data.funding_type_ids);
             this.announceBreadcrumb();
         },
 

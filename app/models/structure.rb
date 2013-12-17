@@ -167,6 +167,12 @@ class Structure < ActiveRecord::Base
       subject_slugs.uniq
     end
 
+    string :structure_type do
+      self.structure_type.split('.').last if self.structure_type
+    end
+
+    integer :funding_type_ids, multiple: true
+
     boolean :active do
       self.active
     end

@@ -9,7 +9,7 @@ class StructureSearch
     params[:sort] ||= 'rating_desc'
     retrieve_location params
 
-    @search        = Sunspot.search(Structure) do
+    @search = Sunspot.search(Structure) do
 
       fulltext params[:name]                             if params[:name].present?
 
@@ -19,9 +19,9 @@ class StructureSearch
       else
         with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
       end
-      with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id].present?
 
       # --------------- Subjects
+      with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id].present?
       # For the home screen link "Autres"
       if params[:exclude].present?
         without(:subject_slugs, params[:exclude])
@@ -29,14 +29,8 @@ class StructureSearch
         without(:subject_slugs, Subject.stars.map(&:slug))
       end
 
-      # If it has a date ranges
-      if course_dates
-        with(:course_dates).any_of course_dates
-      elsif params[:start_date]
-        with(:end_date).greater_than Date.strptime(params[:start_date], '%d/%m/%Y')
-      elsif params[:end_date]
-        with(:start_date).less_than Date.strptime(params[:end_date], '%d/%m/%Y')
-      end
+      with(:structure_type).any_of   params[:structure_types]                    if params[:structure_types].present?
+      with(:funding_type_ids).any_of params[:funding_type_ids].map(&:to_i)       if params[:funding_type_ids].present?
 
       with :active,  true
 

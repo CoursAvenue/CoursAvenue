@@ -1,6 +1,9 @@
 # encoding: utf-8
 class StructuresController < ApplicationController
   respond_to :json
+  PLANNING_FILTERED_KEYS = ['audience_ids', 'level_ids', 'min_age_for_kids',
+                            'max_age_for_kids', 'trial_course_amount', 'course_types',
+                            'week_days', 'discount_types', 'start_date', 'end_date', 'start_hour', 'end_hour']
 
   layout :choose_layout
 
@@ -47,9 +50,18 @@ class StructuresController < ApplicationController
 
     params[:page] = 1 unless request.xhr?
 
-    @structure_search      = PlanningSearch.search(params, group: :structure_id_str)
-    @structures = @structure_search.group(:structure_id_str).groups.collect do |planning_group|
-      planning_group.results.first.structure
+    # If any of those key are in the params, then search per planning
+    if (params.keys & PLANNING_FILTERED_KEYS).any?
+      @planning_search = PlanningSearch.search(params, group: :structure_id_str)
+      @structures      = @planning_search.group(:structure_id_str).groups.collect do |planning_group|
+        planning_group.results.first.structure
+      end
+      @total           = @planning_search.group(:structure_id_str).total
+    else
+      # Else, can search per structure
+      @structure_search = StructureSearch.search(params)
+      @structures       = @structure_search.results
+      @total            = @structure_search.total
     end
 
     # if (params[:bbox_sw] && params[:bbox_ne])
@@ -76,7 +88,7 @@ class StructuresController < ApplicationController
       format.json { render json: @structures,
                            root: 'structures',
                            each_serializer: StructureSerializer,
-                           meta: { total: @structure_search.group(:structure_id_str).total, location: @latlng }}
+                           meta: { total: @total, location: @latlng }}
       format.html do
         cookies[:structure_search_path] = request.fullpath
       end

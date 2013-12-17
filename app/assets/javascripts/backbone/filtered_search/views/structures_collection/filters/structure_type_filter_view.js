@@ -10,7 +10,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         setup: function (data) {
-            this.ui.$select.val(data.structure_type);
+            this.ui.$select.val(data.structure_types);
+            this.announceBreadcrumb();
         },
 
         ui: {
@@ -29,10 +30,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         announceBreadcrumb: function(structure_types) {
             structure_types = structure_types || this.ui.$select.val();
             if (structure_types === null) {
-                this.trigger("filter:breadcrumb:remove", {target: 'structure_type'});
+                this.trigger("filter:breadcrumb:remove", {target: 'structure_types'});
             } else {
                 title = _.map(this.ui.$select.find('option:selected'), function(option) { return $(option).text().trim() });
-                this.trigger("filter:breadcrumb:add", {target: 'structure_type', title: title.join(', ')});
+                this.trigger("filter:breadcrumb:add", {target: 'structure_types', title: title.join(', ')});
             }
         },
 

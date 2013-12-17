@@ -5,23 +5,27 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.PriceFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'price_filter_view',
 
+        SUBSCRIPTION_PRICE_TYPES: ['all_subscription', 'annual_subscription', 'semestrial_subscription', 'trimestrial_subscription', 'monthly_subscription'],
+        COURSE_PRICE_TYPES:       ['any_per_course', 'per_course', 'book_ticket'],
+
         initialize: function() {
             this.announce = _.debounce(this.announce, 800);
         },
 
         setup: function (data) {
-            var $option, range, step,
-                $min_value = this.ui.$min_value,
+            var $min_value = this.ui.$min_value,
                 $max_value = this.ui.$max_value;
 
-            if (data.price_type === "") {
-                $option = this.ui.$select.find('option').first();
-            } else {
-                $option = $('[value="' + data.price_type + '"]');
-            }
 
-            range = $option.data("range").split(',');
-            step  = $option.data("step");
+            if (this.SUBSCRIPTION_PRICE_TYPES.indexOf(data.price_type) !== -1) {
+                this.ui.$price_type_radio_subscription.prop('checked', true);
+                this.ui.$subscription_prices_select.val(data.price_type);
+            } else if (this.COURSE_PRICE_TYPES.indexOf(data.price_type) !== -1) {
+                this.ui.$price_type_radio_course.prop('checked', true);
+                this.ui.$course_prices_select.val(data.price_type);
+            }
+            range = this.getRange();
+            step  = this.getStep();
 
             if (data.min_price === "" && data.max_price === "") {
                 min = range[0];
@@ -46,13 +50,15 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         ui: {
-            '$price_type_radio': '[name=price_type]',
-            '$select':           'select',
-            '$slider':           '[data-behavior=slider]',
-            '$min_value':        '[data-behavior="slider-min-value"]',
-            '$max_value':        '[data-behavior="slider-max-value"]',
-            '$subscription_prices_select': '[data-type="subscription-prices"]',
-            '$course_prices_select':       '[data-type="course-prices"]'
+            '$price_type_radio_course':       '#radio-course',
+            '$price_type_radio_subscription': '#radio-subscription',
+            '$price_type_radio':              '[name=price_type]',
+            '$select':                        'select',
+            '$slider':                        '[data-behavior=slider]',
+            '$min_value':                     '[data-behavior="slider-min-value"]',
+            '$max_value':                     '[data-behavior="slider-max-value"]',
+            '$subscription_prices_select':    '[data-type="subscription-prices"]',
+            '$course_prices_select':          '[data-type="course-prices"]'
         },
 
         events: {
@@ -72,10 +78,36 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.changeRange();
         },
 
+        currentShownSelect: function() {
+            if (this.$('[name=price_type]:checked').val() === 'course') {
+                return this.ui.$course_prices_select;
+            } else if (this.$('[name=price_type]:checked').val() === 'subscription') {
+                return this.ui.$subscription_prices_select;
+            }
+            return null;
+        },
+
+        getRange: function() {
+            if (this.currentShownSelect()) {
+                var $option = $('[value="' + this.currentShownSelect().val() + '"]');
+                return $option.data('range').split(',');
+            } else {
+                return [0, 2000];
+            }
+        },
+
+        getStep: function() {
+            if (this.currentShownSelect()) {
+                var $option = $('[value="' + this.currentShownSelect().val() + '"]');
+                return $option.data('step');
+            } else {
+                return 5
+            }
+        },
+
         changeRange: function() {
-            var $option = $('[value="' + this.ui.$select.val() + '"]'),
-                range   = $option.data('range').split(','),
-                step    = $option.data('step');
+            var range   = this.getRange($option),
+                step    = this.getStep();
             this.ui.$slider.noUiSlider({ range: range, start: range, step: step }, true);
             this.ui.$slider.parent().animate({backgroundColor: 'rgba(255, 255, 13, 0.35)'}, {duration: 300})
                                     .animate({backgroundColor: 'transparent'}, {duration: 300});
@@ -84,7 +116,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announce: function (e) {
             var slider_value = this.ui.$slider.val();
-            if (this.$('[name=price_type]:checked').lenght === 0) {
+            if (this.$('[name=price_type]:checked').length === 0) {
                 this.trigger("filter:price", {
                     'price_type': null,
                     'min_price':  null,
@@ -92,7 +124,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 });
             } else {
                 this.trigger("filter:price", {
-                    'price_type': this.ui.$select.val(),
+                    'price_type': this.currentShownSelect().val(),
                     'min_price': slider_value[0],
                     'max_price': slider_value[1]
                 });
@@ -101,7 +133,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
         announceBreadcrumb: function() {
             var title;
-            if (this.$('[name=price_type]:checked').lenght === 0) {
+            if (this.$('[name=price_type]:checked').length === 0) {
                 this.trigger("filter:breadcrumb:remove", {target: 'price'});
             } else {
                 title = 'De ' + this.ui.$slider.val()[0] + ' à ' + this.ui.$slider.val()[1] + '€'
@@ -116,7 +148,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.ui.$subscription_prices_select.val('all_subscription');
             this.ui.$course_prices_select.hide();
             this.ui.$course_prices_select.val('any_per_course');
-            this.ui.$select.val('per_course');
             this.ui.$slider.val([5, 2000]);
             this.announce();
         }

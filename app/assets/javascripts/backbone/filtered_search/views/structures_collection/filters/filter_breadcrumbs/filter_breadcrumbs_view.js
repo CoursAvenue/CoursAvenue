@@ -56,7 +56,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
                 case 'price':
                     this.breadcrumbs[data.target].name = 'Prix';
                 break;
-                case 'structure_type':
+                case 'structure_types':
                     this.breadcrumbs[data.target].name = 'Type de structure';
                 break;
                 case 'payment_method':
