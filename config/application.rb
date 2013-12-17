@@ -11,30 +11,6 @@ module CoursAvenue
     AMAZON_S3 = AWS::S3.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
     S3_BUCKET = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
 
-    # Global variables
-    TIME_SLOTS = {
-          morning: {
-            name:       'planning.timeslots.morning',
-            start_time: '6',
-            end_time:   '12',
-          },
-          noon: {
-            name:       'planning.timeslots.noon',
-            start_time: '12',
-            end_time:   '14'
-          },
-          afternoon: {
-            name:       'planning.timeslots.afternoon',
-            start_time: '14',
-            end_time:   '18'
-          },
-          evening: {
-            name:       'planning.timeslots.evening',
-            start_time: '18',
-            end_time:   '24'
-          }
-    }
-
     config.middleware.use Rack::Cors do
       allow do
         origins '*'

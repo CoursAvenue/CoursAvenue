@@ -15,7 +15,8 @@ class StructureSearch
     string_week_days    = params[:week_days].collect{|week_day_id| I18n.t('date.day_names')[week_day_id.to_i] }     if params[:week_days].present?
     levels              = params[:level_ids].map{|planning_id| Level.find(planning_id).short_name.downcase }        if params[:level_ids].present?
     audiences           = params[:audience_ids].map{|planning_id| Audience.find(planning_id).short_name.downcase }  if params[:audience_ids].present?
-    array_of_queries    = [course_types, [trial_course_amount], string_week_days, levels, audiences]
+    time_slot_name      = params[:time_slot_name]                                                                   if params[:time_slot_name].present?
+    array_of_queries    = [[time_slot_name], course_types, [trial_course_amount], string_week_days, levels, audiences]
     array_of_queries    = array_of_queries.compact.map(&:compact).reject(&:empty?)
     return nil if array_of_queries.empty?
     if all_possibilities

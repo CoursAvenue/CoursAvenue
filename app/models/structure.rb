@@ -611,14 +611,15 @@ class Structure < ActiveRecord::Base
 
   def query_string
     queries_to_index = []
-    self.courses.each do |course|
+    self.courses.active.each do |course|
       course_type = course.underscore_name
       trial_course_amount = nil
-      if self.prices.trials.any?
-        trial_course_amount = "trial_amount_#{self.prices.trials.map(&:amount).min.to_i}"
+      if course.prices.trials.any?
+        trial_course_amount = course.prices.trials.map(&:amount).min.to_i
       end
-      course.plannings.each do |planning|
+      course.plannings.future.each do |planning|
         queries_to_index << StructureSearch.build_query_string_from_params({
+          time_slot_name:      planning.time_slot_name,
           course_types:        [course_type],
           trial_course_amount: trial_course_amount,
           week_days:           [planning.week_day],

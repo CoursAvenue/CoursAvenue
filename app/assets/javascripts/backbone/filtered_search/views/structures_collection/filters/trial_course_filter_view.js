@@ -7,14 +7,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         setup: function (data) {
             var self = this;
-            // var $input = this.$('[value=' + level_value + ']');
-            // $input.prop('checked', true);
-            // $input.parent('.btn').addClass('active');
-
-            if (data.trial_course_amount) {
-
+            if (data.trial_course_amount === '20') {
+                this.ui.$buttons.find('input[value=0]').prop('checked', true).parent('.btn').addClass('active');
             }
-            this.ui.$buttons.find('input[value=' + data.trial_course_amount + ']').prop('checked', true);
+            this.ui.$buttons.find('input[value=' + data.trial_course_amount + ']').prop('checked', true).parent('.btn').addClass('active');
             this.announceBreadcrumb();
         },
 
@@ -28,19 +24,41 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
 
         announce: function (e, data) {
-            var trial_course_amount
-            this.trigger("filter:trial_course", { 'trial_course_amount': trial_course_amount });
-            this.announceBreadcrumb(level_ids);
+            var trial_course_amounts = _.map(this.ui.$buttons.find('[name="trial_course_amount"]:checked'), function(input){ return parseInt(input.value, 10) }),
+                trial_course_amount  = trial_course_amounts.sort().reverse()[0];
+            if (trial_course_amounts.length == 0) {
+                this.trigger("filter:trial_course", { 'trial_course_amount': null });
+                this.announceBreadcrumb(null);
+            } else {
+                this.trigger("filter:trial_course", { 'trial_course_amount': trial_course_amount });
+                this.announceBreadcrumb(trial_course_amount);
+            }
         },
 
-        announceBreadcrumb: function(level_ids) {
-            var title;
-            level_ids = level_ids || _.map(this.$('[name="level_ids[]"]:checked'), function(input){ return input.value });
-            if (level_ids.length === 0) {
+        announceBreadcrumb: function(trial_course_amount) {
+            if (!trial_course_amount) {
+                var trial_course_amounts = _.map(this.ui.$buttons.find('[name="trial_course_amount"]:checked'), function(input){ return parseInt(input.value, 10) }),
+                    trial_course_amount  = Math.max(trial_course_amounts);
+                if (trial_course_amounts.length == 0) { trial_course_amount = null }
+            }
+            if (trial_course_amount === null) {
                 this.trigger("filter:breadcrumb:remove", {target: 'trial_course'});
             } else {
-                title = _.map(this.$('[name="trial_course_price"]:checked'), function(input){ return $(input).parent().text().trim() });
-                this.trigger("filter:breadcrumb:add", {target: 'trial_course', title: title.join(', ')});
+                this.trigger("filter:breadcrumb:add", {target: 'trial_course', title: this.titleFor(trial_course_amount)});
+            }
+        },
+
+        titleFor: function(trial_course_amount) {
+            switch(trial_course_amount) {
+                case 0:
+                'Gratuit'
+                break;
+                case 20:
+                'de 0 à 20€'
+                break;
+                case 50:
+                '+ de 20€'
+                break;
             }
         },
 

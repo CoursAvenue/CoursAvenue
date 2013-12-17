@@ -2,11 +2,15 @@ class CourseSerializer < ActiveModel::Serializer
   include CoursesHelper
   include ActionView::Helpers::TextHelper
 
-  attributes :id, :name, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects
+  attributes :id, :name, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects, :has_free_trial_lesson
   has_many :plannings
 
   def plannings
     object.plannings.future.ordered_by_day
+  end
+
+  def has_free_trial_lesson
+    object.has_free_trial_lesson?
   end
 
   def is_individual

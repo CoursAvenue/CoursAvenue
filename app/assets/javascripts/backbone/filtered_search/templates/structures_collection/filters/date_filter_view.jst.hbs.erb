@@ -13,7 +13,7 @@
             <div data-type="time" class="inline-block v-middle">
                 <select>
                     <option value="all-day">Toute la journée</option>
-                    <% CoursAvenue::Application::TIME_SLOTS.each do |key, value| %>
+                    <% Planning::TIME_SLOTS.each do |key, value| %>
                         <option value="<%= value[:start_time] %>-<%= value[:end_time] %>"><%= I18n.t(value[:name]) %></option>
                     <% end %>
                     <option value="choose-slot">Creneau précis</option>

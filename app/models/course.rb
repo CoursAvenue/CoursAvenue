@@ -284,7 +284,7 @@ class Course < ActiveRecord::Base
     time_slots = []
     plannings.each do |planning|
       if planning.start_time and planning.end_time
-        CoursAvenue::Application::TIME_SLOTS.each do |time_slot_name, time_slot|
+        Planning::TIME_SLOTS.each do |time_slot_name, time_slot|
           if (planning.start_time >= TimeParser.parse_time_string(time_slot[:start_time])) & (planning.start_time <= TimeParser.parse_time_string(time_slot[:end_time]))
             time_slots << time_slot_name.to_s
           end

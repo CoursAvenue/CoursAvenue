@@ -1,5 +1,28 @@
 # encoding: utf-8
 class Planning < ActiveRecord::Base
+
+  TIME_SLOTS = {
+    morning: {
+      name:       'planning.timeslots.morning',
+      start_time: 0,
+      end_time:   12,
+    },
+    noon: {
+      name:       'planning.timeslots.noon',
+      start_time: 12,
+      end_time:   14
+    },
+    afternoon: {
+      name:       'planning.timeslots.afternoon',
+      start_time: 14,
+      end_time:   18
+    },
+    evening: {
+      name:       'planning.timeslots.evening',
+      start_time: 18,
+      end_time:   24
+    }
+  }
   acts_as_paranoid
 
   include PlanningsHelper
@@ -146,6 +169,19 @@ class Planning < ActiveRecord::Base
 
   def for_kid?
     audiences.include? Audience::KID
+  end
+
+  def time_slot_name
+    start_hour = self.start_time.hour
+    if start_hour < 12
+      return 'morning'
+    elsif start_hour < 14
+      return 'noon'
+    elsif start_hour < 18
+      return 'afternoon'
+    else
+      return 'evening'
+    end
   end
 
   private
