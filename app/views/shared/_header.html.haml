@@ -56,7 +56,7 @@
                   = link_to "Élèves", new_user_session_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax', id: 'connection'
             .inline-block.soft-half--sides= render 'shared/help_dropdown'
             .inline-block.soft-half--sides
-              = link_to 'Publier vos cours', root_url(subdomain: 'pro'), onclick: "_gaq.push(['_trackEvent', 'Publier vos cours', 'click','Inscrit'])", class: 'btn btn--green'
+              = link_to 'Publiez vos cours', root_url(subdomain: 'pro'), onclick: "_gaq.push(['_trackEvent', 'Publier vos cours', 'click','Inscrit'])", class: 'btn btn--green'
 
 
 = content_for :scripts do

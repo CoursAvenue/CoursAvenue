@@ -23,11 +23,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.populateHourRange(this.ui.$hour_range.find('select').last(), 0, 24);
             this.ui.$week_days_select.val(data.week_days);
             this.ui.$date_range.hide();
+            this.ui.$hour_range.hide();
 
             // If hours correspond to a value of the select, then select it,
             if (this.ui.$time_select.find('option[value=' + data.start_hour + '-' + data.end_hour + ']').length > 0) {
                 this.ui.$time_select.val(data.start_hour + '-' + data.end_hour);
-                this.ui.$hour_range.hide();
             // else show the time picker
             } else if (data.start_hour.length !== 0 || data.end_hour.length !== 0) {
                 this.ui.$hour_range.show();
