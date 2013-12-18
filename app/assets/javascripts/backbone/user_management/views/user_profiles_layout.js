@@ -6,7 +6,7 @@ UserManagement.module('Views', function(Module, App, Backbone, Marionette, $, _)
         master_region_name: 'user_profiles',
 
         regions: {
-            results: "#search-results",
+            master: "#search-results",
         },
 
         onShow: function() {

@@ -41,7 +41,7 @@ UserManagement.addInitializer(function(options) {
         selector: '[data-type=pagination-bottom]'
     });
 
-    layout.results.show(user_profiles_collection_view);
+    layout.master.show(user_profiles_collection_view);
 
 });
 
