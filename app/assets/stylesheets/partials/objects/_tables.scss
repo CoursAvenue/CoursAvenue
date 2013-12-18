@@ -38,7 +38,10 @@
 }
 
 .table__cell--editable {
-    min-height: 1.5em;
+
+    .pointer {
+        min-height: 2.5em;
+    }
 }
 
 th.sortAsc span, th.sortDesc span {
