@@ -5,7 +5,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
     Module.PriceFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'price_filter_view',
 
-        SUBSCRIPTION_PRICE_TYPES: ['all_subscription', 'annual_subscription', 'semestrial_subscription', 'trimestrial_subscription', 'monthly_subscription'],
+        SUBSCRIPTION_PRICE_TYPES: ['all_subscriptions', 'annual_subscription', 'semestrial_subscription', 'trimestrial_subscription', 'monthly_subscription'],
         COURSE_PRICE_TYPES:       ['any_per_course', 'per_course', 'book_ticket'],
 
         initialize: function() {
@@ -19,10 +19,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
             if (this.SUBSCRIPTION_PRICE_TYPES.indexOf(data.price_type) !== -1) {
                 this.ui.$price_type_radio_subscription.prop('checked', true);
-                this.ui.$subscription_prices_select.val(data.price_type);
+                this.ui.$subscription_prices_select.show().val(data.price_type);
             } else if (this.COURSE_PRICE_TYPES.indexOf(data.price_type) !== -1) {
                 this.ui.$price_type_radio_course.prop('checked', true);
-                this.ui.$course_prices_select.val(data.price_type);
+                this.ui.$course_prices_select.show().val(data.price_type);
             }
             range = this.getRange();
             step  = this.getStep();
@@ -136,7 +136,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             if (this.$('[name=price_type]:checked').length === 0) {
                 this.trigger("filter:breadcrumb:remove", {target: 'price'});
             } else {
-                title = 'De ' + this.ui.$slider.val()[0] + ' à ' + this.ui.$slider.val()[1] + '€'
+                title = this.currentShownSelect().find('option:selected').text();
+                title += ' de ' + this.ui.$slider.val()[0] + ' à ' + this.ui.$slider.val()[1] + '€'
                 this.trigger("filter:breadcrumb:add", {target: 'price', title: title});
             }
         },
@@ -145,7 +146,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         clear: function (filters) {
             this.ui.$price_type_radio.prop('checked', false);
             this.ui.$subscription_prices_select.hide();
-            this.ui.$subscription_prices_select.val('all_subscription');
+            this.ui.$subscription_prices_select.val('all_subscriptions');
             this.ui.$course_prices_select.hide();
             this.ui.$course_prices_select.val('any_per_course');
             this.ui.$slider.val([5, 2000]);
