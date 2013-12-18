@@ -114,9 +114,9 @@ class User < ActiveRecord::Base
     user.reload.destroy
   end
 
-  # def name
-  #   "#{first_name} #{last_name}"
-  # end
+  def name
+    "#{first_name} #{last_name}"
+  end
 
   def name_with_email
     if self.name
