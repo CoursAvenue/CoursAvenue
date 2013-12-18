@@ -106,7 +106,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         changeRange: function() {
-            var range   = this.getRange($option),
+            var range   = this.getRange(),
                 step    = this.getStep();
             this.ui.$slider.noUiSlider({ range: range, start: range, step: step }, true);
             this.ui.$slider.parent().animate({backgroundColor: 'rgba(255, 255, 13, 0.35)'}, {duration: 300})

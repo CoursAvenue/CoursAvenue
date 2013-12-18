@@ -53,9 +53,12 @@ class PlanningSearch
 
         # --------------- Iterating over all types of prices
         if params[:price_type].present?
+          with(:price_types).any_of                                      [params[:price_type]]
           Price::TYPES.each do |name|
-            with("#{params[:price_type]}_max_price".to_sym).greater_than params["#{params[:price_type]}_min_price".to_sym] if params["#{params[:price_type]}_min_price".to_sym].present?
+            with("#{params[:price_type]}_min_price".to_sym).greater_than params["#{params[:price_type]}_min_price".to_sym] if params["#{params[:price_type]}_min_price".to_sym].present?
             with("#{params[:price_type]}_min_price".to_sym).less_than    params["#{params[:price_type]}_max_price".to_sym] if params["#{params[:price_type]}_max_price".to_sym].present?
+            # with("#{params[:price_type]}_max_price".to_sym).greater_than params["#{params[:price_type]}_min_price".to_sym] if params["#{params[:price_type]}_min_price".to_sym].present?
+            # with("#{params[:price_type]}_min_price".to_sym).less_than    params["#{params[:price_type]}_max_price".to_sym] if params["#{params[:price_type]}_max_price".to_sym].present?
           end
         else
           with(:max_price).greater_than params[:min_price] if params[:min_price].present?

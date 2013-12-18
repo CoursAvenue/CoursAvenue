@@ -167,6 +167,14 @@ class Planning < ActiveRecord::Base
     time :start_date
     time :end_date
 
+    string :price_types, multiple: true do
+      price_types = []
+      Price::TYPES.each do |name|
+        price_types << name if price_amount_for_scope(name).any?
+      end
+      price_types
+    end
+
     Price::TYPES.each do |name|
       integer "#{name}_min_price".to_sym do
         self.min_price_amount_for(name)
@@ -337,9 +345,13 @@ class Planning < ActiveRecord::Base
 
   def week_days
     if self.course.is_lesson?
-      self.week_day
+      [self.week_day]
     else
-      (self.start_date..self.end_date).to_a.map(&:wday).uniq
+      if self.start_date and self.end_date
+        (self.start_date..self.end_date).to_a.map(&:wday).uniq
+      elsif self.start_date
+        [self.start_date.wday]
+      end
     end
   end
 

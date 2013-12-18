@@ -3,68 +3,66 @@
     Contactez pour réserver ou
     %br
     pour avoir plus d'infos
-  = link_to 'Contacter', 'javascript:void(0)', class: 'btn btn--green btn--large btn--full', id: 'show-structure-contact'
+  - if current_user
+    = link_to 'Contacter', 'javascript:void(0)', class: 'btn btn--green btn--large btn--full', id: 'show-structure-contact'
+  - else
+    = link_to 'Contacter', new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--large btn--full', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Contact form button'])"
 
 = simple_form_for [ClickLog.new(structure_id: @structure.id)], remote: true, html: { class: 'hidden', id: 'show-structure-contact-form' } do |f|
   - if @course
     = f.input :info, as: :hidden, input_html: { value: "Cours : #{@course.name}" }
   = f.input :structure_id, as: :hidden
 
-#structure-contact.blue-box.islet.hidden
-  = simple_form_for [structure, Message.new] do |f|
-    .delta Envoyez un message
-    %i Gratuit & sans inscription
-    - unless current_user
-      .grid
-        .grid__item.one-half>
-          %label Votre nom
-          %input.one-whole.milli{type: 'text', name: 'user[name]', placeholder: 'Ex. : Florian Cassel'}
-        .grid__item.one-half>
-          %label Votre email
-          %input.one-whole.milli{type: 'email', name: 'user[email]', placeholder: 'Ex. : florian.c@gmail.com'}
-    %label
-      Message privé
-      \—
-      %i Modifiez ce texte avec des informations sur vous et sur le cours souhaité.
-    -# Here to stop bots.
-    -# If this is filled, the message won't be sent
-    .visuallyhidden
-      %input{name: 'content', type: 'text'}
-    = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt", data: { behavior: 'autoresize' }}
-    = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
+- if current_user
+  #structure-contact.blue-box.islet.hidden
+    = simple_form_for [structure, Message.new] do |f|
+      %h4.weight-normal
+        Les professeurs sont souvent en cours et peu disponibles...
+        %br
+        Envoyez votre message, c'est plus pratique !
+      %label
+        Votre message -
+        %i Modifiez ce texte avec des informations sur vous et le cours souhaité.
+      -# Here to stop bots.
+      -# If this is filled, the message won't be sent
+      .visuallyhidden
+        %input{name: 'content', type: 'text'}
+      = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt", data: { behavior: 'autoresize' }}
+      = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
 
-  .grid--full
-    .grid__item.v-middle{style: 'width: 45%;'}>
-      %hr.hr--white.push--top
-    .grid__item.v-middle.text--center{style: 'width: 10%;'}>
-      OU
-    .grid__item.v-middle{style: 'width: 45%;'}>
-      %hr.hr--white.push--top
-  .delta.push-half--bottom Contactez directement
-  %div
-    - if @structure.contact_phone.present? or @structure.contact_mobile_phone.present?
-      %i.fa.fa-phone
-    - if @structure.contact_phone.present?
-      = link_to "tel:#{@structure.contact_phone.gsub(/\s+/, '')}" do
-        = @structure.contact_phone.gsub(' ', '&nbsp;').html_safe
-    - if @structure.contact_phone.present? and @structure.contact_mobile_phone.present?
-      %span /
-    - if @structure.contact_mobile_phone.present?
-      = link_to "tel:#{@structure.contact_mobile_phone.gsub(/\s+/, '')}" do
-        = @structure.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
-    - if @structure.contact_email.present?
-      %div
-        %i.fa.fa-envelope
-        = link_to @structure.contact_email, "mailto:#{@structure.contact_email}", target: '_blank', rel: 'nofollow', onclick: "_gaq.push(['_trackEvent', 'Contact structure', 'click', 'email'])"
-    - if @structure.website.present?
-      %div
-        %i.fa.fa-external-link
-        = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow', onclick: "_gaq.push(['_trackEvent', 'Contact structure', 'click', 'website'])"
+    .grid--full
+      .grid__item.v-middle{style: 'width: 45%;'}>
+        %hr.hr--white.push--top
+      .grid__item.v-middle.text--center{style: 'width: 10%;'}>
+        OU
+      .grid__item.v-middle{style: 'width: 45%;'}>
+        %hr.hr--white.push--top
+    .text--center
+      .btn.btn--full#phone-contact-button Contacter par téléphone
+    %div#phone-contact.hidden
+      - if @structure.contact_phone.present? or @structure.contact_mobile_phone.present?
+        %i.fa.fa-phone
+      - if @structure.contact_phone.present?
+        = link_to "tel:#{@structure.contact_phone.gsub(/\s+/, '')}" do
+          = @structure.contact_phone.gsub(' ', '&nbsp;').html_safe
+      - if @structure.contact_phone.present? and @structure.contact_mobile_phone.present?
+        %span /
+      - if @structure.contact_mobile_phone.present?
+        = link_to "tel:#{@structure.contact_mobile_phone.gsub(/\s+/, '')}" do
+          = @structure.contact_mobile_phone.gsub(' ', '&nbsp;').html_safe
+      - if @structure.website.present?
+        %div
+          %i.fa.fa-external-link
+          = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow', onclick: "_gaq.push(['_trackEvent', 'Contact structure', 'click', 'website'])"
 
 
 = content_for :scripts do
   :javascript
     $(function() {
+        $('#phone-contact-button').click(function() {
+            $(this).hide();
+            $('#phone-contact').show();
+        });
         $('#show-structure-contact').click(function() {
             if (!$.cookie("contact_structure_#{@structure.id}")) {
                 $.cookie("contact_structure_#{@structure.id}", true)
