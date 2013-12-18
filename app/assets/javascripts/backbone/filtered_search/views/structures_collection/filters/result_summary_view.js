@@ -2,7 +2,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
     Module.ResultsSummaryView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'results_summary_view',
-        className: 'grid',
+        className: 'text--right line-height-normal',
 
         initialize: function (options) {
             this.current_summary_data = {};
@@ -48,6 +48,9 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             var method = $(element).data('value') === 'rating_desc';
             this.sort_by_popularity = method;
             this.sort_by_relevance = !method;
+        },
+        // Clears all the given filters
+        clear: function (filters) {
         }
     });
 });

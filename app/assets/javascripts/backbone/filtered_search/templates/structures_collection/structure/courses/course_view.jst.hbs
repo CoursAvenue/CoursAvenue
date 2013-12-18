@@ -4,7 +4,10 @@
             <td colspan="6" class="text--left">
                 {{#if min_price_amount}}
                 <div class="float--right text--right">
-                    à partir de {{ min_price_amount }}€ ({{ min_price_libelle }})
+                    à partir de {{ min_price_amount }} ({{ min_price_libelle }})
+                    {{#if has_free_trial_lesson}}
+                    <strong>(essai gratuit)</strong>
+                    {{/if}}
                     <br />
                     {{#if is_individual}}
                         <i data-behavior="tooltip" title="Cours individuel" data-placement="left" class="pointer fa fa-user"></i>

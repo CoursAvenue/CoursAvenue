@@ -2,16 +2,7 @@
     <i class="fa fa-times"></i>
 </div>
 <div class="soft-half">
-    <p class="flush"> <strong>{{location.name}} {{location.street}} {{location.zip_code}}</strong>
-    {{#if contacts}}
-      <br />
-        Contact :
-          {{#each contacts}}
-              {{#if this.name}}{{this.name}}{{/if}}
-              {{#if this.phone}}{{this.phone}}{{/if}}
-              {{#if this.mobile_phone}}{{this.mobile_phone}}{{/if}}
-              {{#if this.email}}{{this.email}}{{/if}}
-          {{/each}}
-    {{/if}}
+    <p class="flush">
+      <strong>{{location.name}} {{location.street}} {{location.zip_code}}</strong>
     </p>
 </div>

@@ -101,7 +101,7 @@
       .white-box.islet
         .text--center= image_tag @structure.cover_image.thumbnail_url, alt: "Cours de #{join_parent_subjects_text @structure}"
     .push--top.push--bottom
-      = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_course_path(@structure, @course)}", class: 'btn--facebook btn one-whole', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
+      = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_course_url(@structure, @course)}", class: 'btn--facebook btn one-whole', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
 
 
 

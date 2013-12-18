@@ -1,0 +1,52 @@
+<div class="grid--full">
+    <div class="grid__item v-middle one-fifth">
+        <strong class="gray">Prix</strong>
+    </div><!--
+ --><div class="grid__item v-middle four-fifths">
+        <div class="grid"><!--
+         --><div class="grid__item width-auto v-top soft--right">
+                <div>
+                    <input class="v-middle" id="radio-course" type="radio" name="price_type" value="course"/>
+                    <label for="radio-course" class="nowrap v-middle inline soft-half--left">À la séance</label>
+                </div>
+                <div>
+                    <input class="v-middle" id="radio-subscription" type="radio" name="price_type" value="subscription"/>
+                    <label for="radio-subscription" class="nowrap v-middle inline soft-half--left">Par abonnement</label>
+                </div>
+
+            </div><!--
+         --><div class="grid__item six-twelfths v-top soft--sides">
+                <div data-behavior="slider" style="margin-top: 6px;"></div>
+                <div class="grid soft-half--top"><!--
+                 --><div class="grid__item one-half">
+                        Prix minimum :
+                        <strong data-behavior="slider-min-value"></strong>
+                        €
+                    </div><!--
+                 --><div class="grid__item one-half text--right">
+                        Prix maximum :
+                        <strong data-behavior="slider-max-value"></strong>
+                        €
+                    </div><!--
+             --></div>
+            </div><!--
+         --><div class="grid__item three-twelfths v-top">
+                <select class="hidden" data-type="subscription-prices">
+                    <option value="all_subscriptions" data-step="25" data-range="10,1000"><%= I18n.t('prices.filter.all_subscriptions') %></option>
+                    <option value="annual_subscription" data-step="25" data-range="100,5000"><%= I18n.t('prices.filter.annual_subscription') %></option>
+                    <option value="semestrial_subscription" data-step="10" data-range="10,1500"><%= I18n.t('prices.filter.semestrial_subscription') %></option>
+                    <option value="trimestrial_subscription" data-step="10" data-range="10,1000"><%= I18n.t('prices.filter.trimestrial_subscription') %></option>
+                    <option value="monthly_subscription" data-step="10" data-range="10,500"><%= I18n.t('prices.filter.monthly_subscription') %></option>
+                </select>
+
+                <select class="hidden" data-type="course-prices">
+                    <option value="any_per_course" data-step="5" data-range="10,100"><%= I18n.t('prices.filter.any_per_course') %></option>
+                    <option value="per_course" data-step="5" data-range="10,100"><%= I18n.t('prices.filter.per_course') %></option>
+                    <option value="book_ticket" data-step="5" data-range="10,100"><%= I18n.t('prices.filter.book_ticket') %></option>
+                </select>
+
+            </div><!--
+     --></div>
+    </div>
+</div>
+

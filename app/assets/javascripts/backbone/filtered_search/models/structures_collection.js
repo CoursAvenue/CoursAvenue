@@ -21,11 +21,11 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             *  that we are responding to both a sync and a filter, rather than
             *  just a sync */
             /* for now we will "detect" filters by the page being 1 */
-            this.on('sync', function(model, response, xhr){
-                if (model.currentPage === 1) {
-                    this.reset(response.structures);
-                }
-            });
+            // this.on('sync', function(model, response, xhr){
+            //     if (model.currentPage === 1) {
+            //         this.reset(response.structures);
+            //     }
+            // });
 
             if (this.server_api.sort === undefined) {
                 this.server_api.sort = 'rating_desc';
