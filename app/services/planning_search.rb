@@ -8,7 +8,10 @@ class PlanningSearch
     @search = Sunspot.search(Planning) do
       group options[:group] if options[:group]
 
+      fulltext params[:name] if params[:name].present?
+
       all_of do
+
         with :active_course, true
 
         with(:start_hour).greater_than_or_equal_to        params[:start_hour].to_i                      if params[:start_hour].present?
@@ -16,7 +19,7 @@ class PlanningSearch
 
         with(:start_date).greater_than_or_equal_to        params[:start_date].to_i                      if params[:start_date].present?
         if params[:end_date].present?
-          with(:end_date).less_than_or_equal_to             params[:end_date].to_i
+          with(:end_date).less_than_or_equal_to           params[:end_date].to_i
         else # Always retrieve future plannings
           with(:end_date).greater_than Date.today
         end
