@@ -37,7 +37,7 @@ class UserProfile < ActiveRecord::Base
   private
 
   def affect_email_if_empty
-    if self.user
+    if self.user && self.email.blank?
       self.email = self.user.email
     end
   end
