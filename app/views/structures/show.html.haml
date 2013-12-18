@@ -65,7 +65,7 @@
                   - if course.best_price
                     = "à partir de #{readable_amount course.best_price.amount}€".html_safe
                   - if course.has_free_trial_lesson?
-                    %strong essai gratuit
+                    %strong (essai gratuit)
                     %br
                     - if course.is_individual
                       %i.fa.fa-user.pointer{data: { behavior: "tooltip", title: "Cours individuel", placement: "left"}}

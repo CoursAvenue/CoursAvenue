@@ -21,9 +21,20 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
             this.populateHourRange(this.ui.$hour_range.find('select').first(), 0, 24);
             this.populateHourRange(this.ui.$hour_range.find('select').last(), 0, 24);
-            this.ui.$hour_range.hide();
-            this.ui.$date_range.hide();
             this.ui.$week_days_select.val(data.week_days);
+            this.ui.$date_range.hide();
+
+            // If hours correspond to a value of the select, then select it,
+            if (this.ui.$time_select.find('option[value=' + data.start_hour + '-' + data.end_hour + ']').length > 0) {
+                this.ui.$time_select.val(data.start_hour + '-' + data.end_hour);
+                this.ui.$hour_range.hide();
+            // else show the time picker
+            } else {
+                this.ui.$hour_range.show();
+                this.$('#start-hour').val(data.start_hour);
+                this.$('#end-hour').val(data.end_hour);
+                this.ui.$time_select.val('choose-slot');
+            }
 
             if (this.ui.$start_date.val().length > 0 || this.ui.$end_date.val().length > 0 ) {
                 this.showDateRange();
@@ -34,6 +45,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         ui: {
             '$week_days_select': '[data-type=day]',
             '$time':             '[data-type=time]',
+            '$time_select':      '[data-type=time] select',
             '$date':             '[data-type=date]',
             '$date_range':       '[data-type=date-range]',
             '$start_date':       '[data-value=start-date]',
@@ -88,19 +100,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 case 'all-day':
                     data = {start_hour: null, end_hour: null};
                 break;
-                case '9-12':
-                case '12-14':
-                case '14-18':
-                case '18-23':
+                default:
                     // Value is formatted as: 9-12
                     range = this.ui.$time.find('select').val().split('-');
                     data  = {
                         start_hour: range[0],
                         end_hour: range[1]
                     };
-                break;
-                default:
-                    return;
                 break;
             }
             this.trigger("filter:date", data);

@@ -38,7 +38,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         announceBreadcrumb: function(trial_course_amount) {
             if (!trial_course_amount) {
                 var trial_course_amounts = _.map(this.ui.$buttons.find('[name="trial_course_amount"]:checked'), function(input){ return parseInt(input.value, 10) }),
-                    trial_course_amount  = Math.max(trial_course_amounts);
+                    trial_course_amount  = trial_course_amounts.sort().reverse()[0];
                 if (trial_course_amounts.length == 0) { trial_course_amount = null }
             }
             if (trial_course_amount === null) {
@@ -51,13 +51,13 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         titleFor: function(trial_course_amount) {
             switch(trial_course_amount) {
                 case 0:
-                'Gratuit'
+                    return 'Gratuit';
                 break;
                 case 20:
-                'de 0 à 20€'
+                    return 'de 0 à 20€';
                 break;
-                case 50:
-                '+ de 20€'
+                case 100:
+                    return '+ de 20€';
                 break;
             }
         },

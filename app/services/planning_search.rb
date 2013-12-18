@@ -31,7 +31,7 @@ class PlanningSearch
 
         with(:audience_ids).any_of params[:audience_ids]                                              if params[:audience_ids].present?
         with(:level_ids).any_of    params[:level_ids]                                                 if params[:level_ids].present?
-        with(:week_day).any_of     params[:week_days].map(&:to_i)                                     if params[:week_days].present?
+        with(:week_days).any_of    params[:week_days].map(&:to_i)                                     if params[:week_days].present?
 
         # --------------- Subjects
         # For the home screen link "Autres"
@@ -54,12 +54,8 @@ class PlanningSearch
         # --------------- Iterating over all types of prices
         if params[:price_type].present?
           with(:price_types).any_of                                      [params[:price_type]]
-          Price::TYPES.each do |name|
-            with("#{params[:price_type]}_min_price".to_sym).greater_than params["#{params[:price_type]}_min_price".to_sym] if params["#{params[:price_type]}_min_price".to_sym].present?
-            with("#{params[:price_type]}_min_price".to_sym).less_than    params["#{params[:price_type]}_max_price".to_sym] if params["#{params[:price_type]}_max_price".to_sym].present?
-            # with("#{params[:price_type]}_max_price".to_sym).greater_than params["#{params[:price_type]}_min_price".to_sym] if params["#{params[:price_type]}_min_price".to_sym].present?
-            # with("#{params[:price_type]}_min_price".to_sym).less_than    params["#{params[:price_type]}_max_price".to_sym] if params["#{params[:price_type]}_max_price".to_sym].present?
-          end
+          with("#{params[:price_type]}_min_price".to_sym).greater_than params[:min_price].to_i if params[:min_price].present?
+          with("#{params[:price_type]}_min_price".to_sym).less_than    params[:max_price].to_i if params[:max_price].present?
         else
           with(:max_price).greater_than params[:min_price] if params[:min_price].present?
           with(:min_price).less_than    params[:max_price] if params[:max_price].present?

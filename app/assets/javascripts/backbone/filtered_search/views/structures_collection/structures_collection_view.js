@@ -21,23 +21,23 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             this.trigger('structures:itemview:peacock', data);
         },
 
-        /* when rendering each collection item, we might want to
-         * pass in some info from the paginator_ui or something
-         * if do we would do it here */
-        /* remember that itemViews are constructed and destroyed more often
-        * than the corresponding models */
-        itemViewOptions: function(model, index) {
-            // we could pass some information from the collectionView
-            var search_term;
+        // /* when rendering each collection item, we might want to
+        //  * pass in some info from the paginator_ui or something
+        //  * if do we would do it here */
+        // /* remember that itemViews are constructed and destroyed more often
+        // * than the corresponding models */
+        // itemViewOptions: function(model, index) {
+        //     // we could pass some information from the collectionView
+        //     var search_term;
 
-            if (this.collection.server_api.name) {
-                search_term = decodeURIComponent(this.collection.server_api.name);
-            }
+        //     if (this.collection.server_api.name) {
+        //         search_term = decodeURIComponent(this.collection.server_api.name);
+        //     }
 
-            return {
-                search_term: search_term
-            };
-        },
+        //     return {
+        //         search_term: search_term
+        //     };
+        // },
 
         findItemView: function (data) {
             /* find the first place that has any locations that match the given lat/lng */
@@ -101,11 +101,13 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                 max_price:           (data.server_api.max_price            ? decodeURIComponent(data.server_api.max_price)           : ''),
                 min_price:           (data.server_api.min_price            ? decodeURIComponent(data.server_api.min_price)           : ''),
                 structure_types:     (data.server_api['structure_types[]'] ? data.server_api['structure_types[]']                    : ''),
-                funding_type_ids:    (data.server_api['funding_type_ids[]']? data.server_api['funding_type_ids[]']                      : ''),
+                funding_type_ids:    (data.server_api['funding_type_ids[]']? data.server_api['funding_type_ids[]']                   : ''),
                 discount_types:      (data.server_api['discount_types[]']  ? data.server_api['discount_types[]']                     : ''),
                 week_days:           (data.server_api['week_days[]']       ? data.server_api['week_days[]']                          : ''),
                 start_date:          (data.server_api.start_date           ? decodeURIComponent(data.server_api.start_date)          : ''),
                 end_date:            (data.server_api.end_date             ? decodeURIComponent(data.server_api.end_date)            : ''),
+                start_hour:          (data.server_api.start_hour           ? decodeURIComponent(data.server_api.start_hour)          : ''),
+                end_hour:            (data.server_api.end_hour             ? decodeURIComponent(data.server_api.end_hour)            : ''),
                 trial_course_amount: (data.server_api.trial_course_amount  ? decodeURIComponent(data.server_api.trial_course_amount) : '')
             });
 
