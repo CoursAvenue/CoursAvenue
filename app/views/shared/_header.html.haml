@@ -6,7 +6,7 @@
         = image_tag 'logo.png', width: 200, alt: 'CoursAvenue | Tous les cours autour de vous'
     %nav.text--right.grid__item.two-thirds.visuallyhidden--palm.v-middle
       - if current_user
-        .inline-block.soft-half--sides= render 'shared/help_dropdown'
+        = render 'shared/help_dropdown'
         #drop-down-el.drop-down__wrapper.grid__item.width-auto.v-middle.hard--left{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
           = link_to user_path(current_user) do
             - if current_user.fb_avatar or current_user.avatar.present?
@@ -54,7 +54,7 @@
                   = link_to "Profs, associations, écoles", new_pro_admin_session_url(subdomain: 'pro')
                 %li.nowrap
                   = link_to "Élèves", new_user_session_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax', id: 'connection'
-            .inline-block.soft-half--sides= render 'shared/help_dropdown'
+            = render 'shared/help_dropdown'
             .inline-block.soft-half--sides
               = link_to 'Publiez vos cours', root_url(subdomain: 'pro'), onclick: "_gaq.push(['_trackEvent', 'Publier vos cours', 'click','Inscrit'])", class: 'btn btn--green'
 
