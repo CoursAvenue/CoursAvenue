@@ -5,7 +5,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         setup: function (data) {
             this.activateButton(data.subject_id);
-            this.announceBreadcrumb();
         },
 
         serializeData: function(data) {
@@ -28,18 +27,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             } else {
                 this.trigger("filter:subject", { 'subject_id': subject_slug });
                 this.activateButton(subject_slug);
-            }
-            this.announceBreadcrumb(subject_slug);
-        },
-
-        announceBreadcrumb: function(subject_slug) {
-            var title,
-                subject_slug = subject_slug || this.$('.active[data-type="button"]').data('value');
-            if (subject_slug) {
-                title = this.$('.active[data-type="button"]').text().trim();
-                this.trigger("filter:breadcrumb:add", {target: 'subject_slug', title: title});
-            } else {
-                this.trigger("filter:breadcrumb:remove", {target: 'subject_slug'});
             }
         },
 

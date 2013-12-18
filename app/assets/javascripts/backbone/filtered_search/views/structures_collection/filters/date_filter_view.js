@@ -29,7 +29,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 this.ui.$time_select.val(data.start_hour + '-' + data.end_hour);
                 this.ui.$hour_range.hide();
             // else show the time picker
-            } else {
+            } else if (data.start_hour.length !== 0 || data.end_hour.length !== 0) {
                 this.ui.$hour_range.show();
                 this.$('#start-hour').val(data.start_hour);
                 this.$('#end-hour').val(data.end_hour);
@@ -84,7 +84,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             if ((this.ui.$week_days_select.val() === null) &&
                 (this.ui.$start_date.val().length === 0) &&
                 (this.ui.$end_date.val().length === 0) &&
-                this.ui.$time.find('select').val() === 'all-day') {
+                this.ui.$time_select.val() === 'all-day') {
                 this.trigger("filter:breadcrumb:remove", {target: 'date'});
             } else {
                 this.trigger("filter:breadcrumb:add", {target: 'date'});

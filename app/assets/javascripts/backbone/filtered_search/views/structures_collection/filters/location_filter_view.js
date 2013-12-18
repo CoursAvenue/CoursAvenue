@@ -9,7 +9,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         setup: function (data) {
             this.ui.$address_picker.attr('value', data.address_name);
-            this.announceBreadcrumb();
         },
 
         ui: {
@@ -22,16 +21,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         announce: function (e, data) {
             this.trigger("filter:location", data);
-            this.announceBreadcrumb();
-        },
-        announceBreadcrumb: function() {
-            var title;
-            if (this.ui.$address_picker.val() === 0) {
-                this.trigger("filter:breadcrumb:remove", {target: 'location'});
-            } else {
-                title = this.ui.$address_picker.val();
-                this.trigger("filter:breadcrumb:add", {target: 'location', title: title});
-            }
         },
 
         ui: {

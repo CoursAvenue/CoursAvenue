@@ -115,9 +115,9 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    layout.showWidget(keyword_filter,          { events: { 'breadcrumbs:clear:keyword':  'clear'} });
-    layout.showWidget(location_filter,         { events: { 'breadcrumbs:clear:location': 'clear'} });
-    layout.showWidget(subject_filter,          { events: { 'breadcrumbs:clear:subject':  'clear'} });
+    layout.showWidget(keyword_filter);
+    layout.showWidget(location_filter);
+    layout.showWidget(subject_filter);
     layout.showWidget(infinite_scroll_button);
     layout.showWidget(results_summary);
 

@@ -21,24 +21,6 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             this.trigger('structures:itemview:peacock', data);
         },
 
-        // /* when rendering each collection item, we might want to
-        //  * pass in some info from the paginator_ui or something
-        //  * if do we would do it here */
-        // /* remember that itemViews are constructed and destroyed more often
-        // * than the corresponding models */
-        // itemViewOptions: function(model, index) {
-        //     // we could pass some information from the collectionView
-        //     var search_term;
-
-        //     if (this.collection.server_api.name) {
-        //         search_term = decodeURIComponent(this.collection.server_api.name);
-        //     }
-
-        //     return {
-        //         search_term: search_term
-        //     };
-        // },
-
         findItemView: function (data) {
             /* find the first place that has any locations that match the given lat/lng */
             var position = data.model.getLatLng();

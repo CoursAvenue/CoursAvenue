@@ -11,7 +11,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         setup: function (data) {
             this.ui.$search_input.attr('value', data.name);
             this.previous_searched_name = data.name;
-            this.announceBreadcrumbs();
         },
 
         ui: {
@@ -30,16 +29,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             if (name != this.previous_searched_name) {
                 this.previous_searched_name = name;
                 this.trigger("filter:search_term", { 'name': name });
-            }
-            this.announceBreadcrumbs(name);
-        },
-
-        announceBreadcrumbs: function(name) {
-            name = name || this.ui.$search_input.val();
-            if (name.length === 0) {
-                this.trigger("filter:breadcrumb:remove", {target: 'search_term'});
-            } else {
-                this.trigger("filter:breadcrumb:add", {target: 'search_term', title: name});
             }
         },
 

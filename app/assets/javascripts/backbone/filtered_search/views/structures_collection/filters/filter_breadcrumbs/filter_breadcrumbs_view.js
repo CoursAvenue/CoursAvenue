@@ -41,9 +41,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
                 case 'audience':
                     this.breadcrumbs[data.target].name = 'Public';
                 break;
-                case 'subject_slug':
-                    this.breadcrumbs[data.target].name = 'Discipline';
-                break;
                 case 'course_type':
                     this.breadcrumbs[data.target].name = 'Type de cours';
                 break;
@@ -62,14 +59,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters.FilterBreadcrumbs', fu
                 case 'payment_method':
                     this.breadcrumbs[data.target].name = 'Financements acceptés';
                 break;
-                case 'location':
-                    this.breadcrumbs[data.target].name = 'Lieux';
-                break;
                 case 'trial_course':
                     this.breadcrumbs[data.target].name = "Cours d'essai";
-                break;
-                case 'search_term':
-                    this.breadcrumbs[data.target].name = "Mots clés";
                 break;
             }
             if (data.title)           { this.breadcrumbs[data.target].title = data.title; }
