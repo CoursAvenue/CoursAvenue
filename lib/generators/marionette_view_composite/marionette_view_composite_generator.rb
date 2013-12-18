@@ -41,9 +41,8 @@ be created, if it does not already exist, to serve as the composite portion.
 
         # create a new manifest, and then point the previous manifest to it
         create_file(app_path(name) + 'views' + namespace_path(namespace) + collection_name(name).underscore + manifest, "#{manifest_require} ./#{collection_view_name(name).underscore}")
-        append_to_file(app_path(name) + 'views' + manifest, "#{manifest_require} ./#{collection_name(name).underscore}/manifest")
+        append_to_file(app_path(name) + 'views' + manifest, "\n#{manifest_require} ./#{collection_name(name).underscore}/manifest")
 
-        ensure_app_exists(app, name)
         ensure_item_view_exists(app, name, namespace)
     end
 

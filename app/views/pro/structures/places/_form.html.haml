@@ -4,13 +4,19 @@
 
     %h5.form-header-group Adresse
     .form-white-box
-      = f.simple_fields_for :location do |location_form|
-        = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: 'Ex. : Gymnase Bercy', disabled: @place.belongs_to_other_locations?
-        = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', disabled: @place.belongs_to_other_locations?, label: Location.human_attribute_name(:street), input_html: {title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: {behavior: 'tooltip'}}
-        .input.flush--top.city-autocomplete-wrapper
-          = location_form.label :zip_code, label: Location.human_attribute_name(:zip_code)
-          = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { data: {behavior: 'city-autocomplete', el: '#place_location_attributes_city_id'} }, label: false, disabled: @place.belongs_to_other_locations?, wrapper_html: { class: 'flush--top' }
-          = location_form.input :city_id, collection: [@place.location.city || @structure.city], label: false, selected: @place.location.city, disabled: @place.belongs_to_other_locations?, wrapper_html: { class: 'flush--top' }
+      .grid
+        .grid__item.two-thirds#location-form-wrapper>
+          = f.simple_fields_for :location do |location_form|
+            = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: 'Ex. : Gymnase Bercy', disabled: @place.belongs_to_other_locations?
+            = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', disabled: @place.belongs_to_other_locations?, label: Location.human_attribute_name(:street), input_html: {title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: {behavior: 'tooltip'}}
+            .input.flush--top.city-autocomplete-wrapper
+              = location_form.label :zip_code, label: Location.human_attribute_name(:zip_code)
+              = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { data: {behavior: 'city-autocomplete', el: '#place_location_attributes_city_id'} }, label: false, disabled: @place.belongs_to_other_locations?, wrapper_html: { class: 'flush--top' }
+              = location_form.input :city_id, collection: [@place.location.city || @structure.city], label: false, selected: @place.location.city, disabled: @place.belongs_to_other_locations?, wrapper_html: { class: 'flush--top' }
+              = location_form.input :latitude, as: :hidden
+              = location_form.input :longitude, as: :hidden
+        .grid__item.one-third>
+          #map.google-map.google-map--small
     .form-white-box
       = f.input :info, placeholder: "Indiquez ici les informations relatives au lieu : station de métro/RER, l'arrêt de bus le plus proche, la description du lieu, digicode, étage, accès parking..."
 
@@ -27,3 +33,45 @@
     #submit
       = f.submit 'Enregistrer', class: 'btn btn--green  btn--full'
 
+= content_for :scripts do
+  :javascript
+    $(function() {
+        var marker, $street_input, $zip_code_input, geocoder;
+        geocoder           = new google.maps.Geocoder()
+        google_map_handler = Gmaps.build('Google');
+        google_map_handler.buildMap({ provider: { maxZoom: 15 }, internal: {id: 'map'}}, function(){
+            var latlng = #{@gmap_location.to_json};
+            var center = #{@gmap_center.to_json};
+            if (latlng) {
+                marker = google_map_handler.addMarker(latlng[0]);
+                google_map_handler.getMap().setCenter(latlng[0]);
+                google_map_handler.getMap().setZoom(15);
+            } else if(center) {
+                google_map_handler.getMap().setCenter(center[0]);
+                google_map_handler.getMap().setZoom(11);
+            }
+            google_map_handler.fitMapToBounds();
+        });
+        //--
+        $street_input   = $('#place_location_attributes_street');
+        $zip_code_input = $('#place_location_attributes_zip_code');
+        $lat_input      = $('#place_location_attributes_latitude');
+        $lng_input      = $('#place_location_attributes_longitude');
+        $('#place_location_attributes_street, #place_location_attributes_zip_code').change(function() {
+            if (marker) { google_map_handler.removeMarker(marker); }
+            var address = $street_input.val() + ', ' + $zip_code_input.val() + ' France';
+            geocoder.geocode( { 'address': address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    latlng = {lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
+                    marker = google_map_handler.addMarker(latlng);
+                    google_map_handler.getMap().setCenter(latlng);
+                    google_map_handler.getMap().setZoom(15);
+                    $lat_input.val(latlng.lat);
+                    $lng_input.val(latlng.lng);
+                } else {
+                    console.log('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        });
+
+    });

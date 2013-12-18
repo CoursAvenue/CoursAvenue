@@ -9,12 +9,20 @@ class Pro::Structures::PlacesController < InheritedResources::Base
     @structure = Structure.friendly.find params[:structure_id]
     @place     = @structure.places.find params[:id]
     @place.contacts.build if @place.contacts.empty?
+    @gmap_location  = Gmaps4rails.build_markers(@place.location) do |location, marker|
+      marker.lat location.latitude
+      marker.lng location.longitude
+    end
   end
 
   def new
     @structure      = Structure.friendly.find params[:structure_id]
     @place          = @structure.places.build
     @place.location = Location.new
+    @gmap_center  = Gmaps4rails.build_markers(@structure) do |structure, marker|
+      marker.lat structure.latitude
+      marker.lng structure.longitude
+    end
 
     if @structure.places.collect{|p| p.contacts}.flatten.any?
       @place.contacts << @structure.places.collect{|p| p.contacts}.flatten.first.dup
@@ -35,9 +43,7 @@ class Pro::Structures::PlacesController < InheritedResources::Base
 
   def create
     @structure = Structure.friendly.find params[:structure_id]
-    @location  = Location.find params[:place][:location_attributes].delete(:id) if params[:place][:location_attributes].has_key? :id
     @place     = @structure.places.build params[:place]
-    @place.location = @location if @location
     respond_to do |format|
       if @place.save
         format.html { redirect_to (params[:from] or pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }

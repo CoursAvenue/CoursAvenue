@@ -9,12 +9,10 @@
         - if comment.user and comment.user.has_avatar?
           = image_tag comment.user.avatar_url(:small), height: (small_avatar ? 30 : 60)
         - else
-          .center-block{class: "#{(small_avatar ? 'profile-picture--small' : 'profile-picture')} profile-picture-variation-#{((comment.author_name.length * 16) % 14) + 1}"}
-            = comment.author_name[0].capitalize
+          = image_tag 'icons/avatar.png', height: (small_avatar ? 30 : 60)
       .grid__item.ten-twelfths>
-
         - if comment.title.present?
-          %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: comment.title.capitalize}= "#{comment.title.capitalize}"
+          %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: comment.title}= "#{comment.title}"
           - if comment.course_name
             %span.v-middle= "— #{comment.course_name.capitalize}"
 

@@ -48,7 +48,6 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         parse: function(response) {
-            console.log("parse");
             // we did some kind of request, I guess we should update the query
             if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
 

@@ -38,13 +38,13 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     if params[:name] == 'tags'
       saved = @structure.tag(@user_profile, with: params[:value], on: :tags)
     else
-      saved = @user_profile.update_attributes({ params[:name] => params[:value] })
+      saved =
     end
     respond_to do |format|
-      if saved
-        format.html{ render nothing: true, status: 200 }
+      if @user_profile.update_attributes(params[:user_profile])
+        format.json { render nothing: true, status: 200 }
       else
-        format.html{ render nothing: true, status: 500 }
+        format.json { render nothing: true, status: 500 }
       end
     end
   end

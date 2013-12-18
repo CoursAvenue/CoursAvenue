@@ -26,7 +26,8 @@ $twitter-blue:                   #4099FF !default;
 $blue-dark:                      #0064cd !default;
 $green-success:                  #47b442 !default;
 $green:                          #39aa82 !default;
-$blue-green:                     #2AADA3 !default;
+$blue-green:                     #3AB8AE !default;
+// $blue-green:                     #2AADA3 !default;
 $green-light:                    #62BC62 !default;
 $red:                            #e2493c !default;
 $red-light:                      #ff493a !default;
@@ -34,9 +35,12 @@ $yellow:                         #ffc40d !default;
 $orange:                         #e9683d !default;
 $pink:                           #c3325f !default;
 $purple:                         #7a43b6 !default;
-$beige-darker:                   #e3dcd4 !default;
-$beige-dark:                     #f7f5f3 !default;
-$beige:                          #f1eeec !default;
+// $beige-darker:                   #e3dcd4 !default;
+$beige-darker:                   #E3E3E3 !default;
+// $beige-dark:                     #f7f5f3 !default;
+$beige-dark:                     #F7F7F7 !default;
+// $beige:                          #f1eeec !default;
+$beige:                          #F1F1F1 !default;
 
 $alert-info-text-color:          #0e6894 !default;
 $alert-info-background-color:    #d9edf7 !default;
@@ -78,8 +82,10 @@ $btn-primary-background-highlight:     #eb7045 !default;
 $btn-info-background:                  #5bc0de !default;
 $btn-info-background-highlight:        #2f96b4 !default;
 
-$btn-success-background:               #62c462 !default;
-$btn-success-background-highlight:     #51a351 !default;
+// $btn-success-background:               #62c462 !default;
+// $btn-success-background-highlight:     #51a351 !default;
+$btn-success-background:               #70D870 !default;
+$btn-success-background-highlight:     #5AB15A !default;
 
 // $btn-blue-background:                 #049cdb !default;
 $btn-blue-background:                  lighten(#04a0e0, 3%) !default;

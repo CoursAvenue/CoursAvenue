@@ -29,14 +29,18 @@ will not assume anything about the relationship between view and model.
         self.namespace = namespace
 
         ensure_app_exists(app, name)
+        ensure_manifest_exists(app, "Views") # TODO
+
+        connect_namespace_manifests(app, name, namespace, 'Views') unless (self.namespace.blank?)
+
         self.namespace = detect_related_collection_view(app, name, namespace)
 
         template "item_view.js", item_view_path(app, name, self.namespace)
         template "item_view.jst.hbs", item_view_template_path(app, name, self.namespace)
 
         # create a new manifest, and then point the previous manifest to it
-        create_file(app_path(name) + 'views' + namespace_path(namespace) + name.underscore + manifest, "#{manifest_require} ./#{item_view_name(name).underscore}")
-        append_to_file(app_path(name) + 'views' + namespace_path(namespace) + manifest, "#{manifest_require} ./#{name.underscore}/manifest")
+        create_file(app_path(name) + 'views' + namespace_path(namespace) + name.underscore + manifest, "#{manifest_require} ./#{item_view_name(name).underscore}\n")
+        prepend_to_file(app_path(name) + 'views' + namespace_path(namespace) + manifest, "#{manifest_require} ./#{name.underscore}/manifest\n")
     end
 
 end

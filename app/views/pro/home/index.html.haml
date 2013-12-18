@@ -55,62 +55,7 @@
     .text--center
       %h3
         Ils ont déjà leur livre d'or :
-    .main-container.stickem-container.relative
-      .stickem.absolute{style: 'width: 38%;'}>
-        #map.google-map.google-map--medium
-      - cache(cache_key_for_structures) do
-        .grid
-          .grid__item.six-tenths.course-list-wrapper.palm-one-whole.lap-one-whole>
-            - @structures.each_with_index do |structure, index|
-              - cache(structure) do
-                .pointer.one-whole.course-element.white-box.islet{data: {'location-ids' => structure.locations.map(&:id).join(' '), type: 'structure-element', url: structure_url(structure, subdomain: 'www')}}
-                  .grid
-                    .grid__item.two-twelfths>
-                      %img{ data: { original: structure.logo.url(:thumb) } }
-                      -# image_tag structure.logo.url(:thumb)
-                    .grid__item.seven-twelfths>
-                      %h3.flush--bottom.brand.course-title= structure.name
-                      %ul.nav.push-half--ends= join_child_subjects structure, true
-                      - if structure.description.present?
-                        .read-more{data: {behavior: 'read-more', height: 50}}
-                          = simple_format structure.description
-                    .grid__item.three-twelfths.text--center>
-                      .thin.big-alpha.brand #{structure.comments_count}
-                      %div
-                        = link_to structure_url(structure, subdomain: 'www'), target: '_blank' do
-                          avis
-                          %i.lbc-brand-icon
-                      .delta{itemprop: 'aggregateRating', itemscope: true, itemtype: 'http://data-vocabulary.org/review-aggregate'}
-                        %meta{property: 'v:rating', itemprop: 'rating', content: structure.rating}
-                        %meta{itemprop: 'count', content: structure.comments_count}
-                        %meta{itemprop: 'itemreviewed', content: structure.name}
-                        %meta{itemprop: 'name', content: structure.name}
-                        %meta{itemprop: 'street-address', content: structure.street}
-                        %meta{itemprop: 'postal-code', content: structure.zip_code}
-            .text--center= link_to "Voir les autres structures", structures_url(subdomain: 'www'), class: 'btn btn--blue btn--full btn--large', target: '_blank'
-
-= content_for :scripts do
-  :javascript
-      $(function() {
-        $('body').stickem();
-        $('[data-type=structure-element]').each(function(index, place_element) {
-            $(this).click(function(event) {
-                // Change url only if user doesn't click on link
-                if (typeof ga !== 'undefined') { ga('send', 'event', 'Go to other profile', 'click', 'From pro home page'); }
-                if (event.target.nodeName !== 'A') {
-                    window.open(this.dataset.url);
-                    return false;
-                }
-                return false;
-            });
-        });
-        handler = Gmaps.build('Google');
-        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-            markers = handler.addMarkers(#{@json_locations_addresses.to_json});
-            handler.bounds.extendWith(markers);
-            handler.fitMapToBounds();
-        });
-        $("img").lazyload({
-            effect : "fadeIn"
-        });
-    });
+    %div{data: {type: "home-index-structures-loader"}}
+      = image_tag 'gifs/loading-indicator.gif', class: "center-block", height: "10"
+    .soft-half.center-block{style: 'max-width: 1900px;'}
+      #home-index-structures.google-map.google-map--large.home-index-structures.stickem-container.relative{ data: { type: 'home-index-structures-root' }}

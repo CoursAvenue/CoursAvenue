@@ -33,8 +33,8 @@ and before 'widgets_collection/widgets_collection_view.js'.
         template "collection_view.jst.hbs", collection_view_template_path(app, name, self.namespace)
 
         # create a new manifest, and then point the previous manifest to it
-        create_file(app_path(name) + 'views' + namespace_path(namespace) + collection_name(name).underscore + manifest, "#{manifest_require} ./#{collection_view_name(name).underscore}")
-        append_to_file(app_path(name) + 'views' + manifest, "#{manifest_require} ./#{collection_name(name).underscore}/manifest")
+        create_file(app_path(name) + 'views' + namespace_path(namespace) + collection_name(name).underscore + manifest, "#{manifest_require} ./#{collection_view_name(name).underscore}\n")
+        append_to_file(app_path(name) + 'views' + manifest, "\n#{manifest_require} ./#{collection_name(name).underscore}/manifest")
 
         ensure_item_view_exists(app, name, namespace)
     end

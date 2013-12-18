@@ -31,22 +31,25 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
                 this.server_api.sort = 'rating_desc';
             }
 
-            /* if we receive a pair from the bootstrap */
-            if (options.latlng) {
-                this.server_api.lat = options.latlng[0];
-                this.server_api.lng = options.latlng[1];
-            }
-
             // now write back the server_api so that the search bar is up to date
             // we are passing this.server_api for fun! ^o^ why not?
             if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
 
             this.paginator_ui.currentPage = this.server_api.page();
 
-            /* TODO the results total seems to be out of sync with what we actually
-             * receive, so for now we will just do this: */
-            this.paginator_ui.grandTotal  = (models.length === 0) ? 0 : options.total;
-            this.paginator_ui.totalPages  = Math.ceil(this.paginator_ui.grandTotal / this.paginator_ui.perPage);
+            if (options) {
+                /* if we receive a pair from the bootstrap */
+                if (options.latlng) {
+                    this.server_api.lat = options.latlng[0];
+                    this.server_api.lng = options.latlng[1];
+                }
+
+                /* TODO the results total seems to be out of sync with what we actually
+                 * receive, so for now we will just do this: */
+                this.paginator_ui.grandTotal  = (models.length === 0) ? 0 : options.total;
+                this.paginator_ui.totalPages  = Math.ceil(this.paginator_ui.grandTotal / this.paginator_ui.perPage);
+            }
+
             // this.url.basename             = window.location.origin;
             // window.location.origin returns "http://www.coursavenue.dev/"
             this.url.basename             = window.location.protocol + '//' + window.location.host
@@ -57,15 +60,13 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         /* where we can expect to find the resource we seek
          *  TODO this needs to be set on the server side */
         url: {
-            // basename: 'http://coursavenue.dev',
-            // basename: 'http://localhost:3000',
             resource: '/etablissements',
             data_type: '.json'
         },
 
         parse: function(response) {
             // we did some kind of request, I guess we should update the query
-            if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
+            if (window.history.pushState) { window.history.pushState({}, document.title, this.getQuery()); }
 
             this.grandTotal = response.meta.total;
             this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);

@@ -7,7 +7,11 @@ class Pro::UsersController < Pro::ProController
   authorize_resource :users
 
   def index
-    @users         = User.order('created_at DESC').limit(300)
+    if params[:with_comments]
+      @users = User.active.joins{comments}.where{comments.user_id == users.id}.order('created_at DESC').limit(100)
+    else
+      @users = User.order('created_at DESC').limit(300)
+    end
   end
 
 end

@@ -26,10 +26,11 @@ with the name 'widget.js', the user will be prompted to optionally create widget
     def create_collection
         self.backbone_class = "Collection"
 
+        insert_into_file(app_path(app) + 'manifest.js', "#{manifest_require} ./models/#{collection_name(name).underscore}\n", after: models_header)
+
         ensure_app_exists(app, collection_name(name))
         ensure_model_exists(app, name, namespace)
 
-        insert_into_file(app_path(name) + 'manifest.js', "#{manifest_require} ./models/#{collection_name(name).underscore}", after: models_header)
         template "collection.js", collection_path(app, name, namespace)
     end
 

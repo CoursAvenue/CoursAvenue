@@ -39,8 +39,6 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             /* if no region exists on the structure view, then we need to
             *  fetch the relation, and create a region for it */
-            console.log(this.regions)
-            console.log(collection_name)
             if (this.regions[collection_name] === undefined) {
                 self.showLoader(collection_name);
                 /* wait for asynchronous fetch of models before adding region */
