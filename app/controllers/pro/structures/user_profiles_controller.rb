@@ -36,11 +36,8 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   def update
     @user_profile = @structure.user_profiles.find params[:id]
 
-    if params[:name] == 'tags'
-      saved = @structure.tag(@user_profile, with: params[:value], on: :tags)
-    else
-      saved =
-    end
+    tags = params[:user_profile].delete(:tags)
+    @structure.tag(@user_profile, with: tags, on: :tags)
 
     respond_to do |format|
       if @user_profile.update_attributes(params[:user_profile])
