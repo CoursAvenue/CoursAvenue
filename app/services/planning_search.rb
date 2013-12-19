@@ -38,6 +38,7 @@ class PlanningSearch
 
         # --------------- Subjects
         # For the home screen link "Autres"
+        with(:subject_slugs).any_of                        [params[:subject_id]]                      if params[:subject_id].present?
         if params[:exclude].present?
           without(:subject_slugs, params[:exclude])
         elsif params[:other].present?
