@@ -42,7 +42,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                     return;
                 }
 
-                this.finishEditing();
+                this.finishEditing(e);
 
             }, this), 1);
         },
@@ -74,15 +74,15 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 user_profile: { }
             };
 
-            _.each($fields, function (field) {
+            _.each($fields, _.bind(function (field) {
                 var $field    = $(field);
                 var $input    = $field.find("input");
                 var attribute = $field.data("name");
-                var text      = $input.val();
+                var text      = (e.restore)? this.model.get(attribute) : $input.val();
 
                 $field.html(text);
                 update.user_profile[attribute] = text;
-            });
+            }, this));
 
             this.model.save(update, {
                 success: function (model, response) {
@@ -106,19 +106,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 return;
             }
 
-            var $field    = this.$(this.ui.$editing.selector);
-            var attribute = $field.data("name");
-            var $input    = $field.find("input");
-            var text      = $input.prop('value') || null;
-
-            // maybe restore the value
-            if (key === ESC) {
-                text = this.model.get(attribute);
-                console.log("model: %o", text);
-                $input.val(text);
-            }
-
-            this.finishEditing({ currentTarget: e.target });
+            this.finishEditing({ currentTarget: e.target, restore: (key === ESC) });
         },
     });
 });
