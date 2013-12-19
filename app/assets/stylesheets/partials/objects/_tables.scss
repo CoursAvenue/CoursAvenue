@@ -41,6 +41,10 @@
 
     .pointer {
         min-height: 2.5em;
+
+        input {
+            width: 100%;
+        }
     }
 }
 

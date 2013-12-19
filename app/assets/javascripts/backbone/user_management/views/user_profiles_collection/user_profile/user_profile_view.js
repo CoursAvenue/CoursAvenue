@@ -31,6 +31,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         /* the row has lost focus */
         handleBlur: function (e) {
             var self = this;
+            var $field = $(e.target);
             /* a hack to determine whether it was the row, or a field
             *  that triggered the blur event
             *  see: http://stackoverflow.com/questions/121499/when-onblur-occurs-how-can-i-find-out-which-element-focus-went-to */
@@ -38,9 +39,16 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 var $target = $(document.activeElement);
 
                 /* if focus is moving within the row, NOP */
+                /* if focus is moving outside the table, return focus to the input */
                 if (this.$el.find($target).length > 0) {
                     return;
+                } else if ($target[0].tagName === "BODY") {
+
+                    $field.focus();
+                    return;
                 }
+
+
 
                 this.finishEditing(e);
 
@@ -65,6 +73,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
             var $current     = $(e.currentTarget).find("input");
             $current.focus();
+            this.trigger("toggle:editing");
         },
 
         /* given a $field, replace that $field's contents with text */
@@ -98,6 +107,11 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 },
                 wait: true
             });
+
+            /* if the user clicked a button to get here, then hide buttons */
+            if (e.source === "button") {
+                this.trigger("toggle:editing", { blur: true });
+            }
         },
 
         handleKeyDown: function (e) {
@@ -106,6 +120,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 return;
             }
 
+            this.trigger("toggle:editing", { blur: true });
             this.finishEditing({ currentTarget: e.target, restore: (key === ESC) });
         },
     });

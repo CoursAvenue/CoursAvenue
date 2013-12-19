@@ -45,6 +45,13 @@
     padding: 0.5em;
 }
 
+/* TODO this should go in a file for user_management styles */
+.additional-actions {
+  position    : absolute;
+  right       : 0px;
+  z-index     : -1; // TODO this should be a variable
+}
+
 .btn.btn--plus {
     font-size: 16px;
     padding  : 5px 8px;
@@ -75,6 +82,10 @@
 
 .btn.disabled, .btn:disabled{
     opacity: 0.55;
+}
+
+.btn--round {
+    border-radius: 100px; // that aught'a make _any_ button round!
 }
 
 .btn--orange {
