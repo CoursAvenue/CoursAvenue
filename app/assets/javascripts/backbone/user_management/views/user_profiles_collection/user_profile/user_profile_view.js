@@ -50,8 +50,20 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
             console.log("saving: %o", text);
             if (text !== this.model.get(attribute)) {
-                this.model.set(attribute, text);
-                this.model.save();
+                var data = { user_profile: { }};
+                data.user_profile[attribute] = text;
+                this.model.save(data, {
+                    success: function (model, response) {
+                        console.log(model);
+                        console.log(response);
+                    },
+                    error: function (model, response) {
+                        GLOBAL.flash(response.responseJSON.errors.join("\n"), "error");
+                        console.log(model);
+                        console.log(response);
+                    },
+                    wait: true
+                });
             }
         },
 
