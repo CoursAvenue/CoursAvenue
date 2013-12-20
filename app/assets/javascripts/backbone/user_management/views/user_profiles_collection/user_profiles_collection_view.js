@@ -20,12 +20,26 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.$el.on('click', '[data-behavior=commit]', _.bind(function () {
                 this.itemviewCommit();
             }, this));
+
+            this.$el.on('click', '[data-behavior=select-all]', _.bind(function () {
+                this.selectAll();
+            }, this));
+
+            this.$el.on('click', '[data-behavior=rotate]', _.bind(function () {
+                this.rotateSelected();
+            }, this));
+
+            this.groups = {
+                selected: {} /* map by view.cid */
+            }
         },
 
         ui: {
             '$commit_buttons': '.additional-actions',
             '$cancel': '[data-behavior=cancel]',
-            '$commit': '[data-behavior=commit]'
+            '$commit': '[data-behavior=commit]',
+            '$select_all': '[data-behavior=select-all]',
+            '$rotate': '[data-behavior=rotate]'
         },
 
         itemviewCancel: function (e) {
@@ -33,7 +47,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 return;
             }
 
-            console.log("cancelling");
             this.currently_editing.finishEditing({ restore: true, source: "button" });
         },
 
@@ -42,8 +55,41 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 return;
             }
 
-            console.log("commiting");
             this.currently_editing.finishEditing({ restore: false, source: "button" });
+        },
+
+        selectAll: function () {
+            var self = this;
+            var deselect = this.ui.$select_all.data().deselect;
+
+            this.children.each(function (view) {
+                if (deselect) {
+                    if (self.groups.selected[view.cid]) {
+                        view.ui.$checkbox.click();
+                    }
+                } else {
+                    if (!self.groups.selected[view.cid]) {
+                        view.ui.$checkbox.click();
+                    }
+                }
+            });
+
+            this.ui.$select_all.find('i').toggleClass('fa-check fa-times');
+            this.ui.$select_all.data('deselect', !deselect);
+        },
+
+        onItemviewAddToSelected: function (view) {
+            if (this.groups.selected[view.cid]) {
+                delete this.groups.selected[view.cid];
+            } else {
+                this.groups.selected[view.cid] = view;
+            }
+        },
+
+        rotateSelected: function () {
+            _.each(this.groups.selected, function (view, cid) {
+                view.$el.toggleClass("flipped unflipped");
+            });
         },
 
         onItemviewToggleEditing: function (view, data) {
@@ -53,14 +99,14 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             var right    = parseInt(this.ui.$commit_buttons.width(), 10);
 
             this.ui.$commit_buttons
-                .animate({ 'z-index': -1 }, { duration: 0 })
-                .animate({ right: 0 });              /* slide closed */
+                .animate({ 'z-index': -1 }, { duration: 0 }) /* move to back */
+                .animate({ right: 0 });                      /* slide closed */
 
             if (!data || !data.blur) {
                 this.ui.$commit_buttons
                     .animate({ top: target - offset }, { duration: 0 }) /* move into position */
-                    .animate({ right: -(right + 10) })
-                    .animate({ 'z-index': 0 }, { duration: 0 });                 /* slide open */
+                    .animate({ right: -(right + 10) })                  /* slide open */
+                    .animate({ 'z-index': 0 }, { duration: 0 });        /* bring to front */
             }
 
             this.currently_editing = view;

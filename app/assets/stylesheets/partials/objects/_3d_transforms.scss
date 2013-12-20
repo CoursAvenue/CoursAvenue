@@ -1,0 +1,9 @@
+.flipped {
+    transition: .4s;
+    transform: perspective(600px) rotateX(180deg)
+}
+
+.unflipped {
+    transition: .4s;
+    transform: perspective(600px) rotateX(0deg)
+}

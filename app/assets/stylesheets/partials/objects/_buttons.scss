@@ -220,3 +220,14 @@
         @include box-shadow(0px 0px 5px transparentize($orange, 0.5));
     }
 }
+
+.outlined-btn--red {
+    @extend .outlined-btn;
+
+    text-transform: uppercase;
+    font-weight: bold;
+    @include buttonBackground($btn-danger-background, $btn-danger-background-highlight);
+    &:hover {
+        @include buttonBackground(lighten($btn-danger-background, 6%), lighten($btn-danger-background-highlight, 6%));
+    }
+}

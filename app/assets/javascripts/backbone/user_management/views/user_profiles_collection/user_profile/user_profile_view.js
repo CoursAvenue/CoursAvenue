@@ -11,7 +11,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
     Module.UserProfileView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'user_profile_view',
         tagName: 'tr',
-        className: 'table__cell--editable',
+        className: 'table__cell--editable unflipped',
 
         initialize: function () {
             this.finishEditing = _.bind(this.finishEditing, this);
@@ -19,13 +19,19 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         ui: {
             '$editable': "[data-behavior=editable]",
-            '$editing' : "[data-behavior=editable]:has('input')"
+            '$editing' : "[data-behavior=editable]:has('input')",
+            '$checkbox': "[data-behavior=select]"
         },
 
         events: {
             'click @ui.$editable' : 'startEditing',
             'focusout'            : 'handleBlur',
-            'keydown'             : 'handleKeyDown'
+            'keydown'             : 'handleKeyDown',
+            'change @ui.$checkbox': 'addToSelected'
+        },
+
+        addToSelected: function () {
+            this.trigger("add:to:selected");
         },
 
         /* the row has lost focus */
@@ -93,20 +99,16 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 update.user_profile[attribute] = text;
             }, this));
 
-            this.model.save(update, {
-                success: function (model, response) {
-                    console.log(model);
-                    console.log(response);
-                },
-                error: function (model, response) {
-                    GLOBAL.flash(response.responseJSON.errors.join("\n"), "error");
-                    console.log(model);
-                    console.log(response);
-                    /* display a flash containing the error message */
-                    /* persist the user's changes */
-                },
-                wait: true
-            });
+            if (!e.restore) {
+                this.model.save(update, {
+                    error: _.bind(function (model, response) {
+                        /* display a flash containing the error message */
+                        GLOBAL.flash(response.responseJSON.errors.join("\n"), "alert");
+                        this.startEditing({ target: { tagName: "DIV" }});
+                    }, this),
+                    wait: true
+                });
+            }
 
             /* if the user clicked a button to get here, then hide buttons */
             if (e.source === "button") {
