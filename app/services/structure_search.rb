@@ -3,14 +3,25 @@ class StructureSearch
   # params: params
   #     name:          fulltext
   #     subject_id:    slug of a subject
+  #     audience_ids:  [1, 2, 3]
+  #     level_ids:     [1, 2, 3]
   def self.search params
     params[:sort] ||= 'rating_desc'
     retrieve_location params
+
     @search = Sunspot.search(Structure) do
+
       fulltext params[:name]                             if params[:name].present?
 
-      with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id].present?
+      # --------------- Geolocation
+      if params[:bbox_sw] && params[:bbox_ne]
+        with(:location).in_bounding_box(params[:bbox_sw], params[:bbox_ne])
+      else
+        with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
+      end
 
+      # --------------- Subjects
+      with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id].present?
       # For the home screen link "Autres"
       if params[:exclude].present?
         without(:subject_slugs, params[:exclude])
@@ -18,11 +29,8 @@ class StructureSearch
         without(:subject_slugs, Subject.stars.map(&:slug))
       end
 
-      if params[:bbox_sw] && params[:bbox_ne]
-        with(:location).in_bounding_box(params[:bbox_sw], params[:bbox_ne])
-      else
-        with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
-      end
+      with(:structure_type).any_of   params[:structure_types]                    if params[:structure_types].present?
+      with(:funding_type_ids).any_of params[:funding_type_ids].map(&:to_i)       if params[:funding_type_ids].present?
 
       with :active,  true
 
@@ -34,7 +42,6 @@ class StructureSearch
         order_by :nb_comments, :desc
       elsif params[:sort] == 'relevancy'
         order_by :has_comment, :desc
-        # order_by_geodist(:location, params[:lat], params[:lng]) if params[:lat].present? and params[:lng].present?
       end
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
     end

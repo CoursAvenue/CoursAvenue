@@ -4,23 +4,32 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         template: Module.templateDirname() + 'location_filter_view',
 
         initialize: function () {
-            this.announceLocation = _.debounce(this.announceLocation, 500);
+            this.announce = _.debounce(this.announce, 500);
         },
 
         setup: function (data) {
             this.ui.$address_picker.attr('value', data.address_name);
         },
 
-        events: {
-            'typeahead:selected #address-picker': 'announceLocation'
+        ui: {
+            '$address_picker': '#address-picker'
         },
 
-        announceLocation: function (e, data) {
+        events: {
+            'typeahead:selected #address-picker': 'announce'
+        },
+
+        announce: function (e, data) {
             this.trigger("filter:location", data);
         },
 
         ui: {
             $address_picker: '#address-picker'
+        },
+        // Clears all the given filters
+        clear: function (filters) {
+            this.ui.$address_picker.val('');
+            this.announce();
         }
     });
 });

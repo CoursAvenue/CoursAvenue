@@ -5,25 +5,36 @@ FilteredSearch.addRegions({
 });
 
 FilteredSearch.addInitializer(function(options) {
-    var bootstrap, structures, structures_view, layout, maps_view, $loader;
+    var bootstrap, structures, structures_view, layout, maps_view, $loader, clearEvent;
 
     bootstrap = window.coursavenue.bootstrap;
 
     // Create an instance of your class and populate with the models of your entire collection
+    /* TODO so much repetition down there, should be able to specify a comma separated list of events
+    *  to be handled by a single callback */
     structures      = new FilteredSearch.Models.StructuresCollection(bootstrap.models, bootstrap.options);
     structures_view = new FilteredSearch.Views.StructuresCollection.StructuresCollectionView({
         collection: structures,
         events: {
-            'pagination:next':     'nextPage',
-            'pagination:prev':     'prevPage',
-            'pagination:page':     'goToPage',
-            'filter:summary':      'filterQuery',
-            'map:bounds':          'filterQuery',
-            'filter:subject':      'filterQuery',
-            'filter:search_term':  'filterQuery',
-            'filter:location':     'filterQuery',
-            'map:marker:focus':    'findItemView',
-            'structures:updated':  'renderSlideshows'
+            'pagination:next':         'nextPage',
+            'pagination:prev':         'prevPage',
+            'pagination:page':         'goToPage',
+            'filter:summary':          'filterQuery',
+            'map:bounds':              'filterQuery',
+            'filter:subject':          'filterQuery',
+            'filter:level':            'filterQuery',
+            'filter:audience':         'filterQuery',
+            'filter:course_type':      'filterQuery',
+            'filter:discount':         'filterQuery',
+            'filter:date':             'filterQuery',
+            'filter:price':            'filterQuery',
+            'filter:structure_type':   'filterQuery',
+            'filter:payment_method':   'filterQuery',
+            'filter:search_term':      'filterQuery',
+            'filter:location':         'filterQuery',
+            'filter:trial_course':     'filterQuery',
+            'map:marker:focus':        'findItemView',
+            'structures:updated':      'renderSlideshows'
         }
     });
 
@@ -57,12 +68,25 @@ FilteredSearch.addInitializer(function(options) {
 
     var FiltersModule = FilteredSearch.Views.StructuresCollection.Filters;
 
-    /* TODO: this is lame but it doesn't seem to be possible to show 1 view in 2 places */
+    /* basic filters */
     infinite_scroll_button    = new FiltersModule.InfiniteScrollButtonView({});
     results_summary           = new FiltersModule.ResultsSummaryView({});
     subject_filter            = new FiltersModule.SubjectFilterView({});
     keyword_filter            = new FiltersModule.KeywordFilterView({});
     location_filter           = new FiltersModule.LocationFilterView({});
+
+    /* advanced filters */
+    filter_breadcrumbs        = new FiltersModule.FilterBreadcrumbs.FilterBreadcrumbsView({});
+
+    level_filter              = new FiltersModule.LevelFilterView({});
+    course_type_filter        = new FiltersModule.CourseTypeFilterView({});
+    discount_filter           = new FiltersModule.DiscountFilterView({});
+    audience_filter           = new FiltersModule.AudienceFilterView({});
+    structure_type_filter     = new FiltersModule.StructureTypeFilterView({});
+    payment_method_filter     = new FiltersModule.PaymentMethodFilterView({});
+    date_filter               = new FiltersModule.DateFilterView({});
+    price_filter              = new FiltersModule.PriceFilterView({});
+    trial_course_filter       = new FiltersModule.TrialCourseFilterView({});
 
     FilteredSearch.mainRegion.show(layout);
 
@@ -83,11 +107,31 @@ FilteredSearch.addInitializer(function(options) {
      * can depend on the main widget for data. Let's make this
      * explicit so that the order of the 'showWidget' calls doesn't
      * matter */
+
+    layout.showWidget(filter_breadcrumbs, {
+        events: {
+            'filter:breadcrumb:add':     'addBreadCrumb',
+            'filter:breadcrumb:remove':  'removeBreadCrumb'
+        }
+    });
+
     layout.showWidget(keyword_filter);
     layout.showWidget(location_filter);
-    layout.showWidget(results_summary);
     layout.showWidget(subject_filter);
     layout.showWidget(infinite_scroll_button);
+    layout.showWidget(results_summary);
+
+    // TODO for now this is fine. Just add this
+    // to any filter that implements clear
+    layout.showWidget(level_filter,          { events: { 'breadcrumbs:clear:level':           'clear'} });
+    layout.showWidget(course_type_filter,    { events: { 'breadcrumbs:clear:course_type':     'clear'} });
+    layout.showWidget(audience_filter,       { events: { 'breadcrumbs:clear:audience':        'clear'} });
+    layout.showWidget(structure_type_filter, { events: { 'breadcrumbs:clear:structure_types': 'clear'} });
+    layout.showWidget(payment_method_filter, { events: { 'breadcrumbs:clear:payment_method':  'clear'} });
+    layout.showWidget(discount_filter,       { events: { 'breadcrumbs:clear:discount':        'clear'} });
+    layout.showWidget(date_filter,           { events: { 'breadcrumbs:clear:date':            'clear'} });
+    layout.showWidget(price_filter,          { events: { 'breadcrumbs:clear:price':           'clear'} });
+    layout.showWidget(trial_course_filter,   { events: { 'breadcrumbs:clear:trial_course':    'clear'} });
 
     layout.master.show(structures_view);
 });

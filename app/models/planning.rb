@@ -1,5 +1,28 @@
 # encoding: utf-8
 class Planning < ActiveRecord::Base
+
+  TIME_SLOTS = {
+    morning: {
+      name:       'planning.timeslots.morning',
+      start_time: 0,
+      end_time:   12,
+    },
+    noon: {
+      name:       'planning.timeslots.noon',
+      start_time: 12,
+      end_time:   14
+    },
+    afternoon: {
+      name:       'planning.timeslots.afternoon',
+      start_time: 14,
+      end_time:   18
+    },
+    evening: {
+      name:       'planning.timeslots.evening',
+      start_time: 18,
+      end_time:   24
+    }
+  }
   acts_as_paranoid
 
   include PlanningsHelper
@@ -8,10 +31,10 @@ class Planning < ActiveRecord::Base
   has_many   :prices, through: :course
   belongs_to :teacher
   belongs_to :place
+  belongs_to :structure
 
   has_many :reservations,         as: :reservable
 
-  has_one :structure, through: :course
 
   before_validation :set_start_date
   before_validation :set_end_date
@@ -21,6 +44,7 @@ class Planning < ActiveRecord::Base
   before_validation :set_level_if_empty
 
   after_initialize :default_values
+  after_save :set_structure_id
 
   # validates :teacher, presence: true
   validates :place, :audience_ids, :level_ids, presence: true
@@ -59,6 +83,152 @@ class Planning < ActiveRecord::Base
   scope :future,         -> { where("plannings.end_date > '#{Date.today}'") }
   scope :past,           -> { where("plannings.end_date <= '#{Date.today}'") }
   scope :ordered_by_day, -> { order('week_day=0, week_day ASC') }
+
+  # ------------------------------------------------------------------------------------ Search attributes
+  searchable do
+
+    boolean :active_course do
+      self.course.active?
+    end
+
+    # ----------------------- For grouping
+    string :course_id_str do
+      course.structure_id.to_s
+    end
+
+    string :structure_id_str do
+      course.structure_id.to_s
+    end
+
+    integer :structure_id do
+      course.structure_id.to_s
+    end
+
+    # ----------------------- Fulltext search
+    text :name, boost: 5 do
+      self.structure.name
+    end
+
+    text :course_names do
+      self.structure.courses.map(&:name)
+    end
+
+    text :subjects, boost: 5 do
+      subject_array = []
+      self.structure.subjects.uniq.each do |subject|
+        subject_array << subject
+        subject_array << subject.parent        if subject.parent
+        subject_array << subject.grand_parent  if subject.grand_parent
+      end
+      subject_array.uniq.map(&:name)
+    end
+
+    integer :subject_ids, multiple: true do
+      subject_ids = []
+      self.structure.subjects.uniq.each do |subject|
+        subject_ids << subject.id
+        subject_ids << subject.parent.id if subject.parent
+      end
+      subject_ids.compact.uniq
+    end
+
+    string :subject_slugs, multiple: true do
+      subject_slugs = []
+      self.structure.subjects.uniq.each do |subject|
+        subject_slugs << subject.slug
+        subject_slugs << subject.parent.slug if subject.parent
+      end
+      subject_slugs.uniq
+    end
+
+    integer :audience_ids, multiple: true do
+      self.audience_ids
+    end
+
+    integer :level_ids, multiple: true do
+      self.level_ids
+    end
+
+    integer :week_days, multiple: true do
+      self.week_days
+    end
+
+    time :start_time
+    time :end_time
+
+    integer :start_hour do
+      start_time.hour if start_time
+    end
+
+    integer :end_hour do
+      end_time.hour if end_time
+    end
+
+    time :start_date
+    time :end_date
+
+    string :price_types, multiple: true do
+      price_types = []
+      Price::TYPES.each do |name|
+        price_types << name if price_amount_for_scope(name).any?
+      end
+      price_types
+    end
+
+    Price::TYPES.each do |name|
+      integer "#{name}_min_price".to_sym do
+        self.min_price_amount_for(name)
+      end
+      integer "#{name}_max_price".to_sym do
+        self.max_price_amount_for(name)
+      end
+    end
+
+    integer :min_age_for_kid
+    integer :max_age_for_kid
+
+    string :course_type do
+      self.course.underscore_name
+    end
+
+    boolean :has_trial_course do
+      self.course.prices.trials.any?
+    end
+
+    integer :trial_course_amount do
+      if self.course.prices.trials.any?
+        self.course.prices.trials.map(&:amount).min.to_i
+      end
+    end
+
+    string :discounts, multiple: true do
+      self.course.prices.discounts.collect{ |discount| discount.libelle.split('.').last }.uniq
+    end
+
+    integer :funding_type_ids, multiple: true do
+      self.structure.funding_type_ids
+    end
+
+    string :structure_type do
+      self.structure.structure_type.split('.').last if self.structure.structure_type
+    end
+
+    integer :nb_comments do
+      self.structure.comments_count
+    end
+
+    boolean :has_comment do
+      self.structure.comments_count > 0
+    end
+
+    boolean :has_logo do
+      self.structure.logo?
+    end
+
+    latlon :location, multiple: true do
+      Sunspot::Util::Coordinates.new(place.location.latitude, place.location.longitude) if place
+    end
+  end
 
   # ---------------------------- Simulating Audience and Levels
   def audience_ids= _audiences
@@ -148,7 +318,71 @@ class Planning < ActiveRecord::Base
     audiences.include? Audience::KID
   end
 
+  def time_slot_name
+    start_hour = self.start_time.hour
+    if start_hour < 12
+      return 'morning'
+    elsif start_hour < 14
+      return 'noon'
+    elsif start_hour < 18
+      return 'afternoon'
+    else
+      return 'evening'
+    end
+  end
+
+  def min_price_amount_for(type)
+    price = price_amount_for_scope(type).order('amount ASC').first
+    return 0 unless price
+    price.amount.to_i
+  end
+
+  def max_price_amount_for(type)
+    price = price_amount_for_scope(type).order('amount DESC').first
+    return 0 unless price
+    price.amount.to_i
+  end
+
+  def week_days
+    if self.course.is_lesson?
+      [self.week_day]
+    else
+      if self.start_date and self.end_date
+        (self.start_date..self.end_date).to_a.map(&:wday).uniq
+      elsif self.start_date
+        [self.start_date.wday]
+      end
+    end
+  end
+
   private
+
+  # Return the scoped price for a given type.
+  # Used in search
+  def price_amount_for_scope(type)
+    case type
+    when 'per_course'
+      self.course.prices.book_tickets.individual
+    when 'book_ticket'
+      self.course.prices.book_tickets.multiple_only
+    when 'annual_subscription'
+      self.course.prices.subscriptions.annual
+    when 'semestrial_subscription'
+      self.course.prices.subscriptions.semestrial
+    when 'trimestrial_subscription'
+      self.course.prices.subscriptions.trimestrial
+    when 'monthly_subscription'
+      self.course.prices.subscriptions.monthly
+    when 'any_per_course'
+      self.course.prices.book_tickets
+    when 'all_subscriptions'
+      self.course.prices.subscriptions
+    end
+  end
+
+  def set_structure_id
+    self.update_column :structure_id, self.course.structure_id
+  end
 
   def default_values
     if self.new_record?

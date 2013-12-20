@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131210114343) do
+ActiveRecord::Schema.define(version: 20131218101000) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "admins", force: true do |t|
     t.string   "email",                               default: "",    null: false
@@ -356,6 +360,7 @@ ActiveRecord::Schema.define(version: 20131210114343) do
     t.string   "level_ids"
     t.time     "deleted_at"
     t.integer  "place_id"
+    t.integer  "structure_id"
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
@@ -620,10 +625,12 @@ ActiveRecord::Schema.define(version: 20131210114343) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.string   "name"
     t.string   "gender"
     t.date     "birthdate"
     t.boolean  "email_opt_in",           default: true
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "zip_code"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

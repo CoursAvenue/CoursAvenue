@@ -1,5 +1,4 @@
 // Bootstrap plugins
-//*= require libs/bootstrap.tooltip
 //*= require libs/jquery.fileupload/jquery.fileupload-ui
 
 @import "font-awesome";
@@ -82,7 +81,7 @@
 @import "partials/objects/picture-frame";
 @import "partials/objects/toggler";
 @import "partials/objects/alerts";
-// @import "partials/objects/sliders";
+@import "partials/objects/sliders";
 @import "partials/objects/image_quote";
 @import "partials/objects/step_breadcrumb";
 @import "partials/objects/boxes";
@@ -105,7 +104,6 @@
 @import "partials/objects/popover";
 @import "partials/objects/tags";
 
-// @import "libs/datepicker/datepicker_bootstrap";
 @import "libs/autocomplete";
 @import "libs/simplemodal";
 @import "libs/chosen";
@@ -117,7 +115,9 @@
 @import "libs/responsiveslides";
 @import "libs/jquery-editable";
 
-@import "libs/bootstrap.datepicker";
+@import "libs/bootstrap/bootstrap.datepicker";
+@import "libs/bootstrap/bootstrap.tooltip";
+@import "libs/bootstrap/bootstrap.collapse";
 
 html, body {
   height: 100%;

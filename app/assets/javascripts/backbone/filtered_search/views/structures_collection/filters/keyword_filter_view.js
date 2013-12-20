@@ -2,10 +2,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
     Module.KeywordFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'keyword_filter_view',
-        className: 'header-search-bar push-half--bottom',
+        className: 'header-search-bar hard',
 
         initialize: function () {
-            this.announceSearchTerm = _.debounce(this.announceSearchTerm, 500);
+            this.announce = _.debounce(this.announce, 500);
         },
 
         setup: function (data) {
@@ -13,13 +13,17 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.previous_searched_name = data.name;
         },
 
-        events: {
-            'typeahead:selected #search-input': 'announceSearchTerm',
-            // Use keydown instead of keypress to handle the case when the user empties the input
-            'keydown #search-input':            'announceSearchTerm'
+        ui: {
+            '$search_input': '#search-input'
         },
 
-        announceSearchTerm: function (event, data) {
+        events: {
+            'typeahead:selected #search-input': 'announce',
+            // Use keydown instead of keypress to handle the case when the user empties the input
+            'keydown #search-input':            'announce'
+        },
+
+        announce: function (event, data) {
             name = (data ? data.name : event.currentTarget.value);
             // Prevent from launching the search if the name is same than previous one
             if (name != this.previous_searched_name) {
@@ -42,5 +46,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 }
             }]);
         },
+        // Clears all the given filters
+        clear: function () {
+            this.previous_searched_name = null;
+            this.ui.$search_input.val('');
+            this.announce();
+        }
+
     });
 });
