@@ -4,7 +4,7 @@
     </div>{{!--
 
 --}}<div class="grid__item one-twelfth very-soft">
-        <div class="outlined-btn one-whole text--center" data-behavior="tag"><i class="fa fa-tags"></i></div>
+        <div class="outlined-btn one-whole text--center" data-behavior="manage-tags"><i class="fa fa-tags"></i></div>
     </div>{{!--
 
 --}}<div class="grid__item one-twelfth very-soft">
@@ -18,9 +18,27 @@
     </div>
 <div>
 <div data-behavior="details">
-    <div class="grid--full">
-        <div>
-            <label for="tag-action">Tag:</label><input id="tag-action" type="text" data-value="tag-name"></input>
+    <div class="grid--full very-soft hidden" data-target="select-all">
+        <div class="grid__item three-twelfths">
+            <p>You've selected 30 records.</p>
+        </div>{{!--
+    --}}<div class="grid__item two-twelfths">
+            <p>Select the rest?</p>
+        </div>{{!--
+    --}}<div class="grid__item one-twelfth">
+            <div class="outlined-btn one-whole text--center" data-behavior="add-tags">SELECT</div>
+        </div>
+    </div>
+
+    <div class="grid--full very-soft hidden" data-target="manage-tags">
+        <div class="grid__item one-twelfth">
+            <label for="tag-action"><strong>Tag:</strong></label>
+        </div>{{!--
+    --}}<div class="grid__item four-twelfths">
+            <input id="tag-action" type="text" data-value="tag-names"></input>
+        </div>{{!--
+    --}}<div class="grid__item one-twelfth">
+            <div class="outlined-btn one-whole text--center" data-behavior="add-tags">ADD</div>
         </div>
     </div>
 </div>

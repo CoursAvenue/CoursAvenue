@@ -22,11 +22,20 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }, this));
 
             this.$el.on('click', '[data-behavior=select-all]', _.bind(function () {
+                this.showDetails("select-all");
                 this.selectAll();
             }, this));
 
             this.$el.on('click', '[data-behavior=rotate]', _.bind(function () {
                 this.rotateSelected();
+            }, this));
+
+            this.$el.on('click', '[data-behavior=manage-tags]', _.bind(function () {
+                this.showDetails("manage-tags");
+            }, this));
+
+            this.$el.on('click', '[data-behavior=add-tags]', _.bind(function () {
+                this.commitAddTags();
             }, this));
 
             this.groups = {
@@ -36,10 +45,46 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         ui: {
             '$commit_buttons': '.additional-actions',
-            '$cancel': '[data-behavior=cancel]',
-            '$commit': '[data-behavior=commit]',
-            '$select_all': '[data-behavior=select-all]',
-            '$rotate': '[data-behavior=rotate]'
+            '$cancel'        : '[data-behavior=cancel]',
+            '$commit'        : '[data-behavior=commit]',
+            '$select_all'    : '[data-behavior=select-all]',
+            '$rotate'        : '[data-behavior=rotate]',
+            '$details'       : '[data-behavior=details]',
+            '$add_tags'      : '[data-behavior=add-tags]'
+        },
+
+        commitAddTags: function () {
+            var tags = this.ui.$details.find("[data-value=tag-names]").val();
+
+            /* just set the new tag for now, replacing old tags */
+            /* TODO we should really see tags as a set, and merge in the new elements */
+            /* but right now tags is just a string */
+            var models = _.inject(this.groups.selected, function (memo, view) {
+                var model = view.model;
+                model.set({ tags: tags });
+                memo.push(model);
+
+                return memo;
+            }, []);
+
+            $.ajax({
+                type: "PUT",
+                url: this.collection.url.basename + this.collection.url.resource + '/',
+                data: models
+            });
+        },
+
+        showDetails: function (target) {
+            var $manage_tags = this.$('[data-behavior=' + target + ']');
+            var $details = this.$('[data-target=' + target + ']');
+
+            $manage_tags.toggleClass("active");
+
+            if ($manage_tags.hasClass("active")) {
+                $details.slideDown();
+            } else {
+                $details.slideUp();
+            }
         },
 
         itemviewCancel: function (e) {
