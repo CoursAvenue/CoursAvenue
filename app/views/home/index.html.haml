@@ -9,7 +9,7 @@
     %section.main-container.home-screen-promotion
       .grid
         .grid__item.palm-one-whole.lap-one-whole.one-half.soft-half>
-          %h2.home-title Écoutez la parole des élèves
+          %h2.home-title Derniers avis des élèves
           - @comments.each do |comment|
             = render partial: 'comments/home_comment', locals: {comment: comment}
         .grid__item.palm-one-whole.lap-one-whole.one-half.soft-half{style: 'min-height: 35em;'}
