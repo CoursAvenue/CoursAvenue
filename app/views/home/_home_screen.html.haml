@@ -20,8 +20,8 @@
           = image_tag 'home-page/dance.jpg', alt: 'Cours de danse'
 
   .home-screen-gallery.text--center.flexbox.main-container.hard>
-    = link_to structures_path, class: 'flexbox__item one-sixth relative home-screen-gallery__link home-screen-gallery__link-paris', title: "Cours à Paris" do
-      .home-screen-gallery__title Cours à Paris
+    = link_to city_path('paris'), class: 'flexbox__item one-sixth relative home-screen-gallery__link home-screen-gallery__link-paris', title: "Guide des cours à Paris" do
+      .home-screen-gallery__title Guide des cours à Paris
     = link_to structures_path(trial_course_amount: 0), class: 'flexbox__item one-sixth relative home-screen-gallery__link home-screen-gallery__link-trial', title: "Cours d'essai gratuits" do
       .home-screen-gallery__title Cours d'essai gratuits
     = link_to structures_path(audience_ids: [Audience::KID.id]), class: 'flexbox__item one-sixth relative home-screen-gallery__link home-screen-gallery__link-kids', title: "Cours pour enfants" do

@@ -1,3 +1,7 @@
+.bg-cover {
+    @include background-size(cover);
+    background-position: center;
+}
 .icon-question-sign {
     cursor: pointer;
 }

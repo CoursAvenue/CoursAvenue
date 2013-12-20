@@ -7,6 +7,8 @@ gem 'rails', '4.0.2'
 
 gem 'filepicker-rails'
 
+gem 'wikipedia-client', '~> 1.3.0'
+
 # Webserver
 # gem 'unicorn'
 gem 'puma'
