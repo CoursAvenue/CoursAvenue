@@ -30,6 +30,28 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             'change @ui.$checkbox': 'addToSelected'
         },
 
+        modelEvents: {
+            'change': 'updateFields'
+        },
+
+        /* TODO when the group action occurs, we need to update the
+        *  affected fields that are visible. The 'tags' are returned
+        *  as an object, but we are presenting them as a string.
+        *  Maybe the user_profiles model should have just the string? */
+        updateFields: function (model) {
+            var changes = model.changed;
+
+            _.each(changes, _.bind(function (change, attribute) {
+                var $field = this.$('[data-name=' + attribute + ']');
+
+                if ($field.length > 0 && $field.text() !== change) {
+                    $field.text(change);
+                }
+
+            }, this));
+
+        },
+
         addToSelected: function () {
             this.trigger("add:to:selected");
         },

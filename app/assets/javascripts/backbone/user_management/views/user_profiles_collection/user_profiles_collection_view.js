@@ -67,10 +67,15 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 return memo;
             }, []);
 
+            /* TODO move this code into the collection itself, possibly
+            *  by overriding the sync method */
             $.ajax({
-                type: "PUT",
-                url: this.collection.url.basename + this.collection.url.resource + '/',
-                data: models
+                type: "POST",
+                url: this.collection.url.basename + '/bulk.json',
+                data: {
+                    ids: _.pluck(models, 'id'),
+                    tags: tags
+                }
             });
         },
 
