@@ -94,8 +94,12 @@ class Comment < ActiveRecord::Base
     self.commentable
   end
 
-  def owner?(admin)
-    self.commentable == admin.structure
+  def owner?(user)
+    if user.is_a? Admin
+      user.super_admin or self.commentable == user.structure
+    else
+      self.user == user
+    end
   end
 
   # Update rating of the commentable (course, or structure)
