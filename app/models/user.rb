@@ -21,7 +21,8 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
-                  :name, :first_name, :last_name, :fb_avatar, :location, :avatar, :email_opt_in
+                  :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
+                  :birthdate, :phone_number, :zip_code, :email_opt_in
 
   validates :first_name, :last_name, :email, presence: true
   validates :email, uniqueness: true

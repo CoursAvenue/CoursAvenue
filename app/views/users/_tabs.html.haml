@@ -1,0 +1,7 @@
+%ul.tabs.push--bottom
+  %li{class: current == 'profile' ? 'active' : ''}
+    = link_to edit_user_path(current_user) do
+      Mon profil
+  -# %li{class: current == 'lieux' ? 'active' : ''}
+  -#   = link_to user_path(current_user) do
+  -#     Mes passions

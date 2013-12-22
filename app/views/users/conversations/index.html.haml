@@ -1,5 +1,9 @@
 = user_menu_currently_at 'Mes messages'
 
+- if current_user.structures.any?
+  .text--center.push--bottom
+    = link_to 'Nouveau message', new_user_message_path(current_user), class: 'btn btn--green btn--large'
+
 %h3 Mes conversations
 - @conversations.each do |conversation|
   = link_to user_conversation_path(current_user, conversation), class: 'muted-link' do

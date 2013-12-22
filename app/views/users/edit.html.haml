@@ -1,11 +1,16 @@
 = user_menu_currently_at 'Mes infos'
 
-%ol.nav.breadcrumb.delta
-  %li= link_to 'Mes infos', user_path(current_user)
-  %li Modification
+= render partial: 'tabs', locals: { current: 'profile' }
 
-.white-box.islet
+%h4 Quelques infos sur vous
+
+.form-white-box
   = simple_form_for @user do |f|
+    .input
+      %label.control-label
+        .lbl.lbl--blue
+          %i.fa.fa-eye
+          Public
     - if @user.fb_avatar or @user.avatar.present?
       .input
         %label.control-label Ma photo
@@ -25,9 +30,21 @@
           %a.btn.btn--blue{ data: {trigger: true} } Choisir ma photo
           %img{style: 'max-height: 5em; max-width: 15em;'}
         = f.input :avatar, wrapper_html: {class: 'visuallyhidden'}
-    = f.input :name
-    .form-actions
-      = f.submit 'Sauvegarder', class: 'btn btn--green'
+
+    = f.input :first_name
+    = f.input :last_name
+
+    %hr
+    .input
+      %label.control-label
+        .lbl.lbl--gray
+          %i.fa.fa-lock
+          Privé
+    = f.input :gender, as: :select, collection: [['Femme', 'female'], ['Homme', 'male']]
+    = f.input :birthdate
+    = f.input :email, disabled: true
+    = f.input :phone_number
+    = f.submit 'Sauvegarder', class: 'btn btn--green btn--full'
 
 = content_for :scripts do
   :javascript

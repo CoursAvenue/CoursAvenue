@@ -2,9 +2,9 @@
   %ul
     - if current_user
       = user_side_menu_link 'Mon tableau de bord', dashboard_user_path(current_user)    , current: current_tab, icon: 'fa fa-user'
-      = user_side_menu_link 'Mes infos', user_path(current_user)    , current: current_tab, icon: 'fa fa-user'
-      = user_side_menu_link 'Mes avis',   user_comments_path(current_user), current: current_tab, icon: 'fa fa-comments'
+      = user_side_menu_link 'Mes infos', edit_user_path(current_user)    , current: current_tab, icon: 'fa fa-user'
       = user_side_menu_link 'Mes messages', user_conversations_path(current_user), current: current_tab, icon: 'fa fa-envelope'
+      = user_side_menu_link 'Mes avis',   user_comments_path(current_user), current: current_tab, icon: 'fa fa-comments'
     - else
       = user_side_menu_link 'Mes infos',   '#', current: current_tab, icon: 'fa fa-user'
       = user_side_menu_link 'Mes avis',     '#', current: current_tab, icon: 'fa fa-comments'

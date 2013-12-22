@@ -16,3 +16,6 @@ fr:
         zip_code: Code postal
         password: Mot de passe
         avatar: Ma photo
+        email: Adresse email
+        phone_number: Téléphone
+        birthdate: Date de naissance
