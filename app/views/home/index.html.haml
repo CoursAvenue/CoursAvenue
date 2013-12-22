@@ -3,18 +3,17 @@
   CoursAvenue | Les élèves vous guident vers les meilleurs cours
 
 = content_for :above_container do
-  .main-container.hard
-  = render 'share_links'
+  -# = render 'share_links'
   .home-screen-promotion-wrapper
-    %section.main-container.home-screen-promotion
-      .grid
+    %section.main-container.home-screen-promotion.soft--top
+      .grid--full
         .grid__item.palm-one-whole.lap-one-whole.one-half.soft-half>
-          %h2.home-title Écoutez la parole des élèves
+          %h2.home-title Derniers avis des élèves
           - @comments.each do |comment|
             = render partial: 'comments/home_comment', locals: {comment: comment}
         .grid__item.palm-one-whole.lap-one-whole.one-half.soft-half{style: 'min-height: 35em;'}
           = render 'videos'
-  .main-container
+  .main-container.soft--top
     - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
       %div
         %h3.home-title--no-border Le Blog

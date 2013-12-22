@@ -24,6 +24,7 @@ class Location < ActiveRecord::Base
                   :street, :zip_code, :city, :city_id,
                   :latitude, :longitude, :gmaps,
                   :contact_email, :contact_name, :contact_phone, :contact_mobile_phone
+
   # ------------------------------------------------------------------------------------ Search attributes
   searchable do
     text :name
@@ -31,6 +32,10 @@ class Location < ActiveRecord::Base
     text :zip_code
     text :city do
       self.city.name
+    end
+
+    latlon :location do
+      Sunspot::Util::Coordinates.new(self.latitude, self.longitude)
     end
 
     string :name

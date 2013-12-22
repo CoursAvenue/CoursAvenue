@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131218101000) do
+ActiveRecord::Schema.define(version: 20131220144652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,12 +58,8 @@ ActiveRecord::Schema.define(version: 20131218101000) do
 
   create_table "cities", force: true do |t|
     t.string   "name"
-    t.string   "no_result_image_file_name"
-    t.string   "no_result_image_content_type"
-    t.integer  "no_result_image_file_size"
-    t.datetime "no_result_image_updated_at"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "slug"
     t.string   "iso_code"
     t.string   "zip_code"
@@ -76,6 +72,10 @@ ActiveRecord::Schema.define(version: 20131218101000) do
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "acuracy"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   add_index "cities", ["name"], name: "index_cities_on_name", using: :btree

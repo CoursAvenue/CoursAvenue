@@ -168,6 +168,10 @@ class Course < ActiveRecord::Base
     integer :min_price
     integer :max_price
 
+    boolean :has_free_trial_lesson do
+      self.has_free_trial_lesson?
+    end
+
     boolean :has_admin do
       self.structure.admins.any? if self.structure
     end

@@ -17,6 +17,15 @@ class Media < ActiveRecord::Base
   scope :cover,        -> { where{cover == true} }
   scope :cover_first,  -> { order('cover DESC NULLS LAST') }
 
+  # ------------------------------------------------------------------------------------ Search attributes
+  searchable do
+    latlon :location, multiple: true do
+      self.mediable.locations.collect do |location|
+        Sunspot::Util::Coordinates.new(location.latitude, location.longitude)
+      end
+    end
+  end
+
   def url_html(options={})
     read_attribute(:url_html).html_safe
   end

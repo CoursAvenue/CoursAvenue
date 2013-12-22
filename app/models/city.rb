@@ -7,7 +7,7 @@ class City < ActiveRecord::Base
   has_many :structures, through: :structures
   has_many :courses   , through: :structures
 
-  has_attached_file :no_result_image, :styles => {default: '900×600#'}
+  has_attached_file :image, :styles => {default: '900×600#'}
 
   validates :name            , presence: true
   validates :zip_code        , presence: true
@@ -18,7 +18,7 @@ class City < ActiveRecord::Base
   validates :longitude       , presence: true
 
   attr_accessible :name,
-                  :no_result_image,
+                  :image,
                   :iso_code,
                   :zip_code,
                   :region_name,
