@@ -117,9 +117,9 @@ class Planning < ActiveRecord::Base
       self.structure.courses.map(&:name)
     end
 
-    text :structure_description do
-      self.structure.description
-    end
+    # text :structure_description do
+    #   self.structure.description
+    # end
 
     text :subjects, boost: 5 do
       subject_array = []

@@ -124,3 +124,12 @@
     background : #EEE;
     z-index    : 100;
 }
+
+.show-on-hover__wrapper {
+    .show-on-hover__child {
+        display: none;
+    }
+    &:hover .show-on-hover__child {
+        display: block;
+    }
+}

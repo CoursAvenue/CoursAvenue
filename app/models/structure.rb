@@ -125,7 +125,7 @@ class Structure < ActiveRecord::Base
 
     text :name, boost: 5
 
-    text :description
+    # text :description
 
     text :course_names do
       courses.map(&:name)

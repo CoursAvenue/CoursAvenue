@@ -21,8 +21,8 @@ class CitiesController < ApplicationController
     if @city.image?
       @city_image = @city.image
     else
-      page = Wikipedia.find( @city.name )
-      @city_image = page.image_urls.first
+      @wikipedia_page = Wikipedia.find( @city.name )
+      @city_image     = @wikipedia_page.image_urls.first
     end
 
     @city_latlng = Gmaps4rails.build_markers(@city) do |city, marker|
