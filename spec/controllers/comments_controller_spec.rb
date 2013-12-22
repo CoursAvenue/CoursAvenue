@@ -6,15 +6,30 @@ describe CommentsController do
   describe '#create' do
     let(:structure) { FactoryGirl.create(:structure_with_admin) }
 
+    it 'creates a comment' do
+      post :create, comment: {
+                    commentable_type: 'Structure',
+                    commentable_id: structure.id,
+                    author_name: 'Author name',
+                    title:       'Title',
+                    course_name: 'Course name',
+                    content:     'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,',
+                    email:       'random@test.com'
+                  }
+      response.should be_redirect
+      assigns(:comment).should be_persisted
+    end
+
     it 'creates a user' do
       post :create, comment: {
-                      commentable_type: 'Structure',
-                      commentable_id: structure.id,
-                      author_name: 'Author name',
-                      course_name: 'Course name',
-                      content: 'lorem',
-                      email: 'random@test.com'
-                    }
+                    commentable_type: 'Structure',
+                    commentable_id: structure.id,
+                    author_name: 'Author name',
+                    title:       'Title',
+                    course_name: 'Course name',
+                    content:     'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,',
+                    email:       'random@test.com'
+                  }
       response.should be_redirect
       assigns(:comment).should be_persisted
     end
@@ -25,11 +40,12 @@ describe CommentsController do
         user = FactoryGirl.create(:user)
         post :create, comment: {
                         commentable_type: 'Structure',
-                        commentable_id: structure.id,
-                        author_name: 'Author name',
-                        course_name: 'Course name',
-                        content: 'lorem',
-                        email: 'random@test.com'
+                        commentable_id:    structure.id,
+                        author_name:       'Author name',
+                        title:             'Title',
+                        course_name:       'Course name',
+                        content:           'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,',
+                        email:             'random@test.com'
                       },
                       default_email: user.email
         response.should be_redirect
@@ -41,11 +57,12 @@ describe CommentsController do
         structure.main_contact.messages.should be_empty
         post :create, comment: {
                         commentable_type: 'Structure',
-                        commentable_id: structure.id,
-                        author_name: 'Author name',
-                        course_name: 'Course name',
-                        content: 'lorem',
-                        email: 'random@test.com'
+                        commentable_id:    structure.id,
+                        author_name:       'Author name',
+                        title:             'Title',
+                        course_name:       'Course name',
+                        content:           'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,',
+                        email:             'random@test.com'
                       },
                       private_message: 'lorem'
         response.should be_redirect
@@ -53,5 +70,4 @@ describe CommentsController do
       end
     end
   end
-
 end
