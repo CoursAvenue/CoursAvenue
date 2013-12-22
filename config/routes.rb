@@ -158,6 +158,7 @@ CoursAvenue::Application.routes.draw do
       get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
     end
     member do
+      get :dashboard
       get :choose_password
       patch :first_update
     end

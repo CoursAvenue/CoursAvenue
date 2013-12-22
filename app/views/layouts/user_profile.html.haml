@@ -2,7 +2,27 @@
   = render 'shared/header'
 
 = content_for :content do
-  .main-container{class: controller_path}
+  - if current_user
+    .white-box.islet.main-container.push--top
+      .flexbox.one-whole
+        .flexbox__item.v-top.one-twelfths>
+          - if current_user.has_avatar?
+            .soft-half--right
+              = link_to edit_user_path(current_user) do
+                = image_tag current_user.avatar_url(:thumb), width: 100
+          - else
+            .text--center.soft-half--right
+              = link_to edit_user_path(current_user), style: 'width: 110px; height: 110px; background-color: #555; padding-top: 30px; color: white; display: block;' do
+                Ajouter
+                %br
+                mon logo
+        .flexbox__item.v-top.eleven-twelfths>
+          %h4.push-half--bottom
+            %span.v-middle= current_user.full_name
+            -# %span.v-middle.milli
+            -#   \— Profil complété à
+
+  .main-container.soft--ends{class: controller_path}
     .grid
       .grid__item.one-fifth.v-top>
         %nav.one.flexbox__item.v-top.side-menu.white-box

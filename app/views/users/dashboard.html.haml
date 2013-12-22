@@ -1,0 +1,16 @@
+= user_menu_currently_at 'Mon tableau de bord'
+
+%h2 Mes infos
+
+.white-box.islet
+  .flexbox
+    .flexbox__item.v-top.one-fifth>
+      - if @user.avatar.present?
+        = image_tag @user.avatar.url(:thumb)
+      - elsif @user.fb_avatar
+        = image_tag @user.fb_avatar('large')
+      - else
+        .text--center.push-half--top= link_to 'Ajouter mon avatar', edit_user_path(current_user)
+    .flexbox__item.v-top.soft-half--left>
+      %h4.flush= @user.name
+      = link_to 'Modifier mes infos', edit_user_path(current_user)
