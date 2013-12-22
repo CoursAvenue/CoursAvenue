@@ -1,3 +1,7 @@
+.bg-cover {
+    @include background-size(cover);
+    background-position: center;
+}
 .icon-question-sign {
     cursor: pointer;
 }
@@ -119,4 +123,13 @@
     top        : 0;
     background : #EEE;
     z-index    : 100;
+}
+
+.show-on-hover__wrapper {
+    .show-on-hover__child {
+        display: none;
+    }
+    &:hover .show-on-hover__child {
+        display: block;
+    }
 }

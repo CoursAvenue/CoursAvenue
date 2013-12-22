@@ -9,7 +9,6 @@
     max-width: $siteMaxWidth;
     min-width: 1000px;
     margin   : auto;
-    padding  : 1em;
     @include media-query(lap) {
         min-width: 0;
         padding  : 8px;

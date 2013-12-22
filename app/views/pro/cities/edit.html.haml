@@ -1,0 +1,9 @@
+= side_menu_currently_at 'Villes'
+%h3 Édition de #{@city.name}
+.form-white-box
+  - if @city.image?
+    = image_tag @city.image
+  = simple_form_for [:pro, @city] do |f|
+    = f.input :image
+    .form-actions
+      = f.submit 'Enregistrer', class: 'btn btn--green'

@@ -74,14 +74,11 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
 
             // some of the server_api params might be functions, in which case execute them
             return _.reduce(_.pairs(params), function (memo, pair) {
-                var key = pair[0];
+                var key   = pair[0];
                 var value = pair[1];
                 if (_.isFunction(value)) {
                     value = value.call(self);
                 }
-
-                // Decode value before encoding it if the value is not decoded when coming here
-                // ANDRE removed the encode(decode()) stuff because it seems to work normally without
 
                 // When value is an array, should be splitted as following:
                 // ...&level_ids[]=1&level_ids[]=2
@@ -104,14 +101,17 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
 
             return _.reduce(data, function (memo, datum) {
                 var pair = datum.split('='); // assume there are no equal signs in the value
+                var key   = decodeURIComponent(pair[0]);
+                var value = pair[1];
+
                 // If the key (memo[pair[0]]) already exists AND it has [], then it's an array.
                 // Example: &level_ids[]=1&level_ids[]=2
-                if (pair[0].indexOf('[]') !== -1 && memo[pair[0]]) {
-                    var array = [memo[pair[0]], pair[1]]
+                if (key.indexOf('[]') !== -1 && memo[key]) {
+                    var array = [memo[key], value]
                     // We flatten the array in case the last memo was an array
-                    memo[pair[0]] = _.flatten(_.compact(array));
+                    memo[key] = _.flatten(_.compact(array));
                 } else {
-                    memo[pair[0]] = pair[1];
+                    memo[key] = value;
                 }
                 return memo;
             }, {});

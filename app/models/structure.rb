@@ -123,9 +123,9 @@ class Structure < ActiveRecord::Base
   # ------------------------------------
   searchable do
 
-    text :name, boost: 5 do
-      self.name
-    end
+    text :name, boost: 5
+
+    # text :description
 
     text :course_names do
       courses.map(&:name)
@@ -153,7 +153,7 @@ class Structure < ActiveRecord::Base
       subject_ids = []
       self.subjects.uniq.each do |subject|
         subject_ids << subject.id
-        subject_ids << subject.parent.id if subject.parent
+        subject_ids << subject.root.id if subject.root
       end
       subject_ids.compact.uniq
     end
@@ -162,7 +162,7 @@ class Structure < ActiveRecord::Base
       subject_slugs = []
       self.subjects.uniq.each do |subject|
         subject_slugs << subject.slug
-        subject_slugs << subject.parent.slug if subject.parent
+        subject_slugs << subject.root.slug if subject.root
       end
       subject_slugs.uniq
     end

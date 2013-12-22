@@ -48,7 +48,7 @@
                 this.current_val = this.element.value;
                 var value = this.element.value;
                 this.request = $.ajax({
-                    url: '/cities/zip_code_search.json',
+                    url: '/villes/zip_code_search.json',
                     dataType: 'json',
                     data: {
                         term: value
