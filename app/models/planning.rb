@@ -43,8 +43,9 @@ class Planning < ActiveRecord::Base
   before_validation :set_audience_if_empty
   before_validation :set_level_if_empty
 
+
   after_initialize :default_values
-  after_save :set_structure_id
+  before_save :set_structure_if_blank
 
   # validates :teacher, presence: true
   validates :place, :audience_ids, :level_ids, presence: true
@@ -380,8 +381,8 @@ class Planning < ActiveRecord::Base
     end
   end
 
-  def set_structure_id
-    self.update_column :structure_id, self.course.structure_id
+  def set_structure_if_blank
+    self.structure = self.course.structure if self.course
   end
 
   def default_values
