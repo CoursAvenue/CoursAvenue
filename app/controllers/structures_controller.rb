@@ -40,14 +40,6 @@ class StructuresController < ApplicationController
       end
     end
 
-    # the bbox params may come uri encoded as CSV
-    if (params[:bbox_sw] && params[:bbox_ne])
-      if (params[:bbox_sw].respond_to?(:split) && params[:bbox_ne].respond_to?(:split))
-        params[:bbox_sw] = params[:bbox_sw].split(',');
-        params[:bbox_ne] = params[:bbox_ne].split(',');
-      end
-    end
-
     params[:page] = 1 unless request.xhr?
 
     # If any of those key are in the params, then search per planning
