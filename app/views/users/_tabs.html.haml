@@ -5,3 +5,6 @@
   %li{class: current == 'passions' ? 'active' : ''}
     = link_to user_passions_path(current_user) do
       Mes passions
+  %li{class: current == 'notifications' ? 'active' : ''}
+    = link_to notifications_user_path(current_user) do
+      Mes notifications

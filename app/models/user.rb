@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
 
   has_many :user_profiles
   has_many :structures, through: :user_profiles
-  has_and_belongs_to_many :subjects
+  # has_and_belongs_to_many :subjects
 
   belongs_to :city
 
@@ -25,7 +25,8 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
                   :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
-                  :birthdate, :phone_number, :zip_code, :email_opt_in, :passions_attributes
+                  :birthdate, :phone_number, :zip_code, :city_id, :passions_attributes, :description,
+                  :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in
 
   accepts_nested_attributes_for :passions,
                                  reject_if: lambda {|attributes| attributes['subject_id'].blank? },
@@ -141,6 +142,31 @@ class User < ActiveRecord::Base
   # Returns the completion percentage of the user
   def profile_completion
     100
+  end
+
+  def around_courses_count
+    return 0 unless self.city
+    subjects       = self.passions.map(&:subject).compact
+    @course_search = CourseSearch.search({lat: self.city.latitude,
+                                          lng: self.city.longitude,
+                                          radius: 6,
+                                          per_page: 1,
+                                          subject_slugs: subjects.map(&:slug)
+                                      })
+    @course_search.total
+  end
+
+  def around_trial_courses_count
+    return 0 unless self.city
+    subjects       = self.passions.map(&:subject).compact
+    @course_search = CourseSearch.search({lat: self.city.latitude,
+                                          lng: self.city.longitude,
+                                          radius: 6,
+                                          has_free_trial_lesson: true,
+                                          per_page: 1,
+                                          subject_slugs: subjects.map(&:slug)
+                                        })
+    @course_search.total
   end
 
   private

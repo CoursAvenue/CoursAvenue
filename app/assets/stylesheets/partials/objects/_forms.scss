@@ -1,7 +1,19 @@
 .inline-form {
     display: inline;
 }
-
+.checkbox-at-left {
+    label, input {
+        float: left;
+    }
+    input {
+        margin-top: 0.5em;
+    }
+    label.boolean {
+        margin-left: 1em;
+        text-align : left;
+        width      : 93%;
+    }
+}
 //.simple_form {
     .error {
         padding    : 5px 10px !important;

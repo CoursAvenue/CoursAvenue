@@ -5,6 +5,13 @@ class UsersController < InheritedResources::Base
 
   load_and_authorize_resource :user, find_by: :slug, except: [:first_update, :unsubscribe]
 
+  def show
+    @user = User.find(params[:id])
+  end
+
+  def notifications
+  end
+
   def unsubscribe
     if user = User.read_access_token(params[:signature])
       user.update_attribute :email_opt_in, false
@@ -15,10 +22,6 @@ class UsersController < InheritedResources::Base
   end
 
   def dashboard
-    @user = User.find(params[:id])
-  end
-
-  def show
     @user = User.find(params[:id])
   end
 

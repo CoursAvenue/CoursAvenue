@@ -10,7 +10,11 @@ class CourseSearch
 
       with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: true)
 
-      with(:subject_slugs).any_of           [params[:subject_id]]                                   if params[:subject_id]
+      if params[:subject_slugs]
+        with(:subject_slugs).any_of           params[:subject_slugs]
+      else
+        with(:subject_slugs).any_of           [params[:subject_id]]                                 if params[:subject_id]
+      end
       with :structure_id,                   params[:structure_id].to_i                              if params[:structure_id]
       with(:type).any_of                    params[:types]                                          if params[:types].present?
       with(:audience_ids).any_of            params[:audiences]                                      if params[:audiences].present?
@@ -27,6 +31,8 @@ class CourseSearch
       with(:end_time).less_than             TimeParser.parse_time_string(params[:time_range][:max]) if params[:time_range].present? and params[:time_range][:max].present?
 
       with(:time_slots).any_of              params[:time_slots]                                     if params[:time_slots].present?
+
+      with :has_free_trial_lesson, params[:has_free_trial_lesson]                                   if params.has_key? :has_free_trial_lesson
 
       with(:approximate_price_per_course).greater_than         params[:price_range][:min].to_i      if params[:price_range].present? and params[:price_range][:min].present?
       with(:approximate_price_per_course).less_than            params[:price_range][:max].to_i      if params[:price_range].present? and params[:price_range][:max].present?

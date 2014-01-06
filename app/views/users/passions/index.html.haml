@@ -53,8 +53,11 @@
 
       %a.btn.btn--blue.btn--small{href: 'javascript:void(0)', data: {trigger: true}} Ajouter une passion
 
-    .push--top= f.submit 'Enregistrer', class: 'btn btn--full btn--green'
 
+    %div.push--top
+      %strong En savoir un petit peu plus sur vous...
+      = f.input :description, label: 'Décrivez-vous en quelques mots'
+    .push--top= f.submit 'Enregistrer', class: 'btn btn--full btn--green'
 = content_for :scripts do
   :javascript
     $(function() {
