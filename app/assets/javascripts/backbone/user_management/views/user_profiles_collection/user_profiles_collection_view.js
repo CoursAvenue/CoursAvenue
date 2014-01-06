@@ -22,19 +22,23 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }, this));
 
             this.$el.on('click', '[data-behavior=select-all]', _.bind(function () {
+                this.currently_editing.finishEditing({ restore: true, source: "button" });
                 this.showDetails("select-all");
                 this.selectAll();
             }, this));
 
             this.$el.on('click', '[data-behavior=rotate]', _.bind(function () {
+                this.currently_editing.finishEditing({ restore: true, source: "button" });
                 this.rotateSelected();
             }, this));
 
             this.$el.on('click', '[data-behavior=manage-tags]', _.bind(function () {
+                this.currently_editing.finishEditing({ restore: true, source: "button" });
                 this.showDetails("manage-tags");
             }, this));
 
             this.$el.on('click', '[data-behavior=add-tags]', _.bind(function () {
+                this.currently_editing.finishEditing({ restore: true, source: "button" });
                 this.commitAddTags();
             }, this));
 
