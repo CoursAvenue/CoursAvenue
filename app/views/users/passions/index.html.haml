@@ -54,11 +54,11 @@
       %a.btn.btn--blue.btn--small{href: 'javascript:void(0)', data: {trigger: true}} Ajouter une passion
 
 
-    %div.push--top
+    %div.push--top.push-half--bottom
       %strong En savoir un petit peu plus sur vous...
     .grid--full
       .three-fifths.grid__item.soft-half--right>
-        = f.input :description, label: 'Décrivez-vous en quelques mots', input_html: { class: 'textarea-description'}
+        = f.input :description, label: 'Décrivez-vous en quelques mots', input_html: { class: 'textarea-description'}, wrapper_html: { class: 'flush' }
       .two-fifths.grid__item
         .alert--info
           %ul.flush--top
