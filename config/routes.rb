@@ -167,6 +167,7 @@ CoursAvenue::Application.routes.draw do
     resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
     resources :messages     , controller: 'users/messages'
     resources :conversations, controller: 'users/conversations'
+    resources :passions     , controller: 'users/passions'
   end
   resources :emails, only: [:create]
 

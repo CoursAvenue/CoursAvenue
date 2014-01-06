@@ -24,7 +24,7 @@ class UsersController < InheritedResources::Base
 
   def update
     update! do |format|
-      format.html { redirect_to user_path(current_user), notice: 'Votre profil a bien été mis à jour.' }
+      format.html { redirect_to edit_user_path(current_user), notice: 'Votre profil a bien été mis à jour.' }
     end
   end
 

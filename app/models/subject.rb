@@ -12,6 +12,8 @@ class Subject < ActiveRecord::Base
   has_and_belongs_to_many :structures
   has_and_belongs_to_many :users
 
+  has_many :passions
+
   attr_accessible :name, :short_name, :image, :info, :parent, :position
 
   validates :name, presence: true

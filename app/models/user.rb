@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :comments, -> { order('created_at DESC') }
   has_many :reservations
   has_many :comment_notifications
+  has_many :passions
 
   has_many :user_profiles
   has_many :structures, through: :user_profiles
@@ -24,7 +25,11 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
                   :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
-                  :birthdate, :phone_number, :zip_code, :email_opt_in
+                  :birthdate, :phone_number, :zip_code, :email_opt_in, :passions_attributes
+
+  accepts_nested_attributes_for :passions,
+                                 reject_if: lambda {|attributes| attributes['subject_id'].blank? },
+                                 allow_destroy: true
 
   validates :first_name, :last_name, :email, presence: true
   validates :email, uniqueness: true
