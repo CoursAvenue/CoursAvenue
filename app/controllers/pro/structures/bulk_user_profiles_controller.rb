@@ -1,15 +1,31 @@
 # encoding: utf-8
 class Pro::Structures::BulkUserProfilesController < Pro::ProController
+  attr_accessor :working
   before_action :authenticate_pro_admin!
   before_action :load_structure
 
   layout 'admin'
 
+  def index
+
+    respond_to do |format|
+      format.json { render json: { busy: (@structure.busy == "true")? true : false } }
+    end
+  end
+
   def create
     tags = params.delete(:tags)
-    @user_profiles = UserProfile.where(id: params[:ids]).find_each do |profile|
-      @structure.tag(profile, with: tags, on: :tags)
+
+    if params[:ids] == "all"
+      @user_profiles = UserProfile.all
+    else
+      @user_profiles = UserProfile.where(id: params[:ids])
     end
+
+    @structure.busy = true
+    @structure.delay.bulk_tagging_job(@user_profiles.map(&:id), tags)
+
+    @structure.save
 
     # TODO not sure what to do here
     # check if the tagging worked?

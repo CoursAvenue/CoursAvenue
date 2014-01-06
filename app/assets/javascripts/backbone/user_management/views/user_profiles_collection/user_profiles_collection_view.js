@@ -13,6 +13,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         initialize: function () {
             /* myserious forces are preventing me from using the events
             * hash for these, for some strange reason */
+            /* TODO this is uuuuugly */
             this.$el.on('click', '[data-behavior=cancel]', _.bind(function () {
                 this.itemviewCancel();
             }, this));
@@ -22,24 +23,42 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }, this));
 
             this.$el.on('click', '[data-behavior=select-all]', _.bind(function () {
-                this.currently_editing.finishEditing({ restore: true, source: "button" });
+                if (this.currently_editing) {
+                    this.currently_editing.finishEditing({ restore: true, source: "button" });
+                }
                 this.showDetails("select-all");
                 this.selectAll();
             }, this));
 
             this.$el.on('click', '[data-behavior=rotate]', _.bind(function () {
-                this.currently_editing.finishEditing({ restore: true, source: "button" });
+                if (this.currently_editing) {
+                    this.currently_editing.finishEditing({ restore: true, source: "button" });
+                }
                 this.rotateSelected();
             }, this));
 
             this.$el.on('click', '[data-behavior=manage-tags]', _.bind(function () {
-                this.currently_editing.finishEditing({ restore: true, source: "button" });
+                if (this.currently_editing) {
+                    this.currently_editing.finishEditing({ restore: true, source: "button" });
+                }
                 this.showDetails("manage-tags");
             }, this));
 
             this.$el.on('click', '[data-behavior=add-tags]', _.bind(function () {
-                this.currently_editing.finishEditing({ restore: true, source: "button" });
+                if (this.currently_editing) {
+                    this.currently_editing.finishEditing({ restore: true, source: "button" });
+                }
                 this.commitAddTags();
+            }, this));
+
+            this.$el.on('click', '[data-behavior=uber-select]', _.bind(function () {
+                if (this.currently_editing) {
+                    this.currently_editing.finishEditing({ restore: true, source: "button" });
+                }
+
+                this.showDetails("select-all");
+                this.groups.uber = true;
+
             }, this));
 
             this.groups = {
@@ -71,13 +90,29 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 return memo;
             }, []);
 
+            /* TODO of course, when we are done we should stop the timeout from being set */
+            var self = this;
+            var kontinue = true;
+            (function poll(){
+                setTimeout(function(){
+                    if (kontinue) {
+                        $.ajax({ url: self.collection.url.basename + '/bulk.json', success: function(data){
+                            console.log("3");
+                            console.log(data);
+                            kontinue = data.busy;
+
+                        }, dataType: "json", complete: poll, timeout: 10000 });
+                    }
+                }, 10000);
+            })();
+
             /* TODO move this code into the collection itself, possibly
             *  by overriding the sync method */
             $.ajax({
                 type: "POST",
                 url: this.collection.url.basename + '/bulk.json',
                 data: {
-                    ids: _.pluck(models, 'id'),
+                    ids: (this.groups.uber) ? "all" : _.pluck(models, 'id'),
                     tags: tags
                 }
             });
@@ -122,7 +157,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
          * the current rows to groups.selected
          *
         * */
-        selectAll: function () {
+        selectAll: function (options) {
             var self = this;
             var deselect = this.ui.$select_all.data().deselect;
 
@@ -130,6 +165,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 var id = view.model.get("id");
 
                 if (deselect) {
+                    self.groups.uber = false;
+
                     if (self.groups.selected[id]) {
                         view.ui.$checkbox.click();
                     }

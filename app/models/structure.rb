@@ -57,7 +57,7 @@ class Structure < ActiveRecord::Base
   store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
                              :plannings_count, :has_promotion, :has_free_trial_course, :course_names,
                              :last_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
-                             :level_ids, :audience_ids
+                             :level_ids, :audience_ids, :busy
 
 
   has_attached_file :logo,
@@ -491,6 +491,16 @@ class Structure < ActiveRecord::Base
         self.max_price_amount  = nil
       end
     end
+  end
+
+  def bulk_tagging_job(ids, tags)
+
+    UserProfile.find(ids).each do |profile|
+      self.tag(profile, with: tags, on: :tags)
+    end
+
+    self.busy = false
+    self.save
   end
 
   private
