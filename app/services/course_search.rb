@@ -8,9 +8,11 @@ class CourseSearch
       fulltext                              params[:name]                                           if params[:name].present?
       keywords                              [ params[:search_term] ]                                    if params[:search_term].present?
 
+      facet :has_free_trial_lesson
+
       with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: true)
 
-      if params[:subject_slugs]
+      if params[:subject_slugs].present?
         with(:subject_slugs).any_of           params[:subject_slugs]
       else
         with(:subject_slugs).any_of           [params[:subject_id]]                                 if params[:subject_id]

@@ -17,6 +17,7 @@ fr:
         password: Mot de passe
         avatar: Ma photo
         email: Adresse email
+        gender: Sexe
         phone_number: Téléphone
         birthdate: Date de naissance
         sms_opt_in: Activer les notifications par SMS

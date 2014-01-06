@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   include ActsAsUnsubscribable
+  include Rails.application.routes.url_helpers
+
   acts_as_messageable
 
   extend FriendlyId
@@ -39,6 +41,7 @@ class User < ActiveRecord::Base
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
 
   after_create :associate_all_comments
+  after_create :associate_city_from_zip_code, if: -> { zip_code.present? }
 
   # Scopes
   scope :active,   -> { where{encrypted_password != nil} }
@@ -141,38 +144,48 @@ class User < ActiveRecord::Base
 
   # Returns the completion percentage of the user
   def profile_completion
-    100
+    percentage = 0
+    percentage += 20 if self.has_avatar?
+    percentage += 20 if self.city
+    percentage += 20 if self.gender and self.birthdate
+    percentage += 20 if self.passions.any?
+    percentage += 20 if self.full_name.present?
   end
 
-  def around_courses_count
-    return 0 unless self.city
-    subjects       = self.passions.map(&:subject).compact
-    @course_search = CourseSearch.search({lat: self.city.latitude,
+  def around_courses_url
+    structures_path(lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subject).compact.map(&:slug))
+  end
+
+  def around_courses_search
+    subjects         = self.passions.map(&:subject).compact
+    @@course_search ||= CourseSearch.search({lat: self.city.latitude,
                                           lng: self.city.longitude,
                                           radius: 6,
                                           per_page: 1,
                                           subject_slugs: subjects.map(&:slug)
                                       })
-    @course_search.total
+
+  end
+
+  def around_courses_count
+    return 0 unless self.city
+    around_courses_search.total
   end
 
   def around_trial_courses_count
     return 0 unless self.city
-    subjects       = self.passions.map(&:subject).compact
-    @course_search = CourseSearch.search({lat: self.city.latitude,
-                                          lng: self.city.longitude,
-                                          radius: 6,
-                                          has_free_trial_lesson: true,
-                                          per_page: 1,
-                                          subject_slugs: subjects.map(&:slug)
-                                        })
-    @course_search.total
+    around_courses_search.facet(:has_free_trial_lesson).rows.last.count
   end
 
   private
 
   def random_string
     (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+  end
+
+  def associate_city_from_zip_code
+    _zip_code = self.zip_code
+    self.update_column :city_id, City.where{zip_code == _zip_code}.first.try(:id)
   end
 
   def associate_all_comments

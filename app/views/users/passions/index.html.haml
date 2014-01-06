@@ -25,7 +25,7 @@
                 = practiced_passion_form.input :subject_id, as: :select, collection: (practiced_passion.subject ? practiced_passion.subject.root.descendants : []), label: false, input_html: { data: { behavior: 'chosen' }, style: 'min-width: 10em; width: 100%' }, include_blank: 'Sous discipline'
 
               .grid__item.one-quarter>
-                = practiced_passion_form.input :frequency, as: :select, collection: Passion::FREQUENCIES, label_method: lambda {|frequency| t(frequency)}, include_blank: 'A quelle fréquence pratiquez-vous ?', label: false, input_html: { style: 'width: 100%' }
+                = practiced_passion_form.input :frequency, as: :select, collection: Passion::FREQUENCIES, label_method: lambda {|frequency| t(frequency)}, include_blank: 'À quelle fréquence pratiquez-vous ?', label: false, input_html: { style: 'width: 100%' }
 
               .grid__item.one-quarter>
                 = practiced_passion_form.input :reason_ids, as: :select, collection: PassionReason.all, label_method: lambda {|reason| t(reason.name)}, label: false, input_html: { style: 'width: 100%', multiple: true, data: { behavior: 'chosen', placeholder: 'Que recherchez-vous ?' }}
@@ -46,7 +46,7 @@
               .grid__item.one-quarter>
                 = wanted_passion_form.input :subject_id, as: :select, collection: (wanted_passion.subject ? wanted_passion.subject.root.descendants : []), label: false, input_html: { data: { behavior: 'chosen' }, style: 'min-width: 10em; width: 100%' }, include_blank: 'Sous discipline'
               .grid__item.one-quarter>
-                = wanted_passion_form.input :frequency, as: :select, collection: Passion::FREQUENCIES, label_method: lambda {|frequency| t(frequency)}, include_blank: 'A quelle fréquence pratiquez-vous ?', label: false, input_html: { style: 'width: 100%' }
+                = wanted_passion_form.input :frequency, as: :select, collection: Passion::FREQUENCIES, label_method: lambda {|frequency| t(frequency)}, include_blank: 'À quelle fréquence pratiquez-vous ?', label: false, input_html: { style: 'width: 100%' }
               .grid__item.one-quarter>
                 = wanted_passion_form.input :expectation_ids, as: :select, collection: PassionExpectation.all, label_method: lambda { |reason| t(reason.name) }, label: false, input_html: { multiple: true, data: { behavior: 'chosen', placeholder: 'Pour quelles raisons ?' }, style: 'width: 100%'}
             %hr.push-half--ends
