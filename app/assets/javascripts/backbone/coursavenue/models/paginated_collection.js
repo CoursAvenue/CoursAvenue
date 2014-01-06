@@ -51,7 +51,7 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             /* if lat/lng is in options, then we either have a new bounding box
             * or we want to invalidate the bounding box */
             if (options.lat || options.lng) {
-                this.unsetQuery(['bbox_ne', 'bbox_sw']);
+                this.unsetQuery(['bbox_ne[]', 'bbox_sw[]']);
             }
             _.extend(this.server_api, options);
         },

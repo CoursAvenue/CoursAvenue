@@ -97,8 +97,8 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             var sw_latlng, ne_latlng;
 
             if (this.server_api.bbox_sw && this.server_api.bbox_ne) {
-                sw_latlng = this.server_api.bbox_sw.split(',');
-                ne_latlng = this.server_api.bbox_ne.split(',');
+                sw_latlng = this.server_api.bbox_sw;
+                ne_latlng = this.server_api.bbox_ne;
 
                 sw_latlng = {
                     lat: parseFloat(sw_latlng[0]),
