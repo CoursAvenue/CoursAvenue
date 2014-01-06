@@ -18,6 +18,7 @@ class UserProfile < ActiveRecord::Base
   # ------------------------------------
   searchable do
     text :email
+    string :email
     text :first_name, boost: 5
     text :last_name , boost: 5
     text :notes
