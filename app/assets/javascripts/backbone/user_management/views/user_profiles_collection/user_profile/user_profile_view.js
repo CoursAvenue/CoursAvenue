@@ -13,8 +13,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         tagName: 'tr',
         className: 'table__cell--editable unflipped',
 
-        initialize: function () {
+        initialize: function (options) {
             this.finishEditing = _.bind(this.finishEditing, this);
+
+            this.model.set("checked", options.checked);
         },
 
         ui: {

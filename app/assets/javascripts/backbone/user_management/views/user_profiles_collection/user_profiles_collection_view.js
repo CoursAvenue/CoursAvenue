@@ -39,7 +39,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }, this));
 
             this.groups = {
-                selected: {} /* map by view.cid */
+                selected: {} /* map by model id */
             }
         },
 
@@ -108,17 +108,29 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.currently_editing.finishEditing({ restore: false, source: "button" });
         },
 
+        /* TODO select all is a little tricky.
+         *
+         * when I click select all, I mark child views by adding
+         * them to or removing them from my array "groups.selected"
+         *
+         * when I arrive on a new page of results, I need to show
+         * whether or not the results are selected by comparing
+         * the current rows to groups.selected
+         *
+        * */
         selectAll: function () {
             var self = this;
             var deselect = this.ui.$select_all.data().deselect;
 
             this.children.each(function (view) {
+                var id = view.model.get("id");
+
                 if (deselect) {
-                    if (self.groups.selected[view.cid]) {
+                    if (self.groups.selected[id]) {
                         view.ui.$checkbox.click();
                     }
                 } else {
-                    if (!self.groups.selected[view.cid]) {
+                    if (!self.groups.selected[id]) {
                         view.ui.$checkbox.click();
                     }
                 }
@@ -129,10 +141,12 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         onItemviewAddToSelected: function (view) {
-            if (this.groups.selected[view.cid]) {
-                delete this.groups.selected[view.cid];
+            var id = view.model.get("id");
+
+            if (this.groups.selected[id]) {
+                delete this.groups.selected[id];
             } else {
-                this.groups.selected[view.cid] = view;
+                this.groups.selected[id] = view; // <-- TODO why are we keeping the view? Why not a bool?
             }
         },
 
@@ -181,8 +195,11 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* remember that itemViews are constructed and destroyed more often
         * than the corresponding models */
         itemViewOptions: function(model, index) {
+            var id = model.get("id");
 
-            return { };
+            return {
+                checked: this.groups.selected[id]? true : false,
+            };
         },
 
         /* TODO we will need a method like this at some point */
