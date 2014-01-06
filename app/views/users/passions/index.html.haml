@@ -56,7 +56,19 @@
 
     %div.push--top
       %strong En savoir un petit peu plus sur vous...
-      = f.input :description, label: 'Décrivez-vous en quelques mots'
+    .grid--full
+      .three-fifths.grid__item.soft-half--right>
+        = f.input :description, label: 'Décrivez-vous en quelques mots', input_html: { class: 'textarea-description'}
+      .two-fifths.grid__item
+        .alert--info
+          %ul.flush--top
+            %li Pourquoi les cours sont si importants pour vous ?
+            %li Dans la vie, qu'est-ce qui vous passionne ? Qu'est-ce qui vous grandit, vous émeut ?
+            %li Que recherchez-vous en rejoignant la communauté CoursAvenue ?
+            %li Recherchez-vous des cours uniquement pour vous, ou aussi pour vos enfants, vos amis, votre famille ?
+            %li Quel serait votre cours idéal, votre rêve ?
+
+
     .push--top= f.submit 'Enregistrer', class: 'btn btn--full btn--green'
 = content_for :scripts do
   :javascript

@@ -13,9 +13,9 @@
           %i Nous vous promettons de ne pas vous envoyer de spam. Cette option peut être désactivée à tout moment.
       .grid__item.two-thirds.check_boxes>
         .checkbox-at-left
-          = f.input :email_promo_opt_in
-          = f.input :email_newsletter_opt_in
-          = f.input :email_passions_opt_in
+          = f.input :email_promo_opt_in, wrapper_html: { class: 'flush' }
+          = f.input :email_newsletter_opt_in, wrapper_html: { class: 'flush' }
+          = f.input :email_passions_opt_in, wrapper_html: { class: 'flush' }
 
     .grid
       .grid__item.one-third>
