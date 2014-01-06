@@ -5,8 +5,11 @@ class Pro::Structures::UserProfilesController < Pro::ProController
 
   layout 'admin'
 
+  # TODO is this correct? I kind of feel like the search is not being
+  # restricted to the structure...
   def index
-    @user_profiles_search = UserProfileSearch.search(params)
+    params[:structure_id] = @structure.id
+    @user_profiles_search = UserProfileSearch.search(params) # <-- shouldn't this be (search_params)
     @user_profiles = @user_profiles_search.results
 
     respond_to do |format|
