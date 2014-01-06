@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
   has_many :structures, through: :user_profiles
   has_and_belongs_to_many :subjects
 
+  belongs_to :city
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
@@ -131,10 +133,9 @@ class User < ActiveRecord::Base
     end
   end
 
-  # Check if user's email is valid
-  def email_valid?
-    self.valid? # Generates the errors
-    self.errors[:email].empty?
+  # Returns the completion percentage of the user
+  def profile_completion
+    100
   end
 
   private

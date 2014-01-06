@@ -11,20 +11,15 @@
         .lbl.lbl--blue
           %i.fa.fa-eye
           Public
-    - if @user.fb_avatar or @user.avatar.present?
-      .input
+    .input{data: { behavior: 'image-input' } }
+      - if @user.has_avatar?
         %label.control-label Ma photo
         .text--center
-          = link_to 'javascript:void(0);', id: 'change-avatar' do
-            - if @user.avatar.present?
-              = image_tag @user.avatar.url(:thumb)
-            - elsif @user.fb_avatar
-              = image_tag @user.fb_avatar('normal')
-            %br
-            Changer ma photo
+          = image_tag @user.avatar_url(:thumb)
+          %br
+          %a.btn.btn--blue.btn--small{data: { trigger: true }} Changer ma photo
           = f.input :avatar, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'},input_html: {id: 'avatar-input'}
-    - else
-      %div{ data: { behavior: 'image-input'} }
+      - else
         .input
           = f.label :avatar
           %a.btn.btn--blue{ data: {trigger: true} } Choisir ma photo
@@ -41,15 +36,12 @@
           %i.fa.fa-lock
           Privé
     = f.input :gender, as: :select, collection: [['Femme', 'female'], ['Homme', 'male']]
-    = f.input :birthdate
+    = f.input :birthdate, start_year: (Date.today.year - 1), end_year: 1900
     = f.input :email, disabled: true
     = f.input :phone_number
-    = f.submit 'Sauvegarder', class: 'btn btn--green btn--full'
+    .input.flush--top.city-autocomplete-wrapper
+      = f.label :zip_code, label: Location.human_attribute_name(:zip_code)
+      = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { data: {behavior: 'city-autocomplete', el: '#user_city_id'} }, label: false, wrapper_html: { class: 'flush' }
+      = f.input :city_id, collection: [@user.city], label: false, selected: @user.city, wrapper_html: { class: 'flush--top' }
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#change-avatar').click(function() {
-            $('#avatar-input').click();
-        });
-    });
+    = f.submit 'Sauvegarder', class: 'btn btn--green btn--full'

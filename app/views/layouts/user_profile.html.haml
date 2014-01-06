@@ -3,24 +3,26 @@
 
 = content_for :content do
   - if current_user
-    .white-box.islet.main-container.push--top
+    .white-box.main-container.push--top
       .flexbox.one-whole
         .flexbox__item.v-top.one-twelfths>
           - if current_user.has_avatar?
-            .soft-half--right
-              = link_to edit_user_path(current_user) do
-                = image_tag current_user.avatar_url(:thumb), width: 100
+            = link_to edit_user_path(current_user) do
+              = image_tag current_user.avatar_url(:thumb), width: 100, class: 'block'
           - else
-            .text--center.soft-half--right
+            .text--center
               = link_to edit_user_path(current_user), style: 'width: 110px; height: 110px; background-color: #555; padding-top: 30px; color: white; display: block;' do
                 Ajouter
                 %br
                 ma photo
-        .flexbox__item.v-top.eleven-twelfths>
+        .flexbox__item.v-top.eleven-twelfths.soft-half>
           %h4.push-half--bottom
             %span.v-middle= current_user.full_name
             -# %span.v-middle.milli
-            -#   \— Profil complété à
+            -#   \— Profil complété à #{current_user.profile_completion} %
+          %div
+            = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=http://www.coursavenue.com", class: 'btn btn--small btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
+
 
   .main-container.soft--ends{class: controller_path}
     .grid
