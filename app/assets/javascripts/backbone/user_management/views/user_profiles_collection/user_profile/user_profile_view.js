@@ -41,6 +41,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         *  as an object, but we are presenting them as a string.
         *  Maybe the user_profiles model should have just the string? */
         updateFields: function (model) {
+            if (this.isEditing()) { return; }
+
             var changes = model.changed;
 
             _.each(changes, _.bind(function (change, attribute) {
@@ -49,9 +51,11 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 if ($field.length > 0 && $field.text() !== change) {
                     $field.text(change);
                 }
-
             }, this));
+        },
 
+        isEditing: function () {
+            return this.$("input").length > 0;
         },
 
         addToSelected: function () {
@@ -117,8 +121,13 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 var $field    = $(field);
                 var $input    = $field.find("input");
                 var attribute = $field.data("name");
+
+                /* TODO for now all fields are text, but later this will get more complicated */
                 var text      = (e.restore)? this.model.get(attribute) : $input.val();
 
+                /* TODO currently the tags update is broken because we refer to the field
+                *  as tag_name on our end, but as tags on the back-end. This will no-doubt
+                *  change, since "tag_name" is going to be replaced by a nice tag field. */
                 $field.html(text);
                 update.user_profile[attribute] = text;
             }, this));
