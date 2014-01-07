@@ -93,18 +93,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             /* TODO of course, when we are done we should stop the timeout from being set */
             var self = this;
             var kontinue = true;
-            (function poll(){
-                setTimeout(function(){
-                    if (kontinue) {
-                        $.ajax({ url: self.collection.url.basename + '/bulk.json', success: function(data){
-                            console.log("3");
-                            console.log(data);
-                            kontinue = data.busy;
-
-                        }, dataType: "json", complete: poll, timeout: 10000 });
-                    }
-                }, 10000);
-            })();
 
             /* TODO move this code into the collection itself, possibly
             *  by overriding the sync method */
@@ -114,6 +102,22 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 data: {
                     ids: (this.groups.uber) ? "all" : _.pluck(models, 'id'),
                     tags: tags
+                },
+                complete: function () {
+                    console.log("complete");
+                    (function poll(){
+                        if (kontinue) {
+                            console.log("POLLING!");
+                            setTimeout(function(){
+                                $.ajax({ url: self.collection.url.basename + '/bulk.json', success: function(data){
+                                    kontinue = data.busy;
+
+                                }, dataType: "json", complete: poll, timeout: 10000 });
+                            }, 10000);
+                        } else {
+                            console.log("DONE!");
+                        }
+                    })();
                 }
             });
         },
