@@ -64,6 +64,9 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.groups = {
                 selected: {} /* map by model id */
             }
+
+            this.poller = Backbone.Poller.get(this.collection);
+            this.poller.start();
         },
 
         ui: {
