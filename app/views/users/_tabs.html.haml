@@ -1,10 +1,13 @@
 %ul.tabs.push--bottom
   %li{class: current == 'profile' ? 'active' : ''}
     = link_to edit_user_path(current_user) do
+      %i.fa.fa-user
       Mon profil
   %li{class: current == 'passions' ? 'active' : ''}
     = link_to user_passions_path(current_user) do
+      %i.fa.fa-heart
       Mes passions
   %li{class: current == 'notifications' ? 'active' : ''}
     = link_to notifications_user_path(current_user) do
+      %i.fa.fa-bullhorn
       Mes notifications

@@ -26,7 +26,8 @@
           - if current_user.city and current_user.passions.any?
             = link_to current_user.around_courses_url, class: 'muted-link' do
               .beta #{current_user.around_courses_count} cours
-              dont #{current_user.around_trial_courses_count} essais gratuits
+              - if current_user.around_trial_courses_count > 0
+                dont #{current_user.around_trial_courses_count} essais gratuits
               %strong devraient vous plaire
           = link_to 'Gérer mes passions', user_passions_path(current_user), class: "btn btn--blue #{(current_user.passions.any? ? 'btn--small' : '')}"
 

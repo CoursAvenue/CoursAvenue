@@ -293,3 +293,5 @@ fr:
 
       multi_page_html: "Résultat : %{from} à %{to} sur %{count} cours"
       multi_page: "Résultat : %{from} à %{to} sur %{count} cours"
+  female: Femme
+  male: Homme

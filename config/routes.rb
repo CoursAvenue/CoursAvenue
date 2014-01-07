@@ -59,7 +59,10 @@ CoursAvenue::Application.routes.draw do
           get :inscription, to: :new
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
-        devise_scope :admins do
+        resources :admins, controller: 'structures/admins' do
+          member do
+            get :notifications
+          end
           collection do
             get 'unsubscribe/:signature' => 'admins#unsubscribe', as: 'unsubscribe'
           end

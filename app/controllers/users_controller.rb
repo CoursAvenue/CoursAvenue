@@ -22,7 +22,9 @@ class UsersController < InheritedResources::Base
   end
 
   def dashboard
-    @user = User.find(params[:id])
+    @user               = User.find(params[:id])
+    @profile_completion = current_user.profile_completion
+    @conversations      = current_user.mailbox.conversations.limit(4)
   end
 
   def update

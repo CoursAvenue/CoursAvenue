@@ -158,7 +158,7 @@ class User < ActiveRecord::Base
 
   def around_courses_search
     subjects         = self.passions.map(&:subject).compact
-    @@course_search ||= CourseSearch.search({lat: self.city.latitude,
+    @course_search ||= CourseSearch.search({lat: self.city.latitude,
                                           lng: self.city.longitude,
                                           radius: 6,
                                           per_page: 1,
@@ -174,6 +174,7 @@ class User < ActiveRecord::Base
 
   def around_trial_courses_count
     return 0 unless self.city
+    return 0 if around_courses_search.facet(:has_free_trial_lesson).rows.last.nil?
     around_courses_search.facet(:has_free_trial_lesson).rows.last.count
   end
 
