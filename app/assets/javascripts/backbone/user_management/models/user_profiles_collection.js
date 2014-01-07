@@ -34,12 +34,40 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             data_type: '.json'
         },
 
+        /* we are over-writing this method so that */
+        // Fetch the default set of models for this collection, resetting the
+        // collection when they arrive. If `reset: true` is passed, the response
+        // data will be passed through the `reset` method instead of `set`.
+        fetch: function(options) {
+            options = options ? _.clone(options) : {};
+            if (options.parse === void 0) options.parse = true;
+            var success = options.success;
+            var collection = this;
+
+            /* we want success to save up the results until the job is done */
+            options.success = function(resp) {
+
+                /* only set or reset the collection if the work is done */
+                if (resp.meta.busy !== "true") {
+                    var method = options.reset ? 'reset' : 'set';
+                    collection[method](resp, options);
+                }
+
+                /* these need to happen every time, so that the poller keeps polling */
+                if (success) success(collection, resp, options);
+                collection.trigger('sync', collection, resp, options);
+            };
+
+            return this.sync('read', this, options);
+        },
+
         parse: function(response) {
             // we did some kind of request, I guess we should update the query
             if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }
 
             this.grandTotal = response.meta.total;
             this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
+            this.jobs = response.meta.busy;
 
             return response.user_profiles;
         },

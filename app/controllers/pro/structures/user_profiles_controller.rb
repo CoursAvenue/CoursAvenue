@@ -13,7 +13,7 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     @user_profiles = @user_profiles_search.results
 
     respond_to do |format|
-      format.json { render json: @user_profiles, root: 'user_profiles', meta: { total: @user_profiles_search.total }}
+      format.json { render json: @user_profiles, root: 'user_profiles', meta: { total: @user_profiles_search.total, busy: @structure.busy }}
       format.html
     end
   end

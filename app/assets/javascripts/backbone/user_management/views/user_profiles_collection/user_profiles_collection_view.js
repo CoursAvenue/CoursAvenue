@@ -62,11 +62,15 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }, this));
 
             this.groups = {
-                selected: {} /* map by model id */
+                selected: {} /* map by model id */,
             }
 
             this.poller = Backbone.Poller.get(this.collection, { delay: 5000 });
-            this.poller.start();
+            this.poller.on('success', _.bind(function (model) {
+                if (model.jobs !== "false") { return; }
+
+                this.poller.stop();
+            }, this));
         },
 
         ui: {
@@ -99,30 +103,22 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
             /* TODO move this code into the collection itself, possibly
             *  by overriding the sync method */
+            /* TODO the important difference here is that, this represents
+            *  updating the whole collection, where normally a backbone collection
+            *  would fire many requests to update itself... we want to do this in
+            *  one bulk action */
             $.ajax({
                 type: "POST",
                 url: this.collection.url.basename + '/bulk.json',
                 data: {
                     ids: (this.groups.uber) ? "all" : _.pluck(models, 'id'),
                     tags: tags
-                },
-                complete: function () {
-                    console.log("complete");
-                    (function poll(){
-                        if (kontinue) {
-                            console.log("POLLING!");
-                            setTimeout(function(){
-                                $.ajax({ url: self.collection.url.basename + '/bulk.json', success: function(data){
-                                    kontinue = data.busy;
-
-                                }, dataType: "json", complete: poll, timeout: 10000 });
-                            }, 10000);
-                        } else {
-                            console.log("DONE!");
-                        }
-                    })();
                 }
             });
+
+            /* TODO we want this to be idempotent: I should be able to start many times
+            * without problem */
+            this.poller.start();
         },
 
         showDetails: function (target) {
