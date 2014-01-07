@@ -493,10 +493,14 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  def bulk_tagging_job(ids, tags)
+  def bulk_tagging(profile, tags)
+      self.tag(profile, with: tags, on: :tags)
+  end
+
+  def perform_bulk_job(ids, tags, job)
 
     UserProfile.find(ids).each do |profile|
-      self.tag(profile, with: tags, on: :tags)
+      self.send(job, profile, tags)
     end
 
     self.busy = false
