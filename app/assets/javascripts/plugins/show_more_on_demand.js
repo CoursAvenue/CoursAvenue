@@ -37,6 +37,7 @@
 
         init: function() {
             this.$trigger      = $(this.$element.find('[data-trigger]'));
+            this.$items        = $(this.$element.find('[data-el]'));
             this.$hidden_items = $(this.$element.find('[data-el][data-hidden]'));
             this.$hidden_items.hide();
             this.showMoreItem(); // Show first empty item

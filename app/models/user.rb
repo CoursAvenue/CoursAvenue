@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
 
   has_many :user_profiles
   has_many :structures, through: :user_profiles
-  # has_and_belongs_to_many :subjects
+  has_and_belongs_to_many :subjects
 
   belongs_to :city
 
@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
@@ -41,7 +41,8 @@ class User < ActiveRecord::Base
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
 
   after_create :associate_all_comments
-  after_create :associate_city_from_zip_code, if: -> { zip_code.present? }
+  # Not after create because user creation is made when teachers invite their students to post a comment
+  after_save :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
 
   # Scopes
   scope :active,   -> { where{encrypted_password != nil} }
@@ -145,11 +146,11 @@ class User < ActiveRecord::Base
   # Returns the completion percentage of the user
   def profile_completion
     percentage = 0
+    percentage += 20 if self.full_name.present?
     percentage += 20 if self.has_avatar?
     percentage += 20 if self.city
     percentage += 20 if self.gender and self.birthdate
     percentage += 20 if self.passions.any?
-    percentage += 20 if self.full_name.present?
   end
 
   def around_courses_url
@@ -157,12 +158,12 @@ class User < ActiveRecord::Base
   end
 
   def around_courses_search
-    subjects         = self.passions.map(&:subject).compact
+    subject_array    = self.passions.map(&:subject).compact
     @course_search ||= CourseSearch.search({lat: self.city.latitude,
                                           lng: self.city.longitude,
                                           radius: 6,
                                           per_page: 1,
-                                          subject_slugs: subjects.map(&:slug)
+                                          subject_slugs: subject_array.map(&:slug)
                                       })
 
   end
@@ -176,6 +177,15 @@ class User < ActiveRecord::Base
     return 0 unless self.city
     return 0 if around_courses_search.facet(:has_free_trial_lesson).rows.last.nil?
     around_courses_search.facet(:has_free_trial_lesson).rows.last.count
+  end
+
+  def confirm!
+    super
+    send_welcome_email
+  end
+
+  def send_welcome_email
+    UserMailer.delay.welcome(self)
   end
 
   private

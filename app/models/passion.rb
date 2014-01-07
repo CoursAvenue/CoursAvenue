@@ -1,6 +1,7 @@
 class Passion < ActiveRecord::Base
   belongs_to :user
   belongs_to :subject
+  belongs_to :parent_subject, class_name: 'Subject', foreign_key: :parent_subject_id
 
   FREQUENCIES  = ['passions.frequencies.everyday',
                   'passions.frequencies.two_to_five_a_week',
@@ -8,10 +9,13 @@ class Passion < ActiveRecord::Base
                   'passions.frequencies.once_a_month',
                   'passions.frequencies.less_than_10_times_a_year']
 
-  attr_accessible :frequency, :practiced, :expectation_ids, :reason_ids, :subject_id, :parent_subject_id
+  attr_accessible :frequency, :practiced, :expectation_ids, :reason_ids,
+                  :subject, :parent_subject, :subject_id, :parent_subject_id
 
   scope :practiced, -> { where(practiced: true) }
   scope :wanted,    -> { where(practiced: false) }
+
+  validates :subject_id, uniqueness: {scope: :user_id}
 
   # ---------------------------- Simulating reason and Levels
   def reason_ids= _reasons

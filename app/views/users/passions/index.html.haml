@@ -19,16 +19,18 @@
             = practiced_passion_form.input :practiced, as: :hidden, value: true
             .grid
               .grid__item.one-quarter{ data: {behavior: 'subject-chooser', target: '+ div select'} }>
-                = practiced_passion_form.input :parent_subject_id, as: :select, collection: Subject.roots.order('position ASC'), label: false, include_blank: 'Discipline générale'
+                = practiced_passion_form.input :parent_subject_id, as: :select, collection: Subject.roots.order('position ASC'), label: false, include_blank: 'Discipline générale', wrapper_html: { class: 'flush--bottom' }
 
               .grid__item.one-quarter>
-                = practiced_passion_form.input :subject_id, as: :select, collection: (practiced_passion.subject ? practiced_passion.subject.root.descendants : []), label: false, input_html: { data: { behavior: 'chosen' }, style: 'min-width: 10em; width: 100%' }, include_blank: 'Sous discipline'
+                = practiced_passion_form.input :subject_id, as: :select, collection: (practiced_passion.subject ? practiced_passion.subject.root.descendants : []), label: false, input_html: { data: { behavior: 'chosen' }, style: 'min-width: 10em; width: 100%' }, include_blank: 'Sous discipline', wrapper_html: { class: 'flush--bottom' }
 
               .grid__item.one-quarter>
-                = practiced_passion_form.input :frequency, as: :select, collection: Passion::FREQUENCIES, label_method: lambda {|frequency| t(frequency)}, include_blank: 'À quelle fréquence pratiquez-vous ?', label: false, input_html: { style: 'width: 100%' }
+                = practiced_passion_form.input :frequency, as: :select, collection: Passion::FREQUENCIES, label_method: lambda {|frequency| t(frequency)}, include_blank: 'À quelle fréquence pratiquez-vous ?', label: false, input_html: { style: 'width: 100%' }, wrapper_html: { class: 'flush--bottom' }
 
               .grid__item.one-quarter>
-                = practiced_passion_form.input :reason_ids, as: :select, collection: PassionReason.all, label_method: lambda {|reason| t(reason.name)}, label: false, input_html: { style: 'width: 100%', multiple: true, data: { behavior: 'chosen', placeholder: 'Que recherchez-vous ?' }}
+                = practiced_passion_form.input :reason_ids, as: :select, collection: PassionReason.all, label_method: lambda {|reason| t(reason.name)}, label: false, input_html: { style: 'width: 100%', multiple: true, data: { behavior: 'chosen', placeholder: 'Que recherchez-vous ?' }}, wrapper_html: { class: 'flush--bottom' }
+            - if practiced_passion.persisted?
+              = link_to 'Supprimer cette passion', user_passion_path(@user, practiced_passion), method: :delete
             %hr.push-half--ends
       %a.btn.btn--blue.btn--small{href: 'javascript:void(0)', data: {trigger: true}} Ajouter une passion
 
@@ -49,6 +51,8 @@
                 = wanted_passion_form.input :frequency, as: :select, collection: Passion::FREQUENCIES, label_method: lambda {|frequency| t(frequency)}, include_blank: 'À quelle fréquence pratiquez-vous ?', label: false, input_html: { style: 'width: 100%' }
               .grid__item.one-quarter>
                 = wanted_passion_form.input :expectation_ids, as: :select, collection: PassionExpectation.all, label_method: lambda { |reason| t(reason.name) }, label: false, input_html: { multiple: true, data: { behavior: 'chosen', placeholder: 'Pour quelles raisons ?' }, style: 'width: 100%'}
+            - if wanted_passion.persisted?
+              = link_to 'Supprimer cette passion', user_passion_path(@user, wanted_passion), method: :delete
             %hr.push-half--ends
 
       %a.btn.btn--blue.btn--small{href: 'javascript:void(0)', data: {trigger: true}} Ajouter une passion

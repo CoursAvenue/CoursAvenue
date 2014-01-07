@@ -146,7 +146,9 @@ class Comment < ActiveRecord::Base
 
   def affect_structure_and_subjects_to_user
     self.user.structures << self.structure
-    self.user.subjects   << self.structure.subjects
+    self.structure.subjects.at_depth(2).each do |child_subject|
+      self.user.passions.create(parent_subject: child_subject.root, subject: child_subject, practiced: true)
+    end
     self.user.comments   << self
     self.user.save(validate: false)
   end

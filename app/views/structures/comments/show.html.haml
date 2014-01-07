@@ -13,7 +13,7 @@
         %i.fa.fa-danger
         %strong A ne pas manquer -
         Journées Portes ouvertes des cours de loisirs en Ile-de-France
-        %i.fa.fa-question-circle{data: {toggle: 'popover', html: 'true', content: "<p>Pour tous les habitants d'Ile-de-France : les pré-inscriptions sont ouvertes !</p><p>Participez à nos \"Journées Portes ouvertes des cours de loisirs\" en Ile-de-France, un événement exceptionnel organisé par toute la communauté CoursAvenue : au printemps prochain (avril 2014, date exacte en cours de validation), nos partenaires ouvriront les portes de leurs cours.</p><p>Le temps d'une journée, partez à la découverte des disciplines que vous avez toujours rêvé de (re)découvrir en compagnie de vos amis, enfants et parents : initiation aux claquettes, atelier d'écriture corporelle, yoga prénatal, flamenco, oenologie, cours d'improvisation théâtrale, ateliers d'éveil corporel pour les plus jeunes... !</p><p>Pour être sûr d'avoir vos places, inscrivez-vous dès maintenant, les places sont limitées.</p>", trigger: 'hover', placement: 'right'}}
+        %i.fa.fa-question-circle{data: {toggle: 'popover', html: 'true', content: "<p>Pour tous les habitants d'Ile-de-France : les pré-inscriptions sont ouvertes !</p><p>Participez à nos \"Journées Portes ouvertes des cours de loisirs\" en Ile-de-France, un événement exceptionnel organisé par toute la communauté CoursAvenue : au printemps prochain (avril 2014, date exacte en cours de validation), nos partenaires ouvriront les portes de leurs cours.</p><p>Le temps d'une journée, partez à la découverte des disciplines que vous avez toujours rêvé de (re)découvrir en compagnie de vos amis, enfants et parents : initiation aux claquettes, atelier d'écriture corporelle, yoga prénatal, flamenco, oenologie, cours d'improvisation théâtrale, ateliers d'éveil corporel pour les plus jeunes... !</p><p>Pour être sûr d'avoir vos places, inscrivez-vous dès maintenant, les places sont limitées.</p>", trigger: 'hover', placement: 'bottom'}}
         \: les préinscriptions sont ouvertes ! Inscrivez-vous pour réserver vos places gratuites en avant-première.
 
       %p
@@ -29,18 +29,9 @@
         %li Découvrez de nouvelles passions ;
         %li Suivez l'actualité de toutes vos disciplines préférées (invitation à des événements, expositions, stages, etc.) ;
         %li Bénéficiez d'offres uniquement offertes aux membres CoursAvenue.
-%br
-%br
-%br
-%br
-%br
-%br
-%br
-%br
-%br
-%div
-  = link_to 'Partager sur Facebook', '#', class: 'btn btn--facebook btn--small', onclick: 'postToFeed(); return false;', id: 'post-facebook'
 
+%hr.push--top
+%h3 Votre avis
 .grid
   .grid__item.v-bottom.one-half.soft--left>
     = link_to new_user_registration_path, onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: "Rejoignez notre communauté d'élèves !"}, class: 'fancybox.ajax', style: 'margin-left: 8em' do

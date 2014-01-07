@@ -7,7 +7,7 @@ class CreatePassions < ActiveRecord::Migration
       t.integer    :parent_subject_id
 
       t.string     :frequency
-      t.boolean    :practiced
+      t.boolean    :practiced, default: true
       t.string     :expectation_ids
       t.string     :reason_ids
 

@@ -11,7 +11,7 @@
               = image_tag current_user.avatar_url(:thumb), class: 'block'
           - else
             .text--center
-              = link_to edit_user_path(current_user), style: 'width: 110px; height: 110px; background-color: #555; padding-top: 30px; color: white; display: block;' do
+              = link_to edit_user_path(current_user), style: 'width: 130px; height: 130px; background-color: #555; padding-top: 40px; color: white; display: block;' do
                 Ajouter
                 %br
                 ma photo
@@ -19,7 +19,8 @@
           %h4.push-half--bottom
             %span.v-middle= current_user.full_name
             %span.v-middle.milli
-              \— Profil complété à #{current_user.profile_completion} %
+              \—
+              = link_to "Profil complété à #{current_user.profile_completion} %", dashboard_user_path(current_user), class: 'semi-muted-link'
           %div
             = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=http://www.coursavenue.com", class: 'btn btn--small btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
         .flexbox__item.v-middle.two-twelfths.soft-half.text--center>

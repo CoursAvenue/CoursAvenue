@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140106181949) do
+ActiveRecord::Schema.define(version: 20140107135354) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -330,7 +330,7 @@ ActiveRecord::Schema.define(version: 20140106181949) do
     t.integer  "subject_id"
     t.integer  "parent_subject_id"
     t.string   "frequency"
-    t.boolean  "practiced"
+    t.boolean  "practiced",         default: true
     t.string   "expectation_ids"
     t.string   "reason_ids"
     t.datetime "created_at"
@@ -654,6 +654,10 @@ ActiveRecord::Schema.define(version: 20140106181949) do
     t.boolean  "email_newsletter_opt_in", default: true
     t.boolean  "email_passions_opt_in",   default: true
     t.boolean  "sms_opt_in",              default: true
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
