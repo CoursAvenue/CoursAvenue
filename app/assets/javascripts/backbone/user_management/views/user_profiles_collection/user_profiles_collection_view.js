@@ -65,7 +65,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 selected: {} /* map by model id */
             }
 
-            this.poller = Backbone.Poller.get(this.collection);
+            this.poller = Backbone.Poller.get(this.collection, { delay: 5000 });
             this.poller.start();
         },
 
@@ -87,7 +87,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             /* but right now tags is just a string */
             var models = _.inject(this.groups.selected, function (memo, view) {
                 var model = view.model;
-                model.set({ tags: tags });
+                // model.set({ tags: tags });
                 memo.push(model);
 
                 return memo;
