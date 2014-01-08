@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
   after_save :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
 
   # Scopes
-  scope :active,   -> { where{encrypted_password != nil} }
+  scope :active,   -> { where{encrypted_password != ''} }
   scope :inactive, -> { where{encrypted_password == ''} }
 
 
@@ -66,6 +66,9 @@ class User < ActiveRecord::Base
       user.location           = auth.info.location
       user.gender             = auth.extra.raw_info.gender
       user.birthdate          = Date.strptime(auth.extra.raw_info.birthday, '%m/%d/%Y') if auth.extra.raw_info.birthday.present?
+
+      user.confirmed_at         = Time.now
+      user.confirmation_sent_at = Time.now
 
       user.save!
     end
