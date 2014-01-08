@@ -500,7 +500,7 @@ class Structure < ActiveRecord::Base
   # it should call the method with the given name
   # the method should receive the arguments it expects
   # after the call, busy should be false
-  def perform_bulk_job(ids, job, *args)
+  def perform_bulk_user_profiles_job(ids, job, *args)
 
     UserProfile.find(ids).each do |profile|
       self.send(job, profile, *args)

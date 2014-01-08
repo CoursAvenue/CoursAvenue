@@ -23,7 +23,7 @@ class Pro::Structures::BulkUserProfilesController < Pro::ProController
     end
 
     @structure.busy = true
-    @structure.delay.perform_bulk_job(@user_profiles.map(&:id), :bulk_tagging, tags)
+    @structure.delay.perform_bulk_user_profiles_job(@user_profiles.map(&:id), :bulk_tagging, tags)
 
     @structure.save
 
