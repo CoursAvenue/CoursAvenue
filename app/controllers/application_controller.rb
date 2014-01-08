@@ -6,12 +6,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :update_sanitized_params, if: :devise_controller?
 
-  def after_sign_up_path_for(user)
-    jaja?
-  end
-
   def after_sign_in_path_for(user)
-    azd?
     session['user_return_to'] || request.referrer || root_path
   end
 
