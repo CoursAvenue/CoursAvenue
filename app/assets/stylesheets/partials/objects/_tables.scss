@@ -38,10 +38,10 @@
 }
 
 .table__cell--editable {
-
+    // min-height needed for when the cells are empty.
     .pointer {
-        min-height: 2.5em;
-
+        min-height : 2em;
+        line-height: 2em;
         input {
             width: 100%;
         }

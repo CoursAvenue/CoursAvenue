@@ -1,33 +1,19 @@
 <div class="grid--full">
-    <div class="grid__item one-twelfth very-soft">
-        <div class="outlined-btn one-whole text--center" data-behavior="select-all"><i class="fa fa-check"></i></div>
+    <div class="grid__item one-half very-soft">
+        <div class="btn text--center" data-behavior="select-all"><i class="fa fa-check"></i></div>
+        <div class="btn text--center" data-behavior="manage-tags"><i class="fa fa-tags"></i></div>
+        <div class="btn text--center" data-behavior="rotate"><i class="fa fa-undo"></i></div>
     </div>{{!--
-
---}}<div class="grid__item one-twelfth very-soft">
-        <div class="outlined-btn one-whole text--center" data-behavior="manage-tags"><i class="fa fa-tags"></i></div>
-    </div>{{!--
-
---}}<div class="grid__item one-twelfth very-soft">
-        <div class="outlined-btn one-whole text--center" data-behavior="rotate"><i class="fa fa-undo"></i></div>
-    </div>{{!--
-
---}}<div class="grid__item eight-twelfths very-soft"></div>{{!--
-
---}}<div class="grid__item one-twelfth very-soft">
-        <div class="outlined-btn--red one-whole text--center" data-behavior="unlock"><i class="fa fa-cogs"></i></div>
+--}}<div class="grid__item one-half very-soft text--right">
+        <div class="btn btn--blue text--center" data-behavior="unlock"><i class="fa fa-cogs"></i></div>
     </div>
 <div>
 <div data-behavior="details">
-    <div class="grid--full very-soft hidden" data-target="select-all">
-        <div class="grid__item three-twelfths">
-            <p>You've selected 30 records.</p>
-        </div>{{!--
-    --}}<div class="grid__item two-twelfths">
-            <p>Select the rest?</p>
-        </div>{{!--
-    --}}<div class="grid__item one-twelfth">
-            <div class="outlined-btn one-whole text--center" data-behavior="uber-select">SELECT</div>
-        </div>
+    <div class="hidden" data-target="select-all">
+      <p>
+        Vous avez sélectionné 30 élèves.
+        <a href="javascript:void(0)" class="text--center" data-behavior="uber-select">Cliquez-ici pour selectionner le reste</a>
+      </p>
     </div>
 
     <div class="grid--full very-soft hidden" data-target="manage-tags">
@@ -38,7 +24,7 @@
             <input id="tag-action" type="text" data-value="tag-names"></input>
         </div>{{!--
     --}}<div class="grid__item one-twelfth">
-            <div class="outlined-btn one-whole text--center" data-behavior="add-tags">ADD</div>
+            <div class="btn one-whole text--center" data-behavior="add-tags">ADD</div>
         </div>
     </div>
 </div>
