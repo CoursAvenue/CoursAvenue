@@ -4,7 +4,7 @@ class UserMailer < ActionMailer::Base
 
   helper :prices, :comments
 
-  default from: "\"L'équipe de CoursAvenue.com\" <paul@coursavenue.com>"
+  default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
