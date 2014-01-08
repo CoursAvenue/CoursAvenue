@@ -171,7 +171,7 @@ class AdminMailer < ActionMailer::Base
     if Rails.env.development?
       mail to: 'nim.izadi@gmail.com', subject: "Un prof vient de s'enregistrer !"
     else
-      mail to: 'all@coursavenue.com', subject: "Un prof vient de s'enregistrer !"
+      mail to: 'inscription@coursavenue.com', subject: "Un prof vient de s'enregistrer !"
     end
   end
 
