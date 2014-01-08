@@ -17,6 +17,9 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             this.trigger('structures:itemview:unhighlighted', data);
         },
 
+        /* WHOA so this event is actually getting the course:focus event
+        *  via the broadcast method, not by having the itemview actually
+        *  trigger anything. Weird. */
         onItemviewCourseFocus: function (view, data) {
             this.trigger('structures:itemview:peacock', data);
         },

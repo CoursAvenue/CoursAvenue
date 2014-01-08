@@ -3,7 +3,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
     var ENTER  = 13;
     var ESC    = 27;
 
-    Module.UserProfileView = Backbone.Marionette.ItemView.extend({
+    Module.UserProfileView = CoursAvenue.Views.EventLayout.extend({
         template: Module.templateDirname() + 'user_profile_view',
         tagName: 'tr',
         className: 'table__cell--editable unflipped',
@@ -12,6 +12,13 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.finishEditing = _.bind(this.finishEditing, this);
 
             this.model.set("checked", options.checked);
+
+            /* TODO where does this code go... */
+            var view = new Module.EditableText.EditableTextView({
+                model: new Backbone.Model({ name: "bob" })
+            });
+
+            this.showWidget(view);
         },
 
         ui: {
