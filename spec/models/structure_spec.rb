@@ -87,4 +87,29 @@ describe Structure do
     FactoryGirl.create(:accepted_comment, commentable_id: @structure.id, commentable_type: 'Structure')
     @structure.reload.comments_count.should eq 3
   end
+
+  context :bulk_actions do
+    class Structure
+      def some_work(number, symbol, *range)
+      end
+    end
+
+    before do
+      ["bob@email.com", "paul@email.com", "jill@email.com"].each do |email|
+        structure.user_profiles.create(email: email);
+      end
+    end
+
+    let(:ids) { structure.user_profiles.to_a.map(&:id) }
+
+    it "calls the given method, with the correct args" do
+      expect(structure).to receive(:some_work).exactly(3) do |arg1, *args|
+        expect(arg1).to be_an_instance_of(UserProfile)
+        expect(args).to eq(["1", :cat, (1..2)])
+      end
+
+      structure.perform_bulk_job(ids, :some_work, "1", :cat, (1..2))
+    end
+
+  end
 end

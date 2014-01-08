@@ -497,10 +497,13 @@ class Structure < ActiveRecord::Base
       self.tag(profile, with: tags, on: :tags)
   end
 
-  def perform_bulk_job(ids, tags, job)
+  # it should call the method with the given name
+  # the method should receive the arguments it expects
+  # after the call, busy should be false
+  def perform_bulk_job(ids, job, *args)
 
     UserProfile.find(ids).each do |profile|
-      self.send(job, profile, tags)
+      self.send(job, profile, *args)
     end
 
     self.busy = false
