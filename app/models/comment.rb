@@ -36,6 +36,15 @@ class Comment < ActiveRecord::Base
   scope :accepted,             -> { where(status: 'accepted') }
   scope :waiting_for_deletion, -> { where(status: 'waiting_for_deletion') }
 
+  # ------------------------------------------------------------------------------------ Search attributes
+  searchable do
+    latlon :location, multiple: true do
+      self.structure.locations.collect do |location|
+        Sunspot::Util::Coordinates.new(location.latitude, location.longitude)
+      end
+    end
+  end
+
   def recover!
     self.status = :accepted
     self.save
@@ -124,7 +133,7 @@ class Comment < ActiveRecord::Base
   def create_user
     user_email = self.email
     if (user = User.where{email == user_email}.first).nil?
-      user = User.new name: self.author_name, email: self.email
+      user = User.new first_name: self.author_name, email: self.email
     end
     self.user = user
     self.save

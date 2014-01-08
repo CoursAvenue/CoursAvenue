@@ -1,7 +1,22 @@
 
 /* just a basic backbone model */
-FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _) {
-    Models.Structure = Backbone.RelationalModel.extend({
+FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _) {
+    Module.CoursesCollection = Backbone.Collection.extend({
+        initialize: function () {
+
+        },
+
+        url: function (models) {
+            if (models === undefined) { return ''; }
+
+            /* TODO not super happy about this */
+            var query = this.structure.collection.getQuery();
+
+            return '/etablissements/' + models[0].get('structure').get('id') + '/cours.json' + query;
+        }
+    });
+
+    Module.Structure = Backbone.RelationalModel.extend({
         defaults: {
             data_type: 'structure-element'
         },
@@ -10,7 +25,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             {
                 type: Backbone.HasMany,
                 key: 'places',
-                relatedModel: Models.Place,
+                relatedModel: Module.Place,
                 includeInJSON: false, // when serializing Structure, we don't need this
                 reverseRelation: {
                     key: 'structure' // place has a structure
@@ -44,13 +59,7 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
                 reverseRelation: {
                     key: 'structure'
                 },
-                collectionType: Backbone.Collection.extend({
-                    url: function (models) {
-                        if (models === undefined) { return ''; }
-
-                        return '/etablissements/' + models[0].get('structure').get('id') + '/cours.json';
-                    }
-                })
+                collectionType: Module.CoursesCollection
             },
 
             {
@@ -72,3 +81,5 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
         ]
     });
 });
+
+

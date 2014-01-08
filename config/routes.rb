@@ -29,6 +29,8 @@ CoursAvenue::Application.routes.draw do
           patch :recover
         end
       end
+
+      resources :cities, only: [:edit, :update], path: 'villes', controler: 'pro/cities'
       resources :keywords, only: [:index, :create, :destroy]
       resources :search_term_logs, only: [:index]
       resources :subjects
@@ -53,7 +55,8 @@ CoursAvenue::Application.routes.draw do
         end
         collection do
           get :stars
-          get 'inscription', to: :new
+          get :best
+          get :inscription, to: :new
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
         devise_scope :admins do
@@ -84,7 +87,11 @@ CoursAvenue::Application.routes.draw do
           end
         end
         resources :medias, only: [:index, :destroy], controller: 'structures/medias'
-        resources :videos, only: [:create, :new], controller: 'structures/medias/videos'
+        resources :videos, only: [:create, :new], controller: 'structures/medias/videos' do
+          member do
+            put :make_it_cover
+          end
+        end
         resources :images, only: [:create, :new], controller: 'structures/medias/images' do
           member do
             put :make_it_cover
@@ -97,7 +104,7 @@ CoursAvenue::Application.routes.draw do
         resources :messages     , controller: 'structures/messages'
         resources :conversations, controller: 'structures/conversations'
         resources :courses, only: [:index, :new, :create], path: 'cours'#, controller: 'structures/courses' # To insure to have the structure_id
-        resources :course_opens, only: [:index, :new, :create], path: 'journees-portes-ouvertes', controller: 'structures/open_courses'
+        resources :course_opens, path: 'journees-portes-ouvertes', controller: 'structures/open_courses'
       end
       resources :courses, except: [:new, :create], path: 'cours' do
         member do
@@ -106,7 +113,7 @@ CoursAvenue::Application.routes.draw do
           post 'duplicate'
           post 'copy_prices_from'
         end
-        resources :plannings,  only: [:new, :edit, :index, :destroy] do
+        resources :plannings, only: [:new, :edit, :index, :destroy] do
           member do
             post 'duplicate'
           end
@@ -118,6 +125,9 @@ CoursAvenue::Application.routes.draw do
           patch 'activate'
           patch 'disable'
         end
+      end
+      resources :course_opens, controller: 'courses' do
+        resources :plannings, only: [:create, :update]
       end
       resources :course_workshops, controller: 'courses' do
         resources :plannings, only: [:create, :update]
@@ -167,11 +177,9 @@ CoursAvenue::Application.routes.draw do
   get 'auth/failure'           , to: redirect('/')
   get 'signout'                , to: 'session#destroy', as: 'signout'
 
-
-  resources :cities, only: [] do
+  resources :cities, only: [:show], path: 'villes' do
     collection do
       get 'zip_code_search'
-      get 'name_search'
     end
   end
 

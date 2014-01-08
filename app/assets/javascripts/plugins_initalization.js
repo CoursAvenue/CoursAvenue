@@ -35,7 +35,9 @@ $(function() {
             $(this).datepicker({
                 format: GLOBAL.DATE_FORMAT,
                 weekStart: 1,
-                language: 'fr'
+                language: 'fr',
+                autoClose: true,
+                todayHighlight: true
             });
             $(this).on('changeDate', function(){
                 $(this).datepicker('hide');
@@ -49,7 +51,8 @@ $(function() {
         $('[data-behavior=chosen]').each(function() {
             $(this).chosen({
                 no_results_text: 'Pas de résultat...',
-                search_contains: true
+                search_contains: true,
+                width: $(this).css('width') // Returns undefined if there is no width style defined.
             });
         });
     };

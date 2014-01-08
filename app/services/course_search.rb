@@ -7,7 +7,9 @@ class CourseSearch
     @search = Sunspot.search(Course) do
       fulltext                              params[:name]                                           if params[:name].present?
       keywords                              [ params[:search_term] ]                                    if params[:search_term].present?
-     # with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: true)
+
+      with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: true)
+
       with(:subject_slugs).any_of           [params[:subject_id]]                                   if params[:subject_id]
       with :structure_id,                   params[:structure_id].to_i                              if params[:structure_id]
       with(:type).any_of                    params[:types]                                          if params[:types].present?

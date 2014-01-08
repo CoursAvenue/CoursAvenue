@@ -5,7 +5,7 @@ class AddPlanningsCountToStructure < ActiveRecord::Migration
     bar = ProgressBar.new Structure.count
     Structure.find_each do |structure|
       bar.increment!
-      structure.update_synced_attributes
+      structure.update_meta_datas
     end
   end
 end

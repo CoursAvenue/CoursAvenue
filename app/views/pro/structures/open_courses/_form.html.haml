@@ -32,7 +32,7 @@
           %input#event_type_demo{type: 'radio', name: 'course[event_type]', value: 'Démonstration', checked: @course.event_type == 'Démonstration'}>
           %label{for: 'event_type_demo'} Démonstration
         .radio
-          %input#event_other{type: 'radio', name: 'course[event_type]', value: 'other', checked: (@course.event_type.present? and !@course.event_type.include?(['Atelier collectif', 'Démonstration'])) }>
+          %input#event_other{type: 'radio', name: 'course[event_type]', value: 'other', checked: (@course.event_type.present? and !['Atelier collectif', 'Démonstration'].include?(@course.event_type)) }>
           %label{for: 'event_other'} Autres, précisez
           %input#event_type_description_hidden.push--left{ name: 'course[event_type_description]', type: 'text', size: '50' }
 
@@ -58,6 +58,14 @@
     Informations supplémentaire
   .form-white-box
     .input
+      .control-label.v-middle Capacité
+      %div.v-middle
+        .inline-block De
+        = f.input :nb_participants_min, label: false, wrapper_html: { style: 'width: 4em', class: 'inline-block flush' }, input_html: {value: 0, class: 'one-whole'}
+        .inline-block à
+        = f.input :nb_participants, label: false, wrapper_html: { style: 'width: 4em', class: 'inline-block flush' }, input_html: {value: 20, class: 'one-whole'}
+        %i Au dessus de ce seuil une liste d'attente sera ouverte
+    .input
       .control-label.v-top Tarifs
       %div
         .radio
@@ -66,7 +74,7 @@
         .radio
           %input#course_price_other{type: 'radio', name: 'course[price]', checked: (@course.price.present? and @course.price.to_i > 0) }>
           %label{for: 'course_price_other'} Participation financière libre
-          = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false
+          = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false, placeholder: '20€'
 
     = f.input :info, label: 'Infos pratiques'
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full'

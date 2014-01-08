@@ -2,7 +2,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
     Module.SubjectFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'subject_filter_view',
-        className: 'very-soft',
 
         setup: function (data) {
             this.activateButton(data.subject_id);
@@ -13,11 +12,15 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         events: {
-            'click [data-type="button"]': 'announceSubject'
+            'click [data-type="button"]': 'announce'
         },
 
-        announceSubject: function (e, data) {
-            var subject_slug = e.currentTarget.getAttribute('data-value');
+        announce: function (event, data) {
+            if (event) {
+                var subject_slug = event.currentTarget.getAttribute('data-value');
+            } else {
+                var subject_slug = this.$('.active[data-type="button"]').data('value');
+            }
             if (this.$('[data-value=' + subject_slug + ']').hasClass('active')) {
                 this.trigger("filter:subject", { 'subject_id': null });
                 this.disabledButton(subject_slug);
@@ -34,6 +37,12 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         activateButton: function(subject_slug) {
             this.$('[data-type="button"]').removeClass('active');
             this.$('[data-value=' + subject_slug + ']').addClass('active');
+        },
+
+        // Clears all the given filters
+        clear: function (filters) {
+            this.$('[data-type="button"]').removeClass('active');
+            this.announce();
         }
     });
 });

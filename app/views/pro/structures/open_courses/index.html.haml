@@ -1,4 +1,46 @@
 = side_menu_currently_at 'Journée portes ouvertes'
 
-.text--center
-  = link_to 'Nouveau créneau', new_pro_structure_course_open_path(@structure), class: 'btn btn--blue'
+.text--center.push--bottom
+  = link_to 'Ajouter un atelier', new_pro_structure_course_open_path(@structure), class: 'btn btn--green btn--large'
+
+%h4 Journées portes ouverte du samedi xx avril 2014
+
+- @courses.each do |course|
+  .white-box.islet
+    %strong= course.name
+    - if course.other_event_type?
+      = "(#{course.event_type_description})"
+    - else
+      = "(#{course.event_type})"
+      \—
+      Participants max : #{course.nb_participants}
+      = link_to edit_pro_structure_course_open_path(@structure, course) do
+        %i.fa.fa-pencil
+        éditer les infos
+    - if course.plannings.any?
+      %table.table--data.table--striped
+        %thead
+          %tr
+            %th Horaire
+            %th Public
+            %th Niveau
+            %th Lieux
+            %th Nombre d'inscrit
+        %tbody
+          - course.plannings.each do |planning|
+            %tr
+              %td= "#{l(planning.start_time, format: :short)} à #{l(planning.end_time, format: :short)} (#{readable_duration(planning.duration)})"
+              %td= join_audiences planning
+              %td= join_levels planning.levels
+              %td= planning.place.location.name
+              %td
+                .progress.flush
+                  .bar.bar-success{style: "width: 40%;"}
+                    4/20
+
+
+      = link_to 'Ajouter un créneau', new_pro_course_planning_path(course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax'
+    - else
+      %p
+        Vous n'avez pas définit de créneau
+        = link_to 'Ajouter un créneau', new_pro_course_planning_path(course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--green btn--small'

@@ -6,16 +6,6 @@ describe PlacesController do
   subject {place}
   let(:place) { FactoryGirl.create(:place) }
 
-  # context 'slug cannot changes' do
-  #   it 'keep the same slug' do
-  #     initial_slug = place.slug
-  #     place.name += ' some extension apzdoja dpaojz'
-  #     place.save
-  #     get :show, id: place.slug
-  #     response.status.should eq 301
-  #   end
-  # end
-
   describe '#show' do
     before do
       Rails.application.config.consider_all_requests_local = false

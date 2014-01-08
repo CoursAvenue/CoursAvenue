@@ -1,5 +1,13 @@
 = side_menu_currently_at 'Mes cours'
 
+.text--center
+  %p.alert.alert--info
+    %strong NOUVEAU : Découvrez les journées portes ouvertes.
+
+.text--center.push--bottom
+  = link_to "Définir mes créneaux pour les journées portes ouvertes", pro_structure_course_opens_path(@structure), class: 'btn btn--green btn--large'
+%hr
+
 - unless cookies[:understood__course_places]
   %p.alert--info#course-places-info
     %i.fa.fa-warning-sign

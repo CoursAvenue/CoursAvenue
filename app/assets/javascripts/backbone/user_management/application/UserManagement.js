@@ -5,9 +5,6 @@ UserManagement.addRegions({
 });
 
 UserManagement.addInitializer(function(options) {
-    console.log("UserManagement->initialize");
-    // initialize the app
-
     var bootstrap = window.coursavenue.bootstrap;
 
     var user_profiles                 = new UserManagement.Models.UserProfilesCollection(bootstrap.models, bootstrap.options);

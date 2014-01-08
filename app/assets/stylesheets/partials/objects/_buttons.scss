@@ -1,37 +1,6 @@
 /*------------------------------------*\
     $Buttons
 \*------------------------------------*/
-.btn-group {
-    i {
-        font-size: 1em;
-    }
-    .btn {
-        padding: 0;
-        @include border-radius(0);
-        @include box-shadow(0px 1px 1px rgba( 0, 0, 0, 0.2 ), inset 0px 0px 1px rgba(255, 255, 255, .5));
-    }
-    .btn--blue a {
-        color: white;
-    }
-        a {
-            color  : black;
-            padding: 0.8em;
-            display: inline-block;
-        }
-    .btn.btn--active, .btn.active {
-        @include box-shadow(inset 0 1px 5px rgba(0,0,0,0.22),0 1px 0 rgba(255,255,255,0.4));
-    }
-
-    .btn:first-child {
-        border-right: none;
-        @include border-left-radius($brand-round);
-    }
-    .btn:last-child {
-        border-left: none;
-        @include border-right-radius($brand-round);
-    }
-}
-
 .btn a:hover{
     text-decoration:none;
 }
@@ -207,5 +176,50 @@
     &.active {
         border: 1px solid $orange;
         @include box-shadow(0px 0px 5px transparentize($orange, 0.5));
+    }
+}
+
+//  .btn-group
+//    .btn
+//      %a text
+.btn-group {
+    i {
+        font-size: 1em;
+    }
+    .btn, .btn.active {
+        padding: 0.8em;
+        @include background-image(linear-gradient(top, #fefefe,#f8f8f8));
+        @include border-radius(0);
+        @include box-shadow(0px 1px 1px rgba( 0, 0, 0, 0.2 ), inset 0px 0px 1px rgba(255, 255, 255, .5));
+    }
+    .btn--blue {
+        color: white;
+    }
+        a {
+            color  : black;
+            display: inline-block;
+        }
+    .btn.btn--active, .btn.active {
+        border     : 1px solid $orange;
+        @include box-shadow(0px 0px 5px rgba(233, 104, 61, 0.5));
+        // @include box-shadow(inset 0 1px 5px rgba(0,0,0,0.22),0 1px 0 rgba(255,255,255,0.4));
+        & + .btn.active {
+            border-left: none;
+        }
+        &:first-child {
+            border-left: 1px solid $orange;
+        }
+    }
+
+    .btn:first-child {
+        // border-right: none;
+        @include border-left-radius($brand-round);
+    }
+    .btn:last-child {
+        // border-left: none;
+        @include border-right-radius($brand-round);
+    }
+    input {
+        display: none;
     }
 }

@@ -29,7 +29,7 @@ the data source it governs.
         template "layout.jst.hbs", layout_template_path(app, name, self.namespace)
 
         # create a new manifest, and then point the previous manifest to it
-        append_to_file(app_path(name) + 'views' + manifest, "#{manifest_require} ./#{layout_name(name).underscore}")
+        append_to_file(app_path(name) + 'views' + manifest, "\n#{manifest_require} ./#{layout_name(name).underscore}")
     end
 
 end

@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
                   :name, :first_name, :last_name, :fb_avatar, :location, :avatar, :email_opt_in
 
-  validates :name, :email, presence: true
+  validates :first_name, :last_name, :email, presence: true
   validates :email, uniqueness: true
 
   has_attached_file :avatar,
@@ -43,7 +43,8 @@ class User < ActiveRecord::Base
       user.oauth_token        = auth.credentials.token
       user.oauth_expires_at   = Time.at(auth.credentials.expires_at)
 
-      user.name               = "#{auth.info.first_name} #{auth.info.last_name}"
+      user.first_name         = auth.info.first_name
+      user.last_name          = auth.info.last_name
       user.email              = auth.info.email
       user.fb_avatar          = auth.info.image
       user.password           = Devise.friendly_token[0,20]
@@ -111,6 +112,10 @@ class User < ActiveRecord::Base
     Receipt.where{(receiver_id == user_id) & (receiver_type == 'User')}.update_all(receiver_id: self.id)
     self.save
     user.reload.destroy
+  end
+
+  def name
+    "#{first_name} #{last_name}"
   end
 
   def name_with_email

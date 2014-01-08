@@ -14,10 +14,47 @@ class Price < ActiveRecord::Base
 
   has_one :structure, through: :course
 
-  scope :book_tickets , -> { where(type: 'Price::BookTicket') }
-  scope :subscriptions, -> { where(type: 'Price::Subscription') }
-  scope :registrations, -> { where(type: 'Price::Registration') }
-  scope :discounts    , -> { where(type: 'Price::Discount') }
+  # All types
+
+  TYPES = ['per_course',
+           'book_ticket',
+           'annual_subscription',
+           'semestrial_subscription',
+           'trimestrial_subscription',
+           'monthly_subscription',
+           'any_per_course',
+           'all_subscriptions']
+
+  RANGES = {
+      "#{TYPES[0]}" => { min: 5, max: 500, step: 5 },
+      "#{TYPES[1]}" => { min: 50, max: 2000, step: 10 },
+      "#{TYPES[2]}" => { min: 20, max: 1000, step: 10 },
+      "#{TYPES[3]}" => { min: 20, max: 1000, step: 10 },
+      "#{TYPES[4]}" => { min: 20, max: 1000, step: 10 },
+      "#{TYPES[5]}" => { min: 20, max: 1000, step: 10 }
+  }
+
+  # BookTickets
+  scope :book_tickets      , -> { where{type == 'Price::BookTicket'} }
+  # Retrieve individual courses
+  scope :individual        , -> { where{ number == 1} }
+  # Retrieve actual book tickets
+  scope :multiple_only     , -> { where{ number > 1} }
+
+  # BookTickets
+  scope :subscriptions     , -> { where(type: 'Price::Subscription') }
+  scope :annual            , -> { where(libelle: 'prices.subscription.annual') }
+  scope :trimestrial       , -> { where(libelle: 'prices.subscription.semester') }
+  scope :semestrial        , -> { where(libelle: 'prices.subscription.trimester') }
+  scope :monthly           , -> { where(libelle: 'prices.subscription.month') }
+
+  # Registration
+  scope :registrations     , -> { where(type: 'Price::Registration') }
+  # Discounts
+  scope :discounts         , -> { where(type: 'Price::Discount') }
+
+  # Trials
+  scope :trials            , -> { where(type: 'Price::Trial') }
 
   def free?
     false
@@ -73,6 +110,16 @@ class Price < ActiveRecord::Base
   def nb_courses
     return 1 if read_attribute(:nb_courses).nil?
     read_attribute(:nb_courses)
+  end
+
+  def to_meta_data
+    {
+      amount:            self.amount,
+      promo_amount:      self.promo_amount,
+      localized_libelle: self.localized_libelle,
+      libelle:           self.libelle,
+      into:              self.info
+    }
   end
 
   private

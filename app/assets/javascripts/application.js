@@ -34,6 +34,7 @@
 //= require libs/jquery.fileupload/jquery.fileupload-process
 //= require libs/jquery.fileupload/jquery.fileupload-validate
 //= require libs/jquery.fileupload/jquery.fileupload-image
+//= require libs/jquery.nouislider
 //= require libs/jquery.stickem
 //= require libs/jquery.masonry
 //= require libs/jquery.lazyload
@@ -57,11 +58,14 @@
 //= require_tree ./libs/fancybox/helpers/
 
 //---- Bootstrap plugins
-//= require libs/bootstrap.tooltip
-//= require libs/bootstrap.popover
-//= require libs/bootstrap.tab
-//= require libs/bootstrap.datepicker
-//= require libs/locales/bootstrap.datepicker.fr
+//= require libs/bootstrap/bootstrap.transition
+//= require libs/bootstrap/bootstrap.collapse
+//= require libs/bootstrap/bootstrap.tooltip
+//= require libs/bootstrap/bootstrap.popover
+//= require libs/bootstrap/bootstrap.tab
+//= require libs/bootstrap/bootstrap.datepicker
+//= require libs/bootstrap/bootstrap.button
+//= require libs/bootstrap/datepicker-locales/bootstrap.datepicker.fr
 
 
 //---- Highcharts

@@ -23,7 +23,7 @@
             - if @course.is_workshop?
               = render partial: 'workshop_schedule', locals: {grouped_plannings: grouped_plannings}
         - else
-          %p.white-box.islet Pas de planning pour ce cours.
+          %p Pas de planning pour ce cours.
 
   .white-box.islet
     = render 'price_tab'

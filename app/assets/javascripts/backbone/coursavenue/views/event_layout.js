@@ -106,15 +106,15 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         /* fires after the main region is first shown */
-        onResultsShow: function(view) {
+        onMasterShow: function(view) {
             var self = this;
 
             /* the layout broadcasts all main region events */
             this.listenTo(view, 'all', this.broadcast);
 
             /* the main region passes in a hash of events */
-            _.each(_.pairs(view.events), function (event) {
-                var key = event[0];
+            _.each(_.pairs(view.events || {}), function (event) {
+                var key   = event[0];
                 var value = event[1];
 
                 /* the view listens to the layout's broadcasts */

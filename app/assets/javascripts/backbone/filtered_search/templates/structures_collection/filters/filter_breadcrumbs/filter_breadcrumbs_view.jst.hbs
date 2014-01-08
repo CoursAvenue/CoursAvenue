@@ -1,0 +1,9 @@
+<button class="btn v-middle" data-toggle="collapse" data-target="#advanced-filters">
+    <i class="fa fa-filter soft-half--right"></i>FILTRES
+</button>
+
+{{#each breadcrumbs}}
+  <span class="lbl v-middle pointer" data-type="clear" data-target="{{target}}" {{#if title}} data-behavior="tooltip" title="{{ title }}"{{/if}}>
+    <i class="fa fa-times soft-half--right"></i>{{name}}
+  </span>
+{{/each}}

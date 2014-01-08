@@ -34,7 +34,10 @@
 - if @comments.empty?
   %p.white-box.islet Encore aucun avis.
 - else
-  - if @waiting_for_deletion_comments.any? or @pending_comments.any?
-    %h3.push-half--bottom Avis validés
+  .grid
+    .grid__item.one-third.v-bottom>
+      %h3.push-half--bottom Avis validés
+    .grid__item.two-thirds.v-bottom.text--right.soft--right>
+      = image_tag 'texts/share-on-socials.png', height: 70, class: 'push--right'
   %ul.comment-list
     = render partial: '/comments/comment', collection: @comments

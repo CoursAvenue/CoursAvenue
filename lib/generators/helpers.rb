@@ -20,11 +20,15 @@ module Marionette
             end
 
             def manifest_require
-                "\n//= require"
+                "//= require"
             end
 
             def models_header
-                "//---------- Models"
+                "//---------- Models\n"
+            end
+
+            def views_header
+                "//---------- Views\n"
             end
 
             def backbone_path
@@ -72,12 +76,13 @@ module Marionette
                 @item_view_name ||= "#{name}View"
             end
 
-            def item_view_path(app, name, namespace = "")
-                @item_view_path ||= app_path(app) + 'views' + namespace_path(namespace) + name.underscore + "#{name.underscore}_view#{dot_js}"
+            def item_view_path(app, name, namespace = "", options = {})
+                puts "in item_view_path"
+                @item_view_path ||= app_path(app) + 'views' + namespace_path(namespace) + "#{name.underscore}_view#{dot_js}"
             end
 
-            def item_view_template_path(app, name, namespace = "")
-                @item_view_template_path ||= app_path(app) + 'templates' + namespace_path(namespace) + name.underscore + "#{name.underscore}_view#{dot_jst}"
+            def item_view_template_path(app, name, namespace = "", options = {})
+                @item_view_template_path ||= app_path(app) + 'templates' + namespace_path(namespace) + "#{name.underscore}_view#{dot_jst}"
             end
             
             def collection_view_name(name)
@@ -104,6 +109,11 @@ module Marionette
                 if (selection == 2)
                     ::Rails::Generators.invoke("marionette_application", [app])
                 end
+            end
+
+            def ensure_manifest_exists(app, marionette_module)
+                # given an app and a module name, ensure that this module
+                # has a manifest file
             end
 
             def ensure_model_exists(app, name, namespace = "")
@@ -149,6 +159,21 @@ module Marionette
                 namespace = namespace[1..-1] if namespace[0] == '.' # trim the god damn leading .
 
                 return namespace || ""
+            end
+
+            def connect_namespace_manifests(app, name, namespace, starting_module)
+                namespace_parent = namespace.split('.').each.inject(app_path(app) + starting_module.underscore) do |parent, child|
+                    puts parent.to_s
+
+                    append_to_file(parent + manifest, "#{manifest_require} ./#{Pathname.new(child.underscore) + manifest}\n")
+                    parent += namespace_path(child)
+                    parent.mkpath
+                    create_file(parent + manifest)
+
+                    parent
+                end
+
+                # append_to_file(namespace_parent + manifest, "#{manifest_require} ./#{Pathname.new(name.underscore) + manifest}\n")
             end
         end
     end

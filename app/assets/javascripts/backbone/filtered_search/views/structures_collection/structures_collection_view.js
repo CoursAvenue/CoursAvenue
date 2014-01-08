@@ -21,24 +21,6 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             this.trigger('structures:itemview:peacock', data);
         },
 
-        /* when rendering each collection item, we might want to
-         * pass in some info from the paginator_ui or something
-         * if do we would do it here */
-        /* remember that itemViews are constructed and destroyed more often
-        * than the corresponding models */
-        itemViewOptions: function(model, index) {
-            // we could pass some information from the collectionView
-            var search_term;
-
-            if (this.collection.server_api.name) {
-                search_term = decodeURIComponent(this.collection.server_api.name);
-            }
-
-            return {
-                search_term: search_term
-            };
-        },
-
         findItemView: function (data) {
             /* find the first place that has any locations that match the given lat/lng */
             var position = data.model.getLatLng();
@@ -89,9 +71,26 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             /* announce the filters used in the current result set */
             this.trigger('structures:updated:filter', {
-                address_name: (data.server_api.address_name ? decodeURIComponent(data.server_api.address_name) : ""),
-                name:         (data.server_api.name ? decodeURIComponent(data.server_api.name) : ""),
-                subject_id:   (data.server_api.subject_id ? decodeURIComponent(data.server_api.subject_id) : "")
+                address_name:        (data.server_api.address_name         ? decodeURIComponent(data.server_api.address_name)        : ''),
+                name:                (data.server_api.name                 ? decodeURIComponent(data.server_api.name)                : ''),
+                subject_id:          (data.server_api.subject_id           ? decodeURIComponent(data.server_api.subject_id)          : ''),
+                level_ids:           (data.server_api['level_ids[]']       ? data.server_api['level_ids[]']                          : ''),
+                audience_ids:        (data.server_api['audience_ids[]']    ? data.server_api['audience_ids[]']                       : ''),
+                course_types:        (data.server_api['course_types[]']    ? data.server_api['course_types[]']                       : ''),
+                min_age_for_kids:    (data.server_api.min_age_for_kids     ? decodeURIComponent(data.server_api.min_age_for_kids)    : ''),
+                max_age_for_kids:    (data.server_api.max_age_for_kids     ? decodeURIComponent(data.server_api.max_age_for_kids)    : ''),
+                price_type:          (data.server_api.price_type           ? decodeURIComponent(data.server_api.price_type)          : ''),
+                max_price:           (data.server_api.max_price            ? decodeURIComponent(data.server_api.max_price)           : ''),
+                min_price:           (data.server_api.min_price            ? decodeURIComponent(data.server_api.min_price)           : ''),
+                structure_types:     (data.server_api['structure_types[]'] ? data.server_api['structure_types[]']                    : ''),
+                funding_type_ids:    (data.server_api['funding_type_ids[]']? data.server_api['funding_type_ids[]']                   : ''),
+                discount_types:      (data.server_api['discount_types[]']  ? data.server_api['discount_types[]']                     : ''),
+                week_days:           (data.server_api['week_days[]']       ? data.server_api['week_days[]']                          : ''),
+                start_date:          (data.server_api.start_date           ? decodeURIComponent(data.server_api.start_date)          : ''),
+                end_date:            (data.server_api.end_date             ? decodeURIComponent(data.server_api.end_date)            : ''),
+                start_hour:          (data.server_api.start_hour           ? decodeURIComponent(data.server_api.start_hour)          : ''),
+                end_hour:            (data.server_api.end_hour             ? decodeURIComponent(data.server_api.end_hour)            : ''),
+                trial_course_amount: (data.server_api.trial_course_amount  ? decodeURIComponent(data.server_api.trial_course_amount) : '')
             });
 
             this.trigger('structures:updated:maps');

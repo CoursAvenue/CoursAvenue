@@ -19,7 +19,15 @@ class Pro::Structures::OpenCoursesController < Pro::ProController
   end
 
   def create
-    azd?
+    @course = Course::Open.new params[:course]
+    @course.structure = @structure
+    respond_to do |format|
+      if @course.save
+        format.html { redirect_to pro_structure_course_opens_path(@structure) }
+      else
+        format.html { render :new }
+      end
+    end
   end
 
 end

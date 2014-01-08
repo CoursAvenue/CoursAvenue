@@ -7,5 +7,5 @@ fr:
         other: Médias
     attributes:
       media:
-        url: '<i class="fa fa-link"></i>&nbsp;Lien video / image'
+        url: 'Lien video / image'
         caption: Légende

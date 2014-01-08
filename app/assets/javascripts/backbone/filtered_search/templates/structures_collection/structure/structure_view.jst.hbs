@@ -75,13 +75,11 @@
                 {{/if}}
             </div>
             <a href="javascritp:void(0);" class="structure-item__see-all blue" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
-                <span>
-                {{#if search_term }}
-                    Voir les séances correspondantes à <strong>"{{ search_term }}"</strong>
+                {{#if plannings_count}}
+                    <span>Voir les séances</span>
                 {{else}}
-                    Voir les {{ plannings_count }} {{ pluralize plannings_count 'séance' 'séances' }}
+                    <span>Pas de séance, contactez le professeur</span>
                 {{/if}}
-                </span>
             </a>
         </div>
     </article><!--
@@ -94,7 +92,7 @@
             </span>
             {{#if last_comment_title}}
             <div class="quoted milli">
-                {{{last_comment_title}}}
+                {{{truncate last_comment_title 60}}}
             </div>
             {{/if}}
             <a href="javascritp:void(0)" class="structure-item__see-all blue"><span>Voir tous les avis</span></a>

@@ -18,5 +18,4 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             return false;
         }
     });
-
 });

@@ -11,26 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131209165628) do
+ActiveRecord::Schema.define(version: 20140108135807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "admins", force: true do |t|
-    t.string   "email",                               default: "",    null: false
-    t.string   "encrypted_password",                  default: ""
+    t.string   "email",                                  default: "",    null: false
+    t.string   "encrypted_password",                     default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                       default: 0
+    t.integer  "sign_in_count",                          default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
-    t.boolean  "super_admin",                         default: false, null: false
-    t.string   "invitation_token",         limit: 60
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+    t.boolean  "super_admin",                            default: false, null: false
+    t.string   "invitation_token",            limit: 60
     t.datetime "invitation_sent_at"
     t.datetime "invitation_accepted_at"
     t.integer  "invitation_limit"
@@ -47,7 +48,11 @@ ActiveRecord::Schema.define(version: 20131209165628) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.time     "deleted_at"
-    t.boolean  "email_opt_in",                        default: true
+    t.boolean  "email_opt_in",                           default: true
+    t.boolean  "newsletter_email_opt_in",                default: true
+    t.boolean  "monday_email_opt_in",                    default: true
+    t.boolean  "thursday_email_opt_in",                  default: true
+    t.boolean  "student_action_email_opt_in",            default: true
   end
 
   add_index "admins", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -57,12 +62,8 @@ ActiveRecord::Schema.define(version: 20131209165628) do
 
   create_table "cities", force: true do |t|
     t.string   "name"
-    t.string   "no_result_image_file_name"
-    t.string   "no_result_image_content_type"
-    t.integer  "no_result_image_file_size"
-    t.datetime "no_result_image_updated_at"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "slug"
     t.string   "iso_code"
     t.string   "zip_code"
@@ -75,6 +76,10 @@ ActiveRecord::Schema.define(version: 20131209165628) do
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "acuracy"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   add_index "cities", ["name"], name: "index_cities_on_name", using: :btree
@@ -119,6 +124,9 @@ ActiveRecord::Schema.define(version: 20131209165628) do
     t.string   "status"
     t.string   "deletion_reason"
   end
+
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
 
   create_table "contacts", force: true do |t|
     t.integer  "contactable_id",   null: false
@@ -175,10 +183,13 @@ ActiveRecord::Schema.define(version: 20131209165628) do
     t.string   "event_type"
     t.string   "event_type_description"
     t.float    "price"
+    t.integer  "nb_participants_min"
   end
 
+  add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
   add_index "courses", ["place_id"], name: "index_courses_on_place_id", using: :btree
   add_index "courses", ["slug"], name: "index_courses_on_slug", unique: true, using: :btree
+  add_index "courses", ["structure_id"], name: "index_courses_on_structure_id", using: :btree
   add_index "courses", ["type"], name: "index_courses_on_type", using: :btree
 
   create_table "courses_subjects", id: false, force: true do |t|
@@ -286,6 +297,8 @@ ActiveRecord::Schema.define(version: 20131209165628) do
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree
+  add_index "medias", ["mediable_id"], name: "index_medias_on_mediable_id", using: :btree
+  add_index "medias", ["mediable_type"], name: "index_medias_on_mediable_type", using: :btree
 
   create_table "notifications", force: true do |t|
     t.string   "type"
@@ -314,6 +327,18 @@ ActiveRecord::Schema.define(version: 20131209165628) do
     t.integer  "reservation_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+  end
+
+  create_table "passions", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "subject_id"
+    t.integer  "parent_subject_id"
+    t.string   "frequency"
+    t.boolean  "practiced",         default: true
+    t.string   "expectation_ids"
+    t.string   "reason_ids"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "places", force: true do |t|
@@ -355,6 +380,7 @@ ActiveRecord::Schema.define(version: 20131209165628) do
     t.string   "level_ids"
     t.time     "deleted_at"
     t.integer  "place_id"
+    t.integer  "structure_id"
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
@@ -487,16 +513,8 @@ ActiveRecord::Schema.define(version: 20131209165628) do
     t.string   "sticker_status"
     t.boolean  "teaches_at_home",            default: false
     t.text     "widget_url"
-    t.integer  "min_price_id"
-    t.integer  "max_price_id"
-    t.string   "audience_ids"
-    t.boolean  "gives_group_courses"
-    t.boolean  "gives_individual_courses"
     t.integer  "teaches_at_home_radius"
-    t.integer  "plannings_count"
-    t.boolean  "has_promotion",              default: false
-    t.boolean  "has_free_trial_course",      default: false
-    t.text     "course_names"
+    t.hstore   "meta_data"
   end
 
   add_index "structures", ["slug"], name: "index_structures_on_slug", unique: true, using: :btree
@@ -603,19 +621,19 @@ ActiveRecord::Schema.define(version: 20131209165628) do
   add_index "user_profiles", ["structure_id", "user_id"], name: "index_user_profiles_on_structure_id_and_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",   null: false
-    t.string   "encrypted_password",     default: "",   null: false
+    t.string   "email",                   default: "",   null: false
+    t.string   "encrypted_password",      default: "",   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0
+    t.integer  "sign_in_count",           default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "authentication_token"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "provider"
     t.string   "uid"
     t.string   "oauth_token"
@@ -627,10 +645,23 @@ ActiveRecord::Schema.define(version: 20131209165628) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.string   "name"
     t.string   "gender"
     t.date     "birthdate"
-    t.boolean  "email_opt_in",           default: true
+    t.boolean  "email_opt_in",            default: true
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "zip_code"
+    t.string   "phone_number"
+    t.integer  "city_id"
+    t.text     "description"
+    t.boolean  "email_promo_opt_in",      default: true
+    t.boolean  "email_newsletter_opt_in", default: true
+    t.boolean  "email_passions_opt_in",   default: true
+    t.boolean  "sms_opt_in",              default: true
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

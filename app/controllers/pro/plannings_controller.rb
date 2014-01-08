@@ -58,15 +58,19 @@ class Pro::PlanningsController < InheritedResources::Base
 
   def create
     create_or_affect_teacher
-    @planning         = Planning.new(params[:planning])
-    @planning.teacher = @teacher if @teacher
-    @planning.course  = @course
+    @planning           = Planning.new(params[:planning])
+    @planning.teacher   = @teacher if @teacher
+    @planning.course    = @course
     retrieve_plannings_and_past_plannings
     set_dates_and_times
     respond_to do |format|
       if @planning.save
         @course.activate! unless @course.active?
-        format.html { redirect_to pro_course_plannings_path(@course), notice: 'Votre planning à bien été créé.' }
+        if @course.is_open?
+          format.html { redirect_to pro_structure_course_opens_path(@course.structure), notice: 'Votre planning à bien été créé.' }
+        else
+          format.html { redirect_to pro_course_plannings_path(@course), notice: 'Votre planning à bien été créé.' }
+        end
       else
         format.html { render template: 'pro/plannings/index'}
       end
@@ -137,7 +141,7 @@ class Pro::PlanningsController < InheritedResources::Base
   end
 
   def load_structure
-    @course    = Course.friendly.find(params[:course_lesson_id] || params[:course_workshop_id] || params[:course_training_id] || params[:course_id])
+    @course    = Course.friendly.find(params[:course_open_id] || params[:course_lesson_id] || params[:course_workshop_id] || params[:course_training_id] || params[:course_id])
     @structure = @course.structure
   end
 end

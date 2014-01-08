@@ -11,19 +11,22 @@
 }
 
 .google-map {
-    width: 100%;
-    height: 20em;
+    width     : 100%;
+    min-height: 20em;
     img {
         max-width: none;
     }
     &.google-map--small {
-        height: 10em;
+        min-height: 10em;
+    }
+    &.google-map--medium-small {
+        min-height: 30em;
     }
     &.google-map--medium {
-        height: 40em;
+        min-height: 40em;
     }
     &.google-map--large {
-        height: 60em;
+        min-height: 60em;
     }
 }
 

@@ -1,6 +1,9 @@
 # encoding: utf-8
 class StructuresController < ApplicationController
   respond_to :json
+  PLANNING_FILTERED_KEYS = ['audience_ids', 'level_ids', 'min_age_for_kids', 'max_price', 'min_price',
+                            'price_type', 'max_age_for_kids', 'trial_course_amount', 'course_types',
+                            'week_days', 'discount_types', 'start_date', 'end_date', 'start_hour', 'end_hour']
 
   layout :choose_layout
 
@@ -37,27 +40,30 @@ class StructuresController < ApplicationController
       end
     end
 
-    # the bbox params may come uri encoded as CSV
-    if (params[:bbox_sw] && params[:bbox_ne])
-      if (params[:bbox_sw].respond_to?(:split) && params[:bbox_ne].respond_to?(:split))
-        params[:bbox_sw] = params[:bbox_sw].split(',');
-        params[:bbox_ne] = params[:bbox_ne].split(',');
-      end
-    end
-
     params[:page] = 1 unless request.xhr?
 
-    @structure_search      = StructureSearch.search(params)
-    @structures            = @structure_search.results
-
-    if (params[:bbox_sw] && params[:bbox_ne])
-      # TODO: To be removed when using Solr 4.
-      # This is used because the bounding box refers to a circle and not a box...
-      # Rejecting the structures that are not in the bounding box
-      @structures.select! do |structure|
-        structure.locations_in_bounding_box(params[:bbox_sw], params[:bbox_ne]).any?
+    # If any of those key are in the params, then search per planning
+    if (params.keys & PLANNING_FILTERED_KEYS).any?
+      @planning_search = PlanningSearch.search(params, group: :structure_id_str)
+      @structures      = @planning_search.group(:structure_id_str).groups.collect do |planning_group|
+        planning_group.results.first.structure
       end
+      @total           = @planning_search.group(:structure_id_str).total
+    else
+      # Else, can search per structure
+      @structure_search = StructureSearch.search(params)
+      @structures       = @structure_search.results
+      @total            = @structure_search.total
     end
+
+    # if (params[:bbox_sw] && params[:bbox_ne])
+    #   # TODO: To be removed when using Solr 4.
+    #   # This is used because the bounding box refers to a circle and not a box...
+    #   # Rejecting the structures that are not in the bounding box
+    #   @structures.select! do |structure|
+    #     structure.locations_in_bounding_box(params[:bbox_sw], params[:bbox_ne]).any?
+    #   end
+    # end
 
     @latlng = StructureSearch.retrieve_location(params)
     @models = @structures.map do |structure|
@@ -71,7 +77,10 @@ class StructuresController < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render json: @structures, root: 'structures', each_serializer: StructureSerializer, meta: { total: @structure_search.total, location: @latlng }}
+      format.json { render json: @structures,
+                           root: 'structures',
+                           each_serializer: StructureSerializer,
+                           meta: { total: @total, location: @latlng }}
       format.html do
         cookies[:structure_search_path] = request.fullpath
       end

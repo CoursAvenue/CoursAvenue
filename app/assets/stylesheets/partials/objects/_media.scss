@@ -24,7 +24,7 @@
         }
     }
     &.media__item--slides{
-        background-size    : cover;
+        @include background-size(cover);
         background-position: center;
         img {
             width  : auto;
