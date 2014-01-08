@@ -1,5 +1,40 @@
+.home-screen-gallery {
+}
+    .home-screen-gallery__link {
+        padding: 5px 5px 5px 0;
+        > a {
+            @include background-size(cover);
+            background-position: center;
+            height             : 120px;
+            @include border-radius($brand-round);
+        }
+    }
+    .home-screen-gallery__link-paris     > a { background-image: image-url('home-page/search_categories/paris_small.jpg'); }
+    .home-screen-gallery__link-trial     > a { background-image: image-url('home-page/search_categories/trial_courses.jpg'); }
+    .home-screen-gallery__link-kids      > a { background-image: image-url('home-page/search_categories/kid_class.jpg'); }
+    .home-screen-gallery__link-weekend   > a { background-image: image-url('home-page/search_categories/weekend.jpg'); }
+    .home-screen-gallery__link-night     > a { background-image: image-url('home-page/search_categories/night_class.jpg'); }
+    .home-screen-gallery__link-discounts > a { background-image: image-url('home-page/search_categories/discounts.jpg'); }
+    .home-screen-gallery__title {
+        color      : #FFF;
+        position   : absolute;
+        top        : 50%;
+        left       : 50%;
+        // width      : 200px;
+        // margin-left: -100px;
+        width      : 100%;
+        margin-left: -50%;
+        margin-top : -1em;
+        font-size  : 1.5em;
+        @include text-shadow(0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker);
+    }
+.home-screen__item {
+    position: relative;
+    z-index : 1;
+}
+
 .home-screen-comment {
-    width      : 500px;
+    max-width  : 700px;
     color      : white;
     margin-top : 3em;
     @include text-shadow(0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker);
@@ -10,7 +45,7 @@
 .home-screen {
     background-color: black;
     width           : 100%;
-    min-height      : 32.5em;
+    min-height      : 30em;
     position        : relative;
     overflow        : visible;
 }

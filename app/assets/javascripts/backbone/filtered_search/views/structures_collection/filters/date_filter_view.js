@@ -87,8 +87,32 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 this.ui.$time_select.val() === 'all-day') {
                 this.trigger("filter:breadcrumb:remove", {target: 'date'});
             } else {
-                this.trigger("filter:breadcrumb:add", {target: 'date'});
+                this.trigger("filter:breadcrumb:add", {target: 'date', title: this.breadcrumbTitle()});
             }
+        },
+
+        breadcrumbTitle: function() {
+            var title = '',
+                self  = this;
+            if (this.ui.$week_days_select.val() !== null) {
+                var week_days = [];
+                _.each(this.ui.$week_days_select.val(), function(value) {
+                    week_days.push(self.ui.$week_days_select.find('option[value=' + value + ']').text());
+                });
+                title += week_days.join(', ')
+            }
+            if (this.ui.$time_select.val() === 'all-day') {
+                title += ' toute la journée';
+            } else if (this.ui.$time_select.val() === 'choose-slot') {
+                title += ' de ' + this.$el.find('#start-hour').val() + 'h'
+                if (this.$el.find('#end-hour').val().length > 0) { title += ' à ' + this.$el.find('#end-hour').val() + 'h' }
+            } else if (this.ui.$time_select.val() !== 'all-day') {
+                title += ' / ' + this.ui.$time_select.find('option[value=' + this.ui.$time_select.val() + ']').text()
+            }
+            if (this.ui.$start_date.val().length !== 0 && this.ui.$end_date.val().length !== 0) {
+                title += 'Du '+ this.ui.$start_date.val() + ' au ' + this.ui.$end_date.val()
+            }
+            return title;
         },
 
         announceTime: function (e, data) {

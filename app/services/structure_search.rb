@@ -11,6 +11,7 @@ class StructureSearch
 
     @search = Sunspot.search(Structure) do
 
+      facet :subject_ids
       fulltext params[:name]                             if params[:name].present?
 
       # --------------- Geolocation

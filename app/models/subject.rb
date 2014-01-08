@@ -6,7 +6,7 @@ class Subject < ActiveRecord::Base
   acts_as_tree cache_depth: true
 
   has_attached_file :image,
-                    :styles => { super_wide: "825x250#", wide: "600x375#", thumb: "200x200#" }
+                    :styles => { super_wide: "825x250#", wide: "600x375#", small: '250x200#', thumb: "200x200#" }
 
   has_and_belongs_to_many :courses
   has_and_belongs_to_many :structures

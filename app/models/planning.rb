@@ -43,8 +43,9 @@ class Planning < ActiveRecord::Base
   before_validation :set_audience_if_empty
   before_validation :set_level_if_empty
 
+
   after_initialize :default_values
-  after_save :set_structure_id
+  before_save :set_structure_if_blank
 
   # validates :teacher, presence: true
   validates :place, :audience_ids, :level_ids, presence: true
@@ -100,6 +101,10 @@ class Planning < ActiveRecord::Base
       course.structure_id.to_s
     end
 
+    string :place_id_str do
+      place_id.to_s
+    end
+
     integer :structure_id do
       course.structure_id.to_s
     end
@@ -113,12 +118,15 @@ class Planning < ActiveRecord::Base
       self.structure.courses.map(&:name)
     end
 
+    # text :structure_description do
+    #   self.structure.description
+    # end
+
     text :subjects, boost: 5 do
       subject_array = []
       self.structure.subjects.uniq.each do |subject|
         subject_array << subject
-        subject_array << subject.parent        if subject.parent
-        subject_array << subject.grand_parent  if subject.grand_parent
+        subject_array << subject.root        if subject.root
       end
       subject_array.uniq.map(&:name)
     end
@@ -127,7 +135,7 @@ class Planning < ActiveRecord::Base
       subject_ids = []
       self.structure.subjects.uniq.each do |subject|
         subject_ids << subject.id
-        subject_ids << subject.parent.id if subject.parent
+        subject_ids << subject.root.id if subject.root
       end
       subject_ids.compact.uniq
     end
@@ -136,7 +144,7 @@ class Planning < ActiveRecord::Base
       subject_slugs = []
       self.structure.subjects.uniq.each do |subject|
         subject_slugs << subject.slug
-        subject_slugs << subject.parent.slug if subject.parent
+        subject_slugs << subject.root.slug if subject.root
       end
       subject_slugs.uniq
     end
@@ -380,8 +388,8 @@ class Planning < ActiveRecord::Base
     end
   end
 
-  def set_structure_id
-    self.update_column :structure_id, self.course.structure_id
+  def set_structure_if_blank
+    self.structure = self.course.structure if self.course
   end
 
   def default_values

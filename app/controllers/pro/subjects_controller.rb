@@ -3,7 +3,8 @@ class Pro::SubjectsController < Pro::ProController
   before_action :authenticate_pro_super_admin!
 
   def index
-    @subjects = Subject.all
+    @city = City.find 'paris'
+    @structure_search            = StructureSearch.search({lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 1, bbox: true})
   end
 
   def edit

@@ -46,7 +46,7 @@ class UserProfile < ActiveRecord::Base
   def associate_to_user
     if self.user.nil? and self.email.present?
       if (u = User.where(email: self.email).first).nil?
-        u = User.new(email: self.email, name: self.full_name)
+        u = User.new(email: self.email, first_name: self.first_name, last_name: self.last_name)
         u.save(validate: false)
       end
       self.user = u
