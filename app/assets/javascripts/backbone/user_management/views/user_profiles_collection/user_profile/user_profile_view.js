@@ -1,8 +1,3 @@
-/* TODO consider making every field on the itemview editable on click, rather than one
-*  field at a time. This shows "we are editing this model", and lets us put the "commit"
-*  button in a consistent place. */
-
-/* just a basic marionette view */
 UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Module, App, Backbone, Marionette, $, _) {
 
     var ENTER  = 13;
@@ -116,23 +111,36 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             var update    = {
                 user_profile: { }
             };
+            var dom_changes = new $.Deferred();
 
+            /* collect the edits from all the modified fields */
             _.each($fields, _.bind(function (field) {
                 var $field    = $(field);
                 var $input    = $field.find("input");
                 var attribute = $field.data("name");
 
                 /* TODO for now all fields are text, but later this will get more complicated */
-                var text      = (e.restore)? this.model.get(attribute) : $input.val();
+                var old_value = this.model.get(attribute);
+                var new_value = $input.val();
 
-                /* TODO currently the tags update is broken because we refer to the field
-                *  as tag_name on our end, but as tags on the back-end. This will no-doubt
-                *  change, since "tag_name" is going to be replaced by a nice tag field. */
-                $field.html(text);
-                update.user_profile[attribute] = text;
+                /* collect the potential DOM changes here */
+                dom_changes.then(function () {
+                    var text = new_value;
+
+                    $field.html(text);
+                }, function () {
+                    var text = old_value;
+
+                    $field.html(text);
+                });
+
+                update.user_profile[attribute] = new_value;
             }, this));
 
-            if (!e.restore) {
+            if (e.restore) {
+                dom_changes.reject(); // rrrroll back!
+
+            } else {
                 this.model.save(update, {
                     error: _.bind(function (model, response) {
                         /* display a flash containing the error message */
@@ -140,6 +148,12 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                         this.startEditing({ target: { tagName: "DIV" }});
                     }, this),
                     wait: true
+
+                /* apply changes to the DOM based on whether out commit was rejected */
+                }).success(function () {
+                    dom_changes.resolve();
+                }).error(function () {
+                    dom_changes.reject();
                 });
             }
 
