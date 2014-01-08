@@ -1,0 +1,106 @@
+= user_menu_currently_at 'Mes infos'
+
+= render partial: 'users/tabs', locals: { current: 'passions' }
+
+%h4.inline-block.push-half--bottom Quelles sont vos passions ? Mieux vous connaître, c'est mieux vous servir !
+%i.fa.fa-question-circle.pointer.delta{data: {toggle: 'popover', html: 'true', content: "<p>Pourquoi toutes ces questions ? Simplement pour mieux comprendre vos attentes et vous faire découvrir les meilleurs cours de votre choix. Vous pourrez gérer vos paramètres de notifications (type d'information et fréquence de nos emails) depuis l'onglet \"Notifications\".</p><p>Ces informations sont privées et ne seront jamais partagées.</p>", trigger: 'hover', placement: 'right'}}
+
+
+.white-box.islet
+  %h5.push-half--top Quelles sont les disciplines...
+
+  = simple_form_for current_user do |f|
+    %div
+      %strong ... que vous pratiquez déjà ?
+    %div{data: {behavior: 'show-more-on-demand'}}
+      - @practiced_passions.each_with_index do |practiced_passion, i|
+        %div{data: {el: true, hidden: !practiced_passion.persisted?}}
+          = f.simple_fields_for :passions, practiced_passion, child_index: i do |practiced_passion_form|
+            = practiced_passion_form.input :practiced, as: :hidden, value: true
+            .grid
+              .grid__item.one-quarter{ data: {behavior: 'subject-chooser', target: '+ div select'} }>
+                = practiced_passion_form.input :parent_subject_id, as: :select, collection: Subject.roots.order('position ASC'), label: false, include_blank: 'Discipline générale', wrapper_html: { class: 'flush--bottom' }
+
+              .grid__item.one-quarter>
+                = practiced_passion_form.input :subject_id, as: :select, collection: (practiced_passion.subject ? practiced_passion.subject.root.descendants : []), label: false, input_html: { data: { behavior: 'chosen' }, style: 'min-width: 10em; width: 100%' }, include_blank: 'Sous discipline', wrapper_html: { class: 'flush--bottom' }
+
+              .grid__item.one-quarter>
+                = practiced_passion_form.input :frequency, as: :select, collection: Passion::FREQUENCIES, label_method: lambda {|frequency| t(frequency)}, include_blank: 'À quelle fréquence pratiquez-vous ?', label: false, input_html: { style: 'width: 100%' }, wrapper_html: { class: 'flush--bottom' }
+
+              .grid__item.one-quarter>
+                = practiced_passion_form.input :reason_ids, as: :select, collection: PassionReason.all, label_method: lambda {|reason| t(reason.name)}, label: false, input_html: { style: 'width: 100%', multiple: true, data: { behavior: 'chosen', placeholder: 'Que recherchez-vous ?' }}, wrapper_html: { class: 'flush--bottom' }
+            - if practiced_passion.persisted?
+              = link_to 'Supprimer cette passion', user_passion_path(@user, practiced_passion), method: :delete
+            %hr.push-half--ends
+      %a.btn.btn--blue.btn--small{href: 'javascript:void(0)', data: {trigger: true}} Ajouter une passion
+
+    %div.push--top
+      %strong ... que vous aimeriez pratiquer ?
+    %div{data: {behavior: 'show-more-on-demand'}}
+      - @wanted_passions.each_with_index do |wanted_passion, i|
+        - i += 100
+        %div{data: {el: true, hidden: !wanted_passion.persisted?}}
+          = f.simple_fields_for :passions, wanted_passion, child_index: i do |wanted_passion_form|
+            = wanted_passion_form.input :practiced, as: :hidden, value: false
+            .grid
+              .grid__item.one-quarter{ data: {behavior: 'subject-chooser', target: '+ div select'} }>
+                = wanted_passion_form.input :parent_subject_id, as: :select, collection: Subject.roots.order('position ASC'), label: false, include_blank: 'Discipline générale'
+              .grid__item.one-quarter>
+                = wanted_passion_form.input :subject_id, as: :select, collection: (wanted_passion.subject ? wanted_passion.subject.root.descendants : []), label: false, input_html: { data: { behavior: 'chosen' }, style: 'min-width: 10em; width: 100%' }, include_blank: 'Sous discipline'
+              .grid__item.one-quarter>
+                = wanted_passion_form.input :frequency, as: :select, collection: Passion::FREQUENCIES, label_method: lambda {|frequency| t(frequency)}, include_blank: 'À quelle fréquence pratiquez-vous ?', label: false, input_html: { style: 'width: 100%' }
+              .grid__item.one-quarter>
+                = wanted_passion_form.input :expectation_ids, as: :select, collection: PassionExpectation.all, label_method: lambda { |reason| t(reason.name) }, label: false, input_html: { multiple: true, data: { behavior: 'chosen', placeholder: 'Pour quelles raisons ?' }, style: 'width: 100%'}
+            - if wanted_passion.persisted?
+              = link_to 'Supprimer cette passion', user_passion_path(@user, wanted_passion), method: :delete
+            %hr.push-half--ends
+
+      %a.btn.btn--blue.btn--small{href: 'javascript:void(0)', data: {trigger: true}} Ajouter une passion
+
+
+    %div.push--top.push-half--bottom
+      %strong En savoir un petit peu plus sur vous...
+    .grid--full
+      .three-fifths.grid__item.soft-half--right>
+        = f.input :description, label: 'Décrivez-vous en quelques mots', input_html: { class: 'textarea-description'}, wrapper_html: { class: 'flush' }
+      .two-fifths.grid__item
+        .alert--info
+          %ul.flush--top
+            %li Pourquoi les cours sont si importants pour vous ?
+            %li Dans la vie, qu'est-ce qui vous passionne ? Qu'est-ce qui vous grandit, vous émeut ?
+            %li Que recherchez-vous en rejoignant la communauté CoursAvenue ?
+            %li Recherchez-vous des cours uniquement pour vous, ou aussi pour vos enfants, vos amis, votre famille ?
+            %li Quel serait votre cours idéal, votre rêve ?
+
+
+    .push--top= f.submit 'Enregistrer', class: 'btn btn--full btn--green'
+= content_for :scripts do
+  :javascript
+    $(function() {
+        var descendants_subjects_path = "#{descendants_subjects_url(ids: '__ID__')}";
+        // Each group of select
+        $('[data-behavior=subject-chooser]').each(function() {
+            var child_subject_select = $(this).find($(this).data('target'));
+            // When the general subject change
+            $(this).find('select').change(function() {
+                child_subject_select.empty();
+                // Go and search for associate descendants subjects
+                $.ajax({
+                    url: descendants_subjects_path.replace('__ID__', this.value),
+                    success: function(subject_parents) {
+                        // Populate the options
+                        child_subject_select.append($('<option>'));
+                        _.each(subject_parents, function(subject_parent) {
+                            var option_group_label = _.keys(subject_parent)[0];
+                            var option_group = $('<optgroup>').attr('label', option_group_label);
+                            _.each(_.values(subject_parent)[0], function(subject) {
+                                option_group.append($('<option>').val(subject.id).text(subject.name))
+                            });
+                            child_subject_select.append(option_group);
+                        });
+                        child_subject_select.trigger('chosen:updated');
+                    }
+                });
+            });
+        });
+    });

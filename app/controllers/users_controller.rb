@@ -5,6 +5,13 @@ class UsersController < InheritedResources::Base
 
   load_and_authorize_resource :user, find_by: :slug, except: [:first_update, :unsubscribe]
 
+  def show
+    @user = User.find(params[:id])
+  end
+
+  def notifications
+  end
+
   def unsubscribe
     if user = User.read_access_token(params[:signature])
       user.update_attribute :email_opt_in, false
@@ -14,13 +21,15 @@ class UsersController < InheritedResources::Base
     end
   end
 
-  def show
-    @user = User.find(params[:id])
+  def dashboard
+    @user               = User.find(params[:id])
+    @profile_completion = current_user.profile_completion
+    @conversations      = current_user.mailbox.conversations.limit(4)
   end
 
   def update
     update! do |format|
-      format.html { redirect_to user_path(current_user), notice: 'Votre profil a bien été mis à jour.' }
+      format.html { redirect_to edit_user_path(current_user), notice: 'Votre profil a bien été mis à jour.' }
     end
   end
 

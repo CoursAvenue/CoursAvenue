@@ -229,7 +229,7 @@ class Structure < ActiveRecord::Base
 
   # Send reminder every week depending on the email status of the structure
   def send_reminder
-    if self.main_contact.present? and self.email_status and self.main_contact.email_opt_in?
+    if self.main_contact.present? and self.email_status and self.main_contact.monday_email_opt_in?
       if self.update_email_status.present?
         self.update_column :last_email_sent_at, Time.now
         self.update_column :last_email_sent_status, self.email_status
@@ -242,9 +242,13 @@ class Structure < ActiveRecord::Base
     AdminMailer.delay.remind_for_pending_comments(self)
   end
 
+  # Thursday email
+  # Only send if thursday email opt in is true
   def remind_for_widget
-    if widget_status.nil?
-      AdminMailer.delay.remind_for_widget(self)
+    if self.main_contact and self.main_contact.thursday_email_opt_in?
+      if widget_status.nil?
+        AdminMailer.delay.remind_for_widget(self)
+      end
     end
   end
 

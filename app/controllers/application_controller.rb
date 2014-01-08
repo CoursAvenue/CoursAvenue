@@ -4,7 +4,14 @@ class ApplicationController < ActionController::Base
 
   layout 'users'
 
+  before_filter :update_sanitized_params, if: :devise_controller?
+
+  def after_sign_up_path_for(user)
+    jaja?
+  end
+
   def after_sign_in_path_for(user)
+    azd?
     session['user_return_to'] || request.referrer || root_path
   end
 
@@ -47,4 +54,9 @@ class ApplicationController < ActionController::Base
     render template: 'errors/internal_server_error', status: :not_found
   end
 
+  private
+
+  def update_sanitized_params
+    devise_parameter_sanitizer.for(:sign_up) {|u| u.permit(:email, :first_name, :last_name, :zip_code, :password)}
+  end
 end

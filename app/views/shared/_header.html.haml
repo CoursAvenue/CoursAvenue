@@ -8,7 +8,7 @@
       - if current_user
         = render 'shared/help_dropdown'
         #drop-down-el.drop-down__wrapper.grid__item.width-auto.v-middle.hard--left{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-          = link_to user_path(current_user) do
+          = link_to dashboard_user_path(current_user) do
             - if current_user.fb_avatar or current_user.avatar.present?
               .grid
                 .grid__item.v-middle.width-auto>
@@ -22,7 +22,7 @@
               = current_user.first_name
           %ul.drop-down__el.text--left
             %li.nowrap
-              = link_to user_path(current_user) do
+              = link_to dashboard_user_path(current_user) do
                 %i.fa.fa-user
                 Mon profil
             %li.nowrap

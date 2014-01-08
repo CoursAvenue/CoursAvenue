@@ -91,10 +91,6 @@ Devise.setup do |config|
   # Setup a pepper to generate the encrypted password.
   # config.pepper = "40d217cd88013bd19d749bcc1a5d9c4ba093ba3bb72181575bdff643ea110f629c0460ee269775bf1e62bb2b72af1907feaafd7ce2985997b3f6b19e129d2483"
 
-  # ==> Configuration for :confirmable
-  # http://stackoverflow.com/questions/18655334/avoid-sign-in-after-confirmation-link-click-using-devise-gem
-  config.allow_insecure_sign_in_after_confirmation = true
-
   # A period that the user is allowed to access the website even without
   # confirming his account. For instance, if set to 2.days, the user will be
   # able to access the website for two days without confirming his account,

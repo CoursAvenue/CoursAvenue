@@ -20,14 +20,6 @@ describe PlacesController do
     context 'when resource is found' do
       it { response.status.should eq 200 }
     end
-
-    context 'when resource is not found' do
-      it 'redirects to home page' do
-        get :show, id: 'something_impossible'
-        response.status.should eq 301
-        response.should redirect_to root_path
-      end
-    end
   end
 
   describe '#index' do

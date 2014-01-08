@@ -1,38 +1,47 @@
 = user_menu_currently_at 'Mes infos'
 
-%ol.nav.breadcrumb.delta
-  %li= link_to 'Mes infos', user_path(current_user)
-  %li Modification
+= render partial: 'tabs', locals: { current: 'profile' }
 
-.white-box.islet
+%h4 Quelques infos sur vous
+
+.form-white-box
   = simple_form_for @user do |f|
-    - if @user.fb_avatar or @user.avatar.present?
-      .input
-        %label.control-label Ma photo
-        .text--center
-          = link_to 'javascript:void(0);', id: 'change-avatar' do
-            - if @user.avatar.present?
-              = image_tag @user.avatar.url(:thumb)
-            - elsif @user.fb_avatar
-              = image_tag @user.fb_avatar('normal')
-            %br
-            Changer ma photo
-          = f.input :avatar, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'},input_html: {id: 'avatar-input'}
-    - else
-      %div{ data: { behavior: 'image-input'} }
+    .grid
+      .grid__item.one-quarter>
+        .input{data: { behavior: 'image-input' } }
+          - if @user.has_avatar?
+            .text--center
+              = image_tag @user.avatar_url(:thumb)
+              %br
+              %a.btn.btn--blue.btn--small{data: { trigger: true }} Changer ma photo
+              = f.input :avatar, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'},input_html: {id: 'avatar-input'}
+          - else
+            .input.text--center
+              %a.push-half--bottom.btn.btn--blue{ data: {trigger: true} } Choisir ma photo
+              %img{style: 'max-height: 5em; max-width: 15em;'}
+            = f.input :avatar, wrapper_html: {class: 'visuallyhidden'}
+      .grid__item.two-thirds>
         .input
-          = f.label :avatar
-          %a.btn.btn--blue{ data: {trigger: true} } Choisir ma photo
-          %img{style: 'max-height: 5em; max-width: 15em;'}
-        = f.input :avatar, wrapper_html: {class: 'visuallyhidden'}
-    = f.input :name
-    .form-actions
-      = f.submit 'Sauvegarder', class: 'btn btn--green'
+          %label.control-label
+            .lbl.lbl--blue
+              %i.fa.fa-eye
+              Public
+        = f.input :first_name
+        = f.input :last_name
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-        $('#change-avatar').click(function() {
-            $('#avatar-input').click();
-        });
-    });
+        %hr
+        .input
+          %label.control-label
+            .lbl.lbl--gray
+              %i.fa.fa-lock
+              Privé
+        = f.input :gender, as: :select, collection: [['Femme', 'female'], ['Homme', 'male']]
+        = f.input :birthdate, start_year: (Date.today.year - 1), end_year: 1900, include_blank: true
+        = f.input :email, disabled: true
+        = f.input :phone_number
+        .input.flush--top.city-autocomplete-wrapper
+          = f.label :zip_code, label: Location.human_attribute_name(:zip_code)
+          = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { data: {behavior: 'city-autocomplete', el: '#user_city_id'} }, label: false, wrapper_html: { class: 'flush' }
+          = f.input :city_id, collection: [@user.city], label: false, selected: @user.city, wrapper_html: { class: 'flush--top' }
+
+    = f.submit 'Sauvegarder', class: 'btn btn--green btn--full'

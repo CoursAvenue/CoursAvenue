@@ -94,8 +94,12 @@ class Comment < ActiveRecord::Base
     self.commentable
   end
 
-  def owner?(admin)
-    self.commentable == admin.structure
+  def owner?(user)
+    if user.is_a? Admin
+      user.super_admin or self.commentable == user.structure
+    else
+      self.user == user
+    end
   end
 
   # Update rating of the commentable (course, or structure)
@@ -142,7 +146,9 @@ class Comment < ActiveRecord::Base
 
   def affect_structure_and_subjects_to_user
     self.user.structures << self.structure
-    self.user.subjects   << self.structure.subjects
+    self.structure.subjects.at_depth(2).each do |child_subject|
+      self.user.passions.create(parent_subject: child_subject.root, subject: child_subject, practiced: true)
+    end
     self.user.comments   << self
     self.user.save(validate: false)
   end

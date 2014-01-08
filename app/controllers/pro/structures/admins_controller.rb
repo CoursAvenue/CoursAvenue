@@ -5,6 +5,10 @@ class Pro::Structures::AdminsController < Pro::ProController
 
   before_action :retrieve_structure
 
+  def notifications
+    @admin = @structure.admins.find(params[:id])
+  end
+
   def create
     @admin = ::Admin.new(params[:admin])
     @admin.structure = @structure
