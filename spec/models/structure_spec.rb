@@ -90,7 +90,7 @@ describe Structure do
 
   context :bulk_actions do
     class Structure
-      def some_work(number, symbol, *range)
+      def some_work(profile, number, symbol, range)
       end
     end
 
@@ -103,12 +103,13 @@ describe Structure do
     let(:ids) { structure.user_profiles.to_a.map(&:id) }
 
     it "calls the given method, with the correct args" do
+      # with block
       expect(structure).to receive(:some_work).exactly(3) do |arg1, *args|
         expect(arg1).to be_an_instance_of(UserProfile)
         expect(args).to eq(["1", :cat, (1..2)])
       end
 
-      structure.perform_bulk_job(ids, :some_work, "1", :cat, (1..2))
+      structure.perform_bulk_user_profiles_job(ids, :some_work, "1", :cat, (1..2))
     end
 
   end
