@@ -8,7 +8,7 @@ class Teacher < ActiveRecord::Base
 
   validates :name, presence: true
 
-  default_scope { order('name ASC') }
+  default_scope -> { order('name ASC') }
 
   has_attached_file :image,
                     styles: { normal: '150x' }

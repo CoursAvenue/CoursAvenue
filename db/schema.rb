@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140108151916) do
+ActiveRecord::Schema.define(version: 20140108154055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -169,7 +169,7 @@ ActiveRecord::Schema.define(version: 20140108151916) do
     t.datetime "updated_at",                                 null: false
     t.string   "slug"
     t.integer  "place_id"
-    t.integer  "nb_participants"
+    t.integer  "nb_participants_max"
     t.date     "start_date"
     t.date     "end_date"
     t.integer  "room_id"
@@ -320,14 +320,14 @@ ActiveRecord::Schema.define(version: 20140108151916) do
 
   add_index "notifications", ["conversation_id"], name: "index_notifications_on_conversation_id", using: :btree
 
-  create_table "participants", force: true do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "email"
-    t.integer  "reservation_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+  create_table "participations", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "planning_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
+
+  add_index "participations", ["planning_id", "user_id"], name: "index_participations_on_planning_id_and_user_id", using: :btree
 
   create_table "passions", force: true do |t|
     t.integer  "user_id"
@@ -374,7 +374,7 @@ ActiveRecord::Schema.define(version: 20140108151916) do
     t.datetime "updated_at",            null: false
     t.integer  "room_id"
     t.integer  "teacher_id"
-    t.integer  "total_nb_place"
+    t.integer  "nb_participants_max"
     t.integer  "duration"
     t.string   "audience_ids"
     t.string   "level_ids"

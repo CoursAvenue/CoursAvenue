@@ -103,4 +103,20 @@ describe Planning do
       duplicate.course.should eq planning.course
     end
   end
+
+  context :participations do
+    describe '#waiting_list' do
+      it 'shows no one' do
+        planning.nb_participants_max = 1
+        planning.participations.build
+        planning.waiting_list.should be_empty
+      end
+      it 'shows three peoples' do
+        planning.nb_participants_max = 1
+        planning.participations.build
+        planning.participations.build
+        planning.waiting_list.length.should eq 1
+      end
+    end
+  end
 end

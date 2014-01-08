@@ -1,8 +1,8 @@
 class Course::Open < Course
 
-  attr_accessible :event_type, :event_type_description, :price, :nb_participants_min, :nb_participants
+  attr_accessible :event_type, :event_type_description, :price, :nb_participants_min, :nb_participants_max
 
-  validates :name, :event_type, :nb_participants, presence: true
+  validates :name, :event_type, :nb_participants_max, presence: true
 
   def is_open?
     true

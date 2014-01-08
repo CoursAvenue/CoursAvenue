@@ -13,7 +13,7 @@
     - else
       = "(#{course.event_type})"
       \—
-      Participants max : #{course.nb_participants}
+      Participants max : #{course.nb_participants_max}
       = link_to edit_pro_structure_course_open_path(@structure, course) do
         %i.fa.fa-pencil
         éditer les infos
@@ -35,8 +35,14 @@
               %td= planning.place.location.name
               %td
                 .progress.flush
-                  .bar.bar-success{style: "width: #{(planning.users.length / course.nb_participants) * 100}%;"}
-                    #{planning.users.length} / #{course.nb_participants}
+                  .bar.bar-success{style: "width: #{(planning.possible_participations.length * 100) / planning.nb_participants_max}%;"}
+                    #{planning.possible_participations.length} / #{planning.nb_participants_max}
+                - if planning.waiting_list.any?
+                  %div
+                    %strong Liste d'attente
+                  .progress.flush
+                    .bar.bar-warning{style: "width: 50%;"}
+                      #{planning.waiting_list.length}
 
 
       = link_to 'Ajouter un créneau', new_pro_course_planning_path(course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax'

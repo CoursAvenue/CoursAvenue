@@ -12,4 +12,4 @@ fr:
         city_name: Ville
         zip_code: Code postal
         phone: Téléphone
-        nb_participants: Nombre de participants
+        nb_participants_max: Nombre de participants

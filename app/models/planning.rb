@@ -35,7 +35,8 @@ class Planning < ActiveRecord::Base
 
   has_many :reservations,         as: :reservable
 
-  has_and_belongs_to_many :users
+  has_many :participations
+  has_many :users, through: :participations
 
   before_validation :set_start_date
   before_validation :set_end_date
@@ -70,7 +71,7 @@ class Planning < ActiveRecord::Base
                   :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
                   :week_day, # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
                   :class_during_holidays,
-                  :total_nb_place,
+                  :nb_participants_max,
                   :nb_place_available,
                   :promotion,
                   :info,
@@ -362,6 +363,19 @@ class Planning < ActiveRecord::Base
         [self.start_date.wday]
       end
     end
+  end
+
+  def nb_participants_max
+    read_attribute(:nb_participants_max) or self.course.nb_participants_max
+  end
+
+  # Participations that can be counted and are not exceeded the quota
+  def possible_participations
+    self.participations[0..(self.nb_participants_max - 1)]
+  end
+
+  def waiting_list
+    self.participations - self.possible_participations
   end
 
   private

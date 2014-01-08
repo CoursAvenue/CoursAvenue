@@ -35,7 +35,7 @@
           %input#course_is_collectif{type: 'radio', name: 'course[is_individual]', value: 'false', checked: !@course.is_individual?}
           %label{for: 'course_is_collectif'}> Collectif -&nbsp;
           %label Nombre moyen de participants &nbsp;
-          = f.input :nb_participants, label: false, input_html: {type: :number, placeholder: 12, style: 'max-width: 5em;', class: 'soft-half--left'}, wrapper_html: {class: 'flush--ends inline'}
+          = f.input :nb_participants_max, label: false, input_html: {type: :number, placeholder: 12, style: 'max-width: 5em;', class: 'soft-half--left'}, wrapper_html: {class: 'flush--ends inline'}
 
     .input
       .control-label.v-top *Type de cours
