@@ -35,6 +35,7 @@ class Planning < ActiveRecord::Base
 
   has_many :reservations,         as: :reservable
 
+  has_and_belongs_to_many :users
 
   before_validation :set_start_date
   before_validation :set_end_date

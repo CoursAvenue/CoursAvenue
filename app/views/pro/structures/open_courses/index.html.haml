@@ -35,8 +35,8 @@
               %td= planning.place.location.name
               %td
                 .progress.flush
-                  .bar.bar-success{style: "width: 40%;"}
-                    4/20
+                  .bar.bar-success{style: "width: #{(planning.users.length / course.nb_participants) * 100}%;"}
+                    #{planning.users.length} / #{course.nb_participants}
 
 
       = link_to 'Ajouter un créneau', new_pro_course_planning_path(course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax'

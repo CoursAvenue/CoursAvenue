@@ -14,7 +14,9 @@ class User < ActiveRecord::Base
 
   has_many :user_profiles
   has_many :structures, through: :user_profiles
+
   has_and_belongs_to_many :subjects
+  has_and_belongs_to_many :plannings
 
   belongs_to :city
 
