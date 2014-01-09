@@ -30,7 +30,7 @@ class Pro::Structures::AdminsController < Pro::ProController
     end
     respond_to do |format|
       if @admin.update_attributes params[:admin]
-        format.html { redirect_to structure_path @structure }
+        format.html { redirect_to (params[:return_to] || structure_path(@structure)), notice: 'Les changements ont bien été pris en compte' }
       else
         format.html { render 'pro/structures/edit' }
       end

@@ -2,7 +2,7 @@
 
 = render partial: 'tabs', locals: { current: 'profile' }
 
-%h4 Quelques infos sur vous
+%h4.push-half--bottom Quelques infos sur vous
 
 .form-white-box
   = simple_form_for @user do |f|
@@ -17,7 +17,11 @@
               = f.input :avatar, label: false, wrapper_html: {style: 'position:absolute; left:-1000px;'},input_html: {id: 'avatar-input'}
           - else
             .input.text--center
-              %a.push-half--bottom.btn.btn--blue{ data: {trigger: true} } Choisir ma photo
+              = link_to 'javascript:void(0)', style: 'width: 170px; height: 170px; background-color: #555; padding-top: 55px; color: white; display: block;', id: 'avatar-placeholder', data: { trigger: true } do
+                Ajouter
+                %br
+                ma photo
+
               %img{style: 'max-height: 5em; max-width: 15em;'}
             = f.input :avatar, wrapper_html: {class: 'visuallyhidden'}
       .grid__item.two-thirds>
@@ -41,3 +45,13 @@
           = f.input :city_id, collection: [@user.city], label: false, selected: @user.city, wrapper_html: { class: 'flush--top' }
 
     = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+
+
+- unless @user.has_avatar?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          $('#user_avatar').change(function() {
+              $('#avatar-placeholder').hide();
+          });
+      });

@@ -6,6 +6,7 @@
   Mes notifications mails
 .form-white-box.flush--bottom
   = simple_form_for [:pro, @structure, @admin] do |f|
+    %input{type: 'hidden', name: 'return_to', value: notifications_pro_structure_admin_path(@structure, @structure.main_contact)}
     = f.error_notification
     .grid
       .grid__item.one-third>
@@ -24,5 +25,7 @@
           %i.blue L'activation de ces rappels garantit la meilleure expérience possible aux professeurs comme aux élèves.
       .grid__item.two-thirds>
         .checkbox-at-left= f.input :student_action_email_opt_in, wrapper_html: { class: 'flush--top' }
+
+    = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
 
 /= f.input :email_opt_in, label: 'Recevoir les alertes'
