@@ -44,7 +44,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                         'rollback'          : 'rollback',
                         'update:start'      : 'stopEditing',
                         'update:success'    : 'commit',
-                        'update:error'      : 'rollback'
+                        'update:error'      : 'rollback',
+                        'update:sync'       : 'setData'
                     },
                     selector: '[data-type=editable-' + attribute + ']'
                 });
@@ -70,22 +71,21 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         *  affected fields that are visible. The 'tags' are returned
         *  as an object, but we are presenting them as a string.
         *  Maybe the user_profiles model should have just the string? */
+        /* TODO this needs a better name... maybe "refresh" fields?
+        *  or "sync fields" */
         updateFields: function (model) {
-            if (this.isEditing()) { return; }
+            /* we don't want to clobber fields with focus */
+            if (this.isEditing()) {
+                return;
+            }
 
             var changes = model.changed;
 
-            _.each(changes, _.bind(function (change, attribute) {
-                var $field = this.$('[data-name=' + attribute + ']');
-
-                if ($field.length > 0 && $field.text() !== change) {
-                    $field.text(change);
-                }
-            }, this));
+            this.trigger("update:sync", changes);
         },
 
         isEditing: function () {
-            return this.$("input").length > 0;
+            return this.$(".editable-text > input").length > 0;
         },
 
         addToSelected: function () {

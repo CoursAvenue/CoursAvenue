@@ -76,6 +76,12 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
             this.$el.html(data);
         },
 
+        /* forcibly update the data */
+        setData: function (data) {
+            this.commit(data);
+            this.refresh();
+        },
+
         /* update the data, nothing visual */
         commit: function (data) {
             this.data = data[this.attribute];
@@ -84,6 +90,11 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
         /* change the text to the old data */
         rollback: function () {
             this.$el.html(this.data);
+        },
+
+        /* maybe the text has fallen out of sync with the data */
+        refresh: function () {
+            this.rollback();
         },
 
         isEditing: function () {
