@@ -13,7 +13,9 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
             this.model.set("checked", options.checked);
 
-            /* TODO where does this code go... */
+        },
+
+        onRender: function () {
             var view = new Module.EditableText.EditableTextView({
                 model: new Backbone.Model({ name: "bob" })
             });
