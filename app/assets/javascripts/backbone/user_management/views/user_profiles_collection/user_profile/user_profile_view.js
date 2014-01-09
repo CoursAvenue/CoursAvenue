@@ -40,8 +40,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 this.showWidget(view, {
                     events: {
                         'start:editing'     : 'startEditing',
-                        'demand:edits'      : 'announceEdits',
-                        'update:success'    : 'stopEditing',
+                        'update:success'    : 'commit',
                         'rollback'          : 'rollback',
                         'update:error'      : 'rollback'
                     },

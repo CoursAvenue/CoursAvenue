@@ -13,7 +13,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
         },
 
         initialize: function (options) {
-            this.announceEdits = _.debounce(_.bind(this.announceEdits, this));
+            this.announceEdits = _.debounce(_.bind(this.announceEdits, this), 100);
             this.data = options.data;
             this.attribute = options.attribute;
         },
@@ -33,6 +33,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
         },
 
         handleKeyDown: function (e) {
+            this.announceEdits();
+
             var key = e.which;
             if (key !== ENTER && key !== ESC) {
                 return;
@@ -41,13 +43,17 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
             this.trigger("field:key:down", { editable: this, restore: (key === ESC) });
         },
 
-        announceEdits: function () {
-            var data = this.$el.find("input").val();
-
-            this.trigger("field:edits", {
+        getEdits: function () {
+            var edits = {
                 attribute: this.attribute,
-                data: data
-            });
+                data: this.$el.find("input").val()
+            };
+
+            return edits;
+        },
+
+        announceEdits: function () {
+            this.trigger("field:edits", this.getEdits());
         },
 
         announceClick: function () {
@@ -62,17 +68,24 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
             this.$el.html($input);
         },
 
-        stopEditing: function (data) {
+        stopEditing: function () {
+            this.is_editing = false;
+            this.$el.html(this.data);
+        },
+
+        commit: function (data) {
             this.data = data[this.attribute];
+
+            this.stopEditing();
+        },
+
+        rollback: function () {
+            this.stopEditing();
         },
 
         isEditing: function () {
             return this.is_editing === true;
         },
 
-        /* rollback to the given data */
-        rollback: function () {
-
-        },
     });
 });
