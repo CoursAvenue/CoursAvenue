@@ -39,10 +39,15 @@
     - else
       = "(#{course.event_type})"
       \—
-      Participants max : #{course.nb_participants_max}
+    Participants max : #{course.nb_participants_max}
+    .float--right
       = link_to edit_pro_structure_course_open_path(@structure, course) do
         %i.fa.fa-pencil
-        éditer les infos
+        Modifier
+      \/
+      = link_to edit_pro_structure_course_open_path(@structure, course), class: 'red' do
+        %i.fa.fa-times
+        Supprimer
     - if course.plannings.any?
       %table.table--data.table--striped
         %thead
@@ -52,6 +57,7 @@
             %th Niveau
             %th Lieux
             %th Nombre d'inscrit
+            %th
         %tbody
           - course.plannings.each do |planning|
             %tr
@@ -69,10 +75,24 @@
                   .progress.flush
                     .bar.bar-warning{style: "width: 50%;"}
                       #{planning.waiting_list.length}
+              %td.text--right
+                .drop-down-el.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+                  %a.btn--orange.btn.btn--small.nowrap{href: '#'}
+                    Actions
+                    %i.fa.fa-chevron-down
+                  %ul.drop-down__el.text--left
+                    %li.nowrap
+                      = link_to edit_pro_course_planning_path(course, planning), title: 'Modifier le créneau', data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax' do
+                        %i.fa.fa-pencil
+                        Modifier le créneau
+                    %li.nowrap
+                      = link_to pro_course_planning_path(course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer le créneau' do
+                        %i.fa.fa-trash-o
+                        Supprimer
 
 
-      = link_to 'Ajouter un créneau', new_pro_course_planning_path(course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax'
-    - else
-      %p
-        Vous n'avez pas définit de créneau
-        = link_to 'Ajouter un créneau', new_pro_course_planning_path(course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--green btn--small'
+    %p.push-half--top
+      = link_to new_pro_course_planning_path(course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--blue btn--small' do
+        %i.fa.fa-plus.soft-half--right
+        Ajouter un créneau
+

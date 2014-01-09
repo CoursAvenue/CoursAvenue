@@ -85,7 +85,11 @@ class Pro::PlanningsController < InheritedResources::Base
     set_dates_and_times
     respond_to do |format|
       if @planning.update_attributes(params[:planning])
-        format.html { redirect_to pro_course_plannings_path(@course) }
+        if @course.is_open?
+          format.html { redirect_to pro_structure_course_opens_path(@course.structure), notice: 'Le créneau a bien été modifié'}
+        else
+          format.html { redirect_to pro_course_plannings_path(@course), notice: 'Le créneau a bien été modifié'}
+        end
         format.js { render nothing: true, status: 200 }
       else
         if @planning.end_date < Date.today
@@ -98,7 +102,11 @@ class Pro::PlanningsController < InheritedResources::Base
 
   def destroy
     destroy! do |success, failure|
-      success.html { redirect_to pro_course_plannings_path(@course) }
+      if @course.is_open?
+        success.html { redirect_to pro_structure_course_opens_path(@course.structure), notice: 'Le créneau a bien été supprimé'}
+      else
+        success.html { redirect_to pro_course_plannings_path(@course), notice: 'Le créneau a bien été supprimé'}
+      end
     end
   end
 

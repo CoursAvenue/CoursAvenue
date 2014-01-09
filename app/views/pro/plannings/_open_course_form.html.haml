@@ -1,5 +1,11 @@
 - minutes = (2..32).collect{ |i| time = i*15; ["#{(time/60).floor}h#{(time%60 == 0 ? '00' : time%60)}",time] }
-= simple_form_for [:pro, @course, @planning], url: pro_course_open_plannings_path(@course) do |f|
+
+- if @planning.persisted?
+  - url = pro_course_open_planning_path(@course, @planning)
+- else
+  - url = pro_course_open_plannings_path(@course)
+
+= simple_form_for [:pro, @course, @planning], url: url do |f|
   = f.error_notification
   .input.flush--bottom
     = f.label :place
