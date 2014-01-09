@@ -57,10 +57,16 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
         },
 
         announceClick: function () {
-            this.trigger("field:click", this); // TODO we are passing out the whole view for now
+            /* we don't care if you click on an input */
+            if (this.isEditing()) { return; }
+
+            this.startEditing(); // this field should start right away
+            this.trigger("field:click", this.$el.find("input")); // TODO we are passing out the whole view for now
         },
 
         startEditing: function () {
+            if (this.isEditing()) { return; }
+
             this.is_editing = true;
             var text = this.$el.text();
             var $input = $("<input>").prop("value", text);

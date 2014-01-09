@@ -64,7 +64,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         modelEvents: {
-            'change': 'updateFields'
+            'change': 'syncFields'
         },
 
         /* TODO when the group action occurs, we need to update the
@@ -73,17 +73,15 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         *  Maybe the user_profiles model should have just the string? */
         /* TODO this needs a better name... maybe "refresh" fields?
         *  or "sync fields" */
-        updateFields: function (model) {
+        syncFields: function (model) {
             /* we don't want to clobber fields with focus */
-            if (this.isEditing()) {
-                return;
-            }
+            if (this.isEditing()) { return; }
 
-            var changes = model.changed;
-
-            this.trigger("update:sync", changes);
+            this.trigger("update:sync", model.changed);
         },
 
+        /* is this row being worked on? */
+        /* TODO this should just check a flag */
         isEditing: function () {
             return this.$(".editable-text > input").length > 0;
         },
@@ -123,18 +121,12 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         /* notifies all the other editables in the layout
         *  and gets them started
         *  gives focus to the editable that was clicked */
-        startEditing: function (editable) {
-            /* clicking an already active editable does nothing */
-            if (editable.isEditing()) {
-                return;
-            }
-
+        startEditing: function ($target) {
             /* tell all the other fields to start themselves */
             this.trigger("start:editing");
 
             /* give the main dude focus */
-            /* TODO I presume this will fail due to asynchronicity later */
-            editable.$el.find("input").focus();
+            $target.focus();
 
             this.trigger("toggle:editing");
         },
