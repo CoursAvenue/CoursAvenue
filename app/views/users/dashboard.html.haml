@@ -15,11 +15,11 @@
         %ul.no-bullet-list
           %li
             %i.fa.fa-check-square-o
-            %span.line-through Créer mon profil
+            %span.line-through--gray Créer mon profil
           %li
             - if current_user.has_avatar?
               %i.fa.fa-check-square-o
-              %span.line-through Ajouter ma photo
+              %span.line-through--gray Ajouter ma photo
             - else
               = link_to edit_user_path(current_user), class: 'profile-task-uncomplete' do
                 %i.fa.fa-square-o
@@ -27,7 +27,7 @@
           %li
             - if current_user.city
               %i.fa.fa-check-square-o
-              %span.line-through Renseigner ma ville
+              %span.line-through--gray Renseigner ma ville
             - else
               = link_to edit_user_path(current_user), class: 'profile-task-uncomplete' do
                 %i.fa.fa-square-o
@@ -35,7 +35,7 @@
           %li
             - if current_user.gender and current_user.birthdate
               %i.fa.fa-check-square-o
-              %span.line-through Compléter mes informations générales
+              %span.line-through--gray Compléter mes informations générales
             - else
               = link_to edit_user_path(current_user), class: 'profile-task-uncomplete' do
                 %i.fa.fa-square-o
@@ -43,31 +43,12 @@
           %li
             - if current_user.passions.any?
               %i.fa.fa-check-square-o
-              %span.line-through Renseigner mes passions
+              %span.line-through--gray Renseigner mes passions
             - else
               = link_to user_passions_path(current_user), class: 'profile-task-uncomplete' do
                 %i.fa.fa-square-o
                 Renseigner mes passions
 
-
-%hr
-
-%h4 Mes infos
-
-.white-box.flexbox
-  .flexbox__item.v-top.one-sixth>
-    - if @user.has_avatar?
-      = image_tag @user.avatar_url(:thumb), class: 'block'
-    - else
-      .text--center.push-half--top= link_to 'Ajouter ma photo', edit_user_path(current_user)
-  .flexbox__item.v-top.soft-half>
-    %h4.flush= @user.name
-    %p.flush
-      = t(@user.gender)
-      - if @user.birthdate
-        %br
-        %strong Né le #{l(@user.birthdate)}
-    = link_to 'Modifier mes infos', edit_user_path(current_user)
 
 %hr.push--top
 %h4 Mes derniers messages

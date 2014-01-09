@@ -79,7 +79,7 @@
         .input
           %label.control-label
             .lbl.lbl--blue
-              %i.fa.fa-eye-open.soft-half--right
+              %i.fa.fa-eye.soft-half--right
               Public
           %h5.inline
             Déposez votre avis visible de tous
@@ -128,11 +128,15 @@
           %li Concrètement, qu’est-ce que vous faites aujourd’hui grâce à ce que vous avez appris ?
           %li Comment vous êtes-vous senti(e) à la fin du dernier cours ou stage ?
           %li Racontez une anecdote sympa à partager aux futurs élèves !
-    - if @comments.any?
-      .bordered--left.soft--left
+    .bordered--left.soft--left
+      - if @comments.any?
         %h4 Derniers avis sur cet établissement
         %ul.comment-list.milli
           = render partial: 'comments/comment', collection: @comments, locals: {small_avatar: true}
+      - else
+        %h4 Derniers avis sur CoursAvenue
+        %ul.comment-list.milli
+          = render partial: 'comments/comment', collection: Comment.accepted.limit(4), locals: {small_avatar: true}
 
 
 = content_for :scripts do

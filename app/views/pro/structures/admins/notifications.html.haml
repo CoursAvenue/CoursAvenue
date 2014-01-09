@@ -3,7 +3,7 @@
 
 %h5.form-header-group
   %i.fa.fa-envelope-o
-  Notifications mails
+  Mes notifications mails
 .form-white-box.flush--bottom
   = simple_form_for [:pro, @structure, @admin] do |f|
     = f.error_notification
@@ -11,7 +11,7 @@
       .grid__item.one-third>
         %strong Envoyez-moi des e-mails quand :
         %p
-          %i Nous vous promettons de ne pas vous envoyer de spam. Cette option peut être désactivée à tout moment.
+          %i.blue Nous vous promettons de ne pas vous envoyer de spam. Cette option peut être désactivée à tout moment.
       .grid__item.two-thirds>
         .checkbox-at-left= f.input :newsletter_email_opt_in, wrapper_html: { class: 'flush--top' }
         .checkbox-at-left= f.input :monday_email_opt_in
@@ -21,7 +21,7 @@
       .grid__item.one-third>
         %strong Envoyez-moi un rappel quand :
         %p
-          %i L'activation de ces rappels garantit la meilleure expérience possible aux professeurs comme aux élèves.
+          %i.blue L'activation de ces rappels garantit la meilleure expérience possible aux professeurs comme aux élèves.
       .grid__item.two-thirds>
         .checkbox-at-left= f.input :student_action_email_opt_in, wrapper_html: { class: 'flush--top' }
 

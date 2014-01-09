@@ -21,20 +21,16 @@
               %img{style: 'max-height: 5em; max-width: 15em;'}
             = f.input :avatar, wrapper_html: {class: 'visuallyhidden'}
       .grid__item.two-thirds>
-        .input
-          %label.control-label
-            .lbl.lbl--blue
-              %i.fa.fa-eye
-              Public
         = f.input :first_name
         = f.input :last_name
 
         %hr
         .input
-          %label.control-label
+          %label.control-label{data: {toggle: 'popover', trigger: "hover", placement: "right", content: "CoursAvenue est basé sur la confiance. Ces infos sont gardées confidentielles et nous serviront à vous proposer les meilleurs cours autour de vous et pour vos professeurs, à mieux vous connaître."}}
             .lbl.lbl--gray
               %i.fa.fa-lock
               Privé
+
         = f.input :gender, as: :select, collection: [['Femme', 'female'], ['Homme', 'male']]
         = f.input :birthdate, start_year: (Date.today.year - 1), end_year: 1900, include_blank: true
         = f.input :email, disabled: true
@@ -44,4 +40,4 @@
           = f.input :zip_code, placeholder: 'Ex. : 75008', input_html: { data: {behavior: 'city-autocomplete', el: '#user_city_id'} }, label: false, wrapper_html: { class: 'flush' }
           = f.input :city_id, collection: [@user.city], label: false, selected: @user.city, wrapper_html: { class: 'flush--top' }
 
-    = f.submit 'Sauvegarder', class: 'btn btn--green btn--full'
+    = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
