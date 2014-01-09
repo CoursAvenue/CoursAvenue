@@ -1,8 +1,8 @@
 %ul.tabs.push--bottom
   %li{class: current == 'profile' ? 'active' : ''}
     = link_to edit_user_path(current_user) do
-      %i.fa.fa-user
-      Mon profil
+      %i.lbc-icon-info i
+      Mes infos
   %li{class: current == 'passions' ? 'active' : ''}
     = link_to user_passions_path(current_user) do
       %i.fa.fa-heart

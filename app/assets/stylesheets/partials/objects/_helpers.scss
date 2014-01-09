@@ -55,6 +55,11 @@
 }
 
 .line-through { text-decoration: line-through; }
+.line-through--gray {
+    text-decoration: line-through;
+    color          : #777;
+    font-style     : italic;
+}
 
 .base-font-style {
     font-size  : $base-font-size;

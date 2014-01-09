@@ -30,6 +30,13 @@
               - if current_user.around_trial_courses_count > 0
                 dont #{current_user.around_trial_courses_count} essais gratuits
               %strong devraient vous plaire
+          - else
+            %p.push-half--bottom
+              %i
+                %strong Quelles sont vos passions ?
+                Mieux vous connaître,
+                %br
+                c'est mieux vous servir !
           = link_to 'Gérer mes passions', user_passions_path(current_user), class: "btn btn--blue #{(current_user.passions.any? ? 'btn--small' : '')}"
 
 

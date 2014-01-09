@@ -12,7 +12,7 @@
 
 %h3
   %i.fa.fa-comments-alt
-  Derniers avis
+  Mes avis postés
 - if @comments.accepted.any?
   %ul.comment-list
     = render partial: '/comments/comment', collection: @comments.accepted, locals: { with_link: true }

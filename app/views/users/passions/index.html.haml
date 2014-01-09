@@ -7,11 +7,8 @@
 
 
 .white-box.islet
-  %h5.push-half--top Quelles sont les disciplines...
-
   = simple_form_for current_user do |f|
-    %div
-      %strong ... que vous pratiquez déjà ?
+    %h5.push-half--top Quelles sont les disciplines que vous pratiquez déjà ?
     %div{data: {behavior: 'show-more-on-demand'}}
       - @practiced_passions.each_with_index do |practiced_passion, i|
         %div{data: {el: true, hidden: !practiced_passion.persisted?}}
@@ -32,10 +29,12 @@
             - if practiced_passion.persisted?
               = link_to 'Supprimer cette passion', user_passion_path(@user, practiced_passion), method: :delete
             %hr.push-half--ends
-      %a.btn.btn--blue.btn--small{href: 'javascript:void(0)', data: {trigger: true}} Ajouter une passion
+      %a{href: 'javascript:void(0)', data: {trigger: true}}
+        %i.fa.fa-plus
+        Ajouter une passion
 
-    %div.push--top
-      %strong ... que vous aimeriez pratiquer ?
+    %hr.push--ends
+    %h5.push-half--top Quelles sont les disciplines que vous aimeriez pratiquer ?
     %div{data: {behavior: 'show-more-on-demand'}}
       - @wanted_passions.each_with_index do |wanted_passion, i|
         - i += 100
@@ -44,22 +43,29 @@
             = wanted_passion_form.input :practiced, as: :hidden, value: false
             .grid
               .grid__item.one-quarter{ data: {behavior: 'subject-chooser', target: '+ div select'} }>
-                = wanted_passion_form.input :parent_subject_id, as: :select, collection: Subject.roots.order('position ASC'), label: false, include_blank: 'Discipline générale'
+                = wanted_passion_form.input :parent_subject_id, as: :select, collection: Subject.roots.order('position ASC'), label: false, include_blank: 'Discipline générale', wrapper_html: { class: 'flush--bottom' }
               .grid__item.one-quarter>
-                = wanted_passion_form.input :subject_id, as: :select, collection: (wanted_passion.subject ? wanted_passion.subject.root.descendants : []), label: false, input_html: { data: { behavior: 'chosen' }, style: 'min-width: 10em; width: 100%' }, include_blank: 'Sous discipline'
+                = wanted_passion_form.input :subject_id, as: :select, collection: (wanted_passion.subject ? wanted_passion.subject.root.descendants : []), label: false, input_html: { data: { behavior: 'chosen' }, style: 'min-width: 10em; width: 100%' }, include_blank: 'Sous discipline', wrapper_html: { class: 'flush--bottom' }
               .grid__item.one-quarter>
-                = wanted_passion_form.input :frequency, as: :select, collection: Passion::FREQUENCIES, label_method: lambda {|frequency| t(frequency)}, include_blank: 'À quelle fréquence pratiquez-vous ?', label: false, input_html: { style: 'width: 100%' }
+                = wanted_passion_form.input :frequency, as: :select, collection: Passion::FREQUENCIES, label_method: lambda {|frequency| t(frequency)}, include_blank: 'À quelle fréquence souhaitez-vous pratiquer ?', label: false, input_html: { style: 'width: 100%' }, wrapper_html: { class: 'flush--bottom' }
               .grid__item.one-quarter>
-                = wanted_passion_form.input :expectation_ids, as: :select, collection: PassionExpectation.all, label_method: lambda { |reason| t(reason.name) }, label: false, input_html: { multiple: true, data: { behavior: 'chosen', placeholder: 'Pour quelles raisons ?' }, style: 'width: 100%'}
+                = wanted_passion_form.input :expectation_ids, as: :select, collection: PassionExpectation.all, label_method: lambda { |reason| t(reason.name) }, label: false, input_html: { multiple: true, data: { behavior: 'chosen', placeholder: 'Pour quelles raisons ?' }, style: 'width: 100%'}, wrapper_html: { class: 'flush--bottom' }
             - if wanted_passion.persisted?
               = link_to 'Supprimer cette passion', user_passion_path(@user, wanted_passion), method: :delete
             %hr.push-half--ends
 
-      %a.btn.btn--blue.btn--small{href: 'javascript:void(0)', data: {trigger: true}} Ajouter une passion
+      %a{href: 'javascript:void(0)', data: {trigger: true}}
+        %i.fa.fa-plus
+        Ajouter une passion
+
+    %hr.push--ends
 
 
     %div.push--top.push-half--bottom
-      %strong En savoir un petit peu plus sur vous...
+      %strong En savoir un petit peu plus sur vous
+      %i.fa.fa-question-circle.pointer.delta{data: {toggle: 'popover', html: 'true', content: "<p>CoursAvenue est basé sur les relations et les passions. Aidez-nous à mieux vous connaître :</p><ul><li>Quelles sont les 5 choses dont vous ne pourriez pas vous passer ?</li><li>Avez-vous une devise dans la vie ? Voici celle de l'équipe CoursAvenue : \"la chance sourit aux audacieux\" ;</li><li>Partagez vos livres, films, musiques, restaurants, voyages préférés ;</li></ul class=\"push-half--left\"><p>Dites ce que c'est de vous avoir en tant qu'élève. Pourquoi vous aimez tant apprendre et suivre des cours ? Que représentent pour vous vos passions ? Pourquoi sont-elles si importantes dans votre vie ?</p>", trigger: 'hover', placement: 'right'}}
+
+
     .grid--full
       .three-fifths.grid__item.soft-half--right>
         = f.input :description, label: 'Décrivez-vous en quelques mots', input_html: { class: 'textarea-description'}, wrapper_html: { class: 'flush' }
