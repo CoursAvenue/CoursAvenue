@@ -1,6 +1,6 @@
 .blue-box.islet.text--center
   %h4 Journées portes ouverte 2014 — Samedi 12 avril
-  .delta Participez à un cours gratuitement
+  .delta Participez à un atelier gratuit
 
 - structure.courses.open_courses.each do |course|
   - if course.plannings.any?
@@ -20,7 +20,7 @@
               %th Public
               %th Niveau
               %th Lieux
-              %th Nombre d'inscrit
+              %th Nombre d'inscrits
               %th
           %tbody
             - course.plannings.each do |planning|

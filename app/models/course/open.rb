@@ -3,7 +3,7 @@ class Course::Open < Course
   attr_accessible :event_type, :event_type_description, :price, :nb_participants_min, :nb_participants_max
 
   validates :name, :event_type, :nb_participants_max, presence: true
-  validates :nb_participants_max, numericality: { less_than: :nb_participants_min }
+  validates :nb_participants_max, numericality: { more_than: :nb_participants_min }
 
   before_save :set_active
 

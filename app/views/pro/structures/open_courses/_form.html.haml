@@ -8,9 +8,9 @@
 
   %h5.form-header-group.flush--bottom
     %i.lbc-icon-info i
-    Information générales du cours
+    Informations générales
   .form-white-box
-    = f.input :name, label: t('.name'), placeholder: 'Ex : Danse orientale, Dégustation de vins & fromages, etc.'
+    = f.input :name, placeholder: "Ex : Atelier d'initiation à la danse orientale, Dégustation de vins & fromages, etc."
     .input.flush<
       = f.label :subjects
       - subjects = @structure.subjects.little_children.uniq
@@ -38,24 +38,10 @@
 
   %h5.form-header-group.flush--bottom.soft--top Description
   .form-white-box
-    .grid--full.input
-      .textarea-with-info
-        .grid
-          .three-fifths.grid__item>
-            = f.input :description, as: :text, placeholder: 'Expliquez en quoi consiste le cours / stage, de manière à ce que l’élève comprenne bien ce qu’il y apprendra, pour éviter toute confusion. Plus de détails vous donnez, mieux c’est !', label: false, input_html: {class: 'one-whole textarea-description', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 70, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}, wrapper_html: {class: 'flush--top one-whole'}
-          .two-fifths.grid__item>
-            %p.alert--info.flush--top
-              Quel est ce cours ?
-              %br
-              Qu’y trouve-t-on ?
-            %p.alert--info
-              Comment se déroule t-il ?
-              %br
-              En plusieurs thèmes ?
-            %p.alert--info Quelles sont les méthodes pratiquées ?
+    = f.input :description, as: :text, placeholder: "Expliquez en quoi consiste l'événement, de manière à ce que l’élève comprenne bien ce qu’il y apprendra, pour éviter toute confusion. Plus de détails vous donnez, mieux c’est !", input_html: { data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 70, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}, wrapper_html: {class: 'flush--top one-whole'}
 
   %h5.form-header-group.flush--bottom.soft--top
-    Informations supplémentaire
+    Informations supplémentaires
   .form-white-box
     .input
       .control-label.v-middle Capacité
@@ -64,18 +50,22 @@
         = f.input :nb_participants_min, label: false, wrapper_html: { class: 'inline-block flush' }, input_html: {value: (@course.nb_participants_min || 3), class: 'one-whole'}
         .inline-block à
         = f.input :nb_participants_max, label: false, wrapper_html: { class: 'inline-block flush' }, input_html: {value: (@course.nb_participants_max || 20), class: 'one-whole'}
-        %i Au dessus de ce seuil une liste d'attente sera ouverte
+      %p.field-form-info.blue.flush
+        %i Au dessous du seuil minimal, les élèves inscrits seront notifiés que l'événement ne sera pas forcément assuré.
+        %br
+        %i Au dessus du seuil maximal, une liste d'attente sera ouverte
     .input
       .control-label.v-top Tarifs
-      %div
+      %div.flush
         .radio
           %input#course_price_free{type: 'radio', name: 'course[price]', value: '0', checked: (@course.new_record? or @course.price.to_i == 0) }>
           %label{for: 'course_price_free'} Gratuit
-        .radio
+        .radio.flush
           %input#course_price_other{type: 'radio', name: 'course[price]', checked: (@course.price.present? and @course.price.to_i > 0) }>
           %label{for: 'course_price_other'} Participation financière libre
-          = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false, placeholder: '20'
-          €
-
-    = f.input :info, label: 'Infos pratiques'
+          .hidden.inline-block
+            Indiquez ici le montant moyen attendu :
+            = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false, placeholder: '20'
+            €
+    = f.input :info, label: 'Infos pratiques', placeholder: "Renseignez toutes les informations à communiquer aux potentiels inscrits : materiel, tenu exigée, informations sur le lieu, etc."
   %p= f.submit 'Enregistrer', class: 'btn btn--green btn--full'
