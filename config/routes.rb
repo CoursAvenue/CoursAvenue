@@ -189,6 +189,9 @@ CoursAvenue::Application.routes.draw do
     end
   end
 
+  resources :plannings, only: [] do
+    resources :participations, only: [:create]
+  end
   resources :locations, only: [:index]
 
   resources :reservations, only: [:create]

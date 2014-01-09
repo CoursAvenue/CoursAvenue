@@ -34,6 +34,8 @@ class Course < ActiveRecord::Base
   scope :workshops_and_training, -> { where{ type != "Course::Lesson" } }
   scope :open_courses,           -> { where(type: 'Course::Open') }
 
+  default_scope                  -> { where{type != 'Course::Open'} }
+
   # ------------------------------------------------------------------------------------ Validations
   validates :type, :name  , presence: true
   validates :subjects     , presence: true
