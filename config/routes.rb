@@ -176,6 +176,7 @@ CoursAvenue::Application.routes.draw do
     resources :messages     , controller: 'users/messages'
     resources :conversations, controller: 'users/conversations'
     resources :passions, only: [:index, :destroy], controller: 'users/passions'
+    resources :participations, only: [:index], controller: 'users/participations'
   end
   resources :emails, only: [:create]
 
@@ -190,7 +191,7 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :plannings, only: [] do
-    resources :participations, only: [:create]
+    resources :participations, only: [:create, :destroy], controller: 'plannings/participations'
   end
   resources :locations, only: [:index]
 

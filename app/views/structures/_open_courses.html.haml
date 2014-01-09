@@ -41,8 +41,8 @@
                     .progress.flush
                       .bar.bar-warning{style: "width: 50%;"}
                         #{planning.waiting_list.length}
-                %td
+                %td.text--right
                   - if current_user
-                    = link_to "S'inscrire", '#', class: 'btn btn--small btn--green'
+                    = link_to "S'inscrire", planning_participations_path(planning), class: 'btn btn--small btn--green', method: :post
                   - else
                     = link_to "S'inscrire", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Contact form button'])"
