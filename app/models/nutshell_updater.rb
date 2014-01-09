@@ -61,6 +61,7 @@ class NutshellUpdater
           'name'    => {
             'displayName' => structure.name
           },
+          'description' => structure.main_contact.name,
           'tags'    => new_tags.uniq,
           'address' => address,
           'customFields' => {
