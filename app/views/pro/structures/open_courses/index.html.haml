@@ -1,9 +1,35 @@
 = side_menu_currently_at 'Journée portes ouvertes'
 
+%h4.flush Journées portes ouverte du samedi xx avril 2014
+.push--bottom
+  = link_to "Qu'est-ce que c'est", 'javascript:void(0)', data: { toggle: 'collapse', target: '#jpo-details'}
+
+#jpo-details.collapse
+  .white-box.islet
+    %p
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    %h4 Qu'est-ce que j'y gagne ?
+    %p
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
+
+- if @courses.empty?
+  %p.white-box.islet
+    Vous n'avez pas encore définit vos ateliers.
+
 .text--center.push--bottom
   = link_to 'Ajouter un atelier', new_pro_structure_course_open_path(@structure), class: 'btn btn--green btn--large'
-
-%h4 Journées portes ouverte du samedi xx avril 2014
 
 - @courses.each do |course|
   .white-box.islet

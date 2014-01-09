@@ -125,7 +125,6 @@
     @extend .btn--social;
     border-color    : darken($facebook-blue, 3%);
     background-color: $facebook-blue;
-    @include border-radius(3em);
     &:hover {
         background-color: lighten($facebook-blue, 5%);
     }
@@ -133,6 +132,9 @@
         content         : 'f';
         border-right    : 1px solid darken($facebook-blue, 8%);
     }
+}
+.btn--facebook--rounded {
+    @include border-radius(3em);
 }
 .btn--facebook.btn--small {
     padding      : 0.4em;

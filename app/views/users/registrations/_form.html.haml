@@ -1,6 +1,6 @@
 .text--right
   = image_tag 'texts/facebook-text.png', height: 45
-%div= link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full', id: 'facebook_button'
+%div= link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--facebook--rounded btn--full', id: 'facebook_button'
 %ul.no-bullet-list.flush--bottom.push-half--top
   %li
     %i.fa.fa-check.green

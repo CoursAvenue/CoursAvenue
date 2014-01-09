@@ -11,7 +11,7 @@
     Information générales du cours
   .form-white-box
     = f.input :name, label: t('.name'), placeholder: 'Ex : Danse orientale, Dégustation de vins & fromages, etc.'
-    .input<
+    .input.flush<
       = f.label :subjects
       - subjects = @structure.subjects.little_children.uniq
       - if subjects.empty?
@@ -42,7 +42,7 @@
       .textarea-with-info
         .grid
           .three-fifths.grid__item>
-            = f.input :description, as: :text, placeholder: 'Expliquez en quoi consiste le cours / stage, de manière à ce que l’élève comprenne bien ce qu’il y apprendra, pour éviter toute confusion. Plus de détails vous donnez, mieux c’est !', label: false, input_html: {class: 'textarea-description', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 70, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}, wrapper_html: {class: 'flush--top one-whole'}
+            = f.input :description, as: :text, placeholder: 'Expliquez en quoi consiste le cours / stage, de manière à ce que l’élève comprenne bien ce qu’il y apprendra, pour éviter toute confusion. Plus de détails vous donnez, mieux c’est !', label: false, input_html: {class: 'one-whole textarea-description', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 70, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}, wrapper_html: {class: 'flush--top one-whole'}
           .two-fifths.grid__item>
             %p.alert--info.flush--top
               Quel est ce cours ?
@@ -61,9 +61,9 @@
       .control-label.v-middle Capacité
       %div.v-middle
         .inline-block De
-        = f.input :nb_participants_min, label: false, wrapper_html: { style: 'width: 4em', class: 'inline-block flush' }, input_html: {value: 0, class: 'one-whole'}
+        = f.input :nb_participants_min, label: false, wrapper_html: { class: 'inline-block flush' }, input_html: {value: (@course.nb_participants_min || 3), class: 'one-whole'}
         .inline-block à
-        = f.input :nb_participants_max, label: false, wrapper_html: { style: 'width: 4em', class: 'inline-block flush' }, input_html: {value: 20, class: 'one-whole'}
+        = f.input :nb_participants_max, label: false, wrapper_html: { class: 'inline-block flush' }, input_html: {value: (@course.nb_participants_max || 20), class: 'one-whole'}
         %i Au dessus de ce seuil une liste d'attente sera ouverte
     .input
       .control-label.v-top Tarifs
@@ -74,12 +74,8 @@
         .radio
           %input#course_price_other{type: 'radio', name: 'course[price]', checked: (@course.price.present? and @course.price.to_i > 0) }>
           %label{for: 'course_price_other'} Participation financière libre
-          = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false, placeholder: '20€'
+          = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false, placeholder: '20'
+          €
 
     = f.input :info, label: 'Infos pratiques'
-  = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
-
--# = content_for :scripts do
--#   :javascript
--#     $(function() {
--#     });
+  %p= f.submit 'Enregistrer', class: 'btn btn--green btn--full'
