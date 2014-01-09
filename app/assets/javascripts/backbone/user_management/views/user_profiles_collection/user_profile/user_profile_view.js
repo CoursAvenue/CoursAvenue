@@ -28,27 +28,58 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.edits[edits.attribute] = edits.data;
         },
 
+        showTagBar: function () {
+            /* TODO this initialization code will probably change */
+            /* we have tag_name, which is a property: it is a CSV
+            *  derived from the attribute "tags", which is an array
+            *  of objects. */
+            var attribute = this.$("[data-behavior=editable-tag-bar]").data("name"),
+            data = this.model.get(attribute);
+
+            var view = new Module.EditableTagBar.EditableTagBarView({
+                data: data,
+                attribute: attribute
+            });
+
+            this.showWidget(view, {
+                events: {
+                    'start:editing'     : 'startEditing',
+                    'rollback'          : 'rollback',
+                    'update:start'      : 'stopEditing',
+                    'update:success'    : 'commit',
+                    'update:error'      : 'rollback',
+                    'update:sync'       : 'setData'
+                }
+            });
+        },
+
+        showEditableText: function (element) {
+            var attribute = $(element).data("name"),
+            data = this.model.get(attribute);
+
+            var view = new Module.EditableText.EditableTextView({
+                data: data,
+                attribute: attribute
+            });
+
+            this.showWidget(view, {
+                events: {
+                    'start:editing'     : 'startEditing',
+                    'rollback'          : 'rollback',
+                    'update:start'      : 'stopEditing',
+                    'update:success'    : 'commit',
+                    'update:error'      : 'rollback',
+                    'update:sync'       : 'setData'
+                },
+                selector: '[data-type=editable-' + attribute + ']'
+            });
+        },
+
         onRender: function () {
+            this.showTagBar();
+
             this.ui.$editable.each(_.bind(function (index, element) {
-                var attribute = $(element).data("name"),
-                    data = this.model.get(attribute);
-
-                var view = new Module.EditableText.EditableTextView({
-                    data: data,
-                    attribute: attribute
-                });
-
-                this.showWidget(view, {
-                    events: {
-                        'start:editing'     : 'startEditing',
-                        'rollback'          : 'rollback',
-                        'update:start'      : 'stopEditing',
-                        'update:success'    : 'commit',
-                        'update:error'      : 'rollback',
-                        'update:sync'       : 'setData'
-                    },
-                    selector: '[data-type=editable-' + attribute + ']'
-                });
+                this.showEditableText(element);
             }, this));
         },
 
