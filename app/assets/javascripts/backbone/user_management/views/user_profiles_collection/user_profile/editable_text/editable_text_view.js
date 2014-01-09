@@ -95,6 +95,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
 
         /* change the text to the old data */
         rollback: function () {
+            this.is_editing = false;
             this.$el.html(this.data);
         },
 

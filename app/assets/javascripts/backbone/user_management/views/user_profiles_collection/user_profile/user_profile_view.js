@@ -133,6 +133,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         /* given a $field, replace that $field's contents with text */
         finishEditing: function (e) {
+            this.trigger("toggle:editing", { blur: true });
+
             var $fields   = this.$(this.ui.$editing.selector);
             var update    = {
                 user_profile: this.edits
@@ -160,11 +162,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                     // on failure, just rollback the text
                     this.trigger("update:error");
                 }, this));
-            }
-
-            /* if the user clicked a button to get here, then hide buttons */
-            if (e.source === "button") {
-                this.trigger("toggle:editing", { blur: true });
             }
 
             this.edits = {};
