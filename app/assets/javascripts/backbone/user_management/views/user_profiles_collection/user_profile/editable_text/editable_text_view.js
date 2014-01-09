@@ -68,19 +68,22 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
             this.$el.html($input);
         },
 
+        /* purely visual: whatever was in the input, change it to text */
         stopEditing: function () {
             this.is_editing = false;
-            this.$el.html(this.data);
+            var data = this.$el.find("input").val();
+
+            this.$el.html(data);
         },
 
+        /* update the data, nothing visual */
         commit: function (data) {
             this.data = data[this.attribute];
-
-            this.stopEditing();
         },
 
+        /* change the text to the old data */
         rollback: function () {
-            this.stopEditing();
+            this.$el.html(this.data);
         },
 
         isEditing: function () {

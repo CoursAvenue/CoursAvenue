@@ -20,6 +20,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.on("field:click",    this.startEditing);
             this.on("field:key:down", this.finishEditing);
             this.on("field:edits",    this.collectEdits);
+            this.on("row:blur",       this.finishEditing);
         },
 
         /* incrementally build up a set of attributes */
@@ -40,8 +41,9 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 this.showWidget(view, {
                     events: {
                         'start:editing'     : 'startEditing',
-                        'update:success'    : 'commit',
                         'rollback'          : 'rollback',
+                        'update:start'      : 'stopEditing',
+                        'update:success'    : 'commit',
                         'update:error'      : 'rollback'
                     },
                     selector: '[data-type=editable-' + attribute + ']'
@@ -100,16 +102,18 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             setTimeout(_.bind(function() {
                 var $target = $(document.activeElement);
 
-                /* if focus is moving within the row, NOP */
-                /* if focus is moving outside the table, return focus to the input */
                 if (this.$el.find($target).length > 0) {
+                /* if focus is moving within the row, NOP */
+
                     return;
                 } else if ($target[0].tagName === "BODY") {
+                /* if focus is moving outside the table, return focus to the input */
 
                     $field.focus();
                     return;
                 }
 
+                /* finally, if focus is moving to a new row, finishediting */
                 this.finishEditing(e);
 
             }, this), 1);
@@ -146,18 +150,22 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 this.trigger("rollback");
 
             } else {
+                // imediately remove the inputs and show text
+                this.trigger("update:start");
+
                 this.model.save(update, {
                     error: _.bind(function (model, response) {
                         /* display a flash containing the error message */
                         GLOBAL.flash(response.responseJSON.errors.join("\n"), "alert");
-                        this.startEditing({ target: { tagName: "DIV" }});
                     }, this),
                     wait: true
 
                 /* apply changes to the DOM based on whether out commit was rejected */
                 }).success(_.bind(function (response) {
+                    // on success commit the changes
                     this.trigger("update:success", response);
                 }, this)).error(_.bind(function () {
+                    // on failure, just rollback the text
                     this.trigger("update:error");
                 }, this));
             }
