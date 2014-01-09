@@ -12,15 +12,42 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.finishEditing = _.bind(this.finishEditing, this);
 
             this.model.set("checked", options.checked);
+            this.edits = {};
 
+            /* TODO we would like not to have to use the on syntax
+             * it would be nice to be able to just include these events
+             * in the hash below... */
+            this.on("field:click",    this.startEditing);
+            this.on("field:key:down", this.finishEditing);
+            this.on("field:edits",    this.collectEdits);
+        },
+
+        /* incrementally build up a set of attributes */
+        collectEdits: function (edits) {
+            this.edits[edits.attribute] = edits.data;
         },
 
         onRender: function () {
-            var view = new Module.EditableText.EditableTextView({
-                model: new Backbone.Model({ name: "bob" })
-            });
+            this.ui.$editable.each(_.bind(function (index, element) {
+                var attribute = $(element).data("name"),
+                    data = this.model.get(attribute);
 
-            this.showWidget(view);
+                var view = new Module.EditableText.EditableTextView({
+                    data: data,
+                    attribute: attribute
+                });
+
+                this.showWidget(view, {
+                    events: {
+                        'start:editing'     : 'startEditing',
+                        'demand:edits'      : 'announceEdits',
+                        'update:success'    : 'stopEditing',
+                        'rollback'          : 'rollback',
+                        'update:error'      : 'rollback'
+                    },
+                    selector: '[data-type=editable-' + attribute + ']'
+                });
+            }, this));
         },
 
         ui: {
@@ -30,9 +57,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         events: {
-            'click @ui.$editable' : 'startEditing',
             'focusout'            : 'handleBlur',
-            'keydown'             : 'handleKeyDown',
             'change @ui.$checkbox': 'addToSelected'
         },
 
@@ -86,31 +111,28 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                     return;
                 }
 
-
-
                 this.finishEditing(e);
 
             }, this), 1);
         },
 
-        startEditing: function (e) {
-            /* clicking inside the input does nothing */
-            if (e.target.tagName === "INPUT") {
+        /* called: when an editable is clicked */
+        /* notifies all the other editables in the layout
+        *  and gets them started
+        *  gives focus to the editable that was clicked */
+        startEditing: function (editable) {
+            /* clicking an already active editable does nothing */
+            if (editable.isEditing()) {
                 return;
             }
 
-            var $fields    = this.ui.$editable;
+            /* tell all the other fields to start themselves */
+            this.trigger("start:editing");
 
-            _.each($fields, function (field) {
-                var $field = $(field);
-                var text = $field.text();
-                var $input = $("<input>").prop("value", text);
+            /* give the main dude focus */
+            /* TODO I presume this will fail due to asynchronicity later */
+            editable.$el.find("input").focus();
 
-                $field.html($input);
-            });
-
-            var $current     = $(e.currentTarget).find("input");
-            $current.focus();
             this.trigger("toggle:editing");
         },
 
@@ -118,36 +140,11 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         finishEditing: function (e) {
             var $fields   = this.$(this.ui.$editing.selector);
             var update    = {
-                user_profile: { }
+                user_profile: this.edits
             };
-            var dom_changes = new $.Deferred();
-
-            /* collect the edits from all the modified fields */
-            _.each($fields, _.bind(function (field) {
-                var $field    = $(field);
-                var $input    = $field.find("input");
-                var attribute = $field.data("name");
-
-                /* TODO for now all fields are text, but later this will get more complicated */
-                var old_value = this.model.get(attribute);
-                var new_value = $input.val();
-
-                /* collect the potential DOM changes here */
-                dom_changes.then(function () {
-                    var text = new_value;
-
-                    $field.html(text);
-                }, function () {
-                    var text = old_value;
-
-                    $field.html(text);
-                });
-
-                update.user_profile[attribute] = new_value;
-            }, this));
 
             if (e.restore) {
-                dom_changes.reject(); // rrrroll back!
+                this.trigger("rollback");
 
             } else {
                 this.model.save(update, {
@@ -159,27 +156,19 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                     wait: true
 
                 /* apply changes to the DOM based on whether out commit was rejected */
-                }).success(function () {
-                    dom_changes.resolve();
-                }).error(function () {
-                    dom_changes.reject();
-                });
+                }).success(_.bind(function (response) {
+                    this.trigger("update:success", response);
+                }, this)).error(_.bind(function () {
+                    this.trigger("update:error");
+                }, this));
             }
 
             /* if the user clicked a button to get here, then hide buttons */
             if (e.source === "button") {
                 this.trigger("toggle:editing", { blur: true });
             }
-        },
 
-        handleKeyDown: function (e) {
-            var key = e.which;
-            if (key !== ENTER && key !== ESC) {
-                return;
-            }
-
-            this.trigger("toggle:editing", { blur: true });
-            this.finishEditing({ currentTarget: e.target, restore: (key === ESC) });
-        },
+            this.edits = {};
+        }
     });
 });
