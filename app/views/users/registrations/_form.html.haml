@@ -3,11 +3,14 @@
 %div= link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full', id: 'facebook_button'
 %ul.no-bullet-list.flush--bottom.push-half--top
   %li
-    %i.fa.fa-check-square-o
-    Plus simple, plus rapide !
+    %i.fa.fa-check.green
+    Plus de mot de passe nécessaire.
   %li
-    %i.fa.fa-check-square-o
-    Nous ne publions rien sans votre accord.
+    %i.fa.fa-check.green
+    Connexion en 1 clic.
+  %li
+    %i.fa.fa-check.green
+    Nous ne publions rien sur votre mur.
 .or
   %span ou
 #sign-in-content.collapse
