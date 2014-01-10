@@ -39,6 +39,7 @@ CoursAvenue::Application.routes.draw do
       resources :sticker_demands, only: [:index]
       resources :structures, path: 'etablissements' do
         member do
+          get   :add_subjects
           get   :update_widget_status
           get   :crop_logo
           get   :wizard

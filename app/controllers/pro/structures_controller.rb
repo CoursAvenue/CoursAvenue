@@ -174,6 +174,12 @@ class Pro::StructuresController < Pro::ProController
     @courses   = @structure.courses.order('name ASC')
   end
 
+  def add_subjects
+    if request.xhr?
+      render partial: 'add_subjects'
+    end
+  end
+
   def edit
     @structure = Structure.friendly.find(params[:id])
   end
@@ -202,7 +208,7 @@ class Pro::StructuresController < Pro::ProController
         if !request.xhr? and params[:structure][:logo].present?
           format.html { redirect_to (crop_logo_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
         else
-          format.html { redirect_to (params[:from_path] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
+          format.html { redirect_to (params[:return_to] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
           format.js { render nothing: true }
           format.json { render json: {
                                   logo: {

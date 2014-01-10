@@ -1,8 +1,8 @@
 = simple_form_for [:pro, @structure], html: { autocomplete: 'off', id: 'structure-form' } do |structure_form|
   = structure_form.error_notification
 
-  - if params[:from_path].present?
-    %input{type: 'hidden', value: params[:from_path], name: 'from_path'}
+  - if params[:return_to].present?
+    %input{type: 'hidden', value: params[:return_to], name: 'return_to'}
   .form-inputs
     %h5.form-header-group
       %i.fa.fa-picture-o
@@ -109,7 +109,8 @@
 
   = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full'
 
-= render 'parent_descendant_subjects'
+= content_for :scripts do
+  = render 'parent_descendant_subjects'
 
 = content_for :scripts do
   :javascript
