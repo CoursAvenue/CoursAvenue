@@ -36,11 +36,15 @@
     }
     .input {
         margin: 10px 0;
-        input, textarea, .text, .multiple-select {
+        input, textarea, .text {
             width    : 100% - $label-width;
             &.one-whole {
                 width: 100%;
             }
+        }
+        .multiple-select {
+            // -1 Because chosen generate a slightly bigger input (or maybe it includes a space...)
+            width: 100% - $label-width - 1;
         }
         select {
             width: auto;

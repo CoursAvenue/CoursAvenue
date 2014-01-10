@@ -7,24 +7,20 @@
         %span Nom
       %th.sortAsc
         %span Date de création
-      %th
+      %th Profil
   %tbody
     - @structures.each do |structure|
       %tr
         %td
           = link_to structure.name, dashboard_pro_structure_path(structure)
-          - if structure.main_contact
-            \/
-            = link_to "(#{structure.main_contact.name})", edit_pro_admin_path(structure.main_contact)
         %td{data: {value: structure.created_at}}
-          = l(structure.created_at)
-        %td.text--right.nowrap
-          - if structure.active
-            = link_to 'Actif', disable_pro_structure_path(structure), method: :patch, class: 'switch-button on', title: 'Désactiver'
-          - else
-            = link_to 'Inactif',  activate_pro_structure_path(structure), method: :patch, class: 'switch-button off', title: 'Activer'
-          = link_to pro_structure_path(structure), method: :delete, class: 'btn btn--red', title: 'Supprimer' do
-            %i.fa.fa-trash-o
+          = l(structure.created_at.to_date)
+        %td.nowrap
+          = link_to 'Public', structure_url(structure, subdomain: 'www')
+          \/
+          = link_to 'Privé', pro_structure_path(structure)
+          \/
+          = link_to "Lien d'inscription", new_pro_admin_structure_registration_path(structure)
 
 = content_for :scripts do
   :javascript

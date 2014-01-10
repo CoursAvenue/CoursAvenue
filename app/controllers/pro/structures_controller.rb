@@ -166,7 +166,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   def index
-    @structures = Structure.order('created_at DESC').limit(50)
+    @structures = Structure.includes(:admins).where( :admins => { :structure_id => nil } ).order('structures.created_at DESC')
   end
 
   def show

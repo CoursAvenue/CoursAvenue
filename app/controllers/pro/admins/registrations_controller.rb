@@ -5,7 +5,7 @@ class Pro::Admins::RegistrationsController < Devise::RegistrationsController
   def new
     @structure = Structure.where(slug: params[:structure_id]).first
     if @structure
-      @admin     = @structure.admins.build(email: @structure.contact_email)
+      @admin = @structure.admins.build(email: @structure.contact_email)
     else
       redirect_to inscription_pro_structures_path
     end
