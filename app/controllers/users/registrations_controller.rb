@@ -10,7 +10,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     session['user_return_to'] || request.referrer || root_path
   end
 
+  # Method taken from devise lib
   def create
+    ## Start of changes
     if (@user = User.inactive.where(email: params[:user][:email]).first).nil?
       @user = User.new params[:user]
       build_resource(sign_up_params)
@@ -18,6 +20,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
       self.resource = @user
       self.resource.update_attributes params[:user]
     end
+    resource.after_sign_up_url = session['user_return_to']
+    ## end of changes
     if resource.save
       resource.send_confirmation_instructions
       yield resource if block_given?
@@ -35,25 +39,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       respond_with resource
     end
   end
-
-  # def create
-  #   # As users are created when they post a comment, or teachers invite them to post one
-  #   # We update the user if it exists, else we create a new one.
-  #   if (@user = User.inactive.where(email: params[:user][:email]).first).nil?
-  #     @user = User.new params[:user]
-  #   else
-  #     @user.update_attributes params[:user]
-  #   end
-  #   respond_to do |format|
-  #     if @user.save
-  #       sign_in(@user, bypass: true)
-  #       azd?
-  #       format.html { redirect_to(root_path, notice: 'Vous êtes bien enregistré. Vous devez valider votre compte.') }
-  #     else
-  #       format.html { render action: 'new' }
-  #     end
-  #   end
-  # end
 
   def new
     respond_to do |format|

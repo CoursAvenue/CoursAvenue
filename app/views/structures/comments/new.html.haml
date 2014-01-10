@@ -58,9 +58,14 @@
   .grid__item.two-thirds>
     .grid
       .grid__item.one-eighth>
-        = image_tag @structure.logo.url(:thumb)
+        = link_to structure_path(@structure), class: 'muted-link', target: :_blank do
+          = image_tag @structure.logo.url(:thumb)
       .grid__item.seven-eighths>
-        %h2.flush--bottom.small-margin-bottom= @structure.name
+        %h2.flush--bottom.small-margin-bottom
+          = link_to @structure.name, structure_path(@structure), class: 'semi-muted-link', target: :_blank
+          = link_to structure_path(@structure), class: 'btn btn--small push-half--left', target: :_blank do
+            %i.fa.fa-external-link
+            Voir le profil
         %h4 Votre expérience est précieuse pour les autres élèves. Merci !
     .islet.white-box.two-thrids.center-block
       = simple_form_for @comment, url: comments_path do |f|

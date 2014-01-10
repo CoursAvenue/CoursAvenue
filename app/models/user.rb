@@ -30,6 +30,9 @@ class User < ActiveRecord::Base
                   :birthdate, :phone_number, :zip_code, :city_id, :passions_attributes, :description,
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in
 
+  # To store hashes into hstore
+  store_accessor :meta_data, :after_sign_up_url
+
   accepts_nested_attributes_for :passions,
                                  reject_if: lambda {|attributes| attributes['subject_id'].blank? },
                                  allow_destroy: true
@@ -154,6 +157,7 @@ class User < ActiveRecord::Base
     percentage += 20 if self.city
     percentage += 20 if self.gender and self.birthdate
     percentage += 20 if self.passions.any?
+    percentage
   end
 
   def around_courses_url
