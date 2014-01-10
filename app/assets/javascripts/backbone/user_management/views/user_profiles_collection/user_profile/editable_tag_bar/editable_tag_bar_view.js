@@ -7,6 +7,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
     var SPACE = 32;
 
     /* TODO when I backspace, it should "untag" the taggie, turning it back into a text */
+    /* TODO I need to define clearly what parts of the template will be added/removed over time
+    *  and then make UI shortcuts for everything else */
 
     Module.EditableTagBarView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'editable_tag_bar_view',
@@ -44,7 +46,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         },
 
         onRender: function () {
-            this.$rollback = this.$el.html();
+            this.$rollback = this.$(".taggies-container");
         },
 
         /* SPACE: turn the text into a taggy */
@@ -134,6 +136,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         stopEditing: function () {
             this.is_editing = false;
             this.ui.$taggy.removeClass("active");
+            this.$(".taggy--input").css({ display: "none" });
         },
 
         /* forcibly update the data */
@@ -145,13 +148,16 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         /* update the data, nothing visual */
         commit: function (data) {
             this.data = data.tag_name;
-            this.$rollback = this.build_taggy();
+            this.$(".taggies-container").replaceWith(this.build_taggy());
+
+            this.$rollback = this.$(".taggies-container");
         },
 
         /* change the text to the old data */
         rollback: function () {
             this.is_editing = false;
-            this.$el.html(this.$rollback);
+
+            this.$(".taggies-containter").replaceWith(this.$rollback);
         },
 
         /* maybe the text has fallen out of sync with the data */
