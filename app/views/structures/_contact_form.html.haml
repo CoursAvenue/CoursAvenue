@@ -1,3 +1,10 @@
+- if current_user and params[:contact]
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          $('#show-structure-contact').click();
+      });
+
 .blue-box.islet.push-half--bottom#show-structure-contact-wrapper
   .delta.push-half--bottom.text--center{style: 'margin-top: 3px;'}
     Contactez pour réserver ou

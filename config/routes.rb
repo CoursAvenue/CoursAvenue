@@ -161,6 +161,7 @@ CoursAvenue::Application.routes.draw do
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
     collection do
       get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
+      get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
     end
     member do
       get :dashboard

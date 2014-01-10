@@ -1,9 +1,14 @@
 # encoding: utf-8
 class UsersController < InheritedResources::Base
-  layout 'user_profile'
+
+  layout :get_layout
+
   actions :show, :update
 
-  load_and_authorize_resource :user, find_by: :slug, except: [:first_update, :unsubscribe]
+  load_and_authorize_resource :user, find_by: :slug, except: [:first_update, :unsubscribe, :waiting_for_activation]
+
+  def waiting_for_activation
+  end
 
   def show
     @user = User.find(params[:id])
@@ -25,6 +30,25 @@ class UsersController < InheritedResources::Base
     @user               = User.find(params[:id])
     @profile_completion = current_user.profile_completion
     @conversations      = current_user.mailbox.conversations.limit(4)
+    if @user.city
+      @structure_search = StructureSearch.search({lat: @user.city.latitude,
+                                                  lng: @user.city.longitude,
+                                                  radius: 7,
+                                                  per_page: 150,
+                                                  bbox: true,
+                                                  subject_slugs: (@user.passions.any? ? @user.passions.map(&:subject).compact.map(&:slug) : [])
+                                                  }).results
+
+      @structure_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
+        marker.lat structure.latitude
+        marker.lng structure.longitude
+      end
+    else
+      @structure_locations = Gmaps4rails.build_markers(City.where{zip_code == '75000'}.first) do |city, marker|
+        marker.lat city.latitude
+        marker.lng city.longitude
+      end
+    end
   end
 
   def update
@@ -45,4 +69,15 @@ class UsersController < InheritedResources::Base
       redirect_to root_path, alert: "Vous n'avez pas la permission"
     end
   end
+
+  private
+
+  def get_layout
+    if action_name == 'waiting_for_activation'
+      'empty'
+    else
+      'user_profile'
+    end
+  end
+
 end

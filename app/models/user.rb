@@ -157,7 +157,15 @@ class User < ActiveRecord::Base
   end
 
   def around_courses_url
-    structures_path(lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subject).compact.map(&:slug))
+    if self.city
+      if self.passions.any?
+        structures_path(lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subject).compact.map(&:slug))
+      else
+        structures_path(lat: self.city.latitude, lng: self.city.longitude)
+      end
+    else
+      structures_path
+    end
   end
 
   def around_courses_search

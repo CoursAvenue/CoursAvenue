@@ -31,8 +31,7 @@ class Structures::CommentsController < ApplicationController
                                           radius: 7,
                                           per_page: 150,
                                           bbox: true,
-                                          subject_slugs: @comment.subjects.map(&:slug),
-                                          trial_course_amount: 0}).results
+                                          subject_slugs: @comment.subjects.map(&:slug)}).results
 
     @course_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
       marker.lat structure.latitude
