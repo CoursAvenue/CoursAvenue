@@ -1,7 +1,7 @@
 <div class="taggy">
-    <span>
+    <span data-type="taggies-container">
         {{#each tags}}
-            <span class="taggy--tag">
+            <span class="taggy--tag" data-value="{{ this }}">
                 {{ this }}
                 <span class="taggy--tag__saltier" data-behavior="destroy"></span>
             </span>

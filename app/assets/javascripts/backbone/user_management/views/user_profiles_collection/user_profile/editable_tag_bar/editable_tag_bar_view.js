@@ -2,8 +2,11 @@
 /* just a basic marionette view */
 UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar', function(Module, App, Backbone, Marionette, $, _) {
 
-    var ENTER  = 13;
-    var ESC    = 27;
+    var ENTER = 13;
+    var ESC   = 27;
+    var SPACE = 32;
+
+    /* TODO when I backspace, it should "untag" the taggie, turning it back into a text */
 
     Module.EditableTagBarView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'editable_tag_bar_view',
@@ -27,8 +30,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         ui: {
             '$input': 'input',
+            '$list': '[data-type=taggies-container]',
             '$taggy': '.taggy',
-            '$taggies': '.taggy--tag'
         },
 
         /* no model here */
@@ -40,10 +43,20 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             }
         },
 
+        onRender: function () {
+            this.$rollback = this.$el.html();
+        },
+
+        /* SPACE: turn the text into a taggy */
         handleKeyDown: function (e) {
+            var key = e.which;
+
+            if (key === SPACE) {
+                this.createTaggy();
+            }
+
             this.announceEdits();
 
-            var key = e.which;
             if (key !== ENTER && key !== ESC) {
                 return;
             }
@@ -51,12 +64,31 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.trigger("field:key:down", { editable: this, restore: (key === ESC) });
         },
 
+        createTaggy: function () {
+            /* make a new taggy */
+            var text  = this.ui.$input.val(),
+                taggy = $("<span class='taggy--tag' data-value='" + text + "'>" + text + "</span>");
+
+            /* append said taggy */
+            this.ui.$list.append(taggy);
+
+            /* update the input width */
+            /* TODO this could be more efficient */
+            var field_width = this.$el.width();
+            var tags_width  = _.inject(this.$(".taggy--tag"), function (memo, element) {
+                memo += $(element).width() + 35;
+                return memo;
+            }, 0);
+
+            this.ui.$input.css({ width: (field_width - tags_width ) + 'px', display: "" });
+            this.ui.$input.val("");
+        },
+
+        /* gather all the existing taggies */
         getEdits: function () {
-            var data = this.ui.$taggies.map(function (index, taggy) {
-                return {
-                    name: $(taggy).text()
-                };
-            });
+            var data = this.$(".taggy--tag").map(function (index, taggy) {
+                return $(taggy).data("value");
+            }).toArray();
 
             var edits = {
                 attribute: "tags",
@@ -84,9 +116,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
             this.is_editing = true;
 
+            /* TODO figure out how to make this rock */
             var field_width = this.$el.width();
-            var tags_width  = _.inject(this.ui.$taggies, function (memo, element) {
-                memo += $(element).width() + 35;
+            var tags_width  = _.inject(this.$(".taggy--tag"), function (memo, element) {
+                memo += $(element).width() + 40;
                 return memo;
             }, 0);
 
@@ -95,16 +128,12 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
             var text = this.$el.text();
             var $input = $("<input>").prop("value", text);
-
         },
 
         /* purely visual: whatever was in the input, change it to text */
         stopEditing: function () {
             this.is_editing = false;
-            var data = this.$el.find("input").val();
-
             this.ui.$taggy.removeClass("active");
-            this.$el.html(data);
         },
 
         /* forcibly update the data */
@@ -115,13 +144,14 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         /* update the data, nothing visual */
         commit: function (data) {
-            this.data = data[this.attribute];
+            this.data = data.tag_name;
+            this.$rollback = this.build_taggy();
         },
 
         /* change the text to the old data */
         rollback: function () {
             this.is_editing = false;
-            this.$el.html(this.data);
+            this.$el.html(this.$rollback);
         },
 
         /* maybe the text has fallen out of sync with the data */
@@ -132,5 +162,16 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         isEditing: function () {
             return this.is_editing === true;
         },
+
+        build_taggy: function () {
+            var $html = this.ui.$list.empty();
+
+            _.each(this.data.split(","), function (text) {
+                $taggy = $("<span class='taggy--tag' data-value='" + text + "'>" + text + "</span>");
+                $html.append($taggy);
+            });
+
+            return $html;
+        }
     });
 });
