@@ -1,0 +1,40 @@
+fr:
+  activerecord:
+    models:
+      passion: Passion
+    attributes:
+      passion:
+        civility: Civilité
+        name: Prénom + Nom
+        phone_number: Téléphone
+        mobile_phone_number: Téléphone portable
+        email: E-mail
+        password: Mot de passe
+        password_confirmation: Confirmation du mot de passe
+        remember_me: Se souvenir de moi
+        role: Fonction
+        is_teacher: Je suis professeur
+
+  passions:
+    reasons:
+      discover: Je souhaite découvrir de nouveaux cours près de chez moi
+      participate: "Je souhaite participer à des ateliers, stages ou événements (soirées, expo, etc.)"
+      looking_for_someone: Je recherche un(e) partenaire pour pratiquer cette discipline
+      share_passion: Je souhaite partager ma passion avec mes proches
+      nothing: "Je suis très content de mes cours et ne souhaite rien, merci !"
+      gonna_stop: Je compte arrêter prochainement
+      other: "Autres"
+    expectations:
+      discover: Pour découvrir
+      get_back: Pour m'y remettre
+      curiosity: Par curiosité
+      health: "Pour ma santé (perte de poids, activité physique, etc.)"
+      moral: "Pour mon moral (suivre des cours, ça fait du bien !)"
+      passion: Par passion
+      other: "Autres"
+    frequencies:
+      everyday: Tous les jours
+      two_to_five_a_week: 2 à 5 fois par semaine
+      once_a_week: 1 fois par semaine
+      once_a_month: 1 fois par mois
+      less_than_10_times_a_year: Moins de 10 fois par an

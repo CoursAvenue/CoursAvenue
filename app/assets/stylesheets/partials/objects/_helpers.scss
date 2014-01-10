@@ -55,6 +55,11 @@
 }
 
 .line-through { text-decoration: line-through; }
+.line-through--gray {
+    text-decoration: line-through;
+    color          : #777;
+    font-style     : italic;
+}
 
 .base-font-style {
     font-size  : $base-font-size;
@@ -100,21 +105,7 @@
 .thin              { font-weight: 300; }
 .very-soft         { padding: 5px; }
 
-.darker-background {
- background-color: $beige-darker;
-}
-
-.absolute-curtain {
-    position : absolute;
-    z-index  : 20;
-    width    : 100%;
-    height   : 100%;
-    top      : 0;
-    left     : 0;
-}
 .pointer    { cursor: pointer;}
-.underlined { text-decoration: underline; }
-
 .ie-blocker {
     position   : fixed;
     height     : 100%;
@@ -133,3 +124,5 @@
         display: block;
     }
 }
+.z-index-1 { z-index: 1; }
+.white-text-shadow { @include text-shadow(0 0 2px #FFF, 0 0 12px #FFF, 0 0 22px #FFF, 0 0 42px #FFF, 0 0 92px #FFF); }

@@ -58,9 +58,14 @@
   .grid__item.two-thirds>
     .grid
       .grid__item.one-eighth>
-        = image_tag @structure.logo.url(:thumb)
+        = link_to structure_path(@structure), class: 'muted-link', target: :_blank do
+          = image_tag @structure.logo.url(:thumb)
       .grid__item.seven-eighths>
-        %h2.flush--bottom.small-margin-bottom= @structure.name
+        %h2.flush--bottom.small-margin-bottom
+          = link_to @structure.name, structure_path(@structure), class: 'semi-muted-link', target: :_blank
+          = link_to structure_path(@structure), class: 'btn btn--small push-half--left', target: :_blank do
+            %i.fa.fa-external-link
+            Voir le profil
         %h4 Votre expérience est précieuse pour les autres élèves. Merci !
     .islet.white-box.two-thrids.center-block
       = simple_form_for @comment, url: comments_path do |f|
@@ -79,12 +84,14 @@
         .input
           %label.control-label
             .lbl.lbl--blue
-              %i.fa.fa-eye-open.soft-half--right
+              %i.fa.fa-eye.soft-half--right
               Public
           %h5.inline
             Déposez votre avis visible de tous
         = f.input :course_name, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir'
         = f.input :title, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute"
+
+        = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2), multiple: true, input_html: { class: 'multiple-select', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}}
 
         .input.flush--bottom<
           = f.label :content, style: 'vertical-align: top;'
@@ -128,11 +135,15 @@
           %li Concrètement, qu’est-ce que vous faites aujourd’hui grâce à ce que vous avez appris ?
           %li Comment vous êtes-vous senti(e) à la fin du dernier cours ou stage ?
           %li Racontez une anecdote sympa à partager aux futurs élèves !
-    - if @comments.any?
-      .bordered--left.soft--left
+    .bordered--left.soft--left
+      - if @comments.any?
         %h4 Derniers avis sur cet établissement
         %ul.comment-list.milli
           = render partial: 'comments/comment', collection: @comments, locals: {small_avatar: true}
+      - else
+        %h4 Derniers avis sur CoursAvenue
+        %ul.comment-list.milli
+          = render partial: 'comments/comment', collection: Comment.accepted.limit(4), locals: {small_avatar: true}
 
 
 = content_for :scripts do

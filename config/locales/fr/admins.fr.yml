@@ -14,6 +14,10 @@ fr:
         remember_me: Se souvenir de moi
         role: Fonction
         is_teacher: Je suis professeur
+        newsletter_email_opt_in: "CoursAvenue a des infos intéressantes sur les dernière nouveautés de son site, sur l'entreprise, ou me propose de participer à des événements exclusifs pour mieux faire connaître mes cours."
+        monday_email_opt_in: "Chaque lundi matin, CoursAvenue m'envoie des bons conseils pour améliorer ma visibilité sur CoursAvenue."
+        thursday_email_opt_in: "Chaque jeudi matin, CoursAvenue m'envoie des bons conseils pour m'aider à développer le bouche à oreille."
+        student_action_email_opt_in: "Un élève a fait une action sur mon profil (nouvelle recommandation, nouveau message, demande d'inscription à mes cours)."
 
   civility:
     male: Monsieur
@@ -46,4 +50,3 @@ fr:
     sessions:
       new:
         log_in: Connectez-vous à votre espace admin
-

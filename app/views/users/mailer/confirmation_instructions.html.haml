@@ -1,0 +1,10 @@
+%p Bonjour,
+
+%p
+  Validez votre inscription en cliquant sur le bouton suivant :
+
+%p.action
+  = link_to 'Valider mon inscription', user_confirmation_url(confirmation_token: @token), class: 'btn btn--blue'
+
+%p L'équipe de CoursAvenue
+

@@ -115,7 +115,13 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def data_url
-    structure_url(object, subdomain: 'www', host: 'coursavenue.com')
+    if Rails.env.production?
+      structure_url(object, subdomain: 'www', host: 'coursavenue.com')
+    elsif Rails.env.development?
+      structure_url(object, subdomain: 'www', host: 'coursavenue.dev')
+    elsif Rails.env.staging?
+      structure_url(object, subdomain: 'www', host: 'staging.coursavenue.com')
+    end
   end
 
   def course_names

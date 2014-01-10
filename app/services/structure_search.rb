@@ -22,7 +22,13 @@ class StructureSearch
       end
 
       # --------------- Subjects
-      with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id].present?
+      if params[:subject_slugs].present?
+        with(:subject_slugs).any_of           params[:subject_slugs]
+      else
+        with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id].present?
+      end
+
+
       # For the home screen link "Autres"
       if params[:exclude].present?
         without(:subject_slugs, params[:exclude])

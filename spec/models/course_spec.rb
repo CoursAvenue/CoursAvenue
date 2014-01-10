@@ -261,4 +261,39 @@ describe Course do
       @course_duplicate.new_record?.should be_false
     end
   end
+
+  def valid_price_attributes
+      {
+          prices_attributes: [{
+              type: "Price::BookTicket",
+              amount: 200,
+              number: 1
+          }]
+      }
+  end
+
+  def invalid_price_attributes
+      {
+          prices_attributes: [{
+              type: "Price::BookTicket",
+              # amount: 200,
+              number: 1
+          }]
+      }
+  end
+
+  describe "#reject_price" do
+    let(:valid_prices) { valid_price_attributes }
+    let(:invalid_prices) { invalid_price_attributes }
+
+    it "should accept nested attributes for prices" do
+        expect { @course.update_attributes(valid_prices) }.to change(Price, :count).by(1)
+    end
+
+    it "should reject a price if it is empty" do
+        expect { @course.update_attributes(invalid_prices) }.to change(Price, :count).by(0)
+    end
+
+  end
+
 end

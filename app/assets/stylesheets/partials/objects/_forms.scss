@@ -1,7 +1,19 @@
 .inline-form {
     display: inline;
 }
-
+.checkbox-at-left {
+    label, input {
+        float: left;
+    }
+    input {
+        margin-top: 0.5em;
+    }
+    label.boolean {
+        margin-left: 1em;
+        text-align : left;
+        width      : 93%;
+    }
+}
 //.simple_form {
     .error {
         padding    : 5px 10px !important;
@@ -24,11 +36,14 @@
     }
     .input {
         margin: 10px 0;
-        input, textarea, .text {
+        input, textarea, .text, .multiple-select {
             width    : 100% - $label-width;
             &.one-whole {
                 width: 100%;
             }
+        }
+        select {
+            width: auto;
         }
         &.city-autocomplete-wrapper {
             > .input, input {
@@ -62,9 +77,6 @@
             font-size: $base-font-size;
         }
 
-        select {
-            width: auto;
-        }
         .radio {
             label, input {
                 display       : inline-block;
@@ -117,9 +129,6 @@
         }
         &.textarea-description {
             height: 20em;
-        }
-        &.textarea-description--tall, &.textarea-description {
-            width : 100%;
         }
     }
     .required {

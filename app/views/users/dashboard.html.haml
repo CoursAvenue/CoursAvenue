@@ -1,0 +1,103 @@
+= user_menu_currently_at 'Mon tableau de bord'
+
+.white-box.push--bottom
+  .grid
+    .grid__item.one-half>
+      .islet
+        %h4.push-half--bottom
+          Votre profil est complété à #{@profile_completion}%
+        .text--center.progress.push-half--bottom{style: "width: 280px;"}
+          - if @profile_completion == 0
+            #{@profile_completion}%
+          - else
+            #profile-progress-bar.bar.bar-success{style: "width: 0%;"}
+              #{@profile_completion}%
+        %ul.no-bullet-list
+          %li
+            %i.fa.fa-check-square-o
+            %span.line-through--gray Créer mon profil
+          %li
+            - if current_user.has_avatar?
+              %i.fa.fa-check-square-o
+              %span.line-through--gray Ajouter ma photo
+            - else
+              = link_to edit_user_path(current_user), class: 'profile-task-uncomplete' do
+                %i.fa.fa-square-o
+                Ajouter ma photo
+          %li
+            - if current_user.city
+              %i.fa.fa-check-square-o
+              %span.line-through--gray Renseigner ma ville
+            - else
+              = link_to edit_user_path(current_user), class: 'profile-task-uncomplete' do
+                %i.fa.fa-square-o
+                Renseigner ma ville
+          %li
+            - if current_user.gender and current_user.birthdate
+              %i.fa.fa-check-square-o
+              %span.line-through--gray Compléter mes informations générales
+            - else
+              = link_to edit_user_path(current_user), class: 'profile-task-uncomplete' do
+                %i.fa.fa-square-o
+                Compléter mes informations générales
+          %li
+            - if current_user.passions.any?
+              %i.fa.fa-check-square-o
+              %span.line-through--gray Renseigner mes passions
+            - else
+              = link_to user_passions_path(current_user), class: 'profile-task-uncomplete' do
+                %i.fa.fa-square-o
+                Renseigner mes passions
+    .grid__item.one-half.bordered--left.hard--left>
+      %h4.push-half--bottom.soft-half--left.soft-half--top
+        Les cours correspondant à vos goûts
+      #map.google-map.google-map--small.push-half--ends
+      - if @user.city
+        .text--center.push-half--bottom
+          = link_to 'Voir les cours autour de chez moi', @user.around_courses_url, class: 'btn btn--blue btn--small'
+      - else
+        .text--center.push-half--bottom
+          = link_to 'Renseignez-ma ville', edit_user_path(current_user), class: 'btn btn--blue btn--small'
+
+%hr.push--top
+%h4 Mes derniers messages
+- @conversations.each do |conversation|
+  = link_to user_conversation_path(current_user, conversation), class: 'muted-link' do
+    = render partial: 'conversations/conversation', locals: {conversation: conversation}
+- if @conversations.empty?
+  %p.white-box.soft-half
+    Vous n'avez pas envoyer de message.
+- if current_user.structures.any?
+  .text--center.push--bottom
+    = link_to 'Envoyer un nouveau message', new_user_message_path(current_user), class: 'btn btn--blue'
+
+%hr.push--top
+%h4 Mes derniers avis
+- if current_user.comments.accepted.any?
+  %ul.comment-list
+    = render partial: '/comments/comment', collection: current_user.comments.accepted, locals: { with_link: true }
+- else
+  %p.white-box.soft-half
+    Vous n'avez déposé aucun avis.
+  .text--center.push--bottom
+    = link_to "Trouvez un cours", current_user.around_courses_url, class: 'btn btn--blue'
+
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('#profile-progress-bar').animate({
+            width: '#{@profile_completion}%'
+        }, 800)
+    });
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        handler = Gmaps.build('Google');
+        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+            markers = handler.addMarkers(#{@structure_locations.to_json});
+            handler.bounds.extendWith(markers);
+            handler.fitMapToBounds();
+        });
+    });

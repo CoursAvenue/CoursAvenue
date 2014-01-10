@@ -27,6 +27,23 @@ describe Comment do
     end
   end
 
+  context :callbacks do
+    let(:comment) { FactoryGirl.build(:comment) }
+    context :user_passions do
+      it 'creates a passion for the user' do
+        comment.save
+        comment.user.passions.should_not be_empty
+      end
+    end
+
+    context :user_structure do
+      it 'creates a passion for the user' do
+        comment.save
+        comment.user.structures.should include comment.structure
+      end
+    end
+  end
+
   let(:comment_notification) { FactoryGirl.create(:comment_notification) }
   context 'create a comment from a user that has a comment_notification' do
     it 'creates a comment notification for a user' do
