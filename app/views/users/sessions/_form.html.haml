@@ -1,4 +1,4 @@
-%div= link_to "Connexion avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--facebook btn--full', id: 'facebook_button'
+%div= link_to "Connexion avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook', id: 'facebook_button'
 .or
   %span ou
 = simple_form_for User.new, url: user_session_path do |f|

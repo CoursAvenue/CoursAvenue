@@ -6,6 +6,7 @@
 
 .white-box.islet
   = simple_form_for @user do |f|
+    %input{type: 'hidden', name: 'return_to', value: notifications_user_path(current_user)}
     .grid
       .grid__item.one-third>
         %strong Envoyez-moi des e-mails quand :
@@ -25,4 +26,5 @@
           %i Recevez des notifications sur téléphone portable par SMS.
       .grid__item.two-thirds>
         .checkbox-at-left= f.input :sms_opt_in
+    = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
 

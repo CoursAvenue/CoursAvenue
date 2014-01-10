@@ -2,7 +2,7 @@
 
 .white-box.push--bottom
   .grid
-    .grid__item.one-half.bordered--right>
+    .grid__item.one-half>
       .islet
         %h4.push-half--bottom
           Votre profil est complété à #{@profile_completion}%
@@ -48,7 +48,16 @@
               = link_to user_passions_path(current_user), class: 'profile-task-uncomplete' do
                 %i.fa.fa-square-o
                 Renseigner mes passions
-
+    .grid__item.one-half.bordered--left.hard--left>
+      %h4.push-half--bottom.soft-half--left.soft-half--top
+        Les cours correspondant à vos goûts
+      #map.google-map.google-map--small.push-half--ends
+      - if @user.city
+        .text--center.push-half--bottom
+          = link_to 'Voir les cours autour de chez moi', @user.around_courses_url, class: 'btn btn--blue btn--small'
+      - else
+        .text--center.push-half--bottom
+          = link_to 'Renseignez-ma ville', edit_user_path(current_user), class: 'btn btn--blue btn--small'
 
 %hr.push--top
 %h4 Mes derniers messages
@@ -62,6 +71,17 @@
   .text--center.push--bottom
     = link_to 'Envoyer un nouveau message', new_user_message_path(current_user), class: 'btn btn--blue'
 
+%hr.push--top
+%h4 Mes derniers avis
+- if current_user.comments.accepted.any?
+  %ul.comment-list
+    = render partial: '/comments/comment', collection: current_user.comments.accepted, locals: { with_link: true }
+- else
+  %p.white-box.soft-half
+    Vous n'avez déposé aucun avis.
+  .text--center.push--bottom
+    = link_to "Trouvez un cours", current_user.around_courses_url, class: 'btn btn--blue'
+
 
 = content_for :scripts do
   :javascript
@@ -69,4 +89,15 @@
         $('#profile-progress-bar').animate({
             width: '#{@profile_completion}%'
         }, 800)
+    });
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        handler = Gmaps.build('Google');
+        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+            markers = handler.addMarkers(#{@structure_locations.to_json});
+            handler.bounds.extendWith(markers);
+            handler.fitMapToBounds();
+        });
     });

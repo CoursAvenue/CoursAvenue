@@ -8,6 +8,7 @@
 
 .white-box.islet
   = simple_form_for current_user do |f|
+    %input{type: 'hidden', name: 'return_to', value: user_passions_path(current_user)}
     %h5.push-half--top Quelles sont les disciplines que vous pratiquez déjà ?
     %div{data: {behavior: 'show-more-on-demand'}}
       - @practiced_passions.each_with_index do |practiced_passion, i|

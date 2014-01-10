@@ -58,9 +58,14 @@
   .grid__item.two-thirds>
     .grid
       .grid__item.one-eighth>
-        = image_tag @structure.logo.url(:thumb)
+        = link_to structure_path(@structure), class: 'muted-link', target: :_blank do
+          = image_tag @structure.logo.url(:thumb)
       .grid__item.seven-eighths>
-        %h2.flush--bottom.small-margin-bottom= @structure.name
+        %h2.flush--bottom.small-margin-bottom
+          = link_to @structure.name, structure_path(@structure), class: 'semi-muted-link', target: :_blank
+          = link_to structure_path(@structure), class: 'btn btn--small push-half--left', target: :_blank do
+            %i.fa.fa-external-link
+            Voir le profil
         %h4 Votre expérience est précieuse pour les autres élèves. Merci !
     .islet.white-box.two-thrids.center-block
       = simple_form_for @comment, url: comments_path do |f|
@@ -85,6 +90,8 @@
             Déposez votre avis visible de tous
         = f.input :course_name, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir'
         = f.input :title, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute"
+
+        = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2), multiple: true, input_html: { class: 'multiple-select', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}}
 
         .input.flush--bottom<
           = f.label :content, style: 'vertical-align: top;'

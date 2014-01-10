@@ -48,6 +48,13 @@
                 width: 100%;
             }
         }
+        .multiple-select {
+            // -1 Because chosen generate a slightly bigger input (or maybe it includes a space...)
+            width: 100% - $label-width - 1;
+        }
+        select {
+            width: auto;
+        }
         &.city-autocomplete-wrapper {
             > .input, input {
                 width        : 10em;
@@ -80,9 +87,6 @@
             font-size: $base-font-size;
         }
 
-        select {
-            width: auto;
-        }
         .radio {
             label, input {
                 display       : inline-block;

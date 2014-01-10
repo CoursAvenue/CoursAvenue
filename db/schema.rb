@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140109142332) do
+ActiveRecord::Schema.define(version: 20140110134427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -127,6 +127,13 @@ ActiveRecord::Schema.define(version: 20140109142332) do
 
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
   add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+
+  create_table "comments_subjects", id: false, force: true do |t|
+    t.integer "comment_id"
+    t.integer "subject_id"
+  end
+
+  add_index "comments_subjects", ["comment_id", "subject_id"], name: "index_comments_subjects_on_comment_id_and_subject_id", using: :btree
 
   create_table "contacts", force: true do |t|
     t.integer  "contactable_id",   null: false
@@ -663,6 +670,7 @@ ActiveRecord::Schema.define(version: 20140109142332) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.hstore   "meta_data"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

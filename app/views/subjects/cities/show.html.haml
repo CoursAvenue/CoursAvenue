@@ -109,7 +109,7 @@
         })
         handler = Gmaps.build('Google');
         handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-            markers = handler.addMarkers(#{@locations.to_json});
+            markers = handler.addMarkers(#{@json_structure_addresses.to_json});
             handler.bounds.extendWith(markers);
             handler.fitMapToBounds();
         });

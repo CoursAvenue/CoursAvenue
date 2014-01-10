@@ -5,7 +5,7 @@ class NutshellUpdater
 
   def self.nutshell
     if @@nutshell.nil?
-      @@nutshell = NutshellCrm::Client.new "nima@coursavenue.com", "e9dd959a489948e664101c1e9f77fd5463032665"
+      @@nutshell = NutshellCrm::Client.new "nicolas@coursavenue.com", "e9dd959a489948e664101c1e9f77fd5463032665"
     else
       @@nutshell
     end
@@ -58,6 +58,10 @@ class NutshellUpdater
           }
         }
         new_contact = {
+          'name'    => {
+            'displayName' => structure.name
+          },
+          'description' => structure.main_contact.name,
           'tags'    => new_tags.uniq,
           'address' => address,
           'customFields' => {

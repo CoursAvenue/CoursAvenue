@@ -4,5 +4,7 @@
 = render partial: 'form'
 
 - if current_pro_admin.super_admin?
-  %p.text--center
-    = link_to "Supprimer #{resource.name}", pro_admin_path(resource), class: 'btn btn--red', method: 'delete'
+  %p.push-half--top
+    = link_to "Supprimer #{resource.name}", pro_admin_path(resource), method: 'delete'
+  %p
+    = link_to "Supprimer #{resource.name} ET sa structure", pro_admin_path(resource, delete_structure: true), method: 'delete'

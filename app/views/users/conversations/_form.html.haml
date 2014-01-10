@@ -11,7 +11,4 @@
               = message_form.label :body
             .grid__item.ten-twelfths>
               = message_form.input :body, input_html: { style: 'height: 100px', value: cookies["conversation_#{params[:id]}_message"], class: 'one-whole', data: {behavior: 'autoresize'} }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
-              - if @user.active?
-                = f.submit 'Répondre', class: 'btn btn--green'
-              - else
-                = link_to 'Répondre', '#registration', title: 'Enregistrez-vous pour répondre', class: 'btn btn--green', data: {behavior: 'modal'}, id: 'registration-link'
+              = f.submit 'Répondre', class: 'btn btn--green'

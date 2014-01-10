@@ -7,6 +7,7 @@
       = user_side_menu_link 'Mes avis',   user_comments_path(current_user), current: current_tab, icon: 'fa fa-comments'
       = user_side_menu_link 'Mes cours',   user_participations_path(current_user), current: current_tab, icon: 'fa fa-list'
     - else
-      = user_side_menu_link 'Mes infos',   '#', current: current_tab, icon: 'fa fa-user'
-      = user_side_menu_link 'Mes avis',     '#', current: current_tab, icon: 'fa fa-comments'
-      = user_side_menu_link 'Mes messages', '#', current: current_tab, icon: 'fa fa-envelope'
+      = user_side_menu_link 'Mon tableau de bord', '#', current: current_tab, icon: 'fa fa-dashboard'
+      = user_side_menu_link 'Mes infos',           '#', current: current_tab, icon: 'fa fa-user'
+      = user_side_menu_link 'Mes messages',        '#', current: current_tab, icon: 'fa fa-envelope'
+      = user_side_menu_link 'Mes avis',            '#', current: current_tab, icon: 'fa fa-comments'
