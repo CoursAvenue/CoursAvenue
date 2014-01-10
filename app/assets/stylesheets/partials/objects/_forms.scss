@@ -36,11 +36,14 @@
     }
     .input {
         margin: 10px 0;
-        input, textarea, .text {
+        input, textarea, .text, .multiple-select {
             width    : 100% - $label-width;
             &.one-whole {
                 width: 100%;
             }
+        }
+        select {
+            width: auto;
         }
         &.city-autocomplete-wrapper {
             > .input, input {
@@ -74,9 +77,6 @@
             font-size: $base-font-size;
         }
 
-        select {
-            width: auto;
-        }
         .radio {
             label, input {
                 display       : inline-block;

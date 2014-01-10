@@ -86,6 +86,8 @@
         = f.input :course_name, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : Stage de danse jazz new style pour ado du jeudi soir'
         = f.input :title, label_html: {class: 'v-middle', style: 'vertical-align: top;'}, wrapper_html: {class: 'flush--bottom'}, placeholder: "Ex. : Un professeur toujours à l'écoute"
 
+        = f.association :subjects, as: :select, collection: @structure.subjects.at_depth(2), multiple: true, input_html: { class: 'multiple-select', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}}
+
         .input.flush--bottom<
           = f.label :content, style: 'vertical-align: top;'
           = f.input :content, label: false, input_html: {style: 'height: 150px;', class: 'one-whole', data: { behavior: 'text-counter', 'average-words-nb' => Comment::MIN_LENGTH, 'good-words-nb' => 60, 'bad-text' => "Votre avis doit comporter au moins #{Comment::MIN_LENGTH} mots.", 'average-text' => 'Encore quelques mots et votre professeur sera enchanté !', 'good-text' => "Là c'est certain, votre professeur va adorer !"}}, wrapper_html: { class: 'flush' }, required: true

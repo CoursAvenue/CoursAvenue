@@ -5,6 +5,7 @@ class CommentsController < ApplicationController
   def create
     @commentable  = find_commentable
     @comment      = @commentable.comments.build params[:comment]
+
     # If current user exists, affect it to the comment
     if current_user
       @comment.author_name = current_user.name
@@ -31,7 +32,7 @@ class CommentsController < ApplicationController
         @structure    = @commentable
         @comments     = @structure.comments.accepted.reject(&:new_record?)[0..5]
         flash[:alert] = "L'avis n'a pas pu être posté. Assurez-vous d'avoir bien rempli tous les champs."
-        format.html { render 'structures/comments/new'}
+        format.html { render 'structures/comments/new' }
       end
     end
   end
