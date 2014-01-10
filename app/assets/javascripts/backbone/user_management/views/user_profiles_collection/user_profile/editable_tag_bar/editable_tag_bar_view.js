@@ -22,6 +22,15 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.announceEdits = _.debounce(_.bind(this.announceEdits, this), 100);
             this.data = options.data;
             this.attribute = options.attribute;
+
+            /* build a recyclable taggy */
+            var taggy = $("<span>").addClass('taggy--tag');
+            var saltier = $("<span>")
+                .addClass('taggy--tag__saltier')
+                .data('data-behavior', "destroy");
+
+            taggy.append(saltier);
+            this.$taggy_template = taggy;
         },
 
         events: {
@@ -33,7 +42,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         ui: {
             '$input': 'input',
-            '$taggy': '.taggy',
+            '$container': '[data-type=taggies-container]'
         },
 
         /* no model here */
@@ -45,8 +54,13 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             }
         },
 
+        /* get all the little tags */
+        $taggies: function () {
+            return this.$(".taggy--tag");
+        },
+
         onRender: function () {
-            this.$rollback = this.$("[data-type=taggies-container]").clone();
+            this.$rollback = this.ui.$container.children().clone();
         },
 
         /* SPACE: turn the text into a taggy */
@@ -66,13 +80,23 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.trigger("field:key:down", { editable: this, restore: (key === ESC) });
         },
 
+        /* returns the jQuery object representation of a taggy, for a given text */
+        buildTaggy: function (text) {
+            var taggy = this.$taggy_template.clone();
+
+            taggy.data("value", text);
+            taggy.prepend(text);
+
+            return taggy;
+        },
+
         createTaggy: function () {
-            /* make a new taggy */
+
             var text  = this.ui.$input.val(),
-                taggy = $("<span class='taggy--tag' data-value='" + text + "'>" + text + "</span>");
+                taggy = this.buildTaggy(text);
 
             /* append said taggy */
-            this.$("[data-type=taggies-container]").append(taggy);
+            this.ui.$container.append(taggy);
 
             /* update the input width */
             /* TODO this could be more efficient */
@@ -88,7 +112,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         /* gather all the existing taggies */
         getEdits: function () {
-            var data = this.$(".taggy--tag").map(function (index, taggy) {
+            var data = this.$taggies().map(function (index, taggy) {
                 return $(taggy).data("value");
             }).toArray();
 
@@ -109,7 +133,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             if (this.isEditing()) { return; }
 
             this.startEditing(); // this field should start right away
-            this.trigger("field:click", this.$el.find("input")); // TODO we are passing out the whole view for now
+            this.trigger("field:click", this.ui.$input);
         },
 
         /* construct and show the taggy */
@@ -126,17 +150,15 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             }, 0);
 
             this.ui.$input.css({ width: (field_width - tags_width ) + 'px', display: "" });
-            this.ui.$taggy.addClass("active");
-
-            var text = this.$el.text();
-            var $input = $("<input>").prop("value", text);
+            this.$el.addClass("active");
         },
 
         /* purely visual: whatever was in the input, change it to text */
         stopEditing: function () {
             this.is_editing = false;
-            this.ui.$taggy.removeClass("active");
-            this.$(".taggy--input").css({ display: "none" });
+            this.$el.removeClass("active");
+
+            this.ui.$input.css({ display: "none" });
             this.ui.$input.val("");
         },
 
@@ -149,9 +171,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         /* update the data, nothing visual */
         commit: function (data) {
             this.data = data.tag_name;
-            this.$("[data-type=taggies-container]").replaceWith(this.build_taggy());
 
-            this.$rollback = this.$("[data-type=taggies-container]").clone();
+            this.$rollback = this.ui.$container.children().clone();
         },
 
         /* change the text to the old data */
@@ -159,10 +180,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.is_editing = false;
             this.stopEditing();
 
-            var current = this.$el.find("[data-type=taggies-container]");
+            var current = this.ui.$container;
             var old = this.$rollback;
 
-            current.replaceWith(old);
+            current.html(old);
         },
 
         /* maybe the text has fallen out of sync with the data */
@@ -172,17 +193,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         isEditing: function () {
             return this.is_editing === true;
-        },
-
-        build_taggy: function () {
-            var $html = this.$("[data-type=taggies-container]").empty();
-
-            _.each(this.data.split(","), function (text) {
-                $taggy = $("<span class='taggy--tag' data-value='" + text + "'>" + text + "</span>");
-                $html.append($taggy);
-            });
-
-            return $html;
         }
     });
 });
