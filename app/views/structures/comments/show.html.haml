@@ -9,20 +9,20 @@
           .white-box--noshadow.soft{style: 'width: 400px;'}
             = render 'users/registrations/form'
     #map.google-map.google-map--medium
+
   = content_for :scripts do
     :javascript
       $(function() {
           handler = Gmaps.build('Google');
           handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-              markers = handler.addMarkers(#{@course_locations.to_json});
+              markers = handler.addMarkers(#{@structure_locations.to_json});
               handler.bounds.extendWith(markers);
               handler.fitMapToBounds();
               var center = handler.getMap().getCenter();
-              var latLng = new google.maps.LatLng(center.lat() + 0.06, center.lng() + 0.2);
+              var latLng = new google.maps.LatLng(center.lat() + 0.05, center.lng() + 0.2);
               handler.getMap().panTo(latLng);
           });
       });
-
 
 %h1.text--center.blue.push
   Rejoignez les 10 000 élèves déjà inscrits sur CoursAvenue pour :

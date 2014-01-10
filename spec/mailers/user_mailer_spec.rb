@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe UserMailer do
   describe 'welcome' do
-    let(:user) { FactoryGirl.build(:user) }
+    let(:user) { FactoryGirl.create(:user) }
     let(:mail) { UserMailer.welcome(user) }
 
     it 'renders the headers' do

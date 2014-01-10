@@ -276,7 +276,7 @@ describe Course do
       {
           prices_attributes: [{
               type: "Price::BookTicket",
-#yolo         amount: 200,
+              # amount: 200,
               number: 1
           }]
       }
@@ -287,11 +287,11 @@ describe Course do
     let(:invalid_prices) { invalid_price_attributes }
 
     it "should accept nested attributes for prices" do
-        expect { @course.update_attributes(valid_price) }.to change(Price, :count).by(1)
+        expect { @course.update_attributes(valid_prices) }.to change(Price, :count).by(1)
     end
 
     it "should reject a price if it is empty" do
-        expect { @course.update_attributes(invalid_price) }.to change(Price, :count).by(0)
+        expect { @course.update_attributes(invalid_prices) }.to change(Price, :count).by(0)
     end
 
   end

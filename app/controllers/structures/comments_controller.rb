@@ -25,15 +25,14 @@ class Structures::CommentsController < ApplicationController
       params[:id] = params[:id].split(',')
     end
     @comment      = Comment.find(params[:id])
-
+    @user         = @comment.user
     @structure_search = StructureSearch.search({lat: @structure.latitude,
-                                          lng: @structure.longitude,
-                                          radius: 7,
-                                          per_page: 150,
-                                          bbox: true,
-                                          subject_slugs: @comment.subjects.map(&:slug)}).results
+                                                lng: @structure.longitude,
+                                                radius: 7,
+                                                per_page: 100,
+                                                bbox: true}).results
 
-    @course_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
+    @structure_locations = Gmaps4rails.build_markers(@structure_search.select{|s| s.latitude.present?}) do |structure, marker|
       marker.lat structure.latitude
       marker.lng structure.longitude
     end

@@ -167,7 +167,6 @@ CoursAvenue::Application.routes.draw do
       get :dashboard
       get :choose_password
       get :notifications
-      patch :first_update
     end
     resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
     resources :messages     , controller: 'users/messages'
