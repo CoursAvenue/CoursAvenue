@@ -25,11 +25,18 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             'change':   'announceEdits'
         },
 
+        ui: {
+            '$input': 'input',
+            '$taggy': '.taggy',
+            '$taggies': '.taggy--tag'
+        },
+
         /* no model here */
         serializeData: function () {
+            var tags = this.data.split(",");
 
             return {
-                data: this.data
+                tags: tags
             }
         },
 
@@ -45,9 +52,15 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         },
 
         getEdits: function () {
+            var data = this.ui.$taggies.map(function (index, taggy) {
+                return {
+                    name: $(taggy).text()
+                };
+            });
+
             var edits = {
                 attribute: "tags",
-                data: this.$el.find("input").val()
+                data: data
             };
 
             return edits;
@@ -65,14 +78,24 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.trigger("field:click", this.$el.find("input")); // TODO we are passing out the whole view for now
         },
 
+        /* construct and show the taggy */
         startEditing: function () {
             if (this.isEditing()) { return; }
 
             this.is_editing = true;
+
+            var field_width = this.$el.width();
+            var tags_width  = _.inject(this.ui.$taggies, function (memo, element) {
+                memo += $(element).width() + 35;
+                return memo;
+            }, 0);
+
+            this.ui.$input.css({ width: (field_width - tags_width ) + 'px', display: "" });
+            this.ui.$taggy.addClass("active");
+
             var text = this.$el.text();
             var $input = $("<input>").prop("value", text);
 
-            this.$el.html($input);
         },
 
         /* purely visual: whatever was in the input, change it to text */
@@ -80,6 +103,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.is_editing = false;
             var data = this.$el.find("input").val();
 
+            this.ui.$taggy.removeClass("active");
             this.$el.html(data);
         },
 

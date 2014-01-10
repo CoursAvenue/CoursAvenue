@@ -1,14 +1,38 @@
-.tag {
+.taggy--tag {
     border          : 1px solid #CCC;
     padding         : 0.5em;
+    margin-left     : 5px;
     background-color: white;
     &.tag--small {
         font-size: 0.9em;
         padding  : 0.2em 0.6em;
     }
+}
+
+.taggy--tag__saltier {
     &:before {
         @extend .fa;
-        @extend .fa-tag;
+        @extend .fa-times;
         padding-right: 0.3em;
     }
+}
+
+.taggy.active {
+    background-color: white;
+    cursor: text;
+    border        : 1px solid #ccc;
+    padding       : 5px;
+    vertical-align: middle;
+    @include vendor(border-box, box-sizing);
+    @include border-radius(3px);
+
+    border-color: opacify($blue-green, 0.8);
+    outline     : 0;
+    @include box-shadow(0 0 4px opacify($blue-green, 0.8),0 0 0 #000);
+}
+
+.taggy--input:focus {
+    border: none;
+    outline     : 0;
+    @include box-shadow(0 0 0px opacify($blue-green, 0.0),0 0 0 #000);
 }

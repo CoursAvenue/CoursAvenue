@@ -1,1 +1,12 @@
-{{ data }}
+<div class="taggy">
+    <span>
+        {{#each tags}}
+            <span class="taggy--tag">
+                {{ this }}
+                <span class="taggy--tag__saltier" data-behavior="destroy"></span>
+            </span>
+        {{/each}}
+    </span>
+
+    <input class="taggy--input" type="text" style="display:none;"></input>
+</div>
