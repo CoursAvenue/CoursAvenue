@@ -113,7 +113,7 @@
         text-transform  : lowercase;
         display         : inline-block;
         padding-left    : 15px;
-        font-size       : 25px;
+        font-size       : 35px;
         vertical-align  : middle;
         margin-right    : 15px;
         padding-right   : 15px;
@@ -125,17 +125,18 @@
     @extend .btn--social;
     border-color    : darken($facebook-blue, 3%);
     background-color: $facebook-blue;
-    @include border-radius(3em);
+    padding         : 0 0.4em;
+    border-left     : 1px solid darken($facebook-blue, 8%);
     &:hover {
         background-color: lighten($facebook-blue, 5%);
     }
     &:before {
         content         : 'f';
-        border-right    : 1px solid darken($facebook-blue, 8%);
+        position        : relative;
+        top             : 0.2em;
     }
 }
 .btn--facebook.btn--small {
-    padding      : 0.4em;
     padding-right: 0.7em;
     &:before {
         font-size: 19px;

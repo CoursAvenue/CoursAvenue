@@ -1,69 +1,119 @@
-<div id='fb-root'></div>
-<script src='http://connect.facebook.net/fr_FR/all.js'></script>
-
-%h4.push--top
-  Merci pour votre avis. Créez votre compte CoursAvenue en quelques secondes et continuez à vivre vos passions même après les cours :
-
-.grid
-  .grid__item.one-third>
-    .white-box.soft= render 'users/registrations/form'
-  .grid__item.two-thirds>
-    .white-box.soft
-      %p.alert.alert--info
-        %i.fa.fa-danger
-        %strong A ne pas manquer -
-        Journées Portes ouvertes des cours de loisirs en Ile-de-France
-        %i.fa.fa-question-circle.pointer{data: {toggle: 'popover', html: 'true', content: "<p>Pour tous les habitants d'Ile-de-France : les pré-inscriptions sont ouvertes !</p><p>Participez à nos \"Journées Portes ouvertes des cours de loisirs\" en Ile-de-France, un événement exceptionnel organisé par toute la communauté CoursAvenue : au printemps prochain (avril 2014, date exacte en cours de validation), nos partenaires ouvriront les portes de leurs cours.</p><p>Le temps d'une journée, partez à la découverte des disciplines que vous avez toujours rêvé de (re)découvrir en compagnie de vos amis, enfants et parents : initiation aux claquettes, atelier d'écriture corporelle, yoga prénatal, flamenco, oenologie, cours d'improvisation théâtrale, ateliers d'éveil corporel pour les plus jeunes... !</p><p class='flush'>Pour être sûr d'avoir vos places, inscrivez-vous dès maintenant, les places sont limitées.</p>", trigger: 'hover', placement: 'bottom'}}
-        \: les préinscriptions sont ouvertes ! Inscrivez-vous pour réserver vos places gratuites en avant-première.
-
-      %p
-        100% simple, gratuit, sans engagement.
-
-      %p
-        %strong Nouveau !
-
-      %ul
-        %li Participez à nos "Journées Portes ouvertes des cours de loisirs" qui aura lieu au printemps prochain en Ile-de-France ;
-        %li Communiquez avec votre professeur et gérez vos avis ;
-        %li Visualisez tous les cours d'essai gratuits autour de chez vous ;
-        %li Découvrez de nouvelles passions ;
-        %li Suivez l'actualité de toutes vos disciplines préférées (invitation à des événements, expositions, stages, etc.) ;
-        %li Bénéficiez d'offres uniquement offertes aux membres CoursAvenue.
-
-%hr.push--top
-%h3 Votre avis
-.grid
-  .grid__item.v-bottom.one-half.soft--left>
-    = link_to new_user_registration_path, onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: "Rejoignez notre communauté d'élèves !"}, class: 'fancybox.ajax', style: 'margin-left: 8em' do
-      = image_tag 'texts/want_your_avatar.png', width: 400
-  .grid__item.v-bottom.text--right.one-half.soft-half--bottom>
-    - unless current_user
-      = link_to new_user_registration_path, onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: "Rejoignez notre communauté d'élèves !"}, class: 'fancybox.ajax btn btn--orange btn--small' do
-        %i.fa.fa-pencil
-        Modifier mon avis
-%ul.no-bullet-list
-  = render partial: 'comments/comment', locals: { comment: @comment }
-
-.text--center.push
-  = link_to "Accéder à CoursAvenue", root_url(subdomain: 'www'), onclick: "mixpanel.track('See profile after comment')", class: 'btn btn--blue btn--large'
+- content_for :above_container do
+  .relative
+    .main-container
+      .grid.absolute.z-index-1
+        .grid__item.one-half.soft>
+          .beta.white-text-shadow Merci pour votre avis. Ne vous arrêtez pas là !
+          %h1.white-text-shadow Rejoignez notre communauté et accédez à tous nos cours gratuits.
+        .grid__item.one-half.soft>
+          .white-box--noshadow.soft{style: 'width: 400px;'}
+            = render 'users/registrations/form'
+    #map.google-map.google-map--medium
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          handler = Gmaps.build('Google');
+          handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+              markers = handler.addMarkers(#{@course_locations.to_json});
+              handler.bounds.extendWith(markers);
+              handler.fitMapToBounds();
+              var center = handler.getMap().getCenter();
+              var latLng = new google.maps.LatLng(center.lat() + 0.06, center.lng() + 0.2);
+              handler.getMap().panTo(latLng);
+          });
+      });
 
 
-= content_for :scripts do
-  :javascript
-    FB.init({appId: "589759807705512", status: true, cookie: true});
-    function postToFeed() {
-        var obj = {
-            method: 'feed',
-            redirect_uri: "#{request.protocol + request.host_with_port + request.fullpath}",
-            link: "#{structure_url(@structure)}",
-            picture: "#{@logo_url || asset_url('logo.png')}",
-            name: "Je viens de donner mon avis sur #{@structure.name}. Et vous, qu'en pensez-vous ?",
-            caption: 'CoursAvenue.com',
-            description: "Retrouvez également des centaines d'autres établissements qui donnent des cours de loisirs ! Danse, théâtre, musique, cours insolite, j'en passe et des meilleurs !"
-          };
-      function callback(response) {
-          document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
-      }
-      FB.ui(obj, callback);
-      mixpanel.track('Share after comment', {type: 'Facebook'});
-    }
+%h1.text--center.blue.push
+  Rejoignez les 10 000 élèves déjà inscrits sur CoursAvenue pour :
+
+.push--bottom.soft--bottom
+  .delta.soft-half
+    %i.fa.fa-check.green
+    Visualisez tous les cours d'essai gratuits autour de chez vous ;
+  .delta.soft-half
+    %i.fa.fa-check.green
+    100% gratuit, simple, sans engagement ;
+  .delta.soft-half
+    %i.fa.fa-check.green
+    Communiquez avec votre professeur et gérez vos avis ;
+  .delta.soft-half
+    %i.fa.fa-check.green
+    Découvrez de nouvelles passions et suivez l'actualité de toutes vos disciplines préférées (événements, expositions, stages, etc.) ;
+  .delta.soft-half
+    %i.fa.fa-check.green
+    Bénéficiez d'offres uniquement offertes aux membres CoursAvenue ;
+  .delta.soft-half
+    %i.fa.fa-check.green
+    Participez à nos "Journées Portes ouvertes des cours de loisirs".
+
+
+-# <div id='fb-root'></div>
+-# <script src='http://connect.facebook.net/fr_FR/all.js'></script>
+
+-# %h4.push--top
+-#   Merci pour votre avis. Créez votre compte CoursAvenue en quelques secondes et continuez à vivre vos passions même après les cours :
+
+-# .grid
+-#   .grid__item.one-third>
+-#     .white-box.soft= render 'users/registrations/form'
+-#   .grid__item.two-thirds>
+-#     .white-box.soft
+-#       %p.alert.alert--info
+-#         %i.fa.fa-danger
+-#         %strong A ne pas manquer -
+-#         Journées Portes ouvertes des cours de loisirs en Ile-de-France
+-#         %i.fa.fa-question-circle.pointer{data: {toggle: 'popover', html: 'true', content: "<p>Pour tous les habitants d'Ile-de-France : les pré-inscriptions sont ouvertes !</p><p>Participez à nos \"Journées Portes ouvertes des cours de loisirs\" en Ile-de-France, un événement exceptionnel organisé par toute la communauté CoursAvenue : au printemps prochain (avril 2014, date exacte en cours de validation), nos partenaires ouvriront les portes de leurs cours.</p><p>Le temps d'une journée, partez à la découverte des disciplines que vous avez toujours rêvé de (re)découvrir en compagnie de vos amis, enfants et parents : initiation aux claquettes, atelier d'écriture corporelle, yoga prénatal, flamenco, oenologie, cours d'improvisation théâtrale, ateliers d'éveil corporel pour les plus jeunes... !</p><p class='flush'>Pour être sûr d'avoir vos places, inscrivez-vous dès maintenant, les places sont limitées.</p>", trigger: 'hover', placement: 'bottom'}}
+-#         \: les préinscriptions sont ouvertes ! Inscrivez-vous pour réserver vos places gratuites en avant-première.
+
+-#       %p
+-#         100% simple, gratuit, sans engagement.
+
+-#       %p
+-#         %strong Nouveau !
+
+-#       %ul
+-#         %li Participez à nos "Journées Portes ouvertes des cours de loisirs" qui aura lieu au printemps prochain en Ile-de-France ;
+-#         %li Communiquez avec votre professeur et gérez vos avis ;
+-#         %li Visualisez tous les cours d'essai gratuits autour de chez vous ;
+-#         %li Découvrez de nouvelles passions ;
+-#         %li Suivez l'actualité de toutes vos disciplines préférées (invitation à des événements, expositions, stages, etc.) ;
+-#         %li Bénéficiez d'offres uniquement offertes aux membres CoursAvenue.
+
+-# %hr.push--top
+-# %h3 Votre avis
+-# .grid
+-#   .grid__item.v-bottom.one-half.soft--left>
+-#     = link_to new_user_registration_path, onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: "Rejoignez notre communauté d'élèves !"}, class: 'fancybox.ajax', style: 'margin-left: 8em' do
+-#       = image_tag 'texts/want_your_avatar.png', width: 400
+-#   .grid__item.v-bottom.text--right.one-half.soft-half--bottom>
+-#     - unless current_user
+-#       = link_to new_user_registration_path, onclick: "mixpanel.track('Signup after comment');", data: {behavior: 'modal', title: "Rejoignez notre communauté d'élèves !"}, class: 'fancybox.ajax btn btn--orange btn--small' do
+-#         %i.fa.fa-pencil
+-#         Modifier mon avis
+-# %ul.no-bullet-list
+-#   = render partial: 'comments/comment', locals: { comment: @comment }
+
+-# .text--center.push
+-#   = link_to "Accéder à CoursAvenue", root_url(subdomain: 'www'), onclick: "mixpanel.track('See profile after comment')", class: 'btn btn--blue btn--large'
+
+
+-# = content_for :scripts do
+-#   :javascript
+-#     FB.init({appId: "589759807705512", status: true, cookie: true});
+-#     function postToFeed() {
+-#         var obj = {
+-#             method: 'feed',
+-#             redirect_uri: "#{request.protocol + request.host_with_port + request.fullpath}",
+-#             link: "#{structure_url(@structure)}",
+-#             picture: "#{@logo_url || asset_url('logo.png')}",
+-#             name: "Je viens de donner mon avis sur #{@structure.name}. Et vous, qu'en pensez-vous ?",
+-#             caption: 'CoursAvenue.com',
+-#             description: "Retrouvez également des centaines d'autres établissements qui donnent des cours de loisirs ! Danse, théâtre, musique, cours insolite, j'en passe et des meilleurs !"
+-#           };
+-#       function callback(response) {
+-#           document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+-#       }
+-#       FB.ui(obj, callback);
+-#       mixpanel.track('Share after comment', {type: 'Facebook'});
+-#     }
