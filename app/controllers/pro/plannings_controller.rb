@@ -58,9 +58,9 @@ class Pro::PlanningsController < InheritedResources::Base
 
   def create
     create_or_affect_teacher
-    @planning         = Planning.new(params[:planning])
-    @planning.teacher = @teacher if @teacher
-    @planning.course  = @course
+    @planning           = Planning.new(params[:planning])
+    @planning.teacher   = @teacher if @teacher
+    @planning.course    = @course
     retrieve_plannings_and_past_plannings
     set_dates_and_times
     respond_to do |format|

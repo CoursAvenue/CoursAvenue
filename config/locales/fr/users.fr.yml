@@ -11,5 +11,8 @@ fr:
       user: Élève
     attributes:
       user:
-        name: Nom
+        first_name: Prénom
+        last_name: Nom
+        zip_code: Code postal
+        password: Mot de passe
         avatar: Ma photo

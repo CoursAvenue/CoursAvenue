@@ -1,10 +1,31 @@
+.text--right
+  = image_tag 'texts/facebook-text.png', height: 45
 %div= link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full', id: 'facebook_button'
+%ul.no-bullet-list.flush--bottom.push-half--top
+  %li
+    %i.fa.fa-check-square-o
+    Plus simple, plus rapide !
+  %li
+    %i.fa.fa-check-square-o
+    Nous ne publions rien sans votre accord.
 .or
   %span ou
-= simple_form_for @user || User.new, url: user_registration_path do |f|
-  = f.error_notification
-  = f.input :name, label: false, placeholder: 'Nom', input_html: {class: 'one-whole'}
-  = f.input :email,    label: false, placeholder: 'Email', wrapper_html: {class: 'flush--top'}, input_html: {class: 'one-whole'}
-  = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
-  = f.button :submit, "Créer son compte", class: 'btn--green one-whole'
-.push-half--top= link_to "J'ai déjà un compte", '#', id: 'show_new_session_form'
+#sign-in-content.collapse
+  = simple_form_for @user || User.new, url: user_registration_path do |f|
+    = f.error_notification
+    = f.input :first_name, label: false, placeholder: 'Prénom',      input_html: {class: 'one-whole'}
+    = f.input :last_name,  label: false, placeholder: 'Nom',         input_html: {class: 'one-whole'}
+    = f.input :zip_code,   label: false, placeholder: 'Code postal', input_html: {class: 'one-whole'}
+    = f.input :email,      label: false, placeholder: 'Email',       input_html: {class: 'one-whole'}, wrapper_html: {class: 'flush--top'}
+    = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
+    = f.button :submit, "Inscription", class: 'btn--green one-whole'
+
+.text--center.push--bottom= link_to 'Inscription avec votre adresse e-mail', 'javascript:void(0)', data: {toggle: "collapse", target: "#sign-in-content"}
+%p
+  %strong
+    En m'inscrivant, j'accepte
+    = link_to "les conditions générales d'utilisation.", pages_mentions_partners_path
+%hr
+.push-half--top
+  Déjà membre CoursAvenue ?
+  = link_to "Connexion", '#', id: 'show_new_session_form'

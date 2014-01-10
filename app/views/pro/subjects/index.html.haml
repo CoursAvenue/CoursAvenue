@@ -1,15 +1,16 @@
-%table.table--data.table--striped#dataTable
+%table.table--data.table--striped.white-box#dataTable
   %thead
     %tr
       %th Nom
       %th Image
       %th
   %tbody
-    - @subjects.each do |subject|
+    - @structure_search.facet(:subject_ids).rows.each do |facet|
+      - subject = Subject.find(facet.value)
       %tr
         %td
           - if subject.parent
-            = "#{subject.parent.name} - #{subject.name}"
+            = "#{subject.parent.name} - #{subject.name} (#{facet.count})"
           - else
             = subject.name
         %td{data: {value: subject.image.present? ? '0' : '1'}}

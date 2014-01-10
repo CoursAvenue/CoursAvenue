@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131209165628) do
+ActiveRecord::Schema.define(version: 20131220144652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,12 +58,8 @@ ActiveRecord::Schema.define(version: 20131209165628) do
 
   create_table "cities", force: true do |t|
     t.string   "name"
-    t.string   "no_result_image_file_name"
-    t.string   "no_result_image_content_type"
-    t.integer  "no_result_image_file_size"
-    t.datetime "no_result_image_updated_at"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "slug"
     t.string   "iso_code"
     t.string   "zip_code"
@@ -76,6 +72,10 @@ ActiveRecord::Schema.define(version: 20131209165628) do
     t.float    "latitude"
     t.float    "longitude"
     t.integer  "acuracy"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
   end
 
   add_index "cities", ["name"], name: "index_cities_on_name", using: :btree
@@ -176,9 +176,6 @@ ActiveRecord::Schema.define(version: 20131209165628) do
     t.text     "parent_subjects_string"
     t.boolean  "no_class_during_holidays"
     t.boolean  "teaches_at_home"
-    t.string   "event_type"
-    t.string   "event_type_description"
-    t.float    "price"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
@@ -363,6 +360,7 @@ ActiveRecord::Schema.define(version: 20131209165628) do
     t.string   "level_ids"
     t.time     "deleted_at"
     t.integer  "place_id"
+    t.integer  "structure_id"
   end
 
   add_index "plannings", ["audience_ids"], name: "index_plannings_on_audience_ids", using: :btree
@@ -627,10 +625,12 @@ ActiveRecord::Schema.define(version: 20131209165628) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.string   "name"
     t.string   "gender"
     t.date     "birthdate"
     t.boolean  "email_opt_in",           default: true
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "zip_code"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

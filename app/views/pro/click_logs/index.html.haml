@@ -1,5 +1,11 @@
 = side_menu_currently_at 'Clicks'
 
+%h3.header-group
+  %i.fa.fa-map-marker
+  \# Clicks / jours
+.white-box.islet.text--center
+  #click_logs
+
 %table.white-box.table--data.table--striped#dataTable
   %thead
     %tr
@@ -18,4 +24,15 @@
   :javascript
     $(function() {
         $('#dataTable').tablesorter();
+        new Highcharts.Chart({
+            chart: { renderTo: 'click_logs', type: 'column' },
+            title: { text: null },
+            xAxis: { categories: #{@click_logs_per_day.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [
+              { data: #{@click_logs_per_day.map{|date, count| count}},
+                name: 'Profs inscrits'
+               }
+            ]
+        });
     });

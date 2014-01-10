@@ -1,5 +1,6 @@
 .drop-down__wrapper {
     position    : relative;
+    // z-index     : 10;
 }
     .drop-down__el {
         display         : none;
@@ -12,7 +13,8 @@
         padding         : 0.5em 0;
         z-index         : 10;
         text-align      : center;
-        @include box-shadow(1px 1px 1px #CCC);
+        border          : 1px solid #DDD;
+        @include box-shadow(0 0 6px #CCC);
         a {
             display: block;
             padding: 0.25em 2em;

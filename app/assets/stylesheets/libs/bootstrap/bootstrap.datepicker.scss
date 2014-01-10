@@ -430,18 +430,23 @@
 .input-daterange input {
   text-align: center;
 }
-.input-daterange input:first-child {
-  @include border-radius(3px 0 0 3px);
+.input-daterange :first-child {
+  @include border-left-radius($brand-round);
 }
-.input-daterange input:last-child {
-  @include border-radius(0 3px 3px 0);
+.input-daterange :last-child {
+  @include border-right-radius($brand-round);
+}
+.input-daterange input:first-of-type {
+  @include border-radius(0);
+}
+.input-daterange input:last-of-type {
+  @include border-left-radius(0);
 }
 .input-daterange .add-on {
   display         : inline-block;
   width           : auto;
   min-width       : 16px;
-  height          : 18px;
-  padding         : 4px 5px;
+  padding         : 7px 5px;
   font-weight     : normal;
   line-height     : 18px;
   text-align      : center;

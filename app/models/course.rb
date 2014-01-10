@@ -26,11 +26,12 @@ class Course < ActiveRecord::Base
   after_initialize :set_teaches_at_home
 
   # ------------------------------------------------------------------------------------ Scopes
-  scope :active,    -> { where(active: true) }
-  scope :disabled,  -> { where(active: false) }
-  scope :lessons,   -> { where(type: "Course::Lesson") }
-  scope :workshops, -> { where(type: "Course::Workshop") }
-  scope :trainings, -> { where(type: "Course::Training") }
+  scope :active,                 -> { where(active: true) }
+  scope :disabled,               -> { where(active: false) }
+  scope :lessons,                -> { where(type: "Course::Lesson") }
+  scope :workshops,              -> { where(type: "Course::Workshop") }
+  scope :trainings,              -> { where(type: "Course::Training") }
+  scope :workshops_and_training, -> { where{ type != "Course::Lesson" } }
 
   # ------------------------------------------------------------------------------------ Validations
   validates :type, :name  , presence: true
@@ -145,8 +146,6 @@ class Course < ActiveRecord::Base
       plannings.map(&:max_age_for_kid).uniq.compact
     end
 
-    string :time_slots, multiple: true
-
     time :start_time, multiple: true do
       plannings.map(&:start_time).uniq.compact
     end
@@ -168,6 +167,10 @@ class Course < ActiveRecord::Base
 
     integer :min_price
     integer :max_price
+
+    boolean :has_free_trial_lesson do
+      self.has_free_trial_lesson?
+    end
 
     boolean :has_admin do
       self.structure.admins.any? if self.structure
@@ -277,20 +280,6 @@ class Course < ActiveRecord::Base
 
   def max_price
     prices.where{amount >= 0}.order('amount DESC').first.try(:amount)
-  end
-
-  def time_slots
-    time_slots = []
-    plannings.each do |planning|
-      if planning.start_time and planning.end_time
-        CoursAvenue::Application::TIME_SLOTS.each do |time_slot_name, time_slot|
-          if (planning.start_time >= TimeParser.parse_time_string(time_slot[:start_time])) & (planning.start_time <= TimeParser.parse_time_string(time_slot[:end_time]))
-            time_slots << time_slot_name.to_s
-          end
-        end
-      end
-    end
-    time_slots.uniq
   end
 
   # TODO: To be improved
@@ -430,6 +419,7 @@ class Course < ActiveRecord::Base
 
   def reindex
     self.index
+    self.plannings.map(&:index)
   end
 
   def reject_price attributes

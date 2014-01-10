@@ -3,9 +3,11 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'rails', '4.0.0'
+gem 'rails', '4.0.2'
 
 gem 'filepicker-rails'
+
+gem 'wikipedia-client', '~> 1.3.0'
 
 # Webserver
 # gem 'unicorn'
@@ -124,7 +126,7 @@ gem 'roadie'                    , '~>2.4.2'
 # Includes Backbone
 gem 'railsy_backbone'           , '~>0.0.5'
 # Includes Backbone Marionette
-gem 'marionette-rails'          , '~>1.1.0'
+gem 'marionette-rails'          , '~>1.4.0'
 # Includes bacbone.relational
 gem 'backbone-relational-rails' , '~>0.8.6'
 gem 'handlebars_assets'         , '~>0.14.1'

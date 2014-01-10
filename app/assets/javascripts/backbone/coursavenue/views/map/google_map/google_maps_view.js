@@ -124,8 +124,8 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             var center    = bounds.getCenter();
 
             var filters = {
-                bbox_sw: [southWest.lat(), southWest.lng()],
-                bbox_ne: [northEast.lat(), northEast.lng()],
+                'bbox_sw[]': [southWest.lat(), southWest.lng()],
+                'bbox_ne[]': [northEast.lat(), northEast.lng()],
                 lat: center.lat(),
                 lng: center.lng()
             }

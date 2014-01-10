@@ -29,6 +29,8 @@ CoursAvenue::Application.routes.draw do
           patch :recover
         end
       end
+
+      resources :cities, only: [:edit, :update], path: 'villes', controler: 'pro/cities'
       resources :keywords, only: [:index, :create, :destroy]
       resources :search_term_logs, only: [:index]
       resources :subjects
@@ -85,7 +87,11 @@ CoursAvenue::Application.routes.draw do
           end
         end
         resources :medias, only: [:index, :destroy], controller: 'structures/medias'
-        resources :videos, only: [:create, :new], controller: 'structures/medias/videos'
+        resources :videos, only: [:create, :new], controller: 'structures/medias/videos' do
+          member do
+            put :make_it_cover
+          end
+        end
         resources :images, only: [:create, :new], controller: 'structures/medias/images' do
           member do
             put :make_it_cover
@@ -167,11 +173,9 @@ CoursAvenue::Application.routes.draw do
   get 'auth/failure'           , to: redirect('/')
   get 'signout'                , to: 'session#destroy', as: 'signout'
 
-
-  resources :cities, only: [] do
+  resources :cities, only: [:show], path: 'villes' do
     collection do
       get 'zip_code_search'
-      get 'name_search'
     end
   end
 

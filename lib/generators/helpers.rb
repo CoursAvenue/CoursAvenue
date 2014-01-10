@@ -76,12 +76,13 @@ module Marionette
                 @item_view_name ||= "#{name}View"
             end
 
-            def item_view_path(app, name, namespace = "")
-                @item_view_path ||= app_path(app) + 'views' + namespace_path(namespace) + name.underscore + "#{name.underscore}_view#{dot_js}"
+            def item_view_path(app, name, namespace = "", options = {})
+                puts "in item_view_path"
+                @item_view_path ||= app_path(app) + 'views' + namespace_path(namespace) + "#{name.underscore}_view#{dot_js}"
             end
 
-            def item_view_template_path(app, name, namespace = "")
-                @item_view_template_path ||= app_path(app) + 'templates' + namespace_path(namespace) + name.underscore + "#{name.underscore}_view#{dot_jst}"
+            def item_view_template_path(app, name, namespace = "", options = {})
+                @item_view_template_path ||= app_path(app) + 'templates' + namespace_path(namespace) + "#{name.underscore}_view#{dot_jst}"
             end
             
             def collection_view_name(name)

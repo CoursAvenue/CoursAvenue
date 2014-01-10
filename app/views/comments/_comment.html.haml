@@ -11,6 +11,19 @@
         - else
           = image_tag 'icons/avatar.png', height: (small_avatar ? 30 : 60)
       .grid__item.ten-twelfths>
+        - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
+          .drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+            = link_to share_comment_url(comment, :facebook), target: '_blank', class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Share comment on Facebook', 'click')" do
+              %i.fa.fa-share
+            %ul.drop-down__el.text--left
+              %li.nowrap
+                = link_to share_comment_url(comment, :facebook), target: '_blank', onclick: "ga('send', 'event', 'Share comment on', 'click', 'Facebook')" do
+                  %i.fa.fa-facebook.soft-half--right
+                  Partager sur Facebook
+              %li.nowrap
+                = link_to share_comment_url(comment, :twitter), target: '_blank', onclick: "ga('send', 'event', 'Share comment on', 'click', 'Twitter')" do
+                  %i.fa.fa-twitter.soft-half--right
+                  Partager sur Twitter
         - if comment.title.present?
           %h6.quoted.inline-block.push-half--bottom{itemprop: 'headline', content: comment.title}= "#{comment.title}"
           - if comment.course_name
@@ -18,7 +31,7 @@
 
           - if can?(:destroy, comment)
             - if comment.pending?
-              %span.lbl.lbl--orange.nowrap Avis en cours de validation
+              %span.lbl--small.lbl.lbl--orange.nowrap Avis en cours de validation
             - elsif comment.declined?
               %span.lbl.lbl--red.nowrap Avis rejeté
         %span.rating{title: comment_rating_title(5), itemprop: 'reviewRating', itemscope: true, itemtype: 'http://schema.org/Rating'}
