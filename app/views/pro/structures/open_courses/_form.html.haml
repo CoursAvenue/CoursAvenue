@@ -33,8 +33,10 @@
           %label{for: 'event_type_demo'} Démonstration
         .radio
           %input#event_other{type: 'radio', name: 'course[event_type]', value: 'other', checked: (@course.event_type.present? and !['Atelier collectif', 'Démonstration'].include?(@course.event_type)) }>
-          %label{for: 'event_other'} Autres, précisez
-          %input#event_type_description_hidden.push--left{ name: 'course[event_type_description]', type: 'text', size: '50' }
+          %label{for: 'event_other'} Autres
+          #other-event-type.hidden
+            Précisez
+            %input#event_type_description_hidden.push--left{ name: 'course[event_type_description]', type: 'text', size: '50' }
 
   %h5.form-header-group.flush--bottom.soft--top Description
   .form-white-box
@@ -63,9 +65,28 @@
         .radio.flush
           %input#course_price_other{type: 'radio', name: 'course[price]', checked: (@course.price.present? and @course.price.to_i > 0) }>
           %label{for: 'course_price_other'} Participation financière libre
-          .hidden.inline-block
+          #chosen-price.hidden
             Indiquez ici le montant moyen attendu :
             = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false, placeholder: '20'
             €
     = f.input :info, label: 'Infos pratiques', placeholder: "Renseignez toutes les informations à communiquer aux potentiels inscrits : materiel, tenu exigée, informations sur le lieu, etc."
   %p= f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('[name="course[price]"]').change(function() {
+            if ($('#course_price_other').is(':checked')) {
+                $('#chosen-price').slideDown();
+            } else {
+                $('#chosen-price').slideUp();
+            }
+        });
+        $('[name="course[event_type]"]').change(function() {
+            if ($('#event_other').is(':checked')) {
+                $('#other-event-type').slideDown();
+            } else {
+                $('#other-event-type').slideUp();
+            }
+        });
+    });
