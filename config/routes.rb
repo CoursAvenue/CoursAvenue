@@ -59,7 +59,10 @@ CoursAvenue::Application.routes.draw do
           get :inscription, to: :new
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
-        devise_scope :admins do
+        resources :admins, controller: 'structures/admins' do
+          member do
+            get :notifications
+          end
           collection do
             get 'unsubscribe/:signature' => 'admins#unsubscribe', as: 'unsubscribe'
           end
@@ -154,18 +157,22 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations'}
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations', confirmations: 'users/confirmations'}
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
     collection do
       get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
+      get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
     end
     member do
+      get :dashboard
       get :choose_password
+      get :notifications
       patch :first_update
     end
     resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
     resources :messages     , controller: 'users/messages'
     resources :conversations, controller: 'users/conversations'
+    resources :passions, only: [:index, :destroy], controller: 'users/passions'
   end
   resources :emails, only: [:create]
 

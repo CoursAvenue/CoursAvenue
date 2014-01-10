@@ -2,7 +2,7 @@
   = render 'shared/header'
 
 = content_for :content do
-  .main-container{class: controller_path}
+  .main-container.soft--ends{class: controller_path}
     = content_for?(:users_content) ? yield(:users_content) : yield
 
   - cache "page-footer_#{ENV["ETAG_VERSION_ID"]}" do

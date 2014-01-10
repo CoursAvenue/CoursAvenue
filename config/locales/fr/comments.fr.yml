@@ -11,6 +11,7 @@ fr:
         email: Votre email
         rating: Votre appréciation
         author_name: Votre nom / pseudo
+        subjects: Disciplines associées
 
   comments:
     deletion_reasons:

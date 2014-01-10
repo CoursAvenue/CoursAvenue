@@ -33,4 +33,4 @@
 
 
 - content_for :footer do
-  %p= link_to 'Gérer mes préférences e-mails', edit_pro_admin_url(@structure.main_contact, subdomain: 'pro')
+  %p= link_to 'Gérer mes préférences e-mails', notifications_pro_structure_admin_path(@structure, @structure.main_contact, subdomain: 'pro')
