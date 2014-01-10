@@ -1,8 +1,9 @@
 <span data-type="taggies-container">
     {{#each tags}}
-        <span class="taggy--tag" data-value="{{ this }}">
-            {{ this }}
-            <span class="taggy--tag__saltier" data-behavior="destroy"></span>
+        {{!-- we need zero space around the tag text --}}
+        <span class="taggy--tag" data-value="{{ this }}">{{!--
+        --}}{{ this }}{{!--
+        --}}<span class="taggy--tag__saltier" data-behavior="destroy"></span>
         </span>
     {{/each}}
 </span>

@@ -2,9 +2,10 @@
 /* just a basic marionette view */
 UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar', function(Module, App, Backbone, Marionette, $, _) {
 
-    var ENTER = 13;
-    var ESC   = 27;
-    var SPACE = 32;
+    var ENTER     = 13;
+    var ESC       = 27;
+    var SPACE     = 32;
+    var BACKSPACE = 8;
 
     /* TODO when I backspace, it should "untag" the taggie, turning it back into a text */
     /* TODO I need to define clearly what parts of the template will be added/removed over time
@@ -35,7 +36,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         events: {
             'click'                         : 'announceClick',
-            'click [data-behavior=destroy]' : 'destroyTag',
+            'click [data-behavior=destroy]' : 'destroyTaggy',
             'keydown'                       : 'handleKeyDown',
             'change'                        : 'announceEdits'
         },
@@ -64,6 +65,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         },
 
         /* SPACE: turn the text into a taggy */
+        /* TODO yeah, so, this should be a switch eh? */
         handleKeyDown: function (e) {
             var key = e.which;
 
@@ -71,6 +73,12 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
                 this.createTaggy();
             }
 
+            if (key === BACKSPACE && this.ui.$input.val() === "") {
+                e.preventDefault();
+                this.updateTaggy();
+            }
+
+            /* TODO we are announcing twice in some cases... which is OK because of debounce, I guess? */
             this.announceEdits();
 
             if (key !== ENTER && key !== ESC) {
@@ -78,6 +86,26 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             }
 
             this.trigger("field:key:down", { editable: this, restore: (key === ESC) });
+        },
+
+        /* when the user backspaces into a taggy */
+        updateTaggy: function () {
+            var taggy = this.$taggies().last();
+            var text = taggy.text();
+
+            this.ui.$input.val(function (index, val) {
+                return val + text;
+            });
+
+            taggy.remove();
+            this.announceEdits();
+        },
+
+        /* when the user clicks 'x' */
+        destroyTaggy: function (e) {
+            $(e.currentTarget).parent().remove();
+
+            this.announceEdits();
         },
 
         /* returns the jQuery object representation of a taggy, for a given text */
