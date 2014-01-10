@@ -1,5 +1,6 @@
 - unless current_user
   - session['user_return_to'] = structure_path(@structure, open_contact_form: true)
+  - session['after_inactive_sign_up_path'] = structure_path(@structure, waiting_for_activation: true)
 .blue-box.islet.push-half--bottom#show-structure-contact-wrapper
   .delta.push-half--bottom.text--center{style: 'margin-top: 3px;'}
     Contactez pour réserver ou

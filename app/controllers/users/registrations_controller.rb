@@ -3,7 +3,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :html, :js, :json
 
   def after_inactive_sign_up_path_for(user)
-    waiting_for_activation_users_path
+    session['after_inactive_sign_up_path'] || waiting_for_activation_users_path
   end
 
   def after_sign_in_path_for(user)
