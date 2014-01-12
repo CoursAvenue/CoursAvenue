@@ -6,5 +6,3 @@
   - structure = conversation.recipients.select{|r| r.is_a? Admin}.first.structure
   = link_to pro_structure_conversation_path(structure, conversation), class: 'muted-link' do
     = render partial: 'conversations/conversation', locals: { conversation: conversation }
-
-- Conversation.order('created_at DESC').select{|c| c.recipients.select{|r| r.is_a?(Admin)}.empty? }
