@@ -3,7 +3,7 @@
 .text--center.push--bottom= link_to "Voir les demandes d'élèves", pro_conversations_path(info: true), class: 'btn btn--blue'
 
 - @conversations.each do |conversation|
-  - if conversation.recipients.select{|r| r.is_a? Admin}.first
+  - unless conversation.recipients.select{|r| r.is_a? Admin}.first.nil? or conversation.recipients.select{|r| r.is_a? Admin}.first.structure.nil?
     - structure = conversation.recipients.select{|r| r.is_a? Admin}.first.structure
     = link_to pro_structure_conversation_path(structure, conversation), class: 'muted-link' do
       = render partial: 'conversations/conversation', locals: { conversation: conversation }
