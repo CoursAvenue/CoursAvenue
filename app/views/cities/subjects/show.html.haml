@@ -104,12 +104,10 @@
   .media-gallery>
     - @medias.select{|media| media.format == 'image'}.sample(25).each do |media|
       .white-box.media__item.one-quarter.islet>
-        %a.soft-half.block.break-all{rel: 'gallery', href: media.url, title: media.caption, data: {behavior: "fancy"}}
+        %a.block.break-all{rel: 'gallery', href: media.url, title: media.caption, data: {behavior: "fancy"}}
           = media.url_html lazy: true
           %caption= media.mediable.name
           %i.fa.fa-expand
-
-    = render partial: 'medias/media', collection: @medias.select{|media| media.format == 'image'}.sample(25), locals: { lazy: true, width_class_name: 'one-quarter' }
 
 .text--center.push--bottom
   = link_to structures_path(lat: @city.latitude, lng: @city.longitude, name: @subject.name), class: 'btn btn--green btn--large' do
