@@ -3,14 +3,19 @@ class Subjects::CitiesController < ApplicationController
   def show
     @subject          = Subject.friendly.find params[:subject_id]
     @city             = City.friendly.find params[:id]
+    if @subject.depth == 1
+      descendants_slugs = @subject.children.map(&:slug)
+      to_merge = {subject_slugs: descendants_slugs}
+    else
+      to_merge = {subject_id: @subject.slug}
+    end
     @structure_search = StructureSearch.search({lat: @city.latitude,
-                                          lng: @city.longitude,
-                                          radius: 4,
-                                          sort: 'rating_desc',
-                                          has_logo: true,
-                                          per_page: 150,
-                                          subject_id: @subject.slug
-                                        })
+                                                lng: @city.longitude,
+                                                radius: 4,
+                                                sort: 'rating_desc',
+                                                has_logo: true,
+                                                per_page: 150
+                                              }.merge(to_merge))
 
     @structures = @structure_search.results
     @locations  = @structures.map{|s| s.locations_around(@city.latitude, @city.longitude, 4) }

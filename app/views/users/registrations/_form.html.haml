@@ -15,12 +15,12 @@
 .or
   %span ou
 #sign-in-content.collapse
-  = simple_form_for @user || User.new, url: user_registration_path do |f|
+  = simple_form_for User.new, url: user_registration_path do |f|
     = f.error_notification
-    = f.input :first_name, label: false, placeholder: 'Prénom',      input_html: {class: 'one-whole'}, wrapper_html: {class: 'flush'}
+    = f.input :first_name, label: false, placeholder: 'Prénom',      input_html: {class: 'one-whole', value: (@user ? @user.first_name : nil)}, wrapper_html: {class: 'flush'}
     = f.input :last_name,  label: false, placeholder: 'Nom',         input_html: {class: 'one-whole'}
     = f.input :zip_code,   label: false, placeholder: 'Code postal', input_html: {class: 'one-whole'}
-    = f.input :email,      label: false, placeholder: 'Email',       input_html: {class: 'one-whole'}, wrapper_html: {class: 'flush--top'}
+    = f.input :email,      label: false, placeholder: 'Email',       input_html: {class: 'one-whole', value: (@user ? @user.email : nil)}, wrapper_html: {class: 'flush--top'}
     = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
     = f.button :submit, "Inscription", class: 'btn--green one-whole'
 

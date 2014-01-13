@@ -50,14 +50,14 @@
                 Renseigner mes passions
     .grid__item.one-half.bordered--left.hard--left>
       %h4.push-half--bottom.soft-half--left.soft-half--top
-        Les cours correspondant à vos goûts
+        Tous les cours autour de chez vous
       #map.google-map.google-map--small.push-half--ends
       - if @user.city
         .text--center.push-half--bottom
           = link_to 'Voir les cours autour de chez moi', @user.around_courses_url, class: 'btn btn--blue btn--small'
       - else
         .text--center.push-half--bottom
-          = link_to 'Renseignez-ma ville', edit_user_path(current_user), class: 'btn btn--blue btn--small'
+          = link_to 'Renseignez ma ville', edit_user_path(current_user), class: 'btn btn--blue btn--small'
 
 %hr.push--top
 %h4 Mes derniers messages

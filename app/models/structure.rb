@@ -299,9 +299,11 @@ class Structure < ActiveRecord::Base
   end
 
   def update_comments_count
-    self.update_column :comments_count, self.comments.accepted.count
-    self.update_column :updated_at, Time.now
-    self.index
+    if self.comments.accepted.count != self.comments_count
+      self.update_column :comments_count, self.comments.accepted.count
+      self.update_column :updated_at, Time.now
+      self.index
+    end
   end
 
   def contact_email
