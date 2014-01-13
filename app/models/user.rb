@@ -89,7 +89,11 @@ class User < ActiveRecord::Base
     if self.avatar.exists?
       self.avatar.url(format)
     elsif self.fb_avatar
-      self.fb_avatar
+      if format == :thumb
+        self.fb_avatar('large')
+      else
+        self.fb_avatar
+      end
     else
       self.avatar
     end

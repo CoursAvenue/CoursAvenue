@@ -23,7 +23,7 @@ class Pro::Structures::OpenCoursesController < Pro::ProController
     @course.structure = @structure
     respond_to do |format|
       if @course.save
-        format.html { redirect_to pro_structure_course_opens_path(@structure) }
+        format.html { redirect_to pro_structure_course_opens_path(@structure), notice: 'Votre cours a été créé, vous pouvez maintenant ajouter des créneaux.' }
       else
         format.html { render :new }
       end

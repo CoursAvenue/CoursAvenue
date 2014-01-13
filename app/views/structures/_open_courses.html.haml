@@ -20,7 +20,7 @@
               %th Public
               %th Niveau
               %th Lieux
-              %th Nombre d'inscrits
+              %th Places restantes
               %th
           %tbody
             - course.plannings.each do |planning|
@@ -32,15 +32,11 @@
                   .pointer{ title: planning.place.location.address, data: { behavior: 'tooltip' }}
                     = planning.place.location.name
                 %td
-                  .progress.flush
-                    .bar.bar-success{style: "width: #{(planning.possible_participations.length * 100) / planning.nb_participants_max}%;"}
-                      #{planning.possible_participations.length} / #{planning.nb_participants_max}
-                  - if planning.waiting_list.any?
-                    %div
-                      %strong Liste d'attente
-                    .progress.flush
-                      .bar.bar-warning{style: "width: 50%;"}
-                        #{planning.waiting_list.length}
+                  - if planning.nb_participants_max - planning.possible_participations.length > 0
+                    - participations_left = planning.nb_participants_max - planning.possible_participations.length
+                    = "#{pluralize(participations_left, 'place')} #{'restante'.pluralize(participations_left)}"
+                  - else
+                    = "#{pluralize(planning.waiting_list.length, 'personne')} sur la liste d'attente"
                 %td.text--right
                   - if current_user
                     = link_to "S'inscrire", planning_participations_path(planning), class: 'btn btn--small btn--green', method: :post

@@ -1,7 +1,20 @@
 = user_menu_currently_at 'Mes cours'
 
-%h2 Cours auxquels j'ai participé
-%h2 Cours à venir
+%h2 Mes inscriptions pour les Journées Portes Ouvertes des cours de loisirs
+%h3 Mes inscriptions confirmées
 
 - @participations.each do |participation|
-  = debug participation
+  .white-box.islet
+    .grid
+      .grid__item.two-twelfths>
+        = image_tag participation.structure.logo, class: 'block'
+      .grid__item.seven-twelfths>
+        %h4.flush= "#{participation.course.event_type} de #{participation.course.name}"
+        %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link'
+        %p
+          = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
+          %br
+          Mes informations personnelles communiquées
+        %p
+          = participation.course.info
+      .grid__item.three-twelfths>
