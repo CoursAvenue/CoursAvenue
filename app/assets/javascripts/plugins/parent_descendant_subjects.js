@@ -1,0 +1,102 @@
+/*
+    Usage:
+    <div data-behavior='parent-descendant-subjects'
+    </div>
+*/
+;(function ( $, window, document, undefined ) {
+
+    // Create the defaults once
+    var pluginName = "parentDescendantSubjects",
+        defaults = {};
+
+    // The actual plugin constructor
+    function Plugin( element, options ) {
+        this.element  = element;
+        this.$element = $(element);
+
+        // jQuery has an extend method that merges the
+        // contents of two or more objects, storing the
+        // result in the first object. The first object
+        // is generally empty because we don't want to alter
+        // the default options for future instances of the plugin
+        this.options = $.extend( {}, defaults, options) ;
+
+        this._defaults = defaults;
+        this._name = pluginName;
+
+        this.init();
+    }
+
+    Plugin.prototype = {
+        descendants_subjects_url: '/disciplines/descendants',
+
+        init: function() {
+            this.$descendant_subjects_select         = $(this.$element.data('descendant-select'));
+            this.$descendant_subjects_select_wrapper = $(this.$element.data('descendant-select-wrapper'));
+            this.$parent_subjects_select             = $(this.$element.data('parent-select'));
+            this.attachEvents();
+            // Trigger change if there are already subjects
+            // to show descendants
+            if (this.$parent_subjects_select.val() && this.$parent_subjects_select.val().length > 0) {
+                this.$parent_subjects_select.trigger('change');
+            }
+        },
+        attachEvents: function() {
+            var that = this;
+            this.$parent_subjects_select.change(function(){
+                that.$descendant_subjects_select_wrapper.show('slow');
+                // that.$descendant_subjects_select.css('width', $('.chosen-container').first().css('width'));
+                var subject_ids  = $.map($(this).find('option:selected'), function(option){ return option.value }).join(',');
+                var selected_ids = that.$descendant_subjects_select.val() || [];
+                if ($('#subject-descendants-select').data('selected')) {
+                    $.each($('#subject-descendants-select').data('selected').toString().split(','), function(index, value){
+                        selected_ids.push(value);
+                    });
+                };
+                $.ajax({
+                    url: that.descendants_subjects_url,
+                    dataType: 'jsonp',
+                    data: {
+                        ids: subject_ids
+                    },
+                    success: function(response) {
+                        var all_descendants = $.parseJSON(response.descendants)
+                        that.$descendant_subjects_select.empty();
+                        $.each(all_descendants, function(index, subject_descendant_object){
+                            $.each(subject_descendant_object, function(subject_name, descendants){
+                                var optgroup = $('<optgroup>').attr('label', subject_name);
+                                $.each(descendants, function(parent_name, descendant){
+                                    var option = $('<option>').attr('value', descendant.id).text(descendant.name);
+                                    optgroup.append(option);
+                                });
+                                that.$descendant_subjects_select.append(optgroup);
+                            });
+                        });
+                        that.$descendant_subjects_select.val(selected_ids);
+                        that.$descendant_subjects_select.trigger("chosen:updated");
+                    }
+                });
+            });
+
+        }
+    };
+
+    // A really lightweight plugin wrapper around the constructor,
+    // preventing against multiple instantiations
+    $.fn[pluginName] = function ( options ) {
+        return this.each(function () {
+            if (!$.data(this, "plugin_" + pluginName)) {
+                $.data(this, "plugin_" + pluginName,
+                new Plugin( this, options ));
+            }
+        });
+    }
+
+})( jQuery, window, document );
+
+$(function() {
+    var parent_descendant_subjects = function() {
+        $('[data-behavior=parent-descendant-subjects]').parentDescendantSubjects();
+    };
+    GLOBAL.initialize_callbacks.push(parent_descendant_subjects);
+});

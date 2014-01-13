@@ -176,7 +176,7 @@ class Pro::StructuresController < Pro::ProController
 
   def add_subjects
     if request.xhr?
-      render partial: 'add_subjects'
+      render partial: 'add_subjects', locals: { return_to: params[:return_to] }
     end
   end
 
@@ -204,7 +204,7 @@ class Pro::StructuresController < Pro::ProController
 
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
-        @structure.logo.reprocess! if @structure.logo.present?
+        @structure.logo.reprocess! if @structure.logo.present? and @structure.logo_file_name_changed?
         if !request.xhr? and params[:structure][:logo].present?
           format.html { redirect_to (crop_logo_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
         else

@@ -96,9 +96,6 @@
           = render partial: 'comments/comment', collection: Comment.where{rating > 3}.order('created_at DESC').limit(3), locals: {with_link: true, small_avatar: true}
 
 = content_for :scripts do
-  = render 'parent_descendant_subjects'
-
-= content_for :scripts do
   :javascript
     $(function() {
         $('#slideshow').cycle({
