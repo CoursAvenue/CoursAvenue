@@ -1,3 +1,8 @@
+.tt-hint {
+    display: none;
+
+}
+
 .taggy--tag {
     display         : inline-block;
     border          : 1px solid #CCC;
@@ -58,7 +63,7 @@
 }
 
 .taggy--input:focus {
-    border: none;
+    border: 1px solid;
+    box-shadow: none;
     outline     : 0;
-    @include box-shadow(0 0 0px opacify($blue-green, 0.0),0 0 0 #000);
 }

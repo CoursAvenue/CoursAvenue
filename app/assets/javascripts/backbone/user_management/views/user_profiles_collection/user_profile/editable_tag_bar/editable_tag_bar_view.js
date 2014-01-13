@@ -6,6 +6,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
     var ESC       = 27;
     var SPACE     = 32;
     var BACKSPACE = 8;
+    var COMMA     = 188;
 
     /* TODO when I backspace, it should "untag" the taggie, turning it back into a text */
     /* TODO I need to define clearly what parts of the template will be added/removed over time
@@ -25,10 +26,11 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.attribute = options.attribute;
 
             /* build a recyclable taggy */
-            var taggy = $("<span>").addClass('taggy--tag');
+            var taggy = $("<span>")
+                .addClass('taggy--tag');
             var saltier = $("<span>")
                 .addClass('taggy--tag__saltier')
-                .data('behavior', "destroy");
+                .attr('data-behavior', "destroy");
 
             taggy.append(saltier);
             this.$taggy_template = taggy;
@@ -40,11 +42,16 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             'click'                         : 'announceClick',
             'click [data-behavior=destroy]' : 'destroyTaggy',
             'keydown'                       : 'handleKeyDown',
-            'change'                        : 'announceEdits'
+            'change'                        : 'announceEdits',
+            'typeahead:selected [type=text]': 'wat'
+        },
+
+        wat: function (e) {
+
         },
 
         ui: {
-            '$input': 'input',
+            '$input'    : '.taggy--input',
             '$container': '[data-type=taggies-container]'
         },
 
@@ -64,6 +71,13 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         onRender: function () {
             this.$rollback = this.ui.$container.children().clone();
+            this.ui.$input.typeahead([{
+                name: "bob",
+                local: ["bob", "jill", "hilarious"]
+            }]);
+
+            /* rebind the ui */
+            this.bindUIElements();
         },
 
         /* SPACE: turn the text into a taggy */
@@ -71,7 +85,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         handleKeyDown: function (e) {
             var key = e.which;
 
-            if (key === SPACE) {
+            if (key === COMMA) {
+                e.preventDefault();
                 this.createTaggy();
             }
 
@@ -105,18 +120,18 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         /* when the user clicks 'x' */
         destroyTaggy: function (e) {
-            console.log("destroy");
             $(e.currentTarget).parent().remove();
 
             this.updateInputWidth();
             this.announceEdits();
+            this.ui.$input.val("");
         },
 
         /* returns the jQuery object representation of a taggy, for a given text */
         buildTaggy: function (text) {
             var taggy = this.$taggy_template.clone();
 
-            taggy.data("value", text);
+            taggy.attr("data-value", text);
             taggy.prepend(text);
 
             return taggy;
@@ -133,10 +148,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
                 return memo;
             }, this), 0);
 
-            console.log("tags:  %o", tags_width);
-            console.log("field: %o", field_width);
-            console.log("calc:  %o", tags_width % field_width);
-            console.log("calc:  %o", tags_width % (field_width - 70));
             this.ui.$input.css({ width: (field_width - (tags_width % (field_width - 70))) + 'px', display: "" });
         },
 
@@ -147,6 +158,12 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
             /* append said taggy */
             this.ui.$container.append(taggy);
+
+            // bind the new tag to ui.$taggies
+            // TODO this is probably a little wasteful,
+            // but at the same time we don't expect the
+            // user to need to create a million tags/second
+            this.bindUIElements();
 
             this.updateInputWidth();
             this.ui.$input.val("");
