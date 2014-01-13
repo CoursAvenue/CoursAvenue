@@ -1,7 +1,37 @@
-.tt-hint {
-    display: none;
+.editable-tag-bar {
 
+    &.active {
+        background-color: white;
+        cursor: text;
+        border        : 1px solid #ccc;
+        padding       : 5px;
+        vertical-align: middle;
+        @include vendor(border-box, box-sizing);
+        @include border-radius(3px);
+
+        border-color: opacify($blue-green, 0.8);
+        outline     : 0;
+        @include box-shadow(0 0 4px opacify($blue-green, 0.8),0 0 0 #000);
+    }
+
+    .tt-hint {
+        display: none;
+    }
+
+    .tt-suggestion.tt-is-under-cursor:after {
+        background-color: #3AB8AE;
+    }
+
+    .tt-suggestion {
+        @extend .taggy--tag;
+    }
+
+    .tt-dropdown-menu {
+        padding: 10px;
+    }
 }
+
+
 
 .taggy--tag {
     display         : inline-block;
@@ -48,22 +78,8 @@
 
 }
 
-.editable-tag-bar.active {
-    background-color: white;
-    cursor: text;
-    border        : 1px solid #ccc;
-    padding       : 5px;
-    vertical-align: middle;
-    @include vendor(border-box, box-sizing);
-    @include border-radius(3px);
-
-    border-color: opacify($blue-green, 0.8);
-    outline     : 0;
-    @include box-shadow(0 0 4px opacify($blue-green, 0.8),0 0 0 #000);
-}
-
 .taggy--input:focus {
-    border: 1px solid;
+    border: none;
     box-shadow: none;
     outline     : 0;
 }
