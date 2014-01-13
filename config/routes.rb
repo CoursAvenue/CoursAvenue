@@ -183,6 +183,7 @@ CoursAvenue::Application.routes.draw do
     collection do
       get 'zip_code_search'
     end
+    resources :subjects, only: [:show], path: 'disciplines', controller: 'cities/subjects'
   end
 
   resources :locations, only: [:index]

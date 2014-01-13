@@ -6,5 +6,7 @@
     = f.input :name
     = f.input :image
     = f.input :info
+    = f.input :title
+    = f.input :description, input_html: { data: { behavior: 'autoresize'} }
     .form-actions
       = f.submit 'Mettre à jour', class: 'btn btn--green'

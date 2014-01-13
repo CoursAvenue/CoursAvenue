@@ -1,10 +1,13 @@
+= content_for :title do
+  Tous les cours à #{@city.name} | CoursAvenue
+
 = content_for :above_container do
   - if @city.city_image
     .home-screen.bg-cover{style: "background-image: url(#{@city.city_image})"}
       %h1.push--bottom.text--center.home-screen-title{style: 'padding-top: 3em;'}
         Tous les cours à #{@city.name}
       - if @city.title
-        %h4.main-container.soft-sides.text--center.home-screen-title
+        %h4.center-block.text--center.home-screen-title{style: 'width: 1000px'}
           = @city.title
   - else
     #map.google-map.google-map--medium-small
@@ -35,8 +38,34 @@
 
 - if @city.subtitle
   %h2.text--center= @city.subtitle
-- if @city.description
-  = simple_format @city.description
+
+.grid{class: @city.description ? '' : 'visuallyhidden'}>
+  .grid__item.three-quarters>
+    .white-box.island= simple_format @city.description
+  .grid__item.one-quarter
+    %table.white-box.table--data.table--striped
+      %thead
+        %tr
+          %th{colspan: 2}= @city.name
+      %tbody
+        %tr
+          %th Commune
+          %td= "#{@city.commune_name} (#{@city.commune_code})"
+        %tr
+          %th Code postal
+          %td= @city.zip_code
+        %tr
+          %th Département
+          %td= "#{@city.department_name} (#{@city.department_code})"
+        %tr
+          %th Région
+          %td= "#{@city.region_name} (#{@city.region_code})"
+        %tr
+          %th Code ISO
+          %td= @city.iso_code
+        %tr.visuallyhidden
+          %th Coordonnées
+          %td= "#{@city.latitude}, #{@city.longitude}"
 
 %h3.text--center.soft--top Guide des disciplines à #{@city.name}
 .main-container
@@ -52,7 +81,7 @@
         - subject_image = subject.grand_parent.image
       .grid__item.one-fifth.very-soft>
         .relative.show-on-hover__wrapper>
-          %a.bg-cover.block{href: structures_path(name: subject.name), title: "Cours de #{subject.name} à #{@city.name}", style: "background-image: url(#{subject_image}); height: 150px;"}>
+          %a.bg-cover.block{href: city_subject_path(@city, subject), title: "Cours de #{subject.name} à #{@city.name}", style: "background-image: url(#{subject_image}); height: 150px;"}>
             .home-screen-gallery__title.text--center
               = subject.name
               .show-on-hover__child.milli #{facet.count} structures

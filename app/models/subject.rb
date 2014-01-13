@@ -15,7 +15,7 @@ class Subject < ActiveRecord::Base
 
   has_many :passions
 
-  attr_accessible :name, :short_name, :image, :info, :parent, :position
+  attr_accessible :name, :short_name, :image, :info, :parent, :position, :title, :description
 
   validates :name, presence: true
   validates :name, uniqueness: {scope: 'ancestry'}

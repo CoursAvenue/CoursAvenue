@@ -46,6 +46,15 @@ class Comment < ActiveRecord::Base
         Sunspot::Util::Coordinates.new(location.latitude, location.longitude)
       end
     end
+
+    string :subject_slugs, multiple: true do
+      subject_slugs = []
+      self.structure.subjects.uniq.each do |subject|
+        subject_slugs << subject.slug
+        subject_slugs << subject.root.slug if subject.root
+      end
+      subject_slugs.uniq
+    end
   end
 
   def recover!

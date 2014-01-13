@@ -1,0 +1,166 @@
+= content_for :title do
+  Tous les cours de #{@subject.name.downcase} à #{@city.name} | CoursAvenue
+
+= content_for :above_container do
+  - if @city.city_image
+    .home-screen.bg-cover{style: "background-image: url(#{@city.city_image})"}
+      %h1.push--bottom.text--center.home-screen-title{style: 'padding-top: 3em;'}
+        Tous les cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+      - if @city.title
+        %h4.center-block.text--center.home-screen-title{style: 'width: 1000px'}
+          = @city.title
+  - else
+    #map.google-map.google-map--medium-small
+
+  .white-box--noshadow
+    .main-container.push--ends
+      %h2.text--center Les cours à #{@city.name} en quelques chiffres
+      %hr
+      .grid
+        .grid__item.one-sixth.text--center.delta>
+          %div.soft-half--bottom Profils
+          .bold= @structures_count
+        .grid__item.one-sixth.text--center.delta>
+          %div.soft-half--bottom Séance
+          .bold= @plannings_count
+        .grid__item.one-sixth.text--center.delta>
+          %div.soft-half--bottom Lieux
+          .bold= @places_count
+        .grid__item.one-sixth.text--center.delta>
+          %div.soft-half--bottom Cours d'essai gratuit
+          .bold= @free_trial_course_count
+        .grid__item.one-sixth.text--center.delta>
+          %div.soft-half--bottom Photos & vidéos
+          .bold= @medias_count
+        .grid__item.one-sixth.text--center.delta>
+          %div.soft-half--bottom Avis d'élèves
+          .bold= @comments_count
+
+- if @subject.title
+  %h2.text--center= @subject.title
+
+- if @subject.description
+  .white-box.island= simple_format @subject.description
+
+%h3.text--center.soft--top Guide des cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+
+.main-container
+  - # Show facets with more than 10 results
+  .grid--full.text--center.hard.push--bottom>
+    - @structure_search.facet(:subject_ids).rows.reject{|facet| facet.count < 15}[0..4].each do |facet|
+      - subject = Subject.find(facet.value)
+      - if subject.image?
+        - subject_image = subject.image
+      - elsif subject.parent and subject.parent.image?
+        - subject_image = subject.parent.image
+      - elsif subject.grand_parent and subject.grand_parent.image?
+        - subject_image = subject.grand_parent.image
+      .grid__item.one-fifth.very-soft>
+        .relative.show-on-hover__wrapper>
+          %a.bg-cover.block{href: structures_path(name: subject.name), title: "Cours de #{subject.name} à #{@city.name}", style: "background-image: url(#{subject_image}); height: 150px;"}>
+            .home-screen-gallery__title.text--center
+              = subject.name
+              .show-on-hover__child.milli #{facet.count} structures
+
+%hr
+
+%h3.text--center Sélection de profil de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+
+.text--center.push--bottom
+  = link_to structures_path(lat: @city.latitude, lng: @city.longitude, name: @subject.name), class: 'btn btn--green btn--large' do
+    Voir tous les cours de
+    %strong= @subject.name
+    à
+    %strong= @city.name
+
+
+.grid.push--bottom
+  .grid__item.three-fifths>
+    #map.google-map.google-map--large
+  .grid__item.two-fifths>
+    - @structures.each do |structure|
+      - comment = structure.comments.where{(title != nil) & (title != '')}.first
+      - if comment
+        = render partial: 'structures/structure_with_comment', locals: {structure: structure, comment: comment}
+    = link_to 'Voir les autres profils', subject_structures_path(@subject, address_name: @city.name, latitude: @city.latitude, longitude: @city.longitude), class: 'btn btn--full btn--large', target: '_blank'
+
+
+
+%hr
+
+%h3.text--center Sélection d'avis de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+
+%ul.no-bullet-list.js-masonry{'data-masonry-options' => '{ "itemSelector": ".comment_masonry__item" }'}
+  - @structures.select{|s| s.comments_count > 0}.sample(25).each do |structure|
+    .one-third.very-soft.comment_masonry__item>
+      = render partial: 'comments/comment', locals: {comment: structure.comments.last, with_link: true, show_structure_logo: true, small_avatar: true}
+
+
+%hr
+
+%h3.text--center Sélection de photos de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+
+#gallery
+  .media-gallery>
+    - @medias.select{|media| media.format == 'image'}.sample(25).each do |media|
+      .white-box.media__item.one-quarter.islet>
+        %a.soft-half.block.break-all{rel: 'gallery', href: media.url, title: media.caption, data: {behavior: "fancy"}}
+          = media.url_html lazy: true
+          %caption= media.mediable.name
+          %i.fa.fa-expand
+
+    = render partial: 'medias/media', collection: @medias.select{|media| media.format == 'image'}.sample(25), locals: { lazy: true, width_class_name: 'one-quarter' }
+
+.text--center.push--bottom
+  = link_to structures_path(lat: @city.latitude, lng: @city.longitude, name: @subject.name), class: 'btn btn--green btn--large' do
+    Voir tous les cours de
+    %strong= @subject.name
+    à
+    %strong= @city.name
+
+- unless @city.city_image
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          handler = Gmaps.build('Google');
+          handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+              markers = handler.addMarkers(#{@city_latlng.to_json});
+              handler.bounds.extendWith(markers);
+              handler.fitMapToBounds();
+          });
+          google.maps.event.addListener(handler.getMap(), 'tilesloaded', function() {
+              handler.getMap().setZoom(12);
+          });
+      });
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        // Using one load prevents from not triggering the event if the image is in cache
+        var has_trigger_gallery_loading = false;
+        $(document).scroll(function(){
+            if (!has_trigger_gallery_loading) { $("#gallery .media__item img").trigger('gallery:show'); }
+            has_trigger_gallery_loading = true
+        });
+        if ($(document).scrollTop() > 0) {
+            if (!has_trigger_gallery_loading) { $("#gallery .media__item img").trigger('gallery:show'); }
+            has_trigger_gallery_loading = true
+        }
+        $("#gallery .media__item img").lazyload({
+            effect : "fadeIn",
+            event: 'gallery:show',
+            skip_invisible: true,
+            load: function(elements_left, settings) {
+                console.log(elements_left);
+                if (elements_left == 0) {
+                   $('.media-gallery').masonry({ itemSelector: '.media__item' });
+                }
+            }
+        });
+        handler = Gmaps.build('Google');
+        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+            markers = handler.addMarkers(#{@json_structure_addresses.to_json});
+            handler.bounds.extendWith(markers);
+            handler.fitMapToBounds();
+        });
+    });

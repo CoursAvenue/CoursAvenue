@@ -29,13 +29,13 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        $("#galery .media__item img").lazyload({
+        $("#gallery .media__item img").lazyload({
             effect : "fadeIn",
-            event: 'galery:show',
+            event: 'gallery:show',
             skip_invisible: true,
             load: function(elements_left, settings) {
                 if (elements_left == 0) {
-                   $('#galery .media-gallery').masonry({ itemSelector: '.media__item' });
+                   $('#gallery .media-gallery').masonry({ itemSelector: '.media__item' });
                 }
             }
         });

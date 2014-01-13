@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140113105522) do
+ActiveRecord::Schema.define(version: 20140113140932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -563,6 +563,8 @@ ActiveRecord::Schema.define(version: 20140113105522) do
     t.string   "short_name"
     t.integer  "position"
     t.integer  "ancestry_depth",     default: 0
+    t.text     "title"
+    t.text     "description"
   end
 
   add_index "subjects", ["ancestry_depth"], name: "index_subjects_on_ancestry_depth", using: :btree
