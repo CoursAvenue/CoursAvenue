@@ -240,9 +240,11 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         * than the corresponding models */
         itemViewOptions: function(model, index) {
             var id = model.get("id");
+            var tags_url = this.collection.url.basename + '/tags.json';
 
             return {
                 checked: this.groups.selected[id]? true : false,
+                tags_url: tags_url
             };
         },
 

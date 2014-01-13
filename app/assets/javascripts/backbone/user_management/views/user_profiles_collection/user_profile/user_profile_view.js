@@ -12,6 +12,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.finishEditing = _.bind(this.finishEditing, this);
 
             this.model.set("checked", options.checked);
+            this.tags_url = options.tags_url;
             this.edits = {};
 
             /* TODO we would like not to have to use the on syntax
@@ -38,7 +39,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
             var view = new Module.EditableTagBar.EditableTagBarView({
                 data: data,
-                attribute: attribute
+                attribute: attribute,
+                url: this.tags_url
             });
 
             this.showWidget(view, {

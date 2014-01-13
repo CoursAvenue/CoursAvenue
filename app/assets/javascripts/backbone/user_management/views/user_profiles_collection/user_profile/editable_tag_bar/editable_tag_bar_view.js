@@ -24,6 +24,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.announceEdits = _.debounce(_.bind(this.announceEdits, this), 100);
             this.data = options.data;
             this.attribute = options.attribute;
+            this.url = options.url;
 
             /* build a recyclable taggy */
             var taggy = $("<span>")
@@ -68,8 +69,12 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         onRender: function () {
             this.$rollback = this.ui.$container.children().clone();
             this.ui.$input.typeahead([{
-                name: "bob",
-                local: ["bob", "jill", "hilarious"]
+                name: 'keywords',
+                limit: 10,
+                valueKey: 'name',
+                prefetch: {
+                    url: this.url
+                }
             }]);
 
             /* rebind the ui */
