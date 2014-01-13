@@ -13,6 +13,8 @@ class Structure < ActiveRecord::Base
   geocoded_by :geocoder_address
   after_validation :geocode
 
+  after_save :delay_subscribe_to_nutshell
+
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',
                              'structures.independant',
