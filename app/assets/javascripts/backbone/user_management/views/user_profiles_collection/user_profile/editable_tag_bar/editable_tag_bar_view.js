@@ -28,10 +28,12 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             var taggy = $("<span>").addClass('taggy--tag');
             var saltier = $("<span>")
                 .addClass('taggy--tag__saltier')
-                .data('data-behavior', "destroy");
+                .data('behavior', "destroy");
 
             taggy.append(saltier);
             this.$taggy_template = taggy;
+
+            this.taggy_padding = 15;
         },
 
         events: {
@@ -103,8 +105,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         /* when the user clicks 'x' */
         destroyTaggy: function (e) {
+            console.log("destroy");
             $(e.currentTarget).parent().remove();
 
+            this.updateInputWidth();
             this.announceEdits();
         },
 
@@ -118,6 +122,24 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             return taggy;
         },
 
+        updateInputWidth: function () {
+            /* update the input width */
+            /* TODO this could be more efficient */
+            var field_width = this.$el.width();
+            var tags_width  = _.inject(this.$(".taggy--tag"), _.bind(function (memo, element) {
+
+                // use outerWidth(true) to include margin
+                memo += $(element).outerWidth(true) + 6; // TODO this works _most_ of the time; some weird offset is happening
+                return memo;
+            }, this), 0);
+
+            console.log("tags:  %o", tags_width);
+            console.log("field: %o", field_width);
+            console.log("calc:  %o", tags_width % field_width);
+            console.log("calc:  %o", tags_width % (field_width - 70));
+            this.ui.$input.css({ width: (field_width - (tags_width % (field_width - 70))) + 'px', display: "" });
+        },
+
         createTaggy: function () {
 
             var text  = this.ui.$input.val(),
@@ -126,15 +148,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             /* append said taggy */
             this.ui.$container.append(taggy);
 
-            /* update the input width */
-            /* TODO this could be more efficient */
-            var field_width = this.$el.width();
-            var tags_width  = _.inject(this.$(".taggy--tag"), function (memo, element) {
-                memo += $(element).width() + 35;
-                return memo;
-            }, 0);
-
-            this.ui.$input.css({ width: (field_width - tags_width ) + 'px', display: "" });
+            this.updateInputWidth();
             this.ui.$input.val("");
         },
 
@@ -170,14 +184,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
             this.is_editing = true;
 
-            /* TODO figure out how to make this rock */
-            var field_width = this.$el.width();
-            var tags_width  = _.inject(this.$(".taggy--tag"), function (memo, element) {
-                memo += $(element).width() + 40;
-                return memo;
-            }, 0);
-
-            this.ui.$input.css({ width: (field_width - tags_width ) + 'px', display: "" });
+            this.updateInputWidth();
             this.$el.addClass("active");
         },
 
