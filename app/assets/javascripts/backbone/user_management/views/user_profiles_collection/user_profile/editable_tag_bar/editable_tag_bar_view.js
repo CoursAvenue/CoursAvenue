@@ -43,11 +43,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             'click [data-behavior=destroy]' : 'destroyTaggy',
             'keydown'                       : 'handleKeyDown',
             'change'                        : 'announceEdits',
-            'typeahead:selected [type=text]': 'wat'
-        },
-
-        wat: function (e) {
-
+            'typeahead:selected [type=text]': 'createTaggy'
         },
 
         ui: {
@@ -102,6 +98,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
                 return;
             }
 
+            this.ui.$input.val("");
             this.trigger("field:key:down", { editable: this, restore: (key === ESC) });
         },
 
@@ -144,11 +141,14 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             var tags_width  = _.inject(this.$(".taggy--tag"), _.bind(function (memo, element) {
 
                 // use outerWidth(true) to include margin
-                memo += $(element).outerWidth(true) + 6; // TODO this works _most_ of the time; some weird offset is happening
+                memo += $(element).outerWidth(true) + 10; // TODO this works _most_ of the time; some weird offset is happening
                 return memo;
             }, this), 0);
 
-            this.ui.$input.css({ width: (field_width - (tags_width % (field_width - 70))) + 'px', display: "" });
+            var width = (field_width - (tags_width % (field_width - 70))) + 'px';
+
+            this.$('.twitter-typeahead').css({ width: width, display: "" });
+            this.ui.$input.css({ width: width, display: "" });
         },
 
         createTaggy: function () {
