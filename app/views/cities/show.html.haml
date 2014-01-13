@@ -1,8 +1,11 @@
 = content_for :above_container do
-  - if @city_image
-    .home-screen.bg-cover{style: "background-image: url(#{@city_image})"}
-      %h1.text--center.home-screen-title{style: 'padding-top: 3em;'}
+  - if @city.city_image
+    .home-screen.bg-cover{style: "background-image: url(#{@city.city_image})"}
+      %h1.push--bottom.text--center.home-screen-title{style: 'padding-top: 3em;'}
         Tous les cours à #{@city.name}
+      - if @city.title
+        %h4.main-container.soft-sides.text--center.home-screen-title
+          = @city.title
   - else
     #map.google-map.google-map--medium-small
 
@@ -30,27 +33,31 @@
           %div.soft-half--bottom Avis d'élèves
           .bold= @comments_count
 
-%h3.text--center.soft--top Séléction de disciplines
+- if @city.subtitle
+  %h2.text--center= @city.subtitle
+- if @city.description
+  = simple_format @city.description
+
+%h3.text--center.soft--top Guide des disciplines à #{@city.name}
 .main-container
   - # Show facets with more than 10 results
-  - @structure_search.facet(:subject_ids).rows.reject{|facet| facet.count < 15}.in_groups_of(4, false).each do |facet_group|
-    .grid--full.text--center.hard.push--bottom>
-      - facet_group.each do |facet|
-        - subject = Subject.find(facet.value)
-        - if subject.image?
-          - subject_image = subject.image
-        - elsif subject.parent and subject.parent.image?
-          - subject_image = subject.parent.image
-        - elsif subject.grand_parent and subject.grand_parent.image?
-          - subject_image = subject.grand_parent.image
-        .grid__item.one-quarter.very-soft>
-          .relative.show-on-hover__wrapper>
-            %a.bg-cover.block{href: structures_path(name: subject.name), title: "Cours de #{subject.name} à #{@city.name}", style: "background-image: url(#{subject_image}); height: 150px;"}>
-              .home-screen-gallery__title.text--center
-                = subject.name
-                .show-on-hover__child.milli #{facet.count} structures
+  .grid--full.text--center.hard.push--bottom>
+    - @structure_search.facet(:subject_ids).rows.reject{|facet| facet.count < 15}[0..4].each do |facet|
+      - subject = Subject.find(facet.value)
+      - if subject.image?
+        - subject_image = subject.image
+      - elsif subject.parent and subject.parent.image?
+        - subject_image = subject.parent.image
+      - elsif subject.grand_parent and subject.grand_parent.image?
+        - subject_image = subject.grand_parent.image
+      .grid__item.one-fifth.very-soft>
+        .relative.show-on-hover__wrapper>
+          %a.bg-cover.block{href: structures_path(name: subject.name), title: "Cours de #{subject.name} à #{@city.name}", style: "background-image: url(#{subject_image}); height: 150px;"}>
+            .home-screen-gallery__title.text--center
+              = subject.name
+              .show-on-hover__child.milli #{facet.count} structures
 
-- unless @city_image
+- unless @city.city_image
   = content_for :scripts do
     :javascript
       $(function() {

@@ -30,7 +30,7 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
-      resources :cities, only: [:edit, :update], path: 'villes', controler: 'pro/cities'
+      resources :cities, only: [:index, :edit, :update], path: 'villes', controler: 'pro/cities'
       resources :keywords, only: [:index, :create, :destroy]
       resources :search_term_logs, only: [:index]
       resources :subjects

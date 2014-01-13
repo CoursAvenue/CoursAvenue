@@ -11,7 +11,7 @@ class Pro::CitiesController < Pro::ProController
     @city = City.friendly.find(params[:id])
     @city.update_attributes params[:city]
     respond_to do |format|
-      format.html { redirect_to pro_dashboard_path }
+      format.html { redirect_to pro_cities_path }
     end
   end
 
