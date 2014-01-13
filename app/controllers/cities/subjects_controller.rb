@@ -10,7 +10,7 @@ class Cities::SubjectsController < ApplicationController
       to_merge = { subject_id: @subject.slug }
     end
 
-    @structure_search            = StructureSearch.search({lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 6, bbox: true}.merge(to_merge))
+    @structure_search            = StructureSearch.search({lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 20, bbox: true}.merge(to_merge))
     @location_search             = LocationSearch.search({lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 80, bbox: true}.merge(to_merge))
     @planning_search             = PlanningSearch.search({lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 1, bbox: true}.merge(to_merge))
     @free_trial_plannings_search = PlanningSearch.search({lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 1, bbox: true, trial_course_amount: 0}.merge(to_merge))
@@ -21,6 +21,7 @@ class Cities::SubjectsController < ApplicationController
     @structures               = @structure_search.results
     @medias                   = @medias_search.results
     @courses                  = @courses_search.results
+    @comments                 = @comments_search.results
 
     @structures_count         = @structure_search.total
     @places_count             = @location_search.total
