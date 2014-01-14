@@ -1,4 +1,13 @@
 = simple_form_for @media, url: pro_structure_media_path(@structure, @media), as: :media do |f|
   = f.input :star
   = f.input :vertical_page_caption
+  = f.association :subjects, as: :select, collection: Subject.all, input_html: { multiple: true, data: { behavior: 'chosen'} }
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+
+:javascript
+  $('#media_subject_ids').change(function() {
+      $(window).trigger('resize'); // To adapt fancy popups
+  });
+  setTimeout(function() {
+      $('.fancybox-inner').css('overflow', 'visible');
+  }, 100);
