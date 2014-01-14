@@ -54,6 +54,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         /* no model here */
         serializeData: function () {
+            if (this.data === "") {
+                return;
+            }
+
             var tags = this.data.split(",");
 
             return {
