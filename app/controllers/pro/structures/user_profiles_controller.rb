@@ -5,16 +5,26 @@ class Pro::Structures::UserProfilesController < Pro::ProController
 
   layout 'admin'
 
-  # TODO is this correct? I kind of feel like the search is not being
-  # restricted to the structure...
   def index
     params[:structure_id] = @structure.id
-    @user_profiles_search = UserProfileSearch.search(params) # <-- shouldn't this be (search_params)
+    @user_profiles_search = UserProfileSearch.search(params)
     @user_profiles = @user_profiles_search.results
 
     respond_to do |format|
       format.json { render json: @user_profiles, root: 'user_profiles', meta: { total: @user_profiles_search.total, busy: @structure.busy }}
       format.html
+    end
+  end
+
+  def show
+    @user_profile = UserProfile.find(params[:id])
+
+    respond_to do |format|
+      if request.xhr?
+        format.html {render partial: "details.html.haml", layout: false}
+      else
+        format.json {render json: @user_profile }
+      end
     end
   end
 
