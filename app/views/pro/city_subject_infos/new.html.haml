@@ -1,0 +1,11 @@
+= side_menu_currently_at 'Pages verticales'
+
+%h3= "#{@city.name} / #{@subject.name}"
+
+.form-white-box
+  = simple_form_for @city_subject_info, url: pro_city_subject_infos_path do |f|
+    = f.input :subject_id, as: :hidden
+    = f.input :city_id, as: :hidden
+    = f.input :title, label: 'Titre'
+    = f.input :description, input_html: { data: { behavior: 'autoresize' } }
+    = f.submit 'Enregistrer', class: 'btn btn--green btn--full'

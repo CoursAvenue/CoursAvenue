@@ -1,3 +1,8 @@
+.subject-logo {
+  border: 4px solid white;
+  @include border-radius(10em);
+}
+
 .subject-link {
     color      : $blue-green;
     white-space: nowrap;

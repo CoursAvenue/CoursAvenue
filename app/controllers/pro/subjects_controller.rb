@@ -4,7 +4,7 @@ class Pro::SubjectsController < Pro::ProController
 
   def index
     @city = City.find 'paris'
-    @structure_search            = StructureSearch.search({lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 1, bbox: true})
+    @structure_search = StructureSearch.search({lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 1, bbox: true})
   end
 
   def edit

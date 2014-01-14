@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Pro::Structures::MediasController < Pro::ProController
   before_action :authenticate_pro_admin!
+  before_action :authenticate_pro_super_admin!, only: [:update, :edit]
   layout 'admin'
 
   def index
@@ -18,4 +19,18 @@ class Pro::Structures::MediasController < Pro::ProController
     end
   end
 
+  def edit
+    @structure = Structure.friendly.find params[:structure_id]
+    @media     = Media.find params[:id]
+    render layout: false
+  end
+
+  def update
+    @structure = Structure.friendly.find params[:structure_id]
+    @media     = Media.find params[:id]
+    @media.update_attributes(params[:media])
+    respond_to do |format|
+      format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Photo / vidéo bien starré.'}
+    end
+  end
 end

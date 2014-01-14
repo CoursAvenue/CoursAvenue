@@ -1,26 +1,20 @@
 = content_for :title do
-  Tous les cours de #{@subject.name.downcase} à #{@city.name} | CoursAvenue
+  Tous les cours de #{@subject.name.downcase} | CoursAvenue
 
 = content_for :above_container do
-  - if @city.image.present?
-    .home-screen.bg-cover{style: "background-image: url(#{@city.image.url})"}
-      - if @subject.image.present?
-        .soft
-          = image_tag @subject.image.url(:thumb), class: 'block center-block subject-logo', height: 130
-      %h1.push--bottom.text--center.home-screen-title{style: (@subject.image.present? ? '' : 'padding-top: 3em;')}
-        Tous les cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+  - if @subject.image.present?
+    .home-screen.bg-cover{style: "background-image: url(#{@subject.image.url})"}
+      %h1.push--bottom.text--center.home-screen-title{style: 'padding-top: 3em;'}
+        Tous les cours de <strong>#{@subject.name.downcase}</strong>
       - if @subject.title
         %h4.center-block.text--center.home-screen-title{style: 'width: 1000px'}
           = @subject.title
-      - elsif @city.title
-        %h4.center-block.text--center.home-screen-title{style: 'width: 1000px'}
-          = @city.title
   - else
     #map.google-map.google-map--medium-small
 
   .white-box--noshadow
     .main-container.push--ends
-      %h2.text--center Tous les cours de #{@subject.name.downcase} à #{@city.name}
+      %h2.text--center Tous les cours de #{@subject.name.downcase}
       %hr
       .grid
         .grid__item.one-sixth.text--center.delta>
@@ -33,7 +27,7 @@
           %div.soft-half--bottom Lieux
           .bold= @places_count
         .grid__item.one-sixth.text--center.delta>
-          %div.soft-half--bottom Cours d'essai gratuit
+          %div.soft-half--bottom Cours d'essai gratuits
           .bold= @free_trial_course_count
         .grid__item.one-sixth.text--center.delta>
           %div.soft-half--bottom Photos & vidéos
@@ -42,25 +36,19 @@
           %div.soft-half--bottom Avis d'élèves
           .bold= @comments_count
 
-- if @city_subject_info
-  %h2.text--center= @city_subject_info.title || @subject.name
-  .white-box.island
-    - if @subject.description.present?
-      = simple_format @subject.description
-    = simple_format @city_subject_info.description
-- else
-  - if @subject.title
-    %h2.text--center= @subject.title || @subject.name
-  - if @subject.description
-    .white-box.island= simple_format @subject.description
+- if @subject.subtitle
+  %h2.text--center= @subject.subtitle || @subject.name
+
+- if @subject.description
+  .white-box.island= simple_format @subject.description
 
 - if @subject.depth > 0 and @videos.any?
-  %h3.text--center Sélection des vidéos de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+  %h3.text--center Sélection des vidéos de cours de <strong>#{@subject.name.downcase}</strong>
   .media-gallery.white-box>
     = render partial: 'medias/media', collection: @videos, locals: { width_class_name: 'one-fifth v-top text--center', vertical: true}
 %hr
 - unless @subject.depth == 2
-  %h3.text--center.soft--top Guide des cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+  %h3.text--center.soft--top Guide des cours de <strong>#{@subject.name.downcase}</strong>
   .main-container
     - # Show facets with more than 10 results
     - @structure_search.facet(:subject_ids).rows.reject{|facet| facet.count < 15}.in_groups_of(4, false).each do |facet_group|
@@ -75,7 +63,7 @@
             - subject_image = subject.grand_parent.image
           .grid__item.one-quarter.very-soft>
             .relative.show-on-hover__wrapper>
-              %a.bg-cover.block{href: city_subject_path(@city, subject), title: "Cours de #{subject.name} à #{@city.name}", style: "background-image: url(#{subject_image}); height: 150px; "}>
+              %a.bg-cover.block{href: subject_path(subject), title: "Cours de #{subject.name}", style: "background-image: url(#{subject_image}); height: 150px; "}>
                 .home-screen-gallery__title.text--center{style: (subject.name.length > 27 ? 'margin-top: -1.7em' : '')}
                   %div= subject.name
                   .show-on-hover__child.milli
@@ -85,14 +73,12 @@
 
   %hr
 
-%h3.text--center Sélection des profils de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+%h3.text--center Sélection des profils de <strong>#{@subject.name.downcase}</strong>
 
 .text--center.push--bottom
-  = link_to structures_path(lat: @city.latitude, lng: @city.longitude, name: @subject.name), class: 'btn btn--green btn--large' do
+  = link_to structures_path(name: @subject.name), class: 'btn btn--green btn--large' do
     Voir tous les cours de
     %strong= @subject.name
-    à
-    %strong= @city.name
 
 
 .grid.push--bottom
@@ -103,7 +89,7 @@
       - comment = structure.comments.where{(title != nil) & (title != '')}.first
       - if comment
         = render partial: 'structures/structure_with_comment', locals: {structure: structure, comment: comment}
-    = link_to 'Voir les autres profils', subject_structures_path(@subject, address_name: @city.name, latitude: @city.latitude, longitude: @city.longitude), class: 'btn btn--full btn--large', target: '_blank'
+    = link_to 'Voir les autres profils', subject_structures_path(@subject, address_name: 'Paris'), class: 'btn btn--full btn--large', target: '_blank'
 
 
 
@@ -111,8 +97,7 @@
 
 = render partial: 'subjects/comments', locals: { comments: @comments }
 
-
-%h3.text--center Sélection des photos de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+%h3.text--center Sélection des photos de cours de <strong>#{@subject.name.downcase}</strong>
 
 #gallery
   .media-gallery.white-box.push--bottom>
@@ -123,23 +108,21 @@
           %i.fa.fa-expand
 
 .text--center.push--bottom
-  = link_to structures_path(lat: @city.latitude, lng: @city.longitude, name: @subject.name), class: 'btn btn--green btn--large' do
+  = link_to structures_path(name: @subject.name), class: 'btn btn--green btn--large' do
     Voir tous les cours de
     %strong= @subject.name
-    à
-    %strong= @city.name
 
 %hr
 
 = render partial: 'subjects/courses', locals: { courses: @courses }
 
-- unless @city.image.present?
+- unless @subject.image.present?
   = content_for :scripts do
     :javascript
       $(function() {
           handler = Gmaps.build('Google');
           handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-              markers = handler.addMarkers(#{@city_latlng.to_json});
+              markers = handler.addMarkers([#{@france_center_lat}, #{@france_center_lng}]);
               handler.bounds.extendWith(markers);
               handler.fitMapToBounds();
           });

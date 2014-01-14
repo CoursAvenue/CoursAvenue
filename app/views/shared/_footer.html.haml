@@ -47,3 +47,11 @@
               %li= link_to 'Zumba'  , subject_structures_url('zumba'  , subdomain: 'www')
               %li= link_to 'Yoga'   , subject_structures_url('yoga'   , subdomain: 'www')
               %li= link_to 'Musique', subject_structures_url('musique', subdomain: 'www')
+
+  - if @structure
+    .main-container.text--center
+      = link_to "Tous les cours à #{@structure.city.name}", city_url(@structure.city, subdomain: 'www'), class: 'semi-muted-link', target: :_blank
+      - @structure.subjects.uniq.each_with_index do |subject, index|
+        - if index > 0
+          ,
+        = link_to "Cours de #{subject.name} à #{@structure.city.name}", city_subject_url(@structure.city, subject, subdomain: 'www'), class: 'semi-muted-link', target: :_blank
