@@ -77,12 +77,30 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             });
         },
 
+        showFancybox: function () {
+            var data = this.data;
+            this.$("[data-behavior=modal]").fancybox({
+                openSpeed   : 300,
+                maxWidth    : 800,
+                maxHeight   : 500,
+                fitToView   : false,
+                autoSize    : false,
+                autoResize  : true,
+                ajax        : {
+                    complete: _.bind(function() {
+                        $('.simple_form').on("ajax:success", _.bind(this.syncModel, this));
+                    }, this)
+                }
+            });
+        },
+
         onRender: function () {
             this.showTagBar();
 
             this.ui.$editable.each(_.bind(function (index, element) {
                 this.showEditableText(element);
             }, this));
+
         },
 
         ui: {
@@ -93,7 +111,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         events: {
             'focusout'            : 'handleBlur',
-            'change @ui.$checkbox': 'addToSelected'
+            'change @ui.$checkbox': 'addToSelected',
+            'click [data-behavior=modal]': 'showFancybox'
         },
 
         modelEvents: {
@@ -112,6 +131,17 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
             this.trigger("update:sync", model.changed);
         },
+
+        /* TODO poorly named */
+        /* we have just returned from update the model server side
+        *  so we need to set the new data on the model, and then
+        *  sync fields */
+        syncModel: function (xhr, data, status) {
+            this.model.set(data);
+
+            this.trigger("update:sync", this.model);
+        },
+
 
         /* is this row being worked on? */
         /* TODO this should just check a flag */
@@ -142,7 +172,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
                     $field.focus();
                     return;
-                } else if ($(".fancybox-overlay").find($target).length > 0) {
+                } else if ($(".fancybox-outer").find($target).length > 0) {
                 /* if focus has moved to the modal for details */
 
                     return;

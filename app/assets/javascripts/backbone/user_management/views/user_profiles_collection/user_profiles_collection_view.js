@@ -71,6 +71,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
                 this.poller.stop();
             }, this));
+
         },
 
         ui: {
