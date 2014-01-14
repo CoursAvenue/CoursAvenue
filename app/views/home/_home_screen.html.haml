@@ -20,18 +20,18 @@
           = image_tag 'home-page/dance.jpg', alt: 'Cours de danse'
 
   .home-screen-gallery.text--center.flexbox.main-container>
-    .flexbox__item.one-fifth.home-screen-gallery__link.home-screen-gallery__link-paris
-      = link_to city_path('paris'), class: 'relative block', title: "Guide des cours à Paris" do
-        .home-screen-gallery__title Guide des cours à Paris
-    .flexbox__item.one-fifth.home-screen-gallery__link.home-screen-gallery__link-trial
+    -# .flexbox__item.one-fifth.home-screen-gallery__link.home-screen-gallery__link-paris
+    -#   = link_to city_path('paris'), class: 'relative block', title: "Guide des cours à Paris" do
+    -#     .home-screen-gallery__title Guide des cours à Paris
+    .flexbox__item.one-quarter.home-screen-gallery__link.home-screen-gallery__link-trial
       = link_to structures_path(trial_course_amount: 0), class: 'relative block', title: "Cours d'essai gratuits" do
         .home-screen-gallery__title Cours d'essai gratuits
-    .flexbox__item.one-fifth.home-screen-gallery__link.home-screen-gallery__link-kids
+    .flexbox__item.one-quarter.home-screen-gallery__link.home-screen-gallery__link-kids
       = link_to structures_path(audience_ids: [Audience::KID.id]), class: 'relative block', title: "Cours pour enfants" do
         .home-screen-gallery__title Cours pour enfants
-    .flexbox__item.one-fifth.home-screen-gallery__link.home-screen-gallery__link-weekend
+    .flexbox__item.one-quarter.home-screen-gallery__link.home-screen-gallery__link-weekend
       = link_to structures_path(week_days: [0, 6]), class: 'relative block', title: "Cours le week-end" do
         .home-screen-gallery__title Cours le week-end
-    .flexbox__item.one-fifth.home-screen-gallery__link.home-screen-gallery__link-night
+    .flexbox__item.one-quarter.home-screen-gallery__link.home-screen-gallery__link-night
       = link_to structures_path(start_hour: 18), class: 'relative block', title: "Cours du soir" do
         .home-screen-gallery__title Cours du soir
