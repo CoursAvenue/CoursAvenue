@@ -16,12 +16,12 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     end
   end
 
-  def show
+  def edit
     @user_profile = UserProfile.find(params[:id])
 
     respond_to do |format|
       if request.xhr?
-        format.html {render partial: "details.html.haml", layout: false}
+        format.html {render layout: false}
       else
         format.json {render json: @user_profile }
       end
