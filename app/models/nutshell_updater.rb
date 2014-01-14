@@ -62,8 +62,8 @@ class NutshellUpdater
             'displayName' => structure.name
           },
           'description' => structure.main_contact.name,
-          'tags'    => new_tags.uniq,
-          'address' => address,
+          'tags'        => new_tags.uniq,
+          'address'     => address,
           'customFields' => {
               'Profil privé' => "http://pro.coursavenue.com/etablissements/#{structure.slug}/tableau-de-bord",
               'Profil public' => "http://www.coursavenue.com/etablissements/#{structure.slug}"

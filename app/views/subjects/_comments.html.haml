@@ -1,0 +1,13 @@
+%h3.text--center
+  Sélection d'avis de cours de <strong>#{@subject.name.downcase}</strong>
+  - if @city
+    à
+    %strong= @city.name
+
+%ul.no-bullet-list.js-masonry{'data-masonry-options' => '{ "itemSelector": ".comment_masonry__item" }'}
+  - comments.each do |comment|
+    .one-third.very-soft.comment_masonry__item>
+      = render partial: 'comments/comment', locals: {comment: comment, with_link: true, show_structure_logo: true, small_avatar: true}
+
+
+%hr

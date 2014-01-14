@@ -1,12 +1,24 @@
-- if @subject.image.present?
-  = image_tag @subject.image.url
+= side_menu_currently_at 'Pages verticales'
+
+.grid
+  .grid__item.one-half>
+    %h3 Small
+    - if @subject.small_image.present?
+      = image_tag @subject.small_image.url
+  .grid__item.one-half>
+    %h3 Large
+    - if @subject.image.present?
+      = image_tag @subject.image.url
+
 
 .form-white-box
   = simple_form_for [:pro, @subject] do |f|
     = f.input :name
+    = f.input :small_image
     = f.input :image
     = f.input :info
     = f.input :title
+    = f.input :subtitle
     = f.input :description, input_html: { data: { behavior: 'autoresize'} }
     .form-actions
       = f.submit 'Mettre à jour', class: 'btn btn--green'

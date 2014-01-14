@@ -1,6 +1,5 @@
 # encoding: utf-8
 class City < ActiveRecord::Base
-  require 'wikipedia'
 
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
@@ -8,6 +7,7 @@ class City < ActiveRecord::Base
   has_many :places
   has_many :structures, through: :structures
   has_many :courses   , through: :structures
+  has_many :city_subject_infos
 
   has_attached_file :image, :styles => {default: '900×600#'}
 
@@ -22,15 +22,6 @@ class City < ActiveRecord::Base
   attr_accessible :name, :image, :iso_code, :zip_code, :region_name, :region_code, :department_name,
                   :department_code, :commune_name, :commune_code, :latitude, :longitude, :acuracy,
                   :title, :subtitle, :description
-
-  def city_image
-    if self.image?
-      return self.image
-    else
-      @wikipedia_page = Wikipedia.find( self.name )
-      return self_image     = @wikipedia_page.image_urls.first
-    end
-  end
 
   def to_gmap_json
     {lng: self.longitude, lat: self.latitude}

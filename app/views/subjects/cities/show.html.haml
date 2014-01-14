@@ -1,112 +1,171 @@
 = content_for :title do
-  = "Tous les cours de #{@subject.name.downcase} à #{@city.name}"
+  Tous les cours de #{@subject.name.downcase} à #{@city.name} | CoursAvenue
 
 = content_for :above_container do
-  .soft.large-container
-    %h2.alpha.weight-normal.text--center= "Tous les cours de #{@subject.name.downcase} à #{@city.name}"
-    .grid.push--bottom
-      .grid__item.one-third>
-        .white-box.soft.text--center
-          .beta
-            = @structures.map(&:comments).flatten.count
-            recommandations
-          %p.flush
-            %a{href: '#recommandations', data: {behavior: 'scroller'}} Voir les témoignages
+  - if @city.image.present?
+    .home-screen.bg-cover{style: "background-image: url(#{@city.image.url})"}
+      - if @subject.small_image.present?
+        .soft
+          = image_tag @subject.small_image.url(:thumb), class: 'block center-block subject-logo', height: 130
+      %h1.push--bottom.text--center.home-screen-title{style: (@subject.small_image.present? ? '' : 'padding-top: 3em;')}
+        Tous les cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+      - if @city.title
+        %h4.center-block.text--center.home-screen-title{style: 'width: 1000px'}
+          = @city.title
+  - else
+    #map.google-map.google-map--medium-small
 
-      .grid__item.one-third>
-        .white-box.soft.text--center
-          .beta
-            = @medias.count
-            photos & vidéos
-          %p.flush
-            %a{href: '#galerie-photos', target: '_blank', data: {behavior: 'scroller'}} Voir la galerie photos
-      .grid__item.one-third>
-        .white-box.soft.text--center
-          .beta
-            = @plannings.count
-            séances
-          %p.flush
-            %a{href: '#cours', data: {behavior: 'scroller'}} Voir tous les cours
+  .white-box--noshadow
+    .main-container.push--ends
+      %h2.text--center Tous les cours de #{@subject.name.downcase} à #{@city.name}
+      %hr
+      .grid
+        .grid__item.one-sixth.text--center.delta>
+          %div.soft-half--bottom Profils
+          .bold= @structures_count
+        .grid__item.one-sixth.text--center.delta>
+          %div.soft-half--bottom Séance
+          .bold= @plannings_count
+        .grid__item.one-sixth.text--center.delta>
+          %div.soft-half--bottom Lieux
+          .bold= @places_count
+        .grid__item.one-sixth.text--center.delta>
+          %div.soft-half--bottom Cours d'essai gratuit
+          .bold= @free_trial_course_count
+        .grid__item.one-sixth.text--center.delta>
+          %div.soft-half--bottom Photos & vidéos
+          .bold= @medias_count
+        .grid__item.one-sixth.text--center.delta>
+          %div.soft-half--bottom Avis d'élèves
+          .bold= @comments_count
 
-    .grid
-      .grid__item.three-fifths>
-        #map.google-map.google-map--large
-      .grid__item.two-fifths>
-        - number_of_structure_rendered = 0
-        - @structures.each do |structure|
-          - break if number_of_structure_rendered == 6
-          - comment = structure.comments.where{(title != nil) & (title != '')}.first
-          - if comment
-            - number_of_structure_rendered += 1
-            = render partial: 'structures/structure_with_comment', locals: {structure: structure, comment: comment}
-        = link_to 'Voir les autres profils', subject_structures_path(@subject, address_name: @city.name, latitude: @city.latitude, longitude: @city.longitude), class: 'btn btn--full btn--large', target: '_blank'
+- if @city_subject_info
+  %h2.text--center= @city_subject_info.title || @subject.name
+  .white-box.island= simple_format @city_subject_info.description
+- else
+  - if @subject.title
+    %h2.text--center= @subject.title || @subject.name
 
-  .home-screen-promotion-wrapper
-    .main-container.text--center
-      .alpha.push--ends Rejoignez gratuitement la communauté CoursAvenue
-      = link_to "Créer mon profil gratuit", inscription_pro_structures_url(subdomain: 'pro'), class: 'btn btn--green btn--large', target: '_blank'
+  - if @subject.description
+    .white-box.island= simple_format @subject.description
 
-  #recommandations
-    .alpha.text--center.soft--ends Les élèves recommandent leurs cours
-    %ul.no-bullet-list.js-masonry{'data-masonry-options' => '{ "itemSelector": ".comment_masonry__item" }'}
-      - @structures.select{|s| s.comments_count > 0}.sample(25).each do |structure|
-        .one-third.very-soft.comment_masonry__item>
-          = render partial: 'comments/comment', locals: {comment: structure.comments.last, with_link: true}
+- if @subject.depth > 0 and @videos.any?
+  %h3.text--center Sélection de vidéo de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+  .media-gallery.white-box>
+    = render partial: 'medias/media', collection: @videos, locals: { width_class_name: 'one-fifth v-top text--center', vertical: true}
+%hr
+- unless @subject.depth == 2
+  %h3.text--center.soft--top Guide des cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+  .main-container
+    - # Show facets with more than 10 results
+    - @structure_search.facet(:subject_ids).rows.reject{|facet| facet.count < 15}.in_groups_of(4, false).each do |facet_group|
+      .grid--full.text--center.hard.push--bottom>
+        - facet_group.each do |facet|
+          - subject = Subject.find(facet.value)
+          - if subject.image?
+            - subject_image = subject.image
+          - elsif subject.parent and subject.parent.image?
+            - subject_image = subject.parent.image
+          - elsif subject.grand_parent and subject.grand_parent.image?
+            - subject_image = subject.grand_parent.image
+          .grid__item.one-quarter.very-soft>
+            .relative.show-on-hover__wrapper>
+              %a.bg-cover.block{href: city_subject_path(@city, subject), title: "Cours de #{subject.name} à #{@city.name}", style: "background-image: url(#{subject_image}); height: 150px; "}>
+                .home-screen-gallery__title.text--center{style: (subject.name.length > 27 ? 'margin-top: -1.7em' : '')}
+                  %div= subject.name
+                  .show-on-hover__child.milli
+                    #{facet.count} structures
+                    %br
+                    Voir le guide
 
-  #galerie-photos.soft--bottom.home-screen-promotion-wrapper.push--top
-    .soft--ends.text--center
-      .alpha La galerie photos
-      %p.flush= link_to 'Accéder à la galerie vidéos', videos_subject_city_medias_path(@subject, @city)
-    .media-gallery
-      - @medias.select{|media| media.format == 'image'}.sample(25).each do |media|
-        .one-quarter.media__item.very-soft{style: 'max-width: 450px'}>
-          %a.break-all.flush--bottom.white-box.islet{href: media.url, title: media.caption, data: {behavior: 'fancy'}}
-            = media.url_html
-            %p.flush--bottom.text--right
-              = media.mediable.name
-    .text--center.push--top
-      = link_to 'Accéder à la galerie vidéos', videos_subject_city_medias_path(@subject, @city), class: 'btn btn--large btn--blue'
+  %hr
 
-  .soft--bottom#cours.main-container
-    %h2.weight-normal.alpha.flush.text--center.soft--ends Tous les cours de #{@subject.name.downcase} à #{@city.name}
-    %table.table--striped.table--data.white-box#dataTable
-      %thead
-        %tr
-          %th Nom du cours
-          %th Donné par
-          %th Niveau
-          %th.text--center.nowrap Nbre de séances
-          %th.text--right.nowrap à partir de
-      %tbody
-        - @courses.each do |course|
-          %tr
-            %td= link_to course.name, structure_course_path(course.structure, course)
-            %td= link_to course.structure.name, structure_path(course.structure)
-            %td
-              = join_levels(course.plannings.collect(&:levels).flatten.uniq.sort_by(&:order))
-            %td.text--center= course.plannings.count
-            %td.text--right
-              - if course.best_price
-                = "#{readable_amount course.best_price.amount}€".html_safe
-              - else
-                \-
+%h3.text--center Sélection de profil de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+
+.text--center.push--bottom
+  = link_to structures_path(lat: @city.latitude, lng: @city.longitude, name: @subject.name), class: 'btn btn--green btn--large' do
+    Voir tous les cours de
+    %strong= @subject.name
+    à
+    %strong= @city.name
+
+
+.grid.push--bottom
+  .grid__item.three-fifths>
+    #map.google-map.google-map--large
+  .grid__item.two-fifths>
+    - @structures[0..5].each do |structure|
+      - comment = structure.comments.where{(title != nil) & (title != '')}.first
+      - if comment
+        = render partial: 'structures/structure_with_comment', locals: {structure: structure, comment: comment}
+    = link_to 'Voir les autres profils', subject_structures_path(@subject, address_name: @city.name, latitude: @city.latitude, longitude: @city.longitude), class: 'btn btn--full btn--large', target: '_blank'
+
+
+
+%hr
+
+= render partial: 'subjects/comments', locals: { comments: @comments }
+
+
+%h3.text--center Sélection de photos de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+
+#gallery
+  .media-gallery.white-box.push--bottom>
+    - @images.each do |media|
+      .media__item.one-quarter.soft-half>
+        %a.block.break-all{rel: 'gallery', href: media.url, title: media.caption, data: {behavior: "fancy"}}
+          = media.url_html lazy: true
+          %i.fa.fa-expand
+
+.text--center.push--bottom
+  = link_to structures_path(lat: @city.latitude, lng: @city.longitude, name: @subject.name), class: 'btn btn--green btn--large' do
+    Voir tous les cours de
+    %strong= @subject.name
+    à
+    %strong= @city.name
+
+%hr
+
+= render partial: 'subjects/courses', locals: { courses: @courses }
+
+- unless @city.image.present?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          handler = Gmaps.build('Google');
+          handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+              markers = handler.addMarkers(#{@city_latlng.to_json});
+              handler.bounds.extendWith(markers);
+              handler.fitMapToBounds();
+          });
+          google.maps.event.addListener(handler.getMap(), 'tilesloaded', function() {
+              handler.getMap().setZoom(12);
+          });
+      });
 
 = content_for :scripts do
   :javascript
     $(function() {
         // Using one load prevents from not triggering the event if the image is in cache
-        $('.media-gallery img, .media-gallery iframe').one('load', function() {
-            $('.media-gallery').masonry({ itemSelector: '.media__item' });
-        }).each(function() { if(this.complete) $(this).load(); });;
-        $('.media-gallery .media__item a').fancybox({ helpers : { media : {} } });
-        $('[data-behavior=scroller]').click(function(){
-            var href = $(this).attr('href');
-            $.scrollTo(href, {duration: 600, easing: 'easeInOutCubic'});
-            setTimeout(function(){
-                window.location.hash = href;
-            }, 600)
-            return false;
-        })
+        var has_trigger_gallery_loading = false;
+        $(document).scroll(function(){
+            if (!has_trigger_gallery_loading) { $("#gallery .media__item img").trigger('gallery:show'); }
+            has_trigger_gallery_loading = true;
+        });
+        if ($(document).scrollTop() > 0) {
+            if (!has_trigger_gallery_loading) { $("#gallery .media__item img").trigger('gallery:show'); }
+            has_trigger_gallery_loading = true;
+        }
+        $("#gallery .media__item img").lazyload({
+            effect : "fadeIn",
+            event: 'gallery:show',
+            skip_invisible: true,
+            load: function(elements_left, settings) {
+                if (elements_left == 0) {
+                   $('.media-gallery').masonry({ itemSelector: '.media__item' });
+                }
+            }
+        });
         handler = Gmaps.build('Google');
         handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
             markers = handler.addMarkers(#{@json_structure_addresses.to_json});
