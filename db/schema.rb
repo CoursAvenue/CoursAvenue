@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140114152935) do
+ActiveRecord::Schema.define(version: 20140114144010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -563,8 +563,8 @@ ActiveRecord::Schema.define(version: 20140114152935) do
   create_table "subjects", force: true do |t|
     t.string   "name"
     t.text     "info"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
     t.string   "slug"
     t.string   "ancestry"
     t.string   "image_file_name"
@@ -573,14 +573,10 @@ ActiveRecord::Schema.define(version: 20140114152935) do
     t.datetime "image_updated_at"
     t.string   "short_name"
     t.integer  "position"
-    t.integer  "ancestry_depth",           default: 0
+    t.integer  "ancestry_depth",     default: 0
     t.text     "title"
     t.text     "description"
     t.text     "subtitle"
-    t.string   "small_image_file_name"
-    t.string   "small_image_content_type"
-    t.integer  "small_image_file_size"
-    t.datetime "small_image_updated_at"
   end
 
   add_index "subjects", ["ancestry_depth"], name: "index_subjects_on_ancestry_depth", using: :btree

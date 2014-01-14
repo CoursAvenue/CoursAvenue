@@ -10,8 +10,10 @@
             = link_to "Elle nous transmet à chaque cours toute sa passion et son amour de la danse orientale qu'elle maîtrise à la perfection avec beaucoup d'enthousiasme !", "http://www.coursavenue.com/etablissements/soraya#recommandation-907", class: 'muted-link'
           .milli
             = link_to 'Avis écrit par Sanaâ Sultana sur les cours de danse orientale de Soraya', "http://www.coursavenue.com/etablissements/soraya#recommandation-907", class: 'muted-link'
-    %h1.text--center.home-screen-title.push--bottom
-      Les élèves vous guident vers les meilleurs cours
+    %h1.text--center.home-screen-title
+      Trouvez un cours de loisir près de chez vous.
+    %h4.text--center.home-screen-title.push--bottom
+      Parmi plus de 5 000 cours recommandés par les élèves.
     = render 'shared/home_page_search_form'
 
     - cache "home_screen_#{ENV["ETAG_VERSION_ID"]}" do

@@ -4,12 +4,15 @@
 = content_for :above_container do
   - if @city.image.present?
     .home-screen.bg-cover{style: "background-image: url(#{@city.image.url})"}
-      - if @subject.small_image.present?
+      - if @subject.image.present?
         .soft
-          = image_tag @subject.small_image.url(:thumb), class: 'block center-block subject-logo', height: 130
-      %h1.push--bottom.text--center.home-screen-title{style: (@subject.small_image.present? ? '' : 'padding-top: 3em;')}
+          = image_tag @subject.image.url(:thumb), class: 'block center-block subject-logo', height: 130
+      %h1.push--bottom.text--center.home-screen-title{style: (@subject.image.present? ? '' : 'padding-top: 3em;')}
         Tous les cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
-      - if @city.title
+      - if @subject.title
+        %h4.center-block.text--center.home-screen-title{style: 'width: 1000px'}
+          = @subject.title
+      - elsif @city.title
         %h4.center-block.text--center.home-screen-title{style: 'width: 1000px'}
           = @city.title
   - else
@@ -24,7 +27,7 @@
           %div.soft-half--bottom Profils
           .bold= @structures_count
         .grid__item.one-sixth.text--center.delta>
-          %div.soft-half--bottom Séance
+          %div.soft-half--bottom Séances
           .bold= @plannings_count
         .grid__item.one-sixth.text--center.delta>
           %div.soft-half--bottom Lieux
@@ -41,16 +44,18 @@
 
 - if @city_subject_info
   %h2.text--center= @city_subject_info.title || @subject.name
-  .white-box.island= simple_format @city_subject_info.description
+  .white-box.island
+    - if @subject.description.present?
+      = simple_format @subject.description
+    = simple_format @city_subject_info.description
 - else
   - if @subject.title
     %h2.text--center= @subject.title || @subject.name
-
   - if @subject.description
     .white-box.island= simple_format @subject.description
 
 - if @subject.depth > 0 and @videos.any?
-  %h3.text--center Sélection de vidéo de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+  %h3.text--center Sélection des vidéos de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
   .media-gallery.white-box>
     = render partial: 'medias/media', collection: @videos, locals: { width_class_name: 'one-fifth v-top text--center', vertical: true}
 %hr
@@ -80,7 +85,7 @@
 
   %hr
 
-%h3.text--center Sélection de profil de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+%h3.text--center Sélection des profils de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
 
 .text--center.push--bottom
   = link_to structures_path(lat: @city.latitude, lng: @city.longitude, name: @subject.name), class: 'btn btn--green btn--large' do
@@ -107,7 +112,7 @@
 = render partial: 'subjects/comments', locals: { comments: @comments }
 
 
-%h3.text--center Sélection de photos de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+%h3.text--center Sélection des photos de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
 
 #gallery
   .media-gallery.white-box.push--bottom>

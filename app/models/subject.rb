@@ -8,9 +8,6 @@ class Subject < ActiveRecord::Base
   has_attached_file :image,
                     :styles => { super_wide: "825x250#", wide: "600x375#", small: '250x200#', thumb: "200x200#" }
 
-  has_attached_file :small_image,
-                    :styles => { thumb: "200x200#" }
-
   has_and_belongs_to_many :courses
   has_and_belongs_to_many :structures
   has_and_belongs_to_many :users
@@ -19,7 +16,7 @@ class Subject < ActiveRecord::Base
   has_many :passions
   has_many :city_subject_infos
 
-  attr_accessible :name, :short_name, :info, :parent, :position, :title, :description, :small_image, :image
+  attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image
 
   validates :name, presence: true
   validates :name, uniqueness: {scope: 'ancestry'}

@@ -7,12 +7,11 @@
 %table.table--data.table--striped.white-box#dataTable
   %thead
     %tr
-      %th Grand mère
-      %th Maman
-      %th Enfant
-      %th Niveau
+      %th Discipline 1
+      %th Discipline 2
+      %th Discipline 3
       %th # profil
-      %th Image petite / grande
+      %th Image
       %th
   %tbody
     - @structure_search.facet(:subject_ids).rows.each do |facet|
@@ -27,12 +26,8 @@
         %td
           - if subject.depth == 2
             = subject.name
-        %td= subject.depth + 1
         %td= facet.count
         %td{data: {value: subject.image.present? ? '0' : '1'}}
-          - if subject.small_image.present?
-            %i.fa.fa-check
-          \/
           - if subject.image.present?
             %i.fa.fa-check
         %td= link_to 'Editer', edit_pro_subject_path(subject)
@@ -46,6 +41,7 @@
       %th Enfant
       %th Image
       %th
+      %th
   %tbody
     - Subject.at_depth(1).each do |subject|
       %tr{id: subject.slug}
@@ -55,7 +51,7 @@
           - if subject.image.present?
             %i.fa.fa-check
         %td= link_to 'Editer', edit_pro_subject_path(subject)
-
+        %td= link_to 'Paris', new_pro_city_subject_info_path(city_id: @paris.id, subject_id: subject.id)
 
 
 = content_for :scripts do

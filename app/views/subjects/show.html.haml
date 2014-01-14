@@ -21,13 +21,13 @@
           %div.soft-half--bottom Profils
           .bold= @structures_count
         .grid__item.one-sixth.text--center.delta>
-          %div.soft-half--bottom Séance
+          %div.soft-half--bottom Séances
           .bold= @plannings_count
         .grid__item.one-sixth.text--center.delta>
           %div.soft-half--bottom Lieux
           .bold= @places_count
         .grid__item.one-sixth.text--center.delta>
-          %div.soft-half--bottom Cours d'essai gratuit
+          %div.soft-half--bottom Cours d'essai gratuits
           .bold= @free_trial_course_count
         .grid__item.one-sixth.text--center.delta>
           %div.soft-half--bottom Photos & vidéos
@@ -43,7 +43,7 @@
   .white-box.island= simple_format @subject.description
 
 - if @subject.depth > 0 and @videos.any?
-  %h3.text--center Sélection de vidéo de cours de <strong>#{@subject.name.downcase}</strong>
+  %h3.text--center Sélection des vidéos de cours de <strong>#{@subject.name.downcase}</strong>
   .media-gallery.white-box>
     = render partial: 'medias/media', collection: @videos, locals: { width_class_name: 'one-fifth v-top text--center', vertical: true}
 %hr
@@ -73,7 +73,7 @@
 
   %hr
 
-%h3.text--center Sélection de profil de <strong>#{@subject.name.downcase}</strong>
+%h3.text--center Sélection des profils de <strong>#{@subject.name.downcase}</strong>
 
 .text--center.push--bottom
   = link_to structures_path(name: @subject.name), class: 'btn btn--green btn--large' do
@@ -97,7 +97,7 @@
 
 = render partial: 'subjects/comments', locals: { comments: @comments }
 
-%h3.text--center Sélection de photos de cours de <strong>#{@subject.name.downcase}</strong>
+%h3.text--center Sélection des photos de cours de <strong>#{@subject.name.downcase}</strong>
 
 #gallery
   .media-gallery.white-box.push--bottom>
