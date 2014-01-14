@@ -1,1 +1,9 @@
-HELLO
+= simple_form_for [:pro, @structure, @user_profile], remote: true do |f|
+  = f.input :last_name,           label: "Last Name"
+  = f.input :email,               label: "Email"
+  = f.input :first_name,          label: "First Name"
+  = f.input :notes, as: :text,    label: "Notes"
+  = f.input :phone,               label: "Phone"
+  = f.input :mobile_phone,        label: "Mobile"
+  = f.input :address, as: :text,  label: "Address"
+  = f.submit "Enregistrer"

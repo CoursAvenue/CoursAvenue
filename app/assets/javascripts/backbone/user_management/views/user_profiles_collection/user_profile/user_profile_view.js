@@ -142,6 +142,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
                     $field.focus();
                     return;
+                } else if ($(".fancybox-overlay").find($target).length > 0) {
+                /* if focus has moved to the modal for details */
+
+                    return;
                 }
 
                 /* finally, if focus is moving to a new row, finishediting */
