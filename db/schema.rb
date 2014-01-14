@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140114144010) do
+ActiveRecord::Schema.define(version: 20140114172257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -320,6 +320,11 @@ ActiveRecord::Schema.define(version: 20140114144010) do
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree
   add_index "medias", ["mediable_id"], name: "index_medias_on_mediable_id", using: :btree
   add_index "medias", ["mediable_type"], name: "index_medias_on_mediable_type", using: :btree
+
+  create_table "medias_subjects", id: false, force: true do |t|
+    t.integer "subject_id"
+    t.integer "media_id"
+  end
 
   create_table "notifications", force: true do |t|
     t.string   "type"

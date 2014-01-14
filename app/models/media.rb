@@ -4,9 +4,11 @@ class Media < ActiveRecord::Base
   self.table_name = 'medias'
 
   attr_accessible :mediable, :mediable_id, :mediable_type, :url, :caption, :format,
-                  :provider_id, :provider_name, :thumbnail_url, :filepicker_url, :cover, :star, :vertical_page_caption
+                  :provider_id, :provider_name, :thumbnail_url, :filepicker_url, :cover,
+                  :star, :vertical_page_caption, :subject_ids
 
   belongs_to :mediable, polymorphic: true
+  has_and_belongs_to_many :subjects
 
   validates :url, presence: true
   validates :caption, length: { maximum: 255 }
@@ -35,9 +37,8 @@ class Media < ActiveRecord::Base
 
     string :subject_slugs, multiple: true do
       subject_slugs = []
-      self.mediable.subjects.uniq.each do |subject|
+      self.subjects.uniq.each do |subject|
         subject_slugs << subject.slug
-        subject_slugs << subject.root.slug if subject.root
       end
       subject_slugs.uniq
     end
