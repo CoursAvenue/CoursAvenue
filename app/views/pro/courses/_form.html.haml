@@ -11,19 +11,18 @@
     Informations générales du cours
   .form-white-box
     = f.input :name, label: t('.name'), placeholder: 'Ex : Danse orientale, Dégustation de vins & fromages, etc.'
-    .input<
+    .input>
       = f.label :subjects
       - subjects = @structure.subjects.little_children.uniq
       - if subjects.empty?
         - subjects = @structure.subjects.roots.map(&:little_children).flatten
-      = f.association :subjects , as: :select, collection: subjects, input_html: {style: 'width: 300px;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush'}, label: false
+      = f.association :subjects , as: :select, collection: subjects, input_html: {style: 'width: 650px;', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: t('.subjects'), selected: @course.subject_ids, label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush'}, label: false
 
-      .inline-block
-        = link_to add_subjects_pro_structure_path(@structure, return_to: request.path, anchor: 'informations'), class: 'fancybox.ajax', data: { behavior: 'modal', width: 650 } do
-          %i.fa.fa-plus
-          Ajouter des disciplines à mon profil
-
-    %p.field-form-info.blue.flush Si vous désirez choisir d'autres disciplines, ajoutez-les à votre profil en cliquant sur le lien ci-dessus.
+    .field-form-info
+      = link_to add_subjects_pro_structure_path(@structure, return_to: request.path, anchor: 'informations'), class: 'fancybox.ajax', data: { behavior: 'modal', width: 650 } do
+        %i.fa.fa-plus
+        Ajouter des disciplines à mon profil
+      %p.blue.flush Si vous désirez choisir d'autres disciplines, ajoutez-les à votre profil en cliquant sur le lien ci-dessus.
 
     .input.grid--full
       = f.label :is_individual, class: 'control-label v-top' do
