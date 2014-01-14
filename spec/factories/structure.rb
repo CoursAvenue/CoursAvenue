@@ -33,5 +33,12 @@ FactoryGirl.define do
         structure.index
       end
     end
+    factory :structure_with_user_profiles_with_tags do
+      after(:create) do |structure|
+        3.times { structure.user_profiles << FactoryGirl.build(:user_profile_with_tags) }
+        structure.save
+        structure.index
+      end
+    end
   end
 end
