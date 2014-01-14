@@ -51,6 +51,10 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 this.commitAddTags();
             }, this));
 
+            this.$el.on('click', '[data-behavior=full-screen]', _.bind(function () {
+                this.$el[0].mozRequestFullScreen();
+            }, this));
+
             this.$el.on('click', '[data-behavior=uber-select]', _.bind(function () {
                 if (this.currently_editing) {
                     this.currently_editing.finishEditing({ restore: true, source: "button" });
