@@ -47,6 +47,10 @@ class Comment < ActiveRecord::Base
       end
     end
 
+    boolean :has_title do
+      self.title.present?
+    end
+
     string :subject_slugs, multiple: true do
       subject_slugs = []
       self.structure.subjects.uniq.each do |subject|

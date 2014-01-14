@@ -1,0 +1,4 @@
+= simple_form_for @media, url: pro_structure_media_path(@structure, @media), as: :media do |f|
+  = f.input :star
+  = f.input :vertical_page_caption
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full'

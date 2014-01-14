@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140113140932) do
+ActiveRecord::Schema.define(version: 20140114092038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -294,8 +294,8 @@ ActiveRecord::Schema.define(version: 20140113140932) do
     t.string   "caption"
     t.integer  "mediable_id"
     t.string   "mediable_type"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.time     "deleted_at"
     t.string   "format"
     t.string   "provider_id"
@@ -303,7 +303,9 @@ ActiveRecord::Schema.define(version: 20140113140932) do
     t.text     "thumbnail_url"
     t.string   "type"
     t.string   "filepicker_url"
-    t.boolean  "cover",          default: false
+    t.boolean  "cover",                 default: false
+    t.boolean  "star"
+    t.string   "vertical_page_caption"
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree

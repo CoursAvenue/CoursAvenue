@@ -23,6 +23,12 @@
           - if media.caption.present?
             %p.flush--bottom
               %i= media.caption
+        - if current_pro_admin.super_admin? and media.star
+          %i.fa.fa-star.yellow
+        - if current_pro_admin.super_admin?
+          = link_to edit_pro_structure_media_path(@structure, media), class: 'push-half--left show-on-hover btn btn--small btn--blue fancybox.ajax', data: { behavior: 'modal', width: 600 } do
+            %i.fa.fa-star
+
         - if media.image? and !media.cover?
           = link_to 'Définir comme photo de profil', make_it_cover_pro_structure_image_path(@structure, media), method: :put, class: 'push-half--left show-on-hover btn btn--small btn--blue'
         - elsif media.video? and !media.cover?

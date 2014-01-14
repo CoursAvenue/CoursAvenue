@@ -42,28 +42,36 @@
 - if @subject.description
   .white-box.island= simple_format @subject.description
 
-%h3.text--center.soft--top Guide des cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
-
-.main-container
-  - # Show facets with more than 10 results
-  - @structure_search.facet(:subject_ids).rows.reject{|facet| facet.count < 15}.in_groups_of(4, false).each do |facet_group|
-    .grid--full.text--center.hard.push--bottom>
-      - facet_group.each do |facet|
-        - subject = Subject.find(facet.value)
-        - if subject.image?
-          - subject_image = subject.image
-        - elsif subject.parent and subject.parent.image?
-          - subject_image = subject.parent.image
-        - elsif subject.grand_parent and subject.grand_parent.image?
-          - subject_image = subject.grand_parent.image
-        .grid__item.one-quarter.very-soft>
-          .relative.show-on-hover__wrapper>
-            %a.bg-cover.block{href: structures_path(name: subject.name), title: "Cours de #{subject.name} à #{@city.name}", style: "background-image: url(#{subject_image}); height: 150px;"}>
-              .home-screen-gallery__title.text--center
-                = subject.name
-                .show-on-hover__child.milli #{facet.count} structures
-
+- if @subject.depth > 0 and @videos.any?
+  %h3.text--center Sélection de vidéo de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+  .media-gallery.white-box>
+    = render partial: 'medias/media', collection: @videos, locals: { width_class_name: 'one-fifth v-top text--center', vertical: true}
 %hr
+- unless @subject.depth == 2
+  %h3.text--center.soft--top Guide des cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+  .main-container
+    - # Show facets with more than 10 results
+    - @structure_search.facet(:subject_ids).rows.reject{|facet| facet.count < 15}.in_groups_of(4, false).each do |facet_group|
+      .grid--full.text--center.hard.push--bottom>
+        - facet_group.each do |facet|
+          - subject = Subject.find(facet.value)
+          - if subject.image?
+            - subject_image = subject.image
+          - elsif subject.parent and subject.parent.image?
+            - subject_image = subject.parent.image
+          - elsif subject.grand_parent and subject.grand_parent.image?
+            - subject_image = subject.grand_parent.image
+          .grid__item.one-quarter.very-soft>
+            .relative.show-on-hover__wrapper>
+              %a.bg-cover.block{href: city_subject_path(@city, subject), title: "Cours de #{subject.name} à #{@city.name}", style: "background-image: url(#{subject_image}); height: 150px; "}>
+                .home-screen-gallery__title.text--center{style: (subject.name.length > 27 ? 'margin-top: -1.7em' : '')}
+                  %div= subject.name
+                  .show-on-hover__child.milli
+                    #{facet.count} structures
+                    %br
+                    Voir le guide
+
+  %hr
 
 %h3.text--center Sélection de profil de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
 
@@ -90,7 +98,6 @@
 %hr
 
 %h3.text--center Sélection d'avis de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
-
 %ul.no-bullet-list.js-masonry{'data-masonry-options' => '{ "itemSelector": ".comment_masonry__item" }'}
   - @comments.each do |comment|
     .one-third.very-soft.comment_masonry__item>
@@ -102,12 +109,12 @@
 %h3.text--center Sélection de photos de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
 
 #gallery
-  .media-gallery>
-    - @medias.select{|media| media.format == 'image'}.sample(25).each do |media|
-      .white-box.media__item.one-quarter.islet>
+  .media-gallery.white-box.push--bottom>
+    - @images.each do |media|
+      .media__item.one-quarter.soft-half>
         %a.block.break-all{rel: 'gallery', href: media.url, title: media.caption, data: {behavior: "fancy"}}
           = media.url_html lazy: true
-          %caption= media.mediable.name
+          -# %caption= media.mediable.name
           %i.fa.fa-expand
 
 .text--center.push--bottom
@@ -116,6 +123,20 @@
     %strong= @subject.name
     à
     %strong= @city.name
+
+%hr
+
+%h3.text--center Sélection de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
+
+.js-masonry{'data-masonry-options' => '{ "itemSelector": ".course_masonry__item" }'}
+  - @courses.each do |course|
+    .one-quarter.very-soft.course_masonry__item>
+      .white-box.soft-half
+        %p
+          %strong= course.name
+        %p.read-more{data: {behavior: 'read-more', height: 300}}
+          = course.description
+        %p.flush= link_to 'Voir les séances à venir', structure_course_path(course.structure, course)
 
 - unless @city.city_image
   = content_for :scripts do
