@@ -1,0 +1,31 @@
+- unless @subject.depth == 2
+  %h3.text--center.soft--top
+    Guide des cours de <strong>#{@subject.name.downcase}</strong>
+    - if @city
+      à
+      %strong= @city.name
+  .main-container
+    - # Show facets with more than 10 results
+    - subject_id_to_s = @subject.id.to_s
+    .text--center.hard.push--bottom>
+    - @structure_search.facet(:subject_ids).rows.reject{|facet| facet.count < 15}.each do |facet|
+      - subject = Subject.find(facet.value)
+      - if subject.ancestry and subject.ancestry.include? subject_id_to_s
+        - if subject.image?
+          - subject_image = subject.image
+        - elsif subject.parent and subject.parent.image?
+          - subject_image = subject.parent.image
+        - elsif subject.grand_parent and subject.grand_parent.image?
+          - subject_image = subject.grand_parent.image
+        .inline-block.one-quarter.very-soft>
+          .relative.bg-cover{style: "background-image: url(#{subject_image}); height: 150px; "}>
+            %a.block.show-on-hover__wrapper{href: (@city ? subject_city_path(subject, @city) : subject_path(subject)), title: "Cours de #{subject.name}"}>
+              .home-screen-gallery__title.text--center{style: (subject.name.length > 27 ? 'margin-top: -1.7em' : '')}
+                %div= subject.name
+                .show-on-hover__child.milli
+                  #{facet.count} structures
+                  %br
+                  Voir le guide
+
+  %hr
+

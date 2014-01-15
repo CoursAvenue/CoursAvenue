@@ -12,7 +12,7 @@ class SubjectsController < ApplicationController
       to_merge = { subject_id: @subject.slug }
     end
 
-    @structure_search            = StructureSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 20, bbox: true}).merge(to_merge))
+    @structure_search            = StructureSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 20, bbox: true}.merge(to_merge))
     @location_search             = LocationSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 80, bbox: true}.merge(to_merge))
     @planning_search             = PlanningSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 1, bbox: true}.merge(to_merge))
     @free_trial_plannings_search = PlanningSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 1, bbox: true, trial_course_amount: 0}.merge(to_merge))
