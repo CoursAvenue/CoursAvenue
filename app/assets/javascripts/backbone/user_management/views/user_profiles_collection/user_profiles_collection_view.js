@@ -114,11 +114,20 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             var sort = e.currentTarget.getAttribute('data-sort');
             var order = "desc";
 
+            if (sort === this.collection.server_api.sort) {
+                var order = this.collection.server_api.order;
+                order = (order === "desc")? "asc" : "desc";
+            }
+
             $headers.removeClass("active");
             $target.addClass("active");
 
-            var triangle = $headers.find("[data-type=order]").remove();
-            $target.append(triangle);
+            var chevron = (order === "desc")? "fa fa-chevron-down" : "fa fa-chevron-up";
+            var $triangle = $headers.find("[data-type=order]").remove();
+
+            $triangle.removeClass();
+            $triangle.addClass(chevron);
+            $target.append($triangle);
 
             this.trigger('filter:summary', { sort: sort, order: order });
 
