@@ -84,10 +84,21 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 maxWidth    : 800,
                 maxHeight   : 500,
                 fitToView   : false,
-                autoSize    : false,
+                autoSize    : true,
                 autoResize  : true,
+                keys: {
+                    close: [ESC]
+                },
                 ajax        : {
                     complete: _.bind(function() {
+                        this.$el.find("[data-type=taggies-container]")
+                            .clone()
+                            .appendTo(".fancybox__tags")
+                            .find(".taggy--tag__saltier")
+                            .remove();
+                        $('.simple_form').on("ajax:before", _.bind(function () {
+                            $.fancybox.close();
+                        }, this));
                         $('.simple_form').on("ajax:success", _.bind(this.syncModel, this));
                     }, this)
                 }
