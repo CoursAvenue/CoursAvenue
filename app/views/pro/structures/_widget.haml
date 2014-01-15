@@ -5,11 +5,11 @@
   .coursavenue-widget-top-logo-wrapper
     .coursavenue-widget-top-logo-inner-wrapper
       .coursavenue-widget-top-logo
-        = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', class: '', title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", class: 'coursavenue-widget-title' do
+        = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", class: 'coursavenue-widget-title' do
           %img.coursavenue-recommanded{src: asset_path('widget/recommanded_on.png')}
-        = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', class: '', title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", class: 'coursavenue-widget-title' do
+        = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", class: 'coursavenue-widget-title' do
           %img.coursavenue-logo{src: asset_path('widget/logo.png')}
-        = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', class: '', title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", class: 'coursavenue-widget-title' do
+        = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", class: 'coursavenue-widget-title' do
           %img.coursavenue-stars{src: asset_path('widget/stars.png')}
   %p{style: 'text-align: center; margin-bottom: 10px;'}
     = link_to 'Déposer mon avis sur CoursAvenue', new_structure_comment_url(@structure, subdomain: 'www'), class: 'coursavenue-btn', target: '_blank'

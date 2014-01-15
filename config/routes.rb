@@ -9,6 +9,7 @@ CoursAvenue::Application.routes.draw do
       root :to => 'home#index'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
       get 'pages/presentation'                  => 'home#presentation'
+      get 'pages/livre-d-or'                    => 'home#widget',             as: 'pages_widget'
       get 'pages/questions-les-plus-frequentes' => 'home#questions',          as: 'pages_questions'
       get 'pages/offre-et-tarifs'               => 'home#price',              as: 'pages_price'
       get 'pages/nos-convictions'               => 'home#convictions',        as: 'pages_convictions'

@@ -13,6 +13,7 @@
       %th # profil
       %th Image
       %th
+      %th
   %tbody
     - @structure_search.facet(:subject_ids).rows.each do |facet|
       - subject = Subject.find(facet.value)
@@ -30,8 +31,14 @@
         %td{data: {value: subject.image.present? ? '0' : '1'}}
           - if subject.image.present?
             %i.fa.fa-check
-        %td= link_to 'Editer', edit_pro_subject_path(subject)
-        %td= link_to 'Paris', new_pro_city_subject_info_path(city_id: @paris.id, subject_id: subject.id)
+        %td.nowrap
+          = link_to 'Editer', edit_pro_subject_path(subject)
+          \/
+          = link_to 'Paris', new_pro_city_subject_info_path(city_id: @paris.id, subject_id: subject.id)
+        %td.nowrap
+          = link_to 'Lien', subject_path(subject), target: :_blank
+          \/
+          = link_to 'Lien Paris', subject_city_path(subject, 'paris'), target: :_blank
 
 %h2 Disciplines niveau 2
 %table.table--data.table--striped.white-box#dataTable{style: 'margin-bottom: 1000px;'}

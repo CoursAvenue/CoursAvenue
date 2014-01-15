@@ -552,6 +552,7 @@ class Structure < ActiveRecord::Base
   def encode_uris
     self.website      = URI.encode(self.website)      if self.website.present?
     self.facebook_url = URI.encode(self.facebook_url) if self.facebook_url.present?
+    self.widget_url   = URI.encode(self.widget_url)   if self.widget_url.present?
   end
 
   def should_generate_new_friendly_id?
