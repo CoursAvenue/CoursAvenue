@@ -47,9 +47,11 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   def update
     @user_profile = @structure.user_profiles.find params[:id]
 
-    # TODO does this take an array, or a CSV
-    tags = params[:user_profile].delete(:tags)
-    @structure.tag(@user_profile, with: tags, on: :tags)
+    if params[:user_profile].has_key? :tags
+      # TODO does this take an array, or a CSV
+      tags = params[:user_profile].delete(:tags)
+      @structure.tag(@user_profile, with: tags, on: :tags)
+    end
 
     respond_to do |format|
       if @user_profile.update_attributes(params[:user_profile])

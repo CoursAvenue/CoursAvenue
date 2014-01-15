@@ -9,6 +9,8 @@ FactoryGirl.define do
 
       after :build do |subject|
         subject_grand_parent   = Subject.create(name: Faker::Name.name)
+        # Save record before performing tree operations.
+        subject_grand_parent.save
         subject_parent         = subject_grand_parent.children.create(name: Faker::Name.name)
         subject.parent         = subject_parent
         subject.ancestry_depth = 2
