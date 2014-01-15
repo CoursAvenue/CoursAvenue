@@ -37,8 +37,16 @@ class Media < ActiveRecord::Base
 
     string :subject_slugs, multiple: true do
       subject_slugs = []
-      self.subjects.uniq.each do |subject|
-        subject_slugs << subject.slug
+      if self.subjects.any?
+        self.mediable.subjects.uniq.each do |subject|
+          subject_slugs << subject.root.slug
+          subject_slugs << subject.slug
+        end
+      else
+        self.subjects.uniq.each do |subject|
+          subject_slugs << subject.root.slug
+          subject_slugs << subject.slug
+        end
       end
       subject_slugs.uniq
     end
