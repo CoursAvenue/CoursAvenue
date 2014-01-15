@@ -49,8 +49,8 @@
       = simple_format @subject.description
     = simple_format @city_subject_info.description
 - else
-  - if @subject.title
-    %h2.text--center= @subject.title || @subject.name
+  - if @subject.subtitle
+    %h2.text--center= @subject.subtitle || @subject.name
   - if @subject.description
     .white-box.island= simple_format @subject.description
 
