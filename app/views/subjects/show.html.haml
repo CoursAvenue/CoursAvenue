@@ -83,7 +83,7 @@
 
 .grid.push--bottom
   .grid__item.three-fifths>
-    #map.google-map.google-map--large
+    #structures-map.google-map.google-map--large
   .grid__item.two-fifths>
     - @structures[0..5].each do |structure|
       - comment = structure.comments.where{(title != nil) & (title != '')}.first
@@ -93,19 +93,10 @@
 
 
 
-%hr
 
 = render partial: 'subjects/comments', locals: { comments: @comments }
 
-%h3.text--center Sélection des photos de cours de <strong>#{@subject.name.downcase}</strong>
-
-#gallery
-  .media-gallery.white-box.push--bottom>
-    - @images.each do |media|
-      .media__item.one-quarter.soft-half>
-        %a.block.break-all{rel: 'gallery', href: media.url, title: media.caption, data: {behavior: "fancy"}}
-          = media.url_html lazy: true
-          %i.fa.fa-expand
+= render partial: 'subjects/images', locals: { comments: @images }
 
 .text--center.push--bottom
   = link_to structures_path(name: @subject.name), class: 'btn btn--green btn--large' do
@@ -134,28 +125,8 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        // Using one load prevents from not triggering the event if the image is in cache
-        var has_trigger_gallery_loading = false;
-        $(document).scroll(function(){
-            if (!has_trigger_gallery_loading) { $("#gallery .media__item img").trigger('gallery:show'); }
-            has_trigger_gallery_loading = true;
-        });
-        if ($(document).scrollTop() > 0) {
-            if (!has_trigger_gallery_loading) { $("#gallery .media__item img").trigger('gallery:show'); }
-            has_trigger_gallery_loading = true;
-        }
-        $("#gallery .media__item img").lazyload({
-            effect : "fadeIn",
-            event: 'gallery:show',
-            skip_invisible: true,
-            load: function(elements_left, settings) {
-                if (elements_left == 0) {
-                   $('.media-gallery').masonry({ itemSelector: '.media__item' });
-                }
-            }
-        });
         handler = Gmaps.build('Google');
-        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+        handler.buildMap({ provider: {}, internal: {id: 'structures-map'}}, function(){
             markers = handler.addMarkers(#{@json_structure_addresses.to_json});
             handler.bounds.extendWith(markers);
             handler.fitMapToBounds();
