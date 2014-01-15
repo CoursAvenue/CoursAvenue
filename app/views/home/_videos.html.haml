@@ -1,40 +1,48 @@
-%h2.home-title Découvrez les cours en vidéos
-.media-gallery.white-box>
-  .grid--full
-    .grid__item.one-half>
-      - # Mahina Khanum
-      - # http://www.coursavenue.com/etablissements/mahina-khanum
-      .media__item.very-soft.media__item--video.relative.soft-half>
-        %a.block.break-all{rel: 'gallery', href: "http://www.youtube.com/watch?v=XyLzQJRMCQ4", title: 'Cours de bollywood à Paris', data: {behavior: "fancy"}}
-          = image_tag 'http://img.youtube.com/vi/XyLzQJRMCQ4/0.jpg'
-          %i.fa.fa-youtube-play
-          %i.fa.fa-expand
-        = link_to "Entrez dans l'univers de la danse bollywood avec Mahina Khanum", "http://www.coursavenue.com/etablissements/mahina-khanum"
-    .grid__item.one-half>
-      - # BES l'Académie d'Oud
-      - # http://www.coursavenue.com/etablissements/bes-l-academie-d-oud
-      .media__item.very-soft.media__item--video.relative.soft-half>
-        %a.block.break-all{rel: 'gallery', href: "http://www.youtube.com/watch?v=Uhhb7Wp9-00", title: 'Cours de musique à Paris', data: {behavior: "fancy"}}
-          = image_tag 'http://img.youtube.com/vi/Uhhb7Wp9-00/0.jpg'
-          %i.fa.fa-youtube-play
-          %i.fa.fa-expand
-        = link_to "Découvrez les musiques du mondes avec l'Académie d'Oud", 'http://www.coursavenue.com/etablissements/bes-l-academie-d-oud'
-  .grid--full
-    .grid__item.one-half>
-      - # Etoile des Sables
-      - # http://www.coursavenue.com/etablissements/etoile-des-sables
-      .media__item.very-soft.media__item--video.relative.soft-half>
-        %a.block.break-all{rel: 'gallery', href: "http://youtu.be/f0sCjCs5_vQ", title: 'Cours de danse orientale à Paris', data: {behavior: "fancy"}}
-          = image_tag 'http://img.youtube.com/vi/f0sCjCs5_vQ/0.jpg'
-          %i.fa.fa-youtube-play
-          %i.fa.fa-expand
-        = link_to "Bougez aux rythmes orientales avec l'Étoile des Sable", 'http://www.coursavenue.com/etablissements/etoile-des-sables'
-    .grid__item.one-half>
-      - # Les improvocantes
-      - # http://www.coursavenue.com/etablissements/les-improvocantes
-      .media__item.very-soft.media__item--video.relative.soft-half>
-        %a.block.break-all{rel: 'gallery', href: "http://www.youtube.com/watch?v=CJDOQ9EbjSA", title: 'Cours de théâtre orientale à Paris', data: {behavior: "fancy"}}
-          = image_tag 'http://img.youtube.com/vi/CJDOQ9EbjSA/0.jpg'
-          %i.fa.fa-youtube-play
-          %i.fa.fa-expand
-        = link_to "Laissez-vous surprendre par les Improvocantes", 'http://www.coursavenue.com/etablissements/les-improvocantes'
+- cache "home_subjects_guide_#{ENV["ETAG_VERSION_ID"]}", public: true do
+  - dance   = Subject.find('danse')
+  - theatre = Subject.find('theatre-scene')
+  - music   = Subject.find('musique-chant')
+  - arts    = Subject.find('dessin-peinture-arts-plastiques')
+  %h2.home-title Guide des disciplines
+  %ul.tabs.tabs--white
+    %li.active
+      %a{href: '#tab-paris', data: {toggle: 'tab'} }
+        Paris
+    %li
+      %a{href: '#tab-non-open-city', data: {toggle: 'tab'} }
+        Lyon
+    %li
+      %a{href: '#tab-non-open-city', data: {toggle: 'tab'} }
+        Marseille
+    %li
+      %a{href: '#tab-non-open-city', data: {toggle: 'tab'} }
+        Toulouse
+    %li
+      %a{href: '#tab-non-open-city', data: {toggle: 'tab'} }
+        Lille
+  .white-box>
+    .tab-content
+      %article#tab-paris.tab-pane.hard.active
+        .grid--full.soft-half--ends
+          .grid__item.one-half.relative.show-on-hover__wrapper.soft-half--sides>
+            %a.bg-cover.block{href: subject_city_path(dance, 'paris'), title: "Cours de danse à Paris", style: "background-image: url(#{dance.image.url(:small)}); height: 200px;"}>
+              .home-screen-gallery__title.text--center
+                Danse
+          .grid__item.one-half.relative.show-on-hover__wrapper.soft-half--right>
+            %a.bg-cover.block{href: subject_city_path(theatre, 'paris'), title: "Cours de théâtre et scène à Paris", style: "background-image: url(#{theatre.image.url(:small)}); height: 200px;"}>
+              .home-screen-gallery__title.text--center
+                Théâtre & Scène
+        .grid--full
+          .grid__item.one-half.relative.show-on-hover__wrapper.soft-half--sides>
+            %a.bg-cover.block{href: subject_city_path(music, 'paris'), title: "Cours de danse à Paris", style: "background-image: url(#{music.image.url(:small)}); height: 200px;"}>
+              .home-screen-gallery__title.text--center
+                Musique & Chant
+          .grid__item.one-half.relative.show-on-hover__wrapper.soft-half--right>
+            %a.bg-cover.block{href: subject_city_path(arts, 'paris'), title: "Cours de danse à Paris", style: "background-image: url(#{arts.image.url(:small)}); height: 200px;"}>
+              .home-screen-gallery__title.text--center
+                Dessin, Peinture & Arts
+
+        .soft-half
+          = link_to 'Guide des cours à Paris', city_path('paris'), class: 'btn btn--full'
+      %article#tab-non-open-city.tab-pane.islet
+        Nous arrivons bientôt !

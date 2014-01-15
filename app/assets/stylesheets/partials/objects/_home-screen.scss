@@ -20,8 +20,6 @@
         position   : absolute;
         top        : 50%;
         left       : 50%;
-        // width      : 200px;
-        // margin-left: -100px;
         width      : 100%;
         margin-left: -50%;
         margin-top : -1em;
@@ -48,7 +46,7 @@
 .home-screen {
     background-color: black;
     width           : 100%;
-    min-height      : 30em;
+    min-height      : 24em;
     position        : relative;
     overflow        : visible;
 }

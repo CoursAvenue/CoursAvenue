@@ -75,7 +75,7 @@
             - subject_image = subject.grand_parent.image
           .grid__item.one-quarter.very-soft>
             .relative.show-on-hover__wrapper>
-              %a.bg-cover.block{href: city_subject_path(@city, subject), title: "Cours de #{subject.name} à #{@city.name}", style: "background-image: url(#{subject_image}); height: 150px; "}>
+              %a.bg-cover.block{href: subject_city_path(subject, @city), title: "Cours de #{subject.name} à #{@city.name}", style: "background-image: url(#{subject_image}); height: 150px; "}>
                 .home-screen-gallery__title.text--center{style: (subject.name.length > 27 ? 'margin-top: -1.7em' : '')}
                   %div= subject.name
                   .show-on-hover__child.milli

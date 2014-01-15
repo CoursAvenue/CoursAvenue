@@ -34,6 +34,14 @@
         }
     }
 }
+
+.tabs--white {
+    border-bottom: none;
+    .active a {
+        background: white;
+    }
+}
+
 .page-style .tabs li {
     a {
         padding: 1em 3em;

@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     # For search
     @audiences        = Audience.all
     @levels           = Level.all
-    @comments         = Comment.accepted.order('created_at DESC').limit(5).offset(1)
+    @comments         = Comment.accepted.order('created_at DESC').limit(4).offset(1)
     @last_comment     = Comment.accepted.last
   end
 
