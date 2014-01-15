@@ -8,6 +8,10 @@ class Pro::HomeController < Pro::ProController
   def presentation
   end
 
+  def widget
+    @structures = Structure.where{widget_status == 'installed'}.limit(100)
+  end
+
   def price
     @email = ::Email.new
   end

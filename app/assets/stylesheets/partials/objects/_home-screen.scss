@@ -20,8 +20,6 @@
         position   : absolute;
         top        : 50%;
         left       : 50%;
-        // width      : 200px;
-        // margin-left: -100px;
         width      : 100%;
         margin-left: -50%;
         margin-top : -1em;
@@ -34,9 +32,12 @@
 }
 
 .home-screen-comment {
-    max-width  : 700px;
+    position   : absolute;
+    bottom     : 1em;
+    right      : 1em;
+    max-width  : 500px;
     color      : white;
-    margin-top : 3em;
+    margin-left : auto;
     @include text-shadow(0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker);
     img {
         @include border-radius(5em);
@@ -45,7 +46,7 @@
 .home-screen {
     background-color: black;
     width           : 100%;
-    min-height      : 30em;
+    min-height      : 24em;
     position        : relative;
     overflow        : visible;
 }
@@ -53,7 +54,7 @@
         position        : relative;
         z-index         : 5;
         color           : $gray-lighter;
-        @include text-shadow(0 0 5px $gray, 0 0 10px $gray-dark, 0 0 20px $gray-darker);
+        @include text-shadow(0 0 2px #000, 0 0 12px #000, 0 0 22px #000, 0 0 42px #000, 0 0 92px #000);
         letter-spacing  : 0.1em;
     }
     .home-screen-subtitle {

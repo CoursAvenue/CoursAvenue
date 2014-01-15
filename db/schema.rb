@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140110134427) do
+ActiveRecord::Schema.define(version: 20140115154255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,11 +80,23 @@ ActiveRecord::Schema.define(version: 20140110134427) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.text     "title"
+    t.text     "subtitle"
+    t.text     "description"
   end
 
   add_index "cities", ["name"], name: "index_cities_on_name", using: :btree
   add_index "cities", ["slug"], name: "index_cities_on_slug", unique: true, using: :btree
   add_index "cities", ["zip_code"], name: "index_cities_on_zip_code", using: :btree
+
+  create_table "city_subject_infos", force: true do |t|
+    t.integer  "city_id"
+    t.integer  "subject_id"
+    t.text     "title"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "click_logs", force: true do |t|
     t.string   "name"
@@ -287,8 +299,8 @@ ActiveRecord::Schema.define(version: 20140110134427) do
     t.string   "caption"
     t.integer  "mediable_id"
     t.string   "mediable_type"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.time     "deleted_at"
     t.string   "format"
     t.string   "provider_id"
@@ -296,12 +308,19 @@ ActiveRecord::Schema.define(version: 20140110134427) do
     t.text     "thumbnail_url"
     t.string   "type"
     t.string   "filepicker_url"
-    t.boolean  "cover",          default: false
+    t.boolean  "cover",                 default: false
+    t.boolean  "star"
+    t.string   "vertical_page_caption"
   end
 
   add_index "medias", ["format"], name: "index_medias_on_format", using: :btree
   add_index "medias", ["mediable_id"], name: "index_medias_on_mediable_id", using: :btree
   add_index "medias", ["mediable_type"], name: "index_medias_on_mediable_type", using: :btree
+
+  create_table "medias_subjects", id: false, force: true do |t|
+    t.integer "subject_id"
+    t.integer "media_id"
+  end
 
   create_table "notifications", force: true do |t|
     t.string   "type"
@@ -555,6 +574,9 @@ ActiveRecord::Schema.define(version: 20140110134427) do
     t.string   "short_name"
     t.integer  "position"
     t.integer  "ancestry_depth",     default: 0
+    t.text     "title"
+    t.text     "description"
+    t.text     "subtitle"
   end
 
   add_index "subjects", ["ancestry_depth"], name: "index_subjects_on_ancestry_depth", using: :btree

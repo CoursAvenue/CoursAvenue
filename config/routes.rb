@@ -9,6 +9,7 @@ CoursAvenue::Application.routes.draw do
       root :to => 'home#index'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
       get 'pages/presentation'                  => 'home#presentation'
+      get 'pages/livre-d-or'                    => 'home#widget',             as: 'pages_widget'
       get 'pages/questions-les-plus-frequentes' => 'home#questions',          as: 'pages_questions'
       get 'pages/offre-et-tarifs'               => 'home#price',              as: 'pages_price'
       get 'pages/nos-convictions'               => 'home#convictions',        as: 'pages_convictions'
@@ -30,7 +31,8 @@ CoursAvenue::Application.routes.draw do
         end
       end
 
-      resources :cities, only: [:edit, :update], path: 'villes', controler: 'pro/cities'
+      resources :city_subject_infos, only: [:new, :create]
+      resources :cities, only: [:index, :edit, :update], path: 'villes', controler: 'pro/cities'
       resources :keywords, only: [:index, :create, :destroy]
       resources :search_term_logs, only: [:index]
       resources :subjects
@@ -89,7 +91,8 @@ CoursAvenue::Application.routes.draw do
             patch :ask_for_deletion
           end
         end
-        resources :medias, only: [:index, :destroy], controller: 'structures/medias'
+        resources :medias, only: [:edit, :update, :index, :destroy], controller: 'structures/medias'
+
         resources :videos, only: [:create, :new], controller: 'structures/medias/videos' do
           member do
             put :make_it_cover
@@ -183,6 +186,7 @@ CoursAvenue::Application.routes.draw do
     collection do
       get 'zip_code_search'
     end
+    resources :subjects, only: [:show], path: 'disciplines', controller: 'cities/subjects'
   end
 
   resources :locations, only: [:index]
@@ -206,7 +210,7 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :keywords, only: [:index]
-  resources :subjects, only: [:index], path: 'disciplines' do
+  resources :subjects, only: [:show, :index], path: 'disciplines' do
     resources :cities, only: [:show], path: 'villes', controller: 'subjects/cities' do
       resources :medias, only: [], controller: 'subjects/cities/medias' do
         collection do
@@ -235,14 +239,13 @@ CoursAvenue::Application.routes.draw do
   resources :subjects, only: [], path: 'disciplines' do
     resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
   end
-  resources :places, only: [:show],  path: 'etablissement',            to: 'redirect#place_show' # établissement without S
-  resources :places, only: [:index], path: 'etablissement',            to: 'redirect#place_index' # établissement without S
+  resources :places, only: [:show],  path: 'etablissement',          to: 'redirect#place_show' # établissement without S
+  resources :places, only: [:index], path: 'etablissement',          to: 'redirect#place_index' # établissement without S
   get 'lieux',                                                       to: 'redirect#lieux'
   get 'lieux/:id',                                                   to: 'redirect#lieux_show'
   get 'ville/:city_id/disciplines/:subject_id',                      to: 'redirect#city_subject'
   get 'ville/:city_id/cours/:subject_id',                            to: 'redirect#city_subject'
   get 'ville/:id',                                                   to: 'redirect#city'
-  get 'disciplines/:id',                                             to: 'redirect#disciplines'
 
   # ------------------------------------------------------
   # ----------------------------------------- Static pages

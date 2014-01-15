@@ -1,15 +1,20 @@
-- with_link    = false     if with_link.nil?
-- show_title   = true      if show_title.nil?
-- small_avatar = false     if small_avatar.nil?
-- class_name   = ''        if class_name.nil?
+- show_structure_logo = false     if show_structure_logo.nil?
+- with_link           = false     if with_link.nil?
+- show_title          = true      if show_title.nil?
+- small_avatar        = false     if small_avatar.nil?
+- class_name          = ''        if class_name.nil?
 %li.comment-list__el.white-box.soft-half.hard--left{class: class_name, id: "recommandation-#{comment.id}"}
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
     .grid--full
       .grid__item.two-twelfths.text--center>
-        - if comment.user and comment.user.has_avatar?
-          = image_tag comment.user.avatar_url(:small), height: (small_avatar ? 30 : 60)
+        - if show_structure_logo
+          - if comment.structure.logo?
+            = image_tag comment.structure.logo.url(:thumb), height: (small_avatar ? 30 : 60)
         - else
-          = image_tag 'icons/avatar.png', height: (small_avatar ? 30 : 60)
+          - if comment.user and comment.user.has_avatar?
+            = image_tag comment.user.avatar_url(:small), height: (small_avatar ? 30 : 60)
+          - else
+            = image_tag 'icons/avatar.png', height: (small_avatar ? 30 : 60)
       .grid__item.ten-twelfths>
         - # User can share if:
         - #   - comment is accepted

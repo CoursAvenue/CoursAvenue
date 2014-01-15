@@ -12,10 +12,12 @@ class Subject < ActiveRecord::Base
   has_and_belongs_to_many :structures
   has_and_belongs_to_many :users
   has_and_belongs_to_many :comments
+  has_and_belongs_to_many :medias
 
   has_many :passions
+  has_many :city_subject_infos
 
-  attr_accessible :name, :short_name, :image, :info, :parent, :position
+  attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image
 
   validates :name, presence: true
   validates :name, uniqueness: {scope: 'ancestry'}
