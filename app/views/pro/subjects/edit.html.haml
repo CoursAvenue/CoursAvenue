@@ -1,8 +1,8 @@
 = side_menu_currently_at 'Pages verticales'
 
+= image_tag 'pro/vertical-help.png'
 - if @subject.image.present?
   = image_tag @subject.image.url
-
 
 .form-white-box
   = simple_form_for [:pro, @subject] do |f|
