@@ -3,7 +3,7 @@
 %h3= "#{@city.name} / #{@subject.name}"
 
 .form-white-box
-  = simple_form_for @city_subject_info, url: pro_city_subject_infos_path do |f|
+  = simple_form_for @city_subject_info, url: pro_city_subject_infos_path, method: :post do |f|
     = f.input :subject_id, as: :hidden
     = f.input :city_id, as: :hidden
     = f.input :title, label: 'Titre'
