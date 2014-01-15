@@ -2,7 +2,7 @@
   - dance   = Subject.find('danse')
   - theatre = Subject.find('theatre-scene')
   - music   = Subject.find('musique-chant')
-  - arts    = Subject.find('dessin-peinture-arts-plastiques')
+  - yoga    = Subject.find('yoga-bien-etre-sante')
   %h2.home-title Guide des disciplines
   %ul.tabs.tabs--white
     %li.active
@@ -38,9 +38,9 @@
               .home-screen-gallery__title.text--center
                 Musique & Chant
           .grid__item.one-half.relative.soft-half--right>
-            %a.bg-cover.block{href: subject_city_path(arts, 'paris'), title: "Cours de danse à Paris", style: "background-image: url(#{arts.image.url(:small)}); height: 200px;"}>
+            %a.bg-cover.block{href: subject_city_path(yoga, 'paris'), title: "Cours de danse à Paris", style: "background-image: url(#{yoga.image.url(:small)}); height: 200px;"}>
               .home-screen-gallery__title.text--center
-                Dessin, Peinture & Arts
+                Yoga, Bien-être & Santé
 
         .soft-half
           = link_to 'Guide des cours à Paris', city_path('paris'), class: 'btn btn--full'
