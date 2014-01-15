@@ -1,7 +1,5 @@
 class CitiesController < ApplicationController
 
-  require 'wikipedia'
-
   def show
     @city = City.friendly.find(params[:id])
     @structure_search            = StructureSearch.search({lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 1, bbox: true})
@@ -17,13 +15,6 @@ class CitiesController < ApplicationController
     @free_trial_course_count  = @free_trial_plannings_search.total
     @comments_count           = @comments_search.total
     @medias_count             = @medias_search.total
-
-    if @city.image?
-      @city_image = @city.image
-    else
-      @wikipedia_page = Wikipedia.find( @city.name )
-      @city_image     = @wikipedia_page.image_urls.first
-    end
 
     @city_latlng = Gmaps4rails.build_markers(@city) do |city, marker|
       marker.lat city.latitude

@@ -94,6 +94,7 @@
 // require plugins/toggler
 // require plugins/time_range
 // require plugins/image_input
+// require plugins/show_more_on_demand
 
 //= require gmaps/google
 

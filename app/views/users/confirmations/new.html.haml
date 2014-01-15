@@ -1,0 +1,14 @@
+%h2 Renvoyez les instructions de confirmation
+
+.form-white-box
+  = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+    %div
+      %strong Votre code de confirmation est incorrecte, rentrez votre adresse email pour en recevoir un nouveau.
+
+    .input
+      = f.label :email
+      = f.email_field :email, autofocus: true
+
+    %div
+      = f.submit "Renvoyer le code de confirmation", class: 'btn btn--green'
+

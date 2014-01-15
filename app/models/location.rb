@@ -38,6 +38,15 @@ class Location < ActiveRecord::Base
       Sunspot::Util::Coordinates.new(self.latitude, self.longitude)
     end
 
+    string :subject_slugs, multiple: true do
+      subject_slugs = []
+      self.structures.map(&:subjects).flatten.uniq.each do |subject|
+        subject_slugs << subject.slug
+        subject_slugs << subject.root.slug if subject.root
+      end
+      subject_slugs.uniq
+    end
+
     string :name
     string :street
   end

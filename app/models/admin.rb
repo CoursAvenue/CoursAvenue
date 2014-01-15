@@ -21,10 +21,11 @@ class ::Admin < ActiveRecord::Base
   attr_accessible :email,
                   :password, :password_confirmation, :remember_me,
                   :civility, :name,
-                  :email_opt_in,
                   :phone_number, :mobile_phone_number,
                   :management_software_used,
-                  :structure_id
+                  :structure_id,
+                  :email_opt_in, # To be removed?
+                  :student_action_email_opt_in, :newsletter_email_opt_in, :monday_email_opt_in, :thursday_email_opt_in
 
   validates :password, :email, :structure, presence: true, on: :create
 

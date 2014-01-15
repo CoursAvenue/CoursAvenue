@@ -24,8 +24,18 @@ class Structures::CommentsController < ApplicationController
     if params[:id].include?(',')
       params[:id] = params[:id].split(',')
     end
-
     @comment      = Comment.find(params[:id])
+    @user         = @comment.user
+    @structure_search = StructureSearch.search({lat: @structure.latitude,
+                                                lng: @structure.longitude,
+                                                radius: 7,
+                                                per_page: 100,
+                                                bbox: true}).results
+
+    @structure_locations = Gmaps4rails.build_markers(@structure_search.select{|s| s.latitude.present?}) do |structure, marker|
+      marker.lat structure.latitude
+      marker.lng structure.longitude
+    end
 
     respond_to do |format|
       format.json { render json: @comment }

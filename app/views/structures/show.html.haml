@@ -31,12 +31,15 @@
       = link_to "Tous les établissement", structures_path
     %li= @structure.name
 
+- if !current_user and params[:waiting_for_activation]
+  .blue-box.islet.text--center.push--ends
+    = render 'users/waiting_for_activation_text'
 
 .grid.push--top
   .grid__item.eight-twelfths>
     = render partial: 'structures/structure_header', locals: {structure: @structure}
 
-    = render partial: 'structures/map_and_galery', locals: {structure: @structure, places: @structure.places, medias: @medias}
+    = render partial: 'structures/map_and_gallery', locals: {structure: @structure, places: @structure.places, medias: @medias}
 
     = render partial: 'structures/comments_headband', locals: {structure: @structure}
 

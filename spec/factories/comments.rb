@@ -6,6 +6,10 @@ FactoryGirl.define do
     user
     title       Faker::Lorem.sentence(4)
 
+    after(:build) do |course|
+      course.subjects << Subject.at_depth(2).first
+    end
+
     # Comment contact
     author_name     Faker::Name.name
     sequence :email do |n|

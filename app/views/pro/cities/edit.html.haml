@@ -5,5 +5,8 @@
     = image_tag @city.image
   = simple_form_for [:pro, @city] do |f|
     = f.input :image
+    = f.input :title
+    = f.input :subtitle
+    = f.input :description, input_html: { data: { behavior: 'autoresize' } }
     .form-actions
       = f.submit 'Enregistrer', class: 'btn btn--green'

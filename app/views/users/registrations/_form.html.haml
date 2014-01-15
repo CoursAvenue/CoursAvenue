@@ -1,22 +1,26 @@
 .text--right
   = image_tag 'texts/facebook-text.png', height: 45
-%div= link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full', id: 'facebook_button'
+.text--center
+  = link_to "S'inscrire avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook ', id: 'facebook_button'
 %ul.no-bullet-list.flush--bottom.push-half--top
   %li
-    %i.fa.fa-check-square-o
-    Plus simple, plus rapide !
+    %i.fa.fa-check.green
+    Plus de mot de passe nécessaire.
   %li
-    %i.fa.fa-check-square-o
-    Nous ne publions rien sans votre accord.
+    %i.fa.fa-check.green
+    Connexion en 1 clic.
+  %li
+    %i.fa.fa-check.green
+    Nous ne publions rien sur votre mur.
 .or
   %span ou
 #sign-in-content.collapse
-  = simple_form_for @user || User.new, url: user_registration_path do |f|
+  = simple_form_for User.new, url: user_registration_path do |f|
     = f.error_notification
-    = f.input :first_name, label: false, placeholder: 'Prénom',      input_html: {class: 'one-whole'}
+    = f.input :first_name, label: false, placeholder: 'Prénom',      input_html: {class: 'one-whole', value: (@user ? @user.first_name : nil)}, wrapper_html: {class: 'flush'}
     = f.input :last_name,  label: false, placeholder: 'Nom',         input_html: {class: 'one-whole'}
     = f.input :zip_code,   label: false, placeholder: 'Code postal', input_html: {class: 'one-whole'}
-    = f.input :email,      label: false, placeholder: 'Email',       input_html: {class: 'one-whole'}, wrapper_html: {class: 'flush--top'}
+    = f.input :email,      label: false, placeholder: 'Email',       input_html: {class: 'one-whole', value: (@user ? @user.email : nil)}, wrapper_html: {class: 'flush--top'}
     = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
     = f.button :submit, "Inscription", class: 'btn--green one-whole'
 

@@ -16,32 +16,20 @@
 
 = render partial: 'messages/message', collection: @conversation.messages.reject(&:new_record?).sort_by(&:created_at)
 
-= render 'users/conversations/form'
 
-- if !current_user and !@user.active?
+- if current_user and @user.active?
+  = render 'users/conversations/form'
+- else
+  .text--center
+    = link_to 'Répondre', '#registration', title: 'Enregistrez-vous pour répondre', class: 'btn btn--green btn--large', data: {behavior: 'modal'}, id: 'registration-link'
+
+  - session['user_return_to'] = user_conversations_path(@user)
+
   #registration.hidden
-    %div
-      = link_to "S'enregistrer avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full', id: 'facebook_button'
-    .or
-      %span ou
-    = simple_form_for @user, url: first_update_user_path(@user) do |user_form|
-      = user_form.error_notification
-      %input#hidden-message{type: 'hidden', name: 'message'}
-      %input{type: 'hidden', value: @user.email, name: 'previous_email'}
-      %input{type: 'hidden', value: params[:token], name: 'reset_password_token'}
-      = user_form.input :name, label: false, placeholder: 'Nom', input_html: {class: 'one-whole'}
-      = user_form.input :email,    label: false, placeholder: 'Email', wrapper_html: {class: 'flush--top'}, input_html: {class: 'one-whole'}
-      = user_form.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
-      = user_form.button :submit, "Créer son compte", class: 'btn--green one-whole'
-
+    = render 'users/registrations/form'
   - content_for :scripts do
     :javascript
       $(function(){
-          $('#registration-link').click(function(){
-              $('#hidden-message').val($('[name="conversation[message][body]"]').val());
-              $.removeCookie("conversation_#{params[:id]}_message_first_time");
-              $.cookie('conversation_#{params[:id]}_message', $('[name="conversation[message][body]"]').val(), { expires: 7, path: '/' });
-          });
           $('[data-behavior="connection"]').click(function() {
               $.fancybox($('#registration'));
           });

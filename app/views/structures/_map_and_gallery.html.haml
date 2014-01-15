@@ -31,7 +31,7 @@
     - if medias.any?
       .grid__item.one-half>
         .text--center
-          %a#show-galery{href: 'javascript:void(0)'} Voir la galerie (#{medias.count})
+          %a#show-gallery{href: 'javascript:void(0)'} Voir la galerie (#{medias.count})
 
   %ul.block-list#place-list.hidden.flush
     - places.each_with_index do |place, index|
@@ -49,7 +49,7 @@
             %meta{itemprop: 'latitude', content: place.location.latitude}
             %meta{itemprop: 'longitude', content: place.location.longitude}
   - if medias.any?
-    #galery.hidden
+    #gallery.hidden
       .media-gallery>
         = render partial: 'medias/media', collection: medias, locals: { lazy: true }
 
@@ -84,29 +84,29 @@
             }
             places_are_hidden = !places_are_hidden;
         });
-        var galery_is_hidden   = true;
-        $('#show-galery').click(function() {
-            $(".media__item img").trigger('galery:show');
-            if (galery_is_hidden) {
+        var gallery_is_hidden   = true;
+        $('#show-gallery').click(function() {
+            $(".media__item img").trigger('gallery:show');
+            if (gallery_is_hidden) {
                 $(this).text('Cacher la galerie');
             } else {
                 $(this).text('Voir la galerie');
             }
-            galery_is_hidden = !galery_is_hidden;
-            $('#galery').slideToggle();
+            gallery_is_hidden = !gallery_is_hidden;
+            $('#gallery').slideToggle();
         });
         $('[href=#tab-medias]').click(function(){
             if ($('.media-gallery').length > 0) {
-                $('#show-galery').click();
+                $('#show-gallery').click();
             }
         });
-        $("#galery .media__item img").lazyload({
+        $("#gallery .media__item img").lazyload({
             effect : "fadeIn",
-            event: 'galery:show',
+            event: 'gallery:show',
             skip_invisible: true,
             load: function(elements_left, settings) {
                 if (elements_left == 0) {
-                   $('#galery .media-gallery').masonry({ itemSelector: '.media__item' });
+                   $('#gallery .media-gallery').masonry({ itemSelector: '.media__item' });
                 }
             }
         });

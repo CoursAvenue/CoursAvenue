@@ -1,5 +1,7 @@
 = user_menu_currently_at 'Mes messages'
 
-%h3 Nouveau message
+%ol.nav.breadcrumb.epsilon.push-half--bottom
+  %li= link_to 'Tous mes messages', user_conversations_path(current_user)
+  %li Nouveau message
 
 = render 'form'

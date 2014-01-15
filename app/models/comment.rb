@@ -3,7 +3,7 @@ class Comment < ActiveRecord::Base
 
   acts_as_paranoid
   attr_accessible :commentable, :commentable_id, :commentable_type, :content, :author_name, :email, :rating,
-                  :title, :course_name, :deletion_reason
+                  :title, :course_name, :deletion_reason, :subjects, :subject_ids
   # A comment has a status which can be one of the following:
   #   - pending
   #   - accepted
@@ -11,6 +11,8 @@ class Comment < ActiveRecord::Base
 
   belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :user
+
+  has_and_belongs_to_many :subjects
 
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }
   validates :email, :author_name, :course_name, :content, :commentable, :title, presence: true
@@ -27,7 +29,8 @@ class Comment < ActiveRecord::Base
 
   after_create     :send_email
   after_create     :create_user, if: -> { self.user.nil? }
-  after_create     :affect_structure_and_subjects_to_user
+  after_create     :affect_structure_to_user
+  after_create     :create_passions_for_associated_user
   after_create     :complete_comment_notification
   after_destroy    :update_comments_count
 
@@ -42,6 +45,19 @@ class Comment < ActiveRecord::Base
       self.structure.locations.collect do |location|
         Sunspot::Util::Coordinates.new(location.latitude, location.longitude)
       end
+    end
+
+    boolean :has_title do
+      self.title.present?
+    end
+
+    string :subject_slugs, multiple: true do
+      subject_slugs = []
+      self.structure.subjects.uniq.each do |subject|
+        subject_slugs << subject.slug
+        subject_slugs << subject.root.slug if subject.root
+      end
+      subject_slugs.uniq
     end
   end
 
@@ -94,8 +110,12 @@ class Comment < ActiveRecord::Base
     self.commentable
   end
 
-  def owner?(admin)
-    self.commentable == admin.structure
+  def owner?(user)
+    if user.is_a? Admin
+      user.super_admin or self.commentable == user.structure
+    else
+      self.user == user
+    end
   end
 
   # Update rating of the commentable (course, or structure)
@@ -140,10 +160,16 @@ class Comment < ActiveRecord::Base
     user.save(validate: false)
   end
 
-  def affect_structure_and_subjects_to_user
+  def affect_structure_to_user
     self.user.structures << self.structure
-    self.user.subjects   << self.structure.subjects
-    self.user.comments   << self
+    self.user.save(validate: false)
+  end
+
+  def create_passions_for_associated_user
+    self.subjects.each do |child_subject|
+      self.user.passions.create(parent_subject: child_subject.root, subject: child_subject, practiced: true)
+    end
+    self.user.comments << self
     self.user.save(validate: false)
   end
 

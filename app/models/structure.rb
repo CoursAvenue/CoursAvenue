@@ -13,6 +13,8 @@ class Structure < ActiveRecord::Base
   geocoded_by :geocoder_address
   after_validation :geocode
 
+  after_save :delay_subscribe_to_nutshell
+
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',
                              'structures.independant',
@@ -84,7 +86,7 @@ class Structure < ActiveRecord::Base
   has_many :cities                    , through: :places
   has_many :prices                    , through: :courses
   has_many :reservations,         as: :reservable
-  has_many :comment_notifications
+  has_many :comment_notifications     , dependent: :destroy
   has_many :sticker_demands           , dependent: :destroy
 
   has_and_belongs_to_many :subjects
@@ -230,7 +232,7 @@ class Structure < ActiveRecord::Base
 
   # Send reminder every week depending on the email status of the structure
   def send_reminder
-    if self.main_contact.present? and self.email_status and self.main_contact.email_opt_in?
+    if self.main_contact.present? and self.email_status and self.main_contact.monday_email_opt_in?
       if self.update_email_status.present?
         self.update_column :last_email_sent_at, Time.now
         self.update_column :last_email_sent_status, self.email_status
@@ -243,9 +245,13 @@ class Structure < ActiveRecord::Base
     AdminMailer.delay.remind_for_pending_comments(self)
   end
 
+  # Thursday email
+  # Only send if thursday email opt in is true
   def remind_for_widget
-    if widget_status.nil?
-      AdminMailer.delay.remind_for_widget(self)
+    if self.main_contact and self.main_contact.thursday_email_opt_in?
+      if widget_status.nil?
+        AdminMailer.delay.remind_for_widget(self)
+      end
     end
   end
 
@@ -296,9 +302,11 @@ class Structure < ActiveRecord::Base
   end
 
   def update_comments_count
-    self.update_column :comments_count, self.comments.accepted.count
-    self.update_column :updated_at, Time.now
-    self.index
+    if self.comments.accepted.count != self.comments_count
+      self.update_column :comments_count, self.comments.accepted.count
+      self.update_column :updated_at, Time.now
+      self.index
+    end
   end
 
   def contact_email
@@ -561,6 +569,7 @@ class Structure < ActiveRecord::Base
   def encode_uris
     self.website      = URI.encode(self.website)      if self.website.present?
     self.facebook_url = URI.encode(self.facebook_url) if self.facebook_url.present?
+    self.widget_url   = URI.encode(self.widget_url)   if self.widget_url.present?
   end
 
   def should_generate_new_friendly_id?

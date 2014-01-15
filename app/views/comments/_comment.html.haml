@@ -1,17 +1,25 @@
-- with_link    = false     if with_link.nil?
-- show_title   = true      if show_title.nil?
-- small_avatar = false     if small_avatar.nil?
-- class_name   = ''        if class_name.nil?
+- show_structure_logo = false     if show_structure_logo.nil?
+- with_link           = false     if with_link.nil?
+- show_title          = true      if show_title.nil?
+- small_avatar        = false     if small_avatar.nil?
+- class_name          = ''        if class_name.nil?
 %li.comment-list__el.white-box.soft-half.hard--left{class: class_name, id: "recommandation-#{comment.id}"}
   %article{itemprop: 'review', itemscope: true, itemtype:'http://schema.org/Review'}
     .grid--full
       .grid__item.two-twelfths.text--center>
-        - if comment.user and comment.user.has_avatar?
-          = image_tag comment.user.avatar_url(:small), height: (small_avatar ? 30 : 60)
+        - if show_structure_logo
+          - if comment.structure.logo?
+            = image_tag comment.structure.logo.url(:thumb), height: (small_avatar ? 30 : 60)
         - else
-          = image_tag 'icons/avatar.png', height: (small_avatar ? 30 : 60)
+          - if comment.user and comment.user.has_avatar?
+            = image_tag comment.user.avatar_url(:small), height: (small_avatar ? 30 : 60)
+          - else
+            = image_tag 'icons/avatar.png', height: (small_avatar ? 30 : 60)
       .grid__item.ten-twelfths>
-        - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
+        - # User can share if:
+        - #   - comment is accepted
+        - #   - user is owner
+        - if comment.accepted? and (current_pro_admin or current_user) and comment.owner?(current_pro_admin || current_user)
           .drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
             = link_to share_comment_url(comment, :facebook), target: '_blank', class: 'btn btn--blue btn--small', onclick: "ga('send', 'event', 'Share comment on Facebook', 'click')" do
               %i.fa.fa-share
@@ -51,16 +59,32 @@
         .visuallyhidden{itemprop: 'itemReviewed', itemscope: true, itemtype: 'http://schema.org/Thing'}
           %meta{itemprop: 'url', content: commentable_url(comment)}
           %meta{itemprop: 'name', content: comment.commentable.name}
+
         - if comment.waiting_for_deletion?
           %p.red
             Motif de suppression :
             %strong= t(comment.deletion_reason)
 
-        - if current_user and comment.pending?
-          .float--right
-            = link_to edit_user_comment_path(current_user, comment), class: 'btn btn--orange btn--small' do
-              %i.fa.fa-pencil.soft-half--right
-              Modifier mon avis
+        - if current_user and comment.owner?(current_user)
+          .drop-down__wrapper.float--right{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+            %a.btn.btn--small.btn--blue{href: 'javascript:void(0)'}
+              Actions
+              %i.fa.fa-chevron-down.soft-half--left
+            %ul.drop-down__el.text--left
+              %li.nowrap
+                = link_to new_user_message_path(current_user, message: {recipients: [comment.commentable.id]}) do
+                  %i.fa.fa-envelope
+                  Envoyer un message
+              - if comment.pending?
+                %li.nowrap
+                  = link_to edit_user_comment_path(current_user, comment) do
+                    %i.fa.fa-pencil
+                    Modifier mon avis
+              %li.nowrap
+                = link_to structure_url(comment.commentable), target: :_blank do
+                  %i.fa.fa-eye
+                  Voir tous les avis du profil
+
 
         - if current_pro_admin and (comment.owner?(current_pro_admin) or current_pro_admin.super_admin?)
           - if current_pro_admin.super_admin?

@@ -4,9 +4,11 @@ class Media < ActiveRecord::Base
   self.table_name = 'medias'
 
   attr_accessible :mediable, :mediable_id, :mediable_type, :url, :caption, :format,
-                  :provider_id, :provider_name, :thumbnail_url, :filepicker_url, :cover
+                  :provider_id, :provider_name, :thumbnail_url, :filepicker_url, :cover,
+                  :star, :vertical_page_caption, :subject_ids
 
   belongs_to :mediable, polymorphic: true
+  has_and_belongs_to_many :subjects
 
   validates :url, presence: true
   validates :caption, length: { maximum: 255 }
@@ -23,6 +25,30 @@ class Media < ActiveRecord::Base
       self.mediable.locations.collect do |location|
         Sunspot::Util::Coordinates.new(location.latitude, location.longitude)
       end
+    end
+
+    string :type
+
+    boolean :star
+
+    boolean :comments_count do
+      self.mediable.comments_count
+    end
+
+    string :subject_slugs, multiple: true do
+      subject_slugs = []
+      if self.subjects.empty?
+        self.mediable.subjects.uniq.each do |subject|
+          subject_slugs << subject.root.slug
+          subject_slugs << subject.slug
+        end
+      else
+        self.subjects.uniq.each do |subject|
+          subject_slugs << subject.root.slug
+          subject_slugs << subject.slug
+        end
+      end
+      subject_slugs.uniq
     end
   end
 

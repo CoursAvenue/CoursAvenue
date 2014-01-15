@@ -1,6 +1,6 @@
 .center-block
   #form
-    = render 'form'
+    = render 'users/registrations/form'
   #other_form.hidden
     = render 'users/sessions/form'
 
@@ -26,6 +26,6 @@
   $('#show_new_registration_form').click(function(){
     $('#form').removeClass('hidden');
     $('#other_form').addClass('hidden');
-    $('#facebook_button').text("S'enregistrer avec Facebook");
+    $('#facebook_button').text("S'inscrire avec Facebook");
   });
 

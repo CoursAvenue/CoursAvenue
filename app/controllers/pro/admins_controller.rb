@@ -76,6 +76,9 @@ class ::Pro::AdminsController < InheritedResources::Base
   def destroy
     @admin     = ::Admin.find(params[:id])
     @structure = @admin.structure
+    if params[:delete_structure]
+      @structure.destroy
+    end
     destroy! do |format|
       format.html do
         redirect_to pro_admins_path, notice: 'Admin correctement supprimé.'

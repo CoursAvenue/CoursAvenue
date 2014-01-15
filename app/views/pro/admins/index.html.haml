@@ -13,6 +13,7 @@
     %option{value: 'created_at_desc', selected: params[:sort] == 'created_at_desc'} Date de création
     %option{value: 'comments_count_desc', selected: params[:sort] == 'comments_count_desc'} Nombre d'avis
 
+= link_to 'Voir les structures sans admins', pro_structures_path
 %table.table--striped.table--data.white-box#dataTable
   %thead
     %tr

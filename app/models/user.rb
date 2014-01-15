@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   include ActsAsUnsubscribable
+  include Rails.application.routes.url_helpers
+
   acts_as_messageable
 
   extend FriendlyId
@@ -8,20 +10,32 @@ class User < ActiveRecord::Base
   has_many :comments, -> { order('created_at DESC') }
   has_many :reservations
   has_many :comment_notifications
+  has_many :passions
 
   has_many :user_profiles
   has_many :structures, through: :user_profiles
   has_and_belongs_to_many :subjects
 
+  belongs_to :city
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
-                  :name, :first_name, :last_name, :fb_avatar, :location, :avatar, :email_opt_in
+                  :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
+                  :birthdate, :phone_number, :zip_code, :city_id, :passions_attributes, :description,
+                  :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in
+
+  # To store hashes into hstore
+  store_accessor :meta_data, :after_sign_up_url
+
+  accepts_nested_attributes_for :passions,
+                                 reject_if: lambda {|attributes| attributes['subject_id'].blank? },
+                                 allow_destroy: true
 
   validates :first_name, :last_name, :email, presence: true
   validates :email, uniqueness: true
@@ -30,9 +44,11 @@ class User < ActiveRecord::Base
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
 
   after_create :associate_all_comments
+  # Not after create because user creation is made when teachers invite their students to post a comment
+  after_save :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
 
   # Scopes
-  scope :active,   -> { where{encrypted_password != nil} }
+  scope :active,   -> { where{encrypted_password != ''} }
   scope :inactive, -> { where{encrypted_password == ''} }
 
 
@@ -53,6 +69,9 @@ class User < ActiveRecord::Base
       user.location           = auth.info.location
       user.gender             = auth.extra.raw_info.gender
       user.birthdate          = Date.strptime(auth.extra.raw_info.birthday, '%m/%d/%Y') if auth.extra.raw_info.birthday.present?
+
+      user.confirmed_at         = Time.now
+      user.confirmation_sent_at = Time.now
 
       user.save!
     end
@@ -115,6 +134,10 @@ class User < ActiveRecord::Base
   end
 
   def name
+    self.full_name
+  end
+
+  def full_name
     "#{first_name} #{last_name}"
   end
 
@@ -126,16 +149,69 @@ class User < ActiveRecord::Base
     end
   end
 
-  # Check if user's email is valid
-  def email_valid?
-    self.valid? # Generates the errors
-    self.errors[:email].empty?
+  # Returns the completion percentage of the user
+  def profile_completion
+    percentage = 0
+    percentage += 20 if self.full_name.present?
+    percentage += 20 if self.has_avatar?
+    percentage += 20 if self.city
+    percentage += 20 if self.gender and self.birthdate
+    percentage += 20 if self.passions.any?
+    percentage
+  end
+
+  def around_courses_url
+    if self.city
+      if self.passions.any?
+        structures_path(lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subject).compact.map(&:slug))
+      else
+        structures_path(lat: self.city.latitude, lng: self.city.longitude)
+      end
+    else
+      structures_path
+    end
+  end
+
+  def around_courses_search
+    subject_array    = self.passions.map(&:subject).compact
+    @course_search ||= CourseSearch.search({lat: self.city.latitude,
+                                          lng: self.city.longitude,
+                                          radius: 6,
+                                          per_page: 1,
+                                          subject_slugs: subject_array.map(&:slug)
+                                      })
+
+  end
+
+  def around_courses_count
+    return 0 unless self.city
+    around_courses_search.total
+  end
+
+  def around_trial_courses_count
+    return 0 unless self.city
+    return 0 if around_courses_search.facet(:has_free_trial_lesson).rows.last.nil?
+    around_courses_search.facet(:has_free_trial_lesson).rows.last.count
+  end
+
+  def confirm!
+    super
+    send_welcome_email
+  end
+
+  def send_welcome_email
+    UserMailer.delay.welcome(self)
   end
 
   private
 
   def random_string
     (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+  end
+
+  def associate_city_from_zip_code
+    _zip_code = self.zip_code
+    self.update_column :city_id, City.where{zip_code == _zip_code}.first.try(:id)
   end
 
   def associate_all_comments

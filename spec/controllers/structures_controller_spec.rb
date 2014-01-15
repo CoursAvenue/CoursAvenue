@@ -14,10 +14,7 @@ describe StructuresController do
       "zip_code",
       "logo_present",
       "logo_thumb_url",
-      "parent_subjects_text",
-      "parent_subjects",
       "data_url",
-      "too_many_subjects",
       "places"
     ]
   end
@@ -48,6 +45,4 @@ describe StructuresController do
     end
 
   end
-
 end
-
