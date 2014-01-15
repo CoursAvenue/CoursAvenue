@@ -54,7 +54,7 @@
   - if @subject.description
     .white-box.island= simple_format @subject.description
 
-- if @subject.depth > 0 and @videos.any?
+- if @subject.depth > 0 and @videos and @videos.any?
   %h3.text--center Sélection des vidéos de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
   .media-gallery.white-box>
     = render partial: 'medias/media', collection: @videos, locals: { width_class_name: 'one-fifth v-top text--center', vertical: true}
