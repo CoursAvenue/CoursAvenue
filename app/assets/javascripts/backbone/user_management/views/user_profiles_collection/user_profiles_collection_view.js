@@ -92,6 +92,15 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             '$add_tags'      : '[data-behavior=add-tags]'
         },
 
+        onRender: function () {
+
+            var sort = this.collection.server_api.sort;
+            var $pivot = this.$('[data-sort=' + sort + ']');
+            $pivot.append("<span class='fa fa-chevron-down' data-type='order'></span>");
+            $pivot.addClass("active");
+
+        },
+
         /* when we click on a header: */
         /* find the current sorting pivot and remove a class from it
          *  add that class to the new one. Ensure that the disclosure triangle
@@ -99,12 +108,17 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         filter: function (e) {
             e.preventDefault();
 
+            var $target = $(e.currentTarget);
+            var $headers = $('[data-sort]');
+
             var sort = e.currentTarget.getAttribute('data-sort');
             var order = "desc";
 
-            // remove disclosure triangles
+            $headers.removeClass("active");
+            $target.addClass("active");
 
-            // finally, add the disclosure triangle
+            var triangle = $headers.find("[data-type=order]").remove();
+            $target.append(triangle);
 
             this.trigger('filter:summary', { sort: sort, order: order });
 
