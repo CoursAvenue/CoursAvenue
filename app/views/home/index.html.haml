@@ -12,7 +12,7 @@
           - @comments.each do |comment|
             = render partial: 'comments/home_comment', locals: {comment: comment}
         .grid__item.palm-one-whole.lap-one-whole.one-half.soft-half{style: 'min-height: 35em;'}
-          = render 'videos'
+          = render 'subject_guides'
   .main-container.soft--top
     - cache "home_blog_#{ENV["ETAG_VERSION_ID"]}", public: true do
       %div

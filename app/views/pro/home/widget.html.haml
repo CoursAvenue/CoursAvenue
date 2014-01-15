@@ -1,0 +1,61 @@
+= render '/pro/structures/widget_inline_css'
+= content_for :title do
+  Les livres d'Or des partenaires CoursAvenue
+
+= pro_menu_currently_at "Livre d'Or"
+
+
+%h1.blue.text--center Votre livre d'Or sur votre propre site Internet
+
+%p Le bouche à oreille restant le 1er facteur d'inscription à un cours, nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
+
+%p C'est pourquoi au-delà de 5 avis, nous vous offrons votre livre d'Or interactif qui vous permet d'afficher toutes les recommandations de vos élèves directement sur votre propre site Internet ou blog. Vous pourrez l'installer vous-même en quelques minutes grâce à un mode d'emploi visible sur votre profil privé CoursAvenue.
+
+%hr
+
+.grid
+  .grid__item.one-half>
+    %h2.flush--bottom.text--center Aperçu de votre livre d'Or
+    .epsilon.push--bottom.text--center à installer sur votre propre site Internet ou blog
+
+    .coursavenue-widget
+      .coursavenue-widget-top-logo-wrapper
+        .coursavenue-widget-top-logo-inner-wrapper
+          .coursavenue-widget-top-logo
+            = link_to 'http://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
+              %img.coursavenue-recommanded{src: asset_path('widget/recommanded_on.png')}
+            = link_to 'http://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
+              %img.coursavenue-logo{src: asset_path('widget/logo.png')}
+            = link_to 'http://www.coursavenue.com', target: '_blank', class: 'coursavenue-widget-title' do
+              %img.coursavenue-stars{src: asset_path('widget/stars.png')}
+      %p{style: 'text-align: center; margin-bottom: 10px;'}
+        = link_to 'Déposer mon avis sur CoursAvenue', 'http://www.coursavenue.com', class: 'coursavenue-btn', target: '_blank'
+        - Comment.accepted.order('created_at DESC').limit(10).each do |comment|
+          .coursavenue-white-box
+            %p.coursavenue-header
+              = link_to structure_url(comment.structure, subdomain: 'www', anchor: "recommandation-#{comment.id}"), class: 'coursavenue-widget-link', target: '_blank' do
+                %strong= comment.author_name
+                = "— #{comment.course_name}"
+            - if comment.title.present?
+              %p.coursavenue-comment-paragraph
+                %strong= "\"#{comment.title}\""
+            .coursavenue-comment-paragraph
+              - omission = link_to('Lire la suite →', structure_url(comment.structure, subdomain: 'www', anchor: "recommandation-#{comment.id}"), target: '_blank', class: 'coursavenue-widget-link')
+              = truncate_html(simple_format(comment.content), length: 600, omission: "… #{omission}")
+            %p.coursavenue-comment-footer
+              %i= "Avis déposé le #{I18n.l(comment.created_at, format: :date)}"
+        %p{style: 'text-align: center; margin-bottom: 5px;'}
+          = link_to 'Voir tous les avis sur CoursAvenue', 'http://www.coursavenue.com', class: 'coursavenue-btn', target: '_blank'
+
+
+  .grid__item.one-half>
+    %h2.flush--bottom.text--center Ils ont déjà installé leur livre d'Or
+    .epsilon.push--bottom.text--center et ont constaté une hausse de leur taux d'inscription et de fidélisation
+    - @structures.each do |structure|
+      .inline-block.one-third.show-on-hover__wrapper.relative.very-soft>
+        = link_to structure.widget_url, target: :_blank, class: 'block' do
+          = image_tag structure.logo.url(:thumb), class: 'block'
+          .home-screen-gallery__title.text--center
+            .show-on-hover__child
+              Voir le livre d'or
+
