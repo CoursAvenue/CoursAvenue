@@ -52,11 +52,11 @@
     %h2.flush--bottom.text--center Ils ont déjà installé leur livre d'Or
     .epsilon.push--bottom.text--center et ont constaté une hausse de leur taux d'inscription et de fidélisation
     - @structures.each do |structure|
-      .inline-block.one-third.show-on-hover__wrapper.relative.very-soft>
-        = link_to structure.widget_url, target: :_blank, class: 'block' do
-          = image_tag structure.logo.url(:thumb), class: 'block'
-          .home-screen-gallery__title.text--center
-            .show-on-hover__child
-              Voir le livre d'or
-              .milli= structure.name
+      .inline-block.one-third.relative.very-soft>
+        .relative.bg-cover{style: "background-image: url(#{structure.logo.url(:thumb)}); height: 180px;"}>
+          = link_to structure.widget_url, target: :_blank, class: 'block show-on-hover__wrapper' do
+            .home-screen-gallery__title.text--center
+              .show-on-hover__child
+                Voir le livre d'or
+                .milli= structure.name
 

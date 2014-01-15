@@ -78,8 +78,8 @@
       - elsif subject.grand_parent and subject.grand_parent.image?
         - subject_image = subject.grand_parent.image
       .grid__item.one-fifth.very-soft>
-        .relative.show-on-hover__wrapper>
-          %a.bg-cover.block{href: subject_city_path(subject, @city), title: "Cours de #{subject.name} à #{@city.name}", style: "background-image: url(#{subject_image}); height: 150px;"}>
+        .relative.bg-cover{style: "background-image: url(#{subject_image}); height: 150px;"}>
+          %a.block.show-on-hover__wrapper{href: subject_city_path(subject, @city), title: "Cours de #{subject.name} à #{@city.name}"}>
             .home-screen-gallery__title.text--center
               = subject.name
               .show-on-hover__child.milli #{facet.count} structures
