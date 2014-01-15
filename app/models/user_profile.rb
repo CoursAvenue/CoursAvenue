@@ -18,12 +18,16 @@ class UserProfile < ActiveRecord::Base
   # ------------------------------------
   searchable do
     text :email
-    string :email
     text :first_name, boost: 5
     text :last_name , boost: 5
     text :notes
     text :phone
     text :mobile_phone
+
+    # for sorting in user_profiles table
+    string :email
+    string :first_name
+    string :last_name
 
     integer :structure_id
   end

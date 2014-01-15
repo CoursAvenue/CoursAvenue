@@ -11,6 +11,14 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.currentPage = 1; // we always start from page 1
             this.server_api.page = function () { return self.currentPage; };
 
+            if (this.server_api.sort === undefined) {
+                this.server_api.sort = "email";
+            }
+
+            if (this.server_api.order === undefined) {
+                this.server_api.order = "desc";
+            }
+
             // now write back the server_api so that the search bar is up to date
             // we are passing this.server_api for fun! ^o^ why not?
             if (window.history.pushState) { window.history.pushState({}, "Search Results", this.getQuery()); }

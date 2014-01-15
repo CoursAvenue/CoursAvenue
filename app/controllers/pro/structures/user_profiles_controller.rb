@@ -10,6 +10,12 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     @user_profiles_search = UserProfileSearch.search(params)
     @user_profiles = @user_profiles_search.results
 
+    # TODO this is probably a bad idea
+    if @structure.busy == "true" && Delayed::Job.count == 0
+        @structure.busy = "false"
+        @structure.save # we somehow got out of sync
+    end
+
     respond_to do |format|
       format.json { render json: @user_profiles, root: 'user_profiles', meta: { total: @user_profiles_search.total, busy: @structure.busy }}
       format.html

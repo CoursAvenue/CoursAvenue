@@ -13,7 +13,8 @@ UserManagement.addInitializer(function(options) {
         events: {
             'pagination:next':     'nextPage',
             'pagination:prev':     'prevPage',
-            'pagination:page':     'goToPage'
+            'pagination:page':     'goToPage',
+            'filter:summary' :     'filterQuery'
         }
     });
 

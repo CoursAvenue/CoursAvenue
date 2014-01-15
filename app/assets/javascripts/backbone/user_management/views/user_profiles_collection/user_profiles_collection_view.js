@@ -9,11 +9,11 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         itemViewContainer: '[data-type=container]',
         className: 'relative',
 
-
         initialize: function () {
             /* myserious forces are preventing me from using the events
             * hash for these, for some strange reason */
             /* TODO this is uuuuugly */
+            /* TODO why is this happening? */
             this.$el.on('click', '[data-behavior=cancel]', _.bind(function () {
                 this.itemviewCancel();
             }, this));
@@ -55,6 +55,10 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 this.$el[0].mozRequestFullScreen();
             }, this));
 
+            this.$el.on('click', '[data-sort]', _.bind(function (e) {
+                this.filter(e);
+            }, this));
+
             this.$el.on('click', '[data-behavior=uber-select]', _.bind(function () {
                 if (this.currently_editing) {
                     this.currently_editing.finishEditing({ restore: true, source: "button" });
@@ -86,6 +90,25 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             '$rotate'        : '[data-behavior=rotate]',
             '$details'       : '[data-behavior=details]',
             '$add_tags'      : '[data-behavior=add-tags]'
+        },
+
+        /* when we click on a header: */
+        /* find the current sorting pivot and remove a class from it
+         *  add that class to the new one. Ensure that the disclosure triangle
+         *  has the correct orientation. Then trigger filter:summary */
+        filter: function (e) {
+            e.preventDefault();
+
+            var sort = e.currentTarget.getAttribute('data-sort');
+            var order = "desc";
+
+            // remove disclosure triangles
+
+            // finally, add the disclosure triangle
+
+            this.trigger('filter:summary', { sort: sort, order: order });
+
+            return false;
         },
 
         commitAddTags: function () {
