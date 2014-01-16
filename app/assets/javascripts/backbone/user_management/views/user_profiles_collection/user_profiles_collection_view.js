@@ -15,8 +15,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }
 
             this.poller = Backbone.Poller.get(this.collection, { delay: 5000 });
-            this.poller.on('success', _.bind(function (model) {
-                if (model.jobs !== "false") { return; }
+            this.poller.on('success', _.bind(function (collection) {
+                if (collection.jobs !== "false") { return; }
 
                 this.poller.stop();
             }, this));

@@ -107,7 +107,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
                 return;
             }
 
-            this.ui.$input.val("");
+            this.ui.$input.typeahead("setQuery", "");
             this.trigger("field:key:down", { editable: this, restore: (key === ESC) });
         },
 
@@ -220,7 +220,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.$el.removeClass("active");
 
             this.ui.$input.css({ display: "none" });
-            this.ui.$input.val("");
         },
 
         /* forcibly update the data */
@@ -231,9 +230,23 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         /* update the data, nothing visual */
         commit: function (data) {
+            if (data.tag_name === undefined) {
+                return;
+            }
+
             this.data = data.tag_name;
 
+            /* UPON committing data, we must rebuild the tags and set the rollback */
+            var tags = this.data.split(",");
+            this.ui.$container.empty();
+
+            _.each(tags, _.bind(function (tag) {
+                var $tag = this.buildTaggy(tag);
+                this.ui.$container.append($tag);
+            }, this));
+
             this.$rollback = this.ui.$container.children().clone();
+
         },
 
         /* change the text to the old data */
