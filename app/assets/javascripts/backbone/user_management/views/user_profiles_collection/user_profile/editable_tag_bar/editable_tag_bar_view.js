@@ -22,9 +22,9 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         initialize: function (options) {
             this.announceEdits = _.debounce(_.bind(this.announceEdits, this), 100);
-            this.data = options.data;
-            this.attribute = options.attribute;
-            this.url = options.url;
+            this.data          = options.data;
+            this.attribute     = options.attribute;
+            this.url           = options.url;
 
             /* build a recyclable taggy */
             var taggy = $("<span>")
