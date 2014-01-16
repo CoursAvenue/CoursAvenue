@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140115154255) do
+ActiveRecord::Schema.define(version: 20140116103752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,10 @@ ActiveRecord::Schema.define(version: 20140115154255) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "where_to_practice"
+    t.text     "where_to_suit_up"
+    t.text     "average_price"
+    t.text     "tips"
   end
 
   create_table "click_logs", force: true do |t|
@@ -577,6 +581,9 @@ ActiveRecord::Schema.define(version: 20140115154255) do
     t.text     "title"
     t.text     "description"
     t.text     "subtitle"
+    t.text     "good_to_know"
+    t.text     "needed_meterial"
+    t.text     "tips"
   end
 
   add_index "subjects", ["ancestry_depth"], name: "index_subjects_on_ancestry_depth", using: :btree

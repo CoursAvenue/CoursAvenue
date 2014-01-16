@@ -14,8 +14,6 @@
 
   .white-box--noshadow
     .main-container.push--ends
-      %h2.text--center Tous les cours de #{@subject.name.downcase}
-      %hr
       .grid
         .grid__item.one-sixth.text--center.delta>
           %div.soft-half--bottom Profils
@@ -36,11 +34,7 @@
           %div.soft-half--bottom Avis d'élèves
           .bold= @comments_count
 
-- if @subject.subtitle
-  %h2.text--center= @subject.subtitle || @subject.name
-
-- if @subject.description
-  .white-box.island= simple_format @subject.description
+= render partial: 'subjects/description'
 
 - if @subject.depth > 0 and @videos and @videos.any?
   %h3.text--center Sélection des vidéos de cours de <strong>#{@subject.name.downcase}</strong>
