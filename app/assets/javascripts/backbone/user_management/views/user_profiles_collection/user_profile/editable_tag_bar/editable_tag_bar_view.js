@@ -80,7 +80,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
                     url: this.url
                 }
             }]);
-            this.$('.twitter-typeahead').css({ width: '0%'});
+            this.$('.twitter-typeahead').addClass('v-middle').css({ width: '0%'});
             /* rebind the ui */
             this.bindUIElements();
         },
