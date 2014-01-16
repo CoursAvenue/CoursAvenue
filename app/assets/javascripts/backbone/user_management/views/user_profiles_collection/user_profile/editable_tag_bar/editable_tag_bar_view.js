@@ -22,15 +22,15 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         initialize: function (options) {
             this.announceEdits = _.debounce(_.bind(this.announceEdits, this), 100);
-            this.data = options.data;
-            this.attribute = options.attribute;
-            this.url = options.url;
+            this.data          = options.data;
+            this.attribute     = options.attribute;
+            this.url           = options.url;
 
             /* build a recyclable taggy */
             var taggy = $("<span>")
                 .addClass('taggy--tag');
-            var saltier = $("<span>")
-                .addClass('taggy--tag__saltier')
+            var saltier = $("<i>")
+                .addClass('fa fa-times')
                 .attr('data-behavior', "destroy");
 
             taggy.append(saltier);
@@ -80,7 +80,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
                     url: this.url
                 }
             }]);
-
+            this.$('.twitter-typeahead').addClass('v-middle').css({ width: '0%'});
             /* rebind the ui */
             this.bindUIElements();
         },

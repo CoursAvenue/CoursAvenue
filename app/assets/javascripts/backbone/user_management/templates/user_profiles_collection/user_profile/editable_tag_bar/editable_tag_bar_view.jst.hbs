@@ -1,11 +1,11 @@
-<span data-type="taggies-container">
+<div class="inline-block taggies-container v-middle" data-type="taggies-container">
     {{#each tags}}
         {{!-- we need zero space around the tag text --}}
         <span class="taggy--tag" data-value="{{ this }}">{{!--
         --}}{{ this }}{{!--
-        --}}<span class="taggy--tag__saltier" data-behavior="destroy"></span>
+        --}}<i class="fa fa-times pointer" data-behavior="destroy"></i>
         </span>
     {{/each}}
-</span>
+</div>
 
 <input class="taggy--input" type="text" style="display:none;"></input>

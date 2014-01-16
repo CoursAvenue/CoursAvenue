@@ -8,4 +8,8 @@
     = f.input :city_id, as: :hidden
     = f.input :title, label: 'Titre'
     = f.input :description, input_html: { data: { behavior: 'autoresize' } }
+    = f.input :where_to_practice, input_html: { data: { behavior: 'autoresize'} }
+    = f.input :where_to_suit_up, input_html: { data: { behavior: 'autoresize'} }
+    = f.input :average_price, input_html: { data: { behavior: 'autoresize'} }
+    = f.input :tips, input_html: { data: { behavior: 'autoresize'} }
     = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
