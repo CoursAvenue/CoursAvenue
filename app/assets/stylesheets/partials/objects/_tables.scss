@@ -39,15 +39,12 @@
 
 .table__cell--editable {
     // min-height needed for when the cells are empty.
-    .pointer {
-        // min-height : 2em;
-        // line-height: 2em;
-        input {
-            width: 100%;
-        }
+    .editable-text {
+        min-height : 1em;
     }
-    input {
-        padding  : 3px;
+    input[type="text"] {
+        width    : 100%;
+        padding  : 3px 5px;
         font-size: 13px;
     }
 }

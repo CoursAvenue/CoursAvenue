@@ -91,11 +91,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 },
                 ajax        : {
                     complete: _.bind(function() {
-                        this.$el.find("[data-type=taggies-container]")
-                            .clone()
-                            .appendTo(".fancybox__tags")
-                            .find('[data-behavior="destroy"]')
-                            .remove();
                         $('.simple_form').on("ajax:before", _.bind(function () {
                             $.fancybox.close();
                         }, this));
@@ -121,8 +116,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         events: {
-            'focusout'            : 'handleBlur',
-            'change @ui.$checkbox': 'addToSelected',
+            'focusout'                   : 'handleBlur',
+            'change @ui.$checkbox'       : 'addToSelected',
             'click [data-behavior=modal]': 'showFancybox'
         },
 

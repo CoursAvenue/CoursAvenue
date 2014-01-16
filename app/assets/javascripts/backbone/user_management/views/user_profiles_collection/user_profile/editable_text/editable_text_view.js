@@ -68,8 +68,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
             if (this.isEditing()) { return; }
 
             this.is_editing = true;
-            var text = this.$el.text();
-            var $input = $("<input>").prop("value", text);
+            var text   = this.$el.text();
+            var $input = $("<input>").prop('type', 'text').prop("value", text);
 
             this.$el.html($input);
         },

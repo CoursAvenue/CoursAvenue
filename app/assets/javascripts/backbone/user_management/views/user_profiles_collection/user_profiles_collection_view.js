@@ -24,7 +24,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         ui: {
-            '$commit_buttons' : '.additional-actions',
+            '$commit_buttons' : '[data-behavior=commit-buttons]',
             '$cancel'         : '[data-behavior=cancel]',
             '$commit'         : '[data-behavior=commit]',
             '$select_all'     : '[data-behavior=select-all]',
@@ -241,21 +241,21 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         onItemviewToggleEditing: function (view, data) {
-            var origin   = view.$el.position();
-            var target   = origin.top + parseInt(view.$el.height() / 2, 10);
-            var offset   = parseInt(this.ui.$commit_buttons.height() / 2, 10);
-            var right    = parseInt(this.ui.$commit_buttons.width(), 10);
+            this.ui.$commit_buttons.toggle();
+            // var origin   = view.$el.position();
+            // var target   = origin.top + parseInt(view.$el.height() / 2, 10);
+            // var offset   = parseInt(this.ui.$commit_buttons.height() / 2, 10);
+            // var right    = parseInt(this.ui.$commit_buttons.width(), 10);
 
-            this.ui.$commit_buttons
-                .animate({ 'z-index': -1 }, { duration: 0 }) /* move to back */
-                .animate({ right: 0 });                      /* slide closed */
-
-            if (!data || !data.blur) {
-                this.ui.$commit_buttons
-                    .animate({ top: target - offset }, { duration: 0 }) /* move into position */
-                    .animate({ right: -(right + 10) })                  /* slide open */
-                    .animate({ 'z-index': 0 }, { duration: 0 });        /* bring to front */
-            }
+            // this.ui.$commit_buttons
+            //    .animate({ 'z-index': -1 }, { duration: 0 }) /* move to back */
+            //    .animate({ right: 0 });                      /* slide closed */
+            // if (!data || !data.blur) {
+            //     this.ui.$commit_buttons
+            //         .animate({ top: target - offset }, { duration: 0 }) /* move into position */
+            //         .animate({ right: -(right + 10) })                  /* slide open */
+            //         .animate({ 'z-index': 0 }, { duration: 0 });        /* bring to front */
+            // }
 
             this.currently_editing = view;
         },

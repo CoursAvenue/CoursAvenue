@@ -2,25 +2,25 @@
     <input type="checkbox" {{#if checked}}checked{{/if}} data-behavior="select" />
 </td>
 <td>
-  <div data-behavior="editable" data-type="editable-email" data-name="email" data-pk="{{id}}" data-url="{{path}}"></div>
+  <div data-behavior="editable" data-type="editable-email" data-name="email"></div>
 </td>
 <td>
-  <div data-behavior="editable" data-type="editable-first_name" data-name="first_name" data-pk="{{id}}" data-url="{{path}}"></div>
+  <div data-behavior="editable" data-type="editable-first_name" data-name="first_name"></div>
 </td>
 <td>
-  <div data-behavior="editable" data-type="editable-last_name" data-name="last_name" data-pk="{{id}}" data-url="{{path}}"></div>
+  <div data-behavior="editable" data-type="editable-last_name" data-name="last_name"></div>
 </td>
 <td>
-  <div data-behavior="editable-tag-bar" data-type="editable-tag-bar" data-name="tag_name" data-pk="{{id}}" data-url="{{path}}"></div>
+  <div data-behavior="editable-tag-bar" data-type="editable-tag-bar" data-name="tag_name"></div>
 </td>
 <td>
-  <span data-title="{{mobile_phone_number}} {{#ifCond mobile_phone_number '&&' phone_number}}/{{/ifCond}} {{phone_number}}" data-behavior="tooltip" class="pointer">{{!--
+  <span data-title="{{mobile_phone}} {{#ifCond mobile_phone '&&' phone}}/{{/ifCond}} {{phone}}" data-behavior="tooltip" class="pointer">{{!--
   --}}<i class="fa fa-phone"></i>{{!--
   --}}</span>
 </td>
 
 <td>
-    <a title="Voir les détails" class="fancybox.ajax" href="mes-eleves/{{id}}/edit" data-behavior="modal">
-        <i class="fa fa-plus pointer"></i>
+    <a title="Voir les détails" class="btn btn--small nowrap fancybox.ajax" href="mes-eleves/{{id}}/edit" data-behavior="modal">
+      <i class="fa fa-plus"></i> d'infos
     </a>
 </td>

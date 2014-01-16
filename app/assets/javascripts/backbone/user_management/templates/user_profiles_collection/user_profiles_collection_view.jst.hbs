@@ -6,6 +6,10 @@
             <div class="btn text--center" data-behavior="rotate"><i class="fa fa-undo"></i></div>
             <div class="btn text--center" data-behavior="full-screen"><i class="fa fa-expand"></i></div>
             <div class="btn text--center" data-behavior="destroy"><i class="fa fa-trash-o"></i></div>
+            <div data-behavior="commit-buttons" style="display: none;" class="inline-block">
+                <div class="btn btn--small btn--green" data-behavior="commit"><i class="fa fa-check"></i> Enregistrer</div>
+                <div class="btn btn--small" data-behavior="cancel"><i class="fa fa-times"></i> Annuler</div>
+            </div>
         </div>{{!--
     --}}<div class="grid__item one-half very-soft text--right">
             <div class="btn btn--blue text--center" data-behavior="unlock"><i class="fa fa-cogs"></i></div>
@@ -37,10 +41,10 @@
   <thead>
     <tr>
       <th style="width :5%" class="text--center hard"></th>
-      <th class="pointer nowrap" style="width: 30%" data-sort="email">Email</th>
-      <th class="pointer nowrap" style="width: 10%" data-sort="first_name">Prénom</th>
-      <th class="pointer nowrap" style="width: 10%" data-sort="last_name">Nom</th>
-      <th style="width: 45%">Tags</th>
+      <th class="pointer nowrap" style="width: 26%" data-sort="email">Email</th>
+      <th class="pointer nowrap" style="width: 17%" data-sort="first_name">Prénom</th>
+      <th class="pointer nowrap" style="width: 17%" data-sort="last_name">Nom</th>
+      <th style="width: 30%">Tags</th>
       <th style="width: 5%"></th>
       <th style="width: 5%"></th>
     </tr>
@@ -49,7 +53,3 @@
 
   </tbody>
 </table>
-<div class="additional-actions">
-    <div class="btn btn--small btn--green btn--round" data-behavior="commit"><i class="fa fa-check"></i></div>
-    <div class="btn btn--small btn--red   btn--round" data-behavior="cancel"><i class="fa fa-times"></i></div>
-</div>
