@@ -40,17 +40,8 @@
           %div.soft-half--bottom Avis d'élèves
           .bold= @comments_count
 
-- if @city_subject_info
-  %h2.text--center= @city_subject_info.title || @subject.name
-  .white-box.island
-    - if @subject.description.present?
-      = simple_format @subject.description
-    = simple_format @city_subject_info.description
-- else
-  - if @subject.subtitle
-    %h2.text--center= @subject.subtitle || @subject.name
-  - if @subject.description
-    .white-box.island= simple_format @subject.description
+
+= render partial: 'subjects/description'
 
 - if @subject.depth > 0 and @videos and @videos.any?
   %h3.text--center Sélection des vidéos de cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>

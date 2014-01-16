@@ -1,0 +1,40 @@
+%h2.text--center
+  - if @subject.subtitle.present?
+    = @subject.subtitle
+  - else
+    = @subject.name
+
+.white-box.island
+  - if @subject.good_to_know.present?
+    %strong= Subject.human_attribute_name(:good_to_know)
+    = simple_format @subject.good_to_know
+  - if @subject.needed_meterial.present?
+    %strong= Subject.human_attribute_name(:needed_meterial)
+    = simple_format @subject.needed_meterial
+  - if @subject.tips.present?
+    %strong= Subject.human_attribute_name(:tips)
+    = simple_format @subject.tips
+
+- if @city_subject_info
+  %h2.text--center= "#{@subject.name} à #{@city.name}"
+  .grid
+    .grid__item.one-quarter>
+      .white-box.islet
+        .read-more{data: { behavior: 'read-more' }}
+          %strong= CitySubjectInfo.human_attribute_name(:where_to_practice)
+          = simple_format @city_subject_info.where_to_practice
+    .grid__item.one-quarter>
+      .white-box.islet
+        .read-more{data: { behavior: 'read-more' }}
+          %strong= CitySubjectInfo.human_attribute_name(:where_to_suit_up)
+          = simple_format @city_subject_info.where_to_suit_up
+    .grid__item.one-quarter>
+      .white-box.islet
+        .read-more{data: { behavior: 'read-more' }}
+          %strong= CitySubjectInfo.human_attribute_name(:average_price)
+          = simple_format @city_subject_info.average_price
+    .grid__item.one-quarter>
+      .white-box.islet
+        .read-more{data: { behavior: 'read-more' }}
+          %strong= CitySubjectInfo.human_attribute_name(:tips)
+          = simple_format @city_subject_info.tips
