@@ -11,10 +11,22 @@ UserManagement.addInitializer(function(options) {
     var user_profiles_collection_view = new UserManagement.Views.UserProfilesCollection.UserProfilesCollectionView({
         collection: user_profiles,
         events: {
-            'pagination:next':     'nextPage',
-            'pagination:prev':     'prevPage',
-            'pagination:page':     'goToPage',
-            'filter:summary' :     'filterQuery'
+            'pagination:next'             : 'nextPage',
+            'pagination:prev'             : 'prevPage',
+            'pagination:page'             : 'goToPage',
+            'filter:summary'              : 'filterQuery',
+
+            'click [data-behavior=cancel]'      : 'itemviewCancel',
+            'click [data-behavior=commit]'      : 'itemviewCommit',
+            'click [data-behavior=select-all]'  : 'selectAll',
+            'click [data-behavior=rotate]'      : 'rotateSelected',
+            'click [data-behavior=manage-tags]' : 'manageTags',
+            'click [data-behavior=add-tags]'    : 'bulkAddTags',
+            'click [data-behavior=full-screen]' : 'goFullScreen',
+            'click [data-sort]'                 : 'filter',
+            'click [data-behavior=destroy]'     : 'destroySelected',
+            'click [data-behavior=uber-select]' : 'deepSelect',
+
         }
     });
 

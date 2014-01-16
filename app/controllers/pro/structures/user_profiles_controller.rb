@@ -68,6 +68,14 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     end
   end
 
+  def destroy
+    @user_profile = @structure.user_profiles.find params[:id]
+
+    if @user_profile.destroy
+      head :ok
+    end
+  end
+
   private
 
   def load_structure

@@ -10,65 +10,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         className: 'relative',
 
         initialize: function () {
-            /* myserious forces are preventing me from using the events
-            * hash for these, for some strange reason */
-            /* TODO this is uuuuugly */
-            /* TODO why is this happening? */
-            this.$el.on('click', '[data-behavior=cancel]', _.bind(function () {
-                this.itemviewCancel();
-            }, this));
-
-            this.$el.on('click', '[data-behavior=commit]', _.bind(function () {
-                this.itemviewCommit();
-            }, this));
-
-            this.$el.on('click', '[data-behavior=select-all]', _.bind(function () {
-                if (this.currently_editing) {
-                    this.currently_editing.finishEditing({ restore: true, source: "button" });
-                }
-                this.showDetails("select-all");
-                this.selectAll();
-            }, this));
-
-            this.$el.on('click', '[data-behavior=rotate]', _.bind(function () {
-                if (this.currently_editing) {
-                    this.currently_editing.finishEditing({ restore: true, source: "button" });
-                }
-                this.rotateSelected();
-            }, this));
-
-            this.$el.on('click', '[data-behavior=manage-tags]', _.bind(function () {
-                if (this.currently_editing) {
-                    this.currently_editing.finishEditing({ restore: true, source: "button" });
-                }
-                this.showDetails("manage-tags");
-            }, this));
-
-            this.$el.on('click', '[data-behavior=add-tags]', _.bind(function () {
-                if (this.currently_editing) {
-                    this.currently_editing.finishEditing({ restore: true, source: "button" });
-                }
-                this.commitAddTags();
-            }, this));
-
-            this.$el.on('click', '[data-behavior=full-screen]', _.bind(function () {
-                this.$el[0].mozRequestFullScreen();
-            }, this));
-
-            this.$el.on('click', '[data-sort]', _.bind(function (e) {
-                this.filter(e);
-            }, this));
-
-            this.$el.on('click', '[data-behavior=uber-select]', _.bind(function () {
-                if (this.currently_editing) {
-                    this.currently_editing.finishEditing({ restore: true, source: "button" });
-                }
-
-                this.showDetails("select-all");
-                this.groups.uber = true;
-
-            }, this));
-
             this.groups = {
                 selected: {} /* map by model id */,
             }
@@ -83,13 +24,13 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         ui: {
-            '$commit_buttons': '.additional-actions',
-            '$cancel'        : '[data-behavior=cancel]',
-            '$commit'        : '[data-behavior=commit]',
-            '$select_all'    : '[data-behavior=select-all]',
-            '$rotate'        : '[data-behavior=rotate]',
-            '$details'       : '[data-behavior=details]',
-            '$add_tags'      : '[data-behavior=add-tags]'
+            '$commit_buttons' : '.additional-actions',
+            '$cancel'         : '[data-behavior=cancel]',
+            '$commit'         : '[data-behavior=commit]',
+            '$select_all'     : '[data-behavior=select-all]',
+            '$rotate'         : '[data-behavior=rotate]',
+            '$details'        : '[data-behavior=details]',
+            '$add_tags'       : '[data-behavior=add-tags]'
         },
 
         onRender: function () {
@@ -98,7 +39,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             var $pivot = this.$('[data-sort=' + sort + ']');
             $pivot.append("<span class='fa fa-chevron-down' data-type='order'></span>");
             $pivot.addClass("active");
-
         },
 
         /* when we click on a header: */
@@ -134,7 +74,11 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             return false;
         },
 
-        commitAddTags: function () {
+        bulkAddTags: function () {
+            if (this.currently_editing) {
+                this.currently_editing.finishEditing({ restore: true, source: "button" });
+            }
+
             var tags = this.ui.$details.find("[data-value=tag-names]").val();
 
             /* just set the new tag for now, replacing old tags */
@@ -142,7 +86,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             /* but right now tags is just a string */
             var models = _.inject(this.groups.selected, function (memo, view) {
                 var model = view.model;
-                // model.set({ tags: tags });
                 memo.push(model);
 
                 return memo;
@@ -171,6 +114,32 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             * without problem */
             this.poller.start();
         },
+
+        /* prompt the user to make sure they know how many user profiles they
+        * are about to destroy */
+        destroySelected: function () {
+            if (this.currently_editing) {
+                this.currently_editing.finishEditing({ restore: true, source: "button" });
+            }
+
+            var models = _.inject(this.groups.selected, function (memo, view) {
+                var model = view.model;
+                memo.push(model);
+
+                return memo;
+            }, []);
+
+            _.each(models, function (model) {
+                var id = model.get("id");
+
+                model.destroy({
+                    success: function (model) {
+                        delete this.groups.selected[id];
+                    }
+                });
+            });
+        },
+
 
         showDetails: function (target) {
             var $manage_tags = this.$('[data-behavior=' + target + ']');
@@ -212,6 +181,12 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
          *
         * */
         selectAll: function (options) {
+            if (this.currently_editing) {
+                this.currently_editing.finishEditing({ restore: true, source: "button" });
+            }
+
+            this.showDetails("select-all");
+
             var self = this;
             var deselect = this.ui.$select_all.data().deselect;
 
@@ -235,6 +210,15 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.ui.$select_all.data('deselect', !deselect);
         },
 
+        deepSelect: function ( ){
+            if (this.currently_editing) {
+                this.currently_editing.finishEditing({ restore: true, source: "button" });
+            }
+
+            this.showDetails("select-all");
+            this.groups.uber = true;
+        },
+
         onItemviewAddToSelected: function (view) {
             var id = view.model.get("id");
 
@@ -246,6 +230,10 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         rotateSelected: function () {
+            if (this.currently_editing) {
+                this.currently_editing.finishEditing({ restore: true, source: "button" });
+            }
+
             _.each(this.groups.selected, function (view, cid) {
                 view.$el.toggleClass("flipped unflipped");
             });
@@ -329,6 +317,17 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 next_page_query:     this.collection.nextQuery(),
                 sort:                this.collection.server_api.sort
             });
+        },
+
+        manageTags: function () {
+            if (this.currently_editing) {
+                this.currently_editing.finishEditing({ restore: true, source: "button" });
+            }
+            this.showDetails("manage-tags");
+        },
+
+        goFullScreen: function () {
+            this.$el[0].mozRequestFullScreen();
         }
     });
 });
