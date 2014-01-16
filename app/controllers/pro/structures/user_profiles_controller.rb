@@ -71,8 +71,11 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   def destroy
     @user_profile = @structure.user_profiles.find params[:id]
 
-    if @user_profile.destroy
-      head :ok
+    respond_to do |format|
+        if @user_profile.destroy
+
+            format.json { render :json => @user_profile }
+        end
     end
   end
 

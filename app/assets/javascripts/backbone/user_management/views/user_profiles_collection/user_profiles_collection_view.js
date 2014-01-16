@@ -129,12 +129,13 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 return memo;
             }, []);
 
+            var self = this;
             _.each(models, function (model) {
                 var id = model.get("id");
 
                 model.destroy({
                     success: function (model) {
-                        delete this.groups.selected[id];
+                        delete self.groups.selected[id];
                     }
                 });
             });
