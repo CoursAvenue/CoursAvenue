@@ -32,48 +32,30 @@
 }
 
 
-
+.taggies-container {
+    // line-height: 2.5em
+    .twitter-typeahead {
+        vertical-align: middle;
+        display       : inline-block;
+    }
+}
 .taggy--tag {
     display         : inline-block;
     border          : 1px solid #CCC;
-    padding         : 0.5em;
-    padding-right   : 15px;
-    margin-top      : 4px;
-    margin-right    : 15px;
+    padding         : 0 0.5em;
+    margin-right    : 3px;
     background-color: white;
-    line-height     : 1em;
+    // line-height     : 1;
     position        : relative;
 
     &.tag--small {
         font-size: 0.9em;
         padding  : 0.2em 0.6em;
     }
-
-    &:after {
-        border  : 1px solid #CCC;
-        border-left  : none;
-        border-bottom  : none;
-        content: "";
-        height: 28px;
-        position: absolute;
-        right: -14px;
-        top: -1px;
-        transform: scale(0.707) rotate(45deg);
-        width: 28px;
-        border-radius: 0 5px 0 50px;
-        background-color: white;
-    }
-}
-
-.taggy--tag__saltier {
-    position: absolute;
-    right: -5px;
-    z-index: 1;
-    cursor: pointer;
-    &:before {
-        @extend .fa;
-        @extend .fa-times;
-        padding-right: 0.3em;
+    i.fa-times {
+        margin-left: 3px;
+        position   : relative;
+        top        : 1px;
     }
 
 }

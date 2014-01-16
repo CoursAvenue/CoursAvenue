@@ -94,7 +94,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                         this.$el.find("[data-type=taggies-container]")
                             .clone()
                             .appendTo(".fancybox__tags")
-                            .find(".taggy--tag__saltier")
+                            .find('[data-behavior="destroy"]')
                             .remove();
                         $('.simple_form').on("ajax:before", _.bind(function () {
                             $.fancybox.close();

@@ -96,7 +96,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
             var sort = this.collection.server_api.sort;
             var $pivot = this.$('[data-sort=' + sort + ']');
-            $pivot.append("<span class='fa fa-chevron-down' data-type='order'></span>");
+            $pivot.append("<span class='soft-half--left fa fa-chevron-down' data-type='order'></span>");
             $pivot.addClass("active");
 
         },
@@ -122,7 +122,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             $headers.removeClass("active");
             $target.addClass("active");
 
-            var chevron = (order === "desc")? "fa fa-chevron-down" : "fa fa-chevron-up";
+            var chevron = (order === "desc" ? "soft-half--left fa fa-chevron-down" : "soft-half--left fa fa-chevron-up");
             var $triangle = $headers.find("[data-type=order]").remove();
 
             $triangle.removeClass();
