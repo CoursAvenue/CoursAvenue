@@ -22,9 +22,8 @@ class Subjects::CitiesController < ApplicationController
       @videos_search            = MediaSearch.search({lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 5, type: 'Media::Video', bbox: true}.merge(to_merge))
       @videos                   = @videos_search.results
     end
-    _city_id    = @city.id
-    _subject_id = @subject.id
-    @city_subject_info        = CitySubjectInfo.where{(city_id == _city_id) & (subject_id == _subject_id)}.first
+
+    @city_subject_info        = CitySubjectInfo.load(@city.id, @subject.id)
 
     @structures               = @structure_search.results
     @images                   = @images_search.results
