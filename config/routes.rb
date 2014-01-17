@@ -182,7 +182,7 @@ CoursAvenue::Application.routes.draw do
   get 'auth/failure'           , to: redirect('/')
   get 'signout'                , to: 'session#destroy', as: 'signout'
 
-  resources :cities, only: [:show], path: 'villes' do
+  resources :cities, only: [:show], path: 'tous-les-cours-a' do
     collection do
       get 'zip_code_search'
     end
@@ -210,8 +210,8 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :keywords, only: [:index]
-  resources :subjects, only: [:show, :index], path: 'disciplines' do
-    resources :cities, only: [:show], path: 'villes', controller: 'subjects/cities' do
+  resources :subjects, only: [:show, :index], path: 'cours' do
+    resources :cities, only: [:show], path: 'a', controller: 'subjects/cities' do
       resources :medias, only: [], controller: 'subjects/cities/medias' do
         collection do
           get :videos
