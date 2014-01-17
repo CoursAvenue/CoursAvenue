@@ -21,7 +21,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         },
 
         initialize: function (options) {
-            this.announceEdits = _.debounce(_.bind(this.announceEdits, this), 100);
             this.data          = options.data;
             this.attribute     = options.attribute;
             this.url           = options.url;
@@ -37,6 +36,12 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.$taggy_template = taggy;
 
             this.taggy_padding = 15;
+
+
+            this[COMMA] = this.handleComma;
+            this[BACKSPACE] = this.handleBackspace;
+            this[ESC] = this.handleEscape;
+            this[ENTER] = this.handleEnter;
         },
 
         events: {
@@ -89,26 +94,15 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         /* TODO yeah, so, this should be a switch eh? */
         handleKeyDown: function (e) {
             var key = e.which;
+            var text = this.ui.$input.val();
 
-            if (key === COMMA) {
-                e.preventDefault();
-                this.createTaggy();
+            if (_.isFunction(this[key])) {
+                this[key](text, e); // call the appropriate handler method
             }
 
-            if (key === BACKSPACE && this.ui.$input.val() === "") {
-                e.preventDefault();
-                this.updateTaggy();
+            if (key === ENTER || key === ESC) {
+                this.trigger("field:key:down", { editable: this, restore: (key === ESC) });
             }
-
-            /* TODO we are announcing twice in some cases... which is OK because of debounce, I guess? */
-            this.announceEdits();
-
-            if (key !== ENTER && key !== ESC) {
-                return;
-            }
-
-            this.ui.$input.typeahead("setQuery", "");
-            this.trigger("field:key:down", { editable: this, restore: (key === ESC) });
         },
 
         /* when the user backspaces into a taggy */
@@ -174,6 +168,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             // user to need to create a million tags/second
             this.bindUIElements();
 
+            this.announceEdits();
             this.updateInputWidth();
             this.ui.$input.val("");
         },
@@ -193,7 +188,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         },
 
         announceEdits: function () {
-            this.trigger("field:edits", this.getEdits());
+            var edits = this.getEdits();
+            this.trigger("field:edits", edits);
         },
 
         announceClick: function () {
@@ -267,6 +263,29 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         isEditing: function () {
             return this.is_editing === true;
+        },
+
+        handleComma: function (text, e) {
+            e.preventDefault();
+            this.createTaggy();
+        },
+
+        handleBackspace: function (text, e) {
+            if (text !== "") {
+                return;
+            }
+
+            e.preventDefault();
+            this.updateTaggy();
+        },
+
+        handleEnter: function (text, e) {
+            if (text === "") {
+                return;
+            }
+
+            e.preventDefault();
+            this.createTaggy();
         }
     });
 });
