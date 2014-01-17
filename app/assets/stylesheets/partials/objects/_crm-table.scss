@@ -1,0 +1,9 @@
+.sticky-controls {
+    background-color: $site-background-color;
+    z-index: 1;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+}

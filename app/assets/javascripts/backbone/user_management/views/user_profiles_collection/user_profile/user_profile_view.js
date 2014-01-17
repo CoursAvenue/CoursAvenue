@@ -22,6 +22,42 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.on("field:key:down", this.finishEditing);
             this.on("field:edits",    this.collectEdits);
             this.on("row:blur",       this.finishEditing);
+
+            $(window).scroll(this.stickyControls);
+            this.sticky_home = -1;
+        },
+
+        stickyControls: function () {
+            var $control = $("[data-behavior=sticky-controls]");
+
+            var scroll_top = $(window).scrollTop();
+            var control_top = $control.offset().top;
+            var fixed = $control.hasClass("sticky");
+
+            if (!fixed && scroll_top >= control_top) {
+                // we have scrolled past the controls
+
+                var old_width = $control.width();
+                var $placeholder = $control.clone()
+                                      .css({ visibility: "hidden" })
+                                      .attr("data-placeholder", "")
+                                      .attr("data-behavior", "");
+
+                // $placehold stays behind to hold the place
+                $control.parent().prepend($placeholder);
+
+                this.sticky_home = control_top;
+                $control.addClass("sticky");
+                $control.css({ width: old_width });
+            } else if ( fixed && scroll_top < this.sticky_home) {
+                // we have now scrolled back up, and are replacing the controls
+
+                this.$("[data-placeholder]").remove();
+                $control.removeClass("sticky");
+                $control.css({ width: "" });
+                this.sticky_home = -1;
+            }
+
         },
 
         /* incrementally build up a set of attributes */
