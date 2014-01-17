@@ -11,6 +11,14 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             'click .btn': 'next',
         },
 
+        showOrHide: function(data) {
+            if (data.structures_count === 0) {
+                this.$el.hide();
+            } else {
+                this.$el.show();
+            }
+        },
+
         next: function (e) {
             e.preventDefault();
             this.trigger('pagination:next', e);
