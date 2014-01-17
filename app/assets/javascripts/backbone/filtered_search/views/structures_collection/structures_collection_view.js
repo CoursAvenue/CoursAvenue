@@ -122,6 +122,12 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                     $this.find('.rslides').removeClass('hidden');
                 });
             });
+        },
+
+        itemViewOptions: function() {
+            return {
+                search_term: decodeURIComponent(this.collection.server_api.name)
+            }
         }
 
     });

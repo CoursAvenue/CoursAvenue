@@ -12,6 +12,12 @@ StructureProfile.module('Views.Map.GoogleMap', function(Module, App, Backbone, M
         /* we need to center the view ourselves, since we are the data source */
         onRender: function() {
             this.centerMapAutomatically();
+            google.maps.event.addListenerOnce(this.map, 'idle', function(){
+                if (this.map.getZoom() > 15) {
+                    this.map.setZoom(15);
+                }
+            }.bind(this));
+
         },
 
         /* TODO we could probably tweek GoogleMapsView.centerMap to work like

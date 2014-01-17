@@ -13,6 +13,7 @@ class Structures::CoursesController < ApplicationController
       @courses << {
         id:                    course.id,
         name:                  course.name,
+        description:           course.description,
         type:                  course.type_name,
         min_price_amount:      number_to_currency(course.best_price.try(:amount)),
         min_price_libelle:     course.best_price.try(:localized_libelle),

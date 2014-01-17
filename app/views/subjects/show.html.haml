@@ -3,7 +3,7 @@
 
 = content_for :above_container do
   - if @subject.image.present?
-    .home-screen.bg-cover{style: "background-image: url(#{@subject.image.url})"}
+    .home-screen.bg-cover{style: "background-image: url('#{@subject.image.url}')"}
       %h1.push--bottom.text--center.home-screen-title{style: 'padding-top: 3em;'}
         Tous les cours de <strong>#{@subject.name.downcase}</strong>
       - if @subject.title

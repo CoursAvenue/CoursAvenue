@@ -70,3 +70,11 @@ if (!Function.prototype.bind) {
     return fBound;
   };
 }
+
+
+GLOBAL.normalizeAccents = function(string) {
+  string = string.replace(/[éèêë]/g, 'e');
+  string = string.replace(/[àäâ]/g, 'a');
+  string = string.replace(/[îï]/g, 'i');
+  return string;
+}

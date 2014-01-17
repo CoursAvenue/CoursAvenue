@@ -51,11 +51,6 @@
     .step-breadcrumb li:last-child .step-breadcrumb--item:after,
     .step-breadcrumb--item.active:before {
         background-image : image-url('objects/step-breadcrumb/arrow-right-blue-lighter.png');
-         @media \0screen {
-            background: none;
-            filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('objects/step-breadcrumb/arrow-right-blue-lighter.png')}', sizingMethod='scale');
-            -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('objects/step-breadcrumb/arrow-right-blue-lighter.png')}',sizingMethod='scale')";
-        }
     }
     .step-breadcrumb li:first-child .step-breadcrumb--item:hover:before,
     .step-breadcrumb li:first-child .step-breadcrumb--item.active:before {
@@ -65,20 +60,10 @@
     .step-breadcrumb--item:hover:after {
         z-index          : 150;
         background-image : image-url('objects/step-breadcrumb/arrow-right-blue-light.png');
-         @media \0screen {
-            background: none;
-            filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('objects/step-breadcrumb/arrow-right-blue-light.png')}', sizingMethod='scale');
-            -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('objects/step-breadcrumb/arrow-right-blue-light.png')}',sizingMethod='scale')";
-        }
     }
     .step-breadcrumb li:last-child .step-breadcrumb--item.active:after,
     .step-breadcrumb li:last-child .step-breadcrumb--item.active:hover:after,
     .step-breadcrumb--item.active:after {
         z-index          : 200;
         background-image : image-url('objects/step-breadcrumb/arrow-right-blue.png');
-         @media \0screen {
-            background: none;
-            filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('objects/step-breadcrumb/arrow-right-blue.png')}', sizingMethod='scale');
-            -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('objects/step-breadcrumb/arrow-right-blue.png')}',sizingMethod='scale')";
-        }
     }
