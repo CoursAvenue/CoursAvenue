@@ -12,7 +12,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         showOrHide: function(data) {
-            if (data.structures_count === 0) {
+            if (data.structures_count < data.per_page) {
                 this.$el.hide();
             } else {
                 this.$el.show();
