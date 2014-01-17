@@ -122,6 +122,13 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         onAfterItemAdded: function (itemView) {
             if (itemView.model.get("new")) {
                 itemView.editable_text.currentView.$el.click();
+
+                var table_top  = this.$el.offset().top;
+                var scroll_top = $(window).scrollTop();
+
+                if (scroll_top > table_top) {
+                    $(window).scrollTo(table_top, "slow");
+                }
             }
         },
 
@@ -348,15 +355,14 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         appendHtml: function(compositeView, itemView, index){
             if (compositeView.isBuffering) {
                 compositeView.elBuffer.appendChild(itemView.el);
-            }
-            else {
+            } else {
                 // If we've already rendered the main collection, just
                 // append the new items directly into the element.
                 var $container = this.getItemViewContainer(compositeView);
 
                 // prepend if this is the first model in the collection
                 if (index === 0 ) {
-                    $container.prepend(itemView.el);
+                    itemView.$el.prependTo($container);
                 } else {
                     $container.append(itemView.el);
                 }
