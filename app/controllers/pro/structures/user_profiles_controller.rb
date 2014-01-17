@@ -43,6 +43,7 @@ class Pro::Structures::UserProfilesController < Pro::ProController
 
     respond_to do |format|
       if @user_profile.save
+        format.json { render json: @user_profile.to_json }
         format.html { redirect_to pro_structure_user_profiles_path(@structure) }
       else
         format.html { render :new }

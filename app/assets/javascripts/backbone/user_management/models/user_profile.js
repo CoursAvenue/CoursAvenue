@@ -3,7 +3,15 @@
 UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _) {
     Models.UserProfile = Backbone.Model.extend({
         url: function () {
-            return this.collection.url.basename + this.collection.url.resource + '/' + this.get("id");
+            var id = this.get("id");
+
+            // TODO it seems to me backbone should already know how to do this...
+            if (id === undefined && this.get("new")) {
+                id = "";
+                this.set("new", false);
+            }
+
+            return this.collection.url.basename + this.collection.url.resource + '/' + id;
         }
     });
 });

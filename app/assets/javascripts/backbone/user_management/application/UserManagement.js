@@ -25,8 +25,8 @@ UserManagement.addInitializer(function(options) {
             'click [data-behavior=full-screen]' : 'goFullScreen',
             'click [data-sort]'                 : 'filter',
             'click [data-behavior=destroy]'     : 'destroySelected',
+            'click [data-behavior=new]'         : 'newUserProfile',
             'click [data-behavior=uber-select]' : 'deepSelect',
-
         }
     });
 

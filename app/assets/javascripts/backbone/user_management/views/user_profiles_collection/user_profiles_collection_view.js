@@ -20,7 +20,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
                 this.poller.stop();
             }, this));
-
         },
 
         ui: {
@@ -113,6 +112,17 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             /* TODO we want this to be idempotent: I should be able to start many times
             * without problem */
             this.poller.start();
+        },
+
+        newUserProfile: function () {
+            var attributes = { first_name: "", email: "", last_name: "", tags: "", "new": true };
+            this.collection.add(attributes, { at: 0 });
+        },
+
+        onAfterItemAdded: function (itemView) {
+            if (itemView.model.get("new")) {
+                itemView.editable_text.currentView.$el.click();
+            }
         },
 
         /* prompt the user to make sure they know how many user profiles they
@@ -329,7 +339,30 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         goFullScreen: function () {
             this.$el[0].mozRequestFullScreen();
-        }
+        },
+
+        /* OVERRIDE */
+        /* We are implementing appendHTML here so that we can both
+        * append (normal) and prepend (when using "new") to the
+        * table */
+        appendHtml: function(compositeView, itemView, index){
+            if (compositeView.isBuffering) {
+                compositeView.elBuffer.appendChild(itemView.el);
+            }
+            else {
+                // If we've already rendered the main collection, just
+                // append the new items directly into the element.
+                var $container = this.getItemViewContainer(compositeView);
+
+                // prepend if this is the first model in the collection
+                if (index === 0 ) {
+                    $container.prepend(itemView.el);
+                } else {
+                    $container.append(itemView.el);
+                }
+            }
+        },
+
     });
 });
 

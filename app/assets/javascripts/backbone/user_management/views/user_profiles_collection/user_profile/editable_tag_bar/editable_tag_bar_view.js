@@ -59,7 +59,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         /* no model here */
         serializeData: function () {
-            if (this.data === "") {
+            if (this.data === "" || this.data === undefined) {
                 return;
             }
 
