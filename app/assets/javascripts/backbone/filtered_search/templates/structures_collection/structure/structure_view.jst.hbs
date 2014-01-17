@@ -16,13 +16,18 @@
     </div><!--
  --><article class="flexbox__item four-tenths v-top structure-item__see-all-wrapper structure-item__button">
         <div class="relative full-height soft-half hard--right">
-            <h2 class="epsilon flush v-top">
+            <div class="epsilon flush v-top">
                 <a href="{{ data_url }}">{{ name }}</a>
-            </h2>
-            {{#if course_names}}
+            </div>
+            {{#if tag_names}}
                 <div class="milli gray">
-                    <span title="{{course_names}}" data-behavior="tooltip">
-                        <i>{{{truncate course_names 55}}}</i>
+                    <i class="fa fa-tag"></i>
+                    <span title="{{tag_names}}" data-behavior="tooltip">
+                        {{#if search_term}}
+                            <i>{{{highlight tag_names search_term 55}}}</i>
+                        {{else}}
+                            <i>{{{truncate tag_names 55}}}</i>
+                        {{/if}}
                     </span>
                 </div>
             {{/if}}

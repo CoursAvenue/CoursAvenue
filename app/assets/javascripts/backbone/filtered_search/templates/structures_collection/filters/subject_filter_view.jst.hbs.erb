@@ -1,14 +1,22 @@
-<div class="grid--full">{{#each subjects}}{{!--
-   --}}<div class="grid__item one-quarter very-soft hard--bottom">
-      <div data-type="button" data-value="{{slug}}" class="text--center outlined-btn one-whole">
-        <div class="subject_icon subject_icon__{{slug}}"></div>
-        {{name}}
-      </div>
-  </div>{{!--
- --}}{{/each}}{{!--
- --}}<div class="grid__item one-quarter very-soft hard--bottom">
-  <div data-type="button" data-value="other" class="text--center outlined-btn one-whole subject_icon__other">
-    Autres
-  </div>
-</div>{{!--
- --}}</div>
+<div class="grid--full">
+    <div class="grid__item v-top one-fifth soft-half--top">
+        <strong class="gray">Disciplines</strong>
+    </div><!--
+  --><div class="grid__item v-top four-fifths">
+        <div class="grid--full">{{#each subjects}}{{!--
+           --}}<div class="grid__item one-quarter very-soft hard--bottom">
+              <div data-type="button" data-value="{{slug}}" class="text--center btn one-whole">
+                <div class="subject_icon subject_icon__{{slug}}"></div>
+                {{name}}
+              </div>
+          </div>{{!--
+         --}}{{/each}}{{!--
+         --}}<div class="grid__item one-quarter very-soft hard--bottom">
+          <div data-type="button" data-value="other" class="text--center btn one-whole subject_icon__other">
+            Autres
+          </div>
+        </div>{{!--
+         --}}</div>
+    </div>
+</div>
+

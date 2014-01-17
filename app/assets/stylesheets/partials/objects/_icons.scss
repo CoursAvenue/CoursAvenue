@@ -17,19 +17,9 @@
 .lbc-icon-calendar {
     height           : 16px;
     background-image : image-url('icons/calendar.png');
-     @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/calendar.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/calendar.png')}',sizingMethod='scale')";
-    }
 }
 .lbc-icon-clock {
     background-image : image-url('icons/clock.png');
-     @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/clock.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/clock.png')}',sizingMethod='scale')";
-    }
 }
 
 .lbc-icon-info {
@@ -44,21 +34,11 @@
     height           : 16px;
     width            : 16px;
     background-image : image-url('icons/bulle.png');
-     @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/bulle.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/bulle.png')}',sizingMethod='scale')";
-    }
 }
 .lbc-subject-icon {
     width            : 24px;
     height           : 16px;
     background-image : image-url('icons/subject.png');
-     @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subject.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/bulle.png')}',sizingMethod='scale')";
-    }
 }
 
 
@@ -71,70 +51,60 @@
     background-repeat   : no-repeat;
     @include background-size(contain);
 }
-.subject_icon__danse                           {
+
+.subject_icon__danse{
     width            : 3.6em;
     background-image : image-url('icons/subjects/danse.png');
-    @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/danse.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/danse.png')}',sizingMethod='scale')";
-    }
 }
 .subject_icon__theatre-scene {
     width            : 3.2em;
     background-image : image-url('icons/subjects/theatre-scene.png');
-    @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/theatre-scene.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/theatre-scene.png')}',sizingMethod='scale')";
-    }
 
 }
 .subject_icon__yoga-bien-etre-sante {
     width            : 3em;
     background-image : image-url('icons/subjects/yoga-bien-etre-sante.png');
-    @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/yoga-bien-etre-sante.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/yoga-bien-etre-sante.png')}',sizingMethod='scale')";
-    }
 }
 .subject_icon__musique-chant {
     width            : 1.8em;
     background-image : image-url('icons/subjects/musique-chant.png');
-    @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/musique-chant.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/musique-chant.png')}',sizingMethod='scale')";
-    }
 }
 .subject_icon__dessin-peinture-arts-plastiques {
     width            : 2.7em;
     background-image : image-url('icons/subjects/dessin-peinture-arts-plastiques.png');
-    @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/dessin-peinture-arts-plastiques.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/dessin-peinture-arts-plastiques.png')}',sizingMethod='scale')";
-    }
 }
 .subject_icon__sports-arts-martiaux {
     width            : 4.1em;
     background-image : image-url('icons/subjects/sports-arts-martiaux.png');
-    @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/sports-arts-martiaux.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/sports-arts-martiaux.png')}',sizingMethod='scale')";
-    }
 }
 .subject_icon__cuisine-vins {
     width            : 5em;
     background-image : image-url('icons/subjects/cuisine-vins.png');
     @include background-size(60px 25px);
     background-size  : 60px 25px;
-    @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/cuisine-vins.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/subjects/cuisine-vins.png')}',sizingMethod='scale')";
+}
+
+.subject-active {
+    .subject_icon__danse{
+        background-image : image-url('icons/subjects/danse-white.png');
+    }
+    .subject_icon__theatre-scene {
+        background-image : image-url('icons/subjects/theatre-scene-white.png');
+    }
+    .subject_icon__yoga-bien-etre-sante {
+        background-image : image-url('icons/subjects/yoga-bien-etre-sante-white.png');
+    }
+    .subject_icon__musique-chant {
+        background-image : image-url('icons/subjects/musique-chant-white.png');
+    }
+    .subject_icon__dessin-peinture-arts-plastiques {
+        background-image : image-url('icons/subjects/dessin-peinture-arts-plastiques-white.png');
+    }
+    .subject_icon__sports-arts-martiaux {
+        background-image : image-url('icons/subjects/sports-arts-martiaux-white.png');
+    }
+    .subject_icon__cuisine-vins {
+        background-image : image-url('icons/subjects/cuisine-vins-white.png');
     }
 }
 .subject_icon__other {
