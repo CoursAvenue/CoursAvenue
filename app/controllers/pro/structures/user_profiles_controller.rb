@@ -48,6 +48,7 @@ class Pro::Structures::UserProfilesController < Pro::ProController
         format.json { render json: @user_profile.to_json }
         format.html { redirect_to pro_structure_user_profiles_path(@structure) }
       else
+        format.json { render :json => { :errors => @user_profile.errors.full_messages }.to_json, :status => 500 }
         format.html { render :new }
       end
     end
