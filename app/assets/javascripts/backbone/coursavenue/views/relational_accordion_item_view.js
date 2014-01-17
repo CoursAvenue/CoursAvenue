@@ -90,7 +90,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             }
 
             this.active_region = (closing ? undefined : collection_name);
-            if (typeof(this.onAccordeonOpen) === 'function') {
+            if (this.active_region && typeof(this.onAccordeonOpen) === 'function') {
                 this.onAccordeonOpen();
             }
         },

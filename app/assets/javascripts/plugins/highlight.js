@@ -48,9 +48,9 @@ jQuery.extend({
         if (node.nodeType === 3) {
             var match = node.data.match(re);
             if (match) {
-                var highlight = document.createElement(nodeName || 'span');
+                var highlight       = document.createElement(nodeName || 'span');
                 highlight.className = className || 'highlight';
-                var wordNode = node.splitText(match.index);
+                var wordNode        = node.splitText(match.index);
                 wordNode.splitText(match[0].length);
                 var wordClone = wordNode.cloneNode(true);
                 highlight.appendChild(wordClone);
@@ -82,15 +82,18 @@ jQuery.fn.unhighlight = function (options) {
 jQuery.fn.highlight = function (words, options) {
     var settings = { className: 'highlight', element: 'span', caseSensitive: false, wordsOnly: false };
     jQuery.extend(settings, options);
-
     if (words.constructor === String) {
-        words = [words];
+        words = [words]; // Change
     }
     words = jQuery.grep(words, function(word, i){
-      return word != '';
+        return word != '';
     });
     words = jQuery.map(words, function(word, i) {
-      return word.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+        word = word.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+        word = word.replace(/[eéèêë]/g, '[eéèêë]');
+        word = word.replace(/[aàäâ]/g, '[aàäâ]');
+        word = word.replace(/[iîï]/g, '[iîï]');
+        return word
     });
     if (words.length == 0) { return this; };
 

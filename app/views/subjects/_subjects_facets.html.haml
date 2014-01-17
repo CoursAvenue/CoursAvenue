@@ -18,7 +18,7 @@
         - elsif subject.grand_parent and subject.grand_parent.image?
           - subject_image = subject.grand_parent.image
         .inline-block.one-quarter.very-soft>
-          .relative.bg-cover{style: "background-image: url(#{subject_image}); height: 150px; "}>
+          .relative.bg-cover{style: "background-image: url('#{subject_image}'); height: 150px; "}>
             %a.block.show-on-hover__wrapper{href: (@city ? subject_city_path(subject, @city) : subject_path(subject)), title: "Cours de #{subject.name}"}>
               .home-screen-gallery__title.text--center{style: (subject.name.length > 27 ? 'margin-top: -1.7em' : '')}
                 %div= subject.name

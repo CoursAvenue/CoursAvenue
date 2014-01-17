@@ -24,6 +24,8 @@ Handlebars.registerHelper('truncate', function(text, length) {
 
 // usage: {{truncate 'my long text' length}}
 Handlebars.registerHelper('highlight', function(text, highlight_word, length) {
+    highlight_word = GLOBAL.normalizeAccents(highlight_word);
+    text           = GLOBAL.normalizeAccents(text);
     var start_ellipsis;
     if (text.length < length) {
         return text;
