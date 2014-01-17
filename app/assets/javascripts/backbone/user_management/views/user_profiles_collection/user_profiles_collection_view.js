@@ -119,9 +119,17 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.collection.add(attributes, { at: 0 });
         },
 
+        onItemviewUpdateSuccess: function (itemView, response) {
+            var action = response.action;
+
+            if (action === "create") {
+                this.newUserProfile();
+            }
+        },
+
         onAfterItemAdded: function (itemView) {
             if (itemView.model.get("new")) {
-                itemView.editable_text.currentView.$el.click();
+                itemView.$(".editable-text").first().click();
 
                 var table_top  = this.$el.offset().top;
                 var scroll_top = $(window).scrollTop();

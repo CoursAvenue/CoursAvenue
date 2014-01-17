@@ -157,7 +157,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         events: {
-            'focusout'            : 'handleBlur',
+            // 'focusout'            : 'handleBlur',
             'change @ui.$checkbox': 'addToSelected',
             'click [data-behavior=modal]': 'showFancybox'
         },
@@ -246,7 +246,13 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         /* given a $field, replace that $field's contents with text */
+        // TODO this method needs to be cleaned up
         finishEditing: function (e) {
+            // we aren't rolling back and the edits are empty
+            if (!e.restore && _.isEmpty(this.edits)) {
+                return;
+            }
+
             this.trigger("toggle:editing", { blur: true });
 
             var $fields   = this.$(this.ui.$editing.selector);
@@ -257,9 +263,14 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             if (e.restore) {
                 this.trigger("rollback");
 
+                if (this.model.get("new")) {
+                    this.close();
+                }
+
             } else {
                 // imediately remove the inputs and show text
                 this.trigger("update:start");
+                var action = this.model.get("new")? "create" : "update";
 
                 this.model.save(update, {
                     error: _.bind(function (model, response) {
@@ -271,6 +282,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 /* apply changes to the DOM based on whether out commit was rejected */
                 }).success(_.bind(function (response) {
                     // on success commit the changes
+                    response.action = action;
                     this.trigger("update:success", response);
                 }, this)).error(_.bind(function () {
                     // on failure, just rollback the text

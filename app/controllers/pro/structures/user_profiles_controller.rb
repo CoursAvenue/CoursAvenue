@@ -41,6 +41,8 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   def create
     @user_profile = @structure.user_profiles.build params[:user_profile]
 
+    add_tags
+
     respond_to do |format|
       if @user_profile.save
         format.json { render json: @user_profile.to_json }
@@ -51,14 +53,18 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     end
   end
 
-  def update
-    @user_profile = @structure.user_profiles.find params[:id]
-
+  def add_tags
     if params[:user_profile].has_key? :tags
       # TODO does this take an array, or a CSV
       tags = params[:user_profile].delete(:tags)
       @structure.tag(@user_profile, with: tags, on: :tags)
     end
+  end
+
+  def update
+    @user_profile = @structure.user_profiles.find params[:id]
+
+    add_tags
 
     respond_to do |format|
       if @user_profile.update_attributes(params[:user_profile])
