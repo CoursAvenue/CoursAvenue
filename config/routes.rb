@@ -32,7 +32,11 @@ CoursAvenue::Application.routes.draw do
       end
 
       resources :city_subject_infos, only: [:new, :create]
-      resources :cities, only: [:index, :edit, :update], path: 'villes', controler: 'pro/cities'
+      resources :cities, only: [:index, :edit, :update], path: 'villes', controler: 'pro/cities' do
+        collection do
+          get 'zip_code_search'
+        end
+      end
       resources :keywords, only: [:index, :create, :destroy]
       resources :search_term_logs, only: [:index]
       resources :subjects
