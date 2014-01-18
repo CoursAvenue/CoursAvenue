@@ -15,7 +15,7 @@
       .grid
         .grid__item.two-twelfths.v-middle>
           = link_to structure_path(@last_comment.structure), class: 'muted-link block' do
-            = image_tag @last_comment.structure.logo.url(:thumb), class: 'block'
+            = image_tag @last_comment.structure.logo.url(:thumb), class: 'block white-circle'
         .grid__item.ten-twelfths.v-middle>
           .quoted.epsilon.quoted--large
             = link_to @last_comment.title, structure_path(@last_comment.structure), class: 'muted-link'
@@ -24,6 +24,7 @@
               = truncate(@last_comment.content, length: 65)
           .milli
             = link_to "Avis écrit par #{@last_comment.author_name} il y a #{distance_of_time_in_words_to_now(@last_comment.created_at)}", structure_path(@last_comment.structure), class: 'muted-link'
+
   .home-screen-gallery.text--center.flexbox.main-container>
     .flexbox__item.one-fifth.home-screen-gallery__link.home-screen-gallery__link-paris
       = link_to city_path('paris'), class: 'relative block', title: "Guide des cours à Paris" do

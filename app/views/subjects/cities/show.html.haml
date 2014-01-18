@@ -6,7 +6,7 @@
     .home-screen.bg-cover{style: "background-image: url('#{@city.image.url}')"}
       - if @subject.image.present?
         .soft--top
-          = image_tag @subject.image.url(:thumb), class: 'block center-block subject-logo', height: 130
+          = image_tag @subject.image.url(:thumb), class: 'block center-block subject-logo white-circle white-circle--thick', height: 130
       %h1.push--bottom.text--center.home-screen-title{style: (@subject.image.present? ? '' : 'padding-top: 3em;')}
         Tous les cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
       - if @subject.title

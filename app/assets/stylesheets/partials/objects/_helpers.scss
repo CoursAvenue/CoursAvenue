@@ -138,3 +138,8 @@
     font-weight     : bold;
     background-color: #FFFFBD;
 }
+
+.white-circle {
+    border: 2px solid white;
+    &.white-circle--thick { border-width: 4px;}
+}
