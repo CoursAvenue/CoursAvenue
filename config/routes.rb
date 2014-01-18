@@ -209,7 +209,7 @@ CoursAvenue::Application.routes.draw do
     resources :medias, only: [:index], controller: 'structures/medias'
   end
 
-  resources :courses, only: [:show, :index], path: 'cours' do
+  resources :courses, only: [:index], path: 'cours' do
     resources :reservations, only: [:new, :create] # Redirection 301 in controller
   end
 
