@@ -1,6 +1,6 @@
 = side_menu_currently_at 'Journées portes ouvertes'
 
-%h4.flush Journées portes ouverte du samedi xx avril 2014
+%h4.flush Journées portes ouverte du week-end du 5 et 6 avril 2014
 .push--bottom
   = link_to "Qu'est-ce que c'est ?", 'javascript:void(0)', data: { toggle: 'collapse', target: '#jpo-details'}
 
@@ -38,8 +38,6 @@
       = "(#{course.event_type_description})"
     - elsif course.event_type.present?
       = "(#{course.event_type})"
-      \—
-    Participants max par créneau : #{course.nb_participants_max}
     .float--right
       = link_to edit_pro_structure_course_open_path(@structure, course) do
         %i.fa.fa-pencil
@@ -52,23 +50,28 @@
       %table.table--data.table--striped
         %thead
           %tr
-            %th Horaire
+            %th Date / Horaire
             %th Public
             %th Niveau
             %th Lieux
-            %th Nombre d'inscrits
+            %th Nombre d'inscrits (max : #{course.nb_participants_max})
             %th
         %tbody
           - course.plannings.each do |planning|
             %tr
-              %td= "#{l(planning.start_time, format: :short)} à #{l(planning.end_time, format: :short)} (#{readable_duration(planning.duration)})"
+              %td
+                = l(planning.start_date, format: :semi_long).capitalize
+                = "de #{l(planning.start_time, format: :short)} à #{l(planning.end_time, format: :short)} (#{readable_duration(planning.duration)})"
               %td= join_audiences planning
               %td= join_levels planning.levels
               %td= planning.place.location.name
               %td
-                .progress.flush
-                  .bar.bar-success{style: "width: #{(planning.possible_participations.length * 100) / planning.nb_participants_max}%;"}
-                    #{planning.possible_participations.length} / #{planning.nb_participants_max}
+                - if planning.possible_participations.any?
+                  .progress.flush
+                    .bar.bar-success{style: "width: #{(planning.possible_participations.length * 100) / planning.nb_participants_max}%;"}
+                      #{planning.possible_participations.length} / #{planning.nb_participants_max}
+                - else
+                  Aucun inscrit
                 - if planning.waiting_list.any?
                   %div
                     %strong Liste d'attente

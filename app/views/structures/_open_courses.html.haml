@@ -1,5 +1,5 @@
 .blue-box.islet.text--center
-  %h4 Journées portes ouverte 2014 — Samedi 12 avril
+  %h4 Journées portes ouverte 2014 — Week-end du 6 et 7 avril
   .delta Participez à un atelier gratuit
 
 - structure.courses.open_courses.each do |course|
@@ -16,16 +16,19 @@
         %table.table--data.table--striped
           %thead
             %tr
-              %th Horaire
+              %th Date / Horaire
               %th Public
               %th Niveau
               %th Lieux
               %th Places restantes
-              %th
+              %th Prix
+              %th.text--right Inscription
           %tbody
             - course.plannings.each do |planning|
               %tr
-                %td= "#{l(planning.start_time, format: :short)} à #{l(planning.end_time, format: :short)} (#{readable_duration(planning.duration)})"
+                %td
+                  = l(planning.start_date, format: :semi_long).capitalize
+                  = "de #{l(planning.start_time, format: :short)} à #{l(planning.end_time, format: :short)} (#{readable_duration(planning.duration)})"
                 %td= join_audiences planning
                 %td= join_levels planning.levels
                 %td
@@ -34,11 +37,15 @@
                 %td
                   - if planning.nb_participants_max - planning.possible_participations.length > 0
                     - participations_left = planning.nb_participants_max - planning.possible_participations.length
-                    = "#{pluralize(participations_left, 'place')} #{'restante'.pluralize(participations_left)}"
                   - else
                     = "#{pluralize(planning.waiting_list.length, 'personne')} sur la liste d'attente"
+                %td
+                  - if course.price
+                    = "#{readable_amount(course.price)}€"
+                  - else
+                    Gratuit
                 %td.text--right
                   - if current_user
-                    = link_to "S'inscrire", planning_participations_path(planning), class: 'btn btn--small btn--green', method: :post
+                    = link_to 'Participer', planning_participations_path(planning), class: 'btn btn--small btn--green', method: :post
                   - else
-                    = link_to "S'inscrire", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Contact form button'])"
+                    = link_to 'Participer', new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Contact form button'])"

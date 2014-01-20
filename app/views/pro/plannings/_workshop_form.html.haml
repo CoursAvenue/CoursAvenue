@@ -54,7 +54,7 @@
 
   = f.input :info, as: :string, placeholder: 'Exemple : Nous préparerons un gâteau au chocolat', label: 'Information (optionnel)'
   .text--center.input
-    = f.submit 'Enregistrer', class: 'btn btn--green'
+    = f.submit 'Enregistrer', class: 'btn btn--green', disable_with: 'Enregistrement en cours...'
 
 :javascript
   if ($('[name="planning[audience_ids][]"]').length > 0) {

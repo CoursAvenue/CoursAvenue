@@ -19,7 +19,7 @@
       = pro_side_menu_link 'Mes infos'      , (@structure.new_record? ? inscription_pro_structures_path : edit_pro_structure_path(@structure)) , current: current_tab,   icon: 'fa fa-user'
       = pro_side_menu_link 'Mes avis'                 , pro_structure_comments_path(@structure)   , current: current_tab, icon: 'fa fa-comments'
       = pro_side_menu_link 'Mes cours'      , pro_structure_courses_path(@structure)    , current: current_tab,   icon: 'fa fa-list'
-      - if current_pro_admin.super_admin?
+      - if current_pro_admin.super_admin? and @structure.parisian?
         = pro_side_menu_link 'Journées portes ouvertes', pro_structure_course_opens_path(@structure)    , current: current_tab,   icon: 'fa fa-list'
       = pro_side_menu_link 'Mes photos & vidéos', pro_structure_medias_path(@structure) , current: current_tab,   icon: 'fa fa-youtube-play'
       - if current_pro_admin.super_admin?

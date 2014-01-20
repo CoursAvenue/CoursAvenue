@@ -504,6 +504,13 @@ class Structure < ActiveRecord::Base
     self.delay.subscribe_to_nutshell
   end
 
+  def parisian?
+    paris_lat    = 48.8592
+    paris_lng    = 2.3417
+    paris_radius = 10
+    Geocoder::Calculations.distance_between([paris_lat, paris_lng], [self.latitude, self.longitude], unit: :km) <= paris_radius
+  end
+
   private
 
   def logo_has_changed?

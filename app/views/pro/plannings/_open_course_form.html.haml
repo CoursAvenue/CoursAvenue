@@ -14,9 +14,13 @@
       &nbsp;
       %i.fa.fa-map-marker
       Ajouter un lieu
-  .input
+  .input.radio
     %label.required.control-label Jour
-    %input.datepicker-input{disabled: true, type: 'text', value: (@planning.start_date.nil? ? '' : l(@planning.start_date)), placeholder: '02/04/2014', name: 'planning[start_date]'}
+    .inline.nowrap.radio
+      %input.inline-block#open-course-saturday{name: 'planning[start_date]', type: 'radio', value: '05/04/2014'}
+      %label.inline-block{for: 'open-course-saturday', checked: true} Samedi 5 avril 2014
+      %input.inline-block#open-course-sunday{name: 'planning[start_date]', type: 'radio', value: '06/04/2014'}
+      %label.inline-block{for: 'open-course-sunday'} Dimanche 6 avril 2014
 
   .input.flush--bottom{data: {behavior: 'time-range', 'start-time-wrapper' => '#start-time-wrapper', 'end-time-wrapper' => '#end-time-wrapper', duration: '#planning_duration'}}
     = f.label :start_time, class: 'control-label' do
@@ -57,7 +61,7 @@
 
   = f.input :info, as: :string, placeholder: 'Exemple : Nous préparerons un gâteau au chocolat', label: 'Information (optionnel)'
   .text--center.input
-    = f.submit 'Enregistrer', class: 'btn btn--green'
+    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: 'Enregistrement en cours...'
 
 :javascript
   if ($('[name="planning[audience_ids][]"]').length > 0) {
