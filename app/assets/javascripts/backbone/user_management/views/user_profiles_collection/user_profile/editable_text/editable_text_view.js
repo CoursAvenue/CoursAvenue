@@ -14,7 +14,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
 
         initialize: function (options) {
             this.announceEdits = _.debounce(_.bind(this.announceEdits, this), 100);
-            this.data = options.data;
+
+            this.data = options.data || "";
             this.attribute = options.attribute;
         },
 
@@ -61,7 +62,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
             if (this.isEditing()) { return; }
 
             this.startEditing(); // this field should start right away
-            this.trigger("field:click", this.$el.find("input")); // TODO we are passing out the whole view for now
+            this.trigger("text:click", this.$el.find("input")); // TODO we are passing out the whole view for now
         },
 
         startEditing: function () {
@@ -94,6 +95,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
         },
 
         /* change the text to the old data */
+        /* we are choosing not to re-focus the field because
+        * this might steal focus from a field in mid edit. */
         rollback: function () {
             this.is_editing = false;
             this.$el.html(this.data);

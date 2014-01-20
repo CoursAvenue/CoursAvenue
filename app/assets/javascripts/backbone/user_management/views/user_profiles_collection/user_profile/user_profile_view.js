@@ -17,11 +17,55 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
             /* TODO we would like not to have to use the on syntax
              * it would be nice to be able to just include these events
-             * in the hash below... */
-            this.on("field:click",    this.startEditing);
+             * in the hash below... We can't because this layout is
+             * never declared on its own: it is created as part of the
+             * collection view. */
+            this.on("tagbar:click",    this.startEditing);
+            this.on("text:click",    this.startEditing);
+            this.on("field:click",    this.announceEditableClicked);
             this.on("field:key:down", this.finishEditing);
             this.on("field:edits",    this.collectEdits);
             this.on("row:blur",       this.finishEditing);
+
+            $(window).scroll(this.stickyControls);
+            this.sticky_home = -1;
+        },
+
+        announceEditableClicked: function (e) {
+            this.trigger("editable:clicked", e);
+        },
+
+        stickyControls: function () {
+            var $control = $("[data-behavior=sticky-controls]");
+
+            var scroll_top = $(window).scrollTop();
+            var control_top = $control.offset().top;
+            var fixed = $control.hasClass("sticky");
+
+            if (!fixed && scroll_top >= control_top) {
+                // we have scrolled past the controls
+
+                var old_width = $control.width();
+                var $placeholder = $control.clone()
+                                      .css({ visibility: "hidden" })
+                                      .attr("data-placeholder", "")
+                                      .attr("data-behavior", "");
+
+                // $placehold stays behind to hold the place
+                $control.parent().prepend($placeholder);
+
+                this.sticky_home = control_top;
+                $control.addClass("sticky");
+                $control.css({ width: old_width });
+            } else if ( fixed && scroll_top < this.sticky_home) {
+                // we have now scrolled back up, and are replacing the controls
+
+                this.$("[data-placeholder]").remove();
+                $control.removeClass("sticky");
+                $control.css({ width: "" });
+                this.sticky_home = -1;
+            }
+
         },
 
         /* incrementally build up a set of attributes */
@@ -116,8 +160,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         events: {
-            'focusout'                   : 'handleBlur',
-            'change @ui.$checkbox'       : 'addToSelected',
+            // 'focusout'            : 'handleBlur',
+            'change @ui.$checkbox': 'addToSelected',
             'click [data-behavior=modal]': 'showFancybox'
         },
 
@@ -201,12 +245,18 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             /* give the main dude focus */
             $target.focus();
 
-            this.trigger("toggle:editing");
         },
 
         /* given a $field, replace that $field's contents with text */
+        // TODO this method needs to be cleaned up
+        // TODO we can probably move the "if restore" code to the top
+        // TODO we can probably remove the !e.restore clause from that conditional
         finishEditing: function (e) {
-            this.trigger("toggle:editing", { blur: true });
+            // we aren't rolling back and the edits are empty
+            if (!e.restore && _.isEmpty(this.edits)) {
+                this.trigger("rollback");
+                return;
+            }
 
             var $fields   = this.$(this.ui.$editing.selector);
             var update    = {
@@ -216,9 +266,14 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             if (e.restore) {
                 this.trigger("rollback");
 
+                if (this.model.get("new")) {
+                    this.close();
+                }
+
             } else {
                 // imediately remove the inputs and show text
                 this.trigger("update:start");
+                var action = this.model.get("new")? "create" : "update";
 
                 this.model.save(update, {
                     error: _.bind(function (model, response) {
@@ -230,6 +285,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 /* apply changes to the DOM based on whether out commit was rejected */
                 }).success(_.bind(function (response) {
                     // on success commit the changes
+                    response.action = action;
                     this.trigger("update:success", response);
                 }, this)).error(_.bind(function () {
                     // on failure, just rollback the text

@@ -39,25 +39,27 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   end
 
   def create
+    tags          = params[:user_profile].delete(:tags) if params[:user_profile].has_key? :tags
     @user_profile = @structure.user_profiles.build params[:user_profile]
+
+    add_tags(tags)
 
     respond_to do |format|
       if @user_profile.save
+        format.json { render json: @user_profile }
         format.html { redirect_to pro_structure_user_profiles_path(@structure) }
       else
+        format.json { render :json => { :errors => @user_profile.errors.full_messages }.to_json, :status => 500 }
         format.html { render :new }
       end
     end
   end
 
   def update
+    tags          = params[:user_profile].delete(:tags) if params[:user_profile].has_key? :tags
     @user_profile = @structure.user_profiles.find params[:id]
 
-    if params[:user_profile].has_key? :tags
-      # TODO does this take an array, or a CSV
-      tags = params[:user_profile].delete(:tags)
-      @structure.tag(@user_profile, with: tags, on: :tags)
-    end
+    add_tags(tags)
 
     respond_to do |format|
       if @user_profile.update_attributes(params[:user_profile])
@@ -84,4 +86,9 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   def load_structure
     @structure = Structure.friendly.find params[:structure_id]
   end
+
+  def add_tags(tags)
+    @structure.tag(@user_profile, with: tags, on: :tags)
+  end
+
 end

@@ -15,12 +15,13 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }
 
             this.poller = Backbone.Poller.get(this.collection, { delay: 5000 });
-            this.poller.on('success', _.bind(function (model) {
-                if (model.jobs !== "false") { return; }
+            this.poller.on('success', _.bind(function (collection) {
+                if (collection.jobs !== "false") { return; }
 
                 this.poller.stop();
             }, this));
 
+            this.on("click:outside", this.flashUnfinishedEdits);
         },
 
         ui: {
@@ -74,6 +75,31 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             return false;
         },
 
+        /* When we click outside, we want the row to change colour, to indicate
+         * pending edits */
+        flashUnfinishedEdits: function () {
+            if (!this.currently_editing) {
+                return;
+            }
+
+            // no edits? no problem!
+            if (_.isEmpty(this.currently_editing.edits)) {
+                this.currently_editing.finishEditing({ restore: false });
+                this.currently_editing = undefined;
+            } else {
+                // there are pending edits, so mark the row unfinished
+                this.currently_editing.$el.addClass("unfinished");
+            }
+        },
+
+        /* if we are clicking back inside an unfinished field
+        * we should mark it as no longer unfinished. */
+        onItemviewEditableClicked: function (row) {
+            if (row.$el.hasClass("unfinished")) {
+                row.$el.removeClass("unfinished");
+            }
+        },
+
         bulkAddTags: function () {
             if (this.currently_editing) {
                 this.currently_editing.finishEditing({ restore: true, source: "button" });
@@ -113,6 +139,32 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             /* TODO we want this to be idempotent: I should be able to start many times
             * without problem */
             this.poller.start();
+        },
+
+        newUserProfile: function () {
+            var attributes = { first_name: "", email: "", last_name: "", tags: "", "new": true };
+            this.collection.add(attributes, { at: 0 });
+        },
+
+        onItemviewUpdateSuccess: function (itemView, response) {
+            var action = response.action;
+
+            if (action === "create") {
+                this.newUserProfile();
+            }
+        },
+
+        onAfterItemAdded: function (itemView) {
+            if (itemView.model.get("new")) {
+                itemView.$(".editable-text").first().click();
+
+                var table_top  = this.$el.offset().top;
+                var scroll_top = $(window).scrollTop();
+
+                if (scroll_top > table_top) {
+                    $(window).scrollTo(table_top, "slow");
+                }
+            }
         },
 
         /* prompt the user to make sure they know how many user profiles they
@@ -240,24 +292,34 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             });
         },
 
-        onItemviewToggleEditing: function (view, data) {
-            this.ui.$commit_buttons.toggle();
-            // var origin   = view.$el.position();
-            // var target   = origin.top + parseInt(view.$el.height() / 2, 10);
-            // var offset   = parseInt(this.ui.$commit_buttons.height() / 2, 10);
-            // var right    = parseInt(this.ui.$commit_buttons.width(), 10);
+        /* animate the controls and commit changes to the
+        * currently_editing row */
+        onItemviewStartEditing: function (view, data) {
+            if (this.currently_editing) {
+                this.currently_editing.finishEditing({ restore: false });
+                this.currently_editing.$el.removeClass("unfinished");
+            }
 
-            // this.ui.$commit_buttons
-            //    .animate({ 'z-index': -1 }, { duration: 0 }) /* move to back */
-            //    .animate({ right: 0 });                      /* slide closed */
-            // if (!data || !data.blur) {
-            //     this.ui.$commit_buttons
-            //         .animate({ top: target - offset }, { duration: 0 }) /* move into position */
-            //         .animate({ right: -(right + 10) })                  /* slide open */
-            //         .animate({ 'z-index': 0 }, { duration: 0 });        /* bring to front */
-            // }
-
+            this.animateCommitCancelControls(view, data);
             this.currently_editing = view;
+        },
+
+        animateCommitCancelControls: function (view, data) {
+//          var origin   = view.$el.position();
+//          var target   = origin.top + parseInt(view.$el.height() / 2, 10);
+//          var offset   = parseInt(this.ui.$commit_buttons.height() / 2, 10);
+//          var right    = parseInt(this.ui.$commit_buttons.width(), 10);
+
+//          this.ui.$commit_buttons
+//              .animate({ 'z-index': -1 }, { duration: 0 }) /* move to back */
+//              .animate({ right: 0 });                      /* slide closed */
+
+//          if (!data || !data.blur) {
+//              this.ui.$commit_buttons
+//                  .animate({ top: target - offset }, { duration: 0 }) /* move into position */
+//                  .animate({ right: -(right + 10) })                  /* slide open */
+//                  .animate({ 'z-index': 0 }, { duration: 0 });        /* bring to front */
+//          }
         },
 
         /* forward events with only the necessary data */
@@ -329,7 +391,29 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         goFullScreen: function () {
             this.$el[0].mozRequestFullScreen();
-        }
+        },
+
+        /* OVERRIDE */
+        /* We are implementing appendHTML here so that we can both
+        * append (normal) and prepend (when using "new") to the
+        * table */
+        appendHtml: function(compositeView, itemView, index){
+            if (compositeView.isBuffering) {
+                compositeView.elBuffer.appendChild(itemView.el);
+            } else {
+                // If we've already rendered the main collection, just
+                // append the new items directly into the element.
+                var $container = this.getItemViewContainer(compositeView);
+
+                // prepend if this is the first model in the collection
+                if (index === 0 ) {
+                    itemView.$el.prependTo($container);
+                } else {
+                    $container.append(itemView.el);
+                }
+            }
+        },
+
     });
 });
 
