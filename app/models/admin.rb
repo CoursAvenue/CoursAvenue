@@ -85,7 +85,7 @@ class ::Admin < ActiveRecord::Base
   private
 
   def delay_subscribe_to_nutshell
-    self.structure.delay_subscribe_to_nutshell
+    self.structure.delay_subscribe_to_nutshell if self.structure
   end
 
   def check_if_was_invited
