@@ -3,6 +3,7 @@
   - theatre = Subject.find('theatre-scene')
   - music   = Subject.find('musique-chant')
   - yoga    = Subject.find('yoga-bien-etre-sante')
+  - paris  = City.find('paris')
   %h2.home-title Guide des disciplines
   %ul.tabs.tabs--white
     %li.active
@@ -26,26 +27,26 @@
         .grid--full.soft-half--ends
           .grid__item.one-half.palm-one-whole.lap-one-whole.soft-half--sides>
             .relative.bg-cover{style: "background-image: url('#{dance.image.url(:small)}'); height: 200px;"}>
-              %a.block.show-on-hover__wrapper{href: subject_city_path(dance, 'paris'), title: "Cours de danse à Paris"}>
+              %a.block.show-on-hover__wrapper{href: vertical_page_url(dance, paris), title: "Cours de danse à Paris"}>
                 .home-screen-gallery__title.text--center
                   Danse
                   .milli.show-on-hover__child Voir le guide
           .grid__item.one-half.palm-one-whole.lap-one-whole.relative.soft-half--right>
             .relative.bg-cover{style: "background-image: url('#{theatre.image.url(:small)}'); height: 200px;"}
-              %a.block.show-on-hover__wrapper{href: subject_city_path(theatre, 'paris'), title: "Cours de théâtre et scène à Paris"}>
+              %a.block.show-on-hover__wrapper{href: vertical_page_url(theatre, paris), title: "Cours de théâtre et scène à Paris"}>
                 .home-screen-gallery__title.text--center
                   Théâtre & Scène
                   .milli.show-on-hover__child Voir le guide
         .grid--full
           .grid__item.one-half.palm-one-whole.lap-one-whole.relative.soft-half--sides>
             .relative.bg-cover{style: "background-image: url('#{music.image.url(:small)}'); height: 200px;"}
-              %a.block.show-on-hover__wrapper{href: subject_city_path(music, 'paris'), title: "Cours de danse à Paris"}>
+              %a.block.show-on-hover__wrapper{href: vertical_page_url(music, paris), title: "Cours de danse à Paris"}>
                 .home-screen-gallery__title.text--center
                   Musique & Chant
                   .milli.show-on-hover__child Voir le guide
           .grid__item.one-half.palm-one-whole.lap-one-whole.relative.soft-half--right>
             .relative.bg-cover{style: "background-image: url('#{yoga.image.url(:small)}'); height: 200px;"}
-              %a.block.show-on-hover__wrapper{href: subject_city_path(yoga, 'paris'), title: "Cours de danse à Paris"}>
+              %a.block.show-on-hover__wrapper{href: vertical_page_url(yoga, paris), title: "Cours de danse à Paris"}>
                 .home-screen-gallery__title.text--center
                   Yoga, Bien-être & Santé
                   .milli.show-on-hover__child Voir le guide

@@ -1,15 +1,14 @@
-.main-container.share-wrapper.text--right{style: 'padding: 5px 0;'}
-  .grid
-    .grid__item.width-auto.v-middle.twitter-button>
-      %a{href: "https://twitter.com/coursavenue", class: 'twitter-follow-button', 'data-show-count' => 'true', 'data-lang' => I18n.locale} Suivre @CoursAvenue
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-    .grid__item.width-auto.v-middle.facebook-button>
-      <div style="display:none;" id="fb-root"></div>
-      <script>(function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=589759807705512";
-      fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));</script>
-      <div class="fb-like" data-href="http://www.facebook.com/CoursAvenue" data-send="false" data-width="500" data-show-faces="false" data-layout="button_count"></div>
+.grid--full.main-container.share-wrapper.text--right
+  .grid__item.v-middle.twitter-button{style: 'width: 160px; overflow: hidden'}>
+    %a{href: "https://twitter.com/coursavenue", class: 'twitter-follow-button', 'data-show-count' => 'false', 'data-lang' => I18n.locale} Suivre @CoursAvenue
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+  .grid__item.push-half--left.v-middle.facebook-button{style: 'width: 60px; overflow: hidden'}>
+    <div style="display:none;" id="fb-root"></div>
+    <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1&appId=589759807705512";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <div class="fb-like" data-href="http://www.facebook.com/CoursAvenue" data-send="false" data-width="500" data-show-faces="false" data-layout="button_count"></div>

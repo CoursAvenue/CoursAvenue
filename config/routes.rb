@@ -186,13 +186,6 @@ CoursAvenue::Application.routes.draw do
   get 'auth/failure'           , to: redirect('/')
   get 'signout'                , to: 'session#destroy', as: 'signout'
 
-  resources :cities, only: [:show], path: 'tous-les-cours-a' do
-    collection do
-      get 'zip_code_search'
-    end
-    resources :subjects, only: [:show], path: 'disciplines', controller: 'cities/subjects'
-  end
-
   resources :locations, only: [:index]
 
   resources :reservations, only: [:create]
@@ -214,14 +207,31 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :keywords, only: [:index]
+  ########### Vertical pages ###########
+  ## With city
+  # Root subject
+  get 'cours-de-:subject_id-a/:id'                 , to: 'subjects/cities#show', as: :vertical_root_subject_city
+  # Child subject
+  get 'cours-de-:parent_subject_id/:subject_id/:id', to: 'subjects/cities#show', as: :vertical_subject_city
+  ## Without city
+  # Root subject
+  get 'cours-de-:id'                               , to: 'subjects#show'       , as: :vertical_root_subject
+  # Child subject
+  get 'cours-de-:parent_subject_id/:id'            , to: 'subjects#show'       , as: :vertical_subject
+  ########### Vertical pages ###########
+
+  resources :cities, only: [:show], path: 'tous-les-cours-a' do
+    resources :subjects, only: [:show], path: 'disciplines', controller: 'cities/subjects'
+  end
+
   resources :subjects, only: [:show, :index], path: 'cours' do
-    resources :cities, only: [:show], path: 'a', controller: 'subjects/cities' do
-      resources :medias, only: [], controller: 'subjects/cities/medias' do
-        collection do
-          get :videos
-        end
-      end
-    end
+    # resources :cities, only: [:show], path: 'a', controller: 'subjects/cities' do
+    #   resources :medias, only: [], controller: 'subjects/cities/medias' do
+    #     collection do
+    #       get :videos
+    #     end
+    #   end
+    # end
     collection do
       get :tree
       get :tree_2
@@ -240,6 +250,9 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- Redirection 301
   # ---------------------------------------------------------
   # Catching all 301 redirection
+  resources :subjects, only: [:show, :index], path: 'cours' do
+    resources :cities, only: [:show], path: 'a', to: 'redirect#subject_city'
+  end
   resources :subjects, only: [], path: 'disciplines' do
     resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
   end
