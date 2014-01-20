@@ -11,9 +11,13 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 self.listenTo(self[region_name], 'show', self['on' + name + 'Show']);
             });
 
+            /* click outside events are not broadcast so they must be
+             * subscribed to with 'on' when the relevant view is initialized */
             $(document).on('click', function (e) {
                 _.each(_.keys(self.regionManager._regions), function (key) {
-                    if (self[key].currentView) {
+                    var view = self[key].currentView;
+
+                    if (view && view.$el.find(e.target).length === 0) {
                         self[key].currentView.triggerMethod('click:outside', e);
                     }
                 });
@@ -127,6 +131,10 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         /* any events that come from the results region will be
         * triggered again from the layout */
         broadcast: function(e, params) {
+            if (e === "click:outside") {
+                return;
+            }
+
             this.trigger(e, params);
         }
     });
