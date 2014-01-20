@@ -243,9 +243,4 @@
     background-size     : 100%;
     color               : white;
     text-shadow         : $gray;
-    @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/bulle.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('icons/bulle.png')}',sizingMethod='scale')";
-    }
 }

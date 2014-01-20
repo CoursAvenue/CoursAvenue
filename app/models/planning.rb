@@ -116,8 +116,20 @@ class Planning < ActiveRecord::Base
       self.structure.name
     end
 
+    text :course_name do
+      self.course.name
+    end
+
+    text :course_subjects_name do
+      self.course.subjects.uniq.map(&:name)
+    end
+
     text :course_names do
       self.structure.courses.map(&:name)
+    end
+
+    text :course_description do
+      self.course.description
     end
 
     # text :structure_description do

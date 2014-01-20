@@ -12,11 +12,14 @@ class CourseSearch
 
       with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: true)
 
+      # --------------- Subjects
       if params[:subject_slugs].present?
         with(:subject_slugs).any_of           params[:subject_slugs]
       else
         with(:subject_slugs).any_of           [params[:subject_id]]                                 if params[:subject_id]
       end
+
+      with :has_description,                params[:has_description]                                if params[:has_description]
       with :structure_id,                   params[:structure_id].to_i                              if params[:structure_id]
       with(:type).any_of                    params[:types]                                          if params[:types].present?
       with(:audience_ids).any_of            params[:audiences]                                      if params[:audiences].present?

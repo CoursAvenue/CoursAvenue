@@ -17,6 +17,9 @@
     }
 }
 
+.white-box--rounded {
+    @include border-radius(5em);
+}
 .white-box--noshadow {
     @extend .white-box;
     @include box-shadow(none!important);

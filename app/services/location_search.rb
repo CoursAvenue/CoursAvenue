@@ -12,6 +12,14 @@ class LocationSearch
     @search = Sunspot.search(Location) do
       # --------------- Geolocation
       with(:location).in_radius(params[:lat], params[:lng], params[:radius] || 7, bbox: (params.has_key?(:bbox) ? params[:bbox] : true)) if params[:lat].present? and params[:lng].present?
+
+      # --------------- Subjects
+      if params[:subject_slugs].present?
+        with(:subject_slugs).any_of           params[:subject_slugs]
+      else
+        with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id].present?
+      end
+
       paginate page: (params[:page] || 1), per_page: (params[:per_page] || 15)
     end
 

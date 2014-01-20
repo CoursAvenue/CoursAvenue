@@ -86,6 +86,7 @@
 // require plugins/drop_down
 // require plugins/dropped_options
 // require plugins/flash
+// require plugins/highlight
 // require plugins/input_updaters
 // require plugins/read_more
 // require plugins/text_counter

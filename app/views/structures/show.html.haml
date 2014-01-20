@@ -39,7 +39,7 @@
   .grid__item.eight-twelfths>
     = render partial: 'structures/structure_header', locals: {structure: @structure}
 
-    = render partial: 'structures/map_and_galery', locals: {structure: @structure, places: @structure.places, medias: @medias}
+    = render partial: 'structures/map_and_gallery', locals: {structure: @structure, places: @structure.places, medias: @medias}
 
     - if @structure.courses.open_courses.any?
       = render partial: 'structures/open_courses', locals: {structure: @structure}

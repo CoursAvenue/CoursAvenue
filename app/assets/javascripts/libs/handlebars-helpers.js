@@ -22,6 +22,22 @@ Handlebars.registerHelper('truncate', function(text, length) {
     }
 });
 
+// usage: {{truncate 'my long text' length}}
+Handlebars.registerHelper('highlight', function(text, highlight_word, length) {
+    highlight_word = GLOBAL.normalizeAccents(highlight_word);
+    text           = GLOBAL.normalizeAccents(text);
+    var start_ellipsis;
+    if (text.length < length) {
+        return text;
+    } else {
+        if ((start_ellipsis = text.toLowerCase().indexOf(highlight_word.toLowerCase())) != -1 && start_ellipsis > 10) {
+            start_ellipsis = start_ellipsis - 10; // Starts 10 character before where the word is.
+        }
+        start_ellipsis = (start_ellipsis === -1 ? 0 : start_ellipsis);
+        return (start_ellipsis === 0 ? '' : '...') + text.slice(start_ellipsis, start_ellipsis + length) + "...";
+    }
+});
+
 
 
 Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {

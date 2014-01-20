@@ -4,3 +4,11 @@ fr:
       subject: Discipline
     attributes:
       subject:
+        good_to_know: Bon à savoir
+        needed_meterial: Le matériel à prévoir
+        tips: Astuces et anecdotes
+      city_subject_info:
+        where_to_practice: Où pratiquer ?
+        where_to_suit_up: Où s'équiper ?
+        average_price: Prix moyen
+        tips: "Astuces & anecdotes"

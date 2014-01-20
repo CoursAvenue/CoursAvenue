@@ -1,23 +1,64 @@
+= side_menu_currently_at 'Pages verticales'
+
+.text--center.push-half--bottom
+  = link_to 'Éditer les villes', pro_cities_path, class: 'btn btn--green'
+
+- @paris = City.find('paris')
 %table.table--data.table--striped.white-box#dataTable
   %thead
     %tr
-      %th Nom
+      %th Discipline 1
+      %th Discipline 2
+      %th Discipline 3
+      %th # profil
       %th Image
+      %th
       %th
   %tbody
     - @structure_search.facet(:subject_ids).rows.each do |facet|
       - subject = Subject.find(facet.value)
       %tr
+        %td= subject.root.name
         %td
-          - if subject.parent
-            = "#{subject.parent.name} - #{subject.name} (#{facet.count})"
-          - else
+          - if subject.depth == 1
+            = link_to subject.name, "##{subject.slug}"
+          - elsif subject.depth == 2
+            = link_to subject.parent.name, "##{subject.parent.slug}"
+        %td
+          - if subject.depth == 2
             = subject.name
+        %td= facet.count
+        %td{data: {value: subject.image.present? ? '0' : '1'}}
+          - if subject.image.present?
+            %i.fa.fa-check
+        %td.nowrap
+          = link_to 'Editer', edit_pro_subject_path(subject)
+          \/
+          = link_to 'Paris', new_pro_city_subject_info_path(city_id: @paris.id, subject_id: subject.id)
+        %td.nowrap
+          = link_to 'Lien', vertical_page_url(subject), target: :_blank
+          \/
+          = link_to 'Lien Paris', vertical_page_url(subject, @paris), target: :_blank
+
+%h2 Disciplines niveau 2
+%table.table--data.table--striped.white-box#dataTable{style: 'margin-bottom: 1000px;'}
+  %thead
+    %tr
+      %th Maman
+      %th Enfant
+      %th Image
+      %th
+      %th
+  %tbody
+    - Subject.at_depth(1).each do |subject|
+      %tr{id: subject.slug}
+        %td= subject.root.name
+        %td= subject.name
         %td{data: {value: subject.image.present? ? '0' : '1'}}
           - if subject.image.present?
             %i.fa.fa-check
         %td= link_to 'Editer', edit_pro_subject_path(subject)
-
+        %td= link_to 'Paris', new_pro_city_subject_info_path(city_id: @paris.id, subject_id: subject.id)
 
 = content_for :scripts do
   :javascript

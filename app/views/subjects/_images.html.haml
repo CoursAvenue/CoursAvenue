@@ -1,0 +1,42 @@
+- if @images.any?
+  %h3.text--center
+    Sélection des photos de cours de <strong>#{@subject.name.downcase}</strong>
+    - if @city
+      à
+      %strong= @city.name
+
+  #gallery
+    .media-gallery.white-box.push--bottom>
+      - @images.each do |media|
+        .media__item.one-quarter.soft-half>
+          %a.block.break-all{rel: 'gallery', href: media.url, title: media.caption, data: {behavior: "fancy"}}
+            = media.url_html lazy: true
+            %i.fa.fa-expand
+
+
+  %hr
+
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          // Using one load prevents from not triggering the event if the image is in cache
+          var has_trigger_gallery_loading = false;
+          $(document).scroll(function(){
+              if (!has_trigger_gallery_loading) { $("#gallery .media__item img").trigger('gallery:show'); }
+              has_trigger_gallery_loading = true;
+          });
+          if ($(document).scrollTop() > 0) {
+              if (!has_trigger_gallery_loading) { $("#gallery .media__item img").trigger('gallery:show'); }
+              has_trigger_gallery_loading = true;
+          }
+          $("#gallery .media__item img").lazyload({
+              effect : "fadeIn",
+              event: 'gallery:show',
+              skip_invisible: true,
+              load: function(elements_left, settings) {
+                  if (elements_left == 0) {
+                     $('.media-gallery').masonry({ itemSelector: '.media__item' });
+                  }
+              }
+          });
+      });

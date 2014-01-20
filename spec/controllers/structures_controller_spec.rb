@@ -43,6 +43,13 @@ describe StructuresController do
       result.keys.should include('meta')
       assigns(:structure_search).total.should eq(result['meta']['total'])
     end
+  end
 
+  describe :show do
+    let(:structure) { FactoryGirl.create(:structure_with_place) }
+    it 'returns 200' do
+      get :show, id: structure.id
+      expect(response.status).to eq(200)
+    end
   end
 end

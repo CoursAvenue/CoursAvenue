@@ -156,6 +156,10 @@ class Course < ActiveRecord::Base
       plannings.map(&:end_time).uniq.compact
     end
 
+    boolean :has_description do
+      self.description.present?
+    end
+
     boolean :has_comment do
       comments.count > 0
     end

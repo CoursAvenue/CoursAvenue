@@ -2,6 +2,22 @@
 SitemapGenerator::Sitemap.default_host = "http://www.coursavenue.com"
 
 SitemapGenerator::Sitemap.create do
+  def vertical_page_path(subject, city=nil)
+    if city
+      if subject.depth == 0
+        return vertical_root_subject_city_path(subject, city, subdomain: 'www')
+      else
+        return vertical_subject_city_path(subject.root, subject, city, subdomain: 'www')
+      end
+    else
+      if subject.depth == 0
+        return vertical_root_subject_path(subject, subdomain: 'www')
+      else
+        return vertical_subject_path(subject.root, subject, subdomain: 'www')
+      end
+    end
+  end
+
   # Put links creation logic here.
   #
   # The root path '/' and sitemap index file are added automatically for you.
@@ -31,6 +47,13 @@ SitemapGenerator::Sitemap.create do
   add courses_path, priority: 0.8, changefreq: 'daily'
   add structures_path, priority: 0.8, changefreq: 'daily'
 
+  @paris = City.find 'paris'
+
+  Subject.all.each do |subject|
+    add vertical_page_path(subject), priority: 0.8, changefreq: 'weekly'
+    add vertical_page_path(subject, @paris), priority: 0.8, changefreq: 'weekly'
+  end
+
   Structure.all.each do |structure|
     add structure_path structure, changefreq: 'daily'
   end
@@ -38,10 +61,6 @@ SitemapGenerator::Sitemap.create do
     add structure_course_path(course.structure, course), lastmod: course.updated_at, priority: 0.8, changefreq: 'daily'
   end
 
-  Subject.all.each do |subject|
-    add subject_courses_path(subject), priority: 0.8, changefreq: 'daily'
-    add subject_structures_path(subject), priority: 0.8, changefreq: 'daily'
-  end
 
   [ pages_why_path,
     pages_how_it_works_path,

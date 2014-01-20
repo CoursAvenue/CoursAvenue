@@ -12,10 +12,13 @@ class Subject < ActiveRecord::Base
   has_and_belongs_to_many :structures
   has_and_belongs_to_many :users
   has_and_belongs_to_many :comments
+  has_and_belongs_to_many :medias
 
   has_many :passions
+  has_many :city_subject_infos
 
-  attr_accessible :name, :short_name, :image, :info, :parent, :position
+  attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image,
+                  :good_to_know, :needed_meterial, :tips
 
   validates :name, presence: true
   validates :name, uniqueness: {scope: 'ancestry'}
@@ -47,5 +50,29 @@ class Subject < ActiveRecord::Base
       parent_name: self.parent.try(:name),
       slug:        self.slug
     }
+  end
+
+  def good_to_know
+    if read_attribute(:good_to_know).nil? and self.parent
+      self.parent.good_to_know
+    else
+      read_attribute(:good_to_know)
+    end
+  end
+
+  def needed_meterial
+    if read_attribute(:needed_meterial).nil? and self.parent
+      self.parent.needed_meterial
+    else
+      read_attribute(:needed_meterial)
+    end
+  end
+
+  def tips
+    if read_attribute(:tips).nil? and self.parent
+      self.parent.tips
+    else
+      read_attribute(:tips)
+    end
   end
 end
