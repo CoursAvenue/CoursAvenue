@@ -23,6 +23,11 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
 
         onRender: function() {
             this.$('[data-behavior=tooltip]').tooltip();
+            this.highlight();
+        },
+
+        onAccordeonOpen: function() {
+            this.highlight();
         },
 
         /* TODO accordioncontrol is defined on the parent, so it feels
@@ -59,12 +64,17 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
             this.trigger('unhighlighted', this.placesToJSON());
         },
 
+        highlight: function() {
+            if (this.search_term) {
+                this.$el.highlight(this.search_term);
+            }
+        },
+
         serializeData: function () {
             var data = this.model.toJSON();
             data.search_term = this.search_term;
 
             return data;
         }
-
     });
 });

@@ -15,7 +15,7 @@
       .grid
         .grid__item.two-twelfths.v-middle>
           = link_to structure_path(@last_comment.structure), class: 'muted-link block' do
-            = image_tag @last_comment.structure.logo.url(:thumb), class: 'block'
+            = image_tag @last_comment.structure.logo.url(:thumb), class: 'block white-circle'
         .grid__item.ten-twelfths.v-middle>
           .quoted.epsilon.quoted--large
             = link_to @last_comment.title, structure_path(@last_comment.structure), class: 'muted-link'
@@ -24,38 +24,39 @@
               = truncate(@last_comment.content, length: 65)
           .milli
             = link_to "Avis écrit par #{@last_comment.author_name} il y a #{distance_of_time_in_words_to_now(@last_comment.created_at)}", structure_path(@last_comment.structure), class: 'muted-link'
-  .home-screen-gallery.text--center.flexbox.main-container>
-    .flexbox__item.one-fifth.home-screen-gallery__link.home-screen-gallery__link-paris
+
+  .home-screen-gallery.text--center.grid.main-container>
+    .grid__item.one-fifth.lap-one-half.palm-one-whole.home-screen-gallery__link.home-screen-gallery__link-paris>
       = link_to city_path('paris'), class: 'relative block', title: "Guide des cours à Paris" do
         .home-screen-gallery__title Guide des cours à Paris
-    .flexbox__item.one-fifth.home-screen-gallery__link.home-screen-gallery__link-trial
+    .grid__item.one-fifth.lap-one-half.palm-one-whole.home-screen-gallery__link.home-screen-gallery__link-trial>
       = link_to structures_path(trial_course_amount: 0), class: 'relative block', title: "Cours d'essai gratuits" do
         .home-screen-gallery__title Cours d'essai gratuits
-    .flexbox__item.one-fifth.home-screen-gallery__link.home-screen-gallery__link-kids
+    .grid__item.one-fifth.lap-one-half.palm-one-whole.home-screen-gallery__link.home-screen-gallery__link-kids>
       = link_to structures_path(audience_ids: [Audience::KID.id]), class: 'relative block', title: "Cours pour enfants" do
         .home-screen-gallery__title Cours pour enfants
-    .flexbox__item.one-fifth.home-screen-gallery__link.home-screen-gallery__link-weekend
+    .grid__item.one-fifth.lap-one-half.palm-one-whole.home-screen-gallery__link.home-screen-gallery__link-weekend>
       = link_to structures_path(week_days: [0, 6]), class: 'relative block', title: "Cours le week-end" do
         .home-screen-gallery__title Cours le week-end
-    .flexbox__item.one-fifth.home-screen-gallery__link.home-screen-gallery__link-night
+    .grid__item.one-fifth.lap-one-half.palm-one-whole.home-screen-gallery__link.home-screen-gallery__link-night>
       = link_to structures_path(start_hour: 18), class: 'relative block', title: "Cours du soir" do
         .home-screen-gallery__title Cours du soir
 
-  .push-half--ends.center-block{style: 'width: 800px;'}
-    .grid--full
+  .push-half--top.center-block{style: 'width: 800px;'}
+    .grid--full.visuallyhidden--palm.visuallyhidden--lap
       .grid__item.text--center.epsilon.soft-half.relative.v-middle{style: 'width: 30%;' }>
-        = link_to structures_path, class: 'block muted-link pointer white-box soft-half white-box--rounded', data: { toggle: 'popover', content: "Trouvez le cours correspondant à tous vos critères", 'original-title' => '', trigger: 'hover', placement: 'top'} do
+        = link_to structures_path, class: 'block muted-link pointer white-box soft-half white-box--rounded', data: { toggle: 'popover', content: "Trouvez le cours correspondant à tous vos critères : discipline, lieu, niveau, horaires, prix, etc.", 'original-title' => 'Trouvez', trigger: 'hover', placement: 'top'} do
           = image_tag "icons/search-geoloc.png", height: 27, class: 'v-middle push-half--right'
           %span.v-middle 1. Trouvez
       .grid__item.text--center.relative.v-middle{style: 'width: 5%;' }>
         %i.fa.fa-chevron-right.alpha.smooth-black-text-shadow.white
       .grid__item.text--center.epsilon.soft-half.relative.v-middle{style: 'width: 30%;' }>
-        .pointer.white-box.soft-half.white-box--rounded{data: { toggle: 'popover', content: "Contactez gratuitement le professeur ou l'école pour une 1ère séance ou un cours d'essai gratuit.", placement: 'top', 'original-title' => '', trigger: 'hover' } }
+        .pointer.white-box.soft-half.white-box--rounded{data: { toggle: 'popover', content: "Contactez gratuitement le professeur, l’association ou l'école pour un stage, une 1ère séance ou un cours d'essai gratuit.", placement: 'top', 'original-title' => 'Contactez gratuitement', trigger: 'hover' } }
           %i.fa.fa-phone.gamma.v-middle.push-half--right.line-height-normal
           %span.v-middle 2. Contactez
       .grid__item.text--center.relative.v-middle{style: 'width: 5%;' }>
         %i.fa.fa-chevron-right.alpha.smooth-black-text-shadow.white
       .grid__item.text--center.epsilon.soft-half.relative.v-middle{style: 'width: 30%;' }>
-        .pointer.white-box.soft-half.white-box--rounded{data: { toggle: 'popover', content: "Assistez au cours et laissez votre témoignage", placement: 'top', trigger: 'hover', 'original-title' => '' } }
+        .pointer.white-box.soft-half.white-box--rounded{data: { toggle: 'popover', content: "Une fois inscrit, assistez au cours puis laissez votre témoignage : votre expérience est précieuse pour les prochains élèves !", placement: 'top', trigger: 'hover', 'original-title' => 'Apprenez et recommandez' } }
           %i.fa.fa-check.gamma.v-middle.push-half--right.line-height-normal
           %span.v-middle 3. Assistez au cours

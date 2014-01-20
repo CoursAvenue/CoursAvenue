@@ -3,11 +3,11 @@
 
 = content_for :above_container do
   - if @city.image.present?
-    .home-screen.bg-cover{style: "background-image: url(#{@city.image.url})"}
-      %h1.push--bottom.text--center.home-screen-title{style: 'padding-top: 3em;'}
+    .home-screen.bg-cover{style: "background-image: url('#{@city.image.url}')"}>
+      %h1.text--center.home-screen-title{style: 'padding-top: 3em;'}
         Tous les cours à #{@city.name}
       - if @city.title
-        %h4.center-block.text--center.home-screen-title{style: 'width: 1000px'}
+        %h4.push--top.center-block.text--center.home-screen-title{style: 'width: 1000px'}
           = @city.title
   - else
     #map.google-map.google-map--medium-small
@@ -63,24 +63,7 @@
       %th Coordonnées
       %td= "#{@city.latitude}, #{@city.longitude}"
 
-%h3.text--center.soft--top Guide des disciplines à #{@city.name}
-.main-container
-  - # Show facets with more than 10 results
-  .grid--full.text--center.hard.push--bottom>
-    - @structure_search.facet(:subject_ids).rows.reject{|facet| facet.count < 15}[0..4].each do |facet|
-      - subject = Subject.find(facet.value)
-      - if subject.image?
-        - subject_image = subject.image
-      - elsif subject.parent and subject.parent.image?
-        - subject_image = subject.parent.image
-      - elsif subject.grand_parent and subject.grand_parent.image?
-        - subject_image = subject.grand_parent.image
-      .grid__item.one-fifth.very-soft>
-        .relative.bg-cover{style: "background-image: url(#{subject_image}); height: 150px;"}>
-          %a.block.show-on-hover__wrapper{href: subject_city_path(subject, @city), title: "Cours de #{subject.name} à #{@city.name}"}>
-            .home-screen-gallery__title.text--center
-              = subject.name
-              .show-on-hover__child.milli #{facet.count} structures
+= render partial: 'subjects/subjects_facets', locals: { with_root: true }
 
 - unless @city.image.present?
   = content_for :scripts do

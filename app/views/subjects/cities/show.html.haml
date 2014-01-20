@@ -3,17 +3,17 @@
 
 = content_for :above_container do
   - if @city.image.present?
-    .home-screen.bg-cover{style: "background-image: url(#{@city.image.url})"}
+    .home-screen.bg-cover{style: "background-image: url('#{@city.image.url}')"}
       - if @subject.image.present?
         .soft--top
-          = image_tag @subject.image.url(:thumb), class: 'block center-block subject-logo', height: 130
-      %h1.push--bottom.text--center.home-screen-title{style: (@subject.image.present? ? '' : 'padding-top: 3em;')}
+          = image_tag @subject.image.url(:thumb), class: 'block center-block subject-logo white-circle white-circle--thick', height: 130
+      %h1.text--center.home-screen-title{style: (@subject.image.present? ? '' : 'padding-top: 3em;')}
         Tous les cours de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
-      - if @subject.title
-        %h4.center-block.text--center.home-screen-title{style: 'width: 1000px'}
+      - if @subject.title.present?
+        %h4.push--top.center-block.text--center.home-screen-title{style: 'width: 1000px'}
           = @subject.title
-      - elsif @city.title
-        %h4.center-block.text--center.home-screen-title{style: 'width: 1000px'}
+      - elsif @city.title.present?
+        %h4.push--tops.center-block.text--center.home-screen-title{style: 'width: 1000px'}
           = @city.title
   - else
     #map.google-map.google-map--medium-small
@@ -51,29 +51,7 @@
 
 = render partial: 'subjects/subjects_facets'
 
-%h3.text--center Sélection des profils de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
-
-.text--center.push--bottom
-  = link_to structures_path(lat: @city.latitude, lng: @city.longitude, name: @subject.name), class: 'btn btn--green btn--large' do
-    Voir tous les cours de
-    %strong= @subject.name
-    à
-    %strong= @city.name
-
-
-.grid.push--bottom
-  .grid__item.three-fifths>
-    #structures-map.google-map.google-map--large
-  .grid__item.two-fifths>
-    - @structures[0..5].each do |structure|
-      - comment = structure.comments.where{(title != nil) & (title != '')}.first
-      - if comment
-        = render partial: 'structures/structure_with_comment', locals: {structure: structure, comment: comment}
-    = link_to 'Voir les autres profils', subject_structures_path(@subject, address_name: @city.name, latitude: @city.latitude, longitude: @city.longitude), class: 'btn btn--full btn--large', target: '_blank'
-
-
-
-%hr
+= render partial: 'subjects/structures_list'
 
 = render partial: 'subjects/comments', locals: { comments: @comments }
 

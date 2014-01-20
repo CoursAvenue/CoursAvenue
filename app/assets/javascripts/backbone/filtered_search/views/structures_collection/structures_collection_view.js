@@ -2,11 +2,31 @@
  * its pagination UI element */
 
 FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbone, Marionette, $, _) {
+    var EmptyStrcutureList = Marionette.ItemView.extend({
+        tagName: 'div',
+        template: Module.templateDirname() + 'empty_structures_collection_view',
+
+        initialize: function(options) {
+            this.search_term  = options.search_term;
+            this.subject_name = options.subject_name;
+        },
+
+        serializeData: function() {
+            return {
+                search_term: this.search_term,
+                subject_name: this.subject_name
+            }
+        }
+
+    });
+
     Module.StructuresCollectionView = CoursAvenue.Views.PaginatedCollectionView.extend({
         template: Module.templateDirname() + 'structures_collection_view',
         itemView: Module.Structure.StructureView,
         itemViewContainer: 'ul.' + FilteredSearch.slug + '__list',
         className: 'relative',
+
+        emptyView: EmptyStrcutureList,
 
         /* forward events with only the necessary data */
         onItemviewHighlighted: function (view, data) {
@@ -23,6 +43,7 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
         onItemviewCourseFocus: function (view, data) {
             this.trigger('structures:itemview:peacock', data);
         },
+
 
         findItemView: function (data) {
             /* find the first place that has any locations that match the given lat/lng */
@@ -97,6 +118,11 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             });
 
             this.trigger('structures:updated:maps');
+
+            this.trigger('structures:updated:infinite_scroll', {
+                structures_count: this.collection.length,
+                per_page: this.collection.paginator_ui.perPage
+            });
         },
 
         renderSlideshows: function() {
@@ -125,8 +151,15 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
                     $this.find('.rslides').removeClass('hidden');
                 });
             });
+        },
+
+        itemViewOptions: function() {
+            var subject_name = $('[data-value="' + decodeURIComponent(this.collection.server_api.subject_id) + '"]').text().trim();
+            return {
+                search_term: decodeURIComponent(this.collection.server_api.name),
+                subject_name: subject_name
+            }
         }
 
     });
 });
-

@@ -7,11 +7,6 @@
     background-repeat: no-repeat;
     background-image : asset-url('badges/free_trial.png');
     @include background-size(100%);
-    @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('badges/free_trial.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('badges/free_trial.png')}',sizingMethod='scale')";
-    }
 }
 
 .promotion-badge {
@@ -25,11 +20,6 @@
     background-position: bottom;
     z-index            : 10;
     @include background-size(100%);
-    @media \0screen {
-        background: none;
-        filter    : progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('badges/promotion.png')}', sizingMethod='scale');
-        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='#{image-path('badges/promotion.png')}',sizingMethod='scale')";
-    }
 }
 
 .badge {

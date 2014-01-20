@@ -32,7 +32,11 @@ CoursAvenue::Application.routes.draw do
       end
 
       resources :city_subject_infos, only: [:new, :create]
-      resources :cities, only: [:index, :edit, :update], path: 'villes', controler: 'pro/cities'
+      resources :cities, only: [:index, :edit, :update], path: 'villes', controler: 'pro/cities' do
+        collection do
+          get 'zip_code_search'
+        end
+      end
       resources :keywords, only: [:index, :create, :destroy]
       resources :search_term_logs, only: [:index]
       resources :subjects
@@ -184,13 +188,6 @@ CoursAvenue::Application.routes.draw do
   get 'auth/failure'           , to: redirect('/')
   get 'signout'                , to: 'session#destroy', as: 'signout'
 
-  resources :cities, only: [:show], path: 'villes' do
-    collection do
-      get 'zip_code_search'
-    end
-    resources :subjects, only: [:show], path: 'disciplines', controller: 'cities/subjects'
-  end
-
   resources :locations, only: [:index]
 
   resources :reservations, only: [:create]
@@ -207,19 +204,29 @@ CoursAvenue::Application.routes.draw do
     resources :medias, only: [:index], controller: 'structures/medias'
   end
 
-  resources :courses, only: [:show, :index], path: 'cours' do
+  resources :courses, only: [:index], path: 'cours' do
     resources :reservations, only: [:new, :create] # Redirection 301 in controller
   end
 
   resources :keywords, only: [:index]
-  resources :subjects, only: [:show, :index], path: 'disciplines' do
-    resources :cities, only: [:show], path: 'villes', controller: 'subjects/cities' do
-      resources :medias, only: [], controller: 'subjects/cities/medias' do
-        collection do
-          get :videos
-        end
-      end
-    end
+  ########### Vertical pages ###########
+  ## With city
+  # Root subject
+  get 'cours-de-:subject_id-a/:id'                 , to: 'subjects/cities#show', as: :vertical_root_subject_city
+  # Child subject
+  get 'cours-de-:parent_subject_id/:subject_id/:id', to: 'subjects/cities#show', as: :vertical_subject_city
+  ## Without city
+  # Root subject
+  get 'cours-de-:id'                               , to: 'subjects#show'       , as: :vertical_root_subject
+  # Child subject
+  get 'cours-de-:parent_subject_id/:id'            , to: 'subjects#show'       , as: :vertical_subject
+  ########### Vertical pages ###########
+
+  resources :cities, only: [:show], path: 'tous-les-cours-a' do
+    resources :subjects, only: [:show], path: 'disciplines', controller: 'cities/subjects'
+  end
+
+  resources :subjects, only: [:show, :index], path: 'cours' do
     collection do
       get :tree
       get :tree_2
@@ -238,6 +245,12 @@ CoursAvenue::Application.routes.draw do
   # ----------------------------------------- Redirection 301
   # ---------------------------------------------------------
   # Catching all 301 redirection
+  resources :subjects, only: [:show, :index], path: 'cours' do
+    resources :cities, only: [:show], path: 'a', to: 'redirect#vertical_page_subject_city'
+  end
+  resources :subjects, only: [], path: 'disciplines' do
+    resources :cities, only: [:show], path: 'villes', to: 'redirect#vertical_page_subject_city'
+  end
   resources :subjects, only: [], path: 'disciplines' do
     resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
   end

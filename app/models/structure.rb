@@ -518,6 +518,10 @@ class Structure < ActiveRecord::Base
     self.save
   end
 
+  def delay_subscribe_to_nutshell
+    self.delay.subscribe_to_nutshell
+  end
+
   private
 
   def logo_has_changed?
@@ -544,10 +548,6 @@ class Structure < ActiveRecord::Base
 
   def set_active_to_true
     self.active = true
-  end
-
-  def delay_subscribe_to_nutshell
-    self.delay.subscribe_to_nutshell
   end
 
   def subscribe_to_nutshell

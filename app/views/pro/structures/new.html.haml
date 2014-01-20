@@ -111,13 +111,3 @@
           mixpanel.track('Has seen comments example');
         })
     });
-
-- if params[:from_friend].present?
-  = content_for :scripts do
-    :javascript
-        mixpanel.track('Reached sign up page', {type: 'from_friend'});
-- else
-  = content_for :scripts do
-    :javascript
-      mixpanel.track('Reached sign up page', {type: 'desktop'});
-

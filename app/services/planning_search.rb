@@ -6,12 +6,23 @@ class PlanningSearch
     retrieve_location params
 
     @search = Sunspot.search(Planning) do
-      group options[:group] if options[:group]
+      if options[:group]
+        group options[:group]
+        fulltext params[:name] if params[:name].present?
+      elsif params[:name].present?
+        fulltext params[:name] do
+          fields(:name, :course_name, :course_subjects_name, :course_description)
+        end
+      end
 
-      fulltext params[:name] if params[:name].present?
+      # --------------- Geolocation
+      if params[:bbox_sw] && params[:bbox_ne]
+        with(:location).in_bounding_box(params[:bbox_sw], params[:bbox_ne])
+      elsif params[:lat].present? and params[:lng].present?
+        with(:location).in_radius(params[:lat], params[:lng], (params[:radius] || 7))
+      end
 
       all_of do
-
         with :active_course, true
 
         with(:start_hour).greater_than_or_equal_to        params[:start_hour].to_i                      if params[:start_hour].present?
@@ -25,12 +36,6 @@ class PlanningSearch
         end
 
         with :structure_id,                   params[:structure_id].to_i                              if params[:structure_id]
-        # --------------- Geolocation
-        if params[:bbox_sw] && params[:bbox_ne]
-          with(:location).in_bounding_box(params[:bbox_sw], params[:bbox_ne])
-        elsif params[:lat].present? and params[:lng].present?
-          with(:location).in_radius(params[:lat], params[:lng], (params[:radius] || 7))
-        end
 
         with(:audience_ids).any_of params[:audience_ids]                                              if params[:audience_ids].present?
         with(:level_ids).any_of    params[:level_ids]                                                 if params[:level_ids].present?
