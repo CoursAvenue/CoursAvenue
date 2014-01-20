@@ -51,29 +51,7 @@
 
 = render partial: 'subjects/subjects_facets'
 
-%h3.text--center Sélection des profils de <strong>#{@subject.name.downcase}</strong> à <strong>#{@city.name}</strong>
-
-.text--center.push--bottom
-  = link_to structures_path(lat: @city.latitude, lng: @city.longitude, name: @subject.name), class: 'btn btn--green btn--large' do
-    Voir tous les cours de
-    %strong= @subject.name
-    à
-    %strong= @city.name
-
-
-.grid.push--bottom
-  .grid__item.three-fifths>
-    #structures-map.google-map.google-map--large
-  .grid__item.two-fifths>
-    - @structures[0..5].each do |structure|
-      - comment = structure.comments.where{(title != nil) & (title != '')}.first
-      - if comment
-        = render partial: 'structures/structure_with_comment', locals: {structure: structure, comment: comment}
-    = link_to 'Voir les autres profils', subject_structures_path(@subject, address_name: @city.name, latitude: @city.latitude, longitude: @city.longitude), class: 'btn btn--full btn--large', target: '_blank'
-
-
-
-%hr
+= render partial: 'subjects/structures_list'
 
 = render partial: 'subjects/comments', locals: { comments: @comments }
 
