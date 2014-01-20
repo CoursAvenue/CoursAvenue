@@ -225,13 +225,6 @@ CoursAvenue::Application.routes.draw do
   end
 
   resources :subjects, only: [:show, :index], path: 'cours' do
-    # resources :cities, only: [:show], path: 'a', controller: 'subjects/cities' do
-    #   resources :medias, only: [], controller: 'subjects/cities/medias' do
-    #     collection do
-    #       get :videos
-    #     end
-    #   end
-    # end
     collection do
       get :tree
       get :tree_2
@@ -251,7 +244,10 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------------------
   # Catching all 301 redirection
   resources :subjects, only: [:show, :index], path: 'cours' do
-    resources :cities, only: [:show], path: 'a', to: 'redirect#subject_city'
+    resources :cities, only: [:show], path: 'a', to: 'redirect#vertical_page_subject_city'
+  end
+  resources :subjects, only: [], path: 'disciplines' do
+    resources :cities, only: [:show], path: 'villes', to: 'redirect#vertical_page_subject_city'
   end
   resources :subjects, only: [], path: 'disciplines' do
     resources :places, only: [:index], path: 'etablissement', to: 'redirect#subject_place_index'
