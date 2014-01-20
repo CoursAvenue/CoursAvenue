@@ -16,6 +16,7 @@ class ::Admin < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
   after_create :check_if_was_invited
+  after_create :delay_subscribe_to_nutshell
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email,
@@ -82,6 +83,10 @@ class ::Admin < ActiveRecord::Base
   end
 
   private
+
+  def delay_subscribe_to_nutshell
+    self.structure.delay_subscribe_to_nutshell
+  end
 
   def check_if_was_invited
     InvitedTeacher.where(email: self.email).map(&:inform_proposer)

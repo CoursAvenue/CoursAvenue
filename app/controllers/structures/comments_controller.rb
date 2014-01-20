@@ -21,10 +21,7 @@ class Structures::CommentsController < ApplicationController
 
   def show
     @structure    = Structure.friendly.find(params[:structure_id])
-    if params[:id].include?(',')
-      params[:id] = params[:id].split(',')
-    end
-    @comment      = Comment.find(params[:id])
+    @comment      = @structure.comments.find(params[:id])
     @user         = @comment.user
     @structure_search = StructureSearch.search({lat: @structure.latitude,
                                                 lng: @structure.longitude,
