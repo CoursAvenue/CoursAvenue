@@ -46,7 +46,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
 
                         var model_ids = _.pluck(models, 'id').join(',');
 
-                        return '/etablissements/' + models[0].get('structure').get('id') + '/recommandations/' + model_ids + '.json';
+                        return '/etablissements/' + models[0].get('structure').get('id') + '/recommandations.json';
                     }
                 })
             },
