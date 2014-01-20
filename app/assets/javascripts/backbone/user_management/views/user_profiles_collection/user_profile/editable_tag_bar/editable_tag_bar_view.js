@@ -192,12 +192,15 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.trigger("field:edits", edits);
         },
 
-        announceClick: function () {
+        announceClick: function (e) {
+            /* always announce the click */
+            this.trigger("field:click", e);
+
             /* we don't care if you click on an input */
             if (this.isEditing()) { return; }
 
             this.startEditing(); // this field should start right away
-            this.trigger("field:click", this.ui.$input);
+            this.trigger("tagbar:click", this.ui.$input);
         },
 
         /* construct and show the taggy */

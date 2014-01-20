@@ -17,14 +17,22 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
             /* TODO we would like not to have to use the on syntax
              * it would be nice to be able to just include these events
-             * in the hash below... */
-            this.on("field:click",    this.startEditing);
+             * in the hash below... We can't because this layout is
+             * never declared on its own: it is created as part of the
+             * collection view. */
+            this.on("tagbar:click",    this.startEditing);
+            this.on("text:click",    this.startEditing);
+            this.on("field:click",    this.announceEditableClicked);
             this.on("field:key:down", this.finishEditing);
             this.on("field:edits",    this.collectEdits);
             this.on("row:blur",       this.finishEditing);
 
             $(window).scroll(this.stickyControls);
             this.sticky_home = -1;
+        },
+
+        announceEditableClicked: function (e) {
+            this.trigger("editable:clicked", e);
         },
 
         stickyControls: function () {
@@ -242,18 +250,18 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             /* give the main dude focus */
             $target.focus();
 
-            this.trigger("toggle:editing");
         },
 
         /* given a $field, replace that $field's contents with text */
         // TODO this method needs to be cleaned up
+        // TODO we can probably move the "if restore" code to the top
+        // TODO we can probably remove the !e.restore clause from that conditional
         finishEditing: function (e) {
             // we aren't rolling back and the edits are empty
             if (!e.restore && _.isEmpty(this.edits)) {
+                this.trigger("rollback");
                 return;
             }
-
-            this.trigger("toggle:editing", { blur: true });
 
             var $fields   = this.$(this.ui.$editing.selector);
             var update    = {

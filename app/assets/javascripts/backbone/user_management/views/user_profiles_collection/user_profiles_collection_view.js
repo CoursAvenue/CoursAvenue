@@ -20,6 +20,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
                 this.poller.stop();
             }, this));
+
+            this.on("click:outside", this.flashUnfinishedEdits);
         },
 
         ui: {
@@ -71,6 +73,31 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.trigger('filter:summary', { sort: sort, order: order });
 
             return false;
+        },
+
+        /* When we click outside, we want the row to change colour, to indicate
+         * pending edits */
+        flashUnfinishedEdits: function () {
+            if (!this.currently_editing) {
+                return;
+            }
+
+            // no edits? no problem!
+            if (_.isEmpty(this.currently_editing.edits)) {
+                this.currently_editing.finishEditing({ restore: false });
+                this.currently_editing = undefined;
+            } else {
+                // there are pending edits, so mark the row unfinished
+                this.currently_editing.$el.addClass("unfinished");
+            }
+        },
+
+        /* if we are clicking back inside an unfinished field
+        * we should mark it as no longer unfinished. */
+        onItemviewEditableClicked: function (row) {
+            if (row.$el.hasClass("unfinished")) {
+                row.$el.removeClass("unfinished");
+            }
         },
 
         bulkAddTags: function () {
@@ -265,24 +292,34 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             });
         },
 
-        onItemviewToggleEditing: function (view, data) {
-            var origin   = view.$el.position();
-            var target   = origin.top + parseInt(view.$el.height() / 2, 10);
-            var offset   = parseInt(this.ui.$commit_buttons.height() / 2, 10);
-            var right    = parseInt(this.ui.$commit_buttons.width(), 10);
-
-            this.ui.$commit_buttons
-                .animate({ 'z-index': -1 }, { duration: 0 }) /* move to back */
-                .animate({ right: 0 });                      /* slide closed */
-
-            if (!data || !data.blur) {
-                this.ui.$commit_buttons
-                    .animate({ top: target - offset }, { duration: 0 }) /* move into position */
-                    .animate({ right: -(right + 10) })                  /* slide open */
-                    .animate({ 'z-index': 0 }, { duration: 0 });        /* bring to front */
+        /* animate the controls and commit changes to the
+        * currently_editing row */
+        onItemviewStartEditing: function (view, data) {
+            if (this.currently_editing) {
+                this.currently_editing.finishEditing({ restore: false });
+                this.currently_editing.$el.removeClass("unfinished");
             }
 
+            this.animateCommitCancelControls(view, data);
             this.currently_editing = view;
+        },
+
+        animateCommitCancelControls: function (view, data) {
+//          var origin   = view.$el.position();
+//          var target   = origin.top + parseInt(view.$el.height() / 2, 10);
+//          var offset   = parseInt(this.ui.$commit_buttons.height() / 2, 10);
+//          var right    = parseInt(this.ui.$commit_buttons.width(), 10);
+
+//          this.ui.$commit_buttons
+//              .animate({ 'z-index': -1 }, { duration: 0 }) /* move to back */
+//              .animate({ right: 0 });                      /* slide closed */
+
+//          if (!data || !data.blur) {
+//              this.ui.$commit_buttons
+//                  .animate({ top: target - offset }, { duration: 0 }) /* move into position */
+//                  .animate({ right: -(right + 10) })                  /* slide open */
+//                  .animate({ 'z-index': 0 }, { duration: 0 });        /* bring to front */
+//          }
         },
 
         /* forward events with only the necessary data */

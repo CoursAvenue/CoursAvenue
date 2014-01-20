@@ -62,7 +62,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
             if (this.isEditing()) { return; }
 
             this.startEditing(); // this field should start right away
-            this.trigger("field:click", this.$el.find("input")); // TODO we are passing out the whole view for now
+            this.trigger("text:click", this.$el.find("input")); // TODO we are passing out the whole view for now
         },
 
         startEditing: function () {
