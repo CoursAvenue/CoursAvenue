@@ -16,8 +16,11 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             $(document).on('click', function (e) {
                 _.each(_.keys(self.regionManager._regions), function (key) {
                     var view = self[key].currentView;
+                    var target_exists = $(document).find(e.target).length > 0; // is the target in the DOM
 
-                    if (view && view.$el.find(e.target).length === 0) {
+                    // if there is such a view, and there is such an element
+                    // and if the element is not in the view
+                    if (view && target_exists && view.$el.find(e.target).length === 0) {
                         self[key].currentView.triggerMethod('click:outside', e);
                     }
                 });
