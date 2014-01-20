@@ -47,7 +47,7 @@ class Media::Image < Media
         h:500,
         w:500
       }
-      file   = open("#{self.filepicker_url}/convert?#{convert_options.to_query}")
+      file = open("#{self.filepicker_url}/convert?#{convert_options.to_query}")
 
       # Writing file into S3 bucket
       object = CoursAvenue::Application::S3_BUCKET.objects[s3_thumbnail_media_path + file_name]
