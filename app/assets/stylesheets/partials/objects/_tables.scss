@@ -46,10 +46,21 @@
             width: 100%;
         }
     }
+
     input {
         padding  : 3px;
         font-size: 13px;
     }
+
+
+}
+
+.unfinished input:not(.taggy--input), .unfinished .editable-tag-bar.active {
+    @include border-radius(3px);
+
+    border-color: opacify($orange, 0.8);
+    outline     : 0;
+    @include box-shadow(0 0 4px opacify($orange, 0.8),0 0 0 #000);
 }
 
 th.sortAsc span, th.sortDesc span {
