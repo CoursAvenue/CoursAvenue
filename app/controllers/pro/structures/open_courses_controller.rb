@@ -30,4 +30,27 @@ class Pro::Structures::OpenCoursesController < Pro::ProController
     end
   end
 
+  def update
+    @structure = Structure.friendly.find params[:structure_id]
+    @course    = @structure.courses.find params[:id]
+    respond_to do |format|
+      if @course.update_attributes params[:course]
+        format.html { redirect_to pro_structure_course_opens_path(@structure), notice: 'Votre cours a bien été mis à jour.' }
+      else
+        format.html { render :new }
+      end
+    end
+  end
+
+  def destroy
+    @structure = Structure.friendly.find params[:structure_id]
+    @course    = @structure.courses.find params[:id]
+    respond_to do |format|
+      if @course.destroy
+        format.html { redirect_to pro_structure_course_opens_path(@structure), notice: 'Le cours a bien été supprimé'}
+      else
+        format.html { redirect_to pro_structure_course_opens_path(@structure), notice: "Le cours n'a pas pu être supprimé"}
+      end
+    end
+  end
 end

@@ -1,4 +1,4 @@
-= side_menu_currently_at 'Journée portes ouvertes'
+= side_menu_currently_at 'Journées portes ouvertes'
 
 %h4.flush Journées portes ouverte du samedi xx avril 2014
 .push--bottom
@@ -26,7 +26,7 @@
 
 - if @courses.empty?
   %p.white-box.islet
-    Vous n'avez pas encore définit vos ateliers.
+    Vous n'avez pas encore défini vos ateliers.
 
 .text--center.push--bottom
   = link_to 'Ajouter un atelier', new_pro_structure_course_open_path(@structure), class: 'btn btn--green btn--large'
@@ -36,16 +36,16 @@
     %strong= course.name
     - if course.other_event_type?
       = "(#{course.event_type_description})"
-    - else
+    - elsif course.event_type.present?
       = "(#{course.event_type})"
       \—
-    Participants max : #{course.nb_participants_max}
+    Participants max par créneau : #{course.nb_participants_max}
     .float--right
       = link_to edit_pro_structure_course_open_path(@structure, course) do
         %i.fa.fa-pencil
         Modifier
       \/
-      = link_to edit_pro_structure_course_open_path(@structure, course), class: 'red' do
+      = link_to pro_structure_course_open_path(@structure, course), class: 'red', method: :delete do
         %i.fa.fa-times
         Supprimer
     - if course.plannings.any?
