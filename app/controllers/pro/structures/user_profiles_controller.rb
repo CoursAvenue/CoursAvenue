@@ -88,7 +88,7 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   end
 
   def add_tags(tags)
-    @structure.tag(@user_profile, with: tags, on: :tags)
+    @structure.tag(@user_profile, with: tags, on: :tags) if not tags.nil?
   end
 
 end
