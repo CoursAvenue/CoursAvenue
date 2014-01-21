@@ -45,7 +45,7 @@
     = f.label :teacher, class: 'control-label' do
       %i.fa.fa-user
       Professeur
-    = f.input :teacher, label: 'Nom du professeur', input_html: {value: ''}, label: false
+    = f.input :teacher, label: 'Nom du professeur', input_html: {value: '', placeholder: 'Ex. : Patrick'}, label: false
 
   = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: {data: {behavior: 'checkbox-list'}}
 
@@ -74,5 +74,8 @@
               }
           }
       });
+      $(document.body).on('click', '.add-teacher', function(event) {
+          $('.add-teacher-wrapper').hide();
+          $('.new-teacher-wrapper').show();
+      });
   }
-

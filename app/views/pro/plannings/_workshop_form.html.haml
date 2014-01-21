@@ -43,7 +43,7 @@
     = f.label :teacher, class: 'control-label' do
       %i.fa.fa-user
       Professeur
-    = f.input :teacher, label: false, input_html: {value: ''}
+    = f.input :teacher, label: false, input_html: {value: '', placeholder: 'Ex. : Patrick'}
 
   = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: {data: {behavior: 'checkbox-list'}}
 
