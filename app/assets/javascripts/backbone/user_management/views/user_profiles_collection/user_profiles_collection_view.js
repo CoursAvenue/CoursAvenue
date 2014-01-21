@@ -111,9 +111,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         *  1. We undo any changes that were made by the collection
         *  2. We allow the itemview a chance to finalize anything it needs to */
         onItemviewChangedEditing: function (itemview) {
-
             var previous_itemview = this.getCurrentlyEditing();
-            var is_editing        = view.is_editing;
+            var is_editing        = itemview.is_editing;
 
             // close any active view to make room for the new view
             if (is_editing && previous_itemview) {
@@ -123,9 +122,9 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
             // currently_editing editing is a FIFO list
             if (is_editing) {
-                this.currently_editing.push(view);
+                this.currently_editing.push(itemview);
             } else {
-                this.currently_editing.shift(view);
+                this.currently_editing.shift(itemview);
             }
         },
 
@@ -137,7 +136,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         bulkAddTags: function () {
             if (this.getCurrentlyEditing()) {
-                this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
+                this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
             }
 
             var tags = this.ui.$details.find("[data-value=tag-names]").val();
@@ -221,7 +220,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         * are about to destroy */
         destroySelected: function () {
             if (this.getCurrentlyEditing()) {
-                this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
+                this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
             }
 
             var models = _.inject(this.groups.selected, function (memo, view) {
@@ -263,7 +262,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 return;
             }
 
-            this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
+            this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
         },
 
         itemviewCommit: function () {
@@ -286,7 +285,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         * */
         selectAll: function (options) {
             if (this.getCurrentlyEditing()) {
-                this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
+                this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
             }
 
             this.showDetails("select-all");
@@ -318,7 +317,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         deepSelect: function ( ){
             if (this.getCurrentlyEditing()) {
-                this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
+                this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
             }
 
             this.showDetails("select-all");
@@ -381,7 +380,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         manageTags: function () {
             if (this.getCurrentlyEditing()) {
-                this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
+                this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
             }
             this.showDetails("manage-tags");
         },
