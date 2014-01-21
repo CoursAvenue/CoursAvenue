@@ -8,9 +8,9 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def new
+    @is_xhr = request.xhr?
     respond_to do |format|
       format.html { render layout: !request.xhr? }
     end
   end
-
 end

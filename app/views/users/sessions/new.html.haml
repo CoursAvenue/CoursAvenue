@@ -1,4 +1,4 @@
-.center-block
+.center-block{class: @is_xhr ? '' : 'white-box island one-third palm-one-whole lap-one-half'}
   #form
     = render 'form'
 
@@ -6,15 +6,26 @@
     = render 'users/registrations/form'
 
 :javascript
-  $('#show_new_registration_form').click(function(){
-      $('#other_form').removeClass('hidden');
-      $('#form').addClass('hidden');
-      $('#facebook_button').text("S'inscrire avec Facebook");
-  });
+  var registration_code = function() {
+      $('#show_new_registration_form').click(function(){
+          $('#other_form').removeClass('hidden');
+          $('#form').addClass('hidden');
+          $('#facebook_button').text("S'inscrire avec Facebook");
+      });
 
-  $('#show_new_session_form').click(function(){
-      $('#form').removeClass('hidden');
-      $('#other_form').addClass('hidden');
-      $('#facebook_button').text("Se connecter avec Facebook");
-  });
+      $('#show_new_session_form').click(function(){
+          $('#form').removeClass('hidden');
+          $('#other_form').addClass('hidden');
+          $('#facebook_button').text("Se connecter avec Facebook");
+      });
+  };
 
+- if @is_xhr
+  :javascript
+    registration_code()
+- else
+  = content_for :scripts do
+    :javascript
+      $(function() {
+        registration_code()
+      });
