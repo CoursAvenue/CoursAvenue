@@ -93,7 +93,7 @@
         %hr
         %h4 Les 3 derniers avis :
         %ul.comment-list
-          = render partial: 'comments/comment', collection: Comment.where{rating > 3}.order('created_at DESC').limit(3), locals: {with_link: true, small_avatar: true}
+          = render partial: 'comments/comment', collection: Comment.order('created_at DESC').limit(3), locals: {with_link: true, small_avatar: true}
 
 = content_for :scripts do
   :javascript
