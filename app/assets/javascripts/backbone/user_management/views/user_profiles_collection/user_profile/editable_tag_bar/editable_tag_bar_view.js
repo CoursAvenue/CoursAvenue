@@ -207,7 +207,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         startEditing: function () {
             if (this.isEditing()) { return; }
 
-            this.is_editing = true;
+            this.setEditing(true);
 
             this.updateInputWidth();
             this.$el.addClass("active");
@@ -215,7 +215,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         /* purely visual: whatever was in the input, change it to text */
         stopEditing: function () {
-            this.is_editing = false;
+            this.setEditing(false);
             this.$el.removeClass("active");
 
             this.ui.$input.css({ display: "none" });
@@ -250,7 +250,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         /* change the text to the old data */
         rollback: function () {
-            this.is_editing = false;
+            this.setEditing(false);
             this.stopEditing();
 
             var current = this.ui.$container;
@@ -266,6 +266,11 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         isEditing: function () {
             return this.is_editing === true;
+        },
+
+        setEditing: function (value) {
+            this.is_editing = value;
+            this.trigger("set:editing", value);
         },
 
         handleComma: function (text, e) {

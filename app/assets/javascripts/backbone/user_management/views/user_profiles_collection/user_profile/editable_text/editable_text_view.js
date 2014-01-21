@@ -68,7 +68,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
         startEditing: function () {
             if (this.isEditing()) { return; }
 
-            this.is_editing = true;
+            this.setEditing(true);
             var text   = this.$el.text();
             var $input = $("<input>").prop('type', 'text').prop("value", text);
 
@@ -77,7 +77,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
 
         /* purely visual: whatever was in the input, change it to text */
         stopEditing: function () {
-            this.is_editing = false;
+            this.setEditing(false);
             var data = this.$el.find("input").val();
 
             this.$el.html(data);
@@ -98,7 +98,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
         /* we are choosing not to re-focus the field because
         * this might steal focus from a field in mid edit. */
         rollback: function () {
-            this.is_editing = false;
+            this.setEditing(false);
             this.$el.html(this.data);
         },
 
@@ -109,6 +109,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
 
         isEditing: function () {
             return this.is_editing === true;
+        },
+
+        setEditing: function (value) {
+            this.is_editing = value;
         },
 
     });

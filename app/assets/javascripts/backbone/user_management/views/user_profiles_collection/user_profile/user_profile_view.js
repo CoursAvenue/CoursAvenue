@@ -28,7 +28,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.on("row:blur",       this.finishEditing);
 
             $(window).scroll(this.stickyControls);
-            this.sticky_home = -1;
+            this.sticky_home   = -1;
+            this.editable_mask = 1;
         },
 
         announceEditableClicked: function (e) {
@@ -74,6 +75,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         showTagBar: function () {
+
             /* TODO this initialization code will probably change */
             /* we have tag_name, which is a property: it is a CSV
             *  derived from the attribute "tags", which is an array
@@ -100,6 +102,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         showEditableText: function (element) {
+
             var attribute = $(element).data("name"),
             data = this.model.get(attribute);
 
@@ -145,6 +148,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         onRender: function () {
+
             this.showTagBar();
 
             this.ui.$editable.each(_.bind(function (index, element) {
@@ -196,7 +200,23 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         /* is this row being worked on? */
         /* TODO this should just check a flag */
         isEditing: function () {
-            return this.$(".editable-text > input").length > 0;
+            return this.is_editing;
+        },
+
+        /* we have a boolean stored as a mask. It is true when
+        * the or of the bits is a true value, and false when it
+        * it a false value.
+        * The value can become "more" true, but not "more" false.
+        * That is, once the value is a false value, it will stop
+        * accepting "false" inputs */
+        setEditing: function (value) {
+            var old = this.is_editing;
+
+            this.is_editing = value;
+
+            if (this.is_editing != old) {
+                this.trigger("changed:editing");
+            }
         },
 
         addToSelected: function () {
@@ -239,6 +259,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         *  and gets them started
         *  gives focus to the editable that was clicked */
         startEditing: function ($target) {
+            this.setEditing(true);
             /* tell all the other fields to start themselves */
             this.trigger("start:editing");
 
@@ -251,6 +272,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         // TODO we can probably move the "if restore" code to the top
         // TODO we can probably remove the !e.restore clause from that conditional
         finishEditing: function (e) {
+            this.setEditing(false);
             // we aren't rolling back and the edits are empty
             if (!e.restore && _.isEmpty(this.edits)) {
                 this.trigger("rollback");
