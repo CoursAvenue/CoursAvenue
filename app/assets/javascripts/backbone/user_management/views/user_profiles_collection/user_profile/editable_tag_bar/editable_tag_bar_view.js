@@ -25,6 +25,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.attribute     = options.attribute;
             this.url           = options.url;
 
+            /* TODO use a proper .hbs template instead
+             * but, don't make it a file, just make it a string */
             /* build a recyclable taggy */
             var taggy = $("<span>")
                 .addClass('taggy--tag');
@@ -35,26 +37,28 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             taggy.append(saltier);
             this.$taggy_template = taggy;
 
-            this.taggy_padding = 15;
-
-
-            this[COMMA] = this.handleComma;
+            this[COMMA]     = this.handleComma;
             this[BACKSPACE] = this.handleBackspace;
-            this[ESC] = this.handleEscape;
-            this[ENTER] = this.handleEnter;
+            this[ESC]       = this.handleEscape;
+            this[ENTER]     = this.handleEnter;
         },
 
         events: {
             'click'                         : 'announceClick',
             'click [data-behavior=destroy]' : 'destroyTaggy',
+            'typeahead:selected [type=text]': 'createTaggy',
             'keydown'                       : 'handleKeyDown',
-            'change'                        : 'announceEdits',
-            'typeahead:selected [type=text]': 'createTaggy'
+            'change'                        : 'announceEdits'
         },
 
         ui: {
             '$input'    : '.taggy--input',
             '$container': '[data-type=taggies-container]'
+        },
+
+        /* get all the little tags */
+        $taggies: function () {
+            return this.$(".taggy--tag");
         },
 
         /* no model here */
@@ -70,11 +74,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             }
         },
 
-        /* get all the little tags */
-        $taggies: function () {
-            return this.$(".taggy--tag");
-        },
-
+        /* TODO think about storing the data instead of the DOM and
+         * actually calling render to rollback. Nima loves render. */
         onRender: function () {
             this.$rollback = this.ui.$container.children().clone();
             this.ui.$input.typeahead([{
@@ -90,7 +91,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.bindUIElements();
         },
 
-        /* SPACE: turn the text into a taggy */
         /* TODO yeah, so, this should be a switch eh? */
         handleKeyDown: function (e) {
             var key = e.which;
@@ -137,6 +137,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             return taggy;
         },
 
+        /* TODO this should go away: just put the input at the bottom,
+         * and have it be full width all the time */
         updateInputWidth: function () {
             /* update the input width */
             /* TODO this could be more efficient */

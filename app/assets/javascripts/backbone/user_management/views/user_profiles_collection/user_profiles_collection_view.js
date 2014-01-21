@@ -317,19 +317,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.currently_editing = view;
         },
 
-        /* forward events with only the necessary data */
-        onItemviewHighlighted: function (view, data) {
-            this.trigger('user_profiles:itemview:highlighted', data);
-        },
-
-        onItemviewUnhighlighted: function (view, data) {
-            this.trigger('user_profiles:itemview:unhighlighted', data);
-        },
-
-        onItemviewCourseFocus: function (view, data) {
-            this.trigger('user_profiles:itemview:peacock', data);
-        },
-
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something
          * if do we would do it here */
@@ -343,15 +330,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 checked: this.groups.selected[id]? true : false,
                 tags_url: tags_url
             };
-        },
-
-        /* TODO we will need a method like this at some point */
-        findItemView: function (data) {
-            /* find the first place that has any locations that match the given criteria */
-
-            /* announce the view we found */
-            this.trigger('user_profiles:itemview:found', itemview);
-            this.scrollToView(itemview);
         },
 
         /* override inherited method */
@@ -384,10 +362,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.showDetails("manage-tags");
         },
 
-        goFullScreen: function () {
-            this.$el[0].mozRequestFullScreen();
-        },
-
         /* OVERRIDE */
         /* We are implementing appendHTML here so that we can both
         * append (normal) and prepend (when using "new") to the
@@ -408,7 +382,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 }
             }
         },
-
     });
 });
 

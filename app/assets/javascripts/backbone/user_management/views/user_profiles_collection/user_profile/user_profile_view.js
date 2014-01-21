@@ -28,14 +28,16 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.on("row:blur",       this.finishEditing);
 
             $(window).scroll(this.stickyControls);
-            this.sticky_home   = -1;
-            this.editable_mask = 1;
+            this.sticky_home = -1;
         },
 
         announceEditableClicked: function (e) {
             this.trigger("editable:clicked", e);
         },
 
+        /* TODO seriously? What is this doing here? This should be in the
+        *  collection view for sure. */
+        /* TODO also, why does it sometimes stop docking? Reproduce this. */
         stickyControls: function () {
             var $control = $("[data-behavior=sticky-controls]");
 
@@ -66,7 +68,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 $control.css({ width: "" });
                 this.sticky_home = -1;
             }
-
         },
 
         /* incrementally build up a set of attributes */
@@ -81,7 +82,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             *  derived from the attribute "tags", which is an array
             *  of objects. */
             var attribute = this.$("[data-behavior=editable-tag-bar]").data("name"),
-            data = this.model.get(attribute);
+                data      = this.model.get(attribute);
 
             var view = new Module.EditableTagBar.EditableTagBarView({
                 data: data,
@@ -137,6 +138,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                     close: [ESC]
                 },
                 ajax        : {
+                    /* don't use .simple_form to select the form, use some data */
                     complete: _.bind(function() {
                         $('.simple_form').on("ajax:before", _.bind(function () {
                             $.fancybox.close();
@@ -147,6 +149,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             });
         },
 
+        /* TODO instead of doing this on render we can do it when the user
+        * first clicks on a row. We need to keep the event, and pass it down
+        * to the newly new born new editables. We also need to remove the
+        * click listener after the editables are created. */
         onRender: function () {
 
             this.showTagBar();
@@ -164,7 +170,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         events: {
-            // 'focusout'            : 'handleBlur',
             'change @ui.$checkbox': 'addToSelected',
             'click [data-behavior=modal]': 'showFancybox'
         },
@@ -223,37 +228,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.trigger("add:to:selected");
         },
 
-        /* the row has lost focus */
-        handleBlur: function (e) {
-            var self = this;
-            var $field = $(e.target);
-            /* a hack to determine whether it was the row, or a field
-            *  that triggered the blur event
-            *  see: http://stackoverflow.com/questions/121499/when-onblur-occurs-how-can-i-find-out-which-element-focus-went-to */
-            setTimeout(_.bind(function() {
-                var $target = $(document.activeElement);
-
-                if (this.$el.find($target).length > 0) {
-                /* if focus is moving within the row, NOP */
-
-                    return;
-                } else if ($target[0].tagName === "BODY") {
-                /* if focus is moving outside the table, return focus to the input */
-
-                    $field.focus();
-                    return;
-                } else if ($(".fancybox-outer").find($target).length > 0) {
-                /* if focus has moved to the modal for details */
-
-                    return;
-                }
-
-                /* finally, if focus is moving to a new row, finishediting */
-                this.finishEditing(e);
-
-            }, this), 1);
-        },
-
         /* called: when an editable is clicked */
         /* notifies all the other editables in the layout
         *  and gets them started
@@ -279,7 +253,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 return;
             }
 
-            var $fields   = this.$(this.ui.$editing.selector);
             var update    = {
                 user_profile: this.edits
             };

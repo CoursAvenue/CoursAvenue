@@ -62,7 +62,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
             if (this.isEditing()) { return; }
 
             this.startEditing(); // this field should start right away
-            this.trigger("text:click", this.$el.find("input")); // TODO we are passing out the whole view for now
+            this.trigger("text:click", this.$el.find("input")); // TODO we are passing out some HTML... why?
         },
 
         startEditing: function () {
@@ -70,7 +70,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
 
             this.setEditing(true);
             var text   = this.$el.text();
-            var $input = $("<input>").prop('type', 'text').prop("value", text);
+            var $input = $("<input>").prop('type', 'text')
+                                     .prop("value", text);
 
             this.$el.html($input);
         },
@@ -103,6 +104,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
         },
 
         /* maybe the text has fallen out of sync with the data */
+        /* TODO understand why this was necessary and possibly remove it*/
         refresh: function () {
             this.rollback();
         },
