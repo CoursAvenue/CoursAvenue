@@ -22,6 +22,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }, this));
 
             this.on("click:outside", this.flashUnfinishedEdits);
+            this.currently_editing = []; // a FIFO list of rows
         },
 
         ui: {
@@ -77,17 +78,16 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* When we click outside, we want the row to change colour, to indicate
          * pending edits */
         flashUnfinishedEdits: function () {
-            if (!this.currently_editing) {
+            if (!this.getCurrentlyEditing()) {
                 return;
             }
 
             // no edits? no problem!
-            if (_.isEmpty(this.currently_editing.edits)) {
-                this.currently_editing.finishEditing({ restore: false });
-                this.currently_editing = undefined;
+            if (_.isEmpty(this.getCurrentlyEditing().edits)) {
+                this.getCurrentlyEditing().finishEditing({ restore: false });
             } else {
                 // there are pending edits, so mark the row unfinished
-                this.currently_editing.$el.addClass("unfinished");
+                this.getCurrentlyEditing().$el.addClass("unfinished");
             }
         },
 
@@ -99,14 +99,45 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }
         },
 
-        onItemviewChangedEditing: function (view) {
-            console.log("in onItemviewChangedEditing");
-            console.log("  with %o", view.is_editing);
+        /* this method observes the value of "is_editing" on the
+        * children views. If any child's is_editing property changes
+        * this method will be called and:
+        *   1. If the edit is ending, we shift off the currently editing view
+        *   2. If the edit is starting, and there was already a currently editing view,
+        *      we send the signal to finish the old edit, and we push on the
+        *      new currently editing view
+        *
+        * In the second case, we have two kinds of "finishing" to do:
+        *  1. We undo any changes that were made by the collection
+        *  2. We allow the itemview a chance to finalize anything it needs to */
+        onItemviewChangedEditing: function (itemview) {
+
+            var previous_itemview = this.getCurrentlyEditing();
+            var is_editing        = view.is_editing;
+
+            // close any active view to make room for the new view
+            if (is_editing && previous_itemview) {
+                previous_itemview.$el.removeClass("unfinished"); // see note above
+                previous_itemview.finishEditing({ restore: false });
+            }
+
+            // currently_editing editing is a FIFO list
+            if (is_editing) {
+                this.currently_editing.push(view);
+            } else {
+                this.currently_editing.shift(view);
+            }
+        },
+
+        /* currently_editing may have more than one view. We are only
+         * concerned with the top one. */
+        getCurrentlyEditing: function () {
+            return _.first(this.currently_editing);
         },
 
         bulkAddTags: function () {
-            if (this.currently_editing) {
-                this.currently_editing.finishEditing({ restore: true, source: "button" });
+            if (this.getCurrentlyEditing()) {
+                this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
             }
 
             var tags = this.ui.$details.find("[data-value=tag-names]").val();
@@ -171,7 +202,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             *
             *  It needs to be independent of the events fired
             *  by the children */
-            this.currently_editing = undefined;
         },
 
         onAfterItemAdded: function (itemView) {
@@ -190,8 +220,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* prompt the user to make sure they know how many user profiles they
         * are about to destroy */
         destroySelected: function () {
-            if (this.currently_editing) {
-                this.currently_editing.finishEditing({ restore: true, source: "button" });
+            if (this.getCurrentlyEditing()) {
+                this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
             }
 
             var models = _.inject(this.groups.selected, function (memo, view) {
@@ -229,19 +259,19 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         itemviewCancel: function (e) {
-            if (!this.currently_editing) {
+            if (!this.getCurrentlyEditing()) {
                 return;
             }
 
-            this.currently_editing.finishEditing({ restore: true, source: "button" });
+            this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
         },
 
         itemviewCommit: function () {
-            if (!this.currently_editing) {
+            if (!this.getCurrentlyEditing()) {
                 return;
             }
 
-            this.currently_editing.finishEditing({ restore: false, source: "button" });
+            this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
         },
 
         /* TODO select all is a little tricky.
@@ -255,8 +285,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
          *
         * */
         selectAll: function (options) {
-            if (this.currently_editing) {
-                this.currently_editing.finishEditing({ restore: true, source: "button" });
+            if (this.getCurrentlyEditing()) {
+                this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
             }
 
             this.showDetails("select-all");
@@ -287,8 +317,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         deepSelect: function ( ){
-            if (this.currently_editing) {
-                this.currently_editing.finishEditing({ restore: true, source: "button" });
+            if (this.getCurrentlyEditing()) {
+                this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
             }
 
             this.showDetails("select-all");
@@ -306,15 +336,9 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         /* animate the controls and commit changes to the
-        * currently_editing row */
+         * currently_editing row */
+        /* we are trying to close the old row because a new row has started editing */
         onItemviewStartEditing: function (view, data) {
-
-            if (this.currently_editing) {
-                this.currently_editing.finishEditing({ restore: false });
-                this.currently_editing.$el.removeClass("unfinished"); // TODO understand this line, and comment it
-            }
-
-            this.currently_editing = view;
         },
 
         /* when rendering each collection item, we might want to
@@ -356,8 +380,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         manageTags: function () {
-            if (this.currently_editing) {
-                this.currently_editing.finishEditing({ restore: true, source: "button" });
+            if (this.getCurrentlyEditing()) {
+                this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
             }
             this.showDetails("manage-tags");
         },
