@@ -146,12 +146,17 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.collection.add(attributes, { at: 0 });
         },
 
+        /* we should use this opportunity to create the next editable
+        * profile if this was a create action, and to unset our
+        * currently_editing view */
         onItemviewUpdateSuccess: function (itemView, response) {
             var action = response.action;
 
             if (action === "create") {
                 this.newUserProfile();
             }
+
+            this.currently_editing = undefined;
         },
 
         onAfterItemAdded: function (itemView) {
