@@ -124,7 +124,7 @@ CoursAvenue::Application.routes.draw do
           post 'duplicate'
           post 'copy_prices_from'
         end
-        resources :plannings, only: [:new, :edit, :index, :destroy] do
+        resources :plannings do
           member do
             post 'duplicate'
           end
@@ -136,18 +136,6 @@ CoursAvenue::Application.routes.draw do
           patch 'activate'
           patch 'disable'
         end
-      end
-      resources :course_opens, controller: 'courses' do
-        resources :plannings, only: [:create, :update]
-      end
-      resources :course_workshops, controller: 'courses' do
-        resources :plannings, only: [:create, :update]
-      end
-      resources :course_trainings, controller: 'courses' do
-        resources :plannings, only: [:create, :update]
-      end
-      resources :course_lessons, controller: 'courses' do
-        resources :plannings, only: [:create, :update]
       end
 
       resources :users                , only: [:index]

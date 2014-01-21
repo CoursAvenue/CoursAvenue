@@ -11,17 +11,14 @@ describe Pro::PlanningsController do
   end
 
   describe :create do
+    before :each do
+      @request.host = "pro.coursavenue.com"
+    end
     context :open_course do
       it 'redirects to open courses path' do
-        post :create, planning: { course_id: open_course.id}, subdomain: 'pro'
+        post :create, planning: { course_id: open_course.id }
         expect(response).to redirect_to(pro_structure_course_opens_path(open_course.structure))
       end
     end
-    # context :lesson do
-    #   it 'should redirect to open courses' do
-    #     post :create, planning: { course_id: open_course.id}
-    #     expect(response).to redirect_to(pro_structure_course_opens_path(open_course.structure))
-    #   end
-    # end
   end
 end

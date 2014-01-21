@@ -64,7 +64,7 @@ class Pro::PlanningsController < InheritedResources::Base
     retrieve_plannings_and_past_plannings
     set_dates_and_times
     respond_to do |format|
-      if @planning.save
+      if @planning.save!
         @course.activate! unless @course.active?
         if @course.is_open?
           format.html { redirect_to pro_structure_course_opens_path(@course.structure), notice: 'Votre planning à bien été créé.' }
@@ -72,7 +72,11 @@ class Pro::PlanningsController < InheritedResources::Base
           format.html { redirect_to pro_course_plannings_path(@course), notice: 'Votre planning à bien été créé.' }
         end
       else
-        format.html { render template: 'pro/plannings/index'}
+        if @course.is_open?
+          format.html { redirect_to pro_structure_course_opens_path(@course.structure), error: "Le créneau n'a pas pu être créé, avez-vous rempli tous les champs ?" }
+        else
+          format.html { render template: 'pro/plannings/index'}
+        end
       end
     end
   end
@@ -130,8 +134,12 @@ class Pro::PlanningsController < InheritedResources::Base
   end
 
   def set_dates_and_times
-    params[:planning][:start_time]  = TimeParser.parse_time_string("#{params[:planning]['start_time(4i)']}h#{params[:planning]['start_time(5i)']}")  if params[:planning]['start_time(4i)'].present? and params[:planning]['start_time(5i)'].present?
-    params[:planning][:end_time]    = TimeParser.parse_time_string("#{params[:planning]['end_time(4i)']}h#{params[:planning]['end_time(5i)']}")  if params[:planning]['end_time(4i)'].present? and params[:planning]['end_time(5i)'].present?
+    if params[:planning]['start_time(4i)'].present? and params[:planning]['start_time(5i)'].present?
+      params[:planning][:start_time] = TimeParser.parse_time_string("#{params[:planning]['start_time(4i)']}h#{params[:planning]['start_time(5i)']}")
+    end
+    if params[:planning]['end_time(4i)'].present? and params[:planning]['end_time(5i)'].present?
+      params[:planning][:end_time] = TimeParser.parse_time_string("#{params[:planning]['end_time(4i)']}h#{params[:planning]['end_time(5i)']}")
+    end
 
     if params[:planning][:end_time].blank? and params[:planning][:duration].present?
       params[:planning][:end_time]   = params[:planning][:start_time] + params[:planning][:duration].to_i.minutes

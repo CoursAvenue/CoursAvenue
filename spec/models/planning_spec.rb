@@ -12,6 +12,33 @@ describe Planning do
     end
   end
 
+  context :validations do
+    context :workshop do
+      it 'needs a start_date' do
+        course          = Course::Workshop.new
+        planning.course = course
+        expect(planning.valid?).to be_false
+        expect(planning.errors.messages).to include :start_date
+      end
+    end
+    context :training do
+      it 'needs a start_date' do
+        course          = Course::Training.new
+        planning.course = course
+        expect(planning.valid?).to be_false
+        expect(planning.errors.messages).to include :start_date
+      end
+    end
+    context :open_course do
+      it 'needs a start_date' do
+        course          = Course::Open.new
+        planning.course = course
+        expect(planning.valid?).to be_false
+        expect(planning.errors.messages).to include :start_date
+      end
+    end
+  end
+
   context :audiences do
     describe '#audience_ids' do
       it 'returns array if nil' do

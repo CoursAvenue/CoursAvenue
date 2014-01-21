@@ -1,5 +1,10 @@
+- if @planning.persisted?
+  - planning_url = pro_course_planning_path(@course, @planning)
+- else
+  - planning_url = pro_course_plannings_path(@course)
+
 - minutes = (2..32).collect{ |i| time = i*15; ["#{(time/60).floor}h#{(time%60 == 0 ? '00' : time%60)}",time] }
-= simple_form_for [:pro, @course, @planning] do |f|
+= simple_form_for [:pro, @course, @planning], url: planning_url do |f|
   = f.error_notification
   .input.flush--bottom
     = f.label :place

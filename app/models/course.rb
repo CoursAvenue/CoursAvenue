@@ -31,7 +31,8 @@ class Course < ActiveRecord::Base
   scope :lessons,                -> { where(type: "Course::Lesson") }
   scope :workshops,              -> { where(type: "Course::Workshop") }
   scope :trainings,              -> { where(type: "Course::Training") }
-  scope :workshops_and_training, -> { where{ type != "Course::Lesson" } }
+  scope :workshops_and_training, -> { where{ (type == "Course::Workshop") | (type == "Course::Training") } }
+  scope :without_open_courses,   -> { where{ type != 'Course::Open' } }
   scope :open_courses,           -> { where(type: 'Course::Open') }
 
   # default_scope                  -> { where{type != 'Course::Open'} }
@@ -337,6 +338,10 @@ class Course < ActiveRecord::Base
   end
 
   def is_training?
+    false
+  end
+
+  def is_open?
     false
   end
 
