@@ -170,7 +170,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
             this.announceEdits();
             this.updateInputWidth();
-            this.ui.$input.val("");
+            this.ui.$input.typeahead('setQuery', '');
         },
 
         /* gather all the existing taggies */
