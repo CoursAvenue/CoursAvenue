@@ -10,4 +10,5 @@ class Participation < ActiveRecord::Base
   attr_accessible :user, :planning
 
   default_scope -> { order('created_at ASC') }
+
 end

@@ -35,7 +35,7 @@ class Planning < ActiveRecord::Base
 
   has_many :reservations,         as: :reservable
 
-  has_many :participations
+  has_many :participations, dependent: :destroy
   has_many :users, through: :participations
 
   before_validation :set_start_date

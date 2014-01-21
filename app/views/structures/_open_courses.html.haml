@@ -45,7 +45,9 @@
                   - else
                     Gratuit
                 %td.text--right
-                  - if current_user
+                  - if current_user and current_user.participate_to?(planning)
+                    Déjà inscrit
+                  - elsif current_user
                     = link_to 'Participer', planning_participations_path(planning), class: 'btn btn--small btn--green', method: :post
                   - else
                     = link_to 'Participer', new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Contact form button'])"

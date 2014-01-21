@@ -211,6 +211,11 @@ class User < ActiveRecord::Base
     UserMailer.delay.welcome(self)
   end
 
+  def participate_to?(planning)
+    # TODO: improve this
+    self.participations.map(&:planning).include? planning
+  end
+
   private
 
   def random_string

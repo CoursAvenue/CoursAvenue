@@ -17,7 +17,7 @@
                   Ajouter
                   %br
                   mon logo
-          .flexbox__item.v-top.nine-twelfths>
+          .flexbox__item.v-top.five-twelfths>
             %h4.push-half--bottom
               %span.v-middle= @structure.name
               %span.v-middle.soft-half--left
@@ -34,6 +34,13 @@
               = link_to coursavenue_recommendations_pro_structure_path(@structure), class: 'btn btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
                 %i.fa.fa-bullhorn
                 &nbsp;Parrainer un professeur
+          .flexbox__item.v-top.four-twelfths.text--center.v-middle.blue-box>
+            - if @structure.parisian?
+              = link_to pro_structure_course_opens_path(@structure), onclick: "ga('send', 'event', 'JPO', 'click')" do
+                .gamma
+                  Nouveau !
+                .delta
+                  Les Journées Portes Ouvertes CoursAvenue
           .flexbox__item.v-top.two-twelfths.text--center>
             .thin.alpha.brand= @structure.comments_count || 0
             %div

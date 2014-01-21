@@ -44,4 +44,17 @@ describe User do
       new_user.messages.should include message
     end
   end
+  describe '#participate_to?' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:planning) { FactoryGirl.create(:planning) }
+
+    it 'returns true' do
+      user.participations.create(planning: planning)
+      expect(user.participate_to?(planning)).to be_true
+    end
+
+    it 'returns false' do
+      expect(user.participate_to?(planning)).to be_false
+    end
+  end
 end
