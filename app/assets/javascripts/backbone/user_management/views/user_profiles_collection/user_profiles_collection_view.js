@@ -29,7 +29,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             '$cancel'         : '[data-behavior=cancel]',
             '$commit'         : '[data-behavior=commit]',
             '$select_all'     : '[data-behavior=select-all]',
-            '$rotate'         : '[data-behavior=rotate]',
             '$details'        : '[data-behavior=details]',
             '$add_tags'       : '[data-behavior=add-tags]'
         },
@@ -100,6 +99,11 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }
         },
 
+        onItemviewChangedEditing: function (view) {
+            console.log("in onItemviewChangedEditing");
+            console.log("  with %o", view.is_editing);
+        },
+
         bulkAddTags: function () {
             if (this.currently_editing) {
                 this.currently_editing.finishEditing({ restore: true, source: "button" });
@@ -119,7 +123,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
             /* TODO of course, when we are done we should stop the timeout from being set */
             var self = this;
-            var kontinue = true;
 
             /* TODO move this code into the collection itself, possibly
             *  by overriding the sync method */
@@ -127,6 +130,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             *  updating the whole collection, where normally a backbone collection
             *  would fire many requests to update itself... we want to do this in
             *  one bulk action */
+            /* TODO the bulk index action should just act on _all_ the dudes,
+            *  unless given an array of ids. */
             $.ajax({
                 type: "POST",
                 url: this.collection.url.basename + '/bulk.json',
@@ -136,8 +141,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 }
             });
 
-            /* TODO we want this to be idempotent: I should be able to start many times
-            * without problem */
             this.poller.start();
         },
 
@@ -156,6 +159,18 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 this.newUserProfile();
             }
 
+            /* TODO there is a deep evil lurking here:
+            *  we are setting currently_editing to undefined,
+            *  but there is no guarantee that the value of
+            *  currently_editing at this moment is indeed
+            *  the view that just updated. If it isn't, then
+            *  we are invalidating the state of the app */
+            /* TODO currently_editing should change when:
+            *   - we hit ENTER or CANCEL to commit or rollback
+            *   - we click another row
+            *
+            *  It needs to be independent of the events fired
+            *  by the children */
             this.currently_editing = undefined;
         },
 
@@ -198,7 +213,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             });
         },
 
-
+        /* TODO needs QA attention -- this needs to be part of a
+         * DetailsControlView that we need to factor out of this class */
         showDetails: function (target) {
             var $manage_tags = this.$('[data-behavior=' + target + ']');
             var $details = this.$('[data-target=' + target + ']');
@@ -254,6 +270,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 if (deselect) {
                     self.groups.uber = false;
 
+                    /* TODO we should set the checkbox value directly, rather
+                    *  than clicking on the checkboxes. This is noticeably slower */
                     if (self.groups.selected[id]) {
                         view.ui.$checkbox.click();
                     }
@@ -283,48 +301,20 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             if (this.groups.selected[id]) {
                 delete this.groups.selected[id];
             } else {
-                this.groups.selected[id] = view; // <-- TODO why are we keeping the view? Why not a bool?
+                this.groups.selected[id] = view; // because we need the model TODO so why not just store the model?
             }
-        },
-
-        rotateSelected: function () {
-            if (this.currently_editing) {
-                this.currently_editing.finishEditing({ restore: true, source: "button" });
-            }
-
-            _.each(this.groups.selected, function (view, cid) {
-                view.$el.toggleClass("flipped unflipped");
-            });
         },
 
         /* animate the controls and commit changes to the
         * currently_editing row */
         onItemviewStartEditing: function (view, data) {
+
             if (this.currently_editing) {
                 this.currently_editing.finishEditing({ restore: false });
-                this.currently_editing.$el.removeClass("unfinished");
+                this.currently_editing.$el.removeClass("unfinished"); // TODO understand this line, and comment it
             }
 
-            this.animateCommitCancelControls(view, data);
             this.currently_editing = view;
-        },
-
-        animateCommitCancelControls: function (view, data) {
-//          var origin   = view.$el.position();
-//          var target   = origin.top + parseInt(view.$el.height() / 2, 10);
-//          var offset   = parseInt(this.ui.$commit_buttons.height() / 2, 10);
-//          var right    = parseInt(this.ui.$commit_buttons.width(), 10);
-
-//          this.ui.$commit_buttons
-//              .animate({ 'z-index': -1 }, { duration: 0 }) /* move to back */
-//              .animate({ right: 0 });                      /* slide closed */
-
-//          if (!data || !data.blur) {
-//              this.ui.$commit_buttons
-//                  .animate({ top: target - offset }, { duration: 0 }) /* move into position */
-//                  .animate({ right: -(right + 10) })                  /* slide open */
-//                  .animate({ 'z-index': 0 }, { duration: 0 });        /* bring to front */
-//          }
         },
 
         /* forward events with only the necessary data */

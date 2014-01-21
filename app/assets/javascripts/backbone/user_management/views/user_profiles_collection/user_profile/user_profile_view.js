@@ -20,8 +20,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
              * in the hash below... We can't because this layout is
              * never declared on its own: it is created as part of the
              * collection view. */
-            this.on("tagbar:click",    this.startEditing);
-            this.on("text:click",    this.startEditing);
+            this.on("tagbar:click",   this.startEditing);
+            this.on("text:click",     this.startEditing);
             this.on("field:click",    this.announceEditableClicked);
             this.on("field:key:down", this.finishEditing);
             this.on("field:edits",    this.collectEdits);
@@ -244,7 +244,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
             /* give the main dude focus */
             $target.focus();
-
         },
 
         /* given a $field, replace that $field's contents with text */
@@ -286,6 +285,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                 }).success(_.bind(function (response) {
                     // on success commit the changes
                     response.action = action;
+
                     this.trigger("update:success", response);
                 }, this)).error(_.bind(function () {
                     // on failure, just rollback the text
