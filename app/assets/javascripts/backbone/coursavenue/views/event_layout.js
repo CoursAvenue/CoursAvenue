@@ -15,11 +15,15 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             * see userProfileView's events hash, and then
             * the events hash in UserProfilesCollectionView
             * which is used to set up the layout */
+
+            var layout_events;
+
             if (options) {
-                _.extend(this.events, options.events);
-                delete options.events;
+                layout_events = options.events;
+                delete options.events; // we need Backbone to never see this...
             }
 
+            // OK _now_ call the constructor
             Marionette.Layout.prototype.constructor.apply(this, arguments);
 
             var self = this;
@@ -29,6 +33,11 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
                 self.listenTo(self[region_name], 'show', self['on' + name + 'Show']);
             });
+
+            // finally, bind the layout_events if they exist
+            if (layout_events) {
+                Marionette.bindEntityEvents(this, this, layout_events);
+            }
 
             /* click outside events are not broadcast so they must be
              * subscribed to with 'on' when the relevant view is initialized */
