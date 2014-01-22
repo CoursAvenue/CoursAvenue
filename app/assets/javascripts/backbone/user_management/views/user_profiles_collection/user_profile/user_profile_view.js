@@ -17,47 +17,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.tags_url = options.tags_url;
             this.edits = {};
 
-            $(window).scroll(this.stickyControls);
-            this.sticky_home = -1;
         },
 
         announceEditableClicked: function (e) {
             this.trigger("editable:clicked", e);
-        },
-
-        /* TODO seriously? What is this doing here? This should be in the
-        *  collection view for sure. */
-        /* TODO also, why does it sometimes stop docking? Reproduce this. */
-        stickyControls: function () {
-            var $control = $("[data-behavior=sticky-controls]");
-
-            var scroll_top = $(window).scrollTop();
-            var control_top = $control.offset().top;
-            var fixed = $control.hasClass("sticky");
-
-            if (!fixed && scroll_top >= control_top) {
-                // we have scrolled past the controls
-
-                var old_width = $control.width();
-                var $placeholder = $control.clone()
-                                      .css({ visibility: "hidden" })
-                                      .attr("data-placeholder", "")
-                                      .attr("data-behavior", "");
-
-                // $placehold stays behind to hold the place
-                $control.parent().prepend($placeholder);
-
-                this.sticky_home = control_top;
-                $control.addClass("sticky");
-                $control.css({ width: old_width });
-            } else if ( fixed && scroll_top < this.sticky_home) {
-                // we have now scrolled back up, and are replacing the controls
-
-                this.$("[data-placeholder]").remove();
-                $control.removeClass("sticky");
-                $control.css({ width: "" });
-                this.sticky_home = -1;
-            }
         },
 
         /* incrementally build up a set of attributes */
@@ -65,19 +28,15 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.edits[edits.attribute] = edits.data;
         },
 
-        showTagBar: function () {
+        showTagBar: function (selector) {
 
-            /* TODO this initialization code will probably change */
-            /* we have tag_name, which is a property: it is a CSV
-            *  derived from the attribute "tags", which is an array
-            *  of objects. */
-            var attribute = this.$("[data-behavior=editable-tag-bar]").data("name"),
+            var attribute = this.$(selector).data("name"),
                 data      = this.model.get(attribute);
 
             var view = new Module.EditableTagBar.EditableTagBarView({
                 data: data,
                 attribute: attribute,
-                url: this.tags_url
+                url: this.tags_url // TODO apply options instead
             });
 
             this.showWidget(view, {
@@ -143,13 +102,13 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             });
         },
 
-        /* TODO instead of doing this on render we can do it when the user
-        * first clicks on a row. We need to keep the event, and pass it down
-        * to the newly new born new editables. We also need to remove the
-        * click listener after the editables are created. */
+        /* it was suggested that we do this work on click instead of on render */
+        /* this won't work, since these views are not just the clicky behavior,
+         * they are also responsible for showing the data. They all need to be there
+         * for the table to be populated */
         onRender: function () {
 
-            this.showTagBar();
+            this.showTagBar("[data-behavior=editable-tag-bar]");
 
             this.ui.$editable.each(_.bind(function (index, element) {
                 this.showEditableText(element);
@@ -169,35 +128,27 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         modelEvents: {
-            'change': 'syncFields'
+            'change': 'syncFieldsToModel'
         },
 
-        /* TODO when the group action occurs, we need to update the
-        *  affected fields that are visible. The 'tags' are returned
-        *  as an object, but we are presenting them as a string.
-        *  Maybe the user_profiles model should have just the string? */
-        /* TODO this needs a better name... maybe "refresh" fields?
-        *  or "sync fields" */
-        syncFields: function (model) {
+        /* when the model changes, we update the fields to represent
+         * this change */
+        syncFieldsToModel: function (model) {
             /* we don't want to clobber fields with focus */
             if (this.isEditing()) { return; }
 
             this.trigger("update:sync", model.changed);
         },
 
-        /* TODO poorly named */
-        /* we have just returned from update the model server side
-        *  so we need to set the new data on the model, and then
-        *  sync fields */
-        syncModel: function (xhr, data, status) {
+        /* when the user uses the fancybox to update the model
+        * we have to sync our local model. */
+        syncLocalToRemote: function (xhr, data, status) {
+            console.log("HAPPENING");
             this.model.set(data);
 
             this.trigger("update:sync", this.model);
         },
 
-
-        /* is this row being worked on? */
-        /* TODO this should just check a flag */
         isEditing: function () {
             return this.is_editing;
         },
@@ -236,10 +187,9 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             $target.focus();
         },
 
-        /* given a $field, replace that $field's contents with text */
-        // TODO this method needs to be cleaned up
-        // TODO we can probably move the "if restore" code to the top
-        // TODO we can probably remove the !e.restore clause from that conditional
+        /* when it is time for the row to stop being editable, we
+         * must either clean up, rollback, or save, based on external
+         * inputs and the state of the edits. */
         finishEditing: function (e) {
             this.setEditing(false);
 

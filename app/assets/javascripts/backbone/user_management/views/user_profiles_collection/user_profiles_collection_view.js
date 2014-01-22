@@ -23,7 +23,44 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
             this.on("click:outside", this.flashUnfinishedEdits);
             this.currently_editing = []; // a FIFO list of rows
+
+            $(window).scroll(this.stickyControls);
+            this.sticky_home = -1;
         },
+
+        /* TODO also, why does it sometimes stop docking? Reproduce this. */
+        stickyControls: function () {
+            var $control = $("[data-behavior=sticky-controls]");
+
+            var scroll_top = $(window).scrollTop();
+            var control_top = $control.offset().top;
+            var fixed = $control.hasClass("sticky");
+
+            if (!fixed && scroll_top >= control_top) {
+                // we have scrolled past the controls
+
+                var old_width = $control.width();
+                var $placeholder = $control.clone()
+                                      .css({ visibility: "hidden" })
+                                      .attr("data-placeholder", "")
+                                      .attr("data-behavior", "");
+
+                // $placehold stays behind to hold the place
+                $control.parent().prepend($placeholder);
+
+                this.sticky_home = control_top;
+                $control.addClass("sticky");
+                $control.css({ width: old_width });
+            } else if ( fixed && scroll_top < this.sticky_home) {
+                // we have now scrolled back up, and are replacing the controls
+
+                this.$("[data-placeholder]").remove();
+                $control.removeClass("sticky");
+                $control.css({ width: "" });
+                this.sticky_home = -1;
+            }
+        },
+
 
         ui: {
             '$commit_buttons' : '[data-behavior=commit-buttons]',
