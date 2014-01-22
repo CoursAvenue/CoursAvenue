@@ -21,6 +21,8 @@
           = link_to 'Privé', pro_structure_path(structure)
           \/
           = link_to "Lien d'inscription", new_pro_admin_structure_registration_path(structure)
+          \/
+          = link_to "Supprimer", pro_structure_path(structure), method: :delete, class: 'red'
 
 = content_for :scripts do
   :javascript

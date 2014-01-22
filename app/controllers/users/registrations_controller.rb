@@ -41,6 +41,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def new
+    @is_xhr = request.xhr?
     respond_to do |format|
       format.html { render layout: !request.xhr? }
     end
