@@ -18,6 +18,7 @@ describe Pro::Courses::PlanningsController do
     let(:course) { FactoryGirl.create(:lesson, structure: @admin.structure) }
     it 'works' do
       get :index, course_id: course.id
+      expect(response).to be_success
     end
   end
 
