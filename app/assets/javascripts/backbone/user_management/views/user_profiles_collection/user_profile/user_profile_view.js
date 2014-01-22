@@ -168,9 +168,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.setEditing(true);
             /* tell all the other fields to start themselves */
             this.trigger("start:editing");
-
-            /* give the main dude focus */
-            $target.focus();
         },
 
         /* when it is time for the row to stop being editable, we

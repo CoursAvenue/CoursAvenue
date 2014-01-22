@@ -50,26 +50,14 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             '$container': '[data-type=taggies-container]'
         },
 
-        getFieldContents: function () {
-            this.ui.$input.val();
-        },
-
         /* get all the little tags */
         $taggies: function () {
             return this.$(".taggy--tag");
         },
 
-        /* no model here */
-        serializeData: function () {
-            if (!this.data) {
-                return;
-            }
-
-            var tags = this.data.split(",");
-
-            return {
-                tags: tags
-            }
+        /* override the $input method to use ui bindings */
+        $input: function () {
+            return this.ui.$input;
         },
 
         /* TODO think about storing the data instead of the DOM and
@@ -87,6 +75,24 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.$('.twitter-typeahead').addClass('inline-block v-middle').css({ width: '0%'});
             /* rebind the ui */
             this.bindUIElements();
+        },
+
+        getFieldContents: function () {
+            return this.ui.$input.val();
+        },
+
+        /* gather all the existing taggies */
+        getEdits: function () {
+            var data = this.$taggies().map(function (index, taggy) {
+                return $(taggy).data("value");
+            }).toArray();
+
+            var edits = {
+                attribute: "tags",
+                data: data
+            };
+
+            return edits;
         },
 
         /* when the user backspaces into a taggy */
@@ -121,6 +127,33 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             return taggy;
         },
 
+        createTaggy: function () {
+            var text  = this.ui.$input.val(),
+                taggy = this.buildTaggy(text);
+
+            /* append said taggy */
+            this.ui.$container.append(taggy);
+
+            this.bindUIElements();
+
+            this.announceEdits();
+            this.updateInputWidth();
+            this.ui.$input.typeahead('setQuery', '');
+        },
+
+        /* no model here */
+        serializeData: function () {
+            if (!this.data) {
+                return;
+            }
+
+            var tags = this.data.split(",");
+
+            return {
+                tags: tags
+            }
+        },
+
         /* TODO this should go away: just put the input at the bottom,
          * and have it be full width all the time */
         updateInputWidth: function () {
@@ -140,77 +173,14 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.ui.$input.css({ width: width, display: "" });
         },
 
-        createTaggy: function () {
-
-            var text  = this.ui.$input.val(),
-                taggy = this.buildTaggy(text);
-
-            /* append said taggy */
-            this.ui.$container.append(taggy);
-
-            // bind the new tag to ui.$taggies
-            // TODO this is probably a little wasteful,
-            // but at the same time we don't expect the
-            // user to need to create a million tags/second
-            this.bindUIElements();
-
-            this.announceEdits();
-            this.updateInputWidth();
-            this.ui.$input.typeahead('setQuery', '');
-        },
-
-        /* gather all the existing taggies */
-        getEdits: function () {
-            var data = this.$taggies().map(function (index, taggy) {
-                return $(taggy).data("value");
-            }).toArray();
-
-            var edits = {
-                attribute: "tags",
-                data: data
-            };
-
-            return edits;
-        },
-
-        announceEdits: function () {
-            var edits = this.getEdits();
-            this.trigger("field:edits", edits);
-        },
-
-        announceClick: function (e) {
-            /* always announce the click */
-            this.trigger("field:click", e);
-
-            /* we don't care if you click on an input */
-            if (this.isEditing()) { return; }
-
-            this.startEditing(); // this field should start right away
-            this.trigger("tagbar:click", this.ui.$input);
-        },
-
-        /* construct and show the taggy */
-        startEditing: function () {
-            if (this.isEditing()) { return; }
-
-            this.setEditing(true);
-
+        activate: function () {
             this.updateInputWidth();
             this.$el.addClass("active");
         },
 
-        /* purely visual: whatever was in the input, change it to text */
-        stopEditing: function () {
-            this.setEditing(false);
+        deactivate: function () {
             this.$el.removeClass("active");
-
             this.ui.$input.css({ display: "none" });
-        },
-
-        /* forcibly update the data */
-        setData: function (data) {
-            this.commit(data);
-            this.refresh();
         },
 
         /* update the data, nothing visual
@@ -246,20 +216,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             var old = this.$rollback;
 
             current.html(old);
-        },
-
-        /* maybe the text has fallen out of sync with the data */
-        refresh: function () {
-            this.rollback();
-        },
-
-        isEditing: function () {
-            return this.is_editing === true;
-        },
-
-        setEditing: function (value) {
-            this.is_editing = value;
-            this.trigger("set:editing", value);
         },
 
         handleComma: function (text, e) {

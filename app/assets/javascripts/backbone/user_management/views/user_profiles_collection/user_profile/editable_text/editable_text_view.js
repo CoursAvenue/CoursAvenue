@@ -23,14 +23,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
             'change':   'announceEdits'
         },
 
-        /* no model here */
-        serializeData: function () {
-
-            return {
-                data: this.data
-            }
-        },
-
         getEdits: function () {
             var edits = {
                 attribute: this.attribute,
@@ -40,22 +32,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
             return edits;
         },
 
-        announceEdits: function () {
-            this.trigger("field:edits", this.getEdits());
-        },
-
-        announceClick: function () {
-            /* we don't care if you click on an input */
-            if (this.isEditing()) { return; }
-
-            this.startEditing(); // this field should start right away
-            this.trigger("text:click", this.$el.find("input")); // TODO we are passing out some HTML... why?
-        },
-
-        startEditing: function () {
-            if (this.isEditing()) { return; }
-
-            this.setEditing(true);
+        activate: function () {
             var text   = this.$el.text();
             var $input = $("<input>").prop('type', 'text')
                                      .prop("value", text);
@@ -63,23 +40,9 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
             this.$el.html($input);
         },
 
-        /* purely visual: whatever was in the input, change it to text */
-        stopEditing: function () {
-            this.setEditing(false);
+        deactivate: function () {
             var data = this.$el.find("input").val();
-
             this.$el.html(data);
-        },
-
-        /* forcibly update the data */
-        setData: function (data) {
-            this.commit(data);
-            this.refresh();
-        },
-
-        /* update the data, nothing visual */
-        commit: function (data) {
-            this.data = data[this.attribute];
         },
 
         /* change the text to the old data */
@@ -88,21 +51,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
         rollback: function () {
             this.setEditing(false);
             this.$el.html(this.data);
-        },
-
-        /* maybe the text has fallen out of sync with the data */
-        /* TODO understand why this was necessary and possibly remove it*/
-        refresh: function () {
-            this.rollback();
-        },
-
-        isEditing: function () {
-            return this.is_editing === true;
-        },
-
-        setEditing: function (value) {
-            this.is_editing = value;
-        },
+        }
 
     });
 });
