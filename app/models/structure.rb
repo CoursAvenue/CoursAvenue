@@ -501,7 +501,7 @@ class Structure < ActiveRecord::Base
   end
 
   def delay_subscribe_to_nutshell
-    self.delay.subscribe_to_nutshell
+    self.delay.subscribe_to_nutshell if Rails.env.production?
   end
 
   def parisian?
