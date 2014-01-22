@@ -63,7 +63,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         /* no model here */
         serializeData: function () {
-            if (this.data === "" || this.data === undefined) {
+            if (!this.data) {
                 return;
             }
 
@@ -229,7 +229,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.refresh();
         },
 
-        /* update the data, nothing visual */
+        /* update the data, nothing visual
+         * if the tag_name comes back null, then
+        *  we set the data to null and populate
+        *  an empty array of tags  */
         commit: function (data) {
             if (data.tag_name === undefined) {
                 return;
@@ -238,7 +241,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.data = data.tag_name;
 
             /* UPON committing data, we must rebuild the tags and set the rollback */
-            var tags = this.data.split(",");
+            var tags = (this.data)? this.data.split(","): [];
             this.ui.$container.empty();
 
             _.each(tags, _.bind(function (tag) {

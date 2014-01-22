@@ -10,6 +10,6 @@ class UserProfileSerializer < ActiveModel::Serializer
   end
 
   def tag_name
-    object.tags.map(&:name).join(', ')
+    object.tags.map(&:name).join(', ') if not object.tags.empty?
   end
 end
