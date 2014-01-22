@@ -1,7 +1,7 @@
 CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.EventLayout = Backbone.Marionette.Layout.extend({
-        constructor: function() {
+        constructor: function(options) {
             Marionette.Layout.prototype.constructor.apply(this, arguments);
             var self = this;
             /* this should listen to events from all its regions */
@@ -10,6 +10,10 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
                 self.listenTo(self[region_name], 'show', self['on' + name + 'Show']);
             });
+
+            if (options && options.events) {
+                Marionette.bindEntityEvents(this, this, options.events);
+            }
 
             /* click outside events are not broadcast so they must be
              * subscribed to with 'on' when the relevant view is initialized */

@@ -17,17 +17,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.tags_url = options.tags_url;
             this.edits = {};
 
-            /* TODO we would like not to have to use the on syntax
-             * it would be nice to be able to just include these events
-             * in the hash below... We can't because this layout is
-             * never declared on its own: it is created as part of the
-             * collection view. */
-            this.on("tagbar:click",   this.startEditing);
-            this.on("text:click",     this.startEditing);
-            this.on("field:click",    this.announceEditableClicked);
-            this.on("field:key:down", this.finishEditing);
-            this.on("field:edits",    this.collectEdits);
-
             $(window).scroll(this.stickyControls);
             this.sticky_home = -1;
         },
@@ -126,7 +115,11 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             });
         },
 
+        /* TODO I don't understand how the fancybox is being shown:
+         * it appears that this method is never called... and yet
+         * we see a fancy box and it appears to do what it ought to. */
         showFancybox: function () {
+            console.log("in showFancybox");
             var data = this.data;
             this.$("[data-behavior=modal]").fancybox({
                 openSpeed   : 300,
@@ -171,7 +164,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         events: {
-            'change @ui.$checkbox': 'addToSelected',
+            'change @ui.$checkbox'       : 'addToSelected',
             'click [data-behavior=modal]': 'showFancybox'
         },
 
@@ -226,6 +219,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         addToSelected: function () {
+            console.log("in addToSelected");
             this.trigger("add:to:selected");
         },
 

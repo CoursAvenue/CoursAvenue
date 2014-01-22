@@ -351,7 +351,14 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
             return {
                 checked: this.groups.selected[id]? true : false,
-                tags_url: tags_url
+                tags_url: tags_url,
+                events: {
+                    "tagbar:click"                : "startEditing",
+                    "text:click"                  : "startEditing",
+                    "field:click"                 : "announceEditableClicked",
+                    "field:key:down"              : "finishEditing",
+                    "field:edits"                 : "collectEdits",
+                }
             };
         },
 
