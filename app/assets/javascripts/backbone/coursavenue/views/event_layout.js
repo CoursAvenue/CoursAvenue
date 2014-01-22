@@ -2,7 +2,26 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.EventLayout = Backbone.Marionette.Layout.extend({
         constructor: function(options) {
+            /* NORMALLY events passed in as options to the constructor override
+            * those set on the class. We haven't been using the options has that
+            * way, and in particular for EventLayout this is a detriment. We
+            * want to be able to:
+            *
+            *  - extend EventLayout, and include an events hash
+            *  - define events as options and pass them in to the constructor
+            *
+            * Hence we extend this.events with options.events
+            *
+            * see userProfileView's events hash, and then
+            * the events hash in UserProfilesCollectionView
+            * which is used to set up the layout */
+            if (options) {
+                _.extend(this.events, options.events);
+                delete options.events;
+            }
+
             Marionette.Layout.prototype.constructor.apply(this, arguments);
+
             var self = this;
             /* this should listen to events from all its regions */
             _.each(_.keys(this.regions), function(region_name) {
@@ -10,10 +29,6 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
                 self.listenTo(self[region_name], 'show', self['on' + name + 'Show']);
             });
-
-            if (options && options.events) {
-                Marionette.bindEntityEvents(this, this, options.events);
-            }
 
             /* click outside events are not broadcast so they must be
              * subscribed to with 'on' when the relevant view is initialized */

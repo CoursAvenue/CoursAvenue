@@ -110,8 +110,13 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         events: {
-            'change @ui.$checkbox'       : 'addToSelected',
-            'click [data-behavior=modal]': 'showFancybox'
+            'change @ui.$checkbox'        : 'addToSelected',
+            'click [data-behavior=modal]' : 'showFancybox',
+            "tagbar:click"                : "startEditing",
+            "text:click"                  : "startEditing",
+            "field:click"                 : "announceEditableClicked",
+            "field:key:down"              : "finishEditing",
+            "field:edits"                 : "collectEdits",
         },
 
         modelEvents: {
