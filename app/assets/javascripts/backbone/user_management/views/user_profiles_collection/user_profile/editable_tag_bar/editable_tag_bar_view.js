@@ -8,11 +8,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
     var BACKSPACE = 8;
     var COMMA     = 188;
 
-    /* TODO when I backspace, it should "untag" the taggie, turning it back into a text */
-    /* TODO I need to define clearly what parts of the template will be added/removed over time
-    *  and then make UI shortcuts for everything else */
-
-    Module.EditableTagBarView = Backbone.Marionette.ItemView.extend({
+    Module.EditableTagBarView = CoursAvenue.Views.EditableFieldView.extend({
         template: Module.templateDirname() + 'editable_tag_bar_view',
         tagName: 'div',
         className: 'editable-tag-bar pointer',
@@ -21,8 +17,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         },
 
         initialize: function (options) {
-            this.data          = options.data;
-            this.attribute     = options.attribute;
             this.url           = options.url;
 
             /* TODO use a proper .hbs template instead
@@ -54,6 +48,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         ui: {
             '$input'    : '.taggy--input',
             '$container': '[data-type=taggies-container]'
+        },
+
+        getFieldContents: function () {
+            this.ui.$input.val();
         },
 
         /* get all the little tags */
@@ -89,20 +87,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.$('.twitter-typeahead').addClass('inline-block v-middle').css({ width: '0%'});
             /* rebind the ui */
             this.bindUIElements();
-        },
-
-        /* TODO yeah, so, this should be a switch eh? */
-        handleKeyDown: function (e) {
-            var key = e.which;
-            var text = this.ui.$input.val();
-
-            if (_.isFunction(this[key])) {
-                this[key](text, e); // call the appropriate handler method
-            }
-
-            if (key === ENTER || key === ESC) {
-                this.trigger("field:key:down", { editable: this, restore: (key === ESC) });
-            }
         },
 
         /* when the user backspaces into a taggy */

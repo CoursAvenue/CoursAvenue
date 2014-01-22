@@ -4,7 +4,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
     var ENTER  = 13;
     var ESC    = 27;
 
-    Module.EditableTextView = Backbone.Marionette.ItemView.extend({
+    Module.EditableTextView = CoursAvenue.Views.EditableFieldView.extend({
         template: Module.templateDirname() + 'editable_text_view',
         tagName: 'div',
         className: 'editable-text pointer',
@@ -13,10 +13,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
         },
 
         initialize: function (options) {
-            this.announceEdits = _.debounce(_.bind(this.announceEdits, this), 100);
 
-            this.data = options.data || "";
-            this.attribute = options.attribute;
+            this[ENTER] = this.announceEdits;
         },
 
         events: {
@@ -31,17 +29,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableText', f
             return {
                 data: this.data
             }
-        },
-
-        handleKeyDown: function (e) {
-            this.announceEdits();
-
-            var key = e.which;
-            if (key !== ENTER && key !== ESC) {
-                return;
-            }
-
-            this.trigger("field:key:down", { editable: this, restore: (key === ESC) });
         },
 
         getEdits: function () {
