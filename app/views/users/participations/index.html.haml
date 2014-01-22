@@ -23,11 +23,13 @@
         - if course.description.present?
           %p
             %strong Description
-          = course.description
+            %br
+            = course.description
         - if course.info.present?
           %p
             %strong Infos pratique au cours
-          = course.info
+            %br
+            = course.info
       .grid__item.three-twelfths>
         = link_to "http://maps.google.com/?q=#{participation.planning.place.location.address}", target: :_blank do
           %img.block{src:"http://maps.googleapis.com/maps/api/staticmap?center=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}&zoom=13&size=200x130&sensor=false&markers=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}"}

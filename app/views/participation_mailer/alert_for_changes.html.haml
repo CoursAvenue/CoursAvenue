@@ -1,0 +1,31 @@
+%p Bonjour #{@user.name}
+
+%p Le cours auxquel vous vous êtes inscrit a été changé
+
+%p.action
+  = link_to "Voir les changements du cours", user_participations_url(@user), class: 'btn btn--blue'
+
+%p
+  %strong Récapitulatif de votre inscription
+
+%table
+  %tbody
+    %tr
+      %th Nom du cours
+      %td= @course.name
+    %tr
+      %th Date
+      %td
+        = l(@planning.start_date, format: :semi_long).capitalize
+        = "de #{l(@planning.start_time, format: :short)} à #{l(@planning.end_time, format: :short)} (#{readable_duration(@planning.duration)})"
+    %tr
+      %th Public
+      %td= join_audiences @planning
+    %tr
+      %th Niveau
+      %td= join_levels @planning.levels
+    %tr
+      %th Lieux
+      %td= @planning.place.location.name
+
+%p L'équipe de CoursAvenue

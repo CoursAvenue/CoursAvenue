@@ -8,6 +8,9 @@ class Course::Open < Course
 
   before_save :set_active
 
+  after_save :alert_participants_for_changes
+  before_destroy :alert_participants_for_deletion
+
   def is_open?
     true
   end
@@ -36,5 +39,13 @@ class Course::Open < Course
 
   def set_active
     self.active = true
+  end
+
+  def alert_participants_for_changes
+    self.participations.map(&:alert_for_changes)
+  end
+
+  def alert_participants_for_deletion
+    self.participations.map(&:alert_for_destroy)
   end
 end

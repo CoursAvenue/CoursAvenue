@@ -3,6 +3,12 @@ class Plannings::ParticipationsController < Pro::ProController
 
   before_action :authenticate_user!
 
+  def new
+    if request.xhr?
+      format.html {render partial: 'form' }
+    end
+  end
+
   def create
     @planning      = Planning.find params[:planning_id]
     @participation = Participation.new planning: @planning, user: current_user
