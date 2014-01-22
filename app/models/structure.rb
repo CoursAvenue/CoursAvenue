@@ -511,6 +511,13 @@ class Structure < ActiveRecord::Base
     Geocoder::Calculations.distance_between([paris_lat, paris_lng], [self.latitude, self.longitude], unit: :km) <= paris_radius
   end
 
+  def has_open_course_plannings?
+    self.courses.open_courses.each do |course|
+      return true if course.plannings.any?
+    end
+    return false
+  end
+
   private
 
   def logo_has_changed?

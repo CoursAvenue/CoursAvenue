@@ -26,8 +26,7 @@
 .white-box--rounded {
     @include border-radius(5em);
 }
-.white-box--noshadow {
-    @extend .white-box;
+.white-box--noshadow, .blue-box--noshadow {
     @include box-shadow(none!important);
 }
 .white-box--small {

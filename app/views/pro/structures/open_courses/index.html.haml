@@ -44,7 +44,7 @@
       = link_to pro_structure_course_open_path(@structure, course), class: 'red', method: :delete do
         %i.fa.fa-times
         Supprimer
-    - if course.plannings.any?
+    - if course.plannings.order('start_date ASC, start_time ASC').any?
       %table.table--data.table--striped
         %thead
           %tr

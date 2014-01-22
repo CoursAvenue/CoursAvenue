@@ -1,10 +1,10 @@
-.blue-box.islet.text--center
+.blue-box.blue-box--noshadow.soft-half.text--center
   %h4 Journées portes ouverte 2014 — Week-end du 6 et 7 avril
   .delta Participez à un atelier gratuit
 
 - structure.courses.open_courses.each do |course|
   - if course.plannings.any?
-    .white-box.islet
+    .white-box.white-box--noshadow.islet
       %strong= course.name
       - if course.other_event_type?
         = "(#{course.event_type_description})"
@@ -24,7 +24,7 @@
               %th Prix
               %th.text--right Inscription
           %tbody
-            - course.plannings.each do |planning|
+            - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
               %tr
                 %td
                   = l(planning.start_date, format: :semi_long).capitalize

@@ -28,7 +28,8 @@
     }
 
     Plugin.prototype = {
-        descendants_subjects_url: '/disciplines/descendants',
+        <% url = CoursAvenue::Application.routes.url_helpers %>
+        descendants_subjects_url: '<%= url.descendants_pro_subjects_path %>',
 
         init: function() {
             this.$descendant_subjects_select         = $(this.$element.data('descendant-select'));

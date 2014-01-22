@@ -4,12 +4,13 @@
 %h3 Mes inscriptions confirmées
 
 - @participations.each do |participation|
+  - course = participation.course
   .white-box.islet
     .grid
       .grid__item.two-twelfths>
         = image_tag participation.structure.logo, class: 'block'
       .grid__item.seven-twelfths>
-        %h4.flush= participation.course.name
+        %h4.flush= course.name
         - if course.other_event_type?
           = "(#{course.event_type_description})"
         - elsif course.event_type.present?
@@ -17,10 +18,16 @@
         %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link'
         %p
           = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
-          %br
-          Mes informations personnelles communiquées
-        %p
-          = participation.course.info
+          -# %br
+          -# Mes informations personnelles communiquées
+        - if course.description.present?
+          %p
+            %strong Description
+          = course.description
+        - if course.info.present?
+          %p
+            %strong Infos pratique au cours
+          = course.info
       .grid__item.three-twelfths>
         = link_to "http://maps.google.com/?q=#{participation.planning.place.location.address}", target: :_blank do
           %img.block{src:"http://maps.googleapis.com/maps/api/staticmap?center=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}&zoom=13&size=200x130&sensor=false&markers=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}"}

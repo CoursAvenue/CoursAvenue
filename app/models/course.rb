@@ -14,7 +14,7 @@ class Course < ActiveRecord::Base
 
   has_many :comments            , through: :structure
   has_many :reservations        , as: :reservable
-  has_many :plannings           , dependent: :destroy, order: 'start_date ASC, start_time ASC'
+  has_many :plannings           , dependent: :destroy
   has_many :teachers            , -> { uniq }, through: :plannings
   has_many :places              , -> { uniq }, through: :plannings
   has_many :prices              , dependent: :destroy
@@ -240,7 +240,7 @@ class Course < ActiveRecord::Base
 
   # Helper methods for place and locations
   def locations
-    places.map(&:location).compact
+    self.places.map(&:location).compact
   end
 
   def locations_around(latitude, longitude, radius=5)
