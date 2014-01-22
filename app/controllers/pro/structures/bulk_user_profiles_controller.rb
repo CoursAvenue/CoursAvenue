@@ -16,10 +16,10 @@ class Pro::Structures::BulkUserProfilesController < Pro::ProController
   def create
     tags = params.delete(:tags)
 
-    if params[:ids] == "all"
-      @user_profiles = UserProfile.all
-    else
+    if params.has_key? :ids
       @user_profiles = UserProfile.where(id: params[:ids])
+    else
+      @user_profiles = UserProfile.all
     end
 
     @structure.busy = true

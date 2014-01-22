@@ -20,6 +20,10 @@ describe Pro::Structures::BulkUserProfilesController do
     it "creates a delayed job" do
       Delayed::Worker.delay_jobs = true # we want to test that the job is being created
 
+      puts "============="
+      puts ids.inspect
+      puts "============="
+
       expect {
         post :create, format: :json, ids: ids, tags: [{ name: "happy"}, { name: "tall"}], structure_id: structure.id
       }.to change(Delayed::Job, :count).by(1)
@@ -31,8 +35,8 @@ describe Pro::Structures::BulkUserProfilesController do
       expect(assigns(:user_profiles).length).to eq(3)
     end
 
-    it "it creates a bulk update for all profiles" do
-      post :create, format: :json, ids: "all", tags: [{ name: "happy"}, { name: "tall"}], structure_id: structure.id
+    it "when given no ids, it creates a bulk update for all profiles" do
+      post :create, format: :json, tags: [{ name: "happy"}, { name: "tall"}], structure_id: structure.id
 
       expect(assigns(:user_profiles).length).to eq(length)
     end
