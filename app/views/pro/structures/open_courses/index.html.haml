@@ -1,6 +1,6 @@
-= side_menu_currently_at 'Journées portes ouvertes'
+= side_menu_currently_at 'Journées Portes Ouvertes'
 
-%h4.flush Journées portes ouverte du week-end du 5 et 6 avril 2014
+%h3.flush Journées Portes Ouvertes du week-end du 5 et 6 avril 2014
 .push--bottom
   = link_to "Qu'est-ce que c'est ?", 'javascript:void(0)', data: { toggle: 'collapse', target: '#jpo-details'}
 
@@ -23,13 +23,11 @@
       proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 
+%h4.push-half--bottom Ateliers proposées
 
 - if @courses.empty?
   %p.white-box.islet
     Vous n'avez pas encore défini vos ateliers.
-
-.text--center.push--bottom
-  = link_to 'Ajouter un atelier', new_pro_structure_course_open_path(@structure), class: 'btn btn--green btn--large'
 
 - @courses.each do |course|
   .white-box.islet
@@ -54,7 +52,7 @@
             %th Public
             %th Niveau
             %th Lieux
-            %th Nombre d'inscrits (max : #{course.nb_participants_max})
+            %th Nombre d'inscrits
             %th
         %tbody
           - course.plannings.each do |planning|
@@ -99,3 +97,5 @@
         %i.fa.fa-plus.soft-half--right
         Ajouter un créneau
 
+.text--center.push--bottom
+  = link_to 'Ajouter un atelier', new_pro_structure_course_open_path(@structure), class: 'btn btn--green btn--large'

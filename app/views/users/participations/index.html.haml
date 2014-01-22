@@ -9,7 +9,11 @@
       .grid__item.two-twelfths>
         = image_tag participation.structure.logo, class: 'block'
       .grid__item.seven-twelfths>
-        %h4.flush= "#{participation.course.event_type} de #{participation.course.name}"
+        %h4.flush= participation.course.name
+        - if course.other_event_type?
+          = "(#{course.event_type_description})"
+        - elsif course.event_type.present?
+          = "(#{course.event_type})"
         %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link'
         %p
           = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"

@@ -124,7 +124,7 @@ CoursAvenue::Application.routes.draw do
           post 'duplicate'
           post 'copy_prices_from'
         end
-        resources :plannings do
+        resources :plannings, controller: 'courses/plannings' do
           member do
             post 'duplicate'
           end

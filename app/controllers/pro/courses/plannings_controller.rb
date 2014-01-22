@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Pro::PlanningsController < InheritedResources::Base
+class Pro::Courses::PlanningsController < InheritedResources::Base
   layout 'admin'
 
   before_action :authenticate_pro_admin!
@@ -64,7 +64,7 @@ class Pro::PlanningsController < InheritedResources::Base
     retrieve_plannings_and_past_plannings
     set_dates_and_times
     respond_to do |format|
-      if @planning.save!
+      if @planning.save
         @course.activate! unless @course.active?
         if @course.is_open?
           format.html { redirect_to pro_structure_course_opens_path(@course.structure), notice: 'Votre planning à bien été créé.' }

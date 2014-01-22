@@ -86,6 +86,8 @@
         .soft--right.push--right= image_tag 'texts/plannings.png', height: 62
 .text--center.push--top
   = link_to 'Ajouter un cours', new_pro_structure_course_path(@structure), class: 'btn btn--green btn--large'
+  %br
+  = link_to 'Ajouter un atelier pour les Journées Portes Ouvertes', pro_structure_course_opens_path(@structure)
 
 = content_for :scripts do
   :javascript

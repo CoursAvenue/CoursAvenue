@@ -8,7 +8,7 @@ FactoryGirl.define do
 
     name     Faker::Name.name
     sequence :email do |n|
-      "person#{n}@example.com"
+      "person#{rand.to_s.gsub('.', '')}@example.com"
     end
     phone_number            '0104050104'
     mobile_phone_number     '0604050104'
@@ -17,5 +17,6 @@ FactoryGirl.define do
 
     password                'zpdajdpzaojdxd'
     password_confirmation   'zpdajdpzaojdxd'
+
   end
 end

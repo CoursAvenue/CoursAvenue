@@ -17,7 +17,7 @@
                   Ajouter
                   %br
                   mon logo
-          .flexbox__item.v-top.five-twelfths>
+          .flexbox__item.v-top.four-twelfths>
             %h4.push-half--bottom
               %span.v-middle= @structure.name
               %span.v-middle.soft-half--left
@@ -25,7 +25,7 @@
                   %i.fa.fa-external-link.v-middle
                   %span.v-middle Voir mon profil public
             %div.push-half--top.relative
-              %div{style: 'position: absolute; top: -5px; left: 140px;'}= image_tag 'texts/tete-de-liste.png', height: 60
+              %div{style: 'position: absolute; top: -5px; left: 130px;'}= image_tag 'texts/tete-de-liste.png', height: 55
               - if @structure.comments_count == 0
                 = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
               - elsif @structure.comments_count > 0
@@ -34,13 +34,14 @@
               = link_to coursavenue_recommendations_pro_structure_path(@structure), class: 'btn btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
                 %i.fa.fa-bullhorn
                 &nbsp;Parrainer un professeur
-          .flexbox__item.v-top.four-twelfths.text--center.v-middle.blue-box>
+          .flexbox__item.v-top.five-twelfths.text--center.v-middle.blue-box>
             - if @structure.parisian?
-              = link_to pro_structure_course_opens_path(@structure), onclick: "ga('send', 'event', 'JPO', 'click')" do
+              = link_to pro_structure_course_opens_path(@structure), class: 'semi-muted-link', onclick: "ga('send', 'event', 'JPO', 'click')" do
                 .gamma
                   Nouveau !
                 .delta
-                  Les Journées Portes Ouvertes CoursAvenue
+                  Participez aux Journées Portes Ouvertes CoursAvenue
+                %p Week-end du 5 et 6 avril 2014
           .flexbox__item.v-top.two-twelfths.text--center>
             .thin.alpha.brand= @structure.comments_count || 0
             %div

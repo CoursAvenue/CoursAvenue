@@ -36,7 +36,7 @@
           %label{for: 'event_other'} Autres
           #other-event-type.hidden
             Précisez :
-            %input#event_type_description_hidden.push--left{ name: 'course[event_type_description]', type: 'text', size: '50' }
+            %input#event_type_description_hidden.push--left{ name: 'course[event_type_description]', type: 'text', size: '50', value: @course.event_type_description}
 
   %h5.form-header-group.flush--bottom.soft--top Description
   .form-white-box
