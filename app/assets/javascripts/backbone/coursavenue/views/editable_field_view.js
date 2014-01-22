@@ -46,13 +46,14 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.trigger("field:edits", edits);
         },
 
-        announceClick: function () {
+        announceClick: function (e) {
+            this.trigger("field:click", e);
             /* we don't care if you click on an input */
             if (this.isEditing()) { return; }
 
             this.startEditing(); // this field should start right away
             this.$input().focus();
-            this.trigger("text:click"); // TODO we are passing out some HTML... why?
+            this.trigger("text:click");
         },
 
         /* construct and show the taggy */

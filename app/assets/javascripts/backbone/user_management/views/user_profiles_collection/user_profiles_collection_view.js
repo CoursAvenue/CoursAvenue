@@ -171,6 +171,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             return _.first(this.currently_editing);
         },
 
+        /* TODO refactor factor */
         bulkAddTags: function () {
             if (this.getCurrentlyEditing()) {
                 this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
@@ -178,9 +179,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
             var tags = this.ui.$details.find("[data-value=tag-names]").val();
 
-            /* just set the new tag for now, replacing old tags */
-            /* TODO we should really see tags as a set, and merge in the new elements */
-            /* but right now tags is just a string */
             var models = _.inject(this.groups.selected, function (memo, view) {
                 var model = view.model;
                 memo.push(model);
@@ -188,15 +186,10 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 return memo;
             }, []);
 
-            /* TODO of course, when we are done we should stop the timeout from being set */
             var self = this;
 
             /* TODO move this code into the collection itself, possibly
             *  by overriding the sync method */
-            /* TODO the important difference here is that, this represents
-            *  updating the whole collection, where normally a backbone collection
-            *  would fire many requests to update itself... we want to do this in
-            *  one bulk action */
             /* TODO the bulk index action should just act on _all_ the dudes,
             *  unless given an array of ids. */
             $.ajax({
