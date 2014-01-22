@@ -10,6 +10,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         initialize: function (options) {
             this.finishEditing = _.bind(this.finishEditing, this);
+            // callbacks need to be bound to this
+            _.bindAll(this, "updateSuccess", "updateError", "flashError");
 
             this.model.set("checked", options.checked);
             this.tags_url = options.tags_url;
@@ -25,7 +27,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.on("field:click",    this.announceEditableClicked);
             this.on("field:key:down", this.finishEditing);
             this.on("field:edits",    this.collectEdits);
-            this.on("row:blur",       this.finishEditing);
 
             $(window).scroll(this.stickyControls);
             this.sticky_home = -1;
@@ -247,48 +248,56 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         // TODO we can probably remove the !e.restore clause from that conditional
         finishEditing: function (e) {
             this.setEditing(false);
-            // we aren't rolling back and the edits are empty
-            if (!e.restore && _.isEmpty(this.edits)) {
-                this.trigger("rollback");
+
+            // rollback if we aught to, or if there are no edits
+            if (e.restore || _.isEmpty(this.edits)) {
+
+                // if the model was new, we are done
+                if (this.model.get("new")) {
+                    this.close();
+                } else {
+                    this.trigger("rollback");
+                }
+
                 return;
             }
 
+            // otherwise, collect and save the updates
             var update    = {
                 user_profile: this.edits
             };
 
-            if (e.restore) {
-                this.trigger("rollback");
+            this.trigger("update:start"); // let everyone know we've started
 
-                if (this.model.get("new")) {
-                    this.close();
-                }
+            // the updateSuccess callback needs to know the action
+            var action = this.model.get("new")? "create" : "update";
+            update_success = _.partial(this.updateSuccess, action);
 
-            } else {
-                // imediately remove the inputs and show text
-                this.trigger("update:start");
-                var action = this.model.get("new")? "create" : "update";
+            this.model.save(update, {
+                error: this.flashError,
+                wait: true
 
-                this.model.save(update, {
-                    error: _.bind(function (model, response) {
-                        /* display a flash containing the error message */
-                        GLOBAL.flash(response.responseJSON.errors.join("\n"), "alert");
-                    }, this),
-                    wait: true
-
-                /* apply changes to the DOM based on whether out commit was rejected */
-                }).success(_.bind(function (response) {
-                    // on success commit the changes
-                    response.action = action;
-
-                    this.trigger("update:success", response);
-                }, this)).error(_.bind(function () {
-                    // on failure, just rollback the text
-                    this.trigger("update:error");
-                }, this));
-            }
+            }).success(update_success)
+              .error(this.updateError);
 
             this.edits = {};
+        },
+
+        /* Callbacks: these are all bound to 'this' */
+
+        updateSuccess: function (action, response) {
+            response.action = action;
+
+            this.trigger("update:success", response);
+        },
+
+        updateError: function () {
+            this.trigger("update:error");
+        },
+
+        flashError: function (model, response) {
+            /* display a flash containing the error message */
+            GLOBAL.flash(response.responseJSON.errors.join("\n"), "alert");
         }
     });
 });

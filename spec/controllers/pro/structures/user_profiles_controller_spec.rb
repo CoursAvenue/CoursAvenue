@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Pro::Structures::UserProfilesController do
   let(:admin) { FactoryGirl.create(:admin) }
 
-  let(:structure) { FactoryGirl.create(:structure_with_user_profiles) }
+  let(:structure) { FactoryGirl.create(:structure_with_user_profiles_with_tags) }
   let(:user_profile) { structure.user_profiles.first }
 
   let(:ids)       { structure.user_profiles.map(&:id) }
@@ -65,17 +65,27 @@ describe Pro::Structures::UserProfilesController do
   end
 
   describe :update do
+    let(:tags) { user_profile.tags.map { |t| { "id" => t.id, "name" => t.name }}}
+
     it "does not change the tags if no tags are given" do
       put :update, format: :json, id: user_profile.id, structure_id: structure.id, user_profile: { }
 
-      expect(JSON.parse(response.body)).to include("tags" => [])
+      expect(JSON.parse(response.body)).to include("tags" => tags)
+    end
+
+    it "does not change the tags if tags is nil" do
+      put :update, format: :json, id: user_profile.id, structure_id: structure.id, user_profile: { tags: nil }
+
+      expect(JSON.parse(response.body)).to include("tags" => tags)
     end
 
     it "updates tags if applicable" do
+      existing_tags = tags.map { |t| t["name"] }
+
       put :update, format: :json, id: user_profile.id, structure_id: structure.id, user_profile: { tags: ["this", "that"] }
 
-      tags = JSON.parse(response.body)["tags"].map { |h| h["name"] }
-      expect(tags).to match_array(["this", "that"])
+      response_tags = JSON.parse(response.body)["tags"].map { |t| t["name"] }
+      expect(response_tags).to match_array(response_tags | existing_tags)
     end
   end
 

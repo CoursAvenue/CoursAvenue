@@ -39,10 +39,9 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   end
 
   def create
-    tags          = params[:user_profile].delete(:tags) if params[:user_profile].has_key? :tags
     @user_profile = @structure.user_profiles.build params[:user_profile]
 
-    add_tags(tags)
+    update_tags
 
     respond_to do |format|
       if @user_profile.save
@@ -56,10 +55,9 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   end
 
   def update
-    tags          = params[:user_profile].delete(:tags) if params[:user_profile].has_key? :tags
     @user_profile = @structure.user_profiles.find params[:id]
 
-    add_tags(tags)
+    update_tags
 
     respond_to do |format|
       if @user_profile.update_attributes(params[:user_profile])
@@ -87,8 +85,17 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     @structure = Structure.friendly.find params[:structure_id]
   end
 
+  # 
   def add_tags(tags)
     @structure.tag(@user_profile, with: tags, on: :tags)
   end
 
+  def update_tags
+    update_tags = params[:user_profile].has_key? :tags
+
+    if update_tags
+        tags = params[:user_profile].delete(:tags)
+        add_tags(tags)
+    end
+  end
 end

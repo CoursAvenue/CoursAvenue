@@ -15,7 +15,7 @@ FactoryGirl.define do
     factory :user_profile_with_tags do
       after(:build) do |user_profile|
 
-        tags = ["this", "that"]
+        tags = ["allergic to cats", "completely insane"]
         user_profile.structure.tag(user_profile, with: tags, on: :tags)
         user_profile.structure.save
       end
