@@ -14,7 +14,7 @@ class Course < ActiveRecord::Base
 
   has_many :comments            , through: :structure
   has_many :reservations        , as: :reservable
-  has_many :plannings           , dependent: :destroy
+  has_many :plannings           , dependent: :destroy, order: 'start_date ASC, start_time ASC'
   has_many :teachers            , -> { uniq }, through: :plannings
   has_many :places              , -> { uniq }, through: :plannings
   has_many :prices              , dependent: :destroy

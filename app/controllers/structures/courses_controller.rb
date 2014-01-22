@@ -30,6 +30,7 @@ class Structures::CoursesController < ApplicationController
   end
 
   def show
+    @structure = Structure.friendly.find params[:structure_id]
     @course             = Course.friendly.find(params[:id])
     @comment            = @course.comments.build
     @comments           = @structure.comments.accepted.reject(&:new_record?)

@@ -49,9 +49,9 @@
       .control-label.v-middle Capacité
       %div.v-middle
         .inline-block De
-        = f.input :nb_participants_min, label: false, wrapper_html: { class: 'inline-block flush' }, input_html: {value: (@course.nb_participants_min || 3), class: 'one-whole'}
+        = f.input :nb_participants_min, label: false, wrapper_html: { class: 'inline-block flush' }, input_html: {value: (@course.nb_participants_min || 3), class: 'one-whole', min: 1}
         .inline-block à
-        = f.input :nb_participants_max, label: false, wrapper_html: { class: 'inline-block flush' }, input_html: {value: (@course.nb_participants_max || 20), class: 'one-whole'}
+        = f.input :nb_participants_max, label: false, wrapper_html: { class: 'inline-block flush' }, input_html: {value: (@course.nb_participants_max || 20), class: 'one-whole', min: 1}
       %p.field-form-info.blue.flush
         %i Au dessous du seuil minimal, les élèves inscrits seront notifiés que l'événement ne sera pas forcément assuré.
         %br
@@ -75,6 +75,12 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('#course_nb_participants_min').change(function() {
+            $('#course_nb_participants_max').attr('min', $('#course_nb_participants_min').val());
+        });
+        $('#course_nb_participants_max').change(function() {
+            $('#course_nb_participants_min').attr('max', $('#course_nb_participants_max').val());
+        });
         $('#course_price_free').click(function() {
             $('#course_price').val('');
         });
