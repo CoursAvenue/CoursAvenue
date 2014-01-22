@@ -57,5 +57,13 @@ class Structures::CoursesController < ApplicationController
     @locations.each_with_index do |location, index|
       @location_index_hash[location] = index + 1
     end
+    respond_to do |format|
+      if @course.active
+        format.html
+      else
+        format.html { redirect_to structure_course_path(place.structure, params[:id]), status: 301 }
+      end
+
+    end
   end
 end

@@ -37,9 +37,9 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
     retrieve_plannings_and_past_plannings
     respond_to do |format|
       if request.xhr?
-        format.html {render partial: "pro/plannings/#{@course.underscore_name}_form"}
+        format.html {render partial: "pro/courses/plannings/#{@course.underscore_name}_form"}
       else
-        format.html {render template: 'pro/plannings/index'}
+        format.html {render template: 'pro/courses/plannings/index'}
       end
     end
   end
@@ -49,9 +49,9 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
     retrieve_plannings_and_past_plannings
     respond_to do |format|
       if request.xhr?
-        format.html {render partial: "pro/plannings/#{@course.underscore_name}_form"}
+        format.html {render partial: "pro/courses/plannings/#{@course.underscore_name}_form"}
       else
-        format.html {render template: 'pro/plannings/index'}
+        format.html {render template: 'pro/courses/plannings/index'}
       end
     end
   end
@@ -75,7 +75,7 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
         if @course.is_open?
           format.html { redirect_to pro_structure_course_opens_path(@course.structure), error: "Le créneau n'a pas pu être créé, avez-vous rempli tous les champs ?" }
         else
-          format.html { render template: 'pro/plannings/index'}
+          format.html { render template: 'pro/courses/plannings/index'}
         end
       end
     end
@@ -99,7 +99,7 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
         if @planning.end_date < Date.today
           flash[:alert] = 'Le cours ne peut être dans le passé'
         end
-        format.html { render template: 'pro/plannings/index', notice: 'Le créneau a bien été mis à jour' }
+        format.html { render template: 'pro/courses/plannings/index', notice: 'Le créneau a bien été mis à jour' }
       end
     end
   end

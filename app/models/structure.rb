@@ -566,7 +566,12 @@ class Structure < ActiveRecord::Base
   end
 
   def subject_parent_and_children
-    errors.add(:subjects,          "Vous devez sélectionner au moins une discipline")        if self.subjects.select{|s| s.ancestry_depth == 0}.empty?
-    errors.add(:children_subjects, "Vous devez sélectionner au moins une sous discipline") if self.subjects.select{|s| s.ancestry_depth == 2}.empty?
+    # Not using scope because subject are not saved in tests and that can fail
+    if self.subjects.select{|subject| subject.depth == 0}.empty?
+      errors.add(:subjects,          "Vous devez sélectionner au moins une discipline")
+    end
+    if self.subjects.select{|subject| subject.depth == 2}.empty?
+      errors.add(:children_subjects, "Vous devez sélectionner au moins une sous discipline")
+    end
   end
 end
