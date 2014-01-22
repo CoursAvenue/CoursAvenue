@@ -1,32 +1,42 @@
-.center-block
+.center-block{class: @is_xhr ? '' : 'white-box island one-third palm-one-whole lap-one-half'}
   #form
     = render 'users/registrations/form'
   #other_form.hidden
     = render 'users/sessions/form'
 
-
 :javascript
-  $('#new_user').submit(function(){
-    if ($('#user_first_name').val().length === 0 ||
-        $('#user_last_name').val().length === 0 ||
-        $('#user_password').val().length === 0 ||
-        $('#user_email').val().length === 0 ||
-        $('#user_password').val().length === 0) {
-      GLOBAL.flash('Tous les champs ne sont pas remplis', 'alert');
-      return false
-    }
-    return true;
-  });
+  var registration_code = function() {
+      $('#new_user').submit(function(){
+        if ($('#user_first_name').val().length === 0 ||
+            $('#user_last_name').val().length === 0 ||
+            $('#user_password').val().length === 0 ||
+            $('#user_email').val().length === 0 ||
+            $('#user_password').val().length === 0) {
+          GLOBAL.flash('Tous les champs ne sont pas remplis', 'alert');
+          return false
+        }
+        return true;
+      });
 
-  $('#show_new_session_form').click(function(){
-    $('#other_form').removeClass('hidden');
-    $('#form').addClass('hidden');
-    $('#facebook_button').text("Se connecter avec Facebook");
-  });
+      $('#show_new_session_form').click(function(){
+          $('#other_form').removeClass('hidden');
+          $('#form').addClass('hidden');
+          $('#facebook_button').text("Se connecter avec Facebook");
+      });
 
-  $('#show_new_registration_form').click(function(){
-    $('#form').removeClass('hidden');
-    $('#other_form').addClass('hidden');
-    $('#facebook_button').text("S'inscrire avec Facebook");
-  });
+      $('#show_new_registration_form').click(function(){
+          $('#form').removeClass('hidden');
+          $('#other_form').addClass('hidden');
+          $('#facebook_button').text("S'inscrire avec Facebook");
+      });
+  }
 
+- if @is_xhr
+  :javascript
+    registration_code()
+- else
+  = content_for :scripts do
+    :javascript
+      $(function() {
+        registration_code()
+      });
