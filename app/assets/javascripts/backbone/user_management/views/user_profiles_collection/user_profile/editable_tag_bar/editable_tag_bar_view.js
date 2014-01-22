@@ -72,7 +72,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
                     url: this.url
                 }
             }]);
-            this.$('.twitter-typeahead').addClass('inline-block v-middle').css({ width: '0%'});
+
+            this.$('.twitter-typeahead').addClass('inline-block v-middle')
+                                        .css({ width: '0%'});
+
             /* rebind the ui */
             this.bindUIElements();
         },
@@ -112,12 +115,12 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         destroyTaggy: function (e) {
             $(e.currentTarget).parent().remove();
 
-            this.updateInputWidth();
             this.announceEdits();
             this.ui.$input.val("");
         },
 
         /* returns the jQuery object representation of a taggy, for a given text */
+        /* TODO stop people from building empty taggies by mashing COMMA */
         buildTaggy: function (text) {
             var taggy = this.$taggy_template.clone();
 
@@ -137,7 +140,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.bindUIElements();
 
             this.announceEdits();
-            this.updateInputWidth();
             this.ui.$input.typeahead('setQuery', '');
         },
 
@@ -151,36 +153,27 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
             return {
                 tags: tags
-            }
+            };
         },
 
-        /* TODO this should go away: just put the input at the bottom,
-         * and have it be full width all the time */
-        updateInputWidth: function () {
-            /* update the input width */
-            /* TODO this could be more efficient */
-            var field_width = this.$el.width();
-            var tags_width  = _.inject(this.$(".taggy--tag"), _.bind(function (memo, element) {
-
-                // use outerWidth(true) to include margin
-                memo += $(element).outerWidth(true) + 10; // TODO this works _most_ of the time; some weird offset is happening
-                return memo;
-            }, this), 0);
-
-            var width = (field_width - (tags_width % (field_width - 70))) + 'px';
-
-            this.$('.twitter-typeahead').css({ width: width, display: "" });
-            this.ui.$input.css({ width: width, display: "" });
-        },
-
+        /* TODO make css styles so that all of this
+        *  can be done with the class "active" */
         activate: function () {
-            this.updateInputWidth();
+            this.ui.$input.css({ display: "" });
+            this.$('.twitter-typeahead').toggleClass('inline-block')
+                                        .toggleClass('v-middle')
+                                        .css({ width: '100%'});
+
             this.$el.addClass("active");
         },
 
         deactivate: function () {
-            this.$el.removeClass("active");
             this.ui.$input.css({ display: "none" });
+            this.$('.twitter-typeahead').toggleClass('inline-block')
+                                        .toggleClass('v-middle')
+                                        .css({ width: '0%'});
+
+            this.$el.removeClass("active");
         },
 
         /* update the data, nothing visual

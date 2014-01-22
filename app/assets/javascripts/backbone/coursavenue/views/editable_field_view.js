@@ -110,7 +110,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
             return {
                 data: this.data
-            }
+            };
         },
 
         isEditing: function () {
