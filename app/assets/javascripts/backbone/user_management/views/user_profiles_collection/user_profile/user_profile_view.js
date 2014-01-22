@@ -7,6 +7,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         template: Module.templateDirname() + 'user_profile_view',
         tagName: 'tr',
         className: 'table__cell--editable unflipped',
+        tagBarView: Module.EditableTagBar.EditableTagBarView,
+        textFieldView: Module.EditableText.EditableTextView,
 
         initialize: function (options) {
             this.finishEditing = _.bind(this.finishEditing, this);
@@ -28,40 +30,24 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             this.edits[edits.attribute] = edits.data;
         },
 
-        showTagBar: function (selector) {
-
+        /* options are passed to the initialize method of the
+        * klass. event_hash is passed directly to the showwidget method */
+        showEditable: function (selector, Klass, event_hash, options) {
             var attribute = this.$(selector).data("name"),
-                data      = this.model.get(attribute);
+                data      = this.model.get(attribute),
+                options   = _.extend(options || {}, { data: data, attribute: attribute }),
+                view      = new Klass(options);
 
-            var view = new Module.EditableTagBar.EditableTagBarView({
-                data: data,
-                attribute: attribute,
-                url: this.tags_url // TODO apply options instead
-            });
+            if (_.isFunction(event_hash.selector)) {
+                event_hash.selector = event_hash.selector(attribute, data);
+            }
 
-            this.showWidget(view, {
-                events: {
-                    'start:editing'     : 'startEditing',
-                    'rollback'          : 'rollback',
-                    'update:start'      : 'stopEditing',
-                    'update:success'    : 'commit',
-                    'update:error'      : 'rollback',
-                    'update:sync'       : 'setData'
-                }
-            });
+            this.showWidget(view, event_hash);
         },
 
-        showEditableText: function (element) {
-
-            var attribute = $(element).data("name"),
-            data = this.model.get(attribute);
-
-            var view = new Module.EditableText.EditableTextView({
-                data: data,
-                attribute: attribute
-            });
-
-            this.showWidget(view, {
+        onRender: function () {
+            var options = { url: this.tags_url };
+            this.showEditable("[data-behavior=editable-tag-bar]", this.tagBarView, {
                 events: {
                     'start:editing'     : 'startEditing',
                     'rollback'          : 'rollback',
@@ -70,8 +56,23 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
                     'update:error'      : 'rollback',
                     'update:sync'       : 'setData'
                 },
-                selector: '[data-type=editable-' + attribute + ']'
-            });
+            }, options);
+
+            this.ui.$editable.each(_.bind(function (index, element) {
+                this.showEditable(element, this.textFieldView, {
+                    events: {
+                        'start:editing'     : 'startEditing',
+                        'rollback'          : 'rollback',
+                        'update:start'      : 'stopEditing',
+                        'update:success'    : 'commit',
+                        'update:error'      : 'rollback',
+                        'update:sync'       : 'setData'
+                    }, selector: function (attribute) {
+                        return '[data-type=editable-' + attribute + ']';
+                    }
+                });
+            }, this));
+
         },
 
         /* TODO I don't understand how the fancybox is being shown:
@@ -102,20 +103,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
             });
         },
 
-        /* it was suggested that we do this work on click instead of on render */
-        /* this won't work, since these views are not just the clicky behavior,
-         * they are also responsible for showing the data. They all need to be there
-         * for the table to be populated */
-        onRender: function () {
-
-            this.showTagBar("[data-behavior=editable-tag-bar]");
-
-            this.ui.$editable.each(_.bind(function (index, element) {
-                this.showEditableText(element);
-            }, this));
-
-        },
-
         ui: {
             '$editable': "[data-behavior=editable]",
             '$editing' : "[data-behavior=editable]:has('input')",
@@ -143,7 +130,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         /* when the user uses the fancybox to update the model
         * we have to sync our local model. */
         syncLocalToRemote: function (xhr, data, status) {
-            console.log("HAPPENING");
             this.model.set(data);
 
             this.trigger("update:sync", this.model);
