@@ -10,6 +10,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         className: 'relative',
 
         initialize: function () {
+            _.bindAll(this, 'addChildToSelected', 'removeChildFromSelected');
+
             this.groups = {
                 selected: {} /* map by model id */,
             }
@@ -36,7 +38,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         /* Controls for canceling/committing edits */
-        itemviewCancel: function (e) {
+        Cancel: function (e) {
             if (!this.getCurrentlyEditing()) {
                 return;
             }
@@ -44,12 +46,39 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
         },
 
-        itemviewCommit: function () {
+        Commit: function () {
             if (!this.getCurrentlyEditing()) {
                 return;
             }
 
             this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
+        },
+
+        selectAll: function () {
+            this.children.each(this.addChildToSelected);
+        },
+
+        deselectAll: function () {
+            this.groups.uber = false;
+            this.children.each(this.removeChildFromSelected);
+        },
+
+        addChildToSelected: function (itemview) {
+            var id = itemview.model.get("id");
+
+            if (!this.groups.selected[id]) {
+                itemview.ui.$checkbox.prop('checked', true);
+                this.groups.selected[id] = itemview;
+            }
+        },
+
+        removeChildFromSelected: function (itemview) {
+            var id = itemview.model.get("id");
+
+            if (this.groups.selected[id]) {
+                itemview.ui.$checkbox.prop('checked', "");
+                delete this.groups.selected[id];
+            }
         },
 
         /* currently_editing may have more than one view. We are only

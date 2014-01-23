@@ -10,9 +10,15 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             'data-behavior': 'bulk-action-controls'
         },
 
+        ui: {
+            '$select_all': '[data-behavior=select-all]',
+        },
+
         events: {
-            'click [data-behavior=save]'   : 'announceSave',
-            'click [data-behavior=cancel]' : 'announceCancel',
+            'click [data-behavior=save]'           : 'announceSave',
+            'click [data-behavior=cancel]'         : 'announceCancel',
+            'click [data-behavior=select-all]'     : 'selectAll',
+            'click [data-behavior=deselect-all]'   : 'deselectAll',
         },
 
         announceSave: function (e) {
@@ -28,6 +34,35 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         onRender: function () {
             this.$el.sticky();
         },
+
+        deselectAll: function () {
+            this.hideDetails("select-all");
+            this.trigger("controls:deselect:all");
+            this.toggleSelectButton("select-all");
+        },
+
+        selectAll: function (options) {
+            this.showDetails("select-all");
+            this.trigger("controls:select:all", { deep: false });
+            this.toggleSelectButton("deselect-all");
+        },
+
+        // the UI binding is cached,
+        // so this will always refer to the same element
+        toggleSelectButton: function (type) {
+            this.ui.$select_all.find('i').toggleClass('fa-check fa-times');
+            this.ui.$select_all.attr('data-behavior', type);
+        },
+
+        showDetails: function (target) {
+            var $details = this.$('[data-target=' + target + ']');
+            $details.slideDown();
+        },
+
+        hideDetails: function (target) {
+            var $details = this.$('[data-target=' + target + ']');
+            $details.slideUp();
+        }
 
 
     });
