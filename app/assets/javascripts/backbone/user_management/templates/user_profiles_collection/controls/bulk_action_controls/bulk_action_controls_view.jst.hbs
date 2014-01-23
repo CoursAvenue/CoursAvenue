@@ -1,0 +1,31 @@
+<div class="grid--full sticky-controls" data-behavior="sticky-controls">
+    <div class="grid__item one-half very-soft">
+        <div class="btn text--center" data-behavior="select-all"><i class="fa fa-check"></i></div>
+        <div class="btn text--center" data-behavior="manage-tags"><i class="fa fa-tags"></i></div>
+        <div class="btn text--center" data-behavior="destroy"><i class="fa fa-trash-o"></i></div>
+        <div class="btn text--center" data-behavior="new"><i class="fa fa-plus"></i></div>
+    </div>{{!--
+--}}<div class="grid__item one-half very-soft text--right">
+        <div class="btn btn--blue text--center" data-behavior="unlock"><i class="fa fa-cogs"></i></div>
+    </div>
+</div>
+<div data-behavior="details">
+    <div class="hidden" data-target="select-all">
+      <p>
+        Vous avez sélectionné 30 élèves.
+        <a href="javascript:void(0)" class="text--center" data-behavior="uber-select">Cliquez-ici pour selectionner le reste</a>
+      </p>
+    </div>
+
+    <div class="grid--full very-soft hidden" data-target="manage-tags">
+        <div class="grid__item one-twelfth">
+            <label for="tag-action"><strong>Tag:</strong></label>
+        </div>{{!--
+    --}}<div class="grid__item four-twelfths">
+            <input id="tag-action" type="text" data-value="tag-names"></input>
+        </div>{{!--
+    --}}<div class="grid__item one-twelfth">
+            <div class="btn one-whole text--center" data-behavior="add-tags">ADD</div>
+        </div>
+    </div>
+</div>

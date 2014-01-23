@@ -35,8 +35,11 @@ UserManagement.addInitializer(function(options) {
 
     UserManagement.mainRegion.show(layout);
 
-    pagination_top    = new CoursAvenue.Views.PaginationToolView({});
-    pagination_bottom = new CoursAvenue.Views.PaginationToolView({});
+    var Controls = UserManagement.Views.UserProfilesCollection.Controls;
+
+    pagination_top       = new CoursAvenue.Views.PaginationToolView({});
+    pagination_bottom    = new CoursAvenue.Views.PaginationToolView({});
+    bulk_action_controls = new Controls.BulkActionControls.BulkActionControlsView({});
 
     layout.showWidget(pagination_top, {
         events: {
@@ -51,6 +54,8 @@ UserManagement.addInitializer(function(options) {
         },
         selector: '[data-type=pagination-bottom]'
     });
+
+    layout.showWidget(bulk_action_controls)
 
     layout.master.show(user_profiles_collection_view);
 

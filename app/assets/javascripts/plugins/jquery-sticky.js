@@ -5,7 +5,8 @@
     $.fn.sticky = function (options) {
 
         return this.each(function () {
-            var $element = $(this);
+            // we add a default z-index of 2
+            var $element = $(this).css({ "z-index": (options)? options.sticky || 1 : 1 });
             var sticky_home = -1;
             var $placeholder = $element.clone()
             .css({ visibility: "hidden" })

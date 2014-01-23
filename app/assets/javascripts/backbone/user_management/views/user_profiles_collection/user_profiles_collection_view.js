@@ -33,7 +33,29 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             '$select_all'     : '[data-behavior=select-all]',
             '$details'        : '[data-behavior=details]',
             '$add_tags'       : '[data-behavior=add-tags]',
-            '$controls'       : '[data-behavior=sticky-controls]'
+        },
+
+        /* Controls for canceling/committing edits */
+        itemviewCancel: function (e) {
+            if (!this.getCurrentlyEditing()) {
+                return;
+            }
+
+            this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
+        },
+
+        itemviewCommit: function () {
+            if (!this.getCurrentlyEditing()) {
+                return;
+            }
+
+            this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
+        },
+
+        /* currently_editing may have more than one view. We are only
+         * concerned with the top one. */
+        getCurrentlyEditing: function () {
+            return _.first(this.currently_editing);
         },
 
         onRender: function () {
@@ -43,9 +65,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             var $pivot = this.$('[data-sort=' + sort + ']');
             $pivot.append("<span class='soft-half--left fa fa-chevron-down' data-type='order'></span>");
             $pivot.addClass("active");
-
-            // initialize the sticky controls
-            this.ui.$controls.sticky();
         },
 
         onClickOutside: function () {
@@ -126,12 +145,98 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }
         },
 
-        /* currently_editing may have more than one view. We are only
-         * concerned with the top one. */
-        getCurrentlyEditing: function () {
-            return _.first(this.currently_editing);
+        /* we should use this opportunity to create the next editable
+        * profile if this was a create action, and to unset our
+        * currently_editing view */
+        onItemviewUpdateSuccess: function (itemView, response) {
+            var action = response.action;
+
+            if (action === "create") {
+                this.newUserProfile();
+            }
         },
 
+        onAfterItemAdded: function (itemView) {
+            if (itemView.model.get("new")) {
+                itemView.$(".editable-text").first().click();
+
+                var table_top  = this.$el.offset().top;
+                var scroll_top = $(window).scrollTop();
+
+                if (scroll_top > table_top) {
+                    $(window).scrollTo(table_top, "slow");
+                }
+            }
+        },
+
+        /* PRIVATE */
+
+        /* when rendering each collection item, we might want to
+         * pass in some info from the paginator_ui or something
+         * if do we would do it here */
+        /* remember that itemViews are constructed and destroyed more often
+        * than the corresponding models */
+        itemViewOptions: function(model, index) {
+            var id = model.get("id");
+            var tags_url = this.collection.url.basename + '/tags.json';
+
+            /* we pass in the hash of layout events the view will respond to */
+            return {
+                checked: this.groups.selected[id]? true : false,
+                tags_url: tags_url,
+                events: {
+                    "tagbar:click"                : "startEditing",
+                    "text:click"                  : "startEditing",
+                    "field:click"                 : "announceEditableClicked",
+                    "field:key:down"              : "finishEditing",
+                    "field:edits"                 : "collectEdits",
+                }
+            };
+        },
+
+        /* override inherited method */
+        announcePaginatorUpdated: function () {
+            if (this.collection.totalPages == undefined || this.collection.totalPages < 1) {
+                return;
+            }
+
+            var data         = this.collection;
+
+            this.trigger('user_profiles:updated');
+
+            /* announce the pagination statistics for the current page */
+            this.trigger('user_profiles:updated:pagination', {
+                current_page:        data.currentPage,
+                last_page:           data.totalPages,
+                buttons:             this.buildPaginationButtons(data),
+                previous_page_query: this.collection.previousQuery(),
+                next_page_query:     this.collection.nextQuery(),
+                sort:                this.collection.server_api.sort
+            });
+        },
+
+        /* OVERRIDE */
+        /* We are implementing appendHTML here so that we can both
+        * append (normal) and prepend (when using "new") to the
+        * table */
+        appendHtml: function(compositeView, itemView, index){
+            if (compositeView.isBuffering) {
+                compositeView.elBuffer.appendChild(itemView.el);
+            } else {
+                // If we've already rendered the main collection, just
+                // append the new items directly into the element.
+                var $container = this.getItemViewContainer(compositeView);
+
+                // prepend if this is the first model in the collection
+                if (index === 0 ) {
+                    itemView.$el.prependTo($container);
+                } else {
+                    $container.append(itemView.el);
+                }
+            }
+        },
+
+        /* CONTROLS */
         /* TODO refactor this bulk part out */
         bulkAddTags: function () {
             if (this.getCurrentlyEditing()) {
@@ -170,85 +275,21 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.collection.add(attributes, { at: 0 });
         },
 
-        /* we should use this opportunity to create the next editable
-        * profile if this was a create action, and to unset our
-        * currently_editing view */
-        onItemviewUpdateSuccess: function (itemView, response) {
-            var action = response.action;
-
-            if (action === "create") {
-                this.newUserProfile();
-            }
-        },
-
-        onAfterItemAdded: function (itemView) {
-            if (itemView.model.get("new")) {
-                itemView.$(".editable-text").first().click();
-
-                var table_top  = this.$el.offset().top;
-                var scroll_top = $(window).scrollTop();
-
-                if (scroll_top > table_top) {
-                    $(window).scrollTo(table_top, "slow");
-                }
-            }
-        },
-
-        /* prompt the user to make sure they know how many user profiles they
-        * are about to destroy */
-        destroySelected: function () {
+        manageTags: function () {
             if (this.getCurrentlyEditing()) {
                 this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
             }
-
-            var models = _.inject(this.groups.selected, function (memo, view) {
-                var model = view.model;
-                memo.push(model);
-
-                return memo;
-            }, []);
-
-            var self = this;
-            _.each(models, function (model) {
-                var id = model.get("id");
-
-                model.destroy({
-                    success: function (model) {
-                        delete self.groups.selected[id];
-                    }
-                });
-            });
+            this.showDetails("manage-tags");
         },
 
-        /* TODO needs QA attention -- this needs to be part of a
-         * DetailsControlView that we need to factor out of this class */
-        showDetails: function (target) {
-            var $manage_tags = this.$('[data-behavior=' + target + ']');
-            var $details = this.$('[data-target=' + target + ']');
+        onItemviewAddToSelected: function (view) {
+            var id = view.model.get("id");
 
-            $manage_tags.toggleClass("active");
-
-            if ($manage_tags.hasClass("active")) {
-                $details.slideDown();
+            if (this.groups.selected[id]) {
+                delete this.groups.selected[id];
             } else {
-                $details.slideUp();
+                this.groups.selected[id] = view; // because we need the model TODO so why not just store the model?
             }
-        },
-
-        itemviewCancel: function (e) {
-            if (!this.getCurrentlyEditing()) {
-                return;
-            }
-
-            this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
-        },
-
-        itemviewCommit: function () {
-            if (!this.getCurrentlyEditing()) {
-                return;
-            }
-
-            this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
         },
 
         /* TODO select all is a little tricky.
@@ -302,87 +343,47 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.groups.uber = true;
         },
 
-        onItemviewAddToSelected: function (view) {
-            var id = view.model.get("id");
-
-            if (this.groups.selected[id]) {
-                delete this.groups.selected[id];
-            } else {
-                this.groups.selected[id] = view; // because we need the model TODO so why not just store the model?
-            }
-        },
-
-        /* when rendering each collection item, we might want to
-         * pass in some info from the paginator_ui or something
-         * if do we would do it here */
-        /* remember that itemViews are constructed and destroyed more often
-        * than the corresponding models */
-        itemViewOptions: function(model, index) {
-            var id = model.get("id");
-            var tags_url = this.collection.url.basename + '/tags.json';
-
-            /* we pass in the hash of layout events the view will respond to */
-            return {
-                checked: this.groups.selected[id]? true : false,
-                tags_url: tags_url,
-                events: {
-                    "tagbar:click"                : "startEditing",
-                    "text:click"                  : "startEditing",
-                    "field:click"                 : "announceEditableClicked",
-                    "field:key:down"              : "finishEditing",
-                    "field:edits"                 : "collectEdits",
-                }
-            };
-        },
-
-        /* override inherited method */
-        announcePaginatorUpdated: function () {
-            if (this.collection.totalPages == undefined || this.collection.totalPages < 1) {
-                return;
-            }
-
-            var data         = this.collection;
-
-            this.trigger('user_profiles:updated');
-
-            /* announce the pagination statistics for the current page */
-            this.trigger('user_profiles:updated:pagination', {
-                current_page:        data.currentPage,
-                last_page:           data.totalPages,
-                buttons:             this.buildPaginationButtons(data),
-                previous_page_query: this.collection.previousQuery(),
-                next_page_query:     this.collection.nextQuery(),
-                sort:                this.collection.server_api.sort
-            });
-        },
-
-        manageTags: function () {
+        /* prompt the user to make sure they know how many user profiles they
+        * are about to destroy */
+        destroySelected: function () {
             if (this.getCurrentlyEditing()) {
                 this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
             }
-            this.showDetails("manage-tags");
+
+            var models = _.inject(this.groups.selected, function (memo, view) {
+                var model = view.model;
+                memo.push(model);
+
+                return memo;
+            }, []);
+
+            var self = this;
+            _.each(models, function (model) {
+                var id = model.get("id");
+
+                model.destroy({
+                    success: function (model) {
+                        delete self.groups.selected[id];
+                    }
+                });
+            });
         },
 
-        /* OVERRIDE */
-        /* We are implementing appendHTML here so that we can both
-        * append (normal) and prepend (when using "new") to the
-        * table */
-        appendHtml: function(compositeView, itemView, index){
-            if (compositeView.isBuffering) {
-                compositeView.elBuffer.appendChild(itemView.el);
-            } else {
-                // If we've already rendered the main collection, just
-                // append the new items directly into the element.
-                var $container = this.getItemViewContainer(compositeView);
+        /* TODO needs QA attention -- this needs to be part of a
+         * DetailsControlView that we need to factor out of this class */
+        showDetails: function (target) {
+            var $manage_tags = this.$('[data-behavior=' + target + ']');
+            var $details = this.$('[data-target=' + target + ']');
 
-                // prepend if this is the first model in the collection
-                if (index === 0 ) {
-                    itemView.$el.prependTo($container);
-                } else {
-                    $container.append(itemView.el);
-                }
+            $manage_tags.toggleClass("active");
+
+            if ($manage_tags.hasClass("active")) {
+                $details.slideDown();
+            } else {
+                $details.slideUp();
             }
         },
+
     });
 });
 
