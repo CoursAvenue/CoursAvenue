@@ -24,43 +24,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.on("click:outside", this.flashUnfinishedEdits);
             this.currently_editing = []; // a FIFO list of rows
 
-            $(window).scroll(this.stickyControls);
-            this.sticky_home = -1;
         },
-
-        /* TODO also, why does it sometimes stop docking? Reproduce this. */
-        stickyControls: function () {
-            var $control = $("[data-behavior=sticky-controls]");
-
-            var scroll_top = $(window).scrollTop();
-            var control_top = $control.offset().top;
-            var fixed = $control.hasClass("sticky");
-
-            if (!fixed && scroll_top >= control_top) {
-                // we have scrolled past the controls
-
-                var old_width = $control.width();
-                var $placeholder = $control.clone()
-                                      .css({ visibility: "hidden" })
-                                      .attr("data-placeholder", "")
-                                      .attr("data-behavior", "");
-
-                // $placehold stays behind to hold the place
-                $control.parent().prepend($placeholder);
-
-                this.sticky_home = control_top;
-                $control.addClass("sticky");
-                $control.css({ width: old_width });
-            } else if ( fixed && scroll_top < this.sticky_home) {
-                // we have now scrolled back up, and are replacing the controls
-
-                this.$("[data-placeholder]").remove();
-                $control.removeClass("sticky");
-                $control.css({ width: "" });
-                this.sticky_home = -1;
-            }
-        },
-
 
         ui: {
             '$commit_buttons' : '[data-behavior=commit-buttons]',
@@ -68,15 +32,20 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             '$commit'         : '[data-behavior=commit]',
             '$select_all'     : '[data-behavior=select-all]',
             '$details'        : '[data-behavior=details]',
-            '$add_tags'       : '[data-behavior=add-tags]'
+            '$add_tags'       : '[data-behavior=add-tags]',
+            '$controls'       : '[data-behavior=sticky-controls]'
         },
 
         onRender: function () {
 
+            // set the chevron for the pivot column
             var sort = this.collection.server_api.sort;
             var $pivot = this.$('[data-sort=' + sort + ']');
             $pivot.append("<span class='soft-half--left fa fa-chevron-down' data-type='order'></span>");
             $pivot.addClass("active");
+
+            // initialize the sticky controls
+            this.ui.$controls.sticky();
         },
 
         /* when we click on a header: */
@@ -92,19 +61,25 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             var sort = e.currentTarget.getAttribute('data-sort');
             var order = "desc";
 
+            // if we are already sorting by this column, change the order
             if (sort === this.collection.server_api.sort) {
                 var order = this.collection.server_api.order;
                 order = (order === "desc")? "asc" : "desc";
             }
 
+            // toggle the active header
             $headers.removeClass("active");
             $target.addClass("active");
 
-            var chevron = (order === "desc" ? "soft-half--left fa fa-chevron-down" : "soft-half--left fa fa-chevron-up");
+            // remove the chevron from the active header
             var $triangle = $headers.find("[data-type=order]").remove();
 
+            // change the direction of the chevron if necessary
             $triangle.removeClass();
+            var chevron = (order === "desc" ? "soft-half--left fa fa-chevron-down" : "soft-half--left fa fa-chevron-up");
             $triangle.addClass(chevron);
+
+            // add the chevron to the active header
             $target.append($triangle);
 
             this.trigger('filter:summary', { sort: sort, order: order });
@@ -171,7 +146,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             return _.first(this.currently_editing);
         },
 
-        /* TODO refactor factor */
+        /* TODO refactor this bulk part out */
         bulkAddTags: function () {
             if (this.getCurrentlyEditing()) {
                 this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
@@ -218,19 +193,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             if (action === "create") {
                 this.newUserProfile();
             }
-
-            /* TODO there is a deep evil lurking here:
-            *  we are setting currently_editing to undefined,
-            *  but there is no guarantee that the value of
-            *  currently_editing at this moment is indeed
-            *  the view that just updated. If it isn't, then
-            *  we are invalidating the state of the app */
-            /* TODO currently_editing should change when:
-            *   - we hit ENTER or CANCEL to commit or rollback
-            *   - we click another row
-            *
-            *  It needs to be independent of the events fired
-            *  by the children */
         },
 
         onAfterItemAdded: function (itemView) {
