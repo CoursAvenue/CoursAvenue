@@ -10,7 +10,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         className: 'relative',
 
         initialize: function () {
-            _.bindAll(this, 'addChildToSelected', 'removeChildFromSelected');
             this.groups = {
                  /* map by model id */
                  /* we map by model id so that we can still affect models that
@@ -41,57 +40,31 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         /* Controls for canceling/committing edits */
         Cancel: function (e) {
-            if (!this.getCurrentlyEditing()) {
-                return;
-            }
-
             this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
         },
 
         Commit: function () {
-            if (!this.getCurrentlyEditing()) {
-                return;
-            }
-
             this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
         },
 
         selectAll: function () {
-            this.children.each(this.addChildToSelected);
+            this.collection.selectAll();
         },
 
         deselectAll: function () {
-            this.groups.deep = false;
-            this.children.each(this.removeChildFromSelected);
+            this.collection.deselectAll();
         },
 
         deepSelect: function () {
-            this.groups.deep = true;
-            alert(this.collection.grandTotal + " records selected");
-        },
-
-        addChildToSelected: function (itemview) {
-            var id = itemview.model.get("id");
-
-            if (!this.groups.selected[id]) {
-                itemview.ui.$checkbox.prop('checked', true);
-                this.groups.selected[id] = itemview.model; // we store the model because we will need it for the bulk actions
-            }
-        },
-
-        removeChildFromSelected: function (itemview) {
-            var id = itemview.model.get("id");
-
-            if (this.groups.selected[id]) {
-                itemview.ui.$checkbox.prop('checked', "");
-                delete this.groups.selected[id];
-            }
+            this.collection.deepSelect();
         },
 
         /* currently_editing may have more than one view. We are only
          * concerned with the top one. */
         getCurrentlyEditing: function () {
-            return _.first(this.currently_editing);
+            var itemview = _.first(this.currently_editing);
+
+            return (itemview)? itemview : { finishEditing: function () { /* NOOP */ } } ;
         },
 
         onRender: function () {
@@ -104,10 +77,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         onClickOutside: function () {
-            if (!this.getCurrentlyEditing()) {
-                return;
-            }
-
             this.getCurrentlyEditing().finishEditing({ restore: false });
         },
 
@@ -168,7 +137,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             var is_editing        = itemview.is_editing;
 
             // close any active view to make room for the new view
-            if (is_editing && previous_itemview) {
+            if (is_editing && previous_itemview.$el !== undefined) {
                 previous_itemview.$el.removeClass("unfinished"); // see note above
                 previous_itemview.finishEditing({ restore: false });
             }

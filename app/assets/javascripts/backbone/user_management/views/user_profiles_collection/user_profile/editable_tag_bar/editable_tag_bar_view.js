@@ -202,7 +202,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         /* change the text to the old data */
         rollback: function () {
-            this.setEditing(false);
             this.stopEditing();
 
             var current = this.ui.$container;

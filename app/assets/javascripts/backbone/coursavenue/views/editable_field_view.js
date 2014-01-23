@@ -80,8 +80,10 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         * then rolling back. Essentially we are rolling forward.
         * Like ninjas... */
         setData: function (data) {
-            this.commit(data);
-            this.rollback();
+            if (data[this.attribute] !== undefined) {
+                this.commit(data);
+                this.rollback();
+            }
         },
 
         activate: function () {

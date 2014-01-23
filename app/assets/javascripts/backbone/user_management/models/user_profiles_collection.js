@@ -87,7 +87,31 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             totalPages:  0,
             grandTotal:  0,
             radius:      2 // determines the behaviour of the ellipsis
-        }
+        },
+
+        selectAll: function () {
+            this.each(function (model) {
+                model.set("selected", true);
+            });
+        },
+
+        deselectAll: function () {
+            this.each(function (model) {
+                model.set("selected", "");
+            });
+        },
+
+        getSelected: function () {
+            return this.find({ selected: true });
+        },
+
+        /* in addition to selecting the models,
+        * set this.deep so that the bulk_action_controller
+        * will know to affect all models not marked */
+        deepSelect: function () {
+            this.deep = true;
+            alert(this.grandTotal + " records selected");
+        },
 
     });
 });

@@ -79,7 +79,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
          * it appears that this method is never called... and yet
          * we see a fancy box and it appears to do what it ought to. */
         showFancybox: function () {
-            console.log("in showFancybox");
             var data = this.data;
             this.$("[data-behavior=modal]").fancybox({
                 openSpeed   : 300,
@@ -121,6 +120,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         /* when the model changes, we update the fields to represent
          * this change */
         syncFieldsToModel: function (model) {
+            if (model.changed.selected !== undefined) {
+                this.ui.$checkbox.prop('checked', model.changed.selected);
+            }
+
             /* we don't want to clobber fields with focus */
             if (this.isEditing()) { return; }
 
@@ -156,7 +159,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         },
 
         addToSelected: function () {
-            console.log("in addToSelected");
             this.trigger("add:to:selected");
         },
 
