@@ -33,6 +33,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.url.basename.pop();
             this.url.basename         = this.url.basename.join('/');
 
+            this.grandTotal = options.total;
         },
 
         /* where we can expect to find the resource we seek

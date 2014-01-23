@@ -11,9 +11,11 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         initialize: function () {
             _.bindAll(this, 'addChildToSelected', 'removeChildFromSelected');
-
             this.groups = {
-                selected: {} /* map by model id */,
+                 /* map by model id */
+                 /* we map by model id so that we can still affect models that
+                  * are not on the current page */
+                selected: {},
             }
 
             this.poller = Backbone.Poller.get(this.collection, { delay: 5000 });
@@ -59,8 +61,13 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         deselectAll: function () {
-            this.groups.uber = false;
+            this.groups.deep = false;
             this.children.each(this.removeChildFromSelected);
+        },
+
+        deepSelect: function () {
+            this.groups.deep = true;
+            alert(this.collection.grandTotal + " records selected");
         },
 
         addChildToSelected: function (itemview) {
@@ -68,7 +75,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
             if (!this.groups.selected[id]) {
                 itemview.ui.$checkbox.prop('checked', true);
-                this.groups.selected[id] = itemview;
+                this.groups.selected[id] = itemview.model; // we store the model because we will need it for the bulk actions
             }
         },
 
@@ -186,13 +193,13 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         /* an item has been checked or unchecked */
-        onItemviewAddToSelected: function (view) {
-            var id = view.model.get("id");
+        onItemviewAddToSelected: function (itemview) {
+            var id = itemview.model.get("id");
 
             if (this.groups.selected[id]) {
                 delete this.groups.selected[id];
             } else {
-                this.groups.selected[id] = view; // because we need the model TODO so why not just store the model?
+                this.groups.selected[id] = itemview.model;
             }
         },
 

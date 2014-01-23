@@ -19,6 +19,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             'click [data-behavior=cancel]'         : 'announceCancel',
             'click [data-behavior=select-all]'     : 'selectAll',
             'click [data-behavior=deselect-all]'   : 'deselectAll',
+            'click [data-behavior=deep-select]'    : 'deepSelect',
         },
 
         announceSave: function (e) {
@@ -54,6 +55,11 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             this.ui.$select_all.attr('data-behavior', type);
         },
 
+        deepSelect: function ( ){
+            this.trigger("controls:deep:select");
+            this.hideDetails("select-all");
+        },
+
         showDetails: function (target) {
             var $details = this.$('[data-target=' + target + ']');
             $details.slideDown();
@@ -62,7 +68,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         hideDetails: function (target) {
             var $details = this.$('[data-target=' + target + ']');
             $details.slideUp();
-        }
+        },
 
 
     });

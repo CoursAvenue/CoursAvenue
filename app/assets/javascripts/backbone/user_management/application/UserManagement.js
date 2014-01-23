@@ -19,6 +19,7 @@ UserManagement.addInitializer(function(options) {
             'controls:cancel'             : 'Cancel',
             'controls:select:all'         : 'selectAll',
             'controls:deselect:all'       : 'deselectAll',
+            'controls:deep:select'        : 'deepSelect',
 
             'click [data-behavior=select-all]'  : 'selectAll',
             'click [data-behavior=manage-tags]' : 'manageTags',
