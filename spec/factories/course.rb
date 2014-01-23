@@ -28,6 +28,7 @@ FactoryGirl.define do
     factory :open_course, class: 'Course::Open' do
       type                'Course::Open'
       event_type          'lorem'
+      nb_participants_min  3
       nb_participants_max  10
     end
 

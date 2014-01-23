@@ -1,11 +1,10 @@
 %p
-  Bonjour #{@structure.name},
+  Bonjour #{@referrer.name},
 %p
   Félicitations ! Nous avons le plaisir de vous informer que, suite à votre parrainage, #{@invited_email} a créé son profil CoursAvenue. Pensez à tous les professeurs (toutes disciplines confondues) qui vous entourent et multipliez vos parrainages :
--#  chaque fois qu'une structure parrainée s'inscrit sur CoursAvenue, nous augmentons votre capacité de stockage de photos à mettre en avant sur votre profil public.
 
 %p.action
-  = link_to "Parrainer d'autres professeurs", new_pro_structure_invited_user_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+  = link_to "Parrainer d'autres professeurs", new_pro_structure_invited_user_url(@referrer, subdomain: 'pro'), class: 'btn btn--blue'
 
 %p N'hésitez pas à nous solliciter si vous avez des questions ! Merci et à très bientôt,
 
@@ -16,4 +15,4 @@
   = render 'footer_info'
 
 - content_for :footer do
-  %p= link_to 'Gérer mes préférences e-mails', notifications_pro_structure_admin_path(@structure, @structure.main_contact, subdomain: 'pro')
+  %p= link_to 'Gérer mes préférences e-mails', notifications_pro_structure_admin_path(@referrer, @referrer.main_contact, subdomain: 'pro')

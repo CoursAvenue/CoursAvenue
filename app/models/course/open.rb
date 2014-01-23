@@ -2,14 +2,16 @@ class Course::Open < Course
 
   attr_accessible :event_type, :event_type_description, :price, :nb_participants_min, :nb_participants_max, :info
 
-  validates :name, :event_type, :nb_participants_max, presence: true
-  validates :nb_participants_max, numericality: { greater_than: :nb_participants_min }
+  validates :name, :event_type, :nb_participants_min, :nb_participants_max, presence: true
   validates :nb_participants_min, numericality: { greater_than: 0 }
-
+  validates :nb_participants_max, numericality: { greater_than: :nb_participants_min },
+                                  unless: Proc.new {|course| course.nb_participants_min.nil? || course.nb_participants_max.nil? }
   before_save :set_active
 
   after_save :alert_participants_for_changes
   before_destroy :alert_participants_for_deletion
+
+  has_many :participations, through: :plannings
 
   def is_open?
     true
@@ -42,10 +44,14 @@ class Course::Open < Course
   end
 
   def alert_participants_for_changes
-    self.participations.map(&:alert_for_changes)
+    self.plannings.each do |planning|
+      planning.participations.map(&:alert_for_changes)
+    end
   end
 
   def alert_participants_for_deletion
-    self.participations.map(&:alert_for_destroy)
+    self.plannings.each do |planning|
+      planning.participations.map(&:alert_for_destroy)
+    end
   end
 end
