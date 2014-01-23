@@ -25,7 +25,7 @@
       - if current_pro_admin.super_admin?
         = pro_side_menu_link 'Mes élèves', pro_structure_user_profiles_path(@structure) , current: current_tab,   icon: 'fa fa-group'
       = pro_side_menu_link 'Mes messages', pro_structure_conversations_path(@structure) , current: current_tab,   icon: 'fa fa-envelope'
-      = pro_side_menu_link 'Parrainer un professeur', new_pro_structure_invited_user_path(@structure)     , current: current_tab, icon: 'fa fa-gift', id: 'recommandation-side-menu'
+      = pro_side_menu_link 'Parrainer un professeur', new_pro_structure_invited_teacher_path(@structure)     , current: current_tab, icon: 'fa fa-gift', id: 'recommandation-side-menu'
       - if @structure.comments_count >= 5
         = pro_side_menu_link 'Communiquer', widget_pro_structure_path(@structure)     , current: current_tab, icon: 'fa fa-bullhorn'
 

@@ -1,5 +1,7 @@
 = side_menu_currently_at 'Journées Portes Ouvertes'
 
+= render partial: 'pro/structures/open_courses/tabs', locals: { current: 'courses' }
+
 %h3.flush Journées Portes Ouvertes du week-end du 5 et 6 avril 2014
 .push--bottom
   = link_to "Qu'est-ce que c'est ?", 'javascript:void(0)', data: { toggle: 'collapse', target: '#jpo-details'}

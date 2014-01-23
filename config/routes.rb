@@ -91,7 +91,12 @@ CoursAvenue::Application.routes.draw do
             patch :import
           end
         end
-        resources :invited_users, only: [:index, :new], controller: 'structures/invited_users' do
+        resources :invited_teachers, only: [:index, :new], controller: 'structures/invited_teachers' do
+          collection do
+            post :bulk_create
+          end
+        end
+        resources :invited_students, only: [:index, :new], controller: 'structures/invited_students' do
           collection do
             post :bulk_create
           end
