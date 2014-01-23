@@ -14,6 +14,7 @@ CoursAvenue::Application.routes.draw do
       get 'pages/offre-et-tarifs'               => 'home#price',              as: 'pages_price'
       get 'pages/nos-convictions'               => 'home#convictions',        as: 'pages_convictions'
       get 'pages/presse'                        => 'home#press',              as: 'pages_press'
+      get 'pages/journees-portes-ouvertes'      => 'home#jpo',                as: 'pages_jpo'
       get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
       # 301 Redirection
       get 'etablissements/demande-de-recommandations', to: 'redirect#structures_new'
