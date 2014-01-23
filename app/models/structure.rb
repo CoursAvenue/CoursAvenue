@@ -77,7 +77,8 @@ class Structure < ActiveRecord::Base
   belongs_to :city
   belongs_to :pricing_plan
 
-  has_many :invited_teachers          , dependent: :destroy
+  # has_many :invited_teachers          , dependent: :destroy
+  has_many :invited_users             , foreign_key: :referrer_id, dependent: :destroy
   has_many :medias                    , -> { order('created_at ASC') },  as: :mediable
   has_many :comments                  , -> { order('created_at DESC') }, as: :commentable, dependent: :destroy
   has_many :teachers                  , dependent: :destroy

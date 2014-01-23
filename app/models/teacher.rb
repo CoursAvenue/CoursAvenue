@@ -1,4 +1,4 @@
-class Teacher < ActiveRecord::Base
+class ::Teacher < ActiveRecord::Base
   acts_as_paranoid
 
   belongs_to :structure

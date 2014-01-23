@@ -91,7 +91,7 @@ class ::Admin < ActiveRecord::Base
   end
 
   def check_if_was_invited
-    InvitedTeacher.where(email: self.email).map(&:inform_proposer)
+    InvitedUser.where(email: self.email).map(&:inform_proposer)
   end
 
 end

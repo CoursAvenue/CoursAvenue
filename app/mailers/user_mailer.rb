@@ -107,4 +107,16 @@ class UserMailer < ActionMailer::Base
     @user       = User.where{email == user_email}.first
     mail to: email, subject: "#{structure.name} vous demande une recommandation"
   end
+
+  # -----------------
+  # Recommandations
+  # -----------------
+
+  def recommand_friends(structure, email_text, email)
+    @structure  = structure
+    @email_text = email_text
+    @email      = email
+    mail to: email, subject: "#{structure.name} vous invite à créer votre profil sur CoursAvenue."
+  end
+
 end

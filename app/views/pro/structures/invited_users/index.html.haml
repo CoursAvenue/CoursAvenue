@@ -1,0 +1,17 @@
+= side_menu_currently_at "Parrainer un professeur"
+
+= render partial: 'pro/structures/invited_users/tabs', locals: { current: 'list' }
+
+%table.table--data.white-box.table--striped
+  %thead
+    %tr
+      %th Email
+      %th S'est créé un compte
+  %tbody
+    - @structure.invited_users.each do |invited_user|
+      %tr
+        %th= invited_user.email
+        %th
+          - if invited_user.registered?
+            %i.fa.fa-check
+

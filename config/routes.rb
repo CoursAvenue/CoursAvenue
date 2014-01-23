@@ -46,7 +46,7 @@ CoursAvenue::Application.routes.draw do
       end
 
       resources :reservations, only: [:index]
-      resources :invited_teachers, only: [:index]
+      resources :invited_users, only: [:index]
       resources :sticker_demands, only: [:index]
       resources :structures, path: 'etablissements' do
         member do
@@ -59,7 +59,6 @@ CoursAvenue::Application.routes.draw do
           patch :activate
           patch :disable
           get   :recommendations, path: 'recommandations'
-          get   :coursavenue_recommendations, path: 'recommander-coursavenue'
           post  :recommend_friends
           post  :update
           get   :widget
@@ -92,7 +91,12 @@ CoursAvenue::Application.routes.draw do
             patch :import
           end
         end
-        resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
+        resources :invited_users, only: [:index, :new], controller: 'structures/invited_users' do
+          collection do
+            post :bulk_create
+          end
+        end
+        # resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
         resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments' do
           member do
@@ -162,16 +166,30 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations', confirmations: 'users/confirmations'}
+  devise_for :users, controllers: {
+                      omniauth_callbacks: 'users/omniauth_callbacks',
+                      sessions: 'users/sessions',
+                      registrations: 'users/registrations',
+                      confirmations: 'users/confirmations'
+                    }, path: '/', path_names: {
+                      sign_in: '/connexion',
+                      sign_up: '/inscription',
+                      confirmation: 'verification'}
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
     collection do
       get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
       get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
     end
     member do
-      get :dashboard
-      get :choose_password
-      get :notifications
+      get  :dashboard
+      get  :choose_password
+      get  :notifications
+      post :recommend_friends
+    end
+    resources :invited_users, only: [:index, :new], controller: 'users/invited_users' do
+      collection do
+        post :bulk_create
+      end
     end
     resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
     resources :messages     , controller: 'users/messages'

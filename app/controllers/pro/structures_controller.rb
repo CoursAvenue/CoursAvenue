@@ -48,25 +48,6 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
-  def recommend_friends
-    @structure      = Structure.friendly.find params[:id]
-    params[:emails] ||= ''
-    regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
-    emails = params[:emails].scan(regexp).uniq
-    text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>'
-    emails.each do |email|
-      InvitedTeacher.where(email: email, structure_id: @structure.id).first_or_create
-      AdminMailer.delay.recommand_friends(@structure, text, email)
-      AdminMailer.delay.recommand_friends(@structure, text, 'contact@coursavenue.com')
-    end
-    respond_to do |format|
-      format.html { redirect_to coursavenue_recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Les autres professeurs ont bien été notifiés.': nil)}
-    end
-  end
-
-  def coursavenue_recommendations
-  end
-
   def crop
     @structure = Structure.friendly.find params[:id]
   end

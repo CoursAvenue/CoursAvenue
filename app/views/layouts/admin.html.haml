@@ -31,7 +31,7 @@
               - elsif @structure.comments_count > 0
                 = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
             %div.push-half--top
-              = link_to coursavenue_recommendations_pro_structure_path(@structure), class: 'btn btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
+              = link_to new_pro_structure_invited_user_path(@structure), class: 'btn btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
                 %i.fa.fa-bullhorn
                 &nbsp;Parrainer un professeur
           - if @structure.parisian?

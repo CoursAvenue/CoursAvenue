@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   has_many :comment_notifications
   has_many :passions
 
+  has_many :invited_users, foreign_key: :referrer_id, dependent: :destroy
+
   has_many :user_profiles
   has_many :structures, through: :user_profiles
 
