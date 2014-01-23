@@ -20,6 +20,7 @@ UserManagement.addInitializer(function(options) {
             'controls:select:all'         : 'selectAll',
             'controls:deselect:all'       : 'deselectAll',
             'controls:deep:select'        : 'deepSelect',
+            'controls:add:tags'           : 'addTags',
 
             'click [data-behavior=select-all]'  : 'selectAll',
             'click [data-behavior=manage-tags]' : 'manageTags',

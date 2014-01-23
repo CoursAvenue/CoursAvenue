@@ -34,6 +34,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.url.basename         = this.url.basename.join('/');
 
             this.grandTotal = options.total;
+            this.deep = false;
         },
 
         /* where we can expect to find the resource we seek
@@ -102,7 +103,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         getSelected: function () {
-            return this.find({ selected: true });
+            return this.where({ selected: true });
         },
 
         /* in addition to selecting the models,
@@ -113,5 +114,17 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             alert(this.grandTotal + " records selected");
         },
 
+        bulkAddTags: function (tags) {
+            var ids = this.getSelected();
+
+            $.ajax({
+                type: "POST",
+                url: this.url.basename + '/bulk.json',
+                data: {
+                    ids: (this.deep) ? "all" : _.pluck(models, 'id'),
+                    tags: tags
+                }
+            });
+        }
     });
 });

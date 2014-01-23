@@ -59,6 +59,12 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.collection.deepSelect();
         },
 
+        addTags: function (tags) {
+            this.collection.bulkAddTags(tags);
+
+            this.poller.start();
+        },
+
         /* currently_editing may have more than one view. We are only
          * concerned with the top one. */
         getCurrentlyEditing: function () {

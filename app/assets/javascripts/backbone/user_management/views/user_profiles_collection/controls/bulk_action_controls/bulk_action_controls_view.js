@@ -12,6 +12,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
 
         ui: {
             '$select_all': '[data-behavior=select-all]',
+            '$tag_names' : '[data-value=tag-names]',
         },
 
         events: {
@@ -19,7 +20,9 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             'click [data-behavior=cancel]'         : 'announceCancel',
             'click [data-behavior=select-all]'     : 'selectAll',
             'click [data-behavior=deselect-all]'   : 'deselectAll',
-            'click [data-behavior=deep-select]'    : 'deepSelect',
+            'click [data-behavior=deep-select]'    : 'deepSelect', // TODO deep select is not finished
+            'click [data-behavior=manage-tags]'    : 'manageTags',
+            'click [data-behavior=add-tags]'        : 'addTags',
         },
 
         announceSave: function (e) {
@@ -70,6 +73,25 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             $details.slideUp();
         },
 
+        manageTags: function () {
+            this.showDetails("manage-tags");
+        },
+
+        addTags: function () {
+            this.hideDetails("manage-tags");
+
+            var tags = this.ui.$tag_names.val();
+            this.trigger("controls:add:tags", tags);
+        },
+
+        newUserProfile: function () {
+            var attributes = { first_name: "", email: "", last_name: "", tags: "", "new": true };
+            this.collection.add(attributes, { at: 0 });
+        },
+
+        manageTags: function () {
+            this.showDetails("manage-tags");
+        },
 
     });
 });
