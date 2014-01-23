@@ -18,4 +18,7 @@ class Pro::HomeController < Pro::ProController
 
   def press
   end
+
+  def jpo
+  end
 end

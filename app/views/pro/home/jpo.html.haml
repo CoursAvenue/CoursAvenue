@@ -1,0 +1,91 @@
+= content_for :title do
+  Journées Portes Ouvertes CoursAvenue 2014
+
+= pro_menu_currently_at 'Journées Portes Ouvertes'
+
+- content_for :above_container do
+  -# {style: "background-image: url('#{asset_path('pages/paris.jpg')}'); border: 0; height: 15em;"}>
+  .home-screen-promotion-wrapper.soft.one-whole.bg-cover
+    %header.soft--ends.text--center
+      %h1.flush.blue
+        Participez à nos Journées Portes Ouvertes
+      %h4.flush.gray Prochaines dates : 5-6 avril 2014 en Île-de-France
+
+  .bg-cover{style: "background-image: url('#{asset_path('pages/open-doors.jpg')}')"}>
+    .main-container.grid.white
+      .grid__item.soft.two-thirds>
+        %h2 Le principe
+
+        %p.line-height-normal.delta
+          A l'image des Journées du Patrimoine des monuments historiques, le principe de cette opération "Journées du Patrimoine immatériel des cours de loisirs" est simple : nos partenaires ouvrent les portes de leurs cours au grand public à travers des ateliers ou des démonstrations (gratuits ou à participation libre) le temps d'un week-end, dans leurs propres salles ou lieux.
+
+        %p.line-height-normal.delta
+          Ces Journées sont l'occasion d'entrevoir l'unité et la diversité de notre patrimoine immatériel des cours de loisirs : initiation aux claquettes, atelier d'écriture corporelle, yoga prénatal, oenologie, improvisation théâtrale, éveil corporel, etc.. Pour les Français, c'est un événément unique pour découvrir ou re-découvrir leurs passions et un moment privilégié dans l'année pour partir à la rencontre de tous les professeurs, associations ou écoles qui les entourent.
+
+        .text--center.push--bottom
+          = link_to "Créer mon profil et participer aux Journées Portes Ouvertes", inscription_pro_structures_path, class: 'btn btn--green btn--large hard--sides btn--full', id: 'register'
+          %br
+          - if current_pro_admin
+            = link_to "J'ai déjà un profil, me connecter et participer à l'événement", new_pro_admin_session_path
+          - else
+            - # TODO change path
+            = link_to "J'ai déjà un profil, me connecter et participer à l'événement", new_pro_admin_session_path
+
+        %p.line-height-normal.delta
+          Les "Journées Portes Ouvertes des cours de loisirs" est un événement inédit entièrement orchestré par nos équipes de CoursAvenue, et les ateliers se déroulent sur les lieux de nos partenaires. Souvent organisées à titre individuel, c'est la première fois que de telles "Journées Portes Ouvertes" sont organisées de manière collective.
+      .grid__item.one-third>
+        - # TODO Ils y participent déjà
+        -# = image_tag 'pages/paris.jpg'
+
+  .home-screen-promotion-wrapper.soft.one-whole
+    .main-container
+      .delta.soft.two-thirds
+        %h2 Ce que vous y gagnez
+
+        %p.line-height-normal
+          L'opération vous permettra de faire connaître vos activités à un public qui ne vous connaît pas et qui commencera à préparer les cours d'été ou la rentrée de septembre.
+
+        %p.line-height-normal
+          Depuis votre profil CoursAvenue, vous aurez accès à toutes les coordonnées des élèves inscrits à vos ateliers, même ceux inscrits en liste d'attente. Après l'événément, vous pourrez ainsi librement continuer à communiquer avec eux, pour leur proposer d'autres cours ou stages et ainsi fidéliser de nouveaux élèves.
+
+        %p.line-height-normal
+          Notre événement s'adressant à tous, la couverture médiatique est large et nos équipes se chargent de relayer l'information à tous les coins de rue et partout ailleurs (télévision, radio, web, etc.). Nous avons déjà noué des partenariats avec les plus grands médias.
+  .main-container
+    .delta.soft.two-thirds
+
+      %h2 Comment y participer
+
+      %p.line-height-normal
+        C'est simple, rapide et tout se fait en ligne sur votre profil CoursAvenue :
+      %ul
+        %li Si vous avez déjà un profil (en tant que professionnel) : connectez-vous et renseignez tous vos ateliers dans la rubrique "Journées Portes Ouvertes" ;
+        %li Si vous n'avez pas encore de profil : créez votre profil le plus tôt possible, complétez-le et renseignez tous vos ateliers dans la rubrique "Journées Portes Ouvertes".
+
+      %p.line-height-normal
+        Une fois vos ateliers renseignés, ils apparaîtront automatiquement sur nos pages dédiées : chaque Internaute pourra alors s'inscrire gratuitement. A chaque inscription, vous en serez notifié par un email automatique, et vous pourrez suivre tous vos inscrits en temps réel directement depuis votre profil.
+
+  .home-screen-promotion-wrapper.soft.one-whole
+    .main-container
+      .delta.soft.two-thirds
+        %h2 100% gratuit
+
+        %p.line-height-normal
+          Vous n'avez rien à payer pour faire partie de notre événément. En tant que responsable de vos propres ateliers, les seules choses que vous devrez prendre en charge seront liées à tous les détails qui en assureront le bon fonctionnement : location des salles, matériel, matières premières, etc.
+
+  .main-container
+    .delta.soft.two-thirds
+      %h2 Vos ateliers
+
+      %p.line-height-normal
+        C'est vous qui ouvrez les portes de vos lieux, et c'est vous qui décidez tout : créneaux horaires, nombre de participants (avec un nombre minimum et maximum), lieux, type d'événement, etc. Seules conditions nécessaires : vos ateliers doivent être proposés pendant le week-end de l'événement, dans des lieux bien définis, et doivent être soient gratuits, soit à participation libre (vous pouvez indiquer le montant attendu).
+
+  .home-screen-promotion-wrapper.soft.one-whole.bg-cover{style: "background-image: url('#{asset_path('pages/open-doors.jpg')}')"}>
+    .main-container.white
+      .delta.soft.two-thirds
+        %h2 En résumé
+
+        %p.line-height-normal
+          Ces journées sont un moment privilégié permettant aux Français de découvrir le patrimoine immatériel qui les entoure à travers des cours de loisirs exceptionnellement ouverts au public dont l'accès est gratuit ou à prix réduit.
+
+        %p.line-height-normal
+          Pour vous, c'est l'occasion unique de participer au premier événement de cette ampleur et vous faire connaître d'un nouveau public à la recherche de nouveaux cours.
