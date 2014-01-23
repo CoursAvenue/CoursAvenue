@@ -156,6 +156,17 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }
         },
 
+        /* an item has been checked or unchecked */
+        onItemviewAddToSelected: function (view) {
+            var id = view.model.get("id");
+
+            if (this.groups.selected[id]) {
+                delete this.groups.selected[id];
+            } else {
+                this.groups.selected[id] = view; // because we need the model TODO so why not just store the model?
+            }
+        },
+
         onAfterItemAdded: function (itemView) {
             if (itemView.model.get("new")) {
                 itemView.$(".editable-text").first().click();
@@ -168,8 +179,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 }
             }
         },
-
-        /* PRIVATE */
 
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something
@@ -233,154 +242,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 } else {
                     $container.append(itemView.el);
                 }
-            }
-        },
-
-        /* CONTROLS */
-        /* TODO refactor this bulk part out */
-        bulkAddTags: function () {
-            if (this.getCurrentlyEditing()) {
-                this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
-            }
-
-            var tags = this.ui.$details.find("[data-value=tag-names]").val();
-
-            var models = _.inject(this.groups.selected, function (memo, view) {
-                var model = view.model;
-                memo.push(model);
-
-                return memo;
-            }, []);
-
-            var self = this;
-
-            /* TODO move this code into the collection itself, possibly
-            *  by overriding the sync method */
-            /* TODO the bulk index action should just act on _all_ the dudes,
-            *  unless given an array of ids. */
-            $.ajax({
-                type: "POST",
-                url: this.collection.url.basename + '/bulk.json',
-                data: {
-                    ids: (this.groups.uber) ? "all" : _.pluck(models, 'id'),
-                    tags: tags
-                }
-            });
-
-            this.poller.start();
-        },
-
-        newUserProfile: function () {
-            var attributes = { first_name: "", email: "", last_name: "", tags: "", "new": true };
-            this.collection.add(attributes, { at: 0 });
-        },
-
-        manageTags: function () {
-            if (this.getCurrentlyEditing()) {
-                this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
-            }
-            this.showDetails("manage-tags");
-        },
-
-        onItemviewAddToSelected: function (view) {
-            var id = view.model.get("id");
-
-            if (this.groups.selected[id]) {
-                delete this.groups.selected[id];
-            } else {
-                this.groups.selected[id] = view; // because we need the model TODO so why not just store the model?
-            }
-        },
-
-        /* TODO select all is a little tricky.
-         *
-         * when I click select all, I mark child views by adding
-         * them to or removing them from my array "groups.selected"
-         *
-         * when I arrive on a new page of results, I need to show
-         * whether or not the results are selected by comparing
-         * the current rows to groups.selected
-         *
-        * */
-        selectAll: function (options) {
-            if (this.getCurrentlyEditing()) {
-                this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
-            }
-
-            this.showDetails("select-all");
-
-            var self = this;
-            var deselect = this.ui.$select_all.data().deselect;
-
-            this.children.each(function (view) {
-                var id = view.model.get("id");
-
-                if (deselect) {
-                    self.groups.uber = false;
-
-                    /* TODO we should set the checkbox value directly, rather
-                    *  than clicking on the checkboxes. This is noticeably slower */
-                    if (self.groups.selected[id]) {
-                        view.ui.$checkbox.click();
-                    }
-                } else {
-                    if (!self.groups.selected[id]) {
-                        view.ui.$checkbox.click();
-                    }
-                }
-            });
-
-            this.ui.$select_all.find('i').toggleClass('fa-check fa-times');
-            this.ui.$select_all.data('deselect', !deselect);
-        },
-
-        deepSelect: function ( ){
-            if (this.getCurrentlyEditing()) {
-                this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
-            }
-
-            this.showDetails("select-all");
-            this.groups.uber = true;
-        },
-
-        /* prompt the user to make sure they know how many user profiles they
-        * are about to destroy */
-        destroySelected: function () {
-            if (this.getCurrentlyEditing()) {
-                this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
-            }
-
-            var models = _.inject(this.groups.selected, function (memo, view) {
-                var model = view.model;
-                memo.push(model);
-
-                return memo;
-            }, []);
-
-            var self = this;
-            _.each(models, function (model) {
-                var id = model.get("id");
-
-                model.destroy({
-                    success: function (model) {
-                        delete self.groups.selected[id];
-                    }
-                });
-            });
-        },
-
-        /* TODO needs QA attention -- this needs to be part of a
-         * DetailsControlView that we need to factor out of this class */
-        showDetails: function (target) {
-            var $manage_tags = this.$('[data-behavior=' + target + ']');
-            var $details = this.$('[data-target=' + target + ']');
-
-            $manage_tags.toggleClass("active");
-
-            if ($manage_tags.hasClass("active")) {
-                $details.slideDown();
-            } else {
-                $details.slideUp();
             }
         },
 

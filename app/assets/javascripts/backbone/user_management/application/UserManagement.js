@@ -15,9 +15,9 @@ UserManagement.addInitializer(function(options) {
             'pagination:prev'             : 'prevPage',
             'pagination:page'             : 'goToPage',
             'filter:summary'              : 'filterQuery',
+            'controls:save'               : 'itemviewCommit',
+            'controls:cancel'             : 'itemviewCancel',
 
-            'click [data-behavior=cancel]'      : 'itemviewCancel',
-            'click [data-behavior=commit]'      : 'itemviewCommit',
             'click [data-behavior=select-all]'  : 'selectAll',
             'click [data-behavior=manage-tags]' : 'manageTags',
             'click [data-behavior=add-tags]'    : 'bulkAddTags',

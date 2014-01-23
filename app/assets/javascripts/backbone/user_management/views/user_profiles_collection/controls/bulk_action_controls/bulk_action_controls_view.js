@@ -10,8 +10,25 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             'data-behavior': 'bulk-action-controls'
         },
 
+        events: {
+            'click [data-behavior=save]'   : 'announceSave',
+            'click [data-behavior=cancel]' : 'announceCancel',
+        },
+
+        announceSave: function (e) {
+            e.stopPropagation();
+            this.trigger("controls:save");
+        },
+
+        announceCancel: function (e) {
+            e.stopPropagation();
+            this.trigger("controls:cancel");
+        },
+
         onRender: function () {
             this.$el.sticky();
-        }
+        },
+
+
     });
 });
