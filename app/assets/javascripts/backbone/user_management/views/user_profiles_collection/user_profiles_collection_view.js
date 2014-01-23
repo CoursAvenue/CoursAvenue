@@ -21,7 +21,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 this.poller.stop();
             }, this));
 
-            this.on("click:outside", this.flashUnfinishedEdits);
+            this.on("click:outside", this.onClickOutside);
             this.currently_editing = []; // a FIFO list of rows
 
         },
@@ -48,10 +48,20 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.ui.$controls.sticky();
         },
 
+        onClickOutside: function () {
+            if (!this.getCurrentlyEditing()) {
+                return;
+            }
+
+            this.getCurrentlyEditing().finishEditing({ restore: false });
+        },
+
         /* when we click on a header: */
         /* find the current sorting pivot and remove a class from it
          *  add that class to the new one. Ensure that the disclosure triangle
          *  has the correct orientation. Then trigger filter:summary */
+        /* TODO pull the chevron code out of here */
+        /* TODO change the function name to something like "sortByColumn" */
         filter: function (e) {
             e.preventDefault();
 
@@ -85,30 +95,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.trigger('filter:summary', { sort: sort, order: order });
 
             return false;
-        },
-
-        /* When we click outside, we want the row to change colour, to indicate
-         * pending edits */
-        flashUnfinishedEdits: function () {
-            if (!this.getCurrentlyEditing()) {
-                return;
-            }
-
-            // no edits? no problem!
-            if (_.isEmpty(this.getCurrentlyEditing().edits)) {
-                this.getCurrentlyEditing().finishEditing({ restore: false });
-            } else {
-                // there are pending edits, so mark the row unfinished
-                this.getCurrentlyEditing().$el.addClass("unfinished");
-            }
-        },
-
-        /* if we are clicking back inside an unfinished field
-        * we should mark it as no longer unfinished. */
-        onItemviewEditableClicked: function (row) {
-            if (row.$el.hasClass("unfinished")) {
-                row.$el.removeClass("unfinished");
-            }
         },
 
         /* this method observes the value of "is_editing" on the
@@ -326,12 +312,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }
         },
 
-        /* animate the controls and commit changes to the
-         * currently_editing row */
-        /* we are trying to close the old row because a new row has started editing */
-        onItemviewStartEditing: function (view, data) {
-        },
-
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something
          * if do we would do it here */
@@ -341,6 +321,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             var id = model.get("id");
             var tags_url = this.collection.url.basename + '/tags.json';
 
+            /* we pass in the hash of layout events the view will respond to */
             return {
                 checked: this.groups.selected[id]? true : false,
                 tags_url: tags_url,
@@ -361,8 +342,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }
 
             var data         = this.collection;
-
-            var first_result = (data.currentPage - 1) * data.perPage + 1;
 
             this.trigger('user_profiles:updated');
 
