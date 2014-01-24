@@ -1,5 +1,5 @@
 class Pro::ProController < ApplicationController
-  include CommentsHelper
+  include CommentsHelper, NavigationHelper
 
   layout 'admin'
 
