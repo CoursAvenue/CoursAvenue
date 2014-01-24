@@ -11,6 +11,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         itemView: Module.UserProfile.UserProfileView,
         itemViewContainer: '[data-type=container]',
         className: 'relative',
+        chevron: Handlebars.compile("<span class='soft-half--left fa fa-chevron-{{ order }}' data-type='order'></span>"),
 
         initialize: function () {
             this.poller = Backbone.Poller.get(this.collection, { delay: 5000 });
@@ -32,9 +33,12 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         onRender: function () {
 
             // set the chevron for the pivot column
-            var sort = this.collection.server_api.sort;
-            var $pivot = this.$('[data-sort=' + sort + ']');
-            $pivot.append("<span class='soft-half--left fa fa-chevron-down' data-type='order'></span>");
+            var sort    = this.collection.server_api.sort;
+            var order   = (this.collection.server_api.order === "desc")? "down" : "up";
+            var $pivot  = this.$('[data-sort=' + sort + ']');
+            var chevron = Backbone.Marionette.Renderer.render(this.chevron, { order: order });
+
+            $pivot.append(chevron);
             $pivot.addClass("active");
         },
 
@@ -81,8 +85,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* find the current sorting pivot and remove a class from it
          *  add that class to the new one. Ensure that the disclosure triangle
          *  has the correct orientation. Then trigger filter:summary */
-        /* TODO pull the chevron code out of here */
-        /* TODO change the function name to something like "sortByColumn" */
         sort: function (e) {
             e.preventDefault();
 
@@ -243,7 +245,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 }
             }
         },
-
     });
 });
 
