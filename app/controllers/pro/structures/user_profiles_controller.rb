@@ -85,7 +85,6 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     @structure = Structure.friendly.find params[:structure_id]
   end
 
-  # 
   def add_tags(tags)
     @structure.tag(@user_profile, with: tags, on: :tags)
   end

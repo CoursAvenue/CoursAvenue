@@ -501,8 +501,13 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # TODO this is creating duplicate tags
+  # we need a way to add tags that doesn't create
+  # duplicate tags...
   def bulk_tagging(profile, tags)
-      self.tag(profile, with: tags, on: :tags)
+      tag_list = profile.tag_list.clone
+      tag_list << tags
+      self.tag(profile, with: tag_list, on: :tags)
   end
 
   # it should call the method with the given name
