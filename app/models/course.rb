@@ -355,7 +355,7 @@ class Course < ActiveRecord::Base
   end
 
   def best_price
-    self.prices.where{(type != 'Price::Registration') & (amount > 0)}.order('promo_amount ASC, amount ASC').first
+    self.prices.where{(type != 'Price::Registration') & (amount > 0)}.order('COALESCE(promo_amount, amount) ASC').first
   end
 
   def most_expansive_price

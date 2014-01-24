@@ -63,7 +63,7 @@
       %th Coordonnées
       %td= "#{@city.latitude}, #{@city.longitude}"
 
-= render partial: 'subjects/subjects_facets', locals: { with_root: true }
+= render partial: 'subjects/subjects_facets', locals: { only_roots: true }
 
 - unless @city.image.present?
   = content_for :scripts do
