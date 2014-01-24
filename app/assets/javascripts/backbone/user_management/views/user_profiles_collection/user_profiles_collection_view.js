@@ -73,6 +73,16 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.poller.start();
         },
 
+        destroySelected: function () {
+            this.collection.destroySelected();
+            this.refreshPage(); // to fill in the hole
+        },
+
+        newUserProfile: function () {
+            var attributes = { first_name: "", email: "", last_name: "", tags: "", "new": true };
+            this.collection.add(attributes, { at: 0 });
+        },
+
         /* currently_editing may have more than one view. We are only
          * concerned with the top one. */
         getCurrentlyEditing: function () {

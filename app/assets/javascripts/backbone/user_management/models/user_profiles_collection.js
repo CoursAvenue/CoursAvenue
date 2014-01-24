@@ -121,7 +121,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         bulkAddTags: function (tags) {
-            var ids = this.getSelected();
+            var models = this.getSelected();
 
             $.ajax({
                 type: "POST",
@@ -130,6 +130,14 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
                     ids: (this.deep) ? "all" : _.pluck(models, 'id'),
                     tags: tags
                 }
+            });
+        },
+
+        destroySelected: function () {
+            var models = this.getSelected();
+
+            _.each(models, function (model) {
+                model.destroy();
             });
         }
     });

@@ -17,10 +17,12 @@ UserManagement.addInitializer(function(options) {
             'filter:summary'              : 'filterQuery',
             'controls:save'               : 'Commit',
             'controls:cancel'             : 'Cancel',
+            'controls:new'                : 'newUserProfile',
             'controls:select:all'         : 'selectAll',
             'controls:deselect:all'       : 'deselectAll',
             'controls:deep:select'        : 'deepSelect',
             'controls:add:tags'           : 'addTags',
+            'controls:destroy:selected'   : 'destroySelected',
 
             'click [data-behavior=select-all]'  : 'selectAll',
             'click [data-behavior=manage-tags]' : 'manageTags',
