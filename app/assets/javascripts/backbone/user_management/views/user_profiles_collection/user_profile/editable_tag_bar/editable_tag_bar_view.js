@@ -41,6 +41,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             'focus @ui.$input'              : 'toggleBlueGlow'
         },
 
+        /* TODO stop toggling! Just make two methods because it is broken */
         toggleBlueGlow: function () {
             this.$el.toggleClass("blue-glow");
         },
@@ -157,6 +158,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
 
         /* TODO make css styles so that all of this
          *  can be done with the class "active" */
+        /* TODO see the TODO in the stylesheet _tags */
         /* TODO review stylesheets with NIMA I think my styles
          *  are out of control */
         activate: function () {

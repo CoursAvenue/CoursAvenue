@@ -31,7 +31,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         onRender: function () {
-
             // set the chevron for the pivot column
             var sort    = this.collection.server_api.sort;
             var order   = (this.collection.server_api.order === "desc")? "down" : "up";
@@ -47,12 +46,12 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         /* Controls for canceling/committing edits */
-        Cancel: function (e) {
-            this.getCurrentlyEditing().finishEditing({ restore: true, source: "button" });
+        cancel: function (e) {
+            this.getCurrentlyEditing().finishEditing({ restore: true });
         },
 
-        Commit: function () {
-            this.getCurrentlyEditing().finishEditing({ restore: false, source: "button" });
+        commit: function () {
+            this.getCurrentlyEditing().finishEditing({ restore: false });
         },
 
         selectAll: function () {
@@ -95,6 +94,9 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* find the current sorting pivot and remove a class from it
          *  add that class to the new one. Ensure that the disclosure triangle
          *  has the correct orientation. Then trigger filter:summary */
+        /* TODO the actual filtering should be debounced so that if the
+         * user clicky clicks the chevron many times, it still swaps up and down,
+         * but fires only the last sort request */
         sort: function (e) {
             e.preventDefault();
 
@@ -122,8 +124,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             // toggle the active header
             $headers.removeClass("active");
             $target.addClass("active");
-
-            // remove the chevron from the active header
 
             // change the direction of the chevron if necessary
             $triangle.removeClass();
@@ -202,7 +202,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
             /* we pass in the hash of layout events the view will respond to */
             return {
-                checked: model.get("selected"),
+                checked: model.get("selected"), // TODO check if this is working: the select all seemed to be broken
                 tags_url: tags_url,
                 events: {
                     "tagbar:click"                : "startEditing",

@@ -5,7 +5,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
     Module.BulkActionControlsView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'bulk_action_controls_view',
         tagName: 'div',
-        className: 'grid--full bulk-action-controls sticky-controls white-box white-box--noshadow white-box--small form-white-box form-white-box--centered form-white-box--large',
+        className: 'grid--full bulk-action-controls sticky-controls white-box white-box--noshadow islet',
 
         attributes: {
             'data-behavior': 'bulk-action-controls'
@@ -22,7 +22,9 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             'click [data-behavior=new]'            : 'newUserProfile',
             'click [data-behavior=select-all]'     : 'selectAll',
             'click [data-behavior=deselect-all]'   : 'deselectAll',
+            /* TODO this doesn't actually work yet: when I click on page 2, they don't have checked boxes */
             'click [data-behavior=deep-select]'    : 'deepSelect',
+            /* TODO do try to make this a proper tag bar by installing tag bar */
             'click [data-behavior=manage-tags]'    : 'manageTags',
             'click [data-behavior=add-tags]'       : 'addTags',
             'click [data-behavior=destroy]'        : 'destroySelected',

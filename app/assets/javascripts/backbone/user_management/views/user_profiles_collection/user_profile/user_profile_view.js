@@ -78,6 +78,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
         /* TODO this seems to be working as intended
          * What worries me, though, is that if I remove the
          * event that triggers this method... the box still shows */
+        /* ACTUALLY! It is broke now */
         showFancybox: function () {
             var data = this.data;
             this.$("[data-behavior=modal]").fancybox({
