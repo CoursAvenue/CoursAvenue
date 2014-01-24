@@ -501,11 +501,14 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # TODO this is creating duplicate tags
-  # we need a way to add tags that doesn't create
-  # duplicate tags...
+  # TODO this method doesn't actually work:
+  # according to the rspec tests, the resulting
+  # change to the user_profile leaves it with
+  # ( tags.length + profile.tags.length * 2 ) tags
+  # However, in practice it is returning the right
+  # thing to the client.
   def bulk_tagging(profile, tags)
-      tag_list = profile.tag_list.clone
+      tag_list = profile.tags.map(&:name)
       tag_list << tags
       self.tag(profile, with: tag_list, on: :tags)
   end

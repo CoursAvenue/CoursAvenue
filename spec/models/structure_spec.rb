@@ -112,5 +112,23 @@ describe Structure do
       structure.perform_bulk_user_profiles_job(ids, :some_work, "1", :cat, (1..2))
     end
 
+    describe :bulk_tagging do
+      let(:structure) { FactoryGirl.create(:structure_with_user_profiles_with_tags) }
+      let(:user_profile) { structure.user_profiles.first }
+      let(:tags) { "Master of the Arts, powerful, brazen, churlish" }
+
+      it "adds the given tags to the given profile" do
+        length = user_profile.tags.length
+        structure.bulk_tagging(user_profile, tags)
+
+        expect(user_profile.reload.tags.length).to eq(length + 4);
+      end
+
+      it "does not overwrite the existing tags"
+
+      it "does not create duplicate tags"
+
+    end
+
   end
 end
