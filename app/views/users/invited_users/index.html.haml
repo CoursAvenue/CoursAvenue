@@ -1,0 +1,19 @@
+= user_menu_currently_at 'Inviter mes amis'
+
+= render partial: 'users/invited_users/tabs', locals: { current: 'list' }
+
+%h2 Invitations
+
+%table.table--striped.table--data.white-box
+  %thead
+    %tr
+      %th Email
+      %th S'est créé un compte
+  %tbody
+    - @invited_users.each do |invited_user|
+      %tr
+        %th= invited_user.email
+        %th
+          - if invited_user.registered?
+            %i.fa.fa-check
+

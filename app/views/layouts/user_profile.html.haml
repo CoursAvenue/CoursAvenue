@@ -23,6 +23,10 @@
               = link_to "Profil complété à #{current_user.profile_completion} %", dashboard_user_path(current_user), class: 'semi-muted-link'
           %div
             = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=http://www.coursavenue.com", class: 'btn btn--small btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
+          %div.push-half--top
+            = link_to new_user_invited_user_path(current_user), class: 'btn btn--small', onclick: "ga('send', 'event', 'Share with friends', 'click')" do
+              %i.fa.fa-bullhorn
+              Parrainer mes amis
         .flexbox__item.v-middle.two-twelfths.soft-half.text--center>
           - if current_user.city and current_user.passions.any?
             = link_to current_user.around_courses_url, class: 'muted-link' do

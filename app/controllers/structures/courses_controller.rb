@@ -30,13 +30,7 @@ class Structures::CoursesController < ApplicationController
   end
 
   def show
-    begin
-      @structure = Structure.friendly.find params[:structure_id]
-    rescue ActiveRecord::RecordNotFound
-      place = Place.find params[:structure_id]
-      redirect_to structure_course_path(place.structure, params[:id]), status: 301
-      return
-    end
+    @structure = Structure.friendly.find params[:structure_id]
     @course             = Course.friendly.find(params[:id])
     @comment            = @course.comments.build
     @comments           = @structure.comments.accepted.reject(&:new_record?)
@@ -56,6 +50,13 @@ class Structures::CoursesController < ApplicationController
     location_index               = 0
     @locations.each_with_index do |location, index|
       @location_index_hash[location] = index + 1
+    end
+    respond_to do |format|
+      if @course.active
+        format.html
+      else
+        format.html { redirect_to root_path, notice: "Ce cours n'est pas visible.", status: 301 }
+      end
     end
   end
 end

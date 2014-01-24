@@ -14,6 +14,7 @@ CoursAvenue::Application.routes.draw do
       get 'pages/offre-et-tarifs'               => 'home#price',              as: 'pages_price'
       get 'pages/nos-convictions'               => 'home#convictions',        as: 'pages_convictions'
       get 'pages/presse'                        => 'home#press',              as: 'pages_press'
+      get 'pages/journees-portes-ouvertes'      => 'home#jpo',                as: 'pages_jpo'
       get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
       # 301 Redirection
       get 'etablissements/demande-de-recommandations', to: 'redirect#structures_new'
@@ -32,19 +33,25 @@ CoursAvenue::Application.routes.draw do
       end
 
       resources :city_subject_infos, only: [:new, :create]
-      resources :cities, only: [:index, :edit, :update], path: 'villes', controler: 'pro/cities' do
+      resources :cities, only: [:edit, :update], path: 'villes' do
         collection do
-          get 'zip_code_search'
+          get :zip_code_search
         end
       end
       resources :keywords, only: [:index, :create, :destroy]
       resources :search_term_logs, only: [:index]
-      resources :subjects
+      resources :subjects do
+        collection do
+          get :descendants
+        end
+      end
+
       resources :reservations, only: [:index]
-      resources :invited_teachers, only: [:index]
+      resources :invited_users, only: [:index]
       resources :sticker_demands, only: [:index]
       resources :structures, path: 'etablissements' do
         member do
+          get   :add_subjects
           get   :update_widget_status
           get   :crop_logo
           get   :wizard
@@ -53,7 +60,6 @@ CoursAvenue::Application.routes.draw do
           patch :activate
           patch :disable
           get   :recommendations, path: 'recommandations'
-          get   :coursavenue_recommendations, path: 'recommander-coursavenue'
           post  :recommend_friends
           post  :update
           get   :widget
@@ -88,7 +94,17 @@ CoursAvenue::Application.routes.draw do
             patch :import
           end
         end
-        resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
+        resources :invited_teachers, only: [:index, :new], controller: 'structures/invited_teachers' do
+          collection do
+            post :bulk_create
+          end
+        end
+        resources :invited_students, only: [:index, :new], controller: 'structures/invited_students' do
+          collection do
+            post :bulk_create
+          end
+        end
+        # resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
         resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments' do
           member do
@@ -116,6 +132,7 @@ CoursAvenue::Application.routes.draw do
         resources :messages     , controller: 'structures/messages'
         resources :conversations, controller: 'structures/conversations'
         resources :courses, only: [:index, :new, :create], path: 'cours'#, controller: 'structures/courses' # To insure to have the structure_id
+        resources :course_opens, path: 'journees-portes-ouvertes', controller: 'structures/open_courses'
       end
       resources :courses, except: [:new, :create], path: 'cours' do
         member do
@@ -124,7 +141,7 @@ CoursAvenue::Application.routes.draw do
           post 'duplicate'
           post 'copy_prices_from'
         end
-        resources :plannings,  only: [:new, :edit, :index, :destroy] do
+        resources :plannings, controller: 'courses/plannings' do
           member do
             post 'duplicate'
           end
@@ -136,15 +153,6 @@ CoursAvenue::Application.routes.draw do
           patch 'activate'
           patch 'disable'
         end
-      end
-      resources :course_workshops, controller: 'courses' do
-        resources :plannings, only: [:create, :update]
-      end
-      resources :course_trainings, controller: 'courses' do
-        resources :plannings, only: [:create, :update]
-      end
-      resources :course_lessons, controller: 'courses' do
-        resources :plannings, only: [:create, :update]
       end
 
       resources :users                , only: [:index]
@@ -166,21 +174,36 @@ CoursAvenue::Application.routes.draw do
   # ---------------------------------------------
   # ----------------------------------------- WWW
   # ---------------------------------------------
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations', confirmations: 'users/confirmations'}
+  devise_for :users, controllers: {
+                      omniauth_callbacks: 'users/omniauth_callbacks',
+                      sessions: 'users/sessions',
+                      registrations: 'users/registrations',
+                      confirmations: 'users/confirmations'
+                    }, path: '/', path_names: {
+                      sign_in: '/connexion',
+                      sign_up: '/inscription',
+                      confirmation: 'verification'}
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
     collection do
       get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
       get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
     end
     member do
-      get :dashboard
-      get :choose_password
-      get :notifications
+      get  :dashboard
+      get  :choose_password
+      get  :notifications
+      post :recommend_friends
+    end
+    resources :invited_users, only: [:index, :new], controller: 'users/invited_users' do
+      collection do
+        post :bulk_create
+      end
     end
     resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
     resources :messages     , controller: 'users/messages'
     resources :conversations, controller: 'users/conversations'
     resources :passions, only: [:index, :destroy], controller: 'users/passions'
+    resources :participations, only: [:index], controller: 'users/participations'
   end
   resources :emails, only: [:create]
 
@@ -188,6 +211,10 @@ CoursAvenue::Application.routes.draw do
   get 'auth/failure'           , to: redirect('/')
   get 'signout'                , to: 'session#destroy', as: 'signout'
 
+
+  resources :plannings, only: [] do
+    resources :participations, only: [:create, :destroy], controller: 'plannings/participations'
+  end
   resources :locations, only: [:index]
 
   resources :reservations, only: [:create]

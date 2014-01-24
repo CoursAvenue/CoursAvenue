@@ -12,9 +12,15 @@ class User < ActiveRecord::Base
   has_many :comment_notifications
   has_many :passions
 
+  has_many :invited_users, foreign_key: :referrer_id, dependent: :destroy
+
   has_many :user_profiles
   has_many :structures, through: :user_profiles
+
   has_and_belongs_to_many :subjects
+
+  has_many :participations
+  has_many :plannings, through: :participations
 
   belongs_to :city
 
@@ -85,7 +91,11 @@ class User < ActiveRecord::Base
     if self.avatar.exists?
       self.avatar.url(format)
     elsif self.fb_avatar
-      self.fb_avatar
+      if format == :thumb
+        self.fb_avatar('large')
+      else
+        self.fb_avatar
+      end
     else
       self.avatar
     end
@@ -201,6 +211,11 @@ class User < ActiveRecord::Base
 
   def send_welcome_email
     UserMailer.delay.welcome(self)
+  end
+
+  def participate_to?(planning)
+    # TODO: improve this
+    self.participations.map(&:planning).include? planning
   end
 
   private

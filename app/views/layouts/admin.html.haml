@@ -17,7 +17,7 @@
                   Ajouter
                   %br
                   mon logo
-          .flexbox__item.v-top.nine-twelfths>
+          .flexbox__item.v-top{class: (@structure.parisian? ? 'four-twelfths' : 'nine-twelfths')}>
             %h4.push-half--bottom
               %span.v-middle= @structure.name
               %span.v-middle.soft-half--left
@@ -25,15 +25,23 @@
                   %i.fa.fa-external-link.v-middle
                   %span.v-middle Voir mon profil public
             %div.push-half--top.relative
-              %div{style: 'position: absolute; top: -5px; left: 140px;'}= image_tag 'texts/tete-de-liste.png', height: 60
+              %div{style: 'position: absolute; top: -5px; left: 130px;'}= image_tag 'texts/tete-de-liste.png', height: 55
               - if @structure.comments_count == 0
                 = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
               - elsif @structure.comments_count > 0
                 = link_to "Obtenir plus d'avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
             %div.push-half--top
-              = link_to coursavenue_recommendations_pro_structure_path(@structure), class: 'btn btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
+              = link_to new_pro_structure_invited_teacher_path(@structure), class: 'btn btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
                 %i.fa.fa-bullhorn
                 &nbsp;Parrainer un professeur
+          - if @structure.parisian?
+            .flexbox__item.v-top.five-twelfths.text--center.v-middle.blue-box>
+              = link_to pro_structure_course_opens_path(@structure), class: 'semi-muted-link', onclick: "ga('send', 'event', 'JPO', 'click')" do
+                .gamma
+                  Nouveau !
+                .delta
+                  Participez aux Journées Portes Ouvertes CoursAvenue
+                %p Week-end du 5 et 6 avril 2014
           .flexbox__item.v-top.two-twelfths.text--center>
             .thin.alpha.brand= @structure.comments_count || 0
             %div

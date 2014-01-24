@@ -30,7 +30,7 @@
               %img.coursavenue-stars{src: asset_path('widget/stars.png')}
       %p{style: 'text-align: center; margin-bottom: 10px;'}
         = link_to 'Déposer mon avis sur CoursAvenue', 'http://www.coursavenue.com', class: 'coursavenue-btn', target: '_blank'
-        - Comment.accepted.order('created_at DESC').limit(10).each do |comment|
+        - Comment.accepted.order('created_at DESC').limit(20).each do |comment|
           .coursavenue-white-box
             %p.coursavenue-header
               = link_to structure_url(comment.structure, subdomain: 'www', anchor: "recommandation-#{comment.id}"), class: 'coursavenue-widget-link', target: '_blank' do

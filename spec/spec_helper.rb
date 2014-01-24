@@ -1,33 +1,5 @@
 require 'rubygems'
 
-# require 'simplecov'
-# SimpleCov.start 'rails' do
-#   add_group "Models", "app/models"
-#   add_group "Controllers", "app/controllers"
-# end
-
-#   module Devise
-#     module Models
-#       module DatabaseAuthenticatable
-
-#         def valid_password?(password)
-#           return false if encrypted_password.blank?
-#           encrypted_password == password_digest(password)
-#         end
-
-#         protected
-#         def password_digest(password)
-#           password
-#         end
-
-#       end
-#     end
-#   end
-# Devise.setup do |config|
-#   config.stretches = 0
-# end
-
-
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)

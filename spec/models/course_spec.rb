@@ -293,7 +293,34 @@ describe Course do
     it "should reject a price if it is empty" do
         expect { @course.update_attributes(invalid_prices) }.to change(Price, :count).by(0)
     end
-
   end
 
+  context 'open course' do
+    before do
+      @open_course = FactoryGirl.create(:open_course)
+      planning     = FactoryGirl.create(:planning)
+      user         = FactoryGirl.create(:user)
+      participation = Participation.create user: user, planning: planning
+      planning.participations<< participation
+      planning.save
+      @open_course.plannings << planning
+      @open_course.save
+    end
+
+    describe '#alert_participants_for_changes' do
+      it 'sends an email to participants' do
+        delayed_job_count = Delayed::Job.count
+        @open_course.send :alert_participants_for_changes
+        expect(Delayed::Job.count).to eq delayed_job_count + 1
+      end
+    end
+
+    describe '#alert_participants_for_deletion' do
+      it 'sends an email to participants' do
+        delayed_job_count = Delayed::Job.count
+        @open_course.send :alert_participants_for_deletion
+        expect(Delayed::Job.count).to eq delayed_job_count + 1
+      end
+    end
+  end
 end

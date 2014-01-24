@@ -1,4 +1,5 @@
 class Users::SessionsController < Devise::SessionsController
+
   def after_sign_in_path_for(user)
     request.referrer || root_path
   end
@@ -8,9 +9,9 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def new
+    @is_xhr = request.xhr?
     respond_to do |format|
       format.html { render layout: !request.xhr? }
     end
   end
-
 end

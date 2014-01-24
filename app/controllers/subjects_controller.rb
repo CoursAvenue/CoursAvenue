@@ -51,39 +51,6 @@ class SubjectsController < ApplicationController
     end
   end
 
-  # Params:
-  #    ids: subject ids separeted by comas (123,124,53)
-  #  Returns json:
-  #     Danse - Danse de salon :
-  #           - Salsa
-  #           - Zumba
-  #           - ...
-  #     Cuisine - ...:
-  #           - ...
-  def descendants
-    @subjects = params[:ids].split(',').map{ |id| Subject.friendly.find(id) }
-    @descendants = []
-    @subjects.each do |parent_subject|
-      parent_subject.descendants.at_depth(1).each do |first_descendant|
-        obj                = {}
-        parent_name        = first_descendant.name
-        obj[parent_name] ||= []
-        first_descendant.children.order('name ASC').each do |second_descendant|
-          obj[parent_name] << second_descendant
-        end
-        @descendants << obj
-      end
-    end
-    @descendants = @descendants.sort_by{|subj| subj.keys[0]}
-    respond_to do |format|
-      if params[:callback]
-        format.js { render :json => {descendants: @descendants.to_json}, callback: params[:callback] }
-      else
-        format.json { render json: @descendants.to_json }
-      end
-    end
-  end
-
   def tree
     if params[:parent]
       subject_roots = [Subject.friendly.find(params[:parent])]

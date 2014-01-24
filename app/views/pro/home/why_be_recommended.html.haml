@@ -6,6 +6,10 @@
       %i.fa.fa-heart
       Avantages
   %li
+    %a{href: '#convictions', data: {toggle: 'tab'} }
+      %i.fa.fa-thumbs-up
+      Nos convictions
+  %li
     %a{href: '#control-d-identite', data: {toggle: 'tab'} }
       %i.fa.fa-lock
       Contrôles d'identité
@@ -52,6 +56,8 @@
 
           %p Plusieurs partenaires nous ont fait part d’un phénomène intéressant : un élève qui vous recommande sur CoursAvenue est souvent très fier d’avoir pu s’exprimer publiquement sur Internet pour défendre la qualité de vos cours : il y a ensuite 3 fois plus de chances que cet élève parle de vous lors d’un rendez-vous entre amis et famille
 
+  #convictions.tab-pane
+    = render 'convictions'
   #control-d-identite.tab-pane
     .grid
       .grid__item.four-tenths>

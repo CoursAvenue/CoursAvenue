@@ -162,8 +162,8 @@ group :production, :staging do
 end
 
 group :test do
-  gem 'factory_girl_rails', '~>4.2.1'
-  gem 'rspec-rails'       , '~>2.14.0'
+  gem 'factory_girl_rails', '~>4.3.0'
+  gem 'rspec-rails'       , '~>2.14.1'
   gem 'rspec-instafail'   , '~>0.2.4'
   gem 'faker'             , '~>1.2.0'
   gem 'simplecov'         , '~>0.7.1'

@@ -85,11 +85,13 @@ class ::Admin < ActiveRecord::Base
   private
 
   def delay_subscribe_to_nutshell
-    self.structure.delay_subscribe_to_nutshell
+    if Rails.env.production?
+      self.structure.delay_subscribe_to_nutshell if self.structure
+    end
   end
 
   def check_if_was_invited
-    InvitedTeacher.where(email: self.email).map(&:inform_proposer)
+    InvitedUser.where(email: self.email).map(&:inform_proposer)
   end
 
 end

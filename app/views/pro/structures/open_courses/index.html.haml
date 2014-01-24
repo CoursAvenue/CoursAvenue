@@ -1,0 +1,86 @@
+= side_menu_currently_at 'Journées Portes Ouvertes'
+
+= render partial: 'pro/structures/open_courses/tabs', locals: { current: 'courses' }
+
+%h3.flush Journées Portes Ouvertes du week-end du 5 et 6 avril 2014
+.push--bottom
+  = link_to "Qu'est-ce que c'est ?", pro_pages_jpo_path, target: :_blank
+
+%h4.flush Ateliers proposées
+%p.blue
+  Note : vos ateliers des Journées Portes Ouvertes seront visibles début février.
+
+- if @courses.empty?
+  %p.white-box.islet
+    Vous n'avez pas encore défini vos ateliers.
+
+- @courses.each do |course|
+  .white-box.islet
+    %strong= course.name
+    - if course.other_event_type?
+      = "(#{course.event_type_description})"
+    - elsif course.event_type.present?
+      = "(#{course.event_type})"
+    .float--right
+      = link_to edit_pro_structure_course_open_path(@structure, course) do
+        %i.fa.fa-pencil
+        Modifier
+      \/
+      = link_to pro_structure_course_open_path(@structure, course), class: 'red', method: :delete do
+        %i.fa.fa-times
+        Supprimer
+    - if course.plannings.order('start_date ASC, start_time ASC').any?
+      %table.table--data.table--striped
+        %thead
+          %tr
+            %th Date / Horaire
+            %th Public
+            %th Niveau
+            %th Lieux
+            %th Nombre d'inscrits
+            %th
+        %tbody
+          - course.plannings.each do |planning|
+            %tr
+              %td
+                = l(planning.start_date, format: :semi_long).capitalize
+                = "de #{l(planning.start_time, format: :short)} à #{l(planning.end_time, format: :short)} (#{readable_duration(planning.duration)})"
+              %td= join_audiences planning
+              %td= join_levels planning.levels
+              %td= planning.place.location.name
+              %td
+                - if planning.possible_participations.any?
+                  .progress.flush
+                    .bar.bar-success{style: "width: #{(planning.possible_participations.length * 100) / planning.nb_participants_max}%;"}
+                      #{planning.possible_participations.length} / #{planning.nb_participants_max}
+                - else
+                  Aucun inscrit
+                - if planning.waiting_list.any?
+                  %div
+                    %strong Liste d'attente
+                  .progress.flush
+                    .bar.bar-warning{style: "width: 50%;"}
+                      #{planning.waiting_list.length}
+              %td.text--right
+                .drop-down-el.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+                  %a.btn--orange.btn.btn--small.nowrap{href: '#'}
+                    Actions
+                    %i.fa.fa-chevron-down
+                  %ul.drop-down__el.text--left
+                    %li.nowrap
+                      = link_to edit_pro_course_planning_path(course, planning), title: 'Modifier le créneau', data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax' do
+                        %i.fa.fa-pencil
+                        Modifier le créneau
+                    %li.nowrap
+                      = link_to pro_course_planning_path(course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer le créneau' do
+                        %i.fa.fa-trash-o
+                        Supprimer
+
+
+    %p.push-half--top
+      = link_to new_pro_course_planning_path(course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--blue btn--small' do
+        %i.fa.fa-plus.soft-half--right
+        Ajouter un créneau
+
+.text--center.push--bottom
+  = link_to 'Ajouter un atelier', new_pro_structure_course_open_path(@structure), class: 'btn btn--green btn--large'

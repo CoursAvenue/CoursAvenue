@@ -13,7 +13,7 @@ class Pro::CoursesController < InheritedResources::Base
 
   def index
     @structure = Structure.friendly.find params[:structure_id]
-    @courses   = @structure.courses.order('name ASC')
+    @courses   = @structure.courses.without_open_courses.order('name ASC')
   end
 
   def copy_prices_from
