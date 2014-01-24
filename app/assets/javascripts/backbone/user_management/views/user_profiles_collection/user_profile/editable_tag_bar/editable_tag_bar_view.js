@@ -131,8 +131,13 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         },
 
         createTaggy: function () {
-            var text  = this.ui.$input.val(),
-                taggy = this.buildTaggy(text);
+            var text  = this.ui.$input.val();
+
+            if (text.trim() === "") {
+                return;
+            }
+
+            var taggy = this.buildTaggy(text);
 
             /* append said taggy */
             this.ui.$container.append(taggy);
