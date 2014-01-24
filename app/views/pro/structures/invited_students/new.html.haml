@@ -2,7 +2,7 @@
 
 = render partial: 'pro/structures/open_courses/tabs', locals: { current: 'new' }
 
-%h2.text--center Invitez d'autres professeurs sur CoursAvenue
+%h2.text--center Invitez l'entourage de vos élèves à découvrir vos cours
 
 .white-box.soft
   = form_tag(bulk_create_pro_structure_invited_students_path(@structure), method: :post) do
