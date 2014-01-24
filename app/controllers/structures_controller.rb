@@ -1,6 +1,6 @@
 # encoding: utf-8
 class StructuresController < ApplicationController
-  include SubjectHelper
+  include SubjectHelper, PricesHelper
 
   respond_to :json
 
