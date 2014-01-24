@@ -35,6 +35,8 @@ class Planning < ActiveRecord::Base
 
   has_many :reservations,         as: :reservable
 
+  has_many :participations, dependent: :destroy
+  has_many :users, through: :participations
 
   before_validation :set_start_date
   before_validation :set_end_date
@@ -49,9 +51,9 @@ class Planning < ActiveRecord::Base
 
   # validates :teacher, presence: true
   validates :place, :audience_ids, :level_ids, presence: true
-  validate :presence_of_start_date
-  validate :update_start_and_end_date
-  validate :end_date_in_future
+  validate  :presence_of_start_date
+  validate  :update_start_and_end_date
+  validate  :end_date_in_future
   validates :min_age_for_kid, numericality: { less_than: 18 }, allow_nil: true
   validates :max_age_for_kid, numericality: { less_than: 19 }, allow_nil: true
 
@@ -69,7 +71,7 @@ class Planning < ActiveRecord::Base
                   :end_time,   # Format: Time.parse("2000-01-01 #{value} UTC")
                   :week_day, # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
                   :class_during_holidays,
-                  :total_nb_place,
+                  :nb_participants_max,
                   :nb_place_available,
                   :promotion,
                   :info,
@@ -375,6 +377,19 @@ class Planning < ActiveRecord::Base
     end
   end
 
+  def nb_participants_max
+    read_attribute(:nb_participants_max) or self.course.nb_participants_max
+  end
+
+  # Participations that can be counted and are not exceeded the quota
+  def possible_participations
+    self.participations[0..(self.nb_participants_max - 1)]
+  end
+
+  def waiting_list
+    self.participations - self.possible_participations
+  end
+
   private
 
   # Return the scoped price for a given type.
@@ -448,7 +463,7 @@ class Planning < ActiveRecord::Base
 
   # Validations
   def presence_of_start_date
-    if course.is_workshop? or course.is_training?
+    if course.is_workshop? or course.is_training? or course.is_open?
       unless start_date.present?
         errors.add(:start_date, :blank)
       end

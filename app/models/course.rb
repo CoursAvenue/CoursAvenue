@@ -31,7 +31,11 @@ class Course < ActiveRecord::Base
   scope :lessons,                -> { where(type: "Course::Lesson") }
   scope :workshops,              -> { where(type: "Course::Workshop") }
   scope :trainings,              -> { where(type: "Course::Training") }
-  scope :workshops_and_training, -> { where{ type != "Course::Lesson" } }
+  scope :workshops_and_training, -> { where{ (type == "Course::Workshop") | (type == "Course::Training") } }
+  scope :without_open_courses,   -> { where{ type != 'Course::Open' } }
+  scope :open_courses,           -> { where(type: 'Course::Open') }
+
+  # default_scope                  -> { where{type != 'Course::Open'} }
 
   # ------------------------------------------------------------------------------------ Validations
   validates :type, :name  , presence: true
@@ -236,7 +240,7 @@ class Course < ActiveRecord::Base
 
   # Helper methods for place and locations
   def locations
-    places.map(&:location).compact
+    self.places.map(&:location).compact
   end
 
   def locations_around(latitude, longitude, radius=5)
@@ -337,6 +341,10 @@ class Course < ActiveRecord::Base
     false
   end
 
+  def is_open?
+    false
+  end
+
   # Returns an array with one or two values
   def price_range
     if best_price == most_expansive_price
@@ -347,7 +355,7 @@ class Course < ActiveRecord::Base
   end
 
   def best_price
-    self.prices.where{(type != 'Price::Registration') & (amount > 0)}.order('promo_amount ASC, amount ASC').first
+    self.prices.where{(type != 'Price::Registration') & (amount > 0)}.order('COALESCE(promo_amount, amount) ASC').first
   end
 
   def most_expansive_price

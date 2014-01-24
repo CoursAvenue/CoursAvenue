@@ -1,4 +1,6 @@
 class Pro::ProController < ApplicationController
+  include CommentsHelper, NavigationHelper
+
   layout 'admin'
 
   def authenticate_pro_super_admin!

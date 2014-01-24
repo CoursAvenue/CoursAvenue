@@ -6,7 +6,7 @@
   Mes notifications mails
 .form-white-box.flush--bottom
   = simple_form_for [:pro, @structure, @admin] do |f|
-    %input{type: 'hidden', name: 'return_to', value: notifications_pro_structure_admin_path(@structure, @structure.main_contact)}
+    %input{type: 'hidden', name: 'return_to', value: notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro')}
     = f.error_notification
     .grid
       .grid__item.one-third>

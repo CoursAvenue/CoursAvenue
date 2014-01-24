@@ -12,6 +12,33 @@ describe Planning do
     end
   end
 
+  context :validations do
+    context :workshop do
+      it 'needs a start_date' do
+        course          = Course::Workshop.new
+        planning.course = course
+        expect(planning.valid?).to be_false
+        expect(planning.errors.messages).to include :start_date
+      end
+    end
+    context :training do
+      it 'needs a start_date' do
+        course          = Course::Training.new
+        planning.course = course
+        expect(planning.valid?).to be_false
+        expect(planning.errors.messages).to include :start_date
+      end
+    end
+    context :open_course do
+      it 'needs a start_date' do
+        course          = Course::Open.new
+        planning.course = course
+        expect(planning.valid?).to be_false
+        expect(planning.errors.messages).to include :start_date
+      end
+    end
+  end
+
   context :audiences do
     describe '#audience_ids' do
       it 'returns array if nil' do
@@ -101,6 +128,22 @@ describe Planning do
     it 'keeps course reference' do
       duplicate           = planning.duplicate
       duplicate.course.should eq planning.course
+    end
+  end
+
+  context :participations do
+    describe '#waiting_list' do
+      it 'shows no one' do
+        planning.nb_participants_max = 1
+        planning.participations.build
+        planning.waiting_list.should be_empty
+      end
+      it 'shows three peoples' do
+        planning.nb_participants_max = 1
+        planning.participations.build
+        planning.participations.build
+        planning.waiting_list.length.should eq 1
+      end
     end
   end
 end

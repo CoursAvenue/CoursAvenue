@@ -36,7 +36,8 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        var marker, $street_input, $zip_code_input, geocoder;
+        // ------------ Update map and input regarding address
+        var marker, $street_input, $zip_code_input, geocoder, updateMap;
         geocoder           = new google.maps.Geocoder()
         google_map_handler = Gmaps.build('Google');
         google_map_handler.buildMap({ provider: { maxZoom: 15 }, internal: {id: 'map'}}, function(){
@@ -57,7 +58,7 @@
         $zip_code_input = $('#place_location_attributes_zip_code');
         $lat_input      = $('#place_location_attributes_latitude');
         $lng_input      = $('#place_location_attributes_longitude');
-        $('#place_location_attributes_street, #place_location_attributes_zip_code').change(function() {
+        updateMap = function() {
             if (marker) { google_map_handler.removeMarker(marker); }
             var address = $street_input.val() + ', ' + $zip_code_input.val() + ' France';
             geocoder.geocode( { 'address': address}, function(results, status) {
@@ -72,6 +73,7 @@
                     console.log('Geocode was not successful for the following reason: ' + status);
                 }
             });
-        });
-
+        };
+        $('#place_location_attributes_street, #place_location_attributes_zip_code').blur(updateMap);
+        $('#place_location_attributes_street, #place_location_attributes_zip_code').change(updateMap);
     });

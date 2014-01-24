@@ -77,7 +77,10 @@ class Structure < ActiveRecord::Base
   belongs_to :city
   belongs_to :pricing_plan
 
-  has_many :invited_teachers          , dependent: :destroy
+  # has_many :invited_teachers          , dependent: :destroy
+  has_many :invited_users             , foreign_key: :referrer_id, dependent: :destroy
+  has_many :invited_teachers          , -> { where(type: 'InvitedUser::Teacher') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
+  has_many :invited_students          , -> { where(type: 'InvitedUser::Student') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
   has_many :medias                    , -> { order('created_at ASC') },  as: :mediable
   has_many :comments                  , -> { order('created_at DESC') }, as: :commentable, dependent: :destroy
   has_many :teachers                  , dependent: :destroy
@@ -104,7 +107,6 @@ class Structure < ActiveRecord::Base
   validates :zip_code           , :presence   => true, numericality: { only_integer: true }, on: :create
   validates :city               , :presence   => true, on: :create
   validate :subject_parent_and_children
-
 
   # -------------------- Callbacks
   before_create    :set_active_to_true
@@ -530,6 +532,20 @@ class Structure < ActiveRecord::Base
     self.delay.subscribe_to_nutshell if Rails.env.production?
   end
 
+  def parisian?
+    paris_lat    = 48.8592
+    paris_lng    = 2.3417
+    paris_radius = 10
+    Geocoder::Calculations.distance_between([paris_lat, paris_lng], [self.latitude, self.longitude], unit: :km) <= paris_radius
+  end
+
+  def has_open_course_plannings?
+    self.courses.open_courses.each do |course|
+      return true if course.plannings.any?
+    end
+    return false
+  end
+
   private
 
   def logo_has_changed?
@@ -585,7 +601,12 @@ class Structure < ActiveRecord::Base
   end
 
   def subject_parent_and_children
-    errors.add(:subjects,          "Vous devez sélectionner au moins une discipline")        if self.subjects.select{|s| s.ancestry_depth == 0}.empty?
-    errors.add(:children_subjects, "Vous devez sélectionner au moins une sous discipline") if self.subjects.select{|s| s.ancestry_depth == 2}.empty?
+    # Not using scope because subject are not saved in tests and that can fail
+    if self.subjects.select{|subject| subject.depth == 0}.empty?
+      errors.add(:subjects,          "Vous devez sélectionner au moins une discipline")
+    end
+    if self.subjects.select{|subject| subject.depth == 2}.empty?
+      errors.add(:children_subjects, "Vous devez sélectionner au moins une sous discipline")
+    end
   end
 end

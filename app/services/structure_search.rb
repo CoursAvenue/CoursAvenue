@@ -23,7 +23,7 @@ class StructureSearch
 
       # --------------- Subjects
       if params[:subject_slugs].present?
-        with(:subject_slugs).any_of           params[:subject_slugs]
+        with(:subject_slugs).any_of  params[:subject_slugs]
       else
         with(:subject_slugs).any_of [params[:subject_id]]  if params[:subject_id].present?
       end

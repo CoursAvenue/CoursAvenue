@@ -130,33 +130,6 @@ class AdminMailer < ActionMailer::Base
     mail to: 'contact@coursavenue.com', subject: 'Un professeur demande une suppression de commentaire'
   end
 
-
-  def inform_invitation_success(structure, invited_email)
-    @structure     = structure
-    @invited_email = invited_email
-    @show_links    = true
-    mail to: @structure.main_contact.email, subject: "Félicitations ! Votre parrainage a bien été pris en compte"
-  end
-
-  def recommand_friends(structure, email_text, email)
-    @structure  = structure
-    @email_text = email_text
-    @email      = email
-    mail to: email, subject: "#{structure.name} vous invite à créer votre profil sur CoursAvenue."
-  end
-
-  def send_invitation_stage_1(structure, invited_email)
-    @structure     = structure
-    @invited_email = invited_email
-    mail to: invited_email, subject: "#{structure.name} vous invite à créer votre profil sur CoursAvenue."
-  end
-
-  def send_invitation_stage_2(structure, invited_email)
-    @structure     = structure
-    @invited_email = invited_email
-    mail to: invited_email, subject: "#{structure.name} vous invite à créer votre profil sur CoursAvenue."
-  end
-
   def admin_validated(admin)
     @admin         = admin
     @structure     = @admin.structure

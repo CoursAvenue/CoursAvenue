@@ -48,25 +48,6 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
-  def recommend_friends
-    @structure      = Structure.friendly.find params[:id]
-    params[:emails] ||= ''
-    regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
-    emails = params[:emails].scan(regexp).uniq
-    text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>'
-    emails.each do |email|
-      InvitedTeacher.where(email: email, structure_id: @structure.id).first_or_create
-      AdminMailer.delay.recommand_friends(@structure, text, email)
-      AdminMailer.delay.recommand_friends(@structure, text, 'contact@coursavenue.com')
-    end
-    respond_to do |format|
-      format.html { redirect_to coursavenue_recommendations_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Les autres professeurs ont bien été notifiés.': nil)}
-    end
-  end
-
-  def coursavenue_recommendations
-  end
-
   def crop
     @structure = Structure.friendly.find params[:id]
   end
@@ -174,6 +155,12 @@ class Pro::StructuresController < Pro::ProController
     @courses   = @structure.courses.order('name ASC')
   end
 
+  def add_subjects
+    if request.xhr?
+      render partial: 'add_subjects', locals: { return_to: params[:return_to] }
+    end
+  end
+
   def edit
     @structure = Structure.friendly.find(params[:id])
   end
@@ -198,11 +185,11 @@ class Pro::StructuresController < Pro::ProController
 
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
-        @structure.logo.reprocess! if @structure.logo.present?
+        @structure.logo.reprocess! if @structure.logo.present? and @structure.logo_file_name_changed?
         if !request.xhr? and params[:structure][:logo].present?
           format.html { redirect_to (crop_logo_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
         else
-          format.html { redirect_to (params[:from_path] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
+          format.html { redirect_to (params[:return_to] || edit_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
           format.js { render nothing: true }
           format.json { render json: {
                                   logo: {

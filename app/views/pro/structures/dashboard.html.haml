@@ -288,10 +288,13 @@
                 });
             }
         }, 1000);
-        handler = Gmaps.build('Google');
-        handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-            markers = handler.addMarkers(#{@json_locations.to_json});
-            handler.bounds.extendWith(markers);
-            handler.fitMapToBounds();
+        google_map_handler = Gmaps.build('Google');
+        google_map_handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+            markers = google_map_handler.addMarkers(#{@json_locations.to_json});
+            google_map_handler.bounds.extendWith(markers);
+            google_map_handler.fitMapToBounds();
+            if (google_map_handler.getMap().getZoom() > 15) {
+              google_map_handler.getMap().setZoom(15);
+            }
         });
     });

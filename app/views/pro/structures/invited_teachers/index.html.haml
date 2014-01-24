@@ -1,14 +1,6 @@
 = side_menu_currently_at "Parrainer un professeur"
 
-%ul.tabs.push--bottom
-  %li
-    = link_to coursavenue_recommendations_pro_structure_path(@structure) do
-      %i.fa.fa-bullhorn
-      Parrainage
-  %li.active
-    = link_to pro_structure_invited_teachers_path(@structure) do
-      %i.fa.fa-group
-      Suivi des invitations
+= render partial: 'pro/structures/invited_teachers/tabs', locals: { current: 'list' }
 
 %table.table--data.white-box.table--striped
   %thead
@@ -16,10 +8,10 @@
       %th Email
       %th S'est créé un compte
   %tbody
-    - @structure.invited_teachers.each do |invited_teacher|
+    - @structure.invited_users.each do |invited_user|
       %tr
-        %th= invited_teacher.email
+        %th= invited_user.email
         %th
-          - if invited_teacher.registered?
+          - if invited_user.registered?
             %i.fa.fa-check
 

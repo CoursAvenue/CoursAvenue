@@ -1,6 +1,9 @@
 # encoding: utf-8
 class StructuresController < ApplicationController
+  include SubjectHelper, PricesHelper
+
   respond_to :json
+
   PLANNING_FILTERED_KEYS = ['audience_ids', 'level_ids', 'min_age_for_kids', 'max_price', 'min_price',
                             'price_type', 'max_age_for_kids', 'trial_course_amount', 'course_types',
                             'week_days', 'discount_types', 'start_date', 'end_date', 'start_hour', 'end_hour']

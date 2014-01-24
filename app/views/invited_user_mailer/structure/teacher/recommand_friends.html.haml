@@ -1,0 +1,23 @@
+- if @referrer.logo?
+  - content_for :logo do
+    = link_to structure_url(@referrer, subdomain: 'www'), target: '_blank' do
+      = image_tag @referrer.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+
+- content_for :promo do
+  %h4
+    #{@referrer.name} vous invite à créer votre profil sur CoursAvenue.
+
+- if @email_text
+  = @email_text.html_safe
+
+%p.action
+  = link_to 'Créer mon profil', inscription_pro_structures_url(email: @email, from_friend: true, subdomain: 'pro'), class: 'btn btn--blue'
+%p
+  À très bientôt !
+%p= @referrer.name
+
+- content_for :under_content do
+  = render 'admin_mailer/footer_info'
+
+- content_for :footer do
+  %p Vous recevez cet email car #{@referrer.name} vous invite sur CoursAvenue.

@@ -15,6 +15,12 @@
     }
 }
 //.simple_form {
+    .input.float, .input.integer {
+        max-width: 5em;
+        input {
+            max-width: 100%;
+        }
+    }
     .error {
         padding    : 5px 10px !important;
         margin     : 0;

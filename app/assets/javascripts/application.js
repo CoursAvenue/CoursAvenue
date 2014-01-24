@@ -97,6 +97,7 @@
 // require plugins/image_input
 // require plugins/show_more_on_demand
 // require plugins/jquery-sticky.js
+// require plugins/parent_descendant_subjects
 
 //= require gmaps/google
 
