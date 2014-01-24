@@ -46,8 +46,15 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             this.trigger("field:edits", edits);
         },
 
+        /* we do "focus" twice here: before we start editing
+        * it will be ignore, so we do it again after start.
+        * Once we are editing, if we click the field again
+        * we want to ensure the input gets focus. In that case
+        * the function will bail right after the first focus,
+        * so in both cases we don't get duplication. */
         announceClick: function (e) {
             this.trigger("field:click", e);
+            this.$input().focus();
             /* we don't care if you click on an input */
             if (this.isEditing()) { return; }
 

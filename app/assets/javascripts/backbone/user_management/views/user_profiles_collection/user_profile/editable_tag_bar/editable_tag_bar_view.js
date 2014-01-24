@@ -37,17 +37,23 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this[ENTER]     = this.handleEnter;
         },
 
+        ui: {
+            '$input'    : '.taggy--input',
+            '$container': '[data-type=taggies-container]'
+        },
+
         events: {
             'click'                         : 'announceClick',
             'click [data-behavior=destroy]' : 'destroyTaggy',
             'typeahead:selected [type=text]': 'createTaggy',
             'keydown'                       : 'handleKeyDown',
-            'change'                        : 'announceEdits'
+            'change'                        : 'announceEdits',
+            'blur @ui.$input'               : 'toggleBlueGlow',
+            'focus @ui.$input'              : 'toggleBlueGlow'
         },
 
-        ui: {
-            '$input'    : '.taggy--input',
-            '$container': '[data-type=taggies-container]'
+        toggleBlueGlow: function () {
+            this.$el.toggleClass("blue-glow");
         },
 
         /* get all the little tags */
