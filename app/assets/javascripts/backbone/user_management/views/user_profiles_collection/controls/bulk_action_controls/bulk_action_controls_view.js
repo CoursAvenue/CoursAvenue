@@ -5,7 +5,8 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
     Module.BulkActionControlsView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'bulk_action_controls_view',
         tagName: 'div',
-        className: 'grid--full bulk-action-controls',
+        className: 'grid--full bulk-action-controls sticky-controls white-box white-box--noshadow white-box--small form-white-box form-white-box--centered form-white-box--large',
+
         attributes: {
             'data-behavior': 'bulk-action-controls'
         },
