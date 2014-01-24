@@ -19,6 +19,13 @@ describe StructuresController do
     ]
   end
 
+  describe :show do
+    let(:structure) { FactoryGirl.create(:structure_with_place) }
+    it 'returns 200' do
+      get :show, id: structure.id
+    end
+  end
+
   describe :index, search: true do
     let(:structure) { FactoryGirl.build(:structure_with_place) }
 
