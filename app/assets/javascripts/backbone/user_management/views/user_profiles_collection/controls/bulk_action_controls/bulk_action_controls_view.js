@@ -22,7 +22,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             'click [data-behavior=new]'            : 'newUserProfile',
             'click [data-behavior=select-all]'     : 'selectAll',
             'click [data-behavior=deselect-all]'   : 'deselectAll',
-            'click [data-behavior=deep-select]'    : 'deepSelect', // TODO deep select is not finished
+            'click [data-behavior=deep-select]'    : 'deepSelect',
             'click [data-behavior=manage-tags]'    : 'manageTags',
             'click [data-behavior=add-tags]'       : 'addTags',
             'click [data-behavior=destroy]'        : 'destroySelected',
@@ -91,7 +91,8 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             this.showDetails("manage-tags");
         },
 
-        /* TODO prompt user */
+        /* TODO implement the notifications card, and then add
+         *  a notification that checks with the user "are you suuuuuuur?" */
         destroySelected: function () {
             this.trigger("controls:destroy:selected");
         },

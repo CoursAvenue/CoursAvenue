@@ -15,21 +15,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         attributes: {
             'data-behavior': 'editable-tag-bar'
         },
+        taggy: Handlebars.compile('<span class="taggy--tag"><i class="fa fa-times" data-behavior="destroy"></i></span>'),
 
         initialize: function (options) {
-            this.url           = options.url;
-
-            /* TODO use a proper .hbs template instead
-             * but, don't make it a file, just make it a string */
-            /* build a recyclable taggy */
-            var taggy = $("<span>")
-                .addClass('taggy--tag');
-            var saltier = $("<i>")
-                .addClass('fa fa-times')
-                .attr('data-behavior', "destroy");
-
-            taggy.append(saltier);
-            this.$taggy_template = taggy;
+            this.url        = options.url;
 
             this[COMMA]     = this.handleComma;
             this[BACKSPACE] = this.handleBackspace;
@@ -125,10 +114,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.ui.$input.val("");
         },
 
-        /* returns the jQuery object representation of a taggy, for a given text */
-        /* TODO stop people from building empty taggies by mashing COMMA */
         buildTaggy: function (text) {
-            var taggy = this.$taggy_template.clone();
+            var taggy = $(Marionette.Renderer.render(this.taggy));
 
             taggy.attr("data-value", text);
             taggy.prepend(text);
@@ -139,6 +126,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         createTaggy: function () {
             var text  = this.ui.$input.val();
 
+            // stop users from creating weird empty tags
             if (text.trim() === "") {
                 return;
             }
@@ -168,7 +156,9 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         },
 
         /* TODO make css styles so that all of this
-        *  can be done with the class "active" */
+         *  can be done with the class "active" */
+        /* TODO review stylesheets with NIMA I think my styles
+         *  are out of control */
         activate: function () {
             this.ui.$input.css({ display: "" });
             this.$('.twitter-typeahead').toggleClass('inline-block')

@@ -25,8 +25,6 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             this.paginator_ui.currentPage = this.server_api.page();
 
-            /* TODO the results total seems to be out of sync with what we actually
-             * receive, so for now we will just do this: */
             this.paginator_ui.grandTotal  = (models.length === 0) ? 0 : options.total;
             this.paginator_ui.totalPages  = Math.ceil(this.paginator_ui.grandTotal / this.paginator_ui.perPage);
             this.url.basename         = window.location.toString().split('/');

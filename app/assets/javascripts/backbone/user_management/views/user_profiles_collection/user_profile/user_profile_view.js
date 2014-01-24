@@ -75,9 +75,9 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
 
         },
 
-        /* TODO I don't understand how the fancybox is being shown:
-         * it appears that this method is never called... and yet
-         * we see a fancy box and it appears to do what it ought to. */
+        /* TODO this seems to be working as intended
+         * What worries me, though, is that if I remove the
+         * event that triggers this method... the box still shows */
         showFancybox: function () {
             var data = this.data;
             this.$("[data-behavior=modal]").fancybox({
