@@ -25,7 +25,7 @@ UserManagement.addInitializer(function(options) {
             'click [data-behavior=select-all]'  : 'selectAll',
             'click [data-behavior=manage-tags]' : 'manageTags',
             'click [data-behavior=add-tags]'    : 'bulkAddTags',
-            'click [data-sort]'                 : 'filter',
+            'click [data-sort]'                 : 'sort',
             'click [data-behavior=destroy]'     : 'destroySelected',
             'click [data-behavior=new]'         : 'newUserProfile',
             'click [data-behavior=uber-select]' : 'deepSelect',

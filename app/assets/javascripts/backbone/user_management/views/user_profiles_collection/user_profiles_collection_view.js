@@ -3,6 +3,9 @@
 
 UserManagement.module('Views.UserProfilesCollection', function(Module, App, Backbone, Marionette, $, _) {
 
+    var CHEVRON_UP   = "soft-half--left fa fa-chevron-up";
+    var CHEVRON_DOWN = "soft-half--left fa fa-chevron-down";
+
     Module.UserProfilesCollectionView = CoursAvenue.Views.PaginatedCollectionView.extend({
         template: Module.templateDirname() + 'user_profiles_collection_view',
         itemView: Module.UserProfile.UserProfileView,
@@ -10,13 +13,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         className: 'relative',
 
         initialize: function () {
-            this.groups = {
-                 /* map by model id */
-                 /* we map by model id so that we can still affect models that
-                  * are not on the current page */
-                selected: {},
-            }
-
             this.poller = Backbone.Poller.get(this.collection, { delay: 5000 });
             this.poller.on('success', _.bind(function (collection) {
                 if (collection.jobs !== "false") { return; }
@@ -25,17 +21,25 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }, this));
 
             this.on("click:outside", this.onClickOutside);
-            this.currently_editing = []; // a FIFO list of rows
 
+            this.currently_editing = []; // a FIFO list of rows
         },
 
         ui: {
-            '$commit_buttons' : '[data-behavior=commit-buttons]',
-            '$cancel'         : '[data-behavior=cancel]',
-            '$commit'         : '[data-behavior=commit]',
-            '$select_all'     : '[data-behavior=select-all]',
-            '$details'        : '[data-behavior=details]',
-            '$add_tags'       : '[data-behavior=add-tags]',
+            '$headers': '[data-sort]'
+        },
+
+        onRender: function () {
+
+            // set the chevron for the pivot column
+            var sort = this.collection.server_api.sort;
+            var $pivot = this.$('[data-sort=' + sort + ']');
+            $pivot.append("<span class='soft-half--left fa fa-chevron-down' data-type='order'></span>");
+            $pivot.addClass("active");
+        },
+
+        onClickOutside: function () {
+            this.getCurrentlyEditing().finishEditing({ restore: false });
         },
 
         /* Controls for canceling/committing edits */
@@ -73,58 +77,48 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             return (itemview)? itemview : { finishEditing: function () { /* NOOP */ } } ;
         },
 
-        onRender: function () {
-
-            // set the chevron for the pivot column
-            var sort = this.collection.server_api.sort;
-            var $pivot = this.$('[data-sort=' + sort + ']');
-            $pivot.append("<span class='soft-half--left fa fa-chevron-down' data-type='order'></span>");
-            $pivot.addClass("active");
-        },
-
-        onClickOutside: function () {
-            this.getCurrentlyEditing().finishEditing({ restore: false });
-        },
-
         /* when we click on a header: */
         /* find the current sorting pivot and remove a class from it
          *  add that class to the new one. Ensure that the disclosure triangle
          *  has the correct orientation. Then trigger filter:summary */
         /* TODO pull the chevron code out of here */
         /* TODO change the function name to something like "sortByColumn" */
-        filter: function (e) {
+        sort: function (e) {
             e.preventDefault();
-
-            var $target = $(e.currentTarget);
-            var $headers = $('[data-sort]');
 
             var sort = e.currentTarget.getAttribute('data-sort');
             var order = "desc";
 
             // if we are already sorting by this column, change the order
             if (sort === this.collection.server_api.sort) {
-                var order = this.collection.server_api.order;
+                order = this.collection.server_api.order;
                 order = (order === "desc")? "asc" : "desc";
             }
+
+            this.toggleChevron(order, e.currentTarget);
+            this.trigger('filter:summary', { sort: sort, order: order });
+
+            return false;
+        },
+
+        toggleChevron: function (order, target) {
+            var $target = $(target);
+            var $headers = this.ui.$headers;
+            var $triangle = $headers.find("[data-type=order]").remove();
+            var chevron = (order === "desc")? CHEVRON_DOWN : CHEVRON_UP;
 
             // toggle the active header
             $headers.removeClass("active");
             $target.addClass("active");
 
             // remove the chevron from the active header
-            var $triangle = $headers.find("[data-type=order]").remove();
 
             // change the direction of the chevron if necessary
             $triangle.removeClass();
-            var chevron = (order === "desc" ? "soft-half--left fa fa-chevron-down" : "soft-half--left fa fa-chevron-up");
             $triangle.addClass(chevron);
 
             // add the chevron to the active header
             $target.append($triangle);
-
-            this.trigger('filter:summary', { sort: sort, order: order });
-
-            return false;
         },
 
         /* this method observes the value of "is_editing" on the
@@ -169,13 +163,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         /* an item has been checked or unchecked */
         onItemviewAddToSelected: function (itemview) {
-            var id = itemview.model.get("id");
-
-            if (this.groups.selected[id]) {
-                delete this.groups.selected[id];
-            } else {
-                this.groups.selected[id] = itemview.model;
-            }
+            this.collection.toggleSelected(itemview.model);
         },
 
         onAfterItemAdded: function (itemView) {
@@ -202,7 +190,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
             /* we pass in the hash of layout events the view will respond to */
             return {
-                checked: this.groups.selected[id]? true : false,
+                checked: model.get("selected"),
                 tags_url: tags_url,
                 events: {
                     "tagbar:click"                : "startEditing",

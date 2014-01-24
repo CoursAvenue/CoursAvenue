@@ -90,6 +90,12 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             radius:      2 // determines the behaviour of the ellipsis
         },
 
+        toggleSelected: function (model) {
+            var selected = (model.get("selected") === true)? "" : true;
+
+            model.set("selected", selected);
+        },
+
         selectAll: function () {
             this.each(function (model) {
                 model.set("selected", true);
