@@ -58,8 +58,14 @@
       %p.line-height-normal
         C'est simple, rapide et tout se fait en ligne sur votre profil CoursAvenue :
       %ul
-        %li Si vous avez déjà un profil (en tant que professionnel) : connectez-vous et renseignez tous vos ateliers dans la rubrique "Journées Portes Ouvertes" ;
-        %li Si vous n'avez pas encore de profil : créez votre profil le plus tôt possible, complétez-le et renseignez tous vos ateliers dans la rubrique "Journées Portes Ouvertes".
+        %li
+          Si vous avez déjà un profil (en tant que professionnel) :
+          = link_to 'connectez-vous', new_pro_admin_session_path, target: :_blank
+          et renseignez tous vos ateliers dans la rubrique "Journées Portes Ouvertes" ;
+        %li
+          Si vous n'avez pas encore de profil :
+          = link_to 'créez votre profil', inscription_pro_structures_path, target: :_blank
+          le plus tôt possible, complétez-le et renseignez tous vos ateliers dans la rubrique "Journées Portes Ouvertes".
 
       %p.line-height-normal
         Une fois vos ateliers renseignés, ils apparaîtront automatiquement sur nos pages dédiées : chaque Internaute pourra alors s'inscrire gratuitement. A chaque inscription, vous en serez notifié par un email automatique, et vous pourrez suivre tous vos inscrits en temps réel directement depuis votre profil.

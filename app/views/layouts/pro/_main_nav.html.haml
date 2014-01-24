@@ -1,9 +1,8 @@
 - content_for :main_navigation do
   %ul.nav.flush--bottom.nav--fit.text--center
-    = pro_submenu_link 'Accueil',             root_path,                         current: current_tab, class: 'one-seventh'
-    = pro_submenu_link 'Nos convictions',     pro_pages_convictions_path,        current: current_tab, class: 'one-seventh'
-    = pro_submenu_link 'Présentation',        pro_pages_presentation_path,       current: current_tab, class: 'one-seventh'
-    = pro_submenu_link "Livre d'Or",          pro_pages_widget_path,             current: current_tab, class: 'one-seventh'
-    = pro_submenu_link "Journées Portes Ouvertes", pro_pages_jpo_path,             current: current_tab, class: 'one-seventh'
-    = pro_submenu_link 'Recommandations',     pro_pages_why_be_recommended_path, current: current_tab, class: 'one-seventh'
-    = pro_submenu_link 'Offres & Tarifs',     pro_pages_price_path,              current: current_tab, class: 'one-seventh'
+    = pro_submenu_link 'Accueil',             root_path,                         current: current_tab, class: 'one-sixth'
+    = pro_submenu_link 'Présentation',        pro_pages_presentation_path,       current: current_tab, class: 'one-sixth'
+    = pro_submenu_link "Livre d'Or",          pro_pages_widget_path,             current: current_tab, class: 'one-sixth'
+    = pro_submenu_link "Journées Portes Ouvertes", pro_pages_jpo_path,             current: current_tab, class: 'one-sixth'
+    = pro_submenu_link 'Recommandations',     pro_pages_why_be_recommended_path, current: current_tab, class: 'one-sixth'
+    = pro_submenu_link 'Offres & Tarifs',     pro_pages_price_path,              current: current_tab, class: 'one-sixth'
