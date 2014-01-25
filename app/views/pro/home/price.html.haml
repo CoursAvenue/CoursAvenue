@@ -1,174 +1,327 @@
 = pro_menu_currently_at 'Offres & Tarifs'
 
-%ul.tabs
-  %li.active
-    %a{href: '#toutes-nos-offres', data: {toggle: 'tab'} }
-      Toutes nos offres
-  %li
-    %a{href: '#offre-gratuite', data: {toggle: 'tab'} }
-      Offre gratuite
-  %li
-    %a{href: '#offre-payante', data: {toggle: 'tab'} }
-      Offre payante (29€ / mois)
+%header.text--center
+  %h1.blue.push-half--bottom Essayez gratuitement CoursAvenue pendant 30 jours.
+  %p
+    %strong Pas besoin de carte bleue. Sans engagement.
 
-- content_for :scripts do
-  :javascript
-    $(function() {
-        $('#toutes-nos-offres').css('background-image', 'url(#{asset_path('pages/pricing.jpg')})');
-        $('#toutes-nos-offres').css('height', '600px');
-    });
-.tab-content
-  #toutes-nos-offres.tab-pane.active
-    %h2.text--center.home-screen-title.soft--top.push--top Augmentez votre taux d’inscription et de fidélisation élèves
-    .center-block.white-box--noshadow.white-box.island.center-block.four-fifths.palm-one-whole.lap-one-whole.push--top
-      .grid
-        .grid__item.v-middle.three-fifths>
-          .delta.push-half--top
-            Développez votre bouche à oreille sur Internet
-          %p
-            %i Affichez les recommandations de vos élèves sur CoursAvenue et vos propres pages Internet
-        .grid__item.v-middle.one-fifth.text--center>
-          .delta Gratuit
-        .grid__item.v-middle.one-fifth.text--center>
-          = link_to "Créer mon profil", inscription_pro_structures_path, class: 'btn btn--green'
-          %br
-          = link_to "En savoir plus", "#offre-gratuite", onclick: "ga('send', 'event', 'Pricing', 'click', 'Gratuit - en savoir plus')"
+.grid--full
+  .grid__item.one-quarter>
+    %table.table--data{style: 'margin-top: 130px'}
+      %tbody
+        %tr
+          %td.text--right Nombre d'utilisateurs
+        %tr
+          %td.text--right Galerie Photos + vidéos
+        %tr
+          %td.text--right Envoi de newsletter et messages groupés
+        %tr
+          %td.soft-half
+            .delta &nbsp;
+        %tr{style: 'height: 34px'}
+          %td.text--right
+            %span.delta
+            Référencement & mise en relation, Livre d'Or
+        %tr{style: 'height: 34px'}
+          %td.text--right
+            %span.delta
+            Statistiques de votre profil
+        %tr{style: 'height: 34px'}
+          %td.text--right
+            %span.delta
+            Envois de SMS groupés*
+        %tr{style: 'height: 34px'}
+          %td.text--right
+            %span.delta
+            Cahier de présences sur Web & Mobile
+        %tr{style: 'height: 34px'}
+          %td.text--right
+            %span.delta
+            Bouton "s'inscrire" sur votre site
+        %tr{style: 'height: 34px'}
+          %td.text--right
+            %span.delta
+            Intégration web
 
-      %hr
-      .grid
-        .grid__item.v-middle.three-fifths>
-          .delta.push-half--top
-            Augmentez votre taux de fidélisation et d’inscription
-          %p
-            %i Affichez clairement votre planning de cours, autorisez la réservation en ligne avec ou sans carte bleue, invitez vos élèves, gérez vos inscriptions en ligne, communiquez efficacement
-        .grid__item.v-middle.one-fifth.text--center>
-          .delta 29€/mois
-          %i.blue Garanti ou remboursé
-        .grid__item.v-middle.one-fifth.text--center>
-          = link_to "Profiter d'un mois offert", '#we-are-coming', data: {behavior: 'modal', title: "Souscrire de l'offre"}, class: 'btn btn--green', onclick: "ga('send', 'event', 'Pricing', 'click', 'Payant')"
-          %br
-          = link_to "En savoir plus", "#offre-payante", onclick: "ga('send', 'event', 'Pricing', 'click', 'Payant - en savoir plus')"
+  .grid__item.three-quarters>
+    %table.table--data.table--striped.table--bordered-column.white-box
+      %thead
+        %tr
+          %td.one-quarter.text--center
+            .blue.beta Basic
+            .delta.push-half--bottom Gratuit à vie
+            = link_to inscription_pro_structures_path, class: 'btn btn--green' do
+              Créer mon profil
+              %br
+              %span{style: 'text-transform: none;'} en 5 min
+          %td.one-quarter.text--center
+            .blue.beta Solo
+            .delta.push-half--bottom 19€ / mois
+            = link_to inscription_pro_structures_path, class: 'btn btn--green' do
+              Essayer gratuitement
+              %br
+              %span{style: 'text-transform: none;'} pendant 30 jours
+          %td.one-quarter.text--center
+            .blue.beta Maitre
+            .delta.push-half--bottom 29€ / mois
+            = link_to inscription_pro_structures_path, class: 'btn btn--green' do
+              Essayer gratuitement
+              %br
+              %span{style: 'text-transform: none;'} pendant 30 jours
+
+          %td.one-quarter.text--center
+            .blue.beta École
+            .delta.push-half--bottom 49€ / mois
+            = link_to inscription_pro_structures_path, class: 'btn btn--green' do
+              Essayer gratuitement
+              %br
+              %span{style: 'text-transform: none;'} pendant 30 jours
+      %tbody
+        %tr
+          %td.text--center.bold 1
+          %td.text--center.bold 1
+          %td.text--center.bold 1
+          %td.text--center.bold 5
+        %tr
+          %td.text--center.bold 10 photos & vidéos
+          %td.text--center.bold 30 photos & vidéos
+          %td.text--center.bold illimitée
+          %td.text--center.bold illimitée
+        %tr
+          %td.text--center.bold jusqu'à 15 contacts / mois.
+          %td.text--center.bold jusqu'à 100 contacts / mois.
+          %td.text--center.bold envois illimités
+          %td.text--center.bold envois illimités
+        %tr
+          %td.text--center.soft-half{colspan: 4}
+            %strong.delta Outils de performance
+        %tr{style: 'height: 34px'}
+          %td.text--center
+            %i.fa.fa-check.green.delta
+          %td.text--center
+            %i.fa.fa-check.green.delta
+          %td.text--center
+            %i.fa.fa-check.green.delta
+          %td.text--center
+            %i.fa.fa-check.green.delta
+        %tr{style: 'height: 34px'}
+          %td.text--center
+          %td.text--center
+            %i.fa.fa-check.green.delta
+          %td.text--center
+            %i.fa.fa-check.green.delta
+          %td.text--center
+            %i.fa.fa-check.green.delta
+        %tr{style: 'height: 34px'}
+          %td.text--center
+          %td.text--center
+            %i.fa.fa-check.green.delta
+          %td.text--center
+            %i.fa.fa-check.green.delta
+          %td.text--center
+            %i.fa.fa-check.green.delta
+        %tr{style: 'height: 34px'}
+          %td.text--center
+          %td.text--center
+          %td.text--center
+            %i.fa.fa-check.green.delta
+          %td.text--center
+            %i.fa.fa-check.green.delta
+        %tr{style: 'height: 34px'}
+          %td.text--center
+          %td.text--center
+          %td.text--center
+            %i.fa.fa-check.green.delta
+          %td.text--center
+            %i.fa.fa-check.green.delta
+        %tr{style: 'height: 34px'}
+          %td.text--center
+          %td.text--center
+          %td.text--center
+            %i.fa.fa-check.green.delta
+          %td.text--center
+            %i.fa.fa-check.green.delta
+        %tr
+          %td.text--center.soft-half{colspan: 4}
+            %strong.delta Support
+        %tr
+          %td.text--center Chat & e-mail
+          %td.text--center Chat & e-mail
+          %td.text--center Chat, e-mail & téléphone
+          %td.text--center
+            Chat, e-mail &
+            %br
+            %strong prioritaire par téléphone
+
+-# %ul.tabs
+-#   %li.active
+-#     %a{href: '#toutes-nos-offres', data: {toggle: 'tab'} }
+-#       Toutes nos offres
+-#   %li
+-#     %a{href: '#offre-gratuite', data: {toggle: 'tab'} }
+-#       Offre gratuite
+-#   %li
+-#     %a{href: '#offre-payante', data: {toggle: 'tab'} }
+-#       Offre payante (29€ / mois)
+
+-# - content_for :scripts do
+-#   :javascript
+-#     $(function() {
+-#         $('#toutes-nos-offres').css('background-image', 'url(#{asset_path('pages/pricing.jpg')})');
+-#         $('#toutes-nos-offres').css('height', '600px');
+-#     });
+-# .tab-content
+-#   #toutes-nos-offres.tab-pane.active
+-#     %h2.text--center.home-screen-title.soft--top.push--top Augmentez votre taux d’inscription et de fidélisation élèves
+-#     .center-block.white-box--noshadow.white-box.island.center-block.four-fifths.palm-one-whole.lap-one-whole.push--top
+-#       .grid
+-#         .grid__item.v-middle.three-fifths>
+-#           .delta.push-half--top
+-#             Développez votre bouche à oreille sur Internet
+-#           %p
+-#             %i Affichez les recommandations de vos élèves sur CoursAvenue et vos propres pages Internet
+-#         .grid__item.v-middle.one-fifth.text--center>
+-#           .delta Gratuit
+-#         .grid__item.v-middle.one-fifth.text--center>
+-#           = link_to "Créer mon profil", inscription_pro_structures_path, class: 'btn btn--green'
+-#           %br
+-#           = link_to "En savoir plus", "#offre-gratuite", onclick: "ga('send', 'event', 'Pricing', 'click', 'Gratuit - en savoir plus')"
+
+-#       %hr
+-#       .grid
+-#         .grid__item.v-middle.three-fifths>
+-#           .delta.push-half--top
+-#             Augmentez votre taux de fidélisation et d’inscription
+-#           %p
+-#             %i Affichez clairement votre planning de cours, autorisez la réservation en ligne avec ou sans carte bleue, invitez vos élèves, gérez vos inscriptions en ligne, communiquez efficacement
+-#         .grid__item.v-middle.one-fifth.text--center>
+-#           .delta 29€/mois
+-#           %i.blue Garanti ou remboursé
+-#         .grid__item.v-middle.one-fifth.text--center>
+-#           = link_to "Profiter d'un mois offert", '#we-are-coming', data: {behavior: 'modal', title: "Souscrire de l'offre"}, class: 'btn btn--green', onclick: "ga('send', 'event', 'Pricing', 'click', 'Payant')"
+-#           %br
+-#           = link_to "En savoir plus", "#offre-payante", onclick: "ga('send', 'event', 'Pricing', 'click', 'Payant - en savoir plus')"
 
 
-  #offre-gratuite.tab-pane
-    .grid
-      .grid__item.four-tenths>
-        .blue-box.islet
-          %h3 L’essentiel :
-          %p Affichez les recommandations de vos élèves sur CoursAvenue et vos propres pages Internet
-          %ul
-            %li Faites partie de notre moteur de recherche géolocalisé
-            %li Apparaissez dans les 1er résultats de recherche
-            %li Affichez les recommandations de vos élèves sur tous vos supports
-        .text--center
-          = link_to "Créer mon profil", inscription_pro_structures_path, class: 'btn btn--green btn--full btn--large'
-      .grid__item.six-tenths>
-        .white-box.islet
-          %h3 Dans le détail :
+-#   #offre-gratuite.tab-pane
+-#     .grid
+-#       .grid__item.four-tenths>
+-#         .blue-box.islet
+-#           %h3 L’essentiel :
+-#           %p Affichez les recommandations de vos élèves sur CoursAvenue et vos propres pages Internet
+-#           %ul
+-#             %li Faites partie de notre moteur de recherche géolocalisé
+-#             %li Apparaissez dans les 1er résultats de recherche
+-#             %li Affichez les recommandations de vos élèves sur tous vos supports
+-#         .text--center
+-#           = link_to "Créer mon profil", inscription_pro_structures_path, class: 'btn btn--green btn--full btn--large'
+-#       .grid__item.six-tenths>
+-#         .white-box.islet
+-#           %h3 Dans le détail :
 
-          %h5 Faites partie de notre moteur de recherche géolocalisé
+-#           %h5 Faites partie de notre moteur de recherche géolocalisé
 
-          %p Dès qu’un internaute recherche une discipline et un lieu correspondant à votre profil sur CoursAvenue.com, vous apparaîtrez dans les résultats de recherche et sur la carte géographique présentant tous les cours de manière géolocalisée. En cliquant sur votre profil, l’internaute pourra alors visualiser toutes les informations que vous aurez préalablement vous-même renseignées : vos informations générales, les disciplines que vous proposez, l’adresse de votre site Internet et de votre page Facebook, vos photos et vidéos, votre planning de cours, vos différents tarifs, etc.
+-#           %p Dès qu’un internaute recherche une discipline et un lieu correspondant à votre profil sur CoursAvenue.com, vous apparaîtrez dans les résultats de recherche et sur la carte géographique présentant tous les cours de manière géolocalisée. En cliquant sur votre profil, l’internaute pourra alors visualiser toutes les informations que vous aurez préalablement vous-même renseignées : vos informations générales, les disciplines que vous proposez, l’adresse de votre site Internet et de votre page Facebook, vos photos et vidéos, votre planning de cours, vos différents tarifs, etc.
 
-          %h5 Apparaissez dans les 1er résultats de recherche
+-#           %h5 Apparaissez dans les 1er résultats de recherche
 
-          %p Le 1er facteur de réservation étant le bouche à oreille, le moteur de recherche CoursAvenue est basé sur le nombre de recommandations : plus vous avez d’avis de vos élèves, plus vous apparaitrez dans les 1er résultats.
+-#           %p Le 1er facteur de réservation étant le bouche à oreille, le moteur de recherche CoursAvenue est basé sur le nombre de recommandations : plus vous avez d’avis de vos élèves, plus vous apparaitrez dans les 1er résultats.
 
-          %p Une fois que vous avez renseigné vos informations générales dans votre profil, sollicitez vos élèves en leur envoyant une demande de recommandations grâce à nos différentes méthodes dédiées.
+-#           %p Une fois que vous avez renseigné vos informations générales dans votre profil, sollicitez vos élèves en leur envoyant une demande de recommandations grâce à nos différentes méthodes dédiées.
 
-          %h5 Affichez les recommandations de vos élèves sur tous vos supports
+-#           %h5 Affichez les recommandations de vos élèves sur tous vos supports
 
-          %p.flush Ne laissez pas vos avis positifs uniquement sur votre profil CoursAvenue, affichez-les sur tous vos supports de communication :
-          %ul
-            %li
-              A partir de 5 avis, nous vous offrons votre propre livre d’or : en quelques secondes, intégrez notre « widget » qui vous permet d’afficher en temps réel et de manière automatique toutes les recommandations de votre profil CoursAvenue sur votre propre site web ou blog => voir l’exemple du
-              = link_to "livre d’or de l'Académie Contemporaine d'Oud et de Rythme", "http://bes.oud-academy.com/index.php/temoignages", target: '_blank', rel: 'nofollow'
-            %li A partir de 15 avis, nous vous offrons l’autocollant « Recommandé sur CoursAvenue » à afficher sur votre vitrine ou vos espaces d’affichage. C’est signe que vos élèves apprécient vos cours et cela facilitera votre bouche à oreille => voir les 2 modèles d’autocollant disponibles.
+-#           %p.flush Ne laissez pas vos avis positifs uniquement sur votre profil CoursAvenue, affichez-les sur tous vos supports de communication :
+-#           %ul
+-#             %li
+-#               A partir de 5 avis, nous vous offrons votre propre livre d’or : en quelques secondes, intégrez notre « widget » qui vous permet d’afficher en temps réel et de manière automatique toutes les recommandations de votre profil CoursAvenue sur votre propre site web ou blog => voir l’exemple du
+-#               = link_to "livre d’or de l'Académie Contemporaine d'Oud et de Rythme", "http://bes.oud-academy.com/index.php/temoignages", target: '_blank', rel: 'nofollow'
+-#             %li A partir de 15 avis, nous vous offrons l’autocollant « Recommandé sur CoursAvenue » à afficher sur votre vitrine ou vos espaces d’affichage. C’est signe que vos élèves apprécient vos cours et cela facilitera votre bouche à oreille => voir les 2 modèles d’autocollant disponibles.
 
-  #offre-payante.tab-pane
-    .grid
-      .grid__item.four-tenths>
-        .blue-box.islet
-          %h3 L’essentiel :
-          %p Affichez clairement votre planning de cours, autorisez la réservation en ligne avec ou sans carte bleue, invitez vos élèves, gérez vos inscriptions en ligne, communiquez efficacement : garanti ou remboursé
-          %ul
-            %li Affichez clairement votre planning de cours sur votre propre site Internet ou blog
-            %li Autorisez la réservation en ligne…
-            %li …avec ou sans carte bleue
-            %li Rassemblez tous vos contacts, gérez les inscriptions et les présences
-            %li Communiquez efficacement
-            %li Forfait mensuel sans engagement
-            %li Satisfait ou remboursé
-        .text--center
-          = link_to "Souscrire", '#we-are-coming', data: {behavior: 'modal', title: "Souscrire de l'offre"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Payant')", class: 'btn btn--green btn--full btn--large'
+-#   #offre-payante.tab-pane
+-#     .grid
+-#       .grid__item.four-tenths>
+-#         .blue-box.islet
+-#           %h3 L’essentiel :
+-#           %p Affichez clairement votre planning de cours, autorisez la réservation en ligne avec ou sans carte bleue, invitez vos élèves, gérez vos inscriptions en ligne, communiquez efficacement : garanti ou remboursé
+-#           %ul
+-#             %li Affichez clairement votre planning de cours sur votre propre site Internet ou blog
+-#             %li Autorisez la réservation en ligne…
+-#             %li …avec ou sans carte bleue
+-#             %li Rassemblez tous vos contacts, gérez les inscriptions et les présences
+-#             %li Communiquez efficacement
+-#             %li Forfait mensuel sans engagement
+-#             %li Satisfait ou remboursé
+-#         .text--center
+-#           = link_to "Souscrire", '#we-are-coming', data: {behavior: 'modal', title: "Souscrire de l'offre"}, onclick: "ga('send', 'event', 'Pricing', 'click', 'Payant')", class: 'btn btn--green btn--full btn--large'
 
-      .grid__item.six-tenths>
-        .white-box.islet
-          %h3 Dans le détail :
-          %h5 Affichez clairement votre planning de cours sur votre propre site Internet ou blog
-          %p Un internaute passe de moins en moins de temps à rechercher les informations sur Internet. Si vous n’affichez pas votre planning de cours, les lieux et les prix qui s’y rattachent de manière très visuelle et très simple, votre taux d’inscription (nombre de fois que les internautes visualisent vos pages sur le nombre d’inscriptions à vos cours) restera inférieur à la moyenne.
+-#       .grid__item.six-tenths>
+-#         .white-box.islet
+-#           %h3 Dans le détail :
+-#           %h5 Affichez clairement votre planning de cours sur votre propre site Internet ou blog
+-#           %p Un internaute passe de moins en moins de temps à rechercher les informations sur Internet. Si vous n’affichez pas votre planning de cours, les lieux et les prix qui s’y rattachent de manière très visuelle et très simple, votre taux d’inscription (nombre de fois que les internautes visualisent vos pages sur le nombre d’inscriptions à vos cours) restera inférieur à la moyenne.
 
-          %p C’est pour cela qu’une fois votre planning de cours complété sur votre profil CoursAvenue, vous pourrez afficher clairement votre planning directement sur votre site Internet ou blog. La lecture de votre planning sera optimisée et augmentera votre taux d’inscription. Description du cours, créneaux horaires, tarifs, professeurs… toutes ces informations seront clairement présentées et reliées à une carte géographique pour permettre à chaque Internaute de tout comprendre d’un simple coup d’œil.
-
-
-          %h5 Autorisez la réservation en ligne…
-          Aujourd’hui, tout se réserve en ligne. De plus en plus d’écoles privées (danse, théâtre, musique, etc.) le proposent à leurs élèves, et cela participe énormément à leur développement.
-
-          %p Grâce à notre outil de réservation en ligne, affichez votre planning de cours et autorisez chaque Internaute à réserver un cours via votre propre site ou blog. Pour lui comme pour vous, il n’y a que des avantages : c’est rapide, c’est sécurisé (envoi automatique d’une confirmation de réservation), et vous n’avez pas besoin de prendre le téléphone. Si vos cours sont pleins, vous pouvez même autoriser l’inscription sur une liste d’attente en cas de désistement d’autres élèves. Permettre à ses élèves de s’inscrire à vos cours quand ils veulent, 24h/24, c’est augmenter considérablement ses chances de se développer.
-
-          %h5 …avec ou sans carte bleue
-          %p En moyenne, combien d’élèves ne se présentent finalement pas à votre stage qui était complet et qui aurait pu intéresser d’autres élèves que vous aviez refusés ? Sur une année, avez-vous calculé la perte financière causée par l’absentéisme de certains élèves ? Combien de temps passez-vous à gérer les chèques et à suivre les versements d’arrhes ?
-
-          %p Si vous le souhaitez, vous pouvez autoriser la réservation d’un cours avec carte bleue, pour que l’élève paie au préalable la totalité ou seulement une partie (acompte) d’un cours ou d’un stage. C’est très simple : choisissez vos propres conditions d’annulation et de remboursement, insérez le lien direct de paiement en ligne sur votre propre site Internet ou blog et le tour est joué. Retrouvez ensuite le suivi de vos paiements directement sur votre profil privé CoursAvenue, relié à chaque profil d’élève.
-
-          %h5 Rassemblez tous vos contacts, gérez les inscriptions et les présences
-          %p.flush Tous vos contacts sont rassemblés sur votre profil privé CoursAvenue, accessible avec votre identifiant et votre mot de passe habituels :
-          %ul
-            %li Vos contacts sont stockés dans un seul et même endroit, rangés par critères et profils : terminées les listes de contacts que l’on perd et qui sont rarement mises à jour ;
-            %li Vous suivez les inscriptions et les différents forfaits (carnets, abonnements et adhésions) tout simplement (relance des forfaits à leur expiration, décompte des carnets, etc.)
-            %li Vous gérez les présences de vos élèves en toute simplicité.
-
-          %p Les informations relatives à vos élèves sont sensibles et confidentielles, c’est pourquoi nous avons pensé à sécuriser au maximum votre espace rassemblant vos contacts.
-
-          %h5 Communiquez efficacement
-
-          %p Communiquez-vous aussi bien avec vos élèves actifs et inactifs (les élèves qui sont venus qu’à 1 seule séance) ? Combien de fois par an envoyez-vous des newsletters ? Quel type d’information partagez-vous ? Communiquez mieux, de manière plus ciblée, et avec une fréquence plus régulière, et vous augmenterez votre taux de fidélisation et d’inscription d’au moins 20%.
-
-          %p Importez tous vos contacts, classez-les selon leurs profils, ciblez vos communications et envoyez des emails avancés contenant logo, photos et boutons actifs (les élèves ne lisent plus les emails qui ne contiennent que du texte et qui dépassent plus de 10 lignes). Et tout cela en quelques clics.
+-#           %p C’est pour cela qu’une fois votre planning de cours complété sur votre profil CoursAvenue, vous pourrez afficher clairement votre planning directement sur votre site Internet ou blog. La lecture de votre planning sera optimisée et augmentera votre taux d’inscription. Description du cours, créneaux horaires, tarifs, professeurs… toutes ces informations seront clairement présentées et reliées à une carte géographique pour permettre à chaque Internaute de tout comprendre d’un simple coup d’œil.
 
 
-          %h5 Forfait mensuel sans engagement
+-#           %h5 Autorisez la réservation en ligne…
+-#           Aujourd’hui, tout se réserve en ligne. De plus en plus d’écoles privées (danse, théâtre, musique, etc.) le proposent à leurs élèves, et cela participe énormément à leur développement.
 
-          %p Chez nous, pas de contrat annuel ni d’engagement : payez un forfait mensuel et décidez de partir quand vous le souhaitez (nous en serons bien tristes !).
+-#           %p Grâce à notre outil de réservation en ligne, affichez votre planning de cours et autorisez chaque Internaute à réserver un cours via votre propre site ou blog. Pour lui comme pour vous, il n’y a que des avantages : c’est rapide, c’est sécurisé (envoi automatique d’une confirmation de réservation), et vous n’avez pas besoin de prendre le téléphone. Si vos cours sont pleins, vous pouvez même autoriser l’inscription sur une liste d’attente en cas de désistement d’autres élèves. Permettre à ses élèves de s’inscrire à vos cours quand ils veulent, 24h/24, c’est augmenter considérablement ses chances de se développer.
 
-          %h5 Satisfait ou remboursé
+-#           %h5 …avec ou sans carte bleue
+-#           %p En moyenne, combien d’élèves ne se présentent finalement pas à votre stage qui était complet et qui aurait pu intéresser d’autres élèves que vous aviez refusés ? Sur une année, avez-vous calculé la perte financière causée par l’absentéisme de certains élèves ? Combien de temps passez-vous à gérer les chèques et à suivre les versements d’arrhes ?
 
-          %p Vous ne constatez aucune différence en utilisant nos différents outils ? Vos élèves ne sont pas plus satisfaits, votre taux de fidélisation et d’inscription n’a pas augmenté ? Faites-nous en part pour bien comprendre ce qu’il s’est passé et nous vous remboursons votre abonnement
+-#           %p Si vous le souhaitez, vous pouvez autoriser la réservation d’un cours avec carte bleue, pour que l’élève paie au préalable la totalité ou seulement une partie (acompte) d’un cours ou d’un stage. C’est très simple : choisissez vos propres conditions d’annulation et de remboursement, insérez le lien direct de paiement en ligne sur votre propre site Internet ou blog et le tour est joué. Retrouvez ensuite le suivi de vos paiements directement sur votre profil privé CoursAvenue, relié à chaque profil d’élève.
 
-#we-are-coming.hidden
-  %h3.text--center
-    Nous sommes en train de finaliser l'offre.
-  %h4.text--center
-    Laissez-nous votre email pour bénéficier d'un mois d'essai offert
-  .text--center
-    = simple_form_for @email do |f|
-      = f.input :email, input_html: {class: 'soft-half', size: 50, placeholder: 'Votre email'}, label: false
-      = f.input :email_type, as: :hidden, input_html: {value: 'Offre 29€'}
-      = f.submit 'Envoyer', class: 'btn btn--green'
+-#           %h5 Rassemblez tous vos contacts, gérez les inscriptions et les présences
+-#           %p.flush Tous vos contacts sont rassemblés sur votre profil privé CoursAvenue, accessible avec votre identifiant et votre mot de passe habituels :
+-#           %ul
+-#             %li Vos contacts sont stockés dans un seul et même endroit, rangés par critères et profils : terminées les listes de contacts que l’on perd et qui sont rarement mises à jour ;
+-#             %li Vous suivez les inscriptions et les différents forfaits (carnets, abonnements et adhésions) tout simplement (relance des forfaits à leur expiration, décompte des carnets, etc.)
+-#             %li Vous gérez les présences de vos élèves en toute simplicité.
+
+-#           %p Les informations relatives à vos élèves sont sensibles et confidentielles, c’est pourquoi nous avons pensé à sécuriser au maximum votre espace rassemblant vos contacts.
+
+-#           %h5 Communiquez efficacement
+
+-#           %p Communiquez-vous aussi bien avec vos élèves actifs et inactifs (les élèves qui sont venus qu’à 1 seule séance) ? Combien de fois par an envoyez-vous des newsletters ? Quel type d’information partagez-vous ? Communiquez mieux, de manière plus ciblée, et avec une fréquence plus régulière, et vous augmenterez votre taux de fidélisation et d’inscription d’au moins 20%.
+
+-#           %p Importez tous vos contacts, classez-les selon leurs profils, ciblez vos communications et envoyez des emails avancés contenant logo, photos et boutons actifs (les élèves ne lisent plus les emails qui ne contiennent que du texte et qui dépassent plus de 10 lignes). Et tout cela en quelques clics.
 
 
-= content_for :scripts do
-  :javascript
-    $(function() {
-      var showTabWithHash;
-      showTabWithHash = function(){
-          var url = document.location.toString();
-          if (url.match('#')) {
-              $('.tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
-          }
-      }
-      $(window).on('hashchange', function() {
-        showTabWithHash();
-      });
-      showTabWithHash();
-    });
+-#           %h5 Forfait mensuel sans engagement
+
+-#           %p Chez nous, pas de contrat annuel ni d’engagement : payez un forfait mensuel et décidez de partir quand vous le souhaitez (nous en serons bien tristes !).
+
+-#           %h5 Satisfait ou remboursé
+
+-#           %p Vous ne constatez aucune différence en utilisant nos différents outils ? Vos élèves ne sont pas plus satisfaits, votre taux de fidélisation et d’inscription n’a pas augmenté ? Faites-nous en part pour bien comprendre ce qu’il s’est passé et nous vous remboursons votre abonnement
+
+-# #we-are-coming.hidden
+-#   %h3.text--center
+-#     Nous sommes en train de finaliser l'offre.
+-#   %h4.text--center
+-#     Laissez-nous votre email pour bénéficier d'un mois d'essai offert
+-#   .text--center
+-#     = simple_form_for @email do |f|
+-#       = f.input :email, input_html: {class: 'soft-half', size: 50, placeholder: 'Votre email'}, label: false
+-#       = f.input :email_type, as: :hidden, input_html: {value: 'Offre 29€'}
+-#       = f.submit 'Envoyer', class: 'btn btn--green'
+
+
+-# = content_for :scripts do
+-#   :javascript
+-#     $(function() {
+-#       var showTabWithHash;
+-#       showTabWithHash = function(){
+-#           var url = document.location.toString();
+-#           if (url.match('#')) {
+-#               $('.tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+-#           }
+-#       }
+-#       $(window).on('hashchange', function() {
+-#         showTabWithHash();
+-#       });
+-#       showTabWithHash();
+-#     });
