@@ -115,7 +115,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         * will know to affect all models not marked */
         deepSelect: function () {
             this.deep = true;
-            alert(this.grandTotal + " records selected"); // TODO needs the notification object
+            GLOBAL.flash(this.grandTotal + " lignes selectionnées.", 'notice'); // TODO needs the notification object
         },
 
         bulkAddTags: function (tags) {

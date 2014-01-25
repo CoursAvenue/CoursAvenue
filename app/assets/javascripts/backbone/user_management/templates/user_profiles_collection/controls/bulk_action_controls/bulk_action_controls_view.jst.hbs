@@ -1,19 +1,32 @@
 <div class="grid--full" data-behavior="sticky-controls">
     <div class="grid__item one-half very-soft">
-        <div class="btn text--center" data-behavior="select-all"><i class="fa fa-check"></i></div>
-        <div class="btn text--center" data-behavior="manage-tags"><i class="fa fa-tags"></i></div>
-        <div class="btn text--center" data-behavior="destroy"><i class="fa fa-trash-o"></i></div>
-        <div class="btn text--center" data-behavior="new"><i class="fa fa-plus"></i></div>
+        <div class="btn btn--small text--center" data-behavior="select-all">
+            <i class="fa fa-check"></i>
+            Tout sélectionner
+        </div>
+        <div class="btn btn--small text--center" data-behavior="new">
+            <i class="fa fa-plus"></i>
+            Ajouter un contact
+        </div>
+        <div class="btn btn--small text--center" data-behavior="new">
+            <i class="fa fa-search"></i>
+            Filtrer
+        </div>
+{{!--         <div class="btn btn--small text--center" data-behavior="manage-tags">
+            <i class="fa fa-tags"></i>
+        </div>
+        <div class="btn btn--small text--center" data-behavior="destroy">
+            <i class="fa fa-trash-o"></i>
+        </div> --}}
     </div>{{!--
 --}}<div class="grid__item one-half very-soft text--right">
-        <div class="btn btn--green text--center" data-behavior="save">SAVE</div>
-        <div class="btn btn--red   text--center" data-behavior="cancel">CANCEL</div>
-        <div class="btn btn--blue  text--center" data-behavior="unlock"><i class="fa fa-cogs"></i></div>
+        <div class="btn btn--small btn--green text--center" data-behavior="save">Enregistrer</div>
+        <div class="btn btn--small            text--center" data-behavior="cancel">Annuler</div>
     </div>
 </div>
 <div data-behavior="details">
     <div class="hidden" data-target="select-all">
-      <p>
+      <p class="flush">
         Vous avez sélectionné 30 élèves.
         <a href="javascript:void(0)" class="text--center" data-behavior="deep-select">Cliquez-ici pour selectionner le reste</a>
       </p>
