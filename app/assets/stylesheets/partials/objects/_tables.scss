@@ -9,6 +9,13 @@
     }
 
 /**
+ * Table with column border
+ */
+.table--bordered-column{
+    td             { border-left  : 1px solid $gray-smooth; }
+    td:first-child { border: none; }
+}
+/**
  * Striped tables
  */
 .table--striped{
