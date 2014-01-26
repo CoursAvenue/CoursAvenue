@@ -182,10 +182,9 @@ class Pro::StructuresController < Pro::ProController
     if params[:structure] and params[:structure][:subject_descendants_ids].present?
       params[:structure][:subject_ids] = params[:structure][:subject_ids] + params[:structure].delete(:subject_descendants_ids)
     end
-    cropping_attributes_changed = cropping_attributes_changed?
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
-        @structure.logo.reprocess! if @structure.logo.present? and cropping_attributes_changed
+        @structure.logo.reprocess! if @structure.logo.present? and has_cropping_attributes?
         if !request.xhr? and params[:structure][:logo].present?
           format.html { redirect_to (crop_logo_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
         else
@@ -283,8 +282,7 @@ class Pro::StructuresController < Pro::ProController
   end
 
   # Check if need to reprocess logo
-  # Cannot be done in model because when using update_attributes, we can't access _changed? method
-  def cropping_attributes_changed?
-    (params[:structure][:crop_width].try(:to_i) != @structure.crop_width) || (params[:structure][:crop_x].try(:to_i) != @structure.crop_x) || (params[:structure][:crop_y].try(:to_i) != @structure.crop_y)
+  def has_cropping_attributes?
+    params[:structure][:crop_width].present? || params[:structure][:crop_x].present? || params[:structure][:crop_y].present?
   end
 end
