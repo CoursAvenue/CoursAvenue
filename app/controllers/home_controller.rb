@@ -1,5 +1,6 @@
 # encoding: utf-8
 class HomeController < ApplicationController
+  include CommentsHelper
 
   def index
     # For search
