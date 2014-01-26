@@ -3,66 +3,59 @@
 
 = pro_menu_currently_at 'Présentation'
 
-%h1.text--center.blue
-  Développez votre bouche à oreille sur Internet
+- content_for :above_container do
+  .home-screen-promotion-wrapper--blue.soft
+    %h1.text--center.flush
+      Développez votre bouche à oreille sur Internet
 
-%hr
+  .grid.main-container.soft
+    .grid__item.one-half.visuallyhidden--palm.v-middle>
+      = image_tag 'pages/presentation/stars.png', class: 'soft center-block', height: 200
+    .grid__item.one-half.v-middle.palm-one-whole>
+      %h3.blue Vos élèves aiment vos cours ? Ne soyez plus le seul à le savoir !
+      %p.epsilon
+        3 élèves sur 4 consultent les avis sur Internet avant de réserver un cours : ne gardez plus les compliments de vos élèves rien que pour vous ! Créez-vous un profil et partagez-le autour de vous pour recevoir des recommandations de vos élèves.
 
-.grid
-  .grid__item.one-half.visuallyhidden--palm.v-middle>
-    = image_tag 'pages/presentation/stars.png', class: 'soft center-block', height: 200
-  .grid__item.one-half.v-middle.palm-one-whole>
-    %h3.blue Vos élèves aiment vos cours ? Ne soyez plus le seul à le savoir !
-    %p.epsilon
-      3 élèves sur 4 consultent les avis sur Internet avant de réserver un cours : ne gardez plus les compliments de vos élèves rien que pour vous ! Créez-vous un profil et partagez-le autour de vous pour recevoir des recommandations de vos élèves.
+  .home-screen-promotion-wrapper
+    .grid.main-container
+      .grid__item.one-half.v-middle.palm-one-whole>
+        %h3.blue Gérez le planning de vos cours facilement
+        %p.epsilon
+          Créez en quelques clics le planning de vos cours et diffusez-le auprès de vos élèves de façon claire. Les internautes pourront trouver vos cours en fonction des horaires précises et des tarifs que vous aurez renseignés.
 
-%hr
+      .grid__item.one-half.visuallyhidden--palm.v-middle>
+        = image_tag 'pages/presentation/date-time.png', class: 'soft center-block', height: 200
 
-.grid
-  .grid__item.one-half.v-middle.palm-one-whole>
-    %h3.blue Gérez le planning de vos cours facilement
-    %p.epsilon
-      Créez en quelques clics le planning de vos cours et diffusez-le auprès de vos élèves de façon claire. Les internautes pourront trouver vos cours en fonction des horaires précises et des tarifs que vous aurez renseignés.
+  .grid.main-container.soft
+    .grid__item.one-half.visuallyhidden--palm.v-middle>
+      .island.flush--bottom
+        = image_tag 'pages/presentation/medias.png', class: 'soft center-block', height: 200
+    .grid__item.one-half.v-middle.palm-one-whole>
+      %h3.blue Partagez vos plus belles photos et vidéos
+      %p.epsilon
+        Montrez à vos élèves et à tous les internautes les photos et vidéos de vos cours. Créez une vraie relation avec vos élèves en les mettant en avant et en publiant les photos et vidéos de vos spectacles.
 
-  .grid__item.one-half.visuallyhidden--palm.v-middle>
-    = image_tag 'pages/presentation/date-time.png', class: 'soft center-block', height: 200
+  .home-screen-promotion-wrapper.soft
+    .grid.main-container
+      .grid__item.one-half.v-middle.palm-one-whole>
+        %h3.blue Nous investissons en marketing et communication pour vous
+        %p.epsilon
+          Est-ce que vos cours sont remplis à plus de 80% ? Tous les jours ? À chaque créneau horaire ?
+          Nous diffusons l'offre de cours présente sur CoursAvenue auprès du grand public, auprès des entreprises locales par le biais des comités d'entreprise, mais aussi auprès des agences de voyage. Grâce à notre moteur de recherche innovant et avancé, laissez les élèves venir à vous.
 
-%hr
+      .grid__item.one-half.visuallyhidden--palm.v-middle>
+        = image_tag 'pages/presentation/bullhorn.png', class: 'soft center-block', height: 200
 
-.grid
-  .grid__item.one-half.visuallyhidden--palm.v-middle>
-    .island.flush--bottom
-      = image_tag 'pages/presentation/medias.png', class: 'soft center-block', height: 200
-  .grid__item.one-half.v-middle.palm-one-whole>
-    %h3.blue Partagez vos plus belles photos et vidéos
-    %p.epsilon
-      Montrez à vos élèves et à tous les internautes les photos et vidéos de vos cours. Créez une vraie relation avec vos élèves en les mettant en avant et en publiant les photos et vidéos de vos spectacles.
 
-%hr
+  .grid.main-container.soft
+    .grid__item.one-half.visuallyhidden--palm.v-middle>
+      = image_tag 'pages/presentation/swiss-knife.png', class: 'soft center-block', height: 200
+    .grid__item.one-half.v-middle.palm-one-whole>
+      %h3.blue Gardez le contrôle sur vos informations
+      %p.epsilon
+        Vous décidez de toutes les informations affichées sur votre profil. Créez vos cours, définissez vos séances et vos tarifs simplement. Vous pouvez également ajouter des promotions sur les séances de votre choix pour remplir vos cours à la dernière minute.
+        Quand un élève est intéressé par vos cours vous recevez automatiquement ses coordonnées de manière à pouvoir le contacter rapidement.
 
-.grid
-  .grid__item.one-half.v-middle.palm-one-whole>
-    %h3.blue Nous investissons en marketing et communication pour vous
-    %p.epsilon
-      Est-ce que vos cours sont remplis à plus de 80% ? Tous les jours ? À chaque créneau horaire ?
-      Nous diffusons l'offre de cours présente sur CoursAvenue auprès du grand public, auprès des entreprises locales par le biais des comités d'entreprise, mais aussi auprès des agences de voyage. Grâce à notre moteur de recherche innovant et avancé, laissez les élèves venir à vous.
-
-  .grid__item.one-half.visuallyhidden--palm.v-middle>
-    = image_tag 'pages/presentation/bullhorn.png', class: 'soft center-block', height: 200
-
-%hr
-
-.grid
-  .grid__item.one-half.visuallyhidden--palm.v-middle>
-    = image_tag 'pages/presentation/swiss-knife.png', class: 'soft center-block', height: 200
-  .grid__item.one-half.v-middle.palm-one-whole>
-    %h3.blue Gardez le contrôle sur vos informations
-    %p.epsilon
-      Vous décidez de toutes les informations affichées sur votre profil. Créez vos cours, définissez vos séances et vos tarifs simplement. Vous pouvez également ajouter des promotions sur les séances de votre choix pour remplir vos cours à la dernière minute.
-      Quand un élève est intéressé par vos cours vous recevez automatiquement ses coordonnées de manière à pouvoir le contacter rapidement.
-
-%hr
-
-.text--center
-  %h3.blue Gratuit et sans engagement !
-  = link_to "M'inscrire gratuitement", inscription_pro_structures_path, class: 'btn btn--blue btn--large'
+  .text--center
+    %h3.blue Gratuit et sans engagement !
+    = link_to "M'inscrire gratuitement", inscription_pro_structures_path, class: 'btn btn--blue btn--large'

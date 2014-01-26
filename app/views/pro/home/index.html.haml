@@ -4,10 +4,12 @@
 = pro_menu_currently_at 'Accueil'
 
 - content_for :above_container do
-  .home-screen-promotion-wrapper.island.one-whole.soft--top
-    %h1.text--center.blue.flush
+  .home-screen-promotion-wrapper--blue.soft
+    %h1.text--center.flush
       Développez votre bouche à oreille sur Internet
-    .delta.push--bottom.text--center Toutes les recommandations de vos élèves sur CoursAvenue et votre site Internet
+    .delta.push-half--bottom.text--center Toutes les recommandations de vos élèves sur CoursAvenue et votre site Internet
+
+  .home-screen-promotion-wrapper.soft
     .text--center
       - if current_pro_admin
         - if current_pro_admin.super_admin?

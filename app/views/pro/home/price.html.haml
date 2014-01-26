@@ -1,157 +1,159 @@
 = pro_menu_currently_at 'Offres & Tarifs'
 
-%header.text--center
-  %h1.blue.push-half--bottom Essayez gratuitement CoursAvenue pendant 30 jours.
-  %p
-    %strong Pas besoin de carte bleue. Sans engagement.
+- content_for :above_container do
+  .home-screen-promotion-wrapper--blue.soft
+    %header.text--center
+      %h1.flush Essayez gratuitement CoursAvenue pendant 30 jours.
+      %p.flush Pas besoin de carte bleue. Sans engagement.
 
-.grid--full
-  .grid__item.one-quarter>
-    %table.table--data{style: 'margin-top: 130px'}
-      %tbody
-        %tr
-          %td.text--right Nombre d'utilisateurs
-        %tr
-          %td.text--right Galerie Photos + vidéos
-        %tr
-          %td.text--right Envoi de newsletter et messages groupés
-        %tr
-          %td.soft-half
-            .delta &nbsp;
-        %tr{style: 'height: 34px'}
-          %td.text--right
-            %span.delta
-            Référencement & mise en relation, Livre d'Or
-        %tr{style: 'height: 34px'}
-          %td.text--right
-            %span.delta
-            Statistiques de votre profil
-        %tr{style: 'height: 34px'}
-          %td.text--right
-            %span.delta
-            Envois de SMS groupés*
-        %tr{style: 'height: 34px'}
-          %td.text--right
-            %span.delta
-            Cahier de présences sur Web & Mobile
-        %tr{style: 'height: 34px'}
-          %td.text--right
-            %span.delta
-            Bouton "s'inscrire" sur votre site
-        %tr{style: 'height: 34px'}
-          %td.text--right
-            %span.delta
-            Intégration web
+  .home-screen-promotion-wrapper
+    .grid--full.main-container.soft
+      .grid__item.one-quarter>
+        %table.table--data{style: 'margin-top: 130px'}
+          %tbody
+            %tr
+              %td.text--right Nombre d'utilisateurs
+            %tr
+              %td.text--right Galerie Photos + vidéos
+            %tr
+              %td.text--right Envoi de newsletter et messages groupés
+            %tr
+              %td.soft-half
+                .delta &nbsp;
+            %tr{style: 'height: 34px'}
+              %td.text--right
+                %span.delta
+                Référencement & mise en relation, Livre d'Or
+            %tr{style: 'height: 34px'}
+              %td.text--right
+                %span.delta
+                Statistiques de votre profil
+            %tr{style: 'height: 34px'}
+              %td.text--right
+                %span.delta
+                Envois de SMS groupés*
+            %tr{style: 'height: 34px'}
+              %td.text--right
+                %span.delta
+                Cahier de présences sur Web & Mobile
+            %tr{style: 'height: 34px'}
+              %td.text--right
+                %span.delta
+                Bouton "s'inscrire" sur votre site
+            %tr{style: 'height: 34px'}
+              %td.text--right
+                %span.delta
+                Intégration web
 
-  .grid__item.three-quarters>
-    %table.table--data.table--striped.table--bordered-column.white-box
-      %thead
-        %tr
-          %td.one-quarter.text--center
-            .blue.beta Basic
-            .delta.push-half--bottom Gratuit à vie
-            = link_to inscription_pro_structures_path, class: 'btn btn--green' do
-              Créer mon profil
-              %br
-              %span{style: 'text-transform: none;'} en 5 min
-          %td.one-quarter.text--center
-            .blue.beta Solo
-            .delta.push-half--bottom 19€ / mois
-            = link_to inscription_pro_structures_path, class: 'btn btn--green' do
-              Essayer gratuitement
-              %br
-              %span{style: 'text-transform: none;'} pendant 30 jours
-          %td.one-quarter.text--center
-            .blue.beta Maitre
-            .delta.push-half--bottom 29€ / mois
-            = link_to inscription_pro_structures_path, class: 'btn btn--green' do
-              Essayer gratuitement
-              %br
-              %span{style: 'text-transform: none;'} pendant 30 jours
+      .grid__item.three-quarters>
+        %table.table--data.table--striped.table--bordered-column.white-box
+          %thead
+            %tr
+              %td.one-quarter.text--center
+                .blue.beta Basic
+                .delta.push-half--bottom Gratuit à vie
+                = link_to inscription_pro_structures_path, class: 'btn btn--green' do
+                  Créer mon profil
+                  %br
+                  %span{style: 'text-transform: none;'} en 5 min
+              %td.one-quarter.text--center
+                .blue.beta Solo
+                .delta.push-half--bottom 19€ / mois
+                = link_to inscription_pro_structures_path, class: 'btn btn--green' do
+                  Essayer gratuitement
+                  %br
+                  %span{style: 'text-transform: none;'} pendant 30 jours
+              %td.one-quarter.text--center
+                .blue.beta Maitre
+                .delta.push-half--bottom 29€ / mois
+                = link_to inscription_pro_structures_path, class: 'btn btn--green' do
+                  Essayer gratuitement
+                  %br
+                  %span{style: 'text-transform: none;'} pendant 30 jours
 
-          %td.one-quarter.text--center
-            .blue.beta École
-            .delta.push-half--bottom 49€ / mois
-            = link_to inscription_pro_structures_path, class: 'btn btn--green' do
-              Essayer gratuitement
-              %br
-              %span{style: 'text-transform: none;'} pendant 30 jours
-      %tbody
-        %tr
-          %td.text--center.bold 1
-          %td.text--center.bold 1
-          %td.text--center.bold 1
-          %td.text--center.bold 5
-        %tr
-          %td.text--center.bold 10 photos & vidéos
-          %td.text--center.bold 30 photos & vidéos
-          %td.text--center.bold illimitée
-          %td.text--center.bold illimitée
-        %tr
-          %td.text--center.bold jusqu'à 15 contacts / mois.
-          %td.text--center.bold jusqu'à 100 contacts / mois.
-          %td.text--center.bold envois illimités
-          %td.text--center.bold envois illimités
-        %tr
-          %td.text--center.soft-half{colspan: 4}
-            %strong.delta Outils de performance
-        %tr{style: 'height: 34px'}
-          %td.text--center
-            %i.fa.fa-check.green.delta
-          %td.text--center
-            %i.fa.fa-check.green.delta
-          %td.text--center
-            %i.fa.fa-check.green.delta
-          %td.text--center
-            %i.fa.fa-check.green.delta
-        %tr{style: 'height: 34px'}
-          %td.text--center
-          %td.text--center
-            %i.fa.fa-check.green.delta
-          %td.text--center
-            %i.fa.fa-check.green.delta
-          %td.text--center
-            %i.fa.fa-check.green.delta
-        %tr{style: 'height: 34px'}
-          %td.text--center
-          %td.text--center
-            %i.fa.fa-check.green.delta
-          %td.text--center
-            %i.fa.fa-check.green.delta
-          %td.text--center
-            %i.fa.fa-check.green.delta
-        %tr{style: 'height: 34px'}
-          %td.text--center
-          %td.text--center
-          %td.text--center
-            %i.fa.fa-check.green.delta
-          %td.text--center
-            %i.fa.fa-check.green.delta
-        %tr{style: 'height: 34px'}
-          %td.text--center
-          %td.text--center
-          %td.text--center
-            %i.fa.fa-check.green.delta
-          %td.text--center
-            %i.fa.fa-check.green.delta
-        %tr{style: 'height: 34px'}
-          %td.text--center
-          %td.text--center
-          %td.text--center
-            %i.fa.fa-check.green.delta
-          %td.text--center
-            %i.fa.fa-check.green.delta
-        %tr
-          %td.text--center.soft-half{colspan: 4}
-            %strong.delta Support
-        %tr
-          %td.text--center Chat & e-mail
-          %td.text--center Chat & e-mail
-          %td.text--center Chat, e-mail & téléphone
-          %td.text--center
-            Chat, e-mail &
-            %br
-            %strong prioritaire par téléphone
+              %td.one-quarter.text--center
+                .blue.beta École
+                .delta.push-half--bottom 49€ / mois
+                = link_to inscription_pro_structures_path, class: 'btn btn--green' do
+                  Essayer gratuitement
+                  %br
+                  %span{style: 'text-transform: none;'} pendant 30 jours
+          %tbody
+            %tr
+              %td.text--center.bold 1
+              %td.text--center.bold 1
+              %td.text--center.bold 1
+              %td.text--center.bold 5
+            %tr
+              %td.text--center.bold 10 photos & vidéos
+              %td.text--center.bold 30 photos & vidéos
+              %td.text--center.bold illimitée
+              %td.text--center.bold illimitée
+            %tr
+              %td.text--center.bold jusqu'à 15 contacts / mois.
+              %td.text--center.bold jusqu'à 100 contacts / mois.
+              %td.text--center.bold envois illimités
+              %td.text--center.bold envois illimités
+            %tr
+              %td.text--center.soft-half{colspan: 4}
+                %strong.delta Outils de performance
+            %tr{style: 'height: 34px'}
+              %td.text--center
+                %i.fa.fa-check.green.delta
+              %td.text--center
+                %i.fa.fa-check.green.delta
+              %td.text--center
+                %i.fa.fa-check.green.delta
+              %td.text--center
+                %i.fa.fa-check.green.delta
+            %tr{style: 'height: 34px'}
+              %td.text--center
+              %td.text--center
+                %i.fa.fa-check.green.delta
+              %td.text--center
+                %i.fa.fa-check.green.delta
+              %td.text--center
+                %i.fa.fa-check.green.delta
+            %tr{style: 'height: 34px'}
+              %td.text--center
+              %td.text--center
+                %i.fa.fa-check.green.delta
+              %td.text--center
+                %i.fa.fa-check.green.delta
+              %td.text--center
+                %i.fa.fa-check.green.delta
+            %tr{style: 'height: 34px'}
+              %td.text--center
+              %td.text--center
+              %td.text--center
+                %i.fa.fa-check.green.delta
+              %td.text--center
+                %i.fa.fa-check.green.delta
+            %tr{style: 'height: 34px'}
+              %td.text--center
+              %td.text--center
+              %td.text--center
+                %i.fa.fa-check.green.delta
+              %td.text--center
+                %i.fa.fa-check.green.delta
+            %tr{style: 'height: 34px'}
+              %td.text--center
+              %td.text--center
+              %td.text--center
+                %i.fa.fa-check.green.delta
+              %td.text--center
+                %i.fa.fa-check.green.delta
+            %tr
+              %td.text--center.soft-half{colspan: 4}
+                %strong.delta Support
+            %tr
+              %td.text--center Chat & e-mail
+              %td.text--center Chat & e-mail
+              %td.text--center Chat, e-mail & téléphone
+              %td.text--center
+                Chat, e-mail &
+                %br
+                %strong prioritaire par téléphone
 
 -# %ul.tabs
 -#   %li.active
