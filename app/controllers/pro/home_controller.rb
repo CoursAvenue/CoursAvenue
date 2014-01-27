@@ -1,4 +1,6 @@
 class Pro::HomeController < Pro::ProController
+  include CommentsHelper, NavigationHelper
+
   layout 'admin_pages'
 
   def index
