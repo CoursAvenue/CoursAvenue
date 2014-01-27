@@ -1,5 +1,6 @@
 # encoding: utf-8
 class Pro::Courses::PlanningsController < InheritedResources::Base
+  helper :all
   layout 'admin'
 
   before_action :authenticate_pro_admin!
