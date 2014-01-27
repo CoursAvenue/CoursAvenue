@@ -1,6 +1,6 @@
 # encoding: utf-8
 class ReservationsController < ApplicationController
-  include ReservationHelper
+  helper :all
 
   def new
     @course = Course.friendly.find params[:course_id]

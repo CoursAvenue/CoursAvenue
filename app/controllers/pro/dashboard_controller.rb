@@ -1,11 +1,15 @@
 # encoding: utf-8
 class Pro::DashboardController < Pro::ProController
-  before_action :authenticate_pro_admin!
+  before_action :authenticate_pro_super_admin!
   def index
-    raise CanCan::AccessDenied.new unless current_pro_admin.super_admin?
     @admins_by_hour = {0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0, 13 => 0, 14 => 0, 15 => 0, 16 => 0, 17 => 0, 18 => 0, 19 => 0, 20 => 0, 21 => 0, 22 => 0, 23 => 0}
     Admin.find_each do |admin|
       @admins_by_hour[admin.created_at.hour] += 1
+    end
+
+    @comments_by_hour = {0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0, 13 => 0, 14 => 0, 15 => 0, 16 => 0, 17 => 0, 18 => 0, 19 => 0, 20 => 0, 21 => 0, 22 => 0, 23 => 0}
+    Comment.find_each do |admin|
+      @comments_by_hour[admin.created_at.hour] += 1
     end
 
     # @admins = Admin.count(:order => 'DATE(created_at) DESC', :group => ["DATE(created_at)"])

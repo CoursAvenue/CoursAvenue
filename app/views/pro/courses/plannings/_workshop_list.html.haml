@@ -19,7 +19,7 @@
           %th
       %tbody
         - plannings.each do |planning|
-          = render partial: 'pro/plannings/workshop_list_item', locals: { planning: planning }
+          = render partial: 'pro/courses/plannings/workshop_list_item', locals: { planning: planning }
 
 - if @past_plannings.any?
   = link_to 'Afficher le planning passé', 'javascript:void(0)', id: 'show-past-planning'
@@ -40,7 +40,7 @@
           %th
       %tbody
         - @past_plannings.each do |planning|
-          = render partial: 'pro/plannings/workshop_list_item', locals: { planning: planning }
+          = render partial: 'pro/courses/plannings/workshop_list_item', locals: { planning: planning }
 
 = content_for :scripts do
   :javascript

@@ -108,7 +108,7 @@
         = structure_form.input :widget_status, as: :select, collection: Structure::WIDGET_STATUS, label_method: lambda{|status| t("structures.widget_status.#{status}")}
         = structure_form.input :widget_url, as: :string, placeholder: 'Ex. : http://www.mon-site.com/livre-d-or'
 
-  = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full'
+  = structure_form.button :submit, "Enregistrer", class: 'btn btn--green btn--full push--bottom'
 
 = content_for :scripts do
   :javascript
