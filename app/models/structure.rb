@@ -14,6 +14,7 @@ class Structure < ActiveRecord::Base
   after_validation :geocode
 
   after_save :delay_subscribe_to_nutshell
+  after_save :delay_subscribe_to_mailchimp
 
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',
@@ -503,10 +504,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  def delay_subscribe_to_nutshell
-    self.delay.subscribe_to_nutshell if Rails.env.production?
-  end
-
   def parisian?
     paris_lat    = 48.8592
     paris_lng    = 2.3417
@@ -549,8 +546,12 @@ class Structure < ActiveRecord::Base
     self.active = true
   end
 
-  def subscribe_to_nutshell
-    NutshellUpdater.update(self)
+  def delay_subscribe_to_mailchimp
+    MailchimpUpdater.delay.update(self) if self.main_contact and Rails.env.production?
+  end
+
+  def delay_subscribe_to_nutshell
+    NutshellUpdater.delay.update(self) if self.main_contact and Rails.env.production?
   end
 
   def fix_website_url
