@@ -24,8 +24,18 @@ describe Pro::Courses::PlanningsController do
 
   describe :new do
     let(:course) { FactoryGirl.create(:lesson, structure: @admin.structure) }
+    let(:workshop) { FactoryGirl.create(:workshop, structure: @admin.structure) }
+    let(:training) { FactoryGirl.create(:training, structure: @admin.structure) }
     it 'works' do
       get :new, course_id: course.id
+      expect(response).to be_success
+    end
+    it 'works' do
+      get :new, course_id: workshop.id
+      expect(response).to be_success
+    end
+    it 'works' do
+      get :new, course_id: training.id
       expect(response).to be_success
     end
   end
