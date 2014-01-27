@@ -7,6 +7,7 @@ class Pro::Structures::UserProfilesController < Pro::ProController
 
   def index
     params[:structure_id] = @structure.id
+    @ids = @structure.user_profiles.map(&:id) # all the ids
     @user_profiles_search = UserProfileSearch.search(params)
     @user_profiles = @user_profiles_search.results
 
@@ -17,7 +18,7 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     end
 
     respond_to do |format|
-      format.json { render json: @user_profiles, root: 'user_profiles', meta: { total: @user_profiles_search.total, busy: @structure.busy }}
+      format.json { render json: @user_profiles, root: 'user_profiles', meta: { total: @user_profiles_search.total, busy: @structure.busy, ids: @ids }}
       format.html
     end
   end
