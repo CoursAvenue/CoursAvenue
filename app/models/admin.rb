@@ -16,7 +16,7 @@ class ::Admin < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
   after_create :check_if_was_invited
-  after_create :delay_subscribe_to_nutshell
+  after_save :delay_subscribe_to_nutshell
   after_save :delay_subscribe_to_mailchimp
 
   # Setup accessible (or protected) attributes for your model

@@ -78,9 +78,16 @@
 
 
     %p.push-half--top
-      = link_to new_pro_course_planning_path(course), title: 'Ajouter un créneau', data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--blue btn--small' do
+      = link_to new_pro_course_planning_path(course), title: "Ajouter un créneau pour l'atelier : #{course.name}", data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--blue btn--small add-planning' do
         %i.fa.fa-plus.soft-half--right
         Ajouter un créneau
 
 .text--center.push--bottom
   = link_to 'Ajouter un atelier', new_pro_structure_course_open_path(@structure), class: 'btn btn--green btn--large'
+
+- if @courses.length == 1 and @courses.first.plannings.empty?
+  = content_for :scripts do
+    :javascript
+      $(function() {
+          $('.add-planning').click();
+      });
