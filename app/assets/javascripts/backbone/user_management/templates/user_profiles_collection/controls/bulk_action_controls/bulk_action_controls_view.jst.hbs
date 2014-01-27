@@ -24,15 +24,15 @@
             <div data-behavior="manage-edits">
                 <div class="btn btn--small btn--green text--center" data-behavior="save">Enregistrer</div>
                 <div class="btn btn--small            text--center" data-behavior="cancel">Annuler</div>
-            <div>
-        <div>
+            </div>
+        </div>
     </div>
 </div>
 <div data-behavior="details">
     <div class="hidden" data-target="select-all">
       <p class="flush">
-        Vous avez sélectionné 30 élèves.
-        <a href="javascript:void(0)" class="text--center" data-behavior="deep-select">Cliquez-ici pour selectionner le reste</a>
+      Vous avez sélectionné <span data-behavior="selected-count">30</span> élèves.
+        <a href="javascript:void(0)" class="text--center hidden" data-target="deep-select" data-behavior="deep-select">Cliquez-ici pour selectionner le reste</a>
       </p>
     </div>
 

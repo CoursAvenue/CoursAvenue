@@ -33,6 +33,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             this.grandTotal = options.total;
             this.deep = false;
+            this.selection_size = 0;
         },
 
         /* where we can expect to find the resource we seek
@@ -88,26 +89,47 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             radius:      2 // determines the behaviour of the ellipsis
         },
 
+        // TODO update the blacklist
         toggleSelected: function (model) {
+            // get the desired state of the selected flag
             var selected = (model.get("selected") === true)? "" : true;
+            (selected)? this.selection_size += 1 : this.selection_size -= 1;
 
             model.set("selected", selected);
         },
 
+        // TODO update the blacklist
         selectAll: function () {
+            var selection_size = 0;
             this.each(function (model) {
-                model.set("selected", true);
+                if (!model.get("selected")) {
+                    selection_size += 1;
+                    model.set("selected", true);
+                }
             });
+
+            this.selection_size += selection_size;
         },
 
+        // TODO update the blacklist
         deselectAll: function () {
+            var selection_size = 0;
             this.each(function (model) {
-                model.set("selected", "");
+                if (model.get("selected")) {
+                    selection_size -= 1;
+                    model.set("selected", "");
+                }
             });
+
+            this.selection_size += selection_size;
         },
 
         getSelected: function () {
             return this.where({ selected: true });
+        },
+
+        getSelectedCount: function () {
+            return this.selection_size;
         },
 
         /* in addition to selecting the models,
@@ -115,12 +137,15 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         * will know to affect all models not marked */
         deepSelect: function () {
             this.deep = true;
-            GLOBAL.flash(this.grandTotal + " lignes selectionnées.", 'notice'); // TODO needs the notification object
+            this.selection_size = this.grandTotal;
+            GLOBAL.flash(this.selection_size + " lignes selectionnées.", 'notice'); // TODO needs the notification object
         },
 
         bulkAddTags: function (tags) {
             var models = this.getSelected();
 
+            // when we have deep selection we have to pass in the ids of the
+            // models that we _do not_ want to affect
             $.ajax({
                 type: "POST",
                 url: this.url.basename + '/bulk.json',

@@ -63,7 +63,8 @@ UserManagement.addInitializer(function(options) {
 
     layout.showWidget(bulk_action_controls, {
         events: {
-            'user_profiles:changed:editing'   : 'toggleEditManager'
+            'user_profiles:changed:editing'   : 'toggleEditManager',
+            'user_profiles:update:selected'   : 'updateSelected'
         }
     });
 

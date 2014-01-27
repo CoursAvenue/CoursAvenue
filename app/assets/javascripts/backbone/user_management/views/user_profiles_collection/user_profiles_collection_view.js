@@ -58,6 +58,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         selectAll: function () {
             this.collection.selectAll();
+            this.trigger("user_profiles:update:selected", { count: this.collection.getSelectedCount() });
         },
 
         deselectAll: function () {
@@ -66,6 +67,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         deepSelect: function () {
             this.collection.deepSelect();
+            this.trigger("user_profiles:update:selected", { count: this.collection.getSelectedCount() });
         },
 
         addTags: function (tags) {
@@ -180,6 +182,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* an item has been checked or unchecked */
         onItemviewAddToSelected: function (itemview) {
             this.collection.toggleSelected(itemview.model);
+            this.trigger("user_profiles:update:selected", { count: this.collection.getSelectedCount() });
         },
 
         onAfterItemAdded: function (itemView) {

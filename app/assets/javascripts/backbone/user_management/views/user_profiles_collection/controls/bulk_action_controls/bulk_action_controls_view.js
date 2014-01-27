@@ -12,9 +12,10 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         },
 
         ui: {
-            '$select_all'  : '[data-behavior=select-all]',
-            '$tag_names'   : '[data-value=tag-names]',
-            '$edit_manager': '[data-behavior=manage-edits]'
+            '$select_all'        : '[data-behavior=select-all]',
+            '$tag_names'         : '[data-value=tag-names]',
+            '$edit_manager'      : '[data-behavior=manage-edits]',
+            '$selected_count'    : '[data-behavior=selected-count]'
         },
 
         events: {
@@ -29,6 +30,11 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             'click [data-behavior=manage-tags]'    : 'manageTags',
             'click [data-behavior=add-tags]'       : 'addTags',
             'click [data-behavior=destroy]'        : 'destroySelected',
+        },
+
+        updateSelected: function (data) {
+            this.showDetails("select-all");
+            this.ui.$selected_count.html(data.count);
         },
 
         toggleEditManager: function (is_editing) {
@@ -84,17 +90,18 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
                     "backface-visibility": "hidden",
                     transform: "rotateX(180deg)"
                 });
-        }
-
+        },
 
         deselectAll: function () {
             this.hideDetails("select-all");
+            this.hideDetails("deep-select");
             this.trigger("controls:deselect:all");
             this.toggleSelectButton("select-all");
         },
 
         selectAll: function (options) {
             this.showDetails("select-all");
+            this.showDetails("deep-select");
             this.trigger("controls:select:all", { deep: false });
             this.toggleSelectButton("deselect-all");
         },
