@@ -12,12 +12,6 @@
             <i class="fa fa-search"></i>
             Filtrer
         </div>
-{{!--         <div class="btn btn--small text--center" data-behavior="manage-tags">
-            <i class="fa fa-tags"></i>
-        </div>
-        <div class="btn btn--small text--center" data-behavior="destroy">
-            <i class="fa fa-trash-o"></i>
-        </div> --}}
     </div>{{!--
 --}}<div class="grid__item one-half very-soft text--right">
         <div data-behavior="edits-container">
@@ -36,15 +30,26 @@
       </p>
     </div>
 
+    <div class="one-half very-soft hidden" data-target="bulk-actions">
+        <div class="btn btn--small text--center" data-behavior="manage-tags">
+            <i class="fa fa-tags"></i>
+            Gérer les Tags
+        </div>
+        <div class="btn btn--small text--center" data-behavior="destroy">
+            <i class="fa fa-trash-o"></i>
+            Supprimer le Selection
+        </div>
+    </div>
+
     <div class="grid--full very-soft hidden" data-target="manage-tags">
         <div class="grid__item one-twelfth">
             <label for="tag-action"><strong>Tag:</strong></label>
         </div>{{!--
-    --}}<div class="grid__item four-twelfths">
+        --}}<div class="grid__item four-twelfths">
             <input id="tag-action" type="text" data-value="tag-names"></input>
         </div>{{!--
-    --}}<div class="grid__item one-twelfth">
+        --}}<div class="grid__item one-twelfth">
             <div class="btn one-whole text--center" data-behavior="add-tags">ADD</div>
         </div>
-    </div>
+    </div>   
 </div>

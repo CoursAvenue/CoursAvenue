@@ -34,6 +34,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
 
         updateSelected: function (data) {
             this.showDetails("select-all");
+            this.showDetails("bulk-actions")
             this.ui.$selected_count.html(data.count);
 
             if (data.count === 0) {
