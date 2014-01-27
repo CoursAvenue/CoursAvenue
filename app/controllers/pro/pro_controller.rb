@@ -1,5 +1,4 @@
 class Pro::ProController < ApplicationController
-  helper :all
 
   layout 'admin'
 

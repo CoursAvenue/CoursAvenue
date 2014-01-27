@@ -2,6 +2,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  helper :all
+
   layout 'users'
 
   before_filter :update_sanitized_params, if: :devise_controller?
