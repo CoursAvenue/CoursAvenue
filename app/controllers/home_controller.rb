@@ -1,5 +1,6 @@
 # encoding: utf-8
 class HomeController < ApplicationController
+  helper :all
 
   def index
     # For search

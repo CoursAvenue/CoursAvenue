@@ -1,6 +1,6 @@
 # encoding: utf-8
 class CommentsController < ApplicationController
-  include CommentsHelper
+  helper :all
 
   def create
     @commentable  = find_commentable

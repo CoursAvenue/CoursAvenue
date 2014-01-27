@@ -95,9 +95,13 @@
         }
     }
 
+.home-screen-promotion-wrapper--blue {
+    color           : white;
+    background-color: $blue-green;
+}
+
 .home-screen-promotion-wrapper {
     background-color: $homescreen-background;
-    padding         : 0 0 2em 0;
     border          : 1px solid #DBDBDB;
     .home-screen-promotion {
         padding-top: 0;

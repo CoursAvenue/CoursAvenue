@@ -1,5 +1,6 @@
 # encoding: utf-8
 class Pro::Courses::PlanningsController < InheritedResources::Base
+  helper :all
   layout 'admin'
 
   before_action :authenticate_pro_admin!
@@ -37,9 +38,9 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
     retrieve_plannings_and_past_plannings
     respond_to do |format|
       if request.xhr?
-        format.html {render partial: "pro/courses/plannings/#{@course.underscore_name}_form"}
+        format.html { render partial: "pro/courses/plannings/#{@course.underscore_name}_form" }
       else
-        format.html {render template: 'pro/courses/plannings/index'}
+        format.html { render template: 'pro/courses/plannings/index' }
       end
     end
   end

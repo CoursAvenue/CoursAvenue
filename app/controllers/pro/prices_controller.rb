@@ -1,5 +1,7 @@
 # encoding: utf-8
 class Pro::PricesController < InheritedResources::Base#Pro::ProController
+  helper :all
+
   before_action :authenticate_pro_admin!
 
   layout 'admin'

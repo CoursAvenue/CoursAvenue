@@ -16,7 +16,8 @@ class ::Admin < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
   after_create :check_if_was_invited
-  after_create :delay_subscribe_to_nutshell
+  after_save :delay_subscribe_to_nutshell
+  after_save :delay_subscribe_to_mailchimp
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email,
@@ -85,9 +86,11 @@ class ::Admin < ActiveRecord::Base
   private
 
   def delay_subscribe_to_nutshell
-    if Rails.env.production?
-      self.structure.delay_subscribe_to_nutshell if self.structure
-    end
+    self.structure.send(:delay_subscribe_to_nutshell) if self.structure and Rails.env.production?
+  end
+
+  def delay_subscribe_to_mailchimp
+    self.structure.send(:delay_subscribe_to_mailchimp) if self.structure and Rails.env.production?
   end
 
   def check_if_was_invited
