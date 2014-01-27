@@ -56,6 +56,12 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.getCurrentlyEditing().finishEditing({ restore: false });
         },
 
+        bulkSelect: function (e) {
+            var checked = e.currentTarget.checked;
+
+            (checked)? this.selectAll() : this.deselectAll();
+        },
+
         selectAll: function () {
             this.collection.selectAll();
             this.trigger("user_profiles:update:selected", { count: this.collection.getSelectedCount() });
@@ -63,10 +69,17 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         deselectAll: function () {
             this.collection.deselectAll();
+            this.trigger("user_profiles:update:selected", { count: this.collection.getSelectedCount() });
         },
 
         deepSelect: function () {
+            this.collection.selectAll(); // to update checkmarks
             this.collection.deepSelect();
+            this.trigger("user_profiles:update:selected", { count: this.collection.getSelectedCount() });
+        },
+
+        clearSelected: function () {
+            this.collection.clearSelected();
             this.trigger("user_profiles:update:selected", { count: this.collection.getSelectedCount() });
         },
 

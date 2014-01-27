@@ -23,7 +23,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             'click [data-behavior=cancel]'         : 'announceCancel',
             'click [data-behavior=new]'            : 'newUserProfile',
             'click [data-behavior=select-all]'     : 'selectAll',
-            'click [data-behavior=deselect-all]'   : 'deselectAll',
+            'click [data-behavior=deselect-all]'   : 'clearSelection',
             /* TODO this doesn't actually work yet: when I click on page 2, they don't have checked boxes */
             'click [data-behavior=deep-select]'    : 'deepSelect',
             /* TODO do try to make this a proper tag bar by installing tag bar */
@@ -35,6 +35,10 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         updateSelected: function (data) {
             this.showDetails("select-all");
             this.ui.$selected_count.html(data.count);
+
+            if (data.count === 0) {
+                this.hideDetails("select-all");
+            }
         },
 
         toggleEditManager: function (is_editing) {
@@ -92,13 +96,6 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
                 });
         },
 
-        deselectAll: function () {
-            this.hideDetails("select-all");
-            this.hideDetails("deep-select");
-            this.trigger("controls:deselect:all");
-            this.toggleSelectButton("select-all");
-        },
-
         selectAll: function (options) {
             this.showDetails("select-all");
             this.showDetails("deep-select");
@@ -113,9 +110,15 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             this.ui.$select_all.attr('data-behavior', type);
         },
 
-        deepSelect: function ( ){
+        deepSelect: function () {
             this.trigger("controls:deep:select");
-            this.hideDetails("select-all");
+            this.hideDetails("deep-select");
+        },
+
+        clearSelection: function () {
+            this.trigger("controls:clear:selected");
+            this.hideDetails("deep-select");
+            this.toggleSelectButton("select-all");
         },
 
         showDetails: function (target) {

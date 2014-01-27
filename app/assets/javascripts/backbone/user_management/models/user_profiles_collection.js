@@ -32,7 +32,11 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.url.basename         = this.url.basename.join('/');
 
             this.grandTotal = options.total;
-            this.deep = false;
+
+            // determines whether the given selection is a
+            // whitelist of records to be changed, or a
+            // blacklist of records to be excluded from an update
+            this.blacklist = false;
             this.selection_size = 0;
         },
 
@@ -136,9 +140,18 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         * set this.deep so that the bulk_action_controller
         * will know to affect all models not marked */
         deepSelect: function () {
-            this.deep = true;
+            this.blacklist = true;
             this.selection_size = this.grandTotal;
             GLOBAL.flash(this.selection_size + " lignes selectionnées.", 'notice'); // TODO needs the notification object
+        },
+
+        clearSelected: function () {
+            _.each(this.getSelected(), function (model) {
+                model.set("selected", "");
+            });
+
+            this.selection_size = 0;
+            this.blacklist = false;
         },
 
         bulkAddTags: function (tags) {
@@ -150,12 +163,15 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
                 type: "POST",
                 url: this.url.basename + '/bulk.json',
                 data: {
-                    ids: (this.deep) ? "all" : _.pluck(models, 'id'),
-                    tags: tags
+                    ids: _.pluck(this.getSelected(), 'id'),
+                    tags: tags,
+                    blacklist: this.blacklist
                 }
             });
         },
 
+        // not sure how to implement this in the blacklist mode
+        // since we don't have any models off page
         destroySelected: function () {
             var models = this.getSelected();
 
