@@ -225,10 +225,11 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         itemViewOptions: function(model, index) {
             var id = model.get("id");
             var tags_url = this.collection.url.basename + '/tags.json';
+            var checked = this.collection.isChecked(model);
 
             /* we pass in the hash of layout events the view will respond to */
             return {
-                checked: model.get("selected"), // TODO check if this is working: the select all seemed to be broken
+                checked: checked, // TODO check if this is working: the select all seemed to be broken
                 tags_url: tags_url,
                 events: {
                     "tagbar:click"                : "startEditing",

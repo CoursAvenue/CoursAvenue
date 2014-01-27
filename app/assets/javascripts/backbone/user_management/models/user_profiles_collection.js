@@ -32,12 +32,9 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.url.basename         = this.url.basename.join('/');
 
             this.grandTotal = options.total;
+            this.all_ids    = options.ids;
 
-            // determines whether the given selection is a
-            // whitelist of records to be changed, or a
-            // blacklist of records to be excluded from an update
-            this.blacklist = false;
-            this.selection_size = 0;
+            this.selected_ids = [];
         },
 
         /* where we can expect to find the resource we seek
@@ -93,69 +90,87 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             radius:      2 // determines the behaviour of the ellipsis
         },
 
-        // TODO update the blacklist
+        /* returns true if the given model is in the current list */
+        isChecked: function (model) {
+            return (this.selected_ids.indexOf(model.get("id")) != -1);
+        },
+
+        /* DEEP SELECT */
+        /* deep select is implemented by having an array of ids. When
+         * a user chooses deep select, we replace the array of ids with
+         * an array of all ids fetched from the server */
+        /* any time we add or remove a model id from the list, we also
+         * fire a change event, to capture this */
+
+        /* add or remove the given model from the list */
         toggleSelected: function (model) {
             // get the desired state of the selected flag
-            var selected = (model.get("selected") === true)? "" : true;
-            (selected)? this.selection_size += 1 : this.selection_size -= 1;
+            var id = model.get("id");
+            var index = this.selected_ids.indexOf(id);
 
-            model.set("selected", selected);
+            if (index == -1) {
+                this.selected_ids.push(id);
+            } else {
+                this.selected_ids.splice(index, 1);
+            }
+
+            model.trigger("change:selected");
         },
 
-        // TODO update the blacklist
+        /* add the current page of ids to the list */
         selectAll: function () {
-            var selection_size = 0;
+            var selected_ids = this.selected_ids;
+
             this.each(function (model) {
-                if (!model.get("selected")) {
-                    selection_size += 1;
-                    model.set("selected", true);
+                var id = model.get("id");
+                var index = selected_ids.indexOf(id);
+
+                if (index != -1) {
+                    selected_ids.push(id)
+                    model.trigger("change:selected");
                 }
             });
-
-            this.selection_size += selection_size;
         },
 
-        // TODO update the blacklist
+        /* remove the current page of ids to the list */
         deselectAll: function () {
-            var selection_size = 0;
+            var selected_ids = this.selected_ids;
+
             this.each(function (model) {
-                if (model.get("selected")) {
-                    selection_size -= 1;
-                    model.set("selected", "");
+                var id    = model.get("id");
+                var index = selected_ids.indexOf(id);
+
+                if (index > -1) {
+                    selected_ids.splice(index, 1);
+                    model.trigger("change:selected");
                 }
             });
-
-            this.selection_size += selection_size;
         },
 
         getSelected: function () {
-            return this.where({ selected: true });
+            return this.selected_ids;
         },
 
         getSelectedCount: function () {
-            return this.selection_size;
+            return this.selected_ids.length();
         },
 
         /* in addition to selecting the models,
         * set this.deep so that the bulk_action_controller
         * will know to affect all models not marked */
         deepSelect: function () {
-            this.blacklist = true;
-            this.selection_size = this.grandTotal;
-            GLOBAL.flash(this.selection_size + " lignes selectionnées.", 'notice'); // TODO needs the notification object
+            this.deselectAll(); // to trigger the change
+            this.selected_ids = this.all_ids;
+
+            GLOBAL.flash(this.selected_ids.length() + " lignes selectionnées.", 'notice'); // TODO needs the notification object
         },
 
         clearSelected: function () {
-            _.each(this.getSelected(), function (model) {
-                model.set("selected", "");
-            });
-
-            this.selection_size = 0;
-            this.blacklist = false;
+            this.selected_ids = [];
         },
 
         bulkAddTags: function (tags) {
-            var models = this.getSelected();
+            var ids = this.getSelected();
 
             // when we have deep selection we have to pass in the ids of the
             // models that we _do not_ want to affect
@@ -163,21 +178,16 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
                 type: "POST",
                 url: this.url.basename + '/bulk.json',
                 data: {
-                    ids: _.pluck(this.getSelected(), 'id'),
+                    ids: ids,
                     tags: tags,
-                    blacklist: this.blacklist
                 }
             });
         },
 
-        // not sure how to implement this in the blacklist mode
-        // since we don't have any models off page
+        // we need to implement this to work with deep select
+        // probably we will end up sending the bulk delete message
         destroySelected: function () {
-            var models = this.getSelected();
-
-            _.each(models, function (model) {
-                model.destroy();
-            });
+            // TODO
         }
     });
 });
