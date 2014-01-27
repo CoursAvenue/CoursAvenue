@@ -18,6 +18,7 @@ describe Pro::Courses::PlanningsController do
     context :course do
       let(:course) { FactoryGirl.create(:lesson, structure: @admin.structure) }
       it 'works' do
+        planning = FactoryGirl.create(:planning, structure: @admin.structure)
         get :index, course_id: course.id
         expect(response).to be_success
       end
@@ -26,6 +27,9 @@ describe Pro::Courses::PlanningsController do
     context :workshop do
       let(:workshop) { FactoryGirl.create(:workshop, structure: @admin.structure) }
       it 'works' do
+        planning        = FactoryGirl.build(:planning, structure: @admin.structure)
+        planning.course = workshop
+        planning.save
         get :index, course_id: workshop.id
         expect(response).to be_success
       end
