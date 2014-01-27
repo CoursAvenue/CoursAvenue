@@ -46,7 +46,7 @@ gem 'active_hash'               , '~>1.2.0'
 gem 'rails-observers'           , '~>0.1.2'
 
 # Transform urls into images, videos etc. Used in medias.
-gem 'auto_html'                 , '~>1.6.0'
+gem 'auto_html'                 , '~>1.6.1'
 
 # Must be before jobs
 gem 'protected_attributes'      , '~>1.0.3'
@@ -72,12 +72,12 @@ gem 'ancestry'                  , '~>2.0.0'
 # Nice helper to use google maps
 gem 'gmaps4rails'               , '~>2.1.0'
 # Helper methods for geolocations
-gem 'geocoder'                  , '~>1.1.8'
+gem 'geocoder'                  , '~>1.1.9'
 # To have model serializers apart from models
 gem 'active_model_serializers'  , '~>0.8.1'
 
 # Generate slugs for records
-gem 'friendly_id'               , '~>5.0.0.rc2'
+gem 'friendly_id'               , '~>5.0.0'
 # Handy forms
 gem 'simple_form'               , '~>3.0.0'
 # Dry the controllers
@@ -124,18 +124,18 @@ gem 'roadie'                    , '~>2.4.2'
 # Includes Backbone
 gem 'railsy_backbone'           , '~>0.0.5'
 # Includes Backbone Marionette
-gem 'marionette-rails'          , '~>1.4.0'
+gem 'marionette-rails'          , '~>1.4.1'
 # Includes bacbone.relational
-gem 'backbone-relational-rails' , '~>0.8.6'
+gem 'backbone-relational-rails' , '~>0.8.7'
 gem 'handlebars_assets'         , '~>0.14.1'
-gem 'sass-rails'                , '~>4.0.0'
+gem 'sass-rails'                , '~>4.0.1'
 gem 'haml'                      , '~>4.0.3'
 gem 'uglifier'                  , '>= 1.0.3'
 gem 'coffee-rails'              , '~>4.0.0'
 # gem 'js-routes'                 , '~>0.9.3'
 
 # Load FontAwesome
-gem 'font-awesome-rails'        , '~>4.0.3.0'
+gem 'font-awesome-rails'        , '~>4.0.3.1'
 # Load jQuery
 gem 'jquery-rails'              , '~>3.0.4'
 # Load Compass utilities
