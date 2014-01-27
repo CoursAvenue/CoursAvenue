@@ -12,8 +12,9 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         },
 
         ui: {
-            '$select_all': '[data-behavior=select-all]',
-            '$tag_names' : '[data-value=tag-names]',
+            '$select_all'  : '[data-behavior=select-all]',
+            '$tag_names'   : '[data-value=tag-names]',
+            '$edit_manager': '[data-behavior=manage-edits]'
         },
 
         events: {
@@ -30,6 +31,12 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             'click [data-behavior=destroy]'        : 'destroySelected',
         },
 
+        toggleEditManager: function (is_editing) {
+            var rotate = (is_editing)? "rotateX(-180deg)" : "rotateX(0deg)";
+
+            this.ui.$edit_manager.parent().css({ transform: rotate });
+        },
+
         announceSave: function (e) {
             e.stopPropagation();
             this.trigger("controls:save");
@@ -40,9 +47,45 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             this.trigger("controls:cancel");
         },
 
-        onRender: function () {
+        onAfterShow: function () {
+            this.setUpRotation();
             this.$el.sticky();
         },
+
+        setUpRotation: function () {
+            this.$("[data-behavior=edits-container]")
+                .css({
+                    "transform-origin": "right center 0",
+                    "transform-style": "preserve-3d",
+                    transition: "transform 1s ease 0s"
+                })
+                .parent()
+                .css({ perspective: "800px" });
+
+            // add the front-side
+            var width  = this.ui.$edit_manager.width(),
+            height     = this.ui.$edit_manager.height(),
+            front_side = $("<div>")
+                .css({
+                    position: "absolute",
+                    right: -2,
+                    top: -10,
+                    height: height + 20,
+                    width: width,
+                    "backface-visibility": "hidden",
+                    "background-color": "white"
+                });
+
+            this.ui.$edit_manager.parent().prepend(front_side);
+
+            // hide the backside
+            this.ui.$edit_manager
+                .css({
+                    "backface-visibility": "hidden",
+                    transform: "rotateX(180deg)"
+                });
+        }
+
 
         deselectAll: function () {
             this.hideDetails("select-all");

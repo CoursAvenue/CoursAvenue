@@ -56,12 +56,16 @@ UserManagement.addInitializer(function(options) {
 
     layout.showWidget(pagination_bottom, {
         events: {
-            'user_profiles:updated:pagination': 'reset'
+            'user_profiles:updated:pagination': 'reset',
         },
         selector: '[data-type=pagination-bottom]'
     });
 
-    layout.showWidget(bulk_action_controls)
+    layout.showWidget(bulk_action_controls, {
+        events: {
+            'user_profiles:changed:editing'   : 'toggleEditManager'
+        }
+    });
 
     layout.master.show(user_profiles_collection_view);
 

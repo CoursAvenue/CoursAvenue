@@ -14,6 +14,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         chevron: Handlebars.compile("<span class='soft-half--left fa fa-chevron-{{ order }}' data-type='order'></span>"),
 
         initialize: function () {
+            this.setEditing = _.debounce(this.setEditing);
+
             this.poller = Backbone.Poller.get(this.collection, { delay: 5000 });
             this.poller.on('success', _.bind(function (collection) {
                 if (collection.jobs !== "false") { return; }
@@ -160,6 +162,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             } else {
                 this.currently_editing.shift(itemview);
             }
+
+            this.setEditing(this.currently_editing.length === 1);
         },
 
         /* we should use this opportunity to create the next editable
@@ -189,6 +193,12 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                     $(window).scrollTo(table_top, "slow");
                 }
             }
+        },
+
+        setEditing: function (editing) {
+            this.is_editing = editing
+
+            this.trigger("user_profiles:changed:editing", this.is_editing);
         },
 
         /* when rendering each collection item, we might want to
