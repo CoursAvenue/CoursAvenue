@@ -1,5 +1,5 @@
 class RedirectController < ApplicationController
-  helper :all
+  include SubjectHelper
 
   def vertical_page_city
     @structure = Subject.find params[:subject_id]
