@@ -1,0 +1,8 @@
+= simple_form_for [:pro, @structure, @tag], url: pro_structure_tag_path(@structure, @tag), html: { autocomplete: 'off' } do |f|
+  = f.error_notification
+
+  = f.input :name
+
+  .push--top
+    = f.submit 'Enregistrer',  class: 'btn btn--green btn--full'
+

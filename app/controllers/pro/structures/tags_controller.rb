@@ -6,7 +6,17 @@ class Pro::Structures::TagsController < Pro::ProController
     @tags = @structure.owned_tags
 
     respond_to do |format|
+      format.html
       format.json { render json: @tags.to_json }
+    end
+  end
+
+  def edit
+    @tag = @structure.owned_tags.find params[:id]
+    respond_to do |format|
+      if request.xhr?
+        format.html { render partial: 'form', layout: false }
+      end
     end
   end
 
