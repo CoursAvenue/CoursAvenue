@@ -1,4 +1,5 @@
 = render '/pro/structures/widget_inline_css'
+
 = content_for :title do
   Les livres d'Or des partenaires CoursAvenue
 
@@ -7,11 +8,18 @@
 - content_for :above_container do
   .home-screen-promotion-wrapper--blue.soft
     .main-container
-      %h1.text--center Votre livre d'Or sur votre propre site Internet
+      %h1.text--center.flush Affichez votre Livre d'Or sur votre propre site Internet
 
-      %p.delta.soft--sides Le bouche à oreille restant le 1er facteur d'inscription à un cours, nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
+  .bg-cover{style: "background-image: url('#{asset_path('pages/golden_book.png')}')"}>
+    .main-container.soft.white
+      %p.line-height-normal.delta.black-text-shadow Le bouche à oreille restant le 1er facteur d'inscription à un cours, nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
 
-      %p.delta.soft--sides C'est pourquoi au-delà de 5 avis, nous vous offrons votre livre d'Or interactif qui vous permet d'afficher toutes les recommandations de vos élèves directement sur votre propre site Internet ou blog. Vous pourrez l'installer vous-même en quelques minutes grâce à un mode d'emploi visible sur votre profil privé CoursAvenue.
+      %p.line-height-normal.delta.black-text-shadow C'est pourquoi au-delà de 5 avis, nous vous offrons votre livre d'Or interactif qui vous permet d'afficher toutes les recommandations de vos élèves directement sur votre propre site Internet ou blog. Vous pourrez l'installer vous-même en quelques minutes grâce à un mode d'emploi visible sur votre profil privé CoursAvenue.
+      .grid
+        .grid__item.two-thirds.center-block.text--center
+          = link_to "Créer mon profil et afficher mon livre d'Or", inscription_pro_structures_path, class: 'btn btn--green btn--large hard--sides btn--full'
+          %br
+          = link_to "J'ai déjà un profil, me connecter et afficher mon livre d'Or", new_pro_admin_session_path, class: 'black-text-shadow white'
 
   .home-screen-promotion-wrapper
     .grid.main-container.soft

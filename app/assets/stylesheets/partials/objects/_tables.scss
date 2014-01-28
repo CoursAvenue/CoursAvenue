@@ -9,26 +9,36 @@
     }
 
 /**
- * Table with column border
+ * Table white
  */
-.table--bordered-column{
-    td             { border-left  : 1px solid $gray-smooth; }
-    td:first-child { border: none; }
+.table--white{
+    td {
+        background-color: white;
+    }
 }
 /**
  * Striped tables
  */
 .table--striped{
     tbody {
-        tr:nth-of-type(odd){
+        tr:nth-of-type(odd) {
+            background-color: transparent;
+        }
+        tr:nth-of-type(odd) td {
             background-color: $alternative-background;
         }
         tr.selectable:nth-of-type(odd){
             @extend .selectable;
         }
 
-        tr.active {
+        tr.active td {
             background-color: $hover-list-element;
+        }
+
+    }
+    tbody, thead {
+        tr td.no-stripe {
+            background-color: transparent;
         }
     }
 }
