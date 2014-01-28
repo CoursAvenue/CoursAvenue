@@ -17,6 +17,7 @@ UserManagement.addInitializer(function(options) {
             'filter:summary'              : 'filterQuery',
             'filter:search_term'          : 'filterQuery',
             'filter:tags'                 : 'filterQuery',
+
             'controls:save'               : 'commit',
             'controls:cancel'             : 'cancel',
             'controls:new'                : 'newUserProfile',
@@ -28,6 +29,7 @@ UserManagement.addInitializer(function(options) {
             'controls:destroy:selected'   : 'destroySelected',
 
             'click [data-behavior=bulk-select]'  : 'bulkSelect',
+            'click [data-sort]'                  : 'sort'
         }
     });
 
