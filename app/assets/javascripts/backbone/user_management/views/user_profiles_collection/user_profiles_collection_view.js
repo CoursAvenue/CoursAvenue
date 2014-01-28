@@ -73,7 +73,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         deepSelect: function () {
-            this.collection.selectAll(); // to update checkmarks
             this.collection.deepSelect();
             this.trigger("user_profiles:update:selected", { count: this.collection.getSelectedCount() });
         },

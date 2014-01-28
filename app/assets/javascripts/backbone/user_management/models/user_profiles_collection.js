@@ -110,11 +110,12 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             if (index == -1) {
                 this.selected_ids.push(id);
+                model.trigger("change", { changed: { selected: "true" }});
             } else {
                 this.selected_ids.splice(index, 1);
+                model.trigger("change", { changed: { selected: "" }});
             }
 
-            model.trigger("change:selected");
         },
 
         /* add the current page of ids to the list */
@@ -125,9 +126,9 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
                 var id = model.get("id");
                 var index = selected_ids.indexOf(id);
 
-                if (index != -1) {
+                if (index == -1) {
                     selected_ids.push(id)
-                    model.trigger("change:selected");
+                    model.trigger("change", { changed: { selected: "true" }});
                 }
             });
         },
@@ -142,7 +143,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
                 if (index > -1) {
                     selected_ids.splice(index, 1);
-                    model.trigger("change:selected");
+                    model.trigger("change", { changed: { selected: "" }});
                 }
             });
         },
@@ -152,20 +153,21 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         getSelectedCount: function () {
-            return this.selected_ids.length();
+            return this.selected_ids.length;
         },
 
         /* in addition to selecting the models,
         * set this.deep so that the bulk_action_controller
         * will know to affect all models not marked */
         deepSelect: function () {
-            this.deselectAll(); // to trigger the change
-            this.selected_ids = this.all_ids;
+            this.selectAll(); // to trigger the change
+            this.selected_ids = _.clone(this.all_ids);
 
-            GLOBAL.flash(this.selected_ids.length() + " lignes selectionnées.", 'notice'); // TODO needs the notification object
+            GLOBAL.flash(this.selected_ids.length + " lignes selectionnées.", 'notice'); // TODO needs the notification object
         },
 
         clearSelected: function () {
+            this.deselectAll(); // to trigger the change
             this.selected_ids = [];
         },
 
