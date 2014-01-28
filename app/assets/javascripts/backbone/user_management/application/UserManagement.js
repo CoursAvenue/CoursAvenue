@@ -43,6 +43,7 @@ UserManagement.addInitializer(function(options) {
     pagination_top       = new CoursAvenue.Views.PaginationToolView({});
     pagination_bottom    = new CoursAvenue.Views.PaginationToolView({});
     bulk_action_controls = new Controls.BulkActionControls.BulkActionControlsView({});
+    tag_filter           = new UserManagement.Views.UserProfilesCollection.Filters.TagFilterView({});
 
     // TODO we will eventually extend the filter in a file
     KeywordFilterView = Filters.KeywordFilterView.extend({
@@ -50,9 +51,9 @@ UserManagement.addInitializer(function(options) {
         template: 'backbone/user_management/templates/user_profiles_collection/filters/keyword_filter_view',
         showFilters: function () {
             if (this.$el.css("display") === "none") {
-                this.$el.slideUp();
-            } else {
                 this.$el.slideDown();
+            } else {
+                this.$el.slideUp();
             }
         }
     });
@@ -86,7 +87,12 @@ UserManagement.addInitializer(function(options) {
         events: {
             'controls:show:filters': 'showFilters'
         }
+    });
 
+    layout.showWidget(tag_filter, {
+        events: {
+            'controls:show:filters': 'showFilters'
+        }
     });
 
     layout.master.show(user_profiles_collection_view);
