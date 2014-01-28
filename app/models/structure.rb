@@ -513,7 +513,7 @@ class Structure < ActiveRecord::Base
   def bulk_tagging(profile, tags)
       tag_list = profile.tags.map(&:name)
       tag_list << tags
-      self.tag(profile, with: tag_list, on: :tags)
+      self.tag(profile, with: tag_list.join(','), on: :tags)
   end
 
   # it should call the method with the given name
@@ -545,6 +545,15 @@ class Structure < ActiveRecord::Base
       return true if course.plannings.any?
     end
     return false
+  end
+
+  def create_tag tag_name
+    tag     = self.owned_tags.build name: tag_name
+    tag.save
+    tagging = self.owned_taggings.build
+    tagging.context = 'tags'
+    tagging.tag     =  tag
+    return tagging.save
   end
 
   private

@@ -15,7 +15,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         attributes: {
             'data-behavior': 'editable-tag-bar'
         },
-        taggy: Handlebars.compile('<span class="taggy--tag"><i class="fa fa-times" data-behavior="destroy"></i></span>'),
+        taggy: Handlebars.compile('<span class="taggy--tag"><i class="fa fa-times pointer" data-behavior="destroy"></i></span>'),
 
         initialize: function (options) {
             this.url        = options.url;
@@ -61,8 +61,8 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         onRender: function () {
             this.$rollback = this.ui.$container.children().clone();
             this.ui.$input.typeahead([{
-                name: 'keywords',
-                limit: 10,
+                // name: 'keywords', // We don't want to cache
+                limit: 15,
                 valueKey: 'name',
                 prefetch: {
                     url: this.url
@@ -165,7 +165,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.ui.$input.css({ display: "" });
             this.$('.twitter-typeahead').toggleClass('inline-block')
                                         .toggleClass('v-middle')
-                                        .css({ width: '100%'});
+                                        .css({ width: '95%'});
 
             this.$el.addClass("active");
         },
