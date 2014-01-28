@@ -43,7 +43,11 @@ UserManagement.addInitializer(function(options) {
     pagination_top       = new CoursAvenue.Views.PaginationToolView({});
     pagination_bottom    = new CoursAvenue.Views.PaginationToolView({});
     bulk_action_controls = new Controls.BulkActionControls.BulkActionControlsView({});
-    keyword_filter       = new Filters.KeywordFilterView({});
+
+    // TODO we will eventually extend the filter in a file
+    keyword_filter       = new Filters.KeywordFilterView({
+        template: 'backbone/user_management/templates/user_profiles_collection/filters/keyword_filter'
+    });
 
     layout.showWidget(pagination_top, {
         events: {
