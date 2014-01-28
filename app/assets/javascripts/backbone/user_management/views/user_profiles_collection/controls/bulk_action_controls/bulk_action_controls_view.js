@@ -39,6 +39,16 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
 
             if (data.count === 0) {
                 this.hideDetails("select-all");
+            } else if (data.deep) {
+
+                // if we are in a deep select, then whenever
+                // the selection shrinks we should give the
+                // option to deep select again
+                if (data.count === data.total) {
+                    this.hideDetails("deep-select");
+                } else {
+                    this.showDetails("deep-select");
+                }
             }
         },
 

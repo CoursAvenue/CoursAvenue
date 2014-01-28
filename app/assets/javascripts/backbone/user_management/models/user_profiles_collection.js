@@ -35,6 +35,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.all_ids    = options.ids;
 
             this.selected_ids = [];
+            this.deep_select  = false;
         },
 
         /* where we can expect to find the resource we seek
@@ -156,10 +157,15 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             return this.selected_ids.length;
         },
 
+        getGrandTotal: function () {
+            return this.grandTotal;
+        },
+
         /* in addition to selecting the models,
         * set this.deep so that the bulk_action_controller
         * will know to affect all models not marked */
         deepSelect: function () {
+            this.deep_select = true;
             this.selectAll(); // to trigger the change
             this.selected_ids = _.clone(this.all_ids);
 
@@ -167,8 +173,13 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         clearSelected: function () {
+            this.deep_select = false;
             this.deselectAll(); // to trigger the change
             this.selected_ids = [];
+        },
+
+        isDeep: function () {
+            return this.deep_select;
         },
 
         bulkAddTags: function (tags) {

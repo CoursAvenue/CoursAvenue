@@ -29,7 +29,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         ui: {
-            '$headers': '[data-sort]'
+            '$headers' : '[data-sort]',
+            '$checkbox': '[data-behavior=bulk-select]'
         },
 
         onRender: function () {
@@ -62,24 +63,32 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             (checked)? this.selectAll() : this.deselectAll();
         },
 
+        getUpdate: function () {
+            return {
+                count: this.collection.getSelectedCount(),
+                total: this.collection.getGrandTotal(),
+                deep: this.collection.isDeep()
+            };
+        },
+
         selectAll: function () {
             this.collection.selectAll();
-            this.trigger("user_profiles:update:selected", { count: this.collection.getSelectedCount() });
+            this.trigger("user_profiles:update:selected", this.getUpdate());
         },
 
         deselectAll: function () {
             this.collection.deselectAll();
-            this.trigger("user_profiles:update:selected", { count: this.collection.getSelectedCount() });
+            this.trigger("user_profiles:update:selected", this.getUpdate());
         },
 
         deepSelect: function () {
             this.collection.deepSelect();
-            this.trigger("user_profiles:update:selected", { count: this.collection.getSelectedCount() });
+            this.trigger("user_profiles:update:selected", this.getUpdate());
         },
 
         clearSelected: function () {
             this.collection.clearSelected();
-            this.trigger("user_profiles:update:selected", { count: this.collection.getSelectedCount() });
+            this.trigger("user_profiles:update:selected", this.getUpdate());
         },
 
         addTags: function (tags) {
@@ -194,7 +203,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* an item has been checked or unchecked */
         onItemviewAddToSelected: function (itemview) {
             this.collection.toggleSelected(itemview.model);
-            this.trigger("user_profiles:update:selected", { count: this.collection.getSelectedCount() });
+            this.trigger("user_profiles:update:selected", this.getUpdate());
         },
 
         onAfterItemAdded: function (itemView) {
@@ -259,6 +268,10 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 next_page_query:     this.collection.nextQuery(),
                 sort:                this.collection.server_api.sort
             });
+
+            /* set the header checkbox based on the deep select */
+            var checked = (this.collection.isDeep() === true)? true : "";
+            this.ui.$checkbox.prop("checked", checked);
         },
 
         /* OVERRIDE */
