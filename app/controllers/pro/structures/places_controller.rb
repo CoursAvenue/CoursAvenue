@@ -1,5 +1,6 @@
 # encoding: utf-8
 class Pro::Structures::PlacesController < InheritedResources::Base
+
   before_action :authenticate_pro_admin!
   layout 'admin'
   belongs_to :structure

@@ -1,6 +1,5 @@
 # encoding: utf-8
 class UsersController < InheritedResources::Base
-
   layout :get_layout
 
   actions :show, :update

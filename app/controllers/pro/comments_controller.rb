@@ -1,5 +1,6 @@
 # encoding: utf-8
 class Pro::CommentsController < InheritedResources::Base
+
   before_action :authenticate_pro_admin!
 
   load_and_authorize_resource :comment

@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Users::CommentsController < ApplicationController
-  include CommentsHelper
 
   layout 'user_profile'
 

@@ -1,6 +1,6 @@
 module SubjectHelper
 
-  def vertical_page_url(subject, city=nil)
+  def vertical_page_url_for(subject, city=nil)
     if city
       if subject.depth == 0
         return vertical_root_subject_city_url(subject, city, subdomain: 'www')

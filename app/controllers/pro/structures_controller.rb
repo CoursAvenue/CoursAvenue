@@ -182,10 +182,9 @@ class Pro::StructuresController < Pro::ProController
     if params[:structure] and params[:structure][:subject_descendants_ids].present?
       params[:structure][:subject_ids] = params[:structure][:subject_ids] + params[:structure].delete(:subject_descendants_ids)
     end
-
     respond_to do |format|
       if @structure.update_attributes(params[:structure])
-        @structure.logo.reprocess! if @structure.logo.present? and @structure.logo_file_name_changed?
+        @structure.logo.reprocess! if @structure.logo.present? and has_cropping_attributes?
         if !request.xhr? and params[:structure][:logo].present?
           format.html { redirect_to (crop_logo_pro_structure_path(@structure)), notice: 'Vos informations ont bien été mises à jour.' }
         else
@@ -280,5 +279,10 @@ class Pro::StructuresController < Pro::ProController
     else
       'admin'
     end
+  end
+
+  # Check if need to reprocess logo
+  def has_cropping_attributes?
+    params[:structure][:crop_width].present? || params[:structure][:crop_x].present? || params[:structure][:crop_y].present?
   end
 end
