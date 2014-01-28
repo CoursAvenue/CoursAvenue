@@ -5,7 +5,6 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
     Module.BulkActionControlsView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'bulk_action_controls_view',
         tagName: 'div',
-        className: 'white-box white-box--noshadow islet',
 
         attributes: {
             'data-behavior': 'bulk-action-controls'
@@ -70,7 +69,6 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
 
         onAfterShow: function () {
             this.setUpRotation();
-            this.$el.sticky();
         },
 
         setUpRotation: function () {

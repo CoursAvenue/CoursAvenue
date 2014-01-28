@@ -15,6 +15,7 @@ UserManagement.addInitializer(function(options) {
             'pagination:prev'             : 'prevPage',
             'pagination:page'             : 'goToPage',
             'filter:summary'              : 'filterQuery',
+            'filter:search_term'          : 'filterQuery',
             'controls:save'               : 'commit',
             'controls:cancel'             : 'cancel',
             'controls:new'                : 'newUserProfile',
@@ -37,10 +38,12 @@ UserManagement.addInitializer(function(options) {
     UserManagement.mainRegion.show(layout);
 
     var Controls = UserManagement.Views.UserProfilesCollection.Controls;
+    var Filters  = FilteredSearch.Views.StructuresCollection.Filters;
 
     pagination_top       = new CoursAvenue.Views.PaginationToolView({});
     pagination_bottom    = new CoursAvenue.Views.PaginationToolView({});
     bulk_action_controls = new Controls.BulkActionControls.BulkActionControlsView({});
+    keyword_filter       = new Filters.KeywordFilterView({});
 
     layout.showWidget(pagination_top, {
         events: {
@@ -62,6 +65,8 @@ UserManagement.addInitializer(function(options) {
             'user_profiles:update:selected'   : 'updateSelected'
         }
     });
+
+    layout.showWidget(keyword_filter);
 
     layout.master.show(user_profiles_collection_view);
 
