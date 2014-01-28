@@ -4,13 +4,13 @@ class RedirectController < ApplicationController
   def vertical_page_city
     @structure = Subject.find params[:subject_id]
     @city      = City.find params[:id]
-    redirect_to vertical_page_url(@structure, @city), status: 301
+    redirect_to vertical_page_url_for(@structure, @city), status: 301
   end
 
   def vertical_page_subject_city
     @structure = Subject.find params[:subject_id]
     @city      = City.find params[:id]
-    redirect_to vertical_page_url(@structure, @city), status: 301
+    redirect_to vertical_page_url_for(@structure, @city), status: 301
   end
 
   def why_coursavenue

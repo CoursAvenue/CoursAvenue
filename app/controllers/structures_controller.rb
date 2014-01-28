@@ -1,6 +1,5 @@
 # encoding: utf-8
 class StructuresController < ApplicationController
-  helper :all
 
   respond_to :json
 
