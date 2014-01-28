@@ -1,9 +1,9 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe Pro::Structures::InvitedUsersController do
+describe Pro::Structures::InvitedStudentsController do
 
-  let(:admin)     { FactoryGirl.create(:admin) }
+  let(:admin) { FactoryGirl.create(:admin) }
 
   before do
     sign_in admin
