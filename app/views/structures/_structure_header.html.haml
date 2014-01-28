@@ -7,8 +7,5 @@
   .grid__item.ten-twelfths.soft-half--sides>
     %h1.gamma.blue.flush--bottom= structure.name
     %p.push-half--bottom
-      - if structure.course_names.present?
-        %i= truncate(structure.course_names, length: 180)
-      - else
-        %i.fa.fa-tags
-        %i= truncate(join_child_subjects_text(structure), lenght: 180)
+      %i.fa.fa-tags
+      %i= truncate([join_child_subjects_text(structure), structure.course_names].join(', '), length: 190)
