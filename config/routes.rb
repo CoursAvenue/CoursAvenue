@@ -134,8 +134,6 @@ CoursAvenue::Application.routes.draw do
       end
       resources :courses, except: [:new, :create], path: 'cours' do
         member do
-          post 'update' # For paperclip image
-          patch 'update' # For paperclip image
           post 'duplicate'
           post 'copy_prices_from'
         end
