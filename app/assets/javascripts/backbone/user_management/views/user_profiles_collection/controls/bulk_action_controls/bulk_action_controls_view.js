@@ -29,6 +29,11 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             'click [data-behavior=manage-tags]'    : 'manageTags',
             'click [data-behavior=add-tags]'       : 'addTags',
             'click [data-behavior=destroy]'        : 'destroySelected',
+            'click [data-behavior=filters]'        : 'showFilters',
+        },
+
+        showFilters: function () {
+            this.trigger("controls:show:filters");
         },
 
         updateSelected: function (data) {

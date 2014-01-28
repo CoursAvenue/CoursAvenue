@@ -45,9 +45,19 @@ UserManagement.addInitializer(function(options) {
     bulk_action_controls = new Controls.BulkActionControls.BulkActionControlsView({});
 
     // TODO we will eventually extend the filter in a file
-    keyword_filter       = new Filters.KeywordFilterView({
-        template: 'backbone/user_management/templates/user_profiles_collection/filters/keyword_filter'
+    KeywordFilterView = Filters.KeywordFilterView.extend({
+        className: 'hidden grid--full one-half',
+        template: 'backbone/user_management/templates/user_profiles_collection/filters/keyword_filter_view',
+        showFilters: function () {
+            if (this.$el.css("display") === "none") {
+                this.$el.slideUp();
+            } else {
+                this.$el.slideDown();
+            }
+        }
     });
+
+    keyword_filter = new KeywordFilterView({});
 
     layout.showWidget(pagination_top, {
         events: {
@@ -70,7 +80,14 @@ UserManagement.addInitializer(function(options) {
         }
     });
 
-    layout.showWidget(keyword_filter);
+    // TODO for now the showFilters method is living here
+    // but later we will need to find a better place
+    layout.showWidget(keyword_filter, {
+        events: {
+            'controls:show:filters': 'showFilters'
+        }
+
+    });
 
     layout.master.show(user_profiles_collection_view);
 
