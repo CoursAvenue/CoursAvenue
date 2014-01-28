@@ -64,7 +64,7 @@
   = content_for :scripts do
     :javascript
       $(function() {
-          handler = Gmaps.build('Google');
+          handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
           handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
               markers = handler.addMarkers([#{@france_center_lat}, #{@france_center_lng}]);
               handler.bounds.extendWith(markers);
@@ -78,7 +78,7 @@
 = content_for :scripts do
   :javascript
     $(function() {
-        handler = Gmaps.build('Google');
+        handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
         handler.buildMap({ provider: {}, internal: {id: 'structures-map'}}, function(){
             markers = handler.addMarkers(#{@json_structure_addresses.to_json});
             handler.bounds.extendWith(markers);

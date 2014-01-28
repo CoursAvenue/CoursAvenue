@@ -18,7 +18,7 @@
   = content_for :scripts do
     :javascript
       $(function() {
-          handler = Gmaps.build('Google');
+          handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
           handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
               markers = handler.addMarkers(#{@structure_locations.to_json});
               handler.bounds.extendWith(markers);

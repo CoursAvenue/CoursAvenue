@@ -416,7 +416,7 @@ DEPENDENCIES
   friendly_id (~> 5.0.0)
   geocoder (~> 1.1.9)
   gibbon (~> 1.0.4)
-  gmaps4rails (~> 2.1.0)
+  gmaps4rails (~> 2.1.1)
   haml (~> 4.0.3)
   handlebars_assets (~> 0.14.1)
   heroku-api

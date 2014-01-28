@@ -37,14 +37,22 @@
   :javascript
     $(function() {
         // ------------ Update map and input regarding address
-        var marker, $street_input, $zip_code_input, geocoder, updateMap;
+        var $street_input, $zip_code_input, geocoder, updateMap, google_map_handler,
+            marker_array = [];
         geocoder           = new google.maps.Geocoder()
-        google_map_handler = Gmaps.build('Google');
+        google_map_handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
         google_map_handler.buildMap({ provider: { maxZoom: 15 }, internal: {id: 'map'}}, function(){
             var latlng = #{@gmap_location.to_json};
             var center = #{@gmap_center.to_json};
             if (latlng) {
-                marker = google_map_handler.addMarker(latlng[0]);
+                var marker_location = new google.maps.LatLng(latlng[0].lat, latlng[0].lng);
+                var marker   = new google.maps.Marker({
+                    position: marker_location,
+                    visible: true,
+                    animation: google.maps.Animation.DROP,
+                    map: google_map_handler.getMap()
+                  });
+                marker_array.push(marker);
                 google_map_handler.getMap().setCenter(latlng[0]);
                 google_map_handler.getMap().setZoom(15);
             } else if(center) {
@@ -59,12 +67,19 @@
         $lat_input      = $('#place_location_attributes_latitude');
         $lng_input      = $('#place_location_attributes_longitude');
         updateMap = function() {
-            if (marker) { google_map_handler.removeMarker(marker); }
+            _.map(marker_array, function(marker) { marker.setMap(null) });
             var address = $street_input.val() + ', ' + $zip_code_input.val() + ' France';
             geocoder.geocode( { 'address': address}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     latlng = {lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
-                    marker = google_map_handler.addMarker(latlng);
+                    var marker_location = new google.maps.LatLng(latlng.lat, latlng.lng);
+                    var marker   = new google.maps.Marker({
+                        position: marker_location,
+                        visible: true,
+                        animation: google.maps.Animation.DROP,
+                        map: google_map_handler.getMap()
+                      });
+                    marker_array.push(marker);
                     google_map_handler.getMap().setCenter(latlng);
                     google_map_handler.getMap().setZoom(15);
                     $lat_input.val(latlng.lat);
@@ -74,6 +89,7 @@
                 }
             });
         };
+        $('#place_location_attributes_street, #place_location_attributes_zip_code').keyup(_.debounce(updateMap, 500));
         $('#place_location_attributes_street, #place_location_attributes_zip_code').blur(updateMap);
         $('#place_location_attributes_street, #place_location_attributes_zip_code').change(updateMap);
     });
