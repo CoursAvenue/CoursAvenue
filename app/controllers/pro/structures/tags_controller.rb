@@ -21,13 +21,11 @@ class Pro::Structures::TagsController < Pro::ProController
   end
 
   def create
-    @tagging = @structure.owned_taggings.build
-    @tag = @structure.owned_tags.build params[:tag]
     respond_to do |format|
-      if @tag.save
+      if @structure.create_tag(params[:tag][:name])
         format.html { redirect_to pro_structure_tags_path(@structure), notice: 'Le tag a bien été créé' }
       else
-        format.html { redirect_to pro_structure_tags_path(@structure), alert: "Une erreur est survenue, le tag n'a pu être créé." }
+        format.html { redirect_to pro_structure_tags_path(@structure), alert: "Le tag existe déjà" }
       end
     end
   end
@@ -46,6 +44,18 @@ class Pro::Structures::TagsController < Pro::ProController
 
     respond_to do |format|
       if @tag.update_attributes params[:tag]
+        format.html { redirect_to pro_structure_tags_path(@structure), notice: 'Le tag a bien été mis à jour' }
+      else
+        format.html { redirect_to pro_structure_tags_path(@structure), alert: "Une erreur est survenue, le tag n'a pu être mis à jour." }
+      end
+    end
+  end
+
+  def destroy
+    @tag = @structure.owned_tags.find params[:id]
+
+    respond_to do |format|
+      if @tag.destroy
         format.html { redirect_to pro_structure_tags_path(@structure), notice: 'Le tag a bien été mis à jour' }
       else
         format.html { redirect_to pro_structure_tags_path(@structure), alert: "Une erreur est survenue, le tag n'a pu être mis à jour." }

@@ -25,14 +25,9 @@ class Pro::Structures::BulkUserProfilesController < Pro::ProController
     @structure.busy = true
     @structure.perform_bulk_user_profiles_job(@user_profiles.map(&:id), :bulk_tagging, tags)
 
-    # TODO not sure what to do here
-    # check if the tagging worked?
     respond_to do |format|
-      if true
-        format.json { render :nothing => true }
-      else
-        format.html { render :new }
-      end
+      format.json { render :nothing => true }
+      format.html { render :new }
     end
   end
 

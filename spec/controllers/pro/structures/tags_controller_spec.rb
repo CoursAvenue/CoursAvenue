@@ -36,29 +36,29 @@ describe Pro::Structures::TagsController do
   end
 
   describe :create do
-    subject { post :create, structure_id: structure.id, tag: { name: 'foo'} }
-
-    it { expect(structure.owned_tags.map(&:name)).to include 'foo' }
-    it { expect(assigns(:tag)).to be_persisted }
+    it 'creates a new tag' do
+      post :create, structure_id: structure.id, tag: { name: 'foo'}
+      expect(structure.owned_tags.map(&:name)).to include 'foo'
+    end
   end
 
   context :with_existing_tag do
-
     before do
-      @tag = structure.owned_tags.create name: 'foo'
+      structure.create_tag 'foo'
     end
 
     describe :edit do
       it "returns 200" do
-        xhr :get, :edit, structure_id: structure.id, id: @tag.id
+        xhr :get, :edit, structure_id: structure.id, id: structure.owned_tags.last
         expect(response).to be_success
       end
     end
 
     describe :update do
       it "updates a tag" do
+        @tag = structure.owned_tags.last
         put :update, structure_id: structure.id, id: @tag.id, tag: { name: 'bar'}
-        expect(structure.owned_tags.map(&:name)).to include 'bar'
+        expect(@tag.reload.name).to eq 'bar'
       end
     end
   end
