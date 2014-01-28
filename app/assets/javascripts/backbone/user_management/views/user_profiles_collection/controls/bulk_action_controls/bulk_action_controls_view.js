@@ -97,7 +97,8 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
                     height: height + 20,
                     width: width,
                     "backface-visibility": "hidden",
-                    "background-color": "white"
+                    "background-color": "white",
+                    background: "url('/assets/logo_pro.png') no-repeat scroll right center / auto 100% rgba(0, 0, 0, 0)",
                 });
 
             this.ui.$edit_manager.parent().prepend(front_side);

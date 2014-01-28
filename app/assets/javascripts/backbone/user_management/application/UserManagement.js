@@ -50,7 +50,7 @@ UserManagement.addInitializer(function(options) {
 
     // TODO we will eventually extend the filter in a file
     KeywordFilterView = Filters.KeywordFilterView.extend({
-        className: 'hidden grid--full one-half',
+        className: 'hidden grid--full one-half soft--top',
         template: 'backbone/user_management/templates/user_profiles_collection/filters/keyword_filter_view',
         showFilters: function () {
             if (this.$el.css("display") === "none") {
