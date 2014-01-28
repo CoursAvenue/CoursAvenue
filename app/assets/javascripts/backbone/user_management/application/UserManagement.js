@@ -16,6 +16,7 @@ UserManagement.addInitializer(function(options) {
             'pagination:page'             : 'goToPage',
             'filter:summary'              : 'filterQuery',
             'filter:search_term'          : 'filterQuery',
+            'filter:tags'                 : 'filterQuery',
             'controls:save'               : 'commit',
             'controls:cancel'             : 'cancel',
             'controls:new'                : 'newUserProfile',
@@ -91,7 +92,8 @@ UserManagement.addInitializer(function(options) {
 
     layout.showWidget(tag_filter, {
         events: {
-            'controls:show:filters': 'showFilters'
+            'controls:show:filters'               : 'showFilters',
+            'user_profiles:update:tag:filters'    : 'buildTaggies'
         }
     });
 

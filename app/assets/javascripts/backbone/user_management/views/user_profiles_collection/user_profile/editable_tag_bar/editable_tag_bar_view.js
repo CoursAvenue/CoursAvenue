@@ -17,7 +17,9 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         },
         taggy: Handlebars.compile('<span class="taggy--tag"><i class="fa fa-times" data-behavior="destroy"></i></span>'),
 
-        initialize: function (options) {
+        constructor: function (options) {
+            CoursAvenue.Views.EditableFieldView.prototype.constructor.apply(this, arguments);
+
             this.url        = options.url;
 
             this[COMMA]     = this.handleComma;

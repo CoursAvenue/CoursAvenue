@@ -269,6 +269,10 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 sort:                this.collection.server_api.sort
             });
 
+            this.trigger('user_profiles:updated:tag:filters', {
+                tags: this.collection.server_api.tags
+            });
+
             /* set the header checkbox based on the deep select */
             var checked = (this.collection.isDeep() === true)? true : "";
             this.ui.$checkbox.prop("checked", checked);
