@@ -29,6 +29,10 @@ class UserProfile < ActiveRecord::Base
     string :first_name
     string :last_name
 
+    string :tag_names, multiple: true do
+        self.tags.map(&:name)
+    end
+
     integer :structure_id
   end
 
