@@ -6,7 +6,7 @@ class Place < ActiveRecord::Base
   belongs_to :structure
 
   has_many :contacts, as: :contactable, dependent: :destroy
-  has_many :plannings
+  has_many :plannings, dependent: :destroy
 
   accepts_nested_attributes_for :contacts,
                                 reject_if: lambda {|attributes| attributes.values.compact.reject(&:blank?).empty?},
