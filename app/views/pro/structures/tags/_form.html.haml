@@ -1,7 +1,12 @@
-= simple_form_for [:pro, @structure, @tag], url: pro_structure_tag_path(@structure, @tag), html: { autocomplete: 'off' } do |f|
+- if @tag.persisted?
+  - url = pro_structure_tag_path(@structure, @tag)
+- else
+  - url = pro_structure_tags_path(@structure)
+
+= simple_form_for [:pro, @structure, @tag], url: url, html: { autocomplete: 'off' }, as: :tag do |f|
   = f.error_notification
 
-  = f.input :name
+  = f.input :name, label: 'Nom'
 
   .push--top
     = f.submit 'Enregistrer',  class: 'btn btn--green btn--full'

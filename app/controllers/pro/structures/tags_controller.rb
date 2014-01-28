@@ -11,11 +11,44 @@ class Pro::Structures::TagsController < Pro::ProController
     end
   end
 
+  def new
+    @tag = @structure.owned_tags.build
+    respond_to do |format|
+      if request.xhr?
+        format.html { render partial: 'form', layout: false }
+      end
+    end
+  end
+
+  def create
+    @tagging = @structure.owned_taggings.build
+    @tag = @structure.owned_tags.build params[:tag]
+    respond_to do |format|
+      if @tag.save
+        format.html { redirect_to pro_structure_tags_path(@structure), notice: 'Le tag a bien été créé' }
+      else
+        format.html { redirect_to pro_structure_tags_path(@structure), alert: "Une erreur est survenue, le tag n'a pu être créé." }
+      end
+    end
+  end
+
   def edit
     @tag = @structure.owned_tags.find params[:id]
     respond_to do |format|
       if request.xhr?
         format.html { render partial: 'form', layout: false }
+      end
+    end
+  end
+
+  def update
+    @tag = @structure.owned_tags.find params[:id]
+
+    respond_to do |format|
+      if @tag.update_attributes params[:tag]
+        format.html { redirect_to pro_structure_tags_path(@structure), notice: 'Le tag a bien été mis à jour' }
+      else
+        format.html { redirect_to pro_structure_tags_path(@structure), alert: "Une erreur est survenue, le tag n'a pu être mis à jour." }
       end
     end
   end
