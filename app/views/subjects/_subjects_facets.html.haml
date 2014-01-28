@@ -22,7 +22,7 @@
         - unless only_roots and subject.depth > 0
           .inline-block.one-quarter.very-soft>
             .relative.bg-cover{style: "background-image: url('#{subject_image(subject)}'); height: 150px; "}>
-              = link_to vertical_page_url(subject, @city), class: 'block show-on-hover__wrapper', title: subject_url_title do
+              = link_to vertical_page_url_for(subject, @city), class: 'block show-on-hover__wrapper', title: subject_url_title do
                 .home-screen-gallery__title.text--center{style: (subject.name.length > 27 ? 'margin-top: -1.7em' : '')}
                   %div= subject.name
                   .show-on-hover__child.milli
