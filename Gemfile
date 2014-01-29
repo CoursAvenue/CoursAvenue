@@ -8,8 +8,8 @@ gem 'rails', '4.0.2'
 gem 'filepicker-rails'
 
 # Webserver
-# gem 'unicorn'
-gem 'puma'
+gem 'unicorn'
+# gem 'puma'
 # Database
 gem 'pg'
 
@@ -70,7 +70,7 @@ gem 'squeel'                    , '~>1.1.1'
 gem 'ancestry'                  , '~>2.0.0'
 
 # Nice helper to use google maps
-gem 'gmaps4rails'               , '~>2.1.0'
+gem 'gmaps4rails'               , '~>2.1.1'
 # Helper methods for geolocations
 gem 'geocoder'                  , '~>1.1.9'
 # To have model serializers apart from models
@@ -107,7 +107,7 @@ gem 'truncate_html'             , '~>0.9.2'
 
 # Add taggable behavior to models
 # https://github.com/mbleigh/acts-as-taggable-on
-gem 'acts-as-taggable-on'       , '~>2.4.1'
+gem 'acts-as-taggable-on'       , '~>3.0.1'
 
 # Prevent from real deletion
 # acts_as_paranoid

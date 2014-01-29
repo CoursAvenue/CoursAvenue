@@ -1,0 +1,7 @@
+fr:
+  activerecord:
+    models:
+      tag: Tag
+    attributes:
+      book_ticket:
+        name: Nom

@@ -1,5 +1,11 @@
+# encoding: utf-8
 class UserProfile < ActiveRecord::Base
-  acts_as_taggable
+  acts_as_taggable_on :tags
+
+  DEFAULT_TAGS = {
+    :comments => 'À déposé un avis',
+    :contacts => 'À demandé des infos'
+  }
 
   belongs_to :structure
   belongs_to :user

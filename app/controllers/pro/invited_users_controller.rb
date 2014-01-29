@@ -1,5 +1,5 @@
 # encoding: utf-8
-class ::Pro::InvitedTeachersController < Pro::ProController
+class ::Pro::InvitedUsersController < Pro::ProController
   before_action :authenticate_pro_super_admin!
 
   def index

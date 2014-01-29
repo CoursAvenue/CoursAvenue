@@ -69,7 +69,7 @@
             Indiquez ici le montant moyen attendu :
             = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false, placeholder: '20'
             €
-    = f.input :info, label: 'Infos pratiques', placeholder: "Renseignez toutes les informations à communiquer aux potentiels inscrits : materiel, tenu exigée, informations sur le lieu, etc."
+    = f.input :info, label: 'Infos pratiques', placeholder: "Renseignez toutes les informations à communiquer aux potentiels inscrits : materiel, tenu exigée, informations sur le lieu, etc.", input_html: { data: { behavior: 'autoresize' }}
   %p= f.submit 'Enregistrer', class: 'btn btn--green btn--full'
 
 = content_for :scripts do
