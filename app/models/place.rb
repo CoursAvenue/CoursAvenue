@@ -30,4 +30,8 @@ class Place < ActiveRecord::Base
     self.contacts.first
   end
 
+  def parisian?
+    self.location.zip_code.starts_with? '75','77','78','91','92','93','94','95'
+  end
+
 end
