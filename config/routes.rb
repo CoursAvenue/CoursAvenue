@@ -41,7 +41,11 @@ CoursAvenue::Application.routes.draw do
       resources :keywords, only: [:index, :create, :destroy]
       resources :search_term_logs, only: [:index]
       resources :subjects do
+        member do
+          get :edit_name
+        end
         collection do
+          get :all
           get :descendants
         end
       end
@@ -49,6 +53,7 @@ CoursAvenue::Application.routes.draw do
       resources :reservations, only: [:index]
       resources :invited_users, only: [:index]
       resources :sticker_demands, only: [:index]
+      resources :course_opens, only: [:index], controller: 'open_courses', as: :open_courses
       resources :structures, path: 'etablissements' do
         member do
           get   :add_subjects

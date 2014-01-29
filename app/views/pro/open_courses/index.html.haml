@@ -1,0 +1,22 @@
+= side_menu_currently_at 'JPO'
+
+%table.table--striped.dataTable.table--data.white-box.flush--bottom
+  %thead
+    %tr
+      %th Nom de l'établissement
+      %th Nom du cours
+      %th Type
+      %th Discipline
+      %th Prix
+  %tbody
+    - @courses.each do |course|
+      %tr
+        %td= link_to course.structure.name, pro_structure_course_opens_path(course.structure)
+        %td= course.name
+        %td= course.event_type
+        %td= course.subjects.map(&:name).join(',')
+        %td
+          - if course.price
+            = course.price
+          - else
+            Gratuit

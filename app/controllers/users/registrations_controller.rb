@@ -46,7 +46,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @is_xhr = request.xhr?
     respond_to do |format|
       if request.xhr?
-        format.html { render layout: false }
+        format.html { render partial: 'popup_new', layout: false }
       else
         format.html { render }
       end

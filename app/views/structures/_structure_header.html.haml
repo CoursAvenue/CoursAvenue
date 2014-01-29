@@ -8,4 +8,4 @@
     %h1.gamma.blue.flush--bottom= structure.name
     %p.push-half--bottom
       %i.fa.fa-tags
-      %i= truncate([join_child_subjects_text(structure), structure.course_names].join(', '), length: 190)
+      %i= truncate([join_child_subjects_text(structure), structure.course_names].compact.join(', '), length: 190)

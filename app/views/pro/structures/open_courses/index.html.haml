@@ -2,13 +2,15 @@
 
 = render partial: 'pro/structures/open_courses/tabs', locals: { current: 'courses' }
 
-%h3.flush Journées Portes Ouvertes du week-end du 5 et 6 avril 2014
-.push--bottom
-  = link_to "Qu'est-ce que c'est ?", pro_pages_jpo_path, target: :_blank
+%div.push-half--bottom
+  %h3.inline-block.flush.v-middle Journées Portes Ouvertes du week-end du 5 et 6 avril 2014
+  .inline-block.v-middle= link_to "En savoir plus", pro_pages_jpo_path, target: :_blank, class: 'btn push-half--left'
 
-%h4.flush Ateliers proposés
-%p.blue
-  Note : vos ateliers des Journées Portes Ouvertes seront visibles début février.
+%p.alert.alert--info
+  %strong Note importante :
+  renseignez vos ateliers avant le 04/02/14 et faites partie de nos 1ères campagnes de communication. Nous vous enverrons un mail pour vous annoncer l'ouverture des inscriptions à vos ateliers (nos pages dédiées à l'événement seront visibles début février). Vous pourrez gérer toutes vos inscriptions et communiquer librement avec tous les élèves participants.
+
+%h4.push-half--bottom Ateliers proposés
 
 - if @courses.empty?
   %p.white-box.islet
