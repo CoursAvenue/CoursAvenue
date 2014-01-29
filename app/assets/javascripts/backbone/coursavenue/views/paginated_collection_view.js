@@ -68,6 +68,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             /* since we are changing the query, we need to reset
             *  the collection, or else some elements will be in the wrong order */
             /* however, if we reset it here the results will appear to "vanish" and re-appear */
+            // TODO this problem has re-appeared in the usermanagement app
             this.collection.setQuery(filters);
 
             /* we are updating from the location filter */

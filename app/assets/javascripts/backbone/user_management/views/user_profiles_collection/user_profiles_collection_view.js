@@ -14,8 +14,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         chevron: Handlebars.compile("<span class='soft-half--left fa fa-chevron-{{ order }}' data-type='order'></span>"),
 
         initialize: function () {
-            _.bindAll(this, "announceUpdate");
-
             this.setEditing = _.debounce(this.setEditing);
 
             this.poller = Backbone.Poller.get(this.collection, { delay: 5000 });
@@ -33,6 +31,10 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         ui: {
             '$headers' : '[data-sort]',
             '$checkbox': '[data-behavior=bulk-select]'
+        },
+
+        collectionEvents: {
+            'selection:counts': 'announceUpdate'
         },
 
         onRender: function () {
@@ -66,35 +68,24 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             (checked)? this.selectAll() : this.deselectAll();
         },
 
-        announceUpdate: function () {
-            this.trigger("user_profiles:update:selected", this.getUpdate());
-        },
-
-        getUpdate: function () {
-            return {
-                count: this.collection.getSelectedCount(),
-                total: this.collection.getGrandTotal(),
-                deep:  this.collection.isDeep()
-            };
+        announceUpdate: function (data) {
+            this.trigger("user_profiles:update:selected", data);
         },
 
         selectAll: function () {
             this.collection.selectAll();
-            this.announceUpdate();
         },
 
         deselectAll: function () {
             this.collection.deselectAll();
-            this.announceUpdate();
         },
 
         deepSelect: function () {
-            this.collection.deepSelect().then(this.announceUpdate);
+            this.collection.deepSelect();
         },
 
         clearSelected: function () {
             this.collection.clearSelected();
-            this.announceUpdate();
         },
 
         addTags: function (tags) {
@@ -214,7 +205,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* an item has been checked or unchecked */
         onItemviewAddToSelected: function (itemview) {
             this.collection.toggleSelected(itemview.model);
-            this.announceUpdate();
         },
 
         onAfterItemAdded: function (itemView) {

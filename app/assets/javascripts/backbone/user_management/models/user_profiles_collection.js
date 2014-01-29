@@ -35,7 +35,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.all_ids    = options.ids;
 
             this.selected_ids    = [];
-            this.selected_length = 0;
+            this.setSelectedCount(0);
             this.deep_select     = false;
         },
 
@@ -81,6 +81,14 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
             this.jobs = response.meta.busy;
 
+            // when we get back a filtered result set, we will want to set the selection's
+            // length to represent the intersection between records that are selected
+            // and records that appear in the filtered result set
+            var result_set        = _.pluck(response.user_profiles, "id");
+            var visible_selection = _.intersection(result_set, this.selected_ids);
+
+            this.setSelectedCount(visible_selection.length);
+
             return response.user_profiles;
         },
 
@@ -111,12 +119,10 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             var index = this.selected_ids.indexOf(id);
 
             if (index == -1) {
-                this.selected_ids.push(id);
-                this.selected_length += 1;
+                this.addSelected(id);
                 model.trigger("change", { changed: { selected: "true" }});
             } else {
-                this.selected_ids.splice(index, 1);
-                this.selected_length -= 1;
+                this.removeSelectedAt(index);
                 model.trigger("change", { changed: { selected: "" }});
             }
 
@@ -138,7 +144,9 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
                 }
             });
 
-            this.selected_length += added;
+            // set the count all at once to avoid a huge emission of events
+            // TODO maybe solve this with debounce later???
+            this.setSelectedCount(this.selected_length + added);
         },
 
         /* remove the current page of ids to the list */
@@ -157,19 +165,41 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
                 }
             });
 
-            this.selected_length -= removed;
+            // set the count all at once to avoid a huge emission of events
+            // TODO maybe solve this with debounce later???
+            this.setSelectedCount(this.selected_length - removed);
         },
 
         getSelected: function () {
             return this.selected_ids;
         },
 
+        // the length of the selection is not always the number of
+        // ids in it. Sometimes some of the ids may be hidden behind
+        // a filter
+        setSelectedCount: function (length) {
+            this.selected_length = length;
+
+
+            this.trigger("selection:counts", {
+                count: this.getSelectedCount(),
+                total: this.grandTotal,
+                deep:  this.isDeep()
+            });
+        },
+
         getSelectedCount: function () {
             return this.selected_length;
         },
 
-        getGrandTotal: function () {
-            return this.grandTotal;
+        addSelected: function (id) {
+            this.selected_ids.push(id);
+            this.setSelectedCount(this.selected_length + 1);
+        },
+
+        removeSelectedAt: function (index) {
+            this.selected_ids.splice(index, 1);
+            this.setSelectedCount(this.selected_length - 1);
         },
 
         /* in addition to selecting the models,
@@ -187,9 +217,9 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
                 data: this.server_api,
                 success: function (data) {
                     self.selected_ids    = data.ids;
-                    self.selected_length = data.ids.length;
+                    self.setSelectedCount(data.ids.length);
 
-                    GLOBAL.flash(self.selected_length + " lignes selectionnées.", 'notice'); // TODO needs the notification object
+                    GLOBAL.flash(self.getSelectedCount() + " lignes selectionnées.", 'notice'); // TODO needs the notification object
                 }
             });
         },
@@ -199,7 +229,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.deselectAll(); // to trigger the change
 
             this.selected_ids    = [];
-            this.selected_length = 0;
+            this.setSelectedCount(0);
         },
 
         isDeep: function () {
