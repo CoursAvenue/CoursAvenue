@@ -8,8 +8,8 @@ gem 'rails', '4.0.2'
 gem 'filepicker-rails'
 
 # Webserver
-# gem 'unicorn'
-gem 'puma'
+gem 'unicorn'
+# gem 'puma'
 # Database
 gem 'pg'
 
