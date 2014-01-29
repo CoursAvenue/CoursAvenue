@@ -34,8 +34,9 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.grandTotal = options.total;
             this.all_ids    = options.ids;
 
-            this.selected_ids = [];
-            this.deep_select  = false;
+            this.selected_ids    = [];
+            this.setSelectedCount(0);
+            this.deep_select     = false;
         },
 
         /* where we can expect to find the resource we seek
@@ -80,6 +81,14 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
             this.jobs = response.meta.busy;
 
+            // when we get back a filtered result set, we will want to set the selection's
+            // length to represent the intersection between records that are selected
+            // and records that appear in the filtered result set
+            var result_set        = _.pluck(response.user_profiles, "id");
+            var visible_selection = _.intersection(result_set, this.selected_ids);
+
+            this.setSelectedCount(visible_selection.length);
+
             return response.user_profiles;
         },
 
@@ -110,10 +119,10 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             var index = this.selected_ids.indexOf(id);
 
             if (index == -1) {
-                this.selected_ids.push(id);
+                this.addSelected(id);
                 model.trigger("change", { changed: { selected: "true" }});
             } else {
-                this.selected_ids.splice(index, 1);
+                this.removeSelectedAt(index);
                 model.trigger("change", { changed: { selected: "" }});
             }
 
@@ -122,6 +131,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         /* add the current page of ids to the list */
         selectAll: function () {
             var selected_ids = this.selected_ids;
+            var added = 0;
 
             this.each(function (model) {
                 var id = model.get("id");
@@ -129,14 +139,20 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
                 if (index == -1) {
                     selected_ids.push(id)
+                    added += 1;
                     model.trigger("change", { changed: { selected: "true" }});
                 }
             });
+
+            // set the count all at once to avoid a huge emission of events
+            // TODO maybe solve this with debounce later???
+            this.setSelectedCount(this.selected_length + added);
         },
 
         /* remove the current page of ids to the list */
         deselectAll: function () {
             var selected_ids = this.selected_ids;
+            var removed = 0;
 
             this.each(function (model) {
                 var id    = model.get("id");
@@ -144,21 +160,46 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
                 if (index > -1) {
                     selected_ids.splice(index, 1);
+                    removed += 1;
                     model.trigger("change", { changed: { selected: "" }});
                 }
             });
+
+            // set the count all at once to avoid a huge emission of events
+            // TODO maybe solve this with debounce later???
+            this.setSelectedCount(this.selected_length - removed);
         },
 
         getSelected: function () {
             return this.selected_ids;
         },
 
-        getSelectedCount: function () {
-            return this.selected_ids.length;
+        // the length of the selection is not always the number of
+        // ids in it. Sometimes some of the ids may be hidden behind
+        // a filter
+        setSelectedCount: function (length) {
+            this.selected_length = length;
+
+
+            this.trigger("selection:counts", {
+                count: this.getSelectedCount(),
+                total: this.grandTotal,
+                deep:  this.isDeep()
+            });
         },
 
-        getGrandTotal: function () {
-            return this.grandTotal;
+        getSelectedCount: function () {
+            return this.selected_length;
+        },
+
+        addSelected: function (id) {
+            this.selected_ids.push(id);
+            this.setSelectedCount(this.selected_length + 1);
+        },
+
+        removeSelectedAt: function (index) {
+            this.selected_ids.splice(index, 1);
+            this.setSelectedCount(this.selected_length - 1);
         },
 
         /* in addition to selecting the models,
@@ -167,15 +208,28 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         deepSelect: function () {
             this.deep_select = true;
             this.selectAll(); // to trigger the change
-            this.selected_ids = _.clone(this.all_ids);
 
-            GLOBAL.flash(this.selected_ids.length + " lignes selectionnées.", 'notice'); // TODO needs the notification object
+            var self = this;
+
+            return $.ajax({
+                type: "GET",
+                url: this.url.basename + '/bulk/new.json',
+                data: this.server_api,
+                success: function (data) {
+                    self.selected_ids    = data.ids;
+                    self.setSelectedCount(data.ids.length);
+
+                    GLOBAL.flash(self.getSelectedCount() + " lignes selectionnées.", 'notice'); // TODO needs the notification object
+                }
+            });
         },
 
         clearSelected: function () {
             this.deep_select = false;
             this.deselectAll(); // to trigger the change
-            this.selected_ids = [];
+
+            this.selected_ids    = [];
+            this.setSelectedCount(0);
         },
 
         isDeep: function () {
@@ -187,12 +241,13 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             // when we have deep selection we have to pass in the ids of the
             // models that we _do not_ want to affect
-            $.ajax({
+            return $.ajax({
                 type: "POST",
                 url: this.url.basename + '/bulk.json',
                 data: {
                     ids: ids,
                     tags: tags,
+                    search: this.server_api
                 }
             });
         },

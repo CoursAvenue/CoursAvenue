@@ -1,9 +1,9 @@
 <div class="grid--full">
     <div class="grid__item one-half very-soft">
         <div class="push-half--bottom">
-            <div class="btn btn--small text--center" data-behavior="select-all">
-                <i class="fa fa-check"></i>
-                <span>Tout sélectionner</span>
+            <div class="btn btn--small text--center" data-behavior="deselect-all">
+                <i class="fa fa-times"></i>
+                <span>Vider la Sélection</span>
             </div>
             <div data-behavior="details" class="inline-block">
                 <div class="hidden" data-target="select-all">
@@ -20,18 +20,18 @@
         </div>
     </div>{{!--
 --}}<div class="grid__item one-half very-soft text--right">
-        <div class="btn btn--small text--center push-half--bottom" data-behavior="new">
-            <i class="fa fa-plus"></i>
-            Ajouter un contact
-        </div>
 
         <div data-behavior="edits-container">
+            <div class="btn btn--small text--center push-half--bottom" data-behavior="new">
+                <i class="fa fa-plus"></i>
+                Ajouter un contact
+            </div>
             <div data-behavior="manage-edits">
                 <div class="btn btn--small btn--green text--center" data-behavior="save">Enregistrer</div>
                 <div class="btn btn--small            text--center" data-behavior="cancel">Annuler</div>
             </div>
         </div>
-        <div class="hidden" data-target="bulk-actions">
+        <div class="hidden soft--top" data-target="bulk-actions">
             <div class="btn btn--small text--center" data-behavior="manage-tags">
                 <i class="fa fa-tags"></i>
                 Gérer les Tags

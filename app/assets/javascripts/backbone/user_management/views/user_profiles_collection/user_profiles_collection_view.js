@@ -33,6 +33,10 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             '$checkbox': '[data-behavior=bulk-select]'
         },
 
+        collectionEvents: {
+            'selection:counts': 'announceUpdate'
+        },
+
         onRender: function () {
             // set the chevron for the pivot column
             var sort    = this.collection.server_api.sort;
@@ -58,37 +62,30 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         bulkSelect: function (e) {
+
             var checked = e.currentTarget.checked;
 
             (checked)? this.selectAll() : this.deselectAll();
         },
 
-        getUpdate: function () {
-            return {
-                count: this.collection.getSelectedCount(),
-                total: this.collection.getGrandTotal(),
-                deep: this.collection.isDeep()
-            };
+        announceUpdate: function (data) {
+            this.trigger("user_profiles:update:selected", data);
         },
 
         selectAll: function () {
             this.collection.selectAll();
-            this.trigger("user_profiles:update:selected", this.getUpdate());
         },
 
         deselectAll: function () {
             this.collection.deselectAll();
-            this.trigger("user_profiles:update:selected", this.getUpdate());
         },
 
         deepSelect: function () {
             this.collection.deepSelect();
-            this.trigger("user_profiles:update:selected", this.getUpdate());
         },
 
         clearSelected: function () {
             this.collection.clearSelected();
-            this.trigger("user_profiles:update:selected", this.getUpdate());
         },
 
         addTags: function (tags) {
@@ -171,6 +168,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         *  2. We allow the itemview a chance to finalize anything it needs to */
         onItemviewChangedEditing: function (itemview) {
             var previous_itemview = this.getCurrentlyEditing();
+
+            var is_new            = itemview.model.get("new");
             var is_editing        = itemview.is_editing;
 
             // close any active view to make room for the new view
@@ -186,7 +185,10 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 this.currently_editing.shift(itemview);
             }
 
-            this.setEditing(this.currently_editing.length === 1);
+            // very special case: if the view we are done with was "new"
+            // then we are about to open another new row automatically.
+            // So we aren't really "done" editing... and the buttons should not flip
+            this.setEditing(is_new || this.currently_editing.length === 1);
         },
 
         /* we should use this opportunity to create the next editable
@@ -203,7 +205,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* an item has been checked or unchecked */
         onItemviewAddToSelected: function (itemview) {
             this.collection.toggleSelected(itemview.model);
-            this.trigger("user_profiles:update:selected", this.getUpdate());
         },
 
         onAfterItemAdded: function (itemView) {
