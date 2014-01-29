@@ -509,10 +509,9 @@ class Structure < ActiveRecord::Base
   end
 
   def parisian?
-    paris_lat    = 48.8592
-    paris_lng    = 2.3417
-    paris_radius = 10
-    Geocoder::Calculations.distance_between([paris_lat, paris_lng], [self.latitude, self.longitude], unit: :km) <= paris_radius
+    is_parisian = self.zip_code.starts_with? '75','77','78','91','92','93','94','95'
+    return true if is_parisian
+    return self.places.map(&:parisian?).include? true
   end
 
   def has_open_course_plannings?
@@ -591,8 +590,9 @@ class Structure < ActiveRecord::Base
   end
 
   def delay_subscribe_to_nutshell
-    NutshellUpdater.delay.update(self) if self.main_contact and Rails.env.production?
+    NutshellUpdater.update(self) if self.main_contact and Rails.env.production?
   end
+  handle_asynchronously :delay_subscribe_to_nutshell, :run_at => Proc.new { 10.minutes.from_now }
 
   def fix_website_url
     self.website = URLHelper.fix_url(self.website) if self.website.present?

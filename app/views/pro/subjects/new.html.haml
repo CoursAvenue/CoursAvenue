@@ -1,0 +1,6 @@
+%h3= "Enfant de : #{@subject.root.name} / #{@subject.parent.name}"
+
+= simple_form_for [:pro, @subject] do |f|
+  = f.input :name
+  = f.input :ancestry, as: :hidden
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: "En train d'enregistrer"

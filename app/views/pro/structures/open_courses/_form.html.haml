@@ -10,7 +10,7 @@
     %i.lbc-icon-info i
     Informations générales
   .form-white-box
-    = f.input :name, placeholder: "Ex : Atelier d'initiation à la danse orientale, Dégustation de vins & fromages, etc."
+    = f.input :name, placeholder: "Ex : Atelier d'initiation à la danse orientale, Dégustation de vins & fromages, etc.", label: "Intitulé de l'événement"
     .input.flush<
       = f.label :subjects
       - subjects = @structure.subjects.little_children.uniq
@@ -23,7 +23,7 @@
           Ajouter des disciplines à mon profil
     %p.field-form-info.blue.flush Si vous désirez choisir d'autres disciplines, ajoutez-les à votre profil en cliquant sur le lien ci-dessus.
     .input
-      .control-label.v-top *Type d'évènement
+      .control-label.v-top *Type d'événement
       %div
         .radio
           %input#event_type_atelier{type: 'radio', name: 'course[event_type]', value: 'Atelier collectif', checked: (@course.event_type.nil? or @course.event_type == 'Atelier collectif')}>
@@ -66,11 +66,23 @@
           %input#course_price_other{type: 'radio', name: 'course[price]', checked: (@course.price.present? and @course.price.to_i > 0) }>
           %label{for: 'course_price_other'} Participation financière libre
           #chosen-price.hidden
+            %p.push-half--ends.alert.alert--info{style: 'max-width: 600px;'}
+              %strong Note importante :
+              à l'image des Journées du Patrimoine des monuments historiques, le but de l'événement est de vous apporter la plus large audience. Pour cette raison, les ateliers gratuits apparaîtront en tête de liste sur CoursAvenue. Si vous souhaitez proposer une participation libre, nous vous conseillons de ne pas dépasser les 10€.
+            %br
             Indiquez ici le montant moyen attendu :
-            = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false, placeholder: '20'
+            = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false, placeholder: '5'
             €
     = f.input :info, label: 'Infos pratiques', placeholder: "Renseignez toutes les informations à communiquer aux potentiels inscrits : materiel, tenu exigée, informations sur le lieu, etc.", input_html: { data: { behavior: 'autoresize' }}
-  %p= f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+  .form-white-box
+    .input
+      %label.v-top.control-label.bold En validant, je certifie :
+      %div.v-top.push-half--bottom{style: 'max-width: 600px;'}
+        \- avoir pris toutes les dispositions nécessaires pour pouvoir assurer cet événement (location de la salle confirmée, matériel à disposition...) ;
+        %br
+        \- avoir renseigné toutes les informations importantes à communiquer aux inscrits dans les champs "description" et "infos pratiques" (numéro d'interphone, tenue et matériel exigés, etc.).
+  %p
+    = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
 
 = content_for :scripts do
   :javascript
@@ -101,4 +113,5 @@
         $('[name="course[event_type]"]').change();
         $('[name="course[price]"]').change();
         $('#open-course-description').textareaResizer();
+        $('.textarea-counter-wrapper').css('padding-left', '16em');
     });

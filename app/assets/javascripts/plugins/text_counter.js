@@ -48,7 +48,7 @@
         },
 
         addInfoDiv: function() {
-            this.info_div          = $('<div>').addClass('textarea-counter');
+            this.info_div          = $('<div>').addClass('textarea-counter-wrapper');
             this.nb_word_span      = $('<p>').addClass('bold textarea-counter flush--bottom');
             this.nb_word_info_span = $('<p>').addClass('textarea-counter-info flush--top flush--bottom');
 
