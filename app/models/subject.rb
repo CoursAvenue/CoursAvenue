@@ -18,7 +18,7 @@ class Subject < ActiveRecord::Base
   has_many :city_subject_infos
 
   attr_accessible :name, :short_name, :info, :parent, :position, :title, :subtitle, :description, :image,
-                  :good_to_know, :needed_meterial, :tips
+                  :good_to_know, :needed_meterial, :tips, :ancestry
 
   validates :name, presence: true
   validates :name, uniqueness: {scope: 'ancestry'}
