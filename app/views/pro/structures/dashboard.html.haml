@@ -288,7 +288,7 @@
                 });
             }
         }, 1000);
-        google_map_handler = Gmaps.build('Google');
+        google_map_handler = Gmaps.build('Google', { markers: { maxRandomDistance: null } });
         google_map_handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
             markers = google_map_handler.addMarkers(#{@json_locations.to_json});
             google_map_handler.bounds.extendWith(markers);

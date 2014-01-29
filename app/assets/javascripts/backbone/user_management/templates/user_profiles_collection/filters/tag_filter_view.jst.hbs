@@ -1,11 +1,16 @@
-<div class="inline-block taggies-container v-middle very-soft" data-type="taggies-container">
-    {{#each tags}}
-        {{!-- we need zero space around the tag text --}}
-        <span class="taggy--tag" data-value="{{ this }}">{{!--
-        --}}{{ this }}{{!--
-        --}}<i class="fa fa-times pointer" data-behavior="destroy"></i>
-        </span>
-    {{/each}}
+<div class="grid__item v-middle one-fifth text--right soft-half--right">
+    <strong class="gray">Tag</strong>
+</div><!--
+--><div class="grid__item v-middle four-fifths">
+      <div class="taggies-container v-middle" data-type="taggies-container">
+      {{#each tags}}
+          {{!-- we need zero space around the tag text --}}
+          <span class="taggy--tag" data-value="{{ this }}">{{!--
+          --}}{{ this }}{{!--
+          --}}<i class="fa fa-times pointer" data-behavior="destroy"></i>
+          </span>
+      {{/each}}
+    </div>
+  <input class="taggy--input" type="text" style="display:none;"></input>
 </div>
 
-<input class="taggy--input" type="text" style="display:none;"></input>

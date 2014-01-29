@@ -1,12 +1,18 @@
 <div class="grid--full">
     <div class="grid__item one-half very-soft">
-        <div class="btn btn--small text--center" data-behavior="select-all">
-            <i class="fa fa-check"></i>
-            Tout sélectionner
-        </div>
-        <div class="btn btn--small text--center" data-behavior="new">
-            <i class="fa fa-plus"></i>
-            Ajouter un contact
+        <div class="push-half--bottom">
+            <div class="btn btn--small text--center" data-behavior="select-all">
+                <i class="fa fa-check"></i>
+                <span>Tout sélectionner</span>
+            </div>
+            <div data-behavior="details" class="inline-block">
+                <div class="hidden" data-target="select-all">
+                    <p class="flush">
+                        <span data-behavior="selected-count">30</span> élèves sélectionnés.
+                        <a href="javascript:void(0)" class="text--center hidden" data-target="deep-select" data-behavior="deep-select">Selectionner le reste</a>
+                    </p>
+                </div>
+            </div>
         </div>
         <div class="btn btn--small text--center" data-behavior="filters">
             <i class="fa fa-search"></i>
@@ -14,43 +20,34 @@
         </div>
     </div>{{!--
 --}}<div class="grid__item one-half very-soft text--right">
+        <div class="btn btn--small text--center push-half--bottom" data-behavior="new">
+            <i class="fa fa-plus"></i>
+            Ajouter un contact
+        </div>
+
         <div data-behavior="edits-container">
             <div data-behavior="manage-edits">
                 <div class="btn btn--small btn--green text--center" data-behavior="save">Enregistrer</div>
                 <div class="btn btn--small            text--center" data-behavior="cancel">Annuler</div>
             </div>
         </div>
+        <div class="hidden" data-target="bulk-actions">
+            <div class="btn btn--small text--center" data-behavior="manage-tags">
+                <i class="fa fa-tags"></i>
+                Gérer les Tags
+            </div>
+            <div class="btn btn--red    btn--small text--center" data-behavior="destroy">
+                <i class="fa fa-trash-o"></i>
+                Supprimer les élèves
+            </div>
+        </div>
     </div>
 </div>
 
 <div data-behavior="details">
-    <div class="hidden" data-target="select-all">
-      <p class="flush">
-      Vous avez sélectionné <span data-behavior="selected-count">30</span> élèves.
-        <a href="javascript:void(0)" class="text--center hidden" data-target="deep-select" data-behavior="deep-select">Cliquez-ici pour selectionner le reste</a>
-      </p>
+    <div class="hidden" data-target="manage-tags">
+        <label class="inline-block v-middle" for="tag-action">Tag à ajouter :</label>
+        <input class="inline-block v-middle" id="tag-action" type="text" data-value="tag-names"></input>
+        <div class="inline-block v-middle btn btn--small btn--small text--center" data-behavior="add-tags">Ajouter</div>
     </div>
-
-    <div class="one-half hidden" data-target="bulk-actions">
-        <div class="btn btn--small text--center" data-behavior="manage-tags">
-            <i class="fa fa-tags"></i>
-            Gérer les Tags
-        </div>
-        <div class="btn btn--small text--center" data-behavior="destroy">
-            <i class="fa fa-trash-o"></i>
-            Supprimer le Selection
-        </div>
-    </div>
-
-    <div class="grid--full soft--top hidden" data-target="manage-tags">
-        <div class="grid__item one-twelfth">
-            <label for="tag-action"><strong>Tag:</strong></label>
-        </div>{{!--
-        --}}<div class="grid__item four-twelfths">
-            <input id="tag-action" type="text" data-value="tag-names"></input>
-        </div>{{!--
-        --}}<div class="grid__item one-twelfth">
-            <div class="btn one-whole text--center" data-behavior="add-tags">ADD</div>
-        </div>
-    </div>   
 </div>

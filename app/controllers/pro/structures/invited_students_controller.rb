@@ -1,5 +1,6 @@
 # encoding: utf-8
 class ::Pro::Structures::InvitedStudentsController < Pro::ProController
+
   before_action :authenticate_pro_admin!
   load_and_authorize_resource :structure, find_by: :slug
 

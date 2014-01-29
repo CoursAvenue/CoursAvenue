@@ -87,7 +87,7 @@ CoursAvenue::Application.routes.draw do
 
         resources :user_profiles, controller: 'structures/user_profiles', path: 'mes-eleves'
         resources :bulk_user_profiles, controller: 'structures/bulk_user_profiles', path: 'bulk', only: [:create, :index, :new]
-        resources :tags, controller: 'structures/tags', path: 'tags', only: [:index]
+        resources :tags, controller: 'structures/tags', path: 'tags'
         resources :user_profile_imports, only: [:new, :create], controller: 'structures/user_profile_imports', path: 'importer-mes-eleves' do
           member do
             get   :choose_headers
@@ -136,8 +136,6 @@ CoursAvenue::Application.routes.draw do
       end
       resources :courses, except: [:new, :create], path: 'cours' do
         member do
-          post 'update' # For paperclip image
-          patch 'update' # For paperclip image
           post 'duplicate'
           post 'copy_prices_from'
         end
