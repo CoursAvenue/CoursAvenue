@@ -9,13 +9,21 @@ class Pro::SubjectsController < Pro::ProController
   end
 
   def edit
-    @subject = Subject.friendly.find params[:id]
+    @subject    = Subject.friendly.find params[:id]
+    @city       = City.find('paris')
+    _city_id    = @city.id
+    _subject_id = @subject.id
+    if (@city_subject_info = CitySubjectInfo.where{(city_id == _city_id) & (subject_id == _subject_id)}.first).nil?
+      @city_subject_info = CitySubjectInfo.new(city_id: @city.id, subject_id: @subject.id)
+    end
+
   end
 
   def update
     @subject = Subject.friendly.find params[:id]
     respond_to do |format|
       if @subject.update_attributes params[:subject]
+        format.js { render nothing: true }
         format.html { redirect_to pro_subjects_path}
       else
         format.html { render action: :edit }
