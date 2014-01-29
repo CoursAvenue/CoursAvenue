@@ -10,7 +10,7 @@
     %i.lbc-icon-info i
     Informations générales
   .form-white-box
-    = f.input :name, placeholder: "Ex : Atelier d'initiation à la danse orientale, Dégustation de vins & fromages, etc."
+    = f.input :name, placeholder: "Ex : Atelier d'initiation à la danse orientale, Dégustation de vins & fromages, etc.", label: "Intitulé de l'événement"
     .input.flush<
       = f.label :subjects
       - subjects = @structure.subjects.little_children.uniq
@@ -23,7 +23,7 @@
           Ajouter des disciplines à mon profil
     %p.field-form-info.blue.flush Si vous désirez choisir d'autres disciplines, ajoutez-les à votre profil en cliquant sur le lien ci-dessus.
     .input
-      .control-label.v-top *Type d'évènement
+      .control-label.v-top *Type d'événement
       %div
         .radio
           %input#event_type_atelier{type: 'radio', name: 'course[event_type]', value: 'Atelier collectif', checked: (@course.event_type.nil? or @course.event_type == 'Atelier collectif')}>
@@ -78,7 +78,7 @@
     .input
       %label.v-top.control-label.bold En validant, je certifie :
       %div.v-top.push-half--bottom.gray{style: 'max-width: 600px;'}
-        \- avoir pris toutes les dispositions nécessaires pour pouvoir assurer cet événement (location de la salle confirmée, matériel à disposition...).
+        \- avoir pris toutes les dispositions nécessaires pour pouvoir assurer cet événement (location de la salle confirmée, matériel à disposition...) ;
         %br
         \- avoir renseigné toutes les informations importantes à communiquer aux inscrits dans les champs "description" et "infos pratiques" (numéro d'interphone, tenue et matériel exigés, etc.).
   %p

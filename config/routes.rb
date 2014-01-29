@@ -41,7 +41,11 @@ CoursAvenue::Application.routes.draw do
       resources :keywords, only: [:index, :create, :destroy]
       resources :search_term_logs, only: [:index]
       resources :subjects do
+        member do
+          get :edit_name
+        end
         collection do
+          get :all
           get :descendants
         end
       end

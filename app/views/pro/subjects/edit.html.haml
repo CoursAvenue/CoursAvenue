@@ -8,7 +8,6 @@
   .inline-block= link_to 'Voir la page', vertical_page_url_for(@subject), target: :_blank
 .form-white-box
   = simple_form_for [:pro, @subject], remote: true do |f|
-    = f.input :name
     = f.input :image
     = f.input :title
     = f.input :subtitle
