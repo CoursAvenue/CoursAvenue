@@ -7,7 +7,7 @@ UserManagement.module('Views.UserProfilesCollection.Filters', function(Module, A
 
     Module.TagFilterView = UserManagement.Views.UserProfilesCollection.UserProfile.EditableTagBar.EditableTagBarView.extend({
         template: Module.templateDirname() + 'tag_filter_view',
-        className: 'hidden grid--full one-half very-soft',
+        className: 'grid--full',
         attributes: {
             'data-behavior': 'tag-filter'
         },
@@ -26,14 +26,6 @@ UserManagement.module('Views.UserProfilesCollection.Filters', function(Module, A
 
             this.startEditing(); // this field should start right away
             this.$input().focus();
-        },
-
-        showFilters: function () {
-            if (this.$el.css("display") === "none") {
-                this.$el.slideDown();
-            } else {
-                this.$el.slideUp();
-            }
         },
 
         handleEnter: function () {

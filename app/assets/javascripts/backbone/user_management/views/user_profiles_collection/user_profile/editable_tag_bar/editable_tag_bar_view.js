@@ -167,7 +167,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.ui.$input.css({ display: "" });
             this.$('.twitter-typeahead').toggleClass('inline-block')
                                         .toggleClass('v-middle')
-                                        .css({ width: '95%'});
+                                        .css({ width: '100%'});
 
             this.$el.addClass("active");
         },

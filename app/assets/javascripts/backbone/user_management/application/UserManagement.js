@@ -38,30 +38,18 @@ UserManagement.addInitializer(function(options) {
 
     layout = new UserManagement.Views.UserProfilesLayout();
 
+
     UserManagement.mainRegion.show(layout);
 
+    layout.on('controls:show:filters', layout.showFilters)
+
     var Controls = UserManagement.Views.UserProfilesCollection.Controls;
-    var Filters  = FilteredSearch.Views.StructuresCollection.Filters;
 
     pagination_top       = new CoursAvenue.Views.PaginationToolView({});
     pagination_bottom    = new CoursAvenue.Views.PaginationToolView({});
     bulk_action_controls = new Controls.BulkActionControls.BulkActionControlsView({});
     tag_filter           = new UserManagement.Views.UserProfilesCollection.Filters.TagFilterView({});
-
-    // TODO we will eventually extend the filter in a file
-    KeywordFilterView = Filters.KeywordFilterView.extend({
-        className: 'hidden grid--full one-half soft--top',
-        template: 'backbone/user_management/templates/user_profiles_collection/filters/keyword_filter_view',
-        showFilters: function () {
-            if (this.$el.css("display") === "none") {
-                this.$el.slideDown();
-            } else {
-                this.$el.slideUp();
-            }
-        }
-    });
-
-    keyword_filter = new KeywordFilterView({});
+    keyword_filter       = new UserManagement.Views.UserProfilesCollection.Filters.KeywordFilterView({});
 
     layout.showWidget(pagination_top, {
         events: {
@@ -79,22 +67,17 @@ UserManagement.addInitializer(function(options) {
 
     layout.showWidget(bulk_action_controls, {
         events: {
-            'user_profiles:changed:editing'   : 'toggleEditManager',
+            // 'user_profiles:changed:editing'   : 'toggleEditManager',
             'user_profiles:update:selected'   : 'updateSelected'
         }
     });
 
     // TODO for now the showFilters method is living here
     // but later we will need to find a better place
-    layout.showWidget(keyword_filter, {
-        events: {
-            'controls:show:filters': 'showFilters'
-        }
-    });
+    layout.showWidget(keyword_filter);
 
     layout.showWidget(tag_filter, {
         events: {
-            'controls:show:filters'               : 'showFilters',
             'user_profiles:update:tag:filters'    : 'buildTaggies'
         }
     });

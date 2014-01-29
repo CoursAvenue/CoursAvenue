@@ -38,7 +38,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
 
         updateSelected: function (data) {
             this.showDetails("select-all");
-            this.showDetails("bulk-actions")
+            this.showDetails("bulk-actions");
             this.ui.$selected_count.html(data.count);
 
             if (data.count === 0) {
@@ -73,7 +73,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         },
 
         onAfterShow: function () {
-            this.setUpRotation();
+            // this.setUpRotation();
         },
 
         setUpRotation: function () {
@@ -138,12 +138,13 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
 
         showDetails: function (target) {
             var $details = this.$('[data-target=' + target + ']');
-            $details.slideDown();
+            $details.show();
+            // $details.slideDown();
         },
 
         hideDetails: function (target) {
             var $details = this.$('[data-target=' + target + ']');
-            $details.slideUp();
+            $details.hide();
         },
 
         manageTags: function () {

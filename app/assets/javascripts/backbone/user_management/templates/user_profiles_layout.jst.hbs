@@ -4,8 +4,17 @@
 
 <div class="white-box white-box--noshadow islet" data-behavior="sticky-controls">
     <div data-type="bulk-action-controls"></div>
-    <div data-type="keyword-filter"></div>
-    <div data-type="tag-filter"></div>
+
+    <div data-type="filters-wrapper" style="display: none;">
+      <div class="grid--full bordered--bottom push-half--bottom soft-half--bottom">
+        <div class="grid__item v-middle one-fifth text--right soft-half--right">
+            <strong class="gray">Filtrer par :</strong>
+        </div><!--
+        --><div class="grid__item v-middle four-fifths"></div>
+      </div>
+      <div data-type="keyword-filter" class="bordered--bottom push-half--bottom soft-half--bottom"></div>
+      <div data-type="tag-filter"></div>
+    </div>
 </div>
 
 <div id="search-results">
