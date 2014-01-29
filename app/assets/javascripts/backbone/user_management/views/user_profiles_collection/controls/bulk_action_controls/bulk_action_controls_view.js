@@ -43,6 +43,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
 
             if (data.count === 0) {
                 this.hideDetails("select-all");
+                this.hideDetails("bulk-actions");
             } else if (data.deep) {
 
                 // if we are in a deep select, then whenever
@@ -73,7 +74,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         },
 
         onAfterShow: function () {
-            // this.setUpRotation();
+            this.setUpRotation();
         },
 
         setUpRotation: function () {
@@ -86,22 +87,12 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
                 .parent()
                 .css({ perspective: "800px" });
 
-            // add the front-side
-            var width  = this.ui.$edit_manager.width(),
-            height     = this.ui.$edit_manager.height(),
-            front_side = $("<div>")
-                .css({
-                    position: "absolute",
-                    right: -2,
-                    top: -10,
-                    height: height + 20,
-                    width: width,
-                    "backface-visibility": "hidden",
-                    "background-color": "white",
-                    background: "url('/assets/logo_pro.png') no-repeat scroll right center / auto 100% rgba(0, 0, 0, 0)",
-                });
-
-            this.ui.$edit_manager.parent().prepend(front_side);
+            this.$('[data-behavior=new]').css({
+                position: "absolute",
+                right: -2,
+                top: -10,
+                "backface-visibility": "hidden",
+            });
 
             // hide the backside
             this.ui.$edit_manager
@@ -115,14 +106,6 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             this.showDetails("select-all");
             this.showDetails("deep-select");
             this.trigger("controls:select:all", { deep: false });
-            this.toggleSelectButton("deselect-all");
-        },
-
-        // the UI binding is cached,
-        // so this will always refer to the same element
-        toggleSelectButton: function (type) {
-            this.ui.$select_all.find('i').toggleClass('fa-check fa-times');
-            this.ui.$select_all.attr('data-behavior', type);
         },
 
         deepSelect: function () {
@@ -133,18 +116,16 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         clearSelection: function () {
             this.trigger("controls:clear:selected");
             this.hideDetails("deep-select");
-            this.toggleSelectButton("select-all");
         },
 
         showDetails: function (target) {
             var $details = this.$('[data-target=' + target + ']');
-            $details.show();
-            // $details.slideDown();
+            $details.slideDown();
         },
 
         hideDetails: function (target) {
             var $details = this.$('[data-target=' + target + ']');
-            $details.hide();
+            $details.slideUp();
         },
 
         manageTags: function () {

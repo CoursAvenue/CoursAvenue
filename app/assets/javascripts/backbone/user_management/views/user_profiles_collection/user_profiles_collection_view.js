@@ -60,6 +60,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         bulkSelect: function (e) {
+
             var checked = e.currentTarget.checked;
 
             (checked)? this.selectAll() : this.deselectAll();
@@ -79,6 +80,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         selectAll: function () {
             this.collection.selectAll();
+            this.announceUpdate();
         },
 
         deselectAll: function () {
