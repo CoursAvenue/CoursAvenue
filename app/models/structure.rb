@@ -550,8 +550,9 @@ class Structure < ActiveRecord::Base
   end
 
   def delay_subscribe_to_nutshell
-    NutshellUpdater.delay.update(self) if self.main_contact and Rails.env.production?
+    NutshellUpdater.update(self) if self.main_contact and Rails.env.production?
   end
+  handle_asynchronously :delay_subscribe_to_nutshell, :run_at => Proc.new { 10.minutes.from_now }
 
   def fix_website_url
     self.website = URLHelper.fix_url(self.website) if self.website.present?
