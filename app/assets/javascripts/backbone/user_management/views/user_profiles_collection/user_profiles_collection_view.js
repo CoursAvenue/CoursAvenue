@@ -14,6 +14,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         chevron: Handlebars.compile("<span class='soft-half--left fa fa-chevron-{{ order }}' data-type='order'></span>"),
 
         initialize: function () {
+            _.bindAll(this, "announceUpdate");
+
             this.setEditing = _.debounce(this.setEditing);
 
             this.poller = Backbone.Poller.get(this.collection, { delay: 5000 });
@@ -63,32 +65,34 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             (checked)? this.selectAll() : this.deselectAll();
         },
 
+        announceUpdate: function () {
+            this.trigger("user_profiles:update:selected", this.getUpdate());
+        },
+
         getUpdate: function () {
             return {
                 count: this.collection.getSelectedCount(),
                 total: this.collection.getGrandTotal(),
-                deep: this.collection.isDeep()
+                deep:  this.collection.isDeep()
             };
         },
 
         selectAll: function () {
             this.collection.selectAll();
-            this.trigger("user_profiles:update:selected", this.getUpdate());
         },
 
         deselectAll: function () {
             this.collection.deselectAll();
-            this.trigger("user_profiles:update:selected", this.getUpdate());
+            this.announceUpdate();
         },
 
         deepSelect: function () {
-            this.collection.deepSelect();
-            this.trigger("user_profiles:update:selected", this.getUpdate());
+            this.collection.deepSelect().then(this.announceUpdate);
         },
 
         clearSelected: function () {
             this.collection.clearSelected();
-            this.trigger("user_profiles:update:selected", this.getUpdate());
+            this.announceUpdate();
         },
 
         addTags: function (tags) {
@@ -203,7 +207,7 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         /* an item has been checked or unchecked */
         onItemviewAddToSelected: function (itemview) {
             this.collection.toggleSelected(itemview.model);
-            this.trigger("user_profiles:update:selected", this.getUpdate());
+            this.announceUpdate();
         },
 
         onAfterItemAdded: function (itemView) {

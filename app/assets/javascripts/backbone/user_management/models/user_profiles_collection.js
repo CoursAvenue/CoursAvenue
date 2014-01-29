@@ -34,8 +34,9 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.grandTotal = options.total;
             this.all_ids    = options.ids;
 
-            this.selected_ids = [];
-            this.deep_select  = false;
+            this.selected_ids    = [];
+            this.selected_length = 0;
+            this.deep_select     = false;
         },
 
         /* where we can expect to find the resource we seek
@@ -111,9 +112,11 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             if (index == -1) {
                 this.selected_ids.push(id);
+                this.selected_length += 1;
                 model.trigger("change", { changed: { selected: "true" }});
             } else {
                 this.selected_ids.splice(index, 1);
+                this.selected_length -= 1;
                 model.trigger("change", { changed: { selected: "" }});
             }
 
@@ -122,6 +125,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         /* add the current page of ids to the list */
         selectAll: function () {
             var selected_ids = this.selected_ids;
+            var added = 0;
 
             this.each(function (model) {
                 var id = model.get("id");
@@ -129,14 +133,18 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
                 if (index == -1) {
                     selected_ids.push(id)
+                    added += 1;
                     model.trigger("change", { changed: { selected: "true" }});
                 }
             });
+
+            this.selected_length += added;
         },
 
         /* remove the current page of ids to the list */
         deselectAll: function () {
             var selected_ids = this.selected_ids;
+            var removed = 0;
 
             this.each(function (model) {
                 var id    = model.get("id");
@@ -144,9 +152,12 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
                 if (index > -1) {
                     selected_ids.splice(index, 1);
+                    removed += 1;
                     model.trigger("change", { changed: { selected: "" }});
                 }
             });
+
+            this.selected_length -= removed;
         },
 
         getSelected: function () {
@@ -154,7 +165,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         getSelectedCount: function () {
-            return this.selected_ids.length;
+            return this.selected_length;
         },
 
         getGrandTotal: function () {
@@ -167,15 +178,28 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         deepSelect: function () {
             this.deep_select = true;
             this.selectAll(); // to trigger the change
-            this.selected_ids = _.clone(this.all_ids);
 
-            GLOBAL.flash(this.selected_ids.length + " lignes selectionnées.", 'notice'); // TODO needs the notification object
+            var self = this;
+
+            return $.ajax({
+                type: "GET",
+                url: this.url.basename + '/bulk/new.json',
+                data: this.server_api,
+                success: function (data) {
+                    self.selected_ids    = data.ids;
+                    self.selected_length = data.ids.length;
+
+                    GLOBAL.flash(self.selected_length + " lignes selectionnées.", 'notice'); // TODO needs the notification object
+                }
+            });
         },
 
         clearSelected: function () {
             this.deep_select = false;
             this.deselectAll(); // to trigger the change
-            this.selected_ids = [];
+
+            this.selected_ids    = [];
+            this.selected_length = 0;
         },
 
         isDeep: function () {
@@ -187,12 +211,13 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
 
             // when we have deep selection we have to pass in the ids of the
             // models that we _do not_ want to affect
-            $.ajax({
+            return $.ajax({
                 type: "POST",
                 url: this.url.basename + '/bulk.json',
                 data: {
                     ids: ids,
                     tags: tags,
+                    search: this.server_api
                 }
             });
         },

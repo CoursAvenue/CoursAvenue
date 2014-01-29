@@ -13,6 +13,25 @@ class Pro::Structures::BulkUserProfilesController < Pro::ProController
     end
   end
 
+  # a "new" BulkUserProfile is an array of ids matching given search
+  # params
+  # new corresponds to the "deepSelect" method on the client
+  def new
+    params[:structure_id] = @structure.id
+    params[:per_page]     = @structure.user_profiles.count
+
+    # prepare all the profiles that would match the given params
+    @user_profiles_search = UserProfileSearch.search(params)
+    @user_profiles = @user_profiles_search.results
+
+    respond_to do |format|
+      format.json { render json: { ids: @user_profiles.map(&:id) }}
+      format.html
+    end
+  end
+
+  # from an array of ids, we create a delayed job that works on the
+  # profiles associated with those ids
   def create
     tags = params.delete(:tags)
 
