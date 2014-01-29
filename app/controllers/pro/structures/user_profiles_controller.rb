@@ -93,8 +93,8 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     update_tags = params[:user_profile].has_key? :tags
 
     if update_tags
-        tags = params[:user_profile].delete(:tags)
-        add_tags(tags)
+      tags = params[:user_profile].delete(:tags)
+      add_tags(tags)
     end
   end
 end

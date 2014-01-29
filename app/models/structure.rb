@@ -504,31 +504,6 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # TODO this method doesn't actually work:
-  # according to the rspec tests, the resulting
-  # change to the user_profile leaves it with
-  # ( tags.length + profile.tags.length * 2 ) tags
-  # However, in practice it is returning the right
-  # thing to the client.
-  def bulk_tagging(profile, tags)
-      tag_list = profile.tags.map(&:name)
-      tag_list << tags
-      self.tag(profile, with: tag_list.join(','), on: :tags)
-  end
-
-  # it should call the method with the given name
-  # the method should receive the arguments it expects
-  # after the call, busy should be false
-  def perform_bulk_user_profiles_job(ids, job, *args)
-
-    UserProfile.find(ids).each do |profile|
-      self.send(job, profile, *args)
-    end
-
-    self.busy = false
-    self.save
-  end
-
   def delay_subscribe_to_nutshell
     self.delay.subscribe_to_nutshell if Rails.env.production?
   end
@@ -545,6 +520,33 @@ class Structure < ActiveRecord::Base
       return true if course.plannings.any?
     end
     return false
+  end
+
+  # TODO this method doesn't actually work:
+  # according to the rspec tests, the resulting
+  # change to the user_profile leaves it with
+  # ( tags.length + profile.tags.length * 2 ) tags
+  # However, in practice it is returning the right
+  # thing to the client.
+  def add_tags_on(profile, tags)
+      tags = tags.split(',') if tags.is_a? String
+
+      tag_list = profile.tags.map(&:name)
+      tag_list = tag_list + tags
+      self.tag(profile, with: tag_list.uniq.join(','), on: :tags)
+  end
+
+  # it should call the method with the given name
+  # the method should receive the arguments it expects
+  # after the call, busy should be false
+  def perform_bulk_user_profiles_job(ids, job, *args)
+
+    UserProfile.find(ids).each do |profile|
+      self.send(job, profile, *args)
+    end
+
+    self.busy = false
+    self.save
   end
 
   def create_tag tag_name

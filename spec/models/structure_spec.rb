@@ -112,7 +112,7 @@ describe Structure do
       structure.perform_bulk_user_profiles_job(ids, :some_work, "1", :cat, (1..2))
     end
 
-    describe :bulk_tagging do
+    describe :add_tags_on do
       let(:structure) { FactoryGirl.create(:structure_with_user_profiles_with_tags) }
       let(:user_profile) { structure.user_profiles.first }
       let(:tags) { ['Master of the Arts', 'powerful', 'brazen', 'churlish'] }
@@ -121,7 +121,7 @@ describe Structure do
         length = user_profile.tags.length
 
         user_profile.reload
-        structure.bulk_tagging(user_profile, tags)
+        structure.add_tags_on(user_profile, tags)
         user_profile.reload
         expect(user_profile.tags.length).to eq(length + tags.length)
       end

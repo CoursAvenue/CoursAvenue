@@ -23,7 +23,7 @@ class Pro::Structures::BulkUserProfilesController < Pro::ProController
     end
 
     @structure.busy = true
-    @structure.perform_bulk_user_profiles_job(@user_profiles.map(&:id), :bulk_tagging, tags)
+    @structure.perform_bulk_user_profiles_job(@user_profiles.map(&:id), :add_tags_on, tags)
 
     respond_to do |format|
       format.json { render :nothing => true }

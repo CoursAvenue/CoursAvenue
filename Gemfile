@@ -107,7 +107,7 @@ gem 'truncate_html'             , '~>0.9.2'
 
 # Add taggable behavior to models
 # https://github.com/mbleigh/acts-as-taggable-on
-gem 'acts-as-taggable-on'       , '~>2.4.1'
+gem 'acts-as-taggable-on'       , '~>3.0.1'
 
 # Prevent from real deletion
 # acts_as_paranoid
