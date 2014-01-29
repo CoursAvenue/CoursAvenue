@@ -177,6 +177,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         *  2. We allow the itemview a chance to finalize anything it needs to */
         onItemviewChangedEditing: function (itemview) {
             var previous_itemview = this.getCurrentlyEditing();
+
+            var is_new            = itemview.model.get("new");
             var is_editing        = itemview.is_editing;
 
             // close any active view to make room for the new view
@@ -192,7 +194,10 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 this.currently_editing.shift(itemview);
             }
 
-            this.setEditing(this.currently_editing.length === 1);
+            // very special case: if the view we are done with was "new"
+            // then we are about to open another new row automatically.
+            // So we aren't really "done" editing... and the buttons should not flip
+            this.setEditing(is_new || this.currently_editing.length === 1);
         },
 
         /* we should use this opportunity to create the next editable

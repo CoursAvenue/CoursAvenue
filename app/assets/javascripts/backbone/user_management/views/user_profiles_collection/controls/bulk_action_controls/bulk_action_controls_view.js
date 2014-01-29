@@ -90,8 +90,8 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
 
             this.$('[data-behavior=new]').css({
                 position: "absolute",
-                right: -2,
-                top: -10,
+                right: 0,
+                top: 0,
                 "backface-visibility": "hidden",
             });
 

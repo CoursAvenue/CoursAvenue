@@ -177,20 +177,26 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Modul
          * must either clean up, rollback, or save, based on external
          * inputs and the state of the edits. */
         finishEditing: function (e) {
-            this.setEditing(false);
 
             // rollback if we aught to, or if there are no edits
             if (e.restore || _.isEmpty(this.edits)) {
 
                 // if the model was new, we are done
                 if (this.model.get("new")) {
+                    this.model.set("new", false);
                     this.close();
                 } else {
                     this.trigger("rollback");
                 }
 
+                // TODO problem: we want to set new to false on the model before
+                // the observer of the is editing property sees the change
+                // that's why isEditing is called here, and called twice
+                this.setEditing(false);
                 return;
             }
+
+            this.setEditing(false);
 
             // otherwise, collect and save the updates
             var update    = {
