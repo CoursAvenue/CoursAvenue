@@ -39,6 +39,7 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         updateSelected: function (data) {
             this.showDetails("select-all");
             this.showDetails("bulk-actions");
+            this.showDetails("deep-select");
             this.ui.$selected_count.html(data.count);
 
             if (data.count === 0) {
@@ -104,7 +105,6 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
 
         selectAll: function (options) {
             this.showDetails("select-all");
-            this.showDetails("deep-select");
             this.trigger("controls:select:all", { deep: false });
         },
 
