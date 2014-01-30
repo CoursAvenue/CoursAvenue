@@ -36,13 +36,18 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             this.trigger("controls:show:filters");
         },
 
+        /* cases:
+        *  - count is 0 we have no reason to show select all, or bulk actions
+        *  - select is deep
+        *    - everything is selected
+        *    - not everything is selected */
+        /* TODO I'm sure we could express this more succinctly */
         updateSelected: function (data) {
-            this.showDetails("select-all");
-            this.showDetails("bulk-actions");
-            this.showDetails("deep-select");
             this.ui.$selected_count.html(data.count);
 
             if (data.count === 0) {
+                // selection is empty, hide the controls
+
                 this.hideDetails("select-all");
                 this.hideDetails("bulk-actions");
             } else if (data.deep) {
@@ -55,6 +60,11 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
                 } else {
                     this.showDetails("deep-select");
                 }
+            } else {
+                // normally, show everything
+                this.showDetails("select-all");
+                this.showDetails("bulk-actions");
+                this.showDetails("deep-select");
             }
         },
 
@@ -110,12 +120,10 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
 
         deepSelect: function () {
             this.trigger("controls:deep:select");
-            this.hideDetails("deep-select");
         },
 
         clearSelection: function () {
             this.trigger("controls:clear:selected");
-            this.hideDetails("deep-select");
         },
 
         showDetails: function (target) {

@@ -5,6 +5,9 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         model: Models.UserProfile,
 
         initialize: function (models, options) {
+            _.bindAll(this, "setSelectedCount");
+            this.setSelectedCount = _.debounce(this.setSelectedCount);
+
             var self = this;
             // define the server API based on the load-time URI
             this.server_api = this.makeOptionsFromSearch(window.location.search);
@@ -214,7 +217,6 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         * will know to affect all models not marked */
         deepSelect: function () {
             this.deep_select = true;
-            this.selectAll(); // to trigger the change
 
             var self = this;
 
@@ -223,7 +225,9 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
                 url: this.url.basename + '/bulk/new.json',
                 data: this.server_api,
                 success: function (data) {
-                    self.selected_ids    = data.ids;
+                    self.selected_ids = data.ids;
+                    self.selectAll(); // to trigger the checkboxes
+
                     self.setSelectedCount(data.ids.length);
 
                     GLOBAL.flash(self.getSelectedCount() + " lignes selectionnées.", 'notice'); // TODO needs the notification object
