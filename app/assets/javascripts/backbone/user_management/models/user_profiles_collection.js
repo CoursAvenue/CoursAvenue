@@ -235,9 +235,13 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             return this.deep_select;
         },
 
+        // TODO ask NIMA about this: on line 3 we are
+        // renaming ["tags[]"] to "tags", this is because the
+        // tags array was becoming nil on the server side.
         bulkAddTags: function (tags) {
             var params = _.clone(this.server_api);
             params.ids = this.getSelected();
+            params.tags = params["tags[]"];
 
             // when we have deep selection we have to pass in the ids of the
             // models that we _do not_ want to affect
