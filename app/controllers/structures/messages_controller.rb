@@ -6,14 +6,14 @@ class Structures::MessagesController < ApplicationController
     @structure    = Structure.find params[:structure_id]
     # Retrieve or create user
     if form_is_valid?
-      @user = current_user
+      @structure.create_user_profile_for_message(current_user)
       @recipients   = @structure.main_contact
-      @receipt      = @user.send_message(@recipients, params[:message][:body], "Demande d'informations")
+      @receipt      = current_user.send_message(@recipients, params[:message][:body], "Demande d'informations")
       @conversation = @receipt.conversation
     end
     respond_to do |format|
       if @conversation and @conversation.persisted?
-        format.html { redirect_to user_conversation_path(@user, @conversation) }
+        format.html { redirect_to user_conversation_path(current_user, @conversation) }
       else
         format.html { redirect_to structure_path(@structure), alert: "Vous n'avez pas remplis toutes les informations" }
       end
