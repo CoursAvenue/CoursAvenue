@@ -557,6 +557,13 @@ class Structure < ActiveRecord::Base
     return tagging.save
   end
 
+  def create_user_profile_for_message(user)
+    user_profile = self.user_profiles.where(email: user.email).first_or_create
+    user_profile.first_name = user.first_name if user_profile.first_name.nil?
+    user_profile.last_name  = user.last_name  if user_profile.last_name.nil?
+    self.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:contacts])
+  end
+
   private
 
   def logo_has_changed?

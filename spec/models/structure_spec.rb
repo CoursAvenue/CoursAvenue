@@ -139,6 +139,20 @@ describe Structure do
         expect(structure.owned_tags.length).to eq (length + 1)
       end
     end
+  end
 
+  describe '#create_user_profile_for_message' do
+    let(:structure) { FactoryGirl.create(:structure) }
+    let(:user)      { FactoryGirl.create(:user) }
+    before do
+      @user_profile_count = structure.user_profiles.count
+      structure.create_user_profile_for_message(user)
+    end
+    it "creates a user profile" do
+      expect(structure.user_profiles.length).to eq (@user_profile_count + 1)
+    end
+    it "affects tag to the user profile" do
+      expect(structure.user_profiles.last.tags.map(&:name)).to include UserProfile::DEFAULT_TAGS[:contacts]
+    end
   end
 end

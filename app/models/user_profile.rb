@@ -3,8 +3,8 @@ class UserProfile < ActiveRecord::Base
   acts_as_taggable_on :tags
 
   DEFAULT_TAGS = {
-    :comments => 'À déposé un avis',
-    :contacts => 'À demandé des infos'
+    :comments => 'Avis',
+    :contacts => "Demande d'info"
   }
 
   belongs_to :structure
