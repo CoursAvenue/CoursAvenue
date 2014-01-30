@@ -5,11 +5,29 @@ class Pro::Structures::UserProfilesController < Pro::ProController
 
   layout 'admin'
 
+  # instead of paginating, we will get all the results and
+  # return their ids, as well as the 30 results that correspond
+  # to the given page. This is so that we can intersect
+  # the filtered results with the selected results
   def index
+    # we will paginate ourselves, thank you
+    page                  = params[:page].to_i || 1
+    per_page              = 30
+
+    # set the page info to get EVERYTHING
     params[:structure_id] = @structure.id
-    @ids = @structure.user_profiles.map(&:id) # all the ids
-    @user_profiles_search = UserProfileSearch.search(params)
-    @user_profiles = @user_profiles_search.results
+    params[:per_page]     = @structure.user_profiles.count
+    params[:page]         = 1
+
+    # collect the ids
+    @user_profiles_search  = UserProfileSearch.search(params)
+    @user_profiles         = @user_profiles_search.results
+    @ids                   = @user_profiles.map(&:id) # all the ids
+
+    # get the relevant page of results
+    first          = ( page - 1 ) * per_page
+    last           = first + 30
+    @user_profiles = @user_profiles[first, last]
 
     # TODO this is probably a bad idea
     if @structure.busy == "true" && Delayed::Job.count == 0

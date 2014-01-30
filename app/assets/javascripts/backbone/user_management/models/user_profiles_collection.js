@@ -84,7 +84,7 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             // when we get back a filtered result set, we will want to set the selection's
             // length to represent the intersection between records that are selected
             // and records that appear in the filtered result set
-            var result_set        = _.pluck(response.user_profiles, "id");
+            var result_set        = response.meta.ids;
             var visible_selection = _.intersection(result_set, this.selected_ids);
 
             this.setSelectedCount(visible_selection.length);
@@ -179,7 +179,6 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         // a filter
         setSelectedCount: function (length) {
             this.selected_length = length;
-
 
             this.trigger("selection:counts", {
                 count: this.getSelectedCount(),
