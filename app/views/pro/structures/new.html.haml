@@ -5,7 +5,7 @@
     %p
       %b 100% gratuit, simple et rapide.
     %hr
-    .grid--full.text--center.push--top.visuallyhidden--palm
+    .grid--full.text--center.push--top
       .grid__item.text--center.v-middle.relative{style: 'width: 27%;'}>
         %a.muted-link.blue-box.islet.word-break-normal
           %h5
@@ -61,7 +61,7 @@
       .push--bottom.text--center
         = f.submit 'Valider', class: 'btn--large btn btn--large btn--green'
   - unless request.path == '/sms'
-    .grid__item.one-third.visuallyhidden--palm
+    .grid__item.one-third
       .bordered--left.soft--left
         %h4
           Plus de #{Admin.count.round(-2)} partenaires ont déjà été recommandés :
