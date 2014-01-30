@@ -1,9 +1,9 @@
 <div class="grid--full">
     <div class="grid__item one-half very-soft">
-        <div class="push-half--bottom">
+        <div>
             <div class="btn btn--small text--center" data-behavior="deselect-all">
                 <i class="fa fa-times"></i>
-                <span>Vider la Sélection</span>
+                <span>Déselectionner</span>
             </div>
             <div data-behavior="details" class="inline-block">
                 <div class="hidden" data-target="select-all">
@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <div class="btn btn--small text--center" data-behavior="filters">
+        <div class="btn btn--small text--center push-half--top" data-behavior="filters">
             <i class="fa fa-search"></i>
             Filtrer
         </div>
@@ -31,7 +31,7 @@
                 <div class="btn btn--small            text--center" data-behavior="cancel">Annuler</div>
             </div>
         </div>
-        <div class="hidden soft--top" data-target="bulk-actions">
+        <div class="hidden soft-half--top" data-target="bulk-actions">
             <div class="btn btn--small text--center" data-behavior="manage-tags">
                 <i class="fa fa-tags"></i>
                 Gérer les Tags
@@ -45,7 +45,7 @@
 </div>
 
 <div data-behavior="details">
-    <div class="hidden" data-target="manage-tags">
+    <div class="hidden text--right" data-target="manage-tags">
         <label class="inline-block v-middle" for="tag-action">Tag à ajouter :</label>
         <input class="inline-block v-middle" id="tag-action" type="text" data-value="tag-names"></input>
         <div class="inline-block v-middle btn btn--small btn--small text--center" data-behavior="add-tags">Ajouter</div>
