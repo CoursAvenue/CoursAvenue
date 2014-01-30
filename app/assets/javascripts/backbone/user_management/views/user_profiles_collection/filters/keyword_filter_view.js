@@ -3,7 +3,7 @@ UserManagement.module('Views.UserProfilesCollection.Filters', function(Module, A
 
     Module.KeywordFilterView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'keyword_filter_view',
-        className: 'grid--full',
+        className: '',
 
         initialize: function () {
             this.announce = _.debounce(this.announce, 500);

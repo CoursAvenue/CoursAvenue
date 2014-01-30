@@ -128,12 +128,14 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
 
         showDetails: function (target) {
             var $details = this.$('[data-target=' + target + ']');
-            $details.slideDown();
+            // $details.slideDown();
+            $details.show();
         },
 
         hideDetails: function (target) {
             var $details = this.$('[data-target=' + target + ']');
-            $details.slideUp();
+            // $details.slideUp();
+            $details.hide();
         },
 
         manageTags: function () {
