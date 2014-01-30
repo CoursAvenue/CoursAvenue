@@ -26,7 +26,7 @@ class Pro::SubjectsController < Pro::ProController
   def create
     @subject = Subject.create params[:subject]
     respond_to do |format|
-      format.html { redirect_to pro_subjects_path}
+      format.html { redirect_to all_pro_subjects_path}
     end
   end
 

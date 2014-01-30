@@ -6,5 +6,5 @@
           = image_tag 'logo_pro.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
         - else
           = image_tag 'logo.png', width: 200, alt: 'Tous les cours et stages autour de vous | CoursAvenue.com'
-    .grid__item.one-half.v-middle.text--right.visuallyhidden--palm
+    .grid__item.one-half.v-middle.text--right
       = render partial: 'shared/question_dropdown_menu', locals: {position: 'right'}
