@@ -29,11 +29,11 @@
           %li
             - if @structure.profile_completed?
               %i.fa.fa-check-square-o
-              %span.line-through--gray Compléter mes informations générales
+              %span.line-through--gray Compléter mes informations générales et ajouter un logo
             - else
               = link_to edit_pro_structure_path(@structure), class: 'profile-task-uncomplete' do
                 %i.fa.fa-square-o
-                Compléter mes informations générales
+                Compléter mes informations générales et ajouter un logo
           %li
             - if @comments.any?
               %i.fa.fa-check-square-o
