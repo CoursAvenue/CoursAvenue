@@ -527,6 +527,9 @@ class Structure < ActiveRecord::Base
   # ( tags.length + profile.tags.length * 2 ) tags
   # However, in practice it is returning the right
   # thing to the client.
+  # TODO I think the problem is here: the tags are
+  # being added in such a way that they do not show
+  # up in a search
   def add_tags_on(profile, tags)
       tags = tags.split(',') if tags.is_a? String
 
