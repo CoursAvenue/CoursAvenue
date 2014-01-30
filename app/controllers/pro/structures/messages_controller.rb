@@ -19,7 +19,7 @@ class Pro::Structures::MessagesController < ApplicationController
   # This is done by default by mailboxer
   # Recipients receive only one person here
   def create
-    @recipients   = @structure.users.find(params[:message][:recipients])
+    @recipients   = @structure.user_profiles.find(params[:message][:recipients].reject(&:blank?)).map(&:user)
     @receipt      = @admin.send_message(@recipients, params[:message][:body], params[:message][:subject])
     @conversation = @receipt.conversation
     respond_to do |format|
