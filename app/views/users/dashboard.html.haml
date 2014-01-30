@@ -35,11 +35,11 @@
           %li
             - if current_user.gender and current_user.birthdate
               %i.fa.fa-check-square-o
-              %span.line-through--gray Compléter mes informations générales
+              %span.line-through--gray Compléter mes informations générales et ajouter un logo
             - else
               = link_to edit_user_path(current_user), class: 'profile-task-uncomplete' do
                 %i.fa.fa-square-o
-                Compléter mes informations générales
+                Compléter mes informations générales et ajouter un logo
           %li
             - if current_user.passions.any?
               %i.fa.fa-check-square-o

@@ -32,20 +32,20 @@
         = link_to city_path('paris'), class: 'relative block', title: "Guide des cours à Paris" do
           .home-screen-gallery__title Guide des cours à Paris
       .grid__item.one-fifth.lap-one-half.palm-one-whole.home-screen-gallery__link.home-screen-gallery__link-trial>
-        = link_to structures_path(trial_course_amount: 0), class: 'relative block', title: "Cours d'essai gratuits" do
+        = link_to structures_path(lat: 48.8592, lng: 2.3417, trial_course_amount: 0), class: 'relative block', title: "Cours d'essai gratuits" do
           .home-screen-gallery__title Cours d'essai gratuits
       .grid__item.one-fifth.lap-one-half.palm-one-whole.home-screen-gallery__link.home-screen-gallery__link-kids>
-        = link_to structures_path(audience_ids: [Audience::KID.id]), class: 'relative block', title: "Cours pour enfants" do
+        = link_to structures_path(lat: 48.8592, lng: 2.3417, audience_ids: [Audience::KID.id]), class: 'relative block', title: "Cours pour enfants" do
           .home-screen-gallery__title Cours pour enfants
       .grid__item.one-fifth.lap-one-half.palm-one-whole.home-screen-gallery__link.home-screen-gallery__link-weekend>
-        = link_to structures_path(week_days: [0, 6]), class: 'relative block', title: "Cours le week-end" do
+        = link_to structures_path(lat: 48.8592, lng: 2.3417, week_days: [0, 6]), class: 'relative block', title: "Cours le week-end" do
           .home-screen-gallery__title Cours le week-end
       .grid__item.one-fifth.lap-one-half.palm-one-whole.home-screen-gallery__link.home-screen-gallery__link-night>
-        = link_to structures_path(start_hour: 18), class: 'relative block', title: "Cours du soir" do
+        = link_to structures_path(lat: 48.8592, lng: 2.3417, start_hour: 18), class: 'relative block', title: "Cours du soir" do
           .home-screen-gallery__title Cours du soir
 
   .push-half--top.center-block{style: 'width: 800px;'}
-    .grid--full.visuallyhidden--palm.visuallyhidden--lap
+    .grid--full.visuallyhidden--lap
       .grid__item.text--center.epsilon.soft-half.relative.v-middle{style: 'width: 30%;' }>
         = link_to structures_path, class: 'block muted-link pointer white-box soft-half white-box--rounded', data: { toggle: 'popover', content: "Trouvez le cours correspondant à tous vos critères : discipline, lieu, niveau, horaires, prix, etc.", 'original-title' => 'Trouvez', trigger: 'hover', placement: 'top'} do
           = image_tag "icons/search-geoloc.png", height: 27, class: 'v-middle push-half--right'

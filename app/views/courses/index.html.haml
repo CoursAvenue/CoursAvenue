@@ -9,7 +9,7 @@
 
 = render 'search_form'
 .grid.stickem-container.relative
-  %section.grid__item.four-tenths.visuallyhidden--lap.visuallyhidden--palm.stickem.absolute>
+  %section.grid__item.four-tenths.visuallyhidden--lap.stickem.absolute>
     = render 'side_search_form'
   %section.grid__item.six-tenths.lap-one-whole.palm-one-whole.course-list-wrapper>
     %ol.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
@@ -55,7 +55,7 @@
             %a.filter-select{href: '#', class: (params[:sort] == 'rating_desc' ? 'bold' : ''), data: {value: 'rating_desc'}} Popularité
             \/
             %a.filter-select{href: '#', class: (params[:sort] == 'price_asc' ? 'bold' : ''), data: {value: 'price_asc'}} Prix
-        .flexbox__item.visuallyhidden--palm
+        .flexbox__item
           .text--right= paginate @courses, window: 1, outer_window: 1
       %ul.block-list.course-list
         = render partial: 'courses/course', :collection => @courses
