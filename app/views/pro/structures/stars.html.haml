@@ -28,7 +28,7 @@
           %i.lbc-brand-icon
 
         %td
-          - if structure.widget_url
+          - if structure.widget_url.present?
             = link_to structure.widget_url, target: '_blank' do
               %i.fa.fa-check
           = structure.widget_status
