@@ -108,12 +108,11 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             return (this.selected_ids.indexOf(model.get("id")) != -1);
         },
 
-        /* returns true if any filters are being applied
-        *  currently the filters are limited to:
-        *   - name
+        /* returns true if any advanced filters are being applied
+        *  currently the advanced filters are limited to:
         *   - tags[] */
-        isFiltered: function () {
-            return _.has(this.server_api, "name") || _.has(this.server_api, "tags[]");
+        isAdvancedFiltered: function () {
+            return _.has(this.server_api, "tags[]");
         },
 
         /* DEEP SELECT */
@@ -229,8 +228,6 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
                     self.selectAll(); // to trigger the checkboxes
 
                     self.setSelectedCount(data.ids.length);
-
-                    GLOBAL.flash(self.getSelectedCount() + " lignes selectionnées.", 'notice'); // TODO needs the notification object
                 }
             });
         },

@@ -29,6 +29,9 @@ class UserProfile < ActiveRecord::Base
     text :notes
     text :phone
     text :mobile_phone
+    text :tag_names do
+      self.tags.map(&:name).join(' ')
+    end
 
     # for sorting in user_profiles table
     string :email
@@ -36,7 +39,7 @@ class UserProfile < ActiveRecord::Base
     string :last_name
 
     string :tag_names, multiple: true do
-        self.tags.map(&:name)
+      self.tags.map(&:name)
     end
 
     integer :structure_id
