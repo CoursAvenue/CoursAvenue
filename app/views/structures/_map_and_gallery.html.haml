@@ -51,7 +51,7 @@
   - if medias.any?
     #gallery.hidden
       .media-gallery>
-        = render partial: 'medias/media', collection: medias, locals: { lazy: true }
+        = render partial: 'medias/media', collection: medias[1..medias.length], locals: { lazy: true }
 
 = content_for :scripts do
   :javascript

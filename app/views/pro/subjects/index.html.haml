@@ -32,9 +32,16 @@
           - if subject.image.present?
             %i.fa.fa-check
         %td.nowrap
-          = link_to 'Editer', edit_pro_subject_path(subject)
+          = link_to edit_pro_subject_path(subject) do
+            - if subject.title.present? and subject.good_to_know.present?
+              %i.fa.fa-check
+            Editer
           \/
-          = link_to 'Paris', new_pro_city_subject_info_path(city_id: @paris.id, subject_id: subject.id)
+          = link_to new_pro_city_subject_info_path(city_id: @paris.id, subject_id: subject.id) do
+            - city_subject_info = CitySubjectInfo.load(@paris.id, subject.id)
+            - if city_subject_info and city_subject_info.where_to_practice.present?
+              %i.fa.fa-check
+            Paris
         %td.nowrap
           = link_to 'Lien', vertical_page_url_for(subject), target: :_blank
           \/

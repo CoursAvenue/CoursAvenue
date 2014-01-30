@@ -23,7 +23,10 @@ class Pro::CitySubjectInfosController < Pro::ProController
       @city_subject_info = CitySubjectInfo.new(city_id: @city.id, subject_id: @subject.id)
     end
     @city_subject_info.update_attributes params[:city_subject_info]
-    redirect_to pro_subjects_path
+    respond_to do |format|
+      format.js { render nothing: true }
+      format.html { redirect_to pro_subjects_path }
+    end
   end
 
 end

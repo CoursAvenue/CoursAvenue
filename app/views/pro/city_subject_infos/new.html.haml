@@ -6,8 +6,6 @@
   = simple_form_for @city_subject_info, url: pro_city_subject_infos_path, method: :post do |f|
     = f.input :subject_id , as: :hidden
     = f.input :city_id , as: :hidden
-    = f.input :title, label: 'Titre'
-    = f.input :description, input_html: { data: { behavior: 'autoresize' } }
     = f.input :where_to_practice, input_html: { data: { behavior: 'autoresize'} }
     = f.input :where_to_suit_up, input_html: { data: { behavior: 'autoresize'} }
     = f.input :average_price, input_html: { data: { behavior: 'autoresize'} }
