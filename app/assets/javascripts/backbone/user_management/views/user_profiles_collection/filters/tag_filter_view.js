@@ -32,8 +32,13 @@ UserManagement.module('Views.UserProfilesCollection.Filters', function(Module, A
             this.trigger("filter:tags", { "tags[]": this.getEdits().data });
         },
 
+        /* when, for example, the page loads, we may need to build
+         *  all the little taggies */
         buildTaggies: function (tags) {
-            // TODO when we get tags from the server we need to make them taggy
+            _.each(tags, _.bind(function (tag) {
+                var $tag = this.buildTaggy(tag);
+                this.ui.$container.append($tag);
+            }, this));
         }
     });
 });

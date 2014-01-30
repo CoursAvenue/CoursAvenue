@@ -105,6 +105,14 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             return (this.selected_ids.indexOf(model.get("id")) != -1);
         },
 
+        /* returns true if any filters are being applied
+        *  currently the filters are limited to:
+        *   - name
+        *   - tags[] */
+        isFiltered: function () {
+            return _.has(this.server_api, "name") || _.has(this.server_api, "tags[]");
+        },
+
         /* DEEP SELECT */
         /* deep select is implemented by having an array of ids. When
          * a user chooses deep select, we replace the array of ids with

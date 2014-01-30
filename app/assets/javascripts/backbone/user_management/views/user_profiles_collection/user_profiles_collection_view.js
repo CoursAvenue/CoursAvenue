@@ -52,7 +52,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.getCurrentlyEditing().finishEditing({ restore: false });
         },
 
-        /* Controls for canceling/committing edits */
         cancel: function (e) {
             this.getCurrentlyEditing().finishEditing({ restore: true });
         },
@@ -62,7 +61,6 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         bulkSelect: function (e) {
-
             var checked = e.currentTarget.checked;
 
             (checked)? this.selectAll() : this.deselectAll();
@@ -250,6 +248,14 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             };
         },
 
+        onAfterShow: function () {
+            this.announcePaginatorUpdated();
+
+            if (this.collection.isFiltered()) {
+                this.announceInitialFilters();
+            }
+        },
+
         /* override inherited method */
         announcePaginatorUpdated: function () {
             if (this.collection.totalPages == undefined || this.collection.totalPages < 1) {
@@ -270,13 +276,16 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 sort:                this.collection.server_api.sort
             });
 
-            this.trigger('user_profiles:updated:tag:filters', {
-                tags: this.collection.server_api.tags
-            });
-
             /* set the header checkbox based on the deep select */
             var checked = (this.collection.isDeep() === true)? true : "";
             this.ui.$checkbox.prop("checked", checked);
+        },
+
+        announceInitialFilters: function () {
+            /* the filters have been set up and are ready to be shown */
+            this.trigger('user_profiles:updated:filters');
+            this.trigger('user_profiles:updated:tag:filters', this.collection.server_api["tags[]"]);
+            this.trigger('user_profiles:updated:keyword:filters', this.collection.server_api.name);
         },
 
         /* OVERRIDE */

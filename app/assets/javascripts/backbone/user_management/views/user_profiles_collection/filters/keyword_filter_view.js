@@ -9,11 +9,6 @@ UserManagement.module('Views.UserProfilesCollection.Filters', function(Module, A
             this.announce = _.debounce(this.announce, 500);
         },
 
-        setup: function (data) {
-            this.ui.$search_input.attr('value', data.name);
-            this.previous_searched_name = data.name;
-        },
-
         ui: {
             $search_input: 'input',
         },
@@ -33,6 +28,10 @@ UserManagement.module('Views.UserProfilesCollection.Filters', function(Module, A
             }
         },
 
+        populateInput: function (name) {
+            this.ui.$search_input.attr('value', name);
+            this.previous_searched_name = name;
+        },
 
         // Clears all the given filters
         clear: function () {

@@ -41,7 +41,7 @@ UserManagement.addInitializer(function(options) {
 
     UserManagement.mainRegion.show(layout);
 
-    layout.on('controls:show:filters', layout.showFilters)
+    layout.on('controls:show:filters', layout.showFilters); // very nice!
 
     var Controls = UserManagement.Views.UserProfilesCollection.Controls;
 
@@ -68,17 +68,22 @@ UserManagement.addInitializer(function(options) {
     layout.showWidget(bulk_action_controls, {
         events: {
             'user_profiles:changed:editing'   : 'toggleEditManager',
-            'user_profiles:update:selected'   : 'updateSelected'
+            'user_profiles:update:selected'   : 'updateSelected',
+            'user_profiles:updated:filters'   : 'showFilters'
         }
     });
 
     // TODO for now the showFilters method is living here
     // but later we will need to find a better place
-    layout.showWidget(keyword_filter);
+    layout.showWidget(keyword_filter, {
+        events: {
+            'user_profiles:updated:keyword:filters'    : 'populateInput'
+        }
+    });
 
     layout.showWidget(tag_filter, {
         events: {
-            'user_profiles:update:tag:filters'    : 'buildTaggies'
+            'user_profiles:updated:tag:filters'    : 'buildTaggies'
         }
     });
 
