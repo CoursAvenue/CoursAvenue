@@ -32,16 +32,18 @@ class Pro::Structures::BulkUserProfilesController < Pro::ProController
 
   # from an array of ids, we create a delayed job that works on the
   # profiles associated with those ids
+  # we will potentially receive ids of items not in the current
+  # filter, so we need to use search to recover the intersection
   def create
+    params[:search][:per_page] = @structure.user_profiles.count
+    params[:search][:page]     = 1
+
+    # we've included
+    @user_profiles_search  = UserProfileSearch.search(params[:search])
+    @user_profiles         = @user_profiles_search.results
+
+    @structure.busy = true # we are working now, shhh
     tags = params.delete(:tags)
-
-    if params.has_key? :ids and not params[:ids].nil?
-      @user_profiles = UserProfile.where(id: params[:ids])
-    else
-      @user_profiles = UserProfile.all
-    end
-
-    @structure.busy = true
     @structure.perform_bulk_user_profiles_job(@user_profiles.map(&:id), :add_tags_on, tags)
 
     respond_to do |format|

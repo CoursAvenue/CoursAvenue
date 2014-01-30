@@ -40,6 +40,7 @@ class UserProfile < ActiveRecord::Base
     end
 
     integer :structure_id
+    integer :id
   end
 
   def full_name

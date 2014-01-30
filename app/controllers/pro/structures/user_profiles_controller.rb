@@ -11,7 +11,7 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   # the filtered results with the selected results
   def index
     # we will paginate ourselves, thank you
-    page                  = params[:page].to_i || 1
+    page                  = (params[:page].to_i > 0)? params[:page].to_i : 1;
     per_page              = 30
 
     # set the page info to get EVERYTHING
@@ -28,6 +28,7 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     first          = ( page - 1 ) * per_page
     last           = first + 30
     @user_profiles = @user_profiles[first, last]
+
 
     # TODO this is probably a bad idea
     if @structure.busy == "true" && Delayed::Job.count == 0

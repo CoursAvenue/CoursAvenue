@@ -236,7 +236,8 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         },
 
         bulkAddTags: function (tags) {
-            var ids = this.getSelected();
+            var params = _.clone(this.server_api);
+            params.ids = this.getSelected();
 
             // when we have deep selection we have to pass in the ids of the
             // models that we _do not_ want to affect
@@ -244,9 +245,8 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
                 type: "POST",
                 url: this.url.basename + '/bulk.json',
                 data: {
-                    ids: ids,
                     tags: tags,
-                    search: this.server_api
+                    search: params
                 }
             });
         },
