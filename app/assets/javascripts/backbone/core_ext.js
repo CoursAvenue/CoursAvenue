@@ -195,6 +195,12 @@ _.extend(Marionette.Application.prototype, {
 
         delete new_app.mainRegion;
 
+        // TODO this will need to go deeper: we need to set the back
+        // references for all the modules so that new called to
+        // .module will use the right app context
+        new_app.Views.app  = new_app;
+        new_app.Models.app = new_app;
+
         return new_app;
     },
 

@@ -7,3 +7,4 @@
 //---------- Models
 
 //---------- Views
+//= require ./views/manifest
