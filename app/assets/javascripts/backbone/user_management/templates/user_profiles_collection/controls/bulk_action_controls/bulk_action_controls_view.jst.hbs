@@ -14,9 +14,11 @@
                 </div>
             </div>
         </div>
-        <div>
-            <strong class="v-middle soft-half--right">Filtrer par : </strong>
-            <div data-type="keyword-filter" class="inline-block v-middle"></div>
+        <div class="grid--full">
+            <div class="grid__item one-fifth v-middle soft-half--right">
+                <strong>Filtrer par : </strong>
+            </div>{{!--
+        --}}<div class="grid__item four-fifths v-middle" data-type="keyword-filter"></div>
         </div>
         <div>
             <a href="javascript:void(0);" class="milli" data-behavior="filters">Afficher les filtres avancés</a>
@@ -37,23 +39,22 @@
                 <div class="btn btn--small            text--center" data-behavior="cancel">Annuler</div>
             </div>
         </div>
-        <div class="hidden soft-half--top" data-target="bulk-actions">
+        <div class="hidden soft-half--top push-half--bottom" data-target="bulk-actions">
             <div class="btn btn--small text--center" data-behavior="manage-tags">
                 <i class="fa fa-tags"></i>
-                Gérer les Tags
+                Ajouter un tag à la sélection
             </div>
             <div class="btn btn--red    btn--small text--center" data-behavior="destroy">
                 <i class="fa fa-trash-o"></i>
-                Supprimer les élèves
+                Supprimer la sélection
             </div>
         </div>
-    </div>
-</div>
-
-<div data-behavior="details">
-    <div class="hidden text--right" data-target="manage-tags">
-        <label class="inline-block v-middle" for="tag-action">Tag à ajouter :</label>
-        <input class="inline-block v-middle" id="tag-action" type="text" data-value="tag-names"></input>
-        <div class="inline-block v-middle btn btn--small btn--small text--center" data-behavior="add-tags">Ajouter</div>
+        <div data-behavior="details">
+            <form class="hidden text--right" data-target="manage-tags" data-behavior="add-tags-form">
+                <label class="inline-block v-middle" for="tag-action">Nom du tag :</label>
+                <input class="inline-block v-middle input--small" placeholder="Cours du lundi" type="text" data-value="tag-names"></input>
+                <button class="inline-block v-middle btn btn--small btn--small text--center" type="submit">Ajouter</button>
+            </form>
+        </div>
     </div>
 </div>
