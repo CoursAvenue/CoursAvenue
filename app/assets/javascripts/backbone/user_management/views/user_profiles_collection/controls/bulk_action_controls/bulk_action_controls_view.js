@@ -151,7 +151,9 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         /* TODO implement the notifications card, and then add
          *  a notification that checks with the user "are you suuuuuuur?" */
         destroySelected: function () {
-            this.trigger("controls:destroy:selected");
+            if (confirm('Êtes-vous sûr de supprimer tous les contacts sélectionnés ?')) {
+                this.trigger("controls:destroy:selected");
+            }
         },
 
         newUserProfile: function (e) {
