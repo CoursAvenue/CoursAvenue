@@ -8,4 +8,5 @@
     %h1.gamma.blue.flush--bottom= structure.name
     %p.push-half--bottom
       %i.fa.fa-tags
-      %i= truncate([join_child_subjects_text(structure), structure.course_names].compact.join(', '), length: 190)
+      - subject_course_names = [join_child_subjects_text(structure), structure.course_names].compact.join(', ')
+      %i{data: { behavior: 'tooltip', title: subject_course_names }}= truncate(subject_course_names, length: 190)

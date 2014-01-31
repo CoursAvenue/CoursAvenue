@@ -8,11 +8,9 @@ class PlanningSearch
     @search = Sunspot.search(Planning) do
       if options[:group]
         group options[:group]
-        fulltext params[:name] if params[:name].present?
+        keywords params[:name] if params[:name].present?
       elsif params[:name].present?
-        fulltext params[:name] do
-          fields(:name, :course_name, :course_subjects_name, :course_description)
-        end
+        keywords params[:name], fields: [:name, :course_name, :course_subjects_name, :course_description]
       end
 
       # --------------- Geolocation
