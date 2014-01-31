@@ -1,11 +1,11 @@
 <div class="grid--full">
     <div class="grid__item one-half very-soft">
         <div class="push-half--bottom">
-            <div class="btn btn--small text--center" data-type="quick-select">
+            <div class="btn btn--small text--center v-middle" data-type="quick-select">
                 <i class="fa fa-check"></i>
-                <span>Select All</span>
+                <span>Sélectionner la page</span>
             </div>
-            <div data-behavior="details" class="inline-block">
+            <div class="inline-block v-middle" data-behavior="details">
                 <div class="hidden" data-target="select-all">
                     <p class="flush">
                         <span data-behavior="selected-count">30</span> élèves sélectionnés.
@@ -20,8 +20,11 @@
             </div>{{!--
         --}}<div class="grid__item four-fifths v-middle" data-type="keyword-filter"></div>
         </div>
-        <div>
-            <a href="javascript:void(0);" class="milli" data-behavior="filters">Afficher les filtres avancés</a>
+        <div class="grid--full">
+            <div class="grid__item one-fifth milli">&nbsp;</div>{{!--
+        --}}<div class="grid__item four-fifths">
+                <a href="javascript:void(0);" class="milli" data-behavior="filters">Afficher les filtres avancés</a>
+            </div>
         </div>
         <div class="hidden" data-type="filters-wrapper" style="display: none;">
           <div data-type="tag-filter"></div>
