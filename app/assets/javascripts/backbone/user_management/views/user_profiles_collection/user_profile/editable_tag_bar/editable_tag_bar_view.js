@@ -66,9 +66,10 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
                 // name: 'keywords', // We don't want to cache
                 limit: 15,
                 valueKey: 'name',
-                prefetch: {
-                    url: this.url
-                }
+                remote: this.url
+                // prefetch: {
+                //     url: this.url
+                // }
             }]);
 
             this.$('.twitter-typeahead').addClass('inline-block v-middle')
