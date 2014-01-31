@@ -22,4 +22,8 @@ class Pro::HomeController < Pro::ProController
 
   def jpo
   end
+
+  def convictions
+    redirect_to pro_pages_why_be_recommended_url(subdomain: 'pro'), status: 301
+  end
 end
