@@ -530,25 +530,12 @@ class Structure < ActiveRecord::Base
   # TODO I think the problem is here: the tags are
   # being added in such a way that they do not show
   # up in a search
-  def add_tags_on(profile, tags)
-      tags = tags.split(',') if tags.is_a? String
+  def add_tags_on(user_profile, tags)
+    tags = tags.split(',') if tags.is_a? String
 
-      tag_list = profile.tags.map(&:name)
-      tag_list = tag_list + tags
-      self.tag(profile, with: tag_list.uniq.join(','), on: :tags)
-  end
-
-  # it should call the method with the given name
-  # the method should receive the arguments it expects
-  # after the call, busy should be false
-  def perform_bulk_user_profiles_job(ids, job, *args)
-
-    UserProfile.find(ids).each do |profile|
-      self.send(job, profile, *args)
-    end
-
-    self.busy = false
-    self.save
+    tag_list = user_profile.tags.map(&:name)
+    tag_list = tag_list + tags
+    self.tag(user_profile, with: tag_list.uniq.join(','), on: :tags)
   end
 
   def create_tag tag_name

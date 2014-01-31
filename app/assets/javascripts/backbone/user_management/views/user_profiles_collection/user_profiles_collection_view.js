@@ -284,13 +284,12 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         announceInitialFilters: function () {
             /* the filters have been set up and are ready to be shown */
-            this.trigger('user_profiles:updated:keyword:filters', decodeURIComponent(this.collection.server_api.name));
+            this.trigger('user_profiles:updated:keyword:filters', this.collection.server_api.name);
         },
 
         announceInitialAdvancedFilters: function () {
             this.trigger('user_profiles:updated:filters');
-            var decoded_tags = _.map(this.collection.server_api["tags[]"], function(tag) { return decodeURIComponent(tag); } )
-            this.trigger('user_profiles:updated:tag:filters', decoded_tags);
+            this.trigger('user_profiles:updated:tag:filters', this.collection.server_api["tags[]"]);
         },
 
         /* OVERRIDE */

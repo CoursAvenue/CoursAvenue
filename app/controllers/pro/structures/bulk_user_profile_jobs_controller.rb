@@ -1,7 +1,7 @@
 # encoding: utf-8
-class Pro::Structures::BulkUserProfilesController < Pro::ProController
+class Pro::Structures::BulkUserProfileJobsController < Pro::ProController
   attr_accessor :working
-  DELAY_THRESHOLD = 50
+  DELAY_THRESHOLD = 30 # Because it's the number of user_profile we show per page
 
   before_action :authenticate_pro_admin!
   before_action :load_structure
@@ -45,11 +45,14 @@ class Pro::Structures::BulkUserProfilesController < Pro::ProController
     @user_profiles         = @user_profiles_search.results
 
     @structure.busy = true # we are working now, shhh
-    tags = params.delete(:tags)
+
+    delegate_params = params.delete(:delegate_params)
+    bulk_action     = params.delete(:bulk_action).to_sym
+
     if @user_profiles.length > DELAY_THRESHOLD
-      @structure.delay.perform_bulk_user_profiles_job(@user_profiles.map(&:id), :add_tags_on, tags)
+      UserProfile.delay.perform_bulk_job(@user_profiles.map(&:id), bulk_action, delegate_params)
     else
-      @structure.perform_bulk_user_profiles_job(@user_profiles.map(&:id), :add_tags_on, tags)
+      UserProfile.perform_bulk_job(@user_profiles.map(&:id), bulk_action, delegate_params)
     end
 
     respond_to do |format|
@@ -58,9 +61,11 @@ class Pro::Structures::BulkUserProfilesController < Pro::ProController
     end
   end
 
+
   private
 
   def load_structure
     @structure = Structure.friendly.find params[:structure_id]
   end
+
 end

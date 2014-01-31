@@ -244,13 +244,20 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             return this.deep_select;
         },
 
-        // TODO ask NIMA about this: on line 3 we are
-        // renaming ["tags[]"] to "tags", this is because the
-        // tags array was becoming nil on the server side.
         bulkAddTags: function (tags) {
+            this.bulkAction('add_tags', tags);
+        },
+
+        destroySelected: function () {
+            this.bulkAction('destroy');
+        },
+
+        bulkAction: function (action_name, delegate_params) {
+            delegate_params = delegate_params || {}
+
             var params = _.clone(this.server_api);
             params.ids = this.getSelected();
-            params.tags = params["tags[]"];
+            params.tags = params["tags[]"]; // Prevent from having nil as params[:search][:tags]
 
             // when we have deep selection we have to pass in the ids of the
             // models that we _do not_ want to affect
@@ -258,16 +265,12 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
                 type: "POST",
                 url: this.url.basename + '/bulk.json',
                 data: {
-                    tags: tags,
+                    bulk_action:     action_name,
+                    delegate_params: delegate_params,
                     search: params
                 }
             });
-        },
-
-        // we need to implement this to work with deep select
-        // probably we will end up sending the bulk delete message
-        destroySelected: function () {
-            // TODO
         }
+
     });
 });

@@ -53,6 +53,29 @@ class UserProfile < ActiveRecord::Base
   def self.import(file)
   end
 
+  ########### For Bulk actions
+
+  # it should call the method with the given name
+  # the method should receive the arguments it expects
+  # after the call, the structure attribute busy should be false
+  def self.perform_bulk_job(ids, job, *args)
+    args = nil if args.compact.empty? # Prevent from [nil]
+
+    user_profiles = self.find(ids)
+    structure     = user_profiles.first.structure
+
+    user_profiles.each do |profile|
+      profile.send(job, *args)
+    end
+
+    structure.busy = false
+    structure.save
+  end
+
+  def add_tags(tags)
+    self.structure.add_tags_on(self, tags)
+  end
+
   private
 
   def affect_email_if_empty
