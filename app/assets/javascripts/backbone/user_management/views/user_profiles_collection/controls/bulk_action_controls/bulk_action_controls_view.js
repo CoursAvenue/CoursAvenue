@@ -2,6 +2,8 @@
 /* just a basic marionette view */
 UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls', function(Module, App, Backbone, Marionette, $, _) {
 
+    var ENTER     = 13;
+
     Module.BulkActionControlsView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'bulk_action_controls_view',
         tagName: 'div',
@@ -27,9 +29,9 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             'click [data-behavior=deep-select]'    : 'deepSelect',
             /* TODO do try to make this a proper tag bar by installing tag bar */
             'click [data-behavior=manage-tags]'    : 'manageTags',
-            'click [data-behavior=add-tags]'       : 'addTags',
+            'submit [data-behavior=add-tags-form]' : 'addTags',
             'click [data-behavior=destroy]'        : 'destroySelected',
-            'click [data-behavior=filters]'        : 'showFilters',
+            'click [data-behavior=filters]'        : 'showFilters'
         },
 
         showFilters: function () {
@@ -147,36 +149,31 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
         },
 
         showDetails: function (target) {
-            var $details = this.$('[data-target=' + target + ']');
-            // $details.slideDown();
-            $details.show();
+            this.$('[data-target=' + target + ']').show();
         },
 
         hideDetails: function (target) {
-            var $details = this.$('[data-target=' + target + ']');
-            // $details.slideUp();
-            $details.hide();
+            this.$('[data-target=' + target + ']').hide();
         },
 
         manageTags: function () {
-            this.showDetails("manage-tags");
+            this.$('[data-target=manage-tags]').toggle();
         },
 
-        addTags: function () {
+        addTags: function (event) {
+            event.preventDefault(); // Prevent the form to be submitted because it's a form
             this.hideDetails("manage-tags");
 
             var tags = this.ui.$tag_names.val();
             this.trigger("controls:add:tags", tags);
         },
 
-        manageTags: function () {
-            this.showDetails("manage-tags");
-        },
-
         /* TODO implement the notifications card, and then add
          *  a notification that checks with the user "are you suuuuuuur?" */
         destroySelected: function () {
-            this.trigger("controls:destroy:selected");
+            if (confirm('Êtes-vous sûr de supprimer tous les contacts sélectionnés ?')) {
+                this.trigger("controls:destroy:selected");
+            }
         },
 
         newUserProfile: function (e) {

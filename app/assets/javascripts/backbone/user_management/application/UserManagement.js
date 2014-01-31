@@ -48,7 +48,9 @@ UserManagement.addInitializer(function(options) {
     pagination_top       = new CoursAvenue.Views.PaginationToolView({});
     pagination_bottom    = new CoursAvenue.Views.PaginationToolView({});
     bulk_action_controls = new Controls.BulkActionControls.BulkActionControlsView({});
-    tag_filter           = new UserManagement.Views.UserProfilesCollection.Filters.TagFilterView({});
+    tag_filter           = new UserManagement.Views.UserProfilesCollection.Filters.TagFilterView({
+        url: user_profiles.url.basename + '/tags.json'
+    });
     keyword_filter       = new UserManagement.Views.UserProfilesCollection.Filters.KeywordFilterView({});
 
     layout.showWidget(pagination_top, {
