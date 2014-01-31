@@ -1,0 +1,15 @@
+
+<div class="grid--full">
+    <div class="grid__item v-middle one-fifth">
+        <strong class="gray">Date</strong>
+    </div><!--
+--><div class="grid__item v-middle four-fifths">
+        <div class="btn-group" data-toggle="buttons"><!--
+        --><% I18n.t('date.day_names').rotate[-2,3].each_with_index do |day, index| %><!--
+             --><label class="btn">
+                    <input type="checkbox" name="week_days[]" value="<%= (index == 6  ? 0 : index + 1) %>"><%= day.capitalize %>
+                </label><!--
+        --><% end %><!--
+    --></div>
+    </div>
+</div>
