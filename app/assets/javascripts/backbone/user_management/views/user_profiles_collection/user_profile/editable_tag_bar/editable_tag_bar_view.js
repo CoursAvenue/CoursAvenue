@@ -72,8 +72,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
                 // }
             }]);
 
-            this.$('.twitter-typeahead').addClass('inline-block v-middle')
-                                        .css({ width: '0%'});
+            this.$('.twitter-typeahead').hide();
 
             /* rebind the ui */
             this.bindUIElements();
@@ -168,16 +167,15 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.ui.$input.css({ display: "" });
             this.$('.twitter-typeahead').toggleClass('inline-block')
                                         .toggleClass('v-middle')
-                                        .css({ width: '100%'});
+                                        .css({ width: '100%'})
+                                        .show();
 
             this.$el.addClass("active");
         },
 
         deactivate: function () {
             this.ui.$input.css({ display: "none" });
-            this.$('.twitter-typeahead').toggleClass('inline-block')
-                                        .toggleClass('v-middle')
-                                        .css({ width: '0%'});
+            this.$('.twitter-typeahead').hide();
 
             this.$el.removeClass("active");
         },
