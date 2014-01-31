@@ -46,12 +46,21 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
             this.ui.$selected_count.html(data.count);
 
             if (data.count === 0) {
-                // selection is empty, hide the controls
+                this.setSelectButton({ select: true }); // show the select button
 
+                // selection is empty, hide the controls
                 this.hideDetails("select-all");
                 this.hideDetails("bulk-actions");
-            } else if (data.deep) {
+            } else {
+                this.setSelectButton({ select: false }); // show the deselect button
 
+                // normally, show everything
+                this.showDetails("select-all");
+                this.showDetails("bulk-actions");
+                this.showDetails("deep-select");
+            }
+
+            if (data.deep) {
                 // if we are in a deep select, then whenever
                 // the selection shrinks we should give the
                 // option to deep select again
@@ -60,12 +69,23 @@ UserManagement.module('Views.UserProfilesCollection.Controls.BulkActionControls'
                 } else {
                     this.showDetails("deep-select");
                 }
-            } else {
-                // normally, show everything
-                this.showDetails("select-all");
-                this.showDetails("bulk-actions");
-                this.showDetails("deep-select");
             }
+        },
+
+        setSelectButton: function (options) {
+            if (!options) {
+                return;
+            }
+
+            var icon     = (options.select)? "fa fa-check"  : "fa fa-times";
+            var text     = (options.select)? "Selectionner" : "Déselectionner";
+            var behavior = (options.select)? "select-all"   : "deselect-all";
+
+            var $button = this.$("[data-type=quick-select]");
+
+            $button.find("i").attr("class", icon);
+            $button.find("span").html(text);
+            $button.attr("data-behavior", behavior);
         },
 
         toggleEditManager: function (is_editing) {
