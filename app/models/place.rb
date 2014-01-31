@@ -8,6 +8,8 @@ class Place < ActiveRecord::Base
   has_many :contacts, as: :contactable, dependent: :destroy
   has_many :plannings, dependent: :destroy
 
+  after_save :reindex_structure_and_places
+
   accepts_nested_attributes_for :contacts,
                                 reject_if: lambda {|attributes| attributes.values.compact.reject(&:blank?).empty?},
                                 allow_destroy: true
@@ -33,6 +35,13 @@ class Place < ActiveRecord::Base
   def parisian?
     return false if self.location.nil? or self.location.zip_code.nil?
     return self.location.zip_code.starts_with? '75','77','78','91','92','93','94','95'
+  end
+
+  private
+
+  def reindex_structure_and_places
+    self.structure.index if self.structure
+    self.plannings.map(&:index)
   end
 
 end
