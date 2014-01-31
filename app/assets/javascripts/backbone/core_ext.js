@@ -173,5 +173,29 @@ _.extend(Marionette.Application.prototype, {
     /* Return the element in which the application will be appended */
     $loader: function() {
         return $('[data-type=' + this.loader() + ']');
-    }
+    },
+
+    /* changes the app's slug and ensures that all modules reference
+     * this app, instead of another app */
+    rebrand: function (slug) {
+        var new_app = jQuery.extend(true, {}, this);
+
+        new_app._initRegionManager();
+        new_app._initCallbacks = new Marionette.Callbacks();
+
+        // the two lines above seem to be enough to reset the
+        // application. However, the next three lines might
+        // become necessary later. Who knows!
+        //
+        // new_app.vent = new Backbone.Wreqr.EventAggregator();
+        // new_app.commands = new Backbone.Wreqr.Commands();
+        // new_app.reqres = new Backbone.Wreqr.RequestResponse();
+
+        new_app.slug = slug;
+
+        delete new_app.mainRegion;
+
+        return new_app;
+    },
+
 });

@@ -1,10 +1,15 @@
-FilteredSearch = new Backbone.Marionette.Application({ slug: 'filtered-search' });
+/* OpenDoorsSearch extends FilteredSearch
+ *
+ * This is an experiment to see if a deep copy of an app will work */
 
-FilteredSearch.addRegions({
-    mainRegion: '#' + FilteredSearch.slug
+OpenDoorsSearch = FilteredSearch.rebrand('open-doors-search');
+
+OpenDoorsSearch.addRegions({
+    mainRegion: '#' + OpenDoorsSearch.slug
 });
 
-FilteredSearch.addInitializer(function(options) {
+OpenDoorsSearch.addInitializer(function(options) {
+
     var bootstrap, structures, structures_view, layout, maps_view, $loader, clearEvent;
 
     bootstrap = window.coursavenue.bootstrap;
@@ -12,8 +17,8 @@ FilteredSearch.addInitializer(function(options) {
     // Create an instance of your class and populate with the models of your entire collection
     /* TODO so much repetition down there, should be able to specify a comma separated list of events
     *  to be handled by a single callback */
-    structures      = new FilteredSearch.Models.StructuresCollection(bootstrap.models, bootstrap.options);
-    structures_view = new FilteredSearch.Views.StructuresCollection.StructuresCollectionView({
+    structures      = new OpenDoorsSearch.Models.StructuresCollection(bootstrap.models, bootstrap.options);
+    structures_view = new OpenDoorsSearch.Views.StructuresCollection.StructuresCollectionView({
         collection: structures,
         events: {
             'pagination:next':         'nextPage',
@@ -24,15 +29,8 @@ FilteredSearch.addInitializer(function(options) {
             'filter:subject':          'filterQuery',
             'filter:level':            'filterQuery',
             'filter:audience':         'filterQuery',
-            'filter:course_type':      'filterQuery',
-            'filter:discount':         'filterQuery',
             'filter:date':             'filterQuery',
-            'filter:price':            'filterQuery',
-            'filter:structure_type':   'filterQuery',
-            'filter:payment_method':   'filterQuery',
             'filter:search_term':      'filterQuery',
-            'filter:location':         'filterQuery',
-            'filter:trial_course':     'filterQuery',
             'map:marker:focus':        'findItemView',
             'structures:updated':      'renderSlideshows'
         }
@@ -42,7 +40,7 @@ FilteredSearch.addInitializer(function(options) {
     window.pfaff = structures;
 
     /* set up the layouts */
-    layout = new FilteredSearch.Views.SearchWidgetsLayout();
+    layout = new OpenDoorsSearch.Views.SearchWidgetsLayout();
 
     layout.on('paginator:updating', function(){
         $loader = $loader || $('[data-type="loader"]');
@@ -63,7 +61,7 @@ FilteredSearch.addInitializer(function(options) {
     var bounds       = structures.getLatLngBounds();
     /* TODO does the google map need a reference to the collection?
     *  I don't think so, and I don't remember why this is here */
-    google_maps_view = new FilteredSearch.Views.Map.GoogleMapsView({
+    google_maps_view = new OpenDoorsSearch.Views.Map.GoogleMapsView({
         collection: structures,
         mapOptions: {
             center: new google.maps.LatLng(bounds.lat, bounds.lng)
@@ -73,7 +71,7 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    var FiltersModule = FilteredSearch.Views.StructuresCollection.Filters;
+    var FiltersModule = OpenDoorsSearch.Views.StructuresCollection.Filters;
 
     /* basic filters */
     infinite_scroll_button    = new FiltersModule.InfiniteScrollButtonView({});
@@ -86,16 +84,10 @@ FilteredSearch.addInitializer(function(options) {
     filter_breadcrumbs        = new FiltersModule.FilterBreadcrumbs.FilterBreadcrumbsView({});
 
     level_filter              = new FiltersModule.LevelFilterView({});
-    course_type_filter        = new FiltersModule.CourseTypeFilterView({});
-    discount_filter           = new FiltersModule.DiscountFilterView({});
     audience_filter           = new FiltersModule.AudienceFilterView({});
-    structure_type_filter     = new FiltersModule.StructureTypeFilterView({});
-    payment_method_filter     = new FiltersModule.PaymentMethodFilterView({});
     date_filter               = new FiltersModule.DateFilterView({});
-    price_filter              = new FiltersModule.PriceFilterView({});
-    trial_course_filter       = new FiltersModule.TrialCourseFilterView({});
 
-    FilteredSearch.mainRegion.show(layout);
+    OpenDoorsSearch.mainRegion.show(layout);
 
     /* we can add a widget along with a callback to be used
     * for setup */
@@ -131,22 +123,18 @@ FilteredSearch.addInitializer(function(options) {
     // TODO for now this is fine. Just add this
     // to any filter that implements clear
     layout.showWidget(level_filter,          { events: { 'breadcrumbs:clear:level':           'clear'} });
-    layout.showWidget(course_type_filter,    { events: { 'breadcrumbs:clear:course_type':     'clear'} });
     layout.showWidget(audience_filter,       { events: { 'breadcrumbs:clear:audience':        'clear'} });
-    layout.showWidget(structure_type_filter, { events: { 'breadcrumbs:clear:structure_types': 'clear'} });
-    layout.showWidget(payment_method_filter, { events: { 'breadcrumbs:clear:payment_method':  'clear'} });
-    layout.showWidget(discount_filter,       { events: { 'breadcrumbs:clear:discount':        'clear'} });
     layout.showWidget(date_filter,           { events: { 'breadcrumbs:clear:date':            'clear'} });
-    layout.showWidget(price_filter,          { events: { 'breadcrumbs:clear:price':           'clear'} });
-    layout.showWidget(trial_course_filter,   { events: { 'breadcrumbs:clear:trial_course':    'clear'} });
 
     layout.master.show(structures_view);
+
 });
 
 $(document).ready(function() {
+
     /* we only want the filteredsearch on the search page */
-    if (FilteredSearch.detectRoot()) {
-        FilteredSearch.start({});
+    if (OpenDoorsSearch.detectRoot()) {
+        OpenDoorsSearch.start({});
     }
 
 });

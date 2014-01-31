@@ -9,10 +9,6 @@ FilteredSearch.module('Views', function(Module, App, Backbone, Marionette, $, _)
             master: "#search-results",
         },
 
-        onShow: function() {
-            FilteredSearch.$loader().fadeOut('slow');
-        },
-
     });
 });
 
