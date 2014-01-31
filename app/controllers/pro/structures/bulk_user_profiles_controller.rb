@@ -1,6 +1,8 @@
 # encoding: utf-8
 class Pro::Structures::BulkUserProfilesController < Pro::ProController
   attr_accessor :working
+  DELAY_THRESHOLD = 50
+
   before_action :authenticate_pro_admin!
   before_action :load_structure
 
@@ -44,7 +46,11 @@ class Pro::Structures::BulkUserProfilesController < Pro::ProController
 
     @structure.busy = true # we are working now, shhh
     tags = params.delete(:tags)
-    @structure.perform_bulk_user_profiles_job(@user_profiles.map(&:id), :add_tags_on, tags)
+    if @user_profiles.length > DELAY_THRESHOLD
+      @structure.delay.perform_bulk_user_profiles_job(@user_profiles.map(&:id), :add_tags_on, tags)
+    else
+      @structure.perform_bulk_user_profiles_job(@user_profiles.map(&:id), :add_tags_on, tags)
+    end
 
     respond_to do |format|
       format.json { render :nothing => true }

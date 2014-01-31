@@ -96,19 +96,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             return edits;
         },
 
-        /* when the user backspaces into a taggy */
-        updateTaggy: function () {
-            var taggy = this.$taggies().last();
-            var text = taggy.text();
-
-            this.ui.$input.val(function (index, val) {
-                return val + text;
-            });
-
-            taggy.remove();
-            this.announceEdits();
-        },
-
         /* when the user clicks 'x' */
         destroyTaggy: function (e) {
             $(e.currentTarget).parent().remove();
@@ -225,7 +212,20 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             }
 
             e.preventDefault();
-            this.updateTaggy();
+            this.removeLastTaggy();
+        },
+
+        /* when the user backspaces into a taggy */
+        removeLastTaggy: function () {
+            var taggy = this.$taggies().last();
+            var text = taggy.text();
+
+            this.ui.$input.val(function (index, val) {
+                return val; // + text;
+            });
+
+            taggy.remove();
+            this.announceEdits();
         },
 
         handleEnter: function (text, e) {
