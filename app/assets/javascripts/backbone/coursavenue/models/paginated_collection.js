@@ -100,10 +100,9 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             var data = search.substring(1).split("&"); // assume no values have & in them
 
             return _.reduce(data, function (memo, datum) {
-                var pair = datum.split('='); // assume there are no equal signs in the value
+                var pair  = datum.split('='); // assume there are no equal signs in the value
                 var key   = decodeURIComponent(pair[0]);
-                var value = pair[1];
-
+                var value = decodeURIComponent(pair[1]);
                 // If the key (memo[pair[0]]) already exists AND it has [], then it's an array.
                 // Example: &level_ids[]=1&level_ids[]=2
                 if (key.indexOf('[]') !== -1 && memo[key]) {
