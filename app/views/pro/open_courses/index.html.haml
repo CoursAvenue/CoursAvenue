@@ -17,6 +17,6 @@
         %td= course.subjects.map(&:name).join(',')
         %td
           - if course.price
-            = course.price
+            = "#{readable_amount(course.price)}€"
           - else
             Gratuit
