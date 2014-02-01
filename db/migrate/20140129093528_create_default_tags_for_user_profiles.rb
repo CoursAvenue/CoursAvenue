@@ -14,7 +14,7 @@ class CreateDefaultTagsForUserProfiles < ActiveRecord::Migration
           user_profile.save
         end
         if structure.comments.where{email == user_profile_email}
-          structure.tag(user_profile, with: UserProfile::DEFAULT_TAGS[:comments], on: :tags, skip_save: true)
+          structure.tag(user_profile, with: UserProfile::DEFAULT_TAGS[:comments], on: :tags)
         end
       end
     end
