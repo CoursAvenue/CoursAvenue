@@ -1,7 +1,4 @@
 
-// TODO this will be done in the rebrand method
-OpenDoorsSearch.Views.StructuresCollection.Filters.app = OpenDoorsSearch;
-
 OpenDoorsSearch.module('Views.StructuresCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.DateFilterView = Backbone.Marionette.ItemView.extend({
