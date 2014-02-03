@@ -130,6 +130,12 @@ _.extend(Marionette.View.prototype, {
 _.extend(_, {
     capitalize: function (word) {
         return word.charAt(0).toUpperCase() + word.slice(1);
+    },
+
+    camelize: function (word) {
+        return word.replace (/(?:^|[-_])(\w)/g, function (_, c) {
+            return c ? c.toUpperCase () : '';
+        });
     }
 });
 
@@ -195,11 +201,55 @@ _.extend(Marionette.Application.prototype, {
 
         delete new_app.mainRegion;
 
-        // TODO this will need to go deeper: we need to set the back
-        // references for all the modules so that new called to
-        // .module will use the right app context
-        new_app.Views.app  = new_app;
-        new_app.Models.app = new_app;
+        /* walk breadth first through the submodules tree, ensuring that their
+         * back-references are all pointing to the new app */
+        var modules = _.values(new_app.submodules);
+        var i;
+
+        for (i = 0; i < modules.length; i++) {
+            var module = modules[i];
+            module.app = new_app;
+
+            // gather all the submodules
+            _.each(_.values(module.submodules), function (submodule) {
+                modules.push(submodule);
+            });
+        }
+
+        /* for every template we have that matches an existing template
+         * find the corresponding view and extend it in place, to use
+         * our template rather than theirs */
+
+        var template_dirname = new_app.Views.templateDirname();
+
+        // find all JST templates that contain our dirname
+        var templates = _.reduce(_.keys(JST), function (memo, key) {
+            var key_parts = key.split(template_dirname);
+
+            if (key_parts.length > 1) {
+                memo.push(_.last(key_parts));
+            }
+
+            return memo;
+        }, []);
+
+        // for each of the matching templates,
+        // extend the corresponding view in place
+        _.each(templates, function (template) {
+            var module_path = _.map(template.split('/'), _.camelize);
+            var view_name   = module_path.pop();
+
+            var module = _.reduce(module_path, function (module, submodule) {
+                module = module[submodule];
+
+                return module;
+            }, new_app.Views);
+
+            // extend the view in place with our dirname
+            module[view_name] = module[view_name].extend({
+                template: template_dirname + template
+            });
+        });
 
         return new_app;
     },
