@@ -139,7 +139,17 @@ _.extend(_, {
     }
 });
 
+/* when building an Application, the NullApplication will be
+ * returned if the given app root was not detected */
+Marionette.NullApplication = Marionette.Application.extend({
+    module: function (moduleNames, moduleDefinition) { /* NOP */ },
+    addRegions: function (options) { /* NOP */ },
+    addInitializer: function (initializer) { /* NOP */ },
+    start: function () { /* NOP */ },
+});
+
 _.extend(Marionette.Application.prototype, {
+
     /* for use in query strings */
     root:   function() {
         if (this.root === undefined) {
@@ -184,6 +194,11 @@ _.extend(Marionette.Application.prototype, {
     /* changes the app's slug and ensures that all modules reference
      * this app, instead of another app */
     rebrand: function (slug) {
+        // if the slug does not exist, then we won't rebrand
+        if (!$("[data-type=" + slug + "-root]").length > 0) {
+            return new Marionette.NullApplication();
+        }
+
         var new_app = jQuery.extend(true, {}, this);
 
         new_app._initRegionManager();
