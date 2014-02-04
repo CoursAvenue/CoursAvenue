@@ -89,6 +89,10 @@ class StructuresController < ApplicationController
                            meta: { total: @total, location: @latlng }}
       format.html do
         cookies[:structure_search_path] = request.fullpath
+
+        if params[:open_courses]
+          render template: 'structures/open_doors_index'
+        end
       end
     end
     # fresh_when etag: [@places, ENV["ETAG_VERSION_ID"]], public: true
