@@ -174,8 +174,8 @@ class Comment < ActiveRecord::Base
   end
 
   def complete_comment_notification
-    structure_id = self.structure.id
-    if (comment_notification = user.comment_notifications.where(structure_id: structure_id).first).present?
+    _structure_id = self.structure.id
+    if (comment_notification = user.comment_notifications.where(structure_id: _structure_id).first).present?
       comment_notification.complete!
     end
   end
@@ -194,7 +194,6 @@ class Comment < ActiveRecord::Base
     self.course_name = self.course_name.strip if course_name.present?
   end
 
-  # Set comments_count to 4 and 14 because after_create is triggered before after_save !
   def send_email
     if self.accepted?
       AdminMailer.delay.congratulate_for_accepted_comment(self)

@@ -40,6 +40,7 @@ class ::Pro::AdminsController < InheritedResources::Base
   end
 
   def index
+    params[:per_page] = 30
     @admins = ::AdminSearch.search(params).results
     respond_to do |format|
       format.json { render json: @admins.to_json(include: :structure) }
