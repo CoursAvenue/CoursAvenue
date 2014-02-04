@@ -27,11 +27,7 @@ class StructuresController < ApplicationController
     index           = 0
   end
 
-  def open_courses
-    redirect_to :action => 'index', :open_courses => true
-  end
-
-  def index
+  def filter_by_subject?
     params.delete(:subject_id) if params[:subject_id].blank?
     if params[:subject_id] == 'other'
       params[:other] = true
@@ -45,36 +41,55 @@ class StructuresController < ApplicationController
         @subject = Subject.where{name =~ _name}.first
       end
     end
+  end
+
+  def params_has_planning_filters?
+    (params.keys & PLANNING_FILTERED_KEYS).any?
+  end
+
+  def search_plannings
+    search          = PlanningSearch.search(params, group: :structure_id_str)
+    structures      = search.group(:structure_id_str).groups.collect do |planning_group|
+      planning_group.results.first.structure
+    end
+    total           = search.group(:structure_id_str).total
+
+    [ structures, total ]
+  end
+
+  def search_structures
+      # Else, can search per structure
+      search           = StructureSearch.search(params)
+      structures       = search.results
+      total            = search.total
+
+    [ structures, total ]
+  end
+
+  def retrieve_location
+    StructureSearch.retrieve_location(params)
+  end
+
+  def retrieve_models
+    @structures.map do |structure|
+      StructureSerializer.new(structure, { root: false })
+    end
+  end
+
+  def index
+    filter_by_subject?
 
     params[:page] = 1 unless request.xhr?
 
     # If any of those key are in the params, then search per planning
-    if (params.keys & PLANNING_FILTERED_KEYS).any?
-      @planning_search = PlanningSearch.search(params, group: :structure_id_str)
-      @structures      = @planning_search.group(:structure_id_str).groups.collect do |planning_group|
-        planning_group.results.first.structure
-      end
-      @total           = @planning_search.group(:structure_id_str).total
+    if params_has_planning_filters?
+      @structures, @total = search_plannings
     else
-      # Else, can search per structure
-      @structure_search = StructureSearch.search(params)
-      @structures       = @structure_search.results
-      @total            = @structure_search.total
+      @structures, @total = search_structures
     end
 
-    # if (params[:bbox_sw] && params[:bbox_ne])
-    #   # TODO: To be removed when using Solr 4.
-    #   # This is used because the bounding box refers to a circle and not a box...
-    #   # Rejecting the structures that are not in the bounding box
-    #   @structures.select! do |structure|
-    #     structure.locations_in_bounding_box(params[:bbox_sw], params[:bbox_ne]).any?
-    #   end
-    # end
-
-    @latlng = StructureSearch.retrieve_location(params)
-    @models = @structures.map do |structure|
-      StructureSerializer.new(structure, { root: false })
-    end
+    @latlng = retrieve_location
+    @models = retrieve_models 
 
     if params[:name].present?
       # Log search terms
@@ -89,14 +104,8 @@ class StructuresController < ApplicationController
                            meta: { total: @total, location: @latlng }}
       format.html do
         cookies[:structure_search_path] = request.fullpath
-
-        if params[:open_courses]
-          render template: 'structures/open_doors_index'
-        end
       end
     end
-    # fresh_when etag: [@places, ENV["ETAG_VERSION_ID"]], public: true
-    # expires_in 1.minutes, public: true
   end
 
   private
