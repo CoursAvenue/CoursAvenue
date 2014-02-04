@@ -222,6 +222,8 @@ CoursAvenue::Application.routes.draw do
 
   resources :comments, only: [:create]
 
+  resources :open_courses, path: 'journees-portes-ouvertes', action: "open_courses", only: [:index], controller: 'structures'
+
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
     collection do
       post :recommendation

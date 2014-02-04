@@ -27,6 +27,10 @@ class StructuresController < ApplicationController
     index           = 0
   end
 
+  def open_courses
+    redirect_to :action => 'index', :open_courses => true
+  end
+
   def index
     params.delete(:subject_id) if params[:subject_id].blank?
     if params[:subject_id] == 'other'
