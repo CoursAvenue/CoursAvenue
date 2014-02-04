@@ -10,8 +10,18 @@ OpenDoorsSearch.module('Views.StructuresCollection.Structure', function(Module, 
         events: {
             'click'                                  : 'goToStructurePage',
             'click [data-behavior=accordion-control]': 'accordionControl',
-            'mouseenter'                             : 'highlightStructure toggleOpenDoorsButton',
-            'mouseleave'                             : 'unhighlightStructure toggleOpenDoorsButton'
+            'mouseenter'                             : 'delegateMouseEnter',
+            'mouseleave'                             : 'delegateMouseLeave'
+        },
+
+        delegateMouseEnter: function () {
+            this.highlightStructure();
+            this.toggleOpenDoorsButton();
+        },
+
+        delegateMouseLeave: function () {
+            this.unhighlightStructure();
+            this.toggleOpenDoorsButton();
         },
 
         toggleOpenDoorsButton: function () {
