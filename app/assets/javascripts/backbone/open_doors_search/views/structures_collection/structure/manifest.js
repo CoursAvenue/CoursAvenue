@@ -1,0 +1,1 @@
+//= require ./structure_view
