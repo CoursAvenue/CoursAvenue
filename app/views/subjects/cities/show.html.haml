@@ -3,7 +3,7 @@
 
 = content_for :above_container do
   - if @city.image.present?
-    .home-screen.bg-cover{style: "background-image: url('#{@city.image.url}')"}
+    .home-screen.bg-cover{style: "background-image: url('#{@city.image.url(:default)}')"}
       - if @subject.image.present?
         .soft--top
           = image_tag @subject.image.url(:thumb), class: 'block center-block subject-logo white-circle white-circle--thick', height: 130
