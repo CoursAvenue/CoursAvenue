@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Pro::Structures::PlacesController < InheritedResources::Base
-
   before_action :authenticate_pro_admin!
   layout 'admin'
   belongs_to :structure
@@ -25,8 +24,8 @@ class Pro::Structures::PlacesController < InheritedResources::Base
       marker.lng structure.longitude
     end
 
-    if @structure.places.collect{|p| p.contacts}.flatten.any?
-      @place.contacts << @structure.places.collect{|p| p.contacts}.flatten.first.dup
+    if @structure.places.map { |p| p.contacts }.flatten.any?
+      @place.contacts << @structure.places.map { |p| p.contacts }.flatten.first.dup
     else
       @place.contacts.build
     end
@@ -47,13 +46,12 @@ class Pro::Structures::PlacesController < InheritedResources::Base
     @place     = @structure.places.build params[:place]
     respond_to do |format|
       if @place.save
-        format.html { redirect_to (params[:from] or pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }
+        format.html { redirect_to (params[:from] || pro_structure_places_path(@structure)), notice: 'Le lieu à bien été créé' }
       else
-        format.html { render action: :new}
+        format.html { render action: :new }
       end
     end
   end
-
 
   def update
     update! do |success, failure|

@@ -1,6 +1,5 @@
 # encoding: utf-8
-class Pro::Structures::CommentsController < InheritedResources::Base#Pro::ProController
-
+class Pro::Structures::CommentsController < InheritedResources::Base# Pro::ProController
   before_action :authenticate_pro_admin!
   layout 'admin'
 

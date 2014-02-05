@@ -2,26 +2,26 @@
 class Pro::DashboardController < Pro::ProController
   before_action :authenticate_pro_super_admin!
   def index
-    @admins_by_hour = {0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0, 13 => 0, 14 => 0, 15 => 0, 16 => 0, 17 => 0, 18 => 0, 19 => 0, 20 => 0, 21 => 0, 22 => 0, 23 => 0}
+    @admins_by_hour = { 0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0, 13 => 0, 14 => 0, 15 => 0, 16 => 0, 17 => 0, 18 => 0, 19 => 0, 20 => 0, 21 => 0, 22 => 0, 23 => 0 }
     Admin.find_each do |admin|
       @admins_by_hour[admin.created_at.hour] += 1
     end
 
-    @comments_by_hour = {0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0, 13 => 0, 14 => 0, 15 => 0, 16 => 0, 17 => 0, 18 => 0, 19 => 0, 20 => 0, 21 => 0, 22 => 0, 23 => 0}
+    @comments_by_hour = { 0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0, 8 => 0, 9 => 0, 10 => 0, 11 => 0, 12 => 0, 13 => 0, 14 => 0, 15 => 0, 16 => 0, 17 => 0, 18 => 0, 19 => 0, 20 => 0, 21 => 0, 22 => 0, 23 => 0 }
     Comment.find_each do |admin|
       @comments_by_hour[admin.created_at.hour] += 1
     end
 
     # @admins = Admin.count(:order => 'DATE(created_at) DESC', :group => ["DATE(created_at)"])
-    @courses  = Course.where{(created_at > Date.parse('01/06/2013')) & (active == true)}.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
-    @admins   = Admin  .where{created_at > Date.today - 1.months}.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
-    @comments = Comment.where{created_at > Date.today - 1.months}.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
+    @courses  = Course.where { (created_at > Date.parse('01/06/2013')) & (active == true) }.count(order: "DATE_TRUNC('week', created_at) ASC", group: ["DATE_TRUNC('week', created_at)"])
+    @admins   = Admin  .where { created_at > Date.today - 1.months }.count(order: 'DATE(created_at) ASC', group: ['DATE(created_at)'])
+    @comments = Comment.where { created_at > Date.today - 1.months }.count(order: 'DATE(created_at) ASC', group: ['DATE(created_at)'])
 
-    @admins_weekly   = Admin  .where{created_at > Date.today - 3.months}.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
-    @comments_weekly = Comment.where{created_at > Date.today - 3.months}.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
+    @admins_weekly   = Admin  .where { created_at > Date.today - 3.months }.count(order: "DATE_TRUNC('week', created_at) ASC", group: ["DATE_TRUNC('week', created_at)"])
+    @comments_weekly = Comment.where { created_at > Date.today - 3.months }.count(order: "DATE_TRUNC('week', created_at) ASC", group: ["DATE_TRUNC('week', created_at)"])
 
     if params[:with_subjects].present?
-      _structures = Structure.joins{admins}.joins{subjects}.count(:group => ["subjects.id"])
+      _structures = Structure.joins { admins }.joins { subjects }.count(group: ['subjects.id'])
       @structures = {}
       _structures.each do |key, value|
         subj = Subject.friendly.find(key)
@@ -36,10 +36,10 @@ class Pro::DashboardController < Pro::ProController
     @admins_progression   = {}
     @comments_progression = {}
     dates.each do |date|
-      @admins_progression[date]   = Admin.where{created_at < date}.count
-      @comments_progression[date] = Comment.where{created_at < date}.count
+      @admins_progression[date]   = Admin.where { created_at < date }.count
+      @comments_progression[date] = Comment.where { created_at < date }.count
     end
-    @admins2 = [0,0,0,0]
+    @admins2 = [0, 0, 0, 0]
     Structure.find_each do |s|
       if s.comments_count == nil or s.comments_count == 0
         @admins2[0] += 1
@@ -54,23 +54,22 @@ class Pro::DashboardController < Pro::ProController
 
     # Compute all the days to have all the days shown in the graph even when values are empty
     hash_of_days = {}
-    ((1.months).ago.to_date..Date.today).each{ |date| hash_of_days[date.strftime("%Y-%m-%d")] = 0}
+    ((1.months).ago.to_date..Date.today).each { |date| hash_of_days[date.strftime('%Y-%m-%d')] = 0 }
     @comments_hash = {}
-    @comments.each{|date, count| @comments_hash[date.to_s] = count}
+    @comments.each { |date, count| @comments_hash[date.to_s] = count }
     @admins_hash   = {}
-    @admins.each{|date, count| @admins_hash[date.to_s] = count}
-    @comments_hash  = hash_of_days.merge(@comments_hash) #.reject{|key, value| value == 0}
-    @admins_hash    = hash_of_days.merge(@admins_hash)   #.reject{|key, value| value == 0}
-    @students   = User.where{created_at > Date.today - 2.month}.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
-    @users      = User.count(:order => "DATE_TRUNC('week', created_at) ASC", :group => ["DATE_TRUNC('week', created_at)"])
-    @videos     = Media::Video.where{created_at > Date.today - 1.month}.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
-    @images     = Media::Image.where{created_at > Date.today - 1.month}.count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
+    @admins.each { |date, count| @admins_hash[date.to_s] = count }
+    @comments_hash  = hash_of_days.merge(@comments_hash) # .reject{|key, value| value == 0}
+    @admins_hash    = hash_of_days.merge(@admins_hash)   # .reject{|key, value| value == 0}
+    @students   = User.where { created_at > Date.today - 2.month }.count(order: 'DATE(created_at) ASC', group: ['DATE(created_at)'])
+    @users      = User.count(order: "DATE_TRUNC('week', created_at) ASC", group: ["DATE_TRUNC('week', created_at)"])
+    @videos     = Media::Video.where { created_at > Date.today - 1.month }.count(order: 'DATE(created_at) ASC', group: ['DATE(created_at)'])
+    @images     = Media::Image.where { created_at > Date.today - 1.month }.count(order: 'DATE(created_at) ASC', group: ['DATE(created_at)'])
     @medias_dates = (@videos.map(&:first) + @images.map(&:first)).uniq.sort
     @medias_dates.each do |date|
       @videos[date] ||= 0
       @images[date] ||= 0
     end
-    @messages   = Conversation.where{subject == "Demande d'informations"} .count(:order => "DATE(created_at) ASC", :group => ["DATE(created_at)"])
+    @messages   = Conversation.where { subject == "Demande d'informations" } .count(order: 'DATE(created_at) ASC', group: ['DATE(created_at)'])
   end
 end
-

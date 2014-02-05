@@ -30,20 +30,19 @@ class UsersController < InheritedResources::Base
     @profile_completion = current_user.profile_completion
     @conversations      = current_user.mailbox.conversations.limit(4)
     if @user.city
-      @structure_search = StructureSearch.search({lat: @user.city.latitude,
-                                                  lng: @user.city.longitude,
-                                                  radius: 7,
-                                                  per_page: 150,
-                                                  bbox: true,
-                                                  subject_slugs: (@user.passions.any? ? @user.passions.map(&:subject).compact.map(&:slug) : [])
-                                                  }).results
+      @structure_search = StructureSearch.search({ lat: @user.city.latitude,
+                                                   lng: @user.city.longitude,
+                                                   radius: 7,
+                                                   per_page: 150,
+                                                   bbox: true,
+                                                   subject_slugs: (@user.passions.any? ? @user.passions.map(&:subject).compact.map(&:slug) : []) }).results
 
       @structure_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
         marker.lat structure.latitude
         marker.lng structure.longitude
       end
     else
-      @structure_locations = Gmaps4rails.build_markers(City.where{zip_code == '75000'}.first) do |city, marker|
+      @structure_locations = Gmaps4rails.build_markers(City.where { zip_code == '75000' }.first) do |city, marker|
         marker.lat city.latitude
         marker.lng city.longitude
       end
@@ -65,5 +64,4 @@ class UsersController < InheritedResources::Base
       'user_profile'
     end
   end
-
 end

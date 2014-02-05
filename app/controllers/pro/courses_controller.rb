@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Pro::CoursesController < InheritedResources::Base
-
   before_action :authenticate_pro_admin!
   before_action :load_structure
 
@@ -21,7 +20,7 @@ class Pro::CoursesController < InheritedResources::Base
     @course                   = Course.friendly.find params[:id]
     @course_to_duplicate_from = Course.friendly.find params[:course_id]
     @course.copy_prices_from!(@course_to_duplicate_from)
-    redirect_to pro_course_prices_path(@course), notice: "Les tarifs ont été mis à jour."
+    redirect_to pro_course_prices_path(@course), notice: 'Les tarifs ont été mis à jour.'
   end
 
   def duplicate
@@ -29,13 +28,13 @@ class Pro::CoursesController < InheritedResources::Base
     duplicate_course = @course.duplicate!
     session[:duplicate]            = true
     session[:duplicated_course_id] = duplicate_course.id
-    redirect_to pro_structure_courses_path(@structure), notice: "Le cours à bien été dupliqué."
+    redirect_to pro_structure_courses_path(@structure), notice: 'Le cours à bien été dupliqué.'
   end
 
   def activate
     @course = Course.friendly.find params[:id]
     if @course.activate!
-      redirect_to pro_structure_courses_path(@structure), notice: "Le cours sera visible sur CoursAvenue dans quelques minutes"
+      redirect_to pro_structure_courses_path(@structure), notice: 'Le cours sera visible sur CoursAvenue dans quelques minutes'
     else
       redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis en ligne.<br>Assurez vous que le tarif et le planning sont bien renseignés."
     end

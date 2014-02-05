@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Structures::MediasController < ApplicationController
-
   layout 'empty'
 
   def index

@@ -1,6 +1,5 @@
 # encoding: utf-8
-class Pro::BookTicketsController < InheritedResources::Base#Pro::ProController
-
+class Pro::BookTicketsController < InheritedResources::Base# Pro::ProController
   before_action :authenticate_pro_admin!
 
   layout 'admin'
@@ -11,7 +10,7 @@ class Pro::BookTicketsController < InheritedResources::Base#Pro::ProController
 
   def edit
     edit! do |format|
-      @book_tickets = @course.book_tickets.reject{|book_ticket| book_ticket == @book_ticket}
+      @book_tickets = @course.book_tickets.reject { |book_ticket| book_ticket == @book_ticket }
       format.html { render template: 'pro/prices/index' }
     end
   end
@@ -35,7 +34,6 @@ class Pro::BookTicketsController < InheritedResources::Base#Pro::ProController
       failure.html { redirect_to pro_course_prices_path(@course) }
     end
   end
-
 
   private
   def load_prices

@@ -12,7 +12,7 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     @user_profiles = @user_profiles_search.results
 
     respond_to do |format|
-      format.json { render json: @user_profiles, root: 'user_profiles', meta: { total: @user_profiles_search.total }}
+      format.json { render json: @user_profiles, root: 'user_profiles', meta: { total: @user_profiles_search.total } }
       format.html
     end
   end
@@ -38,13 +38,13 @@ class Pro::Structures::UserProfilesController < Pro::ProController
     if params[:name] == 'tags'
       saved = @structure.tag(@user_profile, with: params[:value], on: :tags)
     else
-      saved = @user_profile.update_attributes({ params[:name] => params[:value] })
+      saved = @user_profile.update_attributes(params[:name] => params[:value])
     end
     respond_to do |format|
       if saved
-        format.html{ render nothing: true, status: 200 }
+        format.html { render nothing: true, status: 200 }
       else
-        format.html{ render nothing: true, status: 500 }
+        format.html { render nothing: true, status: 500 }
       end
     end
   end

@@ -1,9 +1,8 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-
   def passthru
     # render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
     # Or alternatively,
-    raise ActionController::RoutingError.new('Not Found')
+    fail ActionController::RoutingError.new('Not Found')
   end
 
   def facebook
@@ -14,8 +13,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if @user.persisted?
       # Merge user if it comes from a new message.
-      flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', :kind => 'Facebook'
-      if request.referer and request.referer.include?('token') and request.referer.include?('email')
+      flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', kind: 'Facebook'
+      if request.referer && request.referer.include?('token') && request.referer.include?('email')
         request_params = Rack::Utils.parse_nested_query(request.referer.split('?')[1])
         requested_user = User.where(email: request_params['email']).first
         if requested_user.reset_password_token_valid?(request_params['token'])
