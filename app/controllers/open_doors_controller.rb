@@ -11,7 +11,7 @@ class OpenDoorsController < ApplicationController
     @app_slug = "open-doors-search"
     @subject = filter_by_subject?
 
-    params[:course_types] = ["open"]
+    params[:course_types] = ["open_course"]
     params[:page] = 1 unless request.xhr?
 
     if params_has_planning_filters?
