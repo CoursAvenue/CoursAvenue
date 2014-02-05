@@ -9,6 +9,8 @@
 //= require_tree ./application
 
 //---------- Models
+//= require ./models/structure
+//= require ./models/structures_collection
 
 //---------- Views
 //= require ./views/manifest

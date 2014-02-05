@@ -2,7 +2,7 @@
  *
  * This is an experiment to see if a deep copy of an app will work */
 
-OpenDoorsSearch = FilteredSearch.rebrand('open-doors-search');
+OpenDoorsSearch = FilteredSearch.rebrand('open-doors-search', 'journees-portes-ouvertes');
 
 OpenDoorsSearch.addRegions({
     mainRegion: '#' + OpenDoorsSearch.slug

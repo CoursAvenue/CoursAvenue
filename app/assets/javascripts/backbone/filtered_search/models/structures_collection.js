@@ -1,7 +1,8 @@
 
-FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _) {
-    Models.StructuresCollection = CoursAvenue.Models.PaginatedCollection.extend({
-        model: Models.Structure,
+FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _) {
+
+    Module.StructuresCollection = CoursAvenue.Models.PaginatedCollection.extend({
+        model: Module.Structure,
 
         /* even if we are bootstrapping, we still want to know the total
          * number of pages and the grandTotal, for display purposes
@@ -57,10 +58,8 @@ FilteredSearch.module('Models', function(Models, App, Backbone, Marionette, $, _
             // window.location.host returns "www.coursavenue.dev/"
         },
 
-        /* where we can expect to find the resource we seek
-         *  TODO this needs to be set on the server side */
         url: {
-            resource: '/etablissements',
+            resource: '/' + App.resource,
             data_type: '.json'
         },
 

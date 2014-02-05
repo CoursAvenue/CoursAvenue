@@ -1,4 +1,5 @@
-FilteredSearch = new Backbone.Marionette.Application({ slug: 'filtered-search' });
+ /*  TODO this needs to be set on the server side */
+FilteredSearch = new Backbone.Marionette.Application({ slug: 'filtered-search', resource: 'etablissements' });
 
 FilteredSearch.addRegions({
     mainRegion: '#' + FilteredSearch.slug

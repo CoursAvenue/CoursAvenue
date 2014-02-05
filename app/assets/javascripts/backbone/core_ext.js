@@ -193,7 +193,7 @@ _.extend(Marionette.Application.prototype, {
 
     /* changes the app's slug and ensures that all modules reference
      * this app, instead of another app */
-    rebrand: function (slug) {
+    rebrand: function (slug, resource) {
         // if the slug does not exist, then we won't rebrand
         if (!$("[data-type=" + slug + "-root]").length > 0) {
             return new Marionette.NullApplication();
@@ -212,7 +212,8 @@ _.extend(Marionette.Application.prototype, {
         // new_app.commands = new Backbone.Wreqr.Commands();
         // new_app.reqres = new Backbone.Wreqr.RequestResponse();
 
-        new_app.slug = slug;
+        new_app.slug     = slug;
+        new_app.resource = resource;
 
         delete new_app.mainRegion;
 
