@@ -152,8 +152,10 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
         itemViewOptions: function() {
             var subject_name = $('[data-value="' + decodeURIComponent(this.collection.server_api.subject_id) + '"]').text().trim();
+            var search_term = this.collection.server_api.name || "";
+
             return {
-                search_term: decodeURIComponent(this.collection.server_api.name),
+                search_term: decodeURIComponent(search_term),
                 subject_name: subject_name
             }
         }
