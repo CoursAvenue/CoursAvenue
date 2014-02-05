@@ -4,19 +4,19 @@
   .grid__item.one-quarter>
     .white-box.soft-half.text--center
       %h3.flush= "#{Admin.normal.count} professeurs"
-      %h6.flush dont #{Admin.where{created_at == Date.today}.count} aujourd'hui
+      %h6.flush dont #{Admin.where{created_at > Date.today}.count} aujourd'hui
   .grid__item.one-quarter>
     .white-box.soft-half.text--center
       %h3.flush= "#{Comment.count} avis"
-      %h6.flush dont #{Comment.where{created_at == Date.today}.count} aujourd'hui
+      %h6.flush dont #{Comment.where{created_at > Date.today}.count} aujourd'hui
   .grid__item.one-quarter>
     .white-box.soft-half.text--center
       %h3.flush= "#{Conversation.where{subject == "Demande d'informations"}.count} messages"
-      %h6.flush dont #{Conversation.where{(subject == "Demande d'informations") & (created_at == Date.today)}.count} aujourd'hui
+      %h6.flush dont #{Conversation.where{(subject == "Demande d'informations") & (created_at > Date.today)}.count} aujourd'hui
   .grid__item.one-quarter>
     .white-box.soft-half.text--center
       %h3.flush= "#{CommentNotification.count} élèves"
-      %h6.flush dont #{CommentNotification.where{(created_at == Date.today)}.count} aujourd'hui
+      %h6.flush dont #{CommentNotification.where{(created_at > Date.today)}.count} aujourd'hui
 
 %h1.header-group
   %i.fa.fa-dashboard
