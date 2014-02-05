@@ -44,7 +44,10 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
 
                         var model_ids = _.pluck(models, 'id').join(',');
 
-                        return this.resource + models[0].get('structure').get('id') + '/recommandations.json';
+                        // TODO this used to be
+                        //   return App.resource + models[0].get('structure').get('id') + '/recommandations.json';
+                        // but it started barfing. It could bite us later
+                        return models[0].get('structure').get('id') + '/recommandations.json';
                     }
                 })
             },
@@ -72,7 +75,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                     url: function (models) {
                         if (models === undefined) { return ''; }
 
-                        return this.resource + models[0].get('structure').get('id') + '/medias.json';
+                        return models[0].get('structure').get('id') + '/medias.json';
                     }
                 })
             }
