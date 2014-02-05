@@ -1,31 +1,14 @@
+
 # encoding: utf-8
-class StructuresController < ApplicationController
+class OpenDoorsController < ApplicationController
   include FilteredSearchProvider
 
   respond_to :json
 
   layout :choose_layout
 
-  def show
-    begin
-      @structure = Structure.friendly.find params[:id]
-    rescue ActiveRecord::RecordNotFound
-      place = Place.find params[:id]
-      redirect_to structure_path(place.structure), status: 301
-      return
-    end
-    @city           = @structure.city
-    @places         = @structure.places
-    @courses        = @structure.courses.active
-    @teachers       = @structure.teachers
-    @medias         = @structure.medias.videos_first.reject{ |media| media.type == 'Media::Image' and media.cover }
-    @comments       = @structure.comments.accepted.reject(&:new_record?)
-    @comment        = @structure.comments.build
-    index           = 0
-  end
-
   def index
-    @app_slug = "filtered-search"
+    @app_slug = "open-doors-search"
     @subject = filter_by_subject?
 
     params[:page] = 1 unless request.xhr?
@@ -51,6 +34,7 @@ class StructuresController < ApplicationController
                            each_serializer: StructureSerializer,
                            meta: { total: @total, location: @latlng }}
       format.html do
+        render 'structures/index'
         cookies[:structure_search_path] = request.fullpath
       end
     end
