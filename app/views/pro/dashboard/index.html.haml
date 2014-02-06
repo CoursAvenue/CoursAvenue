@@ -1,5 +1,9 @@
 = side_menu_currently_at 'Dashboard'
 
+%h1.header-group
+  %i.fa.fa-dashboard
+  Tableau de bord
+
 .grid
   .grid__item.one-quarter>
     .white-box.soft-half.text--center
@@ -21,10 +25,6 @@
       %h3.flush= "#{CommentNotification.count} élèves"
       %h6.flush dont #{CommentNotification.where{(created_at > Date.today)}.count} aujourd'hui
       %div et #{CommentNotification.where{(created_at > Date.today - 7.days)}.count} les 7 derniers jours
-
-%h1.header-group
-  %i.fa.fa-dashboard
-  Tableau de bord
 
 %h3.header-group
   %i.fa.fa-map-marker

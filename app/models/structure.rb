@@ -205,7 +205,7 @@ class Structure < ActiveRecord::Base
   # Takes [1,2] or '1,2'
   def funding_type_ids= _funding_types
     if _funding_types.is_a? Array
-      write_attribute :funding_type_ids, _funding_types.reject{|funding_type| funding_type.blank?}.join(',')
+      write_attribute :funding_type_ids, _funding_types.reject(&:blank?).join(',')
     else
       write_attribute :funding_type_ids, _funding_types
     end
@@ -214,7 +214,7 @@ class Structure < ActiveRecord::Base
   # Takes an array FundingTypes or a single model
   def funding_types= _funding_types
     if _funding_types.is_a? Array
-      write_attribute :funding_type_ids, _funding_types.map(&:id).join(',')
+      write_attribute :funding_type_ids, _funding_types.reject(&:blank?).map(&:id).join(',')
     elsif _funding_types.is_a? FundingType
       write_attribute :funding_type_ids, _funding_types.id.to_s
     end
