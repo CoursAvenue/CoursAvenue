@@ -1,5 +1,4 @@
 class Users::InvitedUsersController < ApplicationController
-
   before_action :authenticate_user!
 
   layout 'user_profile'
@@ -23,7 +22,7 @@ class Users::InvitedUsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to user_invited_users_path(current_user), notice: (params[:emails].present? ? 'Vos amis ont bien été notifiés.': nil)}
+      format.html { redirect_to user_invited_users_path(current_user), notice: (params[:emails].present? ? 'Vos amis ont bien été notifiés.' : nil) }
     end
   end
 end

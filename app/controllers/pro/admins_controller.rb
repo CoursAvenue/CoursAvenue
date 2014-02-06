@@ -1,6 +1,5 @@
 # encoding: utf-8
 class ::Pro::AdminsController < InheritedResources::Base
-
   before_action :authenticate_pro_admin!, except: [:waiting_for_activation]
   load_and_authorize_resource :admin, except: [:waiting_for_activation], find_by: :slug
 
@@ -59,7 +58,7 @@ class ::Pro::AdminsController < InheritedResources::Base
   def update
     @admin = ::Admin.find(params[:id])
 
-    if !@admin.new_record? and params[:admin][:password].blank?
+    if !@admin.new_record? && params[:admin][:password].blank?
       params[:admin].delete :password
       params[:admin].delete :password_confirmation
     end

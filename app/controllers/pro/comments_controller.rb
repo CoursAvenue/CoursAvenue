@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Pro::CommentsController < InheritedResources::Base
-
   before_action :authenticate_pro_admin!
 
   load_and_authorize_resource :comment
@@ -36,11 +35,11 @@ class Pro::CommentsController < InheritedResources::Base
   def destroy
     @comment = Comment.find(params[:id])
     respond_to do |format|
-      if can?(:destroy, @comment) and @comment.destroy
+      if can?(:destroy, @comment) && @comment.destroy
         AdminMailer.delay.recommandation_has_been_deleted(@comment.structure)
-        format.html { redirect_to request.referrer || pro_comments_path, notice: 'Votre avis a bien été supprimé'}
+        format.html { redirect_to request.referrer || pro_comments_path, notice: 'Votre avis a bien été supprimé' }
       else
-        format.html { redirect_to request.referrer || root_path, alert: 'Vous ne pouvez pas supprimer ce avis'}
+        format.html { redirect_to request.referrer || root_path, alert: 'Vous ne pouvez pas supprimer ce avis' }
       end
     end
   end

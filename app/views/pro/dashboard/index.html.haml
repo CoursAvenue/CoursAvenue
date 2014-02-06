@@ -1,5 +1,27 @@
 = side_menu_currently_at 'Dashboard'
 
+.grid
+  .grid__item.one-quarter>
+    .white-box.soft-half.text--center
+      %h3.flush= "#{Admin.normal.count} professeurs"
+      %h6.flush dont #{Admin.where{created_at > Date.today}.count} aujourd'hui
+      %div et #{Admin.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
+  .grid__item.one-quarter>
+    .white-box.soft-half.text--center
+      %h3.flush= "#{Comment.count} avis"
+      %h6.flush dont #{Comment.where{created_at > Date.today}.count} aujourd'hui
+      %div et #{Comment.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
+  .grid__item.one-quarter>
+    .white-box.soft-half.text--center
+      %h3.flush= "#{Conversation.where{subject == "Demande d'informations"}.count} messages"
+      %h6.flush dont #{Conversation.where{(subject == "Demande d'informations") & (created_at > Date.today)}.count} aujourd'hui
+      %div et #{Conversation.where{(subject == "Demande d'informations") & (created_at > Date.today - 7.days)}.count} les 7 derniers jours
+  .grid__item.one-quarter>
+    .white-box.soft-half.text--center
+      %h3.flush= "#{CommentNotification.count} élèves"
+      %h6.flush dont #{CommentNotification.where{(created_at > Date.today)}.count} aujourd'hui
+      %div et #{CommentNotification.where{(created_at > Date.today - 7.days)}.count} les 7 derniers jours
+
 %h1.header-group
   %i.fa.fa-dashboard
   Tableau de bord

@@ -5,7 +5,7 @@ class Pro::CitiesController < Pro::ProController
 
   def zip_code_search
     term = params[:term]
-    @cities = City.where{zip_code =~ term}.limit(20)
+    @cities = City.where { zip_code =~ term }.limit(20)
 
     respond_to do |format|
       format.json { render json: @cities }
@@ -23,5 +23,4 @@ class Pro::CitiesController < Pro::ProController
       format.html { redirect_to pro_cities_path }
     end
   end
-
 end

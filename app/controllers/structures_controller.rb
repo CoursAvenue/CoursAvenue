@@ -18,7 +18,7 @@ class StructuresController < ApplicationController
     @places         = @structure.places
     @courses        = @structure.courses.active
     @teachers       = @structure.teachers
-    @medias         = @structure.medias.videos_first.reject{ |media| media.type == 'Media::Image' and media.cover }
+    @medias         = @structure.medias.videos_first.reject { |media| media.type == 'Media::Image' and media.cover }
     @comments       = @structure.comments.accepted.reject(&:new_record?)
     @comment        = @structure.comments.build
     index           = 0
@@ -42,14 +42,16 @@ class StructuresController < ApplicationController
     if params[:name].present?
       # Log search terms
       SearchTermLog.create(name: params[:name]) unless cookies["search_term_logs_#{params[:name]}"].present?
-      cookies["search_term_logs_#{params[:name]}"] = {value: params[:name], expires: 12.hours.from_now}
+      cookies["search_term_logs_#{params[:name]}"] = { value: params[:name], expires: 12.hours.from_now }
     end
 
     respond_to do |format|
-      format.json { render json: @structures,
-                           root: 'structures',
-                           each_serializer: StructureSerializer,
-                           meta: { total: @total, location: @latlng }}
+      format.json do
+        render json: @structures,
+               root: 'structures',
+               each_serializer: StructureSerializer,
+               meta: { total: @total, location: @latlng }
+      end
       format.html do
         cookies[:structure_search_path] = request.fullpath
       end

@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Users::CommentsController < ApplicationController
-
   layout 'user_profile'
 
   load_and_authorize_resource :user, find_by: :slug
@@ -28,4 +27,3 @@ class Users::CommentsController < ApplicationController
     end
   end
 end
-

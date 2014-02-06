@@ -202,6 +202,7 @@ class Structure < ActiveRecord::Base
   handle_asynchronously :solr_index unless Rails.env.test?
 
   # ---------------------------- Simulating Funding Type as objects
+  # Takes [1,2] or '1,2'
   def funding_type_ids= _funding_types
     if _funding_types.is_a? Array
       write_attribute :funding_type_ids, _funding_types.reject{|funding_type| funding_type.blank?}.join(',')
@@ -210,11 +211,11 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # Takes an array FundingTypes or a single model
   def funding_types= _funding_types
-    _funding_types.reject!(&:blank?)
     if _funding_types.is_a? Array
-      write_attribute :funding_type_ids, _funding_types.join(',')
-    elsif _funding_types.is_a? funding_type
+      write_attribute :funding_type_ids, _funding_types.map(&:id).join(',')
+    elsif _funding_types.is_a? FundingType
       write_attribute :funding_type_ids, _funding_types.id.to_s
     end
   end

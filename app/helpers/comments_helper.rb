@@ -1,11 +1,10 @@
 # encoding: utf-8
 module CommentsHelper
-
-  def structure_comment_url comment
+  def structure_comment_url(comment)
     structure_url(comment.structure, anchor: "recommandation-#{comment.id}", subdomain: 'www')
   end
 
-  def share_comment_url comment, provider=:facebook
+  def share_comment_url(comment, provider = :facebook)
     case provider
     when :facebook
       URI.encode("http://www.facebook.com/sharer.php?s=100&p[title]=\"#{comment.title}\" par #{comment.author_name}&p[url]=#{structure_comment_url(comment)}&p[summary]=#{truncate(comment.content, length: 200)}")
@@ -13,7 +12,7 @@ module CommentsHelper
       URI.encode("https://twitter.com/intent/tweet?text=\"#{comment.title}\" par #{comment.author_name}&via=CoursAvenue&url=#{structure_comment_url(comment)}")
     end
   end
-  def comment_rating_title rating
+  def comment_rating_title(rating)
     rating = rating.to_i
     case rating
     when 0
@@ -32,7 +31,7 @@ module CommentsHelper
   end
 
   # Path of the commentable
-  def commentable_path comment, options={}
+  def commentable_path(comment, options = {})
     if comment.commentable.is_a? Structure
       structure_path comment.commentable, options
     elsif comment.commentable
@@ -41,15 +40,15 @@ module CommentsHelper
   end
 
   # URL of the commentable
-  def commentable_url comment, options={}
+  def commentable_url(comment, options = {})
     if comment.commentable.is_a? Structure
-      structure_url(comment.commentable, {subdomain: 'www'}.merge(options))
+      structure_url(comment.commentable, { subdomain: 'www' }.merge(options))
     elsif comment.commentable
-      structure_course_url comment.commentable.structure, comment.commentable, {subdomain: 'www'}.merge(options)
+      structure_course_url comment.commentable.structure, comment.commentable, { subdomain: 'www' }.merge(options)
     end
   end
 
-  def rating_stars rating
+  def rating_stars(rating)
     content_tag :span, class: 'nowrap' do
       out = ''
       5.times do |i|
@@ -63,7 +62,7 @@ module CommentsHelper
     end
   end
 
-  def rating_stars_image rating, options={}
+  def rating_stars_image(rating, options = {})
     content_tag :span, class: 'nowrap' do
       out = ''
       5.times do |i|
@@ -76,5 +75,4 @@ module CommentsHelper
       out.html_safe
     end
   end
-
 end

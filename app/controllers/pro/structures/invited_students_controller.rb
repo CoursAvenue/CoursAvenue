@@ -1,6 +1,5 @@
 # encoding: utf-8
 class ::Pro::Structures::InvitedStudentsController < Pro::ProController
-
   before_action :authenticate_pro_admin!
   load_and_authorize_resource :structure, find_by: :slug
 
@@ -24,7 +23,7 @@ class ::Pro::Structures::InvitedStudentsController < Pro::ProController
     end
 
     respond_to do |format|
-      format.html { redirect_to new_pro_structure_invited_student_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés.': nil)}
+      format.html { redirect_to new_pro_structure_invited_student_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés.' : nil) }
     end
   end
 end

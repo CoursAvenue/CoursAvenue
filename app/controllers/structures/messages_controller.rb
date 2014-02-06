@@ -12,7 +12,7 @@ class Structures::MessagesController < ApplicationController
       @conversation = @receipt.conversation
     end
     respond_to do |format|
-      if @conversation and @conversation.persisted?
+      if @conversation && @conversation.persisted?
         format.html { redirect_to user_conversation_path(@user, @conversation) }
       else
         format.html { redirect_to structure_path(@structure), alert: "Vous n'avez pas remplis toutes les informations" }

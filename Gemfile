@@ -171,7 +171,14 @@ group :test do
 end
 
 group :development do
-  # Show errors in a beautiful way
+  # Removes useless logging in dev.
+  gem 'brakeman'          , '~>2.3.1'
+  gem 'rubocop'           , '~>0.18.1'
+
+  # Removes useless logging in dev.
+  gem 'quiet_assets', '~>1.0.2'
+
+  # Show errors nicely
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'awesome_print'
