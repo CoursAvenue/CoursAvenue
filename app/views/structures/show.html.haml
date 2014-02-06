@@ -142,3 +142,11 @@
             $('[href=' + window.location.hash + ']').click();
         }
     });
+
+  :javascript
+    var places = #{ActiveModel::ArraySerializer.new(@structure.places, each_serializer: BigPlaceSerializer).to_json};
+    window.coursavenue = window.coursavenue || {};
+    window.coursavenue.bootstrap = {
+      model: #{ @structure.to_json },
+      places: places,
+    };

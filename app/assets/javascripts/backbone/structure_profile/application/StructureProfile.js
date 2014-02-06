@@ -9,7 +9,7 @@ StructureProfile.addInitializer(function(options) {
     bootstrap = window.coursavenue.bootstrap;
 
     // Create an instance of your class and populate with the models of your entire collection
-    places = new StructureProfile.Models.PlacesCollection(bootstrap.models);
+    places = new StructureProfile.Models.PlacesCollection(bootstrap.places);
     /* set up the layouts */
     layout = new StructureProfile.Views.StructureProfileLayout({collection: places});
 
