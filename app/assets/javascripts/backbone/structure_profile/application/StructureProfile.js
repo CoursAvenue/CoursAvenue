@@ -1,4 +1,4 @@
-StructureProfile = new Backbone.Marionette.Application({ slug: 'structure-profile' });
+StructureProfile = new Backbone.Marionette.Application({ slug: 'structure-profile', resource: 'etablissements' });
 
 StructureProfile.addRegions({
     mainRegion: '#' + StructureProfile.slug
@@ -13,6 +13,8 @@ StructureProfile.addInitializer(function(options) {
     /* models */
     structure = new StructureProfile.Models.Structure(bootstrap.model);
     places    = new StructureProfile.Models.PlacesCollection(bootstrap.places);
+
+    window.pfaff = structure;
 
     /* layouts */
     structure_layout = new StructureProfile.Views.ExpandedStructureLayout({ model: structure });

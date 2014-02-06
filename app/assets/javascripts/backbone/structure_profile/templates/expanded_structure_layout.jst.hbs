@@ -15,4 +15,25 @@
 
 <div class="tab-content">
     {{!-- each tab has its own view --}}
+    {{!-- the first tab is shown by default --}}
+
+    {{#with tab}}
+    <article id="tab-{{slug}}" class="tab-pane">
+        {{#if isEmpty}}
+            <p class="white-box islet text--center">
+                Cet établissement n'a pas encore d'avis <br>
+                <b>Soyez le premier à nous donner votre avis !</b>
+            </p>
+        {{else}}
+          <ul id="comments" class="comment-list">
+              {{#each comments}}
+                  = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
+              {{/each}}
+          </ul>
+        {{/if}}
+    
+    </article>
+    {{/with}}
+
+
 </div>

@@ -51,7 +51,10 @@ module FilteredSearchProvider extend ActiveSupport::Concern
   end
 
   def jasonify(structures)
-    structures.map do |structure|
+    # we splat the structures to ensure that a single
+    # structure is treated as an array <3 Ruby
+    
+    [*structures].map do |structure|
       StructureSerializer.new(structure, { root: false })
     end
   end

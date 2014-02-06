@@ -22,6 +22,8 @@ class StructuresController < ApplicationController
     @comments       = @structure.comments.accepted.reject(&:new_record?)
     @comment        = @structure.comments.build
     index           = 0
+
+    @model = (jasonify @structure).pop
   end
 
   def index

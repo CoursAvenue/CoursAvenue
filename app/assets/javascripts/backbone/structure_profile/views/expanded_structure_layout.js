@@ -8,6 +8,8 @@ StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, 
 
         initialize: function () {
             this.tabs = ["comments", "courses"];
+            this.default_tab = this.tabs[0];
+
         },
 
         regions: {
@@ -21,9 +23,18 @@ StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, 
         },
 
         serializeData: function () {
+            var relations     = this.serializeRelations(this.tabs);
+
+            var relation_name = this.default_tab;
+            var active_tab    = _.first(_.where(relations, { slug: relation_name }));
+
+            // give the default tab some comments
+            active_tab.isEmpty        = this.model.get(relation_name).length > 0 ? false : true;
+            active_tab[relation_name] = this.model.get(relation_name);
 
             return {
-                relations: this.serializeRelations(this.tabs)
+                tab: active_tab,
+                relations: relations
             };
         },
 
