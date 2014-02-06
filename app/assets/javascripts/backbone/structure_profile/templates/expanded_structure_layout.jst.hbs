@@ -1,0 +1,18 @@
+
+<div data-type="structure-headers"></div>
+
+<ul class="tabs">
+    {{!-- each relation on the structure creates a tab --}}
+    {{#each relations }}
+    <li class="active">
+        <a href="#tab-{{slug}}" data-toggle="tab">
+            <i class="fa fa-{{icon}}"></i>
+            {{name}}
+        </a>
+    </li>
+    {{/each}}
+</ul>
+
+<div class="tab-content">
+    {{!-- each tab has its own view --}}
+</div>

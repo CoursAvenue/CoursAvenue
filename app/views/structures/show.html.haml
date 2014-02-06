@@ -46,6 +46,8 @@
 
     = render partial: 'structures/comments_headband', locals: {structure: @structure}
 
+    #structure-profile{data: { type: 'structure-profile-root'}}
+
     %ul.tabs
       %li.active
         %a{href: '#tab-courses', data: {toggle: 'tab'} }

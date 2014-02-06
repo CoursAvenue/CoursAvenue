@@ -5,20 +5,28 @@ StructureProfile.addRegions({
 });
 
 StructureProfile.addInitializer(function(options) {
-    var bootstrap, places, places_view, layout, maps_view, $loader;
+    var bootstrap, places, places_view, layout, maps_view,
+    $loader, structure, structure_layout, headers_layout;
+
     bootstrap = window.coursavenue.bootstrap;
 
-    // Create an instance of your class and populate with the models of your entire collection
-    places = new StructureProfile.Models.PlacesCollection(bootstrap.places);
-    /* set up the layouts */
-    layout = new StructureProfile.Views.StructureProfileLayout({collection: places});
+    /* models */
+    structure = new StructureProfile.Models.Structure(bootstrap.model);
+    places    = new StructureProfile.Models.PlacesCollection(bootstrap.places);
+
+    /* layouts */
+    structure_layout = new StructureProfile.Views.ExpandedStructureLayout({ model: structure });
+    headers_layout   = new StructureProfile.Views.StructureHeadersLayout({ collection: places });
 
     google_maps_view = new StructureProfile.Views.Map.GoogleMap.GoogleMapsView({
         collection: places
     });
 
-    StructureProfile.mainRegion.show(layout);
-    layout.master.show(google_maps_view);
+    StructureProfile.mainRegion.show(structure_layout);
+
+    structure_layout.showWidget(headers_layout);
+
+    headers_layout.showWidget(google_maps_view);
 
 });
 
