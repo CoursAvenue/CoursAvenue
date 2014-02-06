@@ -4,7 +4,7 @@
 <ul class="tabs">
     {{!-- each relation on the structure creates a tab --}}
     {{#each relations }}
-    <li class="active">
+    <li class="{{active}}">
         <a href="#tab-{{slug}}" data-toggle="tab">
             <i class="fa fa-{{icon}}"></i>
             {{name}}

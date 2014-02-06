@@ -33,6 +33,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
             {
                 type: Backbone.HasMany,
                 key: 'comments',
+                icon: 'comments',
                 relatedModel: Backbone.RelationalModel.extend({ }),
                 includeInJSON: false,
                 reverseRelation: {
@@ -55,6 +56,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
             {
                 type: Backbone.HasMany,
                 key: 'courses',
+                icon: 'calendar',
                 relatedModel: Backbone.RelationalModel.extend({ }),
                 includeInJSON: false,
                 reverseRelation: {

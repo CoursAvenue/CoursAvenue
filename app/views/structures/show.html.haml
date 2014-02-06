@@ -48,19 +48,6 @@
 
     #structure-profile{data: { type: 'structure-profile-root'}}
 
-    %ul.tabs
-      %li.active
-        %a{href: '#tab-courses', data: {toggle: 'tab'} }
-          %i.fa.fa-calendar
-          Cours
-      %li
-        %a{href: '#tab-comments', data: {toggle: 'tab'} }
-          %i.fa.fa-comments
-          Avis
-      %li
-        %a{href: '#tab-teachers', data: {toggle: 'tab'} }
-          %i.fa.fa-group
-          Professeurs
     .tab-content
       %article#tab-courses.tab-pane.active
         - if @courses.any?
