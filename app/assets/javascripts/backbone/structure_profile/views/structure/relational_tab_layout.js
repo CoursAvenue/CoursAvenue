@@ -36,14 +36,14 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 collection_slug = collection_name.replace('_', '-'),
                 // TODO we don't have a data-attributes attribute yet
                 attributes      = ($(e.currentTarget).data('attributes') ? $(e.currentTarget).data('attributes').split(' ') : {}),
-                self            = this;
+                self            = this, promise;
 
             /* if no region exists on the structure view, then we need to
             *  fetch the relation, and create a region for it */
             if (this.regions[collection_name] === undefined) {
                 // this.showLoader(collection_name); // TODO we don't have a loader yet
                 /* wait for asynchronous fetch of models before adding region */
-                this.model.fetchRelated(relation_name, { data: { search_term: this.search_term }}, true)[0].then(function () {
+                promise = this.model.fetchRelated(relation_name, { data: { search_term: this.search_term }}, true)[0].then(function () {
                     self.createRegionFor(relation_name, attributes);
                     // self.accordionToggle(collection_name, model_name); // we may not need this
                     // self.hideLoader();
@@ -51,6 +51,8 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             } else {
                 // this.accordionToggle(collection_name, model_name);
             }
+
+            return promise;
         },
 
         /* any implementation of RelationalAccordionView must do this */
@@ -128,8 +130,18 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             master: "#map-places",
         },
 
+        /* TODO I am adding the active class myself when the first active
+         * tab is shown. This shouldn't need promises: I should really not
+         * be depending on Bootstrap to do my tab logic for me. Later I will
+         * implement tab logic here. */
         onShow: function() {
-            this.$(".active > [data-toggle=tab]").click();
+            var tab  = this.$(".active > [data-toggle=tab]");
+            var self = this;
+
+            // blah blah blah bad programming with promises
+            $.when( this.tabControl({ currentTarget: tab }) ).then(function () {
+                self.$('#tab-courses').addClass("active");
+            });
 
             if (App.$loader) {
                 App.$loader().fadeOut('slow');
