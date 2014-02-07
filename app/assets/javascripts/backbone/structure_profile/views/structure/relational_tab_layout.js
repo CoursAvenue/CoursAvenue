@@ -9,7 +9,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         initialize: function () {
             this.getModuleForRelation = _.bind(this.getModuleForRelation, Module);
             this.tabs = ["comments", "courses"];
-            this.default_tab = this.tabs[0];
+            this.default_tab = this.tabs[1];
 
         },
 
@@ -30,7 +30,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
          *       data-model, so I'm going to change this here and then fix it in the other
          *       place later. */
         tabControl: function (e) {
-
             var relation_name   = $(e.currentTarget).data('relation'), // the relation name
                 model_name      = _.singularize(relation_name ), // note we are not adding an s here
                 collection_name = relation_name + '_collection',
@@ -137,14 +136,14 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         serializeData: function () {
-            var relations     = this.serializeRelations(this.tabs);
+            var active_relation_name = this.default_tab;
+            var relations            = this.serializeRelations(this.tabs, active_relation_name);
 
-            var relation_name = this.default_tab;
-            var active_tab    = _.first(_.where(relations, { slug: relation_name }));
+            var active_tab = _.first(_.where(relations, { slug: active_relation_name }));
 
             // give the default tab some comments
-            active_tab.isEmpty        = this.model.get(relation_name).length > 0 ? false : true;
-            active_tab[relation_name] = this.model.get(relation_name);
+            active_tab.isEmpty  = this.model.get(active_relation_name).length > 0 ? false : true;
+            active_tab.models   = this.model.get(active_relation_name);
 
             return {
                 tab: active_tab,
@@ -152,7 +151,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             };
         },
 
-        serializeRelations: function (tabs) {
+        serializeRelations: function (tabs, active_relation_name) {
 
             return _.reduce(this.model.relations, function (memo, relation) {
                 var slug   = relation.key;
@@ -161,7 +160,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
                 // serialize the given relation if it is on our whitelist
                 if (tabs.indexOf(slug) > -1) {
-                    active = (memo.length === 0)? "active" : "";
+                    active = (slug === active_relation_name)? "active" : "";
 
                     memo.push({
                         active: active,

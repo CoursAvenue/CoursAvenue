@@ -28,9 +28,9 @@
                       <b>Soyez le premier à nous donner votre avis !</b>
                   </p>
               {{else}}
-                <ul id="comments" class="comment-list">
-                    {{#each comments}}
-                        = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
+                <ul id="{{ slug }}" class="{{ slug }}-list">
+                    {{#each models }}
+                        MODEL
                     {{/each}}
                 </ul>
               {{/if}}
@@ -39,7 +39,6 @@
           {{/with}}
         {{else}}
           <article id="tab-{{slug}}" class="tab-pane">
-            ZEMPTY
           </article>
         {{/if}}
 
