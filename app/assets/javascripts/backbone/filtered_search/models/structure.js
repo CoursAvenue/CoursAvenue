@@ -5,10 +5,23 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
         resource: "/" + App.resource + "/",
 
         url: function (models) {
+            var query = "";
+
             if (models === undefined) { return ''; }
 
             /* TODO not super happy about this */
-            var query = this.structure.collection.getQuery();
+            // TODO this has become a problem, since we are now using structure
+            // in a context where it has no "collection"
+            if (this.structure.collection && _.isFunction(this.structure.collection.getQuery)) {
+                query = this.structure.collection.getQuery();
+            } else {
+
+                // TODO this is clearly just a temporary solution
+                var lat = coursavenue.bootstrap.places[0].location.latitude,
+                    lng = coursavenue.bootstrap.places[0].location.longitude;
+
+                query = "?lat=" + lat + "&lng=" + lng;
+            }
 
             return this.resource + models[0].get('structure').get('id') + '/cours.json' + query;
         }
