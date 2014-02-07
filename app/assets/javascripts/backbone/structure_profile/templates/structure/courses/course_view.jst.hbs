@@ -1,0 +1,24 @@
+<hr class="{{#if isFirst}}{{else}}push-half--ends{{/if}}">
+<div class="float--right text--right">
+    {{#if best_price}}
+        "à partir de #{readable_amount course.best_price.amount}€".html_safe
+    {{/if}}
+    {{#if has_free_trial_lesson}}
+        <strong>(essai gratuit)</strong>
+        <br>
+        {{#if is_individual}}
+            <i class="fa.fa-user pointer" data-behavior="tooltip" data-title="Cours individuel" data-placement="left"></i>
+        {{else}}
+            <span class="" data-behavior="tooltip" data-title="Cours collectif" data-placement="left">
+                <i class="fa.fa-user"></i>
+                <i class="fa.fa-user" style="left: -6px; top 2px; position:relative"></i>
+            </span>
+        {{/if}}
+    {{/if}}
+
+</div>
+<h3 class="base-font-style flush--bottom">= link_to course.name.capitalize, structure_course_path(@structure, course)</h3>
+<span class="gray">
+    <i class="fa fa-tags">= course.subjects.map(&:name).join(', ')</i>
+</span>
+

@@ -118,7 +118,6 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 model: new Backbone.Model(data),
                 attributes: {
                     'data-behavior': 'accordion-data',
-                    'style':         'display:none'
                 }
             });
 
@@ -139,14 +138,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             var active_relation_name = this.default_tab;
             var relations            = this.serializeRelations(this.tabs, active_relation_name);
 
-            var active_tab = _.first(_.where(relations, { slug: active_relation_name }));
-
-            // give the default tab some comments
-            active_tab.isEmpty  = this.model.get(active_relation_name).length > 0 ? false : true;
-            active_tab.models   = this.model.get(active_relation_name);
-
             return {
-                tab: active_tab,
                 relations: relations
             };
         },

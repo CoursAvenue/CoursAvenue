@@ -18,31 +18,7 @@
     {{!-- the first tab is shown by default --}}
 
     {{#each relations}}
-        {{#if isActive}}
-          {{#with ../../tab}} {{!-- tab is in the parent context of the context above this context... hbs ftw! --}}
-          <article id="tab-{{slug}}" class="tab-pane">
-            <div data-type="{{slug}}-collection">
-              {{#if isEmpty}}
-                  <p class="white-box islet text--center">
-                      Cet établissement n'a pas encore d'avis <br>
-                      <b>Soyez le premier à nous donner votre avis !</b>
-                  </p>
-              {{else}}
-                <ul id="{{ slug }}" class="{{ slug }}-list">
-                    {{#each models }}
-                        MODEL
-                    {{/each}}
-                </ul>
-              {{/if}}
-            </div>
-          </article>
-          {{/with}}
-        {{else}}
-          <article id="tab-{{slug}}" class="tab-pane">
-          </article>
-        {{/if}}
-
+        <article id="tab-{{slug}}" class="tab-pane">
+        </article>
     {{/each}}
-
-
 </div>

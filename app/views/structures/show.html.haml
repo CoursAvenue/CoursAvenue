@@ -48,52 +48,52 @@
 
     #structure-profile{data: { type: 'structure-profile-root'}}
 
-    .tab-content
-      %article#tab-courses.tab-pane.active
-        - if @courses.any?
-          #course-list.white-box.islet
-            - @courses.each_with_index do |course, index|
-              - unless index == 0
-                %hr.push-half--ends
-              %div
-                %div.float--right.text--right
-                  - if course.best_price
-                    = "à partir de #{readable_amount course.best_price.amount}€".html_safe
-                  - if course.has_free_trial_lesson?
-                    %strong (essai gratuit)
-                    %br
-                    - if course.is_individual
-                      %i.fa.fa-user.pointer{data: { behavior: "tooltip", title: "Cours individuel", placement: "left"}}
-                    - else
-                      %span{data: { behavior: "tooltip", title: "Cours collectif", placement: "left"}}
-                        %i.fa.fa-user
-                        %i.fa.fa-user{style:'left: -6px; top: 2px; position: relative'}
+      
+-#  .tab-content
+-#    %article#tab-courses.tab-pane.active
+-#      - if @courses.any?
+-#        #course-list.white-box.islet
+-#          - @courses.each_with_index do |course, index|
+-#            - unless index == 0
+-#              %hr.push-half--ends
+-#            %div
+-#              %div.float--right.text--right
+-#                - if course.best_price
+-#                  = "à partir de #{readable_amount course.best_price.amount}€".html_safe
+-#                - if course.has_free_trial_lesson?
+-#                  %strong (essai gratuit)
+-#                  %br
+-#                  - if course.is_individual
+-#                    %i.fa.fa-user.pointer{data: { behavior: "tooltip", title: "Cours individuel", placement: "left"}}
+-#                  - else
+-#                    %span{data: { behavior: "tooltip", title: "Cours collectif", placement: "left"}}
+-#                      %i.fa.fa-user
+-#                      %i.fa.fa-user{style:'left: -6px; top: 2px; position: relative'}
 
-                %h3.base-font-style.flush--bottom= link_to course.name.capitalize, structure_course_path(@structure, course)
-                %span.gray
-                  %i.fa.fa-tags
-                  = course.subjects.map(&:name).join(', ')
-        - else
-          %p.white-box.islet.text--center
-            Cet établissement n'a pas renseigné de cours.
+-#              %h3.base-font-style.flush--bottom= link_to course.name.capitalize, structure_course_path(@structure, course)
+-#              %span.gray
+-#                %i.fa.fa-tags
+-#                = course.subjects.map(&:name).join(', ')
+-#      - else
+-#        %p.white-box.islet.text--center
+-#          Cet établissement n'a pas renseigné de cours.
 
 
-      %article#tab-comments.tab-pane
-        - if @comments.empty?
-          %p.white-box.islet.text--center
-            Cet établissement n'a pas encore d'avis
-            %br
-            %b Soyez le premier à nous donner votre avis !
-        - if @comments.any?
-          %ul#comments.comment-list
-            - @comments.each_with_index do |comment, index|
-              = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
-      %article#tab-teachers.tab-pane
-        #teachers
-          - @teachers.each_with_index do |teacher, index|
-            %div
-              = render partial: 'teachers/teacher', locals: {teacher: teacher}
-
+-#    %article#tab-comments.tab-pane
+-#      - if @comments.empty?
+-#        %p.white-box.islet.text--center
+-#          Cet établissement n'a pas encore d'avis
+-#          %br
+-#          %b Soyez le premier à nous donner votre avis !
+-#      - if @comments.any?
+-#        %ul#comments.comment-list
+-#          - @comments.each_with_index do |comment, index|
+-#            = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
+-#    %article#tab-teachers.tab-pane
+-#      #teachers
+-#        - @teachers.each_with_index do |teacher, index|
+-#          %div
+-#            = render partial: 'teachers/teacher', locals: {teacher: teacher}
 
   .grid__item.four-twelfths{itemscope: true, itemtype: 'http://schema.org/Place'}>
     .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
