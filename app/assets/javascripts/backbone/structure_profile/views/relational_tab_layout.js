@@ -29,32 +29,74 @@ StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, 
          *       data-model, so I'm going to change this here and then fix it in the other
          *       place later. */
         tabControl: function (e) {
-            e.preventDefault();
 
             var relation_name   = $(e.currentTarget).data('relation'), // the relation name
                 model_name      = _.singularize(relation_name ), // note we are not adding an s here
                 collection_name = relation_name + '_collection',
                 collection_slug = collection_name.replace('_', '-'),
+                // TODO we don't have a data-attributes attribute yet
                 attributes      = ($(e.currentTarget).data('attributes') ? $(e.currentTarget).data('attributes').split(' ') : {}),
                 self            = this;
 
             /* if no region exists on the structure view, then we need to
             *  fetch the relation, and create a region for it */
             if (this.regions[collection_name] === undefined) {
-                this.showLoader(collection_name);
+                // this.showLoader(collection_name); // TODO we don't have a loader yet
                 /* wait for asynchronous fetch of models before adding region */
                 this.model.fetchRelated(relation_name, { data: { search_term: this.search_term }}, true)[0].then(function () {
                     self.createRegionFor(relation_name, attributes);
                     // self.accordionToggle(collection_name, model_name); // we may not need this
-                    // we will need to retrigger the event at this point, though... hmm
-                    // since the tabbing is being managed by bootstrap
-                    self.hideLoader();
+                    // self.hideLoader();
                 });
             } else {
                 // this.accordionToggle(collection_name, model_name);
             }
+        },
 
-            return false;
+        /* given a string, find the relation on the model with that name
+        *  and create a region, and a composite view. Data for the composite
+        *  view is grabbed from the structure, based on strings passed in
+        *  an array. The collection is models on a relation on structure. */
+        createRegionFor: function (relation_name, attribute_strings) {
+            var model_name   = relation_name.slice(0, -1),
+                Relations    = this.getModuleForRelation(relation_name), // the module in which the relation views will be
+                self         = this, collection, ViewClass, view;
+
+            /* collect some attributes to pass in to the compositeview */
+            var data = _.inject(attribute_strings, function (memo, attr) {
+                memo[attr] = self.model.get(attr);
+
+                return memo;
+            }, {});
+
+            // TODO append where? We will probably need to use a hook
+            this.$el.append('<div data-type="' + relation_name + '-collection">');
+
+            collection = new Backbone.Collection(this.model.get(relation_name).models);
+
+            /* an anonymous compositeView is all we need */
+            // If a collection view exists, then use it, else create a generic one.
+            if (Relations[_.capitalize(relation_name) + 'CollectionView']) {
+                ViewClass = Relations[_.capitalize(relation_name) + 'CollectionView'];
+            } else {
+                ViewClass = Backbone.Marionette.CompositeView.extend({
+                    template: Relations.templateDirname() + relation_name + '_collection_view',
+
+                    itemView: Relations[_.capitalize(model_name) + 'View'],
+                    itemViewContainer: '[data-type=container]'
+                });
+            }
+
+            view = new ViewClass({
+                collection: collection,
+                model: new Backbone.Model(data),
+                attributes: {
+                    'data-behavior': 'accordion-data',
+                    'style':         'display:none'
+                }
+            });
+
+            this.showWidget(view);
         },
 
         regions: {

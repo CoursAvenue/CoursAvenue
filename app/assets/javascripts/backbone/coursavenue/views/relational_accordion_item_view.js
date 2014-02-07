@@ -145,7 +145,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         createRegionFor: function (relation_name, attribute_strings) {
             var model_name   = relation_name.slice(0, -1),
                 Relations    = this.getModuleForRelation(relation_name), // the module in which the relation views will be
-                self         = this;
+                self         = this, collection, ViewClass, view;
 
             /* collect some information to pass in to the compositeview */
             var data = _.inject(attribute_strings, function (memo, attr) {
