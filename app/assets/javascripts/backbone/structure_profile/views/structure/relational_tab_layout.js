@@ -1,4 +1,4 @@
-StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, _) {
+StructureProfile.module('Views.Structure', function(Module, App, Backbone, Marionette, $, _) {
 
     /* TODO should rename this to RelationalTabLayout, I think */
     Module.RelationalTabLayout = CoursAvenue.Views.EventLayout.extend({
@@ -56,14 +56,19 @@ StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, 
 
         /* any implementation of RelationalAccordionView must do this */
         /*    this.getModuleForRelation = _.bind(this.getModuleForRelation, Module); */
+        /* TODO problem! If the module for the given relation doesn't exist,
+         * such as will be the case when there is no view defined in the
+         * project */
         getModuleForRelation: function (relation) {
             var keys = this.modulePath.split('.');
             keys.push(_.capitalize(relation));
 
             var Relation = _.inject(keys, function (memo, key) {
-                if (memo[key]) {
-                    memo = memo[key];
+                if (memo[key] === undefined) {
+                    App.module(memo.modulePath + "." + key);
                 }
+
+                memo = memo[key];
 
                 return memo;
 

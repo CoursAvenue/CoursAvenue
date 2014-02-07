@@ -17,7 +17,7 @@ StructureProfile.addInitializer(function(options) {
     window.pfaff = structure;
 
     /* layouts */
-    structure_layout = new StructureProfile.Views.RelationalTabLayout({ model: structure });
+    structure_layout = new StructureProfile.Views.Structure.RelationalTabLayout({ model: structure });
     headers_layout   = new StructureProfile.Views.StructureHeadersLayout({ collection: places });
 
     google_maps_view = new StructureProfile.Views.Map.GoogleMap.GoogleMapsView({
