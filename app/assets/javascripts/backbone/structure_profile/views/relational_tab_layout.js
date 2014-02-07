@@ -7,6 +7,7 @@ StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, 
         master_region_name: 'relational-tabs',
 
         initialize: function () {
+            this.getModuleForRelation = _.bind(this.getModuleForRelation, Module);
             this.tabs = ["comments", "courses"];
             this.default_tab = this.tabs[0];
 
@@ -53,6 +54,24 @@ StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, 
             }
         },
 
+        /* any implementation of RelationalAccordionView must do this */
+        /*    this.getModuleForRelation = _.bind(this.getModuleForRelation, Module); */
+        getModuleForRelation: function (relation) {
+            var keys = this.modulePath.split('.');
+            keys.push(_.capitalize(relation));
+
+            var Relation = _.inject(keys, function (memo, key) {
+                if (memo[key]) {
+                    memo = memo[key];
+                }
+
+                return memo;
+
+            }, this.app);
+
+            return Relation;
+        },
+
         /* given a string, find the relation on the model with that name
         *  and create a region, and a composite view. Data for the composite
         *  view is grabbed from the structure, based on strings passed in
@@ -69,8 +88,11 @@ StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, 
                 return memo;
             }, {});
 
-            // TODO append where? We will probably need to use a hook
-            this.$el.append('<div data-type="' + relation_name + '-collection">');
+            // we don't want to add the hook twice
+            var selector = "[data-type=" + relation_name + "-collection]";
+            if (this.$(selector).length < 1) {
+                this.$('#tab-' + relation_name).append('<div data-type="' + relation_name + '-collection">');
+            }
 
             collection = new Backbone.Collection(this.model.get(relation_name).models);
 

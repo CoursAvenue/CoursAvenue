@@ -21,6 +21,7 @@
         {{#if isActive}}
           {{#with ../../tab}} {{!-- tab is in the parent context of the context above this context... hbs ftw! --}}
           <article id="tab-{{slug}}" class="tab-pane">
+            <div data-type="{{slug}}-collection">
               {{#if isEmpty}}
                   <p class="white-box islet text--center">
                       Cet établissement n'a pas encore d'avis <br>
@@ -33,6 +34,7 @@
                     {{/each}}
                 </ul>
               {{/if}}
+            </div>
           </article>
           {{/with}}
         {{else}}
