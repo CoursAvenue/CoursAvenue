@@ -1,10 +1,10 @@
 StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
     /* TODO should rename this to RelationalTabLayout, I think */
-    Module.ExpandedStructureLayout = CoursAvenue.Views.EventLayout.extend({
-        template: Module.templateDirname() + 'expanded_structure_layout',
-        className: 'expanded-structure-layout',
-        master_region_name: 'expanded_structure',
+    Module.RelationalTabLayout = CoursAvenue.Views.EventLayout.extend({
+        template: Module.templateDirname() + 'relational_tab_layout',
+        className: 'replational-tab-layout',
+        master_region_name: 'relational-tabs',
 
         initialize: function () {
             this.tabs = ["comments", "courses"];
