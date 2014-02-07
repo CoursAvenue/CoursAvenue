@@ -5,7 +5,7 @@
     {{!-- each relation on the structure creates a tab --}}
     {{#each relations }}
     <li class="{{active}}">
-        <a href="#tab-{{slug}}" data-toggle="tab">
+    <a href="#tab-{{slug}}" data-toggle="tab" data-relation="{{slug}}">
             <i class="fa fa-{{icon}}"></i>
             {{name}}
         </a>
@@ -17,23 +17,31 @@
     {{!-- each tab has its own view --}}
     {{!-- the first tab is shown by default --}}
 
-    {{#with tab}}
-    <article id="tab-{{slug}}" class="tab-pane">
-        {{#if isEmpty}}
-            <p class="white-box islet text--center">
-                Cet établissement n'a pas encore d'avis <br>
-                <b>Soyez le premier à nous donner votre avis !</b>
-            </p>
+    {{#each relations}}
+        {{#if isActive}}
+          {{#with ../../tab}} {{!-- tab is in the parent context of the context above this context... hbs ftw! --}}
+          <article id="tab-{{slug}}" class="tab-pane">
+              {{#if isEmpty}}
+                  <p class="white-box islet text--center">
+                      Cet établissement n'a pas encore d'avis <br>
+                      <b>Soyez le premier à nous donner votre avis !</b>
+                  </p>
+              {{else}}
+                <ul id="comments" class="comment-list">
+                    {{#each comments}}
+                        = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
+                    {{/each}}
+                </ul>
+              {{/if}}
+          </article>
+          {{/with}}
         {{else}}
-          <ul id="comments" class="comment-list">
-              {{#each comments}}
-                  = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
-              {{/each}}
-          </ul>
+          <article id="tab-{{slug}}" class="tab-pane">
+            ZEMPTY
+          </article>
         {{/if}}
-    
-    </article>
-    {{/with}}
+
+    {{/each}}
 
 
 </div>

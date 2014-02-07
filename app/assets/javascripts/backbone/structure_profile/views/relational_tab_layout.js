@@ -96,6 +96,7 @@ StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, 
 
                     memo.push({
                         active: active,
+                        isActive: active === "active",
                         name: _.capitalize(slug),
                         slug: slug,
                         icon: icon
