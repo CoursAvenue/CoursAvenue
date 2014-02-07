@@ -129,6 +129,8 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         },
 
         onShow: function() {
+            this.$(".active > [data-toggle=tab]").click();
+
             if (App.$loader) {
                 App.$loader().fadeOut('slow');
             }
