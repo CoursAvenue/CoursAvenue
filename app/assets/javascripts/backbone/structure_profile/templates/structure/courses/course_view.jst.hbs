@@ -1,7 +1,10 @@
-<hr class="{{#if isFirst}}{{else}}push-half--ends{{/if}}">
+{{#if isFirst}}
+{{else}}
+<hr class="push-half--ends">
+{{/if}}
 <div class="float--right text--right">
     {{#if best_price}}
-        "à partir de #{readable_amount course.best_price.amount}€".html_safe
+        à partir de {{ min_price_amount }}€
     {{/if}}
     {{#if has_free_trial_lesson}}
         <strong>(essai gratuit)</strong>
@@ -17,8 +20,10 @@
     {{/if}}
 
 </div>
-<h3 class="base-font-style flush--bottom">= link_to course.name.capitalize, structure_course_path(@structure, course)</h3>
+<h3 class="base-font-style flush--bottom">
+    <a href="{{ data_url }}">{{ name }}</a>
+</h3>
 <span class="gray">
-    <i class="fa fa-tags">= course.subjects.map(&:name).join(', ')</i>
+    <i class="fa fa-tags"></i>
+    {{ subjects }}
 </span>
-
