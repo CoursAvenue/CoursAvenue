@@ -12,6 +12,51 @@ StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, 
 
         },
 
+        ui: {
+            '$tabs' : '[data-toggle=tab]'
+        },
+
+        events: {
+            'click @ui.$tabs': 'tabControl'
+        },
+
+        /* similar to accordioncontrol... very similar.
+         *  differences: we build the tab toggles based on the known relations
+         *      on the model, so we don't have to "add an s" in the code bellow,
+         *      because the data-model is already plural. This is something I should
+         *      consider adding to accordioncontrol.
+         *      TODO: it makes more sense for the tabs to have data-relation rather than
+         *       data-model, so I'm going to change this here and then fix it in the other
+         *       place later. */
+        tabControl: function (e) {
+            e.preventDefault();
+
+            var relation_name   = $(e.currentTarget).data('relation'), // the relation name
+                model_name      = _.singularize(relation_name ), // note we are not adding an s here
+                collection_name = relation_name + '_collection',
+                collection_slug = collection_name.replace('_', '-'),
+                attributes      = ($(e.currentTarget).data('attributes') ? $(e.currentTarget).data('attributes').split(' ') : {}),
+                self            = this;
+
+            /* if no region exists on the structure view, then we need to
+            *  fetch the relation, and create a region for it */
+            if (this.regions[collection_name] === undefined) {
+                this.showLoader(collection_name);
+                /* wait for asynchronous fetch of models before adding region */
+                this.model.fetchRelated(relation_name, { data: { search_term: this.search_term }}, true)[0].then(function () {
+                    self.createRegionFor(relation_name, attributes);
+                    // self.accordionToggle(collection_name, model_name); // we may not need this
+                    // we will need to retrigger the event at this point, though... hmm
+                    // since the tabbing is being managed by bootstrap
+                    self.hideLoader();
+                });
+            } else {
+                // this.accordionToggle(collection_name, model_name);
+            }
+
+            return false;
+        },
+
         regions: {
             master: "#map-places",
         },

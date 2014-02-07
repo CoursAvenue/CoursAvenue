@@ -132,6 +132,29 @@ _.extend(_, {
         return word.charAt(0).toUpperCase() + word.slice(1);
     },
 
+    plural_map:{
+        "oxen"  : "ox",
+        "people": "person"
+    },
+
+    singularize: function (word) {
+        var last        = word.length - 1;
+        var ends_with_s = word.lastIndexOf("s") === last;
+        var is_plural   = ends_with_s || _.has(_.plural_map, word);
+
+        if (!is_plural) {
+            return word;
+        }
+
+        if (ends_with_s) {
+            word = word.substring(0, last); // strip last character
+        } else {
+            word = _.plural_map[word];
+        }
+
+        return word;
+    },
+
     camelize: function (word) {
         return word.replace (/(?:^|[-_])(\w)/g, function (_, c) {
             return c ? c.toUpperCase () : '';
