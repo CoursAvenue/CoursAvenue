@@ -90,4 +90,4 @@ pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue
   - -a to autocorrect
 
 # Brakeman
-`bundle exec brakeman -O file.html`
+`bundle exec brakeman -o brakeman-report.html`
