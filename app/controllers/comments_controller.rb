@@ -47,17 +47,7 @@ class CommentsController < ApplicationController
 
   def find_commentable
     type = params[:comment][:commentable_type]
+    raise "Unknown commentable type" unless %w(Structure).include?(type)
     type.classify.constantize.find(params[:comment][:commentable_id])
-  end
-
-  def find_commentable_without_type
-    params.each do |name, value|
-      # Regex correspondant à la forme model_id
-      if name =~ /(.+)_id$/
-        # $1 correspond au nom du modèle
-        return Regexp.last_match[1].classify.constantize.find(value)
-      end
-    end
-    nil # Retourne nil si rien n'a été trouvé
   end
 end
