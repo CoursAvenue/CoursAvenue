@@ -84,10 +84,16 @@ killall ruby; dropdb -h localhost -U postgres coursavenue_development; createdb 
 # Make a dump
 pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" -f 19_oct.tar --format=t
 
-# Rubocop
+# Maintenance
+
+## Coverage 
+
+`COVERAGE=true rspec spec`
+
+## Rubocop
 `bundle exec rubocop -Ra`
   - -R To follow Rails styleguide
   - -a to autocorrect
 
-# Brakeman
+## Brakeman
 `bundle exec brakeman -o brakeman-report.html`
