@@ -1,11 +1,10 @@
 # encoding: utf-8
 class Plannings::ParticipationsController < Pro::ProController
-
   before_action :authenticate_user!
 
   def new
     if request.xhr?
-      format.html {render partial: 'form' }
+      format.html { render partial: 'form' }
     end
   end
 
@@ -32,5 +31,4 @@ class Plannings::ParticipationsController < Pro::ProController
       end
     end
   end
-
 end

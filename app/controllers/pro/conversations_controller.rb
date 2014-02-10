@@ -6,7 +6,7 @@ class Pro::ConversationsController < Pro::ProController
 
   def index
     if params[:info]
-      @conversations = Conversation.where{subject == "Demande d'informations"}.order('updated_at DESC').limit(100)
+      @conversations = Conversation.where { subject == "Demande d'informations" }.order('updated_at DESC').limit(100)
     else
       @conversations = Conversation.order('updated_at DESC').limit(100)
     end

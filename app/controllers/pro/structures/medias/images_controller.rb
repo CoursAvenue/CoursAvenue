@@ -31,7 +31,7 @@ class Pro::Structures::Medias::ImagesController < Pro::ProController
   def make_it_cover
     @image                  = @structure.medias.find params[:id]
     @structure_cover_images = @structure.medias.images.cover
-    @structure_cover_images.map{ |image| image.cover = false; image.save }
+    @structure_cover_images.map { |image| image.cover = false; image.save }
     @image.cover = true
     @image.save
     respond_to do |format|

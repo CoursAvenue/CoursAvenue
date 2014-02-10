@@ -1,5 +1,4 @@
 class Pro::RedirectController < ApplicationController
-
   def structure_dashboard
     if current_pro_admin
       redirect_to dashboard_pro_structure_path(current_pro_admin.structure)

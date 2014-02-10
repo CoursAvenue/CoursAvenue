@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
     else
       user_email = params[:comment][:email].downcase
       # If the user does not exists
-      unless (@user = User.where{email == user_email}.first)
+      unless (@user = User.where { email == user_email }.first)
         @user = User.new email: user_email, first_name: params[:comment][:author_name]
       end
       @user.update_attribute(:first_name, params[:comment][:author_name]) if params[:comment][:author_name].present?
@@ -23,7 +23,7 @@ class CommentsController < ApplicationController
       if @comment.save
         send_private_message unless params[:private_message].blank?
         cookies[:delete_cookies] = true
-        if params[:from] and params[:from] == 'recommendation-page'
+        if params[:from] && params[:from] == 'recommendation-page'
           format.html { redirect_to structure_comment_path(@comment.commentable, @comment), notice: "Merci d'avoir laissé votre avis !" }
         else
           format.html { redirect_to (request.referrer || commentable_path(@comment)), notice: "Merci d'avoir laissé votre avis !" }
@@ -47,18 +47,7 @@ class CommentsController < ApplicationController
 
   def find_commentable
     type = params[:comment][:commentable_type]
+    raise "Unknown commentable type" unless %w(Structure).include?(type)
     type.classify.constantize.find(params[:comment][:commentable_id])
   end
-
-  def find_commentable_without_type
-    params.each do |name, value|
-      # Regex correspondant à la forme model_id
-      if name =~ /(.+)_id$/
-        # $1 correspond au nom du modèle
-        return $1.classify.constantize.find(value)
-      end
-    end
-    nil # Retourne nil si rien n'a été trouvé
-  end
-
 end

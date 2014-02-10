@@ -1,5 +1,4 @@
 class Pro::HomeController < Pro::ProController
-
   layout 'admin_pages'
 
   def index
@@ -10,7 +9,7 @@ class Pro::HomeController < Pro::ProController
   end
 
   def widget
-    @structures = Structure.where{widget_status == 'installed'}.limit(100)
+    @structures = Structure.where { widget_status == 'installed' }.limit(100)
   end
 
   def price

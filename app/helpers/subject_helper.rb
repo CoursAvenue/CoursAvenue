@@ -18,11 +18,11 @@ module SubjectHelper
 
   def subject_image(subject)
     if subject.image?
-      return subject.image
+      return subject.image.url(:small)
     elsif subject.parent and subject.parent.image?
-      return subject.parent.image
+      return subject.parent.image.url(:small)
     elsif subject.grand_parent and subject.grand_parent.image?
-      return subject.grand_parent.image
+      return subject.grand_parent.image.url(:small)
     end
   end
 

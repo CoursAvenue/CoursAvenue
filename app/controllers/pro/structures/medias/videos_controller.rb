@@ -36,7 +36,7 @@ class Pro::Structures::Medias::VideosController < Pro::ProController
   def make_it_cover
     @video                  = @structure.medias.find params[:id]
     @structure_cover_video  = @structure.medias.videos.cover
-    @structure_cover_video.map{ |video| video.cover = false; video.save }
+    @structure_cover_video.map { |video| video.cover = false; video.save }
     @video.cover = true
     @video.save
     respond_to do |format|

@@ -12,17 +12,17 @@ class SubjectsController < ApplicationController
       to_merge = { subject_id: @subject.slug }
     end
 
-    @structure_search            = StructureSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 20, bbox: true}.merge(to_merge))
-    @location_search             = LocationSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 80, bbox: true}.merge(to_merge))
-    @planning_search             = PlanningSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 1, bbox: true}.merge(to_merge))
-    @free_trial_plannings_search = PlanningSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 1, bbox: true, trial_course_amount: 0}.merge(to_merge))
-    @medias_search               = MediaSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 1, bbox: true}.merge(to_merge))
-    @images_search               = MediaSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 25, type: 'Media::Image', bbox: true}.merge(to_merge))
-    @comments_search             = CommentSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 25, has_title: true, bbox: true}.merge(to_merge))
-    @courses_search              = CourseSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 20, has_description: true, bbox: true}.merge(to_merge))
+    @structure_search            = StructureSearch.search({ lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 20, bbox: true }.merge(to_merge))
+    @location_search             = LocationSearch.search({ lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 80, bbox: true }.merge(to_merge))
+    @planning_search             = PlanningSearch.search({ lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 1, bbox: true }.merge(to_merge))
+    @free_trial_plannings_search = PlanningSearch.search({ lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 1, bbox: true, trial_course_amount: 0 }.merge(to_merge))
+    @medias_search               = MediaSearch.search({ lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 1, bbox: true }.merge(to_merge))
+    @images_search               = MediaSearch.search({ lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 25, type: 'Media::Image', bbox: true }.merge(to_merge))
+    @comments_search             = CommentSearch.search({ lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 25, has_title: true, bbox: true }.merge(to_merge))
+    @courses_search              = CourseSearch.search({ lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 20, has_description: true, bbox: true }.merge(to_merge))
 
     if @subject.depth > 1
-      @videos_search            = MediaSearch.search({lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 5, type: 'Media::Video', bbox: true}.merge(to_merge))
+      @videos_search            = MediaSearch.search({ lat: @france_center_lat, lng: @france_center_lng, radius: 700, per_page: 5, type: 'Media::Video', bbox: true }.merge(to_merge))
       @videos                   = @videos_search.results
     end
 
@@ -45,7 +45,7 @@ class SubjectsController < ApplicationController
   end
 
   def index
-    @subjects = Subject.order('name ASC').all.map{|s| {name: s.name, slug: s.slug} }
+    @subjects = Subject.order('name ASC').all.map { |s| { name: s.name, slug: s.slug } }
     respond_to do |format|
       format.json { render json: @subjects.to_json }
     end

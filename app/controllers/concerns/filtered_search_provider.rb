@@ -55,6 +55,4 @@ module FilteredSearchProvider extend ActiveSupport::Concern
       StructureSerializer.new(structure, { root: false })
     end
   end
-
-
 end

@@ -14,8 +14,8 @@ class Users::ConversationsController < ApplicationController
       if cannot_see_conversation
         format.html { redirect_to root_path(anchor: 'connection'), alert: 'Vous devez vous connecter pour visualiser le message' }
       # If the slug of the user is wrong (can happen when redirect for facebook connect)
-      elsif current_user and current_user.slug != params[:user_id]
-        format.html { redirect_to user_conversation_path(current_user, @conversation)}
+      elsif current_user && current_user.slug != params[:user_id]
+        format.html { redirect_to user_conversation_path(current_user, @conversation) }
       else
         format.html
       end
@@ -38,7 +38,7 @@ class Users::ConversationsController < ApplicationController
         @user.password = params[:password]
         @user.save
         sign_in(@user, bypass: true)
-        flash[:notice] = "Votre message à bien été envoyé et vous êtes maintenant connecté."
+        flash[:notice] = 'Votre message à bien été envoyé et vous êtes maintenant connecté.'
       else
         flash[:alert] = "Le token n'est pas valide, vous ne pouvez pas changer votre mot de passe."
       end
@@ -55,6 +55,6 @@ class Users::ConversationsController < ApplicationController
   private
 
   def cannot_see_conversation
-    (!@user.active? and !@user.reset_password_token_valid?(params[:token])) or @user.active? and !current_user
+    (!@user.active? && !@user.reset_password_token_valid?(params[:token])) || @user.active? and !current_user
   end
 end

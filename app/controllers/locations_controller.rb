@@ -14,5 +14,4 @@ class LocationsController < ApplicationController
       format.json { render json: @locations.to_json(include: [:city]) }
     end
   end
-
 end

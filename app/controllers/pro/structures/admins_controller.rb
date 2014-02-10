@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Pro::Structures::AdminsController < Pro::ProController
-
   layout 'admin'
 
   before_action :retrieve_structure
