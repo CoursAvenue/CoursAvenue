@@ -35,6 +35,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 collection_name = relation_name + '_collection',
                 collection_slug = collection_name.replace('_', '-'),
                 // TODO we don't have a data-attributes attribute yet
+                // we will use this to feed data to the CompositeView
                 attributes      = ($(e.currentTarget).data('attributes') ? $(e.currentTarget).data('attributes').split(' ') : {}),
                 self            = this, promise;
 
@@ -45,11 +46,11 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 /* wait for asynchronous fetch of models before adding region */
                 promise = this.model.fetchRelated(relation_name, { data: { search_term: this.search_term }}, true)[0].then(function () {
                     self.createRegionFor(relation_name, attributes);
-                    // self.accordionToggle(collection_name, model_name); // we may not need this
+                    // self.tagToggle(collection_name, model_name); // we may not need this
                     // self.hideLoader();
                 });
             } else {
-                // this.accordionToggle(collection_name, model_name);
+                // this.tagToggle(collection_name, model_name);
             }
 
             return promise;
