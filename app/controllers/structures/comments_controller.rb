@@ -6,10 +6,11 @@ class Structures::CommentsController < ApplicationController
 
   def index
     @structure    = Structure.friendly.find(params[:structure_id])
-    @comments     = @structure.comments.accepted.limit(5).to_a
+    @comments     = @structure.comments.accepted
+    @comments     = @comments.limit(5) unless params[:unlimited_comments]
 
     respond_to do |format|
-      format.json { render json: @comments, each_serializer: CommentSerializer }
+      format.json { render json: @comments.to_a, each_serializer: CommentSerializer }
     end
   end
 

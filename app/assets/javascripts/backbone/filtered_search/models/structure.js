@@ -61,7 +61,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                         // TODO this used to be
                         //   return App.resource + models[0].get('structure').get('id') + '/recommandations.json';
                         // but it started barfing. It could bite us later
-                        return models[0].get('structure').get('id') + '/recommandations.json';
+                        return models[0].get('structure').get('id') + '/recommandations.json?unlimited_comments=true';
                     }
                 })
             },
