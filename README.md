@@ -4,6 +4,10 @@
 
 ## Production
 
+### Addons
+
+Using experimental [labs-preboot](https://devcenter.heroku.com/articles/labs-preboot)
+
 ## Staging
 
 $ git push staging master
