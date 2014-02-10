@@ -67,6 +67,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             }, this);
 
             if (fetched.length == 0) {
+                // TODO I'm getting the feeling that this "data" is doing nothing...
                 promise = this.model.fetchRelated(relation_name, { data: { search_term: this.search_term }}, true)[0].then(callback);
             } else {
                 // if the model has already been fetched, resolve the promise immediately

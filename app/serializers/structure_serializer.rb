@@ -31,7 +31,10 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def comments
-    object.comments.accepted.limit(5)
+    result = object.comments.accepted
+    result = result.limit(5) unless options.key? :unlimited_comments
+
+    return result
   end
 
   # TODO Use MediaSerializer

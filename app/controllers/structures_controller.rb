@@ -23,7 +23,7 @@ class StructuresController < ApplicationController
     @comment        = @structure.comments.build
     index           = 0
 
-    @model = (jasonify @structure).pop
+    @model = (jasonify @structure, { unlimited_comments: true }).pop
   end
 
   def index

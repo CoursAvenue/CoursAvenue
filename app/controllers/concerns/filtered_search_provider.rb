@@ -50,12 +50,12 @@ module FilteredSearchProvider extend ActiveSupport::Concern
     StructureSearch.retrieve_location(params)
   end
 
-  def jasonify(structures)
+  def jasonify(structures, options = {})
     # we splat the structures to ensure that a single
     # structure is treated as an array <3 Ruby
     
     [*structures].map do |structure|
-      StructureSerializer.new(structure, { root: false })
+      StructureSerializer.new(structure, options.merge({ root: false }))
     end
   end
 
