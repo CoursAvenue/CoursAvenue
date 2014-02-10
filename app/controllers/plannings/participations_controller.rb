@@ -15,7 +15,7 @@ class Plannings::ParticipationsController < Pro::ProController
       if @participation.save
         format.html { redirect_to user_participations_path(current_user), notice: 'Vous êtes bien inscrit à ce créneau' }
       else
-        format.html
+        format.html { redirect_to user_participations_path(current_user), notice: "Une erreur s'est produite, veuillez contacter le service client." }
       end
     end
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140129093528) do
+ActiveRecord::Schema.define(version: 20140209101956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -359,6 +359,7 @@ ActiveRecord::Schema.define(version: 20140129093528) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.time     "deleted_at"
+    t.boolean  "waiting_list", default: false
   end
 
   add_index "participations", ["planning_id", "user_id"], name: "index_participations_on_planning_id_and_user_id", using: :btree
@@ -399,7 +400,6 @@ ActiveRecord::Schema.define(version: 20140129093528) do
     t.time     "end_time"
     t.boolean  "class_during_holidays"
     t.decimal  "promotion"
-    t.integer  "nb_place_available"
     t.text     "info"
     t.integer  "max_age_for_kid"
     t.integer  "min_age_for_kid"
