@@ -8,7 +8,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
 
         initialize: function () {
             this.getModuleForRelation = _.bind(this.getModuleForRelation, Module);
-            this.tabs = ["comments", "courses"];
+            this.tabs = ["comments", "courses", "teachers"];
             this.default_tab = this.tabs[1];
 
         },
@@ -37,20 +37,42 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
                 // TODO we don't have a data-attributes attribute yet
                 // we will use this to feed data to the CompositeView
                 attributes      = ($(e.currentTarget).data('attributes') ? $(e.currentTarget).data('attributes').split(' ') : {}),
-                self            = this, promise;
+                promise;
 
             /* if no region exists on the structure view, then we need to
             *  fetch the relation, and create a region for it */
             if (this.regions[collection_name] === undefined) {
                 // this.showLoader(collection_name); // TODO we don't have a loader yet
                 /* wait for asynchronous fetch of models before adding region */
-                promise = this.model.fetchRelated(relation_name, { data: { search_term: this.search_term }}, true)[0].then(function () {
-                    self.createRegionFor(relation_name, attributes);
-                    // self.tagToggle(collection_name, model_name); // we may not need this
-                    // self.hideLoader();
-                });
+                promise = this.promiseForFetch(relation_name, attributes);
             } else {
                 // this.tagToggle(collection_name, model_name);
+            }
+
+            return promise;
+        },
+
+        /* a relation will have either 2 attributes (the id and backreference)
+         * or many, if it is already loaded. If the model appears to already
+         * be loaded, then the promise that is returned will already be resolved. */
+        promiseForFetch: function (relation_name, attributes) {
+            var promise, callback = _.bind(function () {
+
+                this.createRegionFor(relation_name, attributes);
+            }, this);
+
+            // models that have been fetched will have more than 2 attributes
+            var fetched = this.model.get(relation_name).filter(function (model) {
+                return _.keys(model.attributes).length > 2;
+            }, this);
+
+            if (fetched.length == 0) {
+                promise = this.model.fetchRelated(relation_name, { data: { search_term: this.search_term }}, true)[0].then(callback);
+            } else {
+                // if the model has already been fetched, resolve the promise immediately
+                promise = new $.Deferred();
+                promise.then(callback);
+                promise.resolve();
             }
 
             return promise;
@@ -86,14 +108,14 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         createRegionFor: function (relation_name, attribute_strings) {
             var model_name   = relation_name.slice(0, -1),
                 Relations    = this.getModuleForRelation(relation_name), // the module in which the relation views will be
-                self         = this, collection, ViewClass, view;
+                collection, ViewClass, view;
 
             /* collect some attributes to pass in to the compositeview */
-            var data = _.inject(attribute_strings, function (memo, attr) {
-                memo[attr] = self.model.get(attr);
+            var data = _.inject(attribute_strings, _.bind(function (memo, attr) {
+                memo[attr] = this.model.get(attr);
 
                 return memo;
-            }, {});
+            }, this), {});
 
             // we don't want to add the hook twice
             var selector = "[data-type=" + relation_name + "-collection]";
@@ -137,12 +159,11 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
          * implement tab logic here. */
         onShow: function() {
             var tab  = this.$(".active > [data-toggle=tab]");
-            var self = this;
 
-            // blah blah blah bad programming with promises
-            $.when( this.tabControl({ currentTarget: tab }) ).then(function () {
-                self.$('#tab-courses').addClass("active");
-            });
+            // wait for the relational tab view to be available
+            $.when( this.tabControl({ currentTarget: tab }) ).then(_.bind(function () {
+                this.$('#tab-courses').addClass("active");
+            }, this));
 
             if (App.$loader) {
                 App.$loader().fadeOut('slow');

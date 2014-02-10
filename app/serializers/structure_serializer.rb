@@ -15,6 +15,7 @@ class StructureSerializer < ActiveModel::Serializer
              :has_promotion, :tag_names, :last_comment_title
 
   has_many :places
+  has_many :teachers
   has_many :comments, serializer: ShortSerializer
   has_many :courses,  serializer: ShortSerializer
   has_many :medias,   serializer: ShortSerializer

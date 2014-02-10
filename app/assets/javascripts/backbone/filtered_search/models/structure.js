@@ -80,6 +80,18 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
 
             {
                 type: Backbone.HasMany,
+                key: 'teachers',
+                icon: 'group',
+                relatedModel: Backbone.RelationalModel.extend({ }),
+                includeInJSON: false,
+                reverseRelation: {
+                    key: 'structure'
+                },
+                collectionType: Module.TeachersCollection
+            },
+
+            {
+                type: Backbone.HasMany,
                 key: 'medias',
                 relatedModel: Backbone.RelationalModel.extend({ }),
                 includeInJSON: false,
