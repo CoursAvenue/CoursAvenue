@@ -6,12 +6,6 @@
                     <img src="{{ logo_thumb_url }}" class="block one-whole" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
                 </a>
             {{/if}}
-            {{#if has_free_trial_course}}
-                <div class="free-trial-badge"></div>
-            {{/if}}
-            {{#if has_promotion}}
-                <div class="promotion-badge"></div>
-            {{/if}}
         </div>
     </div><!--
  --><article class="flexbox__item four-tenths v-top structure-item__see-all-wrapper structure-item__button">
@@ -32,22 +26,6 @@
                 </div>
             {{/if}}
             <div>
-                {{#if has_plannings}}
-                <div>
-                    {{ plannings_count }} {{ pluralize plannings_count 'séance' 'séances' }}
-                    {{#if has_price_range }}
-                        de
-                        <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
-                        à
-                        <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
-                    {{else}}
-                        {{#if min_price_amount}}
-                            à partir de
-                            <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
-                        {{/if}}
-                    {{/if}}
-                </div>
-                {{/if}}
                 <div>
                 {{#if audience}}
                     <span class="milli">{{audience}}</span>&nbsp;
@@ -79,6 +57,11 @@
                     </div>
                 {{/if}}
             </div>
+            <div data-type="open-doors-button" class="hidden">
+                <a href="{{ data_url }}" class="btn btn--small btn--blue">
+                    S'inscrire a une seance
+                </a>
+            <div>
             <a href="javascritp:void(0);" class="structure-item__see-all blue" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
                 {{#if plannings_count}}
                     <span>Voir les séances</span>
@@ -86,9 +69,6 @@
                     <span>Pas de séance, contactez le professeur</span>
                 {{/if}}
             </a>
-            <div href="#" class="btn btn--small btn--blue hidden" data-type="open-doors-button">
-                S'inscrire a une seance
-            </div>
         </div>
     </article><!--
  --><div class="flexbox__item relative soft-half--sides structure-item__see-all-wrapper {{#if has_comments}}structure-item__button{{/if}} two-eighths v-middle text--center" {{#if has_comments}}data-behavior="accordion-control" data-model="comment" data-attributes="data_url more_than_five_comments"{{/if}}>
