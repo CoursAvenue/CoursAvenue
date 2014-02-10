@@ -517,12 +517,19 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # Tells if the structure is based in Paris and around
+  #
+  # @return Boolean
   def parisian?
     is_parisian = self.zip_code.starts_with? '75','77','78','91','92','93','94','95'
     return true if is_parisian
     return self.places.map(&:parisian?).include? true
   end
 
+
+  # Tells if the structure has open courses plannings
+  #
+  # @return Boolean
   def has_open_course_plannings?
     self.courses.open_courses.each do |course|
       return true if course.plannings.any?
