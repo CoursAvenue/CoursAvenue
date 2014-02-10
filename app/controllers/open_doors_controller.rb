@@ -5,20 +5,19 @@ class OpenDoorsController < ApplicationController
 
   respond_to :json
 
-  layout :choose_layout
+  layout 'search'
 
   def index
     @app_slug = "open-doors-search"
-    @subject = filter_by_subject?
+    @subject  = filter_by_subject?
 
+    params[:start_date]   = Date.parse('2014/04/05')
+    params[:end_date]     = Date.parse('2014/04/06')
     params[:course_types] = ["open_course"]
-    params[:page] = 1 unless request.xhr?
+    params[:page]         = 1 unless request.xhr?
 
-    if params_has_planning_filters?
-      @structures, @total = search_plannings
-    else
-      @structures, @total = search_structures
-    end
+    # Directly search plannings because it is by default filtered by dates
+    @structures, @total = search_plannings
 
     @latlng = retrieve_location
     @models = jasonify @structures
@@ -38,16 +37,6 @@ class OpenDoorsController < ApplicationController
         render 'structures/index'
         cookies[:structure_search_path] = request.fullpath
       end
-    end
-  end
-
-  private
-
-  def choose_layout
-    if action_name == 'index'
-      'search'
-    else
-      'users'
     end
   end
 

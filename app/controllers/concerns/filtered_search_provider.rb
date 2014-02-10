@@ -24,14 +24,21 @@ module FilteredSearchProvider extend ActiveSupport::Concern
     end
   end
 
+  # Tells if the search filters includes planning filters.
+  # If it does, we will have to search through `Planning` and not `Structures`
+  #
+  # @return boolean
   def params_has_planning_filters?
     (params.keys & PLANNING_FILTERED_KEYS).any?
   end
 
+  # Search for plannings regarding the params
+  #
+  # @return array [ structures models, total of results]
   def search_plannings
     search          = PlanningSearch.search(params, group: :structure_id_str)
     structures      = search.group(:structure_id_str).groups.collect do |planning_group|
-      planning_group.results.first.structure
+      planning_group.results.first.try(:structure)
     end
     total           = search.group(:structure_id_str).total
 

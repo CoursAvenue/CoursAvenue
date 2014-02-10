@@ -75,6 +75,9 @@ class Structure < ActiveRecord::Base
                         processors: [:cropper]
                         }
                       }
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
   belongs_to :city
   belongs_to :pricing_plan
 
@@ -103,17 +106,21 @@ class Structure < ActiveRecord::Base
 
   has_many :admins
 
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :name               , :presence   => true
   validates :street             , :presence   => true, on: :create
   validates :zip_code           , :presence   => true, numericality: { only_integer: true }, on: :create
   validates :city               , :presence   => true, on: :create
   validate :subject_parent_and_children
 
-  # -------------------- Callbacks
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
   before_create    :set_active_to_true
 
   after_create     :set_free_pricing_plan
-  # after_create     :create_place
   after_save       :update_email_status
   after_touch      :update_email_status
 
@@ -123,11 +130,10 @@ class Structure < ActiveRecord::Base
   before_save      :encode_uris
   before_save      :reset_cropping_attributes, if: :logo_has_changed?
 
-  # ------------------------------------
-  # ------------------ Search attributes
-  # ------------------------------------
+  ######################################################################
+  # Solr                                                               #
+  ######################################################################
   searchable do
-
     text :name, boost: 5
 
     # text :description
@@ -145,8 +151,6 @@ class Structure < ActiveRecord::Base
       end
       subject_array.uniq.map(&:name)
     end
-
-    # string :street
 
     latlon :location, multiple: true do
       locations.map do |location|
@@ -230,11 +234,15 @@ class Structure < ActiveRecord::Base
     read_attribute(:funding_type_ids).split(',').map(&:to_i) if read_attribute(:funding_type_ids)
   end
 
-  # ---------------------------------------------
-  # Reminder
-  # ---------------------------------------------
+  ######################################################################
+  # Email reminder                                                     #
+  ######################################################################
 
-  # Send reminder every week depending on the email status of the structure
+  # Sends reminder depending on the email status of the structure
+  # This method is called every week through admin_reminder rake task
+  # (Executed on Heroky by the scheduler)
+  #
+  # @return nil
   def send_reminder
     if self.main_contact.present? and self.email_status and self.main_contact.monday_email_opt_in?
       if self.update_email_status.present?
@@ -245,6 +253,10 @@ class Structure < ActiveRecord::Base
     end
   end
 
+
+  # Sends an email if there are pending comments
+  #
+  # @return [type] [description]
   def remind_for_pending_comments
     AdminMailer.delay.remind_for_pending_comments(self)
   end

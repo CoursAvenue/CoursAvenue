@@ -36,6 +36,9 @@ class StructureSearch
         without(:subject_slugs, Subject.stars.map(&:slug))
       end
 
+      ######################################################################
+      # Other filters                                                      #
+      ######################################################################
       with(:structure_type).any_of   params[:structure_types]                    if params[:structure_types].present?
       with(:funding_type_ids).any_of params[:funding_type_ids].map(&:to_i)       if params[:funding_type_ids].present?
 

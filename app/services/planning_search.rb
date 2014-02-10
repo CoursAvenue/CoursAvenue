@@ -26,9 +26,9 @@ class PlanningSearch
         with(:start_hour).greater_than_or_equal_to        params[:start_hour].to_i                      if params[:start_hour].present?
         with(:end_hour).less_than_or_equal_to             params[:end_hour].to_i                        if params[:end_hour].present?
 
-        with(:start_date).greater_than_or_equal_to        params[:start_date].to_i                      if params[:start_date].present?
+        with(:start_date).greater_than_or_equal_to        params[:start_date]                           if params[:start_date].present?
         if params[:end_date].present?
-          with(:end_date).less_than_or_equal_to           params[:end_date].to_i
+          with(:end_date).less_than_or_equal_to           params[:end_date]
         else # Always retrieve future plannings
           with(:end_date).greater_than Date.today
         end
@@ -39,7 +39,9 @@ class PlanningSearch
         with(:level_ids).any_of    params[:level_ids]                                                 if params[:level_ids].present?
         with(:week_days).any_of    params[:week_days].map(&:to_i)                                     if params[:week_days].present?
 
-        # --------------- Subjects
+        ######################################################################
+        # Subjects                                                           #
+        ######################################################################
         # For the home screen link "Autres"
         with(:subject_slugs).any_of                        [params[:subject_id]]                      if params[:subject_id].present?
         if params[:exclude].present?
@@ -48,7 +50,9 @@ class PlanningSearch
           without(:subject_slugs, Subject.stars.map(&:slug))
         end
 
-        # --------------- Other filters
+        ######################################################################
+        # Other filters                                                      #
+        ######################################################################
         with(:course_type).any_of                          params[:course_types]                      if params[:course_types].present?
 
         if params[:trial_course_amount].present?
@@ -58,6 +62,9 @@ class PlanningSearch
           with :has_trial_course,                          true                                       if params[:has_trial_course].present?
         end
 
+        ######################################################################
+        # Prices                                                             #
+        ######################################################################
         # --------------- Iterating over all types of prices
         if params[:price_type].present?
           with(:price_types).any_of                                      [params[:price_type]]
@@ -92,9 +99,9 @@ class PlanningSearch
 
   def self.retrieve_location params
     if params[:lat].blank? or params[:lng].blank?
-      params[:name] = 'Paris'
-      params[:lat]  = 48.8592
-      params[:lng]  = 2.3417
+      params[:address_name] = 'Paris'
+      params[:lat]          = 48.8592
+      params[:lng]          = 2.3417
     end
 
     [params[:lat], params[:lng]]
