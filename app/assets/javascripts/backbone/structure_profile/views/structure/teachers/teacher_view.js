@@ -1,13 +1,14 @@
+
 /* just a basic marionette view */
-StructureProfile.module('Views.Structure.Courses', function(Module, App, Backbone, Marionette, $, _) {
+StructureProfile.module('Views.Structure.Teachers', function(Module, App, Backbone, Marionette, $, _) {
 
     /* views here temporarily to get this all all started */
-    Module.CourseView = Backbone.Marionette.ItemView.extend({
-        template: Module.templateDirname() + "course_view",
+    Module.TeacherView = Backbone.Marionette.ItemView.extend({
+        template: Module.templateDirname() + "teacher_view",
         tagName: "div",
 
         onRender: function onRender () {
-            this.$el.attr("id", "cours-" + this.model.get("id"));
+            this.$el.attr("id", "prof-" + this.model.get("id"));
         },
 
         serializeData: function serializeData (date) {

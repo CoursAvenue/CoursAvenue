@@ -6,7 +6,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         className: 'replational-tab-layout',
         master_region_name: 'relational-tabs',
 
-        initialize: function () {
+        initialize: function initialize () {
             this.getModuleForRelation = _.bind(this.getModuleForRelation, Module);
             this.tabs = ["comments", "courses", "teachers"];
             this.default_tab = this.tabs[1];
@@ -29,7 +29,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
          *      TODO: it makes more sense for the tabs to have data-relation rather than
          *       data-model, so I'm going to change this here and then fix it in the other
          *       place later. */
-        tabControl: function (e) {
+        tabControl: function tabControl (e) {
             var relation_name   = $(e.currentTarget).data('relation'), // the relation name
                 model_name      = _.singularize(relation_name ), // note we are not adding an s here
                 collection_name = relation_name + '_collection',
@@ -55,7 +55,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         /* a relation will have either 2 attributes (the id and backreference)
          * or many, if it is already loaded. If the model appears to already
          * be loaded, then the promise that is returned will already be resolved. */
-        promiseForFetch: function (relation_name, attributes) {
+        promiseForFetch: function promiseForFetch (relation_name, attributes) {
             var promise, callback = _.bind(function () {
 
                 this.createRegionFor(relation_name, attributes);
@@ -83,7 +83,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         /* TODO problem! If the module for the given relation doesn't exist,
          * such as will be the case when there is no view defined in the
          * project */
-        getModuleForRelation: function (relation) {
+        getModuleForRelation: function getModuleForRelation (relation) {
             var keys = this.modulePath.split('.');
             keys.push(_.capitalize(relation));
 
@@ -105,7 +105,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
         *  and create a region, and a composite view. Data for the composite
         *  view is grabbed from the structure, based on strings passed in
         *  an array. The collection is models on a relation on structure. */
-        createRegionFor: function (relation_name, attribute_strings) {
+        createRegionFor: function createRegionFor (relation_name, attribute_strings) {
             var model_name   = relation_name.slice(0, -1),
                 Relations    = this.getModuleForRelation(relation_name), // the module in which the relation views will be
                 collection, ViewClass, view;
@@ -130,6 +130,11 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             if (Relations[_.capitalize(relation_name) + 'CollectionView']) {
                 ViewClass = Relations[_.capitalize(relation_name) + 'CollectionView'];
             } else {
+                var item_view = Relations[_.capitalize(model_name) + 'View'];
+                if (item_view === undefined) {
+                    throw new Error("ItemView for " + _.capitalize(model_name) + " is undefined. Did you forget the manifest.js");
+                }
+
                 ViewClass = Backbone.Marionette.CompositeView.extend({
                     template: Relations.templateDirname() + relation_name + '_collection_view',
 
@@ -170,7 +175,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             }
         },
 
-        serializeData: function () {
+        serializeData: function serializeData () {
             var active_relation_name = this.default_tab;
             var relations            = this.serializeRelations(this.tabs, active_relation_name);
 
@@ -179,7 +184,7 @@ StructureProfile.module('Views.Structure', function(Module, App, Backbone, Mario
             };
         },
 
-        serializeRelations: function (tabs, active_relation_name) {
+        serializeRelations: function serializeRelations (tabs, active_relation_name) {
 
             return _.reduce(this.model.relations, function (memo, relation) {
                 var slug   = relation.key;
