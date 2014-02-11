@@ -1,5 +1,12 @@
 = side_menu_currently_at 'JPO'
 
+.center-block.one-quarter.push--bottom
+  .white-box.soft-half.text--center
+    %h3.flush= "#{Course::Open.count} atelier JPOs"
+    %h6.flush dont #{Course::Open.where{created_at > Date.today}.count} aujourd'hui
+    %div et #{Course::Open.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
+
+
 %table.table--striped.dataTable.table--data.white-box.flush--bottom
   %thead
     %tr
@@ -7,6 +14,8 @@
       %th Nom du cours
       %th Type
       %th Discipline
+      %th.text--center # créneaux
+      %th.text--center # places dispos
       %th Prix
   %tbody
     - @courses.each do |course|
@@ -15,6 +24,8 @@
         %td= course.name
         %td= course.event_type
         %td= course.subjects.map(&:name).join(',')
+        %td.text--center= course.plannings.count
+        %td.text--center De #{course.nb_participants_min} à #{course.nb_participants_max}
         %td
           - if course.price
             = "#{readable_amount(course.price)}€"
