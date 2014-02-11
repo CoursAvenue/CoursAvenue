@@ -1,13 +1,19 @@
-.warning-buble {
-    @include border-radius(2em);
+.warning-buble, .green-bubble {
     color           : white;
-    background-color: $red;
-    border          : 1px solid darken($red, 10%);
+    @include border-radius(2em);
     text-align      : center;
     padding         : 0em 0.6em;
     display         : inline-block;
     cursor          : help;
     font-weight     : bold;
+}
+.warning-buble {
+    background-color: $red;
+    border          : 1px solid darken($red, 10%);
+}
+.green-bubble {
+    background-color: $green;
+    border          : 1px solid darken($green, 10%);
 }
 .alert {
     padding         : 8px 14px;
