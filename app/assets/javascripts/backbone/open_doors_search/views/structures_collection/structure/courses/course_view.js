@@ -7,12 +7,14 @@ OpenDoorsSearch.module('Views.StructuresCollection.Structure.Courses', function(
 
         initialize: function initialize (options) {
             this.structure_url = options.structure_url;
+            this.index = options.index;
+            this.collection = new Backbone.Collection(_.map(options.model.get("plannings"), function (data) {
+                return new Backbone.Model(data);
+            }));
         },
 
         itemViewOptions: function itemViewOptions (model, index) {
-            var data = this.model.toJSON();
-            data.structure_url = this.structure_url;
-            return data;
+            return { structure_url: this.structure_url };
         }
 
     });
