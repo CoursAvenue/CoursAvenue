@@ -5,6 +5,9 @@ class PlanningSearch
     params[:sort] ||= 'rating_desc'
     retrieve_location params
 
+    # Encode name in UTF8 as it can be submitted by the user and can be bad
+    params[:name] = params[:name].encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '') if params[:name].present?
+
     @search = Sunspot.search(Planning) do
       if options[:group]
         group options[:group]
