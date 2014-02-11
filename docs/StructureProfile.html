@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>StructureProfile.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>StructureProfile.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>StructureProfile = <span class="hljs-keyword">new</span> Backbone.Marionette.Application({ slug: <span class="hljs-string">'structure-profile'</span>});
+
+$(document).ready(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    StructureProfile.start({});
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h2 id="tab-manager">Tab Manager</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>A tab manager provides a bunch of buttons, which when clicked will control
+the visibility of elements somewhere else on the page.</p>
+<p><strong>data API</strong></p>
+<ul>
+<li><em>component</em>: tab-manager</li>
+<li><em>tabs</em>: a list of tab names. The tab manager will emit events whenever its
+tabs are clicked, so that the corresponding content will be shown. Each
+tab name may include a period (.), followed by a fa-icon to be used next
+to its name. Blank tabs are be skipped</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>StructureProfile.module(<span class="hljs-string">'TabManager'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Module, App, Backbone, Marionette, $, _, undefined)</span> {</span>
+
+    Module.addInitializer(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+        $(<span class="hljs-string">"[data-component=tab-manager]"</span>).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(index, element)</span> {</span>
+            <span class="hljs-keyword">var</span> $element     = $(element),
+                tabs         = buildTabs($element.data(<span class="hljs-string">"tabs"</span>)),
+                view         = <span class="hljs-keyword">new</span> Module.TabManager({ tabs: tabs }),
+                region_name  = <span class="hljs-string">'TabManager'</span> + _.capitalize(view.cid),
+                regions      = {};
+
+            regions[region_name] = <span class="hljs-string">"#"</span> + view.cid;
+            $(element).append(<span class="hljs-string">"&lt;div id="</span> + view.cid + <span class="hljs-string">"&gt;"</span>);
+
+            App.addRegions(regions);
+            App[region_name].show(view);
+
+            consumeData($element);
+        });
+    });
+
+    Module.TabManager = Marionette.ItemView.extend({
+        template: Module.templateDirname() + <span class="hljs-string">'structure/relational_tab_layout'</span>,
+
+        initialize: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initialize</span> <span class="hljs-params">(options)</span> {</span>
+            <span class="hljs-keyword">if</span> (!options || !options.tabs) {
+                <span class="hljs-keyword">this</span>.options.tabs = {};
+            }
+
+        },
+
+        ui: {
+            $tabs: <span class="hljs-string">'[data-tabs]'</span>
+        },
+
+        events: {
+            <span class="hljs-string">'click @ui.$tabs'</span>: <span class="hljs-string">'tabClickedHandler'</span>
+        },
+
+        serializeData: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">serializeData</span> <span class="hljs-params">()</span> {</span>
+            <span class="hljs-keyword">return</span> { tabs: <span class="hljs-keyword">this</span>.options.tabs };
+        }
+    });
+
+    <span class="hljs-keyword">var</span> consumeData = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">consumeData</span> <span class="hljs-params">($element)</span> {</span>
+        $element.removeAttr(<span class="hljs-string">"data-component"</span>);
+        $element.removeAttr(<span class="hljs-string">"data-tabs"</span>);
+    };
+
+    <span class="hljs-keyword">var</span> buildTabs = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildTabs</span> <span class="hljs-params">(tabs)</span> {</span>
+        <span class="hljs-keyword">return</span> _.reduce(tabs, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(memo, data, index)</span> {</span>
+            <span class="hljs-keyword">var</span> data = data.split(<span class="hljs-string">'.'</span>),
+                slug = data[<span class="hljs-number">0</span>],
+                name = _.capitalize(slug),
+                icon, tab, active;
+
+            <span class="hljs-keyword">if</span> (slug === <span class="hljs-string">""</span>) <span class="hljs-keyword">return</span> memo;
+
+            icon   = (data.length &gt; <span class="hljs-number">0</span>) ? data[<span class="hljs-number">1</span>] : <span class="hljs-literal">undefined</span>;
+            active = (index === <span class="hljs-number">0</span>)     ? <span class="hljs-string">"active"</span>: <span class="hljs-literal">undefined</span>;
+
+            tab          = memo[name] = {};
+            tab.slug     = slug;
+            tab.name     = name;
+            tab.icon     = icon;
+            tab.active   = active;
+
+            <span class="hljs-keyword">return</span> memo;
+        }, {});
+    };
+}, <span class="hljs-literal">undefined</span>);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
