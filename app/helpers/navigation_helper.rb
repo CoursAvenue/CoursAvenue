@@ -27,9 +27,7 @@ module NavigationHelper
         html_title << "&nbsp;<span class='warning-buble' data-behavior='tooltip' data-original-title='Vous avez des avis en attente de validation.'>!</span>".html_safe
       end
     elsif title == 'Journées Portes Ouvertes'
-      if @structure and @structure.has_pending_comments?
-        html_title << "&nbsp;<span class='green-bubble' data-behavior='tooltip' data-original-title='Exclusivité CoursAvenue.'>!</span>".html_safe
-      end
+      html_title << "&nbsp;<span class='green-bubble' data-behavior='tooltip' data-original-title='Exclusivité CoursAvenue.'>!</span>".html_safe
     elsif title == 'Mes messages'
       html_title << " (#{@structure.main_contact.mailbox.conversations.length})" if @structure.main_contact and @structure.main_contact.mailbox.conversations.any?
     end
