@@ -4,6 +4,13 @@
 
 ## Production
 
+### Addons
+
+Using experimental [labs-preboot](https://devcenter.heroku.com/articles/labs-preboot)
+
+$ heroku labs:enable -a coursavenue preboot
+$ heroku labs:disable -a coursavenue preboot
+
 ## Staging
 
 $ git push staging master
