@@ -67,7 +67,7 @@
         $lng_input      = $('#place_location_attributes_longitude');
         updateMap = function() {
             _.map(marker_array, function(marker) { marker.setMap(null) });
-            var address = $street_input.val() + ', ' + $zip_code_input.val() + ' France';
+            var address = $street_input.val() + ', ' + $('#place_location_attributes_city_id option:selected').text();
             geocoder.geocode( { 'address': address}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     latlng = {lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
@@ -88,8 +88,6 @@
                 }
             });
         };
-        $('#place_location_attributes_street, #place_location_attributes_zip_code').keyup(_.debounce(updateMap, 500));
-        $('#place_location_attributes_street, #place_location_attributes_zip_code').blur(updateMap);
         $('#place_location_attributes_street, #place_location_attributes_zip_code').change(updateMap);
         $('form').submit(updateMap);
     });
