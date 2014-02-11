@@ -4,6 +4,7 @@ class InvitedUser < ActiveRecord::Base
 
   validates :email, uniqueness: { scope: 'referrer_id' }
 
+  ## Type: Student, Structure
   attr_accessible :type, :email, :referrer_id, :referrer_type
 
   def inform_proposer

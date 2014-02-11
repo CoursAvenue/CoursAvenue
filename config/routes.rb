@@ -62,6 +62,8 @@ CoursAvenue::Application.routes.draw do
           get   :wizard
           get   :signature
           get   :dashboard, path: 'tableau-de-bord'
+          get   :invite_students, path: 'sollicitez-mes-eleves'
+          put :invite_students_entourage
           patch :activate
           patch :disable
           get   :recommendations, path: 'recommandations'
@@ -98,11 +100,6 @@ CoursAvenue::Application.routes.draw do
           end
         end
         resources :invited_teachers, only: [:index, :new], controller: 'structures/invited_teachers' do
-          collection do
-            post :bulk_create
-          end
-        end
-        resources :invited_students, only: [:index, :new], controller: 'structures/invited_students' do
           collection do
             post :bulk_create
           end
@@ -186,6 +183,8 @@ CoursAvenue::Application.routes.draw do
                       confirmation: 'verification'}
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
     collection do
+      get :invite_entourage_to_jpo_page , path: 'invitez-mes-amis'
+      put :invite_entourage_to_jpo
       get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
       get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
     end

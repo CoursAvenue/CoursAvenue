@@ -4,14 +4,22 @@ class AdminMailer < ActionMailer::Base
 
   default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
+  ######################################################################
+  # JPO                                                                #
+  ######################################################################
+  def invite_students_entourage(email, text, structure)
+    @email_text = text
+    @structure  = structure
+    mail to: email, subject: 'Invitez tous vos proches à découvrir vos passions'
+  end
 
   def inform_admin(subject, text)
     @text = text
     mail to: 'contact@coursavenue.com', subject: subject
   end
-  # ---------------------------------------------
-  # Stickers
-  # ---------------------------------------------
+  ######################################################################
+  # Stickers                                                           #
+  ######################################################################
   def stickers_has_been_ordered(sticker_demand)
     @structure = sticker_demand.structure
     mail to: @structure.main_contact.email, subject: 'Votre commande d’autocollants a bien été prise en compte'
@@ -22,10 +30,9 @@ class AdminMailer < ActionMailer::Base
     mail to: @structure.main_contact.email, subject: "Vos d’autocollants viennent d'être expédiés"
   end
 
-  # ---------------------------------------------
-  # Recommandations
-  # ---------------------------------------------
-
+  ######################################################################
+  # Recommandations                                                    #
+  ######################################################################
   # Inform teacher that a students has commented his establishment
   def congratulate_for_accepted_comment(comment)
     @comment   = comment
