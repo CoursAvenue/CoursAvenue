@@ -30,8 +30,7 @@
         = contact_form.input :phone, label: Contact.human_attribute_name(:phone), input_html: {value: contact_form.object.phone || @structure.contact_phone || @structure.main_contact.try(:phone_number)}
         = contact_form.input :mobile_phone, label: Contact.human_attribute_name(:mobile_phone), input_html: {value: contact_form.object.mobile_phone || @structure.contact_mobile_phone || @structure.main_contact.try(:mobile_phone_number)}
 
-    #submit
-      = f.submit 'Enregistrer', class: 'btn btn--green  btn--full'
+    = f.submit 'Enregistrer', class: 'btn btn--green  btn--full'
 
 = content_for :scripts do
   :javascript
@@ -92,4 +91,5 @@
         $('#place_location_attributes_street, #place_location_attributes_zip_code').keyup(_.debounce(updateMap, 500));
         $('#place_location_attributes_street, #place_location_attributes_zip_code').blur(updateMap);
         $('#place_location_attributes_street, #place_location_attributes_zip_code').change(updateMap);
+        $('form').submit(updateMap);
     });

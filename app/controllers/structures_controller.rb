@@ -16,7 +16,7 @@ class StructuresController < ApplicationController
     end
     @city           = @structure.city
     @places         = @structure.places
-    @courses        = @structure.courses.active
+    @courses        = @structure.courses.without_open_courses.active
     @teachers       = @structure.teachers
     @medias         = @structure.medias.videos_first.reject { |media| media.type == 'Media::Image' and media.cover }
     @comments       = @structure.comments.accepted.reject(&:new_record?)
@@ -45,7 +45,7 @@ class StructuresController < ApplicationController
     if (params.keys & PLANNING_FILTERED_KEYS).any?
       @planning_search = PlanningSearch.search(params, group: :structure_id_str)
       @structures      = @planning_search.group(:structure_id_str).groups.map do |planning_group|
-        planning_group.results.first.structure
+        planning_group.results.first.try(:structure)
       end
       @total           = @planning_search.group(:structure_id_str).total
     else
