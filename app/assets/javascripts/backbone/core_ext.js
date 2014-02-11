@@ -215,6 +215,7 @@ _.extend(Marionette.Application.prototype, {
         new_app.slug     = slug;
         new_app.resource = resource;
 
+        // We may need to loop through all regions
         delete new_app.mainRegion;
 
         /* walk breadth first through the submodules tree, ensuring that their
@@ -222,7 +223,7 @@ _.extend(Marionette.Application.prototype, {
         var modules = _.values(new_app.submodules);
         var i;
 
-        for (i = 0; i < modules.length; i++) {
+        for (i = 0; i < modules.length; i += 1) {
             var module = modules[i];
             module.app = new_app;
 
@@ -242,6 +243,8 @@ _.extend(Marionette.Application.prototype, {
         var templates = _.reduce(_.keys(JST), function (memo, key) {
             var key_parts = key.split(template_dirname);
 
+            // 'backbone/open_doors/templates/template_name'.split('backbone/open_doors/templates/')
+            // returns ['', 'template_name']
             if (key_parts.length > 1) {
                 memo.push(_.last(key_parts));
             }
@@ -259,6 +262,8 @@ _.extend(Marionette.Application.prototype, {
             var module = _.reduce(module_path, function (module, submodule) {
                 module = module[submodule];
 
+                // Looking for SomethingCollectionView to be able to override a
+                // template without reimplementing its view.js
                 var views = _.filter(_.keys(module), function (key) {
                     // if it is a SomethingView
                     if (key.match(/^[A-Z].*View$/)) {
