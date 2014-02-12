@@ -43,7 +43,7 @@ StructureProfile.module('Views.TabManager', function(Module, App, Backbone, Mari
                 flavor       = $element.data("flavor"),
                 bootstrap    = $element.data("bootstrap"),
                 provides     = $element.data("provides"),
-                template     = Module.templateDirname() + $element.data("template"),
+                template     = $element.data("template")? Module.templateDirname() + $element.data("template") : undefined,
                 view         = buildView(view, flavor, { template: template, data: bootstrap, tabs: tabs }),
                 region_name  = 'TabManager' + _.capitalize(view.cid),
                 regions      = {};
@@ -65,6 +65,10 @@ StructureProfile.module('Views.TabManager', function(Module, App, Backbone, Mari
 
     var buildView = function buildView (view, flavor, options) {
         var result;
+
+        if (options.template === undefined) {
+            delete options.template;
+        }
 
         if (flavor && Module.Flavors[flavor]) {
             result = new Module.Flavors[flavor][view](options);

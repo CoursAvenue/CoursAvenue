@@ -2,7 +2,7 @@
 StructureProfile.module('Views.TabManager', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.TabManager = Marionette.ItemView.extend({
-        template: Module.templateDirname().slice(0, -1),
+        template: Module.templateDirname() + 'tab_manager',
         tagName: 'ul',
         className: 'tabs',
 

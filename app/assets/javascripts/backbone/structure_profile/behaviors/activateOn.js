@@ -20,7 +20,7 @@ StructureProfile.module('Behaviors.activateOn', function(Module, App, Backbone, 
         $element.trigger("activate");
     };
 
-    Module.attachTo = function (options) {
+    Module.attachTo = function attachTo (options) {
         Module.start();
 
         var $element    = $(options.element),

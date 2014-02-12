@@ -16,7 +16,7 @@
 //```
 StructureProfile.module('Components.TabContents', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
-    Module.addInitializer(function () {
+    Module.addInitializer(function initializeTabContents () {
         $("[data-component=TabContents]").each(function (index, element) {
             var $element     = $(element),
                 tab_name     = $element.data("for"),

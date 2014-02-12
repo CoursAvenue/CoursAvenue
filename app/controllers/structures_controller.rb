@@ -28,8 +28,6 @@ class StructuresController < ApplicationController
     # data for the tabs manager
     @structure_tabs_manager = {
       view: "TabManager",
-      flavor: "Relational",
-      template: 'tab_manager',
       tabs: ['courses.calendar', 'comments', 'teachers.group', ''],
       bootstrap: @model.to_json,
       provides: "structure"
