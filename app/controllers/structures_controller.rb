@@ -25,7 +25,7 @@ class StructuresController < ApplicationController
 
     # data for the tabs manager
     @structure_tabs_manager = {
-      component: "tab-manager",
+      component: "TabManager",
       tabs: ['courses.calendar', 'comments', 'teachers.group', '']
     }
 
