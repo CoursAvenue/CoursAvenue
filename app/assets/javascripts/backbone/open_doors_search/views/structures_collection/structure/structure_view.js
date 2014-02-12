@@ -16,12 +16,12 @@ OpenDoorsSearch.module('Views.StructuresCollection.Structure', function(Module, 
 
         delegateMouseEnter: function () {
             this.highlightStructure();
-            this.ui.$open_doors_button.show();
+            this.ui.$open_doors_button.fadeIn('fast');
         },
 
         delegateMouseLeave: function () {
             this.unhighlightStructure();
-            this.ui.$open_doors_button.hide();
+            this.ui.$open_doors_button.fadeOut('fast');
         }
     });
 });

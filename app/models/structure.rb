@@ -60,7 +60,8 @@ class Structure < ActiveRecord::Base
   store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
                              :plannings_count, :has_promotion, :has_free_trial_course, :course_names,
                              :last_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
-                             :level_ids, :audience_ids
+                             :level_ids, :audience_ids,
+                             :open_courses_open_places
 
 
   has_attached_file :logo,
@@ -496,6 +497,7 @@ class Structure < ActiveRecord::Base
     # Store level and audiences ids as coma separated string values: "1,3,5"
     self.level_ids                = self.plannings.collect(&:level_ids).flatten.sort.uniq.join(',')
     self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
+    self.open_courses_open_places = self.courses.open_courses.map(&:plannings).flatten.map(&:places_left).reduce(&:+)
     self.set_min_and_max_price
     self.save(validate: false)
   end

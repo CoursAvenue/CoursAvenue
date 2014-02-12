@@ -10,8 +10,11 @@
         = "(#{course.event_type_description})"
       - else
         = "(#{course.event_type})"
-        \—
-        Participants max : #{course.nb_participants_max}
+      .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Description</strong><br>#{course.description}</p><p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
+        %i.lbc-icon-info
+          i
+        Infos sur le cours
+
       - if course.plannings.any?
         %table.table--data.table--striped
           %thead
@@ -20,7 +23,7 @@
               %th Public
               %th Niveau
               %th Lieux
-              %th Places restantes
+              %th.text--center Places restantes
               %th Prix
               %th.text--right Inscription
           %tbody
@@ -34,10 +37,9 @@
                 %td
                   .pointer{ title: planning.place.location.address, data: { behavior: 'tooltip' }}
                     = planning.place.location.name
-                %td
-                  - if planning.nb_participants_max - planning.possible_participations.length > 0
-                    - participations_left = planning.nb_participants_max - planning.possible_participations.length
-                  - else
+                %td.text--center
+                  = planning.places_left
+                  - if planning.places_left == 0
                     = "#{pluralize(planning.waiting_list.length, 'personne')} sur la liste d'attente"
                 %td
                   - if course.price
@@ -48,6 +50,6 @@
                   - if current_user and current_user.participate_to?(planning)
                     Déjà inscrit
                   - elsif current_user
-                    = link_to 'Participer', planning_participations_path(planning), class: 'btn btn--small btn--green', method: :post
+                    = link_to "M'inscrire", planning_participations_path(planning), class: 'btn btn--small btn--green', method: :post
                   - else
-                    = link_to 'Participer', new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Contact form button'])"
+                    = link_to "M'inscrire", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Contact form button'])"

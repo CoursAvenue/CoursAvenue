@@ -6,6 +6,10 @@ describe Participation do
   context :callbacks do
     let (:planning) { FactoryGirl.create(:planning) }
 
+    describe '#welcome_email' do
+      pending 'TODO'
+    end
+
     describe '#set_waiting_list' do
       it 'set it to true' do
         planning.update_attribute(:nb_participants_max, 0)

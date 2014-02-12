@@ -5,6 +5,9 @@ class Pro::HomeController < Pro::ProController
     @admin      = ::Admin.new
   end
 
+  def white_book
+  end
+
   def presentation
   end
 

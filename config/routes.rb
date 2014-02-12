@@ -7,6 +7,7 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: (Rails.env.staging? ? 'pro.staging' : 'pro') do
     namespace :pro, path: '' do
       root :to => 'home#index'
+      get 'pages/livre-blanc'                   => 'home#white_book',         as: 'pages_white_book'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
       get 'pages/presentation'                  => 'home#presentation'
       get 'pages/livre-d-or'                    => 'home#widget',             as: 'pages_widget'
@@ -211,7 +212,7 @@ CoursAvenue::Application.routes.draw do
     resources :messages     , controller: 'users/messages'
     resources :conversations, controller: 'users/conversations'
     resources :passions, only: [:index, :destroy], controller: 'users/passions'
-    resources :participations, only: [:index], controller: 'users/participations'
+    resources :participations, only: [:index, :destroy], controller: 'users/participations'
   end
   resources :emails, only: [:create]
 
@@ -304,6 +305,7 @@ CoursAvenue::Application.routes.draw do
   # ------------------------------------------------------
   # Pages
   get 'pages/pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
+  get 'pages/journees-portes-ouvertes'      => 'pages#jpo',                  as: 'pages_jpo'
   get 'pages/pourquoi-coursavenue'          => 'pages#why',                  as: 'pages_why'
   get 'pages/comment-ca-marche'             => 'pages#how_it_works',         as: 'pages_how_it_works'
   get 'pages/faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'

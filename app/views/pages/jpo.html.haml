@@ -1,0 +1,101 @@
+= content_for :title do
+  Journées Portes Ouvertes CoursAvenue 2014
+
+= pro_menu_currently_at 'Journées Portes Ouvertes'
+
+- content_for :above_container do
+  .home-screen-promotion-wrapper--blue.soft
+    %header.text--center
+      %h1.flush
+        Participez aux Journées Portes Ouvertes
+      %h4.flush Prochaines dates : 5-6 avril 2014 en Île-de-France
+
+  .bg-cover{style: "background-image: url('#{asset_path('pages/open-doors.jpg')}')"}>
+    .main-container.grid.white
+      .grid__item.soft.two-thirds>
+        %h2 Le principe
+
+        %p.line-height-normal.delta
+          A l'image des Journées du Patrimoine des monuments historiques, le principe de cette opération "Journées du Patrimoine immatériel des cours de loisirs" est simple : nos partenaires ouvrent les portes de leurs cours au grand public à travers des ateliers ou des démonstrations (gratuits ou à participation libre) le temps d'un week-end, dans leurs propres salles ou lieux.
+
+        %p.line-height-normal.delta
+          Ces Journées sont l'occasion d'entrevoir l'unité et la diversité de notre patrimoine immatériel des cours de loisirs : initiation aux claquettes, atelier d'écriture corporelle, yoga prénatal, oenologie, improvisation théâtrale, éveil corporel, etc.. Pour tous les Français, c'est un événément unique pour découvrir ou re-découvrir leurs passions et un moment privilégié dans l'année pour partir à la rencontre de tous les professeurs, associations ou écoles qui nous entourent.
+
+        .text--center.push--bottom
+          = link_to "Participer aux Journées Portes Ouvertes CoursAvenue", new_user_registration_url, class: 'btn btn--green btn--large hard--sides btn--full'
+          %br
+          %p Prochaines dates : 5-6 avril 2014 en Île-de-France
+
+        %p.line-height-normal.delta
+          Les "Journées Portes Ouvertes des cours de loisirs" est un événement inédit entièrement orchestré par les équipes de CoursAvenue, et les ateliers se déroulent sur les lieux de nos partenaires. Souvent organisées à titre individuel, c'est la première fois que de telles "Journées Portes Ouvertes" sont organisées de manière collective.
+
+  .home-screen-promotion-wrapper.one-whole
+    .main-container
+      .delta.soft.two-thirds
+        %h2 Comment y participer
+
+        %p.line-height-normal.flush
+          C'est simple, super rapide et 100% gratuit :
+        %ul
+          %li Depuis la page d'accueil CoursAvenue.com, cliquez sur le bandeau "Journées Portes Ouvertes" concernant votre ville ou région (si votre zone géographique n'est pas encore concernée, un peu de patience, nous arrivons !) ;
+          %li Grâce à notre moteur de recherche géolocalisé, sélectionnez l'atelier que vous souhaitez découvrir puis réservez le créneau de votre choix ;
+          %li En quelques clics, créez votre compte "élève" puis renseignez vos coordonnées pour recevoir tous les détails : ça y est, votre cours est réservé ! Pensez à bien le noter dans votre agenda.
+
+  .main-container
+    .delta.soft.two-thirds
+      %h2 Invitez qui vous voulez
+
+      %p.line-height-normal
+        Pour permettre aux maximum de personnes de participer à l'événement, vous vous offrons la possibilité d'effectuer 2 inscriptions. Vous souhaitez y participer avec vos amis, collègues, ou toute votre famille ? Pas de problème, invitez qui vous voulez en quelques secondes :
+
+      %ul
+        %li Connectez-vous à votre profil (lien "Connexion", puis "Elèves" en haut de la page d'accueil CoursAvenue.com) ;
+        %li Une fois connecté, cliquez sur la rubrique "Mes cours" (à gauche de la page) ;
+        %li Dans le premier onglet "Journées Portes Ouvertes", cliquez sur le bouton "Inviter mes proches".
+
+      %p.line-height-normal.push-half--bottom
+        Ensuite, laissez-vous guider : il vous suffit de renseigner les emails de tous vos proches, de personnaliser un texte pré-écrit, puis d'envoyer votre demande. Et dès qu'un proche s'inscrit, vous en serez notifié par mail.
+
+
+  .home-screen-promotion-wrapper.one-whole
+    .main-container
+      .delta.soft.two-thirds
+        %h2 Toutes les infos sur votre profil
+
+        %p.line-height-normal.push-half--bottom
+          Une fois votre réservation effectuée, retrouvez toutes les informations pratiques de vos ateliers depuis votre profil "élève". Pour vous connecter, cliquez sur "Connexion", puis "Elèves" en haut de la page d'accueil CoursAvenue.com.
+
+  .main-container
+    .delta.soft.two-thirds
+      %h2 100% gratuit
+
+      %p.line-height-normal.push-half--bottom
+        Vous n'avez rien à payer pour participer à l'événément. Le but de l'événement étant de faire découvrir le maximum de cours de loisirs de votre région, les ateliers sont gratuits. Toutefois, certains partenaires peuvent demander une participation libre, avec un montant attendu qui vous sera indiqué.
+
+
+  .home-screen-promotion-wrapper.one-whole
+    .main-container
+      .delta.soft.two-thirds
+        %h2 Votre engagement
+
+        %p.line-height-normal
+          Une fois votre inscription effectuée, votre seul engagement est de venir à l'atelier le jour J. Si vous souhaitez annuler votre présence, vous pourrez le faire depuis votre profil "élève" : cela permettra de libérer votre place et d'offrir l'opportunité à une personne inscrite en liste d'attente d'assister à l'atelier.
+
+  .main-container
+    .delta.soft.two-thirds
+      %h2 Liste d'attente
+
+      %p.line-height-normal.push-half--bottom
+        Vous souhaitez vous inscrire à un atelier déjà complet ? Optimisez vos chances d'y participer en vous inscrivant sur la liste d'attente. On ne sait jamais : en cas d'annulation d'un participant, vous aurez peut-être la chance d'y participer.
+
+
+  .home-screen-promotion-wrapper.one-whole.bg-cover{style: "background-image: url('#{asset_path('pages/open-doors.jpg')}')"}>
+    .main-container.white
+      .delta.soft.two-thirds
+        %h2 En résumé
+
+        %p.line-height-normal
+          Ces journées sont un moment privilégié pour partir à la découverte de l'ensemble du patrimoine immatériel des cours de loisirs qui nous entourent et exceptionnellement ouverts le temps d'un week-end. La participation aux ateliers est gratuite ou à participation libre.
+
+        %p.line-height-normal
+          Pour les élèves qui suivent déjà des cours de loisirs, c'est aussi l'occasion d'inviter tous leurs proches à découvrir leurs passions.

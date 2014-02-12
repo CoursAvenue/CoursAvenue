@@ -399,6 +399,10 @@ class Planning < ActiveRecord::Base
     self.participations - self.possible_participations
   end
 
+  def places_left
+    nb_participants_max - possible_participations.length
+  end
+
   private
 
   # Return the scoped price for a given type.
