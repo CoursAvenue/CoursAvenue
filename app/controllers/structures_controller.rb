@@ -23,13 +23,18 @@ class StructuresController < ApplicationController
     @comment        = @structure.comments.build
     index           = 0
 
+    @model = (jasonify @structure, { unlimited_comments: true }).pop
+
     # data for the tabs manager
     @structure_tabs_manager = {
-      component: "TabManager",
-      tabs: ['courses.calendar', 'comments', 'teachers.group', '']
+      view: "TabManager",
+      flavor: "Relational",
+      template: 'tab_manager',
+      tabs: ['courses.calendar', 'comments', 'teachers.group', ''],
+      bootstrap: @model.to_json,
+      provides: "structure"
     }
 
-    @model = (jasonify @structure, { unlimited_comments: true }).pop
   end
 
   def index

@@ -1,0 +1,10 @@
+{{!-- each relation on the structure creates a tab --}}
+RELATIONAL!
+{{#each tabs }}
+<li class="{{active}}">
+<a href="#tab-{{slug}}" data-toggle="tab" data-relation="{{slug}}">
+        {{#if icon}}<i class="fa fa-{{icon}}"></i>{{/if}}
+        {{name}}
+    </a>
+</li>
+{{/each}}

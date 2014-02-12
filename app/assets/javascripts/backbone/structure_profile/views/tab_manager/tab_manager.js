@@ -5,7 +5,8 @@
 // the visibility of elements somewhere else on the page.
 //
 // **data API**
-//  - _component_: TabManager
+//
+//  - _view_: TabManager
 //  - _tabs_: a list of tab names. The tab manager will emit events whenever its
 //    tabs are clicked, so that the corresponding content will be shown. Each
 //    tab name may include a period (.), followed by a fa-icon to be used next
@@ -16,14 +17,16 @@
 // **usage**
 //
 // in `controllers/structures_controller.rb#show`
-//```ruby
+//
+//```
 //@structure_tabs_manager = {
-//  component: "TabManager",
+//  view: "TabManager",
 //  tabs: ['courses.calendar', 'comments', 'teachers.group', '']
 //}
 //```
 //
 // in `views/structures/show.html.haml`
+//
 //```
 //#structure-tabs{ data: @structure_tab_manager }
 //```
@@ -32,11 +35,16 @@ StructureProfile.module('Views.TabManager', function(Module, App, Backbone, Mari
     // a function to run when it is determined that this module will be used. Creates
     // a TabManager view object for each element with data-view=TabManager.
     Module.addInitializer(function () {
-        $("[data-component=TabManager]").each(function (index, element) {
+        $("[data-view=TabManager]").each(function (index, element) {
             var $element     = $(element),
                 tabs         = buildTabs($element.data("tabs")),
+                view         = $element.data("view"),
                 namespace    = $element.data("namespace"),
-                view         = new Module.TabManager({ tabs: tabs, namespace: namespace }),
+                flavor       = $element.data("flavor"),
+                bootstrap    = $element.data("bootstrap"),
+                provides     = $element.data("provides"),
+                template     = Module.templateDirname() + $element.data("template"),
+                view         = buildView(view, flavor, { template: template, data: bootstrap, tabs: tabs }),
                 region_name  = 'TabManager' + _.capitalize(view.cid),
                 regions      = {};
 
@@ -50,49 +58,21 @@ StructureProfile.module('Views.TabManager', function(Module, App, Backbone, Mari
         });
     });
 
-    Module.TabManager = Marionette.ItemView.extend({
-        template: Module.templateDirname().slice(0, -1), // TODO this might need to change?
-        tagName: 'ul',
-        className: 'tabs',
-
-        initialize: function initialize (options) {
-            if (!options || !options.tabs) {
-                this.options.tabs = {};
-            }
-        },
-
-        ui: {
-            $tabs: '[data-toggle=tab]'
-        },
-
-        events: {
-            'click @ui.$tabs': 'tabClickHandler'
-        },
-
-        tabClickHandler: function tabClickHandler (e) {
-            this.showTabContents(e);
-        },
-
-        showTabContents: function showTabContents (e) {
-            var tab_name = this.$(e.target).data("relation");
-            this.$el.trigger(tab_name + ":tab:clicked", e);
-        },
-
-        hideTabContents: function hideTabContents (e) {
-            var tab_name = this.$(e.target).data("relation");
-            this.$el.trigger(tab_name + ":click:hide", e);
-        },
-
-        serializeData: function serializeData () {
-            return {
-                tabs: this.options.tabs
-            };
-        }
-    });
-
     var consumeData = function consumeData ($element) {
-        $element.removeAttr("data-component");
+        $element.removeAttr("data-view");
         $element.removeAttr("data-tabs");
+    };
+
+    var buildView = function buildView (view, flavor, options) {
+        var result;
+
+        if (flavor && Module.Flavors[flavor]) {
+            result = new Module.Flavors[flavor][view](options);
+        } else {
+            result = new Module[view](options);
+        }
+
+        return result;
     };
 
     var buildTabs = function buildTabs (tabs) {
