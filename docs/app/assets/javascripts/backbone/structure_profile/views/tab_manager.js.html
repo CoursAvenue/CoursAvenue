@@ -1,0 +1,125 @@
+<!DOCTYPE html><html><head><title>tab_manager.js</title><meta http-equiv="Content-Type" content="text/html" charset="UTF-8"><link rel="stylesheet" media="all" href="../../../../../../docco.css"></head><body><div id="container"><div id="background"></div><div id="jump_to">Jump To &hellip;<div id="jump_wrapper"><div id="jump_page"><a href="../../../../../../index.html" class="source"><span class="file_name">README</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/application/StructureProfile.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / application / </span><span class="file_name">StructureProfile.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/behaviors/activateOn.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / behaviors / </span><span class="file_name">activateOn.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/behaviors/behaviors.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / behaviors / </span><span class="file_name">behaviors.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/behaviors/deactivateSiblings.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / behaviors / </span><span class="file_name">deactivateSiblings.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/behaviors/logOn.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / behaviors / </span><span class="file_name">logOn.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/behaviors/showWhenActive.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / behaviors / </span><span class="file_name">showWhenActive.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/components/tab_contents.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / components / </span><span class="file_name">tab_contents.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/models/place.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / models / </span><span class="file_name">place.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/models/place_collection.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / models / </span><span class="file_name">place_collection.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/models/structure.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / models / </span><span class="file_name">structure.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/views/manifest.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / views / </span><span class="file_name">manifest.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/views/map/google_map/info_box_view.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / views / map / google_map / </span><span class="file_name">info_box_view.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/views/map/google_map/manifest.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / views / map / google_map / </span><span class="file_name">manifest.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/views/map/google_map/google_map_view.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / views / map / google_map / </span><span class="file_name">google_map_view.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/views/map/manifest.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / views / map / </span><span class="file_name">manifest.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/views/structure/teachers/teacher_view.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / views / structure / teachers / </span><span class="file_name">teacher_view.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/views/structure/courses/course_view.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / views / structure / courses / </span><span class="file_name">course_view.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/views/structure/relational_tab_layout.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / views / structure / </span><span class="file_name">relational_tab_layout.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/views/structure/manifest.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / views / structure / </span><span class="file_name">manifest.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/views/structure/comments/comment_view.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / views / structure / comments / </span><span class="file_name">comment_view.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/views/structure_headers_layout.js.html" class="source "><span class="base_path">app / assets / javascripts / backbone / structure_profile / views / </span><span class="file_name">structure_headers_layout.js</span></a><a href="../../../../../../app/assets/javascripts/backbone/structure_profile/views/tab_manager.js.html" class="source selected"><span class="base_path">app / assets / javascripts / backbone / structure_profile / views / </span><span class="file_name">tab_manager.js</span></a></div></div></div><table cellpadding="0" cellspacing="0"><thead><tr><th class="docs"><h1>tab_manager.js</h1><div class="filepath">app/assets/javascripts/backbone/structure_profile/views/</div></th><th class="code"></th></tr></thead><tbody><tr id="section-1"><td class="docs"><div class="pilwrap"><a href="#section-1" class="pilcrow">&#182;</a></div><h2>Tab Manager</h2>
+
+<p>A tab manager provides a bunch of buttons, which when clicked will control
+the visibility of elements somewhere else on the page.</p>
+
+<p><strong>data API</strong></p>
+
+<ul>
+<li><em>component</em>: TabManager</li>
+<li><em>tabs</em>: a list of tab names. The tab manager will emit events whenever its
+tabs are clicked, so that the corresponding content will be shown. Each
+tab name may include a period (.), followed by a fa-icon to be used next
+to its name. Blank tabs are be skipped</li>
+<li>[<em>namespace</em>]: an optional identifier used to namespace events. The namespace
+should be unique, but this is nowhere enforced.</li>
+</ul>
+
+<p><strong>usage</strong></p>
+
+<p>in <code>controllers/structures_controller.rb#show</code></p>
+
+<p><code>
+@structure_tabs_manager = {
+ component: "TabManager",
+ tabs: ['courses.calendar', 'comments', 'teachers.group', '']
+}
+</code></p>
+
+<p>in <code>views/structures/show.html.haml</code></p>
+
+<p>```</p>
+
+<h1>structure-tabs{ data: @structure<em>tab</em>manager }</h1>
+
+<p>```</p>
+</td><td class="code"><div class="highlight"><pre><span class="nx">StructureProfile</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;Views.TabManager&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Module</span><span class="p">,</span> <span class="nx">App</span><span class="p">,</span> <span class="nx">Backbone</span><span class="p">,</span> <span class="nx">Marionette</span><span class="p">,</span> <span class="nx">$</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span></pre></div></td></tr><tr id="section-2"><td class="docs"><div class="pilwrap"><a href="#section-2" class="pilcrow">&#182;</a></div><p>a function to run when it is determined that this module will be used. Creates
+a TabManager view object for each element with data-view=TabManager.</p>
+</td><td class="code"><div class="highlight"><pre>    <span class="nx">Module</span><span class="p">.</span><span class="nx">addInitializer</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;[data-component=TabManager]&quot;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">$element</span>     <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">),</span>
+                <span class="nx">tabs</span>         <span class="o">=</span> <span class="nx">buildTabs</span><span class="p">(</span><span class="nx">$element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;tabs&quot;</span><span class="p">)),</span>
+                <span class="nx">namespace</span>    <span class="o">=</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;namespace&quot;</span><span class="p">),</span>
+                <span class="nx">view</span>         <span class="o">=</span> <span class="k">new</span> <span class="nx">Module</span><span class="p">.</span><span class="nx">TabManager</span><span class="p">({</span> <span class="nx">tabs</span><span class="o">:</span> <span class="nx">tabs</span><span class="p">,</span> <span class="nx">namespace</span><span class="o">:</span> <span class="nx">namespace</span> <span class="p">}),</span>
+                <span class="nx">region_name</span>  <span class="o">=</span> <span class="s1">&#39;TabManager&#39;</span> <span class="o">+</span> <span class="nx">_</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">(</span><span class="nx">view</span><span class="p">.</span><span class="nx">cid</span><span class="p">),</span>
+                <span class="nx">regions</span>      <span class="o">=</span> <span class="p">{};</span>
+
+            <span class="nx">regions</span><span class="p">[</span><span class="nx">region_name</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span> <span class="o">+</span> <span class="nx">view</span><span class="p">.</span><span class="nx">cid</span><span class="p">;</span>
+            <span class="nx">$element</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="nx">view</span><span class="p">.</span><span class="nx">cid</span><span class="p">);</span>
+
+            <span class="nx">App</span><span class="p">.</span><span class="nx">addRegions</span><span class="p">(</span><span class="nx">regions</span><span class="p">);</span>
+            <span class="nx">App</span><span class="p">[</span><span class="nx">region_name</span><span class="p">].</span><span class="nx">show</span><span class="p">(</span><span class="nx">view</span><span class="p">);</span>
+
+            <span class="nx">consumeData</span><span class="p">(</span><span class="nx">$element</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+
+    <span class="nx">Module</span><span class="p">.</span><span class="nx">TabManager</span> <span class="o">=</span> <span class="nx">Marionette</span><span class="p">.</span><span class="nx">ItemView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+        <span class="nx">template</span><span class="o">:</span> <span class="nx">Module</span><span class="p">.</span><span class="nx">templateDirname</span><span class="p">().</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="c1">// TODO this might need to change?</span>
+        <span class="nx">tagName</span><span class="o">:</span> <span class="s1">&#39;ul&#39;</span><span class="p">,</span>
+        <span class="nx">className</span><span class="o">:</span> <span class="s1">&#39;tabs&#39;</span><span class="p">,</span>
+
+        <span class="nx">initialize</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">initialize</span> <span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">options</span> <span class="o">||</span> <span class="o">!</span><span class="nx">options</span><span class="p">.</span><span class="nx">tabs</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">tabs</span> <span class="o">=</span> <span class="p">{};</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+
+        <span class="nx">ui</span><span class="o">:</span> <span class="p">{</span>
+            <span class="nx">$tabs</span><span class="o">:</span> <span class="s1">&#39;[data-toggle=tab]&#39;</span>
+        <span class="p">},</span>
+
+        <span class="nx">events</span><span class="o">:</span> <span class="p">{</span>
+            <span class="s1">&#39;click @ui.$tabs&#39;</span><span class="o">:</span> <span class="s1">&#39;tabClickHandler&#39;</span>
+        <span class="p">},</span>
+
+        <span class="nx">tabClickHandler</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">tabClickHandler</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">showTabContents</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+        <span class="p">},</span>
+
+        <span class="nx">showTabContents</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">showTabContents</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">tab_name</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;relation&quot;</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="nx">tab_name</span> <span class="o">+</span> <span class="s2">&quot;:tab:clicked&quot;</span><span class="p">,</span> <span class="nx">e</span><span class="p">);</span>
+        <span class="p">},</span>
+
+        <span class="nx">hideTabContents</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">hideTabContents</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">tab_name</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;relation&quot;</span><span class="p">);</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">$el</span><span class="p">.</span><span class="nx">trigger</span><span class="p">(</span><span class="nx">tab_name</span> <span class="o">+</span> <span class="s2">&quot;:click:hide&quot;</span><span class="p">,</span> <span class="nx">e</span><span class="p">);</span>
+        <span class="p">},</span>
+
+        <span class="nx">serializeData</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">serializeData</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="nx">tabs</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">tabs</span>
+            <span class="p">};</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+
+    <span class="kd">var</span> <span class="nx">consumeData</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">consumeData</span> <span class="p">(</span><span class="nx">$element</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$element</span><span class="p">.</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s2">&quot;data-component&quot;</span><span class="p">);</span>
+        <span class="nx">$element</span><span class="p">.</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s2">&quot;data-tabs&quot;</span><span class="p">);</span>
+    <span class="p">};</span>
+
+    <span class="kd">var</span> <span class="nx">buildTabs</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">buildTabs</span> <span class="p">(</span><span class="nx">tabs</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="nx">tabs</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">memo</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">),</span>
+                <span class="nx">slug</span> <span class="o">=</span> <span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="nx">name</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">(</span><span class="nx">slug</span><span class="p">),</span>
+                <span class="nx">icon</span><span class="p">,</span> <span class="nx">tab</span><span class="p">,</span> <span class="nx">active</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nx">slug</span> <span class="o">===</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">return</span> <span class="nx">memo</span><span class="p">;</span>
+
+            <span class="nx">icon</span>   <span class="o">=</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="nx">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">:</span> <span class="kc">undefined</span><span class="p">;</span>
+            <span class="nx">active</span> <span class="o">=</span> <span class="p">(</span><span class="nx">index</span> <span class="o">===</span> <span class="mi">0</span><span class="p">)</span>     <span class="o">?</span> <span class="s2">&quot;active&quot;</span><span class="o">:</span> <span class="kc">undefined</span><span class="p">;</span>
+
+            <span class="nx">tab</span>          <span class="o">=</span> <span class="nx">memo</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{};</span>
+            <span class="nx">tab</span><span class="p">.</span><span class="nx">slug</span>     <span class="o">=</span> <span class="nx">slug</span><span class="p">;</span>
+            <span class="nx">tab</span><span class="p">.</span><span class="nx">name</span>     <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+            <span class="nx">tab</span><span class="p">.</span><span class="nx">icon</span>     <span class="o">=</span> <span class="nx">icon</span><span class="p">;</span>
+            <span class="nx">tab</span><span class="p">.</span><span class="nx">active</span>   <span class="o">=</span> <span class="nx">active</span><span class="p">;</span>
+
+            <span class="k">return</span> <span class="nx">memo</span><span class="p">;</span>
+        <span class="p">},</span> <span class="p">{});</span>
+    <span class="p">};</span>
+<span class="p">},</span> <span class="kc">undefined</span><span class="p">);</span>
+
+</pre></div></td></tr></tbody></table><div id="generated">generated Wed Feb 12 2014 15:41:01 GMT+0100 (CET)  </div></div></body></html>

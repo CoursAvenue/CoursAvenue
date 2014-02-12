@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>concat.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>concat.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>StructureProfile = <span class="hljs-keyword">new</span> Backbone.Marionette.Application({ slug: <span class="hljs-string">'structure-profile'</span>});
+
+$(document).ready(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    StructureProfile.start({});
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h2 id="behaviors-activateon">Behaviors.activateOn</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>This behavior defines a global event that will cause this element to emit the “activate”
+event. The behavior name must be followed by the camelized signature of the event that
+will cause this element to activate. For example, attaching the behavior <code>activateOnCoursesTabClicked</code>
+will cause this element to activate when <code>courses:tab:clicked</code> is triggered somewhere
+in the DOM.</p>
+<p><strong>usage</strong></p>
+<pre><code>.tab.hidden{ data: { behaviors: [<span class="hljs-string">'activateOnMapMarkerClicked'</span>, <span class="hljs-string">'activateOnCoursesTabClicked'</span>] }}
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>StructureProfile.module(<span class="hljs-string">'Behaviors.activateOn'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Module, App, Backbone, Marionette, $, _, undefined)</span> {</span>
+    <span class="hljs-keyword">this</span>.startWithParent = <span class="hljs-literal">false</span>;
+
+    <span class="hljs-keyword">var</span> _activate = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">activate</span> <span class="hljs-params">(element, e)</span> {</span>
+        <span class="hljs-keyword">var</span> $element = $(element);
+        $element.trigger(<span class="hljs-string">"activate"</span>);
+    };
+
+    Module.attachTo = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(options)</span> {</span>
+        Module.start();
+
+        <span class="hljs-keyword">var</span> $element    = $(options.element),
+            activate    = _.partial(_activate, options.element),
+            event       = options.event.replace(<span class="hljs-regexp">/([A-Z])/g</span>, <span class="hljs-string">':$1'</span>).replace(<span class="hljs-regexp">/^:/</span>, <span class="hljs-string">''</span>).toLowerCase(); <span class="hljs-comment">// from camel to event style</span>
+
+        $(document).on(event, activate);
+    };
+
+}, <span class="hljs-literal">undefined</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <h2 id="behaviours">Behaviours</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>The Behaviors module is a collection of functions that each take an element and attach
+some event handlers to it, or to the document. Each behavior is meant to be stateless,
+general, and as simple as possible. By combining behaviors on an object, we can easily
+create more complicated DOM interactions, without the need to instantiate a full-fledged
+Marionette view.</p>
+<p><strong>data API</strong></p>
+<p><em>behaviors</em>: a name of a behavior the element is to implement, or an array of such names.</p>
+<p><strong>submodules</strong></p>
+<p>[WIP] Submodules that implement a match function will be passed the given behavior name,
+and the first one that matches will be attached to the element.</p>
+<p><strong>usage</strong></p>
+<pre><code>.tab.hidden{ data: { behaviors: [<span class="hljs-string">'showWhenActive'</span>, <span class="hljs-string">'activateOnCoursesTabClicked'</span>, <span class="hljs-string">'deactivateSiblings'</span>] }}
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>StructureProfile.module(<span class="hljs-string">'Behaviors'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Module, App, Backbone, Marionette, $, _, undefined)</span> {</span>
+
+    Module.addInitializer(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+        $(<span class="hljs-string">"[data-behaviors]"</span>).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(index, element)</span> {</span>
+            <span class="hljs-keyword">var</span> $element  = $(element),
+                behaviors = $element.data(<span class="hljs-string">"behaviors"</span>);
+
+            <span class="hljs-keyword">if</span> (!_.isArray(behaviors)) {
+                behaviors = [behaviors];
+            }
+
+            _.each(behaviors, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(behavior_name)</span> {</span>
+                <span class="hljs-keyword">var</span> behavior = behavior_name;
+
+                <span class="hljs-keyword">if</span> (Module[behavior] != <span class="hljs-literal">undefined</span>) {
+                    Module[behavior].attachTo({ element: element, event: event });
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-keyword">var</span> match = behavior.match(<span class="hljs-regexp">/(.*?On)(.*)/</span>).slice(<span class="hljs-number">1</span>); <span class="hljs-comment">// slice off the full match</span>
+                    <span class="hljs-keyword">var</span> event = match[<span class="hljs-number">1</span>];
+                    behavior  = match[<span class="hljs-number">0</span>];
+
+                    <span class="hljs-keyword">if</span> (Module[behavior] != <span class="hljs-literal">undefined</span>) {
+                        Module[behavior].attachTo({ element: element, event: event });
+                    }
+                }
+            });
+        });
+    });
+
+}, <span class="hljs-literal">undefined</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <h2 id="behaviors-deactivatesiblings">Behaviors.deactivateSiblings</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Any time the element becomes active, it triggers ‘deactivate’ on all of the sibling
+elements. Any sibling element that has implemented some behavior on deactivate will
+do its thing.</p>
+<p><strong>usage</strong></p>
+<pre><code>.tab.hidden{ data: { behaviors: <span class="hljs-string">'deactivateSiblings'</span> }}
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>StructureProfile.module(<span class="hljs-string">'Behaviors.deactivateSiblings'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Module, App, Backbone, Marionette, $, _, undefined)</span> {</span>
+    <span class="hljs-keyword">this</span>.startWithParent = <span class="hljs-literal">false</span>;
+
+    Module.attachTo = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(options)</span> {</span>
+        Module.start();
+
+        <span class="hljs-keyword">var</span> $element  = $(options.element),
+            $siblings = $element.siblings();
+
+        $element.on(<span class="hljs-string">"activate"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+            $siblings.trigger(<span class="hljs-string">"deactivate"</span>);
+        });
+    };
+
+}, <span class="hljs-literal">undefined</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <h2 id="behaviors-logon">Behaviors.logOn</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p><strong>usage</strong></p>
+<pre><code>.tab.hidden{ data: { behaviors: [<span class="hljs-string">'logActivate'</span>, <span class="hljs-string">'logCousesTabClicked'</span>] }}
+</code></pre><p><strong>todo</strong></p>
+<p>Once I’ve implemented matchers, this will be called loggerFor instead of logOn</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>StructureProfile.module(<span class="hljs-string">'Behaviors.logOn'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Module, App, Backbone, Marionette, $, _, undefined)</span> {</span>
+    <span class="hljs-keyword">this</span>.startWithParent = <span class="hljs-literal">false</span>;
+
+    Module.attachTo = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(options)</span> {</span>
+        Module.start();
+
+        <span class="hljs-keyword">var</span> $element    = $(options.element),
+            event       = options.event.replace(<span class="hljs-regexp">/([A-Z])/g</span>, <span class="hljs-string">':$1'</span>).replace(<span class="hljs-regexp">/^:/</span>, <span class="hljs-string">''</span>).toLowerCase(); <span class="hljs-comment">// from camel to event style</span>
+
+        $element.on(event, console.log);
+    };
+
+}, <span class="hljs-literal">undefined</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <h2 id="behaviors-showwhenactive">Behaviors.showWhenActive</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Any time this element becomes active, it is shown. It is hidden when
+it is deactivate, and by default we expect it to be hidden, but this
+is not enforced. This behavior is agnostic
+as to how the element became active, and needs to be either combined with
+<code>activateOn</code>, or used together with a view that will activate the element.</p>
+<p><strong>usage</strong></p>
+<pre><code>.tab.hidden{ data: { behaviors: <span class="hljs-string">'showWhenActive'</span> }}
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>StructureProfile.module(<span class="hljs-string">'Behaviors.showWhenActive'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Module, App, Backbone, Marionette, $, _, undefined)</span> {</span>
+    <span class="hljs-keyword">this</span>.startWithParent = <span class="hljs-literal">false</span>;
+
+    Module.attachTo = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(options)</span> {</span>
+        Module.start();
+
+        <span class="hljs-keyword">var</span> $element = $(options.element);
+
+        $element.on(<span class="hljs-string">"activate"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showTabContents</span> <span class="hljs-params">(e)</span> {</span>
+            $(<span class="hljs-keyword">this</span>).show();
+        });
+
+        $element.on(<span class="hljs-string">"deactivate"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hideTabContents</span> <span class="hljs-params">(e)</span> {</span>
+            $(<span class="hljs-keyword">this</span>).hide();
+        });
+    };
+
+}, <span class="hljs-literal">undefined</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <h2 id="tab-contents">Tab Contents</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Tab Contents attaches the following behaviors to the given element:</p>
+<p><strong>data API</strong></p>
+<ul>
+<li><em>component</em>: tab-contents</li>
+<li><em>for</em>: the name of the tab whose contents are contained in this
+tab.</li>
+</ul>
+<p><strong>usage</strong></p>
+<pre><code>.tab{ data: { component: <span class="hljs-string">"TabContents"</span>, <span class="hljs-keyword">for</span>: <span class="hljs-string">"courses"</span> } }
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>StructureProfile.module(<span class="hljs-string">'Components.TabContents'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Module, App, Backbone, Marionette, $, _, undefined)</span> {</span>
+
+    Module.addInitializer(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+        $(<span class="hljs-string">"[data-component=TabContents]"</span>).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(index, element)</span> {</span>
+            <span class="hljs-keyword">var</span> $element     = $(element),
+                tab_name     = $element.data(<span class="hljs-string">"for"</span>),
+                event        = _.capitalize(tab_name) + <span class="hljs-string">"TabClicked"</span>;
+
+            StructureProfile.Behaviors.activateOn.attachTo({ element: element, event: event });
+            StructureProfile.Behaviors.showWhenActive.attachTo({ element: element });
+            StructureProfile.Behaviors.deactivateSiblings.attachTo({ element: element });
+
+            consumeData($element);
+        });
+    });
+
+    <span class="hljs-keyword">var</span> consumeData = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">consumeData</span> <span class="hljs-params">($element)</span> {</span>
+        $element.removeAttr(<span class="hljs-string">"data-component"</span>);
+        $element.removeAttr(<span class="hljs-string">"data-for"</span>);
+    };
+
+}, <span class="hljs-literal">undefined</span>);
+
+
+StructureProfile.module(<span class="hljs-string">'Models'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Models, App, Backbone, Marionette, $, _)</span> {</span>
+    Models.PlacesCollection = Backbone.Collection.extend({
+        model: Models.Place
+    });
+});
+
+
+<span class="hljs-comment">/* just a basic backbone model */</span>
+StructureProfile.module(<span class="hljs-string">'Models'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Models, App, Backbone, Marionette, $, _)</span> {</span>
+    Models.Place = Backbone.Model.extend({
+        <span class="hljs-comment">/* we need this in order to qualify as a Location */</span>
+        getLatLng: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+            <span class="hljs-keyword">var</span> location = <span class="hljs-keyword">this</span>.get(<span class="hljs-string">'location'</span>);
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> google.maps.LatLng(location.latitude, location.longitude);
+        }
+    });
+});
+
+<span class="hljs-comment">/* just a basic backbone model */</span>
+StructureProfile.module(<span class="hljs-string">'Models'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Module, App, Backbone, Marionette, $, _)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>we want to be able to override some relations</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> relations = FilteredSearch.Models.Structure.prototype.relations;
+
+
+    Module.Structure = FilteredSearch.Models.Structure.extend({
+        relations: relations
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>————— Views
+= require ./map/manifest
+= require ./structure/manifest</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>= require ./structure_headers_layout
+= require ./tab_manager</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>StructureProfile.module(<span class="hljs-string">'Views'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Module, App, Backbone, Marionette, $, _)</span> {</span>
+
+    Module.StructureHeadersLayout = CoursAvenue.Views.EventLayout.extend({
+        template: Module.templateDirname() + <span class="hljs-string">'structure_headers_layout'</span>,
+        className: <span class="hljs-string">'structure-headers-layout'</span>,
+        master_region_name: <span class="hljs-string">'structure_headers'</span>,
+
+        regions: {
+            master: <span class="hljs-string">"#structure-headers"</span>,
+        },
+
+        onShow: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+            <span class="hljs-keyword">if</span> (App.$loader) {
+                App.$loader().fadeOut(<span class="hljs-string">'slow'</span>);
+            }
+        },
+
+    });
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <h2 id="tab-manager">Tab Manager</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>A tab manager provides a bunch of buttons, which when clicked will control
+the visibility of elements somewhere else on the page.</p>
+<p><strong>data API</strong></p>
+<ul>
+<li><em>component</em>: TabManager</li>
+<li><em>tabs</em>: a list of tab names. The tab manager will emit events whenever its
+tabs are clicked, so that the corresponding content will be shown. Each
+tab name may include a period (.), followed by a fa-icon to be used next
+to its name. Blank tabs are be skipped</li>
+<li>[<em>namespace</em>]: an optional identifier used to namespace events. The namespace
+should be unique, but this is nowhere enforced.</li>
+</ul>
+<p><strong>usage</strong></p>
+<p>in <code>controllers/structures_controller.rb#show</code></p>
+<pre><code>@structure_tabs_manager = {
+ component: <span class="hljs-string">"TabManager"</span>,
+ tabs: [<span class="hljs-string">'courses.calendar'</span>, <span class="hljs-string">'comments'</span>, <span class="hljs-string">'teachers.group'</span>, <span class="hljs-string">''</span>]
+}
+</code></pre><p>in <code>views/structures/show.html.haml</code></p>
+<pre><code>#structure-tabs{ data: @structure_tab_manager }
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>StructureProfile.module(<span class="hljs-string">'Views.TabManager'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Module, App, Backbone, Marionette, $, _, undefined)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>a function to run when it is determined that this module will be used. Creates
+a TabManager view object for each element with data-view=TabManager.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    Module.addInitializer(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+        $(<span class="hljs-string">"[data-component=TabManager]"</span>).each(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(index, element)</span> {</span>
+            <span class="hljs-keyword">var</span> $element     = $(element),
+                tabs         = buildTabs($element.data(<span class="hljs-string">"tabs"</span>)),
+                namespace    = $element.data(<span class="hljs-string">"namespace"</span>),
+                view         = <span class="hljs-keyword">new</span> Module.TabManager({ tabs: tabs, namespace: namespace }),
+                region_name  = <span class="hljs-string">'TabManager'</span> + _.capitalize(view.cid),
+                regions      = {};
+
+            regions[region_name] = <span class="hljs-string">"#"</span> + view.cid;
+            $element.attr(<span class="hljs-string">"id"</span>, view.cid);
+
+            App.addRegions(regions);
+            App[region_name].show(view);
+
+            consumeData($element);
+        });
+    });
+
+    Module.TabManager = Marionette.ItemView.extend({
+        template: Module.templateDirname().slice(<span class="hljs-number">0</span>, -<span class="hljs-number">1</span>), <span class="hljs-comment">// TODO this might need to change?</span>
+        tagName: <span class="hljs-string">'ul'</span>,
+        className: <span class="hljs-string">'tabs'</span>,
+
+        initialize: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initialize</span> <span class="hljs-params">(options)</span> {</span>
+            <span class="hljs-keyword">if</span> (!options || !options.tabs) {
+                <span class="hljs-keyword">this</span>.options.tabs = {};
+            }
+        },
+
+        ui: {
+            $tabs: <span class="hljs-string">'[data-toggle=tab]'</span>
+        },
+
+        events: {
+            <span class="hljs-string">'click @ui.$tabs'</span>: <span class="hljs-string">'tabClickHandler'</span>
+        },
+
+        tabClickHandler: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tabClickHandler</span> <span class="hljs-params">(e)</span> {</span>
+            <span class="hljs-keyword">this</span>.showTabContents(e);
+        },
+
+        showTabContents: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showTabContents</span> <span class="hljs-params">(e)</span> {</span>
+            <span class="hljs-keyword">var</span> tab_name = <span class="hljs-keyword">this</span>.$(e.target).data(<span class="hljs-string">"relation"</span>);
+            <span class="hljs-keyword">this</span>.$el.trigger(tab_name + <span class="hljs-string">":tab:clicked"</span>, e);
+        },
+
+        hideTabContents: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hideTabContents</span> <span class="hljs-params">(e)</span> {</span>
+            <span class="hljs-keyword">var</span> tab_name = <span class="hljs-keyword">this</span>.$(e.target).data(<span class="hljs-string">"relation"</span>);
+            <span class="hljs-keyword">this</span>.$el.trigger(tab_name + <span class="hljs-string">":click:hide"</span>, e);
+        },
+
+        serializeData: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">serializeData</span> <span class="hljs-params">()</span> {</span>
+            <span class="hljs-keyword">return</span> {
+                tabs: <span class="hljs-keyword">this</span>.options.tabs
+            };
+        }
+    });
+
+    <span class="hljs-keyword">var</span> consumeData = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">consumeData</span> <span class="hljs-params">($element)</span> {</span>
+        $element.removeAttr(<span class="hljs-string">"data-component"</span>);
+        $element.removeAttr(<span class="hljs-string">"data-tabs"</span>);
+    };
+
+    <span class="hljs-keyword">var</span> buildTabs = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildTabs</span> <span class="hljs-params">(tabs)</span> {</span>
+        <span class="hljs-keyword">return</span> _.reduce(tabs, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(memo, data, index)</span> {</span>
+            <span class="hljs-keyword">var</span> data = data.split(<span class="hljs-string">'.'</span>),
+                slug = data[<span class="hljs-number">0</span>],
+                name = _.capitalize(slug),
+                icon, tab, active;
+
+            <span class="hljs-keyword">if</span> (slug === <span class="hljs-string">""</span>) <span class="hljs-keyword">return</span> memo;
+
+            icon   = (data.length &gt; <span class="hljs-number">0</span>) ? data[<span class="hljs-number">1</span>] : <span class="hljs-literal">undefined</span>;
+            active = (index === <span class="hljs-number">0</span>)     ? <span class="hljs-string">"active"</span>: <span class="hljs-literal">undefined</span>;
+
+            tab          = memo[name] = {};
+            tab.slug     = slug;
+            tab.name     = name;
+            tab.icon     = icon;
+            tab.active   = active;
+
+            <span class="hljs-keyword">return</span> memo;
+        }, {});
+    };
+}, <span class="hljs-literal">undefined</span>);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
