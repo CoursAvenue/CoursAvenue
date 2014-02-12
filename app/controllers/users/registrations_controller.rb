@@ -43,6 +43,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def new
+    @structure_search = StructureSearch.search({ lat: 48.8592,
+                                                 lng: 2.3417,
+                                                 radius: 7,
+                                                 per_page: 150,
+                                                 bbox: false}).results
+
+    @structure_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
+      marker.lat structure.latitude
+      marker.lng structure.longitude
+    end
     @is_xhr = request.xhr?
     respond_to do |format|
       if request.xhr?
