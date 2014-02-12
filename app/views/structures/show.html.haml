@@ -53,7 +53,7 @@
     .tabs--container
       .tab.hidden{ data: { behaviors: ['showWhenActive', 'activateOnCoursesTabClicked', 'deactivateSiblings'] }}
         %p This is a Course.
-      .tab.hidden{ data: { view: 'Collection', component: 'TabContents', for: 'teachers' }}
+      .tab.hidden{ data: { view: 'TeachersCollection', bootstrap: @model.teachers.to_json, component: 'TabContents', for: 'teachers' }}
         %p This is a Teacher.
       .tab.hidden{ data: { component: 'TabContents', for: 'comments'}}
         %p This is a Comment.

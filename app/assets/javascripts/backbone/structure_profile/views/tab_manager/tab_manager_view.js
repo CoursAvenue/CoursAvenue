@@ -6,6 +6,9 @@ StructureProfile.module('Views.TabManager', function(Module, App, Backbone, Mari
         tagName: 'ul',
         className: 'tabs',
 
+        // TODO enforce implementing constructor and
+        // enforce flavors not overriding it. Essentially,
+        // we only want one level of inheritance
         initialize: function initialize (options) {
             if (!options || !options.tabs) {
                 this.options.tabs = {};

@@ -26,6 +26,8 @@ class StructuresController < ApplicationController
     @model = (jasonify @structure, { unlimited_comments: true }).pop
 
     # data for the tabs manager
+    # TODO we want to be able to choose between JSTemplate or haml
+    # served from rails
     @structure_tabs_manager = {
       view: "TabManager",
       tabs: ['courses.calendar', 'comments', 'teachers.group', ''],
