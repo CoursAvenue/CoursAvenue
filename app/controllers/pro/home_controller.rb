@@ -1,6 +1,9 @@
 class Pro::HomeController < Pro::ProController
   layout 'admin_pages'
 
+  def mailjet_custo
+  end
+
   def index
     @admin      = ::Admin.new
   end

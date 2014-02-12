@@ -1,42 +1,46 @@
+- content_for :logo do
+  = image_tag 'emails_logo/oreille.jpg', style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+
 - content_for :promo do
-  %h4 Votre profil CoursAvenue n'est pas complet.
+  %h4 Remplir votre profil devient un jeu d'enfant !
 
 %p
-  Bonjour #{@structure.name},
-
-%p.flush
-  Vous avez récemment rejoint la communauté CoursAvenue. Pour apparaître correctement dans notre moteur de recherche, complétez vos informations générales en quelques minutes :
-%ul
-  %li Logo & image
-  %li Description
-  %li Lieux d'enseignement
+  Saviez-vous que vous pouvez mettre à jour votre profil en quelques clics seulement ? Importez votre logo, invitez vos élèves à vous recommander et le tour est joué !
 
 %p.action
-  = link_to "Compléter mes informations générales", edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+  = link_to "Compléter mon profil", edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
 
-%p
-  N'hésitez pas à nous solliciter si vous avez des questions ! Merci et à très bientôt,
-%p
-  L'équipe de CoursAvenue
+%p.blue
+  %i Trucs & astuces : en priorité, mettez à jour votre logo, votre description et invitez vos élèves à vous recommander.
 
 - content_for :under_content do
-  = render 'footer_info'
-  - if @structures.length == 3
-    %table.table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600', style: 'border-top: 1px solid: #CCC;'}
-      %tr{valign: 'top'}
-        %td.cell.content-block.push--bottom{width: '600', colspan: 3}
-          %b Profils similaires autour de vous
-      %tr{valign: 'top'}
-        - @structures.each do |structure|
-          %td.cell.content-block.push--bottom{width: '200'}
-            %p.text--center
-              = link_to structure_url(structure, subdomain: 'www'), class: 'push-half--bottom' do
-                = image_tag structure.logo.url(:thumb), width: 100, style: 'width: 100px;'
-              %br
-              %b= link_to structure.name, structure_url(structure, subdomain: 'www'), class: 'push-half--bottom'
-              %br
-              = "#{structure.comments_count} avis"
+  %table.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+    %tr{valign: 'top'}
+      %td.cell.content-block{width: '300'}
+        %table.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '300'}
+          %tr{valign: 'top'}
+            %td.soft-half--top.text--center{width: '300'}
+              = image_tag 'emails_logo/x7.png', alt: 'CoursAvenue', height: '80', width: '80', style: '-ms-interpolation-mode:bicubic;'
+          %tr{valign: 'top'}
+            %td.cell.content-block.push--bottom{width: '300', style: 'padding-right: 0; padding-left: 0;'}
+              %p.text--center.soft-half--top
+                Les profils complétés ont 7 fois plus de visites.
 
+      %td.cell.content-block{width: '300'}
+        %table.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '300'}
+          %tr{valign: 'top'}
+            %td.soft-half--top.text--center{width: '300'}
+              = image_tag 'emails_logo/eye.png', alt: 'CoursAvenue', height: '80', width: '80', style: '-ms-interpolation-mode:bicubic;'
+          %tr{valign: 'top'}
+            %td.cell.content-block.push--bottom{width: '300', style: 'padding-right: 0; padding-left: 0;'}
+              %p.text--center.soft-half--top
+                Les Internautes recherchent en priorité les recommandations des élèves.
+
+- content_for :under_content_2 do
+  = render 'admin_mailer/recommandations_advantages'
+
+-# - content_for :under_content_3 do
+-#   = render 'admin_mailer/white_book'
 
 - content_for :footer do
   %p= link_to 'Gérer mes préférences e-mails', notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro')

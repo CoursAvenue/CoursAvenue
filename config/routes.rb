@@ -7,7 +7,7 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: (Rails.env.staging? ? 'pro.staging' : 'pro') do
     namespace :pro, path: '' do
       root :to => 'home#index'
-      get 'pages/livre-blanc'                   => 'home#white_book',         as: 'pages_white_book'
+      get 'pages/livres-blancs'                 => 'home#white_book',         as: 'pages_white_books'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
       get 'pages/presentation'                  => 'home#presentation'
       get 'pages/livre-d-or'                    => 'home#widget',             as: 'pages_widget'
