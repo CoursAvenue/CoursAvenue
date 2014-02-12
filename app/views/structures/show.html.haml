@@ -51,12 +51,12 @@
     .tabs__bar{ data: @structure_tabs_manager }
 
     .tabs--container
-      .tab{ data: { behaviors: 'tab', :'tab-for' => 'courses'  }}
-        %p This is a Course listing.
-      .tab{ data: { behaviors: ['some-behavior', 'tab-content'], for: 'teachers' }}
-        %p This stuff is teacher stuff (notice the HTML is out of order).
-      .tab{ data: { behaviors: 'tab-for-comments.teachers' }}
-        %p This is a Coments.
+      .tab.hidden{ data: { behaviors: ['showWhenActive', 'activateOnCoursesTabClicked', 'deactivateSiblings'] }}
+        %p This is a Course.
+      .tab.hidden{ data: { behaviors: ['showWhenActive', 'activateOnTeachersTabClicked', 'deactivateSiblings'] }}
+        %p This is a Teacher.
+      .tab.hidden{ data: { component: 'TabContents', for: 'comments'}}
+        %p This is a Comment.
 
 
 #course_info.hidden= render 'structures/courses/info_popup'

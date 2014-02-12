@@ -75,17 +75,12 @@ StructureProfile.module('TabManager', function(Module, App, Backbone, Marionette
         },
 
         tabClickHandler: function tabClickHandler (e) {
-            if ($(e.target).is(":visible")) {
-                this.hideTabContents(e);
-            } else {
-                this.showTabContents(e);
-            }
+            this.showTabContents(e);
         },
 
         showTabContents: function showTabContents (e) {
-            // TODO we will use DOM events for now, until the event aggregator is ready
             var tab_name = this.$(e.target).data("relation");
-            this.$el.trigger(tab_name + ":click:show", e);
+            this.$el.trigger(tab_name + ":tab:clicked", e);
         },
 
         hideTabContents: function hideTabContents (e) {
@@ -128,14 +123,68 @@ StructureProfile.module('TabManager', function(Module, App, Backbone, Marionette
     };
 }, undefined);
 
+// Tab Contents
+// -----------
+//
+// Tab Contents attaches the following behaviors to the given element:
+//
+// **data API**
+//  - _component_: tab-contents
+//  - _for_: the name of the tab whose contents are contained in this
+//    tab.
+//
+// **usage**
+//
+//```
+//.tab{ data: { component: "TabContents", for: "courses" } }
+//```
+StructureProfile.module('TabContents', function(Module, App, Backbone, Marionette, $, _, undefined) {
+
+    Module.addInitializer(function () {
+        $("[data-component=TabContents]").each(function (index, element) {
+            var $element     = $(element),
+                tab_name     = $element.data("for"),
+                event        = _.capitalize(tab_name) + "TabClicked";
+
+            StructureProfile.Behaviors.activateOn.attachTo({ element: element, event: event });
+            StructureProfile.Behaviors.showWhenActive.attachTo({ element: element });
+            StructureProfile.Behaviors.deactivateSiblings.attachTo({ element: element });
+
+            consumeData($element);
+        });
+    });
+
+    var consumeData = function consumeData ($element) {
+        $element.removeAttr("data-component");
+        $element.removeAttr("data-for");
+    };
+
+}, undefined);
+
+
 // Behaviours
 // ----------
 //
+// The Behaviors module is a collection of functions that each take an element and attach
+// some event handlers to it, or to the document. Each behavior is meant to be stateless,
+// general, and as simple as possible. By combining behaviors on an object, we can easily
+// create more complicated DOM interactions, without the need to instantiate a full-fledged
+// Marionette view.
+//
 // **data API**
 //
-// **throws**
+// _behaviors_: a name of a behavior the element is to implement, or an array of such names.
+//
+// **submodules**
+//
+// [WIP] Submodules that implement a match function will be passed the given behavior name,
+// and the first one that matches will be attached to the element.
 //
 // **usage**
+//
+// ```
+// .tab.hidden{ data: { behaviors: ['showWhenActive', 'activateOnCoursesTabClicked', 'deactivateSiblings'] }}
+// ```
 StructureProfile.module('Behaviors', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.addInitializer(function () {
@@ -148,40 +197,134 @@ StructureProfile.module('Behaviors', function(Module, App, Backbone, Marionette,
             }
 
             _.each(behaviors, function (behavior_name) {
-                var name_parts = behavior_name.split("."),
-                    behavior   = _.camelize(name_parts.pop());
+                var behavior = behavior_name;
 
                 if (Module[behavior] != undefined) {
-                    Module[behavior].start({ element: element });
+                    Module[behavior].attachTo({ element: element, event: event });
+                } else {
+                    var match = behavior.match(/(.*?On)(.*)/).slice(1); // slice off the full match
+                    var event = match[1];
+                    behavior  = match[0];
+
+                    if (Module[behavior] != undefined) {
+                        Module[behavior].attachTo({ element: element, event: event });
+                    }
                 }
             });
-            // build a corresponding behaviour
         });
     });
 
 }, undefined);
 
-StructureProfile.module('Behaviors.Tab', function(Module, App, Backbone, Marionette, $, _, undefined) {
+// Behaviors.showWhenActive
+// -----------------------
+//
+// Any time this element becomes active, it is shown. It is hidden when
+// it is deactivate, and by default we expect it to be hidden, but this
+// is not enforced. This behavior is agnostic
+// as to how the element became active, and needs to be either combined with
+// `activateOn`, or used together with a view that will activate the element.
+//
+// **usage**
+// ```
+// .tab.hidden{ data: { behaviors: 'showWhenActive' }}
+// ```
+StructureProfile.module('Behaviors.showWhenActive', function(Module, App, Backbone, Marionette, $, _, undefined) {
     this.startWithParent = false;
 
-    Module.addInitializer(function (options) {
-        var $element = $(options.element),
-            tab_for  = $element.data("tab-for");
+    Module.attachTo = function (options) {
+        Module.start();
 
-        $(document).on(tab_for + ":" + "click:show", function showTabContents (e) {
-            $element.show();
+        var $element = $(options.element);
+
+        $element.on("activate", function showTabContents (e) {
+            $(this).show();
         });
 
-        $(document).on(tab_for + ":" + "click:hide", function hideTabContents (e) {
-            $element.hide();
+        $element.on("deactivate", function hideTabContents (e) {
+            $(this).hide();
         });
+    };
 
-        consumeData($element);
-    });
+}, undefined);
 
+// Behaviors.deactivateSiblings
+// -----------------------
+//
+// Any time the element becomes active, it triggers 'deactivate' on all of the sibling
+// elements. Any sibling element that has implemented some behavior on deactivate will
+// do its thing.
+//
+// **usage**
+// ```
+// .tab.hidden{ data: { behaviors: 'deactivateSiblings' }}
+// ```
+StructureProfile.module('Behaviors.deactivateSiblings', function(Module, App, Backbone, Marionette, $, _, undefined) {
+    this.startWithParent = false;
 
-    var consumeData = function consumeData ($element) {
-        $element.removeAttr("data-tab-for");
+    Module.attachTo = function (options) {
+        Module.start();
+
+        var $element  = $(options.element),
+            $siblings = $element.siblings();
+
+        $element.on("activate", function () {
+            $siblings.trigger("deactivate");
+        });
+    };
+
+}, undefined);
+
+// Behaviors.activateOn
+// -----------------------
+//
+// This behavior defines a global event that will cause this element to emit the "activate"
+// event. The behavior name must be followed by the camelized signature of the event that
+// will cause this element to activate. For example, attaching the behavior `activateOnCoursesTabClicked`
+// will cause this element to activate when `courses:tab:clicked` is triggered somewhere
+// in the DOM.
+//
+// **usage**
+// ```
+// .tab.hidden{ data: { behaviors: ['activateOnMapMarkerClicked', 'activateOnCoursesTabClicked'] }}
+// ```
+StructureProfile.module('Behaviors.activateOn', function(Module, App, Backbone, Marionette, $, _, undefined) {
+    this.startWithParent = false;
+
+    var _activate = function activate (element, e) {
+        var $element = $(element);
+        $element.trigger("activate");
+    };
+
+    Module.attachTo = function (options) {
+        Module.start();
+
+        var $element    = $(options.element),
+            activate    = _.partial(_activate, options.element),
+            event       = options.event.replace(/([A-Z])/g, ':$1').replace(/^:/, '').toLowerCase(); // from camel to event style
+
+        $(document).on(event, activate);
+    };
+
+}, undefined);
+
+// Behaviors.log
+// -----------------------
+//
+// **usage**
+// ```
+// .tab.hidden{ data: { behaviors: ['logActivate', 'logCousesTabClicked'] }}
+// ```
+StructureProfile.module('Behaviors.logOn', function(Module, App, Backbone, Marionette, $, _, undefined) {
+    this.startWithParent = false;
+
+    Module.attachTo = function (options) {
+        Module.start();
+
+        var $element    = $(options.element),
+            event       = options.event.replace(/([A-Z])/g, ':$1').replace(/^:/, '').toLowerCase(); // from camel to event style
+
+        $element.on(event, console.log);
     };
 
 }, undefined);
