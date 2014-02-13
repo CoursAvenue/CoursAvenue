@@ -57,9 +57,9 @@ module FilteredSearchProvider extend ActiveSupport::Concern
     StructureSearch.retrieve_location(params)
   end
 
-  def jasonify(structures)
+  def jasonify(structures, options={})
     structures.map do |structure|
-      StructureSerializer.new(structure, { root: false })
+      StructureSerializer.new(structure, { root: false }.merge(options))
     end
   end
 end

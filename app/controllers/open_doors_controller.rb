@@ -20,7 +20,7 @@ class OpenDoorsController < ApplicationController
     @structures, @total = search_plannings
 
     @latlng = retrieve_location
-    @models = jasonify @structures
+    @models = jasonify @structures, jpo: true
 
     if params[:name].present?
       # Log search terms
@@ -31,6 +31,7 @@ class OpenDoorsController < ApplicationController
     respond_to do |format|
       format.json { render json: @structures,
                            root: 'structures',
+                           jpo: true,
                            each_serializer: StructureSerializer,
                            meta: { total: @total, location: @latlng }}
       format.html do

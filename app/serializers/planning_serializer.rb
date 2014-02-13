@@ -1,7 +1,7 @@
 class PlanningSerializer < ActiveModel::Serializer
   include PlanningsHelper
 
-  attributes :date, :duration, :time_slot, :levels, :audiences, :price, :place_id
+  attributes :date, :duration, :time_slot, :levels, :audiences, :place_id, :nb_place_available
 
   def date
     if object.course.is_lesson?
@@ -27,6 +27,7 @@ class PlanningSerializer < ActiveModel::Serializer
     join_audiences_text(object)
   end
 
-  def price
+  def nb_place_available
+    object.nb_place_available if @options[:jpo]
   end
 end

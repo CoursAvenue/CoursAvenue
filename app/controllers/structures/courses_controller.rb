@@ -8,6 +8,11 @@ class Structures::CoursesController < ApplicationController
     @plannings       = @planning_search.results
     @courses         = []
     # TODO Refactor this.
+    if params[:course_types] == ['open_course']
+      planning_serializer_options = { jpo: true }
+    else
+      planning_serializer_options = {}
+    end
     @plannings.group_by(&:course_id).each do |course_id, plannings|
       course = Course.find(course_id)
       @courses << {
@@ -20,7 +25,7 @@ class Structures::CoursesController < ApplicationController
         has_free_trial_lesson: course.has_free_trial_lesson?,
         data_url:              structure_course_url(@structure, course),
         subjects:              course.subjects.map(&:name).join(', '),
-        plannings:             ActiveModel::ArraySerializer.new(plannings, each_serializer: PlanningSerializer)
+        plannings:             ActiveModel::ArraySerializer.new(plannings, ({ each_serializer: PlanningSerializer }).merge(planning_serializer_options))
       }
     end
 

@@ -125,17 +125,21 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def tag_names
-    tags = []
-    tags << object.parent_subjects_string.split(';').collect do |subject_string|
-      subject_string.split(':')[0]
-    end
-    tags << object.subjects_string.split(';').collect do |subject_string|
-      subject_string.split(':')[0]
-    end
-    if object.course_names.present?
-      "#{tags.flatten.uniq.join(', ')}, #{object.course_names}"
+    if @options[:jpo]
+      object.open_course_subjects
     else
-      tags.flatten.uniq.join(', ')
+      tags = []
+      tags << object.parent_subjects_string.split(';').collect do |subject_string|
+        subject_string.split(':')[0]
+      end
+      tags << object.subjects_string.split(';').collect do |subject_string|
+        subject_string.split(':')[0]
+      end
+      if object.course_names.present?
+        "#{tags.flatten.uniq.join(', ')}, #{object.course_names}"
+      else
+        tags.flatten.uniq.join(', ')
+      end
     end
   end
 end

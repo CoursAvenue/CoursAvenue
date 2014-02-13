@@ -30,22 +30,6 @@
                 {{#if audience}}
                     <span class="milli">{{audience}}</span>&nbsp;
                 {{/if}}
-                {{#if gives_individual_courses}}
-                    <span title="Cours particulier" data-behavior="tooltip" class="pointer">
-                        <i class="fa fa-user"></i>
-                    </span>
-                {{/if}}
-                {{#if gives_group_courses}}
-                    <span title="Cours collectif" data-behavior="tooltip" class="pointer" style="margin-right: -3px">
-                        <i class="fa fa-user"></i>
-                        <i class="fa fa-user" style="left: -6px; top: 2px; position: relative"></i>
-                    </span>
-                {{/if}}
-                {{#if teaches_at_home}}
-                    <span title="Cours à domicile {{#if teaches_at_home_radius}}(dans un rayon de {{teaches_at_home_radius}}km){{/if}}" data-behavior="tooltip" class="pointer">
-                        <i class="fa fa-home"></i>
-                    </span>
-                {{/if}}
                 {{#if structure_type}}
                     |
                     <span class="milli">{{structure_type}}</span>
