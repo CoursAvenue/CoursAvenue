@@ -5,8 +5,8 @@
       = user_side_menu_link 'Mes infos', edit_user_path(current_user)    , current: current_tab, icon: 'fa fa-user'
       = user_side_menu_link 'Mes messages', user_conversations_path(current_user), current: current_tab, icon: 'fa fa-envelope'
       = user_side_menu_link 'Mes avis',   user_comments_path(current_user), current: current_tab, icon: 'fa fa-comments'
-      -# = user_side_menu_link 'Mes cours',   user_participations_path(current_user), current: current_tab, icon: 'fa fa-list'
-      = user_side_menu_link 'Inviter mes amis', new_user_invited_user_path(current_user), current: current_tab, icon: 'fa fa-bullhorn'
+      = user_side_menu_link 'Mes cours',   user_participations_path(current_user), current: current_tab, icon: 'fa fa-list'
+      = user_side_menu_link 'Inviter mes amis', invite_entourage_to_jpo_page_users_path, current: current_tab, icon: 'fa fa-bullhorn'
     - else
       = user_side_menu_link 'Mon tableau de bord', '#', current: current_tab, icon: 'fa fa-dashboard'
       = user_side_menu_link 'Mes infos',           '#', current: current_tab, icon: 'fa fa-user'

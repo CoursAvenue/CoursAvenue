@@ -18,8 +18,6 @@
         %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link'
         %p
           = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
-          -# %br
-          -# Mes informations personnelles communiquées
         - if course.description.present?
           %p
             %strong Description
@@ -36,4 +34,4 @@
         %p
           %i= participation.planning.place.location.address
           %br
-          = link_to 'Je ne pourrais pas venir', user_participation_path(current_user, participation), method: :delete
+          = link_to 'Je ne pourrais pas venir', user_participation_path(current_user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}

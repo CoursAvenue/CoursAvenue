@@ -11,6 +11,11 @@ class Participation < ActiveRecord::Base
   has_one :course   , through: :planning
 
   ######################################################################
+  # Validation                                                         #
+  ######################################################################
+  validate :first_participation_to_jpo, on: :create
+
+  ######################################################################
   # Callbacks                                                          #
   ######################################################################
   after_create :welcome_email
@@ -97,6 +102,16 @@ class Participation < ActiveRecord::Base
   end
 
   private
+
+  # Only one participation is allowed per user for JPO courses
+  #
+  # @return nil
+  def first_participation_to_jpo
+    unless user.participations.empty?
+      self.errors[:base] << I18n.t('participations.errors.only_one_participation_for_jpo')
+    end
+    nil
+  end
 
   # When participation is destroyed, update waiting list of all participations of same planning
   #
