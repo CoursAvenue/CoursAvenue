@@ -10,37 +10,17 @@
     %hr.push-half--ends
     .grid
       .grid__item.one-half>
-        %input.one-whole.push-half--bottom#structure-1-name{placeholder: "Nom de l'étabilssement"}
-        %input.one-whole.push-half--ends#structure-1-link{placeholder: "Lien de l'établissement"}
-        %input.one-whole.push-half--ends#structure-1-slug{placeholder: 'Slug pour image'}
-        %input.one-whole.push-half--ends#structure-1-subject{placeholder: 'Disciplines'}
-        %input.one-whole.push-half--ends#structure-1-quote{placeholder: 'Quote commentaire'}
-        %input.one-whole.push-half--top#structure-1-nb-comments{placeholder: '# avis'}
+        %textarea.milli.one-whole.push-half--bottom#structure_1{rows: 10}
       .grid__item.one-half>
-        %input.one-whole.push-half--bottom#structure-2-name{placeholder: "Nom de l'étabilssement"}
-        %input.one-whole.push-half--ends#structure-2-link{placeholder: "Lien de l'établissement"}
-        %input.one-whole.push-half--ends#structure-2-slug{placeholder: 'Slug pour image'}
-        %input.one-whole.push-half--ends#structure-2-subject{placeholder: 'Disciplines'}
-        %input.one-whole.push-half--ends#structure-2-quote{placeholder: 'Quote commentaire'}
-        %input.one-whole.push-half--top#structure-2-nb-comments{placeholder: '# avis'}
+        %textarea.milli.one-whole.push-half--bottom#structure_2{rows: 10}
 
     %hr.push--top
 
     .grid
       .grid__item.one-half>
-        %input.one-whole.push-half--bottom#structure-3-name{placeholder: "Nom de l'étabilssement"}
-        %input.one-whole.push-half--ends#structure-3-link{placeholder: "Lien de l'établissement"}
-        %input.one-whole.push-half--ends#structure-3-slug{placeholder: 'Slug pour image'}
-        %input.one-whole.push-half--ends#structure-3-subject{placeholder: 'Disciplines'}
-        %input.one-whole.push-half--ends#structure-3-quote{placeholder: 'Quote commentaire'}
-        %input.one-whole.push-half--ends#structure-3-nb-comments{placeholder: '# avis'}
+        %textarea.milli.one-whole.push-half--bottom#structure_3{rows: 10}
       .grid__item.one-half>
-        %input.one-whole.push-half--bottom#structure-4-name{placeholder: "Nom de l'étabilssement"}
-        %input.one-whole.push-half--ends#structure-4-link{placeholder: "Lien de l'établissement"}
-        %input.one-whole.push-half--ends#structure-4-slug{placeholder: 'Slug pour image'}
-        %input.one-whole.push-half--ends#structure-4-subject{placeholder: 'Disciplines'}
-        %input.one-whole.push-half--ends#structure-4-quote{placeholder: 'Quote commentaire'}
-        %input.one-whole.push-half--ends#structure-4-nb-comments{placeholder: '# avis'}
+        %textarea.milli.one-whole.push-half--bottom#structure_4{rows: 10}
 
     .push--top.btn--green.btn.btn--full#submit Générer le code
     .push--ends.btn--blue.btn.btn--full#test Tester
@@ -61,40 +41,40 @@
                 {
                   structures: [
                     {
-                      link       : $('#structure-1-link').val(),
-                      slug       : $('#structure-1-slug').val(),
-                      name       : $('#structure-1-name').val(),
-                      subject    : $('#structure-1-subject').val(),
-                      quote      : $('#structure-1-quote').val(),
-                      nb_comments: $('#structure-1-nb-comments').val(),
+                      name       : $('#structure_1').val().split('\n')[0], // Nom
+                      link       : $('#structure_1').val().split('\n')[1], // Lien
+                      slug       : _.last($('#structure_1').val().split('\n')[1].split('/')),
+                      subject    : $('#structure_1').val().split('\n')[2], // Lien
+                      quote      : $('#structure_1').val().split('\n')[3], // Lien
+                      nb_comments: $('#structure_1').val().split('\n')[4] // Lien
                     },
                     {
-                      link       : $('#structure-2-link').val(),
-                      slug       : $('#structure-2-slug').val(),
-                      name       : $('#structure-2-name').val(),
-                      subject    : $('#structure-2-subject').val(),
-                      quote      : $('#structure-2-quote').val(),
-                      nb_comments: $('#structure-2-nb-comments').val(),
+                      name       : $('#structure_2').val().split('\n')[0], // Nom
+                      link       : $('#structure_2').val().split('\n')[1], // Lien
+                      slug       : _.last($('#structure_2').val().split('\n')[1].split('/')),
+                      subject    : $('#structure_2').val().split('\n')[2], // Lien
+                      quote      : $('#structure_2').val().split('\n')[3], // Lien
+                      nb_comments: $('#structure_2').val().split('\n')[4] // Lien
                     }
                   ]
                 },
                 {
                   structures: [
                     {
-                      link       : $('#structure-3-link').val(),
-                      slug       : $('#structure-3-slug').val(),
-                      name       : $('#structure-3-name').val(),
-                      subject    : $('#structure-3-subject').val(),
-                      quote      : $('#structure-3-quote').val(),
-                      nb_comments: $('#structure-3-nb-comments').val(),
+                      name       : $('#structure_3').val().split('\n')[0], // Nom
+                      link       : $('#structure_3').val().split('\n')[1], // Lien
+                      slug       : _.last($('#structure_3').val().split('\n')[1].split('/')),
+                      subject    : $('#structure_3').val().split('\n')[2], // Lien
+                      quote      : $('#structure_3').val().split('\n')[3], // Lien
+                      nb_comments: $('#structure_3').val().split('\n')[4] // Lien
                     },
                     {
-                      link       : $('#structure-4-link').val(),
-                      slug       : $('#structure-4-slug').val(),
-                      name       : $('#structure-4-name').val(),
-                      subject    : $('#structure-4-subject').val(),
-                      quote      : $('#structure-4-quote').val(),
-                      nb_comments: $('#structure-4-nb-comments').val(),
+                      name       : $('#structure_4').val().split('\n')[0], // Nom
+                      link       : $('#structure_4').val().split('\n')[1], // Lien
+                      slug       : _.last($('#structure_4').val().split('\n')[1].split('/')),
+                      subject    : $('#structure_4').val().split('\n')[2], // Lien
+                      quote      : $('#structure_4').val().split('\n')[3], // Lien
+                      nb_comments: $('#structure_4').val().split('\n')[4] // Lien
                     }
                   ]
                 }
