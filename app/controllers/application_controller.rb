@@ -33,6 +33,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_not_found(exception)
+    Bugsnag.notify(exception)
     logger.fatal '------------------------ LOGGER NOT FOUND --------------------------'
     logger.fatal exception.message
     exception.backtrace.each { |line| logger.fatal line }
@@ -42,6 +43,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_error(exception)
+    Bugsnag.notify(exception)
     logger.fatal '------------------------ LOGGER FATAL --------------------------'
     logger.fatal exception.message
     exception.backtrace.each { |line| logger.fatal line }
@@ -52,6 +54,6 @@ class ApplicationController < ActionController::Base
   private
 
   def update_sanitized_params
-    devise_parameter_sanitizer.for(:sign_up) {|u| u.permit(:email, :first_name, :last_name, :zip_code, :password)}
+    devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:email, :first_name, :last_name, :zip_code, :password) }
   end
 end

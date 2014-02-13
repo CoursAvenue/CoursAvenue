@@ -21,4 +21,3 @@ class Users::PassionsController < ApplicationController
     end
   end
 end
-

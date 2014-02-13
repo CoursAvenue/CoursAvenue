@@ -154,5 +154,87 @@ describe Structure do
     it "affects tag to the user profile" do
       expect(structure.user_profiles.last.tags.map(&:name)).to include UserProfile::DEFAULT_TAGS[:contacts]
     end
+
+  context :funding_types do
+    context :getters do
+      describe '#funding_types' do
+        it 'returns FundingTypes' do
+          structure.funding_types = [FundingType.first]
+          expect(structure.funding_types).to eq [FundingType.first]
+        end
+      end
+      describe '#funding_type_ids' do
+        it 'returns an array of ids' do
+          structure.funding_types = [FundingType.first]
+          expect(structure.funding_type_ids).to eq [FundingType.first.id]
+        end
+      end
+    end
+    context :setters do
+      describe '#funding_type_ids=' do
+        it 'stores ids if given an array of ids' do
+          structure.funding_type_ids = [1, 2]
+          expect(structure.read_attribute(:funding_type_ids)).to eq '1,2'
+        end
+
+        it 'stores ids if given a string' do
+          structure.funding_type_ids = '1,2'
+          expect(structure.read_attribute(:funding_type_ids)).to eq '1,2'
+        end
+      end
+
+      describe '#funding_type=' do
+        it 'stores ids if given an array of FundingType' do
+          structure.funding_types = [FundingType.first, FundingType.last]
+          expect(structure.read_attribute(:funding_type_ids)).to eq "#{FundingType.first.id},#{FundingType.last.id}"
+        end
+
+        it 'stores ids if given an array of ids' do
+          structure.funding_types = FundingType.first
+          expect(structure.read_attribute(:funding_type_ids)).to eq FundingType.first.id.to_s
+        end
+      end
+    end
+  end
+
+  describe '#profile_completed' do
+    it 'is incomplete_profile' do
+      structure.stub(:profile_completed?) { false }
+      structure.update_email_status
+      expect(structure.email_status).to eq 'incomplete_profile'
+    end
+
+    it 'is no_recommendations' do
+      structure.stub(:profile_completed?) { true }
+      structure.comments_count = 0
+      structure.update_email_status
+      expect(structure.email_status).to eq 'no_recommendations'
+    end
+
+    it 'is less_than_five_recommendations' do
+      structure.stub(:profile_completed?) { true }
+      structure.comments_count = 3
+      structure.update_email_status
+      expect(structure.email_status).to eq 'less_than_five_recommendations'
+    end
+
+    it 'is planning_outdated' do
+      structure.stub(:profile_completed?) { true }
+      structure.comments_count = 12
+      structure.update_email_status
+      expect(structure.email_status).to eq 'planning_outdated'
+    end
+
+    it 'is less_than_fifteen_recommendations' do
+      structure.stub(:profile_completed?) { true }
+      structure.comments_count = 12
+      structure.courses = [FactoryGirl.create(:course)]
+      structure.update_email_status
+      expect(structure.email_status).to eq 'less_than_fifteen_recommendations'
+    end
+  end
+
+  describe '#update_email_status' do
+
   end
 end

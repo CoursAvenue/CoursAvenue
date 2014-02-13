@@ -3,6 +3,23 @@
 - else
   - url = pro_structure_course_open_path(@structure, @course)
 
+.grid--full.text--center.push--top
+  .grid__item.text--center.v-middle.relative.five-twelfths>
+    %a.muted-link.blue-box.islet.word-break-normal
+      %h5
+        %i.fa.fa-pencil.fa.fa-2x
+        %br
+        Étape 1 : Créez un atelier
+  .grid__item.one-twelfth.text--center.v-middle.two-twelfths>
+    .islet
+      %i.fa.fa-chevron-right.fa.fa-2x
+  .grid__item.text--center.v-middle.relative.five-twelfths>
+    %a.muted-link.white-box.islet.word-break-normal
+      %h5
+        %i.fa.fa-calendar.fa.fa-2x
+        %br
+        Étape 2 : Renseignez vos créneaux
+
 = simple_form_for [:pro, @structure, @course], url: url, as: :course, html: {id: 'course-form'} do |f|
   = f.error_notification
 
@@ -82,7 +99,7 @@
         %br
         \- avoir renseigné toutes les informations importantes à communiquer aux inscrits dans les champs "description" et "infos pratiques" (numéro d'interphone, tenue et matériel exigés, etc.).
   %p
-    = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+    = f.submit 'Enregistrer et renseigner mes créneaux', class: 'btn btn--green btn--full'
 
 = content_for :scripts do
   :javascript

@@ -8,18 +8,17 @@ class Pro::CitySubjectInfosController < Pro::ProController
     @subject    = Subject.find params[:subject_id]
     _city_id    = @city.id
     _subject_id = @subject.id
-    if (@city_subject_info = CitySubjectInfo.where{(city_id == _city_id) & (subject_id == _subject_id)}.first).nil?
+    if (@city_subject_info = CitySubjectInfo.where { (city_id == _city_id) & (subject_id == _subject_id) }.first).nil?
       @city_subject_info = CitySubjectInfo.new(city_id: @city.id, subject_id: @subject.id)
     end
   end
-
 
   def create
     @city       = City.find params[:city_subject_info][:city_id]
     @subject    = Subject.find params[:city_subject_info][:subject_id]
     _city_id    = @city.id
     _subject_id = @subject.id
-    if (@city_subject_info = CitySubjectInfo.where{(city_id == _city_id) & (subject_id == _subject_id)}.first).nil?
+    if (@city_subject_info = CitySubjectInfo.where { (city_id == _city_id) & (subject_id == _subject_id) }.first).nil?
       @city_subject_info = CitySubjectInfo.new(city_id: @city.id, subject_id: @subject.id)
     end
     @city_subject_info.update_attributes params[:city_subject_info]
@@ -28,5 +27,4 @@ class Pro::CitySubjectInfosController < Pro::ProController
       format.html { redirect_to pro_subjects_path }
     end
   end
-
 end

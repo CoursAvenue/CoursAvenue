@@ -7,6 +7,7 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: (Rails.env.staging? ? 'pro.staging' : 'pro') do
     namespace :pro, path: '' do
       root :to => 'home#index'
+      get 'mailjet_custo'                       => 'home#mailjet_custo'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
       get 'pages/presentation'                  => 'home#presentation'
       get 'pages/livre-d-or'                    => 'home#widget',             as: 'pages_widget'
@@ -24,6 +25,14 @@ CoursAvenue::Application.routes.draw do
       get 'tableau-de-bord'                          , to: 'redirect#structure_dashboard', as: 'structure_dashboard_redirect'
       get 'modifier-mon-profil'                      , to: 'redirect#structure_edit',      as: 'structure_edit_redirect'
 
+
+      resources :metrics, only: [] do
+        collection do
+          get :comments
+          get :jpos
+          get :comments_count
+        end
+      end
       resources :click_logs, only: [:index]
 
       resources :comments, only: [:edit, :update, :index, :destroy] do

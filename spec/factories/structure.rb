@@ -5,8 +5,11 @@ FactoryGirl.define do
     city
     name           Faker::Name.name + ' institute'
 
-    street         Faker::Address.street_address
+    street         'Paris'
     zip_code       75014
+    latitude       48.8592
+    longitude      2.3417
+
     structure_type Structure::STRUCTURE_TYPES.sample
 
     after(:build) do |structure|

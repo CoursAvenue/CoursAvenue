@@ -69,6 +69,7 @@ class Pro::Structures::UserProfilesController < Pro::ProController
 
   def update
     @user_profile = @structure.user_profiles.find params[:id]
+<<<<<<< HEAD
 
     update_tags
 
@@ -77,6 +78,18 @@ class Pro::Structures::UserProfilesController < Pro::ProController
         format.json { render :json => @user_profile, status: 200 }
       else
         format.json { render :json => { :errors => @user_profile.errors.full_messages }.to_json, :status => 500 }
+=======
+    if params[:name] == 'tags'
+      saved = @structure.tag(@user_profile, with: params[:value], on: :tags)
+    else
+      saved = @user_profile.update_attributes(params[:name] => params[:value])
+    end
+    respond_to do |format|
+      if saved
+        format.html { render nothing: true, status: 200 }
+      else
+        format.html { render nothing: true, status: 500 }
+>>>>>>> staging
       end
     end
   end

@@ -5,5 +5,4 @@ class ::Pro::InvitedUsersController < Pro::ProController
   def index
     @invited_users = InvitedUser.order('created_at DESC')
   end
-
 end

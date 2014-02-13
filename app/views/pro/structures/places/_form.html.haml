@@ -30,8 +30,7 @@
         = contact_form.input :phone, label: Contact.human_attribute_name(:phone), input_html: {value: contact_form.object.phone || @structure.contact_phone || @structure.main_contact.try(:phone_number)}
         = contact_form.input :mobile_phone, label: Contact.human_attribute_name(:mobile_phone), input_html: {value: contact_form.object.mobile_phone || @structure.contact_mobile_phone || @structure.main_contact.try(:mobile_phone_number)}
 
-    #submit
-      = f.submit 'Enregistrer', class: 'btn btn--green  btn--full'
+    = f.submit 'Enregistrer', class: 'btn btn--green  btn--full'
 
 = content_for :scripts do
   :javascript
@@ -68,7 +67,7 @@
         $lng_input      = $('#place_location_attributes_longitude');
         updateMap = function() {
             _.map(marker_array, function(marker) { marker.setMap(null) });
-            var address = $street_input.val() + ', ' + $zip_code_input.val() + ' France';
+            var address = $street_input.val() + ', ' + $('#place_location_attributes_city_id option:selected').text();
             geocoder.geocode( { 'address': address}, function(results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     latlng = {lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()};
@@ -89,7 +88,6 @@
                 }
             });
         };
-        $('#place_location_attributes_street, #place_location_attributes_zip_code').keyup(_.debounce(updateMap, 500));
-        $('#place_location_attributes_street, #place_location_attributes_zip_code').blur(updateMap);
         $('#place_location_attributes_street, #place_location_attributes_zip_code').change(updateMap);
+        $('form').submit(updateMap);
     });

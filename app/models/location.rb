@@ -5,8 +5,7 @@ class Location < ActiveRecord::Base
   include ActsAsGeolocalizable
 
   geocoded_by      :geocoder_address
-  after_validation :geocode_if_needs_to
-  after_touch      :geocode_if_needs_to
+  after_save       :geocode_if_needs_to
 
   belongs_to :city
 
@@ -57,14 +56,12 @@ class Location < ActiveRecord::Base
 
   private
 
-  # Only geocode if lat and lng attributes haven't changed and are nil
-  # Unless it means they have been set by the user
+  # Only geocode if :
+  #     - lat and lng are nil
+  #     - lat and lng didn't change but address changed
   def geocode_if_needs_to
-    unless self.latitude_changed? and self.longitude_changed?
-      unless self.geocoded? and !self.street_changed? and !self.zip_code_changed?
-        self.geocode
-      end
+    if (latitude.nil? and longitude.nil?) or (!latitude_changed? and !longitude_changed? and street_changed? and zip_code_changed?)
+      self.geocode
     end
   end
-
 end

@@ -63,7 +63,7 @@
 
       = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: {style: 'max-width: 29em;'}
 
-      = structure_form.input :funding_types, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: {style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id)
+      = structure_form.input :funding_type_ids, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: {style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id)
 
       = structure_form.input :teaches_at_home, as: :select, include_blank: false
       #teaches-at-home-radius{class: @structure.teaches_at_home ? '' : 'hidden'}

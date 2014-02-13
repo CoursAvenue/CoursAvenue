@@ -20,7 +20,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       build_resource(sign_up_params)
     else
       self.resource = @user
-      self.resource.update_attributes params[:user]
+      resource.update_attributes params[:user]
     end
     resource.after_sign_up_url = session['user_return_to']
     ## end of changes
@@ -30,11 +30,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_flashing_format?
         sign_up(resource_name, resource)
-        respond_with resource, :location => after_sign_up_path_for(resource)
+        respond_with resource, location: after_sign_up_path_for(resource)
       else
         set_flash_message :notice, :"signed_up_but_#{resource.inactive_message}" if is_flashing_format?
         expire_data_after_sign_in!
-        respond_with resource, :location => after_inactive_sign_up_path_for(resource)
+        respond_with resource, location: after_inactive_sign_up_path_for(resource)
       end
     else
       clean_up_passwords resource
@@ -43,6 +43,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def new
+    @structure_search = StructureSearch.search({ lat: 48.8592,
+                                                 lng: 2.3417,
+                                                 radius: 7,
+                                                 per_page: 150,
+                                                 bbox: false}).results
+
+    @structure_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
+      marker.lat structure.latitude
+      marker.lng structure.longitude
+    end
     @is_xhr = request.xhr?
     respond_to do |format|
       if request.xhr?

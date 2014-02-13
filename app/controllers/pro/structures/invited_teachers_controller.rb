@@ -23,7 +23,7 @@ class ::Pro::Structures::InvitedTeachersController < Pro::ProController
     end
 
     respond_to do |format|
-      format.html { redirect_to new_pro_structure_invited_teacher_path(@structure), notice: (params[:emails].present? ? 'Les autres professeurs ont bien été notifiés.': nil)}
+      format.html { redirect_to new_pro_structure_invited_teacher_path(@structure), notice: (params[:emails].present? ? 'Les autres professeurs ont bien été notifiés.' : nil) }
     end
   end
 end

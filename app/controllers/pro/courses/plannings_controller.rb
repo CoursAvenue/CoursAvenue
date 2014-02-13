@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Pro::Courses::PlanningsController < InheritedResources::Base
-
   layout 'admin'
 
   before_action :authenticate_pro_admin!
@@ -19,7 +18,7 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
       if @duplicate_planning.save
         session[:duplicate]              = true
         session[:duplicated_planning_id] = @duplicate_planning.id
-        format.html { redirect_to pro_course_plannings_path(@course), notice: "Le planning à bien été dupliqué." }
+        format.html { redirect_to pro_course_plannings_path(@course), notice: 'Le planning à bien été dupliqué.' }
       else
         format.html { redirect_to pro_course_plannings_path(@course), notice: "Le planning n'a pu être dupliqué." }
       end
@@ -50,9 +49,9 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
     retrieve_plannings_and_past_plannings
     respond_to do |format|
       if request.xhr?
-        format.html {render partial: "pro/courses/plannings/#{@course.underscore_name}_form"}
+        format.html { render partial: "pro/courses/plannings/#{@course.underscore_name}_form" }
       else
-        format.html {render template: 'pro/courses/plannings/index'}
+        format.html { render template: 'pro/courses/plannings/index' }
       end
     end
   end
@@ -76,7 +75,7 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
         if @course.is_open?
           format.html { redirect_to pro_structure_course_opens_path(@course.structure), error: "Le créneau n'a pas pu être créé, avez-vous rempli tous les champs ?" }
         else
-          format.html { render template: 'pro/courses/plannings/index'}
+          format.html { render template: 'pro/courses/plannings/index' }
         end
       end
     end
@@ -91,9 +90,9 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
     respond_to do |format|
       if @planning.update_attributes(params[:planning])
         if @course.is_open?
-          format.html { redirect_to pro_structure_course_opens_path(@course.structure), notice: 'Le créneau a bien été modifié'}
+          format.html { redirect_to pro_structure_course_opens_path(@course.structure), notice: 'Le créneau a bien été modifié' }
         else
-          format.html { redirect_to pro_course_plannings_path(@course), notice: 'Le créneau a bien été modifié'}
+          format.html { redirect_to pro_course_plannings_path(@course), notice: 'Le créneau a bien été modifié' }
         end
         format.js { render nothing: true, status: 200 }
       else
@@ -108,9 +107,9 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
   def destroy
     destroy! do |success, failure|
       if @course.is_open?
-        success.html { redirect_to pro_structure_course_opens_path(@course.structure), notice: 'Le créneau a bien été supprimé'}
+        success.html { redirect_to pro_structure_course_opens_path(@course.structure), notice: 'Le créneau a bien été supprimé' }
       else
-        success.html { redirect_to pro_course_plannings_path(@course), notice: 'Le créneau a bien été supprimé'}
+        success.html { redirect_to pro_course_plannings_path(@course), notice: 'Le créneau a bien été supprimé' }
       end
     end
   end
@@ -135,16 +134,16 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
   end
 
   def set_dates_and_times
-    if params[:planning]['start_time(4i)'].present? and params[:planning]['start_time(5i)'].present?
+    if params[:planning]['start_time(4i)'].present? && params[:planning]['start_time(5i)'].present?
       params[:planning][:start_time] = TimeParser.parse_time_string("#{params[:planning]['start_time(4i)']}h#{params[:planning]['start_time(5i)']}")
     end
-    if params[:planning]['end_time(4i)'].present? and params[:planning]['end_time(5i)'].present?
+    if params[:planning]['end_time(4i)'].present? && params[:planning]['end_time(5i)'].present?
       params[:planning][:end_time] = TimeParser.parse_time_string("#{params[:planning]['end_time(4i)']}h#{params[:planning]['end_time(5i)']}")
     end
 
-    if params[:planning][:end_time].blank? and params[:planning][:duration].present?
+    if params[:planning][:end_time].blank? && params[:planning][:duration].present?
       params[:planning][:end_time]   = params[:planning][:start_time] + params[:planning][:duration].to_i.minutes
-    elsif params[:planning][:end_time].present? and  params[:planning][:duration].blank?
+    elsif params[:planning][:end_time].present? &&  params[:planning][:duration].blank?
       params[:planning][:duration]   = TimeParser.duration_from params[:planning][:start_time], params[:planning][:end_time]
     end
   end

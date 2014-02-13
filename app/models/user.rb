@@ -58,8 +58,14 @@ class User < ActiveRecord::Base
   scope :inactive, -> { where{encrypted_password == ''} }
 
 
+  # Creates a user from Facebook
+  #
+  # @param  auth [type] [description]
+  #
+  # @return [type] [description]
   def self.from_omniauth(auth)
-    where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+    # Check if the user already exists
+    where{((provider == auth.provider) & (uid == auth.uid)) | (email == auth.info.email)}.first_or_initialize.tap do |user|
       user.provider           = auth.provider
       user.uid                = auth.uid
       user.oauth_token        = auth.credentials.token

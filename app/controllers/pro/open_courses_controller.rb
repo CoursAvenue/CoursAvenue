@@ -6,5 +6,4 @@ class Pro::OpenCoursesController < Pro::ProController
   def index
     @courses = Course::Open.all
   end
-
 end

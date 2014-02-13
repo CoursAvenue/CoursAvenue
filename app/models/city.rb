@@ -9,7 +9,7 @@ class City < ActiveRecord::Base
   has_many :courses   , through: :structures
   has_many :city_subject_infos
 
-  has_attached_file :image, :styles => {default: '900×600#'}
+  has_attached_file :image, :styles => { default: '900×600#', small: '250x200#'}
 
   validates :name            , presence: true
   validates :zip_code        , presence: true

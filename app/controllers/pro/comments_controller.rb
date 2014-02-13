@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Pro::CommentsController < InheritedResources::Base
-
   before_action :authenticate_pro_admin!
 
   load_and_authorize_resource :comment
@@ -11,6 +10,10 @@ class Pro::CommentsController < InheritedResources::Base
     @comments                        = Comment.accepted.order('created_at DESC').limit(40)
     @waiting_for_deletion_comments   = Comment.waiting_for_deletion.order('created_at DESC')
     @waiting_for_validation_comments = Comment.pending.order('created_at DESC')
+    respond_to do |format|
+      format.html
+      format.json { render json: @comments }
+    end
   end
 
   def edit
@@ -36,11 +39,11 @@ class Pro::CommentsController < InheritedResources::Base
   def destroy
     @comment = Comment.find(params[:id])
     respond_to do |format|
-      if can?(:destroy, @comment) and @comment.destroy
+      if can?(:destroy, @comment) && @comment.destroy
         AdminMailer.delay.recommandation_has_been_deleted(@comment.structure)
-        format.html { redirect_to request.referrer || pro_comments_path, notice: 'Votre avis a bien été supprimé'}
+        format.html { redirect_to request.referrer || pro_comments_path, notice: 'Votre avis a bien été supprimé' }
       else
-        format.html { redirect_to request.referrer || root_path, alert: 'Vous ne pouvez pas supprimer ce avis'}
+        format.html { redirect_to request.referrer || root_path, alert: 'Vous ne pouvez pas supprimer ce avis' }
       end
     end
   end

@@ -36,7 +36,7 @@ class Pro::Structures::UserProfileImportsController < ApplicationController
   def import
     @user_profile_import      = @structure.user_profile_imports.find(params[:id])
     # Replace old file by new file if the users wants to
-    @user_profile_import.file = params[:user_profile_import][:file] if params[:user_profile_import] and params[:user_profile_import][:file].present?
+    @user_profile_import.file = params[:user_profile_import][:file] if params[:user_profile_import] && params[:user_profile_import][:file].present?
 
     if params[:table_indexes].present?
       params.delete(:table_indexes).reject(&:blank?).each do |table_index|
@@ -46,7 +46,7 @@ class Pro::Structures::UserProfileImportsController < ApplicationController
     end
     @user_profile_import
     if @user_profile_import.import
-      redirect_to pro_structure_user_profiles_path(@structure), notice: "Imported products successfully."
+      redirect_to pro_structure_user_profiles_path(@structure), notice: 'Imported products successfully.'
     else
       render :choose_headers
     end
