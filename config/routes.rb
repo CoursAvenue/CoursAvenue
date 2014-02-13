@@ -8,6 +8,7 @@ CoursAvenue::Application.routes.draw do
     namespace :pro, path: '' do
       root :to => 'home#index'
       get 'pages/livres-blancs'                 => 'home#white_book',         as: 'pages_white_books'
+      get 'mailjet_custo'                       => 'home#mailjet_custo'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
       get 'pages/presentation'                  => 'home#presentation'
       get 'pages/livre-d-or'                    => 'home#widget',             as: 'pages_widget'

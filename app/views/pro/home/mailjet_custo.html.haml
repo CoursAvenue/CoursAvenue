@@ -1,0 +1,330 @@
+.grid
+  .grid__item.one-half.push-half--top>
+    %input.push-half--bottom.one-whole#box-title{placeholder: 'Titre de la boite', value: 'CoursAvenue à Paris : + de 1 000 profils déjà créés'}
+    .grid
+      .grid__item.one-half>
+        %input.one-whole#search-link{placeholder: 'Lien de recherche'}
+      .grid__item.one-half>
+        %input.one-whole#search-link-name{placeholder: 'Nom du lien de recherche'}
+
+    %hr.push-half--ends
+    .grid
+      .grid__item.one-half>
+        %input.one-whole.push-half--bottom#structure-1-name{placeholder: "Nom de l'étabilssement"}
+        %input.one-whole.push-half--ends#structure-1-link{placeholder: "Lien de l'établissement"}
+        %input.one-whole.push-half--ends#structure-1-slug{placeholder: 'Slug pour image'}
+        %input.one-whole.push-half--ends#structure-1-subject{placeholder: 'Disciplines'}
+        %input.one-whole.push-half--ends#structure-1-quote{placeholder: 'Quote commentaire'}
+        %input.one-whole.push-half--top#structure-1-nb-comments{placeholder: '# avis'}
+      .grid__item.one-half>
+        %input.one-whole.push-half--bottom#structure-2-name{placeholder: "Nom de l'étabilssement"}
+        %input.one-whole.push-half--ends#structure-2-link{placeholder: "Lien de l'établissement"}
+        %input.one-whole.push-half--ends#structure-2-slug{placeholder: 'Slug pour image'}
+        %input.one-whole.push-half--ends#structure-2-subject{placeholder: 'Disciplines'}
+        %input.one-whole.push-half--ends#structure-2-quote{placeholder: 'Quote commentaire'}
+        %input.one-whole.push-half--top#structure-2-nb-comments{placeholder: '# avis'}
+
+    %hr.push--top
+
+    .grid
+      .grid__item.one-half>
+        %input.one-whole.push-half--bottom#structure-3-name{placeholder: "Nom de l'étabilssement"}
+        %input.one-whole.push-half--ends#structure-3-link{placeholder: "Lien de l'établissement"}
+        %input.one-whole.push-half--ends#structure-3-slug{placeholder: 'Slug pour image'}
+        %input.one-whole.push-half--ends#structure-3-subject{placeholder: 'Disciplines'}
+        %input.one-whole.push-half--ends#structure-3-quote{placeholder: 'Quote commentaire'}
+        %input.one-whole.push-half--ends#structure-3-nb-comments{placeholder: '# avis'}
+      .grid__item.one-half>
+        %input.one-whole.push-half--bottom#structure-4-name{placeholder: "Nom de l'étabilssement"}
+        %input.one-whole.push-half--ends#structure-4-link{placeholder: "Lien de l'établissement"}
+        %input.one-whole.push-half--ends#structure-4-slug{placeholder: 'Slug pour image'}
+        %input.one-whole.push-half--ends#structure-4-subject{placeholder: 'Disciplines'}
+        %input.one-whole.push-half--ends#structure-4-quote{placeholder: 'Quote commentaire'}
+        %input.one-whole.push-half--ends#structure-4-nb-comments{placeholder: '# avis'}
+
+    .push--top.btn--green.btn.btn--full#submit Générer le code
+    .push--ends.btn--blue.btn.btn--full#test Tester
+
+  .grid__item.one-half.push-half--top>
+    %textarea.milli.one-whole#result{cols: 10, rows: 42}
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        var template = Handlebars.compile($('#mail-template').html());
+        var getCode = function getCode() {
+            data = {
+              box_title       : $('#box-title').val(),
+              searck_link     : $('#search-link').val(),
+              searck_link_name: $('#search-link-name').val(),
+              structures      : [
+                {
+                  structures: [
+                    {
+                      link       : $('#structure-1-link').val(),
+                      slug       : $('#structure-1-slug').val(),
+                      name       : $('#structure-1-name').val(),
+                      subject    : $('#structure-1-subject').val(),
+                      quote      : $('#structure-1-quote').val(),
+                      nb_comments: $('#structure-1-nb-comments').val(),
+                    },
+                    {
+                      link       : $('#structure-2-link').val(),
+                      slug       : $('#structure-2-slug').val(),
+                      name       : $('#structure-2-name').val(),
+                      subject    : $('#structure-2-subject').val(),
+                      quote      : $('#structure-2-quote').val(),
+                      nb_comments: $('#structure-2-nb-comments').val(),
+                    }
+                  ]
+                },
+                {
+                  structures: [
+                    {
+                      link       : $('#structure-3-link').val(),
+                      slug       : $('#structure-3-slug').val(),
+                      name       : $('#structure-3-name').val(),
+                      subject    : $('#structure-3-subject').val(),
+                      quote      : $('#structure-3-quote').val(),
+                      nb_comments: $('#structure-3-nb-comments').val(),
+                    },
+                    {
+                      link       : $('#structure-4-link').val(),
+                      slug       : $('#structure-4-slug').val(),
+                      name       : $('#structure-4-name').val(),
+                      subject    : $('#structure-4-subject').val(),
+                      quote      : $('#structure-4-quote').val(),
+                      nb_comments: $('#structure-4-nb-comments').val(),
+                    }
+                  ]
+                }
+              ]
+            };
+            return template(data);
+        };
+        $('#test').click(function() {
+            $.fancybox(getCode());
+        });
+        $('#submit').click(function() {
+            $('#result').val(getCode());
+        });
+    });
+
+%script#mail-template{type:"text/x-handlebars-template"}
+  :plain
+    <!DOCTYPE PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+      <html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+          <meta content="text/html; charset=utf-8" httpequiv="Content-Type">
+          <title>Les élèves recommandent leurs meilleurs cours</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      </head>
+        <body leftmargin="0" marginheight="0" marginwidth="0" topmargin="0" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#f1f1f1;-webkit-text-size-adjust:none;-webkit-font-smoothing:antialiased;width:100% !important">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#f1f1f1;-webkit-text-size-adjust:none;-webkit-font-smoothing:antialiased;width:100% !important">
+            <tr style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#f1f1f1;-webkit-text-size-adjust:none;-webkit-font-smoothing:antialiased;width:100% !important">
+              <td width="100%" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:#f1f1f1;-webkit-text-size-adjust:none;-webkit-font-smoothing:antialiased;width:100% !important">
+                <table align="center" border="0" cellpadding="0" cellspacing="0" width="700" style="margin-bottom: 0;">
+                  <tr>
+                    <td width="700" style="padding: 0;">
+                      <table border="0" cellpadding="0" cellspacing="0" width="700" style="margin-bottom: 10px;">
+                        <tr valign="bottom">
+                          <td width="350" style="padding: 0">
+                            <img border="0" height="20" src="" width="1" />
+                            <br>
+                            <a href="http://www.coursavenue.com" target="_blank" style="color:#049CDB;text-decoration:none"><img alt="Créez votre profil gratuit pour gagner en visibilité et développer votre bouche à oreille sur Internet" height="50" src="https://s3-eu-west-1.amazonaws.com/coursavenue-public/logo_com.png" style="-ms-interpolation-mode:bicubic;" width="294" />
+                            </a>
+                          </td>
+                          <td width="350" style="padding: 0">
+                          <p style="font-size: 12px; text-align: right; margin-bottom: 5px">
+                            <a target="_blank" href="http://pro.coursavenue.com/pages/livre-d-or" style="font-size: 12px; color:#049CDB;text-decoration:none">Votre livre d'Or</a>
+                            <span style="color: #555; font-size: 12px;">|</span>
+                            <a target="_blank" href="http://pro.coursavenue.com/pages/offre-et-tarifs" style="font-size: 12px; color:#049CDB;text-decoration:none">Nos offres</a>
+                            <span style="color: #555; font-size: 12px;">|</span>
+                            <a target="_blank" href="http://pro.coursavenue.com/pages/journees-portes-ouvertes" style="font-size: 12px; color:#049CDB;text-decoration:none">Journées Portes Ouvertes</a>
+                          </p>
+                          </td>
+                        </tr>
+                      </table>
+                      <table border="0" cellpadding="0" cellspacing="0" width="700" style="margin-bottom: 0;">
+                        <tr>
+                          <td width="700" style="box-shadow:1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee;background:white;border:1px solid #DDD;-webkit-border-radius:2px;-moz-border-radius:2px;-moz-box-shadow:1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee;-o-border-radius:2px;border-radius:2px;-webkit-box-shadow:1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee;-ms-border-radius:2px;margin-bottom:22px !important">
+                            <table border="0" cellpadding="15" cellspacing="0" width="700" style="margin-bottom: 0;">
+                              <tr>
+                                <td valign="middle" width="500">
+                                  <h4 style="display: inline; font-weight:bold;padding-bottom:0;font-size:18px;line-height:24px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding-top:0;margin-top:0;margin-bottom:0px;color:#444444 !important">
+                                    Gagnez en visibilité gratuitement sur Internet
+                                  </h4>
+                                  <h5 style="display: inline; font-weight:normal;padding-bottom:0;font-size:16px;line-height:24px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding-top:0;margin-top:0;margin-bottom:0px;color:#444444 !important">
+                                    et développez votre bouche à oreille grâce à votre profil CoursAvenue, le 1er moteur de recherche de cours basé sur les recommandations des élèves
+                                  </h5>
+                                  <p style="color:#666;font-size:14px;line-height:19px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin-top:0;font-weight:normal;padding-top:0;padding-bottom:0;text-align:left;margin:20px auto 0px auto">
+                                    <a target="_blank" href="http://pro.coursavenue.com/etablissements/inscription?email=[[EMAIL_TO]]" style="-o-border-radius:2px;line-height:1;font-weight:bold;border:1px solid #DBD9D9;padding:0.5em 0.8em;font-size:12px;-webkit-border-radius:2px;-moz-border-radius:2px;-ms-border-radius:2px;white-space:normal;border-radius:2px;filter:progid:DXImageTransform.Microsoft.gradient(enabled=false);-webkit-box-shadow:0px 1px 2px rgba(0, 0, 0, 0.2), inset 0px 0px 1px rgba(255, 255, 255, 0.5);-moz-box-shadow:0px 1px 2px rgba(0, 0, 0, 0.2), inset 0px 0px 1px rgba(255, 255, 255, 0.5);box-shadow:0px 1px 2px rgba(0, 0, 0, 0.2), inset 0px 0px 1px rgba(255, 255, 255, 0.5);text-transform:uppercase;text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);background-color:#4BBE46;background-repeat:repeat-x;border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);*background-color:#4BBE46;background-image:linear-gradient(top, #fefefe, #f8f8f8);text-decoration:none;color:white">
+                                    Créer mon profil gratuit
+                                    </a>
+                                  </p>
+                                  <p style="margin: 20px 0 0 0;">
+                                    <a target="_blank" href="http://pro.coursavenue.com/pages/journees-portes-ouvertes" style="font-size: 12px; color:#049CDB;text-decoration:none">
+                                      Vous donnez des cours en Ile-de-France ? Créez votre profil avant le 21/02/14 pour participer à l'événement.
+                                    </a>
+                                  </p>
+                                </td>
+                                <td align="center" style="padding-right: 15px;" valign="middle" width="100">
+                                  <a href="http://www.coursavenue.com" target="_blank" style="color:#049CDB;text-decoration:none">
+                                  <img alt="CoursAvenue" width="150" height="150" src="https://s3-eu-west-1.amazonaws.com/coursavenue-public/icons/100k_visites.png" style="-ms-interpolation-mode:bicubic;" />
+                                  </a>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                      <img border="0" height="15" src="http://coursavenue.com" width="1" />
+                      <br>
+                    </td>
+                  </tr>
+                </table>
+                <table align="center" border="0" cellpadding="0" cellspacing="0" width="700" style="margin-bottom: 22px;">
+                  <tr>
+                    <td width="700" style="box-shadow:1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee;background:white;border:1px solid #DDD;-webkit-border-radius:2px;-moz-border-radius:2px;-moz-box-shadow:1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee;-o-border-radius:2px;border-radius:2px;-webkit-box-shadow:1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee;-ms-border-radius:2px;margin-bottom:22px !important">
+                      <table align="center" border="0" cellpadding="10" cellspacing="0" width="700" style="margin-bottom: 0;">
+                        <tr valign="top">
+                          <td colspan="4">
+                            <h4 style="text-align: left; font-weight:bold;padding-bottom:0;font-size:18px;line-height:24px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding-top:0;margin-top:0;margin-bottom:0px;color:#444444 !important">{{box_title}}</h4>
+                          </td>
+                        </tr>
+                        {{#each structures}}
+                          <tr>
+                          {{#each this.structures}}
+                            <td style="width: 15%; text-align: right">
+                              <a target="_blank" style="text-decoration: none; color: inherit;" href="{{this.link}}">
+                                <img alt="CoursAvenue" src="https://s3-eu-west-1.amazonaws.com/coursavenue-public/structure_logos/{{this.slug}}.jpg" style="-ms-interpolation-mode:bicubic;" width="100" height="100"/>
+                              </a>
+                            </td>
+                            <td style="width: 35%;">
+                              <p style="color:#666;font-size:12px;line-height:18px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin:0;;padding-top:0;padding-bottom:0;font-weight:normal">
+                                <a target="_blank" style="text-decoration: none; color: inherit;" href="{{this.link}}">
+                                  <strong style="font-size: 14px">{{this.name}}</strong>
+                                  <br />
+                                  <i>{{this.subject}}</i>
+                                  <br />
+                                  <span style="font-size: 14px">« {{this.quote}} »</span>
+                                </a>
+                                <br />
+                                <a target="_blank" href="{{this.link}}" style="font-size: 12px; color:#049CDB;text-decoration:none">Lire les {{this.nb_comments}} avis</a>
+                              </p>
+                            </td>
+                          {{/each}}
+                        </tr>
+                      {{/each}}
+                        <tr>
+                          <td colspan="2">
+                            <a target="_blank" style="font-size: 12px; color:#049CDB;text-decoration:none" href="{{search_link}}">{{searck_link_name}}</a>
+                          </td>
+                        </tr>
+                       </table>
+                    </td>
+                  </tr>
+                </table>
+                <table border="0" cellpadding="0" cellspacing="0" width="700" style="margin-bottom: 22px;">
+                  <tr>
+                    <td width="700" style="box-shadow:1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee;background:white;border:1px solid #DDD;-webkit-border-radius:2px;-moz-border-radius:2px;-moz-box-shadow:1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee;-o-border-radius:2px;border-radius:2px;-webkit-box-shadow:1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee;-ms-border-radius:2px;margin-bottom:22px !important">
+                      <table border="0" cellpadding="15" cellspacing="0" width="700" style="margin-bottom: 0;">
+                        <tr>
+                          <td valign="middle" width="520">
+                            <h4 style="text-align: left; font-weight:bold;padding-bottom:0;font-size:18px;line-height:24px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding-top:0;margin-top:0;margin-bottom:10px;color:#444444 !important">
+                              Evénement inédit : les Journées Portes Ouvertes
+                            </h4>
+                            <p style="color:#666;font-size:14px;line-height:19px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin:0;;padding-top:0;padding-bottom:0;font-weight:normal">
+                              <strong>Les Français partent à la découverte de leurs passions</strong>
+                              Participez gratuitement à l'opération de communication la plus importante de l'année et faites connaître vos cours à un public très large.
+                              <br>
+                              <strong>Prochaines dates : 5-6 avril 2014.</strong>
+                              <a href="http://pro.coursavenue.com/pages/journees-portes-ouvertes" target="_blank" style="color:#049CDB;text-decoration:none">En savoir plus</a>
+                            </p>
+                            <p style="margin: 0">
+                              <a target="_blank" href="http://pro.coursavenue.com/pages/journees-portes-ouvertes" style="font-size: 12px; color:#049CDB;text-decoration:none">
+                                Vous donnez des cours en Ile-de-France ? Créez votre profil avant le 21/02/14 pour participer à l'événement.
+                              </a>
+                            </p>
+                          </td>
+                          <td align="center" style="padding-right: 15px;" valign="middle" width="75">
+                            <a href="http://www.coursavenue.com" target="_blank" style="color:#049CDB;text-decoration:none">
+                            <img alt="CoursAvenue" width="120" height="120" src="https://s3-eu-west-1.amazonaws.com/coursavenue-public/jpo.jpg" style="-ms-interpolation-mode:bicubic;" />
+                            </a>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                <table align="center" border="0" cellpadding="0" cellspacing="0" width="700" style="margin-top:10px !important">
+                  <tr>
+                    <td width="700" style="box-shadow:1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee;background:white;border:1px solid #DDD;-webkit-border-radius:2px;-moz-border-radius:2px;-moz-box-shadow:1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee;-o-border-radius:2px;border-radius:2px;-webkit-box-shadow:1px 1px 3px #dddddd, 2px 2px 9px #eeeeee, 4px 4px 24px #eeeeee;-ms-border-radius:2px;margin-bottom:22px !important">
+                      <table align="center" border="0" cellpadding="10" cellspacing="0" width="700" style="margin-bottom: 0;">
+                        <tr valign="top">
+                          <td colspan="4" style="margin-bottom:22px !important">
+                            <h4 style="text-align: left; font-weight:bold;padding-bottom:0;font-size:18px;line-height:24px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding-top:0;margin-top:0;margin-bottom:0px;color:#444444 !important">Les avantages du profil gratuit</h4>
+                          </td>
+                        </tr>
+                        <tr valign="middle">
+                          <td style="width: 10%; margin-bottom:22px !important">
+                            <img alt="CoursAvenue" src="https://s3-eu-west-1.amazonaws.com/coursavenue-public/icons/referencement.png" style="-ms-interpolation-mode:bicubic;" width="75" height="75"/>
+                          </td>
+                          <td style="width: 40%; margin-bottom:22px !important">
+                            <p style="color:#666;font-size:14px;line-height:19px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin:0;;padding-top:0;padding-bottom:0;font-weight:normal">
+                              Référencement Internet optimisé grâce à vos avis
+                            </p>
+                          </td>
+                          <td style="width: 10%; margin-bottom:22px !important">
+                            <img alt="CoursAvenue" src="https://s3-eu-west-1.amazonaws.com/coursavenue-public/icons/enveloppe.png" style="-ms-interpolation-mode:bicubic;" width="75" height="75"/>
+                          </td>
+                          <td style="width: 40%; margin-bottom:22px !important">
+                            <p style="color:#666;font-size:14px;line-height:19px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin:0;;padding-top:0;padding-bottom:0;font-weight:normal">
+                              Mise en relation gratuite avec les élèves CoursAvenue
+                            </p>
+                          </td>
+                        </tr>
+                        <tr valign="middle">
+                          <td style="width: 10%; margin-bottom:22px !important">
+                            <img alt="CoursAvenue" src="https://s3-eu-west-1.amazonaws.com/coursavenue-public/icons/book.png" style="-ms-interpolation-mode:bicubic;" width="75" height="75"/>
+                          </td>
+                          <td style="width: 40%; margin-bottom:22px !important">
+                            <p style="color:#666;font-size:14px;line-height:19px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin:0;;padding-top:0;padding-bottom:0;font-weight:normal">
+                              <a target="_blank" style="font-size: 14px; color:#049CDB;text-decoration:none" href="http://pro.coursavenue.com/pages/livre-d-or">
+                              Livre d'Or
+                              </a>
+                              sur votre propre site Internet
+                            </p>
+                          </td>
+                          <td style="width: 10%; margin-bottom:22px !important">
+                            <img alt="CoursAvenue" src="https://s3-eu-west-1.amazonaws.com/coursavenue-public/icons/door.png" style="-ms-interpolation-mode:bicubic;" width="75" height="75"/>
+                          </td>
+                          <td style="width: 40%; margin-bottom:22px !important">
+                            <p style="color:#666;font-size:14px;line-height:19px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin:0;;padding-top:0;padding-bottom:0;font-weight:normal">
+                              Participation à nos
+                              <a target="_blank" style="font-size: 14px; color:#049CDB;text-decoration:none" href="http://pro.coursavenue.com/pages/journees-portes-ouvertes">Journées Portes Ouvertes</a>
+                              (avril 2014)
+                            </p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                <table align="center" border="0" cellpadding="5" cellspacing="0" width="700" style="margin-bottom: 0;">
+                  <tr>
+                    <td width="700">
+                      <p style="color:#717171;font-size:12px;line-height:19px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;font-weight:normal">
+                      Vous recevez cet email car un élève vous a recommandé à notre équipe CoursAvenue.</p>
+                      <a style="color:#717171;font-size:12px;line-height:19px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;margin-top:0;margin-bottom:12px;padding-top:0;padding-bottom:0;font-weight:normal" href="[[UNSUB_LINK_FR]]">Cliquez ici pour vous désabonner</a>
+                      <br>
+                      <img border="0" height="10" src="http://coursavenue.com" width="1" />
+                      <br>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+      </html>
