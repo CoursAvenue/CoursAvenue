@@ -34,4 +34,4 @@
         %p
           %i= participation.planning.place.location.address
           %br
-          = link_to 'Je ne pourrais pas venir', user_participation_path(current_user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}
+          = link_to 'Je ne pourrai pas venir, me désinscrire', user_participation_path(current_user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}

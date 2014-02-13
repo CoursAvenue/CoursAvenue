@@ -1,4 +1,4 @@
-= side_menu_currently_at "Parrainer un professeur"
+= side_menu_currently_at "Journées Portes Ouvertes"
 
 = render partial: 'pro/structures/open_courses/tabs', locals: { current: 'new' }
 
@@ -14,12 +14,12 @@
     .grid
       .grid__item.one-half>
         %h4 À :
-        %p.flush
+        %p.flush.blue
           %i Entrez les e-mails de vos élèves pour leur proposer d'inviter leurs proches à vos ateliers de Journées Portes Ouvertes.
         %textarea.milli.one-whole{name: 'emails', rows: 11, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
       .grid__item.one-half>
         %h4 Message :
-        %p.flush
+        %p.flush.blue
           %i Personnalisez le texte ci-dessous puis envoyez votre invitation.
         %br
         %textarea.milli.one-whole{name: 'text', rows: 11, data: {behavior: 'autoresize'}}

@@ -3,10 +3,10 @@
 
 - content_for :promo do
   %h4
-    Félicitations ! Un élève vient de s'inscrire à vos Journées Portes Ouvertes :
+    Félicitations ! Un élève vient de s'inscrire à vos Journées Portes Ouvertes.
 
 %p
-  Information sur la réservation :
+  Informations sur la réservation :
 %ul
   %li Nom de l'élève : #{@user.name}
   %li Atelier : #{@course.name}
@@ -19,10 +19,10 @@
 %p Connectez-vous à votre profil pour suivre vos inscriptions :
 
 %p.action
-  = link_to "Suivre mes inscriptions", pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+  = link_to "Suivre mes inscriptions", pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 
-%p.blue
-  %i Trucs & astuces : depuis votre profil, invitez vos amis, familles et collègues à participer aux Journées Portes Ouvertes avec vous.
+%p.blue.blue-tip
+  %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter tous leurs proches.
 
 - content_for :under_content do
   = render 'invite_students_to_jpos'

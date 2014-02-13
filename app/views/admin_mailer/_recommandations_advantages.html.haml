@@ -3,27 +3,29 @@
     %td.cell.content-block{width: '600', colspan: '4', style: 'padding-bottom: 0'}
       %h4 Avantages des recommandations de vos élèves
   %tr{valign: 'top'}
-    %td.cell.content-block.push--bottom{width: '50'}
+    %td.v-middle.cell.content-block.push--bottom{width: '50'}
       = image_tag 'emails_logo/search_position.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '50'
-    %td.cell.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
-      %p
+    %td.v-middle.cell.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
+      %p.flush--bottom
         Votre profil remonte dans les résultats de recherche.
-    %td.cell.content-block.push--bottom{width: '50'}
+    %td.v-middle.cell.content-block.push--bottom{width: '50'}
       = image_tag 'emails_logo/quote.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '50'
-    %td.cell.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
-      %p
+    %td.v-middle.cell.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
+      %p.flush--bottom
         Vous gagnez en visibilité grâce à une accroche personnalisée.
 
   %tr{valign: 'top'}
-    %td.cell.content-block.push--bottom{width: '50'}
+    %td.v-middle.cell.content-block.push--bottom{width: '50'}
       = image_tag 'emails_logo/book.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '50'
-    %td.cell.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
-      %p
-        Votre livre d'Or est visible sur votre propre site Internet
-    %td.cell.content-block.push--bottom{width: '50'}
+    %td.v-middle.cell.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
+      %p.flush--bottom
+        Votre
+        = link_to "livre d'Or", pro_pages_widget_url(subdomain: 'pro')
+        est visible sur votre propre site Internet.
+    %td.v-middle.cell.content-block.push--bottom{width: '50'}
       = image_tag 'emails_logo/search.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '50'
-    %td.cell.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
-      %p
+    %td.v-middle.cell.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
+      %p.flush--bottom
         Vous augmentez votre référencement sur Internet.
   %tr{valign: 'top'}
     %td.cell.content-block{width: '600', colspan: '4', style: 'padding-bottom: 0'}

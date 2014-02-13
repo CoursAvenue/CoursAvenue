@@ -35,9 +35,10 @@ class ParticipationMailer < ActionMailer::Base
   end
 
   def welcome(participation)
-    @user     = participation.user
-    @planning = participation.planning
-    @course   = participation.course
+    @user      = participation.user
+    @planning  = participation.planning
+    @course    = participation.course
+    @structure = participation.course.structure
     mail to: @user.email, subject: "Votre inscription aux Journées Portes Ouvertes est validée"
   end
 

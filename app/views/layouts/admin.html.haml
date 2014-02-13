@@ -25,7 +25,7 @@
                   %i.fa.fa-external-link.v-middle
                   %span.v-middle Voir mon profil public
             %div.push-half--top.relative
-              %div{style: 'position: absolute; top: -5px; left: 130px;'}= image_tag 'texts/tete-de-liste.png', height: 55
+              %div{style: 'position: absolute; top: -5px; left: 145px;'}= image_tag 'texts/tete-de-liste.png', height: 50
               - if @structure.comments_count == 0
                 = link_to "Obtenir des avis", recommendations_pro_structure_path(@structure), class: 'btn btn--blue'
               - elsif @structure.comments_count > 0

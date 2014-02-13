@@ -69,6 +69,9 @@
             padding-top      : 0;
             padding-bottom   : 0;
             font-weight      : normal;
+            &.blue-tip {
+                font-size: 12px;
+            }
             &.action {
               text-align: center;
               margin    : 30px auto;
@@ -78,7 +81,7 @@
                 &.btn {
                     color: black;
                 }
-                &.btn.btn--blue {
+                &.btn.btn--blue, &.btn.btn--green {
                     color: white;
                 }
                 text-decoration: none;

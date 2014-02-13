@@ -24,19 +24,19 @@
     .grid
       .grid__item.one-half>
         %h4 À :
-        %p.flush
+        %p.flush.blue
           %i Entrez les e-mails vos proches dans cet encadré (amis, familles, collègues, etc.) pour les inviter aux Journées Portes Ouvertes.
         %textarea.milli.one-whole{name: 'emails', rows: 8, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
       .grid__item.one-half>
         %h4 Message :
-        %p.flush
+        %p.flush.blue
           %i Personnalisez le texte ci-dessous puis envoyez votre invitation.
         %br
         %textarea.milli.one-whole{name: 'text', rows: 8, data: {behavior: 'autoresize'}}
           - if @structure
-            Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, #{@structure.name} ouvre ses portes à travers des ateliers gratuits. En tant que fidèle élève, je vous transmets cette invitation, c'est une belle occasion de découvrir cette discipline qui est une véritable passion pour moi.&#x000A;&#x000A;Pour vous inscrire, c'est simple et 100% gratuit :
+            Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, #{@structure.name} ouvre ses portes à travers des ateliers gratuits. En tant que fidèle élève, je te transmets cette invitation, c'est une belle occasion de découvrir cette discipline qui est une véritable passion pour moi.&#x000A;&#x000A;Pour t'inscrire, c'est simple et 100% gratuit :
           - else
-            Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, CoursAvenue ouvre ses portes à travers des ateliers gratuits. En tant que fidèle élève, je vous transmets cette invitation, c'est une belle occasion de découvrir cette discipline qui est une véritable passion pour moi.&#x000A;&#x000A;Pour vous inscrire, c'est simple et 100% gratuit :
+            Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, CoursAvenue ouvre ses portes à travers des ateliers gratuits. En tant que fidèle élève, je te transmets cette invitation, c'est une belle occasion de découvrir cette discipline qui est une véritable passion pour moi.&#x000A;&#x000A;Pour t'inscrire, c'est simple et 100% gratuit :
         %p.gray-light.flush
           Participer aux Journées Portes Ouvertes
           %br

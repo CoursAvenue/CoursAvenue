@@ -72,7 +72,7 @@ CoursAvenue::Application.routes.draw do
           get   :wizard
           get   :signature
           get   :dashboard, path: 'tableau-de-bord'
-          get   :invite_students, path: 'sollicitez-mes-eleves'
+          get   :invite_students, path: 'solliciter-mes-eleves'
           put :invite_students_entourage
           patch :activate
           patch :disable
