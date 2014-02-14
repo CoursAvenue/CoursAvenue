@@ -62,11 +62,11 @@
               = tab[:name]
 
     .tabs--container
-      .tab.hidden{ data: { behaviors: ['showWhenActive', 'activateOnCoursesTabClicked', 'deactivateSiblings'] }}
+      .tab.hidden{ data: { view: 'Collection', of: 'Courses',  bootstrap: @model.courses.to_json,  component: 'TabContents', for: 'courses' }}
         %p This is a Course.
       .tab.hidden{ data: { view: 'Collection', of: "Teachers", bootstrap: @model.teachers.to_json, component: 'TabContents', for: 'teachers' }}
         %p This is a Teacher.
-      .tab.hidden{ data: { component: 'TabContents', for: 'comments'}}
+      .tab.hidden{ data: { view: 'Collection', of: "Comments", bootstrap: @model.comments.to_json, component: 'TabContents', for: 'comments'}}
         %p This is a Comment.
 
 

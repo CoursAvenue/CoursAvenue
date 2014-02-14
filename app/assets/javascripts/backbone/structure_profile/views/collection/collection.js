@@ -65,7 +65,9 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
     // complain.
     var buildView = function buildView (view, flavor, options) {
         // buildView adds some attributes commonly used in templates
-        options.bootstrap[0].isFirst = (options.bootstrap[0].isFirst === undefined)? true : options.bootstrap[0].isFirst;
+        if (options.bootstrap.length > 0) {
+            options.bootstrap[0].isFirst = (options.bootstrap[0].isFirst === undefined)? true : options.bootstrap[0].isFirst;
+        }
 
         var result,
             // Widgets might have a model/widgets collection or a views/widgets/widget itemview
@@ -73,7 +75,7 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
             resources      = options.resource.toLowerCase(),
             resource       = _.singularize(resources),
             Collection     = App.Models[resources] || Backbone.Collection,
-            template_name  = (options.template)? options.template : options.resource.toLowerCase(),
+            template_name  = (options.template)? options.template : resource,
             ItemView, collection, itemView;
 
         collection = new Collection(options.bootstrap);

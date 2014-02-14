@@ -1,0 +1,19 @@
+<article itemtype="http://schema.org/Review" itemscope="" itemprop="review">
+    <div class="grid--full">
+        <div class="grid__item two-twelfths text--center">
+            <img height="60" src="/assets/icons/avatar.png" alt="Avatar">
+        </div>{{!--
+    --}}<div class="grid__item ten-twelfths">
+            <div itemprop="reviewBody" data-behavior="read-more" class="read-more" style="max-height: none;">
+                <p>{{ full_content }}</p>
+            </div>
+            <p class="text--right flush">
+                <i itemprop="datePublished" content="{{ created_at }}" class="semi-muted">
+                    Par
+                    <strong>{{ author_name }}</strong>
+                    il y a {{ distance_of_time }}
+                </i>
+            </p>
+        </div>
+    </div>
+</article>
