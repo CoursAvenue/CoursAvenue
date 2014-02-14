@@ -15,7 +15,8 @@
 // **submodules**
 //
 // [WIP] Submodules that implement a match function will be passed the given behavior name,
-// and the first one that matches will be attached to the element.
+// and the first one that matches will be attached to the element. At the moment the matching
+// is all done here.
 //
 // **usage**
 //

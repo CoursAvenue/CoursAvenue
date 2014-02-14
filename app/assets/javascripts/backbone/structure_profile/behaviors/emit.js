@@ -3,7 +3,9 @@
 // -----------------------
 //
 // This behavior allows the given element to translate a particular DOM event
-// into an application event.
+// into an application event. This translation is commonly implemented by
+// views using the events hash, but a view whose sole purpose is to forward
+// events can now be replaced by a component or some behaviors.
 //
 // **usage**
 // ```

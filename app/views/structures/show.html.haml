@@ -53,13 +53,13 @@
 
     -# creates tabs as HTML, that translate clicks to tab:clicked events
     .tabs__bar
-      %ul
-        - @tabs.each do |tab|
-          %li{ data: { behaviors: "emit#{tab[:name]}TabClickedOnClick" }}
-            %a{ href: "#tab-#{tab[:slug]}", data: { toggle: "tab", relation: tab["slug"] } }
+      %ul.tabs
+        - @tabs.each_with_index do |tab, index|
+          %li{ class: "#{index === 0 ? "active" : 0 }" }
+            %a{ href: "#tab-#{tab[:slug]}", data: { toggle: "tab", relation: tab["slug"], behaviors: "emit#{tab[:name]}TabClickedOnClick" } }
               - unless tab[:icon].blank?
                 %i{ class: "fa fa-#{ tab[:icon] }" }
-                = tab[:name]
+              = tab[:name]
 
     .tabs--container
       .tab.hidden{ data: { behaviors: ['showWhenActive', 'activateOnCoursesTabClicked', 'deactivateSiblings'] }}

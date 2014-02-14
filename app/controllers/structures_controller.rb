@@ -41,15 +41,16 @@ class StructuresController < ApplicationController
         name: 'Courses'
       },
       {
-        icon: 'group',
-        slug: 'teachers',
-        name: 'Teachers'
-      },
-      {
         icon: '',
         slug: 'comments',
         name: 'Comments'
-    }]
+      },
+      {
+        icon: 'group',
+        slug: 'teachers',
+        name: 'Teachers'
+      }
+    ]
 
   end
 
