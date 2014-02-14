@@ -9,11 +9,27 @@
 //  - _of_: a capitalized name of some resource, in the plural, like "Teachers" or
 //    "Courses".
 //  - _bootstrap_: The data to populate the collection on page load.
+//  - _template_: a template to be used in place of the default. The template must
+//    live in a folder named like views/widgets/templates/
+//
+//  In addition to the above options, you can provide "sample" markup that will
+//  be used by the Collection to decide its tagName/className, and by the ItemView
+//  if a vanilla itemview is used.
 //
 // **usage**
 //
+// Without sample markup.
+//
 //```
 //#structure-tabs{ data: { view: "Collection", of: "Teachers", bootstrap: @model.to_json }
+//```
+//
+// With sample markup for CollectionView and ItemView.
+//
+//```
+//#structure-tabs{ data: { view: "Collection", of: "Teachers", bootstrap: @model.to_json }
+//  %ul.some-classes
+//    %li.another-class
 //```
 StructureProfile.module('Views.Collection', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
@@ -26,16 +42,14 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
                 bootstrap    = $element.data("bootstrap"),
                 flavor       = $element.data("flavor"),
                 resource     = $element.data("of"),
-                tagName      = $element.children().first()[0].nodeName.toLowerCase(),
-                className    = $element.children().first().attr("class"),
+                sample_html  = $element.children().first(),
                 template     = $element.data("template")? Module.templateDirname() + $element.data("template") : undefined,
 
                 view         = buildView(view, flavor, {
                     template:  template,
                     bootstrap: bootstrap,
                     resource:  resource,
-                    tagName:   tagName,
-                    className: className
+                    sample:    sample_html
                 }),
                 region_name  = 'Collection' + _.capitalize(view.cid),
                 regions      = {};
@@ -79,12 +93,23 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
             resources      = options.resource.toLowerCase(),
             resource       = _.singularize(resources),
             template_name  = (options.template)? options.template : resource,
-            Collection     = App.Models[resources] || Backbone.Collection.extend({
-                tagName:   options.tagName,
-                className: options.className
+            Collection, ItemView, collection, itemView,
+            itemview_options = {};
 
-            }), ItemView, collection, itemView;
+        // build up the tagNames and classNames from the sample
+        if (options.sample.length > 0) {
+            options.tagName   = options.sample[0].nodeName.toLowerCase();
+            options.className = options.sample.attr("class");
 
+            options.sample = options.sample.children().first();
+
+            if (options.sample.length > 0) {
+                itemview_options.tagName   = options.sample[0].nodeName.toLowerCase();
+                itemview_options.className = options.sample.attr("class");
+            }
+        }
+
+        Collection = App.Models[resources] || Backbone.Collection.extend();
         collection = new Collection(options.bootstrap);
 
         // if there is a custom itemView for teachers, use that
@@ -96,10 +121,8 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
 
         // if we are using a generic item view, extend it to use the template
         if (Marionette.ItemView === ItemView) {
-            ItemView       = ItemView.extend({
-                template: 'backbone/structure_profile/views/' + resources + '/templates/' + template_name,
-                tagName: 'li'
-            });
+            itemview_options.template = 'backbone/structure_profile/views/' + resources + '/templates/' + template_name;
+            ItemView                  = ItemView.extend(itemview_options);
         }
 
         options.collection = collection;

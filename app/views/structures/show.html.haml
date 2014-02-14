@@ -62,13 +62,15 @@
               = tab[:name]
 
     .tabs--container
-      .tab.hidden{ data: { view: 'Collection', of: 'Courses',  bootstrap: @model.courses.to_json,  component: 'TabContents', for: 'courses' }}
-        %p This is a Course.
-      .tab.hidden{ data: { view: 'Collection', of: "Teachers", bootstrap: @model.teachers.to_json, component: 'TabContents', for: 'teachers' }}
-        %p This is a Teacher.
-      .tab.hidden{ data: { view: 'Collection', of: "Comments", bootstrap: @model.comments.to_json, component: 'TabContents', for: 'comments'}}
-        -# this will be used as the el of the collection view
-        %ul#comments.comment-list__el.hard--left.soft-half.white-box
+      %article.tab-pane.hidden{ data: { view: 'Collection', of: 'Courses',  bootstrap: @model.courses.to_json,  component: 'TabContents', for: 'courses' }}
+        .white-box.islet
+
+      %article.tab-pane.hidden{ data: { view: 'Collection', of: "Teachers", bootstrap: @model.teachers.to_json, component: 'TabContents', for: 'teachers' }}
+
+      %article.tab-pane.hidden{ data: { view: 'Collection', of: "Comments", bootstrap: @model.comments.to_json, component: 'TabContents', for: 'comments'}}
+        -# this will be used as the tagName and className of the CollectionView and ItemView
+        %ul.comment-list
+          %li.comment-list__el.hard--left.soft-half.white-box
 
 
 #course_info.hidden= render 'structures/courses/info_popup'
