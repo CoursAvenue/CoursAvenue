@@ -39,7 +39,13 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
       if request.xhr?
         format.html { render partial: "pro/courses/plannings/#{@course.underscore_name}_form" }
       else
-        format.html { render template: 'pro/courses/plannings/index' }
+        format.html do
+          if @course.is_open?
+            redirect_to pro_structure_course_opens_path(@structure)
+          else
+            render template: 'pro/courses/plannings/index'
+          end
+        end
       end
     end
   end

@@ -17,7 +17,7 @@ fr:
         contact_mobile_phone: Téléphone portable
         contact_email: Email
         email_address: Adresse email
-        funding_types: Type de financements acceptés
+        funding_type_ids: Type de financements acceptés
         gives_professional_courses: Mes cours sont pour des professionnels
         billing_contact_first_name: Prénom
         billing_contact_last_name: Nom

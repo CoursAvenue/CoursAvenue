@@ -11,7 +11,7 @@ class Structure < ActiveRecord::Base
   friendly_id :slug_candidates, use: [:slugged, :finders]
 
   geocoded_by :geocoder_address
-  after_validation :geocode
+  after_create :geocode
 
   after_save :delay_subscribe_to_nutshell
   after_save :delay_subscribe_to_mailchimp
