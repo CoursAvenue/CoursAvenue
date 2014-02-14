@@ -52,30 +52,50 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
         $element.removeAttr("data-of");
     };
 
+    // the generic collection will try to use the resource name to find
+    // existing collections, templates, and itemViews. If given the name
+    // "Widgets" is till look for,
+    //
+    //     a collection in /model/widgets.js
+    //     an itemView  in /views/widgets/widget
+    //     a template   in /views/widgets/templates/widget
+    //
+    // failing to find any of these, the collection will use a plain
+    // collection or itemView. If it fails to find a template it will
+    // complain.
     var buildView = function buildView (view, flavor, options) {
-        options.bootstrap[0].isFirst = true;
+        // buildView adds some attributes commonly used in templates
+        options.bootstrap[0].isFirst = (options.bootstrap[0].isFirst === undefined)? true : options.bootstrap[0].isFirst;
 
         var result,
-            template       = (options.template)? options.template : options.resource.toLowerCase(),
-            collection     = new Backbone.Collection(options.bootstrap),
-            itemView       = Marionette.ItemView.extend({
-                template: 'backbone/structure_profile/views/' + template + '/templates/' + template
+            // Widgets might have a model/widgets collection or a views/widgets/widget itemview
+            module         = options.resource,
+            resources      = options.resource.toLowerCase(),
+            resource       = _.singularize(resources),
+            Collection     = App.Models[resources] || Backbone.Collection,
+            template_name  = (options.template)? options.template : options.resource.toLowerCase(),
+            ItemView, collection, itemView;
+
+        collection = new Collection(options.bootstrap);
+
+        // if there is a custom itemView for teachers, use that
+        if (App.Views[Module] && App.Views[Module][_.capitalize(resource)]) {
+            ItemView = App.Views[Module][_.capitalize(resource)];
+        } else {
+            ItemView = Marionette.ItemView;
+        }
+
+        // if we are using a generic item view, extend it to use the template
+        if (Marionette.ItemView === ItemView) {
+            ItemView       = ItemView.extend({
+                template: 'backbone/structure_profile/views/' + resources + '/templates/' + template_name
             });
+        }
 
         options.collection = collection;
-        options.itemView   = itemView;
+        options.itemView   = ItemView;
 
-        if (options.template === undefined) {
-            delete options.template;
-        }
-
-        if (flavor && Module.Flavors[flavor]) {
-            result = new Module.Flavors[flavor][view](options);
-        } else {
-            result = new Marionette.CollectionView(options);
-        }
-
-        return result;
+        return new Marionette.CollectionView(options);
     };
 
 }, undefined);
