@@ -143,7 +143,6 @@
     }
 }
 
-
 .btn--twitter {
     @extend .btn--social;
     border-color    : darken($twitter-blue, 3%);
@@ -153,6 +152,7 @@
     }
     &:before {
         content         : "\f099";
+        font-size       : 23px;
         font-family     : 'FontAwesome';
         border-right    : 1px solid darken($twitter-blue, 8%);
     }
