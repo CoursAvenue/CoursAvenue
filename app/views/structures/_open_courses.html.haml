@@ -1,5 +1,5 @@
 .blue-box.blue-box--noshadow.soft-half.text--center
-  %h4 Journées portes ouverte 2014 — Week-end du 6 et 7 avril
+  %h4.push-half--bottom Journées portes ouverte 2014 — Week-end du 6 et 7 avril
   .delta Participez à un atelier gratuit
 
 - structure.courses.open_courses.each do |course|
@@ -10,11 +10,14 @@
         = "(#{course.event_type_description})"
       - else
         = "(#{course.event_type})"
-      .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Description</strong><br>#{course.description}</p><p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
+      .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
         %i.lbc-icon-info
           i
-        Infos sur le cours
-
+        Infos pratiques
+      %p.flush= course.description
+      %p.gray.milli
+        %i.fa.fa-tags
+        = course.subjects.map(&:name).join(', ')
       - if course.plannings.any?
         %table.table--data.table--striped
           %thead
@@ -22,8 +25,8 @@
               %th Date / Horaire
               %th Public
               %th Niveau
-              %th Lieux
-              %th.text--center Places restantes
+              %th Lieu
+              %th.nowrap Places restantes
               %th Prix
               %th.text--right Inscription
           %tbody
@@ -35,15 +38,17 @@
                 %td= join_audiences planning
                 %td= join_levels planning.levels
                 %td
-                  .pointer{ title: planning.place.location.address, data: { behavior: 'tooltip' }}
+                  = link_to "http://maps.google.com/?q=#{planning.place.location.address}", target: :_blank, class: 'pointer semi-muted-link', title: planning.place.location.address, data: { behavior: 'tooltip' } do
                     = planning.place.location.name
                 %td.text--center
-                  = planning.places_left
+                  = "#{planning.places_left} / #{course.nb_participants_max}"
                   - if planning.places_left == 0
                     = "#{pluralize(planning.waiting_list.length, 'personne')} sur la liste d'attente"
                 %td
                   - if course.price
-                    = "#{readable_amount(course.price)}€"
+                    Participation libre
+                    %br
+                    %span.nowrap (montant attendu : #{readable_amount(course.price)}€)
                   - else
                     Gratuit
                 %td.text--right

@@ -9,7 +9,7 @@
 
 // usage: {{pluralize collection.length 'quiz' 'quizzes'}}
 Handlebars.registerHelper('pluralize', function(number, single, plural) {
-    return (number === 1) ? single : plural;
+    return ((number === 1 || number === '1') ? single : plural);
 });
 
 
@@ -59,6 +59,8 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
             return (v1 > v2) ? options.fn(this) : options.inverse(this);
         case '>=':
             return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        case '!=':
+            return (v1 != v2) ? options.fn(this) : options.inverse(this);
         default:
             return options.inverse(this);
     }

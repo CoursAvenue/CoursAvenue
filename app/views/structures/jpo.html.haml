@@ -15,20 +15,16 @@
       = "Retrouvez tous les cours de #{@structure.name} à #{@city.name}"
 
 .inline-block
-  - if cookies[:structure_search_path]
-    = link_to cookies[:structure_search_path] do
-      %i.orange ←
-      = t('.back_to_results')
-  - else
-    = link_to structures_path do
-      %i.orange ←
-      = t('.see_arrounding_structures')
+  = link_to open_courses_path do
+    %i.orange ←
+    Revenir à la recherche
+
 .inline-block.push-half--sides
   |
 .inline-block
   %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
     %li
-      = link_to "Tous les établissement", structures_path
+      = link_to "Tous les établissement des Journées Portes Ouvertes", open_courses_path
     %li= @structure.name
 
 - if !current_user and params[:waiting_for_activation]
@@ -39,7 +35,7 @@
   .grid__item.eight-twelfths>
     = render partial: 'structures/structure_header', locals: {structure: @structure}
 
-    = render partial: 'structures/map_and_gallery', locals: {structure: @structure, places: @structure.places, medias: @medias}
+    = render partial: 'structures/map_and_gallery', locals: {structure: @structure, places: @places, medias: @medias}
 
     = render partial: 'structures/comments_headband', locals: {structure: @structure}
 
@@ -47,7 +43,7 @@
       %li.active
         %a{href: '#tab-courses', data: {toggle: 'tab'} }
           %i.fa.fa-calendar
-          Cours
+          Atelier Journées Portes Ouvertes
       %li
         %a{href: '#tab-comments', data: {toggle: 'tab'} }
           %i.fa.fa-comments
@@ -58,33 +54,7 @@
           Professeurs
     .tab-content
       %article#tab-courses.tab-pane.active
-        - if @courses.any?
-          #course-list.white-box.islet
-            - @courses.each_with_index do |course, index|
-              - unless index == 0
-                %hr.push-half--ends
-              %div
-                %div.float--right.text--right
-                  - if course.best_price
-                    = "à partir de #{readable_amount course.best_price.amount}€".html_safe
-                  - if course.has_free_trial_lesson?
-                    %strong (essai gratuit)
-                    %br
-                    - if course.is_individual
-                      %i.fa.fa-user.pointer{data: { behavior: "tooltip", title: "Cours individuel", placement: "left"}}
-                    - else
-                      %span{data: { behavior: "tooltip", title: "Cours collectif", placement: "left"}}
-                        %i.fa.fa-user
-                        %i.fa.fa-user{style:'left: -6px; top: 2px; position: relative'}
-
-                %h3.base-font-style.flush--bottom= link_to course.name.capitalize, structure_course_path(@structure, course)
-                %span.gray
-                  %i.fa.fa-tags
-                  = course.subjects.map(&:name).join(', ')
-        - else
-          %p.white-box.islet.text--center
-            Cet établissement n'a pas renseigné de cours.
-
+        = render partial: 'structures/open_courses', locals: {structure: @structure}
 
       %article#tab-comments.tab-pane
         - if @comments.empty?

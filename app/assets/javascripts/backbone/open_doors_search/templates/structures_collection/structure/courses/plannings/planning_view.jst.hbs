@@ -1,9 +1,16 @@
-<td class="two-twelfths">{{ date }}</td>
-<td class="two-twelfths">{{ time_slot }}</td>
-<td class="one-twelfth">{{ duration }}</td>
+<td class="three-twelfths">{{ date }} de {{ time_slot }} ({{ duration }})</td>
 <td class="two-twelfths">{{ audiences }}</td>
 <td class="two-twelfths">{{ levels }}</td>
 <td class="two-twelfths nowrap">{{ nb_place_available }} places restantes</td>
-<td class="one-twelfths">
+<td class="two-twelfths nowrap">
+    {{#if price}}
+        Participation libre
+        <br>
+        (montant attendu : {{ price }}€)
+    {{else}}
+        Gratuit
+    {{/if}}
+</td>
+<td class="one-twelfths text--right">
     <a href='{{structure_url}}' class='btn btn--blue btn--small' data-target="participate">M'inscrire</a>
 </td>

@@ -11,8 +11,8 @@ class StructureSerializer < ActiveModel::Serializer
              :courses_count, :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
-             :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :structure_type,
-             :has_promotion, :tag_names, :last_comment_title, :open_courses_open_places
+             :audience, :levels, :funding_types, :gives_group_courses, :gives_individual_courses, :structure_type,
+             :has_promotion, :tag_names, :last_comment_title, :open_courses_open_places, :open_course_names, :open_course_nb
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
@@ -52,6 +52,10 @@ class StructureSerializer < ActiveModel::Serializer
 
   def audience
     object.audiences.sort_by(&:order).map{|audience| I18n.t(audience.name)}.join(', ')
+  end
+
+  def levels
+    object.levels.sort_by(&:order).map{|level| I18n.t(level.name)}.join(', ')
   end
 
   def medias_count
@@ -116,11 +120,16 @@ class StructureSerializer < ActiveModel::Serializer
 
   def data_url
     if Rails.env.production?
-      structure_url(object, subdomain: 'www', host: 'coursavenue.com')
+      host = 'coursavenue.com'
     elsif Rails.env.development?
-      structure_url(object, subdomain: 'www', host: 'coursavenue.dev')
+      host = 'coursavenue.dev'
     elsif Rails.env.staging?
-      structure_url(object, subdomain: 'www', host: 'staging.coursavenue.com')
+      host = 'staging.coursavenue.com'
+    end
+    if @options[:jpo]
+      jpo_structure_url(object, subdomain: 'www', host: host)
+    else
+      structure_url(object, subdomain: 'www', host: host)
     end
   end
 

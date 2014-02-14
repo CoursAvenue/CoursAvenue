@@ -61,7 +61,7 @@ class Structure < ActiveRecord::Base
                              :plannings_count, :has_promotion, :has_free_trial_course, :course_names, :open_course_names, :open_course_subjects,
                              :last_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
                              :level_ids, :audience_ids,
-                             :open_courses_open_places
+                             :open_courses_open_places, :open_course_nb
 
 
   has_attached_file :logo,
@@ -493,6 +493,7 @@ class Structure < ActiveRecord::Base
     self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?
     self.has_free_trial_course    = self.prices.trials.where{(amount == nil) | (amount == 0)}.any?
     self.course_names             = self.courses.map(&:name).uniq.join(', ')
+    self.open_course_nb           = self.courses.open_courses.count
     self.open_course_names        = self.courses.open_courses.map(&:name).uniq.join(', ')
     self.open_course_subjects     = self.courses.open_courses.map(&:subjects).flatten.map(&:name).uniq.join(', ')
     self.last_comment_title       = self.comments.accepted.first.title if self.comments.accepted.any?

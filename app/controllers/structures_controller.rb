@@ -23,7 +23,16 @@ class StructuresController < ApplicationController
     @medias         = @structure.medias.videos_first.reject { |media| media.type == 'Media::Image' and media.cover }
     @comments       = @structure.comments.accepted.reject(&:new_record?)
     @comment        = @structure.comments.build
-    index           = 0
+  end
+
+  def jpo
+    @structure = Structure.friendly.find params[:id]
+    @city           = @structure.city
+    @places         = @structure.courses.open_courses.map(&:places).flatten.uniq
+    @teachers       = @structure.teachers
+    @medias         = @structure.medias.videos_first.reject { |media| media.type == 'Media::Image' and media.cover }
+    @comments       = @structure.comments.accepted.reject(&:new_record?)
+    @comment        = @structure.comments.build
   end
 
   def index

@@ -27,26 +27,24 @@
             {{/if}}
             <div>
                 <div>
+                {{ open_course_nb }} {{ pluralize open_course_nb 'atelier' 'ateliers' }} :
+                <span title="{{open_course_names}}" data-behavior="tooltip">
+                    {{ truncate open_course_names 50 }}
+                </span>
+                </div>
+                <div>
                 {{#if audience}}
                     <span class="milli">{{audience}}</span>&nbsp;
                 {{/if}}
-                {{#if structure_type}}
-                    |
-                    <span class="milli">{{structure_type}}</span>
-                {{/if}}
                 </div>
-                {{#if funding_types}}
-                    <div>
-                        <span class="pointer lbl lbl--small" data-behavior="tooltip" title="{{funding_types}}">Financements spécifiques acceptés</span>
-                    </div>
-                {{/if}}
             </div>
-            <div class="quoted milli">
-                {{{truncate last_comment_title 60}}}
+            <div class="milli">
+                <span class="quoted push-half--right">{{{truncate last_comment_title 60}}}</span>
+                (<a href="{{ data_url }}" class="semi-muted-link">voir les {{ comments_count }} avis</a>)
             </div>
             <a href="javascritp:void(0);" class="structure-item__see-all blue" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
                 {{#if plannings_count}}
-                    <span>Voir les séances</span>
+                    <span>Voir les horaires</span>
                 {{else}}
                     <span>Pas de séance, contactez le professeur</span>
                 {{/if}}
@@ -54,14 +52,13 @@
         </div>
     </article><!--
  --><div class="flexbox__item relative soft-half--sides structure-item__see-all-wrapper two-eighths v-middle text--center">
-        <div class="relative v-middle">
-            <div class="alpha thin orange"> {{ open_courses_open_places }} </div>
+        <div class="relative full-height v-middle soft--top">
+            <div class="alpha thin orange soft-half--top"> {{ open_courses_open_places }} </div>
             <span class="orange soft-half--bottom milli">places restantes</span>
-            <div data-type="open-doors-button" class="hidden">
-                <a href="{{ data_url }}" class="btn btn--blue open-doors-button">
-                    M'inscrire a une seance
-                </a>
-            </div>
+
+            <a href="{{ data_url }}" class="structure-item__see-all btn btn--blue" data-wrapper=".structure-item__see-all-wrapper" style="margin-bottom: 2px;">
+                Participer
+            </a>
         </div>
 
     </div><!--
