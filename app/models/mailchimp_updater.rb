@@ -14,7 +14,8 @@ class MailchimpUpdater
                                    :NWS_OPT_IN => (admin.newsletter_email_opt_in? ? 'Oui' : 'Non'),
                                    :MND_OPT_IN => (admin.monday_email_opt_in? ? 'Oui' : 'Non'),
                                    :SLUG       => structure.slug,
-                                   :PARISIAN   => (structure.parisian? ? 'Oui' : 'Non')
+                                   :PARISIAN   => (structure.parisian? ? 'Oui' : 'Non'),
+                                   :JPO        => (structure.courses.open_courses.any? ? 'Oui' : 'Non')
                                  },
                                    double_optin: false,
                                    update_existing: true
