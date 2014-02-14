@@ -54,6 +54,7 @@
 //= require backbone/cours_avenue
 //= require railsy_backbone.sync
 //= require railsy_backbone.datalink
+//= require fingerprint
 
 //= require_tree ./libs/fancybox/helpers/
 

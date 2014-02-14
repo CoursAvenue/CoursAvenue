@@ -123,6 +123,8 @@ gem 'gibbon'                    , '~>1.0.4'
 # Transform external CSS stylesheets into inline CSS for emails
 gem 'roadie'                    , '~>2.4.2'
 
+gem 'fingerprintjs-rails'
+
 # Includes Backbone
 gem 'railsy_backbone'           , '~>0.0.5'
 # Includes Backbone Marionette
