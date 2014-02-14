@@ -45,6 +45,12 @@ StructureProfile.module('Behaviors', function(Module, App, Backbone, Marionette,
 
                     if (Module[behavior] != undefined) {
                         Module[behavior].attachTo({ element: element, event: event });
+                    } else if (behavior.match("emit")) {
+                        match = behavior.match(/(emit)(.*)On/).slice(1);
+                        var app_event = match[1];
+                        behavior      = match[0];
+
+                        Module[behavior].attachTo({ element: element, app_event: app_event, dom_event: event });
                     }
                 }
             });

@@ -35,6 +35,22 @@ class StructuresController < ApplicationController
       provides: "structure"
     }
 
+    @tabs = [{
+        icon: 'calendar',
+        slug: 'courses',
+        name: 'Courses'
+      },
+      {
+        icon: 'group',
+        slug: 'teachers',
+        name: 'Teachers'
+      },
+      {
+        icon: '',
+        slug: 'comments',
+        name: 'Comments'
+    }]
+
   end
 
   def index

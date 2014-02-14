@@ -48,7 +48,18 @@
 
     #structure-profile{data: { type: 'structure-profile-root'}}
 
+    -# creates a tab manager view
     .tabs__bar{ data: @structure_tabs_manager }
+
+    -# creates tabs as HTML, that translate clicks to tab:clicked events
+    .tabs__bar
+      %ul
+        - @tabs.each do |tab|
+          %li{ data: { behaviors: "emit#{tab[:name]}TabClickedOnClick" }}
+            %a{ href: "#tab-#{tab[:slug]}", data: { toggle: "tab", relation: tab["slug"] } }
+              - unless tab[:icon].blank?
+                %i{ class: "fa fa-#{ tab[:icon] }" }
+                = tab[:name]
 
     .tabs--container
       .tab.hidden{ data: { behaviors: ['showWhenActive', 'activateOnCoursesTabClicked', 'deactivateSiblings'] }}
