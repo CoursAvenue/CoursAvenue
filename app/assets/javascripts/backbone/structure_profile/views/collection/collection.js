@@ -26,12 +26,16 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
                 bootstrap    = $element.data("bootstrap"),
                 flavor       = $element.data("flavor"),
                 resource     = $element.data("of"),
+                tagName      = $element.children().first()[0].nodeName.toLowerCase(),
+                className    = $element.children().first().attr("class"),
                 template     = $element.data("template")? Module.templateDirname() + $element.data("template") : undefined,
 
                 view         = buildView(view, flavor, {
-                    template: template,
+                    template:  template,
                     bootstrap: bootstrap,
-                    resource: resource
+                    resource:  resource,
+                    tagName:   tagName,
+                    className: className
                 }),
                 region_name  = 'Collection' + _.capitalize(view.cid),
                 regions      = {};
@@ -74,9 +78,12 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
             module         = options.resource,
             resources      = options.resource.toLowerCase(),
             resource       = _.singularize(resources),
-            Collection     = App.Models[resources] || Backbone.Collection,
             template_name  = (options.template)? options.template : resource,
-            ItemView, collection, itemView;
+            Collection     = App.Models[resources] || Backbone.Collection.extend({
+                tagName:   options.tagName,
+                className: options.className
+
+            }), ItemView, collection, itemView;
 
         collection = new Collection(options.bootstrap);
 
@@ -90,7 +97,8 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
         // if we are using a generic item view, extend it to use the template
         if (Marionette.ItemView === ItemView) {
             ItemView       = ItemView.extend({
-                template: 'backbone/structure_profile/views/' + resources + '/templates/' + template_name
+                template: 'backbone/structure_profile/views/' + resources + '/templates/' + template_name,
+                tagName: 'li'
             });
         }
 

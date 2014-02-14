@@ -67,7 +67,8 @@
       .tab.hidden{ data: { view: 'Collection', of: "Teachers", bootstrap: @model.teachers.to_json, component: 'TabContents', for: 'teachers' }}
         %p This is a Teacher.
       .tab.hidden{ data: { view: 'Collection', of: "Comments", bootstrap: @model.comments.to_json, component: 'TabContents', for: 'comments'}}
-        %p This is a Comment.
+        -# this will be used as the el of the collection view
+        %ul#comments.comment-list__el.hard--left.soft-half.white-box
 
 
 #course_info.hidden= render 'structures/courses/info_popup'
