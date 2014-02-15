@@ -116,6 +116,19 @@ class Participation < ActiveRecord::Base
     nil
   end
 
+  def set_waiting_list!
+    set_waiting_list
+    save if waiting_list_changed?
+  end
+
+  def alert_for_changes
+    ParticipationMailer.delay.alert_for_changes
+  end
+
+  def alert_for_destroy
+    ParticipationMailer.delay.alert_for_destroy
+  end
+
   private
 
   # Only one participation is allowed per user for JPO courses
@@ -133,8 +146,7 @@ class Participation < ActiveRecord::Base
   # @return nil
   def update_planning_participations_waiting_list
     planning.participations.each do |participation|
-      participation.set_waiting_list
-      participation.save if participation.waiting_list_changed?
+      participation.set_waiting_list!
     end
     nil
   end

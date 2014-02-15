@@ -60,6 +60,7 @@ class Planning < ActiveRecord::Base
   validates :place, :audience_ids, :level_ids, presence: true
   validate  :presence_of_start_date
   validate  :end_date_in_future
+  validate  :can_change_nb_participants_max
   validates :min_age_for_kid, numericality: { less_than: 18 }, allow_nil: true
   validates :max_age_for_kid, numericality: { less_than: 19 }, allow_nil: true
 
@@ -501,6 +502,16 @@ class Planning < ActiveRecord::Base
   ######################################################################
   # Validations                                                        #
   ######################################################################
+
+  #
+  # Teacher cannot have a nb_participants_max less than the number of already
+  # participants subscribed
+  #
+  # @return [type] [description]
+  def can_change_nb_participants_max
+    return false if nb_participants_max.nil?
+    return nb_participants_max >= possible_participations.length
+  end
 
   # Add errors to model if min_age < max_age
   #

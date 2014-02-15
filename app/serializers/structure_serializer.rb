@@ -123,9 +123,9 @@ class StructureSerializer < ActiveModel::Serializer
       host = 'staging.coursavenue.com'
     end
     if @options[:jpo]
-      jpo_structure_url(object, subdomain: 'www', host: host)
+      jpo_structure_url(object, subdomain: 'www', host: host, only_path: host.nil?)
     else
-      structure_url(object, subdomain: 'www', host: host)
+      structure_url(object, subdomain: 'www', host: host, only_path: host.nil?)
     end
   end
 

@@ -11,11 +11,18 @@ class UsersController < InheritedResources::Base
   def invite_entourage_to_jpo_page
     if current_user
       @user = current_user
-    else
+    elsif params[:user_email].present?
       @user = User.where(email: params[:user_email]).first_or_initialize
       @user.save(validate: false)
     end
     @structure = Structure.find(params[:structure_id]) if params[:structure_id].present?
+    respond_to do |format|
+      if @user.nil?
+        format.html { redirect_to open_courses_path }
+      else
+        format.html
+      end
+    end
   end
 
   def waiting_for_activation

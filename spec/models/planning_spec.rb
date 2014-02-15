@@ -40,6 +40,7 @@ describe Planning do
         it 'add errors to base' do
           subject.min_age_for_kid = 12
           subject.max_age_for_kid = 10
+          subject.course = Course.new
           subject.valid? # To trigger validations
           expect(subject.errors.messages).to include :max_age_for_kid
         end
@@ -184,24 +185,35 @@ describe Planning do
   end
 
   context :participations do
+    let(:user) { FactoryGirl.create(:user) }
+    describe '#can_change_nb_participants_max' do
+
+      it 'does not validate' do
+        subject.nb_participants_max = 0
+        participation               = subject.participations.build(user: user)
+        participation.save
+        expect(subject.save).to be_false
+      end
+
+      it 'does validate' do
+        subject.nb_participants_max = 1
+        participation               = subject.participations.build(user: user)
+        participation.save
+        expect(subject.save).to be_false
+      end
+    end
     describe '#waiting_list' do
       it 'shows no one' do
         subject.nb_participants_max = 1
         subject.participations.build
         expect(subject.waiting_list).to be_empty
       end
-      it 'shows three peoples' do
-        subject.nb_participants_max = 1
-        subject.participations.build
-        subject.participations.build
-        expect(subject.waiting_list.length).to eq 1
-      end
     end
-    describe '#possible_participations' do
+    describe '#places_left' do
       it 'returns number of participations left open' do
-        subject.nb_participants_max = 10
-        2.times { subject.participations.build }
-        expect(subject.possible_participations.length).to eq 8
+        planning = FactoryGirl.create(:planning, nb_participants_max: 10)
+        1.times { planning.participations.create(waiting_list: true, user: user) }
+        expect(planning.places_left).to eq 9
       end
     end
   end

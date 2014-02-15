@@ -3,6 +3,26 @@ require 'spec_helper'
 
 describe Participation do
 
+  context :waiting_list do
+    let (:planning) { FactoryGirl.create(:planning) }
+    before do
+      subject.user = FactoryGirl.create(:user)
+    end
+    it 'goes' do
+      planning.update_attribute(:nb_participants_max, 0)
+      subject.planning = planning
+      subject.save
+      expect(subject.waiting_list).to be_true
+    end
+
+    it 'does not go' do
+      planning.update_attribute(:nb_participants_max, 1)
+      subject.planning = planning
+      subject.save
+      expect(subject.waiting_list).to be_false
+    end
+  end
+
   describe '#cancel' do
     it 'update canceled_at' do
       subject.user = FactoryGirl.create(:user)
