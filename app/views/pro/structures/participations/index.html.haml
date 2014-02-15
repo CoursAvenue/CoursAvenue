@@ -1,0 +1,23 @@
+= side_menu_currently_at "Mes avis"
+
+= render partial: 'pro/structures/open_courses/tabs', locals: { current: 'participations' }
+
+- @open_courses.each do |open_course|
+  %h3.flush= open_course.name
+  - open_course.plannings.each do |planning|
+    %h5.push-half--bottom
+      = planning_date_for(planning)
+      = planning_time_for(planning)
+    %table.white-box.table--data.table--striped.table--white
+      %thead
+        %tr
+          %th.one-third Nom de l'élève
+          %th.one-third Email
+          %th.one-third Date d'inscription
+      %tbody
+        - planning.participations.each do |participation|
+          %tr
+            %td= participation.user.name
+            %td= participation.user.email
+            %td= l(participation.created_at, format: :date).capitalize
+  %hr

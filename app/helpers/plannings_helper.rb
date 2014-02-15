@@ -10,8 +10,12 @@ module PlanningsHelper
     if planning.end_date and planning.start_date != planning.end_date
       "Du #{I18n.l(planning.start_date, format: :semi_long)} au #{I18n.l(planning.end_date, format: :semi_long)}"
     else
-      "#{I18n.l(planning.start_date, format: :semi_long)}"
+      "#{I18n.l(planning.start_date, format: :semi_long)}".capitalize
     end
+  end
+
+  def planning_time_for(planning)
+    "de #{l(planning.start_time, format: :short)} à #{l(planning.end_time, format: :short)} (#{readable_duration(planning.duration)})"
   end
 
   def week_day_for(planning)

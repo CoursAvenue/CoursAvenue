@@ -53,8 +53,8 @@
           - course.plannings.each do |planning|
             %tr
               %td
-                = l(planning.start_date, format: :semi_long).capitalize
-                = "de #{l(planning.start_time, format: :short)} à #{l(planning.end_time, format: :short)} (#{readable_duration(planning.duration)})"
+                = planning_date_for(planning)
+                = planning_time_for(planning)
               %td= join_audiences planning
               %td= join_levels planning.levels
               %td= planning.place.location.name

@@ -86,6 +86,7 @@ CoursAvenue::Application.routes.draw do
           get :inscription, to: :new
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
+        resources :participations, only: [:index], controller: 'structures/participations'
         resources :admins, controller: 'structures/admins' do
           member do
             get :notifications
