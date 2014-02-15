@@ -17,9 +17,9 @@
 
 
 .white-box.soft
-  = form_tag(invite_entourage_to_jpo_users_path, method: :put) do
+  = form_tag(bulk_create_jpo_user_invited_users_path(@user), method: :post, id: 'invite-user-form') do
     - if @structure
-      = hidden_field :structure, :slug
+      = hidden_field :structure, :id, value: @structure.id
       = hidden_field :user, :email, value: params[:user_email]
     .grid
       .grid__item.one-half>
@@ -41,12 +41,22 @@
           Participer aux Journées Portes Ouvertes
           %br
           À très bientôt,
-        - if current_user
-          = hidden_field :user, :name, value: current_user.name
-        - else
+        - if !current_user
           .input
             %label Votre nom + prénom
-            = text_field :user, :name, placeholder: 'Ex. : Patrick Laca'
+            = text_field :user, :name, placeholder: 'Ex. : Patrick Laca', value: @user.name.strip
+            = content_for :scripts do
+              :javascript
+                $(function() {
+                    $('#invite-user-form').submit(function() {
+                        if ($('#user_name').val().length === 0) {
+                            GLOBAL.flash('Vous devez renseigner un nom', 'alert');
+                            $('#user_name').focus();
+                            return false;
+                        }
+                        return true;
+                    })
+                });
         = submit_tag 'Envoyer les invitations', class: 'btn btn--green btn--full'
 
 

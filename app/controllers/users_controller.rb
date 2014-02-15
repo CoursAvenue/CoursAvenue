@@ -9,29 +9,13 @@ class UsersController < InheritedResources::Base
   # params[:structure] : structure_slug
   # method: GET
   def invite_entourage_to_jpo_page
-    @structure = Structure.find(params[:structure]) if params[:structure].present?
-  end
-
-  # Sends an email to entourage of a user to invited them to the JPOs
-  # method: PUT
-  def invite_entourage_to_jpo
-    @structure = Structure.find(params[:structure][:slug]) if params[:structure].present?
-    params[:emails] ||= ''
-    regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
-    emails = params[:emails].scan(regexp).uniq
-    text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>' if params[:text].present?
-
-    emails.each do |student_email|
-      UserMailer.delay.invite_entourage_to_jpo(student_email, text, @structure, params[:user][:name])
+    if current_user
+      @user = current_user
+    else
+      @user = User.where(email: params[:user_email]).first_or_initialize
+      @user.save(validate: false)
     end
-
-    respond_to do |format|
-      if current_user
-        format.html { redirect_to invite_entourage_to_jpo_page_users_path, notice: (params[:emails].present? ? 'Votre entourage a bien été notifiés.' : nil) }
-      else
-        format.html { redirect_to new_user_registration_path, notice: (params[:emails].present? ? 'Votre entourage a bien été notifiés.' : nil) }
-      end
-    end
+    @structure = Structure.find(params[:structure_id]) if params[:structure_id].present?
   end
 
   def waiting_for_activation

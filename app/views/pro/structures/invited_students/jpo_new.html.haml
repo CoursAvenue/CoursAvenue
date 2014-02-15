@@ -10,7 +10,7 @@
     %li Utilisez notre outil d'invitation et faites plaisir à vos élèves : offrez-leur la chance de partager leurs passions à tous leurs proches, que vous pourrez ensuite fidéliser.
 
 .white-box.soft
-  = form_tag(invite_students_entourage_pro_structure_path(@structure), method: :put) do
+  = form_tag(bulk_create_jpo_pro_structure_invited_students_path(@structure), method: :post) do
     .grid
       .grid__item.one-half>
         %h4 À :
@@ -25,7 +25,7 @@
         %textarea.milli.one-whole{name: 'text', rows: 11, data: {behavior: 'autoresize'}}
           Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, nous participons aux Journées Portes Ouvertes de CoursAvenue : exceptionnellement, nous proposerons des ateliers gratuits pour faire découvrir nos cours à tous les parisiens. Voici les ateliers proposés : #{structure_url(@structure, subdomain: 'www')}.&#x000A;&#x000A;Pour vous, c'est l'occasion de faire découvrir votre passion à tous vos proches : invitez votre famille, vos amis et collègues à participer à nos ateliers gratuits. Il vous suffit de cliquer sur ce lien et d'envoyer tout simplement votre invitation :
         %p.gray-light.flush
-          = link_to "J'offre un cours gratuit à mes proches", invite_entourage_to_jpo_page_users_url(structure: @structure.slug, subdomain: 'www'), target: :_blank
+          = link_to "J'offre un cours gratuit à mes proches", invite_entourage_to_jpo_page_users_url(structure_id: @structure.id, subdomain: 'www'), target: :_blank
           %br
           À très bientôt,
           %br

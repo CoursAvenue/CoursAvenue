@@ -8,13 +8,6 @@ class Structure < ActiveRecord::Base
   include ActsAsGeolocalizable
 
   extend FriendlyId
-  friendly_id :slug_candidates, use: [:slugged, :finders]
-
-  geocoded_by :geocoder_address
-  after_create :geocode
-
-  after_save :delay_subscribe_to_nutshell
-  after_save :delay_subscribe_to_mailchimp
 
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',
@@ -31,9 +24,11 @@ class Structure < ActiveRecord::Base
                              'structures.modification_conditions.moderate',
                              'structures.modification_conditions.strict']
 
-  STICKER_STATUS          = []
-
   WIDGET_STATUS           = ['installed', 'remind_me', 'dont_want', 'need_help']
+
+  friendly_id :slug_candidates, use: [:slugged, :finders]
+
+  geocoded_by :geocoder_address
 
   attr_reader :delete_logo
   attr_accessible :structure_type, :street, :zip_code, :city_id,
@@ -119,25 +114,28 @@ class Structure < ActiveRecord::Base
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
-  before_create    :set_active_to_true
+  before_create :set_active_to_true
 
-  after_create     :set_free_pricing_plan
-  after_save       :update_email_status
-  after_touch      :update_email_status
+  after_create  :set_free_pricing_plan
+  after_create  :geocode
 
-  before_save      :fix_website_url
-  before_save      :fix_facebook_url
-  before_save      :fix_widget_url
-  before_save      :encode_uris
-  before_save      :reset_cropping_attributes, if: :logo_has_changed?
+  after_touch   :update_email_status
+
+  before_save   :fix_website_url
+  before_save   :fix_facebook_url
+  before_save   :fix_widget_url
+  before_save   :encode_uris
+  before_save   :reset_cropping_attributes, if: :logo_has_changed?
+
+  after_save    :update_email_status
+  after_save    :delay_subscribe_to_nutshell
+  after_save    :delay_subscribe_to_mailchimp
 
   ######################################################################
   # Solr                                                               #
   ######################################################################
   searchable do
     text :name, boost: 5
-
-    # text :description
 
     text :course_names do
       courses.map(&:name)
@@ -300,9 +298,13 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Params:
-  #   bbox_sw: [latitude, longitude]
-  #   bbox_ne: [latitude, longitude]
+
+  #
+  #
+  # @param  bbox_sw Array [latitude, longitude]
+  # @param  bbox_ne Array [latitude, longitude]
+  #
+  # @return Locations
   def locations_in_bounding_box(bbox_sw, bbox_ne)
     locations.reject do |location|
       # ensure that the location really is completely inside the box

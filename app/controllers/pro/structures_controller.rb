@@ -7,24 +7,6 @@ class Pro::StructuresController < Pro::ProController
 
   respond_to :json
 
-  def invite_students
-  end
-
-  def invite_students_entourage
-    params[:emails] ||= ''
-    regexp = Regexp.new(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}\b/)
-    emails = params[:emails].scan(regexp).uniq
-    text = '<p>' + params[:text].gsub(/\r\n/, '</p><p>') + '</p>' if params[:text].present?
-
-    emails.each do |student_email|
-      AdminMailer.delay.invite_students_entourage(student_email, text, @structure)
-    end
-
-    respond_to do |format|
-      format.html { redirect_to invite_students_pro_structure_path(@structure), notice: (params[:emails].present? ? 'Vos élèves ont bien été notifiés.' : nil) }
-    end
-  end
-
   def update_widget_status
     if params[:status] and Structure::WIDGET_STATUS.include? params[:status]
       @structure.update_column :widget_status, params[:status]

@@ -15,6 +15,7 @@ Handlebars.registerHelper('pluralize', function(number, single, plural) {
 
 // usage: {{truncate 'my long text' length}}
 Handlebars.registerHelper('truncate', function(text, length) {
+    if (!text) { return ''; }
     if (text.length < length) {
         return text;
     } else {
@@ -22,7 +23,7 @@ Handlebars.registerHelper('truncate', function(text, length) {
     }
 });
 
-// usage: {{truncate 'my long text' length}}
+// usage: {{highlight 'all the text' 'word to highlight' length_of_the_truncated_text}}
 Handlebars.registerHelper('highlight', function(text, highlight_word, length) {
     highlight_word = GLOBAL.normalizeAccents(highlight_word);
     text           = GLOBAL.normalizeAccents(text);

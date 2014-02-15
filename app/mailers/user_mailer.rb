@@ -6,22 +6,6 @@ class UserMailer < ActionMailer::Base
 
   default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
-  ######################################################################
-  # JPO                                                                #
-  ######################################################################
-  # Sends email to entourage of a user to invite him to the JPOs
-  #
-  # @param  email email of friend
-  # @param  text text of the email
-  # @param  structure Structure for which the user invites
-  # @param  user_name Name of the user inviting
-  def invite_entourage_to_jpo(email, text, structure, user_name)
-    @email_text = text
-    @structure  = structure
-    @user_name  = user_name
-    mail to: email, subject: 'Je vous invite à participer aux Journées Portes Ouvertes des 5 et 6 avril 2014'
-  end
-
   # Welcomes the user on the platforme
   def contact(name, email, content)
     @name    = name

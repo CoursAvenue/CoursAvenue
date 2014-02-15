@@ -46,6 +46,7 @@ class ParticipationMailer < ActionMailer::Base
     @user     = participation.user
     @planning = participation.planning
     @course   = participation.course
+    @structure = participation.course.structure
     mail to: @user.email, subject: "Votre inscription en liste d'attente aux Journées Portes Ouvertes est validée"
   end
 
@@ -53,6 +54,7 @@ class ParticipationMailer < ActionMailer::Base
     @user     = participation.user
     @planning = participation.planning
     @course   = participation.course
+    @structure = participation.course.structure
     mail to: @user.email, subject: "Votre désinscription a bien été prise en compte"
   end
 

@@ -4,6 +4,11 @@
       %i.fa.fa-list
       Mes ateliers
   %li{class: (current == 'new' ? 'active' : '')}
-    = link_to invite_students_pro_structure_path(@structure) do
+    = link_to jpo_new_pro_structure_invited_students_path(@structure) do
       %i.fa.fa-bullhorn
       Mes invitations
+  - if @structure.invited_students.for_jpo.any?
+    %li{class: (current == 'invite-jpo-list' ? 'active' : '')}
+      = link_to jpo_pro_structure_invited_students_path(@structure) do
+        %i.fa.fa-list
+        Suivi des invitations
