@@ -72,8 +72,6 @@ CoursAvenue::Application.routes.draw do
           get   :wizard
           get   :signature
           get   :dashboard, path: 'tableau-de-bord'
-          patch :activate
-          patch :disable
           get   :recommendations, path: 'recommandations'
           post  :recommend_friends
           post  :update
