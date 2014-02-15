@@ -34,6 +34,10 @@
                 %i.fa.fa-envelope
                 Mes messages
             %li.nowrap
+              = link_to user_participations_path(current_user) do
+                %i.fa.fa-list
+                Mes cours
+            %li.nowrap
               = link_to destroy_user_session_path, method: :delete do
                 %i.fa.fa-signout
                 Se déconnecter

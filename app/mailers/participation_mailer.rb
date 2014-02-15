@@ -42,6 +42,14 @@ class ParticipationMailer < ActionMailer::Base
     mail to: @user.email, subject: "Votre inscription aux Journées Portes Ouvertes est validée"
   end
 
+  def a_place_opened(participation)
+    @user      = participation.user
+    @planning  = participation.planning
+    @course    = participation.course
+    @structure = participation.course.structure
+    mail to: @user.email, subject: "Votre inscription vient d'être prise en compte"
+  end
+
   def welcome_to_waiting_list(participation)
     @user     = participation.user
     @planning = participation.planning

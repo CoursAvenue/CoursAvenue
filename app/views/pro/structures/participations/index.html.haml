@@ -11,13 +11,19 @@
     %table.white-box.table--data.table--striped.table--white
       %thead
         %tr
-          %th.one-third Nom de l'élève
-          %th.one-third Email
-          %th.one-third Date d'inscription
+          %th.four-twelfths Nom de l'élève
+          %th.three-twelfths Email
+          %th.three-twelfths Date d'inscription
+          %th.two-twelfths Sur liste d'attente
       %tbody
         - planning.participations.each do |participation|
           %tr
             %td= participation.user.name
             %td= participation.user.email
             %td= l(participation.created_at, format: :date).capitalize
+            %td.text--center
+              - if participation.waiting_list?
+                %i.fa.fa-check
+              - if participation.canceled?
+                Annulé
   %hr

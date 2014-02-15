@@ -11,7 +11,7 @@ class Pro::Structures::OpenCoursesController < Pro::ProController
 
   def index
     @structure = Structure.friendly.find params[:structure_id]
-    @courses   = @structure.courses.open_courses
+    @courses   = @structure.courses.open_courses.order('created_at ASC')
   end
 
   def edit

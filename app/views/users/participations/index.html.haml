@@ -5,6 +5,9 @@
 %h2 Mes inscriptions pour les Journées Portes Ouvertes
 
 - @participations.each do |participation|
+  - if participation.waiting_list?
+    -azd?
+    %h4 Vous êtes sur liste d'attente, vous serez prévenu par e-mail en cas de désistement.
   - course = participation.course
   .white-box.islet
     .flexbox

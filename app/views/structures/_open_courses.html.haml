@@ -2,7 +2,7 @@
   %h4.push-half--bottom Journées portes ouverte 2014 — Week-end du 6 et 7 avril
   .delta Participez à un atelier gratuit
 
-- structure.courses.open_courses.each do |course|
+- structure.courses.open_courses.order('created_at ASC').each do |course|
   - if course.plannings.any?
     .white-box.white-box--noshadow.islet
       %strong= course.name
@@ -43,6 +43,7 @@
                 %td.text--center
                   = "#{planning.places_left} / #{course.nb_participants_max}"
                   - if planning.places_left == 0
+                    %br
                     = "#{pluralize(planning.waiting_list.length, 'personne')} sur la liste d'attente"
                 %td
                   - if course.price

@@ -3,12 +3,16 @@ require 'spec_helper'
 
 describe Participation do
 
+  describe '#cancel' do
+    it 'update canceled_at' do
+      subject.user = FactoryGirl.create(:user)
+      subject.cancel!
+      expect(subject.canceled_at).not_to be_nil
+    end
+  end
+
   context :callbacks do
     let (:planning) { FactoryGirl.create(:planning) }
-
-    describe '#welcome_email' do
-      pending 'TODO'
-    end
 
     describe '#set_waiting_list' do
       it 'set it to true' do
@@ -31,7 +35,7 @@ describe Participation do
         planning.update_attribute(:nb_participants_max, 1)
         first_participation = planning.participations.create user: FactoryGirl.create(:user)
         last_participation  = planning.participations.create user: FactoryGirl.create(:user)
-        first_participation.destroy
+        first_participation.cancel!
         expect(last_participation.reload.waiting_list).to be_false
       end
     end

@@ -34,8 +34,8 @@ class Planning < ActiveRecord::Base
   belongs_to :place
   belongs_to :structure
 
-  has_many :prices, through: :course
-  has_many :reservations,         as: :reservable
+  has_many :prices,         through: :course
+  has_many :reservations,   as: :reservable
   has_many :participations, dependent: :destroy
   has_many :users, through: :participations
 
@@ -385,18 +385,18 @@ class Planning < ActiveRecord::Base
   # @return Integer
   def nb_place_available
     return 0 unless nb_participants_max
-    nb_participants_max - (participations.not_in_waiting_list.count || 0)
+    nb_participants_max - (participations.not_in_waiting_list.not_canceled.count || 0)
   end
 
   # Participations that does not exceed the quota
   #
   # @return Participations
   def possible_participations
-    self.participations[0..(self.nb_participants_max - 1)]
+    self.participations.not_canceled.not_in_waiting_list
   end
 
   def waiting_list
-    self.participations - self.possible_participations
+    self.participations.not_canceled.waiting_list
   end
 
   def places_left

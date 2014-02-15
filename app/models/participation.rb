@@ -13,7 +13,9 @@ class Participation < ActiveRecord::Base
   ######################################################################
   # Validation                                                         #
   ######################################################################
-  validate :first_participation_to_jpo, on: :create
+  validate  :first_participation_to_jpo, on: :create
+  validates :user, presence: true
+  validates :planning, presence: true
 
   ######################################################################
   # Callbacks                                                          #
@@ -24,10 +26,6 @@ class Participation < ActiveRecord::Base
   before_save  :set_waiting_list
   before_save  :update_structure_meta_datas
 
-  after_destroy :update_planning_participations_waiting_list
-  after_destroy :unsubscription_email
-  after_destroy :unsubscription_email_for_teacher
-
   attr_accessible :user, :planning
 
   ######################################################################
@@ -36,6 +34,8 @@ class Participation < ActiveRecord::Base
   default_scope               -> { order('created_at ASC') }
   scope :waiting_list       , -> { where { waiting_list == true } }
   scope :not_in_waiting_list, -> { where { waiting_list == false } }
+  scope :canceled           , -> { where { canceled_at != nil } }
+  scope :not_canceled       , -> { where { canceled_at == nil } }
 
   ######################################################################
   # Email alerts                                                       #
@@ -81,12 +81,26 @@ class Participation < ActiveRecord::Base
     nil
   end
 
-  def alert_for_changes
-    ParticipationMailer.delay.alert_for_changes(self)
+  # Tells if the participations is canceled or not
+  #
+  # @return Boolean [description]
+  def canceled?
+    !canceled_at.nil?
   end
 
-  def alert_for_destroy
-    ParticipationMailer.delay.alert_for_destroy(self)
+  # Cancel the participation
+  #
+  # @return Boolean wether it has saved or not
+  def cancel!
+    self.canceled_at = Time.now
+    if self.save
+      update_planning_participations_waiting_list
+      unsubscription_email
+      unsubscription_email_for_teacher
+      return true
+    else
+      return false
+    end
   end
 
   ######################################################################
@@ -98,6 +112,7 @@ class Participation < ActiveRecord::Base
   # @return nil
   def set_waiting_list
     self.waiting_list = ( self.planning.nb_place_available <= 0 )
+    ParticipationMailer.delay.a_place_opened(self) if waiting_list_changed? and waiting_list == false
     nil
   end
 
@@ -113,7 +128,7 @@ class Participation < ActiveRecord::Base
     nil
   end
 
-  # When participation is destroyed, update waiting list of all participations of same planning
+  # When participation is canceled, update waiting list of all participations of same planning
   #
   # @return nil
   def update_planning_participations_waiting_list
