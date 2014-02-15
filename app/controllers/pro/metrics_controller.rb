@@ -18,15 +18,15 @@ class Pro::MetricsController < Pro::ProController
   end
 
   def reco_count
-    render json: { total:           User.active.count,
-                   today:           User.active.where{created_at > Date.today}.count,
-                   last_seven_days: User.active.where{created_at > 7.days.ago}.count, }
-  end
-
-  def users_count
     render json: { total:           CommentNotification.count,
                    today:           CommentNotification.where{created_at > Date.today}.count,
                    last_seven_days: CommentNotification.where{created_at > 7.days.ago}.count, }
+  end
+
+  def users_count
+    render json: { total:           User.active.count,
+                   today:           User.active.where{created_at > Date.today}.count,
+                   last_seven_days: User.active.where{created_at > 7.days.ago}.count, }
   end
 
   def jpos
