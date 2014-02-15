@@ -6,11 +6,27 @@ class Pro::MetricsController < Pro::ProController
   end
 
   def comments_count
-    if params[:today]
-      render json: Comment.where{created_at > Date.today}.count
-    else
-      render json: Comment.count
-    end
+    render json: { total:           Comment.count,
+                   today:           Comment.where{created_at > Date.today}.count,
+                   last_seven_days: Comment.where{created_at > 7.days.ago}.count, }
+  end
+
+  def jpo_courses_count
+    render json: { total:           Course::Open.all.map{|course| course.nb_participants_max * course.plannings.count}.reduce(&:+),
+                   today:           Course::Open.where{created_at > Date.today}.map{|course| course.nb_participants_max * course.plannings.count}.reduce(&:+),
+                   last_seven_days: Course::Open.where{created_at > 7.days.ago}.map{|course| course.nb_participants_max * course.plannings.count}.reduce(&:+) }
+  end
+
+  def reco_count
+    render json: { total:           User.active.count,
+                   today:           User.active.where{created_at > Date.today}.count,
+                   last_seven_days: User.active.where{created_at > 7.days.ago}.count, }
+  end
+
+  def users_count
+    render json: { total:           CommentNotification.count,
+                   today:           CommentNotification.where{created_at > Date.today}.count,
+                   last_seven_days: CommentNotification.where{created_at > 7.days.ago}.count, }
   end
 
   def jpos
