@@ -7,8 +7,8 @@ class MailchimpUpdater
                                  email: { email: admin.email},
                                  merge_vars: {
                                    :NAME       => structure.name,
-                                   :SUBJ1      => structure.subjects.at_depth(0).map(&:name),
-                                   :SUBJ3      => structure.subjects.at_depth(2).map(&:name),
+                                   :SUBJ1      => structure.subjects.at_depth(0).map(&:name).join(', '),
+                                   :SUBJ3      => structure.subjects.at_depth(2).map(&:name).join(', '),
                                    :ZIPCODE    => structure.zip_code,
                                    :RECO_COUNT => structure.comments_count,
                                    :NWS_OPT_IN => (admin.newsletter_email_opt_in? ? 'Oui' : 'Non'),

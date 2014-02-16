@@ -72,9 +72,7 @@ class NutshellUpdater
         nutshell.edit_contact contact['id'], contact['rev'].to_i, new_contact
         puts "Updating #{admin.email} from #{structure.name}"
       rescue Exception => exception
-        logger.fatal '============================== NUTSHELL EXCEPTION =============================='
-        logger.fatal exception
-        logger.fatal '============================== NUTSHELL EXCEPTION =============================='
+        Bugsnag.notify(exception)
       end
     end
 

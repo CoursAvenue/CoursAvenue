@@ -32,6 +32,9 @@ CoursAvenue::Application.routes.draw do
           get :comments
           get :jpos
           get :comments_count
+          get :jpo_courses_count
+          get :reco_count
+          get :users_count
         end
       end
       resources :click_logs, only: [:index]
