@@ -30,7 +30,7 @@ class Pro::PricesController < InheritedResources::Base# Pro::ProController
   def create
     @prices = @course.prices.reject(&:new_record?)
     create! do |success, failure|
-      success.html { redirect_to pro_course_prices_path(@course) }
+      success.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
       failure.html { render template: 'pro/prices/index' }
     end
   end
@@ -38,14 +38,14 @@ class Pro::PricesController < InheritedResources::Base# Pro::ProController
   def update
     @prices = @course.prices.reject(&:new_record?)
     update! do |success, failure|
-      success.html { redirect_to pro_course_prices_path(@course) }
+      success.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
       failure.html { render template: 'pro/prices/index' }
     end
   end
 
   def destroy
     destroy! do |success, failure|
-      success.html { redirect_to pro_course_prices_path(@course) }
+      success.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
     end
   end
 

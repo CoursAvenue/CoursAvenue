@@ -147,26 +147,25 @@ CoursAvenue::Application.routes.draw do
 
         resources :messages     , controller: 'structures/messages'
         resources :conversations, controller: 'structures/conversations'
-        resources :courses, only: [:index, :new, :create], path: 'cours'#, controller: 'structures/courses' # To insure to have the structure_id
-        resources :course_opens, path: 'journees-portes-ouvertes', controller: 'structures/open_courses'
-      end
-      resources :courses, except: [:new, :create], path: 'cours' do
-        member do
-          post 'duplicate'
-          post 'copy_prices_from'
-        end
-        resources :plannings, controller: 'courses/plannings' do
+        resources :courses, path: 'cours', controller: 'structures/courses' do
           member do
             post 'duplicate'
+            post 'copy_prices_from'
+          end
+          resources :plannings, controller: 'structures/courses/plannings' do
+            member do
+              post 'duplicate'
+            end
+          end
+          resources :prices, only: [:index]
+          resources :book_tickets, only: [:edit, :index, :destroy]
+          member do
+            patch 'update_price'
+            patch 'activate'
+            patch 'disable'
           end
         end
-        resources :prices, only: [:index]
-        resources :book_tickets, only: [:edit, :index, :destroy]
-        member do
-          patch 'update_price'
-          patch 'activate'
-          patch 'disable'
-        end
+        resources :course_opens, path: 'journees-portes-ouvertes', controller: 'structures/open_courses'
       end
 
       resources :users                , only: [:index]

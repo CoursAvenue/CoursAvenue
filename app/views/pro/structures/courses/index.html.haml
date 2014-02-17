@@ -22,33 +22,33 @@
         %tr{data: {id: course.id}}
           %td.text--center
             - if course.active
-              = link_to disable_pro_course_path(course), method: :patch, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
+              = link_to disable_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
                 Visible
             - else
-              = link_to activate_pro_course_path(course), method: :patch, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
+              = link_to activate_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
                 Non&nbsp;visible
           %td= course.type_name
           %td
             - if course.latest_end_date and course.latest_end_date < Date.today
               .warning-buble{data: {behavior: 'tooltip', 'original-title' => 'Le planning du cours est périmé.'}}
                 !
-            = link_to course.name, edit_pro_course_path(course)
+            = link_to course.name, edit_pro_structure_course_path(@structure, course)
           %td.text--right.nowrap
             .btn-group
               .btn>
-                = link_to edit_pro_course_path(course) do
+                = link_to edit_pro_structure_course_path(@structure, course) do
                   %i.lbc-icon-info i
                   Info
                   %i.fa.fa-check.green
               .btn>
-                = link_to pro_course_prices_path(course) do
+                = link_to pro_structure_course_prices_path(@structure, course) do
                   € Tarifs
                   - if course.prices.empty?
                     %i.fa.fa-times.red
                   - else
                     %i.fa.fa-check.green
               .btn>
-                = link_to pro_course_plannings_path(course) do
+                = link_to pro_structure_course_plannings_path(@structure, course) do
                   %i.lbc-icon-calendar
                   %span Plannings
                   - if course.plannings.empty?
@@ -63,11 +63,11 @@
                 / Actions
               %ul.drop-down__el.text--left
                 %li
-                  = link_to edit_pro_course_path(course), title: 'Modifier ce cours', class: 'nowrap' do
+                  = link_to edit_pro_structure_course_path(@structure, course), title: 'Modifier ce cours', class: 'nowrap' do
                     %i.fa.fa-pencil
                     Modifier le cours
                 %li
-                  = link_to duplicate_pro_course_path(course), title: 'Modifier ce cours', class: 'nowrap', method: :post do
+                  = link_to duplicate_pro_structure_course_path(@structure, course), title: 'Modifier ce cours', class: 'nowrap', method: :post do
                     %i.fa.fa-copy
                     Dupliquer le cours
                 %li
@@ -75,7 +75,7 @@
                     %i.fa.fa-search
                     Voir sur CoursAvenue
                 %li
-                  = link_to pro_course_path(course), class: 'red nowrap', title: 'Supprimer ce cours', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, method: :delete do
+                  = link_to pro_structure_course_path(@structure, course), class: 'red nowrap', title: 'Supprimer ce cours', data: {confirm: 'Êtes-vous sur de supprimer ce cours ? Cette action sera irreversible.'}, method: :delete do
                     %i.fa.fa-trash-o
                     Supprimer
   - if @courses.disabled.any?

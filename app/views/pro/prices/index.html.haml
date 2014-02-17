@@ -13,19 +13,7 @@
   %li= link_to 'Tous mes cours', pro_structure_courses_path(@structure)
   %li= @course.name
 
-.btn-group.push-half--bottom>
-  .btn>
-    = link_to edit_pro_course_path(@course) do
-      %i.lbc-icon-info i
-      Info
-  .btn.btn--active>
-    = link_to pro_course_prices_path(@course) do
-      € Tarifs
-  .btn>
-    = link_to pro_course_plannings_path(@course) do
-      %i.fa.fa-calendar
-      Planning
-
+= render partial: 'pro/structures/courses/tabs', locals: { current: 'prices' }
 
 - if @other_courses and @other_courses.any?
   .blue-box.islet
@@ -33,13 +21,13 @@
       Voulez-vous appliquer les mêmes tarifs d'un autre cours ?
       .btn#use-other-course-price-button Oui
     .hidden#use-other-course-price
-      = simple_form_for [:pro, @structure, @course], url: copy_prices_from_pro_course_path(@course), as: :course, method: :post, html: {class: 'inline-block'} do |f|
+      = simple_form_for [:pro, @structure, @course], url: copy_prices_from_pro_structure_course_path(@structure, @course), as: :course, method: :post, html: {class: 'inline-block'} do |f|
         %div
           %label.inline Choisissez le cours :
           = select_tag "course_id", options_from_collection_for_select(@other_courses, :id, :name)
           = f.submit 'Valider', class: 'btn btn--green'
 
-= simple_form_for [:pro, @structure, @course], url: pro_course_path(@course), as: :course do |f|
+= simple_form_for [:pro, @structure, @course], url: pro_structure_course_path(@structure, @course), as: :course do |f|
   = f.error_notification
   %h5.form-header-group Au #{@course.type_name.downcase}
   .form-white-box--large

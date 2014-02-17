@@ -1,7 +1,7 @@
 - if @course.new_record?
   - url = pro_structure_courses_path(@structure)
 - else
-  - url = pro_course_path(@course)
+  - url = pro_structure_course_path(@structure, @course)
 
 = simple_form_for [:pro, @structure, @course], url: url, as: :course, html: {id: 'course-form'} do |f|
   = f.error_notification

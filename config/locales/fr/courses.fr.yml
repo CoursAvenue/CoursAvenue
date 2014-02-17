@@ -79,16 +79,17 @@ fr:
         see_arrounding_courses: Voir les cours à proximité
 
   pro:
-    courses:
-      form:
-        type: Type de cours
-        individual_course: Cours
-        subjects: Disciplines
-        audiences: Public
-        levels: Niveaux
-        info: Accroche / Libellé du cours
-        description: Description du cours
-        cant_be_joined_during_year: Ne peut être rejoint en cours d'année
-        is_for_handicaped: Cours accessible aux handicapés
-        name: Nom du cours
-        frequency: Fréquence des cours
+    structures:
+      courses:
+        form:
+          type: Type de cours
+          individual_course: Cours
+          subjects: Disciplines
+          audiences: Public
+          levels: Niveaux
+          info: Accroche / Libellé du cours
+          description: Description du cours
+          cant_be_joined_during_year: Ne peut être rejoint en cours d'année
+          is_for_handicaped: Cours accessible aux handicapés
+          name: Nom du cours
+          frequency: Fréquence des cours
