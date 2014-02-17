@@ -5,6 +5,7 @@ class CreateDefaultTagsForUserProfiles < ActiveRecord::Migration
     Structure.find_each do |structure|
       bar.increment!
       next unless structure.main_contact
+      GC.start
       structure.user_profiles.find_each do |user_profile|
         user_profile_email        = user_profile.email
         user_profile_name         = user_profile.first_name

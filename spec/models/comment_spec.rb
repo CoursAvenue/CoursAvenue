@@ -44,11 +44,12 @@ describe Comment do
     end
 
     describe '#create_or_update_user_profile' do
-      it "created a user profile if doesn't exists" do
+      it "creates a user profile if doesn't exists" do
         length = comment.structure.user_profiles.length
         comment.save
-        expect(comment.structure.reload.user_profiles.length).to eq (length + 1)
+        expect(comment.structure.user_profiles.length).to eq (length + 1)
       end
+
       it 'affects a tag after a comment' do
         comment.save
         expect(comment.structure.user_profiles.last.tags.map(&:name)).to include UserProfile::DEFAULT_TAGS[:comments]

@@ -126,8 +126,8 @@ describe Structure do
         expect(user_profile.tags.length).to eq(length + tags.length)
       end
 
-      it "does not overwrite the existing tags"
-      it "does not create duplicate tags"
+      # it "does not overwrite the existing tags"
+      # it "does not create duplicate tags"
 
     end
 
@@ -154,6 +154,7 @@ describe Structure do
     it "affects tag to the user profile" do
       expect(structure.user_profiles.last.tags.map(&:name)).to include UserProfile::DEFAULT_TAGS[:contacts]
     end
+  end
 
   context :funding_types do
     context :getters do
@@ -232,9 +233,5 @@ describe Structure do
       structure.update_email_status
       expect(structure.email_status).to eq 'less_than_fifteen_recommendations'
     end
-  end
-
-  describe '#update_email_status' do
-
   end
 end
