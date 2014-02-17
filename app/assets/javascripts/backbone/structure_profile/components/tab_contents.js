@@ -3,6 +3,13 @@
 // -----------
 //
 // Tab Contents attaches the following behaviors to the given element:
+//  - _activateOn_: the tab contents become active when TabClicked is
+//    fired for the tab specified in the `data-for` attribute, described
+//    below.
+//  - _showWhenActive_: the tab will be shown or hidden depending on its
+//    state.
+//  - _deactivateSiblings_: when a tab contents is show, it hides other
+//    nearby tab contents
 //
 // **data API**
 //  - _component_: tab-contents

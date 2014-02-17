@@ -16,6 +16,7 @@ StructureProfile.module('Behaviors.activateOn', function(Module, App, Backbone, 
     this.startWithParent = false;
 
     var _activate = function activate (element, e) {
+        $(element).addClass("active");
         $(element).trigger("activate");
     };
 
@@ -27,6 +28,10 @@ StructureProfile.module('Behaviors.activateOn', function(Module, App, Backbone, 
             event       = options.event.replace(/([A-Z])/g, ':$1').replace(/^:/, '').toLowerCase(); // from camel to event style
 
         $(document).on(event, activate);
+
+        $element.on("deactivate", function removeActiveClass (e) {
+            $element.removeClass("active");
+        });
     };
 
 }, undefined);

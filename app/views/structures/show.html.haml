@@ -52,7 +52,7 @@
     .tabs__bar
       %ul.tabs
         - @tabs.each_with_index do |tab, index|
-          %li{ class: "#{index === 0 ? "active" : 0 }" }
+          %li{ class: "#{index === 0 ? "active" : "" }", data: { behaviors: ["activateOn#{tab[:name]}TabClicked", "deactivateSiblings"] }}
             %a{ href: "#tab-#{tab[:slug]}", data: { relation: tab["slug"], behaviors: "emit#{tab[:name]}TabClickedOnClick" } }
               - unless tab[:icon].blank?
                 %i{ class: "fa fa-#{ tab[:icon] }" }
@@ -60,14 +60,17 @@
 
     .tabs--container
       %article.tab-pane.hidden{ data: { view: 'Collection', of: 'Courses',  bootstrap: @model.courses.to_json,  component: 'TabContents', for: 'courses' }}
-        .white-box.islet
+        .white-box.islet{ data: { 'sample-tag' => true }}
 
       %article.tab-pane.hidden{ data: { view: 'Collection', of: "Teachers", bootstrap: @model.teachers.to_json, component: 'TabContents', for: 'teachers'}}
+        -# this will render the template on the server side, and lazily attach the view
+        -# = render '../assets/javascripts/backbone/structure_profiles/views/teachers/templates/teacher', handlebars: @model.teachers.to_json
 
       %article.tab-pane.hidden{ data: { view: 'Collection', of: "Comments", bootstrap: @model.comments.to_json, component: 'TabContents', for: 'comments'}}
         -# this will be used as the tagName and className of the CollectionView and ItemView
-        %ul.comment-list
-          %li.comment-list__el.hard--left.soft-half.white-box
+        %ul.comment-list{ data: { 'sample-tag' => true }}
+          %li.comment-list__el.hard--left.soft-half.white-box{ data: { "sample-item" => true }}
+
 
 
 #course_info.hidden= render 'structures/courses/info_popup'

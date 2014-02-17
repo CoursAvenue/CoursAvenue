@@ -38,18 +38,20 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
     Module.addInitializer(function () {
         $("[data-view=Collection]").each(function (index, element) {
             var $element     = $(element),
-                view         = $element.data("view"),
-                bootstrap    = $element.data("bootstrap"),
-                flavor       = $element.data("flavor"),
-                resource     = $element.data("of"),
-                sample_html  = $element.children().first(),
+                view         = $element.data("view"), // the name of the constructor
+                bootstrap    = $element.data("bootstrap"), // data for the collection
+                flavor       = $element.data("flavor"), // a sub class
+                resource     = $element.data("of"), // used for template name, model name, etc...
+                sample_tag   = $element.find("[data-sample-tag]")[0],
+                sample_item  = $element.find("[data-sample-item]")[0],
                 template     = $element.data("template")? Module.templateDirname() + $element.data("template") : undefined,
 
                 view         = buildView(view, flavor, {
-                    template:  template,
-                    bootstrap: bootstrap,
-                    resource:  resource,
-                    sample:    sample_html
+                    template:      template,
+                    bootstrap:     bootstrap,
+                    resource:      resource,
+                    tag:           sample_tag,
+                    itemview_tag:  sample_item
                 }),
                 region_name  = 'Collection' + _.capitalize(view.cid),
                 regions      = {};
@@ -97,16 +99,14 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
             itemview_options = {};
 
         // build up the tagNames and classNames from the sample
-        if (options.sample.length > 0) {
-            options.tagName   = options.sample[0].nodeName.toLowerCase();
-            options.className = options.sample.attr("class");
+        if (options.tag) {
+            options.tagName   = options.tag.nodeName.toLowerCase();
+            options.className = options.tag.className;
+        }
 
-            options.sample = options.sample.children().first();
-
-            if (options.sample.length > 0) {
-                itemview_options.tagName   = options.sample[0].nodeName.toLowerCase();
-                itemview_options.className = options.sample.attr("class");
-            }
+        if (options.itemview_tag) {
+            itemview_options.tagName   = options.itemview_tag.nodeName.toLowerCase();
+            itemview_options.className = options.itemview_tag.className;
         }
 
         Collection = App.Models[resources] || Backbone.Collection.extend();
