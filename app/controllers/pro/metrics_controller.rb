@@ -11,6 +11,12 @@ class Pro::MetricsController < Pro::ProController
                    last_seven_days: Comment.where{created_at > 7.days.ago}.count, }
   end
 
+  def admins_count
+    render json: { total:           Admin.normal.count,
+                   today:           Admin.normal.where{created_at > Date.today}.count,
+                   last_seven_days: Admin.normal.where{created_at > 7.days.ago}.count, }
+  end
+
   def jpo_courses_count
     render json: { total:           Course::Open.all.map{|course| course.nb_participants_max * course.plannings.count}.reduce(&:+),
                    today:           Course::Open.where{created_at > Date.today}.map{|course| course.nb_participants_max * course.plannings.count}.reduce(&:+),

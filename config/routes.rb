@@ -31,6 +31,7 @@ CoursAvenue::Application.routes.draw do
         collection do
           get :comments
           get :jpos
+          get :admins_count
           get :comments_count
           get :jpo_courses_count
           get :reco_count
