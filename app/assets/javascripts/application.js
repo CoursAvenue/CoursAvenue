@@ -101,3 +101,5 @@
 
 //= require ./plugins_initalization
 // require turbolinks
+//= require handlebars
+

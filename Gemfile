@@ -128,6 +128,8 @@ gem 'marionette-rails'          , '~>1.4.1'
 # Includes bacbone.relational
 gem 'backbone-relational-rails' , '~>0.8.7'
 gem 'handlebars_assets'         , '~>0.14.1'
+# allows sharing of handlebars templates
+gem 'sht_rails'
 gem 'sass-rails'                , '~>4.0.1'
 gem 'haml'                      , '~>4.0.3'
 gem 'uglifier'                  , '>= 1.0.3'
