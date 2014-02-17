@@ -33,6 +33,15 @@ class StructureSerializer < ActiveModel::Serializer
     object.comments.accepted.limit(5)
   end
 
+  def places
+    if @options[:place_ids].present?
+      place_ids = @options[:place_ids]
+      object.places.where{ id.in place_ids }
+    else
+      object.places
+    end
+  end
+
   # TODO Use MediaSerializer
   def preloaded_medias
     object.medias.videos_first.limit(6)

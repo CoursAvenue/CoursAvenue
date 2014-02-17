@@ -36,13 +36,20 @@ module FilteredSearchProvider extend ActiveSupport::Concern
   #
   # @return array [ structures models, total of results]
   def search_plannings
-    search          = PlanningSearch.search(params, group: :structure_id_str)
-    structures      = search.group(:structure_id_str).groups.collect do |planning_group|
-      planning_group.results.first.try(:structure)
+    search       = PlanningSearch.search(params, group: :structure_id_str)
+    place_search = PlanningSearch.search(params, group: :place_id_str)
+    structures   = []
+    places       = []
+    place_search.group(:place_id_str).groups.each do |place_group|
+      places << place_group.results.first.try(:place_id)
     end
+    search.group(:structure_id_str).groups.each do |planning_group|
+      structures << planning_group.results.first.try(:structure)
+    end
+    places = places.uniq
     total           = search.group(:structure_id_str).total
 
-    [ structures, total ]
+    [ structures, places, total ]
   end
 
   def search_structures
@@ -53,6 +60,9 @@ module FilteredSearchProvider extend ActiveSupport::Concern
     [ structures, total ]
   end
 
+  # Retrieve lat & lng of the current search
+  #
+  # @return Array [lat, lng]
   def retrieve_location
     StructureSearch.retrieve_location(params)
   end

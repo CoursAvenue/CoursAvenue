@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Structures::CoursesController < ApplicationController
-  include ActionView::Helpers::NumberHelper
 
   def index
     @structure       = Structure.find params[:structure_id]
@@ -15,18 +14,7 @@ class Structures::CoursesController < ApplicationController
     end
     @plannings.group_by(&:course_id).each do |course_id, plannings|
       course = Course.find(course_id)
-      @courses << {
-        id:                    course.id,
-        name:                  course.name,
-        description:           course.description,
-        type:                  course.type_name,
-        min_price_amount:      number_to_currency(course.best_price.try(:amount)),
-        min_price_libelle:     course.best_price.try(:localized_libelle),
-        has_free_trial_lesson: course.has_free_trial_lesson?,
-        data_url:              structure_course_url(@structure, course),
-        subjects:              course.subjects.map(&:name).join(', '),
-        plannings:             ActiveModel::ArraySerializer.new(plannings, ({ each_serializer: PlanningSerializer }).merge(planning_serializer_options))
-      }
+      @courses << CourseSerializer.new(course, { root: false, structure: @structure})
     end
 
     respond_to do |format|

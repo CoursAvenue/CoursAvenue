@@ -17,10 +17,9 @@ class OpenDoorsController < ApplicationController
     params[:page]         = 1 unless request.xhr?
 
     # Directly search plannings because it is by default filtered by dates
-    @structures, @total = search_plannings
+    @structures, @place_ids, @total = search_plannings
 
     @latlng = retrieve_location
-    @models = jasonify @structures, jpo: true
 
     if params[:name].present?
       # Log search terms
@@ -32,9 +31,11 @@ class OpenDoorsController < ApplicationController
       format.json { render json: @structures,
                            root: 'structures',
                            jpo: true,
+                           place_ids: @place_ids,
                            each_serializer: StructureSerializer,
                            meta: { total: @total, location: @latlng }}
       format.html do
+        @models = jasonify @structures, jpo: true, place_ids: @place_ids
         render 'structures/index'
         cookies[:structure_search_path] = request.fullpath
       end

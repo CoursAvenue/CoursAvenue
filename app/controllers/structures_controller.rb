@@ -42,13 +42,12 @@ class StructuresController < ApplicationController
     params[:page] = 1 unless request.xhr?
 
     if params_has_planning_filters?
-      @structures, @total = search_plannings
+      @structures, @places, @total = search_plannings
     else
       @structures, @total = search_structures
     end
 
     @latlng = retrieve_location
-    @models = jasonify @structures
 
     if params[:name].present?
       # Log search terms
@@ -60,10 +59,12 @@ class StructuresController < ApplicationController
       format.json do
         render json: @structures,
                root: 'structures',
+               place_ids: @places,
                each_serializer: StructureSerializer,
                meta: { total: @total, location: @latlng }
       end
       format.html do
+        @models = jasonify @structures, place_ids: @places
         cookies[:structure_search_path] = request.fullpath
       end
     end
