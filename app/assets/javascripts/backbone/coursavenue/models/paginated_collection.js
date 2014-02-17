@@ -85,11 +85,11 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
                 if (_.isArray(value)) {
                     var new_keys = '';
                     _.each(value, function(array_value) {
-                        new_keys += key + '=' + array_value + '&';
+                        new_keys += key + '=' + encodeURIComponent(array_value) + '&';
                     });
                     return memo + new_keys;
                 } else {
-                    return memo + key + '=' + value + '&';
+                    return memo + key + '=' + encodeURIComponent(value) + '&';
                 }
             }, "?").slice(0, -1); // damn trailing character!
         },
@@ -100,9 +100,9 @@ CoursAvenue.module('Models', function(Models, App, Backbone, Marionette, $, _) {
             var data = search.substring(1).split("&"); // assume no values have & in them
 
             return _.reduce(data, function (memo, datum) {
-                var pair = datum.split('='); // assume there are no equal signs in the value
+                var pair  = datum.split('='); // assume there are no equal signs in the value
                 var key   = decodeURIComponent(pair[0]);
-                var value = pair[1];
+                var value = decodeURIComponent(pair[1]);
 
                 // If the key (memo[pair[0]]) already exists AND it has [], then it's an array.
                 // Example: &level_ids[]=1&level_ids[]=2
