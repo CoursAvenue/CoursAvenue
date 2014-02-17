@@ -5,15 +5,45 @@ class Pro::Structures::UserProfilesController < Pro::ProController
 
   layout 'admin'
 
+  # instead of paginating, we will get all the results and
+  # return their ids, as well as the 30 results that correspond
+  # to the given page. This is so that we can intersect
+  # the filtered results with the selected results
   def index
-    search_params = params
-    search_params[:structure_id] = @structure.id
-    @user_profiles_search = UserProfileSearch.search(params)
-    @user_profiles = @user_profiles_search.results
+    # we will paginate ourselves, thank you
+    page                  = (params[:page].to_i > 0)? params[:page].to_i : 1;
+    per_page              = 30
+
+    # set the page info to get EVERYTHING
+    params[:structure_id] = @structure.id
+    params[:per_page]     = @structure.user_profiles.count
+    params[:page]         = 1
+
+    # collect the ids
+    @user_profiles_search  = UserProfileSearch.search(params)
+    @user_profiles         = @user_profiles_search.results
+    @ids                   = @user_profiles.map(&:id) # all the ids
+
+    # get the relevant page of results
+    first          = ( page - 1 ) * per_page
+    last           = first + 30
+    @user_profiles = @user_profiles[first, last]
 
     respond_to do |format|
-      format.json { render json: @user_profiles, root: 'user_profiles', meta: { total: @user_profiles_search.total } }
+      format.json { render json: @user_profiles, root: 'user_profiles', meta: { total: @user_profiles_search.total, busy: @structure.busy, ids: @ids }}
       format.html
+    end
+  end
+
+  def edit
+    @user_profile = UserProfile.find(params[:id])
+
+    respond_to do |format|
+      if request.xhr?
+        format.html {render layout: false}
+      else
+        format.json {render json: @user_profile }
+      end
     end
   end
 
@@ -24,10 +54,14 @@ class Pro::Structures::UserProfilesController < Pro::ProController
   def create
     @user_profile = @structure.user_profiles.build params[:user_profile]
 
+    update_tags
+
     respond_to do |format|
       if @user_profile.save
+        format.json { render json: @user_profile }
         format.html { redirect_to pro_structure_user_profiles_path(@structure) }
       else
+        format.json { render :json => { :errors => @user_profile.errors.full_messages }.to_json, :status => 500 }
         format.html { render :new }
       end
     end
@@ -35,6 +69,16 @@ class Pro::Structures::UserProfilesController < Pro::ProController
 
   def update
     @user_profile = @structure.user_profiles.find params[:id]
+<<<<<<< HEAD
+
+    update_tags
+
+    respond_to do |format|
+      if @user_profile.update_attributes(params[:user_profile])
+        format.json { render :json => @user_profile, status: 200 }
+      else
+        format.json { render :json => { :errors => @user_profile.errors.full_messages }.to_json, :status => 500 }
+=======
     if params[:name] == 'tags'
       saved = @structure.tag(@user_profile, with: params[:value], on: :tags)
     else
@@ -45,7 +89,19 @@ class Pro::Structures::UserProfilesController < Pro::ProController
         format.html { render nothing: true, status: 200 }
       else
         format.html { render nothing: true, status: 500 }
+>>>>>>> staging
       end
+    end
+  end
+
+  def destroy
+    @user_profile = @structure.user_profiles.find params[:id]
+
+    respond_to do |format|
+        if @user_profile.destroy
+
+            format.json { render :json => @user_profile }
+        end
     end
   end
 
@@ -53,5 +109,18 @@ class Pro::Structures::UserProfilesController < Pro::ProController
 
   def load_structure
     @structure = Structure.friendly.find params[:structure_id]
+  end
+
+  def add_tags(tags)
+    @structure.tag(@user_profile, with: tags, on: :tags)
+  end
+
+  def update_tags
+    update_tags = params[:user_profile].has_key? :tags
+
+    if update_tags
+      tags = params[:user_profile].delete(:tags)
+      add_tags(tags)
+    end
   end
 end

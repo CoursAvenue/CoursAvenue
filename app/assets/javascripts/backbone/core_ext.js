@@ -1,7 +1,19 @@
 Backbone.Marionette.Renderer.render = function(template, data){
+    var rendered;
+
+    // if the template is blank, then we just want "render nothing"
     if (template === "") return "";
-    if (!JST[template]) throw "Template '" + template + "' not found!";
-    return JST[template](data);
+
+    // otherwise, if we can't find the template in our JST
+    if (!JST[template]) {
+        if (_.isFunction(template)) { // it may be a compiled HBS function
+            rendered = template(data);
+        } else {
+            throw "Template '" + template + "' not found!";
+        }
+    }
+
+    return rendered || JST[template](data);
 }
 
 var _module = Marionette.Module;

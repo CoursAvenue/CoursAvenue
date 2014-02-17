@@ -1,14 +1,80 @@
-.tag {
+.editable-tag-bar {
+
+    &.active {
+        background-color: white;
+        cursor: text;
+        border        : 1px solid #ccc;
+        padding       : 5px;
+        vertical-align: middle;
+        @include vendor(border-box, box-sizing);
+        @include border-radius(3px);
+        @include box-shadow(inset 0 1px 1px rgba(0,0,0,0.075),0 0 0 #000);
+
+        // TODO this
+        .twitter-typeahead {
+
+        }
+
+        &.blue-glow {
+            border-color: opacify($blue-green, 0.8);
+            outline     : 0;
+            @include box-shadow(0 0 4px opacify($blue-green, 0.8),0 0 0 #000);
+        }
+    }
+
+    .tt-hint {
+        display: none;
+    }
+
+    .tt-suggestion.tt-is-under-cursor:after {
+        background-color: #3AB8AE;
+    }
+
+    .tt-suggestion {
+        @extend .taggy--tag;
+    }
+
+    .tt-dropdown-menu {
+        padding: 10px;
+    }
+
+    input {
+        &.taggy--input:focus, &.taggy--input {
+            border: none;
+            box-shadow: none;
+            outline     : 0;
+        }
+    }
+}
+
+
+.taggies-container {
+    .twitter-typeahead {
+        vertical-align: middle;
+        display       : inline-block;
+
+        // TODO add a &.active here for the toggling in tag_bar
+        // TODO OR experiment with putting the active twitter typeahead style in the above
+    }
+}
+
+.taggy--tag {
+    display         : inline-block;
     border          : 1px solid #CCC;
-    padding         : 0.5em;
+    padding         : 0 0.5em;
+    margin          : 1px;
     background-color: white;
+    position        : relative;
+
     &.tag--small {
         font-size: 0.9em;
         padding  : 0.2em 0.6em;
     }
-    &:before {
-        @extend .fa;
-        @extend .fa-tag;
-        padding-right: 0.3em;
+    i.fa-times {
+        margin-left: 3px;
+        position   : relative;
+        top        : 1px;
     }
+
 }
+

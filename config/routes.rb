@@ -104,6 +104,8 @@ CoursAvenue::Application.routes.draw do
         end
 
         resources :user_profiles, controller: 'structures/user_profiles', path: 'mes-eleves'
+        resources :bulk_user_profile_jobs, controller: 'structures/bulk_user_profile_jobs', path: 'bulk', only: [:create, :index, :new]
+        resources :tags, controller: 'structures/tags', path: 'tags'
         resources :user_profile_imports, only: [:new, :create], controller: 'structures/user_profile_imports', path: 'importer-mes-eleves' do
           member do
             get   :choose_headers

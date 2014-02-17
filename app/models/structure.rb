@@ -55,8 +55,9 @@ class Structure < ActiveRecord::Base
   store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
                              :plannings_count, :has_promotion, :has_free_trial_course, :course_names, :open_course_names, :open_course_subjects,
                              :last_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
-                             :level_ids, :audience_ids,
+                             :level_ids, :audience_ids, :busy,
                              :open_courses_open_places, :open_course_nb
+
 
 
   has_attached_file :logo,
@@ -524,9 +525,16 @@ class Structure < ActiveRecord::Base
     end
   end
 
+<<<<<<< HEAD
   # Tells if the structure is based in Paris and around
   #
   # @return Boolean
+=======
+  def delay_subscribe_to_nutshell
+    self.delay.subscribe_to_nutshell if Rails.env.production?
+  end
+
+>>>>>>> crm
   def parisian?
     is_parisian = self.zip_code.starts_with? '75','77','78','91','92','93','94','95'
     return true if is_parisian
@@ -542,6 +550,39 @@ class Structure < ActiveRecord::Base
       return true if course.plannings.any?
     end
     return false
+  end
+
+  # TODO this method doesn't actually work:
+  # according to the rspec tests, the resulting
+  # change to the user_profile leaves it with
+  # ( tags.length + profile.tags.length * 2 ) tags
+  # However, in practice it is returning the right
+  # thing to the client.
+  # TODO I think the problem is here: the tags are
+  # being added in such a way that they do not show
+  # up in a search
+  def add_tags_on(user_profile, tags)
+    tags = tags.split(',') if tags.is_a? String
+
+    tag_list = user_profile.tags.map(&:name)
+    tag_list = tag_list + tags
+    self.tag(user_profile, with: tag_list.uniq.join(','), on: :tags)
+  end
+
+  def create_tag tag_name
+    tag     = self.owned_tags.build name: tag_name
+    tag.save
+    tagging = self.owned_taggings.build
+    tagging.context = 'tags'
+    tagging.tag     =  tag
+    return tagging.save
+  end
+
+  def create_user_profile_for_message(user)
+    user_profile = self.user_profiles.where(email: user.email).first_or_create
+    user_profile.first_name = user.first_name if user_profile.first_name.nil?
+    user_profile.last_name  = user.last_name  if user_profile.last_name.nil?
+    self.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:contacts])
   end
 
   private

@@ -1,5 +1,5 @@
 class Comment < ActiveRecord::Base
-  MIN_LENGTH = 20
+  MIN_LENGTH  = 20
 
   acts_as_paranoid
   attr_accessible :commentable, :commentable_id, :commentable_type, :content, :author_name, :email, :rating,
@@ -32,6 +32,8 @@ class Comment < ActiveRecord::Base
   after_create     :affect_structure_to_user
   after_create     :create_passions_for_associated_user
   after_create     :complete_comment_notification
+  after_create     :create_or_update_user_profile
+
   after_destroy    :update_comments_count
 
   scope :ordered,              -> { order('created_at DESC') }
@@ -215,4 +217,16 @@ class Comment < ActiveRecord::Base
     self.title = string_title.strip
   end
 
+  def create_or_update_user_profile
+    _email = self.email
+    user_profile = self.structure.user_profiles.where(email: _email).first
+    if user_profile.nil?
+      user_profile            = self.structure.user_profiles.build
+      user_profile.email      = self.email
+    end
+    user_profile.first_name = self.author_name.split(' ')[0..-2].join(' ') if user_profile.first_name.blank? # All except the last
+    user_profile.last_name  = self.author_name.split(' ').last if  user_profile.last_name.blank? and self.author_name.split(' ').length > 1
+    user_profile.save
+    self.structure.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:comments])
+  end
 end
