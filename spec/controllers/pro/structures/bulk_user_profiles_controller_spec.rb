@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe Pro::Structures::BulkUserProfilesController do
+describe Pro::Structures::BulkUserProfileJobsController do
   let(:admin) { FactoryGirl.create(:admin) }
 
   before do

@@ -525,16 +525,9 @@ class Structure < ActiveRecord::Base
     end
   end
 
-<<<<<<< HEAD
   # Tells if the structure is based in Paris and around
   #
   # @return Boolean
-=======
-  def delay_subscribe_to_nutshell
-    self.delay.subscribe_to_nutshell if Rails.env.production?
-  end
-
->>>>>>> crm
   def parisian?
     is_parisian = self.zip_code.starts_with? '75','77','78','91','92','93','94','95'
     return true if is_parisian
