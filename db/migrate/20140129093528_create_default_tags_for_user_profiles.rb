@@ -11,8 +11,8 @@ class CreateDefaultTagsForUserProfiles < ActiveRecord::Migration
             user_profile_email        = user_profile.email
             user_profile_name         = user_profile.first_name
             if user_profile_name.present?
-              user_profile.first_name = user_profile_name.split(' ')[0..author_name.split(' ').length - 2].join(' ') if user_profile.first_name.blank? # All except the last
-              user_profile.last_name  = user_profile_name.split(' ').last                                            if user_profile.last_name.blank? and self.author_name.split(' ').length > 1
+              user_profile.first_name = user_profile_name.split(' ')[0..user_profile_name.split(' ').length - 2].join(' ') # All except the last
+              user_profile.last_name  = user_profile_name.split(' ').last                                                  if user_profile.last_name.blank? and user_profile_name.split(' ').length > 1
               user_profile.save
             end
             if structure.comments.where{email == user_profile_email}.any?
