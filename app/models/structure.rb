@@ -8,13 +8,6 @@ class Structure < ActiveRecord::Base
   include ActsAsGeolocalizable
 
   extend FriendlyId
-  friendly_id :slug_candidates, use: [:slugged, :finders]
-
-  geocoded_by :geocoder_address
-  after_create :geocode
-
-  after_save :delay_subscribe_to_nutshell
-  after_save :delay_subscribe_to_mailchimp
 
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',
@@ -31,9 +24,11 @@ class Structure < ActiveRecord::Base
                              'structures.modification_conditions.moderate',
                              'structures.modification_conditions.strict']
 
-  STICKER_STATUS          = []
-
   WIDGET_STATUS           = ['installed', 'remind_me', 'dont_want', 'need_help']
+
+  friendly_id :slug_candidates, use: [:slugged, :finders]
+
+  geocoded_by :geocoder_address
 
   attr_reader :delete_logo
   attr_accessible :structure_type, :street, :zip_code, :city_id,
@@ -58,9 +53,10 @@ class Structure < ActiveRecord::Base
 
   # To store hashes into hstore
   store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
-                             :plannings_count, :has_promotion, :has_free_trial_course, :course_names,
+                             :plannings_count, :has_promotion, :has_free_trial_course, :course_names, :open_course_names, :open_course_subjects,
                              :last_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
-                             :level_ids, :audience_ids
+                             :level_ids, :audience_ids,
+                             :open_courses_open_places, :open_course_nb
 
 
   has_attached_file :logo,
@@ -75,6 +71,9 @@ class Structure < ActiveRecord::Base
                         processors: [:cropper]
                         }
                       }
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
   belongs_to :city
   belongs_to :pricing_plan
 
@@ -103,34 +102,40 @@ class Structure < ActiveRecord::Base
 
   has_many :admins
 
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :name               , :presence   => true
   validates :street             , :presence   => true, on: :create
   validates :zip_code           , :presence   => true, numericality: { only_integer: true }, on: :create
   validates :city               , :presence   => true, on: :create
   validate :subject_parent_and_children
 
-  # -------------------- Callbacks
-  before_create    :set_active_to_true
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  before_create :set_active_to_true
 
-  after_create     :set_free_pricing_plan
-  # after_create     :create_place
-  after_save       :update_email_status
-  after_touch      :update_email_status
+  after_create  :set_free_pricing_plan
+  after_create  :geocode
 
-  before_save      :fix_website_url
-  before_save      :fix_facebook_url
-  before_save      :fix_widget_url
-  before_save      :encode_uris
-  before_save      :reset_cropping_attributes, if: :logo_has_changed?
+  after_touch   :update_email_status
 
-  # ------------------------------------
-  # ------------------ Search attributes
-  # ------------------------------------
+  before_save   :fix_website_url
+  before_save   :fix_facebook_url
+  before_save   :fix_widget_url
+  before_save   :encode_uris
+  before_save   :reset_cropping_attributes, if: :logo_has_changed?
+
+  after_save    :update_email_status
+  after_save    :delay_subscribe_to_nutshell
+  after_save    :delay_subscribe_to_mailchimp
+
+  ######################################################################
+  # Solr                                                               #
+  ######################################################################
   searchable do
-
     text :name, boost: 5
-
-    # text :description
 
     text :course_names do
       courses.map(&:name)
@@ -145,8 +150,6 @@ class Structure < ActiveRecord::Base
       end
       subject_array.uniq.map(&:name)
     end
-
-    # string :street
 
     latlon :location, multiple: true do
       locations.map do |location|
@@ -230,11 +233,15 @@ class Structure < ActiveRecord::Base
     read_attribute(:funding_type_ids).split(',').map(&:to_i) if read_attribute(:funding_type_ids)
   end
 
-  # ---------------------------------------------
-  # Reminder
-  # ---------------------------------------------
+  ######################################################################
+  # Email reminder                                                     #
+  ######################################################################
 
-  # Send reminder every week depending on the email status of the structure
+  # Sends reminder depending on the email status of the structure
+  # This method is called every week through admin_reminder rake task
+  # (Executed on Heroky by the scheduler)
+  #
+  # @return nil
   def send_reminder
     if self.main_contact.present? and self.email_status and self.main_contact.monday_email_opt_in?
       if self.update_email_status.present?
@@ -245,6 +252,10 @@ class Structure < ActiveRecord::Base
     end
   end
 
+
+  # Sends an email if there are pending comments
+  #
+  # @return [type] [description]
   def remind_for_pending_comments
     AdminMailer.delay.remind_for_pending_comments(self)
   end
@@ -287,9 +298,13 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Params:
-  #   bbox_sw: [latitude, longitude]
-  #   bbox_ne: [latitude, longitude]
+
+  #
+  #
+  # @param  bbox_sw Array [latitude, longitude]
+  # @param  bbox_ne Array [latitude, longitude]
+  #
+  # @return Locations
   def locations_in_bounding_box(bbox_sw, bbox_ne)
     locations.reject do |location|
       # ensure that the location really is completely inside the box
@@ -480,10 +495,14 @@ class Structure < ActiveRecord::Base
     self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?
     self.has_free_trial_course    = self.prices.trials.where{(amount == nil) | (amount == 0)}.any?
     self.course_names             = self.courses.map(&:name).uniq.join(', ')
+    self.open_course_nb           = self.courses.open_courses.count
+    self.open_course_names        = self.courses.open_courses.map(&:name).uniq.join(', ')
+    self.open_course_subjects     = self.courses.open_courses.map(&:subjects).flatten.map(&:name).uniq.join(', ')
     self.last_comment_title       = self.comments.accepted.first.title if self.comments.accepted.any?
     # Store level and audiences ids as coma separated string values: "1,3,5"
     self.level_ids                = self.plannings.collect(&:level_ids).flatten.sort.uniq.join(',')
     self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
+    self.open_courses_open_places = self.courses.open_courses.map(&:plannings).flatten.map(&:places_left).reduce(&:+)
     self.set_min_and_max_price
     self.save(validate: false)
   end
@@ -505,12 +524,19 @@ class Structure < ActiveRecord::Base
     end
   end
 
+  # Tells if the structure is based in Paris and around
+  #
+  # @return Boolean
   def parisian?
     is_parisian = self.zip_code.starts_with? '75','77','78','91','92','93','94','95'
     return true if is_parisian
     return self.places.map(&:parisian?).include? true
   end
 
+
+  # Tells if the structure has open courses plannings
+  #
+  # @return Boolean
   def has_open_course_plannings?
     self.courses.open_courses.each do |course|
       return true if course.plannings.any?

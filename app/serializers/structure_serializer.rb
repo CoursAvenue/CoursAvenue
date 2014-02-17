@@ -12,7 +12,7 @@ class StructureSerializer < ActiveModel::Serializer
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
              :audience, :funding_types, :gives_group_courses, :gives_individual_courses, :structure_type,
-             :has_promotion, :tag_names, :last_comment_title
+             :has_promotion, :tag_names, :last_comment_title, :open_courses_open_places, :open_course_names, :open_course_nb
 
   has_many :places
   has_many :comments, serializer: ShortSerializer
@@ -31,6 +31,15 @@ class StructureSerializer < ActiveModel::Serializer
 
   def comments
     object.comments.accepted.limit(5)
+  end
+
+  def places
+    if @options[:place_ids].present?
+      place_ids = @options[:place_ids]
+      object.places.where{ id.in place_ids }
+    else
+      object.places
+    end
   end
 
   # TODO Use MediaSerializer
@@ -116,26 +125,35 @@ class StructureSerializer < ActiveModel::Serializer
 
   def data_url
     if Rails.env.production?
-      structure_url(object, subdomain: 'www', host: 'coursavenue.com')
+      host = 'coursavenue.com'
     elsif Rails.env.development?
-      structure_url(object, subdomain: 'www', host: 'coursavenue.dev')
+      host = 'coursavenue.dev'
     elsif Rails.env.staging?
-      structure_url(object, subdomain: 'www', host: 'staging.coursavenue.com')
+      host = 'staging.coursavenue.com'
+    end
+    if @options[:jpo]
+      jpo_structure_url(object, subdomain: 'www', host: host, only_path: host.nil?)
+    else
+      structure_url(object, subdomain: 'www', host: host, only_path: host.nil?)
     end
   end
 
   def tag_names
-    tags = []
-    tags << object.parent_subjects_string.split(';').collect do |subject_string|
-      subject_string.split(':')[0]
-    end
-    tags << object.subjects_string.split(';').collect do |subject_string|
-      subject_string.split(':')[0]
-    end
-    if object.course_names.present?
-      "#{tags.flatten.uniq.join(', ')}, #{object.course_names}"
+    if @options[:jpo]
+      object.open_course_subjects
     else
-      tags.flatten.uniq.join(', ')
+      tags = []
+      tags << object.parent_subjects_string.split(';').collect do |subject_string|
+        subject_string.split(':')[0]
+      end
+      tags << object.subjects_string.split(';').collect do |subject_string|
+        subject_string.split(':')[0]
+      end
+      if object.course_names.present?
+        "#{tags.flatten.uniq.join(', ')}, #{object.course_names}"
+      else
+        tags.flatten.uniq.join(', ')
+      end
     end
   end
 end

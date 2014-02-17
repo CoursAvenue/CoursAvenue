@@ -3,9 +3,14 @@
   - session['after_inactive_sign_up_path'] = structure_path(@structure, waiting_for_activation: true)
 .blue-box.islet.push-half--bottom#show-structure-contact-wrapper
   .delta.push-half--bottom.text--center{style: 'margin-top: 3px;'}
-    Contactez pour réserver ou
-    %br
-    pour avoir plus d'infos
+    - if action_name == 'jpo'
+      Contactez pour avoir plus
+      %br
+      d'informations
+    - else
+      Contactez pour réserver ou
+      %br
+      pour avoir plus d'infos
   - if current_user
     = link_to 'Contacter', 'javascript:void(0)', class: 'btn btn--green btn--large btn--full', id: 'show-structure-contact'
   - else
@@ -30,7 +35,11 @@
       -# If this is filled, the message won't be sent
       .visuallyhidden
         %input{name: 'content', type: 'text'}
-      = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt", data: { behavior: 'autoresize' }}
+      - if action_name == 'jpo'
+        - prefilled_body = "Bonjour,\n\nAvant de m'inscrire à vos Journées Portes Ouvertes, je souhaiterais avoir un peu plus d'informations au sujet de l'événement.\n\nMerci et à très bientôt"
+      - else
+        - prefilled_body = "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
+      = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: prefilled_body, data: { behavior: 'autoresize' }}
       = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
 
     .grid--full

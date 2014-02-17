@@ -23,7 +23,7 @@
               handler.bounds.extendWith(markers);
               handler.fitMapToBounds();
               var center = handler.getMap().getCenter();
-              var latLng = new google.maps.LatLng(center.lat() + 0.05, center.lng() + 0.2);
+              var latLng = new google.maps.LatLng(center.lat() + 0.04, center.lng() + 0.15);
               handler.getMap().panTo(latLng);
           });
           // For registration
@@ -38,13 +38,11 @@
             }
             return true;
           });
-
           $('#show_new_session_form').click(function(){
             $('#other_form').removeClass('hidden');
             $('#form').addClass('hidden');
             $('#facebook_button').text("Se connecter avec Facebook");
           });
-
           $('#show_new_registration_form').click(function(){
             $('#form').removeClass('hidden');
             $('#other_form').addClass('hidden');

@@ -436,7 +436,7 @@ DEPENDENCIES
   brakeman (~> 2.3.1)
   bugsnag
   bust_rails_etags
-  cancan (~> 1.6.9)
+  cancan (~> 1.6.10)
   certified (~> 0.1.1)
   coffee-rails (~> 4.0.0)
   compass (~> 0.12.2)

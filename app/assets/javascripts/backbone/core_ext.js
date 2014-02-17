@@ -130,10 +130,26 @@ _.extend(Marionette.View.prototype, {
 _.extend(_, {
     capitalize: function (word) {
         return word.charAt(0).toUpperCase() + word.slice(1);
+    },
+
+    camelize: function (word) {
+        return word.replace (/(?:^|[-_])(\w)/g, function (_, c) {
+            return c ? c.toUpperCase () : '';
+        });
     }
 });
 
+/* when building an Application, the NullApplication will be
+ * returned if the given app root was not detected */
+Marionette.NullApplication = Marionette.Application.extend({
+    module: function (moduleNames, moduleDefinition) { /* NOP */ },
+    addRegions: function (options) { /* NOP */ },
+    addInitializer: function (initializer) { /* NOP */ },
+    start: function () { /* NOP */ },
+});
+
 _.extend(Marionette.Application.prototype, {
+
     /* for use in query strings */
     root:   function() {
         if (this.root === undefined) {
@@ -173,5 +189,120 @@ _.extend(Marionette.Application.prototype, {
     /* Return the element in which the application will be appended */
     $loader: function() {
         return $('[data-type=' + this.loader() + ']');
-    }
+    },
+
+    /* changes the app's slug and ensures that all modules reference
+     * this app, instead of another app */
+    rebrand: function (slug, resource) {
+        // if the slug does not exist, then we won't rebrand
+        if (!$("[data-type=" + slug + "-root]").length > 0) {
+            return new Marionette.NullApplication();
+        }
+
+        var new_app = jQuery.extend(true, {}, this);
+
+        new_app._initRegionManager();
+        new_app._initCallbacks = new Marionette.Callbacks();
+
+        // the two lines above seem to be enough to reset the
+        // application. However, the next three lines might
+        // become necessary later. Who knows!
+        //
+        // new_app.vent = new Backbone.Wreqr.EventAggregator();
+        // new_app.commands = new Backbone.Wreqr.Commands();
+        // new_app.reqres = new Backbone.Wreqr.RequestResponse();
+
+        new_app.slug     = slug;
+        new_app.resource = resource;
+
+        // We may need to loop through all regions
+        delete new_app.mainRegion;
+
+        /* walk breadth first through the submodules tree, ensuring that their
+         * back-references are all pointing to the new app */
+        var modules = _.values(new_app.submodules);
+        var i;
+
+        for (i = 0; i < modules.length; i += 1) {
+            var module = modules[i];
+            module.app = new_app;
+
+            // gather all the submodules
+            _.each(_.values(module.submodules), function (submodule) {
+                modules.push(submodule);
+            });
+        }
+
+        /* for every template we have that matches an existing template
+         * find the corresponding view and extend it in place, to use
+         * our template rather than theirs */
+
+        var template_dirname = new_app.Views.templateDirname();
+
+        // find all JST templates that contain our dirname
+        var templates = _.reduce(_.keys(JST), function (memo, key) {
+            var key_parts = key.split(template_dirname);
+
+            // 'backbone/open_doors/templates/template_name'.split('backbone/open_doors/templates/')
+            // returns ['', 'template_name']
+            if (key_parts.length > 1) {
+                memo.push(_.last(key_parts));
+            }
+
+            return memo;
+        }, []);
+
+        // for each of the matching templates,
+        // extend the corresponding view in place
+        _.each(templates, function (template) {
+            var module_path  = _.map(template.split('/'), _.camelize);
+            var view_name    = module_path.pop();
+            var parent_views = [];
+
+            var module = _.reduce(module_path, function (module, submodule) {
+                module = module[submodule];
+
+                // Looking for SomethingCollectionView to be able to override a
+                // template without reimplementing its view.js
+                var views = _.filter(_.keys(module), function (key) {
+                    // if it is a SomethingView
+                    if (key.match(/^[A-Z].*View$/)) {
+
+                        var view = module[key];
+
+                        // and it is a collection (ie has an itemview)
+                        if (view.prototype.itemView) {
+                            var itemview_template = view.prototype.itemView.prototype.template;
+
+                            // and the itemview's template matches our template
+                            if (itemview_template.match(template)) {
+                                parent_views.push({ module: module, key: key }); // make a note
+                            }
+                        }
+                    }
+
+                    return;
+                });
+
+                return module;
+            }, new_app.Views);
+
+            // extend the view in place with our dirname
+            module[view_name] = module[view_name].extend({
+                template: template_dirname + template
+            });
+
+            _.each(parent_views, function (pair) {
+                var parent_module = pair.module;
+                var key           = pair.key;
+
+                parent_module[key] = parent_module[key].extend({
+                    itemView: module[view_name]
+                });
+            });
+        });
+
+        return new_app;
+    },
+
 });

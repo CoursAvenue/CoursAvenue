@@ -8,6 +8,7 @@ class UserAbility
       can :manage, current_user.comment_notifications
       can :manage, current_user.passions
       can :manage, current_user.comments
+      can :manage, current_user.invited_users
     end
     # Define abilities for the passed in user here. For example:
     #

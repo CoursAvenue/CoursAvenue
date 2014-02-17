@@ -1,8 +1,11 @@
 class CourseSerializer < ActiveModel::Serializer
   include CoursesHelper
   include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::NumberHelper
 
-  attributes :id, :name, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects, :has_free_trial_lesson
+  attributes :id, :name, :description, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
+             :has_free_trial_lesson, :event_type
+
   has_many :plannings
 
   def plannings
@@ -22,7 +25,7 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def min_price_amount
-    object.best_price.amount.to_i if object.best_price
+    number_to_currency(object.best_price.try(:amount)) if object.best_price
   end
 
   def min_price_libelle
@@ -30,7 +33,7 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def type
-    plain_type_name(object)
+    object.type_name
   end
 
   def start_date
@@ -42,10 +45,18 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def data_url
-    structure_course_path(object.structure, object)
+    structure_course_path((@options[:structure] || object.structure), object)
   end
 
   def subjects
-    truncate(object.subjects.map(&:name).join(', '), length: 70)
+    object.subjects.map(&:name).join(', ')
+  end
+
+  def event_type
+    if object.other_event_type?
+      object.event_type_description
+    else
+      object.event_type
+    end
   end
 end

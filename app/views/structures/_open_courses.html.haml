@@ -1,8 +1,8 @@
 .blue-box.blue-box--noshadow.soft-half.text--center
-  %h4 Journées portes ouverte 2014 — Week-end du 6 et 7 avril
+  %h4.push-half--bottom Journées portes ouverte 2014 — Week-end du 6 et 7 avril
   .delta Participez à un atelier gratuit
 
-- structure.courses.open_courses.each do |course|
+- structure.courses.open_courses.order('created_at ASC').each do |course|
   - if course.plannings.any?
     .white-box.white-box--noshadow.islet
       %strong= course.name
@@ -10,8 +10,14 @@
         = "(#{course.event_type_description})"
       - else
         = "(#{course.event_type})"
-        \—
-        Participants max : #{course.nb_participants_max}
+      .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
+        %i.lbc-icon-info
+          i
+        Infos pratiques
+      %p.flush= course.description
+      %p.gray.milli
+        %i.fa.fa-tags
+        = course.subjects.map(&:name).join(', ')
       - if course.plannings.any?
         %table.table--data.table--striped
           %thead
@@ -19,35 +25,37 @@
               %th Date / Horaire
               %th Public
               %th Niveau
-              %th Lieux
-              %th Places restantes
+              %th Lieu
+              %th.nowrap Places restantes
               %th Prix
               %th.text--right Inscription
           %tbody
             - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
               %tr
                 %td
-                  = l(planning.start_date, format: :semi_long).capitalize
-                  = "de #{l(planning.start_time, format: :short)} à #{l(planning.end_time, format: :short)} (#{readable_duration(planning.duration)})"
+                  = planning_date_for(planning)
+                  = planning_time_for(planning)
                 %td= join_audiences planning
                 %td= join_levels planning.levels
                 %td
-                  .pointer{ title: planning.place.location.address, data: { behavior: 'tooltip' }}
+                  = link_to "http://maps.google.com/?q=#{planning.place.location.address}", target: :_blank, class: 'pointer semi-muted-link', title: planning.place.location.address, data: { behavior: 'tooltip' } do
                     = planning.place.location.name
-                %td
-                  - if planning.nb_participants_max - planning.possible_participations.length > 0
-                    - participations_left = planning.nb_participants_max - planning.possible_participations.length
-                  - else
+                %td.text--center
+                  = "#{planning.places_left} / #{course.nb_participants_max}"
+                  - if planning.places_left == 0
+                    %br
                     = "#{pluralize(planning.waiting_list.length, 'personne')} sur la liste d'attente"
                 %td
                   - if course.price
-                    = "#{readable_amount(course.price)}€"
+                    Participation libre
+                    %br
+                    %span.nowrap (montant attendu : #{readable_amount(course.price)}€)
                   - else
                     Gratuit
                 %td.text--right
                   - if current_user and current_user.participate_to?(planning)
                     Déjà inscrit
                   - elsif current_user
-                    = link_to 'Participer', planning_participations_path(planning), class: 'btn btn--small btn--green', method: :post
+                    = link_to "M'inscrire", planning_participations_path(planning), class: 'btn btn--small btn--green', method: :post
                   - else
-                    = link_to 'Participer', new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Contact form button'])"
+                    = link_to "M'inscrire", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Contact form button'])"

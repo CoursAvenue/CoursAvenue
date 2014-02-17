@@ -10,7 +10,7 @@ FactoryGirl.define do
 
     # email    Faker::Internet.email
     sequence :email do |n|
-      "person#{n}@example.com"
+      "person#{rand.to_s.gsub('.', '')}@example.com"
     end
 
     password                'password'

@@ -1,42 +1,48 @@
+- content_for :logo do
+  = image_tag 'emails_logo/oreille.jpg', style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+
 - content_for :promo do
-  %h4 Votre profil public comporte moins de 5 recommandations d'élèves.
+  %h4 Développez votre bouche à oreille sur Internet en quelques clics.
 
 %p
-  Bonjour #{@structure.name},
-
-%p
-  %strong Demandez à plus d'élèves de vous recommander,
-  ou relancez-les pour qu'ils témoignent de leur expérience :
+  Saviez-vous que vous pouvez inviter vos élèves à vous recommander en quelques clics seulement ? Connectez-vous à votre profil, puis cliquez sur le bouton bleu "Obtenir des avis" et utilisez notre outil d'envoi simplifié pour un meilleur résultat :
 
 %p.action
   = link_to "Obtenir des recommandations", recommendations_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
 
-%p
-  Au-delà de 5 recommandations, nous vous offrons la possibilité d'afficher publiquement votre livre d'or avec tous les avis de vos élèves sur votre propre site Internet ou blog, ou tout autre outil de communication (flyers, cartes de visite, affiches, signature de vos emails, etc). Nos partenaires qui affichent publiquement les témoignages de leurs élèves sont ceux qui ont le plus fort taux d'inscription et de fidélisation.
-
-%p
-  N'hésitez pas à nous solliciter si vous avez des questions ! Merci et à très bientôt,
-%p
-  L'équipe de CoursAvenue
+%p.blue.blue-tip
+  %i Trucs & astuces : au-delà de 5 recommandations, nous vous offrons votre livre d'Or à afficher sur votre propre site Internet.
+  = link_to '[En savoir plus.]', pro_pages_widget_url(subdomain: 'pro')
 
 - content_for :under_content do
-  = render 'footer_info'
-  - if @structures.length == 3
-    %table.table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600', style: 'border-top: 1px solid: #CCC;'}
-      %tr{valign: 'top'}
-        %td.cell.content-block.push--bottom{width: '600', colspan: 3}
-          %b Profils similaires autour de vous
-      %tr{valign: 'top'}
-        - @structures.each do |structure|
-          %td.cell.content-block.push--bottom{width: '200'}
-            %p.text--center
-              = link_to structure_url(structure, subdomain: 'www'), class: 'push-half--bottom' do
-                = image_tag structure.logo.url(:thumb), width: 100, style: 'width: 100px;'
-              %br
-              %b= link_to structure.name, structure_url(structure, subdomain: 'www'), class: 'push-half--bottom'
-              %br
-              = "#{structure.comments_count} avis"
+  %table.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
+    %tr{valign: 'top'}
+      %td.cell.content-block{width: '300'}
+        %table.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '300'}
+          %tr{valign: 'top'}
+            %td.soft-half--top.text--center{width: '300'}
+              = image_tag 'emails_logo/x7.png', alt: 'CoursAvenue', height: '80', width: '80', style: '-ms-interpolation-mode:bicubic;'
+          %tr{valign: 'top'}
+            %td.cell.content-block.push--bottom{width: '300', style: 'padding-right: 0; padding-left: 0;'}
+              %p.text--center.soft-half--top
+                Les profils affichant plus de 5 recommandations ont 7 fois plus de visites.
 
+      %td.cell.content-block{width: '300'}
+        %table.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '300'}
+          %tr{valign: 'top'}
+            %td.soft-half--top.text--center{width: '300'}
+              = image_tag 'emails_logo/eye.png', alt: 'CoursAvenue', height: '80', width: '80', style: '-ms-interpolation-mode:bicubic;'
+          %tr{valign: 'top'}
+            %td.cell.content-block.push--bottom{width: '300', style: 'padding-right: 0; padding-left: 0;'}
+              %p.text--center.soft-half--top
+                Depuis votre profil, vous gardez un droit de contrôle sur tous vos avis.
+
+
+- content_for :under_content_2 do
+  = render 'admin_mailer/recommandations_advantages'
+
+-# - content_for :under_content_3 do
+-#   = render 'admin_mailer/white_book'
 
 - content_for :footer do
   %p= link_to 'Gérer mes préférences e-mails', notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro')

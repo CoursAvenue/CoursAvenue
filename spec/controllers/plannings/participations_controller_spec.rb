@@ -20,12 +20,11 @@ describe Plannings::ParticipationsController do
   end
 
   describe :destroy do
-    it 'destroy the participation' do
+    it 'cancel the participation' do
       participation = planning.participations.create(user: user)
       delete :destroy, planning_id: planning.id, id: participation.id
       response.should be_redirect
-      assigns(:participation).should be_deleted
-      assigns(:planning).participations.count.should eq 0
+      assigns(:participation).canceled?.should be_true
     end
   end
 

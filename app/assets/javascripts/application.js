@@ -40,6 +40,7 @@
 //= require libs/jquery.lazyload
 //= require libs/moment
 //= require libs/responsiveslides
+//= require libs/add_this_event
 
 //= require libs/fancybox/jquery.fancybox
 //= require underscore

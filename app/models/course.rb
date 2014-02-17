@@ -421,6 +421,10 @@ class Course < ActiveRecord::Base
     self.update_column(:teaches_at_home, self.structure.teaches_at_home) if self.structure
   end
 
+  def other_event_type?
+    false
+  end
+
   private
 
   def set_teaches_at_home
