@@ -1,6 +1,13 @@
 class UpdateAndReindexOpenDoorsPlannings < ActiveRecord::Migration
-  def change
-    Course::Open.all.map(&:plannings).flatten.map(&:index)
-    Course::Open.all.map(&:structure).map{ |course| course.send(:update_meta_datas) }
+  def up
+    bar = ProgressBar.new Course::Open.count
+    Course::Open.find_each do |course|
+      bar.increment!
+      course.plannings.map(&:index)
+      course.structure.send(:update_meta_datas)
+    end
+  end
+
+  def down
   end
 end

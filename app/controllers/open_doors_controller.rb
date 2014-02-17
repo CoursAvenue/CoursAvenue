@@ -15,6 +15,7 @@ class OpenDoorsController < ApplicationController
     params[:end_date]     = Date.parse('2014/04/06')
     params[:course_types] = ["open_course"]
     params[:page]         = 1 unless request.xhr?
+    params[:order_by]     = :open_courses_open_places
 
     # Directly search plannings because it is by default filtered by dates
     @structures, @place_ids, @total = search_plannings

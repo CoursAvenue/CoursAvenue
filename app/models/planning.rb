@@ -247,6 +247,10 @@ class Planning < ActiveRecord::Base
     latlon :location, multiple: true do
       Sunspot::Util::Coordinates.new(place.location.latitude, place.location.longitude) if place
     end
+
+    integer :open_courses_open_places do
+      self.structure.open_courses_open_places
+    end
   end
 
   # ---------------------------- Simulating Audience and Levels

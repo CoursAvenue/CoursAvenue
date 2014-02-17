@@ -88,6 +88,7 @@ class PlanningSearch
 
 
       order_by :has_logo, :desc
+      order_by params[:order_by], :desc if params[:order_by].present?
       if params[:sort] == 'rating_desc'
         order_by :nb_comments, :desc
       elsif params[:sort] == 'relevancy'
