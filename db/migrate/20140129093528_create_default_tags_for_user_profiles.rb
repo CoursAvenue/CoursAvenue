@@ -6,7 +6,7 @@ class CreateDefaultTagsForUserProfiles < ActiveRecord::Migration
       structure_group.each do |structure|
         bar.increment!
         next unless structure.main_contact
-        structure.find_in_batches batch_size: 250 do |user_profile_group|
+        structure.user_profiles.find_in_batches batch_size: 250 do |user_profile_group|
           user_profile_group.each do |user_profile|
             user_profile_email        = user_profile.email
             user_profile_name         = user_profile.first_name
