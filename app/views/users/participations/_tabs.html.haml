@@ -2,13 +2,13 @@
   %li{class: current == 'jpo' ? 'active' : ''}
     = link_to user_participations_path(current_user) do
       %i.fa.fa-list
-      Journées Portes Ouvertes
+      Mes ateliers
   %li{class: current == 'invite-jpo' ? 'active' : ''}
     = link_to jpo_new_user_invited_users_path(current_user) do
-      %i.fa.fa-share
-      Invitations
+      %i.fa.fa-gift
+      Mes invitations
   - if current_user.invited_users.any?
     %li{class: current == 'invite-jpo-list' ? 'active' : ''}
       = link_to jpo_user_invited_users_path(current_user) do
         %i.fa.fa-list
-        Suivi des invitations
+        Invitations envoyées

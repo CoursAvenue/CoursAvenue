@@ -1,4 +1,7 @@
-%h1.text--center.push--top Invitez tous vos proches à découvrir vos plus grandes passions en leur offrant un cours gratuit
+- if action_name == 'jpo_new'
+  %h3.text--center.push--top Invitez vos proches à participer avec vous aux Journées Portes Ouvertes
+- else
+  %h1.text--center.push--top Invitez vos proches à découvrir gratuitement vos plus grandes passions
 
 - if @structure
   .white-box.grid--full.push--bottom
@@ -7,13 +10,16 @@
         = image_tag @structure.logo.url(:thumb), class: 'one-whole block'
     .grid__item.ten-twelfths.v-middle>
       %h4.flush.islet
-        #{@structure.name} vous offre l'opportunité unique d'inviter tous vos proches à participer à leurs Journées Portes Ouvertes du week-end du 5-6 avril 2014.
+        #{@structure.name} vous offre l'opportunité unique d'inviter vos proches à participer à leurs Journées Portes Ouvertes du week-end du 5-6 avril 2014.
 
 
-.alert--info
+.alert--info.one-whole
   %ul.flush--bottom
-    %li Vous souhaitez partager vos passions avec votre entourage ? Profitez des Journées Portes Ouvertes de votre professeur, association ou école et invitez amis, familles et collègues à s'inscrire aux ateliers gratuits proposés.
-    %li C'est simple et rapide : envoyez votre invitation depuis notre outil que vous trouverez ci-dessous.
+    - if action_name == 'jpo_new'
+      %li Ne participez pas à cet atelier tout(e) seul(e) ! Invitez autant de personnes de votre entourage que vous le souhaitez.
+    - else
+      %li Vous souhaitez partager vos passions avec votre entourage ? Profitez des Journées Portes Ouvertes de votre professeur, association ou école et invitez amis, familles et collègues à s'inscrire aux ateliers gratuits proposés.
+    %li C'est simple et rapide : envoyez votre invitation depuis notre outil que vous trouvez ci-dessous.
 
 
 .white-box.soft
@@ -38,7 +44,10 @@
           - else
             Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, CoursAvenue ouvre ses portes à travers des ateliers gratuits. En tant que fidèle élève, je te transmets cette invitation, c'est une belle occasion de découvrir cette discipline qui est une véritable passion pour moi.&#x000A;&#x000A;Pour t'inscrire, c'est simple et 100% gratuit :
         %p.gray-light.flush
-          Participer aux Journées Portes Ouvertes
+          - if @structure
+            = link_to 'Lien que recevront mes proches', jpo_structure_url(@structure)
+          - else
+            = link_to 'Lien que recevront mes proches', root_url
           %br
           À très bientôt,
         - if !current_user

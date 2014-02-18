@@ -4,72 +4,82 @@
 
 %h2 Mes inscriptions pour les Journées Portes Ouvertes
 
-- @participations.each do |participation|
-  - if participation.waiting_list?
-    -azd?
-    %h4 Vous êtes sur liste d'attente, vous serez prévenu par e-mail en cas de désistement.
-  - course = participation.course
-  .white-box.islet
-    .flexbox
-      .flexbox__item.two-twelfths.soft-half--right.v-top>
-        = link_to structure_path(participation.structure) , class: 'block', target: :_blank do
-          = image_tag participation.structure.logo, class: 'block'
-        = link_to jpo_new_user_invited_users_path(current_user, structure_id: participation.structure.id), class: 'btn btn--blue nowrap push-half--ends' do
-          %i.fa.fa-group
-          Inviter mes amis
-        %br
-        = link_to 'Je ne pourrai pas venir, me désinscrire', user_participation_path(current_user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}
-      .flexbox__item.five-twelfths.v-top>
-        %h4.flush
-          = course.name
-          - if course.other_event_type?
-            = "(#{course.event_type_description})"
-          - elsif course.event_type.present?
-            = "(#{course.event_type})"
-        %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
-        .gray
-          %i.fa.fa-tags
-          = course.subjects.map(&:name).join(', ')
-        %p
-          = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
-        - if course.description.present?
-          %p
-            %strong Description
-            %br
-            = course.description
-        - if course.info.present?
-          %p
-            %strong Infos pratique au cours
-            %br
-            = course.info
-      .flexbox__item.three-twelfths.text--center.v-top>
-        .delta.bold
-          = l(participation.planning.start_date, format: :semi_long).capitalize
+.alert--info.one-whole
+  %ul.flush--bottom
+    %li
+      L'objectif des Journées Portes Ouvertes est de permettre au plus grand nombre de découvrir gratuitement leurs passions le temps d'un week-end. Pour cette raison, nous n'offrons qu'une seule place par profil élève. Si vous souhaitez participer avec vos proches, réservez votre atelier, puis envoyez-leurs votre invitation.
+    %li Pour les ateliers pour enfants, une inscription comprend 2 places (1 adulte + 1 enfant).
+- if @participations.empty?
+  .text--center
+    %h4 Aucune inscription aux Journées Portes Ouvertes
+    = link_to "M'inscrire aux journées portes ouvertes", open_courses_path, class: 'btn btn--blue'
+- else
+  - @participations.each do |participation|
+    - if participation.waiting_list?
+      -azd?
+      %h4 Vous êtes sur liste d'attente, vous serez prévenu par e-mail en cas de désistement.
+    - course = participation.course
+    .white-box.islet
+      .flexbox
+        .flexbox__item.two-twelfths.soft-half--right.v-top>
+          = link_to structure_path(participation.structure) , class: 'block', target: :_blank do
+            = image_tag participation.structure.logo, class: 'block'
+          = link_to jpo_new_user_invited_users_path(current_user, structure_id: participation.structure.id), class: 'btn btn--blue nowrap push-half--ends' do
+            %i.fa.fa-group
+            Inviter mes amis
           %br
-        .epsilon
-          = "De #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
-          = add_to_calendar(participation)
-      .flexbox__item.two-twelfths.v-top>
-        = link_to "http://maps.google.com/?q=#{participation.planning.place.location.address}", target: :_blank, class: 'block' do
-          %img.one-whole.block{src:"http://maps.googleapis.com/maps/api/staticmap?center=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}&zoom=14&size=200x130&sensor=false&markers=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}"}
-        %p
-          %i= participation.planning.place.location.address
+          = link_to 'Je ne pourrai pas venir, me désinscrire', user_participation_path(current_user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}
+        .flexbox__item.five-twelfths.v-top>
+          %h4.flush
+            = course.name
+            - if course.other_event_type?
+              = "(#{course.event_type_description})"
+            - elsif course.event_type.present?
+              = "(#{course.event_type})"
+          %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
+          .gray
+            %i.fa.fa-tags
+            = course.subjects.map(&:name).join(', ')
+          %p
+            = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
+          - if course.description.present?
+            %p
+              %strong Description
+              %br
+              = course.description
+          - if course.info.present?
+            %p
+              %strong Infos pratique au cours
+              %br
+              = course.info
+        .flexbox__item.three-twelfths.text--center.v-top>
+          .delta.bold
+            = l(participation.planning.start_date, format: :semi_long).capitalize
+            %br
+          .epsilon
+            = "De #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
+            = add_to_calendar(participation)
+        .flexbox__item.two-twelfths.v-top>
+          = link_to "http://maps.google.com/?q=#{participation.planning.place.location.address}", target: :_blank, class: 'block' do
+            %img.one-whole.block{src:"http://maps.googleapis.com/maps/api/staticmap?center=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}&zoom=14&size=200x130&sensor=false&markers=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}"}
+          %p
+            %i= participation.planning.place.location.address
 
-- if params[:inscription_confirmed]
-  #inscription-confirmed-popup.hidden
-    %h4 Invitez vos amis à participer à l'événement
-    #share-on-facebook.btn.btn--facebook Partager sur Facebook
-    #share-on-twitter.btn.btn--twitter.btn--small Partager sur Twitter
-    .text--center.push-half--top
-      = link_to 'Envoyer une invitation par email', jpo_new_user_invited_users_path(current_user), class: 'btn btn--blue'
-  - content_for :scripts do
-    :javascript
-      $(function() {
-        $.fancybox($('#inscription-confirmed-popup'));
-        $('#share-on-facebook').click(function() {
-            window.open('#{share_participation_url(@participations.last)}', 'Partager', "height=400,width=600");
+  - if params[:inscription_confirmed]
+    #inscription-confirmed-popup.hidden
+      %h4 Invitez vos amis à participer à l'événement
+      #share-on-facebook.btn.btn--facebook Partager sur Facebook
+      #share-on-twitter.btn.btn--twitter.btn--small Partager sur Twitter
+      .text--center.push-half--top
+        = link_to 'Envoyer une invitation par email', jpo_new_user_invited_users_path(current_user), class: 'btn btn--blue'
+    - content_for :scripts do
+      :javascript
+        $(function() {
+          $.fancybox($('#inscription-confirmed-popup'));
+          $('#share-on-facebook').click(function() {
+              window.open('#{share_participation_url(@participations.last)}', 'Partager', "height=400,width=600");
+          });
+          $('#share-on-twitter').click(function() {
+              window.open('#{share_participation_url(@participations.last, :twitter)}', 'Partager', "height=400,width=600");
+          })
         });
-        $('#share-on-twitter').click(function() {
-            window.open('#{share_participation_url(@participations.last, :twitter)}', 'Partager', "height=400,width=600");
-        })
-      });
