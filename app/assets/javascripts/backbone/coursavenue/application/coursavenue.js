@@ -26,6 +26,8 @@ CoursAvenue.module('DataMining', function(Module, App, Backbone, Marionette, $, 
 
         initialize: function initialize (options) {
             _.bindAll(this, "collect");
+
+            this.set("fingerprint", new Fingerprint().get());
         },
 
         // given an array of name, value pairs collect
@@ -59,9 +61,7 @@ CoursAvenue.module('DataMining', function(Module, App, Backbone, Marionette, $, 
     });
 
     Module.addInitializer(function () {
-        var visitor = new Module.Visitor();
-
-        visitor.set("fingerprint", new Fingerprint().get());
+        var visitor     = new Module.Visitor();
 
         $("form[data-gather]").on("submit", function (e) {
             visitor.collectPairs($(this).serializeArray());
