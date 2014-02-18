@@ -122,11 +122,11 @@ class Participation < ActiveRecord::Base
   end
 
   def alert_for_changes
-    ParticipationMailer.delay.alert_for_changes
+    ParticipationMailer.delay.alert_for_changes(self)
   end
 
   def alert_for_destroy
-    ParticipationMailer.delay.alert_for_destroy
+    ParticipationMailer.delay.alert_for_destroy(self)
   end
 
   private
@@ -135,7 +135,7 @@ class Participation < ActiveRecord::Base
   #
   # @return nil
   def first_participation_to_jpo
-    unless user.participations.empty?
+    unless user.participations.not_canceled.empty?
       self.errors[:base] << I18n.t('participations.errors.only_one_participation_for_jpo')
     end
     nil
@@ -145,7 +145,7 @@ class Participation < ActiveRecord::Base
   #
   # @return nil
   def update_planning_participations_waiting_list
-    planning.participations.each do |participation|
+    planning.participations.not_canceled.each do |participation|
       participation.set_waiting_list!
     end
     nil

@@ -236,8 +236,7 @@ class User < ActiveRecord::Base
   end
 
   def participate_to?(planning)
-    # TODO: improve this
-    self.participations.map(&:planning).include? planning
+    self.participations.not_canceled.map(&:planning).include? planning
   end
 
   private

@@ -1,7 +1,3 @@
-.blue-box.blue-box--noshadow.soft-half.text--center
-  %h4.push-half--bottom Journées portes ouverte 2014 — Week-end du 6 et 7 avril
-  .delta Participez à un atelier gratuit
-
 - structure.courses.open_courses.order('created_at ASC').each do |course|
   - if course.plannings.any?
     .white-box.white-box--noshadow.islet
@@ -14,10 +10,10 @@
         %i.lbc-icon-info
           i
         Infos pratiques
-      %p.flush= course.description
       %p.gray.milli
         %i.fa.fa-tags
         = course.subjects.map(&:name).join(', ')
+      %p= course.description
       - if course.plannings.any?
         %table.table--data.table--striped
           %thead
@@ -46,12 +42,12 @@
                     %br
                     = "#{pluralize(planning.waiting_list.length, 'personne')} sur la liste d'attente"
                 %td
-                  - if course.price
+                  - if course.free?
+                    Gratuit
+                  - else
                     Participation libre
                     %br
                     %span.nowrap (montant attendu : #{readable_amount(course.price)}€)
-                  - else
-                    Gratuit
                 %td.text--right
                   - if current_user and current_user.participate_to?(planning)
                     Déjà inscrit

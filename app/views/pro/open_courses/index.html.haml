@@ -34,7 +34,7 @@
         %td.text--center= course.plannings.count
         %td.text--center= course.nb_participants_max * course.plannings.count
         %td
-          - if course.price
-            = "#{readable_amount(course.price)}€"
-          - else
+          - if course.free?
             Gratuit
+          - else
+            = "#{readable_amount(course.price)}€"

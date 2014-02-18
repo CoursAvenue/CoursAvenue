@@ -6,7 +6,7 @@
         = image_tag 'logo.png', width: 200, alt: 'CoursAvenue | Tous les cours autour de vous'
     %nav.text--right.grid__item.two-thirds.v-middle
       - if current_user
-        = render partial: 'header_user_nav'
+        = render partial: 'shared/header_user_nav'
       - else
         .inline-block
           #connection-registration-buttons

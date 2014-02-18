@@ -234,7 +234,7 @@ CoursAvenue::Application.routes.draw do
 
 
   resources :plannings, only: [] do
-    resources :participations, only: [:create, :destroy], controller: 'plannings/participations'
+    resources :participations, only: [:create], controller: 'plannings/participations'
   end
   resources :locations, only: [:index]
 

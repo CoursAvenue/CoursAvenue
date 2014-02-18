@@ -78,7 +78,6 @@ class Structure < ActiveRecord::Base
   belongs_to :city
   belongs_to :pricing_plan
 
-  # has_many :invited_teachers          , dependent: :destroy
   has_many :invited_users             , foreign_key: :referrer_id, dependent: :destroy
   has_many :invited_teachers          , -> { where(type: 'InvitedUser::Teacher') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
   has_many :invited_students          , -> { where(type: 'InvitedUser::Student') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
@@ -89,6 +88,7 @@ class Structure < ActiveRecord::Base
   has_many :plannings                 , through: :courses
   has_many :cities                    , through: :places
   has_many :prices                    , through: :courses
+  has_many :participations            , through: :plannings
   has_many :reservations,         as: :reservable
   has_many :comment_notifications     , dependent: :destroy
   has_many :sticker_demands           , dependent: :destroy

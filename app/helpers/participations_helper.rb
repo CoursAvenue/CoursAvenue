@@ -23,7 +23,7 @@ module ParticipationsHelper
         <span class="_start">#{l(planning.start_date)} #{l(planning.start_time, format: :default_only_time)}</span>
         <span class="_end">#{l(planning.end_date)} #{l(planning.end_time, format: :default_only_time)}</span>
         <span class="_zonecode">40</span>
-        <span class="_summary">#{course.name}</span>
+        <span class="_summary">JPO CoursAvenue - #{course.name}</span>
         <span class="_description">Journées Portes Ouvertes CoursAvenue</span>
         <span class="_location">#{planning.place.location.address}</span>
         <span class="_organizer">CoursAvenue en collaboration avec #{structure.name}</span>

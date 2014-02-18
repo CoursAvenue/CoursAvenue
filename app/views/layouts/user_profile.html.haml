@@ -45,11 +45,10 @@
 
 
   .main-container.soft--ends{class: controller_path}
-    .grid
-      .grid__item.one-fifth.v-top>
-        %nav.one.flexbox__item.v-top.side-menu.white-box
-          = yield :user_side_menu
-      .grid__item.four-fifths.v-top>
+    .flexbox
+      %nav.flexbox__item.v-top.side-menu.white-box.one-fifth.v-top>
+        = yield :user_side_menu
+      .flexbox__item.four-fifths.v-top.soft-half--left>
         = content_for?(:users_content) ? yield(:users_content) : yield
 
   = render 'shared/footer'

@@ -28,19 +28,35 @@
             Inviter mes amis
           %br
           = link_to 'Je ne pourrai pas venir, me désinscrire', user_participation_path(current_user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}
-        .flexbox__item.five-twelfths.v-top>
-          %h4.flush
-            = course.name
-            - if course.other_event_type?
-              = "(#{course.event_type_description})"
-            - elsif course.event_type.present?
-              = "(#{course.event_type})"
-          %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
-          .gray
-            %i.fa.fa-tags
-            = course.subjects.map(&:name).join(', ')
-          %p
-            = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
+        .flexbox__item.eight-twelfths.v-top>
+          .flexbox
+            .flexbox__item.five-twelfths.v-top>
+              %h4.flush
+                = course.name
+                - if course.other_event_type?
+                  = "(#{course.event_type_description})"
+                - elsif course.event_type.present?
+                  = "(#{course.event_type})"
+              %p.flush
+                %i.fa.fa-euro
+                - if course.free?
+                  Gratuit
+                - else
+                  Participation libre (montant attendu : #{readable_amount(course.price)}€)
+              %p
+                %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
+              .gray
+                %i.fa.fa-tags
+                = course.subjects.map(&:name).join(', ')
+              %p
+                = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
+            .flexbox__item.three-twelfths.text--center.v-top>
+              .delta.bold
+                = l(participation.planning.start_date, format: :semi_long).capitalize
+                %br
+              .epsilon.push-half--bottom
+                = "De #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
+              = add_to_calendar(participation)
           - if course.description.present?
             %p
               %strong Description
@@ -51,18 +67,13 @@
               %strong Infos pratique au cours
               %br
               = course.info
-        .flexbox__item.three-twelfths.text--center.v-top>
-          .delta.bold
-            = l(participation.planning.start_date, format: :semi_long).capitalize
-            %br
-          .epsilon
-            = "De #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
-            = add_to_calendar(participation)
+
         .flexbox__item.two-twelfths.v-top>
           = link_to "http://maps.google.com/?q=#{participation.planning.place.location.address}", target: :_blank, class: 'block' do
             %img.one-whole.block{src:"http://maps.googleapis.com/maps/api/staticmap?center=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}&zoom=14&size=200x130&sensor=false&markers=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}"}
           %p
             %i= participation.planning.place.location.address
+
 
   - if params[:inscription_confirmed]
     #inscription-confirmed-popup.hidden

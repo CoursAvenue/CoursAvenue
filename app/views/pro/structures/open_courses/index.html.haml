@@ -13,7 +13,11 @@
   %strong Note importante :
   renseignez vos ateliers avant le 17/02/14 et faites partie de nos 1ères campagnes de communication. Nous vous enverrons un mail pour vous annoncer l'ouverture des inscriptions à vos ateliers (nos pages dédiées à l'événement seront visibles début février). Vous pourrez gérer toutes vos inscriptions et communiquer librement avec tous les élèves participants.
 
-%h4.push-half--bottom Ateliers proposés
+.push-half--bottom
+  %h4.inline-block.v-middle.flush--bottom.push-half--right Ateliers proposés
+  = link_to jpo_new_pro_structure_invited_students_path(@structure), class: 'btn btn--small btn--blue v-middle' do
+    %i.fa.fa-bullhorn
+    Inviter mon réseau
 
 - if @courses.empty?
   %p.white-box.islet
@@ -26,6 +30,10 @@
       = "(#{course.event_type_description})"
     - elsif course.event_type.present?
       = "(#{course.event_type})"
+      .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
+        %i.lbc-icon-info
+          i
+        Infos pratiques
     .float--right
       = link_to edit_pro_structure_course_open_path(@structure, course) do
         %i.fa.fa-pencil
@@ -34,10 +42,10 @@
       = link_to pro_structure_course_open_path(@structure, course), class: 'red', method: :delete do
         %i.fa.fa-times
         Supprimer
-    %p.flush= course.description
     %p.gray.milli
       %i.fa.fa-tags
       = course.subjects.map(&:name).join(', ')
+    %p.flush= course.description
 
     - if course.plannings.order('start_date ASC, start_time ASC').any?
       %table.table--data.table--striped

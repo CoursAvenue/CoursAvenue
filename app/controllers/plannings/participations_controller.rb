@@ -20,16 +20,4 @@ class Plannings::ParticipationsController < ApplicationController
       end
     end
   end
-
-  def destroy
-    @planning                  = Planning.find params[:planning_id]
-    @participation             = @planning.participations.find params[:id]
-    respond_to do |format|
-      if @participation.cancel!
-        format.html { redirect_to user_participations_path(current_user), notice: 'Vous êtes bien désinscrit à ce créneau' }
-      else
-        format.html
-      end
-    end
-  end
 end

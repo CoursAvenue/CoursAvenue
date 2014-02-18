@@ -6,7 +6,7 @@ class Structures::CoursesController < ApplicationController
     @planning_search = PlanningSearch.search(params)
     @plannings       = @planning_search.results
     @courses         = []
-    # TODO Refactor this.
+
     if params[:course_types] == ['open_course']
       planning_serializer_options = { jpo: true }
     else
@@ -14,7 +14,7 @@ class Structures::CoursesController < ApplicationController
     end
     @plannings.group_by(&:course_id).each do |course_id, plannings|
       course = Course.find(course_id)
-      @courses << CourseSerializer.new(course, { root: false, structure: @structure})
+      @courses << CourseSerializer.new(course, { root: false, structure: @structure, jpo: (params[:course_types] == ['open_course'])})
     end
 
     respond_to do |format|
