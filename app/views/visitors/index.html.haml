@@ -1,0 +1,8 @@
+
+%ul
+- @visitors.each do |visitor|
+  %li
+    .visitor
+      %p fingerprint:   #{ visitor.fingerprint }
+      %p addresses:     #{ visitor.address_name }
+      %p best_address:  #{ visitor.best :address_name }

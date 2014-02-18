@@ -6,7 +6,17 @@ class VisitorsController < ApplicationController
   def index
     @visitors = Visitor.all
 
-    respond_with @visitors
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def show
+    @visitor = Visitor.where(fingerprint: params[:fingerprint]).first
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def create
