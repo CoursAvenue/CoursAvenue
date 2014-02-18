@@ -113,7 +113,6 @@ class Structure < ActiveRecord::Base
   before_create    :set_active_to_true
 
   after_create     :set_free_pricing_plan
-  # after_create     :create_place
   after_save       :update_email_status
   after_touch      :update_email_status
 

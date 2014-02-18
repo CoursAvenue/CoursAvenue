@@ -62,6 +62,7 @@ class Location < ActiveRecord::Base
   def geocode_if_needs_to
     if (latitude.nil? and longitude.nil?) or (!latitude_changed? and !longitude_changed? and street_changed? and zip_code_changed?)
       self.geocode
+      self.save
     end
   end
 end
