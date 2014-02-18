@@ -12,6 +12,13 @@ class Pro::Structures::OpenCoursesController < Pro::ProController
   def index
     @structure = Structure.friendly.find params[:structure_id]
     @courses   = @structure.courses.open_courses
+    respond_to do |format|
+      if @structure.parisian?
+        format.html
+      else
+        format.html { redirect_to pro_structure_courses_path(@structure), notice: "Vous n'êtes pas en Île-de-France" }
+      end
+    end
   end
 
   def edit
