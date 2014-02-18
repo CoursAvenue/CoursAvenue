@@ -45,6 +45,7 @@
 //= require libs/fancybox/jquery.fancybox
 //= require underscore
 
+//= require fingerprint
 
 // ---------------------------------- Backbone
 //= require backbone
@@ -56,7 +57,6 @@
 //= require backbone/cours_avenue
 //= require railsy_backbone.sync
 //= require railsy_backbone.datalink
-//= require fingerprint
 
 //= require_tree ./libs/fancybox/helpers/
 

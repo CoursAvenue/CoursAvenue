@@ -7,14 +7,26 @@ $(document).ready(function() {
     CoursAvenue.start({});
 });
 
-CoursAvenue.module('DataMining', function(Module, App, Backbone, Marionette, $, _, undefined) {
+CoursAvenue.module('DataMining', function(Module, App, Backbone, Marionette, $, _, Fingerprint, undefined) {
 
-    Module.addInitializer(function () {
-        var fingerprint = new Fingerprint().get();
+    Module.Visitor = Backbone.Model.extend({
+        url: '/stuff'
 
-        FilteredSearch.mainRegion.on(function () {
-
-        });
     });
 
-}, undefined);
+    Module.addInitializer(function () {
+        var visitor = new Module.Visitor();
+
+        visitor.set("fingerprint", new Fingerprint().get());
+
+        $("form[data-gather]").on("submit", function (e) {
+            visitor.set(this.id, $(this).serializeArray());
+
+        });
+
+        window.onbeforeunload = function (e) {
+            visitor.save();
+        }
+    });
+
+}, Fingerprint, undefined);
