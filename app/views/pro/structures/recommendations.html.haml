@@ -43,11 +43,9 @@
           Merci et à très bientôt,
           %br
           = @structure.name
-    .push-half--top.text--right
-      = f.submit 'Envoyer ma demande', class: 'btn btn--green'
-  %hr.push--top
-  .text--center.push-half--bottom
-    = link_to 'Envoyer un email depuis ma boite perso', '#hidden-send', data: {behavior: 'modal'}, class: 'btn btn--blue'
+        .push-half--top
+          = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full'
+          .text--center= link_to 'Envoyer un email depuis ma boîte perso', '#hidden-send', data: {behavior: 'modal'}, class: ''
 
 #hidden-send.hidden
   %p
