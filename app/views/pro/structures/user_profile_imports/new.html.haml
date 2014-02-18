@@ -2,10 +2,14 @@
 
 = render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'import' }
 
+%h4 Importez votre base d'élèves
+
 = simple_form_for [:pro, @structure, @user_profile_import] do |f|
   .form-white-box
+    %p.bold
+      Téléchargez votre fichier Excel de base élèves et affectez les colonnes aux champs correspondants.
     = f.error_notification
     .text--center
       = f.input :file, as: :file, label: 'Fichier'
     .form-actions
-      = f.submit 'Enregistrer', class: 'btn btn--green'
+      = f.submit 'Télécharger', class: 'btn btn--green'

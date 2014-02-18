@@ -1,0 +1,19 @@
+= user_menu_currently_at 'Mes cours'
+
+= render partial: 'users/participations/tabs', locals: { current: 'invite-jpo-list' }
+
+%h2 Invitations
+
+%table.table--striped.table--data.white-box
+  %thead
+    %tr
+      %th Email
+      %th S'est créé un compte
+  %tbody
+    - @invited_users.each do |invited_user|
+      %tr
+        %td= invited_user.email
+        %td
+          - if invited_user.registered?
+            %i.fa.fa-check
+

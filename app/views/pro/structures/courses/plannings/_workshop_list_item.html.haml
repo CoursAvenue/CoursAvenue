@@ -1,0 +1,36 @@
+%tr{data: {id: planning.id}}
+  %td{data: {value: planning.start_date}}
+    = l(planning.start_date, format: :long).capitalize
+  %td.text--center{data: {value: planning.start_time}}
+    = readable_time_slot planning.start_time, planning.end_time
+  %td.text--center= readable_duration planning.duration
+  %td.text--center{data: {value: planning.teacher.try(:name)}}
+    = simple_form_for [:pro, @course, planning], url: pro_structure_course_planning_path(@structure, @course, planning), remote: true do |f|
+      = f.input :teacher_id, as: :select, collection: @teachers, label: false, input_html: {class: 'teacher-select', style: 'max-width: 10em;'}, wrapper_html: {class: 'flush'}
+  %td.text--center= join_levels_text planning
+  %td.text--center= join_audiences planning
+  %td.text--center{data: {value: (planning.place ? planning.place.location.try(:name) : nil)}}
+    = simple_form_for [:pro, @course, planning], url: pro_structure_course_planning_path(@structure, @course, planning), remote: true do |f|
+      = f.input :place_id, as: :select, collection: @places, label_method: lambda {|place| place.location.name}, label: false, input_html: {class: 'place-select', style: 'max-width: 15em;'}, wrapper_html: {class: 'flush'}, include_blank: planning.place.nil?
+
+  %td.text--center
+    - if planning.info.present?
+      .lbc-brand-icon{data: {behavior: 'tooltip', 'original-title' => planning.info}}
+  %td.text--center
+    .drop-down-el.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+      %a.btn--orange.btn.btn--small.nowrap{href: '#'}
+        Actions
+        %i.fa.fa-chevron-down
+      %ul.drop-down__el.text--left
+        %li
+          = link_to edit_pro_structure_course_planning_path(@structure, @course, planning), title: 'Modifier le créneau', data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax' do
+            %i.fa.fa-pencil
+            Modifier le créneau
+        %li
+          = link_to duplicate_pro_structure_course_planning_path(@structure, @course, planning), title: 'Dupliquer le créneau', class: 'nowrap', method: :post do
+            %i.fa.fa-copy
+            Dupliquer le créneau
+        %li
+          = link_to pro_structure_course_planning_path(@structure, @course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce créneau ?', title: 'Supprimer le créneau' do
+            %i.fa.fa-trash-o
+            Supprimer

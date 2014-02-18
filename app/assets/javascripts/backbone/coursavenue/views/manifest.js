@@ -1,6 +1,7 @@
 //---------- Views
 //= require ./event_layout
 //= require ./accordion_item_view
+//= require ./editable_field_view
 //= require ./map/manifest.js
 //
 //= require_tree .

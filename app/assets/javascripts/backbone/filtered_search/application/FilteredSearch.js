@@ -1,4 +1,5 @@
-FilteredSearch = new Backbone.Marionette.Application({ slug: 'filtered-search' });
+ /*  TODO this needs to be set on the server side */
+FilteredSearch = new Backbone.Marionette.Application({ slug: 'filtered-search', resource: 'etablissements' });
 
 FilteredSearch.addRegions({
     mainRegion: '#' + FilteredSearch.slug
@@ -42,16 +43,23 @@ FilteredSearch.addInitializer(function(options) {
     window.pfaff = structures;
 
     /* set up the layouts */
-    layout           = new FilteredSearch.Views.SearchWidgetsLayout();
+    layout = new FilteredSearch.Views.SearchWidgetsLayout();
 
     layout.on('paginator:updating', function(){
         $loader = $loader || $('[data-type="loader"]');
         $loader.slideDown();
-    })
+    });
+
     layout.on('structures:updated', function(){
         $loader = $loader || $('[data-type="loader"]');
         $loader.slideUp();
-    })
+    });
+
+    // TODO the app loader lives outside of the layout, so
+    // it felt weird to have this code inside the layout
+    layout.on("show", function() {
+        $("[data-type=app-loader]").fadeOut('slow');
+    });
 
     var bounds       = structures.getLatLngBounds();
     /* TODO does the google map need a reference to the collection?

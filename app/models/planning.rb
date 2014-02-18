@@ -1,5 +1,7 @@
 # encoding: utf-8
 class Planning < ActiveRecord::Base
+  include PlanningsHelper
+  acts_as_paranoid
 
   TIME_SLOTS = {
     morning: {
@@ -23,20 +25,24 @@ class Planning < ActiveRecord::Base
       end_time:   24
     }
   }
-  acts_as_paranoid
 
-  include PlanningsHelper
-
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
   belongs_to :course, touch: true
-  has_many   :prices, through: :course
   belongs_to :teacher
   belongs_to :place
   belongs_to :structure
 
-  has_many :reservations,         as: :reservable
-
+  has_many :prices,         through: :course
+  has_many :reservations,   as: :reservable
   has_many :participations, dependent: :destroy
   has_many :users, through: :participations
+
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  after_initialize :default_values
 
   before_validation :set_start_date
   before_validation :set_end_date
@@ -45,24 +51,20 @@ class Planning < ActiveRecord::Base
   before_validation :set_audience_if_empty
   before_validation :set_level_if_empty
 
-
-  after_initialize :default_values
   before_save :set_structure_if_blank
+  before_save :update_start_and_end_date
 
-  # validates :teacher, presence: true
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :place, :audience_ids, :level_ids, presence: true
   validate  :presence_of_start_date
-  validate  :update_start_and_end_date
   validate  :end_date_in_future
+  validate  :can_change_nb_participants_max
   validates :min_age_for_kid, numericality: { less_than: 18 }, allow_nil: true
   validates :max_age_for_kid, numericality: { less_than: 19 }, allow_nil: true
 
-  validate do |planning|
-    if (max_age_for_kid.present? or min_age_for_kid.present?) and min_age_for_kid.to_i >= max_age_for_kid.to_i
-      planning.errors.add(:max_age_for_kid, "L'age maximum ne peut être inférieur à l'age minimum")
-    end
-  end
-
+  validate :min_age_must_be_less_than_max_age
 
   attr_accessible :duration, # In minutes
                   :end_date,
@@ -72,24 +74,23 @@ class Planning < ActiveRecord::Base
                   :week_day, # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
                   :class_during_holidays,
                   :nb_participants_max,
-                  :nb_place_available,
                   :promotion,
                   :info,
-                  :min_age_for_kid,
-                  :max_age_for_kid,
+                  :min_age_for_kid, :max_age_for_kid,
                   :teacher,
-                  :teacher_id,
-                  :level_ids,
-                  :audience_ids,
-                  :place_id
+                  :teacher_id, :level_ids, :audience_ids, :place_id
 
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
   scope :future,         -> { where("plannings.end_date > '#{Date.today}'") }
   scope :past,           -> { where("plannings.end_date <= '#{Date.today}'") }
   scope :ordered_by_day, -> { order('week_day=0, week_day ASC') }
 
-  # ------------------------------------------------------------------------------------ Search attributes
+  ######################################################################
+  # Solr                                                               #
+  ######################################################################
   searchable do
-
     boolean :active_course do
       self.course.active?
     end
@@ -131,10 +132,6 @@ class Planning < ActiveRecord::Base
     text :course_description do
       self.course.description
     end
-
-    # text :structure_description do
-    #   self.structure.description
-    # end
 
     text :subjects, boost: 5 do
       subject_array = []
@@ -306,6 +303,10 @@ class Planning < ActiveRecord::Base
   end
   # ---------------------------- End
 
+  # Return week day of start date if the course associated to the planning
+  # is not a lesson
+  #
+  # @return Integer
   # 0: Dimanche, 1: Lundi, as per I18n.t('date.day_names')
   def week_day
     if read_attribute(:week_day)
@@ -317,6 +318,7 @@ class Planning < ActiveRecord::Base
     end
   end
 
+  # TODO Should be in a helper, or a decorator
   def to_s
     case self.course.type
     when 'Course::Lesson'
@@ -328,29 +330,27 @@ class Planning < ActiveRecord::Base
     end
   end
 
+
+  # Return the length of the planning regarding start and end date
+  #
+  # @return Integer
   def length
     return (end_date - start_date).to_i + 1
   end
 
+  #
+  # Duplicate the planning
+  #
+  # @return Planning
   def duplicate
     duplicate_planning = self.dup
   end
 
+  # Return if KID audience is included in audiences
+  #
+  # @return Boolean
   def for_kid?
     audiences.include? Audience::KID
-  end
-
-  def time_slot_name
-    start_hour = self.start_time.hour
-    if start_hour < 12
-      return 'morning'
-    elsif start_hour < 14
-      return 'noon'
-    elsif start_hour < 18
-      return 'afternoon'
-    else
-      return 'evening'
-    end
   end
 
   def min_price_amount_for(type)
@@ -381,13 +381,27 @@ class Planning < ActiveRecord::Base
     read_attribute(:nb_participants_max) or self.course.nb_participants_max
   end
 
-  # Participations that can be counted and are not exceeded the quota
+  # Return number of place available
+  #
+  # @return Integer
+  def nb_place_available
+    return 0 unless nb_participants_max
+    nb_participants_max - (participations.not_in_waiting_list.not_canceled.count || 0)
+  end
+
+  # Participations that does not exceed the quota
+  #
+  # @return Participations
   def possible_participations
-    self.participations[0..(self.nb_participants_max - 1)]
+    self.participations.not_canceled.not_in_waiting_list
   end
 
   def waiting_list
-    self.participations - self.possible_participations
+    self.participations.not_canceled.waiting_list
+  end
+
+  def places_left
+    nb_participants_max - possible_participations.length
   end
 
   private
@@ -445,7 +459,7 @@ class Planning < ActiveRecord::Base
 
   # Set default start date
   def set_start_date
-    if self.start_date.nil? and self.course.is_lesson?
+    if self.start_date.nil? and self.course.try(:is_lesson?)
       self.start_date = self.course.start_date || Date.yesterday
     end
   end
@@ -453,7 +467,7 @@ class Planning < ActiveRecord::Base
   # Set end date
   def set_end_date
     unless end_date.present?
-      if course.is_lesson?
+      if course.try(:is_lesson?)
         self.end_date = self.course.end_date
       else
         self.end_date = self.start_date
@@ -461,8 +475,59 @@ class Planning < ActiveRecord::Base
     end
   end
 
-  # Validations
+  # Set start and end_date regarding course if it is lesson
+  #
+  # @return nil
+  def update_start_and_end_date
+    if course.is_lesson?
+      self.start_date = course.start_date if self.start_date != course.start_date
+      self.end_date   = course.end_date   if self.end_date   != course.end_date
+    end
+  end
+
+  # Set audience to Adult if none is set
+  #
+  # @return audiences
+  def set_audience_if_empty
+    self.audiences = [Audience::ADULT] if self.audiences.empty?
+  end
+
+  # Set level to All if none is set
+  #
+  # @return levels
+  def set_level_if_empty
+    self.levels    = [Level::ALL]      if self.levels.empty?
+  end
+
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
+
+  #
+  # Teacher cannot have a nb_participants_max less than the number of already
+  # participants subscribed
+  #
+  # @return [type] [description]
+  def can_change_nb_participants_max
+    return false if nb_participants_max.nil?
+    return nb_participants_max >= possible_participations.length
+  end
+
+  # Add errors to model if min_age < max_age
+  #
+  # @return nil
+  def min_age_must_be_less_than_max_age
+    if (max_age_for_kid.present? or min_age_for_kid.present?) and min_age_for_kid.to_i >= max_age_for_kid.to_i
+      self.errors.add(:max_age_for_kid, "L'age maximum ne peut être inférieur à l'age minimum")
+    end
+  end
+
+  # Add errors to model if the course associated needs a start date and
+  # there is no start_date is not present
+  #
+  # @return nil
   def presence_of_start_date
+    return if course.nil?
     if course.is_workshop? or course.is_training? or course.is_open?
       unless start_date.present?
         errors.add(:start_date, :blank)
@@ -470,24 +535,12 @@ class Planning < ActiveRecord::Base
     end
   end
 
-  def update_start_and_end_date
-    if course.is_lesson?
-      self.start_date = course.start_date if self.start_date != course.start_date
-      self.end_date   = course.end_date   if self.end_date != course.end_date
-    end
-  end
-
+  # Add errors if end date is not in the future
+  #
+  # @return [type] [description]
   def end_date_in_future
     if end_date and end_date < Date.today
       errors.add(:end_date, 'Le cours ne peut pas être dans le passé.')
     end
-  end
-
-  def set_audience_if_empty
-    self.audiences = [Audience::ADULT] if self.audiences.empty?
-  end
-
-  def set_level_if_empty
-    self.levels    = [Level::ALL]      if self.levels.empty?
   end
 end

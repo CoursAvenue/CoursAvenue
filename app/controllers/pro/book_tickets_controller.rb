@@ -16,22 +16,22 @@ class Pro::BookTicketsController < InheritedResources::Base# Pro::ProController
   end
   def create
     create! do |success, failure|
-      success.html { redirect_to pro_course_prices_path(@course) }
+      success.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
       failure.html { render template: 'pro/prices/index' }
     end
   end
 
   def update
     update! do |success, failure|
-      success.html { redirect_to pro_course_prices_path(@course) }
+      success.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
       failure.html { render template: 'pro/prices/index' }
     end
   end
 
   def destroy
     destroy! do |success, failure|
-      success.html { redirect_to pro_course_prices_path(@course) }
-      failure.html { redirect_to pro_course_prices_path(@course) }
+      success.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
+      failure.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
     end
   end
 

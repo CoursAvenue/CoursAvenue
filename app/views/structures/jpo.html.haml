@@ -1,0 +1,111 @@
+- if @structure.logo.present?
+  = content_for :meta_image do
+    = @structure.logo.url(:thumb)
+
+= content_for :title do
+  = "#{@structure.name} à #{@city.name}"
+
+= content_for :meta_description do
+  - if @structure.description.present?
+    = "#{@structure.description_for_meta} à #{@city.name}"
+  - else
+    - if @structure.parent_subjects_string.present?
+      = "Retrouvez tous les cours de #{@structure.name} à #{@city.name}. #{subjects_name_from_string(@structure.parent_subjects_string)} et bien plus ! à #{@city.name}"
+    - else
+      = "Retrouvez tous les cours de #{@structure.name} à #{@city.name}"
+
+.inline-block
+  = link_to open_courses_path do
+    %i.orange ←
+    Revenir à la recherche
+
+.inline-block.push-half--sides
+  |
+.inline-block
+  %ol.nav.breadcrumb.flush{itemprop: 'breadcrumb'}
+    %li
+      = link_to "Tous les établissement des Journées Portes Ouvertes", open_courses_path
+    %li= @structure.name
+
+- if !current_user and params[:waiting_for_activation]
+  .blue-box.islet.text--center.push--ends
+    = render 'users/waiting_for_activation_text'
+
+.grid.push--top
+  .grid__item.eight-twelfths>
+    = render partial: 'structures/structure_header', locals: {structure: @structure}
+
+    = render partial: 'structures/map_and_gallery', locals: {structure: @structure, places: @places, medias: @medias}
+
+    = render partial: 'structures/comments_headband', locals: {structure: @structure}
+
+    %ul.tabs
+      %li.active
+        %a{href: '#tab-courses', data: {toggle: 'tab'} }
+          %i.fa.fa-calendar
+          Atelier Journées Portes Ouvertes
+      %li
+        %a{href: '#tab-comments', data: {toggle: 'tab'} }
+          %i.fa.fa-comments
+          Avis
+      %li
+        %a{href: '#tab-teachers', data: {toggle: 'tab'} }
+          %i.fa.fa-group
+          Professeurs
+    .tab-content
+      %article#tab-courses.tab-pane.active
+        = render partial: 'structures/open_courses', locals: {structure: @structure}
+
+      %article#tab-comments.tab-pane
+        - if @comments.empty?
+          %p.white-box.islet.text--center
+            Cet établissement n'a pas encore d'avis
+            %br
+            %b Soyez le premier à nous donner votre avis !
+        - if @comments.any?
+          %ul#comments.comment-list
+            - @comments.each_with_index do |comment, index|
+              = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
+      %article#tab-teachers.tab-pane
+        #teachers
+          - @teachers.each_with_index do |teacher, index|
+            %div
+              = render partial: 'teachers/teacher', locals: {teacher: teacher}
+
+
+  .grid__item.four-twelfths{itemscope: true, itemtype: 'http://schema.org/Place'}>
+    .visuallyhidden{itemprop: 'geo', itemscope: true, itemtype: 'http://schema.org/GeoCoordinates'}
+      %meta{itemprop: 'latitude', content: @structure.latitude}
+      %meta{itemprop: 'longitude', content: @structure.longitude}
+
+
+
+    - if @structure.main_contact
+      = render partial: 'structures/contact_form', locals: {structure: @structure}
+
+    - if @structure.description
+      .white-box.islet
+        %div.read-more{data: {behavior: 'read-more', height: 300}}= simple_format @structure.description
+
+    - if @structure.cover_image.present?
+      .white-box.islet
+        .text--center= image_tag @structure.cover_image.thumbnail_url, alt: "Cours de #{join_parent_subjects_text @structure} à #{@city.name}"
+
+
+    - if @structure.facebook_url.present?
+      = link_to "Page facebook de l'établissement", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole btn--small push--bottom'
+
+
+#course_info.hidden= render 'structures/courses/info_popup'
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        if (window.location.hash.indexOf('recommandation-') != -1) {
+            $('[href=#tab-comments]').click();
+            $.scrollTo($(window.location.hash), {duration: 500});
+        }
+        if (window.location.hash.length > 0) {
+            $('[href=' + window.location.hash + ']').click();
+        }
+    });

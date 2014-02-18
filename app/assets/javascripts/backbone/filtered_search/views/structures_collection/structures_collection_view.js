@@ -37,6 +37,9 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
             this.trigger('structures:itemview:unhighlighted', data);
         },
 
+        /* WHOA so this event is actually getting the course:focus event
+        *  via the broadcast method, not by having the itemview actually
+        *  trigger anything. Weird. */
         onItemviewCourseFocus: function (view, data) {
             this.trigger('structures:itemview:peacock', data);
         },
@@ -92,26 +95,26 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
             /* announce the filters used in the current result set */
             this.trigger('structures:updated:filter', {
-                address_name:        (data.server_api.address_name         ? decodeURIComponent(data.server_api.address_name)        : ''),
-                name:                (data.server_api.name                 ? decodeURIComponent(data.server_api.name)                : ''),
-                subject_id:          (data.server_api.subject_id           ? decodeURIComponent(data.server_api.subject_id)          : ''),
-                level_ids:           (data.server_api['level_ids[]']       ? data.server_api['level_ids[]']                          : ''),
-                audience_ids:        (data.server_api['audience_ids[]']    ? data.server_api['audience_ids[]']                       : ''),
-                course_types:        (data.server_api['course_types[]']    ? data.server_api['course_types[]']                       : ''),
-                min_age_for_kids:    (data.server_api.min_age_for_kids     ? decodeURIComponent(data.server_api.min_age_for_kids)    : ''),
-                max_age_for_kids:    (data.server_api.max_age_for_kids     ? decodeURIComponent(data.server_api.max_age_for_kids)    : ''),
-                price_type:          (data.server_api.price_type           ? decodeURIComponent(data.server_api.price_type)          : ''),
-                max_price:           (data.server_api.max_price            ? decodeURIComponent(data.server_api.max_price)           : ''),
-                min_price:           (data.server_api.min_price            ? decodeURIComponent(data.server_api.min_price)           : ''),
-                structure_types:     (data.server_api['structure_types[]'] ? data.server_api['structure_types[]']                    : ''),
-                funding_type_ids:    (data.server_api['funding_type_ids[]']? data.server_api['funding_type_ids[]']                   : ''),
-                discount_types:      (data.server_api['discount_types[]']  ? data.server_api['discount_types[]']                     : ''),
-                week_days:           (data.server_api['week_days[]']       ? data.server_api['week_days[]']                          : ''),
-                start_date:          (data.server_api.start_date           ? decodeURIComponent(data.server_api.start_date)          : ''),
-                end_date:            (data.server_api.end_date             ? decodeURIComponent(data.server_api.end_date)            : ''),
-                start_hour:          (data.server_api.start_hour           ? decodeURIComponent(data.server_api.start_hour)          : ''),
-                end_hour:            (data.server_api.end_hour             ? decodeURIComponent(data.server_api.end_hour)            : ''),
-                trial_course_amount: (data.server_api.trial_course_amount  ? decodeURIComponent(data.server_api.trial_course_amount) : '')
+                address_name:        (data.server_api.address_name         ? data.server_api.address_name          : ''),
+                name:                (data.server_api.name                 ? data.server_api.name                  : ''),
+                subject_id:          (data.server_api.subject_id           ? data.server_api.subject_id            : ''),
+                level_ids:           (data.server_api['level_ids[]']       ? data.server_api['level_ids[]']        : ''),
+                audience_ids:        (data.server_api['audience_ids[]']    ? data.server_api['audience_ids[]']     : ''),
+                course_types:        (data.server_api['course_types[]']    ? data.server_api['course_types[]']     : ''),
+                min_age_for_kids:    (data.server_api.min_age_for_kids     ? data.server_api.min_age_for_kids      : ''),
+                max_age_for_kids:    (data.server_api.max_age_for_kids     ? data.server_api.max_age_for_kids      : ''),
+                price_type:          (data.server_api.price_type           ? data.server_api.price_type            : ''),
+                max_price:           (data.server_api.max_price            ? data.server_api.max_price             : ''),
+                min_price:           (data.server_api.min_price            ? data.server_api.min_price             : ''),
+                structure_types:     (data.server_api['structure_types[]'] ? data.server_api['structure_types[]']  : ''),
+                funding_type_ids:    (data.server_api['funding_type_ids[]']? data.server_api['funding_type_ids[]'] : ''),
+                discount_types:      (data.server_api['discount_types[]']  ? data.server_api['discount_types[]']   : ''),
+                week_days:           (data.server_api['week_days[]']       ? data.server_api['week_days[]']        : ''),
+                start_date:          (data.server_api.start_date           ? data.server_api.start_date            : ''),
+                end_date:            (data.server_api.end_date             ? data.server_api.end_date              : ''),
+                start_hour:          (data.server_api.start_hour           ? data.server_api.start_hour            : ''),
+                end_hour:            (data.server_api.end_hour             ? data.server_api.end_hour              : ''),
+                trial_course_amount: (data.server_api.trial_course_amount  ? data.server_api.trial_course_amount   : '')
             });
 
             this.trigger('structures:updated:maps');
@@ -152,8 +155,10 @@ FilteredSearch.module('Views.StructuresCollection', function(Module, App, Backbo
 
         itemViewOptions: function() {
             var subject_name = $('[data-value="' + decodeURIComponent(this.collection.server_api.subject_id) + '"]').text().trim();
+            var search_term = this.collection.server_api.name || "";
+
             return {
-                search_term: decodeURIComponent(this.collection.server_api.name),
+                search_term: decodeURIComponent(search_term),
                 subject_name: subject_name
             }
         }

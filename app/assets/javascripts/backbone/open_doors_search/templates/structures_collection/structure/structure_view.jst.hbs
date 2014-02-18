@@ -1,0 +1,94 @@
+<div class="flexbox white-box structure-item">
+    <div class="flexbox__item v-top structure-item__logo">
+        <div class="relative">
+            {{#if logo_present}}
+                <a href="{{ data_url }}" class="block">
+                    <img src="{{ logo_thumb_url }}" class="block one-whole" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
+                </a>
+            {{/if}}
+        </div>
+    </div><!--
+ --><article class="flexbox__item four-tenths v-top structure-item__see-all-wrapper structure-item__button">
+        <div class="relative full-height soft-half hard--right">
+            <div class="epsilon flush v-top">
+                <a href="{{ data_url }}">{{ name }}</a>
+            </div>
+            {{#if tag_names}}
+                <div class="milli gray">
+                    <i class="fa fa-tag"></i>
+                    <span title="{{tag_names}}" data-behavior="tooltip">
+                        {{#if search_term}}
+                            <i>{{{highlight tag_names search_term 55}}}</i>
+                        {{else}}
+                            <i>{{{truncate tag_names 55}}}</i>
+                        {{/if}}
+                    </span>
+                </div>
+            {{/if}}
+            <div>
+                <div>
+                {{ open_course_nb }} {{ pluralize open_course_nb 'atelier' 'ateliers' }} :
+                <span title="{{open_course_names}}" data-behavior="tooltip">
+                    {{ truncate open_course_names 40 }}
+                </span>
+                </div>
+                <div>
+                {{#if audience}}
+                    <span class="milli">{{audience}}</span>&nbsp;
+                {{/if}}
+                </div>
+            </div>
+            <div class="milli">
+                <span class="quoted push-half--right">{{{truncate last_comment_title 50}}}</span>
+                (<a href="{{ data_url }}" class="semi-muted-link">voir les {{ comments_count }} avis</a>)
+            </div>
+            <a href="javascritp:void(0);" class="structure-item__see-all blue" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
+                {{#if plannings_count}}
+                    <span>Voir les horaires</span>
+                {{else}}
+                    <span>Pas de séance, contactez le professeur</span>
+                {{/if}}
+            </a>
+        </div>
+    </article><!--
+ --><div class="flexbox__item relative soft-half--sides structure-item__see-all-wrapper two-eighths v-middle text--center">
+        <div class="relative full-height v-middle soft--top">
+            <div class="alpha thin orange soft-half--top"> {{ open_courses_open_places }} </div>
+            <span class="orange soft-half--bottom milli">places restantes</span>
+
+            <a href="{{ data_url }}" class="structure-item__see-all btn btn--blue" data-wrapper=".structure-item__see-all-wrapper" style="margin-bottom: 2px;">
+                Participer
+            </a>
+        </div>
+
+    </div><!--
+ --><div class="flexbox__item two-eighths v-middle text--center rslides-wrapper structure-item__see-all-wrapper">
+        {{#if preloaded_medias}}
+        <div class="relative full-height">
+            <a class="structure-item__see-all rslides_nav rslides_nav--bottom" data-behavior="accordion-control" data-wrapper=".structure-item__see-all-wrapper" data-model="media" data-attributes="data_url">
+                <span>Voir la galerie ({{medias_count}})</span>
+            </a>
+            <ul class="rslides hidden">
+                {{#each preloaded_medias}}
+                    <li>
+                        <a rel="slideshow-{{mediable_id}}" href="{{{this.url}}}" class="rslides_nav rslides_nav--icon {{#if this.is_video}}visible{{/if}}" data-behavior="fancy">
+                            <i class="fa {{#if this.is_video}}fa-youtube-play{{else}}fa-eye{{/if}}"></i>
+                        </a>
+                        <div class="media__item media__item--slides">
+                            <a class="break-all" title="{{this.caption}}" href="{{this.url}}">
+                                <img src="{{this.thumbnail_url}}" />
+                            </a>
+                        </div>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+        {{else}}
+        <div class="text--center gray-light">
+            <i class="fa fa-picture-o fa-3x gray-light"></i>
+            <br />
+            0 photo / vidéo
+        </div>
+        {{/if}}
+    </div>
+</div>

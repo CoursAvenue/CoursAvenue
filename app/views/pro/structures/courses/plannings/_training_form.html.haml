@@ -1,0 +1,74 @@
+- if @planning.persisted?
+  - planning_url = pro_structure_course_planning_path(@structure, @course, @planning)
+- else
+  - planning_url = pro_structure_course_plannings_path(@structure, @course)
+
+- minutes = (2..32).collect{ |i| time = i*15; ["#{(time/60).floor}h#{(time%60 == 0 ? '00' : time%60)}",time] }
+= simple_form_for [:pro, @course, @planning], url: planning_url do |f|
+  = f.error_notification
+  .input.flush--bottom
+    = f.label :place
+    = f.input :place_id , as: :select, collection: @structure.places, label_method: lambda {|place| place.location.name}, include_blank: false, label: false
+    = link_to new_pro_structure_place_path(@structure, from: request.fullpath) do
+      &nbsp;
+      %i.fa.fa-map-marker
+      Ajouter un lieu
+  .input{data: {behavior: 'date-range', 'start-date '=> '#start-date', 'end-date '=> '#end-date' }}
+    %label.required.control-label Dates
+    %input#start-date.datepicker-input{type: 'text', value: (@planning.start_date.nil? ? '' : l(@planning.start_date)), placeholder: '02/08/2013', name: 'planning[start_date]'}
+    %label -
+    %input#end-date.datepicker-input{type: 'text', value: (@planning.end_date.nil? ? '' : l(@planning.end_date)), placeholder: '04/08/2013', name: 'planning[end_date]'}
+    - if f.object.errors.include? :end_date
+      .alert.alert-error.flush= f.object.errors.messages[:end_date].to_sentence
+    - if f.object.errors.include? :start_date
+      .alert.alert-error.flush= f.object.errors.messages[:start_date].to_sentence
+  .input.flush--bottom{data: {behavior: 'time-range', 'start-time-wrapper' => '#start-time-wrapper', 'end-time-wrapper' => '#end-time-wrapper'}}
+    = f.label :start_time, class: 'control-label' do
+      %i.fa.fa-time
+      Horaire
+    = f.input :start_time, as: :time, minute_step: 15, label: false, default: {year: 2000, month: 1, day: 1, hour: 8, min: 00}, wrapper_html: {id: 'start-time-wrapper'}
+    %label &nbsp;-&nbsp;
+    = f.input :end_time, as: :time, minute_step: 15, label: false, default: {year: 2000, month: 1, day: 1, hour: 9, min: 00}, wrapper_html: {id: 'end-time-wrapper'}
+
+  .input.add-teacher-wrapper
+    = f.label :teacher, class: 'control-label' do
+      %i.fa.fa-user
+      Professeur
+    = f.association :teacher, as: :select, collection: @teachers, include_blank: true, label: false
+    = link_to 'javascript:void(0)', class: 'add-teacher' do
+      &nbsp
+      %i.fa.fa-user
+      Ajouter un professeur
+  .input.hidden.new-teacher-wrapper
+    = f.label :teacher
+    = f.input :teacher, label: false, input_html: {value: '', placeholder: 'Ex. : Patrick'}
+
+  = f.input :level_ids, as: :check_boxes, collection: Level.all, label_method: lambda {|level| t(level.name)}, label: t('planning.levels'), wrapper_html: {data: {behavior: 'checkbox-list'}}
+
+  = f.input :audience_ids, as: :check_boxes, collection: Audience.all, label_method: lambda {|audience| t(audience.name)}, label: t('planning.audiences')
+
+  .input#children-ages{class: f.object.audiences.include?(Audience::KID) ? '' : 'hidden'}
+    %label.control-label.v-middle Âge pour les enfants (optionnel)
+    %span.v-middle de
+    = f.input :min_age_for_kid, label: false, input_html: {style: 'width: 5em;', value: f.object.min_age_for_kid || 0}, wrapper_html: {class: 'flush v-middle'}
+    %span.v-middle à
+    = f.input :max_age_for_kid, label: false, input_html: {style: 'width: 5em;', value: f.object.max_age_for_kid || 18}, wrapper_html: {class: 'flush v-middle'}
+    %span.v-middle ans
+
+  = f.input :info, as: :string, placeholder: 'Exemple : Nous préparerons un gâteau au chocolat', label: 'Information (optionnel)'
+  .text--center.input
+    = f.submit 'Enregistrer', class: 'btn btn--green', disable_with: 'Enregistrement en cours...'
+
+:javascript
+  if ($('[name="planning[audience_ids][]"]').length > 0) {
+      $('[name="planning[audience_ids][]"]').change(function(event) {
+          if (event.target.value == '1') {
+              if (event.target.checked) {
+                  $('#children-ages').removeClass('hidden');
+              } else {
+                  $('#children-ages').addClass('hidden');
+              }
+          }
+      });
+  }
+

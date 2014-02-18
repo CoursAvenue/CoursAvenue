@@ -89,7 +89,7 @@ gem 'inherited_resources'       , '~>1.3.1'
 gem 'mailboxer'                 , '~> 0.11.0'
 
 # For authorizations
-gem 'cancan'                    , '~>1.6.9'
+gem 'cancan'                    , '~>1.6.10'
 # For authentication
 gem 'devise'                    , '~>3.2.2'
 # Facebook connect
@@ -109,7 +109,7 @@ gem 'truncate_html'             , '~>0.9.2'
 
 # Add taggable behavior to models
 # https://github.com/mbleigh/acts-as-taggable-on
-gem 'acts-as-taggable-on'       , '~>2.4.1'
+gem 'acts-as-taggable-on'       , '~>3.0.1'
 
 # Prevent from real deletion
 # acts_as_paranoid

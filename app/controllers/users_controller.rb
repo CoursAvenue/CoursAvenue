@@ -4,7 +4,26 @@ class UsersController < InheritedResources::Base
 
   actions :show, :update
 
-  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation]
+  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo]
+
+  # params[:structure] : structure_slug
+  # method: GET
+  def invite_entourage_to_jpo_page
+    if current_user
+      @user = current_user
+    elsif params[:user_email].present?
+      @user = User.where(email: params[:user_email]).first_or_initialize
+      @user.save(validate: false)
+    end
+    @structure = Structure.find(params[:structure_id]) if params[:structure_id].present?
+    respond_to do |format|
+      if @user.nil?
+        format.html { redirect_to open_courses_path }
+      else
+        format.html
+      end
+    end
+  end
 
   def waiting_for_activation
   end
@@ -58,7 +77,7 @@ class UsersController < InheritedResources::Base
   private
 
   def get_layout
-    if action_name == 'waiting_for_activation'
+    if action_name == 'waiting_for_activation' or action_name == 'invite_entourage_to_jpo_page'
       'empty'
     else
       'user_profile'

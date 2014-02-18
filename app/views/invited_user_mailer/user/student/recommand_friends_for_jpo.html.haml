@@ -1,0 +1,26 @@
+- if @structure and @structure.logo?
+  - content_for :logo do
+    = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
+      = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+
+- content_for :promo do
+  %h4
+    - if @structure
+      #{@referrer.name} vous offre un cours d'essai gratuit avec #{@structure.name} pendant les Journées Portes Ouvertes CoursAvenue.
+    - else
+      #{@referrer.name} vous offre un cours d'essai gratuit pendant les Journées Portes Ouvertes CoursAvenue.
+
+- if @email_text
+  = @email_text.html_safe
+
+%p.action
+  - if @structure
+    = link_to "Participer aux Journées Portes Ouvertes", jpo_structure_url(@structure, subdomain: 'www'), class: 'btn btn--green'
+  - else
+    = link_to "Participer aux Journées Portes Ouvertes", root_url(subdomain: 'www'), class: 'btn btn--green'
+%p
+  À très bientôt !
+%p= @referrer.name
+
+- content_for :footer do
+  %p Vous recevez cet email car #{@referrer.name} vous invite à participer aux Journées Portes Ouvertes CoursAvenue.

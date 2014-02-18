@@ -1,0 +1,12 @@
+%ul.tabs.push--bottom
+  %li{class: current == 'course' ? 'active' : ''}
+    = link_to edit_pro_structure_course_path(@structure, @course) do
+      %i.lbc-icon-info i
+      Info
+  %li{class: current == 'prices' ? 'active' : ''}
+    = link_to pro_structure_course_prices_path(@structure, @course) do
+      € Tarifs
+  %li{class: current == 'plannings' ? 'active' : ''}
+    = link_to pro_structure_course_plannings_path(@structure, @course) do
+      %i.fa.fa-calendar
+      Planning

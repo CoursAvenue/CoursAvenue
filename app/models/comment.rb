@@ -1,5 +1,5 @@
 class Comment < ActiveRecord::Base
-  MIN_LENGTH = 20
+  MIN_LENGTH  = 20
 
   acts_as_paranoid
   attr_accessible :commentable, :commentable_id, :commentable_type, :content, :author_name, :email, :rating,
@@ -9,16 +9,25 @@ class Comment < ActiveRecord::Base
   #   - accepted
   #   - waiting_for_deletion
 
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
   belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :user
 
   has_and_belongs_to_many :subjects
 
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }
   validates :email, :author_name, :course_name, :content, :commentable, :title, presence: true
   validate  :doesnt_exist_yet, on: :create
   validate  :content_length, on: :create
 
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
   before_create    :set_pending_status
   before_create    :remove_quotes_from_title
 
@@ -32,8 +41,13 @@ class Comment < ActiveRecord::Base
   after_create     :affect_structure_to_user
   after_create     :create_passions_for_associated_user
   after_create     :complete_comment_notification
+  after_create     :create_or_update_user_profile
+
   after_destroy    :update_comments_count
 
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
   scope :ordered,              -> { order('created_at DESC') }
   scope :pending,              -> { where(status: 'pending') }
   scope :accepted,             -> { where(status: 'accepted') }
@@ -215,4 +229,20 @@ class Comment < ActiveRecord::Base
     self.title = string_title.strip
   end
 
+  # Create or update the user profile attached to the structure
+  #
+  # @return nil
+  def create_or_update_user_profile
+    _email = self.email
+    user_profile = self.structure.user_profiles.where(email: _email).first_or_initialize
+
+    # Update user_profile name if not set
+    user_profile.first_name = self.author_name.split(' ')[0..author_name.split(' ').length - 2].join(' ') if user_profile.first_name.blank? # All except the last
+    user_profile.last_name  = self.author_name.split(' ').last                                            if user_profile.last_name.blank? and self.author_name.split(' ').length > 1
+    user_profile.save
+
+    # Tag it as commented
+    self.structure.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:comments])
+    nil
+  end
 end

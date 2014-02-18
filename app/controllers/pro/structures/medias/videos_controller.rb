@@ -12,10 +12,10 @@ class Pro::Structures::Medias::VideosController < Pro::ProController
 
   def create
     @structure      = Structure.friendly.find params[:structure_id]
-    @media          = Media::Video.new params[:media_video]
-    @media.mediable = @structure
+    @video          = Media::Video.new params[:media_video]
+    @video.mediable = @structure
     respond_to do |format|
-      if @media.save
+      if @video.save
         format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Photo / vidéo bien ajoutée !' }
       else
         format.html { render :new }

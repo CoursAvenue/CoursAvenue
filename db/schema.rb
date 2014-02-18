@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140209101956) do
+ActiveRecord::Schema.define(version: 20140217161104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -273,6 +273,8 @@ ActiveRecord::Schema.define(version: 20140209101956) do
     t.string   "type"
     t.text     "email_text"
     t.string   "referrer_type"
+    t.string   "for"
+    t.hstore   "meta_data"
   end
 
   create_table "keywords", force: true do |t|
@@ -360,6 +362,7 @@ ActiveRecord::Schema.define(version: 20140209101956) do
     t.datetime "updated_at"
     t.time     "deleted_at"
     t.boolean  "waiting_list", default: false
+    t.datetime "canceled_at"
   end
 
   add_index "participations", ["planning_id", "user_id"], name: "index_participations_on_planning_id_and_user_id", using: :btree

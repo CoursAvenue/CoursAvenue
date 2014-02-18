@@ -190,13 +190,13 @@
         %tr
           %td.text--center
             - if course.active
-              = link_to disable_pro_course_path(course), method: :patch, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
+              = link_to disable_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
                 Visible
             - else
-              = link_to activate_pro_course_path(course), method: :patch, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
+              = link_to activate_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
                 Non&nbsp;visible
           %td
-            %h3.base-font-style.flush--bottom= link_to course.name.capitalize, edit_pro_course_path(course)
+            %h3.base-font-style.flush--bottom= link_to course.name.capitalize, edit_pro_structure_course_path(@structure, course)
           %td.text--center
             %ul.nav.flush--bottom
               = join_course_subjects course

@@ -1,0 +1,31 @@
+- content_for :logo do
+  = image_tag 'emails_logo/jpo.jpg', alt: 'CoursAvenue', height: '75', width: '75', style: '-ms-interpolation-mode:bicubic;'
+
+- content_for :promo do
+  %h4
+    Félicitations ! Un élève vient de s'inscrire à vos Journées Portes Ouvertes.
+
+%p
+  Informations sur la réservation :
+%ul
+  %li Nom de l'élève : #{@user.name}
+  %li Atelier : #{@course.name}
+  %li
+    Date :
+    = l(@planning.start_date, format: :semi_long).capitalize
+    = "de #{l(@planning.start_time, format: :short)} à #{l(@planning.end_time, format: :short)} (#{readable_duration(@planning.duration)})"
+  %li Nombre de place restante : #{@planning.places_left}
+
+%p Connectez-vous à votre profil pour suivre vos inscriptions :
+
+%p.action
+  = link_to "Suivre mes inscriptions", pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
+
+%p.blue.blue-tip
+  %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter tous leurs proches.
+
+- content_for :under_content do
+  = render 'invite_students_to_jpos'
+
+- content_for :under_content_2 do
+  = render 'admin_mailer/recommandations_advantages'
