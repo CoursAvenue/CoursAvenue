@@ -14,7 +14,7 @@
     Date :
     = l(@planning.start_date, format: :semi_long).capitalize
     = "de #{l(@planning.start_time, format: :short)} à #{l(@planning.end_time, format: :short)} (#{readable_duration(@planning.duration)})"
-  %li Nombre de place restante : #{@planning.places_left}
+  %li Nombre de places restantes : #{@planning.places_left}
 
 %p Connectez-vous à votre profil pour suivre vos inscriptions :
 

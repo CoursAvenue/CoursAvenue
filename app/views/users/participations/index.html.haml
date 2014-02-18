@@ -16,7 +16,6 @@
 - else
   - @participations.each do |participation|
     - if participation.waiting_list?
-      -azd?
       %h4 Vous êtes sur liste d'attente, vous serez prévenu par e-mail en cas de désistement.
     - course = participation.course
     .white-box.islet
@@ -25,7 +24,7 @@
           = link_to structure_path(participation.structure) , class: 'block', target: :_blank do
             = image_tag participation.structure.logo, class: 'block'
           = link_to jpo_new_user_invited_users_path(current_user, structure_id: participation.structure.id), class: 'btn btn--blue nowrap push-half--ends' do
-            %i.fa.fa-group
+            %i.fa.fa-gift
             Inviter mes amis
           %br
           = link_to 'Je ne pourrai pas venir, me désinscrire', user_participation_path(current_user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}
