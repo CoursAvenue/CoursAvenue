@@ -9,6 +9,7 @@ class Structures::CommentsController < ApplicationController
     @comments     = @structure.comments.accepted.limit(5).to_a
 
     respond_to do |format|
+      format.html { redirect_to new_structure_comment_path(@structure) }
       format.json { render json: @comments, each_serializer: CommentSerializer }
     end
   end

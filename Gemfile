@@ -153,10 +153,14 @@ gem 'jquery-turbolinks'
 # For uploading to amazon CDN
 gem 'aws-sdk'                   , '~>1.21.0'
 
+# Roo implements read access for all spreadsheet
 gem 'roo'                   , '~>1.12.2'
 
+# Rack::UTF8Sanitizer is a Rack middleware which cleans up invalid UTF8 characters in request URI and headers.
+# https://github.com/whitequark/rack-utf8_sanitizer
+gem 'rack-utf8_sanitizer'
+
 group :production, :staging do
-  # gem 'therubyracer'
   gem 'execjs'
   gem 'rails_12factor'
   # Sync assets to S3 and CloudFront
