@@ -59,7 +59,7 @@
                     .bar.bar-success{style: "width: #{(planning.possible_participations.length * 100) / planning.nb_participants_max}%;"}
                       #{planning.possible_participations.length} / #{planning.nb_participants_max}
                 - else
-                  Aucun inscrit
+                  0 / #{course.nb_participants_max}
                 - if planning.waiting_list.any?
                   %div
                     %strong Liste d'attente
