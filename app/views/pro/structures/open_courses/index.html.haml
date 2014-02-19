@@ -126,9 +126,10 @@
   .text--center
     %h4 Vous ne pouvez pas modifier cet atelier car vous avez des participants inscrits
     = link_to "Contacter l'équipe CoursAvenue pour une modification", pages_contact_url(subdomain: 'www'), class: 'btn btn--green', target: :_blank
-- if @courses.length == 1 and @courses.first.plannings.empty?
+
+- if @courses.last.plannings.empty?
   = content_for :scripts do
     :javascript
       $(function() {
-          $('.add-planning').click();
+          $('.add-planning').last().click();
       });
