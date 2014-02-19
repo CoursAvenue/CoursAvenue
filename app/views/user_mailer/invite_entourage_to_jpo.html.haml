@@ -15,9 +15,9 @@
 
 %p.action
   - if @structure
-    = link_to "Participer aux Journées Portes Ouvertes", structure_url(@structure, subdomain: 'www'), class: 'btn btn--blue'
+    = link_to "Participer aux Journées Portes Ouvertes", structure_url(@structure, subdomain: 'www'), class: 'btn btn--green'
   - else
-    = link_to "Participer aux Journées Portes Ouvertes", root_url(subdomain: 'www'), class: 'btn btn--blue'
+    = link_to "Participer aux Journées Portes Ouvertes", root_url(subdomain: 'www'), class: 'btn btn--green'
 %p
   À très bientôt !
 %p= @user_name
