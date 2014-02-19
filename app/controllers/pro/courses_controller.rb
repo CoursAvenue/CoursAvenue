@@ -47,7 +47,11 @@ class Pro::CoursesController < InheritedResources::Base
   def disable
     @course = Course.friendly.find params[:id]
     if @course.update_attribute :active, false
-      redirect_to pro_structure_courses_path(@structure), notice: "Le cours n'est plus affiché sur CoursAvenue"
+      if @course.is_open?
+        redirect_to pro_open_courses_path, notice: 'Le cours a bien été activé'
+      else
+        redirect_to pro_structure_courses_path(@structure), notice: "Le cours n'est plus affiché sur CoursAvenue"
+      end
     else
       redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que le tarif et le planning sont bien renseignés."
     end

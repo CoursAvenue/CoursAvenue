@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140219102628) do
+ActiveRecord::Schema.define(version: 20140219111649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -207,6 +207,7 @@ ActiveRecord::Schema.define(version: 20140219102628) do
     t.string   "event_type_description"
     t.float    "price"
     t.integer  "nb_participants_min"
+    t.text     "ca_follow_up"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree

@@ -90,9 +90,9 @@
 .text--center.push--bottom
   = link_to 'Ajouter un atelier', new_pro_structure_course_open_path(@structure), class: 'btn btn--green btn--large'
 
-- if @courses.length == 1 and @courses.first.plannings.empty?
+- if @courses.last.plannings.empty?
   = content_for :scripts do
     :javascript
       $(function() {
-          $('.add-planning').click();
+          $('.add-planning').last().click();
       });
