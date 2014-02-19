@@ -385,7 +385,7 @@ class Course < ActiveRecord::Base
   end
 
   def activate!
-    if (prices.any? and plannings.any?)
+    if is_open? or (prices.any? and plannings.any?)
       self.active = true
       return self.save
     else
