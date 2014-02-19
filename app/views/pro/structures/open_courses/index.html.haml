@@ -56,7 +56,7 @@
       = course.subjects.map(&:name).join(', ')
     %p.flush= course.description
 
-    - if course.plannings.order('start_date ASC, start_time ASC').any?
+    - if course.plannings.any?
       %table.table--data.table--striped
         %thead
           %tr
@@ -67,7 +67,7 @@
             %th Nombre d'inscrits
             %th
         %tbody
-          - course.plannings.each do |planning|
+          - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
             %tr
               %td
                 = planning_date_for(planning)
