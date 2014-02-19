@@ -33,6 +33,20 @@
 //```
 StructureProfile.module('Views.Collection', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
+    Module.Collection = Marionette.CollectionView.extend({
+        // render the item view
+        renderItemView: function(view, index) {
+            var existing_el = this.options.$element.children().get(index);
+            if (view.attach === undefined || existing_el === undefined) {
+                view.render();
+            } else {
+                view.attach(this.options.$element.children().get(index).innerHTML)
+            }
+
+            this.appendHtml(this, view, index);
+        }
+    });
+
     // a function to run when it is determined that this module will be used. Creates
     // a TabManager view object for each element with data-view=TabManager.
     Module.addInitializer(function () {
@@ -51,7 +65,8 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
                     bootstrap:     bootstrap,
                     resource:      resource,
                     tag:           sample_tag,
-                    itemview_tag:  sample_item
+                    itemview_tag:  sample_item,
+                    $element:      $element
                 }),
                 region_name  = 'Collection' + _.capitalize(view.cid),
                 regions      = {};
@@ -113,22 +128,20 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
         collection = new Collection(options.bootstrap);
 
         // if there is a custom itemView for teachers, use that
-        if (App.Views[Module] && App.Views[Module][_.capitalize(resource)]) {
-            ItemView = App.Views[Module][_.capitalize(resource)];
+        if (App.Views[_.capitalize(resources)] && App.Views[_.capitalize(resources)][_.capitalize(resource)]) {
+            ItemView = App.Views[_.capitalize(resources)][_.capitalize(resource)];
         } else {
             ItemView = Marionette.ItemView;
         }
 
         // if we are using a generic item view, extend it to use the template
-        if (Marionette.ItemView === ItemView) {
-            itemview_options.template = 'backbone/structure_profile/views/' + resources + '/templates/' + template_name;
-            ItemView                  = ItemView.extend(itemview_options);
-        }
+        itemview_options.template = 'backbone/structure_profile/views/' + resources + '/templates/' + template_name;
+        ItemView                  = ItemView.extend(itemview_options);
 
         options.collection = collection;
         options.itemView   = ItemView;
 
-        return new Marionette.CollectionView(options);
+        return new Module.Collection(options);
     };
 
 }, undefined);

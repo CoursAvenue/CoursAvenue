@@ -59,24 +59,24 @@
               = tab[:name]
 
     .tabs--container
-      %article.tab-pane.hidden{ data: { view: 'Collection', of: 'Courses',  bootstrap: @model.courses.to_json,  component: 'TabContents', for: 'courses' }}
+      %article.tab-pane.active{ data: { view: 'Collection', of: 'Courses',  bootstrap: @model.courses.to_json,  component: 'TabContents', for: 'courses' }}
         .white-box.islet{ data: { 'sample-tag' => true }}
           - @model.courses.each do |course|
+            .bob{ data: { behaviors: "activateOnTeachersTabClicked" }}
+              BOB
             - course = JSON.parse(course.to_json)
             = render template: '../assets/javascripts/backbone/structure_profile/views/courses/templates/course', locals: course
 
-      %article.tab-pane.hidden{ data: { view: 'Collection', of: "Teachers", bootstrap: @model.teachers.to_json, component: 'TabContents', for: 'teachers'}}
+      %article.tab-pane{ data: { view: 'Collection', of: "Teachers", bootstrap: @model.teachers.to_json, component: 'TabContents', for: 'teachers'}}
         - @model.teachers.each do |teacher|
           .white-box.islet{ data: { 'sample-tag' => true }}
             - teacher = JSON.parse(teacher.to_json)
             = render template: '../assets/javascripts/backbone/structure_profile/views/teachers/templates/teacher', locals: teacher
 
-      %article.tab-pane.hidden{ data: { view: 'Collection', of: "Comments", bootstrap: @model.comments.to_json, component: 'TabContents', for: 'comments'}}
+      %article.tab-pane{ data: { view: 'Collection', of: "Comments", bootstrap: @model.comments.to_json, component: 'TabContents', for: 'comments'}}
         -# this will be used as the tagName and className of the CollectionView and ItemView
         %ul.comment-list{ data: { 'sample-tag' => true }}
           %li.comment-list__el.hard--left.soft-half.white-box{ data: { "sample-item" => true }}
-
-
 
 #course_info.hidden= render 'structures/courses/info_popup'
 
