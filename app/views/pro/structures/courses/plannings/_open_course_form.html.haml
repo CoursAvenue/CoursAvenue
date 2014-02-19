@@ -5,7 +5,7 @@
 
 - minutes = (2..32).collect{ |i| time = i*15; ["#{(time/60).floor}h#{(time%60 == 0 ? '00' : time%60)}",time] }
 
-= simple_form_for [:pro, @course, @planning], url: planning_url do |f|
+= simple_form_for [:pro, @course, @planning], url: planning_url, html: { id: 'planning-form' } do |f|
   = f.error_notification
   .input.flush--bottom
     = f.label :place
@@ -14,6 +14,7 @@
       &nbsp;
       %i.fa.fa-map-marker
       Ajouter un lieu
+  = render 'places_description_info'
   .input.radio
     %label.required.control-label Jour
     .inline.nowrap.radio
@@ -63,6 +64,7 @@
     = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: 'Enregistrement en cours...'
 
 :javascript
+  $('#planning_place_id').change();
   if ($('[name="planning[audience_ids][]"]').length > 0) {
       $('[name="planning[audience_ids][]"]').change(function(event) {
           if (event.target.value == '1') {

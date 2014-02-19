@@ -67,6 +67,18 @@
               %strong Infos pratique au cours
               %br
               = course.info
+          - if course.info.present?
+            %p
+              %strong Infos pratiques sur le cours
+              %br
+              = course.info
+          - if place.info.present? or place.private_info.present?
+            %p
+              %strong Infos pratiques sur le lieu
+              %br
+              = place.info
+              %br
+              = place.private_info
 
         .flexbox__item.two-twelfths.v-top>
           = link_to "http://maps.google.com/?q=#{participation.planning.place.location.address}", target: :_blank, class: 'block' do

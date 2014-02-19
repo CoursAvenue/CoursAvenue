@@ -17,6 +17,7 @@
 %table.table--striped.dataTable.table--data.white-box.flush--bottom
   %thead
     %tr
+      %th
       %th Nom de l'établissement
       %th Nom du cours
       %th Type
@@ -27,6 +28,14 @@
   %tbody
     - @courses.each do |course|
       %tr
+        %td
+          - if course.active
+            = link_to disable_pro_structure_course_path(course.structure, course), method: :patch, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
+              Visible
+          - else
+            = link_to activate_pro_structure_course_path(course.structure, course), method: :patch, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
+              Non&nbsp;visible
+
         %td= link_to course.structure.name, pro_structure_course_opens_path(course.structure)
         %td= course.name
         %td= course.event_type
