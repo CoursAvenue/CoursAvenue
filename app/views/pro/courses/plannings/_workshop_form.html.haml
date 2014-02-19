@@ -4,7 +4,7 @@
   - planning_url = pro_course_plannings_path(@course)
 
 - minutes = (2..32).collect{ |i| time = i*15; ["#{(time/60).floor}h#{(time%60 == 0 ? '00' : time%60)}",time] }
-= simple_form_for [:pro, @course, @planning], url: planning_url do |f|
+= simple_form_for [:pro, @course, @planning], url: planning_url, html: { id: 'planning-form' } do |f|
   = f.error_notification
   .input.flush--bottom
     = f.label :place
@@ -13,6 +13,7 @@
       &nbsp;
       %i.fa.fa-map-marker
       Ajouter un lieu
+  = render 'places_description_info'
   .input
     %label.required.control-label Date
     %input.datepicker-input{type: 'text', value: (@planning.start_date.nil? ? '' : l(@planning.start_date)), placeholder: '02/08/2013', name: 'planning[start_date]', data: {behavior: 'datepicker'}}

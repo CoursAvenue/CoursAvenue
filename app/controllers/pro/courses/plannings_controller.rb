@@ -64,6 +64,7 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
 
   def create
     create_or_affect_teacher
+    update_place_infos
     @planning           = Planning.new(params[:planning])
     @planning.teacher   = @teacher if @teacher
     @planning.course    = @course
@@ -89,6 +90,7 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
 
   def update
     create_or_affect_teacher
+    update_place_infos
     @planning        = Planning.find(params[:id])
     @planning.course = @course
     retrieve_plannings_and_past_plannings
@@ -130,6 +132,14 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
       @plannings      = @course.plannings.order('start_date ASC, start_time ASC').future
       @past_plannings = @course.plannings.order('start_date ASC, start_time ASC').past
     end
+  end
+
+  def update_place_infos
+    return if params[:place].blank?
+    place              = Place.find params[:planning][:place_id]
+    place.info         = params[:place][:info]         unless params[:place][:info].blank?
+    place.private_info = params[:place][:private_info] unless params[:place][:private_info].blank?
+    place.save
   end
 
   def create_or_affect_teacher

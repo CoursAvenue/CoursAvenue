@@ -11,7 +11,8 @@ fr:
         street: Adresse (N° + rue)
         zip_code: Code postal
         city: Ville
-        info: Indications
+        info: Publiques
+        private_info: Privées
         nb_room: Nombre de salles
         contact_email: Email
         contact_name: Nom

@@ -5,6 +5,7 @@
 
 - @participations.each do |participation|
   - course = participation.course
+  - place = participation.planning.place
   .white-box.islet
     .grid
       .grid__item.two-twelfths>
@@ -18,8 +19,6 @@
         %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link'
         %p
           = "#{join_audiences participation.planning} / #{join_levels participation.planning.levels}"
-          -# %br
-          -# Mes informations personnelles communiquées
         - if course.description.present?
           %p
             %strong Description
@@ -27,11 +26,18 @@
             = course.description
         - if course.info.present?
           %p
-            %strong Infos pratique au cours
+            %strong Infos pratiques sur le cours
             %br
             = course.info
+        - if place.info.present? or place.private_info.present?
+          %p
+            %strong Infos pratiques sur le lieu
+            %br
+            = place.info
+            %br
+            = place.private_info
       .grid__item.three-twelfths>
-        = link_to "http://maps.google.com/?q=#{participation.planning.place.location.address}", target: :_blank do
-          %img.block{src:"http://maps.googleapis.com/maps/api/staticmap?center=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}&zoom=13&size=200x130&sensor=false&markers=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}"}
+        = link_to "http://maps.google.com/?q=#{place.location.address}", target: :_blank do
+          %img.block{src:"http://maps.googleapis.com/maps/api/staticmap?center=#{place.location.latitude},#{place.location.longitude}&zoom=13&size=200x130&sensor=false&markers=#{place.location.latitude},#{place.location.longitude}"}
         %p
-          %i= participation.planning.place.location.address
+          %i= place.location.address

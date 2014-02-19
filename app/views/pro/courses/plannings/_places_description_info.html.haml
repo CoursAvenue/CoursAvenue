@@ -1,0 +1,24 @@
+- @structure.places.each do |place|
+  .hidden.gray.flush{data: {place_id: place.id, info: place.info, private_info: place.private_info } }
+.input
+  %label.control-label.v-top> Infos pratiques sur le lieu
+  %div.three-quarters>
+    .grid
+      .grid__item.one-half>
+        %i.fa.fa-eye
+        %strong Publiques
+        %br
+        %textarea#place_info.milli.one-whole.textarea--small{rows: 2, name: 'place[info]'}
+      .grid__item.one-half>
+        %i.fa.fa-lock
+        %strong{title: 'Informations confidentielles uniquement communiquées aux élèves inscrits', data: {behavior: 'tooltip'}} Privées
+        %br
+        %textarea#place_private_info.milli.one-whole.textarea--small{rows: 2, name: 'place[private_info]'}
+
+:javascript
+  $('#planning-form [name="planning[place_id]"]').change(function fillPlaceInfo () {
+      var place_data = $('[data-place-id=' + $(this).val() + ']');
+      $('#place_info').val(place_data.data('info'));
+      $('#place_private_info').val(place_data.data('private-info'));
+  });
+  $('#planning-form [name="planning[place_id]"]').change();

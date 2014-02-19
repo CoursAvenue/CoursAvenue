@@ -131,6 +131,9 @@
     }
     textarea.text {
         height: 5em;
+        &.textarea--small {
+            height: 3.5em;
+        }
         &.textarea-description--tall {
             height: 30em;
         }
