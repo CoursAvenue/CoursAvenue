@@ -31,10 +31,10 @@
       %tr
         %td
           - if course.active
-            = link_to disable_pro_structure_course_path(@structure, course), method: :patch, title: 'Enlever le cours de CoursAvenue' do
+            = link_to disable_pro_structure_course_path(course.structure, course), method: :patch, title: 'Enlever le cours de CoursAvenue' do
               %i.fa.fa-check.green
           - else
-            = link_to activate_pro_structure_course_path(@structure, course), method: :patch, title: 'Afficher le cours sur CoursAvenue'  do
+            = link_to activate_pro_structure_course_path(course.structure, course), method: :patch, title: 'Afficher le cours sur CoursAvenue'  do
               %i.fa.fa-times.red
 
         %td= link_to course.structure.name, pro_structure_course_opens_path(course.structure)
