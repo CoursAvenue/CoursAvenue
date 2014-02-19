@@ -13,6 +13,7 @@ class Course < ActiveRecord::Base
   belongs_to :structure, touch: true
 
   has_many :comments            , through: :structure
+  has_many :participations      , through: :plannings
   has_many :reservations        , as: :reservable
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , -> { uniq }, through: :plannings

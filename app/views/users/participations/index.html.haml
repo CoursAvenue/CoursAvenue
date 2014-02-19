@@ -15,9 +15,10 @@
     = link_to "M'inscrire aux journées portes ouvertes", open_courses_path, class: 'btn btn--blue'
 - else
   - @participations.each do |participation|
+    - course = participation.course
+    - place  = participation.planning.place
     - if participation.waiting_list?
       %h4 Vous êtes sur liste d'attente, vous serez prévenu par e-mail en cas de désistement.
-    - course = participation.course
     .white-box.islet
       .flexbox
         .flexbox__item.two-twelfths.soft-half--right.v-top>
@@ -79,12 +80,11 @@
               = place.info
               %br
               = place.private_info
-
         .flexbox__item.two-twelfths.v-top>
-          = link_to "http://maps.google.com/?q=#{participation.planning.place.location.address}", target: :_blank, class: 'block' do
-            %img.one-whole.block{src:"http://maps.googleapis.com/maps/api/staticmap?center=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}&zoom=14&size=200x130&sensor=false&markers=#{participation.planning.place.location.latitude},#{participation.planning.place.location.longitude}"}
+          = link_to "http://maps.google.com/?q=#{place.location.address}", target: :_blank, class: 'block' do
+            %img.one-whole.block{src:"http://maps.googleapis.com/maps/api/staticmap?center=#{place.location.latitude},#{place.location.longitude}&zoom=14&size=200x130&sensor=false&markers=#{place.location.latitude},#{place.location.longitude}"}
           %p
-            %i= participation.planning.place.location.address
+            %i= place.location.address
 
 
   - if params[:inscription_confirmed]
