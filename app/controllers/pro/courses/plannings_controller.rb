@@ -72,7 +72,7 @@ class Pro::Courses::PlanningsController < InheritedResources::Base
     set_dates_and_times
     respond_to do |format|
       if @planning.save
-        @course.activate! unless @course.active?
+        @course.activate! unless @course.active? or @course.is_open?
         if @course.is_open?
           format.html { redirect_to pro_structure_course_opens_path(@course.structure), notice: 'Votre planning à bien été créé.' }
         else
