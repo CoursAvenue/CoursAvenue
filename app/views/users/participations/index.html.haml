@@ -28,6 +28,9 @@
             %i.fa.fa-gift
             Inviter mes amis
           %br
+          .share-on-facebook.btn.btn--facebook.push-half--bottom Facebook
+          .share-on-twitter.btn.btn--twitter.btn--small Twitter
+
           = link_to 'Je ne pourrai pas venir, me désinscrire', user_participation_path(current_user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}
         .flexbox__item.eight-twelfths.v-top>
           .flexbox
@@ -86,22 +89,22 @@
           %p
             %i= place.location.address
 
-
   - if params[:inscription_confirmed]
     #inscription-confirmed-popup.hidden
       %h4 Invitez vos amis à participer à l'événement
-      #share-on-facebook.btn.btn--facebook Partager sur Facebook
-      #share-on-twitter.btn.btn--twitter.btn--small Partager sur Twitter
+      .share-on-facebook.btn.btn--facebook Partager sur Facebook
+      .share-on-twitter.btn.btn--twitter.btn--small Partager sur Twitter
       .text--center.push-half--top
         = link_to 'Envoyer une invitation par email', jpo_new_user_invited_users_path(current_user), class: 'btn btn--blue'
-    - content_for :scripts do
-      :javascript
-        $(function() {
-          $.fancybox($('#inscription-confirmed-popup'));
-          $('#share-on-facebook').click(function() {
-              window.open('#{share_participation_url(@participations.last)}', 'Partager', "height=400,width=600");
-          });
-          $('#share-on-twitter').click(function() {
-              window.open('#{share_participation_url(@participations.last, :twitter)}', 'Partager', "height=400,width=600");
-          })
-        });
+
+- content_for :scripts do
+  :javascript
+    $(function() {
+      $.fancybox($('#inscription-confirmed-popup'));
+      $('.share-on-facebook').click(function() {
+          window.open('#{share_participation_url(@participations.last)}', 'Partager', "height=400,width=600");
+      });
+      $('.share-on-twitter').click(function() {
+          window.open('#{share_participation_url(@participations.last, :twitter)}', 'Partager', "height=400,width=600");
+      })
+    });
