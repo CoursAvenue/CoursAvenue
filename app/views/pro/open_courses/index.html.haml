@@ -31,10 +31,10 @@
       %tr
         %td
           - if course.active
-            = link_to disable_pro_structure_course_path(course.structure, course), method: :patch, title: 'Enlever le cours de CoursAvenue' do
+            = link_to disable_pro_structure_course_path(course.structure, course), remote: true, method: :patch, title: 'Enlever le cours de CoursAvenue' do
               %i.fa.fa-check.green
           - else
-            = link_to activate_pro_structure_course_path(course.structure, course), method: :patch, title: 'Afficher le cours sur CoursAvenue'  do
+            = link_to activate_pro_structure_course_path(course.structure, course), remote: true, method: :patch, title: 'Afficher le cours sur CoursAvenue'  do
               %i.fa.fa-times.red
 
         %td= link_to course.structure.name, pro_structure_course_opens_path(course.structure)
@@ -58,6 +58,10 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        $('[data-method="patch"]').bind('ajax:complete', function() {
+            $(this).find('i').toggleClass('fa-times fa-check green red');
+            GLOBAL.flash('Cours mis à jour')
+        });
         $('form').change(function() {
             $(this).submit().on('ajax:success', function() {
                 GLOBAL.flash('Follow up enregistré')
