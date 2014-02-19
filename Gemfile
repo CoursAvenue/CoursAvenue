@@ -127,7 +127,7 @@ gem 'railsy_backbone'           , '~>0.0.5'
 gem 'marionette-rails'          , '~>1.4.1'
 # Includes bacbone.relational
 gem 'backbone-relational-rails' , '~>0.8.7'
-gem 'handlebars_assets'         , '~>0.14.1'
+gem 'handlebars_assets'         , git: 'git@github.com:variousauthors/handlebars_assets.git'
 # allows sharing of handlebars templates
 gem 'sht_rails'
 gem 'sass-rails'                , '~>4.0.1'
