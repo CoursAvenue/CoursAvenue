@@ -61,10 +61,20 @@ CoursAvenue.module('DataMining', function(Module, App, Backbone, Marionette, $, 
 
         addComment: function addComment (comment) {
             var comments = this.get("comments") || [];
+
+            comment           = this.decodeComment(comment);
             comment.submitted = (comment.submitted)? true : false;
+
             comments.push(comment);
 
             this.set("comments", comments);
+        },
+
+        decodeComment: function decodeComment (comment) {
+            return _.inject(comment.data, function buildCommentObject (memo, field) {
+                memo[field.name] = field.value;
+                return memo;
+            }, {});
         }
     });
 
