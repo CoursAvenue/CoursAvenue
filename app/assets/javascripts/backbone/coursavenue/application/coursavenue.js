@@ -57,18 +57,40 @@ CoursAvenue.module('DataMining', function(Module, App, Backbone, Marionette, $, 
             }
 
             this.set(pair.name, data);
+        },
+
+        addComment: function addComment (comment) {
+            var comments = this.get("comments") || [];
+            comment.submitted = (comment.submitted)? true : false;
+            comments.push(comment);
+
+            this.set(comments);
         }
     });
 
-    Module.addInitializer(function () {
-        var visitor     = new Module.Visitor();
+    Module.addInitializer(function dataMiningInitializer () {
+        var visitor = new Module.Visitor();
 
-        $("form[data-gather]").on("submit", function (e) {
+        $("form[data-gather]").on("submit", function collectPairsOnSubmit (e) {
             visitor.collectPairs($(this).serializeArray());
         });
 
+        $("form[data-recover-comment]").on("submit", function markSubmitted () {
+            $(this).data("submitted", true);
+        });
+
         // when the page unloads, we want to save the visitor
-        window.onbeforeunload = function (e) {
+        window.onbeforeunload = function beforeUnloadCallback (e) {
+            $("form[data-recover-comment]").each(function recoverUnsubmittedForm () {
+                var form_data = $(this).serializeArray(),
+                    comment = {
+                        data: form_data,
+                        submitted: $(this).data("submitted")
+                    };
+
+                visitor.addComment(comment);
+            });
+
             visitor.save();
         }
     });

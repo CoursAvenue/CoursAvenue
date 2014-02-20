@@ -68,7 +68,7 @@
             Voir le profil
         %h4 Votre expérience est précieuse pour les autres élèves. Merci !
     .islet.white-box.two-thrids.center-block
-      = simple_form_for @comment, url: comments_path do |f|
+      = simple_form_for @comment, url: comments_path, data: { "recover-comment" => true } do |f|
         = f.error_notification
         %input{type: :hidden, name: 'from', value: 'recommendation-page'}
         = f.hidden_field :commentable_type
