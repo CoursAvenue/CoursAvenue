@@ -3,7 +3,8 @@ class Visitor < ActiveRecord::Base
 
   attr_accessible :address_name, :subject_id
 
-  has_many :comments, class_name: "UnfinishedResource::Comment"
+  has_many :unfinished_comments, class_name: "UnfinishedResource::Comment"
+  has_many :comments
 
   def best(symbol)
     self[symbol].to_a.inject(["", 0]) { |memo, pair|
@@ -12,5 +13,17 @@ class Visitor < ActiveRecord::Base
       memo = [k, v] if v.to_i > memo[1].to_i
       memo
     }
+  end
+
+  # determines whether the visitor has left multiple
+  # comments on a single structure, something which
+  # is not permitted
+  #
+  # @return true if and only if some of the visitors' published comments
+  #   share their commentable_id
+  def comment_collision?
+    ids = self.unfinished_comments.map(&:commentable_id)
+
+    ids.uniq.length != ids.length
   end
 end

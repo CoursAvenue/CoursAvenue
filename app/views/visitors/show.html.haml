@@ -1,8 +1,10 @@
 %script{ src: "http://d3js.org/d3.v3.min.js" }
 
-%span= @visitor.fingerprint
+%p fingerprint: #{ @visitor.fingerprint } 
+%p collisions:  #{ @visitor.comment_collision? } 
 
-- @comments.each do |comment|
+%h3 Unfinished Comments
+- @unfinished_comments.each do |comment|
   = render partial: 'comments/comment', locals: { comment: comment.to_c }
 
 

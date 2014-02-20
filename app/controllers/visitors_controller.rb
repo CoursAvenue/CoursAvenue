@@ -13,7 +13,7 @@ class VisitorsController < ApplicationController
 
   def show
     @visitor = Visitor.where(fingerprint: params[:fingerprint]).first
-    @comments = @visitor.comments
+    @unfinished_comments = @visitor.unfinished_comments
 
     respond_to do |format|
       format.html
@@ -27,7 +27,7 @@ class VisitorsController < ApplicationController
     # if the comment was not submitted, add it as an abandoned
     # comment, otherwise add it as a regular comment
     params[:comments].each do |data|
-      comment = @visitor.comments.build
+      comment = @visitor.unfinished_comments.build
       comment.fields = data
     end
 
