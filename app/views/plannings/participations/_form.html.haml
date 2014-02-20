@@ -1,38 +1,46 @@
-%h3.flush.text--center Confirmez-vous votre inscription ?
-%p.gray.text--center
-  Une fois validée, vous ne pourrez plus vous inscrire à un autre atelier
-  %br
-  - if @planning.for_kid? and !@planning.for_adult? and !@planning.for_senior?
-    %i (1 seule inscription possible par personne, pour vous ou pour votre enfant).
-  - else
-    %i (1 seule inscription possible par personne).
+- if @planning.places_left?
+  %h3.flush.text--center Confirmez-vous votre inscription ?
+  %p.gray.text--center
+    Une fois validée, vous ne pourrez plus vous inscrire à un autre atelier
+    %br
+    - if @planning.for_kid? and !@planning.for_adult? and !@planning.for_senior?
+      %i (1 seule inscription possible par personne, pour vous ou pour votre enfant).
+    - else
+      %i (1 seule inscription possible par personne).
+- else
+  %h3.flush.text--center
+    Confirmez-vous votre inscription sur liste d'attente ?
+  %p.gray.text--center
+    Une fois validée, vous ne pourrez plus vous inscrire à un autre atelier
+    %br
+    (1 seule inscription possible par personne, sur liste d'attente ou non).
 
-- if @planning.for_kid?
-  - if @planning.for_adult? or @planning.for_senior?
-    %p
-      %strong Note importante :
-      cet atelier est proposé aux adultes et aux enfants. Exceptionnellement, vous pouvez venir avec votre enfant, merci de nous le préciser :
-  - else
-    %p
-      %strong Note importante :
-      cet atelier est réservé aux enfants de #{@planning.min_age_for_kid} à #{@planning.max_age_for_kid} ans. Si vous êtes parent et que vous validez cette inscription pour votre enfant, vous ne pourrez plus vous inscrire à un atelier.
-
-%p.flush
-  %strong En confirmant, je m'engage à :
-%p.soft--left
-  %i.fa.fa-check.green
-  Choisir un cours qui m'intéresse réellement pour potentiellement m'inscrire dans l'année
-  %br
-  %i.fa.fa-check.green
-  Noter la date dans mon agenda pour ne pas l'oublier le jour J
-  %br
-  %i.fa.fa-check.green
-  Annuler mon inscription si je ne peux plus y participer
 
 = simple_form_for [@planning, @participation] do |f|
   - if @planning.for_kid?
     - if @planning.for_adult? or @planning.for_senior?
-      = f.input :participation_for, as: :select, collection: Participation::PARTICIPATION_FOR, label_method: lambda{|l| I18n.t(l)}, label: false, include_blank: false, input_html: { class: ''}
-  = f.submit 'Confirmer mon inscription', class: 'btn btn--green btn--full'
+      %p.flush
+        %strong Note importante :
+        cet atelier est proposé aux adultes et aux enfants. Exceptionnellement, vous pouvez venir avec votre enfant, merci de nous le préciser :
+      = f.input :participation_for, as: :select, collection: Participation::PARTICIPATION_FOR, label_method: lambda{|l| I18n.t(l)}, label: false, include_blank: false, input_html: { class: 'one-whole' }, wrapper_html: { class: 'push--bottom' }
+    - else
+      %p
+        %strong Note importante :
+        cet atelier est réservé aux enfants de #{@planning.min_age_for_kid} à #{@planning.max_age_for_kid} ans. Si vous êtes parent et que vous validez cette inscription pour votre enfant, vous ne pourrez plus vous inscrire à un atelier :
 
+  %p.flush
+    %strong En confirmant, je m'engage à :
+  %p.soft--left
+    %i.fa.fa-check.green
+    Choisir un cours qui m'intéresse réellement pour potentiellement m'inscrire dans l'année
+    %br
+    %i.fa.fa-check.green
+    Noter la date dans mon agenda pour ne pas l'oublier le jour J
+    %br
+    %i.fa.fa-check.green
+    Annuler mon inscription si je ne peux plus y participer
 
+  - if @planning.places_left?
+    = f.submit 'Confirmer mon inscription', class: 'btn btn--green btn--full'
+  - else
+    = f.submit "Confirmer mon inscription sur liste d'attente", class: 'btn btn--green btn--full'

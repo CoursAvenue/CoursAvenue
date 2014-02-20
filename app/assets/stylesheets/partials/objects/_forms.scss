@@ -51,7 +51,7 @@
         }
         select {
             width: auto;
-            &.one-whole { width: 100%; }
+            &.one-whole { width: 99%; }
         }
         &.city-autocomplete-wrapper {
             > .input, input {

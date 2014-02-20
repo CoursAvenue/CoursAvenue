@@ -60,7 +60,7 @@ class Planning < ActiveRecord::Base
   validates :place, :audience_ids, :level_ids, presence: true
   validate  :presence_of_start_date
   validate  :end_date_in_future
-  validate  :can_change_nb_participants_max
+
   validates :min_age_for_kid, numericality: { less_than: 18 }, allow_nil: true
   validates :max_age_for_kid, numericality: { less_than: 19 }, allow_nil: true
 
@@ -411,19 +411,29 @@ class Planning < ActiveRecord::Base
     nb_participants_max - (participations.not_in_waiting_list.not_canceled.count || 0)
   end
 
-  # Participations that does not exceed the quota
-  #
-  # @return Participations
-  def possible_participations
-    self.participations.not_canceled.not_in_waiting_list
-  end
-
   def waiting_list
     self.participations.not_canceled.waiting_list
   end
 
+  # Number of places left
+  #
+  # @return Integer
   def places_left
-    nb_participants_max - possible_participations.length
+    nb_participants_max - nb_jpo_participants
+  end
+
+  # Does the planning still have places open?
+  #
+  # @return [type] [description]
+  def places_left?
+    places_left > 0
+  end
+
+  # Number of participants of this planning. Including children
+  #
+  # @return Integer
+  def nb_jpo_participants
+    participations.not_canceled.map(&:size).reduce(&:+) || 0
   end
 
   private
@@ -524,16 +534,6 @@ class Planning < ActiveRecord::Base
   ######################################################################
   # Validations                                                        #
   ######################################################################
-
-  #
-  # Teacher cannot have a nb_participants_max less than the number of already
-  # participants subscribed
-  #
-  # @return [type] [description]
-  def can_change_nb_participants_max
-    return false if nb_participants_max.nil?
-    return nb_participants_max >= possible_participations.length
-  end
 
   # Add errors to model if min_age < max_age
   #

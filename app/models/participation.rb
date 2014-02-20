@@ -112,6 +112,21 @@ class Participation < ActiveRecord::Base
     end
   end
 
+  # Tells if the parent comes with his kid in case of plannings for kids
+  # and adults
+  #
+  # @return Boolean
+  def with_kid?
+    participation_for == 'participations.for.one_kid_and_one_adult'
+  end
+
+  # Return the size of the participation. Does it count for 1 person or 2 ?
+  #
+  # @return Integer
+  def size
+    (with_kid? ? 2 : 1)
+  end
+
   ######################################################################
   # Callbacks                                                          #
   ######################################################################

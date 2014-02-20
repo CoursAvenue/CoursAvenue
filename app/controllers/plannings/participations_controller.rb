@@ -14,7 +14,8 @@ class Plannings::ParticipationsController < ApplicationController
   end
 
   def create
-    @participation = Participation.new planning: @planning, user: current_user
+    @participation      = @planning.participations.build params[:participation]
+    @participation.user = current_user
     respond_to do |format|
       if @participation.save
         format.html { redirect_to user_participations_path(current_user, inscription_confirmed: true), notice: 'Vous êtes bien inscrit à ce créneau' }
@@ -27,6 +28,6 @@ class Plannings::ParticipationsController < ApplicationController
   private
 
   def load_planning
-    @planning      = Planning.find params[:planning_id]
+    @planning = Planning.find params[:planning_id]
   end
 end

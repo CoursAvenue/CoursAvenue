@@ -76,10 +76,10 @@
               %td= join_levels planning.levels
               %td= planning.place.location.name
               %td
-                - if planning.possible_participations.any?
+                - if planning.nb_jpo_participants > 0
                   .progress.flush
-                    .bar.bar-success{style: "width: #{(planning.possible_participations.length * 100) / planning.nb_participants_max}%;"}
-                      #{planning.possible_participations.length} / #{planning.nb_participants_max}
+                    .bar.bar-success{style: "width: #{(planning.nb_jpo_participants * 100) / planning.nb_participants_max}%;"}
+                      #{planning.nb_jpo_participants} / #{planning.nb_participants_max}
                 - else
                   0 / #{course.nb_participants_max}
                 - if planning.waiting_list.any?
@@ -122,7 +122,7 @@
 .text--center.push--bottom
   = link_to 'Ajouter un atelier', new_pro_structure_course_open_path(@structure), class: 'btn btn--green btn--large'
 
-#cannot-modify
+#cannot-modify.hidden
   .text--center
     %h4 Vous ne pouvez pas modifier cet atelier car vous avez des participants inscrits
     = link_to "Contacter l'équipe CoursAvenue pour une modification", pages_contact_url(subdomain: 'www'), class: 'btn btn--green', target: :_blank
