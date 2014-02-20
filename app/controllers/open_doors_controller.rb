@@ -11,11 +11,12 @@ class OpenDoorsController < ApplicationController
     @app_slug = "open-doors-search"
     @subject  = filter_by_subject?
 
-    params[:start_date]   = Date.parse('2014/04/05')
-    params[:end_date]     = Date.parse('2014/04/06')
-    params[:course_types] = ["open_course"]
-    params[:page]         = 1 unless request.xhr?
-    params[:order_by]     = :open_courses_open_places
+    params[:start_date]      ||= Date.parse('2014/04/05')
+    params[:end_date]        ||= Date.parse('2014/04/06')
+    params[:course_types]    ||= ["open_course"]
+    params[:page]            ||= 1 unless request.xhr?
+    params[:order_by]        ||= :jpo_score
+    params[:order_direction] ||= :asc
 
     # Directly search plannings because it is by default filtered by dates
     @structures, @place_ids, @total = search_plannings

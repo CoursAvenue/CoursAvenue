@@ -97,14 +97,15 @@
       .text--center.push-half--top
         = link_to 'Envoyer une invitation par email', jpo_new_user_invited_users_path(current_user), class: 'btn btn--blue'
 
-- content_for :scripts do
-  :javascript
-    $(function() {
-      $.fancybox($('#inscription-confirmed-popup'));
-      $('.share-on-facebook').click(function() {
-          window.open('#{share_participation_url(@participations.last)}', 'Partager', "height=400,width=600");
+- if @participations.any?
+  - content_for :scripts do
+    :javascript
+      $(function() {
+        $.fancybox($('#inscription-confirmed-popup'));
+        $('.share-on-facebook').click(function() {
+            window.open('#{share_participation_url(@participations.last)}', 'Partager', "height=400,width=600");
+        });
+        $('.share-on-twitter').click(function() {
+            window.open('#{share_participation_url(@participations.last, :twitter)}', 'Partager', "height=400,width=600");
+        })
       });
-      $('.share-on-twitter').click(function() {
-          window.open('#{share_participation_url(@participations.last, :twitter)}', 'Partager', "height=400,width=600");
-      })
-    });

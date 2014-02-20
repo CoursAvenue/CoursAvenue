@@ -201,6 +201,9 @@ class Structure < ActiveRecord::Base
     boolean :has_admin do
       self.has_admin?
     end
+
+    double :jpo_score
+
   end
 
   handle_asynchronously :solr_index unless Rails.env.test?
@@ -488,7 +491,9 @@ class Structure < ActiveRecord::Base
   end
 
 
-  # Synced attributes
+  ######################################################################
+  # Meta data update                                                   #
+  ######################################################################
   def update_meta_datas
     self.plannings_count          = self.plannings.count
     self.gives_group_courses      = self.courses.select{|course| !course.is_individual? }.any?
@@ -496,15 +501,20 @@ class Structure < ActiveRecord::Base
     self.has_promotion            = self.prices.select{|p| p.promo_amount.present?}.any?
     self.has_free_trial_course    = self.prices.trials.where{(amount == nil) | (amount == 0)}.any?
     self.course_names             = self.courses.map(&:name).uniq.join(', ')
-    self.open_course_nb           = self.courses.open_courses.count
-    self.open_course_names        = self.courses.open_courses.map(&:name).uniq.join(', ')
-    self.open_course_subjects     = self.courses.open_courses.map(&:subjects).flatten.map(&:name).uniq.join(', ')
     self.last_comment_title       = self.comments.accepted.first.title if self.comments.accepted.any?
     # Store level and audiences ids as coma separated string values: "1,3,5"
     self.level_ids                = self.plannings.collect(&:level_ids).flatten.sort.uniq.join(',')
     self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
-    self.open_courses_open_places = self.courses.open_courses.map(&:plannings).flatten.map(&:places_left).reduce(&:+)
     self.set_min_and_max_price
+    update_jpo_meta_datas
+    self.save(validate: false)
+  end
+
+  def update_jpo_meta_datas
+    self.open_course_nb           = self.courses.open_courses.count
+    self.open_course_names        = self.courses.open_courses.map(&:name).uniq.join(', ')
+    self.open_course_subjects     = self.courses.open_courses.map(&:subjects).flatten.map(&:name).uniq.join(', ')
+    self.open_courses_open_places = self.courses.open_courses.map(&:plannings).flatten.map(&:places_left).reduce(&:+)
     self.save(validate: false)
   end
 
@@ -576,6 +586,17 @@ class Structure < ActiveRecord::Base
     user_profile.first_name = user.first_name if user_profile.first_name.nil?
     user_profile.last_name  = user.last_name  if user_profile.last_name.nil?
     self.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:contacts])
+  end
+
+  def total_jpo_places
+    self.courses.open_courses.map do |course|
+      course.nb_participants_max * course.plannings.count
+    end.reduce(&:+)
+  end
+
+  def jpo_score
+    return 0 if total_jpo_places.nil? or total_jpo_places == 0
+    participations.not_canceled.count.to_f / total_jpo_places.to_f
   end
 
   private

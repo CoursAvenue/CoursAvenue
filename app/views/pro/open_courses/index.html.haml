@@ -53,7 +53,7 @@
             = "#{readable_amount(course.price)}€"
         %td
           = simple_form_for [:pro, course], url: pro_structure_course_path(course.structure, course), as: :course, remote: true do |f|
-            = f.input :ca_follow_up, label: false, input_html: { style: 'width: 8em; height: 3em;' }
+            = f.input :ca_follow_up, label: false, input_html: { style: 'font-size: 11px; width: 10em; height: 4em;' }
 
 = content_for :scripts do
   :javascript

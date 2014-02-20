@@ -251,6 +251,10 @@ class Planning < ActiveRecord::Base
     integer :open_courses_open_places do
       self.structure.open_courses_open_places
     end
+
+    double :jpo_score do
+      self.structure.jpo_score
+    end
   end
 
   # ---------------------------- Simulating Audience and Levels
