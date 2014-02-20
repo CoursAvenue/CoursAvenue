@@ -1,6 +1,10 @@
 class Participation < ActiveRecord::Base
   acts_as_paranoid
 
+  PARTICIPATION_FOR = ['participations.for.one_adult',
+                      'participations.for.one_kid',
+                      'participations.for.one_kid_and_one_adult' ]
+
   ######################################################################
   # Relations                                                          #
   ######################################################################
@@ -23,13 +27,15 @@ class Participation < ActiveRecord::Base
   after_create :welcome_email
   after_create :user_subscribed_email_for_teacher
 
+  before_save  :set_default_participation_for
+
   after_save   :update_jpo_meta_datas
   after_save   :index_planning
 
   before_save  :set_waiting_list
   before_save  :update_structure_meta_datas
 
-  attr_accessible :user, :planning
+  attr_accessible :user, :planning, :participation_for
 
   ######################################################################
   # Scopes                                                             #
@@ -133,6 +139,13 @@ class Participation < ActiveRecord::Base
   end
 
   private
+
+  # Set default value for `participation_for` attribute
+  #
+  # return participation_for
+  def set_default_participation_for
+    self.participation_for ||= 'participations.for.one_adult'
+  end
 
   # Update meta datas related to JPOs on the associated structure
   #

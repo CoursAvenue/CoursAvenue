@@ -361,6 +361,20 @@ class Planning < ActiveRecord::Base
     audiences.include? Audience::KID
   end
 
+  # Return if ADULT audience is included in audiences
+  #
+  # @return Boolean
+  def for_adult?
+    audiences.include? Audience::ADULT
+  end
+
+  # Return if SENIOR audience is included in audiences
+  #
+  # @return Boolean
+  def for_senior?
+    audiences.include? Audience::SENIOR
+  end
+
   def min_price_amount_for(type)
     price = price_amount_for_scope(type).order('amount ASC').first
     return 0 unless price

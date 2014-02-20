@@ -52,6 +52,6 @@
                   - if current_user and current_user.participate_to?(planning)
                     Déjà inscrit
                   - elsif current_user
-                    = link_to "M'inscrire", planning_participations_path(planning), class: 'btn btn--small btn--green', method: :post
+                    = link_to "M'inscrire", new_planning_participation_path(planning), class: 'btn btn--small btn--green fancybox.ajax', data: { behavior: 'modal', title: 'Inscription au créneau', width: 600 }
                   - else
                     = link_to "M'inscrire", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Contact form button'])"
