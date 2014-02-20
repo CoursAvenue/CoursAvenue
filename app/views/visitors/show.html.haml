@@ -3,8 +3,15 @@
 %p fingerprint: #{ @visitor.fingerprint } 
 %p collisions:  #{ @visitor.comment_collision? } 
 
-%h3 Unfinished Comments
-- @unfinished_comments.each do |comment|
-  = render partial: 'comments/comment', locals: { comment: comment.to_c }
+%h3 Comments
+- @comments.each do |comment|
+  .white-box.islet
+    .delta Structure: #{ comment.commentable.name }
+    - if comment.submitted?
+      .btn.btn--green Submitted
+    - else
+      .btn.btn--orange Abandoned
+
+    = render partial: 'comments/comment', locals: { comment: comment.to_c }
 
 

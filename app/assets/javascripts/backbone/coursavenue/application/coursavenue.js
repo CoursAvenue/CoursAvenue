@@ -60,10 +60,11 @@ CoursAvenue.module('DataMining', function(Module, App, Backbone, Marionette, $, 
         },
 
         addComment: function addComment (comment) {
-            var comments = this.get("comments") || [];
+            var comments  = this.get("comments") || [],
+                submitted = (comment.submitted)? true : false;
 
             comment           = this.decodeComment(comment);
-            comment.submitted = (comment.submitted)? true : false;
+            comment.submitted = submitted;
 
             comments.push(comment);
 

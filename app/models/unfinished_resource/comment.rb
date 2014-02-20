@@ -1,6 +1,6 @@
 class UnfinishedResource::Comment < UnfinishedResource
 
-  store_accessor :private_message, :from, :subject
+  store_accessor :fields, :private_message, :from, :subject
 
   # returns a Comment initialize with the data from this
   # unfinished comment
@@ -62,6 +62,10 @@ class UnfinishedResource::Comment < UnfinishedResource
   # @return a String
   def commentable_type
     self.fields["comment[commentable_type]"]
+  end
+
+  def submitted?
+    self.fields["submitted"] == "true"
   end
 
   private
