@@ -23,7 +23,13 @@ class VisitorsController < ApplicationController
     @visitor = Visitor.where(fingerprint: params[:fingerprint]).first_or_create
     params[:visitor].delete(:fingerprint)
 
+    params[:comments].each do |data|
+      comment = @visitor.comments.build
+      comment.fields = data
+    end
+
     @visitor.update_attributes!(params[:visitor])
+    @visitor.save!
 
     respond_with @visitor
   end

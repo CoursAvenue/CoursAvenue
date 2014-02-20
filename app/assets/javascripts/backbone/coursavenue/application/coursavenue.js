@@ -64,7 +64,7 @@ CoursAvenue.module('DataMining', function(Module, App, Backbone, Marionette, $, 
             comment.submitted = (comment.submitted)? true : false;
             comments.push(comment);
 
-            this.set(comments);
+            this.set("comments", comments);
         }
     });
 

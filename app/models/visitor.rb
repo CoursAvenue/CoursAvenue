@@ -3,6 +3,8 @@ class Visitor < ActiveRecord::Base
 
   attr_accessible :address_name, :subject_id
 
+  has_many :comments, class_name: "UnfinishedResource::Comment"
+
   def best(symbol)
     self[symbol].to_a.inject(["", 0]) { |memo, pair|
       k, v = pair
