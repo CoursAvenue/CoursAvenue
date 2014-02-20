@@ -7,14 +7,9 @@
 
 = simple_form_for [:pro, @course, @planning], url: planning_url, html: { id: 'planning-form' } do |f|
   = f.error_notification
-  .input.flush--bottom
-    = f.label :place
-    = f.input :place_id , as: :select, collection: @structure.places.select(&:parisian?), label_method: lambda {|place| place.location.name}, include_blank: false, label: false
-    = link_to new_pro_structure_place_path(@structure, from: request.fullpath) do
-      &nbsp;
-      %i.fa.fa-map-marker
-      Ajouter un lieu
-  = render 'places_description_info'
+
+  = render partial: 'place_input', locals: { f: f }
+
   .input.radio
     %label.required.control-label Jour
     .inline.nowrap.radio
