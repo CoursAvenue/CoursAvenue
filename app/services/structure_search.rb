@@ -9,6 +9,8 @@ class StructureSearch
     params[:sort] ||= 'rating_desc'
     retrieve_location params
 
+    format_bbox_params params
+
     # Encode name in UTF8 as it can be submitted by the user and can be bad
     params[:name] = params[:name].force_encoding("UTF-8") if params[:name].present?
     @search = Sunspot.search(Structure) do
@@ -38,6 +40,9 @@ class StructureSearch
         without(:subject_slugs, Subject.stars.map(&:slug))
       end
 
+      ######################################################################
+      # Other filters                                                      #
+      ######################################################################
       with(:structure_type).any_of   params[:structure_types]                    if params[:structure_types].present?
       with(:funding_type_ids).any_of params[:funding_type_ids].map(&:to_i)       if params[:funding_type_ids].present?
 
@@ -65,6 +70,11 @@ class StructureSearch
     end
 
     [params[:lat], params[:lng]]
+  end
+
+  def self.format_bbox_params params
+    params[:bbox_sw] = params[:bbox_sw].split(',') if params[:bbox_sw].is_a? String
+    params[:bbox_ne] = params[:bbox_ne].split(',') if params[:bbox_ne].is_a? String
   end
 
   def self.similar_profile structure, limit=3

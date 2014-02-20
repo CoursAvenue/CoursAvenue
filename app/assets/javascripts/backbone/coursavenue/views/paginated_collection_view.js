@@ -98,9 +98,15 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             return this.changePage(page);
         },
 
-        changePage: function (page) {
-            if (page == this.collection.currentPage) { return false };
+        refreshPage: function (e) {
 
+            return this.changePage(this.collection.currentPage, { force: true });
+        },
+
+        changePage: function (page, options) {
+            // normally we won't want to change to the current page
+            // so we require a force option to be true
+            if (page == this.collection.currentPage && !(options && options.force)) { return false };
             var self = this;
 
             self.trigger('paginator:updating', this);

@@ -118,7 +118,7 @@ FilteredSearch.addInitializer(function(options) {
     layout.showWidget(keyword_filter);
     layout.showWidget(location_filter);
     layout.showWidget(subject_filter);
-    layout.showWidget(infinite_scroll_button, { events: { 'structures:updated:infinite_scroll': 'showOrHide'} });
+    layout.showWidget(infinite_scroll_button, { events: { 'structures:updated:infinite_scroll': 'showOrHide' } });
     layout.showWidget(results_summary);
 
     // TODO for now this is fine. Just add this
