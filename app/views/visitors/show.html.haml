@@ -31,7 +31,7 @@
   var width = document.getElementsByClassName("chart-container").item(0).offsetWidth,
       height = 500;
 
-  var data = [["Paris", 2], ["Nice", 5], ["Iles", 1], ["Lyon", 8]];
+  var data = #{ @visitor.address_data };
 
   var y = d3.scale.linear()
     .range([height, 0])

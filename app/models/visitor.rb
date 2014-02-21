@@ -35,4 +35,8 @@ class Visitor < ActiveRecord::Base
 
     write_attribute(:address_name, @address_name)
   end
+
+  def address_data
+    self.address_name.to_a
+  end
 end
