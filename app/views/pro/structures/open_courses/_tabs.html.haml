@@ -10,7 +10,7 @@
     = link_to pro_structure_participations_path(@structure) do
       %i.fa.fa-group
       Mes inscrits
-      - nb_jpo_participants = @structure.courses.open_courses.map(&:plannings).flatten.map(&:nb_jpo_participants).reduce(&:+)
+      - nb_jpo_participants = @structure.courses.open_courses.map(&:plannings).flatten.map(&:nb_jpo_participants).reduce(&:+) || 0
       - if nb_jpo_participants > 0
         (#{nb_jpo_participants})
   %li{class: (current == 'new' ? 'active' : '')}
