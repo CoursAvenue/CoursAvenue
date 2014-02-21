@@ -21,7 +21,7 @@ class VisitorsController < ApplicationController
   end
 
   def create
-    @visitor = Visitor.where(fingerprint: params[:fingerprint]).first_or_create
+    @visitor = Visitor.where(fingerprint: params[:fingerprint].to_s).first_or_create
     params[:visitor].delete(:fingerprint)
 
     params[:comments].each do |data|
@@ -32,7 +32,8 @@ class VisitorsController < ApplicationController
 
     end unless params[:comments].nil?
 
-    @visitor.update_attributes!(params[:visitor])
+    @visitor.update_attributes(params[:visitor])
+    @visitor.save!
 
     respond_with @visitor
   end

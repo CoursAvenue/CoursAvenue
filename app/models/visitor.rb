@@ -27,13 +27,13 @@ class Visitor < ActiveRecord::Base
   end
 
   def address_name=(hash)
-    @address_name ||= {}
-
-    @address_name.merge! hash do |key, old, new|
+    addresses = read_attribute(:address_name) || {}
+    
+    addresses = addresses.merge hash do |key, old, new|
       new + old.to_i
     end
 
-    write_attribute(:address_name, @address_name)
+    write_attribute(:address_name, addresses)
   end
 
   def address_data

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140221092902) do
+ActiveRecord::Schema.define(version: 20140221140543) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -723,7 +723,7 @@ ActiveRecord::Schema.define(version: 20140221092902) do
   add_index "users", ["slug"], name: "index_users_on_slug", unique: true, using: :btree
 
   create_table "visitors", force: true do |t|
-    t.integer  "fingerprint"
+    t.string   "fingerprint"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.hstore   "address_name"
