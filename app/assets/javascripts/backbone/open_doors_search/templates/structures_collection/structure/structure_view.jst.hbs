@@ -53,13 +53,17 @@
             </a>
         </div>
     </article><!--
- --><div class="flexbox__item relative soft-half--sides structure-item__see-all-wrapper two-eighths v-middle text--center">
+ --><div class="flexbox__item relative soft-half--sides structure-item__see-all-wrapper two-eighths v-middle text--center structure-item__button">
         <div class="relative full-height v-middle soft--top">
             <div class="alpha thin orange soft-half--top"> {{ open_courses_open_places }} </div>
             <span class="orange soft-half--bottom milli">places restantes</span>
 
-            <a href="{{ data_url }}" class="structure-item__see-all btn btn--blue" data-wrapper=".structure-item__see-all-wrapper" style="margin-bottom: 2px;">
+            <a href="{{ data_url }}" class="structure-item__see-all btn btn--blue btn--blue hard--sides btn--small" data-wrapper=".structure-item__see-all-wrapper" style="margin-bottom: 2px;">
+                {{#ifCond open_courses_open_places '==' '0'}}
+                M'inscrire en liste d'attente
+                {{else}}
                 Participer
+                {{/ifCond}}
             </a>
         </div>
 
