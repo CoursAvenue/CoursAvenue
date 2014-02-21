@@ -3,8 +3,13 @@ class Users::ParticipationsController < ApplicationController
 
   layout 'user_profile'
 
+  # GET
   def index
     @participations = current_user.participations.not_canceled
+    if @participations.any?
+      @participation = @participations.last
+      @structure     = @participation.structure
+    end
   end
 
   def destroy

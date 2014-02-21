@@ -47,9 +47,9 @@
             Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, CoursAvenue ouvre ses portes à travers des ateliers gratuits. En tant que fidèle élève, je te transmets cette invitation, c'est une belle occasion de découvrir cette discipline qui est une véritable passion pour moi.&#x000A;&#x000A;Pour t'inscrire, c'est simple et 100% gratuit :
         %p.gray-light.flush
           - if @structure
-            = link_to 'Lien que recevront mes proches', jpo_structure_url(@structure)
+            = link_to 'Lien que recevront mes proches', jpo_structure_url(@structure), target: :_blank
           - else
-            = link_to 'Lien que recevront mes proches', root_url
+            = link_to 'Lien que recevront mes proches', root_url, target: :_blank
           %br
           À très bientôt,
         - if !current_user
@@ -69,6 +69,4 @@
                     })
                 });
         = submit_tag 'Envoyer les invitations', class: 'btn btn--green btn--full'
-
-
 

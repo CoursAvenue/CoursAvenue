@@ -64,8 +64,7 @@
           - if course.description.present?
             %p
               %strong Description
-              %br
-              = course.description
+            = simple_format course.description
           - if course.info.present?
             %p
               %strong Infos pratique au cours
@@ -90,17 +89,15 @@
             %i= place.location.address
 
   - if params[:inscription_confirmed]
-    = render 'welcome_popup'
+    = render 'registration_confirmed'
 
-- if @participations.any?
   - content_for :scripts do
     :javascript
       $(function() {
-        $.fancybox($('#inscription-confirmed-popup'));
-        $('.share-on-facebook').click(function() {
-            window.open('#{share_participation_url(@participations.last)}', 'Partager', "height=400,width=600");
-        });
-        $('.share-on-twitter').click(function() {
-            window.open('#{share_participation_url(@participations.last, :twitter)}', 'Partager', "height=400,width=600");
-        })
+          $('.share-on-facebook').click(function() {
+              window.open('#{share_participation_url(@participations.last)}', 'Partager', "height=400,width=600");
+          });
+          $('.share-on-twitter').click(function() {
+              window.open('#{share_participation_url(@participations.last, :twitter)}', 'Partager', "height=400,width=600");
+          });
       });
