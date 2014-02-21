@@ -23,7 +23,47 @@ describe Participation do
     end
   end
 
-  describe '#cancel' do
+  describe '#with_kid?' do
+    it 'returns true' do
+      subject.participation_for = 'participations.for.one_kid_and_one_adult'
+      expect(subject.with_kid?).to be_true
+    end
+
+    it 'returns false' do
+      subject.participation_for = 'participations.for.one_kid'
+      expect(subject.with_kid?).to be_false
+    end
+  end
+
+  describe '#size' do
+    it 'returns 1' do
+      subject.participation_for = 'participations.for.one_kid'
+      expect(subject.size).to eq 1
+    end
+
+    it 'returns 1' do
+      subject.participation_for = 'participations.for.one_adult'
+      expect(subject.size).to eq 1
+    end
+
+    it 'returns 2' do
+      subject.participation_for = 'participations.for.one_kid_and_one_adult'
+      expect(subject.size).to eq 2
+    end
+  end
+
+  describe '#canceled?' do
+    it 'returns true' do
+      expect(subject.canceled?).to be_false
+    end
+
+    it 'returns false' do
+      subject.canceled_at = Time.now
+      expect(subject.canceled?).to be_false
+    end
+  end
+
+  describe '#cancel!' do
     it 'update canceled_at' do
       subject.user = FactoryGirl.create(:user)
       subject.cancel!
