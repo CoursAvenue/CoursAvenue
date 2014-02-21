@@ -14,6 +14,7 @@
 
 .relative          { position   : relative; }
 .absolute          { position   : absolute; }
+.south-east        { position   : absolute; bottom: 0; right: 0; }
 .inherit-font-size { font-size  : inherit; }
 .italic            { font-style : italic; }
 .weight-normal     { font-weight: normal; }

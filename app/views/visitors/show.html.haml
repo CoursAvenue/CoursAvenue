@@ -4,14 +4,24 @@
 %p collisions:  #{ @visitor.comment_collision? } 
 
 %h3 Comments
-- @comments.each do |comment|
-  .white-box.islet
-    .delta Structure: #{ comment.commentable.name }
-    - if comment.submitted?
-      .btn.btn--green Submitted
-    - else
-      .btn.btn--orange Abandoned
-
-    = render partial: 'comments/comment', locals: { comment: comment.to_c }
+%ul.comment-list
+  - @comments.each do |comment|
+    .grid.one-whole.flex-stretch
+      .grid__item.one-half>
+        = render partial: 'comments/comment', locals: { comment: comment.to_c }
+      .grid__item.one-half.faux-column.push--left.soft--right.relative>
+        .delta.blue #{ comment.commentable.name }
+        %hr.push-half--bottom
+        .push--right
+          %i.fa.fa-envelope-o
+          #{ comment.email }
+        .push--right
+          %i.fa.fa-home
+          #{ comment.ip_address.nil? ? "0.0.0.0" : comment.ip_address }
+        .push--right
+          %i.fa.fa-calendar
+          #{ comment.created_at }
+        .btn.absolute.south-east.push{ class: "#{ comment.submitted? ? "btn--green" : "btn--orange" }"}
+          #{ comment.submitted? ? "Submitted" : "Abandoned" }
 
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140220120014) do
+ActiveRecord::Schema.define(version: 20140221092902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -646,6 +646,7 @@ ActiveRecord::Schema.define(version: 20140220120014) do
     t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "ip_address"
   end
 
   create_table "user_profile_imports", force: true do |t|

@@ -24,11 +24,11 @@ class VisitorsController < ApplicationController
     @visitor = Visitor.where(fingerprint: params[:fingerprint]).first_or_create
     params[:visitor].delete(:fingerprint)
 
-    # if the comment was not submitted, add it as an abandoned
-    # comment, otherwise add it as a regular comment
     params[:comments].each do |data|
       comment = @visitor.comments.build
-      comment.fields = data
+
+      comment.fields     = data
+      comment.ip_address = request.remote_ip
     end
 
     @visitor.update_attributes!(params[:visitor])
