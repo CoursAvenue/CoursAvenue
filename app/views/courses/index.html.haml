@@ -36,9 +36,9 @@
     %ul.tabs.push--top
       %li
         - if @subject
-          = link_to 'Par établissement', subject_structures_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par établissement', 'click'])"
+          = link_to 'Par établissement', subject_structures_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "ga('send', 'event', 'Chercher par établissement', 'click')"
         - else
-          = link_to 'Par établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par établissement', 'click'])"
+          = link_to 'Par établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "ga('send', 'event', 'Chercher par établissement', 'click')"
       %li.active
         %a Par cours
 

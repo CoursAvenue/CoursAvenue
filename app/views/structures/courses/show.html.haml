@@ -26,7 +26,7 @@
     %li
       = link_to "Tous les établissement", structures_path
     %li
-      = link_to @structure.name, structure_path(@structure), onclick: "_gaq.push(['_trackEvent', 'Voir l établissement', 'click','#{@course.slug}'])"
+      = link_to @structure.name, structure_path(@structure), onclick: "ga('send', 'event', 'Voir l établissement', 'click','#{@course.slug}')"
     %li.course-title= @course.name
 
 
@@ -65,11 +65,11 @@
           %i.fa.fa-calendar
           Planning & Tarifs
       %li#comment_tab
-        %a{class: (@course.comments.any? ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Avis', 'click', '#{@course.slug}'])", href: '#tab-comments', data: {toggle: 'tab'} }
+        %a{class: (@course.comments.any? ? '' : 'gray-light'), onclick: "ga('send', 'event', 'Avis', 'click', '#{@course.slug}')", href: '#tab-comments', data: {toggle: 'tab'} }
           %i.fa.fa-comments
           Avis
       %li
-        %a{class: (@course.teachers.count > 0 ? '' : 'gray-light'), onclick: "_gaq.push(['_trackEvent', 'Infos profs', 'click', '#{@course.slug}'])", href: '#tab-teacher', data: {toggle: 'tab'} }
+        %a{class: (@course.teachers.count > 0 ? '' : 'gray-light'), onclick: "ga('send', 'event', 'Infos profs', 'click', '#{@course.slug}')", href: '#tab-teacher', data: {toggle: 'tab'} }
           %i.fa.fa-group
           = Teacher.model_name.human(count: @course.teachers.uniq.length)
 
@@ -101,7 +101,7 @@
       .white-box.islet
         .text--center= image_tag @structure.cover_image.thumbnail_url, alt: "Cours de #{join_parent_subjects_text @structure}"
     .push--top.push--bottom
-      = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_course_url(@structure, @course)}", class: 'btn--facebook btn one-whole', target: '_blank', onclick: "_gaq.push(['_trackEvent', 'Share on Facebook', 'click', 'From place page'])"
+      = link_to 'Partager ce cours sur Facebook', "https://www.facebook.com/sharer/sharer.php?u=#{structure_course_url(@structure, @course)}", class: 'btn--facebook btn one-whole', target: '_blank', onclick: "ga('send', 'event', 'Share on Facebook', 'click', 'From place page')"
 
 
 

@@ -21,4 +21,4 @@
     Vous n'avez écris aucun avis.
     %br
     Vous avez pris des cours mais ils ne sont pas référencer ?
-    = link_to 'Faites-le nous savoir !', pages_contact_path, onclick: "_gaq.push(['_trackEvent', 'Connait un professeur', 'click', '#{@user.email}'])"
+    = link_to 'Faites-le nous savoir !', pages_contact_path, onclick: "ga('send', 'event', 'Connait un professeur', 'click', '#{@user.email}')"

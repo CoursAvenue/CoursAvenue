@@ -96,8 +96,10 @@
       $(function() {
           $('.share-on-facebook').click(function() {
               window.open('#{share_participation_url(@participations.last)}', 'Partager', "height=400,width=600");
+              ga('send', 'event', 'Share on Facebook', 'share');
           });
           $('.share-on-twitter').click(function() {
               window.open('#{share_participation_url(@participations.last, :twitter)}', 'Partager', "height=400,width=600");
+              ga('send', 'event', 'Share on Twitter', 'share');
           });
       });
