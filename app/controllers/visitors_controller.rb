@@ -29,10 +29,10 @@ class VisitorsController < ApplicationController
 
       comment.fields     = data
       comment.ip_address = request.remote_ip
-    end
+
+    end unless params[:comments].nil?
 
     @visitor.update_attributes!(params[:visitor])
-    @visitor.save!
 
     respond_with @visitor
   end

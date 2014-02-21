@@ -25,4 +25,14 @@ class Visitor < ActiveRecord::Base
 
     ids.uniq.length != ids.length
   end
+
+  def address_name=(hash)
+    @address_name ||= {}
+
+    @address_name.merge! hash do |key, old, new|
+      new + old.to_i
+    end
+
+    write_attribute(:address_name, @address_name)
+  end
 end

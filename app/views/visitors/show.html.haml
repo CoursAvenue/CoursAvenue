@@ -3,6 +3,9 @@
 %p fingerprint: #{ @visitor.fingerprint } 
 %p collisions:  #{ @visitor.comment_collision? } 
 
+.chart-container.push--right
+  %svg.chart
+
 %h3 Comments
 %ul.comment-list
   - @comments.each do |comment|
@@ -23,5 +26,37 @@
           #{ comment.created_at }
         .btn.absolute.south-east.push{ class: "#{ comment.submitted? ? "btn--green" : "btn--orange" }"}
           #{ comment.submitted? ? "Submitted" : "Abandoned" }
+
+:javascript
+  var width = document.getElementsByClassName("chart-container").item(0).offsetWidth,
+      height = 500;
+
+  var data = [["Paris", 2], ["Nice", 5], ["Iles", 1], ["Lyon", 8]];
+
+  var y = d3.scale.linear()
+    .range([height, 0])
+    .domain([0, d3.max(data, function(d) { return d[1]; })]);
+
+  var chart = d3.select(".chart")
+    .attr("width", width)
+    .attr("height", height);
+
+  var barWidth = width / data.length;
+
+  var bar = chart.selectAll("g")
+    .data(data)
+    .enter().append("g")
+      .attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; });
+
+  bar.append("rect")
+    .attr("y", function(d) { return y(d[1]); })
+      .attr("height", function(d) { return height - y(d[1]); })
+      .attr("width", barWidth - 1);
+
+  bar.append("text")
+    .attr("x", barWidth / 2)
+      .attr("y", function(d) { return y(d[1]) + 3; })
+      .attr("dy", ".75em")
+        .text(function(d) { return d[0]; });
 
 
