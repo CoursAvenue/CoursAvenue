@@ -16,7 +16,7 @@ module PlanningsHelper
 
   def planning_time_for(planning, with_duration=true)
     planning_time_for_string = "de #{l(planning.start_time, format: :short)} à #{l(planning.end_time, format: :short)}"
-    planning_time_for_string << "(#{readable_duration(planning.duration)})" if with_duration
+    planning_time_for_string << " (#{readable_duration(planning.duration)})" if with_duration
     planning_time_for_string
   end
 

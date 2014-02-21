@@ -32,7 +32,7 @@ class Participation < ActiveRecord::Base
   after_save   :update_jpo_meta_datas
   after_save   :index_planning
 
-  before_save  :set_waiting_list
+  before_save  :set_waiting_list, unless: :canceled?
   before_save  :update_structure_meta_datas
 
   attr_accessible :user, :planning, :participation_for
@@ -103,7 +103,7 @@ class Participation < ActiveRecord::Base
   def cancel!
     self.canceled_at = Time.now
     if self.save
-      update_planning_participations_waiting_list
+      Participation.update_planning_participations_waiting_list(planning)
       unsubscription_email
       unsubscription_email_for_teacher
       return true
@@ -127,22 +127,25 @@ class Participation < ActiveRecord::Base
     (with_kid? ? 2 : 1)
   end
 
-  ######################################################################
-  # Callbacks                                                          #
-  ######################################################################
   # Set waiting list to true regarding the number of participants and the
-  # /!\ Don't make it private
   #
   # @return nil
   def set_waiting_list
-    self.waiting_list = ( self.planning.nb_place_available <= 0 )
-    ParticipationMailer.delay.a_place_opened(self) if waiting_list_changed? and waiting_list == false
+    self.waiting_list = ( self.planning.places_left <= 0 )
     nil
   end
 
+  #
+  # Call set_waiting_list and saves
+  #
+  # @return Boolean wether it saved or not
   def set_waiting_list!
     set_waiting_list
-    save if waiting_list_changed?
+    if waiting_list_changed?
+      save
+    else
+      false
+    end
   end
 
   def alert_for_changes
@@ -155,6 +158,9 @@ class Participation < ActiveRecord::Base
 
   private
 
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
   # Set default value for `participation_for` attribute
   #
   # return participation_for
@@ -188,11 +194,23 @@ class Participation < ActiveRecord::Base
   end
 
   # When participation is canceled, update waiting list of all participations of same planning
+  # Sends an email to the user if it goes from waiting list to participant
+  # @param  planning Planning planning where we have to update the participants
   #
   # @return nil
-  def update_planning_participations_waiting_list
-    planning.participations.not_canceled.each do |participation|
-      participation.set_waiting_list!
+  def self.update_planning_participations_waiting_list(planning)
+    # Sends an email to the user and to the teacher
+    places_left = planning.places_left
+    planning.participations.not_canceled.waiting_list.order('created_at DESC').each do |participation|
+      # Updates if there is enough place for this participation
+      if participation.size <= places_left
+        if participation.set_waiting_list!
+          places_left = places_left - participation.size
+          participation.user_subscribed_email_for_teacher
+          ParticipationMailer.delay.a_place_opened(participation)
+        end
+      end
+      return if places_left == 0
     end
     nil
   end

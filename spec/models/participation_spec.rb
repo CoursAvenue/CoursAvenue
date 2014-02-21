@@ -8,19 +8,53 @@ describe Participation do
     before do
       subject.user = FactoryGirl.create(:user)
     end
-    it 'goes' do
+    it 'goes on waiting_list' do
       planning.update_attribute(:nb_participants_max, 0)
       subject.planning = planning
       subject.save
       expect(subject.waiting_list).to be_true
     end
 
-    it 'does not go' do
+    it 'does not go on waiting_list' do
       planning.update_attribute(:nb_participants_max, 1)
       subject.planning = planning
       subject.save
       expect(subject.waiting_list).to be_false
     end
+
+    context :popps_off_waiting_list do
+      before do
+        # First person participate
+        planning.update_attribute(:nb_participants_max, 1)
+        subject.planning = planning
+        subject.save
+      end
+      it 'pops off' do
+        # Second person participate and then goes on waiting list
+        participation_2          = FactoryGirl.build(:participation)
+        participation_2.user     = FactoryGirl.create(:user)
+        participation_2.planning = planning
+        participation_2.save
+        expect(participation_2.waiting_list).to be_true
+        # First person cancels
+        subject.cancel!
+        expect(participation_2.reload.waiting_list).to be_false
+      end
+
+      it 'does not pops off' do
+        # Second person participate and then goes on waiting list
+        participation_2                   = FactoryGirl.build(:participation)
+        participation_2.participation_for = 'participations.for.one_kid_and_one_adult'
+        participation_2.user              = FactoryGirl.create(:user)
+        participation_2.planning          = planning
+        participation_2.save
+        expect(participation_2.waiting_list).to be_true
+        # First person cancels
+        subject.cancel!
+        expect(participation_2.reload.waiting_list).to be_true
+      end
+    end
+
   end
 
   describe '#with_kid?' do

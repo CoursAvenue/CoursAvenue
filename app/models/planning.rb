@@ -403,14 +403,9 @@ class Planning < ActiveRecord::Base
     read_attribute(:nb_participants_max) or self.course.nb_participants_max
   end
 
-  # Return number of place available
+  # Returns the participations on waiting list
   #
-  # @return Integer
-  def nb_place_available
-    return 0 unless nb_participants_max
-    nb_participants_max - (participations.not_in_waiting_list.not_canceled.count || 0)
-  end
-
+  # @return Array of Participation
   def waiting_list
     self.participations.not_canceled.waiting_list
   end
@@ -433,6 +428,13 @@ class Planning < ActiveRecord::Base
   #
   # @return Integer
   def nb_jpo_participants
+    participations.not_canceled.not_in_waiting_list.map(&:size).reduce(&:+) || 0
+  end
+
+  # Number of participants of this planning. Including children
+  #
+  # @return Integer
+  def nb_jpo_participants_with_waiting_list
     participations.not_canceled.map(&:size).reduce(&:+) || 0
   end
 

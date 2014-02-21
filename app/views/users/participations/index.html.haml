@@ -22,8 +22,8 @@
     .white-box.islet
       .flexbox
         .flexbox__item.two-twelfths.soft-half--right.v-top>
-          = link_to structure_path(participation.structure) , class: 'block', target: :_blank do
-            = image_tag participation.structure.logo, class: 'block'
+          = link_to structure_path(participation.structure) , class: 'block one-whole', target: :_blank do
+            = image_tag participation.structure.logo, class: 'block one-whole'
           = link_to jpo_new_user_invited_users_path(current_user, structure_id: participation.structure.id), class: 'btn btn--blue nowrap push-half--ends' do
             %i.fa.fa-gift
             Inviter mes amis
