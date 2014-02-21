@@ -1,8 +1,15 @@
 
 %ul
 - @visitors.each do |visitor|
-  %li
+  %li.white-box.islet
     .visitor
-      %p fingerprint:   #{ visitor.fingerprint }
-      %p addresses:     #{ visitor.address_name }
-      %p best_address:  #{ visitor.best :address_name }
+      .delta.blue #{ visitor.fingerprint }
+      .overview.push--left
+        - best = visitor.best :address_name
+        %span.push--right
+          %i.fa.fa-home
+            #{ best[0] } (searched #{ best[1] } times)
+        - if visitor.warnings?
+          %span.push--right
+            %i.fa.fa-warning
+              #{ visitor.warnings.join(",") }

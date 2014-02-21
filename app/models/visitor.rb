@@ -39,4 +39,16 @@ class Visitor < ActiveRecord::Base
   def address_data
     self.address_name.to_a
   end
+
+  def warnings
+    warning_strings = []
+
+    warning_strings << "Duplicate Comment" if self.comment_collision?
+
+    warning_strings.empty?? ["None"] : warning_strings
+  end
+
+  def warnings?
+    self.comment_collision?
+  end
 end
