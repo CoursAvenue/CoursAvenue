@@ -6,14 +6,15 @@
         = "(#{course.event_type_description})"
       - else
         = "(#{course.event_type})"
-      .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
-        %i.lbc-icon-info
-          i
-        Infos pratiques
+      - if course.info.present?
+        .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
+          %i.lbc-icon-info
+            i
+          Infos pratiques
       %p.gray.milli
         %i.fa.fa-tags
         = course.subjects.map(&:name).join(', ')
-      %p= course.description
+      = simple_format course.description
       - if course.plannings.any?
         %table.table--data.table--striped
           %thead
