@@ -23,9 +23,9 @@
               %th Public
               %th Niveau
               %th Lieu
-              %th.nowrap Places restantes
+              %th.text--center Places dispos
               %th Prix
-              %th.text--right Inscription
+              %th
           %tbody
             - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
               %tr
@@ -38,10 +38,11 @@
                   = link_to "http://maps.google.com/?q=#{planning.place.location.address}", target: :_blank, class: 'pointer semi-muted-link', title: planning.place.location.address, data: { behavior: 'tooltip' } do
                     = planning.place.location.name
                 %td.text--center
-                  = "#{planning.places_left} / #{course.nb_participants_max}"
-                  - if planning.places_left == 0
-                    %br
-                    = "#{pluralize(planning.waiting_list.length, 'personne')} sur la liste d'attente"
+                  - if planning.places_left > 5
+                    > 5
+                  - else
+                    = planning.places_left
+
                 %td
                   - if course.free?
                     Gratuit
@@ -55,6 +56,6 @@
                       Déjà inscrit
                     - else
                       = link_to new_planning_participation_path(planning), class: 'btn btn--small btn--green text--center line-height-normal fancybox.ajax', data: { behavior: 'modal', title: 'Inscription au créneau', width: 600 } do
-                        = planning.places_left? ? "M'inscrire" : "M'inscrire en file d'attente"
+                        = planning.places_left ? "M'inscrire " : "M'inscrire sur liste d'attente"
                   - else
                     = link_to "M'inscrire", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full'

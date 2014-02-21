@@ -1,6 +1,6 @@
 - if @planning.places_left?
   %h3.flush.text--center Confirmez-vous votre inscription ?
-  %p.gray.text--center
+  %p.gray.text--center.push-half--bottom
     Une fois validée, vous ne pourrez plus vous inscrire à un autre atelier
     %br
     - if @planning.for_kid? and !@planning.for_adult? and !@planning.for_senior?
@@ -10,10 +10,16 @@
 - else
   %h3.flush.text--center
     Confirmez-vous votre inscription sur liste d'attente ?
-  %p.gray.text--center
+  %p.gray.text--center.push-half--bottom
     Une fois validée, vous ne pourrez plus vous inscrire à un autre atelier
     %br
     (1 seule inscription possible par personne, sur liste d'attente ou non).
+
+- if @planning.places_left <= 5
+  .text--center
+    .alert.alert--error
+      %strong Attention !
+      Il ne reste plus que #{@planning.places_left} places !
 
 
 = simple_form_for [@planning, @participation] do |f|

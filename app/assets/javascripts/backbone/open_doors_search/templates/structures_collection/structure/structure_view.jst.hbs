@@ -26,25 +26,25 @@
                 </div>
             {{/if}}
             <div>
-                <div>
+{{!--                 <div>
                 {{ open_course_nb }} {{ pluralize open_course_nb 'atelier' 'ateliers' }} :
                 <span title="{{open_course_names}}" data-behavior="tooltip">
                     {{ truncate open_course_names 33 }}
                 </span>
                 </div>
-                <div>
+ --}}                <div>
                 {{#if audience}}
                     <span class="milli">{{audience}}</span>&nbsp;
                 {{/if}}
                 </div>
             </div>
             {{#if last_comment_title}}
-            <div class="milli">
-                <span class="quoted push-half--right">{{{truncate last_comment_title 50}}}</span>
-                (<a href="{{ data_url }}" class="semi-muted-link">voir les {{ comments_count }} avis</a>)
+            <div>
+                <i class="quoted push-half--right">{{{truncate last_comment_title 50}}}</i>
+                {{!-- (<a href="{{ data_url }}" class="semi-muted-link">voir les {{ comments_count }} avis</a>) --}}
             </div>
             {{/if}}
-            <a href="javascritp:void(0);" class="structure-item__see-all blue" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
+            <a href="javascritp:void(0);" class="btn btn--blue btn--blue hard--sides btn--small structure-item__see-all" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
                 {{#if plannings_count}}
                     <span>Voir les horaires</span>
                 {{else}}
@@ -55,10 +55,27 @@
     </article><!--
  --><div class="flexbox__item relative soft-half--sides structure-item__see-all-wrapper two-eighths v-middle text--center structure-item__button">
         <div class="relative full-height v-middle soft--top">
-            <div class="alpha thin orange soft-half--top"> {{ open_courses_open_places }} </div>
+{{!--             <div class="alpha thin orange soft-half--top"> {{ open_courses_open_places }} </div>
             <span class="orange soft-half--bottom milli">places restantes</span>
+ --}}
 
-            <a href="{{ data_url }}" class="structure-item__see-all btn btn--blue btn--blue hard--sides btn--small" data-wrapper=".structure-item__see-all-wrapper" style="margin-bottom: 2px;">
+            <div class="alpha thin orange"> {{ open_course_nb }} </div>
+            <span class="orange soft-half--bottom milli">{{ pluralize open_course_nb 'atelier' 'ateliers' }}</span>
+            {{#if last_comment_title}}
+            <div class="milli">
+                {{ truncate open_course_names 70 }}
+            </div>
+            {{/if}}
+            <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
+                <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
+                <meta property="v:rating" itemprop="rating" content="{{ rating }}">
+                <meta itemprop="count" content="{{ comments_count }}">
+                <meta itemprop="name" content="{{ name }}">
+                <meta itemprop="street-address" content="{{ street }}">
+                <meta itemprop="postal-code" content="{{ zip_code }}">
+            </div>
+
+            <a href="{{ data_url }}" class="structure-item__see-all btn--full btn btn--blue btn--blue hard--sides btn--small" data-wrapper=".structure-item__see-all-wrapper" style="margin-bottom: 2px;">
                 {{#ifCond open_courses_open_places '==' '0'}}
                 M'inscrire en liste d'attente
                 {{else}}

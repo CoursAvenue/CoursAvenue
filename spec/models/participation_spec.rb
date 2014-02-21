@@ -54,7 +54,6 @@ describe Participation do
         expect(participation_2.reload.waiting_list).to be_true
       end
     end
-
   end
 
   describe '#with_kid?' do

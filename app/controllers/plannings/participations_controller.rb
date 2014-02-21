@@ -10,6 +10,7 @@ class Plannings::ParticipationsController < ApplicationController
       if request.xhr?
         format.html { render partial: 'form' }
       end
+      format.html { redirect_to jpo_structure_path(@planning.structure)}
     end
   end
 

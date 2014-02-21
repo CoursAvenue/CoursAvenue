@@ -65,7 +65,7 @@
             %th Public
             %th Niveau
             %th Lieux
-            %th Nombre d'inscrits
+            %th.text--center Nombre d'inscrits
             %th
         %tbody
           - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
@@ -76,7 +76,7 @@
               %td= join_audiences planning
               %td= join_levels planning.levels
               %td= planning.place.location.name
-              %td
+              %td.text--center
                 - if planning.nb_jpo_participants > 0
                   .progress.flush
                     .bar.bar-success{style: "width: #{(planning.nb_jpo_participants * 100) / planning.nb_participants_max}%;"}
