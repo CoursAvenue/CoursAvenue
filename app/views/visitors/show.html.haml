@@ -1,7 +1,7 @@
 %script{ src: "http://d3js.org/d3.v3.min.js" }
 
-%p fingerprint: #{ @visitor.fingerprint } 
-%p collisions:  #{ @visitor.comment_collision? } 
+.white-box.islet.push--right
+  = render partial: "visitor_summary", locals: { visitor: @visitor }
 
 .chart-container.push--right
   %svg.chart
