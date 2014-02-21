@@ -1,8 +1,8 @@
-= side_menu_currently_at "Parrainer un professeur"
+= side_menu_currently_at "Parrainer"
 
 = render partial: 'pro/structures/invited_teachers/tabs', locals: { current: 'new' }
 
-%h2.text--center Invitez d'autres professeurs sur CoursAvenue
+%h2.text--center Invitez d'autres professeurs, associations et écoles sur CoursAvenue
 
 .white-box.soft
   = form_tag(bulk_create_pro_structure_invited_teachers_path(@structure), method: :post) do

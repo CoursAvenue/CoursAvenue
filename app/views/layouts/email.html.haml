@@ -39,12 +39,12 @@
                   %table.table.promo-table{border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
                     %tr
                       %td.cell.content-block.white-box.push--bottom{width: '600'}
-                        %table.table.promo-table{border: '0', cellpadding: '20', cellspacing: '0', width: '600'}
+                        %table.table.promo-table{border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
                           %tr
                             - if content_for? :logo
                               %td.logo-cell{width: '75', valign: 'middle', align: 'center', style: 'padding-right: 0px;'}
                                 = yield :logo
-                            %td.cell{width: (content_for?(:logo) ? '520' : '600'), valign: 'middle'}
+                            %td.cell{width: (content_for?(:logo) ? '520' : '600'), valign: 'middle', style: 'padding-left: 15px'}
                               = yield :promo
                 %img.divider{border: '0', height: '15', src: '', width: '1'}/
                 %br

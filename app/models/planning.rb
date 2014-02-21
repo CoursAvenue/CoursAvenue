@@ -60,7 +60,7 @@ class Planning < ActiveRecord::Base
   validates :place, :audience_ids, :level_ids, presence: true
   validate  :presence_of_start_date
   validate  :end_date_in_future
-  validate  :can_change_nb_participants_max
+
   validates :min_age_for_kid, numericality: { less_than: 18 }, allow_nil: true
   validates :max_age_for_kid, numericality: { less_than: 19 }, allow_nil: true
 
@@ -247,6 +247,14 @@ class Planning < ActiveRecord::Base
     latlon :location, multiple: true do
       Sunspot::Util::Coordinates.new(place.location.latitude, place.location.longitude) if place
     end
+
+    integer :open_courses_open_places do
+      self.structure.open_courses_open_places
+    end
+
+    double :jpo_score do
+      self.structure.jpo_score
+    end
   end
 
   # ---------------------------- Simulating Audience and Levels
@@ -353,6 +361,20 @@ class Planning < ActiveRecord::Base
     audiences.include? Audience::KID
   end
 
+  # Return if ADULT audience is included in audiences
+  #
+  # @return Boolean
+  def for_adult?
+    audiences.include? Audience::ADULT
+  end
+
+  # Return if SENIOR audience is included in audiences
+  #
+  # @return Boolean
+  def for_senior?
+    audiences.include? Audience::SENIOR
+  end
+
   def min_price_amount_for(type)
     price = price_amount_for_scope(type).order('amount ASC').first
     return 0 unless price
@@ -381,27 +403,39 @@ class Planning < ActiveRecord::Base
     read_attribute(:nb_participants_max) or self.course.nb_participants_max
   end
 
-  # Return number of place available
+  # Returns the participations on waiting list
   #
-  # @return Integer
-  def nb_place_available
-    return 0 unless nb_participants_max
-    nb_participants_max - (participations.not_in_waiting_list.not_canceled.count || 0)
-  end
-
-  # Participations that does not exceed the quota
-  #
-  # @return Participations
-  def possible_participations
-    self.participations.not_canceled.not_in_waiting_list
-  end
-
+  # @return Array of Participation
   def waiting_list
     self.participations.not_canceled.waiting_list
   end
 
+  # Number of places left
+  #
+  # @return Integer
   def places_left
-    nb_participants_max - possible_participations.length
+    nb_participants_max - nb_jpo_participants
+  end
+
+  # Does the planning still have places open?
+  #
+  # @return [type] [description]
+  def places_left?
+    places_left > 0
+  end
+
+  # Number of participants of this planning. Including children
+  #
+  # @return Integer
+  def nb_jpo_participants
+    participations.not_canceled.not_in_waiting_list.map(&:size).reduce(&:+) || 0
+  end
+
+  # Number of participants of this planning. Including children
+  #
+  # @return Integer
+  def nb_jpo_participants_with_waiting_list
+    participations.not_canceled.map(&:size).reduce(&:+) || 0
   end
 
   private
@@ -502,16 +536,6 @@ class Planning < ActiveRecord::Base
   ######################################################################
   # Validations                                                        #
   ######################################################################
-
-  #
-  # Teacher cannot have a nb_participants_max less than the number of already
-  # participants subscribed
-  #
-  # @return [type] [description]
-  def can_change_nb_participants_max
-    return false if nb_participants_max.nil?
-    return nb_participants_max >= possible_participations.length
-  end
 
   # Add errors to model if min_age < max_age
   #

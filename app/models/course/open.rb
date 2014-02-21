@@ -1,12 +1,12 @@
 class Course::Open < Course
 
-  attr_accessible :event_type, :event_type_description, :price, :nb_participants_min, :nb_participants_max, :info
+  attr_accessible :event_type, :event_type_description, :price, :nb_participants_min, :nb_participants_max,
+                  :info, :ca_follow_up
 
   validates :name, :event_type, :nb_participants_min, :nb_participants_max, presence: true
   validates :nb_participants_min, numericality: { greater_or_equal_than: 0 }
   validates :nb_participants_max, numericality: { greater_than: :nb_participants_min },
                                   unless: Proc.new {|course| course.nb_participants_min.nil? || course.nb_participants_max.nil? }
-  before_save :set_active
 
   after_save :alert_participants_for_changes
   before_destroy :alert_participants_for_deletion
@@ -15,6 +15,10 @@ class Course::Open < Course
 
   def is_open?
     true
+  end
+
+  def free?
+    price.nil? or price == 0
   end
 
   def type_name_html
@@ -38,10 +42,6 @@ class Course::Open < Course
   end
 
   private
-
-  def set_active
-    self.active = true
-  end
 
   def alert_participants_for_changes
     self.plannings.each do |planning|

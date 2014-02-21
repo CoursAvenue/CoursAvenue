@@ -38,16 +38,14 @@
         %textarea.one-whole{name: 'text', rows: 8, data: {behavior: 'autoresize'}}
           Bonjour,&#x000A;&#x000A;J'ai créé mon profil sur CoursAvenue et je voudrais savoir ce que vous avez pensé de mes cours. Pouvez-vous prendre quelques minutes pour laisser un avis sur mon profil ?
         %p.gray-light.push-half--top
-          = link_to 'Lien que recevront les élèves', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), target: '_blank'
+          = link_to 'Lien que recevront mes élèves', new_structure_comment_url(@structure, email: @email, subdomain: 'www'), target: '_blank'
         %p.gray-light.flush
           Merci et à très bientôt,
           %br
           = @structure.name
-    .push-half--top.text--right
-      = f.submit 'Envoyer ma demande', class: 'btn btn--green'
-  %hr.push--top
-  .text--center.push-half--bottom
-    = link_to 'Envoyer un email depuis ma boite perso', '#hidden-send', data: {behavior: 'modal'}, class: 'btn btn--blue'
+        .push-half--top
+          = f.submit 'Envoyer ma demande', class: 'btn btn--green btn--full'
+          .text--center= link_to 'Envoyer un email depuis ma boîte perso', '#hidden-send', data: {behavior: 'modal'}, class: ''
 
 #hidden-send.hidden
   %p

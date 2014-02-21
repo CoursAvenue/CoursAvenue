@@ -24,34 +24,34 @@
   = content_for :scripts do
     :javascript
       $(function() {
-        if(typeof _gaq !== 'undefined') {_gaq.push(['_trackEvent', 'Commentaire j+', 'vue', '#{params[:stage]}']);}
+        if(typeof _gaq !== 'undefined') {ga('send', 'event', 'Commentaire j+', 'vue', '#{params[:stage]}');}
       });
 - else
   = content_for :scripts do
     :javascript
       $(function() {
-        if(typeof _gaq !== 'undefined') {_gaq.push(['_trackEvent', 'Commentaire j+', 'vue', '0']);}
+        if(typeof _gaq !== 'undefined') {ga('send', 'event', 'Commentaire j+', 'vue', '0');}
       });
 
 - if params.has_key? :facebook
   = content_for :scripts do
     :javascript
       $(function() {
-        if(typeof _gaq !== 'undefined') {_gaq.push(['_trackEvent', 'Commentaire depuis facebook', 'vue', '#{@structure.name}']);}
+        if(typeof _gaq !== 'undefined') {ga('send', 'event', 'Commentaire depuis facebook', 'vue', '#{@structure.name}');}
       });
 
 - if params.has_key? :website
   = content_for :scripts do
     :javascript
       $(function() {
-        if(typeof _gaq !== 'undefined') {_gaq.push(['_trackEvent', 'Commentaire depuis site perso', 'vue', '#{@structure.name}']);}
+        if(typeof _gaq !== 'undefined') {ga('send', 'event', 'Commentaire depuis site perso', 'vue', '#{@structure.name}');}
       });
 
 - if params.has_key? :email
   = content_for :scripts do
     :javascript
       $(function() {
-        if(typeof _gaq !== 'undefined') {_gaq.push(['_trackEvent', 'Commentaire depuis email perso', 'vue', '#{@structure.name}']);}
+        if(typeof _gaq !== 'undefined') {ga('send', 'event', 'Commentaire depuis email perso', 'vue', '#{@structure.name}');}
       });
 
 .grid

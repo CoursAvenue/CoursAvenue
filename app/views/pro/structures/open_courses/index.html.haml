@@ -11,9 +11,13 @@
 
 %p.alert.alert--info
   %strong Note importante :
-  renseignez vos ateliers avant le 17/02/14 et faites partie de nos 1ères campagnes de communication. Nous vous enverrons un mail pour vous annoncer l'ouverture des inscriptions à vos ateliers (nos pages dédiées à l'événement seront visibles début février). Vous pourrez gérer toutes vos inscriptions et communiquer librement avec tous les élèves participants.
+  renseignez vos ateliers avant le 24/02/14 et faites partie de nos 1ères campagnes de communication. Nous vous enverrons un mail pour vous annoncer l'ouverture des inscriptions à vos ateliers (nos pages dédiées à l'événement seront visibles début février). Vous pourrez gérer toutes vos inscriptions et communiquer librement avec tous les élèves participants.
 
-%h4.push-half--bottom Ateliers proposés
+.push-half--bottom
+  %h4.inline-block.v-middle.flush--bottom.push-half--right Ateliers proposés
+  = link_to jpo_new_pro_structure_invited_students_path(@structure), class: 'btn btn--small btn--blue v-middle' do
+    %i.fa.fa-bullhorn
+    Inviter mon réseau
 
 - if @courses.empty?
   %p.white-box.islet
@@ -26,20 +30,34 @@
       = "(#{course.event_type_description})"
     - elsif course.event_type.present?
       = "(#{course.event_type})"
+    - if course.info.present?
+      .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
+        %i.lbc-icon-info
+          i
+        Infos pratiques
     .float--right
-      = link_to edit_pro_structure_course_open_path(@structure, course) do
-        %i.fa.fa-pencil
-        Modifier
-      \/
-      = link_to pro_structure_course_open_path(@structure, course), class: 'red', method: :delete do
-        %i.fa.fa-times
-        Supprimer
-    %p.flush= course.description
+      - if course.participations.not_canceled.any?
+        = link_to '#cannot-modify', data: { behavior: 'modal' } do
+          %i.fa.fa-pencil
+          Modifier
+        \/
+        = link_to '#cannot-modify', class: 'red', method: :delete, data: { behavior: 'modal' } do
+          %i.fa.fa-times
+          Supprimer
+      - else
+        = link_to edit_pro_structure_course_open_path(@structure, course) do
+          %i.fa.fa-pencil
+          Modifier
+        \/
+        = link_to pro_structure_course_open_path(@structure, course), class: 'red', method: :delete do
+          %i.fa.fa-times
+          Supprimer
     %p.gray.milli
       %i.fa.fa-tags
       = course.subjects.map(&:name).join(', ')
+    = simple_format course.description
 
-    - if course.plannings.order('start_date ASC, start_time ASC').any?
+    - if course.plannings.any?
       %table.table--data.table--striped
         %thead
           %tr
@@ -47,10 +65,10 @@
             %th Public
             %th Niveau
             %th Lieux
-            %th Nombre d'inscrits
+            %th.text--center Nombre d'inscrits
             %th
         %tbody
-          - course.plannings.each do |planning|
+          - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
             %tr
               %td
                 = planning_date_for(planning)
@@ -58,13 +76,13 @@
               %td= join_audiences planning
               %td= join_levels planning.levels
               %td= planning.place.location.name
-              %td
-                - if planning.possible_participations.any?
+              %td.text--center
+                - if planning.nb_jpo_participants > 0
                   .progress.flush
-                    .bar.bar-success{style: "width: #{(planning.possible_participations.length * 100) / planning.nb_participants_max}%;"}
-                      #{planning.possible_participations.length} / #{planning.nb_participants_max}
+                    .bar.bar-success{style: "width: #{(planning.nb_jpo_participants * 100) / planning.nb_participants_max}%;"}
+                      #{planning.nb_jpo_participants} / #{planning.nb_participants_max}
                 - else
-                  Aucun inscrit
+                  0 / #{course.nb_participants_max}
                 - if planning.waiting_list.any?
                   %div
                     %strong Liste d'attente
@@ -78,13 +96,23 @@
                     %i.fa.fa-chevron-down
                   %ul.drop-down__el.text--left
                     %li.nowrap
-                      = link_to edit_pro_structure_course_planning_path(@structure, course, planning), title: 'Modifier le créneau', data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax' do
-                        %i.fa.fa-pencil
-                        Modifier le créneau
+                      - if planning.participations.not_canceled.any?
+                        = link_to '#cannot-modify', title: 'Modifier le créneau', data: { behavior: 'modal' } do
+                          %i.fa.fa-pencil
+                          Modifier le créneau
+                      - else
+                        = link_to edit_pro_structure_course_planning_path(@structure, course, planning), title: 'Modifier le créneau', data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax' do
+                          %i.fa.fa-pencil
+                          Modifier le créneau
                     %li.nowrap
-                      = link_to pro_structure_course_planning_path(@structure, course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer le créneau' do
-                        %i.fa.fa-trash-o
-                        Supprimer
+                      - if planning.participations.not_canceled.any?
+                        = link_to '#cannot-modify', title: 'Supprimer le créneau', data: { behavior: 'modal' } do
+                          %i.fa.fa-trash-o
+                          Supprimer
+                      - else
+                        = link_to pro_structure_course_planning_path(@structure, course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer le créneau' do
+                          %i.fa.fa-trash-o
+                          Supprimer
 
 
     %p.push-half--top
@@ -95,9 +123,14 @@
 .text--center.push--bottom
   = link_to 'Ajouter un atelier', new_pro_structure_course_open_path(@structure), class: 'btn btn--green btn--large'
 
-- if @courses.length == 1 and @courses.first.plannings.empty?
+#cannot-modify.hidden
+  .text--center
+    %h4 Vous ne pouvez pas modifier cet atelier car vous avez des participants inscrits
+    = link_to "Contacter l'équipe CoursAvenue pour une modification", pages_contact_url(subdomain: 'www'), class: 'btn btn--green', target: :_blank
+
+- if @courses.last and @courses.last.plannings.empty?
   = content_for :scripts do
     :javascript
       $(function() {
-          $('.add-planning').click();
+          $('.add-planning').last().click();
       });

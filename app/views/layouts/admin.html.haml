@@ -33,7 +33,7 @@
             %div.push-half--top
               = link_to new_pro_structure_invited_teacher_path(@structure), class: 'btn btn--small', onclick: "ga('send', 'event', 'Pro / Share with teachers', 'click', 'From dashboard page')" do
                 %i.fa.fa-bullhorn
-                &nbsp;Parrainer un professeur
+                &nbsp;Parrainer
           - if @structure.parisian?
             .flexbox__item.v-top.five-twelfths.text--center.v-middle.blue-box>
               = link_to pro_structure_course_opens_path(@structure), class: 'semi-muted-link', onclick: "ga('send', 'event', 'JPO', 'click')" do
@@ -54,9 +54,9 @@
               = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=#{new_structure_comment_url(@structure, facebook: '', subdomain: 'www')}", class: 'btn btn--small btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'Pro / Share on Facebook', 'click', 'From dashboard page')"
     .flexbox
       - if content_for? :side_menu
-        %nav.one.flexbox__item.v-top.side-menu.white-box
+        %nav.flexbox__item.v-top.side-menu.white-box
           = yield :side_menu
-      .admin-wrapper.flexbox__item.v-top
+      .flexbox__item.v-top.soft-half--left
         = yield :breadcrumb
         = content_for?(:admins_content) ? yield(:admins_content) : yield
 

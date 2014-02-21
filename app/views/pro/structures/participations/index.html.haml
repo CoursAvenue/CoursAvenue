@@ -6,7 +6,8 @@
   %h3.flush= open_course.name
   - open_course.plannings.each do |planning|
     %h5.push-half--bottom
-      = planning_date_for(planning)
+      %i.fa.fa-calendar
+      = planning_date_for(planning).capitalize
       = planning_time_for(planning)
     %table.white-box.table--data.table--striped.table--white
       %thead
@@ -16,9 +17,12 @@
           %th.three-twelfths Date d'inscription
           %th.two-twelfths Sur liste d'attente
       %tbody
-        - planning.participations.each do |participation|
-          %tr
-            %td= participation.user.name
+        - planning.participations.order('canceled_at DESC').each do |participation|
+          %tr{class: (participation.canceled? ? 'red' : '')}
+            %td
+              = participation.user.name
+              - if participation.with_kid?
+                (+ 1 enfant)
             %td= participation.user.email
             %td= l(participation.created_at, format: :date).capitalize
             %td.text--center

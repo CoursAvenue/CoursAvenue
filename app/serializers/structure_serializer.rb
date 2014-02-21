@@ -124,17 +124,19 @@ class StructureSerializer < ActiveModel::Serializer
   end
 
   def data_url
+    subdomain = 'www'
     if Rails.env.production?
       host = 'coursavenue.com'
     elsif Rails.env.development?
       host = 'coursavenue.dev'
     elsif Rails.env.staging?
-      host = 'staging.coursavenue.com'
+      host      = 'staging.coursavenue.com'
+      subdomain = 'staging'
     end
     if @options[:jpo]
-      jpo_structure_url(object, subdomain: 'www', host: host, only_path: host.nil?)
+      jpo_structure_url(object, subdomain: subdomain, host: host, only_path: host.nil?)
     else
-      structure_url(object, subdomain: 'www', host: host, only_path: host.nil?)
+      structure_url(object, subdomain: subdomain, host: host, only_path: host.nil?)
     end
   end
 

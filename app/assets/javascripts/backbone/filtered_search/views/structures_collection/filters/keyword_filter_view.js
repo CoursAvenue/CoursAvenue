@@ -4,7 +4,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         template: Module.templateDirname() + 'keyword_filter_view',
 
         initialize: function () {
-            this.announce = _.debounce(this.announce, 350);
+            this.announce = _.debounce(this.announce, 500);
         },
 
         setup: function (data) {
@@ -19,7 +19,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         events: {
             'typeahead:selected #search-input': 'announce',
             // Use keyup instead of keypress to handle the case when the user empties the input
-            'keyup':                            'announce'
+            'keyup #search-input':              'announce'
         },
 
         announce: function (event, data) {

@@ -1,6 +1,10 @@
 class Participation < ActiveRecord::Base
   acts_as_paranoid
 
+  PARTICIPATION_FOR = ['participations.for.one_adult',
+                      'participations.for.one_kid',
+                      'participations.for.one_kid_and_one_adult' ]
+
   ######################################################################
   # Relations                                                          #
   ######################################################################
@@ -23,10 +27,15 @@ class Participation < ActiveRecord::Base
   after_create :welcome_email
   after_create :user_subscribed_email_for_teacher
 
-  before_save  :set_waiting_list
+  before_save  :set_default_participation_for
+
+  after_save   :update_jpo_meta_datas
+  after_save   :index_planning
+
+  before_save  :set_waiting_list, unless: :canceled?
   before_save  :update_structure_meta_datas
 
-  attr_accessible :user, :planning
+  attr_accessible :user, :planning, :participation_for
 
   ######################################################################
   # Scopes                                                             #
@@ -94,7 +103,7 @@ class Participation < ActiveRecord::Base
   def cancel!
     self.canceled_at = Time.now
     if self.save
-      update_planning_participations_waiting_list
+      Participation.update_planning_participations_waiting_list(planning)
       unsubscription_email
       unsubscription_email_for_teacher
       return true
@@ -103,50 +112,105 @@ class Participation < ActiveRecord::Base
     end
   end
 
-  ######################################################################
-  # Callbacks                                                          #
-  ######################################################################
+  # Tells if the parent comes with his kid in case of plannings for kids
+  # and adults
+  #
+  # @return Boolean
+  def with_kid?
+    participation_for == 'participations.for.one_kid_and_one_adult'
+  end
+
+  # Return the size of the participation. Does it count for 1 person or 2 ?
+  #
+  # @return Integer
+  def size
+    (with_kid? ? 2 : 1)
+  end
+
   # Set waiting list to true regarding the number of participants and the
-  # /!\ Don't make it private
   #
   # @return nil
   def set_waiting_list
-    self.waiting_list = ( self.planning.nb_place_available <= 0 )
-    ParticipationMailer.delay.a_place_opened(self) if waiting_list_changed? and waiting_list == false
+    self.waiting_list = ( self.planning.places_left <= 0 )
     nil
   end
 
+  #
+  # Call set_waiting_list and saves
+  #
+  # @return Boolean wether it saved or not
   def set_waiting_list!
     set_waiting_list
-    save if waiting_list_changed?
+    if waiting_list_changed?
+      save
+    else
+      false
+    end
   end
 
   def alert_for_changes
-    ParticipationMailer.delay.alert_for_changes
+    ParticipationMailer.delay.alert_for_changes(self)
   end
 
   def alert_for_destroy
-    ParticipationMailer.delay.alert_for_destroy
+    ParticipationMailer.delay.alert_for_destroy(self)
   end
 
   private
+
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  # Set default value for `participation_for` attribute
+  #
+  # return participation_for
+  def set_default_participation_for
+    self.participation_for ||= 'participations.for.one_adult'
+  end
+
+  # Update meta datas related to JPOs on the associated structure
+  #
+  # @return nil
+  def update_jpo_meta_datas
+    self.structure.update_jpo_meta_datas
+    nil
+  end
+
+  # Update index related planning
+  #
+  # @return nil
+  def index_planning
+    self.planning.index
+  end
 
   # Only one participation is allowed per user for JPO courses
   #
   # @return nil
   def first_participation_to_jpo
-    unless user.participations.empty?
+    unless user.participations.not_canceled.empty?
       self.errors[:base] << I18n.t('participations.errors.only_one_participation_for_jpo')
     end
     nil
   end
 
   # When participation is canceled, update waiting list of all participations of same planning
+  # Sends an email to the user if it goes from waiting list to participant
+  # @param  planning Planning planning where we have to update the participants
   #
   # @return nil
-  def update_planning_participations_waiting_list
-    planning.participations.each do |participation|
-      participation.set_waiting_list!
+  def self.update_planning_participations_waiting_list(planning)
+    # Sends an email to the user and to the teacher
+    places_left = planning.places_left
+    planning.participations.not_canceled.waiting_list.order('created_at DESC').each do |participation|
+      # Updates if there is enough place for this participation
+      if participation.size <= places_left
+        if participation.set_waiting_list!
+          places_left = places_left - participation.size
+          participation.user_subscribed_email_for_teacher
+          ParticipationMailer.delay.a_place_opened(participation)
+        end
+      end
+      return if places_left == 0
     end
     nil
   end

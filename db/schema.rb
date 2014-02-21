@@ -207,6 +207,7 @@ ActiveRecord::Schema.define(version: 20140221140543) do
     t.string   "event_type_description"
     t.float    "price"
     t.integer  "nb_participants_min"
+    t.text     "ca_follow_up"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
@@ -361,8 +362,9 @@ ActiveRecord::Schema.define(version: 20140221140543) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.time     "deleted_at"
-    t.boolean  "waiting_list", default: false
+    t.boolean  "waiting_list",      default: false
     t.datetime "canceled_at"
+    t.string   "participation_for"
   end
 
   add_index "participations", ["planning_id", "user_id"], name: "index_participations_on_planning_id_and_user_id", using: :btree
@@ -384,6 +386,7 @@ ActiveRecord::Schema.define(version: 20140221140543) do
     t.integer "structure_id"
     t.text    "info"
     t.time    "deleted_at"
+    t.text    "private_info"
   end
 
   add_index "places", ["location_id", "structure_id"], name: "index_places_on_location_id_and_structure_id", using: :btree

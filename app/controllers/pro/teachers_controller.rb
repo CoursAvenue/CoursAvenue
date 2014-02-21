@@ -30,6 +30,7 @@ class Pro::TeachersController < InheritedResources::Base
   end
 
   def new
+    @teachers = @structure.teachers.reject(&:new_record?)
     new! do |format|
       if request.xhr?
         format.html { render partial: 'pro/teachers/form' }

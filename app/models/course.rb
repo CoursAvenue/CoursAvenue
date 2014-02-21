@@ -13,6 +13,7 @@ class Course < ActiveRecord::Base
   belongs_to :structure, touch: true
 
   has_many :comments            , through: :structure
+  has_many :participations      , through: :plannings
   has_many :reservations        , as: :reservable
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , -> { uniq }, through: :plannings
@@ -385,7 +386,7 @@ class Course < ActiveRecord::Base
   end
 
   def activate!
-    if (prices.any? and plannings.any?)
+    if is_open? or (prices.any? and plannings.any?)
       self.active = true
       return self.save
     else

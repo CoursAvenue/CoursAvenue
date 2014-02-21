@@ -4,15 +4,11 @@
   - planning_url = pro_structure_course_plannings_path(@structure, @course)
 
 - minutes = (2..32).collect{ |i| time = i*15; ["#{(time/60).floor}h#{(time%60 == 0 ? '00' : time%60)}",time] }
-= simple_form_for [:pro, @course, @planning], url: planning_url do |f|
+= simple_form_for [:pro, @course, @planning], url: planning_url, html: { id: 'planning-form' } do |f|
   = f.error_notification
-  .input.flush--bottom
-    = f.label :place
-    = f.input :place_id , as: :select, collection: @structure.places, label_method: lambda {|place| place.location.name}, include_blank: false, label: false
-    = link_to new_pro_structure_place_path(@structure, from: request.fullpath) do
-      &nbsp;
-      %i.fa.fa-map-marker
-      Ajouter un lieu
+
+  = render partial: 'place_input', locals: { f: f }
+
   .input
     %label.required.control-label Jour
     - days = t('date.day_names').collect{|day| [day.capitalize, t('date.day_names').index(day)] }.rotate

@@ -18,7 +18,7 @@ class Place < ActiveRecord::Base
 
 
   attr_accessible :location, :structure, :contacts,
-                  :info,
+                  :info, :private_info,
                   :contacts_attributes,
                   :location_attributes
 

@@ -18,7 +18,7 @@
       %h5
         %i.fa.fa-calendar.fa.fa-2x
         %br
-        Étape 2 : Renseignez vos créneaux
+        Étape 2 : Renseignez le lieu et les créneaux
 
 = simple_form_for [:pro, @structure, @course], url: url, as: :course, html: {id: 'course-form'} do |f|
   = f.error_notification
@@ -43,19 +43,20 @@
       .control-label.v-top *Type d'événement
       %div
         .radio
-          %input#event_type_atelier{type: 'radio', name: 'course[event_type]', value: 'Atelier collectif', checked: (@course.event_type.nil? or @course.event_type == 'Atelier collectif')}>
-          %label{for: 'event_type_atelier'} Atelier collectif
+          %input#event_type_atelier{type: 'radio', name: 'course[event_type]', value: 'Cours collectif', checked: (@course.event_type.nil? or @course.event_type == 'Cours collectif')}>
+          %label{for: 'event_type_atelier'} Cours collectif
         .radio
           %input#event_type_demo{type: 'radio', name: 'course[event_type]', value: 'Démonstration', checked: @course.event_type == 'Démonstration'}>
           %label{for: 'event_type_demo'} Démonstration
         .radio
-          %input#event_other{type: 'radio', name: 'course[event_type]', value: 'other', checked: (@course.event_type.present? and !['Atelier collectif', 'Démonstration'].include?(@course.event_type)) }>
+          %input#event_other{type: 'radio', name: 'course[event_type]', value: 'other', checked: (@course.event_type.present? and !['Cours collectif', 'Démonstration'].include?(@course.event_type)) }>
           %label{for: 'event_other'} Autres
           #other-event-type.hidden
             Précisez :
             %input#event_type_description_hidden.push--left{ name: 'course[event_type_description]', type: 'text', size: '50', value: @course.event_type_description}
 
   %h5.form-header-group.flush--bottom.soft--top Description
+  .relative= image_tag 'texts/jpo-more-infos.png', height: 85, style: 'right: 0; bottom: -21px;', class: 'absolute'
   .form-white-box
     = f.input :description, as: :text, placeholder: "Expliquez en quoi consiste l'événement, de manière à ce que l’élève comprenne bien ce qu’il y apprendra, pour éviter toute confusion. Plus de détails vous donnez, mieux c’est !", input_html: { id: 'open-course-description', data: { behavior: 'text-counter', 'average-words-nb' => 20, 'good-words-nb' => 70, 'bad-text' => 'Votre description doit comporter au moins 20 mots. Nos Partenaires qui ont le plus de succès ont plus de 100 mots', 'average-text' => 'Encore quelques mots et vous aurez une superbe description !', 'good-text' => 'Superbe description !'}}, wrapper_html: {class: 'flush--top one-whole'}
 
@@ -90,7 +91,9 @@
             Indiquez ici le montant moyen attendu :
             = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false, placeholder: '5'
             €
-    = f.input :info, label: 'Infos pratiques', placeholder: "Renseignez toutes les informations à communiquer aux potentiels inscrits : materiel, tenu exigée, informations sur le lieu, etc.", input_html: { data: { behavior: 'autoresize' }}
+
+    = f.input :info, placeholder: "Renseignez toutes les informations à communiquer aux potentiels inscrits : matériel requis, tenue exigée, etc. Les informations concernant le lieu sont à renseigner à l'étape suivante.", input_html: { data: { behavior: 'autoresize' }}
+
   .form-white-box
     .input
       %label.v-top.control-label.bold En validant, je certifie :
@@ -99,7 +102,7 @@
         %br
         \- avoir renseigné toutes les informations importantes à communiquer aux inscrits dans les champs "description" et "infos pratiques" (numéro d'interphone, tenue et matériel exigés, etc.).
   %p
-    = f.submit 'Enregistrer et renseigner mes créneaux', class: 'btn btn--green btn--full'
+    = f.submit 'Enregistrer et renseigner mes lieux et créneaux', class: 'btn btn--green btn--full'
 
 = content_for :scripts do
   :javascript

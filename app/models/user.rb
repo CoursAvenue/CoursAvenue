@@ -87,6 +87,14 @@ class User < ActiveRecord::Base
       user.fb_avatar          = auth.info.image
       user.password           = Devise.friendly_token[0,20]
 
+      if auth.info.location
+        city = City.where{ name =~ auth.info.location.split(',').first }.first
+        if city
+          user.city     = city
+          user.zip_code = city.zip_code
+        end
+      end
+
       # Extra
       user.location           = auth.info.location
       user.gender             = auth.extra.raw_info.gender
@@ -236,8 +244,7 @@ class User < ActiveRecord::Base
   end
 
   def participate_to?(planning)
-    # TODO: improve this
-    self.participations.map(&:planning).include? planning
+    self.participations.not_canceled.map(&:planning).include? planning
   end
 
   private

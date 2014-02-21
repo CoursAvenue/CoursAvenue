@@ -34,19 +34,36 @@ class Pro::Structures::CoursesController < Pro::ProController
 
   def activate
     @course = Course.friendly.find params[:id]
-    if @course.activate!
-      redirect_to pro_structure_courses_path(@structure), notice: 'Le cours sera visible sur CoursAvenue dans quelques minutes'
-    else
-      redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis en ligne.<br>Assurez vous que le tarif et le planning sont bien renseignés."
+    respond_to do |format|
+      if @course.activate!
+        if @course.is_open?
+          format.html { redirect_to pro_open_courses_path, notice: 'Le cours a bien été activé' }
+          format.js { render nothing: true }
+        else
+          format.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours sera visible sur CoursAvenue dans quelques minutes' }
+        end
+      else
+        format.html { redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis en ligne.<br>Assurez vous que le tarif et le planning sont bien renseignés." }
+        format.js { render nothing: true }
+      end
     end
   end
 
   def disable
     @course = Course.friendly.find params[:id]
-    if @course.update_attribute :active, false
-      redirect_to pro_structure_courses_path(@structure), notice: "Le cours n'est plus affiché sur CoursAvenue"
-    else
-      redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que le tarif et le planning sont bien renseignés."
+    respond_to do |format|
+      if @course.update_attribute :active, false
+        if @course.is_open?
+          format.js { render nothing: true }
+          format.html { redirect_to pro_open_courses_path, notice: 'Le cours a bien été activé' }
+        else
+          format.js { render nothing: true }
+          format.html { redirect_to pro_structure_courses_path(@structure), notice: "Le cours n'est plus affiché sur CoursAvenue" }
+        end
+      else
+        format.js { render nothing: true }
+        format.html { redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que le tarif et le planning sont bien renseignés." }
+      end
     end
   end
 

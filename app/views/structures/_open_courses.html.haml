@@ -1,7 +1,3 @@
-.blue-box.blue-box--noshadow.soft-half.text--center
-  %h4.push-half--bottom Journées portes ouverte 2014 — Week-end du 6 et 7 avril
-  .delta Participez à un atelier gratuit
-
 - structure.courses.open_courses.order('created_at ASC').each do |course|
   - if course.plannings.any?
     .white-box.white-box--noshadow.islet
@@ -10,14 +6,15 @@
         = "(#{course.event_type_description})"
       - else
         = "(#{course.event_type})"
-      .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
-        %i.lbc-icon-info
-          i
-        Infos pratiques
-      %p.flush= course.description
+      - if course.info.present?
+        .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
+          %i.lbc-icon-info
+            i
+          Infos pratiques
       %p.gray.milli
         %i.fa.fa-tags
         = course.subjects.map(&:name).join(', ')
+      = simple_format course.description
       - if course.plannings.any?
         %table.table--data.table--striped
           %thead
@@ -26,9 +23,9 @@
               %th Public
               %th Niveau
               %th Lieu
-              %th.nowrap Places restantes
+              %th.text--center Places dispos
               %th Prix
-              %th.text--right Inscription
+              %th
           %tbody
             - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
               %tr
@@ -41,21 +38,24 @@
                   = link_to "http://maps.google.com/?q=#{planning.place.location.address}", target: :_blank, class: 'pointer semi-muted-link', title: planning.place.location.address, data: { behavior: 'tooltip' } do
                     = planning.place.location.name
                 %td.text--center
-                  = "#{planning.places_left} / #{course.nb_participants_max}"
-                  - if planning.places_left == 0
-                    %br
-                    = "#{pluralize(planning.waiting_list.length, 'personne')} sur la liste d'attente"
+                  - if planning.places_left > 5
+                    > 5
+                  - else
+                    = planning.places_left
+
                 %td
-                  - if course.price
+                  - if course.free?
+                    Gratuit
+                  - else
                     Participation libre
                     %br
                     %span.nowrap (montant attendu : #{readable_amount(course.price)}€)
-                  - else
-                    Gratuit
                 %td.text--right
-                  - if current_user and current_user.participate_to?(planning)
-                    Déjà inscrit
-                  - elsif current_user
-                    = link_to "M'inscrire", planning_participations_path(planning), class: 'btn btn--small btn--green', method: :post
+                  - if current_user
+                    - if current_user.participate_to?(planning)
+                      Déjà inscrit
+                    - else
+                      = link_to new_planning_participation_path(planning), class: 'btn btn--small btn--green text--center line-height-normal fancybox.ajax', data: { behavior: 'modal', title: 'Inscription au créneau', width: 600 } do
+                        = planning.places_left ? "M'inscrire " : "M'inscrire sur liste d'attente"
                   - else
-                    = link_to "M'inscrire", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Contact form button'])"
+                    = link_to "M'inscrire", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full'

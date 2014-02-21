@@ -47,7 +47,7 @@ module FilteredSearchProvider extend ActiveSupport::Concern
       structures << planning_group.results.first.try(:structure)
     end
     places = places.uniq
-    total           = search.group(:structure_id_str).total
+    total  = search.group(:structure_id_str).total
 
     [ structures, places, total ]
   end

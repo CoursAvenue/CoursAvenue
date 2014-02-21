@@ -89,7 +89,7 @@ RAILS_ENV=test rake sunspot:solr:start
 killall ruby; dropdb -h localhost -U postgres coursavenue_development; createdb -h localhost -O postgres -U postgres coursavenue_development && psql coursavenue_development -c 'create extension hstore;' -U postgres && pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "ud9c2iqn1hpp2g" --no-password  --verbose "/Users/Nima/Downloads/a266.dump"; zeus start
 
 # Make a dump
-pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" -f 19_oct.tar --format=t
+pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" -f 20_fev.tar --format=t
 
 # Maintenance
 
