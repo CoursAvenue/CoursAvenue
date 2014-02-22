@@ -25,6 +25,7 @@ fr:
         no_class_during_holidays: Pas de cours pendant les vacances scolaires
         subjects: Étiquettes disciplines
         teaches_at_home: Cours à domicile
+        common_price: Tarif habituellement appliqué
 
   courses:
     training:

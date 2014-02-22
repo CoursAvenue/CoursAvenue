@@ -38,10 +38,12 @@
                   - if planning.nb_participants_max - planning.possible_participations.length > 0
                     - participations_left = planning.nb_participants_max - planning.possible_participations.length
                   - else
-                    = "#{pluralize(planning.waiting_list.length, 'personne')} sur la liste d'attente"
-                %td
-                  - if course.price
-                    = "#{readable_amount(course.price)}€"
+                    = planning.places_left
+
+                %td.nowrap
+                  - if course.free?
+                    %span.line-through #{readable_amount(course.common_price)}€
+                    %span.green GRATUIT
                   - else
                     Gratuit
                 %td.text--right
