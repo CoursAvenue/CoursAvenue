@@ -81,7 +81,7 @@
               %td= planning.place.location.name
               %td.text--center
                 - if planning.nb_jpo_participants > 0
-                  .progress.flush
+                  = link_to pro_structure_participations_path(@structure), class: 'progress flush block' do
                     .bar.bar-success{style: "width: #{(planning.nb_jpo_participants * 100) / planning.nb_participants_max}%;"}
                       #{planning.nb_jpo_participants} / #{planning.nb_participants_max}
                 - else

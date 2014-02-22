@@ -5,11 +5,16 @@
 - @open_courses.each do |open_course|
   %h3.flush= open_course.name
   - open_course.plannings.each do |planning|
-    %h5.push-half--bottom
+    %h5.inline-block.v-middle.flush
       %i.fa.fa-calendar
       = planning_date_for(planning).capitalize
       = planning_time_for(planning)
-    %table.white-box.table--data.table--striped.table--white
+
+    .progress.inline-block.v-middle.push-half--left{style: 'width: 10em;'}
+      .bar.bar-success{style: "width: #{(planning.nb_jpo_participants * 100) / planning.nb_participants_max}%;"}
+        #{planning.nb_jpo_participants} / #{planning.nb_participants_max}
+
+    %table.white-box.table--data.table--striped.table--white.push-half--top
       %thead
         %tr
           %th.four-twelfths Nom de l'élève
