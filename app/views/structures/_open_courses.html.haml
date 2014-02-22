@@ -24,7 +24,7 @@
               %th Niveau
               %th Lieu
               %th.text--center Places dispos
-              %th Prix
+              %th.text--center Prix
               %th
           %tbody
             - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
@@ -43,9 +43,10 @@
                   - else
                     = planning.places_left
 
-                %td
+                %td.nowrap
                   - if course.free?
-                    Gratuit
+                    %span.line-through 40€
+                    %span.green GRATUIT
                   - else
                     Participation libre
                     %br

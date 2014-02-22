@@ -9,12 +9,26 @@
           sur liste d'attente
       %h4.flush Une confirmation vous a été envoyée par e-mail.
 
-  %h6.text--center
+  %h4.text--center
     - if @participation.planning.places_left?
-      Il ne reste plus que #{pluralize(@participation.planning.places_left, 'places')} pour l'atelier auquel vous participez : invitez vos proches à y participer !
+      Il ne reste plus que
+      %span.green #{pluralize(@participation.planning.places_left, 'places')}
+      pour l'atelier auquel vous participez : invitez vos proches à y participer !
     - else
       Invitez vos proches à participer aux Journées Portes Ouvertes CoursAvenue !
 
+  .push--bottom
+    %h5.flush.soft--right.inline-block.v-middle
+      %i.fa.fa-bullhorn
+      %span.underlined Méthode 1
+      \: Partagez sur les réseaux sociaux
+    .share-on-facebook.btn.btn--facebook.text--left.nowrap.inline-block.v-middle Facebook
+    .share-on-twitter.btn.btn--twitter.btn--small.text--left.nowrap.inline-block.v-middle Twitter
+  %hr
+  %h5
+    %i.fa.fa-envelope-o
+    %span.underlined Méthode 2
+    \: Envoyez une invitation personnalisée (méthode recommandée)
   = form_tag(bulk_create_jpo_user_invited_users_path(current_user), method: :post, id: 'invite-user-form') do
     = hidden_field :structure, :id, value: @structure.id
     .grid.push-half--top
@@ -30,7 +44,7 @@
           %i Personnalisez le texte ci-dessous puis envoyez votre invitation.
         %br
         %textarea.milli.one-whole{style: 'height: 140px', name: 'text', rows: 8, data: {behavior: 'autoresize'}}
-          Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, #{@structure.name} ouvre ses portes à travers des ateliers gratuits. Je me suis inscrit à l'atelier du #{planning_date_for(@participation.planning)} #{planning_time_for(@participation.planning, false)} et je te transmets cette invitation pour que tu puisses t'inscrire aussi.
+          Salut !&#x000A;Le week-end du 5-6 avril prochain, #{@structure.name} ouvre ses portes à travers des ateliers gratuits. Je me suis inscrit à l'atelier "#{@participation.course.name}" du #{planning_date_for(@participation.planning)} #{planning_time_for(@participation.planning, false)} et je te transmets cette invitation pour que tu puisses t'inscrire aussi. Ça se passera à l'adresse suivante : #{@participation.planning.place.location.address}.
         %p.gray-light.flush
           = link_to 'Lien que recevront mes proches', jpo_structure_url(@structure), target: :_blank
           %br
@@ -42,13 +56,6 @@
       .grid__item.ten-twelfths>
         = submit_tag 'Envoyer mon invitation', class: 'btn btn--green btn--full'
 
-  .push--top.push-half--bottom
-    %strong Ou par Facebook et Twitter :
-  .grid
-    .grid__item.one-half>
-      .share-on-facebook.btn.btn--full.btn--facebook.text--left Partager sur Facebook
-    .grid__item.one-half>
-      .share-on-twitter.btn.btn--full.btn--twitter.btn--small.text--left Partager sur Twitter
 
 - content_for :scripts do
   :javascript

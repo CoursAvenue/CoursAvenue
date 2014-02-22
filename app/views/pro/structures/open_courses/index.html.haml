@@ -65,13 +65,16 @@
             %th Public
             %th Niveau
             %th Lieux
-            %th.text--center Nombre d'inscrits
+            %th
+              Inscriptions
+              %br
+              = link_to '(voir mes inscrits)', pro_structure_participations_path(@structure), class: 'nowrap'
             %th
         %tbody
           - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
             %tr
               %td
-                = planning_date_for(planning)
+                = planning_date_for(planning).capitalize
                 = planning_time_for(planning)
               %td= join_audiences planning
               %td= join_levels planning.levels

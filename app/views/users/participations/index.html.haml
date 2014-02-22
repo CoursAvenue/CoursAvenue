@@ -29,9 +29,9 @@
             Inviter mes amis
           %br
           .share-on-facebook.btn.btn--facebook.one-whole.push-half--bottom Facebook
-          .share-on-twitter.btn.btn--twitter.one-whole.btn--small Twitter
+          .share-on-twitter.btn.btn--twitter.one-whole.btn--small.push-half--bottom Twitter
 
-          = link_to 'Je ne pourrai pas venir, me désinscrire', user_participation_path(current_user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}
+          = link_to 'Me désinscrire', user_participation_path(current_user, participation), method: :delete, data: {confirm: 'Êtes-vous sur de vous désinscrire ce créneau ?'}, class: 'btn btn--red btn--small btn--full'
         .flexbox__item.eight-twelfths.v-top>
           .flexbox
             .flexbox__item.five-twelfths.v-top>
@@ -62,14 +62,9 @@
                 = "De #{l(participation.planning.start_time, format: :short)} à #{l(participation.planning.end_time, format: :short)}"
               = add_to_calendar(participation)
           - if course.description.present?
-            %p
+            %p.flush
               %strong Description
             = simple_format course.description
-          - if course.info.present?
-            %p
-              %strong Infos pratique au cours
-              %br
-              = course.info
           - if course.info.present?
             %p
               %strong Infos pratiques sur le cours
@@ -85,7 +80,9 @@
         .flexbox__item.two-twelfths.v-top>
           = link_to "http://maps.google.com/?q=#{place.location.address}", target: :_blank, class: 'block' do
             %img.one-whole.block{src:"http://maps.googleapis.com/maps/api/staticmap?center=#{place.location.latitude},#{place.location.longitude}&zoom=14&size=200x130&sensor=false&markers=#{place.location.latitude},#{place.location.longitude}"}
-          %p
+          %p.text--center
+            %strong= place.location.name
+            %br
             %i= place.location.address
 
   - if params[:inscription_confirmed]
