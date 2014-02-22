@@ -29,8 +29,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # rescue_from CanCan::AccessDenied do |exception|
-  def not_allowed
+  def not_allowed(exception)
     redirect_to root_url, alert: exception.message
   end
 
