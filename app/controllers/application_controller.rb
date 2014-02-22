@@ -10,12 +10,9 @@ class ApplicationController < ActionController::Base
     session['user_return_to'] || request.referrer || root_path
   end
 
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, alert: exception.message
-  end
-
   unless Rails.configuration.consider_all_requests_local
     rescue_from Exception,                            with: :render_error
+    rescue_from CanCan::AccessDenied,                 with: :not_allowed
     rescue_from ActiveRecord::RecordNotFound,         with: :render_not_found
     rescue_from ActionController::RoutingError,       with: :render_not_found
     rescue_from ActionController::UnknownController,  with: :render_not_found
@@ -30,6 +27,11 @@ class ApplicationController < ActionController::Base
     else
       @current_ability ||= UserAbility.new(nil)
     end
+  end
+
+  # rescue_from CanCan::AccessDenied do |exception|
+  def not_allowed
+    redirect_to root_url, alert: exception.message
   end
 
   def render_not_found(exception)
