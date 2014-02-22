@@ -45,7 +45,7 @@
 
                 %td.nowrap
                   - if course.free?
-                    %span.line-through 40€
+                    %span.line-through #{readable_amount(course.common_price)}€
                     %span.green GRATUIT
                   - else
                     Participation libre

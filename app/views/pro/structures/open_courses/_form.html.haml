@@ -90,7 +90,11 @@
             %br
             Indiquez ici le montant moyen attendu :
             = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false, placeholder: '5'
-            €
+    .input
+      = f.label :common_price, wrapper_html: { class: 'flush' }
+      = f.input :common_price, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole', placeholder: '15' }, label: false
+      €
+    %p.field-form-info.blue Indiquez le prix habituellement appliqué en dehors des Portes Ouvertes.
 
     = f.input :info, placeholder: "Renseignez toutes les informations à communiquer aux potentiels inscrits : matériel requis, tenue exigée, etc. Les informations concernant le lieu sont à renseigner à l'étape suivante.", input_html: { data: { behavior: 'autoresize' }}
 
