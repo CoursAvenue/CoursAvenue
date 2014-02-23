@@ -14,5 +14,11 @@ namespace :scheduler do
       location.save
       sleep 1
     end
+
+    Structure.where{latitude == nil}.each do |structure|
+      structure.geocode
+      structure.save
+      sleep 1
+    end
   end
 end
