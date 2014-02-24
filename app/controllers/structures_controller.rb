@@ -4,11 +4,8 @@ class StructuresController < ApplicationController
 
   respond_to :json
 
-<<<<<<< HEAD
-=======
   PLANNING_FILTERED_KEYS = %w(audience_ids level_ids min_age_for_kids max_price min_price price_type max_age_for_kids trial_course_amount course_types week_days discount_types start_date end_date start_hour end_hour)
 
->>>>>>> staging
   layout :choose_layout
 
   def show
@@ -75,20 +72,13 @@ class StructuresController < ApplicationController
     params[:page] = 1 unless request.xhr?
 
     if params_has_planning_filters?
-<<<<<<< HEAD
-      @structures, @total = search_plannings
-=======
       @structures, @places, @total = search_plannings
->>>>>>> staging
     else
       @structures, @total = search_structures
     end
 
     @latlng = retrieve_location
-<<<<<<< HEAD
     @models = jasonify @structures
-=======
->>>>>>> staging
 
     if params[:name].present?
       # Log search terms
