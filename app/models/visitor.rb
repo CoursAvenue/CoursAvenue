@@ -36,6 +36,10 @@ class Visitor < ActiveRecord::Base
     ids.uniq.length != ids.length
   end
 
+  # given a hash like { "Paris": 2 } and an object like { "Paris": 1, "Nice": 2 }
+  # sets the address_name attribute to,
+  # 
+  #   { "Paris": 3, "Nice": 2 }
   def address_name=(hash)
     addresses = read_attribute(:address_name) || {}
     
