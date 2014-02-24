@@ -36,6 +36,7 @@ gem 'rack-cors',           require: 'rack/cors'
 
 # Formats numbers and prices regarding the locale
 # TODO Fix this gem
+# The gem is not ready yet for Rails 4.
 # gem 'delocalize', '~>0.3.2'
 
 # Caching
