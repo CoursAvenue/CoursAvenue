@@ -26,6 +26,7 @@ class Participation < ActiveRecord::Base
   ######################################################################
   after_create :welcome_email
   after_create :user_subscribed_email_for_teacher
+  after_create :create_user_profile
 
   before_save  :set_default_participation_for
 
@@ -215,7 +216,6 @@ class Participation < ActiveRecord::Base
     nil
   end
 
-  #
   # Update structure meta datas when participation change to update the number of "Places left"
   #
   # @return nil
@@ -223,4 +223,14 @@ class Participation < ActiveRecord::Base
     planning.structure.update_meta_datas
     nil
   end
+
+  # Creates a user profile after a participation is created
+  #
+  # @return nil
+  def create_user_profile
+    user_profile = UserProfile.update_info(structure, user)
+    structure.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:jpo_2014])
+    nil
+  end
+
 end
