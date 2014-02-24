@@ -54,11 +54,11 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
         // rendered on the page than items in the collection, since I'm not too sure
         // what would happen there ^o^//
         renderItemView: function(view, index) {
-            var existing_el = this.options.$element.children().get(index);
+            var existing_el = this.options.$children.get(index);
             if (view.attach === undefined || existing_el === undefined) {
                 view.render();
             } else {
-                view.attach(this.options.$element.children().get(index).innerHTML)
+                view.attach(this.options.$children.get(index).innerHTML)
             }
 
             this.appendHtml(this, view, index);
@@ -77,17 +77,19 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
                 sample_tag   = $element.find("[data-sample-tag]")[0],
                 sample_item  = $element.find("[data-sample-item]")[0],
                 template     = $element.data("template")? Module.templateDirname() + $element.data("template") : undefined,
+                view, region_name, regions ={},
+                $children    = $element.children().children();
 
-                view         = buildView(view, flavor, {
-                    template:      template,
-                    bootstrap:     bootstrap,
-                    resource:      resource,
-                    tag:           sample_tag,
-                    itemview_tag:  sample_item,
-                    $element:      $element
-                }),
-                region_name  = 'Collection' + _.capitalize(view.cid),
-                regions      = {};
+            view = buildView(view, flavor, {
+                template:      template,
+                bootstrap:     bootstrap,
+                resource:      resource,
+                tag:           sample_tag,
+                itemview_tag:  sample_item,
+                $children:      $children
+            }),
+
+            region_name  = 'Collection' + _.capitalize(view.cid),
 
             regions[region_name] = "#" + view.cid;
             $element.attr("id", view.cid);
