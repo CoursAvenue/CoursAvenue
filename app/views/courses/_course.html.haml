@@ -1,7 +1,7 @@
 - best_price = course.best_price
 
-%li.one-whole.course-element{onclick: "_gaq.push(['_trackEvent', 'Click cours', 'click', '#{best_price.try(:has_promo?) ? 'Avec promo' : 'Sans promo'}'])", data: {"location-ids" => @course_places[course].map(&:id).join(' '), url: structure_course_path(course.structure, course), type: 'course-element'}}
-  %div.two-twelfths.visuallyhidden--palm
+%li.one-whole.course-element{onclick: "ga('send', 'event', 'Click cours', 'click', '#{best_price.try(:has_promo?) ? 'Avec promo' : 'Sans promo'}')", data: {"location-ids" => @course_places[course].map(&:id).join(' '), url: structure_course_path(course.structure, course), type: 'course-element'}}
+  %div.two-twelfths
     .course-image.media__img
       - if best_price.try(:has_promo?) and best_price.try(:amount) > 0
         .badge--price

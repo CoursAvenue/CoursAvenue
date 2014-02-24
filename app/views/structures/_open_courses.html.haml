@@ -1,8 +1,4 @@
-.blue-box.blue-box--noshadow.soft-half.text--center
-  %h4 Journées portes ouverte 2014 — Week-end du 6 et 7 avril
-  .delta Participez à un atelier gratuit
-
-- structure.courses.open_courses.each do |course|
+- structure.courses.open_courses.order('created_at ASC').each do |course|
   - if course.plannings.any?
     .white-box.white-box--noshadow.islet
       %strong= course.name
@@ -10,8 +6,15 @@
         = "(#{course.event_type_description})"
       - else
         = "(#{course.event_type})"
-        \—
-        Participants max : #{course.nb_participants_max}
+      - if course.info.present?
+        .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
+          %i.lbc-icon-info
+            i
+          Infos pratiques
+      %p.gray.milli
+        %i.fa.fa-tags
+        = course.subjects.map(&:name).join(', ')
+      = simple_format course.description
       - if course.plannings.any?
         %table.table--data.table--striped
           %thead
@@ -19,35 +22,37 @@
               %th Date / Horaire
               %th Public
               %th Niveau
-              %th Lieux
-              %th Places restantes
-              %th Prix
-              %th.text--right Inscription
+              %th Lieu
+              %th.text--center Places dispos
+              %th.text--center Prix
+              %th
           %tbody
             - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
               %tr
                 %td
-                  = l(planning.start_date, format: :semi_long).capitalize
-                  = "de #{l(planning.start_time, format: :short)} à #{l(planning.end_time, format: :short)} (#{readable_duration(planning.duration)})"
+                  = planning_date_for(planning)
+                  = planning_time_for(planning)
                 %td= join_audiences planning
                 %td= join_levels planning.levels
                 %td
-                  .pointer{ title: planning.place.location.address, data: { behavior: 'tooltip' }}
+                  = link_to "http://maps.google.com/?q=#{planning.place.location.address}", target: :_blank, class: 'pointer semi-muted-link', title: planning.place.location.address, data: { behavior: 'tooltip' } do
                     = planning.place.location.name
-                %td
-                  - if planning.nb_participants_max - planning.possible_participations.length > 0
-                    - participations_left = planning.nb_participants_max - planning.possible_participations.length
+                %td.text--center
+                  - if planning.places_left > 5
+                    > 5
                   - else
-                    = "#{pluralize(planning.waiting_list.length, 'personne')} sur la liste d'attente"
-                %td
-                  - if course.price
-                    = "#{readable_amount(course.price)}€"
-                  - else
-                    Gratuit
+                    = planning.places_left
+
+                %td.nowrap
+                  - if course.common_price
+                    %span.line-through #{readable_amount(course.common_price)}€
+                  %span.green GRATUIT
                 %td.text--right
-                  - if current_user and current_user.participate_to?(planning)
-                    Déjà inscrit
-                  - elsif current_user
-                    = link_to 'Participer', planning_participations_path(planning), class: 'btn btn--small btn--green', method: :post
+                  - if current_user
+                    - if current_user.participate_to?(planning)
+                      Déjà inscrit
+                    - else
+                      = link_to new_planning_participation_path(planning), class: 'btn btn--small btn--green text--center line-height-normal fancybox.ajax', data: { behavior: 'modal', title: 'Inscription au créneau', width: 600 } do
+                        = planning.places_left ? "M'inscrire " : "M'inscrire sur liste d'attente"
                   - else
-                    = link_to 'Participer', new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full', onclick: "_gaq.push(['_trackEvent', 'Se créer un compte', 'click','Contact form button'])"
+                    = link_to "M'inscrire", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full'

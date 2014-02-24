@@ -15,6 +15,7 @@
 // ---------------------------------- Core include
 //= require jquery_ujs
 //= require libs/jquery-ui-1.10.3.custom
+//= require js-routes
 
 // require jquery.turbolinks
 
@@ -40,10 +41,10 @@
 //= require libs/jquery.lazyload
 //= require libs/moment
 //= require libs/responsiveslides
+//= require libs/add_this_event
 
 //= require libs/fancybox/jquery.fancybox
 //= require underscore
-
 
 // ---------------------------------- Backbone
 //= require backbone

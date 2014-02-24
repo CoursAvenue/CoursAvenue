@@ -28,6 +28,7 @@ describe StructuresController do
 
   describe :index, search: true do
     let(:structure) { FactoryGirl.build(:structure_with_place) }
+    let(:subject) { Subject.first }
 
     before do
       @structure = FactoryGirl.create(:structure_with_place)
@@ -48,7 +49,27 @@ describe StructuresController do
 
       result = JSON.parse(response.body)
       result.keys.should include('meta')
-      assigns(:structure_search).total.should eq(result['meta']['total'])
+      assigns(:total).should eq(result['meta']['total'])
+    end
+
+    it "sets params[:other] when subject_id is 'other'" do
+      get :index, format: :json, lat: 48.8592, lng: 2.3417, subject_id: 'other'
+
+      expect(controller.params[:other]).to be_true
+      expect(controller.params).not_to have_key(:subject_id)
+    end
+
+    it "correctly finds the subject if subject_id is provided" do
+      get :index, format: :json, lat: 48.8592, lng: 2.3417, subject_id: subject.slug
+
+      expect(assigns(:subject)).to eq(subject)
+      expect(controller.params).to have_key(:subject_id)
+    end
+
+    it "guesses the subject if params[:name] matches any subject" do
+      get :index, format: :json, lat: 48.8592, lng: 2.3417, name: subject.name
+
+      expect(assigns(:subject)).to eq(subject)
     end
   end
 

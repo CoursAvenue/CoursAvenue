@@ -1,6 +1,6 @@
 %li.one-whole.course-element{data: {"location-ids" => @structure_locations[structure].map(&:id).join(' '), url: structure_path(structure), type: 'structure-element'}}
   - if structure.logo.present?
-    %div.two-twelfths.visuallyhidden--palm
+    %div.two-twelfths
       .course-image.media__img
         = link_to structure_path(structure) do
           = image_tag structure.logo.url(:thumb), alt: "Cours de #{join_parent_subjects_text structure} à #{structure.name}", class: 'one-whole'

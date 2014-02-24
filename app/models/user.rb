@@ -7,22 +7,43 @@ class User < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
   has_many :comments, -> { order('created_at DESC') }
   has_many :reservations
   has_many :comment_notifications
   has_many :passions
-
   has_many :invited_users, foreign_key: :referrer_id, dependent: :destroy
-
   has_many :user_profiles
   has_many :structures, through: :user_profiles
-
-  has_and_belongs_to_many :subjects
-
   has_many :participations
   has_many :plannings, through: :participations
 
+  has_and_belongs_to_many :subjects
+
   belongs_to :city
+
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  after_create :associate_all_comments
+  after_create :check_if_was_invited
+
+  # Not after create because user creation is made when teachers invite their students to post a comment
+  after_save :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
+
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
+  validates :first_name, :last_name, :email, presence: true
+  validates :email, uniqueness: true
+
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
+  scope :active,   -> { where{encrypted_password != ''} }
+  scope :inactive, -> { where{encrypted_password == ''} }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -43,23 +64,18 @@ class User < ActiveRecord::Base
                                  reject_if: lambda {|attributes| attributes['subject_id'].blank? },
                                  allow_destroy: true
 
-  validates :first_name, :last_name, :email, presence: true
-  validates :email, uniqueness: true
-
   has_attached_file :avatar,
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
 
-  after_create :associate_all_comments
-  # Not after create because user creation is made when teachers invite their students to post a comment
-  after_save :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
 
-  # Scopes
-  scope :active,   -> { where{encrypted_password != ''} }
-  scope :inactive, -> { where{encrypted_password == ''} }
-
-
+  # Creates a user from Facebook
+  #
+  # @param  auth [type] [description]
+  #
+  # @return [type] [description]
   def self.from_omniauth(auth)
-    where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+    # Check if the user already exists
+    where{((provider == auth.provider) & (uid == auth.uid)) | (email == auth.info.email)}.first_or_initialize.tap do |user|
       user.provider           = auth.provider
       user.uid                = auth.uid
       user.oauth_token        = auth.credentials.token
@@ -70,6 +86,14 @@ class User < ActiveRecord::Base
       user.email              = auth.info.email
       user.fb_avatar          = auth.info.image
       user.password           = Devise.friendly_token[0,20]
+
+      if auth.info.location
+        city = City.where{ name =~ auth.info.location.split(',').first }.first
+        if city
+          user.city     = city
+          user.zip_code = city.zip_code
+        end
+      end
 
       # Extra
       user.location           = auth.info.location
@@ -126,6 +150,9 @@ class User < ActiveRecord::Base
     Devise.token_generator.digest(self, :reset_password_token, token) == self.reset_password_token
   end
 
+  # Check if the user has created an account or not.
+  #
+  # @return Boolean
   def active?
     self.encrypted_password.present?
   end
@@ -170,6 +197,9 @@ class User < ActiveRecord::Base
     percentage
   end
 
+  # A url to the /structures page of courses that correspond to user's passion
+  #
+  # @return string the url
   def around_courses_url
     if self.city
       if self.passions.any?
@@ -214,8 +244,7 @@ class User < ActiveRecord::Base
   end
 
   def participate_to?(planning)
-    # TODO: improve this
-    self.participations.map(&:planning).include? planning
+    self.participations.not_canceled.map(&:planning).include? planning
   end
 
   private
@@ -235,5 +264,9 @@ class User < ActiveRecord::Base
     Comment.where{email =~ _email}.each do |comment|
       comment.update_column(:user_id, _user_id)
     end
+  end
+
+  def check_if_was_invited
+    InvitedUser.where(type: 'InvitedUser::Student', email: self.email).map(&:inform_proposer)
   end
 end

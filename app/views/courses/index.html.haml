@@ -9,7 +9,7 @@
 
 = render 'search_form'
 .grid.stickem-container.relative
-  %section.grid__item.four-tenths.visuallyhidden--lap.visuallyhidden--palm.stickem.absolute>
+  %section.grid__item.four-tenths.visuallyhidden--lap.stickem.absolute>
     = render 'side_search_form'
   %section.grid__item.six-tenths.lap-one-whole.palm-one-whole.course-list-wrapper>
     %ol.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
@@ -36,9 +36,9 @@
     %ul.tabs.push--top
       %li
         - if @subject
-          = link_to 'Par établissement', subject_structures_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par établissement', 'click'])"
+          = link_to 'Par établissement', subject_structures_path(@subject, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "ga('send', 'event', 'Chercher par établissement', 'click')"
         - else
-          = link_to 'Par établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "_gaq.push(['_trackEvent', 'Chercher par établissement', 'click'])"
+          = link_to 'Par établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng]), class: 'tab-el', onclick: "ga('send', 'event', 'Chercher par établissement', 'click')"
       %li.active
         %a Par cours
 
@@ -55,7 +55,7 @@
             %a.filter-select{href: '#', class: (params[:sort] == 'rating_desc' ? 'bold' : ''), data: {value: 'rating_desc'}} Popularité
             \/
             %a.filter-select{href: '#', class: (params[:sort] == 'price_asc' ? 'bold' : ''), data: {value: 'price_asc'}} Prix
-        .flexbox__item.visuallyhidden--palm
+        .flexbox__item
           .text--right= paginate @courses, window: 1, outer_window: 1
       %ul.block-list.course-list
         = render partial: 'courses/course', :collection => @courses

@@ -14,6 +14,12 @@ module PlanningsHelper
     end
   end
 
+  def planning_time_for(planning, with_duration=true)
+    planning_time_for_string = "de #{l(planning.start_time, format: :short)} à #{l(planning.end_time, format: :short)}"
+    planning_time_for_string << " (#{readable_duration(planning.duration)})" if with_duration
+    planning_time_for_string
+  end
+
   def week_day_for(planning)
     unless planning.week_day.blank?
       I18n.t('date.day_names')[planning.week_day].capitalize

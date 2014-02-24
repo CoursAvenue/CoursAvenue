@@ -6,6 +6,8 @@ class UserProfileSearch
   def self.search params
     @search = Sunspot.search(UserProfile) do
       fulltext params[:name]                         if params[:name].present?
+      with(:tag_names).any_of params[:tags]          if params[:tags].present?
+      with(:id).any_of params[:ids]                  if params[:ids].present?
 
       with :structure_id, params[:structure_id].to_i if params[:structure_id]
 

@@ -1,3 +1,7 @@
+# Must be before everything
+require 'simplecov'
+SimpleCov.start
+
 require 'rubygems'
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
@@ -15,16 +19,16 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, :type => :controller
   config.include Delorean
 
-  # $original_sunspot_session = Sunspot.session
-  # config.before do
-  #   Sunspot.session = Sunspot::Rails::StubSessionProxy.new($original_sunspot_session)
-  # end
+  $original_sunspot_session = Sunspot.session
+  config.before do
+    Sunspot.session = Sunspot::Rails::StubSessionProxy.new($original_sunspot_session)
+  end
 
-  # config.before :each, :solr => true do
-  #   Sunspot::Rails::Tester.start_original_sunspot_session
-  #   Sunspot.session = $original_sunspot_session
-  #   Sunspot.remove_all!
-  # end
+  config.before :each, :solr => true do
+    Sunspot::Rails::Tester.start_original_sunspot_session
+    Sunspot.session = $original_sunspot_session
+    Sunspot.remove_all!
+  end
 
   # ## Mock Frameworkf
   #

@@ -14,6 +14,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         chevron: Handlebars.compile("<span class='soft-half--left fa fa-chevron-{{ order }}' data-type='order'></span>"),
 
         initialize: function () {
+            this.setEditing = _.debounce(this.setEditing);
+
             this.poller = Backbone.Poller.get(this.collection, { delay: 5000 });
             this.poller.on('success', _.bind(function (collection) {
                 if (collection.jobs !== "false") { return; }
@@ -27,7 +29,12 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         },
 
         ui: {
-            '$headers': '[data-sort]'
+            '$headers' : '[data-sort]',
+            '$checkbox': '[data-behavior=bulk-select]'
+        },
+
+        collectionEvents: {
+            'selection:counts': 'announceUpdate'
         },
 
         onRender: function () {
@@ -45,13 +52,22 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             this.getCurrentlyEditing().finishEditing({ restore: false });
         },
 
-        /* Controls for canceling/committing edits */
         cancel: function (e) {
             this.getCurrentlyEditing().finishEditing({ restore: true });
         },
 
         commit: function () {
             this.getCurrentlyEditing().finishEditing({ restore: false });
+        },
+
+        bulkSelect: function (e) {
+            var checked = e.currentTarget.checked;
+
+            (checked)? this.selectAll() : this.deselectAll();
+        },
+
+        announceUpdate: function (data) {
+            this.trigger("user_profiles:update:selected", data);
         },
 
         selectAll: function () {
@@ -64,6 +80,10 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
 
         deepSelect: function () {
             this.collection.deepSelect();
+        },
+
+        clearSelected: function () {
+            this.collection.clearSelected();
         },
 
         addTags: function (tags) {
@@ -146,6 +166,8 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         *  2. We allow the itemview a chance to finalize anything it needs to */
         onItemviewChangedEditing: function (itemview) {
             var previous_itemview = this.getCurrentlyEditing();
+
+            var is_new            = itemview.model.get("new");
             var is_editing        = itemview.is_editing;
 
             // close any active view to make room for the new view
@@ -160,6 +182,11 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             } else {
                 this.currently_editing.shift(itemview);
             }
+
+            // very special case: if the view we are done with was "new"
+            // then we are about to open another new row automatically.
+            // So we aren't really "done" editing... and the buttons should not flip
+            this.setEditing(is_new || this.currently_editing.length === 1);
         },
 
         /* we should use this opportunity to create the next editable
@@ -191,6 +218,12 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
             }
         },
 
+        setEditing: function (editing) {
+            this.is_editing = editing
+
+            this.trigger("user_profiles:changed:editing", this.is_editing);
+        },
+
         /* when rendering each collection item, we might want to
          * pass in some info from the paginator_ui or something
          * if do we would do it here */
@@ -199,10 +232,11 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
         itemViewOptions: function(model, index) {
             var id = model.get("id");
             var tags_url = this.collection.url.basename + '/tags.json';
+            var checked = this.collection.isChecked(model);
 
             /* we pass in the hash of layout events the view will respond to */
             return {
-                checked: model.get("selected"), // TODO check if this is working: the select all seemed to be broken
+                checked: checked, // TODO check if this is working: the select all seemed to be broken
                 tags_url: tags_url,
                 events: {
                     "tagbar:click"                : "startEditing",
@@ -212,6 +246,15 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                     "field:edits"                 : "collectEdits",
                 }
             };
+        },
+
+        onAfterShow: function () {
+            this.announcePaginatorUpdated();
+
+            this.announceInitialFilters();
+            if (this.collection.isAdvancedFiltered()) {
+                this.announceInitialAdvancedFilters();
+            }
         },
 
         /* override inherited method */
@@ -233,6 +276,20 @@ UserManagement.module('Views.UserProfilesCollection', function(Module, App, Back
                 next_page_query:     this.collection.nextQuery(),
                 sort:                this.collection.server_api.sort
             });
+
+            /* set the header checkbox based on the deep select */
+            var checked = (this.collection.isDeep() === true)? true : "";
+            this.ui.$checkbox.prop("checked", checked);
+        },
+
+        announceInitialFilters: function () {
+            /* the filters have been set up and are ready to be shown */
+            this.trigger('user_profiles:updated:keyword:filters', this.collection.server_api.name);
+        },
+
+        announceInitialAdvancedFilters: function () {
+            this.trigger('user_profiles:updated:filters');
+            this.trigger('user_profiles:updated:tag:filters', this.collection.server_api["tags[]"]);
         },
 
         /* OVERRIDE */

@@ -5,23 +5,7 @@ FilteredSearch.module('Views.StructuresCollection.Structure.Courses', function(M
     Module.CourseView = Backbone.Marionette.CompositeView.extend({
         template:  Module.templateDirname() + "course_view",
         className: "push-half--top soft-half--top bordered--top",
-        itemView: Backbone.Marionette.ItemView.extend({
-            template: Module.templateDirname() + "plannings/plannings_view",
-            tagName: 'tr',
-            attributes: {
-                'data-type': 'line-item'
-            },
-
-            events: {
-                'mouseenter': 'toggleSelected',
-                'mouseleave': 'toggleSelected',
-            },
-
-            toggleSelected: function (e) {
-                $(e.currentTarget).toggleClass('active');
-                this.trigger('toggleSelected', this.model.toJSON());
-            }
-        }),
+        itemView: Module.Plannings.PlanningView,
 
         itemViewContainer: 'tbody',
 
@@ -41,7 +25,5 @@ FilteredSearch.module('Views.StructuresCollection.Structure.Courses', function(M
                 this.$el.removeClass("bordered--top soft-half--top");
             }
         },
-
     });
-
 });

@@ -1,0 +1,9 @@
+= side_menu_currently_at 'Mes cours'
+
+%ol.breadcrumb.bordered--bottom.soft-half--bottom.nav.delta{itemprop: 'breadcrumb'}
+  %li= link_to 'Tous mes cours', pro_structure_courses_path(@structure)
+  %li= @course.name
+
+= render partial: 'pro/structures/courses/tabs', locals: { current: 'course' }
+
+= render partial: 'form'

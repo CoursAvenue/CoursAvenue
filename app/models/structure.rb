@@ -8,13 +8,6 @@ class Structure < ActiveRecord::Base
   include ActsAsGeolocalizable
 
   extend FriendlyId
-  friendly_id :slug_candidates, use: [:slugged, :finders]
-
-  geocoded_by :geocoder_address
-  after_validation :geocode
-
-  after_save :delay_subscribe_to_nutshell
-  after_save :delay_subscribe_to_mailchimp
 
   STRUCTURE_STATUS        = %w(SA SAS SASU EURL SARL)
   STRUCTURE_TYPES         = ['structures.company',
@@ -31,9 +24,11 @@ class Structure < ActiveRecord::Base
                              'structures.modification_conditions.moderate',
                              'structures.modification_conditions.strict']
 
-  STICKER_STATUS          = []
-
   WIDGET_STATUS           = ['installed', 'remind_me', 'dont_want', 'need_help']
+
+  friendly_id :slug_candidates, use: [:slugged, :finders]
+
+  geocoded_by :geocoder_address
 
   attr_reader :delete_logo
   attr_accessible :structure_type, :street, :zip_code, :city_id,
@@ -58,9 +53,11 @@ class Structure < ActiveRecord::Base
 
   # To store hashes into hstore
   store_accessor :meta_data, :gives_group_courses, :gives_individual_courses,
-                             :plannings_count, :has_promotion, :has_free_trial_course, :course_names,
+                             :plannings_count, :has_promotion, :has_free_trial_course, :course_names, :open_course_names, :open_course_subjects,
                              :last_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
-                             :level_ids, :audience_ids, :busy
+                             :level_ids, :audience_ids, :busy,
+                             :open_courses_open_places, :open_course_nb
+
 
 
   has_attached_file :logo,
@@ -75,10 +72,12 @@ class Structure < ActiveRecord::Base
                         processors: [:cropper]
                         }
                       }
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
   belongs_to :city
   belongs_to :pricing_plan
 
-  # has_many :invited_teachers          , dependent: :destroy
   has_many :invited_users             , foreign_key: :referrer_id, dependent: :destroy
   has_many :invited_teachers          , -> { where(type: 'InvitedUser::Teacher') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
   has_many :invited_students          , -> { where(type: 'InvitedUser::Student') }, class_name: 'InvitedUser', foreign_key: :referrer_id, dependent: :destroy
@@ -89,6 +88,7 @@ class Structure < ActiveRecord::Base
   has_many :plannings                 , through: :courses
   has_many :cities                    , through: :places
   has_many :prices                    , through: :courses
+  has_many :participations            , through: :plannings
   has_many :reservations,         as: :reservable
   has_many :comment_notifications     , dependent: :destroy
   has_many :sticker_demands           , dependent: :destroy
@@ -103,34 +103,41 @@ class Structure < ActiveRecord::Base
 
   has_many :admins
 
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :name               , :presence   => true
   validates :street             , :presence   => true, on: :create
   validates :zip_code           , :presence   => true, numericality: { only_integer: true }, on: :create
   validates :city               , :presence   => true, on: :create
   validate :subject_parent_and_children
 
-  # -------------------- Callbacks
-  before_create    :set_active_to_true
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  before_create :set_active_to_true
 
-  after_create     :set_free_pricing_plan
-  # after_create     :create_place
-  after_save       :update_email_status
-  after_touch      :update_email_status
+  after_create  :set_free_pricing_plan
+  after_create  :geocode
 
-  before_save      :fix_website_url
-  before_save      :fix_facebook_url
-  before_save      :fix_widget_url
-  before_save      :encode_uris
-  before_save      :reset_cropping_attributes, if: :logo_has_changed?
+  after_touch   :update_email_status
 
-  # ------------------------------------
-  # ------------------ Search attributes
-  # ------------------------------------
+  before_save   :fix_website_url
+  before_save   :fix_facebook_url
+  before_save   :fix_widget_url
+  before_save   :encode_uris
+  before_save   :reset_cropping_attributes, if: :logo_has_changed?
+
+  after_save    :geocode_if_needs_to
+  after_save    :update_email_status
+  after_save    :delay_subscribe_to_nutshell
+  after_save    :delay_subscribe_to_mailchimp
+
+  ######################################################################
+  # Solr                                                               #
+  ######################################################################
   searchable do
-
     text :name, boost: 5
-
-    # text :description
 
     text :course_names do
       courses.map(&:name)
@@ -145,8 +152,6 @@ class Structure < ActiveRecord::Base
       end
       subject_array.uniq.map(&:name)
     end
-
-    # string :street
 
     latlon :location, multiple: true do
       locations.map do |location|
@@ -197,24 +202,28 @@ class Structure < ActiveRecord::Base
     boolean :has_admin do
       self.has_admin?
     end
+
+    double :jpo_score
+
   end
 
   handle_asynchronously :solr_index unless Rails.env.test?
 
   # ---------------------------- Simulating Funding Type as objects
+  # Takes [1,2] or '1,2'
   def funding_type_ids= _funding_types
     if _funding_types.is_a? Array
-      write_attribute :funding_type_ids, _funding_types.reject{|funding_type| funding_type.blank?}.join(',')
+      write_attribute :funding_type_ids, _funding_types.reject(&:blank?).join(',')
     else
       write_attribute :funding_type_ids, _funding_types
     end
   end
 
+  # Takes an array FundingTypes or a single model
   def funding_types= _funding_types
-    _funding_types.reject!(&:blank?)
     if _funding_types.is_a? Array
-      write_attribute :funding_type_ids, _funding_types.join(',')
-    elsif _funding_types.is_a? funding_type
+      write_attribute :funding_type_ids, _funding_types.reject(&:blank?).map(&:id).join(',')
+    elsif _funding_types.is_a? FundingType
       write_attribute :funding_type_ids, _funding_types.id.to_s
     end
   end
@@ -229,11 +238,15 @@ class Structure < ActiveRecord::Base
     read_attribute(:funding_type_ids).split(',').map(&:to_i) if read_attribute(:funding_type_ids)
   end
 
-  # ---------------------------------------------
-  # Reminder
-  # ---------------------------------------------
+  ######################################################################
+  # Email reminder                                                     #
+  ######################################################################
 
-  # Send reminder every week depending on the email status of the structure
+  # Sends reminder depending on the email status of the structure
+  # This method is called every week through admin_reminder rake task
+  # (Executed on Heroky by the scheduler)
+  #
+  # @return nil
   def send_reminder
     if self.main_contact.present? and self.email_status and self.main_contact.monday_email_opt_in?
       if self.update_email_status.present?
@@ -244,6 +257,10 @@ class Structure < ActiveRecord::Base
     end
   end
 
+
+  # Sends an email if there are pending comments
+  #
+  # @return [type] [description]
   def remind_for_pending_comments
     AdminMailer.delay.remind_for_pending_comments(self)
   end
@@ -286,9 +303,13 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  # Params:
-  #   bbox_sw: [latitude, longitude]
-  #   bbox_ne: [latitude, longitude]
+
+  #
+  #
+  # @param  bbox_sw Array [latitude, longitude]
+  # @param  bbox_ne Array [latitude, longitude]
+  #
+  # @return Locations
   def locations_in_bounding_box(bbox_sw, bbox_ne)
     locations.reject do |location|
       # ensure that the location really is completely inside the box
@@ -432,6 +453,23 @@ class Structure < ActiveRecord::Base
     widget_status == 'installed'
   end
 
+
+  # Returns the image that goes aside of the profile page
+  # If there are videos, they will be put in cover so we return the cover image
+  # But if there is no video, we return the second image
+  #
+  # @return Media
+  def side_cover_image
+    if self.medias.videos.any?
+      self.medias.images.cover.first
+    else
+      self.medias.images.reject{|image| image.cover? }.first
+    end
+  end
+
+  # Returns the cover image if there is one, else the first image
+  #
+  # @return Medi
   def cover_image
     self.medias.images.cover.first || self.medias.images.first
   end
@@ -471,7 +509,9 @@ class Structure < ActiveRecord::Base
   end
 
 
-  # Synced attributes
+  ######################################################################
+  # Meta data update                                                   #
+  ######################################################################
   def update_meta_datas
     self.plannings_count          = self.plannings.count
     self.gives_group_courses      = self.courses.select{|course| !course.is_individual? }.any?
@@ -484,6 +524,15 @@ class Structure < ActiveRecord::Base
     self.level_ids                = self.plannings.collect(&:level_ids).flatten.sort.uniq.join(',')
     self.audience_ids             = self.plannings.collect(&:audience_ids).flatten.sort.uniq.join(',')
     self.set_min_and_max_price
+    update_jpo_meta_datas
+    self.save(validate: false)
+  end
+
+  def update_jpo_meta_datas
+    self.open_course_nb           = self.courses.open_courses.count
+    self.open_course_names        = self.courses.open_courses.map(&:name).uniq.join(', ')
+    self.open_course_subjects     = self.courses.open_courses.map(&:subjects).flatten.map(&:name).uniq.join(', ')
+    self.open_courses_open_places = self.courses.open_courses.map(&:plannings).flatten.map(&:places_left).reduce(&:+)
     self.save(validate: false)
   end
 
@@ -504,16 +553,19 @@ class Structure < ActiveRecord::Base
     end
   end
 
-  def delay_subscribe_to_nutshell
-    self.delay.subscribe_to_nutshell if Rails.env.production?
-  end
-
+  # Tells if the structure is based in Paris and around
+  #
+  # @return Boolean
   def parisian?
     is_parisian = self.zip_code.starts_with? '75','77','78','91','92','93','94','95'
     return true if is_parisian
     return self.places.map(&:parisian?).include? true
   end
 
+
+  # Tells if the structure has open courses plannings
+  #
+  # @return Boolean
   def has_open_course_plannings?
     self.courses.open_courses.each do |course|
       return true if course.plannings.any?
@@ -527,25 +579,15 @@ class Structure < ActiveRecord::Base
   # ( tags.length + profile.tags.length * 2 ) tags
   # However, in practice it is returning the right
   # thing to the client.
-  def add_tags_on(profile, tags)
-      tags = tags.split(',') if tags.is_a? String
+  # TODO I think the problem is here: the tags are
+  # being added in such a way that they do not show
+  # up in a search
+  def add_tags_on(user_profile, tags)
+    tags = tags.split(',') if tags.is_a? String
 
-      tag_list = profile.tags.map(&:name)
-      tag_list = tag_list + tags
-      self.tag(profile, with: tag_list.uniq.join(','), on: :tags)
-  end
-
-  # it should call the method with the given name
-  # the method should receive the arguments it expects
-  # after the call, busy should be false
-  def perform_bulk_user_profiles_job(ids, job, *args)
-
-    UserProfile.find(ids).each do |profile|
-      self.send(job, profile, *args)
-    end
-
-    self.busy = false
-    self.save
+    tag_list = user_profile.tags.map(&:name)
+    tag_list = tag_list + tags
+    self.tag(user_profile, with: tag_list.uniq.join(','), on: :tags)
   end
 
   def create_tag tag_name
@@ -562,6 +604,17 @@ class Structure < ActiveRecord::Base
     user_profile.first_name = user.first_name if user_profile.first_name.nil?
     user_profile.last_name  = user.last_name  if user_profile.last_name.nil?
     self.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:contacts])
+  end
+
+  def total_jpo_places
+    self.courses.open_courses.map do |course|
+      course.nb_participants_max * course.plannings.count
+    end.reduce(&:+)
+  end
+
+  def jpo_score
+    return 0 if total_jpo_places.nil? or total_jpo_places == 0
+    participations.not_canceled.count.to_f / total_jpo_places.to_f
   end
 
   private
@@ -630,6 +683,14 @@ class Structure < ActiveRecord::Base
     end
     if self.subjects.select{|subject| subject.depth == 2}.empty?
       errors.add(:children_subjects, "Vous devez sélectionner au moins une sous discipline")
+    end
+  end
+
+  # Only geocode if  lat and lng are nil
+  def geocode_if_needs_to
+    if latitude.nil? or longitude.nil?
+      self.geocode
+      self.save
     end
   end
 end

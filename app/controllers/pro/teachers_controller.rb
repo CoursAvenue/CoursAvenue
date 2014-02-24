@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Pro::TeachersController < InheritedResources::Base
-
   before_action :authenticate_pro_admin!
 
   layout 'admin'
@@ -23,7 +22,7 @@ class Pro::TeachersController < InheritedResources::Base
   def edit
     edit! do |format|
       if request.xhr?
-        format.html {render partial: 'pro/teachers/form' }
+        format.html { render partial: 'pro/teachers/form' }
       else
         format.html { render template: 'pro/teachers/index' }
       end
@@ -31,9 +30,10 @@ class Pro::TeachersController < InheritedResources::Base
   end
 
   def new
+    @teachers = @structure.teachers.reject(&:new_record?)
     new! do |format|
       if request.xhr?
-        format.html {render partial: 'pro/teachers/form' }
+        format.html { render partial: 'pro/teachers/form' }
       else
         format.html { render template: 'pro/teachers/index' }
       end

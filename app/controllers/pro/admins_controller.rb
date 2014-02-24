@@ -1,6 +1,5 @@
 # encoding: utf-8
 class ::Pro::AdminsController < InheritedResources::Base
-
   before_action :authenticate_pro_admin!, except: [:waiting_for_activation]
   load_and_authorize_resource :admin, except: [:waiting_for_activation], find_by: :slug
 
@@ -40,6 +39,7 @@ class ::Pro::AdminsController < InheritedResources::Base
   end
 
   def index
+    params[:per_page] = 30
     @admins = ::AdminSearch.search(params).results
     respond_to do |format|
       format.json { render json: @admins.to_json(include: :structure) }
@@ -58,18 +58,18 @@ class ::Pro::AdminsController < InheritedResources::Base
   def update
     @admin = ::Admin.find(params[:id])
 
-    if !@admin.new_record? and params[:admin][:password].blank?
+    if !@admin.new_record? && params[:admin][:password].blank?
       params[:admin].delete :password
       params[:admin].delete :password_confirmation
     end
-
+    @structure = @admin.structure
     respond_to do |format|
       if @admin.update_attributes(params[:admin])
         sign_in(@admin, bypass: true)
         format.html { redirect_to edit_pro_admin_path(@admin), notice: 'Vos paramètres ont été mis à jour avec succès' }
         format.js { render nothing: true }
       else
-        format.html { render 'pro/admins/edit' }
+        format.html { render action: :edit }
       end
     end
   end

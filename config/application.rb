@@ -11,6 +11,7 @@ module CoursAvenue
     AMAZON_S3 = AWS::S3.new(access_key_id: ENV['AWS_ACCESS_KEY_ID'], secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'])
     S3_BUCKET = AMAZON_S3.buckets[ENV['AWS_BUCKET']]
 
+
     config.middleware.use Rack::Cors do
       allow do
         origins '*'
@@ -91,5 +92,7 @@ module CoursAvenue
 
     # Filepicker
     config.filepicker_rails.api_key = ENV['FILEPICKER_API_KEY']
+
+    config.middleware.insert_before "Rack::Runtime", Rack::UTF8Sanitizer
   end
 end

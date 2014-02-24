@@ -17,7 +17,9 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         },
         taggy: Handlebars.compile('<span class="taggy--tag"><i class="fa fa-times pointer" data-behavior="destroy"></i></span>'),
 
-        initialize: function (options) {
+        constructor: function (options) {
+            CoursAvenue.Views.EditableFieldView.prototype.constructor.apply(this, arguments);
+
             this.url        = options.url;
 
             this[COMMA]     = this.handleComma;
@@ -64,13 +66,13 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
                 // name: 'keywords', // We don't want to cache
                 limit: 15,
                 valueKey: 'name',
-                prefetch: {
-                    url: this.url
-                }
+                remote: this.url
+                // prefetch: {
+                //     url: this.url
+                // }
             }]);
 
-            this.$('.twitter-typeahead').addClass('inline-block v-middle')
-                                        .css({ width: '0%'});
+            this.$('.twitter-typeahead').hide();
 
             /* rebind the ui */
             this.bindUIElements();
@@ -92,19 +94,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             };
 
             return edits;
-        },
-
-        /* when the user backspaces into a taggy */
-        updateTaggy: function () {
-            var taggy = this.$taggies().last();
-            var text = taggy.text();
-
-            this.ui.$input.val(function (index, val) {
-                return val + text;
-            });
-
-            taggy.remove();
-            this.announceEdits();
         },
 
         /* when the user clicks 'x' */
@@ -165,16 +154,15 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.ui.$input.css({ display: "" });
             this.$('.twitter-typeahead').toggleClass('inline-block')
                                         .toggleClass('v-middle')
-                                        .css({ width: '95%'});
+                                        .css({ width: '100%'})
+                                        .show();
 
             this.$el.addClass("active");
         },
 
         deactivate: function () {
             this.ui.$input.css({ display: "none" });
-            this.$('.twitter-typeahead').toggleClass('inline-block')
-                                        .toggleClass('v-middle')
-                                        .css({ width: '0%'});
+            this.$('.twitter-typeahead').hide();
 
             this.$el.removeClass("active");
         },
@@ -224,7 +212,20 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             }
 
             e.preventDefault();
-            this.updateTaggy();
+            this.removeLastTaggy();
+        },
+
+        /* when the user backspaces into a taggy */
+        removeLastTaggy: function () {
+            var taggy = this.$taggies().last();
+            var text = taggy.text();
+
+            this.ui.$input.val(function (index, val) {
+                return val; // + text;
+            });
+
+            taggy.remove();
+            this.announceEdits();
         },
 
         handleEnter: function (text, e) {

@@ -4,7 +4,7 @@
       = link_to new_user_invited_user_path(current_user) do
         %i.fa.fa-bullhorn
         Parrainage
-    %li{class: (current == 'list' ? 'active' : '')}
+    %li{class: (current == 'invite-jpo' ? 'active' : '')}
       = link_to user_invited_users_path(current_user) do
         %i.fa.fa-group
-        Suivi des invitations
+        Invitations envoyées

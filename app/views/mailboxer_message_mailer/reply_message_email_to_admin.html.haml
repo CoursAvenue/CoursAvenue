@@ -10,7 +10,7 @@
 = simple_format @message.body
 
 %p.action
-  = link_to "Répondre au message", pro_structure_conversation_url(@admin.structure, @message.conversation, subdomain: 'pro'), class: 'btn btn--blue'
+  = link_to "Répondre au message", pro_structure_conversation_url(@admin.structure, @message.conversation, subdomain: 'pro'), class: 'btn btn--green'
 
 
 - content_for :footer do

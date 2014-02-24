@@ -9,16 +9,25 @@ class Comment < ActiveRecord::Base
   #   - accepted
   #   - waiting_for_deletion
 
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
   belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :user
 
   has_and_belongs_to_many :subjects
 
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }
   validates :email, :author_name, :course_name, :content, :commentable, :title, presence: true
   validate  :doesnt_exist_yet, on: :create
   validate  :content_length, on: :create
 
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
   before_create    :set_pending_status
   before_create    :remove_quotes_from_title
 
@@ -36,6 +45,9 @@ class Comment < ActiveRecord::Base
 
   after_destroy    :update_comments_count
 
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
   scope :ordered,              -> { order('created_at DESC') }
   scope :pending,              -> { where(status: 'pending') }
   scope :accepted,             -> { where(status: 'accepted') }
@@ -176,8 +188,8 @@ class Comment < ActiveRecord::Base
   end
 
   def complete_comment_notification
-    structure_id = self.structure.id
-    if (comment_notification = user.comment_notifications.where(structure_id: structure_id).first).present?
+    _structure_id = self.structure.id
+    if (comment_notification = user.comment_notifications.where(structure_id: _structure_id).first).present?
       comment_notification.complete!
     end
   end
@@ -196,7 +208,6 @@ class Comment < ActiveRecord::Base
     self.course_name = self.course_name.strip if course_name.present?
   end
 
-  # Set comments_count to 4 and 14 because after_create is triggered before after_save !
   def send_email
     if self.accepted?
       AdminMailer.delay.congratulate_for_accepted_comment(self)
@@ -218,16 +229,20 @@ class Comment < ActiveRecord::Base
     self.title = string_title.strip
   end
 
+  # Create or update the user profile attached to the structure
+  #
+  # @return nil
   def create_or_update_user_profile
     _email = self.email
-    user_profile = self.structure.user_profiles.where(email: _email).first
-    if user_profile.nil?
-      user_profile            = self.structure.user_profiles.build
-      user_profile.email      = self.email
-    end
-    user_profile.first_name = self.author_name.split(' ')[0..-2].join(' ') if user_profile.first_name.blank? # All except the last
-    user_profile.last_name  = self.author_name.split(' ').last if  user_profile.last_name.blank? and self.author_name.split(' ').length > 1
+    user_profile = self.structure.user_profiles.where(email: _email).first_or_initialize
+
+    # Update user_profile name if not set
+    user_profile.first_name = self.author_name.split(' ')[0..author_name.split(' ').length - 2].join(' ') if user_profile.first_name.blank? # All except the last
+    user_profile.last_name  = self.author_name.split(' ').last                                            if user_profile.last_name.blank? and self.author_name.split(' ').length > 1
     user_profile.save
+
+    # Tag it as commented
     self.structure.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:comments])
+    nil
   end
 end

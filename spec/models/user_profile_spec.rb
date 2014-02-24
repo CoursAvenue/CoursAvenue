@@ -23,11 +23,11 @@ describe UserProfile do
   describe '#full_name' do
     it 'contains the first_name' do
       user_profile = UserProfile.new first_name: 'First Name', last_name: 'Last Name'
-      user_profile.full_name.include? 'First Name'
+      expect(user_profile.full_name).to include 'First Name'
     end
     it 'contains the last_name' do
       user_profile = UserProfile.new first_name: 'First Name', last_name: 'Last Name'
-      user_profile.full_name.include? 'Last Name'
+      expect(user_profile.full_name).to include 'Last Name'
     end
   end
 end

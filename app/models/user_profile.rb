@@ -4,7 +4,8 @@ class UserProfile < ActiveRecord::Base
 
   DEFAULT_TAGS = {
     :comments => 'Avis',
-    :contacts => "Demande d'info"
+    :contacts => "Demande d'info",
+    :jpo_2014 => "JPO 2014"
   }
 
   belongs_to :structure
@@ -31,13 +32,21 @@ class UserProfile < ActiveRecord::Base
     text :notes
     text :phone
     text :mobile_phone
+    text :tag_names do
+      self.tags.map(&:name).join(' ')
+    end
 
     # for sorting in user_profiles table
     string :email
     string :first_name
     string :last_name
 
+    string :tag_names, multiple: true do
+      self.tags.map(&:name)
+    end
+
     integer :structure_id
+    integer :id
   end
 
   def name
@@ -54,6 +63,44 @@ class UserProfile < ActiveRecord::Base
     else
       self.email
     end
+  end
+
+  ########### For Bulk actions
+
+  # it should call the method with the given name
+  # the method should receive the arguments it expects
+  # after the call, the structure attribute busy should be false
+  def self.perform_bulk_job(ids, job, *args)
+    args = nil if args.compact.empty? # Prevent from [nil]
+
+    user_profiles = self.find(ids)
+    structure     = user_profiles.first.structure
+
+    user_profiles.each do |profile|
+      profile.send(job, *args)
+    end
+
+    structure.busy = false
+    structure.save
+  end
+
+  def add_tags(tags)
+    self.structure.add_tags_on(self, tags)
+  end
+
+  # Updates or create a user profile to the given structure based on
+  # a user information
+  # @param  _structure Structure
+  # @param  _user User
+  #
+  # @return UserProfile
+  def self.update_info(_structure, _user)
+    user_profile              = _structure.user_profiles.where(email: _user.email).first_or_create
+    user_profile.user       ||= _user
+    user_profile.first_name ||= _user.first_name
+    user_profile.last_name  ||= _user.last_name
+    user_profile.save
+    user_profile
   end
 
   private

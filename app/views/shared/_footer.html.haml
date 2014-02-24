@@ -22,7 +22,7 @@
               %h5.blue Partenaires
               %ul.discrete-list.milli
                 %li= link_to 'Référencez vos cours !', 'http://pro.coursavenue.com'
-                %li= link_to 'Nos convictions',     pro_pages_convictions_url(subdomain: 'pro'), title: 'Nos convictions'
+                %li= link_to 'Nos convictions',     pro_pages_why_be_recommended_url(subdomain: 'pro'), title: 'Nos convictions'
                 %li= link_to 'Présentation',        pro_pages_presentation_url(subdomain: 'pro'), title: 'Présentation'
                 %li= link_to 'Recommandations',     pro_pages_why_be_recommended_url(subdomain: 'pro'), title: 'Recommandations'
                 %li= link_to 'Offres & Tarifs',     pro_pages_price_url(subdomain: 'pro'), title: 'Offres & Tarifs'
@@ -34,6 +34,7 @@
               %ul.discrete-list.milli
                 -# %li= link_to 'Qui sommes-nous ?', pages_who_are_we_url(subdomain: 'www'), rel: :nofollow
                 %li= link_to 'Contact',           pages_contact_url(subdomain: 'www'), rel: :nofollow, title: 'Contact'
+                %li= link_to 'Journées Portes Ouvertes',  pages_jpo_url(subdomain: 'www'), rel: :nofollow, title: 'Contact'
                 %li= link_to 'Service client',    pages_customer_service_url(subdomain: 'www'), rel: :nofollow, title: 'Service client'
                 %li= link_to 'Presse',            pages_press_url(subdomain: 'www'), rel: :nofollow, title: 'Presse'
                 %li= link_to 'Blog !',            'http://coursavenue.com/blog', target: '_blank', rel: :nofollow, title: 'Blog'

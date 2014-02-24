@@ -1,6 +1,5 @@
 # encoding: utf-8
-class Pro::BookTicketsController < InheritedResources::Base#Pro::ProController
-
+class Pro::BookTicketsController < InheritedResources::Base# Pro::ProController
   before_action :authenticate_pro_admin!
 
   layout 'admin'
@@ -11,31 +10,30 @@ class Pro::BookTicketsController < InheritedResources::Base#Pro::ProController
 
   def edit
     edit! do |format|
-      @book_tickets = @course.book_tickets.reject{|book_ticket| book_ticket == @book_ticket}
+      @book_tickets = @course.book_tickets.reject { |book_ticket| book_ticket == @book_ticket }
       format.html { render template: 'pro/prices/index' }
     end
   end
   def create
     create! do |success, failure|
-      success.html { redirect_to pro_course_prices_path(@course) }
+      success.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
       failure.html { render template: 'pro/prices/index' }
     end
   end
 
   def update
     update! do |success, failure|
-      success.html { redirect_to pro_course_prices_path(@course) }
+      success.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
       failure.html { render template: 'pro/prices/index' }
     end
   end
 
   def destroy
     destroy! do |success, failure|
-      success.html { redirect_to pro_course_prices_path(@course) }
-      failure.html { redirect_to pro_course_prices_path(@course) }
+      success.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
+      failure.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
     end
   end
-
 
   private
   def load_prices

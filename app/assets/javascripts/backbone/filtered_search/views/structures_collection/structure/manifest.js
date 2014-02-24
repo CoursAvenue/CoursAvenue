@@ -1,5 +1,5 @@
 //= require ./structure_view
 //
 //= require_tree ./comments/
-//= require_tree ./courses/
+//= require      ./courses/manifest
 //= require_tree ./medias/

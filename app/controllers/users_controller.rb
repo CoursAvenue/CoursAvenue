@@ -4,7 +4,26 @@ class UsersController < InheritedResources::Base
 
   actions :show, :update
 
-  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation]
+  load_and_authorize_resource :user, find_by: :slug, except: [:unsubscribe, :waiting_for_activation, :invite_entourage_to_jpo_page, :invite_entourage_to_jpo]
+
+  # params[:structure] : structure_slug
+  # method: GET
+  def invite_entourage_to_jpo_page
+    if current_user
+      @user = current_user
+    elsif params[:user_email].present?
+      @user = User.where(email: params[:user_email]).first_or_initialize
+      @user.save(validate: false)
+    end
+    @structure = Structure.find(params[:structure_id]) if params[:structure_id].present?
+    respond_to do |format|
+      if @user.nil?
+        format.html { redirect_to open_courses_path }
+      else
+        format.html
+      end
+    end
+  end
 
   def waiting_for_activation
   end
@@ -25,25 +44,40 @@ class UsersController < InheritedResources::Base
     end
   end
 
+  # GET
+  # Returns the next wizard given
+  def wizard
+    @wizard = get_next_wizard
+    respond_to do |format|
+      if @wizard
+        format.json { render json: { form: render_to_string(partial: @wizard.partial, layout: false, formats: [:html]), done: false }  }
+      else
+        format.json { render json: { done: true }  }
+      end
+    end
+  end
+
+  # GET
+  # Dashboard of the user
   def dashboard
     @user               = User.find(params[:id])
+    @wizard             = get_next_wizard
     @profile_completion = current_user.profile_completion
     @conversations      = current_user.mailbox.conversations.limit(4)
     if @user.city
-      @structure_search = StructureSearch.search({lat: @user.city.latitude,
-                                                  lng: @user.city.longitude,
-                                                  radius: 7,
-                                                  per_page: 150,
-                                                  bbox: true,
-                                                  subject_slugs: (@user.passions.any? ? @user.passions.map(&:subject).compact.map(&:slug) : [])
-                                                  }).results
+      @structure_search = StructureSearch.search({ lat: @user.city.latitude,
+                                                   lng: @user.city.longitude,
+                                                   radius: 7,
+                                                   per_page: 150,
+                                                   bbox: true,
+                                                   subject_slugs: (@user.passions.any? ? @user.passions.map(&:subject).compact.map(&:slug) : []) }).results
 
       @structure_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
         marker.lat structure.latitude
         marker.lng structure.longitude
       end
     else
-      @structure_locations = Gmaps4rails.build_markers(City.where{zip_code == '75000'}.first) do |city, marker|
+      @structure_locations = Gmaps4rails.build_markers(City.where { zip_code == '75000' }.first) do |city, marker|
         marker.lat city.latitude
         marker.lng city.longitude
       end
@@ -59,11 +93,38 @@ class UsersController < InheritedResources::Base
   private
 
   def get_layout
-    if action_name == 'waiting_for_activation'
+    if action_name == 'waiting_for_activation' or action_name == 'invite_entourage_to_jpo_page'
       'empty'
     else
       'user_profile'
     end
   end
 
+  # Return the next wizard regarding the params passed (skip: true)
+  # and wizards that are completed
+  #
+  # @return Wizard
+  def get_next_wizard
+    # Return nil if there is no next wizard
+    if params[:next] && session[:current_wizard_id] && session[:current_wizard_id] == User::Wizard.data.length
+      return nil
+    # Return the next wizard if it's not completed, else, it increments
+    elsif params[:next] && session[:current_wizard_id] && session[:current_wizard_id] < User::Wizard.data.length
+      session[:current_wizard_id] += 1
+      wizard = User::Wizard.find(session[:current_wizard_id])
+      if wizard.completed?.call(current_user)
+        return get_next_wizard
+      else
+        return wizard
+      end
+    else
+      User::Wizard.all.each do |wizard|
+        unless wizard.completed?.call(current_user)
+          session[:current_wizard_id] = wizard.id
+          return wizard
+        end
+      end
+      return nil
+    end
+  end
 end

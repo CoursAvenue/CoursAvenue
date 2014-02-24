@@ -4,11 +4,18 @@
 
 ## Production
 
+### Addons
+
+Using experimental [labs-preboot](https://devcenter.heroku.com/articles/labs-preboot)
+
+$ heroku labs:enable -a coursavenue preboot
+$ heroku labs:disable -a coursavenue preboot
+
 ## Staging
 
-$ git push staging master
-$ heroku run rake db:migrate --remote staging
-$ heroku ps --remote staging
+`$ git push staging master`
+`$ heroku run rake db:migrate --remote staging`
+`$ heroku ps --remote staging`
 
 ### Pushing local branch to heroku staging
 $ git push staging feature_branch:master
@@ -76,10 +83,24 @@ http://download.geonames.org/export/zip/
 ### Tests
 rake db:test:clone
 RAILS_ENV=test rake sunspot:solr:start
-$ rspec spec
+`$ rspec spec`
 
 # Recovering a dump
-killall ruby; dropdb -h localhost -U postgres coursavenue_development; createdb -h localhost -O postgres -U postgres coursavenue_development && psql coursavenue_development -c 'create extension hstore;' -U postgres && pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "ud9c2iqn1hpp2g" --no-password  --verbose "/Users/Nima/Downloads/a266.dump"; zeus start
+dropdb -h localhost -U postgres coursavenue_development; createdb -h localhost -O postgres -U postgres coursavenue_development && psql coursavenue_development -c 'create extension hstore;' -U postgres && pg_restore --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" --role "ud9c2iqn1hpp2g" --no-password  --verbose "/Users/Nima/Downloads/a266.dump"
 
 # Make a dump
-pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" -f 19_oct.tar --format=t
+pg_dump --host localhost --port 5432 --username "postgres" --dbname "coursavenue_development" -f 20_fev.tar --format=t
+
+# Maintenance
+
+## Coverage 
+
+`COVERAGE=true rspec spec`
+
+## Rubocop
+`bundle exec rubocop -Ra`
+  - -R To follow Rails styleguide
+  - -a to autocorrect
+
+## Brakeman
+`bundle exec brakeman -o brakeman-report.html`

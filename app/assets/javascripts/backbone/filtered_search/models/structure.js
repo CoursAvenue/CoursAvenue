@@ -1,10 +1,8 @@
-
 /* just a basic backbone model */
 FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _) {
-    Module.CoursesCollection = Backbone.Collection.extend({
-        initialize: function () {
 
-        },
+    Module.CoursesCollection = Backbone.Collection.extend({
+        resource: "/" + App.resource + "/",
 
         url: function (models) {
             if (models === undefined) { return ''; }
@@ -12,7 +10,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
             /* TODO not super happy about this */
             var query = this.structure.collection.getQuery();
 
-            return '/etablissements/' + models[0].get('structure').get('id') + '/cours.json' + query;
+            return this.resource + models[0].get('structure').get('id') + '/cours.json' + query;
         }
     });
 
@@ -46,7 +44,10 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
 
                         var model_ids = _.pluck(models, 'id').join(',');
 
-                        return '/etablissements/' + models[0].get('structure').get('id') + '/recommandations.json';
+                        // TODO this used to be
+                        //   return App.resource + models[0].get('structure').get('id') + '/recommandations.json';
+                        // but it started barfing. It could bite us later
+                        return models[0].get('structure').get('id') + '/recommandations.json';
                     }
                 })
             },
@@ -74,7 +75,7 @@ FilteredSearch.module('Models', function(Module, App, Backbone, Marionette, $, _
                     url: function (models) {
                         if (models === undefined) { return ''; }
 
-                        return '/etablissements/' + models[0].get('structure').get('id') + '/medias.json';
+                        return models[0].get('structure').get('id') + '/medias.json';
                     }
                 })
             }

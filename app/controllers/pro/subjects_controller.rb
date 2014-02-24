@@ -1,11 +1,10 @@
 # encoding: utf-8
 class Pro::SubjectsController < Pro::ProController
-
   before_action :authenticate_pro_super_admin!, except: :descendants
 
   def index
     @city = City.find 'paris'
-    @structure_search = StructureSearch.search({lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 1, bbox: true})
+    @structure_search = StructureSearch.search( { lat: @city.latitude, lng: @city.longitude, radius: 7, per_page: 1, bbox: true })
   end
 
   def all
@@ -26,7 +25,7 @@ class Pro::SubjectsController < Pro::ProController
   def create
     @subject = Subject.create params[:subject]
     respond_to do |format|
-      format.html { redirect_to pro_subjects_path}
+      format.html { redirect_to all_pro_subjects_path }
     end
   end
 
@@ -42,10 +41,9 @@ class Pro::SubjectsController < Pro::ProController
     @city       = City.find('paris')
     _city_id    = @city.id
     _subject_id = @subject.id
-    if (@city_subject_info = CitySubjectInfo.where{(city_id == _city_id) & (subject_id == _subject_id)}.first).nil?
+    if (@city_subject_info = CitySubjectInfo.where { (city_id == _city_id) & (subject_id == _subject_id) }.first).nil?
       @city_subject_info = CitySubjectInfo.new(city_id: @city.id, subject_id: @subject.id)
     end
-
   end
 
   def update
@@ -53,7 +51,7 @@ class Pro::SubjectsController < Pro::ProController
     respond_to do |format|
       if @subject.update_attributes params[:subject]
         format.js { render nothing: true }
-        format.html { redirect_to pro_subjects_path}
+        format.html { redirect_to pro_subjects_path }
       else
         format.html { render action: :edit }
       end
@@ -70,7 +68,7 @@ class Pro::SubjectsController < Pro::ProController
   #     Cuisine - ...:
   #           - ...
   def descendants
-    @subjects = params[:ids].split(',').map{ |id| Subject.friendly.find(id) }
+    @subjects = params[:ids].split(',').map { |id| Subject.friendly.find(id) }
     @descendants = []
     @subjects.each do |parent_subject|
       parent_subject.descendants.at_depth(1).each do |first_descendant|
@@ -83,10 +81,10 @@ class Pro::SubjectsController < Pro::ProController
         @descendants << obj
       end
     end
-    @descendants = @descendants.sort_by{|subj| subj.keys[0]}
+    @descendants = @descendants.sort_by { |subj| subj.keys[0] }
     respond_to do |format|
       if params[:callback]
-        format.js { render :json => {descendants: @descendants.to_json}, callback: params[:callback] }
+        format.js { render json: { descendants: @descendants.to_json }, callback: params[:callback] }
       else
         format.json { render json: @descendants.to_json }
       end

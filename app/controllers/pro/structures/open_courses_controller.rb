@@ -7,11 +7,23 @@ class Pro::Structures::OpenCoursesController < Pro::ProController
 
   def new
     @course = Course::Open.new structure: @structure
+    count      = @structure.prices.individual.count
+    all_amount = @structure.prices.individual.map(&:amount).reduce(&:+)
+    if all_amount
+      @course.common_price = (all_amount / count).to_i
+    end
   end
 
   def index
     @structure = Structure.friendly.find params[:structure_id]
-    @courses   = @structure.courses.open_courses
+    @courses   = @structure.courses.open_courses.order('created_at ASC')
+    respond_to do |format|
+      if @structure.parisian?
+        format.html
+      else
+        format.html { redirect_to pro_structure_courses_path(@structure), notice: "Vous n'êtes pas en Île-de-France" }
+      end
+    end
   end
 
   def edit
@@ -47,9 +59,9 @@ class Pro::Structures::OpenCoursesController < Pro::ProController
     @course    = @structure.courses.find params[:id]
     respond_to do |format|
       if @course.destroy
-        format.html { redirect_to pro_structure_course_opens_path(@structure), notice: 'Le cours a bien été supprimé'}
+        format.html { redirect_to pro_structure_course_opens_path(@structure), notice: 'Le cours a bien été supprimé' }
       else
-        format.html { redirect_to pro_structure_course_opens_path(@structure), notice: "Le cours n'a pas pu être supprimé"}
+        format.html { redirect_to pro_structure_course_opens_path(@structure), notice: "Le cours n'a pas pu être supprimé" }
       end
     end
   end

@@ -5,6 +5,9 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
         model: Models.UserProfile,
 
         initialize: function (models, options) {
+            _.bindAll(this, "setSelectedCount");
+            this.setSelectedCount = _.debounce(this.setSelectedCount);
+
             var self = this;
             // define the server API based on the load-time URI
             this.server_api = this.makeOptionsFromSearch(window.location.search);
@@ -32,7 +35,11 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.url.basename         = this.url.basename.join('/');
 
             this.grandTotal = options.total;
-            this.deep = false;
+            this.all_ids    = options.ids;
+
+            this.selected_ids    = [];
+            this.setSelectedCount(0);
+            this.deep_select     = false;
         },
 
         /* where we can expect to find the resource we seek
@@ -77,6 +84,14 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             this.totalPages = Math.ceil(response.meta.total / this.paginator_ui.perPage);
             this.jobs = response.meta.busy;
 
+            // when we get back a filtered result set, we will want to set the selection's
+            // length to represent the intersection between records that are selected
+            // and records that appear in the filtered result set
+            var result_set        = response.meta.ids;
+            var visible_selection = _.intersection(result_set, this.selected_ids);
+
+            this.setSelectedCount(visible_selection.length);
+
             return response.user_profiles;
         },
 
@@ -88,55 +103,174 @@ UserManagement.module('Models', function(Models, App, Backbone, Marionette, $, _
             radius:      2 // determines the behaviour of the ellipsis
         },
 
+        /* returns true if the given model is in the current list */
+        isChecked: function (model) {
+            return (this.selected_ids.indexOf(model.get("id")) != -1);
+        },
+
+        /* returns true if any advanced filters are being applied
+        *  currently the advanced filters are limited to:
+        *   - tags[] */
+        isAdvancedFiltered: function () {
+            return _.has(this.server_api, "tags[]");
+        },
+
+        /* DEEP SELECT */
+        /* deep select is implemented by having an array of ids. When
+         * a user chooses deep select, we replace the array of ids with
+         * an array of all ids fetched from the server */
+        /* any time we add or remove a model id from the list, we also
+         * fire a change event, to capture this */
+
+        /* add or remove the given model from the list */
         toggleSelected: function (model) {
-            var selected = (model.get("selected") === true)? "" : true;
+            // get the desired state of the selected flag
+            var id = model.get("id");
+            var index = this.selected_ids.indexOf(id);
 
-            model.set("selected", selected);
+            if (index == -1) {
+                this.addSelected(id);
+                model.trigger("change", { changed: { selected: "true" }});
+            } else {
+                this.removeSelectedAt(index);
+                model.trigger("change", { changed: { selected: "" }});
+            }
+
         },
 
+        /* add the current page of ids to the list */
         selectAll: function () {
+            var selected_ids = this.selected_ids;
+            var added = 0;
+
             this.each(function (model) {
-                model.set("selected", true);
+                var id = model.get("id");
+                var index = selected_ids.indexOf(id);
+
+                if (index == -1) {
+                    selected_ids.push(id)
+                    added += 1;
+                    model.trigger("change", { changed: { selected: "true" }});
+                }
             });
+
+            // set the count all at once to avoid a huge emission of events
+            // TODO maybe solve this with debounce later???
+            this.setSelectedCount(this.selected_length + added);
         },
 
+        /* remove the current page of ids to the list */
         deselectAll: function () {
+            var selected_ids = this.selected_ids;
+            var removed = 0;
+
             this.each(function (model) {
-                model.set("selected", "");
+                var id    = model.get("id");
+                var index = selected_ids.indexOf(id);
+
+                if (index > -1) {
+                    selected_ids.splice(index, 1);
+                    removed += 1;
+                    model.trigger("change", { changed: { selected: "" }});
+                }
             });
+
+            // set the count all at once to avoid a huge emission of events
+            // TODO maybe solve this with debounce later???
+            this.setSelectedCount(this.selected_length - removed);
         },
 
         getSelected: function () {
-            return this.where({ selected: true });
+            return this.selected_ids;
+        },
+
+        // the length of the selection is not always the number of
+        // ids in it. Sometimes some of the ids may be hidden behind
+        // a filter
+        setSelectedCount: function (length) {
+            this.selected_length = length;
+
+            this.trigger("selection:counts", {
+                count: this.getSelectedCount(),
+                total: this.grandTotal,
+                deep:  this.isDeep()
+            });
+        },
+
+        getSelectedCount: function () {
+            return this.selected_length;
+        },
+
+        addSelected: function (id) {
+            this.selected_ids.push(id);
+            this.setSelectedCount(this.selected_length + 1);
+        },
+
+        removeSelectedAt: function (index) {
+            this.selected_ids.splice(index, 1);
+            this.setSelectedCount(this.selected_length - 1);
         },
 
         /* in addition to selecting the models,
         * set this.deep so that the bulk_action_controller
         * will know to affect all models not marked */
         deepSelect: function () {
-            this.deep = true;
-            GLOBAL.flash(this.grandTotal + " lignes selectionnées.", 'notice'); // TODO needs the notification object
-        },
+            this.deep_select = true;
 
-        bulkAddTags: function (tags) {
-            var models = this.getSelected();
+            var self = this;
 
-            $.ajax({
-                type: "POST",
-                url: this.url.basename + '/bulk.json',
-                data: {
-                    ids: (this.deep) ? "all" : _.pluck(models, 'id'),
-                    tags: tags
+            return $.ajax({
+                type: "GET",
+                url: this.url.basename + '/bulk/new.json',
+                data: this.server_api,
+                success: function (data) {
+                    self.selected_ids = data.ids;
+                    self.selectAll(); // to trigger the checkboxes
+
+                    self.setSelectedCount(data.ids.length);
                 }
             });
         },
 
-        destroySelected: function () {
-            var models = this.getSelected();
+        clearSelected: function () {
+            this.deep_select = false;
+            this.deselectAll(); // to trigger the change
 
-            _.each(models, function (model) {
-                model.destroy();
+            this.selected_ids    = [];
+            this.setSelectedCount(0);
+        },
+
+        isDeep: function () {
+            return this.deep_select;
+        },
+
+        bulkAddTags: function (tags) {
+            this.bulkAction('add_tags', tags);
+        },
+
+        destroySelected: function () {
+            this.bulkAction('destroy');
+        },
+
+        bulkAction: function (action_name, delegate_params) {
+            delegate_params = delegate_params || {}
+
+            var params = _.clone(this.server_api);
+            params.ids = this.getSelected();
+            params.tags = params["tags[]"]; // Prevent from having nil as params[:search][:tags]
+
+            // when we have deep selection we have to pass in the ids of the
+            // models that we _do not_ want to affect
+            return $.ajax({
+                type: "POST",
+                url: this.url.basename + '/bulk.json',
+                data: {
+                    bulk_action:     action_name,
+                    delegate_params: delegate_params,
+                    search: params
+                }
             });
         }
+
     });
 });
