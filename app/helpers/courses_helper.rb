@@ -12,10 +12,6 @@ module CoursesHelper
     end
   end
 
-  def plain_type_name(course)
-    course.type.split("::").last
-  end
-
   # Returns
   #   Case lesson:              Mardi, Jeudi, Vendredi.
   #   Case workshop / training: Lundi 23 novembre, Mardi 24 novembre, ...

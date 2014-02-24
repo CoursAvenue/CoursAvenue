@@ -24,18 +24,32 @@ module FilteredSearchProvider extend ActiveSupport::Concern
     end
   end
 
+  # Tells if the search filters includes planning filters.
+  # If it does, we will have to search through `Planning` and not `Structures`
+  #
+  # @return boolean
   def params_has_planning_filters?
     (params.keys & PLANNING_FILTERED_KEYS).any?
   end
 
+  # Search for plannings regarding the params
+  #
+  # @return array [ structures models, total of results]
   def search_plannings
-    search          = PlanningSearch.search(params, group: :structure_id_str)
-    structures      = search.group(:structure_id_str).groups.collect do |planning_group|
-      planning_group.results.first.structure
+    search       = PlanningSearch.search(params, group: :structure_id_str)
+    place_search = PlanningSearch.search(params, group: :place_id_str)
+    structures   = []
+    places       = []
+    place_search.group(:place_id_str).groups.each do |place_group|
+      places << place_group.results.first.try(:place_id)
     end
-    total           = search.group(:structure_id_str).total
+    search.group(:structure_id_str).groups.each do |planning_group|
+      structures << planning_group.results.first.try(:structure)
+    end
+    places = places.uniq
+    total  = search.group(:structure_id_str).total
 
-    [ structures, total ]
+    [ structures, places, total ]
   end
 
   def search_structures
@@ -46,18 +60,19 @@ module FilteredSearchProvider extend ActiveSupport::Concern
     [ structures, total ]
   end
 
+  # Retrieve lat & lng of the current search
+  #
+  # @return Array [lat, lng]
   def retrieve_location
     StructureSearch.retrieve_location(params)
   end
 
-  def jasonify(structures, options = {})
+  def jasonify(structures, options={})
     # we splat the structures to ensure that a single
     # structure is treated as an array <3 Ruby
-    
+    #
     [*structures].map do |structure|
-      StructureSerializer.new(structure, options.merge({ root: false }))
+      StructureSerializer.new(structure, { root: false }.merge(options))
     end
   end
-
-
 end

@@ -1,5 +1,6 @@
 # encoding: utf-8
 class Pro::StructuresController < Pro::ProController
+
   before_action :authenticate_pro_admin!, except: [:select, :new, :create, :get_feedbacks, :widget_ext, :best]
   load_and_authorize_resource :structure, except: [:select, :new, :create, :get_feedbacks, :widget_ext, :best], find_by: :slug
 
@@ -7,6 +8,10 @@ class Pro::StructuresController < Pro::ProController
 
   respond_to :json
 
+  # GET member
+  # Set the widget status
+  # params
+  #   :status
   def update_widget_status
     if params[:status] and Structure::WIDGET_STATUS.include? params[:status]
       @structure.update_column :widget_status, params[:status]
@@ -25,9 +30,11 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  # GET member
   def signature
   end
 
+  # GET member
   def widget
     @structure = Structure.friendly.find params[:id]
     respond_to do |format|
@@ -35,9 +42,10 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  # GET member
+  #   format :json
   # Method called from external sites by the widget
   def widget_ext
-    # TODO protect
     @structure = Structure.friendly.find params[:id]
     headers['Access-Control-Allow-Origin']  = '*'
     headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
@@ -48,10 +56,8 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
-  def crop
-    @structure = Structure.friendly.find params[:id]
-  end
-
+  # GET member
+  #   format :json
   def wizard
     @wizard = get_next_wizard
     @structure = Structure.friendly.find params[:id]
@@ -64,6 +70,7 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  # GET member
   def dashboard
     @structure      = Structure.friendly.find params[:id]
     @wizard         = get_next_wizard
@@ -83,43 +90,10 @@ class Pro::StructuresController < Pro::ProController
       marker.lat location.latitude
       marker.lng location.longitude
     end
-
-    respond_to do |format|
-      if can? :manage, @structure
-        format.html
-      else
-        format.html { redirect_to root_path error: "Vous n'êtes pas autorisé à gérer la structure d'autres utilisateurs" }
-      end
-    end
   end
 
-  def select
-    structure_with_admin  = Structure.select(:id).joins(:admins)
-    @structures           = Structure.where { id.not_in structure_with_admin }.order('name ASC').all
-  end
-
-  def activate
-    @structure        = Structure.friendly.find params[:id]
-    respond_to do |format|
-      if @structure.activate!
-        format.html { redirect_to pro_structures_path }
-      else
-        format.html { redirect_to pro_structures_path, alert: 'Les informations de la structure ne sont pas complètes.' }
-      end
-    end
-  end
-
-  def disable
-    @structure        = Structure.friendly.find params[:id]
-    respond_to do |format|
-      if @structure.disable!
-        format.html { redirect_to pro_structures_path }
-      else
-        format.html { redirect_to pro_structures_path, alert: 'Les informations de la structure ne sont pas complètes.' }
-      end
-    end
-  end
-
+  # GET collection
+  #   format :json
   # Returns the best structures located near Paris
   # Used on Pro::HomeController#index
   def best
@@ -140,14 +114,17 @@ class Pro::StructuresController < Pro::ProController
     end
   end
 
+  # GET collection
   def stars
     @structures = Structure.order('created_at DESC').where { comments_count >= 5 }
   end
 
+  # GET collection
   def index
     @structures = Structure.includes(:admins).where(admins: { structure_id: nil }).order('structures.created_at DESC')
   end
 
+  # GET member
   def show
     @structure = Structure.friendly.find params[:id]
     @courses   = @structure.courses.order('name ASC')
@@ -244,21 +221,25 @@ class Pro::StructuresController < Pro::ProController
 
   private
 
+  # Return the next wizard regarding the params passed (skip: true)
+  # and wizards that are completed
+  #
+  # @return Wizard
   def get_next_wizard
     # Return nil if there is no next wizard
-    if params[:next] && session[:current_wizard_id] && session[:current_wizard_id] == Wizard.data.length
+    if params[:next] && session[:current_wizard_id] && session[:current_wizard_id] == Structure::Wizard.data.length
       return nil
     # Return the next wizard if it's not completed, else, it increments
-    elsif params[:next] && session[:current_wizard_id] && session[:current_wizard_id] < Wizard.data.length
+    elsif params[:next] && session[:current_wizard_id] && session[:current_wizard_id] < Structure::Wizard.data.length
       session[:current_wizard_id] += 1
-      wizard = Wizard.find(session[:current_wizard_id])
+      wizard = Structure::Wizard.find(session[:current_wizard_id])
       if wizard.completed?.call(@structure)
         return get_next_wizard
       else
         return wizard
       end
     else
-      Wizard.all.each do |wizard|
+      Structure::Wizard.all.each do |wizard|
         unless wizard.completed?.call(@structure)
           session[:current_wizard_id] = wizard.id
           return wizard

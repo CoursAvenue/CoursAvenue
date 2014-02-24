@@ -1,0 +1,33 @@
+%table.table{align: 'center', border: '0', cellpadding: '15', cellspacing: '0', width: '600'}
+  %tr{valign: 'top'}
+    %td.cell.content-block{width: '600', colspan: '4', style: 'padding-bottom: 0'}
+      %h4 Avantages des recommandations de vos élèves
+  %tr{valign: 'top'}
+    %td.v-middle.cell.content-block.push--bottom{width: '50'}
+      = image_tag 'emails_logo/search_position.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '50'
+    %td.v-middle.cell.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
+      %p.flush--bottom
+        Votre profil remonte dans les résultats de recherche.
+    %td.v-middle.cell.content-block.push--bottom{width: '50'}
+      = image_tag 'emails_logo/quote.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '50'
+    %td.v-middle.cell.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
+      %p.flush--bottom
+        Vous gagnez en visibilité grâce à une accroche personnalisée.
+
+  %tr{valign: 'top'}
+    %td.v-middle.cell.content-block.push--bottom{width: '50'}
+      = image_tag 'emails_logo/book.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '50'
+    %td.v-middle.cell.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
+      %p.flush--bottom
+        Votre
+        = link_to "livre d'Or", pro_pages_widget_url(subdomain: 'pro')
+        est visible sur votre propre site Internet.
+    %td.v-middle.cell.content-block.push--bottom{width: '50'}
+      = image_tag 'emails_logo/search.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '50'
+    %td.v-middle.cell.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
+      %p.flush--bottom
+        Vous augmentez votre référencement sur Internet.
+  %tr{valign: 'top'}
+    %td.cell.content-block{width: '600', colspan: '4', style: 'padding-bottom: 0'}
+      %p.action.flush--top
+        = link_to 'Envoyer ma demande de recommandations', recommendations_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'

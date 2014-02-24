@@ -6,12 +6,6 @@
                     <img src="{{ logo_thumb_url }}" class="block one-whole" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
                 </a>
             {{/if}}
-            {{#if has_free_trial_course}}
-                <div class="free-trial-badge"></div>
-            {{/if}}
-            {{#if has_promotion}}
-                <div class="promotion-badge"></div>
-            {{/if}}
         </div>
     </div><!--
  --><article class="flexbox__item four-tenths v-top structure-item__see-all-wrapper structure-item__button">
@@ -32,78 +26,46 @@
                 </div>
             {{/if}}
             <div>
-                {{#if has_plannings}}
-                <div>
-                    {{ plannings_count }} {{ pluralize plannings_count 'séance' 'séances' }}
-                    {{#if has_price_range }}
-                        de
-                        <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
-                        à
-                        <span class="pointer" data-behavior="tooltip" title="{{ max_price_libelle }}">{{ max_price_amount }}€</span>
-                    {{else}}
-                        {{#if min_price_amount}}
-                            à partir de
-                            <span class="pointer" data-behavior="tooltip" title="{{ min_price_libelle }}">{{ min_price_amount }}€</span>
-                        {{/if}}
-                    {{/if}}
+{{!--                 <div>
+                {{ open_course_nb }} {{ pluralize open_course_nb 'atelier' 'ateliers' }} :
+                <span title="{{open_course_names}}" data-behavior="tooltip">
+                    {{ truncate open_course_names 33 }}
+                </span>
                 </div>
-                {{/if}}
-                <div>
+ --}}                <div>
                 {{#if audience}}
                     <span class="milli">{{audience}}</span>&nbsp;
                 {{/if}}
-                {{#if gives_individual_courses}}
-                    <span title="Cours particulier" data-behavior="tooltip" class="pointer">
-                        <i class="fa fa-user"></i>
-                    </span>
-                {{/if}}
-                {{#if gives_group_courses}}
-                    <span title="Cours collectif" data-behavior="tooltip" class="pointer" style="margin-right: -3px">
-                        <i class="fa fa-user"></i>
-                        <i class="fa fa-user" style="left: -6px; top: 2px; position: relative"></i>
-                    </span>
-                {{/if}}
-                {{#if teaches_at_home}}
-                    <span title="Cours à domicile {{#if teaches_at_home_radius}}(dans un rayon de {{teaches_at_home_radius}}km){{/if}}" data-behavior="tooltip" class="pointer">
-                        <i class="fa fa-home"></i>
-                    </span>
-                {{/if}}
-                {{#if structure_type}}
-                    |
-                    <span class="milli">{{structure_type}}</span>
-                {{/if}}
                 </div>
-                {{#if funding_types}}
-                    <div>
-                        <span class="pointer lbl lbl--small" data-behavior="tooltip" title="{{funding_types}}">Financements spécifiques acceptés</span>
-                    </div>
-                {{/if}}
             </div>
-            <a href="javascritp:void(0);" class="structure-item__see-all blue" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
+            {{#if last_comment_title}}
+            <div>
+                <i class="quoted push-half--right">{{{truncate last_comment_title 50}}}</i>
+                {{!-- (<a href="{{ data_url }}" class="semi-muted-link">voir les {{ comments_count }} avis</a>) --}}
+            </div>
+            {{/if}}
+            <a href="javascritp:void(0);" class="btn btn--blue btn--blue hard--sides btn--small structure-item__see-all" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
                 {{#if plannings_count}}
-                    <span>Voir les séances</span>
+                    <span>Voir les horaires</span>
                 {{else}}
                     <span>Pas de séance, contactez le professeur</span>
                 {{/if}}
             </a>
-            <div href="#" class="btn btn--blue structure-item__open-doors-button hidden" data-type="open-doors-button">
-                <span>S'inscrire a une seance</span>
-            </div>
         </div>
     </article><!--
- --><div class="flexbox__item relative soft-half--sides structure-item__see-all-wrapper {{#if has_comments}}structure-item__button{{/if}} two-eighths v-middle text--center" {{#if has_comments}}data-behavior="accordion-control" data-model="comment" data-attributes="data_url more_than_five_comments"{{/if}}>
-        {{#if has_comments }}
-        <div class="relative full-height soft--top">
-            <div class="alpha thin orange"> {{ comments_count }} </div>
-            <span class="orange soft-half--bottom milli">avis
-                <i class="lbc-brand-icon"></i>
-            </span>
+ --><div class="flexbox__item relative soft-half--sides structure-item__see-all-wrapper two-eighths v-middle text--center structure-item__button">
+        <div class="relative full-height v-middle soft--top">
+{{!--             <div class="alpha thin orange soft-half--top"> {{ open_courses_open_places }} </div>
+            <span class="orange soft-half--bottom milli">places restantes</span>
+ --}}
+
+            <div class="alpha thin orange"> {{ open_course_nb }} </div>
+            <span class="orange soft-half--bottom milli">{{ pluralize open_course_nb 'atelier' 'ateliers' }}</span>
             {{#if last_comment_title}}
-            <div class="quoted milli">
-                {{{truncate last_comment_title 60}}}
+            <div class="milli">
+                {{ truncate open_course_names 70 }}
             </div>
             {{/if}}
-            <a href="javascritp:void(0)" class="structure-item__see-all blue"><span>Voir tous les avis</span></a>
             <div itemtype="http://data-vocabulary.org/review-aggregate" itemscope="" itemprop="aggregateRating">
                 <span title="Note : 5 étoiles (Excellent !)" class="rating"></span>
                 <meta property="v:rating" itemprop="rating" content="{{ rating }}">
@@ -112,13 +74,16 @@
                 <meta itemprop="street-address" content="{{ street }}">
                 <meta itemprop="postal-code" content="{{ zip_code }}">
             </div>
+
+            <a href="{{ data_url }}" class="structure-item__see-all btn--full btn btn--blue btn--blue hard--sides btn--small" data-wrapper=".structure-item__see-all-wrapper" style="margin-bottom: 2px;">
+                {{#ifCond open_courses_open_places '==' '0'}}
+                M'inscrire en liste d'attente
+                {{else}}
+                Participer
+                {{/ifCond}}
+            </a>
         </div>
-        {{else}}
-            <div class="alpha thin gray-light">0</div>
-            <span class="gray-light milli">
-                avis <i class="fa fa-comment"></i>
-            </span>
-        {{/if}}
+
     </div><!--
  --><div class="flexbox__item two-eighths v-middle text--center rslides-wrapper structure-item__see-all-wrapper">
         {{#if preloaded_medias}}

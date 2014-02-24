@@ -1,31 +1,25 @@
 # encoding: utf-8
 class Structures::CoursesController < ApplicationController
-  include ActionView::Helpers::NumberHelper
 
   def index
     @structure       = Structure.find params[:structure_id]
     @planning_search = PlanningSearch.search(params)
     @plannings       = @planning_search.results
     @courses         = []
-    # TODO Refactor this.
+
+    if params[:course_types] == ['open_course']
+      planning_serializer_options = { jpo: true }
+    else
+      planning_serializer_options = {}
+    end
     @plannings.group_by(&:course_id).each do |course_id, plannings|
       course = Course.find(course_id)
-      @courses << {
-        id:                    course.id,
-        name:                  course.name,
-        description:           course.description,
-        type:                  course.type_name,
-        min_price_amount:      number_to_currency(course.best_price.try(:amount)),
-        min_price_libelle:     course.best_price.try(:localized_libelle),
-        has_free_trial_lesson: course.has_free_trial_lesson?,
-        data_url:              structure_course_url(@structure, course),
-        subjects:              course.subjects.map(&:name).join(', '),
-        plannings:             ActiveModel::ArraySerializer.new(plannings, each_serializer: PlanningSerializer)
-      }
+      @courses << CourseSerializer.new(course, { root: false, structure: @structure, jpo: (params[:course_types] == ['open_course'])})
     end
 
     respond_to do |format|
       format.json { render json: @courses }
+      format.html { redirect_to structure_path(@structure)}
     end
   end
 

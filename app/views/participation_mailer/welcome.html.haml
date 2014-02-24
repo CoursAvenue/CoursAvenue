@@ -1,0 +1,34 @@
+- content_for :logo do
+  - if @structure.logo.present?
+    = image_tag @structure.logo.url(:thumb), alt: 'CoursAvenue', height: '75', width: '75', style: '-ms-interpolation-mode:bicubic;'
+  - else
+    = image_tag 'emails_logo/jpo.jpg', alt: 'CoursAvenue', height: '75', width: '75', style: '-ms-interpolation-mode:bicubic;'
+
+- content_for :promo do
+  %h4
+    Votre inscription aux Journées Portes Ouvertes est validée.
+
+%p
+  Informations sur votre réservation :
+
+%ul
+  %li Atelier : #{@course.name}
+  %li
+    Date :
+    = l(@planning.start_date, format: :semi_long).capitalize
+    = "de #{l(@planning.start_time, format: :short)} à #{l(@planning.end_time, format: :short)} (#{readable_duration(@planning.duration)})"
+  %li Lieu : #{@planning.place.location.address}
+
+%p
+  Retrouvez toutes les informations complémentaires depuis votre profil :
+%p.action
+  = link_to "Visualiser mon atelier", user_participations_url(@user, inscription_confirmed: true), class: 'btn btn--green'
+
+%p.blue.blue-tip
+  %i Trucs & astuces : depuis votre profil, invitez vos amis, familles et collègues à participer aux Journées Portes Ouvertes avec vous.
+
+- content_for :under_content do
+  = render 'invite_friends_to_jpos'
+
+- content_for :under_content_2 do
+  = render 'user_mailer/footer_info'

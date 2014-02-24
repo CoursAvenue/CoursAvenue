@@ -47,7 +47,7 @@ fr:
       unlocked: 'Votre compte a été déverrouillé avec succès, vous êtes maintenant connecté.'
       send_paranoid_instructions: 'Si votre compte existe, vous allez bientôt recevoir un email contenant les instructions pour le déverrouiller.'
     omniauth_callbacks:
-      success: 'Authentifié avec succès via %{kind}.'
+      success: 'Authentifié avec succès avec %{kind}.'
       failure: "Nous n'avons pas pu vous authentifier via %{kind} : '%{reason}'."
     mailer:
       confirmation_instructions:

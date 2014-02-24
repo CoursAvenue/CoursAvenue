@@ -62,14 +62,14 @@ class ::Pro::AdminsController < InheritedResources::Base
       params[:admin].delete :password
       params[:admin].delete :password_confirmation
     end
-
+    @structure = @admin.structure
     respond_to do |format|
       if @admin.update_attributes(params[:admin])
         sign_in(@admin, bypass: true)
         format.html { redirect_to edit_pro_admin_path(@admin), notice: 'Vos paramètres ont été mis à jour avec succès' }
         format.js { render nothing: true }
       else
-        format.html { render 'pro/admins/edit' }
+        format.html { render action: :edit }
       end
     end
   end

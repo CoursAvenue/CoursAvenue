@@ -13,6 +13,7 @@ class Course < ActiveRecord::Base
   belongs_to :structure, touch: true
 
   has_many :comments            , through: :structure
+  has_many :participations      , through: :plannings
   has_many :reservations        , as: :reservable
   has_many :plannings           , dependent: :destroy
   has_many :teachers            , -> { uniq }, through: :plannings
@@ -385,7 +386,7 @@ class Course < ActiveRecord::Base
   end
 
   def activate!
-    if (prices.any? and plannings.any?)
+    if is_open? or (prices.any? and plannings.any?)
       self.active = true
       return self.save
     else
@@ -419,6 +420,10 @@ class Course < ActiveRecord::Base
 
   def migration_set_teaches_at_home
     self.update_column(:teaches_at_home, self.structure.teaches_at_home) if self.structure
+  end
+
+  def other_event_type?
+    false
   end
 
   private

@@ -15,6 +15,7 @@
 // ---------------------------------- Core include
 //= require jquery_ujs
 //= require libs/jquery-ui-1.10.3.custom
+//= require js-routes
 
 // require jquery.turbolinks
 
@@ -40,10 +41,10 @@
 //= require libs/jquery.lazyload
 //= require libs/moment
 //= require libs/responsiveslides
+//= require libs/add_this_event
 
 //= require libs/fancybox/jquery.fancybox
 //= require underscore
-
 
 // ---------------------------------- Backbone
 //= require backbone
@@ -51,6 +52,7 @@
 //= require libs/backbone.googlemaps
 //= require backbone-relational
 //= require libs/backbone.paginator.js
+//= require libs/backbone.poller.js
 //= require backbone/cours_avenue
 //= require railsy_backbone.sync
 //= require railsy_backbone.datalink
@@ -95,6 +97,7 @@
 // require plugins/time_range
 // require plugins/image_input
 // require plugins/show_more_on_demand
+// require plugins/jquery-sticky.js
 // require plugins/parent_descendant_subjects
 
 //= require gmaps/google

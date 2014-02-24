@@ -2,4 +2,4 @@
   %h3.push--top Aucun établissement trouvé
   %h4 Vous connaissez un établissement qui n'est pas sur CoursAvenue ?
 
-  = link_to 'Recommander un professeur ou une école', '#course-recommendation', data: {behavior: 'modal', title: "Recommander un cours", width: '500px'}, class: 'btn btn--large btn--green', onclick: "_gaq.push(['_trackEvent', 'Recommander un professeur', 'click', 'Après recherche établissement vide"
+  = link_to 'Recommander un professeur ou une école', '#course-recommendation', data: {behavior: 'modal', title: "Recommander un cours", width: '500px'}, class: 'btn btn--large btn--green', onclick: "ga('send', 'event', 'Recommander un professeur', 'click', 'Après recherche établissement vide')"

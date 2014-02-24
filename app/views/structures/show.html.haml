@@ -41,9 +41,6 @@
 
     = render partial: 'structures/map_and_gallery', locals: {structure: @structure, places: @structure.places, medias: @medias}
 
-    -# - if @structure.has_open_course_plannings?
-    -#   = render partial: 'structures/open_courses', locals: {structure: @structure}
-
     = render partial: 'structures/comments_headband', locals: {structure: @structure}
 
     #structure-profile{data: { type: 'structure-profile-root'}}

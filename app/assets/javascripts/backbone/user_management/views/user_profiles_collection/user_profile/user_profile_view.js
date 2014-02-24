@@ -1,19 +1,239 @@
-
-/* just a basic marionette view */
 UserManagement.module('Views.UserProfilesCollection.UserProfile', function(Module, App, Backbone, Marionette, $, _) {
 
-    Module.UserProfileView = Backbone.Marionette.ItemView.extend({
+    var ENTER  = 13;
+    var ESC    = 27;
+
+    Module.UserProfileView = CoursAvenue.Views.EventLayout.extend({
         template: Module.templateDirname() + 'user_profile_view',
         tagName: 'tr',
+        className: 'table__cell--editable unflipped',
+        tagBarView: Module.EditableTagBar.EditableTagBarView,
+        textFieldView: Module.EditableText.EditableTextView,
+
+        initialize: function (options) {
+            this.finishEditing = _.bind(this.finishEditing, this);
+            // callbacks need to be bound to this
+            _.bindAll(this, "updateSuccess", "updateError", "flashError");
+
+            this.model.set("checked", options.checked);
+            this.tags_url = options.tags_url;
+            this.edits = {};
+
+        },
+
+        announceEditableClicked: function (e) {
+            this.trigger("editable:clicked", e);
+        },
+
+        /* incrementally build up a set of attributes */
+        collectEdits: function (edits) {
+            this.edits[edits.attribute] = edits.data;
+        },
+
+        /* options are passed to the initialize method of the
+        * klass. event_hash is passed directly to the showwidget method */
+        showEditable: function (selector, Klass, event_hash, options) {
+            var attribute = this.$(selector).data("name"),
+                data      = this.model.get(attribute),
+                options   = _.extend(options || {}, { data: data, attribute: attribute }),
+                view      = new Klass(options);
+
+            if (_.isFunction(event_hash.selector)) {
+                event_hash.selector = event_hash.selector(attribute, data);
+            }
+
+            this.showWidget(view, event_hash);
+        },
 
         onRender: function () {
-            this.$('[data-behavior=editable]').editable();
-            this.$('[data-behavior=editable]').on('save', function(){
-                var that = this;
-                setTimeout(function() {
-                    $(that).closest('td').next().find('[data-behavior=editable]').editable('show');
-                }, 200);
+            var options = { url: this.tags_url };
+            this.showEditable("[data-behavior=editable-tag-bar]", this.tagBarView, {
+                events: {
+                    'start:editing'     : 'startEditing',
+                    'rollback'          : 'rollback',
+                    'update:start'      : 'stopEditing',
+                    'update:success'    : 'commit',
+                    'update:error'      : 'rollback',
+                    'update:sync'       : 'setData'
+                },
+            }, options);
+
+            this.ui.$editable.each(_.bind(function (index, element) {
+                this.showEditable(element, this.textFieldView, {
+                    events: {
+                        'start:editing'     : 'startEditing',
+                        'rollback'          : 'rollback',
+                        'update:start'      : 'stopEditing',
+                        'update:success'    : 'commit',
+                        'update:error'      : 'rollback',
+                        'update:sync'       : 'setData'
+                    }, selector: function (attribute) {
+                        return '[data-type=editable-' + attribute + ']';
+                    }
+                });
+            }, this));
+
+        },
+
+        /* TODO this seems to be working as intended
+         * What worries me, though, is that if I remove the
+         * event that triggers this method... the box still shows */
+        /* ACTUALLY! It is broke now */
+        showFancybox: function () {
+            var data = this.data;
+            this.$("[data-behavior=modal]").fancybox({
+                openSpeed   : 300,
+                maxWidth    : 800,
+                maxHeight   : 500,
+                fitToView   : false,
+                autoSize    : true,
+                autoResize  : true,
+                keys: {
+                    close: [ESC]
+                },
+                ajax        : {
+                    /* don't use .simple_form to select the form, use some data */
+                    complete: _.bind(function() {
+                        $('.simple_form').on("ajax:before", _.bind(function () {
+                            $.fancybox.close();
+                        }, this));
+                        $('.simple_form').on("ajax:success", _.bind(this.syncModel, this));
+                    }, this)
+                }
             });
+        },
+
+        ui: {
+            '$editable': "[data-behavior=editable]",
+            '$editing' : "[data-behavior=editable]:has('input')",
+            '$checkbox': "[data-behavior=select]"
+        },
+
+        events: {
+            'change @ui.$checkbox'       : 'addToSelected',
+            'click [data-behavior=modal]': 'showFancybox'
+        },
+
+        modelEvents: {
+            'change': 'syncFieldsToModel'
+        },
+
+        /* when the model changes, we update the fields to represent
+         * this change */
+        syncFieldsToModel: function (model) {
+            if (model.changed.selected !== undefined) {
+                this.ui.$checkbox.prop('checked', model.changed.selected);
+            }
+
+            /* we don't want to clobber fields with focus */
+            if (this.isEditing()) { return; }
+
+            this.trigger("update:sync", model.changed);
+        },
+
+        /* when the user uses the fancybox to update the model
+        * we have to sync our local model. */
+        syncLocalToRemote: function (xhr, data, status) {
+            this.model.set(data);
+
+            this.trigger("update:sync", this.model);
+        },
+
+        isEditing: function () {
+            return this.is_editing;
+        },
+
+        /* we have a boolean stored as a mask. It is true when
+        * the or of the bits is a true value, and false when it
+        * it a false value.
+        * The value can become "more" true, but not "more" false.
+        * That is, once the value is a false value, it will stop
+        * accepting "false" inputs */
+        setEditing: function (value) {
+            var old = this.is_editing;
+
+            this.is_editing = value;
+
+            if (this.is_editing != old) {
+                this.trigger("changed:editing");
+            }
+        },
+
+        addToSelected: function () {
+            this.trigger("add:to:selected");
+        },
+
+        /* called: when an editable is clicked */
+        /* notifies all the other editables in the layout
+        *  and gets them started
+        *  gives focus to the editable that was clicked */
+        startEditing: function ($target) {
+            this.setEditing(true);
+            /* tell all the other fields to start themselves */
+            this.trigger("start:editing");
+        },
+
+        /* when it is time for the row to stop being editable, we
+         * must either clean up, rollback, or save, based on external
+         * inputs and the state of the edits. */
+        finishEditing: function (e) {
+
+            // rollback if we aught to, or if there are no edits
+            if (e.restore || _.isEmpty(this.edits)) {
+
+                // if the model was new, we are done
+                if (this.model.get("new")) {
+                    this.model.set("new", false);
+                    this.close();
+                } else {
+                    this.trigger("rollback");
+                }
+
+                // TODO problem: we want to set new to false on the model before
+                // the observer of the is editing property sees the change
+                // that's why isEditing is called here, and called twice
+                this.setEditing(false);
+                return;
+            }
+
+            this.setEditing(false);
+
+            // otherwise, collect and save the updates
+            var update    = {
+                user_profile: this.edits
+            };
+
+            this.trigger("update:start"); // let everyone know we've started
+
+            // the updateSuccess callback needs to know the action
+            var action = this.model.get("new")? "create" : "update";
+            update_success = _.partial(this.updateSuccess, action);
+
+            this.model.save(update, {
+                error: this.flashError,
+                wait: true
+
+            }).success(update_success)
+              .error(this.updateError);
+
+            this.edits = {};
+        },
+
+        /* Callbacks: these are all bound to 'this' */
+
+        updateSuccess: function (action, response) {
+            response.action = action;
+
+            this.trigger("update:success", response);
+        },
+
+        updateError: function () {
+            this.trigger("update:error");
+        },
+
+        flashError: function (model, response) {
+            /* display a flash containing the error message */
+            GLOBAL.flash(response.responseJSON.errors.join("\n"), "alert");
         }
     });
 });

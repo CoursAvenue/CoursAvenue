@@ -7,6 +7,8 @@ CoursAvenue::Application.routes.draw do
   constraints subdomain: (Rails.env.staging? ? 'pro.staging' : 'pro') do
     namespace :pro, path: '' do
       root :to => 'home#index'
+      get 'pages/livres-blancs'                 => 'home#white_book',         as: 'pages_white_books'
+      get 'mailjet_custo'                       => 'home#mailjet_custo'
       get 'pages/pourquoi-etre-recommande'      => 'home#why_be_recommended', as: 'pages_why_be_recommended'
       get 'pages/presentation'                  => 'home#presentation'
       get 'pages/livre-d-or'                    => 'home#widget',             as: 'pages_widget'
@@ -24,6 +26,18 @@ CoursAvenue::Application.routes.draw do
       get 'tableau-de-bord'                          , to: 'redirect#structure_dashboard', as: 'structure_dashboard_redirect'
       get 'modifier-mon-profil'                      , to: 'redirect#structure_edit',      as: 'structure_edit_redirect'
 
+
+      resources :metrics, only: [] do
+        collection do
+          get :comments
+          get :jpos
+          get :admins_count
+          get :comments_count
+          get :jpo_courses_count
+          get :reco_count
+          get :users_count
+        end
+      end
       resources :click_logs, only: [:index]
 
       resources :comments, only: [:edit, :update, :index, :destroy] do
@@ -53,7 +67,7 @@ CoursAvenue::Application.routes.draw do
       resources :reservations, only: [:index]
       resources :invited_users, only: [:index]
       resources :sticker_demands, only: [:index]
-      resources :course_opens, only: [:index], controller: 'open_courses', as: :open_courses
+      resources :open_courses, only: [:index], controller: 'open_courses', as: :open_courses
       resources :structures, path: 'etablissements' do
         member do
           get   :add_subjects
@@ -62,8 +76,6 @@ CoursAvenue::Application.routes.draw do
           get   :wizard
           get   :signature
           get   :dashboard, path: 'tableau-de-bord'
-          patch :activate
-          patch :disable
           get   :recommendations, path: 'recommandations'
           post  :recommend_friends
           post  :update
@@ -76,6 +88,7 @@ CoursAvenue::Application.routes.draw do
           get :inscription, to: :new
         end
         devise_for :admins, controllers: { registrations: 'pro/admins/registrations'}, path: '/', path_names: { registration: 'rejoindre-coursavenue-pro', sign_up: '/' }
+        resources :participations, only: [:index], controller: 'structures/participations'
         resources :admins, controller: 'structures/admins' do
           member do
             get :notifications
@@ -91,6 +104,8 @@ CoursAvenue::Application.routes.draw do
         end
 
         resources :user_profiles, controller: 'structures/user_profiles', path: 'mes-eleves'
+        resources :bulk_user_profile_jobs, controller: 'structures/bulk_user_profile_jobs', path: 'bulk', only: [:create, :index, :new]
+        resources :tags, controller: 'structures/tags', path: 'tags'
         resources :user_profile_imports, only: [:new, :create], controller: 'structures/user_profile_imports', path: 'importer-mes-eleves' do
           member do
             get   :choose_headers
@@ -105,9 +120,11 @@ CoursAvenue::Application.routes.draw do
         resources :invited_students, only: [:index, :new], controller: 'structures/invited_students' do
           collection do
             post :bulk_create
+            post :bulk_create_jpo
+            get :jpo_new
+            get :jpo
           end
         end
-        # resources :invited_teachers, only: [:index], controller: 'structures/invited_teachers'
         resources :comment_notifications, controller: 'structures/comment_notifications'
         resources :comments, only: [:index], controller: 'structures/comments' do
           member do
@@ -134,26 +151,25 @@ CoursAvenue::Application.routes.draw do
 
         resources :messages     , controller: 'structures/messages'
         resources :conversations, controller: 'structures/conversations'
-        resources :courses, only: [:index, :new, :create], path: 'cours'#, controller: 'structures/courses' # To insure to have the structure_id
-        resources :course_opens, path: 'journees-portes-ouvertes', controller: 'structures/open_courses'
-      end
-      resources :courses, except: [:new, :create], path: 'cours' do
-        member do
-          post 'duplicate'
-          post 'copy_prices_from'
-        end
-        resources :plannings, controller: 'courses/plannings' do
+        resources :courses, path: 'cours', controller: 'structures/courses' do
           member do
             post 'duplicate'
+            post 'copy_prices_from'
+          end
+          resources :plannings, controller: 'structures/courses/plannings' do
+            member do
+              post 'duplicate'
+            end
+          end
+          resources :prices, only: [:index]
+          resources :book_tickets, only: [:edit, :index, :destroy]
+          member do
+            patch 'update_price'
+            patch 'activate'
+            patch 'disable'
           end
         end
-        resources :prices, only: [:index]
-        resources :book_tickets, only: [:edit, :index, :destroy]
-        member do
-          patch 'update_price'
-          patch 'activate'
-          patch 'disable'
-        end
+        resources :course_opens, path: 'journees-portes-ouvertes', controller: 'structures/open_courses'
       end
 
       resources :users                , only: [:index]
@@ -186,10 +202,12 @@ CoursAvenue::Application.routes.draw do
                       confirmation: 'verification'}
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
     collection do
+      get :invite_entourage_to_jpo_page , path: 'inviter-mes-amis'
       get 'unsubscribe/:signature' => 'users#unsubscribe', as: 'unsubscribe'
       get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
     end
     member do
+      get  :wizard
       get  :dashboard
       get  :choose_password
       get  :notifications
@@ -198,13 +216,16 @@ CoursAvenue::Application.routes.draw do
     resources :invited_users, only: [:index, :new], controller: 'users/invited_users' do
       collection do
         post :bulk_create
+        post :bulk_create_jpo
+        get :jpo_new
+        get :jpo
       end
     end
     resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
     resources :messages     , controller: 'users/messages'
     resources :conversations, controller: 'users/conversations'
     resources :passions, only: [:index, :destroy], controller: 'users/passions'
-    resources :participations, only: [:index], controller: 'users/participations'
+    resources :participations, only: [:index, :destroy], controller: 'users/participations'
   end
   resources :emails, only: [:create]
 
@@ -214,7 +235,7 @@ CoursAvenue::Application.routes.draw do
 
 
   resources :plannings, only: [] do
-    resources :participations, only: [:create, :destroy], controller: 'plannings/participations'
+    resources :participations, only: [:new, :create], controller: 'plannings/participations'
   end
   resources :locations, only: [:index]
 
@@ -225,6 +246,9 @@ CoursAvenue::Application.routes.draw do
   resources :open_courses, path: 'journees-portes-ouvertes', only: [:index], controller: 'open_doors'
 
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
+    member do
+      get :jpo, path: 'journees-portes-ouvertes'
+    end
     collection do
       post :recommendation
     end
@@ -253,6 +277,9 @@ CoursAvenue::Application.routes.draw do
   ########### Vertical pages ###########
 
   resources :cities, only: [:show], path: 'tous-les-cours-a' do
+    collection do
+      get :zip_code_search
+    end
     resources :subjects, only: [:show], path: 'disciplines', controller: 'cities/subjects'
   end
 
@@ -297,6 +324,7 @@ CoursAvenue::Application.routes.draw do
   # ------------------------------------------------------
   # Pages
   get 'pages/pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
+  get 'pages/journees-portes-ouvertes'      => 'pages#jpo',                  as: 'pages_jpo'
   get 'pages/pourquoi-coursavenue'          => 'pages#why',                  as: 'pages_why'
   get 'pages/comment-ca-marche'             => 'pages#how_it_works',         as: 'pages_how_it_works'
   get 'pages/faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'

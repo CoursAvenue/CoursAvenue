@@ -1,15 +1,36 @@
 
 <div class="grid--full">
     <div class="grid__item v-middle one-fifth">
-        <strong class="gray">Date</strong>
+        <strong class="gray">Date et heure</strong>
     </div><!--
 --><div class="grid__item v-middle four-fifths">
-        <div class="btn-group" data-toggle="buttons"><!--
-        --><% I18n.t('date.day_names').rotate[-2,3].each_with_index do |day, index| %><!--
+      <div class="inline-block">
+          <div class="btn-group" data-toggle="buttons"><!--
              --><label class="btn">
-                    <input type="checkbox" name="week_days[]" value="<%= (index == 6  ? 0 : index + 1) %>"><%= day.capitalize %>
+                    <input type="checkbox" name="week_days[]" value="6">Samedi 5 avril
                 </label><!--
-        --><% end %><!--
-    --></div>
+             --><label class="btn">
+                    <input type="checkbox" name="week_days[]" value="0">Dimanche 6 avril
+                </label><!--
+        --></div>
+        </div>
+        <div data-type="time" class="inline-block v-middle">
+            <select>
+                <option value="all-day">Toute la journée</option>
+                <% Planning::TIME_SLOTS.each do |key, value| %>
+                    <option value="<%= value[:start_time] %>-<%= value[:end_time] %>"><%= I18n.t(value[:name]) %></option>
+                <% end %>
+                <option value="choose-slot">Creneau précis</option>
+            </select>
+        </div>
+        <div data-type="hour-range" class="inline-block v-middle">
+            de
+            <select id="start-hour">
+            </select>
+            à
+            <select id="end-hour">
+            </select>
+        </div>
+
     </div>
 </div>

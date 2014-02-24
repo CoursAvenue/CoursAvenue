@@ -1,7 +1,19 @@
 Backbone.Marionette.Renderer.render = function(template, data){
+    var rendered;
+
+    // if the template is blank, then we just want "render nothing"
     if (template === "") return "";
-    if (!JST[template]) throw "Template '" + template + "' not found!";
-    return JST[template](data);
+
+    // otherwise, if we can't find the template in our JST
+    if (!JST[template]) {
+        if (_.isFunction(template)) { // it may be a compiled HBS function
+            rendered = template(data);
+        } else {
+            throw "Template '" + template + "' not found!";
+        }
+    }
+
+    return rendered || JST[template](data);
 }
 
 var _module = Marionette.Module;
@@ -238,6 +250,7 @@ _.extend(Marionette.Application.prototype, {
         new_app.slug     = slug;
         new_app.resource = resource;
 
+        // We may need to loop through all regions
         delete new_app.mainRegion;
 
         /* walk breadth first through the submodules tree, ensuring that their
@@ -245,7 +258,7 @@ _.extend(Marionette.Application.prototype, {
         var modules = _.values(new_app.submodules);
         var i;
 
-        for (i = 0; i < modules.length; i++) {
+        for (i = 0; i < modules.length; i += 1) {
             var module = modules[i];
             module.app = new_app;
 
@@ -265,6 +278,8 @@ _.extend(Marionette.Application.prototype, {
         var templates = _.reduce(_.keys(JST), function (memo, key) {
             var key_parts = key.split(template_dirname);
 
+            // 'backbone/open_doors/templates/template_name'.split('backbone/open_doors/templates/')
+            // returns ['', 'template_name']
             if (key_parts.length > 1) {
                 memo.push(_.last(key_parts));
             }
@@ -275,11 +290,34 @@ _.extend(Marionette.Application.prototype, {
         // for each of the matching templates,
         // extend the corresponding view in place
         _.each(templates, function (template) {
-            var module_path = _.map(template.split('/'), _.camelize);
-            var view_name   = module_path.pop();
+            var module_path  = _.map(template.split('/'), _.camelize);
+            var view_name    = module_path.pop();
+            var parent_views = [];
 
             var module = _.reduce(module_path, function (module, submodule) {
                 module = module[submodule];
+
+                // Looking for SomethingCollectionView to be able to override a
+                // template without reimplementing its view.js
+                var views = _.filter(_.keys(module), function (key) {
+                    // if it is a SomethingView
+                    if (key.match(/^[A-Z].*View$/)) {
+
+                        var view = module[key];
+
+                        // and it is a collection (ie has an itemview)
+                        if (view.prototype.itemView) {
+                            var itemview_template = view.prototype.itemView.prototype.template;
+
+                            // and the itemview's template matches our template
+                            if (itemview_template.match(template)) {
+                                parent_views.push({ module: module, key: key }); // make a note
+                            }
+                        }
+                    }
+
+                    return;
+                });
 
                 return module;
             }, new_app.Views);
@@ -287,6 +325,15 @@ _.extend(Marionette.Application.prototype, {
             // extend the view in place with our dirname
             module[view_name] = module[view_name].extend({
                 template: template_dirname + template
+            });
+
+            _.each(parent_views, function (pair) {
+                var parent_module = pair.module;
+                var key           = pair.key;
+
+                parent_module[key] = parent_module[key].extend({
+                    itemView: module[view_name]
+                });
             });
         });
 

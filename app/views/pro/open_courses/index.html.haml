@@ -1,22 +1,70 @@
 = side_menu_currently_at 'JPO'
 
+.text--center
+  .inline-block.one-quarter.push--bottom.v-middle.push--sides
+    .white-box.soft-half.text--center
+      %h3.flush= "#{Course::Open.count} atelier JPOs"
+      %h6.flush dont #{Course::Open.where{created_at > Date.today}.count} aujourd'hui
+      %div et #{Course::Open.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
+
+  .inline-block.one-quarter.push--bottom.v-middle.push--sides
+    .white-box.soft-half.text--center
+      %h3.flush
+        = Course::Open.all.map{|course| course.nb_participants_max * course.plannings.count}.reduce(&:+)
+        places
+
+
 %table.table--striped.dataTable.table--data.white-box.flush--bottom
   %thead
     %tr
+      %th
       %th Nom de l'établissement
       %th Nom du cours
       %th Type
+      %th Public
       %th Discipline
+      %th.text--center Places
       %th Prix
+      %th Follow up
   %tbody
     - @courses.each do |course|
       %tr
+        %td
+          - if course.active
+            = link_to disable_pro_structure_course_path(course.structure, course), remote: true, method: :patch, title: 'Enlever le cours de CoursAvenue' do
+              %i.fa.fa-check.green
+          - else
+            = link_to activate_pro_structure_course_path(course.structure, course), remote: true, method: :patch, title: 'Afficher le cours sur CoursAvenue'  do
+              %i.fa.fa-times.red
+
         %td= link_to course.structure.name, pro_structure_course_opens_path(course.structure)
         %td= course.name
         %td= course.event_type
+        %td= course.plannings.map{ |planning| join_audiences(planning) }.uniq.join(', ')
         %td= course.subjects.map(&:name).join(',')
+        %td.text--center.nowrap
+          = course.plannings.count
+          \-
+          = course.nb_participants_max * course.plannings.count
         %td
-          - if course.price
-            = "#{readable_amount(course.price)}€"
-          - else
+          - if course.free?
             Gratuit
+          - else
+            = "#{readable_amount(course.price)}€"
+        %td
+          = simple_form_for [:pro, course], url: pro_structure_course_path(course.structure, course), as: :course, remote: true do |f|
+            = f.input :ca_follow_up, label: false, input_html: { style: 'font-size: 11px; width: 10em; height: 4em;' }
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('[data-method="patch"]').bind('ajax:complete', function() {
+            $(this).find('i').toggleClass('fa-times fa-check green red');
+            GLOBAL.flash('Cours mis à jour')
+        });
+        $('form').change(function() {
+            $(this).submit().on('ajax:success', function() {
+                GLOBAL.flash('Follow up enregistré')
+            });
+        });
+    })

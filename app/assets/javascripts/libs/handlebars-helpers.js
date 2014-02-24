@@ -9,12 +9,13 @@
 
 // usage: {{pluralize collection.length 'quiz' 'quizzes'}}
 Handlebars.registerHelper('pluralize', function(number, single, plural) {
-    return (number === 1) ? single : plural;
+    return ((number === 1 || number === '1') ? single : plural);
 });
 
 
 // usage: {{truncate 'my long text' length}}
 Handlebars.registerHelper('truncate', function(text, length) {
+    if (!text) { return ''; }
     if (text.length < length) {
         return text;
     } else {
@@ -22,7 +23,7 @@ Handlebars.registerHelper('truncate', function(text, length) {
     }
 });
 
-// usage: {{truncate 'my long text' length}}
+// usage: {{highlight 'all the text' 'word to highlight' length_of_the_truncated_text}}
 Handlebars.registerHelper('highlight', function(text, highlight_word, length) {
     highlight_word = GLOBAL.normalizeAccents(highlight_word);
     text           = GLOBAL.normalizeAccents(text);
@@ -59,6 +60,8 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
             return (v1 > v2) ? options.fn(this) : options.inverse(this);
         case '>=':
             return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        case '!=':
+            return (v1 != v2) ? options.fn(this) : options.inverse(this);
         default:
             return options.inverse(this);
     }

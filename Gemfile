@@ -3,13 +3,15 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.3'
 
 gem 'filepicker-rails'
 
 # Webserver
-gem 'unicorn'
+# gem 'unicorn'
 # gem 'puma'
+gem 'passenger'
+
 # Database
 gem 'pg'
 
@@ -34,6 +36,7 @@ gem 'rack-cors',           require: 'rack/cors'
 
 # Formats numbers and prices regarding the locale
 # TODO Fix this gem
+# The gem is not ready yet for Rails 4.
 # gem 'delocalize', '~>0.3.2'
 
 # Caching
@@ -87,7 +90,7 @@ gem 'inherited_resources'       , '~>1.3.1'
 gem 'mailboxer'                 , '~> 0.11.0'
 
 # For authorizations
-gem 'cancan'                    , '~>1.6.9'
+gem 'cancan'                    , '~>1.6.10'
 # For authentication
 gem 'devise'                    , '~>3.2.2'
 # Facebook connect
@@ -107,7 +110,7 @@ gem 'truncate_html'             , '~>0.9.2'
 
 # Add taggable behavior to models
 # https://github.com/mbleigh/acts-as-taggable-on
-gem 'acts-as-taggable-on'       , '~>2.4.1'
+gem 'acts-as-taggable-on'       , '~>3.0.1'
 
 # Prevent from real deletion
 # acts_as_paranoid
@@ -134,7 +137,7 @@ gem 'sass-rails'                , '~>4.0.1'
 gem 'haml'                      , '~>4.0.3'
 gem 'uglifier'                  , '>= 1.0.3'
 gem 'coffee-rails'              , '~>4.0.0'
-# gem 'js-routes'                 , '~>0.9.3'
+gem 'js-routes'                 , '~>0.9.7'
 
 # Load FontAwesome
 gem 'font-awesome-rails'        , '~>4.0.3.1'
@@ -153,10 +156,14 @@ gem 'jquery-turbolinks'
 # For uploading to amazon CDN
 gem 'aws-sdk'                   , '~>1.21.0'
 
+# Roo implements read access for all spreadsheet
 gem 'roo'                   , '~>1.12.2'
 
+# Rack::UTF8Sanitizer is a Rack middleware which cleans up invalid UTF8 characters in request URI and headers.
+# https://github.com/whitequark/rack-utf8_sanitizer
+gem 'rack-utf8_sanitizer'
+
 group :production, :staging do
-  # gem 'therubyracer'
   gem 'execjs'
   gem 'rails_12factor'
   # Sync assets to S3 and CloudFront

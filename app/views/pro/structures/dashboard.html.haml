@@ -8,7 +8,7 @@
     - if @wizard.show_save
       %span.btn.btn--green#save-wizard Enregistrer
     %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
-  = render 'wizards/share_your_profile'
+  = render 'pro/structures/wizards/share_your_profile'
 
 .white-box.push--bottom
   .grid
@@ -51,7 +51,7 @@
                 %i.fa.fa-square-o
                 Mettre en ligne les photos et vidéos de mes cours
           %li
-            - if @structure.courses.active.count > 0
+            - if @structure.courses.without_open_courses.active.count > 0
               %i.fa.fa-check-square-o
               %span.line-through--gray Renseigner mes cours et mon planning
             - else
@@ -190,13 +190,13 @@
         %tr
           %td.text--center
             - if course.active
-              = link_to disable_pro_course_path(course), method: :patch, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
+              = link_to disable_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
                 Visible
             - else
-              = link_to activate_pro_course_path(course), method: :patch, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
+              = link_to activate_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
                 Non&nbsp;visible
           %td
-            %h3.base-font-style.flush--bottom= link_to course.name.capitalize, edit_pro_course_path(course)
+            %h3.base-font-style.flush--bottom= link_to course.name.capitalize, edit_pro_structure_course_path(@structure, course)
           %td.text--center
             %ul.nav.flush--bottom
               = join_course_subjects course
@@ -242,7 +242,7 @@
         });
         $('#profile-progress-bar').animate({
             width: '#{@profile_percentage}%'
-        }, 800)
+        }, 800);
         setTimeout(function() {
             if ($('#wizard').length > 0) {
                 $('#wizard').slideDown();
@@ -274,17 +274,14 @@
                             send_ajax()
                         }
                     });
-                    mixpanel.track('Wizard next');
                     return false;
                 };
                 $('#save-wizard').click(submit_form);
                 $('#skip-wizard').click(function(){
                     var wizard_label = $('#wizard form label').text();
                     send_ajax({next:true});
-                    mixpanel.track('Skip wizard', {name: wizard_label});
                 });
                 $('#close-wizard').click(function() {
-                    mixpanel.track('Quit wizard');
                 });
             }
         }, 1000);

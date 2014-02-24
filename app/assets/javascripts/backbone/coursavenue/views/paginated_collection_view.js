@@ -68,6 +68,7 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             /* since we are changing the query, we need to reset
             *  the collection, or else some elements will be in the wrong order */
             /* however, if we reset it here the results will appear to "vanish" and re-appear */
+            // TODO this problem has re-appeared in the usermanagement app
             this.collection.setQuery(filters);
 
             /* we are updating from the location filter */
@@ -98,9 +99,14 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
             return this.changePage(page);
         },
 
-        changePage: function (page) {
-            if (page == this.collection.currentPage) { return false };
+        refreshPage: function (e) {
+            return this.changePage(this.collection.currentPage, { force: true });
+        },
 
+        changePage: function (page, options) {
+            // normally we won't want to change to the current page
+            // so we require a force option to be true
+            if (page == this.collection.currentPage && !(options && options.force)) { return false };
             var self = this;
 
             self.trigger('paginator:updating', this);

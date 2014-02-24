@@ -3,10 +3,13 @@ class UserAbility
 
   def initialize(current_user)
     if current_user
-      can :manage, current_user.comments
       can :manage, current_user
+      can :manage, current_user.participations
+      can :manage, current_user.comment_notifications
+      can :manage, current_user.passions
+      can :manage, current_user.comments
+      can :manage, current_user.invited_users
     end
-
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

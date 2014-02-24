@@ -35,12 +35,27 @@
               Choisir mon logo
             .visuallyhidden= structure_form.input :logo, label: false, input_html: {id: 'logo-input'}
 
-          %p.field-form-info.blue
+          %p.field-form-info.blue.flush
             Ce logo apparaîtra dans les résultats de recherche.
             %br
             = t('structures.accepted_image_formats')
     - else
       %p.alert--error Vous devez choisir une sous discipline pour mettre un logo.
+
+    %h5.form-header-group#informations
+      %i.fa.fa-tags
+      Étiquettes de disciplines
+    .form-white-box.push--bottom
+      %div{data: {behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects'}}
+        = structure_form.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', id: 'parent-subjects', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
+
+        #descendants-subjects
+          .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}
+            %label.control-label Sous disciplines
+            %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}},
+      - if @structure.errors[:children_subjects].present?
+        %p.error= @structure.errors[:children_subjects].to_sentence
+      %p.flush.field-form-info.blue Ces étiquettes de disciplines nous permettent de mieux vous catégoriser dans notre moteur de recherche. Néanmoins, une fois votre planning renseigné dans la rubrique "Mes cours", les intitulés de vos cours seront pris en compte en priorité, car ils seront plus précis.
 
     %h5.form-header-group#informations
       %i.lbc-icon-info i
@@ -51,19 +66,10 @@
       = structure_form.input :website, placeholder: 'Ex : http://www.je-danse-a-paris.com'
       = structure_form.input :facebook_url, as: :string, wrapper_html: {class: 'flush--bottom'}, placeholder: 'Ex. : https://www.facebook.com/CoursAvenue'
 
-      %div{data: {behavior: 'parent-descendant-subjects', 'parent-select' => '#parent-subjects', 'descendant-select' => '#subject-descendants-select', 'descendant-select-wrapper' => '#descendants-subjects'}}
-        = structure_form.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', id: 'parent-subjects', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
-
-        #descendants-subjects
-          .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}
-            %label.control-label Sous disciplines
-            %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}},
-      - if @structure.errors[:children_subjects].present?
-        %p.error= @structure.errors[:children_subjects].to_sentence
 
       = structure_form.input :structure_type, collection: Structure::STRUCTURE_TYPES.map{|structure_type| [ t(structure_type), structure_type]}, input_html: {style: 'max-width: 29em;'}
 
-      = structure_form.input :funding_types, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: {style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id)
+      = structure_form.input :funding_type_ids, as: :select, collection: FundingType.all.map{|funding_type| [ t(funding_type.name), funding_type.id]}, input_html: {style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Sélectionnez un ou plusieurs choix'}}, selected: @structure.funding_types.map(&:id)
 
       = structure_form.input :teaches_at_home, as: :select, include_blank: false
       #teaches-at-home-radius{class: @structure.teaches_at_home ? '' : 'hidden'}

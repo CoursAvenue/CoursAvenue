@@ -4,7 +4,7 @@ OpenDoorsSearch.module('Views.StructuresCollection.Structure', function(Module, 
     Module.StructureView = FilteredSearch.Views.StructuresCollection.Structure.StructureView.extend({
 
         ui: {
-            '$open_doors_button': '[data-type=open-doors-button]'
+            '$open_doors_button': '[data-type="open-doors-button"]'
         },
 
         events: {
@@ -16,16 +16,12 @@ OpenDoorsSearch.module('Views.StructuresCollection.Structure', function(Module, 
 
         delegateMouseEnter: function () {
             this.highlightStructure();
-            this.toggleOpenDoorsButton();
+            this.ui.$open_doors_button.fadeIn('fast');
         },
 
         delegateMouseLeave: function () {
             this.unhighlightStructure();
-            this.toggleOpenDoorsButton();
-        },
-
-        toggleOpenDoorsButton: function () {
-            this.ui.$open_doors_button.toggleClass("inline-block");
+            this.ui.$open_doors_button.fadeOut('fast');
         }
     });
 });

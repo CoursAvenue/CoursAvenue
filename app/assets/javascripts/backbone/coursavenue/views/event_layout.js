@@ -1,8 +1,31 @@
 CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
 
     Module.EventLayout = Backbone.Marionette.Layout.extend({
-        constructor: function() {
+        constructor: function(options) {
+            /* NORMALLY events passed in as options to the constructor override
+            * those set on the class. We haven't been using the options has that
+            * way, and in particular for EventLayout this is a detriment. We
+            * want to be able to:
+            *
+            *  - extend EventLayout, and include an events hash
+            *  - define events as options and pass them in to the constructor
+            *
+            * Hence we extend this.events with options.events
+            *
+            * see userProfileView's events hash, and then
+            * the events hash in UserProfilesCollectionView
+            * which is used to set up the layout */
+
+            var layout_events;
+
+            if (options) {
+                layout_events = options.events;
+                delete options.events; // we need Backbone to never see this...
+            }
+
+            // OK _now_ call the constructor
             Marionette.Layout.prototype.constructor.apply(this, arguments);
+
             var self = this;
             /* this should listen to events from all its regions */
             _.each(_.keys(this.regions), function(region_name) {
@@ -11,9 +34,21 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
                 self.listenTo(self[region_name], 'show', self['on' + name + 'Show']);
             });
 
+            // finally, bind the layout_events if they exist
+            if (layout_events) {
+                Marionette.bindEntityEvents(this, this, layout_events);
+            }
+
+            /* click outside events are not broadcast so they must be
+             * subscribed to with 'on' when the relevant view is initialized */
             $(document).on('click', function (e) {
                 _.each(_.keys(self.regionManager._regions), function (key) {
-                    if (self[key].currentView) {
+                    var view = self[key].currentView;
+                    var target_exists = $(document).find(e.target).length > 0; // is the target in the DOM
+
+                    // if there is such a view, and there is such an element
+                    // and if the element is not in the view
+                    if (view && target_exists && view.$el.find(e.target).length === 0) {
                         self[key].currentView.triggerMethod('click:outside', e);
                     }
                 });
@@ -127,6 +162,10 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         /* any events that come from the results region will be
         * triggered again from the layout */
         broadcast: function(e, params) {
+            if (e === "click:outside") {
+                return;
+            }
+
             this.trigger(e, params);
         }
     });

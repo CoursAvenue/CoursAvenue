@@ -105,7 +105,4 @@
         $('#structure_street').blur(function() {
             $.cookie('street', $(this).val());
         });
-        $('.comment-list__el a').click(function() {
-          mixpanel.track('Has seen comments example');
-        })
     });

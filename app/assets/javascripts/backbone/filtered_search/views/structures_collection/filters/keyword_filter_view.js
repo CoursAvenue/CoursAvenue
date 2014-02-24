@@ -18,8 +18,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         events: {
             'typeahead:selected #search-input': 'announce',
-            // Use keydown instead of keypress to handle the case when the user empties the input
-            'keydown #search-input':            'announce'
+            // Use keyup instead of keypress to handle the case when the user empties the input
+            'keyup #search-input':              'announce'
         },
 
         announce: function (event, data) {

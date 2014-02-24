@@ -4,13 +4,20 @@
 
 %div.push-half--bottom
   %h3.inline-block.flush.v-middle Journées Portes Ouvertes du week-end du 5 et 6 avril 2014
-  .inline-block.v-middle= link_to "En savoir plus", pro_pages_jpo_path, target: :_blank, class: 'btn push-half--left'
+  .inline-block.v-middle.soft-half--left.bold
+    = link_to pro_pages_jpo_path, target: :_blank do
+      %i.lbc-icon-info i
+      En savoir plus
 
 %p.alert.alert--info
   %strong Note importante :
-  renseignez vos ateliers avant le 04/02/14 et faites partie de nos 1ères campagnes de communication. Nous vous enverrons un mail pour vous annoncer l'ouverture des inscriptions à vos ateliers (nos pages dédiées à l'événement seront visibles début février). Vous pourrez gérer toutes vos inscriptions et communiquer librement avec tous les élèves participants.
+  renseignez vos ateliers avant le 24/02/14 et faites partie de nos 1ères campagnes de communication. Nous vous enverrons un mail pour vous annoncer l'ouverture des inscriptions à vos ateliers (nos pages dédiées à l'événement seront visibles début février). Vous pourrez gérer toutes vos inscriptions et communiquer librement avec tous les élèves participants.
 
-%h4.push-half--bottom Ateliers proposés
+.push-half--bottom
+  %h4.inline-block.v-middle.flush--bottom.push-half--right Ateliers proposés
+  = link_to jpo_new_pro_structure_invited_students_path(@structure), class: 'btn btn--small btn--blue v-middle' do
+    %i.fa.fa-bullhorn
+    Inviter mon réseau
 
 - if @courses.empty?
   %p.white-box.islet
@@ -23,15 +30,34 @@
       = "(#{course.event_type_description})"
     - elsif course.event_type.present?
       = "(#{course.event_type})"
+    - if course.info.present?
+      .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
+        %i.lbc-icon-info
+          i
+        Infos pratiques
     .float--right
-      = link_to edit_pro_structure_course_open_path(@structure, course) do
-        %i.fa.fa-pencil
-        Modifier
-      \/
-      = link_to pro_structure_course_open_path(@structure, course), class: 'red', method: :delete do
-        %i.fa.fa-times
-        Supprimer
-    - if course.plannings.order('start_date ASC, start_time ASC').any?
+      - if course.participations.not_canceled.any?
+        = link_to '#cannot-modify', data: { behavior: 'modal' } do
+          %i.fa.fa-pencil
+          Modifier
+        \/
+        = link_to '#cannot-modify', class: 'red', data: { behavior: 'modal' } do
+          %i.fa.fa-times
+          Supprimer
+      - else
+        = link_to edit_pro_structure_course_open_path(@structure, course) do
+          %i.fa.fa-pencil
+          Modifier
+        \/
+        = link_to pro_structure_course_open_path(@structure, course), class: 'red', method: :delete do
+          %i.fa.fa-times
+          Supprimer
+    %p.gray.milli
+      %i.fa.fa-tags
+      = course.subjects.map(&:name).join(', ')
+    = simple_format course.description
+
+    - if course.plannings.any?
       %table.table--data.table--striped
         %thead
           %tr
@@ -39,24 +65,27 @@
             %th Public
             %th Niveau
             %th Lieux
-            %th Nombre d'inscrits
+            %th
+              Inscriptions
+              %br
+              = link_to '(voir mes inscrits)', pro_structure_participations_path(@structure), class: 'nowrap'
             %th
         %tbody
-          - course.plannings.each do |planning|
+          - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
             %tr
               %td
-                = l(planning.start_date, format: :semi_long).capitalize
-                = "de #{l(planning.start_time, format: :short)} à #{l(planning.end_time, format: :short)} (#{readable_duration(planning.duration)})"
+                = planning_date_for(planning).capitalize
+                = planning_time_for(planning)
               %td= join_audiences planning
               %td= join_levels planning.levels
               %td= planning.place.location.name
-              %td
-                - if planning.possible_participations.any?
-                  .progress.flush
-                    .bar.bar-success{style: "width: #{(planning.possible_participations.length * 100) / planning.nb_participants_max}%;"}
-                      #{planning.possible_participations.length} / #{planning.nb_participants_max}
+              %td.text--center
+                - if planning.nb_jpo_participants > 0
+                  = link_to pro_structure_participations_path(@structure), class: 'progress flush block' do
+                    .bar.bar-success{style: "width: #{(planning.nb_jpo_participants * 100) / planning.nb_participants_max}%;"}
+                      #{planning.nb_jpo_participants} / #{planning.nb_participants_max}
                 - else
-                  Aucun inscrit
+                  0 / #{course.nb_participants_max}
                 - if planning.waiting_list.any?
                   %div
                     %strong Liste d'attente
@@ -70,26 +99,41 @@
                     %i.fa.fa-chevron-down
                   %ul.drop-down__el.text--left
                     %li.nowrap
-                      = link_to edit_pro_course_planning_path(course, planning), title: 'Modifier le créneau', data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax' do
-                        %i.fa.fa-pencil
-                        Modifier le créneau
+                      - if planning.participations.not_canceled.any?
+                        = link_to '#cannot-modify', title: 'Modifier le créneau', data: { behavior: 'modal' } do
+                          %i.fa.fa-pencil
+                          Modifier le créneau
+                      - else
+                        = link_to edit_pro_structure_course_planning_path(@structure, course, planning), title: 'Modifier le créneau', data: {behavior: 'modal', width: '780'}, class: 'fancybox.ajax' do
+                          %i.fa.fa-pencil
+                          Modifier le créneau
                     %li.nowrap
-                      = link_to pro_course_planning_path(course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer le créneau' do
-                        %i.fa.fa-trash-o
-                        Supprimer
+                      - if planning.participations.not_canceled.any?
+                        = link_to '#cannot-modify', title: 'Supprimer le créneau', data: { behavior: 'modal' } do
+                          %i.fa.fa-trash-o
+                          Supprimer
+                      - else
+                        = link_to pro_structure_course_planning_path(@structure, course, planning), method: 'delete', confirm: 'Êtes-vous bien sûr de supprimer ce planning ?', title: 'Supprimer le créneau' do
+                          %i.fa.fa-trash-o
+                          Supprimer
 
 
     %p.push-half--top
-      = link_to new_pro_course_planning_path(course), title: "Ajouter un créneau pour l'atelier : #{course.name}", data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--blue btn--small add-planning' do
+      = link_to new_pro_structure_course_planning_path(@structure, course), title: "Ajouter un créneau pour l'atelier : #{course.name}", data: {behavior: 'modal', width: 780}, class: 'fancybox.ajax btn btn--blue btn--small add-planning' do
         %i.fa.fa-plus.soft-half--right
         Ajouter un créneau
 
 .text--center.push--bottom
   = link_to 'Ajouter un atelier', new_pro_structure_course_open_path(@structure), class: 'btn btn--green btn--large'
 
-- if @courses.length == 1 and @courses.first.plannings.empty?
+#cannot-modify.hidden
+  .text--center
+    %h4 Vous ne pouvez pas modifier cet atelier car vous avez des participants inscrits
+    = link_to "Contacter l'équipe CoursAvenue pour une modification", pages_contact_url(subdomain: 'www'), class: 'btn btn--green', target: :_blank
+
+- if @courses.last and @courses.last.plannings.empty?
   = content_for :scripts do
     :javascript
       $(function() {
-          $('.add-planning').click();
+          $('.add-planning').last().click();
       });

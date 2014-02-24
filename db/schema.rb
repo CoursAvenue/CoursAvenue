@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140129093528) do
+ActiveRecord::Schema.define(version: 20140222174516) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -207,6 +207,8 @@ ActiveRecord::Schema.define(version: 20140129093528) do
     t.string   "event_type_description"
     t.float    "price"
     t.integer  "nb_participants_min"
+    t.text     "ca_follow_up"
+    t.float    "common_price"
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
@@ -273,6 +275,8 @@ ActiveRecord::Schema.define(version: 20140129093528) do
     t.string   "type"
     t.text     "email_text"
     t.string   "referrer_type"
+    t.string   "for"
+    t.hstore   "meta_data"
   end
 
   create_table "keywords", force: true do |t|
@@ -359,6 +363,9 @@ ActiveRecord::Schema.define(version: 20140129093528) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.time     "deleted_at"
+    t.boolean  "waiting_list",      default: false
+    t.datetime "canceled_at"
+    t.string   "participation_for"
   end
 
   add_index "participations", ["planning_id", "user_id"], name: "index_participations_on_planning_id_and_user_id", using: :btree
@@ -380,6 +387,7 @@ ActiveRecord::Schema.define(version: 20140129093528) do
     t.integer "structure_id"
     t.text    "info"
     t.time    "deleted_at"
+    t.text    "private_info"
   end
 
   add_index "places", ["location_id", "structure_id"], name: "index_places_on_location_id_and_structure_id", using: :btree
@@ -399,7 +407,6 @@ ActiveRecord::Schema.define(version: 20140129093528) do
     t.time     "end_time"
     t.boolean  "class_during_holidays"
     t.decimal  "promotion"
-    t.integer  "nb_place_available"
     t.text     "info"
     t.integer  "max_age_for_kid"
     t.integer  "min_age_for_kid"

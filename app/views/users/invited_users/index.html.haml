@@ -12,8 +12,8 @@
   %tbody
     - @invited_users.each do |invited_user|
       %tr
-        %th= invited_user.email
-        %th
+        %td= invited_user.email
+        %td
           - if invited_user.registered?
             %i.fa.fa-check
 

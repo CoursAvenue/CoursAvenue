@@ -1,0 +1,25 @@
+= side_menu_currently_at 'Mes élèves'
+
+= render partial: 'pro/structures/user_profiles/tabs', locals: { current: 'tags' }
+
+.text--center.push--bottom
+  = link_to 'Ajouter un tag', new_pro_structure_tag_path(@structure), class: 'btn btn--green fancybox.ajax', data: { behavior: 'modal' }
+
+%table.table--data.table--striped.white-box
+  %thead
+    %tr
+      %th Nom du tag
+      %th Nombre d'élèves taggé
+      %th
+  %tbody
+    - @tags.each do |tag|
+      %tr
+        %td= tag.name
+        %td= @structure.user_profiles.tagged_with(tag.name, match_all: false).count
+        %td.text--right
+          = link_to edit_pro_structure_tag_path(@structure, tag), class: 'btn btn--small btn--orange fancybox.ajax', data: { behavior: 'modal' } do
+            %i.fa.fa-pencil
+            Éditer
+          = link_to pro_structure_tag_path(@structure, tag), class: 'btn btn--small btn--red', method: :delete do
+            %i.fa.fa-trash-o
+            Supprimer

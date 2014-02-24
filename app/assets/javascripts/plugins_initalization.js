@@ -11,25 +11,28 @@ $(function() {
                              }});
     };
     global.initialize_fancy($('[data-behavior="fancy"]'));
-    $("[data-behavior=modal]").each(function() {
-        var width  = $(this).data('width') || 'auto';
-        var height = $(this).data('height') || 'auto';
-        $(this).fancybox({
-                openSpeed   : 300,
-                maxWidth    : 800,
-                maxHeight   : 500,
-                fitToView   : false,
-                width       : width,
-                height      : height,
-                autoSize    : false,
-                autoResize  : true,
-                ajax        : {
-                    complete: function(){
-                        $.each(global.initialize_callbacks, function(i, func) { func(); });
+    global.modal_initializer = function modal_initializer () {
+        $("[data-behavior=modal]").each(function() {
+            var width  = $(this).data('width') || 'auto';
+            var height = $(this).data('height') || 'auto';
+            $(this).fancybox({
+                    openSpeed   : 300,
+                    maxWidth    : 800,
+                    maxHeight   : 500,
+                    fitToView   : false,
+                    width       : width,
+                    height      : height,
+                    autoSize    : false,
+                    autoResize  : true,
+                    ajax        : {
+                        complete: function(){
+                            $.each(global.initialize_callbacks, function(i, func) { func(); });
+                        }
                     }
-                }
+            });
         });
-    });
+    }
+    global.modal_initializer();
     var datepicker_initializer = function() {
         $('[data-behavior=datepicker]').each(function() {
             $(this).datepicker({

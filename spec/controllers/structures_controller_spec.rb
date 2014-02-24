@@ -49,7 +49,7 @@ describe StructuresController do
 
       result = JSON.parse(response.body)
       result.keys.should include('meta')
-      assigns(:structure_search).total.should eq(result['meta']['total'])
+      assigns(:total).should eq(result['meta']['total'])
     end
 
     it "sets params[:other] when subject_id is 'other'" do
@@ -71,9 +71,6 @@ describe StructuresController do
 
       expect(assigns(:subject)).to eq(subject)
     end
-
-    # @pending the subbing for solr doesn't recognize 'group'
-    it "searches per planning when given the appropriate filters"
   end
 
   describe :show do

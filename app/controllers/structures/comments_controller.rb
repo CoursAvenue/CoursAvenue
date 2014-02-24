@@ -10,6 +10,7 @@ class Structures::CommentsController < ApplicationController
     @comments     = @comments.limit(5) unless params[:unlimited_comments]
 
     respond_to do |format|
+      format.html { redirect_to new_structure_comment_path(@structure) }
       format.json { render json: @comments.to_a, each_serializer: CommentSerializer }
     end
   end

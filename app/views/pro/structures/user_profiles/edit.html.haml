@@ -1,0 +1,16 @@
+%header
+  %h1.gamma.blue.flush--bottom
+    = "#{@user_profile.first_name} #{@user_profile.last_name}"
+  %small
+    = @user_profile.email
+  .fancybox__tags
+    = join_user_profile_tags @user_profile
+
+%hr.push-half--ends
+
+= simple_form_for [:pro, @structure, @user_profile], remote: true do |f|
+  = f.input :phone
+  = f.input :mobile_phone
+  = f.input :address, as: :text
+  = f.input :notes, as: :text
+  = f.submit "Enregistrer", title: "close", class: "btn btn--green btn--full"

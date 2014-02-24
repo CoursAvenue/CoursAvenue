@@ -1,0 +1,49 @@
+- if @plannings.any?
+  - @plannings.group_by(&:place).each do |place, plannings|
+    - unless place.nil?
+      %h5
+        %i.fa.fa-map-marker
+        = place.location.name
+    %table.table--striped.table--data.white-box
+      %thead
+        %tr
+          %th Date
+          %th.text--center Créneau horaire
+          %th.text--center Durée
+          %th.text--center Professeur
+          %th.text--center Niveau
+          %th.text--center Public
+          %th.text--center Lieu
+          %th.text--center
+            %i.lbc-icon-info i
+          %th
+      %tbody
+        - plannings.each do |planning|
+          = render partial: 'pro/structures/courses/plannings/workshop_list_item', locals: { planning: planning }
+
+- if @past_plannings.any?
+  = link_to 'Afficher le planning passé', 'javascript:void(0)', id: 'show-past-planning'
+  .hidden#past-planning
+    %h5 Planning passé
+    %table.table--striped.table--data.white-box
+      %thead
+        %tr
+          %th Date
+          %th.text--center Créneau horaire
+          %th.text--center Durée
+          %th.text--center Professeur
+          %th.text--center Niveau
+          %th.text--center Public
+          %th.text--center Lieu
+          %th.text--center
+            %i.lbc-icon-info i
+          %th
+      %tbody
+        - @past_plannings.each do |planning|
+          = render partial: 'pro/structures/courses/plannings/workshop_list_item', locals: { planning: planning }
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        $('.table--data').tablesorter();
+    });

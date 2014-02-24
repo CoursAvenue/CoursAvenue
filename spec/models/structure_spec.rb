@@ -88,6 +88,74 @@ describe Structure do
     @structure.reload.comments_count.should eq 3
   end
 
+  context :bulk_actions do
+    class Structure
+      def some_work(profile, number, symbol, range)
+      end
+    end
+
+    before do
+      ["bob@email.com", "paul@email.com", "jill@email.com"].each do |email|
+        structure.user_profiles.create(email: email);
+      end
+    end
+
+    let(:ids) { structure.user_profiles.to_a.map(&:id) }
+
+    it "calls the given method, with the correct args" do
+      # with block
+      expect(structure).to receive(:some_work).exactly(3) do |arg1, *args|
+        expect(arg1).to be_an_instance_of(UserProfile)
+        expect(args).to eq(["1", :cat, (1..2)])
+      end
+
+      structure.perform_bulk_user_profiles_job(ids, :some_work, "1", :cat, (1..2))
+    end
+
+    describe :add_tags_on do
+      let(:structure) { FactoryGirl.create(:structure_with_user_profiles_with_tags) }
+      let(:user_profile) { structure.user_profiles.first }
+      let(:tags) { ['Master of the Arts', 'powerful', 'brazen', 'churlish'] }
+
+      it "adds the given tags to the given profile" do
+        length = user_profile.tags.length
+
+        user_profile.reload
+        structure.add_tags_on(user_profile, tags)
+        user_profile.reload
+        expect(user_profile.tags.length).to eq(length + tags.length)
+      end
+
+      # it "does not overwrite the existing tags"
+      # it "does not create duplicate tags"
+
+    end
+
+    describe :create_tag do
+      let(:structure) { FactoryGirl.create(:structure) }
+      it "creates a new tag" do
+        length = structure.owned_tags.length
+        structure.create_tag(Faker::Name.name)
+        expect(structure.owned_tags.length).to eq (length + 1)
+      end
+    end
+  end
+
+  describe '#create_user_profile_for_message' do
+    let(:structure) { FactoryGirl.create(:structure) }
+    let(:user)      { FactoryGirl.create(:user) }
+    before do
+      @user_profile_count = structure.user_profiles.count
+      structure.create_user_profile_for_message(user)
+    end
+    it "creates a user profile" do
+      expect(structure.user_profiles.length).to eq (@user_profile_count + 1)
+    end
+    it "affects tag to the user profile" do
+      expect(structure.user_profiles.last.tags.map(&:name)).to include UserProfile::DEFAULT_TAGS[:contacts]
+    end
+  end
+
   context :funding_types do
     context :getters do
       describe '#funding_types' do
@@ -165,9 +233,5 @@ describe Structure do
       structure.update_email_status
       expect(structure.email_status).to eq 'less_than_fifteen_recommendations'
     end
-  end
-
-  describe '#update_email_status' do
-
   end
 end

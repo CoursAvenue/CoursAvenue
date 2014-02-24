@@ -10,7 +10,7 @@
       -# %th Structure
       %th S'est créé un compte
   %tbody
-    - @invited_teachers.each do |invited_teacher|
+    - @invited_users.each do |invited_teacher|
       %tr
         %th= invited_teacher.email
         %th= invited_teacher.type
