@@ -128,6 +128,7 @@ class Structure < ActiveRecord::Base
   before_save   :encode_uris
   before_save   :reset_cropping_attributes, if: :logo_has_changed?
 
+  after_save    :geocode_if_needs_to
   after_save    :update_email_status
   after_save    :delay_subscribe_to_nutshell
   after_save    :delay_subscribe_to_mailchimp
@@ -665,6 +666,14 @@ class Structure < ActiveRecord::Base
     end
     if self.subjects.select{|subject| subject.depth == 2}.empty?
       errors.add(:children_subjects, "Vous devez sélectionner au moins une sous discipline")
+    end
+  end
+
+  # Only geocode if  lat and lng are nil
+  def geocode_if_needs_to
+    if latitude.nil? or longitude.nil?
+      self.geocode
+      self.save
     end
   end
 end
