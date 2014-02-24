@@ -32,6 +32,7 @@
 //    %li.another-class
 //```
 StructureProfile.module('Views.Collection', function(Module, App, Backbone, Marionette, $, _, undefined) {
+    this.startWithParent = false;
 
     Module.Collection = Marionette.CollectionView.extend({
 
