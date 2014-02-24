@@ -247,6 +247,14 @@ class User < ActiveRecord::Base
     self.participations.not_canceled.map(&:planning).include? planning
   end
 
+  # Tells if the user is allowed to participate
+  # He won't be allowed if he has a current participation
+  #
+  # @return Boolean
+  def can_participate_to_jpo_2014?
+    self.participations.not_canceled.empty?
+  end
+
   private
 
   def random_string
