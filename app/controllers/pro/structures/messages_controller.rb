@@ -9,6 +9,13 @@ class Pro::Structures::MessagesController < ApplicationController
 
   def new
     @message = @admin.messages.build params[:message]
+    respond_to do |format|
+      if request.xhr?
+        format.html { render partial: 'form' }
+      else
+        format.html
+      end
+    end
   end
 
   def index
@@ -23,11 +30,11 @@ class Pro::Structures::MessagesController < ApplicationController
     @receipt      = @admin.send_message(@recipients, params[:message][:body], params[:message][:subject])
     @conversation = @receipt.conversation
     respond_to do |format|
-      if @conversation.persisted?
-        format.html { redirect_to pro_structure_conversation_path(@structure, @conversation) }
+      if @conversation and @conversation.persisted?
+        format.html { redirect_to params[:return_to] || pro_structure_conversation_path(@structure, @conversation), notice: 'Votre message a bien été envoyé' }
       else
-        @messages = @admin.messages.build
-        render 'new'
+        @message = @admin.messages.build
+        format.html { render action: :new }
       end
     end
   end

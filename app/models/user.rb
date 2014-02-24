@@ -255,6 +255,13 @@ class User < ActiveRecord::Base
     self.participations.not_canceled.empty?
   end
 
+  # Get the user profile associated to the given structure
+  #
+  # @return UserProfile
+  def user_profile_for(structure)
+    self.user_profiles.where(structure_id: structure.id).first
+  end
+
   private
 
   def random_string

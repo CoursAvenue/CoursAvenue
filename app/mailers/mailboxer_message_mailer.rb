@@ -60,17 +60,17 @@ class MailboxerMessageMailer < ActionMailer::Base
   end
 
   # Sends and email for indicating a reply in an already created conversation
+  # User replying
   def reply_message_email_to_user(message, receiver)
-    @message     = message
-    @user        = receiver
-    @structure   = message.sender.structure
-    subject      = message.subject.to_s
-    subject      = strip_tags(subject) unless subject.html_safe?
+    @message = message
+    @user    = receiver
+    subject  = message.subject.to_s
+    subject  = strip_tags(subject) unless subject.html_safe?
 
-    @token       = @user.generate_and_set_reset_password_token if !@user.active?
+    @token   = @user.generate_and_set_reset_password_token if !@user.active?
 
     mail to: @user.email,
-         subject: t('mailboxer.message_mailer.subject_reply', sender: @structure.name),
+         subject: t('mailboxer.message_mailer.subject_reply', sender: message.sender.name),
          template_name: 'reply_message_email_to_user'
   end
 
