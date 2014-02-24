@@ -207,6 +207,7 @@ CoursAvenue::Application.routes.draw do
       get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
     end
     member do
+      get  :wizard
       get  :dashboard
       get  :choose_password
       get  :notifications

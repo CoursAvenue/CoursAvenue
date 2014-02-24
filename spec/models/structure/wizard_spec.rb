@@ -1,11 +1,11 @@
 # -*- encoding : utf-8 -*-
 require 'spec_helper'
 
-describe Wizard do
+describe Structure::Wizard do
   let (:structure) { FactoryGirl.build(:structure) }
 
   describe '#description' do
-    let (:description_wizard) { Wizard.where(name: 'wizard.description').first }
+    let (:description_wizard) { Structure::Wizard.where(name: 'wizard.description').first }
     context :empty do
       it 'is not completed' do
         structure.description = ''
@@ -22,7 +22,7 @@ describe Wizard do
   end
 
   # describe '#logo' do
-  #   let (:logo_wizard) { Wizard.where(name: 'wizard.logo').first }
+  #   let (:logo_wizard) { Structure::Wizard.where(name: 'wizard.logo').first }
   #   context :empty do
   #     it 'is not completed' do
   #       structure.logo = ''
@@ -39,7 +39,7 @@ describe Wizard do
   # end
 
   describe '#coordonates' do
-    let (:coordonates_wizard) { Wizard.where(name: 'wizard.coordonates').first }
+    let (:coordonates_wizard) { Structure::Wizard.where(name: 'wizard.coordonates').first }
     context :empty do
       it 'is not completed' do
         structure.contact_phone = ''
@@ -57,7 +57,7 @@ describe Wizard do
   end
 
   describe '#places' do
-    let (:places_wizard) { Wizard.where(name: 'wizard.places').first }
+    let (:places_wizard) { Structure::Wizard.where(name: 'wizard.places').first }
     context :has_only_one_place? do
       it 'is completed' do
         structure.has_only_one_place = true
@@ -83,7 +83,7 @@ describe Wizard do
   end
 
   describe '#recommendations' do
-    let (:recommendations_wizard) { Wizard.where(name: 'wizard.recommendations').first }
+    let (:recommendations_wizard) { Structure::Wizard.where(name: 'wizard.recommendations').first }
 
     context :has_no_recommandations do
       it 'is not completed' do
@@ -106,7 +106,7 @@ describe Wizard do
   end
 
   describe '#widget_status' do
-    let (:widget_status_wizard) { Wizard.where(name: 'wizard.widget_status').first }
+    let (:widget_status_wizard) { Structure::Wizard.where(name: 'wizard.widget_status').first }
 
     context :has_less_than_five_recommandations do
       it 'is completed' do
@@ -132,7 +132,7 @@ describe Wizard do
   end
 
   describe '#widget_url' do
-    let (:widget_url_wizard) { Wizard.where(name: 'wizard.widget_url').first }
+    let (:widget_url_wizard) { Structure::Wizard.where(name: 'wizard.widget_url').first }
 
     context :has_less_than_five_recommandations do
       it 'is completed' do

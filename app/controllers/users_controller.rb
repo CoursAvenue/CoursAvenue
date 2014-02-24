@@ -44,8 +44,24 @@ class UsersController < InheritedResources::Base
     end
   end
 
+  # GET
+  # Returns the next wizard given
+  def wizard
+    @wizard = get_next_wizard
+    respond_to do |format|
+      if @wizard
+        format.json { render json: { form: render_to_string(partial: @wizard.partial, layout: false, formats: [:html]), done: false }  }
+      else
+        format.json { render json: { done: true }  }
+      end
+    end
+  end
+
+  # GET
+  # Dashboard of the user
   def dashboard
     @user               = User.find(params[:id])
+    @wizard             = get_next_wizard
     @profile_completion = current_user.profile_completion
     @conversations      = current_user.mailbox.conversations.limit(4)
     if @user.city
@@ -81,6 +97,34 @@ class UsersController < InheritedResources::Base
       'empty'
     else
       'user_profile'
+    end
+  end
+
+  # Return the next wizard regarding the params passed (skip: true)
+  # and wizards that are completed
+  #
+  # @return Wizard
+  def get_next_wizard
+    # Return nil if there is no next wizard
+    if params[:next] && session[:current_wizard_id] && session[:current_wizard_id] == User::Wizard.data.length
+      return nil
+    # Return the next wizard if it's not completed, else, it increments
+    elsif params[:next] && session[:current_wizard_id] && session[:current_wizard_id] < User::Wizard.data.length
+      session[:current_wizard_id] += 1
+      wizard = User::Wizard.find(session[:current_wizard_id])
+      if wizard.completed?.call(current_user)
+        return get_next_wizard
+      else
+        return wizard
+      end
+    else
+      User::Wizard.all.each do |wizard|
+        unless wizard.completed?.call(current_user)
+          session[:current_wizard_id] = wizard.id
+          return wizard
+        end
+      end
+      return nil
     end
   end
 end
