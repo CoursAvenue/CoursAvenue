@@ -277,6 +277,9 @@ CoursAvenue::Application.routes.draw do
   ########### Vertical pages ###########
 
   resources :cities, only: [:show], path: 'tous-les-cours-a' do
+    collection do
+      get :zip_code_search
+    end
     resources :subjects, only: [:show], path: 'disciplines', controller: 'cities/subjects'
   end
 
