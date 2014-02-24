@@ -1,7 +1,8 @@
 class UnfinishedResource::Comment < UnfinishedResource
 
+  belongs_to      :visitor
   attr_accessible :ip_address
-  store_accessor :fields, :private_message, :from, :subject
+  store_accessor  :fields, :private_message, :from, :subject
 
   # returns a Comment initialize with the data from this
   # unfinished comment
