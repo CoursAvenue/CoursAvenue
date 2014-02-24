@@ -453,6 +453,23 @@ class Structure < ActiveRecord::Base
     widget_status == 'installed'
   end
 
+
+  # Returns the image that goes aside of the profile page
+  # If there are videos, they will be put in cover so we return the cover image
+  # But if there is no video, we return the second image
+  #
+  # @return Media
+  def side_cover_image
+    if self.medias.videos.any?
+      self.medias.images.cover.first
+    else
+      self.medias.images.reject{|image| image.cover? }.first
+    end
+  end
+
+  # Returns the cover image if there is one, else the first image
+  #
+  # @return Medi
   def cover_image
     self.medias.images.cover.first || self.medias.images.first
   end

@@ -20,7 +20,7 @@ class StructuresController < ApplicationController
     @places         = @structure.places
     @courses        = @structure.courses.without_open_courses.active
     @teachers       = @structure.teachers
-    @medias         = @structure.medias.videos_first.reject { |media| media.type == 'Media::Image' and media.cover }
+    @medias         = @structure.medias.videos_first
     @comments       = @structure.comments.accepted.reject(&:new_record?)
     @comment        = @structure.comments.build
   end
