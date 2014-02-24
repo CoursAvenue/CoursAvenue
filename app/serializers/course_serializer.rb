@@ -4,7 +4,7 @@ class CourseSerializer < ActiveModel::Serializer
   include ActionView::Helpers::NumberHelper
 
   attributes :id, :name, :description, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
-             :has_free_trial_lesson, :event_type
+             :has_free_trial_lesson, :event_type, :best_price, :is_individual
 
   has_many :plannings,  serializer: PlanningSerializer
 
@@ -17,11 +17,15 @@ class CourseSerializer < ActiveModel::Serializer
   end
 
   def is_individual
-    self.is_individual?
+    object.is_individual?
   end
 
   def teaches_at_home
     self.teaches_at_home?
+  end
+
+  def best_price
+    not object.best_price.nil?
   end
 
   def min_price_amount
