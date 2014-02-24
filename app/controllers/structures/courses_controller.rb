@@ -19,6 +19,7 @@ class Structures::CoursesController < ApplicationController
 
     respond_to do |format|
       format.json { render json: @courses }
+      format.html { redirect_to structure_path(@structure)}
     end
   end
 

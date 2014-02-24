@@ -24,7 +24,7 @@
       - if @structure.parisian?
         = pro_side_menu_link 'Journées Portes Ouvertes', pro_structure_course_opens_path(@structure)    , current: current_tab,   icon: 'fa fa-calendar'
       = pro_side_menu_link 'Mes photos & vidéos', pro_structure_medias_path(@structure) , current: current_tab,   icon: 'fa fa-youtube-play'
-      - if current_pro_admin.super_admin?
+      - if current_pro_admin and current_pro_admin.super_admin?
         = pro_side_menu_link 'Mes élèves', pro_structure_user_profiles_path(@structure) , current: current_tab,   icon: 'fa fa-group'
       = pro_side_menu_link 'Mes messages', pro_structure_conversations_path(@structure) , current: current_tab,   icon: 'fa fa-envelope'
       = pro_side_menu_link 'Parrainer', new_pro_structure_invited_teacher_path(@structure)     , current: current_tab, icon: 'fa fa-gift', id: 'recommandation-side-menu'
