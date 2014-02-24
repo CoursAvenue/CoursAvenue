@@ -47,10 +47,9 @@
           \-
           = course.nb_participants_max * course.plannings.count
         %td
-          - if course.price
-            = "#{readable_amount(course.price)}€"
-          - else
-            Gratuit
+          - if course.common_price
+            %span.line-through #{readable_amount(course.common_price)}€
+          %span.green Gratuit
         %td
           = simple_form_for [:pro, course], url: pro_course_path(course), as: :course, remote: true do |f|
             = f.input :ca_follow_up, label: false, input_html: { style: 'width: 8em; height: 3em;' }

@@ -41,11 +41,9 @@
                     = planning.places_left
 
                 %td.nowrap
-                  - if course.free?
+                  - if course.common_price
                     %span.line-through #{readable_amount(course.common_price)}€
-                    %span.green GRATUIT
-                  - else
-                    Gratuit
+                  %span.green GRATUIT
                 %td.text--right
                   - if current_user and current_user.participate_to?(planning)
                     Déjà inscrit
