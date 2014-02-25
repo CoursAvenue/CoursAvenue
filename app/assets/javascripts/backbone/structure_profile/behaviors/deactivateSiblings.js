@@ -13,16 +13,24 @@
 StructureProfile.module('Behaviors.deactivateSiblings', function(Module, App, Backbone, Marionette, $, _, undefined) {
     this.startWithParent = false;
 
-    Module.attachTo = function (options) {
+    Module.attachTo = function (options, element) {
         Module.start();
 
-        var $element  = $(options.element),
+        var $element  = $(element),
             $siblings = $element.siblings();
 
         $element.on("activate", function () {
             $siblings.trigger("deactivate");
         });
     };
+
+    // default matcher
+    App.Behaviors.registerMatcher(function activeOnMatcher (data_behavior) {
+        var match  = data_behavior.match(/deactivateSiblings/), // slice off the full match
+            result = (match === null) ? false : {};
+
+        return result;
+    }, Module);
 
 }, undefined);
 

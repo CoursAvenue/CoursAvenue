@@ -15,10 +15,10 @@
 StructureProfile.module('Behaviors.showWhenActive', function(Module, App, Backbone, Marionette, $, _, undefined) {
     this.startWithParent = false;
 
-    Module.attachTo = function (options) {
+    Module.attachTo = function (options, element) {
         Module.start();
 
-        var $element = $(options.element);
+        var $element = $(element);
 
         $element.on("activate", function showTabContents (e) {
             $(this).show();
@@ -28,6 +28,14 @@ StructureProfile.module('Behaviors.showWhenActive', function(Module, App, Backbo
             $(this).hide();
         });
     };
+
+    // default matcher
+    App.Behaviors.registerMatcher(function activeOnMatcher (data_behavior) {
+        var match  = data_behavior.match(/showWhenActive/), // slice off the full match
+            result = (match === null) ? false : {};
+
+        return result;
+    }, Module);
 
 }, undefined);
 

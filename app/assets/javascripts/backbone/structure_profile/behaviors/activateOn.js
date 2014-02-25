@@ -20,11 +20,13 @@ StructureProfile.module('Behaviors.activateOn', function(Module, App, Backbone, 
         $(element).trigger("activate");
     };
 
-    Module.attachTo = function attachTo (options) {
+    // TODO when we have underscore 1.6.0 we will be able to flip the order
+    // of these parameters.
+    Module.attachTo = function attachTo (options, element) {
         Module.start();
 
-        var $element    = $(options.element),
-            activate    = _.partial(_activate, options.element),
+        var $element    = $(element),
+            activate    = _.partial(_activate, element),
             event       = options.event.replace(/([A-Z])/g, ':$1').replace(/^:/, '').toLowerCase(); // from camel to event style
 
         $(document).on(event, activate);
@@ -33,6 +35,22 @@ StructureProfile.module('Behaviors.activateOn', function(Module, App, Backbone, 
             $element.removeClass("active");
         });
     };
+
+    // activateOn matches data-behaviors like "activateOnSomeCamelizedEventName"
+    App.Behaviors.registerMatcher(function activeOnMatcher (data_behavior) {
+        var match  = data_behavior.match(/activateOn(.*)/), // slice off the full match
+            result = false;
+
+        if (match !== null) {
+            match = match.slice(1); // cut off the complete match
+
+            result = {
+                event: match[0]
+            }
+        }
+
+        return result;
+    }, Module);
 
 }, undefined);
 

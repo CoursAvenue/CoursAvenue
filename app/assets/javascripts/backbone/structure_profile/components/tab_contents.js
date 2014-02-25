@@ -29,9 +29,9 @@ StructureProfile.module('Components.TabContents', function(Module, App, Backbone
                 tab_name     = $element.data("for"),
                 event        = _.capitalize(tab_name) + "TabClicked";
 
-            StructureProfile.Behaviors.activateOn.attachTo({ element: element, event: event });
-            StructureProfile.Behaviors.showWhenActive.attachTo({ element: element });
-            StructureProfile.Behaviors.deactivateSiblings.attachTo({ element: element });
+            StructureProfile.Behaviors.activateOn.attachTo({ event: event }, element);
+            StructureProfile.Behaviors.showWhenActive.attachTo({}, element);
+            StructureProfile.Behaviors.deactivateSiblings.attachTo({}, element);
 
             consumeData($element);
         });

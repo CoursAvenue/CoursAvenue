@@ -50,7 +50,7 @@
       %ul.tabs
         - @tabs.each_with_index do |tab, index|
           %li{ class: "#{index === 0 ? "active" : "" }", data: { behaviors: ["activateOn#{tab[:name]}TabClicked", "deactivateSiblings"] }}
-            %a{ href: "#tab-#{tab[:slug]}", data: { relation: tab["slug"], behaviors: "emit#{tab[:name]}TabClickedOnClick" } }
+            %a{ href: "#tab-#{tab[:slug]}", data: { relation: tab["slug"], behaviors: ["emit#{tab[:name]}TabClickedOnClick"] } }
               - unless tab[:icon].blank?
                 %i{ class: "fa fa-#{ tab[:icon] }" }
               = tab[:name]
@@ -59,12 +59,12 @@
       %article.tab-pane.active{ data: { view: 'Collection', of: 'Courses',  bootstrap: @model.courses.to_json,  component: 'TabContents', for: 'courses' }}
         .white-box.islet{ data: { 'sample-tag' => true }}
           - @model.courses.each_with_index do |course, index|
-            %div
+            %div{ data: { behaviors: ["SuperBob"] }}
               - course = JSON.parse(CourseSerializer.new(course).to_json) # get the json ready for bootstrap
               - course["is_first"] = index == 0
               = render template: '../assets/javascripts/backbone/structure_profile/views/courses/templates/course', locals: course
 
-              %div{ data: { view: 'Collection', of: 'Plannings', url: 'www.example.com' }}
+              .hidden{ data: { view: 'Collection', of: 'Plannings', url: 'www.example.com', behaviours: "accordionOpenOnParentClicked" }}
 
       %article.tab-pane{ data: { view: 'Collection', of: "Teachers", bootstrap: @model.teachers.to_json, component: 'TabContents', for: 'teachers'}}
         - @model.teachers.each do |teacher|

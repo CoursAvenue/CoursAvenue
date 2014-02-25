@@ -13,5 +13,6 @@
 //= require ./views/manifest
 
 //---------- Components
+//= require ./behaviors/behaviors
 //= require_tree ./behaviors
 //= require_tree ./components
