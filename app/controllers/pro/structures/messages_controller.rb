@@ -19,15 +19,16 @@ class Pro::Structures::MessagesController < ApplicationController
   # This is done by default by mailboxer
   # Recipients receive only one person here
   def create
-    @recipients   = @structure.users.find(params[:message][:recipients])
-    @receipt      = @admin.send_message(@recipients, params[:message][:body], params[:message][:subject])
-    @conversation = @receipt.conversation
+    @recipients   = @structure.users.find(params[:message][:recipients]) if params[:message].has_key? :recipients
+    @receipt      = @admin.send_message(@recipients, params[:message][:body], params[:message][:subject]) if @recipients
+    @conversation = @receipt.conversation if @receipt
     respond_to do |format|
-      if @conversation.persisted?
+      if @conversation and @conversation.persisted?
         format.html { redirect_to pro_structure_conversation_path(@structure, @conversation) }
       else
-        @messages = @admin.messages.build
-        render 'new'
+        @message = @admin.messages.build params[:message]
+        @message.valid? # Triggers errors to appear
+        format.html { render 'new' }
       end
     end
   end
