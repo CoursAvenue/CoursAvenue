@@ -1,3 +1,6 @@
+/* -----------------------------*/
+/* BANNER                       */
+/* -----------------------------*/
 .jpo-banner-warpper {
     background-color: #d15630;
 }
@@ -48,3 +51,46 @@
     @include background-size('105px 4px');
     height: 4px;
 }
+
+
+/* -----------------------------*/
+/* POPUP                        */
+/* -----------------------------*/
+.jpo-popup{
+    background-image: asset-url('jpo_2014/popup_background.png');
+    background-repeat: none;
+    @include background-size('100% 100%');
+    @include border-radius($brand-round);
+}
+    .jpo-popup-rotation {
+        @include transform(rotate(-4.5deg));
+    }
+
+    .popup-photos {
+        top: -75px;
+    }
+    .popup-jpo-arrow {
+        bottom: -25px;
+    }
+    .popup-jpo-fanion {
+        background-image: asset-url('jpo_2014/popup_fanion.png');
+        height          : 106px;
+        width           : 525px;
+        color           : white;
+        margin-top      : 65px;
+        @include background-size('525px 106px');
+        .popup-jpo-fanion__text {
+            top        : 30px;
+            left       : 50px;
+            line-height: 1.4;
+            color      : white;
+            font-size  : 28px;
+        }
+    }
+    .jpo-popup-tick-marks {
+        margin-left: 50px;
+        line-height: 2;
+    }
+    .popup-jpo-logo {
+        margin-top: 60px;
+    }

@@ -126,6 +126,20 @@
     }
 }
 
+.btn--purple {
+    text-transform  : uppercase;
+    color           : #FFF;
+    background-color: $purple;
+    background-image: none;
+    border          : none;
+    @include text-shadow(0 1px 0 $purple);
+    &:hover, &:active {
+        background-image: none;
+        color           : #FFF;
+        background-color: lighten($purple, 10%);
+    }
+}
+
 .btn--social {
     text-transform  : uppercase;
     @include text-shadow(-1px -1px 0 darken($facebook-blue, 10%));

@@ -1,0 +1,26 @@
+= content_for :head do
+  %link{rel: 'canonical', href: open_courses_url(@subject)}
+
+= content_for :title do
+  Portes Ouvertes des Loisirs par CoursAvenue.com
+
+- unless current_user
+  = render 'users/registrations/jpo_popup'
+
+:javascript
+  window.coursavenue = window.coursavenue || {};
+  window.coursavenue.bootstrap = {
+    options: {
+      total: #{ @total },
+      latlng: #{ @latlng }
+    },
+    models: #{ @models.to_json },
+    subjects: #{ Subject.stars.to_json },
+    discount_types: #{ Price::Discount::TYPES.to_json }
+  };
+
+.filtered-search-loader.text--center.island{ :data => { :type => "app-loader" }}
+  = image_tag 'logo.png', class: 'center-block'
+  = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20
+.filtered-search{ :data => { :type => "#{ @app_slug }-root" }, id: "#{ @app_slug }"}
+
