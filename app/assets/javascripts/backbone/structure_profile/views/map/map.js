@@ -68,8 +68,11 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
 
         Model      = App.Models[resource] || Backbone.Model.extend({
             getLatLng: function() {
+                var location = this.get("location"),
+                    lat = location.latitude,
+                    lng = location.longitude;
 
-                return new google.maps.LatLng(0, 0);
+                return new google.maps.LatLng(lat, lng);
             }
         });
 
@@ -87,12 +90,12 @@ StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette,
      // itemview_options.template = 'backbone/structure_profile/views/' + resources + '/templates/' + template_name;
      // ItemView                  = ItemView.extend(itemview_options);
 
-        //var bounds       = options.bootstrap.getLatLngBounds();
+        var bounds         = { lat: 48.8538177, lng: 2.3815018 };
 
         options.collection = collection;
         options.markerView = MarkerView;
         options.mapOptions = {
-         //   center: new google.maps.LatLng(bounds.lat, bounds.lng)
+            center: new google.maps.LatLng(bounds.lat, bounds.lng)
         };
         options.infoBoxOptions = {
             infoBoxClearance: new google.maps.Size(100, 100)

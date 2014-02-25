@@ -7,6 +7,14 @@ StructureProfile.module('Views.Courses', function(Module, App, Backbone, Marione
 
         },
 
+        events: {
+            'mouseenter': 'announceHover'
+        },
+
+        announceHover: function () {
+            this.trigger("course:hovered", { place_id: this.model.get("place_id")})
+        },
+
         // **attach**
         //
         // This will be added to the Module for ItemView.
