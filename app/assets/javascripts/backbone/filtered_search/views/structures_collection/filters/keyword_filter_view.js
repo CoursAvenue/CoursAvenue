@@ -36,11 +36,19 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         onRender: function () {
-            this.ui.$search_input.typeahead({}, {
+            var engine   = new Bloodhound({
+              datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
+              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              remote: Routes.keywords_path({format: 'json'})
+            });
+            engine.initialize();
+            this.ui.$search_input.typeahead({
+                highlight : true
+            }, {
                 name: 'keywords',
                 limit: 10,
                 displayKey: 'name',
-                source: Routes.keywords_path({format: 'json'})
+                source: engine.ttAdapter()
             });
         },
         // Clears all the given filters
