@@ -29,7 +29,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         },
 
         ui: {
-            '$input'    : '.taggy--input',
+            '$input'    : '.taggy--input:not([disabled])',
             '$container': '[data-type=taggies-container]'
         },
 
@@ -62,15 +62,17 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
          * actually calling render to rollback. Nima loves render. */
         onRender: function () {
             this.$rollback = this.ui.$container.children().clone();
-            this.ui.$input.typeahead([{
-                // name: 'keywords', // We don't want to cache
+            var engine   = new Bloodhound({
+              datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
+              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              remote: this.url
+            });
+            engine.initialize();
+            this.ui.$input.typeahead({}, {
                 limit: 15,
-                valueKey: 'name',
-                remote: this.url
-                // prefetch: {
-                //     url: this.url
-                // }
-            }]);
+                displayKey: 'name',
+                source: engine.ttAdapter()
+            });
 
             this.$('.twitter-typeahead').hide();
 
@@ -129,7 +131,7 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
             this.bindUIElements();
 
             this.announceEdits();
-            this.ui.$input.typeahead('setQuery', '');
+            this.ui.$input.typeahead('val', '');
         },
 
         /* no model here */
@@ -219,10 +221,6 @@ UserManagement.module('Views.UserProfilesCollection.UserProfile.EditableTagBar',
         removeLastTaggy: function () {
             var taggy = this.$taggies().last();
             var text = taggy.text();
-
-            this.ui.$input.val(function (index, val) {
-                return val; // + text;
-            });
 
             taggy.remove();
             this.announceEdits();
