@@ -38,19 +38,15 @@
                   = link_to "http://maps.google.com/?q=#{planning.place.location.address}", target: :_blank, class: 'pointer semi-muted-link', title: planning.place.location.address, data: { behavior: 'tooltip' } do
                     = planning.place.location.name
                 %td.text--center
-                  - if planning.places_left > 5
-                    > 5
+                  - if planning.places_left > 10
+                    > 10
                   - else
                     = planning.places_left
 
                 %td.nowrap
-                  - if course.free?
+                  - if course.common_price
                     %span.line-through #{readable_amount(course.common_price)}€
-                    %span.green GRATUIT
-                  - else
-                    Participation libre
-                    %br
-                    %span.nowrap (montant attendu : #{readable_amount(course.price)}€)
+                  %span.green GRATUIT
                 %td.text--right
                   - if current_user
                     - if current_user.participate_to?(planning)

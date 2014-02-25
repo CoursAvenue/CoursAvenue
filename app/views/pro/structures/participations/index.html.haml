@@ -14,13 +14,19 @@
       .bar.bar-success{style: "width: #{(planning.nb_jpo_participants * 100) / planning.nb_participants_max}%;"}
         #{planning.nb_jpo_participants} / #{planning.nb_participants_max}
 
+    - if planning.participations.any?
+      - user_profiles_id = planning.participations.map{ |part| part.user.user_profile_for(@structure).try(:id) }
+      = link_to new_pro_structure_message_path(@structure, return_to: pro_structure_participations_path(@structure), message: { subject: "Message concernant le cours du #{planning_date_for(planning)} #{planning_time_for(planning, false)}", recipients: user_profiles_id }), class: 'btn btn--small btn--blue nowrap fancybox.ajax push-half--left', data: { behavior: 'modal', width: '780' }, title: "Message groupé pour le cours du #{planning_date_for(planning)} #{planning_time_for(planning, false)}" do
+        %i.fa.fa-envelope
+        Envoyer un message groupé
     %table.white-box.table--data.table--striped.table--white.push-half--top
       %thead
         %tr
-          %th.four-twelfths Nom de l'élève
+          %th.two-twelfths Nom de l'élève
           %th.two-twelfths Email
           %th.two-twelfths Téléphone
           %th.three-twelfths Date d'inscription
+          %th.two-twelfths
           %th.two-twelfths
       %tbody
         - planning.participations.order('canceled_at DESC').each do |participation|
@@ -31,11 +37,15 @@
                 (+ 1 enfant)
             %td
               = link_to participation.user.email, "mailto:#{participation.user.email}", target: :_blank
+            %td= readable_phone_number participation.user.phone_number
             %td= l(participation.created_at, format: :date).capitalize
-            %td= participation.user.phone_number
             %td.text--center
               - if participation.waiting_list?
                 Sur liste d'attente
               - if participation.canceled?
                 Annulé
+            %td.text--right
+              = link_to new_pro_structure_message_path(@structure, return_to: pro_structure_participations_path(@structure), message: { subject: "Message concernant le cours du #{planning_date_for(planning)} #{planning_time_for(planning, false)}", recipients: [participation.user.user_profile_for(@structure).id] } ), class: 'btn btn--small btn--blue nowrap fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Message pour le cours du #{planning_date_for(planning)} #{planning_time_for(planning, false)}" do
+                %i.fa.fa-envelope
+                Message
   %hr
