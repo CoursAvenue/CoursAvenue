@@ -64,8 +64,6 @@
               - course["is_first"] = index == 0
               = render template: '../assets/javascripts/backbone/structure_profile/views/courses/templates/course', locals: course
 
-              .hidden{ data: { view: 'Collection', of: 'Plannings', url: 'www.example.com', behaviours: "accordionOpenOnParentClicked" }}
-
       %article.tab-pane{ data: { view: 'Collection', of: "Teachers", bootstrap: @model.teachers.to_json, component: 'TabContents', for: 'teachers'}}
         - @model.teachers.each do |teacher|
           .white-box.islet{ data: { 'sample-tag' => true }}

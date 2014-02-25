@@ -32,7 +32,6 @@
 //    %li.another-class
 //```
 StructureProfile.module('Views.Collection', function(Module, App, Backbone, Marionette, $, _, undefined) {
-    this.startWithParent = false;
 
     Module.Collection = Marionette.CollectionView.extend({
 
@@ -121,8 +120,8 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
     // complain.
     var buildView = function buildView (view, flavor, options) {
         // buildView adds some attributes commonly used in templates
-        if (options.bootstrap.length > 0) {
-            options.bootstrap[0].isFirst = (options.bootstrap[0].isFirst === undefined)? true : options.bootstrap[0].isFirst;
+        if (options.bootstrap && options.bootstrap.length > 0) {
+            options.bootstrap[0].is_first = (options.bootstrap[0].is_first === undefined)? true : options.bootstrap[0].is_first;
         }
 
         var result,
@@ -146,7 +145,7 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
         }
 
         Collection = App.Models[resources] || Backbone.Collection.extend();
-        collection = new Collection(options.bootstrap);
+        collection = new Collection(options.bootstrap || {});
 
         // if there is a custom itemView for teachers, use that
         if (App.Views[_.capitalize(resources)] && App.Views[_.capitalize(resources)][_.capitalize(resource)]) {
