@@ -126,11 +126,10 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
 
         var result,
             // Widgets might have a model/widgets collection or a views/widgets/widget itemview
-            module         = options.resource,
             resources      = options.resource.toLowerCase(),
             resource       = _.singularize(resources),
             template_name  = (options.template)? options.template : resource,
-            Collection, ItemView, collection, itemView,
+            Collection, ItemView, collection,
             itemview_options = {};
 
         // build up the tagNames and classNames from the sample
@@ -147,7 +146,7 @@ StructureProfile.module('Views.Collection', function(Module, App, Backbone, Mari
         Collection = App.Models[resources] || Backbone.Collection.extend();
         collection = new Collection(options.bootstrap || {});
 
-        // if there is a custom itemView for teachers, use that
+        // if there is a custom itemView, use that
         if (App.Views[_.capitalize(resources)] && App.Views[_.capitalize(resources)][_.capitalize(resource)]) {
             ItemView = App.Views[_.capitalize(resources)][_.capitalize(resource)];
         } else {

@@ -1,7 +1,7 @@
 
 .white-box.push--bottom
   .grid--full#media-grid
-    .grid__item{class: medias.any? ? 'one-half' : 'one-whole'}>
+    .grid__item{class: medias.any? ? 'one-half' : 'one-whole', data: { view: "Map", of: "Courses", bootstrap: @structure.courses.to_json  }}>
 
     - if medias.any?
       .grid__item.one-half.rslides-wrapper.rslides--big>
