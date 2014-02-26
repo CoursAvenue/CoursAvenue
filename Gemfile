@@ -143,7 +143,7 @@ gem 'font-awesome-rails'        , '~>4.0.3.1'
 gem 'jquery-rails'              , '~>3.0.4'
 # Load Compass utilities
 gem 'compass'                   , '~>0.12.2'
-gem 'compass-rails'             , '~>2.0.alpha.0'
+gem 'compass-rails'             , '~>2.0.0.pre', git: 'git@github.com:Compass/compass-rails.git', branch: '2-0-stable'
 # Load Inuit CSS
 gem 'compass-inuit'             , '~>5.0.2'
 # Enable haml
