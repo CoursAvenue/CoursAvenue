@@ -54,22 +54,6 @@
     background: white;
 }
 
-.smaller-print {
-    font-size: 0.8em;
-}
-
-.line-through { text-decoration: line-through; }
-.line-through--gray {
-    text-decoration: line-through;
-    color          : #777;
-    font-style     : italic;
-}
-
-.base-font-style {
-    font-size  : $base-font-size;
-    font-weight: 400;
-}
-
 .rounded         { @include border-radius($brand-round) }
 .bordered--right { border-right  : 1px solid $gray-smooth; }
 .bordered--left  { border-left   : 1px solid $gray-smooth; }
@@ -83,8 +67,6 @@
 
 
 .width-auto         { width: auto !important; }
-.line-height-1      { line-height: 1;}
-.line-height-normal { line-height: normal;}
 
 .or {
     border-bottom: 1px solid #CCC;

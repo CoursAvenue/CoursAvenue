@@ -10,6 +10,10 @@
   padding  : 0.6em 2.5em;
 }
 
+.btn.btn--bigger{
+  font-size: 15px;
+}
+
 .btn.btn--small {
     padding: 0.5em;
 }
@@ -31,7 +35,7 @@
     font-weight     : bold;
     background-color: $light-grey;
     border          : 1px solid #DBD9D9;
-    text-shadow     : 0 1px 0 white;
+    @include text-shadow(0 1px 0 white);
     padding         : 0.8em;
     color           : #555;
     font-size       : 12px;
@@ -60,7 +64,7 @@
 .btn--orange {
     text-transform: uppercase;
     color       : white;
-    text-shadow : -1px -1px 0 #a34c30;
+    @include text-shadow(-1px -1px 0 #a34c30);
     border-color: darken($btn-primary-background, 3%);
     background-color: $orange;
     @include background-image(linear-gradient(top, $btn-primary-background-highlight, $btn-primary-background));
@@ -95,7 +99,6 @@
         @include buttonBackground(lighten($btn-success-background, 15%), lighten($btn-success-background-highlight, 15%));
     }
 }
-// Success appears as green
 .btn--blue {
     text-transform: uppercase;
     color         : white;
@@ -109,9 +112,37 @@
     }
 }
 
+.btn--light-blue {
+    text-transform  : uppercase;
+    color           : #336666;
+    background-color: $light-blue;
+    background-image: none;
+    border          : none;
+    @include text-shadow(0 1px 0 $light-blue);
+    &:hover, &:active {
+        background-image: none;
+        color           : #336666;
+        background-color: lighten($light-blue, 10%);
+    }
+}
+
+.btn--purple {
+    text-transform  : uppercase;
+    color           : #FFF;
+    background-color: $purple;
+    background-image: none;
+    border          : none;
+    @include text-shadow(0 1px 0 $purple);
+    &:hover, &:active {
+        background-image: none;
+        color           : #FFF;
+        background-color: lighten($purple, 10%);
+    }
+}
+
 .btn--social {
     text-transform  : uppercase;
-    text-shadow     : -1px -1px 0 darken($facebook-blue, 10%);
+    @include text-shadow(-1px -1px 0 darken($facebook-blue, 10%));
     color           : white;
     padding         : 1em;
     vertical-align  : middle;
@@ -175,7 +206,7 @@
     font-weight     : bold;
     background-color: $light-grey;
     border          : 1px solid #DBD9D9;
-    text-shadow     : 0 1px 0 white;
+    @include text-shadow(0 1px 0 white);
     padding         : 0.8em;
     color           : #555;
     font-size       : 12px;

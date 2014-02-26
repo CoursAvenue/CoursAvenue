@@ -1,9 +1,11 @@
-= render 'home_screen'
 = content_for :title do
   CoursAvenue | Les élèves vous guident vers les meilleurs cours
 
 = content_for :above_container do
-  = render 'share_links'
+  = render 'home_screen'
+  = render 'guide'
+  = render 'jpo_2014'
+  .soft-half--top= render 'share_links'
   .home-screen-promotion-wrapper
     %section.main-container.home-screen-promotion.soft--top
       .grid--full

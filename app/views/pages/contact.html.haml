@@ -21,7 +21,7 @@
       = form_tag(contact_path, method: :post) do
         .grid.push-half--bottom
           .grid__item.one-third.text--right>
-            %label.bold * Votre nom
+            %label.f-weight-bold * Votre nom
             - if @errors and @errors.include?(:name)
               %span.error
                 Doit être remplis
@@ -29,7 +29,7 @@
             %input.one-whole{type: 'text', name: 'name', value: params[:name]}
         .grid.push-half--bottom
           .grid__item.one-third.text--right>
-            %label.bold * Votre email
+            %label.f-weight-bold * Votre email
             - if @errors and @errors.include?(:email)
               %span.error
                 Doit être remplis
@@ -37,7 +37,7 @@
             %input.one-whole{type: 'text', name: 'email', value: params[:email]}
         .grid.push-half--bottom
           .grid__item.one-third.text--right>
-            %label.bold * Votre message
+            %label.f-weight-bold * Votre message
             - if @errors and @errors.include?(:content)
               %span.error
                 Doit être remplis

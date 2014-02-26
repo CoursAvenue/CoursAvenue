@@ -3,7 +3,7 @@
 %h2 Liste des admins
 
 %div{style: 'font-size: 2em;'}
-  %input#search-input{type: 'text', placeholder: 'Cherchez un établissement'}
+  %input.one-whole#search-input{type: 'text', placeholder: 'Cherchez un établissement'}
 
 .push-half--bottom= paginate @admins, window: 2, outer_window: 1
 
@@ -81,14 +81,22 @@
         $('#dataTable').tablesorter();
         // Admin search
         var template = Handlebars.compile($('#structure-item-template').html());
-        $('#search-input').typeahead([
+        var engine   = new Bloodhound({
+          datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          remote: Routes.pro_admins_path({format: 'json'}) + '?name=%QUERY'
+        });
+        engine.initialize();
+        $('#search-input').typeahead({
+            highlight : true
+          }, [
           {
-            valueKey: 'name',
-            template: template,
+            displayKey 'name',
+            templates: {
+                suggestion: template
+            },
             limit: 10,
-            remote: {
-              url: '/admins.json?name=%QUERY'
-            }
+            source: engine.ttAdapter()
           }
         ]);
         $('#search-input').on('typeahead:selected', function(event, data){

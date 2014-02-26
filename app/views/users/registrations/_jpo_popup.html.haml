@@ -1,0 +1,94 @@
+#jpo-popup.hidden
+  .jpo-frise
+  .jpo-popup.soft.white.relative
+    .grid
+      .grid__item.two-thirds>
+        = image_tag 'jpo_2014/popup-photos.png', class: 'popup-photos absolute', height: 203, width: 475
+        .popup-jpo-fanion.relative
+          %p.flush.jpo-popup-rotation.f-style-italic.popup-jpo-fanion__text.ff-open-sans.absolute
+            %span.f-weight-300 Plus de
+            %span.f-weight-600 5 000 places
+            %span.f-weight-300 GRATUITES
+
+        .jpo-popup-tick-marks.jpo-popup-rotation.ff-open-sans.f-weight-400
+          %p.flush
+            = image_tag 'jpo_2014/tick_mark.png', height: 16, width: 16
+            Des ateliers pour tous : enfants, adultes, séniors
+          %p.flush
+            = image_tag 'jpo_2014/tick_mark.png', height: 16, width: 16
+            Plus de 100 disciplines : yoga, zumba, cuisine bio, mime…
+          %p.flush
+            = image_tag 'jpo_2014/tick_mark.png', height: 16, width: 16
+            Tous vos loisirs à découvrir autour de vous
+
+        = image_tag 'jpo_2014/logo_1_line_large.png', class: 'popup-jpo-logo block push--left'
+
+      .grid__item.one-third>
+        %p.text--center.ff-open-sans.relative
+          %span.f-weight-600 Inscrivez-vous
+          %br
+          %span.f-weight-400 pour réserver votre atelier gratuit
+          = image_tag 'jpo_2014/arrow.png', width: 15, height: 27, class: 'absolute popup-jpo-arrow'
+        .text--center
+          = link_to "S'inscrire avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full text--left', id: 'facebook_button'
+        .text--center.push-half--ends ou
+        = simple_form_for User.new, url: user_registration_path, html: { id: 'register-form' } do |f|
+          = f.error_notification
+          = f.input :first_name, label: false, placeholder: 'Prénom',      input_html: {class: 'one-whole', value: (@user ? @user.first_name : nil)}, wrapper_html: {class: 'flush'}
+          = f.input :last_name,  label: false, placeholder: 'Nom',         input_html: {class: 'one-whole'}
+          = f.input :zip_code,   label: false, placeholder: 'Code postal', input_html: {class: 'one-whole'}
+          = f.input :email,      label: false, placeholder: 'Email',       input_html: {class: 'one-whole', value: (@user ? @user.email : nil)}, wrapper_html: {class: 'flush--top'}
+          = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
+          = f.button :submit, "Inscription", class: 'one-whole btn--purple'
+          %p.milli.text--center
+            En m'inscrivant, j'accepte
+            = link_to "les conditions générales d'utilisation.", pages_mentions_partners_path, class: 'f-weight-600 white', target: :_blank
+          .text--center
+            = link_to "Déjà membre CoursAvenue ? Connexion", 'javascript:void(0)', id: 'show_new_session_form', class: 'milli white'
+
+        #sign-in-form.hidden
+          = simple_form_for User.new, url: user_session_path do |f|
+            = f.input :email, label: false, placeholder: 'Email', input_html: {class: 'one-whole'}
+            = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
+            = f.hidden_field :remember_me, value: true
+            = f.button :submit, "Se connecter", class: 'btn--purple one-whole'
+
+          .push-half--top
+            = link_to "Vous n'avez pas de compte ? Inscription", 'javascript:void(0)', id: 'show_new_registration_form', class: 'milli white'
+
+
+= content_for :scripts do
+  :javascript
+    $(function() {;
+        $.fancybox($('#jpo-popup'), {
+                openSpeed   : 300,
+                maxWidth    : 830,
+                maxHeight   : 450,
+                fitToView   : false,
+                width       : 830,
+                height      : 450,
+                autoSize    : false,
+                autoResize  : false,
+                padding     : 0,
+                closeBtn    : false,
+                keys        : {
+                    close: []
+                },
+                helpers     : {
+                    overlay : {
+                      closeClick: false
+                    }
+                }
+          });
+          $('.fancybox-inner').css('overflow', 'visible');
+    });
+    $('#show_new_session_form').click(function(){
+        $('#register-form').hide();
+        $('#sign-in-form').show();
+        $('#facebook_button').text("Connexion Facebook");
+    });
+    $('#show_new_registration_form').click(function(){
+      $('#register-form').show();
+      $('#sign-in-form').hide();
+      $('#facebook_button').text("S'inscrire avec Facebook");
+    });
