@@ -28,7 +28,7 @@
   %h5
     %i.fa.fa-envelope-o
     %span.f-decoration-underlined Méthode 2
-    \: Envoyez une invitation personnalisée (méthode recommandée)
+    \: Envoyez une invitation personnalisée
   = form_tag(bulk_create_jpo_user_invited_users_path(current_user), method: :post, id: 'invite-user-form') do
     = hidden_field :structure, :id, value: @structure.id
     .grid.push-half--top

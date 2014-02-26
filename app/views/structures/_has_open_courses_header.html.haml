@@ -1,0 +1,13 @@
+.orange-box.text--center.ff-open-sans.white.soft.push-half--bottom.hidden#participate-to_jpos
+  %h4 Cet établissements propose des ateliers gratuits pour les Portes Ouvertes des cours de loisirs
+  - if current_user
+    = link_to 'Voir les ateliers', jpo_structure_path(@structure), class: 'btn btn--light-blue btn--bigger'
+  - else
+    = link_to 'Voir les ateliers', open_courses_path, class: 'btn btn--light-blue btn--bigger'
+= content_for :scripts do
+  :javascript
+    $(function() {
+        setTimeout(function() {
+            $('#participate-to_jpos').slideDown('slow')
+        }, 1000);
+    });
