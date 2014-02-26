@@ -35,12 +35,11 @@
                 %i.fa.fa-bullhorn
                 &nbsp;Parrainer
           - if @structure.parisian?
-            .flexbox__item.v-top.five-twelfths.text--center.v-middle.blue-box>
-              = link_to pro_structure_course_opens_path(@structure), class: 'semi-muted-link', onclick: "ga('send', 'event', 'JPO', 'click')" do
-                .gamma
-                  Nouveau !
+            .flexbox__item.v-top.five-twelfths.text--center.v-middle.orange-box.white.rounded>
+              = link_to pro_structure_course_opens_path(@structure), class: 'semi-muted-link block', onclick: "ga('send', 'event', 'JPO', 'click')" do
+                = image_tag 'jpo_2014/logo_1_line.png', height: 50, class: 'push-half--top block center-block'
                 .delta
-                  Participez aux Journées Portes Ouvertes CoursAvenue
+                  Participez aux Portes Ouvertes CoursAvenue
                 %p Week-end du 5 et 6 avril 2014
           .flexbox__item.v-top.two-twelfths.text--center>
             .thin.alpha.brand= @structure.comments_count || 0

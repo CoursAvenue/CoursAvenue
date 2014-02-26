@@ -92,7 +92,7 @@ gem 'mailboxer'                 , '~> 0.11.0'
 # For authorizations
 gem 'cancan'                    , '~>1.6.10'
 # For authentication
-gem 'devise'                    , '~>3.2.2'
+gem 'devise'                    , '~>3.2.3'
 # Facebook connect
 gem 'omniauth-facebook'         , '~>1.4.1'
 # Helps access to gmail contacts etc.
