@@ -1,31 +1,15 @@
 Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.GoogleMap = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
-        /* a set of markers should be made to stand out */
-        exciteMarkers: function(data) {
-            var self = this;
-            debugger
-            data = data.models;
 
+        /* ***
+        * ### \#exciteMarkers
+        *
+        * Event handler for `itemview:course:hovered`, as such it expects
+        * a view. The view's model should have a location, and if the location
+        * matches this marker's location it will get excited. */
+        exciteMarkers: function(view) {
 
-            var keys = data.map(function(model) {
-                return self.toKey(model);
-            });
-
-            _.each(keys, function (key) {
-                var marker = self.markerViewChildren[key];
-
-                // Prevent from undefined
-                if (marker) {
-                    marker.toggleHighlight();
-
-                    if (marker.isHighlighted()) {
-                        marker.excite();
-                    } else {
-                        marker.calm();
-                    }
-                }
-            });
         },
 
         events: {

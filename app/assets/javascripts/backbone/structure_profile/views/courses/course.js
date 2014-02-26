@@ -11,6 +11,16 @@ Daedalus.module('Views.Courses', function(Module, App, Backbone, Marionette, $, 
             'mouseenter': 'announceHover'
         },
 
+        /* ***
+         * Course is an itemview, but its Collection is not defined explicitly.
+        * In this case, the events fire from the Course get are still received
+        * by the Collection, and then emitted again with the itemview prefix.
+        * The result is that the View Module will get an event like `itemview:course:hovered`.
+        * This isn't a great default behavior for a standalone itemview, I'd
+        * rather the Module receive just `course:hovered`. At the same time, if
+        * things are starting to get complicated we will no doubt eventually
+        * implement a Courses collection view explicitly, and in that case we
+        * can fire whatever events we want. */
         announceHover: function () {
             console.log("in Course->announceHover");
             this.trigger("course:hovered", { place_id: this.model.get("place_id")})
