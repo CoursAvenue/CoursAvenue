@@ -28,6 +28,12 @@ $(function() {
                         complete: function(){
                             $.each(global.initialize_callbacks, function(i, func) { func(); });
                         }
+                    },
+                    helpers : {
+                        title : {
+                            type: 'outside',
+                            position : 'top'
+                        }
                     }
             });
         });
