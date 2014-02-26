@@ -14,7 +14,7 @@
         places
 
 
-%table.table--striped.dataTable.table--data.white-box.flush--bottom
+%table.table--striped.dataTable.table--data.white-box.push--bottom
   %thead
     %tr
       %th
@@ -27,7 +27,7 @@
       %th Prix
       %th Follow up
   %tbody
-    - @courses.each do |course|
+    - @courses_new.each do |course|
       %tr
         %td
           - if course.active
@@ -54,7 +54,49 @@
           %span.green Gratuit
         %td
           = simple_form_for [:pro, course], url: pro_course_path(course), as: :course, remote: true do |f|
-            = f.input :ca_follow_up, label: false, input_html: { style: 'width: 8em; height: 3em;' }
+            = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 12px;' }
+
+%table.table--striped.dataTable.table--data.white-box.flush--bottom
+  %thead
+    %tr
+      %th
+      %th Nom de l'établissement
+      %th Nom du cours
+      %th Type
+      %th Public
+      %th Discipline
+      %th.text--center Places
+      %th Prix
+      %th Follow up
+  %tbody
+    - @courses_old.each do |course|
+      %tr
+        %td
+          - if course.active
+            = link_to disable_pro_course_path(course), remote: true, method: :patch, title: 'Enlever le cours de CoursAvenue' do
+              %i.fa.fa-check.green
+          - else
+            = link_to activate_pro_course_path(course), remote: true, method: :patch, title: 'Afficher le cours sur CoursAvenue'  do
+              %i.fa.fa-times.red
+
+        %td= link_to course.structure.name, pro_structure_course_opens_path(course.structure)
+        %td= course.name
+        %td= course.event_type
+        %td= course.plannings.map{ |planning| join_audiences(planning) }.uniq.join(', ')
+        %td= course.subjects.map(&:name).join(',')
+        %td.text--center.nowrap
+          = course.plannings.count
+          \-
+          = course.nb_participants_max * course.plannings.count
+        %td
+          - if course.price
+            = "#{readable_amount(course.price)}€"
+          - if course.common_price
+            %span.line-through #{readable_amount(course.common_price)}€
+          %span.green Gratuit
+        %td
+          = simple_form_for [:pro, course], url: pro_course_path(course), as: :course, remote: true do |f|
+            = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 12px;' }
 
 = content_for :scripts do
   :javascript
