@@ -243,7 +243,7 @@ CoursAvenue::Application.routes.draw do
 
   resources :comments, only: [:create]
 
-  resources :open_courses, path: 'journees-portes-ouvertes', only: [:index], controller: 'open_courses'
+  resources :open_courses, path: 'portes-ouvertes-des-loisirs', only: [:index], controller: 'open_courses'
 
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
     member do

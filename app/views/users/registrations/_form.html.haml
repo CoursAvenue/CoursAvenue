@@ -14,8 +14,9 @@
     Nous ne publions rien sur votre mur.
 .or
   %span ou
-#sign-in-content.collapse
-  = simple_form_for User.new, url: user_registration_path do |f|
+
+#sign-in-content.collapse{ class: (@user and @user.errors.any? ? 'in' : '') }
+  = simple_form_for @user || User.new, url: user_registration_path do |f|
     = f.error_notification
     = f.input :first_name, label: false, placeholder: 'Prénom',      input_html: {class: 'one-whole', value: (@user ? @user.first_name : nil)}, wrapper_html: {class: 'flush'}
     = f.input :last_name,  label: false, placeholder: 'Nom',         input_html: {class: 'one-whole'}
@@ -23,6 +24,7 @@
     = f.input :email,      label: false, placeholder: 'Email',       input_html: {class: 'one-whole', value: (@user ? @user.email : nil)}, wrapper_html: {class: 'flush--top'}
     = f.input :password, label: false, placeholder: 'Mot de passe', input_html: {class: 'one-whole'}
     = f.button :submit, "Inscription", class: 'btn--green one-whole'
+
 
 .text--center.push--bottom= link_to 'Inscription avec votre adresse e-mail', 'javascript:void(0)', data: {toggle: "collapse", target: "#sign-in-content"}
 %p
