@@ -229,6 +229,9 @@ CoursAvenue::Application.routes.draw do
   end
   resources :emails, only: [:create]
 
+  resources :visitors, only: [:create, :update, :index]
+  get 'visitors/:fingerprint', to: 'visitors#show'
+
   get 'auth/:provider/callback', to: 'session#create'
   get 'auth/failure'           , to: redirect('/')
   get 'signout'                , to: 'session#destroy', as: 'signout'
