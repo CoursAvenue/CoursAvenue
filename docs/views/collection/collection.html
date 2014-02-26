@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="en"><head><title>views/collection/collection</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="views/collection/collection"><meta name="groc-project-path" content="views/collection/collection.js"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">views/collection/collection.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h2 id="collection">Collection</h2>
+
+<p>This module encapsulates construction of the basic Marionette CollectionView.
+<strong>data API</strong>
+ - <em>view</em>: Collection
+ - <em>of</em>: a capitalized name of some resource, in the plural, like "Teachers" or
+   "Courses".
+ - <em>bootstrap</em>: The data to populate the collection on page load.
+ - <em>template</em>: a template to be used in place of the default. The template must
+   live in a folder named like views/widgets/templates/
+ In addition to the above options, you can provide "sample" markup that will
+ be used by the Collection to decide its tagName/className, and by the ItemView
+ if a vanilla itemview is used.
+<strong>usage</strong>
+Without sample markup.</p></div></div><div class="code"><div class="wrapper"><span class="c1">//```</span>
+<span class="c1">//#structure-tabs{ data: { view: &quot;Collection&quot;, of: &quot;Teachers&quot;, bootstrap: @model.to_json }</span>
+<span class="c1">//```</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>With sample markup for CollectionView and ItemView.</p></div></div><div class="code"><div class="wrapper"><span class="c1">//```</span>
+<span class="c1">//#structure-tabs{ data: { view: &quot;Collection&quot;, of: &quot;Teachers&quot;, bootstrap: @model.to_json }</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>%ul.some-classes
+   %li.another-class</p></div></div><div class="code"><div class="wrapper"><span class="c1">//```</span>
+<span class="nx">Daedalus</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;Views.Collection&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Module</span><span class="p">,</span> <span class="nx">App</span><span class="p">,</span> <span class="nx">Backbone</span><span class="p">,</span> <span class="nx">Marionette</span><span class="p">,</span> <span class="nx">$</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="nx">Module</span><span class="p">.</span><span class="nx">Collection</span> <span class="o">=</span> <span class="nx">Marionette</span><span class="p">.</span><span class="nx">CollectionView</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>render the item view
+<em>* override *</em>
+The Collection Module overrides renderItemView to allow a collection
+to easily be applied to HTML that already exists on the page. The idea
+is that, if an elements with <code>[data-view=collection]</code> has children, each
+of those children will be used as itemviews in the order that they appear
+on the page.
+We are depending on the order of the collection matching the order that
+the elements were rendered on the server-side. This could become problematic
+so we should watch out for situations where the data in the itemview's model
+does not match the data rendered in the element.
+We should additionally watch out for a case when there are fewer elements
+rendered on the page than items in the collection, since I'm not too sure
+what would happen there ^o^//</p></div></div><div class="code"><div class="wrapper">        <span class="nx">renderItemView</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">view</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">existing_el</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">$children</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">index</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">view</span><span class="p">.</span><span class="nx">attach</span> <span class="o">===</span> <span class="kc">undefined</span> <span class="o">||</span> <span class="nx">existing_el</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">view</span><span class="p">.</span><span class="nx">render</span><span class="p">();</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="nx">view</span><span class="p">.</span><span class="nx">attach</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">options</span><span class="p">.</span><span class="nx">$children</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">index</span><span class="p">).</span><span class="nx">innerHTML</span><span class="p">)</span>
+            <span class="p">}</span>
+
+            <span class="k">this</span><span class="p">.</span><span class="nx">appendHtml</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">view</span><span class="p">,</span> <span class="nx">index</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>a function to run when it is determined that this module will be used. Creates
+a TabManager view object for each element with data-view=TabManager.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">Module</span><span class="p">.</span><span class="nx">addInitializer</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;[data-view=Collection]&quot;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">$element</span>     <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">),</span>
+                <span class="nx">view</span>         <span class="o">=</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;view&quot;</span><span class="p">),</span> <span class="c1">// the name of the constructor</span>
+                <span class="nx">bootstrap</span>    <span class="o">=</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;bootstrap&quot;</span><span class="p">),</span> <span class="c1">// data for the collection</span>
+                <span class="nx">flavor</span>       <span class="o">=</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;flavor&quot;</span><span class="p">),</span> <span class="c1">// a sub class</span>
+                <span class="nx">resource</span>     <span class="o">=</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;of&quot;</span><span class="p">),</span> <span class="c1">// used for template name, model name, etc...</span>
+                <span class="nx">sample_tag</span>   <span class="o">=</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;[data-sample-tag]&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="nx">sample_item</span>  <span class="o">=</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">&quot;[data-sample-item]&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="nx">template</span>     <span class="o">=</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;template&quot;</span><span class="p">)</span><span class="o">?</span> <span class="nx">Module</span><span class="p">.</span><span class="nx">templateDirname</span><span class="p">()</span> <span class="o">+</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;template&quot;</span><span class="p">)</span> <span class="o">:</span> <span class="kc">undefined</span><span class="p">,</span>
+                <span class="nx">view</span><span class="p">,</span> <span class="nx">region_name</span><span class="p">,</span> <span class="nx">regions</span> <span class="o">=</span><span class="p">{},</span>
+                <span class="nx">$children</span>    <span class="o">=</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">children</span><span class="p">().</span><span class="nx">children</span><span class="p">();</span>
+
+            <span class="nx">view</span> <span class="o">=</span> <span class="nx">buildView</span><span class="p">(</span><span class="nx">view</span><span class="p">,</span> <span class="nx">flavor</span><span class="p">,</span> <span class="p">{</span>
+                <span class="nx">template</span><span class="o">:</span>      <span class="nx">template</span><span class="p">,</span>
+                <span class="nx">bootstrap</span><span class="o">:</span>     <span class="nx">bootstrap</span><span class="p">,</span>
+                <span class="nx">resource</span><span class="o">:</span>      <span class="nx">resource</span><span class="p">,</span>
+                <span class="nx">tag</span><span class="o">:</span>           <span class="nx">sample_tag</span><span class="p">,</span>
+                <span class="nx">itemview_tag</span><span class="o">:</span>  <span class="nx">sample_item</span><span class="p">,</span>
+                <span class="nx">$children</span><span class="o">:</span>      <span class="nx">$children</span>
+            <span class="p">}),</span>
+
+            <span class="nx">region_name</span>  <span class="o">=</span> <span class="s1">&#39;Collection&#39;</span> <span class="o">+</span> <span class="nx">_</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">(</span><span class="nx">view</span><span class="p">.</span><span class="nx">cid</span><span class="p">),</span>
+
+            <span class="nx">regions</span><span class="p">[</span><span class="nx">region_name</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span> <span class="o">+</span> <span class="nx">view</span><span class="p">.</span><span class="nx">cid</span><span class="p">;</span>
+            <span class="nx">$element</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="nx">view</span><span class="p">.</span><span class="nx">cid</span><span class="p">);</span>
+
+            <span class="nx">App</span><span class="p">.</span><span class="nx">addRegions</span><span class="p">(</span><span class="nx">regions</span><span class="p">);</span>
+            <span class="nx">App</span><span class="p">[</span><span class="nx">region_name</span><span class="p">].</span><span class="nx">show</span><span class="p">(</span><span class="nx">view</span><span class="p">);</span>
+
+            <span class="nx">consumeData</span><span class="p">(</span><span class="nx">$element</span><span class="p">);</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+
+    <span class="kd">var</span> <span class="nx">consumeData</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">consumeData</span> <span class="p">(</span><span class="nx">$element</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$element</span><span class="p">.</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s2">&quot;data-view&quot;</span><span class="p">);</span>
+        <span class="nx">$element</span><span class="p">.</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s2">&quot;data-bootstrap&quot;</span><span class="p">);</span>
+        <span class="nx">$element</span><span class="p">.</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s2">&quot;data-of&quot;</span><span class="p">);</span>
+    <span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>the generic collection will try to use the resource name to find
+existing collections, templates, and itemViews. If given the name
+"Widgets" is till look for,
+    a collection in /model/widgets.js
+    an itemView  in /views/widgets/widget
+    a template   in /views/widgets/templates/widget
+failing to find any of these, the collection will use a plain
+collection or itemView. If it fails to find a template it will
+complain.</p></div></div><div class="code"><div class="wrapper">    <span class="kd">var</span> <span class="nx">buildView</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">buildView</span> <span class="p">(</span><span class="nx">view</span><span class="p">,</span> <span class="nx">flavor</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>buildView adds some attributes commonly used in templates</p></div></div><div class="code"><div class="wrapper">        <span class="k">if</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">bootstrap</span> <span class="o">&amp;&amp;</span> <span class="nx">options</span><span class="p">.</span><span class="nx">bootstrap</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">options</span><span class="p">.</span><span class="nx">bootstrap</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">is_first</span> <span class="o">=</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">bootstrap</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">is_first</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">)</span><span class="o">?</span> <span class="kc">true</span> <span class="o">:</span> <span class="nx">options</span><span class="p">.</span><span class="nx">bootstrap</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">is_first</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kd">var</span> <span class="nx">result</span><span class="p">,</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Widgets might have a model/widgets collection or a views/widgets/widget itemview</p></div></div><div class="code"><div class="wrapper">            <span class="nx">resources</span>      <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">resource</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">(),</span>
+            <span class="nx">resource</span>       <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">singularize</span><span class="p">(</span><span class="nx">resources</span><span class="p">),</span>
+            <span class="nx">template_name</span>  <span class="o">=</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">template</span><span class="p">)</span><span class="o">?</span> <span class="nx">options</span><span class="p">.</span><span class="nx">template</span> <span class="o">:</span> <span class="nx">resource</span><span class="p">,</span>
+            <span class="nx">Collection</span><span class="p">,</span> <span class="nx">ItemView</span><span class="p">,</span> <span class="nx">collection</span><span class="p">,</span>
+            <span class="nx">itemview_options</span> <span class="o">=</span> <span class="p">{};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>build up the tagNames and classNames from the sample</p></div></div><div class="code"><div class="wrapper">        <span class="k">if</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">tag</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">options</span><span class="p">.</span><span class="nx">tagName</span>   <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">tag</span><span class="p">.</span><span class="nx">nodeName</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span>
+            <span class="nx">options</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">tag</span><span class="p">.</span><span class="nx">className</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">itemview_tag</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">itemview_options</span><span class="p">.</span><span class="nx">tagName</span>   <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">itemview_tag</span><span class="p">.</span><span class="nx">nodeName</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span>
+            <span class="nx">itemview_options</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">itemview_tag</span><span class="p">.</span><span class="nx">className</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="nx">Collection</span> <span class="o">=</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Models</span><span class="p">[</span><span class="nx">resources</span><span class="p">]</span> <span class="o">||</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Collection</span><span class="p">.</span><span class="nx">extend</span><span class="p">();</span>
+        <span class="nx">collection</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Collection</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">bootstrap</span> <span class="o">||</span> <span class="p">{});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>if there is a custom itemView, use that</p></div></div><div class="code"><div class="wrapper">        <span class="k">if</span> <span class="p">(</span><span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">[</span><span class="nx">_</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">(</span><span class="nx">resources</span><span class="p">)]</span> <span class="o">&amp;&amp;</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">[</span><span class="nx">_</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">(</span><span class="nx">resources</span><span class="p">)][</span><span class="nx">_</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">(</span><span class="nx">resource</span><span class="p">)])</span> <span class="p">{</span>
+            <span class="nx">ItemView</span> <span class="o">=</span> <span class="nx">App</span><span class="p">.</span><span class="nx">Views</span><span class="p">[</span><span class="nx">_</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">(</span><span class="nx">resources</span><span class="p">)][</span><span class="nx">_</span><span class="p">.</span><span class="nx">capitalize</span><span class="p">(</span><span class="nx">resource</span><span class="p">)];</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nx">ItemView</span> <span class="o">=</span> <span class="nx">Marionette</span><span class="p">.</span><span class="nx">ItemView</span><span class="p">;</span>
+        <span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>if we are using a generic item view, extend it to use the template</p></div></div><div class="code"><div class="wrapper">        <span class="nx">itemview_options</span><span class="p">.</span><span class="nx">template</span> <span class="o">=</span> <span class="s1">&#39;backbone/structure_profile/views/&#39;</span> <span class="o">+</span> <span class="nx">resources</span> <span class="o">+</span> <span class="s1">&#39;/templates/&#39;</span> <span class="o">+</span> <span class="nx">template_name</span><span class="p">;</span>
+        <span class="nx">ItemView</span>                  <span class="o">=</span> <span class="nx">ItemView</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">itemview_options</span><span class="p">);</span>
+
+        <span class="nx">options</span><span class="p">.</span><span class="nx">collection</span> <span class="o">=</span> <span class="nx">collection</span><span class="p">;</span>
+        <span class="nx">options</span><span class="p">.</span><span class="nx">itemView</span>   <span class="o">=</span> <span class="nx">ItemView</span><span class="p">;</span>
+
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">Module</span><span class="p">.</span><span class="nx">Collection</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+    <span class="p">};</span>
+
+<span class="p">},</span> <span class="kc">undefined</span><span class="p">);</span></div></div></div></div></body></html>

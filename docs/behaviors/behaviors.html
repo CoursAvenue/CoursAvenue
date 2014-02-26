@@ -1,0 +1,103 @@
+<!DOCTYPE html><html lang="en"><head><title>behaviors/behaviors</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../"><meta name="groc-document-path" content="behaviors/behaviors"><meta name="groc-project-path" content="behaviors/behaviors.js"><link rel="stylesheet" type="text/css" media="all" href="../assets/style.css"><script type="text/javascript" src="../assets/behavior.js"></script><body><div id="meta"><div class="file-path">behaviors/behaviors.js</div></div><div id="document"><div class="segment"></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="behaviours">Behaviours</h2>
+
+<p>The Behaviors module is a collection of functions that each take an element and attach
+some event handlers to it, or to the document. Each behavior is meant to be stateless,
+general, and as simple as possible. By combining behaviors on an object, we can easily
+create more complicated DOM interactions, without the need to instantiate a full-fledged
+Marionette view.</p>
+
+<p>Behaviors are intended to be like the css rules of javascript. If an element is supposed
+to stick to the top of the page, or expand on click, or play an animation until it gets
+a particular event, the element should use a behavior. Long lists of behaviors that
+commonly occur together can be collected into Components, but the moment state enters
+into the picture a View should be used.</p>
+
+<p><strong>data API</strong></p>
+
+<p><em>behaviors</em>: a name of a behavior the element is to implement, or an array of such names.</p>
+
+<p><strong>submodules</strong></p>
+
+<p>Submodules of the Behaviors module each represent one behavior. The names of submodules
+should be a substring of the data-behavior that invokes it. These submodules must also
+implement two functions: <code>attachTo</code> and a matcher function.</p>
+
+<p><strong>usage</strong></p>
+
+<pre><code>.tab.hidden{ data: { behaviors: ['showWhenActive', 'activateOnCoursesTabClicked', 'deactivateSiblings'] }}
+</code></pre></div></div><div class="code"><div class="wrapper"><span class="nx">Daedalus</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;Behaviors&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Module</span><span class="p">,</span> <span class="nx">App</span><span class="p">,</span> <span class="nx">Backbone</span><span class="p">,</span> <span class="nx">Marionette</span><span class="p">,</span> <span class="nx">$</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">Module</span><span class="p">.</span><span class="nx">matchers</span> <span class="o">=</span> <span class="p">[];</span>
+
+    <span class="nx">Module</span><span class="p">.</span><span class="nx">addInitializer</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;[data-behaviors]&quot;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">$element</span>  <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">element</span><span class="p">),</span>
+                <span class="nx">behaviors</span> <span class="o">=</span> <span class="nx">$element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s2">&quot;behaviors&quot;</span><span class="p">);</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">behaviors</span><span class="p">))</span> <span class="p">{</span>
+                <span class="nx">behaviors</span> <span class="o">=</span> <span class="p">[</span><span class="nx">behaviors</span><span class="p">];</span>
+            <span class="p">}</span>
+
+            <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">behaviors</span><span class="p">,</span> <span class="nx">_</span><span class="p">.</span><span class="nx">partial</span><span class="p">(</span><span class="nx">attachBehaviors</span><span class="p">,</span> <span class="nx">element</span><span class="p">));</span>
+        <span class="p">});</span>
+    <span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr />
+
+<h3 id="attachbehaviors">#attachBehaviors</h3>
+
+<p>given an element and a data-behavior, attaches a behavior to the element
+if one can be found matching the given data-behavior</p></div></div><div class="code"><div class="wrapper">    <span class="kd">var</span> <span class="nx">attachBehaviors</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">attachBehaviors</span> <span class="p">(</span><span class="nx">element</span><span class="p">,</span> <span class="nx">behavior_name</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">behavior</span> <span class="o">=</span> <span class="nx">behavior_name</span><span class="p">,</span>
+            <span class="nx">attacher</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">matcher</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>TODO using a while loop because we can't have pretty things</p></div></div><div class="code"><div class="wrapper">        <span class="k">while</span> <span class="p">(</span><span class="nx">attacher</span> <span class="o">===</span> <span class="kc">false</span> <span class="o">&amp;&amp;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">Module</span><span class="p">.</span><span class="nx">matchers</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">matcher</span> <span class="o">=</span> <span class="nx">Module</span><span class="p">.</span><span class="nx">matchers</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+            <span class="nx">attacher</span> <span class="o">=</span> <span class="nx">matcher</span><span class="p">(</span><span class="nx">behavior</span><span class="p">);</span>
+            <span class="nx">i</span><span class="o">++</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">attacher</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">attacher</span><span class="p">(</span><span class="nx">element</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><hr />
+
+<h3 id="registermatcher">#registerMatcher</h3>
+
+<p>submodules must define a matcher function that will be called to determine
+which behavior to use for a given data-behavior entry. The matcher
+function should take a string and return false or an object containing
+the parsed options to be passed in to that module's attachTo function.
+For example, The activateOn behaviour looks for data-behaviors like <code>/activateOn(.*)/</code>
+and returns <code>{ event: \1 }</code>. A data-behavior like
+<code>activateOnCoursesTabClicked</code> matches the activateOn behavior with
+<code>{ event: CoursesTabClicked }</code> as its parameter.</p>
+
+<p>Currently, matchers are tested in the order they are registered, so
+try to make sure your matcher starts with some unique string. My convention
+has been to make the matcher begin with the name of the submodule
+explicitly. Since the submodules share a namespace this guarantees
+no overlap in the regexes.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">Module</span><span class="p">.</span><span class="nx">registerMatcher</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">registerMatcher</span> <span class="p">(</span><span class="nx">matcher</span><span class="p">,</span> <span class="nx">submodule</span><span class="p">)</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>a matcher is a function that:</p>
+
+<ul>
+<li>takes a string</li>
+<li>returns false or the matching submodule's attachTo function, partially applied with the arguments from the match.</li>
+</ul>
+
+<p>Module.matchers is an array of functions that close on each submodule
+and matcher. A function f in Module.matchers will,</p>
+
+<ul>
+<li>evaluate the matcher against a given string</li>
+<li>partially apply the return value against the submodule's <code>attachTo</code> function</li>
+<li>return the attacher, i.e. the partially applied <code>attachTo</code> function</li>
+</ul></div></div><div class="code"><div class="wrapper">        <span class="nx">Module</span><span class="p">.</span><span class="nx">matchers</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+
+            <span class="kd">var</span> <span class="nx">options</span>  <span class="o">=</span> <span class="nx">matcher</span><span class="p">(</span><span class="nx">string</span><span class="p">),</span> <span class="c1">// &lt;-- evaluate the given matcher</span>
+                <span class="nx">attacher</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="nx">options</span> <span class="o">!==</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">attacher</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">partial</span><span class="p">(</span><span class="nx">submodule</span><span class="p">.</span><span class="nx">attachTo</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span> <span class="c1">//</span>
+            <span class="p">}</span>
+
+            <span class="k">return</span> <span class="nx">attacher</span><span class="p">;</span>
+        <span class="p">});</span>
+    <span class="p">};</span>
+
+<span class="p">},</span> <span class="kc">undefined</span><span class="p">);</span></div></div></div></div></body></html>
