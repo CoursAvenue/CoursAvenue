@@ -1,5 +1,16 @@
 (function ($) {
-    /* TODO also, why does it sometimes stop docking? Reproduce this. */
+
+    // returns an element that has the same height and width as the
+    // given element
+    $.fn.husk = function (options) {
+        var result = this.map(function (element) {
+
+            return $("<div>").height(this.offsetHeight)
+                             .width(this.offsetWidth).get(0);
+        });
+
+        return result;
+    };
 
     // attach the stickyness to the given jquery object
     $.fn.sticky = function (options) {
@@ -15,12 +26,11 @@
                 var fixed = $element.hasClass("sticky");
 
                 if (!fixed && scroll_top >= element_top) {
-                    var $placeholder = $element.clone()
-                    .css({ visibility: "hidden" })
-                    .attr("data-placeholder", "")
-                    .attr("data-behavior", "");
+                    var $placeholder = $element.husk()
+                        .css({ visibility: "hidden" })
+                        .attr("data-placeholder", "")
+                        .attr("data-behavior", "");
                     // we have scrolled past the element
-
                     var old_width = $element.outerWidth();
                     var old_top   = $element.offset().top;
 
