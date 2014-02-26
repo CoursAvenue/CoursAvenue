@@ -37,12 +37,14 @@
             margin-left: 210px;
         }
         .jpo-map {
-            right: 100px;
-            top  : -16px;
+            z-index: 100;
+            right  : 100px;
+            top    : -16px;
         }
         .jpo-bubble {
-            right: 200px;
-            top  : 190px;
+            z-index: 200;
+            right  : 200px;
+            top    : 190px;
         }
 
 .jpo-frise {
