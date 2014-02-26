@@ -21,6 +21,7 @@
 .weight-300        { font-weight: 300; }
 .weight-100        { font-weight: 100; }
 .bold              { font-weight: bold; }
+.underlined        { text-decoration: underline; }
 .hidden            { display    : none; }
 .flip {
     @include vendor(transform, scaleX(-1));

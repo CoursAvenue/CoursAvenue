@@ -44,7 +44,7 @@
                             - if content_for? :logo
                               %td.logo-cell{width: '75', valign: 'middle', align: 'center', style: 'padding-right: 0px;'}
                                 = yield :logo
-                            %td.cell{width: (content_for?(:logo) ? '520' : '600'), valign: 'middle', style: 'padding-left: 15px'}
+                            %td.cell{width: (content_for?(:logo) ? '520' : '600'), valign: 'middle', style: 'padding: 15px'}
                               = yield :promo
                 %img.divider{border: '0', height: '15', src: '', width: '1'}/
                 %br

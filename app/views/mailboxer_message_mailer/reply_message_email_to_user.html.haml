@@ -1,12 +1,6 @@
-- if @structure.logo?
-  - content_for :logo do
-    = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
-      = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
-
 - content_for :promo do
   %h4
-    = @structure.name
-    à répondu à votre message :
+    Il y a une réponse au message : #{@message.subject}
 
 = simple_format @message.body
 
@@ -17,5 +11,6 @@
     = link_to "Répondre au message", user_conversation_url(@user, @message.conversation, subdomain: 'www'), class: 'btn btn--blue'
 
 
-- content_for :footer do
-  %p Vous recevez ce message car #{@structure.name} vous a envoyé un message privé sur CoursAvenue.com
+- if @structure
+  - content_for :footer do
+    %p Vous recevez ce message car #{@structure.name} vous a envoyé un message privé sur CoursAvenue.com

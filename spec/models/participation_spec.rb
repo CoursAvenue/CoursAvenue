@@ -132,5 +132,15 @@ describe Participation do
         expect(last_participation.reload.waiting_list).to be_false
       end
     end
+
+    describe '#creates_user_profile' do
+      it 'creates a user profile after a participation is made' do
+        planning             = FactoryGirl.create(:planning)
+        user_profiles_length = planning.structure.user_profiles.length
+        participation        = planning.participations.create user: FactoryGirl.create(:user)
+        expect(planning.structure.user_profiles.reload.length).to eq user_profiles_length + 1
+        expect(planning.structure.user_profiles.last.tags.map(&:name)).to include UserProfile::DEFAULT_TAGS[:jpo_2014]
+      end
+    end
   end
 end

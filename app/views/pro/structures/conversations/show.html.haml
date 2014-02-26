@@ -1,15 +1,17 @@
 = side_menu_currently_at 'Mes messages'
 
-- recipient = @conversation.recipients.reject{|recipient| recipient == @admin }.first
+- recipients = @conversation.recipients.reject{|recipient| recipient == @admin }
 %ol.nav.breadcrumb{itemprop: 'breadcrumb'}
   %li.delta= link_to 'Mes conversations', pro_structure_conversations_path(@structure)
-  %li.delta Conversation avec #{recipient.name || recipient.email}
+  %li.delta Conversation avec #{truncate(recipients.map{|recipient| recipient.name || recipient.email}.join(', '), length: 50) }
 
 .grid
   .grid__item.one-twelfth.v-top.text--right>
-    Objet
+    %p.flush Objet
+    %p À
   .grid__item.eleven-twelfths.soft-half--left>
-    %h5= @conversation.subject
+    %h5.flush= @conversation.subject
+    %p= recipients.map(&:name).join(', ')
 
 = render partial: 'messages/message', collection: @conversation.messages.reject(&:new_record?).sort_by(&:created_at)
 

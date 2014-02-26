@@ -117,9 +117,9 @@
       .white-box.islet
         %div.read-more{data: {behavior: 'read-more', height: 300}}= simple_format @structure.description
 
-    - if @structure.cover_image.present?
+    - if @structure.side_cover_image.present?
       .white-box.islet
-        .text--center= image_tag @structure.cover_image.thumbnail_url, alt: "Cours de #{join_parent_subjects_text @structure} à #{@city.name}"
+        .text--center= image_tag @structure.side_cover_image.thumbnail_url, alt: "Cours de #{join_parent_subjects_text @structure} à #{@city.name}"
 
 
     - if @structure.facebook_url.present?

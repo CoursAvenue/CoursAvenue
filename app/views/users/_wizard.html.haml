@@ -1,0 +1,54 @@
+#wizard.blue-box.islet.hidden.relative
+  %a#close-wizard.closer{href: 'javascript:void(0)', data: { behavior: 'closer', el: '#wizard'}}
+    %i.fa.fa-times
+  #wizard-form= render @wizard.partial
+  - if @wizard.show_save
+    %span.btn.btn--green#save-wizard Enregistrer
+  %a#skip-wizard.soft-half--left{href: 'javascript:void(0)'} Passer
+
+= content_for :scripts do
+  :javascript
+    $(function() {
+        setTimeout(function() {
+            if ($('#wizard').length > 0) {
+                $('#wizard').slideDown();
+                var send_ajax = function(options) {
+                    options = options || '';
+                    $.ajax({
+                        url: "#{wizard_user_path(current_user, format: :json)}",
+                        dataType: 'json',
+                        data: options,
+                        success: function(response) {
+                            $('#wizard-form').hide('slow');
+                            setTimeout(function(){
+                                if (response.done) {
+                                    $('#wizard').hide('slow');
+                                    $('#share_your_profile').show('slow');
+                                } else {
+                                    $('#wizard-form').html(response.form);
+                                    $('#wizard-form').show('slow');
+                                }
+                            }, 500);
+                        }
+                    })
+                }
+                var submit_form = function() {
+                    $('#wizard form').submit().bind('ajax:success', function() {
+                        if ($('#wizard form input[name=next]').length > 0) {
+                            send_ajax({next:true});
+                        } else {
+                            send_ajax()
+                        }
+                    });
+                    return false;
+                };
+                $('#save-wizard').click(submit_form);
+                $('#skip-wizard').click(function(){
+                    var wizard_label = $('#wizard form label').text();
+                    send_ajax({next:true});
+                });
+                $('#close-wizard').click(function() {
+                });
+            }
+        }, 1000);
+    });

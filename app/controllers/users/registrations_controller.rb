@@ -47,7 +47,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
                                                  lng: 2.3417,
                                                  radius: 7,
                                                  per_page: 150,
-                                                 bbox: false}).results
+                                                 bbox: true}).results
 
     @structure_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
       marker.lat structure.latitude

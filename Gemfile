@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 
 ruby '2.0.0'
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.3'
 
 gem 'filepicker-rails'
 
@@ -36,6 +36,7 @@ gem 'rack-cors',           require: 'rack/cors'
 
 # Formats numbers and prices regarding the locale
 # TODO Fix this gem
+# The gem is not ready yet for Rails 4.
 # gem 'delocalize', '~>0.3.2'
 
 # Caching
@@ -136,7 +137,7 @@ gem 'sass-rails'                , '~>4.0.1'
 gem 'haml'                      , '~>4.0.3'
 gem 'uglifier'                  , '>= 1.0.3'
 gem 'coffee-rails'              , '~>4.0.0'
-# gem 'js-routes'                 , '~>0.9.3'
+gem 'js-routes'                 , '~>0.9.7'
 
 # Load FontAwesome
 gem 'font-awesome-rails'        , '~>4.0.3.1'

@@ -74,23 +74,12 @@
         %i Au dessous du seuil minimal, les élèves inscrits seront notifiés que l'événement ne sera pas forcément assuré.
         %br
         %i Au dessus du seuil maximal, une liste d'attente sera ouverte
-    .input
-      .control-label.v-top Tarifs
-      %div.flush
-        .radio
-          %input#course_price_free{type: 'radio', name: 'course[price]', value: '0', checked: (@course.new_record? or @course.price.to_i == 0) }>
-          %label{for: 'course_price_free'} Gratuit
-        .radio.flush
-          %input#course_price_other{type: 'radio', name: 'course[price]', checked: (@course.price.present? and @course.price.to_i > 0) }>
-          %label{for: 'course_price_other'} Participation financière libre
-          #chosen-price.hidden
-            %p.push-half--ends.alert.alert--info{style: 'max-width: 600px;'}
-              %strong Note importante :
-              à l'image des Journées du Patrimoine des monuments historiques, le but de l'événement est de vous apporter la plus large audience. Pour cette raison, les ateliers gratuits apparaîtront en tête de liste sur CoursAvenue. Si vous souhaitez proposer une participation libre, nous vous conseillons de ne pas dépasser les 10€.
-            %br
-            Indiquez ici le montant moyen attendu :
-            = f.input :price, wrapper_html: { class: 'inline-block push-half--left' }, label: false, placeholder: '5'
-            €
+
+    .input.flush--bottom
+      = f.label :common_price, class: 'flush'
+      = f.input :common_price, wrapper_html: { class: 'flush' }, input_html: { class: 'one-whole', placeholder: '15' }, label: false
+      €
+    %p.field-form-info.blue Indiquez le prix habituellement appliqué en dehors des Portes Ouvertes.
 
     = f.input :info, placeholder: "Renseignez toutes les informations à communiquer aux potentiels inscrits : matériel requis, tenue exigée, etc. Les informations concernant le lieu sont à renseigner à l'étape suivante.", input_html: { data: { behavior: 'autoresize' }}
 
@@ -116,13 +105,6 @@
         $('#course_price_free').click(function() {
             $('#course_price').val('');
         });
-        $('[name="course[price]"]').change(function() {
-            if ($('#course_price_other').is(':checked')) {
-                $('#chosen-price').slideDown();
-            } else {
-                $('#chosen-price').slideUp();
-            }
-        });
         $('[name="course[event_type]"]').change(function() {
             if ($('#event_other').is(':checked')) {
                 $('#other-event-type').slideDown();
@@ -131,7 +113,6 @@
             }
         });
         $('[name="course[event_type]"]').change();
-        $('[name="course[price]"]').change();
         $('#open-course-description').textareaResizer();
         $('.textarea-counter-wrapper').css('padding-left', '16em');
     });

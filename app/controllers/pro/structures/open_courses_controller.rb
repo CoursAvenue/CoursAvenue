@@ -7,6 +7,11 @@ class Pro::Structures::OpenCoursesController < Pro::ProController
 
   def new
     @course = Course::Open.new structure: @structure
+    count      = @structure.prices.individual.count
+    all_amount = @structure.prices.individual.map(&:amount).reduce(&:+)
+    if all_amount
+      @course.common_price = (all_amount / count).to_i
+    end
   end
 
   def index

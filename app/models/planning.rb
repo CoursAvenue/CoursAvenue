@@ -400,7 +400,7 @@ class Planning < ActiveRecord::Base
   end
 
   def nb_participants_max
-    read_attribute(:nb_participants_max) or self.course.nb_participants_max
+    read_attribute(:nb_participants_max) || self.course.nb_participants_max || 0
   end
 
   # Returns the participations on waiting list

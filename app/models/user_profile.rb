@@ -4,7 +4,8 @@ class UserProfile < ActiveRecord::Base
 
   DEFAULT_TAGS = {
     :comments => 'Avis',
-    :contacts => "Demande d'info"
+    :contacts => "Demande d'info",
+    :jpo_2014 => "JPO 2014"
   }
 
   belongs_to :structure
@@ -13,11 +14,13 @@ class UserProfile < ActiveRecord::Base
   attr_accessible :email, :first_name, :last_name, :birthdate, :notes, :phone, :mobile_phone,
                   :address, :structure_id
 
-  after_create :associate_to_user
+  after_create :associate_to_user_or_create
 
   before_validation :affect_email_if_empty
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i }, allow_blank: true
   validate :presence_of_mandatory_fields
+
+  scope :with_email, -> { where{(email != nil) | (email != '')} }
 
   # ------------------------------------
   # ------------------ Search attributes
@@ -46,11 +49,20 @@ class UserProfile < ActiveRecord::Base
     integer :id
   end
 
+  def name
+    self.full_name
+  end
+
   def full_name
     "#{first_name} #{last_name}"
   end
 
-  def self.import(file)
+  def name_with_email
+    if self.full_name.present?
+      "#{self.full_name} (#{self.email})"
+    else
+      self.email
+    end
   end
 
   ########### For Bulk actions
@@ -76,6 +88,21 @@ class UserProfile < ActiveRecord::Base
     self.structure.add_tags_on(self, tags)
   end
 
+  # Updates or create a user profile to the given structure based on
+  # a user information
+  # @param  _structure Structure
+  # @param  _user User
+  #
+  # @return UserProfile
+  def self.update_info(_structure, _user)
+    user_profile              = _structure.user_profiles.where(email: _user.email).first_or_create
+    user_profile.user       ||= _user
+    user_profile.first_name ||= _user.first_name
+    user_profile.last_name  ||= _user.last_name
+    user_profile.save
+    user_profile
+  end
+
   private
 
   def affect_email_if_empty
@@ -84,13 +111,14 @@ class UserProfile < ActiveRecord::Base
     end
   end
 
-  def associate_to_user
+  def associate_to_user_or_create
     if self.user.nil? and self.email.present?
       if (u = User.where(email: self.email).first).nil?
         u = User.new(email: self.email, first_name: self.first_name, last_name: self.last_name)
         u.save(validate: false)
       end
       self.user = u
+      self.save
     end
   end
 

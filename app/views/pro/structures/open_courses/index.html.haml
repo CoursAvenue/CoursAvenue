@@ -11,7 +11,7 @@
 
 %p.alert.alert--info
   %strong Note importante :
-  renseignez vos ateliers avant le 24/02/14 et faites partie de nos 1ères campagnes de communication. Nous vous enverrons un mail pour vous annoncer l'ouverture des inscriptions à vos ateliers (nos pages dédiées à l'événement seront visibles début février). Vous pourrez gérer toutes vos inscriptions et communiquer librement avec tous les élèves participants.
+  renseignez vos ateliers avant le 03/03/14 et faites partie de nos 1ères campagnes de communication. Nous vous enverrons un mail pour vous annoncer l'ouverture des inscriptions à vos ateliers (nos pages dédiées à l'événement seront visibles début février). Vous pourrez gérer toutes vos inscriptions et communiquer librement avec tous les élèves participants.
 
 .push-half--bottom
   %h4.inline-block.v-middle.flush--bottom.push-half--right Ateliers proposés
@@ -41,7 +41,7 @@
           %i.fa.fa-pencil
           Modifier
         \/
-        = link_to '#cannot-modify', class: 'red', method: :delete, data: { behavior: 'modal' } do
+        = link_to '#cannot-modify', class: 'red', data: { behavior: 'modal' } do
           %i.fa.fa-times
           Supprimer
       - else
@@ -65,20 +65,23 @@
             %th Public
             %th Niveau
             %th Lieux
-            %th.text--center Nombre d'inscrits
+            %th
+              Inscriptions
+              %br
+              = link_to '(voir mes inscrits)', pro_structure_participations_path(@structure), class: 'nowrap'
             %th
         %tbody
           - course.plannings.order('start_date ASC, start_time ASC').each do |planning|
             %tr
               %td
-                = planning_date_for(planning)
+                = planning_date_for(planning).capitalize
                 = planning_time_for(planning)
               %td= join_audiences planning
               %td= join_levels planning.levels
               %td= planning.place.location.name
               %td.text--center
                 - if planning.nb_jpo_participants > 0
-                  .progress.flush
+                  = link_to pro_structure_participations_path(@structure), class: 'progress flush block' do
                     .bar.bar-success{style: "width: #{(planning.nb_jpo_participants * 100) / planning.nb_participants_max}%;"}
                       #{planning.nb_jpo_participants} / #{planning.nb_participants_max}
                 - else

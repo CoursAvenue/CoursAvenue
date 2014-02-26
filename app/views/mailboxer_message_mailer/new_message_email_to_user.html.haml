@@ -25,5 +25,6 @@
 %p
   L'équipe de CoursAvenue
 
-- content_for :footer do
-  %p Vous recevez ce message car #{@structure.name} vous a envoyé un message privé sur CoursAvenue.com
+- if @structure
+  - content_for :footer do
+    %p Vous recevez ce message car #{@structure.name} vous a envoyé un message privé sur CoursAvenue.com
