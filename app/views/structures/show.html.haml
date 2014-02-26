@@ -56,7 +56,7 @@
               = tab[:name]
 
     .tabs--container
-      %article.tab-pane.active{ data: { view: 'Collection', of: 'Courses',  bootstrap: @model.courses.to_json,  component: 'TabContents', for: 'courses' }}
+      %article.tab-pane.active{ data: { view: 'Collection', of: 'Courses',  bootstrap: 'courses',  component: 'TabContents', for: 'courses' }}
         .white-box.islet{ data: { 'sample-tag' => true }}
           - @model.courses.each_with_index do |course, index|
             - # this is a behavior trying to listen to an app event
@@ -65,13 +65,13 @@
               - course["is_first"] = index == 0
               = render template: '../assets/javascripts/backbone/structure_profile/views/courses/templates/course', locals: course
 
-      %article.tab-pane{ data: { view: 'Collection', of: "Teachers", bootstrap: @teachers.to_json, component: 'TabContents', for: 'teachers'}}
+      %article.tab-pane{ data: { view: 'Collection', of: "Teachers", bootstrap: 'teachers', component: 'TabContents', for: 'teachers'}}
         - @teachers.each do |teacher|
+          - teacher = JSON.parse(teacher.to_json)
           .white-box.islet{ data: { 'sample-tag' => true }}
-            - teacher = JSON.parse(teacher.to_json)
             = render template: '../assets/javascripts/backbone/structure_profile/views/teachers/templates/teacher', locals: teacher
 
-      %article.tab-pane{ data: { view: 'Collection', of: "Comments", bootstrap: @model.comments.to_json, component: 'TabContents', for: 'comments'}}
+      %article.tab-pane{ data: { view: 'Collection', of: "Comments", bootstrap: 'comments', component: 'TabContents', for: 'comments'}}
         -# this will be used as the tagName and className of the CollectionView and ItemView
         %ul.comment-list{ data: { 'sample-tag' => true }}
           %li.comment-list__el.hard--left.soft-half.white-box{ data: { "sample-item" => true }}
@@ -91,9 +91,14 @@
     });
 
   :javascript
-    var places = #{ActiveModel::ArraySerializer.new(@structure.places, each_serializer: BigPlaceSerializer).to_json};
+    var places   = #{ActiveModel::ArraySerializer.new(@structure.places, each_serializer: BigPlaceSerializer).to_json };
+    var teachers = #{ActiveModel::ArraySerializer.new(@structure.teachers, each_serializer: TeacherSerializer).to_json };
+
     window.coursavenue = window.coursavenue || {};
     window.coursavenue.bootstrap = {
-      model: #{ @model.to_json },
+      structure: #{ @model.to_json },
+      courses: #{ @model.courses.to_json },
+      teachers: teachers,
+      comments: #{ @model.comments.to_json },
       places: places,
     };

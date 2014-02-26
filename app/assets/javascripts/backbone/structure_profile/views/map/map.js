@@ -9,7 +9,17 @@ Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, u
         * a view. The view's model should have a location, and if the location
         * matches this marker's location it will get excited. */
         exciteMarkers: function(view) {
+            var key = view.model.get("place_id");
 
+            if (key === null) {
+                return;
+            }
+
+            _.each(this.markerViewChildren, function (child) {
+                if (child.model.get("location").id === key) {
+                    child.excite();
+                }
+            });
         },
 
         events: {
