@@ -29,8 +29,8 @@ Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, u
         },
 
         events: {
-            "itemview:course:mouseenter": "exciteMarkers",
-            "itemview:course:mouseleave": "exciteMarkers"
+            ":course:mouseenter": "exciteMarkers",
+            ":course:mouseleave": "exciteMarkers"
         }
     });
 

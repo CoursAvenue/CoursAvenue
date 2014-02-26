@@ -164,8 +164,9 @@ Daedalus.module('Views.Collection', function(Module, App, Backbone, Marionette, 
         itemview_options.template = 'backbone/structure_profile/views/' + resources + '/templates/' + template_name;
         ItemView                  = ItemView.extend(itemview_options);
 
-        options.collection = collection;
-        options.itemView   = ItemView;
+        options.collection          = collection;
+        options.itemView            = ItemView;
+        options.itemViewEventPrefix = "";
 
         return new Module.Collection(options);
     };
