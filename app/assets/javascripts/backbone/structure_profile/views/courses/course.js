@@ -8,7 +8,8 @@ Daedalus.module('Views.Courses', function(Module, App, Backbone, Marionette, $, 
         },
 
         events: {
-            'mouseenter': 'announceHover'
+            'mouseenter': 'announceEnter',
+            'mouseleave': 'announceLeave'
         },
 
         /* ***
@@ -21,9 +22,12 @@ Daedalus.module('Views.Courses', function(Module, App, Backbone, Marionette, $, 
         * things are starting to get complicated we will no doubt eventually
         * implement a Courses collection view explicitly, and in that case we
         * can fire whatever events we want. */
-        announceHover: function () {
-            console.log("in Course->announceHover");
-            this.trigger("course:hovered", { place_id: this.model.get("place_id")})
+        announceEnter: function () {
+            this.trigger("course:mouseenter", { place_id: this.model.get("place_id")})
+        },
+
+        announceLeave: function () {
+            this.trigger("course:mouseleave", { place_id: this.model.get("place_id")})
         },
 
         // **attach**

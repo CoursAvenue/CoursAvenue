@@ -31,8 +31,10 @@ Daedalus.module('Views', function(Module, App, Backbone, Marionette, $, _, undef
         });
     });
 
-    /* any events that come from the results region will be
-    * triggered again from the layout */
+    /* ***
+     * each view created by submodules will make its events available,
+     * and will listen to some subset of events broadcast from the modelu.
+     * */
     Module.broadcast = function broadcast (e, params) {
         console.log("broadcast: %o -- %o", e, params);
 

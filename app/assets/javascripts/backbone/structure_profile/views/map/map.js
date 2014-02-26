@@ -17,13 +17,20 @@ Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, u
 
             _.each(this.markerViewChildren, function (child) {
                 if (child.model.get("location").id === key) {
-                    child.excite();
+                    child.toggleHighlight();
+
+                    if (child.isHighlighted()) {
+                        child.excite();
+                    } else {
+                        child.calm();
+                    }
                 }
             });
         },
 
         events: {
-            "itemview:course:hovered": "exciteMarkers"
+            "itemview:course:mouseenter": "exciteMarkers",
+            "itemview:course:mouseleave": "exciteMarkers"
         }
     });
 
