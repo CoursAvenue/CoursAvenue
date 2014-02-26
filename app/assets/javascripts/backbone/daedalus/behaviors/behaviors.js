@@ -23,7 +23,7 @@
 // ```
 // .tab.hidden{ data: { behaviors: ['showWhenActive', 'activateOnCoursesTabClicked', 'deactivateSiblings'] }}
 // ```
-StructureProfile.module('Behaviors', function(Module, App, Backbone, Marionette, $, _, undefined) {
+Daedalus.module('Behaviors', function(Module, App, Backbone, Marionette, $, _, undefined) {
     Module.matchers = [];
 
     Module.addInitializer(function () {

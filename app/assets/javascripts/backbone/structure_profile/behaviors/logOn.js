@@ -10,7 +10,7 @@
 // **todo**
 //
 // Once I've implemented matchers, this will be called loggerFor instead of logOn
-StructureProfile.module('Behaviors.logOn', function(Module, App, Backbone, Marionette, $, _, undefined) {
+Daedalus.module('Behaviors.logOn', function(Module, App, Backbone, Marionette, $, _, undefined) {
     this.startWithParent = false;
 
     Module.attachTo = function (options, element) {

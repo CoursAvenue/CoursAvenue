@@ -11,7 +11,7 @@
 // ```
 // .tab.hidden{ data: { behaviors: ['emitCoursesTabClickedOnClick'] }}
 // ```
-StructureProfile.module('Behaviors.emit', function(Module, App, Backbone, Marionette, $, _, undefined) {
+Daedalus.module('Behaviors.emit', function(Module, App, Backbone, Marionette, $, _, undefined) {
     this.startWithParent = false;
 
     var _broadcast = function broadcast (event, e) {

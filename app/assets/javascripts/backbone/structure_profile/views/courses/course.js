@@ -1,5 +1,5 @@
 
-StructureProfile.module('Views.Courses', function(Module, App, Backbone, Marionette, $, _, undefined) {
+Daedalus.module('Views.Courses', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.Course = Marionette.ItemView.extend({
 

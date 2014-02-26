@@ -31,7 +31,7 @@
 //  %ul.some-classes
 //    %li.another-class
 //```
-StructureProfile.module('Views.Collection', function(Module, App, Backbone, Marionette, $, _, undefined) {
+Daedalus.module('Views.Collection', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.Collection = Marionette.CollectionView.extend({
 

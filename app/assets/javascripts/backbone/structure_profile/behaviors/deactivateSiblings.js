@@ -10,7 +10,7 @@
 // ```
 // .tab.hidden{ data: { behaviors: 'deactivateSiblings' }}
 // ```
-StructureProfile.module('Behaviors.deactivateSiblings', function(Module, App, Backbone, Marionette, $, _, undefined) {
+Daedalus.module('Behaviors.deactivateSiblings', function(Module, App, Backbone, Marionette, $, _, undefined) {
     this.startWithParent = false;
 
     Module.attachTo = function (options, element) {

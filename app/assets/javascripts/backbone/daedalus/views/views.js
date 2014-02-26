@@ -17,7 +17,7 @@
 // ```
 // .tab.hidden{ data: { views: ['showWhenActive', 'activateOnCoursesTabClicked', 'deactivateSiblings'] }}
 // ```
-StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, _, undefined) {
+Daedalus.module('Views', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.addInitializer(function () {
         $("[data-view]").each(function (index, element) {

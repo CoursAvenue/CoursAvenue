@@ -12,7 +12,7 @@
 // ```
 // .tab.hidden{ data: { behaviors: ['activateOnMapMarkerClicked', 'activateOnCoursesTabClicked'] }}
 // ```
-StructureProfile.module('Behaviors.activateOn', function(Module, App, Backbone, Marionette, $, _, undefined) {
+Daedalus.module('Behaviors.activateOn', function(Module, App, Backbone, Marionette, $, _, undefined) {
     this.startWithParent = false;
 
     var _activate = function activate (element, e) {

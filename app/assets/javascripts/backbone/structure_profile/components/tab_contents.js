@@ -21,7 +21,7 @@
 //```
 //.tab{ data: { component: "TabContents", for: "courses" } }
 //```
-StructureProfile.module('Components.TabContents', function(Module, App, Backbone, Marionette, $, _, undefined) {
+Daedalus.module('Components.TabContents', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.addInitializer(function initializeTabContents () {
         $("[data-component=TabContents]").each(function (index, element) {
@@ -29,9 +29,9 @@ StructureProfile.module('Components.TabContents', function(Module, App, Backbone
                 tab_name     = $element.data("for"),
                 event        = _.capitalize(tab_name) + "TabClicked";
 
-            StructureProfile.Behaviors.activateOn.attachTo({ event: event }, element);
-            StructureProfile.Behaviors.showWhenActive.attachTo({}, element);
-            StructureProfile.Behaviors.deactivateSiblings.attachTo({}, element);
+            Daedalus.Behaviors.activateOn.attachTo({ event: event }, element);
+            Daedalus.Behaviors.showWhenActive.attachTo({}, element);
+            Daedalus.Behaviors.deactivateSiblings.attachTo({}, element);
 
             consumeData($element);
         });

@@ -1,4 +1,4 @@
-StructureProfile.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, undefined) {
+Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.GoogleMap = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView;
 

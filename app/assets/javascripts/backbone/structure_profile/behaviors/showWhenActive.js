@@ -12,7 +12,7 @@
 // ```
 // .tab.hidden{ data: { behaviors: 'showWhenActive' }}
 // ```
-StructureProfile.module('Behaviors.showWhenActive', function(Module, App, Backbone, Marionette, $, _, undefined) {
+Daedalus.module('Behaviors.showWhenActive', function(Module, App, Backbone, Marionette, $, _, undefined) {
     this.startWithParent = false;
 
     Module.attachTo = function (options, element) {
