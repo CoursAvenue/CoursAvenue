@@ -122,6 +122,7 @@ class Structure < ActiveRecord::Base
   before_save      :fix_widget_url
   before_save      :encode_uris
   before_save      :reset_cropping_attributes, if: :logo_has_changed?
+  before_save      :strip_name
 
   # ------------------------------------
   # ------------------ Search attributes
@@ -519,6 +520,13 @@ class Structure < ActiveRecord::Base
   end
 
   private
+
+  # Strip name if exists to prevent from name starting by a space
+  #
+  # @return name
+  def strip_name
+    self.name = self.name.strip_name if self.name
+  end
 
   def logo_has_changed?
     self.logo.dirty?
