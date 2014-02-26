@@ -12,6 +12,7 @@ Daedalus.module('Views.Courses', function(Module, App, Backbone, Marionette, $, 
         },
 
         announceHover: function () {
+            console.log("in Course->announceHover");
             this.trigger("course:hovered", { place_id: this.model.get("place_id")})
         },
 

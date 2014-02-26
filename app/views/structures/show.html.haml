@@ -59,7 +59,8 @@
       %article.tab-pane.active{ data: { view: 'Collection', of: 'Courses',  bootstrap: @model.courses.to_json,  component: 'TabContents', for: 'courses' }}
         .white-box.islet{ data: { 'sample-tag' => true }}
           - @model.courses.each_with_index do |course, index|
-            %div{ data: { behaviors: ["SuperBob"] }}
+            - # this is a behavior trying to listen to an app event
+            %div{ data: { behaviors: ["LoggerForCourseHovered"] }}
               - course = JSON.parse(CourseSerializer.new(course).to_json) # get the json ready for bootstrap
               - course["is_first"] = index == 0
               = render template: '../assets/javascripts/backbone/structure_profile/views/courses/templates/course', locals: course

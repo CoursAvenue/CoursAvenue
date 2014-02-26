@@ -1,58 +1,59 @@
-// Collection
-// ----------
-//
-// This module encapsulates construction of the basic Marionette CollectionView.
-//
-// **data API**
-//
-//  - _view_: Collection
-//  - _of_: a capitalized name of some resource, in the plural, like "Teachers" or
-//    "Courses".
-//  - _bootstrap_: The data to populate the collection on page load.
-//  - _template_: a template to be used in place of the default. The template must
-//    live in a folder named like views/widgets/templates/
-//
-//  In addition to the above options, you can provide "sample" markup that will
-//  be used by the Collection to decide its tagName/className, and by the ItemView
-//  if a vanilla itemview is used.
-//
-// **usage**
-//
-// Without sample markup.
-//
-//```
-//#structure-tabs{ data: { view: "Collection", of: "Teachers", bootstrap: @model.to_json }
-//```
-//
-// With sample markup for CollectionView and ItemView.
-//
-//```
-//#structure-tabs{ data: { view: "Collection", of: "Teachers", bootstrap: @model.to_json }
-//  %ul.some-classes
-//    %li.another-class
-//```
+/* Collection
+ * ----------
+ *
+ * This module encapsulates construction of the basic Marionette CollectionView.
+ *
+ * **data API**
+ *
+ *  - _view_: Collection
+ *  - _of_: a capitalized name of some resource, in the plural, like "Teachers" or
+ *    "Courses".
+ *  - _bootstrap_: The data to populate the collection on page load.
+ *  - _template_: a template to be used in place of the default. The template must
+ *    live in a folder named like views/widgets/templates/
+ *
+ *  In addition to the above options, you can provide "sample" markup that will
+ *  be used by the Collection to decide its tagName/className, and by the ItemView
+ *  if a vanilla itemview is used.
+ *
+ * **usage**
+ *
+ * Without sample markup.
+ *
+ *```
+ *#structure-tabs{ data: { view: "Collection", of: "Teachers", bootstrap: @model.to_json }
+ *```
+ *
+ * With sample markup for CollectionView and ItemView.
+ *
+ *```
+ *#structure-tabs{ data: { view: "Collection", of: "Teachers", bootstrap: @model.to_json }
+ *  %ul.some-classes
+ *    %li.another-class
+ *```
+ */
 Daedalus.module('Views.Collection', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.Collection = Marionette.CollectionView.extend({
 
-        // render the item view
-        //
-        // ** override **
-        //
-        // The Collection Module overrides renderItemView to allow a collection
-        // to easily be applied to HTML that already exists on the page. The idea
-        // is that, if an elements with `[data-view=collection]` has children, each
-        // of those children will be used as itemviews in the order that they appear
-        // on the page.
-        //
-        // We are depending on the order of the collection matching the order that
-        // the elements were rendered on the server-side. This could become problematic
-        // so we should watch out for situations where the data in the itemview's model
-        // does not match the data rendered in the element.
-        //
-        // We should additionally watch out for a case when there are fewer elements
-        // rendered on the page than items in the collection, since I'm not too sure
-        // what would happen there ^o^//
+        /* ***
+         * ** override **
+         *
+         * The Collection Module overrides renderItemView to allow a collection
+         * to easily be applied to HTML that already exists on the page. The idea
+         * is that, if an elements with `[data-view=collection]` has children, each
+         * of those children will be used as itemviews in the order that they appear
+         * on the page.
+         *
+         * We are depending on the order of the collection matching the order that
+         * the elements were rendered on the server-side. This could become problematic
+         * so we should watch out for situations where the data in the itemview's model
+         * does not match the data rendered in the element.
+         *
+         * We should additionally watch out for a case when there are fewer elements
+         * rendered on the page than items in the collection, since I'm not too sure
+         * what would happen there ^o^//
+         */
         renderItemView: function(view, index) {
             var existing_el = this.options.$children.get(index);
             if (view.attach === undefined || existing_el === undefined) {
@@ -98,6 +99,10 @@ Daedalus.module('Views.Collection', function(Module, App, Backbone, Marionette, 
             App[region_name].show(view);
 
             consumeData($element);
+
+            /* view registers to be notified of events on layout */
+            Marionette.bindEntityEvents(view, App.Views, { });
+            App.Views.listenTo(view, 'all', App.Views.broadcast);
         });
     });
 
@@ -107,17 +112,19 @@ Daedalus.module('Views.Collection', function(Module, App, Backbone, Marionette, 
         $element.removeAttr("data-of");
     };
 
-    // the generic collection will try to use the resource name to find
-    // existing collections, templates, and itemViews. If given the name
-    // "Widgets" is till look for,
-    //
-    //     a collection in /model/widgets.js
-    //     an itemView  in /views/widgets/widget
-    //     a template   in /views/widgets/templates/widget
-    //
-    // failing to find any of these, the collection will use a plain
-    // collection or itemView. If it fails to find a template it will
-    // complain.
+    /* ***
+     * the generic collection will try to use the resource name to find
+     * existing collections, templates, and itemViews. If given the name
+     * "Widgets" is till look for,
+     *
+     *     a collection in /model/widgets.js
+     *     an itemView  in /views/widgets/widget
+     *     a template   in /views/widgets/templates/widget
+     *
+     * failing to find any of these, the collection will use a plain
+     * collection or itemView. If it fails to find a template it will
+     * complain.
+     */
     var buildView = function buildView (view, flavor, options) {
         // buildView adds some attributes commonly used in templates
         if (options.bootstrap && options.bootstrap.length > 0) {

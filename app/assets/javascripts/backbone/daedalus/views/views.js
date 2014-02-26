@@ -1,22 +1,23 @@
-// Views
-// -----
-//
-// The Views module detects the presence of the data-views attribute and
-// starts submodules for the given views. In addition, the Views module
-// augments the existing Marionette views with additional functionality
-// specific to this system.
-//
-// **data API**
-//
-// _view_: a name of a behavior the element is to implement, or an array of such names.
-// _bootstrap_: data set on the server-side and passed in to any models or collections that
-//   may be instantiated as part of spinning up the views.
-//
-// **usage**
-//
-// ```
-// .tab.hidden{ data: { views: ['showWhenActive', 'activateOnCoursesTabClicked', 'deactivateSiblings'] }}
-// ```
+/* Views
+ * -----
+ *
+ * The Views module detects the presence of the data-views attribute and
+ * starts submodules for the given views. In addition, the Views module
+ * augments the existing Marionette views with additional functionality
+ * specific to this system.
+ *
+ * **data API**
+ *
+ * _view_: a name of a behavior the element is to implement, or an array of such names.
+ * _bootstrap_: data set on the server-side and passed in to any models or collections that
+ *   may be instantiated as part of spinning up the views.
+ *
+ * **usage**
+ *
+ * ```
+ * .tab.hidden{ data: { views: ['showWhenActive', 'activateOnCoursesTabClicked', 'deactivateSiblings'] }}
+ * ```
+ */
 Daedalus.module('Views', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.addInitializer(function () {
@@ -29,6 +30,14 @@ Daedalus.module('Views', function(Module, App, Backbone, Marionette, $, _, undef
             }
         });
     });
+
+    /* any events that come from the results region will be
+    * triggered again from the layout */
+    Module.broadcast = function broadcast (e, params) {
+        console.log("broadcast: %o -- %o", e, params);
+
+        this.trigger(e, params);
+    }
 
 }, undefined);
 

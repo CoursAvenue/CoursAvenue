@@ -1,6 +1,37 @@
 Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
-    Module.GoogleMap = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView;
+    Module.GoogleMap = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
+        /* a set of markers should be made to stand out */
+        exciteMarkers: function(data) {
+            var self = this;
+            debugger
+            data = data.models;
+
+
+            var keys = data.map(function(model) {
+                return self.toKey(model);
+            });
+
+            _.each(keys, function (key) {
+                var marker = self.markerViewChildren[key];
+
+                // Prevent from undefined
+                if (marker) {
+                    marker.toggleHighlight();
+
+                    if (marker.isHighlighted()) {
+                        marker.excite();
+                    } else {
+                        marker.calm();
+                    }
+                }
+            });
+        },
+
+        events: {
+            "itemview:course:hovered": "exciteMarkers"
+        }
+    });
 
     // a function to run when it is determined that this module will be used. Creates
     // a TabManager view object for each element with data-view=TabManager.
@@ -30,6 +61,10 @@ Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, u
             App[region_name].show(view);
 
             consumeData($element);
+
+            /* view registers to be notified of events on layout */
+            Marionette.bindEntityEvents(view, App.Views, view.events);
+            App.Views.listenTo(view, 'all', App.Views.broadcast);
         });
     });
 
