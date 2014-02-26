@@ -72,7 +72,7 @@
         background-color: #F9F9F9;
     }
 }
-.nowrap    { white-space : nowrap; }
+.nowrap    { white-space : nowrap !important; }
 .break-all { word-break : break-all; }
 .milli {
     p {
