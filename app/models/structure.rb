@@ -525,7 +525,7 @@ class Structure < ActiveRecord::Base
   #
   # @return name
   def strip_name
-    self.name = self.name.strip_name if self.name
+    self.name = self.name.strip if self.name
   end
 
   def logo_has_changed?

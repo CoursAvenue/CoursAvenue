@@ -17,7 +17,7 @@ $(function() {
         $(this).fancybox({
                 openSpeed   : 300,
                 maxWidth    : 800,
-                maxHeight   : 500,
+                maxHeight   : 600,
                 fitToView   : false,
                 width       : width,
                 height      : height,
