@@ -31,10 +31,10 @@
       %tr
         %td
           - if course.active
-            = link_to disable_pro_course_path(course), remote: true, method: :patch, title: 'Enlever le cours de CoursAvenue' do
+            = link_to disable_pro_structure_course_path(course.structure, course), remote: true, method: :patch, title: 'Enlever le cours de CoursAvenue' do
               %i.fa.fa-check.green
           - else
-            = link_to activate_pro_course_path(course), remote: true, method: :patch, title: 'Afficher le cours sur CoursAvenue'  do
+            = link_to activate_pro_structure_course_path(course.structure, course), remote: true, method: :patch, title: 'Afficher le cours sur CoursAvenue'  do
               %i.fa.fa-times.red
 
         %td= link_to course.structure.name, pro_structure_course_opens_path(course.structure)
@@ -53,7 +53,7 @@
             %span.line-through #{readable_amount(course.common_price)}€
           %span.green Gratuit
         %td
-          = simple_form_for [:pro, course], url: pro_course_path(course), as: :course, remote: true do |f|
+          = simple_form_for [:pro, course], url: pro_structure_course_path(course.structure, course), as: :course, remote: true do |f|
             = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 11px;' }
 
 %table.table--striped.dataTable.table--data.white-box.flush--bottom
@@ -95,7 +95,7 @@
             %span.line-through #{readable_amount(course.common_price)}€
           %span.green Gratuit
         %td
-          = simple_form_for [:pro, course], url: pro_course_path(course), as: :course, remote: true do |f|
+          = simple_form_for [:pro, course], url: pro_structure_course_path(course.structure, course), as: :course, remote: true do |f|
             = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 11px;' }
 
 = content_for :scripts do
