@@ -6,6 +6,16 @@ class UserMailer < ActionMailer::Base
 
   default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
+
+  ######################################################################
+  # Email reminder                                                     #
+  ######################################################################
+  # Monday email to push the user to fill passions
+  def passions_incomplete(user)
+    @user    = user
+    mail to: @user.email, subject: 'Renseignez toutes vos passions sur votre profil'
+  end
+
   # Welcomes the user on the platforme
   def contact(name, email, content)
     @name    = name

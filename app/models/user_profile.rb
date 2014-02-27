@@ -65,7 +65,9 @@ class UserProfile < ActiveRecord::Base
     end
   end
 
-  ########### For Bulk actions
+  ######################################################################
+  # Bulk actions                                                       #
+  ######################################################################
 
   # it should call the method with the given name
   # the method should receive the arguments it expects
