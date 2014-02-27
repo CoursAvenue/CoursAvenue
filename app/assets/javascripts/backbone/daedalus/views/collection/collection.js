@@ -41,38 +41,9 @@
  * ```
  */
 Daedalus.module('Views.Collection', function(Module, App, Backbone, Marionette, $, _, undefined) {
+    this.startWithParent = false;
 
-    Module.Collection = Marionette.CollectionView.extend({
-
-        /* ***
-         * ** override **
-         *
-         * The Collection Module overrides renderItemView to allow a collection
-         * to easily be applied to HTML that already exists on the page. The idea
-         * is that, if an elements with `[data-view=collection]` has children, each
-         * of those children will be used as itemviews in the order that they appear
-         * on the page.
-         *
-         * We are depending on the order of the collection matching the order that
-         * the elements were rendered on the server-side. This could become problematic
-         * so we should watch out for situations where the data in the itemview's model
-         * does not match the data rendered in the element.
-         *
-         * We should additionally watch out for a case when there are fewer elements
-         * rendered on the page than items in the collection, since I'm not too sure
-         * what would happen there ^o^//
-         */
-      //renderItemView: function(view, index) {
-      //    var existing_el = this.options.$children.get(index);
-      //    if (view.attach === undefined || existing_el === undefined) {
-      //        view.render();
-      //    } else {
-      //        view.attach(this.options.$children.get(index).innerHTML)
-      //    }
-
-      //    this.appendHtml(this, view, index);
-      //}
-    });
+    Module.Collection = Marionette.CollectionView;
 
     // a function to run when it is determined that this module will be used. Creates
     // a TabManager view object for each element with data-view=TabManager.

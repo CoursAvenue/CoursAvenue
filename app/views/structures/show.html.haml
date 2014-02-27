@@ -80,13 +80,13 @@
       %article.tab-pane{ data: { view: 'Collection', of: "Teachers", bootstrap: 'teachers', component: 'TabContents', for: 'teachers'}}
         - @teachers.each do |teacher|
           - teacher = JSON.parse(teacher.to_json)
-          .white-box.islet{ data: { 'sample-tag' => true }}
+          .white-box.islet{ data: { 'tagName' => true }}
             = render template: '../assets/javascripts/backbone/structure_profile/views/teachers/templates/teacher', locals: teacher
 
       %article.tab-pane{ data: { view: 'Collection', of: "Comments", bootstrap: 'comments', component: 'TabContents', for: 'comments'}}
         -# this will be used as the tagName and className of the CollectionView and ItemView
-        %ul.comment-list{ data: { 'sample-tag' => true }}
-          %li.comment-list__el.hard--left.soft-half.white-box{ data: { "sample-item" => true }}
+        %ul.comment-list{ data: { 'tagName' => true }}
+          %li.comment-list__el.hard--left.soft-half.white-box{ data: { "itemviewTagName" => true }}
 
 #course_info.hidden= render 'structures/courses/info_popup'
 

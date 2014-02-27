@@ -23,37 +23,20 @@
  * %div{ data: { view: "Composite", of: "Students", and: "Teacher", bootstrap: { model: teacher, collection: students }}}
  * ```
  */
-Daedalus.module('Views.Collection', function(Module, App, Backbone, Marionette, $, _, undefined) {
+Daedalus.module('Views.Composite', function(Module, App, Backbone, Marionette, $, _, undefined) {
+    this.startWithParent = false;
 
     Module.Composite = Marionette.CompositeView;
 
     // a function to run when it is determined that this module will be used. Creates
     // a TabManager view object for each element with data-view=TabManager.
     Module.addInitializer(function () {
-        $("[data-view=Composite]").each(function (index, element) {
-            var $element          = $(element),
-                view              = $element.data("view"), // the name of the constructor
-                flavor            = $element.data("flavor"), // a sub class
-                bootstrap         = $element.data("bootstrap"), // data for the collection
-                resource          = $element.data("of"), // used for template name, model name, etc...
-                composite         = $element.data("and"), // the composite part
-                container         = $element.data("itemviewContainer"),
-                container         = (container)? container : $element.find("[data-itemviewContainer]").get(0),
-                tagName           = $element.find("[data-tagName]").get(0),
-                itemviewTagName   = $element.find("[data-itemviewTagName]").get(0),
-                regions           = {},
-                region_name;
+        $("[data-view=" + Module.moduleName + "]").each(function (index, element) {
 
-            view = buildView(view, flavor, {
-                bootstrap:         bootstrap,
-                resource:          resource,
-                composite:         composite,
-                container:         container,
-                tagName:           tagName,
-                itemviewTagName:   itemviewTagName
-            });
-
-            region_name  = 'Collection' + _.capitalize(view.cid),
+            var view         = buildView(element, $(element).data()),
+                region_name  = Module.moduleName + _.capitalize(view.cid),
+                $element     = $(element),
+                regions      = {};
 
             regions[region_name] = "#" + view.cid;
             $element.attr("id", view.cid);
@@ -76,95 +59,122 @@ Daedalus.module('Views.Collection', function(Module, App, Backbone, Marionette, 
     };
 
     /* ***
-     * the generic collection will try to use the resource name to find
-     * existing collections, templates, and itemViews. If given the name
-     * "Widgets" is till look for,
-     *
-     *     a collection in /model/widgets.js
-     *     an itemView  in /views/widgets/widget
-     *     a template   in /views/widgets/templates/widget
-     *
-     * failing to find any of these, the collection will use a plain
-     * collection or itemView. If it fails to find a template it will
-     * complain.
-     */
-    var buildView = function buildView (view, flavor, options) {
-        // buildView adds some attributes commonly used in templates
+     * ### \#buildView */
+    var buildView = function buildView (element, options) {
+            var $element          = $(element),
+                // The options object will contain exactly $(element).data(). From
+                // this we grow the identity of the Composite we are building.
+                view              = options.view,
+                flavor            = options.flavor,
+                bootstrap         = options.bootstrap,
+                resources         = options.of.toLowerCase(),
+                resource          = _.singularize(resources),
+                composite         = options.and,
+                container         = options.itemviewContainer,
 
-        var result,
-            // Widgets might have a model/widgets collection or a views/widgets/widget itemview
-            resources      = options.resource.toLowerCase(),
-            resource       = _.singularize(resources),
-            template_name  = (options.template)? options.template : resources,
-            itemview_template_name  = (options.template)? options.template : resource,
-            Collection, ItemView, collection, Model, model,
-            itemview_options = {};
+                // If prerendered HTML was provided, then we extract some options
+                // from it. In particular, the tagName and itemviewContaineri options
+                // will be attached to marked elements.
+                container         = (container)? container : $element.find("[data-itemviewContainer]").get(0),
+                tagName           = $element.find("[data-tagName]").get(0),
 
-        // build the itemviewContainer
+                ItemView, collection, model,
+                options = {};
 
-        if (options.bootstrap.model) {
-            options.model      = options.bootstrap.model;
-            options.collection = options.bootstrap.collection;
-        } else {
-            options.collection = options.bootstrap;
+        // After building up the model, collection and ItemView constructor,
+        model      = buildModel(bootstrap.model, resource);
+        collection = buildCollection(bootstrap.collection || bootstrap, resources);
+
+        ItemView   = itemviewFor(resources, resource, $element);
+
+        // we build up an options object to be passed into the Composite constructor.
+        if (_.isElement(tagName)) {
+            options.className = tagName.className;
+            options.tagName   = tagName.nodeName.toLowerCase();
         }
 
-        // find the collection data
-        if (_.isString(options.collection)) {
-            options.collection = window.coursavenue.bootstrap[options.collection];
+        if (_.isElement(container)) {
+            options.itemviewContainer = container.nodeName.toLowerCase();
         }
 
-        // find the model data
-        if (_.isString(options.model)) {
-            options.model = window.coursavenue.bootstrap[options.model];
-        }
-
-        // build the collection
-        Collection = App.Models[resources] || Backbone.Collection.extend();
-        collection = new Collection(options.collection || {});
-
-        // build the model
-        Model = App.Models[resource] || Backbone.Model.extend();
-        model = new Collection(options.model || {});
-
-        // if there is a custom itemView, use that
-        if (App.Views[_.capitalize(resources)] && App.Views[_.capitalize(resources)][_.capitalize(resource)]) {
-            ItemView = App.Views[_.capitalize(resources)][_.capitalize(resource)];
-        } else {
-            ItemView = Marionette.ItemView;
-        }
-
-
-        // grab the tagName, itemviewContainer, and itemviewTagName
-        if (_.isElement(options.tagName)) {
-            options.className = options.tagName.className;
-            options.tagName   = options.tagName.nodeName.toLowerCase();
-        }
-
-        if (_.isElement(options.container)) {
-            options.itemviewContainer = options.container.nodeName.toLowerCase();
-        }
-
-        if (_.isElement(options.itemviewTagName)) {
-            itemview_options.className = options.itemviewTagName.className;
-            itemview_options.tagName   = options.itemviewTagName.nodeName.toLowerCase();
-        }
-
-        options.tagName           = (options.tagName)           ? options.tagName           : "table";
-        options.itemviewContainer = (options.itemviewContainer) ? options.itemviewContainer : "tbody";
-        itemview_options.tagName  = (itemview_options.tagName)  ? itemview_options.tagName  : "tr";
-
-        // if we are using a generic item view, extend it to use the template
-        itemview_options.template = 'backbone/structure_profile/views/' + resources + '/templates/' + itemview_template_name;
-        ItemView                  = ItemView.extend(itemview_options);
-
-        options.template            = 'backbone/structure_profile/views/' + resources + '/templates/' + template_name;
+        options.tagName             = options.tagName           || "table";
+        options.itemviewContainer   = options.itemviewContainer || "tbody";
+        options.template            = 'backbone/structure_profile/views/' + resources + '/templates/' + resources;
         options.collection          = collection;
         options.model               = model;
         options.itemView            = ItemView;
         options.itemViewEventPrefix = "";
 
         return new Module.Composite(options);
+    };
+
+    /* ***
+     * ### \#buildModel & \#buildCollection
+     *
+     * Each method takes a data, which may be a json serialization
+     * of an actual model, or a key to the json data in the global
+     * store. After possibly getting the data from the global store,
+     * we use it to construct a Model or Collection, either the one
+     * referred to by the resource parameter, or the vanilla Backbone
+     * version.  */
+    var buildModel = function buildModel (model, resource) {
+        var Model;
+
+        if (_.isString(model)) {
+            model = window.coursavenue.bootstrap[model];
+        }
+
+        Model = App.Models[resource] || Backbone.Model.extend();
+        model = new Model(model || {});
+
+        return model;
+    };
+
+    var buildCollection = function buildCollection (collection, resources) {
+        var Collection;
+
+        if (_.isString(collection)) {
+            collection = window.coursavenue.bootstrap[collection];
+        }
+
+        Collection = App.Models[resources] || Backbone.Collection.extend();
+        collection = new Collection(collection || {});
+
+        return collection;
+    };
+
+    /* ***
+     * ### \#itemviewFor
+     * */
+    var itemviewFor = function itemviewFor (resources, resource, element) {
+        var ItemView, itemview_options = {},
+            itemviewTagName = $(element).find("[data-itemviewTagName]").get(0);
+
+        // If App.Views[resources][resource] is an ItemView, then we will
+        // want to return that. Otherwise, we'll use a plain ItemView.
+        if (App.Views[_.capitalize(resources)] && App.Views[_.capitalize(resources)][_.capitalize(resource)]) {
+            ItemView = App.Views[_.capitalize(resources)][_.capitalize(resource)];
+        } else {
+            ItemView = Marionette.ItemView;
+        }
+
+        // The prerendered HTML should override whatever defaults the itemview
+        // we found might have. So if the HTML contained an element marked as
+        // the itemviewTagName, we'll use its class and node names.
+        if (_.isElement(itemviewTagName)) {
+            itemview_options.className = itemviewTagName.className;
+            itemview_options.tagName   = itemviewTagName.nodeName.toLowerCase();
+        }
+
+        // Otherwise, we will use the itemview's own tagName, or just "tr" if
+        // we are going with the default itemview (since this is a composite view).
+        itemview_options.tagName  = itemview_options.tagName  || "tr";
+        itemview_options.template = 'backbone/structure_profile/views/' + resources + '/templates/' + resource;
+
+        // Finally we extend the ItemView with whatever options we discovered
+        ItemView                  = ItemView.extend(itemview_options);
+
+        return ItemView;
     };
 
 }, undefined);
