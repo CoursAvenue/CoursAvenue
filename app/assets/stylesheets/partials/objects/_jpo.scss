@@ -7,7 +7,7 @@
     .jpo-banner {
         background-image: asset-url('jpo_2014/home_page_background.png');
         height          : 361px;
-        width           : 1400px;
+        max-width       : 1400px;
         margin          : auto;
         background-repeat: none;
         @include background-size('1400px 361px');
