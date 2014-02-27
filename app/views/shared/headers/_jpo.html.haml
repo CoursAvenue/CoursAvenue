@@ -11,7 +11,7 @@
         - if current_pro_admin.structure
           = link_to 'Mon profil', pro_structure_url(current_pro_admin.structure, subdomain: 'pro'), class: 'btn btn--blue btn--small'
       - elsif current_user
-        = render partial: 'shared/header_user_nav'
+        = render partial: 'shared/headers/user_nav'
       - else
         .inline-block
           #connection-registration-buttons
