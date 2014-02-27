@@ -146,7 +146,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
 
-        resources :teachers
+        resources :teachers     , controller: 'structures/teachers'
         resources :places       , controller: 'structures/places'
 
         resources :messages     , controller: 'structures/messages'

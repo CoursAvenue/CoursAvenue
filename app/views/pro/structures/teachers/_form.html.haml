@@ -1,13 +1,26 @@
-= simple_form_for [:pro, @structure, @teacher] do |f|
+= simple_form_for [:pro, @structure, @teacher], html: { id: 'teacher-form' } do |f|
   = f.error_notification
   %div{data: { behavior: 'image-input' } }
     %img.center-block{src: (@teacher.image? ? @teacher.image.url(:normal) : ''), width: 150}
+    - if @teacher.image?
+      .text--center
+        %a#delete-image.red{href: 'javascript:void(0)'} Supprimer la photo
     .input
       .control-label Photo du professeur
       = link_to 'javascript:void(0)', class: 'btn btn--blue btn--small', data: {trigger: true} do
         %i.fa.fa-picture-o
         Choisir l'image
       .visuallyhidden= f.input :image, label: false
+  .visuallyhidden= f.input :delete_image, as: :boolean, label: false, id: 'teacher_delete_image'
   = f.input :name
   = f.input :description, input_html: {'data-behavior' => 'autoresize'}
   = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+
+
+:javascript
+  if ($('#delete-image').length > 0) {
+      $('#delete-image').click(function(){
+          $('#teacher_delete_image')[0].checked = true;
+          $('#teacher-form').submit();
+      });
+  }
