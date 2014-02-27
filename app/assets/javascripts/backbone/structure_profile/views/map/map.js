@@ -16,7 +16,7 @@ Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, u
             }
 
             _.each(this.markerViewChildren, function (child) {
-                if (child.model.get("location").id === key) {
+                if (child.model.get("id") === key) {
                     child.toggleHighlight();
 
                     if (child.isHighlighted()) {

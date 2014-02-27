@@ -36,8 +36,6 @@ Daedalus.module('Views', function(Module, App, Backbone, Marionette, $, _, undef
      * and will listen to some subset of events broadcast from the modelu.
      * */
     Module.broadcast = function broadcast (e, params) {
-        console.log("broadcast: %o -- %o", e, params);
-
         this.trigger(e, params);
     }
 

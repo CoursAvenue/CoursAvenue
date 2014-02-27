@@ -19,13 +19,13 @@ Daedalus.module('Views.Plannings', function(Module, App, Backbone, Marionette, $
         * implement a Courses collection view explicitly, and in that case we
         * can fire whatever events we want. */
         announceEnter: function (e) {
-            $(e.target).addClass("active");
-            this.trigger("course:mouseenter", { place_id: this.model.get("place_id")})
+            $(e.currentTarget).addClass("active");
+            this.trigger("course:mouseenter");
         },
 
         announceLeave: function (e) {
-            $(e.target).removeClass("active");
-            this.trigger("course:mouseleave", { place_id: this.model.get("place_id")})
+            $(e.currentTarget).removeClass("active");
+            this.trigger("course:mouseleave");
         }
     });
 
