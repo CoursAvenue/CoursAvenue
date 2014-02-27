@@ -1,5 +1,6 @@
-- participation_link = open_courses_url(subdomain: 'www') if participation_link.nil?
-- know_more_link     = pages_jpo_url(subdomain: 'www')    if know_more_link.nil?
+- subdomain = 'staging' if request.subdomain.include? 'staging'
+- participation_link = open_courses_url(subdomain: (subdomain || 'www')) if participation_link.nil?
+- know_more_link     = pages_jpo_url(subdomain: (subdomain || 'www'))    if know_more_link.nil?
 .jpo-banner-warpper>
   .jpo-banner.soft.relative>
     .main-container.soft--top>
@@ -17,6 +18,11 @@
         %br>
         = link_to 'En savoir plus', know_more_link, class: 'white f-decoration-underlined milli', target: :_blank
       = image_tag 'jpo_2014/map.png', width: 726, height: 448, class: 'jpo-map absolute'
-      = link_to 'http://www.youtube.com/watch?v=OWFBqiUgspg', class: 'jpo-bubble absolute', data: { behavior: 'fancy' } do
+      = link_to '#video-is-yet-to-come', class: 'jpo-bubble absolute', data: { behavior: 'modal' } do
         = image_tag 'jpo_2014/bubble_text.png', width: 180, height: 153
   .jpo-frise>
+
+#video-is-yet-to-come.hidden
+  %h4.text--center La vidéo arrive bientôt !
+  .text--center
+    = link_to 'Participer', participation_link, class: 'btn btn--light-blue btn--bigger'

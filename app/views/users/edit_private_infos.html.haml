@@ -1,0 +1,14 @@
+= user_menu_currently_at 'Mes infos'
+
+= render partial: 'users/tabs', locals: { current: 'private_infos' }
+
+%h4.push-half--bottom Changer mon mot de passe
+
+.form-white-box
+  = simple_form_for @user, url: update_password_user_path(current_user), html: { method: :patch } do |f|
+    = f.error_notification
+
+    = f.input :current_password, label: 'Mot de passe actuel'
+    = f.input :password, autocomplete: "off", label: 'Nouveau mot de passe'
+    = f.input :password_confirmation, label: 'Confirmation'
+    = f.button :submit, "Mettre à jour", class: 'btn btn--full btn--green'

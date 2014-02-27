@@ -16,7 +16,7 @@ CoursAvenue::Application.routes.draw do
       get 'pages/offre-et-tarifs'               => 'home#price',              as: 'pages_price'
       get 'pages/nos-convictions'               => 'home#convictions',        as: 'pages_convictions'
       get 'pages/presse'                        => 'home#press',              as: 'pages_press'
-      get 'pages/portes-ouvertes-des-loisirs'   => 'home#jpo',                as: 'pages_jpo'
+      get 'pages/portes-ouvertes-cours-loisirs' => 'home#jpo',                as: 'pages_jpo'
       get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
       # 301 Redirection
       get 'etablissements/demande-de-recommandations', to: 'redirect#structures_new'
@@ -169,7 +169,7 @@ CoursAvenue::Application.routes.draw do
             patch 'disable'
           end
         end
-        resources :course_opens, path: 'portes-ouvertes-des-loisirs', controller: 'structures/open_courses'
+        resources :course_opens, path: 'portes-ouvertes-cours-loisirs', controller: 'structures/open_courses'
       end
 
       resources :users                , only: [:index]
@@ -199,7 +199,8 @@ CoursAvenue::Application.routes.draw do
                     }, path: '/', path_names: {
                       sign_in: '/connexion',
                       sign_up: '/inscription',
-                      confirmation: 'verification'}
+                      confirmation: 'verification'
+                    }
   resources  :users, only: [:edit, :show, :update], path: 'eleves' do
     collection do
       get :invite_entourage_to_jpo_page , path: 'inviter-mes-amis'
@@ -207,6 +208,8 @@ CoursAvenue::Application.routes.draw do
       get 'activez-votre-compte'   => 'users#waiting_for_activation', as: 'waiting_for_activation'
     end
     member do
+      get  :edit_private_infos, path: 'mon-compte'
+      patch  :update_password
       get  :wizard
       get  :dashboard
       get  :choose_password
@@ -224,7 +227,12 @@ CoursAvenue::Application.routes.draw do
     resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
     resources :messages     , controller: 'users/messages'
     resources :conversations, controller: 'users/conversations'
-    resources :passions, only: [:index, :destroy], controller: 'users/passions'
+    resources :passions, only: [:index, :destroy], controller: 'users/passions' do
+      collection do
+        get :offers
+        get :suggestions
+      end
+    end
     resources :participations, only: [:index, :destroy], controller: 'users/participations'
   end
   resources :emails, only: [:create]
@@ -243,7 +251,7 @@ CoursAvenue::Application.routes.draw do
 
   resources :comments, only: [:create]
 
-  resources :open_courses, path: 'portes-ouvertes-des-loisirs', only: [:index], controller: 'open_courses'
+  resources :open_courses, path: 'portes-ouvertes-cours-loisirs', only: [:index], controller: 'open_courses'
 
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
     member do
@@ -324,7 +332,7 @@ CoursAvenue::Application.routes.draw do
   # ------------------------------------------------------
   # Pages
   get 'pages/pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
-  get 'pages/portes-ouvertes-des-loisirs'   => 'pages#jpo',                  as: 'pages_jpo'
+  get 'pages/portes-ouvertes-cours-loisirs' => 'pages#jpo',                  as: 'pages_jpo'
   get 'pages/pourquoi-coursavenue'          => 'pages#why',                  as: 'pages_why'
   get 'pages/comment-ca-marche'             => 'pages#how_it_works',         as: 'pages_how_it_works'
   get 'pages/faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'

@@ -3,10 +3,10 @@
     = link_to edit_user_path(current_user) do
       %i.lbc-icon-info i
       Mes infos
-  %li{class: current == 'passions' ? 'active' : ''}
-    = link_to user_passions_path(current_user) do
-      %i.fa.fa-heart
-      Mes passions
+  %li{class: current == 'private_infos' ? 'active' : ''}
+    = link_to edit_private_infos_user_path(current_user) do
+      %i.fa.fa-cogs
+      Mon compte
   %li{class: current == 'notifications' ? 'active' : ''}
     = link_to notifications_user_path(current_user) do
       %i.fa.fa-bullhorn
