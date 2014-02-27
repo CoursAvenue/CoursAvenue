@@ -58,14 +58,24 @@
               = tab[:name]
 
     .tabs--container
-      %article.tab-pane.active{ data: { view: 'Collection', of: 'Courses',  bootstrap: 'courses',  component: 'TabContents', for: 'courses' }}
-        .white-box.islet{ data: { 'sample-tag' => true }}
+      %article.tab-pane.active
+        .white-box.islet
           - @model.courses.each_with_index do |course, index|
-            - # this is a behavior trying to listen to an app event
             %div.two-thirds>
               - course = JSON.parse(CourseSerializer.new(course).to_json) # get the json ready for bootstrap
               - course["is_first"] = index == 0
               = render template: '../assets/javascripts/backbone/structure_profile/views/courses/templates/course', locals: course
+              %div{ data: { view: "Composite", of: "Plannings", bootstrap: course["plannings"] }}
+                %table.table--striped
+                  %thead
+                    %th Jour
+                    %th Horaire
+                    %th Niveau
+                    %th Audience
+                  %tbody{ data: { itemViewContainer: true }}
+                  - course["plannings"].each do |planning|
+                    %tr
+                      = render template: '../assets/javascripts/backbone/structure_profile/views/plannings/templates/planning', locals: planning
 
       %article.tab-pane{ data: { view: 'Collection', of: "Teachers", bootstrap: 'teachers', component: 'TabContents', for: 'teachers'}}
         - @teachers.each do |teacher|

@@ -2,6 +2,14 @@
  * ----------
  *
  * This module encapsulates construction of the basic Marionette CollectionView.
+ * The basic Collection module is for those times when you want a collection, and
+ * you have the data, but you only want to supply a template or an itemview implementation.
+ * When the collection would just be a basic Marionette Collection.
+ *
+ * Normally as soon as your itemviews need to communicate with other views on the page,
+ * you should stop using the base collection and implement a proper collection view.
+ * This is because the collection view announces events to the View Module, not the
+ * itemview.
  *
  * **data API**
  *
@@ -20,17 +28,17 @@
  *
  * Without sample markup.
  *
- *```
- *#structure-tabs{ data: { view: "Collection", of: "Teachers", bootstrap: @model.to_json }
- *```
+ * ```
+ * #structure-tabs{ data: { view: "Collection", of: "Teachers", bootstrap: @model.to_json }
+ * ```
  *
- * With sample markup for CollectionView and ItemView.
+ *  With sample markup for CollectionView and ItemView.
  *
- *```
- *#structure-tabs{ data: { view: "Collection", of: "Teachers", bootstrap: @model.to_json }
- *  %ul.some-classes
- *    %li.another-class
- *```
+ * ```
+ * #structure-tabs{ data: { view: "Collection", of: "Teachers", bootstrap: @model.to_json }
+ *   %ul.some-classes{ data: { tagName: true }}
+ *     %li.another-class{ data: { itemviewTagName: true }}
+ * ```
  */
 Daedalus.module('Views.Collection', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
@@ -54,16 +62,16 @@ Daedalus.module('Views.Collection', function(Module, App, Backbone, Marionette, 
          * rendered on the page than items in the collection, since I'm not too sure
          * what would happen there ^o^//
          */
-        renderItemView: function(view, index) {
-            var existing_el = this.options.$children.get(index);
-            if (view.attach === undefined || existing_el === undefined) {
-                view.render();
-            } else {
-                view.attach(this.options.$children.get(index).innerHTML)
-            }
+      //renderItemView: function(view, index) {
+      //    var existing_el = this.options.$children.get(index);
+      //    if (view.attach === undefined || existing_el === undefined) {
+      //        view.render();
+      //    } else {
+      //        view.attach(this.options.$children.get(index).innerHTML)
+      //    }
 
-            this.appendHtml(this, view, index);
-        }
+      //    this.appendHtml(this, view, index);
+      //}
     });
 
     // a function to run when it is determined that this module will be used. Creates
