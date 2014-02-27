@@ -1,4 +1,5 @@
 class Users::SessionsController < Devise::SessionsController
+
   def after_sign_in_path_for(user)
     # Prevent from infininte loop
     referrer = (request.referrer == new_user_registration_url ? nil : request.referrer)

@@ -102,8 +102,8 @@ CoursAvenue.module('Views', function(Module, App, Backbone, Marionette, $, _) {
         },
 
         handleKeyDown: function (e) {
-            var key = e.which;
-            var text = this.getFieldContents();
+            var key     = e.which;
+            var text    = this.getFieldContents();
             var handler = this.getHandler(key);
 
             if (handler) {

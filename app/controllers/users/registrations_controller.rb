@@ -22,7 +22,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       self.resource = @user
       resource.update_attributes params[:user]
     end
-    resource.after_sign_up_url = session['user_return_to']
+    resource.after_sign_up_url = session['user_return_to'] || params[:user_return_to]
     ## end of changes
     if resource.save
       resource.send_confirmation_instructions

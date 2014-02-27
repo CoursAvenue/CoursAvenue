@@ -1,11 +1,24 @@
 - expanded = false unless expanded.present?
 %header.header
   .very-soft.grid--full{class: expanded ? '' : 'main-container'}
-    .grid__item.one-third.palm-one-half.v-middle>
+    .grid__item.two-twelfths.palm-one-half.v-middle>
       = link_to root_path, class: 'v-middle logo', title: 'CoursAvenue' do
         = image_tag 'logo.png', width: 200, alt: 'CoursAvenue | Tous les cours autour de vous'
-    %nav.text--right.grid__item.two-thirds.v-middle
-      - if current_user
+    .grid__item.six-twelfths.palm-one-half.v-middle.text--center>
+      = link_to open_courses_url(subdomain: 'www'), class: 'v-middle inline-block', title: 'CoursAvenue' do
+        = image_tag 'jpo_2014/logo_orange.png', width: 192, height: 40, alt: 'Portes Ouvertes des loisirs', class: 'block'
+      = link_to open_courses_url(subdomain: 'www'), class: 'v-middle ff-open-sans line-height-1 push-half--left inline-block' do
+        %span.f-weight-600 5 000 places GRATUITES
+        %br
+        %span.f-weight-300.milli 5-6 avril en Île-de-France
+      = link_to 'Participer', open_courses_url(subdomain: 'www'), class: 'btn btn--light-blue v-middle push-half--left'
+    %nav.text--right.grid__item.four-twelfths.v-middle.nowrap>
+      - if current_pro_admin
+        - if current_pro_admin.super_admin?
+          = link_to 'Super dashboard', pro_dashboard_url(subdomain: 'pro'), class: 'btn btn--blue btn--small'
+        - if current_pro_admin.structure
+          = link_to 'Mon profil', pro_structure_url(current_pro_admin.structure, subdomain: 'pro'), class: 'btn btn--blue btn--small'
+      - elsif current_user
         = render partial: 'shared/header_user_nav'
       - else
         .inline-block

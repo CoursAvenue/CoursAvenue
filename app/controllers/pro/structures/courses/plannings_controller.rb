@@ -104,7 +104,7 @@ class Pro::Structures::Courses::PlanningsController < InheritedResources::Base
         end
         format.js { render nothing: true, status: 200 }
       else
-        if @planning.end_date < Date.today
+        if @planning and @planning.end_date < Date.today
           flash[:alert] = 'Le cours ne peut être dans le passé'
         end
         format.html { render template: 'pro/structures/courses/plannings/index', notice: 'Le créneau a bien été mis à jour' }

@@ -5,7 +5,7 @@ describe InvitedUser do
 
   let(:user)      { FactoryGirl.create(:user) }
   let(:structure) { FactoryGirl.create(:structure) }
-  let(:invited_user) { InvitedUser.new(referrer_id: user.id, referrer_type: 'User', email: Faker::Internet.email) }
+  let(:invited_user) { InvitedUser.new(type: 'Student', referrer_id: user.id, referrer_type: 'User', email: Faker::Internet.email) }
 
   context '#inform_proposer' do
     it 'updates the registered attribute' do

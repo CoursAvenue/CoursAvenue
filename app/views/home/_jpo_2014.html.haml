@@ -1,0 +1,22 @@
+- participation_link = open_courses_url(subdomain: 'www') if participation_link.nil?
+- know_more_link     = pages_jpo_url(subdomain: 'www')    if know_more_link.nil?
+.jpo-banner-warpper>
+  .jpo-banner.soft.relative>
+    .main-container.soft--top>
+      = image_tag 'jpo_2014/logo_1_line.png', height: 100, class: 'block jpo-banner-logo'
+      .jpo-fanion.relative>
+        %p.flush.jpo-fanion__text.ff-open-sans.f-style-italic.text--center.absolute>
+          %span.f-weight-300 Week-end
+          %br
+          des
+          %span.f-weight-600 5 et 6 avril
+          %br
+          %span.f-weight-300 en Île-de-France
+      .text--center.relative.jpo-call-to-actions.inline-block
+        = link_to 'Participer', participation_link, class: 'btn btn--light-blue btn--bigger'
+        %br>
+        = link_to 'En savoir plus', know_more_link, class: 'white f-decoration-underlined milli', target: :_blank
+      = image_tag 'jpo_2014/map.png', width: 726, height: 448, class: 'jpo-map absolute'
+      = link_to 'http://www.youtube.com/watch?v=OWFBqiUgspg', class: 'jpo-bubble absolute', data: { behavior: 'fancy' } do
+        = image_tag 'jpo_2014/bubble_text.png', width: 180, height: 153
+  .jpo-frise>

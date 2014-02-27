@@ -18,7 +18,7 @@ $(function() {
             $(this).fancybox({
                     openSpeed   : 300,
                     maxWidth    : 800,
-                    maxHeight   : 500,
+                    maxHeight   : 600,
                     fitToView   : false,
                     width       : width,
                     height      : height,
@@ -27,6 +27,12 @@ $(function() {
                     ajax        : {
                         complete: function(){
                             $.each(global.initialize_callbacks, function(i, func) { func(); });
+                        }
+                    },
+                    helpers : {
+                        title : {
+                            type: 'outside',
+                            position : 'top'
                         }
                     }
             });

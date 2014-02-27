@@ -16,7 +16,7 @@ CoursAvenue::Application.routes.draw do
       get 'pages/offre-et-tarifs'               => 'home#price',              as: 'pages_price'
       get 'pages/nos-convictions'               => 'home#convictions',        as: 'pages_convictions'
       get 'pages/presse'                        => 'home#press',              as: 'pages_press'
-      get 'pages/journees-portes-ouvertes'      => 'home#jpo',                as: 'pages_jpo'
+      get 'pages/portes-ouvertes-des-loisirs'   => 'home#jpo',                as: 'pages_jpo'
       get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
       # 301 Redirection
       get 'etablissements/demande-de-recommandations', to: 'redirect#structures_new'
@@ -146,7 +146,7 @@ CoursAvenue::Application.routes.draw do
           end
         end
 
-        resources :teachers
+        resources :teachers     , controller: 'structures/teachers'
         resources :places       , controller: 'structures/places'
 
         resources :messages     , controller: 'structures/messages'
@@ -161,7 +161,7 @@ CoursAvenue::Application.routes.draw do
               post 'duplicate'
             end
           end
-          resources :prices, only: [:index]
+          resources :prices, only: [:index], controller: 'structures/courses/prices'
           resources :book_tickets, only: [:edit, :index, :destroy]
           member do
             patch 'update_price'
@@ -169,7 +169,7 @@ CoursAvenue::Application.routes.draw do
             patch 'disable'
           end
         end
-        resources :course_opens, path: 'journees-portes-ouvertes', controller: 'structures/open_courses'
+        resources :course_opens, path: 'portes-ouvertes-des-loisirs', controller: 'structures/open_courses'
       end
 
       resources :users                , only: [:index]
@@ -243,7 +243,7 @@ CoursAvenue::Application.routes.draw do
 
   resources :comments, only: [:create]
 
-  resources :open_courses, path: 'journees-portes-ouvertes', only: [:index], controller: 'open_doors'
+  resources :open_courses, path: 'portes-ouvertes-des-loisirs', only: [:index], controller: 'open_courses'
 
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
     member do
@@ -324,7 +324,7 @@ CoursAvenue::Application.routes.draw do
   # ------------------------------------------------------
   # Pages
   get 'pages/pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
-  get 'pages/journees-portes-ouvertes'      => 'pages#jpo',                  as: 'pages_jpo'
+  get 'pages/portes-ouvertes-des-loisirs'   => 'pages#jpo',                  as: 'pages_jpo'
   get 'pages/pourquoi-coursavenue'          => 'pages#why',                  as: 'pages_why'
   get 'pages/comment-ca-marche'             => 'pages#how_it_works',         as: 'pages_how_it_works'
   get 'pages/faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'

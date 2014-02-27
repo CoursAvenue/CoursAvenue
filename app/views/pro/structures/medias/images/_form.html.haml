@@ -1,4 +1,4 @@
-= simple_form_for [:pro, @structure, @image], url: pro_structure_images_path(@structure) do |f|
+= simple_form_for [:pro, @structure, @image], url: pro_structure_images_path(@structure), remote: true, html: { id: 'image-form' } do |f|
   .form-white-box
     = f.error_notification
     .text--center
@@ -6,8 +6,7 @@
       = f.input :thumbnail_url, as: :hidden
     %h4#preview-title.hidden.push-half--ends Aperçu
     #preview
-    .text--center.push--top
-      = f.submit 'Enregistrer', class: 'btn btn--green'
+    .text--center= link_to 'Retour à la galerie', pro_structure_medias_path(@structure)
 
 = content_for :scripts do
   :javascript
@@ -22,5 +21,6 @@
                 $preview.append($('<img>', {src: file.url, style: 'height: 100px;', class: 'push-half--right'}));
             });
             $(this).val(image_string.join(','));
+            $('#image-form').submit();
         });
     });

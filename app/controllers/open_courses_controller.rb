@@ -1,6 +1,5 @@
-
 # encoding: utf-8
-class OpenDoorsController < ApplicationController
+class OpenCoursesController < ApplicationController
   include FilteredSearchProvider
 
   respond_to :json
@@ -38,7 +37,6 @@ class OpenDoorsController < ApplicationController
                            meta: { total: @total, location: @latlng }}
       format.html do
         @models = jasonify @structures, jpo: true, place_ids: @place_ids
-        render 'structures/index'
         cookies[:structure_search_path] = request.fullpath
       end
     end

@@ -14,13 +14,6 @@
 
 .relative          { position   : relative; }
 .absolute          { position   : absolute; }
-.inherit-font-size { font-size  : inherit; }
-.italic            { font-style : italic; }
-.weight-normal     { font-weight: normal; }
-.weight-300        { font-weight: 300; }
-.weight-100        { font-weight: 100; }
-.bold              { font-weight: bold; }
-.underlined        { text-decoration: underline; }
 .hidden            { display    : none; }
 .flip {
     @include vendor(transform, scaleX(-1));
@@ -53,22 +46,6 @@
     background: white;
 }
 
-.smaller-print {
-    font-size: 0.8em;
-}
-
-.line-through { text-decoration: line-through; }
-.line-through--gray {
-    text-decoration: line-through;
-    color          : #777;
-    font-style     : italic;
-}
-
-.base-font-style {
-    font-size  : $base-font-size;
-    font-weight: 400;
-}
-
 .rounded         { @include border-radius($brand-round) }
 .bordered--right { border-right  : 1px solid $gray-smooth; }
 .bordered--left  { border-left   : 1px solid $gray-smooth; }
@@ -82,8 +59,6 @@
 
 
 .width-auto         { width: auto !important; }
-.line-height-1      { line-height: 1;}
-.line-height-normal { line-height: normal;}
 
 .or {
     border-bottom: 1px solid #CCC;
@@ -97,7 +72,7 @@
         background-color: #F9F9F9;
     }
 }
-.nowrap    { white-space : nowrap; }
+.nowrap    { white-space : nowrap !important; }
 .break-all { word-break : break-all; }
 .milli {
     p {

@@ -102,7 +102,7 @@ class Pro::Structures::CoursesController < Pro::ProController
         end
       else
         if params[:course][:prices_attributes].present?
-          format.html { render template: 'pro/structures/prices/index' }
+          format.html { render template: 'pro/structures/courses/prices/index' }
         else
           format.html { render action: :new}
         end
