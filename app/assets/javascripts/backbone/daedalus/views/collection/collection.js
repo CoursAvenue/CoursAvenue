@@ -127,9 +127,6 @@ Daedalus.module('Views.Collection', function(Module, App, Backbone, Marionette, 
      */
     var buildView = function buildView (view, flavor, options) {
         // buildView adds some attributes commonly used in templates
-      //if (options.bootstrap && options.bootstrap.length > 0) {
-      //    options.bootstrap[0].is_first = (options.bootstrap[0].is_first === undefined)? true : options.bootstrap[0].is_first;
-      //}
 
         var result,
             // Widgets might have a model/widgets collection or a views/widgets/widget itemview
@@ -150,8 +147,12 @@ Daedalus.module('Views.Collection', function(Module, App, Backbone, Marionette, 
             itemview_options.className = options.itemview_tag.className;
         }
 
+        if (_.isString(options.bootstrap)) {
+            options.bootstrap = window.coursavenue.bootstrap[options.bootstrap];
+        }
+
         Collection = App.Models[resources] || Backbone.Collection.extend();
-        collection = new Collection(window.coursavenue.bootstrap[options.bootstrap ] || {});
+        collection = new Collection(options.bootstrap || {});
 
         // if there is a custom itemView, use that
         if (App.Views[_.capitalize(resources)] && App.Views[_.capitalize(resources)][_.capitalize(resource)]) {

@@ -2,14 +2,15 @@
 Daedalus.module('Views.Courses', function(Module, App, Backbone, Marionette, $, _, undefined) {
 
     Module.Course = Marionette.ItemView.extend({
+        className: "two-thirds",
 
         initialize: function () {
 
         },
 
         events: {
-            'mouseenter': 'announceEnter',
-            'mouseleave': 'announceLeave'
+            'mouseenter [data-line-item]': 'announceEnter',
+            'mouseleave [data-line-item]': 'announceLeave'
         },
 
         /* ***
@@ -22,11 +23,13 @@ Daedalus.module('Views.Courses', function(Module, App, Backbone, Marionette, $, 
         * things are starting to get complicated we will no doubt eventually
         * implement a Courses collection view explicitly, and in that case we
         * can fire whatever events we want. */
-        announceEnter: function () {
+        announceEnter: function (e) {
+            $(e.target).addClass("active");
             this.trigger("course:mouseenter", { place_id: this.model.get("place_id")})
         },
 
-        announceLeave: function () {
+        announceLeave: function (e) {
+            $(e.target).removeClass("active");
             this.trigger("course:mouseleave", { place_id: this.model.get("place_id")})
         },
 
