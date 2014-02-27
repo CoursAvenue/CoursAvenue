@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
   # Scopes                                                             #
   ######################################################################
   scope :active,   -> { where{encrypted_password != ''} }
-  scope :inactive, -> { where{encrypted_password == ''} }
+  scope :inactive, -> { where{(encrypted_password == '') | encrypted_password == nil} }
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

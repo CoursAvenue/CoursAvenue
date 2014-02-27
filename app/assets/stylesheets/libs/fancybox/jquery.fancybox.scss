@@ -239,8 +239,20 @@
 
 .fancybox-title-outside-wrap {
 	position: relative;
-	margin-top: 10px;
-	color: #fff;
+	// margin-top	: 10px;
+	color			: #fff;
+	text-align		: center;
+	background		: black;
+	background		: rgba(0, 0, 0, 0.5);
+	font-weight 	: bold;
+	border-right	: 4px;
+	display			: inline-block;
+	padding			: 6px 11px;
+	left			: 50%;
+	width			: 40em;
+	margin-left		: -20em;
+	margin-bottom	: 0.5em;
+	@include border-radius(20px)
 }
 
 .fancybox-title-inside-wrap {

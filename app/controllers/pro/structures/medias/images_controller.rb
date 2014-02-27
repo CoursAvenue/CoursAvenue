@@ -17,6 +17,7 @@ class Pro::Structures::Medias::ImagesController < Pro::ProController
     end
     respond_to do |format|
       format.html { redirect_to pro_structure_medias_path(@structure), notice: 'Vos images ont bien été ajoutées !' }
+      format.js { render nothing: true }
     end
   end
 

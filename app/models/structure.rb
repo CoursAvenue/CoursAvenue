@@ -619,6 +619,13 @@ class Structure < ActiveRecord::Base
 
   private
 
+  # Strip name if exists to prevent from name starting by a space
+  #
+  # @return name
+  def strip_name
+    self.name = self.name.strip if self.name
+  end
+
   def logo_has_changed?
     self.logo.dirty?
   end

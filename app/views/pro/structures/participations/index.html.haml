@@ -3,7 +3,16 @@
 = render partial: 'pro/structures/open_courses/tabs', locals: { current: 'participations' }
 
 - @open_courses.each do |open_course|
-  %h3.flush= open_course.name
+  %div
+    %h3.inline-block.v-middle.flush= open_course.name
+    - # If it has multiple plannings for a course, might wanna send a groupped message for the whole course
+    - if open_course.plannings.count > 1
+      - if open_course.plannings.map(&:participations).flatten.any?
+        - user_profiles_id = open_course.participations.map{ |part| part.user.user_profile_for(@structure).try(:id) }
+        = link_to new_pro_structure_message_path(@structure, return_to: pro_structure_participations_path(@structure), message: { subject: "Message concernant le cours de #{open_course.name}", recipients: user_profiles_id }), class: 'v-middle nowrap fancybox.ajax push-half--left', data: { behavior: 'modal', width: '780' }, title: "Message groupé pour le cours de #{open_course.name}" do
+          %i.fa.fa-envelope
+          Envoyer un message groupé
+
   - open_course.plannings.each do |planning|
     %h5.inline-block.v-middle.flush
       %i.fa.fa-calendar
@@ -16,7 +25,7 @@
 
     - if planning.participations.any?
       - user_profiles_id = planning.participations.map{ |part| part.user.user_profile_for(@structure).try(:id) }
-      = link_to new_pro_structure_message_path(@structure, return_to: pro_structure_participations_path(@structure), message: { subject: "Message concernant le cours du #{planning_date_for(planning)} #{planning_time_for(planning, false)}", recipients: user_profiles_id }), class: 'btn btn--small btn--blue nowrap fancybox.ajax push-half--left', data: { behavior: 'modal', width: '780' }, title: "Message groupé pour le cours du #{planning_date_for(planning)} #{planning_time_for(planning, false)}" do
+      = link_to new_pro_structure_message_path(@structure, return_to: pro_structure_participations_path(@structure), message: { subject: "Message concernant le cours du #{planning_date_for(planning)} #{planning_time_for(planning, false)}", recipients: user_profiles_id }), class: 'nowrap fancybox.ajax push-half--left', data: { behavior: 'modal', width: '780' }, title: "Message groupé pour le cours du #{planning_date_for(planning)} #{planning_time_for(planning, false)}" do
         %i.fa.fa-envelope
         Envoyer un message groupé
     %table.white-box.table--data.table--striped.table--white.push-half--top
@@ -49,3 +58,10 @@
                 %i.fa.fa-envelope
                 Message
   %hr
+
+- if (participations = @open_courses.map(&:plannings).flatten.map(&:participations).flatten).any?
+  - user_profiles_id = participations.map{ |part| part.user.user_profile_for(@structure).try(:id) }
+  .text--center
+    = link_to new_pro_structure_message_path(@structure, return_to: pro_structure_participations_path(@structure), message: { subject: "Message groupé pour les Portes Ouvertesdu 5-6 avril", recipients: user_profiles_id }), class: 'btn btn--blue v-middle nowrap fancybox.ajax', data: { behavior: 'modal', width: '780' }, title: "Message groupé pour les Portes Ouvertesdu 5-6 avril" do
+      %i.fa.fa-envelope
+      Envoyer un message groupé à tous les inscrits

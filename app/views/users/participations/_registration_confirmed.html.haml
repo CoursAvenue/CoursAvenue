@@ -20,15 +20,15 @@
   .push--bottom
     %h5.flush.soft--right.inline-block.v-middle
       %i.fa.fa-bullhorn
-      %span.underlined Méthode 1
+      %span.f-decoration-underlined Méthode 1
       \: Partagez sur les réseaux sociaux
     .share-on-facebook.btn.btn--facebook.text--left.nowrap.inline-block.v-middle Facebook
     .share-on-twitter.btn.btn--twitter.btn--small.text--left.nowrap.inline-block.v-middle Twitter
   %hr
   %h5
     %i.fa.fa-envelope-o
-    %span.underlined Méthode 2
-    \: Envoyez une invitation personnalisée (méthode recommandée)
+    %span.f-decoration-underlined Méthode 2
+    \: Envoyez une invitation personnalisée
   = form_tag(bulk_create_jpo_user_invited_users_path(current_user), method: :post, id: 'invite-user-form') do
     = hidden_field :structure, :id, value: @structure.id
     .grid.push-half--top

@@ -439,14 +439,27 @@ class Course < ActiveRecord::Base
     self.plannings.map(&:index)
   end
 
+  # Method for accepts_nested_attributes_for :prices
+  # Tells if the price is valid regarding attributes passed
+  # Check if the price is valid by checking its valid? method
+  # @param  attributes Automatically passed by Rails
+  #
+  # @return Boolean
   def reject_price attributes
     exists = attributes[:id].present?
-    empty  = (attributes[:amount].blank? and attributes[:promo_percentage].blank?)
-    attributes.merge!({:_destroy => 1}) if exists and empty
-    return (!exists and empty)
+    # empty = (attributes[:amount].blank? and attributes[:promo_percentage].blank?)
+    _price = Price.new(attributes.merge(course: self))
+    price_is_valid  = _price.valid?
+    # Destroy if price exists and is not valid
+    attributes.merge!({:_destroy => 1}) if exists and !price_is_valid
+    # Reject if price does't not exist yet and is not valid
+    return (!exists and !price_is_valid)
   end
 
 
+  # Attributes used to create the slug for Friendly ID
+  #
+  # @return Array
   def friendly_name
     [
       [-> { self.structure.name}, -> { self.type_name }, :name],

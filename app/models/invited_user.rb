@@ -20,6 +20,7 @@ class InvitedUser < ActiveRecord::Base
   # To store hashes into hstore
   store_accessor :meta_data, :structure_id
 
+  validates :type, presence: true
 
   def inform_proposer
     self.registered = true

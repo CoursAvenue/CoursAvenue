@@ -13,6 +13,7 @@
 @import "compass/css3/box-sizing";
 @import "compass/css3/transition";
 @import "compass/css3/images";
+@import "compass/css3/transform";
 
 
 @import "defaults";
@@ -33,7 +34,8 @@
 @import "partials/generic/images";
 @import "partials/generic/mixins";
 @import "partials/generic/grid";
-
+@import "partials/generic/helpers";
+@import "partials/generic/font_helpers";
 
 @import "partials/objects/icons";
 @import "partials/objects/badges";
@@ -68,9 +70,9 @@
 @import "partials/objects/lists";
 @import "partials/objects/flashs";
 @import "partials/objects/forms";
-@import "partials/objects/helpers";
 @import "partials/objects/share_buttons";
 @import "partials/objects/crm-table";
+@import "partials/objects/jpo";
 
 @import "partials/objects/address-list";
 @import "partials/objects/course-info";

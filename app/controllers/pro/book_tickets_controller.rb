@@ -11,20 +11,20 @@ class Pro::BookTicketsController < InheritedResources::Base# Pro::ProController
   def edit
     edit! do |format|
       @book_tickets = @course.book_tickets.reject { |book_ticket| book_ticket == @book_ticket }
-      format.html { render template: 'pro/prices/index' }
+      format.html { render template: 'pro/structures/courses/prices/index' }
     end
   end
   def create
     create! do |success, failure|
       success.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
-      failure.html { render template: 'pro/prices/index' }
+      failure.html { render template: 'pro/structures/courses/prices/index' }
     end
   end
 
   def update
     update! do |success, failure|
       success.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
-      failure.html { render template: 'pro/prices/index' }
+      failure.html { render template: 'pro/structures/courses/prices/index' }
     end
   end
 

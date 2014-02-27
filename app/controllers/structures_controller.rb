@@ -64,7 +64,13 @@ class StructuresController < ApplicationController
     @comments       = @structure.comments.accepted.reject(&:new_record?)
     @comment        = @structure.comments.build
 
-
+    respond_to do |format|
+      if current_user or current_pro_admin
+        format.html
+      else
+        format.html { redirect_to open_courses_path, alert: 'Vous devez vous enregistrer pour participer aux Portes Ouvertes des loisirs'}
+      end
+    end
   end
 
   def index

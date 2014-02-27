@@ -1,6 +1,6 @@
 <strong class="gray">{{ total }} établissements</strong>
 <br />
 <label class="gray inline">Trier par :</label>
-<a onclick="ga('send', 'event', 'Trier établissement / popularité', 'click')" href="{{ popularity_query }}" data-type="filter" data-value="rating_desc" class="{{#if sort_by_popularity}}bold{{/if}} filter-select">Popularité</a>
+<a onclick="ga('send', 'event', 'Trier établissement / popularité', 'click')" href="{{ popularity_query }}" data-type="filter" data-value="rating_desc" class="{{#if sort_by_popularity}}f-weight-bold{{/if}} filter-select">Popularité</a>
 /
-<a onclick="_gaq.push(['_trackEvent', 'Trier établissement / pertinence', 'click'])" href="{{ relevancy_query }}" data-type="filter" data-value="relevancy" class="{{#if sort_by_relevance}}bold{{/if}} filter-select">Pertinence</a>
+<a onclick="_gaq.push(['_trackEvent', 'Trier établissement / pertinence', 'click'])" href="{{ relevancy_query }}" data-type="filter" data-value="relevancy" class="{{#if sort_by_relevance}}f-weight-bold{{/if}} filter-select">Pertinence</a>

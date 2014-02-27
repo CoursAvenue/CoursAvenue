@@ -19,7 +19,10 @@
 
 @import "partials/objects/boxes";
 @import "partials/objects/buttons";
-@import "partials/objects/helpers";
+
+@import "partials/generic/helpers";
+@import "partials/generic/font_helpers";
+
 
 .body {
     width                   : 100% !important;
