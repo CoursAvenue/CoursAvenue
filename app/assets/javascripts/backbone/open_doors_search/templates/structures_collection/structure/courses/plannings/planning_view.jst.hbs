@@ -1,7 +1,17 @@
 <td class="three-twelfths">{{ date }} de {{ time_slot }} ({{ duration }})</td>
 <td class="two-twelfths">{{ audiences }}</td>
 <td class="two-twelfths">{{ levels }}</td>
-<td class="two-twelfths nowrap">{{ places_left }} places restantes</td>
+<td class="two-twelfths nowrap text--center">
+    {{#if more_than_ten_places}}
+    > 10
+    {{else}}
+        {{#ifCond open_courses_open_places '==' '0'}}
+            Liste d'attente
+        {{else}}
+            < 10
+        {{/ifCond}}
+    {{/if}}
+</td>
 <td class="two-twelfths nowrap">
     {{#if price}}
         Participation libre

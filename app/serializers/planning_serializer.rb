@@ -1,7 +1,7 @@
 class PlanningSerializer < ActiveModel::Serializer
   include PlanningsHelper
 
-  attributes :date, :duration, :time_slot, :levels, :audiences, :place_id, :places_left, :price
+  attributes :date, :duration, :time_slot, :levels, :audiences, :place_id, :places_left, :price, :more_than_ten_places
 
   def date
     if object.course.is_lesson?
@@ -29,6 +29,10 @@ class PlanningSerializer < ActiveModel::Serializer
 
   def places_left
     object.places_left if @options[:jpo]
+  end
+
+  def more_than_ten_places
+    object.places_left > 10 if @options[:jpo]
   end
 
   def price
