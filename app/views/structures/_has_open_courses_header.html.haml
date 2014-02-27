@@ -1,9 +1,18 @@
-.orange-box.text--center.ff-open-sans.white.soft.push-half--bottom.hidden#participate-to_jpos
-  %h4 Cet établissements propose des ateliers gratuits pour les Portes Ouvertes des cours de loisirs
-  - if current_user
-    = link_to 'Voir les ateliers', jpo_structure_path(@structure), class: 'btn btn--light-blue btn--bigger'
-  - else
-    = link_to 'Voir les ateliers', open_courses_path, class: 'btn btn--light-blue btn--bigger'
+.orange-box.ff-open-sans.white.soft#participate-to_jpos>
+  .grid
+    .grid__item.one-third>
+      = link_to open_courses_path, class: 'v-middle inline-block one-whole', title: 'CoursAvenue' do
+        = image_tag 'jpo_2014/logo_1_line.png', alt: 'Portes Ouvertes des cours de loisirs', class: 'block one-whole'
+    .grid__item.two-thirds>
+      %h4.flush
+        Cet établissements propose des ateliers gratuits pour les Portes Ouvertes des cours de loisirs
+        - if current_user or current_pro_admin
+          = link_to 'Voir les ateliers', jpo_structure_path(@structure), class: 'btn btn--light-blue'
+        - else
+          = link_to 'Voir les ateliers', open_courses_path, class: 'btn btn--light-blue'
+
+.jpo-frise.push-half--bottom
+
 = content_for :scripts do
   :javascript
     $(function() {

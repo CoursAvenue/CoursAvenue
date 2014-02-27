@@ -37,7 +37,7 @@ class StructuresController < ApplicationController
       if current_user or current_pro_admin
         format.html
       else
-        format.html { redirect_to open_courses_path, alert: 'Vous devez vous enregistrer pour participer aux Portes Ouvertes des loisirs'}
+        format.html { redirect_to open_courses_path, alert: 'Vous devez vous enregistrer pour participer aux Portes Ouvertes des cours de loisirs'}
       end
     end
   end
