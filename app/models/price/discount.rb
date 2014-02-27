@@ -6,8 +6,10 @@ class Price::Discount < Price
   #   prices.discount.low_income: Revenu faible
   #   prices.discount.large_family: Famille nombreuse
   #   prices.discount.couple: Couple
-  attr_accessible :promo_percentage
+  attr_accessible :promo_percentage, :info
+
   validates :promo_percentage, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validate :presence_of_mandatory_fields
 
   TYPES = ['prices.discount.student',
            'prices.discount.young_and_senior',
@@ -19,5 +21,17 @@ class Price::Discount < Price
 
   def discount?
     true
+  end
+
+  private
+
+
+  # Adds error to base if there is no promo_percentage neither description
+  #
+  # @return nothing
+  def presence_of_mandatory_fields
+    if promo_percentage.blank? and info.blank?
+      errors[:base] << 'Au moins un des champs doivent être remplis'
+    end
   end
 end

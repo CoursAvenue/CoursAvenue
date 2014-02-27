@@ -161,7 +161,7 @@ CoursAvenue::Application.routes.draw do
               post 'duplicate'
             end
           end
-          resources :prices, only: [:index]
+          resources :prices, only: [:index], controller: 'structures/courses/prices'
           resources :book_tickets, only: [:edit, :index, :destroy]
           member do
             patch 'update_price'

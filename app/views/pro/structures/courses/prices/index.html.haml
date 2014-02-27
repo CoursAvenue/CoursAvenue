@@ -191,7 +191,7 @@
               %label.v-middle.inline-block{for: "free_subscription_400"} Gratuit
             .input.flush.inline-block{style: 'width: 150px;'}
               %input.width-auto.v-middle.inline-block{type: 'radio', id: "non_free_subscription_400", name: "subscription_400", checked: (@trial.persisted? and !@trial.free?)}
-              = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: {class: 'one-whole', data: {behavior: 'select-radio', el: '#non_free_subscription_400'}}, wrapper_html: {style: 'width: 110px;'}, as: :string
+              = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: {class: 'one-whole', value: (@trial.free? ? '' : @trial.amount), data: {behavior: 'select-radio', el: '#non_free_subscription_400'}}, wrapper_html: {style: 'width: 110px;'}, as: :string
               €
             = registration_form.input :info, as: :string, placeholder: 'Ex. : Pour les étudiant', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'margin-left: 90px; width: 250px;'}
       - @registrations.each_with_index do |item, i|
@@ -205,7 +205,7 @@
               %label.v-middle.inline-block{for: "free_subscription_#{i}"} Gratuit
             .input.flush.inline-block{style: 'width: 150px;'}
               %input.width-auto.v-middle.inline-block{type: 'radio', id: "non_free_subscription_#{i}", name: "subscription_#{i}", checked: (item.persisted? and !item.free?)}
-              = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: {class: 'one-whole', data: {behavior: 'select-radio', el: "#non_free_subscription_#{i}"}}, wrapper_html: {style: 'width: 110px;'}, as: :string
+              = registration_form.input :amount, placeholder: 'Ex. : 15', label: false, input_html: { class: 'one-whole', value: (item.free? ? '' : item.amount), data: {behavior: 'select-radio', el: "#non_free_subscription_#{i}"} }, wrapper_html: {style: 'width: 110px;'}, as: :string
               €
             = registration_form.input :info, as: :string, placeholder: 'Ex. : Pour les enfants', label: false, input_html: {class: 'one-whole'}, wrapper_html: {style: 'margin-left: 90px; width: 250px;'}
       .input.flush--top
@@ -217,7 +217,7 @@
     = f.input :price_details, wrapper_html: {class: 'flush--bottom'}, input_html: { data: {behavior: 'autoresize' }}
     %p.field-form-info.blue Si vous avez d'autres tarifs, indiquez-les ici.
 
-  = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full push--bottom'
 
 
 - if action_name == 'update'

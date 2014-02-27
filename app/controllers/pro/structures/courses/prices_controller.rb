@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Pro::PricesController < InheritedResources::Base# Pro::ProController
+class Pro::Structures::Courses::PricesController < InheritedResources::Base# Pro::ProController
   before_action :authenticate_pro_admin!
 
   layout 'admin'
@@ -24,14 +24,14 @@ class Pro::PricesController < InheritedResources::Base# Pro::ProController
     @book_ticket  = BookTicket.new
     @prices       = @course.prices.reject { |price| price.new_record? or price == @price }
     @book_tickets = @course.book_tickets
-    render template: 'pro/prices/index'
+    render template: 'pro/structures/courses/prices/index'
   end
 
   def create
     @prices = @course.prices.reject(&:new_record?)
     create! do |success, failure|
       success.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
-      failure.html { render template: 'pro/prices/index' }
+      failure.html { render template: 'pro/structures/courses/prices/index' }
     end
   end
 
@@ -39,7 +39,7 @@ class Pro::PricesController < InheritedResources::Base# Pro::ProController
     @prices = @course.prices.reject(&:new_record?)
     update! do |success, failure|
       success.html { redirect_to pro_structure_course_prices_path(@structure, @course) }
-      failure.html { render template: 'pro/prices/index' }
+      failure.html { render template: 'pro/structures/courses/prices/index' }
     end
   end
 

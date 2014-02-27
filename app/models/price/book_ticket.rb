@@ -3,7 +3,11 @@ class ::Price::BookTicket < Price
 
   attr_accessible :number # in minutes
 
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :number, presence: true
+  validates :amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: false
 
   def book_ticket?
     true
