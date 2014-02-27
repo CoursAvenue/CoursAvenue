@@ -3,7 +3,7 @@
 .text--center.push--bottom.blue-box.soft-half
   %h3.flush
     La valeur de l'événement est de :
-    = number_to_currency Course::Open.all.map{|course| (course.common_price || 20) * course.nb_participants_max * course.plannings.count}.reduce(&:+)
+    %span#price-of-the-event= number_to_currency Course::Open.all.map{|course| (course.common_price || 20) * course.nb_participants_max * course.plannings.count}.reduce(&:+)
 
 .text--center
   .inline-block.one-quarter.push--bottom.v-middle.push--sides
@@ -110,6 +110,15 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        var price_of_the_event = $('#price-of-the-event');
+        var initial_price = price_of_the_event.text();
+        var random_price = function() {
+          price_of_the_event.text(Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10) + ' ' + Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10) + ',' + Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10) + ' €')
+        }
+        for(var i = 0; i < 50000; i += 1) {
+          setTimeout(random_price, 20);
+        }
+        price_of_the_event.text(initial_price);
         $('[data-method="patch"]').bind('ajax:complete', function() {
             $(this).find('i').toggleClass('fa-times fa-check green red');
             GLOBAL.flash('Cours mis à jour')
