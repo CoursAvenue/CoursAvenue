@@ -51,6 +51,10 @@ class ::Admin < ActiveRecord::Base
     end
 
     date :created_at
+
+    boolean :not_confirmed do
+      self.confirmed?
+    end
   end
   handle_asynchronously :solr_index
 
