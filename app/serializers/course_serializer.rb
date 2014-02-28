@@ -6,7 +6,7 @@ class CourseSerializer < ActiveModel::Serializer
   attributes :id, :name, :description, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
              :has_free_trial_lesson, :event_type, :best_price, :is_individual
 
-  has_many :plannings,  serializer: PlanningSerializer
+  has_many :plannings, serializer: PlanningSerializer
 
   def plannings
     object.plannings.future.ordered_by_day

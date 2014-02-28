@@ -55,7 +55,7 @@
           #descendants-subjects
             .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}
               %label.control-label Sous disciplines
-              %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}},
+              %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.select{|subj| subj.depth == 2}.map(&:id).join(',')}},
         - if @structure.errors[:children_subjects].present?
           %p.error= @structure.errors[:children_subjects].to_sentence
       .push--bottom.text--center

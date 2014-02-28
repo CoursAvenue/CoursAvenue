@@ -1,0 +1,25 @@
+%header.header.orange-box>
+  .very-soft.grid--full
+    .grid__item.five-twelfths.palm-one-half.v-middle>
+      = link_to open_courses_path, class: 'v-middle inline-block', title: 'CoursAvenue' do
+        = image_tag 'jpo_2014/logo_1_line_without_coursavenue.png', height: 40, width: 200, alt: 'Portes Ouvertes des cours de loisirs', class: 'block'
+      = link_to 'Accéder à CoursAvenue.com', root_path, class: 'push--left btn btn--small'
+    %nav.text--right.grid__item.seven-twelfths.v-middle.nowrap>
+      - if current_pro_admin
+        - if current_pro_admin.super_admin?
+          = link_to 'Super dashboard', pro_dashboard_url(subdomain: 'pro'), class: 'btn btn--blue btn--small'
+        - if current_pro_admin.structure
+          = link_to 'Mon profil', pro_structure_url(current_pro_admin.structure, subdomain: 'pro'), class: 'btn btn--blue btn--small'
+      - elsif current_user
+        = render partial: 'shared/headers/user_nav'
+      - else
+        .inline-block
+          #connection-registration-buttons
+            .inline-block.drop-down__wrapper.soft-half--sides
+              = link_to "Inscription", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax', onclick: "ga('send', 'event', 'Se créer un compte', 'click','Inscrit')"
+            .inline-block.drop-down__wrapper.soft-half--sides
+              = link_to "Connexion", new_user_session_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax', id: 'connection'
+            = render 'shared/help_dropdown'
+            .inline-block.soft-half--sides
+              = link_to 'Publiez vos cours', root_url(subdomain: 'pro'), onclick: "ga('send', 'event', 'Publier vos cours', 'click','Inscrit')", class: 'btn btn--green'
+  .jpo-frise

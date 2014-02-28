@@ -1,0 +1,48 @@
+= side_menu_currently_at 'JPO'
+
+= render partial: 'pro/open_courses/tabs', locals: { current: 'participations' }
+
+
+.text--center
+  .inline-block.one-quarter.push--bottom.v-middle.push--sides
+    .white-box.soft-half.text--center
+      %h3.flush= "#{Participation.count} inscriptions"
+      %h6.flush dont #{Participation.where{created_at > Date.today}.count} aujourd'hui
+      %div et #{Participation.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
+
+  .inline-block.one-quarter.push--bottom.v-middle.push--sides
+    .white-box.soft-half.text--center
+      %h3.flush= "#{Participation.canceled.count} annulation"
+      %h6.flush dont #{Participation.canceled.where{created_at > Date.today}.count} aujourd'hui
+      %div et #{Participation.canceled.where{created_at > Date.today - 7.days}.count} les 7 derniers jours
+
+  .inline-block.one-quarter.push--bottom.v-middle.push--sides
+    .white-box.soft-half.text--center
+      %h3.flush
+        = Course::Open.all.map{|course| course.nb_participants_max * course.plannings.count}.reduce(&:+)
+        places
+
+%table.white-box.table--data.table--striped.table--white.push-half--top
+  %thead
+    %tr
+      %th.three-twelfths Nom de l'élève
+      %th.three-twelfths Email
+      %th.two-twelfths Téléphone
+      %th.three-twelfths Date d'inscription
+      %th.two-twelfths
+  %tbody
+    - @participations.order('canceled_at DESC').each do |participation|
+      %tr{class: (participation.canceled? ? 'red' : '')}
+        %td
+          = participation.user.name
+          - if participation.with_kid?
+            (+ 1 enfant)
+        %td
+          = link_to participation.user.email, "mailto:#{participation.user.email}", target: :_blank
+        %td= readable_phone_number participation.user.phone_number
+        %td= l(participation.created_at, format: :date).capitalize
+        %td.text--center
+          - if participation.waiting_list?
+            Sur liste d'attente
+          - if participation.canceled?
+            Annulé

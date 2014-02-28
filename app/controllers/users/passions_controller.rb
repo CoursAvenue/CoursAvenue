@@ -10,6 +10,13 @@ class Users::PassionsController < ApplicationController
     4.times { @wanted_passions    << @user.passions.build(practiced: true) }
   end
 
+  def offers
+  end
+
+  def suggestions
+    @passions = current_user.passions
+  end
+
   def destroy
     @passion = @user.passions.find(params[:id])
     respond_to do |format|

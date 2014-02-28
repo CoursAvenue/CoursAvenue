@@ -1,10 +1,17 @@
-= user_menu_currently_at 'Mes infos'
+= user_menu_currently_at 'Mes offres & passions'
 
-= render partial: 'users/tabs', locals: { current: 'passions' }
+= render partial: 'users/passions/tabs', locals: { current: 'passions' }
 
-%h4.inline-block.push-half--bottom Quelles sont vos passions ? Mieux vous connaître, c'est mieux vous servir !
-%i.fa.fa-question-circle.pointer.delta{data: {toggle: 'popover', html: 'true', content: "<p>Pourquoi toutes ces questions ? Simplement pour mieux comprendre vos attentes et vous faire découvrir les meilleurs cours de votre choix. Vous pourrez gérer vos paramètres de notifications (type d'information et fréquence de nos emails) depuis l'onglet \"Notifications\".</p><p>Ces informations sont privées et ne seront jamais partagées.</p>", trigger: 'hover', placement: 'right'}}
+%p.alert.alert--info
+  En renseignant vos lieux et vos passions, recevez les offres exclusives de nos partenaires directement depuis l'onglet "Mes offres" ou via vos "Messages" CoursAvenue : cours d'essai gratuits, promotions, invitations à des soirées ou à des spectacles...Toutes ces informations sont confidentielles et ne seront jamais publiques.
 
+
+%h4.inline-block.push-half--bottom
+  Renseignez vos passions
+  %i.fa.fa-question-circle.pointer.delta{data: {toggle: 'popover', html: 'true', content: "<p>Renseignez toutes les disciplines que vous souhaitez découvrir ou redécouvrir : yoga, dessin, oenologie, art floral, zumba... il y en a plus de 500 ! Sélectionnez vos passions, indiquez les raisons qui vous motivent.</p><p>Ces informations nous permettent de mieux cibler vos envies pour vous proposer des cours d'essai gratuits, des promotions exclusives et des invitations à tous types d'événements situés à proximité de vous et en lien avec vos passions. Vous pourrez gérer vos paramètres de notifications (type d'information et fréquence de nos e-mails) depuis l'onglet "Notifications".</p>", trigger: 'hover', placement: 'right'}}
+  .lbl.lbl--gray
+    %i.fa.fa-lock
+    Privé
 
 .white-box.islet
   = simple_form_for current_user do |f|
@@ -67,20 +74,8 @@
       %i.fa.fa-question-circle.pointer.delta{data: {toggle: 'popover', html: 'true', content: "<p>CoursAvenue est basé sur les relations et les passions. Aidez-nous à mieux vous connaître :</p><ul><li>Quelles sont les 5 choses dont vous ne pourriez pas vous passer ?</li><li>Avez-vous une devise dans la vie ? Voici celle de l'équipe CoursAvenue : \"la chance sourit aux audacieux\" ;</li><li>Partagez vos livres, films, musiques, restaurants, voyages préférés ;</li></ul class=\"push-half--left\"><p>Dites ce que c'est de vous avoir en tant qu'élève. Pourquoi vous aimez tant apprendre et suivre des cours ? Que représentent pour vous vos passions ? Pourquoi sont-elles si importantes dans votre vie ?</p>", trigger: 'hover', placement: 'right'}}
 
 
-    .grid--full
-      .three-fifths.grid__item.soft-half--right>
-        = f.input :description, label: 'Décrivez-vous en quelques mots', input_html: { class: 'textarea-description'}, wrapper_html: { class: 'flush' }
-      .two-fifths.grid__item
-        .alert--info
-          %ul.flush--top
-            %li Pourquoi les cours sont si importants pour vous ?
-            %li Dans la vie, qu'est-ce qui vous passionne ? Qu'est-ce qui vous grandit, vous émeut ?
-            %li Que recherchez-vous en rejoignant la communauté CoursAvenue ?
-            %li Recherchez-vous des cours uniquement pour vous, ou aussi pour vos enfants, vos amis, votre famille ?
-            %li Quel serait votre cours idéal, votre rêve ?
-
-
     .push--top= f.submit 'Enregistrer', class: 'btn btn--full btn--green'
+
 = content_for :scripts do
   :javascript
     $(function() {
