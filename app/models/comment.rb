@@ -164,14 +164,21 @@ class Comment < ActiveRecord::Base
     end
   end
 
+  # Creates an inactive user after a comment is created if the user wasn't connected
+  #
+  # @return nil
   def create_user
-    user_email = self.email
+    user_email = email
     if (user = User.where{email == user_email}.first).nil?
-      user = User.new first_name: self.author_name, email: self.email
+      user = User.new email: email
+      user.first_name = author_name.split(' ')[0..author_name.split(' ').length - 2].join(' ')
+      user.last_name  = author_name.split(' ').last        if self.author_name.split(' ').length > 1
     end
+
     self.user = user
-    self.save
     user.save(validate: false)
+    self.save
+    nil
   end
 
   def affect_structure_to_user
@@ -233,16 +240,9 @@ class Comment < ActiveRecord::Base
   #
   # @return nil
   def create_or_update_user_profile
-    _email = self.email
-    user_profile = self.structure.user_profiles.where(email: _email).first_or_initialize
-
-    # Update user_profile name if not set
-    user_profile.first_name = self.author_name.split(' ')[0..author_name.split(' ').length - 2].join(' ') if user_profile.first_name.blank? # All except the last
-    user_profile.last_name  = self.author_name.split(' ').last                                            if user_profile.last_name.blank? and self.author_name.split(' ').length > 1
-    user_profile.save
-
+    user_profile = UserProfile.update_info(structure, user)
     # Tag it as commented
-    self.structure.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:comments])
+    structure.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:comments])
     nil
   end
 end

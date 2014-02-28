@@ -1,5 +1,5 @@
 = content_for :header do
-  = render 'shared/header_pro'
+  = render 'shared/headers/pro'
 
 = content_for :content do
   .main-container.push-half--top
@@ -35,12 +35,14 @@
                 %i.fa.fa-bullhorn
                 &nbsp;Parrainer
           - if @structure.parisian?
-            .flexbox__item.v-top.five-twelfths.text--center.v-middle.orange-box.white.rounded>
-              = link_to pro_structure_course_opens_path(@structure), class: 'semi-muted-link block', onclick: "ga('send', 'event', 'JPO', 'click')" do
-                = image_tag 'jpo_2014/logo_1_line.png', height: 50, class: 'push-half--top block center-block'
-                .delta
-                  Participez aux Portes Ouvertes CoursAvenue
-                %p Week-end du 5 et 6 avril 2014
+            .flexbox__item.v-top.five-twelfths>
+              .text--center.v-middle.orange-box.white.rounded>
+                = link_to pro_structure_course_opens_path(@structure), class: 'soft-half--top semi-muted-link block', onclick: "ga('send', 'event', 'JPO', 'click')" do
+                  = image_tag 'jpo_2014/logo_1_line.png', height: 50, width: 189, class: 'block center-block'
+                  .delta
+                    Participez aux Portes Ouvertes CoursAvenue
+                  %p Week-end du 5 et 6 avril 2014
+                .jpo-frise
           .flexbox__item.v-top.two-twelfths.text--center>
             .thin.alpha.brand= @structure.comments_count || 0
             %div

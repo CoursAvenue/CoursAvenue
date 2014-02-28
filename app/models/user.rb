@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
 
   # Not after create because user creation is made when teachers invite their students to post a comment
   after_save :associate_city_from_zip_code, if: -> { zip_code.present? and city.nil? }
+  after_save :update_email_status
 
   ######################################################################
   # Validations                                                        #
@@ -55,7 +56,8 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :oauth_token, :oauth_expires_at,
                   :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
                   :birthdate, :phone_number, :zip_code, :city_id, :passions_attributes, :description,
-                  :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in
+                  :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
+                  :email_status, :last_email_sent_at, :last_email_sent_status
 
   # To store hashes into hstore
   store_accessor :meta_data, :after_sign_up_url
@@ -105,6 +107,35 @@ class User < ActiveRecord::Base
 
       user.save!
     end
+  end
+
+  ######################################################################
+  # Email reminder                                                     #
+  ######################################################################
+
+  # Sends reminder depending on the email status of the user
+  # This method is called every week through user_reminder rake task
+  # (Executed on Heroku by the scheduler)
+  #
+  # @return nil
+  def send_reminder
+    if self.email_status and self.email_passions_opt_in?
+      if self.update_email_status.present?
+        self.update_column :last_email_sent_at, Time.now
+        self.update_column :last_email_sent_status, self.email_status
+        UserMailer.delay.send(self.email_status.to_sym, self)
+      end
+    end
+  end
+
+  # Update the email status regarding info completion
+  def update_email_status
+    email_status = nil
+    if self.passions.empty?
+      email_status = 'passions_incomplete'
+    end
+    self.update_column :email_status, email_status
+    return email_status
   end
 
   def has_avatar?

@@ -20,3 +20,5 @@
 .sass-cache
 /config/database.yml
 .env
+
+.ruby-version

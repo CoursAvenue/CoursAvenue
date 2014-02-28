@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :html, :js, :json
+  layout :choose_layout
 
   def after_inactive_sign_up_path_for(user)
     session['after_inactive_sign_up_path'] || waiting_for_activation_users_path
@@ -60,6 +61,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
       else
         format.html { render }
       end
+    end
+  end
+
+  private
+
+  def choose_layout
+    if action_name == 'edit'
+      'user_profile'
+    else
+      'users'
     end
   end
 end

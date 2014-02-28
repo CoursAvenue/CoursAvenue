@@ -30,4 +30,16 @@ module ApplicationHelper
         t('helpers.page_entries_info.more_pages.display_entries', entry_name: entry_name, first: first, last: last, total: collection.total_count)
       end.html_safe
     end
+
+  # Tells if user is on a JPO page
+  #
+  # @return Boolean
+  def on_jpo_pages?
+    if controller_name == 'open_courses'
+      return true
+    elsif controller_name == 'structures' and action_name == 'jpo'
+      return true
+    end
+  end
+
 end

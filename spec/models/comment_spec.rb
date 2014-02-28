@@ -45,9 +45,10 @@ describe Comment do
 
     describe '#create_or_update_user_profile' do
       it "creates a user profile if doesn't exists" do
-        length = comment.structure.user_profiles.length
+        structure = comment.structure
+        length    = structure.user_profiles.reload.length
         comment.save
-        expect(comment.structure.user_profiles.length).to eq (length + 1)
+        expect(structure.user_profiles.reload.length).to eq (length + 1)
       end
 
       it 'affects a tag after a comment' do

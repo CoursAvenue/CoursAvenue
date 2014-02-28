@@ -3,19 +3,19 @@ require 'spec_helper'
 
 describe UserProfile do
 
-  describe '#associate_to_user' do
+  describe '#associate_to_user_or_create' do
     let(:structure) { FactoryGirl.create(:structure) }
     let(:user)      { FactoryGirl.create(:user) }
 
     it 'associates to existing user if exists' do
       user_profile = structure.user_profiles.build(email: user.email)
-      user_profile.send(:associate_to_user)
+      user_profile.send(:associate_to_user_or_create)
       user_profile.user.should eq user
     end
 
     it 'creates user if does not exists' do
       user_profile = structure.user_profiles.build(email: 'does-not@exists.com')
-      user_profile.send(:associate_to_user)
+      user_profile.send(:associate_to_user_or_create)
       user_profile.user.persisted?.should be_true
     end
   end

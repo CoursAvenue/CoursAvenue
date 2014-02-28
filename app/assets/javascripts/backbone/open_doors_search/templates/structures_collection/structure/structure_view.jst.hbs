@@ -26,13 +26,7 @@
                 </div>
             {{/if}}
             <div>
-{{!--                 <div>
-                {{ open_course_nb }} {{ pluralize open_course_nb 'atelier' 'ateliers' }} :
-                <span title="{{open_course_names}}" data-behavior="tooltip">
-                    {{ truncate open_course_names 33 }}
-                </span>
-                </div>
- --}}                <div>
+                <div>
                 {{#if audience}}
                     <span class="milli">{{audience}}</span>&nbsp;
                 {{/if}}
@@ -41,24 +35,24 @@
             {{#if last_comment_title}}
             <div>
                 <i class="quoted push-half--right">{{{truncate last_comment_title 50}}}</i>
-                {{!-- (<a href="{{ data_url }}" class="semi-muted-link">voir les {{ comments_count }} avis</a>) --}}
             </div>
             {{/if}}
-            <a href="javascritp:void(0);" class="btn btn--blue btn--blue hard--sides btn--small structure-item__see-all" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
-                {{#if plannings_count}}
-                    <span>Voir les horaires</span>
+            {{#ifCond open_courses_open_places '==' '0'}}
+                <span class="lbl lbl--small">Cours complet - liste d'attente</span>
+            {{/ifCond}}
+
+            <a href="{{ data_url }}" class="structure-item__see-all btn--full btn {{#ifCond open_courses_open_places '!=' '0'}}btn--blue{{/ifCond}} hard--sides btn--small" data-wrapper=".structure-item__see-all-wrapper" style="margin-bottom: 2px;">
+
+                {{#ifCond open_courses_open_places '==' '0'}}
+                M'inscrire en liste d'attente
                 {{else}}
-                    <span>Pas de séance, contactez le professeur</span>
-                {{/if}}
+                Participer
+                {{/ifCond}}
             </a>
         </div>
     </article><!--
  --><div class="flexbox__item relative soft-half--sides structure-item__see-all-wrapper two-eighths v-middle text--center structure-item__button">
         <div class="relative full-height v-middle soft--top">
-{{!--             <div class="alpha thin orange soft-half--top"> {{ open_courses_open_places }} </div>
-            <span class="orange soft-half--bottom milli">places restantes</span>
- --}}
-
             <div class="alpha thin orange"> {{ open_course_nb }} </div>
             <span class="orange soft-half--bottom milli">{{ pluralize open_course_nb 'atelier' 'ateliers' }}</span>
             {{#if last_comment_title}}
@@ -74,13 +68,12 @@
                 <meta itemprop="street-address" content="{{ street }}">
                 <meta itemprop="postal-code" content="{{ zip_code }}">
             </div>
-
-            <a href="{{ data_url }}" class="structure-item__see-all btn--full btn btn--blue btn--blue hard--sides btn--small" data-wrapper=".structure-item__see-all-wrapper" style="margin-bottom: 2px;">
-                {{#ifCond open_courses_open_places '==' '0'}}
-                M'inscrire en liste d'attente
+            <a href="javascritp:void(0);" class="btn btn--blue btn--blue hard--sides btn--small structure-item__see-all" data-behavior="accordion-control" data-model="course" data-attributes="data_url" data-wrapper=".structure-item__see-all-wrapper">
+                {{#if plannings_count}}
+                    <span>Voir les horaires</span>
                 {{else}}
-                Participer
-                {{/ifCond}}
+                    <span>Pas de séance, contactez le professeur</span>
+                {{/if}}
             </a>
         </div>
 

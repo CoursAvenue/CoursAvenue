@@ -1,10 +1,19 @@
 %p Bonjour,
 
 %p
-  Validez votre inscription en cliquant sur le bouton suivant :
+  Bienvenue sur CoursAvenue ! Pour commencer, vous devez confirmer votre adresse e-mail :
 
 %p.action
-  = link_to 'Valider mon inscription', user_confirmation_url(confirmation_token: @token), class: 'btn btn--green'
+  = link_to 'Confirmer mon e-mail', user_confirmation_url(confirmation_token: @token), class: 'btn btn--green'
 
-%p L'équipe de CoursAvenue
+%p
+  Très bonne journée,
+  %br
+  L'équipe CoursAvenue
 
+
+%p.blue.blue-tip
+  Trucs & astuces : depuis votre profil, renseignez vos passions pour recevoir des invitations à des cours d'essai gratuits.
+
+= content_for :under_content do
+  = render 'user_mailer/footer_info'

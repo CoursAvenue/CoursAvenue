@@ -195,7 +195,7 @@ group :development do
 end
 
 group :development, :test do
-  # gem 'debugger' # this is causing problems for Andre
+  gem 'debugger' # this is causing problems for Andre
   # Permits to travel in the past
   gem 'delorean'
   gem 'dotenv-rails'

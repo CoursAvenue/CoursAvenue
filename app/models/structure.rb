@@ -244,7 +244,7 @@ class Structure < ActiveRecord::Base
 
   # Sends reminder depending on the email status of the structure
   # This method is called every week through admin_reminder rake task
-  # (Executed on Heroky by the scheduler)
+  # (Executed on Heroku by the scheduler)
   #
   # @return nil
   def send_reminder
