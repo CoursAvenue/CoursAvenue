@@ -3,6 +3,9 @@
 /* -----------------------------*/
 .jpo-banner-warpper {
     background-color: #d15630;
+    background-image: asset-url('jpo_2014/orange_home_page_background.png');
+    background-repeat: repeat;
+    @include background-size('1px 1px');
 }
     .jpo-banner {
         background-image: asset-url('jpo_2014/home_page_background.png');
