@@ -6,6 +6,14 @@ class ParticipationMailer < ActionMailer::Base
 
   default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
+  def invite_friends_to_jpo(participation)
+    @user      = participation.user
+    @planning  = participation.planning
+    @course    = participation.course
+    @structure = participation.course.structure
+    mail to: @user.email, subject: "Invitez vos proches à s'inscrire à votre atelier des Journées Portes Ouvertes CoursAvenue"
+  end
+
   def unsubscription_for_teacher(participation)
     @user      = participation.user
     @planning  = participation.planning

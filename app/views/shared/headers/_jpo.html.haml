@@ -6,10 +6,7 @@
       = link_to 'Accéder à CoursAvenue.com', root_path, class: 'push--left btn btn--small'
     %nav.text--right.grid__item.seven-twelfths.v-middle.nowrap>
       - if current_pro_admin
-        - if current_pro_admin.super_admin?
-          = link_to 'Super dashboard', pro_dashboard_url(subdomain: 'pro'), class: 'btn btn--blue btn--small'
-        - if current_pro_admin.structure
-          = link_to 'Mon profil', pro_structure_url(current_pro_admin.structure, subdomain: 'pro'), class: 'btn btn--blue btn--small'
+        = render partial: 'shared/headers/admin_nav'
       - elsif current_user
         = render partial: 'shared/headers/user_nav'
       - else

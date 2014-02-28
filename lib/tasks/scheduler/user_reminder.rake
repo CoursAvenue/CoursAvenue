@@ -4,7 +4,7 @@ require 'rake/clean'
 
 namespace :scheduler do
   namespace :users do
-    # Structure without logo neither description
+
     # $ rake scheduler:users:send_reminder
     # Email sent on monday
     desc 'Send email to admins for inactivity'
