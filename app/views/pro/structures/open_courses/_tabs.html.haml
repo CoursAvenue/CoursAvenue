@@ -22,4 +22,4 @@
       = link_to jpo_pro_structure_invited_students_path(@structure) do
         %i.fa.fa-list
         Invitations envoyées
-        (#{@structure.invited_students.for_jpo})
+        (#{@structure.invited_students.for_jpo.count})

@@ -23,7 +23,7 @@
           %i Personnalisez le texte ci-dessous puis envoyez votre invitation.
         %br
         %textarea.milli.one-whole{name: 'text', rows: 11, data: {behavior: 'autoresize'}}
-          Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, nous participons aux Journées Portes Ouvertes de CoursAvenue : exceptionnellement, nous proposerons des ateliers gratuits pour faire découvrir nos cours à tous les parisiens. Voici les ateliers proposés : #{structure_url(@structure, subdomain: 'www')}.&#x000A;&#x000A;Pour vous, c'est l'occasion de faire découvrir votre passion à vos proches : invitez votre famille, vos amis et collègues à participer à nos ateliers gratuits. Il vous suffit de cliquer sur ce lien et d'envoyer tout simplement votre invitation :
+          Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, nous participons aux Journées Portes Ouvertes de CoursAvenue : exceptionnellement, nous proposerons des ateliers gratuits pour faire découvrir nos cours à tous les parisiens. Voici les ateliers proposés : #{jpo_structure_url(@structure, subdomain: 'www')}.&#x000A;&#x000A;Pour vous, c'est l'occasion de faire découvrir votre passion à vos proches : invitez votre famille, vos amis et collègues à participer à nos ateliers gratuits. Il vous suffit de cliquer sur ce lien et d'envoyer tout simplement votre invitation :
         %p.gray-light.flush
           = link_to "Lien que recevront vos élèves", invite_entourage_to_jpo_page_users_url(structure_id: @structure.id, subdomain: 'www'), target: :_blank
           %br

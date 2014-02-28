@@ -13,4 +13,5 @@ namespace :scheduler do
         ParticipationMailer.delay.invite_friends_to_jpo(participation)
       end
     end
+  end
 end

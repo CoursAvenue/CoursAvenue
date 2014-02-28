@@ -1,6 +1,7 @@
 class Users::ConfirmationsController < Devise::ConfirmationsController
 
   def after_confirmation_path_for(resource_name, user)
+    azd?
     user.after_sign_up_url || dashboard_user_path(user)
   end
 

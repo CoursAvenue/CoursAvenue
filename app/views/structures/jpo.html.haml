@@ -1,3 +1,6 @@
+- unless current_user or current_pro_admin
+  = render 'users/registrations/jpo_popup'
+
 - if @structure.logo.present?
   = content_for :meta_image do
     = @structure.logo.url(:thumb)

@@ -33,7 +33,7 @@
           = link_to "S'inscrire avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full text--left', id: 'facebook_button'
         .text--center.push-half--ends ou
         = simple_form_for User.new, url: user_registration_path, html: { id: 'register-form' } do |f|
-          %input{type: 'hidden', name: 'user_return_to', value: open_courses_path}
+          %input{type: 'hidden', name: 'user_return_to', value: request.fullpath}
           = f.error_notification
           = f.input :first_name, label: false, placeholder: 'Prénom',      input_html: {class: 'one-whole', value: (@user ? @user.first_name : nil)}, wrapper_html: {class: 'flush'}
           = f.input :last_name,  label: false, placeholder: 'Nom',         input_html: {class: 'one-whole'}
