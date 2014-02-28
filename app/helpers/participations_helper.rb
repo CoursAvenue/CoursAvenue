@@ -1,6 +1,13 @@
 # encoding: utf-8
 module ParticipationsHelper
 
+  def share_participation_to_facebook_friend_url(participation, friend_id=nil)
+    course       = participation.course
+    link         = URI.encode(jpo_structure_url(course.structure, subdomain: 'www'))
+    redirect_uri = URI.encode(user_participations_url(current_user))
+    URI.encode("http://www.facebook.com/dialog/send?app_id=#{CoursAvenue::Application::FACEBOOK_APP_ID}&link=#{link}&redirect_uri=#{redirect_uri}&to=#{friend_id}")
+  end
+
   def share_participation_url(participation, provider = :facebook)
     course  = participation.course
     summary = "Je viens de m'inscrire aux Journées Portes Ouvertes de CoursAvenue des 5-6 avril en Ile-de-France. Comme moi, participez gratuitement à l'atelier «#{@participations.last.course.name}»."

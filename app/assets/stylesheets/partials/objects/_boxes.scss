@@ -26,6 +26,10 @@
     }
 }
 
+.white-box--hoverable:hover {
+    background-color: $orange;
+    &, a { color: white }
+}
 .white-box--rounded {
     @include border-radius(5em);
 }

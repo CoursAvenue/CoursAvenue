@@ -95,6 +95,8 @@ gem 'cancan'                    , '~>1.6.10'
 gem 'devise'                    , '~>3.2.3'
 # Facebook connect
 gem 'omniauth-facebook'         , '~>1.4.1'
+# A full-stack Facebook Graph API wrapper in Ruby.
+gem 'fb_graph'                  , '~>2.7.10'
 # Helps access to gmail contacts etc.
 gem 'omnicontacts'              , '~>0.3.4'
 gem 'certified'                 , '~>0.1.1'

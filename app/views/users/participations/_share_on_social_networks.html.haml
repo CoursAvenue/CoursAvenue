@@ -1,0 +1,42 @@
+
+#share-on-social-networks.hidden{style: 'max-width: 800px;'}
+  .flexbox.alert--success.one-whole.flush
+    .flexbox__item.v-middle.soft--right>
+      %i.fa.fa-check.fa-3x
+    .flexbox__item.v-middle>
+      %h2.flush
+        Inscription confirmée
+        - if @participation.waiting_list?
+          sur liste d'attente
+      %h4.flush Une confirmation vous a été envoyée par e-mail.
+
+  %h4.push-half--ends
+    %i.fa.fa-bullhorn
+    Invitez vos amis Facebook en 1 click !
+  - if current_user.facebook_registered?
+    = render 'users/participations/send_message_to_facebook_friends'
+  - else
+    .share-on-facebook.btn.btn--facebook.text--left.nowrap.inline-block.v-middle Facebook
+
+  .push--bottom
+    %h5.flush.soft--right.inline-block.v-middle
+      %i.fa.fa-bullhorn
+      Parlez-en sur Twitter !
+      %strong #JPO2014
+      = link_to '@CoursAvenue', 'https://twitter.com/CoursAvenue', target: :_blank
+    .share-on-twitter.btn.btn--twitter.btn--small.text--left.nowrap.inline-block.v-middle Twitter
+
+  = link_to 'Non merci', '#inscription-confirmed-popup', class: 'btn btn--full', data: { behavior: 'modal' }
+
+- content_for :scripts do
+  :javascript
+    $(function() {
+        $.fancybox($('#share-on-social-networks'), {
+                afterClose: function() {
+                    setTimeout(function() {
+                        $.fancybox($('#inscription-confirmed-popup'));
+                    }, 50);
+                    return;
+                }
+          });
+    });
