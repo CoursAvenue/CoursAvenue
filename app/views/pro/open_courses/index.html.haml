@@ -63,7 +63,8 @@
           %span.green Gratuit
         %td
           = simple_form_for [:pro, course], url: pro_course_path(course), as: :course, remote: true do |f|
-            = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 11px;' }
+            = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 11px;' }, wrapper_html: { class: 'flush' }
+            = f.submit 'Valider', class: 'btn btn--small btn--green btn--full', disable_with: "En cours"
 
 %table.table--striped.dataTable.table--data.white-box.flush--bottom
   %thead
@@ -105,7 +106,8 @@
           %span.green Gratuit
         %td
           = simple_form_for [:pro, course], url: pro_course_path(course), as: :course, remote: true do |f|
-            = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 11px;' }
+            = f.input :ca_follow_up, label: false, input_html: { style: 'width: 100px; height: 50px; font-size: 11px;' }, wrapper_html: { class: 'flush' }
+            = f.submit 'Valider', class: 'btn btn--small btn--green btn--full', disable_with: "En cours"
 
 = content_for :scripts do
   :javascript
@@ -128,9 +130,7 @@
             $(this).find('i').toggleClass('fa-times fa-check green red');
             GLOBAL.flash('Cours mis à jour')
         });
-        $('form').change(function() {
-            $(this).submit().on('ajax:success', function() {
-                GLOBAL.flash('Follow up enregistré')
-            });
+        $('form').on('ajax:success', function() {
+              GLOBAL.flash('Follow up enregistré')
         });
     })
