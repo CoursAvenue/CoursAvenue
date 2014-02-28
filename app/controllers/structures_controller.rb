@@ -9,6 +9,8 @@ class StructuresController < ApplicationController
   layout :choose_layout
 
   def show
+    # the show action needs to filter the plannings based on its params
+    
     begin
       @structure = Structure.friendly.find params[:id]
     rescue ActiveRecord::RecordNotFound
@@ -92,6 +94,9 @@ class StructuresController < ApplicationController
                each_serializer: StructureSerializer,
                meta: { total: @total, location: @latlng }
       end
+
+      # 'query' is the current query string, which allows us to direct users to
+      # a filtered version of the structures show action
       format.html do
         @models = jasonify @structures, place_ids: @places, query: query_string
         cookies[:structure_search_path] = request.fullpath

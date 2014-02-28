@@ -143,6 +143,8 @@ class StructureSerializer < ActiveModel::Serializer
     end
   end
 
+  # this is for the href attributes on the filtered search page,
+  # so that they can point at a structure url with the params
   def query_url
     data_url + "?" + @options[:query].to_s
   end
