@@ -3,6 +3,7 @@ class CommentNotification < ActiveRecord::Base
   belongs_to :user
 
   validates :structure, :user, presence: true
+  validates :user, uniqueness: { scope: 'structure_id' }
 
   # Status:
   #    completed
