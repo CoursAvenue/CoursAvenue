@@ -12,7 +12,7 @@
   :javascript
     $(function() {
           $('[data-behavior=send-message-on-facebook]').click(function() {
-              window.open(this.href, 'Partager', "width=1000,height=600");
               ga('send', 'event', 'Share on Facebook to friend', 'share');
+              return true;
           });
     });
