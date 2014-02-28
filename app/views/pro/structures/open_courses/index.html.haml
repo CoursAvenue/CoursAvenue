@@ -8,11 +8,8 @@
     = link_to pro_pages_jpo_path, target: :_blank do
       %i.lbc-icon-info i
       En savoir plus
-= link_to "Accéder à l'espace de réservation des Portes Ouvertes", jpo_structure_url(@structure, subdomain: 'www'), class: 'push-half--bottom block', target: :_blank
 
-%p.alert.alert--info
-  %strong Note importante :
-  renseignez vos ateliers avant le 03/03/14 et faites partie de nos 1ères campagnes de communication. Nous vous enverrons un mail pour vous annoncer l'ouverture des inscriptions à vos ateliers (nos pages dédiées à l'événement seront visibles début février). Vous pourrez gérer toutes vos inscriptions et communiquer librement avec tous les élèves participants.
+= link_to "Voir mon profil public Portes Ouvertes", jpo_structure_url(@structure, subdomain: 'www'), class: 'push-half--bottom block', target: :_blank
 
 .push-half--bottom
   %h4.inline-block.v-middle.flush--bottom.push-half--right Ateliers proposés
@@ -26,18 +23,24 @@
 
 - @courses.each do |course|
   .white-box.islet
-    %strong= course.name
+    - if course.active
+      = link_to 'Visible', '#cannot-modify', class: 'v-middle push-half--right switch-button on', title: 'Rendre mon atelier visible', data: { behavior: 'modal' }
+    - else
+      .inline-block.v-middle.push-half--right{title: "Vos ateliers gratuits pour les Portes Ouvertes ne sont pas encore visibles sur CoursAvenue. Une fois les informations validées par notre équipe, vous recevrez un email vous indiquant qu'ils sont visibles et ouverts aux inscriptions.", data: { behavior: 'tooltip'} }
+        = link_to 'Non visible', '#activate-popup', class: 'switch-button off', title: 'Rendre mon atelier visible', data: { behavior: 'modal' }
+
+    %strong.v-middle= course.name
     - if course.other_event_type?
       = "(#{course.event_type_description})"
     - elsif course.event_type.present?
       = "(#{course.event_type})"
     - if course.info.present?
-      .push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
+      .v-middle.push-half--left.btn.btn--small{ data: { html: 'true', toggle: 'popover', content: "<p><strong>Infos pratiques</strong><br>#{course.info}</p>", 'original-title' => '', trigger: 'hover', placement: 'right' } }
         %i.lbc-icon-info
           i
         Infos pratiques
     .float--right
-      - if course.participations.not_canceled.any?
+      - if course.active?
         = link_to '#cannot-modify', data: { behavior: 'modal' } do
           %i.fa.fa-pencil
           Modifier
@@ -100,7 +103,7 @@
                     %i.fa.fa-chevron-down
                   %ul.drop-down__el.text--left
                     %li.nowrap
-                      - if planning.participations.not_canceled.any?
+                      - if course.active?
                         = link_to '#cannot-modify', title: 'Modifier le créneau', data: { behavior: 'modal' } do
                           %i.fa.fa-pencil
                           Modifier le créneau
@@ -109,7 +112,7 @@
                           %i.fa.fa-pencil
                           Modifier le créneau
                     %li.nowrap
-                      - if planning.participations.not_canceled.any?
+                      - if course.active?
                         = link_to '#cannot-modify', title: 'Supprimer le créneau', data: { behavior: 'modal' } do
                           %i.fa.fa-trash-o
                           Supprimer
@@ -127,10 +130,6 @@
 .text--center.push--bottom
   = link_to 'Ajouter un atelier', new_pro_structure_course_open_path(@structure), class: 'btn btn--green btn--large'
 
-#cannot-modify.hidden
-  .text--center
-    %h4 Vous ne pouvez pas modifier cet atelier car vous avez des participants inscrits
-    = link_to "Contacter l'équipe CoursAvenue pour une modification", pages_contact_url(subdomain: 'www'), class: 'btn btn--green', target: :_blank
 
 - if @courses.last and @courses.last.plannings.empty?
   = content_for :scripts do
@@ -138,3 +137,13 @@
       $(function() {
           $('.add-planning').last().click();
       });
+
+#cannot-modify.hidden
+  %p Vous ne pouvez rendre non visible votre atelier.
+  %p Pour annuler un cours ou le modifier, *contactez-nous* au plus vite par mail de préférence, en décrivant précisément votre demande.
+  = link_to "Contacter CoursAvenue", pages_contact_url(subdomain: 'www'), class: 'btn btn--green btn--full', target: :_blank
+
+#activate-popup.hidden
+  %p Renseignez toutes les informations concernant vos ateliers pour les Portes Ouvertes (description générale, informations pratiques, créneaux horaires, lieux, etc.). Une fois toutes ces informations vérifiées et validées par notre équipe (normalement sous 24h), un e-mail vous sera envoyé pour vous notifier que vos ateliers sont visibles sur notre espace d'inscription pour les Portes Ouvertes.
+
+  %p S'il manque certaines informations importantes (adresse exacte, digicode, matériel requis...) ou si la description de vos ateliers n'est pas claire, nous prendrons contact avec vous avant que vos ateliers deviennent visibles.
