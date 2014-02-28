@@ -3,14 +3,17 @@ class Course::Open < Course
   attr_accessible :event_type, :event_type_description, :price, :nb_participants_min, :nb_participants_max,
                   :info, :ca_follow_up, :common_price
 
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :name, :event_type, :nb_participants_min, :nb_participants_max, presence: true
   validates :nb_participants_min, numericality: { greater_or_equal_than: 0 }
   validates :nb_participants_max, numericality: { greater_than: :nb_participants_min },
                                   unless: Proc.new {|course| course.nb_participants_min.nil? || course.nb_participants_max.nil? }
 
-  after_save :alert_participants_for_changes
-  before_destroy :alert_participants_for_deletion
-
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
   has_many :participations, through: :plannings
 
   def is_open?
@@ -41,17 +44,17 @@ class Course::Open < Course
     event_type == 'other'
   end
 
-  private
-
-  def alert_participants_for_changes
-    self.plannings.each do |planning|
-      planning.participations.map(&:alert_for_changes)
+  # Activate the course and sends ends an email to the admin if this courses
+  # becomes active and ALL other JPO courses are already active
+  #
+  # @return Boolean if course saved or not
+  def activate!
+    self.active = true
+    saved_value = self.save
+    # Save before checking
+    if self.structure.courses.open_courses.map(&:active?).all?
+      AdminMailer.delay.your_jpo_courses_are_visible(structure)
     end
-  end
-
-  def alert_participants_for_deletion
-    self.plannings.each do |planning|
-      planning.participations.map(&:alert_for_destroy)
-    end
+    return saved_value
   end
 end

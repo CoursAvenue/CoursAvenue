@@ -1,6 +1,6 @@
 - if @user.avatar.present?
   - content_for :logo do
-    = image_tag @user.avatar.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+    = image_tag @user.avatar.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
 
 - content_for :promo do
   %h4
