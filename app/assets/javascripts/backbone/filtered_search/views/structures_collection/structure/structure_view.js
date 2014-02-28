@@ -11,6 +11,7 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
 
         initialize: function(options) {
             this.$el.data('url', options.model.get('data_url'));
+            this.$el.data('query-url', options.model.get('query_url'));
 
             /* the structure view needs to know how it is being filtered */
             if (options.search_term) {
@@ -50,7 +51,7 @@ FilteredSearch.module('Views.StructuresCollection.Structure', function(Module, A
         goToStructurePage: function(event) {
             // Checking the parent prevent from clicking on an icon that is nested within a link element.
             if (event.target.nodeName !== 'A' && $(event.target).parent('a').length === 0) {
-                window.location = this.model.get('data_url');
+                window.location = this.model.get('query_url');
             }
         },
         /* a structure was selected, so return the places JSON

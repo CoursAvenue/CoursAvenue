@@ -24,17 +24,7 @@ class StructuresController < ApplicationController
     @comments       = @structure.comments.accepted.reject(&:new_record?)
     @comment        = @structure.comments.build
 
-    @model = (jasonify @structure, { unlimited_comments: true }).pop
-
-    # data for the tabs manager
-    # TODO we want to be able to choose between JSTemplate or haml
-    # served from rails
-    @structure_tabs_manager = {
-      view: "TabManager",
-      tabs: ['courses.calendar', 'comments', 'teachers.group', ''],
-      bootstrap: @model.to_json,
-      provides: "structure"
-    }
+    @model = (jasonify @structure, { unlimited_comments: true, query: query_string }).pop
 
     @tabs = [{
         icon: 'calendar',
@@ -103,7 +93,7 @@ class StructuresController < ApplicationController
                meta: { total: @total, location: @latlng }
       end
       format.html do
-        @models = jasonify @structures, place_ids: @places
+        @models = jasonify @structures, place_ids: @places, query: query_string
         cookies[:structure_search_path] = request.fullpath
       end
     end
@@ -117,5 +107,9 @@ class StructuresController < ApplicationController
     else
       'users'
     end
+  end
+
+  def query_string
+    request.env["QUERY_STRING"]
   end
 end

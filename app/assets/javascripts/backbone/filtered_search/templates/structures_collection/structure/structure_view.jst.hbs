@@ -2,7 +2,7 @@
     <div class="flexbox__item v-top structure-item__logo">
         <div class="relative">
             {{#if logo_present}}
-                <a href="{{ data_url }}" class="block">
+                <a href="{{ query_url }}" class="block">
                     <img src="{{ logo_thumb_url }}" class="block one-whole" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
                 </a>
             {{/if}}
@@ -17,7 +17,7 @@
  --><article class="flexbox__item four-tenths v-top structure-item__see-all-wrapper structure-item__button">
         <div class="relative full-height soft-half hard--right">
             <div class="epsilon flush v-top">
-                <a href="{{ data_url }}">{{ name }}</a>
+                <a href="{{ query_url }}">{{ name }}</a>
             </div>
             {{#if tag_names}}
                 <div class="milli gray">
