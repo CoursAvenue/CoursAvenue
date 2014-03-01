@@ -40,7 +40,7 @@
             load_widget();
         });
         load_widget = function() {
-            var url = "#{widget_jpo_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}",
+            var url = "#{widget_jpo_ext_pro_structure_url(@structure, format: :json, subdomain: (Rails.env.staging? ? 'pro.staging' :'pro'))}",
                 new_code;
             new_code = code.replace('__URL__', url) + '>';
             $('.ajax-code').val(new_code.replace(/\s+/g, ' '));
