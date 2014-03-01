@@ -165,9 +165,12 @@ CoursAvenue::Application.routes.draw do
           resources :prices, only: [:index], controller: 'structures/courses/prices'
           resources :book_tickets, only: [:edit, :index, :destroy]
           member do
-            patch 'update_price'
-            patch 'activate'
-            patch 'disable'
+            patch :update_price
+            patch :activate
+            patch :disable
+            patch :activate_ok_nico
+            patch :disable_ok_nico
+
           end
         end
         resources :course_opens, path: 'portes-ouvertes-cours-loisirs', controller: 'structures/open_courses'
