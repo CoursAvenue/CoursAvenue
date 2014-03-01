@@ -278,7 +278,9 @@ class Structure < ActiveRecord::Base
   # Update the email status of the structure
   def update_email_status
     email_status = nil
-    if !self.profile_completed?
+    if !self.logo.present?
+      email_status = 'no_logo_yet'
+    elsif !self.profile_completed?
       email_status = 'incomplete_profile'
     elsif self.comments_count == 0
       email_status = 'no_recommendations'
@@ -445,6 +447,9 @@ class Structure < ActiveRecord::Base
     self.comments.pending.count > 0
   end
 
+  # Tell if the profile is complete
+  #
+  # @return Boolean
   def profile_completed?
     self.logo? and self.description.present?
   end
