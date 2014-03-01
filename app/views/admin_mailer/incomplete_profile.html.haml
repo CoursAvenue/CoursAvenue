@@ -1,5 +1,5 @@
 - content_for :logo do
-  = image_tag 'emails_logo/oreille.jpg', style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+  = image_tag 'emails_logo/oreille.jpg', style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
 
 - content_for :promo do
   %h4 Remplir votre profil devient un jeu d'enfant !
@@ -39,8 +39,8 @@
 - content_for :under_content_2 do
   = render 'admin_mailer/recommandations_advantages'
 
--# - content_for :under_content_3 do
--#   = render 'admin_mailer/white_book'
+- content_for :under_content_3 do
+  = render 'admin_mailer/white_book'
 
 - content_for :footer do
   %p= link_to 'Gérer mes préférences e-mails', notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro')

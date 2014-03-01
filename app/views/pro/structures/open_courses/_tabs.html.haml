@@ -6,6 +6,12 @@
       - nb_jpo_plannings = @structure.courses.open_courses.map(&:plannings).flatten.length
       - if nb_jpo_plannings > 0
         (#{nb_jpo_plannings})
+
+  %li{class: current == 'widget' ? 'active' : ''}
+    = link_to widget_jpo_pro_structure_path(@structure) do
+      %i.fa.fa-cogs
+      Bannière sur votre site
+
   %li{class: (current == 'participations' ? 'active' : '')}
     = link_to pro_structure_participations_path(@structure) do
       %i.fa.fa-group
@@ -22,4 +28,4 @@
       = link_to jpo_pro_structure_invited_students_path(@structure) do
         %i.fa.fa-list
         Invitations envoyées
-        (#{@structure.invited_students.for_jpo})
+        (#{@structure.invited_students.for_jpo.count})

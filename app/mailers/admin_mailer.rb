@@ -9,6 +9,14 @@ class AdminMailer < ActionMailer::Base
     mail to: 'contact@coursavenue.com', subject: subject
   end
   ######################################################################
+  # JPOs                                                               #
+  ######################################################################
+  def your_jpo_courses_are_visible(structure)
+    @structure = structure
+    mail to: @structure.main_contact.email, subject: 'Vos ateliers pour les Portes Ouvertes sont maintenant visibles'
+  end
+
+  ######################################################################
   # Stickers                                                           #
   ######################################################################
   def stickers_has_been_ordered(sticker_demand)

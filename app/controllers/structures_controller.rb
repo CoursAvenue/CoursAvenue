@@ -57,19 +57,14 @@ class StructuresController < ApplicationController
 
   def jpo
     @structure = Structure.friendly.find params[:id]
-    @city           = @structure.city
-    @places         = @structure.courses.open_courses.map(&:places).flatten.uniq
-    @teachers       = @structure.teachers
-    @medias         = @structure.medias.videos_first.reject { |media| media.type == 'Media::Image' and media.cover }
-    @comments       = @structure.comments.accepted.reject(&:new_record?)
-    @comment        = @structure.comments.build
-
+    @city      = @structure.city
+    @places    = @structure.courses.open_courses.map(&:places).flatten.uniq
+    @teachers  = @structure.teachers
+    @medias    = @structure.medias.videos_first.reject { |media| media.type == 'Media::Image' and media.cover }
+    @comments  = @structure.comments.accepted.reject(&:new_record?)
+    @comment   = @structure.comments.build
     respond_to do |format|
-      if current_user or current_pro_admin
-        format.html
-      else
-        format.html { redirect_to open_courses_path, alert: 'Vous devez vous enregistrer pour participer aux Portes Ouvertes des cours de loisirs'}
-      end
+      format.html
     end
   end
 

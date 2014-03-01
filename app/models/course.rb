@@ -386,9 +386,9 @@ class Course < ActiveRecord::Base
   end
 
   def activate!
-    if is_open? or (prices.any? and plannings.any?)
+    if prices.any? and plannings.any?
       self.active = true
-      return self.save
+      return save
     else
       errors.add(:prices, "Le cours n'a pas de tarifs")       if prices.empty?
       errors.add(:plannings, "Le cours n'a pas de plannings") if plannings.empty?

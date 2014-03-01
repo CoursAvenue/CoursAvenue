@@ -25,8 +25,8 @@
               = link_to disable_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button on', title: 'Enlever le cours de CoursAvenue' do
                 Visible
             - else
-              = link_to activate_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button off', title: 'Afficher le cours sur CoursAvenue'  do
-                Non&nbsp;visible
+              = link_to activate_pro_structure_course_path(@structure, course), method: :patch, class: 'switch-button off nowrap', title: 'Afficher le cours sur CoursAvenue'  do
+                Non visible
           %td= course.type_name
           %td
             - if course.latest_end_date and course.latest_end_date < Date.today

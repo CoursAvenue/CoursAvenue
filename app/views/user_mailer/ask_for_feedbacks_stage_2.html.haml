@@ -1,16 +1,16 @@
 - if @structure.logo?
   - content_for :logo do
     = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
-      = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+      = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
 
 - content_for :promo do
   %h4
-    Il vous reste 5 jours pour recommander #{@structure.name}.
+    Il vous reste 5 jours pour recommander #{@structure.name}
 
 %p Bonjour !
 
 %p
-  #{@structure.name} vous a récemment demandé votre avis sur son profil public CoursAvenue. Pour que votre recommandation soit directement visible, déposez-le dans les 5 prochains jours.
+  #{@structure.name} vous a récemment demandé votre avis sur son profil public CoursAvenue. Pour que votre recommandation soit directement visible, déposez-la dans les 5 prochains jours.
   Pouvez-vous le faire dès maintenant en quelques minutes ?
 
 %p.action

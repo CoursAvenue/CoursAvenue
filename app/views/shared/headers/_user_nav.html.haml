@@ -1,6 +1,6 @@
 = render partial: 'shared/help_dropdown', locals: { button_class: 'btn btn--small' }
 #drop-down-el.drop-down__wrapper.grid__item.width-auto.v-middle.hard--left{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
-  = link_to dashboard_user_path(current_user) do
+  = link_to dashboard_user_path(current_user), class: (on_jpo_pages? ? 'white' : '') do
     - if current_user.fb_avatar or current_user.avatar.present?
       .grid
         .grid__item.v-middle.width-auto>

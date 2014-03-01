@@ -1,12 +1,12 @@
 - content_for :logo do
   - if @structure.logo.present?
-    = image_tag @structure.logo.url(:thumb), alt: 'CoursAvenue', height: '75', width: '75', style: '-ms-interpolation-mode:bicubic;'
+    = image_tag @structure.logo.url(:thumb), alt: 'CoursAvenue', width: '100', height: '100', style: '-ms-interpolation-mode:bicubic;'
   - else
-    = image_tag 'emails_logo/jpo.jpg', alt: 'CoursAvenue', height: '75', width: '75', style: '-ms-interpolation-mode:bicubic;'
+    = image_tag 'jpo_2014/logo_2_lines-square.png', alt: 'CoursAvenue', height: '125', width: '125', style: '-ms-interpolation-mode:bicubic;'
 
 - content_for :promo do
   %h4
-    Votre inscription a bien été annulée.
+    Votre inscription a bien été annulée
 
 %p
   Vous venez d'effectuer une demande de désinscription qui a bien été prise en compte. Retrouvez toutes les informations directement sur votre profil :
@@ -15,7 +15,7 @@
   = link_to "Voir mon profil", user_participations_url(@user), class: 'btn btn--green'
 
 %p.blue.blue-tip
-  %i Trucs & astuces : depuis votre profil, invitez vos amis, familles et collègues à participer aux Journées Portes Ouvertes avec vous.
+  %i Trucs & astuces : depuis votre profil, invitez vos amis, familles et collègues à Participer aux Portes Ouvertes avec vous.
 
 - content_for :under_content do
   = render 'user_mailer/footer_info'

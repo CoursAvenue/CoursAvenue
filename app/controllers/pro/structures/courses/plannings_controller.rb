@@ -137,8 +137,8 @@ class Pro::Structures::Courses::PlanningsController < InheritedResources::Base
   def update_place_infos
     return if params[:place].blank?
     place              = Place.find params[:planning][:place_id]
-    place.info         = params[:place][:info]         unless params[:place][:info].blank?
-    place.private_info = params[:place][:private_info] unless params[:place][:private_info].blank?
+    place.info         = params[:place][:info]
+    place.private_info = params[:place][:private_info]
     place.save
   end
 

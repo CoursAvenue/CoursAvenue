@@ -32,6 +32,22 @@ class Pro::Structures::CoursesController < Pro::ProController
     redirect_to pro_structure_courses_path(@structure), notice: 'Le cours à bien été dupliqué.'
   end
 
+  def activate_ok_nico
+    @course = Course.friendly.find params[:id]
+    respond_to do |format|
+      @course.update_column :ok_nico, true
+      format.js { render nothing: true }
+    end
+  end
+
+  def disable_ok_nico
+    @course = Course.friendly.find params[:id]
+    respond_to do |format|
+      @course.update_column :ok_nico, false
+      format.js { render nothing: true }
+    end
+  end
+
   def activate
     @course = Course.friendly.find params[:id]
     respond_to do |format|

@@ -293,6 +293,10 @@ class User < ActiveRecord::Base
     self.user_profiles.where(structure_id: structure.id).first
   end
 
+  def facebook_registered?
+    self.oauth_token.present?
+  end
+
   private
 
   def random_string

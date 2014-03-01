@@ -82,6 +82,8 @@ CoursAvenue::Application.routes.draw do
           post  :update
           get   :widget
           match :widget_ext, controller: 'structures', via: [:options, :get], as: 'widget_ext'
+          get :widget_jpo
+          match :widget_jpo_ext, controller: 'structures', via: [:options, :get], as: 'widget_jpo_ext'
         end
         collection do
           get :stars
@@ -165,9 +167,12 @@ CoursAvenue::Application.routes.draw do
           resources :prices, only: [:index], controller: 'structures/courses/prices'
           resources :book_tickets, only: [:edit, :index, :destroy]
           member do
-            patch 'update_price'
-            patch 'activate'
-            patch 'disable'
+            patch :update_price
+            patch :activate
+            patch :disable
+            patch :activate_ok_nico
+            patch :disable_ok_nico
+
           end
         end
         resources :course_opens, path: 'portes-ouvertes-cours-loisirs', controller: 'structures/open_courses'
@@ -256,7 +261,7 @@ CoursAvenue::Application.routes.draw do
 
   resources :structures, only: [:show, :index], path: 'etablissements', controller: 'structures' do
     member do
-      get :jpo, path: 'journees-portes-ouvertes'
+      get :jpo, path: 'portes-ouvertes-cours-loisirs'
     end
     collection do
       post :recommendation

@@ -1,9 +1,9 @@
 - content_for :logo do
-  = image_tag 'emails_logo/jpo.jpg', alt: 'CoursAvenue', height: '75', width: '75', style: '-ms-interpolation-mode:bicubic;'
+  = image_tag 'jpo_2014/logo_2_lines-square.png', alt: 'CoursAvenue', height: '125', width: '125', style: '-ms-interpolation-mode:bicubic;'
 
 - content_for :promo do
   %h4
-    Un élève vient d'annuler son inscription à vos Journées Portes Ouvertes.
+    Un élève vient d'annuler son inscription à vos Journées Portes Ouvertes
 
 %p
   Informations sur la réservation :
@@ -22,7 +22,7 @@
   = link_to "Suivre mes inscriptions", pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 
 %p.blue.blue-tip
-  %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter tous leurs proches.
+  %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter leurs proches.
 
 - content_for :under_content do
   = render 'invite_students_to_jpos'
@@ -30,5 +30,5 @@
 - content_for :under_content_2 do
   = render 'admin_mailer/recommandations_advantages'
 
--# - content_for :under_content_3 do
--#   = render 'admin_mailer/white_book'
+- content_for :under_content_3 do
+  = render 'admin_mailer/white_book'

@@ -27,6 +27,8 @@ describe Comment do
     end
   end
 
+  context :validations do
+  end
   context :callbacks do
     let(:comment) { FactoryGirl.build(:comment) }
     context :user_passions do
@@ -56,10 +58,36 @@ describe Comment do
         expect(comment.structure.user_profiles.last.tags.map(&:name)).to include UserProfile::DEFAULT_TAGS[:comments]
       end
     end
+
+    describe '#downcase_email' do
+      it 'transforms the email to have it downcase' do
+        comment = Comment.new email: 'LAAL@ALA.COM'
+        comment.send(:downcase_email)
+        expect(comment.email).to eq 'LAAL@ALA.COM'.downcase
+      end
+    end
+
+    describe '#remove_quotes_from_title' do
+      it 'Removes quotes from title at ends' do
+        comment = Comment.new title: '"zadpoj azdjz"'
+        comment.send(:remove_quotes_from_title)
+        expect(comment.title).not_to include '"'
+      end
+    end
+
+    describe '#strip_names' do
+      it 'Removes quotes from title at ends' do
+        comment = Comment.new title: ' title ', author_name: ' author_name ', course_name: ' course_name '
+        comment.send(:strip_names)
+        expect(comment.title).to eq 'title'
+        expect(comment.author_name).to eq 'author_name'
+        expect(comment.course_name).to eq 'course_name'
+      end
+    end
   end
 
-  let(:comment_notification) { FactoryGirl.create(:comment_notification) }
   context 'create a comment from a user that has a comment_notification' do
+    let(:comment_notification) { FactoryGirl.create(:comment_notification) }
     it 'creates a comment notification for a user' do
       user     = comment_notification.user
       _comment = FactoryGirl.build(:comment, author_name: user.name, email: user.email, commentable: comment_notification.structure, user: user)
