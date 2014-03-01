@@ -80,6 +80,12 @@
               %td.cell.footer{width: '600'}
                 - if content_for? :footer
                   = yield :footer
+                - elsif @structure and @structure.main_contact
+                  %p
+                    = link_to 'Gérer mes préférences de notifications e-mails.', notifications_pro_structure_admin_path(@structure, @structure.main_contact)
+                - elsif @user
+                  %p
+                    = link_to 'Gérer mes préférences de notifications e-mails.', notifications_user_path(@user)
                 - else
                   %p
                     Vous recevez cet email car vous êtes inscrit sur CoursAvenue, le 1er moteur de recherche de cours en France.

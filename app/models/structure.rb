@@ -56,7 +56,7 @@ class Structure < ActiveRecord::Base
                              :plannings_count, :has_promotion, :has_free_trial_course, :course_names, :open_course_names, :open_course_subjects,
                              :last_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
                              :level_ids, :audience_ids, :busy,
-                             :open_courses_open_places, :open_course_nb
+                             :open_courses_open_places, :open_course_nb, :jpo_email_status
 
 
 
@@ -248,7 +248,10 @@ class Structure < ActiveRecord::Base
   #
   # @return nil
   def send_reminder
-    if self.main_contact.present? and self.email_status and self.main_contact.monday_email_opt_in?
+    return unless self.main_contact.present?
+    if courses.open_courses.any?
+      AdminMailer.delay.monday_jpo(self)
+    elsif self.email_status and self.main_contact.monday_email_opt_in?
       if self.update_email_status.present?
         self.update_column :last_email_sent_at, Time.now
         self.update_column :last_email_sent_status, self.email_status
@@ -474,7 +477,7 @@ class Structure < ActiveRecord::Base
 
   # Returns the cover image if there is one, else the first image
   #
-  # @return Medi
+  # @return Media
   def cover_image
     self.medias.images.cover.first || self.medias.images.first
   end
@@ -611,9 +614,21 @@ class Structure < ActiveRecord::Base
     self.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:contacts])
   end
 
+  # Total nb JPO places given by the structure
+  #
+  # @return Integer nb_place
   def total_jpo_places
     self.courses.open_courses.map do |course|
       course.nb_participants_max * course.plannings.count
+    end.reduce(&:+)
+  end
+
+  # Total nb places left by the structure
+  #
+  # @return Integer nb_place
+  def total_jpo_places_left
+    self.courses.open_courses.map do |course|
+      course.plannings.map(&:places_left).reduce(&:+) || 0
     end.reduce(&:+)
   end
 

@@ -6,6 +6,11 @@ class ParticipationMailer < ActionMailer::Base
 
   default from: "\"L'équipe de CoursAvenue.com\" <contact@coursavenue.com>"
 
+  def no_more_place(structure)
+    @structure = structure
+    mail to: @structure.main_contact.email, subject: "Félicitations, vos ateliers Portes Ouvertes affichent complet !"
+  end
+
   def invite_friends_to_jpo(participation)
     @user      = participation.user
     @planning  = participation.planning
@@ -72,19 +77,5 @@ class ParticipationMailer < ActionMailer::Base
     @course   = participation.course
     @structure = participation.course.structure
     mail to: @user.email, subject: "Votre désinscription a bien été prise en compte"
-  end
-
-  def alert_for_changes(participation)
-    @user     = participation.user
-    @planning = participation.planning
-    @course   = participation.course
-    # mail to: @user.email, subject: 'Change'
-  end
-
-  def alert_for_destroy(participation)
-    @user     = participation.user
-    @planning = participation.planning
-    @course   = participation.course
-    # mail to: @user.email, subject: 'Destroy'
   end
 end

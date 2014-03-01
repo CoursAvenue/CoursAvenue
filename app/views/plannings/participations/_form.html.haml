@@ -15,11 +15,11 @@
     %br
     (1 seule inscription possible par personne, sur liste d'attente ou non).
 
-- if @planning.places_left <= 5
+- if @planning.places_left <= 5 and @planning.places_left > 0
   .text--center
     .alert.alert--error
       %strong Attention !
-      Il ne reste plus que #{@planning.places_left} places !
+      Il ne reste plus que #{pluralize @planning.places_left, 'place'} !
 
 
 = simple_form_for [@planning, @participation] do |f|

@@ -1,0 +1,16 @@
+- content_for :logo do
+  = image_tag 'jpo_2014/logo_2_lines-square.png', alt: 'CoursAvenue', height: '125', width: '125', style: '-ms-interpolation-mode:bicubic;'
+
+- content_for :promo do
+  %h4
+    Félicitations ! Vos Portes Ouvertes affichent complet
+
+%p
+  Quel succès ! Toutes les places pour vos ateliers Portes Ouvertes ont été réservées. Pour attirer encore plus d'élèves, proposez de nouveaux ateliers depuis votre profil :
+
+%p.action
+  = link_to "Ajouter des nouveaux ateliers Portes Ouvertes", pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
+
+%p.blue.blue-tip
+  %i Trucs & astuces : depuis votre profil, ajoutez autant d'ateliers que vous le souhaitez et profitez de l'occasion pour inviter votre réseau.
+

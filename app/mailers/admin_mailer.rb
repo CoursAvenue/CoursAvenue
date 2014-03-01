@@ -92,6 +92,13 @@ class AdminMailer < ActionMailer::Base
   ######################################################################
   # Monday email / based on email_status                               #
   ######################################################################
+  def monday_jpo(structure)
+    @structure  = structure
+    @show_links = true
+    @structures = StructureSearch.similar_profile(@structure)
+    mail to: structure.main_contact.email, subject: "Les inscriptions aux Portes Ouvertes sont ouvertes"
+  end
+
   def no_logo_yet(structure)
     @structure  = structure
     @show_links = true

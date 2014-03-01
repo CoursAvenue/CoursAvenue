@@ -1,6 +1,5 @@
 class ::Admin < ActiveRecord::Base
   acts_as_paranoid
-
   acts_as_messageable
 
   include ActsAsUnsubscribable
@@ -15,10 +14,6 @@ class ::Admin < ActiveRecord::Base
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable, :registerable, :confirmable
 
-  after_create :check_if_was_invited
-  after_save :delay_subscribe_to_nutshell
-  after_save :delay_subscribe_to_mailchimp
-
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email,
                   :password, :password_confirmation, :remember_me,
@@ -26,14 +21,31 @@ class ::Admin < ActiveRecord::Base
                   :phone_number, :mobile_phone_number,
                   :management_software_used,
                   :structure_id,
-                  :email_opt_in, # To be removed?
-                  :student_action_email_opt_in, :newsletter_email_opt_in, :monday_email_opt_in, :thursday_email_opt_in
+                  :email_opt_in # To be removed?
 
-  validates :password, :email, :structure, presence: true, on: :create
+  store_accessor :email_opt_in_status, :student_action_email_opt_in, :newsletter_email_opt_in,
+                                       :monday_email_opt_in, :thursday_email_opt_in, :jpo_email_opt_in
 
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
   belongs_to :structure
 
-  # Scopes
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
+   validates :password, :email, :structure, presence: true, on: :create
+
+  ######################################################################
+  # Callbacks                                                          #
+  ######################################################################
+  after_create :check_if_was_invited
+  after_save :delay_subscribe_to_nutshell
+  after_save :delay_subscribe_to_mailchimp
+
+  ######################################################################
+  # Scopes                                                             #
+  ######################################################################
   scope :normal, -> { where(super_admin: false) }
 
   # ------------------------------------
@@ -84,6 +96,19 @@ class ::Admin < ActiveRecord::Base
       structure.name
     else
       read_attribute(:name)
+    end
+  end
+
+  # Augment methods to have them return boolea
+  %w(student_action_email_opt_in newsletter_email_opt_in monday_email_opt_in thursday_email_opt_in jpo_email_opt_in).each do |key|
+    scope "has_#{key}", ->(value) { where("email_opt_in_status @> hstore(?, ?)", key, value) }
+
+    define_method("#{key}") do
+      if email_opt_in_status && email_opt_in_status[key].present? then
+        ::ActiveRecord::ConnectionAdapters::Column.value_to_boolean(email_opt_in_status[key])
+      else
+        nil
+      end
     end
   end
 
