@@ -201,6 +201,9 @@ class Comment < ActiveRecord::Base
     end
   end
 
+  # Add errors if the user has already commented the commentable
+  #
+  # @return nil
   def doesnt_exist_yet
     _structure_id = self.commentable_id
     _email        = self.email
@@ -209,12 +212,19 @@ class Comment < ActiveRecord::Base
     end
   end
 
+  #
+  # Strip names in case they have a starting or ending space
+  #
+  # @return nil
   def strip_names
     self.author_name = self.author_name.strip if author_name.present?
     self.title       = self.title.strip       if title.present?
     self.course_name = self.course_name.strip if course_name.present?
   end
 
+  # Sends an email to the user and the admin regarding the status of the comment
+  #
+  # @return nil
   def send_email
     if self.accepted?
       AdminMailer.delay.congratulate_for_accepted_comment(self)
@@ -225,15 +235,23 @@ class Comment < ActiveRecord::Base
     end
   end
 
+  # Change the email to force it to be downcase
+  #
+  # @return
   def downcase_email
     self.email = self.email.downcase
+    nil
   end
 
+  # Remove quotes from title if they are at the begining
+  #
+  # @return nil
   def remove_quotes_from_title
     string_title = self.title
     string_title[0]                       = '' if string_title[0] == '"' or string_title[0] == "'"
     string_title[string_title.length - 1] = '' if string_title.last == '"' or string_title.last == "'"
     self.title = string_title.strip
+    nil
   end
 
   # Create or update the user profile attached to the structure

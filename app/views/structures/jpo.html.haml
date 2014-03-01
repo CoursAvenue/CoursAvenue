@@ -6,16 +6,11 @@
     = @structure.logo.url(:thumb)
 
 = content_for :title do
-  = "#{@structure.name} à #{@city.name}"
+  = "#{@structure.name} ouvre ses portes le 5-6 avril 2014 en Île-de-France"
 
 = content_for :meta_description do
-  - if @structure.description.present?
-    = "#{@structure.description_for_meta} à #{@city.name}"
-  - else
-    - if @structure.parent_subjects_string.present?
-      = "Retrouvez tous les cours de #{@structure.name} à #{@city.name}. #{subjects_name_from_string(@structure.parent_subjects_string)} et bien plus ! à #{@city.name}"
-    - else
-      = "Retrouvez tous les cours de #{@structure.name} à #{@city.name}"
+  Participez à un atelier gratuit en Île-de-France le 5 et 6 avril donné par #{@structure.name}. Retrouvez également plus de 5 000 autres cours gratuits.
+
 
 .inline-block
   = link_to open_courses_path do

@@ -23,12 +23,26 @@
 
 - @courses.each do |course|
   .white-box.islet
-    - if course.active
-      = link_to 'Visible', '#cannot-modify', class: 'v-middle push-half--right switch-button on', title: 'Rendre mon atelier visible', data: { behavior: 'modal' }
-    - else
-      .inline-block.v-middle.push-half--right{title: "Vos ateliers gratuits pour les Portes Ouvertes ne sont pas encore visibles sur CoursAvenue. Une fois les informations validées par notre équipe, vous recevrez un email vous indiquant qu'ils sont visibles et ouverts aux inscriptions.", data: { behavior: 'tooltip'} }
-        = link_to 'Non visible', '#activate-popup', class: 'switch-button off', title: 'Rendre mon atelier visible', data: { behavior: 'modal' }
-
+    .float--right
+      - if course.active?
+        = link_to '#cannot-modify', data: { behavior: 'modal' } do
+          %i.fa.fa-pencil
+          Modifier
+        \/
+        = link_to '#cannot-modify', class: 'red', data: { behavior: 'modal' } do
+          %i.fa.fa-times
+          Supprimer
+        = link_to 'Visible', '#cannot-modify', class: 'v-middle push-half--left switch-button on', title: 'Rendre mon atelier visible', data: { behavior: 'modal' }
+      - else
+        = link_to edit_pro_structure_course_open_path(@structure, course) do
+          %i.fa.fa-pencil
+          Modifier
+        \/
+        = link_to pro_structure_course_open_path(@structure, course), class: 'red', method: :delete do
+          %i.fa.fa-times
+          Supprimer
+        .inline-block.v-middle.push-half--left{title: "En attente de validation par l'équipe CoursAvenue.", data: { behavior: 'tooltip'} }
+          = link_to 'Non visible', '#activate-popup', class: 'switch-button off', title: 'Rendre mon atelier visible', data: { behavior: 'modal' }
     %strong.v-middle= course.name
     - if course.other_event_type?
       = "(#{course.event_type_description})"
@@ -39,27 +53,12 @@
         %i.lbc-icon-info
           i
         Infos pratiques
-    .float--right
-      - if course.active?
-        = link_to '#cannot-modify', data: { behavior: 'modal' } do
-          %i.fa.fa-pencil
-          Modifier
-        \/
-        = link_to '#cannot-modify', class: 'red', data: { behavior: 'modal' } do
-          %i.fa.fa-times
-          Supprimer
-      - else
-        = link_to edit_pro_structure_course_open_path(@structure, course) do
-          %i.fa.fa-pencil
-          Modifier
-        \/
-        = link_to pro_structure_course_open_path(@structure, course), class: 'red', method: :delete do
-          %i.fa.fa-times
-          Supprimer
     %p.gray.milli
       %i.fa.fa-tags
       = course.subjects.map(&:name).join(', ')
-    = simple_format course.description
+
+    .read-more{data: {behavior: 'read-more', height: 50}}
+      = simple_format course.description
 
     - if course.plannings.any?
       %table.table--data.table--striped
@@ -144,6 +143,7 @@
   = link_to "Contacter CoursAvenue", pages_contact_url(subdomain: 'www'), class: 'btn btn--green btn--full', target: :_blank
 
 #activate-popup.hidden
+  %h5 En attente de validation par l'équipe CoursAvenue
   %p Renseignez toutes les informations concernant vos ateliers pour les Portes Ouvertes (description générale, informations pratiques, créneaux horaires, lieux, etc.). Une fois toutes ces informations vérifiées et validées par notre équipe (normalement sous 24h), un e-mail vous sera envoyé pour vous notifier que vos ateliers sont visibles sur notre espace d'inscription pour les Portes Ouvertes.
 
   %p S'il manque certaines informations importantes (adresse exacte, digicode, matériel requis...) ou si la description de vos ateliers n'est pas claire, nous prendrons contact avec vous avant que vos ateliers deviennent visibles.

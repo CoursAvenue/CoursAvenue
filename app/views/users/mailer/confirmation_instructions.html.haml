@@ -1,7 +1,7 @@
 %p Bonjour,
 
 %p
-  Bienvenue sur CoursAvenue ! Pour commencer, vous devez confirmer votre adresse e-mail :
+  Pour commencer, vous devez confirmer votre adresse e-mail :
 
 %p.action
   = link_to 'Confirmer mon e-mail', user_confirmation_url(confirmation_token: @token), class: 'btn btn--green'

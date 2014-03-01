@@ -14,7 +14,8 @@
       %p.gray.milli
         %i.fa.fa-tags
         = course.subjects.map(&:name).join(', ')
-      = simple_format course.description
+      .read-more{data: {behavior: 'read-more', height: 50}}
+        = simple_format course.description
       - if course.plannings.any?
         %table.table--data.table--striped
           %thead
@@ -60,5 +61,5 @@
                     = link_to "M'inscrire", new_user_registration_path, data: {behavior: 'modal', title: 'Connexion', width: 300}, class: 'fancybox.ajax btn btn--green btn--small btn--full'
 
 - if current_pro_admin
-  #you-are-a-teacher
+  #you-are-a-teacher.hidden
     %h5.flush.text--center En tant que partenaire proposant des cours, vous ne pouvez pas vous inscrire aux Portes Ouvertes. L'inscription n'est réservée qu'aux élèves utilisateurs.

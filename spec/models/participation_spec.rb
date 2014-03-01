@@ -5,9 +5,11 @@ describe Participation do
 
   context :waiting_list do
     let (:planning) { FactoryGirl.create(:planning) }
+
     before do
       subject.user = FactoryGirl.create(:user)
     end
+
     it 'goes on waiting_list' do
       planning.update_attribute(:nb_participants_max, 0)
       subject.planning = planning
