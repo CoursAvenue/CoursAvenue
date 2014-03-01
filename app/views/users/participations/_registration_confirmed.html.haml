@@ -2,7 +2,7 @@
   %h4.text--center
     - if @participation.planning.places_left?
       Il ne reste plus que
-      %span.green #{pluralize(@participation.planning.places_left, 'place')}
+      %span.green#places-left #{pluralize(@participation.planning.places_left, 'place')}
       pour l'atelier auquel vous participez : invitez vos proches à y participer !
     - else
       Invitez vos proches à Participer aux Portes Ouvertes CoursAvenue !
