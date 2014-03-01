@@ -12,7 +12,8 @@
 
   %h4.push-half--ends.inline-block.v-middle.push--right
     %i.fa.fa-bullhorn
-    Parlez en autour de vous #JPOCoursAvenue
+    Parlez en autour de vous
+    %i #JPOCoursAvenue
   .share-on-facebook.btn.btn--facebook.text--left.nowrap.inline-block.v-middle Poster sur mon mur
   .share-on-twitter.btn.btn--twitter.btn--small.text--left.nowrap.inline-block.v-middle Twitter
   - if current_user.facebook_registered?
@@ -33,21 +34,24 @@
         $.fancybox($('#share-on-social-networks'), {
                 afterClose: function() {
                     setTimeout(function() {
-                        $.fancybox($('#inscription-confirmed-popup'));
-                        var price_of_the_event = $('#places-left');
-                        var initial_price = price_of_the_event.text();
-                        var random_price = function() {
-                            price_of_the_event.text(Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10) + ' places')
-                        }
-                        for(var i = 0; i <= 10000; i += 1) {
-                            if (i == 10000) {
-                              setTimeout(function() {
-                                price_of_the_event.text(initial_price);
-                              }, 20);
-                            } else {
-                                setTimeout(random_price, 20);
+                        $.fancybox($('#inscription-confirmed-popup'), {
+                            afterShow: function() {
+                                var price_of_the_event = $('#places-left');
+                                var initial_price = price_of_the_event.text();
+                                var random_price = function() {
+                                    price_of_the_event.text(Math.floor(Math.random() * 10) + '' + Math.floor(Math.random() * 10) + ' places')
+                                }
+                                for(var i = 0; i <= 10000; i += 1) {
+                                    if (i == 10000) {
+                                      setTimeout(function() {
+                                        price_of_the_event.text(initial_price);
+                                      }, 20);
+                                    } else {
+                                        setTimeout(random_price, 20);
+                                    }
+                                }
                             }
-                        }
+                        });
 
                     }, 50);
                     return;
