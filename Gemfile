@@ -132,7 +132,10 @@ gem 'railsy_backbone'           , '~>0.0.5'
 gem 'marionette-rails'          , '~>1.4.1'
 # Includes bacbone.relational
 gem 'backbone-relational-rails' , '~>0.8.7'
-gem 'handlebars_assets'         , git: 'git@github.com:variousauthors/handlebars_assets.git'
+# See issue: https://github.com/leshill/handlebars_assets/pull/46
+gem 'handlebars_assets'         , '~>0.15', git: 'git://github.com/variousauthors/handlebars_assets.git'
+# Decorator
+gem 'draper'                    , '~>1.3.0'
 # allows sharing of handlebars templates
 gem 'sht_rails'
 gem 'sass-rails'                , '~>4.0.1'

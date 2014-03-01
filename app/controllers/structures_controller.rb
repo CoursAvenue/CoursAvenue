@@ -10,7 +10,8 @@ class StructuresController < ApplicationController
 
   def show
     begin
-      @structure = Structure.friendly.find params[:id]
+      @structure           = Structure.friendly.find(params[:id])
+      @structure_decorator = @structure.decorate
     rescue ActiveRecord::RecordNotFound
       place = Place.find params[:id]
       redirect_to structure_path(place.structure), status: 301
@@ -39,17 +40,17 @@ class StructuresController < ApplicationController
     @tabs = [{
         icon: 'calendar',
         slug: 'courses',
-        name: 'Courses'
+        name: 'Cours'
       },
       {
         icon: '',
         slug: 'comments',
-        name: 'Comments'
+        name: 'Avis'
       },
       {
         icon: 'group',
         slug: 'teachers',
-        name: 'Teachers'
+        name: 'Professeurs'
       }
     ]
 
