@@ -7,7 +7,7 @@ class LightStructureSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
-             :logo_present, :logo_thumb_url, :data_url,
+             :logo_thumb_url, :data_url,
              :plannings_count, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle,
              :gives_group_courses, :gives_individual_courses,
@@ -26,10 +26,6 @@ class LightStructureSerializer < ActiveModel::Serializer
 
   def has_comments
     object.comments.accepted.count > 0
-  end
-
-  def logo_present
-    object.logo.present?
   end
 
   def logo_thumb_url
