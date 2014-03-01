@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140222174516) do
+ActiveRecord::Schema.define(version: 20140301115517) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 20140222174516) do
     t.integer  "nb_participants_min"
     t.text     "ca_follow_up"
     t.float    "common_price"
+    t.boolean  "ok_nico",                    default: false
   end
 
   add_index "courses", ["active"], name: "index_courses_on_active", using: :btree
@@ -363,8 +364,9 @@ ActiveRecord::Schema.define(version: 20140222174516) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.time     "deleted_at"
-    t.boolean  "waiting_list", default: false
+    t.boolean  "waiting_list",      default: false
     t.datetime "canceled_at"
+    t.string   "participation_for"
   end
 
   add_index "participations", ["planning_id", "user_id"], name: "index_participations_on_planning_id_and_user_id", using: :btree
@@ -710,6 +712,9 @@ ActiveRecord::Schema.define(version: 20140222174516) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.hstore   "meta_data"
+    t.string   "email_status"
+    t.string   "last_email_sent_at"
+    t.string   "last_email_sent_status"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

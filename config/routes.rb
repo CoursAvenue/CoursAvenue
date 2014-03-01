@@ -163,9 +163,11 @@ CoursAvenue::Application.routes.draw do
         resources :prices, only: [:index]
         resources :book_tickets, only: [:edit, :index, :destroy]
         member do
-          patch 'update_price'
-          patch 'activate'
-          patch 'disable'
+          patch :update_price
+          patch :activate
+          patch :disable
+          patch :activate_ok_nico
+          patch :disable_ok_nico
         end
       end
 

@@ -1,7 +1,7 @@
 class Course::Open < Course
 
   attr_accessible :event_type, :event_type_description, :price, :nb_participants_min, :nb_participants_max,
-                  :info, :ca_follow_up, :common_price
+                  :info, :ca_follow_up, :common_price, :ok_nico
 
   validates :name, :event_type, :nb_participants_min, :nb_participants_max, presence: true
   validates :nb_participants_min, numericality: { greater_than: 0 }
