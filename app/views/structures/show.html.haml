@@ -64,7 +64,7 @@
             %div.two-thirds>
               - course = JSON.parse(CourseSerializer.new(course).to_json) # get the json ready for bootstrap
               - course["is_first"] = index == 0
-              = render template: '../assets/javascripts/backbone/structure_profile/views/courses/templates/course', locals: course
+              = render template: '../assets/javascripts/backbone/structure_profile/views/courses/templates/course', locals: course, formats: :jst
               %div{ data: { view: "Composite", of: "Plannings", and: "Course", bootstrap: { model: course, collection: course["plannings"] }.to_json }}
                 %table.table--striped{ data: { tagName: true }}
                   %thead
@@ -75,20 +75,20 @@
                   %tbody{ data: { itemviewContainer: true }}
                   - course["plannings"].each do |planning|
                     %tr{ data: { itemviewTagName: true }}
-                      = render template: '../assets/javascripts/backbone/structure_profile/views/plannings/templates/planning', locals: planning
+                      = render template: '../assets/javascripts/backbone/structure_profile/views/plannings/templates/planning', locals: planning, formats: :jst
 
       %article.tab-pane{ data: { view: 'Collection', of: "Teachers", bootstrap: 'teachers', component: 'TabContents', for: 'teachers'}}
         - @teachers.each do |teacher|
           - teacher = JSON.parse(teacher.to_json)
           .white-box.islet{ data: { 'tagName' => true }}
-            = render template: '../assets/javascripts/backbone/structure_profile/views/teachers/templates/teacher', locals: teacher
+            = render template: '../assets/javascripts/backbone/structure_profile/views/teachers/templates/teacher', locals: teacher, formats: :jst
 
       %article.tab-pane{ data: { view: 'Collection', of: "Comments", bootstrap: 'comments', component: 'TabContents', for: 'comments'}}
         -# this will be used as the tagName and className of the CollectionView and ItemView
         %ul.comment-list{ data: { 'tagName' => true }}
           %li.comment-list__el.hard--left.soft-half.white-box{ data: { "itemviewTagName" => true }}
-
-#course_info.hidden= render 'structures/courses/info_popup'
+  .grid__item.four-twelfths>
+    TODO
 
 = content_for :scripts do
   :javascript
@@ -101,8 +101,6 @@
             $('[href=' + window.location.hash + ']').click();
         }
     });
-
-  :javascript
     (function () {
       var places    = #{ActiveModel::ArraySerializer.new(@structure.places,   each_serializer: BigPlaceSerializer).to_json };
       var teachers  = #{ActiveModel::ArraySerializer.new(@structure.teachers, each_serializer: TeacherSerializer).to_json };
@@ -111,11 +109,9 @@
       window.coursavenue = window.coursavenue || {};
       window.coursavenue.bootstrap = {
         structure: #{ @model.to_json },
-        courses: courses,
-        teachers: teachers,
-        comments: #{ @model.comments.to_json },
-        places: places,
+        courses  : courses,
+        teachers : teachers,
+        comments : #{ @model.comments.to_json },
+        places   : places,
       };
-
     }());
-
