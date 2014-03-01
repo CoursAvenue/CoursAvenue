@@ -1,39 +1,14 @@
-= side_menu_currently_at 'Communiquer'
-= render '/pro/structures/widget_inline_css'
+= side_menu_currently_at 'Journées Portes Ouvertes'
+= render 'pro/structures/widget_jpo_inline_css'
 
-= render partial: 'pro/structures/communication_tabs', locals: {current: 'widget'}
-.islet.white-box
-  %h2.blue.push-half--bottom Vos recommandations visibles sur votre site internet
-  %p.alert--info
-    Affichez votre livre d'or interactif sur votre propre site Internet ou blog en quelques minutes seulement. C'est très simple : suivez les 2 étapes ci-dessous pour installer ce qu'on appelle un "widget".
-    Voici quelques exemple de partenaires qui l'ont installé en 2min !
-    = link_to "exemples de livres d'Or.", pro_pages_widget_path, target: '_blank'
+= render partial: 'pro/structures/open_courses/tabs', locals: { current: 'widget' }
 
-%h5.home-title Étape 1 : Configurez votre livre d'or
+%h5.push--top.home-title Communiquez sur votre site internet
 
-.grid.push--bottom
-  .grid__item.one-half>
-    .soft--right
-      %h4
-        %i.fa.fa-cogs
-        Configuration
-      .white-box.islet
-        .push--bottom
-          %label.v-middle.inline-block{for: 'show-comments'} Afficher les derniers avis
-          %input#show-comments{type: 'checkbox', checked: true}
-        %div
-          %label.inline{for: 'nb-comments'} Nombre d'avis à afficher
-          %input.inline#nb-comments{style: 'width: 3em', type: 'number', checked: true, range: 1, min: 1, step: 1, value: 3}
+.center-block{style: 'width: 400px'}
+  #coursavenue-widget
 
-  .grid__item.one-half.bordered--left>
-    %h4
-      Aperçu
-    %div{style: 'width: 400px'}
-      #coursavenue-widget
-
-
-%h5.push--top.home-title Étape 2 : Installez le livre d'or sur votre site
-
+%h5.push--top.home-title Installez le code sur votre site
 = render 'pro/structures/widget_installation_guides'
 
 %div{style: 'margin-bottom: 300px;'}
@@ -65,13 +40,8 @@
             load_widget();
         });
         load_widget = function() {
-            var url      = "#{widget_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}",
+            var url = "#{widget_jpo_ext_pro_structure_url(@structure, format: :json, subdomain: 'pro')}",
                 new_code;
-            url += '?last_comments='    + params['last_comments'];
-            url += '&show_new_comment=' + params['show_new_comment'];
-            if (params['last_comments'] && params['last_comments'] == true) {
-              url += '&nb_comments=' + params['nb_comments'];
-            }
             new_code = code.replace('__URL__', url) + '>';
             $('.ajax-code').val(new_code.replace(/\s+/g, ' '));
             $.ajax({
@@ -90,15 +60,3 @@
         load_widget();
     });
 
-  -# #coursavenue-widget &nbsp;
-  -# :javascript
-  -#   window.onload = function() {
-  -#     var coursavenue_widget_div = document.getElementById('coursavenue-widget');
-  -#     var request = new XMLHttpRequest();
-  -#     request.open('GET', "#{widget_ext_pro_structure_url(@structure, last_comments: true, nb_comments: 3, format: :json, subdomain: 'pro')}", false);
-  -#     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-  -#     request.send(null);
-  -#     if(request.status == 200) {
-  -#       coursavenue_widget_div.innerHTML = request.responseText;
-  -#     }
-  -#   }

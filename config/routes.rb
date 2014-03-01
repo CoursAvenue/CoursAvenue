@@ -82,6 +82,8 @@ CoursAvenue::Application.routes.draw do
           post  :update
           get   :widget
           match :widget_ext, controller: 'structures', via: [:options, :get], as: 'widget_ext'
+          get :widget_jpo
+          match :widget_jpo_ext, controller: 'structures', via: [:options, :get], as: 'widget_jpo_ext'
         end
         collection do
           get :stars

@@ -1,0 +1,9 @@
+- unless params[:not_ajax]
+  = render '/pro/structures/widget_jpo_inline_css'
+
+.coursavenue-jpo-widget
+  = link_to structure_url(@structure, subdomain: 'www'), target: '_blank', title: "Cours de #{@structure.subjects.map{|subj| subj.name.downcase}.join(', ')} sur CoursAvenue", class: 'coursavenue-jpo-widget-title' do
+    %img.coursavenue-recommanded{src: asset_path('jpo_2014/logo_1_line.png')}
+
+%p{style: 'text-align: center; margin-bottom: 10px;'}
+  = link_to "M'inscrire à un atelier", jpo_structure_url(@structure, subdomain: 'www'), class: 'coursavenue-jpo-btn', target: '_blank'

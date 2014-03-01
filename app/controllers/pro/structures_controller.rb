@@ -57,6 +57,28 @@ class Pro::StructuresController < Pro::ProController
   end
 
   # GET member
+  def widget_jpo
+    @structure = Structure.friendly.find params[:id]
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  # GET member
+  #   format :json
+  # Method called from external sites by the widget
+  def widget_jpo_ext
+    @structure = Structure.friendly.find params[:id]
+    headers['Access-Control-Allow-Origin']  = '*'
+    headers['Access-Control-Allow-Methods'] = 'GET, OPTIONS'
+    headers['Access-Control-Max-Age']       = '1728000'
+    headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-Prototype-Version, X-CSRF-Token'
+    respond_to do |format|
+      format.json { render text: render_to_string(partial: 'pro/structures/widget_jpo', layout: false) }
+    end
+  end
+
+  # GET member
   #   format :json
   def wizard
     @wizard = get_next_wizard
