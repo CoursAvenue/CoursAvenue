@@ -3,7 +3,7 @@
 
 - content_for :promo do
   %h4
-    Un élève vient d'annuler son inscription à vos Journées Portes Ouvertes.
+    Un élève vient d'annuler son inscription à vos Journées Portes Ouvertes
 
 %p
   Informations sur la réservation :
@@ -22,7 +22,7 @@
   = link_to "Suivre mes inscriptions", pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 
 %p.blue.blue-tip
-  %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter tous leurs proches.
+  %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter leurs proches.
 
 - content_for :under_content do
   = render 'invite_students_to_jpos'

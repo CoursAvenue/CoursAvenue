@@ -697,7 +697,9 @@ class Structure < ActiveRecord::Base
   def geocode_if_needs_to
     if latitude.nil? or longitude.nil?
       self.geocode
-      self.save
+      # Save only if lat and lng have been set.
+      # Prevent from infinite trying to save
+      self.save(validate: false) if latitude.present? and longitude.present?
     end
   end
 end

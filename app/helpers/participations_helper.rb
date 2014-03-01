@@ -4,8 +4,8 @@ module ParticipationsHelper
   def share_participation_to_facebook_friend_url(participation, friend_id=nil)
     course       = participation.course
     link         = URI.encode(jpo_structure_url(course.structure, subdomain: (Rails.env.staging? ? 'staging' : 'www')))
-    redirect_uri = URI.encode(user_participations_url(current_user))
-    URI.encode("http://www.facebook.com/dialog/send?app_id=#{CoursAvenue::Application::FACEBOOK_APP_ID}&link=#{link}&redirect_uri=#{redirect_uri}&to=#{friend_id}")
+    # redirect_uri = URI.encode(user_participations_url(current_user))
+    URI.encode("http://www.facebook.com/dialog/send?app_id=#{CoursAvenue::Application::FACEBOOK_APP_ID}&link=#{link}&to=#{friend_id}")
   end
 
   def share_participation_url(participation, provider = :facebook)
@@ -15,7 +15,7 @@ module ParticipationsHelper
     when :facebook
       URI.encode("http://www.facebook.com/sharer.php?s=100&p[title]=#{course.name} par #{course.structure.name}&p[url]=#{jpo_structure_url(course.structure, subdomain: 'www')}&p[summary]=#{summary}")
     when :twitter
-      URI.encode("https://twitter.com/intent/tweet?text=Je participe à un cours gratuit donné par #{course.structure.name}&via=CoursAvenue&hashtags=JPO2014&url=#{jpo_structure_url(course.structure, subdomain: 'www')}")
+      URI.encode("https://twitter.com/intent/tweet?text=Je participe à un cours gratuit donné par #{course.structure.name}&via=CoursAvenue&hashtags=JPOCoursAvenue&url=#{jpo_structure_url(course.structure, subdomain: 'www')}")
     end
   end
 

@@ -29,12 +29,14 @@
       = hidden_field :user, :email, value: params[:user_email]
     .grid
       .grid__item.one-half>
-        %h4 À :
+        %h4.flush À :
         %p.flush.blue
-          %i Entrez les e-mails vos proches dans cet encadré (amis, familles, collègues, etc.) pour les inviter aux Journées Portes Ouvertes.
+          %span.italic.blue{data: {behavior: 'tooltip', title: "Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi \"Informatique et Liberté\" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant."}}
+            %i.fa.fa-question-circle
+            Entrez les e-mails de vos proches (gardés confidentiels) dans cet encadré (amis, familles, collègues, etc.) pour les inviter aux Journées Portes Ouvertes.
         %textarea.milli.one-whole{name: 'emails', rows: 8, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
       .grid__item.one-half>
-        %h4 Message :
+        %h4.flush Message :
         %p.flush.blue
           %i Personnalisez le texte ci-dessous puis envoyez votre invitation.
         %br
@@ -42,9 +44,9 @@
           - if @participation
             Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, #{@structure.name} ouvre ses portes à travers des ateliers gratuits. Je me suis inscrit à l'atelier du #{planning_date_for(@participation.planning)} #{planning_time_for(@participation.planning, false)} et je te transmets cette invitation pour que tu puisses t'inscrire aussi.
           - elsif @structure
-            Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, #{@structure.name} ouvre ses portes à travers des ateliers gratuits. En tant que fidèle élève, je te transmets cette invitation, c'est une belle occasion de découvrir cette discipline qui est une véritable passion pour moi.&#x000A;&#x000A;Pour t'inscrire, c'est simple et 100% gratuit :
+            Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, #{@structure.name} ouvre ses portes à travers des ateliers gratuits. Je te transmets cette invitation, c'est une belle occasion de découvrir cette discipline qui est une véritable passion pour moi.&#x000A;&#x000A;Fais vite, les places sont gratuites et limitées :
           - else
-            Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, CoursAvenue ouvre ses portes à travers des ateliers gratuits. En tant que fidèle élève, je te transmets cette invitation, c'est une belle occasion de découvrir cette discipline qui est une véritable passion pour moi.&#x000A;&#x000A;Pour t'inscrire, c'est simple et 100% gratuit :
+            Salut !&#x000A;&#x000A;Le week-end du 5-6 avril prochain, CoursAvenue ouvre ses portes à travers des ateliers gratuits. Je te transmets cette invitation, c'est une belle occasion de découvrir cette discipline qui est une véritable passion pour moi.&#x000A;&#x000A;Fais vite, les places sont gratuites et limitées :
         %p.gray-light.flush
           - if @structure
             = link_to 'Lien que recevront mes proches', jpo_structure_url(@structure), target: :_blank

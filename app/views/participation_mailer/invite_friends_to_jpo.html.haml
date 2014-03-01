@@ -8,7 +8,7 @@
       %span #{pluralize(@planning.places_left, 'place')}
       pour l'atelier auquel vous participez : invitez vos proches à y participer !
     - else
-      Invitez vos proches à participer aux Journées Portes Ouvertes CoursAvenue !
+      Invitez vos proches à Participer aux Portes Ouvertes CoursAvenue !
 
 %p
   Vous vous êtes récemment inscrits à un atelier des Portes Ouvertes des cours de loisirs. N'attendez plus pour inviter votre entourage à profiter des centaines de cours gratuits :
@@ -17,7 +17,7 @@
   = link_to "Inviter mon entourage", jpo_new_pro_structure_invited_students_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 
 %p.blue.blue-tip
-  %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter tous leurs proches.
+  %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter leurs proches.
 
 - content_for :under_content do
   = render 'invite_students_to_jpos'

@@ -6,7 +6,7 @@
 
 - content_for :promo do
   %h4
-    Votre inscription aux Journées Portes Ouvertes est validée.
+    Votre inscription aux Journées Portes Ouvertes est validée
 
 %p
   Informations sur votre réservation :
@@ -25,7 +25,7 @@
   = link_to "Visualiser mon atelier", user_participations_url(@user, inscription_confirmed: true), class: 'btn btn--green'
 
 %p.blue.blue-tip
-  %i Trucs & astuces : depuis votre profil, invitez vos amis, familles et collègues à participer aux Journées Portes Ouvertes avec vous.
+  %i Trucs & astuces : depuis votre profil, invitez vos amis, familles et collègues à Participer aux Portes Ouvertes avec vous.
 
 - content_for :under_content do
   = render 'invite_friends_to_jpos'

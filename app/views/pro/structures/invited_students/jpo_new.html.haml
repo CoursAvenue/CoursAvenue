@@ -2,23 +2,25 @@
 
 = render partial: 'pro/structures/open_courses/tabs', locals: { current: 'new' }
 
-%h2.text--center Offrez à vos élèves l'opportunité d'inviter tous leurs proches
+%h2.text--center Offrez à vos élèves l'opportunité d'inviter leurs proches
 
 .alert--info
   %ul.flush--bottom
     %li De nombreux élèves interrogés ont vu à travers notre événement des Journées Portes Ouvertes l'occasion unique de pouvoir faire découvrir leurs cours à tout leur entourage (amis, familles, collègues, etc.).
-    %li Utilisez notre outil d'invitation et faites plaisir à vos élèves : offrez-leur la chance de partager leurs passions à tous leurs proches, que vous pourrez ensuite fidéliser.
+    %li Utilisez notre outil d'invitation et faites plaisir à vos élèves : offrez-leur la chance de partager leurs passions à leurs proches, que vous pourrez ensuite fidéliser.
 
 .white-box.soft
   = form_tag(bulk_create_jpo_pro_structure_invited_students_path(@structure), method: :post) do
     .grid
       .grid__item.one-half>
-        %h4 À :
+        %h4.flush À :
         %p.flush.blue
-          %i Entrez les e-mails de vos élèves pour leur proposer d'inviter leurs proches à vos ateliers de Journées Portes Ouvertes.
+          %span.italic.blue{data: {behavior: 'tooltip', title: "Nous considérons que vos coordonnées et adresses de courrier électronique constituent des données confidentielles, et nous nous engageons à ne pas les divulguer. Conformément à l'article 27 de la loi \"Informatique et Liberté\" du 6 janvier 1978, vous disposez d'un droit d'accès et de rectification des informations vous concernant."}}
+            %i.fa.fa-question-circle
+            Entrez les e-mails de vos élèves (gardés confidentiels) pour leur proposer d'inviter leurs proches à vos ateliers de Journées Portes Ouvertes.
         %textarea.milli.one-whole{name: 'emails', rows: 11, placeholder: 'Ex. : patrick@gmail.com, thomas@wanadoo.fr', data: {behavior: 'autoresize'}}
       .grid__item.one-half>
-        %h4 Message :
+        %h4.flush Message :
         %p.flush.blue
           %i Personnalisez le texte ci-dessous puis envoyez votre invitation.
         %br

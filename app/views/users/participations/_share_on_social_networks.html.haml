@@ -10,24 +10,22 @@
           sur liste d'attente
       %h4.flush Une confirmation vous a été envoyée par e-mail.
 
-  %h4.push-half--ends
+  %h4.push-half--ends.inline-block.v-middle.push--right
     %i.fa.fa-bullhorn
-    Invitez vos amis Facebook en 1 click !
+    Parlez en autour de vous #JPOCoursAvenue
+  .share-on-facebook.btn.btn--facebook.text--left.nowrap.inline-block.v-middle Poster sur mon mur
+  .share-on-twitter.btn.btn--twitter.btn--small.text--left.nowrap.inline-block.v-middle Twitter
   - if current_user.facebook_registered?
+    %h4.push-half--ends
+      %i.fa.fa-envelope-o.v-middle
+      %span.v-middle Invitez vos amis Facebook en 1 clic !
     = render 'users/participations/send_message_to_facebook_friends'
-  - else
-    .share-on-facebook.btn.btn--facebook.text--left.nowrap.inline-block.v-middle Facebook
 
-  %hr
-  .push--ends
-    %h5.flush.soft--right.inline-block.v-middle
-      %i.fa.fa-bullhorn
-      Parlez-en sur Twitter !
-      %strong #JPO2014
-      = link_to '@CoursAvenue', 'https://twitter.com/CoursAvenue', target: :_blank
-    .share-on-twitter.btn.btn--twitter.btn--small.text--left.nowrap.inline-block.v-middle Twitter
-
-  = link_to 'Non merci', '#inscription-confirmed-popup', class: 'btn btn--full', data: { behavior: 'modal' }
+  .grid--full
+    .grid__item.two-twelfths.soft-half--right>
+      = link_to 'Non merci', '#inscription-confirmed-popup', class: 'btn btn--full', data: { behavior: 'modal' }
+    .grid__item.ten-twelfths>
+      = link_to 'Invitations envoyées, accéder à mon profil', '#inscription-confirmed-popup', class: 'btn btn--full btn--green', data: { behavior: 'modal' }
 
 - content_for :scripts do
   :javascript

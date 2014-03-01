@@ -6,10 +6,10 @@
     = @structure.logo.url(:thumb)
 
 = content_for :title do
-  = "#{@structure.name} ouvre ses portes le 5-6 avril 2014 en Île-de-France"
+  = "#{@structure.name} offre des cours gratuits le 5-6 avril"
 
 = content_for :meta_description do
-  Participez à un atelier gratuit en Île-de-France le 5 et 6 avril donné par #{@structure.name}. Retrouvez également plus de 5 000 autres cours gratuits.
+  Participez à l'un des 5 000 cours gratuits le 5 et 6 avril. Ateliers offerts par #{@structure.name} : #{@structure.courses.open_courses.map(&:name).split(', ')}
 
 
 .inline-block
