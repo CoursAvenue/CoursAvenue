@@ -80,8 +80,8 @@
         background-repeat: none;
         width            : 130px;
         height           : 130px;
-        top              : 10px;
-        left             : 375px;
+        top              : 4px;
+        left             : 400px;
         @include background-size('130px 130px');
     }
 
@@ -100,11 +100,11 @@
         margin-left     : -52px;
         @include background-size('580px 150px');
         .popup-jpo-fanion__text {
-            top        : 40px;
+            top        : 39px;
             left       : 100px;
             line-height: 1.4;
             color      : white;
-            font-size  : 29px;
+            font-size  : 30px;
         }
     }
     .jpo-popup-tick-marks {
