@@ -1,11 +1,13 @@
 # encoding: utf-8
 class Structure < ActiveRecord::Base
-  acts_as_paranoid
-  acts_as_tagger
+  extend ActiveHashHelper
 
   include HasSubjects
   include ActsAsCommentable
   include ActsAsGeolocalizable
+
+  acts_as_paranoid
+  acts_as_tagger
 
   extend FriendlyId
 
@@ -42,11 +44,11 @@ class Structure < ActiveRecord::Base
                   :modification_condition,
                   :cancel_condition,
                   :logo,
+                  :funding_type_ids,
                   :crop_x, :crop_y, :crop_width,
                   :rating, :comments_count,
                   :no_facebook, :no_website, :has_only_one_place,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
-                  :funding_type_ids, :funding_types,
                   :widget_status, :widget_url, :sticker_status,
                   :teaches_at_home, :teaches_at_home_radius, # in KM
                   :subjects_string, :parent_subjects_string # "Name of the subject,slug-of-the-subject;Name,slug"
@@ -92,6 +94,7 @@ class Structure < ActiveRecord::Base
   has_many :reservations,         as: :reservable
   has_many :comment_notifications     , dependent: :destroy
   has_many :sticker_demands           , dependent: :destroy
+  define_has_many_for :funding_type
 
   has_and_belongs_to_many :subjects
 
@@ -208,35 +211,6 @@ class Structure < ActiveRecord::Base
   end
 
   handle_asynchronously :solr_index unless Rails.env.test?
-
-  # ---------------------------- Simulating Funding Type as objects
-  # Takes [1,2] or '1,2'
-  def funding_type_ids= _funding_types
-    if _funding_types.is_a? Array
-      write_attribute :funding_type_ids, _funding_types.reject(&:blank?).join(',')
-    else
-      write_attribute :funding_type_ids, _funding_types
-    end
-  end
-
-  # Takes an array FundingTypes or a single model
-  def funding_types= _funding_types
-    if _funding_types.is_a? Array
-      write_attribute :funding_type_ids, _funding_types.reject(&:blank?).map(&:id).join(',')
-    elsif _funding_types.is_a? FundingType
-      write_attribute :funding_type_ids, _funding_types.id.to_s
-    end
-  end
-
-  def funding_types
-    return [] unless funding_type_ids.present?
-    self.funding_type_ids.map{ |funding_type_id| FundingType.find(funding_type_id) }
-  end
-
-  def funding_type_ids
-    return [] unless read_attribute(:funding_type_ids)
-    read_attribute(:funding_type_ids).split(',').map(&:to_i) if read_attribute(:funding_type_ids)
-  end
 
   ######################################################################
   # Email reminder                                                     #

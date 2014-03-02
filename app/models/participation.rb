@@ -56,9 +56,9 @@ class Participation < ActiveRecord::Base
   # @return nil
   def user_subscribed_email_for_teacher
     if waiting_list
-      ParticipationMailer.delay.user_subscribed_to_waiting_list(self) if self.structure.main_contact.jpo_email_opt_in
+      ParticipationMailer.delay.user_subscribed_to_waiting_list(self) if self.structure.main_contact.try(:jpo_email_opt_in)
     else
-      ParticipationMailer.delay.user_subscribed(self) if self.structure.main_contact.jpo_email_opt_in
+      ParticipationMailer.delay.user_subscribed(self) if self.structure.main_contact.try(:jpo_email_opt_in)
     end
     nil
   end
@@ -88,7 +88,7 @@ class Participation < ActiveRecord::Base
   #
   # @return nil
   def unsubscription_email_for_teacher
-    ParticipationMailer.delay.unsubscription_for_teacher(self) if self.structure.main_contact.jpo_email_opt_in
+    ParticipationMailer.delay.unsubscription_for_teacher(self) if self.structure.main_contact.try(:jpo_email_opt_in)
     nil
   end
 

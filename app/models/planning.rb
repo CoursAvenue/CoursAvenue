@@ -1,6 +1,9 @@
 # encoding: utf-8
 class Planning < ActiveRecord::Base
+  extend ActiveHashHelper
+
   include PlanningsHelper
+
   acts_as_paranoid
 
   TIME_SLOTS = {
@@ -38,6 +41,9 @@ class Planning < ActiveRecord::Base
   has_many :reservations,   as: :reservable
   has_many :participations, dependent: :destroy
   has_many :users, through: :participations
+
+  define_has_many_for :audience
+  define_has_many_for :level
 
   ######################################################################
   # Callbacks                                                          #
@@ -257,58 +263,60 @@ class Planning < ActiveRecord::Base
     end
   end
 
+
   # ---------------------------- Simulating Audience and Levels
-  def audience_ids= _audiences
-    if _audiences.is_a? Array
-      write_attribute :audience_ids, _audiences.reject{|level| level.blank?}.join(',')
-    else
-      write_attribute :audience_ids, _audiences
-    end
-  end
+  # def audience_ids= _audiences
+  #   if _audiences.is_a? Array
+  #     write_attribute :audience_ids, _audiences.reject{|level| level.blank?}.join(',')
+  #   else
+  #     write_attribute :audience_ids, _audiences
+  #   end
+  # end
 
-  def audiences= _audiences
-    if _audiences.is_a? Array
-      write_attribute :audience_ids, _audiences.map(&:id).join(',')
-    elsif _audiences.is_a? Audience
-      write_attribute :audience_ids, _audiences.id.to_s
-    end
-  end
+  # def audiences= _audiences
+  #   if _audiences.is_a? Array
+  #     write_attribute :audience_ids, _audiences.map(&:id).join(',')
+  #   elsif _audiences.is_a? Audience
+  #     write_attribute :audience_ids, _audiences.id.to_s
+  #   end
+  # end
 
-  def audiences
-    return [] unless audience_ids.present?
-    self.audience_ids.map{ |audience_id| Audience.find(audience_id) }
-  end
+  # def audiences
+  #   return [] unless audience_ids.present?
+  #   self.audience_ids.map{ |audience_id| Audience.find(audience_id) }
+  # end
 
-  def audience_ids
-    return [] unless read_attribute(:audience_ids)
-    read_attribute(:audience_ids).split(',').map(&:to_i) if read_attribute(:audience_ids)
-  end
+  # def audience_ids
+  #   return [] unless read_attribute(:audience_ids)
+  #   read_attribute(:audience_ids).split(',').map(&:to_i) if read_attribute(:audience_ids)
+  # end
 
-  def level_ids= _levels
-    if _levels.is_a? Array
-      write_attribute :level_ids, _levels.reject{|level| level.blank?}.join(',')
-    else
-      write_attribute :level_ids, _levels
-    end
-  end
+  # def level_ids= _levels
+  #   if _levels.is_a? Array
+  #     write_attribute :level_ids, _levels.reject{|level| level.blank?}.join(',')
+  #   else
+  #     write_attribute :level_ids, _levels
+  #   end
+  # end
 
-  def levels= _levels
-    if _levels.is_a? Array
-      write_attribute :level_ids, _levels.map(&:id).join(',')
-    elsif _levels.is_a? level
-      write_attribute :level_ids, _levels.id.to_s
-    end
-  end
+  # def levels= _levels
+  #   if _levels.is_a? Array
+  #     write_attribute :level_ids, _levels.map(&:id).join(',')
+  #   elsif _levels.is_a? level
+  #     write_attribute :level_ids, _levels.id.to_s
+  #   end
+  # end
 
-  def level_ids
-    return [] unless read_attribute(:level_ids)
-    read_attribute(:level_ids).split(',').map(&:to_i) if read_attribute(:level_ids)
-  end
+  # def level_ids
+  #   return [] unless read_attribute(:level_ids)
+  #   read_attribute(:level_ids).split(',').map(&:to_i) if read_attribute(:level_ids)
+  # end
 
-  def levels
-    return [] unless level_ids.present?
-    self.level_ids.map{ |level_id| Level.find(level_id) }
-  end
+  # def levels
+  #   return [] unless level_ids.present?
+  #   self.level_ids.map{ |level_id| Level.find(level_id) }
+  # end
+
   # ---------------------------- End
 
   # Return week day of start date if the course associated to the planning
