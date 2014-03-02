@@ -7,11 +7,47 @@
 
 
 %h4.inline-block.push-half--bottom
+  Renseignez vos lieux
+%i.fa.fa-question-circle.pointer.delta{data: {toggle: 'popover', html: 'true', content: "<p>Renseignez les villes où vous souhaiteriez découvrir de nouveaux cours. Dans chaque ville, saisissez le rayon géographique dans lequel vous êtes prêt(e) à vous déplacer pour suivre un cours.</p><p>Ces informations de géolocalisation sont très importantes : elles nous permettent de mieux cibler vos envies pour vous proposer des cours d'essai gratuits, des promotions exclusives et des invitations à tous types d'événements situés à proximité de votre lieu d'habitation ou de votre lieu de travail, et en lien avec vos passions. Vous pourrez gérer vos paramètres de notifications (type d'information et fréquence de nos e-mails) depuis l'onglet «Notifications».<p>", trigger: 'hover', placement: 'right'}}
+.lbl.lbl--gray.lbl--small.push-half--left
+  %i.fa.fa-lock
+  Privé
+
+%p.blue Listez les villes où vous souhaitez suivre des cours ou découvrir de nouvelles passions.
+
+= simple_form_for current_user do |f|
+  %input{type: 'hidden', name: 'return_to', value: user_passions_path(current_user)}
+  .form-white-box{data: {behavior: 'show-more-on-demand'}}
+    - @lived_places.each_with_index do |lived_place, i|
+      %div{data: {el: true, hidden: !lived_place.persisted?}}
+        = f.simple_fields_for :lived_places, lived_place, child_index: i do |lived_place_form|
+          .input.flush--top.city-autocomplete-wrapper
+            = lived_place_form.label :zip_code, label: LivedPlace.human_attribute_name(:zip_code)
+            = lived_place_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { data: {behavior: 'city-autocomplete', el: "#lived_place_city_id_#{i}"} }, label: false, wrapper_html: { class: 'flush--top' }
+            = lived_place_form.input :city_id, collection: [lived_place.city], label: false, selected: lived_place.city, wrapper_html: { class: 'flush--top' }, input_html: { id: "lived_place_city_id_#{i}" }
+            = lived_place_form.label :radius, 'dans un rayon de'
+            = lived_place_form.input :radius, label: false, wrapper_html: { class: 'flush', style: 'width: 4em' }, input_html: { value: (lived_place.radius || '5'), style: 'width: 100%' }
+            km
+            - if lived_place.persisted?
+              = link_to 'Supprimer', user_lived_place_path(current_user, lived_place), method: :delete, class: 'push-half--left'
+
+    .grid
+      .grid__item.one-quarter>
+      .grid__item.three-quarters>
+        %p.blue.flush
+          %i Renseignez la ville et le rayon géographique (en km) dans lequel vous êtes prêt(e) à vous déplacer pour vous rendre à un cours.
+        %a{href: 'javascript:void(0)', data: {trigger: true}}
+          %i.fa.fa-plus
+          Ajouter un lieu
+    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement"
+
+
+%h4.inline-block.push-half--bottom
   Renseignez vos passions
-  %i.fa.fa-question-circle.pointer.delta{data: {toggle: 'popover', html: 'true', content: "<p>Renseignez toutes les disciplines que vous souhaitez découvrir ou redécouvrir : yoga, dessin, oenologie, art floral, zumba... il y en a plus de 500 ! Sélectionnez vos passions, indiquez les raisons qui vous motivent.</p><p>Ces informations nous permettent de mieux cibler vos envies pour vous proposer des cours d'essai gratuits, des promotions exclusives et des invitations à tous types d'événements situés à proximité de vous et en lien avec vos passions. Vous pourrez gérer vos paramètres de notifications (type d'information et fréquence de nos e-mails) depuis l'onglet "Notifications".</p>", trigger: 'hover', placement: 'right'}}
-  .lbl.lbl--gray
-    %i.fa.fa-lock
-    Privé
+%i.fa.fa-question-circle.pointer.delta{data: {toggle: 'popover', html: 'true', content: "<p>Renseignez toutes les disciplines que vous souhaitez découvrir ou redécouvrir : yoga, dessin, oenologie, art floral, zumba... il y en a plus de 500 ! Sélectionnez vos passions, indiquez les raisons qui vous motivent.</p><p>Ces informations nous permettent de mieux cibler vos envies pour vous proposer des cours d'essai gratuits, des promotions exclusives et des invitations à tous types d'événements situés à proximité de vous et en lien avec vos passions. Vous pourrez gérer vos paramètres de notifications (type d'information et fréquence de nos e-mails) depuis l'onglet «Notifications».</p>", trigger: 'hover', placement: 'right'}}
+.lbl.lbl--gray.lbl--small.push-half--left
+  %i.fa.fa-lock
+  Privé
 
 .white-box.islet
   = simple_form_for current_user do |f|
@@ -35,7 +71,7 @@
               .grid__item.one-quarter>
                 = practiced_passion_form.input :reason_ids, as: :select, collection: PassionReason.all, label_method: lambda {|reason| t(reason.name)}, label: false, input_html: { style: 'width: 100%', multiple: true, data: { behavior: 'chosen', placeholder: 'Que recherchez-vous ?' }}, wrapper_html: { class: 'flush--bottom' }
             - if practiced_passion.persisted?
-              = link_to 'Supprimer cette passion', user_passion_path(@user, practiced_passion), method: :delete
+              = link_to 'Supprimer cette passion', user_passion_path(@user, practiced_passion), method: :delete, class: 'push-half--left'
             %hr.push-half--ends
       %a{href: 'javascript:void(0)', data: {trigger: true}}
         %i.fa.fa-plus

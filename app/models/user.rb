@@ -20,6 +20,9 @@ class User < ActiveRecord::Base
   has_many :participations
   has_many :plannings, through: :participations
 
+  has_many :lived_places
+  has_many :cities, through: :lived_places
+
   has_and_belongs_to_many :subjects
 
   belongs_to :city
@@ -57,13 +60,18 @@ class User < ActiveRecord::Base
                   :name, :first_name, :last_name, :gender, :fb_avatar, :location, :avatar,
                   :birthdate, :phone_number, :zip_code, :city_id, :passions_attributes, :description,
                   :email_opt_in, :sms_opt_in, :email_promo_opt_in, :email_newsletter_opt_in, :email_passions_opt_in,
-                  :email_status, :last_email_sent_at, :last_email_sent_status
+                  :email_status, :last_email_sent_at, :last_email_sent_status,
+                  :lived_places_attributes
 
   # To store hashes into hstore
   store_accessor :meta_data, :after_sign_up_url
 
   accepts_nested_attributes_for :passions,
                                  reject_if: lambda {|attributes| attributes['subject_id'].blank? },
+                                 allow_destroy: true
+
+  accepts_nested_attributes_for :lived_places,
+                                 reject_if: :lived_place_invalid?,
                                  allow_destroy: true
 
   has_attached_file :avatar,
@@ -318,5 +326,13 @@ class User < ActiveRecord::Base
 
   def check_if_was_invited
     InvitedUser.where(type: 'InvitedUser::Student', email: self.email).map(&:inform_proposer)
+  end
+
+  # Tells wether a lived_place should be rejected
+  # @param  attributes nested in params
+  #
+  # @return Boolean
+  def lived_place_invalid?(attributes)
+    attributes['zip_code'].blank? or attributes['city_id'].blank?
   end
 end

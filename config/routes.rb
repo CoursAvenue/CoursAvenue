@@ -233,6 +233,7 @@ CoursAvenue::Application.routes.draw do
     resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
     resources :messages     , controller: 'users/messages'
     resources :conversations, controller: 'users/conversations'
+    resources :lived_places, only: [:destroy], controller: 'users/lived_places'
     resources :passions, only: [:index, :destroy], controller: 'users/passions' do
       collection do
         get :offers
@@ -290,6 +291,11 @@ CoursAvenue::Application.routes.draw do
   get 'cours-de-:parent_subject_id/:id'            , to: 'subjects#show'       , as: :vertical_subject
   ########### Vertical pages ###########
 
+  resources :cities, only: [], path: 'villes' do
+    collection do
+      get :zip_code_search
+    end
+  end
   resources :cities, only: [:show], path: 'tous-les-cours-a' do
     collection do
       get :zip_code_search
