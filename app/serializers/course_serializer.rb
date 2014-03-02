@@ -1,6 +1,6 @@
 class CourseSerializer < ActiveModel::Serializer
   include CoursesHelper
-  include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::NumberHelper
   include ActionView::Helpers::NumberHelper
 
   attributes :id, :name, :description, :type, :start_date, :end_date, :min_price_amount, :min_price_libelle, :data_url, :subjects,
