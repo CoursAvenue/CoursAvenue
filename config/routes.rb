@@ -17,6 +17,7 @@ CoursAvenue::Application.routes.draw do
       get 'pages/nos-convictions'               => 'home#convictions',        as: 'pages_convictions'
       get 'pages/presse'                        => 'home#press',              as: 'pages_press'
       get 'pages/portes-ouvertes-cours-loisirs' => 'home#jpo',                as: 'pages_jpo'
+      get 'pages/journees-portes-ouvertes'      => redirect('pages/portes-ouvertes-cours-loisirs', status: 301)
       get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
       # 301 Redirection
       get 'etablissements/demande-de-recommandations', to: 'redirect#structures_new'
@@ -25,7 +26,7 @@ CoursAvenue::Application.routes.draw do
 
       get 'tableau-de-bord'                          , to: 'redirect#structure_dashboard', as: 'structure_dashboard_redirect'
       get 'modifier-mon-profil'                      , to: 'redirect#structure_edit',      as: 'structure_edit_redirect'
-
+      get 'etablissements/:structure_id/journees-portes-ouvertes', to: 'redirect#structures_jpo_index'
 
       resources :metrics, only: [] do
         collection do
@@ -347,7 +348,6 @@ CoursAvenue::Application.routes.draw do
   # Pages
   get 'pages/pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
   get 'pages/portes-ouvertes-cours-loisirs' => 'pages#jpo',                  as: 'pages_jpo'
-  get 'pages/portes-ouvertes-des-loisirs',   to: 'pages#jpo'
   get 'pages/pourquoi-coursavenue'          => 'pages#why',                  as: 'pages_why'
   get 'pages/comment-ca-marche'             => 'pages#how_it_works',         as: 'pages_how_it_works'
   get 'pages/faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'

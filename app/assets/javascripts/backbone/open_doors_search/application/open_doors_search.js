@@ -2,7 +2,7 @@
  *
  * This is an experiment to see if a deep copy of an app will work */
 
-OpenDoorsSearch = FilteredSearch.rebrand('open-doors-search', Routes.open_courses_path());
+OpenDoorsSearch = FilteredSearch.rebrand('open-doors-search', Routes.open_courses_path().replace('/', ''));
 
 OpenDoorsSearch.addRegions({
     mainRegion: '#' + OpenDoorsSearch.slug
