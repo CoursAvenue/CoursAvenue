@@ -4,11 +4,19 @@
     .grid
       .grid__item.two-thirds>
         = image_tag 'jpo_2014/popup-photos.png', class: 'popup-photos absolute', height: 203, width: 475
+        .popup-jpo-sticker.absolute.ff-open-sans.text--center.jpo-popup-rotation.soft-half--top.milli
+          .f-weight-300 Week-end
+          %div
+            %span.f-weight-300 des
+            %span.f-weight-600 5 et 6 avril
+          .f-weight-300 en Île-de-France
+
         .popup-jpo-fanion.relative
           %p.flush.jpo-popup-rotation.f-style-italic.popup-jpo-fanion__text.ff-open-sans.absolute
             %span.f-weight-300 Plus de
             %span.f-weight-600 5 000 places
             %span.f-weight-300 GRATUITES
+
 
         .jpo-popup-tick-marks.jpo-popup-rotation.ff-open-sans.f-weight-400
           %p.flush
@@ -31,6 +39,12 @@
           = image_tag 'jpo_2014/arrow.png', width: 15, height: 27, class: 'absolute popup-jpo-arrow'
         .text--center
           = link_to "S'inscrire avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full text--left', id: 'facebook_button'
+        .soft-half--top.soft-half--left.line-height-normal.milli
+          %i.fa.fa-check
+          Nous ne publions rien sur votre mur
+          %br
+          %i.fa.fa-check
+          Connexion en 1 clic sans mot de passe
         .text--center.push-half--ends ou
         = simple_form_for User.new, url: user_registration_path, html: { id: 'register-form' } do |f|
           %input{type: 'hidden', name: 'user_return_to', value: request.fullpath}
