@@ -110,6 +110,9 @@ class ::Admin < ActiveRecord::Base
         nil
       end
     end
+    define_method("#{key}?") do
+      send key.to_sym
+    end
   end
 
   private
