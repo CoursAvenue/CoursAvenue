@@ -216,6 +216,7 @@ CoursAvenue::Application.routes.draw do
     member do
       get  :edit_private_infos, path: 'mon-compte'
       patch  :update_password
+      patch  :update_passions
       get  :wizard
       get  :dashboard
       get  :choose_password
@@ -297,17 +298,18 @@ CoursAvenue::Application.routes.draw do
     end
   end
   resources :cities, only: [:show], path: 'tous-les-cours-a' do
-    collection do
-      get :zip_code_search
-    end
     resources :subjects, only: [:show], path: 'disciplines', controller: 'cities/subjects'
   end
 
+  resources :subjects, only: [] do
+    collection do
+      get :descendants
+    end
+  end
   resources :subjects, only: [:show, :index], path: 'cours' do
     collection do
       get :tree
       get :tree_2
-      get :descendants
     end
     resources :structures, only: [:index], path: 'etablissements'
     # resources :places, only: [:index], path: 'etablissements'

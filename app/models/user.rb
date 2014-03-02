@@ -242,7 +242,7 @@ class User < ActiveRecord::Base
   def around_courses_url
     if self.city
       if self.passions.any?
-        structures_path(lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subject).compact.map(&:slug))
+        structures_path(lat: self.city.latitude, lng: self.city.longitude, subject_slugs: self.passions.map(&:subjects).compact.flatten.map(&:slug))
       else
         structures_path(lat: self.city.latitude, lng: self.city.longitude)
       end
@@ -252,7 +252,7 @@ class User < ActiveRecord::Base
   end
 
   def around_courses_search
-    subject_array    = self.passions.map(&:subject).compact
+    subject_array    = self.passions.map(&:subjects).compact.flatten
     @course_search ||= CourseSearch.search({lat: self.city.latitude,
                                           lng: self.city.longitude,
                                           radius: 6,

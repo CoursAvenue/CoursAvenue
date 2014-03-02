@@ -1,5 +1,7 @@
 # encoding: utf-8
 class Pro::SubjectsController < Pro::ProController
+  include SubjectSeeker
+
   before_action :authenticate_pro_super_admin!, except: :descendants
 
   def index
@@ -68,20 +70,7 @@ class Pro::SubjectsController < Pro::ProController
   #     Cuisine - ...:
   #           - ...
   def descendants
-    @subjects = params[:ids].split(',').map { |id| Subject.friendly.find(id) }
-    @descendants = []
-    @subjects.each do |parent_subject|
-      parent_subject.descendants.at_depth(1).each do |first_descendant|
-        obj                = {}
-        parent_name        = first_descendant.name
-        obj[parent_name] ||= []
-        first_descendant.children.order('name ASC').each do |second_descendant|
-          obj[parent_name] << second_descendant
-        end
-        @descendants << obj
-      end
-    end
-    @descendants = @descendants.sort_by { |subj| subj.keys[0] }
+    @descendants = get_descendants params
     respond_to do |format|
       if params[:callback]
         format.js { render json: { descendants: @descendants.to_json }, callback: params[:callback] }

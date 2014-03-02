@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140302104400) do
+ActiveRecord::Schema.define(version: 20140302152322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -379,15 +379,24 @@ ActiveRecord::Schema.define(version: 20140302104400) do
 
   create_table "passions", force: true do |t|
     t.integer  "user_id"
-    t.integer  "subject_id"
-    t.integer  "parent_subject_id"
-    t.string   "frequency"
-    t.boolean  "practiced",         default: true
-    t.string   "expectation_ids"
-    t.string   "reason_ids"
+    t.string   "passion_frequency_ids"
+    t.boolean  "practiced",               default: true
+    t.string   "passion_expectation_ids"
+    t.string   "passion_reason_ids"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "info"
+    t.string   "level_ids"
+    t.string   "passion_for_ids"
+    t.string   "passion_time_slot_ids"
   end
+
+  create_table "passions_subjects", id: false, force: true do |t|
+    t.integer "passion_id"
+    t.integer "subject_id"
+  end
+
+  add_index "passions_subjects", ["passion_id", "subject_id"], name: "index_passions_subjects_on_passion_id_and_subject_id", using: :btree
 
   create_table "places", force: true do |t|
     t.integer "location_id"

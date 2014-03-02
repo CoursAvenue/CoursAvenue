@@ -25,16 +25,30 @@ fr:
       gonna_stop: Je compte arrêter prochainement
       other: "Autres"
     expectations:
-      discover: Pour découvrir
-      get_back: Pour m'y remettre
-      curiosity: Par curiosité
-      health: "Pour ma santé (perte de poids, activité physique, etc.)"
-      moral: "Pour mon moral (suivre des cours, ça fait du bien !)"
-      passion: Par passion
-      other: "Autres"
+      offers: "Je suis intéressé(e) par tous types d'offres : promotions, cours d'essai gratuit..."
+      better_time_slots: Je recherche des cours à des créneaux horaires et à des jours plus faciles pour moi
+      closest: Je recherche des cours plus proches de moi
+      new: Je souhaite découvrir de nouveaux cours près de chez moi
+      events: "Je souhaite participer à des ateliers, stages ou événements (soirées, expo, etc.)"
+      partner: Je recherche un(e) partenaire pour pratiquer cette discipline
+      share_passions: Je souhaite partager ma passion avec mes proches
+      nothing: "Je suis très content de mes cours et ne souhaite rien, merci !"
+      stop: Je compte arrêter prochainement
     frequencies:
       everyday: Tous les jours
       two_to_five_a_week: 2 à 5 fois par semaine
       once_a_week: 1 fois par semaine
       once_a_month: 1 fois par mois
       less_than_10_times_a_year: Moins de 10 fois par an
+    for:
+      me: Moi
+      couple: Mon couple
+      parents: Mes parents
+      friends: Mes amis
+      kids: Mes enfants
+    time_slots:
+      whatever: N'importe quel jour
+      night: Le soir en semaine (après 19h)
+      week_end: Le week-end
+      morning: Le matin en semaine (avant 9h)
+

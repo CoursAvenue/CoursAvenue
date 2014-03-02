@@ -5,7 +5,7 @@
         = image_tag 'jpo_2014/logo_1_line.png', alt: 'Portes Ouvertes des cours de loisirs', class: 'block one-whole'
     .grid__item.two-thirds>
       %h4.flush
-        Cet établissements propose des ateliers gratuits pour les Portes Ouvertes des cours de loisirs
+        Cet établissement propose des ateliers gratuits pour les Portes Ouvertes des cours de loisirs
         - if current_user or current_pro_admin
           = link_to 'Voir les ateliers', jpo_structure_path(@structure), class: 'btn btn--light-blue'
         - else

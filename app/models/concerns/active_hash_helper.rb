@@ -52,9 +52,9 @@ module ActiveHashHelper
     # def audience_ids
     #
     # @return Array of ids
-    define_method "#{key}_ids" do
-      return [] unless read_attribute("#{key}_ids".to_sym)
-      read_attribute("#{key}_ids".to_sym).split(',').map(&:to_i) if read_attribute("#{key}_ids".to_sym)
+    define_method "#{key_s}_ids" do
+      return [] unless read_attribute("#{key_s}_ids".to_sym)
+      read_attribute("#{key_s}_ids".to_sym).split(',').map(&:to_i) if read_attribute("#{key_s}_ids".to_sym)
     end
   end
 end
