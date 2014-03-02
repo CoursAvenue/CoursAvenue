@@ -86,7 +86,7 @@ class UsersController < InheritedResources::Base
                                                    radius: 7,
                                                    per_page: 150,
                                                    bbox: true,
-                                                   subject_slugs: (@user.passions.any? ? @user.passions.map(&:subject).compact.map(&:slug) : []) }).results
+                                                   subject_slugs: (@user.passions.any? ? @user.passions.map(&:subjects).flatten.compact.map(&:slug) : []) }).results
 
       @structure_locations = Gmaps4rails.build_markers(@structure_search) do |structure, marker|
         marker.lat structure.latitude
