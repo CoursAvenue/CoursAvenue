@@ -23,11 +23,16 @@
                       %img.hide{border: '0', height: '20', src: '', width: '1'}/
                       %br.hide
                       = link_to 'http://www.coursavenue.com', target: '_blank' do
-                        = image_tag 'logo.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '250'
+                        - if content_for? :email_logo
+                          = yield :email_logo
+                        - else
+                          = image_tag 'logo.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '250'
                       %p.logo-subtitle
                         Les élèves recommandent leurs meilleurs cours
-                    - if @show_links
-                      %td.soft-half--bottom.text--right{width: '300'}
+                    %td.soft-half--bottom.text--right{width: '300'}
+                      - if content_for? :header_links
+                        = yield :header_links
+                      - elsif @show_links
                         - if @structure
                           = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: 'pro')
                         \|
@@ -58,22 +63,19 @@
             %table.under-content.push--top.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
               %tr
                 %td.cell.content-block.white-box{width: '600'}
-                  - if content_for? :under_content
-                    = yield :under_content
+                  = yield :under_content
 
           - if content_for? :under_content_2
             %table.under-content.push--top.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
               %tr
                 %td.cell.content-block.white-box{width: '600'}
-                  - if content_for? :under_content_2
-                    = yield :under_content_2
+                  = yield :under_content_2
 
           - if content_for? :under_content_3
             %table.under-content.push--top.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}
               %tr
                 %td.cell.content-block.white-box{width: '600'}
-                  - if content_for? :under_content_3
-                    = yield :under_content_3
+                  = yield :under_content_3
 
           %table.table{align: 'center', border: '0', cellpadding: '5', cellspacing: '0', width: '600'}
             %tr

@@ -95,7 +95,6 @@ class AdminMailer < ActionMailer::Base
   def monday_jpo(structure)
     @structure  = structure
     @show_links = true
-    @structures = StructureSearch.similar_profile(@structure)
     mail to: structure.main_contact.email, subject: "Les inscriptions aux Portes Ouvertes sont ouvertes"
   end
 
@@ -109,21 +108,18 @@ class AdminMailer < ActionMailer::Base
   def incomplete_profile(structure)
     @structure  = structure
     @show_links = true
-    @structures = StructureSearch.similar_profile(@structure)
     mail to: structure.main_contact.email, subject: "Votre profil CoursAvenue n'est pas complet"
   end
 
   def no_recommendations(structure)
     @structure  = structure
     @show_links = true
-    @structures = StructureSearch.similar_profile(@structure)
     mail to: structure.main_contact.email, subject: 'Vos élèves ne vous ont pas encore recommandé sur CoursAvenue'
   end
 
   def less_than_five_recommendations(structure)
     @structure  = structure
     @show_links = true
-    @structures = StructureSearch.similar_profile(@structure)
     mail to: structure.main_contact.email, subject: 'Vous avez moins de 5 recommandations sur CoursAvenue'
   end
 
@@ -149,7 +145,7 @@ class AdminMailer < ActionMailer::Base
     mail to: 'contact@coursavenue.com', subject: 'Un professeur demande une suppression de commentaire'
   end
 
-  def admin_validated(admin)
+  def welcome_email(admin)
     @admin         = admin
     @structure     = @admin.structure
     @show_links    = true

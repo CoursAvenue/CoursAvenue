@@ -76,7 +76,7 @@ class ::Admin < ActiveRecord::Base
   end
 
   def send_welcome_email
-    AdminMailer.delay.admin_validated(self)
+    AdminMailer.delay.welcome_email(self)
   end
 
   def mailboxer_email(object)
