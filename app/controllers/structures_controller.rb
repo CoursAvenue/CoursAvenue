@@ -12,12 +12,27 @@ class StructuresController < ApplicationController
     # the show action needs to filter the plannings based on its params
     
     begin
-      @structure = Structure.friendly.find params[:id]
+      # we are searching the plannings, but we only want results on
+      # the current structure
+      params[:structure_id] = params[:id]
+
+      if params_has_planning_filters?
+        # ,= is the "pistol" operator
+        # it takes an array and shoots all but the first element
+        @structures ,= search_plannings
+
+        # so this result set should contain just one structure.
+        @structure = @structures.first
+      else
+        @structure = Structure.friendly.find params[:id]
+      end
     rescue ActiveRecord::RecordNotFound
       place = Place.find params[:id]
       redirect_to structure_path(place.structure), status: 301
       return
     end
+
+    @center         = { lat: params[:lat], lng: params[:lng] }
     @city           = @structure.city
     @places         = @structure.places
     @courses        = @structure.courses.without_open_courses.active

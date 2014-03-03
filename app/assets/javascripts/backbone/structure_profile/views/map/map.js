@@ -126,12 +126,12 @@ Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, u
      // itemview_options.template = 'backbone/structure_profile/views/' + resources + '/templates/' + template_name;
      // ItemView                  = ItemView.extend(itemview_options);
 
-        var bounds         = { lat: 48.8538177, lng: 2.3815018 };
+        var center         = window.coursavenue.bootstrap.center || { lat: 0, lng: 0 };
 
         options.collection = collection;
         options.markerView = MarkerView;
         options.mapOptions = {
-            center: new google.maps.LatLng(bounds.lat, bounds.lng)
+            center: new google.maps.LatLng(center.lat, center.lng)
         };
         options.infoBoxOptions = {
             infoBoxClearance: new google.maps.Size(100, 100)

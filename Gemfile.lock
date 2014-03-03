@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git@github.com:variousauthors/handlebars_assets.git
-  revision: 045d43fd97ff3274f8022035613d3e095267bae1
+  revision: 6257ec6f2ae67763ab20d6b84644dad8cfd5e9f3
   specs:
     handlebars_assets (0.15)
       execjs (>= 1.2.9)
@@ -201,7 +201,7 @@ GEM
     heroku-api (0.3.17)
       excon (~> 0.27)
       multi_json (~> 1.8.2)
-    highline (1.6.20)
+    highline (1.6.21)
     hike (1.2.3)
     hirefire-resource (0.2.2)
     httparty (0.13.0)
