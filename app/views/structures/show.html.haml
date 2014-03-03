@@ -64,18 +64,20 @@
             %div.two-thirds>
               - course = JSON.parse(CourseSerializer.new(course).to_json) # get the json ready for bootstrap
               - course["is_first"] = index == 0
-              = render template: '../assets/javascripts/backbone/structure_profile/views/courses/templates/course', locals: course
-              %div{ data: { view: "Composite", of: "Plannings", and: "Course", bootstrap: { model: course, collection: course["plannings"] }.to_json }}
-                %table.table--striped{ data: { tagName: true }}
-                  %thead
-                    %th Jour
-                    %th Horaire
-                    %th Niveau
-                    %th Audience
-                  %tbody{ data: { itemviewContainer: true }}
-                  - course["plannings"].each do |planning|
-                    %tr{ data: { itemviewTagName: true }}
-                      = render template: '../assets/javascripts/backbone/structure_profile/views/plannings/templates/planning', locals: planning
+              - unless @planning_groups[course["id"]].nil?
+              - plannings = ActiveModel::ArraySerializer.new(@planning_groups[course["id"]],   each_serializer: PlanningSerializer)
+                = render template: '../assets/javascripts/backbone/structure_profile/views/courses/templates/course', locals: course
+                %div{ data: { view: "Composite", of: "Plannings", and: "Course", bootstrap: { model: course, collection: plannings.serializable_array }.to_json }}
+                  %table.table--striped{ data: { tagName: true }}
+                    %thead
+                      %th Jour
+                      %th Horaire
+                      %th Niveau
+                      %th Audience
+                    %tbody{ data: { itemviewContainer: true }}
+                      - plannings.serializable_array.each do |planning|
+                        %tr{ data: { itemviewTagName: true }}
+                          = render template: '../assets/javascripts/backbone/structure_profile/views/plannings/templates/planning', locals: planning
 
       %article.tab-pane{ data: { view: 'Collection', of: "Teachers", bootstrap: 'teachers', component: 'TabContents', for: 'teachers'}}
         - @teachers.each do |teacher|

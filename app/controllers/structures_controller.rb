@@ -9,27 +9,24 @@ class StructuresController < ApplicationController
   layout :choose_layout
 
   def show
-    # the show action needs to filter the plannings based on its params
     
     begin
-      # we are searching the plannings, but we only want results on
-      # the current structure
-      params[:structure_id] = params[:id]
+      @structure = Structure.friendly.find params[:id]
+      params[:structure_id] = @structure.id
 
       if params_has_planning_filters?
-        # ,= is the "pistol" operator
-        # it takes an array and shoots all but the first element
-        @structures ,= search_plannings
-
-        # so this result set should contain just one structure.
-        @structure = @structures.first
-      else
-        @structure = Structure.friendly.find params[:id]
+        @planning_search = PlanningSearch.search(params)
+        @plannings       = @planning_search.results
       end
     rescue ActiveRecord::RecordNotFound
       place = Place.find params[:id]
       redirect_to structure_path(place.structure), status: 301
       return
+    end
+
+    @planning_groups = {}
+    @plannings.group_by(&:course_id).each do |course_id, plannings|
+      @planning_groups[course_id] = plannings
     end
 
     @center         = { lat: params[:lat], lng: params[:lng] }
