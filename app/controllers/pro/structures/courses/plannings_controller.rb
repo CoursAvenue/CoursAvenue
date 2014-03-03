@@ -150,6 +150,7 @@ class Pro::Structures::Courses::PlanningsController < InheritedResources::Base
   end
 
   def set_dates_and_times
+    # Setting time
     if params[:planning]['start_time(4i)'].present? && params[:planning]['start_time(5i)'].present?
       params[:planning][:start_time] = TimeParser.parse_time_string("#{params[:planning]['start_time(4i)']}h#{params[:planning]['start_time(5i)']}")
     end

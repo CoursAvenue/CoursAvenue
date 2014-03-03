@@ -32,7 +32,7 @@ class Planning < ActiveRecord::Base
   ######################################################################
   # Relations                                                          #
   ######################################################################
-  belongs_to :course, touch: true
+  belongs_to :course
   belongs_to :teacher
   belongs_to :place
   belongs_to :structure
@@ -141,7 +141,7 @@ class Planning < ActiveRecord::Base
 
     text :subjects, boost: 5 do
       subject_array = []
-      self.structure.subjects.uniq.each do |subject|
+      self.course.subjects.uniq.each do |subject|
         subject_array << subject
         subject_array << subject.root        if subject.root
       end
@@ -150,7 +150,7 @@ class Planning < ActiveRecord::Base
 
     integer :subject_ids, multiple: true do
       subject_ids = []
-      self.structure.subjects.uniq.each do |subject|
+      self.course.subjects.uniq.each do |subject|
         subject_ids << subject.id
         subject_ids << subject.root.id if subject.root
       end
@@ -159,7 +159,7 @@ class Planning < ActiveRecord::Base
 
     string :subject_slugs, multiple: true do
       subject_slugs = []
-      self.structure.subjects.uniq.each do |subject|
+      self.course.subjects.uniq.each do |subject|
         subject_slugs << subject.slug
         subject_slugs << subject.root.slug if subject.root
       end
@@ -465,7 +465,10 @@ class Planning < ActiveRecord::Base
   #
   # @return nil
   def update_start_and_end_date
-    if course.is_lesson?
+    case course.type
+    when 'Course::Open'
+      self.end_date = start_date
+    when 'Course::Lesson'
       self.start_date = course.start_date if self.start_date != course.start_date
       self.end_date   = course.end_date   if self.end_date   != course.end_date
     end

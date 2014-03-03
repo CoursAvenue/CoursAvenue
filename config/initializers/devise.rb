@@ -6,7 +6,7 @@ require "omniauth-facebook"
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
 
-  config.secret_key = 'a86c8236f5a3ec36b5acd81033572553aa219f6906cdf0632d492b3b4bba74c57b367174d1379fa005cc47a84dce059f3c835ef9dd311d8d0ec793223a3e958a'
+  config.secret_key = ENV['DEVISE_SECRET_KEY'] || 'a86c8236f5a3ec36b5acd81033572553aa219f6906cdf0632d492b3b4bba74c57b367174d1379fa005cc47a84dce059f3c835ef9dd311d8d0ec793223a3e958a'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
