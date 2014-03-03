@@ -3,7 +3,7 @@
   .jpo-popup.soft.white.relative
     .grid
       .grid__item.two-thirds>
-        = image_tag 'jpo_2014/popup-photos.png', class: 'popup-photos absolute', height: 203, width: 475
+        = image_tag 'jpo_2014/popup-photos.png', class: 'popup-photos absolute', height: 203, width: 475, title: 'Portes Ouvertes des cours de loisirs par CoursAvenue'
         .popup-jpo-sticker.absolute.ff-open-sans.text--center.jpo-popup-rotation.soft-half--top.milli
           .f-weight-300 Week-end
           %div
@@ -29,14 +29,14 @@
             = image_tag 'jpo_2014/tick_mark.png', height: 16, width: 16
             Tous vos loisirs à découvrir autour de vous
 
-        = image_tag 'jpo_2014/logo_1_line_large.png', class: 'popup-jpo-logo block push--left', height: 140
+        = image_tag 'jpo_2014/logo_1_line_large.png', class: 'popup-jpo-logo block push--left', height: 140, title: 'Portes Ouvertes des cours de loisirs par CoursAvenue'
 
       .grid__item.one-third>
         %p.text--center.ff-open-sans.relative
           %span.f-weight-600 Inscrivez-vous
           %br
           %span.f-weight-400 pour réserver votre atelier gratuit
-          = image_tag 'jpo_2014/arrow.png', width: 15, height: 27, class: 'absolute popup-jpo-arrow'
+          = image_tag 'jpo_2014/arrow.png', width: 15, height: 27, class: 'absolute popup-jpo-arrow', title: 'Inscrivez-vous aux Portes Ouvertes des cours de loisirs par CoursAvenue'
         .text--center
           = link_to "S'inscrire avec Facebook", user_omniauth_authorize_path('facebook'), class: 'btn btn--facebook btn--full text--left', id: 'facebook_button'
         .soft-half--top.soft-half--left.line-height-normal.milli

@@ -1,10 +1,10 @@
-- subdomain = 'staging' if request.subdomain.include? 'staging'
+- subdomain          = 'staging' if request.subdomain.include? 'staging'
 - participation_link = open_courses_url(subdomain: (subdomain || 'www')) if participation_link.nil?
 - know_more_link     = pages_jpo_url(subdomain: (subdomain || 'www'))    if know_more_link.nil?
 .jpo-banner-warpper>
   .jpo-banner.soft.relative>
     .main-container.soft--top>
-      = image_tag 'jpo_2014/logo_1_line.png', height: 100, class: 'block jpo-banner-logo'
+      = image_tag 'jpo_2014/logo_1_line.png', height: 100, class: 'block jpo-banner-logo', title: 'Portes Ouvertes des cours de loisirs par CoursAvenue'
       .jpo-fanion.relative>
         %p.flush.jpo-fanion__text.ff-open-sans.f-style-italic.text--center.absolute>
           %span.f-weight-300 Week-end
@@ -17,9 +17,9 @@
         = link_to 'Participer', participation_link, class: 'btn btn--light-blue btn--bigger'
         %br>
         = link_to 'En savoir plus', know_more_link, class: 'white f-decoration-underlined milli', target: :_blank
-      = image_tag 'jpo_2014/map.png', width: 726, height: 448, class: 'jpo-map absolute'
+      = image_tag 'jpo_2014/map.png', width: 726, height: 448, class: 'jpo-map absolute', title: 'Plus de 5 000 cours gratuit en Île-de-France'
       = link_to '#video-is-yet-to-come', class: 'jpo-bubble absolute', data: { behavior: 'modal' } do
-        = image_tag 'jpo_2014/bubble_text.png', width: 180, height: 153
+        = image_tag 'jpo_2014/bubble_text.png', width: 180, height: 153, title: 'Plus de 5 000 cours gratuit en Île-de-France'
   .jpo-frise>
 
 #video-is-yet-to-come.hidden
