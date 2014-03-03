@@ -9,14 +9,14 @@
       .grid
         .grid__item.two-thirds#location-form-wrapper>
           = f.simple_fields_for :location do |location_form|
-            = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: 'Ex. : Gymnase Bercy'
-            = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', label: Location.human_attribute_name(:street), input_html: {title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: {behavior: 'tooltip'}}
+            = location_form.input :name, label: Location.human_attribute_name(:name), placeholder: 'Ex. : Gymnase Bercy', disabled: @place.belongs_to_other_locations?
+            = location_form.input :street, placeholder: 'Ex. : 83 avenue du général Leclerc', label: Location.human_attribute_name(:street), input_html: {title: "Ne renseignez ni le code postal ni la ville, uniquement le numéro et la rue.", data: {behavior: 'tooltip'}}, disabled: @place.belongs_to_other_locations?
             .input.flush--top.city-autocomplete-wrapper
-              = location_form.label :zip_code, label: Location.human_attribute_name(:zip_code)
-              = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { data: {behavior: 'city-autocomplete', el: '#place_location_attributes_city_id'} }, label: false, wrapper_html: { class: 'flush--top' }
-              = location_form.input :city_id, collection: [@place.location.city || @structure.city], label: false, selected: @place.location.city, wrapper_html: { class: 'flush--top' }
-              = location_form.input :latitude, as: :hidden
-              = location_form.input :longitude, as: :hidden
+              = location_form.label :zip_code, label: Location.human_attribute_name(:zip_code), disabled: @place.belongs_to_other_locations?
+              = location_form.input :zip_code, placeholder: 'Ex. : 75008', input_html: { data: {behavior: 'city-autocomplete', el: '#place_location_attributes_city_id'} }, label: false, wrapper_html: { class: 'flush--top' }, disabled: @place.belongs_to_other_locations?
+              = location_form.input :city_id, collection: [@place.location.city || @structure.city], label: false, selected: @place.location.city, wrapper_html: { class: 'flush--top' }, disabled: @place.belongs_to_other_locations?
+              = location_form.input :latitude, as: :hidden, disabled: @place.belongs_to_other_locations?
+              = location_form.input :longitude, as: :hidden, disabled: @place.belongs_to_other_locations?
         .grid__item.one-third>
           #map.google-map.google-map--small
 

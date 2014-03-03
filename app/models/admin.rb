@@ -34,12 +34,13 @@ class ::Admin < ActiveRecord::Base
   ######################################################################
   # Validations                                                        #
   ######################################################################
-   validates :password, :email, :structure, presence: true, on: :create
+  validates :password, :email, :structure, presence: true, on: :create
 
   ######################################################################
   # Callbacks                                                          #
   ######################################################################
   after_create :check_if_was_invited
+  after_create :set_email_opt_ins
   after_save :delay_subscribe_to_nutshell
   after_save :delay_subscribe_to_mailchimp
 
@@ -104,7 +105,7 @@ class ::Admin < ActiveRecord::Base
     scope "has_#{key}", ->(value) { where("email_opt_in_status @> hstore(?, ?)", key, value) }
 
     define_method("#{key}") do
-      if email_opt_in_status && email_opt_in_status[key].present? then
+      if email_opt_in_status && email_opt_in_status.has_key?(key) then
         ::ActiveRecord::ConnectionAdapters::Column.value_to_boolean(email_opt_in_status[key])
       else
         nil
@@ -128,5 +129,17 @@ class ::Admin < ActiveRecord::Base
 
   def check_if_was_invited
     InvitedUser.where(email: self.email).map(&:inform_proposer)
+  end
+
+  # Set all email opt_in to true
+  #
+  # @return nil
+  def set_email_opt_ins
+    self.student_action_email_opt_in = true
+    self.newsletter_email_opt_in     = true
+    self.monday_email_opt_in         = true
+    self.thursday_email_opt_in       = true
+    self.jpo_email_opt_in            = true
+    self.save(validate: false)
   end
 end

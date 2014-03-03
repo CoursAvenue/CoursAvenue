@@ -33,6 +33,10 @@ class Place < ActiveRecord::Base
     return self.location.zip_code.starts_with? '75','77','78','91','92','93','94','95'
   end
 
+  def belongs_to_other_locations?
+    self.location.places.count > 1
+  end
+
   private
 
   def reindex_structure_and_places
