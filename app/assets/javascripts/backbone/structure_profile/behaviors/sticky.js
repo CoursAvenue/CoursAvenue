@@ -20,7 +20,7 @@ Daedalus.module('Behaviors.sticky', function(Module, App, Backbone, Marionette, 
     Module.attachTo = function attachTo (options, element) {
         Module.start();
 
-        $(element).sticky({});
+        $(element).sticky({ z: 10, old_width: false });
     };
 
     // activateOn matches data-behaviors like "activateOnSomeCamelizedEventName"

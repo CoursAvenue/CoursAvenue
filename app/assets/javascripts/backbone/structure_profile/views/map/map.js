@@ -2,6 +2,30 @@ Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, u
 
     Module.GoogleMap = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
 
+        onShow: function () {
+            var $parent      = this.$el.parent(),
+                parent_width = $parent.parent().width();
+
+            $('<style>.sticky--full { transition: width 0.5s ease; width: ' + parent_width + 'px; }</style>').appendTo('head');
+
+            $(window).on("scroll", function () {
+                if ($parent.hasClass("sticky")) {
+                    $parent.addClass("sticky--full");
+
+                    var currCenter = this.map.getCenter();
+                    google.maps.event.trigger(this.map, 'resize');
+                    this.map.setCenter(currCenter);
+                } else if (!$parent.hasClass("sticky") && $parent.hasClass("sticky--full")) {
+                    $parent.removeClass("sticky--full");
+
+                    var currCenter = this.map.getCenter();
+                    google.maps.event.trigger(this.map, 'resize');
+                    this.map.setCenter(currCenter);
+                }
+
+            }.bind(this));
+        },
+
         /* ***
         * ### \#exciteMarkers
         *

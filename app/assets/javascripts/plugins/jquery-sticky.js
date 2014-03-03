@@ -20,7 +20,7 @@
 
         return this.each(function () {
             // we add a default z-index of 2
-            var $element    = $(this).css({ "z-index": (options)? options.sticky || 1 : 1 });
+            var $element    = $(this).css({ "z-index": (options)? options.z || 1 : 1 });
             var sticky_home = -1; // TODO this is still a magic number
             var old_classes = $(this).attr("class");
 
@@ -47,7 +47,10 @@
                     $element.removeClass(old_classes);
                     $placeholder.addClass(old_classes);
                     $element.addClass("sticky");
-                    $element.css({ width: old_width, margin: 0 });
+
+                    if (options && options.old_width) {
+                        $element.css({ width: old_width, margin: 0 });
+                    }
                 } else if ( fixed && scroll_top < sticky_home) {
                     // we have now scrolled back up, and are replacing the element
 
