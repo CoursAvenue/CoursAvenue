@@ -24,7 +24,7 @@
 - @courses.each do |course|
   .white-box.islet
     .float--right
-      - if course.active?
+      - if !current_pro_admin.super_admin? and course.active?
         = link_to '#cannot-modify', data: { behavior: 'modal' } do
           %i.fa.fa-pencil
           Modifier
@@ -102,7 +102,7 @@
                     %i.fa.fa-chevron-down
                   %ul.drop-down__el.text--left
                     %li.nowrap
-                      - if course.active?
+                      - if !current_pro_admin.super_admin? and course.active?
                         = link_to '#cannot-modify', title: 'Modifier le créneau', data: { behavior: 'modal' } do
                           %i.fa.fa-pencil
                           Modifier le créneau
@@ -111,7 +111,7 @@
                           %i.fa.fa-pencil
                           Modifier le créneau
                     %li.nowrap
-                      - if course.active?
+                      - if !current_pro_admin.super_admin? and course.active?
                         = link_to '#cannot-modify', title: 'Supprimer le créneau', data: { behavior: 'modal' } do
                           %i.fa.fa-trash-o
                           Supprimer
