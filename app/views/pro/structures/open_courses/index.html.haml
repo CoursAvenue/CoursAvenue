@@ -42,6 +42,12 @@
           %i.fa.fa-times
           Supprimer
         .inline-block.v-middle.push-half--left{title: "En attente de validation par l'équipe CoursAvenue.", data: { behavior: 'tooltip'} }
+        - if current_pro_admin.super_admin?
+          - if course.active?
+            = link_to 'Visible', disable_pro_structure_course_path(course.structure, course), method: :patch, title: 'Enlever le cours de CoursAvenue', class: 'switch-button on'
+          - else
+            = link_to 'Non visible', activate_pro_structure_course_path(course.structure, course), method: :patch, title: 'Afficher le cours sur CoursAvenue', class: 'switch-button off'
+        - else
           = link_to 'Non visible', '#activate-popup', class: 'switch-button off', title: 'Rendre mon atelier visible', data: { behavior: 'modal' }
     %strong.v-middle= course.name
     - if course.other_event_type?

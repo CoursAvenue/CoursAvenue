@@ -24,10 +24,6 @@ class Place < ActiveRecord::Base
 
   validates :structure, :location, presence: true
 
-  def belongs_to_other_locations?
-    self.location.places.count > 1
-  end
-
   def main_contact
     self.contacts.first
   end
