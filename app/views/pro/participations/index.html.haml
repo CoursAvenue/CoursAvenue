@@ -42,7 +42,10 @@
           = link_to participation.user.email, "mailto:#{participation.user.email}", target: :_blank
         %td= readable_phone_number participation.user.phone_number
         %td= l(participation.created_at, format: :date).capitalize
-        %td= link_to participation.planning.course.name, pro_structure_course_opens_path(participation.structure)
+        %td
+          = link_to participation.planning.course.name, pro_structure_course_opens_path(participation.structure)
+          par
+          = link_to participation.structure, pro_structure_course_opens_path(participation.structure)
         %td.text--center
           - if participation.waiting_list?
             Sur liste d'attente
