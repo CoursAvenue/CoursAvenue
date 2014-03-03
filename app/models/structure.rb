@@ -225,6 +225,8 @@ class Structure < ActiveRecord::Base
     return unless self.main_contact.present?
     if courses.open_courses.any?
       AdminMailer.delay.monday_jpo(self)
+      self.update_column :last_email_sent_at, Time.now
+      self.update_column :last_email_sent_status, 'monday_jpo'
     elsif self.main_contact.monday_email_opt_in?
       if self.update_email_status.present?
         self.update_column :last_email_sent_at, Time.now
