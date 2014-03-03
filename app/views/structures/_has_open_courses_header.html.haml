@@ -1,15 +1,15 @@
 .orange-box.ff-open-sans.white.soft#participate-to_jpos>
   .grid
-    .grid__item.one-third>
+    .grid__item.one-third.v-middle>
       = link_to open_courses_path, class: 'v-middle inline-block one-whole', title: 'CoursAvenue' do
         = image_tag 'jpo_2014/logo_1_line.png', alt: 'Portes Ouvertes des cours de loisirs', class: 'block one-whole'
-    .grid__item.two-thirds>
-      %h4.flush
+    .grid__item.two-thirds.v-middle>
+      %h4.flush.line-height-2
         Cet établissement propose des ateliers gratuits pour les Portes Ouvertes des cours de loisirs
         - if current_user or current_pro_admin
-          = link_to 'Voir les ateliers', jpo_structure_path(@structure), class: 'btn btn--light-blue'
+          = link_to 'Voir les ateliers', jpo_structure_path(@structure), class: 'btn btn--yellow'
         - else
-          = link_to 'Voir les ateliers', open_courses_path, class: 'btn btn--light-blue'
+          = link_to 'Voir les ateliers', open_courses_path, class: 'btn btn--yellow'
 
 .jpo-frise.push-half--bottom
 

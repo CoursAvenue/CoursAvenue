@@ -22,13 +22,14 @@
                     %td.logo-cell{width: '300'}
                       %img.hide{border: '0', height: '20', src: '', width: '1'}/
                       %br.hide
-                      = link_to 'http://www.coursavenue.com', target: '_blank' do
-                        - if content_for? :email_logo
+                      - if content_for? :email_logo
+                        = link_to 'http://www.coursavenue.com', target: '_blank', class: 'block push-half--bottom' do
                           = yield :email_logo
-                        - else
+                      - else
+                        = link_to 'http://www.coursavenue.com', target: '_blank' do
                           = image_tag 'logo.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '250'
-                      %p.logo-subtitle
-                        Les élèves recommandent leurs meilleurs cours
+                        %p.logo-subtitle
+                          Les élèves recommandent leurs meilleurs cours
                     %td.soft-half--bottom.text--right{width: '300'}
                       - if content_for? :header_links
                         = yield :header_links
@@ -84,10 +85,10 @@
                   = yield :footer
                 - elsif @structure and @structure.main_contact
                   %p
-                    = link_to 'Gérer mes préférences de notifications e-mails.', notifications_pro_structure_admin_path(@structure, @structure.main_contact)
+                    = link_to 'Gérer mes préférences de notifications e-mails.', notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro')
                 - elsif @user
                   %p
-                    = link_to 'Gérer mes préférences de notifications e-mails.', notifications_user_path(@user)
+                    = link_to 'Gérer mes préférences de notifications e-mails.', notifications_user_url(@user, subdomain: 'www')
                 - else
                   %p
                     Vous recevez cet email car vous êtes inscrit sur CoursAvenue, le 1er moteur de recherche de cours en France.

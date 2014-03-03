@@ -14,15 +14,15 @@
           %br
           %span.f-weight-300 en Île-de-France
       .text--center.relative.jpo-call-to-actions.inline-block
-        = link_to 'Participer', participation_link, class: 'btn btn--light-blue btn--bigger'
+        = link_to 'Participer', participation_link, class: 'btn btn--yellow btn--bigger soft-half--ends soft--sides'
         %br>
         = link_to 'En savoir plus', know_more_link, class: 'white f-decoration-underlined milli', target: :_blank
-      = image_tag 'jpo_2014/map.png', width: 726, height: 448, class: 'jpo-map absolute', title: 'Plus de 5 000 cours gratuit en Île-de-France'
-      = link_to '#video-is-yet-to-come', class: 'jpo-bubble absolute', data: { behavior: 'modal' } do
+      = image_tag 'jpo_2014/map.png', width: 726, height: 448, class: 'jpo-map absolute visuallyhidden--palm', title: 'Plus de 5 000 cours gratuit en Île-de-France'
+      = link_to '#video-is-yet-to-come', class: 'jpo-bubble absolute visuallyhidden--palm', data: { behavior: 'modal' } do
         = image_tag 'jpo_2014/bubble_text.png', width: 180, height: 153, title: 'Plus de 5 000 cours gratuit en Île-de-France'
   .jpo-frise>
 
 #video-is-yet-to-come.hidden
   %h4.text--center La vidéo arrive bientôt !
   .text--center
-    = link_to 'Participer', participation_link, class: 'btn btn--light-blue btn--bigger'
+    = link_to 'Participer', participation_link, class: 'btn btn--yellow btn--bigger'

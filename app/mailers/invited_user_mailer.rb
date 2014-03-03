@@ -17,11 +17,12 @@ class InvitedUserMailer < ActionMailer::Base
     @structure    = invited_user.structure
     template_view_file_name = (invited_user.for.nil? ? 'recommand_friends' : "recommand_friends_for_#{invited_user.for}")
     mail to: @email,
-         subject: "#{@referrer.name} vous invite à créer votre profil sur CoursAvenue.",
+         subject: subject_for_recommand_friends(invited_user),
          template_name: "#{invited_user.referrer_type.downcase}/#{invited_user.type.split('::').last.downcase}/#{template_view_file_name}"
   end
 
   def inform_invitation_success(invited_user)
+    return if invited_user.for == 'jpo'
     @referrer      = invited_user.referrer
     @invited_email = invited_user.email
     @show_links    = true
@@ -33,14 +34,31 @@ class InvitedUserMailer < ActionMailer::Base
   def send_invitation_stage_1(invited_user)
     @referrer      = invited_user.referrer
     @invited_email = invited_user.email
-    mail to: @invited_email, subject: "#{@referrer.name} vous invite à créer votre profil sur CoursAvenue.",
+    mail to: @invited_email, subject: subject_for_recommand_friends(invited_user),
          template_name: "#{invited_user.referrer_type.downcase}/#{invited_user.type.split('::').last.downcase}/send_invitation_stage_1"
   end
 
   def send_invitation_stage_2(invited_user)
     @referrer      = invited_user.referrer
     @invited_email = invited_user.email
-    mail to: @invited_email, subject: "#{@referrer.name} vous invite à créer votre profil sur CoursAvenue.",
+    mail to: @invited_email, subject: subject_for_recommand_friends(invited_user),
          template_name: "#{invited_user.referrer_type.downcase}/#{invited_user.type.split('::').last.downcase}/send_invitation_stage_2"
+  end
+
+  private
+
+  def subject_for_recommand_friends(invited_user)
+    if invited_user.for == 'jpo'
+      case invited_user.type
+      # Student inviting another student
+      when 'InvitedUser::Student'
+        return "#{@referrer.name} vous invite à participer aux Portes Ouvertes les 5-6 avril"
+      # Teacher to students
+      when 'InvitedUser::Teacher'
+        return "#{@referrer.name} offre des cours gratuits : profitez-en pour inviter vos proches"
+      end
+    else
+      return "#{@referrer.name} vous invite à créer votre profil sur CoursAvenue"
+    end
   end
 end

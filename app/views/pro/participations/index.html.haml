@@ -45,7 +45,7 @@
         %td
           = link_to participation.planning.course.name, pro_structure_course_opens_path(participation.structure)
           par
-          = link_to participation.structure, pro_structure_course_opens_path(participation.structure)
+          = link_to participation.structure.name, pro_structure_course_opens_path(participation.structure), target: :_blank
         %td.text--center
           - if participation.waiting_list?
             Sur liste d'attente

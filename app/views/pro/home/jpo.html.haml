@@ -25,7 +25,10 @@
 
 
       .text--center.push--bottom
-        = link_to "Participer", inscription_link, class: 'btn btn--light-blue btn--large'
+        - if current_pro_admin
+          = link_to "Renseigner mes ateliers Portes Ouvertes", inscription_link, class: 'btn btn--yellow btn--large'
+        - else
+          = link_to "Créer mon profil et participer", inscription_link, class: 'btn btn--yellow btn--large'
         %br
         %p.push-half--top Prochaines dates : 5-6 avril 2014 en Île-de-France
 
@@ -102,7 +105,7 @@
             %p.f-weight-300.line-height-normal.push--bottom
               Pour vous, c'est l'occasion unique de participer au premier événement de cette ampleur et vous faire connaître d'un nouveau public à la recherche de nouveaux cours.
             .text--center.push--top
-              = link_to "Participer", inscription_link, class: 'btn btn--light-blue btn--large'
+              = link_to "Participer", inscription_link, class: 'btn btn--yellow btn--large'
               %br
               %p.push-half--top Prochaines dates : 5-6 avril 2014 en Île-de-France
     .jpo-frise>

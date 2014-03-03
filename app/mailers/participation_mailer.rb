@@ -24,7 +24,7 @@ class ParticipationMailer < ActionMailer::Base
     @planning  = participation.planning
     @course    = participation.course
     @structure = participation.course.structure
-    mail to: @structure.main_contact.email, subject: "Un élève vient d'annuler sa présence à vos Journées Portes Ouvertes"
+    mail to: @structure.main_contact.email, subject: "Un élève vient d'annuler sa présence à vos Portes Ouvertes"
   end
 
   # User subscribe to a waiting list
@@ -34,7 +34,7 @@ class ParticipationMailer < ActionMailer::Base
     @planning  = participation.planning
     @course    = participation.course
     @structure = participation.course.structure
-    mail to: @structure.main_contact.email, subject: "Un élève vient de s'inscrire à vos Journées Portes Ouvertes"
+    mail to: @structure.main_contact.email, subject: "Un élève vient de s'inscrire sur liste d'attente à vos Portes Ouvertes"
   end
 
   # User subscribes
@@ -44,7 +44,7 @@ class ParticipationMailer < ActionMailer::Base
     @planning  = participation.planning
     @course    = participation.course
     @structure = participation.course.structure
-    mail to: @structure.main_contact.email, subject: "Un élève vient de s'inscrire à vos Journées Portes Ouvertes"
+    mail to: @structure.main_contact.email, subject: "Un élève vient de s'inscrire à vos Portes Ouvertes"
   end
 
   def welcome(participation)

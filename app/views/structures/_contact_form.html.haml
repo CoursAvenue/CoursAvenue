@@ -36,7 +36,7 @@
       .visuallyhidden
         %input{name: 'content', type: 'text'}
       - if action_name == 'jpo'
-        - prefilled_body = "Bonjour,\n\nAvant de m'inscrire à vos Journées Portes Ouvertes, je souhaiterais avoir un peu plus d'informations au sujet de l'événement.\n\nMerci et à très bientôt"
+        - prefilled_body = "Bonjour,\n\nAvant de m'inscrire à vos Portes Ouvertes, je souhaiterais avoir un peu plus d'informations au sujet de l'événement.\n\nMerci et à très bientôt"
       - else
         - prefilled_body = "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
       = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: prefilled_body, data: { behavior: 'autoresize' }}

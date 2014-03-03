@@ -10,7 +10,7 @@
 
 - content_for :promo do
   %h4
-    Félicitations ! Un élève vient de s'inscrire sur liste d'attente à vos Journées Portes Ouvertes.
+    Félicitations ! Un élève vient de s'inscrire sur liste d'attente à vos Portes Ouvertes.
 
 %p
   Informations sur la réservation :
@@ -29,7 +29,7 @@
   = link_to "Suivre mes inscriptions", pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 
 %p.blue.blue-tip
-  %i Trucs & astuces : depuis votre profil, invitez vos amis, familles et collègues à Participer aux Portes Ouvertes avec vous.
+  %i Trucs & astuces : depuis votre profil, invitez vos amis, familles et collègues à participer aux Portes Ouvertes avec vous.
 
 - content_for :under_content do
   = render 'participation_mailer/invite_students_to_jpos'

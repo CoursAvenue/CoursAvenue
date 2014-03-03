@@ -11,5 +11,5 @@
               = message_form.label :body
             .grid__item.ten-twelfths>
               = message_form.input :body, input_html: { style: 'height: 100px', class: 'one-whole', data: {behavior: 'autoresize'} }, as: :text, label: false, wrapper_html: { class: 'flush--top' }
-              = f.submit 'Répondre', class: 'btn btn--green'
+              = f.submit 'Répondre', class: 'btn btn--green btn--full', disable_with: "Message en cours d'envoi"
 

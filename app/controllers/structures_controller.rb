@@ -26,13 +26,14 @@ class StructuresController < ApplicationController
   end
 
   def jpo
-    @structure = Structure.friendly.find params[:id]
-    @city      = @structure.city
-    @places    = @structure.courses.open_courses.map(&:places).flatten.uniq
-    @teachers  = @structure.teachers
-    @medias    = @structure.medias.videos_first.reject { |media| media.type == 'Media::Image' and media.cover }
-    @comments  = @structure.comments.accepted.reject(&:new_record?)
-    @comment   = @structure.comments.build
+    @structure    = Structure.friendly.find params[:id]
+    @open_courses = @structure.courses.open_courses
+    @city         = @structure.city
+    @places       = @structure.courses.open_courses.map(&:places).flatten.uniq
+    @teachers     = @structure.teachers
+    @medias       = @structure.medias.videos_first.reject { |media| media.type == 'Media::Image' and media.cover }
+    @comments     = @structure.comments.accepted.reject(&:new_record?)
+    @comment      = @structure.comments.build
     respond_to do |format|
       format.html
     end
