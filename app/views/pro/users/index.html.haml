@@ -19,8 +19,6 @@
         %span Nom
       %th
         %span Date d'inscription
-      %th
-        %span Dernière date de connexion
       %th.text--center
         %span Facebook
       - if params[:with_comments]
@@ -37,10 +35,8 @@
         %td
           = user.name
           = link_to "(#{user.email})", "mailto:#{user.email}"
-        %td{data: {value: user.last_sign_in_at}}
-          = l(user.last_sign_in_at) if user.last_sign_in_at
-        %td{data: {value: user.last_sign_in_at}}
-          = l(user.last_sign_in_at) if user.last_sign_in_at
+        %td{data: {value: user.confirmed_at}}
+          = l(user.confirmed_at, format: :date).capitalize if user.confirmed_at
         %td.text--center{data: {value: (user.provider == 'facebook' ? 'f' : '')}}
           - if user.provider == 'facebook'
             %i.fa.fa-check
