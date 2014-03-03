@@ -106,6 +106,7 @@ class StructuresController < ApplicationController
         render json: @structures,
                root: 'structures',
                place_ids: @places,
+               query: query_string,
                each_serializer: StructureSerializer,
                meta: { total: @total, location: @latlng }
       end
