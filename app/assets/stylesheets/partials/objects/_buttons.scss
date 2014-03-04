@@ -89,7 +89,7 @@
     color           : white;
     @include text-shadow(-1px -1px 1px darken($btn--green, 23%));
     &:hover, &:active {
-        background-color: darken($btn--green, 5%);
+        background-color: lighten($btn--green, 5%);
     }
     &.disabled, &[disabled] {
         cursor: default;
@@ -103,7 +103,7 @@
     color           : white;
     @include text-shadow(-1px -1px 1px darken($btn--blue, 10%));
     &:hover, &:active {
-        background-color: darken($btn--blue, 5%);
+        background-color: lighten($btn--blue, 5%);
     }
     &.disabled, &[disabled] {
         cursor: default;
