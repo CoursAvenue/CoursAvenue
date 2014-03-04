@@ -13,17 +13,23 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         ui: {
-            '$search_input': '#search-input'
+            '$search_input': '#search-input',
+            '$menu':         '.menu'
         },
 
         events: {
             'typeahead:selected #search-input': 'announce',
             // Use keyup instead of keypress to handle the case when the user empties the input
-            'keyup #search-input':              'announce'
+            'keyup #search-input':              'announce',
+            'focus @ui.$search_input':          'showMenu'
+        },
+
+        showMenu: function () {
+            this.$(".menu").show();
         },
 
         announce: function (event, data) {
-            name = (data ? data.name : event.currentTarget.value);
+            var name = (data ? data.name : event.currentTarget.value);
             // Prevent from launching the search if the name is same than previous one
             if (name != this.previous_searched_name) {
                 this.previous_searched_name = name;
