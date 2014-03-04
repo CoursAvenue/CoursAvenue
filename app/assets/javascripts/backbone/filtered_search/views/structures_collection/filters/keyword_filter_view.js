@@ -12,16 +12,26 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.previous_searched_name = data.name;
         },
 
+        // the keyword bar now needs the subjects, in order to provide autocompletion
+        serializeData: function(data) {
+            return { subjects: coursavenue.bootstrap.subjects };
+        },
+
         ui: {
-            '$search_input': '#search-input',
-            '$menu':         '.menu'
+            '$search_input': '#search-input'
         },
 
         events: {
             'typeahead:selected #search-input': 'announce',
             // Use keyup instead of keypress to handle the case when the user empties the input
             'keyup #search-input':              'announce',
-            'focus @ui.$search_input':          'showMenu'
+            'focus @ui.$search_input':          'showMenu',
+            'click [data-type=button]':        'activateButton'
+        },
+
+        activateButton: function activateButton (e) {
+            this.$("[data-type=button]").removeClass("active");
+            $(e.target).addClass("active");
         },
 
         showMenu: function () {

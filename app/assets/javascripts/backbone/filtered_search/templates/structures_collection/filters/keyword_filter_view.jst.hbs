@@ -9,16 +9,18 @@
         </div>
     </div>
     <div class="menu hidden four-fifths float--right box orange-border bg-orange absolute east z-index-3 rounded--more">
-        <div class="push-half--bottom push--left">
-            <span class="white push--right">WHOA</span><!--
-         --><span class="white push--right">BOB</span><!--
-         --><span class="white push--right">SUCH</span>
+        <div class="keyword-subjects push-half--top push--left relative">
+            {{#each subjects}}
+                <a href="#tab-{{slug}}" class="inline-block subject_icon subject_icon__{{slug}} white push--right push-half--bottom" data-type="button" data-value="{{slug}}" data-toggle="tab"></a>
+            {{/each}}
         </div>
 
-        <div class="grid__item one-whole soft-half b-white">
-            <div class="grid__item one-whole soft">
-            This is the content space. OK?
-            </div>
+        <div class="grid__item one-whole soft-half b-white tab-content">
+            {{#each subjects}}
+                <div id="tab-{{slug}}" class="grid__item one-whole soft tab-pane">
+                    {{slug}}
+                </div>
+            {{/each}}
         </div>
     </div>
 </div>

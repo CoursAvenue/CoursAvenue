@@ -84,7 +84,7 @@
     background-size  : 60px 25px;
 }
 
-.subject-active {
+.subject-active, .keyword-subjects {
     .subject_icon__danse{
         background-image : image-url('icons/subjects/danse-white.png');
     }
@@ -110,4 +110,22 @@
 .subject_icon__other {
     height     : 68px;
     line-height: 48px!important;
+}
+
+.keyword-subjects {
+    .active:before {
+      -moz-border-bottom-colors: none;
+      -moz-border-left-colors: none;
+      -moz-border-right-colors: none;
+      -moz-border-top-colors: none;
+      border-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) #FFFFFF;
+      border-image: none;
+      border-style: solid;
+      border-width: 9px 8px;
+      content: "";
+      height: 0;
+      position: absolute;
+      bottom: 0;
+      width: 0;
+    }
 }
