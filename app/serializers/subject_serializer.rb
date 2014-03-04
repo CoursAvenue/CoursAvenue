@@ -7,7 +7,13 @@ class SubjectSerializer < ActiveModel::Serializer
 
   def grand_children
     result = object.children.map do |child|
-      child.children.map(&:name)
+
+      child.children.map do |grand_child|
+        {
+          name: grand_child.name,
+          slug: grand_child.slug
+        }
+      end
     end
 
     result.flatten

@@ -11,15 +11,15 @@
     <div class="menu hidden four-fifths float--right box orange-border bg-orange absolute east z-index-3 rounded--more">
         <div class="keyword-subjects push-half--top push--left relative">
             {{#each subjects}}
-                <a href="#tab-{{slug}}" class="inline-block subject_icon subject_icon__{{slug}} white push--right push-half--bottom" data-type="button" data-value="{{slug}}" data-toggle="tab"></a>
+                <a href="#tab-{{slug}}" class="{{#if is_first}}active{{/if}} inline-block subject_icon subject_icon__{{slug}} white push--right push-half--bottom" data-type="button" data-value="{{slug}}" data-toggle="tab"></a>
             {{/each}}
         </div>
 
         <div class="grid__item one-whole soft-half b-white tab-content">
             {{#each subjects}}
-                <div id="tab-{{slug}}" class="tab-pane">
+                <div id="tab-{{slug}}" class="tab-pane {{#if is_first}}active{{/if}}">
                 {{#each grand_children}}
-                    <a class="very-soft hl-orange pointer">{{this}}</a>
+                    <a class="very-soft hl-orange muted-link pointer" data-subject={{slug}}>{{name}}</a>
                 {{/each}}
                 </div>
             {{/each}}

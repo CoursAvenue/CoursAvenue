@@ -7,13 +7,20 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.announce = _.debounce(this.announce, 500);
         },
 
+        onClickOutside: function () {
+            this.$(".menu").hide();
+        },
+
         setup: function (data) {
             this.ui.$search_input.attr('value', data.name);
             this.previous_searched_name = data.name;
         },
 
         // the keyword bar now needs the subjects, in order to provide autocompletion
-        serializeData: function(data) {
+        serializeData: function() {
+            var subjects         = coursavenue.bootstrap.subjects;
+            subjects[0].is_first = true;
+
             return { subjects: coursavenue.bootstrap.subjects };
         },
 
@@ -26,7 +33,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             // Use keyup instead of keypress to handle the case when the user empties the input
             'keyup #search-input':              'announce',
             'focus @ui.$search_input':          'showMenu',
-            'click [data-type=button]':        'activateButton'
+            'click [data-type=button]':         'activateButton',
+            'click [data-subject]':             'announceSubject'
         },
 
         activateButton: function activateButton (e) {
@@ -36,6 +44,15 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         showMenu: function () {
             this.$(".menu").show();
+        },
+
+        announceSubject: function announceSubject (e) {
+            var data = { name: $(e.target).text() };
+            this.$(".menu").hide();
+
+            this.ui.$search_input.typeahead("val", data.name);
+
+            this.announce(e, data);
         },
 
         announce: function (event, data) {
