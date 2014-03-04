@@ -104,7 +104,7 @@ class Pro::Structures::Courses::PlanningsController < InheritedResources::Base
         end
         format.js { render nothing: true, status: 200 }
       else
-        if @planning and @planning.end_date < Date.today
+        if @planning.end_date and @planning.end_date < Date.today
           flash[:alert] = 'Le cours ne peut être dans le passé'
         end
         format.html { render template: 'pro/structures/courses/plannings/index', notice: 'Le créneau a bien été mis à jour' }
@@ -150,6 +150,7 @@ class Pro::Structures::Courses::PlanningsController < InheritedResources::Base
   end
 
   def set_dates_and_times
+    # Setting time
     if params[:planning]['start_time(4i)'].present? && params[:planning]['start_time(5i)'].present?
       params[:planning][:start_time] = TimeParser.parse_time_string("#{params[:planning]['start_time(4i)']}h#{params[:planning]['start_time(5i)']}")
     end

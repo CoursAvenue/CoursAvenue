@@ -5,7 +5,7 @@
 input[type="search"] {
     @include box-sizing(border-box);
 }
-input[disabled] {
+input[type=search][disabled], input[type=text][disabled] {
     color: #888;
 }
 input[type=search] {

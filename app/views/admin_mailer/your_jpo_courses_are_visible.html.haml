@@ -1,5 +1,5 @@
 - content_for :email_logo do
-= image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: '-ms-interpolation-mode:bicubic;'
+  = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: '-ms-interpolation-mode:bicubic;'
 
 - if @structure
   - content_for :header_links do
@@ -26,4 +26,4 @@
   = render 'participation_mailer/invite_students_to_jpos'
 
 - content_for :under_content_2 do
-  = render 'admin_mailer/recommandations_advantages'
+  = render 'participation_mailer/jpo_advantages'

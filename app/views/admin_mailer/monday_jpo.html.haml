@@ -1,3 +1,13 @@
+- content_for :email_logo do
+  = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: '-ms-interpolation-mode:bicubic;'
+
+- content_for :header_links do
+  = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: 'pro')
+  \|
+  = link_to 'Aide', pro_pages_questions_url(subdomain: 'pro')
+  \|
+  = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: 'www')
+
 - content_for :promo do
   %h4
     Les inscriptions aux Portes Ouvertes sont ouvertes !
@@ -12,7 +22,7 @@
   %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter leurs proches.
 
 - content_for :under_content do
-  = render 'invite_students_to_jpos'
+  = render 'participation_mailer/invite_students_to_jpos'
 
 - content_for :under_content_2 do
   = render 'participation_mailer/jpo_advantages'

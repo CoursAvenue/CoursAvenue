@@ -59,7 +59,7 @@ class Media::Image < Media
   # Callbacs                                                           #
   ######################################################################
   def make_cover_if_first
-    self.cover = truek if self.mediable.medias.images.empty?
+    self.cover = true if self.mediable.medias.images.empty?
   end
 
   # Create a thumbnail and saves it to S3

@@ -42,7 +42,7 @@
     - @courses_inactive.each do |course|
       %tr
         %td
-          - if course.active
+          - if course.active?
             = link_to disable_pro_structure_course_path(course.structure, course), remote: true, method: :patch, title: 'Enlever le cours de CoursAvenue' do
               %i.fa.fa-check.green
           - else
