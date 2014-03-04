@@ -10,7 +10,8 @@ class Pro::UsersController < Pro::ProController
     if params[:with_comments]
       @users = User.active.joins { comments }.where { comments.user_id == users.id }.order('created_at DESC').limit(100)
     else
-      @users = User.order('created_at DESC').limit(300)
+      @users = User.active.order('created_at DESC').limit(300)
     end
+    @users_graph = User.where{created_at > 2.months.ago}.active.count(order: "DATE(created_at) ASC", group: ["DATE(created_at)"])
   end
 end

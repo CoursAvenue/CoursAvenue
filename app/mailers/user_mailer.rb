@@ -21,7 +21,7 @@ class UserMailer < ActionMailer::Base
     @name    = name
     @email   = email
     @content = content
-    mail to: 'contact@coursavenue.com', subject: 'Message de contact'
+    mail to: 'contact@coursavenue.com', subject: 'Suite de votre message sur CoursAvenue'
   end
 
   def welcome(user)

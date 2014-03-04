@@ -24,10 +24,6 @@ class Place < ActiveRecord::Base
 
   validates :structure, :location, presence: true
 
-  def belongs_to_other_locations?
-    self.location.places.count > 1
-  end
-
   def main_contact
     self.contacts.first
   end
@@ -35,6 +31,10 @@ class Place < ActiveRecord::Base
   def parisian?
     return false if self.location.nil? or self.location.zip_code.nil?
     return self.location.zip_code.starts_with? '75','77','78','91','92','93','94','95'
+  end
+
+  def belongs_to_other_locations?
+    self.location.places.count > 1
   end
 
   private

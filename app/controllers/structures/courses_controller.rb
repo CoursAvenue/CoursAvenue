@@ -25,12 +25,12 @@ class Structures::CoursesController < ApplicationController
 
   def show
     @structure = Structure.friendly.find params[:structure_id]
-    @course             = Course.friendly.find(params[:id])
-    @comment            = @course.comments.build
-    @comments           = @structure.comments.accepted.reject(&:new_record?)
-    @medias             = @structure.medias
-    @locations          = @course.locations
-    @places             = @course.places
+    @course    = Course.friendly.find(params[:id])
+    @comment   = @course.comments.build
+    @comments  = @structure.comments.accepted.reject(&:new_record?)
+    @medias    = @structure.medias
+    @locations = @course.locations
+    @places    = @course.places
     if @course.is_lesson?
       @plannings = @course.plannings.order('week_day ASC, start_time ASC')
     else
@@ -46,7 +46,9 @@ class Structures::CoursesController < ApplicationController
       @location_index_hash[location] = index + 1
     end
     respond_to do |format|
-      if @course.active
+      if @course.is_open?
+        format.html { redirect_to jpo_structure_path(@structure), status: 301 }
+      elsif @course.active
         format.html
       else
         format.html { redirect_to root_path, notice: "Ce cours n'est pas visible.", status: 301 }

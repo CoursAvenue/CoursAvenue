@@ -4,7 +4,7 @@
   - inscription_link = inscription_pro_structures_url(subdomain: 'pro')
 
 = content_for :title do
-  Journées Portes Ouvertes CoursAvenue 2014
+  Portes Ouvertes des cours de loisirs par CoursAvenue | CoursAvenue.com
 
 = pro_menu_currently_at 'Journées Portes Ouvertes'
 
@@ -25,7 +25,10 @@
 
 
       .text--center.push--bottom
-        = link_to "Participer", inscription_link, class: 'btn btn--light-blue btn--large'
+        - if current_pro_admin
+          = link_to "Renseigner mes ateliers Portes Ouvertes", inscription_link, class: 'btn btn--yellow btn--large'
+        - else
+          = link_to "Créer mon profil et participer", inscription_link, class: 'btn btn--yellow btn--large'
         %br
         %p.push-half--top Prochaines dates : 5-6 avril 2014 en Île-de-France
 
@@ -49,20 +52,6 @@
       .grid__item.soft.three-fifths.f-weight-300.epsilon>
         %p.line-height-normal.flush
           Depuis votre profil CoursAvenue, vous aurez accès à toutes les coordonnées des élèves inscrits à vos ateliers, même ceux inscrits en liste d'attente. Après l'événément, vous pourrez ainsi librement continuer à communiquer avec eux, pour leur proposer d'autres cours ou stages et ainsi fidéliser de nouveaux élèves.
-
-  .home-screen-promotion-wrapper.one-whole
-    .main-container.soft
-      .grid
-        .grid__item.soft.two-fifths>
-          %h2.f-weight-300 Renseignez vos ateliers gratuits sur votre profil
-        .grid__item.soft.three-fifths.f-weight-300.epsilon>
-          %p.line-height-normal.push-half--bottom
-            Pour proposer vos ateliers Portes Ouvertes, c'est simple, rapide et tout se fait en ligne sur votre profil CoursAvenue :
-          %ul.line-height-normal.push-half--bottom
-            %li Si vous avez déjà un profil (en tant que professionnel) : connectez-vous et renseignez vos ateliers dans la rubrique "Journées Portes Ouvertes" ;
-            %li Si vous n'avez pas encore de profil : créez-le, complétez-le et renseignez vos ateliers dans la rubrique "Journées Portes Ouvertes".
-          %p.line-height-normal.flush
-            Une fois vos ateliers renseignés, ils apparaîtront automatiquement sur nos pages dédiées : chaque Internaute pourra alors s'inscrire gratuitement. A chaque inscription, vous en serez notifié par un email automatique, et vous pourrez suivre tous vos inscrits en temps réel directement depuis votre profil.
 
   .home-screen-promotion-wrapper.one-whole
     .main-container.soft
@@ -116,7 +105,7 @@
             %p.f-weight-300.line-height-normal.push--bottom
               Pour vous, c'est l'occasion unique de participer au premier événement de cette ampleur et vous faire connaître d'un nouveau public à la recherche de nouveaux cours.
             .text--center.push--top
-              = link_to "Participer", inscription_link, class: 'btn btn--light-blue btn--large'
+              = link_to "Participer", inscription_link, class: 'btn btn--yellow btn--large'
               %br
               %p.push-half--top Prochaines dates : 5-6 avril 2014 en Île-de-France
     .jpo-frise>

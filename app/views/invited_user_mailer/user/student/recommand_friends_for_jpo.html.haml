@@ -1,3 +1,6 @@
+- content_for :email_logo do
+  = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: '-ms-interpolation-mode:bicubic;'
+
 - if @structure and @structure.logo?
   - content_for :logo do
     = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
@@ -23,4 +26,4 @@
 %p= @referrer.name
 
 - content_for :footer do
-  %p Vous recevez cet email car #{@referrer.name} vous invite à Participer aux Portes Ouvertes CoursAvenue.
+  %p Vous recevez cet email car #{@referrer.name} vous invite à participer aux Portes Ouvertes CoursAvenue.

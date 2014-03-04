@@ -225,7 +225,9 @@ class Structure < ActiveRecord::Base
     return unless self.main_contact.present?
     if courses.open_courses.any?
       AdminMailer.delay.monday_jpo(self)
-    elsif self.email_status and self.main_contact.monday_email_opt_in?
+      self.update_column :last_email_sent_at, Time.now
+      self.update_column :last_email_sent_status, 'monday_jpo'
+    elsif self.main_contact.monday_email_opt_in?
       if self.update_email_status.present?
         self.update_column :last_email_sent_at, Time.now
         self.update_column :last_email_sent_status, self.email_status
@@ -477,19 +479,21 @@ class Structure < ActiveRecord::Base
     meta_data['level_ids'].split(',').map(&:to_i)
   end
 
-  # Augment methods to have them return boolean
+  # Add methods to have hstore attributes return booleans
   %w[has_promotion gives_group_courses gives_individual_courses has_free_trial_course].each do |key|
     scope "has_#{key}", ->(value) { where("meta_data @> hstore(?, ?)", key, value) }
 
     define_method("#{key}") do
-      if meta_data && meta_data[key].present? then
+      if meta_data && meta_data.has_key?(key) then
         ActiveRecord::ConnectionAdapters::Column.value_to_boolean(meta_data[key])
       else
         nil
       end
     end
+    define_method("#{key}?") do
+      send key.to_sym
+    end
   end
-
 
   ######################################################################
   # Meta data update                                                   #

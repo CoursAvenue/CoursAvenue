@@ -12,4 +12,8 @@ class Pro::Admins::SessionsController < Devise::SessionsController
       root_path
     end
   end
+
+  def after_sign_out_path_for(admin)
+    request.referrer || root_path
+  end
 end
