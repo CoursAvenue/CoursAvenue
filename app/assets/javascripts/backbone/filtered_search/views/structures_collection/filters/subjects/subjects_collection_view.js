@@ -1,7 +1,9 @@
-FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App, Backbone, Marionette, $, _) {
+FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Module, App, Backbone, Marionette, $, _) {
 
-    Module.KeywordFilterView = Backbone.Marionette.ItemView.extend({
-        template: Module.templateDirname() + 'keyword_filter_view',
+    Module.KeywordFilterView = Backbone.Marionette.CompositeView.extend({
+        template: Module.templateDirname() + 'subjects_collection_view',
+        itemView: Module.SubjectView,
+        itemViewContainer: '.grid__item.one-whole.soft-half.b-white.tab-content',
 
         initialize: function () {
             this.announce = _.debounce(this.announce, 500);
@@ -18,11 +20,20 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
 
         // the keyword bar now needs the subjects, in order to provide autocompletion
         serializeData: function() {
-            var subjects         = coursavenue.bootstrap.subjects;
+            // get just the top level subject names and slugs
+            var subjects         = this.collection.map(function (model) {
+                return { slug: model.get("slug"), name: model.get("name") }
+            });
 
             subjects[0].is_first = true;
 
-            return { subjects: coursavenue.bootstrap.subjects };
+            return { subjects: subjects };
+        },
+
+        itemViewOptions: function (model, index) {
+            return {
+                "is_first": index === 0
+            }
         },
 
         ui: {
@@ -35,7 +46,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             'keyup #search-input':              'announce',
             'focus @ui.$search_input':          'showMenu',
             'click [data-type=button]':         'activateButton',
-            'click [data-subject]':             'announceSubject'
         },
 
         activateButton: function activateButton (e) {
@@ -47,13 +57,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
             this.$("[data-type=menu]").show();
         },
 
-        announceSubject: function announceSubject (e) {
-            var data = { name: $(e.target).text() };
+        onItemviewAnnouncedSubject: function (view, data) {
             this.$("[data-type=menu]").hide();
 
             this.ui.$search_input.typeahead("val", data.name);
-
-            this.announce(e, data);
+            this.announce({}, data);
         },
 
         announce: function (event, data) {
@@ -63,10 +71,6 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 this.previous_searched_name = name;
                 this.trigger("filter:search_term", { 'name': name });
             }
-        },
-
-        ui: {
-            $search_input: '#search-input',
         },
 
         onRender: function () {
@@ -85,6 +89,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
                 source: engine.ttAdapter()
             });
         },
+
         // Clears all the given filters
         clear: function () {
             this.previous_searched_name = null;

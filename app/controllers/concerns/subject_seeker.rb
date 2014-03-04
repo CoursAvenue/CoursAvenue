@@ -12,7 +12,9 @@ module SubjectSeeker
   #     Cuisine - ...:
   #           - ...
   def get_descendants(params)
-    @subjects = params[:ids].split(',').map { |id| Subject.friendly.find(id) }
+    @subjects = params[:ids].split(',').map do |id| 
+      Subject.friendly.find(*id)
+    end
     @descendants = []
     @subjects.each do |parent_subject|
       parent_subject.descendants.at_depth(1).each do |first_descendant|
