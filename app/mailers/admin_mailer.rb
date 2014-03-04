@@ -120,7 +120,7 @@ class AdminMailer < ActionMailer::Base
   def less_than_five_recommendations(structure)
     @structure  = structure
     @show_links = true
-    mail to: structure.main_contact.email, subject: 'Vous avez moins de 5 recommandations sur CoursAvenue'
+    mail to: structure.main_contact.email, subject: 'Vos élèves ne vous ont pas encore recommandé sur CoursAvenue'
   end
 
   def planning_outdated(structure)
