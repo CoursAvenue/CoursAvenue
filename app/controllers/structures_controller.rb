@@ -58,6 +58,8 @@ class StructuresController < ApplicationController
       cookies["search_term_logs_#{params[:name]}"] = { value: params[:name], expires: 12.hours.from_now }
     end
 
+    @subjects = Subject.stars
+
     respond_to do |format|
       format.json do
         render json: @structures,

@@ -17,8 +17,10 @@
 
         <div class="grid__item one-whole soft-half b-white tab-content">
             {{#each subjects}}
-                <div id="tab-{{slug}}" class="grid__item one-whole soft tab-pane">
-                    {{slug}}
+                <div id="tab-{{slug}}" class="tab-pane">
+                {{#each grand_children}}
+                    <a class="very-soft hl-orange pointer">{{this}}</a>
+                {{/each}}
                 </div>
             {{/each}}
         </div>

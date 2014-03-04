@@ -48,6 +48,13 @@
     background: white;
 }
 
+.hl-orange:hover {
+    color: white;
+    background-color: $orange;
+    border-radius: 25px;
+    transition: background-color 0.25s ease;
+}
+
 .rounded         { @include border-radius($brand-round) }
 .rounded--more         { @include border-radius($brand-round * 2) }
 .bordered--right { border-right  : 1px solid $gray-smooth; }
