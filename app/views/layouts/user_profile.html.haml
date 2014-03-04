@@ -22,7 +22,7 @@
               \—
               = link_to "Profil complété à #{current_user.profile_completion} %", dashboard_user_path(current_user), class: 'semi-muted-link'
           %div
-            = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=http://www.coursavenue.com", class: 'btn btn--small btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
+            = link_to 'Partager', "https://www.facebook.com/sharer/sharer.php?u=http://www.coursavenue.com", class: 'btn btn--facebook', target: '_blank', onclick: "ga('send', 'event', 'User / Share on Facebook', 'click', 'From dashboard page')"
           %div.push-half--top
             = link_to new_user_invited_user_path(current_user), class: 'btn btn--small', onclick: "ga('send', 'event', 'Share with friends', 'click')" do
               %i.fa.fa-bullhorn

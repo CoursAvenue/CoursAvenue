@@ -1,9 +1,16 @@
-- content_for :logo do
-  = image_tag 'jpo_2014/logo_2_lines-square.png', alt: 'CoursAvenue', height: '125', width: '125', style: '-ms-interpolation-mode:bicubic;'
+- content_for :email_logo do
+  = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: '-ms-interpolation-mode:bicubic;'
+
+- content_for :header_links do
+  = link_to 'Connexion', dashboard_pro_structure_url(@structure, subdomain: 'pro')
+  \|
+  = link_to 'Aide', pro_pages_questions_url(subdomain: 'pro')
+  \|
+  = link_to 'Portes Ouvertes', pro_structure_course_opens_url(@structure, subdomain: 'www')
 
 - content_for :promo do
   %h4
-    Félicitations ! Un élève vient de s'inscrire sur liste d'attente à vos Journées Portes Ouvertes.
+    Félicitations ! Un élève vient de s'inscrire sur liste d'attente à vos Portes Ouvertes.
 
 %p
   Informations sur la réservation :
@@ -22,10 +29,11 @@
   = link_to "Suivre mes inscriptions", pro_structure_course_opens_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 
 %p.blue.blue-tip
-  %i Trucs & astuces : depuis votre profil, invitez vos amis, familles et collègues à Participer aux Portes Ouvertes avec vous.
+  %i Trucs & astuces : depuis votre profil, invitez vos amis, familles et collègues à participer aux Portes Ouvertes avec vous.
 
 - content_for :under_content do
-  = render 'invite_students_to_jpos'
+  = render 'participation_mailer/invite_students_to_jpos'
 
 - content_for :under_content_2 do
-  = render 'admin_mailer/recommandations_advantages'
+  = render 'participation_mailer/jpo_advantages'
+

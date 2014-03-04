@@ -1,4 +1,4 @@
-- structure.courses.open_courses.order('created_at ASC').each do |course|
+- @open_courses.order('created_at ASC').each do |course|
   - if course.plannings.any?
     .white-box.white-box--noshadow.islet
       %strong= course.name
@@ -54,7 +54,7 @@
                       Déjà inscrit
                     - else
                       = link_to new_planning_participation_path(planning), class: 'btn btn--small btn--green text--center line-height-normal fancybox.ajax', data: { behavior: 'modal', title: 'Inscription au créneau', width: 600 } do
-                        = planning.places_left ? "M'inscrire " : "M'inscrire sur liste d'attente"
+                        = planning.places_left? ? "M'inscrire " : "M'inscrire sur liste d'attente"
                   - elsif current_pro_admin
                     = link_to "M'inscrire", '#you-are-a-teacher', data: {behavior: 'modal', width: 500}, class: 'btn btn--green btn--small btn--full'
                   - else

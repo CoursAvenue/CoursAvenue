@@ -1,26 +1,33 @@
-- content_for :logo do
-  = image_tag 'jpo_2014/logo_2_lines-square.png', alt: 'CoursAvenue', height: '125', width: '125', style: '-ms-interpolation-mode:bicubic;'
+- content_for :email_logo do
+  = image_tag 'jpo_2014/logo_1_line_orange.png', alt: 'CoursAvenue', height: 89, width: 300, style: '-ms-interpolation-mode:bicubic;'
+
+- content_for :header_links do
+  = link_to 'Connexion', new_user_session_url(subdomain: 'www')
+  \|
+  = link_to 'JPO', open_courses_url(subdomain: 'www')
+  \|
+  = link_to 'Rechercher', structures_url(subdomain: 'www')
 
 - content_for :promo do
   %h4
-    - if @planning.places_left >
-      Il ne reste plus que
+    - if @planning.places_left?
+      Il reste
       %span #{pluralize(@planning.places_left, 'place')}
-      pour l'atelier auquel vous participez : invitez vos proches à y participer !
+      à votre atelier : n'attendez pas pour inviter vos proches
     - else
-      Invitez vos proches à Participer aux Portes Ouvertes CoursAvenue !
+      Invitez vos proches à participer aux Portes Ouvertes CoursAvenue !
 
 %p
-  Vous vous êtes récemment inscrits à un atelier des Portes Ouvertes des cours de loisirs. N'attendez plus pour inviter votre entourage à profiter des centaines de cours gratuits :
+  - if @planning.places_left?
+    N'attendez pas que le cours soit complet ! Invitez dès maintenant votre famille, vos amis ou vos collègues à s'inscrire au même atelier que vous :
+  - else
+    Vous vous êtes récemment inscrits à un atelier des Portes Ouvertes des cours de loisirs. N'attendez plus pour inviter votre entourage à profiter des centaines de cours gratuits :
 
 %p.action
-  = link_to "Inviter mon entourage", jpo_new_pro_structure_invited_students_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
+  = link_to "Inviter mes proches", jpo_new_pro_structure_invited_students_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 
 %p.blue.blue-tip
-  %i Trucs & astuces : depuis votre profil, offrez à vos élèves l'opportunité d'inviter leurs proches.
-
-- content_for :under_content do
-  = render 'invite_students_to_jpos'
+  %i Trucs & astuces : depuis votre profil, renseignez vos passions pour recevoir des invitations à des cours d'essai gratuits et des promotions.
 
 - content_for :under_content_2 do
-  = render 'admin_mailer/recommandations_advantages'
+  = render 'user_mailer/footer_info'

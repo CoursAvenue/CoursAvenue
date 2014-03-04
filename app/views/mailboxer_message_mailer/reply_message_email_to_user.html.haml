@@ -1,6 +1,5 @@
 - content_for :promo do
-  %h4
-    Il y a une réponse au message : #{@message.subject}
+  %h4= @message.subject
 
 = simple_format @message.body
 

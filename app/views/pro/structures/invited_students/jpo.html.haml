@@ -8,12 +8,7 @@
   %thead
     %tr
       %th Email
-      %th A vu votre invitation
   %tbody
     - @invited_users.each do |invited_user|
       %tr
         %td= invited_user.email
-        %td
-          - if invited_user.registered?
-            %i.fa.fa-check
-

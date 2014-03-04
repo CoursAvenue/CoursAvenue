@@ -188,7 +188,9 @@ class Comment < ActiveRecord::Base
 
   def create_passions_for_associated_user
     self.subjects.each do |child_subject|
-      self.user.passions.create(parent_subject: child_subject.root, subject: child_subject, practiced: true)
+      passion = self.user.passions.build(practiced: true)
+      passion.subjects << child_subject.root
+      passion.subjects << child_subject
     end
     self.user.comments << self
     self.user.save(validate: false)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140301115517) do
+ActiveRecord::Schema.define(version: 20140302152322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,20 +19,20 @@ ActiveRecord::Schema.define(version: 20140301115517) do
   enable_extension "pg_stat_statements"
 
   create_table "admins", force: true do |t|
-    t.string   "email",                                  default: "",    null: false
-    t.string   "encrypted_password",                     default: ""
+    t.string   "email",                               default: "",    null: false
+    t.string   "encrypted_password",                  default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                          default: 0
+    t.integer  "sign_in_count",                       default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
-    t.boolean  "super_admin",                            default: false, null: false
-    t.string   "invitation_token",            limit: 60
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
+    t.boolean  "super_admin",                         default: false, null: false
+    t.string   "invitation_token",         limit: 60
     t.datetime "invitation_sent_at"
     t.datetime "invitation_accepted_at"
     t.integer  "invitation_limit"
@@ -49,11 +49,8 @@ ActiveRecord::Schema.define(version: 20140301115517) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.time     "deleted_at"
-    t.boolean  "email_opt_in",                           default: true
-    t.boolean  "newsletter_email_opt_in",                default: true
-    t.boolean  "monday_email_opt_in",                    default: true
-    t.boolean  "thursday_email_opt_in",                  default: true
-    t.boolean  "student_action_email_opt_in",            default: true
+    t.boolean  "email_opt_in",                        default: true
+    t.hstore   "email_opt_in_status"
   end
 
   add_index "admins", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
@@ -287,6 +284,15 @@ ActiveRecord::Schema.define(version: 20140301115517) do
     t.datetime "updated_at"
   end
 
+  create_table "lived_places", force: true do |t|
+    t.integer "city_id"
+    t.integer "user_id"
+    t.string  "zip_code"
+    t.float   "radius"
+  end
+
+  add_index "lived_places", ["city_id", "user_id"], name: "index_lived_places_on_city_id_and_user_id", using: :btree
+
   create_table "locations", force: true do |t|
     t.string   "name"
     t.string   "street"
@@ -374,15 +380,24 @@ ActiveRecord::Schema.define(version: 20140301115517) do
 
   create_table "passions", force: true do |t|
     t.integer  "user_id"
-    t.integer  "subject_id"
-    t.integer  "parent_subject_id"
-    t.string   "frequency"
-    t.boolean  "practiced",         default: true
-    t.string   "expectation_ids"
-    t.string   "reason_ids"
+    t.string   "passion_frequency_ids"
+    t.boolean  "practiced",               default: true
+    t.string   "passion_expectation_ids"
+    t.string   "passion_reason_ids"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "info"
+    t.string   "level_ids"
+    t.string   "passion_for_ids"
+    t.string   "passion_time_slot_ids"
   end
+
+  create_table "passions_subjects", id: false, force: true do |t|
+    t.integer "passion_id"
+    t.integer "subject_id"
+  end
+
+  add_index "passions_subjects", ["passion_id", "subject_id"], name: "index_passions_subjects_on_passion_id_and_subject_id", using: :btree
 
   create_table "places", force: true do |t|
     t.integer "location_id"

@@ -15,11 +15,13 @@
     %br
     (1 seule inscription possible par personne, sur liste d'attente ou non).
 
-- if @planning.places_left <= 5
+- if @planning.places_left <= 5 and @planning.places_left > 0
   .text--center
     .alert.alert--error
       %strong Attention !
-      Il ne reste plus que #{@planning.places_left} places !
+      Il ne reste plus que #{pluralize @planning.places_left, 'place'} !
+      %br
+      %i Confirmez rapidement pour ne pas être en liste d'attente.
 
 
 = simple_form_for [@planning, @participation] do |f|
@@ -47,6 +49,6 @@
     Annuler mon inscription si je ne peux plus y participer
 
   - if @planning.places_left?
-    = f.submit 'Confirmer mon inscription', class: 'btn btn--green btn--full'
+    = f.submit 'Confirmer mon inscription', class: 'btn btn--green btn--full', disable_with: 'Confirmation en cours'
   - else
-    = f.submit "Confirmer mon inscription sur liste d'attente", class: 'btn btn--green btn--full'
+    = f.submit "Confirmer mon inscription sur liste d'attente", class: 'btn btn--green btn--full', disable_with: 'Confirmation en cours'

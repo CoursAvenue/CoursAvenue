@@ -12,9 +12,9 @@
 
   %h4.push-half--ends.inline-block.v-middle.push--right
     %i.fa.fa-bullhorn
-    Parlez en autour de vous
+    Parlez-en autour de vous
     %i #JPOCoursAvenue
-  .share-on-facebook.btn.btn--facebook.text--left.nowrap.inline-block.v-middle Poster sur mon mur
+  .share-on-facebook.btn.btn--facebook.text--left.nowrap.inline-block.v-middle Facebook
   .share-on-twitter.btn.btn--twitter.btn--small.text--left.nowrap.inline-block.v-middle Twitter
   - if current_user.facebook_registered?
     %h4.push-half--ends
@@ -22,7 +22,7 @@
       %span.v-middle Invitez vos amis Facebook en 1 clic !
     = render 'users/participations/send_message_to_facebook_friends'
 
-  .grid--full
+  .grid--full.push--top
     .grid__item.two-twelfths.soft-half--right>
       = link_to 'Non merci', '#inscription-confirmed-popup', class: 'btn btn--full', data: { behavior: 'modal' }
     .grid__item.ten-twelfths>

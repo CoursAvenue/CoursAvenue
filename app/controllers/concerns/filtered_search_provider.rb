@@ -1,4 +1,5 @@
-module FilteredSearchProvider extend ActiveSupport::Concern
+module FilteredSearchProvider
+  extend ActiveSupport::Concern
 
   PLANNING_FILTERED_KEYS = ['audience_ids', 'level_ids', 'min_age_for_kids', 'max_price', 'min_price',
                             'price_type', 'max_age_for_kids', 'trial_course_amount', 'course_types',

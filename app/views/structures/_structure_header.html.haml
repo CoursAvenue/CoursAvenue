@@ -1,9 +1,8 @@
 .grid--full.push-half--bottom.white-box
-  - if structure.logo.present?
-    .grid__item.two-twelfths.relative>
-      = image_tag structure.logo.url(:thumb), class: 'block'
-      - if structure.has_free_trial_course
-        .free-trial-badge
+  .grid__item.two-twelfths.relative>
+    = image_tag structure.logo.url(:thumb), class: 'block'
+    - if structure.has_free_trial_course
+      .free-trial-badge
   .grid__item.ten-twelfths.soft-half--sides>
     %h1.gamma.blue.flush--bottom= structure.name
     -# Structure type

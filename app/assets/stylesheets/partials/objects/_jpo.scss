@@ -43,11 +43,32 @@
             z-index: 100;
             right  : 100px;
             top    : -16px;
+            -webkit-filter: drop-shadow(7px 11px 14px rgba(0,0,0,0.3));
+            filter: url("data:image/svg+xml;utf8,<svg height='0' xmlns='http://www.w3.org/2000/svg'><filter id='drop-shadow'><feGaussianBlur in='SourceAlpha' stdDeviation='4'/><feOffset dx='7' dy='11' result='offsetblur'/><feFlood flood-color='rgba(0,0,0,0.3)'/><feComposite in2='offsetblur' operator='in'/><feMerge><feMergeNode/><feMergeNode in='SourceGraphic'/></feMerge></filter></svg>#drop-shadow");
+            -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=7, OffY=11, Color='#777')";
+            filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=7, OffY=11, Color='#777')";
+            @media only screen and (max-width: 1223px) and (min-width: 1023px) {
+                right  : 0px;
+                width  : 600px;
+                height : 372px;
+            }
+            @include media-query(lap) {
+                width : 429px;
+                height: 266px;
+                right : 0;
+                top   : 50px;
+            }
         }
         .jpo-bubble {
             z-index: 200;
             right  : 200px;
             top    : 190px;
+            @media only screen and (max-width: 1223px) and (min-width: 1023px) {
+                right  : 20px;
+            }
+            @include media-query(lap) {
+                right  : 20px;
+            }
         }
 
 .jpo-frise {
@@ -68,7 +89,16 @@
     @include border-radius($brand-round);
 }
     .jpo-popup-rotation {
-        @include transform(rotate(-4.5deg));
+        @include transform(rotate(-5.2deg));
+    }
+    .popup-jpo-sticker {
+        background-image : asset-url('jpo_2014/sticker.png');
+        background-repeat: none;
+        width            : 130px;
+        height           : 130px;
+        top              : 4px;
+        left             : 400px;
+        @include background-size('130px 130px');
     }
 
     .popup-photos {
@@ -79,17 +109,18 @@
     }
     .popup-jpo-fanion {
         background-image: asset-url('jpo_2014/popup_fanion.png');
-        height          : 106px;
-        width           : 525px;
+        height          : 150px;
+        width           : 580px;
         color           : white;
-        margin-top      : 65px;
-        @include background-size('525px 106px');
+        margin-top      : 50px;
+        margin-left     : -52px;
+        @include background-size('580px 150px');
         .popup-jpo-fanion__text {
-            top        : 30px;
-            left       : 50px;
+            top        : 39px;
+            left       : 100px;
             line-height: 1.4;
             color      : white;
-            font-size  : 28px;
+            font-size  : 30px;
         }
     }
     .jpo-popup-tick-marks {
@@ -97,5 +128,5 @@
         line-height: 2;
     }
     .popup-jpo-logo {
-        margin-top: 60px;
+        margin-top: 40px;
     }

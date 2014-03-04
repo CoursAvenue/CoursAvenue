@@ -4,7 +4,8 @@
 
 .grid.conversation
   .grid__item.one-twelfth.v-top.text--right>
-    = image_tag recipients.first.avatar_url(:thumb), class: 'message__avatar'
+    - if recipients.first
+      = image_tag recipients.first.avatar_url(:thumb), class: 'message__avatar'
   .grid__item.eleven-twelfths.soft-half--left>
     .white-box.grid--full.islet
       .grid__item.two-tenths>

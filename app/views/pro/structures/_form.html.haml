@@ -50,9 +50,9 @@
         = structure_form.association :subjects, as: :select, collection: Subject.roots.order('name ASC'), input_html: {style: 'width: 74%;', id: 'parent-subjects', data: {behavior: 'chosen', placeholder: 'Sélectionnez une ou plusieurs disciplines'}, multiple: true}, label: 'Disciplines générales pratiquées ', label_method: lambda{|subj| subj.name }, wrapper_html: {class: 'flush--bottom'}
 
         #descendants-subjects
-          .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}
-            %label.control-label Sous disciplines
-            %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}},
+          .input{title: 'Sélectionnez plusieurs disciplines en maintenant la touche CTRL ou CMD enfoncée.', data: {behavior: 'tooltip'}}>
+            %label.control-label> Sous disciplines
+            %select#subject-descendants-select{name: 'structure[subject_descendants_ids][]', style: 'width: 74%;', multiple: true, data: {behavior: 'chosen', placeholder: 'Tapez ou sélectionnez une ou plusieurs disciplines', selected: @structure.subjects.children.map(&:id).join(',')}}>
       - if @structure.errors[:children_subjects].present?
         %p.error= @structure.errors[:children_subjects].to_sentence
       %p.flush.field-form-info.blue Ces étiquettes de disciplines nous permettent de mieux vous catégoriser dans notre moteur de recherche. Néanmoins, une fois votre planning renseigné dans la rubrique "Mes cours", les intitulés de vos cours seront pris en compte en priorité, car ils seront plus précis.

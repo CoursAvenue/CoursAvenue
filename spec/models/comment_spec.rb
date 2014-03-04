@@ -28,7 +28,16 @@ describe Comment do
   end
 
   context :validations do
+    let(:comment) { FactoryGirl.create(:comment) }
+    describe '#doesnt_exist_yet' do
+      it 'exists and adds errors' do
+        new_comment = FactoryGirl.build(:comment, email: comment.email, commentable: comment.commentable)
+        expect(new_comment.valid?).to be_false
+        expect(new_comment.errors[:email].length).to eq 1
+      end
+    end
   end
+
   context :callbacks do
     let(:comment) { FactoryGirl.build(:comment) }
     context :user_passions do

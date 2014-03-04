@@ -17,6 +17,7 @@ CoursAvenue::Application.routes.draw do
       get 'pages/nos-convictions'               => 'home#convictions',        as: 'pages_convictions'
       get 'pages/presse'                        => 'home#press',              as: 'pages_press'
       get 'pages/portes-ouvertes-cours-loisirs' => 'home#jpo',                as: 'pages_jpo'
+      get 'pages/journees-portes-ouvertes'      => redirect('pages/portes-ouvertes-cours-loisirs', status: 301)
       get '/dashboard'                          => 'dashboard#index',         as: 'dashboard'
       # 301 Redirection
       get 'etablissements/demande-de-recommandations', to: 'redirect#structures_new'
@@ -25,7 +26,7 @@ CoursAvenue::Application.routes.draw do
 
       get 'tableau-de-bord'                          , to: 'redirect#structure_dashboard', as: 'structure_dashboard_redirect'
       get 'modifier-mon-profil'                      , to: 'redirect#structure_edit',      as: 'structure_edit_redirect'
-
+      get 'etablissements/:structure_id/journees-portes-ouvertes', to: 'redirect#structures_jpo_index'
 
       resources :metrics, only: [] do
         collection do
@@ -216,6 +217,7 @@ CoursAvenue::Application.routes.draw do
     member do
       get  :edit_private_infos, path: 'mon-compte'
       patch  :update_password
+      patch  :update_passions
       get  :wizard
       get  :dashboard
       get  :choose_password
@@ -233,6 +235,7 @@ CoursAvenue::Application.routes.draw do
     resources :comments, only: [:index, :edit, :update], controller: 'users/comments'
     resources :messages     , controller: 'users/messages'
     resources :conversations, controller: 'users/conversations'
+    resources :lived_places, only: [:destroy], controller: 'users/lived_places'
     resources :passions, only: [:index, :destroy], controller: 'users/passions' do
       collection do
         get :offers
@@ -290,18 +293,24 @@ CoursAvenue::Application.routes.draw do
   get 'cours-de-:parent_subject_id/:id'            , to: 'subjects#show'       , as: :vertical_subject
   ########### Vertical pages ###########
 
-  resources :cities, only: [:show], path: 'tous-les-cours-a' do
+  resources :cities, only: [], path: 'villes' do
     collection do
       get :zip_code_search
     end
+  end
+  resources :cities, only: [:show], path: 'tous-les-cours-a' do
     resources :subjects, only: [:show], path: 'disciplines', controller: 'cities/subjects'
   end
 
+  resources :subjects, only: [] do
+    collection do
+      get :descendants
+    end
+  end
   resources :subjects, only: [:show, :index], path: 'cours' do
     collection do
       get :tree
       get :tree_2
-      get :descendants
     end
     resources :structures, only: [:index], path: 'etablissements'
     # resources :places, only: [:index], path: 'etablissements'
@@ -339,7 +348,6 @@ CoursAvenue::Application.routes.draw do
   # Pages
   get 'pages/pourquoi-le-bon-cours',        to: 'redirect#why_coursavenue'
   get 'pages/portes-ouvertes-cours-loisirs' => 'pages#jpo',                  as: 'pages_jpo'
-  get 'pages/portes-ouvertes-des-loisirs',   to: 'pages#jpo'
   get 'pages/pourquoi-coursavenue'          => 'pages#why',                  as: 'pages_why'
   get 'pages/comment-ca-marche'             => 'pages#how_it_works',         as: 'pages_how_it_works'
   get 'pages/faq-utilisateurs'              => 'pages#faq_users',            as: 'pages_faq_users'
