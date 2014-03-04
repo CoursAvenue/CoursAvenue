@@ -49,13 +49,15 @@ class InvitedUserMailer < ActionMailer::Base
 
   def subject_for_recommand_friends(invited_user)
     if invited_user.for == 'jpo'
-      case invited_user.type
-      # Student inviting another student
-      when 'InvitedUser::Student'
-        return "#{@referrer.name} vous invite à participer aux Portes Ouvertes les 5-6 avril"
-      # Teacher to students
-      when 'InvitedUser::Teacher'
-        return "#{@referrer.name} offre des cours gratuits : profitez-en pour inviter vos proches"
+      if invited_user.type == 'InvitedUser::Student'
+        case invited_user.referrer_type
+        # Student inviting another student
+        when 'User'
+          return "#{@referrer.name} vous invite à participer à un cours gratuit"
+        # Teacher to students
+        when 'Structure'
+          return "#{@referrer.name} offre des cours gratuits : profitez-en pour inviter vos proches"
+        end
       end
     else
       return "#{@referrer.name} vous invite à créer votre profil sur CoursAvenue"
