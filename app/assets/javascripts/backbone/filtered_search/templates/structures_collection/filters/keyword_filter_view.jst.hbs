@@ -8,7 +8,7 @@
             <input id="search-input" size="50" placeholder="Renseignez une discipline précise ou le nom d'une structure" type="search" name="name" autocomplete="off" class="one-whole"></input>
         </div>
     </div>
-    <div class="menu hidden four-fifths float--right box orange-border bg-orange absolute east z-index-3 rounded--more">
+    <div data-type="menu" class="hidden four-fifths bordered bordered--orange bordered--thick bg-orange absolute east z-index-3 rounded--double">
         <div class="keyword-subjects push-half--top push--left relative">
             {{#each subjects}}
                 <a href="#tab-{{slug}}" class="inline-block subject_icon subject_icon__{{slug}} white push--right push-half--bottom" data-type="button" data-value="{{slug}}" data-toggle="tab"></a>
@@ -17,9 +17,9 @@
 
         <div class="grid__item one-whole soft-half b-white tab-content">
             {{#each subjects}}
-                <div id="tab-{{slug}}" class="tab-pane">
+                <div id="tab-{{slug}}" class="tab-pane hard--top">
                 {{#each grand_children}}
-                    <a class="very-soft hl-orange pointer">{{this}}</a>
+                    <a class="inline-block very-soft hard--ends rounded--double f-decoration-not-underlined hl-orange pointer nowrap">{{this}}</a>
                 {{/each}}
                 </div>
             {{/each}}

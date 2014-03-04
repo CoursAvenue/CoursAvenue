@@ -48,25 +48,27 @@
     background: white;
 }
 
+.hl-orange {
+    @include transition(all 150ms ease);
+}
 .hl-orange:hover {
-    color: white;
+    color           : white;
     background-color: $orange;
-    border-radius: 25px;
-    transition: background-color 0.25s ease;
 }
 
-.rounded         { @include border-radius($brand-round) }
-.rounded--more         { @include border-radius($brand-round * 2) }
-.bordered--right { border-right  : 1px solid $gray-smooth; }
-.bordered--left  { border-left   : 1px solid $gray-smooth; }
-.bordered--bottom{ border-bottom : 1px solid $gray-smooth; }
-.bordered--top   { border-top    : 1px solid $gray-smooth; }
-.bordered        { border        : 1px solid $gray-smooth; }
-.orange-border   { border        : 4px solid $orange; }
-.center-block    { margin-left: auto; margin-right: auto; display: block; }
-.block           { display: block; }
-.inline          { display: inline;}
-.inline-block    { display: inline-block;}
+.rounded          { @include border-radius($brand-round) }
+.rounded--double  { @include border-radius($brand-round * 2) }
+.bordered--right  { border-right  : 1px solid $gray-smooth; }
+.bordered--left   { border-left   : 1px solid $gray-smooth; }
+.bordered--bottom { border-bottom : 1px solid $gray-smooth; }
+.bordered--top    { border-top    : 1px solid $gray-smooth; }
+.bordered         { border        : 1px solid $gray-smooth; }
+.bordered--thick  { border-width  : 4px solid $gray-smooth; }
+.bordered--orange { border-color  : $orange; }
+.center-block     { margin-left: auto; margin-right: auto; display: block; }
+.block            { display: block; }
+.inline           { display: inline;}
+.inline-block     { display: inline-block;}
 
 
 .width-auto         { width: auto !important; }

@@ -12,7 +12,8 @@
 .f-style-italic { font-style: italic; }
 
 // --------------------- Decorations
-.f-decoration-underlined  { text-decoration: underline; }
+.f-decoration-underlined      { text-decoration: underline; }
+.f-decoration-not-underlined  { text-decoration: none !important; }
 
 // --------------------- Size
 .inherit-font-size { font-size  : inherit; }

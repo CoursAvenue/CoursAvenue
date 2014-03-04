@@ -35,7 +35,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters', function(Module, App
         },
 
         showMenu: function () {
-            this.$(".menu").show();
+            this.$("[data-type=menu]").show();
         },
 
         announce: function (event, data) {
