@@ -21,7 +21,7 @@
   };
 
 %ol.visuallyhidden.nav.breadcrumb.epsilon.push-half--top.push-half--bottom{itemprop: 'breadcrumb'}
-  %li= link_to 'Tous les établissement', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
+  %li= link_to 'Tous les établissements', structures_path(name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])
   - if @subject
     - if @subject.parent
       %li= link_to @subject.parent.name, subject_structures_path(@subject.parent, name: params[:name], address_name: params[:address_name], lat: params[:lat], lng: params[:lng])

@@ -54,10 +54,11 @@
         %a{href: '#tab-comments', data: {toggle: 'tab'} }
           %i.fa.fa-comments
           Avis
-      %li
-        %a{href: '#tab-teachers', data: {toggle: 'tab'} }
-          %i.fa.fa-group
-          Professeurs
+      - if @structure.teachers.any?
+        %li
+          %a{href: '#tab-teachers', data: {toggle: 'tab'} }
+            %i.fa.fa-group
+            Professeurs
     .tab-content
       %article#tab-courses.tab-pane.active
         - if @courses.any?
@@ -98,11 +99,12 @@
           %ul#comments.comment-list
             - @comments.each_with_index do |comment, index|
               = render partial: 'comments/comment', locals: {comment: comment, show_title: true}
-      %article#tab-teachers.tab-pane
-        #teachers
-          - @teachers.each_with_index do |teacher, index|
-            %div
-              = render partial: 'teachers/teacher', locals: {teacher: teacher}
+      - if @structure.teachers.any?
+        %article#tab-teachers.tab-pane
+          #teachers
+            - @teachers.each_with_index do |teacher, index|
+              %div
+                = render partial: 'teachers/teacher', locals: {teacher: teacher}
 
 
   .grid__item.four-twelfths{itemscope: true, itemtype: 'http://schema.org/Place'}>
@@ -125,7 +127,7 @@
 
 
     - if @structure.facebook_url.present?
-      = link_to "Page facebook de l'établissement", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole btn--small push--bottom'
+      = link_to "Page facebook de l'établissement", @structure.facebook_url, target: '_blank', class: 'btn--facebook btn one-whole push--bottom'
 
 
 #course_info.hidden= render 'structures/courses/info_popup'

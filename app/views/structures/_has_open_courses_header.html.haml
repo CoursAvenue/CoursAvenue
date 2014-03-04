@@ -6,10 +6,7 @@
     .grid__item.two-thirds.v-middle>
       %h4.flush.line-height-2
         Cet établissement propose des ateliers gratuits pour les Portes Ouvertes des cours de loisirs
-        - if current_user or current_pro_admin
-          = link_to 'Voir les ateliers', jpo_structure_path(@structure), class: 'btn btn--yellow'
-        - else
-          = link_to 'Voir les ateliers', open_courses_path, class: 'btn btn--yellow'
+        = link_to 'Voir les ateliers', jpo_structure_path(@structure), class: 'btn btn--yellow'
 
 .jpo-frise.push-half--bottom
 

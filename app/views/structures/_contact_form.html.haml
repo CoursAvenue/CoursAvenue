@@ -1,6 +1,11 @@
-- if !current_user and action_name == 'show'
-  - session['user_return_to']              = structure_path(@structure, open_contact_form: true)
-  - session['after_inactive_sign_up_path'] = structure_path(@structure, waiting_for_activation: true)
+- if !current_user
+  - if action_name == 'show'
+    - session['user_return_to']              = structure_path(@structure, open_contact_form: true)
+    - session['after_inactive_sign_up_path'] = structure_path(@structure, waiting_for_activation: true)
+  - elsif action_name == 'jpo'
+    - session['user_return_to']              = jpo_structure_path(@structure)
+    - session['after_inactive_sign_up_path'] = nil
+
 .blue-box.islet.push-half--bottom#show-structure-contact-wrapper
   .delta.push-half--bottom.text--center{style: 'margin-top: 3px;'}
     - if action_name == 'jpo'
@@ -66,7 +71,6 @@
         %div
           %i.fa.fa-external-link
           = link_to @structure.website, @structure.website, target: '_blank', rel: 'nofollow', onclick: "ga('send', 'event', 'Contact structure', 'click', 'website')"
-
 
 = content_for :scripts do
   :javascript

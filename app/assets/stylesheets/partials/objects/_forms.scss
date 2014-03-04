@@ -1,5 +1,8 @@
 .input .chosen-container {
-    width: 100% - $label-width !important;
+    width: 100% - $label-width - 0.5 !important;
+}
+.input.chosen-input .chosen-container {
+    width: 100% !important;
 }
 
 .inline-form {

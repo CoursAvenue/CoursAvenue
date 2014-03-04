@@ -34,6 +34,8 @@
     Plugin.prototype = {
 
         init: function() {
+            // Check if the element has already been initialized before doing the stuff
+            if (this.$element.hasClass('tt-hint')) { return; }
             var geocoder;
             this.input_lat      = $(this.$element.data('lat'));
             this.input_lng      = $(this.$element.data('lng'));
