@@ -102,13 +102,13 @@ class AdminMailer < ActionMailer::Base
     @structure  = structure
     @show_links = true
     @structures = StructureSearch.similar_profile(@structure)
-    mail to: structure.main_contact.email, subject: "Ajoutez un logo à votre profil"
+    mail to: structure.main_contact.email, subject: "Ajoutez un logo ou une photo à votre profil"
   end
 
   def incomplete_profile(structure)
     @structure  = structure
     @show_links = true
-    mail to: structure.main_contact.email, subject: "Votre profil CoursAvenue n'est pas complet"
+    mail to: structure.main_contact.email, subject: "Votre profil pourrait être 7 fois plus visible"
   end
 
   def no_recommendations(structure)

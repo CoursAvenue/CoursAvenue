@@ -1,11 +1,11 @@
 - content_for :logo do
-  = image_tag 'emails_logo/oreille.jpg', style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
+  = image_tag 'emails_logo/clock.png', style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
 
 - content_for :promo do
-  %h4 Remplir votre profil devient un jeu d'enfant !
+  %h4 Remplissez votre profil en 3min : c'est un jeu d'enfant !
 
 %p
-  Saviez-vous que vous pouvez mettre à jour votre profil en quelques clics seulement ? Importez votre logo, invitez vos élèves à vous recommander et le tour est joué !
+  Saviez-vous que vous pouvez mettre à jour votre profil en quelques clics seulement ? Invitez vos élèves à vous recommander, mettez votre description et votre planning à jour et le tour est joué !
 
 %p.action
   = link_to "Compléter mon profil", edit_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
@@ -24,7 +24,9 @@
           %tr{valign: 'top'}
             %td.cell.content-block.push--bottom{width: '300', style: 'padding-right: 0; padding-left: 0;'}
               %p.text--center.soft-half--top
-                Les profils complétés ont 7 fois plus de visites.
+                Les profils complétés ont
+                %br
+                7 fois plus de visites.
 
       %td.cell.content-block{width: '300'}
         %table.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '300'}
