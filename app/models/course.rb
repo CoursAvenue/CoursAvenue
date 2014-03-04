@@ -37,9 +37,12 @@ class Course < ActiveRecord::Base
 
   # default_scope                  -> { where{type != 'Course::Open'} }
 
-  # ------------------------------------------------------------------------------------ Validations
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :type, :name  , presence: true
   validates :subjects     , presence: true
+  validates :name, length: { maximum: 255 }
 
   attr_accessible :name, :type, :description,
                   :active,

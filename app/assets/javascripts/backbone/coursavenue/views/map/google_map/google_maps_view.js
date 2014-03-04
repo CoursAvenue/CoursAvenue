@@ -63,6 +63,8 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             this.lockOnce('map:bounds');
             this.toggleLiveUpdate();
             this.on('marker:focus', this.markerFocus);
+            this.on('marker:hovered', this.markerHovered);
+            this.on('marker:hovered_out', this.markerHoveredOut);
             this.infoBox = new this.infoBoxView();
         },
 
@@ -71,6 +73,15 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
                 this.unlockCurrentMarker();
                 this.hideInfoWindow();
             }
+        },
+
+        markerHoveredOut: function (marker_view) {
+            this.hideInfoWindow();
+        },
+
+        markerHovered: function (marker_view) {
+            this.current_info_marker = marker_view.model.cid;
+            this.showInfoWindow({ model: marker_view.model });
         },
 
         markerFocus: function (marker_view) {
