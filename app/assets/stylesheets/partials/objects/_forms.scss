@@ -96,6 +96,7 @@
         }
 
         .radio {
+            margin-right: 1.5em;
             label, input {
                 display       : inline-block;
                 width         : auto;
@@ -107,7 +108,6 @@
             }
             input {
                 width       : auto;
-                margin-right: 5px;
             }
         }
         &.boolean input {
