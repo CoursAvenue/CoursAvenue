@@ -1,9 +1,0 @@
-= simple_form_for(@admin, :url => registration_path(@admin), html: {class: 'half-form'}) do |f|
-  = f.error_notification
-  .form-inputs
-    = f.input :email, :required => true, :autofocus => true, wrapper_html: {class: 'flush--bottom'}
-    = f.input :password, :required => true, wrapper_html: {class: 'flush--bottom'}
-    %p.field-form-info
-      %span 6 caractères minimum.
-  .form-actions
-    = f.submit 'Renseigner mes cours', class: 'btn btn--orange'
