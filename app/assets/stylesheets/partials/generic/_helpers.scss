@@ -21,6 +21,8 @@
     filter: FlipH; /* IE 6/7/8 */
 }
 
+.push--east { text-align: right; }
+
 .v-top      { vertical-align: top!important; }
 .v-middle   { vertical-align: middle!important; }
 .v-bottom   { vertical-align: bottom!important; }
@@ -72,6 +74,11 @@
 
 
 .width-auto         { width: auto !important; }
+.width-fit-content  {
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: fit-content;
+}
 
 .or {
     border-bottom: 1px solid #CCC;

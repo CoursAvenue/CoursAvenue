@@ -125,7 +125,11 @@ FilteredSearch.addInitializer(function(options) {
         }
     });
 
-    layout.showWidget(keyword_filter);
+    layout.showWidget(keyword_filter, {
+        events: {
+            'filter:subject': 'showChildSubjects'
+        }
+    });
     layout.showWidget(location_filter);
     layout.showWidget(subject_filter);
     layout.showWidget(infinite_scroll_button, { events: { 'structures:updated:infinite_scroll': 'showOrHide' } });

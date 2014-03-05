@@ -33,6 +33,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         modelChanged: function (model) {
             _.each(model.get("grand_children"), this.renderPill);
+
         },
 
         renderPill: function renderPill (grand_child) {

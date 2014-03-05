@@ -15,7 +15,10 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         ui: {
-            '$search_input': '#search-input'
+            '$search_input': '#search-input',
+            '$children': '[data-type=children]',
+            '$grand_children': '[data-type=grand-children]',
+            '$icons': '[data-type=icons-wrapper]'
         },
 
         events: {
@@ -43,15 +46,46 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             });
         },
 
-        onClickOutside: function () {
-            this.$("[data-type=menu]").hide();
-        },
+      //onClickOutside: function () {
+      //    this.$("[data-type=menu]").hide();
+      //},
 
         onItemviewAnnouncedSubject: function (view, data) {
             this.$("[data-type=menu]").hide();
 
             this.ui.$search_input.typeahead("val", data.name);
             this.announce({}, data);
+        },
+
+        // data.subject_id is null when nothing is selected
+        showChildSubjects: function showChildSubjects (data) {
+            if (this.original_icons_width === undefined) {
+                this.original_icons_width = this.ui.$icons.width();
+            }
+
+            this.$("[data-peacock]")
+                    .animate({ left: 0 })
+                    .css({ position: "" })
+                    .removeAttr("data-peacock");
+
+            if (data.subject_id === null) {
+                if (this.original_icons_width !== undefined) {
+                    this.ui.$icons.animate({ width: this.original_icons_width });
+                }
+
+                this.ui.$children.animate({ left: 200 }).css({ left: "" });
+            } else {
+                // slide the rest to the right
+                this.ui.$icons.animate({ width: '100%' });
+
+                // duplicate the icon
+                var icon = this.$("[data-value=" + data.subject_id + "]");
+                icon.css({ position: "absolute" }).animate({ left: -150 });
+                icon.attr("data-peacock", true);
+
+                // slide the child subjects list into view
+                this.ui.$children.animate({ left: 0 });
+            }
         },
 
         activateButton: function activateButton (e) {
