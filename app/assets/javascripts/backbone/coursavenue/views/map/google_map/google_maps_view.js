@@ -66,9 +66,9 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             /* this prevents an infinite loop of map update at the beginning */
             this.lockOnce('map:bounds');
             this.toggleLiveUpdate();
-            this.on('marker:focus', this.markerFocus);
-            this.on('marker:hovered', this.markerHovered);
-            this.on('marker:hovered_out', this.markerHoveredOut);
+            this.on('marker:focus'          , this.markerFocus);
+            this.on('marker:hovered'        , this.markerHovered);
+            this.on('marker:unhighlight:all', this.unhighlightEveryMarker);
             this.infoBox = new this.infoBoxView();
         },
 
@@ -79,12 +79,15 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             }
         },
 
-        markerHoveredOut: function (marker_view) {
-        },
-
         markerHovered: function (marker_view) {
             this.current_info_marker = marker_view.model.cid;
             this.showInfoWindow({ model: marker_view.model.get('structure') });
+        },
+
+        unhighlightEveryMarker: function () {
+            _.each(this.markerViewChildren, function(marker_view) {
+                marker_view.unhighlight()
+            });
         },
 
         markerFocus: function (marker_view) {
@@ -104,7 +107,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             if (this.current_info_marker) {
                 var marker = this.markerViewChildren[this.current_info_marker];
                 marker.setSelectLock(false);
-                marker.toggleHighlight();
+                marker.unhighlight();
             }
         },
 
