@@ -25,7 +25,7 @@
         %div
           %label.inline Choisissez le cours :
           = select_tag "course_id", options_from_collection_for_select(@other_courses, :id, :name)
-          = f.submit 'Valider', class: 'btn btn--green'
+          = f.submit 'Valider', class: 'btn btn--green', disable_with: "En cours de validation"
 
 = simple_form_for [:pro, @structure, @course], url: pro_structure_course_path(@structure, @course), as: :course do |f|
   = f.error_notification
@@ -217,7 +217,7 @@
     = f.input :price_details, wrapper_html: {class: 'flush--bottom'}, input_html: { data: {behavior: 'autoresize' }}
     %p.field-form-info.blue Si vous avez d'autres tarifs, indiquez-les ici.
 
-  = f.submit 'Enregistrer', class: 'btn btn--green btn--full push--bottom'
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full push--bottom', disable_with: "En cours d'enregistrement"
 
 
 - if action_name == 'update'

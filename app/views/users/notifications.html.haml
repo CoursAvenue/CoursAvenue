@@ -26,5 +26,5 @@
           %i Recevez des notifications sur téléphone portable par SMS.
       .grid__item.two-thirds>
         .checkbox-at-left= f.input :sms_opt_in
-    = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement"
 
