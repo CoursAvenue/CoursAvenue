@@ -12,6 +12,7 @@ class PlanningSearch
         group options[:group]
         keywords params[:name] if params[:name].present?
       elsif params[:name].present?
+        # If not groupped, then searching a specific planning, then narrow down to only courses info
         keywords params[:name], fields: [:name, :course_name, :course_subjects_name, :course_description]
       end
 
@@ -23,6 +24,7 @@ class PlanningSearch
       end
 
       all_of do
+        # with :active_structure,  true
         with :active_course, true
 
         with(:start_hour).greater_than_or_equal_to        params[:start_hour].to_i                      if params[:start_hour].present?
@@ -35,7 +37,7 @@ class PlanningSearch
           with(:end_date).greater_than Date.today
         end
 
-        with :structure_id,                   params[:structure_id].to_i                              if params[:structure_id]
+        with :structure_id,        params[:structure_id].to_i                                         if params[:structure_id]
 
         with(:audience_ids).any_of params[:audience_ids]                                              if params[:audience_ids].present?
         with(:level_ids).any_of    params[:level_ids]                                                 if params[:level_ids].present?
