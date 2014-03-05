@@ -90,7 +90,8 @@ gem 'inherited_resources'       , '~>1.3.1'
 gem 'mailboxer'                 , '~> 0.11.0'
 
 # For authorizations
-gem 'cancan'                    , '~>1.6.10'
+gem 'cancancan'                 , '~>1.7.0'
+# gem 'cancan'                    , '~>1.6.10'
 # For authentication
 gem 'devise'                    , '~>3.2.3'
 # Facebook connect
