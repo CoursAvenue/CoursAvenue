@@ -115,17 +115,47 @@ _.extend(Marionette.View.prototype, {
         this._locks[message] = false;
     },
 
-    lockOnce: function (message) {
+    hasLock: function (source, message) {
+        if (source === undefined) return false;
+
+        return this.isLockedOnce(message) && this._once_locks[message].sources[source];
+    },
+
+    // we are preventing a single source from having multiple
+    // locks on a message. If the source locksOnce, then it
+    // should unlock once. Until it unlocks once it won't
+    // be able to request another lock until all locks are
+    // lost
+    lockOnce: function (message, source) {
+        if (this.hasLock(source, message)) {
+            return;
+        }
+
+        if (source === undefined) {
+            source = "app";
+        }
+
         if (this._once_locks[message] === undefined) {
-            this._once_locks[message] = { count: 0 };
+            this._once_locks[message] = { count: 0, sources: {} };
         }
 
         this._once_locks[message].count += 1;
+        this._once_locks[message].sources[source] = true;
     },
 
-    unlockOnce: function (message) {
+    // we need to remove the source if it is provided, or if there
+    // are no more locks. Named locks can only be removed if the source
+    // is provided
+    unlockOnce: function (message, source) {
+
         if (this.isLockedOnce(message)) {
-            this._once_locks[message].count -= 1;
+            if (this._once_locks[message].count > 0) {
+                this._once_locks[message].count -= 1;
+            }
+
+            if (source !== undefined) {
+                delete this._once_locks[message].sources[source];
+            }
         }
     },
 
@@ -133,8 +163,10 @@ _.extend(Marionette.View.prototype, {
         return this._locks[message] || this.isLockedOnce(message);
     },
 
+    // the message is still once locked as long as it has some sources
     isLockedOnce: function (message) {
-        return this._once_locks[message] && this._once_locks[message].count > 0;
+
+        return this._once_locks[message] && (this._once_locks[message].count > 0 || _.keys(this._once_locks[message].sources).length - 1 > 0);
     }
 });
 

@@ -60,6 +60,10 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             /* add listeners, but ignore the first bounds change */
             google.maps.event.addListener(this.map, 'click', _.bind(this.onItemviewCloseClick, this));
             google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
+            google.maps.event.addListener(this.map, 'dragend', function() { this.unlockOnce('map:bounds', 'showInfoWindow'); }.bind(this));
+
+            /* we are locking the map bounds event once, so the next time it triggers the trigger will be ignored */
+            /* this prevents an infinite loop of map update at the beginning */
             this.lockOnce('map:bounds');
             this.toggleLiveUpdate();
             this.on('marker:focus', this.markerFocus);
@@ -76,7 +80,6 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         markerHoveredOut: function (marker_view) {
-            this.hideInfoWindow();
         },
 
         markerHovered: function (marker_view) {
@@ -117,6 +120,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         toggleLiveUpdate: function () {
+            console.log("toggleLiveUpdate");
             /* set or remove a listener */
             if (this.update_live) {
                 this.unlock('map:bounds');
@@ -255,7 +259,10 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             var content = view.model;
 
             this.infoBox.setContent(content);
-            this.lockOnce('map:bounds');
+
+            /* when the info window shows, it may cause the map to adjust. If this happens,
+             * we don't want the map bounds to fire so we ignore it once */
+            this.lockOnce('map:bounds', 'showInfoWindow');
             this.infoBox.open(marker.map, marker.gOverlay);
         },
 
