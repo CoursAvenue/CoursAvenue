@@ -1,12 +1,11 @@
 # encoding: utf-8
 class Pro::Structures::CoursesController < Pro::ProController
+  layout 'admin'
+
   before_action :authenticate_pro_admin!
   before_action :load_structure
 
-  layout 'admin'
-
   load_and_authorize_resource :structure, find_by: :slug
-  load_and_authorize_resource :course, find_by: :slug, instance_name: :course
 
   def new
     @course = @structure.courses.build
@@ -100,6 +99,7 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def update
+    @course = Course.friendly.find params[:id]
     had_price_before = @course.prices.any?
     respond_to do |format|
       if @course.update_attributes params[:course]
@@ -127,6 +127,7 @@ class Pro::Structures::CoursesController < Pro::ProController
   end
 
   def destroy
+    @course = Course.friendly.find params[:id]
     respond_to do |format|
       if @course.destroy
         format.html { redirect_to pro_structure_courses_path(@structure), notice: "Le cours a bien été supprimé" }
