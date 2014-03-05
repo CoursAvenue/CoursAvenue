@@ -8,12 +8,11 @@ class PlanningSearch
     # Encode name in UTF8 as it can be submitted by the user and can be bad
     params[:name].force_encoding("UTF-8") if params[:name].present?
     @search = Sunspot.search(Planning) do
-      if options[:group]
+      if options[:group].present?
         group options[:group]
-        keywords params[:name] if params[:name].present?
-      elsif params[:name].present?
-        # If not groupped, then searching a specific planning, then narrow down to only courses info
-        keywords params[:name], fields: [:name, :course_name, :course_subjects_name, :course_description]
+      end
+      if params[:name].present?
+        fulltext params[:name]
       end
 
       # --------------- Geolocation

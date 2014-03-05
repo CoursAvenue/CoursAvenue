@@ -136,15 +136,9 @@ class Planning < ActiveRecord::Base
       self.course.description
     end
 
-    # ----------------------- Strcuture specific info
     text :name, boost: 5 do
       self.structure.name
     end
-
-    text :course_names do
-      self.structure.courses.map(&:name)
-    end
-
 
     integer :subject_ids, multiple: true do
       subject_ids = []
