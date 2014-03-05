@@ -81,7 +81,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         markerHovered: function (marker_view) {
             this.current_info_marker = marker_view.model.cid;
-            this.showInfoWindow({ model: marker_view.model });
+            this.showInfoWindow({ model: marker_view.model.get('structure') });
         },
 
         markerFocus: function (marker_view) {
