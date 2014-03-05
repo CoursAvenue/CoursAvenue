@@ -66,8 +66,9 @@ class Pro::Structures::CoursesController < Pro::ProController
 
   def disable
     @course = Course.friendly.find params[:id]
+    @course.active = false
     respond_to do |format|
-      if @course.update_attribute :active, false
+      if @course.save
         if @course.is_open?
           format.js { render nothing: true }
           format.html { redirect_to pro_open_courses_path, notice: 'Le cours a bien été activé' }

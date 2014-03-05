@@ -45,8 +45,6 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         mapEvents: {
             'mouseover': 'highlight',
             'mouseout':  'unhighlight'
-            // 'mouseover': 'toggleHighlight',
-            // 'mouseout':  'toggleHighlight'
         },
 
         markerSelected: function (e) {
@@ -57,15 +55,16 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
         /* a highlighted marker needs to be different from the rest */
         unhighlight: function () {
-            this.trigger('hovered_out', { model: this.model });
             if (!this.select_lock) {
                 this.$el.removeClass('active');
             }
         },
 
         /* a highlighted marker needs to be different from the rest */
-        highlight: function () {
-            this.trigger('hovered', { model: this.model });
+        highlight: function (parameters) {
+            parameters = parameters || {};
+            if (parameters.show_info_box) { this.trigger('hovered', { model: this.model }); }
+            this.trigger('unhighlight:all');
             if (!this.select_lock) {
                 this.$el.addClass('active');
             }

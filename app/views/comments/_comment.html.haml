@@ -8,13 +8,10 @@
     .grid--full
       .grid__item.two-twelfths.text--center>
         - if show_structure_logo
-          - if comment.structure.logo?
-            = image_tag comment.structure.logo.url(:thumb), height: (small_avatar ? 30 : 60)
+          = image_tag comment.structure.logo.url(:thumb), height: (small_avatar ? 30 : 60)
         - else
-          - if comment.user and comment.user.has_avatar?
+          - if comment.user
             = image_tag comment.user.avatar_url(:small), height: (small_avatar ? 30 : 60)
-          - else
-            = image_tag 'icons/avatar.png', height: (small_avatar ? 30 : 60)
       .grid__item.ten-twelfths>
         - # User can share if:
         - #   - comment is accepted
