@@ -3,6 +3,11 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
     Module.SubjectView = Backbone.Marionette.ItemView.extend({
         template: Module.templateDirname() + 'subject_view',
+        pill: Handlebars.compile('<a class="inline-block very-soft hard--ends rounded--double f-decoration-not-underlined hl-orange pointer nowrap" data-subject={{slug}}>{{name}}</a>'),
+
+        initialize: function () {
+            _.bindAll(this, "renderPill");
+        },
 
         attributes: function () {
             var id = "tab-" + this.model.get("slug");
@@ -20,6 +25,25 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
 
         events: {
             'click [data-subject]': 'announceSubject'
+        },
+
+        modelEvents: {
+            'change': 'modelChanged'
+        },
+
+        modelChanged: function (model) {
+            _.each(model.get("grand_children"), this.renderPill);
+        },
+
+        renderPill: function renderPill (grand_child) {
+            var data = {
+                name: grand_child.name,
+                slug: grand_child.slug
+            };
+
+            var pill = $(Marionette.Renderer.render(this.pill, data));
+
+            pill.appendTo(this.$el);
         },
 
         announceSubject: function announceSubject (e) {
