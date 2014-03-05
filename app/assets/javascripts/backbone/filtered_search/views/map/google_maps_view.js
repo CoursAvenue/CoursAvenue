@@ -60,7 +60,7 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
                         marker.unhighlight();
                     } else {
                         marker.excite();
-                        marker.highlight({show_info_box: false});
+                        marker.highlight({show_info_box: false, unhighlight_all: false});
                     }
                 }
             });

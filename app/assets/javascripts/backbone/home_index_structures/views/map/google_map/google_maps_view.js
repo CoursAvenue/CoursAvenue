@@ -59,7 +59,7 @@ HomeIndexStructures.module('Views.Map.GoogleMap', function(Module, App, Backbone
                         marker.calm();
                     } else {
                         marker.excite();
-                        marker.highlight({show_info_box: false});
+                        marker.highlight({show_info_box: false, unhighlight_all: false});
                     }
                 }
             });
