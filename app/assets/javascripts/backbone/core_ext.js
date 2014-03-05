@@ -128,8 +128,6 @@ _.extend(Marionette.View.prototype, {
      * the lock.
      * */
     lock: function (message, source) {
-        console.log("in lock -- %o, %o", message, source);
-
         if (this.hasLock(source, message)) {
             return;
         }
@@ -152,8 +150,6 @@ _.extend(Marionette.View.prototype, {
      * Otherwise it only decrements the count of implicit locks.
      * */
     unlock: function (message, source) {
-        console.log("in unlock -- %o, %o", message, source);
-
         if (this.isLocked(message)) {
 
             if (source !== undefined) {
