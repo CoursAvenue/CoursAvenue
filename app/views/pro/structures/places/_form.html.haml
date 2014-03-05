@@ -2,7 +2,8 @@
   = simple_form_for [:pro, @structure, @place] do |f|
     = f.error_notification
 
-    %input{type: 'hidden', value: params[:from], name: 'from'}
+    - if params[:return_to].present?
+      %input{type: 'hidden', value: params[:return_to], name: 'from'}
 
     %h5.form-header-group Adresse
     .form-white-box
