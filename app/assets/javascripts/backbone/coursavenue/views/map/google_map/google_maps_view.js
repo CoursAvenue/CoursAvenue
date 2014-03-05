@@ -60,11 +60,11 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
             /* add listeners, but ignore the first bounds change */
             google.maps.event.addListener(this.map, 'click', _.bind(this.onItemviewCloseClick, this));
             google.maps.event.addListener(this.map, 'bounds_changed', _.debounce(this.announceBounds, 500));
-            google.maps.event.addListener(this.map, 'dragend', function() { this.unlockOnce('map:bounds', 'showInfoWindow'); }.bind(this));
+            google.maps.event.addListener(this.map, 'dragend', function() { this.unlock('map:bounds', 'showInfoWindow'); }.bind(this));
 
             /* we are locking the map bounds event once, so the next time it triggers the trigger will be ignored */
             /* this prevents an infinite loop of map update at the beginning */
-            this.lockOnce('map:bounds');
+            this.lock('map:bounds');
             this.toggleLiveUpdate();
             this.on('marker:focus', this.markerFocus);
             this.on('marker:hovered', this.markerHovered);
@@ -120,12 +120,11 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
         },
 
         toggleLiveUpdate: function () {
-            console.log("toggleLiveUpdate");
             /* set or remove a listener */
             if (this.update_live) {
-                this.unlock('map:bounds');
+                this.unlock('map:bounds', 'toggleLiveUpdate');
             } else {
-                this.lock('map:bounds');
+                this.lock('map:bounds', 'toggleLiveUpdate');
             }
         },
 
@@ -262,7 +261,7 @@ CoursAvenue.module('Views.Map.GoogleMap', function(Module, App, Backbone, Marion
 
             /* when the info window shows, it may cause the map to adjust. If this happens,
              * we don't want the map bounds to fire so we ignore it once */
-            this.lockOnce('map:bounds', 'showInfoWindow');
+            this.lock('map:bounds', 'showInfoWindow');
             this.infoBox.open(marker.map, marker.gOverlay);
         },
 

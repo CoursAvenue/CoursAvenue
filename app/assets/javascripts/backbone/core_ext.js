@@ -84,9 +84,25 @@ _.extend(Marionette.Module.prototype, {
 var _trigger = Marionette.View.prototype.trigger;
 
 /* event locking for our evented Marionette party party */
+/* this is kind of complicated a little. There are two kinds of
+* locks, explicit and implicit. Lock can be called like,
+*
+*   this.lock("event:name"); // creates an implicit lock
+*   this.lock("event:name", "method_name"); // explicit lock
+*
+* The implicit lock for each event has a count, which is incremented
+* or decremented whenever lock or unlock is called with one argument.
+* When they are called with an extra argument, this creates a named
+* lock idempotently. The named lock can only be removed by calling
+* unlock with two arguments.
+*
+* So, if three methods call lock('event'), then the given event
+* will be ignored until it has been triggered three times. If
+* lock('event', 'bob') is called, then the given event will be ignored
+* until unlock('event', 'bob') is called.
+*   */
 _.extend(Marionette.View.prototype, {
     _locks: {},
-    _once_locks: {},
 
     trigger: function () {
         var args = Array.prototype.slice.call(arguments);
@@ -101,72 +117,64 @@ _.extend(Marionette.View.prototype, {
         if (! this.isLocked(message)) {
             _trigger.apply(this, args);
         } else {
-            this.unlockOnce(message);
+            this.unlock(message);
         }
 
         return this;
     },
 
-    lock: function (message) {
-        this._locks[message] = true;
+    /* @param message is the name of an event to be ignored
+     * @param source is the name of a method that created
+     * the lock.
+     * */
+    lock: function (message, source) {
+        console.log("in lock -- %o, %o", message, source);
+
+        if (this.hasLock(source, message)) {
+            return;
+        }
+
+        if (this._locks[message] === undefined) {
+            this._locks[message] = { count: 0, sources: {} };
+        }
+
+        if (source !== undefined) {
+            this._locks[message].sources[source] = true;
+        } else {
+            this._locks[message].count += 1;
+        }
     },
 
-    unlock: function (message) {
-        this._locks[message] = false;
+    /* @param message the name of an event to stop ignoring
+     * @param source the name of an explicit event.
+     *
+     * If source is provided, this event removes that lock.
+     * Otherwise it only decrements the count of implicit locks.
+     * */
+    unlock: function (message, source) {
+        console.log("in unlock -- %o, %o", message, source);
+
+        if (this.isLocked(message)) {
+
+            if (source !== undefined) {
+                delete this._locks[message].sources[source];
+            } else {
+                if (this._locks[message].count > 0) {
+                    this._locks[message].count -= 1;
+                }
+            }
+        }
     },
 
     hasLock: function (source, message) {
         if (source === undefined) return false;
 
-        return this.isLockedOnce(message) && this._once_locks[message].sources[source];
-    },
-
-    // we are preventing a single source from having multiple
-    // locks on a message. If the source locksOnce, then it
-    // should unlock once. Until it unlocks once it won't
-    // be able to request another lock until all locks are
-    // lost
-    lockOnce: function (message, source) {
-        if (this.hasLock(source, message)) {
-            return;
-        }
-
-        if (source === undefined) {
-            source = "app";
-        }
-
-        if (this._once_locks[message] === undefined) {
-            this._once_locks[message] = { count: 0, sources: {} };
-        }
-
-        this._once_locks[message].count += 1;
-        this._once_locks[message].sources[source] = true;
-    },
-
-    // we need to remove the source if it is provided, or if there
-    // are no more locks. Named locks can only be removed if the source
-    // is provided
-    unlockOnce: function (message, source) {
-
-        if (this.isLockedOnce(message)) {
-            if (this._once_locks[message].count > 0) {
-                this._once_locks[message].count -= 1;
-            }
-
-            if (source !== undefined) {
-                delete this._once_locks[message].sources[source];
-            }
-        }
+        return this.isLocked(message) && this._locks[message].sources[source];
     },
 
     isLocked: function (message) {
-        return this._locks[message] || this.isLockedOnce(message);
-    },
 
-    // the message is still once locked as long as it has some sources
-    isLockedOnce: function (message) {
-
-        return this._once_locks[message] && (this._once_locks[message].count > 0 || _.keys(this._once_locks[message].sources).length - 1 > 0);
+        return this._locks[message] && (this._locks[message].count > 0 || _.keys(this._locks[message].sources).length > 0);
     }
 });
 
