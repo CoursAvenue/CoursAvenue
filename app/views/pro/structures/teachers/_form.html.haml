@@ -14,7 +14,7 @@
   .visuallyhidden= f.input :delete_image, as: :boolean, label: false, id: 'teacher_delete_image'
   = f.input :name
   = f.input :description, input_html: {'data-behavior' => 'autoresize'}
-  = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement"
 
 
 :javascript

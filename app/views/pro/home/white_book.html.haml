@@ -8,35 +8,37 @@
     %h1.text--center.flush
       Livres Blancs
 
-  .main-container.soft
-    %p.delta.flush.line-height-normal.f-weight-300
-      Internet et les nouvelles technologies sont une réelle opportunité pour gagner en visibilité et pour développer votre activité. C'est aussi un très bon moyen pour mieux connaître vos points forts et relayer votre bouche à oreille à un maximum d'élèves intéressés par les disciplines que vous pratiquez. Pour vous aider à en tirer parti, nous vous proposons de télécharger nos Livres Blancs, réalisé avec le concours de tous nos partenaires : élèves, mais aussi associations, écoles, professeurs et experts des cours de loisirs.
   .home-screen-promotion-wrapper.soft
-    .main-container.f-weight-300.epsilon
-      .grid
-        .grid__item.one-third
-          %h3 Avis des internautes
-        .grid__item.two-thirds>
-          %h5.push-half--top Comment considérer les avis des Internautes sur les cours de loisirs ?
-          %p
-            Les élèves ne s'inscrivent plus à un cours en fonction de l'argumentation du professeur, de l'association ou de l'école. Ils le font aussi et surtout à la lecture des avis publiés sur la toile. Cette étude est une immersion dans l'univers des avis de "consommateurs" de cours de loisirs. Elle vous donnera toutes les clés pour mieux comprendre les enjeux du bouche à oreille sur Internet, mais aussi pour comprendre les règles à respecter pour le développer efficacement et sans risque pour votre image.
+    .main-container
+      %p.delta.flush.line-height-normal.f-weight-300
+        Internet et les nouvelles technologies sont une réelle opportunité pour gagner en visibilité et pour développer votre activité. C'est aussi un très bon moyen pour mieux connaître vos points forts et relayer votre bouche à oreille à un maximum d'élèves intéressés par les disciplines que vous pratiquez. Pour vous aider à en tirer parti, nous vous proposons de télécharger nos Livres Blancs, réalisé avec le concours de tous nos partenaires : élèves, mais aussi associations, écoles, professeurs et experts des cours de loisirs.
 
-          .push-half--bottom.blue
-            .text--center.delta.f-weight-bold
-              « Internet fonctionne comme un accélérateur du bouche à oreille ».
-            .text--right.f-weight-400
-              Cahier de recherche réalisé par le CRÉDOC,
-              %br
-              (Centre de Recherche pour l'Etude et l'Observation des Conditions de Vie)
+  .main-container.f-weight-300.epsilon.soft
+    .grid
+      .grid__item.one-third
+        %h1.f-weight-100 Avis des internautes
+        = image_tag 'emails_logo/white_book.png', alt: 'CoursAvenue', height: 130, width: 100, style: '-ms-interpolation-mode:bicubic;', class: 'block'
+      .grid__item.two-thirds>
+        %h5.push-half--top Comment considérer les avis des Internautes sur les cours de loisirs ?
+        %p
+          Les élèves ne s'inscrivent plus à un cours en fonction de l'argumentation du professeur, de l'association ou de l'école. Ils le font aussi et surtout à la lecture des avis publiés sur la toile. Cette étude est une immersion dans l'univers des avis de "consommateurs" de cours de loisirs. Elle vous donnera toutes les clés pour mieux comprendre les enjeux du bouche à oreille sur Internet, mais aussi pour comprendre les règles à respecter pour le développer efficacement et sans risque pour votre image.
 
-          %p
-            Téléchargez notre étude exclusive réalisée avec l'aide de plus de 500 associations, écoles, professeurs et élèves. Vous trouverez toutes les réponses à vos interrogations :
+        .push-half--bottom.blue
+          .text--center.delta.f-weight-bold
+            « Internet fonctionne comme un accélérateur du bouche à oreille ».
+          .text--right.f-weight-400
+            Cahier de recherche réalisé par le CRÉDOC,
+            %br
+            (Centre de Recherche pour l'Etude et l'Observation des Conditions de Vie)
 
-          %ul
-            %li Pourquoi développer son bouche à oreille sur Internet
-            %li Comment solliciter ses élèves et les valoriser sans toutefois les déranger
-            %li Comment faire de son réseau un vecteur efficace de son développement
-            %li Comment garder la maîtrise de son bouche à oreille
+        %p
+          Téléchargez notre étude exclusive réalisée avec l'aide de plus de 500 associations, écoles, professeurs et élèves. Vous trouverez toutes les réponses à vos interrogations :
 
-          .text--center
-            = link_to 'Télécharger gratuitement', 'https://s3-eu-west-1.amazonaws.com/coursavenue-public/livres-blancs/Livre_Blanc_avis_CoursAvenue_RMars2014.pdf', class: 'btn btn--green btn--large', target: :_blank
+        %ul
+          %li Pourquoi développer son bouche à oreille sur Internet
+          %li Comment solliciter ses élèves et les valoriser sans toutefois les déranger
+          %li Comment faire de son réseau un vecteur efficace de son développement
+          %li Comment garder la maîtrise de son bouche à oreille
+
+        .text--center
+          = link_to 'Télécharger gratuitement', 'https://s3-eu-west-1.amazonaws.com/coursavenue-public/livres-blancs/Livre_Blanc_avis_CoursAvenue_RMars2014.pdf', class: 'btn btn--green btn--large', target: :_blank

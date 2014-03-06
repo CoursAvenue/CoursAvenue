@@ -28,10 +28,7 @@
     - @users.each do |user|
       %tr
         %td.text--center
-          - if user and user.has_avatar?
-            = image_tag user.avatar_url(:small), height: 40
-          - elsif user.name.present?
-            = image_tag 'icons/avatar.png', height: 40
+          = image_tag user.avatar_url(:small), height: 40
         %td
           = user.name
           = link_to "(#{user.email})", "mailto:#{user.email}"

@@ -84,10 +84,9 @@ class AdminMailer < ActionMailer::Base
     @show_links = true
     mail to: @structure.main_contact.email, subject: "Vous avez accès à votre livre d'or"
   end
-
-  # ---------------------------------------------
-  # ----------------------------------------- End
-  # ---------------------------------------------
+  ######################################################################
+  # The End                                                            #
+  ######################################################################
 
   ######################################################################
   # Monday email / based on email_status                               #
@@ -102,25 +101,25 @@ class AdminMailer < ActionMailer::Base
     @structure  = structure
     @show_links = true
     @structures = StructureSearch.similar_profile(@structure)
-    mail to: structure.main_contact.email, subject: "Ajoutez un logo à votre profil"
+    mail to: structure.main_contact.email, subject: "Ajoutez un logo ou une photo à votre profil"
   end
 
   def incomplete_profile(structure)
     @structure  = structure
     @show_links = true
-    mail to: structure.main_contact.email, subject: "Votre profil CoursAvenue n'est pas complet"
+    mail to: structure.main_contact.email, subject: "Votre profil pourrait être 7 fois plus visible"
   end
 
   def no_recommendations(structure)
     @structure  = structure
     @show_links = true
-    mail to: structure.main_contact.email, subject: 'Vos élèves ne vous ont pas encore recommandé sur CoursAvenue'
+    mail to: structure.main_contact.email, subject: 'Votre bouche à oreille sur Internet augmente votre visibilité'
   end
 
   def less_than_five_recommendations(structure)
     @structure  = structure
     @show_links = true
-    mail to: structure.main_contact.email, subject: 'Vous avez moins de 5 recommandations sur CoursAvenue'
+    mail to: structure.main_contact.email, subject: 'Dépassez les 5 avis et multipliez par 7 votre visibilité'
   end
 
   def planning_outdated(structure)
@@ -132,12 +131,11 @@ class AdminMailer < ActionMailer::Base
   def less_than_fifteen_recommendations(structure)
     @structure  = structure
     @show_links = true
-    mail to: structure.main_contact.email, subject: 'Vous avez moins de 15 recommandations sur CoursAvenue'
+    mail to: structure.main_contact.email, subject: 'Dépassez les 15 avis et apparaissez en tête de liste'
   end
-
-  # ---------------------------------------------
-  # Monday email / based on email_status
-  # ---------------------------------------------
+  ######################################################################
+  # The End                                                            #
+  ######################################################################
 
   def ask_for_deletion(comment)
     @comment   = comment

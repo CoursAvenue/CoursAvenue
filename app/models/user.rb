@@ -77,7 +77,6 @@ class User < ActiveRecord::Base
   has_attached_file :avatar,
                     styles: { wide: '800x800#', normal: '450x', thumb: '200x200#', small: '100x100#', mini: '40x40#' }#,
 
-
   # Creates a user from Facebook
   #
   # @param  auth [type] [description]
@@ -303,6 +302,47 @@ class User < ActiveRecord::Base
 
   def facebook_registered?
     self.oauth_token.present?
+  end
+
+  ######################################################################
+  # Fox exporting user to csv                                          #
+  ######################################################################
+  def subjects_for_csv
+    roots = []
+    if comments.any?
+      comments.map do |comment|
+        roots += comment.subjects.roots
+      end
+    end
+    if roots.empty?
+      structures.map do |structure|
+        roots += structure.subjects.roots
+      end
+    end
+    subjects_to_array_for_csv roots.uniq.map(&:name)
+  end
+
+  @@roots_subjects = ["Culture, Sciences & Nature", "Business & Informatique", "Cuisine & Vins", "Musique & Chant", "Photo & Vidéo", "Déco, Mode & Bricolage", "Langues & Soutien scolaire", "Yoga, Bien-être & Santé", "Sports & Arts martiaux", "Danse", "Dessin, Peinture & Arts", "Théâtre & Scène"]
+  def subjects_to_array_for_csv(user_subjects)
+    @@roots_subjects.map do |subject|
+      if user_subjects.include?(subject)
+        subject
+      else
+        nil
+      end
+    end
+  end
+
+  def zip_code_for_csv
+    structures.map(&:places).flatten.map(&:zip_code).join(', ')
+  end
+
+  def self.to_csv
+    CSV.generate col_sep: ';' do |csv|
+      all.each do |user|
+        csv << [user.email] + user.subjects_for_csv + [user.zip_code_for_csv]
+      end
+    end
   end
 
   private

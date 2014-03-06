@@ -48,7 +48,9 @@ class StructureSearch
 
       with :active,  true
 
-      with :has_logo   ,  params[:has_logo]    if params[:has_logo].present?
+      with :has_logo,                params[:has_logo]                           if params[:has_logo].present?
+
+      with(:nb_comments).greater_than params[:nb_comments].to_i                     if params[:nb_comments].present?
 
       order_by :has_admin, :desc
       order_by :has_logo, :desc
@@ -84,6 +86,7 @@ class StructureSearch
       @structures << StructureSearch.search({lat: structure.latitude,
                                             lng: structure.longitude,
                                             radius: 10,
+                                            nb_comments: 4,
                                             sort: 'rating_desc',
                                             has_logo: true,
                                             per_page: limit,
@@ -96,6 +99,7 @@ class StructureSearch
       @structures << StructureSearch.search({lat: structure.latitude,
                                             lng: structure.longitude,
                                             radius: 500,
+                                            nb_comments: 4,
                                             sort: 'rating_desc',
                                             has_logo: true,
                                             per_page: (limit - @structures.length)

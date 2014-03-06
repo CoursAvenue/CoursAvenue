@@ -6,4 +6,4 @@
 
   %p= f.input :password
   %p= f.input :password_confirmation
-  = f.submit t("devise.invitations.edit.submit_button"), class: 'btn btn--orange'
+  = f.submit t("devise.invitations.edit.submit_button"), class: 'btn btn--orange', disable_with: "En cours d'enregistrement"

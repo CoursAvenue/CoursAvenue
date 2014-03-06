@@ -86,7 +86,7 @@ GEM
     builder (3.1.4)
     bust_rails_etags (0.0.5)
     callsite (0.0.11)
-    cancan (1.6.10)
+    cancancan (1.7.0)
     carrierwave (0.9.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -469,7 +469,7 @@ DEPENDENCIES
   brakeman (~> 2.3.1)
   bugsnag
   bust_rails_etags
-  cancan (~> 1.6.10)
+  cancancan (~> 1.7.0)
   certified (~> 0.1.1)
   coffee-rails (~> 4.0.0)
   compass (~> 0.12.2)

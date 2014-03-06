@@ -7,7 +7,7 @@
     .inline-block
       = f.input :place_id , as: :select, collection: @structure.places, label_method: lambda {|place| place.location.name}, include_blank: false, label: false, wrapper_html: { class: 'flush' }
     .inline-block
-      = link_to new_pro_structure_place_path(@structure, from: request.fullpath) do
+      = link_to new_pro_structure_place_path(@structure, return_to: request.fullpath) do
         &nbsp;
         %i.fa.fa-map-marker
         Ajouter un lieu

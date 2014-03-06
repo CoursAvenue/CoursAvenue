@@ -55,12 +55,12 @@ FilteredSearch.module('Views.Map', function(Module, App, Backbone, Marionette, $
 
                 // Prevent from undefined
                 if (marker) {
-                    marker.toggleHighlight();
-
                     if (marker.isHighlighted()) {
-                        marker.excite();
-                    } else {
                         marker.calm();
+                        marker.unhighlight();
+                    } else {
+                        marker.excite();
+                        marker.highlight({show_info_box: false, unhighlight_all: false});
                     }
                 }
             });

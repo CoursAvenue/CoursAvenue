@@ -25,8 +25,4 @@
       = image_tag 'emails_logo/door.png', alt: 'CoursAvenue', height: '50', style: '-ms-interpolation-mode:bicubic;', width: '50'
     %td.v-middle.cell.content-block.push--bottom{width: '250', style: 'padding-right: 0; padding-left: 0;'}
       %p.flush--bottom
-        Participation à nos Journées Portes Ouvertes (avril 2014)
-  %tr{valign: 'top'}
-    %td.cell.content-block{width: '600', colspan: '4', style: 'padding-bottom: 0'}
-      %p.action.flush--top
-        = link_to 'Envoyer ma demande de recommandations', recommendations_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--blue'
+        = link_to 'Participation à nos Portes Ouvertes', pro_pages_jpo_url(subdomain: 'pro')
