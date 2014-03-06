@@ -58,6 +58,8 @@
               = tab[:name]
 
     .tabs--container
+      .bg-blue.one-whole.push-half--top.very-soft.white.soft--sides{ data: { view: 'EventTemplate', for: 'CoursesAnnounce', template: 'CoursesSummary' }}
+
       %article.tab-pane.active
         .white-box.islet
           - @model.courses.each_with_index do |course, index|
