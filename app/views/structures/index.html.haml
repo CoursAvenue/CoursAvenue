@@ -9,10 +9,10 @@
 
 
 :javascript
-  window.coursavenue = window.coursavenue || {};
-  var default_subject       = #{ SubjectSerializer.new(Subject.stars.first).to_json };
-  var subjects = #{ Subject.stars.to_json };
-  subjects[0] = default_subject;
+  window.coursavenue  = window.coursavenue || {};
+  var default_subject = #{ SubjectSerializer.new(Subject.stars.first).to_json };
+  var subjects        = #{ Subject.stars.to_json };
+  subjects[0]         = default_subject;
 
   window.coursavenue.bootstrap = {
     options: {

@@ -95,6 +95,17 @@ class SubjectsController < ApplicationController
     end
   end
 
+  # Returns all descendants at depth 2
+  #
+  # @return
+  def depth_2
+    @subject  = Subject.find params[:id]
+    @subjects = @subject.descendants.at_depth(2)
+    respond_to do |format|
+      format.json { render json: @subjects.to_json }
+    end
+  end
+
   def descendants
     @descendants = get_descendants params
     respond_to do |format|

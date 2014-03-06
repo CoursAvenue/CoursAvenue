@@ -18,7 +18,8 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             '$search_input': '#search-input',
             '$grand_children': '[data-type=grand-children]',
             '$buttons': '[data-type=button]',
-            '$icons': '[data-type=button] img'
+            '$icons': '[data-type=button] img',
+            '$menu': '[data-type=menu]'
         },
 
         events: {
@@ -51,15 +52,20 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
          * the modal menu.
          */
         onClickOutside: function onClickOutside (e) {
-            if ($(e.target).data("type") === "button" || $(["data-type=button"]).find(e.target)) {
+            // So the question is, why that?
+            // `$('[data-type=button]').find('.' + e.target.className.split(' ').join('.'))`
+            // Because that :
+            // `$('[data-type=button]').find(e.target)`
+            // Does not work. Probably because `$('[data-type=button]')` refers to too many elements
+            if ($(e.target).data("type") === "button" || $('[data-type=button]').find('.' + e.target.className.split(' ').join('.')).length > 0) {
                 return;
             }
 
-            this.$("[data-type=menu]").hide();
+            this.ui.$menu.hide();
         },
 
         onItemviewAnnouncedSubject: function onItemviewAnnouncedSubject (view, data) {
-            this.$("[data-type=menu]").hide();
+            this.ui.$menu.hide();
 
             this.ui.$search_input.typeahead("val", data.name);
             this.announce({}, data);
@@ -120,7 +126,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         showMenu: function showMenu () {
-            this.$("[data-type=menu]").show();
+            this.ui.$menu.show();
         },
 
         announce: function announce (event, data) {
