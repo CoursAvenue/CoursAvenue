@@ -74,7 +74,7 @@
 .map-marker {
     display         : inline-block;
     padding         : 2px 5px;
-    background-color: $brand-color;
+    background-color: $orange;
     border          : solid 1px darken($brand-color, 10%);
     text-align      : center;
     min-width       : 1.3em;
@@ -82,5 +82,4 @@
     font-size       : 12px;
     &, a {color: white;}
     @include border-radius($brand-round);
-    @include background-image(linear-gradient(top, $btn-primary-background-highlight, $btn-primary-background));
 }
