@@ -6,16 +6,30 @@
   %thead
     %tr
       %th Email
+      %th De
+      %th À
       %th Type
-      -# %th Structure
       %th S'est créé un compte
+      %th Date
   %tbody
     - @invited_users.each do |invited_teacher|
       %tr
-        %th= invited_teacher.email
-        %th= invited_teacher.type
-        -# %th= link_to invited_teacher.structure.name, pro_structure_path(invited_teacher.structure)
-        %th
+        %td= invited_teacher.email
+        %td.nowrap
+          - if invited_teacher.referrer_type == 'User'
+            Élève
+            (#{invited_teacher.referrer.email})
+          - else
+            Prof
+            (#{invited_teacher.referrer.contact_email})
+        %td.nowrap
+          - if invited_teacher.type == 'InvitedUser::Student'
+            Élève
+          - else
+            Prof
+
+        %td= invited_teacher.for
+        %td
           - if invited_teacher.registered?
             %i.fa.fa-check
-
+        %td= l(invited_teacher.created_at, format: :date)
