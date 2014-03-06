@@ -106,8 +106,8 @@ Daedalus.module('Views.Composite', function(Module, App, Backbone, Marionette, $
         options.itemView            = ItemView;
         options.itemViewEventPrefix = "";
 
-        if (App.Views[_.capitalize(composite_module)] && App.Views[_.capitalize(composite_module)][_.capitalize(composite_module)]) {
-            Composite = App.Views[_.capitalize(composite_module)][_.capitalize(composite_module)];
+        if (App.Views[_.capitalize(resources)] && App.Views[_.capitalize(resources)][_.capitalize(resources)]) {
+            Composite = App.Views[_.capitalize(resources)][_.capitalize(resources)];
         }
 
         return new Composite(options);
