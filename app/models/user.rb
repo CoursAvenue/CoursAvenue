@@ -313,7 +313,8 @@ class User < ActiveRecord::Base
       comments.map do |comment|
         roots += comment.subjects.roots
       end
-    else
+    end
+    if roots.empty?
       structures.map do |structure|
         roots += structure.subjects.roots
       end
