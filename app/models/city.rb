@@ -1,16 +1,22 @@
 # encoding: utf-8
 class City < ActiveRecord::Base
-
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
+
+  ######################################################################
+  # Relations                                                          #
+  ######################################################################
+  has_many :lived_places
+  has_many :users, through: :lived_places
 
   has_many :places
   has_many :structures, through: :structures
   has_many :courses   , through: :structures
   has_many :city_subject_infos
 
-  has_attached_file :image, :styles => { default: '900×600#', small: '250x200#'}
-
+  ######################################################################
+  # Validations                                                        #
+  ######################################################################
   validates :name            , presence: true
   validates :zip_code        , presence: true
   validates :region_name     , presence: true
@@ -23,6 +29,7 @@ class City < ActiveRecord::Base
                   :department_code, :commune_name, :commune_code, :latitude, :longitude, :acuracy,
                   :title, :subtitle, :description
 
+  has_attached_file :image, :styles => { default: '900×600#', small: '250x200#'}
   def to_gmap_json
     {lng: self.longitude, lat: self.latitude}
   end

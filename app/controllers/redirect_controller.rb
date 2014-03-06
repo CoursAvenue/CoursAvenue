@@ -2,15 +2,15 @@ class RedirectController < ApplicationController
   include SubjectHelper
 
   def vertical_page_city
-    @structure = Subject.find params[:subject_id]
-    @city      = City.find params[:id]
-    redirect_to vertical_page_url_for(@structure, @city), status: 301
+    @subject = Subject.find params[:subject_id]
+    @city    = City.find params[:id]
+    redirect_to vertical_page_url_for(@subject, @city), status: 301
   end
 
   def vertical_page_subject_city
-    @structure = Subject.find params[:subject_id]
-    @city      = City.find params[:id]
-    redirect_to vertical_page_url_for(@structure, @city), status: 301
+    @subject = Subject.find params[:subject_id]
+    @city    = City.find params[:id]
+    redirect_to vertical_page_url_for(@subject, @city), status: 301
   end
 
   def why_coursavenue

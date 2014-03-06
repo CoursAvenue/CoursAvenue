@@ -86,10 +86,10 @@ describe Course do
     context 'without plannings' do
       context 'without prices' do
         it 'fails' do
-          @course.activate!.should be_false
-          @course.active.should be_false
-          @course.errors[:prices].length.should eq 1
-          @course.errors[:plannings].length.should eq 1
+          expect(@course.activate!).to be_false
+          expect(@course.active).to be_false
+          expect(@course.errors[:prices].length).to eq 1
+          expect(@course.errors[:plannings].length).to eq 1
         end
       end
       context 'with prices' do
@@ -305,22 +305,6 @@ describe Course do
       planning.save
       @open_course.plannings << planning
       @open_course.save
-    end
-
-    describe '#alert_participants_for_changes' do
-      it 'sends an email to participants' do
-        delayed_job_count = Delayed::Job.count
-        @open_course.send :alert_participants_for_changes
-        expect(Delayed::Job.count).to eq delayed_job_count + 1
-      end
-    end
-
-    describe '#alert_participants_for_deletion' do
-      it 'sends an email to participants' do
-        delayed_job_count = Delayed::Job.count
-        @open_course.send :alert_participants_for_deletion
-        expect(Delayed::Job.count).to eq delayed_job_count + 1
-      end
     end
   end
 end

@@ -23,7 +23,6 @@ class Course < ActiveRecord::Base
 
   has_and_belongs_to_many :subjects, -> { uniq }
 
-  after_touch :reindex
   after_initialize :set_teaches_at_home
 
   # ------------------------------------------------------------------------------------ Scopes
@@ -386,9 +385,9 @@ class Course < ActiveRecord::Base
   end
 
   def activate!
-    if is_open? or (prices.any? and plannings.any?)
+    if prices.any? and plannings.any?
       self.active = true
-      return self.save
+      return save
     else
       errors.add(:prices, "Le cours n'a pas de tarifs")       if prices.empty?
       errors.add(:plannings, "Le cours n'a pas de plannings") if plannings.empty?
@@ -432,11 +431,6 @@ class Course < ActiveRecord::Base
     if self.new_record? and self.teaches_at_home.nil?
       self.teaches_at_home = self.structure.teaches_at_home if self.structure
     end
-  end
-
-  def reindex
-    self.index
-    self.plannings.map(&:index)
   end
 
   # Method for accepts_nested_attributes_for :prices

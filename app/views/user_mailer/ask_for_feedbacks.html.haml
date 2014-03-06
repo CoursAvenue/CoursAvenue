@@ -1,11 +1,11 @@
 - if @structure.logo?
   - content_for :logo do
     = link_to structure_url(@structure, subdomain: 'www'), target: '_blank' do
-      = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+      = image_tag @structure.logo.url(:thumb), style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
 
 - content_for :promo do
   %h4
-    #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com.
+    #{@structure.name} vous demande de lui rédiger une recommandation sur CoursAvenue.com
 
 - if @email_text
   = @email_text.html_safe
@@ -21,4 +21,4 @@
 = content_for :footer do
   %p
     Vous recevez cet email car #{@structure.name} est inscrit sur CoursAvenue et vous demande de lui rédiger une recommandation sur ses cours.
-    = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@user.access_token, subdomain: 'www')
+    -# = link_to 'Ne plus recevoir ces emails', unsubscribe_users_url(@user.access_token, subdomain: 'www')

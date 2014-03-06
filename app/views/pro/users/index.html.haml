@@ -1,8 +1,14 @@
 = side_menu_currently_at 'Users'
 
-%h2 Liste des utilisateurs (#{User.count})
+%h3.header-group
+  %i.fa.fa-group
+  Évolution des inscriptions
+.white-box.islet.text--center
+  .gamma
+    #{User.active.count} élèves
+  #users
 
-.text--center
+.text--center.push--ends
   = link_to 'Avec avis', pro_users_path(with_comments: true), class: 'btn btn--blue'
 
 %table.table--striped.white-box#dataTable
@@ -13,8 +19,6 @@
         %span Nom
       %th
         %span Date d'inscription
-      %th
-        %span Dernière date de connexion
       %th.text--center
         %span Facebook
       - if params[:with_comments]
@@ -25,16 +29,14 @@
       %tr
         %td.text--center
           - if user and user.has_avatar?
-            = image_tag user.avatar_url(:small), height: 60
+            = image_tag user.avatar_url(:small), height: 40
           - elsif user.name.present?
-            = image_tag 'icons/avatar.png', height: 60
+            = image_tag 'icons/avatar.png', height: 40
         %td
           = user.name
           = link_to "(#{user.email})", "mailto:#{user.email}"
-        %td{data: {value: user.last_sign_in_at}}
-          = l(user.last_sign_in_at) if user.last_sign_in_at
-        %td{data: {value: user.last_sign_in_at}}
-          = l(user.last_sign_in_at) if user.last_sign_in_at
+        %td{data: {value: user.confirmed_at}}
+          = l(user.confirmed_at, format: :date).capitalize if user.confirmed_at
         %td.text--center{data: {value: (user.provider == 'facebook' ? 'f' : '')}}
           - if user.provider == 'facebook'
             %i.fa.fa-check
@@ -48,4 +50,11 @@
   :javascript
     $(function() {
         $('#dataTable').tablesorter();
+        new Highcharts.Chart({
+            chart: { renderTo: 'users', type: 'spline' },
+            title: { text: null },
+            xAxis: { categories: #{@users_graph.map{|date, count| l(Date.parse(date.to_s), format: :short)}} },
+            yAxis: { title: { text: ''}},
+            series: [{ data: #{@users_graph.map{|date, count| (count > 10000 ? 100 : count)}} }]
+        });
     });

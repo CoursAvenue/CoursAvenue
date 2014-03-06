@@ -18,7 +18,7 @@
     - course = participation.course
     - place  = participation.planning.place
     - if participation.waiting_list?
-      %h4 Vous êtes sur liste d'attente, vous serez prévenu par e-mail en cas de désistement.
+      %h4.red Vous êtes sur liste d'attente, vous serez prévenu par e-mail en cas de désistement.
     .white-box.islet
       .flexbox
         .flexbox__item.two-twelfths.soft-half--right.v-top>
@@ -42,12 +42,9 @@
                 - elsif course.event_type.present?
                   = "(#{course.event_type})"
               %p.flush
-                %i.fa.fa-euro
-                - if course.free?
-                  Gratuit
-                - else
-                  Participation libre (montant attendu : #{readable_amount(course.price)}€)
-              %p
+                - if course.common_price
+                  %span.line-through #{readable_amount(course.common_price)}€
+                %span.green GRATUIT
                 %strong= link_to participation.structure.name, structure_path(participation.structure), class: 'semi-muted-link', target: :_blank
               .gray
                 %i.fa.fa-tags
@@ -87,6 +84,7 @@
 
   - if params[:inscription_confirmed]
     = render 'registration_confirmed'
+    = render 'share_on_social_networks'
 
   - content_for :scripts do
     :javascript
@@ -100,3 +98,7 @@
               ga('send', 'event', 'Share on Twitter', 'share');
           });
       });
+
+- if params[:success] == '1'
+  :javascript
+    window.close();

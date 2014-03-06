@@ -32,18 +32,34 @@ class Pro::Structures::CoursesController < Pro::ProController
     redirect_to pro_structure_courses_path(@structure), notice: 'Le cours à bien été dupliqué.'
   end
 
+  def activate_ok_nico
+    @course = Course.friendly.find params[:id]
+    respond_to do |format|
+      @course.update_column :ok_nico, true
+      format.js { render nothing: true }
+    end
+  end
+
+  def disable_ok_nico
+    @course = Course.friendly.find params[:id]
+    respond_to do |format|
+      @course.update_column :ok_nico, false
+      format.js { render nothing: true }
+    end
+  end
+
   def activate
     @course = Course.friendly.find params[:id]
     respond_to do |format|
       if @course.activate!
         if @course.is_open?
-          format.html { redirect_to pro_open_courses_path, notice: 'Le cours a bien été activé' }
+          format.html { redirect_to (request.referrer || pro_open_courses_path), notice: 'Le cours a bien été activé' }
           format.js { render nothing: true }
         else
-          format.html { redirect_to pro_structure_courses_path(@structure), notice: 'Le cours sera visible sur CoursAvenue dans quelques minutes' }
+          format.html { redirect_to (request.referrer || pro_structure_courses_path(@structure)), notice: 'Le cours sera visible sur CoursAvenue dans quelques minutes' }
         end
       else
-        format.html { redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis en ligne.<br>Assurez vous que le tarif et le planning sont bien renseignés." }
+        format.html { redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis en ligne.<br>Assurez vous que les tarif et les plannings sont bien renseignés." }
         format.js { render nothing: true }
       end
     end
@@ -62,7 +78,7 @@ class Pro::Structures::CoursesController < Pro::ProController
         end
       else
         format.js { render nothing: true }
-        format.html { redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que le tarif et le planning sont bien renseignés." }
+        format.html { redirect_to pro_structure_courses_path(@structure), alert: "Le cours n'a pu être mis hors ligne. Assurez vous que les tarif et les plannings sont bien renseignés." }
       end
     end
   end

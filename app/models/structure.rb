@@ -1,11 +1,13 @@
 # encoding: utf-8
 class Structure < ActiveRecord::Base
-  acts_as_paranoid
-  acts_as_tagger
+  extend ActiveHashHelper
 
   include HasSubjects
   include ActsAsCommentable
   include ActsAsGeolocalizable
+
+  acts_as_paranoid
+  acts_as_tagger
 
   extend FriendlyId
 
@@ -42,11 +44,11 @@ class Structure < ActiveRecord::Base
                   :modification_condition,
                   :cancel_condition,
                   :logo,
+                  :funding_type_ids,
                   :crop_x, :crop_y, :crop_width,
                   :rating, :comments_count,
                   :no_facebook, :no_website, :has_only_one_place,
                   :email_status, :last_email_sent_at, :last_email_sent_status,
-                  :funding_type_ids, :funding_types,
                   :widget_status, :widget_url, :sticker_status,
                   :teaches_at_home, :teaches_at_home_radius, # in KM
                   :subjects_string, :parent_subjects_string # "Name of the subject,slug-of-the-subject;Name,slug"
@@ -56,7 +58,7 @@ class Structure < ActiveRecord::Base
                              :plannings_count, :has_promotion, :has_free_trial_course, :course_names, :open_course_names, :open_course_subjects,
                              :last_comment_title, :min_price_libelle, :min_price_amount, :max_price_libelle, :max_price_amount,
                              :level_ids, :audience_ids, :busy,
-                             :open_courses_open_places, :open_course_nb
+                             :open_courses_open_places, :open_course_nb, :jpo_email_status
 
 
 
@@ -92,6 +94,7 @@ class Structure < ActiveRecord::Base
   has_many :reservations,         as: :reservable
   has_many :comment_notifications     , dependent: :destroy
   has_many :sticker_demands           , dependent: :destroy
+  define_has_many_for :funding_type
 
   has_and_belongs_to_many :subjects
 
@@ -209,35 +212,6 @@ class Structure < ActiveRecord::Base
 
   handle_asynchronously :solr_index unless Rails.env.test?
 
-  # ---------------------------- Simulating Funding Type as objects
-  # Takes [1,2] or '1,2'
-  def funding_type_ids= _funding_types
-    if _funding_types.is_a? Array
-      write_attribute :funding_type_ids, _funding_types.reject(&:blank?).join(',')
-    else
-      write_attribute :funding_type_ids, _funding_types
-    end
-  end
-
-  # Takes an array FundingTypes or a single model
-  def funding_types= _funding_types
-    if _funding_types.is_a? Array
-      write_attribute :funding_type_ids, _funding_types.reject(&:blank?).map(&:id).join(',')
-    elsif _funding_types.is_a? FundingType
-      write_attribute :funding_type_ids, _funding_types.id.to_s
-    end
-  end
-
-  def funding_types
-    return [] unless funding_type_ids.present?
-    self.funding_type_ids.map{ |funding_type_id| FundingType.find(funding_type_id) }
-  end
-
-  def funding_type_ids
-    return [] unless read_attribute(:funding_type_ids)
-    read_attribute(:funding_type_ids).split(',').map(&:to_i) if read_attribute(:funding_type_ids)
-  end
-
   ######################################################################
   # Email reminder                                                     #
   ######################################################################
@@ -248,7 +222,12 @@ class Structure < ActiveRecord::Base
   #
   # @return nil
   def send_reminder
-    if self.main_contact.present? and self.email_status and self.main_contact.monday_email_opt_in?
+    return unless self.main_contact.present?
+    if courses.open_courses.any?
+      AdminMailer.delay.monday_jpo(self)
+      self.update_column :last_email_sent_at, Time.now
+      self.update_column :last_email_sent_status, 'monday_jpo'
+    elsif self.main_contact.monday_email_opt_in?
       if self.update_email_status.present?
         self.update_column :last_email_sent_at, Time.now
         self.update_column :last_email_sent_status, self.email_status
@@ -278,7 +257,9 @@ class Structure < ActiveRecord::Base
   # Update the email status of the structure
   def update_email_status
     email_status = nil
-    if !self.profile_completed?
+    if !self.logo.present?
+      email_status = 'no_logo_yet'
+    elsif !self.profile_completed?
       email_status = 'incomplete_profile'
     elsif self.comments_count == 0
       email_status = 'no_recommendations'
@@ -445,6 +426,9 @@ class Structure < ActiveRecord::Base
     self.comments.pending.count > 0
   end
 
+  # Tell if the profile is complete
+  #
+  # @return Boolean
   def profile_completed?
     self.logo? and self.description.present?
   end
@@ -469,7 +453,7 @@ class Structure < ActiveRecord::Base
 
   # Returns the cover image if there is one, else the first image
   #
-  # @return Medi
+  # @return Media
   def cover_image
     self.medias.images.cover.first || self.medias.images.first
   end
@@ -495,19 +479,21 @@ class Structure < ActiveRecord::Base
     meta_data['level_ids'].split(',').map(&:to_i)
   end
 
-  # Augment methods to have them return boolean
+  # Add methods to have hstore attributes return booleans
   %w[has_promotion gives_group_courses gives_individual_courses has_free_trial_course].each do |key|
     scope "has_#{key}", ->(value) { where("meta_data @> hstore(?, ?)", key, value) }
 
     define_method("#{key}") do
-      if meta_data && meta_data[key].present? then
+      if meta_data && meta_data.has_key?(key) then
         ActiveRecord::ConnectionAdapters::Column.value_to_boolean(meta_data[key])
       else
         nil
       end
     end
+    define_method("#{key}?") do
+      send key.to_sym
+    end
   end
-
 
   ######################################################################
   # Meta data update                                                   #
@@ -606,9 +592,21 @@ class Structure < ActiveRecord::Base
     self.add_tags_on(user_profile, UserProfile::DEFAULT_TAGS[:contacts])
   end
 
+  # Total nb JPO places given by the structure
+  #
+  # @return Integer nb_place
   def total_jpo_places
     self.courses.open_courses.map do |course|
       course.nb_participants_max * course.plannings.count
+    end.reduce(&:+)
+  end
+
+  # Total nb places left by the structure
+  #
+  # @return Integer nb_place
+  def total_jpo_places_left
+    self.courses.open_courses.map do |course|
+      course.plannings.map(&:places_left).reduce(&:+) || 0
     end.reduce(&:+)
   end
 
@@ -697,7 +695,9 @@ class Structure < ActiveRecord::Base
   def geocode_if_needs_to
     if latitude.nil? or longitude.nil?
       self.geocode
-      self.save
+      # Save only if lat and lng have been set.
+      # Prevent from infinite trying to save
+      self.save(validate: false) if latitude.present? and longitude.present?
     end
   end
 end

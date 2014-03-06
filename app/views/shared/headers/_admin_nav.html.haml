@@ -1,0 +1,10 @@
+.drop-down__wrapper{data: {behavior: 'drop-down', el: '> .drop-down__el', position: 'right'}}
+  - if current_pro_admin.super_admin?
+    = link_to 'Super dashboard', pro_dashboard_url(subdomain: 'pro'), class: 'btn btn--blue btn--small'
+  - if current_pro_admin.structure
+    = link_to 'Mon profil', pro_structure_url(current_pro_admin.structure, subdomain: 'pro'), class: 'btn btn--blue btn--small'
+  %ul.drop-down__el
+    %li.nowrap
+      = link_to destroy_pro_admin_session_url(subdomain: 'pro'), method: :delete do
+        Déconnexion
+        %i.fa.fa-sign-out

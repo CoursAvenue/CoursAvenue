@@ -44,6 +44,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def new
+    session['user_return_to'] = request.referrer
     @structure_search = StructureSearch.search({ lat: 48.8592,
                                                  lng: 2.3417,
                                                  radius: 7,

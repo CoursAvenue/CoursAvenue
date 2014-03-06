@@ -1,5 +1,5 @@
 - content_for :logo do
-  = image_tag 'emails_logo/bouche.jpg', style: '-ms-interpolation-mode:bicubic;', width: '75', height: '75'
+  = image_tag 'emails_logo/bouche.jpg', style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
 
 - content_for :promo do
   %h4 Dépassez les 15 avis et apparaissez en tête de liste !
@@ -38,10 +38,10 @@
 
 
 - content_for :under_content_2 do
-  = render 'admin_mailer/recommandations_advantages'
+  = render 'admin_mailer/free_profile_advantages'
 
--# - content_for :under_content_3 do
--#   = render 'admin_mailer/white_book'
+- content_for :under_content_3 do
+  = render 'admin_mailer/white_book'
 
 - content_for :footer do
   %p= link_to 'Gérer mes préférences e-mails', notifications_pro_structure_admin_url(@structure, @structure.main_contact, subdomain: 'pro')

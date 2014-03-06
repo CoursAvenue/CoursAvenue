@@ -1,8 +1,14 @@
+= content_for :meta_image do
+  = image_path 'jpo_2014/logo_1_line_orange_large.png'
+
 = content_for :head do
   %link{rel: 'canonical', href: open_courses_url(@subject)}
 
 = content_for :title do
   Portes Ouvertes des cours de loisirs par CoursAvenue.com
+
+= content_for :meta_description do
+  Participez à l'un des 5 000 cours gratuits les 5-6 avril, parmi plus de 100 disciplines !
 
 - unless current_user or current_pro_admin
   = render 'users/registrations/jpo_popup'
@@ -20,7 +26,7 @@
   };
 
 .filtered-search-loader.text--center.island{ :data => { :type => "app-loader" }}
-  = image_tag 'logo.png', class: 'center-block'
+  = image_tag 'jpo_2014/logo_1_line_orange.png', class: 'center-block'
   = image_tag 'gifs/loading-indicator-circle.gif', class: 'center-block', height: 20
 .filtered-search{ :data => { :type => "#{ @app_slug }-root" }, id: "#{ @app_slug }"}
 

@@ -1,11 +1,15 @@
 .grid--full.push-half--bottom.white-box
-  - if structure.logo.present?
-    .grid__item.two-twelfths.relative>
-      = image_tag structure.logo.url(:thumb), class: 'block'
-      - if structure.has_free_trial_course
-        .free-trial-badge
+  .grid__item.two-twelfths.relative>
+    = image_tag structure.logo.url(:thumb), class: 'block'
+    - if structure.has_free_trial_course
+      .free-trial-badge
   .grid__item.ten-twelfths.soft-half--sides>
     %h1.gamma.blue.flush--bottom= structure.name
+    -# Structure type
+    - if structure.structure_type
+      %p.flush
+        #{t(structure.structure_type)} proposant :
+        = @structure_decorator.given_course_types
     %p.push-half--bottom
       %i.fa.fa-tags
       - subject_course_names = [join_child_subjects_text(structure), structure.course_names].compact.join(', ')

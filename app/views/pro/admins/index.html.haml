@@ -14,6 +14,8 @@
     %option{value: 'comments_count_desc', selected: params[:sort] == 'comments_count_desc'} Nombre d'avis
 
 = link_to 'Voir les structures sans admins', pro_structures_path
+|
+= link_to 'Voir les admins non actifs', pro_admins_path(sort: 'not_confirmed')
 %table.table--striped.table--data.white-box#dataTable
   %thead
     %tr
@@ -91,7 +93,6 @@
             highlight : true
           }, [
           {
-            displayKey 'name',
             templates: {
                 suggestion: template
             },

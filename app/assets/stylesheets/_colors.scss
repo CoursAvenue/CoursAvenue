@@ -34,6 +34,7 @@ $red:                            #e2493c !default;
 $red-light:                      #ff493a !default;
 $yellow:                         #ffc40d !default;
 $orange:                         #e9683d !default;
+$dark_orange:                    #9e5841 !default;
 $orange_pale:                    #ea724b !default;
 $pink:                           #c3325f !default;
 $purple:                         #843d60 !default;
@@ -75,30 +76,9 @@ $hover-list-element:     lighten($brand-color, 30%);
 
 // Buttons
 // -------------------------
-$btn-background:                       $white !default;
-$btn-background-highlight:             darken($white, 10%) !default;
-$btn-border:                           #bbb !default;
+$btn--green:               #45C445 !default;
+$btn--blue:                #049cdb !default; //#0499D6!default;
+$btn--red:                 #e2493c !default;
 
 $btn-primary-background:               darken($orange, 10%) !default;
 $btn-primary-background-highlight:     #eb7045 !default;
-
-$btn-info-background:                  #5bc0de !default;
-$btn-info-background-highlight:        #2f96b4 !default;
-
-// $btn-success-background:               #62c462 !default;
-// $btn-success-background-highlight:     #51a351 !default;
-$btn-success-background:               #70D870 !default;
-$btn-success-background-highlight:     #5AB15A !default;
-
-// $btn-blue-background:                 #049cdb !default;
-$btn-blue-background:                  lighten(#04a0e0, 3%) !default;
-$btn-blue-background-highlight:        #04a0e0 !default;
-
-$btn-warning-background:               lighten($orange, 15%) !default;
-$btn-warning-background-highlight:     $orange !default;
-
-$btn-danger-background:                #ee5f5b !default;
-$btn-danger-background-highlight:      #bd362f !default;
-
-$btn-inverse-background:               #444 !default;
-$btn-inverse-background-highlight:     $gray-darker !default;

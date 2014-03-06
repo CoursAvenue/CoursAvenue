@@ -114,16 +114,8 @@ class StructureSerializer < ActiveModel::Serializer
     object.courses.count > 0
   end
 
-  def logo_present
-    object.logo.present?
-  end
-
   def logo_thumb_url
-    if Rails.env.development?
-      'http://placehold.it/200'
-    elsif object.logo.present?
-      object.logo.url(:thumb)
-    end
+    object.logo.url(:thumb)
   end
 
   def data_url

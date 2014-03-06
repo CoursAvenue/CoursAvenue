@@ -18,6 +18,7 @@ fr:
         monday_email_opt_in: "Chaque lundi matin, CoursAvenue m'envoie des bons conseils pour améliorer ma visibilité sur CoursAvenue."
         thursday_email_opt_in: "Chaque jeudi matin, CoursAvenue m'envoie des bons conseils pour m'aider à développer le bouche à oreille."
         student_action_email_opt_in: "Un élève a fait une action sur mon profil (nouvelle recommandation, nouveau message, demande d'inscription à mes cours)."
+        jpo_email_opt_in: "Un élève s'inscrit ou se désinscrit d'un de mes ateliers."
 
   civility:
     male: Monsieur

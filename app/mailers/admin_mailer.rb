@@ -9,6 +9,14 @@ class AdminMailer < ActionMailer::Base
     mail to: 'contact@coursavenue.com', subject: subject
   end
   ######################################################################
+  # JPOs                                                               #
+  ######################################################################
+  def your_jpo_courses_are_visible(structure)
+    @structure = structure
+    mail to: @structure.main_contact.email, subject: 'Vos ateliers pour les Portes Ouvertes sont maintenant visibles'
+  end
+
+  ######################################################################
   # Stickers                                                           #
   ######################################################################
   def stickers_has_been_ordered(sticker_demand)
@@ -84,24 +92,34 @@ class AdminMailer < ActionMailer::Base
   ######################################################################
   # Monday email / based on email_status                               #
   ######################################################################
-  def incomplete_profile(structure)
+  def monday_jpo(structure)
+    @structure  = structure
+    @show_links = true
+    mail to: structure.main_contact.email, subject: "Les inscriptions aux Portes Ouvertes sont ouvertes"
+  end
+
+  def no_logo_yet(structure)
     @structure  = structure
     @show_links = true
     @structures = StructureSearch.similar_profile(@structure)
-    mail to: structure.main_contact.email, subject: "Votre profil CoursAvenue n'est pas complet"
+    mail to: structure.main_contact.email, subject: "Ajoutez un logo ou une photo à votre profil"
+  end
+
+  def incomplete_profile(structure)
+    @structure  = structure
+    @show_links = true
+    mail to: structure.main_contact.email, subject: "Votre profil pourrait être 7 fois plus visible"
   end
 
   def no_recommendations(structure)
     @structure  = structure
     @show_links = true
-    @structures = StructureSearch.similar_profile(@structure)
     mail to: structure.main_contact.email, subject: 'Vos élèves ne vous ont pas encore recommandé sur CoursAvenue'
   end
 
   def less_than_five_recommendations(structure)
     @structure  = structure
     @show_links = true
-    @structures = StructureSearch.similar_profile(@structure)
     mail to: structure.main_contact.email, subject: 'Vous avez moins de 5 recommandations sur CoursAvenue'
   end
 
@@ -127,7 +145,7 @@ class AdminMailer < ActionMailer::Base
     mail to: 'contact@coursavenue.com', subject: 'Un professeur demande une suppression de commentaire'
   end
 
-  def admin_validated(admin)
+  def welcome_email(admin)
     @admin         = admin
     @structure     = @admin.structure
     @show_links    = true
