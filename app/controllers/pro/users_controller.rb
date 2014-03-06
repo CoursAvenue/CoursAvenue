@@ -13,5 +13,9 @@ class Pro::UsersController < Pro::ProController
       @users = User.active.order('created_at DESC').limit(300)
     end
     @users_graph = User.where{created_at > 2.months.ago}.active.count(order: "DATE(created_at) ASC", group: ["DATE(created_at)"])
+    respond_to do |format|
+      format.html
+      format.csv { render text: User.order('created_at DESC').limit(300).offset(params[:offset]).to_csv }
+    end
   end
 end
