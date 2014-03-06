@@ -15,6 +15,7 @@ class StructuresController < ApplicationController
       @structure_decorator = @structure.decorate
       params[:structure_id] = @structure.id
 
+      # use the structure's plannings unless we would filter the plannings
       if params_has_planning_filters?
         @planning_search = PlanningSearch.search(params)
         @plannings       = @planning_search.results
@@ -27,17 +28,20 @@ class StructuresController < ApplicationController
       return
     end
 
+    # we need to group the plannings by course_id when we display them
     @planning_groups = {}
     @plannings.group_by(&:course_id).each do |course_id, plannings|
       @planning_groups[course_id] = plannings
     end
 
+    # the default location is Paris, if no params were given
     @latlng         = retrieve_location
     if params[:lat].present? && params[:lng].present?
       @center         = { lat: params[:lat], lng: params[:lng] }
     else
       @center         = { lat: latlng[0], lng: latlng[1] }
     end
+
     @city           = @structure.city
     @places         = @structure.places
     @courses        = @structure.courses.without_open_courses.active

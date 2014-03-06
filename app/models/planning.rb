@@ -93,9 +93,6 @@ class Planning < ActiveRecord::Base
   scope :past,           -> { where("plannings.end_date <= '#{Date.today}'") }
   scope :ordered_by_day, -> { order('week_day=0, week_day ASC') }
 
-  # this scope was meant to be used in the structures_controller to filter the plannings
-  scope :filtered,       lambda { |filters| where(filters) }
-
   ######################################################################
   # Solr                                                               #
   ######################################################################
