@@ -5,20 +5,20 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         itemView: Module.SubjectView,
         itemViewContainer: '.grid__item.one-whole.soft-half.b-white.tab-content',
 
-        initialize: function () {
+        initialize: function initialize () {
             this.announce = _.debounce(this.announce, 500);
         },
 
-        setup: function (data) {
+        setup: function setup (data) {
             this.ui.$search_input.attr('value', data.name);
             this.previous_searched_name = data.name;
         },
 
         ui: {
             '$search_input': '#search-input',
-            '$children': '[data-type=children]',
             '$grand_children': '[data-type=grand-children]',
-            '$icons': '[data-type=icons-wrapper]'
+            '$buttons': '[data-type=button]',
+            '$icons': '[data-type=button] img'
         },
 
         events: {
@@ -29,7 +29,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             'click [data-type=button]':         'activateButton',
         },
 
-        onRender: function () {
+        onRender: function onRender () {
             var engine   = new Bloodhound({
               datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.num); },
               queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -46,65 +46,84 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             });
         },
 
-      //onClickOutside: function () {
-      //    this.$("[data-type=menu]").hide();
-      //},
+        /* if the "click outside" is on one of the subject buttons at the
+         * top of the search page, then we ignore it. Otherwise, we dismiss
+         * the modal menu.
+         */
+        onClickOutside: function onClickOutside (e) {
+            if ($(e.target).data("type") === "button" || $(["data-type=button"]).find(e.target)) {
+                return;
+            }
 
-        onItemviewAnnouncedSubject: function (view, data) {
+            this.$("[data-type=menu]").hide();
+        },
+
+        onItemviewAnnouncedSubject: function onItemviewAnnouncedSubject (view, data) {
             this.$("[data-type=menu]").hide();
 
             this.ui.$search_input.typeahead("val", data.name);
             this.announce({}, data);
         },
 
-        // data.subject_id is null when nothing is selected
-        showChildSubjects: function showChildSubjects (data) {
-            if (this.original_icons_width === undefined) {
-                this.original_icons_width = this.ui.$icons.width();
-            }
-
-            this.$("[data-peacock]")
-                    .animate({ left: 0 })
-                    .css({ position: "" })
-                    .removeAttr("data-peacock");
-
+        /* This method is triggered when a filter restricts the available data
+         * by subject. In this case we want to visibly deactivate the now irrelevant
+         * subject icons, remove their tabbing powers, and stop them from fetching
+         * new grand_children.
+         *
+         * @param data -- should have .subject_id, which is possibly === null
+         * */
+        blurIrrelevantSubjects: function blurIrrelevantSubjects (data) {
+            // If subject_id is null, then we are removing a filter.
             if (data.subject_id === null) {
-                if (this.original_icons_width !== undefined) {
-                    this.ui.$icons.animate({ width: this.original_icons_width });
-                }
-
-                this.ui.$children.animate({ left: 200 }).css({ left: "" });
-            } else {
-                // slide the rest to the right
-                this.ui.$icons.animate({ width: '100%' });
-
-                // duplicate the icon
-                var icon = this.$("[data-value=" + data.subject_id + "]");
-                icon.css({ position: "absolute" }).animate({ left: -150 });
-                icon.attr("data-peacock", true);
-
-                // slide the child subjects list into view
-                this.ui.$children.animate({ left: 0 });
+                this.ui.$icons.removeClass("fade-out").data("irrelevant", false);
+                this.ui.$buttons.attr("data-toggle", "tab");
+                return;
             }
+
+            // The button that will not be deactivated is the relevant_button.
+            var $relevant_button = this.$("[data-value=" + data.subject_id + "]");
+
+            // We add the class fade-out to blur the icons visibly, and data-irrelevant
+            // to prevent the icon from becoming "active". We erase data-toggle in
+            // order to stop bootstrap from tabbing to an irrelevant tab.
+            this.ui.$icons.addClass("fade-out").data("irrelevant", true);
+            this.ui.$buttons.attr("data-toggle", false);
+
+            // The relevant button gets to retain its properties.
+            $relevant_button.find('img').removeClass("fade-out").data("irrelevant", false);
+            $relevant_button.attr("data-toggle", "tab");
+
+            // Finally we trigger a click so that the relevant button becomes active
+            // and becomes the current tab.
+            $relevant_button.trigger("click", { target: $relevant_button.find('img').get(0), currentTarget: $relevant_button.get(0) });
         },
 
+        /* When a user clicks on one of the icons, if the icon is not currently
+         * "irrelevant", then we will activate that icon and try to fetch grand_children
+         * for the relevant subject.
+         */
         activateButton: function activateButton (e) {
-            var slug  = $(e.target).data("value"),
-                model = this.collection.findWhere({ slug: slug });
+            if ($(e.target).data("irrelevant")) {
+                return;
+            }
+
+            var $target = $(e.currentTarget),
+                slug    = $target.data("value"),
+                model   = this.collection.findWhere({ slug: slug });
 
             if (model.get("grand_children") === undefined) {
                 model.fetch();
             }
 
-            this.$("[data-type=button]").removeClass("active");
-            $(e.target).addClass("active");
+            this.ui.$buttons.removeClass("active");
+            $target.addClass("active");
         },
 
-        showMenu: function () {
+        showMenu: function showMenu () {
             this.$("[data-type=menu]").show();
         },
 
-        announce: function (event, data) {
+        announce: function announce (event, data) {
             var name = (data ? data.name : event.currentTarget.value);
             // Prevent from launching the search if the name is same than previous one
             if (name != this.previous_searched_name) {
@@ -114,14 +133,14 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
         },
 
         // Clears all the given filters
-        clear: function () {
+        clear: function clear () {
             this.previous_searched_name = null;
             this.ui.$search_input.val('');
             this.announce();
         },
 
         // the keyword bar now needs the subjects, in order to provide autocompletion
-        serializeData: function() {
+        serializeData: function serializeData () {
             // get just the top level subject names and slugs
             var subjects         = this.collection.map(function (model) {
                 return { slug: model.get("slug"), name: model.get("name") }
@@ -132,7 +151,7 @@ FilteredSearch.module('Views.StructuresCollection.Filters.Subjects', function(Mo
             return { subjects: subjects };
         },
 
-        itemViewOptions: function (model, index) {
+        itemViewOptions: function itemViewOptions (model, index) {
             return {
                 "is_first": index === 0
             }

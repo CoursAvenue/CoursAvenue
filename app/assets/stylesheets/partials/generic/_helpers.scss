@@ -146,3 +146,8 @@
 .one-seventh {
     width: 14.2857%;
 }
+
+.fade-out {
+    opacity: 0.4;
+    transition: opacity 0.5s ease;
+}
