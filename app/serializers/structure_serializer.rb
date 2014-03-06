@@ -7,7 +7,7 @@ class StructureSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
-             :logo_thumb_url, :data_url,
+             :logo_thumb_url, :data_url, :query_url,
              :courses_count, :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,
@@ -133,6 +133,12 @@ class StructureSerializer < ActiveModel::Serializer
     else
       structure_url(object, subdomain: subdomain, host: host, only_path: host.nil?)
     end
+  end
+
+  # this is for the href attributes on the filtered search page,
+  # so that they can point at a structure url with the params
+  def query_url
+    data_url + "?" + @options[:query].to_s
   end
 
   def tag_names
