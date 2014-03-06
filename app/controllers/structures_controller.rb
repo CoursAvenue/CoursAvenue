@@ -17,6 +17,8 @@ class StructuresController < ApplicationController
       if params_has_planning_filters?
         @planning_search = PlanningSearch.search(params)
         @plannings       = @planning_search.results
+      else
+        @plannings = @structure.plannings
       end
     rescue ActiveRecord::RecordNotFound
       place = Place.find params[:id]
@@ -29,7 +31,12 @@ class StructuresController < ApplicationController
       @planning_groups[course_id] = plannings
     end
 
-    @center         = { lat: params[:lat], lng: params[:lng] }
+    @latlng         = retrieve_location
+    if params[:lat].present? && params[:lng].present?
+      @center         = { lat: params[:lat], lng: params[:lng] }
+    else
+      @center         = { lat: latlng[0], lng: latlng[1] }
+    end
     @city           = @structure.city
     @places         = @structure.places
     @courses        = @structure.courses.without_open_courses.active
