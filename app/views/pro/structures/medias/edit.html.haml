@@ -2,7 +2,7 @@
   = f.input :star
   = f.input :vertical_page_caption
   = f.association :subjects, as: :select, collection: Subject.all, input_html: { multiple: true, data: { behavior: 'chosen'} }
-  = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement"
 
 :javascript
   $('#media_subject_ids').change(function() {

@@ -22,9 +22,9 @@ class UserProfile < ActiveRecord::Base
 
   scope :with_email, -> { where{(email != nil) | (email != '')} }
 
-  # ------------------------------------
-  # ------------------ Search attributes
-  # ------------------------------------
+  ######################################################################
+  # Search attributes                                                  #
+  ######################################################################
   searchable do
     text :email
     text :first_name, boost: 5

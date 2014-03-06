@@ -10,4 +10,4 @@
     = f.input :where_to_suit_up, input_html: { data: { behavior: 'autoresize'} }
     = f.input :average_price, input_html: { data: { behavior: 'autoresize'} }
     = f.input :tips, input_html: { data: { behavior: 'autoresize'} }
-    = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+    = f.submit 'Enregistrer', class: 'btn btn--green btn--full', disable_with: "En cours d'enregistrement"

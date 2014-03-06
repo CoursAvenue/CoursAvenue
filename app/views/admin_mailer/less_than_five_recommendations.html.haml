@@ -2,7 +2,7 @@
   = image_tag 'emails_logo/oreille.jpg', style: '-ms-interpolation-mode:bicubic;', width: '100', height: '100'
 
 - content_for :promo do
-  %h4 Développez votre bouche à oreille sur Internet en quelques clics
+  %h4 Votre profil comporte moins de 5 avis : demandez à vos élèves de vous recommander et augmentez votre visibilité sur Internet
 
 %p
   Saviez-vous que vous pouvez inviter vos élèves à vous recommander en quelques clics seulement ? Connectez-vous à votre profil, puis cliquez sur le bouton bleu "Obtenir des avis" et utilisez notre outil d'envoi simplifié pour un meilleur résultat :
@@ -11,8 +11,11 @@
   = link_to "Obtenir des recommandations", recommendations_pro_structure_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 
 %p.blue.blue-tip
-  %i Trucs & astuces : au-delà de 5 recommandations, nous vous offrons votre livre d'Or à afficher sur votre propre site Internet.
-  = link_to '[En savoir plus.]', pro_pages_widget_url(subdomain: 'pro')
+  %i
+    Trucs & astuces : au-delà de 5 recommandations, nous vous offrons votre
+    = link_to "Livre d'Or", pro_pages_widget_url(subdomain: 'pro')
+    à afficher sur votre propre site Internet.
+
 
 - content_for :under_content do
   %table.table{align: 'center', border: '0', cellpadding: '0', cellspacing: '0', width: '600'}

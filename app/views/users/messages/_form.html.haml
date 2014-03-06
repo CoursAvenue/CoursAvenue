@@ -9,5 +9,4 @@
     = f.input :subject
     = f.input :body, input_html: { style: 'height: 150px', data: {behavior: 'autoresize'} }
     .form-actions
-      = f.submit 'Envoyer', class: 'btn btn--green'
-
+      = f.submit 'Envoyer', class: 'btn btn--green', disable_with: "Message en cours d'envoi"

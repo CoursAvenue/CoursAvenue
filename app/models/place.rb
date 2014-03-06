@@ -37,6 +37,10 @@ class Place < ActiveRecord::Base
     self.location.places.count > 1
   end
 
+  def zip_code
+    location.zip_code
+  end
+
   private
 
   def reindex_structure_and_places

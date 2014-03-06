@@ -18,11 +18,6 @@
         %br>
         = link_to 'En savoir plus', know_more_link, class: 'white f-decoration-underlined milli', target: :_blank
       = image_tag 'jpo_2014/map.png', width: 726, height: 448, class: 'jpo-map absolute visuallyhidden--palm', title: 'Plus de 5 000 cours gratuit en Île-de-France'
-      = link_to '#video-is-yet-to-come', class: 'jpo-bubble absolute visuallyhidden--palm', data: { behavior: 'modal' } do
+      = link_to 'https://www.youtube.com/watch?v=mIGU39mHc78', class: 'jpo-bubble absolute visuallyhidden--palm', data: { behavior: 'fancy', height: 560, width: 1000 } do
         = image_tag 'jpo_2014/bubble_text.png', width: 180, height: 153, title: 'Plus de 5 000 cours gratuit en Île-de-France'
   .jpo-frise>
-
-#video-is-yet-to-come.hidden
-  %h4.text--center La vidéo arrive bientôt !
-  .text--center
-    = link_to 'Participer', participation_link, class: 'btn btn--yellow btn--bigger'

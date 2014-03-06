@@ -11,9 +11,10 @@
 - content_for :promo do
   %h4
     - if @planning.places_left?
-      Il reste
+      Il ne reste plus que
       %span #{pluralize(@planning.places_left, 'place')}
-      à votre atelier : n'attendez pas pour inviter vos proches
+      disponibles à votre atelier gratuit : n'attendez pas pour inviter vos proches
+
     - else
       Invitez vos proches à participer aux Portes Ouvertes CoursAvenue !
 
@@ -27,7 +28,7 @@
   = link_to "Inviter mes proches", jpo_new_pro_structure_invited_students_url(@structure, subdomain: 'pro'), class: 'btn btn--green'
 
 %p.blue.blue-tip
-  %i Trucs & astuces : depuis votre profil, renseignez vos passions pour recevoir des invitations à des cours d'essai gratuits et des promotions.
+  %i Trucs & astuces : depuis votre profil, renseignez vos passions pour recevoir des invitations à des cours d'essai gratuits et des promotions tout au long de l'année.
 
 - content_for :under_content_2 do
   = render 'user_mailer/footer_info'

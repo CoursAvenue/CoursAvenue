@@ -101,8 +101,7 @@
               En plusieurs thèmes ?
             %p.alert--info Quelles sont les méthodes pratiquées ?
 
-
-  = f.submit 'Enregistrer', class: 'btn btn--green btn--full'
+  = f.submit 'Enregistrer', class: 'btn btn--green btn--full push--bottom', disable_with: 'Enregistrement en cours...'
 
 = content_for :scripts do
   :javascript

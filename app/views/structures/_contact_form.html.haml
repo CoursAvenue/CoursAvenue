@@ -40,7 +40,7 @@
       - else
         - prefilled_body = "Bonjour,\n\nJe souhaiterais venir pour une première séance. Pouvez-vous m’envoyer la date du prochain cours et toutes les autres informations nécessaires (tenue exigée, confirmation du lieu, etc.).\n\nMerci et à très bientôt"
       = f.input :body, label: false, wrapper_html: { class: 'flush--top' }, input_html: { class: 'one-whole', style: 'height: 170px;', value: prefilled_body, data: { behavior: 'autoresize' }}
-      = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full'
+      = f.submit 'Envoyer mon message', class: 'btn btn--green btn--full', disable_with: "En cours d'envoi"
 
     .grid--full
       .grid__item.v-middle{style: 'width: 45%;'}>

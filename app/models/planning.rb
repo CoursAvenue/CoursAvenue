@@ -98,7 +98,11 @@ class Planning < ActiveRecord::Base
   ######################################################################
   searchable do
     boolean :active_course do
-      self.course.active?
+      course.active?
+    end
+
+    boolean :active_structure do
+      course.structure.active?
     end
 
     # ----------------------- For grouping
@@ -119,10 +123,7 @@ class Planning < ActiveRecord::Base
     end
 
     # ----------------------- Fulltext search
-    text :name, boost: 5 do
-      self.structure.name
-    end
-
+    # ----------------------- Course specific info
     text :course_name do
       self.course.name
     end
@@ -131,21 +132,12 @@ class Planning < ActiveRecord::Base
       self.course.subjects.uniq.map(&:name)
     end
 
-    text :course_names do
-      self.structure.courses.map(&:name)
-    end
-
     text :course_description do
       self.course.description
     end
 
-    text :subjects, boost: 5 do
-      subject_array = []
-      self.course.subjects.uniq.each do |subject|
-        subject_array << subject
-        subject_array << subject.root        if subject.root
-      end
-      subject_array.uniq.map(&:name)
+    text :name, boost: 5 do
+      self.structure.name
     end
 
     integer :subject_ids, multiple: true do

@@ -1,0 +1,85 @@
+/*------------------------------------*\
+    $Buttons
+\*------------------------------------*/
+.btn a:hover{
+    text-decoration:none;
+}
+
+.btn.btn--large {
+  font-size: 20px;
+  padding  : 0.6em 2.5em;
+}
+
+.btn.btn--bigger{
+  font-size: 15px;
+}
+
+.btn.btn--small {
+    padding: 0.5em;
+}
+
+/* TODO this should go in a file for user_management styles */
+.additional-actions {
+  position    : absolute;
+  right       : 0px;
+  z-index     : -1; // TODO this should be a variable
+}
+
+.btn.btn--plus {
+    font-size: 16px;
+    padding  : 5px 8px;
+}
+.btn {
+    white-space     : normal;
+    line-height     : 1;
+    font-weight     : bold;
+    padding         : 0.8em;
+    font-size       : 12px;
+    @include border-radius($brand-round);
+    border          : 1px solid #DEDEDE;
+    background-color: #fefefe;
+    color           : #555;
+    &:active, &:hover {
+        background-color: #f2f2f2;
+    }
+}
+
+// Danger and error appear as red
+// Success appears as green
+.btn--green {
+    text-transform: uppercase;
+    background-color: $btn--green;
+    border          : none;
+    color           : white;
+    &:hover, &:active {
+        background-color: lighten($btn--green, 5%);
+    }
+    &.disabled, &[disabled] {
+        cursor: default;
+        background-color: lighten($btn--green, 15%);
+    }
+}
+.btn--blue {
+    text-transform  : uppercase;
+    background-color: $btn--blue;
+    border          : none;
+    color           : white;
+    &:hover, &:active {
+        background-color: lighten($btn--blue, 5%);
+    }
+    &.disabled, &[disabled] {
+        cursor: default;
+        background-color: lighten($btn--blue, 15%);
+    }
+}
+
+.btn--yellow {
+    text-transform  : uppercase;
+    color           : darken($yellow, 35%);
+    background-color: $yellow;
+    border          : none;
+    &:hover, &:active {
+        color           : darken($yellow, 35%);
+        background-color: lighten($yellow, 5%);
+    }
+}
