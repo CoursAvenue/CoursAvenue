@@ -2,28 +2,49 @@ Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, u
 
     Module.GoogleMap = CoursAvenue.Views.Map.GoogleMap.GoogleMapsView.extend({
 
-        onShow: function () {
+        events: {
+            ":course:mouseenter": "exciteMarkers",
+            ":course:mouseleave": "exciteMarkers"
+        },
+
+        onShow: function onShow () {
             var $parent      = this.$el.parent(),
                 parent_width = $parent.parent().width();
 
+            // The sticky-full class needs to know about the parent's width,
+            // so that we can css transition to it. Transitions between a
+            // static value and a percentage don't work.
             $('<style>.sticky--full { transition: width 0.5s ease; width: ' + parent_width + 'px; }</style>').appendTo('head');
 
+            // The map should always have sticky and sticky--full at the same
+            // time. Whenever it gets or loses one of those classes, it should
+            // get or lose the other. This is relevant during scroll, so we check
+            // enforce it here.
             $(window).on("scroll", function () {
                 if ($parent.hasClass("sticky")) {
                     $parent.addClass("sticky--full");
 
-                    var currCenter = this.map.getCenter();
-                    google.maps.event.trigger(this.map, 'resize');
-                    this.map.setCenter(currCenter);
                 } else if (!$parent.hasClass("sticky") && $parent.hasClass("sticky--full")) {
                     $parent.removeClass("sticky--full");
-
-                    var currCenter = this.map.getCenter();
-                    google.maps.event.trigger(this.map, 'resize');
-                    this.map.setCenter(currCenter);
                 }
 
+                this.recenterMap();
             }.bind(this));
+        },
+
+        /* ***
+         * ### \#recenterMap
+         *
+         * When we change the width of the map's container, we need to alert the map
+         * to this by triggering resize. This will change the amount of map that is
+         * shown, but won't adjust the center of the map so that it is visually centered.
+         * So, in addition, we visually center the map.
+         * */
+        recenterMap: function recenterMap () {
+            var currCenter = this.map.getCenter();
+
+            google.maps.event.trigger(this.map, 'resize');
+            this.map.setCenter(currCenter);
         },
 
         /* ***
@@ -32,7 +53,7 @@ Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, u
         * Event handler for `itemview:course:hovered`, as such it expects
         * a view. The view's model should have a location, and if the location
         * matches this marker's location it will get excited. */
-        exciteMarkers: function(view) {
+        exciteMarkers: function exciteMarkers (view) {
             var key = view.model.get("place_id");
 
             if (key === null) {
@@ -50,11 +71,6 @@ Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, u
                     }
                 }
             });
-        },
-
-        events: {
-            ":course:mouseenter": "exciteMarkers",
-            ":course:mouseleave": "exciteMarkers"
         }
     });
 
@@ -145,10 +161,6 @@ Daedalus.module('Views.Map', function(Module, App, Backbone, Marionette, $, _, u
         } else {
             MarkerView = CoursAvenue.Views.Map.GoogleMap.MarkerView;
         }
-
-        // if we are using a generic item view, extend it to use the template
-     // itemview_options.template = 'backbone/structure_profile/views/' + resources + '/templates/' + template_name;
-     // ItemView                  = ItemView.extend(itemview_options);
 
         var center         = window.coursavenue.bootstrap.center || { lat: 0, lng: 0 };
 
