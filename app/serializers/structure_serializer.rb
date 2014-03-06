@@ -7,7 +7,7 @@ class StructureSerializer < ActiveModel::Serializer
   include ActionView::Helpers::TextHelper
 
   attributes :id, :name, :slug, :comments_count, :rating, :street, :zip_code,
-             :logo_present, :logo_thumb_url, :data_url, :query_url,
+             :logo_thumb_url, :data_url, :query_url,
              :courses_count, :has_courses, :plannings_count, :has_plannings, :more_than_five_comments, :has_comments,
              :min_price_amount, :min_price_libelle, :max_price_amount, :max_price_libelle, :has_price_range,
              :has_free_trial_course, :medias_count, :teaches_at_home, :teaches_at_home_radius, :videos_count, :images_count,

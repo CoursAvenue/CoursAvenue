@@ -1,11 +1,9 @@
 <div class="flexbox white-box structure-item">
     <div class="flexbox__item v-top structure-item__logo">
         <div class="relative">
-            {{#if logo_present}}
-                <a href="{{ query_url }}" class="block">
-                    <img src="{{ logo_thumb_url }}" class="block one-whole" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
-                </a>
-            {{/if}}
+            <a href="{{ query_url }}" class="block">
+                <img src="{{ logo_thumb_url }}" class="block one-whole" alt="Cours de {{ parent_subjects_text }} à {{ name }}">
+            </a>
             {{#if has_free_trial_course}}
                 <div class="free-trial-badge"></div>
             {{/if}}
