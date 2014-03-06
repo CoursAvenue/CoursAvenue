@@ -70,6 +70,7 @@ Daedalus.module('Views.Composite', function(Module, App, Backbone, Marionette, $
                 resources         = options.of.toLowerCase(),
                 resource          = _.singularize(resources),
                 composite         = options.and,
+                composite_module  = composite + 's',
                 container         = options.itemviewContainer,
 
                 // If prerendered HTML was provided, then we extract some options
@@ -78,7 +79,7 @@ Daedalus.module('Views.Composite', function(Module, App, Backbone, Marionette, $
                 container         = (container)? container : $element.find("[data-itemviewContainer]").get(0),
                 tagName           = $element.find("[data-tagName]").get(0),
 
-                ItemView, collection, model,
+                ItemView, collection, model, Composite = Module.Composite,
                 options = {};
 
         // After building up the model, collection and ItemView constructor,
@@ -105,7 +106,11 @@ Daedalus.module('Views.Composite', function(Module, App, Backbone, Marionette, $
         options.itemView            = ItemView;
         options.itemViewEventPrefix = "";
 
-        return new Module.Composite(options);
+        if (App.Views[_.capitalize(composite_module)] && App.Views[_.capitalize(composite_module)][_.capitalize(composite_module)]) {
+            Composite = App.Views[_.capitalize(composite_module)][_.capitalize(composite_module)];
+        }
+
+        return new Composite(options);
     };
 
     /* ***
