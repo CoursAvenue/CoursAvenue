@@ -4,10 +4,6 @@ Daedalus.module('Views.Courses', function(Module, App, Backbone, Marionette, $, 
     Module.Course = Marionette.ItemView.extend({
         className: "two-thirds",
 
-        initialize: function () {
-
-        },
-
         events: {
             'mouseenter [data-line-item]': 'announceEnter',
             'mouseleave [data-line-item]': 'announceLeave'

@@ -3,8 +3,16 @@ Daedalus.module('Views.Plannings', function(Module, App, Backbone, Marionette, $
 
     Module.Plannings = Marionette.CompositeView.extend({
 
-        onRender: function onRender () {
+        events: {
+            'click': 'clicky'
+        },
 
+        clicky: function clicky () {
+            var data = {
+                plannings: this.collection.length
+            };
+
+            this.trigger("plannings:announce", data);
         }
     });
 });

@@ -17,12 +17,13 @@ Daedalus.module('Views.EventTemplate', function(Module, App, Backbone, Marionett
     Module.EventTemplate = Marionette.ItemView.extend({
 
         update: function update (data) {
-            debugger
+            this.data = data;
 
+            this.render();
         },
 
-        serializaData: function serializaData () {
-            return {};
+        serializeData: function () {
+            return this.data;
         }
     });
 
@@ -45,7 +46,7 @@ Daedalus.module('Views.EventTemplate', function(Module, App, Backbone, Marionett
             consumeData($element);
 
             /* view registers to be notified of events on layout */
-            Marionette.bindEntityEvents(view, App.Views, { });
+            Marionette.bindEntityEvents(view, App.Views, view.events);
             App.Views.listenTo(view, 'all', App.Views.broadcast);
         });
     });
@@ -70,17 +71,16 @@ Daedalus.module('Views.EventTemplate', function(Module, App, Backbone, Marionett
             template          = options.template,
             tagName           = $element[0].nodeName.toLowerCase(),
             className         = $element[0].className,
-            options = {};
+            options = {}, events = {};
 
         template = template.replace(/([A-Z])/g, '_$1').replace(/^_/, '').toLowerCase();
-        event    = ':' + event.replace(/([A-Z])/g, ':$1').replace(/^:/, '').toLowerCase(); // from camel to event style
+        event    = event.replace(/([A-Z])/g, ':$1').replace(/^:/, '').toLowerCase(); // from camel to event style
 
         options.template            = 'backbone/structure_profile/views/event_templates/templates/' + template;
-        options.events = {
-            event: 'update'
-        };
+        events = {};
+        events[event] = 'update';
 
-        return new Module.EventTemplate(options);
+        return new (Module.EventTemplate.extend({ events: events }))(options);
     };
 
 }, undefined);
