@@ -7,11 +7,14 @@ StructureProfile.addRegions({
 StructureProfile.addInitializer(function(options) {
     var bootstrap = window.coursavenue.bootstrap,
         layout    = new StructureProfile.Views.StructureProfileLayout(),
-        structure = new FilteredSearch.Models.Structure(bootstrap, bootstrap.options);
+        structure = new FilteredSearch.Models.Structure(bootstrap, bootstrap.options),
+        structure_view = new StructureProfile.Views.Structure.StructureView({ model: structure });
 
     window.pfaff = structure;
 
     StructureProfile.mainRegion.show(layout);
+
+    layout.master.show(structure_view);
 });
 
 $(document).ready(function() {

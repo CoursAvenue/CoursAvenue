@@ -2,7 +2,11 @@ StructureProfile.module('Views', function(Module, App, Backbone, Marionette, $, 
 
     Module.StructureProfileLayout = CoursAvenue.Views.EventLayout.extend({
         template: Module.templateDirname() + 'structure_profile_layout',
-        master_region_name: 'structure'
+        master_region_name: 'structure',
+
+        regions: {
+            master: "#structure-tabs",
+        },
 
     });
 });
