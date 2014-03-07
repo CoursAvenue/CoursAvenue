@@ -25,7 +25,7 @@
     Vous vous êtes récemment inscrits à un atelier des Portes Ouvertes des cours de loisirs. N'attendez plus pour inviter votre entourage à profiter des centaines de cours gratuits :
 
 %p.action
-  = link_to "Inviter mes proches", invite_entourage_to_jpo_page_users_url(structure_id: @structure.id, subdomain: 'www'), class: 'btn btn--green'
+  = link_to "Inviter mes proches", invite_entourage_to_jpo_page_users_url(user_email: @user.email, structure_id: @structure.id, subdomain: 'www'), class: 'btn btn--green'
 
 %p.blue.blue-tip
   %i Trucs & astuces : depuis votre profil, renseignez vos passions pour recevoir des invitations à des cours d'essai gratuits et des promotions tout au long de l'année.
