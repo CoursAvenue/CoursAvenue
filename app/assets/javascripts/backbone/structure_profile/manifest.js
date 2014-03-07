@@ -7,8 +7,11 @@
 //= require ./models/place_collection.js
 //= require ./models/plannings
 
+//---------- Templates
+//= require_tree ./templates
+//
 //---------- Views
-//= require_tree ./views
+//= require ./views/manifest
 
 //---------- Components
 //= require_tree ./behaviors

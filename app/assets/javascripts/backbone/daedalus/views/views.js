@@ -19,6 +19,7 @@
  * ```
  */
 Daedalus.module('Views', function(Module, App, Backbone, Marionette, $, _, undefined) {
+    this.startWithParent = false;
 
     Module.addInitializer(function () {
         $("[data-view]").each(function (index, element) {
