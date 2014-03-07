@@ -6,7 +6,7 @@ class Users::ConversationsController < ApplicationController
   layout 'user_profile'
 
   def show
-    @user = current_user || User.find(params[:user_id])
+    @user         = current_user || User.find(params[:user_id])
     @conversation = @user.mailbox.conversations.find(params[:id])
     @message      = @conversation.messages.build
     respond_to do |format|

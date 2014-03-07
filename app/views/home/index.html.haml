@@ -30,6 +30,9 @@
 = content_for :scripts do
   :javascript
     $(function() {
+        if (window.location && window.location.hash == '#video') {
+            $('#show-video').click();
+        }
         $("#gallery .media__item img").lazyload({
             effect : "fadeIn",
             event: 'gallery:show',
