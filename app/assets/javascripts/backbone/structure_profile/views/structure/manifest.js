@@ -1,4 +1,4 @@
 
-//= require ./comments/manifest
+//= require_tree ./comments
 //= require ./courses/manifest
-//= require ./teachers/manifest
+//= require_tree ./teachers
