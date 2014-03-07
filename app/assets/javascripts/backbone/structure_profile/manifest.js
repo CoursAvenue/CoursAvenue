@@ -5,6 +5,7 @@
 //= require ./models/structure
 //= require ./models/place
 //= require ./models/place_collection.js
+//= require ./models/plannings
 
 //---------- Views
 //= require_tree ./views

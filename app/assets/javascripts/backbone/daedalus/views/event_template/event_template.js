@@ -68,10 +68,11 @@ Daedalus.module('Views.EventTemplate', function(Module, App, Backbone, Marionett
         var $element          = $(element),
             view              = options.view,
             event             = options.for,
+            flavor            = options.flavor,
             template          = options.template,
             tagName           = $element[0].nodeName.toLowerCase(),
             className         = $element[0].className,
-            options = {}, events = {};
+            options = {}, events = {}, View = Module.EventTemplate;
 
         template = template.replace(/([A-Z])/g, '_$1').replace(/^_/, '').toLowerCase();
         event    = event.replace(/([A-Z])/g, ':$1').replace(/^:/, '').toLowerCase(); // from camel to event style
@@ -80,7 +81,12 @@ Daedalus.module('Views.EventTemplate', function(Module, App, Backbone, Marionett
         events = {};
         events[event] = 'update';
 
-        return new (Module.EventTemplate.extend({ events: events }))(options);
+        if (flavor && Module.Flavors && Module.Flavors[flavor]) {
+            View = Module.Flavors[flavor];
+            events = _.extend(events, View.prototype.events);
+        }
+
+        return new (View.extend({ events: events }))(options);
     };
 
 }, undefined);

@@ -4,10 +4,17 @@ Daedalus.module('Views.Plannings', function(Module, App, Backbone, Marionette, $
     Module.Plannings = Marionette.CompositeView.extend({
 
         events: {
-            'click': 'clicky'
+            'fetch:everything': 'fetch'
         },
 
-        clicky: function clicky () {
+        fetch: function () {
+            $.when(this.collection.fetch()).then(function (){
+                this.announce();
+
+            }.bind(this));
+        },
+
+        announce: function announce () {
             var data = {
                 plannings: this.collection.length
             };

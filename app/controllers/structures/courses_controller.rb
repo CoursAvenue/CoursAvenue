@@ -50,6 +50,7 @@ class Structures::CoursesController < ApplicationController
         format.html { redirect_to jpo_structure_path(@structure), status: 301 }
       elsif @course.active
         format.html
+        format.json { render json: CourseSerializer.new(@course).to_json }
       else
         format.html { redirect_to root_path, notice: "Ce cours n'est pas visible.", status: 301 }
       end

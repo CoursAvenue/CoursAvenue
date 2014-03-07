@@ -47,7 +47,7 @@ Daedalus.module('Views.Composite', function(Module, App, Backbone, Marionette, $
             consumeData($element);
 
             /* view registers to be notified of events on layout */
-            Marionette.bindEntityEvents(view, App.Views, { });
+            Marionette.bindEntityEvents(view, App.Views, view.events);
             App.Views.listenTo(view, 'all', App.Views.broadcast);
         });
     });
@@ -142,7 +142,7 @@ Daedalus.module('Views.Composite', function(Module, App, Backbone, Marionette, $
             collection = window.coursavenue.bootstrap[collection];
         }
 
-        Collection = App.Models[resources] || Backbone.Collection.extend();
+        Collection = Daedalus.Models[_.capitalize(resources)] || Backbone.Collection.extend();
         collection = new Collection(collection || {});
 
         return collection;
